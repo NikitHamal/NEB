@@ -100,7 +100,128 @@ A merchant choosing payment options is choosing fees, settlement time (T+0, T+1)
 
 An online business needs: a **platform** (own site with a CMS or shop framework, or a marketplace seller account), a **catalogue**, a **payment gateway**, **logistics** (own riders or courier partners, with Nepal-specific issues such as incomplete street addresses and COD returns), **customer service**, **analytics** (funnel, abandoned carts) and **legal compliance** (company registration, VAT, consumer protection, the Electronic Transactions Act 2063). Typical pitfalls: underestimating delivery and returns costs, running promotions that destroy margin, and ignoring mobile-first design when most users arrive by phone.
 
-## 7.6 Seeing e-business: funnels, unit economics and netting
+## 7.6 Online payment cards and how a card payment is processed
+
+Cards remain the most common electronic payment instrument worldwide. Five kinds are named in the syllabus.
+
+| Card | How it pays | Key features |
+|---|---|---|
+| **Credit card** | The issuing bank lends the money; the holder repays later | Credit limit, monthly statement, interest on unpaid balance, rewards, chargeback rights |
+| **Charge card** | Like credit, but the full balance is due every month | No pre-set limit in some schemes, no revolving interest, annual fee |
+| **Debit card** | Money leaves the holder's bank account at once | No credit, PIN or OTP needed, limited by balance |
+| **Prepaid or stored-value card** | Holder loads money first | Useful for students and gifts; no bank account needed |
+| **Smart card** | Any card with an embedded microprocessor chip (EMV) | Stores keys, creates a one-time code per transaction, resists cloning, supports contactless tap |
+
+### The four-party model
+
+A card payment involves five roles: the **cardholder**, the **merchant**, the **issuer** (the cardholder's bank), the **acquirer** (the merchant's bank or processor) and the **card network** (Visa, Mastercard, UnionPay or a domestic switch) that connects issuers and acquirers. A **payment gateway** sits between the merchant's site and the acquirer and encrypts the card data.
+
+```svgfig label="7.5" caption="The card payment cycle. (1) The cardholder pays on the merchant's checkout, which passes the card data to the payment gateway. (2) The gateway sends an authorisation request to the acquirer, which (3) forwards it through the card network to the issuer. (4) The issuer checks funds and fraud signals and approves or declines; the answer returns along the same path. Later, clearing and settlement move the money: the issuer pays the acquirer less the interchange fee, and the acquirer pays the merchant less its own fee."
+f = Fig(580, 190)
+nodes = [("Card-\nholder", 10, MINT, TEAL), ("Merchant\n+ gateway", 130, BLUE, NAVY), ("Acquirer", 250, SAND, AMBER), ("Card\nnetwork", 370, SOFT, SLATE), ("Issuer", 490, ROSE, RED)]
+for n, x, fl, c in nodes:
+    f.box(x, 40, 80, 56, n, fill=fl, stroke=c, size=11, bold=True, color=c, r=6)
+for i in range(4):
+    f.arrow([(nodes[i][1] + 80, 58), (nodes[i + 1][1], 58)], color=SLATE)
+    f.arrow([(nodes[i + 1][1], 80), (nodes[i][1] + 80, 80)], color=TEAL)
+f.text(290, 20, "Authorisation: request goes right, approval or decline comes back", size=11, color=NAVY, bold=True)
+f.arrow([(530, 140), (50, 140)], color=AMBER)
+f.text(290, 124, "Settlement: money flows back, reduced by a fee at each step", size=11, color=AMBER, bold=True)
+f.text(290, 168, "Rs 10,000 order: merchant receives about Rs 9,780", size=10.5, color=SLATE, bold=True)
+```
+
+### Processing a card payment online, step by step
+
+1. The customer chooses a card at checkout. The merchant's page hands the customer to the **gateway's hosted page** (or loads its secure form), so card numbers do not touch the merchant's server.
+2. The customer enters the card number (PAN), expiry and security code and, for strong customer authentication, passes **3-D Secure**, usually a one-time password from the issuer.
+3. The gateway sends an **authorisation request** to the acquirer. The acquirer passes it through the network to the issuer.
+4. The issuer checks the account, the limit and its fraud rules and returns **approved** or **declined** with a reason code. The amount is put on hold.
+5. The merchant sees the result, shows a receipt and ships the goods.
+6. In **capture** and **clearing**, the merchant's approved transactions are sent to the acquirer in a batch, usually daily.
+7. In **settlement** the money moves: the issuer pays the acquirer, which pays the merchant after deducting the **merchant discount rate (MDR)**. The cardholder is billed (credit) or debited (debit).
+
+::: example Where does the fee go?
+Illustrative rates (real rates differ by country, card type and contract). On a Rs 10,000 order the interchange fee to the issuer is 1.5 percent = Rs 150, the network fee 0.1 percent = Rs 10 and the acquirer's margin 0.6 percent = Rs 60. The merchant pays a total MDR of 2.2 percent = **Rs 220** and receives 10,000 − 220 = **Rs 9,780**.
+:::
+
+**Risks and protections.** Online card payments are *card-not-present* transactions, so fraud is a larger share. Controls: 3-D Secure, tokenisation (the real number is replaced by a token), address and security-code checks, velocity rules (too many attempts) and monitoring by the gateway. A customer may dispute a transaction, creating a **chargeback**; the merchant loses the amount and pays a fee unless it can prove delivery. Merchants must follow **PCI DSS**, the card industry's security standard: never store the security code, encrypt card data, restrict access and test regularly. Using a hosted gateway page removes most of this burden.
+
+## 7.7 e-Micropayments, e-checks and the ACH network
+
+### e-Micropayments
+
+A **micropayment** is a very small online payment, from a few rupees to about Rs 500 (roughly ten US dollars). Examples are paying per news article, a song, a mobile game item, a ride unlock or a data top-up. Card fees have a fixed part, so a Rs 10 card payment would lose most of its value to fees. The solutions are **aggregation** (collect many small charges and bill once), **prepaid balances** and wallets, **carrier billing** (the charge is added to the mobile bill) and **in-app purchases** through an app store. Micropayments need very low cost per transaction, speed and simplicity, and they must still be secure.
+
+### e-Checks and their online processing
+
+An **electronic cheque (e-check)** is the electronic version of a paper cheque: the payer authorises the transfer of money from a bank account by giving the account details (or by a digitally signed order), and the payment is cleared between banks. It is cheaper than cards and suits recurring and high-value payments such as insurance premiums, rent and business-to-business invoices. Processing:
+
+1. The customer selects "pay by e-check" and supplies bank and account details with authorisation.
+2. The merchant (or its processor) validates the details and sends the payment instruction to its bank.
+3. The bank places the item in a clearing batch. The **clearing house** sends it to the payer's bank.
+4. The payer's bank checks funds and either honours or returns the item.
+5. Funds are credited to the merchant after settlement, normally one or two days later.
+
+In Nepal, NCHL runs electronic cheque clearing (ECC) between banks and the connectIPS system for direct account-to-account transfers.
+
+### The Automated Clearing House (ACH) network
+
+An **ACH** is an electronic network that processes bank-to-bank transfers in **batches**. It handles payroll, bill payment, government payments, subscriptions and e-checks at low cost. Two directions exist: an **ACH credit** *pushes* money from the payer's bank to the payee (salary), and an **ACH debit** *pulls* money from the payer's account with permission (utility bill). The path is: originator (company) to its bank, to the ACH operator, to the receiving bank, to the account holder. Settlement is by net position between banks, as in the netting example of section 7.4. Compared with cards, ACH is cheaper and has no interchange fee, but is slower (batch cycles) and the paying side has less protection.
+
+## 7.8 Mobile payments, digital wallets and international payments
+
+A **mobile payment** is a payment started, authorised or completed with a mobile device. A **digital wallet** is an app or account that stores payment credentials or value and pays from them.
+
+| Method | How it works | Example in use |
+|---|---|---|
+| SMS or USSD | Payment by text or a short code on any phone | Early mobile banking, balance and top-up |
+| App wallet (stored value) | The user loads money, then pays merchants and bills from the balance | eSewa, Khalti, IME Pay and bank wallets |
+| QR payment | Customer scans the merchant's code (static) or the merchant scans a one-time code (dynamic) | Fonepay and NepalPay QR in shops |
+| NFC tap | The phone sends a **token** to the terminal by short-range radio | Google Pay and Apple Pay in countries with contactless terminals |
+| Carrier billing | The charge is added to the phone bill or deducted from airtime | Subscriptions, ringtones, small digital goods |
+
+**Participants:** the consumer, the merchant, the **wallet or payment service provider**, the banks, the mobile network operator, the interoperability network (for example NCHL or Fonepay) and the regulator (Nepal Rastra Bank).
+
+**Issues:** security (SIM swap, lost phones, fake apps, phishing for OTPs); **interoperability** (can a wallet pay a bank account and another wallet?); **KYC and anti-money-laundering** rules and transaction limits; fees; reliability of networks in remote areas; consumer trust and digital literacy; and dispute handling.
+
+### International payments
+
+Paying across borders is slower and costlier than paying at home. A bank transfer goes through **correspondent banks** over the SWIFT messaging network, each step adding a fee and a delay, and currency conversion adds a margin. Other routes are **remittance companies** (cash or account payout, widely used for money sent home by Nepali workers abroad), international **card payments** (the merchant receives foreign currency converted by the acquirer) and, where permitted, wallet links between countries. Foreign exchange limits and documentation are set by NRB, so an exporter must follow the rules for receiving payment. Cross-border QR links between national systems (for example with India's UPI) are being introduced; check the current status before quoting them.
+
+## 7.9 Emerging payment systems: virtual currency and cryptocurrency
+
+A **virtual currency** is a digital unit of value that is not issued by a central bank. Closed examples are game gold, airline miles and loyalty points: they can be spent only inside one ecosystem. A **cryptocurrency** is a virtual currency that uses cryptography and a **distributed ledger** (a blockchain) so that no single authority keeps the records. Bitcoin (2009, by the pseudonymous Satoshi Nakamoto) was the first; Ethereum and many others followed, and **stablecoins** try to keep a fixed value against a currency.
+
+**How a transaction works.** The sender signs a transfer with a private key; the network broadcasts it; **miners** or **validators** collect transactions into a block, check the signatures and add the block to the chain; after enough confirmations (about 10 minutes per block for Bitcoin) the payment is final and cannot be reversed. Wallets hold keys, not coins.
+
+| Advantages | Problems |
+|---|---|
+| No bank intermediary, works across borders, open all hours | Price **volatility** makes it unsuitable as a store of value for a shop |
+| Low fees for large international transfers | Irreversible payments and no chargeback protection |
+| Transparent public ledger | Scams, theft of keys, exchange failures |
+| Programmable payments (smart contracts) | Energy use in proof-of-work systems, legal and tax uncertainty |
+
+**Legal position in Nepal.** Nepal Rastra Bank has declared cryptocurrency dealings illegal (a notice in 2017, repeated in later directives), so a Nepali business cannot lawfully accept or promote them as payment. Students should know the technology and the regulatory risk. Some central banks are developing **central bank digital currencies (CBDC)**, a digital form of the national currency issued by the central bank; this is different from private cryptocurrency.
+
+## 7.10 Case study: emerging trends in online payments in Nepal
+
+The table follows the main shifts. Dates and names change quickly; treat it as a structured overview of general knowledge and verify details with current NRB and operator publications.
+
+| Trend | What changed | Effect on e-business |
+|---|---|---|
+| From cash to wallets | App wallets such as eSewa and Khalti let people pay bills, top up and shop without a card | A shop can take payment without a bank card |
+| Bank-to-bank transfers | connectIPS and mobile banking enable direct account payments | Lower fees than cards for larger orders |
+| QR everywhere | Fonepay and NepalPay QR are accepted in shops and by street vendors | Bridges physical and online retail |
+| Interoperability | Wallets, banks and QR networks connect through national switches | Customers pay from any account to any merchant |
+| Regulation and licensing | The Payment and Settlement Act 2075 and NRB licences for payment system operators and providers | Safer services, compliance needed for merchants |
+| Cards and chips | EMV chip cards, 3-D Secure and domestic card switches | Fewer cloned cards, safer online card use |
+| Cash on delivery decline | COD is still common but wallets and QR are rising | Fewer returns and cash handling costs |
+
+**Challenges:** limited internet and smartphone access outside cities, trust and fear of fraud, fees and limits, digital literacy, cybersecurity incidents and the need for a clear dispute process. **Opportunities:** a young population, remittance flows that can be directed to digital channels, tourism payments and integration with government services.
+
+Questions to prepare for the exam: explain two trends and their effect on online shops; list two risks and two controls for mobile wallets; contrast a card payment with an ACH debit in cost, speed and protection.
+
+## 7.11 Seeing e-business: funnels, unit economics and netting
 
 An online business lives on small percentages and thin margins, and Nepal's payment system relies on netting. The plate shows the regulator's home and the funnel of a typical shop, and the figures show the unit economics and the settlement arithmetic.
 
@@ -208,7 +329,7 @@ f.text(150, 222, "a typing slip is caught before the bank is called", size=9.5, 
 facts = dict(tg=tg, tb=tb, tried=tried)
 ```
 
-### 5.6.1 Eight advantages of e-business for Nepali firms
+### 7.11.1 Eight advantages of e-business for Nepali firms
 
 1. **Wider market.** An online shop is open to customers across Nepal and abroad, not only to those who pass the building. A Bhaktapur handicraft seller can sell to tourists who returned home. The market grows without new shops.
 2. **Lower operating cost.** There is no need for prime shop space or many counter staff, and orders are processed by software. A small firm can start with a laptop and a phone. Savings can be passed on as lower prices.
@@ -226,6 +347,9 @@ facts = dict(tg=tg, tb=tb, tried=tried)
 - A payment passes through authorisation, clearing and settlement; NRB licenses PSOs and PSPs under the Payment and Settlement Act 2075.
 - NCHL (NPI, ConnectIPS), Fonepay (switch and QR), wallets and banks form the retail payment network; multilateral netting reduces settlement transfers.
 - Always verify payment status server-side with the gateway before fulfilment.
+- Cards (credit, charge, debit, prepaid, smart) are processed through issuer, acquirer and network; the merchant receives the amount less interchange, network and acquirer fees, and 3-D Secure, tokenisation and PCI DSS reduce card fraud.
+- Micropayments need aggregation or wallets; e-checks and the ACH network clear bank-to-bank in cheap batches; wallets, QR and NFC dominate mobile payment, with SIM-swap and interoperability as the main issues.
+- Cryptocurrency is volatile, irreversible and not lawful as payment in Nepal; Nepal's payment trends are wallets, QR, bank transfers and interoperability.
 
 ## Practice
 
@@ -239,6 +363,11 @@ facts = dict(tg=tg, tb=tb, tried=tried)
 8. Why must a merchant verify payment server-side?
 9. Why does a wallet need an escrow or settlement account at a bank?
 10. List four risks specific to selling online in Nepal.
+11. Differentiate credit, charge and debit cards. What makes a smart card more secure?
+12. A Rs 25,000 card order carries interchange 1.5 percent, network 0.1 percent and acquirer 0.6 percent. What does the merchant receive?
+13. Differentiate an ACH credit from an ACH debit with one example each.
+14. Why are micropayments hard to handle by card? Give two solutions.
+15. Compare virtual currency and cryptocurrency and state the legal position in Nepal.
 
 ::: note Answers and worked solutions
 **1.** e-business: all business processes online (including internal ones). e-commerce: buying and selling online.
@@ -251,6 +380,11 @@ facts = dict(tg=tg, tb=tb, tried=tried)
 **8.** A browser redirect can be forged or interrupted; only a server-to-server lookup proves the payment really succeeded.
 **9.** Wallet balances are claims on real money; the escrow account protects customers' funds from the PSP's own creditors and risks.
 **10.** Fraud and chargebacks, COD return costs, address and delivery problems, connectivity limits and low trust in online payments.
+**11.** Credit: the bank lends, the holder repays later with interest. Charge: full balance due monthly. Debit: pays at once from the account. A smart card holds a chip that creates a one-time code for each transaction and resists cloning.
+**12.** MDR = 2.2 percent; fee = 25,000 × 0.022 = Rs 550; merchant receives **Rs 24,450**.
+**13.** Credit pushes money to the payee (salary payment). Debit pulls money from the payer's account with permission (monthly utility bill).
+**14.** The fixed part of the card fee is large relative to a tiny amount. Solutions: aggregate many small charges into one bill; use prepaid wallets or carrier billing.
+**15.** Virtual currency is any digital unit not issued by a central bank (game coins); cryptocurrency uses cryptography and a blockchain. NRB has declared crypto dealings illegal, so Nepali merchants cannot accept it.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
