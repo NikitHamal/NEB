@@ -337,3 +337,272 @@ Sunita is leaving her job to join a rival company. On her last day she is tempte
 **11.** Dilemma: duty to the employer (schedule) versus duty to users (security, avoiding harm). The tester documents the flaw and its risk in writing, proposes options (a fix, a delayed launch, a limited launch with the vulnerable feature disabled), escalates to senior management or the security officer if refused, and does not hide the issue; if serious harm is likely and internal routes fail, the regulator or an external route may be considered. The ACM principles avoid harm, honesty and the public-first principle support this.
 :::
 
+## 6.7 Vocabulary and grammar
+
+### 6.7.1 Ethical vocabulary
+
+| Word | Part of speech | Meaning | Example |
+|---|---|---|---|
+| **ethics** | n. | principles of right and wrong conduct | The ethics of data collection are debated. |
+| **ethical / unethical** | adj. | morally right / wrong | It is unethical to sell customers' data. |
+| **moral** | adj./n. | concerning right and wrong; a lesson (n.) | The moral of the story is clear. |
+| **integrity** | n. | honesty and strong moral principles | She is known for her integrity. |
+| **accountability** | n. | being answerable for one's actions | Managers have accountability for results. |
+| **transparency** | n. | openness; no hidden facts | The company promised transparency about data use. |
+| **confidentiality** | n. | keeping information secret | Doctors and lawyers owe confidentiality. |
+| **dilemma** | n. | a choice between two bad or conflicting options | The tester faced a dilemma. |
+| **conflict of interest** | n. phr. | personal interest that may affect professional judgement | He declared a conflict of interest. |
+| **bias** | n. | unfair preference; prejudice | The algorithm showed bias against women. |
+| **negligence** | n. | failure to take proper care | The firm was sued for negligence. |
+| **malpractice** | n. | improper or illegal professional conduct | The engineer was found guilty of malpractice. |
+| **whistle-blower** | n. | person who reports wrongdoing | The whistle-blower was protected by law. |
+| **bribery / corruption** | n. | giving or taking money to influence a decision / dishonest use of power | Bribery is a crime. |
+| **plagiarism** | n. | presenting others' work as one's own | Plagiarism leads to expulsion. |
+| **consent** | n./v. | permission given knowingly | We need the user's consent. |
+| **compliance** | n. | following a rule or law | The audit checks compliance with the policy. |
+| **liability** | n. | legal responsibility | The vendor accepted liability for the loss. |
+| **stakeholder** | n. | anyone affected by a decision | Users are key stakeholders. |
+| **deceive / deception / deceptive** | v./n./adj. | to make someone believe something false | A deceptive interface tricks users. |
+| **fairness / discrimination** | n. | equal and just treatment / unfair treatment | Hiring must be free from discrimination. |
+| **obligation / duty** | n. | something one is bound to do | A duty of care. |
+| **breach** | n./v. | breaking a rule, law or promise | A data breach exposed millions of records. |
+| **sanction** | n./v. | penalty (or approval, for the verb in formal use) | The body imposed sanctions. |
+| **disclose / disclosure** | v./n. | reveal | Disclose any conflict at once. |
+| **safeguard** | n./v. | a protection / to protect | Add safeguards to the system. |
+| **vulnerability** | n. | weakness open to attack | They patched the vulnerability. |
+| **anonymity** | n. | being unidentified | Anonymity can protect and can hide abuse. |
+| **proprietary / open source** | adj. | owned and closed / with public source code | The licence is proprietary. |
+| **ethical hacking** | n. phr. | authorised testing of systems for flaws | Ethical hacking needs written permission. |
+
+**Word families:** *ethic - ethics - ethical - ethically - unethical; account - accountable - accountability; transparent - transparency; confide - confidential - confidentiality; comply - compliance - compliant; discriminate - discrimination - discriminatory; disclose - disclosure; deceive - deception - deceptive.*
+
+**Useful collocations:** uphold standards, breach confidentiality, raise a concern, blow the whistle, face a dilemma, bear responsibility, act with integrity, comply with a regulation, sign a code of conduct, fall short of expectations, meet legal obligations, pose a risk.
+
+**Synonyms and contrasts:** honest / truthful / candid (contrast: deceitful); fair / impartial (contrast: biased); lawful / legal (contrast: illicit); permit / authorise (contrast: forbid).
+
+### Exercise 6.7.1
+
+1. Fill in: (a) The manager had to ______ his relationship with the vendor before the vote. (b) A ______ exposed the company's false safety reports. (c) The firm was fined for failing to ______ with the privacy law. (d) Taking money to favour a bidder is ______.
+2. Give the noun forms of: *accountable, transparent, confidential, disclose.*
+3. Use *dilemma* and *liability* in sentences of your own.
+4. Choose the correct word: "The new system showed a (bias / bribe) against applicants from rural areas."
+
+::: note Answers and worked solutions
+**1.** (a) disclose (b) whistle-blower (c) comply (d) bribery (or corruption).
+**2.** accountability, transparency, confidentiality, disclosure.
+**3.** *Sample:* The developer faced a dilemma between meeting the deadline and fixing a security flaw. The company accepted liability for the damage caused by its faulty software.
+**4.** bias.
+:::
+
+### 6.7.2 Concord (subject-verb agreement)
+
+**Concord** (agreement) means that the verb must agree with its subject in **number** (singular or plural) and **person**. It also applies to pronouns and their antecedents. The main rule: a singular subject takes a singular verb (*The server **is** down*); a plural subject takes a plural verb (*The servers **are** down*). In the present tense, third-person singular verbs take **-s/-es** (*she writes, it works*), but **I** and **you** take the base form (*I write, you write*).
+
+**Rules and examples**
+
+1. **Subjects joined by *and* take a plural verb:** *The manager and the developer **are** present.* **Exception:** when the two nouns name **one person or idea**, or are felt as one: *Bread and butter **is** my breakfast. The founder and CEO **has** resigned.* (one person)
+2. **Each, every, either, neither, one, anyone, someone, everybody, nobody** take a **singular** verb: *Each of the students **has** a laptop. Neither of the answers **is** correct. Everyone **was** late.*
+3. **Either ... or, neither ... nor, not only ... but also:** the verb agrees with the **nearer subject:** *Neither the manager nor the **employees** were told. Either the students or the **teacher** is responsible.*
+4. **Phrases such as *with, along with, together with, as well as, in addition to, besides, except*** do not change the number; the verb agrees with the **first** subject: *The manager, along with his team, **is** attending. The teacher, as well as the students, **was** present.*
+5. **Collective nouns** (team, committee, class, staff, audience, family, government): singular when the group acts as a **unit**, plural when the **members** act separately: *The committee **has** approved the plan. The committee **are** divided in their opinions.* (more common in British English)
+6. **Nouns plural in form but singular in meaning:** *news, mathematics, physics, economics, ethics, politics, athletics, measles, the United States:* *Ethics **is** a branch of philosophy. The news **was** shocking.*
+7. **Nouns always plural:** *scissors, trousers, jeans, glasses (spectacles), clothes, police, people, cattle, belongings:* *The police **are** investigating. My glasses **are** broken.* (but *a pair of scissors **is** on the table*).
+8. **Quantity, money, distance, time and weight as a unit:** singular: *Ten thousand rupees **is** a large sum. Five kilometres **is** not far. Two hours **is** enough.*
+9. **A number of** takes a plural verb, **the number of** takes a singular verb: *A number of students **are** absent. The number of absentees **is** high.*
+10. **Fractions, percentages and "some, all, most, half, none" + *of***: the verb agrees with the noun after *of*: *Half of the cake **is** left. Half of the students **are** absent. Sixty per cent of the data **is/are** correct. All of the work **is** done. None of the books **were/was** damaged* (both accepted; plural is common).
+11. **There is / there are:** the verb agrees with the noun that follows: *There **is** a bug. There **are** three bugs.*
+12. **Relative pronouns (who, which, that)** take the number of the antecedent: *He is one of the engineers who **have** signed the petition* (who = the engineers). *He is the only one of the engineers who **has** signed.*
+13. **"Many a", "more than one"** with a singular noun take a singular verb: *Many a student **has** failed. More than one candidate **was** disqualified.*
+14. **Gerunds, infinitives and clauses as subjects:** singular: *Writing clean code **is** a skill. What he said **was** true.* But a clause with a plural noun complement: *What we need **are** better tools* (informal: is).
+15. **Titles and names** of books, companies and organisations: singular: *"Gulliver's Travels" **is** a satire. Tata Steel **has** announced...*
+16. **The + adjective** (the poor, the rich, the young) takes a plural verb: *The poor **need** help.*
+17. **The word *data*:** formally plural (*The data **are** stored*); in everyday and technical English *data* is also used as singular (*The data **is** stored*). Follow your teacher's or publisher's style, and be consistent. *Media, criteria, phenomena* are plural (singular: medium, criterion, phenomenon).
+18. **Subject placed after the verb (inversion):** *Here **comes** the bus. In the box **were** two keys.*
+19. **Don't be misled by words between subject and verb:** *The quality of the programs **is** high.* (quality, not programs)
+20. **Pronoun agreement:** *Every student must bring **his or her** (or **their**) ID card.* Singular *they* is accepted for a person of unknown gender.
+
+::: key Mini-checklist for concord
+Find the real subject; ignore phrases in between; decide singular or plural; match the verb (and pronoun); check special cases (collective nouns, *either/neither*, *a number of*, plural-form nouns).
+:::
+
+### Exercise 6.7.2
+
+1. Choose the correct verb: (a) The list of items (is / are) on the desk. (b) Neither the manager nor his assistants (was / were) informed. (c) Mathematics (is / are) my favourite subject. (d) A number of employees (has / have) resigned. (e) The team (is / are) wearing their new shirts. (f) Each of the programmers (has / have) a laptop.
+2. Correct the errors: (a) "The data is stored in it's database." (b) "Ten kilometres are a long way." (c) "He is one of those people who always arrives late." (d) "The quality of these products are poor." (e) "Either of the two answers are correct."
+3. Fill in: (a) Bread and butter ______ (be) my usual breakfast. (b) The police ______ (be) searching for the hackers. (c) Not only the clerks but also the manager ______ (be) present. (d) Every boy and girl ______ (have) a pass.
+4. Write two sentences to show the difference between *the number of* and *a number of*.
+
+::: note Answers and worked solutions
+**1.** (a) is (subject *list*) (b) were (nearer subject *assistants*) (c) is (d) have (a number of = plural) (e) is (unit) or are (members; "their" suggests members acting separately) (f) has.
+**2.** (a) "The data **are** stored in **its** database." (or "The data **is** stored in its database" in informal technical style; *its* has no apostrophe as a possessive; *it's* = it is.) (b) "Ten kilometres **is** a long way." (c) "...people who always **arrive** late." (who = people, plural) (d) "The quality of these products **is** poor." (e) "Either of the two answers **is** correct."
+**3.** (a) is (one dish; or *are* if two separate foods) (b) are (c) is (nearer subject: manager) (d) has.
+**4.** *The number of* students **is** growing every year. *A number of* students **are** studying abroad.
+:::
+
+## 6.8 Readings
+
+*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, characters or structure, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
+
+### 6.8.1 "The Necklace" by Guy de Maupassant
+
+#### The writer and the text
+
+**Guy de Maupassant** (1850 to 1893) was a French writer, a pupil of Gustave Flaubert and one of the masters of the modern **short story**. His work belongs to **realism and naturalism**: it describes ordinary, often poor or middle-class people with a cool, observant eye. He wrote about 300 stories and six novels; "Boule de Suif" and "The Necklace" ("La Parure") are among the best known. "The Necklace" was first published in the Paris newspaper *Le Gaulois* in **February 1884**. It is famous for its **twist ending** and its comment on vanity, class and honesty.
+
+#### Summary
+
+1. **The unhappy wife.** **Mathilde Loisel** is a pretty, charming young woman born, "as if by a mistake of destiny", into a family of clerks. She has no dowry, no hope of marrying a rich man, so she marries a **minor clerk in the Ministry of Education**. She dresses plainly but feels unhappy, as if she had fallen from a higher class. She suffers from the poverty of her flat and its shabby furniture and dreams of servants, silk, silver and delicious dinners.
+2. **The rich friend.** She has a wealthy friend, **Madame Forestier**, from her convent school, whom she no longer likes to visit because she returns home in tears.
+3. **The invitation.** One evening her husband comes home triumphant with an invitation to a **ball at the Ministry** (given by the minister and his wife). Instead of joy she is angry: she has nothing to wear. Her husband, upset by her tears, offers the **400 francs** he had saved to buy a gun for hunting trips. She buys a dress, but is still unhappy because she has **no jewels**. Her husband suggests she borrows from Madame Forestier.
+4. **The borrowing.** Madame Forestier lets her choose from a box; Mathilde chooses a **diamond necklace** (a "superb" one in a black satin case).
+5. **The triumph.** At the ball Mathilde is the prettiest woman there: every man looks at her, the minister notices her, and she dances in a cloud of happiness. They leave at four in the morning; she refuses her husband's humble coat and rushes into the street so that the other guests will not see her poverty.
+6. **The loss.** At home she looks in the mirror and finds that the **necklace is gone**. They search the cab route, report to the police and the cab company, and put an advertisement in the newspapers; nothing is found. Her husband writes to Madame Forestier that the clasp of the necklace is broken and that it is being repaired, to **gain time**.
+7. **The replacement.** In a shop of the Palais-Royal they find a diamond necklace like it for **40,000 francs** (the jeweller offers it for **36,000**). Loisel has **18,000 francs** left to him by his father; he **borrows the rest** (a thousand here, five hundred there, signing notes and dealing with moneylenders at ruinous interest), and the necklace is bought and returned to Madame Forestier, who remarks a little coldly that it should have been returned sooner, but does not open the case.
+8. **Ten years of hardship.** The couple pay off the debt. They **dismiss the maid**, move to a garret, and Mathilde does the heavy housework, washes the dishes, carries water and haggles with grocers. Her husband works evenings doing accounts and at night copies manuscripts. After **ten years** everything is paid, including the interest. Mathilde has become old, coarse and strong, like the women of poor households, with untidy hair and red hands.
+9. **The encounter and the twist.** One Sunday she meets Madame Forestier, still young and beautiful, walking in the Champs-Élysées. Mathilde, now emboldened because the debt is paid, speaks to her and Forestier does not recognise her. Mathilde tells the whole story of the lost necklace and the sacrifices. Madame Forestier, deeply moved, takes her hands and says: **"Oh, my poor Mathilde! But mine was paste. It was worth at the very most five hundred francs!"**
+
+#### Characters
+
+- **Mathilde Loisel (protagonist):** beautiful, vain, discontented, ambitious for luxury; at first selfish and proud, later brave, hardworking and stoic in poverty. A **round, dynamic** character.
+- **M. Loisel (husband):** kind, simple, patient, devoted; he sacrifices his savings, inheritance and health, never blaming his wife.
+- **Madame Forestier:** a rich friend, generous with her jewels; she is the unwitting cause of the tragedy and is shocked at the end. She is a **foil** to Mathilde.
+- **The minister and guests:** the glittering world Mathilde longs for.
+
+#### Themes
+
+- **Vanity and appearance versus reality.** Mathilde values show over substance; the **false** necklace is a symbol of false values.
+- **Class and aspiration.** Her unhappiness comes from comparing herself with the rich; ambition destroys her contentment.
+- **Honesty and communication.** The whole disaster could have been avoided if Mathilde had **told her friend the truth** about the loss. The failure of communication costs ten years: a direct link to this subject.
+- **Pride and its price.** Mathilde's pride prevents her from admitting that she lost the necklace; Madame Forestier's lack of honesty about it (mere paste) is also discovered late.
+- **Fate, chance and irony.** A small accident (a lost ornament) changes two lives.
+- **Hard work and dignity.** The ten years of labour give Mathilde a quiet strength, so that even in poverty she "did her duty".
+- **Sacrifice and loyalty:** M. Loisel's support.
+
+#### Critical analysis and literary devices
+
+- **Irony:** the central device. *Situational irony:* the borrowed jewel was worthless, so the sacrifice was for nothing; the one night of glory costs ten years. *Dramatic irony:* the reader sees Mathilde's vanity before she does. *Verbal irony* in the narrator's gentle comments on her "fall".
+- **Twist (surprise) ending:** the last line reverses the meaning of the whole story; it is a classic example of **O. Henry-like** endings, though Maupassant's is bitter rather than comic.
+- **Symbolism:** the necklace (illusion, false value, the cost of vanity); the ball (the dream of another class); the garret and the red hands (reality).
+- **Structure:** the plot has clear stages: exposition (discontent), complication (invitation, loss), rising action (debt, ten years), climax (meeting), resolution (twist). It is economical, with the main turning points in a few lines.
+- **Narrative point of view:** third-person, omniscient, detached and ironic; the narrator never preaches but lets facts judge.
+- **Realism and detail:** concrete amounts (400, 18,000, 36,000, 40,000 francs, 500 francs), places (Palais-Royal, Champs-Élysées, rue des Martyrs) give the story a documentary truth.
+- **Characterisation by action and contrast** (Mathilde before and after, Mathilde and Forestier).
+- **Interpretations:** a moral tale against vanity; a social critique of a society that makes women dependent on appearance and marriage; a tragedy of fate. An unexpected view: Mathilde grows through suffering, and the "waste" is also the making of her character.
+- **Link to professional ethics and communication:** honesty (the first duty of a professional), the cost of hiding a mistake, the importance of verifying facts (no one checked that the jewel was real), and integrity in paying one's debts.
+
+#### Key vocabulary
+
+*dowry, clerk, pretty, vanity, envy, humiliation, paste (imitation jewel), clasp, usurer (moneylender), garret, drudgery, haggle, ruinous, stoic.*
+
+### Exercise: "The Necklace"
+
+1. Who is Mathilde Loisel? Why is she unhappy?
+2. Why did M. Loisel give his 400 francs for a dress?
+3. How did Mathilde lose the necklace and what did the couple do?
+4. How did the Loisels pay for the new necklace?
+5. How did the couple's life change in the next ten years?
+6. What does Madame Forestier reveal at the end?
+7. Long answer: "The Necklace is a story about vanity and the cost of dishonesty." Discuss.
+8. Write a note on irony and the twist ending in "The Necklace".
+
+::: note Answers and worked solutions
+**1.** The wife of a minor clerk in the Ministry of Education; pretty but born into a poor family, she feels that she was meant for luxury and suffers from her modest home and dress.
+**2.** She was crying because she had nothing to wear for the Ministry's ball. He had saved the money for a gun; to make her happy he gave it to her.
+**3.** She lost it, probably in a cab, after the ball. They searched, reported to the police, advertised, and then told Madame Forestier that the clasp was broken and was being mended while they bought a replacement.
+**4.** The replacement cost 36,000 francs (asked 40,000). They had 18,000 from M. Loisel's inheritance and borrowed the rest from moneylenders and others at ruinous interest.
+**5.** They dismissed the maid and moved into a garret; Mathilde did all the housework; M. Loisel took extra jobs doing accounts and copying; for ten years they struggled; she became old and rough.
+**6.** That the borrowed necklace was only paste, worth at most five hundred francs.
+**7.** *Model plan.* Introduction: the story shows how a desire to appear rich ruins a life. Body: (i) vanity: Mathilde's discontent, the dress and jewels, her refusal of her husband's coat; (ii) dishonesty: the fear of admitting the loss, the lie about the clasp; (iii) cost: 36,000 francs, ten years of toil, lost youth; (iv) irony: the jewel was false, so the greatest cost was caused by false values; (v) growth: toil also makes her dignified. Conclusion: a single truthful conversation would have saved ten years; honesty is a practical as well as a moral virtue.
+**8.** Irony: a night of beauty is paid by ten years of poverty; the "diamonds" were paste; her sacrifice was unneeded. The twist ending in the last line reverses the reader's understanding of the whole story and emphasises the theme of illusion and reality.
+:::
+
+### 6.8.2 "The Digital Citizen" by Luigi Ceccarini
+
+#### The writer and the text
+
+**Luigi Ceccarini** is an Italian political scientist, Professor of Politics and head of the School of Political and Social Studies at the **University of Urbino Carlo Bo**, and co-editor of the journal *Comunicazione Politica*. The reading comes from his book ***The Digital Citizen(ship): Politics and Democracy in the Networked Society*** (Edward Elgar Publishing, 2021, an open-access title). The textbook prints a short extract; the text is **academic expository writing**, more abstract than the other readings, and it asks what it means to be a **citizen** when much of public life moves online. *Check your textbook copy: the paragraphs below follow the book's central argument and the ideas of its introduction; use your own copy for exact wording.*
+
+#### Summary of the main argument
+
+1. **Citizenship is changing.** Traditional citizenship means membership of a political community with rights (to vote, to protection) and duties (to obey laws, pay taxes, take part). The internet and social media change **how** people take part: they follow politics through feeds, discuss in groups, sign online petitions, share information, join campaigns and watch their governments. The spread of **e-participation** shows a change in the **way citizens belong** to a community.
+2. **Beyond representative politics.** Representative democracy (electing parties and leaders) is under strain: trust in parties and institutions has fallen and people increasingly act outside them. Ceccarini describes this as **post-representative** politics, in which new, flexible forms of participation exist beside voting.
+3. **The "good citizen" and the "monitoring citizen".** The ideal of the **good citizen** (informed, dutiful, loyal, a regular voter) is giving way to the **monitoring citizen** who keeps watch on those in power, checks facts, criticises and reacts to events through short, issue-based actions (a hashtag, a petition, a boycott). The internet makes such **monitoring democracy** cheap and easy: information about the political community can be shared at lower cost.
+4. **Individualised participation.** Online participation is often **individualised**: people act on causes they choose for personal reasons, rather than as members of a party or union with a fixed ideology. The commitment to the common good is thus pursued through an **individual** perspective. It is "post-bureaucratic" (not organised by big institutions) and "post-ideological".
+5. **Young people and activism.** Online groups and political conversations, even in forums not about politics, can encourage political engagement and lead to **offline** action. Young people are often **more politically involved** than some earlier research suggested, but they take part in new ways.
+6. **Hybrid forms.** Online action is mixed ("hybridised") with traditional modes: the press, civic associations and street protest. Citizens move in an environment of interpersonal and media communication, **old and new**, where norms and meanings are produced.
+7. **Communities beyond borders.** Digital citizens create or join communities that **cross state boundaries**, start or join debates, advertise support for causes and promote national and global campaigns. The digital citizen is therefore both **local** and **global**.
+8. **Opportunities and risks.** Opportunities: wider access to information, voice for people who were unheard, faster mobilisation, more transparency. Risks (discussed in the book and in wider debate): misinformation, polarisation in "echo chambers", surveillance by governments and companies, shallow "clicktivism", the digital divide, and the gap between online noise and real decisions.
+
+#### Key concepts
+
+| Concept | Meaning |
+|---|---|
+| **Citizenship** | membership of a political community with rights and duties |
+| **E-participation / digital citizenship** | taking part in civic and political life through digital tools; also responsible, informed, safe use of technology |
+| **Post-representative politics** | politics in which participation goes beyond elected representatives |
+| **Monitoring (monitorial) citizen** | a citizen who scans events and acts when something matters |
+| **Individualised participation** | taking part as an individual, by choice and cause, not as a loyal member of an organisation |
+| **Disintermediation** | direct communication without journalists, parties or other middlemen |
+| **Hybridisation** | mixing of online and offline, new and old forms |
+
+#### Themes
+
+- **Participation and democracy in the digital age.**
+- **Individual freedom and collective responsibility.**
+- **The generational shift:** the young have different repertoires of action.
+- **Information, power and accountability:** transparency helps citizens watch those in power.
+- **Links to this unit:** digital rights and duties, privacy, misinformation, and the ethical obligation to be a responsible user and a responsible builder of digital systems.
+
+#### Critical analysis and rhetorical notes
+
+- **Register:** formal academic prose with long sentences, abstract nouns (participation, mobilisation, mediation) and references in brackets (for example Bimber 2003; Isin and Ruppert 2015; Beyer 2014); the aim is to place the argument within a research discussion.
+- **Structure:** claim, explanation of concepts, evidence from research, and a view of the consequences; the text signals relationships with connectives (moreover, thus, in particular).
+- **Strengths:** precise concepts (good citizen, monitoring citizen), connection of theory with the concrete activity of internet users, balanced between enthusiasm and warning.
+- **Critique:** an academic argument can be abstract for students; Italian and European examples are not always the same as Nepal's. Nepal's own experience shows both sides: the 2006 and later movements, the use of social media for relief after the 2015 earthquake, online petitions, and the September 2025 youth protests that began over a social-media ban and changed the government (check news sources for details) show digital participation; the digital divide, rumour and online abuse show its risks.
+- **Link to professional ethics:** developers build the spaces where citizenship now happens, so they have duties of honesty, privacy, accessibility and fairness.
+
+#### Key vocabulary
+
+*citizenship, participation, democracy, representative, mobilisation, mediation, disintermediation, activism, networked, hybrid, civic, accountability.*
+
+### Exercise: "The Digital Citizen"
+
+1. What is meant by a "digital citizen"?
+2. What is the difference between the "good citizen" and the "monitoring citizen"?
+3. What does "individualised participation" mean?
+4. How can online activity lead to offline action?
+5. Why is digital citizenship described as both local and global?
+6. What are two benefits and two risks of digital participation?
+7. Long answer: "The internet has made citizens more powerful, not more passive." Discuss with examples from Nepal.
+8. Write a note on the ethical responsibilities of a digital citizen.
+
+::: note Answers and worked solutions
+**1.** A person who takes part in civic, social and political life through digital media, using them informedly, responsibly and safely, and who belongs to online as well as offline communities.
+**2.** The good citizen is dutiful, informed and loyal, votes and obeys; the monitoring citizen watches those in power, checks facts and acts on specific issues through quick, flexible actions.
+**3.** People take part as individuals according to their own causes and values, rather than through a party or association with a fixed ideology, while still pursuing a common good.
+**4.** Discussion in online groups and forums informs and connects people, creates networks and a sense of shared concern, and can lead to petitions, meetings and street protests.
+**5.** Online, citizens belong to local communities and also join global campaigns and communities that go beyond state borders.
+**6.** Benefits: wider access to information; a voice for the previously unheard; faster mobilisation; transparency. Risks: misinformation and echo chambers; surveillance; shallow "clicktivism"; the digital divide.
+**7.** *Model plan.* Powerful: access to news without gatekeepers; petitions and campaigns; relief mobilisation after the 2015 earthquake; exposure of corruption through social media; youth movements. Passive or at risk: rumours and fake news, online abuse, surveillance, "clicking" instead of acting; unequal access in rural Nepal. Ceccarini: participation is changing, not disappearing. Conclusion: the internet enlarges the possibilities, but power depends on how responsibly people use them.
+**8.** Verify before sharing; respect others' privacy and dignity; do not harass or spread hate; protect your own data; respect the law and copyright; take part constructively in civic matters; and, as a professional, build systems that are fair, accessible and secure.
+:::
+
+## References
+
+- ACM (2018). *ACM Code of Ethics and Professional Conduct.* Association for Computing Machinery.
+- ACM and IEEE-CS (1999). *Software Engineering Code of Ethics and Professional Practice.*
+- Ceccarini, L. (2021). *The Digital Citizen(ship): Politics and Democracy in the Networked Society.* Edward Elgar Publishing.
+- Chow, A. R. (2025, June 17). ChatGPT may be eroding critical thinking skills, according to a new MIT study. *TIME.*
+- De George, R. T. (2010). *Business Ethics* (7th ed.). Pearson. (criteria for whistle-blowing)
+- Gelernter, D. (2001, January). Computers and the pursuit of happiness. *Commentary.*
+- Harari, Y. N. (2014). *Sapiens: A brief history of humankind.* Harvill Secker. (ch. 18, "A permanent revolution")
+- IEEE. *IEEE Code of Ethics.* Institute of Electrical and Electronics Engineers.
+- Kritzer, N. (2015, January). Cat pictures please. *Clarkesworld Magazine,* issue 100.
+- Maupassant, G. de (1884). La Parure ("The Necklace"). *Le Gaulois.*
+- Narayan, R. K. (1943). *Malgudi Days* (includes "Gateman's Gift").
+- Government of Nepal. *Electronic Transactions Act, 2063 (2008); Copyright Act, 2059 (2002); Individual Privacy Act, 2075 (2018); Muluki Criminal Code, 2074 (2017).* Nepal Law Commission, lawcommission.gov.np.
+- Nepal Engineering Council. *Code of conduct for engineers.*
+- Hofstede, G. (2001). *Culture's Consequences.* Sage. Hall, E. T. (1976). *Beyond Culture.* Anchor.
+- Luft, J. and Ingham, H. (1955). The Johari Window, a graphic model of interpersonal awareness. Tuckman, B. W. (1965). Developmental sequence in small groups. *Psychological Bulletin.*
+- Shea, V. (1994). *Netiquette.* Albion Books.
+
