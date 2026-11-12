@@ -396,12 +396,14 @@ The model letter of transmittal above quotes exactly these figures: Rs 3,20,000,
 Before submitting a formal report, check it three times: for **content**, for **form** and for **honesty**.
 
 **Content**
+
 - The purpose, the reader and the decision are stated on the first page.
 - The executive summary or abstract matches the body and can be read alone.
 - Every conclusion follows from a stated finding; every recommendation from a conclusion.
 - Numbers add up; units are stated; tables and charts agree with the text.
 
 **Form**
+
 - The headings are informative and consistently numbered; the contents page matches.
 - Every figure and table is numbered, captioned and cited in the text.
 - Every source in the text is in the reference list and vice versa, in one style.
@@ -409,6 +411,7 @@ Before submitting a formal report, check it three times: for **content**, for **
 - Language is plain (Unit 2): short sentences, active voice, no unexplained jargon, spelling checked.
 
 **Honesty**
+
 - No data were invented, rounded favourably or dropped because they were inconvenient.
 - Limits and uncertainties are stated; opposing evidence is reported.
 - Others' work is cited; no copied text or figures without credit (Unit 4).
