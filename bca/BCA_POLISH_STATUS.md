@@ -68,3 +68,7 @@ setting (technical vs professional), not duplication; no change made.
 3. Electives (BCA 405/406, 453/454) remain unwritten slots; pick the most common (Machine Learning, E-Commerce, Linux, DBA).
 4. Take web screenshots of one text-heavy and one math-heavy BCA subject to compare reader spacing; optionally widen tables in callouts.
 5. Environment recipe is in the section above; the sandbox needs `pypdf` too (reading payload step).
+
+## Session 19 (in progress)
+- Re-verified BCA 105: PDF 148 pp (`pdfinfo`), `qa_pdf.py` fails=0; 6 textbook units and every TOC sub-heading (1.1.1-1.1.6, 2.3 meetings/agendas/minutes, 4.4 virtual/successful teams, 6.4 malpractice) present in the unit files.
+- FOUND: BCA 106 Hardware Workshop was a *reconstructed* 4-unit book. The real TU syllabus has 9 units (1 Electronic components, 2 Networking components and cabling, 3 Desktop/laptop hardware identification, 4 PC and laptop assembly, 5 Network device deployment + printers, 6 Basic networking configuration, 7 Problem solving, 8 Maintenance and upgrade, 9 Final practical assessment; source hamronotes.com/bca/semester-1/hardware-workshop/chapters). Rewriting the book to those 9 units (see below for progress).
