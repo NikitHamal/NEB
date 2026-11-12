@@ -192,7 +192,7 @@ A client's online shop stores customer card numbers in plain text. The client sa
 | **Boeing 737 MAX** (2018 and 2019) | the MCAS flight-control software, relying on one sensor, was a factor in two crashes (Lion Air, 189 dead; Ethiopian Airlines, 157 dead) | redundancy, honest disclosure to regulators and pilots, no schedule pressure over safety |
 | **Volkswagen emissions** (2015) | engineers wrote software that detected tests and cut pollution only during tests, on about eleven million diesel cars | engineers, not only managers, are responsible when they write deceptive code |
 | **Equifax breach** (2017) | an unpatched web-server vulnerability exposed personal data of about 147 million people | patch management is an ethical duty |
-| **Knight Capital** (2012) | an incomplete software deployment sent erroneous trades and lost about US$440 million in 45 minutes | deployment discipline and rollback plans |
+| **Knight Capital** (2012) | an incomplete software deployment sent erroneous trades and lost about 440 million US dollars in 45 minutes | deployment discipline and rollback plans |
 
 **Consequences of malpractice:** harm to people; loss of jobs and licences; legal liability (fines, compensation, imprisonment for fraud); company collapse; loss of trust in the whole profession.
 

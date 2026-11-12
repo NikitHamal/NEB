@@ -181,7 +181,7 @@ A **formal letter** is a business or official communication to a person or organ
 
 ```svgfig label="3.1" caption="Layout of a block-format formal letter. Every element starts at the left margin; a blank line separates the parts. The subject line lets the reader file the letter and understand its purpose before reading it."
 f = Fig(760, 330)
-f.box(180, 8, 400, 314, "", fill=WHITE, stroke=NAVY)
+f.box(180, 8, 400, 314, "", fill="#ffffff", stroke=NAVY)
 rows = [(24, 'Letterhead: organisation name, address, phone, email', BLUE), (58, 'Date  ·  Ref. no.', SOFT), (84, 'Inside address: name, designation, organisation', SOFT), (122, 'Dear Mr Karki,', SOFT), (148, 'Subject: Request for a two-day extension (bold)', AMBER), (184, 'Opening paragraph: purpose in 1-2 lines', BLUE), (216, 'Middle paragraphs: details, reasons, evidence', BLUE), (248, 'Closing paragraph: action wanted, thanks', BLUE), (280, 'Yours sincerely,   signature · name · designation · Encl.', SOFT)]
 for y, s, c in rows:
     f.box(196, y, 368, 24, "", fill=c, stroke=NAVY)

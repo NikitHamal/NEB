@@ -308,6 +308,9 @@ A bar chart shows "Our app is 4 times faster" with bars of heights 20 and 80. Th
 | **hashtag (#)** | a keyword that groups posts | #NepalIT is trending today. |
 | **tag / mention (@)** | link a person to a post | Tag your team members in the photo. |
 | **trending** | popular at the moment | The hashtag was trending in Nepal. |
+
+| Term | Meaning | Example of use |
+|---|---|---|
 | **viral** | spreading very fast | A meme about load-shedding went viral. |
 | **feed / timeline** | the stream of posts you see | Her feed is full of tech news. |
 | **handle / username** | your account name | His handle is @binod_codes. |
@@ -317,6 +320,9 @@ A bar chart shows "Our app is 4 times faster" with bars of heights 20 and 80. Th
 | **reach / impressions** | how many people saw the post | The ad had a reach of 50,000. |
 | **algorithm** | rules that decide what you see | The algorithm shows more of what you like. |
 | **troll** | a person who posts to provoke | Do not feed the trolls. |
+
+| Term | Meaning | Example of use |
+|---|---|---|
 | **block / mute / report** | stop, silence or complain about an account | Report abusive comments. |
 | **cancel culture** | public withdrawal of support from someone over behaviour | The star faced cancel culture after the remark. |
 | **clickbait** | a misleading headline to get clicks | "You will not believe..." is clickbait. |
