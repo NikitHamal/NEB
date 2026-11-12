@@ -231,7 +231,11 @@ Notice that each cofunction pair has derivatives of **opposite sign**. This is b
 
 The hyperbolic functions are built from $e^{x}$ and $e^{-x}$:
 
-$$\sinh x = \frac{e^{x} - e^{-x}}{2}, \quad \cosh x = \frac{e^{x} + e^{-x}}{2}, \quad \tanh x = \frac{\sinh x}{\cosh x}.$$
+$$\sinh x = \frac{e^{x} - e^{-x}}{2}$$
+
+$$\cosh x = \frac{e^{x} + e^{-x}}{2}$$
+
+$$\tanh x = \frac{\sinh x}{\cosh x}$$
 
 They satisfy the identity $\cosh^{2} x - \sinh^{2} x = 1$ (so the point $(\cosh t, \sinh t)$ lies on the hyperbola $x^{2} - y^{2} = 1$, which is where the name comes from). Differentiating the definitions term by term gives $(\sinh x)' = \cosh x$ and $(\cosh x)' = \sinh x$, and the quotient rule then gives $(\tanh x)' = \frac{\cosh^{2} x - \sinh^{2} x}{\cosh^{2} x} = \operatorname{sech}^{2} x$.
 
@@ -243,7 +247,7 @@ a.curve(lambda x: math.sinh(x), -1.8, 1.8, color=TEAL, sw=2.6)
 a.curve(lambda x: math.tanh(x), color=AMBER, sw=2.6)
 a.hline(1, color="#94a3b8"); a.hline(-1, color="#94a3b8")
 f.text(a.X(1.75), a.Y(5.7), "cosh x", size=11.5, color=NAVY, bold=True)
-f.text(a.X(1.45), a.Y(-1.9), "sinh x", size=11.5, color=TEAL, bold=True)
+f.text(a.X(-2.05), a.Y(-2.3), "sinh x", size=11.5, color=TEAL, bold=True)
 f.text(a.X(2.1), a.Y(0.55), "tanh x", size=11.5, color=AMBER, bold=True)
 a.pt(0, 1, "cosh 0 = 1", dx=10, dy=-8)
 ```
@@ -317,7 +321,7 @@ $f_x = 2xy$ (the term $y^{3}$ has no *x* and vanishes) and $f_y = x^{2} + 3y^{2}
 
 For $f(x, y) = e^{xy} + \sin (x + 2y)$: $f_x = y e^{xy} + \cos (x + 2y)$ and $f_y = x e^{xy} + 2 \cos (x + 2y)$.
 
-For $f(x, y) = \tan^{-1} \frac{y}{x}$: $f_x = \frac{-y/x^{2}}{1 + y^{2}/x^{2}} = -\frac{y}{x^{2} + y^{2}}$ and $f_y = \frac{x}{x^{2} + y^{2}}$.
+For $f(x, y) = \tan^{-1}(y/x)$, the chain rule gives $f_x = -y/(x^{2} + y^{2})$ and $f_y = x/(x^{2} + y^{2})$.
 :::
 
 ### Higher-order and mixed partial derivatives
@@ -532,7 +536,9 @@ For the second part put $x = \sin \theta$ with $0 < \theta < \frac{\pi}{4}$. The
 
 **First derivatives.** With $u = \tan^{-1} \frac{y}{x}$:
 
-$$u_x = \frac{1}{1 + y^{2}/x^{2}} \cdot \left( -\frac{y}{x^{2}} \right) = -\frac{y}{x^{2} + y^{2}}, \qquad u_y = \frac{1}{1 + y^{2}/x^{2}} \cdot \frac{1}{x} = \frac{x}{x^{2} + y^{2}}.$$
+$$u_x = \frac{1}{1 + y^{2}/x^{2}} \cdot \left( -\frac{y}{x^{2}} \right) = -\frac{y}{x^{2} + y^{2}}$$
+
+$$u_y = \frac{1}{1 + y^{2}/x^{2}} \cdot \frac{1}{x} = \frac{x}{x^{2} + y^{2}}$$
 
 **Mixed derivatives.**
 

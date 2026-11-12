@@ -156,7 +156,7 @@ Solve $10 x + y + z = 12$, $2 x + 10 y + z = 13$, $2 x + 2 y + 10 z = 14$ (diago
 The solution is $(1, 1, 1)$. Iteration 1: $x = (12 - 0 - 0)/10 = 1.2$; $y = (13 - 2.4 - 0)/10 = 1.06$ (it uses the *new* $x$); $z = (14 - 2.4 - 2.12)/10 = 0.948$. Stop when two successive iterations differ by less than the tolerance.
 :::
 
-## 6.5 Solving non-linear equations $f(x) = 0$
+## 6.5 Solving non-linear equations f(x) = 0
 
 ### Bisection method
 

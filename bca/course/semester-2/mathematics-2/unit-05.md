@@ -194,7 +194,11 @@ which is solved with the integrating factor of Section 5.4. At the end, replace 
 ::: example Worked example
 **(a) $\frac{dy}{dx} + \frac{y}{x} = x y^{2}$.** Here $n = 2$. Divide by $y^{2}$: $\frac{1}{y^{2}}\frac{dy}{dx} + \frac{1}{x y} = x$. Put $v = \frac{1}{y}$, so $\frac{dv}{dx} = -\frac{1}{y^{2}}\frac{dy}{dx}$:
 
-$$-\frac{dv}{dx} + \frac{v}{x} = x \quad\Longrightarrow\quad \frac{dv}{dx} - \frac{v}{x} = -x.$$
+$$-\frac{dv}{dx} + \frac{v}{x} = x,$$
+
+which is the linear equation
+
+$$\frac{dv}{dx} - \frac{v}{x} = -x.$$
 
 The integrating factor is $e^{-\int dx/x} = \frac{1}{x}$, so $\frac{d}{dx}\left(\frac{v}{x}\right) = -1$, giving $\frac{v}{x} = -x + C$ and $v = Cx - x^{2}$. Hence **$y = \frac{1}{Cx - x^{2}}$**.
 
@@ -264,7 +268,13 @@ where $\Phi$ and $\psi$ are arbitrary functions (they replace the constants of i
 ::: example Worked example
 **Separation of variables for the heat equation.** Try $u(x, t) = X(x)\,T(t)$. Then $X\,T' = k\,X''\,T$, so $\frac{T'}{kT} = \frac{X''}{X}$. The left side depends only on *t* and the right only on *x*, so both equal a constant, which we write as $-\lambda^{2}$:
 
-$$X'' + \lambda^{2}X = 0 \Rightarrow X = A\cos\lambda x + B\sin\lambda x, \qquad T' = -k\lambda^{2}T \Rightarrow T = e^{-k\lambda^{2}t}.$$
+The *x*-part and the *t*-part separate into two ordinary equations. First, $X'' + \lambda^{2}X = 0$ has the solution
+
+$$X = A\cos\lambda x + B\sin\lambda x.$$
+
+Second, $T' = -k\lambda^{2}T$ is separable and has the solution
+
+$$T = e^{-k\lambda^{2}t}.$$
 
 One solution is $u = e^{-k\lambda^{2}t}\sin\lambda x$: the temperature pattern keeps its shape and **decays exponentially**, faster for larger $\lambda$ (sharper variations vanish first).
 
