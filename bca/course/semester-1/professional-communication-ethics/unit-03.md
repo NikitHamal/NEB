@@ -2,302 +2,321 @@
 subject: Professional Communication and Ethics
 grade: BCA Semester 1
 unit: 3
-title: Professional Writing: Emails, Letters, CVs and Reports
+title: Writing Professionally
 area: BCA 105 · Professional Communication and Ethics · Unit 3
 ---
 
-Written communication is permanent, can be forwarded to anyone, and is judged on every word. This unit gives the structure, tone and a model for each document a BCA graduate must write: emails, business letters, applications and CVs, notices, agendas and minutes, and technical reports.
+Writing is the permanent face of a professional: the email that closes a deal, the notice that tells 600 students about an exam change, the cover letter that gets a CV read, the memo that records an instruction. A written message can be reread, forwarded and used as evidence, so it must be correct, clear and courteous the first time. This unit covers the rules of professional writing, text messages, emails and memos, notices, informal and formal letters, résumés and cover letters, business vocabulary and the active and passive voice, and the two prescribed readings, "Gateman's Gift" and "My School".
 
 ::: key What this unit gives you
-- Paragraph and sentence craft; common errors to avoid.
-- Professional emails with model examples.
-- Business letters, the job application letter and CV, with models.
-- Agenda, minutes, memo, notice; short reports and proposals.
-- Referencing and avoiding plagiarism.
+- The rules of professional writing: planning, tone, words, sentences, paragraphs and proofreading (3.1).
+- Text messages, emails and memos with models (3.2); notice writing (3.3); informal and formal letters (3.4).
+- Résumé and cover letter formats with models (3.5).
+- Business vocabulary and its uses; active and passive voice (3.6).
+- Reading notes, analysis and solved exercises for "Gateman's Gift" and "My School" (3.7).
 :::
 
-## 3.1 Writing well: paragraphs and sentences
+## 3.1 Rules of professional writing
 
-A **paragraph** has one idea: a **topic sentence** (the point), **supporting sentences** (reason, evidence, example) and a closing or linking sentence. Start a new paragraph for a new idea.
+Professional writing is **reader-centred, purposeful and economical**. The reader is busy, may read only the first lines on a phone, and will act on what you write. Use the following rules as a checklist.
 
-**Common errors**
+1. **Know your purpose and reader.** Before writing, finish two sentences: "I want the reader to ___" and "The reader already knows ___." If you cannot, you are not ready to write.
+2. **Put the main point first (direct approach).** Good news and routine requests start with the point; bad news starts with a buffer and reason (indirect approach). Never bury the request in the last paragraph.
+3. **Use the 7 Cs** (Unit 1.3): clear, concise, concrete, correct, coherent, complete and courteous.
+4. **Choose plain words.** Prefer *use* to *utilise*, *help* to *facilitate*, *about* to *with reference to*. Avoid clichés ("please find enclosed herewith"), slang, abbreviations that the reader may not know and emotional language.
+5. **Keep sentences short and varied** (15 to 20 words on average); one idea per sentence; put the doer near the verb (*The team fixed the bug*, not *The bug was fixed by the team* unless the doer is unimportant).
+6. **Write short paragraphs** with a topic sentence first, support next, and a link or action last (three to five lines for screen reading).
+7. **Use a positive, "you-attitude" tone.** Write about what the reader can do or gain. "You will receive the refund within five days" is better than "We cannot process refunds sooner."
+8. **Use bias-free language.** Use *chairperson* not *chairman*, *they* for an unknown person, and avoid assumptions about age, gender, caste or disability.
+9. **Design for scanning.** Use headings, bullets, numbered steps, bold for key dates and white space; place tables for comparisons.
+10. **Revise and proofread.** Leave time between drafting and editing; check facts, numbers, names, dates, attachments, spelling and punctuation; read aloud; use a spell-checker but also a human eye (*their/there*, *its/it's*).
 
-| Error | Wrong | Right |
-|---|---|---|
-| Subject–verb agreement | The list of items *are* ready. | The list of items *is* ready. |
-| Comma splice | The test failed, we fixed it. | The test failed; we fixed it. (or "…failed, so we fixed it.") |
-| Dangling modifier | Using Python, the program was written fast. | Using Python, we wrote the program fast. |
-| Its / it's | The system lost it's data. | The system lost its data. (it's = it is) |
-| Wordiness | at this point in time | now |
-| Vague "this" | This caused a delay. | This misconfiguration caused a delay. |
-| Parallel structure | The job needs coding, to test and documenting. | The job needs coding, testing and documenting. |
+### Common wordiness and its fixes
 
-Use **numbered or bulleted lists** for steps and options, **headings** to break up long text, **tables** for comparisons. Proofread: read aloud, check names, numbers, dates and attachments, run a spell-check, then wait ten minutes and read again.
-
-## 3.2 Professional email
-
-**Structure:** **Subject** (specific, 5 to 9 words) → **Greeting** → **Purpose in the first sentence** → **Details** (short paragraphs or bullets) → **Action requested and deadline** → **Closing** → **Signature** (name, role, phone). Keep to one topic; do not write in capitals; avoid slang and emojis in formal mail.
-
-| Field | Rule |
+| Wordy | Better |
 |---|---|
-| To | people who must act |
-| Cc | people who should know |
-| Bcc | hidden recipients: use to protect addresses of a large group |
-| Subject | "Request: leave from 10 to 12 Magh" not "Hello" or "Urgent!!!" |
-| Attachment | name files clearly (`Sharma_CV_2082.pdf`), mention them in the text |
+| due to the fact that | because |
+| at this point in time | now |
+| in the event that | if |
+| in spite of the fact that | although |
+| a large number of | many |
+| make a decision | decide |
+| it is requested that you | please |
+| with regard to / in respect of | about |
+| we are in receipt of | we have received |
+| for the purpose of | for / to |
 
-::: example Worked example: a request email
-**To:** Mr Karki, Programme Coordinator
-**Subject:** Request for lab access on Saturday 14 Chaitra for Java project
+### The writing process
+
+**Plan** (purpose, reader, outline) → **Draft** (get ideas down; do not edit yet) → **Revise** (structure, content, tone) → **Edit** (grammar, style, words) → **Proofread** (typos, format) → **Send / publish and follow up**.
+
+::: note Positive and negative wording
+Negative: "You did not fill in the form correctly, so we cannot proceed." Positive: "Please correct the date of birth on the form (line 4) so that we can complete your application today."
+:::
+
+## 3.2 Text messages, emails and memos
+
+### Text messages and chat (SMS, WhatsApp, Viber, Teams)
+
+Short messages are fast and informal, but at work they are still business records. **Rules:** greet and sign off briefly, state the point in the first line, use full words for first-time contacts and seniors, avoid slang and emojis with clients, do not send sensitive data (passwords, salary, health), do not message late at night unless urgent, and take serious discussions to a call or email. Use the group chat for the group's business only; reply-all etiquette applies. Always re-read before you send; a text cannot be recalled in many apps.
+
+### Email
+
+An email is the standard written channel in business. Its parts and good practice:
+
+| Part | Good practice |
+|---|---|
+| **To / Cc / Bcc** | *To* for people who must act; *Cc* for people who need to know; *Bcc* to protect addresses of large groups; do not "reply all" unless all need the answer |
+| **Subject line** | specific, 5 to 8 words, includes action or date: "Approval needed: server budget by Fri 21 Mar" |
+| **Salutation** | "Dear Mr Sharma," (formal); "Hello Sita," (known colleague); never "Hi guys" to a client |
+| **Opening** | purpose in the first two lines; thanks or context if replying |
+| **Body** | short paragraphs or bullets; one request per paragraph; dates and numbers in bold |
+| **Closing** | a clear next step ("Please reply by Thursday"), thanks, then **Regards / Sincerely** |
+| **Signature** | name, designation, organisation, phone; no long disclaimers or images |
+| **Attachments** | mention them in the text and attach before writing "Please find attached"; name files clearly (*Invoice_0314.pdf*); compress large files |
+
+**Netiquette for email:** reply within 24 hours (or acknowledge); do not write in capitals (it is shouting); avoid sarcasm and jokes that can be misread; do not forward private emails without permission; keep the chain history clean; proofread; never write in anger (use a 10-minute rule); remember that email is not private and can be used as evidence.
+
+::: example Model email: a request for a deadline extension
+**To:** Mr Rajan Karki · **Cc:** Ms Mina Thapa
+**Subject:** Request: two-day extension for the SRS document (due Fri 14 Mar)
 
 Dear Mr Karki,
 
-I am writing to request permission to use Computer Lab 2 on Saturday, 14 Chaitra, from 10 am to 2 pm. Our group of four (Semester 2, BCA) needs the lab to test our Java inventory project on the college server before the Monday demonstration.
+I am writing to request a two-day extension for the Software Requirements Specification, now due on Friday 14 March.
 
-Could you please confirm by Thursday so that we can inform our supervisor? I have attached the group list.
+The client sent revised payment-module requirements on Tuesday. Including them will make the document more accurate and avoid rework in design. With the extension, I will send the final version by **Sunday 16 March, 5 pm**. Sections 1 to 4 are complete and are attached for your early review.
 
-Thank you for your consideration.
+Please let me know if this arrangement is acceptable.
 
-Yours sincerely,
-Sita Sharma
-BCA Semester 2, Roll No. 14 · 98XXXXXXXX
+Regards,
+Anita Shrestha
+Business Analyst, Himalaya Software · 9800000000
 :::
 
-::: example Worked example: a bad email and its repair
-*Bad:* Subject: help. "sir my code not working plz check urgent." 
-*Better:* Subject: Segmentation fault in linked-list insert (C, Lab 5). "Dear Sir, my insert() function crashes with a segmentation fault when the list is empty. I have attached `list.c` and the output. I think head is not initialised, but I am not sure. Could you spare 10 minutes tomorrow? Thank you, Ram Thapa (Roll 7)."
+**Email types:** *inquiry* (ask for information), *request*, *reply/confirmation*, *complaint*, *apology*, *follow-up*, *cover email* (with an attachment) and *announcement*. A **complaint** states the facts (order number, date), the effect, and the remedy you want, without anger; an **apology** accepts responsibility, states the correction and prevents recurrence.
+
+### Memos
+
+A **memorandum (memo)** is a short **internal** document used to give instructions, announce policies, request action or record decisions. It is more formal than an email, has no salutation or closing and is kept in files. **Format:** organisation name and the word MEMO; **To, From, Date, Subject** (and Cc); a body in three parts (purpose, details, action); initials instead of a signature.
+
+::: example Model memo
+**HIMALAYA SOFTWARE PVT. LTD.**
+**MEMORANDUM**
+**To:** All Software Engineers  **From:** Rajan Karki, Head of Engineering  **Date:** 10 March 2025  **Subject:** Mandatory code review before merging
+
+Effective Monday 17 March 2025, every pull request must be reviewed and approved by at least one other engineer before it is merged into the main branch.
+
+This step will reduce production defects, which rose by 18 per cent last quarter, and will help share knowledge across teams. Reviews should be completed within one working day; urgent fixes may be reviewed after merging with the Head of Engineering's approval.
+
+Please read the attached guidelines and confirm by email by Friday 14 March. Contact me for questions.  *RK*
 :::
 
-**Reply habits:** answer within one working day; answer every question asked; use *Reply All* only when everyone needs it; add an out-of-office note when away. **Never** put passwords or confidential data in email; assume it can be read by others.
+| | **Email** | **Memo** | **Letter** |
+|---|---|---|---|
+| Audience | internal or external | internal | usually external |
+| Formality | medium | formal-neutral | most formal |
+| Format | subject, salutation | To/From/Date/Subject | address, salutation, close |
+| Record | digital | filed paper or digital | paper or PDF |
+| Speed | very fast | fast | slowest |
 
-```svgfig label="3.1" caption="Anatomy of a professional email. Each numbered part has a job: (1) recipients decide who acts and who is informed, (2) a specific subject lets the reader judge priority, (3) a greeting sets the tone, (4) the purpose comes in the first sentence, (5) details stay short, (6) the action and deadline say what happens next, (7) a courteous close and signature identify the sender."
-f = Fig(760, 300)
-f.box(10, 10, 440, 280, "", fill="#fff", stroke=NAVY, sw=1.8)
-rows = [("To: Mr Karki (Programme Coordinator)   Cc: Supervisor", 34), ("Subject: Request for Lab 2 access on Sat 14 Chaitra for Java project", 62), ("Dear Mr Karki,", 98), ("I am writing to request permission to use Computer Lab 2", 126), ("on Saturday, 14 Chaitra, 10 am to 2 pm, to test our project.", 142), ("Our group of four needs the lab server; I attached the list.", 170), ("Could you please confirm by Thursday?", 204), ("Thank you for your consideration.", 238), ("Yours sincerely, Sita Rai, BCA Semester 2", 266)]
-for t, y in rows: f.text(24, y, t, size=10.5, color=SLATE, anchor="start")
-f.line(10, 76, 450, 76, color="#cbd5e1", sw=1)
-marks = [(1, 34), (2, 62), (3, 98), (4, 126), (5, 170), (6, 204), (7, 252)]
-notes = ["Recipients: To = act, Cc = inform", "Subject: specific, 5 to 9 words", "Greeting: name and title", "Purpose in the first sentence", "Details: short, no extra story", "Action requested + deadline", "Courteous close + full signature"]
-for (n, y), t in zip(marks, notes):
-    f.circle(478, y - 4, 11, fill=NAVY, stroke=NAVY, label=str(n), size=11, color="#fff")
-    f.text(498, y, t, size=11, color=NAVY, bold=True, anchor="start")
-    f.line(452, y - 4, 466, y - 4, color=NAVY, sw=1.2)
+## 3.3 Notice writing
+
+A **notice** is a brief public announcement displayed on a board, website or app to inform a group about an event, change or rule. It is written for people who will glance at it, so it must be **short (about 50 words), specific and complete**.
+
+**Format:** (1) name of the organisation or issuer at the top; (2) the word **NOTICE** in capitals; (3) date; (4) a short **heading** stating the subject; (5) body with the *what, when, where, who* and any action or condition; (6) name, designation and signature of the issuer; (7) contact if needed. Use the **future tense or present tense** ("will be held"), the **passive voice** for the event and the **active voice** for instructions, and do not use "I" or "we".
+
+::: example Model notice 1: event
+**TRIBHUVAN COLLEGE OF SCIENCE · BCA DEPARTMENT**
+**NOTICE**                                                                                   Date: 12 March 2025
+**Inter-College Programming Contest**
+All BCA students are informed that an inter-college programming contest will be held in Computer Lab 3 on **Friday, 21 March 2025, from 10 am to 2 pm**. Teams of three may register with Ms R. Thapa (Room 204) by **Tuesday, 18 March**. A registration fee of Rs 150 per team will be collected. Certificates will be given to all participants.
+*Sunita Rai, Coordinator*
+:::
+
+::: example Model notice 2: change of schedule
+**NOTICE** · 5 March 2025 · **Postponement of the Semester I Internal Test**
+The internal test of BCA 105 Professional Communication and Ethics, scheduled for 8 March 2025, is postponed to **Monday, 10 March 2025, 11 am**, because of the public holiday. The venue and syllabus remain unchanged. *Examination Section*
+:::
+
+**Types:** event notices (seminar, contest, picnic), schedule changes, exam and result notices, lost-and-found, vacancy notices, safety and IT notices (a server downtime announcement for staff: date, hours, systems affected, alternative). **Notice vs advertisement vs circular:** a notice informs about something that is happening; an advertisement sells or promotes; a circular is a notice copied to many people and is usually repeated.
+
+## 3.4 Informal and formal letters
+
+### Informal (personal) letters
+
+Written to relatives, friends and close colleagues in a warm, conversational tone. **Format:** sender's address and date (top right); salutation (*Dear Sita*); an opening that greets and responds; body in short paragraphs; closing (*With love, Yours, Take care*); name. Contractions and everyday language are allowed. Use for congratulating, thanking, inviting, sympathising, or describing an experience.
+
+::: example Informal letter (inviting a friend)
+Kathmandu, 6 March 2025
+
+Dear Binod,
+
+How are you? I was very happy to hear that you cleared the entrance test. Congratulations! Now my news: our college is organising a tech fest on 22 March and I will be showing my attendance app. I would love you to come and stay for the weekend. We can visit Patan Durbar Square and then try my project together.
+
+Please write soon and tell me your train time. My mother sends her love to your family.
+
+Yours affectionately,
+Anil
+:::
+
+### Formal (business) letters
+
+A **formal letter** is a business or official communication to a person or organisation outside your close circle, in a polite, impersonal style. It follows a set layout and is used for **inquiry, order, complaint, application, request, recommendation, resignation and acceptance**.
+
+| Part | Content |
+|---|---|
+| 1. Letterhead / sender's address | organisation's name, address, phone, email, logo |
+| 2. Date | 12 March 2025 (month in words) |
+| 3. Reference number (optional) | Ref: HS/HR/2025/031 |
+| 4. Inside address | receiver's name, designation, organisation, address |
+| 5. Salutation | *Dear Sir/Madam*, or *Dear Mr Karki* (use the name if known) |
+| 6. Subject line | bold, short: "Subject: Request for a demonstration of the HR software" |
+| 7. Body | opening (purpose), middle (details, reasons, evidence), closing (action, thanks) |
+| 8. Complimentary close | *Yours faithfully* (to *Dear Sir/Madam*), *Yours sincerely* (to a named person) |
+| 9. Signature block | signature, printed name, designation |
+| 10. Enclosures / cc | Encl.: CV, certificates; cc: Principal |
+
+**Layouts:** *block* (everything flush left, no indentation; most common today), *semi-block* (date and close at the right; paragraphs may be indented), and *indented*. **Tone:** polite, positive, specific; avoid threats and sarcasm even in a complaint.
+
+```svgfig label="3.1" caption="Layout of a block-format formal letter. Every element starts at the left margin; a blank line separates the parts. The subject line lets the reader file the letter and understand its purpose before reading it."
+f = Fig(760, 330)
+f.box(180, 8, 400, 314, "", fill=WHITE, stroke=NAVY)
+rows = [(24, 'Letterhead: organisation name, address, phone, email', BLUE), (58, 'Date  ·  Ref. no.', SOFT), (84, 'Inside address: name, designation, organisation', SOFT), (122, 'Dear Mr Karki,', SOFT), (148, 'Subject: Request for a two-day extension (bold)', AMBER), (184, 'Opening paragraph: purpose in 1-2 lines', BLUE), (216, 'Middle paragraphs: details, reasons, evidence', BLUE), (248, 'Closing paragraph: action wanted, thanks', BLUE), (280, 'Yours sincerely,   signature · name · designation · Encl.', SOFT)]
+for y, s, c in rows:
+    f.box(196, y, 368, 24, "", fill=c, stroke=NAVY)
+    f.text(206, y + 16, s, size=10.5, color=NAVY, anchor="start")
+f.text(90, 40, "1  Heading", size=11, color=TEAL, bold=True)
+f.text(90, 100, "2  Inside address", size=11, color=TEAL, bold=True)
+f.text(90, 164, "3  Subject line", size=11, color=TEAL, bold=True)
+f.text(90, 230, "4  Body", size=11, color=TEAL, bold=True)
+f.text(90, 296, "5  Close", size=11, color=TEAL, bold=True)
+f.text(668, 300, "Block format:\nall lines flush left", size=11, color=SLATE)
 ```
 
-```photogrid label="3.1" cols="2" ratio="1.5" caption="The business letter. (a) Writing remains the channel for formal, permanent messages such as applications, offers and complaints. (b) Full-block layout used in most offices: every part starts at the left margin, with one blank line between parts."
-@ photo id="bca105/pen" cap="A handwritten letter on the desk"
-fit 1.5
-focus 0.5 0.4
-call 0.5 0.92 0.45 0.45 "Formal written message"
-@ svg cap="Full-block letter layout"
-f = Fig(420, 280)
-f.box(100, 6, 220, 268, "", fill="#fff", stroke=NAVY, sw=1.6)
-parts = [("1 Sender's address, date", 24), ("2 Receiver's name and address", 56), ("3 Salutation: Dear Sir/Madam,", 90), ("4 Subject line (bold)", 116), ("5 Body: purpose, details, action", 150), ("6 Complimentary close", 198), ("7 Signature, name, designation", 228), ("8 Enclosures / Cc", 256)]
-for t, y in parts:
-    f.box(112, y - 14, 196, 24, t, fill=BLUE if y % 2 == 0 else SOFT, stroke="#94a3b8", color=NAVY, size=9.5, anchor="start")
-f.text(210, 276, "", size=8)
-```
+::: example Model formal letter: request for a product demonstration
+**Himalaya Software Pvt. Ltd.**, Putalisadak, Kathmandu · Tel 01-4000000
 
-## 3.3 Business letters
+12 March 2025
 
-**Layout (full-block style):** sender's address and date → recipient's name, title, address → salutation (*Dear Sir/Madam*, or *Dear Mr Basnet*) → subject line → body (opening, details, closing) → complimentary close (*Yours faithfully* if you used "Sir/Madam", *Yours sincerely* if you used a name) → signature, printed name, designation → enclosures.
-
-**Types:** enquiry, order, complaint, adjustment, application, resignation, recommendation, thank-you.
-
-::: example Worked example: complaint letter
-Kathmandu, 5 Baisakh 2083
-The Manager, Himal Computers, New Road, Kathmandu
-
-Subject: Faulty laptop, invoice no. 2413 of 20 Chaitra 2082
+The Sales Manager
+Nepal Cloud Services
+Naxal, Kathmandu
 
 Dear Sir/Madam,
 
-On 20 Chaitra I bought a laptop (model X15, serial 8841) for Rs 78,500. The battery has lasted under 40 minutes since the second week and the machine shuts down without warning. The warranty card gives one year. I request a replacement or a repair within seven days. Copies of the invoice and warranty card are enclosed. Please contact me on 98XXXXXXXX.
+**Subject: Request for a demonstration of the cloud backup service**
+
+We are a software company with 45 employees and are looking for a reliable cloud backup solution. We saw your service advertised on the *Kantipur* website and would like to know more.
+
+Could you please arrange an online or in-person demonstration during the week of 24 March? We would also like your price list for 2 TB, details of data centres, and your service-level guarantee for restore times.
+
+I will be grateful for your reply by 19 March. Please contact me on 9800000000 or at hr@himalaya.example to fix a time.
 
 Yours faithfully,
-Rajesh Gurung · Enclosures: invoice, warranty card
+*(signature)*
+Rajan Karki
+IT Manager
 :::
 
-## 3.4 Job application letter and CV
+### Types of formal letters and key phrases
 
-**Cover (application) letter** (one page): paragraph 1: the post and where you saw it; paragraph 2: two or three matching skills with proof (a project, internship, result); paragraph 3: why this organisation; closing: availability for interview and thanks. Address it to a person where possible and **tailor it to each job**.
+| Type | Purpose and key points | Useful phrases |
+|---|---|---|
+| **Inquiry** | ask about products, services, prices | "I would be grateful if you could send..." |
+| **Order** | request goods; give quantity, code, price, delivery, payment | "Please supply the following items..." |
+| **Complaint (claim)** | state fault, evidence, effect and the remedy wanted | "I am writing to express my concern about..." |
+| **Adjustment (reply)** | accept or decline the complaint, with reasons | "We apologise for the inconvenience and have..." |
+| **Application** | apply for a job or admission (see 3.5) | "I wish to apply for the post of..." |
+| **Resignation** | give notice, thank, offer handover | "I hereby tender my resignation..." |
+| **Recommendation** | assess a person's skills and character | "I have known Ms X for two years..." |
 
-**CV (curriculum vitae) / résumé.** One to two pages; reverse-chronological (newest first); consistent fonts; PDF format; no photo unless asked; no false statements.
+## 3.5 Resumes and cover letters
 
-| Section | Content |
-|---|---|
-| Header | name, phone, email (a professional address), city, GitHub/LinkedIn link |
-| Objective or summary | 2 lines aimed at the role |
-| Education | degree, college, university, year, CGPA/percentage |
-| Projects | name, tools, what *you* did, result with a number |
-| Skills | languages, frameworks, tools (be honest about level) |
-| Experience / internship | role, organisation, dates, 2 to 3 achievement bullets |
-| Achievements, training, languages | short lines |
-| References | "available on request" or two named referees with permission |
+### Résumé
 
-Write bullets as **action verb + task + measured result**: *"Built a student-attendance web app in PHP and MySQL used by 120 students, cutting roll-call time from 10 to 2 minutes."* Not: "Responsible for attendance project."
+A **résumé** (or **CV, curriculum vitae**) is a one-to-two-page summary of your education, skills, experience and achievements, designed to win an interview. It is read for **six to ten seconds** at first, so it must be clean, accurate and tailored to the job. In Nepal "CV" is commonly used for both; in the USA a résumé is short (one page) and a CV is a detailed academic record.
 
-::: example Worked example: application paragraph
-"I am applying for the Junior Web Developer post advertised on 12 Falgun. In my final-semester project I built a hostel-management system in PHP and MySQL, using Git for version control and writing the database schema and the login module. I enjoy turning real problems into working software, and your company's work on e-governance portals is exactly the area in which I want to grow."
+**Formats:** *reverse-chronological* (latest first; the standard), *functional* (skills first; for gaps and career changes) and *combination*. **Sections in order:**
+
+1. **Contact information:** name (large), phone, professional email, city, LinkedIn or GitHub link. No photo or date of birth unless the employer asks (common in Nepal; follow the advertisement).
+2. **Career objective or professional summary:** two lines tailored to the job.
+3. **Education:** degree, institution, years, result (CGPA/percentage), relevant courses.
+4. **Skills:** technical (languages, tools, databases) and soft skills with proof.
+5. **Projects and experience:** role, organisation, dates, 2 to 4 action-verb bullets with measurable results ("Reduced report time by 40% by..."). Internships and volunteering count.
+6. **Achievements, certifications, training.**
+7. **Extra-curricular activities and languages.**
+8. **References:** two, with their permission, or "available on request".
+
+**Do:** use action verbs (*developed, designed, led, tested, reduced*), keep to one page for a fresher, use one clean font, save as PDF named *Anita_Shrestha_CV.pdf*, proofread twice. **Do not:** lie (it is cause for dismissal later), use fancy graphics that confuse applicant-tracking systems, list every school subject or write long paragraphs.
+
+::: example Model résumé (fresher)
+**ANITA SHRESTHA**
+Kathmandu, Nepal · 9800000000 · anita.shrestha@example.com · github.com/anita-sh
+**Objective:** Motivated BCA graduate seeking a junior web-developer role where I can apply my skills in Java, SQL and clean documentation.
+**Education**
+Bachelor of Computer Application (BCA), Tribhuvan University, Kathmandu College of Science · 2022–2026 · CGPA 3.62/4.00 (expected)
++2 Science (Computer), Himalaya Secondary School · 2020–2022 · 3.7 GPA
+**Skills:** Java, C, SQL (MySQL), HTML/CSS/JavaScript, Git; teamwork, technical writing, public speaking
+**Projects**
+*College Library System* (Java, MySQL, 2025): built a desktop app for 600 members; reduced book-issue time from three minutes to under thirty seconds; wrote the user manual.
+*Attendance App* (Android, 2024): designed screens and database for 8 classes; presented at college tech fest.
+**Experience:** Intern, Himalaya Software (6 weeks, 2025): fixed 12 front-end bugs and wrote test cases for the payment module.
+**Achievements:** Winner, inter-college quiz 2024; Google IT Support certificate (2024). **Languages:** Nepali, English, Hindi.
+**References:** available on request.
 :::
 
-## 3.5 Notices, memos, agendas and minutes
+### Cover letter (letter of application)
 
-- **Notice**: a short public announcement: heading, date, subject, body (what, when, where, who), issuer's name and designation.
-- **Memo (memorandum)**: internal, brief, to / from / date / subject / message; no salutation.
-- **Agenda**: a numbered list of the items to be discussed, with the time, place, and the person responsible for each.
-- **Minutes**: the record of what happened: date, time, venue, attendees and absentees; each item with **discussion in a line**, **decision** and **action (who, by when)**; time of closing; secretary's signature. Written in the **past tense** and **third person**.
+A **cover letter** accompanies the résumé and explains *why you are the right person for this job*. It is addressed to a named person if possible, is **one page (3 to 4 paragraphs)**, and does not repeat the CV but picks the two or three strongest matches with the job and proves them. **Structure:** (1) **Opening:** the post applied for, where you saw it, and a one-line hook. (2) **Why you:** two achievements or skills matched to the advertisement's requirements, with evidence. (3) **Why them:** your interest in the organisation. (4) **Closing:** request for an interview, availability, thanks, enclosures.
 
-::: example Worked example: minutes (extract)
-**Minutes of the BCA Project Committee meeting, 3 Jestha 2083, 2 pm, Room 105**
-Present: Mr Karki (Chair), Ms Joshi, Ram Thapa. Absent: Mr Basnet (leave).
-1. *Project titles.* Five titles were reviewed. **Decision:** the library-system title is approved; two titles need a revised scope. **Action:** Ram Thapa to submit revised scopes by 10 Jestha.
-2. *Lab schedule.* **Decision:** Lab 2 reserved on Saturdays, 10 am to 2 pm. **Action:** Ms Joshi to notify the office.
-The meeting closed at 2:45 pm. — Secretary
+::: example Model cover letter
+Kathmandu, 12 March 2025
+
+The Human Resource Manager
+Himalaya Software Pvt. Ltd., Putalisadak, Kathmandu
+
+Dear Sir/Madam,
+
+**Subject: Application for the post of Junior Software Developer (advertised in *Kantipur*, 9 March 2025)**
+
+I wish to apply for the post of Junior Software Developer. I am a BCA graduate with experience in Java and SQL and a record of delivering projects that people use.
+
+My College Library System, written in Java and MySQL, is used by 600 students and cut book-issue time by more than 80 per cent; I also documented it with a user manual and tests. During a six-week internship at a Kathmandu start-up, I fixed twelve front-end bugs and learnt to work in a Git-based team. These experiences match your requirement for strong fundamentals and good documentation.
+
+Your company's work on payment solutions interests me because it combines security with usability, which I studied in my final-year project. I am eager to learn from your engineers.
+
+I have enclosed my résumé and certificates and would welcome an interview at your convenience. Thank you for your time.
+
+Yours faithfully,
+Anita Shrestha
+Encl.: résumé, certificates
 :::
 
-## 3.6 Reports and proposals
+**Job application checklist:** read the advertisement and mirror its keywords honestly; same name, email and date across all documents; mention the post in the subject; attach documents in PDF; follow the instructions (email, hard copy, portal); prepare for the interview afterwards (2.5).
 
-A **report** presents facts, analysis and recommendations for a decision-maker. Types: progress, feasibility, incident, project, and lab reports.
+## Exercise (Sections 3.1 to 3.5)
 
-**Typical structure of a short technical report**
-
-1. Title page (title, author, date, organisation)
-2. **Executive summary** (the purpose, main findings and recommendation, half a page, written last)
-3. Table of contents (for longer reports)
-4. Introduction (background and objectives)
-5. Method or approach
-6. Findings / results (tables, charts)
-7. Discussion or analysis
-8. Conclusion and **recommendations**
-9. References; appendices
-
-**A project proposal** answers: *what is the problem, why it matters, the proposed solution, the work plan, the resources and cost, the expected result.* A **progress report** answers: *what was done, what is delayed and why, what is next, any help needed.*
-
-**Visuals in reports:** number and title every table and figure, refer to them in the text ("Table 2 shows…"), and state the source.
-
-## 3.7 Referencing and plagiarism
-
-**Plagiarism** is presenting someone else's words, ideas, code or data as your own. Copying from the web, a classmate or an AI tool without saying so counts. **Avoid it by:** quoting with quotation marks and a citation, paraphrasing *and* citing, citing code taken from a source, and keeping a list of sources as you research.
-
-**Citation example (APA style):**
-In text: (Sommerville, 2016). In the reference list:
-Sommerville, I. (2016). *Software engineering* (10th ed.). Pearson.
-Web page: Tribhuvan University. (2023). *BCA curriculum*. https://tu.edu.np (Accessed 5 May 2026).
-
-Use one consistent style (APA or IEEE) throughout the document, and ask your department which it prefers.
-
-## 3.8 Eight rules of good professional writing
-
-1. **Know the reader and the purpose.** Before typing, decide who will read the message and what you want them to do. A request to a coordinator is written differently from a message to a friend. The purpose should be visible in the first sentence.
-2. **Use short, simple sentences.** Prefer 15 to 20 words per sentence and common words such as "use" instead of "utilise". Short sentences are easier to read on a phone. Readers in a hurry skip long ones.
-3. **Put the main point first.** Start with the request, decision or result, and give the background afterwards. A busy manager at NTC may read only the first two lines. This "top-down" order saves their time.
-4. **Be specific.** Give dates, numbers, names and file names: "by 5 pm on Sunday, 12 Baisakh" is better than "soon". Specific facts leave no room for confusion. They also make the message easy to act on.
-5. **Use a clear structure.** Use a subject line, short paragraphs, headings or bullet points for lists. Each paragraph should carry one idea. White space makes a page look easy to read.
-6. **Choose a polite, professional tone.** Use "please" and "thank you", avoid slang, capital letters for shouting and angry words. Write as if the message could be shown to the whole office, because it often is. Tone decides whether the reader helps or defends.
-7. **Proofread before sending.** Read aloud, check names, numbers, attachments and spelling. A wrong name or missing attachment looks careless. Spell-check does not find "form" typed instead of "from".
-8. **Give credit and respect copyright.** Quote or paraphrase with a source, never copy-paste another student's work as your own. Plagiarism can cancel a result at Tribhuvan University. Writing in your own words with references is both honest and a better learning method.
-
-```photogrid label="3.2" cols="2" ratio="1.0" caption="Every email has a reading cost. (a) A post office: a century ago the letter was the only business writing, and its length was limited by the cost of paper and the walk to the counter; email removed the cost to the writer but not to the reader. (b) Assume a reader takes in 200 words a minute (an assumption). A 120-word email costs 36 seconds and a 480-word email 144 seconds. For a manager who reads 50 such emails a day, that is 30 minutes against 2 hours, a difference of 90 minutes every working day. Put the request and the deadline in the first two lines, use one subject line that says the topic and the action ('Result sheet for BCA 3rd semester: approval needed by Friday'), and move background to the end. Short does not mean rude; it means the reader can act without searching."
-@ photo id="bcapc/postoffice" cap="A post office, home of the business letter"
-fit 1.0
-focus 0.5 0.5
-@ svg cap="Reading time of 50 emails a day at 200 words/min"
-wpm = 200
-sec = [round(w / wpm * 60) for w in (120, 480)]
-day = [s * 50 / 60 for s in sec]
-assert sec == [36, 144] and day == [30.0, 120.0] and day[1] - day[0] == 90
-f = Fig(300, 240)
-f.text(150, 14, "200 words a minute (assumed)", size=10.5, color=SLATE)
-for i, (lab, w, s, d, col) in enumerate([("120-word email", 120, sec[0], day[0], "#0f766e"), ("480-word email", 480, sec[1], day[1], "#b91c1c")]):
-    y = 32 + i * 76
-    f.text(10, y + 6, lab, size=10.5, color=NAVY, anchor="start", bold=True)
-    f.box(10, y + 14, 200 * s / 144, 16, "", fill=col, stroke=col, r=0)
-    f.text(10 + 200 * s / 144 + 5, y + 22, f"{s} s", size=10.5, color=col, anchor="start", bold=True, vmid=True)
-    f.box(10, y + 36, 200 * d / 120, 16, "", fill=col, stroke=col, r=0)
-    f.text(10 + 200 * d / 120 + 5, y + 44, f"{d:.0f} min/day", size=10.5, color=col, anchor="start", bold=True, vmid=True)
-f.text(150, 196, "bars: one email, then 50 a day", size=10.5, color=SLATE)
-f.text(150, 216, "saving 90 minutes every working day", size=10.5, color=TEAL, bold=True)
-```
-
-## Formula and fact sheet
-
-- Email: specific subject → greeting → purpose first → details → action + deadline → closing.
-- Letter closings: *Dear Sir/Madam … Yours faithfully*; *Dear Mr X … Yours sincerely*.
-- CV bullet: action verb + task + measurable result.
-- Minutes: past tense, decision + action (who, by when).
-- Report: executive summary, introduction, method, findings, discussion, conclusion/recommendation, references.
-- Plagiarism = unattributed use of another's words, ideas or code.
-
-## Chapter summary
-
-- Good writing is organised into one-idea paragraphs, active sentences and lists where steps are listed.
-- Emails state the purpose and the required action in the first lines; letters and CVs follow standard layouts tailored to the reader.
-- Notices, agendas and minutes record who decides and who acts.
-- Reports lead with a summary; every borrowed idea or line of code needs a citation.
-
-## Practice
-
-1. Rewrite as a professional email: "sir i need leave on friday coz i have fever pls approve".
-2. Write a complaint letter about a defective printer bought three weeks ago.
-3. Draft a one-page CV for a BCA graduate (use realistic placeholders).
-4. Write an application letter for the post of "IT Support Officer" at a bank.
-5. Draft the agenda and minutes for a student club meeting that approved a hackathon on 21 Asar.
-6. Correct the sentences: (a) "The data are stored in it's database." (b) "Each of the servers have been updated." (c) "Having finished the code, the bug appeared."
-7. Write the executive summary (five lines) of a feasibility report on introducing biometric attendance in a college.
-8. Differentiate a memo and a notice; and Cc and Bcc.
-9. Convert to an achievement bullet: "I worked on the college website."
-10. Explain plagiarism and give five ways to avoid it. Write the APA reference for a book you use.
+1. State eight rules of professional writing with an example for each of two.
+2. Rewrite in plain English: (a) "In view of the fact that the server is down, kindly effectuate the utilisation of the alternate system." (b) "It is requested that the undersigned be apprised at the earliest."
+3. Write an email to your teacher requesting a meeting about your project proposal.
+4. Differentiate between an email, a memo and a formal letter in a table.
+5. Draft a notice for the BCA Society announcing a seminar on "Cyber Safety" on 28 March, 2 pm, in the college hall.
+6. Write a formal letter to a computer vendor complaining that three of the ten keyboards you ordered (order no. 417) were defective, and asking for replacements.
+7. Write the parts of a good résumé and explain the difference between a résumé and a cover letter.
+8. Prepare your own résumé and a cover letter for the post of Network Assistant advertised by Nepal Telecom.
+9. Distinguish the direct and indirect approach with an example of each.
+10. Write a memo to all staff announcing a Wi-Fi password change.
 
 ::: note Answers and worked solutions
-**1.** *Subject:* Leave request for Friday 23 Magh. "Dear Sir, I have a fever and a doctor has advised rest, so I request leave for Friday 23 Magh. I will collect the notes from a classmate and submit the assignment on Monday. A medical note is attached. Thank you. Yours sincerely, …"
-**2.** Follow the model in §3.3: date, addressee, subject with invoice number, facts (model, date, price, the fault), the remedy requested and a deadline, enclosures, *Yours faithfully*.
-**3.** Use the sections of §3.4 on one page; every project bullet carries a result.
-**4.** Three paragraphs as in §3.4, mentioning customer-service skills, troubleshooting experience and an interest in banking technology.
-**5.** Agenda: 1. Welcome; 2. Hackathon proposal; 3. Budget; 4. Roles; 5. Any other business. Minutes record "Decision: hackathon approved for 21 Asar; Action: treasurer to submit the budget by 5 Asar", closing time and the secretary's name.
-**6.** (a) "The data are stored in its database." (b) "Each of the servers has been updated." (c) "After we finished the code, the bug appeared." (or "Having finished the code, we found a bug.")
-**7.** "This report examines whether to install fingerprint attendance for the 600 students of the college. Manual roll-call currently costs about 10 minutes per class. The system costs about Rs 2.4 lakh in the first year and pays back through saved teaching time. Risks are privacy and downtime. We recommend a one-semester pilot in two classes before adoption."
-**8.** A memo is internal, addressed to named people; a notice is posted for many people. Cc copies visible recipients; Bcc copies hidden recipients.
-**9.** "Redesigned the college website's notice section in HTML/CSS and PHP, reducing page-load time from 6 s to 2 s for 800 monthly visitors."
-**10.** Plagiarism is presenting others' work as yours. Avoid by quoting with marks, citing paraphrases, citing code, keeping a source list, and using plagiarism checkers on drafts. Reference model in §3.7.
+**1.** The ten rules in 3.1 (purpose and reader; main point first; 7 Cs; plain words; short sentences; short paragraphs; positive tone; bias-free language; scanning design; revision). Example: Concrete: "Submit by Friday 5 pm" not "soon". Plain words: "use" for "utilise".
+**2.** (a) "Because the server is down, please use the alternate system." (b) "Please inform me as soon as possible."
+**3.** Use the model in 3.2: specific subject ("Request for a 15-minute meeting on the project proposal"), purpose in the first line, two possible times, thanks, signature with roll number and class.
+**4.** See the comparison table at the end of 3.2: audience, formality, format, record, speed.
+**5.** Notice format of 3.3: college name, NOTICE, date, heading "Seminar on Cyber Safety", the details (date, time, venue, speaker, who may attend, registration), name and designation of the issuer, in about 50 words.
+**6.** Follow the model in 3.4: sender's and receiver's address, date, subject "Complaint regarding defective keyboards (Order no. 417)", facts (ordered 10, received on 5 March, three keys not working), request for replacement within seven days, enclose invoice copy, *Yours faithfully*.
+**7.** Parts: contact, objective, education, skills, projects and experience, achievements, references. A résumé is a factual summary of your history; a cover letter is a persuasive letter explaining why your history fits this job.
+**8.** Use the models in 3.5 with the details of the post (networking skills, a CCNA course, a lab project).
+**9.** Direct: begins with the main point (routine requests, good news): "Please approve the leave from 3 to 5 April." Indirect: begins with context and reasons before bad news: "We have reviewed all applications carefully... we regret that we cannot offer you the post at this time."
+**10.** Use the memo format: To: All staff; From: IT Manager; Date; Subject: Wi-Fi password change; body: from Monday the password changes; collect the new password from the IT room; the old one stops working at 6 pm; contact IT for help.
 :::
-
-## Model answers: medium (5 marks) and long (10 marks) questions
-
-**Q (5 marks). What is plagiarism? Describe its common forms and explain how a student can avoid it.**
-
-**Plagiarism** is presenting another person's words, ideas, data or code as your own without acknowledgement. It is a form of dishonesty and, in universities, an academic offence that can cancel marks or a whole result. It also harms learning, because the copier does not practise the skill.
-
-**Common forms.**
-1. *Direct copying:* pasting text from a website, book or classmate without quotation marks and source.
-2. *Paraphrase plagiarism:* changing a few words but keeping the original idea and structure without a citation.
-3. *Self-plagiarism:* reusing your own earlier assignment as new work without permission.
-4. *Code plagiarism:* submitting a program copied from a friend or repository, or using code without respecting its licence.
-5. *Fabrication or false sources:* inventing data or references.
-
-**How to avoid it.** (a) Take notes in your own words and record the source at once. (b) Use quotation marks for exact words and add a citation (author, year, title or URL). (c) Paraphrase properly: understand, close the source, write from memory, then cite. (d) Add a reference list at the end of reports. (e) For code, keep the licence notice, mention the source in comments and write the main logic yourself. (f) Use a similarity checker to review your draft. **Conclusion:** honest citation protects the writer and respects the creator.
-
-**Q (10 marks). Describe the structure of a professional email and a formal business letter. State the differences between them and give the rules for choosing a good subject line and tone.**
-
-**Introduction.** Email and letter are the two main written channels in an organisation. Both follow a fixed structure so that readers can find the purpose, the details and the action quickly.
-
-**Structure of an email (Figure 3.1).** (1) *Recipients:* To for those who must act, Cc for those who should know, Bcc to hide addresses of a large group. (2) *Subject:* specific, 5 to 9 words, such as "Request: lab access on Saturday 14 Chaitra". (3) *Greeting:* "Dear Mr Karki,". (4) *Purpose* in the first sentence. (5) *Details* in short paragraphs or bullets. (6) *Action and deadline:* "Please confirm by Thursday." (7) *Closing:* "Thank you" or "Yours sincerely", name, designation and contact details. Attachments are named clearly and mentioned in the text.
-
-**Structure of a business letter (Plate 3.1).** Sender's address and date; receiver's name and address; salutation; subject line; body (introduction, details, request or action); complimentary close; signature, name and designation; enclosures and copies. The full-block style puts every part at the left margin with a blank line between parts.
-
-**Comparison.**
-
-| Point | Email | Business letter |
-|---|---|---|
-| Speed | seconds | days by post |
-| Formality | formal to semi-formal | most formal |
-| Record | digital, searchable | paper, official |
-| Layout | subject, body, signature | letterhead, address, date, signature |
-| Use | daily work, quick requests | applications, offers, complaints, legal notices |
-| Attachments | easy | listed as enclosures |
-
-**Good subject line.** It is specific ("Application for BCA Internship, 2082"), contains the action or deadline, avoids "Hello" or "Urgent!!!" and helps the reader to file and search the message.
-
-**Good tone.** Use polite words, positive wording, active voice and the "you" viewpoint. Avoid slang, anger, capital letters and emotional words. Read the message as if you were the receiver before sending it.
-
-**Conclusion.** A clear structure, a specific subject and a courteous tone make a message easy to act on. Email suits speed, the letter suits formal records, and both must be proofread.
