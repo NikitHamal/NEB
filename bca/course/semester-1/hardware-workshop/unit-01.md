@@ -223,14 +223,14 @@ An **IC** packs thousands to billions of transistors on one silicon die. Pin 1 i
 | IC | What it does |
 |---|---|
 | 7400 series (7400 NAND, 7404 NOT, 7408 AND, 7432 OR, 7486 XOR) | logic gates, 5 V; 74LS (bipolar) and 74HC (CMOS) families |
-| 555 timer | oscillator and timer; astable frequency f = 1.44 / ((R1 + 2R2)C) |
+| 555 timer | oscillator and timer; astable frequency f = 1.44 / ((R₁ + 2R₂)C) |
 | Op-amp (LM358, LM741) | amplifier, comparator, filter |
 | 7805 regulator | fixed 5 V from 7 to 25 V in, up to 1 A |
 | Microcontroller (ATmega328) | tiny programmable computer |
 | Memory, CPU, chipset | the main chips of a PC |
 
 ::: example Worked example: 555 astable (blinking LED)
-With R1 = 1 kΩ, R2 = 68 kΩ and C = 10 µF: R1 + 2R2 = 137 kΩ, so f = 1.44 / (137,000 × 0.00001) = 1.44 / 1.37 = **1.05 Hz** (about one blink a second). The duty cycle (time high) is (R1 + R2) / (R1 + 2R2) = 69 / 137 = **50.4 %**.
+With R1 = 1 kΩ, R2 = 68 kΩ and C = 10 µF: R₁ + 2R₂ = 137 kΩ, so f = 1.44 / (137,000 × 0.00001) = 1.44 / 1.37 = **1.05 Hz** (about one blink a second). The duty cycle (time high) is (R₁ + R₂) / (R₁ + 2R₂) = 69 / 137 = **50.4 %**.
 :::
 
 ## 1.4 Connectors, switches, relays, buzzers and crystals
@@ -335,7 +335,7 @@ fit 1.5
 - Capacitor code 104 = 100 nF; 103 = 10 nF. τ = RC; E = ½CV².
 - LED resistor R = (Vs − Vf)/I. Silicon diode drop 0.6 to 0.7 V.
 - Transistor switch: Ib ≥ Ic/β, with 2× overdrive; Rb = (Vin − 0.7)/Ib.
-- 555 astable f = 1.44/((R1 + 2R2)C).
+- 555 astable f = 1.44/((R₁ + 2R₂)C).
 - Packages: DIP, TO-92, TO-220 (through-hole); SOT-23, 0603, QFP, BGA (surface-mount).
 
 ## Chapter summary
