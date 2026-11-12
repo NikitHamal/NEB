@@ -35,16 +35,36 @@ with Vocabulary and Grammar + two prescribed Readings with Exercises.
   "The Digital Citizen" extract was not available, check the student's copy; no Django screenshots of the web reader were
   taken this session (data and CSS fixes from session 16 are in place; verify visually next time).
 
-## Prioritised queue for the next session (rest of BCA, not started this session)
-1. Audit every semester against the current TU syllabus (the 2082-batch list in `course/CURRICULUM.md`) for missing topics,
-   starting with the thinnest books: BCA 106 Hardware Workshop (13.7k words), BCA 204 System Analysis and Design (16.8k),
-   BCA 154 Mathematics II (19.5k), BCA 153 OOP in Java (21.8k), BCA 354 Technical Writing (21.6k), BCA 403 Financial Accounting (22k).
-2. BCA 354 Technical Writing overlaps BCA 105 (writing, reports, referencing): cross-check for duplication and consistency.
-3. Add more figures to text-heavy books (photogrid/svgfig), then rebuild, `qa_pdf.py`, `export_course_web.py <book>`.
-4. Take Django web-reader screenshots of BCA Unit 3 and check the right-hand "On this page" list for clipped labels.
-5. Rebuild the other course PDFs only if a sweep flags them; `gen_status.py` showed page counts that differ from earlier tables.
+## Session 18 results
 
-## Session 18 (continuation) - environment recipe (no root in sandbox)
-- `pip install --break-system-packages weasyprint pymupdf matplotlib markdown pillow numpy pygments`; fonts via
-  `bash notes/pipeline/fonts/install.sh`; pango/poppler via micromamba (`micromamba create -n pe -c conda-forge pango poppler fontconfig harfbuzz`),
-  then `. /tmp/env.sh` (PATH + LD_LIBRARY_PATH + FONTCONFIG_FILE). `pdfinfo` of the BCA 105 PDF = 148 pages (verified).
+### Web reader verified visually (Django on :8765, headless Chromium)
+- BCA 105 now shows the 6 textbook units in the left rail; the right "On this page" list has no "Formula and fact sheet" entry and no clipped labels.
+- Exercise 6.7.2 "Correct the errors" (unit 6) typesets as parts (a) to (e), no giant bordered box. The original bug text (`it's database`) lives in this item.
+- New book renders: BCA 402 Unit 2 with sidebar of all 7 units, tables and a working "On this page" list. SPM keeps the "Formula and fact sheet" heading because it has formulas (added to `FORMULA_BOOKS` in `nebpdf.py`).
+- Minor, not fixed: wide tables in worked-example callouts stop short of the callout width on the web (cosmetic).
+
+### BCA 402 Software Project Management: NEW book (was wrongly classed as a "project slot" by `gen_status.py`)
+- 7 units after the TU CACS407 syllabus (concepts, scheduling, estimation, evaluation and costing, risk, quality, SCM), 24.8k words,
+  14 figures (all label-linted with `svgkit.lint`: 0 warnings), every worked number recomputed in Python (see its README).
+- PDF `bca/course/semester-7/pdfs/NEBians-BCA-Course-Semester-7-Software-Project-Management.pdf`: `pdfinfo` = **84 pages**,
+  `qa_pdf.py` = **fails=0 warns=2** (two near-empty pages p16, p72 at chapter ends). Web data exported: 7 units, 38 topics.
+- `books.json`, `CURRICULUM.md`, `STATUS.md`, READMEs regenerated (`gen_status.py`): 42 books done, 0 core subjects missing.
+- Pages inspected as PNG: contents (p3), CPM network (p21), risk matrix (p56), change-control flow (p78, labels were clipped, fixed and re-rendered), triangle (p7).
+
+### Verified numbers (this session)
+BCA 105 PDF 148 pp (qa 0 fail, from session 17); BCA 402 PDF 84 pp. All other BCA PDFs untouched this session.
+
+### BCA 354 Technical Writing vs BCA 105 (queue item 2): checked
+354 is documentation-centred (requirements, README, API docs, runbooks, IMRaD, citation, charts). Overlap with 105 is limited to
+email/CV/cover letter (354 6.3-6.4), plagiarism and citation (354 4.4-4.5; 105 5.4) and readability. It is reinforcement in a different
+setting (technical vs professional), not duplication; no change made.
+
+## Prioritised queue for the next session
+1. Audit the thinnest books against the current TU syllabus and add depth and figures: BCA 106 Hardware Workshop (13.7k words, 42 pp),
+   BCA 204 System Analysis and Design (18k, 60 pp), BCA 154 Mathematics II (21.8k, 57 pp), BCA 153 OOP in Java (21.8k, 79 pp),
+   BCA 354 (23.6k, 71 pp), BCA 403 Financial Accounting (24.8k, 76 pp), BCA 256/306/356/404 project books (18-27k).
+2. Run the label-overflow lint (`svgkit.lint`, see the snippet idea in this file's history: render each svgfig block and print `svgkit.WARN`)
+   over ALL course books: the build log hides lint warnings when the figure cache hits. Fix clipped labels with `\n` line breaks.
+3. Electives (BCA 405/406, 453/454) remain unwritten slots; pick the most common (Machine Learning, E-Commerce, Linux, DBA).
+4. Take web screenshots of one text-heavy and one math-heavy BCA subject to compare reader spacing; optionally widen tables in callouts.
+5. Environment recipe is in the section above; the sandbox needs `pypdf` too (reading payload step).
