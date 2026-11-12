@@ -97,6 +97,19 @@
   "category": "Board Exam Bundle"
  },
  {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Economics-2081-2082-Bundle.pdf",
+  "subject": "Economics",
+  "grade": "12",
+  "years_bs": "2081-2082",
+  "papers": [
+   "12-econ-2082-3041b",
+   "12-econ-2081-3041q"
+  ],
+  "pages": 26,
+  "bytes": 367673,
+  "category": "Board Exam Bundle"
+ },
+ {
   "file": "bundles/NEBians-Past-Papers-Grade-12-Mathematics-2079-2082-Bundle.pdf",
   "subject": "Mathematics",
   "grade": "12",
