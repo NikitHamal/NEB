@@ -72,7 +72,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2295,
+    "words": 2296,
     "figures": 0,
     "examples": 0
    },
@@ -136,7 +136,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2481,
+    "words": 2482,
     "figures": 0,
     "examples": 0
    },
@@ -194,7 +194,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2280,
+    "words": 2281,
     "figures": 0,
     "examples": 0
    },
@@ -242,7 +242,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2085,
+    "words": 2086,
     "figures": 0,
     "examples": 0
    },
@@ -300,7 +300,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2282,
+    "words": 2283,
     "figures": 0,
     "examples": 0
    },
@@ -354,14 +354,83 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2245,
+    "words": 2246,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Design Patterns and Advanced OOP Concepts",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What a design pattern is",
+    "Singleton: exactly one instance",
+    "Factory: let a method choose the class",
+    "Observer: tell everyone who is interested",
+    "Copy constructors, shallow copy and deep copy",
+    "Nested and inner classes",
+    "Jagged arrays and variable-length arguments",
+    "Lambdas, streams, Optional and method references: the syllabus checklist",
+    "Eight uses of patterns and advanced OOP features"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "What a design pattern is"
+    },
+    {
+     "no": "7.2",
+     "title": "Singleton: exactly one instance"
+    },
+    {
+     "no": "7.3",
+     "title": "Factory: let a method choose the class"
+    },
+    {
+     "no": "7.4",
+     "title": "Observer: tell everyone who is interested"
+    },
+    {
+     "no": "7.5",
+     "title": "Copy constructors, shallow copy and deep copy"
+    },
+    {
+     "no": "7.6",
+     "title": "Nested and inner classes"
+    },
+    {
+     "no": "7.7",
+     "title": "Jagged arrays and variable-length arguments"
+    },
+    {
+     "no": "7.8",
+     "title": "Lambdas, streams, Optional and method references: the syllabus checklist"
+    },
+    {
+     "no": "7.9",
+     "title": "Eight uses of patterns and advanced OOP features"
+    }
+   ],
+   "summary": [
+    "A design pattern is a named solution to a recurring design problem; the three required ones are singleton, factory and observer.",
+    "Singleton restricts a class to one instance; factory centralises object creation behind an interface; observer lets a subject broadcast to many subscribed objects.",
+    "Copy constructors make explicit copies; shallow copies share mutable inner objects, deep copies do not.",
+    "Nested classes come in four kinds; lambdas replace most anonymous classes for single-method interfaces.",
+    "Jagged arrays have rows of different lengths; varargs lets a method take any number of arguments."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3066,
     "figures": 0,
     "examples": 0
    },
    "has_notes": true
   }
  ],
- "unit_count": 6,
- "topic_count": 40,
- "notes_ready": 6
+ "unit_count": 7,
+ "topic_count": 49,
+ "notes_ready": 7
 }

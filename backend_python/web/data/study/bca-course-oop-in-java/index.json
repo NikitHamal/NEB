@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Object-Oriented Concepts and Java Fundamentals",
    "area": "BCA 153 · OOP in Java · Unit 1",
-   "words": 2738,
+   "words": 2739,
    "read_min": 15,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Classes, Objects, Constructors and Encapsulation",
    "area": "BCA 153 · OOP in Java · Unit 2",
-   "words": 3246,
+   "words": 3247,
    "read_min": 18,
    "figures": 3,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Inheritance, Polymorphism, Abstract Classes and Interfaces",
    "area": "BCA 153 · OOP in Java · Unit 3",
-   "words": 2927,
+   "words": 2928,
    "read_min": 16,
    "figures": 3,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Exception Handling, Strings and Wrapper Classes",
    "area": "BCA 153 · OOP in Java · Unit 4",
-   "words": 2770,
+   "words": 2771,
    "read_min": 15,
    "figures": 4,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Generics, Collections, Lambdas, Streams and File I/O",
    "area": "BCA 153 · OOP in Java · Unit 5",
-   "words": 3010,
+   "words": 3015,
    "read_min": 17,
    "figures": 4,
    "has_questions": true
@@ -50,9 +50,18 @@
    "no": 6,
    "title": "Multithreading, GUI Event Handling and Database Access",
    "area": "BCA 153 · OOP in Java · Unit 6",
-   "words": 2959,
+   "words": 2960,
    "read_min": 16,
    "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Design Patterns and Advanced OOP Concepts",
+   "area": "BCA 153 · OOP in Java · Unit 7",
+   "words": 3935,
+   "read_min": 22,
+   "figures": 1,
    "has_questions": true
   }
  ]
