@@ -63,6 +63,15 @@
    "read_min": 22,
    "figures": 1,
    "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Instructions, Technical Descriptions and Formal Reports",
+   "area": "BCA 354 · Technical Writing · Unit 8",
+   "words": 6030,
+   "read_min": 34,
+   "figures": 2,
+   "has_questions": true
   }
  ]
 }

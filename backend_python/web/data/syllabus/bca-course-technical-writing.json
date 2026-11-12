@@ -15,7 +15,7 @@
  "code": "BCA 354",
  "credits": 2,
  "semester": 6,
- "hours": 57,
+ "hours": 67,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -405,9 +405,58 @@
     "examples": 0
    },
    "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Instructions, Technical Descriptions and Formal Reports",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Instructions",
+    "Technical definitions and descriptions",
+    "Formal reports",
+    "Recommendation and feasibility reports",
+    "Report checklist and ethics of reporting"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Instructions"
+    },
+    {
+     "no": "8.2",
+     "title": "Technical definitions and descriptions"
+    },
+    {
+     "no": "8.3",
+     "title": "Formal reports"
+    },
+    {
+     "no": "8.4",
+     "title": "Recommendation and feasibility reports"
+    },
+    {
+     "no": "8.5",
+     "title": "Report checklist and ethics of reporting"
+    }
+   ],
+   "summary": [
+    "Instructions tell a reader how to act, so they need a verb-led title, requirements, notices before steps, one action per step, a stated result and a troubleshooting table, and they must be tested with a first-time user.",
+    "A formal definition names the class and the differentia; an extended definition adds methods such as examples, analogy, classification and process.",
+    "A description of a mechanism pictures an object by parts in a fixed spatial order with exact measurements; a process description uses time order.",
+    "A formal report has front matter, body and back matter; the abstract or executive summary and letter of transmittal are written last, and the body separates findings, conclusions and recommendations.",
+    "Recommendation and feasibility reports rest on stated criteria, a transparent decision matrix, costs that add up and a sensitivity check; honesty about uncertainty is a professional duty."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6249,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 44,
- "notes_ready": 7
+ "unit_count": 8,
+ "topic_count": 49,
+ "notes_ready": 8
 }
