@@ -3,38 +3,83 @@
  "units": [
   {
    "no": 1,
-   "title": "Safety, Tools and the Components of a PC",
+   "title": "Introduction to Hardware (Electronic Components)",
    "area": "BCA 106 · Hardware Workshop · Unit 1",
-   "words": 3134,
-   "read_min": 17,
-   "figures": 3,
+   "words": 4699,
+   "read_min": 26,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 2,
-   "title": "Assembling a Desktop PC, Step by Step",
+   "title": "Introduction to Networking Components",
    "area": "BCA 106 · Hardware Workshop · Unit 2",
-   "words": 2873,
+   "words": 2892,
    "read_min": 16,
-   "figures": 4,
+   "figures": 2,
    "has_questions": true
   },
   {
    "no": 3,
-   "title": "BIOS/UEFI, Disk Partitioning and Operating System Installation",
+   "title": "Desktop and Laptop Hardware Identification and Handling",
    "area": "BCA 106 · Hardware Workshop · Unit 3",
-   "words": 2609,
-   "read_min": 14,
-   "figures": 3,
+   "words": 5513,
+   "read_min": 31,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 4,
-   "title": "Troubleshooting, Maintenance, Peripherals and Network Cabling",
+   "title": "PC and Laptop Assembly",
    "area": "BCA 106 · Hardware Workshop · Unit 4",
-   "words": 2948,
-   "read_min": 16,
-   "figures": 3,
+   "words": 6375,
+   "read_min": 35,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Basic Network Devices and Deployment",
+   "area": "BCA 106 · Hardware Workshop · Unit 5",
+   "words": 2492,
+   "read_min": 14,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Basic Networking Configuration",
+   "area": "BCA 106 · Hardware Workshop · Unit 6",
+   "words": 2786,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Problem Solving Techniques",
+   "area": "BCA 106 · Hardware Workshop · Unit 7",
+   "words": 1897,
+   "read_min": 11,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Maintenance and Upgrade",
+   "area": "BCA 106 · Hardware Workshop · Unit 8",
+   "words": 2720,
+   "read_min": 15,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Final Practical Assessment",
+   "area": "BCA 106 · Hardware Workshop · Unit 9",
+   "words": 1969,
+   "read_min": 11,
+   "figures": 1,
    "has_questions": true
   }
  ]
