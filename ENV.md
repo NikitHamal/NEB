@@ -287,6 +287,27 @@ desktop/src/ui/remote_image.rs
 ```
 Note: the repo is private — unauthenticated `git ls-remote` fails with 'could not read Username'. Rust, mingw, xvfb were installed this session via apt/rustup (not present at start: `rustc: command not found`).
 
+## Past-papers session environment (session 2, branch `resources/past-papers-class12`)
+- File tool root is `/app`; bash sees everything. Workaround: clone to `/tmp/NEB`, then `ln -sfn /tmp/NEB /app/neb` (file-tool paths: `neb/...`), and `ln -sfn /tmp/psrc /app/psrc` for the scratch page images.
+- Auth: out-of-repo `GIT_ASKPASS=/tmp/gitenv.sh` that prints `x-access-token` for the username prompt and `$GH_PAT` for the password prompt; `export GH_PAT=...` in the shell only. The token is never written to the repo or `.git/config` (`git diff --cached` is grepped for the token prefix before each commit; remote tip checked with `git ls-remote origin resources/past-papers-class12`).
+- Python 3.11: `pip install --user --break-system-packages weasyprint markdown matplotlib numpy pymupdf pillow requests`; `sudo -n apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 fontconfig`; `bash notes/pipeline/fonts/install.sh && fc-cache -f ~/.local/share/fonts/nebians`.
+- Everything about the papers pipeline is in `notes/papers/PAPERS_TRACKER.md`.
+
+## Past-papers session 9 environment (branch `resources/past-papers-class12`)
+- File tool root was `/app` (a Next.js sandbox project, unrelated to NEB). Workaround: `git clone` to `/tmp/NEB`, `ln -sfn /tmp/NEB /app/neb`, and `ln -sfn /tmp/psrc /app/psrc`; file-tool paths are then `neb/...` and `psrc/...` (relative). Bash sees everything.
+- Auth: out-of-repo `/tmp/gitenv.sh` (GIT_ASKPASS) printing `x-access-token` for the username prompt and `$NEB_GH_TOKEN` for the password prompt; the token is exported in the shell only, never written to the repo or `.git/config` (`git diff --cached | grep -c` for the token prefix returned 0 before each commit; `git config --get-regexp url` shows only the plain https URL). Remote tip verified with `git ls-remote origin resources/past-papers-class12`.
+- Toolchain from scratch took one command each: `sudo apt-get update && sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 fontconfig`, `pip install --user --break-system-packages weasyprint markdown matplotlib numpy pymupdf pillow requests`, `bash notes/pipeline/fonts/install.sh && fc-cache -f ~/.local/share/fonts/nebians`. Building one paper takes about 30 s.
+
+## Session 10 (past papers)
+- File tool root is /app. Workaround: `git clone` to /tmp/NEB, `ln -sfn /tmp/NEB /app/neb`, use `neb/...` paths in the file tool. Git auth via out-of-repo GIT_ASKPASS helper `/tmp/gitenv.sh` reading `$NEB_GH_TOKEN`; never put the token in the repo. Full details in notes/papers/PAPERS_TRACKER.md (Session 10 notes).
+
+## Past-papers session 11 (2026-11-03)
+- File tool root is `/app`; the repo is cloned to `/tmp/NEB` and exposed with `ln -sfn /tmp/NEB /app/neb`. Scratch page images live in `/tmp/psrc`, exposed with `ln -sfn /tmp/psrc /app/psrc`.
+- Git auth: `/tmp/gitenv.sh` (outside the repo) answers GIT_ASKPASS from `$NEB_GH_TOKEN`; export `GIT_ASKPASS=/tmp/gitenv.sh GIT_TERMINAL_PROMPT=0` before git commands. The token is never stored in the repo or `.git/config`.
+- The clone is about 3 GB; run it in the background and poll the log.
+
+## Past-papers sessions: file-tool workaround (session 12)
+The file tool is rooted at `/app`; bash sees everything. Clone shallow to `/tmp/NEB` (background, about 3 min, the repo is over 2 GB): `nohup git clone --depth 1 --single-branch --branch resources/past-papers-class12 --progress <repo> /tmp/NEB &`, then `ln -sfn /tmp/NEB /app/neb` so the file tool can use `neb/...` paths. Remove the symlinks before running any validation in `/app` itself. Credentials come only from an out-of-repo `GIT_ASKPASS` helper (`/tmp/gitenv.sh`, reads `$NEB_GH_TOKEN`); nothing secret is written to the repo or `.git/config`. Full notes: `notes/papers/PAPERS_TRACKER.md`.
 ## Agent workaround: the file tool is rooted at /app, shell is not
 Clone to `/tmp/NEB` and `ln -sfn /tmp/NEB /app/neb`; the file tool then reaches `neb/...`. For images, make a
 directory under `/app` (e.g. `/app/shots_out`) and write screenshots there. Do not issue a write and the read of
