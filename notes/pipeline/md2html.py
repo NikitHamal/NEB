@@ -426,8 +426,11 @@ def _split_question(inner):
     labels = [m.group(1) for m in run]
     # a sub-part carries its own mark allocation, or is simply long prose
     longest = max(_plain_len(o) for o in opts)
+    # "Correct the sentences: (a) "..." (b) "..."" is a set of exercise parts, not answer choices
+    sent_like = (_TAGS.sub("", stem).rstrip().endswith(":")
+                 and any(re.search(r'[\"\u201c\u201d]|\.$|\?$', _TAGS.sub("", o).strip()) for o in opts))
     if (len(run) < 3 or any('class="marks"' in o for o in opts)
-            or longest > 78):
+            or longest > 78 or sent_like):
         parts = "".join(f'<span class="part"><i>({l})</i> {o}</span>'
                         for l, o in zip(labels, opts))
         return f'{stem}<span class="parts">{parts}</span>'
