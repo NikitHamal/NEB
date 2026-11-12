@@ -131,7 +131,23 @@ At the start of a period, an **opening entry** records existing assets and liabi
 Journal proper is not the only first record. Subsidiary books (Unit 3) take the high-volume transactions; the journal proper handles opening entries, adjustments, rectifications and non-routine items.
 :::
 
-## 2.8 Seeing the ideas: debit and credit, the VAT invoice and the cash T-account
+## 2.8 Capital and revenue items, contingent assets and liabilities
+
+**Capital expenditure** buys or improves an asset that will serve for **more than one year**: land, building, machinery, a delivery van, the legal fee paid to buy land, installation and carriage on a new machine. It is **debited to the asset account** and appears in the balance sheet. **Revenue expenditure** keeps the business running in the current year: salaries, rent, electricity, repairs, depreciation and interest. It goes to the **profit and loss account**. **Deferred revenue expenditure** (a large advertising campaign whose benefit lasts several years) is spread over those years.
+
+| Item | Treatment | Reason |
+|---|---|---|
+| Purchase of a computer, Rs 1,00,000 | Capital | Benefit over several years |
+| Repair of the same computer, Rs 2,000 | Revenue | Restores, does not improve |
+| Carriage inwards on new machine | Capital | Cost of getting the asset ready |
+| Replacing a part with a better one that raises output | Capital | Improves the asset |
+| Wrongly charging the purchase of furniture to expenses | Understates profit and assets | Error of principle |
+
+**Capital receipts** (capital introduced by the owner, loan raised, sale of a fixed asset) do not go to profit; **revenue receipts** (sales, commission, interest earned) do.
+
+A **contingent liability** is a *possible* obligation that depends on a future event, or a present obligation that cannot be measured reliably or is unlikely to need payment: a lawsuit against the business, a guarantee given for another firm's loan, bills receivable discounted. A **contingent asset** is a possible gain that depends on a future event: a claim lodged by the business that a court has not yet decided. The rules (IAS 37 and its Nepal equivalent, in outline): a **provision** is booked when payment is probable and measurable; a contingent liability is **only disclosed in the notes** unless payment is remote; a contingent **asset is never booked**, only disclosed when an inflow is probable (to avoid recognising income that may never arrive). Example: a customer sues for Rs 5,00,000 and the lawyer says the business will probably win: disclose a contingent liability of Rs 5,00,000 in the notes; no journal entry.
+
+## 2.9 Seeing the ideas: debit and credit, the VAT invoice and the cash T-account
 
 ```photogrid label="2.1" cols="2" ratio="1.0" caption="(a) A Nepalese five-rupee note from the Nepal Rastra Bank: the money measurement concept records only what can be stated in rupees like this. (b) The anatomy of a VAT tax invoice, the source document from which the journal entry is written; every labelled field becomes a line in the books."
 @ photo id="bca403/note" cap="Old Nepal Rastra Bank note"
@@ -178,7 +194,7 @@ f.line(60, 134, 520, 134, color=SLATE); f.text(280, 154, "6,50,000", size=12, co
 f.text(290, 188, "Dr 6,50,000 = Cr 45,000 + 1,13,000 + 4,92,000", size=10.5, color=SLATE, italic=True)
 ```
 
-### 2.8.1 Eight controls for correct journal and ledger work
+### 2.9.1 Eight controls for correct journal and ledger work
 
 1. **Start from a source document.** Every entry must be backed by an invoice, cheque, receipt or voucher. A payment with no bill cannot be defended to an auditor or to the tax office. Filing the document number in the narration makes later checking quick.
 2. **Write the entry in date order.** The journal is the book of original entry, so the order of events is kept. Back-dating or skipping lines makes errors hard to find. A Nepali business should record both the BS and AD dates when its software allows.
@@ -213,7 +229,7 @@ f.text(150, 210, "net = 13% of value added 3,00,000", size=10.5, color=TEAL, bol
 f.text(150, 228, "Rs 1,000 item sells at Rs 1,130", size=10.5, color=NAVY)
 ```
 
-## 2.9 Summary and exercises
+## 2.10 Summary and exercises
 
 Journalising converts documents into balanced debit and credit lines; VAT is a pass-through liability and input asset, TDS is a liability to the tax office, and the ledger accumulates each account's movements until it can be balanced.
 

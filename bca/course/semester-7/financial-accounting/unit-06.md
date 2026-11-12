@@ -123,7 +123,32 @@ A company's accounts differ in capital structure and distribution. Under the Com
 
 Under NFRS the statements are renamed: *Statement of Financial Position*, *Statement of Profit or Loss and Other Comprehensive Income*, *Statement of Changes in Equity* and *Statement of Cash Flows*, with notes on policies. The numbers computed here fit those headings directly.
 
-## 6.8 Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments
+## 6.8 Manufacturing account
+
+A business that **makes** what it sells prepares a **manufacturing account** before the trading account. It finds the **cost of goods manufactured** (cost of production), which then takes the place of purchases in the trading account.
+
+| Line | Contents |
+|---|---|
+| Direct materials consumed | Opening raw materials + purchases (+ carriage in) - closing raw materials |
+| Direct labour (wages) | Wages of workers who make the product |
+| Direct expenses | Royalty on production, hire of a special machine |
+| **Prime cost** | Materials + labour + direct expenses |
+| Factory overheads | Factory rent, power, depreciation of machinery, indirect wages, supervision |
+| Work in progress | Add opening, deduct closing (partly finished goods) |
+| **Cost of goods manufactured** | Prime cost + factory overheads + opening WIP - closing WIP |
+
+Example (Rs): opening raw material 40,000, purchases 3,60,000, closing raw material 50,000, direct wages 1,20,000, factory overheads 80,000, opening WIP 20,000, closing WIP 30,000. Materials consumed = 40,000 + 3,60,000 - 50,000 = 3,50,000. Prime cost = 3,50,000 + 1,20,000 = 4,70,000. Cost of goods manufactured = 4,70,000 + 80,000 + 20,000 - 30,000 = **5,40,000**. In the trading account this figure is added to the opening inventory of finished goods and the closing finished-goods inventory is deducted to give cost of goods sold.
+
+```python
+mat = 40000 + 360000 - 50000
+prime = mat + 120000
+com = prime + 80000 + 20000 - 30000
+print("materials consumed", mat, "| prime cost", prime, "| cost of goods manufactured", com)
+```
+```output
+materials consumed 350000 | prime cost 470000 | cost of goods manufactured 540000
+```
+## 6.9 Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments
 
 The three figures below redraw the worked example of 6.5 so that every rupee can be followed from sales to the balance sheet.
 
@@ -176,7 +201,7 @@ for i, (a, b, c) in enumerate(R):
     f.arrow([(158, y + 16), (168, y + 16)], color=SLATE); f.arrow([(358, y + 16), (366, y + 16)], color=SLATE)
 ```
 
-### 6.8.1 Eight checks before finalising the accounts
+### 6.9.1 Eight checks before finalising the accounts
 
 1. **Agree the trial balance first.** The totals must match before any adjustment starts. If they do not, find the error or place a labelled suspense balance. Final accounts built on a wrong trial balance are wrong from the start.
 2. **Count the closing stock.** A physical count at the year end, valued at the lower of cost and net realisable value, gives the closing figure. In the example 70,000 of stock cut the cost of goods sold. A missed shelf changes profit.
@@ -235,7 +260,7 @@ f.text(150, 214, "every row: A = L + P  (checked in code)", size=10.5, color=TEA
 f.text(150, 230, "profit 1,04,000 -> 86,000", size=10.5, color=RED, bold=True)
 ```
 
-## 6.9 Summary and exercises
+## 6.10 Summary and exercises
 
 The Trading Account measures gross profit, the Profit and Loss Account measures net profit after operating items and the Balance Sheet reports position; every year-end adjustment has a double effect, and a balancing balance sheet confirms that none was forgotten.
 

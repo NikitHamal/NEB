@@ -130,7 +130,19 @@ The choice therefore changes reported profit by Rs 655.56 on the same physical t
 
 In the **periodic** system, purchases are debited to a Purchases account and inventory is determined by a physical count at period end. The **perpetual** system updates inventory after every purchase and sale, so the Inventory account is always current and COGS is recorded at each sale. The figures above are for a periodic weighted average, because a *perpetual* average would recompute the average after each receipt and give a slightly different COGS when sales and purchases interleave.
 
-## 5.7 Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers
+## 5.7 Stock taking
+
+**Stock taking** (physical verification) is counting and valuing the inventory actually held. In the **periodic** system it is the only way to find closing inventory; in the **perpetual** system it is still done, to find losses, theft, breakage and recording errors.
+
+| Method | How | Used for |
+|---|---|---|
+| Annual (periodic) count | Whole business counted on a fixed day, usually the year end | Small shops |
+| Continuous (cycle) count | A few item groups counted each week so all are counted in the year | Large stores, warehouses |
+| Surprise check | Unannounced count of a sample | Control against theft |
+
+**Good practice.** Stop receipts and issues during the count, or record them separately; count in pairs (one counts, one records); use numbered **count sheets**; identify damaged or obsolete goods; compare the physical count with the stock-ledger balance and **investigate differences** before adjusting. If the count is made **after** the year end, adjust: inventory at the year end = value counted - goods purchased since the year end + cost of goods sold since. Example: stock counted a few days after the year end is worth Rs 2,10,000 at cost; since the year end, goods bought were Rs 40,000 and sales at cost were Rs 25,000: inventory at year end = 2,10,000 - 40,000 + 25,000 = Rs 1,95,000.
+
+## 5.8 Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers
 
 ```photogrid label="5.1" cols="2" ratio="1.0" caption="(a) Racked cartons in a warehouse: each box is inventory, an asset until it is sold, and its valuation moves profit rupee for rupee. (b) The FIFO layers of the unit's example: of 450 units bought, the 280 sold are taken from the oldest lots first, leaving 20 units at Rs 55 and 150 units at Rs 60 as closing stock."
 @ photo id="bca403/warehouse" cap="Warehouse racks"
@@ -177,7 +189,7 @@ f.text(290, 118, "Dr Disposal 6,00,000 Cr Van | Dr Acc. Dep. 3,24,000 Cr Disposa
 f.text(290, 138, "balance on Disposal: Cr 24,000 -> transfer to Profit and Loss", size=10.5, color=TEAL, bold=True)
 ```
 
-### 5.7.1 Eight reasons why depreciation and inventory valuation matter
+### 5.8.1 Eight reasons why depreciation and inventory valuation matter
 
 1. **Profit becomes fair.** A van that serves five years should cost the business a share each year, not all in year 1. Spreading the cost matches expense with the revenue it helps earn. Without depreciation, early profit is too low and later profit too high.
 2. **Assets are not overstated.** Balance-sheet values fall as assets wear out, so the statement is honest. A ten-year-old computer shown at full cost misleads a bank. Book value is cost less accumulated depreciation.
@@ -216,7 +228,7 @@ f.text(150, 208, "sale at 600: SLM gain 0, WDV gain 93.75", size=10.5, color=RED
 f.text(150, 226, "total expense over life is the same", size=10.5, color=NAVY)
 ```
 
-## 5.8 Summary and exercises
+## 5.9 Summary and exercises
 
 Depreciation allocates cost over useful life by SLM or WDV; disposal compares proceeds with book value; inventory is measured at the lower of cost and NRV using FIFO or weighted average, and the method moves profit.
 
