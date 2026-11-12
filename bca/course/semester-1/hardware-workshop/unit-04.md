@@ -13,6 +13,8 @@ This unit is the lab manual for building a desktop computer from parts. Follow i
 - Cable management and airflow.
 - The meaning of beep codes and POST, and what to do if the PC does not start.
 - A lab checklist and a sign-off table.
+- BIOS/UEFI setup, operating-system installation, drivers, printer installation and useful commands for Windows and Linux.
+- POST codes, beep codes and diagnostic tools (multimeter, PSU tester, POST card) for simulated hardware faults.
 :::
 
 ## 4.1 Before you start
@@ -261,7 +263,53 @@ Useful commands after installation: `lsblk` (disks), `df -h` (space used), `free
 - **Recovery:** *Safe Mode* (minimal drivers), *System Restore*, *Startup Repair*, *Reset this PC*, boot-loader repair (`bootrec /fixmbr`, `/fixboot`, `/rebuildbcd` from the recovery command prompt; for GRUB, `boot-repair` or `grub-install`), and **password reset** only for your own device and with authority.
 - **Data recovery:** if a file is deleted by mistake, **stop using the disk**, because new writes overwrite the deleted data, and recover with tools such as Recuva or `testdisk`/`photorec` from another disk or live USB.
 
-## 4.11 Eight tips for a safe operating-system installation
+## 4.11 POST, beep codes and diagnostic tools
+
+**POST** (power-on self-test) is the first stage of the firmware: it tests the CPU, RAM and video, then looks for a boot device. The result is reported as screen text, **beep codes**, a two-digit **POST code** on the board's debug display, or LEDs marked CPU, DRAM, VGA and BOOT.
+
+| Signal (classic Award / AMI BIOS) | Usual meaning | First action |
+|---|---|---|
+| One short beep | Award: POST passed | none, boot continues |
+| One long, two short | Award: video card or display fault | reseat the GPU, check the monitor cable |
+| Continuous or repeating long beeps | Memory not detected or faulty | reseat RAM, try one stick in slot A2 |
+| Repeating short beeps | Power supply or board power problem | test the PSU rails |
+| AMI: 3 short | Memory fault | reseat or replace RAM |
+| AMI: 5 short | CPU fault | reseat CPU, check cooler and EPS power |
+| AMI: 8 short | Display memory fault | reseat or replace the GPU |
+
+Codes differ between BIOS makers and boards, so **always confirm with the motherboard manual**; modern UEFI boards usually use LEDs or a code display instead of a speaker.
+
+**Diagnostic tools.** A **POST card** (a PCI/PCIe or USB card that shows the POST code) is used when the screen is blank; a multimeter checks PSU rails and continuity; a PSU tester checks all connectors; a **BIOS reset jumper** or removing the CMOS battery for 30 seconds restores defaults after a bad setting; the **minimum configuration test** (CPU, one RAM stick, PSU, speaker) isolates the faulty part (Figure 4.2).
+
+**Simulating hardware faults.** In the lab the instructor loosens a RAM stick (continuous beeps), unplugs the GPU power or the EPS connector (no display, no boot), removes the boot drive (no operating system found) or sets a wrong boot order. You identify the symptom, apply the elimination method and record it in a log.
+
+## 4.12 Drivers, updates, printer installation and basic maintenance after installing the OS
+
+After Windows or Linux is installed: (1) update the BIOS/UEFI only if the board needs it (Unit 8); (2) install chipset, graphics, audio and LAN **drivers** from the vendor site and check Device Manager for yellow warnings; (3) run Windows Update or `sudo apt update && sudo apt upgrade`; (4) install an antivirus scan (Microsoft Defender is built in) and run a full scan; (5) run **Disk Cleanup** or Storage Sense to remove temporary files; (6) create a restore point or a system image.
+
+**Installing a printer.** *Real printer:* connect the USB or network cable and power on; open Settings, Printers and scanners, Add device (Windows) or Printers in Settings (Ubuntu with CUPS); install the vendor driver if the generic one is not enough; print a **test page**. *Virtual printer:* a software printer such as **Microsoft Print to PDF** is already present on Windows; for Linux install `cups-pdf`. Printing to it produces a PDF file, so you can practise installation and queue handling with no hardware.
+
+## 4.13 Smart and useful operating-system commands
+
+| Task | Windows (Command Prompt or PowerShell) | Linux (Ubuntu bash) |
+|---|---|---|
+| Show current folder / list files | `cd`, `dir` | `pwd`, `ls -l` |
+| System information | `systeminfo`, `msinfo32` | `lscpu`, `free -h`, `uname -a` |
+| Disks and free space | `diskpart` then `list disk`, `wmic logicaldisk` (old) | `lsblk`, `df -h` |
+| Check and repair files / disk | `sfc /scannow`, `chkdsk C: /f` | `sudo fsck /dev/sda1` (unmounted) |
+| Running processes, stop one | `tasklist`, `taskkill /PID 1234 /F` | `top`, `ps aux`, `kill 1234` |
+| Hardware lists | `driverquery`, Device Manager | `lspci`, `lsusb`, `dmesg` |
+| Network | `ipconfig /all`, `ping`, `tracert` | `ip addr`, `ping`, `traceroute` |
+| Shut down or restart | `shutdown /s /t 0`, `shutdown /r` | `sudo shutdown now`, `sudo reboot` |
+| Install software | `winget install <name>` | `sudo apt install <name>` |
+
+**Cross-platform commands** work the same on every system: `ping host`, `nslookup name` (DNS), `hostname`, and `git`, `python --version`, `curl` when installed. Run an elevated Command Prompt (Run as administrator) or `sudo` for commands that change the system, and never run a command you do not understand.
+
+::: example Worked example: a "slow PC" check with commands
+(1) `tasklist` or `top` shows one process using 98 % CPU; (2) `sfc /scannow` repairs a corrupted system file; (3) `chkdsk C: /f` finds bad sectors on an old HDD; (4) `lsblk` or Disk Management shows the drive is 96 % full. Solution: end or uninstall the runaway program, repair, free space, or replace the HDD with an SSD (Unit 8).
+:::
+
+## 4.14 Eight tips for a safe operating-system installation
 
 1. **Back up first.** Copy documents, photos and browser bookmarks to an external drive or cloud before touching the disk. Formatting a partition cannot be undone. A written list of installed programmes and licence keys also saves time later.
 2. **Check the requirements.** Windows 11 needs 4 GB RAM, 64 GB storage, UEFI with Secure Boot and TPM 2.0; Ubuntu runs well on 4 GB RAM and 25 GB. Machines that fail the check can use Windows 10 or a light Linux. Reading the requirements takes two minutes and avoids a failed install.
@@ -444,3 +492,19 @@ A **partition table** records where each partition starts and how long it is. **
 | "No boot device" | UEFI/Legacy mismatch | match mode and partition style |
 
 *Conclusion.* Understanding firmware, partition tables and boot loaders turns installation from a menu-clicking exercise into a controlled procedure. The key habits are to back up first, install Windows before Linux, and keep the firmware mode consistent with the disk style.
+
+**Q (5 marks). What is POST? Explain the common beep codes.**
+
+POST is the power-on self-test run by the BIOS/UEFI to check the CPU, RAM, video and drives before loading the operating system. Faults are reported as beeps, screen text or a two-digit code. For Award BIOS one short beep means success, one long and two short beeps mean a video fault, and continuous beeps mean a memory fault; AMI uses counts of short beeps (three for memory, five for CPU, eight for display memory). The manual of the board is the final authority, and a POST card shows the code when the screen is blank.
+
+**Q (10 marks). Describe the steps after assembling a PC: BIOS configuration, operating-system installation, driver updates and useful commands.**
+
+*Introduction.* A built PC is only useful after firmware, operating system and drivers are configured.
+
+*BIOS/UEFI.* Enter with Del or F2, check that CPU, RAM and drives are detected, set the boot order, enable XMP/EXPO if desired, set an administrator password and save.
+
+*Operating-system installation.* Create bootable USB media, boot from it, partition the disk (GPT for UEFI), install, create an account.
+
+*Drivers and updates.* Install chipset, graphics, audio and LAN drivers, run Windows Update or `apt upgrade`, and run an antivirus scan and disk cleanup.
+
+*Commands.* `systeminfo`, `ipconfig`, `sfc /scannow`, `chkdsk` on Windows; `lscpu`, `lsblk`, `df -h`, `ip addr` on Linux; `ping` on both. Finish with a printer test page and a sign-off table.
