@@ -133,6 +133,9 @@
     "Arithmetic circuits",
     "Encoders, decoders, multiplexers",
     "Basic ideas of programmable logic",
+    "Implementing logic functions with multiplexers and decoders",
+    "Building a 16-to-1 multiplexer and a 1-to-16 demultiplexer",
+    "Logic gates built from passive and active elements",
     "Where combinational circuits are used: eight applications"
    ],
    "sections": [
@@ -162,6 +165,18 @@
     },
     {
      "no": "3.7",
+     "title": "Implementing logic functions with multiplexers and decoders"
+    },
+    {
+     "no": "3.8",
+     "title": "Building a 16-to-1 multiplexer and a 1-to-16 demultiplexer"
+    },
+    {
+     "no": "3.9",
+     "title": "Logic gates built from passive and active elements"
+    },
+    {
+     "no": "3.10",
      "title": "Where combinational circuits are used: eight applications"
     }
    ],
@@ -173,9 +188,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3789,
+    "words": 6750,
     "figures": 0,
-    "examples": 2
+    "examples": 3
    },
    "has_notes": true
   },
@@ -233,7 +248,8 @@
     "State reduction by partitioning",
     "Worked design: a \"101\" sequence detector (Mealy, overlapping)",
     "Counter design as a special case",
-    "Eight applications of finite state machines"
+    "Eight applications of finite state machines",
+    "Laboratory works in the TU practical syllabus"
    ],
    "sections": [
     {
@@ -259,6 +275,10 @@
     {
      "no": "5.6",
      "title": "Eight applications of finite state machines"
+    },
+    {
+     "no": "5.7",
+     "title": "Laboratory works in the TU practical syllabus"
     }
    ],
    "summary": [
@@ -269,7 +289,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3327,
+    "words": 4140,
     "figures": 0,
     "examples": 1
    },
@@ -277,6 +297,6 @@
   }
  ],
  "unit_count": 5,
- "topic_count": 28,
+ "topic_count": 32,
  "notes_ready": 5
 }

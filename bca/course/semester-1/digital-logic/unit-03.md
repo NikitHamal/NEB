@@ -378,6 +378,11 @@ The first laboratory work is *gates using active and passive elements*. **Passiv
 | **AND (diode)** | Two diodes with cathodes at the inputs, anodes joined to the output; a resistor from the output to +5 V | If any input is 0 V, its diode conducts and pulls the output down to the input level plus 0.7 V; only when both inputs are at 5 V do both diodes stay off and the resistor lifts the output to 5 V | Low about 0.7 V, high about 5 V |
 | **OR (diode)** | Two diodes with anodes at the inputs, cathodes joined to the output; a resistor from the output to ground | The higher input conducts and drives the output to the input level minus 0.7 V; with both inputs at 0 V the resistor holds the output at 0 V | Low 0 V, high about 4.3 V |
 | **NOT (transistor)** | An NPN transistor with an emitter at ground, a base resistor (10 kilo-ohm) and a collector resistor (1 kilo-ohm) to +5 V | A high input drives the base current, the transistor saturates and the output drops to about 0.2 V; a low input leaves the transistor cut off and the resistor pulls the output to 5 V | Low about 0.2 V, high about 5 V |
+
+Combining the two kinds of elements gives the next two gates.
+
+| Gate | Parts | How it works | Output levels |
+|---|---|---|---|
 | **NAND (DTL)** | Diode AND followed by the transistor inverter | AND at the input followed by inversion restores the level | Low about 0.2 V, high about 5 V |
 | **NOR (RTL)** | Two transistors in parallel with a common collector resistor; one base resistor per input | Either input high saturates its transistor and pulls the output low | Low about 0.2 V, high about 5 V |
 

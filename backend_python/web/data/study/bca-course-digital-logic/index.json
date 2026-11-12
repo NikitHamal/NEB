@@ -23,9 +23,9 @@
    "no": 3,
    "title": "Combinational Logic Design: Gates, Boolean Algebra, K-Maps and Standard Circuits",
    "area": "BCA 103 · Digital Logic · Unit 3",
-   "words": 3691,
-   "read_min": 21,
-   "figures": 4,
+   "words": 6494,
+   "read_min": 36,
+   "figures": 6,
    "has_questions": true
   },
   {
@@ -41,8 +41,8 @@
    "no": 5,
    "title": "Sequential Logic Design: State Machines",
    "area": "BCA 103 · Digital Logic · Unit 5",
-   "words": 3295,
-   "read_min": 18,
+   "words": 4049,
+   "read_min": 22,
    "figures": 4,
    "has_questions": true
   }
