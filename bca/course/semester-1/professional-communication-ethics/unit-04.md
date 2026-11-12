@@ -239,7 +239,7 @@ for i, (n, c) in enumerate(zip(ns, ch)):
     f.text(x + 35, base - h - 9, str(c), size=12, color=NAVY, bold=True)
     f.text(x + 35, base + 16, "n = " + str(n), size=11, color=SLATE)
 f.line(30, base, 540, base, color=SLATE, sw=1.4)
-f.text(280, 255, "Tuckman: forming - storming - norming - performing - adjourning", size=10.5, color=TEAL, bold=True)
+f.text(280, 252, "n = number of people; each pair is one channel", size=10.5, color=TEAL, bold=True)
 ```
 
 ## 4.5 Leadership and communication

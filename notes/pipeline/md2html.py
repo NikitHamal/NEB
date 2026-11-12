@@ -387,7 +387,7 @@ _MD = _md.Markdown(extensions=["tables", "attr_list", "fenced_code", "md_in_html
 # "(a) ... (b) ... (c) ... (d) ...". Set on a justified page that reads as a
 # wall of text, so split the run into real option/part blocks here rather than
 # asking 144 chapters to change their markup.
-_LABEL = re.compile(r"\(([a-e])\)")
+_LABEL = re.compile(r"\(([a-h])\)")
 _TAGS = re.compile(r"<[^>]+>")
 
 

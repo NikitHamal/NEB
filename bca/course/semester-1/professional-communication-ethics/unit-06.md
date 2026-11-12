@@ -162,7 +162,7 @@ f.text(380, 24, "Test every option: publicity, mirror, universal, reversibility"
 
 ::: example Worked example: a client asks you to hide a flaw
 A client's online shop stores customer card numbers in plain text. The client says, "Do not tell customers. It will damage our brand; just add a better firewall."
-**Facts:** the data is unencrypted; no breach has yet been proved. **Stakeholders:** customers (financial loss), client (reputation and legal liability), you (honesty and licence), other users of the payment system. **Options:** (a) obey and stay silent; (b) fix the storage (encryption, tokenisation) and advise the client to notify if a breach is suspected; (c) refuse the work; (d) report to a regulator. **Evaluation:** (a) fails honesty, harm avoidance and probably the law; (b) respects confidentiality, avoids harm and helps the client; (c) protects you but leaves customers at risk; (d) is for the case of continuing serious harm after internal steps. **Decision:** (b), documented in writing, with (d) as a later option.
+**Facts:** the data is unencrypted; no breach has yet been proved. **Stakeholders:** customers (financial loss), client (reputation and legal liability), you (honesty and licence), other users of the payment system. **Options:** obey and stay silent; fix the storage (encryption, tokenisation) and advise the client to notify if a breach is suspected; refuse the work; report to a regulator. **Evaluation:** silence fails honesty, harm avoidance and probably the law; fixing and advising respects confidentiality, avoids harm and helps the client; refusing protects you but leaves customers at risk; reporting is for the case of continuing serious harm after internal steps. **Decision:** fix and advise, documented in writing, with the regulator as a later option.
 :::
 
 ### IT professional malpractice
@@ -353,6 +353,9 @@ Sunita is leaving her job to join a rival company. On her last day she is tempte
 | **dilemma** | n. | a choice between two bad or conflicting options | The tester faced a dilemma. |
 | **conflict of interest** | n. phr. | personal interest that may affect professional judgement | He declared a conflict of interest. |
 | **bias** | n. | unfair preference; prejudice | The algorithm showed bias against women. |
+
+| Word | Part of speech | Meaning | Example |
+|---|---|---|---|
 | **negligence** | n. | failure to take proper care | The firm was sued for negligence. |
 | **malpractice** | n. | improper or illegal professional conduct | The engineer was found guilty of malpractice. |
 | **whistle-blower** | n. | person who reports wrongdoing | The whistle-blower was protected by law. |
@@ -363,6 +366,9 @@ Sunita is leaving her job to join a rival company. On her last day she is tempte
 | **liability** | n. | legal responsibility | The vendor accepted liability for the loss. |
 | **stakeholder** | n. | anyone affected by a decision | Users are key stakeholders. |
 | **deceive / deception / deceptive** | v./n./adj. | to make someone believe something false | A deceptive interface tricks users. |
+
+| Word | Part of speech | Meaning | Example |
+|---|---|---|---|
 | **fairness / discrimination** | n. | equal and just treatment / unfair treatment | Hiring must be free from discrimination. |
 | **obligation / duty** | n. | something one is bound to do | A duty of care. |
 | **breach** | n./v. | breaking a rule, law or promise | A data breach exposed millions of records. |
