@@ -32,38 +32,46 @@ When you are handed an unlabelled box, work through four clues: **ports** (one W
 
 A **topology** is the arrangement of the devices and links. The **physical topology** is the wiring seen on the bench; the **logical topology** is how data flows.
 
-```svgfig label="5.1" caption="Five topologies with five or six nodes. Bus: one shared backbone with a terminator at each end. Star: every node has its own cable to a central switch. Ring: each node joins two neighbours. Full mesh: every pair is linked. Tree: stars joined in a hierarchy."
-f = Fig(760, 250)
+```svgfig label="5.1" caption="Five topologies with five or six nodes. Bus: one shared backbone cable with a drop to each node. Star: every node has its own cable to a central switch. Ring: each node joins two neighbours. Full mesh: every pair is linked. Tree: stars joined in a hierarchy."
+f = Fig(760, 270)
+import math
 def node(x, y, t="PC"):
     f.box(x - 22, y - 13, 44, 26, t, fill=BLUE, stroke=NAVY, size=10)
+def link(a, b, d=24, col=TEAL):
+    (x1, y1), (x2, y2) = a, b
+    L = math.hypot(x2 - x1, y2 - y1); ux, uy = (x2 - x1) / L, (y2 - y1) / L
+    f.arrow([(x1 + ux * d, y1 + uy * d), (x2 - ux * d, y2 - uy * d)], color=col)
 # bus
-f.arrow([(14, 70), (136, 70)], color=NAVY)
-for x in (34, 74, 114):
-    node(x, 30); f.arrow([(x, 43), (x, 70)], color=TEAL)
-node(54, 112); f.arrow([(54, 99), (54, 70)], color=TEAL)
-f.text(75, 150, "Bus", size=12, color=NAVY, bold=True)
+f.arrow([(10, 90), (160, 90)], color=NAVY)
+for x in (36, 90, 144):
+    node(x, 40); f.arrow([(x, 53), (x, 90)], color=TEAL)
+node(90, 140); f.arrow([(90, 127), (90, 90)], color=TEAL)
+f.text(85, 176, "Bus", size=12, color=NAVY, bold=True)
 # star
-f.box(228, 48, 50, 30, "Switch", fill=SOFT, stroke=NAVY, size=10, bold=True)
-for (x, y) in ((190, 20), (316, 20), (190, 108), (316, 108)):
-    node(x, y); f.arrow([(253, 63), (x, y)], color=TEAL)
-f.text(253, 150, "Star", size=12, color=NAVY, bold=True)
+c = (290, 90)
+f.box(c[0] - 32, c[1] - 14, 64, 28, "Switch", fill=SOFT, stroke=NAVY, size=10, bold=True)
+for p in ((230, 30), (350, 30), (230, 150), (350, 150)):
+    node(p[0], p[1]); link(c, p, 28)
+f.text(290, 190, "Star", size=12, color=NAVY, bold=True)
 # ring
-pts = [(430, 24), (500, 24), (520, 70), (500, 116), (430, 116), (410, 70)]
-for i, (x, y) in enumerate(pts):
-    node(x, y, "N" + str(i + 1)); nx, ny = pts[(i + 1) % 6]; f.arrow([(x, y), (nx, ny)], color=TEAL)
-f.text(465, 150, "Ring", size=12, color=NAVY, bold=True)
-# mesh (4 nodes)
-m = [(600, 24), (700, 24), (700, 116), (600, 116)]
-for i in range(4):
-    for j in range(i + 1, 4):
-        f.arrow([m[i], m[j]], color=TEAL)
-for (x, y) in m: node(x, y)
-f.text(650, 150, "Full mesh (4 nodes)", size=12, color=NAVY, bold=True)
+pts = [(470, 30), (550, 30), (590, 90), (550, 150), (470, 150), (430, 90)]
+for i, p in enumerate(pts):
+    node(p[0], p[1], "N" + str(i + 1))
+for i, p in enumerate(pts):
+    link(p, pts[(i + 1) % 6], 26)
+f.text(510, 190, "Ring", size=12, color=NAVY, bold=True)
+# mesh
+m = [(645, 30), (715, 30), (715, 150), (645, 150)]
+for a in range(4):
+    for b in range(a + 1, 4):
+        link(m[a], m[b], 26)
+for p in m: node(p[0], p[1])
+f.text(680, 190, "Full mesh", size=12, color=NAVY, bold=True)
 # tree
-f.box(310, 176, 120, 26, "Core switch", fill=SOFT, stroke=NAVY, size=10, bold=True)
-for x in (180, 370, 560):
-    f.box(x - 50, 220, 100, 24, "Switch", fill=SOFT, stroke=NAVY, size=10); f.arrow([(370, 202), (x, 220)], color=TEAL)
-f.text(100, 232, "Tree", size=12, color=NAVY, bold=True)
+f.box(300, 208, 120, 26, "Core switch", fill=SOFT, stroke=NAVY, size=10, bold=True)
+for x in (180, 360, 540):
+    f.box(x - 50, 250, 100, 20, "Switch", fill=SOFT, stroke=NAVY, size=10); f.arrow([(360, 234), (x, 250)], color=TEAL)
+f.text(60, 244, "Tree", size=12, color=NAVY, bold=True)
 ```
 
 | Topology | Links for n nodes | Advantage | Disadvantage |

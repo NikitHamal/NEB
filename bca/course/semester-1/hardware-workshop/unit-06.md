@@ -73,11 +73,11 @@ for i, (a, b, c, d) in enumerate(nets):
 :::
 
 ::: example Worked example 2: which subnet is 192.168.1.77/28 in?
-/28 leaves 4 host bits, 16 addresses, block size 16, mask 255.255.255.240. Subnet boundaries: .0, .16, .32, .48, .64, .80. The address .77 lies in the block starting at **192.168.1.64**; the broadcast is **192.168.1.79**; usable hosts **.65 to .78** (14 hosts).
+/28 leaves 4 host bits, 16 addresses, block size 16, mask 255.255.255.240. Subnet boundaries in the last octet: 0, 16, 32, 48, 64, 80. The address .77 lies in the block starting at **192.168.1.64**; the broadcast is **192.168.1.79**; usable hosts **.65 to .78** (14 hosts).
 :::
 
 ::: example Worked example 3: eight subnets from a Class B network
-Divide 172.16.0.0/16 into 8 subnets: 2³ = 8, so borrow 3 bits, new prefix **/19**, mask **255.255.224.0**. Each subnet has 2¹³ − 2 = **8,190 hosts**. Networks: 172.16.0.0, 172.16.32.0, 172.16.64.0, ... , 172.16.224.0.
+Divide 172.16.0.0/16 into 8 subnets: 2³ = 8, so borrow 3 bits, new prefix **/19**, mask **255.255.224.0**. Each subnet has 2¹³ − 2 = **8,190 hosts**. Networks: 172.16.0.0, 172.16.32.0, 172.16.64.0, and so on up to 172.16.224.0.
 :::
 
 **Supernetting** (combining) is the opposite: two /24 networks 192.168.50.0 and 192.168.51.0 aggregate into 192.168.50.0/23 with mask 255.255.254.0 and 510 usable hosts.
