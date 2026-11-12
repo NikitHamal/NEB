@@ -412,3 +412,133 @@ In formal English use *were* for all persons in the second conditional (*If I we
 **5.** "If I had time, I would help you." (do not use *would* in the if-clause)
 :::
 
+## 4.8 Readings
+
+*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, the argument or structure, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
+
+### 4.8.1 "Computer and the Pursuit of Happiness" by David Gelernter
+
+#### The writer and the text
+
+**David Gelernter** (born 1955) is an American professor of computer science at Yale University, a pioneer of parallel computing (the *Linda* coordination language) and a writer on technology and culture. His essay "Computers and the Pursuit of Happiness" first appeared in *Commentary* magazine (January 2001), at the height of the dot-com boom, when politicians and journalists were announcing that the Internet had begun a "new information age". It is an **argumentative essay** and a good example of a **sceptic's case written by an insider**: a computer scientist asks whether computers have really made people happier.
+
+#### Summary
+
+Gelernter organises the essay around **three questions**:
+
+1. **Are we living in a new "Information Age"?** He says **no**. People who say yes make three claims: we have new machines that create, store and deliver information; networks have defeated geography; and these machines are intelligent. He answers each in turn.
+   - *Information machines are not new.* The twentieth century was already one information-gusher after another: movies, the phonograph, colour photography, radio and radio networks, newsreels, television, transistor electronics, long-distance telephone, satellites. Computers are the latest, not the first. He compares this to **faucets stuck open**, with information pouring into lives.
+   - *Distance was conquered earlier.* Railways, the telegraph, the telephone, highways, aeroplanes and broadcasting had already shrunk geography; the Internet continues a long line.
+   - *Intelligent machines are not new either:* thermostats, electrical systems in cars and similar devices already acted "intelligently".
+   He argues that our basic needs have **not** moved from physical to informational: we still need food, clothing, shelter, **and one another**. "Virtual" gourmet food does not keep you from starving; we still depend on coal, steel and concrete. He concedes that computers have **revolutionised science and engineering**, where models are cheaper than experiments, but this is a narrower change.
+2. **Have computers been good for people over the last fifty years?** Poor and ignorant people need wealth and information, so computers help while people are climbing out of poverty and ignorance. But once the basic threshold is passed, more wealth and information add **little to happiness**. He shows that modern life is more convenient, yet he doubts that it is happier: children enjoyed toys before computers, and he and his wife were happy in childhoods without them. He adds the **plumbing analogy**: indoor plumbing was a clear convenience, but it ended the daily gathering at the village well. Each technology gives something and takes away a **human ingredient**, replaced by a **machine ingredient** (a shop where you meet people replaced by a website). He worries that new social structures built on machines may be worse than the old ones built on people.
+3. **Will computers help people in the next fifty years?** He is cautious, even hopeful. He expects the greatest change in **education**: online software could be a "world-spanning switchboard" matching the right student with the right teacher. But he prefers **face-to-face teaching** and says that schools must also form character, not only transfer information. Looking to 2050, he hopes computers will make people see more clearly what is **unique in humans**: that humans are not machines and that qualities such as morality, humour and holiness cannot be computed. In the end, a computer may help us to understand ourselves better.
+
+His central conclusion: **computers and the Internet are important, but not revolutionary in the way their promoters claim; they will have little to do with human happiness unless we use them to strengthen real human bonds.** The three ages he names: the **solid** age of agriculture, the **liquid** age of industry and the **gaseous** age of information, a metaphor showing that information flows everywhere but has no body.
+
+*Check your textbook copy.* Some editions print a short letter to the editor responding to Gelernter after the essay; if yours does, read it as a counter-argument and use it in "discuss" answers.
+
+#### Themes
+
+- **Technology versus happiness.** Convenience, wealth and information do not automatically give happiness.
+- **Continuity, not revolution.** New machines continue old patterns; hype exaggerates novelty.
+- **Human ingredient.** Social life, shopping, teaching and play have value because people are present.
+- **Education.** Technology can widen access; character, trust and moral development need people.
+- **Responsibility of the technologist.** The writer is a computer scientist warning his own field to be humble.
+
+#### Critical analysis and rhetorical notes
+
+- **Structure.** Three numbered questions; each is answered directly (no, not much, maybe). This is a model of clear argumentative organisation.
+- **Ethos.** A Yale computer scientist speaking against exaggeration gains credibility: "he knows the machine and still doubts it".
+- **Logos.** Historical comparison (twentieth-century information media; railways before the Internet), the distinction between needs and wants, and the cost-benefit logic of poverty thresholds.
+- **Pathos and personal examples.** His own childhood and his wife's, children's toys, the village well and the shop; they make the abstract claim human.
+- **Figurative language.** Stuck-open faucets; the solid, liquid and gaseous ages; plumbing replacing the well; "virtual" food that cannot feed.
+- **Tone.** Calm, ironic, confident; it deflates hype without anger.
+- **Critique.** Gelernter wrote in 2001, before smartphones, social networks, cloud services and generative AI. Critics could say that he underrates the way the Internet has changed access to education and health for poor and remote communities (for example, students in rural Nepal with online lectures), and that "happiness" is hard to measure. A balanced answer gives his argument first, then these limits.
+- **Link to professional communication.** Technology is a means; the goal of professional communication is human understanding. Use tools to support relationships, not to replace them.
+
+#### Key vocabulary
+
+*revolutionary, information age, sceptic, geography, surrogate, convenience, threshold, structure, tangible, gaseous, unique, moral.*
+
+### Exercise: "Computer and the Pursuit of Happiness"
+
+1. What three questions does Gelernter raise?
+2. Why does he say that we are not living in a new information age?
+3. What does he mean by saying that computers have not changed human needs?
+4. Explain the analogy of plumbing and the village well.
+5. What does he expect from computers in education? Why does he prefer face-to-face teaching?
+6. What is his conclusion about computers and happiness?
+7. Long answer: "Computers and the Internet have made humans no happier." Do you agree with Gelernter? Give reasons with examples from your own life.
+8. Write a paragraph on the rhetorical devices Gelernter uses.
+
+::: note Answers and worked solutions
+**1.** (i) Are we living in a new information age? (ii) Have computers been good for people in the last fifty years? (iii) Will computers be good for people in the next fifty years?
+**2.** Because information machines (radio, television, telephone, film) filled the whole twentieth century; distance had already been conquered by railways and telegraph; intelligent machines such as thermostats existed before computers. Computers are the latest in a long line.
+**3.** People still need food, clothing, shelter and one another. We eat bread, not data; virtual food does not stop hunger. Information is needed by the poor and ignorant, but once that need is satisfied it adds little to well-being.
+**4.** Plumbing brought clean water to the home (convenience) but ended the gathering at the village well (a social meeting). Likewise the Internet makes tasks easy but removes human contact: a machine ingredient replaces a human ingredient.
+**5.** He expects software that connects the right student to the right teacher across the world and cheap access to knowledge. He prefers face-to-face teaching because a teacher also builds character and trust, which a screen cannot.
+**6.** Computers and the Internet are useful, especially in science and engineering, but they are not revolutionary and do not make people happier; the real task is to use them to make us understand what is human.
+**7.** *Model plan.* Introduction: state the claim. For Gelernter: children and adults were happy before computers; happiness depends on relationships; time spent on screens reduces face-to-face contact; wealth and information stop adding happiness after basic needs. Against: online learning, telemedicine, remittance apps and video calls help Nepali families separated by migration; access to information lifts people from poverty and ignorance, where Gelernter himself says it helps. Own experience: concrete example. Conclusion: technology helps happiness when it serves relationships and basic needs, not when it replaces them.
+**8.** Gelernter uses direct questions as structure; historical comparison (twentieth-century media, railways); analogy (plumbing and the well); metaphor (stuck-open faucets; gaseous age); personal example (his children and wife); and a calm ironic tone. Together they make a complex argument clear and memorable.
+:::
+
+### 4.8.2 "The Collapse of the Family and the Community" by Yuval Noah Harari
+
+#### The writer and the text
+
+**Yuval Noah Harari** (born 1976) is an Israeli historian at the Hebrew University of Jerusalem. His books *Sapiens: A Brief History of Humankind* (Hebrew 2011, English 2014), *Homo Deus* and *21 Lessons for the 21st Century* made him a leading public thinker on history and technology. "The Collapse of the Family and the Community" is a section of the chapter **"A Permanent Revolution"** in *Sapiens*. It is an **expository and analytical essay** that asks a big question: what happened to the oldest human institutions when states and markets grew powerful?
+
+#### Summary
+
+1. **The old world.** Before the Industrial Revolution, people's lives passed in three ancient frames: the **nuclear family**, the **extended family** and the **local intimate community** (a group of people who know one another well and depend on each other for survival). Most people worked in the family farm or workshop, or in the neighbours'. If an illness was too grave, an investment too large, or a quarrel turned violent, the **community** helped, by local custom and an **economy of favours**, not by market supply and demand.
+2. **A cost, too.** Harari does not romanticise the past: families and communities could **oppress their members as brutally as modern states and markets**, and they were full of tension and violence. But people had **no choice**: someone who lost family and community around 1750 was **as good as dead**, with no job, education, support in sickness, loan, or protection. There were no policemen, social workers or compulsory schools.
+3. **The market and state move in.** At first the market and the state found their path blocked by families and communities that disliked outside intervention. Parents and elders resisted letting youngsters be indoctrinated by nationalist education, conscripted or turned into a rootless urban proletariat. Over time the state and the market used growing power to weaken traditional bonds: the **state sent policemen to stop family vendettas** and replaced them with court decisions; youngsters are increasingly excused from obeying elders, while **parents are blamed** for anything that goes wrong in a child's life. He compares parents in the "Freudian courtroom" to defendants in a Stalinist show trial.
+4. **Courting and money, then and now.** He gives a vivid picture: earlier, bride and groom met in the family living room and money passed from the hands of one father to another; today courting happens in bars and cafés and money passes to waitresses and, in larger amounts, to fashion designers, gym managers, dieticians, cosmeticians and plastic surgeons who help us look like the market's ideal.
+5. **Imagined communities.** People still need belonging, so states and markets provide **imagined communities**: communities of people who do not really know one another but imagine that they do. The two most important are **the nation** (the imagined community of the state) and **the consumer tribe** (the imagined community of the market). These are not new: in ancient China tens of millions saw themselves as one family with the emperor as father; medieval Muslims imagined themselves brothers and sisters in the community of Islam. But in the past imagined communities played "second fiddle" to intimate communities of several dozen people. **In the last two centuries the intimate communities have withered, leaving imagined communities to fill the emotional vacuum.**
+6. **Conclusion.** Social revolutions were once rare and slow; people believed that "this is how it always was and always will be". Now history has still not decided where we will end up, and "a string of coincidences might yet send us rolling in either direction".
+
+#### Themes
+
+- **Individual liberty versus belonging.** The individual is freed from oppressive elders but is left alone before the state and market.
+- **Replacement of institutions.** Services once provided by kin (care, credit, protection, education) are provided by the state and market.
+- **Imagined communities.** The idea draws on Benedict Anderson's concept; nation and brand can supply identity, but at a distance.
+- **Loss and gain.** The essay is balanced: it shows the cruelty of the old order and the loneliness of the new.
+- **Link to digital life.** Online groups, fan clubs and social networks are new "imagined communities", important for Unit 5.
+
+#### Critical analysis and rhetorical notes
+
+- **Style.** Short clear sentences, vivid images (living room versus café) and **memorable paradoxes** ("as good as dead").
+- **Comparison and contrast** between the old and the new is the basic structure; **cause and effect** explains how states and markets took over.
+- **Irony and hyperbole.** The "Freudian courtroom" and "Stalinist show trial" comparison is intentionally exaggerated to make a point about blaming parents.
+- **Definition.** The footnote defining "intimate community" and the definition of "imagined community" make a complex idea easy to follow.
+- **Balance and caution.** The closing passage does not predict the future; it says the outcome is open.
+- **Possible critique.** The essay generalises across continents and centuries; in Nepal, joint families, caste and village communities remain strong in many places, while migration for work abroad is weakening them quickly. Its picture is clearer as a model than as an exact history.
+- **Link to professional communication.** Workplaces are now "communities" for many people; teams, culture and trust matter because families are smaller and people move.
+
+#### Key vocabulary
+
+*collapse, intimate community, extended family, economy of favours, vendetta, indoctrinate, conscript, proletariat, imagined community, consumer tribe, alienated, vacuum.*
+
+### Exercise: "The Collapse of the Family and the Community"
+
+1. What three frames did human life revolve around before the Industrial Revolution?
+2. According to Harari, why did people "have little choice" about staying in family and community?
+3. How did the state weaken the family and the community?
+4. What is an imagined community? Give the two examples named in the text.
+5. What does Harari mean by "the emotional vacuum"?
+6. Explain the comparison between parents and defendants in a Stalinist show trial.
+7. Long answer: Do you think a nation or a brand community can replace the family and village? Discuss with reference to Nepali society.
+8. Write a note on Harari's style in this essay.
+
+::: note Answers and worked solutions
+**1.** The nuclear family, the extended family and the local intimate community.
+**2.** Because the family and community gave work, education, care in illness, credit and protection. A person who lost them around 1750 was as good as dead; there were no policemen, social workers or schools to replace them.
+**3.** It sent policemen to stop vendettas and replaced them with courts; it set up compulsory schools and armies that took the young from elders' control; it protected young people against elders and blamed parents for children's problems.
+**4.** A community of people who do not know one another but imagine that they do. The nation (of the state) and the consumer tribe (of the market).
+**5.** As intimate communities withered, people lost the emotional support and sense of belonging they gave; imagined communities such as nations and brands fill that empty space.
+**6.** In the Freudian view parents are blamed for the psychological problems of a child, so they have little hope of an acquittal, as accused persons in a Stalinist show trial had none. The comparison is exaggerated for effect.
+**7.** *Model plan.* Introduction: Harari says these communities fill an emotional vacuum. Yes: nationalism, fan groups and online groups give identity; shared festivals such as Dashain and Tihar, and the diaspora's online groups, link strangers. No: they cannot provide direct help in sickness or old age, or the trust of people who know us; remittance-based families in Nepal still need real relatives; consumer tribes sell products and may exploit loneliness. Conclusion: imagined communities supplement, but do not replace, intimate ones.
+**8.** Clear short sentences; concrete images (living room versus café); definition and footnote; contrast between old and new; paradox and irony; a balanced, open conclusion.
+:::
+
