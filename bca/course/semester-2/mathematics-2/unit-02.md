@@ -13,6 +13,8 @@ The **derivative** measures the instantaneous rate of change of a function: the 
 - The full table of derivatives and the sum, product, quotient and chain rules.
 - Implicit differentiation, logarithmic differentiation, parametric differentiation.
 - Higher-order derivatives and the nth derivative of standard functions.
+- Derivatives of inverse trigonometric and hyperbolic functions (with proofs), and their use in neural-network activations.
+- Partial derivatives, mixed derivatives, the chain rule, the total differential and the gradient used in machine learning.
 :::
 
 ## 2.1 The derivative from first principles
@@ -192,7 +194,194 @@ for i, (s, e) in enumerate(steps):
     f.text(344, y + 17, s, size=10.5, color=NAVY, bold=True, anchor="start"); f.math(344, y + 41, e, size=12.5, color=SLATE)
 ```
 
-## 2.7 Eight uses of derivatives
+## 2.7 Derivatives of inverse trigonometric and hyperbolic functions
+
+The TU syllabus asks for the derivatives of the **inverse circular** (inverse trigonometric) and the **hyperbolic** functions, together with their inverses. All of them follow from the rules of Section 2.2.
+
+### Inverse trigonometric functions
+
+Let $y = \sin^{-1} x$ with $-1 \le x \le 1$ and $-\frac{\pi}{2} \le y \le \frac{\pi}{2}$. Then $x = \sin y$. Differentiating both sides with respect to *x* gives $1 = \cos y \cdot y'$, so $y' = \frac{1}{\cos y}$. On the chosen interval $\cos y \ge 0$, hence $\cos y = \sqrt{1 - \sin^{2} y} = \sqrt{1 - x^{2}}$, and
+
+$$\frac{d}{dx} \sin^{-1} x = \frac{1}{\sqrt{1 - x^{2}}} \quad (|x| < 1).$$
+
+The same method (write $x = \tan y$, so $1 = \sec^{2} y \cdot y' = (1 + x^{2}) y'$) gives the derivative of $\tan^{-1} x$. All six are collected below.
+
+| Function | Derivative | Domain of the formula |
+|---|---|---|
+| $\sin^{-1} x$ | $\frac{1}{\sqrt{1 - x^{2}}}$ | $-1 < x < 1$ |
+| $\cos^{-1} x$ | $-\frac{1}{\sqrt{1 - x^{2}}}$ | $-1 < x < 1$ |
+| $\tan^{-1} x$ | $\frac{1}{1 + x^{2}}$ | all real *x* |
+| $\cot^{-1} x$ | $-\frac{1}{1 + x^{2}}$ | all real *x* |
+| $\sec^{-1} x$ | $\frac{1}{\lvert x \rvert \sqrt{x^{2} - 1}}$ | $\lvert x \rvert > 1$ |
+| $\operatorname{cosec}^{-1} x$ | $-\frac{1}{\lvert x \rvert \sqrt{x^{2} - 1}}$ | $\lvert x \rvert > 1$ |
+
+Notice that each cofunction pair has derivatives of **opposite sign**. This is because $\sin^{-1} x + \cos^{-1} x = \frac{\pi}{2}$ is a constant, so its derivative is zero.
+
+::: example Worked example
+**(a)** $\frac{d}{dx} \sin^{-1} (2x) = \frac{2}{\sqrt{1 - 4x^{2}}}$ (chain rule with inner function $2x$).
+
+**(b)** $\frac{d}{dx} \tan^{-1} (e^{x}) = \frac{e^{x}}{1 + e^{2x}}$.
+
+**(c)** $\frac{d}{dx} \sin^{-1} \left( \frac{x}{a} \right) = \frac{1/a}{\sqrt{1 - x^{2}/a^{2}}} = \frac{1}{\sqrt{a^{2} - x^{2}}}$ for $a > 0$.
+
+**(d)** For $y = x \sin^{-1} x + \sqrt{1 - x^{2}}$: $y' = \sin^{-1} x + \frac{x}{\sqrt{1 - x^{2}}} - \frac{x}{\sqrt{1 - x^{2}}} = \sin^{-1} x$.
+:::
+
+### Hyperbolic functions
+
+The hyperbolic functions are built from $e^{x}$ and $e^{-x}$:
+
+$$\sinh x = \frac{e^{x} - e^{-x}}{2}, \quad \cosh x = \frac{e^{x} + e^{-x}}{2}, \quad \tanh x = \frac{\sinh x}{\cosh x}.$$
+
+They satisfy the identity $\cosh^{2} x - \sinh^{2} x = 1$ (so the point $(\cosh t, \sinh t)$ lies on the hyperbola $x^{2} - y^{2} = 1$, which is where the name comes from). Differentiating the definitions term by term gives $(\sinh x)' = \cosh x$ and $(\cosh x)' = \sinh x$, and the quotient rule then gives $(\tanh x)' = \frac{\cosh^{2} x - \sinh^{2} x}{\cosh^{2} x} = \operatorname{sech}^{2} x$.
+
+```svgfig label="2.4" caption="The hyperbolic functions $\sinh x$, $\cosh x$ and $\tanh x$. $\cosh$ is even and never below 1; $\sinh$ is odd and passes through the origin; $\tanh$ is the S-shaped curve squeezed between $-1$ and $1$, the shape used as an activation function in neural networks."
+f = Fig(740, 300)
+a = Axes(f, 50, 14, 640, 260, (-2.5, 2.5), (-3, 6.5)); a.grid(1, 1).axes()
+a.curve(lambda x: math.cosh(x), color=NAVY, sw=2.6)
+a.curve(lambda x: math.sinh(x), -1.8, 1.8, color=TEAL, sw=2.6)
+a.curve(lambda x: math.tanh(x), color=AMBER, sw=2.6)
+a.hline(1, color="#94a3b8"); a.hline(-1, color="#94a3b8")
+f.text(a.X(1.75), a.Y(5.7), "cosh x", size=11.5, color=NAVY, bold=True)
+f.text(a.X(1.45), a.Y(-1.9), "sinh x", size=11.5, color=TEAL, bold=True)
+f.text(a.X(2.1), a.Y(0.55), "tanh x", size=11.5, color=AMBER, bold=True)
+a.pt(0, 1, "cosh 0 = 1", dx=10, dy=-8)
+```
+
+| Function | Derivative | Inverse (logarithmic form) | Derivative of inverse |
+|---|---|---|---|
+| $\sinh x$ | $\cosh x$ | $\sinh^{-1} x = \ln (x + \sqrt{x^{2} + 1})$ | $\frac{1}{\sqrt{x^{2} + 1}}$ |
+| $\cosh x$ | $\sinh x$ | $\cosh^{-1} x = \ln (x + \sqrt{x^{2} - 1}),\ x \ge 1$ | $\frac{1}{\sqrt{x^{2} - 1}}$ for $x > 1$ |
+| $\tanh x$ | $\operatorname{sech}^{2} x$ | $\tanh^{-1} x = \frac{1}{2} \ln \frac{1 + x}{1 - x},\ \lvert x \rvert < 1$ | $\frac{1}{1 - x^{2}}$ |
+| $\coth x$ | $-\operatorname{cosech}^{2} x$ | $\coth^{-1} x = \frac{1}{2} \ln \frac{x + 1}{x - 1},\ \lvert x \rvert > 1$ | $\frac{1}{1 - x^{2}}$ |
+| $\operatorname{sech} x$ | $-\operatorname{sech} x \tanh x$ | | |
+| $\operatorname{cosech} x$ | $-\operatorname{cosech} x \coth x$ | | |
+
+For example, since $\sinh^{-1} x = \ln (x + \sqrt{x^{2} + 1})$, the chain rule gives $\frac{1 + x/\sqrt{x^{2} + 1}}{x + \sqrt{x^{2} + 1}} = \frac{1}{\sqrt{x^{2} + 1}}$.
+
+::: example Worked example
+**(a)** $\frac{d}{dx} \sinh (3x^{2}) = 6x \cosh (3x^{2})$.
+
+**(b)** $\frac{d}{dx} (x^{2} \cosh x) = 2x \cosh x + x^{2} \sinh x$.
+
+**(c)** $\frac{d}{dx} \ln (\tanh x) = \frac{\operatorname{sech}^{2} x}{\tanh x} = \frac{1}{\sinh x \cosh x}$.
+
+**(d)** $\frac{d}{dx} \cosh^{-1} (x^{2}) = \frac{2x}{\sqrt{x^{4} - 1}}$ for $x > 1$.
+
+**(e) Activation functions.** Neural networks use $\tanh$ and the logistic function $\sigma (x) = \frac{1}{1 + e^{-x}}$. Their derivatives are expressed by the functions themselves: $\tanh' x = 1 - \tanh^{2} x$ and $\sigma' (x) = \sigma (x) (1 - \sigma (x))$. This is why training code can reuse values already computed in the forward pass.
+:::
+
+A hanging chain or power cable takes the shape $y = a \cosh \frac{x}{a}$, called a **catenary**. Its slope is $y' = \sinh \frac{x}{a}$ and $1 + y'^{2} = \cosh^{2} \frac{x}{a}$, a fact used when the length of the cable is computed in Unit 4.
+
+```python
+import math
+# Numerical check of the derivative formulas with a central difference
+h = 1e-6
+def d(f, x): return (f(x + h) - f(x - h)) / (2 * h)
+sigma = lambda x: 1 / (1 + math.exp(-x))
+cases = [
+    ("asin(2x) at 0.2", lambda x: math.asin(2 * x), 0.2, 2 / math.sqrt(1 - 4 * 0.2 ** 2)),
+    ("atan(e^x) at 0.5", lambda x: math.atan(math.exp(x)), 0.5, math.exp(0.5) / (1 + math.exp(1.0))),
+    ("sinh(3x^2) at 0.4", lambda x: math.sinh(3 * x * x), 0.4, 6 * 0.4 * math.cosh(3 * 0.16)),
+    ("acosh(x^2) at 1.5", lambda x: math.acosh(x * x), 1.5, 2 * 1.5 / math.sqrt(1.5 ** 4 - 1)),
+    ("tanh at 0.7", math.tanh, 0.7, 1 - math.tanh(0.7) ** 2),
+    ("sigmoid at 0.7", sigma, 0.7, sigma(0.7) * (1 - sigma(0.7))),
+]
+for name, fn, x, formula in cases:
+    print("%-20s numeric %.6f  formula %.6f" % (name, d(fn, x), formula))
+```
+```output
+asin(2x) at 0.2      numeric 2.182179  formula 2.182179
+atan(e^x) at 0.5     numeric 0.443409  formula 0.443409
+sinh(3x^2) at 0.4    numeric 2.681829  formula 2.681829
+acosh(x^2) at 1.5    numeric 1.488417  formula 1.488417
+tanh at 0.7          numeric 0.634740  formula 0.634740
+sigmoid at 0.7       numeric 0.221713  formula 0.221713
+```
+## 2.8 Partial derivatives
+
+Many quantities depend on more than one variable: the area of a rectangle $A = lw$, the cost of a project $C(x, y)$ that depends on labour *x* and hardware *y*, the error of a model that depends on two weights. For a function $z = f(x, y)$ we ask how *z* changes when **one** variable moves and the other is held fixed.
+
+The **partial derivative of f with respect to x** is
+
+$$\frac{\partial f}{\partial x} = f_x = \lim_{h \to 0} \frac{f(x + h, y) - f(x, y)}{h},$$
+
+and the partial derivative with respect to *y* is $f_y = \lim_{k \to 0} \frac{f(x, y + k) - f(x, y)}{k}$. In practice: **to find $f_x$ differentiate with respect to *x*, treating *y* as a constant**, and the other way round for $f_y$.
+
+*Geometrical meaning.* The graph of $z = f(x, y)$ is a surface. Cutting it with the vertical plane $y = y_{0}$ gives a curve whose slope at the point is $f_x$; cutting it with $x = x_{0}$ gives a curve whose slope is $f_y$. So $f_x$ and $f_y$ are the slopes of the surface in the two coordinate directions.
+
+::: example Worked example
+For $f(x, y) = x^{2} y + y^{3}$:
+
+$f_x = 2xy$ (the term $y^{3}$ has no *x* and vanishes) and $f_y = x^{2} + 3y^{2}$. At $(2, 1)$: $f_x = 4$ and $f_y = 4 + 3 = 7$.
+
+For $f(x, y) = e^{xy} + \sin (x + 2y)$: $f_x = y e^{xy} + \cos (x + 2y)$ and $f_y = x e^{xy} + 2 \cos (x + 2y)$.
+
+For $f(x, y) = \tan^{-1} \frac{y}{x}$: $f_x = \frac{-y/x^{2}}{1 + y^{2}/x^{2}} = -\frac{y}{x^{2} + y^{2}}$ and $f_y = \frac{x}{x^{2} + y^{2}}$.
+:::
+
+### Higher-order and mixed partial derivatives
+
+Differentiating again gives $f_{xx}$, $f_{yy}$ and the **mixed** derivatives $f_{xy} = \frac{\partial}{\partial y} \left( \frac{\partial f}{\partial x} \right)$ and $f_{yx}$. For the functions met in this course (continuous second partial derivatives) the order does not matter: $f_{xy} = f_{yx}$. For $f = x^{2} y + y^{3}$: $f_{xx} = 2y$, $f_{yy} = 6y$ and $f_{xy} = f_{yx} = 2x$.
+
+### Chain rule and total differential
+
+If $z = f(x, y)$ and both *x* and *y* depend on *t*, then
+
+$$\frac{dz}{dt} = f_x \frac{dx}{dt} + f_y \frac{dy}{dt}.$$
+
+The **total differential** is $dz = f_x \, dx + f_y \, dy$. It gives a quick estimate of the change in *z* when *x* and *y* change by small amounts. For $z = x^{2} y$ at $(2, 3)$, a move to $(2.01, 2.98)$ gives $dz = 2xy \, dx + x^{2} \, dy = 12(0.01) + 4(-0.02) = 0.04$. The exact change is $2.01^{2} \cdot 2.98 - 12 = 0.0395$, so the estimate is within $0.0005$.
+
+::: example Worked example
+**Laplace's equation.** Show that $u = \ln (x^{2} + y^{2})$ satisfies $u_{xx} + u_{yy} = 0$.
+
+$u_x = \frac{2x}{x^{2} + y^{2}}$, so $u_{xx} = \frac{2 (x^{2} + y^{2}) - 4x^{2}}{(x^{2} + y^{2})^{2}} = \frac{2y^{2} - 2x^{2}}{(x^{2} + y^{2})^{2}}$. By symmetry $u_{yy} = \frac{2x^{2} - 2y^{2}}{(x^{2} + y^{2})^{2}}$. The sum is **0**. ∎
+:::
+
+### Why computing needs partial derivatives: the gradient
+
+The vector $\nabla f = (f_x, f_y)$ is the **gradient**. It points in the direction of steepest increase, so moving against it lowers *f* fastest. **Gradient descent**, the training method behind machine learning, repeats $(x, y) \leftarrow (x, y) - \eta \nabla f$ for a small step size $\eta$. For $f(x, y) = x^{2} + 3y^{2}$ we have $\nabla f = (2x, 6y)$; the program below starts from $(2, 1)$ with $\eta = 0.1$.
+
+```python
+# Gradient descent on f(x, y) = x^2 + 3y^2, step eta = 0.1, start (2, 1)
+x, y, eta = 2.0, 1.0, 0.1
+for step in range(6):
+    f = x * x + 3 * y * y
+    print("step %d  (x, y) = (%.4f, %.4f)  f = %.4f" % (step, x, y, f))
+    gx, gy = 2 * x, 6 * y            # f_x and f_y
+    x, y = x - eta * gx, y - eta * gy
+```
+```output
+step 0  (x, y) = (2.0000, 1.0000)  f = 7.0000
+step 1  (x, y) = (1.6000, 0.4000)  f = 3.0400
+step 2  (x, y) = (1.2800, 0.1600)  f = 1.7152
+step 3  (x, y) = (1.0240, 0.0640)  f = 1.0609
+step 4  (x, y) = (0.8192, 0.0256)  f = 0.6731
+step 5  (x, y) = (0.6554, 0.0102)  f = 0.4298
+```
+```svgfig label="2.5" caption="Contours of $f(x, y) = x^{2} + 3y^{2}$ (ellipses, narrow in the *y* direction) and the first steps of gradient descent from $(2, 1)$ with $\eta = 0.1$. Each step moves against the gradient, perpendicular to the contour, towards the minimum at the origin."
+f = Fig(740, 300)
+a = Axes(f, 90, 14, 560, 262, (-2.5, 2.5), (-1.6, 1.6)); a.grid(1, 1).axes()
+for c in (0.5, 1.5, 3, 5, 7, 8):
+    pts = []
+    for k in range(121):
+        t = 2 * math.pi * k / 120
+        pts.append((a.X(math.sqrt(c) * math.cos(t)), a.Y(math.sqrt(c / 3) * math.sin(t))))
+    f.poly(pts, fill="none", stroke=TEAL, sw=1.4)
+x, y = 2.0, 1.0
+path = [(x, y)]
+for _ in range(6):
+    x, y = x - 0.1 * 2 * x, y - 0.1 * 6 * y
+    path.append((x, y))
+f.arrow([(a.X(px), a.Y(py)) for px, py in path], color=NAVY, sw=2.0)
+for i, (px, py) in enumerate(path[:4]):
+    a.pt(px, py, "step %d" % i, dx=8, dy=-8, size=9.5)
+a.pt(0, 0, "minimum", dx=10, dy=18, color=AMBER)
+```
+
+*Link with continuity.* A function of one variable that is differentiable is continuous (Section 2.1). For several variables the existence of $f_x$ and $f_y$ alone does **not** guarantee continuity; the stronger condition of continuous partial derivatives does. This remark is outside the examination scope but explains why the total differential is stated for "smooth" functions.
+
+## 2.9 Eight uses of derivatives
 
 1. **Speed and acceleration.** If $s (t)$ is the position of a vehicle, then $v = \frac{d s}{d t}$ is its speed and $a = \frac{d v}{d t} = \frac{d^{2} s}{d t^{2}}$ is its acceleration. A Kathmandu microbus driver feels the second derivative when the bus brakes at Koteshwor. Traffic engineers use these to set safe speed limits.
 2. **Finding maximum profit and minimum cost.** A business writes profit as a function $P (x)$ of the number of items and solves $P' (x) = 0$. A bakery in Butwal can find the number of cakes that earns most. The second derivative then confirms that the point is a maximum and not a minimum.
@@ -212,6 +401,9 @@ for i, (s, e) in enumerate(steps):
 - Log differentiation for $f^{g}$: $y' = y \left( g' \ln f + \frac{g f'}{f} \right)$.
 - Parametric: $\frac{d y}{d x}$ = ẏ/ẋ.
 - Differentiable ⇒ continuous (not conversely).
+- $(\sin^{-1} x)' = \frac{1}{\sqrt{1 - x^{2}}} ;\  (\tan^{-1} x)' = \frac{1}{1 + x^{2}} ;\  (\sinh x)' = \cosh x ;\  (\cosh x)' = \sinh x ;\  (\tanh x)' = \operatorname{sech}^{2} x$.
+- $\cosh^{2} x - \sinh^{2} x = 1$; $\sinh^{-1} x = \ln (x + \sqrt{x^{2} + 1})$.
+- Partial derivative: differentiate in one variable, hold the others constant; $f_{xy} = f_{yx}$; $dz = f_x dx + f_y dy$; $\frac{dz}{dt} = f_x x' + f_y y'$.
 
 ## Chapter summary
 
@@ -219,6 +411,7 @@ for i, (s, e) in enumerate(steps):
 - A small table plus four rules (sum, product, quotient, chain) handles nearly every function.
 - Implicit, logarithmic and parametric methods cover curves not written as $y = f (x)$.
 - Higher derivatives and nth-derivative formulas appear in series and in applications.
+- Inverse trigonometric and hyperbolic functions have their own derivative table; partial derivatives treat all other variables as constants.
 
 ## Practice
 
@@ -232,6 +425,11 @@ for i, (s, e) in enumerate(steps):
 8. Prove that if $y = e^{x} \sin x$ then $y'' - 2 y' + 2 y = 0$.
 9. Find the point on $y = x^{2} - 4 x + 5$ where the tangent is parallel to the x-axis.
 10. Is $f (x)$ = |x − 1| differentiable at 1? Justify.
+11. Differentiate: (a) $\sin^{-1} (3 x)$, (b) $\tan^{-1} \frac{1 + x}{1 - x}$, (c) $\cosh (x^{2})$, (d) $x \tanh x$.
+12. Prove that $\frac{d}{d x} \sinh^{-1} x = \frac{1}{\sqrt{x^{2} + 1}}$ by putting $y = \sinh^{-1} x$.
+13. Find $f_x$, $f_y$ and $f_{xy}$ for $f (x, y) = x^{3} y^{2} - 4 x y + e^{y}$.
+14. If $u = x^{2} + x y + y^{2}$, show that $x u_x + y u_y = 2 u$.
+15. For $z = x^{2} y$ with $x = t^{2}$ and $y = t^{3}$, find $\frac{d z}{d t}$ at $t = 1$ by the chain rule and by substitution.
 
 ::: note Answers and worked solutions
 **1.** $\frac{\frac{1}{x + h} - \frac{1}{x}}{h} = - \frac{h}{h x (x + h)} = - \frac{1}{x (x + h)}$ → **$- \frac{1}{x^{2}}$**.
@@ -253,6 +451,16 @@ for i, (s, e) in enumerate(steps):
 **9.** $y' = 2 x - 4 = 0 \Rightarrow x = 2 ,\  y = 1$: **(2, 1)**.
 
 **10.** No. Left slope −1, right slope +1, so the two one-sided derivatives differ at the corner $x = 1$ although *f* is continuous there.
+
+**11.** (a) **$\frac{3}{\sqrt{1 - 9 x^{2}}}$**. (b) Since $\frac{1 + x}{1 - x} = \tan \left( \frac{\pi}{4} + \tan^{-1} x \right)$ the function equals $\frac{\pi}{4} + \tan^{-1} x$ (for $x < 1$), so the derivative is **$\frac{1}{1 + x^{2}}$**. (c) **$2 x \sinh (x^{2})$**. (d) **$\tanh x + x \operatorname{sech}^{2} x$**.
+
+**12.** $x = \sinh y$, so $1 = \cosh y \cdot y'$. Since $\cosh^{2} y = 1 + \sinh^{2} y = 1 + x^{2}$ and $\cosh y > 0$, $y' = \frac{1}{\sqrt{1 + x^{2}}}$. ∎
+
+**13.** $f_x = 3 x^{2} y^{2} - 4 y$; $f_y = 2 x^{3} y - 4 x + e^{y}$; $f_{xy} = \frac{\partial}{\partial y} (3 x^{2} y^{2} - 4 y) =$ **$6 x^{2} y - 4$** (and $\frac{\partial}{\partial x} f_y = 6 x^{2} y - 4$ agrees).
+
+**14.** $u_x = 2 x + y$, $u_y = x + 2 y$. Then $x u_x + y u_y = 2 x^{2} + x y + x y + 2 y^{2} = 2 (x^{2} + x y + y^{2}) = 2 u$. ∎ (This is Euler's theorem for a homogeneous function of degree 2.)
+
+**15.** $z_x = 2 x y = 2 t^{5}$, $\frac{d x}{d t} = 2 t$, $z_y = x^{2} = t^{4}$, $\frac{d y}{d t} = 3 t^{2}$. So $\frac{d z}{d t} = 4 t^{6} + 3 t^{6} = 7 t^{6}$, which is **7** at $t = 1$. By substitution $z = t^{7}$, so $\frac{d z}{d t} = 7 t^{6}$ ✓.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -307,3 +515,35 @@ The point (3, 3) lies on the curve $(27 + 27 = 54 = 6 \times 9)$, so the questio
 **Relation to the graph.** Where $f' > 0$ the function rises; where $f' = 0$ the tangent is flat, giving a possible maximum or minimum (Figure 2.2).
 
 **Conclusion.** The derivative is a limit, and the rules allow us to compute it quickly without returning to the limit each time. In Unit 3 it will be used to optimise, approximate and sketch.
+
+**Q (5 marks). Find the derivative of $\sin^{-1} x$ and use it to differentiate $y = \sin^{-1} (2 x \sqrt{1 - x^{2}})$ for $0 < x < \frac{1}{\sqrt{2}}$.**
+
+Let $y = \sin^{-1} x$, with $-\frac{\pi}{2} \le y \le \frac{\pi}{2}$. Then $x = \sin y$.
+
+1. Differentiate both sides with respect to *x*: $1 = \cos y \cdot \frac{d y}{d x}$.
+2. On the given interval $\cos y \ge 0$, so $\cos y = \sqrt{1 - \sin^{2} y} = \sqrt{1 - x^{2}}$.
+3. Hence **$\frac{d}{d x} \sin^{-1} x = \frac{1}{\sqrt{1 - x^{2}}}$** for $|x| < 1$.
+
+For the second part put $x = \sin \theta$ with $0 < \theta < \frac{\pi}{4}$. Then $2 x \sqrt{1 - x^{2}} = 2 \sin \theta \cos \theta = \sin 2 \theta$, so $y = \sin^{-1} (\sin 2 \theta) = 2 \theta = 2 \sin^{-1} x$ (valid because $2 \theta < \frac{\pi}{2}$). Therefore **$y' = \frac{2}{\sqrt{1 - x^{2}}}$**.
+
+**Q (10 marks). Define partial derivatives. For $u = \tan^{-1} \frac{y}{x}$ find $u_x$, $u_y$ and verify $u_{xy} = u_{yx}$ and Laplace's equation $u_{xx} + u_{yy} = 0$. State the chain rule for $z = f (x, y)$ with $x = x (t)$, $y = y (t)$.**
+
+**Definition.** For $z = f (x, y)$ the partial derivative with respect to *x* is $f_x = \lim_{h \to 0} \frac{f (x + h, y) - f (x, y)}{h}$ (*y* held constant) and with respect to *y* is $f_y = \lim_{k \to 0} \frac{f (x, y + k) - f (x, y)}{k}$. Geometrically they are the slopes of the surface $z = f (x, y)$ in the directions of the *x*-axis and the *y*-axis.
+
+**First derivatives.** With $u = \tan^{-1} \frac{y}{x}$:
+
+$$u_x = \frac{1}{1 + y^{2}/x^{2}} \cdot \left( -\frac{y}{x^{2}} \right) = -\frac{y}{x^{2} + y^{2}}, \qquad u_y = \frac{1}{1 + y^{2}/x^{2}} \cdot \frac{1}{x} = \frac{x}{x^{2} + y^{2}}.$$
+
+**Mixed derivatives.**
+
+$$u_{xy} = \frac{\partial}{\partial y} \left( -\frac{y}{x^{2} + y^{2}} \right) = -\frac{(x^{2} + y^{2}) - 2 y^{2}}{(x^{2} + y^{2})^{2}} = \frac{y^{2} - x^{2}}{(x^{2} + y^{2})^{2}},$$
+
+$$u_{yx} = \frac{\partial}{\partial x} \left( \frac{x}{x^{2} + y^{2}} \right) = \frac{(x^{2} + y^{2}) - 2 x^{2}}{(x^{2} + y^{2})^{2}} = \frac{y^{2} - x^{2}}{(x^{2} + y^{2})^{2}}.$$
+
+The two are equal, as expected for continuous second derivatives.
+
+**Laplace's equation.** $u_{xx} = \frac{\partial}{\partial x} \left( -\frac{y}{x^{2} + y^{2}} \right) = \frac{2 x y}{(x^{2} + y^{2})^{2}}$ and $u_{yy} = \frac{\partial}{\partial y} \left( \frac{x}{x^{2} + y^{2}} \right) = -\frac{2 x y}{(x^{2} + y^{2})^{2}}$. Their sum is **0**, so *u* satisfies Laplace's equation (it is the angle function of polar coordinates).
+
+**Chain rule.** If $z = f (x, y)$ and $x = x (t)$, $y = y (t)$ then $\frac{d z}{d t} = f_x \frac{d x}{d t} + f_y \frac{d y}{d t}$, and the total differential is $d z = f_x \, d x + f_y \, d y$.
+
+**Conclusion.** Partial derivatives extend the idea of slope to several variables by moving one variable at a time; the gradient $(f_x, f_y)$ then drives optimisation methods such as gradient descent.

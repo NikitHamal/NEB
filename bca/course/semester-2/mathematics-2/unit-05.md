@@ -13,6 +13,8 @@ A **differential equation (DE)** relates a function to its derivatives. Populati
 - First-order methods: separable, homogeneous, linear (integrating factor), exact.
 - Second-order linear homogeneous equations with constant coefficients.
 - Models: growth and decay, Newton's law of cooling.
+- Equations reducible to linear form (Bernoulli) and the logistic model.
+- Partial differential equations: forming them, direct integration, and the heat, wave and Laplace equations with separation of variables.
 :::
 
 ## 5.1 Basic terms
@@ -177,7 +179,118 @@ Coffee at 90 $^{\circ} C$ in a 30 $^{\circ} C$ room cools to 70 $^{\circ} C$ in 
 
 **Algorithms and recurrence.** The divide-and-conquer recurrence $T (n) = 2 T \left( \frac{n}{2} \right) + n$ has the continuous analogue whose solution is $T (n) = n \log_{2} n$; the same exponential patterns $(e^{k t})$ appear in compound interest, cache decay and network traffic models.
 
-## 5.8 Eight uses of differential equations
+## 5.8 Equations reducible to linear form: Bernoulli's equation
+
+Some equations are not linear in *y* but become linear after a substitution. The standard case is **Bernoulli's equation**
+
+$$\frac{dy}{dx} + P(x)\,y = Q(x)\,y^{n}, \qquad n \neq 0, 1.$$
+
+**Method.** Divide by $y^{n}$ to get $y^{-n}\frac{dy}{dx} + P\,y^{1-n} = Q$. Put $v = y^{1-n}$, so $\frac{dv}{dx} = (1 - n)\,y^{-n}\frac{dy}{dx}$. The equation becomes the **linear** equation
+
+$$\frac{dv}{dx} + (1 - n)P\,v = (1 - n)Q,$$
+
+which is solved with the integrating factor of Section 5.4. At the end, replace $v$ by $y^{1-n}$.
+
+::: example Worked example
+**(a) $\frac{dy}{dx} + \frac{y}{x} = x y^{2}$.** Here $n = 2$. Divide by $y^{2}$: $\frac{1}{y^{2}}\frac{dy}{dx} + \frac{1}{x y} = x$. Put $v = \frac{1}{y}$, so $\frac{dv}{dx} = -\frac{1}{y^{2}}\frac{dy}{dx}$:
+
+$$-\frac{dv}{dx} + \frac{v}{x} = x \quad\Longrightarrow\quad \frac{dv}{dx} - \frac{v}{x} = -x.$$
+
+The integrating factor is $e^{-\int dx/x} = \frac{1}{x}$, so $\frac{d}{dx}\left(\frac{v}{x}\right) = -1$, giving $\frac{v}{x} = -x + C$ and $v = Cx - x^{2}$. Hence **$y = \frac{1}{Cx - x^{2}}$**.
+
+**(b) $\frac{dy}{dx} + 2y = y^{2}e^{x}$.** With $v = \frac{1}{y}$: $-\frac{dv}{dx} + 2v = e^{x}$, i.e. $\frac{dv}{dx} - 2v = -e^{x}$. The integrating factor is $e^{-2x}$, so $\frac{d}{dx}(v e^{-2x}) = -e^{-x}$ and $v e^{-2x} = e^{-x} + C$. Thus $v = e^{x} + Ce^{2x}$ and **$y = \frac{1}{e^{x} + Ce^{2x}}$**.
+:::
+
+**The logistic equation is a Bernoulli equation.** Population models in software and biology use $\frac{dP}{dt} = rP - \frac{r}{K}P^{2}$ (growth rate *r*, carrying capacity *K*). It has $n = 2$, and the substitution $v = \frac{1}{P}$ gives
+
+$$P(t) = \frac{K}{1 + \left(\frac{K - P_{0}}{P_{0}}\right)e^{-rt}}.$$
+
+The curve is S-shaped: nearly exponential growth at first, levelling off at *K*. The same shape describes the adoption of a new app or the spread of a rumour in a college.
+
+```python
+import math
+# Logistic growth: closed form versus a step-by-step (Euler) solution of dP/dt = r P (1 - P/K)
+r, K, P0 = 0.5, 100.0, 10.0
+P, dt, t = P0, 0.001, 0.0
+print("  t   closed form   Euler")
+for target in (0, 2, 4, 6, 8, 10):
+    while t < target - 1e-9:
+        P += dt * r * P * (1 - P / K)
+        t += dt
+    closed = K / (1 + (K - P0) / P0 * math.exp(-r * target))
+    print("%3d   %10.4f   %8.4f" % (target, closed, P))
+```
+```output
+  t   closed form   Euler
+  0      10.0000    10.0000
+  2      23.1969    23.1939
+  4      45.0853    45.0790
+  6      69.0568    69.0522
+  8      85.8486    85.8477
+ 10      94.2826    94.2833
+```
+## 5.9 Partial differential equations: basic examples
+
+An equation containing a function of **two or more independent variables** and its partial derivatives is a **partial differential equation (PDE)**. With $z = z(x, y)$ the usual shorthand is $p = \frac{\partial z}{\partial x}$ and $q = \frac{\partial z}{\partial y}$. The **order** is the highest derivative that appears. Where an ordinary equation has a general solution with arbitrary *constants*, a PDE has a general solution with arbitrary *functions*.
+
+### Forming a PDE
+
+**By eliminating arbitrary constants.** Differentiate and eliminate the constants.
+
+- $z = ax + by + ab$: $p = a$ and $q = b$, so **$z = px + qy + pq$** (two constants, first order).
+- $z = (x + a)(y + b)$: $p = y + b$ and $q = x + a$, so **$z = pq$**.
+
+**By eliminating an arbitrary function.**
+
+- $z = f(x + y)$: $p = f'$ and $q = f'$, so **$p - q = 0$**.
+- $z = f(x^{2} + y^{2})$: $p = 2x f'$ and $q = 2y f'$, so **$y\,p - x\,q = 0$**.
+
+### Solving by direct integration
+
+The equation $\frac{\partial^{2} z}{\partial x\,\partial y} = x + y$ is integrated one variable at a time. Integrating with respect to *y*: $\frac{\partial z}{\partial x} = xy + \frac{y^{2}}{2} + \varphi(x)$. Integrating with respect to *x*:
+
+$$z = \frac{x^{2}y}{2} + \frac{xy^{2}}{2} + \Phi(x) + \psi(y),$$
+
+where $\Phi$ and $\psi$ are arbitrary functions (they replace the constants of integration).
+
+### Three classical equations
+
+| Equation | Name | Models |
+|---|---|---|
+| $u_{t} = k\,u_{xx}$ | heat (diffusion) equation | temperature along a rod; spread of a pollutant; image blurring in graphics |
+| $u_{tt} = c^{2}u_{xx}$ | wave equation | a vibrating string; sound; signals along a cable |
+| $u_{xx} + u_{yy} = 0$ | Laplace's equation | steady-state temperature; electrostatic potential; smoothing in image processing |
+
+::: example Worked example
+**Separation of variables for the heat equation.** Try $u(x, t) = X(x)\,T(t)$. Then $X\,T' = k\,X''\,T$, so $\frac{T'}{kT} = \frac{X''}{X}$. The left side depends only on *t* and the right only on *x*, so both equal a constant, which we write as $-\lambda^{2}$:
+
+$$X'' + \lambda^{2}X = 0 \Rightarrow X = A\cos\lambda x + B\sin\lambda x, \qquad T' = -k\lambda^{2}T \Rightarrow T = e^{-k\lambda^{2}t}.$$
+
+One solution is $u = e^{-k\lambda^{2}t}\sin\lambda x$: the temperature pattern keeps its shape and **decays exponentially**, faster for larger $\lambda$ (sharper variations vanish first).
+
+**Wave equation.** Any $u = f(x - ct)$ is a solution, because $u_{tt} = c^{2}f''$ and $u_{xx} = f''$. It represents a wave of fixed shape travelling to the right with speed *c*. For example $u = \sin(x - ct)$.
+:::
+
+```python
+import sympy as sp
+# Check by differentiation that the solutions above satisfy their equations
+x, y, t, k, c, lam = sp.symbols("x y t k c lam", positive=True)
+u_heat = sp.exp(-k * lam**2 * t) * sp.sin(lam * x)
+print("heat   u_t - k u_xx          =", sp.simplify(sp.diff(u_heat, t) - k * sp.diff(u_heat, x, 2)))
+u_wave = sp.sin(x - c * t)
+print("wave   u_tt - c^2 u_xx       =", sp.simplify(sp.diff(u_wave, t, 2) - c**2 * sp.diff(u_wave, x, 2)))
+u_lap = x**2 - y**2
+print("Laplace u_xx + u_yy          =", sp.simplify(sp.diff(u_lap, x, 2) + sp.diff(u_lap, y, 2)))
+z = x**2 * y / 2 + x * y**2 / 2
+print("direct integration z_xy - (x + y) =", sp.simplify(sp.diff(z, x, y) - (x + y)))
+```
+```output
+heat   u_t - k u_xx          = 0
+wave   u_tt - c^2 u_xx       = 0
+Laplace u_xx + u_yy          = 0
+direct integration z_xy - (x + y) = 0
+```
+## 5.10 Eight uses of differential equations
 
 1. **Cooling and heating.** Newton's law dT/dt = $- k (T - T_{s})$ tells how fast tea, a motor or a server cools (Figure 5.4a). A hostel kitchen can use it to know when soup is safe to serve. Forensic doctors use the same law to estimate the time of death.
 2. **Population and bacteria growth.** Simple growth dP/dt = kP gives exponential growth, and the logistic equation adds a limit (Figure 5.4b). Health workers use these models to predict how fast an infection spreads in a ward. City planners use them for the population of Kathmandu Valley.
@@ -196,8 +309,12 @@ Coffee at 90 $^{\circ} C$ in a 30 $^{\circ} C$ room cools to 70 $^{\circ} C$ in 
 - a $m^{2} + b m + c = 0$: distinct → $e^{m1x} ,\  e^{m2x}$; repeated → $(C_{1} + C_{2} x) e^{mx}$; complex → eᵅˣ(cos, sin).
 - Growth: $N = N_{0} e^{k t}$. Half-life $t \frac{1}{2} = \frac{\ln 2}{k}$. Cooling: $T = T_{s} + (T_{0} - T_{s}) e^{- k t}$.
 
+- Bernoulli: $y' + P y = Q y^{n}$, put $v = y^{1-n}$, then $v' + (1 - n) P v = (1 - n) Q$. Logistic: $P = \frac{K}{1 + \frac{K - P_0}{P_0} e^{-r t}}$.
+- PDE: $p = z_x$, $q = z_y$. $z = f (x + y)$ gives $p = q$. Heat $u_t = k u_{xx}$, wave $u_{tt} = c^{2} u_{xx}$, Laplace $u_{xx} + u_{yy} = 0$. Separation: $u = X (x) T (t)$.
+
 ## Chapter summary
 
+- Bernoulli's equation becomes linear under $v = y^{1-n}$; partial differential equations have arbitrary *functions* in their general solutions and are classified by the heat, wave and Laplace equations.
 - The order sets the number of constants; initial conditions pick a particular solution.
 - Separable, homogeneous, linear and exact first-order equations each have a systematic method.
 - Constant-coefficient second-order equations reduce to an auxiliary quadratic whose roots give exponentials, polynomial-times-exponential, or oscillations.
@@ -215,6 +332,11 @@ Coffee at 90 $^{\circ} C$ in a 30 $^{\circ} C$ room cools to 70 $^{\circ} C$ in 
 8. A culture of 1000 bacteria grows to 3000 in 4 hours. How many after 10 hours?
 9. A body at 100 $^{\circ} C$ is placed in 20 $^{\circ} C$ surroundings and cools to 60 $^{\circ} C$ in 10 minutes. When does it reach 30 $^{\circ} C$?
 10. Form the differential equation of the family $y = A \cos x + B \sin x$.
+11. Solve $\frac{d y}{d x} + y = y^{2}$.
+12. In the logistic model with $r = 0.5$, $K = 100$ and $P_0 = 10$, find $P (4)$.
+13. Form the partial differential equation by eliminating $a$ and $b$ from $z = a x + b y + a^{2} + b^{2}$.
+14. Verify that $u = e^{-t} \sin x$ satisfies $u_t = u_{xx}$.
+15. Solve $\frac{\partial^{2} z}{\partial x^{2}} = 6 x$.
 
 ::: note Answers and worked solutions
 **1.** $\frac{d y}{y} = \frac{d x}{x} \Rightarrow y$ = Cx; $y (1) = 3$ ⇒ **$y = 3 x$**.
@@ -236,6 +358,16 @@ Coffee at 90 $^{\circ} C$ in a 30 $^{\circ} C$ room cools to 70 $^{\circ} C$ in 
 **9.** $T = 20 + 80 e^{- k t} ;\  60 = 20 + 80 e^{- 10 k} \Rightarrow e^{- 10 k} = \frac{1}{2} ,\  k = \frac{\ln 2}{10}$. $T = 30$: 80 $e^{- k t} = 10 \Rightarrow e^{- k t} = \frac{1}{8} \Rightarrow t = 3 \times 10$ = **30 minutes**.
 
 **10.** $y'' = - A \cos x - B \sin x = - y$, so **$y'' + y = 0$**.
+
+**11.** With $v = \frac{1}{y}$: $-v' + v = 1$, so $v' - v = -1$ and $v = 1 + C e^{x}$. **$y = \frac{1}{1 + C e^{x}}$**.
+
+**12.** $P (4) = \frac{100}{1 + 9 e^{-2}} = \frac{100}{2.218}$ ≈ **45.1**.
+
+**13.** $p = a$ and $q = b$, so **$z = p x + q y + p^{2} + q^{2}$**.
+
+**14.** $u_t = - e^{-t} \sin x$ and $u_x = e^{-t} \cos x$, $u_{xx} = - e^{-t} \sin x$. They are equal. ∎
+
+**15.** Integrate with respect to $x$: $z_x = 3 x^{2} + \varphi (y)$; again: **$z = x^{3} + x \varphi (y) + \psi (y)$** with arbitrary functions $\varphi$, $\psi$.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

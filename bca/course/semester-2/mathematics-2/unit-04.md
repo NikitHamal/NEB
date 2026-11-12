@@ -12,6 +12,7 @@ Integration reverses differentiation and also adds up infinitely many infinitesi
 - Antiderivatives, the table of standard integrals, and the substitution, parts and partial-fraction methods.
 - The definite integral, the Fundamental Theorem of Calculus, and its properties.
 - Area between curves, volume of revolution, average value, and improper integrals.
+- Surface area of a solid of revolution, and numerical integration by the trapezoidal and Simpson rules with error bounds.
 :::
 
 ## 4.1 Indefinite integrals
@@ -197,7 +198,116 @@ for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "con
     f.text(cx + 188, 222, s, size=11.5, color=c, bold=True)
 ```
 
-## 4.8 Eight uses of integration
+## 4.8 Surface area of a solid of revolution
+
+When the arc $y = f(x)$, $a \le x \le b$, is rotated about the x-axis it sweeps out a surface. A thin strip of arc of length $ds = \sqrt{1 + (f')^{2}}\,dx$ at height $y$ sweeps a ring of radius $y$ and width $ds$, whose area is $2\pi y\,ds$. Adding the rings gives
+
+$$S = 2\pi \int_{a}^{b} f(x) \sqrt{1 + [f'(x)]^{2}}\,dx.$$
+
+For rotation about the y-axis of $x = g(y)$ the formula is $S = 2\pi \int_{c}^{d} g(y) \sqrt{1 + [g'(y)]^{2}}\,dy$. The volume formulas of Section 4.6 and this surface formula are the *volume and surface integrals* named in the TU syllabus.
+
+::: example Worked example
+**Cone.** Rotate $y = x$ for $0 \le x \le 1$ about the x-axis. Here $y' = 1$, so $S = 2\pi \int_{0}^{1} x\sqrt{2}\,dx = 2\pi\sqrt{2} \cdot \frac{1}{2} = \pi\sqrt{2} \approx 4.443$. (Check: a cone of slant height $\sqrt{2}$ and base radius 1 has curved area $\pi r l = \pi\sqrt{2}$.)
+
+**Sphere.** Rotate $y = \sqrt{r^{2} - x^{2}}$ on $-r \le x \le r$. Then $y' = -\frac{x}{y}$ and $y\sqrt{1 + y'^{2}} = \sqrt{y^{2} + x^{2}} = r$, so $S = 2\pi \int_{-r}^{r} r\,dx = 2\pi r \cdot 2r = $ **$4\pi r^{2}$**, the familiar area of a sphere.
+
+**Paraboloid.** For $y = \sqrt{x}$, $0 \le x \le 4$: $y' = \frac{1}{2\sqrt{x}}$ and $y\sqrt{1 + y'^{2}} = \sqrt{x}\sqrt{1 + \frac{1}{4x}} = \frac{1}{2}\sqrt{4x + 1}$. So $S = \pi \int_{0}^{4} \sqrt{4x + 1}\,dx = \frac{\pi}{6}\left[(4x + 1)^{3/2}\right]_{0}^{4} = \frac{\pi}{6}(17\sqrt{17} - 1) \approx 36.18$.
+:::
+
+## 4.9 Numerical integration
+
+Some integrals, such as $\int e^{-x^{2}}\,dx$, have no antiderivative in elementary functions, and in practice the function is often known only as a **table of measured values**. Then the area is **approximated** by replacing the curve with simple shapes over equal strips of width $h = \frac{b - a}{n}$, with ordinates $y_i = f(a + ih)$.
+
+### Trapezoidal rule
+
+Replace the curve on each strip by a straight chord. The strip is a trapezoid of area $\frac{h}{2}(y_{i} + y_{i+1})$. Adding the *n* strips:
+
+$$\int_{a}^{b} f\,dx \approx \frac{h}{2}\left[y_{0} + 2(y_{1} + y_{2} + \cdots + y_{n-1}) + y_{n}\right].$$
+
+### Simpson's 1/3 rule
+
+Take the strips in **pairs** and fit a parabola through three consecutive points. The area under the parabola gives, for **even** *n*,
+
+$$\int_{a}^{b} f\,dx \approx \frac{h}{3}\left[y_{0} + 4(y_{1} + y_{3} + \cdots + y_{n-1}) + 2(y_{2} + y_{4} + \cdots + y_{n-2}) + y_{n}\right].$$
+
+The weights run $1, 4, 2, 4, 2, \ldots, 4, 1$. **Simpson's 3/8 rule** fits cubics through four points and needs *n* to be a multiple of 3: $\frac{3h}{8}\left[y_{0} + 3y_{1} + 3y_{2} + 2y_{3} + 3y_{4} + 3y_{5} + 2y_{6} + \cdots + y_{n}\right]$.
+
+### Error
+
+For a smooth function, $|E_{T}| \le \frac{(b - a)h^{2}}{12} \max|f''|$ and $|E_{S}| \le \frac{(b - a)h^{4}}{180} \max|f^{(4)}|$. Halving *h* therefore cuts the trapezoidal error by about **4** and the Simpson error by about **16**. Simpson's rule is **exact for polynomials up to degree 3** because $f^{(4)} = 0$ for them.
+
+```svgfig label="4.3" caption="Two ways to approximate $\int_{0}^{1} \frac{dx}{1 + x^{2}} = \frac{\pi}{4}$ with $n = 4$ strips. (a) The trapezoidal rule joins the ordinates by chords and gives $0.78279$. (b) Simpson's rule fits a parabola through each pair of strips and gives $0.78539$, within $6 \times 10^{-6}$ of $\frac{\pi}{4} = 0.785398$."
+f = Fig(780, 270)
+g = lambda x: 1 / (1 + x * x)
+f.box(8, 4, 372, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(194, 22, "(a) trapezoidal rule", size=11, color=NAVY, bold=True)
+a = Axes(f, 44, 36, 310, 190, (-0.05, 1.1), (0, 1.15)); a.grid(0.25, 0.25, size=8.5)
+for i in range(4):
+    x0, x1 = i / 4, (i + 1) / 4
+    f.poly([(a.X(x0), a.Y(0)), (a.X(x0), a.Y(g(x0))), (a.X(x1), a.Y(g(x1))), (a.X(x1), a.Y(0))], fill="#99f6e4", stroke=TEAL, sw=1.3)
+a.axes(); a.curve(g, 0, 1, color=NAVY, sw=2.4)
+f.text(194, 250, "T = 0.78279 (error 2.6 × 10⁻³)", size=11, color=TEAL, bold=True)
+f.box(388, 4, 384, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(580, 22, "(b) Simpson's 1/3 rule", size=11, color=NAVY, bold=True)
+b = Axes(f, 424, 36, 322, 190, (-0.05, 1.1), (0, 1.15)); b.grid(0.25, 0.25, size=8.5)
+def par(xa, xm, xb):
+    ya, ym, yb = g(xa), g(xm), g(xb)
+    return lambda x: ya * (x - xm) * (x - xb) / ((xa - xm) * (xa - xb)) + ym * (x - xa) * (x - xb) / ((xm - xa) * (xm - xb)) + yb * (x - xa) * (x - xm) / ((xb - xa) * (xb - xm))
+for (xa, xm, xb) in ((0, 0.25, 0.5), (0.5, 0.75, 1.0)):
+    q = par(xa, xm, xb)
+    b.area(q, xa, xb, fill="#fde68a", opacity=0.8)
+b.axes(); b.curve(g, 0, 1, color=NAVY, sw=2.4)
+for (xa, xm, xb) in ((0, 0.25, 0.5), (0.5, 0.75, 1.0)):
+    b.curve(par(xa, xm, xb), xa, xb, color=RED, sw=1.8, dash=True)
+f.text(580, 250, "S = 0.78539 (error 6 × 10⁻⁶)", size=11, color=TEAL, bold=True)
+```
+
+```python
+import math
+# Trapezoidal and Simpson's rules for the integral of 1/(1+x^2) from 0 to 1 (exact value pi/4)
+g = lambda x: 1 / (1 + x * x)
+def trapezoid(f, a, b, n):
+    h = (b - a) / n
+    return h / 2 * (f(a) + f(b) + 2 * sum(f(a + i * h) for i in range(1, n)))
+def simpson(f, a, b, n):          # n must be even
+    h = (b - a) / n
+    s = f(a) + f(b) + 4 * sum(f(a + i * h) for i in range(1, n, 2)) + 2 * sum(f(a + i * h) for i in range(2, n, 2))
+    return h / 3 * s
+exact = math.pi / 4
+print("exact      %.7f" % exact)
+for n in (4, 8, 16):
+    t, s = trapezoid(g, 0, 1, n), simpson(g, 0, 1, n)
+    print("n = %2d  trapezoid %.7f (err %.2e)   simpson %.7f (err %.2e)" % (n, t, abs(t - exact), s, abs(s - exact)))
+# Simpson is exact for a cubic: integral of x^3 on [0, 2] is 4
+print("cubic, simpson n=2:", simpson(lambda x: x ** 3, 0, 2, 2))
+# A table of measured speeds (m/s) every 10 s: distance travelled
+v = [0, 3, 8, 14, 17, 18, 18]
+h = 10
+trap = h / 2 * (v[0] + v[-1] + 2 * sum(v[1:-1]))
+simp = h / 3 * (v[0] + v[-1] + 4 * (v[1] + v[3] + v[5]) + 2 * (v[2] + v[4]))
+print("distance in 60 s: trapezoid %.2f m, simpson %.2f m" % (trap, simp))
+```
+```output
+exact      0.7853982
+n =  4  trapezoid 0.7827941 (err 2.60e-03)   simpson 0.7853922 (err 6.01e-06)
+n =  8  trapezoid 0.7847471 (err 6.51e-04)   simpson 0.7853981 (err 3.78e-08)
+n = 16  trapezoid 0.7852354 (err 1.63e-04)   simpson 0.7853982 (err 5.91e-10)
+cubic, simpson n=2: 4.0
+distance in 60 s: trapezoid 690.00 m, simpson 693.33 m
+```
+::: example Worked example
+**Table of measured values.** A bus has the speeds $v = 0, 3, 8, 14, 17, 18, 18$ m/s at $t = 0, 10, \ldots, 60$ s. The distance is $\int_{0}^{60} v\,dt$ with $h = 10$ and $n = 6$.
+
+Trapezoidal: $\frac{10}{2}[0 + 18 + 2(3 + 8 + 14 + 17 + 18)] = 5(18 + 120) = 690$ m.
+
+Simpson: $\frac{10}{3}[0 + 18 + 4(3 + 14 + 18) + 2(8 + 17)] = \frac{10}{3}(18 + 140 + 50) = \frac{2080}{3} \approx 693.3$ m.
+
+The two estimates differ by 3.3 m (about 0.5%), which is typical when the data are smooth; Simpson's value is normally the better one.
+:::
+
+::: note Bound on the error
+For $\int_{0}^{1} \frac{dx}{1 + x^{2}}$ with $n = 4$, $\max|f''| = 2$ (at $x = 0$), so $|E_{T}| \le \frac{1 \cdot 0.25^{2}}{12} \cdot 2 \approx 0.0104$. The actual error $0.0026$ is inside this bound. The bound is a guarantee, not a prediction.
+:::
+
+## 4.10 Eight uses of integration
 
 1. **Area of irregular land.** The area under a curve is a definite integral, so surveyors and map software can find the area of a plot with a curved boundary. In Nepal land is measured in ropani and kattha, and the same idea converts a measured outline into area. A smaller strip width gives a more exact answer (Figure 4.1).
 2. **Volume of tanks and solids.** Cutting a solid into thin discs and adding them gives volume (Figure 4.2b). Water tank, bottle and $d a m$ designers use it to know how much each shape holds. The reservoir of a hydropower plant is estimated this way.
@@ -215,9 +325,12 @@ for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "con
 - FTC: $\int_{a}^{b} f = F (b) - F (a)$. Even: $2 \int_{0}^{a}$; odd: 0.
 - Area = *∫* (top − bottom). Disc volume = $\pi \int f^{2}$. Average = $\left( \frac{1}{b - a} \right) \int f$.
 - Improper: $\int_{1}^{\infty} x^{- p}$ converges for $p > 1$.
+- Surface of revolution: $S = 2 \pi \int y \sqrt{1 + y'^{2}} \,d x$.
+- Trapezoidal: $\frac{h}{2} [y_0 + 2 (y_1 + \cdots + y_{n-1}) + y_n]$. Simpson 1/3 ($n$ even): $\frac{h}{3} [y_0 + 4 (\text{odd}) + 2 (\text{even}) + y_n]$. Errors $\propto h^{2}$ and $h^{4}$.
 
 ## Chapter summary
 
+- Surfaces of revolution use $2 \pi y \, ds$; integrals with no elementary antiderivative or only tabulated data are approximated by the trapezoidal and Simpson rules.
 - Integration is reverse differentiation; always add C for indefinite integrals and verify by differentiating.
 - Substitution undoes the chain rule, parts undoes the product rule, partial fractions handle rational functions.
 - The Fundamental Theorem lets us compute definite integrals from antiderivatives.
@@ -235,6 +348,10 @@ for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "con
 8. Find the average value of $\sin x$ on $[0 ,\  \pi]$.
 9. Does $\frac{\int_{1}^{\infty} 1}{\sqrt{x}} \,d x$ converge? Does $\frac{\int_{1}^{\infty} 1}{x^{\frac{3}{2}}} \,d x$?
 10. If $F (x) = \int_{0}^{x} t e^{t} \,d t$ find $F' (x)$ and $F (1)$.
+11. Find the surface area generated by rotating $y = 2 x$, $0 \le x \le 3$, about the x-axis.
+12. Estimate $\int_{0}^{1} e^{-x^{2}} \,d x$ with $n = 4$ by the trapezoidal rule and Simpson's 1/3 rule.
+13. Show that Simpson's rule with $n = 2$ is exact for $\int_{0}^{2} x^{3} \,d x$.
+14. The depths (m) of a river at 2 m intervals across a 8 m channel are 0, 2, 3, 2.5, 1. Estimate the cross-sectional area by both rules.
 
 ::: note Answers and worked solutions
 **1.** (a) $x^{4} - 3$ ln|x| + $e^{x} + C$. (b) $\frac{x^{5}}{5} + \frac{2 x^{3}}{3} + x + C$. (c) $\frac{x}{2} + \frac{\sin 2 x}{4} + C$.
@@ -256,6 +373,14 @@ for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "con
 **9.** $\int_{1}^{\infty} x^{- \frac{1}{2}}$ diverges $\left( p = \frac{1}{2} \leq 1 \right)$. $\int_{1}^{\infty} x^{- \frac{3}{2}} = \left[ - 2 x^{- \frac{1}{2}} \right]_{1}^{\infty}$ = **2**, converges.
 
 **10.** $F' (x) = x e^{x}$. $F (1) = \int_{0}^{1} t e^{t} \,d t = [(t - 1) e^{t}]_{0}^{1}$ = **1**.
+
+**11.** $y' = 2$, so $S = 2 \pi \int_{0}^{3} 2 x \sqrt{5} \,d x = 4 \pi \sqrt{5} \cdot \frac{9}{2} = $ **$18 \pi \sqrt{5} \approx 126.4$** square units. (Cone check: $\pi r l$ with $r = 6$, $l = 3 \sqrt{5}$ gives the same.)
+
+**12.** $h = 0.25$; ordinates $1, 0.939413, 0.778801, 0.569783, 0.367879$. Trapezoidal $= 0.125 [1.367879 + 2 (2.287997)] \approx$ **0.74298**. Simpson $= \frac{0.25}{3} [1.367879 + 4 (1.509196) + 2 (0.778801)] \approx$ **0.74686**. The true value is 0.746824, so Simpson is far closer.
+
+**13.** $h = 1$, $y_0 = 0$, $y_1 = 1$, $y_2 = 8$. Simpson $= \frac{1}{3} [0 + 4 (1) + 8] = 4$, and $\int_{0}^{2} x^{3} \,d x = \frac{16}{4} = 4$. ∎ (The error term contains $f^{(4)}$, which is zero for a cubic.)
+
+**14.** Trapezoidal: $\frac{2}{2} [0 + 1 + 2 (2 + 3 + 2.5)] = 16$ m². Simpson: $\frac{2}{3} [0 + 1 + 4 (2 + 2.5) + 2 (3)] = \frac{2}{3} \cdot 25 \approx$ **16.67 m²**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

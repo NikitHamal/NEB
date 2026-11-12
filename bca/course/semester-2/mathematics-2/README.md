@@ -6,10 +6,10 @@ under BCA 104 now live here, and Unit 6 is new.
 | Unit | Title | Syllabus topics covered |
 |---|---|---|
 | 1 | Limits and Continuity | epsilon-delta idea, one-sided limits, limit laws, continuity, discontinuities, IVT |
-| 2 | Differentiation | first principles, rules, implicit, logarithmic, parametric, higher-order |
+| 2 | Differentiation | first principles, rules, implicit, logarithmic, parametric, higher-order, inverse trigonometric and hyperbolic derivatives, partial derivatives, gradient |
 | 3 | Applications of Derivatives | tangent and normal, rates, extrema, optimisation, mean value theorems, L'Hopital, Taylor and Maclaurin |
-| 4 | Integration | substitution, parts, partial fractions, FTC, area, volume, improper integrals |
-| 5 | Differential Equations | separable, homogeneous, exact, linear, second-order, modelling |
+| 4 | Integration | substitution, parts, partial fractions, FTC, area, volume, surface of revolution, improper integrals, trapezoidal and Simpson rules |
+| 5 | Differential Equations | separable, homogeneous, exact, linear, Bernoulli (reducible to linear), second-order, modelling, logistic, partial differential equations (forming, direct integration, heat/wave/Laplace) |
 | 6 | Computational Methods (NEW) | LPP, graphical method, simplex (up to 3 variables), duality, matrix inversion, Gauss elimination, Gauss-Seidel, bisection, Newton-Raphson |
 
 ## Known gaps against the syllabus (queue for the next session)
@@ -20,3 +20,8 @@ equations are touched lightly or not at all in Units 1 to 5 and should be added 
 ## Verification
 Units 1 to 5 were SymPy-checked in earlier sessions (`bca/tools/check_math1.py`, old file names). Unit 6 numbers were recomputed in Python this session
 (simplex pivots with exact fractions, Gauss-Seidel iterations, bisection and Newton-Raphson tables, Gauss elimination).
+
+
+## Session 23: syllabus gap closed
+
+Checked against the BCA 154 outline (tabflux/hamronotes lists of the revised TU syllabus). Added: derivatives of inverse circular and hyperbolic functions and partial derivatives (2.7, 2.8); surface of revolution and numerical integration, trapezoidal and Simpson (4.8, 4.9); Bernoulli equation, logistic model and basic partial differential equations (5.8, 5.9). All numbers recomputed with sympy/scipy; every code block is executed by `fill_script_outputs.py`.
