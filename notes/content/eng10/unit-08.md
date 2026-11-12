@@ -472,3 +472,77 @@ Do not change only one or two words, and do not change the meaning. Do not copy 
 **1.** *Outline:* school name and address; VACANCY ANNOUNCEMENT; post and number; qualification (e.g. a diploma in computer science); experience; skills (typing, office software); documents to submit; deadline; contact.
 **2.** *Outline:* introduction (what a hobby is); body 1 (relaxation and health); body 2 (skills and talent); body 3 (friends and social life, possible career); conclusion.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write an essay on hobbies and an advertisement for a job. <span class="marks">[10]</span>
+2. Explain the passive voice in different tenses and the poem *Climbing* by Amy Lowell. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="4" ratio="1.0" caption="Hobbies and the arts. Amy Lowell (1916), a Nepali madal, a potter at Bhaktapur and a deuda dance: poetry, music, craft and dance as hobbies."
+@ photo id="eng10/amy-lowell" cap="Amy Lowell, 1916"
+@ photo id="health8/madal" cap="Madal (drum)"
+@ photo id="health8/pottery" cap="Pottery Square, Bhaktapur"
+@ photo id="health8/deuda" cap="Deuda dance"
+```
+
+### Model answer D1: an essay and an advertisement (10 marks)
+
+**Introduction.** An **essay** has an introduction, body paragraphs and a conclusion. An **advertisement** is short and gives the post, qualifications, experience, how to apply and the deadline.
+
+**Model essay.**
+
+::: example The value of hobbies
+**The Value of Hobbies.** A hobby is an activity that we do for pleasure in our free time. Common hobbies are reading, dancing, painting, photography, knitting and collecting old things. First, hobbies relax the mind after hard study and reduce stress. Second, they build skills: a child who plays the madal learns rhythm and patience. Third, a hobby can become a career, as many photographers and painters show. Furthermore, hobbies bring friends who share the same interest. However, if a person spends too much money or time on a hobby, it may harm his or her studies. In conclusion, hobbies are good for health and character when they are balanced with duty.
+:::
+
+**Model advertisement.**
+
+::: example Advertisement
+**WANTED: Graphic Designer — Himal Printing Press, Kathmandu**  
+**Qualification:** Diploma or Bachelor in Design  
+**Experience:** Minimum two years  
+**Skills:** Photoshop, Illustrator, Nepali typing  
+**How to apply:** Send CV and photograph to hr@himalpress.com  
+**Last date:** 30 Falgun 2082
+:::
+
+**Points (8).**
+
+1. Title.
+2. Definition of the hobby.
+3. Benefit one.
+4. Benefit two.
+5. Benefit three.
+6. Drawback.
+7. Conclusion.
+8. Advertisement: post, qualifications, experience, application, deadline.
+
+**Conclusion.** Balanced arguments and linking words (*first, second, however*) give a good essay.
+
+### Model answer D2: the passive voice and the poem (10 marks)
+
+**Passive rules.**
+
+1. The **object** becomes the **subject**.
+2. Use **be** in the same tense as the active verb, then **V3**.
+3. Use **by + agent** only if it is important.
+4. Passive of **-ing**: *being + V3*; of perfect -ing: *having been + V3*.
+
+| Tense | Active | Passive |
+|---|---|---|
+| Present simple | She paints pictures. | Pictures are painted by her. |
+| Past simple | He broke the vase. | The vase was broken. |
+| Present perfect | They have sold the paintings. | The paintings have been sold. |
+| Future | We will hold the show. | The show will be held. |
+| Modal | You can solve it. | It can be solved. |
+
+**Poem: *Climbing* (Amy Lowell).**
+
+5. A child climbs an **apple tree**; the branches are like a **staircase** leading up to a **shining town** in the sky.
+6. **Devices:** rhyming couplets, repetition, simile, metaphor, light imagery and symbolism.
+7. **Theme:** with determination and imagination one can reach the top.
+8. Lowell was an American poet of the **Imagist** movement, who used clear images in short, simple language.
+
+**Conclusion.** Passive: object to subject + *be* + V3.

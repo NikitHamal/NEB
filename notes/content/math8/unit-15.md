@@ -383,6 +383,18 @@ $21\div3=7$, so the heights must also be in the ratio $7:1$, and
 $14=7\times2$ ✓.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. In quadrilateral $ABCD$, $AB=CD$ and $AB\parallel CD$. Draw the diagonal $AC$ and prove that triangles $ABC$ and $CDA$ are congruent. Hence show that $BC=AD$. <span class="marks">[5]</span>
+2. Triangle $ABC$ is similar to triangle $PQR$ with $AB=6$ cm, $BC=9$ cm, $CA=12$ cm and $PQ=8$ cm. Find the scale factor, $QR$, $RP$, and the ratio of the perimeters. <span class="marks">[5]</span>
+3. (a) A pole 3 m high casts a shadow 2 m long. At the same time a tree casts a shadow 14 m long. Find the height of the tree. (b) Are all squares similar? Are all rhombuses similar? Give reasons. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** *Given:* $AB=CD$, $AB\parallel CD$. *To prove:* $\triangle ABC\cong\triangle CDA$. *Proof:* (i) $AB=CD$ (given). (ii) $\angle BAC=\angle DCA$ (alternate angles, since $AB\parallel CD$ and $AC$ is the transversal). (iii) $AC=CA$ (common side). So $\triangle ABC\cong\triangle CDA$ by **SAS**. Corresponding parts of congruent triangles are equal, so $BC=DA$. This shows that a quadrilateral with one pair of opposite sides equal and parallel has its other pair equal too — it is a parallelogram.
+**2.** Scale factor $=\dfrac{PQ}{AB}=\dfrac86=\dfrac43$. $QR=9\times\frac43=12$ cm and $RP=12\times\frac43=16$ cm. Perimeter of $ABC=6+9+12=27$ cm; perimeter of $PQR=8+12+16=36$ cm. Ratio $=27:36=3:4$, which is the same as the ratio of corresponding sides $AB:PQ=6:8$ ✓.
+**3.** (a) The sun's rays make the same angle, so the pole with its shadow and the tree with its shadow form similar right triangles: $\dfrac{\text{height of tree}}{3}=\dfrac{14}{2}$, so the height $=3\times7=21$ m. (b) All squares are similar: every angle is $90^\circ$ and the ratio of corresponding sides is the same for any two squares. Rhombuses are **not** all similar: their sides are equal, but the angles can differ (a rhombus with $60^\circ$ and $120^\circ$ angles is not similar to one with $80^\circ$ and $100^\circ$). Similar figures need equal angles and proportional sides together.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

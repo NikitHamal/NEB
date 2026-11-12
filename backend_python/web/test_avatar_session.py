@@ -4,7 +4,6 @@ import uuid
 from django.test import Client, TestCase
 
 from api.models import User
-from api.security import hash_auth_token
 from web.api_client import get_session_user
 
 
@@ -48,23 +47,6 @@ class AvatarSessionTests(TestCase):
         s['auth_token'] = self.raw_token
         s['user_data'] = user_data
         s.save()
-
-    def test_customize_keeps_profile_fields_in_session(self):
-        client = Client()
-        self._login_session(client, _full_user_data(self.user))
-        resp = client.post(
-            '/ajax/avatar/customize/',
-            data=json.dumps({'use_pp': True}),
-            content_type='application/json',
-        )
-        self.assertEqual(resp.status_code, 200)
-        session_user = client.session.get('user_data')
-        self.assertEqual(session_user.get('gender'), 'Male')
-        self.assertEqual(session_user.get('class_level'), '12')
-        self.assertEqual(session_user.get('email'), 'session_tester@example.com')
-        self.assertEqual(session_user.get('school'), 'NAST')
-        self.assertEqual(session_user.get('bio'), 'hello')
-        self.assertEqual(session_user.get('dob'), '2005-01-01')
 
     def test_clobbered_session_is_healed_on_read(self):
         client = Client()

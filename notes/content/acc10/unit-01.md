@@ -469,3 +469,65 @@ The three real dangers are **fire**, **water** and **careless disposal**. Red-ta
 *Methods of disposal (2).* Retention; transfer to the record room or to the archives; microfilming or scanning followed by destruction of the paper once the image is verified; destruction by shredding or burning, under a written disposal order; sale as waste paper.
 *Safety (1).* Proper shelving, protection from damp, sunlight and insects, a fire-proof record room with an extinguisher, locked access with a register of files issued, and daily backup and user rights for electronic records. No record forming part of an audited account may be destroyed without the prescribed authority's written permission.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is office management? Explain its importance in eight points. <span class="marks">[10]</span>
+2. Define filing. Explain the types and methods of filing, with their advantages. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="5" ratio="1.0" caption="The office and its records. A city office building, a modern workstation, an adding machine, a hand in a filing cabinet and a 1903 vertical cabinet show how work and records are handled, from the manual office of the past to the computerised office of today."
+@ photo id="acc10/office-building" cap="Office building"
+@ photo id="acc10/workstation" cap="Computer workstation"
+@ photo id="acc10/adding-machine" cap="Adding machine"
+@ photo id="acc10/filing-cabinet" cap="Filing cabinet"
+@ photo id="acc10/filing-cabinet-1903" cap="Cabinet of 1903"
+```
+
+### Model answer D1: office management and its importance (10 marks)
+
+**Introduction.** An **office** is the place where the records, letters, accounts and decisions of an organisation are handled. **Office management** is the process of planning, organising, directing and controlling the office work, with people, machines and materials, so that the goals of the organisation are reached at the lowest cost.
+
+**Importance of office management.**
+
+1. **Smooth flow of work.** Letters, bills and files move in a planned order from one desk to the next. A ward office that registers an application, passes it for noting and sends it for a decision on the same day serves citizens quickly.
+2. **Saving of time and cost.** Good layout, standard forms and the right machines avoid repeated work. A bank that uses one common form for deposits saves paper and the time of both staff and customers.
+3. **Accurate records.** Orderly accounts and files give correct facts for decisions, tax returns and audit. A shop with an up-to-date cash book can file its VAT return without hurry.
+4. **Better coordination.** The office joins the departments: purchase, sales, store and accounts all pass information through it. When these links are weak, the store may run out of goods while the purchase section knows nothing.
+5. **Help in decision making.** Managers need reports, statements and past records. The office prepares them in time, so decisions rest on facts rather than guesses.
+6. **Good public image.** A clean, well-arranged office with polite staff makes customers trust the organisation. Citizens who get their Nagarik App problem solved at a counter in one visit remember it.
+7. **Control and safety.** Rules on attendance, cash, documents and passwords protect the property of the organisation from loss and fraud.
+8. **Support for growth.** As business grows, a well-managed office can handle more papers and more staff without confusion, and it can adopt computers and online services easily.
+
+| Basis | Poorly managed office | Well-managed office |
+|---|---|---|
+| Records | Lost or mixed files | Indexed and easy to find |
+| Cost | High (rework, delay) | Low |
+| Service | Slow, complaints | Fast, satisfied customers |
+| Decisions | Based on guess | Based on records |
+
+**Conclusion.** The office is the nerve centre of an organisation. Without good office management the best production or sales plans will be wasted.
+
+### Model answer D2: filing, its types and methods (10 marks)
+
+**Introduction.** **Filing** is the process of arranging and keeping letters, documents and records in a fixed order, in a folder or cabinet, so that any paper can be found quickly when it is needed.
+
+**Types of filing.**
+
+1. **Horizontal filing.** Papers lie flat one over the other in a drawer or box. It is cheap and simple, but the lower papers are hard to take out; it suits small offices.
+2. **Vertical filing.** Papers stand upright in folders in a cabinet drawer, with guide cards for each section. It is the most popular type, as any folder can be pulled out without disturbing the others.
+3. **Lateral and box filing.** Folders stand side by side on open shelves or in boxes. It saves floor space and is common in government record rooms.
+4. **Electronic (digital) filing.** Documents are scanned or typed and saved on a computer or in the cloud, with a folder name and a date. It saves space, allows search in seconds and is backed up easily.
+
+**Methods of arranging files (classification).**
+
+| Method | How files are arranged | Example |
+|---|---|---|
+| Alphabetical | By the first letter of the name | Customers: Adhikari, Basnet, Chaudhary |
+| Numerical | By serial or file number | Bill no. 101, 102, 103 |
+| Chronological | By date, newest first | Letters of Baisakh, Jestha, Ashad |
+| Subject | By the matter of the paper | Tax, Salary, Purchase |
+| Geographical | By place | Koshi, Bagmati, Gandaki |
+
+**Advantages of filing.** Papers are found quickly; they are safe from damage, loss and theft; the office looks tidy; past records are available as evidence for audit and tax; and space is saved. A good filing system is always supported by an **index**, which lists each file with its number or location.
+
+**Conclusion.** For a small shop an alphabetical vertical file is enough, but a large office or a ministry should combine numerical filing with a computerised index, because a record that cannot be found has no value.

@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
@@ -11,13 +10,14 @@ plugins {
 android {
     namespace = "com.neb.ians"
     compileSdk = 36
+    ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "com.neb.ians"
         minSdk = 24
         targetSdk = 36
-        versionCode = 26
-        versionName = "1.7.2"
+        versionCode = 27
+        versionName = "1.7.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -25,6 +25,18 @@ android {
         }
         androidResources {
             localeFilters += listOf("en", "ne")
+        }
+        ndk {
+            // Whistle (speech to text) ships for arm64 and armv7; Phonon (text to speech)
+            // for arm64. x86_64 builds a stub so emulators still install and run.
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
         }
     }
 
@@ -81,7 +93,21 @@ android {
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += listOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "/META-INF/*.version",
+                "/META-INF/com/android/build/gradle/**",
+                "/META-INF/DEPENDENCIES",
+                "/META-INF/LICENSE*",
+                "/META-INF/NOTICE*",
+                "DebugProbesKt.bin",
+                "kotlin-tooling-metadata.json"
+            )
+        }
+        jniLibs {
+            // Compress native libraries inside the APK: the 7 MB Phonon library shrinks the
+            // download by about two thirds. Android extracts them once at install time.
+            useLegacyPackaging = true
         }
     }
 }
@@ -97,7 +123,7 @@ ksp {
 }
 
 composeCompiler {
-    stabilityConfigurationFile.set(rootProject.layout.projectDirectory.file("compose_stability.conf"))
+    stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("compose_stability.conf"))
 }
 
 dependencies {
@@ -134,16 +160,16 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.5")
 
 // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-runtime:2.8.5")
+    implementation("androidx.room:room-ktx:2.8.5")
+    ksp("androidx.room:room-compiler:2.8.5")
 
 // Hilt
-    implementation("com.google.dagger:hilt-android:2.53.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.53.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("androidx.hilt:hilt-work:1.2.0")
-    ksp("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("com.google.dagger:hilt-android:2.60.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.60.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+    implementation("androidx.hilt:hilt-work:1.3.0")
+    ksp("androidx.hilt:hilt-compiler:1.3.0")
 
 // Coil Compose
     implementation("io.coil-kt:coil-compose:2.7.0")

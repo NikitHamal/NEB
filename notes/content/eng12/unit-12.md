@@ -1090,3 +1090,53 @@ ward meeting; teach one child to read.
 > away. Thank you.
 
 ---
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the speaker of "Soft Storm" became soft, using the occasions described in stanzas 1–6. <span class="marks">[10]</span>
+2. Discuss the use of anaphora, oxymoron and imagery in Abhi Subedi's "Soft Storm". <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="2" ratio="1.4" caption="Places in the poem. Thamel at night, where homeless children cried with hunger, and the Kesharmahal (Garden of Dreams) near the bat-bearing trees of the poem."
+@ photo id="eng12/thamel-lights" cap="Thamel at night"
+@ photo id="eng12/kesharmahal" cap="Kesharmahal, Kathmandu"
+```
+
+### Model answer D1: how the speaker became soft (10 marks)
+
+**Introduction.** **Abhi Subedi** (born 1945 in Sabla, Terhathum) taught English at Tribhuvan University for about forty years and writes in Nepali and English. "Soft Storm" has **nine free-verse stanzas and 106 lines** (21, 11, 10, 7, 11, 6, 19, 15, 6).
+
+1. **Stanza 1.** The speaker records the **tumult and the eerie stillness** of a time of conflict, and says "I became soft".
+2. **Stanza 2.** **Homeless children** cry with hunger in **Thamel** under the bat-bearing trees of **Kesharmahal**.
+3. **Stanza 3.** A **forlorn child** with a transistor radio round his neck looks for his mother "in the corridors of violent history".
+4. **Stanza 4.** A man is beaten "by nobody for no reason / in no sensible times".
+5. **Stanzas 5–6.** A **blood-stained shirt** speaks "in the earth's ears / with bruised human lips".
+6. **Stanzas 7–8.** From witnessing the poem turns to reflection: crocuses come up through stone, but the soft storm "rages and rages / over silent pages, silent stones, silent forlorn shirts".
+7. **Mad time.** The poem lists deforested land, a warming earth and rhododendron blooming in winter.
+8. **Stanza 9.** The speaker wants to melt his soft storm like a rainbow into "your minuscule sky", where it "dances in ripples / of your uneasy lake".
+
+**Conclusion.** Each scene of suffering makes the speaker gentler, not harder; softness is his answer to a senseless time.
+
+### Model answer D2: anaphora, oxymoron and imagery (10 marks)
+
+**Introduction.** The poem's structure and title both depend on contrast: a **storm** that is **soft**.
+
+1. **Anaphora.** The line "**I became soft**" appears exactly **eight times**, with three variations, and stops after stanza 6.
+2. **Effect of the stop.** After stanza 6 the speaker no longer needs to say it; he has become soft and now reflects.
+3. **Oxymoron.** "Soft storm" joins a gentle word to a violent one: a quiet force of feeling that is as strong as a storm.
+4. **Urban imagery.** Thamel, Kesharmahal, the transistor radio and the child's search root the poem in Kathmandu.
+5. **Image of the shirt.** The blood-stained shirt that speaks with "bruised human lips" is a personification of war memory.
+6. **Nature imagery.** Crocuses through stone, rhododendron in winter and a warming earth show a world out of order.
+7. **Closing image.** A rainbow, ripples and an uneasy lake turn the storm into something beautiful and shared.
+8. **Tone.** Compassionate, elegiac and quietly angry.
+
+| Device | Example | Effect |
+|---|---|---|
+| Anaphora | "I became soft" (8 times) | Builds a pattern of response |
+| Oxymoron | "Soft storm" | Gentle force |
+| Personification | Shirt speaking | Gives voice to the dead |
+| Simile | "like a rainbow" | Hope at the end |
+
+**Conclusion.** Subedi shows that in a senseless time, tenderness is not weakness but the strongest storm.

@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-5-society-and-technology",
+ "units": [
+  {
+   "no": 1,
+   "title": "Technology and Society - Theories and History",
+   "area": "BCA 305 · Society and Technology · Unit 1",
+   "words": 2950,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Technology Adoption and Diffusion of Innovations",
+   "area": "BCA 305 · Society and Technology · Unit 2",
+   "words": 3211,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "The Digital Divide and Digital Nepal",
+   "area": "BCA 305 · Society and Technology · Unit 3",
+   "words": 3122,
+   "read_min": 17,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Cyber and IT Law in Nepal",
+   "area": "BCA 305 · Society and Technology · Unit 4",
+   "words": 3550,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "e-Governance in Nepal",
+   "area": "BCA 305 · Society and Technology · Unit 5",
+   "words": 3379,
+   "read_min": 19,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Cyberethics, Privacy and Algorithmic Fairness",
+   "area": "BCA 305 · Society and Technology · Unit 6",
+   "words": 3173,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "E-Waste, Green Computing and Sustainable Technology",
+   "area": "BCA 305 · Society and Technology · Unit 7",
+   "words": 3225,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  }
+ ]
+}

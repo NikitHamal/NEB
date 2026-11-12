@@ -656,6 +656,53 @@ The same idea applies to carbon dioxide, whose triple point is at 5.1 atm — ab
 atmospheric pressure. That is why "dry ice" does not melt at room pressure: it
 sublimes straight to gas.
 
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Linear expansion and the bimetallic strip. (a) A bimetallic strip bends when heated because its two metals expand by different amounts. (b) The change in length is dL = alpha L dT. For strips 1.000 m long and a rise of 100 K, brass (alpha = 19 x 10^-6 per K) grows 1.9 mm, aluminium (23 x 10^-6) 2.3 mm and steel (12 x 10^-6) 1.2 mm. Bonded brass and steel differ by 0.7 mm over this length, so the strip curves with the brass on the outside of the bend. The expansion is a straight line in dT, which is the reason thermostats and fire alarms can be set by temperature."
+@ photo id="ioephy/bimetal" cap="A bimetallic strip from an overload relay: two metals bonded together"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Expansion of 1 m strips for a 100 K rise"
+al = {"brass": 19e-6, "aluminium": 23e-6, "steel": 12e-6}
+dL = {k: a * 1.0 * 100 * 1000 for k, a in al.items()}
+assert abs(dL["brass"] - 1.9) < 1e-9 and abs(dL["aluminium"] - 2.3) < 1e-9 and abs(dL["steel"] - 1.2) < 1e-9
+d = dL["brass"] - dL["steel"]; assert abs(d - 0.7) < 1e-9
+facts = dict(b="%.1f" % dL["brass"], al="%.1f" % dL["aluminium"], s="%.1f" % dL["steel"], d="%.1f" % d)
+f = Fig(300, 236)
+f.text(150, 14, "dL = alpha L dT  (L = 1 m, dT = 100 K)", size=10.5, color=NAVY, bold=True)
+cols = {"brass": (SAND, AMBER), "aluminium": (BLUE, NAVY), "steel": (MINT, TEAL)}
+for i, (k, v) in enumerate(dL.items()):
+    y = 28 + i * 34
+    f.text(8, y + 12, k, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(78, y, v * 70, 24, "", fill=cols[k][0], stroke=cols[k][1], r=3); f.text(78 + v * 70 + 6, y + 12, "%.1f mm" % v, size=10.5, color=cols[k][1], bold=True, anchor="start", vmid=True)
+f.text(150, 140, "bimetal: brass minus steel = %.1f mm in 1 m" % d, size=10.5, color=RED, bold=True)
+X = lambda T: 40 + T * 2.2; Y = lambda dl: 206 - dl * 20
+f.line(X(0), Y(0), 270, Y(0), color=SLATE, sw=1.2)
+for k in ("brass", "steel"):
+    f.line(X(0), Y(0), X(100), Y(al[k] * 1e5), color=cols[k][1], sw=2.2)
+f.text(X(100) + 4, Y(1.9) - 4, "brass", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(X(100) + 4, Y(1.2) + 12, "steel", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(X(50), 224, "dT (K): the line is straight", size=10.5, color=SLATE)
+```
+
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Latent heat is hidden energy. (a) Steam from a kettle is invisible until it cools and condenses into the white mist we see. (b) The cell compares 10 g of water at 100 degrees C with 10 g of steam at the same temperature, both cooling to skin temperature, 37 degrees C. The water gives out m c dT = 2.63 kJ, but the steam first condenses, giving out m L = 22.6 kJ with the latent heat of vaporisation 2260 kJ/kg, and then cools, so it delivers 25.23 kJ in all, 9.6 times more. This is why a steam burn is far more serious than a burn from boiling water, and why steam is an efficient heating fluid in industry."
+@ photo id="ceephy3/kettle" cap="Steam rising from a kettle"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Why steam burns worse than boiling water"
+m, c, Lv = 10.0, 4.18, 2260.0
+rows = [("water 60 C", m * c * (60 - 37) / 1000), ("water 100 C", m * c * (100 - 37) / 1000),
+        ("steam condenses", m * Lv / 1000), ("steam to 37 C", (m * Lv + m * c * 63) / 1000)]
+assert round(rows[1][1], 2) == 2.63 and round(rows[3][1], 2) == 25.23
+ratio = rows[3][1] / rows[1][1]
+f = Fig(300, 236)
+f.text(150, 12, "Heat given to skin by 10 g, kJ", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=27, fmt="%.2f", x0=94, y0=30, bw=130, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED), (ROSE, RED)])
+f.text(150, 158, "cooling to skin temperature 37 C", size=10, color=SLATE, bold=True)
+f.text(150, 180, "water: Q = m c dT = %.2f kJ" % rows[1][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "steam: Q = m L + m c dT = %.2f kJ" % rows[3][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "steam delivers %.1f times more heat" % ratio, size=10.5, color=RED, bold=True)
+facts = dict(w=rows[1][1], s=rows[3][1], r=ratio, lat=rows[2][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -871,3 +918,65 @@ sublimes straight to gas.
 **8.** (a) — mean excess 30 K gives 10 K in 10 min; for the next 5 K the mean excess is 22.5 K, so the rate is 0.75 K min⁻¹ and the time is 5/0.75 ≈ 6.7 min. The exponential law gives 6.6 min.
 **9.** (b) — heat to remove = 0.200 × 4200 × 50 = 42 000 J; m = 42 000/(3.36 × 10⁵) = 0.125 kg = 125 g.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the coefficients of linear, area and volume expansion, show that $\alpha:\beta:\gamma = 1:2:3$, and explain the anomalous expansion of water. <span class="marks">[10]</span>
+2. State the principle of calorimetry, define specific and latent heats and solve a mixture problem with ice. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="2" ratio="1.4" caption="Heat and expansion. (a) A bimetallic strip bends when heated because the two metals expand by different amounts, which is how a thermostat switch works. (b) A calorimeter is a thermally insulated vessel used to measure heat exchanged by the principle of calorimetry."
+@ photo id="ioephy/bimetal" cap="(a) Bimetallic strip"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceechem2/calorimeter" cap="(b) Calorimeter"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: thermal expansion of solids and liquids (10 marks)
+
+**Introduction.** Most substances expand on heating because the molecules vibrate with greater amplitude and the average distance between them increases.
+
+**Coefficients.** The coefficient of **linear** expansion is $\alpha = \dfrac{\Delta L}{L\,\Delta\theta}$, of **area** expansion $\beta = \dfrac{\Delta A}{A\,\Delta\theta}$, and of **volume** expansion $\gamma = \dfrac{\Delta V}{V\,\Delta\theta}$. The unit of each is K⁻¹ (or $^{\circ}\text{C}^{-1}$).
+
+**Relation.** For a square plate of side $L$, the new side is $L(1 + \alpha\theta)$, so the new area is $L^2(1 + \alpha\theta)^2 \approx L^2(1 + 2\alpha\theta)$ and $\beta = 2\alpha$. For a cube the volume is $L^3(1 + 3\alpha\theta)$ and $\gamma = 3\alpha$. Hence $\alpha:\beta:\gamma = 1:2:3$.
+
+**Liquids.** A liquid has two coefficients. The **apparent** expansion is what we see relative to the vessel, and the **real** expansion adds the expansion of the vessel: $\gamma_r = \gamma_a + \gamma_g$. The density changes as $\rho' = \rho/(1 + \gamma\theta)$.
+
+**Anomalous expansion of water.** Between $0^{\circ}\text{C}$ and $4^{\circ}\text{C}$ water contracts when heated, so its density is maximum, $1000\ \text{kg m}^{-3}$, at $4^{\circ}\text{C}$. Above $4^{\circ}\text{C}$ it expands normally. In a lake in winter, the surface cools to $4^{\circ}\text{C}$ and sinks; then the surface water cools further and freezes first. Ice floats and insulates the water below, so fish survive.
+
+| Material | $\alpha\ (\text{K}^{-1})$ |
+|---|---|
+| Steel | $1.2\times10^{-5}$ |
+| Aluminium | $2.3\times10^{-5}$ |
+| Glass (ordinary) | $0.9\times10^{-5}$ |
+| Invar | $\approx 10^{-6}$ |
+
+**Applications and effects.** Gaps in railway tracks and bridges, rivetting hot, fitting an iron tyre on a wheel, the bimetal thermostat and the compensated pendulum of a clock (invar), all use expansion.
+
+**Numerical.** A steel rail $30\ \text{m}$ long at $20^{\circ}\text{C}$ is heated to $50^{\circ}\text{C}$: $\Delta L = 30\times1.2\times10^{-5}\times30 = 1.08\times10^{-2}\ \text{m} = 10.8\ \text{mm}$. If it could not expand, the thermal stress would be $Y\alpha\Delta\theta = 2\times10^{11}\times1.2\times10^{-5}\times30 = 7.2\times10^{7}\ \text{Pa}$.
+
+**Conclusion.** $\gamma = 3\alpha$ for isotropic solids, and water's maximum density at $4^{\circ}\text{C}$ protects aquatic life.
+
+### Model answer D2: calorimetry, specific heat and latent heat (10 marks)
+
+**Introduction.** **Heat** is the energy that flows because of a temperature difference. Its SI unit is joule ($1\ \text{cal} = 4.2\ \text{J}$).
+
+**Definitions.**
+
+1. **Heat capacity** $C = Q/\Delta\theta$ (J K⁻¹).
+2. **Specific heat capacity** $c = \dfrac{Q}{m\,\Delta\theta}$ (J kg⁻¹ K⁻¹). For water $c = 4200$, which is high, so water is a good coolant and the sea moderates the climate.
+3. **Latent heat** $L = Q/m$ is the heat to change the state at constant temperature. For ice, $L_f = 3.36\times10^5\ \text{J kg}^{-1}$ and for steam, $L_v = 2.26\times10^6\ \text{J kg}^{-1}$.
+
+**Principle of calorimetry.** If no heat is lost, the heat lost by the hot bodies equals the heat gained by the cold bodies. This follows from the conservation of energy.
+
+| Process | Heat formula |
+|---|---|
+| Temperature change | $Q = mc\,\Delta\theta$ |
+| Melting or freezing | $Q = mL_f$ |
+| Boiling or condensing | $Q = mL_v$ |
+| Water equivalent | $W = mc/c_{water}$ |
+
+**Numerical.** $50\ \text{g}$ of ice at $0^{\circ}\text{C}$ is added to $200\ \text{g}$ of water at $40^{\circ}\text{C}$ in an insulated vessel. Heat needed to melt the ice $= 0.050\times3.36\times10^5 = 16\,800\ \text{J}$. Heat the water can give up in cooling to $0^{\circ}\text{C}$ $= 0.200\times4200\times40 = 33\,600\ \text{J}$, which is more, so all the ice melts. The remaining $16\,800\ \text{J}$ warms the total $250\ \text{g}$: $\Delta\theta = \dfrac{16\,800}{0.250\times4200} = 16^{\circ}\text{C}$. The final temperature is $16^{\circ}\text{C}$.
+
+**Conclusion.** Calorimetry rests on energy conservation. During a change of state the temperature stays constant, because the heat is used to break molecular bonds.

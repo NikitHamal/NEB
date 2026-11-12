@@ -327,6 +327,54 @@ arsenic and mercury**, never interchangeably.
 **Solution.** Each ATP exports $3\text{ Na}^+$ and imports $2\text{ K}^+$, moving $+1$ net elementary charge outward. Thus $6.0 \times 10^6\text{ Na}^+$ leave, $4.0 \times 10^6\text{ K}^+$ enter, and $+2.0 \times 10^6\,e$ of net positive charge is pumped out (making the interior negative).
 :::
 
+```photogrid label="15.1" cols="2" ratio="1.2" caption="A trace element in a pinch of salt. (a) Common salt is the carrier chosen for iodine because everybody eats it. (b) Assuming salt iodised at 30 mg of iodine per kg (a typical standard, assumed), the iodine is added as KIO3, 50.6 mg of KIO3 per kg. A person who eats 3, 5 or 8 g of salt a day takes in 90, 150 and 240 micrograms of iodine. The adult recommended intake is 150 micrograms, so 5 g a day just meets it, and a low-salt diet can leave a deficiency that causes goitre and, in children, poor brain development."
+@ photo id="chem11/halite" cap="Rock salt: sodium and chloride are essential ions"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Iodine from iodised salt (micrograms per day)"
+ppm = 30.0; kio3 = ppm * 214.0 / 126.9
+intake = lambda g: ppm * g / 1000 * 1000
+i3, i5, i8 = intake(3), intake(5), intake(8)
+assert abs(kio3 - 50.6) < 0.1 and i5 == 150 and i3 == 90 and i8 == 240
+facts = dict(kio3="%.1f" % kio3, i3="%.0f" % i3, i5="%.0f" % i5, i8="%.0f" % i8)
+f = Fig(300, 236)
+f.text(150, 14, "iodine intake, micrograms per day", size=10.5, color=NAVY, bold=True)
+for i, (g, v) in enumerate(((3, i3), (5, i5), (8, i8))):
+    y = 30 + i * 40
+    f.text(14, y + 4, "%d g salt per day" % g, size=10.5, color=SLATE, anchor="start")
+    w = v * 0.8
+    col, fl = (RED, ROSE) if v < 150 else (TEAL, MINT)
+    f.box(14, y + 10, w, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.0f" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.line(14 + 150 * 0.8, 36, 14 + 150 * 0.8, 150, color=AMBER, sw=1.6, dash=True)
+f.text(14 + 150 * 0.8, 162, "150 recommended", size=10.5, color=AMBER, bold=True)
+f.text(150, 186, "30 mg iodine per kg salt (assumed)", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "as KIO3: %.1f mg per kg of salt" % kio3, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "3 g gives only 60 per cent of the need", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="15.2" cols="2" ratio="1.2" caption="A dose adds up every day. (a) Hand pumps on shallow tube wells supply drinking water across the Terai, where some groundwater carries natural arsenic from the Himalayan sediments. (b) The cell multiplies the concentration by a daily intake of 3 litres. Water at the WHO guideline of 10 micrograms per litre delivers 30 micrograms a day; water at Nepal's interim standard of 50 micrograms per litre delivers 150, and a badly contaminated well at 300 micrograms per litre delivers 900. At 50 micrograms per litre that is 54.8 mg a year and 3.8 g over 70 years. Arsenic is a cumulative poison, so a small daily dose still causes skin lesions and cancers after many years."
+@ photo id="ceechem2/handpump" cap="A hand-operated tube-well pump in Nepal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Arsenic intake from drinking water"
+litres = 3.0
+rows = []
+for ppb in (10, 50, 100, 300):
+    rows.append(("%d ug/L" % ppb, ppb * litres))
+assert rows[0][1] == 30 and rows[1][1] == 150
+yearly = rows[1][1] * 365 / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Arsenic swallowed per day, micrograms", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=900, fmt="%.0f", x0=64, y0=30, bw=170, gap=30,
+      colors=[(MINT, TEAL), (SAND, AMBER), (ROSE, RED), (ROSE, RED)])
+f.text(150, 156, "3 litres of water per day", size=10, color=SLATE, bold=True)
+f.text(150, 180, "WHO guideline 10 ug/L; Nepal standard 50 ug/L", size=10, color=NAVY, bold=True)
+f.text(150, 198, "at 50 ug/L: %.1f mg in a year" % yearly, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "and %.1f g in 70 years" % (yearly * 70 / 1000), size=10.5, color=NAVY, bold=True)
+facts = dict(d10=rows[0][1], d50=rows[1][1], d300=rows[3][1], y=yearly, life=yearly * 70 / 1000)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know fact |
@@ -522,3 +570,73 @@ arsenic and mercury**, never interchangeably.
 **9.** (a) — renal tubular wasting plus demineralized painful bone is the Itai-itai pattern of chronic cadmium poisoning.
 **10.** (b) — Kayser–Fleischer rings are corneal copper deposits of Wilson disease.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the biological roles of the essential metals (Na, K, Mg, Ca, Fe, Zn, Cu, Co) and the sodium-potassium pump. <span class="marks">[10]</span>
+2. Explain the toxicity of heavy metals, chelation therapy and the role of metal complexes in medicine with a numerical on haemoglobin. <span class="marks">[10]</span>
+
+### Model answer D1: essential elements and their biological roles (10 marks)
+
+**Introduction.** **Bio-inorganic chemistry** studies the role of metal ions and inorganic compounds in living systems. About $25$ elements are essential. Bulk elements (C, H, O, N, Na, K, Ca, Mg, P, S, Cl) are needed in large amounts and **trace elements** (Fe, Zn, Cu, Mn, Co, Mo, I, Se) in very small amounts.
+
+**Roles of the main metal ions.**
+
+1. **Sodium and potassium.** Na⁺ is the main extracellular cation, and K⁺ is the main intracellular cation. Together they set osmotic balance, nerve impulses and muscle contraction. The **sodium-potassium pump** (Na⁺/K⁺-ATPase) uses one ATP to push $3\ \text{Na}^+$ out and $2\ \text{K}^+$ in against their concentration gradients, which makes the cell interior negative.
+2. **Magnesium.** The central atom of **chlorophyll** (a porphyrin-type chlorin ring), it is also a cofactor of ATP-using enzymes.
+3. **Calcium.** The main component of bones and teeth (hydroxyapatite, Ca₁₀(PO₄)₆(OH)₂), and it is needed for blood clotting, muscle contraction and nerve signals.
+4. **Iron.** The central metal of **haemoglobin** and myoglobin (oxygen transport and storage), cytochromes (electron transfer) and ferredoxins.
+5. **Zinc.** Present in over $300$ enzymes, such as carbonic anhydrase (which converts CO₂ and water to carbonic acid) and carboxypeptidase.
+6. **Copper.** Found in cytochrome oxidase, plastocyanin and in haemocyanin, the blue oxygen carrier of molluscs.
+7. **Cobalt.** The central metal of **vitamin B₁₂** (cyanocobalamin), needed for red-blood-cell formation.
+8. **Molybdenum and iodine.** Mo is in nitrogenase, which fixes atmospheric nitrogen, and I is in thyroxine, so deficiency causes goitre.
+
+| Element | Compound or site | Deficiency disease |
+|---|---|---|
+| Fe | haemoglobin | anaemia |
+| Ca | bone | rickets, osteoporosis |
+| I | thyroxine | goitre |
+| Zn | enzymes | poor growth, slow healing |
+| Co | vitamin B₁₂ | pernicious anaemia |
+| Na/K | pump | cramps, weakness |
+
+**Oxygen transport.** In haemoglobin the Fe²⁺ sits in the haem group. It binds O₂ reversibly, and the four subunits show **cooperativity**. CO binds about $200$ times more strongly than O₂, which makes it poisonous. In Nepal, iodised salt programmes have greatly reduced goitre in the hill districts.
+
+**Numerical.** Haemoglobin contains $0.34\%$ iron by mass and each molecule has four Fe atoms, so the molar mass is $\dfrac{4\times55.85}{0.0034} = 6.6\times10^4\ \text{g mol}^{-1}$. One gram of haemoglobin binds $\dfrac{4\times22.4}{65\,700} = 1.4\ \text{mL}$ of O₂ at STP.
+
+**Conclusion.** Metal ions are central to oxygen transport, photosynthesis, nerve action and enzymes, and both deficiency and excess cause disease.
+
+### Model answer D2: toxic metals, chelation and metal-based drugs (10 marks)
+
+**Introduction.** A metal that is useful at a low level may be poisonous at a high level, and heavy metals such as Pb, Hg, Cd and As are toxic even in traces because they bind strongly to sulphur and nitrogen donor groups of enzymes and block them.
+
+**Toxic metals.**
+
+| Metal | Source | Effect |
+|---|---|---|
+| Lead | old paints, petrol, pipes | damages the brain and the blood-forming system, reduces intelligence in children |
+| Mercury | fish (methylmercury), thermometers, amalgam | nerve damage, Minamata disease |
+| Cadmium | batteries, plating | kidney damage, itai-itai disease |
+| Arsenic | groundwater | skin lesions, cancer (a problem in the Terai of Nepal) |
+| Chromium(VI) | tanning, plating | carcinogenic |
+
+**Chelation therapy.** A **chelating agent** binds a metal ion through two or more donor atoms, giving a stable, soluble, excretable ring complex.
+
+1. **EDTA** (as Ca-EDTA) for lead poisoning.
+2. **BAL** (British anti-Lewisite, 2,3-dimercaptopropanol) for arsenic, mercury and gold.
+3. **Desferrioxamine** for iron overload and **D-penicillamine** for copper (Wilson's disease).
+4. **Prussian blue** for thallium and caesium.
+
+**Metal-based drugs.**
+
+- **Cisplatin**, cis-$[\text{Pt(NH}_3)_2\text{Cl}_2]$, an anticancer drug that binds to the guanine bases of DNA. The trans isomer is inactive.
+- **Auranofin** (gold) for rheumatoid arthritis.
+- **Barium sulphate** as a contrast agent for X-rays (insoluble, so safe).
+- **Lithium carbonate** for bipolar disorder.
+- **Zinc** and **iron** supplements for deficiency.
+
+**Environmental points.** The WHO limit for arsenic in drinking water is $10\ \text{ppb}$ (Nepal's interim standard is $50\ \text{ppb}$), the limit for lead is $10\ \text{ppb}$, and methods of removal include sand filtration with iron oxide and the SORAS technique (solar oxidation and removal of arsenic).
+
+**Numerical.** A $0.5\ \text{L}$ sample of water has $25\ \mu\text{g}$ of arsenic, which is $\dfrac{25}{0.5} = 50\ \mu\text{g L}^{-1} = 50\ \text{ppb}$, five times the WHO limit of $10\ \text{ppb}$. A person drinking $3\ \text{L}$ per day takes in $150\ \mu\text{g}$ of arsenic.
+
+**Conclusion.** Heavy metals poison enzymes, chelating agents remove them, and complexes such as cisplatin turn the same binding power into medicine.

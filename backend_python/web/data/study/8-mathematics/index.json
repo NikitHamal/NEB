@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Sets",
    "area": "Compulsory Mathematics",
-   "words": 3304,
-   "read_min": 18,
+   "words": 3555,
+   "read_min": 20,
    "figures": 3,
    "has_questions": true
   },
@@ -14,8 +14,8 @@
    "no": 2,
    "title": "Whole Numbers",
    "area": "Compulsory Mathematics",
-   "words": 2115,
-   "read_min": 12,
+   "words": 2311,
+   "read_min": 13,
    "figures": 2,
    "has_questions": true
   },
@@ -23,8 +23,8 @@
    "no": 3,
    "title": "Rational and Irrational Numbers",
    "area": "Compulsory Mathematics",
-   "words": 2351,
-   "read_min": 13,
+   "words": 2547,
+   "read_min": 14,
    "figures": 2,
    "has_questions": true
   },
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "Ratio and Proportion",
    "area": "Compulsory Mathematics",
-   "words": 2343,
-   "read_min": 13,
+   "words": 2546,
+   "read_min": 14,
    "figures": 2,
    "has_questions": true
   },
@@ -41,8 +41,8 @@
    "no": 5,
    "title": "Profit and Loss",
    "area": "Compulsory Mathematics",
-   "words": 2143,
-   "read_min": 12,
+   "words": 2385,
+   "read_min": 13,
    "figures": 2,
    "has_questions": true
   },
@@ -50,8 +50,8 @@
    "no": 6,
    "title": "Unitary Method",
    "area": "Compulsory Mathematics",
-   "words": 2369,
-   "read_min": 13,
+   "words": 2599,
+   "read_min": 14,
    "figures": 1,
    "has_questions": true
   },
@@ -59,8 +59,8 @@
    "no": 7,
    "title": "Simple Interest",
    "area": "Compulsory Mathematics",
-   "words": 2154,
-   "read_min": 12,
+   "words": 2343,
+   "read_min": 13,
    "figures": 1,
    "has_questions": true
   },
@@ -68,8 +68,8 @@
    "no": 8,
    "title": "Area and Volume",
    "area": "Compulsory Mathematics",
-   "words": 2713,
-   "read_min": 15,
+   "words": 2905,
+   "read_min": 16,
    "figures": 4,
    "has_questions": true
   },
@@ -77,8 +77,8 @@
    "no": 9,
    "title": "Indices",
    "area": "Compulsory Mathematics",
-   "words": 1503,
-   "read_min": 8,
+   "words": 1573,
+   "read_min": 9,
    "figures": 1,
    "has_questions": true
   },
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Algebraic Expressions",
    "area": "Compulsory Mathematics",
-   "words": 2280,
+   "words": 2398,
    "read_min": 13,
    "figures": 1,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Algebraic Fraction",
    "area": "Compulsory Mathematics",
-   "words": 1578,
+   "words": 1663,
    "read_min": 9,
    "figures": 1,
    "has_questions": true
@@ -104,8 +104,8 @@
    "no": 12,
    "title": "Equation and Graph",
    "area": "Compulsory Mathematics",
-   "words": 2094,
-   "read_min": 12,
+   "words": 2321,
+   "read_min": 13,
    "figures": 2,
    "has_questions": true
   },
@@ -113,8 +113,8 @@
    "no": 13,
    "title": "Lines and Angles",
    "area": "Compulsory Mathematics",
-   "words": 2359,
-   "read_min": 13,
+   "words": 2632,
+   "read_min": 15,
    "figures": 3,
    "has_questions": true
   },
@@ -122,8 +122,8 @@
    "no": 14,
    "title": "Plane Figures",
    "area": "Compulsory Mathematics",
-   "words": 2506,
-   "read_min": 14,
+   "words": 2747,
+   "read_min": 15,
    "figures": 2,
    "has_questions": true
   },
@@ -131,8 +131,8 @@
    "no": 15,
    "title": "Congruency and Similarity",
    "area": "Compulsory Mathematics",
-   "words": 2206,
-   "read_min": 12,
+   "words": 2482,
+   "read_min": 14,
    "figures": 2,
    "has_questions": true
   },
@@ -140,8 +140,8 @@
    "no": 16,
    "title": "Solid Objects",
    "area": "Compulsory Mathematics",
-   "words": 1962,
-   "read_min": 11,
+   "words": 2190,
+   "read_min": 12,
    "figures": 3,
    "has_questions": true
   },
@@ -149,8 +149,8 @@
    "no": 17,
    "title": "Coordinates",
    "area": "Compulsory Mathematics",
-   "words": 2162,
-   "read_min": 12,
+   "words": 2332,
+   "read_min": 13,
    "figures": 2,
    "has_questions": true
   },
@@ -158,8 +158,8 @@
    "no": 18,
    "title": "Tessellation",
    "area": "Compulsory Mathematics",
-   "words": 1953,
-   "read_min": 11,
+   "words": 2213,
+   "read_min": 12,
    "figures": 2,
    "has_questions": true
   },
@@ -167,8 +167,8 @@
    "no": 19,
    "title": "Transformation",
    "area": "Compulsory Mathematics",
-   "words": 1960,
-   "read_min": 11,
+   "words": 2207,
+   "read_min": 12,
    "figures": 3,
    "has_questions": true
   },
@@ -176,8 +176,8 @@
    "no": 20,
    "title": "Bearing and Scale Drawing",
    "area": "Compulsory Mathematics",
-   "words": 2436,
-   "read_min": 14,
+   "words": 2743,
+   "read_min": 15,
    "figures": 2,
    "has_questions": true
   },
@@ -185,8 +185,8 @@
    "no": 21,
    "title": "Statistics",
    "area": "Compulsory Mathematics",
-   "words": 2437,
-   "read_min": 14,
+   "words": 2729,
+   "read_min": 15,
    "figures": 4,
    "has_questions": true
   }
@@ -197,21 +197,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Mathematics: Unit-wise Objective Question Bank",
-   "words": 2397,
+   "words": 2386,
    "read_min": 13
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Mathematics: Unit-wise Subjective Question Bank",
-   "words": 2075,
-   "read_min": 12
+   "words": 2997,
+   "read_min": 17
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Mathematics: Model Question Sets and Predicted Questions",
-   "words": 2559,
+   "words": 2540,
    "read_min": 14
   }
  ],

@@ -312,3 +312,86 @@ A gas that is **insoluble** in water is collected over water. A gas that is **he
 **3.** Zinc granules and dilute H₂SO₄ in a flask with thistle funnel; gas collected over water. Zn + H₂SO₄ → ZnSO₄ + H₂ ↑. Test: burning splinter gives a pop. (Draw the diagram as in the chapter.)
 **4.** $T_1 = 300$ K, $T_2 = 400$ K. $V_2 = \dfrac{P_1V_1T_2}{T_1P_2} = \dfrac{760 \times 500 \times 400}{300 \times 1520} = $ **333.3 cm³**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Boyle's law and Charles' law. Explain them with experiments or examples and solve a numerical problem on each. <span class="marks">[10]</span>
+2. Describe the laboratory preparation, properties, tests and uses of hydrogen, oxygen and carbon dioxide. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="3" ratio="1.2" caption="Gases in everyday use. (a) Limestone is calcium carbonate, the raw material from which carbon dioxide is made by heating or with acid. (b) A hydrogen-filled balloon rises because hydrogen is the lightest gas. (c) A carbon dioxide fire extinguisher: the gas is heavier than air and does not support burning, so it smothers a fire."
+@ photo id="sci10/limestone" cap="(a) Limestone"
+@ photo id="sci10/h2-balloon" cap="(b) Hydrogen balloon"
+@ photo id="sci10/co2-extinguisher" cap="(c) CO2 extinguisher"
+```
+
+### Model answer D1: Boyle's law and Charles' law (10 marks)
+
+**Introduction.** A gas has no fixed shape or volume. It fills its container, and its **pressure, volume and temperature** are related. The temperature must be taken on the **Kelvin scale**: $T(\text{K}) = t(^\circ\text{C}) + 273$.
+
+**Boyle's law.** *At constant temperature, the volume of a fixed mass of gas is inversely proportional to its pressure.*
+
+$$P \propto \frac{1}{V} \quad\text{or}\quad P_1V_1 = P_2V_2.$$
+
+- **Experiment idea.** Close the nozzle of a bicycle pump and push the piston. The air volume decreases and the pressure rises so that it becomes harder to push.
+- **Graph.** The graph of $P$ against $V$ is a curve (hyperbola), and the graph of $P$ against $1/V$ is a straight line.
+- **Applications.** Breathing (when the chest expands, the lung volume rises and the pressure falls, so air enters), syringes, and the bubbles that grow as they rise in water.
+
+**Numerical 1.** A gas has a volume of 4 L at a pressure of 1 atm. What is its volume when the pressure is 2 atm at the same temperature?
+
+$$V_2 = \frac{P_1V_1}{P_2} = \frac{1 \times 4}{2} = 2\ \text{L}.$$
+
+**Charles' law.** *At constant pressure, the volume of a fixed mass of gas is directly proportional to its absolute (Kelvin) temperature.*
+
+$$V \propto T \quad\text{or}\quad \frac{V_1}{T_1} = \frac{V_2}{T_2}.$$
+
+- **Example.** A balloon left in the sun swells, and one placed in the freezer shrinks. A hot-air balloon rises as its air expands.
+- **Absolute zero.** If a gas were cooled to -273 °C, its volume would become zero. This temperature, 0 K, is **absolute zero**.
+
+**Numerical 2.** A gas has a volume of 300 mL at 27 °C. Find its volume at 57 °C at constant pressure.
+
+$$T_1 = 27 + 273 = 300\ \text{K}, \quad T_2 = 57 + 273 = 330\ \text{K}, \quad V_2 = 300 \times \frac{330}{300} = 330\ \text{mL}.$$
+
+| Law | Constant | Relation | Shape of graph |
+|---|---|---|---|
+| Boyle's | Temperature | $P \propto 1/V$ | Hyperbola |
+| Charles' | Pressure | $V \propto T$ | Straight line (V against T in kelvin) |
+
+**Conclusion.** Boyle's and Charles' laws explain pumps, breathing and balloons. They are combined in the gas equation $\dfrac{P_1V_1}{T_1} = \dfrac{P_2V_2}{T_2}$.
+
+### Model answer D2: hydrogen, oxygen and carbon dioxide (10 marks)
+
+**Introduction.** These three gases are prepared in the laboratory by simple reactions, and each is recognised by a test.
+
+| Gas | Preparation | Equation | Collection |
+|---|---|---|---|
+| Hydrogen | Zinc with dilute sulphuric acid | $\text{Zn} + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + \text{H}_2$ | Downward displacement of water |
+| Oxygen | Decomposition of hydrogen peroxide with manganese dioxide ($\text{MnO}_2$) catalyst | $2\text{H}_2\text{O}_2 \rightarrow 2\text{H}_2\text{O} + \text{O}_2$ | Over water |
+| Carbon dioxide | Marble (calcium carbonate) with dilute hydrochloric acid | $\text{CaCO}_3 + 2\text{HCl} \rightarrow \text{CaCl}_2 + \text{H}_2\text{O} + \text{CO}_2$ | Upward delivery (heavier than air) |
+
+**Hydrogen.**
+
+- **Properties:** colourless, odourless, the lightest gas, burns with a pop and a pale blue flame, insoluble in water.
+- **Test:** a burning splinter near the gas gives a **"pop" sound**.
+- **Uses:** fuel (rockets), making ammonia and margarine, filling weather balloons.
+
+**Oxygen.**
+
+- **Properties:** colourless and odourless, slightly soluble in water, supports burning but does not burn itself.
+- **Test:** a **glowing splinter relights**.
+- **Uses:** respiration, oxygen cylinders in hospitals (which saved many lives in COVID-19), welding, mountaineers at high altitude.
+
+**Carbon dioxide.**
+
+- **Properties:** colourless, faint acidic taste, heavier than air, dissolves in water to give carbonic acid, does not support burning.
+- **Test:** it turns **lime water milky**: $\text{Ca(OH)}_2 + \text{CO}_2 \rightarrow \text{CaCO}_3 + \text{H}_2\text{O}$. A burning splinter is put out.
+- **Uses:** fire extinguishers, soft drinks, photosynthesis, dry ice for cooling.
+
+| Test | Hydrogen | Oxygen | Carbon dioxide |
+|---|---|---|---|
+| Burning splinter | Pops | Burns brighter | Goes out |
+| Glowing splinter | No effect | Relights | Goes out |
+| Lime water | No change | No change | Turns milky |
+
+**Safety.** Hydrogen forms an explosive mixture with air, so keep all flames away while preparing it.
+
+**Conclusion.** Hydrogen, oxygen and carbon dioxide are easy to prepare and identify, and each has special uses in industry and health.

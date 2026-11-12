@@ -158,6 +158,10 @@ class LibraryViewModel @Inject constructor(
     }
 
     /** Infinite scroll: appends the next page when the grid reaches the end. */
+    fun reportImpressions(ids: List<String>) {
+        viewModelScope.launch { resourceRepository.reportImpressions(ids) }
+    }
+
     fun loadNextPage() {
         val state = _uiState.value
         if (state.isLoading || state.isLoadingMore || !state.hasMore) return

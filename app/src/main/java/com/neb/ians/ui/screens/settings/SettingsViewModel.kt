@@ -34,6 +34,23 @@ class SettingsViewModel @Inject constructor(
     val notificationsEnabled: StateFlow<Boolean> = settingsRepository.notificationsEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
+    /** Library autopilot: a message when a resource lands for the member's class and subjects. Stored on the account. */
+    private val _newResourceAlerts = MutableStateFlow(true)
+    val newResourceAlerts: StateFlow<Boolean> = _newResourceAlerts.asStateFlow()
+
+    init {
+        viewModelScope.launch { authRepository.newResourceAlerts()?.let { _newResourceAlerts.value = it } }
+    }
+
+    fun setNewResourceAlerts(enabled: Boolean) {
+        val before = _newResourceAlerts.value
+        _newResourceAlerts.value = enabled
+        viewModelScope.launch {
+            val saved = authRepository.setNewResourceAlerts(enabled)
+            _newResourceAlerts.value = saved ?: before
+        }
+    }
+
     val downloadWifiOnly: StateFlow<Boolean> = settingsRepository.downloadWifiOnly
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 

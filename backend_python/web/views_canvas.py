@@ -1,14 +1,14 @@
 import json
 import uuid
 
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
 
 from api.models import CanvasBoard, CanvasNode, User
 from api.utils import now_ms, uuid_str
-from .view_helpers import _ctx, _get_valid_token, _rate_limit, _blobatar_url_for
+from .view_helpers import _ctx, _get_valid_token, _rate_limit
 from api.security import get_user_by_auth_token
 
 SYSTEM_PROMPT = """You are Wondering Canvas — a spatial research engine that turns any question into a rich, visual, node-based explanation.
@@ -657,7 +657,7 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
         return best_key
 
     try:
-        from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED
+        from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
         raw_by, data_by, score_by = {}, {}, {}
 
         if is_fast:
@@ -850,10 +850,7 @@ def canvas_page(request):
         # Bearer/API-style page load: session is empty, so populate footer user + auth flag
         ctx['is_authenticated'] = True
         photo = user.photo_url or ''
-        try:
-            avatar = _blobatar_url_for(user) if (getattr(user, 'avatar_use_pp', False) or not photo) else photo
-        except Exception:
-            avatar = photo
+        avatar = photo
         ctx['user'] = {
             'id': str(user.id),
             'username': user.username,

@@ -345,3 +345,93 @@ Opportunity cost is very often answered as "the money spent on the thing we chos
 *Choice and opportunity cost (3).* Scarcity forces choice between alternatives; the cost of the choice is the opportunity cost, the value of the next best alternative forgone. It is the economic cost, and it is not the same as the money paid (the accounting cost) nor the total of all the alternatives given up. Example: a family with Rs. 40,000 ranks a scooter, a year's tuition and a television; if it chooses the scooter, the opportunity cost is the tuition, not the tuition plus the television.
 *Allocation of resources (2).* Deciding how much of each factor to use and where: by the price mechanism in a capitalist economy, by the central plan in a socialist economy, and by both in a mixed economy such as Nepal, where the market allocates consumer goods while the state allocates through the budget to roads, education, health and defence and steers the rest by policy.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define an economy. Explain the types of economy with their features, merits and demerits. <span class="marks">[10]</span>
+2. What is scarcity? Explain choice, opportunity cost and the three central problems of an economy. <span class="marks">[10]</span>
+3. Explain the circular flow of income in a two-sector economy and the main macroeconomic variables. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="5" ratio="1.0" caption="Resources and their use. (a) Terraced farming uses land and labour. (b) A porter on a trekking trail sells labour. (c) A hydropower dam is capital. (d) A Kathmandu market brings buyers and sellers together. (e) A school builds human capital. Land, labour, capital and enterprise are scarce, so every use has an opportunity cost."
+@ photo id="eco10/farm" cap="(a) Land and labour"
+@ photo id="eco10/porter" cap="(b) Labour"
+@ photo id="eco10/hydropower" cap="(c) Capital"
+@ photo id="eco10/market" cap="(d) Market"
+@ photo id="eco10/school" cap="(e) Human capital"
+```
+
+### Model answer D1: types of economy (10 marks)
+
+**Introduction.** An **economy** is the system through which people of a country produce, distribute and consume goods and services to satisfy their wants. How the economy is run depends on who owns the resources and who takes the decisions.
+
+| Type | Who decides | Features | Merits | Demerits | Example |
+|---|---|---|---|---|---|
+| Capitalist (market) | Private people through prices | Private property, profit motive, competition, consumer freedom | Efficiency, quality, choice | Inequality, unemployment, neglect of the poor | USA |
+| Socialist (planned) | The government | Public ownership, central planning, equality as a goal | Less inequality, basic needs for all | Slow decisions, low incentive, little choice | Former USSR |
+| Mixed | Private sector and government together | Both sectors exist; government regulates | Combines efficiency with welfare | Delay, corruption risk | Nepal, India |
+
+**Nepal as a mixed economy.** The Constitution of Nepal recognises three pillars: **public, private and cooperative**. Hydropower plants of the Nepal Electricity Authority and Nepal Airlines are public enterprises; shops, hotels and schools are private; and savings and credit cooperatives belong to the people in the community.
+
+**Features of a mixed economy.**
+
+1. Both private and public ownership exist side by side.
+2. Individuals have freedom of occupation and consumption.
+3. The government provides services such as roads, schools and health.
+4. Prices are set mainly by the market, but the government controls some, for example the price of petroleum and sugar in some periods.
+5. Planning is used to guide development (periodic plans of the National Planning Commission).
+6. Social security is given to the poor, elderly and disabled.
+
+**Conclusion.** Most countries today are mixed economies. Nepal has chosen this path because it joins the energy of private enterprise with the welfare duty of the state.
+
+### Model answer D2: scarcity, choice, opportunity cost and the central problems (10 marks)
+
+**Introduction.** Human **wants are unlimited**, but the **resources** (land, labour, capital, enterprise) to satisfy them are **limited**. This gap is called **scarcity**, and it is the root of every economic problem.
+
+**Choice.** Because of scarcity, we must **choose** which wants to satisfy first. A family with Rs 5,000 may have to choose between a school bag and a pair of shoes.
+
+**Opportunity cost.** The value of the **next best alternative given up** when a choice is made. If a farmer in Chitwan uses his 1 bigha of land for rice instead of vegetables, the income that he could have earned from the vegetables is the opportunity cost of rice.
+
+**Production possibility curve (PPC).** It shows the different combinations of two goods that can be made with all resources fully used. It slopes downward, since more of one good means less of the other, and it bends outward due to rising opportunity cost.
+
+**Three central problems.**
+
+1. **What to produce, and how much?** Whether to grow rice or sugarcane, make cement or textiles, build a road or a school.
+2. **How to produce?** Choose the technique: labour-intensive (many workers, little machinery, as in terrace farming) or capital-intensive (machines, as in a modern factory).
+3. **For whom to produce?** How the goods are shared among people, whether by income, by need or by plan.
+
+**How different systems solve them.**
+
+| Problem | Market economy | Planned economy | Mixed economy |
+|---|---|---|---|
+| What | Consumer demand and profit | Government plan | Both |
+| How | Cheapest method (competition) | Government decides | Mostly market, some rules |
+| For whom | Those with money | According to need and plan | Market plus welfare schemes |
+
+**Conclusion.** Scarcity forces choice, every choice has an opportunity cost, and each economy answers the three central problems in its own way.
+
+### Model answer D3: circular flow of income and macroeconomic variables (10 marks)
+
+**Introduction.** The **circular flow of income** shows how money, goods and services move between sectors of the economy without a break, like blood in the body.
+
+**Two-sector model.** There are only **households** and **firms**; there is no government or foreign trade.
+
+1. **Real flow:** households give **factor services** (land, labour, capital, entrepreneurship) to firms, and firms give **goods and services** to households.
+2. **Money flow:** firms pay **rent, wages, interest and profit** to households as factor incomes, and households pay money to firms for goods and services as **consumption expenditure**.
+
+Income of households = expenditure of households = receipts of firms = national income. If households save, the saving flows into banks and returns as **investment**, so the circle goes on.
+
+| Leak (withdrawal) | Injection |
+|---|---|
+| Saving by households | Investment by firms |
+
+**Macroeconomic variables.**
+
+- **GDP (Gross Domestic Product):** value of all final goods and services produced within the country in a year.
+- **GNP:** GDP plus net income from abroad (remittances and factor income).
+- **National income:** the total income earned by the people of a country in a year.
+- **Per capita income:** national income divided by population.
+- **Consumption, saving and investment**, **inflation** (rise in the general price level) and **unemployment**.
+
+**Importance of the circular flow.** It helps to measure national income, understand how spending creates income, and plan policy.
+
+**Conclusion.** Money and goods flow in opposite directions between households and firms, and this flow is the basis of national income.

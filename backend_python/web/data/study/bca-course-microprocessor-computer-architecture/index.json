@@ -1,0 +1,77 @@
+{
+ "book": "bcacourse-semester-2-microprocessor-computer-architecture",
+ "units": [
+  {
+   "no": 1,
+   "title": "Microprocessors and the Intel 8085",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 1",
+   "words": 4682,
+   "read_min": 26,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "8085 Instruction Set and Assembly Programming",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 2",
+   "words": 6980,
+   "read_min": 39,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Basic Computer Architecture",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 3",
+   "words": 5194,
+   "read_min": 29,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Microprogrammed and Hardwired Control",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 4",
+   "words": 5010,
+   "read_min": 28,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Central Processing Unit and Computer Arithmetic",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 5",
+   "words": 5410,
+   "read_min": 30,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Input–Output Organisation",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 6",
+   "words": 5254,
+   "read_min": 29,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Memory Organisation",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 7",
+   "words": 6310,
+   "read_min": 35,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Pipelining, Vector Processing and Multiprocessors",
+   "area": "BCA 152 · Microprocessor and Computer Architecture · Unit 8",
+   "words": 6430,
+   "read_min": 36,
+   "figures": 13,
+   "has_questions": true
+  }
+ ]
+}

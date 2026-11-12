@@ -1,0 +1,434 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "mis-and-e-business",
+ "name": "MIS and e-Business",
+ "name_ne": "",
+ "icon": "storage",
+ "group": "semester-5",
+ "group_label": "Semester V",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 304",
+ "credits": 3,
+ "semester": 5,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Information Systems in the Enterprise",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Data, information and knowledge",
+    "Systems thinking",
+    "The organisation pyramid and decision levels",
+    "Types of information systems",
+    "How the systems fit together",
+    "Information systems in Nepali organisations",
+    "Seeing information systems: machines, pyramids and flows"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Data, information and knowledge"
+    },
+    {
+     "no": "1.2",
+     "title": "Systems thinking"
+    },
+    {
+     "no": "1.3",
+     "title": "The organisation pyramid and decision levels"
+    },
+    {
+     "no": "1.4",
+     "title": "Types of information systems"
+    },
+    {
+     "no": "1.5",
+     "title": "How the systems fit together"
+    },
+    {
+     "no": "1.6",
+     "title": "Information systems in Nepali organisations"
+    },
+    {
+     "no": "1.7",
+     "title": "Seeing information systems: machines, pyramids and flows"
+    }
+   ],
+   "summary": [
+    "Data become information when processed in context, and knowledge when combined with experience; good information is accurate, timely, relevant, complete, consistent, secure and worth its cost.",
+    "A system has inputs, processes, outputs, feedback and control inside a boundary; an IS has hardware, software, data, procedures and people.",
+    "Decisions are structured, semi-structured or unstructured and are made at operational, tactical and strategic levels.",
+    "TPS record events (batch or online, ACID); MIS summarise them; DSS model what-ifs; ESS display KPIs; KMS share knowledge.",
+    "Islands of information are fixed by integration and enterprise systems."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3679,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Strategy and Competitive Advantage",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Strategy and the role of information systems",
+    "Porter's five forces",
+    "The value chain",
+    "Generic strategies and supporting IT",
+    "Network effects and Metcalfe's law",
+    "Aligning IS strategy with business strategy",
+    "Business process reengineering and change",
+    "Seeing strategy: forces, concentration, chains and networks"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Strategy and the role of information systems"
+    },
+    {
+     "no": "2.2",
+     "title": "Porter's five forces"
+    },
+    {
+     "no": "2.3",
+     "title": "The value chain"
+    },
+    {
+     "no": "2.4",
+     "title": "Generic strategies and supporting IT"
+    },
+    {
+     "no": "2.5",
+     "title": "Network effects and Metcalfe's law"
+    },
+    {
+     "no": "2.6",
+     "title": "Aligning IS strategy with business strategy"
+    },
+    {
+     "no": "2.7",
+     "title": "Business process reengineering and change"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing strategy: forces, concentration, chains and networks"
+    }
+   ],
+   "summary": [
+    "Strategic information systems change the firm's competitive position; sustainability requires data, relationships, scale or processes that rivals cannot easily copy.",
+    "Porter's five forces (entrants, suppliers, buyers, substitutes, rivalry) can be scored; HHI measures concentration, and a merger raises it by twice the product of the shares.",
+    "The value chain locates IS value in primary and support activities and in the interfaces with suppliers and customers.",
+    "Generic strategies are cost leadership, differentiation and focus; switching costs, lock-in and network effects reinforce them.",
+    "Alignment, CSFs and BPR connect IS investment to business goals."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3410,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Enterprise Applications - ERP, CRM and Supply Chain Management",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Enterprise resource planning (ERP)",
+    "Customer relationship management (CRM)",
+    "Supply chain management (SCM)",
+    "The bullwhip effect",
+    "Integrating enterprise systems",
+    "Seeing enterprise systems: one database, costs and the bullwhip"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Enterprise resource planning (ERP)"
+    },
+    {
+     "no": "3.2",
+     "title": "Customer relationship management (CRM)"
+    },
+    {
+     "no": "3.3",
+     "title": "Supply chain management (SCM)"
+    },
+    {
+     "no": "3.4",
+     "title": "The bullwhip effect"
+    },
+    {
+     "no": "3.5",
+     "title": "Integrating enterprise systems"
+    },
+    {
+     "no": "3.6",
+     "title": "Seeing enterprise systems: one database, costs and the bullwhip"
+    }
+   ],
+   "summary": [
+    "ERP shares one database across finance, sales, procurement, inventory, manufacturing and HR; implementation may be big bang, phased, parallel or pilot, and weighted scoring supports vendor choice.",
+    "CRM has operational, analytical and collaborative forms; RFM segments customers.",
+    "SCM coordinates material, information and money flows. EOQ = √(2DS/H); safety stock = z·σ_d·√L; reorder point = demand × L + safety stock.",
+    "The bullwhip effect amplifies variance up the chain by 1 + 2L/p + 2L²/p² per stage; sharing demand data and shortening lead times reduce it."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3522,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Decision Support, Business Intelligence and Knowledge Management",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "The decision-making process",
+    "Decision tables",
+    "Decisions under risk: payoff tables and EMV",
+    "Decisions under uncertainty (probabilities unknown)",
+    "Decision trees and the value of a pilot",
+    "Business intelligence and data warehousing",
+    "Knowledge management",
+    "Seeing decisions: steps, payoffs, trees and warehouses"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The decision-making process"
+    },
+    {
+     "no": "4.2",
+     "title": "Decision tables"
+    },
+    {
+     "no": "4.3",
+     "title": "Decisions under risk: payoff tables and EMV"
+    },
+    {
+     "no": "4.4",
+     "title": "Decisions under uncertainty (probabilities unknown)"
+    },
+    {
+     "no": "4.5",
+     "title": "Decision trees and the value of a pilot"
+    },
+    {
+     "no": "4.6",
+     "title": "Business intelligence and data warehousing"
+    },
+    {
+     "no": "4.7",
+     "title": "Knowledge management"
+    },
+    {
+     "no": "4.8",
+     "title": "Seeing decisions: steps, payoffs, trees and warehouses"
+    }
+   ],
+   "summary": [
+    "Decisions follow intelligence, design, choice and implementation; DSS support each phase.",
+    "Decision tables expose missing or contradictory rules; 2ⁿ combinations must each match exactly one rule.",
+    "Under risk use EMV; EVPI bounds the value of information. Under uncertainty use maximin, maximax, Laplace, Hurwicz or minimax regret, chosen to fit the risk attitude.",
+    "Decision trees are solved by rolling back; information is valuable only if it can change the decision.",
+    "BI relies on ETL, warehouses, star schemas, OLAP and KPIs; KM converts tacit and explicit knowledge (SECI)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3231,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "e-Business, e-Commerce and Digital Payments in Nepal",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "e-Business and e-Commerce",
+    "The online customer funnel and unit economics",
+    "The payment problem",
+    "Nepal's payment architecture",
+    "Building and running an e-business",
+    "Seeing e-business: funnels, unit economics and netting"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "e-Business and e-Commerce"
+    },
+    {
+     "no": "5.2",
+     "title": "The online customer funnel and unit economics"
+    },
+    {
+     "no": "5.3",
+     "title": "The payment problem"
+    },
+    {
+     "no": "5.4",
+     "title": "Nepal's payment architecture"
+    },
+    {
+     "no": "5.5",
+     "title": "Building and running an e-business"
+    },
+    {
+     "no": "5.6",
+     "title": "Seeing e-business: funnels, unit economics and netting"
+    }
+   ],
+   "summary": [
+    "e-Business covers all online business processes; e-commerce is online trade; models include B2C, B2B, C2C, G2C and m-commerce with revenue by margin, commission, subscription or advertising.",
+    "Funnel metrics, CAC and LTV tell whether growth is profitable; sanity-check the assumptions.",
+    "A payment passes through authorisation, clearing and settlement; NRB licenses PSOs and PSPs under the Payment and Settlement Act 2075.",
+    "NCHL (NPI, ConnectIPS), Fonepay (switch and QR), wallets and banks form the retail payment network; multilateral netting reduces settlement transfers.",
+    "Always verify payment status server-side with the gateway before fulfilment."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3301,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Security and Control of Information Systems",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Security goals, threats and controls",
+    "Quantitative risk analysis",
+    "Authentication and password strength",
+    "Securing e-commerce",
+    "Business continuity, audit and law",
+    "Seeing security: factors, risk arithmetic, entropy and recovery"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Security goals, threats and controls"
+    },
+    {
+     "no": "6.2",
+     "title": "Quantitative risk analysis"
+    },
+    {
+     "no": "6.3",
+     "title": "Authentication and password strength"
+    },
+    {
+     "no": "6.4",
+     "title": "Securing e-commerce"
+    },
+    {
+     "no": "6.5",
+     "title": "Business continuity, audit and law"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing security: factors, risk arithmetic, entropy and recovery"
+    }
+   ],
+   "summary": [
+    "Security aims at confidentiality, integrity and availability; controls are preventive, detective or corrective.",
+    "ALE = AV × EF × ARO; a safeguard is justified when the ALE it removes exceeds its cost.",
+    "Entropy L × log₂ N measures password strength; use MFA and salted slow hashes.",
+    "E-commerce security relies on TLS, a gateway, server-side verification, fraud rules and secure code.",
+    "RPO and RTO drive backup and recovery design; audit and the Electronic Transactions Act supply oversight and legal frame."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2641,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Developing and Justifying Information Systems",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Developing and acquiring information systems",
+    "Costs and benefits",
+    "Payback, NPV, IRR and ROI",
+    "Total cost of ownership (TCO)",
+    "Break-even analysis",
+    "Managing change and ethics",
+    "Seeing investment decisions: cash flows, NPV, TCO and break-even"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Developing and acquiring information systems"
+    },
+    {
+     "no": "7.2",
+     "title": "Costs and benefits"
+    },
+    {
+     "no": "7.3",
+     "title": "Payback, NPV, IRR and ROI"
+    },
+    {
+     "no": "7.4",
+     "title": "Total cost of ownership (TCO)"
+    },
+    {
+     "no": "7.5",
+     "title": "Break-even analysis"
+    },
+    {
+     "no": "7.6",
+     "title": "Managing change and ethics"
+    },
+    {
+     "no": "7.7",
+     "title": "Seeing investment decisions: cash flows, NPV, TCO and break-even"
+    }
+   ],
+   "summary": [
+    "Choose build, buy, customise or outsource on fit, cost, skills and risk; failures are usually organisational.",
+    "Discount cash flows; accept projects with NPV > 0 or IRR above the required rate; payback and ROI are simple supplements.",
+    "TCO includes all lifetime costs; compare options at present value.",
+    "Break-even volume = fixed cost ÷ contribution margin.",
+    "Change management and post-implementation review complete the investment cycle."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2982,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 48,
+ "notes_ready": 7
+}

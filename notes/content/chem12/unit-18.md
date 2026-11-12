@@ -374,6 +374,28 @@ paracetamol, amoxicillin, tincture of iodine, magnesium hydroxide, diazepam,
 | Teflon | addition polymer (PTFE) | non-stick, chemically inert coating |
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.2" caption="Why detergents beat soap in hard water. (a) A detergent powder and a capsule; synthetic detergents are sodium alkylbenzenesulfonates, not carboxylates. (b) Soap is a sodium carboxylate, and it forms an insoluble precipitate with the calcium ions of hard water, two soap anions for each Ca2+. The cell takes water of hardness 200 mg per litre as CaCO3, which contains 2.00 mmol of Ca2+ per litre: washing in 100 L wastes 122.5 g of sodium stearate, making about 121 g of grey scum, and 500 mg per litre wastes 306 g. The calcium and magnesium salts of sulfonates are soluble, so a detergent keeps foaming and cleaning without producing any scum."
+@ photo id="chem12b/detergent" cap="Detergent powder, a spoonful and a capsule"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Soap wasted by hard water"
+Msoap = 306.46
+rows = []
+for h in (100, 200, 300, 500):
+    mmol = h / 100.09
+    rows.append(("%d mg/L" % h, mmol * 100 / 1000 * 2 * Msoap))
+assert round(rows[1][1], 1) == 122.5
+scum = 0.2 * 606.9
+f = Fig(300, 236)
+f.text(150, 12, "Sodium stearate wasted in 100 L, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=320, fmt="%.0f", x0=64, y0=30, bw=160, gap=30)
+f.text(150, 156, "2 C17H35COONa + Ca2+ gives (C17H35COO)2Ca + 2 Na+", size=9.5, color=NAVY, bold=True)
+f.text(150, 176, "200 mg/L as CaCO3 = %.2f mmol Ca2+ per litre" % (200 / 100.09), size=10, color=NAVY, bold=True)
+f.text(150, 196, "makes %.0f g of insoluble scum in 100 L" % scum, size=10.5, color=RED, bold=True)
+f.text(150, 214, "calcium salts of detergents stay in solution", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[1][1], b=rows[3][1], s=scum, l=rows[0][1])
+```
+
 ## Chapter summary
 
 - A polymer is many monomers joined; n is the degree of polymerisation and
@@ -509,3 +531,75 @@ pesticides: they persist for years and **biomagnify** up the food chain, poisoni
 fish and birds at the top; residues remain on food and cause chronic poisoning of
 farmers; pests also develop resistance. DDT is banned in Nepal for this reason.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define polymerisation, compare addition and condensation polymers, and describe the preparation and uses of polythene, PVC, Teflon, nylon-6,6 and Bakelite. <span class="marks">[10]</span>
+2. Classify drugs with examples, and distinguish insecticides, herbicides and fungicides. <span class="marks">[10]</span>
+
+### Model answer D1: polymers, their types and important examples (10 marks)
+
+**Introduction.** A **polymer** is a very large molecule (macromolecule), with a molar mass of thousands to millions, made by the repeated joining of small molecules called **monomers**. The process is **polymerisation**. Polymers may be natural (cellulose, proteins, rubber), semi-synthetic (rayon) or synthetic (nylon, polythene).
+
+**Addition and condensation polymerisation.**
+
+| Feature | Addition polymer | Condensation polymer |
+|---|---|---|
+| Monomer | Unsaturated (contains C=C) | Two functional groups (–OH, –COOH, –NH$_2$) |
+| By-product | None | Small molecule (H$_2$O, HCl, NH$_3$) is lost |
+| Mechanism | Chain growth by free radicals | Step growth |
+| Formula | Polymer = $n$ × monomer | Not an exact multiple |
+| Examples | Polythene, PVC, Teflon, polystyrene | Nylon-6,6, Terylene, Bakelite |
+
+**Important polymers.**
+
+| Polymer | Monomer and conditions | Properties and uses |
+|---|---|---|
+| Polythene (LDPE) | Ethene; 350–570 K, 1000–2000 atm, trace O$_2$ (free-radical) | Flexible and tough: bags, packing film, insulation |
+| Polythene (HDPE) | Ethene; Ziegler–Natta catalyst, 333–343 K, 6–7 atm | Rigid and dense: buckets, bottles, pipes |
+| PVC | Vinyl chloride, CH$_2$=CHCl | Hard, durable: water pipes, cable insulation, rain-coats |
+| Teflon (PTFE) | Tetrafluoroethene, high pressure, persulphate | Very inert, non-stick: frying pans, gaskets, bearings |
+| Polystyrene | Styrene | Light, brittle: packing foam, disposable cups |
+| Nylon-6,6 | Hexamethylenediamine + adipic acid, 553 K, high pressure | Strong fibre: ropes, parachutes, fabrics, brushes |
+| Terylene (Dacron) | Ethylene glycol + terephthalic acid | Crease-resistant fibre for clothes and sails |
+| Bakelite | Phenol + formaldehyde, with acid or base | Thermosetting, cross-linked: switches, handles, electrical boards |
+
+**Classification by structure and behaviour.** *Thermoplastics* (polythene, PVC) soften on heating and can be remoulded. *Thermosetting plastics* (Bakelite) set permanently by cross-linking. *Elastomers* (natural rubber, neoprene) stretch and return. *Fibres* (nylon) have strong intermolecular forces.
+
+**Environmental problem.** Most synthetic polymers are **non-biodegradable**. Burning PVC gives toxic HCl and dioxins. Remedies are reducing, reuse, recycling and use of biodegradable polymers such as **PHBV** and polylactic acid. Plastic waste blocks drains in the cities of Nepal and pollutes rivers such as the Bagmati.
+
+**Conclusion.** Polymers are made by addition or condensation reactions and have given materials that range from packaging to fibres, but their waste needs careful management.
+
+### Model answer D2: drugs and pesticides (10 marks)
+
+**Introduction.** A **drug** is a chemical that affects the body's biological system to prevent, cure or relieve a disease. **Chemotherapy** is the use of chemicals to treat disease.
+
+**Classification of drugs.**
+
+| Class | Action | Examples |
+|---|---|---|
+| Analgesics | Relieve pain without loss of consciousness | Aspirin, paracetamol, ibuprofen (non-narcotic); morphine, codeine (narcotic) |
+| Antipyretics | Lower body temperature | Paracetamol, aspirin |
+| Antibiotics | Kill or stop bacteria | Penicillin, amoxicillin, tetracycline, chloramphenicol |
+| Antiseptics | Kill microbes on living tissue | Dettol, dilute boric acid, iodine tincture |
+| Disinfectants | Kill microbes on non-living objects | Phenol (1% antiseptic, stronger as disinfectant), chlorine |
+| Antacids | Neutralise excess stomach acid | Mg(OH)$_2$, Al(OH)$_3$, ranitidine |
+| Tranquillisers | Relieve anxiety and stress | Diazepam, equanil |
+| Antimalarials | Treat malaria | Chloroquine, artemisinin |
+
+Antibiotics may be **narrow-spectrum** (effective against few bacteria) or **broad-spectrum** (many bacteria). Misuse leads to resistant bacteria, so a full course must be taken as prescribed.
+
+**Pesticides** are substances used to kill pests.
+
+| Type | Target | Examples |
+|---|---|---|
+| Insecticides | Insects | DDT (banned in most countries), malathion, pyrethroids |
+| Herbicides | Weeds | 2,4-D, atrazine, glyphosate |
+| Fungicides | Fungi | Bordeaux mixture (CuSO$_4$ + Ca(OH)$_2$), sulphur, copper oxychloride |
+| Rodenticides | Rats | Zinc phosphide, warfarin |
+
+**Effects.** Pesticides raise yields and control disease carriers like mosquitoes, but residues enter food chains and water, DDT builds up in fatty tissue (**bio-magnification**), and many harm bees and fish. **Integrated pest management** uses biological pesticides, crop rotation and resistant varieties to cut chemical use.
+
+**Dyes.** Dyes, by contrast, colour fabrics; azo dyes contain –N=N– chromophores.
+
+**Conclusion.** Chemistry has produced medicines that save lives and pesticides that protect crops, but both must be used carefully for safe benefit.

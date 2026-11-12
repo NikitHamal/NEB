@@ -422,3 +422,15 @@ Work in pairs on graph paper. Player 1 draws a scalene triangle in the first qua
 **4.** $P_1=(-3,2)$; $P_2=(-2,-3)$ (applying $(-y,x)$); $P_3=(-1,-7)$. $PP_3=\sqrt{4^2+9^2}=\sqrt{97}\approx9.85$ units.
 **5.** (i) Object: base $3-1=2$ and height $2-1=1$, area $\frac{1}{2}\times2\times1=1$. Image: base $6-2=4$ and height $4-2=2$, area $\frac{1}{2}\times4\times2=4$. Every length is doubled and the area is multiplied by 4. (ii) No: lengths change, so it is **non-isometric**; the image is similar but not congruent. (iii) An enlargement with centre $O$ and scale factor 2: $(x,y)\rightarrow(2x,2y)$.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. Triangle $PQR$ has $P(1,2)$, $Q(4,2)$ and $R(1,5)$. Find the images of the vertices after (i) a reflection in the $x$-axis and (ii) a reflection in the $y$-axis. Is each transformation isometric? Why? <span class="marks">[5]</span>
+2. Find the image of $A(2,3)$ under rotations about the origin through $90^\circ$, $180^\circ$, $270^\circ$ and $360^\circ$ (anticlockwise). Show that a reflection in the $x$-axis followed by a reflection in the $y$-axis equals a rotation through $180^\circ$. <span class="marks">[5]</span>
+3. (i) Translate $A(2,-1)$ by the vector $\binom{-3}{4}$. (ii) A translation sends $A(1,2)$ to $A'(5,-1)$: find the vector and the image of $B(-2,3)$. (iii) Why is the enlargement $(x,y)\to(2x,2y)$ not an isometric transformation? <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (i) Reflection in the $x$-axis: $(x,y)\to(x,-y)$, so $P'(1,-2)$, $Q'(4,-2)$, $R'(1,-5)$. (ii) Reflection in the $y$-axis: $(x,y)\to(-x,y)$, so $P''(-1,2)$, $Q''(-4,2)$, $R''(-1,5)$. Both are **isometric** (isometries): lengths and angles are preserved, e.g. $PQ=3$ and $P'Q'=3$, $PR=3$ and $P'R'=3$; only the orientation is reversed.
+**2.** Rotation rules about $O$: $90^\circ$: $(x,y)\to(-y,x)$, giving $(-3,2)$. $180^\circ$: $(x,y)\to(-x,-y)$, giving $(-2,-3)$. $270^\circ$: $(x,y)\to(y,-x)$, giving $(3,-2)$. $360^\circ$: the point returns to $(2,3)$. **Combined reflections:** in the $x$-axis $(2,3)\to(2,-3)$; then in the $y$-axis $(2,-3)\to(-2,-3)$, which is the $180^\circ$ image ✓.
+**3.** (i) $(2-3,\ -1+4)=(-1,3)$. (ii) The vector is $A'-A=\binom{5-1}{-1-2}=\binom{4}{-3}$. Then $B'=(-2+4,\ 3-3)=(2,0)$. (iii) Under $(x,y)\to(2x,2y)$ every length doubles, so the image is similar but not congruent to the object: lengths are not preserved, so the transformation is **non-isometric**.
+:::

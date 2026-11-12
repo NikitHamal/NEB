@@ -8,7 +8,7 @@
         {% if reply.authorName == 'neby' or reply.authorIsBot %}
           <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
         {% elif reply.authorPhotoUrl %}
-          <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
+          <img loading="lazy" decoding="async" src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
           <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
           <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
@@ -64,6 +64,7 @@
     </div>
     {% if reply.content %}<div class="fp-reply-body" data-clamp="132" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>{% endif %}
     {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+    {% if reply.poll %}{% include "web/_poll_card.html" with poll=reply.poll %}{% endif %}
     <div class="fp-reply-actions">
       <button data-action="toggle-comment-like" data-comment-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ reply.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
@@ -93,7 +94,7 @@
             {% if child.authorName == 'neby' or child.authorIsBot %}
               <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
             {% elif child.authorPhotoUrl %}
-              <img src="{{ child.authorPhotoUrl }}" alt="" data-fallback="flex" style="width:28px;height:28px;">
+              <img loading="lazy" decoding="async" src="{{ child.authorPhotoUrl }}" alt="" data-fallback="flex" style="width:28px;height:28px;">
               <span class="fp-reply-avatar-letter" style="display:none;font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
             {% else %}
               <span class="fp-reply-avatar-letter" style="font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
@@ -171,7 +172,7 @@
           {% if author.username == 'neby' or author.isBot %}
             <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
           {% elif author.photoUrl %}
-            <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
+            <img loading="lazy" decoding="async" src="{{ author.photoUrl }}" alt="" data-fallback="flex">
             <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
           {% else %}
             <span class="fp-thread-avatar-letter">{{ author.username|truncate_chars:1|default:"?" }}</span>

@@ -868,6 +868,36 @@ relationship between Li and Mg.
 ladder and naming the method used at each rung for that particular metal.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Sodium is too reactive to be displaced by any chemical reducing agent, so it is obtained by electrolysis of fused sodium chloride in the Down's cell. (a) Freshly cut sodium. (b) A cell carrying 30,000 A for one day passes 2.59 x 10^9 coulombs, which is 26,864 mole of electrons from Faraday's constant of 96,485 C per mole. Each mole of electrons deposits one mole of sodium at the cathode, so the cell yields about 618 kg of sodium and, from half as many moles of chlorine, about 952 kg of Cl2 gas, or 301 cubic metres at STP. At 7 V the energy is 5,040 kWh, or 8.2 kWh per kilogram of sodium, which explains why the metal is costly."
+@ photo id="chem11/sodium" cap="Freshly cut sodium metal, silvery inside and soft as cheese"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Down's cell: charge to product"
+I, t, V = 30000.0, 24 * 3600.0, 7.0
+F = 96485.0
+Q = I * t
+ne = Q / F
+na_kg = ne * 22.99 / 1000
+cl_mol = ne / 2
+cl_kg = cl_mol * 70.9 / 1000
+cl_m3 = cl_mol * 22.4 / 1000
+kwh = V * Q / 3.6e6
+per_kg = kwh / na_kg
+assert abs(na_kg - 617.5) < 1
+f = Fig(300, 236)
+f.text(150, 14, "Down's cell: 30 000 A for 24 h at 7 V", size=10.5, color=NAVY, bold=True)
+steps = [("Charge  Q = I t", "%.2e C" % Q, NAVY), ("Electrons  n = Q / F", "{:,.0f} mol".format(ne), NAVY), ("Sodium  (1 mol per mol e-)", "%.0f kg" % na_kg, TEAL), ("Chlorine  (Cl2, half the mol)", "%.0f kg" % cl_kg, AMBER), ("Energy  E = V Q", "{:,.0f} kWh".format(kwh), RED)]
+for i, (a, b, c) in enumerate(steps):
+    y = 26 + i * 33
+    f.box(10, y, 280, 26, "", fill=SOFT, stroke=c, r=4)
+    f.text(18, y + 13, a, size=10, color=SLATE, anchor="start", vmid=True)
+    f.text(282, y + 13, b, size=10.5, color=c, bold=True, anchor="end", vmid=True)
+f.text(150, 200, "Cl2 volume at STP: %.0f m3" % cl_m3, size=10, color=SLATE)
+f.text(150, 217, "energy: %.1f kWh for every kg of sodium" % per_kg, size=10.5, color=RED, bold=True)
+f.text(150, 231, "(100 % current efficiency assumed)", size=9.5, color=SLATE)
+facts = dict(Q="2.59 x 10^9", ne="{:,.0f}".format(ne), na="%.0f" % na_kg, cl="%.0f" % cl_kg, vol="%.0f" % cl_m3, kwh="{:,.0f}".format(kwh), per="%.1f" % per_kg)
+```
+
 ## Chapter summary
 
 - A mineral becomes an **ore** only when extraction from it is profitable.
@@ -995,3 +1025,71 @@ $Q = 100 \times 96500 = 9.65\times10^{6}\ \text{C}$. Since this is delivered in
 electrons, so $n(\text{Na}) = 100\ \text{mol}$ and $m = 100 \times 23 = 2300\ \text{g}
 = 2.30\ \text{kg}$ per hour.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the extraction of iron from haematite in a blast furnace, with the chemical reactions in each zone. <span class="marks">[10]</span>
+2. Describe the extraction of aluminium by the Hall-Heroult process, and calculate the electricity needed for one tonne of aluminium. <span class="marks">[10]</span>
+
+### Model answer D1: extraction of iron in the blast furnace (10 marks)
+
+**Introduction.** Iron is the most widely used metal. Its chief ores are **haematite (Fe₂O₃)**, magnetite (Fe₃O₄), siderite (FeCO₃) and limonite. It is extracted by the **reduction of its oxide with carbon monoxide** in a blast furnace.
+
+**Steps before smelting.** (1) **Concentration** by crushing and washing; (2) **calcination and roasting** to drive off water, CO₂ and sulphur: $\text{FeCO}_{3} \rightarrow \text{FeO} + \text{CO}_2$ and then oxidation to Fe₂O₃.
+
+**Blast furnace.** A tall steel tower (about 30 m) lined with fire bricks. The charge (**roasted ore, coke and limestone** in a ratio of about 8 : 4 : 1) is fed from the top through a cup-and-cone arrangement. A **hot blast of air** (about 800 degrees C) is blown in near the bottom through the tuyeres.
+
+**Reactions in the different zones.**
+
+1. **Combustion zone (bottom, about 1500-2000 degrees C):** coke burns, $\text{C} + \text{O}_2 \rightarrow \text{CO}_2$ ($\Delta H < 0$), which gives the heat for the furnace.
+2. **Zone of heat absorption (about 1000 degrees C):** the CO₂ rising up is reduced by hot coke, $\text{CO}_2 + \text{C} \rightarrow 2\text{CO}$, which makes the reducing agent.
+3. **Reduction zone (500-900 degrees C):** the oxide is reduced step by step by CO:
+    - $3\text{Fe}_2\text{O}_3 + \text{CO} \rightarrow 2\text{Fe}_3\text{O}_4 + \text{CO}_2$
+    - $\text{Fe}_3\text{O}_4 + \text{CO} \rightarrow 3\text{FeO} + \text{CO}_2$
+    - $\text{FeO} + \text{CO} \rightarrow \text{Fe} + \text{CO}_2$
+    - Overall: $\text{Fe}_2\text{O}_3 + 3\text{CO} \rightarrow 2\text{Fe} + 3\text{CO}_2$.
+4. **Slag formation zone (about 1200 degrees C):** limestone decomposes, $\text{CaCO}_3 \rightarrow \text{CaO} + \text{CO}_2$, and the lime (a flux) combines with the silica impurity: $\text{CaO} + \text{SiO}_2 \rightarrow \text{CaSiO}_3$ (**slag**), which floats on the molten iron and protects it from oxidation.
+5. **Molten iron** collects at the bottom and is tapped; the slag is tapped separately.
+
+**Products.** **Pig iron** (about 4% carbon, plus Si, P, S, Mn) is brittle. The waste gas (CO, CO₂, N₂) is used to preheat the air blast.
+
+| Type of iron | Carbon content | Properties and use |
+|---|---|---|
+| Pig iron (cast) | 2.5-4.5% | Hard, brittle; castings, pipes |
+| Wrought iron | 0.1-0.25% | Soft, malleable; chains, gates |
+| Steel | 0.25-1.5% | Strong, tough; construction, tools |
+
+**Conversion to steel.** Pig iron is refined in a **basic oxygen furnace** (blowing oxygen to burn off the excess carbon, Si and P) or an electric arc furnace. Alloy steels contain Cr, Ni, Mn or V. **Stainless steel** has about 18% Cr and 8% Ni.
+
+**Conclusion.** The blast furnace reduces Fe₂O₃ with CO from coke, while limestone removes the silica as slag. The product is pig iron, which is then refined to steel.
+
+### Model answer D2: aluminium by the Hall-Heroult process (10 marks)
+
+**Introduction.** Aluminium is the most abundant metal in the Earth's crust (8%). Its main ore is **bauxite** ($\text{Al}_2\text{O}_3\cdot 2\text{H}_2\text{O}$). Aluminium is too reactive to be reduced by carbon, so it is obtained by **electrolysis**.
+
+**Step 1: purification of bauxite (Bayer's process).**
+
+1. Bauxite is crushed and heated with **concentrated NaOH** under pressure at 150 degrees C: $\text{Al}_2\text{O}_3 + 2\text{NaOH} + 3\text{H}_2\text{O} \rightarrow 2\text{Na[Al(OH)}_4]$. The iron oxide impurity (**red mud**) does not dissolve and is filtered off.
+2. The filtrate is diluted and seeded with Al(OH)₃ to precipitate **aluminium hydroxide**.
+3. The hydroxide is heated at 1200 degrees C: $2\text{Al(OH)}_3 \rightarrow \text{Al}_2\text{O}_3 + 3\text{H}_2\text{O}$, giving pure **alumina**.
+
+**Step 2: electrolysis (Hall-Heroult process).**
+
+- Alumina melts at 2072 degrees C, which is too high, and when molten it does not conduct. So it is **dissolved in molten cryolite (Na₃AlF₆) with a little fluorspar (CaF₂)**, which lowers the melting point to about **950 degrees C** and makes it conduct.
+- **Cell:** a steel tank lined with carbon (graphite) acts as the **cathode**; thick graphite rods dipping in the melt are the **anodes**.
+- **At the cathode:** $\text{Al}^{3+} + 3e^{-} \rightarrow \text{Al}$. The molten aluminium (denser than the melt) collects at the bottom and is tapped.
+- **At the anode:** $2\text{O}^{2-} \rightarrow \text{O}_2 + 4e^{-}$; the oxygen **burns the graphite anode**: $\text{C} + \text{O}_2 \rightarrow \text{CO}_2$, so the anodes are replaced regularly.
+- **Overall:** $2\text{Al}_2\text{O}_3 + 3\text{C} \rightarrow 4\text{Al} + 3\text{CO}_2$. A cell works at about 4-5 V and a very high current (100,000 A or more).
+
+**Numerical (energy).** One tonne ($10^{6}\ \text{g}$) of Al: moles $= 10^{6}/27 = 37{,}037$; electrons $= 3\times37{,}037 = 111{,}111\ \text{mol}$; charge $= 111{,}111\times96500 = 1.07\times10^{10}\ \text{C}$. At 4 V the minimum energy is $4.29\times10^{10}\ \text{J} = 11.9\ \text{kWh}$ per kg of aluminium, and the real figure is about 13-15 kWh. This is why aluminium smelters are near cheap hydropower, and why **recycling** (which uses only 5% of the energy) is valuable.
+
+**Properties and uses.** Light (density 2.7 g/cm³), strong in alloys, a good conductor and **resistant to corrosion** because of its oxide film. Uses: aircraft, cooking utensils, power lines, packaging foil, window frames; alloys such as **duralumin** (Al with Cu, Mg and Mn).
+
+| Feature | Blast furnace (Fe) | Hall-Heroult (Al) |
+|---|---|---|
+| Method | Chemical reduction by CO | Electrolysis |
+| Reducing agent | Coke, CO | Electric current |
+| Flux or solvent | Limestone | Cryolite |
+| Product | Pig iron | Pure Al (99.5%) |
+
+**Conclusion.** Aluminium is made by electrolysing alumina dissolved in molten cryolite at 950 degrees C. It needs a large amount of electricity (about 13 kWh per kg), so cheap power is vital.

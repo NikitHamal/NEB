@@ -6,6 +6,7 @@ import time
 import uuid
 from typing import Dict, Generator, List, Optional
 
+from .model_catalog import model_catalog
 from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
@@ -100,22 +101,7 @@ def _ensure_session() -> str:
 
 
 def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": False,
-                "thinking": m.get("reasoning", False),
-                "reasoning_levels": m.get("reasoning_levels", []),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
+    return model_catalog(MODELS, vision=False, reasoning_levels=True)
 
 
 def _messages_to_inception(messages: List[Dict[str, str]]) -> list:
@@ -340,61 +326,6 @@ def synthesize(text: str) -> Optional[bytes]:
             return r.content
     except Exception as exc:
         logger.warning("TTS failed: %s", exc)
-        return None
-
-
-def stream_synthesize(text: str) -> Generator[bytes, None, None]:
-    """Streaming TTS — yields audio chunks (mp3) as they arrive. For low-latency playback."""
-    if not text or not text.strip():
-        return
-        yield  # make it a generator
-    text = text.strip()[:5000]
-    try:
-        token = _ensure_session()
-    except RuntimeError as e:
-        logger.error("TTS stream no session: %s", e)
-        return
-    headers = dict(_BROWSER_HEADERS)
-    headers["x-session-token"] = token
-    headers["cookie"] = f"session={token}"
-    try:
-        session = new_session(impersonate="chrome", headers=headers)
-        resp, session = resilient_post(session, TTS_URL, json={"text": text}, stream=True, timeout=60)
-        if resp.status_code != 200:
-            logger.warning("TTS stream HTTP %s", resp.status_code)
-            return
-        for chunk in resp.iter_content(chunk_size=4096):
-            if chunk:
-                yield chunk
-    except Exception as exc:
-        logger.warning("TTS stream failed: %s", exc)
-        return
-
-
-def voice_extract(scenario_id: str, messages: List[Dict]) -> Optional[Dict]:
-    """POST /api/voice/extract — scenario field extraction.
-
-    Used by voice playground to extract structured fields (e.g. name, intent) from conversation.
-    Body: {scenarioId, messages: [{role, content}]}
-    Returns: {fields: {...}, ms: ...}
-    """
-    try:
-        token = _ensure_session()
-    except RuntimeError as e:
-        logger.error("Voice extract no session: %s", e)
-        return None
-    headers = dict(_BROWSER_HEADERS)
-    headers["x-session-token"] = token
-    headers["cookie"] = f"session={token}"
-    try:
-        with new_session(impersonate="chrome", headers=headers) as s:
-            r, _ = resilient_post(s, VOICE_EXTRACT_URL, json={"scenarioId": scenario_id, "messages": messages}, timeout=30)
-            if r.status_code != 200:
-                logger.debug("Voice extract HTTP %s: %s", r.status_code, r.text[:300])
-                return None
-            return r.json()
-    except Exception as exc:
-        logger.debug("Voice extract failed: %s", exc)
         return None
 
 

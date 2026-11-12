@@ -1,0 +1,53 @@
+{
+ "book": "bca-mock",
+ "units": [
+  {
+   "no": 1,
+   "title": "The BCA Entrance Examination: Pattern, Syllabus, Strategy and the Programme",
+   "area": "The Examination",
+   "words": 2092,
+   "read_min": 12,
+   "figures": 5,
+   "has_questions": false
+  },
+  {
+   "no": 2,
+   "title": "Model Paper 1",
+   "area": "Full Model Papers",
+   "words": 2174,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": false,
+   "exam": {
+    "minutes": 120,
+    "negative": 0
+   }
+  },
+  {
+   "no": 3,
+   "title": "Model Paper 2",
+   "area": "Full Model Papers",
+   "words": 2194,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": false,
+   "exam": {
+    "minutes": 120,
+    "negative": 0
+   }
+  },
+  {
+   "no": 4,
+   "title": "Model Paper 3",
+   "area": "Full Model Papers",
+   "words": 2238,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": false,
+   "exam": {
+    "minutes": 120,
+    "negative": 0
+   }
+  }
+ ]
+}

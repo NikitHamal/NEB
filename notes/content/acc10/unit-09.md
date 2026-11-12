@@ -273,3 +273,57 @@ Check: $48{,}81{,}900 = 48{,}46{,}800 + 35{,}100$. ✔
 
 *Verification (2).* Revenue collected $= 49{,}41{,}900$; deposited $+$ cash in hand $= 48{,}94{,}800 + 47{,}100 = 49{,}41{,}900$. They agree, so the statement is complete; the Rs. 47,100 in hand must be deposited on the first working day of the next month and the fact recorded in the statement.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is revenue accounting? Explain its objectives, banking arrangement and reporting arrangement. <span class="marks">[10]</span>
+2. An office collected the following revenue during Ashad: vehicle tax Rs 1,20,000 (all deposited in the bank); fees and fines Rs 80,000 (Rs 75,000 deposited, the rest held in cash for the next working day); sale of old goods Rs 50,000 (all deposited). Prepare the revenue statement and explain how it is checked. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="4" ratio="1.0" caption="Revenue reaches the consolidated fund through banks. A Nepal Rastra Bank office, a bank vault, an old banknote and a cheque show the path of collected money: receipt, deposit, bank record and statement."
+@ photo id="acc10/nrb-pokhara" cap="Nepal Rastra Bank"
+@ photo id="acc10/vault" cap="Bank vault"
+@ photo id="acc10/old-note" cap="Old Nepali note"
+@ photo id="acc10/cheque" cap="Cheque"
+```
+
+### Model answer D1: revenue accounting (10 marks)
+
+**Introduction.** **Revenue accounting** is the part of government accounting that records the revenue collected by the government (taxes, fees, fines, sale proceeds and other receipts), its deposit in the consolidated fund and its reporting. The others are expenditure, store, fund and deposit accounting.
+
+**Objectives.**
+
+1. To record every rupee collected under the correct head.
+2. To make sure that it reaches the consolidated fund without delay.
+3. To prevent leakage and misuse of collections.
+4. To give correct information on the collection against the estimate.
+5. To help the audit and the preparation of the national statements.
+
+**Banking arrangement.** The revenue is paid into a designated bank account under the single account fund, through Nepal Rastra Bank or an authorised commercial bank. It is deposited on the same day, or on the first working day with the reason recorded. No expense may be paid out of the collection, and a monthly bank reconciliation is done under the supervision of the Treasury and Comptroller Office.
+
+**Reporting arrangement.**
+
+| Period | Report | Sent to |
+|---|---|---|
+| Daily | Entry in the bank cash book and check of receipt counterfoils | Office head |
+| Monthly | Revenue statement with the bank statement and reconciliation | Treasury and Comptroller Office |
+| Quarterly | Review of collection against estimate | Ministry and Treasury Office |
+| Yearly | Consolidation into the government's financial statement; audit | FCGO; Auditor General; Parliament |
+
+**Conclusion.** The revenue accounting system makes sure that public money is collected, deposited and reported in an unbroken chain.
+
+### Model answer D2: the revenue statement (10 marks)
+
+**Introduction.** The **revenue statement** is the monthly return, in the prescribed format, that shows head by head the revenue collected, the amount deposited and the cash in hand. It proves that every rupee collected either reached the fund or is still held and accounted for.
+
+**Revenue statement for the month of Ashad.**
+
+| Head | Revenue collected (Rs) | Deposited in the bank (Rs) | Cash in hand (Rs) |
+|---|---|---|---|
+| Vehicle tax | 1,20,000 | 1,20,000 | 0 |
+| Fees and fines | 80,000 | 75,000 | 5,000 |
+| Sale of old goods | 50,000 | 50,000 | 0 |
+| **Total** | **2,50,000** | **2,45,000** | **5,000** |
+
+**Checking.** (1) For each head, collected = deposited + cash in hand: $1{,}20{,}000=1{,}20{,}000+0$; $80{,}000=75{,}000+5{,}000$; $50{,}000=50{,}000+0$ ✓. (2) The total deposited, Rs 2,45,000, must equal the credit in the bank cash book and the bank statement for the month, after reconciliation. (3) The cash in hand of Rs 5,000 must be physically counted and deposited on the first working day of the next month, with the reason for the delay recorded. (4) The statement is signed by the accountant and the head of the office and sent to the Treasury and Comptroller Office.
+
+**Conclusion.** A revenue statement in which collected, deposited and cash in hand do not tally for every head shows leakage or an error to be investigated.

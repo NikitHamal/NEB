@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceLike, ResourceRequest, Post, PostImage, PostMedia, Poll, Reply, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,12 +14,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'username', 'email', 'photo_url', 'banner_url', 'display_name',
             'role', 'dob', 'gender', 'class_level', 'subjects', 'teaching_subjects',
-            'institution_type',
-            'pradesh', 'district', 'school', 'school_username', 'bio', 'is_locked', 'created_at',
+            'institution_type', 'edu_status', 'edu_program', 'edu_term', 'edu_completed',
+            'headline', 'skills', 'open_to',
+            'pradesh', 'district', 'school', 'school_username', 'school_slug', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
             'is_bot', 'teacher_verified', 'institution_verified',
-            'avatar_use_pp',
             'social_links',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
@@ -54,7 +54,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked',
                   'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified', 'institution_verified',
-                  'school', 'school_username']
+                  'school', 'school_username', 'school_slug']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -289,52 +289,29 @@ class PostImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'imageUrl', 'order']
 
 
-class PollOptionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PollOption
-        fields = ['id', 'text', 'is_correct', 'vote_count', 'order']
-
-
 class PollSerializer(serializers.ModelSerializer):
-    options = PollOptionSerializer(many=True, read_only=True)
-    isExpired = serializers.SerializerMethodField()
-    pollType = serializers.CharField(source='poll_type', read_only=True)
-    allowMultiple = serializers.BooleanField(source='allow_multiple', read_only=True)
-    durationMs = serializers.IntegerField(source='duration_ms', read_only=True)
-    totalVotes = serializers.IntegerField(source='total_votes', read_only=True)
-    createdAt = serializers.IntegerField(source='created_at', read_only=True)
-    userVote = serializers.SerializerMethodField()
+    """Delegates to api.polls.poll_dict so web, app and realtime share one shape."""
 
     class Meta:
         model = Poll
-        fields = ['id', 'question', 'poll_type', 'allow_multiple', 'explanation', 'duration_ms', 'total_votes',
-                  'pollType', 'allowMultiple', 'durationMs', 'totalVotes', 'createdAt', 'isExpired', 'userVote', 'options']
+        fields = ['id']
 
-    def get_isExpired(self, obj):
-        return obj.is_expired
-
-    def get_userVote(self, obj):
+    def to_representation(self, obj):
+        from . import polls
         request = self.context.get('request')
-        if not request or not hasattr(request, 'user') or request.user is None:
-            return None
-        user = request.user
-        if not isinstance(user, User):
-            return None
-        user_poll_votes = self.context.get('user_poll_votes')
-        if user_poll_votes is not None:
-            vote = user_poll_votes.get(obj.id)
-            if vote is None:
-                return None
-            return str(vote)
-        try:
-            votes = list(PollVote.objects.filter(poll=obj, user=user).values_list('option_id', flat=True))
-        except Exception:
-            return None
-        if not votes:
-            return None
-        if obj.allow_multiple:
-            return [str(v) for v in votes]
-        return str(votes[0])
+        user = getattr(request, 'user', None) if request else None
+        user_id = user.pk if isinstance(user, User) else None
+        my_votes = None
+        bulk = self.context.get('user_poll_votes')
+        if bulk is not None:
+            got = bulk.get(obj.id)
+            if got is None:
+                my_votes = set()
+            elif isinstance(got, (set, list, tuple)):
+                my_votes = {str(v) for v in got}
+            else:
+                my_votes = {str(got)}
+        return polls.poll_dict(obj, user_id, my_votes)
 
 
 class PostMediaSerializer(serializers.ModelSerializer):
@@ -369,7 +346,91 @@ class PostMediaSerializer(serializers.ModelSerializer):
         return []
 
 
-class PostSerializer(serializers.ModelSerializer):
+class ForumContentMixin:
+    """Fields every post and comment shares: author (anonymity-aware), ownership, viewer state.
+
+    `content_type` names the row kind in the bookmark/like context sets
+    (`bookmarked_<type>_ids`, `liked_<type>_ids`) that list views prefetch.
+    """
+    content_type = ''
+
+    def _viewer(self):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        return user if isinstance(user, User) else None
+
+    def get_isOwner(self, obj):
+        user = self._viewer()
+        return bool(user is not None and str(user.id) == str(obj.user_id))
+
+    def get_authorBadgeInfo(self, obj):
+        if obj.is_anonymous:
+            return None
+        from .badges import user_badge_info
+        try:
+            return user_badge_info(obj.user)
+        except Exception:
+            return None
+
+    def get_isBookmarked(self, obj):
+        user = self._viewer()
+        if user is None:
+            return False
+        bookmarked_ids = self.context.get(f'bookmarked_{self.content_type}_ids')
+        if bookmarked_ids is not None:
+            return obj.id in bookmarked_ids
+        try:
+            return Bookmark.objects.filter(user=user, target_type=self.content_type, target_id=obj.id).exists()
+        except Exception:
+            return False
+
+    def get_isThumbedUp(self, obj):
+        user = self._viewer()
+        if user is None:
+            return False
+        liked_ids = self.context.get(f'liked_{self.content_type}_ids')
+        if liked_ids is not None:
+            return obj.id in liked_ids
+        return obj.likes.filter(user=user).exists()
+
+    def get_authorId(self, obj):
+        if obj.is_anonymous or not obj.user_id:
+            return ''
+        return str(obj.user_id)
+
+    def get_authorName(self, obj):
+        if obj.is_anonymous:
+            if obj.user_id:
+                from .services import get_user_anon_tag
+                return get_user_anon_tag(obj.user_id)
+            return 'Anonymous Nebian'
+        if not obj.user_id:
+            return 'Deleted user'
+        try:
+            return obj.user.username
+        except Exception:
+            return 'Deleted user'
+
+    def get_authorPhotoUrl(self, obj):
+        if obj.is_anonymous or not obj.user_id:
+            return ''
+        try:
+            from .services import avatar_or_photo_url
+            return avatar_or_photo_url(obj.user)
+        except Exception:
+            return ''
+
+    def get_authorIsBot(self, obj):
+        if obj.is_anonymous:
+            return False
+        try:
+            return obj.user.is_bot
+        except Exception:
+            return False
+
+
+class PostSerializer(ForumContentMixin, serializers.ModelSerializer):
+    content_type = 'post'
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
     authorId = serializers.SerializerMethodField()
@@ -400,88 +461,11 @@ class PostSerializer(serializers.ModelSerializer):
             'isThumbedUp', 'isBookmarked', 'images', 'attachments', 'poll'
         ]
 
-    def get_isOwner(self, obj):
-        request = self.context.get('request')
-        user = getattr(request, 'user', None) if request else None
-        return bool(user is not None and isinstance(user, User) and str(user.id) == str(obj.user_id))
-
-    def get_authorBadgeInfo(self, obj):
-        if obj.is_anonymous:
-            return None
-        from .badges import user_badge_info
-        try:
-            return user_badge_info(obj.user)
-        except Exception:
-            return None
-
-    def get_isBookmarked(self, obj):
-        request = self.context.get('request')
-        if not request or not hasattr(request, 'user') or request.user is None:
-            return False
-        user = request.user
-        if not isinstance(user, User):
-            return False
-        bookmarked_ids = self.context.get('bookmarked_post_ids')
-        if bookmarked_ids is not None:
-            return obj.id in bookmarked_ids
-        try:
-            return Bookmark.objects.filter(user=user, target_type='post', target_id=obj.id).exists()
-        except Exception:
-            return False
-
-    def get_authorId(self, obj):
-        # Anonymous content never leaks the real author id to clients.
-        if obj.is_anonymous or not obj.user_id:
-            return ''
-        return str(obj.user_id)
-
-    def get_authorName(self, obj):
-        if obj.is_anonymous:
-            if obj.user_id:
-                from .services import get_user_anon_tag
-                return get_user_anon_tag(obj.user_id)
-            return 'Anonymous Nebian'
-        if not obj.user_id:
-            return 'Deleted user'
-        try:
-            return obj.user.username
-        except Exception:
-            return 'Deleted user'
-
-    def get_authorPhotoUrl(self, obj):
-        if obj.is_anonymous or not obj.user_id:
-            return ''
-        try:
-            from .services import avatar_or_photo_url
-            return avatar_or_photo_url(obj.user)
-        except Exception:
-            return ''
-
-    def get_authorIsBot(self, obj):
-        if obj.is_anonymous:
-            return False
-        try:
-            return obj.user.is_bot
-        except Exception:
-            return False
-
     def get_updatedAt(self, obj):
         return obj.edited_at if obj.edited_at else obj.created_at
 
-    def get_isThumbedUp(self, obj):
-        request = self.context.get('request')
-        if not request or not hasattr(request, 'user') or request.user is None:
-            return False
-        user = request.user
-        if not isinstance(user, User):
-            return False
-        liked_ids = self.context.get('liked_post_ids')
-        if liked_ids is not None:
-            return obj.id in liked_ids
-        return obj.likes.filter(user=user).exists()
-
-
-class ReplySerializer(serializers.ModelSerializer):
+class ReplySerializer(ForumContentMixin, serializers.ModelSerializer):
+    content_type = 'reply'
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
     authorId = serializers.SerializerMethodField()
@@ -501,92 +485,36 @@ class ReplySerializer(serializers.ModelSerializer):
     isBookmarked = serializers.SerializerMethodField()
     authorBadgeInfo = serializers.SerializerMethodField()
     attachments = PostMediaSerializer(source='media', many=True, read_only=True)
+    kind = serializers.SerializerMethodField()
+    label = serializers.SerializerMethodField()
+    canLabel = serializers.SerializerMethodField()
+    poll = serializers.SerializerMethodField()
 
     class Meta:
         model = Reply
         fields = [
-            'id', 'postId', 'parentReplyId', 'content',
+            'id', 'postId', 'parentReplyId', 'content', 'kind', 'label', 'canLabel',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt',
-            'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments'
+            'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments', 'poll'
         ]
 
-    def get_isOwner(self, obj):
-        request = self.context.get('request')
-        user = getattr(request, 'user', None) if request else None
-        return bool(user is not None and isinstance(user, User) and str(user.id) == str(obj.user_id))
-
-    def get_authorBadgeInfo(self, obj):
-        if obj.is_anonymous:
+    def get_poll(self, obj):
+        try:
+            poll = obj.poll
+        except Poll.DoesNotExist:
             return None
-        from .badges import user_badge_info
-        try:
-            return user_badge_info(obj.user)
-        except Exception:
-            return None
+        return PollSerializer(poll, context=self.context).data
 
-    def get_isBookmarked(self, obj):
-        request = self.context.get('request')
-        if not request or not hasattr(request, 'user') or request.user is None:
-            return False
-        user = request.user
-        if not isinstance(user, User):
-            return False
-        bookmarked_ids = self.context.get('bookmarked_reply_ids')
-        if bookmarked_ids is not None:
-            return obj.id in bookmarked_ids
-        try:
-            return Bookmark.objects.filter(user=user, target_type='reply', target_id=obj.id).exists()
-        except Exception:
-            return False
+    def get_kind(self, obj):
+        return obj.kind or 'comment'
 
-    def get_authorId(self, obj):
-        if obj.is_anonymous or not obj.user_id:
-            return ''
-        return str(obj.user_id)
+    def get_label(self, obj):
+        return obj.label or ''
 
-    def get_authorName(self, obj):
-        if obj.is_anonymous:
-            if obj.user_id:
-                from .services import get_user_anon_tag
-                return get_user_anon_tag(obj.user_id)
-            return 'Anonymous Nebian'
-        if not obj.user_id:
-            return 'Deleted user'
-        try:
-            return obj.user.username
-        except Exception:
-            return 'Deleted user'
-
-    def get_authorPhotoUrl(self, obj):
-        if obj.is_anonymous or not obj.user_id:
-            return ''
-        try:
-            from .services import avatar_or_photo_url
-            return avatar_or_photo_url(obj.user)
-        except Exception:
-            return ''
-
-    def get_authorIsBot(self, obj):
-        if obj.is_anonymous:
-            return False
-        try:
-            return obj.user.is_bot
-        except Exception:
-            return False
-
-    def get_isThumbedUp(self, obj):
-        request = self.context.get('request')
-        if not request or not hasattr(request, 'user') or request.user is None:
-            return False
-        user = request.user
-        if not isinstance(user, User):
-            return False
-        liked_ids = self.context.get('liked_reply_ids')
-        if liked_ids is not None:
-            return obj.id in liked_ids
-        return obj.likes.filter(user=user).exists()
-
+    def get_canLabel(self, obj):
+        user = self._viewer()
+        return bool(user is not None and (user.is_admin or str(user.id) == str(obj.post.user_id)))
 
 class UserPhotoSerializer(serializers.ModelSerializer):
     """
@@ -596,22 +524,6 @@ class UserPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPhoto
         fields = ['id', 'url', 'uploaded_at', 'is_current']
-
-
-class UserStatsSerializer(serializers.Serializer):
-    """
-    Aggregated public stats for a user profile.
-    Consumed by both the web UI and the Android app.
-    contribution_score = posts*3 + replies*2 + likes_given + likes_received*2
-    """
-    username = serializers.CharField()
-    post_count = serializers.IntegerField()
-    reply_count = serializers.IntegerField()
-    follower_count = serializers.IntegerField()
-    following_count = serializers.IntegerField()
-    likes_received = serializers.IntegerField()      # total thumbs_up on posts + replies
-    likes_given = serializers.IntegerField()         # total likes this user has given
-    contribution_score = serializers.IntegerField()  # weighted composite score
 
 
 class FollowSerializer(serializers.ModelSerializer):

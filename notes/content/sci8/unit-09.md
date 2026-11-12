@@ -450,3 +450,88 @@ and Cl in group 17.
 **4.** Group 2 (alkaline earth metals): (i) each has 2 valence electrons (Be 2,2; Mg 2,8,2; Ca 2,8,8,2) and valency 2; (ii) all are metals that lose 2 electrons; (iii) atomic size increases from Be to Ca as shells increase; (iv) metallic character and reactivity increase downwards; their chemical properties are similar.
 **5.** See the table in 9.2.2 and the valency table in 9.2.3: H 1 (1); He 2 (0); Li 2,1 (1); Be 2,2 (2); B 2,3 (3); C 2,4 (4); N 2,5 (3); O 2,6 (2); F 2,7 (1); Ne 2,8 (0); Na 2,8,1 (1); Mg 2,8,2 (2); Al 2,8,3 (3); Si 2,8,4 (4); P 2,8,5 (3); S 2,8,6 (2); Cl 2,8,7 (1); Ar 2,8,8 (0); K 2,8,8,1 (1); Ca 2,8,8,2 (2).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the states of matter by the kinetic theory of particles. Differentiate between element, compound and mixture. <span class="marks">[10]</span>
+2. Distinguish between physical and chemical change. Explain the methods of separation of mixtures and the indicators for acids and bases. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="5" ratio="1.0" caption="Matter and change. (a) Noble gases in discharge tubes show that gases glow with different colours. (b) Burning magnesium is a chemical change that gives a new substance. (c) Litmus paper shows acids and bases. (d) Rust is a slow chemical change. (e) A hydrogen balloon shows that a gas has weight and is very light."
+@ photo id="sci10/noble-gases" cap="(a) Noble gases"
+@ photo id="sci10/mg-burning" cap="(b) Burning magnesium"
+@ photo id="sci10/litmus" cap="(c) Litmus"
+@ photo id="sci10/rust" cap="(d) Rust"
+@ photo id="sci10/h2-balloon" cap="(e) Hydrogen balloon"
+```
+
+### Model answer D1: states of matter and types of substances (10 marks)
+
+**Introduction.** **Matter** is anything that has mass and occupies space. It is made of tiny particles that are always moving (**kinetic theory**).
+
+| Property | Solid | Liquid | Gas |
+|---|---|---|---|
+| Shape | Fixed | Takes the shape of the container | Takes the shape of the container |
+| Volume | Fixed | Fixed | Fills the container |
+| Particle arrangement | Very close, regular | Close, irregular | Far apart, random |
+| Movement | Vibrate in place | Slide past each other | Move freely and fast |
+| Compressibility | Almost none | Very little | Highly compressible |
+| Example | Ice, iron | Water, oil | Air, steam |
+
+**Changes of state.** Melting (solid to liquid), freezing, boiling or evaporation (liquid to gas), condensation (gas to liquid) and sublimation (solid directly to gas, camphor).
+
+**Element, compound and mixture.**
+
+| Feature | Element | Compound | Mixture |
+|---|---|---|---|
+| Meaning | One kind of atom | Two or more elements chemically combined in a fixed ratio | Two or more substances mixed, not combined |
+| Separation | Cannot be split by chemical methods | By chemical methods only | By physical methods |
+| Properties | Own properties | Different from its elements | Properties of the parts |
+| Example | Oxygen, iron, gold | Water ($\text{H}_2\text{O}$), salt (NaCl) | Air, sea water, soil |
+
+**Atom and molecule.** An **atom** is the smallest particle of an element that can take part in a chemical reaction. A **molecule** is a group of atoms joined together ($\text{O}_2$, $\text{H}_2\text{O}$, $\text{CO}_2$).
+
+**Symbols.** H, O, C, N, Na, Fe, Cu, Au, and formulae such as $\text{H}_2\text{O}$ (two hydrogen atoms and one oxygen atom).
+
+**Conclusion.** The state of matter depends on how closely and how fast the particles move, and substances are elements, compounds or mixtures.
+
+### Model answer D2: change, separation of mixtures and indicators (10 marks)
+
+**Physical and chemical change.**
+
+| Physical change | Chemical change |
+|---|---|
+| No new substance | New substance forms |
+| Usually reversible | Usually not reversible |
+| Example: melting ice, dissolving sugar | Burning paper, rusting, curdling milk |
+| No change in chemical composition | Gas, colour, heat or precipitate may appear |
+
+A chemical reaction is shown with an equation, for example $\text{C} + \text{O}_2 \rightarrow \text{CO}_2$.
+
+**Solutions.** A **solution** has a **solute** dissolved in a **solvent**. A solution that cannot dissolve any more solute at a given temperature is **saturated**.
+
+**Methods of separating mixtures.**
+
+| Method | Used to separate | Example |
+|---|---|---|
+| Filtration | Insoluble solid from liquid | Sand from water |
+| Evaporation | Dissolved solid from a solution | Salt from sea water |
+| Distillation | A liquid from a solution; two liquids | Pure water |
+| Sublimation | A sublimable solid from others | Camphor from sand |
+| Magnetic separation | Magnetic from non-magnetic | Iron filings from sulphur |
+| Winnowing and sieving | Grain from husk; big from small | Rice, flour |
+| Chromatography | Coloured substances | Ink dyes |
+
+**Acids, bases and salts.** An **acid** is sour and turns blue litmus red (lemon, vinegar, HCl). A **base** is bitter and soapy and turns red litmus blue (soap, lime water, NaOH). Acid + base gives salt + water (**neutralisation**).
+
+**Indicators.**
+
+| Indicator | Acid | Base |
+|---|---|---|
+| Litmus | Red | Blue |
+| Phenolphthalein | Colourless | Pink |
+| Methyl orange | Red | Yellow |
+| China-rose (hibiscus) juice | Pink | Green |
+
+**Uses of neutralisation.** Antacid for indigestion, lime for acidic soil and soap for a bee sting.
+
+**Conclusion.** Physical changes are temporary, chemical changes make new substances, and different mixtures need different methods of separation.

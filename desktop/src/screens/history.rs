@@ -10,7 +10,7 @@ use crate::ui::widgets::{self, BtnKind};
 pub fn show(ui: &mut Ui, env: &mut Env) {
     scroll_page(ui, env, "history", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Reading history", Some("Chapters you opened recently. Stored on this computer."));
+        widgets::screen_header(ui, &th, "Reading history");
         let recent = env.store.s.recent.clone();
         if recent.is_empty() {
             widgets::empty_state(ui, &th, Icon::History, "Nothing here yet", "Chapters you open will show up here so you can pick up where you left off.");

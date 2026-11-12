@@ -7,10 +7,10 @@ from django.core.cache import cache
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.utils.html import escape
 from django.views.decorators.http import require_POST
 
-from .view_helpers import _avatar_url, _counters, _ctx, _get_user_id, _user_badge_info
+from api import counters as _counters
+from .view_helpers import _avatar_url, _ctx, _get_user_id, _user_badge_info
 from api.models import Notification, User
 from api.notifications import get_notification_url
 
@@ -134,6 +134,16 @@ def _enrich_notification(n):
         icon_theme = 'rose'
         if url and url != '#':
             secondary_action = {'label': 'View details', 'url': url, 'action': 'view'}
+    elif verb == 'new_resource' or (verb == 'system' and getattr(n, 'campaign_id', '')):
+        # Push campaigns store "Title\nBody" in `message` (api/push_engine.py).
+        category = 'system'
+        head, _, rest = (n.message or '').partition('\n')
+        title = head or 'From NEBians'
+        body = rest
+        icon_name = 'library_books' if verb == 'new_resource' else 'campaign'
+        icon_theme = 'emerald'
+        if url and url != '#':
+            secondary_action = {'label': 'Open' if verb == 'new_resource' else 'View details', 'url': url, 'action': 'view'}
     elif verb == 'system':
         category = 'system'
         title = "Workspace backup is ready" if "backup" in (n.message or "").lower() else ("System Announcement" if not n.message or len(n.message) > 45 else n.message)
@@ -150,7 +160,7 @@ def _enrich_notification(n):
         body = n.message or "New activity on your account."
         icon_name = 'notifications'
         icon_theme = 'blue'
-    has_avatar_actor = bool(actor_photo or (actor_name and verb not in ('system', 'resource_approved', 'resource_rejected')))
+    has_avatar_actor = bool(actor_photo or (actor_name and verb not in ('system', 'new_resource', 'resource_approved', 'resource_rejected')))
 
     return {
         'id': n.id,
@@ -184,7 +194,7 @@ def _filter_notifications_qs(user_id, category_tab='all'):
     if category_tab == 'mentions':
         return base_qs.filter(verb='mention')
     if category_tab == 'system':
-        return base_qs.filter(verb__in=['system', 'resource_approved', 'resource_rejected'])
+        return base_qs.filter(verb__in=['system', 'new_resource', 'resource_approved', 'resource_rejected'])
     if category_tab in ('activity', 'social'):
         return base_qs.filter(verb__in=[
             'like_post', 'like_reply', 'like_resource', 'like_resource_comment',
@@ -201,7 +211,7 @@ def _get_category_counts(user_id):
     base_qs = Notification.objects.filter(recipient_id=user_id)
     all_count = base_qs.count()
     mentions_count = base_qs.filter(verb='mention').count()
-    system_count = base_qs.filter(verb__in=['system', 'resource_approved', 'resource_rejected']).count()
+    system_count = base_qs.filter(verb__in=['system', 'new_resource', 'resource_approved', 'resource_rejected']).count()
     activity_count = base_qs.filter(verb__in=[
         'like_post', 'like_reply', 'like_resource', 'like_resource_comment',
         'reply', 'reply_reply', 'resource_comment', 'resource_comment_reply',
@@ -322,13 +332,16 @@ def ajax_notifications_mark_read(request):
         data = {}
     mark_all = data.get('mark_all', False)
     notification_ids = data.get('notification_ids', [])
+    from api import push_engine
     if mark_all:
+        push_engine.mark_all_opened_for_user(user_id, 'inbox')
         count = Notification.objects.filter(recipient_id=user_id, is_read=False).update(is_read=True)
         _counters.reset_user_unread_notification_count(user_id)
         cache.delete(f'unread_count:{user_id}')
         return JsonResponse({'success': True, 'marked_count': count, 'unread_count': 0})
     if notification_ids:
         notifs = Notification.objects.filter(recipient_id=user_id, pk__in=notification_ids, is_read=False)
+        push_engine.mark_opened(list(notifs.exclude(campaign_id='').values_list('id', flat=True)), 'inbox')
         count = notifs.update(is_read=True)
         unread = Notification.objects.filter(recipient_id=user_id, is_read=False).count()
         User.objects.filter(pk=user_id).update(unread_notification_count=unread)
@@ -348,3 +361,22 @@ def ajax_notifications_unread_count(request):
     except User.DoesNotExist:
         count = 0
     return JsonResponse({'count': count})
+
+def ajax_notification_prefs(request):
+    """GET/POST: the member's own notification switches (web settings page).
+    Body for POST: {"new_resources": true|false}."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    user = User.objects.filter(pk=user_id).first()
+    if not user:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body or b'{}')
+        except json.JSONDecodeError:
+            data = {}
+        if 'new_resources' in data:
+            user.notify_new_resources = bool(data['new_resources'])
+            User.objects.filter(pk=user_id).update(notify_new_resources=user.notify_new_resources)
+    return JsonResponse({'new_resources': user.notify_new_resources})

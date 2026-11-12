@@ -484,6 +484,29 @@ $$ I_p = \frac{P_{\text{in}}}{E_p} = \frac{5500}{11000} = 0.50\ \text{A} $$
 The $1100\ \text{W}$ difference is lost as heat in the copper and the core.
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.2" caption="Stepping down for the home. (a) A transformer on a pole reduces the 11 kV of the distribution line to the 230 V used in houses. (b) For an ideal transformer the power is the same on both sides, Vp Ip = Vs Is, and the turns ratio is Np / Ns = Vp / Vs, here 47.8. For a 25 kVA unit the primary current is only 2.27 A but the secondary current is 108.7 A, which is why the low-voltage cables are thick. A real transformer of 98 per cent efficiency wastes 500 W as heat in the windings and the laminated iron core. Transmitting at high voltage keeps the current, and therefore the I2 R loss in the lines, small."
+@ photo id="phy12b/transformer" cap="A pole-mounted distribution transformer"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="A step-down transformer from 11 kV to 230 V"
+Vp, Vs, S, eta = 11000.0, 230.0, 25000.0, 0.98
+Ip, Is = S / Vp, S / Vs
+turns = Vp / Vs
+loss = S * (1 - eta)
+assert round(turns, 1) == 47.8 and round(Is, 1) == 108.7
+f = Fig(300, 236)
+f.text(150, 12, "25 kVA transformer, 11 kV to 230 V", size=10.5, color=NAVY, bold=True)
+hbars(f, [("I primary, A", Ip), ("I secondary, A", Is)], vmax=115, fmt="%.2f", x0=96, y0=30, bw=140, gap=32,
+      colors=[(BLUE, NAVY), (ROSE, RED)])
+f.text(150, 112, "Vp / Vs = Ns / Np inverted: Np / Ns = %.1f" % turns, size=10.5, color=NAVY, bold=True)
+f.text(150, 134, "Vp Ip = Vs Is (ideal): %.0f VA both sides" % S, size=10.5, color=NAVY, bold=True)
+f.text(150, 160, "a 98%% efficient unit wastes %.0f W as heat" % loss, size=10.5, color=NAVY, bold=True)
+f.text(150, 180, "copper loss ~ I^2 R, iron loss ~ eddy + hysteresis", size=10, color=SLATE, bold=True)
+f.text(150, 198, "the iron core is laminated to cut eddy currents", size=10, color=SLATE, bold=True)
+f.text(150, 216, "transmit at high V, low I: less I^2 R loss", size=10, color=SLATE, bold=True)
+facts = dict(ip=Ip, is_=Is, n=turns, loss=loss)
+```
+
 ## Chapter summary
 
 - Faraday: an e.m.f. appears whenever flux linkage changes, $e = -N\,d\Phi/dt$;
@@ -592,3 +615,42 @@ $$ P_{\text{out}} = 12\times5.0 = 60\ \text{W} $$
 $$ P_{\text{in}} = \frac{60}{0.90} = 66.7\ \text{W} $$
 $$ I_p = \frac{66.7}{240} = 0.28\ \text{A} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the induced emf in a conductor moving in a magnetic field and show that it follows the conservation of energy. <span class="marks">[10]</span>
+
+### Model answer D1: motional emf and energy conservation (10 marks)
+
+**Introduction.** **Faraday's law** states that the induced emf in a circuit equals the rate of change of the magnetic flux through it: $e = -\,d\Phi/dt$. **Lenz's law** (the minus sign) says that the induced current opposes the change that causes it.
+
+**Motional emf.** A straight conductor of length $l$ moves with speed $v$ at right angles to a uniform field $B$, sliding on two rails joined by a resistor $R$. In a time $dt$ it moves a distance $v\,dt$, so the area of the loop increases by $l\,v\,dt$ and the flux changes by $d\Phi = B\,l\,v\,dt$. Hence
+
+$$ e = \frac{d\Phi}{dt} = Blv $$
+
+(**Check by force on charges:** a free electron in the rod feels $F = evB$, which pushes charges to one end until the electric field balances it; the work per unit charge along the length $l$ is $vBl$.)
+
+**Direction.** By Lenz's law (or Fleming's right-hand rule) the induced current flows so that the force on the rod opposes the motion.
+
+**Energy conservation.** The current is $I = e/R = Blv/R$. The magnetic force on the rod is $F = BIl = B^{2}l^{2}v/R$, opposing the motion. To keep the speed constant an outside agent must push with an equal force, doing work at the rate
+
+$$ P_{\text{mech}} = Fv = \frac{B^{2}l^{2}v^{2}}{R} $$
+
+The electrical power produced in the resistor is
+
+$$ P_{\text{elec}} = I^{2}R = \frac{B^{2}l^{2}v^{2}}{R} $$
+
+The two are equal, so the mechanical energy is changed completely into electrical energy (then into heat in $R$); energy is conserved. If Lenz's law were reversed, a force would help the motion and energy would be created from nothing, which is impossible.
+
+**Numerical.** A rod of $l = 0.50\ \text{m}$ moves at $v = 4.0\ \text{m s}^{-1}$ in $B = 0.20\ \text{T}$, with $R = 2.0\ \Omega$: $e = 0.20 \times 0.50 \times 4.0 = 0.40\ \text{V}$; $I = 0.20\ \text{A}$; $F = 0.20 \times 0.20 \times 0.50 = 0.020\ \text{N}$; $P_{\text{mech}} = Fv = 0.080\ \text{W}$ and $P_{\text{elec}} = I^{2}R = 0.040 \times 2.0 = 0.080\ \text{W}$.
+
+| Quantity | Expression | Value |
+|---|---|---|
+| Induced emf | $Blv$ | $0.40\ \text{V}$ |
+| Current | $Blv/R$ | $0.20\ \text{A}$ |
+| Opposing force | $B^{2}l^{2}v/R$ | $0.020\ \text{N}$ |
+| Power | $Fv = I^{2}R$ | $0.080\ \text{W}$ |
+
+**Application.** An AC generator, such as the one in a hydropower station at Kulekhani, turns a coil in a magnetic field; the mechanical work of the turbine becomes electrical energy in the same way.
+
+**Conclusion.** The motional emf is $Blv$, and the work done against the magnetic force equals the electrical energy produced.

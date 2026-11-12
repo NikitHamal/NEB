@@ -1,0 +1,109 @@
+{% extends "admin_panel/base.html" %}
+{% load static admin_extras %}
+
+{% block title %}Library autopilot{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-row"><h1>Push notifications</h1></div>
+</div>
+{% include "admin_panel/_push_tabs.html" %}
+
+{% if flash %}<div class="pn-alert ok" role="status"><span class="material-symbols-outlined" aria-hidden="true">check_circle</span><div>{{ flash }}</div></div>{% endif %}
+
+<div class="admin-kpi-grid">
+  <div class="admin-kpi"><div class="admin-kpi-label">Autopilot</div><div class="admin-kpi-value">{% if cfg.autopilot_enabled %}On{% else %}Off{% endif %}</div><div class="admin-kpi-sub">{% if quiet_now %}Quiet hours, holding pushes{% else %}Sending as resources land{% endif %}</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Members it can reach</div><div class="admin-kpi-value">{{ stats.eligible }}</div><div class="admin-kpi-sub">class and subjects picked, alerts on</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Switched off</div><div class="admin-kpi-value">{{ stats.opted_out }}</div><div class="admin-kpi-sub">of {{ stats.members }} members</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Announced, 30 days</div><div class="admin-kpi-value">{{ stats.sent_30|add:stats.manual_30 }}</div><div class="admin-kpi-sub">{{ stats.sent_30 }} automatic, {{ stats.manual_30 }} by hand</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Never announced</div><div class="admin-kpi-value">{{ stats.unannounced }}</div><div class="admin-kpi-sub">live resources</div></div>
+</div>
+
+{% if stats.unannounced %}
+<form method="post" class="pn-card pn-batch" id="unnotifiedForm">
+  {% csrf_token %}<input type="hidden" name="action" value="announce_unnotified">
+  <div class="pn-batch-text"><h2>Announce unnotified library uploads</h2><p>{{ stats.unannounced }} live resources, one message per person</p></div>
+  <button type="submit" class="md-btn md-btn-filled" data-action="confirm-submit" data-confirm-title="Announce {{ stats.unannounced }} uploads?" data-confirm-msg="Everyone whose class and subjects match gets one digest, not one message per file." data-confirm-label="Announce" data-confirm-tone="primary"><span class="material-symbols-outlined" aria-hidden="true">campaign</span>Announce now</button>
+</form>
+{% endif %}
+
+<div class="pn-grid" style="margin-bottom:20px;">
+  <form method="post" class="pn-card" id="settingsForm">
+    {% csrf_token %}<input type="hidden" name="action" value="settings">
+    <h2>Rules</h2>
+    <label class="pn-switch" for="autopilot_enabled"><span>Tell members when a resource lands for their class and subjects</span>
+      <span class="md-switch"><input type="checkbox" id="autopilot_enabled" name="autopilot_enabled" value="1" {% if cfg.autopilot_enabled %}checked{% endif %}><span class="slider"></span></span></label>
+    <label class="pn-switch" for="include_paid" style="margin-top:12px;"><span>Include paid resources</span>
+      <span class="md-switch"><input type="checkbox" id="include_paid" name="include_paid" value="1" {% if cfg.include_paid %}checked{% endif %}><span class="slider"></span></span></label>
+    <div class="pn-row" style="margin-top:20px;">
+      <label class="pn-field" for="daily_cap">Pushes per person a day<input type="number" min="1" max="6" id="daily_cap" name="daily_cap" class="md-input" value="{{ cfg.daily_cap }}"></label>
+      <label class="pn-field" for="settle_minutes">Wait for quiet (minutes)<input type="number" min="1" max="120" id="settle_minutes" name="settle_minutes" class="md-input" value="{{ cfg.settle_minutes }}"></label>
+      <label class="pn-field" for="max_wait_minutes">Never wait longer than (minutes)<input type="number" min="5" max="720" id="max_wait_minutes" name="max_wait_minutes" class="md-input" value="{{ cfg.max_wait_minutes }}"></label>
+    </div>
+    <div class="pn-row">
+      <label class="pn-field" for="quiet_start_hour">Quiet from
+        <select id="quiet_start_hour" name="quiet_start_hour" class="md-input">{% for h in hours %}<option value="{{ h }}" {% if cfg.quiet_start_hour == h %}selected{% endif %}>{{ h }}:00</option>{% endfor %}</select></label>
+      <label class="pn-field" for="quiet_end_hour">Until
+        <select id="quiet_end_hour" name="quiet_end_hour" class="md-input">{% for h in hours %}<option value="{{ h }}" {% if cfg.quiet_end_hour == h %}selected{% endif %}>{{ h }}:00</option>{% endfor %}</select></label>
+    </div>
+    <div class="pn-actions"><button type="submit" class="md-btn md-btn-filled"><span class="material-symbols-outlined" aria-hidden="true">save</span>Save rules</button></div>
+  </form>
+
+  <div class="pn-col">
+    <section class="pn-card">
+      <h2>Waiting to go out</h2>
+      {% if pending %}
+      <div class="pn-scroll"><table class="pn-table"><tbody>
+        {% for a in pending %}<tr><td><a class="pn-link" href="/reader/{{ a.resource.id }}/">{{ a.resource.title }}</a><span class="sub">{{ a.resource.grade_level }}, {{ a.resource.subject }}, queued {{ a.queued_at|ms_when }}</span></td>
+          <td class="num"><form method="post">{% csrf_token %}<input type="hidden" name="action" value="skip"><input type="hidden" name="alert_id" value="{{ a.id }}"><button type="submit" class="md-btn md-btn-outlined">Skip</button></form></td></tr>{% endfor %}
+      </tbody></table></div>
+      <form method="post" class="pn-actions" style="margin-top:14px;">{% csrf_token %}<input type="hidden" name="action" value="run_now">
+        <button type="submit" class="md-btn md-btn-tonal" data-action="confirm-submit" data-confirm-title="Send the queue now?" data-confirm-msg="Skips the wait and the quiet hours. Daily caps still apply." data-confirm-label="Send now" data-confirm-tone="primary"><span class="material-symbols-outlined" aria-hidden="true">bolt</span>Send now</button></form>
+      {% else %}<p class="pn-empty">Nothing is queued. New resources appear here for {{ settle }} minutes of quiet before they go out.</p>{% endif %}
+    </section>
+    {% if skipped %}<section class="pn-card"><h2>Not announced, 30 days</h2>
+      {% for s in skipped %}<div class="pn-meter-row"><span>{{ s.label }}</span><b>{{ s.n }}</b></div>{% endfor %}</section>{% endif %}
+    {% if recent %}<section class="pn-card"><h2>Recent rounds</h2>
+      {% for r in recent %}<div class="pn-meter-row"><a style="color:var(--md-on-surface);text-decoration:none;font-weight:600;" href="{% url 'web:admin_push_detail' campaign_id=r.id %}">{{ r.title }}<small>{{ r.created_at|ms_when }}</small></a><b>{{ r.users_targeted }}</b></div>{% endfor %}</section>{% endif %}
+  </div>
+</div>
+
+<form method="post" class="pn-card" id="announceForm" data-preview-url="{% url 'web:admin_push_autopilot_preview' %}">
+  {% csrf_token %}<input type="hidden" name="action" value="announce">
+  <div class="pn-actions" style="margin-bottom:14px;">
+    <h2 style="margin:0;">Announce uploads by hand</h2>
+    <div class="pn-chips" style="margin-left:auto;">
+      <a class="pn-chip" href="?show=new" style="text-decoration:none"><span style="{% if show == 'new' %}background:var(--md-secondary-container);color:var(--md-on-secondary-container){% endif %}">Never announced</span></a>
+      <a class="pn-chip" href="?show=all" style="text-decoration:none"><span style="{% if show == 'all' %}background:var(--md-secondary-container);color:var(--md-on-secondary-container){% endif %}">All live</span></a>
+    </div>
+  </div>
+  {% if library %}
+  <div class="pn-actions" style="margin-bottom:10px;">
+    <button type="button" class="md-btn md-btn-outlined" id="pickAll">Select all</button>
+    <button type="button" class="md-btn md-btn-outlined" id="pickNone">Clear</button>
+    <span class="pn-empty" id="pickCount">0 selected</span>
+  </div>
+  <div class="pn-pick">
+    {% for r in library %}
+    <label><input type="checkbox" name="resource_ids" value="{{ r.id }}"><span>{{ r.title }}<span class="sub">{{ r.grade_level }}, {{ r.subject }}</span></span>
+      <span class="pn-pill state-{% if r.alert_state %}{{ r.alert_state }}{% else %}none{% endif %}">{% if r.alert_state == 'manual' %}Announced{% elif r.alert_state == 'sent' %}Sent{% elif r.alert_state == 'pending' %}Queued{% elif r.alert_state == 'skipped' %}{{ r.alert_reason|default:"Skipped" }}{% else %}Not announced{% endif %}</span></label>
+    {% endfor %}
+  </div>
+  <div class="pn-card" style="background:var(--md-surface-container);margin-top:14px;display:none;" id="previewBox">
+    <div class="pn-tiles">
+      <div class="pn-tile"><strong id="pvPeople">0</strong><span>People get one message</span></div>
+      <div class="pn-tile"><strong id="pvApp">0</strong><span>With the app</span></div>
+      <div class="pn-tile"><strong id="pvSingles">0</strong><span>Messages if sent one by one</span></div>
+    </div>
+    <div class="pn-toast" style="margin-top:12px;"><div class="pn-toast-icon" aria-hidden="true">N</div><div><div class="pn-toast-app">Sample</div><div class="pn-toast-title" id="pvSampleTitle"></div><div class="pn-toast-body" id="pvSampleBody"></div></div></div>
+  </div>
+  <div class="pn-actions" style="margin-top:16px;">
+    <button type="submit" class="md-btn md-btn-filled" id="announceBtn" disabled data-action="confirm-submit" data-confirm-title="Announce these resources?" data-confirm-msg="" data-confirm-label="Announce" data-confirm-tone="primary"><span class="material-symbols-outlined" aria-hidden="true">campaign</span>Announce</button>
+  </div>
+  {% else %}<p class="pn-empty">Every live resource has been announced.</p>{% endif %}
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'web/js/admin-push-autopilot.js' %}" nonce="{{ csp_nonce }}" defer></script>
+{% endblock %}

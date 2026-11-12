@@ -12,7 +12,15 @@ import com.neb.ians.ui.screens.reader.pdf.PdfDocumentEngine
 import com.neb.ians.ui.screens.reader.pdf.ReaderPrefs
 import com.neb.ians.ui.screens.reader.pdf.ReadingLayout
 import com.neb.ians.ui.screens.reader.pdf.ReadingTheme
+import com.neb.ians.ui.screens.reader.pdf.ReadSearch
+import com.neb.ians.ui.screens.reader.pdf.ReadHit
 import com.neb.ians.ui.screens.reader.pdf.ReaderSearch
+import com.neb.ians.ui.screens.reader.pdf.findReadHits
+import com.neb.ians.ui.screens.reader.pdf.OutlineItem
+import com.neb.ians.ui.screens.reader.pdf.PdfLink
+import com.neb.ians.ui.screens.reader.pdf.ReadingSettings
+import com.neb.ians.ui.screens.reader.pdf.ReflowPage
+import com.neb.ians.ui.screens.reader.pdf.FRect
 import com.neb.ians.ui.screens.reader.pdf.SearchHit
 import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +60,15 @@ data class PdfViewerUiState(
     val keepScreenOn: Boolean = true,
     /** Whether this device can read the document's text (search). */
     val canReadText: Boolean = false,
-    val search: ReaderSearch = ReaderSearch()
+    val search: ReaderSearch = ReaderSearch(),
+    /** The document's own table of contents, empty when it has none. */
+    val outline: List<OutlineItem> = emptyList(),
+    val readingMode: Boolean = false,
+    val readSearch: ReadSearch = ReadSearch(),
+    val reading: ReadingSettings = ReadingSettings(),
+    val assistantHidden: Boolean = false,
+    val assistantX: Float = -1f,
+    val assistantY: Float = -1f
 )
 
 @HiltViewModel
@@ -70,6 +86,9 @@ class PdfViewerViewModel @Inject constructor(
     private var resource: ApiResource? = null
     private var downloadJob: Job? = null
     private var searchJob: Job? = null
+    private var readSearchJob: Job? = null
+    private var readJumps = 0
+    private var scanJob: Job? = null
     private var file: File? = null
 
     init {
@@ -78,7 +97,12 @@ class PdfViewerViewModel @Inject constructor(
                 bookmarks = prefs.bookmarks(resourceId),
                 theme = prefs.theme,
                 layout = prefs.layout,
-                keepScreenOn = prefs.keepScreenOn
+                keepScreenOn = prefs.keepScreenOn,
+                readingMode = prefs.readingMode(resourceId),
+                reading = prefs.reading,
+                assistantHidden = prefs.assistantHidden,
+                assistantX = prefs.assistantX,
+                assistantY = prefs.assistantY
             )
         }
         load()
@@ -115,6 +139,44 @@ class PdfViewerViewModel @Inject constructor(
         _uiState.update { it.copy(keepScreenOn = on) }
     }
 
+    fun setReadingMode(on: Boolean) {
+        prefs.setReadingMode(resourceId, on)
+        if (!on) closeReadSearch()
+        _uiState.update { it.copy(readingMode = on) }
+    }
+
+    fun updateReading(change: (ReadingSettings) -> ReadingSettings) {
+        val next = change(_uiState.value.reading)
+        prefs.reading = next
+        _uiState.update { it.copy(reading = next) }
+    }
+
+    fun setAssistantHidden(hidden: Boolean) {
+        prefs.assistantHidden = hidden
+        _uiState.update { it.copy(assistantHidden = hidden) }
+    }
+
+    fun moveAssistant(x: Float, y: Float) {
+        prefs.assistantX = x; prefs.assistantY = y
+        _uiState.update { it.copy(assistantX = x, assistantY = y) }
+    }
+
+    suspend fun readingBook(cacheRoot: java.io.File): java.io.File? = engine?.structure?.readingBook(cacheRoot)
+
+    suspend fun links(page: Int): List<PdfLink> = engine?.structure?.links(page).orEmpty()
+
+    fun cachedLinks(page: Int): List<PdfLink>? = engine?.structure?.cachedLinks(page)
+
+    suspend fun reflow(page: Int): ReflowPage? = engine?.structure?.reflow(page)
+
+    fun cachedReflow(page: Int): ReflowPage? = engine?.structure?.cachedReflow(page)
+
+    fun bodyPoints(): Float = engine?.structure?.bodyPoints() ?: 10.5f
+
+    suspend fun crop(page: Int, rect: FRect, widthPx: Int): Bitmap? = engine?.crop(page, rect, widthPx)
+
+    fun cachedCrop(page: Int, rect: FRect, widthPx: Int): Bitmap? = engine?.cachedCrop(page, rect, widthPx)
+
     fun cachedPage(index: Int, widthPx: Int): Bitmap? = engine?.cached(index, widthPx)
 
     suspend fun thumbnail(index: Int): Bitmap? = engine?.thumbnail(index)
@@ -138,6 +200,7 @@ class PdfViewerViewModel @Inject constructor(
                     resource = loaded
                     _uiState.update { it.copy(title = loaded.title) }
                     resourceRepository.viewResource(resourceId)
+                    resourceRepository.resourceAction(resourceId, "read")
                     val localFile = downloadManager.getLocalFile(loaded.id, loaded.fileUrl)
                     if (localFile?.exists() == true) {
                         openPdf(localFile)
@@ -203,6 +266,7 @@ class PdfViewerViewModel @Inject constructor(
     private suspend fun openPdf(file: File) {
         withContext(Dispatchers.IO) {
             runCatching {
+                scanJob?.cancel()
                 engine?.close()
                 engine = null
                 val opened = PdfDocumentEngine.open(file)
@@ -221,6 +285,17 @@ class PdfViewerViewModel @Inject constructor(
                         canReadText = opened.canReadText,
                         error = null
                     )
+                }
+                viewModelScope.launch(Dispatchers.IO) {
+                    val items = opened.structure.outline()
+                    _uiState.update { state -> if (engine === opened) state.copy(outline = items) else state }
+                }
+                // the layout starts from the first page's shape; the rest are read in the background
+                scanJob?.cancel()
+                scanJob = viewModelScope.launch(Dispatchers.IO) {
+                    opened.scanShapes(last) { shapes ->
+                        _uiState.update { state -> if (engine === opened) state.copy(pageAspects = shapes) else state }
+                    }
                 }
             }.onFailure {
                 _uiState.update { state -> state.copy(isLoading = false, isDownloading = false, error = "Unable to open PDF") }
@@ -277,6 +352,57 @@ class PdfViewerViewModel @Inject constructor(
         }
     }
 
+    fun openReadSearch() {
+        _uiState.update { it.copy(readSearch = it.readSearch.copy(open = true)) }
+    }
+
+    fun closeReadSearch() {
+        readSearchJob?.cancel()
+        _uiState.update { it.copy(readSearch = ReadSearch()) }
+    }
+
+    /**
+     * Search for reading mode: reads the reflowed text of every page, starting at the one on screen
+     * and wrapping round. It does not need the platform's text API, so it works on every device.
+     */
+    fun readSearch(query: String) {
+        readSearchJob?.cancel()
+        val q = query.trim()
+        _uiState.update { it.copy(readSearch = it.readSearch.copy(query = query, running = q.length >= 2, scanned = 0, hits = emptyList(), index = -1)) }
+        val structure = engine?.structure ?: return
+        if (q.length < 2) return
+        val start = _uiState.value.currentPage
+        val n = _uiState.value.pageCount
+        readSearchJob = viewModelScope.launch {
+            delay(260)
+            val hits = ArrayList<ReadHit>()
+            for (k in 0 until n) {
+                val page = (start + k) % n
+                val before = hits.size
+                structure.reflow(page)?.let { hits.addAll(findReadHits(it, q)) }
+                val found = hits.size != before
+                if (found || k % 8 == 7 || k == n - 1) {
+                    val first = hits.isNotEmpty() && _uiState.value.readSearch.index < 0
+                    _uiState.update {
+                        it.copy(readSearch = it.readSearch.copy(
+                            scanned = k + 1, hits = hits.toList(),
+                            index = if (first) 0 else it.readSearch.index,
+                            jump = if (first) ++readJumps else it.readSearch.jump
+                        ))
+                    }
+                }
+            }
+            _uiState.update { it.copy(readSearch = it.readSearch.copy(running = false)) }
+        }
+    }
+
+    fun stepReadSearch(delta: Int) {
+        _uiState.update {
+            val s = it.readSearch
+            if (s.hits.isEmpty()) it else it.copy(readSearch = s.copy(index = Math.floorMod(s.index + delta, s.hits.size), jump = ++readJumps))
+        }
+    }
+
     fun stepSearch(delta: Int) {
         _uiState.update {
             val s = it.search
@@ -285,6 +411,7 @@ class PdfViewerViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        scanJob?.cancel()
         engine?.close()
         engine = null
         super.onCleared()

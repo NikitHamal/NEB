@@ -1,0 +1,302 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "project-4",
+ "name": "Project IV",
+ "name_ne": "",
+ "icon": "rocket_launch",
+ "group": "semester-7",
+ "group_label": "Semester VII",
+ "color": "#9333EA",
+ "lang": "en",
+ "code": "BCA 404",
+ "credits": 3,
+ "semester": 7,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "From Idea to Capstone: Framing a Data Project, Scope and Ethics",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What changes in Project IV",
+    "The running example: SikshyaSignal",
+    "The pipeline and where the computing lives",
+    "Building the dataset and meeting the accuracy trap",
+    "Should this project use machine learning at all?",
+    "Eight reasons capstone data projects fail, and the cure"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What changes in Project IV"
+    },
+    {
+     "no": "1.2",
+     "title": "The running example: SikshyaSignal"
+    },
+    {
+     "no": "1.3",
+     "title": "The pipeline and where the computing lives"
+    },
+    {
+     "no": "1.4",
+     "title": "Building the dataset and meeting the accuracy trap"
+    },
+    {
+     "no": "1.5",
+     "title": "Should this project use machine learning at all?"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight reasons capstone data projects fail, and the cure"
+    }
+   ],
+   "summary": [
+    "A capstone is judged on the quality of the decision and on how honestly it is measured, not only on whether the code runs.",
+    "Write a four-part problem statement and measurable objectives that name the metric.",
+    "A data project is a pipeline of six stages; each arrow can fail, so name the failure of each.",
+    "Accuracy can lie. With 23 percent failures, doing nothing is 77 percent accurate and useless.",
+    "Try the cheapest method first and screen the idea for consent, bias and human review before coding.",
+    "Keep a data sheet for every dataset and say clearly when the data is simulated."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3122,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Data: Collection, Cleaning, Features and Leakage",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Where the data comes from, and the data sheet",
+    "Five data faults and a cleaning script",
+    "Features: scaling, derived columns and a correlation check",
+    "Train, validation and test: three sets with three jobs",
+    "Data leakage: when a perfect score is a warning",
+    "Eight data habits that examiners notice"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Where the data comes from, and the data sheet"
+    },
+    {
+     "no": "2.2",
+     "title": "Five data faults and a cleaning script"
+    },
+    {
+     "no": "2.3",
+     "title": "Features: scaling, derived columns and a correlation check"
+    },
+    {
+     "no": "2.4",
+     "title": "Train, validation and test: three sets with three jobs"
+    },
+    {
+     "no": "2.5",
+     "title": "Data leakage: when a perfect score is a warning"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight data habits that examiners notice"
+    }
+   ],
+   "summary": [
+    "Document every column in a data sheet: meaning, unit, range, source and whether it is known at prediction time.",
+    "Five faults appear in nearly all data: missing, impossible, duplicate, inconsistent and outlier values; clean them in code and print counts.",
+    "Scale features with z-scores and check correlations; a weak feature is a finding, not a failure.",
+    "Split into train, validation and test with stratification; use the test set once.",
+    "A suspiciously good feature signals leakage: information that is not available when the prediction is made.",
+    "Protect people: anonymise, limit access and say when data is simulated."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3312,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Modelling: Logistic Regression from Scratch, Evaluation and Fairness",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Logistic regression in plain words",
+    "Training the model and reading the weights",
+    "Choosing a threshold and reporting the test set once",
+    "Cross-validation and a group-fairness check",
+    "Eight ways a model can mislead, and the cure"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Logistic regression in plain words"
+    },
+    {
+     "no": "3.2",
+     "title": "Training the model and reading the weights"
+    },
+    {
+     "no": "3.3",
+     "title": "Choosing a threshold and reporting the test set once"
+    },
+    {
+     "no": "3.4",
+     "title": "Cross-validation and a group-fairness check"
+    },
+    {
+     "no": "3.5",
+     "title": "Eight ways a model can mislead, and the cure"
+    }
+   ],
+   "summary": [
+    "Logistic regression turns a weighted score into a probability with the sigmoid; gradient descent learns the weights by reducing log loss.",
+    "Read the loss curve and both training and validation scores; a large gap signals over-fitting.",
+    "Weights of correlated features are associations, not causes.",
+    "Tune the threshold on validation, then report the test set once with the confusion matrix, precision, recall, F1, AUC and precision at the top, next to the baselines.",
+    "Use cross-validation for a steadier estimate and a bootstrap interval to judge group gaps.",
+    "A fairness paragraph states the groups checked, the numbers and, just as important, what was not checked."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3219,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Deployment: Serving, Testing, Monitoring Drift and Privacy",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "From notebook to service",
+    "Automated tests: eight checks that run in a second",
+    "Monitoring: how the college knows when the model is going stale",
+    "Privacy, consent and security",
+    "Deployment options and the run file",
+    "Eight deployment habits that prevent embarrassing failures"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "From notebook to service"
+    },
+    {
+     "no": "4.2",
+     "title": "Automated tests: eight checks that run in a second"
+    },
+    {
+     "no": "4.3",
+     "title": "Monitoring: how the college knows when the model is going stale"
+    },
+    {
+     "no": "4.4",
+     "title": "Privacy, consent and security"
+    },
+    {
+     "no": "4.5",
+     "title": "Deployment options and the run file"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight deployment habits that prevent embarrassing failures"
+    }
+   ],
+   "summary": [
+    "Save the model as a small versioned file and wrap it in a function that validates input and returns the model version.",
+    "Eight fast tests, including behaviour tests and a save-load round trip, make the service trustworthy.",
+    "Drift has two forms: inputs change (covariate) or the relationship changes (concept). PSI watches inputs; only outcomes reveal concept drift.",
+    "An alarm means investigate; retrain by a rule written in advance.",
+    "A system about students needs consent, minimisation, access control, retention limits and human review.",
+    "Describe deployment honestly: laptop demo, college server, cloud tier, and a manual fallback."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3133,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Final Defence: Report, Poster, Demo, Viva and Reflection",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The report map",
+    "The poster and the slides",
+    "The eight-minute talk and the demo",
+    "Originality: citing, checking and using AI tools honestly",
+    "Twelve viva questions with model answers",
+    "An illustrative rubric",
+    "Eight habits for a strong defence and a useful reflection"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The report map"
+    },
+    {
+     "no": "5.2",
+     "title": "The poster and the slides"
+    },
+    {
+     "no": "5.3",
+     "title": "The eight-minute talk and the demo"
+    },
+    {
+     "no": "5.4",
+     "title": "Originality: citing, checking and using AI tools honestly"
+    },
+    {
+     "no": "5.5",
+     "title": "Twelve viva questions with model answers"
+    },
+    {
+     "no": "5.6",
+     "title": "An illustrative rubric"
+    },
+    {
+     "no": "5.7",
+     "title": "Eight habits for a strong defence and a useful reflection"
+    }
+   ],
+   "summary": [
+    "Follow your college's report format first; use the 70-page map as a budget check that favours data, evaluation and ethics.",
+    "Posters and slides use claims as titles, big numbers, baselines beside results, and a limit.",
+    "Plan an 8-minute talk with a protected question slot and a controlled demo with a backup.",
+    "A similarity checker cannot prove originality; understand and cite everything, and be open about AI assistance.",
+    "Prepare twelve viva answers, including honest ones about limits, leakage, fairness and privacy.",
+    "Score yourself against a rubric before the defence and write a one-page reflection afterwards."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3267,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 30,
+ "notes_ready": 5
+}

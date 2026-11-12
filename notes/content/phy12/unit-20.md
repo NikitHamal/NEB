@@ -447,6 +447,32 @@ Millikan gives $e$; Thomson gives $e/m$. Neither gives $m$ on its own. If a
 question asks for the mass of the electron, it is asking you to combine the two.
 :::
 
+```photogrid label="20.P" cols="2" ratio="1.27" caption="J. J. Thomson showed that cathode rays are particles by measuring their charge-to-mass ratio. (a) A Crookes tube whose cross blocks part of the beam, proving that the rays travel in straight lines. (b) When the electric force eE is balanced by the magnetic force evB, only electrons with v = E/B pass straight, so E = 15 kV per metre and B = 1.0 mT select 1.5 x 10^7 m/s. With the electric field off, the beam bends into a circle of radius 8.5 cm and period 35.7 ns. The same speed needs only 640 V of accelerating voltage, so a modest supply is enough to run such a tube."
+@ photo id="phy12/crookes" cap="A Crookes tube with a Maltese cross casting a shadow"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Electron beam in crossed electric and magnetic fields"
+import math
+em = 1.7588e11
+E, B = 1.5e4, 1.0e-3
+v = E / B
+r = v / (em * B)
+V = v ** 2 / (2 * em)
+T = 2 * math.pi / (em * B)
+assert abs(r - 0.0853) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "E = 15 kV/m and B = 1.0 mT", size=10.5, color=NAVY, bold=True)
+rows = [("Selected speed  v = E / B", "%.1e m/s" % v, NAVY), ("v as a fraction of light", "%.1f %%" % (100 * v / 3.0e8), NAVY), ("Circle in B alone  r = v / ((e/m) B)", "%.1f cm" % (100 * r), TEAL), ("Accelerating voltage  V = v2 / (2 e/m)", "%.0f V" % V, AMBER), ("Period  T = 2 pi / ((e/m) B)", "%.1f ns" % (T * 1e9), RED)]
+for i, (a, b, c) in enumerate(rows):
+    y = 26 + i * 33
+    f.box(8, y, 284, 26, "", fill=SOFT, stroke=c, r=4)
+    f.text(14, y + 13, a, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.text(286, y + 13, b, size=10.5, color=c, bold=True, anchor="end", vmid=True)
+f.text(150, 205, "e/m = 1.7588e11 C/kg (modern value)", size=10, color=SLATE)
+f.text(150, 221, "Thomson (1897) found about the same ratio", size=10, color=NAVY, bold=True)
+facts = dict(v="%.1e" % v, r="%.1f" % (100 * r), V="%.0f" % V, T="%.1f" % (T * 1e9))
+```
+
 ## Chapter summary
 
 - Millikan balanced the apparent weight of a charged oil drop against an electric
@@ -484,7 +510,7 @@ question asks for the mass of the electron, it is asking you to combine the two.
 **1.** (b) — every drop charge came out as an integral multiple of $e$.
 **2.** (b) — $eV = \frac12 mv^2$ gives $v \propto \sqrt{V}$.
 **3.** (c) — the force $evB$ stays perpendicular to $v$, so the speed is constant and the path closes into a circle.
-**4.** (b) — setting $eE = evB$ gives $v = E/B$.
+**4.** (b) — the forces balance when $eE = evB$, so the speed is $v = E/B$.
 **5.** (c) — $1.76\times10^{11}\ \text{C kg}^{-1}$; (d) is the value for the hydrogen ion.
 :::
 
@@ -511,8 +537,8 @@ $V = mgd/q = (1.92\times10^{-14}\times5.0\times10^{-3})/(3.2\times10^{-19}) = 30
 
 **4.** $v = \sqrt{2eV_a/m} = \sqrt{2\times1.6\times10^{-19}\times500/9.1\times10^{-31}}
 = \sqrt{1.76\times10^{14}} = 1.33\times10^{7}\ \text{m s}^{-1}$. Then
-$r = mv/eB = (9.1\times10^{-31}\times1.33\times10^{7})/(1.6\times10^{-19}\times2.0\times10^{-3})
-= 1.21\times10^{-23}/3.2\times10^{-22} = 3.8\times10^{-2}\ \text{m} = 3.8\ \text{cm}$.
+
+$$r = \frac{mv}{eB} = \frac{9.1\times10^{-31}\times1.33\times10^{7}}{1.6\times10^{-19}\times2.0\times10^{-3}} = 3.8\times10^{-2}\ \text{m} = 3.8\ \text{cm}$$
 
 **5.** Outline: the electric force $eE$ is along the field and does work, so the
 speed changes and the path is a parabola; the magnetic force $evB$ is
@@ -547,3 +573,66 @@ $\theta = 11.3^{\circ}$.
 (d) For no deflection, $eE = evB$ with $E = V_d/d = 100/0.010 = 1.0\times10^{4}\ \text{V m}^{-1}$:
 $B = E/v = 1.0\times10^{4}/1.88\times10^{7} = 5.3\times10^{-4}\ \text{T}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Thomson's method of determining the specific charge of an electron and derive the expression used. <span class="marks">[10]</span>
+2. Describe Millikan's oil-drop experiment and show how it proves that charge is quantised. <span class="marks">[10]</span>
+
+### Model answer D1: Thomson's determination of $e/m$ (10 marks)
+
+**Introduction.** The **specific charge** of the electron is its charge divided by its mass, $e/m$. J. J. Thomson measured it in 1897 by balancing the electric and magnetic deflections of a beam of cathode rays, and showed that the particles of the beam were much lighter than any atom.
+
+**Apparatus.** A discharge tube at very low pressure has a cathode and an anode with a slit, so that a narrow beam of electrons passes through. The beam then goes between two parallel deflecting plates (electric field $E$) and through a region where a magnetic field $B$ acts perpendicular to both the beam and $E$ (produced by a pair of Helmholtz coils). The beam strikes a fluorescent screen and makes a spot.
+
+**Procedure and theory.**
+
+1. With both fields off, note the position of the undeflected spot.
+2. With only the electric field $E$ on, the beam is deflected, say upward, by the force $eE$.
+3. Switch on the magnetic field and adjust $B$ so that the magnetic force $Bev$ is equal and opposite to $eE$, and the spot returns to its original place. Then
+
+$$ eE = Bev \quad\Rightarrow\quad v = \frac{E}{B} $$
+
+4. The speed $v$ is the speed given to the electrons by the accelerating potential $V$:
+
+$$ eV = \tfrac{1}{2}mv^{2} \quad\Rightarrow\quad \frac{e}{m} = \frac{v^{2}}{2V} $$
+
+5. Substituting $v = E/B$,
+
+$$ \frac{e}{m} = \frac{E^{2}}{2VB^{2}} $$
+
+**Result.** Thomson found $e/m \approx 1.76 \times 10^{11}\ \text{C kg}^{-1}$, about 1800 times the value for a hydrogen ion, and the same for every gas and every cathode material. This proved that the electron is a universal constituent of matter.
+
+**Numerical.** Electrons accelerated through $V = 1000\ \text{V}$ have $v = \sqrt{2eV/m} = 1.88 \times 10^{7}\ \text{m s}^{-1}$. If $B = 1.0\ \text{mT}$, the electric field needed to balance the deflection is $E = vB = 1.88 \times 10^{4}\ \text{V m}^{-1}$, and the check $E^{2}/(2VB^{2}) = (1.88\times10^{4})^{2}/(2 \times 1000 \times 10^{-6}) = 1.76 \times 10^{11}\ \text{C kg}^{-1}$ confirms the result.
+
+**Conclusion.** The velocity-selector condition $E = Bv$ together with $eV = \tfrac{1}{2}mv^{2}$ gives $e/m = E^{2}/(2VB^{2})$.
+
+### Model answer D2: Millikan's oil-drop experiment (10 marks)
+
+**Introduction.** Robert Millikan (1909–1913) measured the charge of a single electron by observing tiny charged oil drops in an electric field. It showed that charge is **quantised**, that is, it occurs only as a whole-number multiple of a basic unit $e$.
+
+**Apparatus.** Fine oil drops are sprayed by an atomiser into the space above two horizontal metal plates, and one drop enters through a small hole in the upper plate. The drops are charged by friction in the atomiser, or by X-rays. The drop is viewed through a microscope, and a battery supplies a uniform field $E = V/d$ between the plates.
+
+**Theory.**
+
+1. **Field off.** The drop falls under gravity and reaches a terminal velocity $v_{1}$ at which its weight (less the small upthrust) equals the viscous drag from Stokes's law: $mg = 6\pi\eta r v_{1}$. From this the radius $r$ and the mass $m = \tfrac{4}{3}\pi r^{3}\rho g$ are calculated.
+2. **Field on.** The voltage is adjusted so that the electric force holds the drop stationary, or so that it rises at a steady speed $v_{2}$. For the balanced drop,
+
+$$ qE = mg \quad\Rightarrow\quad q = \frac{mg}{E} = \frac{mgd}{V} $$
+
+3. The measurement is repeated for many drops, and for the same drop after the charge changes.
+
+**Result.** All the charges found were integral multiples of one number: $q = ne$, with $n = 1, 2, 3, \dots$ and $e = 1.6 \times 10^{-19}\ \text{C}$.
+
+| Observed charge ($10^{-19}\ \text{C}$) | Ratio to $1.6$ |
+|---|---|
+| 1.6 | 1 |
+| 3.2 | 2 |
+| 4.8 | 3 |
+| 8.0 | 5 |
+
+**Numerical.** A drop of mass $3.2 \times 10^{-15}\ \text{kg}$ is held stationary by plates $2.0\ \text{cm}$ apart at a potential difference of $1960\ \text{V}$. The field is $E = 1960/0.020 = 9.8 \times 10^{4}\ \text{V m}^{-1}$, so $q = mg/E = (3.2\times10^{-15})(9.8)/(9.8\times10^{4}) = 3.2 \times 10^{-19}\ \text{C}$, which is $2e$, so the drop carries two excess electrons.
+
+**Significance.** Combining $e$ with Thomson's $e/m$ gives the mass of the electron, $m = 1.6\times10^{-19}/1.76\times10^{11} = 9.1\times10^{-31}\ \text{kg}$.
+
+**Conclusion.** Millikan's experiment gave the electronic charge and showed that charge is quantised.

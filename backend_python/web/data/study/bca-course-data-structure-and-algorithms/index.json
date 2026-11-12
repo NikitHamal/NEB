@@ -1,0 +1,104 @@
+{
+ "book": "bcacourse-semester-3-data-structure-and-algorithms",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Data Structure",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 1",
+   "words": 2924,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "The Stack",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 2",
+   "words": 3779,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Queue",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 3",
+   "words": 3004,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "List",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 4",
+   "words": 2761,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Linked Lists",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 5",
+   "words": 3708,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Recursion",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 6",
+   "words": 3557,
+   "read_min": 20,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Trees",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 7",
+   "words": 5396,
+   "read_min": 30,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Sorting",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 8",
+   "words": 4546,
+   "read_min": 25,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Searching",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 9",
+   "words": 3890,
+   "read_min": 22,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Graphs",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 10",
+   "words": 4365,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Algorithms",
+   "area": "BCA 201 · Data Structure and Algorithms · Unit 11",
+   "words": 4310,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  }
+ ]
+}

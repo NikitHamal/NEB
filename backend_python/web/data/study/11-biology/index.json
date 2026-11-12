@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Biomolecules and Cell Biology",
    "area": "Botany",
-   "words": 6849,
-   "read_min": 38,
+   "words": 7953,
+   "read_min": 44,
    "figures": 11,
    "has_questions": true
   },
@@ -14,81 +14,81 @@
    "no": 2,
    "title": "Floral Diversity",
    "area": "Botany",
-   "words": 11584,
-   "read_min": 64,
-   "figures": 21,
+   "words": 12916,
+   "read_min": 72,
+   "figures": 22,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Introductory Microbiology",
    "area": "Botany",
-   "words": 3839,
-   "read_min": 21,
-   "figures": 10,
+   "words": 5062,
+   "read_min": 28,
+   "figures": 11,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Ecology",
    "area": "Botany",
-   "words": 4359,
-   "read_min": 24,
-   "figures": 6,
+   "words": 5577,
+   "read_min": 31,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "Vegetation",
    "area": "Botany",
-   "words": 4036,
-   "read_min": 22,
-   "figures": 6,
+   "words": 4792,
+   "read_min": 27,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 6,
    "title": "Introduction to Biology",
    "area": "Zoology",
-   "words": 2652,
-   "read_min": 15,
-   "figures": 2,
+   "words": 3526,
+   "read_min": 20,
+   "figures": 3,
    "has_questions": true
   },
   {
    "no": 7,
    "title": "Evolutionary Biology",
    "area": "Zoology",
-   "words": 6786,
-   "read_min": 38,
-   "figures": 13,
+   "words": 8501,
+   "read_min": 47,
+   "figures": 14,
    "has_questions": true
   },
   {
    "no": 8,
    "title": "Faunal Diversity",
    "area": "Zoology",
-   "words": 9185,
-   "read_min": 51,
-   "figures": 32,
+   "words": 10762,
+   "read_min": 60,
+   "figures": 33,
    "has_questions": true
   },
   {
    "no": 9,
    "title": "Biota and Environment",
    "area": "Zoology",
-   "words": 6191,
-   "read_min": 34,
-   "figures": 7,
+   "words": 7507,
+   "read_min": 42,
+   "figures": 8,
    "has_questions": true
   },
   {
    "no": 10,
    "title": "Conservation Biology",
    "area": "Zoology",
-   "words": 5125,
-   "read_min": 28,
-   "figures": 8,
+   "words": 6425,
+   "read_min": 36,
+   "figures": 9,
    "has_questions": true
   }
  ],
@@ -98,22 +98,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Biology: Unit-wise Objective Question Bank",
-   "words": 12891,
+   "words": 12870,
    "read_min": 72
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Biology: Unit-wise Subjective Question Bank",
-   "words": 6830,
-   "read_min": 38
+   "words": 7960,
+   "read_min": 44
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Biology: Model Question Sets and Predicted Questions",
-   "words": 4775,
-   "read_min": 27
+   "words": 4723,
+   "read_min": 26
   }
  ],
  "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"

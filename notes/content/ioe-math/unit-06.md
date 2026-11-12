@@ -36,7 +36,7 @@ $\cos\theta=\dfrac{\vec a\cdot\vec b}{|\vec a||\vec b|}$. **Projection** of $\ve
 ### Vector (cross) product
 
 $\vec a\times\vec b=ab\sin\theta\,\hat n$ (right-hand rule), anticommutative; $\hat i\times\hat j=\hat k$, $\hat j\times\hat k=\hat i$, $\hat k\times\hat i=\hat j$.
-$$\vec a\times\vec b=(det | \hat i&\hat j&\hat k ; a_1&a_2&a_3 ; b_1&b_2&b_3 |).$$
+$$\vec a\times\vec b=\begin{vmatrix}\hat i&\hat j&\hat k \\ a_1&a_2&a_3 \\ b_1&b_2&b_3\end{vmatrix}.$$
 $|\vec a\times\vec b|^2=a^2b^2-(\vec a\cdot\vec b)^2$ (Lagrange). **Parallel iff $\vec a\times\vec b=\vec 0$.** Area of a parallelogram with sides $\vec a,\vec b$ is $|\vec a\times\vec b|$; of the triangle, half. A unit vector perpendicular to both: $\pm\dfrac{\vec a\times\vec b}{|\vec a\times\vec b|}$. Moment of a force: $\vec r\times\vec F$.
 
 ### Triple products
@@ -46,6 +46,100 @@ $[\vec a\,\vec b\,\vec c]=\vec a\cdot(\vec b\times\vec c)=$ the 3×3 determinant
 ::: caution
 The dot product is a **scalar**, the cross product a **vector**. $\vec a\times(\vec b\times\vec c)\ne(\vec a\times\vec b)\times\vec c$. The projection can be negative.
 :::
+
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Adding vectors. (a) In a tug of war the rope tension is a vector: the pull has a size and a direction, and the result depends on both. (b) Three ropes tied to a ring pull with 120 N at 0 degrees, 100 N at 120 degrees and 80 N at 240 degrees. Adding components gives Rx = 30 N and Ry = 17.32 N, so the resultant has magnitude 34.64 N at 30 degrees. Drawn head to tail, the three forces and the resultant form a closed polygon. A fourth force of 34.64 N at 210 degrees would give equilibrium. Any three vectors in a plane are linearly dependent."
+@ photo id="ioemath/tug" cap="Tug of war: each team pulls with a force that has a size and a direction"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Resultant of 120 N, 100 N and 80 N at 120 degrees spacing"
+import math
+F = [(120, 0), (100, 120), (80, 240)]
+v = [(m * math.cos(math.radians(a)), m * math.sin(math.radians(a))) for m, a in F]
+rx = sum(a for a, b in v); ry = sum(b for a, b in v)
+mag = math.hypot(rx, ry); ang = math.degrees(math.atan2(ry, rx))
+assert abs(rx - 30) < 1e-9 and abs(ry - 10 * math.sqrt(3)) < 1e-9 and abs(mag - 34.641) < 1e-3 and abs(ang - 30) < 1e-9
+import itertools
+d = [[v[i][0], v[i][1], 1] for i in range(3)]
+det = d[0][0] * (d[1][1] - d[2][1]) - d[0][1] * (d[1][0] - d[2][0]) + (d[1][0] * d[2][1] - d[1][1] * d[2][0])
+facts = dict(rx="%.0f" % rx, ry="%.2f" % ry, mag="%.2f" % mag, ang="%.0f" % ang, opp="%.0f" % (ang + 180))
+f = Fig(300, 236)
+f.text(150, 14, "forces drawn to scale, head to tail", size=10.5, color=NAVY, bold=True)
+s = 1.6; ox, oy = 40, 172
+pt = [(ox, oy)]
+for a, b in v: pt.append((pt[-1][0] + a * s, pt[-1][1] - b * s))
+cols = [NAVY, AMBER, TEAL]; names = ["F1 120 N", "F2 100 N", "F3 80 N"]
+for i in range(3):
+    f.arrow([pt[i], pt[i + 1]], color=cols[i], sw=2)
+f.arrow([pt[0], pt[3]], color=RED, sw=2.4)
+f.text(pt[0][0] + 96, pt[0][1] + 14, names[0], size=10.5, color=NAVY, bold=True)
+f.text((pt[1][0] + pt[2][0]) / 2 + 36, (pt[1][1] + pt[2][1]) / 2, names[1], size=10.5, color=AMBER, bold=True)
+f.text((pt[2][0] + pt[3][0]) / 2 - 38, (pt[2][1] + pt[3][1]) / 2, names[2], size=10.5, color=TEAL, bold=True)
+f.text(pt[0][0] + 30, pt[0][1] - 24, "R", size=12, color=RED, bold=True)
+f.text(150, 204, "Rx = %.0f N,  Ry = %.2f N" % (rx, ry), size=10.5, color=SLATE, bold=True)
+f.text(150, 221, "|R| = %.2f N at %.0f degrees" % (mag, ang), size=10.5, color=RED, bold=True)
+```
+
+```photogrid label="6.2" cols="2" ratio="1.2" caption="The vector product. (a) A torque wrench measures the turning effect of a force, which is the vector product tau = r x F, with magnitude r F sin(theta). (b) For a handle length r = 0.40 m and a force F = 150 N at 60 degrees to the handle, the cross product of the vectors r = (0.40, 0, 0) and F = 150 (cos 60, sin 60, 0) is (0, 0, 51.96), so the torque is 51.96 N m along the axis of the bolt. The check r . tau = 0 and F . tau = 0 confirms that the result is perpendicular to both vectors. The torque is greatest at 90 degrees (60 N m) and zero at 0 and 180 degrees."
+@ photo id="ioemath/wrench" cap="A click torque wrench: turning effect equals r cross F"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Torque of a 150 N push on a 0.40 m handle vs angle"
+import math
+r = (0.40, 0, 0)
+cross = lambda a, b: (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])
+dot = lambda a, b: sum(x * y for x, y in zip(a, b))
+Fv = lambda th: (150 * math.cos(math.radians(th)), 150 * math.sin(math.radians(th)), 0)
+tau = cross(r, Fv(60))
+assert abs(tau[2] - 0.4 * 150 * math.sin(math.radians(60))) < 1e-9 and abs(dot(r, tau)) < 1e-9 and abs(dot(Fv(60), tau)) < 1e-9
+angs = [0, 30, 60, 90, 120, 150, 180]
+val = [abs(cross(r, Fv(a))[2]) for a in angs]
+assert max(val) == val[3] and abs(val[3] - 60) < 1e-9 and val[0] < 1e-9 and val[-1] < 1e-9
+facts = dict(tz="%.2f" % tau[2], tmax="%.0f" % val[3])
+f = Fig(300, 236)
+f.text(150, 14, "torque = 0.40 x 150 x sin(theta)  (N m)", size=10.5, color=NAVY, bold=True)
+base = 168
+for i, (a, v_) in enumerate(zip(angs, val)):
+    x = 22 + i * 38; h = v_ * 1.7
+    hot = a == 60
+    f.box(x, base - h, 28, max(h, 1), "", fill=(SAND if hot else BLUE), stroke=(AMBER if hot else NAVY), r=1, sw=1.2)
+    f.text(x + 14, base - h - 8, "%.1f" % v_, size=10.5, color=(AMBER if hot else NAVY), bold=True)
+    f.text(x + 14, base + 14, "%d" % a, size=10.5, color=SLATE, bold=True)
+f.line(16, base, 290, base, color=SLATE, sw=1.4)
+f.text(150, base + 30, "angle between handle and force (degrees)", size=10.5, color=SLATE)
+f.text(150, 214, "at 60 degrees: tau = (0, 0, %.2f) N m" % tau[2], size=10.5, color=AMBER, bold=True)
+```
+
+```photogrid label="6.3" cols="2" ratio="1.2" caption="The dot product as work. (a) A steep-gradient sign warns drivers that gravity has a large component along the road. (b) Take a 1,200 kg car on a 20 per cent grade (rise 1 for every 5 along the ground), so the angle is 11.31 degrees. The weight is W = (0, -11,760) N. Along 100 m of road the displacement is d = (98.06, 19.61) m, and W . d = -230,633 J, which equals -m g h for a rise of 19.61 m. The part of the weight pulling along the road is m g sin(theta) = 2306 N, and this is the force the brakes must resist."
+@ photo id="ioemath/gradient" cap="A road-gradient warning sign: a car on a slope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Weight and displacement on a 20 per cent grade"
+import math
+m, g = 1200, 9.8
+th = math.atan(0.2)
+W = (0, -m * g); d = (100 * math.cos(th), 100 * math.sin(th))
+work = W[0] * d[0] + W[1] * d[1]
+h = 100 * math.sin(th); par = m * g * math.sin(th)
+assert abs(work + m * g * h) < 1e-6 and abs(math.degrees(th) - 11.31) < 0.01 and abs(par - 2306.4) < 1
+facts = dict(th="%.2f" % math.degrees(th), dx="%.2f" % d[0], dy="%.2f" % d[1], w="{:,.0f}".format(work), h="%.2f" % h, par="%.0f" % par)
+f = Fig(300, 236)
+f.text(150, 14, "m = 1,200 kg, grade 20 per cent", size=10.5, color=NAVY, bold=True)
+ox, oy = 24, 124; L = 250; rise = 0.2 * L
+f.poly([(ox, oy), (ox + L, oy), (ox + L, oy - rise)], fill=SOFT, stroke=SLATE, sw=1.6)
+cx, cy = ox + 150, oy - 0.2 * 150
+u = (math.cos(th), -math.sin(th))
+f.circle(cx, cy - 6, 5, fill=NAVY, stroke=NAVY)
+f.arrow([(cx, cy - 6), (cx, cy - 6 + 62)], color=RED, sw=2)
+f.arrow([(cx, cy - 6), (cx - u[0] * 62 * math.sin(th), cy - 6 - u[1] * 62 * math.sin(th))], color=AMBER, sw=2.4)
+f.arrow([(ox + 16, oy - 3), (ox + 16 + 90 * u[0], oy - 3 + 90 * u[1])], color=TEAL, sw=2.2)
+f.text(cx + 8, cy + 54, "W", size=11, color=RED, bold=True, anchor="start")
+f.text(ox + 62, oy - 10, "d", size=11, color=TEAL, bold=True)
+f.text(150, 158, "red W = 11,760 N down;  teal d = 100 m along the road", size=10.5, color=SLATE)
+f.text(150, 174, "amber: m g sin(theta) = %.0f N along the road" % par, size=10.5, color=AMBER, bold=True)
+f.text(150, 190, "theta = %.2f degrees" % math.degrees(th), size=10.5, color=SLATE, bold=True)
+f.text(150, 206, "W . d = {:,.0f} J  (= -m g h, h = %.2f m)".format(work) % h, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "negative work: gravity opposes the climb", size=10.5, color=SLATE)
+```
 
 ## Formula and fact sheet
 
@@ -125,7 +219,7 @@ The dot product is a **scalar**, the cross product a **vector**. $\vec a\times(\
 **2.** (c) — $3\cdot4\sin30^\circ=6$.
 **3.** (d) — the determinant is $28+7\lambda=0$.
 **4.** (a) — $\overrightarrow{AB}\times\overrightarrow{AC}=(1,1,1)$; half of $\sqrt{3}$.
-**5.** (c) — $(det | 1&1&0 ; 0&1&1 ; 1&0&1 |)=1+1=2$.
+**5.** (c) — $\begin{vmatrix}1&1&0 \\ 0&1&1 \\ 1&0&1\end{vmatrix}=1+1=2$.
 **6.** (b) — $(\hat i+\hat j)\times(\hat j+\hat k)=\hat i-\hat j+\hat k$, magnitude $\sqrt{3}$.
 **7.** (a) — $\hat j\times\hat i=-\hat k$, and $\hat i\times(-\hat k)=\hat j$. Check with BAC–CAB: $\hat j(\hat i\cdot\hat i)-\hat i(\hat i\cdot\hat j)=\hat j$.
 :::
@@ -153,3 +247,59 @@ The dot product is a **scalar**, the cross product a **vector**. $\vec a\times(\
 **5.** (b) — parallel: $\frac{2}{1}=\frac{3}{\lambda}$.
 **6.** (a) — $\frac{1}{6}|1\cdot2\cdot3|=1$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. For $\mathbf{a}=(1,2,3)$ and $\mathbf{b}=(2,-1,1)$ find the scalar product, angle, vector product, parallelogram area and projection. <span class="marks">[10]</span>
+2. Use the scalar triple product to test coplanarity and to find volumes; find the work done by a force and the torque of a force. <span class="marks">[10]</span>
+
+### Model answer D1: Scalar and vector products (10 marks)
+
+**Introduction.** The **scalar (dot) product** is $\mathbf{a}\cdot\mathbf{b}=\lvert\mathbf{a}\rvert\lvert\mathbf{b}\rvert\cos\theta=a_1b_1+a_2b_2+a_3b_3$; the **vector (cross) product** $\mathbf{a}\times\mathbf{b}$ has magnitude $\lvert\mathbf{a}\rvert\lvert\mathbf{b}\rvert\sin\theta$ and is perpendicular to both vectors.
+
+**Solution.**
+
+| Quantity | Working | Value |
+|---|---|---|
+| $\mathbf{a}\cdot\mathbf{b}$ | $2-2+3$ | $3$ |
+| $\lvert\mathbf{a}\rvert,\ \lvert\mathbf{b}\rvert$ | $\sqrt{14},\ \sqrt6$ | $3.742,\ 2.449$ |
+| Angle $\theta$ | $\cos\theta=\frac{3}{\sqrt{84}}=0.327$ | $70.9^\circ$ |
+| $\mathbf{a}\times\mathbf{b}$ | $(2\cdot1-3(-1),\ 3\cdot2-1\cdot1,\ 1(-1)-2\cdot2)$ | $(5,5,-5)$ |
+| Area of parallelogram | $\lvert\mathbf{a}\times\mathbf{b}\rvert=\sqrt{75}$ | $8.66$ |
+| Projection of $\mathbf{a}$ on $\mathbf{b}$ | $\frac{\mathbf{a}\cdot\mathbf{b}}{\lvert\mathbf{b}\rvert}=\frac{3}{\sqrt6}$ | $1.22$ |
+
+**Checks.** $(\mathbf{a}\times\mathbf{b})\cdot\mathbf{a}=5+10-15=0$ and $(\mathbf{a}\times\mathbf{b})\cdot\mathbf{b}=10-5-5=0$, so the result is perpendicular to both. The area of the triangle with these sides is half: $4.33$.
+
+**Properties.**
+
+1. $\mathbf{a}\cdot\mathbf{b}=\mathbf{b}\cdot\mathbf{a}$, but $\mathbf{a}\times\mathbf{b}=-\mathbf{b}\times\mathbf{a}$.
+2. Two non-zero vectors are perpendicular if $\mathbf{a}\cdot\mathbf{b}=0$ and parallel if $\mathbf{a}\times\mathbf{b}=\mathbf{0}$.
+3. $\hat i\cdot\hat i=1$, $\hat i\times\hat j=\hat k$.
+4. Section formula: the point dividing $\mathbf{a}$ and $\mathbf{b}$ in the ratio $m:n$ is $\frac{m\mathbf{b}+n\mathbf{a}}{m+n}$.
+
+**Conclusion.** The dot product measures how much two vectors point together and the cross product measures the area they span.
+
+### Model answer D2: Triple product, work and torque (10 marks)
+
+**Introduction.** The **scalar triple product** $[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=\mathbf{a}\cdot(\mathbf{b}\times\mathbf{c})$ equals the determinant of the three vectors. Its absolute value is the volume of the parallelepiped.
+
+**1. Coplanarity.** Three vectors are coplanar if $[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=0$. For $\mathbf{a}=(1,2,3)$, $\mathbf{b}=(2,-1,1)$, $\mathbf{c}=(1,1,2)$:
+$$\begin{vmatrix}1&2&3\\2&-1&1\\1&1&2\end{vmatrix}=1(-2-1)-2(4-1)+3(2+1)=-3-6+9=0.$$
+So they are **coplanar**: indeed $\mathbf{c}=\frac35\mathbf{a}+\frac15\mathbf{b}$, since $\frac35+\frac25=1$, $\frac65-\frac15=1$ and $\frac95+\frac15=2$.
+
+**2. Volume.** For $\mathbf{c}=(3,1,0)$: the determinant $=1(0-1)-2(0-3)+3(2+3)=-1+6+15=20$. The parallelepiped has volume $20$ and the tetrahedron has volume $\frac{20}{6}=3.33$.
+
+**3. Work done.** $W=\mathbf{F}\cdot\mathbf{d}$. For $\mathbf{F}=(2,3,1)\ \text{N}$ and $\mathbf{d}=(3,-1,2)\ \text{m}$: $W=6-3+2=5\ \text{J}$.
+
+**4. Torque.** $\tau=\mathbf{r}\times\mathbf{F}$. For $\mathbf{r}=(2,1,0)$ and $\mathbf{F}=(1,-1,3)$: $\tau=(1\cdot3-0,\ 0-2\cdot3,\ 2(-1)-1\cdot1)=(3,-6,-3)$, with magnitude $\sqrt{9+36+9}=\sqrt{54}=7.35\ \text{N m}$.
+
+| Quantity | Formula | Value |
+|---|---|---|
+| Coplanarity test | $[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=0$ | $0$ (coplanar) |
+| Parallelepiped volume | $\lvert[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]\rvert$ | $20$ |
+| Work | $\mathbf{F}\cdot\mathbf{d}$ | $5\ \text{J}$ |
+| Torque | $\mathbf{r}\times\mathbf{F}$ | $7.35\ \text{N m}$ |
+
+**Identity.** $\mathbf{a}\times(\mathbf{b}\times\mathbf{c})=\mathbf{b}(\mathbf{a}\cdot\mathbf{c})-\mathbf{c}(\mathbf{a}\cdot\mathbf{b})$.
+
+**Conclusion.** The triple product gives volume and a coplanarity test, and the two products model work and torque in physics.

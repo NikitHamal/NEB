@@ -18,7 +18,7 @@
   transition: border-radius .6s var(--spring), transform .55s var(--spring), border-color .2s, background-color .2s;
 }
 @media (hover: hover) { .resource-card:hover { border-radius: var(--md-shape-xl); border-color: var(--md-outline); transform: translateY(-3px); } }
-.resource-card:active { transform: scale(.98); border-radius: var(--md-shape-md); }
+.resource-card:active { transform: scale(.98); }
 .resource-card-title { font-family: var(--display); font-weight: 600; color: var(--md-on-surface); }
 .resource-card-meta, .resource-card-time, .resource-card-views { color: var(--md-on-surface-variant); }
 .resource-card-type-pill { background: var(--md-surface-container-lowest); color: var(--md-on-surface); border-radius: 12px; font-weight: 700; }
@@ -40,16 +40,11 @@
 .hf-peer { background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-lg); transition: border-radius .6s var(--spring); }
 @media (hover: hover) { .hf-peer:hover { border-radius: var(--md-shape-xl); } }
 .hf-peer-reason { color: var(--md-on-surface-variant); }
-.hf-peer-follow { background: var(--md-primary); color: var(--md-on-primary); border-radius: 999px; font-weight: 700; transition: border-radius .5s var(--spring), transform .4s var(--spring); }
-.hf-peer-follow:hover { border-radius: 14px; }
-.hf-peer-follow:active { transform: scale(.94); }
-.hf-peer-follow:not(.not-following) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
 /* ---------- tonal "See all" and section heads ---------- */
 .hf-section-more, .hf-see-all, a.see-all { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 999px; font-weight: 700; }
 
 /* ---------- avatars and badges: the ring is a border, not a shadow ---------- */
-.avatar-ring { border: 2px solid var(--md-outline-variant); }
 .notif-dot { background: var(--md-error); border: 2px solid var(--md-surface); }
 .role-badge { border-radius: 10px; }
 
@@ -57,6 +52,6 @@
 
 /* ---------- selection, focus, tables ---------- */
 ::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
-:focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 70%, transparent); outline-offset: 2px; border-radius: inherit; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 70%, transparent); outline-offset: 2px; }
 table th { background: var(--md-surface-container-high); color: var(--md-on-surface); }
 table td { color: var(--md-on-surface); border-color: var(--md-outline-variant); }

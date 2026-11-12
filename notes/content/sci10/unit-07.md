@@ -565,3 +565,85 @@ In air, a falling raindrop or a parachutist feels an upward air resistance that 
 **4.** $H = u^2/2g = 900/20 = 45$ m. Time up $= u/g = 3$ s; total time $= 6$ s.
 **5.** $h = \tfrac12 g t^2 = \tfrac12 \times 9.8 \times 25 = 122.5$ m. $v = gt = 9.8 \times 5 = 49$ m s⁻¹.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Newton's three laws of motion. Explain each with an example and solve a numerical problem on the second law. <span class="marks">[10]</span>
+2. What is gravitation? Differentiate between mass and weight. Explain free fall with the help of the equations of motion and a numerical. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="3" ratio="1.2" caption="Force and motion at three scales. (a) An astronaut drops a hammer and a feather on the Moon: with no air, they fall together. (b) Earthrise from the Apollo 8 spacecraft: the Moon is held in orbit around the Earth by gravity. (c) A Saturn V rocket lifts off because the burning gas pushes down and the rocket is pushed up, Newton’s third law."
+@ photo id="sci10/apollo-feather" cap="(a) Free fall on the Moon"
+@ photo id="sci10/earthrise" cap="(b) Gravity holds the Moon"
+@ photo id="sci10/saturn-v" cap="(c) Action and reaction"
+```
+
+### Model answer D1: Newton's laws of motion (10 marks)
+
+**Introduction.** **Sir Isaac Newton** (1687) explained the motion of everything, from a football to a planet, by three laws. A **force** is a push or a pull that can change the speed, direction or shape of an object. Its SI unit is the **newton (N)**.
+
+**First law (law of inertia).** *A body stays at rest or keeps moving in a straight line at constant speed unless an unbalanced external force acts on it.* **Inertia** is the property of a body to resist any change in its state; the heavier the body, the larger the inertia.
+
+- When a bus starts suddenly, the passengers fall backwards, as their bodies tend to remain at rest.
+- When the bus brakes, the passengers lean forward as they tend to keep moving.
+
+**Second law.** *The rate of change of momentum of a body is proportional to the unbalanced force and takes place in the direction of the force.* This gives
+
+$$F = ma,$$
+
+where $m$ is the mass in kg, $a$ is the acceleration in m/s² and $F$ is the force in N. Momentum is $p = mv$; its unit is kg m/s. A cricket fielder pulls his hands back while catching the ball: the same change of momentum takes a longer time, so the force on the hands is smaller.
+
+**Third law.** *To every action there is an equal and opposite reaction.* The two forces act on **different bodies**, so they do not cancel.
+
+- A rocket pushes gas down and the gas pushes the rocket up.
+- A swimmer pushes the water backwards and the water pushes the swimmer forward.
+- A gun recoils when a bullet is fired.
+
+| Law | Gives | Example |
+|---|---|---|
+| First | Definition of force and inertia | Passenger lurching in a bus |
+| Second | $F = ma$, measure of force | Pushing a light cart and a heavy cart |
+| Third | Forces occur in pairs | Rocket launch |
+
+**Numerical.** A car of mass 1,200 kg is pushed by an engine force of 3,000 N against a friction force of 600 N. Find its acceleration.
+
+$$F_{net} = 3000 - 600 = 2400\ \text{N}, \qquad a = \frac{F_{net}}{m} = \frac{2400}{1200} = 2\ \text{m/s}^2.$$
+
+**Conclusion.** Newton's three laws let us predict how objects move, and they are the basis of vehicle safety, rocket science and sports.
+
+### Model answer D2: gravitation, weight and free fall (10 marks)
+
+**Introduction.** **Gravitation** is the force of attraction between any two objects in the universe. Newton's law says that the force is proportional to the product of the masses and inversely proportional to the square of the distance between them: $F = G\dfrac{m_1 m_2}{r^2}$. The force of attraction of the Earth on a body is called **gravity**.
+
+**Acceleration due to gravity.** For a body of mass $m$ near the surface of the Earth, $mg = G\dfrac{Mm}{R^2}$, so
+
+$$g = \frac{GM}{R^2} \approx 9.8\ \text{m/s}^2.$$
+
+On the Moon, $g$ is about 1.6 m/s², one-sixth of the Earth's value, because the Moon has less mass.
+
+**Mass versus weight.**
+
+| Mass | Weight |
+|---|---|
+| Amount of matter in a body | Force with which the Earth pulls the body |
+| Scalar, in kilogram (kg) | Vector, in newton (N) |
+| Same everywhere | Changes with the value of $g$ |
+| Measured with a beam balance | Measured with a spring balance |
+| Never zero | Zero in free space |
+
+**Free fall.** A body falling only under gravity, with no air resistance, is in **free fall**. All bodies, heavy or light, fall with the same acceleration $g$. On the Moon, which has no air, the astronaut of Apollo 15 dropped a hammer and a feather and both reached the ground together. On Earth, a feather falls slowly only because of air resistance.
+
+For a body released from rest ($u = 0$), taking $g = 10$ m/s² for ease:
+
+- $v = gt$
+- $h = \tfrac{1}{2}gt^2$
+- $v^2 = 2gh$
+
+**Numerical.** A stone is dropped from the top of a 80 m high cliff. Find the time to reach the ground and the final speed.
+
+$$t = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2 \times 80}{10}} = 4\ \text{s}, \qquad v = gt = 10 \times 4 = 40\ \text{m/s}.$$
+
+**Weight on the Moon.** A boy of mass 50 kg has weight $50 \times 10 = 500$ N on the Earth and $50 \times 1.6 = 80$ N on the Moon. His mass is still 50 kg.
+
+**Uses.** Gravity keeps the Moon in orbit around the Earth, causes tides, and makes rivers flow down from the Himalaya and so makes hydroelectricity possible.
+
+**Conclusion.** Gravity attracts everything, and in free fall all bodies fall equally fast. Mass is constant while weight changes with $g$.

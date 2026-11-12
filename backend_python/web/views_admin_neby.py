@@ -1,10 +1,8 @@
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
-from django.views.decorators.http import require_http_methods
 
-from web.view_helpers import _require_staff_admin, _ctx, now_ms
+from web.view_helpers import _require_staff_admin, _ctx
 from api.models import Post, Reply, User, BotConfig, NebyTask
-from api.serializers import PostSerializer, ReplySerializer
 
 
 def admin_neby_manager(request):

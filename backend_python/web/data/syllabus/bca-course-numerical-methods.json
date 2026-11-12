@@ -1,0 +1,388 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "numerical-methods",
+ "name": "Numerical Methods",
+ "name_ne": "",
+ "icon": "calculate",
+ "group": "semester-4",
+ "group_label": "Semester IV",
+ "color": "#B45309",
+ "lang": "en",
+ "code": "BCA 253",
+ "credits": 3,
+ "semester": 4,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Solution of Nonlinear Equations",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Types of equations and locating roots",
+    "Errors in computing",
+    "The bisection method",
+    "The method of false position (regula falsi)",
+    "The Newton–Raphson method",
+    "The secant method",
+    "Fixed-point iteration and convergence",
+    "Systems of nonlinear equations",
+    "Choosing a method",
+    "Seeing the ideas: Newton's tangent, bracketing and how fast each method converges"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Types of equations and locating roots"
+    },
+    {
+     "no": "1.2",
+     "title": "Errors in computing"
+    },
+    {
+     "no": "1.3",
+     "title": "The bisection method"
+    },
+    {
+     "no": "1.4",
+     "title": "The method of false position (regula falsi)"
+    },
+    {
+     "no": "1.5",
+     "title": "The Newton–Raphson method"
+    },
+    {
+     "no": "1.6",
+     "title": "The secant method"
+    },
+    {
+     "no": "1.7",
+     "title": "Fixed-point iteration and convergence"
+    },
+    {
+     "no": "1.8",
+     "title": "Systems of nonlinear equations"
+    },
+    {
+     "no": "1.9",
+     "title": "Choosing a method"
+    },
+    {
+     "no": "1.10",
+     "title": "Seeing the ideas: Newton's tangent, bracketing and how fast each method converges"
+    }
+   ],
+   "summary": [
+    "Numerical root-finding replaces an impossible formula by a convergent repetition; errors (round-off, truncation, cancellation) set the achievable accuracy.",
+    "Bisection and false position are safe but linear; Newton is quadratic but needs f' and a good start; the secant method trades derivative for a 1.618 order; fixed-point iteration depends on |g'| < 1.",
+    "Newton's method extends to systems through the Jacobian."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4824,
+    "figures": 0,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Interpolation and Approximation",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Introduction and uniqueness",
+    "Errors in polynomial interpolation",
+    "Lagrange interpolation",
+    "Newton's interpolation with divided differences",
+    "Newton's forward and backward difference formulas (equal spacing)",
+    "Cubic spline interpolation",
+    "Least-squares approximation",
+    "Seeing the ideas: one polynomial, divided differences, Runge's warning and the best-fit line"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Introduction and uniqueness"
+    },
+    {
+     "no": "2.2",
+     "title": "Errors in polynomial interpolation"
+    },
+    {
+     "no": "2.3",
+     "title": "Lagrange interpolation"
+    },
+    {
+     "no": "2.4",
+     "title": "Newton's interpolation with divided differences"
+    },
+    {
+     "no": "2.5",
+     "title": "Newton's forward and backward difference formulas (equal spacing)"
+    },
+    {
+     "no": "2.6",
+     "title": "Cubic spline interpolation"
+    },
+    {
+     "no": "2.7",
+     "title": "Least-squares approximation"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: one polynomial, divided differences, Runge's warning and the best-fit line"
+    }
+   ],
+   "summary": [
+    "Through n + 1 points there is one polynomial of degree ≤ n; Lagrange, Newton divided-difference and Newton difference formulas all give it.",
+    "The error depends on the (n + 1)th derivative and the product of distances to the nodes: interpolate near the centre and avoid very high degrees.",
+    "Cubic splines give a smooth piecewise fit by solving a tridiagonal system.",
+    "Least squares fits noisy data by minimising squared residuals; many non-linear models reduce to straight lines after a transformation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4178,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Numerical Differentiation and Integration",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Numerical differentiation",
+    "Numerical integration: Newton–Cotes rules",
+    "Romberg integration",
+    "Numerical double integration",
+    "Seeing the ideas: areas under curves, Romberg's table and the error of a derivative"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Numerical differentiation"
+    },
+    {
+     "no": "3.2",
+     "title": "Numerical integration: Newton–Cotes rules"
+    },
+    {
+     "no": "3.3",
+     "title": "Romberg integration"
+    },
+    {
+     "no": "3.4",
+     "title": "Numerical double integration"
+    },
+    {
+     "no": "3.5",
+     "title": "Seeing the ideas: areas under curves, Romberg's table and the error of a derivative"
+    }
+   ],
+   "summary": [
+    "Derivatives come from differentiating interpolation polynomials; central differences are second-order and best; too small an h lets round-off dominate.",
+    "Newton–Cotes rules integrate interpolating polynomials; Simpson's rules beat the trapezoidal rule at the same cost.",
+    "Romberg extrapolation turns cheap trapezoidal values into a high-order estimate.",
+    "Double integrals reuse the one-dimensional rules with product weights."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3577,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Solution of Linear Algebraic Equations",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Gauss elimination",
+    "Gauss–Jordan method and matrix inversion",
+    "LU factorisation",
+    "Iterative methods: Jacobi and Gauss–Seidel",
+    "Ill-conditioning",
+    "Eigenvalues: the power method",
+    "Seeing the ideas: elimination, iteration speed and the geometry of ill-conditioning"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Gauss elimination"
+    },
+    {
+     "no": "4.2",
+     "title": "Gauss–Jordan method and matrix inversion"
+    },
+    {
+     "no": "4.3",
+     "title": "LU factorisation"
+    },
+    {
+     "no": "4.4",
+     "title": "Iterative methods: Jacobi and Gauss–Seidel"
+    },
+    {
+     "no": "4.5",
+     "title": "Ill-conditioning"
+    },
+    {
+     "no": "4.6",
+     "title": "Eigenvalues: the power method"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: elimination, iteration speed and the geometry of ill-conditioning"
+    }
+   ],
+   "summary": [
+    "Direct methods (Gauss, Gauss–Jordan, LU) give the exact answer in a fixed number of steps; use partial pivoting.",
+    "Iterative methods suit large sparse systems; Gauss–Seidel usually converges faster than Jacobi, and diagonal dominance guarantees it.",
+    "Ill-conditioned systems amplify data errors regardless of method; the condition number quantifies this.",
+    "The power method estimates the dominant eigenpair using repeated multiplication."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3696,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Solution of Ordinary Differential Equations",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Initial value problems",
+    "Taylor series method",
+    "Picard's method",
+    "Euler's method",
+    "Heun's (improved Euler) method",
+    "Runge–Kutta methods",
+    "Higher-order equations and systems",
+    "Boundary value problems and the shooting method",
+    "Seeing the ideas: stepping along slopes, the four slopes of RK4 and how the methods compare"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Initial value problems"
+    },
+    {
+     "no": "5.2",
+     "title": "Taylor series method"
+    },
+    {
+     "no": "5.3",
+     "title": "Picard's method"
+    },
+    {
+     "no": "5.4",
+     "title": "Euler's method"
+    },
+    {
+     "no": "5.5",
+     "title": "Heun's (improved Euler) method"
+    },
+    {
+     "no": "5.6",
+     "title": "Runge–Kutta methods"
+    },
+    {
+     "no": "5.7",
+     "title": "Higher-order equations and systems"
+    },
+    {
+     "no": "5.8",
+     "title": "Boundary value problems and the shooting method"
+    },
+    {
+     "no": "5.9",
+     "title": "Seeing the ideas: stepping along slopes, the four slopes of RK4 and how the methods compare"
+    }
+   ],
+   "summary": [
+    "An IVP is solved by stepping from the initial condition: Taylor and Picard give series; Euler, Heun and RK4 give numbers.",
+    "Euler's method is first order, Heun second, RK4 fourth; halving h reduces the error by about 2, 4 and 16 respectively.",
+    "Higher-order equations become first-order systems.",
+    "BVPs are solved by shooting (guess the slope, integrate, correct with interpolation or secant steps) or by finite differences."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4092,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Solution of Partial Differential Equations",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Introduction and classification",
+    "Deriving difference equations",
+    "Laplace's equation on a square plate",
+    "Poisson's equation",
+    "Accuracy and practical notes",
+    "Seeing the ideas: the five-point stencil, the solved plate and Gauss-Seidel on the grid"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Introduction and classification"
+    },
+    {
+     "no": "6.2",
+     "title": "Deriving difference equations"
+    },
+    {
+     "no": "6.3",
+     "title": "Laplace's equation on a square plate"
+    },
+    {
+     "no": "6.4",
+     "title": "Poisson's equation"
+    },
+    {
+     "no": "6.5",
+     "title": "Accuracy and practical notes"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the ideas: the five-point stencil, the solved plate and Gauss-Seidel on the grid"
+    }
+   ],
+   "summary": [
+    "Elliptic PDEs such as Laplace's and Poisson's equations describe steady states and are determined by their boundary values.",
+    "Replacing derivatives by central differences turns the PDE into one algebraic equation per grid point: the value is the average of its neighbours (Laplace) plus a source term (Poisson).",
+    "The resulting diagonally dominant system is solved directly or by Liebmann's iteration."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3376,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 45,
+ "notes_ready": 6
+}

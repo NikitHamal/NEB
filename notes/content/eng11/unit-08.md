@@ -384,3 +384,56 @@ itself quickly if the pressure is lifted. It carries one hopeful implication: th
 damage is not yet beyond repair. Whether people will choose to reduce that
 pressure after the pandemic is the open question on which the poem ends.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the virus speaks as a dramatic monologue and what it accuses humans of. <span class="marks">[10]</span>
+2. Discuss the themes and the message of "Corona Says". <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="3" ratio="1.0" caption="Nature and the planet. The Blue Marble photograph of Earth, the Amazon rainforest seen from space and a Himalayan sunrise: the world the virus says began to heal."
+@ photo id="soc10/blue-marble" cap="The Blue Marble"
+@ photo id="soc10/amazon" cap="Amazon rainforest"
+@ photo id="nep10/himalaya-sunrise" cap="Himalaya sunrise"
+```
+
+### Model answer D1: the monologue and the accusation (10 marks)
+
+**Introduction.** "Corona Says" by **Vishnu S. Rai** is a **dramatic monologue in free verse**: the coronavirus speaks to the whole human race.
+
+**Movements of the poem.**
+
+1. The virus **accepts that it is hated**.
+2. It **accuses humans** of far greater destruction than its own.
+3. It points out that it **alone treats all people equally**.
+4. It shows that **nature began to heal** the moment people stopped.
+
+**What it accuses humans of.**
+
+5. **Destroying the environment:** cutting forests and polluting rivers.
+6. **Arrogance:** believing humans rule the world.
+7. **Hypocrisy:** grieving for one disease but ignoring greater harm they cause.
+8. **Inequality:** only the virus makes no difference of rich and poor.
+
+| Speaker | Charge |
+|---|---|
+| The virus | You kill nature |
+| The virus | You divide people |
+
+**Conclusion.** The surprising voice makes the poem fresh and forces readers to look at themselves.
+
+### Model answer D2: themes and message (10 marks)
+
+**Introduction.** The poem reverses **villain and victim**: the virus claims that humans are the real danger.
+
+1. **Environment:** the poem links human greed to pollution and loss of nature.
+2. **Human arrogance:** people think they are masters of the earth but cannot control a tiny virus.
+3. **Death as an equaliser:** the virus does not ask caste, wealth or religion.
+4. **Nature's recovery:** clear skies and cleaner rivers appeared during lockdown.
+5. **Irony:** the speaker the poet gives voice to is the one we fear most.
+6. **Tone:** accusing, sarcastic and sad.
+7. **Form:** free verse, direct address and plain words.
+8. **Message:** respect nature and treat all humans with equality.
+
+**Conclusion.** The poem warns that if we do not change, nature will teach us again.

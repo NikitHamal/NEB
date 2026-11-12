@@ -55,7 +55,7 @@
     "Dimensions of a physical quantity"
    ],
    "stats": {
-    "words": 4249,
+    "words": 5074,
     "figures": 3,
     "examples": 5
    },
@@ -103,7 +103,7 @@
     "Vector product"
    ],
    "stats": {
-    "words": 3764,
+    "words": 4587,
     "figures": 4,
     "examples": 4
    },
@@ -155,7 +155,7 @@
     "Instantaneous velocity"
    ],
    "stats": {
-    "words": 4091,
+    "words": 5254,
     "figures": 4,
     "examples": 4
    },
@@ -211,7 +211,7 @@
     "Solid friction"
    ],
    "stats": {
-    "words": 5379,
+    "words": 6698,
     "figures": 6,
     "examples": 5
    },
@@ -272,7 +272,7 @@
     "Conservative force"
    ],
    "stats": {
-    "words": 4975,
+    "words": 6239,
     "figures": 4,
     "examples": 5
    },
@@ -335,7 +335,7 @@
     "Angular displacement"
    ],
    "stats": {
-    "words": 5567,
+    "words": 6818,
     "figures": 5,
     "examples": 5
    },
@@ -418,7 +418,7 @@
     "Geostationary satellite"
    ],
    "stats": {
-    "words": 6547,
+    "words": 7726,
     "figures": 6,
     "examples": 5
    },
@@ -474,7 +474,7 @@
     "Poisson's ratio"
    ],
    "stats": {
-    "words": 3756,
+    "words": 4607,
     "figures": 4,
     "examples": 6
    },
@@ -519,7 +519,7 @@
     "Zeroth law of thermodynamics"
    ],
    "stats": {
-    "words": 3128,
+    "words": 4060,
     "figures": 3,
     "examples": 4
    },
@@ -569,7 +569,7 @@
     "Real and apparent expansivity"
    ],
    "stats": {
-    "words": 4051,
+    "words": 4973,
     "figures": 4,
     "examples": 5
    },
@@ -631,7 +631,7 @@
     "Triple point"
    ],
    "stats": {
-    "words": 3928,
+    "words": 4893,
     "figures": 4,
     "examples": 4
    },
@@ -688,7 +688,7 @@
     "Stefan-Boltzmann law"
    ],
    "stats": {
-    "words": 4167,
+    "words": 5213,
     "figures": 4,
     "examples": 4
    },
@@ -754,7 +754,7 @@
     "Molar heat capacities"
    ],
    "stats": {
-    "words": 4585,
+    "words": 5247,
     "figures": 4,
     "examples": 4
    },
@@ -792,7 +792,7 @@
     "Real and virtual image"
    ],
    "stats": {
-    "words": 3658,
+    "words": 4423,
     "figures": 4,
     "examples": 3
    },
@@ -842,7 +842,7 @@
     "Critical angle and total internal reflection"
    ],
    "stats": {
-    "words": 4945,
+    "words": 5744,
     "figures": 4,
     "examples": 4
    },
@@ -884,7 +884,7 @@
     "Angle of deviation"
    ],
    "stats": {
-    "words": 3970,
+    "words": 4672,
     "figures": 4,
     "examples": 4
    },
@@ -929,7 +929,7 @@
     "Power of a lens"
    ],
    "stats": {
-    "words": 4582,
+    "words": 5275,
     "figures": 5,
     "examples": 4
    },
@@ -974,7 +974,7 @@
     "Achromatism"
    ],
    "stats": {
-    "words": 3483,
+    "words": 4240,
     "figures": 5,
     "examples": 4
    },
@@ -1025,7 +1025,7 @@
     "Principle of superposition"
    ],
    "stats": {
-    "words": 3298,
+    "words": 3989,
     "figures": 4,
     "examples": 5
    },
@@ -1070,7 +1070,7 @@
     "Gauss's law"
    ],
    "stats": {
-    "words": 4075,
+    "words": 4922,
     "figures": 4,
     "examples": 4
    },
@@ -1115,7 +1115,7 @@
     "Equipotential surface"
    ],
    "stats": {
-    "words": 4309,
+    "words": 5030,
     "figures": 4,
     "examples": 4
    },
@@ -1170,7 +1170,7 @@
     "Capacitor"
    ],
    "stats": {
-    "words": 4800,
+    "words": 5478,
     "figures": 4,
     "examples": 4
    },
@@ -1236,7 +1236,7 @@
     "emf and terminal potential difference"
    ],
    "stats": {
-    "words": 7630,
+    "words": 8601,
     "figures": 6,
     "examples": 9
    },
@@ -1306,7 +1306,7 @@
     "Nuclear fusion"
    ],
    "stats": {
-    "words": 5253,
+    "words": 6282,
     "figures": 5,
     "examples": 5
    },
@@ -1350,7 +1350,7 @@
     "Valence band and conduction band"
    ],
    "stats": {
-    "words": 3786,
+    "words": 4647,
     "figures": 6,
     "examples": 3
    },
@@ -1391,7 +1391,7 @@
     "Black hole"
    ],
    "stats": {
-    "words": 4513,
+    "words": 5278,
     "figures": 5,
     "examples": 6
    },

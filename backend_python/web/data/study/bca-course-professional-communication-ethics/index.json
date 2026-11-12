@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-1-professional-communication-ethics",
+ "units": [
+  {
+   "no": 1,
+   "title": "The Communication Process and Its Barriers",
+   "area": "BCA 105 · Professional Communication and Ethics · Unit 1",
+   "words": 2610,
+   "read_min": 14,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Listening, Speaking and Presentation Skills",
+   "area": "BCA 105 · Professional Communication and Ethics · Unit 2",
+   "words": 2773,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Professional Writing: Emails, Letters, CVs and Reports",
+   "area": "BCA 105 · Professional Communication and Ethics · Unit 3",
+   "words": 3182,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Workplace Communication, Teamwork and Etiquette",
+   "area": "BCA 105 · Professional Communication and Ethics · Unit 4",
+   "words": 2809,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Professional Ethics, Intellectual Property and Cyber Law",
+   "area": "BCA 105 · Professional Communication and Ethics · Unit 5",
+   "words": 3727,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

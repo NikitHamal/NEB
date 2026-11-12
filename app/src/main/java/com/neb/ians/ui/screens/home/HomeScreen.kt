@@ -1,6 +1,8 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.ui.components.NebToastHost
 import com.neb.ians.ui.theme.seasonAmbience
+import com.neb.ians.ui.theme.hasGarland
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,9 +62,7 @@ fun HomeScreen(
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
     onForumClick: () -> Unit = {},
-    onCanvasClick: () -> Unit = {},
-    onStudyLabClick: () -> Unit = {},
-    onNebyAiClick: () -> Unit = {},
+    onNotesClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
     onUploadClick: () -> Unit = {},
     onNewsItemClick: (String) -> Unit = {},
@@ -72,6 +72,7 @@ fun HomeScreen(
     onProfileClick: () -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
     onSeeAllPeopleClick: () -> Unit = {},
+    onCreatePostClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -84,6 +85,11 @@ fun HomeScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     val listState = rememberLazyListState()
+    com.neb.ians.ui.components.TrackPostImpressions(
+        listState = listState,
+        postIdForKey = { (it as? String)?.takeIf { k -> k.startsWith("post_") }?.removePrefix("post_") },
+        onVisible = viewModel::reportImpressions
+    )
     val shouldLoadMore by remember {
         derivedStateOf {
             val layout = listState.layoutInfo
@@ -106,7 +112,7 @@ fun HomeScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = { NebToastHost(hostState = snackbarHostState) },
         topBar = {
             WebTopBar(
                 onSearchClick = onSearchClick,
@@ -117,7 +123,7 @@ fun HomeScreen(
                 avatarUrl = uiState.userPhotoUrl
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         com.neb.ians.ui.components.NebRefreshBox(
             isRefreshing = isRefreshing,
@@ -171,8 +177,11 @@ fun HomeScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize().seasonAmbience(homeAtTop),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp)
+                        verticalArrangement = Arrangement.spacedBy(0.dp),
+                        contentPadding = PaddingValues(
+                            top = if (siteTheme.hasGarland) 36.dp else 0.dp,
+                            bottom = 24.dp
+                        )
                     ) {
                         if (siteTheme.festive && siteTheme.cardOpen) {
                             item(key = "season_card") {
@@ -187,7 +196,7 @@ fun HomeScreen(
                                             }
                                         }
                                     },
-                                    modifier = Modifier.padding(horizontal = 16.dp).animateItem()
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).animateItem()
                                 )
                             }
                         }
@@ -216,19 +225,26 @@ fun HomeScreen(
                                 key = { it.key },
                                 contentType = { it.contentType }
                             ) { entry ->
+                                Box(
+                                    modifier = Modifier.padding(
+                                        vertical = if (entry is HomeFeedEntry.Post) 0.dp else 14.dp
+                                    )
+                                ) {
                                 when (entry) {
                                     is HomeFeedEntry.Post -> ForumPostCard(
                                         post = entry.post,
                                         isOwnPost = entry.isOwnPost,
-                                        onClick = { onPostClick(entry.post.id) },
+                                        onClick = {
+                                            com.neb.ians.ui.components.PostReachHints.set(entry.post.id, "feed")
+                                            onPostClick(entry.post.id)
+                                        },
                                         onLikeClick = { viewModel.toggleThumbsUp(entry.post.id) },
                                         onBookmarkClick = { viewModel.toggleBookmark(entry.post.id) },
                                         onShareClick = { sharePost(context, entry.post.id) },
                                         onReportClick = {},
                                         onEditClick = { onEditPostClick(entry.post.id) },
                                         onDeleteClick = { deletingPostId = entry.post.id },
-                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) },
-                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) }
                                     )
 
                                     is HomeFeedEntry.ResourceCarousel -> Column(
@@ -282,6 +298,7 @@ fun HomeScreen(
                                         onViewAllClick = onViewAllClick,
                                         onResourceClick = onResourceClick
                                     )
+                                }
                                 }
                             }
                         }

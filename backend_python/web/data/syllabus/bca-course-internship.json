@@ -1,0 +1,299 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "internship",
+ "name": "Internship",
+ "name_ne": "",
+ "icon": "school",
+ "group": "semester-8",
+ "group_label": "Semester VIII",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 452",
+ "credits": 3,
+ "semester": 8,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "The Internship: Purpose, Placement Search, CV and Interview",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What an internship is",
+    "The running example: InternTrail",
+    "Write your learning objectives first",
+    "Searching and shortlisting",
+    "The CV, the email and the interview",
+    "Eight reasons good students lose good placements"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What an internship is"
+    },
+    {
+     "no": "1.2",
+     "title": "The running example: InternTrail"
+    },
+    {
+     "no": "1.3",
+     "title": "Write your learning objectives first"
+    },
+    {
+     "no": "1.4",
+     "title": "Searching and shortlisting"
+    },
+    {
+     "no": "1.5",
+     "title": "The CV, the email and the interview"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight reasons good students lose good placements"
+    }
+   ],
+   "summary": [
+    "An internship is work in someone else's problem space, supervised and assessed; it differs from a project, a course and a job.",
+    "Write three SMART learning objectives before searching; they decide whether an offer is good.",
+    "Compare at least three options with a weighted matrix and check the result with a sensitivity test.",
+    "The CV is one page and proof-first; the email is short and specific; the interview uses honest STAR stories.",
+    "Start the search twelve weeks before the placement and finish the paperwork three weeks before."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2868,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Workplace Conduct: First Day, Etiquette, Confidentiality and Safety",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The first day and the first week",
+    "Etiquette and communication",
+    "Confidentiality and data handling",
+    "Rights, safety and digital hygiene",
+    "Eight habits that make an intern trusted"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "The first day and the first week"
+    },
+    {
+     "no": "2.2",
+     "title": "Etiquette and communication"
+    },
+    {
+     "no": "2.3",
+     "title": "Confidentiality and data handling"
+    },
+    {
+     "no": "2.4",
+     "title": "Rights, safety and digital hygiene"
+    },
+    {
+     "no": "2.5",
+     "title": "Eight habits that make an intern trusted"
+    }
+   ],
+   "summary": [
+    "The first week is a checklist; confirm in week one that real tasks match your objectives.",
+    "Good communication means the right channel, a complete message and a record of decisions.",
+    "Use the 15-minute rule to balance independence with asking for help.",
+    "Information has four levels; restricted data (passwords, IDs) never lives in code or chat.",
+    "A leaked secret must be changed, not just deleted, and reported immediately.",
+    "You have rights to a clear agreement, respect and safety; use your coordinator if they are not met."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2842,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Working the Weeks: Learning Plan, Daily Log and Weekly Review",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Plan the eight weeks",
+    "The daily log",
+    "The weekly review",
+    "Analysing the log",
+    "Eight rules for a log that passes a supervisor's eye"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Plan the eight weeks"
+    },
+    {
+     "no": "3.2",
+     "title": "The daily log"
+    },
+    {
+     "no": "3.3",
+     "title": "The weekly review"
+    },
+    {
+     "no": "3.4",
+     "title": "Analysing the log"
+    },
+    {
+     "no": "3.5",
+     "title": "Eight rules for a log that passes a supervisor's eye"
+    }
+   ],
+   "summary": [
+    "Plan the placement as observe, contribute, own, hand over and share the plan with your supervisor.",
+    "A daily log has six fields; the entry must be specific, same-day and truthful.",
+    "The weekly review (Keep, Stop, Try) keeps the placement on track and produces the supervisor's signature.",
+    "Log data can be analysed: in the example, coding 34 percent, learning 19, and one honest miss against L3.",
+    "Never adjust the log to fit the objective; adjust the objective next time and explain the gap."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2492,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Technical Contribution: Tickets, Code Review, Testing and Hand-over",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The ticket life cycle",
+    "Reading a code base you did not write",
+    "Reproduce first, then fix",
+    "Fix, test and ask for review",
+    "What a code review looks for",
+    "Documentation and hand-over",
+    "Eight practices of interns whose work gets merged"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The ticket life cycle"
+    },
+    {
+     "no": "4.2",
+     "title": "Reading a code base you did not write"
+    },
+    {
+     "no": "4.3",
+     "title": "Reproduce first, then fix"
+    },
+    {
+     "no": "4.4",
+     "title": "Fix, test and ask for review"
+    },
+    {
+     "no": "4.5",
+     "title": "What a code review looks for"
+    },
+    {
+     "no": "4.6",
+     "title": "Documentation and hand-over"
+    },
+    {
+     "no": "4.7",
+     "title": "Eight practices of interns whose work gets merged"
+    }
+   ],
+   "summary": [
+    "A ticket moves from backlog to deployed, and somebody else sees it at every step.",
+    "Read an unfamiliar code base by running it, finding the entry point, tracing one path and asking one precise question.",
+    "Reproduce first: HD-31 failed on 2 of 4 invoices because float 0.565 rounds down; Decimal rounding once gives 55.26.",
+    "Tests (6 of 6 passing) prove the fix and document the promise; edge cases matter.",
+    "Code review is normal, expected and educational; reply to every comment.",
+    "A hand-over page makes the work usable after you leave."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2635,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Report, Presentation and Viva: Proving What You Did and Learned",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The internship report",
+    "Planning the pages",
+    "Reflection and the honest self-assessment",
+    "Supervisor letter, certificate and references",
+    "The presentation",
+    "The viva: twelve questions and model answers",
+    "Eight habits that finish an internship well"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The internship report"
+    },
+    {
+     "no": "5.2",
+     "title": "Planning the pages"
+    },
+    {
+     "no": "5.3",
+     "title": "Reflection and the honest self-assessment"
+    },
+    {
+     "no": "5.4",
+     "title": "Supervisor letter, certificate and references"
+    },
+    {
+     "no": "5.5",
+     "title": "The presentation"
+    },
+    {
+     "no": "5.6",
+     "title": "The viva: twelve questions and model answers"
+    },
+    {
+     "no": "5.7",
+     "title": "Eight habits that finish an internship well"
+    }
+   ],
+   "summary": [
+    "The report is specific, evidence-based and honest; chapters 4 and 5 (your work) carry the most pages.",
+    "Use a page budget, write from week five and cite log dates and ticket numbers.",
+    "Reflect with a before-and-after self-assessment: mean 2.25 to 4.00 in the example, with one weak skill named.",
+    "Request certificate, evaluation and reference early; thank people.",
+    "A ten-minute talk tells one story; the viva rewards claim, evidence and an honest limit."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2934,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 30,
+ "notes_ready": 5
+}

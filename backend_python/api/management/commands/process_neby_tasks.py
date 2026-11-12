@@ -50,8 +50,6 @@ class Command(BaseCommand):
         max_attempts = options['max_attempts']
 
         from django.db import transaction
-        from django.db.models import F
-        from api.utils import now_ms
 
         queryset = NebyTask.objects.filter(status='pending')
         if retry_failed:

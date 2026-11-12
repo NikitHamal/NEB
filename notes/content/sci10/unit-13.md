@@ -425,3 +425,76 @@ Downloading a film or software from an unofficial website is not harmless even w
 **4.** Advantages: 24-hour service, saves time and travel, wide choice, home delivery. Disadvantages: risk of fraud, cannot touch the goods before buying, depends on the internet.
 **5.** Cyber ethics protects users and keeps the internet safe and respectful. Rules: be polite; do not spread false news; respect copyright and do not plagiarise; do not enter other people's accounts; protect privacy.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the main parts of a computer system. Differentiate between primary and secondary memory. <span class="marks">[10]</span>
+2. What is ICT? Explain eight uses of ICT in Nepal, with a note on its disadvantages and on cyber safety. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="5" ratio="1.0" caption="Inside the box. (a) A motherboard joins the CPU, memory and cards. (b) RAM modules, the fast and temporary working memory. (c) A hard disk with its read-write arm, the permanent store. (d) A Wi-Fi router connects phones and laptops to the internet. (e) A network switch links computers in a school lab. Hardware looks different, but each part belongs to the cycle of input, process, output and storage."
+@ photo id="sci10/motherboard" cap="(a) Motherboard"
+@ photo id="sci10/ram" cap="(b) RAM"
+@ photo id="sci10/hdd" cap="(c) Hard disk"
+@ photo id="sci10/router" cap="(d) Wi-Fi router"
+@ photo id="sci10/switch" cap="(e) Network switch"
+```
+
+### Model answer D1: parts of a computer system (10 marks)
+
+**Introduction.** A **computer** is an electronic machine that accepts data (input), processes it by instructions, stores it and gives results (output). Every computer system has **hardware** (the parts we can touch) and **software** (programs). The work follows the cycle **input → process → output**, with storage.
+
+**Hardware parts.**
+
+1. **Input devices** send data to the computer: keyboard, mouse, scanner, microphone, webcam, touch screen.
+2. **Central Processing Unit (CPU)**, the brain, is a small chip. It has the **ALU** (arithmetic and logic unit) for calculations and decisions, the **control unit** that directs the work, and **registers**.
+3. **Memory** holds data and programs. The motherboard connects the CPU, RAM and other cards.
+4. **Output devices** show results: monitor, printer, speaker, projector.
+5. **Storage devices** keep data permanently: hard disk, SSD, pen drive, DVD.
+
+**Primary and secondary memory.**
+
+| Feature | Primary memory | Secondary memory |
+|---|---|---|
+| Examples | RAM, ROM | Hard disk, SSD, pen drive |
+| Speed | Very fast | Slower |
+| Capacity | Smaller (4 to 32 GB) | Larger (256 GB to many TB) |
+| Cost per GB | High | Low |
+| Contents | Currently used programs and data | All saved files |
+| Volatility | RAM loses data when the power is off | Keeps data |
+
+**Units of memory.** 1 byte = 8 bits; 1 KB = 1024 bytes; 1 MB = 1024 KB; 1 GB = 1024 MB; 1 TB = 1024 GB.
+
+**Binary system.** A computer has only two states of switch, ON and OFF, so it uses **binary numbers** with digits 0 and 1. For example, decimal 13 is 1101 in binary ($8 + 4 + 0 + 1$).
+
+**Software.** **System software** (operating system such as Windows, Linux, Android) controls the hardware and runs other programs. **Application software** (MS Word, Excel, browsers) helps the user do tasks.
+
+**Types of computers.** By size: supercomputer, mainframe, minicomputer, microcomputer (desktop, laptop, tablet, smartphone). By function: analog, digital and hybrid.
+
+**Conclusion.** Input, CPU, memory, output and storage work together under software control, and this cycle is the basis of all computing.
+
+### Model answer D2: uses of ICT and cyber safety (10 marks)
+
+**Introduction.** **ICT (Information and Communication Technology)** is the use of computers, mobile phones, networks and the internet to collect, store, process and share information. It has changed life in Nepal over the last twenty years.
+
+1. **Education.** Students use online classes, e-books and YouTube lessons. Schools use projectors and computer labs. The Nepal government and universities publish results and notices online, which saves time and travel.
+2. **Banking and digital payment.** Mobile banking, eSewa, Khalti, Fonepay QR and ConnectIPS let people pay bills, send money and shop without cash. A person in a village can send money to a family member in a few seconds.
+3. **Health.** Hospitals keep patient records on computers, doctors see reports from labs digitally, and telemedicine allows a doctor in Kathmandu to advise a patient in a remote hill district.
+4. **Government services.** Citizens can apply for a passport date, check voter lists, pay tax and get documents through Nagarik App and government portals, and use fewer visits to offices.
+5. **Communication.** E-mail, video calls, Viber, WhatsApp and Messenger connect families abroad, since many Nepalis work in other countries.
+6. **Business and e-commerce.** Online shops such as Daraz and local pages sell products. Buyers compare prices and farmers find markets through apps.
+7. **Entertainment and media.** Online news, music, films and games are available at any time on a phone. Local artists reach many viewers through YouTube.
+8. **Weather, agriculture and disaster management.** Weather forecasts, flood warning (as on the Koshi) and market price information reach farmers through SMS and apps, so they can plan work and reduce losses.
+
+**Disadvantages.** Excess use harms eyesight and sleep, cybercrime, fake news and online bullying, loss of privacy, unemployment of some manual workers, and e-waste.
+
+**Cyber safety.**
+
+- Use **strong passwords** and do not share OTP or PIN with anyone.
+- Do not open **unknown links or attachments**; they can contain a virus or phishing.
+- Keep the operating system and **antivirus** updated.
+- Do not post private information on social media.
+- Respect **copyright** and do not copy others' work (plagiarism).
+
+**Law.** Nepal's **Electronic Transactions Act, 2063 (2006)** makes hacking, spreading illegal material and online fraud punishable. Report cybercrime to the Cyber Bureau of Nepal Police.
+
+**Conclusion.** ICT saves time, money and distance, but it must be used safely, legally and in moderation.

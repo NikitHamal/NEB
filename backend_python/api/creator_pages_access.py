@@ -6,18 +6,16 @@ client can drive one purchase state machine for both kinds of paid content.
 """
 from decimal import Decimal
 
-from .creator_pages_schema import ELIGIBLE_ROLES
 from .models import PaymentVerification, User
 
 
 def can_have_storefront(user):
+    """Open learning platform: every member in good standing can sell notes and courses."""
     if user is None:
         return False
     if getattr(user, 'is_admin', False):
         return True
-    if getattr(user, 'is_banned', False) or getattr(user, 'is_locked', False):
-        return False
-    return getattr(user, 'role', '') in ELIGIBLE_ROLES
+    return not (getattr(user, 'is_banned', False) or getattr(user, 'is_locked', False))
 
 
 def allowed_kinds(user):

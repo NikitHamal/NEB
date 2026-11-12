@@ -423,6 +423,18 @@ simplify — 5 is not a factor of $x+5$. (ii) $\frac{(x+3)(x-3)}{x-3} = x+3$.
 \frac{x+y}{xy}$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Simplify: (a) $\dfrac{x^2-9}{x^2+6x+9}$, (b) $\dfrac{x^2-4}{x+3}\times\dfrac{x^2+3x}{x-2}$. State the values of $x$ that are not allowed in (a). <span class="marks">[5]</span>
+2. Simplify $\dfrac{1}{x-2}+\dfrac{1}{x+2}-\dfrac{4}{x^2-4}$ to its lowest terms. <span class="marks">[5]</span>
+3. Solve: (a) $\dfrac{x}{3}+\dfrac{x+2}{4}=4$, (b) $\dfrac{3}{x-1}=\dfrac{2}{x+1}$. Check both answers. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Factorise: $\dfrac{(x-3)(x+3)}{(x+3)^2}=\dfrac{x-3}{x+3}$. The original fraction is not defined when the denominator is zero, i.e. $(x+3)^2=0$, so $x\ne-3$. (b) Factorise first: $\dfrac{(x-2)(x+2)}{x+3}\times\dfrac{x(x+3)}{x-2}$. Cancel $(x-2)$ and $(x+3)$: the answer is $x(x+2)$.
+**2.** Use the common denominator $x^2-4=(x-2)(x+2)$: $\dfrac{(x+2)+(x-2)-4}{(x-2)(x+2)}=\dfrac{2x-4}{(x-2)(x+2)}=\dfrac{2(x-2)}{(x-2)(x+2)}=\dfrac{2}{x+2}$. **Check with $x=3$:** $1+\frac15-\frac45=\frac25$ and $\frac{2}{3+2}=\frac25$ ✓.
+**3.** (a) Multiply by the LCM 12: $4x+3(x+2)=48$, so $7x+6=48$ and $x=6$. **Check:** $\frac63+\frac84=2+2=4$ ✓. (b) Cross-multiply: $3(x+1)=2(x-1)$, so $3x+3=2x-2$ and $x=-5$. **Check:** $\frac{3}{-6}=-\frac12$ and $\frac{2}{-4}=-\frac12$ ✓. (Neither answer makes a denominator zero.)
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

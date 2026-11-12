@@ -637,6 +637,139 @@ electricity, which villages may lack; and connected devices can be hacked and
 the cost is high for small farmers.
 :::
 
+## 21.6 Extended model answers (10 marks)
+
+The Computer Science paper asks for 7 to 8 point explanations, complete Python programs and device descriptions. Each model below has an introduction, explained points with Nepali examples, a table and a conclusion.
+
+**Extended questions**
+
+1. What is artificial intelligence? Explain its applications with examples from Nepal, and write its limitations. <span class="marks">[10]</span>
+2. Write Python programs to check whether a number is prime, to find a factorial, and to find the total, average and highest of five marks. <span class="marks">[10]</span>
+3. What is a transmission medium? Explain the guided and unguided media with examples. <span class="marks">[10]</span>
+
+```photogrid label="21.H" cols="4" ratio="1.25" caption="Technology for these answers. (a) An industrial robot arm, one application of AI and automation. (b) A virtual reality headset. (c) An Arduino board, used in school robotics. (d) Server racks in a data centre, where AI models and websites run."
+@ photo id="cs10/robot-arm" cap="(a) Robot arm"
+@ photo id="cs10/vr-headset" cap="(b) VR headset"
+@ photo id="cs10/arduino" cap="(c) Arduino board"
+@ photo id="cs10/server-racks" cap="(d) Server racks"
+```
+
+### Model answer D1: artificial intelligence (10 marks)
+
+**Introduction.** **Artificial intelligence (AI)** is the ability of a computer or a machine to do tasks that normally need human intelligence, such as learning, reasoning, understanding speech and recognising pictures. It learns from large amounts of data instead of following only fixed instructions. The term was first used by John McCarthy in 1956.
+
+**Applications.**
+
+1. **Education.** AI tutors and apps check answers, explain a mistake and set the next exercise for each student. Teachers in Nepal use online platforms and translation tools to prepare lessons.
+2. **Health.** AI reads X-rays and scans, and helps doctors find diseases early. Mobile apps give first advice in remote villages where a doctor is far away.
+3. **Agriculture.** Cameras and sensors tell a farmer about crop disease and the right time to water. This can raise the yield of rice, maize and vegetables in the Terai.
+4. **Banking and payment.** Banks and wallets such as eSewa and Fonepay use AI to catch strange transactions and warn about fraud.
+5. **Transport.** Navigation apps predict traffic in Kathmandu and suggest a faster route. Self-driving vehicles are being tested in many countries.
+6. **Voice assistants and translation.** Assistants understand speech, and apps translate English into Nepali in seconds.
+7. **Industry and robotics.** Robots weld, paint and pack goods without rest, as the robot arm in the photograph does.
+8. **Disaster management.** AI studies satellite images and weather data to warn about floods and landslides, which helps the monsoon response in Nepal.
+
+**Limitations.**
+
+| Limitation | Explanation |
+|---|---|
+| Job loss | Machines may replace routine work |
+| Costly | Data, hardware and skilled staff are expensive |
+| No feeling or common sense | AI cannot truly understand emotions or ethics |
+| Bias | It repeats the mistakes of the data it learned from |
+| Privacy | Large personal data can be misused |
+| Dependence | People may stop thinking for themselves |
+
+**Conclusion.** AI is a powerful helper in education, health and farming. It must be used with care, honesty and human control, and Nepal should prepare its youth with coding and data skills.
+
+### Model answer D2: Python programs (10 marks)
+
+**Introduction.** **Python** is a high-level, interpreted language with simple syntax, widely used in schools and in AI. Programs use input, decision (`if`), loops (`for`) and lists. The programs below were run and the outputs are shown.
+
+**Program 1: prime number.**
+
+```python
+n = 29
+if n < 2:
+    print(n, "is not prime")
+else:
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            print(n, "is not prime; divisible by", i)
+            break
+    else:
+        print(n, "is prime")
+```
+
+Output: `29 is prime`
+
+A number is prime if no number from 2 up to its square root divides it. The `else` of the loop runs only when the loop ends without `break`.
+
+**Program 2: factorial of 5.**
+
+```python
+f = 1
+for i in range(1, 6):
+    f *= i
+print("5! =", f)
+```
+
+Output: `5! = 120`
+
+The loop multiplies 1 × 2 × 3 × 4 × 5.
+
+**Program 3: total, average and highest of five marks.**
+
+```python
+marks = [72, 85, 64, 90, 78]
+print("Total =", sum(marks), " Average =", sum(marks)/len(marks), " Highest =", max(marks))
+```
+
+Output: `Total = 389  Average = 77.8  Highest = 90`
+
+**Dry run of Program 2**
+
+| i | f before | f after |
+|---|---|---|
+| 1 | 1 | 1 |
+| 2 | 1 | 2 |
+| 3 | 2 | 6 |
+| 4 | 6 | 24 |
+| 5 | 24 | 120 |
+
+**Points to remember.** Indentation shows which lines belong to a block; `range(1, 6)` stops before 6; `input()` returns text, so use `int()` to convert it to a number.
+
+**Conclusion.** Decision, loop and list are the three tools of most school programs. Always run the program and check the output with a hand calculation.
+
+### Model answer D3: transmission media (10 marks)
+
+**Introduction.** A **transmission medium** is the path through which data travels from the sender to the receiver in a network. It is of two kinds: **guided (wired)** media, where the signal follows a cable, and **unguided (wireless)** media, where the signal moves through air or space.
+
+**Guided media.**
+
+1. **Twisted-pair cable (UTP).** Four pairs of copper wires twisted to reduce noise and ending in an RJ-45 plug. It is cheap and used in school labs up to 100 m.
+2. **Coaxial cable.** A copper core with insulation and a metal shield. It is used for cable TV and older networks.
+3. **Optical fibre.** A thin glass thread that carries pulses of light. It is very fast, free from electrical noise and used for the Internet backbone and ISP connections to homes.
+
+**Unguided media.**
+
+1. **Radio waves.** Used for FM radio, Wi-Fi and mobile networks; they pass through walls.
+2. **Microwaves.** Used for towers of Nepal Telecom and Ncell in a line of sight.
+3. **Infrared.** Short range, used in a TV remote.
+4. **Satellite.** Used for DishHome and for communication in remote mountain areas.
+
+**Comparison**
+
+| Basis | Twisted pair | Coaxial | Optical fibre | Wireless |
+|---|---|---|---|---|
+| Speed | Medium | Medium-high | Very high | Medium |
+| Cost | Low | Medium | High | Medium |
+| Range | 100 m | 500 m | Many km | Depends |
+| Noise | Affected | Less affected | Not affected | Affected |
+| Security | Medium | Medium | High | Low unless encrypted |
+
+**Conclusion.** Twisted pair suits a lab, fibre suits long distance and high speed, and wireless gives mobility. A good network often mixes all of them.
+
 ## Chapter summary
 
 - Groups B and C carry **40 of the 50 marks**; the marker gives one mark per

@@ -32,7 +32,7 @@ area: Practice
    (a) 1 (b) $e$ (c) 0 (d) $e-1$
 6. The sum of the first 20 natural numbers is
    (a) 200 (b) 190 (c) 420 (d) 210
-7. The determinant of $(det | 2&-1 ; 4&3 |)$ is
+7. The determinant of $\begin{vmatrix}2&-1 \\ 4&3\end{vmatrix}$ is
    (a) 2 (b) 6 (c) 10 (d) 14
 8. The value of $i^{-1}$ is
    (a) $i$ (b) $-i$ (c) 1 (d) $-1$
@@ -168,7 +168,7 @@ area: Practice
     (a) $2x-y+3z=4$ (b) $2x-y+3z=6$ (c) $2x+y-3z=0$ (d) $x+y+z=3$
 68. For $\vec a=2\hat i+\hat j-\hat k$ and $\vec b=\hat i-\hat j+2\hat k$, $|\vec a\times\vec b|$ is
     (a) $\sqrt{11}$ (b) 5 (c) $\sqrt{35}$ (d) $\sqrt{26}$
-69. For $A=(det | 2&1 ; 5&3 |)$, the element in the second row, first column of $A^{-1}$ is
+69. For $A=\begin{vmatrix}2&1 \\ 5&3\end{vmatrix}$, the element in the second row, first column of $A^{-1}$ is
     (a) 5 (b) $-3$ (c) 2 (d) $-5$
 70. The sum $1^2+2^2+\cdots+10^2$ equals
     (a) 330 (b) 385 (c) 440 (d) 3025
@@ -245,6 +245,34 @@ Read the passage and answer questions 97 and 98.
     (a) were (b) is (c) was (d) has
 100. If I ___ you, I would apologise.
      (a) am (b) was (c) were (d) be
+
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Mental constants, and how wrong they are. (a) A scientific calculator: it is not allowed in the hall, so the standard constants must be remembered. (b) The relative error of each rounded constant listed in this book is computed against its exact value. The errors are tiny for the square roots, pi and ln 2, all below 0.06 per cent, while g = 10 is 1.97 per cent high. A formula such as v = sqrt(2 g h) halves that error to 0.98 per cent. Option values in a numerical question usually differ by far more than this (an assumption, not a published rule), so rounding the constants is safe; losing a unit or a factor of 2 is not."
+@ photo id="ioemock/calc" cap="A scientific calculator, which the computer-based test does not allow"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Relative error of the exam-day constants (log scale)"
+import math
+C = [("sqrt 2 = 1.414", 1.414, math.sqrt(2)), ("sqrt 3 = 1.732", 1.732, math.sqrt(3)), ("pi = 3.14", 3.14, math.pi), ("ln 2 = 0.693", 0.693, math.log(2)),
+     ("g = 9.8", 9.8, 9.80665), ("g = 10", 10.0, 9.80665)]
+err = [abs(a - b) / b * 100 for _, a, b in C]
+assert max(err) == err[-1] and abs(err[-1] - 1.97) < 0.01 and all(e < 0.07 for e in err[:-1])
+vh = (math.sqrt(10 / 9.80665) - 1) * 100
+assert abs(vh - 0.98) < 0.01
+facts = dict(g10="%.2f" % err[-1], vh="%.2f" % vh)
+f = Fig(300, 236)
+f.text(150, 14, "relative error in per cent (bar = log scale)", size=10.5, color=NAVY, bold=True)
+for i, (name, a, b) in enumerate(C):
+    y = 26 + i * 24
+    f.text(8, y + 10, name, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    L = (math.log10(err[i]) + 3) * 36
+    hot = i == len(C) - 1
+    f.box(104, y, L, 20, "", fill=(ROSE if hot else BLUE), stroke=(RED if hot else NAVY), r=3)
+    f.text(104 + L + 6, y + 10, "%.3f%%" % err[i] if err[i] < 1 else "%.2f%%" % err[i], size=10.5, color=(RED if hot else NAVY), bold=True, anchor="start", vmid=True)
+f.line(104, 170, 292, 170, color=SOFT, sw=1)
+f.text(150, 188, "v = sqrt(2gh) with g = 10 is %.2f%% high" % vh, size=10.5, color=AMBER, bold=True)
+f.text(150, 205, "every other constant is under 0.07%", size=10.5, color=TEAL, bold=True)
+f.text(150, 221, "bars are logarithmic: each step is 10 times", size=10.5, color=SLATE)
+```
 
 ## Answer key and explanations
 
@@ -329,7 +357,7 @@ Read the passage and answer questions 97 and 98.
 **66.** (d) — $e=\sqrt{1-\frac{7}{16}}=\frac{3}{4}$.
 **67.** (a) — $2(x-1)-(y-1)+3(z-1)=0\Rightarrow2x-y+3z=4$.
 **68.** (c) — $\vec a\times\vec b=(1,-5,-3)$, magnitude $\sqrt{35}$.
-**69.** (d) — $|A|=1$; $A^{-1}=(det | 3&-1 ; -5&2 |)$.
+**69.** (d) — $|A|=1$; $A^{-1}=\begin{vmatrix}3&-1 \\ -5&2\end{vmatrix}$.
 **70.** (b) — $\frac{10\cdot11\cdot21}{6}=385$.
 **71.** (a) — $^7C_3-{}^4C_3=35-4$.
 **72.** (d) — equal distance from $2$ and $-2$: $x=0$.

@@ -12,7 +12,7 @@ use crate::actions::Action;
 use crate::data::models::{ChapterKind, ChapterRef, ExamMeta, TocItem};
 use crate::data::tasks::Task;
 use crate::env::Env;
-use crate::errors::{AppError, Result};
+use crate::errors::Result;
 use crate::reader::model::Doc;
 use crate::reader::{html, render};
 use crate::router::Route;

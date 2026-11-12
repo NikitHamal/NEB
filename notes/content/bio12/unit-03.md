@@ -1757,6 +1757,45 @@ number of **individual chromosomes** (2n + 1, 2n − 1). Down's syndrome is
 aneuploidy, not polyploidy; bread wheat is polyploidy, not aneuploidy.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Mendel crossed pea plants that differed in two traits, and the Punnett square lists all the gametes they can form. (a) Pea pods on a garden plant. (b) Each RrYy parent makes four gametes, RY, Ry, rY and ry, so a 4 x 4 square has 16 equally likely zygotes. The program classifies each of them and finds 9 round yellow, 3 round green, 3 wrinkled yellow and 1 wrinkled green, the 9:3:3:1 ratio of the law of independent assortment. Round yellow seeds make up 56.2% of the offspring. The ratio holds only when the two genes lie on different chromosomes or far apart on one chromosome."
+@ photo id="bio12/peas" cap="Garden pea pods: Mendel's experimental plant (Pisum sativum)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Dihybrid cross RrYy x RrYy"
+import itertools
+gam = ["RY", "Ry", "rY", "ry"]
+def pheno(g):
+    return ("R" if "R" in g else "r") + ("Y" if "Y" in g else "y")
+cnt = {}
+f = Fig(300, 236)
+f.text(150, 14, "Round (R) / wrinkled, yellow (Y) / green", size=10, color=NAVY, bold=True)
+colr = {"RY": (SAND, AMBER), "Ry": (MINT, TEAL), "rY": (ROSE, RED), "ry": (BLUE, NAVY)}
+for i, g1 in enumerate(gam):
+    f.text(66 + i * 40, 42, g1, size=10, color=SLATE, bold=True)
+    f.text(30, 66 + i * 32, g1, size=10, color=SLATE, bold=True)
+for i, g1 in enumerate(gam):
+    for j, g2 in enumerate(gam):
+        g = "".join(sorted(g1[0] + g2[0], key=lambda c: (c.lower(), c.islower()))) + "".join(sorted(g1[1] + g2[1], key=lambda c: (c.lower(), c.islower())))
+        ph = pheno(g); cnt[ph] = cnt.get(ph, 0) + 1
+        fl, st = colr[ph]
+        f.box(46 + j * 40, 50 + i * 32, 38, 30, g, fill=fl, stroke=st, size=9, bold=True, r=3)
+assert cnt == {"RY": 9, "Ry": 3, "rY": 3, "ry": 1}
+names = [("RY", "round yellow"), ("Ry", "round green"), ("rY", "wrinkled yellow"), ("ry", "wrinkled green")]
+for k, (key, nm) in enumerate(names):
+    fl, st = colr[key]
+    f.box(214, 62 + k * 30, 16, 16, fill=fl, stroke=st, r=2)
+    f.text(236, 70 + k * 30, "%d %s" % (cnt[key], nm.split()[0]), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(236, 82 + k * 30, nm.split()[1], size=9, color=SLATE, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "phenotype ratio %d : %d : %d : %d" % (cnt["RY"], cnt["Ry"], cnt["rY"], cnt["ry"]), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "16 equally likely zygotes", size=10, color=SLATE, bold=True)
+facts = dict(a=cnt["RY"], b=cnt["Ry"], c=cnt["rY"], d=cnt["ry"], fr=cnt["RY"] / 16.0 * 100)
+```
+
+```photogrid label="3.H" cols="2" ratio="1.27" caption="Two more faces of inheritance: (a) a roan Shorthorn heifer, a case of codominance in which red and white hairs are both expressed; (b) a human karyotype, the 22 pairs of autosomes and the sex chromosomes arranged by size."
+@ photo id="bio12/roan-cattle" cap="Roan Shorthorn: red and white hairs together"
+@ photo id="bio12/karyotype" cap="Human karyotype: 22 autosome pairs + XY"
+```
+
 ## Chapter summary
 
 - **DNA is the genetic material** — Griffith's transformation, Avery's enzyme
@@ -1951,3 +1990,91 @@ so the data agree with a 9 : 3 : 3 : 1 ratio and the two genes are assorting
 independently. Note that the test never proves the hypothesis true — it only
 says the data give no reason to reject it.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe semi-conservative DNA replication, naming the enzymes, and give the evidence of Meselson and Stahl. <span class="marks">[10]</span>
+2. State and explain Mendel's law of independent assortment with a dihybrid cross, and test the ratio by the chi-square method. <span class="marks">[10]</span>
+3. Explain linkage, crossing over and gene mapping, with Morgan's evidence and a worked map-distance calculation. <span class="marks">[10]</span>
+
+### Model answer D1: semi-conservative replication of DNA (10 marks)
+
+**Introduction.** DNA replication is the making of two identical DNA molecules from one before cell division. It is **semi-conservative**: each new double helix keeps one old (parental) strand and has one newly made strand.
+
+**Evidence: Meselson and Stahl (1958).** *E. coli* was grown for many generations in a medium with the heavy isotope $^{15}$N, so all its DNA was heavy. The cells were then moved to $^{14}$N medium, and DNA was separated by caesium chloride density-gradient centrifugation. After **one generation** all DNA formed a single band of **intermediate** density (hybrid: one $^{15}$N and one $^{14}$N strand). After **two generations** there were two bands, one intermediate and one light, in equal amounts. A conservative model would have given a heavy and a light band after one generation, so it was rejected.
+
+**Steps and enzymes.**
+
+1. **Initiation.** Replication begins at the origin (*oriC* in bacteria; many origins in eukaryotes). **Helicase** unwinds the helix by breaking hydrogen bonds, forming a replication fork. **Single-strand binding proteins** keep the strands apart and **topoisomerase** relieves the supercoiling ahead of the fork.
+2. **Priming.** **Primase** makes a short RNA primer, because DNA polymerase cannot start a chain from nothing.
+3. **Elongation.** **DNA polymerase III** adds nucleotides only in the 5′ → 3′ direction. On the **leading strand** synthesis is continuous towards the fork. On the **lagging strand** it is discontinuous, forming **Okazaki fragments** (1000–2000 nucleotides in bacteria, 100–200 in eukaryotes).
+4. **Primer removal and joining.** **DNA polymerase I** removes the RNA primers and fills the gaps with DNA, and **DNA ligase** seals the nicks.
+5. **Proofreading.** The polymerases check each added base and remove errors, so the error rate falls to about one in 10$^9$ bases.
+
+| Enzyme | Function |
+|---|---|
+| Helicase | Unwinds and separates strands |
+| Primase | Makes RNA primer |
+| DNA polymerase III | Main chain elongation, 5′ → 3′ |
+| DNA polymerase I | Replaces RNA primer with DNA |
+| DNA ligase | Joins Okazaki fragments |
+| Topoisomerase | Removes supercoils |
+
+**Conclusion.** Because of the base-pairing rule (A with T, G with C) each old strand is an exact template, and semi-conservative replication therefore passes genetic information to daughter cells almost without error.
+
+### Model answer D2: independent assortment and the chi-square test (10 marks)
+
+**Introduction.** Mendel's **law of independent assortment** states that when two pairs of contrasting characters are considered, the alleles of each pair separate independently of the other pair during gamete formation. Its basis is the random orientation of different homologous pairs on the metaphase plate in meiosis I.
+
+**Dihybrid cross.** A pea plant with round yellow seeds (RRYY) is crossed with one with wrinkled green seeds (rryy). The F$_1$ are all round yellow (RrYy). F$_1$ selfing produces four kinds of gametes (RY, Ry, rY, ry) in equal numbers from each parent, and 16 combinations in the F$_2$.
+
+| Phenotype | Genotypes | Number of 16 | Ratio |
+|---|---|---|---|
+| Round yellow | RRYY, RRYy, RrYY, RrYy | 9 | 9 |
+| Round green | RRyy, Rryy | 3 | 3 |
+| Wrinkled yellow | rrYY, rrYy | 3 | 3 |
+| Wrinkled green | rryy | 1 | 1 |
+
+The F$_2$ phenotypic ratio is **9:3:3:1**, and each character alone still gives 3:1 (round 12 : wrinkled 4). A **test cross** of RrYy with rryy gives 1:1:1:1, which proves that four types of gametes are formed.
+
+**Chi-square test.** Mendel's observed F$_2$ of 556 seeds: 315 round yellow, 108 round green, 101 wrinkled yellow, 32 wrinkled green. The expected numbers (9/16, 3/16, 3/16, 1/16 of 556) are 312.75, 104.25, 104.25 and 34.75.
+
+| Class | Observed O | Expected E | (O − E)$^2$ / E |
+|---|---|---|---|
+| Round yellow | 315 | 312.75 | 0.016 |
+| Round green | 108 | 104.25 | 0.135 |
+| Wrinkled yellow | 101 | 104.25 | 0.101 |
+| Wrinkled green | 32 | 34.75 | 0.218 |
+| **Total** | 556 | 556 | **χ² = 0.470** |
+
+With 4 classes the degrees of freedom are 3, and the table value at the 5% level is 7.815. Since 0.470 is much smaller, the difference is due to chance and the data **fit the 9:3:3:1 ratio**.
+
+**Exceptions.** Independent assortment applies only to genes on different chromosomes. Genes close together on the same chromosome are **linked** and are inherited together (see D3).
+
+**Conclusion.** The dihybrid ratio 9:3:3:1 is the product of two monohybrid ratios (3:1 × 3:1) and shows that the alleles of two genes sort independently.
+
+### Model answer D3: linkage, crossing over and gene mapping (10 marks)
+
+**Introduction.** **Linkage** is the tendency of genes located on the same chromosome to be inherited together. **Crossing over** is the exchange of segments between non-sister chromatids of homologous chromosomes at pachytene of prophase I, and it produces **recombinants**.
+
+**Morgan's evidence (*Drosophila*).** Grey body and long wings (b$^+$ vg$^+$) are dominant to black body and vestigial wings. A heterozygous grey long female was test-crossed with a black vestigial male. Independent assortment predicts 1:1:1:1, but Morgan obtained:
+
+| Phenotype | Number | Type |
+|---|---|---|
+| Grey, long | 965 | Parental |
+| Black, vestigial | 944 | Parental |
+| Grey, vestigial | 206 | Recombinant |
+| Black, long | 185 | Recombinant |
+
+Total = 2300. Parental types were 83% and recombinants only $391/2300 = 17\%$, so the genes are linked and 17% of gametes carry a crossover.
+
+**Key points.**
+
+1. Complete linkage is rare; incomplete linkage is common because crossing over breaks the association.
+2. The **recombination frequency** (RF) equals the number of recombinants divided by the total, and it rises with distance between genes.
+3. Genes more than 50 map units apart behave as unlinked, because RF cannot exceed 50%.
+4. One **map unit** (1 centimorgan, cM) equals 1% recombination.
+
+**Gene mapping.** Sturtevant (1913) proposed that RF is a measure of the distance between genes on a linear **genetic map**. Worked example: the RF between A and B is 10%, between B and C 6% and between A and C 16%. Since 10 + 6 = 16, B lies between A and C, and the order is **A — B — C** with 10 and 6 map units between them. If the A–C value had been only 4%, the order would be B — A — C, so three pairwise values fix the order. Three-point test crosses also show **interference**, because one crossover tends to reduce the chance of another close by.
+
+**Conclusion.** Linkage explains why the 9:3:3:1 ratio fails for nearby genes, and recombination frequency allows the genes of *Drosophila*, maize and humans to be arranged on maps.

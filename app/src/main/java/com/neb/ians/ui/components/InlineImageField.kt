@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.neb.ians.ui.screens.notes.NoteFormatting
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -230,8 +231,16 @@ fun InlineImageField(
         }
     }
 
+    // Markdown markers are hidden and their effect drawn; the image chips are laid out on what is left
+    val scheme = MaterialTheme.colorScheme
+    val liveText = remember(value.text, scheme) {
+        LiveMarkdown.transform(
+            value.text,
+            LiveColors(scheme.surfaceContainerHighest, scheme.onSurface, scheme.primary, scheme.onSurfaceVariant, scheme.onSurfaceVariant)
+        )
+    }
     val mapping: InlineImageVisualTransformation.Mapping = run {
-        val raw = value.text
+        val raw = liveText.visible
         val matches = InlineImageTokens.REGEX.findAll(raw).toList()
         if (matches.isEmpty()) {
             InlineImageVisualTransformation.Mapping(
@@ -322,9 +331,26 @@ fun InlineImageField(
             )
         }
     }
-    val transformation = remember(mapping) {
+    val rawRanges = remember(mapping, liveText) {
+        mapping.tokenRanges.map { r -> liveText.charOrigin[r.first]..liveText.charOrigin[r.last] }
+    }
+    val transformation = remember(mapping, liveText) {
+        val inner = mapping.transformed.offsetMapping
+        val base = mapping.transformed.text
+        val shifted = liveText.styled.spanStyles.mapNotNull { r ->
+            val a = inner.originalToTransformed(r.start)
+            val b = inner.originalToTransformed(r.end)
+            if (b > a) AnnotatedString.Range(r.item, a, b) else null
+        }
+        val styled = AnnotatedString(base.text, base.spanStyles + shifted)
+        val composed = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int =
+                inner.originalToTransformed(liveText.originalToVisible[offset.coerceIn(0, liveText.raw.length)])
+            override fun transformedToOriginal(offset: Int): Int =
+                liveText.visibleToOriginal[inner.transformedToOriginal(offset).coerceIn(0, liveText.visible.length)]
+        }
         object : VisualTransformation {
-            override fun filter(text: AnnotatedString): TransformedText = mapping.transformed
+            override fun filter(text: AnnotatedString): TransformedText = TransformedText(styled, composed)
         }
     }
 
@@ -333,7 +359,7 @@ fun InlineImageField(
         uploadedMeta.keys.toList(), pendingMeta.keys.toList(), pendingUris.keys.toList()
     ) {
         buildChips(
-            text = value.text,
+            text = liveText.visible,
             ranges = mapping.tokenRanges,
             pendingMeta = pendingMeta,
             pendingUris = pendingUris,
@@ -344,7 +370,10 @@ fun InlineImageField(
     Box(modifier = modifier) {
         BasicTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = { nv ->
+                val old = currentValue
+                onValueChange(if (nv.text != old.text) (NoteFormatting.continueList(old, nv) ?: nv) else nv)
+            },
             enabled = enabled,
             textStyle = editorTextStyle.copy(color = MaterialTheme.colorScheme.onSurface),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
@@ -386,7 +415,7 @@ fun InlineImageField(
                     maxWidthEm = INLINE_CHIP_MAX_WIDTH_EM,
                     radiusEm = 0.42f,
                     onRemove = {
-                        val range = mapping.tokenRanges.getOrNull(index) ?: return@InlineChipOverlay
+                        val range = rawRanges.getOrNull(index) ?: return@InlineChipOverlay
                         val newText = currentValue.text.removeRange(range.first, range.last + 1)
                         onValueChange(
                             TextFieldValue(
@@ -397,11 +426,11 @@ fun InlineImageField(
                     },
                     onClick = { if (chip.id != null) onImageClick(chip.fullUrl) },
                     onDrop = { center ->
-                        val sourceRange = mapping.tokenRanges.getOrNull(index)
+                        val sourceRange = rawRanges.getOrNull(index)
                         if (sourceRange != null) {
                             val targetTransformed = layoutResult.getOffsetForPosition(center)
-                            val targetOriginal = mapping.transformed.offsetMapping
-                                .transformedToOriginal(targetTransformed)
+                            val targetOriginal = transformation.filter(AnnotatedString(currentValue.text))
+                                .offsetMapping.transformedToOriginal(targetTransformed)
                             val sourceEndExclusive = sourceRange.last + 1
                             if (targetOriginal !in sourceRange.first..sourceEndExclusive) {
                                 val token = currentValue.text.substring(sourceRange.first, sourceEndExclusive)

@@ -406,6 +406,31 @@ angle. Take $c = 3\times10^{8}\ \text{m s}^{-1}$.
 (c) $\sin C = \dfrac{1}{n} = \dfrac{1}{1.732} = 0.5774$, so $C = 35.3^\circ$.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.2" caption="Crossed polaroids block light, but a third lets some through. (a) Polarising sunglasses are made of a polaroid sheet that transmits one direction of vibration. (b) The cell follows unpolarised light: the first polaroid passes 50 per cent, and a second one with its axis parallel passes the rest of that. A second polaroid crossed at 90 degrees passes none, by Malus's law I = I0 cos2(theta). If a third polaroid at 45 degrees is placed between the crossed pair, each step passes cos2(45 degrees) = one half, so 12.5 per cent of the original light now gets through. The middle sheet does not just absorb: it rotates the direction of vibration so that the last sheet can accept some of it."
+@ photo id="ceephy3/sunglasses" cap="Polarising sunglasses"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Intensity after one, two and three polaroids"
+import math
+I0 = 100.0
+a = I0 / 2
+b = a * math.cos(0) ** 2
+c = a * math.cos(math.pi / 2) ** 2
+d = a * math.cos(math.pi / 4) ** 4
+c = round(c, 9)
+rows = [("one polaroid", a), ("two, parallel", b), ("two, crossed", c), ("crossed + 45 deg", d)]
+assert a == 50 and round(d, 1) == 12.5
+f = Fig(300, 236)
+f.text(150, 12, "Transmitted per cent of unpolarised light", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=55, fmt="%.1f", x0=96, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (ROSE, RED), (SAND, AMBER)])
+f.text(150, 158, "unpolarised light loses half at the first polaroid", size=10, color=SLATE, bold=True)
+f.text(150, 178, "then I = I0 cos^2(theta) at each later one", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "a third polaroid at 45 deg between two", size=10, color=SLATE, bold=True)
+f.text(150, 214, "crossed ones lets %.1f%% through" % d, size=10.5, color=RED, bold=True)
+facts = dict(a=a, d=d)
+```
+
 ## Chapter summary
 
 - **Unpolarized** light vibrates in all directions perpendicular to the ray;
@@ -508,3 +533,42 @@ $$ I_3 = \frac{I_0}{2}\cdot\frac{\sin^{2}2\theta}{4}
 This is maximum when $\sin 2\theta = 1$, i.e. $\theta = 45^\circ$, giving
 $I_3 = I_0/8$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and prove Brewster's law, state Malus's law, and solve a numerical on plane-polarised light. <span class="marks">[10]</span>
+
+### Model answer D1: Brewster's law and Malus's law (10 marks)
+
+**Introduction.** Light is a **transverse** wave, so its electric vector can vibrate in one plane only. Ordinary light has vibrations in all planes perpendicular to the direction of travel. Light with vibrations in only one plane is **plane polarised**. That polarisation exists at all shows that light is a transverse wave, because longitudinal waves such as sound cannot be polarised.
+
+**Methods of polarisation.** Light can be polarised by reflection, by refraction, by scattering (the blue sky is partly polarised), by double refraction in calcite and by selective absorption in a **Polaroid**.
+
+**Brewster's law.** When unpolarised light falls on a transparent surface at one special angle, the reflected light is completely plane polarised, with its vibrations parallel to the surface. This angle $i_{p}$ is the **polarising (Brewster's) angle**, and the law states
+
+$$ \tan i_{p} = n $$
+
+where $n$ is the refractive index of the medium.
+
+**Proof.** At the polarising angle the reflected and refracted rays are at right angles: $i_{p} + r = 90°$. By Snell's law $n = \sin i_{p}/\sin r$. Since $r = 90° - i_{p}$, we have $\sin r = \cos i_{p}$, so
+
+$$ n = \frac{\sin i_{p}}{\cos i_{p}} = \tan i_{p} $$
+
+The refracted ray is partly polarised.
+
+**Malus's law.** When plane-polarised light of intensity $I_{0}$ falls on an analyser whose axis makes angle $\theta$ with the plane of polarisation, the transmitted intensity is
+
+$$ I = I_{0}\cos^{2}\theta $$
+
+The transmitted light is maximum at $\theta = 0°$ and zero at $\theta = 90°$ (crossed polaroids). When ordinary light passes through the first polaroid its intensity is halved.
+
+**Polaroid and its uses.** A Polaroid is a sheet containing long-chain molecules aligned in one direction, which absorb the vibrations parallel to them and pass those perpendicular to them. It is used in sunglasses and in camera filters to cut the glare of light reflected from water and roads, in 3-D cinema glasses and in LCD screens.
+
+| Quantity | Unpolarised light | Plane-polarised light |
+|---|---|---|
+| Vibrations | In all planes | In one plane |
+| Passing through a rotating analyser | Intensity constant | Intensity varies from $I_{0}$ to 0 |
+
+**Numerical.** For glass of refractive index $1.5$, $i_{p} = \tan^{-1}(1.5) = 56.3°$, and the angle of refraction is $r = 90° - 56.3° = 33.7°$. If unpolarised light of intensity $I_{0}$ passes through a polaroid and then an analyser set at $60°$ to it, the first gives $I_{0}/2$, and the second gives $I = (I_{0}/2)\cos^{2}60° = I_{0}/8 = 0.125\,I_{0}$.
+
+**Conclusion.** Brewster's law, $\tan i_{p} = n$, tells us the angle at which reflected light is fully polarised, and Malus's law, $I = I_{0}\cos^{2}\theta$, tells us how a polaroid changes the intensity.

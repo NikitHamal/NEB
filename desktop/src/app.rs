@@ -7,7 +7,6 @@ use eframe::egui::{self, Context, Frame, Key, Modifiers, ViewportCommand};
 
 use crate::actions::Action;
 use crate::config::{Cli, DEFAULT_WINDOW, MIN_WINDOW};
-use crate::data::models::ChapterRef;
 use crate::data::store::{PersistedState, Store, ThemeMode, WindowGeom};
 use crate::devtools::Tour;
 use crate::env::Env;
@@ -21,6 +20,7 @@ pub struct NebApp {
     pub(crate) router: Router,
     pub(crate) screens: Screens,
     show_shortcuts: bool,
+    pub(crate) legal_sheet: Option<String>,
     last_geom: Option<(f32, f32)>,
     pub(crate) tour: Option<Tour>,
 }
@@ -67,9 +67,13 @@ impl NebApp {
         env.demo = tour.is_some();
         Self {
             env,
-            router: Router::new(Route::Splash),
+            router: Router::new(match &cli.open_pdf {
+                Some(p) => Route::Pdf(p.clone()),
+                None => Route::Splash,
+            }),
             screens: Screens::default(),
             show_shortcuts: false,
+            legal_sheet: None,
             last_geom: None,
             tour,
         }
@@ -127,7 +131,9 @@ impl NebApp {
         }
         // Esc: close dialog → leave text field → go back
         if ctx.input(|i| i.key_pressed(Key::Escape)) {
-            if self.show_shortcuts {
+            if ui::dialog::is_open(ctx) {
+                // the dialog closes itself on Esc
+            } else if self.show_shortcuts {
                 self.show_shortcuts = false;
             } else if ctx.memory(|m| m.focused().is_some()) && ctx.wants_keyboard_input() {
                 ctx.memory_mut(|m| m.stop_text_input());
@@ -136,8 +142,6 @@ impl NebApp {
                 }
             } else if shell {
                 acts.push(Action::Back);
-            } else if matches!(self.router.current, Route::Login) && self.env.store.s.onboarded {
-                acts.push(Action::Replace(Route::Home));
             } else if matches!(self.router.current, Route::EmailAuth) {
                 acts.push(Action::Replace(Route::Login));
             }
@@ -178,25 +182,22 @@ impl NebApp {
                 self.env.store.touch();
                 self.env.refresh_theme();
             }
-            Action::ZoomIn => ctx.set_zoom_factor((ctx.zoom_factor() + 0.1).min(2.0)),
-            Action::ZoomOut => ctx.set_zoom_factor((ctx.zoom_factor() - 0.1).max(0.6)),
-            Action::ZoomReset => ctx.set_zoom_factor(1.0),
             Action::Fullscreen => {
                 let fs = ctx.input(|i| i.viewport().fullscreen.unwrap_or(false));
                 ctx.send_viewport_cmd(ViewportCommand::Fullscreen(!fs));
             }
             Action::ShowShortcuts => self.show_shortcuts = !self.show_shortcuts,
-            Action::OpenUrl(u) => {
-                if open::that(&u).is_err() {
-                    self.env.toast("Could not open your browser");
-                }
+            Action::ShowLegal(k) => self.legal_sheet = Some(k),
+            Action::Copy(text) => {
+                ctx.copy_text(text);
+                self.env.toast("Copied to the clipboard");
             }
+            Action::OpenPath(p) if p.extension().is_some_and(|e| e.eq_ignore_ascii_case("pdf")) => self.router.navigate(Route::Pdf(p)),
             Action::OpenPath(p) => {
                 if open::that(&p).is_err() {
                     self.env.toast("Could not open it — no default application found");
                 }
             }
-            Action::Toast(m) => self.env.toast(m),
             Action::SignOut => {
                 self.env.sign_out();
                 self.screens = Screens::default();
@@ -247,10 +248,13 @@ impl NebApp {
 
     // ---------------------------------------------------------------- screens
     fn shell(&mut self, ctx: &Context) {
+        // Only people with an account get in: every in-app screen needs a session.
+        if self.router.current.has_shell() && !self.env.signed_in() {
+            self.router.replace(Route::Login);
+        }
         let route = self.router.current.clone();
         let th = self.env.theme.clone();
         if route.has_shell() {
-            ui::menubar::show(ctx, &mut self.env, &route, &self.router);
             if crate::data::content::is_offline() {
                 let mut retry = false;
                 egui::TopBottomPanel::top("offline_banner")
@@ -280,6 +284,8 @@ impl NebApp {
             let sc = &mut self.screens;
             match &route {
                 Route::Splash => screens::splash::show(ui, env, &mut sc.splash),
+                Route::Intro => screens::intro::show(ui, env, &mut sc.intro),
+                Route::Pdf(p) => screens::pdf::show(ui, env, &mut sc.pdf, p),
                 Route::Login => screens::login::show(ui, env, &mut sc.login),
                 Route::EmailAuth => screens::email_auth::show(ui, env, &mut sc.email),
                 Route::CompleteProfile => screens::complete_profile::show(ui, env, &mut sc.complete),
@@ -299,7 +305,8 @@ impl NebApp {
                 Route::People => screens::people::show(ui, env, &mut sc.people),
                 Route::User(name) => screens::user::show(ui, env, &mut sc.user, name),
                 Route::Settings => screens::settings::show(ui, env, &mut sc.settings),
-                Route::Profile => screens::profile::show(ui, env, &mut sc.profile),
+                Route::Profile => screens::profile::show(ui, env),
+                Route::Account(tab) => screens::account::show(ui, env, &mut sc.account, *tab),
                 Route::About => screens::about::show(ui, env),
                 Route::History => screens::history::show(ui, env),
                 Route::Help => screens::help::show(ui, env),
@@ -319,6 +326,7 @@ impl eframe::App for NebApp {
                 self.env.refresh_theme();
             }
         }
+        crate::theme::motion::set_reduced(!self.env.motion());
         self.env.poll();
         self.handle_keys(ctx);
         self.shell(ctx);
@@ -326,6 +334,11 @@ impl eframe::App for NebApp {
         let th = self.env.theme.clone();
         self.env.toasts.show(ctx, &th, bottom);
         ui::shortcuts::show(ctx, &th, &mut self.show_shortcuts);
+        if let Some(mut key) = self.legal_sheet.take() {
+            if !screens::legal::sheet(ctx, &self.env, &mut key) {
+                self.legal_sheet = Some(key);
+            }
+        }
         self.apply_actions(ctx);
         self.track_window(ctx);
         self.env.store.flush_if_due();
@@ -340,7 +353,3 @@ impl eframe::App for NebApp {
     }
 }
 
-#[allow(dead_code)]
-pub fn chapter_route(c: ChapterRef) -> Route {
-    Route::Reader(c)
-}

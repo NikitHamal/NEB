@@ -1014,6 +1014,27 @@ $$ \frac{\mu_0(5.0)}{2\pi x} = \frac{\mu_0(10)}{2\pi(0.10-x)}
 so $x = 0.0333\ \text{m} = 3.33\ \text{cm}$ from the $5\ \text{A}$ wire.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.2" caption="Force on a current-carrying wire. (a) The coil of a DC motor is held in the field of a magnet, and the commutator keeps the force on each side pushing the coil the same way round. (b) The force on a conductor of length L carrying a current I at right angles to a field B is F = B I L. The cell uses B = 0.2 T and L = 4 cm: a current of 2 A gives 16 mN on each side and 4 A gives 32 mN. Between two long parallel wires 1 m apart the force per metre is mu0 I2 / (2 pi d), which is 2.0e-07 N/m for 1 A, the value that defines the ampere, and 2.0e-03 N/m for 100 A, since the force grows as the square of the current."
+@ photo id="ceephy3/motor" cap="The commutator and brushes of a small DC motor"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Force on a current-carrying conductor and between two wires"
+B, L = 0.2, 0.04
+rows = [("%g A" % I, B * I * L * 1000) for I in (0.5, 1, 2, 4)]
+assert rows[2][1] == 16.0
+mu0 = 4e-7 * 3.141592653589793
+two = [(I, mu0 * I * I / (2 * 3.141592653589793 * 1.0)) for I in (1, 10, 100)]
+assert round(two[0][1] * 1e7, 2) == 2.0
+f = Fig(300, 236)
+f.text(150, 12, "F = B I L on a 4 cm side in 0.2 T, mN", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=34, fmt="%.0f", x0=46, y0=30, bw=170, gap=30)
+f.text(150, 158, "Two long parallel wires, 1 m apart, same current:", size=10, color=SLATE, bold=True)
+f.text(150, 178, "F/L = mu0 I^2 / (2 pi d)", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1 A: %.1e N/m (the definition of the ampere)" % two[0][1], size=10, color=NAVY, bold=True)
+f.text(150, 216, "10 A: %.1e N/m, 100 A: %.1e N/m" % (two[1][1], two[2][1]), size=10, color=NAVY, bold=True)
+facts = dict(a=rows[2][1], b=rows[3][1], t1=two[0][1], t100=two[2][1])
+```
+
 ## Chapter summary
 
 - Magnetic flux $\Phi = BA\cos\theta$ (weber); field lines are closed loops, so
@@ -1160,3 +1181,41 @@ Current sensitivity $= \dfrac{NBA}{c}
 Outside the toroid (and in the central hole) the Amperian loop encloses no net
 current, so $B = 0$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the radius and time period of a charged particle moving in a uniform magnetic field, and describe how a cyclotron uses it. <span class="marks">[10]</span>
+
+### Model answer D1: charged particle in a magnetic field and the cyclotron (10 marks)
+
+**Introduction.** A charge $q$ moving with velocity $\vec v$ in a magnetic field $\vec B$ feels the force $\vec F = q\,\vec v \times \vec B$. The force is perpendicular to both $\vec v$ and $\vec B$, so it does no work and the speed does not change.
+
+**Circular motion.** Let a particle of mass $m$ enter a uniform field at right angles to it. The magnetic force $qvB$ always acts towards a fixed point and provides the centripetal force:
+
+$$ qvB = \frac{mv^{2}}{r} \ \Rightarrow\ r = \frac{mv}{qB} $$
+
+The time for one revolution is
+
+$$ T = \frac{2\pi r}{v} = \frac{2\pi m}{qB}, \qquad f = \frac{qB}{2\pi m} $$
+
+**Important result.** $T$ and $f$ do **not** depend on the speed or the radius of the path; a faster particle goes round a bigger circle in the same time. $f$ is called the **cyclotron frequency**.
+
+**If the velocity makes an angle $\theta$ with the field,** the component $v\cos\theta$ along $B$ is not changed and the component $v\sin\theta$ makes the circle, so the path is a **helix**.
+
+**Cyclotron.** A cyclotron accelerates charged particles such as protons to high energy.
+
+1. Two hollow D-shaped metal boxes (**dees**) are placed in a strong, uniform magnetic field, with a small gap between them.
+2. An alternating voltage of frequency equal to $f = qB/2\pi m$ is applied across the gap.
+3. A proton at the centre is pulled across the gap and enters a dee; the field bends it into a semicircle.
+4. By the time it returns to the gap, the voltage has reversed, so it is accelerated again and gains energy $qV$.
+5. Each time its speed is greater, so its circle is larger; it spirals outwards and leaves at the rim with the maximum speed $v = qBR/m$.
+
+| Quantity | Formula |
+|---|---|
+| Radius of path | $r = mv/qB$ |
+| Time period | $T = 2\pi m/qB$ |
+| Final kinetic energy | $E_k = q^{2}B^{2}R^{2}/2m$ |
+
+**Numerical.** A proton ($m = 1.67 \times 10^{-27}\ \text{kg}$, $q = 1.6 \times 10^{-19}\ \text{C}$) moves at $2.0 \times 10^{6}\ \text{m s}^{-1}$ in $B = 0.50\ \text{T}$: $r = 4.2\ \text{cm}$, $T = 1.31 \times 10^{-7}\ \text{s}$ and $f = 7.6\ \text{MHz}$.
+
+**Conclusion.** Because the period does not depend on the speed, a fixed-frequency voltage can keep accelerating the particles in a cyclotron.

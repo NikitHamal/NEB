@@ -127,6 +127,96 @@ Anil Sharma
 1) Read the questions first. 2) Read the passage once for the main idea. 3) Underline the words that answer each question. 4) Answer in your own words, in full sentences. 5) For the title, use a short phrase built from the main idea. Vocabulary items ask for the meaning *in that passage*, so check the sentence around the word.
 :::
 
+## 18.8 Extended model answers (10 marks)
+
+The best English answers combine a clear opening, ideas supported by details from the text, a comparison where the question asks for one, and a closing sentence that answers the question. The three models below show the expected length of a 10-mark answer.
+
+**Extended questions**
+
+1. Is Rakesh a truly devoted son? Discuss with reference to "A Devoted Son". <span class="marks">[10]</span>
+2. Compare and contrast the theme of social division in "My Old Home" and "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun". <span class="marks">[10]</span>
+3. Write an essay of about 300 words on "The Value of Reading". <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="4" ratio="1.2" caption="People and places behind the answers. (a) Lu Xun, the author of My Old Home. (b) The residence of Lu Xun in China. (c) Shankar Lamichhane, the Nepali author of The Half-closed Eyes of the Buddha. (d) A letter to the editor in a newspaper, the form in which readers publicly share their opinions."
+@ photo id="eng12/lu-xun" cap="(a) Lu Xun"
+@ photo id="eng12/lu-xun-residence" cap="(b) Lu Xun's residence"
+@ photo id="eng12/lamichhane" cap="(c) Shankar Lamichhane"
+@ photo id="eng12/letter-to-editor" cap="(d) Letter to the editor"
+```
+
+### Model answer D1: "A Devoted Son" (10 marks)
+
+**Introduction.** In Anita Desai's story, Rakesh rises from a poor home to become the most successful doctor in his town, and he looks after his old father Varma with great care. But the title is **ironic**. The story asks whether care that is correct in medicine and cold in feeling can be called devotion.
+
+**Discussion.**
+
+1. **Rakesh's success.** At the beginning he stands first in his examinations, and his father is proud. Rakesh has done everything a good son should do, and the whole neighbourhood praises him.
+2. **His duty.** When his father becomes old and weak, Rakesh gives him the best medicines, tests and food, and sits with him daily. By any outward measure he is a model son.
+3. **Control instead of care.** Rakesh decides everything: which food his father may eat, which medicines to take and how long to rest. His **medical judgement overrules every wish** of the old man.
+4. **The father's loss.** Varma wants his old freedom, sweets that he loves, the company of his friends and respect as the head of the family. He begins to feel more like a patient than a father, and he becomes bitter.
+5. **Irony.** Rakesh is devoted to his father's **body**, but not to his **happiness**. The father needs affection and understanding, and gets a schedule of pills.
+6. **The wider theme.** The story shows the clash between two generations, one of tradition and love, the other of science and discipline. Desai does not say that Rakesh is cruel; she says that he is blind.
+
+| Quality | What Rakesh gives | What the father needs |
+|---|---|---|
+| Health | Medicines and diet | Freedom to enjoy simple pleasures |
+| Time | Regular visits | Friendly company |
+| Respect | Obedience from the household | Being heard, not managed |
+| Love | Care as a duty | Affection and understanding |
+
+**Conclusion.** Rakesh is devoted in duty but not in understanding. The title is ironic because the very qualities that make him a perfect doctor make him an unfeeling son, and the story teaches that true devotion listens to the person it serves.
+
+### Model answer D2: social division in two stories (10 marks)
+
+**Introduction.** Lu Xun's "My Old Home" (China) and Shankar Lamichhane's "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun" (Nepal) were written in different countries and times, but both show an invisible wall between people. In both stories a meeting makes the wall visible, and a narrator feels uneasy.
+
+**Social division in "My Old Home".**
+
+1. The narrator returns to his village to sell the family house and meets his childhood friend, **Runtu**.
+2. In memory, Runtu was a lively boy with a silver necklet who knew the secrets of the fields and the sea-shore.
+3. Now Runtu is old before his time, with a rough face and hands like the bark of a pine, and he shivers in thin clothes.
+4. He greets his friend with the word "**Master**". With that one word the old friendship is dead, and the gap of class stands between them.
+5. The cause is poverty and a rigid social order, which have made Runtu humble.
+6. The story ends with a note of hope: the children Hongr and Shuisheng, who play together, may live a new life that their fathers could not.
+
+**Social division in "The Half-closed Eyes of the Buddha...".**
+
+1. A foreign tourist, warmed by whisky, praises Nepal's peace, gods, mountains and smiling people.
+2. The next day his guide takes him to the house of a poor farmer.
+3. There the tourist sees the hunger and hardship that his romantic words had left out.
+4. The story criticises visitors who see a poor country only as a beautiful picture.
+
+| Basis | "My Old Home" | "The Half-closed Eyes of the Buddha..." |
+|---|---|---|
+| Setting | A village in China | Nepal, among tourists |
+| The divided people | A master and a servant's son | A tourist and a poor farmer |
+| How it is shown | One word, "Master" | A day-long walk to a farmer's house |
+| Cause | Poverty and rigid class order | Poverty and a romantic gaze |
+| Mood at the end | Sad but hopeful | Quiet and critical |
+
+**Conclusion.** Both writers want the reader to feel uneasy at the distance between people and hope for change. Lu Xun looks to the next generation, while Lamichhane asks the visitor, and the reader, to see the real life behind the beautiful picture.
+
+### Model answer D3: essay on "The Value of Reading" (10 marks)
+
+**The Value of Reading**
+
+*Introduction.* A book is a window to the world. A person who reads is never alone, because on every page he can talk with a scientist, a poet or a traveller. Reading shapes the mind in the way that exercise shapes the body.
+
+*Knowledge and ideas.* First, reading gives knowledge. A student of a village school who reads a library book can learn about the planets, the history of Nepal or a new way of farming. Every discovery that is known today began in the pages of a book that someone read with care. Reading also gives us ideas to question, and it teaches us to think for ourselves.
+
+*Imagination and language.* Second, reading builds imagination and language. A story invites us to see a place we have never visited and to feel the sorrow of someone whom we never met. A reader gathers new words and learns how to place them in good sentences, so his speaking and writing improve. The students who read widely write better essays.
+
+*Reading today.* In the age of the mobile phone, reading in depth is becoming rare, and a person may spend hours scrolling and remember nothing. Yet technology can help: an e-book, a free online library or an audio book can be read anywhere in the bus or on a hill. To form the habit, one should set aside twenty minutes every day, choose a book of interest and read it without the phone nearby.
+
+*Conclusion.* In short, reading is cheap, but it gives us knowledge, imagination and wisdom that last for life. As the introduction said, a book is a window; the more we read, the wider the view of the world becomes.
+
+| Mark scheme | Marks |
+|---|---|
+| Introduction and conclusion | 2 |
+| Relevant ideas with examples | 4 |
+| Organisation and paragraphing | 2 |
+| Grammar, spelling and style | 2 |
+
 ## Chapter summary
 
 - Subjective marks total **60 of 75**; practise writing, not only reading.

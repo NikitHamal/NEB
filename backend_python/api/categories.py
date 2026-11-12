@@ -3,8 +3,14 @@
 One list is used by the forum sidebar, the create-post form and the server-side
 normaliser. Known variants fold into a canonical bucket (Mathematics -> Math,
 Exam/Test -> Exam Prep, Physics -> Science). Unknown legacy values are kept so
-older posts stay filterable; the create form no longer offers free text.
+older posts stay filterable. A writer can also type their own tag (clean_tag): it is kept as typed,
+never folded into a canonical bucket, and it shows up in the forum sidebar once posts use it.
 """
+
+import re
+
+TAG_MAX_LEN = 28
+_TAG_JUNK = re.compile(r"[^\w &+./'-]", re.UNICODE)
 
 CATEGORIES = (
     'General',
@@ -56,7 +62,13 @@ _ALIASES = {
 }
 
 
-def normalize_category(value):
+def clean_tag(value):
+    text = _TAG_JUNK.sub(' ', (value or '').replace('#', ' '))
+    text = ' '.join(text.split())
+    return text[:TAG_MAX_LEN].strip()
+
+
+def normalize_category(value, own_tag=False):
     text = (value or '').strip()
     if not text:
         return CATEGORIES[0]
@@ -64,4 +76,6 @@ def normalize_category(value):
     for category in CATEGORIES:
         if key == category.lower():
             return category
+    if own_tag:
+        return clean_tag(text) or CATEGORIES[0]
     return _ALIASES.get(key) or text

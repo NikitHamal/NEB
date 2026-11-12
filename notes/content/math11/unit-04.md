@@ -664,6 +664,29 @@ line $y = x$ and $\ln x$ lies entirely **below** it. So the two curves never mee
 $e^{x} = \ln x$ has **no** solution.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="A roller coaster climbs to a peak, drops to a valley, and somewhere between them the curve bends from one direction to the other. (a) A red coaster track. (b) The same three features appear on the cubic f(x) = x^3 - 6x^2 + 9x + 1. Setting f' = 0 gives turning points at x = 1 and x = 3. Since f'' is negative at 1 and positive at 3, they are a maximum of 5 and a minimum of 1. Where f'' = 0, at x = 2, the curve passes through the inflexion point with value 3. Marking these points, with the y-intercept 1, is almost the whole sketch."
+@ photo id="math11/coaster" cap="A roller-coaster track: peaks, valleys and a point where the bend reverses"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Sketching f(x) = x^3 - 6x^2 + 9x + 1"
+fx = lambda x: x ** 3 - 6 * x ** 2 + 9 * x + 1
+d1 = lambda x: 3 * x ** 2 - 12 * x + 9
+d2 = lambda x: 6 * x - 12
+assert d1(1) == 0 and d1(3) == 0 and d2(1) < 0 and d2(3) > 0 and d2(2) == 0
+assert (fx(1), fx(3), fx(2), fx(0)) == (5, 1, 3, 1)
+f = Fig(300, 236)
+f.text(150, 14, "f(x) = x^3 - 6x^2 + 9x + 1", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (-0.5, 4.5), (-1, 7))
+ax.grid(1, 2, size=9); ax.axes("x", "y")
+ax.curve(fx, -0.5, 4.5, color=NAVY, sw=2.4)
+ax.pt(1, 5, "max (1, 5)", dx=8, dy=-6, color=RED)
+ax.pt(3, 1, "min (3, 1)", dx=-6, dy=16, color=TEAL, anchor="end")
+ax.pt(2, 3, "inflexion (2, 3)", dx=10, dy=-6, color=AMBER, size=10)
+f.text(150, 208, "f' = 3(x - 1)(x - 3) = 0 at x = 1 and 3", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "f'' = 6x - 12: negative at 1, positive at 3, zero at 2", size=9.5, color=SLATE, bold=True)
+facts = dict(mx=fx(1), mn=fx(3), inf=fx(2))
+```
+
 ## Chapter summary
 
 - $f$ is even if $f(-x) = f(x)$ (graph symmetric about the $Y$-axis) and odd if
@@ -863,3 +886,73 @@ The left branch lies below the $x$-axis, rising from just below $0$ and plunging
 $-\infty$ as $x \rightarrow 3^{-}$; the right branch comes down from $+\infty$ at
 $x \rightarrow 3^{+}$ and approaches $0$ from above.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define even, odd and periodic functions and test for symmetry and monotonicity, with examples. <span class="marks">[10]</span>
+2. Describe the steps of curve sketching and sketch $y=x^{2}-4x+3$, $y=x^{3}-3x$, $y=\dfrac{1}{x+2}$ and $y=2\sin3x$, giving the key points of each. <span class="marks">[10]</span>
+
+### Model answer D1: even, odd, periodic functions and monotonicity (10 marks)
+
+**Introduction.** Before sketching a graph we study its symmetry and repetition. These properties halve or reduce the work: an even or odd function needs to be plotted only for $x\ge0$, and a periodic function only for one period.
+
+**Even and odd functions.**
+
+1. A function is **even** if $f(-x)=f(x)$ for every $x$ in the domain. Its graph is symmetric about the **Y-axis**. Examples: $x^{2}$, $x^{4}+\cos x$, $|x|$.
+2. A function is **odd** if $f(-x)=-f(x)$. Its graph is symmetric about the **origin**. Examples: $x^{3}-x$, $\sin x$, $\tan x$.
+3. Some functions are neither, such as $x^{2}+x$.
+
+*Test.* For $f(x)=x^{3}-x$: $f(-x)=-x^{3}+x=-(x^{3}-x)=-f(x)$, so $f$ is odd. For $f(x)=x^{4}+\cos x$: $f(-x)=x^{4}+\cos x=f(x)$, so $f$ is even.
+
+**Rules.** even $\pm$ even is even; odd $\pm$ odd is odd; even $\times$ even and odd $\times$ odd are even; even $\times$ odd is odd. The only function that is both even and odd is $f(x)=0$.
+
+**Symmetry of a curve $f(x,y)=0$.**
+
+| Replace | If the equation is unchanged | Symmetry about |
+|---|---|---|
+| $y\to-y$ | yes | X-axis |
+| $x\to-x$ | yes | Y-axis |
+| $x\to-x$ and $y\to-y$ | yes | origin |
+
+For example $y^{2}=4x$ is symmetric about the X-axis, $x^{2}+y^{2}=9$ about both axes and the origin, and $xy=4$ about the origin.
+
+**Periodic functions.** $f$ is periodic with period $T>0$ if $f(x+T)=f(x)$ for all $x$, and the smallest such $T$ is the **fundamental period**.
+
+- $\sin bx$ and $\cos bx$ have period $\dfrac{2\pi}{|b|}$; $\tan bx$ has period $\dfrac{\pi}{|b|}$.
+- For $\sin3x+\cos2x$ the periods are $\dfrac{2\pi}{3}$ and $\pi$. The least common multiple is $2\pi$, so the period is $2\pi$.
+- A rotating Nepali wind-mill blade or the tides at a river gauge repeat in this way.
+
+**Monotonicity.** On an interval $I$, $f$ is **increasing** if $x_1<x_2\Rightarrow f(x_1)<f(x_2)$, and **decreasing** if $x_1<x_2\Rightarrow f(x_1)>f(x_2)$. Example: $f(x)=x^{2}$ decreases on $(-\infty,0]$ and increases on $[0,\infty)$, so it is not monotonic on $\mathbb{R}$; $f(x)=x^{3}$ is increasing on all of $\mathbb{R}$, and $e^{x}$ is increasing while $e^{-x}$ is decreasing.
+
+**Conclusion.** Testing $f(-x)$ reveals even or odd symmetry, the coefficient of $x$ in a trigonometric function gives its period, and monotonic intervals describe whether the graph rises or falls.
+
+### Model answer D2: steps of curve sketching with four standard curves (10 marks)
+
+**Introduction.** Curve sketching draws the shape of $y=f(x)$ using its main features instead of plotting many points.
+
+**Steps.**
+
+1. Find the domain and the intercepts (put $x=0$, then $y=0$).
+2. Test symmetry (even, odd) and periodicity.
+3. Find asymptotes where $f$ is undefined or as $x\to\pm\infty$.
+4. Find turning points and the intervals where $f$ increases or decreases.
+5. Plot the key points and join them smoothly.
+
+**Curve 1: $y=x^{2}-4x+3$.** Writing $y=(x-2)^{2}-1$, this is an upward parabola with **vertex** $(2,-1)$ and axis $x=2$. The Y-intercept is $3$; the X-intercepts are given by $(x-1)(x-3)=0$, so $x=1$ and $3$. It decreases for $x<2$ and increases for $x>2$.
+
+**Curve 2: $y=x^{3}-3x$.** It is odd, so symmetric about the origin. $y=x(x^{2}-3)$ cuts the X-axis at $x=0,\ \pm\sqrt3$. The turning points occur where $3x^{2}-3=0$, that is $x=\pm1$: at $x=-1$, $y=2$ (local maximum), and at $x=1$, $y=-2$ (local minimum). The curve rises, falls between $-1$ and $1$, then rises again.
+
+**Curve 3: $y=\dfrac{1}{x+2}$.** The function is undefined at $x=-2$, which gives the **vertical asymptote** $x=-2$. As $x\to\pm\infty$, $y\to0$, so $y=0$ is the **horizontal asymptote**. The Y-intercept is $\dfrac12$ and there is no X-intercept. The graph has two branches (a rectangular hyperbola) and is decreasing on each of $(-\infty,-2)$ and $(-2,\infty)$.
+
+**Curve 4: $y=2\sin3x$.** The **amplitude** is $2$, so $-2\le y\le2$. The **period** is $\dfrac{2\pi}{3}$. The curve crosses the X-axis at $x=0,\ \dfrac\pi3,\ \dfrac{2\pi}{3},\dots$; it reaches the maximum $2$ at $x=\dfrac\pi6$ and the minimum $-2$ at $x=\dfrac\pi2$.
+
+| Curve | Key points | Asymptote or period | Symmetry |
+|---|---|---|---|
+| $x^{2}-4x+3$ | vertex $(2,-1)$, roots $1,3$ | none | about $x=2$ |
+| $x^{3}-3x$ | $(-1,2)$, $(1,-2)$, roots $0,\pm\sqrt3$ | none | origin |
+| $\dfrac1{x+2}$ | $\left(0,\tfrac12\right)$ | $x=-2$, $y=0$ | about $(-2,0)$ |
+| $2\sin3x$ | max $\left(\tfrac\pi6,2\right)$ | period $\tfrac{2\pi}3$ | origin |
+
+**Other standard curves.** $y=e^{x}$ passes through $(0,1)$, is always positive and increasing, and has $y=0$ as asymptote; $y=\ln x$ passes through $(1,0)$, exists only for $x>0$ and has the Y-axis as asymptote. The two are reflections of each other in $y=x$.
+
+**Conclusion.** Intercepts, symmetry, asymptotes and turning points fix the shape of a curve, and a graph drawn from these features is accurate enough for an examination.

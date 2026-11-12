@@ -21,16 +21,15 @@ except ImportError:
     def get_channel_layer():
         return None
 
-from django.core.cache import cache
 
 from .consumers_ws import (
     GRP_FORUM_PUBLIC,
     GRP_POST_FMT,
     GRP_RESOURCE_FMT,
-    GRP_RESOURCE_REQUEST_FMT,
     GRP_STUDY_SPACE_FMT,
     GRP_USER_FMT,
 )
+from . import realtime_ably
 from .utils import now_ms
 
 logger = logging.getLogger(__name__)
@@ -39,9 +38,20 @@ logger = logging.getLogger(__name__)
 _redis_circuit_open_until = 0.0
 
 
+def _daphne_wanted() -> bool:
+    """Only fan out through Channels when a self-hosted WS endpoint is configured."""
+    import os
+    return bool(os.environ.get('WS_PUBLIC_URL', '').strip())
+
+
 def _send(group: str, event: str, data: Dict[str, Any]):
     """Push an event to a single group. Best effort, never fatal."""
     global _redis_circuit_open_until
+    # Hosted transport first: one queued POST, never blocks the request.
+    stamped = {**data, 'ts': now_ms()}
+    hosted = realtime_ably.publish(group, event, stamped)
+    if hosted and not _daphne_wanted():
+        return
     now = time.time()
     if now < _redis_circuit_open_until:
         return
@@ -139,10 +149,6 @@ def broadcast_resource_comment_deleted(resource_id: str, comment_id: str):
     })
 
 
-def broadcast_resource_request_created(request_data: Dict[str, Any]):
-    _send(GRP_FORUM_PUBLIC, 'resource_request.created', request_data)
-
-
 # ----------------------------------------------------------------------- profile / social
 
 def broadcast_follow_changed(target_user_id: str, follower_count: int, is_following_by_actor_id: Optional[str] = None):
@@ -150,10 +156,6 @@ def broadcast_follow_changed(target_user_id: str, follower_count: int, is_follow
     _send(GRP_USER_FMT.format(user_id=target_user_id), 'follow.changed', {
         'target_user_id': target_user_id, 'follower_count': follower_count,
     })
-
-
-def broadcast_user_stats_changed(user_id: str, stats: Dict[str, Any]):
-    _send(GRP_USER_FMT.format(user_id=user_id), 'user.stats_changed', {'user_id': user_id, 'stats': stats})
 
 
 # ----------------------------------------------------------------------- notifications
@@ -189,15 +191,6 @@ def broadcast_note_content(space_id: str, content: str, version: int, sender_id:
     })
 
 
-def broadcast_note_cursor(space_id: str, start: int, end: int, sender_id: str):
-    """Push cursor position to other StudySpace members."""
-    _send(GRP_STUDY_SPACE_FMT.format(space_id=space_id), 'note_cursor', {
-        'start': start,
-        'end': end,
-        'senderId': sender_id,
-    })
-
-
 # ----------------------------------------------------------------------- generation jobs
 
 def broadcast_generation_event(job, event_name: str, data: Dict[str, Any]):
@@ -221,13 +214,3 @@ def broadcast_generation_event(job, event_name: str, data: Dict[str, Any]):
 
 # ----------------------------------------------------------------------- health
 
-def get_health_snapshot() -> Dict[str, Any]:
-    """Return a small dict with current WS health stats. For the health endpoint."""
-    # Best-effort: the channel layer doesn't expose group size, so we count
-    # the in-process connections via cache keys set by the consumer.
-    total_conns = cache.get('ws:health:total_conns') or 0
-    return {
-        'channel_layer': bool(get_channel_layer()),
-        'cached_conns': total_conns,
-        'now_ms': now_ms(),
-    }

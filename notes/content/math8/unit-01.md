@@ -544,6 +544,18 @@ $Q$ and $R$ are common? (c) Show $Q$ and $R$ in a Venn diagram.
 **6.** (a) Proper: $\{\ \}$, $\{1\}$, $\{3\}$, $\{5\}$, $\{1,3\}$, $\{1,5\}$, $\{3,5\}$; improper: $\{1,3,5\}$. (b) $Q\cap R=\{1,3\}$, so the common proper subsets are $\{\ \}$, $\{1\}$, $\{3\}$, $\{1,3\}$. (c) Write 1, 3 in the overlap, 5 in $Q$ only, 2 in $R$ only, and 4 outside both circles inside $U$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. In a group of 100 students, 60 like football, 45 like volleyball and 20 like neither game. Find (a) how many like both, (b) how many like football only, (c) how many like volleyball only. Draw the Venn diagram and check that the regions add up to 100. <span class="marks">[5]</span>
+2. Let $A=\{x : x$ is a factor of 24$\}$ and $B=\{x : x$ is a factor of 36$\}$. (a) List $A$ and $B$. (b) Find $A\cap B$ and $A\cup B$. (c) Verify that $n(A\cup B)=n(A)+n(B)-n(A\cap B)$. (d) Is $A\cap B$ a subset of $A$? Give the reason. <span class="marks">[5]</span>
+3. Let $P=\{a,b,c,d\}$. (a) Find the number of subsets and of proper subsets of $P$. (b) List every subset that has exactly two members. (c) How many subsets contain the element $a$? Explain with a rule. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** At least one game: $n(F\cup V)=100-20=80$. (a) Both $=n(F)+n(V)-n(F\cup V)=60+45-80=25$. (b) Football only $=60-25=35$. (c) Volleyball only $=45-25=20$. **Venn diagram:** a rectangle for $U$ ($n=100$) with two overlapping circles; write 25 in the overlap, 35 in the football-only part, 20 in the volleyball-only part and 20 outside both circles. **Check:** $35+25+20+20=100$ ✓.
+**2.** (a) $A=\{1,2,3,4,6,8,12,24\}$, so $n(A)=8$; $B=\{1,2,3,4,6,9,12,18,36\}$, so $n(B)=9$. (b) $A\cap B=\{1,2,3,4,6,12\}$ (the common factors), so $n(A\cap B)=6$; $A\cup B=\{1,2,3,4,6,8,9,12,18,24,36\}$, so $n(A\cup B)=11$. (c) $n(A)+n(B)-n(A\cap B)=8+9-6=11=n(A\cup B)$ ✓. (d) Yes. Every element of $A\cap B$ is also an element of $A$, so $A\cap B\subseteq A$; in fact every intersection is a subset of both of the sets that make it.
+**3.** (a) $n(P)=4$, so the number of subsets is $2^4=16$ and the proper subsets number $2^4-1=15$. (b) Two-member subsets: $\{a,b\}$, $\{a,c\}$, $\{a,d\}$, $\{b,c\}$, $\{b,d\}$, $\{c,d\}$ — six of them. (c) A subset containing $a$ is formed by choosing freely among the other three elements, so there are $2^3=8$ such subsets (and 8 that do not contain $a$; $8+8=16$ ✓). The rule: fixing one element halves the number of choices.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

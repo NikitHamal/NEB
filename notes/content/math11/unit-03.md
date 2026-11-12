@@ -680,6 +680,34 @@ The maximum occurs when $\sin 2x = 1$, i.e. $2x = \frac{\pi}{2}$, so
 $x = \frac{\pi}{4}$.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="A function assigns to each element of the domain exactly one element of the codomain, just as each code on a vending machine gives one price. (a) A drink vending machine. (b) Four codes map to the prices 20, 20, 30 and 40, so the range has only 3 values although the domain has 4 codes. The function is not one-one because A1 and A2 share a price, and it is not onto because no code gives Rs 50. Because every code has exactly one arrow leaving it, the relation is still a function. A one-to-many arrow would break the definition."
+@ photo id="math11/vending" cap="A vending machine is a function: each code gives exactly one item"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Domain, codomain and range of a price function"
+dom = ["A1", "A2", "B1", "B2"]; price = {"A1": 20, "A2": 20, "B1": 30, "B2": 40}
+cod = [20, 30, 40, 50]
+rng = sorted(set(price.values()))
+one_one = len(rng) == len(dom); onto = set(rng) == set(cod)
+assert rng == [20, 30, 40] and not one_one and not onto
+f = Fig(300, 236)
+f.text(150, 14, "f: codes -> prices (Rs)", size=10.5, color=NAVY, bold=True)
+f.text(60, 34, "domain", size=10, color=NAVY, bold=True); f.text(240, 34, "codomain", size=10, color=TEAL, bold=True)
+f.box(30, 42, 60, 130, "", fill=BLUE, stroke=NAVY, r=28); f.box(210, 42, 60, 130, "", fill=MINT, stroke=TEAL, r=28)
+yd = {c: 62 + 30 * i for i, c in enumerate(dom)}; yc = {c: 62 + 30 * i for i, c in enumerate(cod)}
+for c in dom:
+    f.circle(60, yd[c], 3, fill=NAVY, stroke=NAVY); f.text(46, yd[c] + 4, c, size=9.5, color=NAVY, bold=True, anchor="end")
+for c in cod:
+    used = c in rng
+    f.circle(240, yc[c], 3, fill=TEAL if used else "#ffffff", stroke=TEAL if used else RED); f.text(254, yc[c] + 4, str(c), size=9.5, color=TEAL if used else RED, bold=True, anchor="start")
+for c in dom:
+    f.arrow([(64, yd[c]), (236, yc[price[c]])], color=SLATE, sw=1.2)
+f.text(150, 192, "range = {20, 30, 40}, 3 values of 4", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "not one-one: A1 and A2 both give 20", size=10, color=RED, bold=True)
+f.text(150, 224, "not onto: nothing costs Rs 50", size=10, color=RED, bold=True)
+facts = dict(n=len(rng), d=len(dom))
+```
+
 ## Chapter summary
 
 - $f : A \rightarrow B$ assigns exactly one image to each element of $A$; the range
@@ -861,3 +889,76 @@ $x > 2$, so **reject $x = -7$**.
 
 $x = 3$. *Check:* $\log_3 9 + \log_3 1 = 2 + 0 = 2$ ✓
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define domain, range, one-one and onto functions. Find the domain and range of given functions and find the inverse of a function with verification. <span class="marks">[10]</span>
+2. Define composite functions, show that $f\circ g\neq g\circ f$ in general, prove $(f\circ g)^{-1}=g^{-1}\circ f^{-1}$ and describe the domain and range of the trigonometric, exponential and logarithmic functions. <span class="marks">[10]</span>
+
+### Model answer D1: domain, range and inverse function (10 marks)
+
+**Introduction.** A **function** $f:A\to B$ is a rule that assigns to every element $x$ of $A$ exactly one element $f(x)$ of $B$. The set $A$ is the **domain**; the set of all values $f(x)$ is the **range**, which is a subset of the codomain $B$. The electricity bill of a house in Nepal is a function of the units used.
+
+**Types of function.**
+
+1. **One-one (injective):** different inputs give different outputs; $f(x_1)=f(x_2)\Rightarrow x_1=x_2$. A horizontal line cuts the graph at most once.
+2. **Onto (surjective):** every element of the codomain is an output; range $=$ codomain.
+3. **Bijective:** both one-one and onto. Only a bijective function has an inverse.
+
+**Finding domain and range.**
+
+| Function | Domain | Range | Reason |
+|---|---|---|---|
+| $f(x)=\sqrt{x^{2}-4}$ | $(-\infty,-2]\cup[2,\infty)$ | $[0,\infty)$ | need $x^{2}-4\ge0$ |
+| $f(x)=\dfrac{x+1}{x-2}$ | $\mathbb{R}-\{2\}$ | $\mathbb{R}-\{1\}$ | $y=1+\dfrac{3}{x-2}$ never equals $1$ |
+| $f(x)=x^{2}-4x+7$ | $\mathbb{R}$ | $[3,\infty)$ | $=(x-2)^{2}+3\ge3$ |
+| $f(x)=\dfrac{1}{\sqrt{9-x^{2}}}$ | $(-3,3)$ | $\left[\tfrac13,\infty\right)$ | need $9-x^{2}>0$ |
+
+**Method for the range.** Put $y=f(x)$, solve for $x$ in terms of $y$ and find the values of $y$ for which a real $x$ exists.
+
+**Inverse function.** If $f:A\to B$ is bijective, $f^{-1}:B\to A$ is defined by $f^{-1}(y)=x\iff f(x)=y$. Its graph is the reflection of the graph of $f$ in the line $y=x$, and $f^{-1}(f(x))=x$.
+
+**Worked example.** Find the inverse of $f(x)=\dfrac{3x-2}{x+4}$, $x\neq-4$.
+
+1. Put $y=\dfrac{3x-2}{x+4}$, so $y(x+4)=3x-2$.
+2. Expand: $xy+4y=3x-2$, so $x(y-3)=-2-4y$.
+3. Hence $x=\dfrac{4y+2}{3-y}$, so $f^{-1}(x)=\dfrac{4x+2}{3-x}$, $x\neq3$.
+4. **Verification:** $f(0)=-\dfrac12$ and $f^{-1}\!\left(-\dfrac12\right)=\dfrac{-2+2}{3.5}=0$. Also $f(2)=\dfrac46=\dfrac23$ and $f^{-1}\!\left(\dfrac23\right)=\dfrac{\frac83+2}{3-\frac23}=\dfrac{14/3}{7/3}=2$. Both agree.
+
+Notice that the domain of $f^{-1}$ is $\mathbb{R}-\{3\}$, which is the range of $f$, as it must be.
+
+**Conclusion.** The domain is fixed by the restrictions on the formula, the range by solving for $x$, and the inverse exists only for a bijection and is found by interchanging the roles of $x$ and $y$.
+
+### Model answer D2: composite functions and transcendental functions (10 marks)
+
+**Introduction.** If $g:A\to B$ and $f:B\to C$, the **composite function** $f\circ g:A\to C$ is defined by $(f\circ g)(x)=f(g(x))$: first apply $g$, then $f$. The output of $g$ must lie in the domain of $f$.
+
+**Composition is not commutative.** Let $f(x)=2x+3$ and $g(x)=x^{2}-1$.
+
+- $(f\circ g)(x)=2(x^{2}-1)+3=2x^{2}+1$
+- $(g\circ f)(x)=(2x+3)^{2}-1=4x^{2}+12x+8$
+
+These are different, so $f\circ g\neq g\circ f$. Composition is, however, **associative**: $h\circ(g\circ f)=(h\circ g)\circ f$.
+
+**Theorem: $(f\circ g)^{-1}=g^{-1}\circ f^{-1}$.**
+
+*Proof.* Let $y=(f\circ g)(x)=f(g(x))$. Apply $f^{-1}$: $f^{-1}(y)=g(x)$. Apply $g^{-1}$: $g^{-1}(f^{-1}(y))=x$. So the inverse of $f\circ g$ maps $y$ to $(g^{-1}\circ f^{-1})(y)$. (Shoes are put on after socks, so they are taken off first.)
+
+*Check.* Take $f(x)=2x+3$ and $g(x)=\dfrac{x-1}{3}$. Then $(f\circ g)(x)=\dfrac{2(x-1)}{3}+3=\dfrac{2x+7}{3}$. Solving $y=\dfrac{2x+7}{3}$ gives $(f\circ g)^{-1}(x)=\dfrac{3x-7}{2}$. Also $f^{-1}(x)=\dfrac{x-3}{2}$ and $g^{-1}(x)=3x+1$, so $g^{-1}(f^{-1}(x))=\dfrac{3(x-3)}{2}+1=\dfrac{3x-7}{2}$. They are equal.
+
+**Transcendental functions.**
+
+| Function | Domain | Range | Remark |
+|---|---|---|---|
+| $\sin x,\ \cos x$ | $\mathbb{R}$ | $[-1,1]$ | period $2\pi$ |
+| $\tan x$ | $\mathbb{R}-\left\{(2n+1)\tfrac\pi2\right\}$ | $\mathbb{R}$ | period $\pi$ |
+| $e^{x}$ | $\mathbb{R}$ | $(0,\infty)$ | one-one, increasing |
+| $\ln x$ | $(0,\infty)$ | $\mathbb{R}$ | inverse of $e^{x}$ |
+| $a^{x}$ $(a>0,a\neq1)$ | $\mathbb{R}$ | $(0,\infty)$ | $a^{0}=1$ |
+| $\log_a x$ | $(0,\infty)$ | $\mathbb{R}$ | $\log_a a=1$ |
+
+**Laws of logarithms.** $\log(mn)=\log m+\log n$, $\log\dfrac mn=\log m-\log n$, $\log m^{k}=k\log m$, and $\ln e^{x}=x$, $e^{\ln x}=x$.
+
+**Worked domain.** Find the domain of $f(x)=\ln(x^{2}-5x+6)$. The logarithm needs $x^{2}-5x+6>0$, that is $(x-2)(x-3)>0$. This holds when $x<2$ or $x>3$, so the domain is $(-\infty,2)\cup(3,\infty)$.
+
+**Conclusion.** Composition applies one function after another and usually depends on order; the inverse of a composite reverses the order, and each transcendental function has a definite domain and range.

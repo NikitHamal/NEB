@@ -19,19 +19,19 @@ a.md-card:active, .md-card[href]:active { transform: scale(.985); }
   font-family: var(--body); font-weight: 700;
   transition: border-radius .6s var(--spring), transform .5s var(--spring), background-color .2s, color .2s, border-color .2s;
 }
-@media (hover: hover) { .md-chip:hover { border-radius: 20px; } }
-.md-chip:active { transform: scale(.94); border-radius: 12px; }
+@media (hover: hover) { .md-chip:hover { } }
+.md-chip:active { transform: scale(.94); }
 .md-chip-active { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .md-chip-active:hover { background: var(--md-primary-container); }
 
-/* ---------- fields: tonal fill, big corners, one clear focus ring ---------- */
+/* ---------- fields: white fill, big corners, one stroke that turns primary on focus (see app-fields.css) ---------- */
 .md-input, .md-select, .md-textarea, .md-text-field {
   border-radius: var(--md-shape-md); font-family: var(--body);
   background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant);
   transition: border-radius .5s var(--spring), border-color .2s, background-color .2s;
 }
 .md-input:hover, .md-select:hover, .md-textarea:hover, .md-text-field:hover { border-color: var(--md-outline); }
-.md-input:focus, .md-select:focus, .md-textarea:focus, .md-text-field:focus { border-color: var(--md-primary); outline: 2px solid var(--md-primary); outline-offset: -1px; }
+.md-input:focus, .md-select:focus, .md-textarea:focus, .md-text-field:focus { border-color: var(--md-primary); outline: none; }
 .md-label { font-family: var(--body); font-weight: 700; }
 
 /* ---------- headings used as page titles get the display voice and a tighter measure ---------- */
@@ -49,5 +49,5 @@ a.md-card:active, .md-card[href]:active { transform: scale(.985); }
   transition: border-radius .5s var(--spring), background-color .2s;
 }
 @media (hover: hover) {
-  .profile-dropdown-menu a:hover, .more-menu-item:hover, .md-menu a:hover { border-radius: var(--md-shape-lg); }
+  .profile-dropdown-menu a:hover, .more-menu-item:hover, .md-menu a:hover { }
 }

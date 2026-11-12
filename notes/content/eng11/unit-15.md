@@ -738,3 +738,50 @@ essay is visible in miniature here: a personal observation about what makes his
 own life good is turned outward into a demand about how society should be
 arranged.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain what J. B. S. Haldane requires from life and why. <span class="marks">[10]</span>
+2. Discuss his distinction between desire and demand and his view of society. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="2" ratio="1.4" caption="Remembering Haldane. The blue plaque on his Oxford house and J. B. S. Haldane Avenue in Kolkata, where he spent his last years."
+@ photo id="eng11/haldane-plaque-oxford" cap="Haldane blue plaque, Oxford"
+@ photo id="eng11/haldane-avenue-kolkata" cap="Haldane Avenue, Kolkata"
+```
+
+### Model answer D1: what Haldane requires (10 marks)
+
+**Introduction.** "What I Require from Life" (1940) is a short first-person essay by the geneticist **J. B. S. Haldane**, first published in the *Daily Worker*.
+
+1. He begins by **refusing utopia**: he will take the universe as it is and ask only for what is possible.
+2. He contrasts the **peaceful age** of his birth with the **heroic age** that began in 1914.
+3. He resolves to make the best of the time he **actually lives in**.
+4. Assuming food, water, clothes and shelter, he requires **work with a decent wage**.
+5. He requires **freedom**, especially of speech.
+6. He requires **health**.
+7. He requires **friendship between equals**.
+8. For himself alone he adds **adventure**, which he separates from a mere thrill.
+
+| Need | Reason |
+|---|---|
+| Work | Dignity |
+| Freedom | Thought |
+| Health | Life |
+| Friendship | Equality |
+
+**Conclusion.** Haldane's list is modest, yet most people lack these basic things.
+
+### Model answer D2: desire versus demand, and socialism (10 marks)
+
+1. **Desire:** things that are pleasant but not essential, such as a car, books, a bath and a garden.
+2. **Demand:** things he insists on as a right.
+3. He is **content without** his desires.
+4. Because most people lack what he regards as essential, he requires **socialism**.
+5. Socialism means **work for all**, **workers' control of industry**, **health for all** and an **end to class and sex subjection**.
+6. He says **"Freedom should begin in the workshop."**
+7. He deliberately omits **peace and security** from his list as unobtainable in his time.
+8. The tone is **calm, witty and scientific**.
+
+**Conclusion.** Haldane separates what he wants from what everyone needs, and argues for a fairer society.

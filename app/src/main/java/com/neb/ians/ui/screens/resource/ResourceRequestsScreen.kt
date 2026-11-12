@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.resource
 
+import com.neb.ians.ui.components.NebToastHost
 import com.neb.ians.ui.components.NebChipGroup
 import com.neb.ians.ui.components.NebDialog
 import com.neb.ians.ui.components.NebDialogAction
@@ -81,7 +82,7 @@ fun ResourceRequestsScreen(
                 )
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { NebToastHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         Box(
@@ -242,7 +243,7 @@ fun ResourceRequestCard(
             .padding(horizontal = 16.dp, vertical = 6.dp),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {

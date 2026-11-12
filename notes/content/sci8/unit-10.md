@@ -458,3 +458,79 @@ is soft and rusts, while stainless steel is hard, shiny and rust-free.
 **5.** The property of water of not lathering easily with soap, due to dissolved salts of calcium and magnesium (bicarbonates for temporary, sulphates and chlorides for permanent hardness). Permutit method: see the figure and text in 10.1.1 — hard water flows through sodium zeolite; Na₂Z + CaSO₄ → CaZ + Na₂SO₄; soft water comes out.
 **6.** A homogeneous mixture of a metal with other metals or a non-metal. Popular because they are harder, stronger, resist rust and can be made for special purposes. Steel (Fe + C): buildings, bridges. Stainless steel (Fe + Cr + Ni): utensils, surgical tools. Brass (Cu + Zn): *gagri*, idols, fittings. Bronze (Cu + Sn): plates, medals, statues.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the sources, hardness and purification of water. Describe water pollution, acid rain and their control. <span class="marks">[10]</span>
+2. Explain the importance and harm of plastics, cement, glass, soap, detergent and fertilisers. Describe fuel and combustion with fire safety. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="5" ratio="1.0" caption="Materials from the market. (a) Bags of cement. (b) Bars of soap. (c) Urea fertiliser. (d) Glass bottles and cans collected for recycling. (e) PET bottles baled for recycling. Making, using and recycling these products is a cycle that we can keep clean."
+@ photo id="sci10/cement" cap="(a) Cement"
+@ photo id="sci10/soap" cap="(b) Soap"
+@ photo id="sci10/urea" cap="(c) Urea"
+@ photo id="sci10/glass-recycling" cap="(d) Glass recycling"
+@ photo id="sci10/pet-bottles" cap="(e) PET bottles"
+```
+
+### Model answer D1: water, its purification and pollution (10 marks)
+
+**Introduction.** Water is essential for life. Its sources are rain, rivers, lakes, springs, wells and groundwater. Seventy percent of the Earth's surface is water, but only a small part is fresh and fit to drink.
+
+**Hard and soft water.** **Soft water** forms a lather easily with soap (rainwater). **Hard water** has dissolved calcium and magnesium salts and does not lather easily; it forms scum. Hardness is removed by boiling (temporary hardness), by adding washing soda, or by ion exchange.
+
+**Purification of water.**
+
+1. **Sedimentation:** heavy dirt settles in a tank.
+2. **Filtration:** sand and gravel filters remove the fine particles.
+3. **Chlorination:** chlorine or bleaching powder kills germs.
+4. **Boiling:** for 5 to 10 minutes at home kills germs.
+5. **Solar disinfection (SODIS):** water in clear PET bottles kept in the sun for six hours.
+6. **Filters and UV or reverse-osmosis units** at homes.
+
+**Water-borne diseases.** Cholera, typhoid, diarrhoea, jaundice and dysentery spread by dirty water. Prevention: drink boiled or treated water, wash hands, keep latrines away from wells.
+
+**Water pollution.** Sewage, factory waste, chemical fertiliser, plastics and oil are the pollutants. Effects: disease, death of fish, bad smell and loss of beauty, as in the Bagmati river.
+
+**Acid rain.** Gases such as sulphur dioxide and nitrogen oxides from vehicles and factories dissolve in rain and make it acidic (pH below 5.6). It damages buildings, forests, soil and aquatic life.
+
+| Control of pollution |
+|---|
+| Treat sewage and factory waste before release |
+| Do not throw rubbish into rivers |
+| Use less chemical fertiliser and pesticide |
+| Use cleaner fuel and reduce vehicle smoke |
+| Plant trees and teach people |
+
+**Conclusion.** Clean water is a human right, and we must purify drinking water and stop polluting our rivers.
+
+### Model answer D2: materials and fuels in daily life (10 marks)
+
+**Introduction.** Many materials made by industry serve our daily needs, but they must be used with care.
+
+| Material | Raw materials | Importance | Harm |
+|---|---|---|---|
+| Cement | Limestone, clay, gypsum | Houses, roads, bridges, dams | Dust and CO₂ from factories |
+| Glass | Sand, soda ash, limestone | Windows, bottles, lenses | Breaks, cuts, wasted if not recycled |
+| Ceramics | Clay | Cups, tiles, bricks | Brick kilns pollute air |
+| Plastics | Petroleum | Light, cheap, waterproof | Do not rot; harm animals and rivers |
+| Soap and detergent | Fats and alkali; petroleum | Cleaning | Some detergents pollute water |
+| Fertiliser (urea, DAP) | Ammonia, phosphates | Better crops | Pollute water; harden soil |
+
+**Plastic care.** Follow the 3 R's: reduce, reuse and recycle, and use cloth or jute bags instead of plastic.
+
+**Fibres.** Natural: cotton, wool, silk, jute. Synthetic: nylon, polyester. Synthetic fibres are strong and cheap but do not absorb sweat and can melt in fire.
+
+**Fuel and combustion.** A **fuel** gives heat and light on burning: wood, coal, kerosene, petrol, diesel, LPG and biogas. **Combustion** is burning in oxygen to give heat and light.
+
+**Good fuel:** high heating value, cheap, easy to store, burns without much smoke.
+
+**Conditions for burning:** fuel, oxygen and heat (the fire triangle). Remove any one to put the fire out.
+
+**Fire safety.**
+
+1. Put out an electric or oil fire with sand or a CO₂ extinguisher, **not water**.
+2. Smother clothes on fire with a blanket; stop, drop and roll.
+3. Keep matches and LPG cylinders away from children, and close the regulator at night.
+4. Know the emergency number **101** (fire brigade).
+
+**Conclusion.** Materials make life comfortable, but every material has a cost for nature, so it must be used wisely.

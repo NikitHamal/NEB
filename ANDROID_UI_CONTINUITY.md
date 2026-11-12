@@ -6,6 +6,8 @@
 
 ---
 
+> **Superseded contract (session 9).** Section 1 below ("Mono only") and the grey-only rules describe the retired mono redesign. The app now follows the web's m3x: brand blue, Poppins, tonal chips, neutral grey surfaces, white floating surfaces. Read `AGENTS.md` ("Android surface and parity rules"), `docs/M3X_DESIGN_SYSTEM.md` section 11 and `ANDROID_M3X_STATUS.md` instead. The component signatures and platform constraints in sections 2 and 3 still hold.
+
 ## 1. Read this first: the design contract
 
 These are the owner's stated preferences. They have been reasserted several times and violations get filed back as bugs.
@@ -472,3 +474,6 @@ profile and to measure Home's scroll jank before and after.
   opens 3/3, `scrollWidth` 412. Compiled by CI on `f886b24` (green); later commits on the same branch were
   queued when this was written — check `Build Student Release APKs & AAB` for the branch head.
 
+## 15. PDF reader links, reading mode, draggable Neby AI
+
+See `PDF_ANDROID_STATUS.md` (own PDF structure reader, tappable links and contents, reading mode, zen, read aloud, drag-to-dismiss Neby AI button). Compose side not yet compiled.

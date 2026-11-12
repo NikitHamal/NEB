@@ -1,0 +1,77 @@
+{
+ "book": "bcacourse-semester-4-software-engineering",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Software Engineering",
+   "area": "BCA 252 · Software Engineering · Unit 1",
+   "words": 3154,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Software Development Process Models",
+   "area": "BCA 252 · Software Engineering · Unit 2",
+   "words": 4037,
+   "read_min": 22,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Software Requirement Analysis and Specification",
+   "area": "BCA 252 · Software Engineering · Unit 3",
+   "words": 3963,
+   "read_min": 22,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Software Design",
+   "area": "BCA 252 · Software Engineering · Unit 4",
+   "words": 4178,
+   "read_min": 23,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Coding",
+   "area": "BCA 252 · Software Engineering · Unit 5",
+   "words": 2673,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Software Testing and Quality Assurance",
+   "area": "BCA 252 · Software Engineering · Unit 6",
+   "words": 4264,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Software Maintenance",
+   "area": "BCA 252 · Software Engineering · Unit 7",
+   "words": 3417,
+   "read_min": 19,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Managing Software Projects",
+   "area": "BCA 252 · Software Engineering · Unit 8",
+   "words": 5039,
+   "read_min": 28,
+   "figures": 7,
+   "has_questions": true
+  }
+ ]
+}

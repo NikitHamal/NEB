@@ -68,6 +68,47 @@ Preparation: from alcohols (SOCl₂ best; HX/ZnCl₂), addition of HX, halogenat
 Markovnikov applies to HBr *without* peroxide only. Cannizzaro needs *no α-hydrogen*; aldol needs *an α-hydrogen*. Tollens' and Fehling's tests do not distinguish aromatic aldehydes in the same way. In aqueous basicity the tertiary amine is *not* the strongest. SN2 reactivity runs opposite to SN1. Acidity: look for the stability of the conjugate base.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Why distillation separates crude oil. (a) A laboratory fractional distillation column: vapour rises through the packing, condenses and re-evaporates many times, and the more volatile component reaches the top first. (b) Boiling points of the first ten straight-chain alkanes (handbook values). Each added CH2 raises the boiling point by about 29 K on average for butane to decane, because the larger molecule has stronger London forces; this regular gap is what lets a column cut crude oil into gas, petrol, kerosene and diesel."
+@ photo id="cee-chem/fractional-distillation" cap="A fractional distillation column"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Boiling points of alkanes, C1 to C10"
+bp = [-161.5, -88.6, -42.1, -0.5, 36.1, 68.7, 98.4, 125.7, 150.8, 174.1]
+assert all(b > a for a, b in zip(bp, bp[1:]))
+inc = (bp[9] - bp[3]) / 6
+f = Fig(300, 236)
+X = lambda n: 46 + (n - 1) * 27; Y = lambda t: 150 - (t + 170) * 0.3
+f.line(40, Y(-170), 292, Y(-170), color=SLATE, sw=1.2); f.line(40, Y(-170), 40, 14, color=SLATE, sw=1.2)
+f.line(40, Y(0), 292, Y(0), color=SOFT, sw=1)
+for t in (-150, 0, 150): f.text(34, Y(t) + 4, str(t), size=10.5, color=SLATE, anchor="end")
+for n in range(1, 10): f.line(X(n), Y(bp[n - 1]), X(n + 1), Y(bp[n]), color=TEAL, sw=2)
+for n, t in enumerate(bp, 1):
+    f.circle(X(n), Y(t), 3.5, fill=AMBER, stroke=AMBER)
+    if n % 3 == 1: f.text(X(n), 164, "C%d" % n, size=10.5, color=SLATE)
+f.text(166, 186, "number of carbon atoms (boiling point in °C)", size=10.5, color=SLATE)
+f.text(150, 208, "C4 to C10: mean rise %.1f K per CH2" % inc, size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "C1-C4 are gases at room temperature", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Carbon in three bonding states. (a) Eight allotropes of carbon, from diamond (all sp3) to graphite and nanotubes (sp2). (b) The carbon-carbon bond in ethane, ethene and ethyne with handbook lengths and energies. As the bond order rises from 1 to 3 the bond shortens (154, 134, 120 pm) and strengthens (346, 614, 839 kJ per mole), but each extra bond adds less: the first pi bond adds 268 and the second only 225, which is why alkenes and alkynes still react by addition."
+@ photo id="cee-chem/carbon-allotropes" cap="Eight allotropes of carbon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="C-C bond: length and energy against bond order"
+data = [("C-C  ethane sp3", 154, 346, NAVY, BLUE), ("C=C  ethene sp2", 134, 614, TEAL, MINT), ("C≡C  ethyne sp", 120, 839, AMBER, SAND)]
+assert data[1][2] - data[0][2] == 268 and data[2][2] - data[1][2] == 225
+f = Fig(300, 236)
+f.text(150, 14, "bond energy (kJ/mol) and length (pm)", size=10.5, color=NAVY, bold=True)
+for i, (n, L, E, c, b) in enumerate(data):
+    y = 30 + i * 48; w = 200 * E / 839
+    f.text(8, y, n, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, w, 20, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(w + 14, y + 16, "%d kJ, %d pm" % (E, L), size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "first pi bond adds 268 kJ, second adds 225", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "DBE of C6H6 = (2x6 + 2 - 6)/2 = 4", size=10.5, color=SLATE)
+f.text(150, 226, "(one ring + three double bonds)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Item | Result |
@@ -195,3 +236,78 @@ Markovnikov applies to HBr *without* peroxide only. Cannizzaro needs *no α-hydr
 **5.** (c) — pentane, 2-methylbutane, 2,2-dimethylpropane.
 **6.** (d) — $\frac{2\times6+2-6}{2}=4$ (3 C=C and 1 ring).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the mechanisms of nucleophilic substitution (SN1, SN2), elimination (E1, E2), and the addition and substitution reactions of alkenes and benzene. <span class="marks">[10]</span>
+2. Describe the preparation, properties and distinguishing tests of alcohols, aldehydes, ketones and carboxylic acids. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.25" caption="Organic chemistry. (a) A ball-and-stick model kit shows the shape of organic molecules. (b) Fractional distillation separates liquids by boiling point. (c) A Grignard reagent forms a new C-C bond. (d) Carbon allotropes: diamond, graphite and fullerene."
+@ photo id="ceechem/model-kit" cap="(a) Model kit"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/fractional-distillation" cap="(b) Fractional distillation"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/grignard" cap="(c) Grignard reaction"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/carbon-allotropes" cap="(d) Carbon allotropes"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Mechanisms of organic reactions (10 marks)
+
+**Introduction.** A reaction mechanism shows the order of bond breaking and bond making. Reagents are **nucleophiles** (electron-rich, e.g. $\text{OH}^-$, $\text{CN}^-$) or **electrophiles** (electron-poor, e.g. $\text{H}^+$, $\text{NO}_2^+$).
+
+**1. Nucleophilic substitution.**
+
+| Feature | SN2 | SN1 |
+|---|---|---|
+| Steps | One step, backside attack | Two steps via a carbocation |
+| Rate law | Rate $= k[\text{RX}][\text{Nu}]$ (second order) | Rate $= k[\text{RX}]$ (first order) |
+| Substrate | Methyl $>$ primary $>$ secondary | Tertiary $>$ secondary |
+| Stereochemistry | **Inversion** (Walden) | **Racemisation** |
+| Solvent | Polar aprotic (acetone) | Polar protic (water, ethanol) |
+
+For example, $\text{CH}_3\text{Br} + \text{OH}^- \rightarrow \text{CH}_3\text{OH} + \text{Br}^-$ is SN2, and $(\text{CH}_3)_3\text{CBr} + \text{H}_2\text{O} \rightarrow (\text{CH}_3)_3\text{COH}$ is SN1.
+
+**2. Elimination.** Alcoholic KOH removes HX from a haloalkane to give an alkene. **E2** is one step (needs a strong base) and **E1** goes via a carbocation. **Saytzeff's rule:** the more substituted alkene is the major product, e.g. 2-bromobutane gives mainly but-2-ene.
+
+**3. Addition to alkenes (electrophilic).** $\text{CH}_3\text{CH}{=}\text{CH}_2 + \text{HBr} \rightarrow \text{CH}_3\text{CHBrCH}_3$. **Markovnikov's rule:** hydrogen adds to the carbon already holding more hydrogens, as the more stable (secondary) carbocation forms. In the presence of a peroxide, HBr adds the opposite way (**Kharasch** effect, free-radical). Alkenes decolourise bromine water, and **Baeyer's reagent** (cold dilute $\text{KMnO}_4$) gives a diol.
+
+**4. Electrophilic substitution of benzene.** Benzene is stable because of delocalised electrons and prefers substitution to addition: **nitration** ($\text{conc. HNO}_3 + \text{conc. H}_2\text{SO}_4$ makes $\text{NO}_2^+$), **halogenation** ($\text{Cl}_2/\text{FeCl}_3$), **Friedel–Crafts** alkylation ($\text{RCl/AlCl}_3$) and sulphonation. Groups such as $-\text{OH}$ and $-\text{CH}_3$ are **o,p-directing**, and $-\text{NO}_2$ is **m-directing**.
+
+**Conclusion.** Substrate structure decides whether a reaction goes by SN1 or SN2, and the stability of the intermediate decides the product.
+
+### Model answer D2: Alcohols, aldehydes, ketones and acids (10 marks)
+
+**Introduction.** These compounds are oxygen-containing functional groups: $-\text{OH}$, $>\text{C=O}$ and $-\text{COOH}$. They are related by oxidation: primary alcohol $\rightarrow$ aldehyde $\rightarrow$ carboxylic acid.
+
+**Preparation.**
+
+1. **Alcohols:** hydrolysis of haloalkanes with aqueous KOH; hydration of alkenes; fermentation of sugar (ethanol); reduction of aldehydes or ketones; Grignard reagent with carbonyl compounds.
+2. **Aldehydes and ketones:** oxidation of primary and secondary alcohols (with $\text{K}_2\text{Cr}_2\text{O}_7/\text{H}^+$ or by Cu at $573\ \text{K}$ dehydrogenation).
+3. **Acids:** oxidation of aldehydes or primary alcohols; hydrolysis of nitriles and esters.
+
+**Important reactions.**
+
+1. **Alcohols** react with Na to give hydrogen, with acids to form esters (**esterification**), and dehydrate: heated with conc. $\text{H}_2\text{SO}_4$ at $443\ \text{K}$, $\text{C}_2\text{H}_5\text{OH} \rightarrow \text{C}_2\text{H}_4 + \text{H}_2\text{O}$ (at $413\ \text{K}$ diethyl ether forms instead).
+2. **Aldehydes and ketones** undergo nucleophilic addition (HCN, $\text{NaHSO}_3$) and condensation with 2,4-DNP (orange precipitate).
+3. **Acids** are weak acids, react with carbonates, and form esters, acid chlorides, amides and anhydrides.
+
+**Distinguishing tests.**
+
+| Test | Positive for | Observation |
+|---|---|---|
+| **Lucas** reagent ($\text{ZnCl}_2/\text{HCl}$) | Tertiary alcohol (turbid at once), secondary (5 min), primary (no turbidity) | Cloudiness |
+| **Tollens'** (ammoniacal $\text{AgNO}_3$) | Aldehyde | Silver mirror |
+| **Fehling's** | Aliphatic aldehyde | Red precipitate of $\text{Cu}_2\text{O}$ |
+| **Iodoform** ($\text{I}_2/\text{NaOH}$) | $\text{CH}_3\text{CO}-$ or $\text{CH}_3\text{CH(OH)}-$ (ethanol, acetone) | Yellow solid $\text{CHI}_3$ |
+| $\text{NaHCO}_3$ | Carboxylic acid | Brisk effervescence of $\text{CO}_2$ |
+| Neutral $\text{FeCl}_3$ | Phenol | Violet colour |
+
+**Numerical.** In the esterification $\text{CH}_3\text{COOH} + \text{C}_2\text{H}_5\text{OH} \rightleftharpoons \text{CH}_3\text{COOC}_2\text{H}_5 + \text{H}_2\text{O}$, $60\ \text{g}$ of acid ($1\ \text{mol}$) gives at most $88\ \text{g}$ of ethyl acetate, so a $67\%$ yield gives about $59\ \text{g}$.
+
+**Conclusion.** The oxidation ladder connects these four families, and simple chemical tests distinguish them.

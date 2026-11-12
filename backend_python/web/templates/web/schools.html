@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Schools, colleges and universities in Nepal | NEBians{% endblock %}
+{% block description %}Find your school, college or university in Nepal, see who studies there, and visit its website.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/schools.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sch-page">
+  <header class="sch-head">
+    {% url 'web:home' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Home" %}
+    <h1 class="sch-title">Schools</h1>
+    <a class="md-btn md-btn-tonal sch-head-cta" href="{% url 'web:school_apply' %}">
+      <span class="material-symbols-outlined">verified</span>
+      Get verified
+    </a>
+  </header>
+
+  <form class="sch-search" method="get" action="{% url 'web:schools' %}" role="search">
+    <label class="sch-search-field">
+      <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      <input type="search" name="q" value="{{ q }}" placeholder="Search {{ catalog_total }} institutions" autocomplete="off" aria-label="Search institutions">
+    </label>
+    {% if kind %}<input type="hidden" name="kind" value="{{ kind }}">{% endif %}
+    <label class="sch-district">
+      <select name="district" class="md-select" aria-label="District" onchange="this.form.submit()">
+        <option value="">All districts</option>
+        {% for d in districts %}<option value="{{ d }}"{% if d == district %} selected{% endif %}>{{ d }}</option>{% endfor %}
+      </select>
+    </label>
+    <button type="submit" class="md-btn md-btn-filled sch-search-btn">Search</button>
+  </form>
+
+  <nav class="sch-chips" aria-label="Type">
+    <a class="md-chip{% if not kind %} md-chip-active{% endif %}" href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if district %}district={{ district|urlencode }}{% endif %}">All</a>
+    {% for value, label in kinds %}
+    <a class="md-chip{% if kind == value %} md-chip-active{% endif %}" href="?kind={{ value }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if district %}&district={{ district|urlencode }}{% endif %}">{{ label }}</a>
+    {% endfor %}
+  </nav>
+
+  {% if verified %}
+  <section class="sch-section" aria-labelledby="sch-on">
+    <h2 class="sch-h2" id="sch-on">On NEBians <span class="sch-count">{{ verified_total }}</span></h2>
+    <div class="sch-featured">
+      {% for c in verified %}
+      <a class="sch-feature" href="{% url 'web:school_detail' slug=c.inst.slug %}">
+        <span class="sch-glyph sch-glyph-lg"><span class="material-symbols-outlined">{{ c.inst.kind_icon }}</span></span>
+        <span class="sch-feature-body">
+          <span class="sch-name">{{ c.inst.name }}<span class="material-symbols-outlined sch-tick" title="Verified">verified</span></span>
+          <span class="sch-meta">{{ c.inst.kind_label }}{% if c.inst.district %} in {{ c.inst.district }}{% endif %}</span>
+        </span>
+        <span class="sch-feature-count"><b>{{ c.students }}</b> {% if c.students == 1 %}student{% else %}students{% endif %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="sch-section" aria-labelledby="sch-all">
+    <h2 class="sch-h2" id="sch-all">{% if verified %}All institutions{% else %}Institutions{% endif %} <span class="sch-count">{{ total }}</span></h2>
+    {% if schools %}
+    <ul class="sch-list">
+      {% for c in schools %}
+      <li>
+        <a class="sch-row" href="{% url 'web:school_detail' slug=c.inst.slug %}">
+          <span class="sch-glyph"><span class="material-symbols-outlined">{{ c.inst.kind_icon }}</span></span>
+          <span class="sch-row-body">
+            <span class="sch-name">{{ c.inst.name }}</span>
+            <span class="sch-meta">{{ c.inst.kind_label }}{% if c.inst.location %} in {{ c.inst.location }}{% endif %}</span>
+          </span>
+          {% if c.students %}<span class="sch-pill">{{ c.students }} <span class="material-symbols-outlined">groups</span></span>{% endif %}
+          {% if c.inst.website %}<span class="sch-pill sch-pill-quiet" title="Has a website"><span class="material-symbols-outlined">language</span></span>{% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if has_next %}
+    <div class="sch-more">
+      <a class="md-btn md-btn-outlined" href="?page={{ next_page }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if kind %}&kind={{ kind }}{% endif %}{% if district %}&district={{ district|urlencode }}{% endif %}">Show more</a>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="sch-empty">
+      <span class="material-symbols-outlined">search_off</span>
+      <p>No match for this search.</p>
+      <a class="md-btn md-btn-tonal" href="{% url 'web:schools' %}">Clear filters</a>
+    </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,342 @@
+{
+ "grade": "bca",
+ "grade_label": "BCA · BCA Entrance",
+ "grade_label_ne": "BCA प्रवेश परीक्षा",
+ "short": "BCA",
+ "kind": "entrance",
+ "subject": "english",
+ "name": "English",
+ "name_ne": "अङ्ग्रेजी",
+ "icon": "menu_book",
+ "group": "entrance",
+ "color": "#6B3FA0",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 40,
+ "exam": "2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking (third-party sources agree; confirm in the year's notice) | English grammar 40 | Mathematics 50 | General Knowledge and IT 10",
+ "areas": [
+  "Vocabulary",
+  "Grammar",
+  "Reading"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Synonyms, Antonyms and One-Word Substitution",
+   "hours": null,
+   "questions": 6,
+   "area": "Vocabulary",
+   "topics": [
+    "Synonyms and antonyms",
+    "One word for a group of words",
+    "Words often confused"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Synonyms and antonyms"
+    },
+    {
+     "no": "1.2",
+     "title": "One word for a group of words"
+    },
+    {
+     "no": "1.3",
+     "title": "Words often confused"
+    },
+    {
+     "no": "1.4",
+     "title": "Eight traps in vocabulary"
+    }
+   ],
+   "summary": [
+    "Learn words in pairs (word, opposite) rather than singly.",
+    "Use prefixes and roots to decode unfamiliar words.",
+    "One-word substitutions are tested from a limited list; learn the table above.",
+    "Affect is usually a verb; effect is usually a noun.",
+    "Principal (person, main), principle (rule)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2253,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Idioms, Phrasal Verbs and Prepositions",
+   "hours": null,
+   "questions": 6,
+   "area": "Vocabulary",
+   "topics": [
+    "Idioms and phrases",
+    "Phrasal verbs",
+    "Words followed by prepositions and the use of prepositions"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Idioms and phrases"
+    },
+    {
+     "no": "2.2",
+     "title": "Phrasal verbs"
+    },
+    {
+     "no": "2.3",
+     "title": "Words followed by prepositions, and the use of prepositions"
+    },
+    {
+     "no": "2.4",
+     "title": "Eight traps in idioms, phrasal verbs and prepositions"
+    }
+   ],
+   "summary": [
+    "Learn the preposition with the word: abide by, fond of, good at.",
+    "Prefer to, superior to, inferior to: never than.",
+    "Phrasal verbs often have a one-word equivalent (put off = postpone).",
+    "Since with a point, for with a length.",
+    "Idioms are never read literally."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2358,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Articles, Tenses and Subject-Verb Agreement",
+   "hours": null,
+   "questions": 7,
+   "area": "Grammar",
+   "topics": [
+    "Use of articles",
+    "Use of tenses",
+    "Subject-verb agreement"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Use of articles"
+    },
+    {
+     "no": "3.2",
+     "title": "Use of tenses"
+    },
+    {
+     "no": "3.3",
+     "title": "Subject-verb agreement"
+    },
+    {
+     "no": "3.4",
+     "title": "Eight traps in articles, tenses and agreement"
+    }
+   ],
+   "summary": [
+    "Say the word aloud: the first sound, not the first letter, picks a or an.",
+    "The present perfect is for a time up to now; the simple past is for a finished time.",
+    "The past perfect marks the earlier of two past actions.",
+    "Each of, neither of, one of + plural noun → singular verb.",
+    "Along with does not make a subject plural."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2263,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Voice, Narration and Question Tags",
+   "hours": null,
+   "questions": 5,
+   "area": "Grammar",
+   "topics": [
+    "Active and passive voice",
+    "Reported speech",
+    "Question tags"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Active and passive voice"
+    },
+    {
+     "no": "4.2",
+     "title": "Reported speech"
+    },
+    {
+     "no": "4.3",
+     "title": "Question tags"
+    },
+    {
+     "no": "4.4",
+     "title": "Eight traps in voice, narration and tags"
+    }
+   ],
+   "summary": [
+    "Passive: keep the tense of be, use the third form of the main verb.",
+    "Questions in reported speech lose the question word order.",
+    "Do not back-shift a universal truth.",
+    "Tags are the opposite of the statement's polarity.",
+    "Hardly, never, nobody count as negatives."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2601,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Clauses, Conditionals and Verb Patterns",
+   "hours": null,
+   "questions": 6,
+   "area": "Grammar",
+   "topics": [
+    "Relative pronouns and relative clauses",
+    "Conditional sentences",
+    "Causative verbs, to-infinitives and gerunds"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Relative pronouns and relative clauses"
+    },
+    {
+     "no": "5.2",
+     "title": "Conditional sentences"
+    },
+    {
+     "no": "5.3",
+     "title": "Causative verbs, to-infinitives and gerunds"
+    },
+    {
+     "no": "5.4",
+     "title": "Eight traps in clauses, conditionals and verb patterns"
+    }
+   ],
+   "summary": [
+    "Who for people, which for things, whose for owners.",
+    "Never use will or would in the if-clause.",
+    "Unless already has a negative; do not add not.",
+    "Make and let take a bare verb; get takes to.",
+    "Learn the -ing verbs and the to verbs as two lists."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2232,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Pronouns, Determiners, Modals, Comparison and Error Spotting",
+   "hours": null,
+   "questions": 5,
+   "area": "Grammar",
+   "topics": [
+    "Pronouns and determiners",
+    "Modal verbs",
+    "Degrees of comparison, conjunctions and word order",
+    "Spotting and correcting errors"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Pronouns and determiners"
+    },
+    {
+     "no": "6.2",
+     "title": "Modal verbs"
+    },
+    {
+     "no": "6.3",
+     "title": "Degrees of comparison, conjunctions and word order"
+    },
+    {
+     "no": "6.4",
+     "title": "Spotting and correcting errors"
+    },
+    {
+     "no": "6.5",
+     "title": "Eight traps in pronouns, modals, comparison and error spotting"
+    }
+   ],
+   "summary": [
+    "Its is possessive, it's is \"it is\".",
+    "A few is positive, few is almost none.",
+    "Mustn't forbids; needn't does not require.",
+    "Do not combine although with but.",
+    "Information, advice and furniture never take -s."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2211,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Reading Comprehension",
+   "hours": null,
+   "questions": 5,
+   "area": "Reading",
+   "topics": [
+    "Passage reading: main idea, detail, inference, vocabulary in context, tone",
+    "One passage, annotated",
+    "Vocabulary in context and the extreme-word filter",
+    "Eight traps in reading comprehension"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Passage reading: main idea, detail, inference, vocabulary in context, tone"
+    },
+    {
+     "no": "7.2",
+     "title": "One passage, annotated"
+    },
+    {
+     "no": "7.3",
+     "title": "Vocabulary in context and the extreme-word filter"
+    },
+    {
+     "no": "7.4",
+     "title": "Eight traps in reading comprehension"
+    }
+   ],
+   "summary": [
+    "Read the questions first.",
+    "The answer is in the passage, not in your opinion.",
+    "Reject options with always, never, only unless the text says so.",
+    "Test vocabulary options by substitution.",
+    "\"NOT\" means three options are true."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2652,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 23,
+ "notes_ready": 7
+}

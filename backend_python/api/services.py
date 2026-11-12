@@ -7,15 +7,14 @@ import logging
 import re
 from collections import Counter
 
-from django.core.cache import cache
 from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, FollowRequest
-from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
+from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest
 from .models import BlogComment, BlogCommentLike, Announcement
-from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url, POST_IMAGE_MAX_COUNT
+from .security import hash_password, issue_auth_token, verify_password, POST_IMAGE_MAX_COUNT
 from .utils import now_ms, uuid_str
 from . import counters as _counters
 from . import notifications as _notif
@@ -92,7 +91,8 @@ def toggle_reply_like(user, reply_id):
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
-def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=False, attachments=None):
+def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=False, attachments=None,
+                 poll_data=None):
     if not getattr(user, 'email_verified', False):
         return None
     try:
@@ -100,7 +100,7 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
     except Post.DoesNotExist:
         return None
     content = content.strip()
-    if not content and not attachments:
+    if not content and not attachments and not poll_data:
         return None
     if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
         # Invalid parent reply (missing or belongs to another post)
@@ -122,6 +122,9 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
         if parent_reply_id:
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
+        if poll_data:
+            from . import polls as _polls
+            _polls.create_poll(poll_data, reply=reply, now=now)
         if attachments:
             from .models import PostMedia
             for order, item in enumerate(attachments):
@@ -144,14 +147,14 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
 
 
 def create_post(user, title, content, category, image_urls=None, poll_data=None,
-                is_anonymous=False, attachments=None):
+                is_anonymous=False, attachments=None, own_tag=False):
     if not getattr(user, 'email_verified', False):
         return None
     from .categories import normalize_category
 
     title = title.strip()
     content = content.strip()
-    category = normalize_category(category)
+    category = normalize_category(category, own_tag=own_tag)
     if not title or not content or not category:
         return None
     content, _img_ids = _prep_inline_images(content)
@@ -186,38 +189,8 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
                 order=order, created_at=now,
             )
     if poll_data:
-        poll = Poll.objects.create(
-            id=uuid_str(),
-            post=post,
-            question=poll_data.get('question', ''),
-            poll_type=poll_data.get('poll_type', 'voting'),
-            allow_multiple=poll_data.get('allow_multiple', False),
-            explanation=poll_data.get('explanation', ''),
-            duration_ms=poll_data.get('duration_ms', 0),
-            total_votes=0,
-            created_at=now,
-        )
-        poll_options = []
-        for i, opt in enumerate(poll_data.get('options', [])):
-            if isinstance(opt, dict):
-                opt_text = opt.get('text', '').strip()
-                is_correct = opt.get('is_correct', False)
-            else:
-                opt_text = opt.strip()
-                is_correct = False
-            if opt_text:
-                poll_options.append(
-                    PollOption(
-                        id=uuid_str(),
-                        poll=poll,
-                        text=opt_text,
-                        is_correct=is_correct,
-                        vote_count=0,
-                        order=i,
-                    )
-                )
-        if poll_options:
-            PollOption.objects.bulk_create(poll_options)
+        from . import polls as _polls
+        _polls.create_poll(poll_data, post=post, now=now)
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
     _notif.send_mention_all_if_eligible(user, f'{title} {content}', 'post', post.id)
@@ -277,19 +250,11 @@ def vote_poll(user, poll_id, option_ids):
             )
             PollOption.objects.filter(pk=opt.id).update(vote_count=F('vote_count') + 1)
             Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + 1)
-    poll.refresh_from_db()
-    options = list(PollOption.objects.filter(poll=poll).order_by('order'))
-    return {
-        'id': poll.id,
-        'question': poll.question,
-        'pollType': poll.poll_type,
-        'allowMultiple': poll.allow_multiple,
-        'explanation': poll.explanation,
-        'total_votes': poll.total_votes,
-        'isExpired': poll.is_expired,
-        'options': [{'id': o.id, 'text': o.text, 'is_correct': o.is_correct, 'vote_count': o.vote_count, 'order': o.order} for o in options],
-        'userVote': [str(o.id) for o in valid_options] if poll.allow_multiple else str(valid_options[0].id),
-    }, 200
+    from . import polls as _polls
+    poll = Poll.objects.prefetch_related('options').get(pk=poll_id)
+    payload = _polls.poll_dict(poll, user.id)
+    payload['total_votes'] = poll.total_votes
+    return payload, 200
 
 
 def toggle_follow(user, target_user_id, desired=None):
@@ -401,75 +366,22 @@ def check_username_available(username):
     return {'available': not exists}
 
 
-def avatar_path(username):
-    from urllib.parse import quote
-    return '/avatar/%s/' % quote((username or ''), safe='')
-
-
-AVATAR_BACKGROUNDS = ('', 'square', 'circle', 'squircle')
-AVATAR_ANIMATIONS = ('', 'bob', 'wave', 'spin', 'pulse')
-AVATAR_SHAPES = ('', 'round', 'organic', 'boxy', 'capsule', 'nub', 'cloud',
-                 'droplet', 'hexagon', 'sun', 'triangle')
-AVATAR_EXPRESSIONS = ('', 'idle', 'happy', 'sad', 'mad', 'surprised', 'wink',
-                      'sleepy', 'smug', 'unsure', 'scared', 'love', 'shy',
-                      'sick', 'thinking')
-_HEX_COLOR_RE = re.compile(r'^#[0-9a-fA-F]{6}$')
-
-
-def avatar_options_for(user):
-    opts = {}
-    if getattr(user, 'avatar_hue', -1) >= 0:
-        opts['hue'] = int(user.avatar_hue)
-    if getattr(user, 'avatar_tone', -1.0) >= 0:
-        opts['tone'] = float(user.avatar_tone)
-    bg = getattr(user, 'avatar_bg', '') or ''
-    if bg in AVATAR_BACKGROUNDS[1:]:
-        opts['background'] = bg
-    anim = getattr(user, 'avatar_anim', '') or ''
-    if anim in AVATAR_ANIMATIONS[1:]:
-        opts['anim'] = anim
-    shape = getattr(user, 'avatar_shape', '') or ''
-    if shape in AVATAR_SHAPES[1:]:
-        opts['shape'] = shape
-    expression = getattr(user, 'avatar_expression', '') or ''
-    if expression in AVATAR_EXPRESSIONS[1:]:
-        opts['expression'] = expression
-    color = getattr(user, 'avatar_color', '') or ''
-    if _HEX_COLOR_RE.match(color):
-        opts['color'] = color.lower()
-    bgcolor = getattr(user, 'avatar_bg_color', '') or ''
-    if _HEX_COLOR_RE.match(bgcolor):
-        opts['bgcolor'] = bgcolor.lower()
-    eyecolor = getattr(user, 'avatar_eye_color', '') or ''
-    if _HEX_COLOR_RE.match(eyecolor):
-        opts['eyecolor'] = eyecolor.lower()
-    return opts
-
-
 # Every field avatar_or_photo_url() reads. A queryset that renders avatars and uses
 # .only() must include these, or each user costs one extra query per field.
-AVATAR_FIELDS = ('username', 'photo_url', 'avatar_use_pp', 'avatar_bg', 'avatar_hue', 'avatar_tone',
-                 'avatar_anim', 'avatar_shape', 'avatar_expression', 'avatar_color', 'avatar_bg_color',
-                 'avatar_eye_color')
-
-
-def avatar_url_for(user):
-    from urllib.parse import quote as _q
-    username = getattr(user, 'username', '') or ''
-    opts = avatar_options_for(user)
-    url = '/avatar/%s/' % _q(username, safe='')
-    if opts:
-        url += '?' + '&'.join('%s=%s' % (k, _q(str(v), safe='')) for k, v in sorted(opts.items()))
-    return url
+AVATAR_FIELDS = ('username', 'photo_url')
 
 
 def avatar_or_photo_url(user):
-    """use_pp → generated avatar; else stored photo; else generated avatar so
-    every user gets a consistent identity everywhere."""
-    if getattr(user, 'avatar_use_pp', False):
-        return avatar_url_for(user)
-    photo = getattr(user, 'photo_url', None) or ''
-    return photo or avatar_url_for(user)
+    """The uploaded profile photo, or '' when there is none.
+
+    There are no generated avatars: every client draws the same neutral
+    fallback (the initial on a flat tone) when this is empty. Old rows that
+    stored a generated-avatar path as their photo count as "no photo"."""
+    photo = (getattr(user, 'photo_url', None) or '').strip()
+    from urllib.parse import urlparse
+    if urlparse(photo).path.startswith('/avatar/'):
+        return ''
+    return photo
 
 
 def get_user_anon_tag(user_or_id):
@@ -482,69 +394,6 @@ def get_user_anon_tag(user_or_id):
     import hashlib
     h = hashlib.sha256(str(uid).encode('utf-8')).hexdigest()[:4].lower()
     return f'Anon#{h}'
-
-
-def save_avatar_customization(user, payload=None, user_id=None):
-    payload = payload or {}
-    bg = str(payload.get('background', '') or '').strip()
-    if bg not in AVATAR_BACKGROUNDS:
-        return {'error': 'background must be one of: square, circle, squircle'}, 400
-    anim = str(payload.get('anim', '') or '').strip()
-    if anim not in AVATAR_ANIMATIONS:
-        return {'error': 'anim must be one of: bob, wave, spin, pulse'}, 400
-    shape = str(payload.get('shape', '') or '').strip()
-    if shape not in AVATAR_SHAPES:
-        return {'error': 'shape must be one of: ' + ', '.join(AVATAR_SHAPES[1:])}, 400
-    expression = str(payload.get('expression', '') or '').strip()
-    if expression not in AVATAR_EXPRESSIONS:
-        return {'error': 'expression must be one of: ' + ', '.join(AVATAR_EXPRESSIONS[1:])}, 400
-    color = str(payload.get('color', '') or '').strip()
-    if color and not _HEX_COLOR_RE.match(color):
-        return {'error': 'color must be a hex color like #a1b2c3'}, 400
-    bgcolor = str(payload.get('bgcolor', '') or '').strip()
-    if bgcolor and not _HEX_COLOR_RE.match(bgcolor):
-        return {'error': 'bgcolor must be a hex color like #a1b2c3'}, 400
-    eyecolor = str(payload.get('eyeColor', '') or '').strip()
-    if eyecolor and not _HEX_COLOR_RE.match(eyecolor):
-        return {'error': 'eyeColor must be a hex color like #a1b2c3'}, 400
-    hue_raw = payload.get('hue', -1)
-    if isinstance(hue_raw, bool) or not isinstance(hue_raw, (int, float, str)):
-        return {'error': 'hue must be a number between 0 and 360'}, 400
-    try:
-        hue = int(float(hue_raw))
-    except (TypeError, ValueError):
-        return {'error': 'hue must be a number between 0 and 360'}, 400
-    if hue < -1 or hue > 360:
-        return {'error': 'hue must be a number between 0 and 360'}, 400
-    tone_raw = payload.get('tone', -1)
-    if isinstance(tone_raw, bool) or not isinstance(tone_raw, (int, float, str)):
-        return {'error': 'tone must be a number between 0 and 1'}, 400
-    try:
-        tone = float(tone_raw)
-    except (TypeError, ValueError):
-        return {'error': 'tone must be a number between 0 and 1'}, 400
-    if tone < -1.0 or tone > 1.0:
-        return {'error': 'tone must be a number between 0 and 1'}, 400
-    user.avatar_bg = bg
-    user.avatar_hue = hue
-    user.avatar_tone = tone
-    user.avatar_anim = anim
-    user.avatar_shape = shape
-    user.avatar_expression = expression
-    user.avatar_color = color.lower()
-    user.avatar_bg_color = bgcolor.lower()
-    user.avatar_eye_color = eyecolor.lower()
-    update_fields = [
-        'avatar_bg', 'avatar_hue', 'avatar_tone', 'avatar_anim',
-        'avatar_shape', 'avatar_expression', 'avatar_color', 'avatar_bg_color',
-        'avatar_eye_color',
-    ]
-    use_pp_raw = payload.get('use_pp', None)
-    if use_pp_raw is not None:
-        user.avatar_use_pp = str(use_pp_raw).strip().lower() in ('1', 'true', 'yes', 'on')
-        update_fields.append('avatar_use_pp')
-    user.save(update_fields=update_fields)
-    return avatar_options_for(user), 200
 
 
 USERNAME_COOLDOWN_DAYS = [7, 15, 30, 60, 100]

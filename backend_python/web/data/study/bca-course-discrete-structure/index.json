@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-2-discrete-structure",
+ "units": [
+  {
+   "no": 1,
+   "title": "Logic and Proof Techniques",
+   "area": "BCA 151 · Discrete Structure · Unit 1",
+   "words": 3574,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Sets, Relations and Functions",
+   "area": "BCA 151 · Discrete Structure · Unit 2",
+   "words": 3010,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Counting: Permutations, Combinations and the Pigeonhole Principle",
+   "area": "BCA 151 · Discrete Structure · Unit 3",
+   "words": 3375,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Induction, Recursion and Recurrence Relations",
+   "area": "BCA 151 · Discrete Structure · Unit 4",
+   "words": 3701,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Graphs and Trees",
+   "area": "BCA 151 · Discrete Structure · Unit 5",
+   "words": 3944,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Number Theory, Modular Arithmetic and Algebraic Structures",
+   "area": "BCA 151 · Discrete Structure · Unit 6",
+   "words": 4316,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  }
+ ]
+}

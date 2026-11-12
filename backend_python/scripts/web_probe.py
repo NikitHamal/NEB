@@ -113,8 +113,8 @@ def main():
         os.execv(sys.executable, [sys.executable] + sys.argv)
     os.makedirs(args.out, exist_ok=True)
     perf_probe.setup(args.seed_db, os.path.join(args.out, 'work.sqlite3'))
-    from nebians import analytics_queue
-    analytics_queue.submit = lambda item: None
+    from nebians import analytics
+    analytics.submit = lambda item: None
     if args.profile:
         perf_probe.profile(args.profile, args.who, 200, make_client=client_for)
         return

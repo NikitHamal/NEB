@@ -113,7 +113,7 @@
     "Port"
    ],
    "stats": {
-    "words": 5840,
+    "words": 9408,
     "figures": 7,
     "examples": 3
    },
@@ -184,7 +184,7 @@
     "Logic gate"
    ],
    "stats": {
-    "words": 5365,
+    "words": 7113,
     "figures": 8,
     "examples": 10
    },
@@ -268,7 +268,7 @@
     "Mobile operating system"
    ],
    "stats": {
-    "words": 6502,
+    "words": 8458,
     "figures": 9,
     "examples": 4
    },
@@ -310,7 +310,7 @@
     "Domain-specific software"
    ],
    "stats": {
-    "words": 3564,
+    "words": 5402,
     "figures": 8,
     "examples": 3
    },
@@ -425,7 +425,7 @@
     "String"
    ],
    "stats": {
-    "words": 7466,
+    "words": 8725,
     "figures": 5,
     "examples": 4
    },
@@ -531,7 +531,7 @@
     "CSS"
    ],
    "stats": {
-    "words": 6122,
+    "words": 7468,
     "figures": 4,
     "examples": 4
    },
@@ -579,7 +579,7 @@
     "Animation"
    ],
    "stats": {
-    "words": 3998,
+    "words": 5454,
     "figures": 2,
     "examples": 3
    },
@@ -652,7 +652,7 @@
     "Cyber law"
    ],
    "stats": {
-    "words": 5728,
+    "words": 7175,
     "figures": 2,
     "examples": 3
    },

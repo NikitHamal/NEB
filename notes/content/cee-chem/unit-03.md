@@ -350,6 +350,54 @@ the exception the setter is testing.
 **Solution.** All six ions contain $10\text{ e}^-$ ($1s^2 2s^2 2p^6$), while nuclear charge $Z$ rises from $7$ ($\text{N}^{3-}$) to $13$ ($\text{Al}^{3+}$). For isoelectronic species, radius $\propto 1/Z$, giving $\mathbf{\text{N}^{3-} > \text{O}^{2-} > \text{F}^- > \text{Na}^+ > \text{Mg}^{2+} > \text{Al}^{3+}}$.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Energy of a flame colour. (a) Heated alkali-metal atoms emit light when their outer electron falls back to a lower level. (b) The photon energy per mole is N h c / lambda: 178 kJ/mol for lithium (670.8 nm), 203 for sodium (589.0 nm) and 156 for potassium (766.5 nm). Each is only about a third to two-fifths of the first ionisation energy (520, 496 and 419 kJ/mol), because the flame excites the electron to a higher level but does not remove it. Ionisation energy falls down the group as the outer electron lies farther from the nucleus."
+@ photo id="chem11/flame-colours" cap="Metal salts colour a flame: each metal emits its own wavelengths"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Flame photon energy against first ionisation energy"
+NA, h, c = 6.022e23, 6.626e-34, 2.998e8
+E = lambda nm: NA * h * c / (nm * 1e-9) / 1000
+data = (("Li", 670.8, 520, RED, ROSE), ("Na", 589.0, 496, AMBER, SAND), ("K", 766.5, 419, "#6d28d9", BLUE))
+eli, ena, ek = E(670.8), E(589.0), E(766.5)
+assert abs(eli - 178.3) < 0.3 and abs(ena - 203.1) < 0.3 and abs(ek - 156.1) < 0.3
+ratios = [E(nm) / ie for _, nm, ie, *_ in data]
+assert all(0.3 < r < 0.42 for r in ratios)
+facts = dict(eli="%.0f" % eli, ena="%.0f" % ena, ek="%.0f" % ek)
+f = Fig(300, 236)
+f.text(150, 14, "kJ per mole: flame photon (fill) and ionisation (box)", size=10, color=NAVY, bold=True)
+for i, (s, nm, ie, col, fl) in enumerate(data):
+    y = 34 + i * 40
+    f.text(14, y + 4, "%s (%.1f nm)" % (s, nm), size=10.5, color=SLATE, anchor="start")
+    f.box(14, y + 10, ie * 0.42, 16, fill="#ffffff", stroke=col, r=2, sw=1.4)
+    f.box(14, y + 10, E(nm) * 0.42, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + ie * 0.42 + 5, y + 18, "%.0f / %d" % (E(nm), ie), size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 166, "photon energy = N h c / lambda", size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "ratio to ionisation: %.2f to %.2f" % (min(ratios), max(ratios)), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "IE falls: Li 520 > Na 496 > K 419", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Bigger atoms let go of their outer electron more easily. (a) Sodium is a soft silvery metal whose single 3s electron is lost with ease. (b) The cell lists the first ionisation energy and the atomic radius of the five alkali metals. From lithium to caesium the energy falls by 27.7 per cent (520 to 376 kJ/mol) while the radius rises from 152 to 265 pm, because the outer electron sits in a higher shell, farther from the nucleus and shielded by more inner electrons. The product IE x r stays between 79 and 100 thousand kJ pm/mol, which is why a simple inverse relation to radius explains the trend and why caesium is the most reactive of the group."
+@ photo id="ceechem2/sodium2" cap="Cut pieces of sodium, a soft group-1 metal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Group 1: ionisation energy against atomic radius"
+els = ["Li", "Na", "K", "Rb", "Cs"]
+ie = [520, 496, 419, 403, 376]
+r = [152, 186, 227, 248, 265]
+prod = [a * b / 1000 for a, b in zip(ie, r)]
+drop = (ie[0] - ie[-1]) / ie[0] * 100
+assert round(drop, 1) == 27.7 and min(prod) > 79 and max(prod) < 100
+f = Fig(300, 236)
+f.text(150, 12, "Group 1: IE falls as radius grows", size=10.5, color=NAVY, bold=True)
+hbars(f, [(n, a) for n, a in zip(els, ie)], vmax=520, fmt="%d", x0=40, y0=28, bw=120, gap=26)
+for i, v in enumerate(r):
+    f.text(292, 36 + i * 26, "r = %d pm" % v, size=9.5, color=SLATE, bold=True, anchor="end", vmid=True)
+f.text(150, 170, "first ionisation energy, kJ/mol", size=10, color=SLATE, bold=True)
+f.text(150, 200, "IE x r stays near %.0f to %.0f (x1000)" % (min(prod), max(prod)), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "so IE is roughly proportional to 1/r", size=10.5, color=SLATE, bold=True)
+facts = dict(drop=drop, lo=min(prod), hi=max(prod))
+```
+
 ## Formula and fact sheet
 
 | Item | Value or rule |
@@ -532,3 +580,80 @@ the exception the setter is testing.
 **9.** (a) — Cl 349 > F 328 > Br 325 > I 295 kJ mol⁻¹: the general fall down the group, except that F lies below Cl because of its small size.
 **10.** (c) — Al₂O₃ is amphoteric: Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O and Al₂O₃ + 2NaOH → 2NaAlO₂ + H₂O. Na₂O and MgO are basic and do not fit X₂O₃; phosphorus oxides are acidic.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the periodic trends in atomic radius, ionisation enthalpy, electron gain enthalpy and electronegativity with reasons and a Slater's-rule numerical. <span class="marks">[10]</span>
+2. Discuss the anomalous behaviour of the first element of a group, diagonal relationships and the change in the nature of oxides across the third period. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="3" ratio="1.25" caption="Elements across the table. (a) Sodium, a soft reactive s-block metal, is stored under oil. (b) Sulphur, a yellow solid non-metal of the p-block. (c) Diamond, a form of carbon, is a hard network solid."
+@ photo id="chem11/sodium" cap="(a) Sodium (s-block)"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/sulfur" cap="(b) Sulphur (p-block)"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/diamond" cap="(c) Carbon as diamond"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: periodic trends (10 marks)
+
+**Introduction.** The **modern periodic law** states that the properties of elements are a periodic function of their atomic numbers. The trends follow from the **effective nuclear charge** $Z_{eff} = Z - \sigma$ and the number of shells.
+
+| Property | Across a period (left to right) | Down a group | Reason |
+|---|---|---|---|
+| Atomic radius | decreases | increases | $Z_{eff}$ rises across; new shells added down |
+| Ionisation enthalpy | increases, with dips at B and O | decreases | smaller size and larger $Z_{eff}$ hold electrons more tightly |
+| Electron gain enthalpy | more negative | less negative (Cl above F) | F is so small that electron repulsion reduces the value |
+| Electronegativity | increases | decreases | greater pull on bonded electrons |
+| Metallic character | decreases | increases | easier loss of electrons |
+
+**Details and exceptions.**
+
+1. **Ionisation enthalpy dips.** Be (2s²) is higher than B (2s²2p¹) because the 2p electron is easier to remove. N (2p³, half-filled) is higher than O (2p⁴) because pairing repulsion in O lowers the energy needed.
+2. **Isoelectronic species** (for example N³⁻, O²⁻, F⁻, Na⁺, Mg²⁺, Al³⁺) have the same number of electrons, and the radius decreases as $Z$ increases.
+3. **Cation and anion size.** A cation is smaller than its atom, an anion is larger.
+4. **Successive ionisation enthalpies** always increase, with a large jump when an electron is taken from an inner shell, for example $IE_2 \gg IE_1$ for Na.
+5. **Electronegativity scales:** Pauling (F $= 4.0$), Mulliken $\chi = \dfrac{IE + EA}{2}$, and Allred-Rochow.
+6. **Lanthanide contraction** makes Zr and Hf, and Nb and Ta, almost identical in size.
+
+**Numerical (Slater's rules).** For the 3s electron of Na: shielding by the eight $n - 1$ electrons $= 8\times0.85 = 6.8$ and by the two 1s electrons $= 2\times1.00 = 2.0$, so $\sigma = 8.8$ and $Z_{eff} = 11 - 8.8 = 2.2$. For the 3p electron of Cl: $\sigma = 6\times0.35 + 8\times0.85 + 2\times1.00 = 10.9$, so $Z_{eff} = 17 - 10.9 = 6.1$. The larger $Z_{eff}$ explains why Cl is much smaller than Na.
+
+**Conclusion.** Across a period $Z_{eff}$ rises and the atom contracts, so ionisation enthalpy and electronegativity increase. Down a group, the new shells dominate.
+
+### Model answer D2: anomalous behaviour, diagonal relationship and oxides (10 marks)
+
+**Introduction.** The first element of a group (Li, Be, B, C, N, O, F) often differs from the rest of its group.
+
+**Reasons for anomalous behaviour.** (a) Very small size and a large charge-to-radius ratio, (b) high electronegativity and ionisation enthalpy, and (c) the absence of $d$-orbitals in the valence shell, so the maximum covalency is $4$.
+
+**Examples.**
+
+1. Li forms a nitride with N₂ and its salts (LiOH, Li₂CO₃, LiNO₃) decompose on heating, unlike the other alkali metals.
+2. Be forms covalent compounds and its oxide is amphoteric.
+3. Boron is a non-metal and forms only covalent compounds, with the maximum covalency $4$ (BF₄⁻), while Al forms AlF₆³⁻.
+4. Nitrogen forms $p\pi$-$p\pi$ multiple bonds (N≡N), while phosphorus forms $P_4$ with single bonds.
+5. Fluorine is the strongest oxidising agent and forms only one oxoacid.
+
+**Diagonal relationship.** Element pairs of similar charge-to-radius ratio, so similar properties.
+
+| Pair | Similarity |
+|---|---|
+| Li - Mg | both form nitrides, carbonates decompose, hydroxides weak bases |
+| Be - Al | amphoteric oxides and hydroxides, both form covalent chlorides, Be and Al are passive towards HNO₃ |
+| B - Si | acidic oxides, both form volatile hydrides and covalent halides hydrolysed by water |
+
+**Oxides across the third period.**
+
+| Oxide | Na₂O | MgO | Al₂O₃ | SiO₂ | P₄O₁₀ | SO₃ | Cl₂O₇ |
+|---|---|---|---|---|---|---|---|
+| Nature | strongly basic | basic | amphoteric | weakly acidic | acidic | strongly acidic | strongly acidic |
+| Bonding | ionic | ionic | ionic/covalent | covalent network | covalent | covalent | covalent |
+
+Basic character decreases and acidic character increases across the period, and in the opposite direction down a group.
+
+**Numerical.** Charge-to-radius ratio (charge per $\text{pm}$): Li⁺ $= 1/76 = 0.0132$ and Mg²⁺ $= 2/72 = 0.0278$. The ratio of Li to Mg is about $0.5$ and that of Na⁺ ($1/102 = 0.0098$) to Mg²⁺ is $0.35$, so Li is closer to Mg than Na is.
+
+**Conclusion.** Small size and the lack of $d$-orbitals make the first element different, and similar ionic potential causes diagonal relationships.

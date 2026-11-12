@@ -30,6 +30,19 @@ import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Tune
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.Toc
+import androidx.compose.material.icons.outlined.AutoAwesome
+import com.neb.ians.ui.components.NebDropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import kotlinx.coroutines.delay
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -71,7 +84,11 @@ fun ReaderTopBar(
     onToggleBookmark: () -> Unit,
     onOptions: () -> Unit,
     modifier: Modifier = Modifier,
-    onSearch: (() -> Unit)? = null
+    onSearch: (() -> Unit)? = null,
+    onReadingMode: () -> Unit = {},
+    onContents: (() -> Unit)? = null,
+    assistantHidden: Boolean = false,
+    onToggleAssistant: () -> Unit = {}
 ) {
     AnimatedVisibility(
         visible = visible,
@@ -111,7 +128,32 @@ fun ReaderTopBar(
                     tint = if (bookmarked) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (onSearch != null) NebIconButton(Icons.Outlined.Search, "Search in document", onSearch)
-                NebIconButton(Icons.Outlined.Tune, "Reading options", onOptions)
+                var menu by remember { mutableStateOf(false) }
+                Box {
+                    NebIconButton(Icons.Outlined.MoreVert, "More", { menu = true })
+                    NebDropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                        DropdownMenuItem(
+                            text = { Text("Reading mode") },
+                            leadingIcon = { Icon(Icons.Outlined.MenuBook, null) },
+                            onClick = { menu = false; onReadingMode() }
+                        )
+                        if (onContents != null) DropdownMenuItem(
+                            text = { Text("Contents") },
+                            leadingIcon = { Icon(Icons.Outlined.Toc, null) },
+                            onClick = { menu = false; onContents() }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Page options") },
+                            leadingIcon = { Icon(Icons.Outlined.Tune, null) },
+                            onClick = { menu = false; onOptions() }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(if (assistantHidden) "Show Neby AI button" else "Hide Neby AI button") },
+                            leadingIcon = { Icon(Icons.Outlined.AutoAwesome, null) },
+                            onClick = { menu = false; onToggleAssistant() }
+                        )
+                    }
+                }
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
         }
@@ -223,6 +265,55 @@ fun FloatingPageBadge(visible: Boolean, page: Int, pageCount: Int, modifier: Mod
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.inverseOnSurface
             )
+        }
+    }
+}
+
+/** A short message with an optional action, such as "Continuing from page 14" and "Back to page 3". It leaves by itself. */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun ReaderPill(
+    message: String?,
+    action: String?,
+    onAction: () -> Unit,
+    onDone: () -> Unit,
+    modifier: Modifier = Modifier,
+    holdMs: Long = 4500
+) {
+    var visible by remember { mutableStateOf(false) }
+    var shown by remember { mutableStateOf("") }
+    androidx.compose.runtime.LaunchedEffect(message) {
+        if (message != null) {
+            shown = message
+            visible = true
+            delay(holdMs)
+            visible = false
+            delay(400)
+            onDone()
+        }
+    }
+    AnimatedVisibility(
+        visible = visible && message != null,
+        modifier = modifier,
+        enter = slideInVertically(nebSpatialSpec()) { it / 2 } + fadeIn(nebEffectsSpec()),
+        exit = slideOutVertically(nebSpatialSpec()) { it / 2 } + fadeOut(nebEffectsSpec())
+    ) {
+        Row(
+            Modifier
+                .widthIn(max = 420.dp)
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(18.dp))
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .padding(start = 18.dp, end = if (action != null) 6.dp else 18.dp, top = 6.dp, bottom = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                shown,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.inverseOnSurface,
+                modifier = Modifier.weight(1f, fill = false).padding(end = if (action != null) 8.dp else 0.dp, top = 8.dp, bottom = 8.dp)
+            )
+            if (action != null) NebButton(text = action, onClick = { visible = false; onAction() }, tone = NebButtonTone.Text, size = NebButtonSize.Compact)
         }
     }
 }

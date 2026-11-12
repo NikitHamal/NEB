@@ -83,6 +83,11 @@ ax.set_xticks([]); ax.set_yticks([])
 **A**nalyse, **D**esign, **C**ode, **T**est, **D**ocument, **M**aintain. In a long answer write each step as a heading followed by two sentences: what is done, and why it matters. Four well-explained steps earn more than six bare names.
 :::
 
+```photogrid label="18.H" cols="2" ratio="1.5" caption="Two pictures of planning before coding. (a) Ada Lovelace's Note G (1843): a table of steps for the Analytical Engine to calculate Bernoulli numbers, often called the first computer program, and clearly an algorithm. (b) A flowchart template, the plastic ruler with cut-out symbols that programmers used to draw boxes, diamonds and arrows neatly. Plan the steps first, then write the program."
+@ photo id="cs8/prog-lovelace-noteg" cap="(a) Note G, 1843: an early algorithm"
+@ photo id="cs8/prog-flowchart-template" cap="(b) A flowchart template (stencil)"
+```
+
 ## 18.2 Algorithm: meaning, features and writing algorithms
 
 ::: definition Algorithm
@@ -791,3 +796,100 @@ Work in pairs. Each of you writes an algorithm for an everyday job — crossing 
 
 **5.** A flowchart is a pictorial representation of an algorithm using standard symbols joined by flow lines (1 mark). Any four rules: one Start and one Stop; use standard symbols only; flow from top to bottom and left to right with an arrowhead on every line; a decision has two labelled exits (Yes/No); flow lines do not cross — use connectors; write short statements inside the symbols (2 marks). Any two advantages: the logic is easy to understand; mistakes are easy to find; it helps explain the plan to others; it documents the program (1 mark).
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is an algorithm? Explain its features, and the symbols and rules of a flowchart. <span class="marks">[10]</span>
+2. Write the algorithm, flowchart steps and pseudocode of programs that use sequence, selection and repetition. <span class="marks">[10]</span>
+
+### Model answer D1: algorithm and flowchart (10 marks)
+
+**Introduction.** An **algorithm** is a finite, step-by-step set of instructions to solve a problem. A **flowchart** is the picture of an algorithm drawn with standard symbols joined by arrows. Both are used to plan a program before coding it (Plate 18.H).
+
+**Features (characteristics) of a good algorithm.**
+
+1. **Input:** it takes zero or more values to work on.
+2. **Output:** it gives at least one result.
+3. **Definiteness:** each step is clear and has one meaning.
+4. **Finiteness:** it ends after a limited number of steps.
+5. **Effectiveness:** every step is simple enough to be carried out.
+6. **Language independent:** it can be written in plain English and coded in any language.
+
+**Flowchart symbols.**
+
+| Symbol | Name | Use |
+|---|---|---|
+| Oval (rounded box) | Terminal | Start and Stop |
+| Parallelogram | Input / Output | Read or print values |
+| Rectangle | Process | Calculation or assignment |
+| Diamond | Decision | A yes/no question, with two exits |
+| Arrow | Flow line | Shows the direction of flow |
+| Small circle | Connector | Joins parts of a chart or pages |
+
+**Rules for drawing a flowchart.**
+
+1. Begin with Start and end with Stop; use only one start.
+2. Use standard symbols only, and write short text in them.
+3. Draw the flow from top to bottom and from left to right.
+4. Every decision symbol has two outgoing lines marked Yes and No.
+5. Do not cross the flow lines; use connectors if the chart is long.
+6. Keep the chart neat and simple, so that it can be understood easily.
+
+**Advantages of a flowchart.** It makes the logic clear, helps find errors before coding, and helps explain the program to others.
+
+**Conclusion.** An algorithm gives the steps in words, and a flowchart gives them in a picture; planning with both makes programs correct and easy to write.
+
+### Model answer D2: algorithms for sequence, selection and repetition (10 marks)
+
+**Introduction.** Every algorithm is built from three structures: **sequence** (steps one after another), **selection** (a choice by a condition) and **repetition** (steps repeated).
+
+**(a) Sequence: area of a rectangle.**
+
+1. Start. 2. Read length L and breadth B. 3. Area = L × B. 4. Print Area. 5. Stop.
+
+For L = 12 and B = 5 the output is 60. The flowchart is a straight line: Start → Input L, B → Process A = L × B → Output A → Stop.
+
+**(b) Selection: the largest of three numbers.**
+
+1. Start. 2. Read A, B, C. 3. If A > B and A > C, print A. 4. Otherwise, if B > C, print B. 5. Otherwise print C. 6. Stop.
+
+For A = 12, B = 47 and C = 30: A > B is false; B > C is true; so the output is 47. The flowchart has two diamonds, one for each question.
+
+Pseudocode:
+
+```
+START
+  READ A, B, C
+  IF A > B AND A > C THEN
+      PRINT A
+  ELSE IF B > C THEN
+      PRINT B
+  ELSE
+      PRINT C
+  END IF
+STOP
+```
+
+**(c) Repetition: the sum of the numbers 1 to N.**
+
+1. Start. 2. Read N. 3. Set Sum = 0 and I = 1. 4. If I > N go to step 8. 5. Sum = Sum + I. 6. I = I + 1. 7. Go to step 4. 8. Print Sum. 9. Stop.
+
+For N = 5 the loop adds 1 + 2 + 3 + 4 + 5, so the output is 15.
+
+| I | Sum after adding |
+|---|---|
+| 1 | 1 |
+| 2 | 3 |
+| 3 | 6 |
+| 4 | 10 |
+| 5 | 15 |
+
+The flowchart has a decision diamond (I > N?) with an arrow that goes back up to make the loop.
+
+| Structure | Flowchart sign | Example |
+|---|---|---|
+| Sequence | Straight line of boxes | Area of a rectangle |
+| Selection | Diamond with Yes and No | Largest of three |
+| Repetition | Diamond with an arrow back | Sum of 1 to N |
+
+**Conclusion.** Writing the algorithm and testing it with sample values before coding shows mistakes early and saves time.

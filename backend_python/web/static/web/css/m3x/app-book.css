@@ -1,0 +1,112 @@
+/* m3x book reader (pdf-book.js): a PDF as a hardcover book on a reading desk. Flat: no drop shadows, no circle strokes.
+   Page shading is a neutral overlay driven by the leaf angle; the chrome comes from app-pdfkit.css. */
+
+.bk {
+  position: absolute; inset: 0; overflow: hidden; outline: none; user-select: none; -webkit-user-select: none;
+  background: var(--md-surface-container); color: var(--md-on-surface); font-family: var(--md-font);
+  --nx-filter: brightness(1); --bk-paper: #ffffff; --bk-board: color-mix(in srgb, var(--sc, var(--md-primary)) 60%, #0e1013);
+}
+.bk[data-tone="sepia"] { --bk-paper: #f1e4c8; background: color-mix(in srgb, var(--md-surface-container) 86%, #b99a62); }
+.bk[data-tone="night"] { --bk-paper: #17181c; background: color-mix(in srgb, var(--md-surface-container) 45%, #000); }
+.bk[data-cover="navy"] { --bk-board: #1d3a6d; }
+.bk[data-cover="forest"] { --bk-board: #1f5a3b; }
+.bk[data-cover="crimson"] { --bk-board: #7d1f2c; }
+.bk[data-cover="charcoal"] { --bk-board: #2a2c31; }
+.bk button { font-family: inherit; }
+
+/* ---------- desk and book ---------- */
+.bk-desk { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: thin; }
+.is-zoomed .bk-desk { touch-action: none; cursor: grab; }
+.bk-desk.is-pan { cursor: grabbing; }
+.bk.is-turning .bk-desk { cursor: grabbing; }
+.bk.is-inking .bk-desk { cursor: default; }
+.bk-zoom { min-width: 100%; min-height: 100%; box-sizing: border-box; display: flex; padding: 70px 0 90px; }
+.bk-book { position: relative; flex: none; margin: auto; isolation: isolate; perspective: 2200px; perspective-origin: 50% 45%; will-change: transform; }
+
+/* a soft contact shade on the desk under the book: neutral, no drop shadow */
+.bk-ao { position: absolute; bottom: -22px; height: 44px; z-index: -1; pointer-events: none; border-radius: 50%; background: #000; opacity: .26; -webkit-mask-image: radial-gradient(closest-side, #000, transparent); mask-image: radial-gradient(closest-side, #000, transparent); }
+.bk[data-tone="night"] .bk-ao { opacity: .5; }
+
+.bk-board {
+  position: absolute; top: -8px; z-index: 0; transform-origin: 100% 50%; box-sizing: border-box; border: 1px solid rgba(0, 0, 0, .28);
+  background: var(--bk-board);
+}
+.bk-bl { border-radius: 18px 4px 4px 18px; }
+.bk-br { transform-origin: 0 50%; border-radius: 4px 18px 18px 4px; }
+.bk[data-spread="0"] .bk-br { border-radius: 18px; }
+.bk-spine { position: absolute; top: -8px; z-index: 0; width: 18px; border-radius: 6px; box-sizing: border-box; border: 1px solid rgba(0, 0, 0, .3); background: var(--bk-board); pointer-events: none; }
+.bk-spine::after { content: ""; position: absolute; inset: 0; border-radius: 6px; background: #000; opacity: .14; -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, .85), rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, .55)); mask-image: linear-gradient(90deg, rgba(0, 0, 0, .85), rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, .55)); }
+.bk[data-spread="0"] .bk-spine { display: none; }
+.bk-stack { position: absolute; top: 2px; z-index: 1; background: #ded9cc; }
+.bk-sl { border-radius: 3px 0 0 3px; }
+.bk-sr { border-radius: 0 3px 3px 0; }
+.bk[data-tone="night"] .bk-stack { filter: brightness(.38); }
+.bk[data-tone="sepia"] .bk-stack { filter: sepia(.5); }
+
+.bk-cell { position: absolute; top: 0; z-index: 2; }
+.bk-pg { position: absolute; inset: 0; overflow: hidden; background: var(--bk-paper); }
+.bk-l .bk-pg { border-radius: 4px 0 0 4px; }
+.bk-r .bk-pg { border-radius: 0 4px 4px 0; }
+.bk[data-spread="0"] .bk-r .bk-pg { border-radius: 4px; }
+.bk-pg canvas:not(.nx-ink) { position: relative; z-index: 1; display: block; width: 100%; height: 100%; pointer-events: none; -webkit-user-drag: none; filter: var(--nx-filter); }
+.bk-pg canvas.bk-lo { filter: var(--nx-filter) blur(4px); transform: scale(1.02); }
+.bk-pg::after { content: ""; position: absolute; top: 0; bottom: 0; width: 10%; z-index: 2; pointer-events: none; }
+.bk-l .bk-pg::after { right: 0; background: #000; opacity: .19; -webkit-mask-image: linear-gradient(to left, #000, rgba(0, 0, 0, .26) 45%, transparent); mask-image: linear-gradient(to left, #000, rgba(0, 0, 0, .26) 45%, transparent); }
+.bk-r .bk-pg::after { left: 0; background: #000; opacity: .19; -webkit-mask-image: linear-gradient(to right, #000, rgba(0, 0, 0, .26) 45%, transparent); mask-image: linear-gradient(to right, #000, rgba(0, 0, 0, .26) 45%, transparent); }
+.bk[data-spread="0"] .bk-pg::after { display: none; }
+.bk-cell.is-empty .bk-pg { visibility: hidden; }
+.bk-cell.is-wait .bk-pg::before { content: ""; position: absolute; inset: 0; z-index: 0; background: var(--md-primary); opacity: .1; animation: bk-pulse 1.2s ease-in-out infinite; }
+@keyframes bk-pulse { 0%, 100% { opacity: .05; } 50% { opacity: .16; } }
+
+/* the turning leaf: strips nest, each turned a little further, so the page bends; shade and sheen follow each strip's angle */
+.bk-flip { position: absolute; top: 0; z-index: 4; transform-style: preserve-3d; pointer-events: none; }
+.bk-s { position: absolute; top: 0; left: 0; transform-origin: 0 50%; transform-style: preserve-3d; }
+.bk-sf, .bk-sb { position: absolute; inset: 0; overflow: hidden; background: var(--bk-paper); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.bk-sb { transform: rotateY(180deg); }
+.bk-sf canvas, .bk-sb canvas { display: block; }
+.bk[data-leaf="css"] .bk-sf canvas, .bk[data-leaf="css"] .bk-sb canvas { filter: var(--nx-filter); }
+.bk-sh, .bk-gl { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.bk-sh { background: #000; }
+.bk-gl { background: #fff; }
+.bk-sf.is-gut::after, .bk-sb.is-gut::after { content: ""; position: absolute; top: 0; bottom: 0; width: 10%; pointer-events: none; }
+.bk-sf.is-gut::after { left: 0; background: #000; opacity: .19; -webkit-mask-image: linear-gradient(to right, #000, transparent); mask-image: linear-gradient(to right, #000, transparent); }
+.bk-sb.is-gut::after { right: 0; background: #000; opacity: .19; -webkit-mask-image: linear-gradient(to left, #000, transparent); mask-image: linear-gradient(to left, #000, transparent); }
+.bk-castw { position: absolute; inset: 0; z-index: 3; overflow: hidden; pointer-events: none; }
+.bk-cast { position: absolute; top: 0; opacity: 0; }
+.bk-cast[data-side="r"] { background: #000; -webkit-mask-image: linear-gradient(to right, #000, transparent); mask-image: linear-gradient(to right, #000, transparent); }
+.bk-cast[data-side="l"] { background: #000; -webkit-mask-image: linear-gradient(to left, #000, transparent); mask-image: linear-gradient(to left, #000, transparent); }
+
+/* ---------- chrome placement (parts come from app-pdfkit.css) ---------- */
+.bk-top { top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 8px; pointer-events: none; transition: opacity .3s, translate .4s var(--spring); }
+.bk-dock {
+  left: 50%; bottom: 12px; transform: translateX(-50%); width: min(calc(100% - 20px), 940px); box-sizing: border-box;
+  display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 32px; background: var(--x-float); border: 1px solid var(--x-float-line);
+  transition: opacity .3s, translate .4s var(--spring);
+}
+.bk-dock .nx-grp { padding: 0; border: 0; background: transparent; }
+.bk.is-bare .bk-top { opacity: 0; translate: 0 -24px; pointer-events: none; }
+.bk.is-bare .bk-top .nx-grp { pointer-events: none; }
+.bk.is-bare .bk-dock { opacity: 0; translate: 0 24px; pointer-events: none; }
+.bk.is-bare .nx-toast { bottom: 16px; }
+
+/* ---------- reader style switch in the stage bar (resource-viewer.js) ---------- */
+.vw-mode { display: inline-flex; gap: 2px; padding: 3px; border-radius: 20px; background: var(--md-surface-container-high); }
+.vw-mode button {
+  height: 32px; padding: 0 12px; border: 0; border-radius: 16px; display: inline-flex; align-items: center; gap: 6px; background: transparent; color: var(--md-on-surface-variant);
+  font: 600 .8125rem/1 var(--md-font); cursor: pointer; transition: background-color .25s, color .25s, transform .3s var(--spring);
+}
+.vw-mode button:active { transform: scale(.95); }
+.vw-mode button[aria-pressed="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.vw-mode .material-symbols-outlined { font-size: 18px; }
+.vw-stage[data-mode="book"] .vw-view { height: min(88vh, 980px); min-height: 520px; }
+
+@media (max-width: 640px) {
+  .bk-zoom { padding: 62px 0 84px; }
+  .bk-top { top: 8px; left: 8px; right: 8px; }
+  .bk-dock { bottom: 8px; width: calc(100% - 16px); padding: 4px 6px; }
+  .vw-mode button { padding: 0 10px; }
+  .vw-mode button span:last-child { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bk-cell.is-wait .bk-pg::before { animation: none; }
+}

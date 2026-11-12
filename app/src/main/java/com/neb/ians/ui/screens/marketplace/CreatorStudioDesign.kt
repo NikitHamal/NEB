@@ -108,6 +108,7 @@ internal fun StudioTemplateGallery(
 
     uiState.pendingTemplate?.let { template ->
         AlertDialog(
+            containerColor = com.neb.ians.ui.theme.nebFloatColor(),
             onDismissRequest = viewModel::dismissTemplate,
             title = { Text("Use ${template.name}?") },
             text = {

@@ -494,3 +494,57 @@ so the completion of the portrait is necessarily the end of her. The sentence is
 story's supreme irony and also its theme in five words, and Poe ends the whole
 narrative two lines later without another word of comment.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe the setting and mood of "The Oval Portrait" and show how Poe creates horror. <span class="marks">[10]</span>
+2. Discuss the theme of art versus life, using the story of the painter and his wife. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.0" caption="Portraits. Edgar Allan Poe (restored photograph, c. 1849), a portrait of Sir Isaac Newton (1689) and a portrait of King Rana Bahadur Shah: painted likenesses like the oval portrait of the story."
+@ photo id="eng11/poe" cap="Edgar Allan Poe"
+@ photo id="eng8/newton-portrait" cap="Portrait of Isaac Newton, 1689"
+@ photo id="eng12/rana-bahadur" cap="Portrait of Rana Bahadur Shah"
+```
+
+### Model answer D1: setting, mood and horror (10 marks)
+
+**Introduction.** Edgar Allan Poe (1809–1849), a founder of Dark Romanticism, published "The Oval Portrait" in 1842 as "Life in Death". It is a short Gothic tale told in the first person.
+
+**Setting and mood.**
+
+1. The narrator, **badly wounded**, and his valet Pedro break into an **abandoned château in the Apennines** to avoid spending the night in the open.
+2. They take a **small turret room** hung with paintings and old armour: a dark, lonely and strange place.
+3. Only one **candelabrum** gives light, so shadows and half-light increase the fear.
+4. The narrator is feverish and drowsy, so the reader cannot be sure what is real.
+
+**Creating horror.**
+
+5. At midnight he moves the candelabrum and discovers the **oval portrait of a young girl**.
+6. He is terrified by its **"absolute life-likeliness of expression"**, so he closes his eyes to think.
+7. He finds a **book on the pillow** that explains the paintings; the shock comes from the story, not from any monster.
+8. The ending is **sudden**, with the line *"This is indeed Life itself!"*, and the story stops at the climax.
+
+**Conclusion.** Poe uses a dark setting, a sick narrator and a sudden climax to produce a mood of mystery and horror.
+
+### Model answer D2: art versus life (10 marks)
+
+**Introduction.** The story inside the story shows how an artist's love of art can destroy love for a person.
+
+1. A painter marries a beautiful, cheerful girl who **hates his Art** because it is her rival.
+2. He asks her to sit for a portrait; she agrees **humbly** and sits for weeks in a dark turret.
+3. The painter is **absorbed in his work** and does not see her fading.
+4. Some visitors say, *"It is a wonderful likeness,"* but the painter, in his passion, is **wild and dreamy**.
+5. As the colour comes into the canvas, **the colour goes out of her face**.
+6. When he finishes, he cries, *"This is indeed Life itself!"* and turns to see his wife: **she is dead**.
+7. The theme is that art can **drain** the life of its subject, and that a perfect imitation may cost a real life.
+8. It also shows the **selfishness of obsession**: the painter loves the picture more than the person.
+
+| Art | Life |
+|---|---|
+| Portrait grows brighter | Wife grows weaker |
+| Lasting | Short |
+| Painter's pride | Wife's sacrifice |
+
+**Conclusion.** Poe warns that art, when it replaces love, becomes a kind of death.

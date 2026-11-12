@@ -1,6 +1,5 @@
 """High-level services for drafting and publishing Neby blog posts."""
 import logging
-import re
 import time
 from typing import Dict, Optional
 

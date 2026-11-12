@@ -1,0 +1,14 @@
+{% comment %} The one date-of-birth field: a trigger that opens the wheel sheet (_dob_sheet.html).
+   Used by the welcome flow and the profile editor; wired by js/neb-dob-field.js.
+   Pass dob="YYYY-MM-DD" and, optionally, required=True. {% endcomment %}
+<div class="form-group neb-pick-group" id="dob-field">
+  <label class="md-label" for="dob-trigger">Date of birth{% if required %} *{% endif %}</label>
+  <button type="button" class="neb-field-trigger" id="dob-trigger"
+          data-neb-open="dob-sheet" aria-haspopup="dialog" aria-expanded="false">
+    <span class="material-symbols-outlined">cake</span>
+    <span class="neb-field-trigger-value{% if not dob %} neb-field-trigger-placeholder{% endif %}"
+          id="dob-display">{{ dob|default:"Pick a date" }}</span>
+    <span class="material-symbols-outlined">expand_more</span>
+  </button>
+  <input type="hidden" id="dob" name="dob" value="{{ dob|default:'' }}">
+</div>

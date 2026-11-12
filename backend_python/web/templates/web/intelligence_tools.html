@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}AI Document Intelligence & Study Tools — NEBians{% endblock %}
-{% block description %}AI-powered on-device study intelligence — convert handwritten math into LaTeX, scanned papers to searchable text, and optimize study documents on NEBians.{% endblock %}
+{% block title %}AI Document Intelligence & Study Tools | NEBians{% endblock %}
+{% block description %}AI-powered on-device study intelligence: convert handwritten math into LaTeX, scanned papers to searchable text, and optimize study documents on NEBians.{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'web/css/pages/tools-m3x.css' %}">
 <div class="md-container di-wrap">
   <header style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px;">
     {% url 'web:tools_hub' as back_href %}
     {% include "web/partials/_back.html" with back_label="Back to Study Tools" %}
     <div style="flex:1">
-      <p class="di-kicker"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">neurology</span> On-Device · Offline Forever · Tiny ML</p>
       <h1 class="md-headline-large-emphasized" style="margin: 0; line-height: 1.2;">Doc Intelligence</h1>
       <p style="margin:4px 0 0 0;color:var(--md-on-surface-variant);font-size:.9rem">Scanned papers to clean text, handwritten math to LaTeX, photos to perfect scans. Models download once to <em>your</em> device, never leave it.</p>
     </div>
     <div class="di-storage" id="diStorageBadge" title="On-device storage">
       <span class="material-symbols-outlined" style="font-size:16px">hard_drive_2</span>
-      <span id="diStorageText">—</span>
+      <span id="diStorageText">·</span>
     </div>
   </header>
 
@@ -35,7 +35,7 @@
           <li>Tiny ML (< 7.2MB) quantized INT8</li>
           <li>WASM SIMD · WebGPU where available</li>
           <li>IndexedDB + Cache forever</li>
-          <li>Web Worker — no UI jank</li>
+          <li>Web Worker: no UI jank</li>
           <li>Zero data leaves device</li>
         </ul>
       </div>

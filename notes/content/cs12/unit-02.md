@@ -213,6 +213,76 @@ ax.set_aspect("equal"); ax.axis("off")
 A **PAN** (personal area network, a few metres — Bluetooth earphones) and a
 **CAN** (campus area network) are sometimes added at the small end.
 
+**Advantages of a computer network.** Seven or eight points are expected in a
+long answer; each is explained here in plain words.
+
+**1. Resource sharing.** Hardware such as printers and scanners, and software such
+as licensed programs, can be shared by many users. A school with one laser printer
+on its LAN can serve all computers in the lab instead of buying a printer for each.
+This lowers the cost of equipment and its upkeep.
+
+**2. Fast communication.** Users can send messages, files and video instantly over
+a network. Email, chat and video calls replace letters that once took days to reach
+a district. A student in Dhankuta can send an assignment to a teacher in Kathmandu in
+seconds.
+
+**3. Centralised data and easy backup.** Data kept on a server can be used by many
+people and backed up in one place. When all students' records are in one database,
+there is no confusion about which copy is the latest. If a computer fails, the data
+on the server are still safe.
+
+**4. Cost saving.** Sharing resources and software licences, and replacing paper
+mail with email, reduces expenses. One fast Internet connection from an ISP can be
+shared by a whole office instead of one connection per desk. Networked banking also
+saves travel cost for customers.
+
+**5. Reliability.** Important data and services can be kept on more than one
+machine, so work continues when one fails. Banks run backup servers, so ATM and
+ConnectIPS services keep working if one site has a fault. A mesh or ring with
+alternate paths adds the same safety to the cabling.
+
+**6. Scalability.** New computers and services can be added to a network without
+rebuilding it. A school that opens a second computer lab simply adds a switch and a
+few cables. This lets the network grow with the organisation.
+
+**7. Centralised security and control.** An administrator can set user names,
+passwords and permissions on the server for everyone. A teacher's computer can be
+allowed to edit marks while a student's computer can only read them. Antivirus
+updates and software installation can also be controlled from one place.
+
+**8. Remote access and collaboration.** Users can work on the same document or
+project from different places. Government offices, banks and hospitals connect
+branches in many districts to one system. Online classes and cloud documents are
+simple examples that became common in Nepal's schools.
+
+**Disadvantages of a computer network.**
+
+**1. High initial cost.** Servers, switches, cables and the work of installing them
+are expensive. A small school may find it hard to afford a good network at the start.
+
+**2. Security risks.** Because many people are connected, hackers can try to enter
+from outside and unauthorised users can try to read private data. Firewalls,
+passwords and encryption are therefore necessary.
+
+**3. Spread of malware.** A virus or ransomware on one computer can travel over the
+network to all the others. One careless USB drive or email attachment can stop an
+entire lab.
+
+**4. Dependence on the server and the cable.** If the main server or the central
+switch fails, many users lose their work together. This is the weakness of the star
+and bus topologies.
+
+**5. Need for skilled administration.** A network needs a trained person to manage
+users, backup and security. Without such a person, small faults take a long time to
+repair.
+
+**6. Maintenance of cabling and devices.** Cables break, connectors loosen and
+devices age. Regular checking is needed to keep the speed and reliability high.
+
+**7. Slow performance under heavy load.** When many users download large files at
+the same time, the network slows for everybody. This is common in a crowded college
+network at peak hours, and it is solved by more bandwidth or better planning.
+
 ## 2.6 Transmission medium: guided and unguided
 
 ::: definition Guided and unguided media
@@ -255,13 +325,10 @@ ax.set_xlim(0.0, 8.5); ax.set_ylim(0.3, 3.6)
 ax.axis("off")
 ```
 
-```photo id="cs12/rj45" caption="An RJ45 plug on a twisted-pair Ethernet cable, the most common guided medium in a LAN." width="50"
-```
-
-```photo id="cs12/coax" caption="A coaxial cable stripped back to show the central conductor, insulation, braided shield and outer jacket." width="45"
-```
-
-```photo id="cs12/fibre" caption="An optical-fibre patch cable (yellow) terminated with duplex connectors." width="55"
+```photogrid label="2.M" cols="3" ratio="1.25" caption="The three guided media side by side: (a) twisted pair ends in an RJ45 plug and carries most LAN traffic; (b) coaxial cable has a shield that protects the signal and is used for cable TV and older Ethernet; (c) optical fibre carries light, so it is immune to electrical noise and covers the longest distances."
+@ photo id="cs12/rj45" cap="Twisted pair with RJ45 plug"
+@ photo id="cs12/coax" cap="Coaxial cable: core, insulator, shield, jacket"
+@ photo id="cs12/fibre" cap="Optical-fibre patch cable"
 ```
 
 | Medium | Structure | Typical speed / bandwidth | Range before repeater | Notes |
@@ -441,19 +508,12 @@ ax.set_xlim(0.0, 8.3); ax.set_ylim(0.14, 3.15)
 ax.axis("off")
 ```
 
-```photo id="cs12/nic" caption="A network interface card (NIC) for a PCI slot, with its RJ45 socket at the left edge." width="55"
-```
-
-```photo id="cs12/hub" caption="An 8-port Ethernet hub or switch seen from the front: every computer's cable ends in one of these sockets." width="70"
-```
-
-```photo id="cs12/switch" caption="A small five-port Ethernet switch with two cables plugged in." width="55"
-```
-
-```photo id="cs12/router" caption="A home Wi-Fi router with its external antennae." width="60"
-```
-
-```photo id="cs12/modem" caption="A modem: it converts the digital signals of the computer to and from the form the line carries." width="50"
+```photogrid label="2.D" cols="5" ratio="1.0" caption="Network connecting devices, left to right: (a) NIC, (b) 8-port hub or switch, (c) 5-port switch, (d) Wi-Fi router, (e) modem. The NIC joins one computer to the network, the switch builds the LAN, the router joins the LAN to other networks and the modem joins it to the telephone or cable line."
+@ photo id="cs12/nic" cap="NIC with RJ45 socket"
+@ photo id="cs12/hub" cap="8-port hub or switch"
+@ photo id="cs12/switch" cap="5-port Ethernet switch"
+@ photo id="cs12/router" cap="Wi-Fi router"
+@ photo id="cs12/modem" cap="Modem"
 ```
 
 | Device | OSI layer | Function |
@@ -839,6 +899,34 @@ addresses, has no broadcast (it uses multicast instead), and needs no NAT.
 Adoption has been slow but steady: traffic to Google from IPv6 users passed
 **50% for the first time in March 2026**, up from roughly 43% at the start of 2025.
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="A switch connects hosts of one network, and subnetting decides how an address block is shared among them. (a) The ports at the back of a small Ethernet switch. (b) The Python ipaddress module splits 192.168.10.0/24 into 4 subnets by borrowing 2 bits for the network part, giving the mask 255.255.255.192 and a block size of 64. Each subnet has 2^6 - 2 = 62 usable host addresses, since the first is the network address and the last is the broadcast address. Together they give 248 hosts rather than 254, so subnetting costs a few addresses but keeps the computer lab, the office and the Wi-Fi separate."
+@ photo id="cs12/switch" cap="The rear of a five-port Ethernet switch: each RJ45 jack joins one host"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Splitting 192.168.10.0/24 into four subnets"
+import ipaddress
+net = ipaddress.ip_network("192.168.10.0/24")
+subs = list(net.subnets(new_prefix=26))
+assert len(subs) == 4 and all(s.num_addresses - 2 == 62 for s in subs)
+f = Fig(300, 236)
+f.text(150, 14, "192.168.10.0/24 -> four /26 subnets", size=10.5, color=NAVY, bold=True)
+f.text(8, 38, "network", size=9.5, color=SLATE, bold=True, anchor="start")
+f.text(112, 38, "usable hosts", size=9.5, color=SLATE, bold=True, anchor="start")
+f.text(226, 38, "broadcast", size=9.5, color=SLATE, bold=True, anchor="start")
+cols = [(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)]
+for i, s in enumerate(subs):
+    y = 48 + i * 34
+    h = list(s.hosts())
+    fl, st = cols[i]
+    f.box(4, y, 292, 28, fill=fl, stroke=st, r=4)
+    f.text(10, y + 14, str(s), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(112, y + 14, ".%d - .%d" % (int(str(h[0]).split(".")[-1]), int(str(h[-1]).split(".")[-1])), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(226, y + 14, str(s.broadcast_address).replace("192.168.10", ""), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "mask %s, block size 64" % subs[0].netmask, size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "hosts per subnet = 2^6 - 2 = %d" % (subs[0].num_addresses - 2), size=10.5, color=SLATE, bold=True)
+facts = dict(m=str(subs[0].netmask), h=subs[0].num_addresses - 2, s=len(subs), tot=sum(s.num_addresses - 2 for s in subs))
+```
+
 ## Chapter summary
 
 - The five elements of data communication are message, sender, receiver,
@@ -914,6 +1002,93 @@ Adoption has been slow but steady: traffic to Google from IPv6 users passed
    any four points. <span class="marks">[5]</span>
 
 ::: note Answers to Group B
+**1.** A **communication system** moves a message from a sender to a receiver
+through a medium. (Draw the block diagram of section 2.2: source, transmitter,
+transmission medium with noise, receiver, destination, in a line from left to right.)
+The **source** (sender) produces the message, such as a voice or a file. The
+**transmitter** (encoder) converts the message into a signal that the medium can
+carry; a modem or a network card does this job. The **transmission medium** is the
+path of the signal, either guided (cable) or unguided (air). **Noise** is unwanted
+disturbance that is added on the way and can damage the signal, so the receiver may
+not get exactly what was sent. The **receiver** (decoder) converts the signal back to
+the original message form. The **destination** is the person or device that finally
+uses the message. For example, when you make a call with a mobile phone, your voice
+is the message, the phone is the transmitter, the air and the tower network form the
+medium, and the other phone is the receiver. A **protocol**, the set of rules, makes
+sure both sides understand each other. If any block fails, the communication fails.
+
+**2.**
+
+| Basis | Guided (wired) media | Unguided (wireless) media |
+|---|---|---|
+| Path | Signal follows a physical cable | Signal travels through air or space |
+| Examples | Twisted pair, coaxial, optical fibre | Radio waves, microwave, satellite, infrared |
+| Speed and quality | Usually stable; fibre is the fastest | Varies with weather and distance |
+| Security | Harder to tap without touching the cable | Easier to intercept |
+| Installation | Cabling is costly in hills and rivers | Easy to reach remote places |
+| Mobility | Fixed to the cable | Users can move around |
+
+A fibre link between two Kathmandu offices is a guided medium chosen for speed and
+safety, whereas a Wi-Fi router or a satellite dish in a Himalayan village is an
+unguided medium chosen for reach and convenience. Most real networks combine the
+two: cables inside buildings and between cities, and wireless for the last metres to
+the user and for places that cables cannot reach. The choice depends on cost,
+distance, speed, security and the land to be covered, so neither type is simply
+better than the other in every situation.
+
+**3.** **Topology** is the physical or logical arrangement in which the devices of
+a network are connected. (Draw the three figures of section 2.12.) In a **bus**,
+all computers are attached to one common cable with terminators at both ends.
+*Advantage:* it is cheap and needs little cable. *Disadvantage:* a break in the main
+cable stops the whole network and the speed falls as more computers are added. In a
+**star**, every computer is connected to a central switch or hub. *Advantage:* a fault
+in one cable affects only that computer, and new computers are easy to add.
+*Disadvantage:* if the central device fails, the whole network stops, and more cable
+is needed than for a bus. In a **ring**, each computer is connected to exactly two
+neighbours so that a closed loop is formed, and data travel in one direction.
+*Advantage:* traffic is orderly and collisions are avoided. *Disadvantage:* a break
+in the ring or the failure of one node can stop the network, and adding a node
+disturbs it. Most schools and offices use the star topology with a switch because it
+is easy to manage and to repair, while bus and ring are now seen mainly in older
+networks or inside backbone designs. The right choice depends on cost, size and the
+need for reliability.
+
+**4.** **Transmission impairments** are the faults that make the received signal
+different from the transmitted signal. Five main ones are as follows.
+**(i) Attenuation** is the loss of signal strength with distance; it is reduced by
+using repeaters or amplifiers and better cables. **(ii) Distortion** changes the shape
+of the signal because different frequencies travel at different speeds; equalisers
+and shorter cable runs reduce it. **(iii) Noise** is unwanted energy such as thermal
+noise, electrical interference and lightning; shielded cable, fibre and filters
+reduce it. **(iv) Crosstalk** is the unwanted coupling of a signal from one wire into
+a neighbouring wire; twisting the pairs and shielding the cable reduce it, which is
+why twisted pair is twisted. **(v) Delay and jitter** mean that the signal arrives
+late or at uneven intervals, which harms voice and video calls; better bandwidth
+and priority for real-time traffic reduce it. In a long cable run between two
+buildings of a college, attenuation and noise are the usual problems, and a repeater
+or an optical-fibre link is the standard remedy. A network designer must therefore
+choose the medium and the distance with these impairments in mind.
+
+**6.** In the **client-server** architecture, one or more powerful computers, the
+**servers**, hold the shared resources and serve requests from many **clients**.
+In the **peer-to-peer** (P2P) architecture, every computer is equal: each can share
+its own files and use files shared by others, with no dedicated server.
+
+| Basis | Client-server | Peer-to-peer |
+|---|---|---|
+| Control | Centralised on the server | Each computer controls itself |
+| Security | Strong, with central user accounts | Weak, set on every computer |
+| Cost | Higher (server, administrator) | Low |
+| Backup | One place | Each computer separately |
+| Suitable size | Large networks | Small networks, up to about ten computers |
+| Failure | Server failure affects all | One failure affects only that computer |
+
+A bank, a university or a website uses client-server, because many users need
+secure and consistent data. Two friends sharing files between their laptops, or a
+small shop with two computers, can use peer-to-peer because it needs no extra
+equipment. Many organisations use a mix: a server for important records and
+peer-sharing for small files within a team.
+
 **5.** The first octet 172 lies in 128–191, so it is **class B** (and a private
 address, since it is inside 172.16.0.0/12). With mask 255.255.0.0 the first two
 octets are the network, so the **network address is 172.16.0.0** and the
@@ -943,3 +1118,135 @@ cheaper, lets a faulty cable be replaced without touching other machines, and ca
 be extended simply by adding a port — so it is the practical choice for a lab,
 while mesh is reserved for backbone links where redundancy justifies the cost.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Explain the OSI reference model with a neat diagram. Compare it with TCP/IP. <span class="marks">[10]</span>
+2. What is a topology? Explain bus, star, ring, mesh, tree and hybrid topologies with diagrams, advantages and disadvantages. <span class="marks">[10]</span>
+3. Describe the network connecting devices and the transmission media used in a computer network. <span class="marks">[10]</span>
+
+### Model answer D1: the OSI model (10 marks)
+
+**Introduction.** The OSI (Open Systems Interconnection) reference model was
+published by ISO in 1984. It divides the work of network communication into seven
+layers so that products of different makers can work together, and so that one layer
+can be changed without disturbing the others. (Draw the seven-layer figure of
+section 2.13 beside the four-layer TCP/IP model.)
+
+**The seven layers.** Data go down the layers at the sender and up at the receiver;
+each layer adds its own header, which is called encapsulation.
+
+| Layer | Name | Main function | Example |
+|---|---|---|---|
+| 7 | Application | Gives network services to the user's program | HTTP, SMTP, FTP, DNS |
+| 6 | Presentation | Translation, compression, encryption | TLS, JPEG, ASCII |
+| 5 | Session | Opens, manages and closes a dialogue | NetBIOS, RPC |
+| 4 | Transport | End-to-end delivery, segments, error and flow control | TCP, UDP |
+| 3 | Network | Logical (IP) addressing and routing | IP, ICMP, router |
+| 2 | Data link | Frames, MAC addresses, error detection on one link | Ethernet, switch |
+| 1 | Physical | Raw bits as electrical, light or radio signals | Cable, hub, RJ45 |
+
+A memory aid for the order from the top is **All People Seem To Need Data
+Processing**; from the bottom, **Please Do Not Throw Sausage Pizza Away**.
+
+**OSI versus TCP/IP.**
+
+| Basis | OSI | TCP/IP |
+|---|---|---|
+| Layers | 7 | 4 |
+| Origin | ISO, a reference model | US defence research, the real Internet protocols |
+| Use | Teaching and standards | Used in practice |
+| Top layers | Application, presentation, session separate | Combined into one application layer |
+| Bottom layers | Data link and physical separate | Combined into network access |
+
+**Advantages of layering.** Each layer is simple to design and test, faults are
+easier to locate, and a new technology can replace one layer without rewriting the
+rest. For example, when a browser in Pokhara opens a website, HTTP at the
+application layer, TCP at the transport layer, IP at the network layer and Ethernet
+or Wi-Fi at the lower layers each do their own part.
+
+**Conclusion.** The OSI model is a clear map of how data move through a network, and
+although the Internet uses TCP/IP, the seven-layer language is still used to
+describe devices and faults.
+
+### Model answer D2: network topologies (10 marks)
+
+**Introduction.** A **topology** is the arrangement of the devices and links of a
+network. It may be *physical* (the real cabling) or *logical* (the way data flow).
+The choice decides cost, speed, reliability and the ease of repair. (Draw the figures
+of section 2.12.)
+
+**Explanation.**
+
+1. **Bus:** all nodes share one backbone cable with a terminator at each end. It is
+   cheap, but a cable break stops everything and speed falls with load.
+2. **Star:** every node connects to a central switch. It is easy to add nodes and
+   to find faults, but the switch is a single point of failure.
+3. **Ring:** each node connects to two neighbours in a closed loop and data move in
+   one direction. Traffic is orderly, but one break can stop the ring.
+4. **Mesh:** every node is linked to every other node. A full mesh of $n$ nodes
+   needs $n(n-1)/2$ links, so 10 computers need 45 links and 9 ports each. It is
+   the most reliable and the most costly.
+5. **Tree:** stars are joined in a hierarchy through a root switch. It scales well
+   for a college with several blocks, but the failure of the root cuts off the
+   branches under it.
+6. **Hybrid:** a mixture of two or more topologies, for example a star in each
+   floor joined by a ring or mesh backbone. It is flexible but complex to design.
+
+| Topology | Advantages | Disadvantages |
+|---|---|---|
+| Bus | Cheap, little cable | Break stops all; slow under load |
+| Star | Easy to manage; one fault is isolated | Switch failure stops all |
+| Ring | Orderly, no collisions | One break stops the ring |
+| Mesh | Very reliable, many paths | Very expensive, many ports |
+| Tree | Easy to extend in groups | Depends on the root device |
+| Hybrid | Flexible, fits large sites | Costly and complex |
+
+**Conclusion.** A school laboratory normally uses a star because it is cheap and
+easy to repair, whereas a bank may use a mesh between its main data centres because
+reliability is worth the cost. No topology is best everywhere.
+
+### Model answer D3: network devices and transmission media (10 marks)
+
+**Introduction.** A network has two kinds of parts: the **media** that carry the
+signals and the **devices** that connect and control them. (Refer to the media strip
+and the device strip of sections 2.6 and 2.11.)
+
+**Transmission media.** *Guided* media use a cable. **Twisted pair** (UTP or STP)
+carries most LAN traffic up to 100 m and ends in an RJ45 plug. **Coaxial cable**
+has a copper core, an insulator, a shield and a jacket; it is used for cable TV and
+older Ethernet. **Optical fibre** carries light through glass, has very high
+bandwidth, is free from electrical noise and covers many kilometres, so it is used
+for backbone and Internet links. *Unguided* media use air: **radio waves** (Wi-Fi,
+FM), **microwave** (tower-to-tower links across hills) and **satellite** and
+**infrared** links.
+
+**Network connecting devices.**
+
+1. **NIC:** connects a computer to the medium and holds the 48-bit MAC address.
+2. **Modem:** converts digital data to an analogue carrier and back for telephone,
+   cable or DSL lines.
+3. **Repeater:** regenerates a weakened signal to extend the distance.
+4. **Hub:** copies every frame to every port; it is now obsolete because it wastes
+   bandwidth.
+5. **Bridge:** joins two LAN segments and filters traffic by MAC address.
+6. **Switch:** learns which MAC address is on which port and sends each frame only
+   there, giving full duplex and no collisions.
+7. **Router:** joins different networks, reads the IP address and chooses the best
+   path; the Wi-Fi router at home joins the home LAN to the ISP.
+8. **Gateway:** joins networks that use different protocols and translates between
+   them.
+
+| Item | Layer | Key point |
+|---|---|---|
+| Twisted pair | 1 | Cheap, 100 m per segment |
+| Fibre | 1 | Fastest, longest, noise-free |
+| Hub / repeater | 1 | Signal level only |
+| Switch / bridge | 2 | Uses MAC addresses |
+| Router | 3 | Uses IP addresses |
+| Gateway | 7 | Protocol translation |
+
+**Conclusion.** A good network design matches the medium to the distance and speed
+required and the device to the layer it must work at: a switch for the LAN, a router
+for other networks and fibre where long distance and high speed are needed.

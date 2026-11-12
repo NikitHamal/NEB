@@ -704,6 +704,53 @@ $f'' - f = f\dfrac{2v_s}{v - v_s}$.
 - **Astronomical redshift:** light from receding galaxies is shifted to longer
   wavelengths — evidence that the universe is expanding.
 
+```photogrid label="11.1" cols="2" ratio="1.2" caption="Standing waves in pipes. (a) Organ pipes of different lengths, open at the top. (b) With v = 340 m/s and L = 0.50 m, an open pipe sounds f = n v / 2L: 340, 680 and 1020 Hz, all the harmonics in the ratio 1 : 2 : 3. A pipe closed at one end sounds f = (2n - 1) v / 4L: 170, 510 and 850 Hz, only the odd harmonics in the ratio 1 : 3 : 5. The closed pipe's fundamental is half that of the open pipe of the same length, which is why a closed pipe sounds an octave lower. Doubling the length of any pipe halves every frequency. The list is checked by finding the pipe lengths that fit whole numbers of quarter-wavelengths."
+@ photo id="ioephy/organ" cap="Organ pipes: each pipe sounds the harmonics allowed by its length"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="First three modes of open and closed 0.50 m pipes"
+v, L = 340.0, 0.50
+op = [n * v / (2 * L) for n in (1, 2, 3)]; cl = [(2 * n - 1) * v / (4 * L) for n in (1, 2, 3)]
+assert op == [340, 680, 1020] and cl == [170, 510, 850]
+for fr in op: assert abs(round(L / (v / fr / 2)) - L / (v / fr / 2)) < 1e-9
+for fr in cl: q = L / (v / fr / 4); assert abs(round(q) - q) < 1e-9 and round(q) % 2 == 1
+facts = dict(o1=340, o2=680, o3=1020, c1=170, c2=510, c3=850)
+f = Fig(300, 236)
+f.text(150, 14, "pipe length 0.50 m, speed of sound 340 m/s", size=10.5, color=NAVY, bold=True)
+X = lambda fr: 20 + fr / 1100 * 262
+f.text(8, 40, "open pipe: all harmonics", size=10.5, color=TEAL, bold=True, anchor="start")
+f.line(X(0), 76, X(1100), 76, color=SLATE, sw=1.2)
+for n, fr in enumerate(op, 1):
+    f.line(X(fr), 76, X(fr), 52, color=TEAL, sw=3); f.text(X(fr), 90, "%d Hz" % fr, size=10.5, color=TEAL, bold=True); f.text(X(fr), 46 + 0, "", size=10)
+f.text(8, 118, "closed pipe: odd harmonics only", size=10.5, color=AMBER, bold=True, anchor="start")
+f.line(X(0), 154, X(1100), 154, color=SLATE, sw=1.2)
+for n, fr in enumerate(cl, 1):
+    f.line(X(fr), 154, X(fr), 130, color=AMBER, sw=3); f.text(X(fr), 168, "%d Hz" % fr, size=10.5, color=AMBER, bold=True)
+f.text(150, 196, "open: 1 : 2 : 3     closed: 1 : 3 : 5", size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "closed fundamental is half the open one", size=10.5, color=SLATE)
+f.text(150, 228, "double the length: every frequency halves", size=10.5, color=SLATE)
+```
+
+```photogrid label="11.2" cols="2" ratio="1.2" caption="Pitch changes with motion. (a) An ambulance sounds its siren as it passes. (b) For a moving source and a still listener the Doppler formula is f' = f c / (c - v) when approaching and f c / (c + v) when receding. The cell takes a siren of 700 Hz, sound speed 343 m/s and a vehicle speed of 25 m/s (90 km/h). The listener hears 755.0 Hz as it approaches and 652.4 Hz as it moves away, a fall of 102.6 Hz that is easily heard. At 40 m/s the approaching pitch is already 792.4 Hz. The same effect, applied to radio waves, lets radar measure the speed of vehicles and storms."
+@ photo id="ceephy3/ambulance" cap="An ambulance with its siren and lights"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Doppler shift of an ambulance siren"
+f0, c = 700.0, 343.0
+rows = [("%d m/s" % v, f0 * c / (c - v)) for v in (0, 10, 25, 40)]
+rec = f0 * c / (c + 25)
+assert round(rows[2][1], 1) == 755.0 and round(rec, 1) == 652.4
+f = Fig(300, 236)
+f.text(150, 12, "Frequency heard while it approaches, Hz", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=820, fmt="%.1f", x0=58, y0=30, bw=160, gap=28,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 150, "siren frequency at rest: 700 Hz, c = 343 m/s", size=10, color=SLATE, bold=True)
+f.text(150, 172, "f' = f c / (c - v) approaching", size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "at 25 m/s: %.1f Hz coming, %.1f Hz going" % (rows[2][1], rec), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "drop in pitch as it passes: %.1f Hz" % (rows[2][1] - rec), size=10.5, color=RED, bold=True)
+facts = dict(a=rows[2][1], r=rec, d=rows[2][1] - rec, t=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -941,3 +988,68 @@ $f'' - f = f\dfrac{2v_s}{v - v_s}$.
 **11.** (c) — $f_b = |512 - 516| = 4$ Hz.
 **12.** (a) — $v = 2f(l_2 - l_1) = 2(500)(0.34) = 340$ m s⁻¹. The end correction cancels in the subtraction, which is why the tube works.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the fundamental frequencies of vibrating air columns in open and closed pipes and of a stretched string. <span class="marks">[10]</span>
+2. Explain the Doppler effect and beats, and solve numericals on both. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.25" caption="Sound and vibration. (a) Sand on a vibrating plate collects along the nodes of a Chladni pattern, a two-dimensional stationary wave. (b) A guitar string vibrates in loops between two fixed ends. (c) An ambulance siren sounds higher as it approaches and lower as it moves away (Doppler effect)."
+@ photo id="phy12b/chladni" cap="(a) Chladni figure"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/guitar" cap="(b) Guitar string"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy3/ambulance" cap="(c) Ambulance siren"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: stationary waves in strings and pipes (10 marks)
+
+**Introduction.** A **stationary wave** forms when two identical waves travel in opposite directions. It has fixed **nodes** (zero amplitude) and **antinodes** (maximum amplitude). The distance between consecutive nodes is $\lambda/2$.
+
+**Stretched string** (fixed at both ends, length $l$, tension $T$, mass per unit length $\mu$). Wave speed is $v = \sqrt{T/\mu}$. Nodes lie at both ends, so $l = n\lambda/2$ and $f_n = \dfrac{nv}{2l} = \dfrac n{2l}\sqrt{T/\mu}$, with $n = 1, 2, 3, \ldots$ (all harmonics). The laws of vibrating strings: $f \propto 1/l$, $f \propto \sqrt T$, $f \propto 1/\sqrt\mu$.
+
+**Open pipe** (antinode at both ends). $l = n\lambda/2$, so $f_n = \dfrac{nv}{2l}$: **all** harmonics $f, 2f, 3f, \ldots$ are present.
+
+**Closed pipe** (node at the closed end, antinode at the open end). $l = (2n - 1)\lambda/4$, so $f = \dfrac{(2n - 1)v}{4l}$: only **odd** harmonics $f, 3f, 5f, \ldots$ are present. The fundamental of a closed pipe is half that of an open pipe of the same length.
+
+| Feature | Open pipe | Closed pipe |
+|---|---|---|
+| Fundamental | $v/2l$ | $v/4l$ |
+| Harmonics | all | odd only |
+| Quality of sound | richer | poorer |
+| Example | flute | organ pipe closed at one end |
+
+**End correction.** The antinode forms slightly outside the open end, at $e = 0.6r$, so the effective length is $l + 0.6r$ for a closed pipe and $l + 1.2r$ for an open pipe. The speed of sound in air is $v = \sqrt{\gamma P/\rho}$ (Newton-Laplace), about $340\ \text{m s}^{-1}$ at $20^{\circ}\text{C}$ and rising by about $0.6\ \text{m s}^{-1}$ for each $^{\circ}\text{C}$.
+
+**Numerical.** With $v = 340\ \text{m s}^{-1}$, an open pipe $0.5\ \text{m}$ long has $f_1 = 340/1.0 = 340\ \text{Hz}$ and then $680\ \text{Hz}$, $1020\ \text{Hz}$. A closed pipe $0.25\ \text{m}$ long has $f_1 = 340/1.0 = 340\ \text{Hz}$ and then $1020\ \text{Hz}$, $1700\ \text{Hz}$ (the $680\ \text{Hz}$ is missing).
+
+**Conclusion.** Strings and open pipes give all harmonics, while closed pipes give only odd harmonics.
+
+### Model answer D2: Doppler effect and beats (10 marks)
+
+**Introduction.** The **Doppler effect** is the apparent change in the frequency of a wave when the source and observer are in relative motion.
+
+**Formula.** With $v$ the speed of sound, $v_s$ the speed of the source and $v_o$ the speed of the observer:
+
+$$ f' = f\,\frac{v \pm v_o}{v \mp v_s} $$
+
+Use the upper signs when the observer moves towards the source (numerator plus) and the source moves towards the observer (denominator minus). Frequency increases for approach and decreases for separation. If the medium moves, $v$ is changed by the wind speed. For light, the shift is $\Delta f/f \approx v/c$, giving the red shift of galaxies.
+
+**Beats.** Two waves of slightly different frequencies $f_1$ and $f_2$ produce periodic rise and fall of loudness. The **beat frequency** is $|f_1 - f_2|$, the resultant has frequency $\tfrac12(f_1 + f_2)$ and amplitude varying between $a_1 + a_2$ and $|a_1 - a_2|$. The human ear can distinguish beats up to about $10\ \text{Hz}$. Loading a tuning fork with wax lowers its frequency, and filing raises it.
+
+| Point | Doppler effect | Beats |
+|---|---|---|
+| Cause | relative motion | two close frequencies |
+| What changes | apparent frequency | loudness periodically |
+| Use | radar speed gun, blood-flow scans | tuning instruments |
+
+**Numerical.**
+
+- A source of $500\ \text{Hz}$ moves at $20\ \text{m s}^{-1}$ towards a stationary observer: $f' = 500\times\dfrac{340}{340 - 20} = 531\ \text{Hz}$. Moving away: $500\times\dfrac{340}{360} = 472\ \text{Hz}$.
+- A tuning fork of $256\ \text{Hz}$ gives $4$ beats per second with an unknown fork, so the unknown is $252$ or $260\ \text{Hz}$. After the unknown fork is loaded with wax its frequency falls. If the beats then fall to $2$ per second, the unknown fork was $260\ \text{Hz}$ (it fell to $258\ \text{Hz}$). If the beats had increased, it would have been $252\ \text{Hz}$.
+
+**Conclusion.** Doppler shift depends on relative speed, and beat frequency is the difference of the two frequencies.

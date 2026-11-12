@@ -12,7 +12,11 @@ Cards are cached under a signature of the values that went into them, so an
 edited title produces a new cache entry instead of a stale card, and the old
 entry expires on its own.
 """
-from .view_helpers import *  # noqa: F401,F403
+from api.models import Post, Resource, User
+from django.core.cache import cache
+from django.http import Http404, HttpResponse
+from . import curriculum
+from .view_helpers import _rate_limit
 
 import hashlib
 import re
@@ -29,7 +33,7 @@ _SAFE_KEY = re.compile(r'^[A-Za-z0-9._/-]{1,120}$')
 # every scraper that already fetched the URL keeps its own copy for longer. The
 # version goes into both the cache key and the URL, so a redesign is a new
 # address to a crawler rather than a changed picture at the same one.
-CARD_VERSION = 3
+CARD_VERSION = 4
 
 # Static pages. `kicker` sits above the title in the subject accent, `meta` is
 # the dot-separated line under it, `hero` names a drawing in og_cards.HEROES.

@@ -70,7 +70,7 @@
     "Hardware"
    ],
    "stats": {
-    "words": 5303,
+    "words": 6160,
     "figures": 3,
     "examples": 6
    },
@@ -127,7 +127,7 @@
     "Stored-program concept"
    ],
    "stats": {
-    "words": 5856,
+    "words": 6580,
     "figures": 4,
     "examples": 5
    },
@@ -191,7 +191,7 @@
     "Parallel processing"
    ],
    "stats": {
-    "words": 4195,
+    "words": 5148,
     "figures": 3,
     "examples": 4
    },
@@ -250,7 +250,7 @@
     "General-purpose and special-purpose computers"
    ],
    "stats": {
-    "words": 4504,
+    "words": 5107,
     "figures": 3,
     "examples": 4
    },
@@ -308,7 +308,7 @@
     "Software licence"
    ],
    "stats": {
-    "words": 4968,
+    "words": 5597,
     "figures": 2,
     "examples": 5
    },
@@ -370,7 +370,7 @@
     "Recycle Bin"
    ],
    "stats": {
-    "words": 5780,
+    "words": 6681,
     "figures": 3,
     "examples": 5
    },
@@ -429,7 +429,7 @@
     "Mail merge"
    ],
    "stats": {
-    "words": 5334,
+    "words": 6321,
     "figures": 5,
     "examples": 5
    },
@@ -491,7 +491,7 @@
     "Chart"
    ],
    "stats": {
-    "words": 5226,
+    "words": 6284,
     "figures": 3,
     "examples": 6
    },
@@ -552,7 +552,7 @@
     "Slide master"
    ],
    "stats": {
-    "words": 4544,
+    "words": 5237,
     "figures": 4,
     "examples": 5
    },
@@ -611,7 +611,7 @@
     "HTML"
    ],
    "stats": {
-    "words": 4447,
+    "words": 5084,
     "figures": 5,
     "examples": 6
    },
@@ -669,7 +669,7 @@
     "Digital divide"
    ],
    "stats": {
-    "words": 6232,
+    "words": 7252,
     "figures": 5,
     "examples": 6
    },
@@ -728,7 +728,7 @@
     "Digital citizen"
    ],
    "stats": {
-    "words": 6559,
+    "words": 7279,
     "figures": 3,
     "examples": 5
    },
@@ -782,7 +782,7 @@
     "Antivirus software"
    ],
    "stats": {
-    "words": 5534,
+    "words": 6172,
     "figures": 4,
     "examples": 4
    },
@@ -848,7 +848,7 @@
     "Internet"
    ],
    "stats": {
-    "words": 7525,
+    "words": 8545,
     "figures": 5,
     "examples": 5
    },
@@ -902,7 +902,7 @@
     "Bit, nibble and byte"
    ],
    "stats": {
-    "words": 7181,
+    "words": 8256,
     "figures": 5,
     "examples": 21
    },
@@ -961,7 +961,7 @@
     "File format and compression"
    ],
    "stats": {
-    "words": 5520,
+    "words": 6224,
     "figures": 4,
     "examples": 4
    },
@@ -1010,7 +1010,7 @@
     "Multimedia system"
    ],
    "stats": {
-    "words": 4522,
+    "words": 5156,
     "figures": 3,
     "examples": 4
    },
@@ -1067,7 +1067,7 @@
     "Pseudocode"
    ],
    "stats": {
-    "words": 5792,
+    "words": 6537,
     "figures": 5,
     "examples": 9
    },
@@ -1082,7 +1082,7 @@
     "Programming languages: low-level (machine and assembly) and high-level languages",
     "Language processors: compiler, interpreter and assembler",
     "Syntax errors, logical errors and run-time errors; testing and debugging",
-    "Common high-level languages: QBASIC, Python, C and Java",
+    "Common high-level languages: Python, C and Java",
     "Constants, variables and data types"
    ],
    "sections": [
@@ -1100,7 +1100,7 @@
     },
     {
      "no": "19.4",
-     "title": "Common high-level languages: QBASIC, Python, C and Java"
+     "title": "Common high-level languages: Python, C and Java"
     },
     {
      "no": "19.5",
@@ -1109,13 +1109,13 @@
    ],
    "summary": [
     "A programming language is a set of words, symbols and rules (syntax) for writing instructions for a computer.",
-    "Low-level languages: machine language (binary; runs directly; machine-dependent) and assembly language (mnemonics such as MOV and ADD; needs an assembler). High-level languages (QBASIC, Python, C, Java) are English-like and portable.",
+    "Low-level languages: machine language (binary; runs directly; machine-dependent) and assembly language (mnemonics such as MOV and ADD; needs an assembler). High-level languages (Python, C, Java) are English-like and portable.",
     "Language processors turn source code into object code: a compiler translates the whole program at once and makes an object program; an interpreter translates and runs one line at a time; an assembler translates assembly language.",
     "Syntax error: breaking the rules of the language. Run-time error: an impossible operation while running, such as division by zero. Logical error: wrong method, wrong output, no message.",
-    "Testing runs a program with test data of known answers; debugging finds and corrects errors (error messages, dry runs, printing values, stepping with F8, breakpoints with F9).",
-    "QBASIC (Microsoft, 1991; BASIC 1964), Python (Guido van Rossum, 1991), C (Dennis Ritchie, 1972), Java (James Gosling, Sun, 1995).",
-    "A constant never changes (numeric or string); a variable is a named memory location whose value can change; QBASIC names begin with a letter, have no spaces and are not keywords.",
-    "QBASIC data types: INTEGER %, LONG &, SINGLE ! (the default), DOUBLE #, STRING $."
+    "Testing runs a program with test data of known answers; debugging finds and corrects errors (error messages, dry runs, printing values, stepping with IDLE's debugger, breakpoints).",
+    "Python (Guido van Rossum, 1991), C (Dennis Ritchie, 1972), Java (James Gosling, Sun, 1995).",
+    "A constant never changes (numeric or string); a variable is a named memory location whose value can change; Python names use letters, digits and _, do not start with a digit, contain no spaces and are not keywords.",
+    "Python data types: int (whole numbers), float (decimals), str (text) and bool (True or False)."
    ],
    "terms": [
     "Programming language",
@@ -1123,82 +1123,87 @@
     "Syntax error",
     "Run-time error",
     "Logical error",
-    "Constant",
     "Variable"
    ],
    "stats": {
-    "words": 5629,
-    "figures": 3,
+    "words": 6240,
+    "figures": 2,
     "examples": 7
    },
    "has_notes": true
   },
   {
    "no": 20,
-   "title": "Computer Programming using QBASIC",
+   "title": "Computer Programming using Python",
    "hours": null,
    "area": "Programming",
    "topics": [
-    "QBASIC: features and the QBASIC screen",
-    "Character set, constants, variables and operators",
-    "Statements: CLS, REM, LET, INPUT, PRINT and END",
-    "Library functions: mathematical and string functions",
-    "Selection: IF...THEN...ELSE and SELECT CASE",
-    "Loops: FOR...NEXT, WHILE...WEND and DO...LOOP",
-    "Writing, running and debugging simple programs"
+    "Python: features, installing Python, IDLE and the two modes (interactive and script); the first program",
+    "Character set, keywords, identifiers, comments, constants, variables and data types (int, float, str, bool)",
+    "Operators and expressions: arithmetic, relational, logical and assignment; order of operations",
+    "Input and output: print() with sep and end, input(), type conversion and f-strings",
+    "Built-in functions and the math module; string indexing, slicing and methods",
+    "Selection: if, if...else, if...elif...else and nested if",
+    "Loops: for with range(), while, break and nested loops",
+    "Writing, running and debugging simple programs: syntax, run-time and logical errors; trace tables"
    ],
    "sections": [
     {
      "no": "20.1",
-     "title": "QBASIC: features and the QBASIC screen"
+     "title": "Python: features, installing Python and IDLE"
     },
     {
      "no": "20.2",
-     "title": "Character set, constants, variables and operators"
+     "title": "Character set, keywords, identifiers, variables and data types"
     },
     {
      "no": "20.3",
-     "title": "Statements: CLS, REM, LET, INPUT, PRINT and END"
+     "title": "Operators and expressions"
     },
     {
      "no": "20.4",
-     "title": "Library functions: mathematical and string functions"
+     "title": "Input and output"
     },
     {
      "no": "20.5",
-     "title": "Selection: IF...THEN...ELSE and SELECT CASE"
+     "title": "Built-in functions and the math module"
     },
     {
      "no": "20.6",
-     "title": "Loops: FOR...NEXT, WHILE...WEND and DO...LOOP"
+     "title": "Selection: if, if … else and if … elif … else"
     },
     {
      "no": "20.7",
+     "title": "Loops: for, while and nested loops"
+    },
+    {
+     "no": "20.8",
      "title": "Writing, running and debugging simple programs"
     }
    ],
    "summary": [
-    "QBASIC (Microsoft, 1991; from BASIC, 1964) is an interpreted, easy, structured language with a smart editor and built-in help; its screen has a title bar, menu bar, program window, Immediate window, scroll bars and status bar. Shift + F5 runs a program; F8 steps; F9 sets a breakpoint.",
-    "Character set: letters, digits and special characters. Operators: arithmetic (^ * / \\ MOD + -), relational (= <> > < >= <=, true = −1, false = 0), logical (NOT, AND, OR) and string +; brackets first, then ^, then * /, then \\, then MOD, then + -.",
-    "Statements: CLS clears the screen, REM writes a remark, LET assigns, INPUT reads (; adds \"? \"), PRINT displays (; joins, , jumps to a 14-column zone, TAB(n) moves to column n), END ends.",
-    "Library functions: mathematical (SQR, ABS, INT, FIX, CINT, SGN, RND …) and string (LEN, LEFT, RIGHT, MID, UCASE, LCASE, ASC, CHR, STR$, VAL, INSTR …).",
-    "Selection: single-line IF, block IF … ELSEIF … ELSE … END IF, and SELECT CASE with value lists, TO ranges, IS comparisons and CASE ELSE; only the first true branch runs.",
-    "Loops: FOR … NEXT (known count; STEP, negative STEP to count down), WHILE … WEND and DO WHILE … LOOP (test first; may run 0 times), DO … LOOP UNTIL (test last; runs at least once); loops can be nested.",
-    "Writing and debugging: plan, type, run, test with known answers, save as .BAS; syntax and run-time errors give messages, logical errors are found by testing, trace tables, F8 and F9."
+    "Python (Guido van Rossum, 1991) is an easy, interpreted, case-sensitive language in which indentation matters. Programs are written in IDLE's editor, saved as .py and run with F5; the Shell's >>> prompt carries out one line at a time.",
+    "Character set: letters, digits, special characters and white space. Keywords have a fixed meaning and cannot be names. Identifiers use letters, digits and _, do not start with a digit, contain no spaces or special characters and are case-sensitive. A comment starts with #.",
+    "A variable is created by assignment (x = 5) and can change; a constant is written in capitals by custom. The basic data types are int, float, str and bool; type() shows a value's type.",
+    "Operators: arithmetic (+ - * / // % ), relational (== != > < >= <=), logical (and or not) and assignment (= += -= = /=). Order: brackets, , / // %, + -, comparisons, not, and, or. ^ is not power.",
+    "Output: print() with sep and end; \\n and \\t; f-strings with {value:.2f}. Input: input() always returns text, so convert it with int() or float().",
+    "Functions: abs, max, min, round, len; the math module (import math): sqrt, floor, ceil, pi; string indexing from 0, slices s[a:b], upper(), lower(), count().",
+    "Selection: if, if … else, if … elif … else and nested if; colon and indentation are essential; the first true branch runs.",
+    "Loops: for with range(start, stop, step) (the stop is not reached; a negative step counts down) and while (tested before each pass); break leaves a loop; nested loops make tables and patterns. Start a sum at 0 and a product at 1."
    ],
    "terms": [
-    "QBASIC",
-    "Library function"
+    "Python",
+    "Variable"
    ],
    "stats": {
-    "words": 6689,
+    "words": 7277,
     "figures": 3,
-    "examples": 23
+    "examples": 27
    },
    "has_notes": true
   }
  ],
  "unit_count": 20,
- "topic_count": 108,
+ "topic_count": 109,
  "notes_ready": 20
 }

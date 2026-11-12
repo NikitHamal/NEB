@@ -447,3 +447,37 @@ mine*.
 **25.** Do you know **where he lives**? — an embedded question keeps statement order and drops *does*.
 **26.** I wonder **whether/if she passed** the test. — a yes/no question embeds with *if* or *whether*.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain question tags, the forms of questions and the rules of subject–verb agreement. <span class="marks">[10]</span>
+
+### Model answer D1: tags, questions and agreement (10 marks)
+
+**Introduction.** Questions invert the auxiliary and the subject. Without an auxiliary, insert **do/does/did** and use V1.
+
+**Question forms.**
+
+1. A **subject question** (*Who came?*) takes no do/does/did and no inversion.
+2. An **embedded question** keeps statement order and needs no question mark: *Can you tell me where she lives?*
+
+**Question tags.**
+
+3. A **positive** statement takes a **negative** tag, and vice versa: *She sings, doesn't she? / He isn't ready, is he?*
+4. Special tags: *I am late, aren't I? Let's go, shall we? Open it, will you? Nobody came, did they?*
+5. **Never, hardly, rarely, nobody** are negative, so the tag is positive.
+
+**Agreement.**
+
+6. **Each, every, everyone, nobody** + singular verb: *Everyone was present.*
+7. **A number of** + plural verb; **the number of** + singular verb.
+8. **Either/neither ... or/nor:** the verb agrees with the **nearer** subject. **Collective nouns** (*team, family*) take a singular verb when the group acts as one.
+
+| Wrong | Correct |
+|---|---|
+| Neither of them are ready. | Neither of them is ready. |
+| The news are good. | The news is good. |
+
+**Conclusion.** Find the true subject, then match the verb and the tag.

@@ -1,0 +1,24 @@
+{% comment %} The one gender picker: three silhouettes, one answer (NebChoiceTiles).
+   Used by the welcome flow and the profile editor. Pass gender="Male|Female|Other". {% endcomment %}
+<div class="form-group neb-pick-group" id="gender-field">
+  <label class="md-label" id="gender-label">Gender{% if required %} *{% endif %}</label>
+  <div class="neb-tiles" role="radiogroup" aria-labelledby="gender-label"
+       data-neb-group data-neb-name="gender" data-neb-required>
+    <button type="button" class="neb-tile{% if gender == 'Male' %} is-selected{% endif %}"
+            role="radio" data-neb-value="Male" aria-checked="{% if gender == 'Male' %}true{% else %}false{% endif %}">
+      <span class="neb-glyph neb-glyph-lg md-shape-cookie-9" aria-hidden="true"><span class="material-symbols-outlined">male</span></span>
+      <span class="neb-tile-label">Male</span>
+    </button>
+    <button type="button" class="neb-tile{% if gender == 'Female' %} is-selected{% endif %}"
+            role="radio" data-neb-value="Female" aria-checked="{% if gender == 'Female' %}true{% else %}false{% endif %}">
+      <span class="neb-glyph neb-glyph-lg md-shape-clover" aria-hidden="true"><span class="material-symbols-outlined">female</span></span>
+      <span class="neb-tile-label">Female</span>
+    </button>
+    <button type="button" class="neb-tile{% if gender == 'Other' %} is-selected{% endif %}"
+            role="radio" data-neb-value="Other" aria-checked="{% if gender == 'Other' %}true{% else %}false{% endif %}">
+      <span class="neb-glyph neb-glyph-lg md-shape-gem" aria-hidden="true"><span class="material-symbols-outlined">transgender</span></span>
+      <span class="neb-tile-label">Other</span>
+    </button>
+  </div>
+  <input type="hidden" id="gender" name="gender" data-neb-for="gender" value="{{ gender|default:'' }}">
+</div>

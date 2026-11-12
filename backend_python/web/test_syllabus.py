@@ -22,7 +22,7 @@ class SyllabusTests(TestCase):
         kinds = [g['kind'] for g in entries]
         self.assertEqual(kinds, sorted(kinds, key=lambda k: k != 'school'))
         for t in syllabus_data.track_entries():
-            self.assertEqual(t['kind'], 'entrance')
+            self.assertIn(t['kind'], ('entrance', 'course'))
             self.assertTrue(t['subjects'], t['grade'])
             for s in t['subjects']:
                 self.assertGreaterEqual(s['notes_ready'], 1, (t['grade'], s['subject']))
@@ -57,6 +57,47 @@ class SyllabusTests(TestCase):
         self.assertEqual(legacy['grade_slug'], 'class-10')
 
 
+class BcaCourseTests(TestCase):
+    """The TU BCA course (41 subjects, 8 semesters) is a track of kind "course"."""
+
+    def course(self):
+        return next(g for g in syllabus_data.index()['grades'] if g['grade'] == 'bca-course')
+
+    def test_all_semesters_and_subjects(self):
+        track = self.course()
+        self.assertEqual(track['kind'], 'course')
+        self.assertEqual(track['short'], 'BCA Course')
+        self.assertEqual(len(track['subjects']), 41)
+        self.assertEqual(sorted({s['semester'] for s in track['subjects']}), list(range(1, 9)))
+        order = [(s['semester'], s['code']) for s in track['subjects']]
+        self.assertEqual(order, sorted(order))
+        for s in track['subjects']:
+            self.assertEqual(s['notes_ready'], s['unit_count'], s['subject'])
+            self.assertTrue(s['credits'])
+
+    def test_subject_and_chapter_pages(self):
+        hub = self.client.get('/app/syllabus/bca-course/')
+        self.assertContains(hub, 'Semester I')
+        self.assertContains(hub, 'Semester VIII')
+        page = self.client.get('/app/syllabus/bca-course/programming-in-c/')
+        self.assertContains(page, 'BCA 102')
+        self.assertContains(page, '3 credits')
+        self.assertContains(page, 'href="/app/syllabus/bca-course/programming-in-c/unit-1/"')
+        chapter = self.client.get('/app/syllabus/bca-course/programming-in-c/unit-1/')
+        self.assertEqual(chapter.status_code, 200)
+        self.assertContains(chapter, 'Unit 1')
+        self.assertEqual(self.client.get('/app/syllabus/bca-course/nothing/').status_code, 404)
+
+    def test_search_finds_course_chapters(self):
+        data = self.client.get('/app/syllabus/search/', {'q': 'flowchart', 'grade': 'bca-course'}).json()
+        self.assertTrue(any(r['grade'] == 'bca-course' for r in data['results']))
+
+    def test_entrance_bca_is_untouched(self):
+        self.assertEqual(self.client.get('/app/syllabus/bca/mathematics/').status_code, 200)
+        entry = syllabus_data.grade_entry('bca')
+        self.assertEqual(entry['kind'], 'entrance')
+
+
 class StudyReaderTests(TestCase):
     """The chapters and question banks exported from the books (notes/tools/export_study.py)."""
 
@@ -86,19 +127,41 @@ class StudyReaderTests(TestCase):
         self.assertEqual(self.client.get('/app/syllabus/12/physics/exam-guide/').status_code, 200)
         self.assertEqual(self.client.get('/app/syllabus/11/physics/unit-99/').status_code, 404)
 
-    def test_crumbs_switch_class_subject_and_unit(self):
-        """The breadcrumb is also the switcher, so every target its popups offer
-        has to be live, and the trigger has to show its own value only."""
-        html = self.client.get('/app/syllabus/11/physics/unit-3/').content.decode()
+    def test_crumbs_switch_class_and_subject(self):
+        """The subject page's breadcrumb is the switcher, so every target its
+        popups offer has to be live, and the trigger shows its own value only.
+        The reader has no crumbs: its left rail carries the units."""
+        html = self.client.get('/app/syllabus/11/physics/').content.decode()
         nav = re.search(r'<nav class="st-crumbs".*?</nav>', html, re.S).group(0)
         self.assertEqual(re.findall(r'aria-label="(Choose [^"]+)"', nav),
-                         ['Choose class', 'Choose subject', 'Choose unit'])
+                         ['Choose class', 'Choose subject'])
         self.assertIn('<a class="st-pick-o is-current" role="menuitem" href="/app/syllabus/11/">Class 11</a>', nav)
         self.assertIn(' href="/app/syllabus/11/physics/">Physics</a>', nav)
-        self.assertIn('>Unit 3 · Kinematics</a>', nav)
         self.assertIn('<span class="st-pick-t">Physics</span>', nav)
         for url in re.findall(r'href="([^"]+)"', nav):
             self.assertEqual(self.client.get(url).status_code, 200, url)
+
+    def test_the_reader_is_a_reading_window(self):
+        """No site bar, its own bar, a units rail and the contents column."""
+        html = self.client.get('/app/syllabus/11/physics/unit-3/').content.decode()
+        self.assertNotIn('class="md-topbar"', html)
+        self.assertNotIn('class="st-crumbs"', html)
+        self.assertIn('class="rd-bar"', html)
+        self.assertIn('data-rd-toc-open', html)
+        self.assertIn('class="rd-units"', html)
+        self.assertIn('data-rd-unit="11/physics/unit3"', html)
+        self.assertIn('aria-current="page"', html)
+        self.assertIn('id="rdToc"', html)
+        self.assertIn('>On this page</p>', html)
+        self.assertIn('data-rd-done', html)
+        self.assertIn('data-rd-units-toggle', html)
+        # class and subject are editable from the bar, with the current value on the trigger
+        self.assertIn('class="rd-picks"', html)
+        self.assertIn('aria-label="Choose class"', html)
+        self.assertIn('aria-label="Choose subject"', html)
+        self.assertIn('<span class="st-pick-t">Class 11</span>', html)
+        self.assertIn('<span class="st-pick-t">Physics</span>', html)
+        self.assertIn('<a class="st-pick-o" role="menuitem" href="/app/syllabus/12/">Class 12</a>', html)
 
     def test_nepali_questions_are_tappable(self):
         page = self.client.get('/app/syllabus/10/nepali/bank-1/')
@@ -302,12 +365,15 @@ class EntranceTrackTests(TestCase):
     def test_track_crumbs_offer_classes_and_tracks(self):
         """Entrance books say "chapter", and the class popup lists the school
         classes and the tracks side by side."""
-        html = self.client.get('/app/syllabus/cee/physics/unit-1/').content.decode()
+        html = self.client.get('/app/syllabus/cee/physics/').content.decode()
         nav = re.search(r'<nav class="st-crumbs".*?</nav>', html, re.S).group(0)
-        self.assertIn('aria-label="Choose chapter"', nav)
+        self.assertIn('aria-label="Choose class"', nav)
         self.assertIn('<a class="st-pick-o is-current" role="menuitem" href="/app/syllabus/cee/">CEE</a>', nav)
         self.assertIn('<a class="st-pick-o" role="menuitem" href="/app/syllabus/11/">Class 11</a>', nav)
-        self.assertIn('>Chapter 1 · Vectors and Kinematics</a>', nav)
+        # the reader's rail keeps the chapter-to-chapter hop, and calls it a chapter
+        unit = self.client.get('/app/syllabus/cee/physics/unit-1/').content.decode()
+        self.assertIn('class="rd-units"', unit)
+        self.assertIn('>All chapters</p>', unit)
 
     def test_api_index_splits_classes_and_tracks(self):
         data = self.client.get('/api/syllabus/v2/').json()

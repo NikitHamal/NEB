@@ -630,6 +630,25 @@ $$ \gamma_a = \gamma_r - \gamma_g = 1.8\times10^{-4} - 0.27\times10^{-4}
 = 1.53\times10^{-4}\ \text{K}^{-1} $$
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="A solid grows in length in proportion to its original length and the rise in temperature, dL = alpha L dT. (a) A bimetallic strip used in thermostats. (b) For a 30 m rail heated by 40 K, aluminium lengthens by 28.8 mm and steel by 14.4 mm, while glass grows only 10.8 mm. Joining two such metals makes the strip bend because one side expands more, which opens or closes a contact in an iron or a fridge. Railway tracks need expansion gaps of about 14 mm for each 30 m so that a hot day does not buckle the line."
+@ photo id="ioephy/bimetal" cap="A bimetallic strip: two metals that expand by different amounts"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Linear expansion of a 30 m rail for a 40 K rise"
+L, dT = 30.0, 40.0
+mats = [("aluminium", 2.4e-5), ("copper", 1.7e-5), ("steel", 1.2e-5), ("glass", 0.9e-5)]
+dl = [a * L * dT * 1000 for _, a in mats]
+assert abs(dl[0] - 28.8) < 1e-9 and abs(dl[2] - 14.4) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Extension in mm, dL = alpha L dT", size=10.5, color=NAVY, bold=True)
+hbars(f, [(m[0], d) for m, d in zip(mats, dl)], vmax=30, fmt="%.1f", x0=72, y0=34, bw=170, gap=30, colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)])
+f.text(150, 164, "alpha: Al 2.4, Cu 1.7, steel 1.2, glass 0.9 (x1e-5 per K)", size=9.5, color=SLATE, bold=True)
+f.text(150, 186, "bimetal strip: Al side is longer when hot,", size=10, color=NAVY, bold=True)
+f.text(150, 202, "so the strip bends toward the steel side", size=10, color=NAVY, bold=True)
+f.text(150, 222, "gap needed: at least %.1f mm per 30 m of steel rail" % dl[2], size=9.5, color=RED, bold=True)
+facts = dict(al=dl[0], st=dl[2], gl=dl[3])
+```
+
 ## Chapter summary
 
 - Linear expansivity $\alpha = \dfrac{l_2-l_1}{l_1\Delta\theta}$, so
@@ -738,3 +757,85 @@ it grips the wheel tightly — the standard way a wheelwright fits a tyre.
 $\gamma_g = 3\times9\times10^{-6} = 2.7\times10^{-5}\ \text{K}^{-1}$, so
 $\gamma_a = 2.0\times10^{-4} - 0.27\times10^{-4} = 1.73\times10^{-4}\ \text{K}^{-1}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the coefficients of linear, area and volume expansion of solids and prove that $\alpha : \beta : \gamma = 1 : 2 : 3$. Give a numerical and eight applications. <span class="marks">[10]</span>
+2. Distinguish between real and apparent expansion of a liquid, derive the relation between them, and explain the anomalous expansion of water. <span class="marks">[10]</span>
+
+### Model answer D1: expansion of solids (10 marks)
+
+**Introduction.** Most solids **expand on heating** because the atoms vibrate more strongly and the average spacing between them grows. The change can be in length, area or volume.
+
+**Coefficients.**
+
+- **Linear expansivity** $\alpha$: the increase in length per unit original length per degree rise, $\alpha = \dfrac{\Delta L}{L_{0}\,\Delta\theta}$ (unit K⁻¹).
+- **Areal expansivity** $\beta = \dfrac{\Delta A}{A_{0}\,\Delta\theta}$.
+- **Volume expansivity** $\gamma = \dfrac{\Delta V}{V_{0}\,\Delta\theta}$.
+
+**Proof that $\alpha : \beta : \gamma = 1 : 2 : 3$.** Take a cube of side $L_{0}$ heated through $\Delta\theta$.
+
+1. New side $L = L_{0}(1 + \alpha\Delta\theta)$.
+2. **Area of a face:** $A = L^{2} = L_{0}^{2}(1 + \alpha\Delta\theta)^{2} = A_{0}(1 + 2\alpha\Delta\theta + \alpha^{2}\Delta\theta^{2})$. As $\alpha$ is of the order $10^{-5}$, the square term is negligible: $A = A_{0}(1 + 2\alpha\Delta\theta)$, so $\beta = 2\alpha$.
+3. **Volume:** $V = L^{3} = V_{0}(1 + \alpha\Delta\theta)^{3} \approx V_{0}(1 + 3\alpha\Delta\theta)$, so $\gamma = 3\alpha$.
+4. Hence $\alpha : \beta : \gamma = 1 : 2 : 3$.
+
+| Material | $\alpha$ ($10^{-6}\ \text{K}^{-1}$) |
+|---|---|
+| Aluminium | 23 |
+| Copper | 17 |
+| Steel / iron | 12 |
+| Glass (ordinary) | 9 |
+| Pyrex | 3 |
+| Invar | 1 |
+
+**Numerical.** A steel railway rail $30\ \text{m}$ long is laid at $20^{\circ}$C. In summer the temperature rises to $50^{\circ}$C ($\alpha = 1.2\times10^{-5}\ \text{K}^{-1}$). Then $\Delta L = 30\times1.2\times10^{-5}\times30 = 1.08\times10^{-2}\ \text{m} = 10.8\ \text{mm}$. If there were no gap, the rail would exert an enormous thermal stress: $Y\alpha\Delta\theta = 2\times10^{11}\times1.2\times10^{-5}\times30 = 7.2\times10^{7}\ \text{Pa}$.
+
+**Eight applications (and precautions).**
+
+1. **Expansion gaps** between rails, so that tracks do not buckle in the summer sun.
+2. **Expansion joints** in bridges and concrete roads, like the metal combs on the Kathmandu flyovers.
+3. **Bimetallic strip** (brass and iron): brass expands more, so the strip bends; it is used in **thermostats** in irons and heaters and in **fire alarms**.
+4. **Shrink fitting:** a steel tyre is heated, slipped over a wheel and cooled so that it grips it tightly.
+5. **Riveting:** hot rivets contract on cooling and pull the plates tight.
+6. **Pyrex and Invar:** laboratory glassware and clock pendulums are made of low-expansion materials to avoid cracking and keep time.
+7. **Sagging of power lines** in summer: the Nepal Electricity Authority leaves slack in the transmission lines.
+8. **Pendulum and balance wheels** of watches are compensated for the temperature.
+
+**Conclusion.** The three coefficients are in the ratio 1 : 2 : 3. Expansion is useful in thermostats and fittings, but its effects must be allowed for in engineering.
+
+### Model answer D2: expansion of liquids and anomalous expansion of water (10 marks)
+
+**Introduction.** Liquids expand much more than solids ($\gamma$ about 10 times larger) and have no shape of their own, so only **volume expansion** is meaningful. A liquid is always kept in a container which also expands, and that complicates the measurement.
+
+**Real and apparent expansion.**
+
+- **Real (absolute) expansion** $\gamma_{r}$: the actual increase in the volume of the liquid, the expansion of the container being taken into account.
+- **Apparent expansion** $\gamma_{a}$: the expansion as it appears, when the expansion of the container is **ignored**; it is the visible rise in the liquid level.
+
+**Relation.** Let a vessel of volume $V_{0}$ be full of liquid at $0^{\circ}$C and heated through $\Delta\theta$.
+
+1. The vessel's volume increases by $V_{0}\gamma_{g}\Delta\theta$.
+2. The liquid's true volume increases by $V_{0}\gamma_{r}\Delta\theta$.
+3. The liquid that overflows (the apparent increase) is the difference: $V_{0}\gamma_{a}\Delta\theta = V_{0}\gamma_{r}\Delta\theta - V_{0}\gamma_{g}\Delta\theta$.
+4. Therefore
+
+$$ \gamma_{r} = \gamma_{a} + \gamma_{g} $$
+
+**Numerical.** For mercury, $\gamma_{r} = 1.8\times10^{-4}\ \text{K}^{-1}$, and for the glass $\gamma_{g} = 3\alpha = 3\times9\times10^{-6} = 2.7\times10^{-5}\ \text{K}^{-1}$. The apparent expansion is $\gamma_{a} = 1.8\times10^{-4} - 0.27\times10^{-4} = 1.53\times10^{-4}\ \text{K}^{-1}$. That is why mercury rises visibly in a glass thermometer.
+
+**Anomalous expansion of water.** Most liquids expand regularly, but water **contracts** when heated from $0^{\circ}$C to $4^{\circ}$C, and expands only above $4^{\circ}$C.
+
+- The **volume is a minimum and the density is a maximum (1000 kg m⁻³) at $4^{\circ}$C**.
+- **Reason:** below $4^{\circ}$C, there are ice-like clusters of water molecules held by hydrogen bonds in an open structure. As the temperature rises the clusters break and the molecules pack closer, which outweighs the normal expansion. Above $4^{\circ}$C the normal expansion dominates.
+
+| Temperature ($^{\circ}$C) | Density of water ($\text{kg m}^{-3}$) |
+|---|---|
+| 0 | 999.84 |
+| 4 | 999.97 (maximum) |
+| 10 | 999.70 |
+| 100 | 958.4 |
+
+**Consequences.** In winter, the surface water of a lake cools to $4^{\circ}$C, becomes denser and sinks. The colder water (below $4^{\circ}$C) is lighter and stays at the top and freezes. Ice floats, so the lake freezes **from the top downward**, and the water at the bottom stays at **$4^{\circ}$C**, saving the fish and plants, as in the lakes of Gosaikunda and Rara.
+
+**Conclusion.** Real expansion is the sum of apparent expansion and the expansion of the vessel. The anomalous expansion of water, with its maximum density at $4^{\circ}$C, protects aquatic life in the cold.

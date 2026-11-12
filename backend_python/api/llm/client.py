@@ -18,7 +18,7 @@ import json
 import logging
 import time
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import requests
 
@@ -289,16 +289,6 @@ def chat(*, format: str, base_url: str, api_key: str, model: str,
     except Exception as e:  # safety net — never leak tracebacks to callers
         raise LLMError(f'{provider}: {e}', provider=provider)
     raise LLMError(f'unsupported API format: {fmt}', retryable=False, provider=provider)
-
-
-def quick_test(*, format: str, base_url: str, api_key: str, model: str,
-               provider: str = '', timeout: int = 30) -> ChatResult:
-    """Minimal round-trip used by 'Test connection' buttons everywhere."""
-    return chat(
-        format=format, base_url=base_url, api_key=api_key, model=model,
-        messages=[{'role': 'user', 'content': 'Reply with exactly: OK'}],
-        max_tokens=16, timeout=timeout, temperature=0.0, provider=provider,
-    )
 
 
 # ── Streaming ────────────────────────────────────────────────────────────────

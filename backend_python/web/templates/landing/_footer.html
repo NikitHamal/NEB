@@ -1,0 +1,20 @@
+{% comment %}Landing + About footer. `cta_title` overrides the closing call to action.{% endcomment %}
+{# ---------------------------------------------------------------- footer #}
+<footer class="foot">
+  <div class="foot-cta" data-live>
+    <span class="orb orb-1 shp-burst"></span><span class="orb orb-2 shp-gem"></span><span class="orb orb-3 shp-cookie"></span>
+    <div class="wrap foot-cta-in" data-reveal>
+      <p class="h2">Open a book. Ask a question.</p>
+      <a class="m3-btn m3-btn-lg m3-btn-light" href="{% url 'web:home' %}"><span>{% if signed_in %}Open NEBians{% else %}Start, free{% endif %}</span>{% include "components/_arrow.html" %}</a>
+    </div>
+  </div>
+  <div class="wrap foot-in">
+    <nav class="foot-cols" aria-label="Footer">
+      <div><small>Study</small><a href="{% url 'web:library' %}">Library</a><a href="{% url 'web:past_papers' %}">Past papers</a><a href="{% url 'web:result_check' %}">Results</a><a href="{% url 'web:doc_tools' %}">PDF tools</a></div>
+      <div><small>Community</small><a href="{% url 'web:home' %}">Community</a><a href="{% url 'web:news_list' %}">News</a><a href="{% url 'web:about' %}">About</a><a href="{% url 'web:faq' %}">FAQ</a></div>
+      <div><small>Legal</small><a href="{% url 'web:privacy_policy' %}">Privacy</a><a href="{% url 'web:terms_of_service' %}">Terms</a><a href="{% url 'web:copyright_takedown' %}">Copyright</a></div>
+    </nav>
+    <p class="foot-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}</span>{% endfor %}</p>
+    <p class="foot-base">&copy; {% now "Y" %} NEBians</p>
+  </div>
+</footer>

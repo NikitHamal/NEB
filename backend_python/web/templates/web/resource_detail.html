@@ -60,27 +60,18 @@
 
   <div class="vw">
     <div class="vw-main">
-      <div class="vw-stage" id="vw-stage">
-        {% if resource.has_access and resource.safe_file_url %}
-          <div class="vw-bar">
-            <span class="vw-bar-title">{{ resource.title }}</span>
-            <button type="button" class="x-icon-btn" id="vw-fs" aria-label="Full screen"><span class="material-symbols-outlined" aria-hidden="true">fullscreen</span></button>
-          </div>
-          {% if resource.media_type == 'image' %}
-          <div class="vw-image"><img src="{{ resource.safe_file_url }}" alt="{{ resource.title }}" draggable="false"></div>
-          {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
-          {% include "web/partials/nmp_player.html" %}
-          {% else %}
-          <div class="vw-frame"><iframe src="{{ resource.safe_file_url }}#toolbar=0&navpanes=0&view=FitH" title="{{ resource.title }}" referrerpolicy="no-referrer"></iframe></div>
-          {% endif %}
-        {% elif not resource.has_access %}
-          <div class="vw-lock"><span class="material-symbols-outlined" aria-hidden="true">lock</span><h2 class="x-sub">Paid resource</h2></div>
-        {% elif resource.file_url_error %}
-          <div class="vw-lock"><span class="material-symbols-outlined" aria-hidden="true">lock</span><h2 class="x-sub">Preview unavailable</h2><p>{{ resource.file_url_error }}</p></div>
-        {% else %}
-          <div class="vw-lock"><span class="material-symbols-outlined" aria-hidden="true">description</span><h2 class="x-sub">Nothing to preview</h2></div>
-        {% endif %}
+      {% include "web/partials/_viewer_stage.html" %}
+      {% if parts|length > 1 %}
+      <div class="vw-parts" role="list">
+        {% for p in parts %}
+        <a role="listitem" class="vw-part{% if p.is_current %} is-here{% endif %}" href="{% url 'web:reader' resource_id=p.id %}"{% if p.is_current %} aria-current="page"{% endif %}>
+          <span class="vw-part-ico material-symbols-outlined" aria-hidden="true">{{ p.icon }}</span>
+          <span class="vw-part-text"><b>{{ p.title }}</b><span>{{ p.label }}{% if p.file_size %} · {{ p.file_size|file_size_human }}{% endif %}</span></span>
+          {% if p.is_current %}<span class="vw-part-now">Now</span>{% else %}<span class="material-symbols-outlined vw-part-go" aria-hidden="true">arrow_forward</span>{% endif %}
+        </a>
+        {% endfor %}
       </div>
+      {% endif %}
     <!-- Paid Content Access Guard / Purchase Box -->
     {% if resource.is_paid and not resource.has_access %}
     <div class="rd-paid-lock-box">
@@ -176,13 +167,16 @@
     <aside class="vw-side">
       <div class="vw-card" style="--sc: {{ resource.subject|split:','|first|subject_color }}">
         <div class="rcard-tags">
-          {% for subj in resource.subject|split:"," %}<span class="rcard-tag is-subject" style="--sc: {{ subj|subject_color }}">{{ subj }}</span>{% endfor %}
+          {% with subjects=resource.subject|split:"," %}
+          {% for subj in subjects %}<span class="rcard-tag is-subject{% if forloop.counter > 2 %} is-extra{% endif %}" style="--sc: {{ subj|subject_color }}"{% if forloop.counter > 2 %} hidden{% endif %}>{{ subj }}</span>{% endfor %}
+          {% if subjects|length > 2 %}<button type="button" class="rcard-tag rcard-tag-more" data-tags-more aria-expanded="false" aria-label="Show all subjects">+{{ subjects|length|add:"-2" }}</button>{% endif %}
+          {% endwith %}
           <span class="rcard-tag">{{ resource.type }}</span>
           {% if resource.grade_level %}<span class="rcard-tag">{{ resource.grade_level }}</span>{% endif %}
           {% if resource.is_paid or resource.isPaid %}<span class="rcard-tag" style="background:var(--md-tertiary);color:var(--md-on-tertiary)">Rs. {{ resource.price|floatformat:"0" }}</span>{% endif %}
         </div>
         <h1 class="vw-title">{{ resource.title }}</h1>
-        {% if resource.description %}<div class="vw-desc rd-description">{{ resource.description|linkify }}</div>{% endif %}
+        {% if resource.description %}<div class="vw-desc rd-description" data-clamp="132">{{ resource.description|linkify }}</div>{% endif %}
         <div class="vw-facts">
           <div class="vw-fact"><b>{{ resource.view_count|format_count }}</b><span>Views</span></div>
           <div class="vw-fact"><b>{{ resource.added_at|time_ago }}</b><span>Added</span></div>
@@ -190,7 +184,7 @@
         </div>
         <div class="vw-by">
           {% if resource.source_type == 'user' and resource.uploadedByName %}
-            <span class="rcard-avatar">{% if resource.uploadedByPhoto %}<img src="{{ resource.uploadedByPhoto }}" alt="">{% else %}{{ resource.uploadedByName|truncate_chars:1 }}{% endif %}</span>
+            <span class="rcard-avatar">{% if resource.uploadedByPhoto %}<img loading="lazy" decoding="async" src="{{ resource.uploadedByPhoto }}" alt="">{% else %}{{ resource.uploadedByName|truncate_chars:1 }}{% endif %}</span>
             {% if resource.uploadedByUsername %}<a href="{% url 'web:profile' username=resource.uploadedByUsername %}">{{ resource.uploadedByName }}</a>{% else %}<strong>{{ resource.uploadedByName }}</strong>{% endif %}
           {% elif resource.source_type == 'anonymous' %}
             <span class="rcard-avatar"><span class="material-symbols-outlined" style="font-size:16px">person_off</span></span><strong>Anonymous</strong>
@@ -199,7 +193,7 @@
             <strong>{% if resource.sourceLabel %}{{ resource.sourceLabel }}{% else %}External source{% endif %}</strong>
             {% if resource.source_url %}<a href="{{ resource.source_url }}" target="_blank" rel="noopener">Source</a>{% endif %}
           {% else %}
-            <span class="rcard-avatar"><img src="{% static 'web/img/n-logo-48.png' %}" alt=""></span><strong>NEBians</strong>
+            <span class="rcard-avatar"><img loading="lazy" decoding="async" src="{% static 'web/img/n-logo-48.png' %}" alt=""></span><strong>NEBians</strong>
             {% if resource.author_name %}<span>{{ resource.author_name|mention_links_plain }}</span>{% endif %}
           {% endif %}
         </div>
@@ -214,24 +208,12 @@
           </button>
           {% endif %}
           <button class="x-icon-btn" data-action="share-resource" aria-label="Share"><span class="material-symbols-outlined">share</span></button>
+          {% if can_see_insights %}<button type="button" class="x-icon-btn" data-action="open-resource-insights" data-resource-id="{{ resource.id }}" aria-label="Insights"><span class="material-symbols-outlined">insights</span></button>{% endif %}
           {% if can_edit %}<a href="{% url 'web:edit_resource' resource_id=resource.id %}" class="x-icon-btn" aria-label="Edit"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+          <span data-reach-resource="{{ resource.id }}" hidden></span>
         </div>
       </div>
 
-      {% if resource_files|length > 1 %}
-      <div class="vw-card">
-        <h2 class="x-sub" style="margin:0">Files</h2>
-        <div class="vw-files">
-          {% for file in resource_files %}
-          {% if file.id == resource.id %}
-          <div class="vw-file is-here"><span class="material-symbols-outlined" aria-hidden="true">{{ file.type|resource_type_icon }}</span><div><b>{{ file.title }}</b><span class="t">{{ file.type }}{% if file.file_size %} · {{ file.file_size|file_size_human }}{% endif %}</span></div></div>
-          {% else %}
-          <a class="vw-file" href="{% url 'web:reader' resource_id=file.id %}"><span class="material-symbols-outlined" aria-hidden="true">{{ file.type|resource_type_icon }}</span><div><b>{{ file.title }}</b><span class="t">{{ file.type }}{% if file.file_size %} · {{ file.file_size|file_size_human }}{% endif %}</span></div></a>
-          {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
     </aside>
   </div>
 
@@ -258,12 +240,13 @@
   <div class="rd-related">
     <h2 class="x-sub">More in {{ resource.subject }}</h2>
     <div class="x-grid">
-      {% for r in related_resources %}{% include "components/_resource_card.html" with r=r %}{% endfor %}
+      {% for r in related_resources %}{% include "components/_resource_card.html" with r=r from="related" %}{% endfor %}
     </div>
   </div>
   {% endif %}
 
   </div>
+  {% include "components/_get_app_dialog.html" %}
   {% else %}
   <div class="empty-state" style="padding-top:64px;">
     <span class="material-symbols-outlined">error_outline</span>
@@ -275,23 +258,10 @@
 {% endblock %}
 
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}">
-(function () {
-  var stage = document.getElementById('vw-stage');
-  if (!stage) return;
-  var fs = document.getElementById('vw-fs');
-  if (fs) fs.addEventListener('click', function () {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else if (stage.requestFullscreen) stage.requestFullscreen();
-  });
-  document.addEventListener('fullscreenchange', function () {
-    if (fs) fs.querySelector('.material-symbols-outlined').textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
-  });
-  stage.addEventListener('contextmenu', function (e) { if (e.target.closest('img, video, audio')) e.preventDefault(); });
-  stage.querySelectorAll('video, audio').forEach(function (m) { m.setAttribute('controlsList', 'nodownload noremoteplayback'); m.setAttribute('disablePictureInPicture', ''); });
-})();
-</script>
-<script src="{% static 'web/js/media-player.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/pdf-core.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/pdf-reader.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/pdf-book.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/resource-viewer.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 var RESOURCE_ID = '{{ resource.id|default:"" }}';
 var IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
@@ -457,7 +427,7 @@ registerActions({
     var box = document.createElement('div');
     box.className = 'rd-inline-reply-box';
     box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
-    box.innerHTML = '<div class="neb-composer" style="flex:1;"><div class="neb-composer-body"><textarea placeholder="Write something..." rows="1" data-autoheight data-autoheight-max="120"></textarea><div class="neb-composer-actions"><button class="reply-send-btn" disabled aria-label="Post reply"><span class="material-symbols-outlined">arrow_upward</span></button></div></div></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+    box.innerHTML = '<div class="neb-composer" style="flex:1;"><div class="neb-composer-body"><textarea placeholder="Write something..." rows="1" data-live data-autoheight data-autoheight-max="120"></textarea><div class="neb-composer-actions"><button class="reply-send-btn" disabled aria-label="Post reply"><span class="material-symbols-outlined">arrow_upward</span></button></div></div></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
     var actionRow = parentCard.querySelector('.fp-reply-actions');
     if (actionRow) {
       actionRow.after(box);

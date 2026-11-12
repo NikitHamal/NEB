@@ -62,7 +62,7 @@ fun LiquidGlassProfileSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        containerColor = com.neb.ians.ui.theme.nebFloatColor(),
         scrimColor = Color.Black.copy(alpha = if (isDark) 0.54f else 0.32f),
         shape = shape,
         dragHandle = null

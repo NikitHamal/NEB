@@ -1,15 +1,9 @@
 package com.neb.ians.ui.screens.reader
 
+import com.neb.ians.ui.components.nebToast
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
-import com.neb.ians.ui.screens.ai.chat.enterOnce
-import com.neb.ians.ui.screens.ai.chat.UserMessage
-import com.neb.ians.ui.screens.ai.chat.NebyStatus
-import com.neb.ians.ui.screens.ai.chat.ChatPhase
-import com.neb.ians.ui.screens.ai.chat.ChatActions
-import com.neb.ians.ui.screens.ai.chat.AssistantMessage
-import com.neb.ians.data.api.ApiArenaMessage
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -88,21 +82,19 @@ import com.neb.ians.ui.components.NebLoader
 fun PdfAssistantOverlay(
     documentTitle: String,
     modifier: Modifier = Modifier,
+    fabHidden: Boolean = false,
+    fabX: Float = -1f,
+    fabY: Float = -1f,
+    onFabMoved: (Float, Float) -> Unit = { _, _ -> },
+    onFabDismissed: () -> Unit = {},
     viewModel: PdfAssistantViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Box(modifier = modifier.fillMaxSize()) {
         if (!state.isPromptOpen) {
-            FloatingActionButton(
-                onClick = viewModel::openPrompt,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(18.dp),
-                shape = CircleShape,
-                containerColor = MaterialTheme.colorScheme.primary
-            ) {
-                Icon(Icons.Filled.AutoAwesome, contentDescription = "Ask AI about this PDF")
+            if (!fabHidden) {
+                AssistantFab(x = fabX, y = fabY, onClick = viewModel::openPrompt, onMoved = onFabMoved, onDismissed = onFabDismissed)
             }
         } else {
             Box(
@@ -170,7 +162,7 @@ private fun PdfAiPanel(
     val context = LocalContext.current
     val actions = remember {
         ChatActions(
-            onCopy = { clipboard.setText(AnnotatedString(it)); Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show() },
+            onCopy = { clipboard.setText(AnnotatedString(it)); context.nebToast("Copied") },
             onShare = { text -> runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text) }, "Share Neby's answer")) } },
             onRegenerate = {}
         )
@@ -180,7 +172,7 @@ private fun PdfAiPanel(
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         tonalElevation = 2.dp,
-        shadowElevation = 10.dp,
+        shadowElevation = 0.dp,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(Modifier.fillMaxSize()) {
@@ -332,7 +324,7 @@ private fun PdfAiPanel(
 /** One message, drawn with the Neby chat's own components so both chats look and move alike. */
 @Composable
 private fun PdfAiMessageRow(message: PdfAiMessage, fresh: Boolean, actions: ChatActions) {
-    val arena = remember(message.id, message.content) { ApiArenaMessage(id = message.id, role = message.role, content = message.content, createdAt = message.createdAt) }
+    val arena = remember(message.id, message.content) { NebyMessage(id = message.id, role = message.role, content = message.content, createdAt = message.createdAt) }
     if (message.role == "user") {
         UserMessage(arena, onCopy = actions.onCopy, modifier = Modifier.enterOnce(message.id, fresh))
     } else {
@@ -421,7 +413,7 @@ private fun PdfAiPromptBar(
         },
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         tonalElevation = 4.dp,
-        shadowElevation = 8.dp,
+        shadowElevation = 0.dp,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(

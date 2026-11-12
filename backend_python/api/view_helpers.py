@@ -24,48 +24,22 @@ Endpoints:
 """
 import logging
 
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from django.db import IntegrityError, transaction
-from django.db.models import Q, F
-from rest_framework.decorators import api_view, authentication_classes, permission_classes, throttle_classes
+from django.db.models import F
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import AllowAny
 
-from .authentication import verify_google_token
 from .security import (
-    hash_password, verify_password, hash_verification_code, verify_verification_code,
-    hash_auth_token, issue_auth_token, revoke_auth_token, revoke_all_user_tokens,
-    validate_profile_photo_url, save_profile_image_upload,
-    validate_external_https_url, clean_source_url,
-    validate_and_save_resource_file, validate_resource_file_url,
-    save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
+    hash_verification_code, verify_verification_code,
 )
-from .email_utils import send_verification_email
-from .throttles import (
-    AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
-    VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
-    SignupRateThrottle,
-)
-from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
-from .utils import now_ms, uuid_str
-import uuid
+from .models import User, ResourceLike, Post, PostLike, PollVote, ReplyLike, Follow, Bookmark
+from .utils import now_ms
 _now_ms = now_ms
-from . import services
 from .serializers import (
-    UserSerializer, UserPublicSerializer,
-    ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer,
-    UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
-    EditHistorySerializer, ReportSerializer, BookmarkSerializer,
-    NotificationSerializer,
+    ResourceSerializer, PostSerializer,
+    ReplySerializer,
 )
-from . import counters as _counters
-from . import notifications as _notif
-from . import cleanup as _cleanup
-from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
 
@@ -95,22 +69,6 @@ def _profile_incomplete(user):
         return True
     # Explorers have no role-specific required fields.
     return False
-
-def _is_mutual_follow(viewer, target_user):
-    """True when viewer and target follow each other.
-
-    Locked profiles stay private for everyone except the owner and mutual
-    connections, matching the familiar Instagram/Facebook behavior.
-    """
-    if not viewer or not target_user:
-        return False
-    if getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
-        return False
-    return (
-        Follow.objects.filter(follower_id=viewer.pk, following_id=target_user.pk).exists()
-        and Follow.objects.filter(follower_id=target_user.pk, following_id=viewer.pk).exists()
-    )
-
 
 def _can_view_locked_profile(viewer, target_user):
     """Owner and followers can view a locked profile. Unverified accounts are treated as locked."""
@@ -173,6 +131,19 @@ def _require_verified_user(request):
 def _validate_text_length(value, max_length, field_name):
     if len(value) > max_length:
         return Response({'error': f'{field_name} must be {max_length} characters or fewer'}, status=400)
+    return None
+
+def _overlong_field_error(model, values):
+    for name, value in values.items():
+        if not value:
+            continue
+        limit = model._meta.get_field(name).max_length
+        if limit and len(str(value)) > limit:
+            label = name.replace('_', ' ').capitalize()
+            return Response({
+                'error': f'{label} must be {limit} characters or fewer',
+                'field': name,
+            }, status=400)
     return None
 
 def _validate_password_strength(password):
@@ -252,8 +223,10 @@ def prime_for_serializers(user, posts=(), resources=(), replies=()):
                                          .values_list('target_id', flat=True))
         # The polls were prefetched above, so a page without one needs no vote lookup.
         if any(_may_have_poll(p) for p in posts):
-            ctx['user_poll_votes'] = dict(PollVote.objects.filter(poll__post_id__in=ids, user=user)
-                                          .values_list('poll_id', 'option_id'))
+            _votes = {}
+            for _pid, _oid in PollVote.objects.filter(poll__post_id__in=ids, user=user).values_list('poll_id', 'option_id'):
+                _votes.setdefault(_pid, set()).add(_oid)
+            ctx['user_poll_votes'] = _votes
         else:
             ctx['user_poll_votes'] = {}
     if resources:
@@ -411,28 +384,6 @@ def _build_stats(user):
         'contribution_score': user.contribution_score,
     }
 
-def _build_stats_batch(user_qs):
-    """
-    Build stats for a queryset of users using denormalized counters.
-    Returns a dict mapping user_id -> stats dict.
-    """
-    from .services import avatar_or_photo_url
-    result = {}
-    for u in user_qs:
-        result[u.id] = {
-            'username': u.username,
-            'display_name': u.display_name or u.username,
-            'photo_url': avatar_or_photo_url(u) or '',
-            'post_count': u.post_count,
-            'reply_count': u.reply_count,
-            'follower_count': u.follower_count,
-            'following_count': u.following_count,
-            'likes_given': u.likes_given_count,
-            'likes_received': u.likes_received_count,
-            'contribution_score': u.contribution_score,
-        }
-    return result
-
 def map_profile_grade(class_level):
     if not class_level:
         return None
@@ -449,11 +400,17 @@ def map_profile_grade(class_level):
         return 'Class 8'
     return class_level
 
+def _global_statuses():
+    from .education_catalog import GLOBAL_STATUSES
+    return GLOBAL_STATUSES
+
 def is_global_user(user):
     """Users who should see global/unfiltered content (no profile-based filtering)."""
     if not user:
         return True
     if user.role in ('teacher', 'institution', 'explorer'):
+        return True
+    if (getattr(user, 'edu_status', '') or '') in _global_statuses():
         return True
     if not user.class_level:
         return False
@@ -466,6 +423,9 @@ def is_global_user(user):
         'entrance prep', 'competitive exam', 'other', 'all',
     }
     if cl in global_classes:
+        return True
+    from .education_catalog import GLOBAL_LEVELS, GLOBAL_STATUSES
+    if cl in GLOBAL_LEVELS or (getattr(user, 'edu_status', '') or '') in GLOBAL_STATUSES:
         return True
     return False
 

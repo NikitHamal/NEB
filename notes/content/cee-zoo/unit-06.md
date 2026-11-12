@@ -241,6 +241,28 @@ A student who writes 4600 mL for TLC has forgotten the residual volume — the
 commonest error in this topic.
 :::
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Two numbers behind breathing. (a) Alveoli, the thin-walled air sacs where gas exchange occurs, in lung tissue. (b) Each lung has about 300 million alveoli in total, each roughly 0.28 mm across, so the exchange surface is 74 square metres, about a third of a badminton court (the textbook value is 70). Breathing 12 times a minute with a tidal volume of 500 mL moves 6 L of air per minute, but 150 mL of every breath only fills the dead space of the airways, so the alveolar ventilation is (500 - 150) x 12 = 4.2 L per minute, which is why slow deep breaths ventilate better than fast shallow ones."
+@ photo id="bio12/alveoli" cap="Alveoli in lung tissue"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="One breath: tidal volume split into dead space and alveolar air"
+n, d = 3e8, 0.28e-3
+area = n * math.pi * d * d
+tv, dead, rate = 500, 150, 12
+mv, av = tv * rate / 1000, (tv - dead) * rate / 1000
+assert abs(area - 73.9) < 0.1 and mv == 6.0 and abs(av - 4.2) < 1e-9
+facts = dict(area="%.0f" % area, mv="%.0f" % mv, av="%.1f" % av)
+f = Fig(300, 236)
+f.text(150, 12, "Tidal volume 500 mL (12 breaths/min)", size=10.5, color=NAVY, bold=True)
+f.box(10, 36, 150 / 500 * 280, 34, fill=SAND, stroke=AMBER, r=2); f.text(10 + 150 / 500 * 140, 53, "dead space 150", size=10.5, color=AMBER, bold=True, vmid=True)
+f.box(10 + 150 / 500 * 280, 36, 350 / 500 * 280, 34, fill=MINT, stroke=TEAL, r=2); f.text(10 + 84 + 98, 53, "reaches alveoli: 350 mL", size=10.5, color=TEAL, bold=True, vmid=True)
+f.text(150, 100, "minute ventilation = 500 x 12 = 6.0 L/min", size=10.5, color=NAVY, bold=True)
+f.text(150, 120, "alveolar ventilation = 350 x 12 = 4.2 L/min", size=10.5, color=TEAL, bold=True)
+f.text(150, 160, "300 million alveoli x pi x (0.28 mm)^2", size=10.5, color=SLATE, bold=True)
+f.text(150, 180, "= %.0f sq m of exchange surface" % area, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "slow deep breaths beat fast shallow ones", size=10.5, color=SLATE, bold=True)
+```
+
 ## 6.2 Exchange and transport of gases; regulation of respiration
 
 ### Partial pressures
@@ -751,3 +773,75 @@ Intrapleural pressure: **−4 mmHg** at rest, −6 to −8 mmHg in inspiration.
 **9.** (d) — blowing off CO₂ removes H⁺, so the pH rises: respiratory alkalosis.
 :::
 
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the human respiratory organs and the mechanism of breathing, with the lung volumes. <span class="marks">[10]</span>
+2. Explain how gases are exchanged and transported in the blood and how breathing is regulated. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="3" ratio="1.25" caption="Respiratory structures. (a) The human respiratory system from the nose to the lungs. (b) The alveoli, thin-walled sacs where gases are exchanged. (c) A section of the trachea with C-shaped cartilage rings."
+@ photo id="cee-zoo/respiratory-system" cap="(a) Respiratory system"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/alveoli" cap="(b) Alveoli"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/trachea-cartilage" cap="(c) Trachea"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Respiratory organs and breathing mechanism (10 marks)
+
+**Introduction.** **Respiration** includes breathing (external), gas exchange and the use of oxygen in cells (cellular respiration). The human respiratory tract carries air from the nose to the lungs.
+
+**Respiratory organs.**
+
+1. **Nose and nasal cavity:** hairs and mucus filter dust; the lining warms and moistens the air.
+2. **Pharynx and larynx:** the larynx (**voice box**) has the vocal cords; the **epiglottis** covers it while swallowing.
+3. **Trachea (about 12 cm):** held open by **C-shaped cartilage rings** and lined by ciliated epithelium that sweeps mucus upward.
+4. **Bronchi and bronchioles:** the trachea divides into two bronchi, which branch like a tree into bronchioles.
+5. **Alveoli:** about **300 million** thin-walled air sacs surrounded by capillaries. Their total surface is about **70–100 m²**, so exchange is efficient.
+6. **Lungs and pleura:** the right lung has three lobes and the left two. A double **pleural membrane** with fluid reduces friction.
+
+**Mechanism of breathing.**
+
+| Step | Inspiration | Expiration |
+|---|---|---|
+| Diaphragm | Contracts, flattens | Relaxes, dome-shaped |
+| External intercostal muscles | Contract, ribs up and out | Relax, ribs down and in |
+| Thoracic volume | Increases | Decreases |
+| Lung pressure | Falls below atmospheric | Rises above atmospheric |
+| Air movement | Into the lungs | Out of the lungs |
+
+Inspiration is active and expiration is normally passive. The **respiratory rate** is 12–16 per minute in an adult.
+
+**Lung volumes (adult male, about).** Tidal volume (TV) 500 mL; inspiratory reserve volume (IRV) 3000 mL; expiratory reserve volume (ERV) 1100 mL; residual volume (RV) 1200 mL. Then **vital capacity = TV + IRV + ERV = 4600 mL** and **total lung capacity = VC + RV = 5800 mL**. **Pulmonary ventilation** = TV × rate = 500 × 12 = **6000 mL/min**. Of each breath about 150 mL fills the dead space, so the alveolar ventilation is (500 − 150) × 12 = 4200 mL/min.
+
+**Conclusion.** A large, moist, thin surface and pressure changes caused by the diaphragm and rib muscles make breathing effective.
+
+### Model answer D2: Gas exchange, transport and regulation (10 marks)
+
+**Introduction.** Gases move by **diffusion** from a region of higher partial pressure (pp) to lower pressure, across the **respiratory membrane** (alveolar wall + capillary wall, about 0.5 μm thick).
+
+**Exchange of gases.**
+
+| Gas | Alveolar air (mm Hg) | Deoxygenated blood | Direction |
+|---|---|---|---|
+| O₂ | 104 | 40 | Alveolus → blood |
+| CO₂ | 40 | 45 | Blood → alveolus |
+
+In the tissues the process is reversed: pO₂ in the cells is lower than in blood, and pCO₂ is higher, so O₂ leaves the blood and CO₂ enters it.
+
+**Transport of oxygen.** About **97%** is carried as **oxyhaemoglobin** (HbO₂), as each haemoglobin molecule binds four O₂ molecules, and 3% is dissolved in plasma. One gram of Hb binds 1.34 mL of O₂, so blood with 15 g Hb per 100 mL carries about 15 × 1.34 = **20 mL O₂ per 100 mL**. The **oxygen dissociation curve** is S-shaped. A high pCO₂, low pH or high temperature shifts it to the right, so Hb releases more O₂ to active tissues (**Bohr effect**).
+
+**Transport of carbon dioxide.**
+
+1. **About 70% as bicarbonate:** in red cells carbonic anhydrase speeds CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. Bicarbonate moves into plasma while chloride enters the cell (**chloride shift**).
+2. **20–25% as carbamino-haemoglobin** (CO₂ attached to Hb).
+3. **About 7% dissolved** in plasma.
+
+**Regulation of breathing.** The **respiratory rhythm centre** in the **medulla oblongata** sets the basic rhythm. The **pneumotaxic centre** in the pons limits inspiration and smooths the rhythm. A rise in **CO₂ or H⁺** is detected by the **chemosensitive area** of the medulla and raises the rate; low O₂ affects the **carotid and aortic bodies**. This is why breathing speeds up during exercise and at altitude, such as in trekkers above 4000 m in Nepal.
+
+**Disorders.** **Asthma** (airway narrowing), **bronchitis**, **emphysema** (alveolar walls break), **pneumoconiosis** (dust in quarry workers), and **tuberculosis** are common; smoke from firewood and cigarettes raises the risk.
+
+**Conclusion.** Pressure differences drive the exchange, haemoglobin and bicarbonate carry the gases, and the medulla keeps the blood gases steady.

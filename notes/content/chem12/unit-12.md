@@ -455,6 +455,25 @@ double-bond character from delocalisation; a benzene ring also blocks backside
 approach. So the CH₃–O bond breaks and the C₆H₅–O bond does not.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.2" caption="Ethers cannot form hydrogen bonds with themselves. (a) A bottle of diethyl ether, a volatile and highly flammable solvent. (b) Trouton's rule says that the entropy of vaporisation at the boiling point is about 85 to 88 J/(mol K) for a normal liquid. The cell divides the enthalpy of vaporisation by the boiling point and gets 84.5 for hexane and 86.1 for diethyl ether, but 109.8 for ethanol and 110.8 for butan-1-ol. The hydrogen-bonded alcohols are more ordered in the liquid, so more entropy is gained on boiling. Diethyl ether and butan-1-ol have the same molar mass, 74 g/mol, but the ether boils at 34.6 degrees C and the alcohol at 117.7 degrees C, because the ether has no O-H group."
+@ photo id="chem12b/ether" cap="A reagent bottle of ethyl ether"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Trouton's rule and hydrogen bonding"
+data = [("hexane", 28.9, 341.9), ("diethyl ether", 26.5, 307.7), ("ethanol", 38.6, 351.5), ("butan-1-ol", 43.3, 390.9)]
+rows = [(n, h * 1000 / T) for n, h, T in data]
+assert rows[0][1] < 90 and rows[1][1] < 90 and rows[2][1] > 105
+f = Fig(300, 236)
+f.text(150, 12, "Entropy of vaporisation at the boiling point, J/(mol K)", size=10, color=NAVY, bold=True)
+hbars(f, rows, vmax=130, fmt="%.1f", x0=88, y0=30, bw=150, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "dS = dH(vap) / Tb;  Trouton: about 85 to 88", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "ether (no O-H) obeys; alcohols exceed it", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "ether and butanol: both C4H10O, M = 74.12", size=10, color=SLATE, bold=True)
+f.text(150, 216, "bp 34.6 C against 117.7 C", size=10.5, color=RED, bold=True)
+facts = dict(e=rows[1][1], b=rows[3][1], eth=rows[2][1], h=rows[0][1])
+```
+
 ## Chapter summary
 
 - An ether is R–O–R′, formula CₙH₂ₙ₊₂O — a **functional isomer of an alcohol**.
@@ -609,3 +628,37 @@ C₂H₅OC₂H₅ + HI → C₂H₅OH + C₂H₅I. The products are **ethanol**,
 $m = 0.050 \times 46 = 2.3\ \text{g}$, and **iodoethane**,
 $m = 0.050 \times 155.9 = 7.8\ \text{g}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Williamson synthesis and the main reactions of diethyl ether, including its action with HI, and state its uses and hazards. <span class="marks">[10]</span>
+
+### Model answer D1: preparation and reactions of ethers (10 marks)
+
+**Introduction.** **Ethers** have the general formula R–O–R′ and may be regarded as derivatives of water in which both hydrogens are replaced by alkyl or aryl groups. They are isomeric with alcohols (C$_2$H$_6$O is both ethanol and dimethyl ether), but they have no –OH group and therefore cannot form hydrogen bonds with each other, so their boiling points are much lower (diethyl ether 35 °C, butan-1-ol 118 °C).
+
+**Preparation.**
+
+1. **Williamson synthesis.** An alkyl halide reacts with sodium alkoxide by the S$_N$2 mechanism: $\text{C}_2\text{H}_5\text{ONa} + \text{C}_2\text{H}_5\text{I} \Rightarrow \text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + \text{NaI}$. It gives simple and mixed ethers, and aromatic ones such as anisole from sodium phenoxide and methyl iodide. A **primary alkyl halide** must be used, because a tertiary halide gives an alkene by elimination.
+2. **Dehydration of ethanol.** Excess ethanol is heated with concentrated H$_2$SO$_4$ at 413 K: $2\text{C}_2\text{H}_5\text{OH} \Rightarrow \text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + \text{H}_2\text{O}$. At 443 K the product is ethene instead.
+
+**Chemical reactions of diethyl ether.**
+
+- **With HI.** Cold, with one equivalent of HI, the C–O bond breaks, giving ethanol and iodoethane: $\text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + \text{HI} \Rightarrow \text{C}_2\text{H}_5\text{OH} + \text{C}_2\text{H}_5\text{I}$. With excess hot HI both ethyl groups end up as iodoethane: $\text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + 2\text{HI} \Rightarrow 2\text{C}_2\text{H}_5\text{I} + \text{H}_2\text{O}$. In an unsymmetrical ether the iodide attacks the smaller alkyl group, so methyl propyl ether gives methyl iodide and propan-1-ol.
+- **Aromatic ethers.** Anisole with HI gives phenol and iodomethane, since the aryl–oxygen bond is too strong to break.
+- **With PCl$_5$** it gives chloroethane.
+- **Oxidation.** In air and light it forms explosive **peroxides**. Ether should be tested with acidified KI (a yellow-brown colour of iodine), and stored over iron or with ferrous sulphate to destroy peroxides.
+- **Electrophilic substitution of anisole.** The –OCH$_3$ group activates the ring and directs to the o- and p-positions, giving o- and p-bromoanisole, nitroanisole and p-methylanisole.
+
+| Reagent | Product with ethoxyethane |
+|---|---|
+| HI (cold, 1 mol) | $\text{C}_2\text{H}_5\text{OH} + \text{C}_2\text{H}_5\text{I}$ |
+| HI (excess, hot) | $2\text{C}_2\text{H}_5\text{I}$ |
+| PCl$_5$ | $2\text{C}_2\text{H}_5\text{Cl} + \text{POCl}_3$ |
+| Air (slow) | Peroxide |
+
+**Uses.** Diethyl ether is an excellent solvent for fats, oils and resins, it is used as a solvent in Grignard reactions and extractions, and it was the first general anaesthetic (replaced because it is flammable and nauseating). Methyl tert-butyl ether is an anti-knock additive in petrol, and anisole is used in perfumes.
+
+**Hazards.** Diethyl ether is highly volatile and flammable, and its vapour is heavier than air, so it must be kept away from flames.
+
+**Conclusion.** Ethers are made by Williamson synthesis, are chemically fairly inert, and are cleaved by HI, which also forms the basis of the Zeisel method for finding methoxy groups.

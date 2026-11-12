@@ -1,7 +1,19 @@
 """API half of the desktop browser hand-off. See api/desktop_auth.py for the protocol."""
 from django.conf import settings
 
-from .view_helpers import *  # noqa: F401,F403
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+    throttle_classes,
+)
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from .models import User
+from .security import issue_auth_token
+from .serializers import UserSerializer
+from .throttles import AuthRateThrottle
+from .view_helpers import logger
 from . import desktop_auth
 
 

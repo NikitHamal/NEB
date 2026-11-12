@@ -1,0 +1,4 @@
+{# Change versus the previous period. Context: d = {text, dir, good} #}
+<span class="an-delta an-delta--{% if d.good is True %}good{% elif d.good is False %}bad{% else %}flat{% endif %}">
+  {% if d.dir == 'up' %}<span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>{% elif d.dir == 'down' %}<span class="material-symbols-outlined" aria-hidden="true">arrow_downward</span>{% endif %}{{ d.text }}
+</span>

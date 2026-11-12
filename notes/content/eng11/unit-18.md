@@ -862,3 +862,43 @@ is the sound of a woman realising how long she has not been paying attention, an
 it leads directly to her cry a few pages later: "I might have known she needed
 help!"
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the women discover the motive for the murder in *Trifles*. <span class="marks">[10]</span>
+2. Discuss the title and the theme of gender and justice. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="2" ratio="1.4" caption="Playwright and stage. Susan Glaspell (c. 1918) and the proscenium arch of a theatre: Trifles was first staged in 1916 and takes place in one kitchen."
+@ photo id="eng11/susan-glaspell" cap="Susan Glaspell, c. 1918"
+@ photo id="eng12/proscenium" cap="Theatre proscenium arch"
+```
+
+### Model answer D1: finding the motive (10 marks)
+
+**Introduction.** *Trifles* (1916) is Susan Glaspell's first play, based on a murder trial she covered as a young reporter in Des Moines.
+
+1. **John Wright** has been strangled with a rope in his bed; his wife **Minnie** says she "slept sound" and is in custody.
+2. Neither of them appears on stage.
+3. The **Sheriff, the County Attorney and Hale** search upstairs and in the barn for a **motive** and find nothing.
+4. They dismiss the kitchen as holding **"nothing here but kitchen things"** and the women's **"trifles"**.
+5. **Mrs Hale and Mrs Peters** read the room: unfinished work, a **burst jar of preserves**, shabby clothes, an empty rocking chair, and a **quilt whose last block is stitched wildly**.
+6. They find a **birdcage with its door broken**.
+7. In a pretty box they find the **canary with its neck wrung**.
+8. The motive is complete: a hard, silent husband killed the one thing that sang, and his wife answered in kind.
+
+**Conclusion.** The women find the truth through small details the men ignore.
+
+### Model answer D2: title and theme (10 marks)
+
+1. **"Trifles"** means small, unimportant things; for the men the women's work is a trifle.
+2. For the women these **trifles are the evidence**.
+3. The **men's blindness** shows their lack of respect for women's lives.
+4. **Mrs Peters** begins by insisting that "the law is the law".
+5. She is changed by memories of her **murdered kitten** and of the **stillness after her baby's death**.
+6. **Mrs Hale** feels guilty that she did not visit Minnie.
+7. The women **hide the dead bird**; they choose sisterhood above the law.
+8. **Theme:** loneliness, marriage and the gap between male law and women's justice.
+
+**Conclusion.** The play asks whether a law that ignores women's lives can be just.

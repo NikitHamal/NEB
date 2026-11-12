@@ -531,6 +531,13 @@ and $A+B = \overline{\bar{A}\cdot\bar{B}}$ (invert both inputs, then NAND). This
 is why whole chips are manufactured from one repeated gate type.
 :::
 
+```photogrid label="2.L" cols="4" ratio="1.25" caption="Logic gates are real chips. (a) A 7400-series quad NAND IC holds four independent two-input NAND gates in one 14-pin package. (b) A 7474 flip-flop IC, built from NAND gates. (c) A 7447 decoder IC that drives the segments of a display. (d) A breadboard on which students join such ICs with wires to test a truth table. Every pin carries either logic 0 (about 0 V) or logic 1 (about 5 V), which is why binary is the natural number system of a computer."
+@ photo id="bca103/hc00" cap="(a) 7400 quad NAND gate IC"
+@ photo id="bca103/ff74" cap="(b) 7474 flip-flop IC"
+@ photo id="bca103/ic7447" cap="(c) 7447 display decoder IC"
+@ photo id="bca103/breadboard" cap="(d) Breadboard for circuits"
+```
+
 ### Drawing a circuit from an expression
 
 Work from the innermost operation outwards: complements first, then AND terms,
@@ -1066,6 +1073,47 @@ are identical for all input combinations, hence the law is verified." Examiners
 award marks for the intermediate columns, so never jump straight to the answer.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Computers add numbers with logic gates: each bit position uses a full adder that takes two input bits and the carry from the position on its right and gives a sum bit and a new carry. (a) A logic IC in its package contains several such gates. (b) Adding 1011 (11) and 0110 (6) gives 10001, which is 17, and a carry ripples through three positions. Subtraction needs no new circuit: the two's complement of 0110 is 1010, and adding it to 1101 and discarding the carry-out leaves 0111, which is 7. This is why the CPU needs only an adder and a way to invert bits."
+@ photo id="bca101/ic-dip" cap="A logic IC in a dual in-line package holds several gates"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="4-bit binary addition and two's complement subtraction"
+A, B = 0b1011, 0b0110
+ab = [(A >> i) & 1 for i in range(3, -1, -1)]
+bb = [(B >> i) & 1 for i in range(3, -1, -1)]
+carry, sums, c = [0] * 5, [0] * 5, 0
+cs = []
+for i in range(3, -1, -1):
+    t = ab[i] + bb[i] + c
+    sums[i + 1] = t % 2
+    c = t // 2
+    cs.append(c)
+    carry[i] = c
+sums[0] = c
+total = int("".join(map(str, sums)), 2)
+assert total == A + B == 17
+x, y = 13, 6
+comp = ((~y) & 0xF) + 1
+diff = (x + comp) & 0xF
+assert diff == 7 and format(comp, "04b") == "1010"
+f = Fig(300, 236)
+f.text(150, 14, "1011 + 0110 by full adders", size=10.5, color=NAVY, bold=True)
+xs = [100 + i * 34 for i in range(5)]
+rows = [("carry", carry, AMBER, 30), ("A = 11", [0] + ab, NAVY, 58), ("B = 6", [0] + bb, NAVY, 86), ("sum", sums, RED, 118)]
+for nm, bits, col, y in rows:
+    f.text(8, y + 11, nm, size=10.5, bold=True, anchor="start", color=col)
+    for k, b in enumerate(bits):
+        if nm in ("A = 11", "B = 6") and k == 0:
+            continue
+        f.box(xs[k] - 14, y, 28, 22, str(b), fill=BLUE if col == NAVY else (SAND if col == AMBER else ROSE), stroke=col, color=col, size=11, bold=True, r=3)
+f.line(86, 112, 276, 112, color=SLATE, sw=1.2)
+f.text(150, 160, "sum = %s = %d (11 + 6 = 17)" % ("".join(map(str, sums)), total), size=10.5, color=RED, bold=True)
+f.text(150, 180, "13 - 6: 2's complement of 0110 = %s" % format(comp, "04b"), size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1101 + 1010 = %s, drop the carry" % format(x + comp, "05b"), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "answer %s = %d" % (format(diff, "04b"), diff), size=10.5, color=RED, bold=True)
+facts = dict(s="".join(map(str, sums)), t=total, d=format(diff, "04b"), dd=diff, comp=format(comp, "04b"))
+```
+
 ## Chapter summary
 
 - A positional number in base $r$ has value $\sum d_i r^{i}$. To decimal: expand
@@ -1160,6 +1208,44 @@ the carry: $0110 = 6$ ✓
 = C\left[\bar{A}(\bar{B}+B) + A(\bar{B}+B)\right] = C(\bar{A}+A) = C\cdot 1 = C$.
 The "circuit" is a single wire from input $C$ to the output — all the gates can
 be removed.
+**4.** First theorem, $\overline{A\cdot B} = \bar{A}+\bar{B}$:
+
+| $A$ | $B$ | $A\cdot B$ | $\overline{A\cdot B}$ | $\bar{A}$ | $\bar{B}$ | $\bar{A}+\bar{B}$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 1 | 1 | 1 | 1 |
+| 0 | 1 | 0 | 1 | 1 | 0 | 1 |
+| 1 | 0 | 0 | 1 | 0 | 1 | 1 |
+| 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+
+The fourth and seventh columns are identical, so the theorem is verified. Second
+theorem, $\overline{A+B} = \bar{A}\cdot\bar{B}$:
+
+| $A$ | $B$ | $A+B$ | $\overline{A+B}$ | $\bar{A}$ | $\bar{B}$ | $\bar{A}\cdot\bar{B}$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 1 | 1 | 1 | 1 |
+| 0 | 1 | 1 | 0 | 1 | 0 | 0 |
+| 1 | 0 | 1 | 0 | 0 | 1 | 0 |
+| 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+
+Again the fourth and seventh columns match. In words: "the complement of a product is
+the sum of the complements, and the complement of a sum is the product of the
+complements". These theorems let us turn an AND-OR circuit into a NAND-only or
+NOR-only circuit.
+
+**6.** Each gate has two inputs $A$ and $B$ (the symbol is the gate shape given in
+section 2.6: a bubble on the output means the output is inverted).
+
+| $A$ | $B$ | NAND $\overline{A\cdot B}$ | NOR $\overline{A+B}$ | XOR $A\oplus B$ | XNOR $\overline{A\oplus B}$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 1 | 1 | 0 | 1 |
+| 0 | 1 | 1 | 0 | 1 | 0 |
+| 1 | 0 | 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 0 | 0 | 1 |
+
+The Boolean functions are NAND: $Y=\overline{A\cdot B}$ (AND followed by NOT); NOR:
+$Y=\overline{A+B}$ (OR followed by NOT); XOR: $Y=\bar{A}B+A\bar{B}$ (output 1 when the
+inputs differ); XNOR: $Y=AB+\bar{A}\bar{B}$ (output 1 when the inputs are equal).
+
 :::
 
 **Group C — Long answer (8 marks each)**
@@ -1206,3 +1292,138 @@ indeed not in the list ✓
 The circuit is one NOT gate on $B$, one AND gate for $A$ and $D$, and one OR
 gate combining them.
 :::
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. What is a number system? Explain the binary, octal, decimal and hexadecimal systems and show how numbers are converted from one to another. <span class="marks">[10]</span>
+2. What is a logic gate? Explain the seven basic gates with symbols and truth tables, and show why NAND is called a universal gate. <span class="marks">[10]</span>
+3. What is an adder? Explain the half adder and the full adder with truth tables, expressions and circuits. <span class="marks">[10]</span>
+
+### Model answer D1: number systems and conversion (10 marks)
+
+**Introduction.** A **number system** is a method of writing numbers with a fixed set of
+digits in which the value of a digit depends on its position and on the **base** (radix)
+of the system. People count in decimal, but a computer is made of switches that are
+either off or on, so it stores every number, letter and picture in **binary**. Octal and
+hexadecimal are short forms of binary that humans can read more easily.
+
+| System | Base | Digits used | The number 156 written in it |
+|---|:-:|---|---|
+| Decimal | 10 | 0 to 9 | $(156)_{10}$ |
+| Binary | 2 | 0, 1 | $(10011100)_2$ |
+| Octal | 8 | 0 to 7 | $(234)_8$ |
+| Hexadecimal | 16 | 0 to 9 and A to F (A = 10 ... F = 15) | $(9C)_{16}$ |
+
+**Conversions.**
+
+1. **Any base to decimal (positional expansion).** Multiply each digit by its place
+   value and add. $(10011100)_2 = 128+16+8+4 = 156$. For a fraction, the places to the
+   right of the point are $\tfrac12, \tfrac14, \tfrac18$: $(1101.101)_2 = 8+4+1+0.5+0.125 = 13.625$.
+2. **Decimal to binary (repeated division by 2).** Divide 156 by 2 again and again and
+   write the remainders: 0, 0, 1, 1, 1, 0, 0, 1 (for the quotients 78, 39, 19, 9, 4, 2,
+   1, 0). Read them **from bottom to top**: $(10011100)_2$.
+3. **Decimal fraction to binary (repeated multiplication by 2).** For 0.625: $0.625\times2=1.25$
+   (digit 1), $0.25\times2=0.5$ (digit 0), $0.5\times2=1.0$ (digit 1). Read the integer
+   parts downwards: $(0.101)_2$.
+4. **Binary to octal.** Group the bits in **threes** from the binary point: 010 011 100
+   becomes 2, 3, 4, so $(234)_8$.
+5. **Binary to hexadecimal.** Group the bits in **fours**: 1001 1100 becomes 9 and C, so
+   $(9C)_{16}$.
+6. **Octal or hexadecimal to binary.** Replace each digit by its three-bit or four-bit
+   code: $(2C5)_{16} = 0010\ 1100\ 0101$.
+7. **Decimal to octal or hexadecimal.** Divide repeatedly by 8 or 16, or convert to
+   binary first and then group the bits.
+
+**Uses.** Binary suits electronic circuits; hexadecimal is used for colour codes such as
+#FF0000 (red), memory addresses and the MAC address of a network card; octal is used for
+Linux file permissions such as 755.
+
+**Conclusion.** All the systems represent the same quantity in different ways, and
+positional expansion and repeated division are the two tools that convert between them.
+
+### Model answer D2: logic gates and the universal gate (10 marks)
+
+**Introduction.** A **logic gate** is an electronic circuit that takes one or more binary
+inputs and produces one binary output according to a fixed logical rule. Gates are the
+building blocks of every processor, memory and adder; one chip such as the 7400 in Figure 2.L
+contains four of them. The rule of a gate is described by its **truth table**.
+
+| Gate | Boolean expression | Output (for $AB$ = 00, 01, 10, 11) | Output is 1 when |
+|---|---|:-:|---|
+| AND | $Y = A\cdot B$ | 0 0 0 1 | both inputs are 1 |
+| OR | $Y = A+B$ | 0 1 1 1 | at least one input is 1 |
+| NOT | $Y = \bar{A}$ | (1 for $A$ = 0, 0 for $A$ = 1) | the input is 0 |
+| NAND | $Y = \overline{A\cdot B}$ | 1 1 1 0 | not both inputs are 1 |
+| NOR | $Y = \overline{A+B}$ | 1 0 0 0 | both inputs are 0 |
+| XOR | $Y = A\oplus B = \bar{A}B+A\bar{B}$ | 0 1 1 0 | the inputs are different |
+| XNOR | $Y = \overline{A\oplus B}$ | 1 0 0 1 | the inputs are equal |
+
+**Explanation.** AND, OR and NOT are the three **basic** gates; NAND and NOR are the AND
+and OR followed by a NOT, and XOR and XNOR are the "difference" and "equality" detectors.
+A NOT gate has one input and a bubble at its output, and a bubble on any gate symbol means
+inversion.
+
+**Universal gates.** NAND and NOR are called **universal** because any other gate, and so
+any digital circuit, can be built from only one of them. For NAND:
+
+1. **NOT:** join both inputs, $\overline{A\cdot A} = \bar{A}$.
+2. **AND:** follow a NAND by a NAND used as a NOT, $\overline{\overline{A\cdot B}} = A\cdot B$.
+3. **OR:** invert both inputs and then NAND them, $\overline{\bar{A}\cdot\bar{B}} = A+B$ by De Morgan's theorem.
+
+Because a factory needs to make only one kind of gate, NAND-only designs are cheaper and
+smaller; the flash memory of a pen drive is built from NAND cells.
+
+**Conclusion.** Seven gates cover every logical rule, and the two universal gates show that
+even these seven can be reduced to a single repeated gate.
+
+### Model answer D3: half adder and full adder (10 marks)
+
+**Introduction.** An **adder** is a combinational circuit that adds binary digits. The
+arithmetic unit of every CPU is a chain of adders, and subtraction is done by adding the
+2's complement. There are two kinds: the half adder and the full adder.
+
+**Half adder.** It adds two bits $A$ and $B$ and gives a **sum** $S$ and a **carry** $C$. It
+cannot accept a carry from an earlier position, hence the name "half".
+
+| $A$ | $B$ | $S$ | $C$ |
+|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 1 |
+
+From the table, $S = A\oplus B$ and $C = A\cdot B$. The circuit is one XOR gate and one AND
+gate fed by the same two inputs.
+
+**Full adder.** It adds three bits: $A$, $B$ and the carry-in $C_{in}$ from the position
+on the right, and gives $S$ and a carry-out $C_{out}$.
+
+| $A$ | $B$ | $C_{in}$ | $S$ | $C_{out}$ |
+|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 1 | 0 |
+| 0 | 1 | 0 | 1 | 0 |
+| 0 | 1 | 1 | 0 | 1 |
+| 1 | 0 | 0 | 1 | 0 |
+| 1 | 0 | 1 | 0 | 1 |
+| 1 | 1 | 0 | 0 | 1 |
+| 1 | 1 | 1 | 1 | 1 |
+
+The expressions are $S = A\oplus B\oplus C_{in}$ and $C_{out} = AB + C_{in}(A\oplus B)$.
+Construction: the first half adder adds $A$ and $B$ giving $S_1 = A\oplus B$ and $C_1 = AB$; the
+second half adder adds $S_1$ and $C_{in}$ giving $S$ and $C_2 = C_{in}\cdot S_1$; an OR gate
+joins the two carries, $C_{out} = C_1 + C_2$. Check with $1+1+1$: $S_1 = 0$, $C_1 = 1$, then
+$S = 1$, $C_2 = 0$, $C_{out} = 1$, so the answer is $(11)_2 = 3$ ✓
+
+**Use.** A 4-bit **ripple-carry adder** is four full adders in a row, the carry-out of each
+feeding the carry-in of the next, and it adds $1011 + 0110 = 10001$ (11 + 6 = 17).
+
+| Point | Half adder | Full adder |
+|---|---|---|
+| Inputs | 2 | 3 (with carry-in) |
+| Outputs | Sum, carry | Sum, carry-out |
+| Gates | 1 XOR + 1 AND | 2 XOR + 2 AND + 1 OR |
+| Can be chained | No | Yes |
+
+**Conclusion.** The half adder is the simplest adding circuit, and joining two of them
+with an OR gate gives the full adder from which multi-bit adders are made.

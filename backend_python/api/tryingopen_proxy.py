@@ -26,8 +26,6 @@ import base64
 import json
 import logging
 import mimetypes
-import os
-import random
 import time
 import uuid
 from pathlib import Path
@@ -443,7 +441,6 @@ def _messages_to_api(
                             # Instead of re-encoding, create a synthetic entry via temp handling
                             # Simpler: add a file part with the data URL directly
                             # We can append a file part to this message individually
-                            pass
                         except Exception:
                             pass
                     texts.append("[image]")
@@ -480,19 +477,6 @@ def _messages_to_api(
             mm["id"] = f"m{i}"
 
     return out
-
-
-def _parse_sse_line(line: str) -> Optional[Dict]:
-    line = line.strip()
-    if not line or not line.startswith("data:"):
-        return None
-    payload = line[5:].strip()
-    if not payload or payload == "[DONE]":
-        return None
-    try:
-        return json.loads(payload)
-    except (ValueError, TypeError):
-        return None
 
 
 def _stream_request(

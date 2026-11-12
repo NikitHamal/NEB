@@ -412,3 +412,72 @@ In conclusion, migration cannot be stopped, but it can be managed. If Nepal make
 
 **2.** Causes: jobs, schools, hospitals, roads, conflict and disaster. Effects: crowded cities, pollution, rising rent, empty villages and abandoned farms; also remittance and mixed cultures. Solutions: develop rural areas, local jobs, decentralised services.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a description of a graph on world population and an essay on migration. <span class="marks">[10]</span>
+2. Explain *although, though, even though, despite, in spite of* and *however* with examples. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.0" caption="People and birds on the move. An Arctic tern, which flies between the Arctic and Antarctic each year; the crowded tourist streets of Thamel; and the airstrip at Lukla where people arrive and leave."
+@ photo id="eng10/arctic-tern" cap="Arctic tern (migrant)"
+@ photo id="eng12/thamel" cap="Thamel, Kathmandu"
+@ photo id="nep12/lukla" cap="Lukla airstrip"
+```
+
+### Model answer D1: graph description and a migration essay (10 marks)
+
+**Introduction.** To describe a graph we write an introduction, the highest and lowest points, the trend, a comparison and a conclusion. An essay on migration covers causes, positive effects, negative effects, solutions and a conclusion.
+
+**Model description (world population).**
+
+::: example Graph description
+The graph shows the growth of the world population from 1950 to 2050. In 1950 there were just over **2.5 billion** people. The growth was fastest in the 1960s, at about **2.1% a year**, but it is now below 1%. The population will reach about **8.5 billion by 2030** and **9.7 billion by 2050**, and it is expected to peak at about **10.4 billion in the 2080s**. Overall, the numbers are rising, but more slowly. Sub-Saharan Africa will grow fast, while Europe and Northern America will begin to decline from the late 2030s.
+:::
+
+**Check:** from 2.5 billion (1950) to 9.7 billion (2050) is a rise of 7.2 billion, almost four times.
+
+**Model essay: Migration.**
+
+::: example Migration
+**Migration** is the movement of people from one place to another to live or work. People leave Nepal's villages because of poverty, lack of jobs and disasters, and are attracted by better pay and services abroad or in cities. Migration brings **remittance**, new skills and cultural exchange. However, it also causes **brain drain**, lonely families and crowded cities. To solve these problems, the government should create jobs at home, support small industries and improve rural schools and hospitals. In conclusion, migration is natural, but a good policy can make it useful for all.
+:::
+
+**Why birds migrate.** They travel for **food, breeding and climate**, using stopovers, night flights and flocks; mountain birds make short up-and-down journeys.
+
+**Points (8).**
+
+1. Introduction (what, when).
+2. Highest point.
+3. Lowest point.
+4. Trend words.
+5. Comparison.
+6. Conclusion.
+7. Essay: causes and effects.
+8. Solutions.
+
+**Conclusion.** Use exact figures and trend words.
+
+### Model answer D2: contrast connectives (10 marks)
+
+| Connective | Followed by | Example |
+|---|---|---|
+| although / though / even though | clause | Although it was raining, we went out. |
+| despite / in spite of | noun or -ing | Despite the rain, we went out. |
+| however | comma, new sentence | It was raining. However, we went out. |
+| but | clause (middle of a sentence) | It was raining, but we went out. |
+| while / whereas | clause (contrast of two things) | Ram likes tea, whereas Sita likes coffee. |
+
+**Rules.**
+
+1. Never use **although ... but** together.
+2. **Even though** is stronger than *although*.
+3. **Despite** is never followed by *of*; **in spite of** is.
+4. After **despite** use a noun, a gerund, or *the fact that + clause*.
+5. **However** is followed by a comma and often begins a sentence.
+6. **Though** can also come at the end: *It was cold. We went out, though.*
+7. Use **while/whereas** to compare two things.
+8. Use a **semicolon before however** inside one sentence: *It was late; however, we continued.*
+
+**Conclusion.** Check what follows the connective: a clause, a noun or an -ing form.

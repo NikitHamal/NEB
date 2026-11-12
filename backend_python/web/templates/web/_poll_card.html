@@ -1,0 +1,2 @@
+{% load web_extras %}{% comment %}One poll. Drawn client-side by static/web/js/poll-card.js from the same payload the API returns.
+Params: poll (payload dict), compact (optional, feed rows).{% endcomment %}<div class="pc{% if compact %} pc--compact{% endif %}" data-poll="{{ poll|poll_json }}" data-compact="{% if compact %}1{% else %}0{% endif %}" data-auth="{% if is_authenticated %}1{% else %}0{% endif %}" data-login-url="{% url 'web:login' %}"></div>

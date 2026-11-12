@@ -414,3 +414,55 @@ supply *do / does / did*: *He rarely complains.* → *Rarely **does he** complai
 **24.** **Sita is the most sincere student in the class.** — the negative comparison becomes a superlative.
 **25.** **Hari is taller than Ram.** — reverse the subjects and use the comparative.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain adjective order, comparison and the position of adjectives with examples. <span class="marks">[10]</span>
+2. Explain adverbs: forms, order, frequency adverbs and inversion after negative adverbials. <span class="marks">[10]</span>
+
+### Model answer D1: adjectives (10 marks)
+
+**Introduction.** Adjectives describe nouns. Their order, position and comparison follow clear rules.
+
+1. **Order:** **opinion – size – age – shape – colour – origin – material – purpose**: *a lovely small old round brown Nepali wooden serving bowl.*
+2. **Position:** after the determiner and before the noun; numbers come before descriptive adjectives: *two beautiful red roses.*
+3. **After a verb only:** *afraid, alive, asleep, alone, aware, ashamed.*
+4. **Before a noun only:** *main, only, mere, former, elder.*
+5. **-ing and -ed:** *-ing* = the cause of a feeling, *-ed* = the person who has it: *The film was boring; I was bored.*
+6. **Comparison:** *-er / -est* for short words, *more / most* for long ones; never both.
+7. **Take "to":** *superior, inferior, senior, junior, prior, preferable.*
+8. **Within a group and between qualities:** use *than any other* (*Everest is higher than any other mountain*) and *that of* (*The climate of Pokhara is milder than that of Kathmandu*).
+
+| Rule | Example |
+|---|---|
+| Order | a big old brick house |
+| After verb only | The child is asleep. |
+| -ing / -ed | an exciting match / excited fans |
+| Takes to | senior to me |
+
+**Conclusion.** Learn the fixed order and the special groups.
+
+### Model answer D2: adverbs and inversion (10 marks)
+
+**Introduction.** Adverbs describe verbs, adjectives or other adverbs.
+
+1. **Different words:** *hard / hardly, late / lately, near / nearly, high / highly* are different words, not variants.
+2. **Linking and action verbs:** a linking verb takes an adjective (*She looks happy*); an action verb takes an adverb (*She sings sweetly*).
+3. **Order after the object:** **manner – place – time**: *She spoke clearly in the hall yesterday.*
+4. **Never put an adverb between a verb and its object:** *He speaks English well*, not *He speaks well English.*
+5. **Frequency adverbs** go after *be*, before a main verb and after the first auxiliary: *She is always late; he has never come.*
+6. **Negative adverbials at the front** force inversion: *Never, Rarely, Hardly, No sooner, Little, Not only, Under no circumstances.*
+7. **Examples:** *Never have I seen such a view. Not only did he win, but he also broke the record.*
+8. **Position of only:** place it just before the word it modifies.
+
+| Adverb type | Example |
+|---|---|
+| Manner | quickly |
+| Place | here |
+| Time | yesterday |
+| Frequency | always |
+
+**Conclusion.** Remember the order manner–place–time and the inversion after negative openers.

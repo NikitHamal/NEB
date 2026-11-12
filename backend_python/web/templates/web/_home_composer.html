@@ -1,3 +1,4 @@
+{% load static %}
 {% comment %}
   NEBians Minimal Quick Composer & Full Create Post Dialog
   Crafted with bespoke Material 3 Expressive, crisp inline vector icons,
@@ -11,8 +12,8 @@
       <!-- Identity Picker on Feed Launcher -->
       <div class="hf-identity-picker hf-launcher-identity-picker" id="homeLauncherIdentityPicker">
         <button type="button" class="hf-launcher-identity-trigger" id="homeLauncherIdentityTrigger" aria-haspopup="true" aria-expanded="false" title="Switch identity (Personal or Anonymous)">
-          <span class="hf-launcher-avatar-slot">
-            <img id="homeLauncherUserAvatar" class="hf-launcher-avatar-img" src="{{ user.avatar_url }}" alt="{{ user.display_name|default:user.username }}" width="38" height="38" decoding="async">
+          <span class="hf-launcher-avatar-slot" data-avatar-seed="{{ user.username }}">
+            {% if user.avatar_url %}<img loading="lazy" decoding="async" id="homeLauncherUserAvatar" class="hf-launcher-avatar-img" src="{{ user.avatar_url }}" alt="{{ user.display_name|default:user.username }}" width="38" height="38" decoding="async">{% else %}<span class="neb-letter">{{ user.display_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
             <span id="homeLauncherAnonAvatar" class="hf-launcher-avatar-anon" style="display: none;" hidden>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
@@ -58,7 +59,7 @@
                 </svg>
               </span>
               <span class="hf-option-avatar">
-                <img src="{{ user.avatar_url }}" alt="" width="28" height="28" decoding="async">
+                {% if user.avatar_url %}<img loading="lazy" decoding="async" src="{{ user.avatar_url }}" alt="" width="28" height="28" decoding="async">{% else %}<span class="neb-letter">{{ user.display_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
               </span>
               <span class="hf-option-info">
                 <strong class="hf-option-title">{{ user.display_name|default:user.username }}</strong>
@@ -93,11 +94,7 @@
           </button>
 
           <button type="button" class="hf-c-tool-btn" id="homeFeedAddPollBtn" title="Ask a poll or quiz" aria-label="Ask a poll or quiz">
-            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"></line>
-              <line x1="12" y1="20" x2="12" y2="4"></line>
-              <line x1="6" y1="20" x2="6" y2="14"></line>
-            </svg>
+            {% include "components/_poll_icon.html" %}
           </button>
 
           <button type="button" class="hf-c-tool-btn" id="homeFeedAddBookBtn" title="Share PDF / Book / Study Notes" aria-label="Share PDF, book, or study notes">
@@ -130,8 +127,8 @@
         <!-- Identity Picker in Dialog -->
         <div class="hf-identity-picker" id="homeIdentityPicker">
           <button type="button" class="hf-identity-trigger" id="homeIdentityTrigger" aria-haspopup="true" aria-expanded="false" title="Switch identity">
-            <span class="hf-identity-avatar-slot">
-              <img id="homeTriggerUserAvatar" class="hf-identity-avatar-img" src="{{ user.avatar_url }}" alt="" width="26" height="26" decoding="async">
+            <span class="hf-identity-avatar-slot" data-avatar-seed="{{ user.username }}">
+              {% if user.avatar_url %}<img loading="lazy" decoding="async" id="homeTriggerUserAvatar" class="hf-identity-avatar-img" src="{{ user.avatar_url }}" alt="" width="26" height="26" decoding="async">{% else %}<span class="neb-letter">{{ user.display_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
               <span id="homeTriggerAnonAvatar" class="hf-identity-avatar-anon" style="display: none;" hidden>
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
@@ -178,7 +175,7 @@
                   </svg>
                 </span>
                 <span class="hf-option-avatar">
-                  <img src="{{ user.avatar_url }}" alt="" width="28" height="28" decoding="async">
+                  {% if user.avatar_url %}<img loading="lazy" decoding="async" src="{{ user.avatar_url }}" alt="" width="28" height="28" decoding="async">{% else %}<span class="neb-letter">{{ user.display_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
                 </span>
                 <span class="hf-option-info">
                   <strong class="hf-option-title">{{ user.display_name|default:user.username }}</strong>
@@ -212,6 +209,22 @@
               </svg>
             </button>
             {% endfor %}
+            {% for c in composer_extra_tags %}
+            <button type="button" class="hf-cat-menu-item" data-cat-value="{{ c }}" data-custom="1" role="menuitem">
+              <span class="hf-cat-item-hash">#</span>
+              <span class="hf-cat-item-text">{{ c }}</span>
+              <span class="material-symbols-outlined hf-cat-item-check" aria-hidden="true">check</span>
+            </button>
+            {% endfor %}
+            <div class="hf-cat-own">
+              <label class="hf-cat-own-field">
+                <span class="hf-cat-item-hash">#</span>
+                <input type="text" id="homePostCatOwn" maxlength="28" placeholder="Your own tag" autocomplete="off" aria-label="Create your own tag">
+              </label>
+              <button type="button" class="hf-cat-own-add" id="homePostCatOwnAdd" aria-label="Use this tag" title="Use this tag" disabled>
+                <span class="material-symbols-outlined" aria-hidden="true">check</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -324,8 +337,8 @@
     <!-- Scrollable Dialog Content Body: Textarea, Previews, Poll, Video, Media -->
     <div class="hf-dialog-body">
 
-      <textarea class="hf-dialog-textarea" id="homePostContent" rows="6" maxlength="20000"
-                data-neb-skip="true"
+      <textarea class="hf-dialog-textarea" id="homePostContent" rows="1" maxlength="20000"
+                data-neb-skip="true" data-can-mention-all="{% if user.is_admin or user.moderator_level %}1{% else %}0{% endif %}" autocomplete="off"
                 placeholder="Ask a question, share notes, formulas, or exam tips..."></textarea>
 
       <!-- Live Rendered Markdown & Math KaTeX Preview Box -->
@@ -411,7 +424,7 @@
 
           <div class="hf-poll-settings-wrap">
             <label class="hf-poll-duration-label" for="homePostPollDuration">Duration:</label>
-            <select class="hf-poll-duration-select" id="homePostPollDuration">
+            <select data-native class="hf-poll-duration-select" id="homePostPollDuration">
               <option value="0">No expiry</option>
               <option value="86400000" selected>24 hours</option>
               <option value="259200000">3 days</option>
@@ -426,7 +439,7 @@
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          <span>Click the check icon on the option that is the correct answer.</span>
+          <span>Tick the correct answer</span>
         </div>
 
         <div class="hf-poll-explanation-row" id="homePollExplanationWrap" style="display: none;">
@@ -524,3 +537,6 @@
     </div>
   </form>
 </dialog>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-chips.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-sortable.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-editor.js' %}" defer></script>

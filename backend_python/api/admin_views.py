@@ -4,14 +4,12 @@ import time
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Count, Sum, Q
-from django.db.models import F
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework import status
 
 from .security import verify_internal_admin_signature, validate_resource_file_url
-from .models import User, Resource, ResourceRequest, Post, Reply, FCMToken, Report, NEPAL_DISTRICTS
+from .models import User, Resource, ResourceRequest, Post, Reply, Report, NEPAL_DISTRICTS
 from .serializers import UserSerializer, ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer, ReportSerializer
 
 logger = logging.getLogger(__name__)
@@ -209,9 +207,10 @@ def admin_resources_list(request):
 
     import uuid
     data = request.data
+    from .education_catalog import canonical_level
     title = data.get('title', '').strip()
     subject = data.get('subject', '').strip()
-    grade_level = data.get('grade_level', '').strip()
+    grade_level = canonical_level(data.get('grade_level', ''))
     file_url = data.get('file_url', '').strip()
     if not title or not subject or not grade_level or not file_url:
         return Response({'error': 'title, subject, grade_level, and file_url are required'}, status=400)
@@ -400,7 +399,7 @@ def admin_post_detail(request, post_id):
 
     if request.method == 'GET':
         data = PostSerializer(post, context={'request': request}).data
-        from api.models import PostView, User
+        from api.models import PostView
         from .services import avatar_or_photo_url
         viewers_qs = PostView.objects.filter(post_id=post_id).select_related('user').order_by('-viewed_at')[:50]
         data['viewers'] = [

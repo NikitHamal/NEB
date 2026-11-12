@@ -1,218 +1,67 @@
-.tools-page {
-  min-height: calc(100vh - 80px);
-  padding: 48px 20px 72px;
-}
+/* /tools hub and shared tool-page polish. M3 Expressive: tonal surfaces, finite radii,
+   no shadows, motion that respects reduced-motion. Colours are roles only. */
+.tools-page { min-height: calc(100vh - 80px); padding: 40px 20px 80px; }
+.tools-page-shell { width: min(1120px, 100%); margin: 0 auto; }
+.tools-page-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+.tools-page-title { margin: 0; color: var(--md-on-surface); font-family: Poppins, system-ui, sans-serif; }
 
-.tools-page-shell {
-  width: min(1160px, 100%);
-  margin: 0 auto;
-}
-
-.tools-page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.tools-page-header-copy {
-  min-width: 0;
-}
-
-.tools-page-eyebrow {
-  margin: 0 0 6px;
-  color: var(--md-primary);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.tools-page-title {
-  margin: 0;
-  color: var(--md-on-surface);
-}
-
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
+.tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 
 .tools-card {
-  position: relative;
-  display: flex;
-  min-height: 292px;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 24px;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-lg);
-  background: var(--md-surface-container-lowest);
-  color: var(--md-on-surface);
-  transition: none;
+  --tc-bg: var(--md-primary-container);
+  --tc-fg: var(--md-on-primary-container);
+  position: relative; display: flex; flex-direction: column; gap: 22px; min-height: 236px;
+  padding: 24px; border-radius: 32px; text-decoration: none;
+  background: var(--tc-bg); color: var(--tc-fg);
+  transition: border-radius .38s cubic-bezier(.2, 0, 0, 1), transform .24s cubic-bezier(.2, 0, 0, 1), background-color .2s;
+  animation: tools-rise .5s cubic-bezier(.2, 0, 0, 1) both; animation-delay: calc(var(--i, 0) * 60ms);
 }
-
-.tools-card:hover,
-.tools-card:focus-visible {
-  border-color: var(--tool-accent, var(--md-primary));
-  background: color-mix(in srgb, var(--tool-accent, var(--md-primary)) 4%, var(--md-surface-container-lowest));
-  box-shadow: var(--md-elevation-1);
-  transform: none;
-}
-
-.tools-card:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--tool-accent, var(--md-primary)) 28%, transparent);
-  outline-offset: 2px;
-}
-
-.tools-card-head {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding-right: 8px;
-}
-
-.tools-card:has(.tools-card-badge) .tools-card-head {
-  padding-top: 32px;
-  padding-right: 0;
-}
+.tools-card[data-tone="secondary"] { --tc-bg: var(--md-secondary-container); --tc-fg: var(--md-on-secondary-container); }
+.tools-card[data-tone="tertiary"] { --tc-bg: var(--md-tertiary-container); --tc-fg: var(--md-on-tertiary-container); }
+.tools-card:hover, .tools-card:focus-visible { border-radius: 44px; }
+.tools-card:active { transform: scale(.975); }
+.tools-card:focus-visible { outline: 3px solid var(--md-primary); outline-offset: 3px; }
 
 .tools-card-icon {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: var(--md-radius-md);
-  background: color-mix(in srgb, var(--tool-accent, var(--md-primary)) 12%, transparent);
-  color: color-mix(in srgb, var(--tool-accent, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
+  display: grid; place-items: center; width: 56px; height: 56px; border-radius: 20px;
+  background: var(--tc-fg); color: var(--tc-bg);
+  transition: border-radius .38s cubic-bezier(.2, 0, 0, 1), transform .38s cubic-bezier(.2, 0, 0, 1);
 }
+.tools-card:hover .tools-card-icon { border-radius: 28px; transform: rotate(-6deg) scale(1.05); }
+.tools-card-icon .material-symbols-outlined { font-size: 28px; }
 
-.tools-card-icon .material-symbols-outlined {
-  /* See the note in pages/interactive/01-hub.css: the app pairs a 44dp
-     tile with a 21dp icon, and these tiles are cut to a silhouette now. */
-  font-size: 22px;
-}
+.tools-card-text { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.tools-card-title { font: 600 1.25rem/1.25 Poppins, system-ui, sans-serif; }
+.tools-card-description { font: 400 .9rem/1.5 Poppins, system-ui, sans-serif; opacity: .86; }
 
-.tools-card-title {
-  margin: 2px 0 0;
-  color: var(--md-on-surface);
-  font-size: 1.25rem;
-  line-height: 1.3;
-}
-
-.tools-card-description {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  margin: 20px 0 24px;
-  color: var(--md-on-surface-variant);
-  font-size: 0.9375rem;
-  line-height: 1.65;
-}
-
-.tools-card-action {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-end;
-  gap: 6px;
-  color: color-mix(in srgb, var(--tool-accent, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-
-.tools-card-action .material-symbols-outlined {
-  font-size: 19px;
-  transition: none;
-  transform: none;
-}
-
+.tools-card-foot { display: flex; align-items: center; justify-content: space-between; min-height: 40px; }
 .tools-card-badge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 2;
-  padding: 4px 8px;
-  border-radius: var(--md-radius-sm);
-  background: var(--tool-accent, var(--md-primary));
-  color: var(--md-on-primary);
-  font-size: 0.625rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  line-height: 1.35;
+  padding: 6px 12px; border-radius: 28px; background: var(--tc-fg); color: var(--tc-bg);
+  font: 600 .72rem/1 Poppins, system-ui, sans-serif; letter-spacing: .04em;
 }
-
-
-.tools-page *,
-.tools-audio-page * {
-  animation: none !important;
-  transition: none !important;
+.tools-card-go {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 20px;
+  background: color-mix(in srgb, var(--tc-fg) 14%, transparent);
+  transition: background-color .2s, border-radius .3s cubic-bezier(.2, 0, 0, 1), transform .3s cubic-bezier(.2, 0, 0, 1);
 }
+.tools-card:hover .tools-card-go { background: var(--tc-fg); color: var(--tc-bg); border-radius: 14px; transform: translateX(4px); }
 
-.tools-audio-page {
-  transition: none !important;
-}
+@keyframes tools-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-.tools-page .tools-card:hover,
-.tools-page .tools-card:focus-visible,
-.tools-audio-page .btn:hover,
-.tools-audio-page .btn.primary:hover,
-.tools-audio-page .chunk-btn:hover {
-  transform: none !important;
-}
-
-.tools-audio-page .toast {
-  animation: none !important;
-}
-
-@media (max-width: 900px) {
-  .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .md-topbar {
-    height: auto;
-    min-height: 64px;
-    flex-wrap: wrap;
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-  .md-topbar-brand { flex: 1 1 auto; }
-  .md-topbar-nav {
-    position: static;
-    order: 3;
-    width: 100%;
-    transform: none;
-    overflow-x: auto;
-    justify-content: flex-start;
-  }
-  .md-topbar-actions { margin-left: auto; }
-}
-
+@media (max-width: 900px) { .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
-  .tools-page { padding: 32px 16px 56px; }
-  .tools-page-header { margin-bottom: 24px; }
-  .tools-page-title { font-size: 2rem; }
-  .tools-grid { grid-template-columns: 1fr; gap: 16px; }
-  .tools-card { min-height: 0; padding: 20px; }
-  .tools-card-description { margin: 16px 0 22px; }
-  .tools-card-badge { top: 14px; right: 14px; }
-  .app-banner {
-    min-height: 44px;
-    padding: 8px 36px 8px 10px;
-  }
-  .app-banner-content { gap: 6px; width: 100%; }
-  .app-banner-text { white-space: normal; font-size: 0.75rem; }
-  .app-banner-btn { padding: 4px 9px; font-size: 0.72rem; }
-  .tools-audio-page .wrap { padding: 28px 16px 56px; }
-  .tools-audio-page header { gap: 14px; }
-  .tools-audio-page .pills { width: 100%; }
-  .tools-audio-page .pills .pill { flex: 1 1 calc(50% - 8px); }
-  .tools-audio-page .recRow { align-items: stretch; }
-  .tools-audio-page .vu { min-height: 44px; }
-  .tools-audio-page .actions { width: 100%; margin-left: 0; }
-  .tools-audio-page .actions .btn { flex: 1 1 auto; justify-content: center; }
+  .tools-page { padding: 24px 14px 64px; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .tools-card { min-height: 0; border-radius: 28px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  .tools-card, .tools-card * { animation: none !important; transition: none !important; }
+}
+
+/* ---- audio tool pages (Whisper, Kokoro): motion on, no shadows, tonal pills ---- */
+.tools-audio-page .btn, .tools-audio-page button.btn { border-radius: 28px; box-shadow: none; transition: background-color .2s, transform .2s cubic-bezier(.2, 0, 0, 1), border-radius .3s cubic-bezier(.2, 0, 0, 1); }
+.tools-audio-page .btn:hover { border-radius: 24px; }
+.tools-audio-page .btn:active { transform: scale(.97); }
+.tools-audio-page .pill, .tools-audio-page .tag { border-radius: 28px; }
+.tools-audio-page .card, .tools-audio-page .panel, .tools-audio-page section { box-shadow: none; }
+@media (prefers-reduced-motion: reduce) { .tools-audio-page * { animation: none !important; transition: none !important; } }

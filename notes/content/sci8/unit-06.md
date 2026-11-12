@@ -548,3 +548,82 @@ Upthrust $=Vdg=2\times10^{-4}\times1000\times9.8=1.96$ N (upwards). The stone se
 **8.** $L.D.=0.5$ m, $E.D.=2-0.5=1.5$ m. $MA=\frac{900}{300}=3$; $VR=\frac{1.5}{0.5}=3$; $\eta=\frac{3}{3}\times100\%=100\%$ (an ideal lever, friction neglected).
 **9.** See the derivation box in 6.6.1: $V=Ah$, $m=dAh$, $F=mg=Ahdg$, $P=\frac{F}{A}=hdg$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define distance, displacement, speed, velocity and acceleration. Explain distance-time and velocity-time graphs with numerical examples. <span class="marks">[10]</span>
+2. What is a lever? Explain its classes, the principle of moments and mechanical advantage. Define pressure and solve a numerical. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="4" ratio="1.15" caption="Force and pressure at work. (a) A hydraulic jack multiplies a small force using liquid pressure. (b) A barometer measures air pressure. (c) A hammer and a feather fall together on the Moon, since there is no air. (d) A rocket obeys Newton’s third law: gas goes down and the rocket goes up."
+@ photo id="sci10/hydraulic-jack" cap="(a) Hydraulic jack"
+@ photo id="sci10/barometer" cap="(b) Barometer"
+@ photo id="sci10/apollo-feather" cap="(c) Free fall on the Moon"
+@ photo id="sci10/saturn-v" cap="(d) Rocket launch"
+```
+
+### Model answer D1: motion and graphs (10 marks)
+
+**Introduction.** A body is in **motion** if its position changes with time.
+
+| Term | Meaning | Unit |
+|---|---|---|
+| Distance | Total path length travelled (scalar) | m |
+| Displacement | Shortest straight distance from start to end, with direction (vector) | m |
+| Speed | Distance covered per unit time | m/s |
+| Velocity | Displacement per unit time, with direction | m/s |
+| Acceleration | Change of velocity per unit time | m/s² |
+
+$$\text{speed} = \frac{\text{distance}}{\text{time}}, \qquad a = \frac{v - u}{t}.$$
+
+**Numerical 1.** A bus covers 150 km in 3 hours. Its average speed is $150 \div 3 = 50$ km/h.
+
+**Numerical 2.** A car starts from rest and reaches 20 m/s in 5 s. Its acceleration is $(20 - 0) \div 5 = 4$ m/s².
+
+**Distance-time graph.**
+
+- A **straight line sloping up** shows uniform speed; the steeper it is, the greater the speed.
+- A **horizontal line** shows that the body is at rest.
+- A **curve** shows a changing speed.
+- The slope of the graph gives the speed.
+
+**Velocity-time graph.**
+
+- A **horizontal line** shows constant velocity.
+- A **straight line sloping up** shows uniform acceleration; a line sloping down shows retardation.
+- The **slope** gives the acceleration and the **area under the graph** gives the distance.
+
+**Numerical 3.** A body moves at a constant 10 m/s for 6 s. Distance = area of the rectangle = $10 \times 6 = 60$ m.
+
+**Force and Newton's laws.** An unbalanced force changes the state of motion. First law: a body stays at rest or in uniform motion unless a force acts (inertia). Second law: $F = ma$. Third law: action and reaction are equal and opposite.
+
+**Conclusion.** Graphs give the speed, acceleration and distance at a glance and make motion easy to study.
+
+### Model answer D2: lever and pressure (10 marks)
+
+**Introduction.** A **lever** is a rigid bar that turns about a fixed point, the **fulcrum**, to lift a **load** with an **effort**. It is a simple machine.
+
+**Principle of moments.** For balance, the clockwise moment equals the anticlockwise moment:
+
+$$\text{Effort} \times \text{effort arm} = \text{Load} \times \text{load arm}.$$
+
+The **moment** of a force is force × perpendicular distance from the fulcrum.
+
+**Mechanical advantage (MA)** $= \dfrac{\text{Load}}{\text{Effort}} = \dfrac{\text{effort arm}}{\text{load arm}}$.
+
+**Classes of lever.**
+
+| Class | Position | Examples |
+|---|---|---|
+| First | Fulcrum between load and effort | Seesaw, scissors, crowbar |
+| Second | Load between fulcrum and effort | Wheelbarrow, nutcracker, bottle opener |
+| Third | Effort between fulcrum and load | Tweezers, fishing rod, forearm |
+
+**Numerical.** A crowbar has a load arm of 0.2 m and an effort arm of 1 m. What effort lifts a load of 200 N?
+
+$$\text{Effort} = \frac{200 \times 0.2}{1} = 40\ \text{N}, \qquad MA = \frac{200}{40} = 5.$$
+
+**Pressure.** The force acting on a unit area: $P = \dfrac{F}{A}$ in pascal (Pa). A sharp knife and a nail cut well since the small area gives a large pressure; a wide school bag strap and a camel's wide feet reduce the pressure. In a liquid, the pressure increases with depth, $P = h\rho g$.
+
+**Numerical.** A force of 600 N acts on an area of 0.03 m². Pressure $= 600 \div 0.03 = 20{,}000$ Pa.
+
+**Conclusion.** Levers make work easier by trading effort and distance, and pressure depends on both force and area.

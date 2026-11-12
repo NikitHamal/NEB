@@ -119,6 +119,7 @@ data class ApiPollCreate(
     val question: String = "",
     @SerialName("poll_type") val pollType: String = "voting",
     @SerialName("allow_multiple") val allowMultiple: Boolean = false,
+    @SerialName("allow_add_options") val allowAddOptions: Boolean = false,
     val explanation: String = "",
     @SerialName("duration_ms") val durationMs: Long = 0,
     val options: List<ApiPollOptionCreate> = emptyList()
@@ -184,6 +185,18 @@ data class ForumMediaUploadResponse(
 )
 
 @Serializable
+data class PostViewRequest(
+    val surface: String = "",
+    @SerialName("dwell_ms") val dwellMs: Long = 0
+)
+
+@Serializable
+data class PostImpressionsRequest(val ids: List<String>)
+
+@Serializable
+data class PollAddOptionRequest(val text: String, val vote: Boolean = true)
+
+@Serializable
 data class PollVoteRequest(
     @SerialName("option_id") val optionId: String? = null,
     @SerialName("option_ids") val optionIds: List<String>? = null
@@ -245,8 +258,13 @@ data class ReplyCreateRequest(
     val content: String,
     @SerialName("parentReplyId") val parentReplyId: String? = null,
     val isAnonymous: Boolean = false,
-    val attachments: List<ApiMediaAttachmentInput> = emptyList()
+    val attachments: List<ApiMediaAttachmentInput> = emptyList(),
+    val kind: String = "comment",
+    val poll: ApiPollCreate? = null
 )
+
+@Serializable
+data class ReplyLabelRequest(val label: String)
 
 @Serializable
 data class ReplyUpdateRequest(val content: String)
@@ -274,6 +292,22 @@ data class ReportRequest(
 
 @Serializable
 data class FcmTokenRequest(val token: String)
+
+@Serializable
+data class NotificationPrefsRequest(@SerialName("new_resources") val newResources: Boolean)
+
+@Serializable
+data class NotificationPrefsResponse(
+    val newResources: Boolean = true,
+    val devices: Int = 0,
+    val hasSubjects: Boolean = false
+)
+
+@Serializable
+data class PushOpenedRequest(
+    @SerialName("notification_id") val notificationId: String? = null,
+    @SerialName("campaign_id") val campaignId: String? = null
+)
 
 @Serializable
 data class ResultCheckRequest(
@@ -371,54 +405,6 @@ data class EmailSignupResponse(
 
 @Serializable
 data class UsernameCheckResponse(val available: Boolean)
-
-@Serializable
-data class AvatarStyleRaw(
-    val hue: Int = -1,
-    val tone: Double = -1.0,
-    val bg: String = "",
-    val anim: String = "",
-    val shape: String = "",
-    val expression: String = "",
-    val color: String = "",
-    val bgcolor: String = "",
-    val eyecolor: String = "",
-    @SerialName("use_pp") val usePp: Boolean = false
-)
-
-@Serializable
-data class AvatarStyleResponse(
-    @SerialName("avatar_url") val avatarUrl: String = "",
-    val avatarUrlCamel: String? = null,
-    @SerialName("avatar_use_pp") val avatarUsePp: Boolean = false,
-    val style: Map<String, kotlinx.serialization.json.JsonElement> = emptyMap(),
-    val raw: AvatarStyleRaw = AvatarStyleRaw(),
-    val error: String? = null
-)
-
-@Serializable
-data class AvatarStyleUpdateRequest(
-    val background: String? = null,
-    val anim: String? = null,
-    val shape: String? = null,
-    val expression: String? = null,
-    val color: String? = null,
-    val bgcolor: String? = null,
-    val eyecolor: String? = null,
-    val hue: Int? = null,
-    val tone: Double? = null,
-    @SerialName("use_pp") val usePp: Boolean? = null
-)
-
-@Serializable
-data class AvatarStyleUpdateResponse(
-    val status: String = "",
-    @SerialName("avatar_url") val avatarUrl: String = "",
-    val avatarUrlCamel: String? = null,
-    val style: Map<String, kotlinx.serialization.json.JsonElement> = emptyMap(),
-    @SerialName("avatar_use_pp") val avatarUsePp: Boolean = false,
-    val error: String? = null
-)
 
 @Serializable
 data class UserProfileResponse(
@@ -588,11 +574,20 @@ data class ApiPoll(
     @SerialName("createdAt") val createdAt: Long = 0,
     @SerialName("isExpired") val isExpired: Boolean = false,
     @SerialName("userVote") val userVote: kotlinx.serialization.json.JsonElement? = null,
+    @SerialName("userVotes") val userVotes: List<String> = emptyList(),
+    @SerialName("hasVoted") val hasVoted: Boolean = false,
+    @SerialName("allowAddOptions") val allowAddOptions: Boolean = false,
+    @SerialName("canAddOption") val canAddOption: Boolean = false,
+    @SerialName("canRetract") val canRetract: Boolean = false,
+    @SerialName("leaderId") val leaderId: String? = null,
+    @SerialName("expiresAt") val expiresAt: Long = 0,
+    val error: String? = null,
     val options: List<ApiPollOption> = emptyList()
 ) {
     /** Option ids the current user voted for (handles both single-id string and list shapes). */
     val userVoteIds: List<String>
         get() {
+            if (userVotes.isNotEmpty()) return userVotes
             val el = userVote ?: return emptyList()
             return try {
                 when (el) {
@@ -616,6 +611,9 @@ data class ApiPollOption(
     @SerialName("isCorrect") val isCorrectCamel: Boolean? = null,
     @SerialName("vote_count") val voteCount: Int = 0,
     @SerialName("voteCount") val voteCountCamel: Int? = null,
+    @SerialName("isMine") val isMine: Boolean = false,
+    @SerialName("addedByMe") val addedByMe: Boolean = false,
+    @SerialName("isAdded") val isAdded: Boolean = false,
     val order: Int = 0
 ) {
     val correct: Boolean get() = isCorrectCamel ?: isCorrect
@@ -652,7 +650,11 @@ data class ApiReply(
     @SerialName("isAnonymous") val isAnonymous: Boolean = false,
     @SerialName("createdAt") val createdAt: Long,
     @SerialName("editedAt") val updatedAt: Long? = null,
-    val attachments: List<ApiMediaAttachment> = emptyList()
+    val attachments: List<ApiMediaAttachment> = emptyList(),
+    val kind: String = "comment",
+    val label: String = "",
+    @SerialName("canLabel") val canLabel: Boolean = false,
+    val poll: ApiPoll? = null
 )
 
 @Serializable
@@ -875,7 +877,16 @@ data class ApiProfileResourcesResponse(
 @Serializable
 data class ApiRealtimeConfig(
     @SerialName("ws_url") val wsUrl: String = "",
-    @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25
+    @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25,
+    /** "ably-sse" (hosted, default), "ws" (self-hosted) or "none". */
+    val transport: String = "none",
+    @SerialName("sse_url") val sseUrl: String = "",
+    val token: String = "",
+    @SerialName("expires_in") val expiresIn: Int = 3600,
+    @SerialName("user_channel") val userChannel: String = "",
+    /** Which of the server's Ably apps this token is for, and how many there are (failover). */
+    val shard: Int = 0,
+    val shards: Int = 1
 )
 
 @Serializable
@@ -1186,15 +1197,6 @@ interface ApiService {
     @GET("api/users/check-username/")
     suspend fun checkUsername(@Query("username") username: String): UsernameCheckResponse
 
-    @GET("api/users/me/avatar/")
-    suspend fun getAvatarStyle(@Header("Authorization") bearerToken: String?): AvatarStyleResponse
-
-    @POST("api/users/me/avatar/customize/")
-    suspend fun updateAvatarStyle(
-        @Header("Authorization") bearerToken: String,
-        @Body request: AvatarStyleUpdateRequest
-    ): AvatarStyleUpdateResponse
-
     @POST("api/users/profile/")
     suspend fun updateProfile(
         @Header("Authorization") bearerToken: String,
@@ -1222,7 +1224,8 @@ interface ApiService {
 
     @GET("api/users/me/analytics/")
     suspend fun getPrivateAnalytics(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Query("days") days: Int = 30
     ): ApiPrivateAnalyticsResponse
 
     @POST("api/users/{userId}/follow/")
@@ -1355,8 +1358,26 @@ interface ApiService {
         @Part paymentProof: okhttp3.MultipartBody.Part?
     ): ApiPurchaseResponse
 
+    /** One view per person per day. `surface` is where they came from (library, search, notification...),
+     *  `dwellMs` how long the page stayed open. Signed-in so the uploader's class breakdown is right. */
+    @FormUrlEncoded
     @POST("api/resources/{resourceId}/view/")
-    suspend fun viewResource(@Path("resourceId") resourceId: String)
+    suspend fun viewResource(
+        @Header("Authorization") bearerToken: String?,
+        @Path("resourceId") resourceId: String,
+        @Field("surface") surface: String = "",
+        @Field("src") src: String = "",
+        @Field("dwell_ms") dwellMs: Long = 0L
+    )
+
+    /** `action` is read, download or share. Feeds the uploader's insights and the download count. */
+    @FormUrlEncoded
+    @POST("api/resources/{resourceId}/action/")
+    suspend fun resourceAction(
+        @Header("Authorization") bearerToken: String?,
+        @Path("resourceId") resourceId: String,
+        @Field("action") action: String
+    )
 
     @POST("api/resources/{resourceId}/like/")
     suspend fun toggleLikeResource(
@@ -1470,6 +1491,57 @@ interface ApiService {
         @Path("postId") postId: String
     )
 
+    /** Counted view with where the reader came from and how long the post stayed on screen. */
+    @POST("api/posts/{postId}/view/")
+    suspend fun reportPostView(
+        @Path("postId") postId: String,
+        @Body body: PostViewRequest
+    )
+
+    /** Posts that scrolled into view in a list. */
+    @POST("api/posts/impressions/")
+    suspend fun reportPostImpressions(@Body body: PostImpressionsRequest)
+
+    /** Library resource cards that scrolled into view in a list. */
+    @POST("api/resources/impressions/")
+    suspend fun reportResourceImpressions(@Body body: PostImpressionsRequest)
+
+    /** Uploader-only (and staff) insights for one library resource. */
+    @GET("api/resources/{resourceId}/insights/")
+    suspend fun getResourceInsights(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Query("days") days: Int
+    ): ApiResourceInsights
+
+    /** Everything the signed-in member has uploaded to the library, plus their posts. */
+    @GET("api/uploads/insights/")
+    suspend fun getUploadsInsights(
+        @Header("Authorization") bearerToken: String,
+        @Query("days") days: Int
+    ): ApiResourceInsights
+
+    /** Author-only (and staff) per-post insights. */
+    @GET("api/posts/{postId}/insights/")
+    suspend fun getPostInsights(
+        @Header("Authorization") bearerToken: String,
+        @Path("postId") postId: String,
+        @Query("days") days: Int
+    ): ApiPostInsights
+
+    @POST("api/polls/{pollId}/options/")
+    suspend fun addPollOption(
+        @Header("Authorization") bearerToken: String,
+        @Path("pollId") pollId: String,
+        @Body body: PollAddOptionRequest
+    ): ApiPoll
+
+    @DELETE("api/polls/{pollId}/options/")
+    suspend fun retractPollVote(
+        @Header("Authorization") bearerToken: String,
+        @Path("pollId") pollId: String
+    ): ApiPoll
+
     @Multipart
     @POST("api/forum/uploads/")
     suspend fun uploadForumMedia(
@@ -1549,6 +1621,13 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("replyId") replyId: String
     ): LikeResponse
+
+    @POST("api/replies/{replyId}/label/")
+    suspend fun labelReply(
+        @Header("Authorization") bearerToken: String,
+        @Path("replyId") replyId: String,
+        @Body body: ReplyLabelRequest
+    ): ApiReply
 
     @POST("api/replies/{replyId}/archive/")
     suspend fun archiveReply(
@@ -1641,87 +1720,6 @@ interface ApiService {
         @Query("target_type") targetType: String? = null
     ): ApiPaginatedBookmarks
 
-    // --- Study Spaces / Study Lab ---
-    @GET("ajax/study-space/list/")
-    suspend fun getStudySpaces(
-        @Header("Authorization") bearerToken: String
-    ): ApiStudySpaceListResponse
-
-    @GET("ajax/study-space/public/")
-    suspend fun getPublicStudySpaces(
-        @Header("Authorization") bearerToken: String,
-        @Query("q") query: String? = null,
-        @Query("sort") sort: String? = null
-    ): ApiStudySpaceListResponse
-
-    @POST("ajax/study-space/create/")
-    suspend fun createStudySpace(
-        @Header("Authorization") bearerToken: String,
-        @Body request: ApiStudySpaceCreateRequest
-    ): ApiStudySpaceDetail
-
-    @POST("ajax/study-space/join-code/")
-    suspend fun joinStudySpaceByCode(
-        @Header("Authorization") bearerToken: String,
-        @Body request: ApiStudySpaceJoinRequest
-    ): ApiStudySpaceJoinResponse
-
-    @GET("ajax/study-space/{spaceId}/")
-    suspend fun getStudySpaceDetail(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String
-    ): ApiStudySpaceDetail
-
-    // --- Neby AI / Arena ---
-    @GET("api/neby-arena/models/")
-    suspend fun getArenaModels(
-        @Header("Authorization") bearerToken: String
-    ): ApiArenaModelsResponse
-
-    @GET("api/neby-arena/qwen/models/")
-    suspend fun getQwenModels(
-        @Header("Authorization") bearerToken: String
-    ): ApiArenaModelsResponse
-
-    @GET("api/neby-arena/sessions/")
-    suspend fun getArenaSessions(
-        @Header("Authorization") bearerToken: String
-    ): ApiArenaSessionsResponse
-
-    @POST("api/neby-arena/sessions/")
-    suspend fun createArenaSession(
-        @Header("Authorization") bearerToken: String,
-        @Body request: ApiArenaCreateSessionRequest
-    ): ApiArenaSessionResponse
-
-    @POST("api/neby-arena/qwen/sessions/")
-    suspend fun createQwenArenaSession(
-        @Header("Authorization") bearerToken: String,
-        @Body request: ApiArenaCreateSessionRequest
-    ): ApiArenaSessionResponse
-
-    @GET("api/neby-arena/sessions/{sessionId}/")
-    suspend fun getArenaSessionDetail(
-        @Header("Authorization") bearerToken: String,
-        @Path("sessionId") sessionId: String
-    ): ApiArenaSessionDetailResponse
-
-    @Streaming
-    @POST("api/neby-arena/sessions/{sessionId}/messages/")
-    suspend fun sendArenaMessage(
-        @Header("Authorization") bearerToken: String,
-        @Path("sessionId") sessionId: String,
-        @Body request: ApiArenaSendMessageRequest
-    ): ResponseBody
-
-    @Streaming
-    @POST("api/neby-arena/qwen/sessions/{sessionId}/messages/sse/")
-    suspend fun sendQwenArenaMessage(
-        @Header("Authorization") bearerToken: String,
-        @Path("sessionId") sessionId: String,
-        @Body request: ApiArenaSendMessageRequest
-    ): ResponseBody
-
     // --- Notifications ---
     @GET("api/notifications/")
     suspend fun getNotifications(
@@ -1745,6 +1743,24 @@ interface ApiService {
     suspend fun registerFcmToken(
         @Header("Authorization") bearerToken: String?,
         @Body request: FcmTokenRequest
+    )
+
+    // --- Notification preferences and push opens ---
+    @GET("api/me/notification-prefs/")
+    suspend fun getNotificationPrefs(
+        @Header("Authorization") bearerToken: String?
+    ): NotificationPrefsResponse
+
+    @PATCH("api/me/notification-prefs/")
+    suspend fun setNotificationPrefs(
+        @Header("Authorization") bearerToken: String?,
+        @Body request: NotificationPrefsRequest
+    ): NotificationPrefsResponse
+
+    @POST("api/push/opened/")
+    suspend fun pushOpened(
+        @Header("Authorization") bearerToken: String?,
+        @Body request: PushOpenedRequest
     )
 
     @POST("api/fcm/unregister/")
@@ -1807,7 +1823,7 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("pollId") pollId: String,
         @Body request: PollVoteRequest
-    ): ApiPollVoteResponse
+    ): ApiPoll
 
     /** Mini profile popover (web parity: shown on username hover / long-press). */
     @GET("ajax/user-popup/{username}/")
@@ -1843,200 +1859,7 @@ interface ApiService {
 
     // --- Realtime ---
     @GET("api/realtime/config/")
-    suspend fun getRealtimeConfig(): ApiRealtimeConfig
-
-    // --- Neby AI extras ---
-    @PATCH("api/neby-arena/sessions/{sessionId}/")
-    suspend fun updateArenaSession(
-        @Header("Authorization") bearerToken: String,
-        @Path("sessionId") sessionId: String,
-        @Body request: ApiArenaUpdateSessionRequest
-    ): GenericMessageResponse
-
-    @DELETE("api/neby-arena/sessions/{sessionId}/")
-    suspend fun deleteArenaSession(
-        @Header("Authorization") bearerToken: String,
-        @Path("sessionId") sessionId: String
-    ): GenericMessageResponse
-
-    @Streaming
-    @POST("api/neby-arena/messages/{messageId}/regenerate/")
-    suspend fun regenerateArenaMessage(
-        @Header("Authorization") bearerToken: String,
-        @Path("messageId") messageId: String
-    ): ResponseBody
-
-    /** Qwen send with base64-encoded file attachments (images, PDFs, docs — max 5 x 20MB). */
-    @Streaming
-    @POST("api/neby-arena/qwen/sessions/{sessionId}/messages/sse/")
-    suspend fun sendQwenMessageWithFiles(
-        @Header("Authorization") bearerToken: String,
-        @Path("sessionId") sessionId: String,
-        @Body request: ApiQwenSendMessageRequest
-    ): ResponseBody
-
-    // --- Study Lab: documents (web-parity AJAX endpoints, Bearer-auth) ---
-    @Multipart
-    @POST("ajax/study-lab/upload/")
-    suspend fun uploadStudyDocument(
-        @Header("Authorization") bearerToken: String,
-        @Part file: okhttp3.MultipartBody.Part
-    ): ApiStudyUploadResponse
-
-    @GET("ajax/study-lab/documents/")
-    suspend fun getStudyDocuments(
-        @Header("Authorization") bearerToken: String
-    ): ApiStudyDocumentsResponse
-
-    @GET("ajax/study-lab/document/{docId}/")
-    suspend fun getStudyDocumentDetail(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String
-    ): ApiStudyDocDetailResponse
-
-    @POST("ajax/study-lab/document/{docId}/delete/")
-    suspend fun deleteStudyDocument(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String
-    ): ApiStudySuccessResponse
-
-    @GET("ajax/study-lab/document/{docId}/parse-status/")
-    suspend fun getStudyParseStatus(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String
-    ): ApiStudyParseStatus
-
-    @POST("ajax/study-lab/document/{docId}/reparse/")
-    suspend fun reparseStudyDocument(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String,
-        @Query("force") force: Boolean? = null
-    ): ApiStudyReparseResponse
-
-    @POST("ajax/study-lab/document/{docId}/summary/")
-    suspend fun generateStudySummary(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String,
-        @Body request: ApiStudySummaryRequest
-    ): ApiStudySummaryResponse
-
-    @POST("ajax/study-lab/document/{docId}/mindmap/")
-    suspend fun generateStudyMindmap(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String
-    ): ApiStudyMindmapResponse
-
-    @POST("ajax/study-lab/document/{docId}/quiz/")
-    suspend fun generateStudyQuiz(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String,
-        @Body request: ApiStudyCountRequest
-    ): ApiStudyQuizResponse
-
-    @POST("ajax/study-lab/document/{docId}/flashcards/")
-    suspend fun generateStudyFlashcards(
-        @Header("Authorization") bearerToken: String,
-        @Path("docId") docId: String,
-        @Body request: ApiStudyCountRequest
-    ): ApiStudyFlashcardsResponse
-
-    @GET("ajax/study-lab/quiz/{quizId}/")
-    suspend fun getStudyQuiz(
-        @Header("Authorization") bearerToken: String,
-        @Path("quizId") quizId: String
-    ): ApiStudyQuizResponse
-
-    /** Document quizzes: answers keyed by question NUMBER (as string). */
-    @POST("ajax/study-lab/quiz/{quizId}/submit/")
-    suspend fun submitStudyQuiz(
-        @Header("Authorization") bearerToken: String,
-        @Path("quizId") quizId: String,
-        @Body request: ApiStudyQuizSubmitRequest
-    ): ApiStudyQuizSubmitResponse
-
-    @POST("ajax/study-lab/flashcard/{cardId}/review/")
-    suspend fun reviewStudyFlashcard(
-        @Header("Authorization") bearerToken: String,
-        @Path("cardId") cardId: String,
-        @Body request: ApiStudyFlashcardReviewRequest
-    ): ApiStudyFlashcardReviewResponse
-
-    // --- Study Spaces: uploads + AI generation (web-parity) ---
-    @Multipart
-    @POST("ajax/study-space/{spaceId}/upload/")
-    suspend fun uploadSpaceDocument(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String,
-        @Part file: okhttp3.MultipartBody.Part
-    ): ApiStudyUploadResponse
-
-    @GET("ajax/study-space/{spaceId}/document/{docId}/parse-status/")
-    suspend fun getSpaceParseStatus(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String,
-        @Path("docId") docId: String
-    ): ApiStudyParseStatus
-
-    @POST("ajax/study-space/{spaceId}/document/{docId}/reparse/")
-    suspend fun reparseSpaceDocument(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String,
-        @Path("docId") docId: String
-    ): ApiStudyReparseResponse
-
-    @POST("ajax/study-space/{spaceId}/summary/")
-    suspend fun generateSpaceSummary(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String,
-        @Body request: ApiStudySummaryRequest
-    ): ApiStudySummaryResponse
-
-    @POST("ajax/study-space/{spaceId}/mindmap/")
-    suspend fun generateSpaceMindmap(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String
-    ): ApiStudyMindmapResponse
-
-    @POST("ajax/study-space/{spaceId}/quiz/")
-    suspend fun generateSpaceQuiz(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String,
-        @Body request: ApiStudyCountRequest
-    ): ApiStudyQuizResponse
-
-    @GET("ajax/study-space/{spaceId}/quizzes/")
-    suspend fun getSpaceQuizzes(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String
-    ): ApiSpaceQuizzesResponse
-
-    @POST("ajax/study-space/{spaceId}/flashcards/")
-    suspend fun generateSpaceFlashcards(
-        @Header("Authorization") bearerToken: String,
-        @Path("spaceId") spaceId: String,
-        @Body request: ApiStudyCountRequest
-    ): ApiStudyFlashcardsResponse
-
-    @GET("ajax/study-space/quiz/{quizId}/")
-    suspend fun getSpaceQuiz(
-        @Header("Authorization") bearerToken: String,
-        @Path("quizId") quizId: String
-    ): ApiStudyQuizResponse
-
-    /** Space quizzes: answers keyed by question ID. */
-    @POST("ajax/study-space/quiz/{quizId}/submit/")
-    suspend fun submitSpaceQuiz(
-        @Header("Authorization") bearerToken: String,
-        @Path("quizId") quizId: String,
-        @Body request: ApiStudyQuizSubmitRequest
-    ): ApiStudyQuizSubmitResponse
-
-    @POST("ajax/study-space/flashcard/{cardId}/review/")
-    suspend fun reviewSpaceFlashcard(
-        @Header("Authorization") bearerToken: String,
-        @Path("cardId") cardId: String,
-        @Body request: ApiStudyFlashcardReviewRequest
-    ): ApiStudyFlashcardReviewResponse
+    suspend fun getRealtimeConfig(@Query("shard") shard: Int? = null): ApiRealtimeConfig
 
     // --- Syllabus (public; exported from the NEBians books, shared with the website) ---
     @GET("api/syllabus/v2/")
@@ -2268,6 +2091,7 @@ interface ApiService {
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
                 .addInterceptor(WafChallengeInterceptor(context))
+                .addInterceptor(DeviceSignalInterceptor(context))
                 .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
@@ -2323,94 +2147,6 @@ data class ApiPaginatedBookmarks(
 )
 
 @Serializable
-data class ApiAnalyticsStats(
-    val posts: Int = 0,
-    val replies: Int = 0,
-    @SerialName("postViews") val postViews: Int = 0,
-    @SerialName("postLikesReceived") val postLikesReceived: Int = 0,
-    @SerialName("postRepliesReceived") val postRepliesReceived: Int = 0,
-    val resources: Int = 0,
-    @SerialName("resourceViews") val resourceViews: Int = 0,
-    @SerialName("resourceLikesReceived") val resourceLikesReceived: Int = 0,
-    @SerialName("resourceCommentsReceived") val resourceCommentsReceived: Int = 0,
-    @SerialName("resourceCommentsMade") val resourceCommentsMade: Int = 0,
-    val followers: Int = 0,
-    val following: Int = 0,
-    val bookmarks: Int = 0,
-    @SerialName("notificationsUnread") val notificationsUnread: Int = 0,
-    @SerialName("studyDocs") val studyDocs: Int = 0,
-    val summaries: Int = 0,
-    val mindmaps: Int = 0,
-    val quizzes: Int = 0,
-    @SerialName("quizAttempts") val quizAttempts: Int = 0,
-    @SerialName("quizAccuracy") val quizAccuracy: Int = 0,
-    @SerialName("quizXp") val quizXp: Int = 0,
-    val flashcards: Int = 0,
-    @SerialName("flashReviews") val flashReviews: Int = 0,
-    @SerialName("easyReviews") val easyReviews: Int = 0,
-    @SerialName("mediumReviews") val mediumReviews: Int = 0,
-    @SerialName("hardReviews") val hardReviews: Int = 0,
-    @SerialName("recentPosts") val recentPosts: Int = 0,
-    @SerialName("recentReplies") val recentReplies: Int = 0,
-    @SerialName("recentStudyActions") val recentStudyActions: Int = 0,
-    @SerialName("contributionScore") val contributionScore: Int = 0,
-    @SerialName("likesGiven") val likesGiven: Int = 0
-)
-
-@Serializable
-data class ApiAnalyticsDay(
-    val label: String = "",
-    val total: Int = 0,
-    val posts: Int = 0,
-    val replies: Int = 0,
-    val resources: Int = 0,
-    val study: Int = 0,
-    val height: Int = 8
-)
-
-@Serializable
-data class ApiAnalyticsTopic(
-    val label: String = "",
-    val count: Int = 0,
-    val width: Int = 0
-)
-
-@Serializable
-data class ApiAnalyticsPost(
-    val id: String = "",
-    val title: String = "",
-    val category: String = "",
-    @SerialName("view_count") val viewCount: Int = 0,
-    @SerialName("like_count") val likeCount: Int = 0,
-    @SerialName("reply_count") val replyCount: Int = 0,
-    @SerialName("created_at") val createdAt: Long = 0
-)
-
-@Serializable
-data class ApiAnalyticsResource(
-    val id: String = "",
-    val title: String = "",
-    val subject: String = "",
-    val type: String = "",
-    @SerialName("view_count") val viewCount: Int = 0,
-    @SerialName("like_count") val likeCount: Int = 0,
-    @SerialName("comment_count") val commentCount: Int = 0,
-    @SerialName("added_at") val addedAt: Long = 0
-)
-
-@Serializable
-data class ApiPrivateAnalyticsResponse(
-    val username: String = "",
-    val stats: ApiAnalyticsStats = ApiAnalyticsStats(),
-    @SerialName("activityDays") val activityDays: List<ApiAnalyticsDay> = emptyList(),
-    @SerialName("topCategories") val topCategories: List<ApiAnalyticsTopic> = emptyList(),
-    @SerialName("topSubjects") val topSubjects: List<ApiAnalyticsTopic> = emptyList(),
-    @SerialName("topPosts") val topPosts: List<ApiAnalyticsPost> = emptyList(),
-    @SerialName("topResources") val topResources: List<ApiAnalyticsResource> = emptyList(),
-    val suggestions: List<String> = emptyList()
-)
-
-@Serializable
 data class ApiProfileStats(
     val username: String = "",
     @SerialName("post_count") val postCount: Int = 0,
@@ -2428,435 +2164,13 @@ data class ApiProfileStats(
     @SerialName("is_private") val isPrivate: Boolean = false
 )
 
-@Serializable
-data class ApiStudySpaceOwner(
-    val id: String = "",
-    val username: String = "",
-    val displayName: String = "",
-    val photoUrl: String = "",
-    val badge: String = ""
-)
-
-@Serializable
-data class ApiStudySpace(
-    val id: String,
-    val title: String = "Untitled Space",
-    val description: String = "",
-    val docCount: Int = 0,
-    val memberCount: Int = 0,
-    val activeNow: Int = 0,
-    val shareMode: String = "",
-    val visibility: String = "private",
-    val inviteCode: String = "",
-    val shareToken: String = "",
-    val studyLevel: String = "",
-    val subject: String = "",
-    val exam: String = "",
-    val isJoined: Boolean = false,
-    val memberRole: String = "",
-    val owner: ApiStudySpaceOwner? = null,
-    val createdAt: Long = 0,
-    val updatedAt: Long = 0,
-    val hasSummary: Boolean = false,
-    val hasMindmap: Boolean = false,
-    val hasQuiz: Boolean = false,
-    val hasFlashcards: Boolean = false
-)
-
-@Serializable
-data class ApiStudySpaceListResponse(
-    val spaces: List<ApiStudySpace> = emptyList()
-)
-
-@Serializable
-data class ApiStudySpaceCreateRequest(
-    val title: String,
-    val description: String = ""
-)
-
-@Serializable
-data class ApiStudySpaceJoinRequest(
-    val code: String
-)
-
-@Serializable
-data class ApiStudyDocument(
-    val id: String,
-    val title: String = "Untitled",
-    val fileName: String = "",
-    val fileSize: Long = 0,
-    val mimeType: String = "",
-    val pageCount: Int = 0,
-    val status: String = "",
-    val parseStatus: String = "",
-    val parsedTextLength: Int = 0,
-    val parseError: String = "",
-    val summaryCompact: String = "",
-    val summaryDetailed: String = "",
-    val mindmapJson: String = "",
-    val summaryGenerated: Boolean = false,
-    val mindmapGenerated: Boolean = false,
-    val quizCount: Int = 0,
-    val flashcardCount: Int = 0,
-    val shareMode: String = "",
-    val sharedAt: Long = 0,
-    val createdAt: Long = 0,
-    val updatedAt: Long = 0
-)
-
-@Serializable
-data class ApiStudyQuizSummary(
-    val id: String,
-    val title: String = "Study quiz",
-    val questionCount: Int = 0,
-    val createdAt: Long = 0,
-    val attemptCount: Int = 0,
-    val bestScore: Int = 0,
-    val lastAttemptAt: Long? = null
-)
-
-@Serializable
-data class ApiStudyFlashcard(
-    val id: String,
-    val front: String = "",
-    val back: String = "",
-    val cardNumber: Int = 0,
-    val confidence: String = "new",
-    val createdAt: Long = 0
-)
-
-@Serializable
-data class ApiStudySpaceDetail(
-    val id: String,
-    val title: String = "Untitled Space",
-    val description: String = "",
-    val docCount: Int = 0,
-    val documents: List<ApiStudyDocument> = emptyList(),
-    val quizzes: List<ApiStudyQuizSummary> = emptyList(),
-    val flashcardCount: Int = 0,
-    val flashcards: List<ApiStudyFlashcard> = emptyList(),
-    val shareMode: String = "",
-    val visibility: String = "private",
-    val inviteCode: String = "",
-    val shareToken: String = "",
-    val memberCount: Int = 0,
-    val activeNow: Int = 0,
-    val memberRole: String = "",
-    val linkSummaryCompact: String? = null,
-    val linkSummaryDetailed: String? = null,
-    val linkMindmapJson: String? = null,
-    val createdAt: Long = 0,
-    val updatedAt: Long = 0
-)
-
-@Serializable
-data class ApiStudySpaceJoinResponse(
-    val success: Boolean = false,
-    val space: ApiStudySpaceDetail? = null,
-    val spaceId: String? = null,
-    val redirectUrl: String? = null,
-    val error: String? = null
-)
-
-@Serializable
-data class ApiArenaModel(
-    val id: String = "",
-    val code: String = "",
-    val name: String = "",
-    val provider: String = "",
-    val thinking: Boolean = false,
-    val randomOnly: Boolean = false,
-    val active: Boolean = true
-)
-
-@Serializable
-data class ApiArenaModelsResponse(
-    val models: List<ApiArenaModel> = emptyList(),
-    val cached: Boolean = false
-)
-
-@Serializable
-data class ApiArenaSession(
-    val id: String,
-    val title: String = "New chat",
-    val modelId: String = "",
-    val modelCode: String = "",
-    val modelName: String = "",
-    val provider: String = "qwen",
-    val messageCount: Int = 0,
-    val createdAt: Long = 0,
-    val updatedAt: Long = 0,
-    val lastMessageAt: Long = 0,
-    val isActive: Boolean = true
-)
-
-@Serializable
-data class ApiArenaSessionsResponse(
-    val sessions: List<ApiArenaSession> = emptyList()
-)
-
-@Serializable
-data class ApiArenaCreateSessionRequest(
-    val modelId: String,
-    val title: String = "New chat"
-)
-
-@Serializable
-data class ApiArenaSessionResponse(
-    val session: ApiArenaSession
-)
-
-@Serializable
-data class ApiArenaMessage(
-    val id: String,
-    val role: String,
-    val content: String = "",
-    val parentId: String = "",
-    val finishReason: String = "",
-    val error: String = "",
-    val durationMs: Int = 0,
-    val createdAt: Long = 0,
-    val attachments: List<ApiArenaAttachment> = emptyList()
-)
-
-@Serializable
-data class ApiArenaSessionDetailResponse(
-    val session: ApiArenaSession,
-    val messages: List<ApiArenaMessage> = emptyList()
-)
-
-@Serializable
-data class ApiArenaSendMessageRequest(
-    val content: String
-)
-
 // -------------------------------------------------------------
 // NEBY AI EXTRA MODELS
 // -------------------------------------------------------------
 
-@Serializable
-data class ApiArenaUpdateSessionRequest(
-    val title: String? = null,
-    @SerialName("isActive") val isActive: Boolean? = null
-)
-
-@Serializable
-data class ApiQwenSendMessageRequest(
-    val content: String,
-    val files: List<ApiQwenFile> = emptyList()
-)
-
-@Serializable
-data class ApiQwenFile(
-    val name: String,
-    /** Base64-encoded file content. */
-    val data: String
-)
-
-@Serializable
-data class ApiArenaAttachment(
-    val id: String = "",
-    val fileType: String = "",
-    val fileName: String = "",
-    val fileSize: Long = 0,
-    val mimeType: String = "",
-    val showType: String = "",
-    val fileClass: String = ""
-)
-
 // -------------------------------------------------------------
 // STUDY LAB MODELS (web-parity AJAX shapes)
 // -------------------------------------------------------------
-
-@Serializable
-data class ApiStudySuccessResponse(
-    val success: Boolean = false,
-    val error: String? = null
-)
-
-@Serializable
-data class ApiStudyUploadResponse(
-    val document: ApiStudyDocument? = null,
-    val error: String? = null
-)
-
-@Serializable
-data class ApiStudyDocumentsResponse(
-    val documents: List<ApiStudyDocument> = emptyList()
-)
-
-@Serializable
-data class ApiStudyDocDetailResponse(
-    val document: ApiStudyDocument? = null,
-    val mindmap: ApiStudyMindmap? = null,
-    val quizzes: List<ApiStudyQuizSummary> = emptyList(),
-    val flashcards: List<ApiStudyFlashcard> = emptyList(),
-    @SerialName("total_flashcards") val totalFlashcards: Int = 0,
-    val error: String? = null
-)
-
-@Serializable
-data class ApiStudyParseStatus(
-    val id: String = "",
-    val status: String = "",
-    val parsedTextLength: Int = 0,
-    val error: String? = null,
-    val parsedAt: Long = 0
-)
-
-@Serializable
-data class ApiStudyReparseResponse(
-    val success: Boolean = false,
-    val parseStatus: String = "",
-    val document: ApiStudyDocument? = null,
-    val error: String? = null
-)
-
-@Serializable
-data class ApiStudySummaryRequest(
-    val mode: String = "compact"
-)
-
-@Serializable
-data class ApiStudyCountRequest(
-    val count: Int
-)
-
-@Serializable
-data class ApiStudySummaryResponse(
-    val mode: String = "compact",
-    val summary: String = "",
-    val summaryCompact: String = "",
-    val summaryDetailed: String = "",
-    val error: String? = null,
-    val parseStatus: String? = null
-)
-
-@Serializable
-data class ApiStudyMindmap(
-    val title: String = "",
-    val nodes: List<ApiStudyMindmapNode> = emptyList()
-)
-
-@Serializable
-data class ApiStudyMindmapNode(
-    val title: String = "",
-    val note: String = "",
-    val children: List<ApiStudyMindmapNode> = emptyList()
-)
-
-@Serializable
-data class ApiStudyMindmapResponse(
-    val mindmap: ApiStudyMindmap? = null,
-    val error: String? = null,
-    val parseStatus: String? = null
-)
-
-@Serializable
-data class ApiStudyQuizQuestion(
-    val id: String,
-    /** Document quizzes use `number`; space quizzes use `questionNumber`. */
-    val number: Int = 0,
-    @SerialName("questionNumber") val questionNumber: Int = 0,
-    val question: String = "",
-    @SerialName("questionText") val questionText: String = "",
-    val optionA: String = "",
-    val optionB: String = "",
-    val optionC: String = "",
-    val optionD: String = "",
-    @SerialName("correctAnswer") val correctAnswer: String? = null,
-    val explanation: String? = null
-) {
-    val displayNumber: Int get() = if (number > 0) number else questionNumber
-    val displayQuestion: String get() = question.ifBlank { questionText }
-}
-
-@Serializable
-data class ApiStudyQuizDetail(
-    val id: String,
-    val title: String = "Study quiz",
-    val questionCount: Int = 0,
-    val createdAt: Long = 0,
-    val attemptCount: Int = 0,
-    val bestScore: Int = 0,
-    val questions: List<ApiStudyQuizQuestion> = emptyList()
-)
-
-@Serializable
-data class ApiStudyQuizResponse(
-    val quiz: ApiStudyQuizDetail? = null,
-    val error: String? = null,
-    val parseStatus: String? = null
-)
-
-@Serializable
-data class ApiSpaceQuizzesResponse(
-    val quizzes: List<ApiStudyQuizSummary> = emptyList(),
-    val error: String? = null
-)
-
-@Serializable
-data class ApiStudyQuizSubmitRequest(
-    /** Document quizzes: keys are question NUMBERS as strings. Space quizzes: keys are question IDs. */
-    val answers: Map<String, String>
-)
-
-@Serializable
-data class ApiStudyQuizResult(
-    val userAnswer: String = "",
-    val correctAnswer: String = "",
-    val isCorrect: Boolean = false,
-    val explanation: String = ""
-)
-
-@Serializable
-data class ApiSpaceQuizAnswerRecord(
-    val questionId: String = "",
-    val given: String = "",
-    val correct: String = "",
-    val isCorrect: Boolean = false
-)
-
-@Serializable
-data class ApiStudyQuizAttempt(
-    val id: String = "",
-    val score: Int = 0,
-    val totalQuestions: Int = 0,
-    val xpEarned: Int = 0,
-    /** Document quiz results: keyed by question number string. */
-    val results: Map<String, ApiStudyQuizResult> = emptyMap(),
-    /** Space quiz results: list of per-question records. */
-    val answers: List<ApiSpaceQuizAnswerRecord> = emptyList()
-)
-
-@Serializable
-data class ApiStudyQuizSubmitResponse(
-    val attempt: ApiStudyQuizAttempt? = null,
-    val error: String? = null
-)
-
-@Serializable
-data class ApiStudyFlashcardsResponse(
-    val flashcards: List<ApiStudyFlashcard> = emptyList(),
-    val totalFlashcards: Int = 0,
-    val error: String? = null,
-    val parseStatus: String? = null
-)
-
-@Serializable
-data class ApiStudyFlashcardReviewRequest(
-    val confidence: String
-)
-
-@Serializable
-data class ApiStudyFlashcardReviewResponse(
-    @SerialName("flashcardId") val flashcardId: String = "",
-    @SerialName("cardId") val cardId: String = "",
-    val confidence: String = "",
-    val reviewCount: Int = 0,
-    @SerialName("nextReviewAt") val nextReviewAt: Long = 0,
-    val error: String? = null
-)
 
 @Serializable
 data class ApiInteractiveCategory(

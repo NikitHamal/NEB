@@ -61,6 +61,30 @@ Adiabatic: $PV^\gamma=$ const, $TV^{\gamma-1}=$ const, $T^\gamma P^{1-\gamma}=$ 
 Use kelvin in $T^4$, efficiency and $v_{rms}$. In $\Delta U=Q-W$, $W$ is work done *by* the gas. Efficiency of any real engine is below Carnot. Specific heat capacity of an isothermal process is infinite; of an adiabatic one, zero.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Unequal expansion is useful. (a) The bimetallic strip of a motor overload relay: two metals bonded face to face are heated together; the one with the larger coefficient of linear expansion grows more, so the strip bends and trips the circuit. (b) Linear expansion $\\Delta L = \\alpha L \\Delta T$ for 2 m bars heated by 60 K, with textbook values of alpha, and the bend of a 1 mm thick brass-steel strip 5 cm long (equal thickness and stiffness assumed). A difference of $7\\times10^{-6}$ per kelvin is enough to move the tip nearly a millimetre."
+@ photo id="ioephy/bimetal" cap="Bimetallic strip of an overload relay"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Expansion of 2 m bars for a 60 K rise"
+mat = [("steel", 12e-6, NAVY, BLUE), ("brass", 19e-6, AMBER, SAND), ("aluminium", 23e-6, TEAL, MINT)]
+L, dT = 2.0, 60.0
+dl = {n: a * L * dT * 1000 for n, a, c, b in mat}
+assert abs(dl["steel"] - 1.44) < 1e-9 and abs(dl["brass"] - 2.28) < 1e-9
+da = 19e-6 - 12e-6; h = 1e-3; Lstrip = 0.05
+invR = 3 * da * dT / (2 * h); R = 1 / invR; tip = Lstrip ** 2 / (2 * R) * 1000
+f = Fig(300, 236)
+f.text(150, 14, "ΔL in mm (α × 2 m × 60 K)", size=10.5, color=NAVY, bold=True)
+for i, (n, a, c, b) in enumerate(mat):
+    y = 30 + i * 40; w = 200 * dl[n] / 3.5
+    f.text(8, y, "%s, α = %de-6 per K" % (n, round(a * 1e6)), size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, w, 18, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(w + 14, y + 15, "%.2f mm" % dl[n], size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 166, "bimetal brass-steel, h = 1 mm, 60 K", size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "radius of bend R = %.2f m" % R, size=10.5, color=SLATE)
+f.text(150, 202, "tip movement of a 5 cm strip: %.2f mm" % tip, size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "brass is outside (it expands more)", size=10.5, color=AMBER, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -169,3 +193,78 @@ Use kelvin in $T^4$, efficiency and $v_{rms}$. In $\Delta U=Q-W$, $W$ is work do
 **4.** (a) — $Y\alpha\Delta T=2\times10^{11}\times12\times10^{-6}\times20$.
 **5.** (c) — $U=\frac{3}{2}nRT=1.5\times2\times8.314\times300\approx7.5$ kJ.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the laws of thermodynamics; derive the work in an isothermal and an adiabatic change and the efficiency of a Carnot engine. <span class="marks">[10]</span>
+2. Explain conduction, convection and radiation, calorimetry with change of state, thermal expansion and the kinetic theory result for pressure and rms speed. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="4" ratio="1.25" caption="Heat in everyday devices. (a) A bimetallic strip bends because two metals expand unequally. (b) An induction cooktop heats a pan by eddy currents. (c) A gas burner transfers heat by convection and radiation. (d) A fire piston heats air by sudden adiabatic compression until tinder ignites."
+@ photo id="ioephy/bimetal" cap="(a) Bimetal strip"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/cooktop" cap="(b) Cooktop"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/burner" cap="(c) Burner"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/firepiston" cap="(d) Fire piston"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Thermodynamics (10 marks)
+
+**Introduction.** Thermodynamics studies the relation between heat, work and internal energy of a system.
+
+**Laws.**
+
+1. **Zeroth law:** if A and B are each in thermal equilibrium with C, then A and B are in equilibrium with each other. This defines temperature.
+2. **First law:** $\Delta Q = \Delta U + \Delta W$, a statement of energy conservation. Heat given to a gas raises its internal energy and does external work.
+3. **Second law:** Kelvin–Planck: no engine can turn all heat from one source into work. Clausius: heat cannot flow from a cold body to a hot body by itself.
+
+**Processes of an ideal gas.**
+
+| Process | Condition | Work | Heat |
+|---|---|---|---|
+| Isothermal | $T$ constant, $PV = $ constant | $W = nRT\ln\frac{V_2}{V_1}$ | $Q = W$ |
+| Adiabatic | $Q = 0$, $PV^{\gamma} = $ constant | $W = \frac{nR(T_1 - T_2)}{\gamma - 1}$ | $0$ |
+| Isobaric | $P$ constant | $W = P\Delta V$ | $nC_p\Delta T$ |
+| Isochoric | $V$ constant | $0$ | $nC_v\Delta T$ |
+
+**Derivation (isothermal).** $W = \int P\,dV = \int \frac{nRT}{V}dV = nRT\ln\frac{V_2}{V_1}$.
+
+**Numerical.** 2 mol of gas expands isothermally at $300\ \text{K}$ to twice its volume: $W = 2\times8.314\times300\times\ln2 = 3458\ \text{J}$. For an adiabatic halving of volume ($\gamma = 1.4$) $T_2 = 300\times2^{0.4} = 396\ \text{K}$, the heating used in a fire piston.
+
+**Carnot engine.** It has four steps: isothermal expansion at $T_1$, adiabatic expansion, isothermal compression at $T_2$ and adiabatic compression. Its efficiency is
+$$\eta = 1 - \frac{T_2}{T_1} = \frac{W}{Q_1}.$$
+For $T_1 = 500\ \text{K}$ and $T_2 = 300\ \text{K}$, $\eta = 1 - 0.6 = 40\%$. No real engine working between the same temperatures can do better.
+
+**Conclusion.** Energy is conserved (first law), but its conversion to work is limited (second law), as the Carnot efficiency shows.
+
+### Model answer D2: Heat transfer, calorimetry and kinetic theory (10 marks)
+
+**Introduction.** Heat flows by three methods, and its effects are a change of temperature, a change of state or expansion.
+
+**Modes of transfer.**
+
+1. **Conduction:** through a solid with no bulk movement. $H = \frac{kA(\theta_1 - \theta_2)}{L}$. A copper rod ($k = 400$, $A = 2\ \text{cm}^2$, $L = 0.5\ \text{m}$, $\Delta\theta = 100^\circ$) conducts $400\times2\times10^{-4}\times100/0.5 = 16\ \text{W}$.
+2. **Convection:** by moving fluid (sea breeze, boiling water).
+3. **Radiation:** electromagnetic waves, needing no medium. **Stefan's law:** $E = \sigma AT^4$ for a black body, with $\sigma = 5.67\times10^{-8}\ \text{W m}^{-2}\text{K}^{-4}$.
+
+**Calorimetry (principle of mixtures).** Heat lost = heat gained. **Numerical:** $100\ \text{g}$ of ice at $0^\circ\text{C}$ is added to $400\ \text{g}$ of water at $40^\circ\text{C}$ ($L = 336\ \text{J g}^{-1}$, $c = 4.2\ \text{J g}^{-1}\text{K}^{-1}$). Melting needs $33{,}600\ \text{J}$. The water can supply $400\times4.2\times40 = 67{,}200\ \text{J}$ down to $0^\circ\text{C}$. The spare $33{,}600\ \text{J}$ warms $500\ \text{g}$ by $33600/(500\times4.2) = 16^\circ\text{C}$. So the final temperature is **16 °C**.
+
+**Thermal expansion.** $\Delta L = L\alpha\Delta T$. A $20\ \text{m}$ steel rail ($\alpha = 1.2\times10^{-5}\ \text{K}^{-1}$) warmed by $40\ \text{K}$ lengthens by $20\times1.2\times10^{-5}\times40 = 9.6\ \text{mm}$, so gaps are left in railway lines. Also $\gamma = 3\alpha$ and $\beta = 2\alpha$.
+
+**Kinetic theory.** Pressure of a gas: $P = \frac{1}{3}\rho\overline{c^2} = \frac{1}{3}\frac{mN}{V}\overline{c^2}$, and the average kinetic energy per molecule is $\frac{3}{2}kT$. Hence
+$$c_{rms} = \sqrt{\frac{3RT}{M}}.$$
+For nitrogen ($M = 0.028\ \text{kg mol}^{-1}$) at $300\ \text{K}$: $c_{rms} = \sqrt{3\times8.314\times300/0.028} = 517\ \text{m s}^{-1}$.
+
+| Mode | Needs a medium? | Example |
+|---|---|---|
+| Conduction | Yes (solid) | Hot spoon handle |
+| Convection | Yes (fluid) | Sea breeze |
+| Radiation | No | Sunlight |
+
+**Conclusion.** Heat transfer, calorimetry and expansion follow from the idea that temperature measures the average kinetic energy of molecules.

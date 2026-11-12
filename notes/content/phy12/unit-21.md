@@ -328,6 +328,28 @@ numerically the stopping potential in volts, and you need no conversions at all.
 Convert to joules only at the last step, when a speed is asked for.
 :::
 
+```photogrid label="21.P" cols="2" ratio="1.2" caption="A photon must carry at least the band gap. (a) Photovoltaic panels turn sunlight into electricity using a junction in silicon. (b) A photon can lift an electron across the band gap only if its energy hc / lambda is at least Eg, so the longest useful wavelength is 1239.84 / Eg nanometres when Eg is in electron-volts. Silicon, with a gap of 1.12 eV, uses light up to 1107 nm, in the near infrared; germanium, with a smaller gap, uses light up to 1879 nm. A green photon of 550 nm carries 2.25 eV, more than silicon needs, and the extra energy is lost as heat. Sunlight of 1000 W per square metre contains about 2.77e+21 such photons every second, but a panel of 20 per cent efficiency delivers only 200 W."
+@ photo id="phy12b/solar" cap="A ground-mounted array of photovoltaic panels"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Which photons a semiconductor can use"
+hc = 1239.84
+mats = [("Si 1.12 eV", 1.12), ("Ge 0.66 eV", 0.66), ("GaAs 1.42 eV", 1.42), ("CdTe 1.50 eV", 1.50)]
+rows = [(n, hc / e) for n, e in mats]
+assert round(rows[0][1]) == 1107
+E550 = hc / 550
+flux = 1000 / (E550 * 1.602177e-19)
+f = Fig(300, 236)
+f.text(150, 12, "Longest wavelength absorbed, nm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1950, fmt="%.0f", x0=96, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (ROSE, RED), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 158, "lambda_max = hc / Eg = 1239.84 nm eV / Eg", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "a 550 nm photon carries %.2f eV" % E550, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1000 W/m2 of such light = %.2e photons/s" % flux, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "per square metre (a 20 per cent panel keeps 200 W)", size=10, color=SLATE, bold=True)
+facts = dict(si=rows[0][1], ge=rows[1][1], e=E550, flux=flux)
+```
+
 ## Chapter summary
 
 - Radiation is emitted and absorbed in quanta: a photon has $E = hf = hc/\lambda$,
@@ -430,3 +452,39 @@ Threshold frequency $f_0 = \phi_0/h = (2.28\times1.6\times10^{-19})/(6.63\times1
 Doubling the intensity changes **neither** (c) nor (e): it only doubles the number
 of photoelectrons, and hence the saturation current.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain Einstein's photoelectric equation and use it to explain the laws of photoelectric emission. <span class="marks">[10]</span>
+
+### Model answer D1: Einstein's photoelectric equation (10 marks)
+
+**Introduction.** The **photoelectric effect** is the emission of electrons from a metal surface when light of suitable frequency falls on it. Classical wave theory could not explain it, and Einstein explained it in 1905 using Planck's idea that light travels as packets of energy called **photons**, each of energy $E = hf$.
+
+**Einstein's explanation.** One photon is absorbed by one electron, and the photon gives all its energy to that electron. Part of the energy, the **work function** $\phi$, is used to free the electron from the metal, and the rest becomes its kinetic energy:
+
+$$ hf = \phi + K_{\max} \quad\Rightarrow\quad K_{\max} = hf - \phi = \tfrac{1}{2}mv_{\max}^{2} $$
+
+**Threshold frequency.** When $K_{\max} = 0$, $hf_0 = \phi$, so $f_0 = \phi/h$ and $\lambda_0 = hc/\phi$. Light of a lower frequency, however bright, cannot cause emission.
+
+**Stopping potential.** The reverse voltage $V_s$ that just stops the fastest electrons satisfies $eV_s = K_{\max}$, so
+
+$$ V_s = \frac{h}{e}f - \frac{\phi}{e} $$
+
+A graph of $V_s$ against $f$ is a straight line with slope $h/e$ and intercept on the $f$-axis equal to $f_0$ (Millikan's experiment).
+
+**Laws explained.**
+
+| Observation | Explanation by the photon theory |
+|---|---|
+| No emission below $f_0$ | A photon of lower energy than $\phi$ cannot free an electron |
+| Emission is instantaneous | One photon gives its energy to one electron at once; there is no waiting to collect energy |
+| $K_{\max}$ depends on frequency, not intensity | $K_{\max} = hf - \phi$; intensity only changes the number of photons |
+| Photocurrent is proportional to intensity | More photons per second free more electrons |
+| $V_s$ depends on frequency | $eV_s = K_{\max}$ |
+
+**Numerical.** Ultraviolet light of $\lambda = 250\ \text{nm}$ falls on a metal of work function $2.3\ \text{eV}$. The photon energy is $1240/250 = 4.96\ \text{eV}$, so $K_{\max} = 4.96 - 2.30 = 2.66\ \text{eV}$, the stopping potential is $2.66\ \text{V}$, and $v_{\max} = \sqrt{2K_{\max}/m} = 9.7 \times 10^{5}\ \text{m s}^{-1}$. The threshold wavelength is $\lambda_0 = 1240/2.3 = 539\ \text{nm}$.
+
+**Applications.** Photocells in automatic doors and street lights, light meters, solar cells and the sound track of films.
+
+**Conclusion.** Einstein's equation $hf = \phi + K_{\max}$ explains every feature of the photoelectric effect and shows that light has a particle nature.

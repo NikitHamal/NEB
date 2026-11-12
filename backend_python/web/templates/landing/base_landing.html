@@ -1,0 +1,54 @@
+{% load static %}{% comment %}The public pages' document shell (landing, about): head, theme boot, top bar, footer.
+Pages extend it and fill `{% block main %}`. The view passes `seo` = {title, description, og_description, path} and
+may add `{% block jsonld %}`. Each page keeps its own copy in the view, so a page can never ship another page's tags.{% endcomment %}<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="light" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ seo.title }}</title>
+<meta name="description" content="{{ seo.description }}">
+<link rel="canonical" href="https://nebians.consica.com.np{{ seo.path }}">
+<meta name="theme-color" content="#f6f8ff">
+<script nonce="{{ csp_nonce }}">(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='dark'&&t!=='light'){t={% if dark_mode %}'dark'{% else %}(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'){% endif %}}d.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#090f1f'})()</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NEBians">
+<meta property="og:title" content="{{ seo.title }}">
+<meta property="og:description" content="{% firstof seo.og_description seo.description %}">
+<meta property="og:url" content="https://nebians.consica.com.np{{ seo.path }}">
+<meta property="og:image" content="https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}">
+<meta property="og:image:secure_url" content="https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NEBians — Nepal's open learning community">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}">
+<meta name="twitter:image:alt" content="NEBians — Nepal's open learning community">
+<meta name="twitter:title" content="{{ seo.title }}">
+<meta name="twitter:description" content="{% firstof seo.og_description seo.description %}">
+<link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
+<link rel="apple-touch-icon" href="{% static 'web/img/n-logo-180.png' %}">
+<link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
+<link rel="preload" href="{% static 'web/fonts/m3x/display-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'web/fonts/m3x/body-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{% static 'web/css/m3x.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/landing.css' %}">
+{% block head_css %}{% endblock %}
+{% if site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
+{% block jsonld %}{% endblock %}
+<script src="{% static 'web/js/m3x.js' %}" defer></script>
+<script src="{% static 'web/js/landing.js' %}" defer></script>
+</head>
+<body class="lp{% block body_class %}{% endblock %}">
+<a class="skip" href="#main">Skip to content</a>
+
+{% include "landing/_nav.html" with current=current %}
+
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+
+{% include "landing/_footer.html" %}
+</body>
+</html>

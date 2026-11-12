@@ -501,3 +501,92 @@ Examiners look for correct layout (address, date, subject, salutation, close), a
 **1.** *Model outline:* headline (*Road Safety: Everyone's Duty*); introduction — accidents on Nepal's roads have risen; body — causes (speeding, poor roads, careless overtaking), results (deaths, injuries, cost), solutions (strict law enforcement, driver training, helmets and seat belts); conclusion — safety is a shared duty. Write in short paragraphs, factual tone.
 **2.** *Model outline:* sender's address and date; the Editor, newspaper name; subject: "Teaching climate change in schools"; paragraph 1 — reason for writing; paragraph 2 — arguments (melting glaciers, floods and landslides in Nepal; students can change habits); paragraph 3 — request (a short climate lesson in every grade); polite close, signature.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a formal letter to the Mayor about road safety near your school and explain how a newspaper article is built. <span class="marks">[10]</span>
+2. Explain reported speech (statements, questions and commands), back-shift and function verbs with examples. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="3" ratio="1.0" caption="Technology and letters. A Waymo self-driving car, a letter to the editor and a nineteenth-century business letterhead: modern technology, public writing and the formal letter layout."
+@ photo id="eng10/waymo" cap="Waymo self-driving car"
+@ photo id="eng12/letter-to-editor" cap="Letter to the editor"
+@ photo id="eng11/letterhead" cap="Letterhead (1898)"
+```
+
+### Model answer D1: a formal letter and a newspaper article (10 marks)
+
+**Introduction.** A **formal letter** is written to an official in a respectful tone with a fixed layout. An **open letter** (like the one to the UN Secretary-General) is addressed to one person but is also made public so that many people read it.
+
+**Model letter.**
+
+::: example Formal letter to the Mayor
+Shree Saraswati Secondary School  
+Butwal-8, Rupandehi  
+12 Magh 2082
+
+The Mayor  
+Butwal Sub-Metropolitan City  
+Butwal, Rupandehi
+
+**Subject: Request for a zebra crossing and speed breakers near our school**
+
+Respected Sir/Madam,
+
+We, the students of grade 10, would like to thank you for the new drainage and street lights in our ward. We are writing to draw your attention to a serious problem. The highway in front of our school has no zebra crossing, and vehicles pass at high speed. Last month, a grade 5 student was hit by a motorbike while crossing the road. Fortunately, she suffered only minor injuries. Nearly 1,200 students cross this road twice a day. Therefore, we kindly request you to build a zebra crossing, two speed breakers and a signboard, and to station a traffic police officer at school hours. We believe this small step will save many lives. We shall be very grateful for your kind help.
+
+Yours faithfully,  
+Ramesh Thapa  
+School Captain
+:::
+
+**How an open letter is built (the pattern of the chapter).**
+
+1. **Praise first:** thank the reader for good work.
+2. **Complaint:** state the problem clearly.
+3. **Evidence:** give an example or fact (a real accident).
+4. **Request:** say exactly what you want.
+5. **Polite close:** *Yours faithfully.*
+
+**Structure of a newspaper article (8 points).**
+
+| Part | What to write |
+|---|---|
+| Headline | Short, in the present tense: *Driverless Cars: Safer Roads Ahead?* |
+| Byline | Name of the writer |
+| Introduction | Who, what, when, where, why |
+| Body | Short paragraphs with facts and quotations |
+| Quotation | Words of an expert (for example a researcher at TRL) |
+| Benefits | Safer roads, cleaner cities, help for the disabled |
+| Problems | Human drivers, law and liability, cost |
+| Conclusion | The future outlook |
+
+**Conclusion.** A good formal letter is polite, factual and complete; marks go to layout (3), content (4) and language (3).
+
+### Model answer D2: reported speech and function verbs (10 marks)
+
+**Introduction.** **Reported (indirect) speech** gives the meaning of someone's words without quotation marks. It is used in news, reports and conversation.
+
+**Rules.**
+
+1. **Remove** the quotation marks and add **that** (statements), **if/whether** (yes/no questions) or **to** (commands).
+2. **Change the pronouns** to fit the new speaker.
+3. **Back-shift:** after a past reporting verb, move the tense one step back.
+4. **Time and place words change:** *now → then, today → that day, tomorrow → the next day, here → there*.
+5. **No back-shift** after a present reporting verb or for **universal truths**.
+6. Report **wh-questions** with the same wh-word and **statement order**; end with a full stop.
+7. Report **commands** with *told/ordered/advised + object + (not) to + infinitive*.
+8. Use **function verbs** (*apologised, promised, advised, warned, offered, thanked, admitted, informed*) for shorter, better reports.
+
+| Direct speech | Reported speech |
+|---|---|
+| "I am afraid of cars," she said. | She said that she was afraid of cars. |
+| "Will driverless cars be safe?" he asked. | He asked if driverless cars would be safe. |
+| "Where do you study?" she asked me. | She asked me where I studied. |
+| "Don't cross here," the guard said. | The guard told us not to cross there. |
+| "I'm sorry I am late," said Sita. | Sita apologised for being late. |
+| "I will help you," Ram said. | Ram promised to help me. |
+| "Water boils at 100 °C," the teacher said. | The teacher said that water boils at 100 °C. |
+
+**Conclusion.** Follow these steps in order: choose the reporting verb, change pronouns, back-shift, and change time words.

@@ -1,0 +1,86 @@
+{
+ "book": "bcacourse-semester-4-python-programming",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Python and Basic Elements",
+   "area": "BCA 254 · Python Programming · Unit 1",
+   "words": 3769,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Control Flow",
+   "area": "BCA 254 · Python Programming · Unit 2",
+   "words": 3446,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Strings and Built-in Data Structures",
+   "area": "BCA 254 · Python Programming · Unit 3",
+   "words": 3355,
+   "read_min": 19,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Functions, Modules and Packages",
+   "area": "BCA 254 · Python Programming · Unit 4",
+   "words": 3275,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "File Handling and Exception Handling",
+   "area": "BCA 254 · Python Programming · Unit 5",
+   "words": 3244,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Object-Oriented Programming in Python",
+   "area": "BCA 254 · Python Programming · Unit 6",
+   "words": 3159,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Data Analysis and Visualisation: NumPy, Pandas, Matplotlib",
+   "area": "BCA 254 · Python Programming · Unit 7",
+   "words": 4223,
+   "read_min": 23,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Regular Expressions, Databases and Testing",
+   "area": "BCA 254 · Python Programming · Unit 8",
+   "words": 4569,
+   "read_min": 25,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Putting It Together: Three Complete Programs",
+   "area": "BCA 254 · Python Programming · Unit 9",
+   "words": 4209,
+   "read_min": 23,
+   "figures": 6,
+   "has_questions": true
+  }
+ ]
+}

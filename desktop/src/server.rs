@@ -164,33 +164,34 @@ impl Env {
         self.store.touch();
     }
 
-    /// Upload the local profile to the account (best effort, silent on success).
-    pub fn push_profile(&mut self) {
-        if !self.signed_in() || self.demo {
-            return;
-        }
-        let p = self.store.s.profile.clone();
-        let username = self.my_username();
-        if username.is_empty() {
-            return;
-        }
-        let mut body = json!({ "username": username });
-        let mut put = |k: &str, val: String| {
+    /// The JSON the profile endpoint expects for `p` (empty values are left out).
+    pub fn profile_payload(&self, p: &crate::data::store::Profile) -> Value {
+        let mut body = json!({ "username": self.my_username() });
+        let mut put = |k: &str, val: &str| {
             if !val.is_empty() {
-                body[k] = Value::String(val);
+                body[k] = Value::String(val.to_string());
             }
         };
-        put("display_name", p.display_name);
-        put("role", p.role);
-        put("bio", p.bio);
-        put("class_level", p.level);
-        put("subjects", p.subjects.join(","));
-        put("pradesh", p.pradesh);
-        put("district", p.district);
-        put("school", p.school);
-        put("institution_type", p.institution_type);
-        put("dob", p.dob);
-        put("gender", p.gender);
+        put("display_name", &p.display_name);
+        put("role", &p.role);
+        put("bio", &p.bio);
+        put("class_level", &p.level);
+        put("subjects", &p.subjects.join(","));
+        put("pradesh", &p.pradesh);
+        put("district", &p.district);
+        put("school", &p.school);
+        put("institution_type", &p.institution_type);
+        put("dob", &p.dob);
+        put("gender", &p.gender);
+        body
+    }
+
+    /// Upload the local profile to the account (best effort, silent on success).
+    pub fn push_profile(&mut self) {
+        if !self.signed_in() || self.demo || self.my_username().is_empty() {
+            return;
+        }
+        let body = self.profile_payload(&self.store.s.profile.clone());
         let api = self.api();
         self.srv.push_task = Some(Task::spawn(&self.ctx, move || api.post("api/users/profile/", body)));
     }
@@ -201,7 +202,6 @@ impl Env {
             std::thread::spawn(move || auth::logout(&t));
         }
         self.store.s.session = None;
-        self.store.s.guest = false;
         self.store.s.onboarded = false;
         self.store.s.profile = Default::default();
         self.store.touch();

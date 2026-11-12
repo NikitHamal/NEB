@@ -246,3 +246,76 @@ Step 4 — That deficit would have had to be financed by **borrowing abroad or r
 *Problems (2.5).* Recruitment cost and debt of Rs. 1.5 to 2 lakh; exploitation by unlicensed agencies; unsafe work, accidents, illness and uncompensated deaths; low wages and long hours; no skill gained; social costs at home; neglect of agriculture; brain drain; weak regulation; difficult reintegration.
 *Measures (1.5).* Skill-based migration with pre-departure training; bilateral labour agreements; strict regulation and prosecution of fraudulent agencies; a single recruitment charge; insurance and a welfare fund; consular support; financial literacy and productive investment of remittance; reintegration programmes; and creation of jobs at home.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the importance and problems of agriculture and industry in Nepal, with eight suggestions. <span class="marks">[10]</span>
+2. Explain the importance and problems of tourism and foreign employment in Nepal. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="5" ratio="1.0" caption="Pillars of the Nepali economy. (a) Hill farming. (b) A tea garden of Ilam. (c) Hydropower. (d) The Himalaya, with Ama Dablam. (e) Phewa Lake in Pokhara. Farming, industry, energy and tourism all depend on the use of Nepal’s natural gifts."
+@ photo id="eco10/farm" cap="(a) Agriculture"
+@ photo id="eco10/tea" cap="(b) Tea industry"
+@ photo id="eco10/hydropower" cap="(c) Hydropower"
+@ photo id="eco10/ama-dablam" cap="(d) Mountains"
+@ photo id="eco10/phewa" cap="(e) Phewa Lake"
+```
+
+### Model answer D1: agriculture and industry (10 marks)
+
+**Introduction.** Agriculture is the backbone of Nepal's economy, and industry is the way to modern growth.
+
+**Importance of agriculture.**
+
+1. **Employment:** about two-thirds of the people get a living from it.
+2. **Food:** it feeds the population (rice, maize, wheat, vegetables and milk).
+3. **Raw materials:** jute, sugarcane, tea, tobacco and oilseeds feed factories.
+4. **Exports:** tea, ginger, cardamom, lentils and herbs bring foreign money.
+5. **Rural income** that supports markets and small business.
+
+**Problems of agriculture.** Small and scattered holdings, dependence on the monsoon, lack of irrigation, old methods, shortage of fertiliser and seed at planting time, weak market roads and low prices, and migration of youth.
+
+**Importance of industry.** Creates jobs, adds value to raw materials, reduces imports, increases exports, and helps the government to earn tax. Examples: cement, brick, sugar, tea processing, garments, beverages, hydropower, handicraft and cottage industries.
+
+**Types.** Cottage (small, at home), small, medium and large industries.
+
+**Problems of industry.** Lack of capital, power cuts in the past, weak transport and weak skills, dependence on imported raw materials, strikes, small domestic market and competition from cheap imports.
+
+**Suggestions.**
+
+| Suggestion | How it helps |
+|---|---|
+| Irrigation and chemical-free modern methods | Higher yield |
+| Commercial farming and cooperatives | Better prices |
+| Farmers' training and subsidy | New skills |
+| Agro-processing industries | Value addition, jobs |
+| Cheap credit to small industries | More capital |
+| Stable policy and power supply | Investor confidence |
+| Promote Nepali goods | Reduce imports |
+| Skill training for youth | Skilled labour |
+
+**Conclusion.** A modernised agriculture linked with industry will raise income, reduce imports and create jobs in Nepal.
+
+### Model answer D2: tourism and foreign employment (10 marks)
+
+**Tourism.** Nepal has the world's highest peak, Sagarmatha; birthplace of Buddha at Lumbini; temples of Pashupatinath and Janaki; the lakes of Pokhara such as Phewa; and the Chitwan National Park. About **1.2 million tourists** came in 2019 before the COVID-19 fall.
+
+| Importance | Problems |
+|---|---|
+| Foreign exchange earnings | Dependence on the season and on world events (earthquake, pandemic) |
+| Employment in hotels, trekking, transport and handicraft | Poor roads, airports and services |
+| Promotion of culture and local products | Waste and pollution at the trekking trails |
+| Development of remote areas through homestay | Weak promotion and security |
+| Friendship with other countries | Few high-spending visitors |
+
+**Foreign employment.** Millions of Nepali youths work in the Gulf, Malaysia, Korea, Japan and other countries. The **remittance** that they send is very large and is more than one-fifth of the GDP.
+
+| Advantages | Disadvantages |
+|---|---|
+| Brings foreign currency and reduces poverty | Loss of young and skilled people (brain drain) |
+| Improves education and health of the family | Families are separated and the village loses workers |
+| Helps to cover the trade deficit | Risk of cheating, accident and exploitation abroad |
+| Workers learn skills | Money often used for consumption, not production |
+
+**Suggestions.** Safe and cheap migration through government channels (the Department of Foreign Employment), training before departure, use of remittance for business, and creation of jobs at home so that the youth have a choice.
+
+**Conclusion.** Tourism and foreign employment bring income, but Nepal must make them safe, sustainable and linked with production at home.

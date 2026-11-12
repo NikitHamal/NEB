@@ -409,6 +409,16 @@
 }
 
 /* ── The sticky composer ──────────────────────────────────────────────────── */
+/* Compacting the launcher takes 44px out of the flow. Scroll anchoring reads
+   that as content moving and pulls scrollY back by the same amount, which
+   un-pins the composer, which expands it, which anchoring pushes forward
+   again -- a loop that only settles when you keep scrolling. Off wherever the
+   composer exists, so the collapse is a plain layout change and the transition
+   alone moves the feed. */
+html:has(.hf-composer-sticky) {
+  overflow-anchor: none;
+}
+
 .hf-composer-sticky {
   position: sticky;
   top: 64px;
@@ -485,8 +495,8 @@
 }
 
 .hf-launcher-identity-trigger:focus-visible {
-  outline: 2px solid var(--md-primary);
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--md-primary);
 }
 
 .hf-launcher-identity-picker.is-open .hf-launcher-identity-trigger {
@@ -629,8 +639,8 @@
 }
 
 .hf-composer-input-btn:focus-visible {
+  outline: none;
   border-color: var(--md-primary);
-  box-shadow: inset 0 0 0 1px var(--md-primary);
 }
 
 /* Smooth collapse container for the extra options */
@@ -2515,14 +2525,6 @@ dialog.hf-post-dialog[open] {
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-}
-.hf-peer-follow:hover { filter: brightness(1.08); }
-/* toggle-follow swaps these two classes on the button it was clicked on, so the
-   followed state is styled off the class the shared handler already sets. */
-.hf-peer-follow.following {
-  background: var(--md-surface-container-high);
-  border: 1px solid var(--md-outline-variant);
-  color: var(--md-on-surface-variant);
 }
 
 /* ── An announcement ─────────────────────────────────────────────────────── */

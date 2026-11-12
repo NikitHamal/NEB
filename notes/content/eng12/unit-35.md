@@ -488,3 +488,60 @@ Learn the exact wording or leave the idiom out.
 **19.** An amount far too small for what is needed. *A hundred sacks of rice was a drop in the ocean after the flood.*
 **20.** *…spoil the broth.* When too many people manage one piece of work, they ruin it.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended vocabulary answers (10 marks each, for deeper revision)**
+
+1. Explain word formation, collocations and phrasal verbs with examples. <span class="marks">[10]</span>
+2. Explain spelling rules, English sounds and the difficulties of Nepali speakers. <span class="marks">[10]</span>
+
+```photogrid label="35.H" cols="1" ratio="2.6" caption="The sounds of English. The IPA vowel chart used to describe pronunciation in the dictionary and in Question 8."
+@ photo id="eng12/ipa-vowels" cap="IPA vowel chart"
+```
+
+### Model answer D1: word formation, collocations and phrasal verbs (10 marks)
+
+**Introduction.** Question 8 has five one-mark items. Vocabulary is learned by families, not by single words.
+
+1. **Prefixes change meaning:** *un-happy, dis-agree, re-write.* **Suffixes change the part of speech:** *happy → happiness, create → creative.*
+2. **Negative prefixes:** *im-* before *m* and *p* (*impossible*), *il-* before *l* (*illegal*), *ir-* before *r* (*irregular*), *in-* otherwise (*incorrect*), *un-* with plain English words (*unkind*).
+3. **Learn one root and its whole family:** *act, action, active, actor, activity.*
+4. **Collocations have no rules, only usage:** *make* a mistake, *do* homework, *take* an exam, *tell* a lie, *heavy* rain, *strong* tea.
+5. **Phrasal verb with a pronoun object must be split:** *turn it down*, not *turn down it*.
+6. **Three-word phrasal verbs are never split:** *look forward to, put up with.*
+7. **Confusables:** *affect / effect, advice / advise, principal / principle.*
+8. **Idioms:** a fixed meaning that is not the sum of the words: *a piece of cake* = very easy.
+
+| Type | Example |
+|---|---|
+| Prefix | un + usual |
+| Suffix | beauty + ful |
+| Collocation | make a decision |
+| Phrasal verb | give up |
+| Idiom | break the ice |
+
+**Conclusion.** Learn words in families and phrases.
+
+### Model answer D2: spelling and sounds (10 marks)
+
+**Spelling rules.**
+1. ***I* before *e* except after *c*:** *believe, receive.*
+2. **Double the final consonant only when the last syllable is stressed:** *begin → beginning, but visit → visiting.*
+3. **Drop the silent *e* before a vowel suffix:** *hope → hoping.*
+4. ***Y* → *i* after a consonant:** *carry → carried.*
+
+**Sounds and Nepali speakers.**
+5. Nepali speakers often substitute other sounds for **/θ, ð, v, z, f, æ, ɜː/**: *think* becomes *tink*, *very* becomes *bery*.
+6. They **lose the schwa**, giving every syllable equal stress.
+7. The **-ed ending has three sounds:** /t/ (*walked*), /d/ (*played*) and /ɪd/ (*wanted*).
+8. **Word stress** changes meaning: *'record* (noun) and *re'cord* (verb).
+
+| Ending | Sound | Example |
+|---|---|---|
+| After voiceless sounds | /t/ | walked |
+| After voiced sounds | /d/ | played |
+| After /t/ or /d/ | /ɪd/ | wanted |
+
+**Conclusion.** Spelling follows patterns, and pronunciation improves with listening and practice.

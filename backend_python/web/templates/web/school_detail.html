@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{{ inst.name }} | NEBians{% endblock %}
+{% block description %}{{ inst.name }}{% if inst.location %} in {{ inst.location }}{% endif %}. See who studies here on NEBians.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/schools.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sch-page">
+  <header class="sch-head">
+    {% url 'web:schools' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Schools" %}
+    <h1 class="sch-title sch-title-sm">School</h1>
+  </header>
+
+  <section class="sch-card sch-hero">
+    <span class="sch-glyph sch-glyph-xl"><span class="material-symbols-outlined">{{ inst.kind_icon }}</span></span>
+    <div class="sch-hero-body">
+      <h2 class="sch-hero-name">{{ inst.name }}{% if inst.verified %}<span class="material-symbols-outlined sch-tick" title="Verified">verified</span>{% endif %}</h2>
+      {% if inst.name_ne %}<p class="sch-hero-ne">{{ inst.name_ne }}</p>{% endif %}
+      <div class="sch-tags">
+        <span class="sch-tag">{{ inst.kind_label }}</span>
+        {% if inst.district %}<span class="sch-tag"><span class="material-symbols-outlined">location_on</span>{{ inst.location }}</span>{% endif %}
+        {% if province %}<span class="sch-tag">{{ province }}</span>{% endif %}
+        {% if inst.est %}<span class="sch-tag">Since {{ inst.est }}</span>{% endif %}
+      </div>
+      <div class="sch-actions">
+        {% if inst.claimed_by and inst.verified %}
+        <a class="md-btn md-btn-filled" href="{% url 'web:profile' username=inst.claimed_by.username %}"><span class="material-symbols-outlined">apartment</span>Open profile</a>
+        {% endif %}
+        {% if inst.website %}
+        <a class="md-btn {% if inst.verified %}md-btn-tonal{% else %}md-btn-filled{% endif %}" href="{{ inst.website }}" target="_blank" rel="noopener nofollow"><span class="material-symbols-outlined">open_in_new</span>{{ website_host|default:"Website" }}</a>
+        {% endif %}
+        {% if inst.phone %}<a class="md-btn md-btn-outlined" href="tel:{{ inst.phone|cut:' ' }}"><span class="material-symbols-outlined">call</span>{{ inst.phone }}</a>{% endif %}
+        {% if claimable %}
+        <a class="md-btn md-btn-tonal" href="{% url 'web:school_apply' %}?school={{ inst.slug }}"><span class="material-symbols-outlined">verified</span>Claim this school</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="sch-stats" aria-label="People">
+    <div class="sch-stat"><b>{{ counts.total }}</b><span>On NEBians</span></div>
+    <div class="sch-stat"><b>{{ counts.students }}</b><span>Students</span></div>
+    <div class="sch-stat"><b>{{ counts.teachers }}</b><span>Teachers</span></div>
+  </section>
+
+  <section class="sch-section" aria-labelledby="sch-who">
+    <div class="sch-section-head">
+      <h2 class="sch-h2" id="sch-who">People</h2>
+      <nav class="sch-chips sch-chips-inline" aria-label="Filter people">
+        <a class="md-chip{% if not who %} md-chip-active{% endif %}" href="?">All</a>
+        <a class="md-chip{% if who == 'student' %} md-chip-active{% endif %}" href="?who=student">Students</a>
+        <a class="md-chip{% if who == 'teacher' %} md-chip-active{% endif %}" href="?who=teacher">Teachers</a>
+      </nav>
+    </div>
+    {% if people %}
+    <ul class="sch-people">
+      {% for p in people %}
+      <li>
+        <a class="sch-person" href="{% url 'web:profile' username=p.username %}">
+          <span class="sch-avatar" data-avatar-seed="{{ p.username }}"><img src="{{ p.photo }}" alt="" loading="lazy" decoding="async"></span>
+          <span class="sch-person-body">
+            <span class="sch-name">{{ p.name }}</span>
+            <span class="sch-meta">{{ p.role }}{% if p.level %} · {{ p.level }}{% endif %}</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <div class="sch-empty">
+      <span class="material-symbols-outlined">groups</span>
+      <p>Nobody has picked {{ inst.name }} yet.</p>
+      <a class="md-btn md-btn-tonal" href="{% url 'web:edit_profile' %}">Pick it on your profile</a>
+    </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

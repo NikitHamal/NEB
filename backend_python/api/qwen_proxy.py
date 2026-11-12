@@ -20,16 +20,13 @@ import uuid
 # Prefer curl_cffi for TLS fingerprint spoofing (bypasses Aliyun WAF on chat.qwen.ai).
 # Fall back to plain requests if curl_cffi is not installed on the server.
 try:
-    from curl_cffi.requests import Session as _CurlSession
     _USE_CURL_CFFI = True
 except ImportError:
-    import requests as _requests
     _USE_CURL_CFFI = False
 
 if os.environ.get("QWEN_FORCE_REQUESTS") == "1":
     _USE_CURL_CFFI = False
 
-import requests  # kept for midtoken helper which uses a plain requests.Session
 
 logger = logging.getLogger(__name__)
 
@@ -781,12 +778,6 @@ def _mark_used(session):
                 break
 
 
-def _reset_session():
-    """Clear the entire pool (legacy helper)."""
-    with _pool_lock:
-        _session_pool.clear()
-
-
 # Kick off the refill thread at import time (safe because it's a daemon thread)
 _start_refill_thread()
 
@@ -1062,33 +1053,6 @@ def _parse_stream(response, session=None):
     return result
 
 
-def probe_qwen(model="qwen3.8-max"):
-    """One-shot connectivity check used by the live harness bench."""
-    report = {
-        "curl_cffi": _USE_CURL_CFFI,
-        "client_version": _WEB_CLIENT_VERSION,
-        "model": model,
-        "warmup_status": None,
-        "chat_id": None,
-        "ok": False,
-        "error": "",
-    }
-    try:
-        from .proxy_http import resilient_get as _neb_rget2
-
-        session, _ = _get_session()
-        warmup, _ = _neb_rget2(session, f"{QWEN_URL}/", timeout=20, allow_redirects=True)
-        report["warmup_status"] = warmup.status_code
-        chat_id = create_chat(session, model, _pool_session=session)
-        report["chat_id"] = chat_id
-        report["ok"] = bool(chat_id)
-        if not chat_id:
-            report["error"] = "create_chat returned empty"
-    except Exception as exc:
-        report["error"] = f"{type(exc).__name__}: {exc}"
-    return report
-
-
 # ========================= Public API =========================
 
 def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
@@ -1154,7 +1118,6 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             _mark_failed(session)
             if file_paths:
                 from .qwen_utils import file_upload as _fu
-                from pathlib import Path
                 for fp in file_paths[:MAX_FILES_PER_MESSAGE]:
                     try:
                         data = open(fp, "rb").read()

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}NEB Results Guide — Check Your Results{% endblock %}
+{% block title %}NEB Results Guide | Check Your Results{% endblock %}
 {% block description %}Step-by-step guide to check your NEB Class 11 & 12 results. Includes grade calculator, official links, and SMS/IVR instructions.{% endblock %}
 {% block og_title %}NEB Results Guide{% endblock %}
 {% block og_description %}Check your NEB results step by step. Includes grade calculator and official links.{% endblock %}
@@ -19,7 +19,7 @@
         NEB Results
       </span>
       <h1 class="md-headline-large-emphasized">How to Check Your Results</h1>
-      <p class="md-body-medium">A complete, interactive guide for checking your NEB Class 11 and Class 12 examination results. Follow the steps, use the grade calculator, and access official links — all in one place.</p>
+      <p class="md-body-medium">A complete, interactive guide for checking your NEB Class 11 and Class 12 examination results. Follow the steps, use the grade calculator, and access official links: all in one place.</p>
       <a href="{% url 'web:result_check' %}" class="md-btn md-btn-filled" style="margin-top: 12px; width: fit-content; text-decoration: none;">
         <span class="material-symbols-outlined">fact_check</span>
         Check Results Instantly
@@ -85,45 +85,45 @@
           <span class="material-symbols-outlined">calculate</span>
           Grade Calculator
         </h2>
-        <p class="md-body-small results-section-desc">Enter your marks (0–100) for each subject to estimate your GPA and grade. This is an unofficial tool for estimation only.</p>
+        <p class="md-body-small results-section-desc">Enter your marks (0-100) for each subject to estimate your GPA and grade. This is an unofficial tool for estimation only.</p>
         <div class="grade-calc" id="grade-calc">
           <div class="grade-calc-subjects" id="grade-calc-subjects">
             <div class="grade-calc-row">
               <input type="text" class="grade-calc-name" placeholder="Subject name" value="English">
-              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
-              <span class="grade-calc-grade">—</span>
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0-100" value="">
+              <span class="grade-calc-grade">·</span>
               <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
                 <span class="material-symbols-outlined">close</span>
               </button>
             </div>
             <div class="grade-calc-row">
               <input type="text" class="grade-calc-name" placeholder="Subject name" value="Nepali">
-              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
-              <span class="grade-calc-grade">—</span>
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0-100" value="">
+              <span class="grade-calc-grade">·</span>
               <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
                 <span class="material-symbols-outlined">close</span>
               </button>
             </div>
             <div class="grade-calc-row">
               <input type="text" class="grade-calc-name" placeholder="Subject name" value="Physics">
-              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
-              <span class="grade-calc-grade">—</span>
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0-100" value="">
+              <span class="grade-calc-grade">·</span>
               <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
                 <span class="material-symbols-outlined">close</span>
               </button>
             </div>
             <div class="grade-calc-row">
               <input type="text" class="grade-calc-name" placeholder="Subject name" value="Chemistry">
-              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
-              <span class="grade-calc-grade">—</span>
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0-100" value="">
+              <span class="grade-calc-grade">·</span>
               <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
                 <span class="material-symbols-outlined">close</span>
               </button>
             </div>
             <div class="grade-calc-row">
               <input type="text" class="grade-calc-name" placeholder="Subject name" value="Mathematics">
-              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
-              <span class="grade-calc-grade">—</span>
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0-100" value="">
+              <span class="grade-calc-grade">·</span>
               <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
                 <span class="material-symbols-outlined">close</span>
               </button>
@@ -136,15 +136,15 @@
           <div class="grade-calc-result" id="grade-calc-result">
             <div class="grade-calc-gpa">
               <span class="grade-calc-gpa-label">Estimated GPA</span>
-              <span class="grade-calc-gpa-value" id="grade-calc-gpa">—</span>
+              <span class="grade-calc-gpa-value" id="grade-calc-gpa">·</span>
             </div>
             <div class="grade-calc-grade-display">
               <span class="grade-calc-grade-label">Overall Grade</span>
-              <span class="grade-calc-grade-value" id="grade-calc-overall">—</span>
+              <span class="grade-calc-grade-value" id="grade-calc-overall">·</span>
             </div>
             <div class="grade-calc-division">
               <span class="grade-calc-division-label">Division</span>
-              <span class="grade-calc-division-value" id="grade-calc-division">—</span>
+              <span class="grade-calc-division-value" id="grade-calc-division">·</span>
             </div>
           </div>
           <p class="grade-calc-disclaimer">This is an unofficial estimation tool. Official results may differ based on NEB's internal grading. Always verify with your official result sheet.</p>
@@ -244,7 +244,7 @@
         var gradeSpan = row.querySelector('.grade-calc-grade');
         var mark = markInput.value.trim();
         if (mark === '') {
-          gradeSpan.textContent = '—';
+          gradeSpan.textContent = '-';
           gradeSpan.className = 'grade-calc-grade';
           return;
         }
@@ -264,15 +264,15 @@
       var overallEl = document.getElementById('grade-calc-overall');
       var divEl = document.getElementById('grade-calc-division');
       if (count === 0) {
-        gpaEl.textContent = '—';
-        overallEl.textContent = '—';
-        divEl.textContent = '—';
+        gpaEl.textContent = '-';
+        overallEl.textContent = '-';
+        divEl.textContent = '-';
         return;
       }
       var avg = totalGpa / count;
       gpaEl.textContent = avg.toFixed(2);
       var overallGrade = GRADE_MAP.find(function(g) { return avg >= g.gpa; });
-      overallEl.textContent = overallGrade ? overallGrade.grade : '—';
+      overallEl.textContent = overallGrade ? overallGrade.grade : '-';
       var division;
       if (hasFailing || avg < 1.6) division = 'Fail';
       else if (avg >= 3.6) division = 'Distinction';
@@ -294,8 +294,8 @@
         var row = document.createElement('div');
         row.className = 'grade-calc-row';
         row.innerHTML = '<input type="text" class="grade-calc-name" placeholder="Subject name">' +
-          '<input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100">' +
-          '<span class="grade-calc-grade">—</span>' +
+          '<input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0-100">' +
+          '<span class="grade-calc-grade">·</span>' +
           '<button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove"><span class="material-symbols-outlined">close</span></button>';
         container.appendChild(row);
         row.querySelector('.grade-calc-name').focus();

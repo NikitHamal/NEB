@@ -428,6 +428,27 @@ standard first move whenever both are monic — it turns a pair of quadratics in
 one linear equation.)
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="The path of a hose jet is a parabola, and where it meets the ground is the root of a quadratic. (a) A jet of water from a hose. (b) Lifting the curve y = x^2 - 4x + c by changing c shows the three cases of the discriminant D = b^2 - 4ac. For c = 1, D = 12 and there are two real roots, 0.268 and 3.732. For c = 4, D = 0, the curve just touches the axis and the roots are equal. For c = 7, D = -12, the curve floats above the axis and the roots are a complex conjugate pair."
+@ photo id="math11/hose" cap="A jet of water follows a parabola, the graph of a quadratic"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Discriminant: two, one or no real roots"
+cs = [(1, TEAL), (4, AMBER), (7, RED)]
+D = [16 - 4 * c for c, _ in cs]
+assert D == [12, 0, -12]
+f = Fig(300, 236)
+f.text(150, 14, "y = x^2 - 4x + c for c = 1, 4, 7", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (-1, 5), (-4, 10))
+ax.grid(1, 2, size=9); ax.axes("x", "y")
+for c, col in cs:
+    ax.curve(lambda x, c=c: x * x - 4 * x + c, -1, 5, color=col, sw=2.2)
+r = math.sqrt(12) / 2
+ax.pt(2 - r, 0, "", color=TEAL, r=3.5); ax.pt(2 + r, 0, "", color=TEAL, r=3.5); ax.pt(2, 0, "", color=AMBER, r=3.5)
+f.text(150, 206, "D = b^2 - 4ac:  c = 1: %d,  c = 4: %d,  c = 7: %d" % tuple(D), size=10, color=NAVY, bold=True)
+f.text(150, 222, "roots 2 +- sqrt3 = %.3f, %.3f;  double root 2;  none" % (2 - 2 * r + r, 2 + r), size=9.5, color=SLATE, bold=True)
+facts = dict(d1=D[0], d2=D[1], d3=D[2], r1=2 - r, r2=2 + r)
+```
+
 ## Chapter summary
 
 - $ax^{2}+bx+c = 0$ has roots $x = \dfrac{-b\pm\sqrt{b^{2}-4ac}}{2a}$.
@@ -596,3 +617,87 @@ $\dfrac{a_1}{a_2} = \dfrac{b_1}{b_2} = \dfrac{c_1}{c_2}$.
 $4-6+k = 0$, so $k = 2$ (common root $2$). Putting $x = 3$: $9-9+k = 0$, so
 $k = 0$ (common root $3$).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the quadratic formula, discuss the nature of the roots using the discriminant, and find the relations between the roots and the coefficients with symmetric-function applications. <span class="marks">[10]</span>
+2. Form quadratic equations from given conditions, and discuss the conditions for one or both roots common and for one root being a multiple of the other. <span class="marks">[10]</span>
+
+### Model answer D1: discriminant, nature of roots and sum and product (10 marks)
+
+**Introduction.** A **quadratic equation** has the standard form $ax^{2}+bx+c=0$ with $a\neq0$. Its solutions are called its **roots**. Projectile paths, areas and profit problems lead to such equations.
+
+**Derivation of the formula.** Divide by $a$ and complete the square:
+
+$$ x^{2}+\frac bax=-\frac ca\ \Rightarrow\ \left(x+\frac{b}{2a}\right)^{2}=\frac{b^{2}-4ac}{4a^{2}} $$
+
+Taking the square root, the roots are $\alpha=\dfrac{-b+\sqrt{D}}{2a}$ and $\beta=\dfrac{-b-\sqrt{D}}{2a}$, where $D=b^{2}-4ac$ is the **discriminant**.
+
+**Nature of the roots** (for real coefficients).
+
+| Discriminant | Roots |
+|---|---|
+| $D>0$, perfect square (rational coefficients) | real, distinct, rational |
+| $D>0$, not a perfect square | real, distinct, irrational |
+| $D=0$ | real and equal, $-\dfrac{b}{2a}$ |
+| $D<0$ | complex conjugate pair |
+
+*Example.* $2x^{2}-7x+3=0$ has $D=49-24=25=5^{2}$, so the roots are rational: $x=\dfrac{7\pm5}{4}=3$ or $\dfrac12$. The equation $x^{2}-2x-1=0$ has $D=8$, which is not a perfect square, so the roots $1\pm\sqrt2$ are irrational.
+
+**Relations between roots and coefficients.** Adding and multiplying the two roots,
+
+$$ \alpha+\beta=-\frac ba,\qquad \alpha\beta=\frac ca $$
+
+**Symmetric functions.** Any expression unchanged when $\alpha,\beta$ are interchanged can be written with $S=\alpha+\beta$ and $P=\alpha\beta$:
+
+1. $\alpha^{2}+\beta^{2}=S^{2}-2P$
+2. $\alpha^{3}+\beta^{3}=S^{3}-3PS$
+3. $(\alpha-\beta)^{2}=S^{2}-4P$
+4. $\dfrac1\alpha+\dfrac1\beta=\dfrac SP$
+
+**Worked example.** For $x^{2}-5x+3=0$, $S=5$ and $P=3$. Then $\alpha^{2}+\beta^{2}=25-6=19$; $\alpha^{3}+\beta^{3}=125-45=80$; $(\alpha-\beta)^{2}=25-12=13$; and $\dfrac1\alpha+\dfrac1\beta=\dfrac53$.
+
+**Finding the parameter.** For what values of $k$ does $x^{2}+(k-1)x+(k+2)=0$ have equal roots? $D=(k-1)^{2}-4(k+2)=k^{2}-6k-7=(k-7)(k+1)$. So $D=0$ gives $k=7$ or $k=-1$. The roots are real when $k\le-1$ or $k\ge7$, and complex for $-1<k<7$.
+
+**Conclusion.** The discriminant decides the nature of the roots without solving the equation, and $S$ and $P$ give symmetric functions directly from the coefficients.
+
+### Model answer D2: forming equations, common roots and special relations (10 marks)
+
+**Introduction.** If the roots are known, the equation can be written as $x^{2}-Sx+P=0$, where $S$ is the sum and $P$ the product of the roots. This reversed process, together with conditions on common roots, is a frequent examination question.
+
+**Formation of an equation.**
+
+1. Find $S$ and $P$ of the required roots.
+2. Write $x^{2}-Sx+P=0$.
+
+*Example 1.* If $\alpha,\beta$ are the roots of $x^{2}-5x+3=0$, form the equation with roots $2\alpha+1$ and $2\beta+1$. Sum $=2(\alpha+\beta)+2=12$. Product $=4\alpha\beta+2(\alpha+\beta)+1=12+10+1=23$. The equation is $x^{2}-12x+23=0$.
+
+*Example 2.* Roots $\alpha^{2}$ and $\beta^{2}$: sum $=19$, product $=9$, so $x^{2}-19x+9=0$.
+
+*Example 3.* Roots $\dfrac1\alpha,\dfrac1\beta$: sum $\dfrac53$, product $\dfrac13$, so $3x^{2}-5x+1=0$.
+
+**Special relations between the roots.**
+
+- **Reciprocal roots:** $\alpha\beta=1$, so $c=a$.
+- **Equal in magnitude, opposite in sign:** $\alpha+\beta=0$, so $b=0$.
+- **One root double the other:** let the roots be $\alpha$ and $2\alpha$. Then $3\alpha=-\dfrac ba$ and $2\alpha^{2}=\dfrac ca$. Eliminating $\alpha$, $\dfrac{2b^{2}}{9a^{2}}=\dfrac ca$, so $2b^{2}=9ac$. Check with $x^{2}-6x+8=0$ (roots $2,4$): $2\times36=72=9\times8$.
+
+**Common roots.** Consider $a_1x^{2}+b_1x+c_1=0$ and $a_2x^{2}+b_2x+c_2=0$.
+
+1. **Both roots common:** $\dfrac{a_1}{a_2}=\dfrac{b_1}{b_2}=\dfrac{c_1}{c_2}$.
+2. **Exactly one root common:** eliminating $x^{2}$ and then $x$ gives the condition
+
+$$ (c_1a_2-c_2a_1)^{2}=(a_1b_2-a_2b_1)(b_1c_2-b_2c_1) $$
+
+*Check.* $x^{2}-5x+6=0$ (roots $2,3$) and $x^{2}-7x+10=0$ (roots $2,5$) share the root $2$. Here $(6-10)^{2}=16$ and $(-7+5)(-50+42)=(-2)(-8)=16$.
+
+**Worked proof.** If $x^{2}+px+q=0$ and $x^{2}+qx+p=0$ ($p\neq q$) have a common root, show $p+q+1=0$. Subtracting, $(p-q)x+(q-p)=0$, so $x=1$ because $p\neq q$. Substituting $x=1$ in the first equation, $1+p+q=0$.
+
+| Condition | Result |
+|---|---|
+| roots reciprocal | $c=a$ |
+| roots opposite | $b=0$ |
+| one root double | $2b^{2}=9ac$ |
+| one root common | $(c_1a_2-c_2a_1)^{2}=(a_1b_2-a_2b_1)(b_1c_2-b_2c_1)$ |
+
+**Conclusion.** An equation is formed from the sum and product of its required roots, and conditions of common or related roots reduce to equations in the coefficients.

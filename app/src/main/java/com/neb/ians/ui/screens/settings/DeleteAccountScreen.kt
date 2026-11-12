@@ -6,8 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,7 +27,8 @@ import com.neb.ians.ui.components.NebLoader
 @Composable
 fun DeleteAccountScreen(
     viewModel: SettingsViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToLegal: (String) -> Unit = {}
 ) {
     val deletionState by viewModel.deletionRequestState.collectAsStateWithLifecycle()
     var reason by remember { mutableStateOf("") }
@@ -44,7 +45,7 @@ fun DeleteAccountScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -117,7 +118,7 @@ fun DeleteAccountScreen(
                                         modifier = Modifier.padding(bottom = 8.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Default.Warning,
+                                            imageVector = Icons.Outlined.Warning,
                                             contentDescription = null,
                                             tint = MaterialTheme.colorScheme.error
                                         )
@@ -158,19 +159,19 @@ fun DeleteAccountScreen(
 
                             Card(
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                                 ),
-                                shape = RoundedCornerShape(12.dp),
+                                shape = RoundedCornerShape(20.dp),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = 24.dp)
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    BulletItem("Your profile, posts, comments, replies, bookmarks, and follows will be permanently erased.")
+                                    BulletItem("Your profile, photos, posts, comments, replies, bookmarks, and follows will be permanently erased.")
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    BulletItem("Your contributed study resources will remain in the library but authorship will show as 'Anonymous'.")
+                                    BulletItem("Your uploaded study resources and resource requests will remain in the library, with authorship permanently anonymized to \"Anonymous\".")
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    BulletItem("Deletions are processed after a 30-day grace period. You can cancel this request at any time before then.")
+                                    BulletItem("Deletions are completed after a 30-day grace period. You can cancel this request at any time during those 30 days from Settings.")
                                 }
                             }
 
@@ -181,7 +182,7 @@ fun DeleteAccountScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = 24.dp),
-                                shape = RoundedCornerShape(12.dp),
+                                shape = RoundedCornerShape(16.dp),
                                 maxLines = 4
                             )
 
@@ -195,7 +196,7 @@ fun DeleteAccountScreen(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "I understand that my account will be permanently deleted after 30 days and my uploaded study resources will be anonymized.",
+                                    text = "I understand that my account and profile data will be permanently deleted after 30 days and my library uploads will be anonymized.",
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             }
@@ -207,6 +208,25 @@ fun DeleteAccountScreen(
                                 tone = NebButtonTone.Danger,
                                 size = NebButtonSize.Hero,
                                 fillWidth = true
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            NebButton(
+                                text = "Privacy Policy",
+                                onClick = { onNavigateToLegal(com.neb.ians.ui.screens.legal.NebLegal.PRIVACY) },
+                                tone = NebButtonTone.Tonal,
+                                modifier = Modifier.weight(1f)
+                            )
+                            NebButton(
+                                text = "Terms of Service",
+                                onClick = { onNavigateToLegal(com.neb.ians.ui.screens.legal.NebLegal.TERMS) },
+                                tone = NebButtonTone.Tonal,
+                                modifier = Modifier.weight(1f)
                             )
                         }
                     }

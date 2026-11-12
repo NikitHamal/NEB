@@ -367,6 +367,29 @@ terminate contraction.
 When the threshold (~ −55 mV) is reached, voltage-gated **Na⁺ channels open and Na⁺ rushes in** — that upstroke is **depolarisation** (towards +30 mV). Then **K⁺ channels open and K⁺ leaves**, restoring the **resting potential (~ −70 mV)** — that downstroke is **repolarisation**. MCQs that make K⁺ *entry* cause the impulse have the traffic backwards. Two permanent companions: the impulse is **all-or-none**, and **saltatory** conduction at the nodes of Ranvier is why myelinated fibres are faster.
 :::
 
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Why a neurone fires. (a) A motor neurone with its long axon, seen in a smear of spinal cord. (b) Each ion has an equilibrium potential given by the Nernst equation E = 61.5 log10(outside/inside) mV at 37 degrees C (divide by the charge for chloride). With 5 mM K+ outside and 140 mM inside, E(K) = -89 mV; Na+ (145 mM outside, 12 inside) gives E(Na) = +67 mV and Cl- (110 and 10) gives -64 mV. The resting potential of about -70 mV lies near E(K) because the membrane is mostly leaky to K+; the spike rushes towards E(Na) when Na+ channels open. A myelinated axon carries it at 100 m/s (18 ms over 1.8 m); an unmyelinated one at 1 m/s takes 1.8 s."
+@ photo id="bio12/neuron-smear" cap="Motor neurone in a spinal cord smear"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Equilibrium potentials and the action potential (mV)"
+nern = lambda o, i, z=1: 61.5 * math.log10(o / i) / z
+ek, ena, ecl = nern(5, 140), nern(145, 12), nern(110, 10, -1)
+assert abs(ek + 89.0) < 0.1 and abs(ena - 66.6) < 0.1 and abs(ecl + 64.0) < 0.1
+t1, t2 = 1.8 / 100 * 1000, 1.8 / 1
+facts = dict(ek="%.0f" % ek, ena="+%.0f" % ena, ecl="%.0f" % ecl, t1="%.0f" % t1, t2="%.1f" % t2)
+f = Fig(300, 236)
+f.text(150, 12, "Membrane potential scale (mV)", size=10.5, color=NAVY, bold=True)
+y0, sc = 104, 0.75
+f.line(40, y0, 280, y0, color=SLATE)
+for i, (lab, v, c, fl) in enumerate((("E(K)", ek, TEAL, MINT), ("rest", -70, NAVY, BLUE), ("E(Cl)", ecl, AMBER, SAND), ("peak", 30, RED, ROSE), ("E(Na)", ena, RED, ROSE))):
+    x = 50 + i * 46
+    h = abs(v) * sc
+    f.box(x, y0 - h if v > 0 else y0, 34, h, fill=fl, stroke=c, r=1)
+    f.text(x + 17, y0 - h - 6 if v > 0 else y0 + h + 13, "%+.0f" % v, size=10.5, color=c, bold=True)
+    f.text(x + 17, y0 + (13 if v > 0 else -6), lab, size=10.5, color=SLATE, bold=True)
+f.text(150, 206, "1.8 m: myelinated 18 ms, unmyelinated 1.8 s", size=10.5, color=NAVY, bold=True)
+```
+
 ## 9.3 The eye and the ear
 
 A **receptor** is a specialised cell or ending that transduces one form of
@@ -796,3 +819,113 @@ Voltage swing: +30 − (−70) = **100 mV**.
 **9.** (b) — Blocking cardiac beta receptors opposes sympathetic increases in rate and contractility.
 **10.** (b) — Crossing nasal-retinal fibres carry temporal-field information; central chiasmal damage causes bitemporal hemianopia.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the central, peripheral and autonomic nervous systems of man. <span class="marks">[10]</span>
+2. Explain the generation and conduction of a nerve impulse and the working of a synapse. <span class="marks">[10]</span>
+3. Describe the structure and working of the human eye and ear. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="5" ratio="1.1" caption="Nervous system and sense organs. (a) The human brain, the controlling organ. (b) A labelled neuron. (c) A chemical synapse where a neurotransmitter crosses the gap. (d) The human eye in section. (e) The human ear with outer, middle and inner parts."
+@ photo id="bio12/brain" cap="(a) Brain"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio12/neuron-diagram" cap="(b) Neuron"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio12/synapse" cap="(c) Synapse"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio12/eye-labelled" cap="(d) Eye"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio12/ear" cap="(e) Ear"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: The nervous system (10 marks)
+
+**Introduction.** The nervous system coordinates body activity by electrical impulses and chemical messengers. It has the **central nervous system (CNS)**, the **peripheral nervous system (PNS)** and the **autonomic nervous system (ANS)**.
+
+**Central nervous system.** The **brain** (about 1.4 kg) is protected by the skull and three **meninges** (dura, arachnoid, pia) with cerebrospinal fluid.
+
+1. **Cerebrum:** the largest part (about 80%), with two hemispheres joined by the corpus callosum. The outer **cortex** controls thought, memory, speech, sensation and voluntary movement.
+2. **Diencephalon (thalamus and hypothalamus):** the thalamus relays sensations, the hypothalamus controls temperature, hunger, thirst, and the pituitary.
+3. **Cerebellum:** balance and smooth muscle movement.
+4. **Medulla oblongata:** centres for heartbeat, breathing and reflexes such as sneezing and vomiting.
+5. **Spinal cord:** grey matter inside (H-shaped) and white matter outside; conducts impulses and controls **reflex action**.
+
+**Peripheral nervous system.** **12 pairs of cranial nerves** and **31 pairs of spinal nerves** link the CNS to the body. It has a sensory (afferent) and a motor (efferent) division.
+
+**Autonomic nervous system.** It controls involuntary organs and has two parts that act in opposite ways.
+
+| Feature | Sympathetic | Parasympathetic |
+|---|---|---|
+| Situation | Thoraco-lumbar outflow | Cranio-sacral outflow |
+| Neurotransmitter | Noradrenaline | Acetylcholine |
+| Heart rate | Increases | Decreases |
+| Pupil | Dilates | Constricts |
+| Digestion | Slows | Speeds |
+| Effect | "Fight or flight" | "Rest and digest" |
+
+**Reflex arc.** Receptor → sensory neuron → spinal cord (interneuron) → motor neuron → effector. The knee jerk is a two-neuron reflex arc.
+
+**Conclusion.** The CNS integrates, the PNS carries messages and the ANS runs the internal organs automatically.
+
+### Model answer D2: Nerve impulse and synapse (10 marks)
+
+**Introduction.** A **nerve impulse** is a wave of electrical change that travels along the axon of a neuron.
+
+**Resting potential.** The resting axon is **polarised**: it is positive outside and negative inside, about **−70 mV**. The **sodium–potassium pump** removes 3 Na⁺ and brings in 2 K⁺ using ATP, and the membrane is more permeable to K⁺ than to Na⁺ at rest.
+
+**Action potential.**
+
+1. **Stimulus:** if the stimulus reaches the **threshold** (about −55 mV), voltage-gated Na⁺ channels open.
+2. **Depolarisation:** Na⁺ rushes in and the inside becomes positive (about **+30 mV**).
+3. **Repolarisation:** Na⁺ channels close, K⁺ channels open and K⁺ flows out, restoring −70 mV.
+4. **Hyperpolarisation and recovery:** the potential dips slightly below −70 mV and the pump restores the ion balance.
+5. **Propagation:** the local current excites the next patch of membrane. In **myelinated** fibres the impulse jumps from node to node (**saltatory conduction**), which is faster and saves energy.
+
+The impulse obeys the **all-or-none law**, and during the **refractory period** a new impulse cannot start.
+
+**Synapse.** A synapse is the junction between two neurons (axon terminal of the presynaptic neuron and dendrite of the post-synaptic neuron), separated by a **synaptic cleft** of about 20 nm.
+
+1. The impulse reaches the terminal and opens **Ca²⁺ channels**.
+2. Vesicles release a **neurotransmitter** (acetylcholine) by exocytosis.
+3. It diffuses across the cleft and binds to receptors.
+4. This opens ion channels and starts a new impulse.
+5. The transmitter is broken down (acetylcholine by acetylcholinesterase) or taken back.
+
+| Type | Medium | Speed | Direction |
+|---|---|---|---|
+| Chemical synapse | Neurotransmitter | Slower (0.5 ms delay) | One way |
+| Electrical synapse | Ion flow via gap junctions | Very fast | Two way |
+
+**Conclusion.** Ion movements create the impulse and neurotransmitters pass it between neurons, giving the nervous system its speed and one-way control.
+
+### Model answer D3: The eye and the ear (10 marks)
+
+**Introduction.** The eye is the organ of sight and the ear is the organ of hearing and balance.
+
+**The eye.** It is a sphere about 2.5 cm across with three coats.
+
+1. **Sclera** (white; at front the clear **cornea**, which bends light).
+2. **Choroid** (dark, with blood vessels; forms the **iris** with the pupil, and the ciliary body).
+3. **Retina** (inner coat): **rods** (dim light, about 120 million) and **cones** (colour, about 6 million); the **fovea** has the sharpest vision, and the **blind spot** has no receptors.
+
+The **lens** is held by suspensory ligaments. The aqueous humour fills the front and the vitreous humour the back. **Image formation:** light passes through the cornea, aqueous humour, lens and vitreous, and forms an inverted real image on the retina; the brain turns it upright. **Accommodation:** for near objects the ciliary muscles contract and the lens becomes thicker.
+
+**Defects:** myopia (short sight, concave lens), hypermetropia (long sight, convex lens), cataract (cloudy lens, treated by surgery, as in many Nepali eye camps).
+
+**The ear.**
+
+| Part | Structure | Function |
+|---|---|---|
+| Outer ear | Pinna, auditory canal, ear drum | Collects and directs sound |
+| Middle ear | Three ossicles (**malleus, incus, stapes**), Eustachian tube | Amplify vibrations; equalise pressure |
+| Inner ear | **Cochlea** (organ of Corti), **semicircular canals**, utriculus and sacculus | Hearing and balance |
+
+Sound vibrates the ear drum → ossicles → oval window → fluid in the cochlea → hair cells of the **organ of Corti** → auditory nerve → temporal lobe. The semicircular canals sense rotation and the utriculus and sacculus sense position.
+
+**Conclusion.** The retina and the organ of Corti change light and sound into nerve impulses, and the brain turns them into sight and hearing.

@@ -90,7 +90,8 @@
 .admin-form-input:focus {
   outline: none;
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 1px var(--md-primary);
+  outline: 2px solid var(--md-primary);
+  outline-offset: -1px;
 }
 .admin-form-label {
   display: block;
