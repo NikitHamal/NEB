@@ -15,7 +15,7 @@
  "code": "BCA 354",
  "credits": 2,
  "semester": 6,
- "hours": 45,
+ "hours": 57,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -356,9 +356,58 @@
     "examples": 0
    },
    "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Writing for the Web, Information Reports, Proposals and Group Work",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Writing collaboratively",
+    "Writing for the web",
+    "Information reports",
+    "Proposals",
+    "Group presentations"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Writing collaboratively"
+    },
+    {
+     "no": "7.2",
+     "title": "Writing for the web"
+    },
+    {
+     "no": "7.3",
+     "title": "Information reports"
+    },
+    {
+     "no": "7.4",
+     "title": "Proposals"
+    },
+    {
+     "no": "7.5",
+     "title": "Group presentations"
+    }
+   ],
+   "summary": [
+    "Team writing works when roles, a style sheet and a single master copy are fixed in advance and reviews happen in rounds.",
+    "Web readers scan, so pages put the answer first, use headings and lists, and give links and images descriptive text.",
+    "Information reports (abstracts, mechanism and process descriptions, periodic and progress reports, news releases) present facts in a fixed form for a defined reader.",
+    "Proposals persuade with specific objectives, a plan, a schedule and a budget that adds up.",
+    "A group presentation needs one message, divided topics, planned hand-offs and joint rehearsal."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3845,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 6,
- "topic_count": 39,
- "notes_ready": 6
+ "unit_count": 7,
+ "topic_count": 44,
+ "notes_ready": 7
 }
