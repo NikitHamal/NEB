@@ -2,235 +2,240 @@
 subject: Hardware Workshop
 grade: BCA Semester 1
 unit: 2
-title: Assembling a Desktop PC, Step by Step
+title: Introduction to Networking Components
 area: BCA 106 · Hardware Workshop · Unit 2
 ---
 
-This unit is the lab manual for building a desktop computer from parts. Follow it in order, with the motherboard manual open beside you, and you will have a machine that reaches the BIOS screen on its first power-on.
+A computer on its own can only compute. Joined to other machines it can share files, printers and an internet connection. This unit is the lab guide to the **physical** side of networking: the devices (modem, NIC, hub, switch, router, access point), the cables and connectors (UTP, coaxial, fibre) and the three kinds of Ethernet cable you must be able to crimp, plus testing and fixing physical faults.
 
 ::: key What this unit gives you
-- A complete assembly procedure from workspace preparation to first boot.
-- Cable management and airflow.
-- The meaning of beep codes and POST, and what to do if the PC does not start.
-- A lab checklist and a sign-off table.
+- Purpose, layer and behaviour of the modem, NIC, hub, switch, router, access point and range extender.
+- Cabling: Cat5, Cat5e, Cat6, coaxial and fibre-optic cable, and the connectors RJ45, BNC, SC, LC.
+- Straight-through, crossover and rollover cables, with T568A and T568B colour orders and the crimping procedure.
+- Cable testing, common physical faults and how to simulate and repair them.
 :::
 
-## 2.1 Before you start
+## 2.1 Overview of network devices
 
-1. Clear a large bench; lay out anti-static mat; wear the wrist strap.
-2. Unbox parts and check against the list: case, PSU, motherboard, CPU, cooler, RAM, storage, GPU (optional), cables, screws, manuals.
-3. Read the motherboard manual: socket, RAM slot order, front-panel header layout.
-4. Keep the board on its box (a non-conductive surface) for the first steps; do not place it on the bag's *outside*, which can conduct.
+A network device is any box that moves data between machines. Each works at a different **layer** of the OSI model, which decides how much it understands about the data it carries.
 
-```photogrid label="2.1" cols="4" ratio="1.1" caption="Four parts that have a right way round. (a) A CPU: match the corner marker or notches to the socket. (b) A DIMM: one off-centre notch means it fits only one way. (c) An M.2 NVMe drive: one key notch, fixed by a single screw. (d) A CPU cooler with thermal paste already applied to its copper base."
-@ photo id="bca101/cpu-i7" cap="CPU (underside contacts)"
-fit 1.1
-@ photo id="bca101/ram" cap="DDR DIMM with notch"
-fit 1.1
-@ photo id="bca101/nvme" cap="M.2 NVMe SSD"
-fit 1.1
-@ photo id="bca106/paste" cap="Cooler with thermal paste"
-fit 1.1
-call 0.50 0.90 0.50 0.58 "Paste on copper base"
-```
-
-```photogrid label="2.2" cols="2" ratio="2.1" caption="The front-panel header, where the case wires are fitted. The small pins carry power switch, reset switch, power LED and HDD LED; polarity matters only for the LEDs (+ and -). The board manual gives the exact pin order."
-@ photo id="bca106/jpanel" cap="Front-panel header (JPANEL) on a motherboard"
-fit 2.1
-call 0.50 0.88 0.60 0.55 "Pin pairs: PWR, RST, LED"
-@ svg cap="Typical pin pairs"
-f = Fig(380, 180)
-for i, (n, c) in enumerate([("PWR SW", RED), ("RESET SW", AMBER), ("PWR LED +/-", TEAL), ("HDD LED +/-", NAVY)]):
-    f.box(20, 12 + i * 40, 110, 30, n, fill=SOFT, stroke=c, size=11, bold=True)
-    f.arrow([(130, 27 + i * 40), (230, 27 + i * 40)], color=c)
-    f.text(240, 32 + i * 40, ["no polarity", "no polarity", "red wire +", "red wire +"][i], size=11, color=SLATE, anchor="start")
-```
-
-## 2.2 Step-by-step build
-
-**Step 1: open the case.** Remove both side panels. Note the pre-installed standoffs and the screws bag. If necessary, fit the **I/O shield** (backplate) into the rear cut-out, facing outwards (many boards have it built in).
-
-**Step 2: install the CPU on the motherboard (outside the case is easier).**
-
-- *Intel (LGA):* lift the retention lever and plate; align the **notches** on the CPU edge with the socket; place the CPU gently (do not push, never touch the pins in the socket); lower the plate and lock the lever (the plastic cover pops off by itself).
-- *AMD AM4 (PGA):* lift the lever; match the **golden triangle** on the CPU to the arrow on the socket; drop it in with no pressure; lower the lever. *AM5 is LGA like Intel.*
-
-**Step 3: install RAM.** Open the slot clips; align the notch on the module with the key in the slot; press down evenly at both ends until the clips snap. For two modules use the slots the manual recommends (often A2 and B2) for dual channel.
-
-**Step 4: M.2 SSD (if used).** Remove the standoff screw, insert the SSD at about 30° into the M.2 socket, press down and fasten with the screw. Remove any protective film from the heatsink pad.
-
-**Step 5: cooler.** If the cooler has pre-applied paste, remove the cover; otherwise apply a **pea-sized dot** of thermal paste in the centre of the CPU. Place the cooler vertically, tighten the screws **diagonally** in small turns, and connect the fan to the **CPU_FAN** header.
-
-**Step 6: mount the board in the case.** Check the standoffs match the holes of your form factor (ATX, mATX, ITX) and that no extra standoff lies where there is no hole (a short circuit risk). Lower the board, align with the I/O cut-out, and secure it with screws, tightening evenly but not over-tightening.
-
-**Step 7: PSU.** Fit the PSU (fan facing the vent: down if the case has a bottom vent). Secure with four screws. Route cables behind the tray.
-
-**Step 8: connect power.**
-
-- 24-pin ATX to the board edge (the clip clicks).
-- 8-pin (4+4) **EPS** CPU power near the CPU. 
-- SATA power to drives; PCIe power to the GPU.
-
-**Step 9: drives.** Fasten the SSD/HDD in its bay or bracket; connect **SATA data** (L-shaped, keyed) to the board and **SATA power** from the PSU.
-
-**Step 10: front-panel connectors.** The small header pins are the most error-prone step. Check the manual diagram: **PWR_SW**, **RESET_SW**, **PWR_LED+/−**, **HDD_LED+/−** (LEDs have polarity; switches do not), **USB 3.0** (blue 19/20-pin), **USB 2.0** (9-pin), **HD_AUDIO** (9-pin).
-
-**Step 11: graphics or expansion cards.** Remove the slot cover, insert the card straight into the PCIe x16 slot until the latch clicks, screw it to the case, connect its power cables.
-
-**Step 12: tidy cables.** Bundle cables with ties or Velcro behind the motherboard tray; keep them away from fans and out of the airflow path. Good airflow gives lower temperatures and less noise.
-
-**Step 13: final check before power.** Nothing loose inside the case (a stray screw can short the board); CPU and case fans connected; all power connectors seated; RAM clicks closed; the monitor cable is plugged into the **graphics card** (if one is installed), not the board.
-
-**Step 14: first power-on.** Connect monitor, keyboard, mouse and mains cable; switch on the PSU; press the case power button. Expect fans to spin, then the manufacturer logo and a prompt to enter **BIOS/UEFI** (usually Del or F2). If you reach it, the build is successful. Check in BIOS that the CPU model, RAM size and the storage devices are detected, and watch the CPU temperature for a few minutes.
-
-## 2.3 If it does not start
-
-| Symptom | Likely cause and fix |
-|---|---|
-| Nothing happens, no fans | PSU switch off; mains cable; 24-pin or 8-pin not seated; power-button header wrong. Short the PWR_SW pins with a screwdriver to test |
-| Fans spin, no display | monitor on the wrong port; GPU not seated or power missing; RAM not seated (reseat, try one stick); CPU power missing |
-| Beep codes (AMI: one long + continuous short pattern) | AMI: 1 short = OK; continuous = memory or power fault; 1 long + 8 short = display adapter fault. Award: 1 long + 2 short = video error. Always check your board's manual, since codes vary |
-| Debug LEDs (CPU / DRAM / VGA / BOOT) | the LED that stays lit points to the stage that failed |
-| Restarts or shuts down after a short time | overheating: cooler not seated, no paste, fan not connected |
-| "No boot device" | boot order, drive not detected (cable), no OS yet |
-| USB or audio ports dead | front-panel header connected wrongly; check rear ports |
-
-**POST** (power-on self-test) is the firmware checking the CPU, RAM, video and drives before handing over to the OS. Error codes or beeps during POST identify a failing component. **Troubleshooting method:** reduce to the minimum (CPU, one RAM stick, board, PSU, GPU if needed), then add parts one at a time and test each.
-
-```svgfig label="2.1" caption="Order of assembly. Parts that go on the open motherboard (CPU, cooler, RAM, M.2) are fitted first because there is more room; then the board goes into the case, followed by drives, PSU cables, the graphics card and a first test."
-f = Fig(760, 200)
-steps = ["1 Open case\nI/O shield", "2 CPU into\nsocket", "3 Cooler +\npaste", "4 RAM\nin slots", "5 M.2 SSD", "6 Board on\nstandoffs", "7 PSU, drives\nGPU, cables", "8 Front panel\nPOST test"]
-for i, s in enumerate(steps):
-    x = 12 + (i % 4) * 186; y = 14 + (i // 4) * 96
-    f.box(x, y, 150, 56, s, fill=BLUE if i < 5 else SOFT, stroke=NAVY, size=11, bold=True)
-    if i % 4 < 3: f.arrow([(x + 150, y + 28), (x + 186, y + 28)], color=NAVY)
-f.arrow([(687, 70), (687, 80), (87, 80), (87, 110)], color=AMBER)
-f.text(380, 190, "Blue steps: on the board outside the case.  White steps: inside the case.", size=10.5, color=SLATE)
-```
-
-```svgfig label="2.2" caption="Decision tree for a PC that does not start. Work from the power outward: mains and PSU switch, then the 24-pin and CPU power, then RAM and the display cable, and finally the POST beeps."
-f = Fig(760, 250)
-def q(x, y, t): f.box(x, y, 150, 46, t, fill=BLUE, stroke=NAVY, size=10.5, bold=True)
-def a(x, y, t): f.box(x, y, 150, 46, t, fill=SOFT, stroke=TEAL, size=10.5)
-q(10, 10, "Any fan or LED?"); a(10, 104, "Check mains, PSU switch,\n24-pin, front-panel PWR"); f.arrow([(85, 56), (85, 104)], color=RED, label="no", lpos=(100, 82))
-q(210, 10, "Display on screen?"); f.arrow([(160, 33), (210, 33)], color=TEAL, label="yes", lpos=(184, 24))
-a(210, 104, "Reseat RAM and GPU,\ncheck monitor cable"); f.arrow([(285, 56), (285, 104)], color=RED, label="no", lpos=(300, 82))
-q(410, 10, "Beeps or POST code?"); f.arrow([(360, 33), (410, 33)], color=TEAL, label="yes", lpos=(384, 24))
-a(410, 104, "Read the manual:\nRAM, GPU, CPU fault"); f.arrow([(485, 56), (485, 104)], color=RED, label="yes", lpos=(500, 82))
-a(610, 10, "BIOS reached: set boot\ndrive and install OS"); f.arrow([(560, 33), (610, 33)], color=TEAL, label="no beeps", lpos=(586, 24))
-f.text(380, 200, "Change one thing at a time. Re-test after every change. Write down what you tried.", size=11, color=NAVY, bold=True)
-f.text(380, 224, "Minimum test set: CPU + one RAM stick + PSU + speaker (no drives, no cards).", size=10.5, color=SLATE)
-```
-
-## 2.4 Lab sign-off table
-
-| # | Task | Done | Instructor |
+| Device | OSI layer | What it does | Typical lab example |
 |---|---|---|---|
-| 1 | Use of wrist strap and workspace set-up | | |
-| 2 | Identify all components by name and function | | |
-| 3 | Install CPU, RAM and cooler on the board | | |
-| 4 | Mount board and PSU in case | | |
-| 5 | Connect power, drives, front panel correctly | | |
-| 6 | Cable management completed | | |
-| 7 | Power-on and BIOS detection of CPU, RAM, storage | | |
-| 8 | Measure PSU rails with a multimeter (+12 V, +5 V, +3.3 V) | | |
+| Modem | 1 (physical) | Converts digital data to the signal used on the line (telephone, cable, fibre) and back | ADSL or fibre ONT box from the ISP |
+| NIC | 1 and 2 | Connects a computer to the medium; owns a 48-bit MAC address | Onboard Gigabit port, Wi-Fi card |
+| Hub | 1 | Repeats every incoming bit to all other ports | Old 8-port hub |
+| Switch | 2 | Learns MAC addresses and forwards a frame only to the right port | 8 or 24-port managed or unmanaged switch |
+| Router | 3 | Forwards packets between different networks using IP addresses | Wireless home router |
+| Access point (AP) | 2 | Bridges Wi-Fi clients to the wired LAN | Ceiling-mounted AP |
+| Extender | 1 or 2 | Repeats a weak Wi-Fi signal to enlarge the coverage area | Plug-in range extender |
 
-**PSU voltage check (multimeter).** With the 24-pin connector plugged into the board and the PC on, probe the back of the connector: orange wire ≈ +3.3 V, red ≈ +5 V, yellow ≈ +12 V, with black as ground; acceptable tolerance is ±5 % (for +12 V: 11.4 to 12.6 V). Green wire (PS_ON) shorted to black turns on a disconnected PSU (a paper-clip test, for a test only). Gray is **Power Good**, +5 V when the supply is stable; purple is **+5 VSB** standby.
+```svgfig label="2.1" caption="A small office network. The modem brings the ISP line in; the router joins the LAN to the internet; the switch connects wired PCs and the printer; the access point serves Wi-Fi laptops. Every wired link is a straight-through cable."
+f = Fig(760, 250)
+f.box(10, 100, 100, 50, "ISP line\nModem", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.box(160, 100, 100, 50, "Router\n(gateway)", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(310, 100, 100, 50, "Switch", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.arrow([(110, 125), (160, 125)], color=NAVY)
+f.arrow([(260, 125), (310, 125)], color=NAVY)
+f.box(470, 20, 110, 44, "PC 1", fill=SOFT, stroke=TEAL, size=11)
+f.box(470, 100, 110, 44, "PC 2", fill=SOFT, stroke=TEAL, size=11)
+f.box(470, 180, 110, 44, "Printer", fill=SOFT, stroke=TEAL, size=11)
+f.arrow([(410, 112), (440, 42), (470, 42)], color=TEAL)
+f.arrow([(410, 125), (470, 122)], color=TEAL)
+f.arrow([(410, 138), (440, 202), (470, 202)], color=TEAL)
+f.box(630, 100, 110, 50, "Access point\n(Wi-Fi)", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.arrow([(580, 122), (630, 125)], color=AMBER)
+f.text(380, 244, "Modem to router: WAN side. Router, switch, PCs: LAN side.", size=10.5, color=SLATE)
+```
 
-## 2.5 Eight common assembly mistakes and how to avoid them
+### Modem
 
-1. **Forgetting the I/O shield.** The metal back plate must be fitted in the case before the board is screwed in. Without it the ports do not line up and the board must be removed again. Make it step 1 on your checklist.
-2. **Extra or missing standoffs.** A standoff under a place with no screw hole can touch the board and cause a short circuit. Fit standoffs only at the holes of your board's form factor. Count them before and after.
-3. **Bent CPU pins or wrong CPU direction.** Forcing a CPU into the socket bends pins or damages contacts. Match the corner marker and lower it gently; it should drop in with no pressure. Never touch the pins or contacts.
-4. **Too much or no thermal paste.** A pea-sized dot is enough; too much leaks onto the socket and no paste causes overheating. Remove the plastic film on a new cooler. Check that the cooler is tight and the fan cable is plugged into CPU_FAN.
-5. **RAM not fully seated.** A half-fitted DIMM gives a black screen and beep codes. Press until both side clips click, and use the slots in the order the manual shows for dual channel. Wrong slots only lose speed, but a loose stick stops the PC.
-6. **Missing power connectors.** The CPU needs the separate 4+4 or 8-pin cable besides the 24-pin cable, and a powerful GPU needs its own PCIe power cable. A PC with only the 24-pin connected often shows no sign of life. Trace every connector to the PSU.
-7. **Front-panel wires on the wrong pins.** Swapped power and reset pins make the button restart the PC, and reversed LED wires just stay dark. Read the pin map in the manual and fit the plugs one pair at a time. LEDs can be turned around safely, switches have no polarity.
-8. **Poor cable management and airflow.** Loose cables block fans and trap heat. Tie them behind the tray with cable ties and keep the front-to-back airflow free. A tidy case also makes later repairs far easier.
+The word means **mod**ulator-**dem**odulator. A telephone-line (ADSL) modem turns bits into audio-frequency tones; a cable modem uses TV channels; in a fibre network the equivalent box is an **ONT** (optical network terminal) that turns light pulses into Ethernet. A modem does not route: it has one WAN side and usually one Ethernet port. Many home boxes combine modem, router, switch and access point in one case.
+
+### Network interface card (NIC)
+
+A NIC joins a computer to the network. Wired NICs have an RJ45 socket; wireless NICs have an antenna. Each has a **MAC address** (for example 3C-52-82-1A-9F-04), 48 bits written as six hexadecimal bytes; the first three bytes identify the manufacturer. Link speeds are 10, 100, 1,000 Mbps and higher. On Windows, `ipconfig /all` lists the adapter and MAC; in Linux use `ip link`.
+
+### Hub, switch and router compared
+
+A **hub** is a multi-port repeater: a frame arriving on port 1 is copied to every other port, so all attached machines share one **collision domain** and one bandwidth. A **switch** reads the destination MAC address of each frame, keeps a table of which MAC sits on which port, and sends the frame only there; each port is its own collision domain and can run full duplex. A **router** connects *different* networks, reads the destination IP address, consults a routing table and also separates **broadcast domains**. At home the router also provides DHCP, NAT and a firewall.
+
+::: example Worked example: why a switch beats a hub
+Eight PCs share a 100 Mbps hub. If two PCs are transferring, the hub gives a shared 100 Mbps and every other PC hears the traffic. On a 100 Mbps switch, four simultaneous pairs can each run at 100 Mbps full duplex, an aggregate of up to 4 × 100 × 2 = **800 Mbps** of capacity, because each port has a private link to the switch.
+:::
+
+### Access point and extender
+
+An **access point** (AP) has a radio and a wired port: it joins Wi-Fi clients (802.11n, ac, ax) to the wired LAN, with the same IP subnet on both sides. A **wireless router** is a router plus a built-in AP. A **range extender** receives the existing Wi-Fi and re-transmits it; if it uses the same radio for both jobs, real throughput drops to about half. Where possible, connect extra APs by cable instead.
+
+## 2.2 Cabling and connectors
+
+### Twisted-pair (UTP) cable
+
+Ethernet inside buildings mostly uses **UTP** (unshielded twisted pair): four pairs of copper wire, each pair twisted to cancel interference. The twist rate differs from pair to pair. The category tells you the bandwidth and the speed the cable is rated for.
+
+| Category | Bandwidth | Typical speed | Notes |
+|---|---|---|---|
+| Cat5 | 100 MHz | 100 Mbps | Obsolete |
+| Cat5e | 100 MHz | 1 Gbps | Common, enhanced crosstalk limits |
+| Cat6 | 250 MHz | 1 Gbps (10 Gbps to about 55 m) | Standard for new work |
+| Cat6a | 500 MHz | 10 Gbps to 100 m | Thicker, often shielded |
+| Cat7 / Cat8 | 600 MHz / 2 GHz | 10 / 25-40 Gbps (Cat8 to 30 m) | Data centres |
+
+The maximum length of one Ethernet copper segment is **100 m**: 90 m of permanent cable plus up to 10 m of patch cords. Beyond that, use a switch or fibre.
+
+**Connector.** The 8-pin modular plug is called **RJ45** (strictly 8P8C). The wire at each pin is set by a standard, either **T568A** or **T568B**.
+
+| Pin | T568A | T568B |
+|---|---|---|
+| 1 | white/green | white/orange |
+| 2 | green | orange |
+| 3 | white/orange | white/green |
+| 4 | blue | blue |
+| 5 | white/blue | white/blue |
+| 6 | orange | green |
+| 7 | white/brown | white/brown |
+| 8 | brown | brown |
+
+10/100 Mbps Ethernet uses only pins 1, 2 (transmit) and 3, 6 (receive). Gigabit and faster use all four pairs.
+
+### Straight-through, crossover and rollover cables
+
+```svgfig label="2.2" caption="Which cable to use. Straight-through (same standard at both ends) joins unlike devices; crossover (T568A at one end, T568B at the other) joins like devices; rollover (pins reversed) is the console cable for a router or switch."
+f = Fig(760, 220)
+rows = [("Straight-through", "T568B  to  T568B", "PC to switch, switch to router,\nPC to hub, router to AP", BLUE),
+        ("Crossover", "T568A  to  T568B", "PC to PC, switch to switch,\nhub to hub, router to PC", SOFT),
+        ("Rollover", "pin 1 to 8, 2 to 7 ...", "PC serial/USB port to the console\nport of a router or switch", BLUE)]
+for i, (a, b, c, col) in enumerate(rows):
+    y = 12 + i * 68
+    f.box(10, y, 160, 54, a, fill=col, stroke=NAVY, size=12, bold=True)
+    f.box(190, y, 190, 54, b, fill=SOFT, stroke=TEAL, size=11)
+    f.box(400, y, 350, 54, c, fill="#ffffff", stroke=SLATE, size=11)
+f.text(380, 214, "Modern Gigabit ports use Auto-MDI/MDI-X and fix a wrong choice automatically.", size=10.5, color=SLATE)
+```
+
+- **Straight-through:** both ends wired to the same standard (T568B at both ends is the usual choice). Used between *unlike* devices: computer to switch, switch to router.
+- **Crossover:** one end T568A and the other T568B, so the transmit pair of one device meets the receive pair of the other. Used between *like* devices: PC to PC, switch to switch. Most current devices have **Auto-MDI/MDI-X** and accept either.
+- **Rollover (console) cable:** the pin order is reversed (1 to 8, 2 to 7, and so on). It is usually flat and pale blue and joins a PC to the **console port** of a Cisco-type router or switch for first configuration (9600 baud, 8 data bits, no parity, 1 stop bit).
+
+### Coaxial and fibre-optic cable
+
+**Coaxial** cable has a copper core, an insulator, a braided shield and an outer jacket. Old Ethernet (10BASE2, RG-58 with **BNC** connectors, up to 185 m) used it in bus topologies; today coax carries cable TV and cable-modem signals (RG-6 with an **F connector**).
+
+**Fibre-optic** cable carries light in a glass core. **Multimode fibre** (50/125 µm, OM3 or OM4) is used inside buildings and campuses; **single-mode fibre** (9/125 µm) runs for tens of kilometres between towns and to homes. Fibre is immune to electrical interference, cannot be tapped easily and gives the highest speeds, but connectors and tools cost more. Common connectors are **SC** (square push-pull), **LC** (small, used on SFP modules) and **ST** (round bayonet).
+
+| Medium | Max segment (typical) | Interference | Cost | Use |
+|---|---|---|---|---|
+| UTP Cat5e/6 | 100 m | Medium | Low | LAN desktops |
+| Coaxial (RG-6) | hundreds of metres | Low | Low | Cable TV, cable modem |
+| Multimode fibre | 300 m to 550 m at 10 Gbps | None | Medium | Building backbone |
+| Single-mode fibre | tens of km | None | High | ISP, long links |
+
+### Crimping an RJ45 plug (procedure)
+
+Tools: UTP cable, RJ45 plugs (with boots if wanted), a crimping tool with stripper and cutter, a cable tester.
+
+1. Cut the cable square and strip about **25 mm** of the outer jacket without nicking the pairs.
+2. Untwist the four pairs and straighten each wire; do not untwist more than about **13 mm**, or crosstalk rises.
+3. Arrange the eight wires in the chosen order (T568B for a straight-through cable; T568A at one end only for a crossover). Pin 1 is on the left when the plug's clip faces away from you and the contacts face you.
+4. Press the wires flat and trim them in a straight line so about **12 mm** protrudes.
+5. Push the wires into the plug until every conductor touches the end; check that the jacket also reaches past the strain-relief tab.
+6. Place the plug in the crimper and squeeze fully; the contacts bite through the insulation and the tab grips the jacket.
+7. Repeat at the second end and test with a **cable tester**: LEDs 1 to 8 must light in order on both units (for a crossover, 1-3, 2-6, 3-1, 6-2 and the rest straight).
+
+::: caution Common crimping errors
+Wires not pushed to the end (open circuit), jacket not reaching the clamp (cable pulls out), split pairs (pins 3 and 6 on the wrong pair; the tester may pass but speed collapses), and mixing T568A at one end with T568B at the other when a straight-through cable was wanted.
+:::
+
+## 2.3 Testing and troubleshooting physical problems
+
+Most network faults are physical. Always begin at layer 1: is there a link light, is the cable plugged in, is the port alive?
+
+| Symptom | Likely cause | Test and fix |
+|---|---|---|
+| No link light on NIC or switch port | Unplugged, broken or open cable; dead port | Reseat, swap the cable, try another port |
+| Link light on but only 10 or 100 Mbps | A broken pair (only pairs 1-2, 3-6 working), a bad crimp or Cat5 cable | Cable tester wire-map; re-crimp; use Cat5e or better |
+| Intermittent drops | Loose plug, pinched cable, interference, bad patch cord | Wiggle test, replace patch cord, keep away from power cables |
+| Works on short cable but fails at 90 m+ | Over 100 m or poor termination | Move the switch closer or use fibre |
+| One PC cannot reach others | Wrong cable type on an old device, port disabled | Swap cable type, check port status |
+
+**Cable tester wire-map.** A basic LAN tester has a master unit and a remote unit and shows the eight lines in sequence. A fault shows as **open** (a line does not light), **short** (two lines light together), **reversed or crossed** pair, or **split pair**. A multimeter in continuity mode can test a single conductor, but not twisting.
+
+::: example Worked example: effect of cable choice on transfer time
+Copy a 4 GB (32,000 Mb) file over (a) a 100 Mbps link and (b) a 1,000 Mbps link, ignoring protocol overhead. (a) 32,000 / 100 = **320 s** (5 min 20 s). (b) 32,000 / 1,000 = **32 s**. A single bad crimp that forces a Gigabit link down to 100 Mbps makes the copy ten times slower, which is why you check the negotiated speed after any re-crimp.
+:::
+
+**Simulating faults in the lab.** A common exercise: your instructor removes one wire from a patch cord, swaps two wires, plugs a crossover cable where a straight-through is needed (on an old device), or disables a switch port. You must locate the fault using the link lights and the tester, replace the cable or device, and record the fix in a troubleshooting log (see Unit 7).
+
+## 2.4 Eight rules for handling network hardware
+
+1. Power off and unplug a device before connecting its power or fibre cables.
+2. Never bend UTP below a radius of about four times its diameter; never pull on the cable, only on the plug.
+3. Label both ends of every cable and every patch-panel port.
+4. Keep copper cable away from fluorescent lights and power cables.
+5. Never look into the end of a live fibre or a fibre transmitter port.
+6. Use the right cable category for the speed you want, and measure that you actually get it.
+7. Keep one spare patch cord of each type in the toolbox.
+8. Record the device model, firmware and IP address of every box you install.
 
 ## Formula and fact sheet
 
-- Order: CPU → RAM → M.2 → cooler (outside) → board into case → PSU → cables → drives → front panel → cards → test.
-- Thermal paste: pea-sized dot. Cooler screws: diagonal pattern.
-- Power: 24-pin ATX, 8-pin EPS CPU, PCIe for GPU, SATA power for drives.
-- Voltage colours: orange +3.3 V, red +5 V, yellow +12 V, black ground; tolerance ±5 %.
-- Troubleshoot: minimum configuration, then add one part at a time.
+- Transfer time = file size (bits) / link rate (bits per second); 1 byte = 8 bits.
+- Maximum Ethernet copper segment: 100 m (90 m permanent link plus patch cords).
+- T568B: wh/orange, orange, wh/green, blue, wh/blue, green, wh/brown, brown. T568A swaps the orange and green pairs.
+- Straight-through joins unlike devices, crossover joins like devices, rollover joins a PC to a console port.
+- Hub: layer 1, one collision domain. Switch: layer 2, one collision domain per port. Router: layer 3, one broadcast domain per interface.
+- Fibre: multimode 50/125 µm for buildings, single-mode 9/125 µm for long distance; connectors SC, LC, ST.
 
 ## Chapter summary
 
-- Build in a fixed order, handling the CPU and RAM carefully and tightening screws evenly.
-- Front-panel headers need the manual; LEDs have polarity, switches do not.
-- Check twice before power-on: no loose screws, all power connected, monitor on the right port.
-- If it fails, use beep codes, debug LEDs and a minimum-configuration test to isolate the part.
+- Network devices are placed by layer: modem and NIC at the physical link, hub at layer 1, switch and AP at layer 2, router at layer 3.
+- UTP is the standard LAN cable up to 100 m; Cat5e and Cat6 are used for Gigabit, Cat6a for 10 Gbps.
+- Straight-through, crossover and rollover cables differ only in pin order; T568B is the usual choice and Auto-MDI/MDI-X has made crossover cables rare.
+- Coaxial serves cable TV and legacy bus networks; fibre gives distance and immunity to interference.
+- Testing begins at layer 1 with link lights and a cable tester, and every fix goes in the log.
 
 ## Practice
 
-1. Write the steps for installing a CPU and cooler and explain why thermal paste is needed.
-2. Why must you tighten cooler screws diagonally?
-3. A newly built PC shows no display although the fans spin. List five checks in order.
-4. What is dual channel and where do you place two RAM sticks?
-5. How do you identify the correct way to insert RAM, an Intel CPU and a SATA cable?
-6. Explain the purpose of the CPU_FAN header and the risk of not connecting it.
-7. List the connectors that come from the PSU and what each powers.
-8. What voltage should you read on the yellow wire of a healthy PSU? What is the acceptable range?
-9. Explain POST and how beep codes help.
-10. Explain why you should build with the minimum configuration first when the PC will not start.
+1. Name the OSI layer of a hub, a switch and a router and state the difference in how each forwards data.
+2. Write the T568B colour sequence from pin 1 to pin 8.
+3. Which cable (straight-through, crossover, rollover) would you use for (a) PC to switch, (b) switch to switch on an old device, (c) PC to the console port of a router, (d) router to a PC?
+4. State the maximum length of a UTP segment and what you would do for a run of 140 m.
+5. List the steps of crimping an RJ45 plug.
+6. A cable tester shows LEDs 1, 2, 3, 6 lighting but 4, 5, 7, 8 dark. What speed will the link negotiate and why?
+7. Compare multimode and single-mode fibre with one use for each.
+8. How long does a 2 GB (16,000 Mb) file take to copy at 100 Mbps and at 1 Gbps?
+9. Distinguish a collision domain from a broadcast domain.
+10. Explain what a MAC address is and where you find it on Windows.
 
 ::: note Answers and worked solutions
-**1.** Open the socket lever, align the notches (Intel) or triangle (AMD), place the CPU without pressure, lock the lever; add a pea-sized paste dot, seat the cooler, tighten diagonally, connect CPU_FAN. Paste fills microscopic air gaps between the CPU lid and cooler base, which would otherwise block heat transfer.
-**2.** Even pressure prevents tilting that would crack the CPU or leave an air gap.
-**3.** Monitor cable in the correct port (GPU vs board); monitor input source; reseat RAM; GPU seated and powered; CPU 8-pin power connected; try one RAM stick; clear CMOS.
-**4.** Dual channel uses two modules on two memory channels for double bandwidth; place them in the slots recommended in the manual (often A2 and B2).
-**5.** RAM has an off-centre notch matching the slot key; an Intel CPU has two notches matching the socket; a SATA connector is L-shaped and fits only one way.
-**6.** It powers and monitors the CPU fan; without it the CPU overheats and the system may shut down or throttle.
-**7.** 24-pin ATX: board; 4+4 EPS: CPU; PCIe 6+2: graphics card; SATA power: drives; Molex: older peripherals and fans.
-**8.** +12 V, with a range of 11.4 to 12.6 V (±5 %).
-**9.** POST is the firmware's hardware self-test at start-up; a failure produces beep patterns or debug codes that identify the faulty subsystem.
-**10.** It removes variables: if the minimal system boots, add parts one at a time until the fault returns; the last part added is the culprit.
+**1.** Hub: layer 1, repeats to every port. Switch: layer 2, forwards by MAC address to one port. Router: layer 3, forwards by IP address between networks.
+**2.** white/orange, orange, white/green, blue, white/blue, green, white/brown, brown.
+**3.** (a) Straight-through. (b) Crossover (modern switches accept straight-through via Auto-MDI/MDI-X). (c) Rollover. (d) Crossover on very old equipment; straight-through on modern ports.
+**4.** 100 m. For 140 m, add a switch (or repeater) near the 90 m mark, or use fibre.
+**5.** Strip 25 mm, untwist and order the wires, flatten and trim to 12 mm, insert to the end, crimp, repeat, test.
+**6.** Only pairs 1-2 and 3-6 are good, so the link falls back to **100 Mbps** (Fast Ethernet needs only those pairs); Gigabit needs all four.
+**7.** Multimode (50/125 µm): inside buildings and campuses over short distances; single-mode (9/125 µm): ISP and inter-city links over tens of kilometres.
+**8.** 16,000 / 100 = **160 s**; 16,000 / 1,000 = **16 s**.
+**9.** A collision domain is the set of devices whose frames can collide (one per switch port); a broadcast domain is the set that receives a broadcast (one per router interface).
+**10.** The 48-bit hardware address of a NIC; run `ipconfig /all` and read Physical Address.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q (5 marks). Explain how the CPU, cooler and RAM are installed on a motherboard.**
+**Q (5 marks). Differentiate between a hub, a switch and a router.**
 
-These three parts are fitted to the board while it lies on its box outside the case, because there is more room (Plate 2.1).
+A **hub** (layer 1) repeats every bit to all ports, so all devices share one collision domain and the bandwidth. A **switch** (layer 2) learns MAC addresses and forwards each frame only to the destination port, giving every port its own collision domain and full-duplex speed. A **router** (layer 3) joins different networks, uses IP addresses and a routing table, and divides broadcast domains. In a small office the router connects the LAN to the ISP, the switch connects the PCs and a hub is no longer used.
 
-*CPU.* Lift the socket lever (Intel LGA) or the retention arm (AMD AM4). Find the small triangle on one corner of the CPU and match it with the triangle on the socket. Lower the CPU without pressure so that it sits flat, then close the plate and lever. Never touch the contacts, and never force it: a bent pin often cannot be repaired.
+**Q (5 marks). Explain the straight-through, crossover and rollover cables.**
 
-*Cooler.* Clean the CPU top, then place a pea-sized drop of thermal paste in the centre (a new cooler may already have paste, see Plate 2.1d). Lower the cooler straight down, tighten the four screws or clips in a cross pattern and push the fan cable onto the CPU_FAN header.
+A straight-through cable has the same wiring (T568B) at both ends and joins unlike devices such as a PC and a switch. A crossover cable has T568A at one end and T568B at the other, so transmit meets receive, and joins like devices such as PC to PC. A rollover cable reverses the pin order and connects a PC to a router or switch console port for configuration. Figure 2.2 summarises the three.
 
-*RAM.* Open the clips at both ends of the slot, match the notch of the DIMM to the key in the slot and press both ends down evenly until the clips snap shut. For dual channel use slots 2 and 4 (check the manual) when fitting two sticks.
+**Q (10 marks). Describe the common networking cables and connectors, and explain how an RJ45 cable is crimped and tested.**
 
-| Part | Alignment aid | Final check |
-|---|---|---|
-| CPU | corner triangle | sits flat, lever closes easily |
-| Cooler | four holes | tight; fan cable in CPU_FAN |
-| RAM | single notch | both clips locked |
+*Introduction.* The medium carries the signal; the choice depends on speed, distance and cost.
 
-**Q (10 marks). Describe the step-by-step procedure for assembling a desktop PC and explain how a first test (POST) is carried out. List four faults that can stop a new PC from starting.**
+*Cables.* UTP Cat5e or Cat6 (four twisted pairs, 100 m, RJ45 connector) for desktops; coaxial (RG-6, F or BNC connector) for cable TV and legacy buses; multimode fibre (50/125 µm, LC or SC) within a building and single-mode fibre (9/125 µm) between towns.
 
-*Introduction.* Assembly is a controlled sequence: build the core on the board, fix the board in the case, connect power and storage, then test before closing the case (Figure 2.1). Follow the manual of each part and an anti-static routine throughout.
+*Crimping.* Strip 25 mm of jacket, untwist at most 13 mm, order the wires to T568B, trim to 12 mm, insert to the end of the plug, crimp, repeat at the second end.
 
-*Procedure.*
-
-1. **Prepare:** clear the bench, wear the wrist strap, check all parts and screws against the list, and read the board manual.
-2. **Case:** remove both panels, fit the I/O shield and screw the standoffs that match the board.
-3. **CPU, cooler and RAM:** install them on the board as described above.
-4. **M.2 SSD:** fit it in its slot and fix it with the small screw.
-5. **Board into case:** lower it onto the standoffs and tighten all screws gently, without forcing.
-6. **PSU and drives:** fix the PSU, fit the 2.5 inch or 3.5 inch drives, and connect the SATA data and power cables.
-7. **Power cables:** plug in the 24-pin main and 4+4 pin CPU cables, then fit the graphics card and its PCIe power.
-8. **Front panel:** connect the power switch, reset switch, LED and USB/audio cables using the pin map (Plate 2.2).
-9. **Test (POST):** connect monitor, keyboard and mains, and press power. Fans spin and the board runs the **Power-On Self-Test**, which checks the CPU, RAM and graphics. One short beep or a logo means success; other beeps or a debug code point to a fault.
-10. **Close up:** switch off, tidy the cables, close the panels and start the OS installation.
-
-*Faults that stop a new PC.* (1) No power: mains, PSU switch or 24-pin not seated. (2) Fans spin but no display: RAM not seated or cable in the wrong output. (3) Repeated beeps: RAM or graphics fault. (4) Power then shutdown: cooler not fitted properly, or a short circuit from a stray standoff.
-
-| POST result | Meaning | Action |
-|---|---|---|
-| Nothing at all | no power | check PSU, 24-pin, PWR pins |
-| 1 short beep | pass (most boards) | enter BIOS, install OS |
-| Continuous beeps | RAM or power fault | reseat RAM |
-| Long + short beeps | graphics fault | reseat card, check cable |
-
-*Conclusion.* Methodical assembly with a test of the minimum system first finds a fault in minutes rather than hours. A written checklist, signed at each step, is the mark of a professional technician.
+*Testing.* Connect both ends to a cable tester and check that lines 1 to 8 light in order. Open, short, reversed or split pairs are fixed by re-crimping. Finally confirm the link negotiates 1 Gbps. Figure 2.1 shows where each cable sits in a small network.
