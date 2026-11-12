@@ -111,8 +111,8 @@ def _extract_photogrids(body, store, chapter_id):
                 img = f'<img class="gp" src="{_png_uri(path)}" alt="photograph">'
                 rec = assets.record(aid) or {}
                 if rec:
-                    credits.append(f'({chr(97 + k)}) {_html.escape(re.sub(r"\s*\(.*?\)\s*|\s*:.*$", " ", rec.get("author") or "unknown").strip()[:42])}, '
-                                   f'{_html.escape(rec.get("license", ""))}')
+                    _au = re.sub(r"\s*\(.*?\)\s*|\s*:.*$", " ", rec.get("author") or "unknown").strip()[:42]
+                    credits.append(f'({chr(97 + k)}) {_html.escape(_au)}, {_html.escape(rec.get("license", ""))}')
                 _, keys, _o = photo.parse_script(script)
                 keys_all += keys
             cap = re.sub(r"^\(" + chr(97 + k) + r"\)\s*", "", cap)   # the letter is added below; drop a hand-typed duplicate
@@ -157,7 +157,7 @@ def _extract_photos(body, store, chapter_id):
         src_note = ""
         if rec:
             who = rec.get("author") or "unknown"
-            src_note = (f'<span class="src">{i18n.CUR['source']} {_html.escape(who[:70])} / '
+            src_note = (f'<span class="src">{i18n.CUR["source"]} {_html.escape(who[:70])} / '
                         f'{_html.escape(rec.get("source", ""))} '
                         f'({_html.escape(rec.get("license", ""))})</span>')
         cap = re.search(r'caption\s*=\s*"([^"]*)"', info)

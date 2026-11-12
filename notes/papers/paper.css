@@ -1,0 +1,33 @@
+:root { --accent:#154cb5; --accent-wash:#eef3fc; }
+@page { margin: 17mm 16mm 16mm 16mm; }
+@page :first { margin: 17mm 16mm 16mm 16mm; background-image: url("brand/watermark.svg"); background-position: 50% 54%; background-size: 104mm auto;
+  @top-left{content:string(booktitle)} @top-right{content:string(chaptitle)} @bottom-left{content:"NEBians — nebians.consica.com.np"} @bottom-right{content:counter(page)} }
+html { font-family: "Source Serif 4", serif; font-size: 10pt; line-height: 1.46; text-align: left; }
+.pp-head { text-align:center; border-bottom:.45mm solid #14181f; padding-bottom:3.2mm; margin-bottom:4mm; }
+.pp-brand { display:flex; justify-content:space-between; font-family:Inter,sans-serif; font-size:8.4pt; color:#5b6472; letter-spacing:.04em; text-transform:uppercase; }
+.pp-head h1 { font-family:Poppins,sans-serif; font-size:17pt; margin:2mm 0 .5mm; color:#14181f; border:0; padding:0; }
+.pp-head .yr { font-family:Poppins,sans-serif; font-weight:600; font-size:11.5pt; color:var(--accent); }
+.pp-head .who { font-style:italic; font-size:9.2pt; color:#3a404a; margin:1.4mm 0 0; }
+.pp-meta { display:flex; justify-content:space-between; font-family:Poppins,sans-serif; font-weight:600; font-size:9.6pt; margin:0 0 3mm; }
+.pp-note { font-style:italic; font-size:9.4pt; color:#3a404a; margin:0 0 3mm; }
+.pp h2 { font-family:Poppins,sans-serif; font-size:11.4pt; text-align:center; margin:5mm 0 1.6mm; border:0; padding:0; color:#14181f; break-after:avoid; }
+.pp h2 small { display:block; font-weight:500; font-size:9.2pt; color:#5b6472; }
+.pp p.part { margin:0 0 1.5mm 0; text-indent:-8mm; padding-left:8mm; text-align:left; break-inside:avoid; }
+.pp p.part.cont { text-indent:0; }
+.pp p.sub { margin:0 0 1.2mm 0; text-indent:-7mm; padding-left:16mm; }
+.pp b.qn { display:inline-block; width:8mm; text-indent:0; font-family:Poppins,sans-serif; font-weight:600; }
+.pp p.or { text-align:center; font-family:Poppins,sans-serif; font-weight:600; margin:2mm 0; }
+.pp p.mcq-opts { margin:0 0 2.4mm 8mm; display:flex; flex-wrap:wrap; gap:1mm 7mm; }
+.pp p.mcq-opts.col { display:block; }
+.pp p.mcq-opts.col .opt { display:block; }
+.pp .opt i { font-style:normal; font-family:Inter,sans-serif; font-weight:600; font-size:8.6pt; color:var(--accent); margin-right:2mm; }
+.marks { float:none; }
+.pp-end { text-align:center; font-family:Poppins,sans-serif; font-weight:600; margin-top:2mm; }
+.sol { break-before:page; }
+.sol h2 { border-top:.45mm solid #14181f; padding-top:3mm; }
+.sol .sq { font-family:Poppins,sans-serif; font-weight:600; font-size:10.4pt; color:var(--accent); margin:4.2mm 0 1mm; break-after:avoid; }
+.sol p { margin:0 0 1.6mm; text-align:left; }
+.keytab { width:100%; border-collapse:collapse; margin:2mm 0; font-family:Inter,sans-serif; font-size:9pt; }
+.keytab td, .keytab th { border:.3mm solid #cfd5de; padding:1.4mm 2mm; text-align:center; }
+.keytab th { background:var(--accent-wash); }
+figure { break-inside:avoid; }
