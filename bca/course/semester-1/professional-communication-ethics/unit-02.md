@@ -191,3 +191,225 @@ An **interview** is a structured conversation with a purpose: selecting (job), i
 ::: note Exam hint
 Frequently asked: "What are the qualities of a good presentation?", "Write the agenda and minutes for a meeting", "Prepare a 60-second elevator pitch", and "How would you prepare for a job interview?". Always give a model (agenda, minutes, pitch) in the proper format; marks are given for format.
 :::
+
+## Exercise (Sections 2.1 to 2.5)
+
+1. List the five stages of a professional telephone call and write one model sentence for each.
+2. How should a receptionist handle (a) a caller who is angry, (b) a wrong number, (c) a request to speak to a manager who is in a meeting?
+3. Distinguish informative, persuasive and demonstrative presentations with an IT example of each.
+4. Explain extemporaneous delivery and say why it is preferred over reading from a manuscript.
+5. State six guidelines for designing slides.
+6. Draft an agenda for a meeting of the BCA Students' Society to plan a tech fest.
+7. Write the minutes of a meeting from the following notes: staff meeting, Monday 3 March, 11 am, Principal in chair; Ms Rana reported that 14 of 60 laptops need repair; it was decided to send them to the vendor by Friday; Mr Basnet will arrange transport.
+8. Prepare a 60-second elevator pitch introducing yourself to a software company.
+9. Explain the STAR method with an example.
+10. Write short notes on: (a) quorum, (b) action minutes, (c) active listening in interviews.
+
+::: note Answers and worked solutions
+**1.** Greeting and identification ("Good morning, X Company, Hari speaking"); purpose ("I am calling about..."); exchange of information with confirmation ("May I confirm..."); action and summary ("I will send it by 3 pm"); closing ("Thank you, goodbye").
+**2.** (a) Stay calm, let the caller finish, acknowledge the feeling, say what you can do and give a time. (b) Politely say the number is wrong, check the number the caller dialled, and offer the right department if you know it. (c) Do not say "he is busy"; say "Mr Rai is in a meeting until 12; may I take a message or ask him to call you back?"
+**3.** Informative: a talk on how DNS works. Persuasive: convincing the college to adopt open-source software. Demonstrative: showing how to install and use a new accounting package live.
+**4.** Extemporaneous delivery is speaking from a prepared outline. It keeps eye contact and natural tone and allows the speaker to adapt to the audience; reading a manuscript sounds stiff and loses the audience.
+**5.** One idea per slide; a short title; at most six lines of six words; large readable font (24 pt or more); high contrast; a picture or chart instead of a paragraph; consistent template; limited animation.
+**6.** Use the model in 2.3: heading, date, time, venue, chair, then numbered items (welcome and apologies, previous minutes, tech fest theme and date, committees, budget, any other business, next meeting) with leads and times.
+**7.** *Minutes of the staff meeting held on Monday, 3 March at 11:00 am. Present: the Principal (Chair), Ms Rana, Mr Basnet and others. 1. Laptop repair. Ms Rana reported that 14 of the 60 laptops needed repair. It was decided to send them to the vendor by Friday. Action: Mr Basnet to arrange transport.* End with time of closing and signatures.
+**8.** Hook, who you are, what you can do, one proof (project), ask. About 120 words. See the model in 2.4.
+**9.** Situation, Task, Action, Result; it organises a behavioural answer into a short story with evidence, e.g. the group-conflict example in 2.5.
+**10.** (a) Quorum: the minimum number of members that must be present for decisions to be valid. (b) Action minutes record decisions and tasks, not the discussion. (c) In interviews: listen to the whole question, paraphrase, and answer what was asked.
+:::
+
+## 2.6 Vocabulary and grammar
+
+### 2.6.1 Professional idioms
+
+An **idiom** is a fixed expression whose meaning is not the sum of its words. Idioms make English natural, but use them only when the listener is likely to know them and avoid them in international contracts and technical manuals.
+
+| Idiom | Meaning | Workplace example |
+|---|---|---|
+| **on the same page** | in agreement, sharing understanding | Before we start, let us make sure everyone is on the same page about the deadline. |
+| **touch base** | contact briefly | I will touch base with the client on Monday. |
+| **get the ball rolling** | start a process | Let us get the ball rolling with the requirements. |
+| **in the loop / out of the loop** | informed / not informed | Please keep me in the loop on the server issue. |
+| **think outside the box** | think creatively | To cut costs we must think outside the box. |
+| **the bottom line** | the main point or final result | The bottom line is that we need two more developers. |
+| **back to square one** | start again | The client rejected the design, so we are back to square one. |
+| **hit the ground running** | start work effectively at once | New hires should hit the ground running. |
+| **cut corners** | do something cheaply and carelessly | Never cut corners on security testing. |
+| **raise the bar** | set a higher standard | The new framework raises the bar for performance. |
+| **bite the bullet** | do something unpleasant that is unavoidable | We had to bite the bullet and rewrite the old module. |
+| **the ball is in your court** | it is your turn to act | I have sent the proposal; the ball is in your court. |
+| **at the end of the day** | finally, all things considered | At the end of the day, users want a fast app. |
+| **go the extra mile** | do more than required | She went the extra mile to fix the bug at midnight. |
+| **drop the ball** | fail to do something one was responsible for | We dropped the ball on the backup schedule. |
+| **a steep learning curve** | much to learn quickly | Kubernetes has a steep learning curve. |
+| **burn the midnight oil** | work late into the night | We burned the midnight oil to meet the deadline. |
+| **call it a day** | stop working | It is 6 pm; let us call it a day. |
+| **learn the ropes** | learn how a job is done | Interns need a month to learn the ropes. |
+| **break the ice** | start conversation in a tense or new situation | A short joke broke the ice at the meeting. |
+| **red tape** | excessive official procedure | Getting a licence involves a lot of red tape. |
+| **ballpark figure** | a rough estimate | Give me a ballpark figure for the migration cost. |
+| **in a nutshell** | briefly | In a nutshell, the project is late and over budget. |
+| **under the weather** | slightly ill | Ravi is under the weather today, so he will join online. |
+| **the tip of the iceberg** | a small visible part of a larger problem | That error was just the tip of the iceberg. |
+
+### 2.6.2 Reported speech
+
+**Direct speech** gives the speaker's exact words in quotation marks; **reported (indirect) speech** gives their meaning from the reporter's point of view, without quotation marks. It is the language of **minutes, reports and news**.
+
+**Rule 1: tense backshift** (when the reporting verb is in the past: *said, told, asked*).
+
+| Direct | Reported |
+|---|---|
+| simple present: "I **work** here." | simple past: He said he **worked** there. |
+| present continuous: "I **am testing** it." | past continuous: She said she **was testing** it. |
+| present perfect: "I **have finished**." | past perfect: He said he **had finished**. |
+| simple past: "We **sent** it." | past perfect: They said they **had sent** it. |
+| will: "I **will call**." | would: She said she **would call**. |
+| can / may / must: "You **can** go." | could / might / had to: He said I **could** go. |
+
+**Rule 2: pronouns** change with the viewpoint ("I will help **you**," said Sita to Ram → Sita told Ram she would help **him**). **Rule 3: time and place words:** *now → then; today → that day; tomorrow → the next day; yesterday → the day before; next week → the following week; ago → before; here → there; this → that*.
+
+**Questions:** a *yes/no* question uses **if / whether**; a *wh-* question keeps the wh-word; the order becomes **statement order** and there is no question mark. "Do you use Linux?" → He asked **if I used** Linux. "Where is the server?" → She asked **where the server was**.
+**Commands and requests** use the infinitive: "Submit the report." → The manager told us **to submit** the report. "Please do not share the password." → He requested us **not to share** the password.
+**Exclamations and wishes:** "How clever!" → She exclaimed with admiration that it was very clever. "Good luck!" → He wished me good luck.
+
+**No backshift when:** the reporting verb is in the present or future ("He says he is busy"); the statement is a *general truth* ("The teacher said the earth moves round the sun"); or the reported fact is still true and the report is made at once. **Modals unchanged:** *could, would, should, might, ought to* stay the same.
+
+::: example Minutes converted from direct speech
+Direct: The Chair said, "The server migration **will be** complete by Friday." / Mr Karki asked, "**Can** we hire one more developer?"
+Reported (as in minutes): The Chair stated that the server migration **would be** complete by Friday. Mr Karki asked whether one more developer **could** be hired.
+:::
+
+### Exercise 2.6
+
+1. Complete with the correct idiom: (a) Please keep me ___ about the audit. (b) The test failed, so we are ___. (c) We cannot ___ on security. (d) She ___ to finish the demo. (e) I sent the draft; now the ___.
+2. Change into reported speech: (a) The manager said, "We are launching the app next month." (b) "Have you backed up the database?" asked the auditor. (c) "Please send me the invoice," said the client. (d) She said, "I will call you tomorrow." (e) "Where did you save the file?" he asked me. (f) The trainer said, "Water boils at 100 degrees Celsius."
+3. Change into direct speech: (a) He said that he had been working on the report since morning. (b) She asked me if I could attend the meeting the next day. (c) The Principal ordered the students not to use phones in the lab.
+
+::: note Answers and worked solutions
+**1.** (a) in the loop (b) back to square one (c) cut corners (d) went the extra mile (e) ball is in your court.
+**2.** (a) The manager said that they were launching the app the following month. (b) The auditor asked whether I had backed up the database. (c) The client requested me to send him the invoice. (d) She said that she would call me the next day. (e) He asked me where I had saved the file. (f) The trainer said that water boils at 100 degrees Celsius (general truth: no backshift).
+**3.** (a) He said, "I have been working on the report since morning." (b) She said to me, "Can you attend the meeting tomorrow?" (c) The Principal said to the students, "Do not use phones in the lab."
+:::
+
+## 2.7 Readings
+
+*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first. Where an example or figure is quoted from memory of the original, check the exact wording against your copy before using it in an exam.
+
+### 2.7.1 "Death by Powerpoint" by Angela R. Garber
+
+#### The writer and the text
+
+**Angela R. Garber** wrote "Death by PowerPoint" in 2001 for the small-business technology site *Small Business Computing*. It is a short, practical, humorous magazine article. The phrase **"death by PowerPoint"** entered everyday English from this piece and now means the boredom, fatigue and loss of attention an audience feels when a presenter overloads slides, reads them aloud and ignores the audience. The article is **expository and advisory**: it diagnoses a common workplace habit and then gives rules to correct it.
+
+#### Summary
+
+1. **The problem.** Slide software has made it easy for anyone to produce a presentation, and many presentations are now made by people who have never learned how to communicate with a slide. The audience sits through slide after slide of dense text, clip art and effects and leaves with little memory of the message. Garber names this experience "death by PowerPoint".
+2. **The tool is not to blame.** PowerPoint (and similar software) is a visual aid, not the presentation. The *speaker* is the presentation; the slides support the speaker. Failure comes from misuse: from treating slides as a script, a handout and a speech at the same time.
+3. **Typical mistakes.** Too many slides; too much text on each; reading the slides aloud word for word, so that the audience reads faster than the speaker speaks and stops listening; turning the back to the audience to read the screen; unreadable fonts and poor colour contrast; unnecessary animations, sounds and decorations that distract from content; no clear structure or purpose.
+4. **The remedy.** Begin with the message and the audience, not the software. Plan the talk first (purpose, main points, order), then design a few simple slides. Use **short phrases rather than sentences**, one idea per slide, large text, and simple pictures or charts to show what words cannot. Use animation only when it explains something.
+5. **Prepare and rehearse.** Practise the talk aloud, time it, know the material so that you speak to people and not to the screen, and check the equipment and a backup before you begin. Give detailed information in a **handout** after or alongside the talk, not on the slides.
+6. **Engage the audience.** Make eye contact, ask questions, tell a short story or example, and use your voice and movement. A speaker who connects with listeners can succeed even if the slides fail; the reverse is not true.
+7. **The conclusion.** Good presentations respect the audience's time and attention. Used well, slides improve a talk; used badly, they bury it.
+
+#### Themes
+
+- **Tools versus skills.** Technology does not create communication skill; it amplifies the user's habits, good or bad.
+- **Audience-centred communication.** Every choice (words, slides, length) is judged by what helps the listener understand.
+- **Simplicity and clarity.** Less text and fewer effects give more impact; relevance matters more than decoration.
+- **Preparation and responsibility.** A speaker owes the audience planning and rehearsal; reading slides shows the lack of both.
+- **Humour as persuasion.** The title is a joke with a serious point.
+
+#### Critical analysis and rhetorical notes
+
+- **Title as a figure of speech.** "Death by PowerPoint" is a *hyperbole* (exaggeration) and a play on "death by hanging" or "death by chocolate"; it is memorable, which is why the phrase survived.
+- **Style:** informal, direct, second-person advice, short paragraphs and lists, suitable for busy business readers; it uses *imperatives* ("Use", "Keep", "Practise").
+- **Appeal:** *logos* in the list of mistakes and remedies; *ethos* from the writer's experience of sitting through such talks; *pathos* through the shared pain of a bored audience.
+- **Strength and limitation:** the advice is clear and still valid, but the article is short on evidence. Later research (the "redundancy effect", cognitive load theory) supports its main claim that reading slides aloud and overloading them reduces learning. Critics (for example Edward Tufte) argue that the template itself shapes poor thinking, so the problem is partly the tool; Garber places the blame on the user.
+- **Link to the syllabus:** it is the prescribed companion to Section 2.2 on presentation guidelines.
+
+#### Key vocabulary
+
+*audience, bullet points, clip art, animation, handout, rehearse, visual aid, hyperbole, jargon, engage, clutter, contrast, redundant, succinct.*
+
+### Exercise: "Death by Powerpoint"
+
+1. What does the phrase "death by PowerPoint" mean, and why did Garber choose it?
+2. Does Garber blame the software? Support your answer.
+3. List the mistakes that presenters make with slides, according to the article.
+4. What does she suggest for providing detailed information to the audience?
+5. How does she suggest keeping the audience engaged?
+6. Long answer: "A presentation is a conversation, not a document." Discuss with reference to the article.
+7. Prepare a three-slide outline for a five-minute talk on "Password security" that avoids "death by PowerPoint".
+
+::: note Answers and worked solutions
+**1.** It means the boredom and fatigue of an audience watching slides full of text read out by the presenter. It is a hyperbole: no one dies, but attention does. The shocking title makes the problem memorable.
+**2.** No. She treats the software as a neutral visual aid and puts the blame on how presenters use it: overloading slides, reading them aloud, using effects without a purpose.
+**3.** Too many slides; too much text; reading slides aloud; turning away from the audience; poor fonts and colours; unnecessary animation and sound; no plan.
+**4.** Give a handout (or send the document) with the detail, so the slides can stay short and the speaker can talk.
+**5.** Eye contact, questions to the audience, stories and examples, a lively voice, and knowing the material well enough not to read.
+**6.** Introduction: a document is made to be read alone, a conversation is shared. Body: (i) slides full of text turn a talk into a document and make the speaker unnecessary; (ii) the audience reads faster than the speaker speaks and then stops listening; (iii) a conversation needs eye contact, response and adaptation, which Garber's advice (questions, stories, rehearsal) supports; (iv) the detailed document belongs in a handout. Conclusion: the speaker, not the slide, carries the message.
+**7.** Slide 1: title "Your password is the key" with one picture of a key, and the aim (three habits). Slide 2: "Long beats clever": a bar showing how many seconds a 6-character versus a 16-character passphrase takes to crack, with one sentence of explanation. Slide 3: "Do these three things": use a password manager, turn on two-factor authentication, never reuse passwords. Details go in a one-page handout.
+:::
+
+### 2.7.2 "Our world on fire needs you" by Maria Ressa
+
+#### The writer and the text
+
+**Maria Ressa** (born 1963 in Manila, raised in the United States) is a Filipino-American journalist, a former CNN bureau chief in Manila and Jakarta, and co-founder of the news site **Rappler** (2012). She shared the **2021 Nobel Peace Prize** with Dmitry Muratov of Russia for efforts to safeguard freedom of expression; she was the first Filipino to win a Nobel Prize. She has faced arrests and multiple legal cases in the Philippines for her reporting, including a 2020 cyber-libel conviction that she appealed, and is the author of *How to Stand Up to a Dictator* (2022).
+The text is a **commencement address**, delivered on **23 May 2024** at Harvard University to the graduating class, when she received an honorary doctorate of laws. The title is taken from her closing lines: "Our world on fire needs you."
+
+#### Summary
+
+1. **A dystopian science-fiction world.** She tells the graduates that they have lived through a pandemic, wars watched on phone screens, and a time when everything can change in a blink; in a "dystopian science fiction world" they have learnt to turn crisis into opportunity.
+2. **You learn who you are when tested.** Her own trials (arrests, lawsuits) taught her that you do not know who you are until you are tested and fight for what you believe; she urges them to be clear about their values, and, as Harvard graduates, to "get your facts right".
+3. **Technology as accelerant of conflict.** Social media, designed to maximise engagement, spreads anger and lies faster than facts, and turns slow public discussion into a "gladiator's battle". The Philippines, a heavy social-media nation, was a "petri dish" where American tech companies tested their platforms; what happened there is now happening everywhere. The war is not only in Gaza, Sudan or Ukraine; it is "in your pocket".
+4. **Facts, truth and trust.** Without facts there is no truth; without truth there is no trust; without all three there is no shared reality, no rule of law and no democracy, and we cannot solve problems like climate change. She calls for reform of the information ecosystem, for the tech industry to be made accountable, and for governments to demand access to platform data.
+5. **Vulnerability and building trust.** In any relationship or negotiation someone must lower their shield first; being vulnerable is a strength that lets others follow. She asks the graduates to choose their best selves.
+6. **Protest and courage.** Protests are healthy when peaceful and must not be silenced, and speaking up has a "chilling effect" that must be overcome by courage.
+7. **Together and the call.** "Standing on the rubble of the world that was", the graduates must imagine and create a world "more compassionate, more equal, more sustainable". No one succeeds alone, however much of a superstar; it is about what binds us together. She ends: "Our world on fire needs you. So Class of 2024, welcome to the battlefield. Join us."
+
+#### Themes
+
+- **Truth and democracy.** A shared set of facts is the foundation of trust and self-government.
+- **Technology, disinformation and power.** Algorithms reward outrage; unchecked platforms damage society and aid authoritarians.
+- **Courage and integrity.** Values are proved under pressure; truth-telling has a cost.
+- **Vulnerability and trust.** Strength includes honesty about weakness and the willingness to go first.
+- **Collective action and hope.** The remedy for a crisis is community, not individual stardom.
+- **Responsibility of the educated.** Privilege creates a duty to serve.
+
+#### Critical analysis and rhetorical notes
+
+- **Genre and purpose:** an *epideictic* (ceremonial) speech that also *persuades* to action; it sits between a pep talk and a warning.
+- **Metaphors of war and fire:** "battlefield", "world on fire", "rubble", "gladiator's battle" give urgency; the repeated image makes the abstract problem of disinformation physical.
+- **Rhetorical devices:** *anaphora* and the chain "facts, truth, trust" (a *climax* that builds step by step); *direct address* ("you", "Class of 2024") and the *imperative* ending; *antithesis* ("what was" and "what should be"); *understatement and wit* ("You're Harvard. You better get your facts right").
+- **Ethos, pathos, logos:** *ethos* from her Nobel Prize and personal risk; *pathos* from images of war and fear; *logos* from the sequence of reasoning that links facts to democracy.
+- **Structure:** crisis, personal lesson, diagnosis (technology), principles (facts, vulnerability), call to action. The closing repeats the title, a classic *refrain*.
+- **Critical view:** the speech is persuasive but compressed; it names problems more than concrete policies, and its war language can sound alarmist to some listeners. Its strength is a clear moral line suited to a young audience.
+- **Link to the unit:** an example of *public speaking* (2.2): a clear purpose, structure, strong opening and closing, a memorable key line.
+
+#### Key vocabulary
+
+*commencement, dystopian, accelerant, disinformation, ecosystem, vulnerable, integrity, rubble, accountable, compassionate, chilling effect, shield, battlefield.*
+
+### Exercise: "Our world on fire needs you"
+
+1. Where and when was the speech delivered, and to whom?
+2. What does Ressa mean by "a dystopian science fiction world"?
+3. Why does she call the Philippines a "petri dish"?
+4. Explain the chain "facts, truth, trust" in her speech.
+5. Why does she say that vulnerability is a strength?
+6. Identify two rhetorical devices in the closing lines and their effect.
+7. Long answer: "Technology has become an accelerant of conflict." Discuss with reference to the speech and your own experience.
+8. Write a 150-word speech to your classmates on why they must verify information before sharing it.
+
+::: note Answers and worked solutions
+**1.** At Harvard University's 2024 commencement on 23 May 2024, to the graduating class of 2024, when she received an honorary degree.
+**2.** A world in which technology and crises (a pandemic, wars, disinformation) change life suddenly, like fiction about a damaged future, but real. It makes the point that the graduates must adapt and create.
+**3.** Filipinos spent more time on social media than any other people, so American tech companies used the country as a testing ground; the harms of platforms appeared there first and then spread globally.
+**4.** Without facts there can be no agreed truth; without truth people cannot trust each other or institutions; without these three there is no shared reality, rule of law or democracy, and common problems such as climate change cannot be solved.
+**5.** Because trust begins when someone lowers their defences first; admitting weakness allows others to do the same and makes real collaboration possible.
+**6.** The refrain (repeating "Our world on fire needs you") fixes the message in the memory; direct address and an imperative ("Join us") turn the speech into a personal invitation and call to action. The metaphor "welcome to the battlefield" gives a sense of mission.
+**7.** Introduction: Ressa argues that platforms built to maximise engagement spread anger and lies. Body: (i) algorithms reward outrage, so false and emotional posts travel faster than facts; (ii) the Philippine experience shows how disinformation can be used to attack journalists and democracy; (iii) without facts, truth and trust, societies cannot act together; (iv) personal example: a false rumour shared in a college group or a fake news item during a disaster. Conclusion: technology is not evil but, without accountability and with our own careless sharing, it escalates conflict; hence her call to act.
+**8.** Model: "Friends, every day we share news within seconds. But a share is also a vote. Before you click, ask three questions: who published this, what is the evidence, and is it recent? As IT students, we understand how easily screenshots are edited. A rumour can close a business or hurt a family. Let us be the people who stop false news. Facts, truth, trust: it starts with each of us. Check first, share later."
+:::
