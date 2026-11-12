@@ -160,6 +160,51 @@ fit 1.2
 7. **Quality through testing.** Testing is planned from the requirements, so the delivered system can be checked against what was promised. Acceptance criteria are written before coding begins.
 8. **Support for change.** Iterative and agile variants of the life cycle accept that requirements change. Working increments are shown to users every few weeks so a wrong turn is caught quickly.
 
+## 1.12 Choosing a life-cycle model: waterfall, incremental, prototyping, spiral and RAD
+
+The syllabus asks you to know the traditional waterfall life cycle and the approaches used to improve development. Every model below answers one question: *how do we find out what the user really wants before we spend the budget?* The models differ in when the user sees working software.
+
+### The models in turn
+
+- **Waterfall.** Phases run once, in order (planning, analysis, design, implementation, maintenance) and each phase is signed off before the next begins. It is predictable and easy to manage and document, but a mistake found in testing means going back through every earlier phase. It suits small, stable, well-understood systems and fixed-price government contracts, such as a payroll rule set that is fixed by law.
+- **Incremental.** The system is cut into slices (for example login, then billing, then reports). Each slice goes through a short waterfall and is delivered to users. The first useful slice appears early, and later slices benefit from user feedback.
+- **Prototyping.** A cheap, quick, partial model (paper sketch, clickable screens, or a small working program) is shown to users, who react, and the model is revised. A **throwaway prototype** is discarded after requirements are clear; an **evolutionary prototype** grows into the final system. Prototyping reduces requirement risk but can hide poor architecture and encourage users to expect the real thing in a week.
+- **Spiral.** Each loop of the spiral passes through four steps: set objectives, assess and reduce risks, develop and test, and plan the next loop. It is risk driven and suits large, uncertain projects, but it needs skilled risk assessment and is expensive for small ones.
+- **Rapid Application Development (RAD).** RAD compresses analysis, design and build into a few months using prototypes, **time-boxing** (a fixed deadline, features are dropped rather than the date moved), reusable components, CASE and **Joint Application Design (JAD)** workshops that put users and analysts in one room. It needs committed users, a modular design and a team that can build fast; it is a poor fit for safety-critical or very large systems.
+- **Agile.** Short iterations of one to four weeks deliver working software each time and welcome changing requirements (see 1.6).
+
+```svgfig label="1.2" caption="Where the models sit. Horizontal: how clear the requirements are at the start. Vertical: how soon the user needs working software. Waterfall lives at clear requirements with a relaxed delivery date; agile and RAD live where requirements are vague and speed matters."
+f = Fig(600, 300)
+f.line(60, 250, 580, 250, color=NAVY, sw=1.8)
+f.line(60, 250, 60, 20, color=NAVY, sw=1.8)
+f.text(320, 284, "Requirements clarity at the start  (vague  to  clear)", size=11, color=NAVY, bold=True)
+f.text(34, 135, "Speed", size=11, color=NAVY, bold=True)
+f.text(34, 150, "needed", size=11, color=NAVY, bold=True)
+f.box(420, 190, 150, 44, "Waterfall", fill=BLUE, color=NAVY, size=12, bold=True)
+f.box(300, 150, 150, 44, "Incremental", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
+f.box(90, 40, 150, 44, "Agile", fill="#fde68a", stroke=AMBER, color=NAVY, size=12, bold=True)
+f.box(230, 40, 150, 44, "RAD", fill="#fbcfe8", color=NAVY, size=12, bold=True)
+f.box(90, 150, 150, 44, "Prototyping", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
+f.box(90, 98, 150, 44, "Spiral (high risk)", fill=BLUE, color=NAVY, size=12, bold=True)
+```
+
+### Selection criteria
+
+| Question about the project | Points towards |
+|---|---|
+| Requirements stable and well known | waterfall, incremental |
+| Users cannot say what they want until they see something | prototyping, agile |
+| High technical or business risk | spiral |
+| Fixed, short deadline and active users | RAD, agile |
+| Strict documentation or audit (banking, government) | waterfall, incremental with documentation gates |
+| Large team spread over several sites | incremental with clear modules |
+
+::: example Worked example: choosing a model
+A municipality in Nepal wants a system to issue **birth and marriage certificates**. The legal fields are fixed by the Act, the forms are known, and the audit office wants a document at every stage. The team is small and users are available only for sign-off. The best fit is **incremental with waterfall-style gates**: deliver birth registration first, then marriage, then migration records. Contrast this with a **food-delivery start-up** that is not sure which features customers will pay for and must launch before a competitor does: **agile or RAD** with a clickable prototype in week one is the better choice.
+:::
+
+**Exam hint.** A 5-mark answer lists three or four models, one advantage and one disadvantage each, and ends with a sentence on how to choose. A 10-mark answer adds the comparison table and an example for the chosen model.
+
 ## Formula and fact sheet
 
 - SDLC: planning → analysis → design → implementation → maintenance.
