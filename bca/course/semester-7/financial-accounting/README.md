@@ -5,7 +5,7 @@ Conceptual framework and GAAP with Nepal's NFRS, the accounting equation and dou
 | Unit | Title | Hours |
 |---|---|---|
 | 1 | Conceptual Framework of Accounting, GAAP, NFRS and the Accounting Equation | 5 |
-| 2 | Recording Transactions: Journal, VAT and TDS Entries, Ledger and T-Accounts | 7 |
+| 2 | Recording Transactions, Journal, VAT and TDS Entries, Ledger and T-Accounts | 7 |
 | 3 | Subsidiary Books, Trial Balance and Error Rectification | 6 |
 | 4 | Bank Reconciliation Statement | 6 |
 | 5 | Depreciation and Inventory Valuation | 7 |

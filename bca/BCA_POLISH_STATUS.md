@@ -100,7 +100,34 @@ setting (technical vs professional), not duplication; no change made.
 5. Electives BCA 405/406, 453/454 are still unwritten slots.
 6. Check BCA 106 against the student's printed lab manual if available (hours per unit unknown).
 
-## Session 20 (in progress)
+## Session 20
 - Fresh sandbox rebuilt from the recipe: `pip install --break-system-packages weasyprint markdown matplotlib numpy pymupdf pyyaml pillow pypdf sympy fonttools pandas scipy playwright -r backend_python/requirements.txt`; `sudo apt-get install poppler-utils libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 chromium`; `bash notes/pipeline/fonts/install.sh`; `cd notes/pipeline/mathjax && npm ci`.
 - BCA 105 rebuilt from source: `pdfinfo` 148 pp, `qa_pdf.py` fails=0 warns=10 (reproducible).
 - Web reader verified in Django (:8765, Playwright + system chromium, `executable_path=/usr/bin/chromium`): BCA 105 Unit 3 and Unit 6 show the six textbook units in the left rail, a clean "On this page" list (no "Formula and fact sheet"), and Exercise 6.7.2 "Correct the errors" typesets as parts (a) to (e) with no giant box.
+
+## Session 21 results (syllabus-gap audit, new units, web reader re-verified)
+
+Fresh sandbox recipe that worked (the older one failed: pip needs a venv, apt needs `sudo apt-get update` first):
+`sudo apt-get update; sudo apt-get install -y python3.11-venv poppler-utils libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 chromium default-jdk-headless; python3 -m venv /tmp/v; /tmp/v/bin/pip install weasyprint markdown matplotlib numpy pymupdf pyyaml pillow pypdf sympy fonttools pandas scipy playwright -r backend_python/requirements.txt; (cd notes/pipeline/mathjax && npm ci)`; build with `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/<sem>/<slug>`, then `export_course_web.py <sem>/<slug>`.
+Django for screenshots: `cd backend_python; DB_ENGINE=sqlite DEBUG=True SECRET_KEY=<any long string> python manage.py runserver 127.0.0.1:8765 --noreload`; URL `/app/syllabus/bca-course/<slug>/unit-N/`. Headless scrolling: scroll the window in 1500 px steps, wait, then scrollTo the heading (jumping straight far down renders blank).
+
+### BCA 105 Professional Communication and Ethics (student feedback)
+Verified again against the textbook TOC (every numbered section 1.1.1 to 6.8.2, Vocabulary and Grammar, two Readings and Exercises per unit): complete. Rebuilt: **151 pp** (`pdfinfo`), `qa_pdf.py` fails=0 warns=26 (6 pt text inside figures and photo credits).
+Web reader inspected in Django + headless Chromium: left rail lists the 6 textbook units; right rail has no "Formula and fact sheet"; Unit 6 Exercise 6.7.2 item 2 "Correct the errors" (the screenshot bug, `it's database`) now typesets as plain parts (a), (b), (c) with no giant bordered box.
+
+### Gaps found against the current TU syllabus and closed
+| Book | Gap | Fix | Pages (before -> after), qa |
+|---|---|---|---|
+| BCA 153 OOP in Java | design patterns, copy constructors, inner classes, jagged arrays | NEW Unit 7 (singleton, factory, observer, shallow/deep copy, 4 nested kinds, jagged arrays, varargs, lambdas/Optional checklist); 8 programs compiled and run by `fill_java_outputs.py`; 1 figure | 79 -> **95**, fails=0 warns=116 (old figures have 6 pt labels) |
+| BCA 403 Financial Accounting | whole company-accounts unit missing; accounting policies, capital/revenue, contingent items, stock taking, manufacturing account | NEW Unit 8 (company, share capital layers, shares vs debentures, issue with over-subscription, forfeiture and re-issue, debentures, redemption of preference shares; 4 worked examples verified in Python; 2 figures) + sections 1.7, 2.8, 5.7, 6.8 | 76 -> **94**, fails=0 warns=7 |
+| BCA 354 Technical Writing | collaboration, web writing, information reports, proposals, group presentations | NEW Unit 7 (2 executed Python blocks, 1 figure, model answers) | 71 -> **83**, fails=0 warns=6 |
+
+Also fixed: Financial Accounting Unit 2 title had literal quote marks that showed in the web rail. Web data re-exported for all three books; `gen_status.py` regenerated STATUS/README.
+Honest gaps: Nepal-specific company-law thresholds (101 shareholders, seven founders, CRR practice) are as commonly taught, not checked against the Act text; FA Figure 8.1 leaves white space on p80; the TW syllabus "instructions" and "formal reports" topics only have short sections (Unit 3, 6.4). Not re-audited this session: all other BCA books (see queue).
+
+## Prioritised queue for the next session
+1. Audit remaining books against the live TU outline the same way (grep for syllabus keywords, then add a unit): BCA 204 SAD (already extended in session 20), BCA 154 Mathematics II, BCA 205 Statistics, BCA 206 Applied Economics, BCA 304 MIS, BCA 305 Society and Technology, BCA 401, 451, projects 256/306/356/404.
+2. BCA 354: full chapters on instructions and formal reports (TU units 8 and 11).
+3. BCA 153: the TU unit order is 8 units; the book keeps its own order. Consider splitting collections/generics and file handling into separate units, and add RandomAccessFile, deadlock program, and a Swing-free replacement for the old GUI section.
+4. Fix 6 pt labels in old figures (OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21); run `svgkit.lint` over all books.
+5. Electives BCA 405/406, 453/454 remain unwritten slots.

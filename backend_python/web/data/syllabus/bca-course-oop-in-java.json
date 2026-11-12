@@ -373,7 +373,7 @@
     "Copy constructors, shallow copy and deep copy",
     "Nested and inner classes",
     "Jagged arrays and variable-length arguments",
-    "Lambdas, streams, Optional and method references: the syllabus checklist",
+    "Lambdas, streams, Optional, method references",
     "Eight uses of patterns and advanced OOP features"
    ],
    "sections": [
@@ -407,7 +407,7 @@
     },
     {
      "no": "7.8",
-     "title": "Lambdas, streams, Optional and method references: the syllabus checklist"
+     "title": "Lambdas, streams, Optional, method references"
     },
     {
      "no": "7.9",
@@ -423,7 +423,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3066,
+    "words": 3062,
     "figures": 0,
     "examples": 0
    },
