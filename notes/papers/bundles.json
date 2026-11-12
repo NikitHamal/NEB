@@ -112,16 +112,17 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Economics-2081-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Economics-2080-2082-Bundle.pdf",
   "subject": "Economics",
   "grade": "12",
-  "years_bs": "2081-2082",
+  "years_bs": "2080-2082",
   "papers": [
    "12-econ-2082-3041b",
-   "12-econ-2081-3041q"
+   "12-econ-2081-3041q",
+   "12-econ-2080-3041"
   ],
-  "pages": 26,
-  "bytes": 365561,
+  "pages": 38,
+  "bytes": 501252,
   "category": "Board Exam Bundle"
  },
  {
