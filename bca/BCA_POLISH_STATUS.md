@@ -164,3 +164,36 @@ Checked the CAMT154 outline (units 1-6). Missing and now added, each with worked
 4. Mathematics II lab part: TU lists Mathematica/Excel/Matlab labs per unit; add a short Python/Excel lab list for each unit.
 5. Electives BCA 405/406, 453/454 remain unwritten slots.
 6. Run `tools/publish/update_books.py --only <slug>` with server credentials for 354 and 154 (manifest already refreshed locally).
+
+## Session 24 results (BCA 305 finished to the TU outline, BCA 103 lab/PLD gaps closed, web reader re-verified)
+
+Sandbox recipe from session 21 worked again, with one fix: the pip line must use `-r backend_python/requirements.txt` (not a /tmp path). Build: `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/<sem>/<slug>` detached, poll the log (output appears only at the end, about 25 s).
+
+### Re-verified (BCA 105, student feedback; no change needed)
+`pdfinfo` = **151 pp**, `qa_pdf.py` fails=0 warns=26. Six textbook units present. Web reader (Django :8765 + Playwright): left rail lists the six units, right rail has no "Formula and fact sheet", Unit 3 "My School" exercise renders cleanly, and Unit 6 exercise "Correct the errors" (the `it's database` item from the bug report) typesets as plain parts (a) to (e), no giant bordered box (element screenshot taken).
+
+### BCA 305 Society and Technology (continued from commit 48f1246)
+TU outline (CACS102, checked against notebahadur.com, bcanotenepal.com, bcanotesnepal.com): Unit 1 sociology, 2 organizing social life, 3 social system and stratification of Nepalese societies, 4 society and technology. Book now has 11 units: 1-3 and 8 follow the TU outline, 4-7 and 9-11 are the technology extension (README states this).
+- Unit 3 finished: new 3.6 religion-based and ecology-based stratification (Census 2021 shares), 3.7 national integration (1768 to 2015), Figure 3.2, summary, 12 practice questions with answers, 3 model answers (5000 words).
+- Unit 8 NEW (5000 words): technological society (Bell, Toffler, Ellul, Castells, McLuhan, Winner), technological change in Third World societies (transfer, dependency, appropriate technology, leapfrogging), social and cultural bases of change, diffusion process and patterns, consequences on Nepalese society (including the September 2025 social-media ban protests, flagged as "state what you are sure of"), accountability of computer professionals, research in social science; Figure 8.1; practice and four model answers.
+- PDF `bca/course/semester-5/pdfs/NEBians-BCA-Course-Semester-5-Society-and-Technology.pdf`: **133 pp** (`pdfinfo`), `qa_pdf.py` fails=0 warns=7 (photo credit 6.2 pt). `check_society.py --verify unit-*.md`: 88 tokens, 0 unfilled. Web data: 11 units, 69 topics.
+- Pages inspected as PNG: contents (11 units), p36 (Figure 3.2 and chapter summary), p90-91 (Figure 8.1 and the consequences table; first build left a half-empty page because the long table jumped to the next page, so it was split into two tables). Web reader unit 8 rail shows all 11 units and the new section list.
+- Honest gaps: Census 2021 shares (religion, ecology) are from memory of published tables and should be re-checked against the CBS tables; the September 2025 paragraph is deliberately short.
+
+### BCA 103 Digital Logic (keyword audit against the TU CACS105 outline)
+Gaps found and closed: EPROM and PAL/PLA were one paragraph; no "implementation of logical functions using multiplexers"; no 16:1 MUX / 1:16 DEMUX; no gates from active and passive elements; no practical list.
+- Unit 3: 3.6 extended (PROM, EPROM/EEPROM/flash, PAL, PLA, fuse-map reading, PROM full adder, PLA sharing example, Figure 3.4), new 3.7 (MUX with n and n-1 selects, a 4-variable worked example, decoder + NAND full adder; all checked in Python), 3.8 (16:1 MUX from five 4:1, 1:16 DEMUX; Figure 3.5), 3.9 (diode AND/OR, transistor NOT, DTL, RTL; inverter current check), old 3.7 renumbered 3.10, 6 new practice questions, 2 model answers.
+- Unit 5: new 5.7 laboratory works (all six TU labs with parts, procedure, expected result, viva; 555 frequency 1.05 Hz and mod-60 clock checked).
+- PDF `NEBians-BCA-Course-Semester-1-Digital-Logic.pdf`: **65 -> 74 pp**, `qa_pdf.py` fails=0 warns=216 (old figures with 5-6 pt labels, see queue). Web data 5 units, 32 topics.
+- Pages inspected as PNG: p36 (Figure 3.4), p39-40 (Figure 3.5, split gates table, lab procedure box).
+
+### Pushed commits this session
+`d21bf29` (305 source), `4c22ba2` (305 PDF/web), `cc7cc16` (103 source), `79bea4b` (103 PDF/web), plus the tracker commit.
+
+## Prioritised queue for the next session
+1. Audit still not done against live TU outlines (keyword grep, then add sections): BCA 206 Applied Economics, BCA 304 MIS, BCA 401, BCA 451, BCA 156 Principles of Management, BCA 151 Discrete Structure, BCA 101/102/104, projects 256/306/356/404.
+2. Digital Logic: 5-6 pt labels in old figures (216 qa warnings); check lab outline against the student's printed lab manual.
+3. BCA 153: split collections/generics and file handling into their own units, add RandomAccessFile and a deadlock program.
+4. Fix old tiny figure labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21); run `svgkit.lint` over all books.
+5. Electives BCA 405/406, 453/454 are still unwritten slots (pick Machine Learning, E-Commerce, Linux, DBA).
+6. Run `tools/publish/update_books.py --only <slug>` with server credentials for 305, 103, 354, 154.
