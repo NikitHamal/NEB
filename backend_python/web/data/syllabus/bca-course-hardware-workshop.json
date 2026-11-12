@@ -22,40 +22,173 @@
  "units": [
   {
    "no": 1,
-   "title": "Safety, Tools and the Components of a PC",
+   "title": "Introduction to Hardware (Electronic Components)",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Introduction to electronics and bench safety",
+    "Passive components",
+    "Active components",
+    "Connectors, switches, relays, buzzers and crystals",
+    "Reading datasheets and package types",
+    "Testing and troubleshooting components",
+    "Mini project and component identification test",
+    "Eight rules for working with electronic components"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Introduction to electronics and bench safety"
+    },
+    {
+     "no": "1.2",
+     "title": "Passive components"
+    },
+    {
+     "no": "1.3",
+     "title": "Active components"
+    },
+    {
+     "no": "1.4",
+     "title": "Connectors, switches, relays, buzzers and crystals"
+    },
+    {
+     "no": "1.5",
+     "title": "Reading datasheets and package types"
+    },
+    {
+     "no": "1.6",
+     "title": "Testing and troubleshooting components"
+    },
+    {
+     "no": "1.7",
+     "title": "Mini project and component identification test"
+    },
+    {
+     "no": "1.8",
+     "title": "Eight rules for working with electronic components"
+    }
+   ],
+   "summary": [
+    "Voltage, current, resistance and power are linked by Ohm's law; safe practice means a low-voltage supply, ESD protection and correct polarity.",
+    "Passive components (resistors, capacitors, inductors) store or dissipate energy; their values are read from colour bands or printed codes.",
+    "Active components (diodes, LEDs, BJTs, MOSFETs, ICs) switch and amplify; CMOS gates are built from complementary MOSFET pairs and NAND is universal.",
+    "Connectors, switches, relays, buzzers and crystals complete a circuit; datasheets give ratings, pinouts and packages.",
+    "A multimeter, component tester and ESR meter distinguish good parts from faulty ones, and parts must be tested out of circuit."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4890,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Introduction to Networking Components",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Overview of network devices",
+    "Cabling and connectors",
+    "Testing and troubleshooting physical problems",
+    "Eight rules for handling network hardware"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Overview of network devices"
+    },
+    {
+     "no": "2.2",
+     "title": "Cabling and connectors"
+    },
+    {
+     "no": "2.3",
+     "title": "Testing and troubleshooting physical problems"
+    },
+    {
+     "no": "2.4",
+     "title": "Eight rules for handling network hardware"
+    }
+   ],
+   "summary": [
+    "Network devices are placed by layer: modem and NIC at the physical link, hub at layer 1, switch and AP at layer 2, router at layer 3.",
+    "UTP is the standard LAN cable up to 100 m; Cat5e and Cat6 are used for Gigabit, Cat6a for 10 Gbps.",
+    "Straight-through, crossover and rollover cables differ only in pin order; T568B is the usual choice and Auto-MDI/MDI-X has made crossover cables rare.",
+    "Coaxial serves cable TV and legacy bus networks; fibre gives distance and immunity to interference.",
+    "Testing begins at layer 1 with link lights and a cable tester, and every fix goes in the log."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3114,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Desktop and Laptop Hardware Identification and Handling",
    "hours": null,
    "area": "",
    "topics": [
     "Safety first",
     "The toolkit",
     "Inside the PC: components and what their specs mean",
+    "Memory: RAM and the ROM family",
+    "Motherboard internals: chipset, buses and slots",
+    "Storage devices and their interfaces",
+    "Input and output devices and ports",
+    "The power supply unit: types, connectors, testing and failures",
     "Compatibility checklist",
     "Calculations for choosing parts",
     "Eight rules of safe and careful workshop practice"
    ],
    "sections": [
     {
-     "no": "1.1",
+     "no": "3.1",
      "title": "Safety first"
     },
     {
-     "no": "1.2",
+     "no": "3.2",
      "title": "The toolkit"
     },
     {
-     "no": "1.3",
+     "no": "3.3",
      "title": "Inside the PC: components and what their specs mean"
     },
     {
-     "no": "1.4",
+     "no": "3.4",
+     "title": "Memory: RAM and the ROM family"
+    },
+    {
+     "no": "3.5",
+     "title": "Motherboard internals: chipset, buses and slots"
+    },
+    {
+     "no": "3.6",
+     "title": "Storage devices and their interfaces"
+    },
+    {
+     "no": "3.7",
+     "title": "Input and output devices and ports"
+    },
+    {
+     "no": "3.8",
+     "title": "The power supply unit: types, connectors, testing and failures"
+    },
+    {
+     "no": "3.9",
      "title": "Compatibility checklist"
     },
     {
-     "no": "1.5",
+     "no": "3.10",
      "title": "Calculations for choosing parts"
     },
     {
-     "no": "1.6",
+     "no": "3.11",
      "title": "Eight rules of safe and careful workshop practice"
     }
    ],
@@ -67,15 +200,15 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3179,
+    "words": 5763,
     "figures": 0,
-    "examples": 1
+    "examples": 3
    },
    "has_notes": true
   },
   {
-   "no": 2,
-   "title": "Assembling a Desktop PC, Step by Step",
+   "no": 4,
+   "title": "PC and Laptop Assembly",
    "hours": null,
    "area": "",
    "topics": [
@@ -83,84 +216,80 @@
     "Step-by-step build",
     "If it does not start",
     "Lab sign-off table",
-    "Eight common assembly mistakes and how to avoid them"
+    "Eight common assembly mistakes and how to avoid them",
+    "BIOS and UEFI",
+    "Disks, partitions and file systems",
+    "Installing Windows",
+    "Installing Ubuntu Linux (and dual boot)",
+    "Drivers, updates, imaging and recovery",
+    "POST, beep codes and diagnostic tools",
+    "Drivers, updates, printer installation and basic maintenance after installing the OS",
+    "Smart and useful operating-system commands",
+    "Eight tips for a safe operating-system installation"
    ],
    "sections": [
     {
-     "no": "2.1",
+     "no": "4.1",
      "title": "Before you start"
     },
     {
-     "no": "2.2",
+     "no": "4.2",
      "title": "Step-by-step build"
     },
     {
-     "no": "2.3",
+     "no": "4.3",
      "title": "If it does not start"
     },
     {
-     "no": "2.4",
+     "no": "4.4",
      "title": "Lab sign-off table"
     },
     {
-     "no": "2.5",
+     "no": "4.5",
      "title": "Eight common assembly mistakes and how to avoid them"
+    },
+    {
+     "no": "4.6",
+     "title": "BIOS and UEFI"
+    },
+    {
+     "no": "4.7",
+     "title": "Disks, partitions and file systems"
+    },
+    {
+     "no": "4.8",
+     "title": "Installing Windows"
+    },
+    {
+     "no": "4.9",
+     "title": "Installing Ubuntu Linux (and dual boot)"
+    },
+    {
+     "no": "4.10",
+     "title": "Drivers, updates, imaging and recovery"
+    },
+    {
+     "no": "4.11",
+     "title": "POST, beep codes and diagnostic tools"
+    },
+    {
+     "no": "4.12",
+     "title": "Drivers, updates, printer installation and basic maintenance after installing the OS"
+    },
+    {
+     "no": "4.13",
+     "title": "Smart and useful operating-system commands"
+    },
+    {
+     "no": "4.14",
+     "title": "Eight tips for a safe operating-system installation"
     }
    ],
    "summary": [
     "Build in a fixed order, handling the CPU and RAM carefully and tightening screws evenly.",
     "Front-panel headers need the manual; LEDs have polarity, switches do not.",
     "Check twice before power-on: no loose screws, all power connected, monitor on the right port.",
-    "If it fails, use beep codes, debug LEDs and a minimum-configuration test to isolate the part."
-   ],
-   "terms": [],
-   "stats": {
-    "words": 2858,
-    "figures": 0,
-    "examples": 0
-   },
-   "has_notes": true
-  },
-  {
-   "no": 3,
-   "title": "BIOS/UEFI, Disk Partitioning and Operating System Installation",
-   "hours": null,
-   "area": "",
-   "topics": [
-    "BIOS and UEFI",
-    "Disks, partitions and file systems",
-    "Installing Windows",
-    "Installing Ubuntu Linux (and dual boot)",
-    "Drivers, updates, imaging and recovery",
-    "Eight tips for a safe operating-system installation"
-   ],
-   "sections": [
-    {
-     "no": "3.1",
-     "title": "BIOS and UEFI"
-    },
-    {
-     "no": "3.2",
-     "title": "Disks, partitions and file systems"
-    },
-    {
-     "no": "3.3",
-     "title": "Installing Windows"
-    },
-    {
-     "no": "3.4",
-     "title": "Installing Ubuntu Linux (and dual boot)"
-    },
-    {
-     "no": "3.5",
-     "title": "Drivers, updates, imaging and recovery"
-    },
-    {
-     "no": "3.6",
-     "title": "Eight tips for a safe operating-system installation"
-    }
-   ],
-   "summary": [
+    "If it fails, use beep codes, debug LEDs and a minimum-configuration test to isolate the part.",
     "UEFI replaces BIOS and brings GPT, Secure Boot and speed; the settings to master are boot order, SATA mode, virtualisation and Secure Boot.",
     "Partition tables and file systems have hard limits that explain real-world behaviour (2 TiB MBR, 4 GiB FAT32).",
     "A clean install follows a fixed routine, and the work is not finished until drivers, updates and a backup are done.",
@@ -168,67 +297,347 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2719,
+    "words": 6519,
     "figures": 0,
-    "examples": 0
+    "examples": 1
    },
    "has_notes": true
   },
   {
-   "no": 4,
-   "title": "Troubleshooting, Maintenance, Peripherals and Network Cabling",
+   "no": 5,
+   "title": "Basic Network Devices and Deployment",
    "hours": null,
    "area": "",
    "topics": [
-    "The troubleshooting method",
-    "Fault-finding table",
-    "Preventive maintenance",
-    "Printers, monitors and input devices",
-    "Network cabling lab",
-    "Eight preventive maintenance tasks"
+    "Identifying network devices on the bench",
+    "Network topologies",
+    "Sharing resources: files, folders and printers",
+    "Printer technologies",
+    "Installing, configuring and maintaining a printer",
+    "Eight rules for deploying network devices and printers"
    ],
    "sections": [
     {
-     "no": "4.1",
-     "title": "The troubleshooting method"
+     "no": "5.1",
+     "title": "Identifying network devices on the bench"
     },
     {
-     "no": "4.2",
-     "title": "Fault-finding table"
+     "no": "5.2",
+     "title": "Network topologies"
     },
     {
-     "no": "4.3",
-     "title": "Preventive maintenance"
+     "no": "5.3",
+     "title": "Sharing resources: files, folders and printers"
     },
     {
-     "no": "4.4",
-     "title": "Printers, monitors and input devices"
+     "no": "5.4",
+     "title": "Printer technologies"
     },
     {
-     "no": "4.5",
-     "title": "Network cabling lab"
+     "no": "5.5",
+     "title": "Installing, configuring and maintaining a printer"
     },
     {
-     "no": "4.6",
-     "title": "Eight preventive maintenance tasks"
+     "no": "5.6",
+     "title": "Eight rules for deploying network devices and printers"
     }
    ],
    "summary": [
-    "Methodical troubleshooting beats guessing: simplest cause first, one change at a time, known-good parts.",
-    "Preventive maintenance (cleaning, updates, backups, UPS) avoids most failures.",
-    "Printers, monitors and input devices have well-known faults with simple remedies.",
-    "A good Ethernet cable follows one colour standard on both ends, and a tester proves it."
+    "Devices are identified by ports, labels, LEDs and the default IP printed on the sticker.",
+    "The star topology with a switch is standard; mesh needs n(n − 1)/2 links; bus is obsolete.",
+    "Sharing needs a private profile, discovery on, permissions set and a path such as \\\\PC\\Notes.",
+    "Laser, inkjet, dot-matrix, thermal and 3D printers differ in mechanism, cost per page and best use.",
+    "Install the driver, print a test page, share through the Sharing tab or use a network printer with a fixed IP, then maintain on a schedule."
    ],
    "terms": [],
    "stats": {
-    "words": 3075,
+    "words": 2664,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Basic Networking Configuration",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "IP addressing",
+    "Subnetting by hand",
+    "Router and switch configuration",
+    "Wireless access points and extenders",
+    "Network design and building the lab topologies",
+    "Testing and diagnostics: the command toolkit",
+    "Troubleshooting common issues and the mini LAN/WLAN task",
+    "Eight rules for network configuration"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "IP addressing"
+    },
+    {
+     "no": "6.2",
+     "title": "Subnetting by hand"
+    },
+    {
+     "no": "6.3",
+     "title": "Router and switch configuration"
+    },
+    {
+     "no": "6.4",
+     "title": "Wireless access points and extenders"
+    },
+    {
+     "no": "6.5",
+     "title": "Network design and building the lab topologies"
+    },
+    {
+     "no": "6.6",
+     "title": "Testing and diagnostics: the command toolkit"
+    },
+    {
+     "no": "6.7",
+     "title": "Troubleshooting common issues and the mini LAN/WLAN task"
+    },
+    {
+     "no": "6.8",
+     "title": "Eight rules for network configuration"
+    }
+   ],
+   "summary": [
+    "An IPv4 address has a network part and a host part, split by the mask; private ranges are reused in every LAN.",
+    "Subnetting borrows host bits: a /26 gives four subnets of 62 hosts; the mask and block size follow from the prefix.",
+    "Routers and switches are configured from the console or a web page, and the configuration must be saved.",
+    "Access points need an SSID, WPA2/WPA3 security and a sensible channel; MAC filtering is not security.",
+    "Ping, tracert, ipconfig, netstat, arp, nslookup, route and netsh form the standard toolkit, applied in the diagnostic ladder."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2979,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Problem Solving Techniques",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The systematic approach: Identify, Test, Isolate, Fix, Verify",
+    "Start with a visual inspection",
+    "The elimination method",
+    "Messages, beeps and POST codes",
+    "Network problem solving",
+    "The troubleshooting log",
+    "Common troubleshooting scenarios",
+    "Eight rules of troubleshooting"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "The systematic approach: Identify, Test, Isolate, Fix, Verify"
+    },
+    {
+     "no": "7.2",
+     "title": "Start with a visual inspection"
+    },
+    {
+     "no": "7.3",
+     "title": "The elimination method"
+    },
+    {
+     "no": "7.4",
+     "title": "Messages, beeps and POST codes"
+    },
+    {
+     "no": "7.5",
+     "title": "Network problem solving"
+    },
+    {
+     "no": "7.6",
+     "title": "The troubleshooting log"
+    },
+    {
+     "no": "7.7",
+     "title": "Common troubleshooting scenarios"
+    },
+    {
+     "no": "7.8",
+     "title": "Eight rules of troubleshooting"
+    }
+   ],
+   "summary": [
+    "Troubleshooting is a method, not guesswork: identify, test, isolate, fix and verify.",
+    "A visual inspection finds many faults at once: loose cables, damaged ports, swollen capacitors, dust.",
+    "The elimination method uses the minimum configuration and known good parts, one change at a time.",
+    "BIOS/UEFI messages, beep codes and POST codes name the subsystem; network faults are tackled from the inside out with ping and ipconfig.",
+    "A log turns each repair into reusable knowledge."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2102,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Maintenance and Upgrade",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Upgrade planning and compatibility checks",
+    "Memory (RAM) upgrades",
+    "Storage upgrades",
+    "Graphics card (GPU) upgrade",
+    "CPU upgrade (desktop)",
+    "Preventive maintenance: cleaning internal components",
+    "Thermal paste replacement (advanced task)",
+    "Battery care for laptops",
+    "BIOS/UEFI and firmware updates",
+    "Cable management and airflow",
+    "Health monitoring and diagnostics",
+    "Eight rules for maintenance and upgrades"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Upgrade planning and compatibility checks"
+    },
+    {
+     "no": "8.2",
+     "title": "Memory (RAM) upgrades"
+    },
+    {
+     "no": "8.3",
+     "title": "Storage upgrades"
+    },
+    {
+     "no": "8.4",
+     "title": "Graphics card (GPU) upgrade"
+    },
+    {
+     "no": "8.5",
+     "title": "CPU upgrade (desktop)"
+    },
+    {
+     "no": "8.6",
+     "title": "Preventive maintenance: cleaning internal components"
+    },
+    {
+     "no": "8.7",
+     "title": "Thermal paste replacement (advanced task)"
+    },
+    {
+     "no": "8.8",
+     "title": "Battery care for laptops"
+    },
+    {
+     "no": "8.9",
+     "title": "BIOS/UEFI and firmware updates"
+    },
+    {
+     "no": "8.10",
+     "title": "Cable management and airflow"
+    },
+    {
+     "no": "8.11",
+     "title": "Health monitoring and diagnostics"
+    },
+    {
+     "no": "8.12",
+     "title": "Eight rules for maintenance and upgrades"
+    }
+   ],
+   "summary": [
+    "Plan the upgrade with the board manual and tools such as CPU-Z, Speccy and the Crucial scanner; check socket, RAM type, PSU and space.",
+    "RAM must match type, speed and form factor, and runs best in dual channel; SSD upgrades use cloning and aligned partitions.",
+    "Preventive maintenance means cleaning with compressed air, a soft brush and isopropyl alcohol, fresh paste, careful battery use and tidy airflow.",
+    "Update firmware only when needed, and never interrupt it.",
+    "Monitor SMART, memory, temperatures and stability, and keep a log."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2905,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Final Practical Assessment",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "How the assessment works",
+    "Station A: hardware identification and handling",
+    "Station B: PC assembly and disassembly",
+    "Station C: network setup",
+    "Station D: troubleshooting simulations",
+    "Station E: maintenance tasks",
+    "Sample marking scheme (50 marks)",
+    "Viva question bank with answers",
+    "Revision plan and eight exam-day rules"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "How the assessment works"
+    },
+    {
+     "no": "9.2",
+     "title": "Station A: hardware identification and handling"
+    },
+    {
+     "no": "9.3",
+     "title": "Station B: PC assembly and disassembly"
+    },
+    {
+     "no": "9.4",
+     "title": "Station C: network setup"
+    },
+    {
+     "no": "9.5",
+     "title": "Station D: troubleshooting simulations"
+    },
+    {
+     "no": "9.6",
+     "title": "Station E: maintenance tasks"
+    },
+    {
+     "no": "9.7",
+     "title": "Sample marking scheme (50 marks)"
+    },
+    {
+     "no": "9.8",
+     "title": "Viva question bank with answers"
+    },
+    {
+     "no": "9.9",
+     "title": "Revision plan and eight exam-day rules"
+    }
+   ],
+   "summary": [
+    "The practical exam has five stations and a viva; marks go to method, safety and verification as well as the result.",
+    "Practise each station until it takes under 15 minutes, with the checklists above.",
+    "Use the question bank to rehearse short, exact answers."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2097,
     "figures": 0,
     "examples": 0
    },
    "has_notes": true
   }
  ],
- "unit_count": 4,
- "topic_count": 23,
- "notes_ready": 4
+ "unit_count": 9,
+ "topic_count": 80,
+ "notes_ready": 9
 }
