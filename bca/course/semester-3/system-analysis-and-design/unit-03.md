@@ -255,6 +255,110 @@ f.text(150, 46 + len(rules) * 18 + 10, "- means the answer does not matter", siz
 f.text(150, 238, "checked against all 16 rows: no clash", size=10.5, color=TEAL, bold=True)
 ```
 
+## 3.6 Requirements determination in practice
+
+Section 3.1 listed the techniques. This section shows how an analyst actually uses them on one project, the **admission system of a BCA college**, and ends with the document that records the result.
+
+### Planning the fact-finding
+
+1. List **who** knows the work: the admission officer, the accountant, the principal, applicants, the exam coordinator.
+2. Decide **which technique** suits each person: interview the officer and accountant, questionnaire for 200 applicants, observation of the admission desk on the busiest day, document analysis of last year's forms and registers.
+3. Prepare an **interview guide**: purpose, name and role, 8 to 12 questions, time limit, agreed follow-up.
+4. After each session write **minutes within 24 hours** and send them back for confirmation.
+
+### A sample interview guide (admission officer)
+
+| No. | Question | Type | Why asked |
+|---|---|---|---|
+| 1 | Walk me through one admission from the first enquiry to the receipt. | open | gets the real process |
+| 2 | Which forms and registers do you fill in? | open | finds data and documents |
+| 3 | How many applicants do you handle per day in peak week? | closed | volume for design |
+| 4 | What mistakes happen most often? | open | problems to fix |
+| 5 | Is a scholarship checked against the entrance merit list? | closed | business rule |
+| 6 | What report do you give the principal, and how often? | open | outputs |
+
+### Questionnaire design
+
+Keep it short (under ten questions), use closed questions with a scale where possible (for example 1 to 5), avoid leading or double-barrelled questions ("Is the form short and clear?" asks two things), pilot it with three people and state the deadline. Expect a response rate of 30 to 40 percent; send reminders.
+
+### Observation
+
+Observation shows the difference between the *formal* process in the manual and the *real* one on the desk. Record times for each step, interruptions and workarounds (such as photocopies kept in a drawer). Tell the staff why you are watching; do it on more than one day.
+
+### A JAD session in outline
+
+A one-day **JAD** workshop has a **facilitator** (neutral, controls the agenda), a **scribe** (records on screen), the **sponsor**, **users** with decision authority, **analysts** and IT staff. Agenda: objectives (30 min), walk through the current process (60 min), list problems and rank them (60 min), agree requirements and priorities using **MoSCoW** (Must, Should, Could, Won't) (90 min), summarise and assign actions (30 min). Rules: stay on agenda, one speaker at a time, decisions are recorded.
+
+::: example Worked example: prioritising with MoSCoW
+Requested features for the admission system: (1) enter applicant data, (2) print receipt, (3) SMS result to applicant, (4) online payment, (5) graph of admissions by district. **Must:** 1, 2. **Should:** 3 (the college has bulk SMS). **Could:** 5. **Won't (this release):** 4, because it needs a payment-gateway contract. Delivering the *Must* items first gives a working system even if time runs out.
+:::
+
+### Prototyping as a requirements technique
+
+When users cannot describe a screen, show one. A paper or clickable mock-up of the admission form takes a day, and users quickly tell you "the guardian's phone is more important than the email". Treat it as a questionnaire made visible.
+
+### User stories and acceptance criteria (agile)
+
+Format: **As a** *role*, **I want** *goal*, **so that** *benefit*. A good story is **INVEST**: Independent, Negotiable, Valuable, Estimable, Small, Testable.
+
+::: example Worked example: one story with acceptance criteria
+**Story:** As an admission officer, I want to print a receipt after payment so that the applicant has proof. **Acceptance criteria:** (1) receipt shows receipt number, name, program, amount in figures and words, date; (2) receipt number is unique and in sequence; (3) printing twice marks the second copy "DUPLICATE"; (4) cannot print before payment is saved.
+:::
+
+### From notes to a Software Requirements Specification (SRS)
+
+An SRS (IEEE 830 style) has: **1 Introduction** (purpose, scope, definitions), **2 Overall description** (product perspective, user classes, constraints, assumptions), **3 Specific requirements** (functional requirements with IDs such as FR-12, external interfaces, non-functional requirements: performance, security, reliability, usability), **4 Appendices**. Each requirement must be **correct, unambiguous, complete, consistent, verifiable and traceable**. Compare "The system should be fast" (not verifiable) with "A receipt prints within 3 seconds for 95 percent of requests" (verifiable).
+
+**Likely questions.** (a) Compare interview, questionnaire and observation (5). (b) Explain JAD with its roles and its advantages (10). (c) What is an SRS? State six qualities of a good requirement (5).
+
+## 3.7 Decision tables, supertypes, business rules and packaged models
+
+### Modelling logic with decision tables
+
+A **decision table** lists **conditions**, **actions** and **rules** (columns). It is used when many conditions combine into different actions and a DFD or text description would hide the combinations. With *n* two-valued conditions there are **2ⁿ** rules; **rule reduction** merges rules that give the same action by using a dash for "does not matter".
+
+::: example Worked example: scholarship decision table
+Conditions: C1 entrance score at least 70? C2 family income below Rs 300,000? C3 woman or marginalised group? Actions: A1 full scholarship, A2 half scholarship, A3 none.
+
+| Rule | R1 | R2 | R3 | R4 | R5 |
+|---|---|---|---|---|---|
+| C1 score ≥ 70 | Y | Y | Y | N | N |
+| C2 income low | Y | Y | N | Y | N |
+| C3 woman/marginalised | Y | N | - | - | - |
+| **A1 full** | X | | | | |
+| **A2 half** | | X | | X | |
+| **A3 none** | | | X | | X |
+
+With three conditions there are 2³ = 8 rules. Merging gives the five shown: R3 covers Y,N,Y and Y,N,N; R4 covers N,Y,Y and N,Y,N; R5 covers N,N,Y and N,N,N. Rule check: 1 + 1 + 2 + 2 + 2 = 8, so no combination is missing and none is repeated.
+:::
+
+A **decision tree** shows the same logic as branches and is easier to read for a few conditions. **Structured English** writes it as IF/THEN/ELSE. Use the table to *check completeness*, the tree to *explain*.
+
+### Supertypes and subtypes in the ER model
+
+A **supertype** holds attributes common to several entities, and **subtypes** hold the attributes specific to each. Example: PERSON (id, name, address) is the supertype; STUDENT (program, roll) and TEACHER (department, salary) are subtypes. Rules: **total specialisation** (every PERSON must be one of the subtypes) or **partial**; **disjoint** (a person can be only one subtype) or **overlapping** (a person can be both a student and a teacher).
+
+```svgfig label="3.4" caption="Supertype and subtypes. PERSON holds the shared attributes; STUDENT and TEACHER inherit them and add their own. The 'd' in the circle means disjoint: one person plays one role at a time."
+f = Fig(600, 230)
+f.box(200, 14, 200, 66, "PERSON\nperson_id, name\naddress, phone", fill=BLUE, color=NAVY, size=12, bold=True)
+f.circle(300, 120, 14, fill="#fde68a", stroke=AMBER, label="d", size=12, color=NAVY)
+f.line(300, 80, 300, 106, color=NAVY, sw=1.8)
+f.line(300, 134, 130, 160, color=NAVY, sw=1.8)
+f.line(300, 134, 470, 160, color=NAVY, sw=1.8)
+f.box(40, 160, 180, 56, "STUDENT\nprogram, roll_no", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
+f.box(380, 160, 180, 56, "TEACHER\ndepartment, salary", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
+```
+
+### Business rules
+
+A **business rule** is a statement that defines or constrains some aspect of the business. Kinds: **term** (a "member" is a person with a valid card), **fact** (a loan has one member and one book), **constraint** (a member may borrow at most 3 books), **derivation** (fine = overdue days × Rs 5), **inference** (if fines exceed Rs 500, the card is blocked). Rules are collected from policy documents and interviews, written in plain atomic sentences, stored in a rule repository and turned into ER constraints, validation code or database triggers.
+
+### Packaged conceptual data models and database patterns
+
+Instead of starting from nothing, analysts adopt **packaged data models**: industry or vendor models of common entities (customer, order, account, invoice) and **database patterns** such as *party* (a single PARTY entity with roles for customer, supplier and employee), *product catalogue*, *order and line item* and *hierarchy* (an entity related to itself). Advantages: faster, proven, fewer omissions. Disadvantages: not tailored, may be too general, licence cost. Always check the packaged model against your own business rules before adopting it.
+
+**Likely questions.** (a) Construct a decision table for a loan approval policy and reduce it (10). (b) Explain supertype and subtype with an ER diagram (5). (c) What are business rules? Give four kinds (5). (d) Advantages and disadvantages of packaged data models (5).
+
 ## Formula and fact sheet
 
 - Requirements methods: interview, questionnaire, observation, documents (traditional); JAD, prototyping (contemporary); BPR (radical); user stories (agile).
