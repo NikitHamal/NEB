@@ -348,6 +348,52 @@ Options that give them "chlorophyll *b*", "a nucleus", "flagellated zoospores"
 or "sexual reproduction by gametes" are all wrong.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Binary fission is exponential. (a) A technician checks an agar dish for bacterial colonies; every visible colony grew from one cell. (b) With a generation time of 20 minutes a culture of 1,000 cells doubles three times an hour, so the number is N = 1,000 x 2^n for n generations. After 3 hours (n = 9) there are 512,000 cells and after 6 hours (n = 18) there are 262,144,000, which is why a log scale gives a straight line and why a food left out overnight is unsafe."
+@ photo id="ceebot/petri" cap="Examining an agar dish for bacterial colonies"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Cells against time on a log scale (N0 = 1,000, 20 min)"
+N0, g = 1000, 20
+N = lambda m: N0 * 2 ** (m // g)
+assert N(180) == 512000 and N(360) == 262144000
+facts = dict(n3="{:,}".format(N(180)), n6="{:,}".format(N(360)))
+f = Fig(300, 236)
+f.text(150, 12, "log10 N against time (hours)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 236, 150, (0, 6), (3, 9))
+ax.grid(1, 1).axes("h", "log N")
+ax.curve(lambda t: 3 + 3 * t * math.log10(2), 0, 6, color=TEAL)
+ax.pt(0, 3, "1,000", dx=-4, dy=-28)
+ax.pt(3, math.log10(512000), "512,000", dx=-8, dy=-10, anchor="end")
+ax.pt(6, math.log10(262144000), "262 million", dx=-8, dy=14, anchor="end")
+f.text(150, 224, "3 doublings per hour: slope = 0.903", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Cyanobacteria fix nitrogen in special cells. (a) A mat of Nostoc commune, a blue-green alga that fixes atmospheric nitrogen and is spread over damp ground in Nepal. (b) In a filament of 60 cells one cell in ten becomes a heterocyst, so 6 of 60 cells (10 per cent) are heterocysts. The thick wall keeps oxygen out, and nitrogenase there reduces N2 to ammonia at a cost of 16 ATP per N2; the neighbouring green cells supply the sugar and the ATP by photosynthesis."
+@ photo id="ceebot/nostoc" cap="Nostoc commune, a nitrogen-fixing cyanobacterium"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Heterocysts in a 60-cell Nostoc filament"
+n_cells, per_row, gap = 60, 20, 13.6
+het = [i for i in range(n_cells) if i % 10 == 9]
+assert len(het) == 6
+facts = dict(nh=str(len(het)), pct="%.0f" % (100 * len(het) / n_cells))
+f = Fig(300, 236)
+f.text(150, 12, "Nostoc filament (3 rows of 20 cells)", size=10.5, color=NAVY, bold=True)
+for i in range(n_cells):
+    r, c = divmod(i, per_row)
+    x, y = 20 + c * gap, 38 + r * 28
+    if i in het:
+        f.circle(x, y, 7.6, fill="#fde68a", stroke=AMBER, sw=2.4)
+    else:
+        f.circle(x, y, 6, fill="#bbf7d0", stroke=TEAL, sw=1.2)
+f.circle(20, 134, 6, fill="#bbf7d0", stroke=TEAL)
+f.text(32, 134, "vegetative cell: photosynthesis", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.circle(20, 154, 7.6, fill="#fde68a", stroke=AMBER, sw=2.4)
+f.text(32, 154, "heterocyst: thick wall, nitrogenase", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "N2 + 8H+ + 8e- + 16 ATP -> 2NH3 + H2", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "%d of %d cells = %s per cent heterocysts" % (len(het), n_cells, facts["pct"]), size=10.5, color=SLATE, bold=True)
+```
+
 ## 2.3 Viruses
 
 ### Discovery and characteristics
@@ -629,3 +675,88 @@ into DNA only inside the host cell.)
 **7.** (d) — Energy comes from oxidising NH₄⁺ to NO₂⁻ without light, and carbon from CO₂: a chemoautotroph such as *Nitrosomonas*.
 **8.** (b) — 6400 ÷ 2130 ≈ 3. Each TMV coat-protein subunit binds three nucleotides of the RNA helix.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Whittaker's five-kingdom classification and the structure and importance of bacteria. <span class="marks">[10]</span>
+2. Describe the structure, multiplication and diseases of viruses, with a comparison to bacteria. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Monera and their relatives. (a) The three main shapes of bacteria: cocci, bacilli and spirilla. (b) Nostoc, a filamentous cyanobacterium that fixes nitrogen in heterocysts. (c) Bacterial colonies grown on nutrient agar in a Petri dish."
+@ photo id="qbank/bacteria-shapes" cap="(a) Bacterial shapes"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/nostoc" cap="(b) Nostoc"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/petri" cap="(c) Colonies on agar"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: five-kingdom classification and bacteria (10 marks)
+
+**Introduction.** Classification groups organisms by their similarities. Linnaeus gave two kingdoms. **R. H. Whittaker (1969)** proposed five kingdoms on the basis of cell structure, body organisation, mode of nutrition, reproduction and phylogeny.
+
+| Kingdom | Cell type | Nutrition | Examples |
+|---|---|---|---|
+| Monera | prokaryotic | autotrophic or heterotrophic | bacteria, cyanobacteria, archaea |
+| Protista | eukaryotic, unicellular | photosynthetic or heterotrophic | Amoeba, Euglena, diatoms |
+| Fungi | eukaryotic, cell wall of chitin | absorptive heterotrophs | Mucor, yeast, mushrooms |
+| Plantae | eukaryotic, cellulose wall | photosynthetic | mosses to flowering plants |
+| Animalia | eukaryotic, no wall | ingestive heterotrophs | sponges to mammals |
+
+**Merits and limits.** The system separates prokaryotes, and it separates fungi from plants. But viruses are not included, and the Archaea were later put in a separate domain by Carl Woese (three domains: Bacteria, Archaea and Eukarya).
+
+**Bacteria.**
+
+1. **Structure.** A cell wall of **peptidoglycan**, a plasma membrane, a nucleoid region of circular DNA (no nuclear membrane), plasmids, $70\text{S}$ ribosomes, and sometimes a capsule, pili and flagella.
+2. **Shapes.** Cocci (spherical), bacilli (rod), vibrio (comma) and spirilla (spiral).
+3. **Gram staining** distinguishes Gram-positive (thick peptidoglycan, purple) and Gram-negative (thin wall, outer membrane, pink) bacteria.
+4. **Nutrition.** Photoautotrophs, chemoautotrophs (nitrifying bacteria), saprotrophs and parasites.
+5. **Reproduction.** Binary fission (every $20$ min for *E. coli*), and genetic recombination by **conjugation**, **transformation** and **transduction**. Endospores resist heat.
+6. **Importance.** Nitrogen fixation (*Rhizobium*, *Azotobacter*), decomposition, curd formation (*Lactobacillus*), antibiotics, genetic engineering and sewage treatment. Harmful: typhoid, cholera, tuberculosis, tetanus and food spoilage.
+
+**Cyanobacteria** (blue-green algae) such as *Nostoc* and *Anabaena* carry out oxygenic photosynthesis, and the heterocysts fix nitrogen. *Azolla* with *Anabaena* is a biofertiliser in rice fields.
+
+**Numerical.** One bacterium dividing every $20$ minutes produces $2^{n}$ cells after $n$ generations. In $2$ hours $n = 6$ and the number is $2^6 = 64$, and in $4$ hours $n = 12$ with $4096$ cells.
+
+**Conclusion.** The five-kingdom system rests on cell type, organisation and nutrition, and bacteria are the prokaryotes with both great harm and great benefit.
+
+### Model answer D2: viruses (10 marks)
+
+**Introduction.** **Viruses** are non-cellular, obligate intracellular parasites of the size of $20$ to $300\ \text{nm}$. They show the characters of both living (multiplication, mutation) and non-living things (crystallisation, no metabolism outside a host). W. Stanley crystallised TMV in 1935, and Ivanovsky and Beijerinck discovered them in tobacco mosaic disease.
+
+**Structure.** A **nucleic acid core** (either DNA or RNA, never both) surrounded by a protein coat, the **capsid**, made of capsomeres. Some animal viruses have an envelope.
+
+- **Bacteriophage** T4: icosahedral head with DNA, a tail sheath and tail fibres.
+- **TMV:** helical rod of single-stranded RNA.
+- **HIV:** an enveloped retrovirus with RNA and reverse transcriptase.
+
+**Multiplication.**
+
+1. **Lytic cycle:** adsorption, penetration, synthesis of viral nucleic acid and protein, assembly and lysis (release).
+2. **Lysogenic cycle:** the phage DNA is integrated into the host chromosome as a **prophage** and is replicated with it, and later may enter the lytic cycle.
+3. **Retroviruses** make DNA from RNA by reverse transcriptase.
+
+**Diseases.**
+
+| Host | Disease |
+|---|---|
+| Human | influenza, polio, rabies, dengue, COVID-19, hepatitis B, AIDS |
+| Plant | tobacco mosaic, potato leaf roll |
+| Animal | foot-and-mouth, bird flu |
+| Bacteria | phage infection |
+
+Control: vaccination, hygiene and antivirals. Antibiotics do not work on viruses. Other agents: **viroids** (naked RNA, potato spindle tuber) and **prions** (infectious proteins, mad cow disease).
+
+| Feature | Virus | Bacterium |
+|---|---|---|
+| Cell structure | non-cellular | prokaryotic cell |
+| Nucleic acid | DNA or RNA | both |
+| Reproduction | only in host cells | independent binary fission |
+| Ribosomes | absent | present |
+| Antibiotics | no effect | effective |
+
+**Numerical.** A phage burst size of $100$ means a single infected cell releases $100$ phages. After three cycles one phage could give $100^3 = 10^6$ phages (in ideal conditions). A virus of $100\ \text{nm}$ is $100\times10^{-9} = 10^{-7}\ \text{m}$, much smaller than a bacterium ($1$ to $5\ \mu\text{m}$).
+
+**Conclusion.** Viruses are acellular parasites that take over the host machinery, so they can be controlled by vaccines, not by antibiotics.

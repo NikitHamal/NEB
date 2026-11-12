@@ -548,6 +548,31 @@ absorb** (cuboidal/columnar), **move something along** (ciliated), **resist wear
 **Solution.** Haversian systems (osteons) are the hallmark of **mammalian compact bone** (X); avascular matrix with chondrocyte cell nests (isogenous groups) lacking Haversian canals is **hyaline cartilage** (Y).
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="How a muscle shortens. (a) An electron micrograph of skeletal muscle: the repeating dark and light bands are sarcomeres, each between two Z lines. (b) A muscle 30 cm long with sarcomeres of 2.2 micrometres has 136,364 of them in a row. When every sarcomere shortens to 1.6 micrometres (thin filaments sliding over thick filaments, filaments themselves keep their length) the muscle becomes 21.8 cm long, a shortening of 27 per cent. A single sarcomere changes by only 0.6 micrometres; it is the huge number of them in series that gives the visible movement."
+@ photo id="bio12/sarcomere-tem" cap="Skeletal muscle sarcomeres (TEM)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="A 30 cm muscle before and after contraction"
+L, s0, s1 = 0.30, 2.2e-6, 1.6e-6
+n = L / s0
+L1 = n * s1
+p = 100 * (L - L1) / L
+assert round(n) == 136364 and abs(L1 - 0.21818) < 1e-4 and abs(p - 27.27) < 0.01
+facts = dict(n="{:,}".format(round(n)), l="%.1f" % (L1 * 100), p="%.0f" % p)
+f = Fig(300, 236)
+f.text(150, 12, "Sarcomeres in series", size=10.5, color=NAVY, bold=True)
+for k, (lab, ln, c, fl, s) in enumerate((("relaxed: 30.0 cm, sarcomere 2.2 um", L, TEAL, MINT, s0), ("contracted: %.1f cm, sarcomere 1.6 um" % (L1 * 100), L1, RED, ROSE, s1))):
+    y = 34 + k * 70
+    f.text(10, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    w = ln / L * 270
+    f.box(10, y + 8, w, 26, fill=fl, stroke=c, r=2)
+    for j in range(1, 10):
+        x = 10 + j * 27 * s / s0
+        f.line(x, y + 8, x, y + 34, color=c, sw=1.2)
+f.text(150, 182, "shortening = (30 - %.1f)/30 = %.0f per cent" % (L1 * 100, p), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "each division = 13,636 sarcomeres in series", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Value or name |
@@ -765,3 +790,82 @@ absorb** (cuboidal/columnar), **move something along** (ciliated), **resist wear
 **9.** (b) — the dorsal root ganglia hold the cell bodies of pseudounipolar sensory neurons; motor cell bodies lie in the grey matter of the cord.
 **10.** (d) — smooth muscle drives peristalsis; limbs and eyelids use skeletal muscle and the heartbeat is cardiac.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure, location and functions of the different types of epithelial and connective tissue. <span class="marks">[10]</span>
+2. Describe the muscular and nervous tissues of the human body, with a comparison of the three muscle types. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.25" caption="Four basic tissues under the microscope. (a) Simple squamous epithelium. (b) Compact bone, a connective tissue with osteons. (c) Skeletal muscle with cross-striations. (d) A neuron smear with its cell body and processes."
+@ photo id="bio12/squamous-epithelium" cap="(a) Epithelium"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/compact-bone" cap="(b) Compact bone"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/skeletal-muscle" cap="(c) Skeletal muscle"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/neuron-smear" cap="(d) Neuron"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Epithelial and connective tissues (10 marks)
+
+**Introduction.** A **tissue** is a group of similar cells with a common origin that do one job. The four basic animal tissues are epithelial, connective, muscular and nervous. The study of tissues is **histology**.
+
+**Epithelial tissue.** The cells are tightly packed with very little matrix and rest on a **basement membrane**. There are no blood vessels (avascular). Functions: protection, absorption, secretion and filtration.
+
+1. **Simple squamous:** a single layer of flat cells in air sacs (alveoli), blood vessel walls (endothelium) and Bowman's capsule. Gives quick diffusion.
+2. **Simple cuboidal:** cube-shaped cells in kidney tubules and glands. Secretion and absorption.
+3. **Simple columnar:** tall cells, often with microvilli and goblet cells, lining the stomach and intestine. Absorption and mucus secretion. **Ciliated columnar** lines the trachea and moves mucus.
+4. **Stratified squamous:** many layers, as in the epidermis and mouth. Protection against wear.
+5. **Transitional:** in the urinary bladder; stretches without tearing.
+6. **Glandular:** unicellular (goblet cell) or multicellular; **exocrine** glands have ducts (salivary), **endocrine** glands are ductless (thyroid).
+
+**Connective tissue.** Cells are scattered in an abundant **matrix**. It connects, supports and protects.
+
+1. **Areolar:** loose, with fibroblasts, collagen and elastic fibres; packs between organs and under the skin.
+2. **Adipose:** fat cells that store energy and insulate.
+3. **Dense connective:** **tendons** join muscle to bone; **ligaments** join bone to bone.
+4. **Cartilage:** firm and flexible; hyaline (nose, trachea, ends of bones), elastic (pinna), fibro-cartilage (intervertebral discs). Cells are chondrocytes in lacunae.
+5. **Bone:** hard matrix of calcium phosphate and collagen, with osteocytes in lacunae and **Haversian canals** in compact bone.
+6. **Blood (fluid connective tissue):** plasma with red cells, white cells and platelets, which transports materials.
+
+| Feature | Epithelial | Connective |
+|---|---|---|
+| Matrix | Almost none | Abundant |
+| Cell arrangement | Closely packed | Scattered in matrix |
+| Blood supply | Absent | Present (except cartilage) |
+| Main role | Cover, line, secrete | Support, connect, store |
+
+**Conclusion.** Epithelia cover and line the body, while connective tissues bind and support its parts.
+
+### Model answer D2: Muscular and nervous tissues (10 marks)
+
+**Introduction.** Muscular tissue produces movement by **contraction** and nervous tissue carries messages by **impulses**.
+
+**Muscular tissue.**
+
+1. **Skeletal (striated, voluntary):** long, cylindrical, **multinucleate** fibres with cross-striations, attached to bones by tendons. They act quickly and tire easily.
+2. **Smooth (unstriated, involuntary):** spindle-shaped cells with **one central nucleus** and no striations, found in the walls of the gut, blood vessels and bladder. Slow, rhythmic and tireless.
+3. **Cardiac (striated, involuntary):** short, branched cells with one nucleus joined by **intercalated discs**; found only in the heart; contracts rhythmically all life long.
+
+| Feature | Skeletal | Smooth | Cardiac |
+|---|---|---|---|
+| Striations | Present | Absent | Present |
+| Nuclei | Many, peripheral | One, central | One, central |
+| Control | Voluntary | Involuntary | Involuntary |
+| Cell shape | Long, unbranched | Spindle | Branched |
+| Location | Limbs, trunk | Gut, vessels | Heart |
+
+**Nervous tissue.** It is made of **neurons** and **neuroglia**. A neuron has three parts:
+
+1. **Cyton (cell body):** nucleus, cytoplasm with Nissl's granules.
+2. **Dendrites:** short branched fibres that receive impulses towards the cell body.
+3. **Axon:** a long fibre that carries impulses away; often covered by a **myelin sheath** from Schwann cells with gaps called **nodes of Ranvier**, so the impulse jumps (saltatory conduction) and travels faster.
+
+By function neurons are **sensory (afferent)**, **motor (efferent)** and **association (inter-neurons)**. **Neuroglia** support, nourish and insulate neurons. The speed of a myelinated fibre may reach about 120 m/s, while a non-myelinated one carries impulses at about 0.5–2 m/s; so a signal over 1.2 m takes about 0.01 s in the first and over 0.6 s in the slowest case.
+
+**Conclusion.** Muscles do the work of movement under the control of the nervous system, and both tissues are excitable, which makes coordinated action possible.

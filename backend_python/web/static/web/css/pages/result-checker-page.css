@@ -1,0 +1,495 @@
+/* Result checker. m3x: role colours only, finite radii, no shadow, no gradient.
+   Fields, chips and buttons are the site's (.md-input, .md-chip, .md-btn); this file only lays them out. */
+
+.rc-page { max-width: 640px; margin: 0 auto; padding: 20px 16px 96px; color: var(--md-on-surface); }
+.rc-page [hidden] { display: none !important; }
+.rc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.rc-title { margin: 0; font-family: var(--display); font-weight: 600; letter-spacing: -.02em; font-size: 2rem; line-height: 1.15; }
+
+.rc-card {
+  background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant);
+  border-radius: 28px; padding: 22px; margin-bottom: 14px;
+}
+
+/* class switch: one track, one sliding pill */
+.rc-seg {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; margin-bottom: 14px;
+  background: var(--md-surface-container); border-radius: 28px;
+}
+.rc-seg-ind {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 24px;
+  background: var(--md-primary-container); transition: transform .55s var(--spring);
+}
+.rc-seg[data-i="1"] .rc-seg-ind { transform: translateX(100%); }
+.rc-tab {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; border: 0; background: transparent; cursor: pointer; border-radius: 24px;
+  font: 600 .9375rem/1 var(--body); color: var(--md-on-surface-variant); transition: color .25s, transform .4s var(--spring);
+}
+.rc-tab:active { transform: scale(.97); }
+.rc-tab.active { color: var(--md-on-primary-container); }
+.rc-tab .material-symbols-outlined { font-size: 20px; }
+
+/* attempt and mode: chips */
+.rc-options { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-bottom: 18px; }
+.rc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.rc-chip { position: relative; }
+.rc-chip input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.rc-chip .material-symbols-outlined { display: none; font-size: 18px; margin-left: -4px; }
+:root .rc-chip:has(input:checked) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-color: transparent; }
+:root .rc-chip:has(input:focus-visible) { border-color: var(--md-primary); }
+.rc-chip:has(input:checked) .material-symbols-outlined,
+.rc-chip.md-chip-active .material-symbols-outlined { display: inline-block; }
+
+/* form */
+.rc-form { display: flex; flex-direction: column; gap: 18px; }
+.rc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.rc-grid:has(.rc-field-bulk:not([hidden])) > .rc-field:first-child { grid-column: 1 / -1; }
+.rc-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.rc-field-dob, .rc-field-bulk { grid-column: 1 / -1; }
+.rc-field label { font-size: .8125rem; font-weight: 600; color: var(--md-on-surface-variant); padding: 0 4px; }
+:root .rc-field :is(input, select) { width: 100%; min-height: 52px; padding: 0 16px; border-radius: 20px; font-size: .9375rem; font-weight: 500; box-sizing: border-box; }
+:root .rc-field select { padding-right: 42px; }
+.rc-field textarea { width: 100%; box-sizing: border-box; border-radius: 20px; font-family: var(--body); font-size: .9375rem; line-height: 1.6; min-height: 140px; }
+.rc-hint { margin: 2px 4px 0; font-size: .8125rem; color: var(--md-on-surface-variant); }
+
+.rc-submit { width: 100%; min-height: 52px; font-size: 1rem; }
+.rc-submit .material-symbols-outlined { font-size: 20px; }
+.rc-submit:disabled { cursor: progress; }
+.rc-spinner { display: none; }
+.rc-submit.loading .rc-spinner { display: inline-block; }
+.rc-submit.loading .material-symbols-outlined { display: none; }
+
+.rc-error {
+  display: flex; align-items: center; gap: 10px; margin-top: 16px; padding: 14px 18px; border-radius: 20px;
+  background: var(--md-error-container); color: var(--md-on-error-container); font-size: .875rem; line-height: 1.45;
+}
+.rc-error .material-symbols-outlined { font-size: 22px; flex: none; }
+
+/* bulk progress */
+.rc-progress { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.rc-progress-track { flex: 1; height: 8px; border-radius: 8px; overflow: hidden; background: var(--md-surface-container-high); }
+.rc-progress-bar { height: 100%; width: 0; border-radius: 8px; background: var(--md-primary); transition: width .3s var(--ease-io); }
+.rc-progress-text { flex: none; min-width: 64px; text-align: right; font-size: .8125rem; font-weight: 600; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }
+
+/* result */
+.rc-result { animation: rc-rise .6s var(--spring) both; }
+@keyframes rc-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.rc-hero { display: flex; align-items: center; gap: 20px; margin-bottom: 18px; }
+.rc-gpa-card {
+  flex: none; width: 128px; height: 128px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+  clip-path: var(--shape-cookie); background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+.rc-gpa-label { font-size: .75rem; font-weight: 600; letter-spacing: .08em; opacity: .85; }
+.rc-gpa-num { font-family: var(--display); font-size: 2.5rem; font-weight: 600; line-height: 1.05; letter-spacing: -.02em; }
+.rc-gpa-card.gpa-high { background: var(--md-primary); color: var(--md-on-primary); }
+.rc-gpa-card.gpa-mid { background: var(--md-tertiary); color: var(--md-on-tertiary); }
+.rc-gpa-card.gpa-low { background: var(--md-error); color: var(--md-on-error); }
+.rc-hero-body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.rc-name { margin: 0; font-family: var(--display); font-weight: 600; letter-spacing: -.02em; font-size: 1.5rem; line-height: 1.2; overflow-wrap: anywhere; }
+.rc-gpa-grade { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 14px; font-size: .875rem; font-weight: 600; background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+
+.rc-details { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 22px; }
+.rc-detail { padding: 12px 16px; border-radius: 20px; background: var(--md-surface-container-low); min-width: 0; }
+.rc-detail-wide { grid-column: 1 / -1; }
+.rc-detail dt { font-size: .75rem; color: var(--md-on-surface-variant); }
+.rc-detail dd { margin: 2px 0 0; font-size: .9375rem; font-weight: 600; overflow-wrap: anywhere; }
+
+.rc-h2, .rc-h3 { margin: 0; font-family: var(--display); font-weight: 600; letter-spacing: -.01em; }
+.rc-h2 { font-size: 1.125rem; }
+.rc-h3 { font-size: 1rem; margin-bottom: 10px; }
+
+.rc-table-wrap { overflow-x: auto; border-radius: 24px; background: var(--md-surface-container-low); padding: 4px 8px; }
+.rc-table { width: 100%; border-collapse: collapse; }
+.rc-table th { padding: 10px 10px; text-align: left; font-size: .75rem; font-weight: 600; color: var(--md-on-surface-variant); border-bottom: 1px solid var(--md-outline-variant); white-space: nowrap; }
+.rc-table td { padding: 12px 10px; font-size: .875rem; color: var(--md-on-surface); border-bottom: 1px solid var(--md-outline-variant); vertical-align: middle; }
+.rc-table tr:last-child td { border-bottom: 0; }
+.rc-table th:not(:first-child), .rc-table td:not(:first-child) { text-align: center; }
+.subject-name { font-weight: 600; }
+.subject-code { margin-top: 2px; font-size: .75rem; color: var(--md-on-surface-variant); }
+.rc-none { text-align: center !important; padding: 24px 10px !important; color: var(--md-on-surface-variant) !important; }
+.bulk-name.is-pending { color: var(--md-on-surface-variant); }
+.bulk-gpa.is-failed { color: var(--md-error); font-weight: 600; }
+
+.grade-badge {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 42px; padding: 4px 10px; border-radius: 12px;
+  font-weight: 700; font-size: .8125rem; background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+.grade-badge.Aplus, .grade-badge.A { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.grade-badge.Bplus, .grade-badge.B { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.grade-badge.Cplus, .grade-badge.C { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.grade-badge.Dplus, .grade-badge.D, .grade-badge.E { background: var(--md-error-container); color: var(--md-on-error-container); }
+
+.rc-source { margin: 14px 4px 0; font-size: .8125rem; color: var(--md-on-surface-variant); }
+.rc-source a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
+.rc-source a:hover { text-decoration: underline; }
+.rc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.rc-actions .md-btn { flex: 1 1 160px; min-height: 48px; }
+.rc-bulk-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+
+/* the share card's preview; the dialog around it is .neb-dialog */
+.rc-share-preview { width: 100%; aspect-ratio: 1; border-radius: 24px; overflow: hidden; background: var(--md-surface-container); }
+.rc-share-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Gradesheet Modal and Paper Styling */
+  
+  .rc-gradesheet-paper-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--md-surface-container-high);
+    padding: 20px;
+    border-radius: var(--md-radius-lg);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+  }
+
+  .rc-printable-gradesheet {
+    width: 210mm;
+    min-width: 210mm;
+    max-width: none;
+    flex-shrink: 0;
+    height: 297mm;
+    max-height: 297mm;
+    background: #ffffff;
+    color: #0b1530;
+    padding: 10mm 12mm;
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 8px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .gs-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120mm;
+    height: 120mm;
+    opacity: 0.035;
+    color: #0058df;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .gs-border-outer {
+    border: 3px double #06235f;
+    padding: 4px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gs-border-inner {
+    border: 1px solid #06235f;
+    padding: 14px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    justify-content: space-between;
+  }
+
+  .gs-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #06235f;
+    padding-bottom: 8px;
+  }
+
+  .gs-logo-container {
+    flex-shrink: 0;
+  }
+
+  .gs-gov-logo {
+    width: 20mm;
+    height: 20mm;
+  }
+
+  .gs-header-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  .gs-gov-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2a3350;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .gs-ministry {
+    font-size: 10px;
+    font-weight: 500;
+    color: #414b66;
+    margin: 0;
+  }
+
+  .gs-board {
+    font-size: 16px;
+    font-weight: 800;
+    color: #06235f;
+    letter-spacing: 0.5px;
+    margin: 2px 0;
+  }
+
+  .gs-office {
+    font-size: 11px;
+    font-weight: 700;
+    color: #06235f;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .gs-location {
+    font-size: 10px;
+    color: #414b66;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .gs-doc-title-container {
+    margin-top: 6px;
+  }
+
+  .gs-strong { font-weight: 700; }
+  .gs-w8 { width: 8%; } .gs-w10 { width: 10%; } .gs-w12 { width: 12%; } .gs-w14 { width: 14%; } .gs-w15 { width: 15%; }
+  .gs-w16 { width: 16%; } .gs-w18 { width: 18%; } .gs-w45 { width: 45%; } .gs-w52 { width: 52%; }
+  .gs-none { text-align: center; padding: 24px; color: #414b66; }
+
+  .gs-doc-title {
+    font-size: 12px;
+    font-weight: 800;
+    border: 1.5px solid #06235f;
+    padding: 2px 14px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    color: #06235f;
+    display: inline-block;
+  }
+
+  .gs-exam-info {
+    font-size: 9.5px;
+    text-align: center;
+    line-height: 1.4;
+    color: #0b1530;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .gs-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+
+  .gs-details-table td {
+    padding: 4px 6px;
+    font-size: 11px;
+    color: #0b1530;
+    border-bottom: 1px solid #c6d0ea;
+  }
+
+  .gs-details-table td.label {
+    font-weight: 600;
+    color: #414b66;
+    text-transform: uppercase;
+    font-size: 9px;
+    letter-spacing: 0.3px;
+  }
+
+  .gs-grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+
+  .gs-grades-table th {
+    border: 1px solid #0b1530;
+    padding: 6px 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #eef2fc;
+    color: #0b1530;
+    letter-spacing: 0.3px;
+  }
+
+  .gs-grades-table td {
+    border: 1px solid #0b1530;
+    padding: 5px 8px;
+    font-size: 11px;
+    color: #0b1530;
+  }
+
+  .gs-gpa-summary {
+    display: flex;
+    justify-content: space-between;
+    border: 1.5px solid #0b1530;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: #eef2fc;
+  }
+
+  .gs-gpa-box, .gs-grade-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gs-gpa-box .label, .gs-grade-box .label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2a3350;
+    letter-spacing: 0.5px;
+  }
+
+  .gs-gpa-box .value, .gs-grade-box .value {
+    font-size: 13px;
+    font-weight: 800;
+    color: #06235f;
+  }
+
+
+
+  .gs-issue-date-row {
+    font-size: 9px;
+    color: #414b66;
+    margin-top: 10px;
+    border-top: 1px dashed #c6d0ea;
+    padding-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* A document, not a question: it needs the width of the page it prints on,
+     which is wider than any dialog on the site. */
+  .rc-gradesheet-dialog {
+    max-width: 850px;
+    max-height: min(90vh, calc(100vh - 48px));
+  }
+
+  .rc-gradesheet-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 14px;
+  }
+  .rc-gradesheet-actions .md-btn { flex: 1 1 180px; min-height: 48px; }
+
+  /* Print Stylesheet Overrides */
+  @media print {
+    .md-topbar, .site-footer, .rc-page, .neb-scrim:not(#rc-gradesheet-modal), .md-bottomnav {
+      display: none !important;
+    }
+    
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    
+    body {
+      background: #ffffff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    #rc-gradesheet-modal[hidden] {
+      display: none !important;
+    }
+
+    #rc-gradesheet-modal {
+      position: absolute !important;
+      inset: 0 !important;
+      background: #ffffff !important;
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      z-index: 9999999 !important;
+      overflow: visible !important;
+      max-height: none !important;
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+    }
+    
+    #rc-gradesheet-modal .neb-dialog {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: none !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: #ffffff !important;
+      transform: none !important;
+      overflow: visible !important;
+    }
+    
+    #rc-gradesheet-modal .neb-dialog-head,
+    #rc-gradesheet-modal .rc-gradesheet-actions {
+      display: none !important;
+    }
+    
+    #rc-gradesheet-modal .neb-dialog-body,
+    #rc-gradesheet-modal .rc-gradesheet-paper-wrapper {
+      background: #ffffff !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    
+    .rc-printable-gradesheet {
+      border: none !important;
+      padding: 10mm 12mm !important;
+      background: #ffffff !important;
+      width: 210mm !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      box-sizing: border-box !important;
+      page-break-inside: avoid !important;
+      page-break-after: avoid !important;
+      transform: none !important;
+    }
+    
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
+@media (max-width: 480px) {
+  .rc-page { padding: 12px 12px 96px; }
+  .rc-title { font-size: 1.625rem; }
+  .rc-card { padding: 18px; border-radius: 24px; }
+  .rc-grid { grid-template-columns: 1fr; }
+  .rc-hero { flex-direction: column; align-items: flex-start; }
+  .rc-gpa-card { width: 112px; height: 112px; }
+  .rc-gpa-num { font-size: 2.125rem; }
+  .rc-details { grid-template-columns: 1fr; }
+  .rc-gradesheet-dialog { max-width: 100%; }
+  .rc-gradesheet-paper-wrapper { padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-result { animation: none; }
+  .rc-seg-ind, .rc-progress-bar { transition: none; }
+}

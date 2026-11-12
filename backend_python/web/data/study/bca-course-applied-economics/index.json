@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-3-applied-economics",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "area": "BCA 206 · Applied Economics · Unit 1",
+   "words": 2833,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Elasticity of Demand and Supply",
+   "area": "BCA 206 · Applied Economics · Unit 2",
+   "words": 3151,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Theory of Consumer Behavior",
+   "area": "BCA 206 · Applied Economics · Unit 3",
+   "words": 3180,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Cost and Revenue Curves",
+   "area": "BCA 206 · Applied Economics · Unit 4",
+   "words": 3101,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Market Structure",
+   "area": "BCA 206 · Applied Economics · Unit 5",
+   "words": 3731,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "National Income Accounting",
+   "area": "BCA 206 · Applied Economics · Unit 6",
+   "words": 2925,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Money, Banking and International Trade",
+   "area": "BCA 206 · Applied Economics · Unit 7",
+   "words": 3379,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  }
+ ]
+}

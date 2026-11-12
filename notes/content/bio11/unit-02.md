@@ -2117,6 +2117,30 @@ syncarpous superior ovary, actinomorphic and bisexual, so **Solanaceae**, and th
 fruit is a berry or a capsule.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Nepal covers only 0.1 per cent of the land on Earth, yet it holds a very rich flora because its altitude runs from the hot Terai to the frozen Himalaya. (a) Dendrobium nobile, one of about 500 orchid species in the family Orchidaceae, the largest family of flowering plants in Nepal. (b) Adding the seven groups of the Department of Plant Resources table gives 12,083 recorded species. Flowering plants alone make up 46 per cent of them, while fungi come second. Of the flowering plants, 348 species are endemic, which is 6.2 per cent, so they live nowhere else on Earth. This makes Nepal responsible for protecting them in the wild and in botanical gardens."
+@ photo id="bio11/orchid" cap="Dendrobium nobile, one of Nepal's roughly 500 orchid species"
+fit 1.27
+focus 0.5 0.45
+@ svg cap="Plant and fungal groups recorded in Nepal"
+rows = [("Flowering plants", 5600, TEAL), ("Fungi", 2470, AMBER), ("Bryophytes", 1217, NAVY), ("Algae", 1101, NAVY), ("Lichens", 1086, NAVY), ("Pteridophytes", 583, NAVY), ("Gymnosperms", 26, RED)]
+total = sum(n for _, n, _ in rows)
+assert total == 12083
+share = 100.0 * 5600 / total
+endemic = 100.0 * 348 / 5600
+f = Fig(300, 236)
+f.text(150, 14, "Species recorded in Nepal (DPR, 2025)", size=10.5, color=NAVY, bold=True)
+for i, (nm, n, c) in enumerate(rows):
+    y = 28 + i * 22
+    f.text(6, y + 9, nm, size=10, color=SLATE, anchor="start", vmid=True)
+    w = max(3, 150.0 * n / 5600)
+    f.box(104, y, w, 18, "", fill=c, stroke=c, r=2)
+    f.text(104 + w + 5, y + 9, "{:,}".format(n), size=10, color=SLATE, anchor="start", vmid=True)
+f.text(150, 196, "7 groups together: {:,} species".format(total), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "flowering plants are %.0f %% of the total" % share, size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "348 endemic = %.1f %% of flowering plants" % endemic, size=10.5, color=RED, bold=True)
+facts = dict(total="{:,}".format(total), share="%.0f" % share, endemic="%.1f" % endemic)
+```
+
 ## Chapter summary
 
 - **Three domains** — Archaea, Bacteria, Eukarya — were proposed by Woese (1977)
@@ -2307,3 +2331,135 @@ first nourished by the prothallus but soon becomes free-living, whereas the moss
 sporophyte never becomes independent. Water is still needed for fertilisation in
 both.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the three domains of life, binomial nomenclature and Whittaker's five-kingdom classification, with the taxonomic hierarchy. <span class="marks">[10]</span>
+2. Describe the general characters, classification and economic importance of fungi, and explain lichens. <span class="marks">[10]</span>
+3. Compare algae, bryophytes, pteridophytes and gymnosperms, and explain alternation of generations. <span class="marks">[10]</span>
+4. Distinguish monocots from dicots, and describe the characters of the families Brassicaceae, Fabaceae, Solanaceae and Liliaceae. <span class="marks">[10]</span>
+
+### Model answer D1: domains, binomial nomenclature and five kingdoms (10 marks)
+
+**Introduction.** More than $1.5$ million species have been described, and every one needs a name and a place in an orderly system. **Taxonomy** is the science of identifying, naming and classifying organisms. Nepal, with about $6{,}500$ species of flowering plants in a small area from the Terai to the Himalaya, shows why such a system is necessary.
+
+**Three domains (Carl Woese, 1990).** Based on ribosomal RNA, cell wall chemistry and membrane lipids, all life is placed in three domains: **Bacteria** (true bacteria), **Archaea** (bacteria-like, found in extreme places such as hot springs and salt lakes) and **Eukarya** (organisms with a true nucleus: protists, fungi, plants and animals).
+
+**Binomial nomenclature.** Introduced by **Carolus Linnaeus** in *Species Plantarum* (1753).
+
+1. Each organism has a **two-part Latin name**: the **genus** first, then the **species** (*Mangifera indica*, mango).
+2. The genus begins with a **capital letter** and the species with a **small letter**.
+3. The name is **italicised** in print, or underlined separately when handwritten.
+4. The name of the author may follow (*Oryza sativa* L.), and names are universal, so a scientist in Japan or Nepal knows the same plant.
+
+**Whittaker's five kingdoms (1969).** The criteria were cell type, body organisation, mode of nutrition, reproduction and evolutionary relationship.
+
+| Kingdom | Cell type | Body | Nutrition | Examples |
+|---|---|---|---|---|
+| Monera | Prokaryotic | Unicellular | Autotrophic or heterotrophic | Bacteria, cyanobacteria |
+| Protista | Eukaryotic | Mostly unicellular | Both | Amoeba, *Paramecium*, *Euglena* |
+| Fungi | Eukaryotic | Hyphae | Absorptive heterotrophs | Yeast, mushroom |
+| Plantae | Eukaryotic, cell wall of cellulose | Multicellular | Photosynthetic | Fern, pine, rice |
+| Animalia | Eukaryotic, no cell wall | Multicellular | Ingestive heterotrophs | Earthworm, frog |
+
+**Taxonomic hierarchy.** Species are grouped in successively larger categories: **Species → Genus → Family → Order → Class → Phylum (Division in plants) → Kingdom.** The classification of mango: Kingdom Plantae, Division Angiosperms, Class Dicotyledonae, Order Sapindales, Family Anacardiaceae, Genus *Mangifera*, species *indica*.
+
+**Systems of classification.** The **artificial system** (Linnaeus, using the stamens) used a few characters; the **natural system** (Bentham and Hooker) used overall similarity; the **phylogenetic system** (Engler and Prantl; today APG, using DNA) reflects evolutionary relationships.
+
+**Conclusion.** Domains, five kingdoms and the hierarchy organise biodiversity, while binomial nomenclature gives every species a unique, universal name.
+
+### Model answer D2: fungi and lichens (10 marks)
+
+**Introduction.** Fungi form a separate kingdom, because they are eukaryotes that absorb ready-made food and have no chlorophyll. They are decomposers, food, medicine and also pathogens.
+
+**General characters.**
+
+1. **Eukaryotic, non-green and heterotrophic:** saprophytes (on dead matter), parasites or symbionts.
+2. The cell wall is made of **chitin**, not cellulose, and the reserve food is **glycogen** and oil.
+3. The body is made of thread-like **hyphae** that form a **mycelium** (yeast is unicellular).
+4. They reproduce asexually by **spores**, budding or fragmentation, and sexually by the fusion of gametes or hyphae.
+
+**Classification.**
+
+| Class | Hyphae | Sexual spores | Examples |
+|---|---|---|---|
+| Zygomycota | Non-septate | Zygospore | *Rhizopus* (bread mould) |
+| Ascomycota | Septate | Ascospores in an ascus | Yeast, *Penicillium*, *Aspergillus*, morels |
+| Basidiomycota | Septate | Basidiospores on basidia | Mushroom (*Agaricus*), rust, smut |
+| Deuteromycota | Septate | Not known | *Alternaria*, *Trichoderma* |
+
+**Economic importance.**
+
+1. **Food:** edible mushrooms and morels (*guchhi chyau* of Nepal) are rich in protein.
+2. **Fermentation:** the yeast *Saccharomyces* makes bread rise and produces alcohol, as in the traditional *jaand* and *raksi*.
+3. **Antibiotics:** penicillin from *Penicillium notatum* (Fleming, 1928).
+4. **Organic acids and enzymes:** *Aspergillus* gives citric acid.
+5. **Decomposition and recycling:** nutrients return to the soil.
+6. **Mycorrhiza:** fungi on the roots of pine and oak help absorb phosphate.
+7. **Plant diseases:** late blight of potato, rusts of wheat, and smut of maize.
+8. **Human diseases:** ringworm, athlete's foot and candidiasis; toxins such as aflatoxin from stored groundnuts. The caterpillar fungus *yarsagumba* (*Ophiocordyceps sinensis*) is a valued export of the Himalayan districts.
+
+**Lichens.** A lichen is a **symbiotic association of a fungus (mycobiont) and an alga or cyanobacterium (phycobiont)**. The alga makes food by photosynthesis and the fungus gives protection, water and minerals.
+
+- **Types:** crustose (flat crust on rock), foliose (leaf-like), fruticose (branched, shrubby).
+- **Importance:** pioneers that begin soil formation on bare rock; **indicators of air pollution** (they disappear when SO₂ is high); source of **litmus** and dyes; *jhyau* (*Parmelia*) is used as a spice in Nepali cooking.
+
+**Conclusion.** Fungi are chitin-walled absorptive heterotrophs that are both helpful and harmful, and lichens are an example of mutual benefit.
+
+### Model answer D3: algae, bryophytes, pteridophytes and gymnosperms (10 marks)
+
+**Introduction.** The plant kingdom ranges from thalloid algae to large seed plants. The groups differ in body organisation, vascular tissue, reproduction and the dominant phase of the life cycle.
+
+**Alternation of generations.** All of these groups alternate between a haploid, gamete-producing **gametophyte** and a diploid, spore-producing **sporophyte**: gametophyte (n), gametes fuse, zygote (2n), sporophyte (2n), meiosis, spores (n), and back to the gametophyte. The size and independence of each phase changes across the groups.
+
+| Feature | Algae | Bryophyta | Pteridophyta | Gymnosperms |
+|---|---|---|---|---|
+| Habitat | Water, moist places | Damp land | Moist, shady land | Dry land, mountains |
+| Body | Thallus | Thallus or leafy; rhizoids | Root, stem, leaf | Root, stem, leaf |
+| Vascular tissue | Absent | Absent | Present | Present (no vessels) |
+| Dominant phase | Mostly gametophyte | Gametophyte | Sporophyte | Sporophyte |
+| Gametophyte | Independent | Independent, green | Small prothallus | Reduced, dependent |
+| Seed | None | None | None | Naked seed |
+| Water for fertilisation | Yes | Yes | Yes | No (pollen tube) |
+| Examples | *Spirogyra*, *Ulothrix* | *Marchantia*, *Funaria* | *Dryopteris*, *Selaginella* | *Cycas*, *Pinus* |
+
+**Key points of each group.**
+
+1. **Algae:** chlorophyll-bearing, mostly aquatic. They give about half of the world's oxygen, food (*Spirulina*), agar, algin and iodine. In Phewa Lake, nutrient pollution causes algal blooms.
+2. **Bryophytes:** the "amphibians of the plant kingdom," which need water for the male gamete to swim. They stop soil erosion and *Sphagnum* peat is a fuel and garden material.
+3. **Pteridophytes:** the first vascular land plants with a conspicuous sporophyte; spores on the back of fronds (sori). Used as ornamentals and *ningro* (edible fern fronds), widely eaten in Nepal.
+4. **Gymnosperms:** "naked seeds" on cones; no flower or fruit. The chir pine (*Pinus roxburghii*) gives timber and resin, the Himalayan yew (*Taxus wallichiana*) gives the anti-cancer drug taxol.
+
+**Trend in evolution.** The sporophyte becomes larger and more independent, the gametophyte shrinks, vascular tissue appears, and dependence on water for fertilisation is lost in seed plants.
+
+**Conclusion.** From algae to gymnosperms, plants gain vascular tissue, a dominant sporophyte and independence from water, culminating in the seed.
+
+### Model answer D4: monocots, dicots and four angiosperm families (10 marks)
+
+**Introduction.** Angiosperms are flowering plants whose seeds are enclosed in a fruit, and they are the largest and most successful group of plants (about $2{,}50{,}000$ species). They are divided into two classes.
+
+**Monocots and dicots.**
+
+| Feature | Dicotyledons | Monocotyledons |
+|---|---|---|
+| Cotyledons | Two | One |
+| Root | Tap root | Fibrous root |
+| Leaf venation | Reticulate | Parallel |
+| Vascular bundles in stem | Ring, open (cambium) | Scattered, closed |
+| Secondary growth | Present | Usually absent |
+| Flower parts | In 4s or 5s | In 3s |
+| Pollen | Three pores | One pore |
+| Examples | Pea, mustard, mango | Rice, maize, lily |
+
+**Families of angiosperms.**
+
+| Family | Habit and leaf | Flower | Fruit | Examples and uses |
+|---|---|---|---|---|
+| **Brassicaceae** (mustard) | Herbs, alternate leaves | Cruciform, 4 petals, 6 stamens (4 long, 2 short): K2+2 C4 A2+4 G(2) | Siliqua | Mustard (oil), cabbage, cauliflower, radish |
+| **Fabaceae** (pea) | Herbs, trees; compound leaves, stipules | Zygomorphic, papilionaceous: K(5) C1+2+(2) A(9)+1 G1 | Legume | Pea, lentil, soybean; root nodules fix nitrogen |
+| **Solanaceae** (potato) | Herbs, shrubs | Actinomorphic, bisexual: K(5) C(5) A5 G(2) | Berry or capsule | Potato, tomato, chilli, tobacco, brinjal |
+| **Liliaceae** (lily) | Herbs with bulbs, rhizomes | Actinomorphic, perianth P3+3 A3+3 G(3) | Capsule or berry | Onion, garlic, lily, *Aloe* |
+
+**Importance of angiosperms.** Food (cereals, pulses, vegetables, fruits), timber, fibres (cotton, jute), medicines, oxygen, shelter and beauty (flowers).
+
+**Conclusion.** The number of cotyledons and the other characters divide angiosperms into monocots and dicots, and the family is identified from the floral formula and the fruit.

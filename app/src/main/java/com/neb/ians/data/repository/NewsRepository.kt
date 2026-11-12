@@ -132,14 +132,14 @@ class NewsRepository @Inject constructor(
         }
     }
 
-    suspend fun postComment(slug: String, text: String, parentCommentId: String? = null): Result<NewsComment> =
+    suspend fun postComment(slug: String, text: String, parentCommentId: String? = null, isAnonymous: Boolean = false): Result<NewsComment> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val token = SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
                     ?: error("Please sign in to comment")
                 val response = apiService.createNewsComment(
                     "Bearer $token",
-                    NewsCommentRequest(slug = slug, text = text, parentCommentId = parentCommentId)
+                    NewsCommentRequest(slug = slug, text = text, parentCommentId = parentCommentId, isAnonymous = isAnonymous)
                 )
                 if (!response.ok) error(response.error ?: "Couldn't post comment")
                 val comment = response.comment ?: error("Comment was not returned")

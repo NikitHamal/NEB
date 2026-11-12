@@ -1,0 +1,302 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "project-2",
+ "name": "Project II",
+ "name_ne": "",
+ "icon": "assignment",
+ "group": "semester-5",
+ "group_label": "Semester V",
+ "color": "#7C3AED",
+ "lang": "en",
+ "code": "BCA 306",
+ "credits": 3,
+ "semester": 5,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "From Stand-alone to Web System: Scope, Architecture and Stack",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What changes in Project II",
+    "The running example: ClinicQ",
+    "Client-server and three-tier architecture",
+    "Choosing the stack",
+    "REST resources and status codes",
+    "From requirements to user stories",
+    "Eight reasons web projects fail, and the cure"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What changes in Project II"
+    },
+    {
+     "no": "1.2",
+     "title": "The running example: ClinicQ"
+    },
+    {
+     "no": "1.3",
+     "title": "Client-server and three-tier architecture"
+    },
+    {
+     "no": "1.4",
+     "title": "Choosing the stack"
+    },
+    {
+     "no": "1.5",
+     "title": "REST resources and status codes"
+    },
+    {
+     "no": "1.6",
+     "title": "From requirements to user stories"
+    },
+    {
+     "no": "1.7",
+     "title": "Eight reasons web projects fail, and the cure"
+    }
+   ],
+   "summary": [
+    "A web project adds many users, a network, shared data, untrusted input and deployment to the concerns of Project I.",
+    "ClinicQ is the running example; its objectives are measurable and its scope table lists what is out.",
+    "The three-tier architecture separates the browser, the logic and the database; every arrow between them is a trust boundary.",
+    "REST uses nouns for URLs, verbs for actions and status codes for the outcome.",
+    "Choose the stack for the team's skills; this book uses the Python standard library to show the mechanics."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2830,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Building the REST API and the Database",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Designing the data",
+    "What happens when a request arrives",
+    "The ClinicQ API, complete",
+    "Two clerks at the same moment: the race condition",
+    "Transactions and error replies",
+    "Eight reasons to validate and constrain at every layer"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Designing the data"
+    },
+    {
+     "no": "2.2",
+     "title": "What happens when a request arrives"
+    },
+    {
+     "no": "2.3",
+     "title": "The ClinicQ API, complete"
+    },
+    {
+     "no": "2.4",
+     "title": "Two clerks at the same moment: the race condition"
+    },
+    {
+     "no": "2.5",
+     "title": "Transactions and error replies"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight reasons to validate and constrain at every layer"
+    }
+   ],
+   "summary": [
+    "ClinicQ has two tables, patient and token, in a one-to-many relation with five kinds of constraint.",
+    "A request flows: parse, validate, run SQL, build JSON, reply; invalid input is rejected early.",
+    "The 78-line API replies 201, 400, 404, 422 and 200 and was run over a real local HTTP connection.",
+    "Race conditions are solved by database constraints plus a retry, not by hoping.",
+    "Safe errors tell the client what to fix and hide the internals."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2321,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Security: Login, Passwords, Tokens and Attacks",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Who are you, and what may you do?",
+    "Passwords: never store them, store a salted slow hash",
+    "Signed tokens: logging in without sending the password again",
+    "SQL injection: the attack and the cure",
+    "Brute force and rate limiting",
+    "The common attacks and their defences",
+    "Eight security practices every student web project needs"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Who are you, and what may you do?"
+    },
+    {
+     "no": "3.2",
+     "title": "Passwords: never store them, store a salted slow hash"
+    },
+    {
+     "no": "3.3",
+     "title": "Signed tokens: logging in without sending the password again"
+    },
+    {
+     "no": "3.4",
+     "title": "SQL injection: the attack and the cure"
+    },
+    {
+     "no": "3.5",
+     "title": "Brute force and rate limiting"
+    },
+    {
+     "no": "3.6",
+     "title": "The common attacks and their defences"
+    },
+    {
+     "no": "3.7",
+     "title": "Eight security practices every student web project needs"
+    }
+   ],
+   "summary": [
+    "Authentication and authorisation are different questions with different status codes.",
+    "Passwords are stored as salted slow hashes; the run showed different hashes for one password and a failed check for one changed letter.",
+    "Signed tokens carry user, role and expiry; the run refused edited, expired and malformed tokens.",
+    "Parameterised SQL beats injection; rate limits and long passwords beat brute force.",
+    "Security is layered: HTTPS, login and roles, validation, protected data and logs."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2478,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Testing, Performance and Deployment",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What to test, and in what proportion",
+    "Automated unit tests for the ClinicQ rules",
+    "The test-case table for the report",
+    "Performance: how many users can one server carry?",
+    "Deployment: from your laptop to a URL",
+    "Eight practices that make a project demo-proof"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "What to test, and in what proportion"
+    },
+    {
+     "no": "4.2",
+     "title": "Automated unit tests for the ClinicQ rules"
+    },
+    {
+     "no": "4.3",
+     "title": "The test-case table for the report"
+    },
+    {
+     "no": "4.4",
+     "title": "Performance: how many users can one server carry?"
+    },
+    {
+     "no": "4.5",
+     "title": "Deployment: from your laptop to a URL"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight practices that make a project demo-proof"
+    }
+   ],
+   "summary": [
+    "Tests are layered; the 9-test suite for ClinicQ rules passed and each test name states a requirement.",
+    "The test-case table with expected and actual results is the evidence the examiner reads.",
+    "Capacity is computed: at peak ClinicQ needs about 4 requests per second, 16 % of one small worker.",
+    "A cache and more workers are the first scaling steps.",
+    "Deployment is a repeatable pipeline with a health check; Nginx handles HTTPS and systemd keeps the service alive."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2479,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Documentation, Demo, Report and Viva for Project II",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The report: what goes where",
+    "API documentation that cannot go out of date",
+    "Preparing the 10-minute demo",
+    "Twelve viva questions for a web project",
+    "Eight habits of students who score well"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The report: what goes where"
+    },
+    {
+     "no": "5.2",
+     "title": "API documentation that cannot go out of date"
+    },
+    {
+     "no": "5.3",
+     "title": "Preparing the 10-minute demo"
+    },
+    {
+     "no": "5.4",
+     "title": "Twelve viva questions for a web project"
+    },
+    {
+     "no": "5.5",
+     "title": "Eight habits of students who score well"
+    }
+   ],
+   "summary": [
+    "The report proves every early claim with evidence in later chapters.",
+    "Generated API documentation and a good README let a stranger use the system.",
+    "A timed demo with a fallback survives load-shedding and network failures.",
+    "Twelve viva questions cover architecture, REST, security, concurrency, testing and deployment.",
+    "Honesty, numbers and shared understanding are what separate good projects from copied ones."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2310,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 31,
+ "notes_ready": 5
+}

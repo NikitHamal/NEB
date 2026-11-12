@@ -1,5 +1,6 @@
 package com.neb.ians.util
 
+import com.neb.ians.ui.components.nebToast
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -133,7 +134,7 @@ class ResourceDownloadManager @Inject constructor(
                 setProgress(resource.id, -1)
                 if (e.message?.contains("Security filter") == true || e is ApiClientException) {
                     Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(context, "Server protected by security filter. Please try again later.", Toast.LENGTH_LONG).show()
+                        context.nebToast("Server protected by security filter. Please try again later.", long = true)
                     }
                 }
             } finally {

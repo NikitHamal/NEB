@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-5-advanced-java",
+ "units": [
+  {
+   "no": 1,
+   "title": "Foundations for Advanced Java: Threads, I/O and Serialization",
+   "area": "BCA 303 · Advanced Java Programming · Unit 1",
+   "words": 5669,
+   "read_min": 31,
+   "figures": 13,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "GUI Programming: Swing, Layouts and Event Handling",
+   "area": "BCA 303 · Advanced Java Programming · Unit 2",
+   "words": 5335,
+   "read_min": 30,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Database Programming with JDBC",
+   "area": "BCA 303 · Advanced Java Programming · Unit 3",
+   "words": 7348,
+   "read_min": 41,
+   "figures": 17,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Network Programming with Sockets and HTTP",
+   "area": "BCA 303 · Advanced Java Programming · Unit 4",
+   "words": 5738,
+   "read_min": 32,
+   "figures": 12,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Remote Method Invocation and CORBA",
+   "area": "BCA 303 · Advanced Java Programming · Unit 5",
+   "words": 6953,
+   "read_min": 39,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Servlets and JavaServer Pages",
+   "area": "BCA 303 · Advanced Java Programming · Unit 6",
+   "words": 7472,
+   "read_min": 42,
+   "figures": 16,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "JavaBeans and the Enterprise Java Landscape",
+   "area": "BCA 303 · Advanced Java Programming · Unit 7",
+   "words": 5456,
+   "read_min": 30,
+   "figures": 10,
+   "has_questions": true
+  }
+ ]
+}

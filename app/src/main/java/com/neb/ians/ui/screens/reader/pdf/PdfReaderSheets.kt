@@ -69,9 +69,11 @@ fun ReaderOptionsSheet(
     onTheme: (ReadingTheme) -> Unit,
     onLayout: (ReadingLayout) -> Unit,
     onKeepScreenOn: (Boolean) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    assistantHidden: Boolean = false,
+    onAssistantHidden: ((Boolean) -> Unit)? = null
 ) {
-    NebModalSheet(onDismiss = onDismiss, title = "Reading options") {
+    NebModalSheet(onDismiss = onDismiss, title = "Page options") {
         Column(Modifier.padding(horizontal = 22.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 OptionLabel("Page colour")
@@ -99,6 +101,14 @@ fun ReaderOptionsSheet(
                 checked = keepScreenOn,
                 onCheckedChange = onKeepScreenOn
             )
+            if (onAssistantHidden != null) {
+                NebToggleRow(
+                    title = "Neby AI button",
+                    subtitle = null,
+                    checked = !assistantHidden,
+                    onCheckedChange = { onAssistantHidden(!it) }
+                )
+            }
         }
     }
 }
@@ -274,5 +284,51 @@ fun GoToPageDialog(pageCount: Int, current: Int, onGo: (Int) -> Unit, onDismiss:
             isError = text.isNotEmpty() && !valid,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
+    }
+}
+
+/** The document's own table of contents; the chapter being read is marked and scrolled into view. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ContentsSheet(
+    items: List<OutlineItem>,
+    currentPage: Int,
+    onPick: (OutlineItem) -> Unit,
+    onDismiss: () -> Unit
+) {
+    NebModalSheet(onDismiss = onDismiss, title = "Contents") {
+        if (items.isEmpty()) {
+            NebEmptyState(
+                icon = Icons.Outlined.BookmarkBorder,
+                title = "No contents list",
+                subtitle = "This document does not carry one. Use the page slider or All pages.",
+                modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
+            )
+        } else {
+            val active = remember(items, currentPage) { items.indexOfLast { it.page <= currentPage }.coerceAtLeast(0) }
+            val state = androidx.compose.foundation.lazy.rememberLazyListState(initialFirstVisibleItemIndex = (active - 2).coerceAtLeast(0))
+            LazyColumn(Modifier.fillMaxWidth().heightIn(max = 560.dp), state = state) {
+                items(items.size, key = { it }) { i ->
+                    val item = items[i]
+                    val selected = i == active
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .nebPressable(onClick = { onPick(item) })
+                            .padding(start = (22 + item.level.coerceAtMost(4) * 16).dp, end = 22.dp, top = 11.dp, bottom = 11.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            item.title,
+                            style = if (item.level == 0) MaterialTheme.typography.titleSmall else MaterialTheme.typography.bodyMedium,
+                            fontWeight = if (selected || item.level == 0) FontWeight.SemiBold else FontWeight.Normal,
+                            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(1f).padding(end = 12.dp)
+                        )
+                        Text("${item.page + 1}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+        }
     }
 }

@@ -307,3 +307,83 @@ Four errors are made repeatedly. First, **the balance of trade is not the balanc
 *Gains from trade (2).* Larger total output from the international division of labour; lower prices; wider choice; transfer of technology and skills; competition; larger markets; and the possibility of earning the foreign exchange needed for imports of capital goods.
 *Balance of trade and balance of payments (3).* Balance of trade = merchandise exports − merchandise imports (goods only) and is the visible part of the current account; balance of payments = the complete record of all transactions — goods, services, income, transfers and capital — and always balances through a change in reserves or borrowing. Nepali case: a large and chronic trade deficit, a very large remittance inflow in the transfers of the current account, and therefore a manageable overall balance of payments; imports several times exports; heavy dependence on India; a landlocked, transit-dependent economy.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the sources of public revenue and public expenditure. Distinguish between direct and indirect taxes, and explain the budget and fiscal policy. <span class="marks">[10]</span>
+2. Explain international trade, its advantages and disadvantages, balance of trade, balance of payments and the exchange rate. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="3" ratio="1.2" caption="Money, trade and services. (a) Container ships carry the world’s trade. (b) A school is one of the largest items of public expenditure. (c) A hydropower dam, a capital project built with public money, saves the cost of importing fuel."
+@ photo id="eco10/containers" cap="(a) International trade"
+@ photo id="eco10/school" cap="(b) Public expenditure"
+@ photo id="eco10/hydropower" cap="(c) Capital project"
+```
+
+### Model answer D1: public finance, taxes, budget and fiscal policy (10 marks)
+
+**Introduction.** **Public finance** is the study of how the government raises and spends money. The government needs money to provide roads, schools, hospitals, security and welfare that private firms do not provide.
+
+**Public revenue.**
+
+| Source | Examples in Nepal |
+|---|---|
+| Tax revenue | Income tax, value added tax (VAT), customs duty, excise duty, property tax |
+| Non-tax revenue | Fees, fines, royalty from mountaineering and electricity, profit of public enterprises |
+| Grants | Aid from other countries and agencies |
+| Loans | Domestic (bonds) and foreign borrowing |
+
+**Public expenditure.** **Recurrent** expenditure is for salaries, pensions, and running costs; **capital** expenditure is for roads, bridges, hydropower and buildings; **financial** expenditure is for loan payments.
+
+**Direct and indirect tax.**
+
+| Direct tax | Indirect tax |
+|---|---|
+| Paid directly by the person who bears the burden | Burden can be passed on to others |
+| Cannot be shifted | Can be shifted |
+| Example: income tax, property tax | Example: VAT, excise, customs |
+| Progressive, based on ability | Same on rich and poor, so regressive |
+| Hard to evade | Easy to collect |
+
+**Canons of taxation (Adam Smith).** Equality, certainty, convenience and economy.
+
+**Budget.** The government's yearly statement of **estimated revenue and expenditure**. If revenue is greater, it is a **surplus** budget; if expenditure is greater, a **deficit** budget; if equal, balanced. Nepal's budget is presented in the Federal Parliament on **Jestha 15**, and the fiscal year starts on **Shrawan 1**.
+
+**Fiscal policy.** The use of taxes and public spending to control the economy. In **inflation**, the government raises taxes and cuts spending; in **recession**, it cuts taxes and increases spending to create jobs.
+
+**Conclusion.** Taxes and borrowing fund public services, and a sound budget and fiscal policy bring growth and fair distribution.
+
+### Model answer D2: international trade, BOT, BOP and exchange rate (10 marks)
+
+**Introduction.** **International trade** is the exchange of goods and services between countries. Countries trade because resources, climate and skills differ. Nepal exports goods such as handicraft, carpet, tea, cardamom and ginger, and imports petroleum, machinery, vehicles, gold and medicine; its main partners are India, China and others.
+
+**Advantages.**
+
+1. Gets goods that cannot be produced at home.
+2. Gives a bigger market and more income to producers.
+3. Increases competition and quality.
+4. Allows specialisation by comparative advantage.
+5. Creates jobs, foreign exchange and tax revenue.
+
+**Disadvantages.** Dependence on other countries, damage to young industries by cheap imports, loss of foreign exchange when imports are greater, and risks of harmful goods.
+
+**Balance of trade (BOT).** The difference between the **value of exports and imports of goods**. Illustration: exports of Rs 150 billion and imports of Rs 1,500 billion give a **trade deficit** of Rs 1,350 billion. Nepal has a large trade deficit.
+
+**Balance of payments (BOP).** A record of **all economic transactions** (goods, services, income and transfers, and capital) of a country with the rest of the world in a year.
+
+| Item | Contents |
+|---|---|
+| Current account | Trade in goods and services, income, remittances |
+| Capital account | Grants for capital, transfers |
+| Financial account | Foreign investment, loans |
+
+Remittances from Nepali workers abroad are very large and help to cover the trade deficit.
+
+| BOT | BOP |
+|---|---|
+| Only visible goods | Goods, services, income and capital |
+| Narrow | Wide |
+| Part of the current account | Includes all accounts |
+
+**Exchange rate.** The price of one currency in terms of another, for example Rs 133 per US dollar. Nepali rupee is **pegged** to the Indian rupee at **Rs 160 per Rs 100 (IC)**. If the rupee becomes weaker, exports become cheaper and imports dearer.
+
+**Conclusion.** Trade benefits countries, but a large deficit must be reduced by increasing exports and substituting imports.

@@ -1,0 +1,84 @@
+{% extends 'admin_panel/base.html' %}
+{% load static web_extras admin_extras %}
+
+{% block title %}{{ app.name }}{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/schools.css' %}">{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div>
+    <h1>{{ app.name }}</h1>
+    <p class="admin-row-sub"><a href="{% url 'web:admin_institution_verifications' %}">All applications</a></p>
+  </div>
+  <span class="admin-status {% if app.status == 'approved' %}success{% elif app.status == 'rejected' %}error{% else %}info{% endif %}">{{ app.get_status_display }}</span>
+</div>
+
+<div class="admin-panel-grid">
+  <div class="admin-card">
+    <div class="admin-card-head"><h3>Institution</h3></div>
+    <dl class="admin-dl">
+      <dt>Type</dt><dd>{{ app.get_kind_display }}</dd>
+      <dt>District</dt><dd>{{ app.district|default:"Not given" }}</dd>
+      <dt>Address</dt><dd>{{ app.address }}</dd>
+      <dt>Registration</dt><dd>{{ app.registration_no }}</dd>
+      <dt>Website</dt><dd>{% if app.website %}<a href="{{ app.website }}" target="_blank" rel="noopener nofollow">{{ app.website }}</a>{% else %}Not given{% endif %}</dd>
+      {% if app.institution %}<dt>Claims</dt><dd><a href="{% url 'web:school_detail' slug=app.institution.slug %}" target="_blank">{{ app.institution.name }}</a>{% if app.institution.verified %} (already verified){% endif %}</dd>{% else %}<dt>Claims</dt><dd>Not in the catalogue, a new entry is created on approval</dd>{% endif %}
+    </dl>
+  </div>
+
+  <div class="admin-card">
+    <div class="admin-card-head"><h3>Contact</h3></div>
+    <dl class="admin-dl">
+      <dt>Person</dt><dd>{{ app.contact_name }}, {{ app.contact_role }}</dd>
+      <dt>Email</dt><dd><a href="mailto:{{ app.contact_email }}">{{ app.contact_email }}</a></dd>
+      <dt>Phone</dt><dd><a href="tel:{{ app.contact_phone }}">{{ app.contact_phone }}</a></dd>
+      <dt>Account</dt><dd><a href="{% url 'web:admin_user_detail' user_id=app.applicant.id %}">@{{ app.applicant.username }}</a></dd>
+      <dt>Sent</dt><dd>{{ app.created_at|ms_when }}</dd>
+    </dl>
+    {% if app.message %}<p class="admin-note">{{ app.message }}</p>{% endif %}
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-head"><h3>Documents ({{ documents|length }})</h3></div>
+  <div class="admin-docs">
+    {% for d in documents %}
+    <div class="admin-doc">
+      <div class="admin-row-main">
+        <div class="admin-row-title">{{ d.type_label }}</div>
+        <div class="admin-row-sub">{{ d.original_name }} · {{ d.size|filesizeformat }}</div>
+      </div>
+      <a class="md-btn md-btn-tonal md-btn-small" href="{% url 'web:admin_institution_document' doc_id=d.pk %}" target="_blank" rel="noopener">Open</a>
+    </div>
+    {% if d.is_image %}<img class="admin-doc-img" src="{% url 'web:admin_institution_document' doc_id=d.pk %}" alt="{{ d.type_label }}" loading="lazy">{% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% if others %}
+<div class="admin-card">
+  <div class="admin-card-head"><h3>Other applications for this institution</h3></div>
+  {% for o in others %}
+  <a class="admin-card-head admin-link-row" href="{% url 'web:admin_institution_verification_detail' app_id=o.pk %}">
+    <div class="admin-row-main"><div class="admin-row-title">{{ o.contact_name }} · {{ o.contact_email }}</div></div>
+    <span class="admin-status neutral">{{ o.get_status_display }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="admin-card">
+  <div class="admin-card-head"><h3>Decision</h3></div>
+  {% if app.reviewer_note and not app.is_open %}<p class="admin-note">{{ app.reviewer_note }}</p>{% endif %}
+  <form method="post" class="admin-stack">
+    {% csrf_token %}
+    <textarea name="note" class="md-textarea" rows="3" maxlength="1000" aria-label="Note to the applicant" placeholder="Note to the applicant" data-neb-skip>{% if app.is_open %}{{ app.reviewer_note }}{% endif %}</textarea>
+    <div class="admin-page-actions">
+      {% if app.status != 'approved' %}<button type="submit" name="action" value="approve" class="md-btn md-btn-filled"><span class="material-symbols-outlined">verified</span>Approve</button>{% endif %}
+      {% if app.is_open %}<button type="submit" name="action" value="info" class="md-btn md-btn-tonal">Ask for more</button>{% endif %}
+      {% if app.status != 'rejected' and app.status != 'approved' %}<button type="submit" name="action" value="reject" class="md-btn md-btn-outlined">Reject</button>{% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -677,6 +677,33 @@ In acidic medium $E(\text{KMnO}_4) = 158/5 = 31.6$, so the mass per litre is
 $$ S = N \times E = 0.05 \times 31.6 = 1.58\ \text{g L}^{-1} $$
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="Volumetric analysis finds an unknown concentration by adding a standard solution until the reaction is just complete. (a) A burette delivering base into acid, with an indicator showing the end point. (b) The pH curve for 25.0 mL of 0.100 N hydrochloric acid titrated with 0.100 N sodium hydroxide was calculated from the amounts left over. The pH rises slowly, then jumps from 3.70 to 10.30 within the last 0.2 mL, which is why one drop of indicator changes colour so sharply. At the end point the law of equivalence N1V1 = N2V2 holds, with 25.0 mL of each solution, so the two normalities are equal."
+@ photo id="chem12/titration" cap="Titration of an acid against a base with an indicator"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Strong acid with strong base: the pH curve"
+import math
+def ph(V):
+    x = (2.5 - 0.1 * V) / (25.0 + V)
+    if abs(x) < 1e-12:
+        return 7.0
+    return -math.log10(x) if x > 0 else 14 + math.log10(-x)
+p249, p251 = ph(24.9), ph(25.1)
+assert abs(p249 - 3.70) < 0.01 and abs(p251 - 10.30) < 0.01
+N2 = 0.100 * 25.0 / 25.0
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 244, 146, (0, 50), (0, 14))
+ax.grid(10, 2, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%d" % v)
+ax.axes(xl="mL", yl="pH")
+ax.curve(ph, 0, 50, color=NAVY, sw=2.4, n=500)
+ax.hline(7, color=AMBER)
+ax.pt(25, 7, "end point 25.0 mL, pH 7", dx=10, dy=18)
+f.text(150, 14, "25.0 mL of 0.100 N HCl + 0.100 N NaOH", size=10, color=NAVY, bold=True)
+f.text(150, 207, "pH jumps from %.2f to %.2f over 0.2 mL" % (p249, p251), size=10, color=RED, bold=True)
+f.text(150, 222, "N1 V1 = N2 V2: 0.100 x 25.0 = %.3f x 25.0" % N2, size=10, color=NAVY, bold=True)
+facts = dict(p1="%.2f" % p249, p2="%.2f" % p251)
+```
+
 ## Chapter summary
 
 - Gravimetric analysis weighs a precipitate; volumetric analysis measures the
@@ -824,3 +851,47 @@ $$ w = 5.00\times10^{-3} \times 392 = 1.96\ \text{g} $$
 
 $$ \text{purity} = \frac{1.96}{2.00} \times 100 = 98.0\ \% $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define equivalent weight, primary standard and the law of equivalence, and solve a volumetric problem on the standardisation of an acid. <span class="marks">[10]</span>
+
+### Model answer D1: equivalent weight, standard solutions and the normality equation (10 marks)
+
+**Introduction.** **Volumetric analysis** finds the amount of a substance in solution by measuring the volume of a standard solution of known concentration that reacts completely with it. The point at which the reaction is just complete is the **equivalence (end) point**, detected by an indicator.
+
+**Equivalent weight.** It is the weight of a substance that combines with or displaces 1 part by weight of hydrogen, 8 parts of oxygen or 35.5 parts of chlorine. For compounds it is calculated from the molar mass:
+
+| Substance | Formula for equivalent weight | Example |
+|---|---|---|
+| Acid | Molar mass / basicity | H$_2$SO$_4$: $98/2 = 49$; oxalic acid dihydrate: $126/2 = 63$ |
+| Base | Molar mass / acidity | NaOH: $40/1 = 40$; Na$_2$CO$_3$: $106/2 = 53$ |
+| Salt | Molar mass / total charge on cation | Na$_2$CO$_3$: 53 |
+| Oxidising or reducing agent | Molar mass / electrons gained or lost | KMnO$_4$ (acid medium): $158/5 = 31.6$; K$_2$Cr$_2$O$_7$: $294/6 = 49$ |
+
+**Concentration terms.** Molarity $M$ = moles per litre. **Normality** $N$ = gram equivalents per litre, and $N = M \times n$, where $n$ is the basicity, acidity or electron change. Molality is moles per kg of solvent.
+
+**Primary and secondary standards.** A **primary standard** is a substance pure enough, stable enough and with a high enough molar mass to be weighed directly to make a solution of exactly known concentration. It must not absorb moisture or CO$_2$. Examples are anhydrous Na$_2$CO$_3$, oxalic acid dihydrate, potassium dichromate and Mohr's salt. A **secondary standard**, such as NaOH, KOH, HCl or KMnO$_4$, does not meet these conditions, so its concentration must be found by titration against a primary standard.
+
+**Law of equivalence.** Substances react in the ratio of their gram equivalents, so at the end point
+
+$$ N_{1}V_{1} = N_{2}V_{2} $$
+
+(for molarity, $M_{1}V_{1}/n_{1} = M_{2}V_{2}/n_{2}$ with the balanced equation).
+
+**Worked problem.** A $0.10\ \text{N}$ standard solution of anhydrous Na$_2$CO$_3$ is made in a $250\ \text{mL}$ flask, which needs a mass $= 0.10 \times 53 \times 0.250 = 1.325\ \text{g}$. A $20.0\ \text{mL}$ portion is titrated with HCl using methyl orange, and $19.2\ \text{mL}$ of acid is required. Then
+
+$$ N_{HCl} = \frac{N_{1}V_{1}}{V_{2}} = \frac{0.10 \times 20.0}{19.2} = 0.104\ \text{N} $$
+
+Another check: $25.0\ \text{mL}$ of $0.100\ \text{N}$ oxalic acid needing $24.5\ \text{mL}$ of NaOH gives $N_{NaOH} = 0.100 \times 25.0/24.5 = 0.102\ \text{N}$.
+
+**Choice of indicator.**
+
+| Titration | pH at end point | Suitable indicator |
+|---|---|---|
+| Strong acid / strong base | 7 | Methyl orange or phenolphthalein |
+| Strong acid / weak base | Below 7 | Methyl orange |
+| Weak acid / strong base | Above 7 | Phenolphthalein |
+| KMnO$_4$ with Fe$^{2+}$ or oxalate | — | Self-indicator (first permanent pink) |
+
+**Conclusion.** With a primary standard and the relation $N_{1}V_{1} = N_{2}V_{2}$, the strength of any other acid, base or oxidising agent can be found accurately.

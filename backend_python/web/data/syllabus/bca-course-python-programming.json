@@ -1,0 +1,508 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "python-programming",
+ "name": "Python Programming",
+ "name_ne": "",
+ "icon": "terminal",
+ "group": "semester-4",
+ "group_label": "Semester IV",
+ "color": "#1D4ED8",
+ "lang": "en",
+ "code": "BCA 254",
+ "credits": 3,
+ "semester": 4,
+ "hours": 54,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Python and Basic Elements",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "What is Python?",
+    "Tokens: identifiers, keywords, comments, indentation",
+    "Variables and dynamic typing",
+    "Data types",
+    "Operators",
+    "Type conversion",
+    "Console input and output",
+    "Useful built-in functions",
+    "Seeing the ideas: the people, the machines and the path of a program"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is Python?"
+    },
+    {
+     "no": "1.2",
+     "title": "Tokens: identifiers, keywords, comments, indentation"
+    },
+    {
+     "no": "1.3",
+     "title": "Variables and dynamic typing"
+    },
+    {
+     "no": "1.4",
+     "title": "Data types"
+    },
+    {
+     "no": "1.5",
+     "title": "Operators"
+    },
+    {
+     "no": "1.6",
+     "title": "Type conversion"
+    },
+    {
+     "no": "1.7",
+     "title": "Console input and output"
+    },
+    {
+     "no": "1.8",
+     "title": "Useful built-in functions"
+    },
+    {
+     "no": "1.9",
+     "title": "Seeing the ideas: the people, the machines and the path of a program"
+    }
+   ],
+   "summary": [
+    "Python is a readable, interpreted, general-purpose language with a rich library; use Python 3.",
+    "Variables are names bound to objects; types belong to objects, not names.",
+    "Operators follow a precedence table; floats are approximate; use parentheses and tolerances.",
+    "Convert types explicitly; format output with f-strings."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3050,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Control Flow",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Conditional statements",
+    "The while loop",
+    "The for loop and range",
+    "break, continue, pass and loop else",
+    "Nested loops and patterns",
+    "Classic programs",
+    "Common mistakes",
+    "Seeing the ideas: choices, loops and a very long trip"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Conditional statements"
+    },
+    {
+     "no": "2.2",
+     "title": "The while loop"
+    },
+    {
+     "no": "2.3",
+     "title": "The for loop and range"
+    },
+    {
+     "no": "2.4",
+     "title": "break, continue, pass and loop else"
+    },
+    {
+     "no": "2.5",
+     "title": "Nested loops and patterns"
+    },
+    {
+     "no": "2.6",
+     "title": "Classic programs"
+    },
+    {
+     "no": "2.7",
+     "title": "Common mistakes"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: choices, loops and a very long trip"
+    }
+   ],
+   "summary": [
+    "if/elif/else and match choose among alternatives; conditions use comparison and logical operators.",
+    "while repeats until a condition fails; for iterates over iterables; range generates integer sequences.",
+    "break, continue, pass and loop else fine-tune loops; nested loops cost the product of their sizes.",
+    "Classic algorithms (primes, GCD, factorial, Fibonacci, digit sums) are all small loops."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2008,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Strings and Built-in Data Structures",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Strings",
+    "Lists",
+    "Tuples",
+    "Sets",
+    "Dictionaries",
+    "Choosing a data structure",
+    "Seeing the ideas: text, code points and four containers"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Strings"
+    },
+    {
+     "no": "3.2",
+     "title": "Lists"
+    },
+    {
+     "no": "3.3",
+     "title": "Tuples"
+    },
+    {
+     "no": "3.4",
+     "title": "Sets"
+    },
+    {
+     "no": "3.5",
+     "title": "Dictionaries"
+    },
+    {
+     "no": "3.6",
+     "title": "Choosing a data structure"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing the ideas: text, code points and four containers"
+    }
+   ],
+   "summary": [
+    "Strings are immutable sequences with a rich method set; slicing is the universal tool for sequences.",
+    "Lists are the general-purpose mutable sequence; comprehensions build them concisely; copies are shallow unless you ask for deep.",
+    "Tuples are fixed records, sets give uniqueness and fast membership, dictionaries give key-based lookup."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2124,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Functions, Modules and Packages",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Defining and calling functions",
+    "Scope: the LEGB rule",
+    "Recursion",
+    "Anonymous functions and functional tools",
+    "Closures, decorators and generators",
+    "Modules and packages",
+    "Seeing the ideas: bricks, scopes and the call stack"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Defining and calling functions"
+    },
+    {
+     "no": "4.2",
+     "title": "Scope: the LEGB rule"
+    },
+    {
+     "no": "4.3",
+     "title": "Recursion"
+    },
+    {
+     "no": "4.4",
+     "title": "Anonymous functions and functional tools"
+    },
+    {
+     "no": "4.5",
+     "title": "Closures, decorators and generators"
+    },
+    {
+     "no": "4.6",
+     "title": "Modules and packages"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: bricks, scopes and the call stack"
+    }
+   ],
+   "summary": [
+    "Functions package logic, with flexible parameter passing, scopes that follow LEGB, and first-class function objects.",
+    "Recursion, closures, decorators and generators are the building blocks of idiomatic Python.",
+    "Modules and packages organise code across files; the standard library covers most everyday tasks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2104,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "File Handling and Exception Handling",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Text files",
+    "CSV and JSON",
+    "Errors and exceptions",
+    "Handling exceptions",
+    "Seeing the ideas: records, safety switches and what really happens"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Text files"
+    },
+    {
+     "no": "5.2",
+     "title": "CSV and JSON"
+    },
+    {
+     "no": "5.3",
+     "title": "Errors and exceptions"
+    },
+    {
+     "no": "5.4",
+     "title": "Handling exceptions"
+    },
+    {
+     "no": "5.5",
+     "title": "Seeing the ideas: records, safety switches and what really happens"
+    }
+   ],
+   "summary": [
+    "Files are opened with with, read lazily by iteration, and written with write; pathlib handles paths; csv and json handle structured text.",
+    "Exceptions separate normal logic from error handling; try/except/else/finally give precise control, and custom exceptions make errors meaningful.",
+    "Handle only what you can handle; let other exceptions propagate."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2132,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Object-Oriented Programming in Python",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Classes and objects",
+    "Encapsulation",
+    "Inheritance and polymorphism",
+    "Special methods and operator overloading",
+    "Dataclasses and composition",
+    "Seeing the ideas: one mould, many objects"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Classes and objects"
+    },
+    {
+     "no": "6.2",
+     "title": "Encapsulation"
+    },
+    {
+     "no": "6.3",
+     "title": "Inheritance and polymorphism"
+    },
+    {
+     "no": "6.4",
+     "title": "Special methods and operator overloading"
+    },
+    {
+     "no": "6.5",
+     "title": "Dataclasses and composition"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the ideas: one mould, many objects"
+    }
+   ],
+   "summary": [
+    "Classes bundle data and behaviour; objects are instances; self and init are explicit.",
+    "Encapsulation in Python is by convention and properties.",
+    "Inheritance specialises a class, polymorphism lets code treat different objects uniformly, and abstract classes force a common interface.",
+    "Dunder methods integrate your classes with the language; dataclasses and composition keep designs small."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1969,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Data Analysis and Visualisation: NumPy, Pandas, Matplotlib",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "NumPy",
+    "Pandas",
+    "Matplotlib",
+    "Seeing the ideas: data made visible"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "NumPy"
+    },
+    {
+     "no": "7.2",
+     "title": "Pandas"
+    },
+    {
+     "no": "7.3",
+     "title": "Matplotlib"
+    },
+    {
+     "no": "7.4",
+     "title": "Seeing the ideas: data made visible"
+    }
+   ],
+   "summary": [
+    "NumPy arrays give fast, vectorised numerical work with broadcasting and built-in statistics and linear algebra.",
+    "Pandas turns CSV-style data into DataFrames that can be cleaned, filtered, grouped and merged in a few expressions.",
+    "Matplotlib communicates the results as charts."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2552,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Regular Expressions, Databases and Testing",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Regular expressions",
+    "SQLite from Python",
+    "Unit testing with unittest",
+    "Virtual environments and pip",
+    "Seeing the ideas: patterns, records, checks and isolation"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Regular expressions"
+    },
+    {
+     "no": "8.2",
+     "title": "SQLite from Python"
+    },
+    {
+     "no": "8.3",
+     "title": "Unit testing with unittest"
+    },
+    {
+     "no": "8.4",
+     "title": "Virtual environments and pip"
+    },
+    {
+     "no": "8.5",
+     "title": "Seeing the ideas: patterns, records, checks and isolation"
+    }
+   ],
+   "summary": [
+    "Regular expressions find and transform text patterns; raw strings and named groups keep them readable.",
+    "sqlite3 gives a zero-setup SQL database; parameterised queries stop injection and with con: gives atomic transactions.",
+    "Unit tests make change safe; virtual environments keep projects reproducible."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2970,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Putting It Together: Three Complete Programs",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Project 1: student-record manager",
+    "Project 2: text analyser",
+    "Project 3: a small bank in SQLite",
+    "Habits of a good Python programmer",
+    "Seeing the ideas: from requirements to a working program"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Project 1: student-record manager"
+    },
+    {
+     "no": "9.2",
+     "title": "Project 2: text analyser"
+    },
+    {
+     "no": "9.3",
+     "title": "Project 3: a small bank in SQLite"
+    },
+    {
+     "no": "9.4",
+     "title": "Habits of a good Python programmer"
+    },
+    {
+     "no": "9.5",
+     "title": "Seeing the ideas: from requirements to a working program"
+    }
+   ],
+   "summary": [
+    "Small programs combine classes, files, text processing, databases and exceptions; keep the pieces short and independent.",
+    "Persistence can be a JSON file for small data or SQLite for structured, transactional data.",
+    "Tests, parameterised queries and clear errors turn scripts into dependable software."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2227,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 9,
+ "topic_count": 56,
+ "notes_ready": 9
+}

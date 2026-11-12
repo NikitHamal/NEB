@@ -15,6 +15,7 @@ import logging
 import time
 import uuid
 from typing import Dict, List, Optional
+from .proxy_http import new_session
 
 logger = logging.getLogger(__name__)
 
@@ -33,19 +34,6 @@ DEFAULT_VOICE = "af_heart"
 
 def get_models() -> List[Dict]:
     return [{**m, "capabilities": m.get("capabilities", {"tts": True})} for m in MODELS]
-
-
-def _session():
-    try:
-        from curl_cffi import requests as creq  # type: ignore
-
-        return creq.Session(impersonate="chrome"), True
-    except Exception:
-        import requests as req  # type: ignore
-
-        s = req.Session()
-        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"})
-        return s, False
 
 
 def _voice_from_model(model_id: str) -> str:
@@ -67,7 +55,7 @@ def generate_tts(text: str, voice: Optional[str] = None, speed: float = 1.0, mod
         sp = 1.0
     sp = max(0.5, min(2.0, sp))
 
-    sess, _ = _session()
+    sess = new_session()
     session_hash = uuid.uuid4().hex[:11]
     try:
         payload = {"data": [text, vo, sp, bool(hardware)], "fn_index": FN_INDEX, "session_hash": session_hash}

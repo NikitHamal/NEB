@@ -65,7 +65,7 @@ class HomeAndThreadTests(TestCase):
         response = self.client.get(reverse('web:forum_post', args=[self.post.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'fp-section-count">2')
-        self.assertContains(response, '1 threads')
+        self.assertNotContains(response, '1 threads')
         self.assertContains(response, 'data-action="jump-to-replies"')
 
     def test_unanswered_module_lists_a_thread_with_no_replies(self):
@@ -95,4 +95,15 @@ class HomeAndThreadTests(TestCase):
     def test_category_aliases_fold_into_the_canonical_list(self):
         self.assertEqual(normalize_category('Mathematics'), 'Math')
         self.assertEqual(normalize_category('Exam/Test'), 'Exam Prep')
+        self.assertEqual(normalize_category('Physics'), 'Science')
+
+
+class OwnTagTests(TestCase):
+    def test_own_tag_is_kept_as_typed_not_folded(self):
+        from api.categories import clean_tag
+        self.assertEqual(normalize_category('Physics', own_tag=True), 'Physics')
+        self.assertEqual(normalize_category('science', own_tag=True), 'Science')
+        self.assertEqual(normalize_category('  #Board  exam  tips!! ', own_tag=True), 'Board exam tips')
+        self.assertEqual(len(clean_tag('x' * 80)), 28)
+        self.assertEqual(normalize_category('###', own_tag=True), 'General')
         self.assertEqual(normalize_category('Physics'), 'Science')

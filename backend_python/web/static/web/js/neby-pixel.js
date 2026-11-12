@@ -9,8 +9,8 @@
    - Avatars (.neby-avatar-mini, or data-crop) show a centred head-and-
      shoulders crop in a circle; looks with hats get a taller window.
    - The hero (data-hero="true") is interactive: a tap plays the next
-     reaction, [data-neby-react] buttons play a named one, and an idle hero
-     comes alive now and then. It greets with the season's animation.
+     reaction, and an idle hero comes alive now and then. It greets with
+     the season's animation.
    - Old 3D animation names map onto the pixel states, so no template changes.
    - window.NebyAvatar keeps its old shape (initAll, init, mount) for htmx
      swaps and the canvas. */
@@ -153,15 +153,6 @@
   function initAll(scope) {
     (scope || document).querySelectorAll('[data-neby-avatar]:not([data-neby-initialized])').forEach(function (el) { mount(el); });
   }
-
-  // mood buttons: the profile's pills, the admin studio's state chips
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest && e.target.closest('[data-neby-react]');
-    if (!btn) return;
-    var id = btn.getAttribute('data-neby-target') || 'profilePageNebyAvatar';
-    var target = document.getElementById(id) || document.querySelector('[data-neby-avatar][data-hero="true"]') || document.querySelector('[data-neby-avatar]');
-    if (target) mount(target).react(btn.getAttribute('data-neby-react'));
-  });
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { initAll(); });
   else initAll();

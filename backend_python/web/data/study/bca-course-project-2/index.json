@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-5-project-2",
+ "units": [
+  {
+   "no": 1,
+   "title": "From Stand-alone to Web System: Scope, Architecture and Stack",
+   "area": "BCA 306 · Project II · Unit 1",
+   "words": 2836,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Building the REST API and the Database",
+   "area": "BCA 306 · Project II · Unit 2",
+   "words": 3101,
+   "read_min": 17,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Security: Login, Passwords, Tokens and Attacks",
+   "area": "BCA 306 · Project II · Unit 3",
+   "words": 3014,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Testing, Performance and Deployment",
+   "area": "BCA 306 · Project II · Unit 4",
+   "words": 2947,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Documentation, Demo, Report and Viva for Project II",
+   "area": "BCA 306 · Project II · Unit 5",
+   "words": 2671,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

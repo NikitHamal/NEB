@@ -772,7 +772,6 @@
 .nd-toc-link {
   display: block;
   padding: 7px 10px;
-  border-left: 2px solid transparent;
   border-radius: 10px;
   font-size: 0.8125rem;
   line-height: 1.45;
@@ -793,7 +792,6 @@
 
 .nd-toc-link.active {
   background: color-mix(in srgb, var(--md-primary) 10%, transparent);
-  border-left-color: var(--md-primary);
   color: var(--md-primary);
   font-weight: 600;
 }

@@ -21,8 +21,7 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 /**
- * Pixel Neby, the mascot, wherever Neby appears in the app. (The 3D avatar in ui/avatar/neby is
- * kept for later but no longer shown.)
+ * Pixel Neby, the mascot, wherever Neby appears in the app.
  *
  * - [state] is what Neby is doing: idle, thinking, talking, sleeping... see [NebyState].
  * - [ambient] lets an idle Neby come alive now and then: a look around, a wave, a blink.

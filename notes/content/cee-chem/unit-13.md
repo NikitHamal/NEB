@@ -329,6 +329,50 @@ water**, which would fog it into an unusable mist.
 **Solution.** (a) Cold dilute alkali gives chloride ($-1$) and hypochlorite ($+1$): $\text{Cl}_2 + 2\text{OH}^- \rightarrow \text{Cl}^- + \text{ClO}^- + \text{H}_2\text{O}$. (b) Hot concentrated alkali disproportionates $\text{Cl}_2$ ($0$) into chloride ($-1$) and chlorate ($+5$) in a $5 : 1$ molar ratio: $3\text{Cl}_2 + 6\text{OH}^- \rightarrow 5\text{Cl}^- + \text{ClO}_3^- + 3\text{H}_2\text{O}$.
 :::
 
+```photogrid label="13.1" cols="2" ratio="1.2" caption="Faraday's laws in industry. (a) The ions of brine, Na+ and Cl-, are what a chlor-alkali cell electrolyses. (b) Making 1.00 tonne of Cl2 means 14,104 mol of gas, and with 2 electrons per Cl2 the charge is 2 F n = 2.72 x 10^9 C, or 756 kAh. The same cell makes 1,128 kg of NaOH and 28.4 kg of H2, so selling all three matters to the economics. At 3.2 V the energy is 2,419 kWh at 100 per cent current efficiency, and 2,547 kWh at 95 per cent, which is why chlor-alkali plants sit near cheap electricity."
+@ photo id="chem11/nacl-cell" cap="Unit cell of sodium chloride: Na+ and Cl- ions of the brine that the cell electrolyses"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Products per tonne of chlorine (kg)"
+F = 96485.0; n = 1e6 / 70.90; q = 2 * F * n; kah = q / 3600 / 1000
+nn = 2 * n; naoh = nn * 40.00 / 1000; h2 = n * 2.016 / 1000
+kwh = q * 3.2 / 3.6e6; kwh95 = kwh / 0.95
+assert abs(n - 14104) < 2 and abs(kah - 755.6) < 0.5 and abs(naoh - 1128) < 1 and abs(h2 - 28.4) < 0.1
+facts = dict(n="{:,.0f}".format(n), q="%.2f" % (q / 1e9), kah="%.0f" % kah, naoh="{:,.0f}".format(naoh), h2="%.1f" % h2, kwh="{:,.0f}".format(kwh), kwh95="{:,.0f}".format(kwh95))
+f = Fig(300, 236)
+f.text(150, 14, "2NaCl + 2H2O: Cl2 + 2NaOH + H2", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, col, fl) in enumerate((("Cl2 (anode)", 1000, AMBER, SAND), ("NaOH (liquor)", naoh, TEAL, MINT), ("H2 (cathode)", h2, RED, ROSE))):
+    y = 28 + i * 40
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = max(v * 0.18, 3)
+    f.box(14, y + 10, w, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.1f kg" % v if v < 100 else "%.0f kg" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 164, "charge %.2f x 10^9 C = %.0f kAh" % (q / 1e9, kah), size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "energy at 3.2 V: %s kWh" % "{:,.0f}".format(kwh), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "at 95 per cent efficiency: %s kWh" % "{:,.0f}".format(kwh95), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "per tonne of Cl2", size=10.5, color=SLATE)
+```
+
+```photogrid label="13.2" cols="2" ratio="1.2" caption="Why chlorine, not fluorine, destroys ozone. (a) A satellite map of the Antarctic ozone hole, drawn as a false-colour image where the lowest values (the 'hole') are purple and blue. (b) The cell turns bond energies into the longest wavelength able to break each bond. The C-Cl bond of a CFC (339 kJ/mol) breaks with light of 353 nm or shorter, which reaches the stratosphere as UV, and the weaker C-Br bond with 420 nm; the C-F bond (485 kJ/mol) needs 247 nm, light that is absorbed higher up, so fluorine atoms are never freed in quantity. A normal ozone column of 300 Dobson units holds 8.06e+18 molecules per cm2; the hole is defined by a fall below 220 DU, a loss of 26.7 per cent."
+@ photo id="ceechem2/ozone" cap="NASA satellite map of the 2024 Antarctic ozone hole"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Which light breaks which bond"
+hcN = 119627.0
+bonds = [("C-Br", 285), ("C-Cl", 339), ("C-F", 485), ("O=O", 498)]
+rows = [(n, hcN / E) for n, E in bonds]
+assert round(rows[1][1]) == 353 and round(rows[2][1]) == 247 and round(rows[3][1]) == 240
+DU = 2.687e16
+f = Fig(300, 236)
+f.text(150, 12, "Longest wavelength that breaks the bond, nm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=440, fmt="%.0f", x0=48, y0=30, bw=170, gap=30)
+f.text(150, 156, "lambda = hc N_A / E (E in kJ/mol)", size=10, color=SLATE, bold=True)
+f.text(150, 180, "normal column 300 DU = %.2e molecules/cm2" % (300 * DU), size=10, color=NAVY, bold=True)
+f.text(150, 198, "'hole' below 220 DU: a loss of %.1f%%" % ((300 - 220) / 3), size=10.5, color=RED, bold=True)
+f.text(150, 216, "1 DU = 0.01 mm of pure ozone at 0 C, 1 atm", size=10, color=SLATE, bold=True)
+facts = dict(cl=rows[1][1], br=rows[0][1], f=rows[2][1], du=300 * DU, loss=(300 - 220) / 3)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |
@@ -546,3 +590,81 @@ water**, which would fog it into an unusable mist.
 Haber NH₃ = **Fe/Mo**; Ostwald HNO₃ = **Pt–Rh gauze**; Contact H₂SO₄ = **V₂O₅**.
 The options in at least one question a year are exactly these three, shuffled.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the industrial preparation of ammonia and nitric acid and the properties of nitric acid. <span class="marks">[10]</span>
+2. Describe the manufacture of sulphuric acid by the Contact process, its properties, and the halogens and noble gases in brief. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.25" caption="Non-metals in the lab and home. (a) A Kipp's apparatus gives a steady supply of gases such as H2S or CO2. (b) Sulphur, the raw material for sulphuric acid. (c) Iodised salt contains iodate or iodide, a halogen compound added to prevent goitre."
+@ photo id="chem11/kipp" cap="(a) Kipp's apparatus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/sulfur" cap="(b) Sulphur"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/iodsalt" cap="(c) Iodised salt"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: ammonia and nitric acid (10 marks)
+
+**Introduction.** Nitrogen makes up about $78\%$ of air. Its compounds, ammonia and nitric acid, are the basis of fertilisers (urea, ammonium nitrate) and explosives.
+
+**Ammonia by the Haber process.** N₂ + 3H₂ ⇌ 2NH₃, $\Delta H = -92\ \text{kJ mol}^{-1}$. By Le Chatelier's principle, high pressure and low temperature favour the yield. The conditions used are $200$ atm, $450$ to $500^{\circ}\text{C}$, finely divided iron as the catalyst and molybdenum as the promoter. About $15\%$ conversion per pass is obtained, and the unreacted gas is recycled. In the laboratory, NH₃ is made by heating NH₄Cl with Ca(OH)₂ and dried with quicklime (not with H₂SO₄ or CaCl₂, which react with it).
+
+**Properties of ammonia.** Colourless gas with a pungent smell, very soluble in water (fountain experiment), it is a weak base (NH₃ + H₂O ⇌ NH₄⁺ + OH⁻), a reducing agent (with Cl₂ and CuO), and forms complexes ($[\text{Cu(NH}_3)_4]^{2+}$, deep blue). It gives a white precipitate with Mg²⁺ and a brown precipitate with Nessler's reagent.
+
+**Nitric acid by the Ostwald process.**
+
+1. $4\text{NH}_3 + 5\text{O}_2 \to 4\text{NO} + 6\text{H}_2\text{O}$ over a Pt-Rh gauze at $800^{\circ}\text{C}$ (exothermic).
+2. $2\text{NO} + \text{O}_2 \to 2\text{NO}_2$.
+3. $3\text{NO}_2 + \text{H}_2\text{O} \to 2\text{HNO}_3 + \text{NO}$, with the NO recycled. The acid is $68\%$ by mass and is concentrated further by distilling with H₂SO₄.
+
+**Properties of HNO₃.** It is a strong acid and a powerful oxidising agent, and its products depend on the metal and the concentration.
+
+| Reaction | Products |
+|---|---|
+| Cu + dilute HNO₃ | Cu(NO₃)₂ + NO + H₂O |
+| Cu + concentrated HNO₃ | Cu(NO₃)₂ + NO₂ + H₂O |
+| Zn + very dilute HNO₃ | Zn(NO₃)₂ + NH₄NO₃ + H₂O |
+| Fe, Al, Cr + concentrated HNO₃ | passive (oxide layer) |
+| Au, Pt | no reaction (but aqua regia, $3\text{HCl} : 1\text{HNO}_3$, dissolves them) |
+| S, C, P | oxidised to H₂SO₄, CO₂, H₃PO₄ |
+
+The **brown ring test** for nitrate uses FeSO₄ and concentrated H₂SO₄ to give $[\text{Fe(H}_2\text{O)}_5\text{NO}]^{2+}$.
+
+**Numerical.** From $1\ \text{kg}$ of NH₃ ($17\ \text{g mol}^{-1}$) in the Ostwald process the moles are $58.8$, which give $58.8\ \text{mol}$ of HNO₃ ($63\ \text{g mol}^{-1}$) $= 3.7\ \text{kg}$ of pure acid. In the Haber process, $28\ \text{g}$ of N₂ ($1\ \text{mol}$) at $100\%$ yield gives $34\ \text{g}$ of NH₃.
+
+**Conclusion.** Both processes depend on catalysts: Fe for NH₃ and Pt-Rh for the oxidation of NH₃ to NO.
+
+### Model answer D2: sulphuric acid, halogens and noble gases (10 marks)
+
+**Introduction.** Sulphuric acid, the "king of chemicals", is the most produced industrial chemical. Its consumption is a measure of industrial progress.
+
+**Contact process.**
+
+1. Burn sulphur or roast pyrites: S + O₂ → SO₂.
+2. Purify the gases (remove dust, arsenic and moisture, which would poison the catalyst).
+3. Oxidise: $2\text{SO}_2 + \text{O}_2 \rightleftharpoons 2\text{SO}_3$, $\Delta H = -197\ \text{kJ}$, with V₂O₅ as catalyst at $450^{\circ}\text{C}$ and $1$ to $2$ atm. The conversion is about $99\%$.
+4. Absorb SO₃ in $98\%$ H₂SO₄ to make **oleum** (H₂S₂O₇), because SO₃ with water would give a mist: $\text{H}_2\text{S}_2\text{O}_7 + \text{H}_2\text{O} \to 2\text{H}_2\text{SO}_4$.
+
+**Properties of H₂SO₄.** Oily, dense and very hygroscopic. It is a strong dibasic acid, a **dehydrating agent** (chars sugar to carbon), and an oxidising agent when hot and concentrated: $\text{Cu} + 2\text{H}_2\text{SO}_4 \to \text{CuSO}_4 + \text{SO}_2 + 2\text{H}_2\text{O}$. It is used for fertilisers, batteries, detergents, petroleum refining, dyes and explosives.
+
+**Halogens (group 17).**
+
+| Halogen | Colour and state | Oxidising power | Special note |
+|---|---|---|---|
+| F₂ | pale yellow gas | strongest | reacts with everything, even Xe |
+| Cl₂ | greenish-yellow gas | strong | bleaching: $\text{Cl}_2 + \text{H}_2\text{O} \to \text{HCl} + \text{HOCl}$ |
+| Br₂ | red-brown liquid | medium | |
+| I₂ | violet solid | weak | sublimes, blue with starch |
+
+Cl₂ is made in the laboratory by MnO₂ + 4HCl → MnCl₂ + Cl₂ + 2H₂O, and a more reactive halogen displaces a less reactive one. Acidity of the hydrogen halides: HF < HCl < HBr < HI, while the boiling point of HF is anomalously high due to hydrogen bonding.
+
+**Noble gases.** Group 18, with complete octets (He has a duplet), are very unreactive. Compounds: XeF₂ (linear), XeF₄ (square planar), XeF₆ (distorted octahedral) and XeO₃ (pyramidal). Uses: He in balloons and for cooling, Ne in signs, Ar in welding and bulbs.
+
+**Numerical.** In the Contact process, $32\ \text{g}$ of S gives $98\ \text{g}$ of H₂SO₄, so $1000\ \text{kg}$ of sulphur gives $3062\ \text{kg}$ of $100\%$ acid, or $3125\ \text{kg}$ of $98\%$ acid.
+
+**Conclusion.** Sulphur is converted to SO₂, SO₃ and then H₂SO₄ through V₂O₅ catalysis, and the halogens show a clear trend in oxidising power from F₂ to I₂.

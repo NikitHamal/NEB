@@ -137,14 +137,12 @@ async function toggleFollowBtn(btn, userId) {
     if (d && d.error) { showSnackbar(d.error); return; }
     if (d) {
       if (d.is_following) {
-        btn.textContent = 'Following';
-        btn.className = btn.className.replace('not-following', 'following');
+        nebFollowSet(btn, true);
         btn.style.background = '';
         btn.style.color = '';
         btn.style.borderColor = '';
       } else {
-        btn.textContent = 'Follow';
-        btn.className = btn.className.replace('following', 'not-following');
+        nebFollowSet(btn, false);
         btn.style.background = '';
         btn.style.color = '';
         btn.style.borderColor = '';

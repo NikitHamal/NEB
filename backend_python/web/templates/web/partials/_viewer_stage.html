@@ -1,0 +1,51 @@
+{% load web_extras %}
+<section class="vw-stage" id="vw-stage" data-vw data-state="cover" data-kind="{{ part.kind }}" data-src="{{ part.src }}" data-embed="{{ part.embed_url }}" data-title="{{ part.title }}" data-host="{{ part.host }}" style="--sc: {{ part.subject|split:','|first|subject_color }}">
+  <div class="vw-cover" id="vw-cover">
+    <div class="vw-hero">
+      <div class="vw-sprite" aria-hidden="true"><span class="px-sprite px-{{ part.sprite }}"></span></div>
+      <p class="vw-kind"><span class="material-symbols-outlined" aria-hidden="true">{{ part.icon }}</span>{{ part.label }}{% if part.file_size %}<i></i>{{ part.file_size|file_size_human }}{% endif %}</p>
+      {% if part.title != resource.title %}<h2 class="vw-cover-title">{{ part.title }}</h2>{% endif %}
+      {% if part.kind == 'locked' %}
+      <p class="vw-cover-note">Paid resource</p>
+      {% elif part.kind == 'error' %}
+      <p class="vw-cover-note">{{ part.error }}</p>
+      {% elif part.kind == 'none' %}
+      <p class="vw-cover-note">No file attached yet</p>
+      {% elif part.kind == 'document' %}
+      <p class="vw-cover-note">{% if part.ext %}{{ part.ext }} files{% else %}This file{% endif %} open in the app</p>
+      {% elif part.kind == 'link' %}
+      <p class="vw-cover-note">{{ part.host }}</p>
+      {% endif %}
+      <div class="vw-cta">
+        {% if part.readable %}
+        <button type="button" class="x-btn x-btn-filled vw-read" data-vw-read id="vw-read"><span class="material-symbols-outlined" aria-hidden="true">{% if part.kind == 'video' or part.kind == 'embed' or part.kind == 'audio' %}play_arrow{% elif part.kind == 'link' %}open_in_new{% else %}auto_stories{% endif %}</span>{{ part.verb }}</button>
+        {% endif %}
+        {% if part.kind != 'locked' and part.kind != 'none' and part.kind != 'link' %}
+        <button type="button" class="x-btn {% if part.readable %}x-btn-tonal{% else %}x-btn-filled{% endif %}" data-neb-open="get-app-dialog" aria-haspopup="dialog"><span class="material-symbols-outlined" aria-hidden="true">download</span>Download</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="vw-reader" id="vw-reader" hidden>
+    <div class="vw-bar">
+      <button type="button" class="x-icon-btn" data-vw-close aria-label="Close reader"><span class="material-symbols-outlined" aria-hidden="true">close</span></button>
+      <span class="vw-bar-title">{{ part.title }}</span>
+      {% if part.kind == 'pdf' %}
+      <div class="vw-mode" role="group" aria-label="Reader style" data-vw-mode>
+        <button type="button" data-mode="book" aria-pressed="true" title="Book reader: turn pages"><span class="material-symbols-outlined" aria-hidden="true">auto_stories</span><span>Book</span></button>
+        <button type="button" data-mode="classic" aria-pressed="false" title="Classic reader: scroll"><span class="material-symbols-outlined" aria-hidden="true">article</span><span>Classic</span></button>
+      </div>
+      {% endif %}
+      {% if part.kind != 'link' %}<button type="button" class="x-icon-btn" data-neb-open="get-app-dialog" aria-haspopup="dialog" aria-label="Download"><span class="material-symbols-outlined" aria-hidden="true">download</span></button>{% endif %}
+      <button type="button" class="x-icon-btn" id="vw-fs" aria-label="Full screen"><span class="material-symbols-outlined" aria-hidden="true">fullscreen</span></button>
+    </div>
+    <div class="vw-view" id="vw-view">
+      <div class="vw-loading" id="vw-loading" aria-hidden="true"><span class="px-sprite px-bookLoader"></span></div>
+    </div>
+  </div>
+
+  {% if part.kind == 'video' or part.kind == 'audio' %}
+  <template id="vw-tpl">{% include "web/partials/nmp_player.html" with resource=part %}</template>
+  {% endif %}
+</section>

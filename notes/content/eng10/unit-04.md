@@ -443,3 +443,92 @@ Pabitra Nepali
 **1.** *Outline:* your address and date; the Principal and school address; subject (*Application for the post of Science teacher*); paragraph on advertisement; qualification (e.g. B.Ed. in Science, two years' experience); skills; enclosures; request for interview; close.
 **2.** *Model:* 1. Enter the lab only with the teacher. 2. Do not bring food or drink. 3. Switch on and off the computers correctly. 4. Do not install games or change settings. 5. Use the internet only for study. 6. Report any fault to the teacher at once. 7. Leave your seat tidy.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a job application letter and a set of rules. <span class="marks">[10]</span>
+2. Explain the modal verbs *can, could, may, might, must, should, would* and *have to* with their meanings. Show the theme of Tagore's poem. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="4" ratio="1.0" caption="Honest toil. A cabbage white butterfly, Rabindranath Tagore (1909), farmers planting rice and a farmer ploughing: the work of the field and the poet who called honest labour worship."
+@ photo id="eng10/cabbage-white" cap="Cabbage white butterfly"
+@ photo id="eng10/tagore" cap="Rabindranath Tagore, 1909"
+@ photo id="nep11/dhan-ropai" cap="Farming in Nepal"
+@ photo id="nep11/hali-halo" cap="Ploughing a field"
+```
+
+### Model answer D1: a job application and rules (10 marks)
+
+**Introduction.** A **job application** is a formal letter. It names the post in the subject, shows our qualification and skills, lists enclosures and closes politely.
+
+**Model application.**
+
+::: example Job application
+Pokhara-6, Kaski  
+15 Chaitra 2082
+
+The Manager  
+Himalayan Books and Stationery  
+Lakeside, Pokhara
+
+**Subject: Application for the post of sales assistant**
+
+Dear Sir/Madam,
+
+With reference to your advertisement in *Gorkhapatra* of 10 Chaitra, I wish to apply for the post of sales assistant. I have just passed the SEE with a GPA of 3.6 and I am studying Management in grade 11. I speak Nepali, English and Hindi, and I can use a computer well. During my school holidays I worked in my uncle's shop, so I know how to talk politely to customers and keep accounts. I am honest, punctual and hard-working. I enclose copies of my certificates, my citizenship and two photographs. I shall be grateful if you give me an interview.
+
+Yours faithfully,  
+Sunil Gurung
+:::
+
+**Model rules: Library rules.**
+
+1. Keep silence.
+2. Do not eat or drink inside.
+3. You must return books on time.
+4. Do not write on the books.
+5. Switch your phones off.
+
+**Parts of an application (8).**
+
+1. Sender's address and date.
+2. Receiver's designation and address.
+3. Subject naming the post.
+4. Reference to the advertisement.
+5. Qualification and skills.
+6. Experience or character.
+7. Enclosures.
+8. Polite close.
+
+**Conclusion.** Short paragraphs, true facts, and a polite request for an interview.
+
+### Model answer D2: modal verbs and the poem (10 marks)
+
+| Modal | Meaning | Example |
+|---|---|---|
+| can | ability, permission | I can swim. Can I go? |
+| could | past ability, polite request | I could run fast. Could you help? |
+| may | permission, possibility | May I come in? It may rain. |
+| might | weak possibility | He might be late. |
+| must | strong duty, certainty | You must obey the rules. He must be tired. |
+| can't | certainty (negative) | That can't be true. |
+| should | advice | You should exercise daily. |
+| would | offers, habit, polite request | Would you like some tea? |
+| have to / had to | external compulsion | I have to wear a uniform. |
+
+**Rules.**
+
+1. A modal is followed by the **base verb** and takes no *-s*.
+2. Questions put the modal **first**; negatives add **not**.
+3. **Must** is for the speaker's feeling; **have to** is for outside rules.
+4. **Must not** = forbidden; **don't have to** = not necessary.
+5. Use **may/might** for possibility, **can't** for impossibility.
+
+**Poem: *Leave This Chanting and Singing* (Tagore, *Gitanjali* 11).**
+
+6. The poet tells the worshipper to leave the temple and look for God **with the tiller and the path-maker**.
+7. Theme: **honest labour is worship**; God is with those who work in sun and rain.
+8. Archaic words: *dost, thou, thine, thy, thee*. Tagore won the **Nobel Prize in 1913**.
+
+**Conclusion.** Choose the modal by its meaning: ability, permission, possibility, advice or duty.

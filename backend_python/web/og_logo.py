@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import os
 from functools import lru_cache
-from typing import Tuple
 
 from PIL import Image
 
@@ -46,7 +45,3 @@ def mark(height: int, mono: bool = False) -> Image.Image:
     return img.resize((width, height), Image.LANCZOS)
 
 
-def mark_size(height: int) -> Tuple[int, int]:
-    """What mark(height) will come back as, without loading it."""
-    height = max(8, int(height))
-    return max(1, int(round(height * ASPECT))), height

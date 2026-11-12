@@ -525,3 +525,56 @@ it; it makes Luc a second victim, condemned to a lifetime of not understanding; 
 it leaves the reader to supply the grief that no character in the story is able to
 express.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe the Sunday ritual of Luc and Jean and show what it means to them. <span class="marks">[10]</span>
+2. Explain how the dairymaid changes the friendship of the two soldiers and the theme of the story. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="2" ratio="1.4" caption="Author and city. Guy de Maupassant (photograph by Liébert) and the Eiffel Tower in Paris, the city near which the soldiers' barracks stood at Courbevoie."
+@ photo id="eng11/maupassant" cap="Guy de Maupassant"
+@ photo id="eng10/eiffel-tower" cap="Eiffel Tower, Paris"
+```
+
+### Model answer D1: the Sunday ritual (10 marks)
+
+**Introduction.** Guy de Maupassant (1850–1893), a French Realist and Naturalist who wrote about three hundred stories, tells of two young soldiers from **Brittany** who are homesick in Paris.
+
+**The ritual.**
+
+1. **Luc Le Ganidec** and **Jean Kerderen** walk every Sunday from their barracks at **Courbevoie**.
+2. They cross the **bridge at Bezons** and pause there.
+3. They walk to a spot near the **wood of Champioux** which reminds them of **home**.
+4. They buy **cheap provisions**, build a little fire with **hidden bricks** and cook a **sausage**.
+5. They sit on the grass in **silence**, thinking of their villages.
+
+**Meaning.**
+
+6. The ritual is a **substitute for home** in a strange city.
+7. The **silence** shows the strength of their bond: they do not need words.
+8. The repeated details give a **calm, realistic** picture of poor, simple lives.
+
+| Item | Meaning |
+|---|---|
+| The spot | Reminds them of Brittany |
+| The fire and sausage | Little comforts of home |
+| Silence | Deep friendship |
+
+**Conclusion.** The Sunday walk is the centre of their emotional life, and it makes the later change more painful.
+
+### Model answer D2: the dairymaid and the theme (10 marks)
+
+**Introduction.** The routine is broken when a **dairymaid** speaks to them.
+
+1. She gives them **milk "to remind them of home"**.
+2. She accepts their **two sous' worth of sweets** and joins their Sunday meal.
+3. The soldiers are shy; she is **friendly and confident**.
+4. **Luc** secretly takes leave twice in one week to see her.
+5. On the next Sunday the girl **kisses Luc in front of Jean**, and the two go off into the wood.
+6. **Jean** is left alone, hurt and hopeless; his friend has betrayed the silent bond.
+7. Themes: **homesickness, loneliness, friendship and jealousy**, and how love or desire can break a close friendship.
+8. Maupassant's technique is **objective narration**: he reports actions, and the reader feels the sorrow without being told.
+
+**Conclusion.** The story shows how fragile even the closest friendship is when a new love enters.

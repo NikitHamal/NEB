@@ -891,3 +891,54 @@ currently exports its work and imports the money; the real question for the next
 generation is whether the wisdom and creativity that come home with the returning
 migrant can be used here. Close on an image, not a summary — the same departure
 gate, and what it would take to make it quieter.
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain the message of Ben Okri's "The Awakening Age" for people who live along the meridian line. <span class="marks">[10]</span>
+2. Discuss how the form of the poem (rhyming couplets) supports its theme of unity. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="2" ratio="1.4" caption="Line and people. The Greenwich Meridian marker that inspired the poem, and a busy market, the kind of working community whose work, wisdom and creativity the poem praises."
+@ photo id="eng12/meridian" cap="The Greenwich Meridian"
+@ photo id="soc10/market" cap="A market, a place of work and exchange"
+```
+
+### Model answer D1: the message of the poem (10 marks)
+
+**Introduction.** **Sir Ben Okri** (born 1959 in Minna, Nigeria) won the Booker Prize in 1991 for *The Famished Road*. "The Awakening Age" was written in 1999 for **Oxfam's "On The Line" project**, which linked communities along the Greenwich Meridian from Britain through West Africa. That is why the poem addresses "ye who travel the meridian line".
+
+1. **The wish.** The poet wishes that those who have lived with "**poverty's rage**" may see through to "the glory of the awakening age".
+2. **Unity.** We are "**richly linked in hope**".
+3. **History.** We are "woven in history, like a mountain rope", strong because many strands are twisted together.
+4. **Hope.** Together we can "ascend to a new height".
+5. **The hinge, couplet 5.** "When perceptions are changed there's much to gain": a new way of seeing is the first step.
+6. **The plainest claim, couplet 6.** "There's more to a people than their poverty; / There's their work, wisdom, and creativity."
+7. **Last couplet.** "Along the line may our lives rhyme, / To make a loving harvest of space and time."
+8. **Audience.** People of Britain and Africa, rich and poor, who live along one imaginary line.
+
+**Conclusion.** The poem asks the world to stop defining poor people by poverty and to see their gifts.
+
+### Model answer D2: form and theme (10 marks)
+
+**Introduction.** The poem has **fourteen lines, like a sonnet**, but it is not a sonnet: it has no sonnet scheme and no regular metre.
+
+1. **Rhyme scheme:** seven rhyming couplets, *aa bb cc dd ee ff gg*.
+2. **Why couplets?** Each pair of lines answers the other, just as two peoples answer each other along the meridian.
+3. **No fixed metre:** the voice stays free and speech-like.
+4. **Last couplet turns technique into meaning:** "lives rhyme" means two different words can end alike without becoming the same.
+5. **Symbol of the line:** the meridian joins places far apart without erasing their differences.
+6. **Image of the rope:** many threads, one strength.
+7. **Tone:** hopeful, brisk and encouraging.
+8. **Theme:** global unity, dignity of the poor and the power of changing how we see.
+
+| Feature | In the poem |
+|---|---|
+| Lines | 14 |
+| Rhyme | aa bb cc dd ee ff gg |
+| Image of unity | Mountain rope, meridian line |
+| Hinge | Couplet 5 |
+| Occasion | Oxfam's "On The Line", 1999 |
+
+**Conclusion.** Okri's rhymes show his picture of a united world: different people who still answer each other.

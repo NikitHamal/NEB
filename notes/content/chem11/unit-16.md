@@ -433,6 +433,32 @@ you *put in*. A reaction can have 95% yield and 40% atom economy, or 100% atom
 economy and 5% yield. Examiners set this distinction almost every year.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="A chemical plant earns a profit only when its income exceeds fixed costs, such as buildings and loan interest, plus variable costs, such as raw materials, fuel and labour, that rise with output. (a) Process piping and a heater in a plant. (b) With a fixed cost of Rs 40 lakh a year, a variable cost of Rs 60 and a selling price of Rs 100 per kilogram, the break-even output is 40 / (100 - 60) = 100000 kg a year. Producing 150,000 kg gives a profit of Rs 20 lakh. This is why continuous plants run near full capacity, and why cutting waste, which lowers the variable cost, moves the break-even point to the left."
+@ photo id="chem11/plant" cap="Process piping and heater of a chemical plant"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Break-even of a chemical plant (Rs lakh per year)"
+fixed, var, price = 40.0, 0.6, 1.0
+rev = lambda q: price * q
+cost = lambda q: fixed + var * q
+be = fixed / (price - var)
+assert be == 100.0 and abs(rev(150) - cost(150) - 20) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "q = thousand kg made and sold per year", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 240, 146, (0, 200), (0, 200))
+ax.grid(50, 50, size=9); ax.axes("output q (000 kg)", "Rs lakh")
+ax.curve(rev, 0, 200, color=NAVY, sw=2.4)
+ax.curve(cost, 0, 200, color=RED, sw=2.4)
+ax.hline(fixed, 0, 200, color=AMBER)
+ax.pt(be, rev(be), "break-even 100", dx=-8, dy=-12, color=SLATE, anchor="end")
+ax.tag(112, 160, "revenue", color=NAVY, bold=True)
+ax.tag(168, 118, "total cost", color=RED, bold=True)
+f.text(150, 207, "fixed Rs 40 lakh + variable Rs 60 per kg", size=10.5, color=SLATE, bold=True)
+f.text(150, 220, "break-even = 40/(100-60) x 1000 = %.0f kg" % (be * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 232, "at 150 000 kg profit = Rs %.0f lakh" % (rev(150) - cost(150)), size=10.5, color=RED, bold=True)
+facts = dict(be="%.0f" % (be * 1000), pr="%.0f" % (rev(150) - cost(150)))
+```
+
 ## Chapter summary
 
 - The chemical industry converts cheap raw materials — air, brine, water,
@@ -545,3 +571,86 @@ dispose of, and no raw material is bought only to be thrown away. Route 2 wastes
 18 g of water per 60 g of acid, and the dilute water must be removed by
 distillation, which costs energy.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the stages in producing a new chemical product, from the laboratory idea to the plant, and explain the economics and cash flow of production. <span class="marks">[10]</span>
+2. Compare continuous and batch processes, explain the factors in designing a chemical plant, and discuss the environmental impact of the chemical industry. <span class="marks">[10]</span>
+
+### Model answer D1: stages of a new product and the economics of production (10 marks)
+
+**Introduction.** A chemical industry converts raw materials into useful products such as cement, soap, fertiliser, paper and medicines. A product that works in a test tube must pass several stages before it is sold in the market.
+
+**Stages in producing a new product.**
+
+1. **Idea and market survey:** to find out whether there is a demand, who will buy the product and at what price.
+2. **Laboratory research:** chemists work out the reaction, the catalyst, the temperature, the pressure and the yield in glassware.
+3. **Feasibility study:** a first estimate of costs, raw materials, patent position and safety.
+4. **Pilot plant:** a small-scale version (typically 1/100 to 1/1000 of the final size) that tests the process, the materials of the equipment, the by-products and the control system. Problems that never appeared in the laboratory are found here.
+5. **Design of the full-scale plant:** with flow sheets, equipment sizes, utilities and safety systems.
+6. **Construction and commissioning:** building, test runs and training of the workers.
+7. **Production and marketing:** continuous quality control, sale and after-sale feedback.
+8. **Review:** the process is improved to cut costs and waste.
+
+**Economics of production.**
+
+- **Fixed capital:** the money spent on land, buildings and equipment (a cement kiln, for example).
+- **Working capital:** the money needed to run the plant until the sales bring in money: raw materials, wages, electricity and stock.
+- **Production cost** = raw materials + utilities + labour + maintenance + depreciation + overheads.
+- **Profit** = sales revenue − total cost; **return on investment** (ROI) = $\dfrac{\text{annual profit}}{\text{capital invested}}\times100$.
+
+**Cash flow.** A company first spends (negative cash flow) during construction; after production begins the money from sales brings the cumulative cash flow back to zero at the **payback time**, and it is positive after that.
+
+| Year | Cash flow (illustrative, Rs crore) | Cumulative |
+|---|---|---|
+| 0 (construction) | $-10$ | $-10$ |
+| 1 | $+2$ | $-8$ |
+| 2 | $+2$ | $-6$ |
+| 3 | $+2$ | $-4$ |
+| 4 | $+2$ | $-2$ |
+| 5 | $+2$ | $0$ |
+
+In this illustration, a capital of Rs 10 crore and a yearly net profit of Rs 2 crore give a **payback time of 5 years** and an ROI of $2/10\times100=20\%$.
+
+**Factors affecting the economics.** The price and availability of raw materials (a limestone deposit near a cement plant), the cost of power, transport, tax and the scale of production (larger plants are cheaper per tonne).
+
+**Conclusion.** A new product passes through research, a pilot plant and a full-scale design, and its success depends on the capital, the production cost and the payback time.
+
+### Model answer D2: continuous and batch processes, plant design and environment (10 marks)
+
+**Introduction.** The way a plant is operated depends on the quantity and type of product. A plant that makes thousands of tonnes of ammonia runs differently from one that makes a few hundred kilograms of a dye.
+
+**Batch process.** A fixed amount of the reactants is put in a vessel, the reaction is run, and the product is removed; the vessel is cleaned and used again. *Examples:* pharmaceuticals, dyes, paints, brewing.
+
+**Continuous process.** Reactants enter and products leave all the time, and the plant works day and night, usually for months, in a **steady state**. *Examples:* ammonia, sulphuric acid, petroleum refining.
+
+| Feature | Batch | Continuous |
+|---|---|---|
+| Output | Small, variable | Large, steady |
+| Product variety | Many products in one plant | One product |
+| Labour per tonne | High | Low |
+| Quality | Varies between batches | Uniform |
+| Capital cost | Low | High |
+| Flexibility | High | Low |
+| Examples | Medicines, dyes | Ammonia, H₂SO₄ |
+
+**Factors in designing a plant.**
+
+1. **Raw materials** (supply, cost and purity) and the **location** near to them or to the market.
+2. **Reaction conditions:** temperature, pressure, catalyst and yield.
+3. **Materials of construction** that resist corrosion (stainless steel, glass-lined vessels).
+4. **Utilities:** water, steam, electricity and fuel; energy use is reduced by heat exchangers.
+5. **Safety:** relief valves, fire fighting, and the layout that limits the effect of an explosion.
+6. **Control and automation** for the temperature, pressure and flow.
+7. **Waste treatment** and the permission of the government.
+
+**Environmental impact.**
+
+1. **Air pollution:** SO₂, NOₓ and particulate matter from kilns and furnaces; the brick kilns and cement plants of the Kathmandu valley and Terai are an example.
+2. **Water pollution:** acids, heavy metals and organic waste discharged into rivers such as the Bagmati.
+3. **Solid and hazardous waste:** slag, sludge and spent catalysts that need safe disposal.
+4. **Greenhouse gases:** CO₂ from fuel and from the chemical reaction of limestone in cement.
+5. **Accidents:** the Bhopal gas disaster of 1984 and the release of a toxic gas show the importance of safety.
+6. **Control:** treatment of effluent, scrubbers, recycling, the use of cleaner fuel and **green chemistry**, which means preventing waste rather than treating it.
+
+**Conclusion.** Batch plants suit small and varied products, and continuous plants suit large and steady ones; every design must consider cost, safety and the environment together.

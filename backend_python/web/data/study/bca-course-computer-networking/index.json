@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-5-computer-networking",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Computer Networks",
+   "area": "BCA 301 · Computer Networking · Unit 1",
+   "words": 6010,
+   "read_min": 33,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "The Physical Layer",
+   "area": "BCA 301 · Computer Networking · Unit 2",
+   "words": 7435,
+   "read_min": 41,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "The Data Link Layer and LANs",
+   "area": "BCA 301 · Computer Networking · Unit 3",
+   "words": 8950,
+   "read_min": 50,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "The Network Layer: Addressing and Routing",
+   "area": "BCA 301 · Computer Networking · Unit 4",
+   "words": 8791,
+   "read_min": 49,
+   "figures": 16,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "The Transport Layer",
+   "area": "BCA 301 · Computer Networking · Unit 5",
+   "words": 6825,
+   "read_min": 38,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "The Application Layer",
+   "area": "BCA 301 · Computer Networking · Unit 6",
+   "words": 7753,
+   "read_min": 43,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Network Security",
+   "area": "BCA 301 · Computer Networking · Unit 7",
+   "words": 7368,
+   "read_min": 41,
+   "figures": 16,
+   "has_questions": true
+  }
+ ]
+}

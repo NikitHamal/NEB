@@ -4,7 +4,6 @@ use serde_json::Value;
 
 use super::common::*;
 use crate::actions::Action;
-use crate::config::SITE_URL;
 use crate::data::api::{b, n, s};
 use crate::data::tasks::Task;
 use crate::env::Env;
@@ -176,9 +175,6 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut UserState, username: &str) {
                         let id = m.id.clone();
                         st.follow = Some(Task::spawn(&env.ctx, move || api.post(&format!("api/users/{id}/follow/"), serde_json::json!({}))));
                     }
-                }
-                if widgets::button(ui, &th, "Open on the web", BtnKind::Secondary, Some(Icon::External), None).clicked() {
-                    env.open_url(&format!("{SITE_URL}/profile/{}/", m.username));
                 }
             });
         });

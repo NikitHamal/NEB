@@ -122,3 +122,23 @@ def admin_art_library(request):
     total = sum(len(it['files']) for st in manifest['sets'] for it in st['items'])
     ctx = _ctx(request, active_page='art_library', art=manifest, art_total=total)
     return render(request, 'admin_panel/art_library.html', ctx)
+
+
+def admin_dither_art(request):
+    """Dithered art (tools/dither): ancient and modern pieces in limited palettes, to browse and download."""
+    blocked = _require_staff_admin(request)
+    if blocked:
+        return blocked
+    import json
+    import os
+    from django.conf import settings
+    path = os.path.join(settings.BASE_DIR, 'web', 'static', 'web', 'art', 'dither.json')
+    try:
+        with open(path, encoding='utf-8') as fh:
+            items = json.load(fh).get('items', [])
+    except (OSError, ValueError):
+        items = []
+    eras = sorted({it['era'] for it in items})
+    methods = sorted({(it['method'], it['method_label']) for it in items}, key=lambda m: m[1])
+    ctx = _ctx(request, active_page='dither_art', dither_items=items, dither_eras=eras, dither_methods=methods)
+    return render(request, 'admin_panel/dither_art.html', ctx)

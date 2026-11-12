@@ -48,6 +48,8 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.HorizontalRule
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Edit
@@ -63,6 +65,7 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Poll
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.StrikethroughS
@@ -97,6 +100,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -110,7 +115,6 @@ import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
 
 import com.neb.ians.data.api.ApiPoll
-import com.neb.ians.data.api.ApiPollVoteResponse
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.repository.ForumRepository
@@ -210,56 +214,6 @@ fun shareText(context: Context, text: String) {
 }
 
 // ---------------------------------------------------------------------------
-// Poll UI model (local state, kept in ViewModels; updated after voting)
-// ---------------------------------------------------------------------------
-
-data class PollOptionUi(
-    val id: String,
-    val text: String,
-    val correct: Boolean,
-    val votes: Int
-)
-
-data class PollUi(
-    val id: String,
-    val question: String,
-    val pollType: String,
-    val allowMultiple: Boolean,
-    val explanation: String,
-    val totalVotes: Int,
-    val isExpired: Boolean,
-    val options: List<PollOptionUi>,
-    val votedIds: Set<String>
-) {
-    val hasVoted: Boolean get() = votedIds.isNotEmpty()
-    val isMcq: Boolean get() = pollType == "mcq"
-}
-
-fun ApiPoll.toPollUi(): PollUi = PollUi(
-    id = id,
-    question = question,
-    pollType = pollType,
-    allowMultiple = allowMultiple,
-    explanation = explanation,
-    totalVotes = totalVotes,
-    isExpired = isExpired,
-    options = options.sortedBy { it.order }.map { PollOptionUi(it.id, it.text, it.correct, it.votes) },
-    votedIds = userVoteIds.toSet()
-)
-
-fun ApiPollVoteResponse.toPollUi(votedIds: Set<String>): PollUi = PollUi(
-    id = id,
-    question = question,
-    pollType = pollType,
-    allowMultiple = allowMultiple,
-    explanation = explanation,
-    totalVotes = totalVotes,
-    isExpired = isExpired,
-    options = options.sortedBy { it.order }.map { PollOptionUi(it.id, it.text, it.isCorrect, it.voteCount) },
-    votedIds = votedIds
-)
-
-// ---------------------------------------------------------------------------
 // Forum post card — mirrors web .post-card
 // ---------------------------------------------------------------------------
 
@@ -281,7 +235,6 @@ fun ForumPostCard(
     onAuthorLongPress: () -> Unit = {}
 ) {
     val category = post.category.ifBlank { "General" }
-    val categoryTheme = getSubjectTheme(category)
     // Card preview carries real markdown formatting (bold/italic/code,
     // colored links, highlighted mentions) instead of plain stripped text.
     val primary = MaterialTheme.colorScheme.primary
@@ -297,12 +250,16 @@ fun ForumPostCard(
     var zoomImageUrlsList by remember { mutableStateOf<List<String>?>(null) }
     var zoomInitialIndex by remember { mutableStateOf(0) }
 
+    // Flat feed row, like the web: white, no frame, one hairline under it.
+    Column(modifier = modifier.fillMaxWidth()) {
     NebCard(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
         onClick = onClick,
-        shape = WebPanelShape
+        shape = RoundedCornerShape(20.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        border = null
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(start = 8.dp, end = 0.dp, top = 12.dp, bottom = 4.dp)) {
             // ----- Meta row: avatar + author + badge + "posted" + category and time -----
             Row(
                 verticalAlignment = Alignment.Top,
@@ -362,22 +319,22 @@ fun ForumPostCard(
                     }
                     Spacer(modifier = Modifier.height(2.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Surface(shape = WebPillShape, color = categoryTheme.container) {
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            modifier = Modifier.weight(1f, fill = false)
+                        ) {
                             Text(
-                                text = category,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                text = "#$category",
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
                                 style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = categoryTheme.onContainer,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
                         }
-                        Text(
-                            text = ",  ",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = formatTimeAgo(post.createdAt),
                             style = MaterialTheme.typography.labelSmall,
@@ -409,7 +366,8 @@ fun ForumPostCard(
                     onReport = onReportClick,
                     onEdit = onEditClick,
                     onArchive = onArchiveClick,
-                    onDelete = onDeleteClick
+                    onDelete = onDeleteClick,
+                    onInsights = PostInsightsNav.open?.let { open -> { open(post.id) } }
                 )
             }
 
@@ -477,7 +435,7 @@ fun ForumPostCard(
             // ----- Poll badge -----
             post.poll?.let { poll ->
                 Spacer(modifier = Modifier.height(10.dp))
-                PollBadge(isMcq = poll.pollType == "mcq")
+                NebPollPreview(poll = remember(poll) { poll.toPollUi() })
             }
 
             // ----- Media attachment badges (video/audio/files) -----
@@ -489,98 +447,110 @@ fun ForumPostCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ----- Action row -----
+            // ----- Action row: ghost buttons, like turns tonal -----
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 LikePill(
                     count = post.thumbsUpCount,
                     liked = post.isThumbedUp,
                     onClick = onLikeClick
                 )
-                Surface(
-                    shape = WebPillShape,
-                    color = Color.Transparent,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ChatBubbleOutline,
-                            contentDescription = null,
-                            modifier = Modifier.size(15.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "${post.replyCount} Replies",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
+                PostStatButton(
+                    icon = NebIcons.Comment,
+                    label = compactCount(post.replyCount),
+                    description = "Comments",
+                    onClick = onClick
+                )
+                if (isOwnPost) {
+                    PostStatButton(
+                        icon = NebIcons.Eye,
+                        label = compactCount(post.viewCount),
+                        description = "Views",
+                        onClick = null
+                    )
                 }
-
-                Surface(
-                    shape = WebPillShape,
-                    color = Color.Transparent,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Visibility,
-                            contentDescription = null,
-                            modifier = Modifier.size(15.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "${compactCount(post.viewCount)} views",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
-                }
-
                 Spacer(modifier = Modifier.weight(1f))
                 NebIconButton(
                     icon = if (bookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
                     contentDescription = if (bookmarked) "Remove bookmark" else "Bookmark",
                     onClick = onBookmarkClick,
                     tint = if (bookmarked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    size = 34.dp
+                    size = 36.dp
                 )
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .nebPressable(scale = 0.88f, onClick = onShareClick)
+                        .semantics { contentDescription = "Share" },
+                    contentAlignment = Alignment.Center
+                ) {
+                    NebIcon(NebIcons.Share, null, size = 18.dp, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
         }
     }
+    NebHairline()
+    }
 }
 
-/** Like pill matching web .post-action (ThumbUp + compact count). */
+/** Ghost stat button on a post card (icon + count), same height as [LikePill]. */
+@Composable
+fun PostStatButton(
+    @androidx.annotation.DrawableRes icon: Int,
+    label: String,
+    description: String,
+    onClick: (() -> Unit)?,
+    modifier: Modifier = Modifier
+) {
+    val tone = MaterialTheme.colorScheme.onSurfaceVariant
+    Row(
+        modifier = modifier
+            .clip(WebPillShape)
+            .then(
+                if (onClick != null) Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick
+                ) else Modifier
+            )
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .semantics { contentDescription = description },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        NebIcon(id = icon, contentDescription = null, size = 18.dp, tint = tone)
+        Text(text = label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Medium, color = tone)
+    }
+}
+
+/** Like pill: ghost, brand primary when liked (the web's `.liked`). No border, no ripple, spring motion. */
 @Composable
 fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val tactile = rememberTactileFeedback()
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.90f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        targetValue = if (isPressed) 0.9f else 1.0f,
+        animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
         label = "likePillScale"
     )
+    val iconScale by animateFloatAsState(
+        targetValue = if (liked) 1.0f else 0.92f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium),
+        label = "likePillIcon"
+    )
     val background by animateColorAsState(
-        targetValue = if (liked) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent,
-        animationSpec = tween(180),
+        targetValue = Color.Transparent,
+        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
         label = "likePillBg"
     )
     val contentColor by animateColorAsState(
         targetValue = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-        animationSpec = tween(180),
+        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
         label = "likePillFg"
     )
 
@@ -592,32 +562,29 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
             }
             .clip(WebPillShape)
             .background(background)
-            .border(
-                1.dp,
-                if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
-                WebPillShape
-            )
             .clickable(
                 interactionSource = interactionSource,
-                indication = ripple(bounded = true, color = contentColor),
+                indication = null,
                 onClick = {
                     tactile.perform(if (liked) TactileType.LightTap else TactileType.Success)
                     onClick()
                 }
             )
-            .padding(horizontal = 11.dp, vertical = 6.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
             imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
             contentDescription = if (liked) "Remove like" else "Like",
-            modifier = Modifier.size(15.dp),
+            modifier = Modifier
+                .size(18.dp)
+                .graphicsLayer { scaleX = iconScale; scaleY = iconScale },
             tint = contentColor
         )
         Text(
             text = compactCount(count),
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelLarge,
             fontWeight = if (liked) FontWeight.Bold else FontWeight.Medium,
             color = contentColor
         )
@@ -653,6 +620,11 @@ fun PollBadge(isMcq: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
+/** Where "See insights" goes. Set by the navigation host; null means the menu hides the item. */
+object PostInsightsNav {
+    var open: ((String) -> Unit)? = null
+}
+
 /** Modern bottom sheet menu for posts/replies — like Instagram/Facebook. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -666,7 +638,8 @@ fun PostMoreMenu(
     onEdit: () -> Unit,
     onArchive: () -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onInsights: (() -> Unit)? = null
 ) {
     var showSheet by remember { mutableStateOf(false) }
     Box(modifier = modifier) {
@@ -706,6 +679,13 @@ fun PostMoreMenu(
                         modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
+                    if (onInsights != null) {
+                        BottomSheetItem(
+                            icon = Icons.Outlined.Insights,
+                            label = "See insights",
+                            onClick = { showSheet = false; onInsights() }
+                        )
+                    }
                     BottomSheetItem(
                         icon = Icons.Outlined.Edit,
                         label = "Edit",
@@ -758,258 +738,6 @@ private fun BottomSheetItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Poll view — replicates web .fp-poll
-// ---------------------------------------------------------------------------
-
-@Composable
-fun PollView(
-    poll: PollUi,
-    isVoting: Boolean,
-    onVote: (List<String>) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val showResults = poll.hasVoted || poll.isExpired
-
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(modifier = Modifier.padding(14.dp)) {
-            // Header
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Icon(
-                    imageVector = if (poll.isMcq) Icons.Outlined.Quiz else Icons.Outlined.HowToVote,
-                    contentDescription = null,
-                    modifier = Modifier.size(17.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = if (poll.isMcq) "MCQ Quiz" else "Poll",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                if (poll.allowMultiple) {
-                    Text(
-                        text = "Multiple choice",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            if (poll.question.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = poll.question,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            if (!showResults) {
-                if (poll.allowMultiple) {
-                    var selected by remember(poll.id) { mutableStateOf(setOf<String>()) }
-                    poll.options.forEach { option ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 3.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .border(
-                                    1.dp,
-                                    if (option.id in selected) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.outlineVariant,
-                                    RoundedCornerShape(10.dp)
-                                )
-                                .clickable(enabled = !isVoting) {
-                                    selected = if (option.id in selected) selected - option.id else selected + option.id
-                                }
-                                .padding(horizontal = 10.dp, vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Checkbox(
-                                checked = option.id in selected,
-                                onCheckedChange = { checked ->
-                                    selected = if (checked) selected + option.id else selected - option.id
-                                },
-                                enabled = !isVoting
-                            )
-                            Text(
-                                text = option.text,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    NebButton(
-                        text = "Vote",
-                        onClick = { onVote(selected.toList()) },
-                        enabled = selected.isNotEmpty(),
-                        loading = isVoting,
-                        size = NebButtonSize.Small
-                    )
-                } else {
-                    poll.options.forEach { option ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 3.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(10.dp))
-                                .clickable(enabled = !isVoting) { onVote(listOf(option.id)) }
-                                .padding(horizontal = 14.dp, vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = option.text,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                }
-            } else {
-                // Results view with animated fill bars
-                poll.options.forEach { option ->
-                    PollResultRow(poll = poll, option = option)
-                }
-                if (poll.isMcq && poll.explanation.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Surface(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Lightbulb,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Text(
-                                text = poll.explanation,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = "${poll.totalVotes} ${if (poll.totalVotes == 1) "vote" else "votes"}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                if (poll.isExpired) {
-                    Text(
-                        text = ", poll ended",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
-    val total = poll.totalVotes.coerceAtLeast(1)
-    val fraction = option.votes.toFloat() / total
-    val animatedFraction by animateFloatAsState(
-        targetValue = fraction,
-        animationSpec = tween(durationMillis = 500),
-        label = "pollFill"
-    )
-    val isUserChoice = option.id in poll.votedIds
-    val showCorrect = poll.isMcq && poll.hasVoted
-
-    val fillColor = when {
-        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.14f)
-        showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error.copy(alpha = 0.15f)
-        else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
-    }
-    val borderColor = when {
-        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface
-        showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error
-        isUserChoice -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.outlineVariant
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 3.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .border(1.dp, borderColor, RoundedCornerShape(10.dp))
-            .heightIn(min = 44.dp)
-    ) {
-        // Fill bar
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(0.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(animatedFraction)
-                    .background(fillColor)
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            if (showCorrect && option.correct) {
-                Icon(
-                    imageVector = Icons.Filled.CheckCircle,
-                    contentDescription = "Correct",
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            } else if (showCorrect && isUserChoice && !option.correct) {
-                Icon(
-                    imageVector = Icons.Filled.Cancel,
-                    contentDescription = "Incorrect",
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.error
-                )
-            }
-            Text(
-                text = option.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = if (isUserChoice) FontWeight.SemiBold else FontWeight.Normal,
-                modifier = Modifier.weight(1f)
-            )
-            val pct = if (poll.totalVotes > 0) (option.votes * 100 / poll.totalVotes) else 0
-            Text(
-                text = "${option.votes} votes, $pct%",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
     }
 }
 
@@ -1170,7 +898,7 @@ fun MentionSuggestions(
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        shadowElevation = 4.dp
+        shadowElevation = 0.dp
     ) {
         Column {
             users.take(8).forEach { user ->
@@ -1241,9 +969,10 @@ fun insertMarkdown(value: TextFieldValue, prefix: String, suffix: String = ""): 
 }
 
 /**
- * Markdown formatting toolbar. Full mode: Bold, Italic, Code, Strikethrough,
- * H2, Bullet list, Numbered list, Quote, Link. Compact mode: Bold/Italic/Code.
+ * Formatting toolbar for the composers. The text underneath is Markdown, but the writer never sees it: each button
+ * writes the markers and the field draws the result live (see [LiveMarkdown]). Buttons light up where the caret is.
  */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun MarkdownToolbar(
     value: TextFieldValue,
@@ -1251,38 +980,111 @@ fun MarkdownToolbar(
     modifier: Modifier = Modifier,
     compact: Boolean = false
 ) {
+    var linkDialog by remember { mutableStateOf(false) }
+    var symbolDialog by remember { mutableStateOf(false) }
+    val live = remember(value.text) { LiveMarkdown.transform(value.text) }
+    val sel = value.selection
+    fun on(kind: String) = live.kinds.any { it.kind == kind && it.start <= sel.min && it.end >= sel.max }
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ToolbarButton(Icons.Outlined.FormatBold, "Bold") { onValueChange(insertMarkdown(value, "**", "**")) }
-        ToolbarButton(Icons.Outlined.FormatItalic, "Italic") { onValueChange(insertMarkdown(value, "*", "*")) }
-        ToolbarButton(Icons.Outlined.Code, "Code") { onValueChange(insertMarkdown(value, "`", "`")) }
+        ToolbarButton(NebIcons.Bold, "Bold", on("bold")) { onValueChange(LiveMarkdown.toggleInline(value, "**")) }
+        ToolbarButton(NebIcons.Italic, "Italic", on("italic")) { onValueChange(LiveMarkdown.toggleInline(value, "*")) }
+        ToolbarButton(NebIcons.Code, "Code", on("code")) { onValueChange(LiveMarkdown.toggleInline(value, "`")) }
         if (!compact) {
-            ToolbarButton(Icons.Outlined.StrikethroughS, "Strikethrough") { onValueChange(insertMarkdown(value, "~~", "~~")) }
-            ToolbarButton(Icons.Outlined.Title, "Heading") { onValueChange(insertMarkdown(value, "\n## ")) }
-            ToolbarButton(Icons.Outlined.FormatListBulleted, "Bullet list") { onValueChange(insertMarkdown(value, "\n- ")) }
-            ToolbarButton(Icons.Outlined.FormatListNumbered, "Numbered list") { onValueChange(insertMarkdown(value, "\n1. ")) }
-            ToolbarButton(Icons.Outlined.FormatQuote, "Quote") { onValueChange(insertMarkdown(value, "\n> ")) }
-            ToolbarButton(Icons.Outlined.Link, "Link") { onValueChange(insertMarkdown(value, "[text](", ")")) }
-            ToolbarButton(Icons.Outlined.Functions, "Math formula") { onValueChange(insertMarkdown(value, "$$", "$$")) }
+            ToolbarButton(NebIcons.Strike, "Strikethrough", on("strike")) { onValueChange(LiveMarkdown.toggleInline(value, "~~")) }
+            ToolbarButton(NebIcons.Heading, "Heading", on("heading")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Heading)) }
+            ToolbarButton(NebIcons.ListBullet, "Bullet list", on("bullet")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Bullet)) }
+            ToolbarButton(NebIcons.ListNumber, "Numbered list", on("number")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Number)) }
+            ToolbarButton(NebIcons.Quote, "Quote", on("quote")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Quote)) }
+            ToolbarButton(NebIcons.Link, "Link", on("link")) { linkDialog = true }
+            ToolbarButton(NebIcons.Math, "Maths symbols", false) { symbolDialog = true }
+            ToolbarButton(NebIcons.CodeBlock, "Code block", false) { onValueChange(LiveMarkdown.insertCodeBlock(value)) }
+            ToolbarButton(NebIcons.Divider, "Divider", false) { onValueChange(LiveMarkdown.insertDivider(value)) }
         }
+    }
+    if (linkDialog) {
+        var url by remember { mutableStateOf("") }
+        AlertDialog(
+            onDismissRequest = { linkDialog = false },
+            shape = RoundedCornerShape(28.dp),
+            containerColor = com.neb.ians.ui.theme.nebFloatColor(),
+            title = { Text("Add link") },
+            text = {
+                OutlinedTextField(
+                    value = url, onValueChange = { url = it }, singleLine = true, shape = RoundedCornerShape(16.dp),
+                    placeholder = { Text("Paste a link") }
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { onValueChange(LiveMarkdown.insertLink(value, url)); linkDialog = false },
+                    enabled = url.isNotBlank()
+                ) { Text("Add") }
+            },
+            dismissButton = { TextButton(onClick = { linkDialog = false }) { Text("Cancel") } }
+        )
+    }
+    if (symbolDialog) {
+        AlertDialog(
+            onDismissRequest = { symbolDialog = false },
+            shape = RoundedCornerShape(28.dp),
+            containerColor = com.neb.ians.ui.theme.nebFloatColor(),
+            title = { Text("Symbols") },
+            text = {
+                androidx.compose.foundation.layout.FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    MathSymbols.forEach { sym ->
+                        Box(
+                            modifier = Modifier
+                                .size(44.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .clickable { onValueChange(LiveMarkdown.insertSymbol(value, sym)) },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(sym, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                        }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { symbolDialog = false }) { Text("Done") } }
+        )
     }
 }
 
+/** Maths and science characters writers reach for; they are plain text, so they show everywhere. */
+private val MathSymbols = listOf(
+    "\u00B2", "\u00B3", "\u221A", "\u03C0", "\u00B1", "\u00D7", "\u00F7", "\u2260", "\u2264", "\u2265", "\u2248", "\u221E",
+    "\u2192", "\u21CC", "\u00B0", "\u2234", "\u00BD", "\u00BC", "\u2211", "\u222B", "\u0394", "\u03B1", "\u03B2", "\u03B3",
+    "\u03B8", "\u03BB", "\u03BC", "\u03C3", "\u03C6", "\u03C9", "\u03A9", "\u2082", "\u2083", "\u207F", "\u2208", "\u2229", "\u222A"
+)
+
 @Composable
 private fun ToolbarButton(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     contentDescription: String,
+    active: Boolean = false,
     onClick: () -> Unit
 ) {
-    IconButton(onClick = onClick, modifier = Modifier.size(34.dp)) {
-        Icon(
-            imageVector = icon,
+    // A tonal rounded square that springs under the thumb and ticks; never a bare ripple.
+    Box(
+        modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(if (active) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent)
+            .nebPressable(scale = 0.88f, tactile = TactileType.LightTap, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        NebIcon(
+            id = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.size(19.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            size = 19.dp,
+            tint = if (active) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

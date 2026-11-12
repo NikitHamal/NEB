@@ -378,6 +378,40 @@ to concentration).
 loaded at both ends cuts slowly through a block of ice — the phenomenon of
 regelation.
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A reversible reaction reaches equilibrium when the forward and backward rates are equal and the concentrations stop changing, and Le Chatelier's principle says that the system opposes any change made to it. (a) Cobalt chloride solution shifts between pink and blue as the temperature changes. (b) For N2O4 = 2NO2, a value of Kp = 0.141 at 298 K means Kc = 0.00577. Starting from 0.100 mol/L of N2O4 the quadratic gives x = 0.0113, so the equilibrium has 0.0887 mol/L of N2O4 and 0.0226 mol/L of NO2, with 11.3 % dissociated. Heating pushes this endothermic reaction to the right and the mixture browns."
+@ photo id="chem11/cocl2" cap="Cobalt chloride solution is blue when hot and pink when cold"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Equilibrium concentrations for N2O4 = 2 NO2 at 298 K"
+import math
+Kp = 0.141
+R_, T_ = 0.08206, 298.0
+Kc = Kp / (R_ * T_)
+c0 = 0.100
+a, b, c = 4.0, Kc, -Kc * c0
+x = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a)
+n2o4, no2 = c0 - x, 2 * x
+assert abs((no2**2) / n2o4 - Kc) < 1e-12 and abs(Kc - 0.00577) < 0.0001
+alpha = x / c0 * 100
+f = Fig(300, 236)
+f.text(150, 14, "N2O4 (colourless) = 2 NO2 (brown)", size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "start 0.100 mol/L N2O4, Kc = %.5f" % Kc, size=10.5, color=SLATE)
+base = 140
+sc = 90 / 0.1
+for i, (nm, v0, v1, col) in enumerate([("N2O4", c0, n2o4, NAVY), ("NO2", 0.0, no2, RED)]):
+    x0 = 50 + i * 120
+    f.box(x0, base - v0 * sc, 30, max(v0 * sc, 0.5), "", fill="#cbd5e1", stroke=SLATE, r=1)
+    f.box(x0 + 34, base - v1 * sc, 30, v1 * sc, "", fill=col, stroke=col, r=1)
+    f.text(x0 + 32, base + 14, nm, size=10.5, bold=True)
+    f.text(x0 + 15, base - v0 * sc - 6, "%.3f" % v0, size=10, color=SLATE)
+    f.text(x0 + 49, base - v1 * sc - 6, "%.4f" % v1, size=10, color=col, bold=True)
+f.text(150, 176, "grey = start, colour = equilibrium", size=10, color=SLATE)
+f.text(150, 190, "x = %.4f, so %.1f %% of N2O4 dissociates" % (x, alpha), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "Kc = [NO2]^2/[N2O4] = %.5f (check)" % ((no2**2) / n2o4), size=10.5, color=RED, bold=True)
+f.text(150, 222, "Kp = Kc (RT)^dn, dn = 1: Kp = %.3f" % (Kc * R_ * T_), size=10.5, color=SLATE)
+facts = dict(Kc="%.5f" % Kc, x="%.4f" % x, no2="%.4f" % no2, alpha="%.1f" % alpha, n="%.4f" % n2o4)
+```
+
 ## Chapter summary
 
 - Chemical equilibrium is the state of a reversible reaction in a closed system
@@ -491,3 +525,77 @@ $$ K_c = \frac{(0.5)(0.5)}{0.5} = 0.5\ \text{mol L}^{-1} $$
 With $\Delta n = +1$ and $T = 523\ \text{K}$,
 $K_p = 0.5 \times 0.0821 \times 523 = 21.5\ \text{atm}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the law of mass action. Derive the expression for the equilibrium constant, and the relation between $K_{p}$ and $K_{c}$, with numericals. <span class="marks">[10]</span>
+2. State Le Chatelier's principle. Discuss the effect of concentration, pressure, temperature and catalyst, and apply it to Haber's process. <span class="marks">[10]</span>
+
+### Model answer D1: law of mass action, $K_{c}$ and $K_{p}$ (10 marks)
+
+**Introduction.** A reversible reaction reaches a state of **chemical equilibrium** when the rate of the forward reaction equals the rate of the backward reaction. At that point the concentrations stay constant, but the reaction does not stop; it is **dynamic**.
+
+**Law of mass action (Guldberg and Waage, 1864).** *At constant temperature, the rate of a chemical reaction is directly proportional to the product of the active masses (molar concentrations) of the reactants, each raised to the power of its stoichiometric coefficient.*
+
+**Derivation.** For the reaction $a\text{A} + b\text{B} \rightleftharpoons c\text{C} + d\text{D}$:
+
+1. Forward rate $= k_{f}[\text{A}]^{a}[\text{B}]^{b}$.
+2. Backward rate $= k_{r}[\text{C}]^{c}[\text{D}]^{d}$.
+3. At equilibrium the two rates are equal, so
+
+$$ K_{c} = \frac{k_{f}}{k_{r}} = \frac{[\text{C}]^{c}[\text{D}]^{d}}{[\text{A}]^{a}[\text{B}]^{b}} $$
+
+For gases, $K_{p} = \dfrac{p_{\text{C}}^{c}\,p_{\text{D}}^{d}}{p_{\text{A}}^{a}\,p_{\text{B}}^{b}}$.
+
+**Relation between $K_{p}$ and $K_{c}$.** For an ideal gas $p = (n/V)RT = CRT$. Substituting in $K_{p}$:
+
+$$ K_{p} = K_{c}\,(RT)^{\Delta n}, \qquad \Delta n = (c + d) - (a + b) \text{ (gaseous moles only)} $$
+
+| Reaction | $\Delta n$ | Relation |
+|---|---|---|
+| H₂ + I₂ ⇌ 2HI | 0 | $K_{p} = K_{c}$ |
+| N₂ + 3H₂ ⇌ 2NH₃ | -2 | $K_{p} = K_{c}(RT)^{-2}$ |
+| PCl₅ ⇌ PCl₃ + Cl₂ | +1 | $K_{p} = K_{c}(RT)$ |
+
+**Features of K.** It depends only on **temperature**; a **catalyst** changes the rate but not $K$; a large $K$ means a high yield; reversing the reaction gives $1/K$; pure solids and liquids are left out of the expression.
+
+**Numerical 1 ($K_{p}$ from $K_{c}$).** For N₂ + 3H₂ ⇌ 2NH₃, $K_{c} = 0.50\ \text{L}^{2}\text{mol}^{-2}$ at $500\ \text{K}$. Then $RT = 0.0821\times500 = 41.05$, and $K_{p} = 0.50\times(41.05)^{-2} = 2.97\times10^{-4}\ \text{atm}^{-2}$.
+
+**Numerical 2 (equilibrium composition).** 1 mol H₂ and 1 mol I₂ are heated in a 1 L vessel with $K_{c} = 50$. Let $x$ mol of each react: $K_{c} = \dfrac{(2x)^{2}}{(1-x)^{2}} = 50$, so $\dfrac{2x}{1-x} = 7.07$, giving $x = 0.78$. At equilibrium $[\text{HI}] = 1.56\ \text{M}$ and $[\text{H}_2] = [\text{I}_2] = 0.22\ \text{M}$. Check: $1.56^{2}/0.22^{2} = 50$. ✓
+
+**Reaction quotient $Q$.** It has the same form as $K$ but uses the **present** concentrations. If $Q < K$ the reaction goes forward, if $Q > K$ it goes backward, and if $Q = K$ it is at equilibrium.
+
+**Conclusion.** The law of mass action gives the expression of $K_{c}$, and $K_{p} = K_{c}(RT)^{\Delta n}$ connects the two forms. The equilibrium constant tells us the extent and direction of a reaction.
+
+### Model answer D2: Le Chatelier's principle and Haber's process (10 marks)
+
+**Introduction.** **Le Chatelier's principle (1884):** *if a system at equilibrium is disturbed by a change in concentration, pressure or temperature, the system shifts in the direction that tends to oppose (reduce) the change.*
+
+**Effect of the factors.**
+
+1. **Concentration.** Adding a reactant (or removing a product) shifts the equilibrium to the **right**; adding a product shifts it to the left. Example: in Fe³⁺ + SCN⁻ ⇌ FeSCN²⁺ (red), adding more Fe³⁺ deepens the red colour.
+2. **Pressure** (for gases). Increasing the pressure shifts the equilibrium towards the side with **fewer moles of gas**. If $\Delta n = 0$ (H₂ + I₂ ⇌ 2HI) there is no effect.
+3. **Temperature.** Heating favours the **endothermic** direction and cooling favours the **exothermic** direction. Unlike the other changes, a change in temperature **changes the value of $K$**.
+4. **Catalyst.** It speeds up both reactions equally, so the **equilibrium is reached sooner**, but the position and $K$ are unchanged.
+5. **Inert gas** at constant volume has no effect; at constant pressure it acts like a reduction in pressure.
+
+| Change | Shift | Effect on $K$ |
+|---|---|---|
+| Add reactant | Forward | None |
+| Increase pressure | Towards fewer gas moles | None |
+| Raise temperature (exothermic reaction) | Backward | $K$ decreases |
+| Catalyst | None | None |
+
+**Haber's process.** $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$, $\Delta H = -92\ \text{kJ}$. There are 4 moles of gas on the left and 2 on the right, and the forward reaction is exothermic.
+
+- **High pressure (200 atm):** favours the side with fewer moles, so more NH₃.
+- **Low temperature** would favour the product, but it makes the reaction too slow. A compromise of **450 °C** is used.
+- **Catalyst:** finely divided **iron** with promoters (Al₂O₃, K₂O) increases the rate.
+- **Removal of NH₃** by liquefaction keeps shifting the equilibrium to the right.
+The yield is about 15% per pass, and the unreacted gas is recycled.
+
+**Contact process.** $2\text{SO}_2 + \text{O}_2 \rightleftharpoons 2\text{SO}_3$, $\Delta H = -197\ \text{kJ}$: V₂O₅ catalyst, 450 °C, 1-2 atm (the yield is already about 98%).
+
+**Importance.** Ammonia from Haber's process makes the urea and DAP fertilisers on which the farmers of Nepal depend; the principle helps industry to choose the conditions of the maximum yield at an economic cost.
+
+**Conclusion.** Le Chatelier's principle predicts the direction of shift, which industries use to maximise the yield: high pressure and a moderate temperature with a catalyst for ammonia.

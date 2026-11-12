@@ -270,6 +270,12 @@ text that must stay sharp when enlarged. (d) **Raster** — a scanner records th
 paper as pixels. (e) **Vector** — simple shapes that are shown at many sizes.
 :::
 
+```photogrid label="16.H" cols="3" ratio="1.3" caption="Pixels and the two kinds of graphics software. (a) A magnified screen: every picture is a grid of tiny red, green and blue dots; this is what a raster image is made of. (b) GIMP, a free raster editor, changes pixels: it is used to retouch photographs. (c) Inkscape, a free vector editor, stores shapes as lines and curves described by numbers, so a drawing can be enlarged without blur."
+@ photo id="cs8/gfx-subpixels" cap="(a) Pixels on a screen, magnified"
+@ photo id="cs8/gfx-gimp" cap="(b) GIMP: a raster editor"
+@ photo id="cs8/gfx-inkscape" cap="(c) Inkscape: a vector editor"
+```
+
 ## 16.3 Graphics software: Paint, GIMP, Inkscape and Canva
 
 ::: definition Graphics software
@@ -718,3 +724,62 @@ Save as → PNG picture → type the name → Save.
 (c) 34.3 ÷ 3.5 ≈ **9.8 times smaller** — the effect of lossy compression.
 (d) 16 GB = 16 × 1024 = 16,384 MB; 16,384 ÷ 3.5 = 4,681.1, so **4,681 photos**.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is computer graphics? Differentiate raster and vector graphics, with the file-size calculation of a raster image. <span class="marks">[10]</span>
+2. Explain eight uses of computer graphics and the common image file formats. <span class="marks">[10]</span>
+
+### Model answer D1: raster and vector graphics (10 marks)
+
+**Introduction.** **Computer graphics** means making, editing and showing pictures with the help of a computer. A computer stores a picture in one of two ways, as **raster** (bitmap) or **vector** graphics (Plate 16.H).
+
+**Raster graphics.** The picture is a grid of tiny squares called **pixels**, and each pixel has a colour. Photographs from a camera or a phone are raster images. Paint and GIMP work with them. When we enlarge a raster image the pixels become visible and the picture looks blurred or blocky. The quality depends on the **resolution**, the number of pixels in the picture.
+
+**Vector graphics.** The picture is stored as shapes (lines, curves, circles, rectangles) described by mathematical formulas, with their colour and position. Inkscape, CorelDRAW and Adobe Illustrator work with them. A vector picture can be enlarged to any size without loss of quality, and the file is usually small. It is used for logos, maps and diagrams.
+
+| Point | Raster (bitmap) | Vector |
+|---|---|---|
+| Made of | Pixels | Lines, curves and shapes (formulas) |
+| Zoom in | Becomes blurred | Stays sharp |
+| File size | Large for large pictures | Usually small |
+| Best for | Photographs, realistic pictures | Logos, drawings, maps |
+| Editing | Pixel by pixel | Edit each shape |
+| Software | Paint, GIMP, Photoshop | Inkscape, CorelDRAW, Illustrator |
+| File types | BMP, JPEG, PNG, GIF | SVG, AI, CDR |
+
+**File-size calculation of a raster image.** The size = number of pixels × bits for each pixel.
+
+- A picture of 800 × 600 pixels with 24-bit colour has 800 × 600 = 480,000 pixels. Size = 480,000 × 24 bits = 480,000 × 3 bytes = 1,440,000 bytes, which is about 1406 KB, or about 1.37 MB.
+- The same picture in black and white (1 bit per pixel) needs 480,000 bits = 60,000 bytes, about 58.6 KB.
+
+So more pixels and more colours mean a bigger file.
+
+**Conclusion.** Use raster graphics for photographs and vector graphics when the picture must be resized often or must stay sharp.
+
+### Model answer D2: uses of graphics and image file formats (10 marks)
+
+**Introduction.** Graphics are everywhere on a screen. Eight of their main uses are given below.
+
+1. **Education.** Diagrams, charts, maps and animation make lessons clear, as in the pictures of a science book.
+2. **Art and design.** Artists and designers draw posters, logos and cards, with tools such as Canva and Inkscape.
+3. **Entertainment.** Films, cartoons and video games are built from computer graphics.
+4. **Business.** Charts and graphs show sales and profit, and advertisements are made with graphics.
+5. **Medicine.** CT scans, MRI and X-ray images are shown and studied on screen.
+6. **Engineering and architecture.** CAD drawings of buildings, bridges and machines are made before building them.
+7. **Science and maps.** Weather maps, satellite pictures and GPS maps are all computer graphics.
+8. **Publishing and photography.** Newspapers, books and photographs are edited and printed using graphics software.
+
+**Common image file formats.**
+
+| Format | Full form | Type | Features |
+|---|---|---|---|
+| BMP | Bitmap | Raster | Uncompressed, large file, high quality |
+| JPEG (JPG) | Joint Photographic Experts Group | Raster | Compressed with some loss, small file, best for photographs |
+| PNG | Portable Network Graphics | Raster | Compressed without loss, supports transparency, good for logos and screenshots |
+| GIF | Graphics Interchange Format | Raster | Only 256 colours, supports simple animation |
+| SVG | Scalable Vector Graphics | Vector | Sharp at any size, small file, used on web pages |
+
+**Graphics software.** Paint (simple drawing), GIMP (photo editing, free), Inkscape (vector drawing, free), Canva (online design) and Photoshop (professional).
+
+**Conclusion.** Graphics make information clear and attractive, and the right software and file format should be chosen for each purpose.

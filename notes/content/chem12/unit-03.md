@@ -864,6 +864,32 @@ catalyses the reaction itself — **autocatalysis**. It is why that titration is
 carried out warm, at about 60 °C, to get the first drops going.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.2" caption="A reaction that keeps its own time. (a) In the iodine clock the solution stays clear until all the thiosulfate has been used and then suddenly turns dark. The time to the colour change is inversely proportional to the rate. (b) If the clock time is 40 s at 25 degrees C and 20 s at 35 degrees C, the Arrhenius equation gives an activation energy of 52.9 kJ/mol. The cell then predicts 83.9 s at 15 degrees C and 10.4 s at 45 degrees C. The rate roughly doubles for each 10 K rise, which is the familiar rule of thumb, and the plot of the logarithm of the rate against 1/T is a straight line of slope -Ea / R."
+@ photo id="chem12b/iodine" cap="The iodine clock: the solution turns dark when the iodine finally appears"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Clock time against temperature (Arrhenius)"
+import math
+R = 8.314
+T1, T2, t1, t2 = 298.15, 308.15, 40.0, 20.0
+Ea = R * math.log(t1 / t2) / (1 / T1 - 1 / T2)
+assert round(Ea / 1000, 1) == 52.9
+rows = []
+for tc in (15, 25, 35, 45):
+    T = tc + 273.15
+    rows.append(("%d C" % tc, t1 * math.exp(Ea / R * (1 / T - 1 / T1))))
+assert round(rows[1][1]) == 40 and round(rows[2][1]) == 20
+f = Fig(300, 236)
+f.text(150, 12, "Predicted clock time, seconds", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=max(v for _, v in rows) * 1.05, fmt="%.1f", x0=48, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "data: 40 s at 25 C and 20 s at 35 C", size=10, color=SLATE, bold=True)
+f.text(150, 178, "ln(t1/t2) = (Ea/R)(1/T1 - 1/T2)", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "Ea = %.1f kJ/mol" % (Ea / 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "rate x%.2f per 10 K near 25 C" % (t1 / t2), size=10, color=SLATE, bold=True)
+facts = dict(Ea=Ea / 1000, t15=rows[0][1], t45=rows[3][1])
+```
+
 ## Chapter summary
 
 - Kinetics deals with rates, the factors affecting them and mechanism. Average rate
@@ -1068,3 +1094,40 @@ $$ = e^{10.02} = 2.25\times10^{4} $$
 The catalysed reaction is about twenty-two thousand times faster, even though
 $\Delta H$ and the equilibrium constant are unchanged.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the order and molecularity of a reaction, derive the integrated rate equation of a first-order reaction and the expression for its half-life. <span class="marks">[10]</span>
+
+### Model answer D1: rate law and first-order kinetics (10 marks)
+
+**Introduction.** **Chemical kinetics** studies the rate of a reaction and the factors that affect it. The **rate law** expresses the rate in terms of the concentrations of the reactants, each raised to a power found by experiment. For A + B → products, $\text{rate} = k[\text{A}]^{m}[\text{B}]^{n}$; the **order** is $m + n$ and $k$ is the rate constant.
+
+**Order and molecularity.**
+
+| Point | Order | Molecularity |
+|---|---|---|
+| Meaning | Sum of the powers of concentrations in the rate law | Number of molecules colliding in the elementary step |
+| Found by | Experiment | Theory (mechanism) |
+| Values | Zero, fractional or whole | Whole number only (1, 2, 3) |
+| Applies to | Overall reaction | Elementary step |
+
+**Finding the order from data.** For three runs of A + B → P: $[\text{A}] = 0.1,\ [\text{B}] = 0.1,$ rate $= 2.0 \times 10^{-3}$; $[\text{A}] = 0.2,\ [\text{B}] = 0.1,$ rate $= 4.0 \times 10^{-3}$; $[\text{A}] = 0.1,\ [\text{B}] = 0.2,$ rate $= 8.0 \times 10^{-3}\ \text{mol L}^{-1}\text{s}^{-1}$. Doubling $[\text{A}]$ doubles the rate (first order in A), and doubling $[\text{B}]$ makes the rate four times (second order in B). So $\text{rate} = k[\text{A}][\text{B}]^{2}$ and the order is 3, with $k = 2.0 \times 10^{-3}/(0.1 \times 0.1^{2}) = 2.0\ \text{L}^{2}\text{mol}^{-2}\text{s}^{-1}$.
+
+**Integrated equation for a first-order reaction** A → products. Rate $= -d[\text{A}]/dt = k[\text{A}]$. Rearranging and integrating from $[\text{A}]_0$ at $t = 0$ to $[\text{A}]$ at $t$:
+
+$$ \int_{[A]_0}^{[A]}\frac{d[A]}{[A]} = -k\int_{0}^{t}dt \ \Rightarrow\ \ln\frac{[A]}{[A]_0} = -kt $$
+
+$$ k = \frac{2.303}{t}\log\frac{[A]_0}{[A]} $$
+
+**Half-life.** When $[\text{A}] = [\text{A}]_0/2$ at $t = t_{1/2}$:
+
+$$ t_{1/2} = \frac{2.303\log 2}{k} = \frac{0.693}{k} $$
+
+The half-life of a first-order reaction is **independent of the initial concentration**. (For zero order $t_{1/2} = [\text{A}]_0/2k$, and for second order $t_{1/2} = 1/k[\text{A}]_0$.)
+
+**Numerical.** A first-order reaction has $t_{1/2} = 30\ \text{min}$. Then $k = 0.693/30 = 0.0231\ \text{min}^{-1}$. After 90 min (three half-lives) $1/8 = 12.5\%$ is left. The time for 90 percent completion is
+
+$$ t = \frac{2.303}{0.0231}\log\frac{100}{10} = 99.7\ \text{min} $$
+
+**Conclusion.** The rate law is found only by experiment; for a first-order reaction $\ln[\text{A}]$ falls linearly with time and the half-life is constant, $0.693/k$.

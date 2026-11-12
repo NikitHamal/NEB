@@ -1516,6 +1516,144 @@ Check with the decay law: N/N₀ = (½)^(t/t½) = (½)² = 0.25.
 Use **proper nuclear notation** with the mass number above and the atomic number below, and check that both add up on the two sides of every equation — a balanced nuclear equation is where the marks are. For radiocarbon dating convert the fraction remaining into a number of half-lives first.
 :::
 
+## 6.22 Extended model answers (10 marks)
+
+A Grade 12 Chemistry long answer is marked for definitions, balanced equations with conditions, a labelled diagram or comparison table, and a numerical done in full with units. The four models below show the length expected for 10 marks.
+
+**Extended questions**
+
+1. Describe the Daniell cell, write the cell notation and reactions, and use the Nernst equation to find the emf of the cell with $[\text{Zn}^{2+}] = 0.01$ M and $[\text{Cu}^{2+}] = 1$ M. Find $\Delta G^\circ$ and $K$. <span class="marks">[10]</span>
+2. Explain the order of a reaction and derive the integrated rate law and half-life of a first-order reaction. Solve a numerical and explain the effect of temperature using the Arrhenius equation. <span class="marks">[10]</span>
+3. Describe the manufacture of Portland cement by the dry process, its composition and the setting of cement. <span class="marks">[10]</span>
+4. Compare the $S_N1$ and $S_N2$ mechanisms of nucleophilic substitution of haloalkanes. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="4" ratio="1.25" caption="Chemistry in use. (a) A demonstration Daniell cell with a zinc and a copper electrode. (b) A lead-acid car battery, the rechargeable cell whose emf comes from the same idea. (c) A cement kiln, the rotating furnace of model answer D3. (d) Clinker, the grey nodules that leave the kiln and are ground to cement."
+@ photo id="chem12/daniell" cap="(a) Daniell cell"
+@ photo id="chem12/battery" cap="(b) Car battery"
+@ photo id="chem12/kiln" cap="(c) Cement kiln"
+@ photo id="chem12/clinker" cap="(d) Clinker"
+```
+
+### Model answer D1: Daniell cell and the Nernst equation (10 marks)
+
+**Introduction.** An **electrochemical (galvanic) cell** converts the chemical energy of a spontaneous redox reaction into electrical energy. The **Daniell cell** is a classic example: a zinc rod in zinc sulphate solution and a copper rod in copper sulphate solution, joined by a **salt bridge**.
+
+**Construction and working.**
+
+1. **Anode (oxidation, negative):** $\text{Zn} \to \text{Zn}^{2+} + 2e^-$.
+2. **Cathode (reduction, positive):** $\text{Cu}^{2+} + 2e^- \to \text{Cu}$.
+3. **Overall:** $\text{Zn} + \text{Cu}^{2+} \to \text{Zn}^{2+} + \text{Cu}$.
+4. **Electron flow** is through the wire from zinc to copper; the current is in the opposite direction.
+5. **Salt bridge** (KCl or KNO₃ in gel) completes the circuit and keeps both solutions electrically neutral by letting ions move.
+6. **Cell notation:** $\text{Zn}\,|\,\text{Zn}^{2+}(0.01\text{ M})\,||\,\text{Cu}^{2+}(1\text{ M})\,|\,\text{Cu}$.
+
+**Standard emf.** $E^\circ_{cell} = E^\circ_{cathode} - E^\circ_{anode} = 0.34 - (-0.76) = 1.10$ V.
+
+**Nernst equation** at 298 K: $E = E^\circ - \dfrac{0.0592}{n}\log Q$, where $Q = \dfrac{[\text{Zn}^{2+}]}{[\text{Cu}^{2+}]}$ and $n = 2$.
+
+$E = 1.10 - \dfrac{0.0592}{2}\log\dfrac{0.01}{1} = 1.10 + 0.0592 = 1.159$ V.
+
+**Free energy and equilibrium constant.**
+
+$\Delta G^\circ = -nFE^\circ = -2 \times 96500 \times 1.10 = -212\,300$ J = **-212.3 kJ**.
+
+$\log K = \dfrac{nE^\circ}{0.0592} = \dfrac{2 \times 1.10}{0.0592} = 37.2$, so $K \approx 1.5 \times 10^{37}$.
+
+| Quantity | Value | Meaning |
+|---|---|---|
+| $E^\circ$ | +1.10 V | The reaction is spontaneous |
+| $E$ at $[\text{Zn}^{2+}] = 0.01$ M | 1.159 V | Dilute Zn²⁺ raises the emf |
+| $\Delta G^\circ$ | -212.3 kJ | Large negative value |
+| $K$ | $1.5 \times 10^{37}$ | Reaction goes almost to completion |
+
+**Conclusion.** The cell runs until $Q = K$, at which point $E = 0$ and the cell is "dead". The Nernst equation shows why a battery's voltage falls as it is used.
+
+### Model answer D2: first-order kinetics and the Arrhenius equation (10 marks)
+
+**Introduction.** **Chemical kinetics** studies the rate of reactions and the factors that affect it. The **rate law** relates the rate to the concentrations, for example rate $= k[\text{A}]^n$, where $n$ is the **order** and $k$ is the rate constant. The order is found only by experiment.
+
+**Integrated rate law for a first-order reaction** $\text{A} \to \text{products}$:
+
+1. The rate is $-\dfrac{d[\text{A}]}{dt} = k[\text{A}]$.
+2. Separating the variables and integrating gives $\ln[\text{A}] = \ln[\text{A}]_0 - kt$.
+3. Therefore $k = \dfrac{2.303}{t}\log\dfrac{[\text{A}]_0}{[\text{A}]}$ and $[\text{A}] = [\text{A}]_0 e^{-kt}$.
+4. A graph of $\ln[\text{A}]$ against $t$ is a straight line with slope $-k$.
+5. **Half-life:** at $[\text{A}] = [\text{A}]_0/2$, $t_{1/2} = \dfrac{0.693}{k}$, which is **independent of the initial concentration**.
+
+**Numerical.** For $k = 0.0693\ \text{min}^{-1}$: $t_{1/2} = 0.693/0.0693 = 10$ min. Time for 87.5 per cent to react = 3 half-lives = 30 min. For $[\text{A}]_0 = 0.80$ M, after 25 min $[\text{A}] = 0.80 \times 2^{-2.5} = 0.14$ M.
+
+**Effect of temperature (Arrhenius).** The rate constant rises sharply with temperature: $k = A e^{-E_a/RT}$, or $\log\dfrac{k_2}{k_1} = \dfrac{E_a}{2.303R}\left(\dfrac{1}{T_1} - \dfrac{1}{T_2}\right)$. A rise of 10 K roughly doubles the rate. If $k$ doubles between 300 K and 310 K, $E_a = \dfrac{0.693 \times 8.314}{(1/300 - 1/310)} = 53.6$ kJ mol⁻¹.
+
+| Factor | Effect on rate | Reason |
+|---|---|---|
+| Concentration | Increases | More collisions per second |
+| Temperature | Increases a lot | More molecules exceed $E_a$ |
+| Catalyst | Increases | Lower activation energy |
+| Surface area | Increases (solids) | More exposed reacting surface |
+
+**Conclusion.** First-order reactions, such as radioactive decay and the decomposition of N₂O₅, have a constant half-life, and Arrhenius's equation explains why food is kept in a refrigerator.
+
+### Model answer D3: manufacture of Portland cement (10 marks)
+
+**Introduction.** **Cement** is a fine grey powder that sets and hardens when mixed with water, binding sand and stones into concrete. **Portland cement** is made by heating limestone and clay to a high temperature. Nepal has cement plants such as Hetauda and Udayapur, but much of its cement is still imported.
+
+**Raw materials.** Limestone (CaCO₃, calcium), clay or shale (silica, alumina, iron oxide) and gypsum (a few per cent, to control setting).
+
+**Dry process.**
+
+1. **Crushing and grinding.** Limestone and clay (about 3 : 1) are crushed and ground to a fine powder, then blended into the **raw meal**.
+2. **Preheating.** The meal falls through hot gases in a tower, losing moisture.
+3. **Burning in the rotary kiln.** It passes through a long, slightly inclined rotating furnace, reaching about **1450 °C**. At about 900 °C limestone decomposes, $\text{CaCO}_3 \to \text{CaO} + \text{CO}_2$, and at the highest temperature lime combines with silica, alumina and iron oxide to form **clinker** nodules.
+4. **Cooling.** Clinker is cooled quickly by air.
+5. **Grinding with gypsum.** The clinker is ground with 2 to 5 per cent gypsum to give cement. **Gypsum slows the setting**; without it cement would set at once.
+
+**Composition.**
+
+| Compound | Name | Percentage | Role |
+|---|---|---|---|
+| $3\text{CaO}\cdot\text{SiO}_2$ | Tricalcium silicate (alite) | 40 to 50 | Early strength |
+| $2\text{CaO}\cdot\text{SiO}_2$ | Dicalcium silicate (belite) | 25 to 30 | Slow, later strength |
+| $3\text{CaO}\cdot\text{Al}_2\text{O}_3$ | Tricalcium aluminate | 8 to 12 | Fast set, heat |
+| $4\text{CaO}\cdot\text{Al}_2\text{O}_3\cdot\text{Fe}_2\text{O}_3$ | Tetracalcium aluminoferrite | 8 to 10 | Colour, low heat |
+
+**Setting and hardening.** Water reacts with the silicates and aluminate to give a gel of hydrated calcium silicate and calcium hydroxide. The gel interlocks into a hard mass, so cement sets in about 30 minutes to 10 hours and gains full strength in 28 days. Cement does not dry; it reacts with water, and so it also hardens underwater.
+
+**Numerical.** 100 kg of pure limestone ($M = 100$) gives $56$ kg of CaO and $44$ kg of CO₂, so a tonne of clinker releases a large amount of carbon dioxide.
+
+**Conclusion.** Cement is essential for roads and buildings, but the CO₂ and dust from kilns must be controlled by filters and cleaner fuels.
+
+### Model answer D4: $S_N1$ and $S_N2$ mechanisms (10 marks)
+
+**Introduction.** In **nucleophilic substitution**, a nucleophile (a species with a lone pair, such as OH⁻) replaces the halogen in a haloalkane: $\text{R-X} + \text{Nu}^- \to \text{R-Nu} + \text{X}^-$. It occurs by two mechanisms.
+
+**$S_N2$ (substitution nucleophilic bimolecular).** Example: $\text{CH}_3\text{Br} + \text{OH}^- \to \text{CH}_3\text{OH} + \text{Br}^-$.
+
+1. It is a **single step**: the nucleophile attacks from the back side of carbon while the halide leaves.
+2. The rate is rate $= k[\text{RX}][\text{Nu}^-]$, second order.
+3. The transition state has five groups round carbon.
+4. **Inversion of configuration** occurs, like an umbrella turning inside out.
+5. Methyl and primary halides react best, because there is little crowding.
+
+**$S_N1$ (substitution nucleophilic unimolecular).** Example: $(\text{CH}_3)_3\text{C-Br} + \text{OH}^- \to (\text{CH}_3)_3\text{C-OH} + \text{Br}^-$.
+
+1. **Step 1 (slow):** the C-Br bond breaks to give a planar **carbocation**, $(\text{CH}_3)_3\text{C}^+$.
+2. **Step 2 (fast):** the nucleophile attacks the carbocation from either side.
+3. The rate is rate $= k[\text{RX}]$, first order.
+4. For an optically active halide, **racemisation** occurs.
+5. Tertiary halides react best, because they give a stable carbocation.
+
+| Basis | $S_N1$ | $S_N2$ |
+|---|---|---|
+| Steps | Two | One |
+| Rate law | $k[\text{RX}]$ | $k[\text{RX}][\text{Nu}^-]$ |
+| Intermediate | Carbocation | None (transition state) |
+| Stereochemistry | Racemisation | Inversion |
+| Best substrate | $3° > 2°$ | $\text{CH}_3 > 1° > 2°$ |
+| Favoured by solvent | Polar protic (water, alcohol) | Polar aprotic (acetone) |
+| Nucleophile | Weak is enough | Strong needed |
+
+**Conclusion.** Primary halides go by $S_N2$, tertiary halides by $S_N1$, and secondary halides may follow either route depending on the nucleophile and solvent.
+
 ## Chapter summary
 
 - **Sixty-four of the seventy-five marks are subjective.** Group B carries 8 × 5 = 40 and Group C 3 × 8 = 24, so this chapter gives every one of the twenty-one CDC units at least three five-mark questions and one eight-mark question, each with a full model answer.

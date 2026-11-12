@@ -272,3 +272,63 @@ Students pass a perfect rectifying entry and then forget to say whether the tria
 
 The debit column of the trial balance was short by Rs. 11,300, which was carried in the credit of the suspense account and is now cleared.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is an accounting error? Explain the types of errors, with an example of each, and say which of them the trial balance does not disclose. <span class="marks">[10]</span>
+2. The trial balance of a firm did not agree: the credit side exceeded the debit side by Rs 700 and the difference was put in a suspense account. Later these errors were found: (i) the sales returns book was undercast by Rs 1,000; (ii) rent of Rs 600 paid was debited to the rent account as Rs 900; (iii) goods bought from Hari for Rs 2,000 were debited to the furniture account. Pass the journal entries and prepare the suspense account. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="3" ratio="1.0" caption="Where errors are found. Errors creep in while posting to the ledger, writing the cash book or totalling with a machine; the trial balance is the first test."
+@ photo id="acc10/ledger" cap="Ledger"
+@ photo id="acc10/cash-book" cap="Cash book"
+@ photo id="acc10/adding-machine" cap="Adding machine"
+```
+
+### Model answer D1: types of accounting errors (10 marks)
+
+**Introduction.** An **accounting error** is a mistake made in recording, classifying, posting or totalling a transaction. Errors arise from carelessness, lack of knowledge, wrong totals or dishonesty.
+
+| Type | Meaning | Example | Disclosed by trial balance? |
+|---|---|---|---|
+| Error of omission | A transaction is wholly or partly left out | A credit sale of Rs 3,000 is never entered | No (if completely omitted); yes if only one side is omitted |
+| Error of commission | Wrong amount or wrong account of the same class | Rs 5,000 posted in the account of Ram instead of Shyam | No (wrong account), yes (wrong amount on one side) |
+| Error of principle | An accounting rule is broken, for example capital and revenue are mixed | Purchase of furniture debited to purchases | No |
+| Compensating error | Two or more errors cancel each other | Sales overcast by Rs 100 and purchases overcast by Rs 100 | No |
+| Error of original entry | A wrong amount is written in the book of original entry | Rs 540 written as Rs 450 in the journal | No |
+| Complete reversal | The debit and credit accounts are exchanged | Cash received from Ram debited to Ram and credited to cash | No |
+
+**Errors that affect the trial balance:** posting to only one side, wrong totals of subsidiary books, wrong balancing, copying a balance wrongly. These make the two sides unequal and are detected by it.
+
+**Causes.** Carelessness; haste; poor handwriting; missing vouchers; lack of knowledge of rules; deliberate fraud.
+
+**Conclusion.** An agreed trial balance is not a proof that the books are error-free; errors that do not affect the equality of the two sides remain hidden until they are found by checking or audit.
+
+### Model answer D2: rectification and the suspense account (10 marks)
+
+**Introduction.** Errors found after the trial balance are corrected by **rectifying entries**. Errors that affected the agreement of the trial balance are rectified through the **suspense account**; the errors that did not affect it are rectified without it.
+
+**Journal entries.**
+
+| No. | Particulars | Dr (Rs) | Cr (Rs) |
+|---|---|---|---|
+| (i) | Sales Returns A/c Dr. | 1,000 | |
+| | To Suspense A/c | | 1,000 |
+| | (Sales returns book was undercast by Rs 1,000) | | |
+| (ii) | Suspense A/c Dr. | 300 | |
+| | To Rent A/c | | 300 |
+| | (Rent was debited as Rs 900 instead of Rs 600) | | |
+| (iii) | Purchases A/c Dr. | 2,000 | |
+| | To Furniture A/c | | 2,000 |
+| | (Goods wrongly debited to furniture; an error of principle, so no suspense account) | | |
+
+**Suspense account.**
+
+| Dr | Particulars | Rs | Cr | Particulars | Rs |
+|---|---|---|---|---|---|
+| | Difference in the trial balance | 700 | | Sales Returns A/c (i) | 1,000 |
+| | Rent A/c (ii) | 300 | | | |
+| | | **1,000** | | | **1,000** |
+
+**Check.** The suspense account closes with a nil balance, so all the errors that disturbed the trial balance have been found: the debit side was short by $1{,}000-300=700$, which is exactly the difference first noticed. Entry (iii) did not touch the trial balance because it has an equal debit and credit effect; it corrects the classification between a revenue item (purchases) and a capital item (furniture), so the profit and the value of the assets change.
+
+**Conclusion.** The suspense account is only a temporary account; it must not stay open, and a balance in it at the year end is an alarm that errors are still hidden.

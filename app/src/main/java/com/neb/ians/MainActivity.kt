@@ -1,5 +1,7 @@
 package com.neb.ians
 
+import com.neb.ians.ui.components.NebToastBusHost
+import com.neb.ians.ui.components.nebToast
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +19,9 @@ import androidx.compose.runtime.getValue
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import com.neb.ians.util.nebSafeSides
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
@@ -99,10 +104,19 @@ class MainActivity : ComponentActivity() {
             }
             NEBiansTheme(darkTheme = isDarkMode) {
                 androidx.compose.runtime.CompositionLocalProvider(com.neb.ians.ui.theme.LocalSiteTheme provides themeState) {
-                    NEBiansNavHost(
-                        settingsViewModel = settingsViewModel,
-                        authRepository = authRepository
-                    )
+                    // the edges of the screen (side navigation bar in landscape, camera cut-out) stay clear of touch targets
+                    androidx.compose.foundation.layout.Box(
+                        androidx.compose.ui.Modifier
+                            .fillMaxSize()
+                            .background(androidx.compose.material3.MaterialTheme.colorScheme.background)
+                            .nebSafeSides()
+                    ) {
+                        NEBiansNavHost(
+                            settingsViewModel = settingsViewModel,
+                            authRepository = authRepository
+                        )
+                        NebToastBusHost()
+                    }
                 }
             }
         }
@@ -193,12 +207,12 @@ class MainActivity : ComponentActivity() {
                 lifecycleScope.launch {
                     val success = authRepository.signInWithWebToken(authToken, isNewUser, username)
                     if (!success) {
-                        Toast.makeText(this@MainActivity, "Sign-in failed. Please try again.", Toast.LENGTH_SHORT).show()
+                        this@MainActivity.nebToast("Sign-in failed. Please try again.")
                     }
                 }
             } else if (error != null) {
                 if (error != "cancelled") {
-                    Toast.makeText(this, "Sign-in error: $error", Toast.LENGTH_LONG).show()
+                    this.nebToast("Sign-in error: $error", long = true)
                 }
             }
 
@@ -208,6 +222,11 @@ class MainActivity : ComponentActivity() {
 
         val notificationDeepLink = NotificationDeepLink.fromIntent(intent)
         if (notificationDeepLink != null) {
+            val tappedCampaign = intent.getStringExtra("campaign_id")
+            val tappedNotification = notificationDeepLink.notificationId
+            kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                authRepository.reportPushOpened(tappedNotification, tappedCampaign)
+            }
             DeepLinkBus.emit(notificationDeepLink)
             setIntent(Intent())
         }

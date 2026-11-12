@@ -82,7 +82,7 @@ pub fn avatar(ui: &mut Ui, th: &Theme, name: &str, tone_idx: usize, size: f32, u
             let (rect, _) = ui.allocate_exact_size(vec2(size, size), Sense::hover());
             ui.painter().circle_filled(rect.center(), size / 2.0, th.p.field);
             egui::Image::from_bytes(uri, egui::load::Bytes::Shared(b)).fit_to_exact_size(vec2(size, size)).rounding(size / 2.0).tint(Color32::WHITE).paint_at(ui, rect);
-            ui.painter().circle_stroke(rect.center(), size / 2.0 - 0.5, egui::Stroke::new(1.0, th.p.hairline));
+            ui.painter().circle_stroke(rect.center(), size / 2.0 - 0.5, egui::Stroke::new(1.0_f32, th.p.hairline));
             return;
         }
     }

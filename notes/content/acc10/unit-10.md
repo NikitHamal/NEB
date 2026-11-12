@@ -422,3 +422,58 @@ Three mistakes cost most of the marks in this unit. First, **recording the gross
 
 Note: the advance of Rs. 50,000 is *not* an expenditure; when the bill of Rs. 58,000 is received the advance is cleared and only the excess of Rs. 8,000 is a fresh payment. The furniture head (31121) finally carries Rs. 58,000 of expenditure. Closing balance Rs. 52,000 (debit), subject to reconciliation with the passbook.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is the bank cash book (म.ले.प.फा.नं. २०९)? Prepare it from the following transactions of an office for Shrawan: opening balance Rs 1,50,000; 5th budget release received Rs 8,00,000; 12th salary paid Rs 3,20,000; 15th office supplies Rs 45,000; 20th advance to a staff member Rs 60,000; 28th refund of an advance Rs 10,000; 30th tax deducted at source deposited Rs 18,000. <span class="marks">[10]</span>
+2. Explain the payment order, advance and clearance, and budget release, transfer and re-appropriation. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="4" ratio="1.0" caption="The paper trail of a government payment. The Ministry of Finance releases the budget, a cheque pays the supplier, the cash book records the payment and the passbook confirms it."
+@ photo id="acc10/finance-ministry" cap="Ministry of Finance"
+@ photo id="acc10/cheque-issued" cap="Cheque issued"
+@ photo id="acc10/cash-book" cap="Cash book"
+@ photo id="acc10/passbook" cap="Passbook"
+```
+
+### Model answer D1: the bank cash book (10 marks)
+
+**Introduction.** The **bank cash book (A.G.F. No. 209)** is the combined record of the bank account of an operating level office. It shows all money received and paid, with a running balance, and is the principal book of an office that uses operating level accounting. It is reconciled with the bank statement every month.
+
+**Bank cash book for Shrawan.**
+
+| Date | Voucher | Particulars | Debit (Rs) | Credit (Rs) | Balance (Rs) |
+|---|---|---|---|---|---|
+| 1 | – | Opening balance | 1,50,000 | | 1,50,000 |
+| 5 | 1 | Budget release received | 8,00,000 | | 9,50,000 |
+| 12 | 2 | Salary paid | | 3,20,000 | 6,30,000 |
+| 15 | 3 | Office supplies | | 45,000 | 5,85,000 |
+| 20 | 4 | Advance to staff | | 60,000 | 5,25,000 |
+| 28 | 5 | Refund of advance | 10,000 | | 5,35,000 |
+| 30 | 6 | TDS deposited | | 18,000 | 5,17,000 |
+| | | **Total** | **9,60,000** | **4,43,000** | **5,17,000 c/d** |
+
+**Check.** Total receipts $9{,}60{,}000-$ total payments $4{,}43{,}000=5{,}17{,}000$, the closing balance, which must agree with the passbook after reconciliation.
+
+**Rules.** Enter in date order with the voucher number; carry a running balance; total both sides at the month end; reconcile with the bank statement; send a copy with the monthly statement of expenditure.
+
+### Model answer D2: payment, advance and budget control (10 marks)
+
+**Introduction.** Public money may be spent only with authority and in the proper manner: every payment must be backed by an order, a voucher and a budget head.
+
+**Payment order.** A written order from the authorised officer to the bank (or the Treasury) to pay a stated sum to a named person for a stated purpose. It must be supported by a bill, the approval and the code of the budget head.
+
+**Advance and clearance.** An **advance** is money given before the work is done, to a staff member or a supplier (for example, for a field trip). It must be **cleared** within the time limit by submitting bills; any unspent amount is refunded to the bank account. An uncleared advance is shown in the statement of the advance and is a ground for audit objection.
+
+**Budget release.** The Ministry of Finance, through the Treasury, releases the approved budget to the office, usually in instalments, as authority to spend.
+
+**Budget transfer and re-appropriation.** Moving unused budget from one head to another within the limit of the law, with approval, when a head runs short and another has savings. Moving money from a capital head to a recurrent head, or vice versa, is controlled strictly.
+
+| Term | Meaning | Document |
+|---|---|---|
+| Payment order | Authority to pay | Payment order and voucher |
+| Advance | Payment before the work | Advance register |
+| Clearance | Proof that the advance was used | Bills, refund |
+| Release | Authority to spend the budget | Release letter |
+| Re-appropriation | Shift of budget between heads | Approval letter |
+
+**Conclusion.** These controls make sure that an office never spends beyond its budget or outside its purpose.

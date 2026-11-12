@@ -1,0 +1,121 @@
+{% extends "admin_panel/base.html" %}
+{% load admin_extras %}
+
+{% block title %}Push history{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-row">
+    <h1>Push notifications</h1>
+    <div class="admin-page-actions">
+      <a href="{% url 'web:admin_push_notifications' %}" class="md-btn md-btn-filled"><span class="material-symbols-outlined" aria-hidden="true">edit_square</span>New notification</a>
+    </div>
+  </div>
+</div>
+{% include "admin_panel/_push_tabs.html" %}
+
+<div class="pn-actions pn-filter-bar">
+  <div class="pn-chips" role="group" aria-label="Trigger type">
+    {% for key, label in kinds %}<a class="pn-chip pn-chip-link {% if kind == key %}is-on{% endif %}" href="?kind={{ key }}&days={{ days }}"><span>{{ label }}</span></a>{% endfor %}
+  </div>
+  <div class="pn-chips pn-push-right" role="group" aria-label="Range">
+    {% for d in ranges %}<a class="pn-chip pn-chip-link {% if days == d %}is-on{% endif %}" href="?kind={{ kind }}&days={{ d }}"><span>{{ d }} days</span></a>{% endfor %}
+  </div>
+</div>
+
+<div class="admin-kpi-grid">
+  <div class="admin-kpi"><div class="admin-kpi-label">Campaigns</div><div class="admin-kpi-value">{{ ov.kpis.campaigns.value }}</div>
+    <div class="admin-kpi-sub {% if ov.kpis.campaigns.change %}{% if ov.kpis.campaigns.change > 0 %}up{% else %}down{% endif %}{% endif %}">{% if ov.kpis.campaigns.change is None %}New{% else %}{{ ov.kpis.campaigns.change }}% vs before{% endif %}</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Targeted</div><div class="admin-kpi-value">{{ ov.kpis.people.value }}</div>
+    <div class="admin-kpi-sub">{{ ov.reach.appShare|default_if_none:0 }}% on Android</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Delivered</div><div class="admin-kpi-value">{{ ov.delivered }}</div>
+    <div class="admin-kpi-sub">{% if ov.deliveryRate is not None %}{{ ov.deliveryRate }}% of devices{% else %}No devices yet{% endif %}</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Opened</div><div class="admin-kpi-value">{{ ov.kpis.opens.value }}</div>
+    <div class="admin-kpi-sub">{% if ov.openRate is not None %}{{ ov.openRate }}% open rate{% else %}None yet{% endif %}</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">CTR</div><div class="admin-kpi-value">{% if ov.ctr is not None %}{{ ov.ctr }}%{% else %}None{% endif %}</div>
+    <div class="admin-kpi-sub">{{ ov.clicks }} clicks</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Resource views</div><div class="admin-kpi-value">{{ ov.resourceViews }}</div>
+    <div class="admin-kpi-sub">from notifications</div></div>
+</div>
+
+<div class="pn-grid pn-gap-bottom">
+  <section class="pn-card">
+    <h2>Delivered and opened per day</h2>
+    <div class="pn-bars" role="img" aria-label="Pushes accepted and opens per day">
+      {% for s in ov.series %}<div class="col" title="{{ s.date }}: {{ s.accepted }} accepted, {{ s.opens }} opens"><i class="{% if not s.accepted %}zero{% endif %}" data-h="{{ s.ha }}"></i><i class="b {% if not s.opens %}zero{% endif %}" data-h="{{ s.ho }}"></i></div>{% endfor %}
+    </div>
+    {% with end=ov.series|last %}<div class="pn-axis"><span>{{ ov.series.0.date }}</span><span>{{ end.date }}</span></div>{% endwith %}
+    <div class="pn-legend"><span><i></i>Delivered</span><span><i class="b"></i>Opened</span></div>
+  </section>
+  <section class="pn-card">
+    <h2>When people open</h2>
+    {% if ov.bestHours.top %}
+    <p class="pn-lead">Best times: {% for h in ov.bestHours.top %}{{ h.label }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    {% endif %}
+    <div class="pn-bars single pn-bars-short">
+      {% for b in ov.bestHours.bars %}<div class="col" title="{{ b.i }}:00, {{ b.n }} opens"><i class="{% if not b.n %}zero{% endif %}" data-h="{{ b.h }}"></i></div>{% endfor %}
+    </div>
+    <div class="pn-axis"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div>
+  </section>
+</div>
+
+{% if ov.errors or ov.byKind %}
+<div class="pn-grid pn-grid-even pn-gap-bottom">
+  {% if ov.byKind %}
+  <section class="pn-card"><h2>By trigger</h2>
+    {% for k in ov.byKind %}<div class="pn-meter-row"><span>{{ k.label }}<small>{{ k.campaigns }} campaigns</small></span><b>{{ k.people }}</b></div>{% endfor %}
+  </section>{% endif %}
+  {% if ov.errors %}
+  <section class="pn-card"><h2>Failures</h2>
+    {% for e in ov.errors %}<div class="pn-meter-row"><span>{{ e.label }}</span><b>{{ e.count }}</b><div class="pn-meter warn"><i data-w="{{ e.pct }}"></i></div></div>{% endfor %}
+    {% if ov.tokensPruned %}<p class="pn-empty">{{ ov.tokensPruned }} dead devices removed</p>{% endif %}
+  </section>{% endif %}
+</div>
+{% endif %}
+
+<section class="pn-card">
+  <h2>Sent campaigns</h2>
+  {% if rows %}
+  <div class="pn-scroll">
+  <table class="pn-table pn-table-wide">
+    <thead><tr><th>Campaign</th><th>Trigger</th><th>Target</th><th class="num">Targeted</th><th class="num">Sent</th><th class="num">Delivered</th><th class="num">Failed</th><th class="num">Opened</th><th class="num">Clicked</th><th class="num">CTR</th><th class="num">Views</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td class="pn-col-title"><a class="pn-link" href="{% url 'web:admin_push_detail' campaign_id=r.c.id %}">{{ r.c.title }}</a>
+          <span class="sub">{{ r.c.created_at|ms_when }}</span></td>
+        <td><span class="pn-pill kind">{{ r.kind_label }}</span></td>
+        <td class="pn-nowrap">{{ r.target }}</td>
+        <td class="num">{{ r.m.targeted }}</td>
+        <td class="num">{{ r.m.sent }}</td>
+        <td class="num">{{ r.m.delivered }}</td>
+        <td class="num">{{ r.m.failed }}</td>
+        <td class="num">{{ r.m.opened }}{% if r.m.openRate is not None %}<span class="sub">{{ r.m.openRate }}%</span>{% endif %}</td>
+        <td class="num">{{ r.m.clicked }}</td>
+        <td class="num">{% if r.m.ctr is not None %}{{ r.m.ctr }}%{% else %}None{% endif %}</td>
+        <td class="num">{{ r.m.views }}</td>
+        <td><span class="pn-pill {{ r.c.status }}">{{ r.c.get_status_display }}</span>{% if r.c.status == 'scheduled' %}<span class="sub">{{ r.c.scheduled_at|ms_when }}</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% if page.paginator.num_pages > 1 %}
+  <div class="admin-pagination pn-gap-top">
+    {% if page.has_previous %}<a href="?kind={{ kind }}&days={{ days }}&page={{ page.previous_page_number }}">Previous</a>{% endif %}
+    <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a href="?kind={{ kind }}&days={{ days }}&page={{ page.next_page_number }}">Next</a>{% endif %}
+  </div>
+  {% endif %}
+  {% else %}
+  <p class="pn-empty">No campaigns yet</p>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+document.querySelectorAll('[data-h]').forEach(function (el) { el.style.height = el.getAttribute('data-h') + '%'; });
+document.querySelectorAll('[data-w]').forEach(function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
+</script>
+{% endblock %}

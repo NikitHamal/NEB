@@ -636,6 +636,28 @@ and Health Survey 2022** found **25 % of children under five stunted** (down fro
 aged 6–59 months** and **34 % of women aged 15–49** were anaemic. Universal salt
 iodisation has made endemic goitre in the hills, once very common, rare.
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="Population growth is measured from census counts, and the annual growth rate shows how fast the numbers change. (a) A busy street in Kathmandu. (b) Nepal's census counted 26.49 million people in 2011 and 29.16 million in 2021, a gain of 2.67 million. Using the 10.43 years between the two census dates, the continuous growth rate is 0.92% per year, which agrees with the published figure of 0.92%. At this rate the population would double in about 75 years, and the 2031 estimate is 32.0 million. The rate has fallen since the 1980s because of lower fertility, but migration and ageing now shape the age pyramid."
+@ photo id="bio12/crowd" cap="A crowded street in Kathmandu: the capital holds a growing share of Nepal's people"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Nepal census counts and the growth rate"
+p1, p2 = 26.494504, 29.164578
+yrs = 10.43
+r = math.log(p2 / p1) / yrs
+dbl = math.log(2) / r
+p31 = p2 * math.exp(r * 10)
+assert 0.0090 < r < 0.0095 and 70 < dbl < 80
+f = Fig(300, 236)
+f.text(150, 14, "Population of Nepal (millions)", size=10.5, color=NAVY, bold=True)
+hbars(f, [("2011", p1), ("2021", p2), ("2031 est.", p31)], vmax=36, fmt="%.2f", x0=70, y0=34, bw=170, gap=34,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 150, "r = ln(P2 / P1) / t = %.2f%% per year" % (100 * r), size=10.5, color=NAVY, bold=True)
+f.text(150, 170, "(t = 10.43 years between censuses)", size=9.5, color=SLATE, bold=True)
+f.text(150, 192, "doubling time = ln 2 / r = %.0f years" % dbl, size=10.5, color=RED, bold=True)
+f.text(150, 212, "2031 estimate keeps the same r", size=10, color=SLATE, bold=True)
+facts = dict(r=100 * r, d=dbl, p31=p31, inc=p2 - p1)
+```
+
 ## Chapter summary
 
 - $\text{CBR} = (B/P)\times 1000$; $\text{CDR} = (D/P)\times 1000$;
@@ -755,3 +777,142 @@ and skills above all. But old-age dependency is rising (65+ rose from 5.27 % of
 the population in 2011 to 6.93 % in 2021), so pensions, geriatric care and NCD
 services must be built now, before the dividend closes.
 :::
+
+```photogrid label="9.H" cols="5" ratio="1.0" caption="Population and health, left to right: (a) a crowded street in Kathmandu; (b) the Anopheles mosquito that carries malaria; (c) the life cycle of Plasmodium; (d) the structure of the HIV virion; (e) a vaccine, which builds artificial active immunity."
+@ photo id="bio12/crowd" cap="Crowded Kathmandu street"
+@ photo id="ceezoo/anopheles" cap="Anopheles mosquito"
+@ photo id="bio12/plasmodium-cycle" cap="Plasmodium life cycle"
+@ photo id="bio12/hiv-virion" cap="HIV virion"
+@ photo id="ceezoo/vaccine" cap="Vaccination"
+```
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define population growth. Explain the factors that affect it, and discuss the demographic transition and the population pyramid. <span class="marks">[10]</span>
+2. Describe the life cycle of *Plasmodium vivax* in human and mosquito, with the symptoms, prevention and control of malaria. <span class="marks">[10]</span>
+3. What is AIDS? Describe the structure of HIV, the way it infects and destroys the immune system, and give the modes of transmission and prevention. <span class="marks">[10]</span>
+
+### Model answer D1: population growth, demographic transition and pyramids (10 marks)
+
+**Introduction.** **Population growth** is the change in the number of people in a region over time. It is governed by the **natality (birth rate)**, **mortality (death rate)**, **immigration** and **emigration**. The growth rate is given by
+
+growth rate (%) = (births - deaths + immigrants - emigrants) / population x 100.
+
+The population of Nepal was 29.2 million in the census of 2078 BS, with a growth rate of about 0.92% a year, far lower than the 2.2% of the 1990s.
+
+**Factors affecting growth.**
+
+1. **Birth rate:** raised by early marriage and a preference for sons; lowered by family planning and the education of girls.
+2. **Death rate:** has fallen through vaccination, safe water and better hospitals such as those in Bharatpur and Dharan.
+3. **Migration:** foreign employment in the Gulf and Malaysia takes young men out of Nepal and shifts the age structure; internal migration swells the Kathmandu valley.
+4. **Health care and sanitation:** the infant mortality fell from over 100 in 1990 to about 21 per 1000 live births.
+5. **Education and the status of women:** better education delays marriage and reduces the fertility rate.
+6. **Economic conditions:** poor families depend on children for labour; richer ones choose smaller families.
+7. **Culture and religion:** beliefs and norms influence family size.
+8. **Government policy:** incentives and programmes of family planning, and safe motherhood.
+
+**Growth patterns.** A population grows **exponentially (J-shaped)** if resources are unlimited, and **logistically (S-shaped)** when it levels off at the **carrying capacity (K)**.
+
+**Demographic transition.** This theory describes the change from high to low birth and death rates in four stages.
+
+| Stage | Birth rate | Death rate | Growth | Example |
+|---|---|---|---|---|
+| 1. Pre-industrial | High | High | Slow | Remote tribal groups |
+| 2. Early expanding | High | Falls quickly | Very rapid | Nepal in 1950-1990 |
+| 3. Late expanding | Falls | Low | Slows | Nepal today |
+| 4. Stationary | Low | Low | Almost zero | Japan, Germany |
+
+**Population pyramid.** This is a graph of the age-sex structure, with males on the left and females on the right.
+
+- **Expanding (triangular, wide base):** many young people, as in Nepal's pyramid of 1991.
+- **Stationary (bell-shaped):** the base and the middle are about equal.
+- **Declining (urn-shaped, narrow base):** few young people, as in Japan.
+
+Nepal now has a narrower base and a wide working-age middle. This is a **demographic dividend**, an opportunity if the youth find jobs.
+
+**Conclusion.** Population growth is the result of births, deaths and migration, and it is steered by health, education and policy. Nepal has moved to stage 3, and planning for jobs, schools and health for its large youth group is the next challenge.
+
+### Model answer D2: malaria and the life cycle of *Plasmodium* (10 marks)
+
+**Introduction.** **Malaria** is a vector-borne disease caused by the protozoan **Plasmodium** (*P. vivax*, *P. falciparum*, *P. malariae*, *P. ovale*). It is transmitted by the bite of the **female *Anopheles* mosquito**. In Nepal it is found mainly in the Terai and in river valleys of the inner Terai.
+
+**Hosts.** The **human** is the **intermediate host**, where the asexual stage (schizogony) takes place. The **female Anopheles** is the **definitive host**, where the sexual stage (sporogony) occurs.
+
+**Life cycle in humans.**
+
+1. An infected mosquito injects **sporozoites** with its saliva into the blood.
+2. Within 30 minutes they reach the **liver cells**, where they multiply (**exo-erythrocytic schizogony**) and form thousands of **merozoites**. In *P. vivax* some stay dormant as **hypnozoites**, causing relapse months later.
+3. The merozoites burst out and enter the **red blood cells (erythrocytic schizogony)**. Each becomes a **ring**, then a **trophozoite**, then a **schizont**, and splits into 8 to 24 new merozoites.
+4. The cell bursts, releasing the merozoites and **haemozoin toxin**; this causes the fever. The cycle repeats every **48 hours** (tertian malaria).
+5. Some merozoites become **gametocytes** (male and female), which are the infective stage to the mosquito.
+
+**Life cycle in the mosquito.**
+
+1. When the female Anopheles takes blood, the gametocytes enter its stomach.
+2. They form gametes, which fuse (**fertilisation**) to produce a **zygote**, which changes into a motile **ookinete**.
+3. The ookinete forms an **oocyst** on the stomach wall; by repeated division it forms thousands of **sporozoites** (**sporogony**).
+4. The oocyst bursts and the sporozoites travel to the **salivary glands**, ready to infect the next person.
+
+**Symptoms.** A cycle of **cold stage (shivering), hot stage (high fever) and sweating stage**, with headache, nausea, **anaemia** and an enlarged **spleen (splenomegaly)**. *P. falciparum* causes cerebral malaria and can be fatal.
+
+**Diagnosis and treatment.** A blood film stained with Giemsa, or a rapid diagnostic test. Treatment is **chloroquine** for *P. vivax*, plus **primaquine** to kill the hypnozoites, and **artemisinin combination therapy (ACT)** for *P. falciparum*.
+
+**Prevention and control.**
+
+- Drain stagnant water and clear the breeding places.
+- Spray indoor walls (DDT or other insecticides).
+- Sleep under **long-lasting insecticidal nets**.
+- Introduce larvivorous fish such as *Gambusia* into ponds.
+- Use repellents and screens, and treat patients early.
+
+| Feature | In human | In mosquito |
+|---|---|---|
+| Host type | Intermediate | Definitive |
+| Reproduction | Asexual (schizogony) | Sexual (sporogony) |
+| Infective stage | Gametocyte | Sporozoite |
+
+**Conclusion.** A parasite with two hosts needs both to be broken. The control of the mosquito and prompt treatment of patients has cut malaria deaths in Nepal sharply in the past two decades.
+
+### Model answer D3: AIDS and HIV (10 marks)
+
+**Introduction.** **AIDS (Acquired Immuno-Deficiency Syndrome)** is a late stage of infection with the **Human Immunodeficiency Virus (HIV)**, a retrovirus. It was first identified in 1981, and in Nepal the first case was reported in 1988. The virus destroys the body's defence and the patient dies from opportunistic infections.
+
+**Structure of HIV.** The virion is spherical, about 120 nm across.
+
+- **Envelope:** a lipid bilayer from the host cell with the glycoprotein spikes **gp120** and **gp41**.
+- **Capsid (core):** a cone of protein p24.
+- **Genome:** **two identical strands of single-stranded RNA**.
+- **Enzymes:** **reverse transcriptase**, integrase and protease.
+
+**Infection of the host.**
+
+1. gp120 binds to the **CD4 receptor** on the helper T cells (also macrophages and dendritic cells).
+2. The envelope fuses with the cell membrane and the core enters the cell.
+3. **Reverse transcriptase** makes DNA from the viral RNA.
+4. **Integrase** inserts the viral DNA into the host chromosome as a **provirus**, where it may stay silent for years.
+5. The host cell makes new viral RNA and proteins, they assemble at the membrane, and new virions **bud off**.
+6. Each infected helper T cell is destroyed, and the **CD4 count falls** from the normal 800 to 1200 per microlitre to below 200.
+
+**Effect on immunity.** Because helper T cells coordinate both antibody and cell-mediated immunity, their loss lets in **opportunistic infections** such as tuberculosis, *Pneumocystis* pneumonia, candidiasis and Kaposi's sarcoma.
+
+**Stages.** (1) Acute infection with flu-like illness; (2) a long **latent** period of 8 to 10 years; (3) symptomatic AIDS.
+
+**Modes of transmission.**
+
+1. Unprotected sexual contact.
+2. Infected blood and blood products.
+3. Shared needles among drug users.
+4. From mother to child during pregnancy, birth or breast-feeding.
+HIV is **not** spread by a handshake, a mosquito bite, sharing food or a hug.
+
+**Diagnosis.** **ELISA** to detect antibodies, confirmed by **Western blot**; the **PCR** detects viral RNA.
+
+**Prevention and treatment.**
+
+- Safe sex, with condoms, and faithfulness to one partner.
+- Screening of donated blood and use of sterile syringes.
+- Treating HIV-positive mothers with drugs to prevent transmission to the baby.
+- Awareness and counselling at ART centres, as run by the government in Kathmandu and the provinces.
+- **Antiretroviral therapy (ART)**, using reverse transcriptase and protease inhibitors, controls the virus, but there is no cure or vaccine yet.
+
+**Conclusion.** HIV attacks the very cells that coordinate immunity. Knowledge, safe behaviour and ART help people with HIV to live long, healthy lives, and the best protection for everyone is prevention.

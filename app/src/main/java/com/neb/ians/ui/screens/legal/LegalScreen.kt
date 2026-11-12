@@ -1,7 +1,10 @@
 package com.neb.ians.ui.screens.legal
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -29,14 +32,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
 
@@ -47,7 +55,8 @@ fun LegalScreen(
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val document = remember(documentKey) { NebLegal.documentFor(documentKey) }
+    var activeKey by remember(documentKey) { mutableStateOf(documentKey) }
+    val document = remember(activeKey) { NebLegal.documentFor(activeKey) }
     val colors = legalTextColors()
     val tactile = rememberTactileFeedback()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -98,16 +107,31 @@ fun LegalScreen(
                 .padding(top = innerPadding.calculateTopPadding())
                 .navigationBarsPadding(),
             contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 40.dp),
-            verticalArrangement = Arrangement.spacedBy(22.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item(key = "meta") {
                 LegalMetaRow(
                     subtitle = document.subtitle,
-                    lastUpdated = document.lastUpdated
+                    lastUpdated = document.lastUpdated,
+                    activeKey = activeKey,
+                    onSelectKey = { nextKey ->
+                        if (nextKey != activeKey) {
+                            tactile.perform(TactileType.LightTap)
+                            activeKey = nextKey
+                        }
+                    }
                 )
             }
-            items(document.sections, key = { it.number }) { section ->
-                LegalSectionBlock(section = section, colors = colors)
+            items(document.sections, key = { "${document.key}_${it.number}" }) { section ->
+                LegalSectionBlock(
+                    section = section,
+                    colors = colors,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                        .padding(18.dp)
+                )
             }
             item(key = "contact") {
                 LegalContactCard(email = document.contactEmail)
@@ -117,7 +141,12 @@ fun LegalScreen(
 }
 
 @Composable
-private fun LegalMetaRow(subtitle: String, lastUpdated: String) {
+private fun LegalMetaRow(
+    subtitle: String,
+    lastUpdated: String,
+    activeKey: String,
+    onSelectKey: (String) -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = subtitle,
@@ -127,7 +156,7 @@ private fun LegalMetaRow(subtitle: String, lastUpdated: String) {
         Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier
-                .clip(RoundedCornerShape(50))
+                .clip(RoundedCornerShape(20.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                 .padding(horizontal = 12.dp, vertical = 7.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -145,16 +174,83 @@ private fun LegalMetaRow(subtitle: String, lastUpdated: String) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+        Spacer(modifier = Modifier.height(14.dp))
+        LegalDocSwitcher(activeKey = activeKey, onSelectKey = onSelectKey)
+    }
+}
+
+@Composable
+fun LegalDocSwitcher(
+    activeKey: String,
+    onSelectKey: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val options = remember {
+        listOf(
+            NebLegal.PRIVACY to "Privacy Policy",
+            NebLegal.TERMS to "Terms of Service"
+        )
+    }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        options.forEach { (key, label) ->
+            val selected = activeKey == key
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(
+                        if (selected) MaterialTheme.colorScheme.primaryContainer
+                        else MaterialTheme.colorScheme.surfaceContainer
+                    )
+                    .nebPressable(
+                        tactile = TactileType.LightTap,
+                        onClick = { onSelectKey(key) }
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 13.sp
+                    ),
+                    color = if (selected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
+            }
+        }
     }
 }
 
 @Composable
 private fun LegalContactCard(email: String) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
+            .nebPressable(
+                tactile = TactileType.LightTap,
+                onClick = {
+                    runCatching {
+                        context.startActivity(
+                            Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
+                        )
+                    }
+                }
+            )
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -174,7 +270,7 @@ private fun LegalContactCard(email: String) {
             Text(
                 text = email,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

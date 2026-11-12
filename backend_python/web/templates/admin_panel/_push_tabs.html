@@ -1,0 +1,5 @@
+<nav class="pn-tabs" aria-label="Push sections">
+  <a class="pn-tab {% if push_tab == 'compose' %}is-on{% endif %}" href="{% url 'web:admin_push_notifications' %}"><span class="material-symbols-outlined" aria-hidden="true">edit_square</span>Compose</a>
+  <a class="pn-tab {% if push_tab == 'history' %}is-on{% endif %}" href="{% url 'web:admin_push_history' %}"><span class="material-symbols-outlined" aria-hidden="true">monitoring</span>History</a>
+  <a class="pn-tab {% if push_tab == 'autopilot' %}is-on{% endif %}" href="{% url 'web:admin_push_autopilot' %}"><span class="material-symbols-outlined" aria-hidden="true">auto_mode</span>Autopilot</a>
+</nav>

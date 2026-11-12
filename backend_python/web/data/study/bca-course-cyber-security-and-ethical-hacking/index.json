@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-7-cyber-security-and-ethical-hacking",
+ "units": [
+  {
+   "no": 1,
+   "title": "Foundations, the CIA Triad, Threat Modelling and CVSS Scoring",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 1",
+   "words": 2943,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Network Protocol Analysis, TCP Flag Math and Asset Discovery Governance",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 2",
+   "words": 2795,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Authentication, Entropy, Key Derivation and Access Control Models",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 3",
+   "words": 3057,
+   "read_min": 17,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Secure Application Engineering",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 4",
+   "words": 3459,
+   "read_min": 19,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Network Defence Architecture, DNSSEC, Wi-Fi Keys, Rate Limiting and ACLs",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 5",
+   "words": 3406,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Intrusion Detection, Alert Statistics, Incident Response and Digital Forensics",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 6",
+   "words": 3013,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Security Audits, Penetration Testing Rules of Engagement and Nepal Cyber Law",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 7",
+   "words": 3249,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  }
+ ]
+}

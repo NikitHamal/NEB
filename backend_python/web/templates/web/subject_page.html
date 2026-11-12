@@ -8,7 +8,7 @@
 {% block og_description %}Get free {{ grade }} {{ subject }} study notes, NEB past papers, model questions, and syllabus resources on NEBians.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
+<link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/subject-page.css' %}">
 {% endblock %}
 
@@ -46,9 +46,9 @@
         <div class="neb-menu-label">Switch class</div>
         {% for g in grade_list %}
         <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="neb-menu-item" role="menuitemradio"
-           aria-checked="{% if g.name == grade %}true{% else %}false{% endif %}">
+           aria-checked="{% if g.value == grade %}true{% else %}false{% endif %}">
           <span class="neb-menu-item-label">{{ g.name }}</span>
-          {% if g.name == grade %}<span class="material-symbols-outlined">check</span>{% endif %}
+          {% if g.value == grade %}<span class="material-symbols-outlined">check</span>{% endif %}
         </a>
         {% endfor %}
       </div>
@@ -467,7 +467,7 @@
                   {% if p.authorName == 'neby' or p.authorIsBot %}
                     <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
                   {% elif p.authorPhotoUrl %}
-                    <img src="{{ p.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+                    <img loading="lazy" decoding="async" src="{{ p.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
                     <span class="contributor-avatar-letter" style="display:none;">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
                   {% else %}
                     <span class="contributor-avatar-letter">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
@@ -625,8 +625,8 @@
 {% endblock %}
 
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/auto-render.min.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus-interactive.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
   if (window.NebiansSyllabus) window.NebiansSyllabus.init(document);
@@ -769,11 +769,9 @@
         if (d && d.error) { showSnackbar(d.error); return; }
         if (d) {
           if (d.is_following) {
-            el.textContent = 'Following';
-            el.className = el.className.replace('not-following', 'following');
+            nebFollowSet(el, true);
           } else {
-            el.textContent = 'Follow';
-            el.className = el.className.replace('following', 'not-following');
+            nebFollowSet(el, false);
           }
         }
       } catch (e) { el.disabled = false; showSnackbar('Error updating follow.'); }

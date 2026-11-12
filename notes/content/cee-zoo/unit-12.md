@@ -398,6 +398,28 @@ single piece (subunit)**. BCG and MMR are live; Salk polio and rabies are
 killed; tetanus and diphtheria are toxoids; hepatitis B is a subunit.
 :::
 
+```photogrid label="12.1" cols="2" ratio="1.2" caption="How many must be vaccinated? (a) A vial and syringe, the tools of the vaccination campaigns that removed smallpox and nearly removed polio. (b) If one case infects R0 others in a fully susceptible population, an outbreak dies out once the immune share exceeds 1 - 1/R0: 93 per cent for measles (R0 = 15), 83 per cent for polio (R0 = 6) and 33 per cent for influenza (R0 = 1.5). Vaccines are not perfect: with 97 per cent protection against measles the coverage needed is 96 per cent, which is why two doses and campaigns in Nepal aim at over 95 per cent. Herd immunity also protects babies and the immune-suppressed, who cannot be vaccinated."
+@ photo id="ceezoo/vaccine" cap="Vaccine vial and syringe"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Immune share needed to stop spread: 1 - 1/R0"
+hit = lambda r: 100 * (1 - 1 / r)
+it = (("Measles R0 = 15", 15), ("Polio R0 = 6", 6), ("Influenza R0 = 1.5", 1.5))
+cov = hit(15) / 0.97
+assert abs(hit(15) - 93.33) < 0.01 and abs(hit(6) - 83.33) < 0.01 and abs(hit(1.5) - 33.33) < 0.01 and abs(cov - 96.2) < 0.1
+facts = dict(m="%.0f" % hit(15), p="%.0f" % hit(6), i="%.0f" % hit(1.5), cov="%.0f" % cov)
+f = Fig(300, 236)
+f.text(150, 12, "Herd-immunity threshold (per cent immune)", size=10.5, color=NAVY, bold=True)
+for i, (lab, r) in enumerate(it):
+    y = 30 + i * 46
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = hit(r) / 100 * 220
+    f.box(10, y + 8, w, 22, fill=ROSE if r == 15 else SAND if r == 6 else MINT, stroke=RED if r == 15 else AMBER if r == 6 else TEAL, r=2)
+    f.text(10 + w + 6, y + 19, "%.1f%%" % hit(r), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "vaccine 97 per cent effective:", size=10.5, color=SLATE, bold=True)
+f.text(150, 204, "measles coverage needed = 93.3 / 0.97 = 96%", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Typhoid—*Salmonella* Typhi; TB—*Mycobacterium tuberculosis*; cholera—*Vibrio cholerae*; candidiasis—*Candida albicans*.
@@ -613,3 +635,76 @@ killed; tetanus and diphtheria are toxoids; hepatitis B is a subunit.
 **9.** (c) — H/N point mutations progressively change circulating influenza antigens.
 **10.** (b) — Sharps transmit blood-borne viruses; HAV/cholera are faecal–oral.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the causes, symptoms, diagnosis and prevention of typhoid, tuberculosis, HIV/AIDS, cholera, influenza, hepatitis and candidiasis. <span class="marks">[10]</span>
+2. Explain innate and acquired immunity, antigens and antibodies, and the working of the three types of vaccine. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="4" ratio="1.25" caption="Disease and defence. (a) The structure of the HIV virion with its RNA, enzymes and envelope. (b) Acid-fast bacilli of tuberculosis stained red in a sputum smear. (c) A vaccine vial and syringe. (d) A child receiving a vaccine at an immunisation clinic in Pokhara."
+@ photo id="bio12/hiv-virion" cap="(a) HIV"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/afb-sputum" cap="(b) TB bacilli"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceezoo/vaccine" cap="(c) Vaccine"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/immun-pokhara" cap="(d) Immunisation"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Important microbial diseases (10 marks)
+
+**Introduction.** Diseases caused by pathogens (bacteria, viruses and fungi) are **communicable** diseases. They spread by water, food, air, contact and vectors.
+
+| Disease | Pathogen | Spread and main symptoms | Diagnosis | Prevention and control |
+|---|---|---|---|---|
+| **Typhoid** | *Salmonella typhi* (bacterium) | Contaminated food and water; step-ladder fever, headache, rose spots | **Widal test**, blood culture | Boiled water, hygiene, **typhoid vaccine** |
+| **Tuberculosis** | *Mycobacterium tuberculosis* | Droplets from cough; cough over 2 weeks, weight loss, night sweats | Sputum AFB smear, X-ray, GeneXpert | **BCG** at birth, **DOTS** treatment for 6 months |
+| **HIV/AIDS** | Human immunodeficiency virus (a retrovirus) | Blood, unprotected sex, mother to child; attacks **CD4 helper T-cells** | **ELISA**, Western blot, PCR | Safe sex, clean needles, screening of blood, ART drugs |
+| **Cholera** | *Vibrio cholerae* | Contaminated water; watery "rice-water" stools, dehydration | Stool culture | Safe water, **ORS**, vaccine in outbreaks |
+| **Influenza** | Influenza virus (RNA) | Droplets; fever, sore throat, body ache | Clinical, PCR | Yearly vaccine, hygiene, rest |
+| **Hepatitis B** | HBV (DNA virus) | Blood, sex, mother to child; jaundice, dark urine | HBsAg test | **Hepatitis B vaccine** (in the DPT-HepB-Hib pentavalent shot) |
+| **Candidiasis** | *Candida albicans* (yeast) | Mucous membranes, "thrush", vaginal itching | Microscopy, culture | Hygiene, antifungal drugs; common when immunity is low |
+
+**Points to remember.**
+
+1. **Typhoid and cholera** are water-borne and rise during monsoon in towns with poor sanitation.
+2. **TB** is the commonest infectious killer in Nepal; the full 6-month course must be completed to avoid drug-resistant TB.
+3. **HIV** is not spread by touch, mosquitoes or sharing food; after infection the CD4 count falls and opportunistic infections appear.
+4. **Hepatitis A and E** spread by food and water, while B, C and D spread by blood.
+
+**Conclusion.** Clean water, vaccines, safe behaviour and early treatment prevent most communicable diseases.
+
+### Model answer D2: Immunity, antibodies and vaccines (10 marks)
+
+**Introduction.** **Immunity** is the ability of the body to resist disease. It is of two kinds.
+
+**Innate (natural, non-specific) immunity.** Present from birth. It has four lines: (a) **physical barriers** (skin, mucus, cilia); (b) **physiological barriers** (stomach acid, saliva with lysozyme, tears); (c) **cellular barriers** (phagocytes such as neutrophils and macrophages, natural killer cells); (d) **cytokines** such as interferons and the inflammatory response (fever, redness).
+
+**Acquired (adaptive, specific) immunity.** It has **memory** and develops after exposure to a pathogen. It is of two types: **humoral** (B-lymphocytes make antibodies) and **cell-mediated** (T-lymphocytes kill infected cells).
+
+**Antigens and antibodies.** An **antigen** is a foreign substance that triggers an immune response. An **antibody** is a Y-shaped protein made by plasma cells with two heavy and two light chains.
+
+| Antibody | Position and role |
+|---|---|
+| IgG | Most abundant (about 75%); crosses the placenta |
+| IgA | In milk, saliva, tears; protects surfaces |
+| IgM | First antibody produced; large pentamer |
+| IgE | Allergy and worm infection |
+| IgD | B-cell surface receptor |
+
+**Primary and secondary response.** On the first exposure antibody production is slow and low (the **primary response**), but on the second exposure, because of **memory cells**, it is fast and much higher (the **secondary response**). This is why vaccines work.
+
+**Vaccines.**
+
+1. **Live attenuated:** a weakened pathogen that multiplies a little; strong, long-lasting immunity. Examples: **BCG**, oral polio (OPV), measles–rubella (MR).
+2. **Inactivated (killed):** the pathogen is killed or only part is used; boosters are needed. Examples: injectable polio (Salk, IPV), rabies, hepatitis B.
+3. **Toxoid:** a toxin made harmless; used for toxin diseases. Examples: **tetanus and diphtheria**.
+
+**Active vs passive immunity.** A vaccine or infection gives **active** immunity, but antibodies from the mother through the placenta and milk, or anti-tetanus serum, give **passive** immunity, which is quick but short.
+
+**Conclusion.** Memory cells make the body ready for a second attack, and vaccination uses this principle to protect a whole community.

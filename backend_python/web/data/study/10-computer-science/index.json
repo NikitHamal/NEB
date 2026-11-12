@@ -5,45 +5,45 @@
    "no": 1,
    "title": "Computer Network and Communication",
    "area": "",
-   "words": 11642,
-   "read_min": 65,
-   "figures": 11,
+   "words": 12948,
+   "read_min": 72,
+   "figures": 13,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Database Management System",
    "area": "",
-   "words": 9927,
-   "read_min": 55,
-   "figures": 6,
+   "words": 11174,
+   "read_min": 62,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Multimedia",
    "area": "",
-   "words": 7613,
-   "read_min": 42,
-   "figures": 9,
+   "words": 8709,
+   "read_min": 48,
+   "figures": 10,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Programming in Python",
    "area": "",
-   "words": 11971,
-   "read_min": 67,
-   "figures": 8,
+   "words": 13136,
+   "read_min": 73,
+   "figures": 9,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "AI and Contemporary Technologies",
    "area": "",
-   "words": 8015,
-   "read_min": 45,
-   "figures": 10,
+   "words": 9429,
+   "read_min": 52,
+   "figures": 11,
    "has_questions": true
   }
  ],
@@ -53,21 +53,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Computer Science: Unit-wise Objective Question Bank",
-   "words": 2843,
+   "words": 2826,
    "read_min": 16
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Computer Science: Unit-wise Subjective Question Bank",
-   "words": 4578,
-   "read_min": 25
+   "words": 5549,
+   "read_min": 31
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Computer Science: Model Question Sets and Predicted Questions",
-   "words": 4013,
+   "words": 3996,
    "read_min": 22
   }
  ],

@@ -437,3 +437,84 @@ A body does not float because it is "light", it floats because its **average den
 **4.** Volume $= (0.1)^3 = 0.001$ m³. Density $= 0.5/0.001 = 500$ kg m⁻³, which is less than 1000, so it **floats**. Upthrust = weight $= 0.5 \times 10 = 5$ N. Half the cube is under water.
 **5.** $P = h\rho g = 30 \times 1000 \times 10 = 3.0\times10^5$ Pa. Total $= 3.0\times10^5 + 1.0\times10^5 = 4.0\times10^5$ Pa.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Pascal's law. Explain the working of a hydraulic jack and solve a numerical problem on it. <span class="marks">[10]</span>
+2. State Archimedes' principle and explain the floating and sinking of bodies. Describe how a mercury barometer measures atmospheric pressure. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="2" ratio="1.35" caption="Pressure at work. (a) A mercury barometer: the weight of a 760 mm column of mercury balances the weight of the atmosphere above the dish. (b) A hydraulic jack: a small force on a small piston gives a big force on a large one, as Pascal’s law predicts."
+@ photo id="sci10/barometer" cap="(a) Mercury barometer"
+@ photo id="sci10/hydraulic-jack" cap="(b) Hydraulic jack"
+```
+
+### Model answer D1: Pascal's law and the hydraulic jack (10 marks)
+
+**Introduction.** **Pressure** is the force acting normally on a unit area: $P = \dfrac{F}{A}$. Its SI unit is the pascal (Pa), equal to 1 N/m². A sharp knife cuts well because a small area gives a large pressure. In a liquid at depth $h$ and density $\rho$, the pressure is $P = h\rho g$.
+
+**Pascal's law.** *Pressure applied to an enclosed liquid is transmitted equally and undiminished to every part of the liquid and to the walls of the container.*
+
+**Hydraulic jack (press) based on Pascal's law.** A hydraulic jack has two cylinders joined by a pipe and filled with oil. The **small piston** has area $a$ and the **large piston** has area $A$.
+
+1. A small force $f$ is applied to the small piston. The pressure produced is $f/a$.
+2. By Pascal's law, the same pressure acts on the large piston.
+3. The force on the large piston is $F = \dfrac{f}{a} \times A$. Therefore
+
+$$\frac{F}{f} = \frac{A}{a}.$$
+
+The ratio $A/a$ is the **mechanical advantage**. A small effort lifts a very heavy load. Work is not gained: the small piston moves a long way and the large piston moves a short way.
+
+**Numerical.** In a hydraulic jack, the small piston has an area of 5 cm² and the large piston 500 cm². A force of 100 N is applied to the small piston. Find the force on the large piston and the load it can lift.
+
+$$F = f \times \frac{A}{a} = 100 \times \frac{500}{5} = 10{,}000\ \text{N}.$$
+
+The jack lifts a load of 10,000 N, about 1,000 kg.
+
+**Applications of Pascal's law.**
+
+| Application | How it works |
+|---|---|
+| Hydraulic jack and lift | Lifts vehicles in garages |
+| Hydraulic brakes | Pedal pressure is passed equally to all four wheels |
+| Hydraulic press | Presses oil seeds, bales cotton and shapes metal |
+| Excavator and bulldozer arms | Oil pressure moves the arm and bucket |
+| Dentist chair | Raised and lowered by a hydraulic cylinder |
+
+**Pressure at depth.** The pressure at 20 m depth in a lake is $20 \times 1000 \times 10 = 200{,}000$ Pa, which is why dam walls are thicker at the bottom, as in the Kaligandaki dam.
+
+**Conclusion.** Pascal's law lets a small force produce a large one. It is the working principle of many machines used in Nepal's roads, workshops and hospitals.
+
+### Model answer D2: Archimedes' principle and the barometer (10 marks)
+
+**Introduction.** A stone feels light in water, and a ship made of iron floats. Both effects are explained by the **buoyant force** (upthrust) exerted by a liquid.
+
+**Archimedes' principle.** *When a body is wholly or partly immersed in a fluid, it feels an upward force (upthrust) equal to the weight of the fluid displaced by it.*
+
+$$\text{Upthrust} = V\rho g,$$
+
+where $V$ is the volume of the liquid displaced and $\rho$ its density.
+
+**Floating and sinking.** Compare the weight $W$ of the body with the upthrust $U$.
+
+| Condition | Result | Example |
+|---|---|---|
+| $U < W$ (density of body greater than liquid) | The body sinks | Stone in water |
+| $U = W$ (density equal) | It floats inside the liquid | Submarine under water |
+| $U > W$ (density of body less than liquid) | It rises and floats on the surface | Wood, ice |
+
+**Law of floatation.** A floating body displaces its own weight of fluid. A ship is hollow, so it displaces a large volume of water and the weight of that water equals the weight of the ship. A **submarine** takes in water to sink and blows it out to rise. A **hot-air balloon** floats in air because the hot air inside makes its average density less than that of the surrounding air.
+
+**Numerical.** A block of volume 0.002 m³ and weight 50 N is fully immersed in water ($\rho = 1000$ kg/m³, $g = 10$ m/s²). Find the upthrust and its apparent weight.
+
+$$U = 0.002 \times 1000 \times 10 = 20\ \text{N}, \qquad \text{Apparent weight} = 50 - 20 = 30\ \text{N}.$$
+
+**Atmospheric pressure and the mercury barometer.** The air around the Earth has weight and presses on everything. At sea level, the pressure is **101,300 Pa** (760 mm of mercury).
+
+1. Fill a one-metre glass tube, closed at one end, with mercury.
+2. Close the open end with a finger, invert it and dip it in a mercury dish.
+3. The mercury column falls to a height of about **760 mm** and stops, leaving a vacuum above it.
+4. The weight of the 760 mm column is balanced by the atmospheric pressure outside, so $P = h\rho g = 0.76 \times 13600 \times 10 \approx 1.03 \times 10^5$ Pa (about 1 atmosphere; the value is 101,300 Pa when the exact $g = 9.8$ m/s² is used).
+
+The column becomes shorter at a mountain place such as Namche Bazaar since the air above is less. Barometers are used in weather forecasting.
+
+**Conclusion.** Archimedes' principle explains floating objects, ships and balloons, and a barometer shows that air has pressure that falls as we go higher.

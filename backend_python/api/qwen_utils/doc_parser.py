@@ -18,10 +18,7 @@ multiple generation calls without re-uploading.
 """
 import logging
 import threading
-import time
-from typing import Optional
 
-from django.db import transaction
 
 from api.models import StudyDocument
 from api.utils import now_ms

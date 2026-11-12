@@ -127,7 +127,7 @@
           <div class="mkt-image-fields">
             <div class="mkt-image-field">
               <span class="mkt-image-preview mkt-image-preview-round" data-mkt-preview-for="avatar_url">
-                {% if creator.avatar_url %}<img src="{{ creator.avatar_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">account_circle</span>{% endif %}
+                {% if creator.avatar_url %}<img loading="lazy" decoding="async" src="{{ creator.avatar_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">account_circle</span>{% endif %}
               </span>
               <div class="mkt-image-field-body">
                 <label class="md-label" for="mkt-avatar">Profile picture</label>
@@ -138,7 +138,7 @@
             </div>
             <div class="mkt-image-field">
               <span class="mkt-image-preview mkt-image-preview-wide" data-mkt-preview-for="cover_url">
-                {% if creator.cover_url %}<img src="{{ creator.cover_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">image</span>{% endif %}
+                {% if creator.cover_url %}<img loading="lazy" decoding="async" src="{{ creator.cover_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">image</span>{% endif %}
               </span>
               <div class="mkt-image-field-body">
                 <label class="md-label" for="mkt-cover">Cover picture</label>
@@ -526,6 +526,36 @@
 
           <div data-mkt-course-price>
             {% include "web/_price_setter.html" with id_prefix="course" is_paid=False price_value="" commission_pct=commission_percent title="Price this offering" mode_title="Free offerings show in the marketplace for everyone; paid ones check out by QR with your share credited to your wallet." %}
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-course-delivery">How it is taught</label>
+              <select class="md-select" id="mkt-course-delivery" data-mkt-course-field="delivery">
+                <option value="recorded">Recorded videos</option>
+                <option value="live">Live online classes</option>
+                <option value="hybrid">Live and recorded</option>
+                <option value="inperson">In person</option>
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-enroll">How students join</label>
+              <select class="md-select" id="mkt-course-enroll" data-mkt-course-field="enroll_mode">
+                <option value="buy">Buy on NEBians</option>
+                <option value="contact">Contact me</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mkt-grid-2" data-mkt-contact hidden>
+            <div>
+              <label class="md-label" for="mkt-course-contact-label">Contact name or number</label>
+              <input class="md-input" id="mkt-course-contact-label" type="text" maxlength="120" data-mkt-course-field="contact_label" placeholder="Sir, 98XXXXXXXX">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-contact-url">Phone, email or link</label>
+              <input class="md-input" id="mkt-course-contact-url" type="text" data-mkt-course-field="contact_url" placeholder="98XXXXXXXX or https://wa.me/...">
+            </div>
           </div>
 
           <div class="mkt-grid-2">

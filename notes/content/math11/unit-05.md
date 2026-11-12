@@ -513,6 +513,26 @@ In the last example the second series has ratio $r^{2}$, so its denominator is
 $1 - r^{2}$, not $1-r$. Writing $a^{2}/(1-r)$ is the standard error here.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="A pyramid of fruit is a sequence in disguise: each layer is a triangle of melons, so the layers follow the triangular numbers 1, 3, 6, 10, 15, 21. (a) Melons stacked at a market stall. (b) The program lists the layers of a 6-layer pyramid; the bottom layer has 21 melons and the whole pile has 56. The total agrees with the formula n(n + 1)(n + 2)/6, so the sum of a series of triangular numbers is itself a cubic in n. The differences of the layers are 2, 3, 4, 5, 6, and their own differences are all 1, a quick test that a sequence is quadratic in n."
+@ photo id="math11/melons" cap="A fruit seller's pyramid: layers of 1, 3, 6, 10 ... melons"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Triangular layers and their running total"
+n = 6
+layers = [k * (k + 1) // 2 for k in range(1, n + 1)]
+tot = sum(layers)
+assert layers == [1, 3, 6, 10, 15, 21] and tot == n * (n + 1) * (n + 2) // 6 == 56
+f = Fig(300, 236)
+f.text(150, 14, "Melons in each layer, top to bottom", size=10.5, color=NAVY, bold=True)
+hbars(f, [("layer %d" % (i + 1), v) for i, v in enumerate(layers)], vmax=21, fmt="%d", x0=60, y0=30, bw=170, gap=24, size=9.5,
+      colors=[(SAND, AMBER), (MINT, TEAL)] * 3)
+run = [sum(layers[:i + 1]) for i in range(n)]
+f.text(150, 188, "running totals: " + ", ".join(str(x) for x in run), size=10, color=NAVY, bold=True)
+f.text(150, 206, "total = n(n + 1)(n + 2)/6 = %d" % tot, size=10.5, color=AMBER, bold=True)
+f.text(150, 224, "layers are an AP of AP: 2nd differences = 1", size=10, color=SLATE, bold=True)
+facts = dict(t=tot, n=n, last=layers[-1])
+```
+
 ## Chapter summary
 
 - AP: $t_n = a+(n-1)d$ and $S_n = \frac{n}{2}[2a+(n-1)d] = \frac{n}{2}(a+l)$.
@@ -668,3 +688,82 @@ $$ = 12 + 2\left[12\left(\tfrac23\right) + 12\left(\tfrac23\right)^{2} + \cdots\
 The bracket is a GP with $a = 8$, $r = \tfrac23$, so its sum is
 $\dfrac{8}{1-\frac23} = 24$. Total distance $= 12 + 2(24) = 60\ \text{m}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the $n$th term and the sum of $n$ terms of an A.P. and of a G.P., define arithmetic and geometric means and solve worked problems. <span class="marks">[10]</span>
+2. Define A.M., G.M. and H.M. of two positive numbers, prove $A\ge G\ge H$ and $G^{2}=AH$, derive the sum of an infinite G.P. and apply it to recurring decimals and a bouncing ball. <span class="marks">[10]</span>
+
+### Model answer D1: A.P. and G.P. (10 marks)
+
+**Introduction.** A **sequence** is a list of numbers formed by a rule; a **series** is the sum of its terms. In an **arithmetic progression** (A.P.) the difference between consecutive terms is constant; in a **geometric progression** (G.P.) the ratio is constant.
+
+**A.P.** Let the first term be $a$ and the common difference $d$.
+
+**(i)** The terms are $a,\ a+d,\ a+2d,\dots$ so the $n$th term is $t_n=a+(n-1)d$.
+
+**(ii)** Write the sum $S_n=a+(a+d)+\dots+l$ with $l=t_n$, and again in reverse order. Adding the two lines, each of the $n$ pairs equals $a+l$, so $2S_n=n(a+l)$. Hence
+
+$$ S_n=\frac n2\,(a+l)=\frac n2\,\big[2a+(n-1)d\big] $$
+
+**(iii)** **Arithmetic mean** of $a$ and $b$ is $\dfrac{a+b}{2}$. To insert $m$ arithmetic means between $a$ and $b$, the common difference is $d=\dfrac{b-a}{m+1}$.
+
+**G.P.** Let the first term be $a$ and the common ratio $r$.
+
+**(i)** The terms are $a,\ ar,\ ar^{2},\dots$ so $t_n=ar^{\,n-1}$.
+
+**(ii)** $S_n=a+ar+\dots+ar^{n-1}$. Multiplying by $r$ gives $rS_n=ar+\dots+ar^{n}$. Subtracting, $S_n(1-r)=a(1-r^{n})$, so
+
+$$ S_n=\frac{a(1-r^{n})}{1-r}=\frac{a(r^{n}-1)}{r-1},\qquad r\neq1 $$
+
+**(iii)** **Geometric mean** of $a$ and $b$ is $\sqrt{ab}$. To insert $m$ geometric means between $a$ and $b$, the ratio is $r=\left(\dfrac ba\right)^{\frac1{m+1}}$.
+
+| | A.P. | G.P. |
+|---|---|---|
+| Defining rule | $t_{n+1}-t_n=d$ | $t_{n+1}/t_n=r$ |
+| $n$th term | $a+(n-1)d$ | $ar^{n-1}$ |
+| Sum of $n$ terms | $\dfrac n2[2a+(n-1)d]$ | $\dfrac{a(r^{n}-1)}{r-1}$ |
+| Mean of $a,b$ | $\dfrac{a+b}2$ | $\sqrt{ab}$ |
+| Three terms | $a-d,\ a,\ a+d$ | $\dfrac ar,\ a,\ ar$ |
+
+**Worked examples.**
+
+1. For the A.P. $3,7,11,\dots$: $t_{20}=3+19\times4=79$ and $S_{20}=\dfrac{20}{2}(3+79)=820$.
+2. **Savings.** A student in Pokhara saves Rs. $1000$ in the first month and Rs. $200$ more each month than the month before. In $12$ months the total is $\dfrac{12}{2}\big[2000+11\times200\big]=6\times4200=$ Rs. $25200$.
+3. Insert $4$ A.M.s between $3$ and $23$: $d=\dfrac{20}{5}=4$, giving $7,11,15,19$.
+4. For the G.P. $2,6,18,\dots$: $S_8=\dfrac{2(3^{8}-1)}{3-1}=3^{8}-1=6560$.
+5. Insert $3$ G.M.s between $2$ and $32$: $r^{4}=16$, so $r=2$, giving $4,8,16$.
+
+**Conclusion.** Both progressions have closed formulae for the $n$th term and the sum; the means are obtained by fixing the common difference or ratio between two given end terms.
+
+### Model answer D2: A.M., G.M., H.M. and the infinite G.P. (10 marks)
+
+**Introduction.** For two positive numbers $a$ and $b$ the three common means are $A=\dfrac{a+b}{2}$, $G=\sqrt{ab}$ and $H=\dfrac{2ab}{a+b}$ (the numbers $a,H,b$ are in harmonic progression, that is $\dfrac1a,\dfrac1H,\dfrac1b$ are in A.P.).
+
+**Theorem 1: $G^{2}=AH$.** $AH=\dfrac{a+b}{2}\times\dfrac{2ab}{a+b}=ab=G^{2}$. So $G$ is the geometric mean of $A$ and $H$.
+
+**Theorem 2: $A\ge G\ge H$, with equality only when $a=b$.**
+
+*Proof.* $A-G=\dfrac{a+b-2\sqrt{ab}}{2}=\dfrac{(\sqrt a-\sqrt b)^{2}}{2}\ge0$, so $A\ge G$. Since $G^{2}=AH$, we have $H=\dfrac{G^{2}}{A}\le\dfrac{G^{2}}{G}=G$ because $A\ge G$. Hence $A\ge G\ge H$. Equality needs $\sqrt a=\sqrt b$.
+
+**Worked example.** Two numbers have A.M. $10$ and G.M. $8$. Then $a+b=20$ and $ab=64$, so $a,b$ are roots of $t^{2}-20t+64=0$, that is $(t-4)(t-16)=0$. The numbers are $4$ and $16$ and $H=\dfrac{2\times64}{20}=6.4$. Check: $AH=10\times6.4=64=G^{2}$, and $10>8>6.4$.
+
+**Infinite G.P.** For $|r|<1$, $r^{n}\to0$ as $n\to\infty$, so
+
+$$ S_\infty=\frac{a}{1-r} $$
+
+If $|r|\ge1$ the series does not have a finite sum.
+
+**Applications.**
+
+1. **Recurring decimal.** $0.\overline{36}=0.36+0.0036+\dots$ has $a=0.36$ and $r=0.01$, so $S_\infty=\dfrac{0.36}{0.99}=\dfrac{36}{99}=\dfrac{4}{11}$.
+2. **Bouncing ball.** A ball is dropped from $10$ m and rebounds to $\dfrac35$ of its previous height each time. The first rebound is $6$ m; going up and down, the distance after the first drop is $2\times\dfrac{6}{1-\frac35}=2\times15=30$ m. The total distance is $10+30=40$ m.
+3. **Sum with ratio $\tfrac12$.** $1+\tfrac12+\tfrac14+\dots=\dfrac{1}{1-\frac12}=2$.
+
+| Mean | Formula for $a=4,\ b=16$ | Value |
+|---|---|---|
+| A.M. | $\dfrac{4+16}{2}$ | $10$ |
+| G.M. | $\sqrt{64}$ | $8$ |
+| H.M. | $\dfrac{2\times64}{20}$ | $6.4$ |
+
+**Conclusion.** The three means are always ordered $A\ge G\ge H$, related by $G^{2}=AH$, and a geometric series with $|r|<1$ has the finite sum $\dfrac{a}{1-r}$.

@@ -214,3 +214,123 @@ They are not model essays to memorise. They are the points that earn the marks: 
 ::: tip Writing for marks
 Read every answer above and count its points. Two marks, two points; four marks, four points. If your own answer has fewer, the content is missing, not the handwriting. If it has more, you are spending time you will need for Group C.
 :::
+
+## 3.12 Extended model answers (8 to 10 marks)
+
+The Science paper rewards a complete answer: an introduction, a labelled diagram or table, points in order, and a one-line conclusion. The three model answers below show the full length expected when a question carries 8 to 10 marks.
+
+**Extended questions**
+
+1. What is a cell? Describe the structure of a plant cell and an animal cell and differentiate between them. <span class="marks">[10]</span>
+2. Define photosynthesis and respiration. Write the equation of each and differentiate between the two processes. <span class="marks">[10]</span>
+3. Differentiate between a series and a parallel circuit. Two resistors of 4 Ω and 8 Ω are joined to a 12 V battery; find the current in each arrangement. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.25" caption="Cells seen through a microscope. (a) Human cheek cells with a stained nucleus: animal cells have no cell wall. (b) Onion root-tip cells in a row: plant cells have a rigid wall and a regular shape. (c) Paramecium: a single cell that carries out every life process by itself. (d) Bread mould, a fungus built of thread-like cells. The school microscope is the tool that first showed that every living thing is made of cells."
+@ photo id="sci8/cheek-cells" cap="(a) Human cheek cells"
+@ photo id="sci8/onion-root" cap="(b) Onion root-tip cells"
+@ photo id="sci8/paramecium" cap="(c) Paramecium"
+@ photo id="sci8/bread-mould" cap="(d) Bread mould (Rhizopus)"
+```
+
+### Model answer D1: plant cell and animal cell (10 marks)
+
+**Introduction.** A **cell** is the smallest structural and functional unit of a living thing. Robert Hooke first saw cells in a thin slice of cork in 1665, and later work showed that all plants, animals and microbes are made of one or more cells. A bacterium or Paramecium is a single cell, while a human body has trillions of them. Cells are seen only through a microscope, as in the figure above.
+
+**Structure of a typical cell.** Both plant and animal cells contain the following parts.
+
+1. **Cell membrane.** A thin, flexible skin that surrounds the cell and decides which substances may enter or leave. It is the outer boundary in an animal cell.
+2. **Cytoplasm.** A jelly-like fluid in which the other parts float. Most chemical reactions of the cell take place here.
+3. **Nucleus.** The control centre of the cell. It holds the chromosomes that carry the instructions for growth and inheritance.
+4. **Mitochondria.** Tiny structures that release energy from food during respiration. They are called the powerhouse of the cell.
+5. **Vacuole.** A fluid-filled space that stores water, food and waste. It is small and many in an animal cell, but large and single in a mature plant cell.
+
+**Extra parts found only in a plant cell.** A **cell wall** of cellulose lies outside the membrane and gives a fixed shape and strength. **Chloroplasts** hold the green pigment chlorophyll and make food by photosynthesis. These two parts are why a leaf is green and a tree stands upright.
+
+**Difference between a plant cell and an animal cell**
+
+| Feature | Plant cell | Animal cell |
+|---|---|---|
+| Cell wall | Present (cellulose) | Absent |
+| Shape | Fixed, usually regular | Irregular, can change |
+| Chloroplast | Present in green parts | Absent |
+| Vacuole | One large central vacuole | Small and many, or none |
+| Food | Makes its own food | Takes ready-made food |
+| Centrioles | Usually absent | Present |
+| Example | Onion root, leaf cell | Cheek cell, blood cell |
+
+**Conclusion.** The cell wall and chloroplasts separate a plant cell from an animal cell, while the membrane, cytoplasm, nucleus and mitochondria are common to both. Knowing these parts explains why plants are producers and animals are consumers.
+
+### Model answer D2: photosynthesis and respiration (10 marks)
+
+**Introduction.** **Photosynthesis** is the process by which green plants make glucose from carbon dioxide and water, using sunlight absorbed by chlorophyll. **Respiration** is the process by which living cells break down glucose to release energy for work. The two processes are opposite in direction, and together they keep the oxygen and carbon dioxide of the air in balance.
+
+**Photosynthesis.**
+
+1. Raw materials are carbon dioxide from the air, taken in through the stomata, and water, taken from the soil by the roots.
+2. Sunlight is the source of energy, and chlorophyll in the chloroplasts traps it.
+3. The products are glucose, which is stored as starch, and oxygen, which is given out to the air.
+4. It takes place only in the green parts of the plant and only in light.
+
+**Equation:** carbon dioxide + water → (sunlight, chlorophyll) → glucose + oxygen, that is, $6CO_2 + 6H_2O \rightarrow C_6H_{12}O_6 + 6O_2$.
+
+**Respiration.**
+
+1. The raw materials are glucose and oxygen.
+2. The energy is released slowly, step by step, in the mitochondria and stored as ATP.
+3. The products are carbon dioxide, water and energy. Some energy escapes as heat, which keeps our body warm.
+4. It happens in every living cell, day and night.
+
+**Equation:** $C_6H_{12}O_6 + 6O_2 \rightarrow 6CO_2 + 6H_2O + \text{energy}$.
+
+**Difference between photosynthesis and respiration**
+
+| Basis | Photosynthesis | Respiration |
+|---|---|---|
+| Where | Only green cells with chloroplasts | All living cells |
+| Time | Only in the light | Day and night |
+| Raw materials | Carbon dioxide and water | Glucose and oxygen |
+| Energy | Light energy is stored in glucose | Energy is released from glucose |
+| Gas exchange | Takes in CO₂, gives out O₂ | Takes in O₂, gives out CO₂ |
+| Type of reaction | Builds food (constructive) | Breaks food down (destructive) |
+| Effect on mass | Dry mass of the plant increases | Dry mass decreases |
+
+**Conclusion.** Photosynthesis stores the sun's energy in food and fills the air with oxygen, and respiration releases that energy for life. This is why forests such as Chitwan are called the lungs of the earth, and why planting trees keeps the air of Kathmandu cleaner.
+
+### Model answer D3: series and parallel circuits (10 marks)
+
+**Introduction.** An electric circuit is a closed path along which charge flows. When more than one resistor or bulb is used, they can be joined end to end (series) or side by side between the same two points (parallel). Household wiring in Nepal is parallel, while old festival lights were often wired in series.
+
+**Series circuit.**
+
+1. The components are joined one after another, so there is only one path for the current.
+2. The same current flows through every component.
+3. The battery voltage is shared: $V = V_1 + V_2$.
+4. The total resistance is the sum: $R = R_1 + R_2$.
+5. If one bulb fuses, the whole circuit breaks and all bulbs go off.
+
+**Parallel circuit.**
+
+1. Each component is joined across the same two points, so there are several paths.
+2. The voltage across every branch equals the battery voltage.
+3. The current divides: $I = I_1 + I_2$.
+4. The total resistance is less than the smallest resistor: $\frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2}$.
+5. If one bulb fuses, the others keep glowing.
+
+**Difference table**
+
+| Basis | Series | Parallel |
+|---|---|---|
+| Paths for current | One | More than one |
+| Current | Same in all | Divides among branches |
+| Voltage | Divides | Same across all |
+| Total resistance | Large (sum) | Small (less than the least) |
+| One part fails | Whole circuit stops | Other parts still work |
+| Use | Fuse with a switch, torch cells | House wiring |
+
+**Numerical.** A 4 Ω and an 8 Ω resistor are joined to a 12 V battery. By Ohm's law, $I = V/R$.
+
+1. **Series:** $R = 4 + 8 = 12\ \Omega$, so $I = 12/12 =$ **1 A** in both resistors. The voltages are $4\times1 = 4$ V and $8\times1 = 8$ V, which add to 12 V.
+2. **Parallel:** each resistor has 12 V. $I_1 = 12/4 =$ **3 A**, $I_2 = 12/8 =$ **1.5 A**, and the total current is **4.5 A**. The equivalent resistance is $\frac{4\times8}{4+8} = 2.67\ \Omega$, and $12/2.67 = 4.5$ A, which checks.
+
+**Conclusion.** In series the current is shared by all and the voltage is divided, while in parallel the voltage is shared and the current is divided. That is why every house is wired in parallel: each appliance gets the full 220 V and works on its own.
+

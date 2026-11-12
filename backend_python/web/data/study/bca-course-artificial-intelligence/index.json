@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-5-artificial-intelligence",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Artificial Intelligence and Intelligent Agents",
+   "area": "BCA 302 · Artificial Intelligence · Unit 1",
+   "words": 6391,
+   "read_min": 36,
+   "figures": 13,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Problem Solving Methods",
+   "area": "BCA 302 · Artificial Intelligence · Unit 2",
+   "words": 8909,
+   "read_min": 49,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Knowledge Representation and Reasoning",
+   "area": "BCA 302 · Artificial Intelligence · Unit 3",
+   "words": 9555,
+   "read_min": 53,
+   "figures": 16,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Learning",
+   "area": "BCA 302 · Artificial Intelligence · Unit 4",
+   "words": 7414,
+   "read_min": 41,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Neural Networks and Natural Language Processing",
+   "area": "BCA 302 · Artificial Intelligence · Unit 5",
+   "words": 9372,
+   "read_min": 52,
+   "figures": 17,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Expert Systems and Machine Vision",
+   "area": "BCA 302 · Artificial Intelligence · Unit 6",
+   "words": 6779,
+   "read_min": 38,
+   "figures": 18,
+   "has_questions": true
+  }
+ ]
+}

@@ -68,7 +68,7 @@ fun NebModalSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        containerColor = com.neb.ians.ui.theme.nebFloatColor(),
         contentColor = MaterialTheme.colorScheme.onSurface,
         scrimColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.34f),
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),

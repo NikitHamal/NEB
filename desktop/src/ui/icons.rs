@@ -1,6 +1,7 @@
 //! Material Icons (Rounded) — Google's official icon font, embedded and drawn as glyphs.
 //! The codepoints below come straight from `assets/fonts/MaterialIconsRound-Regular.codepoints`,
 //! so every icon is the same artwork the Android app's `material-icons` set ships.
+#![allow(dead_code)] // wire/icon sets mirror the server and Material font in full
 use egui::{Align2, Color32, FontFamily, FontId, Painter, Rect};
 
 pub const FAMILY: &str = "material-icons";

@@ -1,0 +1,394 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "programming-in-c",
+ "name": "Programming in C",
+ "name_ne": "",
+ "icon": "terminal",
+ "group": "semester-1",
+ "group_label": "Semester I",
+ "color": "#1F4E8C",
+ "lang": "en",
+ "code": "BCA 102",
+ "credits": 3,
+ "semester": 1,
+ "hours": 48,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Problem Solving with a Computer, and the Shape of a C Program",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Program, programming language and its levels",
+    "Problem solving: from a statement to a program",
+    "Algorithms",
+    "Flowcharts",
+    "History and character of C",
+    "Structure of a C program",
+    "Edit, compile, link, run",
+    "Errors and debugging"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Program, programming language and its levels"
+    },
+    {
+     "no": "1.2",
+     "title": "Problem solving: from a statement to a program"
+    },
+    {
+     "no": "1.3",
+     "title": "Algorithms"
+    },
+    {
+     "no": "1.4",
+     "title": "Flowcharts"
+    },
+    {
+     "no": "1.5",
+     "title": "History and character of C"
+    },
+    {
+     "no": "1.6",
+     "title": "Structure of a C program"
+    },
+    {
+     "no": "1.7",
+     "title": "Edit, compile, link, run"
+    },
+    {
+     "no": "1.8",
+     "title": "Errors and debugging"
+    }
+   ],
+   "summary": [
+    "Think in algorithms first; trace on paper; then code.",
+    "Pseudocode is exact English, flowcharts are exact pictures; neither depends on a language.",
+    "C is compiled, portable, close to hardware and the basis of Unix, Linux and most system software.",
+    "A C program is directives, then main, then other functions; statements end in ;.",
+    "gcc -Wall and read every warning. A program that compiles can still be wrong: test and debug."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3412,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Elements of C: Tokens, Data Types, Operators and Console Input/Output",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Character set and tokens",
+    "Data types",
+    "Variables and constants",
+    "Operators",
+    "Formatted output with printf",
+    "Input with scanf, getchar, gets-family",
+    "Eight common mistakes with data types, operators and input/output"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Character set and tokens"
+    },
+    {
+     "no": "2.2",
+     "title": "Data types"
+    },
+    {
+     "no": "2.3",
+     "title": "Variables and constants"
+    },
+    {
+     "no": "2.4",
+     "title": "Operators"
+    },
+    {
+     "no": "2.5",
+     "title": "Formatted output with printf"
+    },
+    {
+     "no": "2.6",
+     "title": "Input with scanf, getchar, gets-family"
+    },
+    {
+     "no": "2.7",
+     "title": "Eight common mistakes with data types, operators and input/output"
+    }
+   ],
+   "summary": [
+    "Tokens are keywords, identifiers, constants, strings, operators, punctuators.",
+    "Pick the type by the range you need; integer arithmetic truncates, so cast before dividing when you want a real result.",
+    "Precedence rules decide grouping; parentheses remove doubt. Never modify one variable twice in an expression.",
+    "printf formats, scanf parses; check scanf's return value and prefer fgets for lines."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4145,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Control Statements: Decisions, Loops and Jumps",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Decision making",
+    "The switch statement",
+    "Loops",
+    "break, continue, goto",
+    "Eight uses of loops and decisions in real programs"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Decision making"
+    },
+    {
+     "no": "3.2",
+     "title": "The switch statement"
+    },
+    {
+     "no": "3.3",
+     "title": "Loops"
+    },
+    {
+     "no": "3.4",
+     "title": "break, continue, goto"
+    },
+    {
+     "no": "3.5",
+     "title": "Eight uses of loops and decisions in real programs"
+    }
+   ],
+   "summary": [
+    "Decide with if/else if/switch; repeat with for/while/do-while.",
+    "Trace loops in a table; count iterations by hand before running.",
+    "break exits, continue skips, goto is a last resort.",
+    "The commonest bugs are = for ==, an accidental ; after for/if, missing break, and floating-point loop counters."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2852,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Arrays and Strings",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "One-dimensional arrays",
+    "Searching and sorting",
+    "Two-dimensional arrays",
+    "Strings",
+    "Eight uses of arrays and strings"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "One-dimensional arrays"
+    },
+    {
+     "no": "4.2",
+     "title": "Searching and sorting"
+    },
+    {
+     "no": "4.3",
+     "title": "Two-dimensional arrays"
+    },
+    {
+     "no": "4.4",
+     "title": "Strings"
+    },
+    {
+     "no": "4.5",
+     "title": "Eight uses of arrays and strings"
+    }
+   ],
+   "summary": [
+    "Arrays: same type, contiguous, zero-based, unchecked.",
+    "Master four loops over arrays: scan, search, swap-based sort, nested matrix loops.",
+    "Strings are char arrays ended by '\\0'; the library functions all depend on it.",
+    "Overflowing an array or a string buffer is the most common serious C bug."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2488,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Functions, Recursion and Storage Classes",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Defining and calling",
+    "Parameter passing",
+    "Recursion",
+    "Scope and storage classes",
+    "Eight advantages of using functions"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Defining and calling"
+    },
+    {
+     "no": "5.2",
+     "title": "Parameter passing"
+    },
+    {
+     "no": "5.3",
+     "title": "Recursion"
+    },
+    {
+     "no": "5.4",
+     "title": "Scope and storage classes"
+    },
+    {
+     "no": "5.5",
+     "title": "Eight advantages of using functions"
+    }
+   ],
+   "summary": [
+    "Write small functions with one purpose and a prototype.",
+    "Remember copies are passed; use pointers for output parameters.",
+    "Recursion needs a base case; know the cost.",
+    "Know where each variable lives and how long it lasts."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2696,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Pointers and Dynamic Memory Allocation",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Addresses, pointers and the two operators",
+    "Pointer arithmetic",
+    "Pointers and strings",
+    "Pointers and functions",
+    "Dynamic memory allocation",
+    "Eight uses of pointers"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Addresses, pointers and the two operators"
+    },
+    {
+     "no": "6.2",
+     "title": "Pointer arithmetic"
+    },
+    {
+     "no": "6.3",
+     "title": "Pointers and strings"
+    },
+    {
+     "no": "6.4",
+     "title": "Pointers and functions"
+    },
+    {
+     "no": "6.5",
+     "title": "Dynamic memory allocation"
+    },
+    {
+     "no": "6.6",
+     "title": "Eight uses of pointers"
+    }
+   ],
+   "summary": [
+    "A pointer is an address with a type; * follows it, & makes it.",
+    "Array indexing is pointer arithmetic in disguise.",
+    "Strings are char sequences handled by pointer; arrays of pointers store ragged lists.",
+    "The heap gives size flexibility at the price of discipline: allocate, check, use, free."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2970,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Structures, Unions and File Handling",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "Structures",
+    "Unions and enumerations",
+    "The preprocessor in brief",
+    "Files",
+    "Eight uses of structures, unions and files"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Structures"
+    },
+    {
+     "no": "7.2",
+     "title": "Unions and enumerations"
+    },
+    {
+     "no": "7.3",
+     "title": "The preprocessor in brief"
+    },
+    {
+     "no": "7.4",
+     "title": "Files"
+    },
+    {
+     "no": "7.5",
+     "title": "Eight uses of structures, unions and files"
+    }
+   ],
+   "summary": [
+    "A structure groups different types into one record; arrays of structures are tables.",
+    "A union overlays members in one block; an enum names integers.",
+    "Preprocessor lines run before compilation; parenthesise macros.",
+    "Files make data permanent: open, check, read or write, close; binary files plus fseek give random access."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2615,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 41,
+ "notes_ready": 7
+}

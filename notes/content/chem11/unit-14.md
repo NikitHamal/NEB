@@ -953,6 +953,33 @@ it must, because no step joins or breaks a C—C bond.
 6. **Ammoniacal AgNO₃ white, ammoniacal Cu₂Cl₂ red** — terminal alkynes only.
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.27" caption="Alkanes burn completely in plenty of oxygen to carbon dioxide and water, releasing a large amount of heat, and this is why they are the main fuels in the household. (a) A kitchen LPG cylinder holds propane and butane. (b) The heat of combustion per kilogram is 50.3 MJ for propane and 49.5 MJ for butane, close to 55.5 MJ for methane. A 14.2 kg cylinder with a 30:70 mixture releases about 706 MJ, and it also forms about 43 kg of carbon dioxide, a greenhouse gas. Incomplete burning in a poorly ventilated kitchen produces poisonous carbon monoxide instead."
+@ photo id="chem11/lpg" cap="A domestic LPG cylinder"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heat released per kilogram of common fuels"
+C, H = 12.011, 1.008
+fuels = [("methane", 890, C + 4 * H, 1, TEAL), ("propane", 2220, 3 * C + 8 * H, 3, NAVY), ("butane", 2877, 4 * C + 10 * H, 4, RED), ("ethanol", 1367, 2 * C + 6 * H + 16.0, 2, AMBER)]
+mj = {n: q / m for n, q, m, k, c in fuels}
+assert abs(mj["propane"] - 50.3) < 0.1 and abs(mj["butane"] - 49.5) < 0.1
+mix = 0.3 * mj["propane"] + 0.7 * mj["butane"]
+cyl = 14.2 * mix
+co2 = lambda k, m: k * 44.01 / m
+co2mix = 14.2 * (0.3 * co2(3, fuels[1][2]) + 0.7 * co2(4, fuels[2][2]))
+f = Fig(300, 236)
+f.text(150, 14, "Heat of combustion in MJ per kg", size=10.5, color=NAVY, bold=True)
+for i, (n, q, m, k, c) in enumerate(fuels):
+    y = 28 + i * 30
+    f.text(8, y + 13, n, size=10.5, bold=True, anchor="start")
+    f.box(62, y, mj[n] * 3.4, 22, "", fill=c, stroke=c, r=2)
+    f.text(62 + mj[n] * 3.4 + 5, y + 12, "%.1f" % mj[n], size=10.5, bold=True, color=c, anchor="start")
+f.text(150, 160, "C3H8 + 5 O2 -> 3 CO2 + 4 H2O, dH = -2220 kJ/mol", size=10, color=NAVY, bold=True)
+f.text(150, 178, "30:70 propane-butane = %.1f MJ/kg" % mix, size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "14.2 kg cylinder: %.0f MJ released" % cyl, size=10.5, color=RED, bold=True)
+f.text(150, 214, "and %.1f kg of CO2 when burnt" % co2mix, size=10.5, color=RED, bold=True)
+facts = dict(p="%.1f" % mj["propane"], b="%.1f" % mj["butane"], cyl="%.0f" % cyl, co2="%.0f" % co2mix, me="%.1f" % mj["methane"])
+```
+
 ## Chapter summary
 
 - Alkanes are made by reducing haloalkanes (same carbon count), by the Wurtz
@@ -1099,3 +1126,111 @@ From the equation, 2 mol of C₂H₂ gives 4 mol of CO₂, i.e. 1 mol gives 2 mo
 so moles of CO₂ = 2 × 0.25 = 0.50 mol.
 Mass of CO₂ = 0.50 × 44 = **22 g**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the preparation and chemical properties of ethene, including Markovnikov's rule, the Baeyer test and ozonolysis. <span class="marks">[10]</span>
+2. Describe the preparation and properties of ethyne and compare alkanes, alkenes and alkynes in a table of eight points. <span class="marks">[10]</span>
+3. Explain the free-radical mechanism of the chlorination of methane, and describe the conformations of ethane. <span class="marks">[10]</span>
+
+### Model answer D1: ethene (10 marks)
+
+**Introduction.** Ethene (ethylene), C₂H₄, is the simplest **alkene**, with the general formula $\text{C}_n\text{H}_{2n}$. Each carbon is **sp² hybridized**; the C=C double bond has one **σ bond** and one **π bond**, the molecule is **planar** with H-C-H angles of about 117 degrees, and the bond length is 134 pm.
+
+**Preparation.**
+
+1. **Dehydration of ethanol (laboratory):** ethanol is heated with excess conc. H₂SO₄ at **170 degrees C**: $\text{CH}_3\text{CH}_2\text{OH} \rightarrow \text{CH}_2{=}\text{CH}_2 + \text{H}_2\text{O}$ (conc. H₂SO₄, 170 degrees C). At 140 degrees C diethyl ether forms instead.
+2. **Dehydrohalogenation of ethyl bromide** with alcoholic KOH: $\text{CH}_3\text{CH}_2\text{Br} + \text{KOH(alc)} \rightarrow \text{CH}_2{=}\text{CH}_2 + \text{KBr} + \text{H}_2\text{O}$.
+3. **Partial hydrogenation of ethyne** (Lindlar's catalyst) and **cracking** of petroleum (industrial).
+
+**Properties.** A colourless gas with a faint sweet smell, burning with a luminous, smoky flame. It ripens fruit as a plant hormone.
+
+**Chemical properties: electrophilic addition.** The π electrons are available to attack electrophiles.
+
+1. **Hydrogenation:** with H₂ and Ni at 200 degrees C (Sabatier-Senderens) gives ethane.
+2. **Halogenation:** with Br₂ in CCl₄ gives 1,2-dibromoethane. The **decolourisation of bromine water** is a test for unsaturation.
+3. **Hydrohalogenation:** with HBr gives bromoethane.
+4. **Hydration:** with water in the presence of an acid gives ethanol.
+5. **Oxidation (Baeyer's test):** cold, dilute, alkaline KMnO₄ is decolourised, giving **ethylene glycol (a diol)**: $\text{CH}_2{=}\text{CH}_2 + [\text{O}] + \text{H}_2\text{O} \rightarrow \text{HOCH}_2\text{CH}_2\text{OH}$ (the purple colour turns to a brown precipitate of MnO₂).
+6. **Ozonolysis:** ozone forms an ozonide, which on hydrolysis with Zn and water gives two carbonyl compounds (here **two molecules of methanal**); it is used to find the position of a double bond.
+7. **Polymerisation:** many molecules join to give **polythene**, $n\,\text{CH}_2{=}\text{CH}_2 \rightarrow (-\text{CH}_2\text{CH}_2-)_n$.
+
+**Markovnikov's rule.** *When an unsymmetrical reagent HX adds to an unsymmetrical alkene, the hydrogen goes to the carbon that already has more hydrogens.* Example: propene + HBr gives **2-bromopropane** (major) and not 1-bromopropane. **Reason:** the electrophile H⁺ adds first to give the **more stable carbocation** (secondary, 2 degree, more stable than primary) by hyperconjugation and the inductive effect, and then Br⁻ attacks.
+
+**Anti-Markovnikov (peroxide effect, Kharasch).** In the presence of a peroxide, HBr (only) adds by a free-radical mechanism to give 1-bromopropane.
+
+| Test | Result with alkene |
+|---|---|
+| Bromine water | Decolourised (orange to colourless) |
+| Baeyer's reagent | Purple decolourised, brown MnO₂ |
+| Ozonolysis | Carbonyl compounds |
+
+**Conclusion.** Alkenes are more reactive than alkanes because of the π bond and mainly undergo electrophilic addition, following Markovnikov's rule. Ethene is the starting material for polythene and ethanol.
+
+### Model answer D2: ethyne and comparison of hydrocarbons (10 marks)
+
+**Introduction.** Ethyne (acetylene), C₂H₂, is the first **alkyne** ($\text{C}_n\text{H}_{2n-2}$). Each carbon is **sp** hybridized, the molecule is **linear** (180 degrees), and the C≡C triple bond (120 pm) has one σ and two π bonds.
+
+**Preparation.**
+
+1. **Laboratory:** **calcium carbide** with water: $\text{CaC}_2 + 2\text{H}_2\text{O} \rightarrow \text{Ca(OH)}_2 + \text{C}_2\text{H}_2$.
+2. **From 1,2-dibromoethane** by double dehydrohalogenation with alcoholic KOH (then NaNH₂).
+3. **Industrial:** partial oxidation of methane; and carbide is made from lime and coke in an electric furnace at 2000 degrees C.
+
+**Properties.** A colourless gas with a garlic-like smell (due to impurities PH₃, H₂S), slightly soluble in water, and burns with a very **sooty, luminous flame** (used in oxy-acetylene welding at about 3000 degrees C).
+
+**Chemical properties.**
+
+1. **Addition reactions** (twice as many as alkenes): with H₂/Ni gives ethane; with Br₂ gives 1,1,2,2-tetrabromoethane; with HCl, gives vinyl chloride and then 1,1-dichloroethane.
+2. **Hydration:** with dilute H₂SO₄ and HgSO₄ gives vinyl alcohol, which rearranges to **ethanal (acetaldehyde)**.
+3. **Acidic nature:** the C-H bond of a terminal alkyne is **weakly acidic** (the sp carbon has 50% s character, so it is more electronegative). With ammoniacal AgNO₃ it gives a **white precipitate of silver acetylide**, and with ammoniacal Cu₂Cl₂, a **red precipitate of copper acetylide** (a test for terminal alkynes): $\text{HC}{\equiv}\text{CH} + 2\text{[Ag(NH}_3)_2]^{+} \rightarrow \text{AgC}{\equiv}\text{CAg}\downarrow$. Ethene and ethane do not react.
+4. **Polymerisation:** passing through a red-hot iron tube trimerises it to **benzene**: $3\,\text{C}_2\text{H}_2 \rightarrow \text{C}_6\text{H}_6$.
+5. **Oxidation:** with KMnO₄ gives oxalic acid; combustion gives CO₂ and water.
+
+**Eight points of comparison.**
+
+| No. | Alkane | Alkene | Alkyne |
+|---|---|---|---|
+| 1 | General formula $\text{C}_n\text{H}_{2n+2}$ | $\text{C}_n\text{H}_{2n}$ | $\text{C}_n\text{H}_{2n-2}$ |
+| 2 | Saturated | Unsaturated (C=C) | Unsaturated (C≡C) |
+| 3 | sp³ carbon | sp² carbon | sp carbon |
+| 4 | Tetrahedral, 109.5 degrees | Planar, 120 degrees | Linear, 180 degrees |
+| 5 | C-C length 154 pm | C=C 134 pm | C≡C 120 pm |
+| 6 | Substitution reactions | Electrophilic addition | Addition (two steps) |
+| 7 | Bromine water: no change | Decolourised | Decolourised |
+| 8 | Burns with a blue, non-sooty flame | Luminous, slightly sooty | Very sooty flame |
+
+**Uses of ethyne.** Oxy-acetylene welding and cutting, making **PVC** (via vinyl chloride), acetic acid and acetaldehyde, ripening of fruit, and synthetic rubber (neoprene).
+
+**Conclusion.** Ethyne is a linear, unsaturated hydrocarbon with an acidic terminal hydrogen, which sets it apart from alkenes. The trend from ethane to ethyne is in bond order, bond length and reactivity.
+
+### Model answer D3: free-radical chlorination of methane and conformations of ethane (10 marks)
+
+**Introduction.** **Alkanes** are saturated, with only strong C-C and C-H σ bonds, so they are **unreactive** (the old name "paraffins" means "little affinity"). Their typical reaction is **substitution by free radicals**.
+
+**Chlorination of methane.** In diffused sunlight or at 300 degrees C, methane reacts with chlorine: $\text{CH}_4 + \text{Cl}_2 \rightarrow \text{CH}_3\text{Cl} + \text{HCl}$. Further substitution gives CH₂Cl₂, CHCl₃ (chloroform) and CCl₄.
+
+**Mechanism: a chain reaction in three steps.**
+
+1. **Initiation:** light breaks the weak Cl-Cl bond by **homolytic fission** into two chlorine radicals: $\text{Cl}_2 \rightarrow 2\text{Cl}\cdot$ (light, $h\nu$).
+2. **Propagation:** (a) $\text{Cl}\cdot + \text{CH}_4 \rightarrow \text{HCl} + \cdot\text{CH}_3$; (b) $\cdot\text{CH}_3 + \text{Cl}_2 \rightarrow \text{CH}_3\text{Cl} + \text{Cl}\cdot$. The new chlorine radical repeats step (a), so that one photon causes thousands of cycles.
+3. **Termination:** the radicals combine, which ends the chain: $\text{Cl}\cdot + \text{Cl}\cdot \rightarrow \text{Cl}_2$; $\cdot\text{CH}_3 + \cdot\text{CH}_3 \rightarrow \text{C}_2\text{H}_6$; $\cdot\text{CH}_3 + \text{Cl}\cdot \rightarrow \text{CH}_3\text{Cl}$.
+
+**Evidence.** The reaction needs light or heat; a few photons give many molecules of product (**quantum yield** very high); it is slowed by radical traps such as oxygen; and traces of ethane in the products confirm the methyl radicals.
+
+**Reactivity and selectivity.** Bromination is slower but much more selective than chlorination. The ease of removal of H is 3 degree > 2 degree > 1 degree, because the radical stability follows the same order. Fluorine reacts explosively, and iodine does not react.
+
+**Conformations of ethane.** The rotation about the C-C σ bond is almost free, so ethane has infinite arrangements called **conformations** (conformers).
+
+- **Staggered:** the H atoms of one carbon lie in between those of the other carbon (dihedral angle 60 degrees); this is the **most stable** (lowest energy), as repulsion is least.
+- **Eclipsed:** the H atoms are exactly in front of one another (dihedral 0 degrees); this is the **least stable**, by about **12 kJ/mol** (the torsional strain).
+- At room temperature, the molecule rotates rapidly, so the isomers cannot be separated; the **Newman projection** and the sawhorse projection are used to show them.
+
+| Feature | Staggered | Eclipsed |
+|---|---|---|
+| Dihedral angle | 60 degrees | 0 degrees |
+| Energy | Lower | Higher by 12 kJ/mol |
+| Stability | More stable | Less stable |
+| Repulsion between C-H bonds | Minimum | Maximum |
+
+**Conclusion.** Alkanes react by a free-radical chain mechanism of initiation, propagation and termination. Ethane exists mainly in the staggered conformation, which is 12 kJ/mol more stable than the eclipsed one.

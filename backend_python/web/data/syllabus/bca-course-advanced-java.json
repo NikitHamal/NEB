@@ -1,0 +1,425 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "advanced-java",
+ "name": "Advanced Java Programming",
+ "name_ne": "",
+ "icon": "code",
+ "group": "semester-5",
+ "group_label": "Semester V",
+ "color": "#C2410C",
+ "lang": "en",
+ "code": "BCA 303",
+ "credits": 3,
+ "semester": 5,
+ "hours": 52,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Foundations for Advanced Java: Threads, I/O and Serialization",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The map of the Java platform",
+    "Multithreading",
+    "Streams and files",
+    "Object serialization",
+    "Collections and generics in a line",
+    "Seeing the ideas: threads, streams and serialization"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "The map of the Java platform"
+    },
+    {
+     "no": "1.2",
+     "title": "Multithreading"
+    },
+    {
+     "no": "1.3",
+     "title": "Streams and files"
+    },
+    {
+     "no": "1.4",
+     "title": "Object serialization"
+    },
+    {
+     "no": "1.5",
+     "title": "Collections and generics in a line"
+    },
+    {
+     "no": "1.6",
+     "title": "Seeing the ideas: threads, streams and serialization"
+    }
+   ],
+   "summary": [
+    "A thread is an independent path of execution sharing the process's memory; shared mutable data needs synchronisation.",
+    "Executors and futures are the practical way to run tasks concurrently and collect results.",
+    "Java I/O is layered streams; try-with-resources and java.nio.file make file work short and safe.",
+    "Serialization turns an object graph into bytes (and back) and underlies persistence and RMI; transient fields are not saved."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4350,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "GUI Programming: Swing, Layouts and Event Handling",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "AWT and Swing",
+    "Building a window",
+    "Layout managers",
+    "The delegation event model",
+    "Models and the MVC architecture",
+    "Dialogs, menus and other details",
+    "JavaFX in outline",
+    "Seeing the ideas: windows, layouts, events and MVC"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "AWT and Swing"
+    },
+    {
+     "no": "2.2",
+     "title": "Building a window"
+    },
+    {
+     "no": "2.3",
+     "title": "Layout managers"
+    },
+    {
+     "no": "2.4",
+     "title": "The delegation event model"
+    },
+    {
+     "no": "2.5",
+     "title": "Models and the MVC architecture"
+    },
+    {
+     "no": "2.6",
+     "title": "Dialogs, menus and other details"
+    },
+    {
+     "no": "2.7",
+     "title": "JavaFX in outline"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: windows, layouts, events and MVC"
+    }
+   ],
+   "summary": [
+    "Swing components (J...) form a tree under a top-level container and are drawn by the event dispatch thread; long work belongs in a SwingWorker.",
+    "Layout managers position components; nesting panels with different managers builds any layout.",
+    "In the delegation event model a source notifies registered listeners; adapters and lambdas shorten the code.",
+    "Swing separates models from views (MVC): changing the model updates every view through events.",
+    "JavaFX offers a scene graph, binding, CSS and FXML as a modern alternative."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4356,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Database Programming with JDBC",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "JDBC architecture",
+    "Statements, PreparedStatements and ResultSets",
+    "SQL injection and why we use PreparedStatement",
+    "Transactions",
+    "Batch updates and metadata",
+    "RowSets: connected and disconnected data",
+    "The DAO pattern and connection pools",
+    "Seeing the ideas: drivers, cursors, transactions and pools"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "JDBC architecture"
+    },
+    {
+     "no": "3.2",
+     "title": "Statements, PreparedStatements and ResultSets"
+    },
+    {
+     "no": "3.3",
+     "title": "SQL injection and why we use PreparedStatement"
+    },
+    {
+     "no": "3.4",
+     "title": "Transactions"
+    },
+    {
+     "no": "3.5",
+     "title": "Batch updates and metadata"
+    },
+    {
+     "no": "3.6",
+     "title": "RowSets: connected and disconnected data"
+    },
+    {
+     "no": "3.7",
+     "title": "The DAO pattern and connection pools"
+    },
+    {
+     "no": "3.8",
+     "title": "Seeing the ideas: drivers, cursors, transactions and pools"
+    }
+   ],
+   "summary": [
+    "JDBC defines database-independent interfaces; a vendor driver (type 4 today) implements them; the program loads the driver, connects, runs SQL and processes results.",
+    "PreparedStatement is faster for repeated SQL and the cure for SQL injection; ResultSet is a cursor and metadata describes its columns.",
+    "Transactions make groups of statements atomic through commit and rollback; batching reduces round trips.",
+    "RowSets offer disconnected, scrollable data; the DAO pattern and connection pools separate persistence from the rest of the application."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4898,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Network Programming with Sockets and HTTP",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Addresses, ports and URLs",
+    "TCP sockets",
+    "UDP sockets",
+    "HTTP in Java",
+    "Design notes for network programs",
+    "Seeing the ideas: addresses, sockets, datagrams and HTTP"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Addresses, ports and URLs"
+    },
+    {
+     "no": "4.2",
+     "title": "TCP sockets"
+    },
+    {
+     "no": "4.3",
+     "title": "UDP sockets"
+    },
+    {
+     "no": "4.4",
+     "title": "HTTP in Java"
+    },
+    {
+     "no": "4.5",
+     "title": "Design notes for network programs"
+    },
+    {
+     "no": "4.6",
+     "title": "Seeing the ideas: addresses, sockets, datagrams and HTTP"
+    }
+   ],
+   "summary": [
+    "A TCP socket is a reliable byte-stream connection; the server accepts connections and typically serves each in its own thread; the client connects, writes and reads.",
+    "UDP sockets send independent packets without a connection or guarantees.",
+    "The JDK includes an HTTP client and a small HTTP server; URI/URL split names into their parts.",
+    "Real programs need timeouts, framing, TLS, validation and cleanup."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4316,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Remote Method Invocation and CORBA",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Distributed objects and RMI",
+    "Parameters: by value or by reference",
+    "A complete RMI program",
+    "CORBA",
+    "Seeing the ideas: stubs, copies, wire bytes and failures"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Distributed objects and RMI"
+    },
+    {
+     "no": "5.2",
+     "title": "Parameters: by value or by reference"
+    },
+    {
+     "no": "5.3",
+     "title": "A complete RMI program"
+    },
+    {
+     "no": "5.4",
+     "title": "CORBA"
+    },
+    {
+     "no": "5.5",
+     "title": "Seeing the ideas: stubs, copies, wire bytes and failures"
+    }
+   ],
+   "summary": [
+    "RMI lets a client call methods on an object in another JVM through a stub; a registry maps names to stubs; the transport is TCP (JRMP).",
+    "Serializable arguments are copied (so the server cannot change the caller's object), remote objects are referenced; the object's state stays on the server.",
+    "Distribution adds failure modes, so remote methods declare RemoteException and callers must handle partial failure.",
+    "CORBA offers language-neutral distributed objects with IDL, an ORB and IIOP but is obsolete in the JDK; REST and gRPC are today's choices."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5240,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Servlets and JavaServer Pages",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "Web applications and containers",
+    "The servlet lifecycle",
+    "GET and POST, forms and parameters",
+    "Session management",
+    "Filters, listeners and the request dispatcher",
+    "Security basics for servlets",
+    "JavaServer Pages (JSP)",
+    "The MVC pattern with servlets and JSP",
+    "Seeing the ideas: containers, sessions, filters and JSP"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Web applications and containers"
+    },
+    {
+     "no": "6.2",
+     "title": "The servlet lifecycle"
+    },
+    {
+     "no": "6.3",
+     "title": "GET and POST, forms and parameters"
+    },
+    {
+     "no": "6.4",
+     "title": "Session management"
+    },
+    {
+     "no": "6.5",
+     "title": "Filters, listeners and the request dispatcher"
+    },
+    {
+     "no": "6.6",
+     "title": "Security basics for servlets"
+    },
+    {
+     "no": "6.7",
+     "title": "JavaServer Pages (JSP)"
+    },
+    {
+     "no": "6.8",
+     "title": "The MVC pattern with servlets and JSP"
+    },
+    {
+     "no": "6.9",
+     "title": "Seeing the ideas: containers, sessions, filters and JSP"
+    }
+   ],
+   "summary": [
+    "A servlet container runs Java servlets that turn HTTP requests into responses; one instance handles all requests concurrently, so state must not be kept in fields.",
+    "The lifecycle is init once, service per request, destroy once; HttpServlet routes to doGet and doPost.",
+    "Sessions overcome HTTP's statelessness with cookies, URL rewriting or HttpSession; filters and listeners add cross-cutting behaviour.",
+    "JSP pages are translated into servlets; EL and JSTL keep Java out of the page; MVC separates controller servlet, model classes and JSP views.",
+    "Escaping output, prepared statements, HTTPS and careful session handling are the basic defences."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5689,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "JavaBeans and the Enterprise Java Landscape",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "What is a JavaBean?",
+    "Beans in JSP and in frameworks",
+    "POJO, bean, DTO and EJB",
+    "The enterprise Java map",
+    "Seeing the ideas: beans, events, serialization and the enterprise map"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "What is a JavaBean?"
+    },
+    {
+     "no": "7.2",
+     "title": "Beans in JSP and in frameworks"
+    },
+    {
+     "no": "7.3",
+     "title": "POJO, bean, DTO and EJB"
+    },
+    {
+     "no": "7.4",
+     "title": "The enterprise Java map"
+    },
+    {
+     "no": "7.5",
+     "title": "Seeing the ideas: beans, events, serialization and the enterprise map"
+    }
+   ],
+   "summary": [
+    "A JavaBean is a serializable class with a no-argument constructor and private properties exposed through getters and setters; tools discover these by introspection.",
+    "Bound properties announce changes; constrained properties let listeners veto them before they take effect.",
+    "Beans connect the layers of an application (DAO, servlet, JSP, GUI) and are the basis of form binding in frameworks.",
+    "The enterprise Java stack (Jakarta EE, Spring) builds on the same ideas: servlets, JDBC, beans, injection and transactions."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4398,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 47,
+ "notes_ready": 7
+}

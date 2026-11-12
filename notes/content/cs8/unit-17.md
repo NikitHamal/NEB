@@ -154,6 +154,14 @@ text (score and menus); it is **interactive**, because the player controls the
 game.
 :::
 
+```photogrid label="17.H" cols="5" ratio="1.1" caption="The hardware and software of multimedia. (a) A webcam captures video. (b) A headset with a microphone records and plays sound. (c) A speaker gives out audio to a room. (d) A projector shows images and video to a class. (e) Audacity, a free editor, cuts and mixes audio. Text, picture, sound, video and animation are the five elements; these devices take them in and put them out."
+@ photo id="cs8/mm-webcam" cap="(a) Webcam: video in"
+@ photo id="cs8/mm-headset" cap="(b) Headset: sound in and out"
+@ photo id="bca105/speaker" cap="(c) Speaker: sound out"
+@ photo id="cs8/mm-projector" cap="(d) Projector: picture out"
+@ photo id="cs8/mm-audacity" cap="(e) Audacity: editing sound"
+```
+
 ## 17.2 Multimedia hardware and software
 
 ::: definition Multimedia system
@@ -605,3 +613,82 @@ harms health.
 (d) 16 GB = 16 × 1024 × 1024 = 16,777,216 KB; 16,777,216 ÷ 2,812.5 ≈ 5,965.2,
 so about **5,965 songs**.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is multimedia? Explain its five elements and the hardware and software used. <span class="marks">[10]</span>
+2. Explain the uses of multimedia, and eight advantages and seven disadvantages. <span class="marks">[10]</span>
+
+### Model answer D1: elements, hardware and software of multimedia (10 marks)
+
+**Introduction.** **Multimedia** is the combined use of text, pictures, sound, video and animation in one computer program or presentation to give information in an attractive way. A computer game and an e-book with video lessons are examples (Plate 17.H).
+
+**Elements of multimedia.**
+
+1. **Text:** the words of titles, menus and explanations; the base of most multimedia.
+2. **Graphics (pictures):** photographs, drawings and charts that make the idea clear.
+3. **Audio:** speech, music and sound effects, which add feeling and explain.
+4. **Video:** moving pictures with sound, which show real events.
+5. **Animation:** drawings made to move by showing frames quickly, to explain things that cannot be filmed, such as the working of the heart.
+
+**Hardware.**
+
+| Device | Use |
+|---|---|
+| Webcam, digital camera | Capture pictures and video |
+| Microphone, headset | Record sound |
+| Speakers, headphones | Play sound |
+| Scanner | Turn printed pictures into digital pictures |
+| Projector, large monitor | Show multimedia to a group |
+| Sound card, graphics card, large RAM | Process sound and pictures fast |
+| DVD drive, pen drive, hard disk | Store large multimedia files |
+
+**Software.**
+
+| Kind | Examples |
+|---|---|
+| Media players | VLC, Windows Media Player |
+| Audio editors | Audacity |
+| Image editors | GIMP, Photoshop, Paint |
+| Video editors | OpenShot, Kdenlive, Filmora |
+| Animation tools | Blender, Synfig, Scratch |
+| Presentation | PowerPoint, Impress |
+
+**Conclusion.** Multimedia joins five elements, and it needs suitable hardware and software to capture, edit, store and play them.
+
+### Model answer D2: uses, advantages and disadvantages of multimedia (10 marks)
+
+**Introduction.** Multimedia is used wherever information must be given clearly and attractively.
+
+**Uses.**
+
+| Field | Use |
+|---|---|
+| Education | Video lessons, e-books, quizzes and virtual labs |
+| Entertainment | Films, music, games and television |
+| Business | Advertisements, product demonstrations and presentations |
+| Health | Animated lessons on the body, training of nurses and doctors, and scan images |
+| Public places | Information kiosks, airport and bus-park displays |
+
+**Advantages.**
+
+1. **Easy to understand.** A moving picture with voice explains a hard topic, such as the water cycle, better than text alone.
+2. **Attractive and interesting.** Colour, sound and movement hold the attention of students for a longer time.
+3. **Learner's pace.** A student can pause, replay and repeat a lesson as many times as needed.
+4. **Many senses.** It uses sight and hearing together, so the learner remembers more.
+5. **Interactive.** Quizzes and games give instant feedback.
+6. **Wide reach.** One lesson can be shared by the internet with thousands of students, even in remote areas.
+7. **Saves cost over time.** A digital lesson can be copied and used again, with no printing.
+8. **Realistic training.** Dangerous or costly things, such as an operation or a flight, can be practised by simulation.
+
+**Disadvantages.**
+
+1. The **equipment is costly**: a fast computer, speakers and projector.
+2. **Files are large** and need much storage and a fast internet.
+3. **Developing** good multimedia takes much time and skill.
+4. It needs **electricity** that is not always available.
+5. Too much animation can **distract** students from the lesson.
+6. Long use of screens can cause **eye strain** and a poor posture.
+7. Copying content without permission can break the **copyright**.
+
+**Conclusion.** The benefits of multimedia, mainly in education, are great; the cost and the misuse should be controlled by careful planning.

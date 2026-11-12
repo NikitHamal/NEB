@@ -107,7 +107,8 @@ class SignedInQueryBudgetTests(TestCase):
 
     def test_pages_read_the_signed_in_user_once(self):
         # The view and _ctx() both want the viewer's row; they share one SELECT.
-        for url, budget in (('/app/profile/qbs0/', 30), ('/app/profile/qbs0/achievements/', 13),
+        # 31: the portfolio entries are one deliberate query (profile_entries, indexed on user+kind).
+        for url, budget in (('/app/profile/qbs0/', 31), ('/app/profile/qbs0/achievements/', 13),
                             ('/app/study-lab/', 10), ('/app/requests/', 11), ('/app/upload/', 12)):
             with self.subTest(url=url):
                 cache.clear()

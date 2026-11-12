@@ -55,6 +55,19 @@ class ResourceRepository @Inject constructor(
 
     private suspend fun getBearerToken(): String? = authRepository.getBearerToken()
 
+    /** Insights for one resource (uploader only) or, with a null id, for everything the member uploaded. */
+    suspend fun getResourceInsights(resourceId: String?, days: Int): Result<com.neb.ians.data.api.ApiResourceInsights> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            Result.success(
+                if (resourceId.isNullOrBlank()) apiService.getUploadsInsights(token, days)
+                else apiService.getResourceInsights(token, resourceId, days)
+            )
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     fun peekResource(resourceId: String): ApiResource? {
         return appCache.resourceDetails[resourceId]
             ?: _cachedResources.value.firstOrNull { it.id == resourceId }
@@ -210,10 +223,32 @@ class ResourceRepository @Inject constructor(
         }
     }
 
-    suspend fun viewResource(resourceId: String): Result<Unit> {
+    suspend fun viewResource(resourceId: String, surface: String = "", src: String = "", dwellMs: Long = 0L): Result<Unit> {
         if (!networkMonitor.isOnline()) return Result.success(Unit)
         return try {
-            apiService.viewResource(resourceId)
+            apiService.viewResource(getBearerToken(), resourceId, surface, src, dwellMs)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Cards that scrolled into view. Best effort, batched by the list tracker. */
+    suspend fun reportImpressions(ids: List<String>): Result<Unit> {
+        if (ids.isEmpty() || !networkMonitor.isOnline()) return Result.success(Unit)
+        return try {
+            apiService.reportResourceImpressions(com.neb.ians.data.api.PostImpressionsRequest(ids.take(40)))
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** read | download | share. Best effort: a failed beacon never surfaces to the student. */
+    suspend fun resourceAction(resourceId: String, action: String): Result<Unit> {
+        if (!networkMonitor.isOnline()) return Result.success(Unit)
+        return try {
+            apiService.resourceAction(getBearerToken(), resourceId, action)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

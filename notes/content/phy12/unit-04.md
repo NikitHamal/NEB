@@ -474,6 +474,26 @@ The negative sign means $8.09\ \text{kJ}$ of work is done **on** the gas; since
 $Q = 0$, all of it becomes internal energy, $\Delta U = +8.09\ \text{kJ}$.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.2" caption="Compression without heat flow. (a) A fire piston is a closed tube and a plunger; pushing the plunger in quickly makes the tinder at the bottom glow. (b) The compression is so fast that no heat can escape, so it is adiabatic, and T V^(gamma - 1) is constant. The cell starts with air at 300 K and gamma = 1.4. A compression ratio of 5 raises the temperature to 571 K, but a ratio of 20 raises it to 994 K (721 degrees C) and the pressure to 66 times its original value. That is hotter than the ignition temperature of dry tinder, and exactly the principle used to ignite fuel in a diesel engine without a spark plug."
+@ photo id="phy12b/firepiston" cap="A fire piston: a glowing tinder in a transparent cylinder after rapid compression"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Temperature after adiabatic compression"
+g, T1 = 1.4, 300.0
+rows = [("r = %d" % r, T1 * r ** (g - 1)) for r in (5, 10, 15, 20)]
+assert round(rows[3][1]) == 994
+p = 20 ** g
+f = Fig(300, 236)
+f.text(150, 12, "T2 = T1 r^(gamma - 1), kelvin", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1050, fmt="%.0f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "air from 300 K, gamma = 1.4, r = V1 / V2", size=10, color=SLATE, bold=True)
+f.text(150, 180, "r = 20: %.0f K = %.0f deg C" % (rows[3][1], rows[3][1] - 273.15), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "pressure rises to %.0f times the original" % p, size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "paper chars at about 450 deg C or less", size=10, color=SLATE, bold=True)
+facts = dict(t20=rows[3][1], c20=rows[3][1] - 273.15, p=p, t5=rows[0][1])
+```
+
 ## Chapter summary
 
 - A system exchanges matter and energy with its surroundings across a boundary;
@@ -583,3 +603,34 @@ $\Delta U_2 = 0$ and $Q_2 = W_2 = 758\ \text{J}$.
 $W = 758\ \text{J}$, $\Delta U = 1559\ \text{J}$, which satisfies
 $Q = \Delta U + W$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define isothermal and adiabatic processes, derive the work done in each for an ideal gas and compare them, with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: isothermal and adiabatic processes of an ideal gas (10 marks)
+
+**Introduction.** The **first law of thermodynamics** states that the heat supplied to a system equals the increase in its internal energy plus the work done by it: $\Delta Q = \Delta U + \Delta W$. Applying it to an ideal gas under two ideal conditions gives the isothermal and the adiabatic process.
+
+**Isothermal process.** The temperature is constant ($\Delta T = 0$), and the process is slow so that the gas stays in thermal contact with its surroundings. For an ideal gas the internal energy depends only on temperature, so $\Delta U = 0$ and $\Delta Q = \Delta W$. The law is $PV = $ constant (Boyle's law). The work done in expanding from $V_{1}$ to $V_{2}$ is
+
+$$ W = \int_{V_{1}}^{V_{2}} P\,dV = nRT\int_{V_{1}}^{V_{2}}\frac{dV}{V} = nRT\ln\frac{V_{2}}{V_{1}} $$
+
+**Adiabatic process.** No heat enters or leaves ($\Delta Q = 0$), as when the process is very fast or the walls are insulated. Then $\Delta U = -\Delta W$, so an expanding gas cools. The law is $PV^{\gamma} = $ constant, or $TV^{\gamma - 1} = $ constant, with $\gamma = C_{p}/C_{v}$. The work done is
+
+$$ W = \frac{P_{1}V_{1} - P_{2}V_{2}}{\gamma - 1} = \frac{nR\,(T_{1} - T_{2})}{\gamma - 1} $$
+
+**Why the adiabatic curve is steeper.** At any point the slope of the isotherm is $-P/V$ and that of the adiabat is $-\gamma P/V$. Because $\gamma > 1$, the adiabatic curve falls more steeply on the P–V diagram, and so the work done in an adiabatic expansion is smaller than in an isothermal one between the same volumes.
+
+| Property | Isothermal | Adiabatic |
+|---|---|---|
+| Condition | $T$ constant | $Q = 0$ |
+| Equation | $PV = $ constant | $PV^{\gamma} = $ constant |
+| Internal energy | No change | Changes ($\Delta U = -W$) |
+| Heat exchange | Yes, $Q = W$ | None |
+| Speed | Slow | Fast |
+| Example | Melting ice at 0 °C, slow expansion | Sound in air, bicycle pump, cloud formation |
+
+**Numerical.** 2 mol of an ideal gas expand isothermally at $300\ \text{K}$ to double the volume: $W = 2(8.314)(300)\ln 2 = 3.46 \times 10^{3}\ \text{J}$, and the heat absorbed is the same. For 1 mol of a monatomic gas ($\gamma = 5/3$) expanding adiabatically from $300\ \text{K}$ to twice the volume, $T_{2} = 300\,(1/2)^{2/3} = 189\ \text{K}$ and $W = \dfrac{8.314\,(300 - 189)}{2/3} \approx 1.38 \times 10^{3}\ \text{J}$, which is smaller than the isothermal value for the same volume change.
+
+**Conclusion.** In an isothermal expansion the work is paid for by absorbed heat, whereas in an adiabatic expansion it is paid for by the internal energy, and the gas cools.

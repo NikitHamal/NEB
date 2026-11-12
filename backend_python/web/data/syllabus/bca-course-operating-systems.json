@@ -1,0 +1,565 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "operating-systems",
+ "name": "Operating Systems",
+ "name_ne": "",
+ "icon": "dns",
+ "group": "semester-4",
+ "group_label": "Semester IV",
+ "color": "#0E7490",
+ "lang": "en",
+ "code": "BCA 251",
+ "credits": 3,
+ "semester": 4,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Operating Systems",
+   "hours": 2,
+   "area": "",
+   "topics": [
+    "What is an operating system?",
+    "History and generations of operating systems",
+    "Types of operating systems",
+    "Functions of an operating system",
+    "Key hardware ideas an OS relies on",
+    "Seeing the ideas: three machines, two roles, one utilisation curve"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is an operating system?"
+    },
+    {
+     "no": "1.2",
+     "title": "History and generations of operating systems"
+    },
+    {
+     "no": "1.3",
+     "title": "Types of operating systems"
+    },
+    {
+     "no": "1.4",
+     "title": "Functions of an operating system"
+    },
+    {
+     "no": "1.5",
+     "title": "Key hardware ideas an OS relies on"
+    },
+    {
+     "no": "1.6",
+     "title": "Seeing the ideas: three machines, two roles, one utilisation curve"
+    }
+   ],
+   "summary": [
+    "An OS is the privileged layer that manages hardware and offers abstractions (files, processes, address spaces) to applications.",
+    "It acts both as an extended machine and as a resource manager.",
+    "OS history is a history of keeping the CPU busy: batch, multiprogramming, time-sharing, personal computers, distributed and mobile systems.",
+    "Batch, time-sharing, real-time, distributed, network, embedded and mobile OS types differ in their main goal: throughput, response time, deadlines, transparency, or power and footprint.",
+    "Interrupts, a timer, protection registers and the user/kernel mode bit are the hardware that makes an OS possible."
+   ],
+   "terms": [
+    "Operating system"
+   ],
+   "stats": {
+    "words": 3643,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Operating System Structure",
+   "hours": 2,
+   "area": "",
+   "topics": [
+    "System components and system calls",
+    "Monolithic and layered structure",
+    "The kernel and its types",
+    "Client-server model",
+    "Virtual machines",
+    "The shell",
+    "Seeing the ideas: shells, kernels and hypervisors"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "System components and system calls"
+    },
+    {
+     "no": "2.2",
+     "title": "Monolithic and layered structure"
+    },
+    {
+     "no": "2.3",
+     "title": "The kernel and its types"
+    },
+    {
+     "no": "2.4",
+     "title": "Client-server model"
+    },
+    {
+     "no": "2.5",
+     "title": "Virtual machines"
+    },
+    {
+     "no": "2.6",
+     "title": "The shell"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the ideas: shells, kernels and hypervisors"
+    }
+   ],
+   "summary": [
+    "System calls are the controlled entry into the kernel; most programs use APIs built on them.",
+    "Monolithic kernels trade safety for speed; layered designs make verification easy; microkernels move services to user space for reliability; exokernels expose raw hardware.",
+    "The client-server model and VMs extend the same idea of separating services from each other.",
+    "The shell is only a program; the kernel is what makes it possible."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3424,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Process Management",
+   "hours": 15,
+   "area": "",
+   "topics": [
+    "Process concepts",
+    "Threads",
+    "Inter-process communication and synchronization",
+    "Process scheduling",
+    "Seeing the ideas: states, races, semaphores and schedules"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Process concepts"
+    },
+    {
+     "no": "3.2",
+     "title": "Threads"
+    },
+    {
+     "no": "3.3",
+     "title": "Inter-process communication and synchronization"
+    },
+    {
+     "no": "3.4",
+     "title": "Process scheduling"
+    },
+    {
+     "no": "3.5",
+     "title": "Seeing the ideas: states, races, semaphores and schedules"
+    }
+   ],
+   "summary": [
+    "A process is a program in execution described by a PCB; it moves among new, ready, running, waiting and terminated; fork, exec, wait and exit manage it.",
+    "Threads share the address space but have their own stacks and registers; one-to-one is the dominant model.",
+    "Unsynchronised access to shared data creates race conditions; the critical-section solution needs mutual exclusion, progress and bounded waiting. Peterson and TSL use busy waiting; semaphores, monitors and message passing block instead.",
+    "The classical problems (bounded buffer, dining philosophers, readers-writers, sleeping barber) are templates for real synchronization bugs. Two-phase locking and timestamps give serializable transaction schedules.",
+    "Scheduling algorithms trade throughput, turnaround, waiting and response time: SJF/SRTF minimise waiting, RR gives fairness, MLFQ adapts, RMS/EDF handle deadlines."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6999,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Deadlocks",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "System model and resources",
+    "Deadlock modelling: the resource-allocation graph",
+    "The ostrich algorithm and methods of handling deadlocks",
+    "Deadlock prevention",
+    "Deadlock avoidance",
+    "Deadlock detection",
+    "Recovery from deadlock",
+    "Seeing the ideas: gridlock, graphs and the Banker"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "System model and resources"
+    },
+    {
+     "no": "4.2",
+     "title": "Deadlock modelling: the resource-allocation graph"
+    },
+    {
+     "no": "4.3",
+     "title": "The ostrich algorithm and methods of handling deadlocks"
+    },
+    {
+     "no": "4.4",
+     "title": "Deadlock prevention"
+    },
+    {
+     "no": "4.5",
+     "title": "Deadlock avoidance"
+    },
+    {
+     "no": "4.6",
+     "title": "Deadlock detection"
+    },
+    {
+     "no": "4.7",
+     "title": "Recovery from deadlock"
+    },
+    {
+     "no": "4.8",
+     "title": "Seeing the ideas: gridlock, graphs and the Banker"
+    }
+   ],
+   "summary": [
+    "Deadlock needs mutual exclusion, hold-and-wait, no preemption and circular wait; breaking any one prevents it.",
+    "RAGs show deadlocks as cycles (certain with single instances).",
+    "Strategies: ostrich, prevention (ordering resources is most practical), avoidance (Banker's), detection with recovery.",
+    "The Banker's algorithm keeps the system in safe states using maximum claims. Detection uses the same logic with current requests.",
+    "Recovery means killing processes or preempting resources, while watching out for starvation."
+   ],
+   "terms": [
+    "Deadlock"
+   ],
+   "stats": {
+    "words": 4845,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Memory Management",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Basic memory management",
+    "Paging",
+    "Virtual memory",
+    "Segmentation",
+    "Seeing the ideas: memory, swap space and the page table"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Basic memory management"
+    },
+    {
+     "no": "5.2",
+     "title": "Paging"
+    },
+    {
+     "no": "5.3",
+     "title": "Virtual memory"
+    },
+    {
+     "no": "5.4",
+     "title": "Segmentation"
+    },
+    {
+     "no": "5.5",
+     "title": "Seeing the ideas: memory, swap space and the page table"
+    }
+   ],
+   "summary": [
+    "The MMU maps logical to physical addresses; base and limit registers give relocation and protection.",
+    "Contiguous allocation suffers fragmentation; fit strategies, coalescing and compaction mitigate it.",
+    "Paging removes external fragmentation; page tables are made practical by multilevel, hashed and inverted structures and the TLB.",
+    "Demand paging loads pages on first use; page faults are costly, so the replacement policy matters. OPT is a lower bound, LRU approximates it, FIFO is simple but anomalous.",
+    "Thrashing results when working sets do not fit; segmentation offers a programmer's view and combines with paging."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6309,
+    "figures": 0,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Input/Output Device Management",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Principles of I/O hardware",
+    "Principles of I/O software",
+    "I/O software layers",
+    "Disk hardware and disk scheduling",
+    "Seeing the ideas: interrupt controllers, disks and head movement"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Principles of I/O hardware"
+    },
+    {
+     "no": "6.2",
+     "title": "Principles of I/O software"
+    },
+    {
+     "no": "6.3",
+     "title": "I/O software layers"
+    },
+    {
+     "no": "6.4",
+     "title": "Disk hardware and disk scheduling"
+    },
+    {
+     "no": "6.5",
+     "title": "Seeing the ideas: interrupt controllers, disks and head movement"
+    }
+   ],
+   "summary": [
+    "Devices are block or character; each has a controller reached through ports or memory-mapped registers.",
+    "DMA lets the controller move whole blocks and interrupt the CPU once.",
+    "I/O software aims for device independence, uniform naming, buffering and error handling; it is layered (handler, driver, device-independent, user).",
+    "Disk time is dominated by seek and rotation, so the arm is scheduled: SSTF is greedy, SCAN and C-SCAN sweep, LOOK variants save needless travel."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4022,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "File System Interface Management",
+   "hours": 2,
+   "area": "",
+   "topics": [
+    "File concept",
+    "Directories",
+    "Access methods",
+    "File-system layout and allocation (what the interface hides)",
+    "Protection",
+    "Seeing the ideas: tapes, card indexes and directory trees"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "File concept"
+    },
+    {
+     "no": "7.2",
+     "title": "Directories"
+    },
+    {
+     "no": "7.3",
+     "title": "Access methods"
+    },
+    {
+     "no": "7.4",
+     "title": "File-system layout and allocation (what the interface hides)"
+    },
+    {
+     "no": "7.5",
+     "title": "Protection"
+    },
+    {
+     "no": "7.6",
+     "title": "Seeing the ideas: tapes, card indexes and directory trees"
+    }
+   ],
+   "summary": [
+    "A file is a named, persistent collection of bytes with attributes; a file descriptor is the handle returned by open.",
+    "Directories are organised as trees (or graphs with links); paths are absolute or relative.",
+    "Access is sequential or direct. Inodes, linked and contiguous allocation are the implementations behind the interface.",
+    "Protection uses permission bits, ACLs and capabilities, ideally with least privilege."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4097,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Security Management",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "The security problem",
+    "User authentication",
+    "User authorization",
+    "Program threats",
+    "System threats",
+    "Seeing the ideas: tokens, keys, fingerprints and attacks"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "The security problem"
+    },
+    {
+     "no": "8.2",
+     "title": "User authentication"
+    },
+    {
+     "no": "8.3",
+     "title": "User authorization"
+    },
+    {
+     "no": "8.4",
+     "title": "Program threats"
+    },
+    {
+     "no": "8.5",
+     "title": "System threats"
+    },
+    {
+     "no": "8.6",
+     "title": "Seeing the ideas: tokens, keys, fingerprints and attacks"
+    }
+   ],
+   "summary": [
+    "Security aims at confidentiality, integrity and availability and must be applied at physical, human, OS and network levels.",
+    "Passwords are weak against guessing and brute force; they must be stored salted and hashed; longer is far better than \"complex\".",
+    "OTPs (HOTP/TOTP), tokens and biometrics add factors; authorization applies least privilege after login.",
+    "Program threats (Trojan, trap door, buffer overflow) abuse trust in code; system threats (viruses, worms, DoS) abuse trust in the network and the host."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3877,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Distributed Operating Systems",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Introduction",
+    "Hardware and software concepts",
+    "Communication in distributed systems",
+    "Processes and threads in distributed systems",
+    "Clock synchronization",
+    "Seeing the ideas: nodes, clocks and message diagrams"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "9.2",
+     "title": "Hardware and software concepts"
+    },
+    {
+     "no": "9.3",
+     "title": "Communication in distributed systems"
+    },
+    {
+     "no": "9.4",
+     "title": "Processes and threads in distributed systems"
+    },
+    {
+     "no": "9.5",
+     "title": "Clock synchronization"
+    },
+    {
+     "no": "9.6",
+     "title": "Seeing the ideas: nodes, clocks and message diagrams"
+    }
+   ],
+   "summary": [
+    "A distributed system is independent computers that look like one; it gives economy, speed, reliability and growth at the price of complexity, networking and security problems.",
+    "Hardware divides into multiprocessors and multicomputers; software into network OS, distributed OS and middleware.",
+    "Message passing and RPC are the basic communication tools; RPC hides messaging but not failures or latency.",
+    "Clocks drift, so Cristian's and Berkeley's algorithms and NTP synchronise physical clocks, while Lamport clocks give a consistent order of events."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4198,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Case Study: DOS, Windows, UNIX and Linux",
+   "hours": 2,
+   "area": "",
+   "topics": [
+    "MS-DOS",
+    "Windows",
+    "UNIX",
+    "Linux",
+    "Comparison",
+    "Seeing the ideas: four systems side by side"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "MS-DOS"
+    },
+    {
+     "no": "10.2",
+     "title": "Windows"
+    },
+    {
+     "no": "10.3",
+     "title": "UNIX"
+    },
+    {
+     "no": "10.4",
+     "title": "Linux"
+    },
+    {
+     "no": "10.5",
+     "title": "Comparison"
+    },
+    {
+     "no": "10.6",
+     "title": "Seeing the ideas: four systems side by side"
+    }
+   ],
+   "summary": [
+    "MS-DOS shows what a minimal OS looks like and why protection and multitasking were needed.",
+    "Windows NT adds a layered hybrid design, preemptive priority scheduling, NTFS and a security model with ACLs.",
+    "UNIX contributed portability, a unified file abstraction and small cooperating tools.",
+    "Linux combines the UNIX design with open-source development, loadable modules and a fair scheduler."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4106,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 10,
+ "topic_count": 60,
+ "notes_ready": 10
+}

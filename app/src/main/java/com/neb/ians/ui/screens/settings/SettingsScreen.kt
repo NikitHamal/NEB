@@ -36,7 +36,7 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.SpaceDashboard
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Wifi
@@ -74,16 +74,17 @@ fun SettingsScreen(
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
-    onNavigateToMyAvatar: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToAccountSecurity: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {},
     onNavigateToLegal: (String) -> Unit = {},
-    onNavigateToCanvas: () -> Unit = {}
+    onNavigateToAbout: () -> Unit = {},
+    onNavigateToNotes: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
+    val newResourceAlerts by settingsViewModel.newResourceAlerts.collectAsStateWithLifecycle()
     val downloadWifiOnly by settingsViewModel.downloadWifiOnly.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
 
@@ -164,23 +165,16 @@ fun SettingsScreen(
                         subtitle = "Balance, top-ups and point conversion",
                         onClick = onNavigateToNebyCredits
                     )
-                    SettingsDivider()
-                    SettingsRow(
-                        icon = Icons.Outlined.Palette,
-                        title = "My avatar",
-                        subtitle = "Shape, mood and colours",
-                        onClick = onNavigateToMyAvatar
-                    )
                 }
             }
 
             SettingsGroup(title = "Tools") {
                 SettingsRow(
-                    icon = Icons.Outlined.SpaceDashboard,
-                    title = "NEBians Canvas",
-                    subtitle = "Visual concept maps and whiteboards",
+                    icon = Icons.Outlined.EditNote,
+                    title = "Notes",
+                    subtitle = "Write, dictate and listen",
                     badge = "New",
-                    onClick = onNavigateToCanvas
+                    onClick = onNavigateToNotes
                 )
             }
 
@@ -214,6 +208,14 @@ fun SettingsScreen(
                 )
                 SettingsDivider()
                 SettingsToggleRow(
+                    icon = Icons.Outlined.Notifications,
+                    title = "New resource alerts",
+                    subtitle = if (newResourceAlerts) "On" else "Off",
+                    checked = newResourceAlerts,
+                    onCheckedChange = { settingsViewModel.setNewResourceAlerts(it) }
+                )
+                SettingsDivider()
+                SettingsToggleRow(
                     icon = Icons.Outlined.Wifi,
                     title = "Wi-Fi only downloads",
                     subtitle = if (downloadWifiOnly) "Wi-Fi only" else "Any network",
@@ -222,13 +224,14 @@ fun SettingsScreen(
                 )
             }
 
-            val appVersionName = remember(context) {
-                runCatching {
-                    context.packageManager.getPackageInfo(context.packageName, 0).versionName
-                }.getOrNull() ?: "1.0.5"
-            }
-
             SettingsGroup(title = "About") {
+                SettingsRow(
+                    icon = Icons.Outlined.Info,
+                    title = "About NEBians",
+                    subtitle = "Version, credits and open source",
+                    onClick = onNavigateToAbout
+                )
+                SettingsDivider()
                 SettingsRow(
                     icon = Icons.Outlined.Lock,
                     title = "Privacy policy",
@@ -241,12 +244,6 @@ fun SettingsScreen(
                     title = "Terms of service",
                     subtitle = "Rules and guidelines for usage",
                     onClick = { onNavigateToLegal(NebLegal.TERMS) }
-                )
-                SettingsDivider()
-                SettingsRow(
-                    icon = Icons.Outlined.Info,
-                    title = "Version",
-                    subtitle = appVersionName
                 )
             }
 

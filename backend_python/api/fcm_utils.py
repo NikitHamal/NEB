@@ -120,3 +120,71 @@ def _send_fcm_batch(tokens, title, body, data=None):
                 logger.error("FCM: Request failed for token: %s", str(e))
     finally:
         close_old_connections()
+
+
+_PRUNE_CODES = {'UNREGISTERED', 'SENDER_ID_MISMATCH'}
+
+
+def _classify(resp):
+    """Short, stable label for one FCM response (used in campaign error breakdowns)."""
+    if resp.status_code == 200:
+        return True, 'ok'
+    code = ''
+    try:
+        err = (resp.json() or {}).get('error', {})
+        for d in err.get('details', []) or []:
+            if d.get('errorCode'):
+                code = d['errorCode']
+                break
+        code = code or err.get('status', '')
+    except Exception:  # noqa: BLE001
+        pass
+    if resp.status_code in (404, 410):
+        code = code or 'UNREGISTERED'
+    if resp.status_code == 403 and 'SENDER_ID_MISMATCH' in resp.text:
+        code = 'SENDER_ID_MISMATCH'
+    return False, (code or f'HTTP_{resp.status_code}').lower()
+
+
+def send_fcm_detailed(tokens, title, body, data=None, workers=8, channel_id=''):
+    """Send now, wait, and report. Returns {token: (accepted: bool, code: str)}.
+
+    Dead tokens (unregistered, wrong sender) are removed here so every caller prunes the same way.
+    `code` is 'ok' or a lower-case reason such as 'unregistered', 'quota_exceeded', 'timeout',
+    'no_credentials'."""
+    tokens = list(dict.fromkeys(t for t in (tokens or []) if t))
+    if not tokens:
+        return {}
+    access, project_id = get_fcm_access_token_and_project_id()
+    if not access or not project_id:
+        return {t: (False, 'no_credentials') for t in tokens}
+    url = f"https://fcm.googleapis.com/v1/projects/{project_id}/messages:send"
+    headers = {"Authorization": f"Bearer {access}", "Content-Type": "application/json"}
+    fcm_data = {str(k): str(v) for k, v in (data or {}).items() if v is not None}
+    results, dead = {}, []
+
+    def one(tok):
+        payload = {"message": {"token": tok, "notification": {"title": title, "body": body}}}
+        if fcm_data:
+            payload["message"]["data"] = fcm_data
+        if channel_id:
+            payload["message"]["android"] = {"notification": {"channel_id": channel_id}}
+        try:
+            resp = requests.post(url, json=payload, headers=headers, timeout=8)
+            ok, code = _classify(resp)
+            if not ok and code.upper() in _PRUNE_CODES:
+                dead.append(tok)
+            return tok, (ok, code)
+        except requests.Timeout:
+            return tok, (False, 'timeout')
+        except Exception as exc:  # noqa: BLE001
+            logger.error("FCM: request failed: %s", exc)
+            return tok, (False, 'network')
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, min(workers, len(tokens)))) as pool:
+        for tok, res in pool.map(one, tokens):
+            results[tok] = res
+    if dead:
+        from api.models import FCMToken
+        FCMToken.objects.filter(token__in=dead).delete()
+    return results

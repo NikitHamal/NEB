@@ -25,15 +25,11 @@
   .fp-action-btn .material-symbols-outlined{font-size:18px}
   .fp-post-actions .fp-action-spacer{flex:1}
   .fp-owner-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-  .fp-owner-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:.75rem;font-weight:500;cursor:pointer;border:1px solid var(--md-outline-variant);background:transparent;color:var(--md-on-surface-variant);transition:background .15s}
-  .fp-owner-btn:hover{background:var(--md-surface-container-high)}
-  .fp-owner-btn.danger{color:var(--md-error);border-color:var(--md-error)}
-  .fp-owner-btn.danger:hover{background:var(--md-error-container)}
   .fp-replies-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:4px}
   .fp-section-title{font-size:1.125rem;font-weight:700;color:var(--md-on-surface);margin:0;display:flex;align-items:baseline;gap:8px}
   .fp-section-count{font-size:.9375rem;font-weight:600;color:var(--md-on-surface-variant)}
-  .fp-section-sub{font-size:.75rem;font-weight:500;color:var(--md-on-surface-variant)}
-  .fp-reply-sort{display:flex;align-items:center;gap:4px}
+  .fp-reply-sort{display:flex;align-items:center;gap:4px;flex:none}
+  .fp-section-title{min-width:0;white-space:nowrap}
   .fp-reply-sort-btn{font-size:0.8125rem;font-weight:500;color:var(--md-on-surface-variant);text-decoration:none;padding:5px 12px;border-radius:999px;transition:all 0.15s ease}
   .fp-reply-sort-btn:hover{background:var(--md-surface-container-high);color:var(--md-on-surface);text-decoration:none}
   .fp-reply-sort-active{background:var(--md-secondary-container) !important;color:var(--md-on-secondary-container) !important;font-weight:600}
@@ -42,11 +38,14 @@
   .fp-reply{display:flex;align-items:flex-start;gap:12px;background:transparent;border:0;border-bottom:1px solid var(--md-outline-variant);border-radius:0;padding:16px 24px;margin:0;transition:background .15s ease}
   .fp-reply:last-of-type{border-bottom:0}
   .fp-reply:hover{background:color-mix(in srgb, var(--md-on-surface) 2%, transparent)}
-  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex:0 0 32px;margin-top:4px;outline:none;border:none}
+  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex:0 0 32px;margin-top:2px;outline:none;border:none}
   .fp-reply-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
   .fp-reply-avatar-letter{font-size:.8125rem;font-weight:700;color:var(--md-on-primary)}
   .fp-reply-main{flex:1;min-width:0;display:flex;flex-direction:column}
-  .fp-reply-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;position:relative;width:100%}
+  .fp-reply-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:2px;position:relative;width:100%}
+  /* The 40px hit area must not set the row height: its margin box collapses to the
+     meta line, so the name row stays 22px tall and the gap above the comment closes. */
+  .fp-reply-header .more-menu-wrapper{margin:-9px -8px -9px auto}
   .fp-reply-meta{flex:1;min-width:0}
   .fp-reply-meta .author-line{display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.3;font-size:0.8125rem}
   .fp-reply-author{font-weight:600;font-size:.8125rem;color:var(--md-on-surface);text-decoration:none}
@@ -65,7 +64,6 @@
   .fp-reply-action:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
   .fp-reply-action.liked{color:var(--md-primary)}
   .fp-reply-action .material-symbols-outlined{font-size:16px}
-  .fp-reply-owner{display:inline-flex;gap:4px;margin-left:auto}
 
   /* @mention highlight */
   .fp-mention{color:var(--md-primary);font-weight:500;text-decoration:none;cursor:pointer;border-radius:3px;padding:0 1px}
@@ -358,9 +356,16 @@
   /* The panel has no padding of its own, so the composer takes the same inset
      every other row here uses -- and leaves the focus ring room to sit outside
      the field without touching the panel's edge. */
-  .fp-center-panel > .neb-composer {
+  /* A composer with a poll tool is wrapped in .pb-scope (composer + poll builder + staged media), so the
+     inset belongs to whichever of the two is the panel's direct child. Matching only `> .neb-composer`
+     is how the field, the poll builder and the staged media ended up flush against the panel's edge. */
+  .fp-center-panel > .neb-composer,
+  .fp-center-panel > .pb-scope {
     margin: 12px;
   }
+  .pb-scope { display: block; min-width: 0; }
+  .pb-scope > .pb { margin-top: 10px; }
+  .pb-scope > .cp-media-list { margin-top: 10px; }
 
   #replies-section {
     padding: 0;
@@ -394,8 +399,12 @@
     .fp-replies-head {
       padding: 14px 16px;
     }
-    .fp-center-panel > .neb-composer {
+    .fp-center-panel > .neb-composer,
+    .fp-center-panel > .pb-scope {
       margin: 10px 8px;
+    }
+    .fp-center-panel > .neb-composer,
+    .fp-center-panel > .pb-scope > .neb-composer {
       padding-left: 8px;
       padding-right: 8px;
     }

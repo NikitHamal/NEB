@@ -3,9 +3,8 @@
 {% block title %}Media Test — TTS{% endblock %}
 {% block content %}
 <div class="admin-page-header">
-  <div class="admin-eyebrow">AI &amp; Automation</div>
   <h1>TTS Providers</h1>
-  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — Airy (104 voices, en+ko), LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Paradee (8M distill), Chatterbox, Fish Drama 3 (expressive — emotion tags).</p>
+  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — Airy (104 voices, en+ko), LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Paradee (8M distill), Chatterbox, Fish Drama 3 (expressive — emotion tags), Smallest AI Lightning v3.1 Pro (269 voices, 31 languages, key on server).</p>
 </div>
 
 <div class="admin-card" style="max-width:720px">
@@ -23,6 +22,9 @@
       <option value="chatterbox/chatterbox">Chatterbox — expressive</option>
       <option value="fishaudio/drama-3">Fish Audio Drama 3 — expressive (emotion tags, voice design)</option>
       <option value="fishaudio/s2.1-pro-free">Fish Audio S2.1 Pro (free API key on server)</option>
+      <option value="smallest/lightning-v3.1-pro">Smallest AI Lightning v3.1 Pro — 269 voices, 31 languages (SMALLEST_API_KEY)</option>
+      <option value="smallest/lightning-v3.1-pro-10-26">Smallest AI Lightning v3.1 Pro (Oct 26 preview) — en/es/hi, best quality</option>
+      <option value="smallest/lightning-v3.1">Smallest AI Lightning v3.1 — 234 voices, retires 2026-11-30</option>
     </select>
   </label>
   <label>Voice <span class="md-body-small" style="color:var(--md-on-surface-variant)">Optional — e.g. en-US-JennyNeural (Bing), en-gb (Google), Hoshino (Moe), af_heart (Kokoro)</span>
@@ -77,6 +79,44 @@
       <code>[excited]</code> · <code>[laughing]</code> <code>[sighs]</code> <code>[clears throat]</code>
       <code>[pause]</code> — keyless via the official Drama 3 HF Space (~1.5s after warm-up; longer scripts take longer).
     </p>
+  </div>
+  <div id="smallest-opts" style="display:none;margin-bottom:10px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+      <label style="flex:2 1 220px">Smallest voice
+        <select id="smallest-voice" class="md-input"><option value="">Loading voices…</option></select>
+      </label>
+      <label style="flex:1 1 100px">Lang
+        <select id="smallest-lang" class="md-input">
+          <option value="en">en (UK + US)</option>
+          <option value="hi">hi (Indian accent + Hindi)</option>
+          <option value="auto">auto</option>
+          <option value="ta">ta</option>
+          <option value="es">es</option>
+          <option value="bn">bn</option>
+          <option value="gu">gu</option>
+          <option value="kn">kn</option>
+          <option value="ml">ml</option>
+          <option value="mr">mr</option>
+          <option value="or">or</option>
+          <option value="pa">pa</option>
+          <option value="te">te</option>
+          <option value="de">de</option>
+          <option value="fr">fr</option>
+        </select>
+      </label>
+      <label style="flex:1 1 130px">Speed <span id="smallest-speed-val">1.00</span>
+        <input id="smallest-speed" class="md-input" type="range" min="0.5" max="2" step="0.05" value="1">
+      </label>
+      <label style="flex:1 1 120px">Rate
+        <select id="smallest-rate" class="md-input">
+          <option value="24000">24 kHz</option>
+          <option value="44100">44.1 kHz</option>
+          <option value="16000">16 kHz</option>
+          <option value="8000">8 kHz</option>
+        </select>
+      </label>
+    </div>
+    <p class="md-body-small" id="smallest-note" style="color:var(--md-on-surface-variant);margin:6px 0 0"></p>
   </div>
   <label>Text
     <textarea id="tts-text" class="md-input" rows="3">Hello from NEBians! This is a test of our free TTS providers.</textarea>
@@ -214,11 +254,44 @@
       $('fish-opts').style.opacity = isApi ? '0.45' : '';
     }
   }
-  $('tts-provider').addEventListener('change', function () { syncAiryUI(); syncFishUI(); });
+  // ── Smallest AI: per-pool voice catalogue, batched past 240 chars ──
+  var smallestVoices = {};
+  function isSmallest() { return $('tts-provider').value.indexOf('smallest') === 0; }
+
+  function fillSmallestVoices() {
+    var sel = $('smallest-voice');
+    var pool = $('tts-provider').value;
+    fetch('/ajax/admin/media/smallest-voices/?pool=' + encodeURIComponent(pool), { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        smallestVoices[pool] = d.voices || [];
+        if (!smallestVoices[pool].length) { sel.innerHTML = '<option value="">No voices (upstream down)</option>'; return; }
+        sel.innerHTML = smallestVoices[pool].map(function (v) {
+          var nm = esc(v.name), vid = esc(v.id);
+          var bits = [v.gender || '', v.accent || '', (v.langs || []).join('+')].filter(Boolean);
+          return '<option value="' + vid + '">' + nm + (bits.length ? ' · ' + bits.map(esc).join(' · ') : '') + '</option>';
+        }).join('');
+        $('smallest-note').textContent = smallestVoices[pool].length + ' voices · ' + (d.charLimit || 240) +
+          ' chars per batch, up to ' + (d.maxChunks || 12) + ' batches (~' + (d.maxText || 2400) +
+          ' chars). Long text is split at sentence ends and stitched into one MP3. Synthesis needs ' +
+          'SMALLEST_API_KEY in the server .env; the voice list above is public and needs no key. ' +
+          'Nepali has no trained voice, so hi (Indian accent) is the closest match.';
+      })
+      .catch(function () { sel.innerHTML = '<option value="">Voice load failed</option>'; });
+  }
+
+  function syncSmallestUI() {
+    var smallest = isSmallest();
+    $('smallest-opts').style.display = smallest ? '' : 'none';
+    if (smallest && !smallestVoices[$('tts-provider').value]) fillSmallestVoices();
+  }
+  $('tts-provider').addEventListener('change', function () { syncAiryUI(); syncFishUI(); syncSmallestUI(); });
   $('airy-speed').addEventListener('input', function () { $('airy-speed-val').textContent = Number(this.value).toFixed(2); });
   $('fish-temp').addEventListener('input', function () { $('fish-temp-val').textContent = Number(this.value).toFixed(2); });
+  $('smallest-speed').addEventListener('input', function () { $('smallest-speed-val').textContent = Number(this.value).toFixed(2); });
   syncAiryUI();
   syncFishUI();
+  syncSmallestUI();
 
   $('tts-generate').addEventListener('click', function () {
     var text = $('tts-text').value.trim();
@@ -250,8 +323,13 @@
       body.description = $('fish-description').value.trim();
       body.scene = $('fish-scene').value.trim();
       body.temperature = parseFloat($('fish-temp').value);
+    } else if (provider.indexOf('smallest') === 0) {
+      body.voice = $('smallest-voice').value;
+      body.lang = $('smallest-lang').value;
+      body.speed = parseFloat($('smallest-speed').value);
+      body.sample_rate = parseInt($('smallest-rate').value, 10);
     }
-    setStatus('tts-status', provider.indexOf('airy') === 0 && text.length > 640 ? 'Batching (up to ~5s per 640 chars)…' : provider.indexOf('paradee') === 0 && text.length > 600 ? 'Batching (600 chars/batch)…' : 'Synthesizing…');
+    setStatus('tts-status', provider.indexOf('airy') === 0 && text.length > 640 ? 'Batching (up to ~5s per 640 chars)…' : provider.indexOf('smallest') === 0 && text.length > 240 ? 'Batching (up to ~1s per 240 chars)…' : provider.indexOf('paradee') === 0 && text.length > 600 ? 'Batching (600 chars/batch)…' : 'Synthesizing…');
     $('tts-generate').disabled = true;
     $('tts-result').style.display = 'none';
     post('/ajax/admin/media/tts/', body)

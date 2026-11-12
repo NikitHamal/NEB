@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-6-computer-graphics",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction and Graphics Hardware",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 1",
+   "words": 2993,
+   "read_min": 17,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Scan Conversion - Lines, Circles, Ellipses and Area Filling",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 2",
+   "words": 4188,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Two-Dimensional Transformations and Viewing",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 3",
+   "words": 3445,
+   "read_min": 19,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Clipping",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 4",
+   "words": 3565,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Three-Dimensional Transformations, Projection and Viewing",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 5",
+   "words": 4461,
+   "read_min": 25,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Visible Surfaces, Illumination and Shading",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 6",
+   "words": 4615,
+   "read_min": 26,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Curves, Surfaces and Computer Animation",
+   "area": "BCA 351 · Computer Graphics and Animation · Unit 7",
+   "words": 4940,
+   "read_min": 27,
+   "figures": 8,
+   "has_questions": true
+  }
+ ]
+}

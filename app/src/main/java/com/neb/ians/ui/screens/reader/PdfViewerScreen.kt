@@ -44,8 +44,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -57,6 +59,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.compose.ui.graphics.luminance
+import com.neb.ians.ui.screens.reader.pdf.readingPalette
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -68,6 +72,20 @@ import com.neb.ians.ui.pixel.PixelSpriteView
 import com.neb.ians.ui.pixel.PixelUiSprites
 import androidx.compose.foundation.layout.size
 import com.neb.ians.ui.components.NebTopBar
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.runtime.mutableStateListOf
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.screens.reader.pdf.ContentsSheet
+import com.neb.ians.ui.screens.reader.pdf.PdfLink
+import com.neb.ians.ui.screens.reader.pdf.ReadJump
+import com.neb.ians.ui.screens.reader.pdf.ReadSource
+import com.neb.ians.ui.screens.reader.pdf.ReaderPill
+import com.neb.ians.ui.screens.reader.pdf.ReadingMode
+import com.neb.ians.ui.screens.reader.pdf.ReadingBookMode
+import com.neb.ians.ui.screens.reader.pdf.BookState
+import com.neb.ians.ui.screens.reader.pdf.ReadingSheet
 import com.neb.ians.ui.screens.reader.pdf.BookmarksSheet
 import com.neb.ians.ui.screens.reader.pdf.FloatingPageBadge
 import com.neb.ians.ui.screens.reader.pdf.GoToPageDialog
@@ -89,10 +107,10 @@ import com.neb.ians.ui.theme.nebSpatialSpec
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 
-private enum class ReaderSheet { Options, Pages, Bookmarks, GoTo }
+private enum class ReaderSheet { Options, Pages, Bookmarks, GoTo, Contents, Reading }
 
 /** A request to show a page; [id] makes repeated jumps to the same page still count. */
-private data class Jump(val page: Int, val id: Int, val frac: Float = 0f)
+private data class Jump(val page: Int, val id: Int, val frac: Float = 0f, val anchorTop: Boolean = false)
 
 @Composable
 fun PdfViewerScreen(
@@ -131,30 +149,146 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
     var chromeVisible by rememberSaveable { mutableStateOf(true) }
     var sheet by remember { mutableStateOf<ReaderSheet?>(null) }
     var jump by remember { mutableStateOf<Jump?>(null) }
+    var readJump by remember { mutableStateOf<ReadJump?>(null) }
     var jumpCount by remember { mutableIntStateOf(0) }
-    val goTo: (Int) -> Unit = { page ->
-        jump = Jump(page.coerceIn(0, state.pageCount - 1), ++jumpCount)
+    var pendingUri by remember { mutableStateOf<String?>(null) }
+    var returnTo by remember { mutableStateOf<Int?>(null) }
+    var hiddenNotice by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+    val goTo: (Int, Float, Boolean) -> Unit = { page, frac, anchor ->
+        val target = page.coerceIn(0, state.pageCount - 1)
+        if (state.readingMode) readJump = ReadJump(target, ++jumpCount)
+        else jump = Jump(target, ++jumpCount, frac, anchor)
+        sheet = null
+    }
+    val goToPage: (Int) -> Unit = { goTo(it, 0f, false) }
+    val openOriginal: (Int) -> Unit = { page ->
+        viewModel.onPageVisible(page.coerceIn(0, state.pageCount - 1))
+        viewModel.setReadingMode(false)
         sheet = null
     }
 
     val look = readerLook(state.theme)
-    val source = remember(viewModel) { PageSource({ i, w -> viewModel.cachedPage(i, w) }, { i, w -> viewModel.renderPage(i, w) }) }
+    val onLink: (PdfLink) -> Unit = { link ->
+        if (link.page >= 0) {
+            returnTo = state.currentPage
+            goTo(link.page, link.y, true)
+        } else {
+            pendingUri = link.uri
+        }
+    }
+    val currentOnLink by rememberUpdatedState(onLink)
+    val source = remember(viewModel) {
+        PageSource(
+            { i, w -> viewModel.cachedPage(i, w) },
+            { i, w -> viewModel.renderPage(i, w) },
+            { i -> viewModel.links(i) },
+            { i -> viewModel.cachedLinks(i) },
+            { link -> currentOnLink(link) }
+        )
+    }
+    val readSource = remember(viewModel) {
+        ReadSource(
+            cached = { viewModel.cachedReflow(it) },
+            load = { viewModel.reflow(it) },
+            cachedCrop = { p, r, w -> viewModel.cachedCrop(p, r, w) },
+            loadCrop = { p, r, w -> viewModel.crop(p, r, w) },
+            bodyPoints = { viewModel.bodyPoints() }
+        )
+    }
     val zoom = rememberReaderZoomState()
     val zoomedIn by remember(zoom) { derivedStateOf { zoom.isZoomed } }
     val topInset = WindowInsets.statusBarsIgnoringVisibility.asPaddingValues().calculateTopPadding()
     val bottomInset = WindowInsets.navigationBarsIgnoringVisibility.asPaddingValues().calculateBottomPadding()
     val toggleChrome = { chromeVisible = !chromeVisible }
 
-    ImmersiveWhileHidden(hidden = !chromeVisible)
+    ImmersiveWhileHidden(hidden = !chromeVisible || (state.readingMode && state.reading.zen))
+    ReadingBrightness(if (state.readingMode) state.reading.brightness else -1f)
+    // the icons of the status and navigation bars follow what is behind them: the reading page, the canvas, or the app surface
+    val behindBars = when {
+        state.readingMode -> readingPalette(state.theme, look).bg
+        chromeVisible -> MaterialTheme.colorScheme.surface
+        else -> look.canvas
+    }
+    com.neb.ians.util.NebSystemBars(darkIcons = behindBars.luminance() > 0.5f)
     KeepScreenOn(state.keepScreenOn)
     BackHandler(enabled = zoomedIn) { zoom.reset() }
     BackHandler(enabled = state.search.open && !zoomedIn) { viewModel.closeSearch() }
+    BackHandler(enabled = state.readSearch.open && state.readingMode) { viewModel.closeReadSearch() }
     LaunchedEffect(state.search.jump) {
         val hit = state.search.current ?: return@LaunchedEffect
-        jump = Jump(hit.page, ++jumpCount, hit.rect.top)
+        goTo(hit.page, hit.rect.top, false)
     }
 
     Box(Modifier.fillMaxSize()) {
+        // A book built by our pipeline carries its own structure: read that. Anything else is reflowed from the page.
+        val appContext = androidx.compose.ui.platform.LocalContext.current
+        val book by produceState<BookState>(BookState.Loading, state.readingMode, state.title, state.pageCount) {
+            value = if (!state.readingMode) BookState.Loading
+            else viewModel.readingBook(appContext.cacheDir)?.let { BookState.Ready(it) } ?: BookState.None
+        }
+        if (state.readingMode && book is BookState.Loading) {
+            Box(Modifier.fillMaxSize().background(readingPalette(state.theme, look).bg))
+        } else if (state.readingMode && book is BookState.Ready) {
+            ReadingBookMode(
+                title = state.title,
+                pageCount = state.pageCount,
+                startPage = state.currentPage,
+                jump = readJump,
+                settings = state.reading,
+                theme = state.theme,
+                look = look,
+                dir = (book as BookState.Ready).dir,
+                bookmarked = state.currentPage in state.bookmarks,
+                chromeVisible = chromeVisible,
+                assistantHidden = state.assistantHidden,
+                chapterTitle = { p -> state.outline.lastOrNull { it.page <= p }?.title },
+                onChromeToggle = toggleChrome,
+                onPage = viewModel::onPageVisible,
+                onBack = onBack,
+                onToggleBookmark = { viewModel.toggleBookmark() },
+                onContents = { sheet = ReaderSheet.Contents },
+                onTypography = { sheet = ReaderSheet.Reading },
+                onOriginal = openOriginal,
+                onZen = { viewModel.updateReading { it.copy(zen = !it.zen) }; chromeVisible = state.reading.zen },
+                onToggleAssistant = { viewModel.setAssistantHidden(!state.assistantHidden) },
+                onFontScale = { v -> viewModel.updateReading { it.copy(fontScale = v) } },
+                onOpenLink = { url -> runCatching { appContext.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url)).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)) } }
+            )
+        } else if (state.readingMode) {
+            ReadingMode(
+                title = state.title,
+                pageCount = state.pageCount,
+                startPage = state.currentPage,
+                jump = readJump,
+                settings = state.reading,
+                theme = state.theme,
+                look = look,
+                outline = state.outline,
+                bookmarked = state.currentPage in state.bookmarks,
+                source = readSource,
+                chromeVisible = chromeVisible,
+                assistantHidden = state.assistantHidden,
+                search = state.readSearch,
+                onSearchOpen = viewModel::openReadSearch,
+                onSearchQuery = viewModel::readSearch,
+                onSearchStep = viewModel::stepReadSearch,
+                onSearchClose = viewModel::closeReadSearch,
+                onChromeToggle = toggleChrome,
+                onPage = viewModel::onPageVisible,
+                onBack = onBack,
+                onToggleBookmark = { viewModel.toggleBookmark() },
+                onContents = { sheet = ReaderSheet.Contents },
+                onTypography = { sheet = ReaderSheet.Reading },
+                onFontScale = { v -> viewModel.updateReading { it.copy(fontScale = v) } },
+                onOriginal = openOriginal,
+                onJumpPage = goToPage,
+                onZen = { viewModel.updateReading { it.copy(zen = !it.zen) }; chromeVisible = state.reading.zen },
+                onToggleAssistant = {
+                    viewModel.setAssistantHidden(!state.assistantHidden)
+                }
+            )
+        } else {
         // Each layout keeps its own scroll state; switching starts the new one on the current page.
         key(state.layout) {
             when (state.layout) {
@@ -174,7 +308,11 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
                             // land a search hit a third of the way down the screen, not at the page top
                             val info = listState.layoutInfo
                             val pageHeight = info.viewportSize.width * state.pageAspects.getOrElse(it.page) { 1.414f }
-                            val offset = if (it.frac > 0f) (it.frac * pageHeight - info.viewportSize.height / 3f).toInt().coerceAtLeast(0) else 0
+                            val offset = when {
+                                it.anchorTop -> (it.frac * pageHeight - 24f).toInt().coerceAtLeast(0)
+                                it.frac > 0f -> (it.frac * pageHeight - info.viewportSize.height / 3f).toInt().coerceAtLeast(0)
+                                else -> 0
+                            }
                             listState.scrollToItem(it.page, offset)
                             jump = null
                         }
@@ -215,14 +353,16 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             }
         }
 
-        ReaderProgressLine(
+        }
+
+        if (!state.readingMode) ReaderProgressLine(
             visible = !chromeVisible,
             progress = if (state.pageCount > 1) state.currentPage / (state.pageCount - 1f) else 1f,
             modifier = Modifier.align(Alignment.TopCenter)
         )
-        PageBadgeOnChange(chromeVisible, state.currentPage, state.pageCount, Modifier.align(Alignment.BottomCenter))
+        if (!state.readingMode) PageBadgeOnChange(chromeVisible, state.currentPage, state.pageCount, Modifier.align(Alignment.BottomCenter))
 
-        ReaderTopBar(
+        if (!state.readingMode) ReaderTopBar(
             visible = chromeVisible,
             title = state.title,
             page = state.currentPage,
@@ -232,9 +372,18 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onToggleBookmark = { viewModel.toggleBookmark() },
             onOptions = { sheet = ReaderSheet.Options },
             modifier = Modifier.align(Alignment.TopCenter),
-            onSearch = if (state.canReadText) ({ chromeVisible = true; viewModel.openSearch() }) else null
+            // devices without the platform text API search in reading mode, which reads the text itself
+            onSearch = {
+                chromeVisible = true
+                if (state.canReadText) viewModel.openSearch()
+                else { viewModel.setReadingMode(true); viewModel.openReadSearch() }
+            },
+            onReadingMode = { viewModel.setReadingMode(true) },
+            onContents = { sheet = ReaderSheet.Contents },
+            assistantHidden = state.assistantHidden,
+            onToggleAssistant = { viewModel.setAssistantHidden(!state.assistantHidden); if (!state.assistantHidden) hiddenNotice = "Neby AI is hidden. Bring it back from the menu." }
         )
-        ReaderSearchBar(
+        if (!state.readingMode) ReaderSearchBar(
             search = state.search,
             pageCount = state.pageCount,
             onQuery = viewModel::search,
@@ -243,12 +392,12 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onClose = viewModel::closeSearch,
             modifier = Modifier.align(Alignment.TopCenter)
         )
-        ReaderBottomBar(
+        if (!state.readingMode) ReaderBottomBar(
             visible = chromeVisible,
             page = state.currentPage,
             pageCount = state.pageCount,
             onGoToPage = { sheet = ReaderSheet.GoTo },
-            onSeek = goTo,
+            onSeek = goToPage,
             onThumbnails = { sheet = ReaderSheet.Pages },
             onBookmarks = { sheet = ReaderSheet.Bookmarks },
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -256,11 +405,27 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
 
         ResumeHint(
             page = state.resumePage,
-            onStartOver = { goTo(0); viewModel.consumeResume() },
+            onStartOver = { goToPage(0); viewModel.consumeResume() },
             onDone = viewModel::consumeResume,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = bottomInset + ReaderBarHeight + 16.dp)
+        )
+
+        ReaderPill(
+            message = returnTo?.let { "Went to another page" },
+            action = returnTo?.let { "Back to page ${it + 1}" },
+            onAction = { returnTo?.let { page -> goToPage(page) }; returnTo = null },
+            onDone = { returnTo = null },
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = bottomInset + ReaderBarHeight + 16.dp),
+            holdMs = 6500
+        )
+        ReaderPill(
+            message = hiddenNotice,
+            action = "Undo",
+            onAction = { viewModel.setAssistantHidden(false); hiddenNotice = null },
+            onDone = { hiddenNotice = null },
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = bottomInset + ReaderBarHeight + 16.dp)
         )
 
         val lift by animateDpAsState(
@@ -271,7 +436,15 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
         PdfAssistantOverlay(
             documentTitle = state.title,
             // the spring overshoots; a negative padding throws
-            modifier = Modifier.fillMaxSize().padding(bottom = lift.coerceAtLeast(0.dp))
+            modifier = Modifier.fillMaxSize().padding(bottom = lift.coerceAtLeast(0.dp)),
+            fabHidden = state.assistantHidden,
+            fabX = state.assistantX,
+            fabY = state.assistantY,
+            onFabMoved = viewModel::moveAssistant,
+            onFabDismissed = {
+                viewModel.setAssistantHidden(true)
+                hiddenNotice = "Neby AI is hidden. Bring it back from the menu."
+            }
         )
     }
 
@@ -283,6 +456,23 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onTheme = viewModel::setTheme,
             onLayout = viewModel::setLayout,
             onKeepScreenOn = viewModel::setKeepScreenOn,
+            onDismiss = { sheet = null },
+            assistantHidden = state.assistantHidden,
+            onAssistantHidden = viewModel::setAssistantHidden
+        )
+        ReaderSheet.Contents -> ContentsSheet(
+            items = state.outline,
+            currentPage = state.currentPage,
+            onPick = { item -> goTo(item.page, item.y, true) },
+            onDismiss = { sheet = null }
+        )
+        ReaderSheet.Reading -> ReadingSheet(
+            settings = state.reading,
+            theme = state.theme,
+            assistantHidden = state.assistantHidden,
+            onSettings = viewModel::updateReading,
+            onTheme = viewModel::setTheme,
+            onAssistantHidden = viewModel::setAssistantHidden,
             onDismiss = { sheet = null }
         )
         ReaderSheet.Pages -> ThumbnailsSheet(
@@ -291,7 +481,7 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             bookmarks = state.bookmarks,
             look = look,
             load = { viewModel.thumbnail(it) },
-            onPick = goTo,
+            onPick = goToPage,
             onDismiss = { sheet = null }
         )
         ReaderSheet.Bookmarks -> BookmarksSheet(
@@ -299,17 +489,51 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             aspects = state.pageAspects,
             look = look,
             load = { viewModel.thumbnail(it) },
-            onPick = goTo,
+            onPick = goToPage,
             onRemove = viewModel::toggleBookmark,
             onDismiss = { sheet = null }
         )
         ReaderSheet.GoTo -> GoToPageDialog(
             pageCount = state.pageCount,
             current = state.currentPage,
-            onGo = goTo,
+            onGo = goToPage,
             onDismiss = { sheet = null }
         )
         null -> Unit
+    }
+
+    pendingUri?.let { uri ->
+        NebDialog(
+            onDismissRequest = { pendingUri = null },
+            title = "Open this link?",
+            supportingText = uri,
+            confirm = NebDialogAction("Open", onClick = {
+                runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+                pendingUri = null
+            }),
+            dismiss = NebDialogAction("Cancel", onClick = { pendingUri = null })
+        )
+    }
+}
+
+/** Reading mode can set the screen's brightness; the system's own comes back when it is left. */
+@Composable
+private fun ReadingBrightness(value: Float) {
+    val view = LocalView.current
+    DisposableEffect(view, value) {
+        val window = view.context.findActivity()?.window
+        if (window != null && value >= 0f) {
+            val attrs = window.attributes
+            attrs.screenBrightness = value.coerceIn(0.02f, 1f)
+            window.attributes = attrs
+        }
+        onDispose {
+            if (window != null) {
+                val attrs = window.attributes
+                attrs.screenBrightness = android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+                window.attributes = attrs
+            }
+        }
     }
 }
 

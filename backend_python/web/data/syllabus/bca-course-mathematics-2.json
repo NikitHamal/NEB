@@ -1,0 +1,291 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "mathematics-2",
+ "name": "Mathematics II",
+ "name_ne": "",
+ "icon": "functions",
+ "group": "semester-2",
+ "group_label": "Semester II",
+ "color": "#6D28D9",
+ "lang": "en",
+ "code": "BCA 154",
+ "credits": 3,
+ "semester": 2,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Matrices and Determinants",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Matrices and operations",
+    "Determinants",
+    "Inverse of a matrix",
+    "The determinant as an area",
+    "Eight uses of matrices in computing"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Matrices and operations"
+    },
+    {
+     "no": "1.2",
+     "title": "Determinants"
+    },
+    {
+     "no": "1.3",
+     "title": "Inverse of a matrix"
+    },
+    {
+     "no": "1.4",
+     "title": "The determinant as an area"
+    },
+    {
+     "no": "1.5",
+     "title": "Eight uses of matrices in computing"
+    }
+   ],
+   "summary": [
+    "Matrix multiplication combines rows with columns, is associative but not commutative.",
+    "The determinant measures scaling and invertibility; row operations compute it efficiently.",
+    "A matrix is invertible exactly when its determinant is non-zero; inverses come from the adjoint or Gauss–Jordan."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3201,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Systems of Linear Equations",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Systems and their solutions",
+    "Gaussian elimination",
+    "Rank and consistency",
+    "Cramer's rule",
+    "Applications and numerical issues",
+    "Three pictures of a linear system",
+    "Eight uses of linear systems"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Systems and their solutions"
+    },
+    {
+     "no": "2.2",
+     "title": "Gaussian elimination"
+    },
+    {
+     "no": "2.3",
+     "title": "Rank and consistency"
+    },
+    {
+     "no": "2.4",
+     "title": "Cramer's rule"
+    },
+    {
+     "no": "2.5",
+     "title": "Applications and numerical issues"
+    },
+    {
+     "no": "2.6",
+     "title": "Three pictures of a linear system"
+    },
+    {
+     "no": "2.7",
+     "title": "Eight uses of linear systems"
+    }
+   ],
+   "summary": [
+    "Elimination reduces any system to echelon form and then solves by back-substitution.",
+    "Rank decides the number of solutions; free variables parametrise infinite families.",
+    "Cramer's rule and inverses give formulas but elimination is the practical method.",
+    "Applications range from curve fitting to chemistry, circuits and regression."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3121,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Vector Spaces and Linear Transformations",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Vector spaces and subspaces",
+    "Span, independence, basis and dimension",
+    "The four subspaces and rank–nullity",
+    "Linear transformations",
+    "Inner products and orthogonality",
+    "The four subspaces in one picture",
+    "Eight uses of vector spaces and linear maps"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Vector spaces and subspaces"
+    },
+    {
+     "no": "3.2",
+     "title": "Span, independence, basis and dimension"
+    },
+    {
+     "no": "3.3",
+     "title": "The four subspaces and rank–nullity"
+    },
+    {
+     "no": "3.4",
+     "title": "Linear transformations"
+    },
+    {
+     "no": "3.5",
+     "title": "Inner products and orthogonality"
+    },
+    {
+     "no": "3.6",
+     "title": "The four subspaces in one picture"
+    },
+    {
+     "no": "3.7",
+     "title": "Eight uses of vector spaces and linear maps"
+    }
+   ],
+   "summary": [
+    "Vector spaces abstract the idea of vector; subspaces, span, independence, basis and dimension organise them.",
+    "Rank–nullity ties the solutions of A X = 0 to the rank of A.",
+    "Linear maps are matrices; their kernel and image measure what is lost and what is reached.",
+    "Orthogonal bases and projections give coordinates, Gram–Schmidt and least squares."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3533,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Eigenvalues, Eigenvectors and Diagonalisation",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Eigenvalues and eigenvectors",
+    "Diagonalisation",
+    "Applications",
+    "What an eigenvector looks like",
+    "Eight uses of eigenvalues"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Eigenvalues and eigenvectors"
+    },
+    {
+     "no": "4.2",
+     "title": "Diagonalisation"
+    },
+    {
+     "no": "4.3",
+     "title": "Applications"
+    },
+    {
+     "no": "4.4",
+     "title": "What an eigenvector looks like"
+    },
+    {
+     "no": "4.5",
+     "title": "Eight uses of eigenvalues"
+    }
+   ],
+   "summary": [
+    "Eigenvectors are the directions a matrix only stretches; eigenvalues are the stretch factors.",
+    "The characteristic polynomial finds them; trace and determinant give quick checks.",
+    "Diagonalisation turns matrix powers into powers of numbers; symmetric matrices diagonalise orthogonally.",
+    "Markov chains, PageRank, PCA, stability and vibration analysis are all eigenvalue problems."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3075,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Vectors in Space, Lines and Planes",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Vectors in three dimensions",
+    "Lines in space",
+    "Planes",
+    "Spheres and applications",
+    "A plane, its normal and the distance to a point",
+    "Eight uses of vectors in space"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Vectors in three dimensions"
+    },
+    {
+     "no": "5.2",
+     "title": "Lines in space"
+    },
+    {
+     "no": "5.3",
+     "title": "Planes"
+    },
+    {
+     "no": "5.4",
+     "title": "Spheres and applications"
+    },
+    {
+     "no": "5.5",
+     "title": "A plane, its normal and the distance to a point"
+    },
+    {
+     "no": "5.6",
+     "title": "Eight uses of vectors in space"
+    }
+   ],
+   "summary": [
+    "The dot product measures alignment and angles; the cross product measures area and gives normals.",
+    "The triple product measures volume and tests coplanarity.",
+    "Lines and planes have vector, parametric and Cartesian forms, with simple distance and angle formulas.",
+    "The same operations drive lighting, culling and reflection in graphics, and torque and work in physics."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3344,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 30,
+ "notes_ready": 5
+}

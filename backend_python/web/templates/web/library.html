@@ -172,7 +172,7 @@
         <div class="neb-chip-row">
           {% for g in all_grades %}
           <button type="button" class="neb-choice-chip filter-chip-btn{% if g in current_grades %} is-selected{% endif %}" data-filter="grade" data-value="{{ g }}">
-            <span class="neb-chip-tick" aria-hidden="true"></span>{{ g }}
+            <span class="neb-chip-tick" aria-hidden="true"></span>{{ g|level_label }}
           </button>
           {% endfor %}
         </div>

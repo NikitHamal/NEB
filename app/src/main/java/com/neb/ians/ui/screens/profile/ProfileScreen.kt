@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.profile
 
+import com.neb.ians.ui.components.nebToast
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -165,7 +166,7 @@ fun ProfileScreen(
                         onClick = {
                             val handle = profile?.username ?: username
                             clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE$handle/"))
-                            Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
+                            context.nebToast("Profile link copied")
                         }
                     ) {
                         Icon(Icons.Outlined.Link, contentDescription = "Copy link")

@@ -487,6 +487,61 @@ the elements**, and it is the basis of X-ray fluorescence identification. You ar
 not expected to use the equation numerically, only to know that $\sqrt{f}$ is
 linear in $Z$ and that the line is characteristic of the element.
 
+```photogrid label="19.1" cols="2" ratio="1.2" caption="Short-wavelength limit and characteristic lines. (a) Roentgen's plate shows bones and a ring because X-rays are absorbed more by dense matter. (b) Electrons accelerated through V can give one photon at most eV, so the continuous spectrum stops at lambda_min = hc / eV: 0.0413 nm at 30 kV and 0.0620 nm at 20 kV. The curves use Kramers' shape (lambda / lambda_min - 1) / lambda^2. The K-alpha line of copper from Moseley's law, E = 13.6 (3/4) (Z - 1)^2 eV with Z = 29, is 8.00 keV at 0.155 nm, independent of tube voltage."
+@ photo id="ceephy/xray" cap="One of the first X-ray photographs, a hand with a ring, made by Roentgen in 1895"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Continuous X-ray spectrum and the copper K-alpha line"
+hc = 1239.84
+lmin = lambda kV: hc / (kV * 1e3) 
+l30, l20 = lmin(30), lmin(20)
+Ek = 13.6 * 0.75 * (29 - 1) ** 2; lk = hc / Ek
+assert abs(l30 - 0.04133) < 1e-4 and abs(l20 - 0.0620) < 1e-4 and abs(lk - 0.155) < 1e-3
+I = lambda l, lm: (l / lm - 1) / l ** 2 if l > lm else 0.0
+Imax = I(2 * l30, l30)
+facts = dict(l30="%.4f" % l30, l20="%.4f" % l20, ek="%.2f" % (Ek / 1000), lk="%.3f" % lk)
+f = Fig(300, 244)
+f.text(150, 14, "intensity against wavelength (nm)", size=10.5, color=NAVY, bold=True)
+X = lambda l: 30 + l * 1250; Y = lambda i: 150 - i / Imax * 105
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+for lm, col in ((l30, NAVY), (l20, TEAL)):
+    pts = [(X(k / 1000), Y(I(k / 1000, lm))) for k in range(int(lm * 1000) + 1, 205, 3)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=col, sw=2.4)
+f.line(X(lk), Y(0), X(lk), Y(0.25 * Imax), color=RED, sw=2.4)
+f.text(X(lk) + 5, Y(0.25 * Imax) + 6, "Cu K-a", size=10.5, color=RED, bold=True, anchor="start")
+f.text(X(0.1), Y(Imax) - 8, "30 kV", size=10.5, color=NAVY, bold=True)
+f.text(X(0.1), Y(I(0.1, l20)) + 16, "20 kV", size=10.5, color=TEAL, bold=True)
+for q in (0, 0.05, 0.1, 0.15, 0.2): f.text(X(q), Y(0) + 13, "%g" % q, size=10.5, color=SLATE)
+f.text(150, 184, "lambda_min = %.4f nm (30 kV)" % l30, size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "lambda_min = %.4f nm (20 kV)" % l20, size=10.5, color=TEAL, bold=True)
+f.text(150, 220, "Cu K-alpha %.2f keV = %.3f nm" % (Ek / 1000, lk), size=10.5, color=RED, bold=True)
+```
+
+```photogrid label="19.2" cols="2" ratio="1.2" caption="Counting reflections from crystal planes. (a) An X-ray diffractometer rotates a crystal and a detector to find the angles at which the X-rays reflect strongly. (b) Bragg's law, 2 d sin(theta) = n lambda, is applied to the (100) planes of rock salt, spaced 282 pm apart, with copper K-alpha X-rays of wavelength 154 pm. The first-order reflection appears at 15.8 degrees, the second at 33.1 degrees and the third at 55.0 degrees; a fourth is impossible, since it would need a sine larger than 1. Only 3 orders are therefore seen, and with the shorter wavelength of molybdenum radiation 7 orders appear. Measuring these angles gives the spacing d of the planes in an unknown crystal."
+@ photo id="ceephy3/xrd" cap="An X-ray diffractometer"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Bragg reflection from a sodium chloride crystal"
+import math
+d, lam = 282.0, 154.0
+rows = []
+for n in (1, 2, 3):
+    rows.append(("n = %d" % n, math.degrees(math.asin(n * lam / (2 * d)))))
+assert round(rows[0][1], 1) == 15.8 and round(rows[1][1], 1) == 33.1 and round(rows[2][1], 1) == 55.0
+nmax = int(2 * d / lam)
+nmo = int(2 * d / 71.0)
+f = Fig(300, 236)
+f.text(150, 12, "Bragg angle, degrees, 2 d sin(t) = n lambda", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=60, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 130, "NaCl planes d = 282 pm, Cu K-alpha 154 pm", size=10, color=SLATE, bold=True)
+f.text(150, 152, "n = 4 would need sin(t) = %.2f (> 1)" % (4 * lam / (2 * d)), size=10.5, color=RED, bold=True)
+f.text(150, 176, "highest order: n = 2d / lambda = %.2f" % (2 * d / lam), size=10.5, color=NAVY, bold=True)
+f.text(150, 194, "so %d orders are seen with Cu light" % nmax, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "Mo K-alpha (71 pm) gives %d orders" % nmo, size=10, color=SLATE, bold=True)
+facts = dict(a1=rows[0][1], a2=rows[1][1], a3=rows[2][1], nmax=nmax, nmo=nmo)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |
@@ -692,3 +747,79 @@ linear in $Z$ and that the line is characteristic of the element.
 **8.** (c) — from $n=2$ the electron needs $0-(-3.4) = 3.4$ eV; 13.6 eV is from the ground state.
 **9.** (b) — $p = h/\lambda = 6.63\times10^{-34}/1.0\times10^{-10} = 6.6\times10^{-24}$ kg m s⁻¹.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Bohr's model of the hydrogen atom, derive the energy levels and explain the spectral series. <span class="marks">[10]</span>
+2. Explain the production of X-rays, the continuous and characteristic spectra, Moseley's law and Bragg's law. <span class="marks">[10]</span>
+
+```photogrid label="19.H" cols="3" ratio="1.25" caption="Spectra and X-rays. (a) A spectroscope separates the lines emitted by an element, and each line corresponds to a jump between energy levels. (b) An X-ray photograph reveals bone because bone absorbs more than flesh. (c) An X-ray diffraction pattern reveals the arrangement of atoms in a crystal."
+@ photo id="phy12/spectroscope" cap="(a) Spectroscope"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/xray" cap="(b) X-ray image"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy3/xrd" cap="(c) X-ray diffraction"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Bohr's model of the hydrogen atom (10 marks)
+
+**Introduction.** Rutherford's nuclear atom could not explain why electrons do not spiral into the nucleus nor why atoms emit line spectra. In 1913 Bohr gave a model with three postulates.
+
+**Postulates.**
+
+1. An electron moves in certain **stationary orbits** without radiating energy.
+2. The allowed orbits have angular momentum $mvr = \dfrac{nh}{2\pi}$, with $n = 1, 2, 3, \ldots$
+3. Radiation is emitted or absorbed only when the electron jumps between orbits: $hf = E_i - E_f$.
+
+**Derivation.** The Coulomb force supplies the centripetal force: $\dfrac{ke^2}{r^2} = \dfrac{mv^2}{r}$. Combining with the second postulate:
+
+1. **Radius:** $r_n = \dfrac{n^2h^2}{4\pi^2mke^2} = 0.529n^2$ Å. The first Bohr radius is $a_0 = 0.529$ Å.
+2. **Speed:** $v_n = \dfrac{2\pi ke^2}{nh} = \dfrac{2.19\times10^6}{n}\ \text{m s}^{-1}$.
+3. **Energy:** $E_n = -\dfrac{13.6}{n^2}\ \text{eV}$. The negative sign means the electron is bound, $E_1 = -13.6\ \text{eV}$ is the ground state and the **ionisation energy** is $13.6\ \text{eV}$.
+4. **Wavelength of the emitted line:** $\dfrac1\lambda = R\left(\dfrac1{n_f^2} - \dfrac1{n_i^2}\right)$ with the Rydberg constant $R = 1.097\times10^7\ \text{m}^{-1}$.
+
+For a hydrogen-like ion of atomic number $Z$: $r_n \propto n^2/Z$ and $E_n = -13.6Z^2/n^2$ eV.
+
+| Series | Final level | Region |
+|---|---|---|
+| Lyman | 1 | ultraviolet |
+| Balmer | 2 | visible |
+| Paschen | 3 | infrared |
+| Brackett, Pfund | 4, 5 | infrared |
+
+**Numerical.** The first Balmer line ($3 \to 2$): $\dfrac1\lambda = 1.097\times10^7\left(\dfrac14 - \dfrac19\right) = 1.524\times10^6\ \text{m}^{-1}$, so $\lambda = 656\ \text{nm}$ (red). The Lyman series limit has $\lambda = 91.2\ \text{nm}$, and the radius of the $n = 3$ orbit is $9\times0.529 = 4.76$ Å.
+
+**Limitations.** The model works only for hydrogen-like atoms, cannot explain fine structure or intensity of lines, and violates the uncertainty principle by giving definite orbits.
+
+**Conclusion.** The Bohr model explains the hydrogen spectrum through quantised energy levels $E_n = -13.6/n^2$ eV.
+
+### Model answer D2: X-rays (10 marks)
+
+**Introduction.** X-rays are electromagnetic waves of wavelength about $0.01$ to $10\ \text{nm}$, discovered by Röntgen in 1895.
+
+**Production (Coolidge tube).** A heated filament emits electrons by thermionic emission. A high voltage ($10$ to $100\ \text{kV}$) between the cathode and a metal target (tungsten, molybdenum) accelerates them. When they strike the target, less than $1\%$ of the energy becomes X-rays and the rest becomes heat, so the target is cooled with water or oil, or rotated. The **intensity** is controlled by the filament current and the **hardness (penetration)** by the accelerating voltage.
+
+**Spectrum.**
+
+1. **Continuous spectrum:** produced by the deceleration of electrons (bremsstrahlung). It has a sharp minimum wavelength $\lambda_{min} = \dfrac{hc}{eV} = \dfrac{1240}{V}\ \text{nm}$ (Duane-Hunt law), which depends only on the voltage.
+2. **Characteristic spectrum:** sharp lines ($K_\alpha$, $K_\beta$) due to electron jumps into inner vacancies. They depend on the target material.
+
+**Moseley's law.** $\sqrt f = a(Z - b)$ and $b = 1$ for the $K_\alpha$ line. It showed that the atomic number is the true basis of the periodic table.
+
+**Bragg's law.** For crystal planes of spacing $d$: $2d\sin\theta = n\lambda$.
+
+**Properties and uses.** X-rays are not deflected by fields, travel at the speed of light, affect photographic plates, cause fluorescence and ionisation, and are harmful to living cells. They are used in radiography, CT scans, crystallography, airport security and in the treatment of cancer.
+
+| Feature | Soft X-rays | Hard X-rays |
+|---|---|---|
+| Voltage | low | high |
+| Wavelength | long | short |
+| Penetration | low | high |
+
+**Numerical.** At $30\ \text{kV}$, $\lambda_{min} = 1240/30000 = 0.0413\ \text{nm}$. If the voltage is doubled, $\lambda_{min}$ halves. With $d = 0.2\ \text{nm}$ and a first-order maximum at $\theta = 30^{\circ}$, $\lambda = 2(0.2)(0.5) = 0.2\ \text{nm}$.
+
+**Conclusion.** The cut-off wavelength depends on the tube voltage, while the characteristic lines identify the target element.

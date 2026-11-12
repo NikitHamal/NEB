@@ -881,3 +881,43 @@ reversal: the bad-tempered old man who scattered her birds in the first minutes
 promises, in the last, to bring crumbs for them himself — which is the play's quiet
 way of saying that he is in love with her again.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe the meeting of Dona Laura and Don Gonzalo and how their past comes back. <span class="marks">[10]</span>
+2. Discuss the comedy, the irony and the theme of *A Sunny Morning*. <span class="marks">[10]</span>
+
+```photogrid label="19.H" cols="2" ratio="1.4" caption="Authors and stage. Serafín and Joaquín Álvarez Quintero with Benito Pérez Galdós, and the interior of the Royal Dramatic Theatre in Stockholm."
+@ photo id="eng11/alvarez-quintero" cap="Álvarez Quintero brothers and Pérez Galdós"
+@ photo id="eng12/dramaten" cap="A theatre interior"
+```
+
+### Model answer D1: the meeting and the past (10 marks)
+
+**Introduction.** *A Sunny Morning* (*Mañana de sol*, 1905) is a one-act comedy by the Spanish brothers **Serafín** and **Joaquín Álvarez Quintero** of Andalusia.
+
+1. The setting is a **retired corner of a park in Madrid** on a sunny autumn morning, with a single bench and four characters.
+2. **Dona Laura**, seventy, is feeding pigeons; **Don Gonzalo**, seventy and gouty, scatters them.
+3. They **quarrel** over the bench and the birds; a pinch of **snuff** makes peace.
+4. He reads **Campoamor** aloud; she recites the poem without glasses, knowing it by heart.
+5. Names such as **Valencia**, the villa **Maricela**, **Laura Llorente** and **"The Silver Maiden"** bring the past back.
+6. Speaking of "my cousin" and "my friend", they retell their **own love story**: the flowers thrown to the balcony, the merchant, the insult and the duel at sunrise.
+7. Each invents a **noble death** for the missing lover.
+8. Their asides reveal the truth: she married two years later; he ran off to Paris with a ballet dancer in three months.
+
+**Conclusion.** The two old people pretend to be strangers, but memory brings them together.
+
+### Model answer D2: comedy, irony and theme (10 marks)
+
+1. **Comedy** comes from two proud old people who refuse to admit who they are.
+2. **Dramatic irony:** the audience knows what each hides.
+3. **Asides** let each character speak to us privately.
+4. The **invented deaths** are funny and touching, because each flatters the other.
+5. The mood is **gentle and bitter-sweet**, not cruel.
+6. **Setting:** the sunny morning matches the late warmth of their lives.
+7. **Theme:** old age keeps love, pride and illusion alive; memory forgives.
+8. A short play, with unity of time and place and little action, is suited to a single scene.
+
+**Conclusion.** The play shows that love and vanity do not grow old.

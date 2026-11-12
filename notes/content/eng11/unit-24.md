@@ -396,3 +396,33 @@ able to** run at all because he **had better rest** his knee.*
 **25.** She **can't have taken** my umbrella … — negative deduction uses *can't have*.
 **26.** We **were able to** rescue the calf … — one successful past act, not general ability.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain the main modal verbs and semi-modals with their meanings. <span class="marks">[10]</span>
+
+### Model answer D1: modals and semi-modals (10 marks)
+
+**Introduction.** A **modal** takes the bare infinitive, never adds *-s*, needs no *do* for questions and negatives, and cannot be joined to another modal.
+
+| Meaning | Forms | Example |
+|---|---|---|
+| Ability | *can* (now), *could* (past general), *was/were able to* (one past success), *be able to* | She was able to finish the race. |
+| Permission | *can, could, may* | May I come in? |
+| Possibility | *may, might, could* | It might rain. |
+| Certainty | *must, can't* | He must be tired. That can't be true. |
+| Advice | *should, ought to, had better* | You should rest. |
+| Obligation | *must, have to, need to* | I have to submit it today. |
+| Prohibition | *must not, can't* | You must not smoke. |
+| Past habit | *would, used to* | We used to play here. |
+
+**Rules.**
+
+1. *Must* shows the speaker's feeling; *have to* shows an outside rule.
+2. *Mustn't* = forbidden; *don't have to* = not necessary.
+3. For other tenses use semi-modals: *will be able to, had to*.
+4. **Perfect modals** look back: *should have gone* (a missed duty), *might have left* (a past possibility), *can't have seen* (past certainty).
+
+**Conclusion.** Choose the modal by the meaning (ability, permission, possibility, advice, duty) and the time.

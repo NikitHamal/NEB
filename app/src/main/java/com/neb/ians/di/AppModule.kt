@@ -55,5 +55,8 @@ object AppModule {
     fun provideBookmarkDao(db: NEBiansDatabase): BookmarkDao = db.bookmarkDao()
 
     @Provides
+    fun provideNoteDao(db: NEBiansDatabase): com.neb.ians.data.local.dao.NoteDao = db.noteDao()
+
+    @Provides
     fun provideApiCacheDao(db: NEBiansDatabase): ApiCacheDao = db.apiCacheDao()
 }

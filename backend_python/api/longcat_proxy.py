@@ -25,6 +25,7 @@ import time
 from typing import Dict, Generator, List, Optional
 
 from .proxy_http import new_session, resilient_get, resilient_post
+from .model_catalog import model_catalog
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,11 @@ MODELS = [
     {"id": "longcat/LongCat-2.5", "name": "LongCat 2.5", "reasoning": True, "vision": False,
      "web_search": True, "context_window": 128000},
 ]
+
+
+def get_models() -> List[Dict]:
+    return model_catalog(MODELS)
+
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
@@ -65,24 +71,6 @@ _BROWSER_HEADERS = {
     "referer": f"{LONGCAT_URL}/t",
     "user-agent": _UA,
 }
-
-
-def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": m.get("vision", False),
-                "thinking": m.get("reasoning", False),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
 
 
 def _proxies() -> List[Optional[str]]:

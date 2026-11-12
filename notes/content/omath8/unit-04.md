@@ -440,3 +440,15 @@ Work in pairs in the school ground. Mark a line 4 m from a wall (or a fixed post
 **4.** (i) $F(1.5)=20$, $F(2)=20$ (up to and including 2 hours), $F(2.5)=40$. (ii) As $t\rightarrow2^-$, $F(t)\rightarrow20$; as $t\rightarrow2^+$, $F(t)\rightarrow40$. (iii) No. The left-hand and right-hand values approach different numbers, so there is no single number that $F(t)$ approaches; the limit does not exist, even though $F(2)=20$ exists.
 **5.** (i) Substitute: $8-4+1=5$. (ii) $\frac{(x-5)(x+5)}{x-5}=x+5\rightarrow10$. (iii) $\frac{(x+2)(x+3)}{x+3}=x+2\rightarrow-3+2=-1$. (iv) $\frac{3n+2}{n}=3+\frac{2}{n}\rightarrow3$.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. For the sequence $t_n=\dfrac{3n+2}{n}$ find $t_1$, $t_{10}$, $t_{100}$ and $t_{1000}$. What number do the terms approach? Write the result with the limit notation and explain why the terms never reach it. <span class="marks">[5]</span>
+2. Find (i) $\displaystyle\lim_{x\to2}\frac{x^2-4}{x-2}$ using a table of values for $x=1.9,\ 1.99,\ 2.01$, and then by factorising, (ii) $\displaystyle\lim_{x\to3}(2x+1)$, (iii) $\displaystyle\lim_{x\to1}\frac{x^2-1}{x-1}$. <span class="marks">[5]</span>
+3. A regular polygon with $n$ sides is drawn inside a circle of radius 1 unit. Its area is $\frac n2\sin\frac{360^\circ}{n}$. Find the area for $n=3,6,12,24$, say what number the areas approach as $n$ grows, and find $\displaystyle\lim_{x\to0}\frac{x^2+3x}{x}$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $t_1=\frac51=5$; $t_{10}=\frac{32}{10}=3.2$; $t_{100}=\frac{302}{100}=3.02$; $t_{1000}=\frac{3002}{1000}=3.002$. The terms approach 3, so $\displaystyle\lim_{n\to\infty}\frac{3n+2}{n}=3$. Since $\frac{3n+2}{n}=3+\frac2n$ and $\frac2n$ is always positive, every term is a little larger than 3: it comes as close as we please but never equals 3.
+**2.** (i) For $f(x)=\frac{x^2-4}{x-2}$: $f(1.9)=\frac{-0.39}{-0.1}=3.9$; $f(1.99)=3.99$; $f(2.01)=4.01$. The values approach 4 from both sides. By factorising, $\frac{(x-2)(x+2)}{x-2}=x+2\to4$ (we may cancel because $x\ne2$ when finding a limit). So the limit is 4, although $f(2)$ itself is not defined. (ii) $2(3)+1=7$. (iii) $\frac{(x-1)(x+1)}{x-1}=x+1\to2$.
+**3.** Area $=\frac n2\sin\frac{360^\circ}{n}$: for $n=3$, $1.5\times0.8660=1.299$; $n=6$, $3\times0.8660=2.598$; $n=12$, $6\times0.5=3.000$; $n=24$, $12\times0.2588=3.106$. The areas increase and approach $\pi\approx3.1416$, the area of the circle, so the limit of the polygon areas is $\pi$. Finally, $\frac{x^2+3x}{x}=x+3$ for $x\ne0$, so the limit as $x\to0$ is 3.
+:::

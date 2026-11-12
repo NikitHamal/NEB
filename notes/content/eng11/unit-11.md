@@ -412,3 +412,49 @@ largest idea therefore arrives in its smallest, softest form. The bracket that
 closes the poem also takes the place of a full stop, so the moment is never quite
 shut.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain the meaning and form of "who are you, little i". <span class="marks">[10]</span>
+2. Discuss how the poem treats time, memory and death. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="2" ratio="1.4" caption="Poet and sunset. A self-portrait by E. E. Cummings (1920s) and a Himalayan sunrise: the poem recalls a child at a high window watching a gold November sunset."
+@ photo id="eng11/cummings" cap="E. E. Cummings, self-portrait"
+@ photo id="nep10/himalaya-sunrise" cap="Himalayan light"
+```
+
+### Model answer D1: meaning and form (10 marks)
+
+**Introduction.** "who are you, little i" is poem 12 of E. E. Cummings's *95 Poems* (1958): **eight lines, one sentence, no capital letters and no full stop**.
+
+1. The speaker is an **old poet** speaking to his own **self at five or six**.
+2. He remembers the child standing at a **high window** and watching a **gold November sunset**.
+3. The child's thought is that if the day has to become night, **this is a beautiful way**.
+4. The poem accepts **endings**, and by extension death, as beautiful.
+5. **Rhyme:** ABAB in lines 1–4 (*i/high, old/gold*) and CDED in lines 5–8 (*day/way*).
+6. Otherwise it is **free verse** with short, nearly equal lines.
+7. **Enjambment** carries the sentence from line to line without a stop.
+8. The small letter **"i"** shows the child's smallness and the speaker's humility.
+
+| Feature | Effect |
+|---|---|
+| No capitals | Childlike, simple |
+| One sentence | Flowing memory |
+| No full stop | Time without end |
+
+**Conclusion.** Cummings uses form to match meaning: a single breath of memory.
+
+### Model answer D2: time, memory and death (10 marks)
+
+1. **Time** is shown through the two ages of one person: old and little.
+2. **Memory** brings the child back as a living picture.
+3. The **sunset** is a symbol of the end of the day, and of life.
+4. The child shows **no fear**: night is only another part of day.
+5. The old man **learns from the child**; innocence is wisdom.
+6. The **gold** colour gives death a warm, beautiful light.
+7. The tone is **gentle and calm**.
+8. The poem teaches us to **accept change** and to see beauty in endings.
+
+**Conclusion.** The poem says that a calm look at death can make life richer.

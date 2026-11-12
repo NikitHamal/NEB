@@ -1256,6 +1256,25 @@ $$ t = \frac{Q}{P} = \frac{6.72\times10^{5}}{1500} = 448\ \text{s} \approx 7.5\ 
 cost is $90\times10 =$ Rs $900$.
 :::
 
+```photogrid label="23.P" cols="2" ratio="1.27" caption="A multimeter lets a student check Kirchhoff's laws on a real circuit. (a) A digital multimeter. (b) Two resistors of 100 and 200 ohms on a 12 V supply have a series resistance of 300 ohm and carry 40 mA, dropping 4 V and 8 V, which add to the supply voltage. In parallel the combined resistance is 66.67 ohm and the total current is 180 mA, the sum of the branch currents. The parallel value is always smaller than the smallest resistor, so adding a branch always increases the current drawn, which is why too many appliances on one extension board is dangerous."
+@ photo id="ceephy2/multimeter" cap="A multimeter reads the current and the voltage in a DC circuit"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Two resistors, in series and in parallel, on 12 V"
+V, R1, R2 = 12.0, 100.0, 200.0
+Rs = R1 + R2; Is = V / Rs; V1, V2 = Is * R1, Is * R2
+Rp = R1 * R2 / (R1 + R2); I1, I2 = V / R1, V / R2; It = I1 + I2
+assert abs(V1 + V2 - V) < 1e-9 and abs(It - V / Rp) < 1e-9 and abs(Rp - 66.6667) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "12 V across 100 ohm and 200 ohm", size=10.5, color=NAVY, bold=True)
+hbars(f, [("series I", Is * 1000), ("R1 parallel", I1 * 1000), ("R2 parallel", I2 * 1000), ("parallel total", It * 1000)], vmax=200, fmt="%.0f mA", x0=84, y0=34, bw=150, gap=28, colors=[(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL), (ROSE, RED)], size=9.5)
+f.text(150, 160, "series: R = %.0f ohm, V1 = %.0f V, V2 = %.0f V" % (Rs, V1, V2), size=10, color=NAVY, bold=True)
+f.text(150, 178, "V1 + V2 = %.0f V (Kirchhoff voltage law)" % (V1 + V2), size=10, color=NAVY, bold=True)
+f.text(150, 198, "parallel: R = %.2f ohm" % Rp, size=10, color=RED, bold=True)
+f.text(150, 214, "%.0f + %.0f = %.0f mA (Kirchhoff current law)" % (I1 * 1000, I2 * 1000, It * 1000), size=10, color=RED, bold=True)
+facts = dict(Rs=Rs, Is=Is * 1000, V1=V1, V2=V2, Rp=Rp, It=It * 1000)
+```
+
 ## Chapter summary
 
 - Current is $I = dQ/dt$; in a metal $I = nAv_de$ and $J = I/A = nev_d$, with a
@@ -1382,3 +1401,107 @@ and dissipates $P = I^{2}R = 1.0^{2}\times6 = 6\ \text{W}$.
 **1.(a), 1.(b), 2.(a), 2.(b), 3.(a)** are bookwork: see the boxed statements in
 §23.4, the Wheatstone derivation, §23.6 and §23.7.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the relation $I=nAev_d$ between current and drift velocity. State Ohm's law, define resistivity and explain the temperature dependence of resistance. <span class="marks">[10]</span>
+2. Derive the effective resistance in series and in parallel and explain the potential divider with a numerical. <span class="marks">[10]</span>
+3. Define emf and internal resistance, derive the condition for maximum power transfer and solve numericals on electrical power and energy. <span class="marks">[10]</span>
+
+### Model answer D1: drift velocity, Ohm's law and resistivity (10 marks)
+
+**Introduction.** In a metal, free electrons move randomly at about $10^{6}\ \text{m s}^{-1}$. When a potential difference is applied, they acquire a very slow, steady **drift** along the wire, which constitutes the current.
+
+**Drift velocity.** The average velocity gained by free electrons under an electric field is the **drift velocity** $v_d$. With electric field $E$, an electron has acceleration $a=\dfrac{eE}{m}$ and, with an average time $\tau$ between collisions (relaxation time), $v_d=\dfrac{eE}{m}\,\tau$.
+
+**Derivation of $I=nAev_d$.**
+
+1. Take a wire of cross-section $A$ with $n$ free electrons per unit volume, each with charge $e$.
+2. In a time $t$, every electron within a length $v_dt$ crosses a given section, so the volume is $Av_dt$ and the number of electrons is $nAv_dt$.
+3. The charge crossing in time $t$ is $q=nAv_dt\,e$.
+4. Current $I=\dfrac qt$, so
+
+$$ I=nAev_d $$
+
+**Ohm's law.** At constant temperature, the current through a conductor is **directly proportional** to the potential difference across it, $V=IR$. The constant $R$ is the **resistance**, with unit ohm ($\Omega$). Substituting $v_d$ gives $R=\dfrac{m}{ne^{2}\tau}\cdot\dfrac lA$.
+
+**Resistivity.** $R=\rho\dfrac lA$, where $\rho=\dfrac{m}{ne^{2}\tau}$ is the **resistivity**, a property of the material (unit $\Omega\,\text{m}$). Conductivity is $\sigma=1/\rho$. Copper has $\rho=1.7\times10^{-8}\ \Omega\,\text{m}$ and nichrome about $1.1\times10^{-6}\ \Omega\,\text{m}$, the reason heater elements use nichrome.
+
+**Temperature dependence.** For a metal, $R_t=R_0(1+\alpha t)$ with $\alpha>0$: a higher temperature means more frequent collisions (smaller $\tau$), so resistance rises. For a semiconductor $n$ increases sharply with temperature, so resistance **falls**.
+
+| Material | Effect of heating on resistance | Reason |
+|---|---|---|
+| Metal | Increases | $\tau$ decreases |
+| Semiconductor | Decreases | $n$ increases greatly |
+| Alloy (nichrome, manganin) | Almost constant | Very small $\alpha$ |
+
+**Numerical.** A copper wire of $1\ \text{mm}^{2}$ carries $2\ \text{A}$ with $n=8.5\times10^{28}\ \text{m}^{-3}$: $v_d=\dfrac{I}{nAe}=\dfrac{2}{8.5\times10^{28}\times10^{-6}\times1.6\times10^{-19}}=1.5\times10^{-4}\ \text{m s}^{-1}$, only $0.15\ \text{mm}$ per second, although the bulb lights almost at once because the **field** travels near the speed of light.
+
+**Conclusion.** Current is the product $nAev_d$; Ohm's law holds for ohmic conductors at constant temperature, and resistivity depends on the material and temperature.
+
+### Model answer D2: series, parallel resistors and the potential divider (10 marks)
+
+**Introduction.** Resistors in a circuit are combined in series or in parallel. Household wiring in Nepal uses parallel connections so that every appliance receives the full $230\ \text{V}$.
+
+**Series.** Resistors $R_1,R_2,R_3$ are joined end to end.
+
+1. The **same current $I$** flows through each.
+2. The voltages add: $V=IR_1+IR_2+IR_3=I(R_1+R_2+R_3)$.
+3. Hence $R_s=R_1+R_2+R_3$.
+
+**Parallel.** The resistors are connected between the same two points.
+
+1. The **same voltage $V$** exists across each.
+2. The currents add: $I=\dfrac V{R_1}+\dfrac V{R_2}+\dfrac V{R_3}$.
+3. Hence $\dfrac1{R_p}=\dfrac1{R_1}+\dfrac1{R_2}+\dfrac1{R_3}$, and for two resistors $R_p=\dfrac{R_1R_2}{R_1+R_2}$.
+
+| Feature | Series | Parallel |
+|---|---|---|
+| Current | Same | Divides |
+| Voltage | Divides | Same |
+| Effective $R$ | Sum, larger | Smaller than the smallest |
+| If one device fails | Circuit breaks | Others keep working |
+
+**Potential divider.** Two resistors $R_1$ and $R_2$ in series across a supply $V$ give a smaller output across $R_2$:
+
+$$ V_{out}=V\,\frac{R_2}{R_1+R_2} $$
+
+This follows because the current $I=V/(R_1+R_2)$ and $V_{out}=IR_2$. It is used in volume controls and in sensor circuits (an LDR or thermistor as one resistor gives a voltage that changes with light or temperature). A load connected across $R_2$ lowers $V_{out}$, since the parallel resistance is smaller than $R_2$.
+
+**Numerical.** A $10\ \text{V}$ supply feeds $R_1=4\ \text{k}\Omega$ and $R_2=6\ \text{k}\Omega$ in series.
+
+- $I=\dfrac{10}{10\,000}=1\ \text{mA}$.
+- $V_{out}=10\times\dfrac{6}{4+6}=6\ \text{V}$.
+- If a $6\ \text{k}\Omega$ load is connected across $R_2$, the parallel value is $3\ \text{k}\Omega$ and $V_{out}=10\times\dfrac{3}{4+3}=4.29\ \text{V}$.
+
+**Conclusion.** Series resistances add and parallel conductances add; a potential divider gives a fraction $R_2/(R_1+R_2)$ of the supply.
+
+### Model answer D3: emf, internal resistance, power and energy (10 marks)
+
+**Introduction.** A cell does work to push charge round a circuit, but the cell itself also resists the current.
+
+**Emf and internal resistance.** The **electromotive force (emf)** $E$ of a cell is the work done by the cell per unit charge in taking it round the complete circuit, equal to the terminal potential difference on open circuit. The resistance of the electrolyte and electrodes is the **internal resistance** $r$.
+
+**Circuit relations.** For an external resistance $R$:
+
+1. $I=\dfrac{E}{R+r}$.
+2. The terminal voltage is $V=E-Ir=IR$, so it **falls** as more current is drawn.
+3. The internal resistance is found from $r=\left(\dfrac EV-1\right)R$.
+
+**Electrical power and energy.**
+
+- Power $P=VI=I^{2}R=\dfrac{V^{2}}{R}$, in watts.
+- Energy $W=Pt$; the practical unit is the **kilowatt-hour**, $1\ \text{kWh}=3.6\times10^{6}\ \text{J}$ (one "unit" of electricity on a Nepal Electricity Authority bill).
+- Heating effect (Joule's law): $H=I^{2}Rt$.
+
+**Maximum power transfer.** The power delivered to the load is $P=I^{2}R=\dfrac{E^{2}R}{(R+r)^{2}}$.
+
+1. Differentiating with respect to $R$ and setting $\dfrac{dP}{dR}=0$ gives $(R+r)^{2}-2R(R+r)=0$, so $R=r$.
+2. The maximum power is $P_{max}=\dfrac{E^{2}}{4r}$ and the efficiency is then only **50%**.
+
+**Numericals.**
+
+1. A cell with $E=12\ \text{V}$ and $r=1\ \Omega$ drives a $5\ \Omega$ resistor: $I=\dfrac{12}{6}=2\ \text{A}$, $V=12-2\times1=10\ \text{V}$, and the power in the resistor is $I^{2}R=20\ \text{W}$.
+2. A $1\ \text{kW}$ heater used $5\ \text{h}$ a day for $30$ days takes $1\times5\times30=150\ \text{kWh}$; at an assumed price of Rs 10 per unit the bill is Rs 1,500.
+
+**Conclusion.** The terminal voltage is $E-Ir$; power is $VI$, and a source delivers maximum power when the load resistance equals its internal resistance.

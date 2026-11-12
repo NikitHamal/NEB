@@ -1,0 +1,402 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "applied-economics",
+ "name": "Applied Economics",
+ "name_ne": "",
+ "icon": "trending_up",
+ "group": "semester-3",
+ "group_label": "Semester III",
+ "color": "#047857",
+ "lang": "en",
+ "code": "BCA 206",
+ "credits": 2,
+ "semester": 3,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Scarcity, choice and opportunity cost",
+    "Economic systems",
+    "Microeconomics and macroeconomics",
+    "Goals and instruments of macroeconomics",
+    "Demand, supply and market equilibrium",
+    "Seeing the ideas: frontier, equilibrium and the people behind them",
+    "Eight applications of economic thinking for a BCA student"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Scarcity, choice and opportunity cost"
+    },
+    {
+     "no": "1.2",
+     "title": "Economic systems"
+    },
+    {
+     "no": "1.3",
+     "title": "Microeconomics and macroeconomics"
+    },
+    {
+     "no": "1.4",
+     "title": "Goals and instruments of macroeconomics"
+    },
+    {
+     "no": "1.5",
+     "title": "Demand, supply and market equilibrium"
+    },
+    {
+     "no": "1.6",
+     "title": "Seeing the ideas: frontier, equilibrium and the people behind them"
+    },
+    {
+     "no": "1.7",
+     "title": "Eight applications of economic thinking for a BCA student"
+    }
+   ],
+   "summary": [
+    "Scarcity forces choice, and each choice costs its best alternative; the PPF illustrates trade-offs and growth.",
+    "Micro studies individual markets and decision-makers; macro studies aggregates; policy pursues several goals with fiscal, monetary and trade instruments.",
+    "Demand and supply determine price and quantity; shifts, controls and taxes can be analysed with equations."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2873,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Elasticity of Demand and Supply",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Price elasticity of demand",
+    "Income and cross elasticity of demand",
+    "Uses of elasticity",
+    "Elasticity of supply",
+    "Seeing elasticity: five cases, the demand line and the bumper harvest",
+    "Eight uses of elasticity in business, government and Nepal"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Price elasticity of demand"
+    },
+    {
+     "no": "2.2",
+     "title": "Income and cross elasticity of demand"
+    },
+    {
+     "no": "2.3",
+     "title": "Uses of elasticity"
+    },
+    {
+     "no": "2.4",
+     "title": "Elasticity of supply"
+    },
+    {
+     "no": "2.5",
+     "title": "Seeing elasticity: five cases, the demand line and the bumper harvest"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight uses of elasticity in business, government and Nepal"
+    }
+   ],
+   "summary": [
+    "Elasticity measures responsiveness; price elasticity is classified from perfectly inelastic to perfectly elastic and depends on substitutes, necessity, income share and time.",
+    "Total outlay, point and arc methods measure it; income and cross elasticities classify goods and relationships.",
+    "Elasticity guides pricing, taxation and policy."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2811,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Theory of Consumer Behavior",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Cardinal utility analysis",
+    "Ordinal utility: indifference curves",
+    "Price effect, income effect and substitution effect",
+    "Seeing utility: diminishing returns, bundle choice and Hicks's split",
+    "Eight uses of utility and indifference-curve analysis"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Cardinal utility analysis"
+    },
+    {
+     "no": "3.2",
+     "title": "Ordinal utility: indifference curves"
+    },
+    {
+     "no": "3.3",
+     "title": "Price effect, income effect and substitution effect"
+    },
+    {
+     "no": "3.4",
+     "title": "Seeing utility: diminishing returns, bundle choice and Hicks's split"
+    },
+    {
+     "no": "3.5",
+     "title": "Eight uses of utility and indifference-curve analysis"
+    }
+   ],
+   "summary": [
+    "Cardinal analysis explains demand through diminishing marginal utility and the equi-marginal principle.",
+    "Ordinal analysis uses indifference curves and the budget line; equilibrium is tangency (MRS = price ratio).",
+    "Price effects decompose into substitution and income effects; PCC gives demand and ICC gives Engel curves."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2825,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Cost and Revenue Curves",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Concepts of cost",
+    "Short-run cost curves",
+    "Long-run cost curves",
+    "Concept of revenue",
+    "Seeing costs and revenues: schedules, the long-run envelope and the MR line",
+    "Eight uses of cost and revenue analysis"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Concepts of cost"
+    },
+    {
+     "no": "4.2",
+     "title": "Short-run cost curves"
+    },
+    {
+     "no": "4.3",
+     "title": "Long-run cost curves"
+    },
+    {
+     "no": "4.4",
+     "title": "Concept of revenue"
+    },
+    {
+     "no": "4.5",
+     "title": "Seeing costs and revenues: schedules, the long-run envelope and the MR line"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight uses of cost and revenue analysis"
+    }
+   ],
+   "summary": [
+    "Economic cost includes implicit costs, so economic profit is lower than accounting profit; normal profit is a cost.",
+    "Short-run cost curves are U-shaped because of diminishing returns; long-run curves are envelopes shaped by scale economies.",
+    "Revenue curves are horizontal under perfect competition and downward-sloping with MR below AR otherwise."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2870,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Market Structure",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "Market structures compared",
+    "The rule for profit maximisation",
+    "Perfect competition",
+    "Monopoly",
+    "Monopolistic competition",
+    "Oligopoly",
+    "Seeing the market structures: price taker, monopolist, discriminator, oligopolist",
+    "Eight lessons from market structures for Nepali firms and consumers"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Market structures compared"
+    },
+    {
+     "no": "5.2",
+     "title": "The rule for profit maximisation"
+    },
+    {
+     "no": "5.3",
+     "title": "Perfect competition"
+    },
+    {
+     "no": "5.4",
+     "title": "Monopoly"
+    },
+    {
+     "no": "5.5",
+     "title": "Monopolistic competition"
+    },
+    {
+     "no": "5.6",
+     "title": "Oligopoly"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the market structures: price taker, monopolist, discriminator, oligopolist"
+    },
+    {
+     "no": "5.8",
+     "title": "Eight lessons from market structures for Nepali firms and consumers"
+    }
+   ],
+   "summary": [
+    "Every firm maximises profit where MR = MC; the market structure fixes the shape of MR.",
+    "Competition drives price to the minimum of average cost; monopoly restricts output and raises price, creating deadweight loss; price discrimination raises monopoly profit.",
+    "Monopolistic competition gives variety with excess capacity; oligopolists are interdependent and may collude but are tempted to cheat."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3591,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "National Income Accounting",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Circular flow of income and expenditure",
+    "Concepts of national income",
+    "Real and nominal GDP; GDP deflator",
+    "Methods of computing national income",
+    "Seeing national income: flows, the Keynesian cross and the value chain",
+    "Eight uses of national income statistics"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Circular flow of income and expenditure"
+    },
+    {
+     "no": "6.2",
+     "title": "Concepts of national income"
+    },
+    {
+     "no": "6.3",
+     "title": "Real and nominal GDP; GDP deflator"
+    },
+    {
+     "no": "6.4",
+     "title": "Methods of computing national income"
+    },
+    {
+     "no": "6.5",
+     "title": "Seeing national income: flows, the Keynesian cross and the value chain"
+    },
+    {
+     "no": "6.6",
+     "title": "Eight uses of national income statistics"
+    }
+   ],
+   "summary": [
+    "The circular flow links output, income and spending; equilibrium needs leakages = injections.",
+    "GDP, GNP, NDP, NNP, NI, PI, DI and PCI are successive adjustments for foreign income, depreciation, taxes and transfers.",
+    "Real GDP strips out price changes using the deflator; national income is computed by product, income or expenditure methods, which agree."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2815,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Money, Banking and International Trade",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Concept and functions of money",
+    "Inflation",
+    "Banking: commercial banks and the central bank",
+    "International trade, balance of trade and balance of payments",
+    "Seeing money, inflation, central banking and trade",
+    "Eight roles of money, banks and trade in everyday Nepali life"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Concept and functions of money"
+    },
+    {
+     "no": "7.2",
+     "title": "Inflation"
+    },
+    {
+     "no": "7.3",
+     "title": "Banking: commercial banks and the central bank"
+    },
+    {
+     "no": "7.4",
+     "title": "International trade, balance of trade and balance of payments"
+    },
+    {
+     "no": "7.5",
+     "title": "Seeing money, inflation, central banking and trade"
+    },
+    {
+     "no": "7.6",
+     "title": "Eight roles of money, banks and trade in everyday Nepali life"
+    }
+   ],
+   "summary": [
+    "Money serves four functions; its value falls as the price level rises; the money supply (M1, M2) is created by banks via the multiplier and controlled by the central bank.",
+    "Inflation, caused by demand, costs or structure, redistributes income and is fought with monetary, fiscal and supply measures.",
+    "Commercial banks take deposits and lend; the NRB issues currency, regulates banks and conducts monetary policy.",
+    "International trade differs from domestic trade by frictions and currencies; BoT covers goods, while the BoP records all transactions and balances in total."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3258,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 44,
+ "notes_ready": 7
+}

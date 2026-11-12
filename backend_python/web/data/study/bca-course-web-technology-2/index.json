@@ -1,0 +1,77 @@
+{
+ "book": "bcacourse-semester-4-web-technology-2",
+ "units": [
+  {
+   "no": 1,
+   "title": "Server-Side Scripting and PHP Fundamentals",
+   "area": "BCA 255 · Web Technology II · Unit 1",
+   "words": 4617,
+   "read_min": 26,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Forms, Files, Sessions and Cookies",
+   "area": "BCA 255 · Web Technology II · Unit 2",
+   "words": 4169,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "MySQL for Web Applications",
+   "area": "BCA 255 · Web Technology II · Unit 3",
+   "words": 4653,
+   "read_min": 26,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Connecting PHP to MySQL",
+   "area": "BCA 255 · Web Technology II · Unit 4",
+   "words": 4495,
+   "read_min": 25,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Object-Oriented Programming in PHP",
+   "area": "BCA 255 · Web Technology II · Unit 5",
+   "words": 4115,
+   "read_min": 23,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "AJAX, JSON and Web APIs",
+   "area": "BCA 255 · Web Technology II · Unit 6",
+   "words": 4350,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Web Application Security and Authentication",
+   "area": "BCA 255 · Web Technology II · Unit 7",
+   "words": 4663,
+   "read_min": 26,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Content Management Systems and PHP Frameworks",
+   "area": "BCA 255 · Web Technology II · Unit 8",
+   "words": 4122,
+   "read_min": 23,
+   "figures": 7,
+   "has_questions": true
+  }
+ ]
+}

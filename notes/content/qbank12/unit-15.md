@@ -1828,3 +1828,161 @@ quantity, forgetting the quotes around a string in an SQL statement, and leaving
 the answer without any output statement — a program that computes the right
 value and prints nothing scores like a program that does nothing.
 :::
+
+## 15.5 Extended model answers (10 marks)
+
+The Computer Science written paper gives 8 marks to each long question, and the top answers in the Group C of the model papers run to a full page. The four models below are written to the 10-mark standard: a definition, a diagram or table, a structured body and a conclusion. The SQL results printed here were produced by running the statements on a real database.
+
+**Extended questions**
+
+1. Describe the guided and unguided transmission media used in a network, and compare twisted pair, coaxial and optical fibre cables. <span class="marks">[10]</span>
+2. Explain the OSI reference model with the function of each layer, and compare it with the TCP/IP model. <span class="marks">[10]</span>
+3. Describe the network devices and the star, bus and ring topologies, with advantages and disadvantages. Which would you choose for a school computer lab? <span class="marks">[10]</span>
+4. What is normalization? Explain 1NF, 2NF and 3NF with an example, and write SQL queries with joins and grouping. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="4" ratio="1.25" caption="Cables behind model answer D1. (a) An unshielded twisted pair (UTP) cable, the common LAN cable. (b) A patch cable ending in an RJ45 connector. (c) A coaxial cable cut to show its layers. (d) Optical-fibre patch cables with their connectors."
+@ photo id="cs12/utp-cable" cap="(a) UTP cable"
+@ photo id="cs12/rj45" cap="(b) RJ45 patch cable"
+@ photo id="cs12/coax" cap="(c) Coaxial cable"
+@ photo id="cs12/fibre" cap="(d) Optical fibre"
+```
+
+```photogrid label="15.J" cols="4" ratio="1.25" caption="Devices behind model answers D2 and D3. (a) A network interface card (NIC) that connects a computer to the network. (b) A hub, which repeats a signal to every port. (c) A five-port switch, which sends data only to the port that needs it. (d) A Wi-Fi router that joins a local network to the internet."
+@ photo id="cs12/nic" cap="(a) NIC"
+@ photo id="cs12/hub" cap="(b) Hub"
+@ photo id="cs12/switch" cap="(c) Switch"
+@ photo id="cs12/router" cap="(d) Wi-Fi router"
+```
+
+### Model answer D1: transmission media (10 marks)
+
+**Introduction.** **Transmission media** are the physical paths or the space through which data travels from a sender to a receiver. They are of two kinds: **guided (wired)** media, in which the signal follows a cable, and **unguided (wireless)** media, in which it travels through the air.
+
+**Guided media.**
+
+1. **Twisted pair.** Pairs of insulated copper wires twisted together to reduce interference. **UTP** is cheap and used in LANs (Cat 5e and Cat 6, up to 100 m per segment); **STP** has a metal shield for noisy places.
+2. **Coaxial cable.** A copper core, an insulator, a braided metal shield and an outer jacket. It resists interference better and is used for cable TV and older Ethernet.
+3. **Optical fibre.** A glass or plastic core that carries light pulses, with total internal reflection keeping the light inside. It has a very high speed, a long range and no electrical interference. **Single-mode** fibre goes tens of kilometres; **multimode** fibre is used inside buildings.
+
+**Unguided media.**
+
+4. **Radio waves** (Wi-Fi, FM radio, Bluetooth) pass through walls and travel in all directions.
+5. **Microwaves** need a line of sight between towers and carry mobile signals and telephone trunk links.
+6. **Infrared** works over a short range inside a room, as in a TV remote.
+7. **Satellite** links a ground station to a satellite far above the earth; it covers hills and remote villages where cables cannot reach.
+
+| Basis | Twisted pair | Coaxial | Optical fibre |
+|---|---|---|---|
+| Medium of signal | Electrical | Electrical | Light |
+| Typical speed | 100 Mbps to 10 Gbps | Up to about 1 Gbps | Many Gbps to Tbps |
+| Range | 100 m | 200 to 500 m | Up to tens of km |
+| Interference | High | Low | None |
+| Cost | Lowest | Medium | Highest |
+| Installation | Easy | Moderate | Difficult |
+
+**Conclusion.** For a school lab, UTP is the best choice because it is cheap and easy. Optical fibre is chosen for the backbone between buildings and for the internet service of Nepal Telecom and other ISPs.
+
+### Model answer D2: OSI model and TCP/IP model (10 marks)
+
+**Introduction.** The **OSI (Open Systems Interconnection) model** was developed by the ISO in 1984. It divides network communication into **seven layers**, each with its own job, so that products from different makers can work together. Data goes down the layers on the sender's side and up the layers on the receiver's side.
+
+| Layer | Name | Function | Unit of data | Example |
+|---|---|---|---|---|
+| 7 | Application | Services to the user | Data | HTTP, FTP, SMTP |
+| 6 | Presentation | Translation, encryption, compression | Data | SSL/TLS, JPEG |
+| 5 | Session | Opens, manages and closes sessions | Data | NetBIOS |
+| 4 | Transport | End-to-end delivery, error and flow control | Segment | TCP, UDP |
+| 3 | Network | Logical addressing and routing | Packet | IP, router |
+| 2 | Data link | Physical addressing and error detection | Frame | MAC, switch |
+| 1 | Physical | Bits as electrical or light signals | Bits | Cable, hub |
+
+A memory aid, from layer 7 to 1: **A**ll **P**eople **S**eem **T**o **N**eed **D**ata **P**rocessing.
+
+**TCP/IP model.** The model of the internet has four layers.
+
+1. **Application:** covers OSI layers 5 to 7 (HTTP, DNS, FTP).
+2. **Transport:** TCP (reliable, connection-oriented) and UDP (fast, connectionless).
+3. **Internet:** IP addressing and routing.
+4. **Network access:** covers OSI layers 1 and 2 (Ethernet, Wi-Fi).
+
+| Basis | OSI | TCP/IP |
+|---|---|---|
+| Layers | 7 | 4 |
+| Origin | A theoretical reference model | Built from working protocols |
+| Use | Teaching and design | Real internet |
+| Transport | Connection-oriented only | TCP and UDP |
+| Approach | Protocol-independent | Protocol-specific |
+
+**Conclusion.** The layered design lets any layer be changed without disturbing the others, for example Wi-Fi replacing Ethernet while a browser works as before.
+
+### Model answer D3: network devices and topologies (10 marks)
+
+**Introduction.** A **network topology** is the way that computers and devices are arranged and connected. The choice decides the cost, the speed and the reliability of the network.
+
+**Network devices.**
+
+1. **NIC:** the card that gives a computer a MAC address and a network port.
+2. **Hub:** a simple repeater that sends the incoming data out of all the ports; it is cheap but causes collisions.
+3. **Switch:** learns the MAC addresses and sends the frames only to the correct port; it is faster and safer than a hub.
+4. **Router:** joins different networks and chooses the best route for the packets, using IP addresses.
+5. **Modem:** converts digital signals to analogue signals and back, for the telephone or cable line.
+
+**Topologies.**
+
+| Basis | Star | Bus | Ring |
+|---|---|---|---|
+| Layout | Every device connects to a central switch | All devices share one backbone cable | Each device connects to two neighbours in a circle |
+| Failure of one cable | Only that device fails | The whole network may fail | The whole ring fails (in a single ring) |
+| Failure of the centre | Whole network fails | Not applicable | Not applicable |
+| Cost | Medium (more cable) | Low | Medium |
+| Adding a device | Easy | Easy but slows the network | Difficult |
+| Fault finding | Easy | Difficult | Moderate |
+| Speed | High | Falls when traffic grows | Even, with a token |
+
+**Advantages of the star topology.** It is easy to install and extend, a fault in one cable does not stop the other devices, and faults are easy to locate. **Disadvantages.** It needs more cable than a bus, and the failure of the central switch stops the whole network.
+
+**Choice.** For a school computer lab, a **star topology with a switch and UTP cable** is the best. A new computer is added simply by plugging it in, and the lab keeps working when one cable is broken.
+
+**Conclusion.** Almost all modern LANs, from Nepali banks to school labs, use a star topology with a switch.
+
+### Model answer D4: normalization and SQL (10 marks)
+
+**Introduction.** **Normalization** is the process of organizing the tables of a database to remove **redundancy** (repeated data) and the **insertion, update and deletion anomalies** that it causes. It splits a large table into smaller related tables joined by keys.
+
+**Normal forms.**
+
+1. **1NF (first normal form).** Every column holds a single atomic value, and there are no repeating groups. A cell with the phone numbers "9841, 9851" violates 1NF.
+2. **2NF.** The table is in 1NF, and every non-key column depends on the **whole** primary key, not on a part of it. This matters only for composite keys.
+3. **3NF.** The table is in 2NF, and no non-key column depends on another non-key column (no **transitive dependency**).
+
+**Example.** The table `ENROL(sid, cid, marks, cname, credits)` has the key (sid, cid). The columns `cname` and `credits` depend only on `cid` (a partial dependency), so it violates 2NF and repeats the course name for every student. The remedy is to split it into `student(sid, name, city)`, `course(cid, cname, credits)` and `enrol(sid, cid, marks)`.
+
+| Anomaly in the unnormalized table | Cause |
+|---|---|
+| Insertion | A new course cannot be stored until a student enrols |
+| Update | Renaming a course means editing many rows |
+| Deletion | Deleting the last enrolment loses the course information |
+
+**SQL on the normalized tables.** With three students, two courses and five enrolments:
+
+```sql
+SELECT s.name, c.cname, e.marks
+FROM student s
+JOIN enrol e ON s.sid = e.sid
+JOIN course c ON c.cid = e.cid
+WHERE e.marks >= 60
+ORDER BY e.marks DESC;
+```
+
+The result was: Chandra, Database, 82; Asha, Database, 78; Chandra, Networking, 71; Asha, Networking, 64.
+
+```sql
+SELECT cid, COUNT(*) AS n, AVG(marks) AS average
+FROM enrol
+GROUP BY cid
+HAVING AVG(marks) > 60;
+```
+
+The result was: CS1 with 3 students and an average of 71.67, and CS2 with 2 students and an average of 67.5.
+
+**Conclusion.** A normalized design stores each fact once. Joins put the tables back together when a query needs the whole picture, as in a college information system such as the Tribhuvan University EMIS.

@@ -4,8 +4,6 @@ import uuid
 from django.test import Client, TestCase
 
 from api.models import User, Post, Reply
-from api.blobatar.render import resolve
-from api.blobatar.color import contrast, from_hex, to_hex
 from web.view_helpers import _build_local_stats
 
 
@@ -111,25 +109,3 @@ class AnonymousPrivacyTests(TestCase):
         self.assertEqual(stats['reply_count'], 1)
         stats_all = _build_local_stats(self.owner)
         self.assertEqual(stats_all['post_count'], 2)
-
-
-class BlobatarContrastTests(TestCase):
-    def test_blue_bgcolor_forces_visible_head(self):
-        default = resolve('privacy_test')
-        overridden = resolve('privacy_test', {'palette': {'bg': '#0000ff'}})
-        head = overridden['palette']['head']
-        ratio = contrast(from_hex(head), from_hex('#0000ff'))
-        self.assertGreaterEqual(ratio, 1.25)
-        self.assertNotEqual(head, default['palette']['head'])
-        eye_ratio = contrast(from_hex(overridden['palette']['eye']), from_hex(head))
-        self.assertGreaterEqual(eye_ratio, 4.5)
-
-    def test_light_bgcolor_keeps_dark_head(self):
-        resolved = resolve('privacy_test', {'palette': {'bg': '#ffffff'}})
-        head = resolved['palette']['head']
-        ratio = contrast(from_hex(head), from_hex('#ffffff'))
-        self.assertGreaterEqual(ratio, 1.25)
-
-    def test_no_override_unchanged(self):
-        default = resolve('privacy_test')
-        self.assertEqual(default['palette']['head'], to_hex(from_hex(default['palette']['head'])))

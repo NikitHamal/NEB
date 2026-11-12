@@ -225,14 +225,15 @@ CATEGORIES: List[Dict] = [
             },
             {
                 'q': 'How do I change my username or photo?',
-                'a': "From <a href=\"/app/profile/edit/\" rel=\"nofollow\">edit profile</a>. You can also "
-                     "build a NEBians avatar there instead of uploading a photo.",
+                'a': "From <a href=\"/app/profile/edit/\" rel=\"nofollow\">edit profile</a>.",
             },
             {
                 'q': 'How do I delete my account?',
-                'a': "In <a href=\"/app/settings/delete-account/\" rel=\"nofollow\">settings</a>. Deletion "
-                     "removes your profile, posts, replies and uploads together — it is not a "
-                     "deactivation, and it cannot be undone.",
+                'a': "In <a href=\"/app/settings/delete-account/\" rel=\"nofollow\">settings</a>. Your "
+                     "request starts a 30-day grace period during which you can cancel anytime. After "
+                     "30 days, your profile, posts, replies, bookmarks and activity are permanently "
+                     "deleted, while any library resources you uploaded stay available under "
+                     "Anonymous authorship so other students do not lose study material.",
             },
             {
                 'q': 'What do you do with my data?',

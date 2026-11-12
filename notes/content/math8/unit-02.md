@@ -454,6 +454,18 @@ so $(212)_5$. Check: $2\times25+1\times5+2=57$ ✓.
 **7.** $(10101)_2=21=4\times5+1=(41)_5$. $(144)_5=49=32+16+1=(110001)_2$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Convert $2134_5$ to a decimal number, and then convert the result to base 8. Check the answer by converting the base-8 number back to decimal. <span class="marks">[5]</span>
+2. Work in base 2: (a) $1101_2+1011_2$, (b) $10110_2-1101_2$, (c) $1101_2\times101_2$. Check each answer by doing the same sum in decimal. <span class="marks">[5]</span>
+3. (a) Write the largest 3-digit number in base 6 and find its decimal value. (b) Show that $555_6+1_6=1000_6$. (c) Find the base $n$ if $123_n=38$ in decimal. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $2134_5=2\times5^3+1\times5^2+3\times5+4=250+25+15+4=294$. Now divide 294 by 8: $294=8\times36+6$; $36=8\times4+4$; $4=8\times0+4$. Read the remainders upwards: $446_8$. **Check:** $4\times64+4\times8+6=256+32+6=294$ ✓. So $2134_5=294=446_8$.
+**2.** (a) Column by column from the right: $1+1=10$ (write 0, carry 1); $0+1+1=10$ (write 0, carry 1); $1+0+1=10$ (write 0, carry 1); $1+1+1=11$. Result $11000_2$. Decimal: $13+11=24=16+8$ ✓. (b) $22-13=9$; in binary $10110_2-1101_2=1001_2$ (borrow in the second and third columns). ✓ (c) Multiply by each digit of 101: $1101\times1=1101$; $1101\times0=0000$ shifted one place; $1101\times1=1101$ shifted two places. Add: $110100+0+1101=1000001_2$. Decimal: $13\times5=65=64+1$ ✓.
+**3.** (a) The largest digit in base 6 is 5, so the largest 3-digit number is $555_6=5\times36+5\times6+5=180+30+5=215$ (which is $6^3-1$). (b) Adding 1 to the digit 5 gives $5+1=10_6$ (write 0, carry 1) in every column, so the sum is $1000_6=6^3=216$, and $215+1=216$ ✓. (c) $123_n=1\times n^2+2\times n+3=38$, so $n^2+2n-35=0$, i.e. $(n+7)(n-5)=0$. A base cannot be negative, so $n=5$. **Check:** $25+10+3=38$ ✓ (and the digit 3 is less than 5).
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

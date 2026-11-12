@@ -545,6 +545,55 @@ though $\Delta G^\circ$ has changed sign. Temperature helps the rate and hurts t
 pressure rescues the yield.
 :::
 
+```photogrid label="11.1" cols="2" ratio="1.2" caption="Hess's law in a flame. (a) A Bunsen burner burns methane: CH4 + 2O2 gives CO2 + 2H2O(l). (b) From formation enthalpies (CH4 -74.8, CO2 -393.5, H2O(l) -285.8 kJ/mol) Delta H = -393.5 + 2(-285.8) - (-74.8) = -890.3 kJ/mol, or 55.5 kJ per gram. Heating 1.00 kg of water from 25 to 100 degrees C takes 313.5 kJ, which needs 0.352 mol, 5.6 g or 8.6 L of methane at 25 degrees C. Per gram hydrogen gives the most heat, 141.8 kJ, and ethanol the least of the four fuels shown."
+@ photo id="sci10/bunsen" cap="A Bunsen burner: methane burns in air and releases heat"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Heat released per gram of some fuels (kJ/g)"
+dh = -393.5 + 2 * (-285.8) - (-74.8); pg = -dh / 16.04
+q = 1000 * 4.18 * 75 / 1000; nm = q / -dh; gm = nm * 16.04; vm = nm * 24.5
+fuels = (("H2", 285.8, 2.016), ("CH4", -dh, 16.04), ("octane", 5470, 114.23), ("ethanol", 1366.8, 46.07))
+per = [(n, e / M) for n, e, M in fuels]
+assert abs(dh + 890.3) < 1e-9 and abs(pg - 55.5) < 0.05 and abs(q - 313.5) < 1e-9 and abs(vm - 8.63) < 0.02
+assert [n for n, v in sorted(per, key=lambda t: -t[1])][0] == "H2" and sorted(per, key=lambda t: t[1])[0][0] == "ethanol"
+facts = dict(dh="%.1f" % dh, pg="%.1f" % pg, q="%.1f" % q, nm="%.3f" % nm, gm="%.1f" % gm, vm="%.1f" % vm, h2="%.1f" % per[0][1])
+f = Fig(300, 236)
+f.text(150, 14, "heat of combustion per gram, kJ/g", size=10.5, color=NAVY, bold=True)
+for i, (n, v) in enumerate(per):
+    y = 30 + i * 36
+    f.text(14, y + 4, n, size=10.5, color=SLATE, anchor="start")
+    w = v * 1.3
+    col, fl = (RED, ROSE) if n == "H2" else (TEAL, MINT)
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 17, "%.1f" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "methane: Delta H = %.1f kJ/mol" % dh, size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "1 kg water 25 to 100 C: %.1f kJ" % q, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "= %.1f g methane (%.1f L)" % (gm, vm), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="11.2" cols="2" ratio="1.2" caption="Measuring heat with a thermometer. (a) A calorimeter is an insulated metal cup with a lid, a thermometer and a stirrer. (b) The cell models the neutralisation of HCl by NaOH, with a standard enthalpy of -57.1 kJ per mole of water formed. Mixing 50 mL of 1.0 M acid and 50 mL of 1.0 M base forms 0.050 mol of water and releases 2855 J, which warms 100 g of solution and a calorimeter of heat capacity 20 J/K by 6.52 K. Halving the concentration gives 3.26 K and doubling it 13.04 K, so the rise is proportional to the moles reacted. Ignoring the heat taken up by the cup would give 6.83 K, an error of about 5 per cent."
+@ photo id="ceechem2/calorimeter" cap="A simple aluminium calorimeter with thermometer and stirrer"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Temperature rise in a neutralisation experiment"
+dH = 57100.0
+C = 100 * 4.18 + 20
+rows = []
+for M in (0.5, 1.0, 2.0):
+    n = 0.050 * M
+    rows.append(("%.1f M" % M, n * dH / C))
+assert round(rows[1][1], 2) == 6.52 and round(rows[0][1], 2) == 3.26
+f = Fig(300, 236)
+f.text(150, 12, "Rise in temperature, kelvin", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=14, fmt="%.2f", x0=48, y0=32, bw=170, gap=32)
+f.text(150, 142, "50 mL acid + 50 mL base, equal molarity", size=10, color=SLATE, bold=True)
+f.text(150, 168, "q = n x 57.1 kJ/mol; dT = q / (m c + C)", size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "m c = 100 x 4.18 = 418 J/K, C = 20 J/K", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "1.0 M: 0.050 mol gives %.0f J" % (0.05 * dH), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "(without the cup, dT would be %.2f K)" % (0.05 * dH / 418), size=10, color=SLATE, bold=True)
+facts = dict(t1=rows[1][1], t0=rows[0][1], t2=rows[2][1], q=0.05 * dH, nc=0.05 * dH / 418)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Note |
@@ -759,3 +808,67 @@ NH₃ 192.5, H₂O(g) 188.7, H₂O(l) 69.9 J K⁻¹ mol⁻¹. 1 L atm = 101.3 J.
 **9.** (a) — $\Delta G^\circ = -92.4 - (298)(-0.198) = -92.4 + 59.0 = -33.4$ kJ mol⁻¹. Option (c) subtracts the entropy term as well.
 **10.** (c) — Set $\Delta G^\circ = 0$: $T = \Delta H/\Delta S = 92\,400/198 = 467$ K. Option (a) inverts the ratio.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the first law of thermodynamics, define enthalpy and apply Hess's law with a numerical. <span class="marks">[10]</span>
+2. Explain entropy, Gibbs free energy and spontaneity, and calculate the temperature at which a reaction becomes spontaneous. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.25" caption="Energy changes in chemistry. (a) A calorimeter measures the heat of a reaction. (b) An instant cold pack is endothermic: dissolving ammonium nitrate absorbs heat. (c) A lighter burns butane, an exothermic reaction with a negative enthalpy change."
+@ photo id="ceechem2/calorimeter" cap="(a) Calorimeter"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/coldpack" cap="(b) Endothermic cold pack"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/lighter" cap="(c) Exothermic combustion"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: first law, enthalpy and Hess's law (10 marks)
+
+**Introduction.** A **system** is the part of the universe under study. It may be open, closed or isolated. A **state function** (U, H, S, G, P, V, T) depends only on the state, while heat $q$ and work $w$ are path functions.
+
+**First law.** Energy can be neither created nor destroyed: $\Delta U = q + w$ (IUPAC sign convention: $q$ and $w$ are positive when added to the system). For expansion against an external pressure, $w = -P\Delta V$.
+
+**Enthalpy.** $H = U + PV$, so $\Delta H = \Delta U + P\Delta V$ and for gases $\Delta H = \Delta U + \Delta n_gRT$. At constant pressure $\Delta H = q_p$ and at constant volume $\Delta U = q_v$. A reaction is **exothermic** if $\Delta H < 0$ and **endothermic** if $\Delta H > 0$.
+
+**Types of enthalpy:** formation ($\Delta_fH^{\circ}$, zero for elements in the standard state), combustion, neutralisation ($-57.3\ \text{kJ mol}^{-1}$ for a strong acid and strong base), atomisation, bond dissociation, lattice enthalpy and solution.
+
+**Hess's law.** The total enthalpy change of a reaction is the same whether it takes place in one step or in several steps, because $H$ is a state function. Two uses: $\Delta_rH^{\circ} = \sum\Delta_fH^{\circ}(\text{products}) - \sum\Delta_fH^{\circ}(\text{reactants})$ and $\Delta_rH = \sum(\text{bonds broken}) - \sum(\text{bonds formed})$. The **Born-Haber cycle** applies Hess's law to find lattice enthalpy.
+
+| Heat capacity relation | Formula |
+|---|---|
+| Heat change | $q = mc\Delta T$ |
+| Gases | $C_p - C_v = R$ |
+| Kirchhoff | $\Delta H_2 - \Delta H_1 = \Delta C_p(T_2 - T_1)$ |
+
+**Numerical.** For CH₄ + 2O₂ → CO₂ + 2H₂O(l), with $\Delta_fH^{\circ}$ of $-74.8$, $-393.5$ and $-285.8\ \text{kJ mol}^{-1}$ for CH₄, CO₂ and H₂O: $\Delta_rH^{\circ} = [-393.5 + 2(-285.8)] - [-74.8] = -890.3\ \text{kJ mol}^{-1}$. Burning $16\ \text{g}$ of methane releases $890\ \text{kJ}$. Also, $\Delta U = \Delta H - \Delta n_gRT$, with $\Delta n_g = 1 - 3 = -2$ here, which gives $\Delta U = -890.3 + 2(8.314)(298)/1000 = -885.3\ \text{kJ}$.
+
+**Conclusion.** Hess's law lets us find the enthalpy of any reaction from tabulated formation enthalpies, because enthalpy is a state function.
+
+### Model answer D2: entropy, Gibbs energy and spontaneity (10 marks)
+
+**Introduction.** Many spontaneous processes are exothermic, but some endothermic processes are spontaneous too (melting of ice above $0^{\circ}\text{C}$, dissolving of NH₄NO₃). The additional factor is the disorder, measured by **entropy**.
+
+**Entropy $S$.** A measure of the randomness of a system, $\Delta S = \dfrac{q_{rev}}{T}$ (J K⁻¹ mol⁻¹). It increases for solid → liquid → gas and when moles of gas increase. **Second law:** in a spontaneous process, the entropy of the universe increases: $\Delta S_{total} = \Delta S_{sys} + \Delta S_{surr} > 0$. **Third law:** the entropy of a perfect crystal at $0\ \text{K}$ is zero.
+
+**Gibbs free energy.** $G = H - TS$, and at constant $T$ and $P$:
+
+$$ \Delta G = \Delta H - T\Delta S $$
+
+| $\Delta H$ | $\Delta S$ | $\Delta G$ | Spontaneity |
+|---|---|---|---|
+| negative | positive | always negative | spontaneous at all temperatures |
+| positive | negative | always positive | non-spontaneous at all temperatures |
+| negative | negative | negative at low $T$ | spontaneous at low temperature |
+| positive | positive | negative at high $T$ | spontaneous at high temperature |
+
+At equilibrium $\Delta G = 0$, so $T = \Delta H/\Delta S$. Also $\Delta G^{\circ} = -RT\ln K$, so a large $K$ means a negative $\Delta G^{\circ}$. The maximum non-expansion work obtainable from a process is $-\Delta G$.
+
+**Other points.** (1) For a phase change at its transition temperature, $\Delta S = \Delta H/T$ (for example $\Delta S_{fus}$ of ice $= 6010/273 = 22\ \text{J K}^{-1}\text{mol}^{-1}$). (2) Entropy of the surroundings is $-\Delta H/T$. (3) The Gibbs energy of formation of an element is zero.
+
+**Numerical.** For CaCO₃(s) → CaO(s) + CO₂(g), $\Delta H^{\circ} = +178\ \text{kJ mol}^{-1}$ and $\Delta S^{\circ} = +160.5\ \text{J K}^{-1}\text{mol}^{-1}$. At $298\ \text{K}$, $\Delta G = 178 - 298\times0.1605 = +130\ \text{kJ}$, non-spontaneous. The reaction becomes spontaneous above $T = \dfrac{178\,000}{160.5} = 1109\ \text{K}$ (about $836^{\circ}\text{C}$), which is why limestone is heated in a kiln.
+
+**Conclusion.** $\Delta G = \Delta H - T\Delta S$ combines the energy and disorder factors and shows how temperature can switch a reaction from non-spontaneous to spontaneous.

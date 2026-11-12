@@ -672,3 +672,53 @@ it occurs, what comes before, what it means and what it adds to the essay. For t
 instance: it follows Russell's rejection of the idea that one should hate those who do harm, and
 it prepares his statement that the way out is understanding.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended essay answers (10 marks each, for deeper revision)**
+
+1. Explain Russell's four factors that make up wisdom in "Knowledge and Wisdom". <span class="marks">[10]</span>
+2. Discuss Russell's view that wisdom can be taught and that the world needs it more than ever. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.1" caption="Thinker, danger and example. Bertrand Russell (1872–1970), the Castle Bravo hydrogen-bomb test of 1954, the year of the essay, and Abraham Lincoln, whom Russell cites as a wise leader."
+@ photo id="eng12/bertrand-russell" cap="Bertrand Russell"
+@ photo id="eng12/castle-bravo" cap="Castle Bravo test, 1954"
+@ photo id="eng12/lincoln" cap="Abraham Lincoln"
+```
+
+### Model answer D1: the factors of wisdom (10 marks)
+
+**Introduction.** **Bertrand Russell** (1872–1970), philosopher, logician and social critic, won the Nobel Prize for Literature in 1950 and wrote "Knowledge and Wisdom" in **1954**. His central idea is that our age has far surpassed earlier ages in knowledge without a matching increase in wisdom.
+
+1. **Knowledge and wisdom.** The headnote says knowledge is acquiring data and information; wisdom is applying it to create value. Russell calls wisdom **comprehensive vision**.
+2. **Sense of proportion.** A wise person sees how important each fact is. Medicine and the atom show that knowledge may heal or destroy.
+3. **Awareness of the ends of human life.** Knowledge must serve purposes; he cites Hegel.
+4. **Feeling as well as intellect.** Cold calculation without kindness is dangerous.
+5. **Freedom from personal prejudice.** Russell uses the philosopher's stone and the example of Mr A and Mr B.
+6. **Essence of wisdom.** Emancipation from "the tyranny of the here and now": knowing the remote in time and space.
+7. **Impartiality.** The wise person tries to see things as they are, not as they affect him.
+8. **Style.** Argument and example, hypothetical dialogue, antithesis and aphorism.
+
+**Conclusion.** Russell treats wisdom as a way of seeing the whole, and he warns that knowledge without it can destroy us.
+
+### Model answer D2: can wisdom be taught? (10 marks)
+
+**Introduction.** Russell ends with a hopeful claim: wisdom can be taught.
+
+1. **Moral instruction.** Schools should add a larger intellectual element to moral instruction.
+2. **Hatred of evil** is itself "a kind of bondage to evil"; understanding, not force, defeats it.
+3. **Wisdom is not weakness.** Elizabeth I, Henry IV and Lincoln show that wise rulers could be strong.
+4. **Citizens of the world.** Education should produce people who see beyond their nation.
+5. **Why now?** "With every increase of knowledge and skill, wisdom becomes more necessary."
+6. **The modern danger.** The 1954 hydrogen-bomb tests show how great knowledge can threaten humanity.
+7. **Style.** Calm tone, irony, allusion and aphorism.
+8. **Relevance to Nepal.** Technology such as mobile banking and social media needs wise users as much as skilled ones.
+
+| | Knowledge | Wisdom |
+|---|---|---|
+| Meaning | Facts, information | Right use, comprehensive vision |
+| Grows by | Study | Impartiality, feeling, proportion |
+| Danger alone | Harmful | Little |
+
+**Conclusion.** The essay concludes that schools must teach wisdom alongside knowledge so that power is used for good.

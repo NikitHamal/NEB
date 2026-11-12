@@ -9,7 +9,7 @@ from .actions import apply_decision, log_action
 from .birth import announce_if_needed
 from .decision import decide
 from .ensure import ensure_neby
-from .observer import hours_since, observe
+from .observer import observe
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ def _run_tick(persona, bot_user, config, source):
 
 
 def tick_persona(persona, *, force=False, source='heartbeat'):
-    from api.models import BotConfig, User
+    from api.models import BotConfig
 
     config = persona.bot_config
     bot_user = persona.get_user()

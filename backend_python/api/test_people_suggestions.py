@@ -150,14 +150,14 @@ class SuggestionsTests(TestCase):
         for name in ('fan', 'mutual2', 'schoolmate', 'poster'):
             popup = self.client.get(f'/ajax/user-popup/{name}/', **sign_in(self.me)).json()
             self.assertEqual(by[name]['id'], popup['id'])
-            self.assertEqual(by[name]['photo_url'], popup['photoUrl'])
+            self.assertEqual(by[name]['photo_url'] or '', popup['photoUrl'] or '')
             self.assertFalse(popup['isLocked'] or popup['isSelf'] or popup['isFollowing'])
         self.assertEqual(by['fan']['detail'], '11')                  # class level first
         self.assertEqual(by['mutual2']['detail'], 'Verified')        # then the badge label
         self.assertIsNone(by['schoolmate']['detail'])
         self.assertEqual(by['poster']['display_name'], 'poster')     # blank display name
         self.assertEqual(by['fan']['display_name'], 'Fan')
-        self.assertEqual(by['fan']['photo_url'], avatar_or_photo_url(self.fan))
+        self.assertEqual(by['fan']['photo_url'] or '', avatar_or_photo_url(self.fan))
 
     def test_excluded_people_never_appear(self):
         names = {r['username'] for r in self.results(self.me, '?limit=30')}

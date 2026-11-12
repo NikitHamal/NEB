@@ -20,6 +20,8 @@ from .qwen_utils.client import QwenClient
 from .qwen_utils.text_extraction import extract_text_from_bytes
 from .security import validate_resource_file_url
 from .throttles import ArenaChatRateThrottle
+from nebians import upstream
+from nebians.db_blip import is_db_blip
 
 MAX_PDF_BYTES = 25 * 1024 * 1024
 MAX_CONTEXT_CHARS = 42000
@@ -30,10 +32,16 @@ logger = logging.getLogger(__name__)
 def _ask_pdf_tutor(client, message, system_prompt):
     """Ask the PDF tutor, degrading to the Neby provider chain when Qwen is down.
 
-    Qwen's anonymous browser sessions die in bulk — the pool refill fails and
-    every call returns empty — which used to 502 the assistant outright. Neby
+    Qwen's anonymous browser sessions die in bulk (the pool refill fails and
+    every call returns empty), which used to 502 the assistant outright. Neby
     chat already walks a provider chain; reuse it so a dead Qwen pool costs
     latency, not the feature.
+
+    A database blip inside the chain is not an AI failure, so it is re-raised
+    instead of swallowed: on 2026-11-11 this line caught pymysql's 2013 "Lost
+    connection during query", wiped the real cause, and answered 502, which
+    mailed the owner. DbBlipMiddleware answers such a request 503 with
+    Retry-After and no email.
     """
     answer, ai_error = client.simple_chat(message=message, system_prompt=system_prompt)
     if answer:
@@ -42,6 +50,8 @@ def _ask_pdf_tutor(client, message, system_prompt):
         from .neby import call_ai_api
         fallback = call_ai_api(system_prompt, message)
     except Exception as exc:
+        if is_db_blip(exc):
+            raise
         logger.warning('pdf-assistant: fallback chain raised: %s', exc)
         fallback = None
     if fallback:
@@ -193,7 +203,11 @@ def resource_pdf_assistant(request, resource_id):
         return Response({'error': 'The PDF is unavailable'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     if not answer:
-        return Response({'error': ai_error or 'AI could not answer right now'}, status=status.HTTP_502_BAD_GATEWAY)
+        return upstream.unavailable(
+            request.path,
+            'Neby is busy right now. Please try again in a moment.',
+            ai_error or '',
+        )
 
     # Deduct 1 Neby credit on successful AI response
     if user.free_credits > 0:

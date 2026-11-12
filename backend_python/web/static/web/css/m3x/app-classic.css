@@ -1,0 +1,45 @@
+/* m3x classic PDF reader (pdf-reader.js): continuous, scrolling pages with a floating toolbar and dock. Chrome parts come from
+   app-pdfkit.css. Flat: no drop shadows. */
+
+.cl { position: absolute; inset: 0; overflow: hidden; outline: none; background: var(--md-surface-container); color: var(--md-on-surface); font-family: var(--md-font); --nx-filter: brightness(1); }
+.cl[data-tone="sepia"] { background: color-mix(in srgb, var(--md-surface-container) 86%, #b99a62); }
+.cl[data-tone="night"] { background: color-mix(in srgb, var(--md-surface-container) 45%, #000); }
+.cl button { font-family: inherit; }
+
+.cl-scroll {
+  position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; display: flex; flex-flow: row wrap; align-content: flex-start; justify-content: center; gap: 12px;
+  padding: 66px 10px 96px; outline: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; scrollbar-width: thin; transition: left .4s var(--spring);
+}
+.cl-scroll.is-grab { cursor: grabbing; user-select: none; }
+.cl-scroll.is-snap { scroll-snap-type: y proximity; }
+.cl-scroll.is-snap .vw-pdf-page { scroll-snap-align: center; }
+.cl-br { flex-basis: 100%; height: 0; margin: -12px 0 0; }
+.cl[data-view="two"] .vw-pdf-page { margin-inline: 0; }
+.cl .vw-pdf-page { flex: none; position: relative; margin-inline: auto; background: var(--bk-paper, #fff); border-radius: 12px; overflow: hidden; border: 1px solid var(--md-outline-variant); }
+.cl[data-tone="sepia"] .vw-pdf-page { background: #f1e4c8; }
+.cl[data-tone="night"] .vw-pdf-page { background: #17181c; }
+.cl .vw-pdf-page canvas:not(.nx-ink) { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; filter: var(--nx-filter); animation: nx-fade .3s ease both; }
+.cl .vw-pdf-page.is-stale canvas:not(.nx-ink) { opacity: .92; }
+
+.cl-prog { position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 11; pointer-events: none; }
+.cl-prog i { position: absolute; inset: 0; background: var(--md-primary); transform-origin: 0 50%; transform: scaleX(0); border-radius: 0 2px 2px 0; }
+
+.cl-top { top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 8px; pointer-events: none; transition: opacity .3s, translate .4s var(--spring); }
+.cl-dock {
+  left: 50%; bottom: 12px; transform: translateX(-50%); width: min(calc(100% - 20px), 940px); box-sizing: border-box;
+  display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 32px; background: var(--x-float); border: 1px solid var(--x-float-line);
+  transition: opacity .3s, translate .4s var(--spring);
+}
+.cl-dock .nx-grp { padding: 0; border: 0; background: transparent; }
+.cl.is-bare .cl-top { opacity: 0; translate: 0 -24px; pointer-events: none; }
+.cl.is-bare .cl-top .nx-grp { pointer-events: none; }
+.cl.is-bare .cl-dock { opacity: 0; translate: 0 24px; pointer-events: none; }
+
+@media (min-width: 721px) {
+  .cl[data-open] .cl-scroll { left: 344px; }
+}
+@media (max-width: 640px) {
+  .cl-top { top: 8px; left: 8px; right: 8px; }
+  .cl-dock { bottom: 8px; width: calc(100% - 16px); padding: 4px 6px; }
+  .cl-scroll { padding-top: 62px; padding-bottom: 84px; }
+}

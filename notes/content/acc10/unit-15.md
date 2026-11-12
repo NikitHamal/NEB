@@ -263,3 +263,61 @@ Step 5 — (e) The integrated system for the local levels — budget, execution,
 **2.** *Government systems (4).* BMIS, LMBIS (and PLMBIS in the provinces), FMIS, TSA, CGAS and SUTRA, with PAMS, PMIS, E-GP, ITS and RAS as others. Name each with its full form and its one job, and state that they are integrated, so a figure entered at one end is visible at the other — and that they make control automatic, since a payment beyond the release or against a wrong head is refused by the system.
 *Business software and controls (4).* Accounting software for trading and small businesses (Tally, Swastik, Easy Account, Quick Book); for banks and financial institutions (Pumori, Finacle, FlexCube, Globus); for non-profit organisations (FASS, Peach Tree). What such software does: single entry from the voucher with automatic posting; ledgers and trial balance always current; final accounts for any period; payroll, inventory, depreciation, bank reconciliation and VAT. Controls it needs: passwords and user rights so that only the authorised person may enter or alter an entry; a daily backup kept in a second place; the audit trail left on so that every entry shows who made it and when; checking each entry against its voucher; printed signed copies of the statements filed as evidence; and a tested recovery plan. Close with the principle: a computer is only as good as the data entered, and computerisation improves the accounts only when the controls are in place.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the use of information technology in office operation in eight points, with examples from Nepal. <span class="marks">[10]</span>
+2. Explain the advantages and disadvantages of information technology, and the information systems used in the government accounting of Nepal. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.0" caption="From the adding machine to the workstation. A mechanical adding machine of the past, a modern computer workstation and a city office building mark the change from manual to computerised work."
+@ photo id="acc10/adding-machine" cap="Adding machine"
+@ photo id="acc10/workstation" cap="Computer workstation"
+@ photo id="acc10/office-building" cap="Office building"
+```
+
+### Model answer D1: use of IT in office operation (10 marks)
+
+**Introduction.** **Information technology (IT)** is the use of computers, software, networks and the internet to create, store, process and send information. A modern office uses IT in almost every task.
+
+**Uses.**
+
+1. **Correspondence.** Letters and notices are typed, corrected and printed in minutes, and sent by email.
+2. **Electronic filing.** Documents are scanned and saved with a folder name and date, and found in seconds, as in the digital records of a ward office.
+3. **Accounts.** Accounting software posts a voucher once to the ledger and the trial balance; a shop uses it to file its VAT return.
+4. **Payroll.** Salary, tax and provident fund are calculated automatically for every employee.
+5. **Store and inventory.** Stock in and out is recorded and low stock is flagged.
+6. **Banking.** Payments are made by mobile banking, ConnectIPS and Fonepay, instead of cash or cheque.
+7. **Communication.** Video meetings, email and messaging connect the head office with the branches.
+8. **Reporting and security.** Reports are prepared at a click, and user rights and audit trails show who made each entry.
+
+**Conclusion.** IT makes the office faster, more accurate and cheaper, provided that the staff are trained and the data are backed up.
+
+### Model answer D2: advantages, disadvantages and government systems (10 marks)
+
+| Advantages | Disadvantages |
+|---|---|
+| Speed of work | High cost of equipment and software |
+| Accuracy of calculation | Dependence on electricity and the internet |
+| Large storage and quick retrieval | Loss of data without a backup |
+| Automatic posting and reports | Fraud, hacking and virus attacks |
+| Less paper | Need for training |
+| Better communication | Fear of unemployment |
+| Better control (user rights, audit trail) | Health problems from long use |
+| Consistency | Garbage in, garbage out; obsolescence |
+
+**Weighing them.** The advantages are real when the volume of work justifies the cost and the controls (training, backup and audit trail) are in place.
+
+**Information systems in Nepal's government accounting.**
+
+| System | Full form | Job |
+|---|---|---|
+| BMIS | Budget Management Information System | Budget preparation at the federal level |
+| LMBIS | Line Ministry Budget Information System | Budget proposals of ministries |
+| FMIS | Financial Management Information System | Financial transactions and reports |
+| TSA | Treasury Single Account | One account for all government cash |
+| CGAS | Computerized Government Accounting System | Accounting and reports of offices |
+| SUTRA | Sub-National Treasury Regulatory Application | Accounts of provinces and local levels |
+
+These systems are linked: a figure entered at one end is seen at the other, and a payment above the release or against a wrong head is refused by the system.
+
+**Conclusion.** IT brings speed and control to office work and to public finance, but it is only as good as the data entered and the people who use it.

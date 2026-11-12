@@ -87,68 +87,6 @@
   filter: none !important;
 }
 
-/* Profile Mood Action Pills */
-.neby-mood-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  margin-top: 14px;
-  margin-bottom: 24px;
-  padding: 8px 12px;
-  background: color-mix(in srgb, var(--md-primary) 6%, transparent);
-  border: 1px solid color-mix(in srgb, var(--md-primary) 16%, transparent);
-  border-radius: 14px;
-  max-width: 100%;
-}
-
-.neby-mood-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.neby-mood-title {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--md-primary);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.neby-mood-pill {
-  border: 1px solid color-mix(in srgb, var(--md-primary) 22%, transparent);
-  background: var(--md-surface-container-lowest);
-  color: var(--md-on-surface);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.18s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  user-select: none;
-}
-
-.neby-mood-pill:hover {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  transform: translateY(-1px);
-  box-shadow: none;
-  border-color: var(--md-primary);
-}
-
-.neby-mood-pill:active {
-  transform: scale(0.95);
-}
 
 /* Dark mode compatibility */
 [data-theme='dark'] .neby-avatar-mini {
@@ -161,10 +99,3 @@
   border-color: transparent !important;
 }
 
-
-/* The mood bar and its pills were a blue wash, a white pill and a slate-blue
-   set of dark overrides -- three rules restating the same two surfaces in a
-   second palette. Mixing --md-primary and reading the surface token gives
-   both themes from the base rules, so there is nothing left here to keep in
-   step. The two rules above stay: they turn the avatar's plate off in dark
-   theme, which is a structural choice, not a colour. */

@@ -1,7 +1,7 @@
 """HTTP surface of the content service. Public, read-only, throttled; see api/content_api.py for the rules."""
 import os
 
-from django.http import FileResponse, HttpResponse, JsonResponse, StreamingHttpResponse
+from django.http import HttpResponse, JsonResponse, StreamingHttpResponse
 from django.utils.http import http_date
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, throttle_classes
 from rest_framework.permissions import AllowAny

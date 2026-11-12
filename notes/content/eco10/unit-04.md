@@ -255,3 +255,72 @@ Step 4 — Explain why per capita income is a poor measure. It is an **average**
 *Bases (3).* The three-pillar structure; social justice and equality; the welfare role of the state in basic education, health and social security; public welfare preferred to private profit, with ceilings on land and productive assets; lawful private enterprise with social responsibility; a planned, self-reliant and independent economy; and the promotion and protection of cooperatives.
 *Features, problems and prospects (3).* Features: agrarian base, low per capita income and productivity, a growing service sector and remittance, a low rate of capital formation, landlocked and transit-dependent trade, a young and mobile population, dependence on aid and loans, uneven development. Problems: poverty and inequality, unemployment and under-employment, low agricultural productivity, capital deficiency, a weak industrial base, poor infrastructure, a chronic trade deficit, brain drain, instability and corruption, natural disasters. Prospects: hydroelectricity and its export, tourism, agricultural modernisation and high-value crops, remittance-financed small enterprise and education, and the demographic dividend.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Distinguish between economic growth and economic development. Explain the indicators of development. <span class="marks">[10]</span>
+2. Explain the features and problems of the Nepali economy and suggest eight measures for development. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="4" ratio="1.15" caption="Signs of development. (a) A school is investment in human capital. (b) A hydropower dam gives clean energy. (c) Terraced hill farms feed families but need irrigation and roads. (d) A porter carries goods where there is no road, showing the gap in infrastructure."
+@ photo id="eco10/school" cap="(a) School"
+@ photo id="eco10/hydropower" cap="(b) Hydropower"
+@ photo id="eco10/terraces" cap="(c) Terraced farms"
+@ photo id="eco10/porter" cap="(d) Porter on a trail"
+```
+
+### Model answer D1: economic growth, development and indicators (10 marks)
+
+**Introduction.** A country can become richer in money, yet its people may still be poor in health and education. So economists separate growth from development.
+
+| Basis | Economic growth | Economic development |
+|---|---|---|
+| Meaning | Rise in real national income or output | Rise in income plus better living standards, equality and freedom |
+| Nature | Quantitative | Quantitative and qualitative |
+| Scope | Narrow | Wide |
+| Measure | GDP growth rate, per capita income | HDI, PQLI, poverty and literacy |
+| Example | Rise in GDP by 5 percent | Rise in schools, health, jobs, and less poverty |
+| Time | Short-run possible | Long-run process |
+
+**Indicators of development.**
+
+1. **Per capita income:** national income divided by population. It is easy but does not show how income is shared.
+2. **Human Development Index (HDI):** published by the UNDP, with three parts: a long and healthy life (life expectancy), knowledge (years of schooling) and a decent standard of living (income per person). Its value is from 0 to 1.
+3. **Physical Quality of Life Index (PQLI):** based on literacy, infant mortality and life expectancy at age one.
+4. **Poverty line and poverty rate:** the share of people who cannot afford basic needs.
+5. **Other indicators:** employment, equality of income (Gini coefficient), access to electricity, drinking water, roads and the internet.
+
+**Capital formation.** Saving and investing to increase the stock of capital (machines, roads, buildings). It is the key to growth, and it comes from saving, remittance, foreign aid and investment. Low income leads to low saving, and that leads to low capital and low income again: the **vicious circle of poverty**.
+
+**Population and development.** A suitable population is a resource, but rapid growth strains food, school and health services. A skilled and educated population is **human capital**.
+
+**Conclusion.** Growth is necessary for development, but true development also means better health, education and fairness for every citizen.
+
+### Model answer D2: features and problems of the Nepali economy (10 marks)
+
+**Introduction.** Nepal is a developing country with a mixed economy, rich in water, mountains and culture, but still facing poverty and low productivity.
+
+**Features and problems.**
+
+1. **Dependence on agriculture.** About two-thirds of the people depend on farming, which gives a large share of employment but a smaller share of GDP. Farms are small and many depend on the monsoon rain, so productivity is low.
+2. **Low per capita income and poverty.** Income is low and many families, mostly in rural and remote areas, live below the poverty line. Poor people cannot save much, so investment stays low.
+3. **Rapid population and unemployment.** Many youths do not find suitable jobs at home and go abroad to work, which creates a loss of skilled workers.
+4. **Capital shortage.** Savings are low and the country depends on foreign aid and loans for big projects.
+5. **Weak industry.** Industries are small and use little technology, and Nepal imports more than it exports, so the trade deficit is large.
+6. **Poor infrastructure.** Hilly land makes roads, electricity and communication expensive, and large regions lack all-weather roads.
+7. **Dependence on remittance and foreign trade.** The economy relies on money sent by workers abroad and on trade with India, which exposes it to shocks.
+8. **Political instability, weak governance and natural disasters.** Frequent changes of policy, corruption and events such as the 2015 earthquake slow development.
+
+**Measures for development.**
+
+| Measure | Example |
+|---|---|
+| Modernise agriculture | Irrigation, improved seeds, cooperatives, market roads |
+| Develop hydropower | Export of electricity, replace imported fuel |
+| Promote tourism and industry | Homestays, small industries, agro-processing |
+| Invest in people | Quality education, technical training and health |
+| Build infrastructure | Roads, airports, internet |
+| Good governance | Control of corruption, clear laws |
+| Create jobs at home | Startups and self-employment programmes |
+| Use remittances for production | Invest in business, not only consumption |
+
+**Conclusion.** Nepal can overcome its problems through the sound use of its water, land, tourism and human capital, supported by good governance.

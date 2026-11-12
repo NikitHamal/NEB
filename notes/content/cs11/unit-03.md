@@ -208,24 +208,51 @@ for k,(ang,t) in enumerate(items):
 ax.set_xlim(-4.60,4.60); ax.set_ylim(-4.10,4.10); ax.set_aspect('equal'); ax.axis('off')
 ```
 
-1. **Process management** — creates, schedules, suspends and terminates
-   processes; allocates CPU time; handles deadlocks and inter-process
-   communication.
-2. **Memory management** — keeps track of which parts of main memory are free,
-   allocates memory to processes, protects one process from another and
-   implements **virtual memory** so that programs larger than RAM can run.
-3. **File management** — creates, opens, reads, writes, renames and deletes
-   files; organises them into directories; keeps track of free disk space; and
-   enforces file permissions.
-4. **Device (I/O) management** — communicates with every peripheral through its
-   device driver, maintains buffers and queues, and implements **spooling** so
-   that a slow printer does not hold up the CPU.
-5. **Security and protection** — user accounts, passwords, access rights,
-   encryption and a firewall; keeps one user's data away from another's.
-6. **User interface and job control** — provides the CLI or GUI and the means to
-   start, stop and monitor jobs.
-7. **Error detection and system performance monitoring** — reports hardware
-   faults and keeps statistics such as CPU and memory usage (Task Manager).
+Each function is explained below in the form of a ten-mark answer.
+
+**1. Process management.** A running program is called a process, and the OS
+decides which process gets the CPU and for how long. It creates, schedules,
+suspends and ends processes and lets them share data safely. When you listen to
+music while typing a document, the OS switches the CPU between the two so quickly
+that both seem to run at once. The Windows Task Manager shows these processes.
+
+**2. Memory management.** The OS keeps a record of which parts of RAM are free and
+which are in use, and gives each program the memory it needs. It protects one
+program from damaging another, and it uses **virtual memory** (a part of the disk
+acting as RAM) so that programs larger than RAM can still run. When RAM is full,
+the computer becomes slow because the OS moves data to and from the disk.
+
+**3. File management.** The OS creates, opens, reads, writes, renames, copies and
+deletes files, and arranges them in folders. It records the free space on the disk
+and controls who can read or change each file. File Explorer is the Windows tool
+for this work, and a student's project folder on drive D is a daily example.
+
+**4. Device (I/O) management.** Every keyboard, printer and disk is controlled
+through a small program called a **device driver**. The OS keeps queues and buffers
+for the devices and uses **spooling**, which stores print jobs on the disk so that
+the CPU is not kept waiting for a slow printer. If the correct driver is missing,
+the device does not work, which is why Device Manager is checked when a new printer
+fails.
+
+**5. Security and protection.** The OS allows only authorised users to enter,
+using accounts, passwords and permissions. It keeps the data of one user away from
+another and works with a firewall and antivirus to block attacks. A school computer
+with separate student and teacher accounts is a simple example.
+
+**6. User interface and job control.** The OS gives people a way to talk to the
+computer, either a command line (CLI) or a graphical interface (GUI) with windows,
+icons and menus. It also lets the user start, stop and watch jobs. The easy GUI of
+Windows and Android is a main reason why ordinary people can use computers.
+
+**7. Error detection and performance monitoring.** The OS notices hardware and
+software faults, such as a disk that cannot be read, and shows a message or takes
+action. It also keeps statistics on CPU, memory and disk use, which a technician
+reads in Task Manager to find what is slowing the computer.
+
+**8. Resource allocation and coordination.** Many programs and users want the same
+CPU, memory, printer and disk at the same time. The OS works as a **resource
+manager**: it shares them fairly and efficiently and prevents conflicts and
+deadlock. This is the most basic duty of the OS, from which the other seven follow.
 
 ::: memory The six managers
 Remember **P-M-F-D-S-U**: **P**rocess, **M**emory, **F**ile, **D**evice,
@@ -340,6 +367,12 @@ Also note **multi-threading**, which is a single program split into several
 threads that can be scheduled independently — a property of the program, not of
 the machine.
 :::
+
+```photogrid label="3.O" cols="3" ratio="1.25" caption="Three kinds of operating-system interface: (a) MS-DOS, a command-line interface in which every instruction is typed; (b) Ubuntu Linux, a free GUI desktop; (c) Android, a touch-screen mobile operating system that runs on most phones in Nepal."
+@ photo id="bca101/dos" cap="MS-DOS: typed commands (CLI)"
+@ photo id="bca101/ubuntu" cap="Ubuntu Linux desktop (GUI)"
+@ photo id="bca101/android" cap="Android: mobile OS"
+```
 
 ## 3.4 Windows OS: a GUI based OS and its features
 
@@ -928,6 +961,52 @@ for each, with reasons.
   app store at all.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="The operating system shares the CPU among processes, and in round-robin scheduling each process runs for a fixed time slice and then goes to the back of the queue. (a) The Ubuntu desktop, whose windows are all processes managed by the kernel. (b) For jobs needing 5, 3 and 8 units with a slice of 2, the short job P2 finishes at 9, and the waits are 7, 6 and 8 units, an average of 7.00. First-come first-served would give an average of 4.33, better here but with a long job blocking all the others. Time sharing is what makes a single processor seem to run a browser, a music player and a document at once."
+@ photo id="bca101/ubuntu" cap="The Ubuntu Linux desktop, a graphical user interface over the kernel"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Round-robin scheduling with a time slice of 2 units"
+burst = {"P1": 5, "P2": 3, "P3": 8}
+q = 2
+rem = dict(burst)
+t, seg, queue = 0, [], list(burst)
+done = {}
+while queue:
+    p = queue.pop(0)
+    run = min(q, rem[p])
+    seg.append((p, t, t + run))
+    t += run
+    rem[p] -= run
+    if rem[p] > 0:
+        queue.append(p)
+    else:
+        done[p] = t
+wait = {p: done[p] - burst[p] for p in burst}
+avg_rr = sum(wait.values()) / 3
+fc, tt, w2 = 0, 0, {}
+for p in burst:
+    w2[p] = tt
+    tt += burst[p]
+avg_fc = sum(w2.values()) / 3
+assert t == 16 and abs(avg_rr - 7.0) < 1e-9 and abs(avg_fc - 4.3333) < 1e-3 and wait == {"P1": 7, "P2": 6, "P3": 8}
+f = Fig(300, 236)
+f.text(150, 14, "Gantt chart, burst times 5, 3 and 8", size=10.5, color=NAVY, bold=True)
+sc = 270 / t
+cols = {"P1": NAVY, "P2": TEAL, "P3": RED}
+for p, a, b in seg:
+    f.box(15 + a * sc, 34, (b - a) * sc, 30, p, fill=cols[p], stroke="#ffffff", color="#ffffff", size=10, bold=True, r=0, sw=1.5)
+for tick in sorted({0} | {b for _, a, b in seg}):
+    f.text(15 + tick * sc, 78, str(tick), size=9, color=SLATE)
+f.text(150, 104, "completion: P2 = %d, P1 = %d, P3 = %d" % (done["P2"], done["P1"], done["P3"]), size=10.5, color=NAVY, bold=True)
+f.text(150, 124, "waiting = completion - burst", size=10.5, color=SLATE)
+f.text(150, 144, "P1 %d, P2 %d, P3 %d: average %.2f" % (wait["P1"], wait["P2"], wait["P3"], avg_rr), size=10.5, color=RED, bold=True)
+f.text(150, 170, "first-come first-served (FCFS):", size=10.5, color=SLATE)
+f.text(150, 188, "waits 0, 5, 8: average %.2f" % avg_fc, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "RR waits longer on average but no process", size=10.5, color=SLATE)
+f.text(150, 224, "starves and short jobs answer sooner", size=10.5, color=SLATE)
+facts = dict(rr="%.2f" % avg_rr, fc="%.2f" % avg_fc, p2=done["P2"])
+```
+
 ## Chapter summary
 
 - **Software** is the set of programs that tells hardware what to do. The
@@ -1010,23 +1089,85 @@ was a mobile OS.
    Linux distributions. <span class="marks">[5]</span>
 
 ::: note Answers to Group B
-**1.** Software is a set of programs, procedures and documentation that tells
-hardware what to do. *System*: Windows 11, device drivers. *Utility*: antivirus,
-WinRAR. *Application*: MS Word, Photoshop. *Web-based*: Gmail, Google Docs.
-*Mobile apps*: eSewa, Khalti.
+**1.** **Software** is a set of programs, procedures and documentation that tells
+the hardware what to do; without it the hardware is useless. The syllabus lists five
+categories. **System software** controls the computer and runs the hardware, for
+example Windows 11 and device drivers. **Utility software** maintains and protects
+the computer, for example antivirus, WinRAR and disk cleanup tools. **Application
+software** helps the user do a particular job, for example MS Word for documents,
+Excel for calculation and Photoshop for images. **Web-based software** runs in a
+browser from a server, so nothing needs to be installed, for example Gmail and Google
+Docs. **Mobile apps** are programs written for phones and tablets, for example
+eSewa and Khalti for payments. System software is needed first, because application
+and utility programs run on top of it. A computer in a school lab therefore uses
+all five: Windows as the base, an antivirus for safety, Word for lessons, Google Docs
+online for sharing, and phone apps for communication.
 
-**2.** An OS is system software that acts as an interface between the user and
-the hardware and manages all resources. Five functions: process management,
-memory management, file management, device (I/O) management, and security and
-protection. (User-interface provision and error detection also earn the mark.)
+**2.** An **operating system (OS)** is system software that works as an interface
+between the user and the hardware and manages all the resources of the computer.
+Five functions are as follows. **(i) Process management:** it creates, schedules and
+ends processes and decides which one uses the CPU; Task Manager shows them.
+**(ii) Memory management:** it allocates and frees RAM, protects programs from each
+other and provides virtual memory when RAM is full. **(iii) File management:** it
+creates, names, stores, protects and deletes files and folders and tracks free disk
+space, as File Explorer does. **(iv) Device management:** it controls the keyboard,
+printer and disk through device drivers and uses buffers and spooling so that a slow
+device does not hold up the CPU. **(v) Security and protection:** it uses accounts,
+passwords and permissions so that only authorised people can reach data, and it works
+with a firewall and antivirus. The OS also gives the user interface (CLI or GUI) and
+reports errors. Without an OS, each program would have to control the hardware
+itself, which would be slow, risky and very difficult. Windows, Linux, macOS and
+Android are common operating systems.
 
-**3.** *Multiprogramming vs multitasking* — both keep several programs in memory
-on one CPU, but multiprogramming switches only when the running program waits for
-I/O and aims at CPU utilisation, whereas multitasking switches after a fixed time
-slice and aims at response time. *Multiprocessing vs distributed* —
-multiprocessing uses two or more CPUs inside **one** computer sharing one memory;
-distributed processing uses **many independent computers** with their own memory
-linked by a network.
+**3.** *Multiprogramming and multitasking.* **Multiprogramming** keeps several
+programs in memory, and the CPU switches to another only when the running program
+waits for input or output; its aim is to use the CPU fully. **Multitasking** gives
+each program a small time slice, so the CPU switches many times a second; its aim is
+a quick response for the user, who can type a document and play music together.
+*Multiprocessing and distributed processing.* **Multiprocessing** uses two or more
+CPUs inside a single computer that share one memory and run tasks in parallel, as in
+a modern dual-core or quad-core computer. **Distributed processing** uses many
+independent computers, each with its own memory, that are connected by a network and
+work on parts of one job; examples are cloud services and a bank's branch network.
+The main difference is that multiprocessing is inside one machine and tightly
+coupled, while distributed processing spreads over many machines and is loosely
+coupled.
+
+| Basis | Multiprogramming | Multitasking |
+|---|---|---|
+| Switch happens | When a program waits for I/O | After each time slice |
+| Aim | CPU utilisation | Response time |
+| Example | Early mainframes | Windows, Android |
+
+**4.** A **GUI** (graphical user interface) lets the user work with windows, icons,
+menus and a pointer instead of typing commands. Six features of Windows are: it is
+a **GUI** with a desktop, taskbar and Start menu; it is **multitasking**, so many
+programs run together; it supports **plug and play**, which installs a new device
+automatically; it has **File Explorer** for managing files; it supports **long file
+names** and the Recycle Bin; and it offers **built-in security** (user accounts,
+Windows Security, firewall). Windows also supports networking and many languages,
+including Nepali typing.
+
+| Basis | GUI | CLI |
+|---|---|---|
+| Input | Mouse, touch, menus | Typed commands |
+| Ease | Easy for beginners | Needs commands to be remembered |
+| Resources | Needs more memory and CPU | Very light |
+| Power | Good for everyday work | Strong for administrators and scripting |
+| Example | Windows, Ubuntu desktop | MS-DOS, Linux terminal |
+
+**6.** **Open source software** is software whose source code is published under a
+licence that allows anyone to run, study, change and share it. Four advantages: **(i)
+No licence cost**, which saves money for schools and offices in Nepal. **(ii)
+Security**, because many people can read the code and so flaws are found and fixed
+quickly. **(iii) Customisation**, because the code can be changed to suit local needs,
+such as Nepali language support. **(iv) No vendor lock-in**, because the user is not
+tied to one company and can move to another distribution. Open source software also
+has a large community that gives free help and updates. Four Linux distributions are
+**Ubuntu, Debian, Fedora and Linux Mint**; others are openSUSE, Arch and Kali.
+Examples of other open source programs are LibreOffice, Firefox and VLC. A school lab
+that installs Ubuntu and LibreOffice can run dozens of computers without paying
+licence fees, but it should train its teachers to support it.
 
 **5.** (i) `Windows + E` → **This PC → Local Disk (D:)**. (ii) Right-click empty
 space → **New → Folder** → type `Project` → Enter. (iii) Select the two files,
@@ -1082,3 +1223,111 @@ feature phones). Differences from a desktop OS: touch-first interface, strict
 power management, sandboxed apps with permissions, app-store-only installation,
 and hardware that cannot be upgraded by the user.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. What is an operating system? Explain its functions in detail. <span class="marks">[10]</span>
+2. Explain multiprogramming, multitasking, multiprocessing and distributed processing with a comparison table. <span class="marks">[10]</span>
+3. What is open source software? Explain Linux, its features and distributions, and compare it with Windows. <span class="marks">[10]</span>
+
+### Model answer D1: operating system and its functions (10 marks)
+
+**Introduction.** An **operating system (OS)** is the system software that manages
+the hardware and software resources of a computer and works as the interface between
+the user and the machine. It is the first program loaded when the computer starts, and
+all other programs run under its control. (Draw the six-manager figure of section 3.2.)
+Its role is that of a **resource manager** (it shares CPU, memory and devices among
+programs) and an **extended machine** (it hides the hard details of the hardware).
+
+**Functions.**
+
+1. **Process management:** creates, schedules and ends processes; allocates the CPU.
+2. **Memory management:** allocates RAM, protects programs and provides virtual
+   memory.
+3. **File management:** creates, organises, protects and deletes files and folders.
+4. **Device management:** controls devices through drivers; buffering and spooling.
+5. **Security and protection:** accounts, passwords, permissions, firewall.
+6. **User interface:** CLI or GUI for the user to give commands.
+7. **Error detection and monitoring:** reports faults and shows CPU and memory use.
+8. **Resource allocation:** shares all resources fairly and avoids deadlock.
+
+| Function | Example in Windows |
+|---|---|
+| Process management | Task Manager |
+| Memory management | Virtual memory (paging file) |
+| File management | File Explorer |
+| Device management | Device Manager and drivers |
+| Security | Windows Security, user accounts |
+
+**Types of operating system.** Batch, single-user, multi-user (time sharing),
+real-time (ATMs and robots), distributed, and embedded or mobile (Android, iOS).
+
+**Conclusion.** Without an operating system a computer is only a heap of hardware. It
+makes the machine easy to use, protects it and shares its resources, and every
+computer in a school, bank or phone depends on one.
+
+### Model answer D2: types of processing (10 marks)
+
+**Introduction.** A modern operating system uses several techniques to keep the CPU
+busy and the user satisfied. The four terms of the syllabus describe how programs and
+processors are organised.
+
+**Explanation.**
+
+1. **Multiprogramming:** several programs are kept in memory; when one waits for
+   input or output, the CPU runs another. This raises CPU utilisation.
+2. **Multitasking:** the CPU gives each program a short time slice and switches
+   rapidly, so the user feels that all run at once, for example typing in Word while
+   music plays.
+3. **Multiprocessing:** two or more CPUs in one computer share memory and execute
+   tasks in parallel, giving higher speed and reliability.
+4. **Distributed processing:** many independent computers connected by a network share
+   the work of one job, as in cloud services and banking networks.
+
+| Basis | Multiprogramming | Multitasking | Multiprocessing | Distributed |
+|---|---|---|---|---|
+| CPUs | One | One | Two or more | Many computers |
+| Memory | Shared | Shared | Shared | Separate for each |
+| Switching | On I/O wait | By time slice | Not needed | Not needed |
+| Aim | CPU use | Quick response | Speed, reliability | Resource sharing, scale |
+| Example | Early mainframe | Windows | Quad-core PC | Cloud servers |
+
+**Advantages and limits.** Multiprogramming and multitasking use the CPU well but need
+more memory. Multiprocessing is fast but costly. Distributed systems scale well, but
+they depend on the network and are hard to secure.
+
+**Conclusion.** The four techniques are steps from using one CPU well to using many
+computers together. A smartphone uses multitasking and multiprocessing, while an
+online payment system uses distributed processing.
+
+### Model answer D3: open source software, Linux and Windows (10 marks)
+
+**Introduction.** **Open source software** is software whose source code is
+available to everyone under a licence that allows it to be used, studied, changed and
+redistributed. Linux is the best-known open source operating system.
+
+**Linux.** **UNIX** was created at Bell Labs in 1969. **Linux** was started by Linus
+Torvalds in 1991 as a free kernel. Its features are: free of cost, open source,
+multi-user and multitasking, secure and stable, portable to many kinds of hardware,
+and available from the command line and from graphical desktops. A **distribution**
+packs the Linux kernel with software and an installer; common ones are **Ubuntu,
+Debian, Fedora, Linux Mint, openSUSE and Arch**. Android also uses the Linux kernel.
+
+**Advantages of open source.** No licence cost, quick security fixes, freedom to
+customise (for example Nepali language support), no vendor lock-in, and strong
+community help.
+
+| Basis | Windows | Linux |
+|---|---|---|
+| Cost | Paid licence | Free |
+| Source code | Closed | Open |
+| Security | Often attacked by viruses because it is popular | Fewer viruses; fast fixes |
+| User interface | Mainly GUI | GUI and a strong CLI |
+| Hardware and software support | Wide, especially games | Good, but fewer commercial programs |
+| Customisation | Limited | Very high |
+| Support | Company support | Community support |
+
+**Conclusion.** Windows is easy and widely supported, and Linux is free, secure and
+flexible. Schools in Nepal with limited budgets can reduce cost by using Linux and
+open source software, while still teaching Windows because it is common in offices.

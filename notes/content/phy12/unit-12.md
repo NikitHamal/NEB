@@ -442,6 +442,31 @@ That is $235\ \text{nm}$ — smaller than a bacterium, but far larger than a vir
 which is why viruses need an electron microscope.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.2" caption="A grating spreads light into its colours. (a) A lamp seen through a transmission grating shows a bright central image and coloured images on both sides. (b) The slit spacing of a grating with 600 lines per mm is 1.667 micrometre, and the grating equation d sin(theta) = m lambda gives the first-order angle: 15.7 degrees for 450 nm blue, 19.3 degrees for 550 nm green and 23.0 degrees for 650 nm red. The second order of red is at 51.3 degrees and no more than 2 orders of red can appear, since sin(theta) cannot exceed 1. Because the angle grows with wavelength, red is deviated more than violet, the opposite of what a prism does."
+@ photo id="phy12b/grating" cap="A lamp seen through a transmission diffraction grating"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Angles of a 600 lines per mm grating"
+import math
+d = 1e-3 / 600
+rows = []
+for lam in (450, 550, 650):
+    rows.append(("%d nm" % lam, math.degrees(math.asin(lam * 1e-9 / d))))
+assert round(rows[1][1], 1) == 19.3
+m2 = math.degrees(math.asin(2 * 650e-9 / d))
+nmax = int(d / 650e-9)
+f = Fig(300, 236)
+f.text(150, 12, "First-order angle, degrees", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=30, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (ROSE, RED)])
+f.text(150, 128, "d sin(t) = m lambda, d = %.3f micrometre" % (d * 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 150, "second order of red: %.1f degrees" % m2, size=10.5, color=NAVY, bold=True)
+f.text(150, 170, "highest order for red: %d (d / lambda = %.2f)" % (nmax, d / 650e-9), size=10, color=SLATE, bold=True)
+f.text(150, 192, "red bends the most, violet the least,", size=10, color=SLATE, bold=True)
+f.text(150, 208, "the reverse of a prism", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[2][1], m2=m2, nmax=nmax, d=d * 1e6)
+```
+
 ## Chapter summary
 
 - **Diffraction** is the bending of light round edges, noticeable only when the
@@ -538,3 +563,38 @@ $n = 2$.
 
 $$ \mathrm{d}\lambda = \frac{600}{16000} = 0.0375\ \text{nm} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the diffraction grating, derive the grating equation, and explain how it is used to find the wavelength of light, with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the diffraction grating (10 marks)
+
+**Introduction.** A **diffraction grating** is a glass or plastic plate ruled with a very large number of equally spaced parallel opaque lines, usually 3000–6000 lines per centimetre. The clear spaces between the lines act as slits. The spacing between the centres of two adjacent slits, $d = a + b$ (slit width plus line width), is called the **grating element**.
+
+**Principle.** When a parallel beam of monochromatic light falls on the grating, every slit sends out diffracted waves. In certain directions the waves from all the slits arrive in phase, and sharp bright **principal maxima** are formed, separated by wide dark regions.
+
+**Grating equation.** Consider light falling normally on the grating. Waves from adjacent slits, travelling at angle $\theta$ to the normal, have a path difference of $d\sin\theta$. The waves reinforce when this equals a whole number of wavelengths:
+
+$$ d\sin\theta_{n} = n\lambda, \qquad n = 0, 1, 2, 3, \dots $$
+
+where $n$ is the **order** of the spectrum. The central maximum ($n = 0$) lies at $\theta = 0$ and is white for white light; the other orders lie symmetrically on both sides. If there are $N$ lines per metre, then $d = 1/N$.
+
+**With white light.** Because $\sin\theta = n\lambda/d$ depends on $\lambda$, red ($\lambda$ large) is deviated more than violet, and each order beyond the central one is a **spectrum** with violet nearest to the centre. A grating is therefore used as a spectrometer.
+
+**Maximum order.** Since $\sin\theta \le 1$, the highest possible order is $n_{max} < d/\lambda$.
+
+**Resolving power of a grating.** The ability to separate two close wavelengths $\lambda$ and $\lambda + d\lambda$ is $R = \dfrac{\lambda}{d\lambda} = nN$, where $N$ is the total number of illuminated lines. A grating with more lines gives sharper lines.
+
+| Feature | Single slit | Diffraction grating |
+|---|---|---|
+| Number of slits | One | Thousands |
+| Bright fringes | Wide, faint | Narrow, very bright |
+| Condition | Minima: $a\sin\theta = n\lambda$ | Maxima: $d\sin\theta = n\lambda$ |
+| Use | Study of diffraction | Measuring wavelengths, spectroscopy |
+
+**Numerical.** A grating has $5000$ lines per centimetre, so $d = 1/(5.0 \times 10^{5}\ \text{m}^{-1}) = 2.0 \times 10^{-6}\ \text{m}$. For sodium light of $\lambda = 589\ \text{nm}$ the first order is at $\sin\theta_{1} = 589 \times 10^{-9}/2.0 \times 10^{-6} = 0.2945$, so $\theta_{1} = 17.1°$. The second order is at $\sin\theta_{2} = 0.589$, giving $\theta_{2} = 36.1°$, and the third at $\sin\theta_{3} = 0.8835$, giving $62.1°$. The maximum order is $d/\lambda = 3.4$, so at most **3 orders** appear on each side (7 bright lines in all).
+
+**Measuring wavelength.** In the laboratory a spectrometer measures $\theta$ for a known order, and $\lambda = d\sin\theta/n$.
+
+**Conclusion.** The grating equation $d\sin\theta = n\lambda$ gives bright, sharp spectral lines, which makes the grating a precise instrument for measuring the wavelength of light.

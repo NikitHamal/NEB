@@ -11,8 +11,8 @@ use crate::ui::widgets::{self, BtnKind};
 const FAQ: &[(&str, &str)] = &[
     ("Where does the content come from?", "Everything is loaded from the NEBians server and saved on this computer as you read, so chapters you have opened keep working with no connection. Use Offline (Ctrl+D) to download whole subjects and study books ahead of time."),
     ("How do I read without internet?", "Open the Offline screen and choose Save offline on a subject, or download a study book. Anything you opened before is already cached. A banner appears when the server cannot be reached; your library, bookmarks and progress still work."),
-    ("How do I sign in?", "Choose Continue with Google, GitHub or email on the sign-in screen. Google and GitHub open your browser, you approve the request there, and the app signs in automatically. Guests can read everything but can't post in the community."),
-    ("Why don't I see my profile picture?", "Pictures are fetched from your NEBians account and cached. If you are offline the first time, initials are shown until the picture can be downloaded. Change your photo on the website or Android app."),
+    ("How do I sign in?", "Sign in or create an account with email on the sign-in screen. Google and GitHub briefly open your browser for approval, then the app continues by itself."),
+    ("Why don't I see my profile picture?", "Pictures are fetched from your NEBians account and cached. If you are offline the first time, initials are shown until the picture can be downloaded. "),
     ("Where are my bookmarks and progress stored?", "On this computer, in the app's settings folder. Signing in also syncs your profile and community bookmarks with your account."),
     ("How do I search?", "Press Ctrl+K from anywhere. Search covers every chapter, topic and question bank."),
 ];
@@ -20,13 +20,13 @@ const FAQ: &[(&str, &str)] = &[
 pub fn show(ui: &mut Ui, env: &mut Env) {
     scroll_page(ui, env, "help", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Help", Some("Quick answers, keyboard shortcuts and where to get support."));
+        widgets::screen_header(ui, &th, "Help");
         widgets::flow(ui, |ui| {
             if widgets::button(ui, &th, "Keyboard shortcuts", BtnKind::Secondary, Some(Icon::Keyboard), None).clicked() {
                 env.act(crate::actions::Action::ShowShortcuts);
             }
-            if widgets::button(ui, &th, "Email support", BtnKind::Secondary, Some(Icon::Mail), None).clicked() {
-                env.open_url("mailto:support@nebians.consica.com.np");
+            if widgets::button(ui, &th, "Copy support email", BtnKind::Secondary, Some(Icon::Mail), None).clicked() {
+                env.copy("support@nebians.consica.com.np");
             }
             if widgets::button(ui, &th, "Privacy", BtnKind::Ghost, Some(Icon::Lock), None).clicked() {
                 env.go(crate::router::Route::Legal("privacy".into()));

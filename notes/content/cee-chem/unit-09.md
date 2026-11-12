@@ -528,6 +528,54 @@ A catalyst **cannot** change $\Delta H$, **cannot** change the equilibrium const
 any of these, it is the distractor.
 :::
 
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Temperature and rate. (a) Rust forms slowly because the activation energy of iron with moist oxygen is large for the time scale of days. (b) The Arrhenius equation k = A exp(-Ea / RT) gives k(T2) / k(T1) = exp[(Ea / R)(1/T1 - 1/T2)]. For an assumed Ea = 50 kJ/mol the rate rises 1.93 times from 298 K to 308 K and 3.56 times at 318 K. A half-life of 10.0 h at 298 K becomes 5.19 h at 308 K and 2.81 h at 318 K. The old rule that the rate doubles per 10 K corresponds to Ea = 52.9 kJ/mol."
+@ photo id="sci10/rust" cap="Rusting is a slow redox reaction whose rate rises with temperature"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rate relative to 298 K from the Arrhenius equation"
+R = 8.314; Ea = 50000.0
+ratio = lambda T: math.exp(Ea / R * (1 / 298 - 1 / T))
+r308, r318 = ratio(308), ratio(318)
+ea2 = R * math.log(2) / (1 / 298 - 1 / 308)
+assert abs(r308 - 1.925) < 0.003 and abs(r318 - 3.558) < 0.005 and abs(10 / r308 - 5.19) < 0.01 and abs(ea2 / 1000 - 52.9) < 0.05
+facts = dict(r308="%.2f" % r308, r318="%.2f" % r318, h308="%.2f" % (10 / r308), h318="%.2f" % (10 / r318), ea2="%.1f" % (ea2 / 1000))
+f = Fig(300, 236)
+f.text(150, 14, "k(T) / k(298 K), Ea = 50 kJ/mol", size=10.5, color=NAVY, bold=True)
+X = lambda T: 40 + (T - 288) * 5.8; Y = lambda r: 160 - r * 28
+f.line(X(288), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(288), Y(0), X(288), 34, color=SOFT, sw=1.2)
+pts = [(X(T), Y(ratio(T))) for T in range(288, 329, 2)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=AMBER, sw=2.6)
+for T in (298, 308, 318):
+    f.line(X(T), Y(0), X(T), Y(ratio(T)), color=TEAL, sw=1.2, dash=True); f.circle(X(T), Y(ratio(T)), 4, fill=TEAL, stroke=TEAL)
+    f.text(X(T) - 4, Y(ratio(T)) - 9, "%.2f" % ratio(T), size=10.5, color=TEAL, bold=True, anchor="end")
+    f.text(X(T), Y(0) + 13, "%d" % T, size=10.5, color=SLATE)
+f.text(150, 192, "half-life 10.0 h to %.2f h to %.2f h" % (10 / r308, 10 / r318), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "doubling per 10 K means Ea = %.1f kJ/mol" % (ea2 / 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "temperature in kelvin", size=10.5, color=SLATE)
+```
+
+```photogrid label="9.2" cols="2" ratio="1.2" caption="A catalyst lowers the barrier. (a) The ceramic honeycomb of a catalytic converter is coated with platinum, palladium and rhodium and turns CO, NO and unburnt hydrocarbons into CO2, N2 and H2O. (b) The cell assumes that a catalyst cuts the activation energy of a reaction from 100 to 50 kJ/mol, and uses the Arrhenius equation to find the rate gain exp(Ea difference / RT), with the same pre-exponential factor. At 300 K the reaction is 10^8.7 times faster, at 600 K 10^4.4 times and at 800 K 10^3.3 times. The benefit is largest at low temperature, which is why a converter works poorly for the first minute of a cold start."
+@ photo id="ceechem2/catconv" cap="A catalytic converter honeycomb core"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="How a catalyst changes the rate (Arrhenius)"
+import math
+R = 8.314
+Ea1, Ea2 = 100000.0, 50000.0
+rows = []
+for T in (300, 450, 600, 800):
+    rows.append(("%d K" % T, math.log10(math.exp((Ea1 - Ea2) / (R * T)))))
+assert round(rows[0][1], 1) == 8.7 and round(rows[2][1], 1) == 4.4
+f = Fig(300, 236)
+f.text(150, 12, "log10 of rate gain, 100 to 50 kJ/mol", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=9.5, fmt="%.1f", x0=48, y0=32, bw=170, gap=30)
+f.text(150, 166, "the gain k(cat)/k(uncat) = exp(50000/RT)", size=10, color=SLATE, bold=True)
+f.text(150, 192, "at 300 K: 10^%.1f times faster" % rows[0][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "at 800 K: 10^%.1f times faster" % rows[3][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "a catalyst helps most when it is cool", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[2][1], c=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Unit |
@@ -740,3 +788,65 @@ molecularity 2).
 **9.** (c) — $[A] = 0.50 - (1.0 \times 10^{-2})(20) = 0.30$ M. Option (a) subtracts 0.40, using twice the time.
 **10.** (b) — 1.5 h = 5400 s, so $k = 0.693/5400 = 1.28 \times 10^{-4}$ s⁻¹. Option (a) is the same number with the wrong power of ten.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define rate, order and molecularity. Derive the integrated rate law and half-life of a first-order reaction with a numerical. <span class="marks">[10]</span>
+2. Explain collision theory and the Arrhenius equation, the effect of a catalyst and calculate the activation energy. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="2" ratio="1.4" caption="Rates of reaction. (a) A catalytic converter lowers the activation energy for turning CO, NO and hydrocarbons into CO2, N2 and H2O. (b) Magnesium ribbon burns with a bright white flame once its reaction has started, because the heat released raises the rate."
+@ photo id="ceechem2/catconv" cap="(a) Catalytic converter"
+fit 1.4
+focus 0.5 0.5
+@ photo id="chem11/mgburn" cap="(b) Burning magnesium"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: rate laws and first-order kinetics (10 marks)
+
+**Introduction.** The **rate of reaction** is the change in concentration of a reactant or product per unit time. For $aA \to$ products, rate $= -\dfrac1a\dfrac{d[A]}{dt}$. The **rate law** is rate $= k[A]^m[B]^n$ and is found only by experiment. The **order** is $m + n$, and $k$ is the rate constant. **Molecularity** is the number of molecules colliding in an elementary step, so it is always a whole number ($1$, $2$ or rarely $3$) and has no meaning for a complex reaction, whereas order can be zero or fractional.
+
+| Order | Rate law | Unit of $k$ | Integrated form | Half-life |
+|---|---|---|---|---|
+| Zero | rate $= k$ | $\text{mol L}^{-1}\text{s}^{-1}$ | $[A] = [A]_0 - kt$ | $\dfrac{[A]_0}{2k}$ |
+| First | rate $= k[A]$ | $\text{s}^{-1}$ | $\ln\dfrac{[A]_0}{[A]} = kt$ | $\dfrac{0.693}{k}$ |
+| Second | rate $= k[A]^2$ | $\text{L mol}^{-1}\text{s}^{-1}$ | $\dfrac1{[A]} - \dfrac1{[A]_0} = kt$ | $\dfrac1{k[A]_0}$ |
+
+**Derivation (first order).** $-\dfrac{d[A]}{dt} = k[A]$, so $\dfrac{d[A]}{[A]} = -k\,dt$. Integrating from $[A]_0$ to $[A]$: $\ln[A] - \ln[A]_0 = -kt$, so $[A] = [A]_0e^{-kt}$, or $k = \dfrac{2.303}{t}\log\dfrac{[A]_0}{[A]}$. The half-life is found by putting $[A] = [A]_0/2$: $t_{1/2} = \dfrac{\ln2}{k} = \dfrac{0.693}{k}$, **independent of the initial concentration**.
+
+**Examples of first order:** radioactive decay, decomposition of N₂O₅, H₂O₂, and inversion of sugar (pseudo first order, since water is in large excess). The graph of $\log[A]$ against $t$ is a straight line with slope $-k/2.303$.
+
+**Other points.** (1) The slowest step is the **rate-determining step**. (2) For $n$ half-lives, $[A] = [A]_0/2^n$. (3) The time for $99.9\%$ completion is about $10$ half-lives.
+
+**Numerical.** A first-order reaction has $k = 0.0693\ \text{min}^{-1}$. Then $t_{1/2} = 10\ \text{min}$. The time for $75\%$ completion is $\dfrac{2.303}{0.0693}\log\dfrac{100}{25} = 20\ \text{min}$ (two half-lives). After $30\ \text{min}$ the fraction left is $\tfrac18 = 12.5\%$.
+
+**Conclusion.** For a first-order reaction $t_{1/2} = 0.693/k$ is constant, and order is found only by experiment.
+
+### Model answer D2: collision theory, Arrhenius equation and catalysis (10 marks)
+
+**Introduction.** A reaction occurs only when molecules collide with enough energy and the correct orientation. Collisions that satisfy both are **effective collisions**.
+
+**Collision theory.** Rate $= Z_{AB}\,e^{-E_a/RT}\times P$, where $Z_{AB}$ is the collision frequency, $e^{-E_a/RT}$ is the fraction of collisions with energy above the **activation energy** $E_a$ and $P$ is the steric factor.
+
+**Arrhenius equation.** $k = Ae^{-E_a/RT}$ or $\ln k = \ln A - \dfrac{E_a}{RT}$. A graph of $\ln k$ against $1/T$ is a straight line with slope $-E_a/R$. For two temperatures:
+
+$$ \log\frac{k_2}{k_1} = \frac{E_a}{2.303R}\left(\frac1{T_1} - \frac1{T_2}\right) $$
+
+**Temperature effect.** The rate of many reactions roughly doubles for a $10^{\circ}\text{C}$ rise, because the fraction of molecules with energy above $E_a$ rises sharply, even though the average energy changes very little.
+
+**Catalyst.** A catalyst provides an alternative path with a lower $E_a$, so $k$ increases. It does **not** change $\Delta H$, $\Delta G$ or the equilibrium constant, only the time to reach equilibrium. It is specific, and a small amount is enough.
+
+| Type | Example |
+|---|---|
+| Homogeneous | NO in the lead chamber process, H⁺ in ester hydrolysis |
+| Heterogeneous | Fe in Haber, V₂O₅ in Contact, Pt in the converter |
+| Enzyme | catalase, amylase |
+| Autocatalysis | Mn²⁺ in permanganate-oxalate |
+| Promoter and poison | Mo promotes Fe, As poisons Pt |
+
+Adsorption theory of heterogeneous catalysis: reactants adsorb on the surface, react and the products desorb.
+
+**Numerical.** If the rate constant doubles from $300\ \text{K}$ to $310\ \text{K}$: $E_a = \dfrac{2.303\times8.314\times\log2\times300\times310}{10} = 53.6\ \text{kJ mol}^{-1}$. If a catalyst lowers $E_a$ by $10\ \text{kJ mol}^{-1}$ at $300\ \text{K}$, $k$ increases by $e^{10000/(8.314\times300)} = e^{4.01} = 55$ times.
+
+**Conclusion.** The rate rises with temperature because more collisions exceed $E_a$, and a catalyst speeds a reaction by lowering $E_a$ without altering the equilibrium.

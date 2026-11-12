@@ -1,0 +1,41 @@
+{
+ "book": "bca-gk",
+ "units": [
+  {
+   "no": 1,
+   "title": "Nepal: First Persons, Geography, Government and Culture",
+   "area": "General Knowledge",
+   "words": 2781,
+   "read_min": 15,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "The World: Geography, Organisations, Sports and Science",
+   "area": "General Knowledge",
+   "words": 2502,
+   "read_min": 14,
+   "figures": 13,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Computer Fundamentals, Hardware and Software",
+   "area": "General IT",
+   "words": 2845,
+   "read_min": 16,
+   "figures": 19,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Internet, E-mail, HTML, Programming and Full Forms",
+   "area": "General IT",
+   "words": 2650,
+   "read_min": 15,
+   "figures": 15,
+   "has_questions": true
+  }
+ ]
+}

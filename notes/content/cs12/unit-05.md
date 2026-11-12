@@ -822,20 +822,41 @@ Full output: `A B A::f B::g `
 
 ## 5.3 Advantages of OOP
 
-1. **Reusability.** Inheritance lets a tested class be extended instead of
-   rewritten, and a class can be shipped as a library others reuse.
-2. **Data security.** Access specifiers make the data private, so an object
-   cannot be corrupted by unrelated code.
-3. **Easier maintenance.** A bug in `percentage()` can only be caused by code
-   inside `Student`, so the search space is one class, not the whole program.
-4. **Modelling power.** Objects map one-to-one onto real things — student,
-   invoice, bus route — so the design is easier to discuss with the customer.
-5. **Extensibility.** Adding a `Staff` class to the payroll program above needs
-   no change at all to `main()`, because `main()` only talks to `Person*`.
-6. **Modular team work.** Different programmers can own different classes and
-   agree only on the public interfaces.
-7. **Message passing** makes communication between parts of a large system
-   explicit and easy to trace.
+Eight advantages, each explained in full.
+
+**1. Reusability.** Through inheritance a tested class can be extended instead of
+rewritten, and a class can be packed into a library for others to use. A `Person`
+class written once can serve `Student`, `Teacher` and `Staff`. This saves time and
+reduces new errors.
+
+**2. Data security.** Access specifiers make the data `private`, so unrelated code
+cannot corrupt it. A bank account class can allow the balance to change only through
+`deposit()` and `withdraw()`. Data hiding therefore protects the object from misuse.
+
+**3. Easier maintenance.** A bug in `percentage()` can only be caused by code inside
+`Student`, so the search is limited to one class, not the whole program. Each class
+can be corrected or improved without touching the others. Large programs remain
+manageable over many years.
+
+**4. Modelling power.** Objects map one-to-one onto real things such as a student, an
+invoice or a bus route. The design is therefore natural and easy to discuss with the
+customer. Analysis, design and coding use the same ideas.
+
+**5. Extensibility.** A new class can be added without changing existing code. Adding a
+`Staff` class to the payroll program needs no change in `main()`, because `main()`
+talks only to `Person*`. The program grows by addition, not by modification.
+
+**6. Modular team work.** Different programmers can own different classes and agree
+only on the public interfaces. A team of five can build five classes in parallel and
+join them at the end. This speeds up big projects.
+
+**7. Polymorphism and flexibility.** One function name or one message can do different
+jobs for different objects. A loop that calls `area()` for every shape works for all
+the shapes, even those added later. The code becomes shorter and clearer.
+
+**8. Message passing.** Objects communicate by sending messages, that is, by calling
+member functions. This makes the communication of a large system explicit and easy
+to trace. Each object remains independent of how others work inside.
 
 The costs are real too, and examiners accept them as "disadvantages": programs
 are larger and need more memory, execution can be slightly slower because of
@@ -857,6 +878,39 @@ a 20-line calculation.
 | Banking, ERP and payroll software | account, customer, transaction objects; auditability | Java/C# enterprise systems |
 | AI and data-science libraries | model classes with a shared `fit/predict` interface | scikit-learn, TensorFlow |
 
+**Eight applications explained.**
+
+**1. Graphical user interfaces.** Every window, button and text box is an object with
+properties (colour, size) and events (click). Frameworks such as Qt and the Android SDK
+are built from such classes. A programmer builds a new screen by extending them.
+
+**2. Simulation and modelling.** The first object-oriented language, Simula, was made to
+simulate real systems. Each vehicle, patient or customer in a queue is an object with its
+own state. Traffic and bank-queue simulations are typical.
+
+**3. Computer games.** Player, enemy and bullet inherit from one base class and are
+drawn and moved by the same loop. Engines such as Unity and Unreal use this design. New
+characters are added by creating new classes.
+
+**4. Mobile applications.** Apps for Android (Kotlin or Java) and iPhone (Swift) are
+written by extending activity and view classes. Wallet and ticketing apps used in Nepal
+are built this way.
+
+**5. Web frameworks.** Frameworks such as Laravel and Django model requests, data and
+controllers as classes. A college website can add a new page type by adding a new class.
+
+**6. Operating systems and device drivers.** Devices such as printers and disks are
+objects that share a common interface. The system treats all of them in the same way,
+whatever the hardware.
+
+**7. CAD and design software.** Lines, circles and other shapes form a natural class
+hierarchy, and each knows how to draw and measure itself. Programs such as AutoCAD work
+like this.
+
+**8. Banking, ERP and payroll software.** Account, customer and transaction are objects
+with clear rules and an audit trail. Enterprise systems in banks are normally written in
+Java or C#. The same design supports AI libraries and database layers.
+
 ::: example Worked example 5.3 — choosing the paradigm
 **Problem.** A Kathmandu school wants (a) a program to convert a temperature from
 Celsius to Fahrenheit for a physics class, and (b) a school management system
@@ -876,6 +930,40 @@ members with validating setters protect it; the system will be extended for ten
 years, so adding a class must not break existing code; and several programmers
 can own separate classes at once.
 :::
+
+```photogrid label="5.P" cols="2" ratio="1.27" caption="Object-oriented programming builds a class once and then makes as many objects as needed, as one brick mould makes many bricks. (a) A heap of Lego bricks. (b) Rect, Circle and Tri inherit from Shape and each overrides area(). The same call s.area() therefore runs a different method for each object and returns 12.00, 12.57 and 12.00. This is polymorphism: the caller does not need to know the type. Inheritance saved the repeated code, encapsulation keeps w, h and r inside each object, and a new shape can be added without changing the loop that calls area()."
+@ photo id="cs12/lego" cap="Lego bricks: one design (class) gives many bricks (objects)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Polymorphism: one call, three results"
+class Shape:
+    def area(self): raise NotImplementedError
+class Rect(Shape):
+    def __init__(self, w, h): self.w, self.h = w, h
+    def area(self): return self.w * self.h
+class Circle(Shape):
+    def __init__(self, r): self.r = r
+    def area(self): return math.pi * self.r ** 2
+class Tri(Shape):
+    def __init__(self, b, h): self.b, self.h = b, h
+    def area(self): return 0.5 * self.b * self.h
+objs = [Rect(4, 3), Circle(2), Tri(6, 4)]
+vals = [o.area() for o in objs]
+assert all(isinstance(o, Shape) for o in objs) and round(vals[1], 2) == 12.57 and vals[0] == vals[2] == 12
+f = Fig(300, 236)
+f.text(150, 14, "for s in shapes: s.area()", size=10.5, color=NAVY, bold=True, )
+f.box(95, 30, 110, 34, "Shape\narea()", fill=SAND, stroke=AMBER, size=10, bold=True)
+names = [("Rect(4, 3)", BLUE, NAVY), ("Circle(2)", MINT, TEAL), ("Tri(6, 4)", ROSE, RED)]
+for i, (nme, fl, st) in enumerate(names):
+    x = 8 + i * 98
+    f.arrow([(x + 44, 108), (150 + (i - 1) * 25, 66)], color=SLATE, sw=1.2)
+    f.box(x, 108, 88, 34, nme, fill=fl, stroke=st, size=10, bold=True)
+    f.box(x, 160, 88, 24, "%.2f" % vals[i], fill="#ffffff", stroke=st, size=11, bold=True)
+    f.text(x + 44, 152, "area()", size=9, color=SLATE, bold=True)
+f.text(150, 206, "same message, different method each", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "isinstance(obj, Shape) is True for all", size=10, color=SLATE, bold=True)
+facts = dict(a=vals[0], b=vals[1], c=vals[2])
+```
 
 ## Chapter summary
 
@@ -965,22 +1053,69 @@ int main() {
 Check: $3.1416 \times 7^2 = 3.1416 \times 49 = 153.9384$, so the output is
 `Area = 153.938` (`cout` shows six significant figures by default).
 
-**2.** Use any five rows of the table in §5.1 — basic unit, design direction,
-data handling, security, reuse, suitability.
+**2.**
 
-**3.** Inheritance = a derived class acquiring the members of a base class, giving
-reuse and an "is-a" relationship. Single (`A → B`), multilevel (`A → B → C`),
-multiple (`A, B → C`), hierarchical (one base, many derived) — draw as in the
-figure in §5.2.4.
+| Point | Procedural programming | Object-oriented programming |
+|---|---|---|
+| Basic unit | Function (procedure) | Class and object |
+| Design direction | Top-down | Bottom-up |
+| Data handling | Data are global and shared by functions | Data are hidden inside objects |
+| Security | Weak, anyone can change the data | Strong, through access specifiers |
+| Reuse | Copy and modify functions | Inheritance and libraries |
+| Suitability | Small tasks and calculations | Large, long-lived systems |
+| Examples | C, Pascal, FORTRAN | C++, Java, Python |
 
-**4.** Table in §5.2.5: overloading is same class + different signature + early
-binding; overriding is base/derived + identical signature + `virtual` + late
-binding. Examples: `volume(int)` / `volume(int,int,int)`, and
-`Person::earning()` / `Teacher::earning()`.
+In procedural programming the program is a list of steps and functions that act on
+shared data, so a change in a data layout can break many functions. In
+object-oriented programming the data and the functions that use them are packed
+together in a class, so the program is organised around the things it models. A
+single formula such as converting Celsius to Fahrenheit needs only a procedure,
+but a school management system with students, teachers and fees is much better as a
+set of objects.
 
-**5.** Advantages: reusability, data security, maintainability, real-world
-modelling, extensibility (§5.3). Disadvantages: larger programs and more memory;
-slower because of dynamic binding; longer design time.
+**3.** **Inheritance** is the property by which a **derived class** acquires the
+members of a **base class**, giving reuse and an "is-a" relationship (a Teacher is a
+Person). Three types: **(i) Single inheritance:** one derived class from one base
+class, `A → B`; a `Student` derived from `Person`. **(ii) Multilevel inheritance:** a
+chain of derivation, `A → B → C`; `Person → Student → GraduateStudent`; each level
+inherits all members of the levels above it. **(iii) Hierarchical inheritance:** one
+base class with several derived classes; `Person` is the base of `Student`,
+`Teacher` and `Staff`. Multiple inheritance (`A, B → C`) lets a class have two bases
+and is also available in C++. In C++ the syntax is `class Teacher : public Person`.
+(Draw the figure of section 5.2.4 with arrows from derived to base.) Inheritance
+saves coding time, makes programs shorter and lets new classes be added without
+changing old ones, but a deep hierarchy can become hard to follow.
+
+**4.** **Function overloading** means several functions with the same name in the
+same scope, but with different parameter lists (number or type); the compiler chooses
+one at compile time (early binding). Example: `volume(int a)` for a cube and
+`volume(int l, int b, int h)` for a cuboid. **Function overriding** means a derived
+class redefines a function of its base class with the *same signature*; with the
+`virtual` keyword the call is resolved at run time (late binding). Example:
+`Person::earning()` is overridden by `Teacher::earning()`.
+
+| Basis | Overloading | Overriding |
+|---|---|---|
+| Classes | Same class | Base and derived classes |
+| Signature | Different | Identical |
+| Binding | Compile time (early) | Run time (late, with `virtual`) |
+| Type of polymorphism | Compile-time | Run-time |
+| Purpose | Same job on different data | Specialised behaviour in a derived class |
+
+Overloading makes a program easy to read because one name does related jobs, and
+overriding lets a base-class pointer call the correct version of a function for each
+kind of object.
+
+**5.** Five advantages of OOP: **(i) Reusability:** inheritance lets tested classes
+be extended instead of rewritten. **(ii) Data security:** private data are reachable
+only through public functions. **(iii) Easier maintenance:** a fault is limited to one
+class. **(iv) Real-world modelling:** objects match real things, so the design is
+natural. **(v) Extensibility:** new classes can be added without changing existing
+code. Other advantages are modular teamwork and message passing. Two disadvantages:
+**(i)** programs are larger and need more memory and design time; **(ii)** execution
+can be slightly slower because of dynamic binding, and the paradigm is too heavy for
+very small programs. For a school management system of many years, the advantages are
+far greater than the disadvantages.
 :::
 
 **Group C — Long answer (8 marks each)**
@@ -1006,3 +1141,125 @@ function correctly overridden (2), array of base pointers and the loop (1),
 correct total and output format (1). The total for the data used is
 Rs 48,500 + Rs 1,200 + Rs 52,000 = **Rs 1,01,700**.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Explain the features of OOP: class, object, encapsulation, abstraction, inheritance and polymorphism. <span class="marks">[10]</span>
+2. Differentiate between procedural and object-oriented programming. Explain the advantages and disadvantages of OOP. <span class="marks">[10]</span>
+3. Define polymorphism. Explain its types with examples and compare overloading with overriding. <span class="marks">[10]</span>
+
+### Model answer D1: features of OOP (10 marks)
+
+**Introduction.** **Object-oriented programming (OOP)** is a programming paradigm in
+which a program is built from **objects** that combine data and the functions that
+act on the data. C++, Java and Python support it. Its main features are as follows.
+
+1. **Class:** a user-defined type or blueprint that describes the data (attributes)
+   and the functions (methods) common to a group of things. `class Student { ... };`
+2. **Object:** an instance of a class that occupies memory and has its own values.
+   `Student s1;` creates one student object; many objects can be made from one class.
+3. **Encapsulation and data hiding:** wrapping data and functions in one unit, the
+   class, and restricting access with `private`, `protected` and `public`. The balance
+   of an account is private and changes only through public functions.
+4. **Abstraction:** showing only the essential features and hiding the details. A driver
+   uses the steering wheel and pedals without knowing the engine; a class shows its
+   public interface and hides its code.
+5. **Inheritance:** a derived class acquires the members of a base class, giving reuse
+   and an "is-a" relationship: `class Teacher : public Person`. Types are single,
+   multilevel, multiple, hierarchical and hybrid.
+6. **Polymorphism:** one name, many forms. Compile-time polymorphism uses function and
+   operator overloading; run-time polymorphism uses `virtual` functions and overriding.
+7. **Message passing and dynamic binding:** objects communicate by calling member
+   functions, and the function to execute can be chosen at run time.
+
+```cpp
+class Person { public: virtual double earning() { return 0; } };
+class Teacher : public Person {          // inheritance
+    double salary;                       // data hiding (private by default)
+  public:
+    Teacher(double s) { salary = s; }
+    double earning() { return salary; }  // overriding (run-time polymorphism)
+};
+```
+
+| Feature | One-line meaning | Keyword in C++ |
+|---|---|---|
+| Class | Blueprint | `class` |
+| Object | Instance | `Student s1;` |
+| Encapsulation | Data and functions in one unit | `private`, `public` |
+| Inheritance | Reuse of a base class | `: public Base` |
+| Polymorphism | One name, many forms | `virtual`, overloading |
+
+**Conclusion.** These features together make programs secure, reusable and easy to
+extend, which is why large software in banks and mobile apps is written in an
+object-oriented way.
+
+### Model answer D2: procedural against object-oriented, and the merits (10 marks)
+
+**Introduction.** A programming paradigm is a style of building programs. In
+**procedural programming** (C, Pascal) the program is a sequence of procedures that act on
+shared data. In **object-oriented programming** (C++, Java) the program is a set of
+objects that hold their own data and behaviour.
+
+| Point | Procedural | Object-oriented |
+|---|---|---|
+| Basic unit | Function | Class and object |
+| Design | Top-down | Bottom-up |
+| Data | Global, shared | Hidden inside objects |
+| Security | Weak | Strong |
+| Reuse | Copy functions | Inheritance |
+| Maintenance | Difficult in large programs | Easier, by class |
+| Suitable for | Small, simple programs | Large, long-lived systems |
+
+**Advantages of OOP.** (1) Reusability through inheritance; (2) data security by
+hiding; (3) easier maintenance; (4) natural modelling of real things; (5) extensibility
+without changing old code; (6) modular teamwork; (7) polymorphism; (8) message passing.
+
+**Disadvantages of OOP.** Larger programs and more memory; slightly slower execution
+because of dynamic binding; longer design time; and it is unnecessary for very small
+programs.
+
+**Example.** A Celsius-to-Fahrenheit converter needs only one function and is best
+written procedurally, whereas a school management system with students, teachers,
+fees and attendance, to be maintained for ten years by several programmers, is best
+written with classes.
+
+**Conclusion.** Neither paradigm is always better; OOP is the right choice when a
+program is large, changes often and models many real-world things.
+
+### Model answer D3: polymorphism (10 marks)
+
+**Introduction.** **Polymorphism** means "many forms": the same name or operator
+behaves in different ways depending on the data or the object it is used with. It is
+one of the four pillars of OOP.
+
+**Types.**
+
+1. **Compile-time (static) polymorphism:** the function to call is decided by the
+   compiler. It is achieved by **function overloading** (same name, different
+   parameters) and **operator overloading** (giving `+` a meaning for a user class).
+   Example: `volume(int a)` for a cube and `volume(int l, int b, int h)` for a cuboid.
+2. **Run-time (dynamic) polymorphism:** the function is chosen while the program runs,
+   through a **base-class pointer** and a **virtual function**. Example: a `Person*` that
+   points to a `Teacher` calls `Teacher::earning()`, and the same pointer pointing to a
+   `Staff` calls `Staff::earning()`.
+
+```cpp
+Person* p[2] = { new Teacher(52000), new Staff(48500) };
+for (int i = 0; i < 2; i++) cout << p[i]->earning() << endl;   // each object answers in its own way
+```
+
+| Basis | Overloading | Overriding |
+|---|---|---|
+| Place | Same class | Base and derived class |
+| Signature | Different | Same |
+| Binding | Early (compile time) | Late (run time), needs `virtual` |
+| Purpose | Same name for related jobs | Special behaviour in a derived class |
+
+**Advantages.** Shorter and clearer code, easy extension (a new derived class works with
+old code), and a single interface for many kinds of object.
+
+**Conclusion.** Polymorphism lets a program treat different objects uniformly while each
+one behaves correctly, and that is why a payroll loop does not need to change when a
+new kind of employee is added.

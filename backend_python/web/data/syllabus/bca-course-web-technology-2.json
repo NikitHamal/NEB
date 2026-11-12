@@ -1,0 +1,464 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "web-technology-2",
+ "name": "Web Technology II",
+ "name_ne": "",
+ "icon": "language",
+ "group": "semester-4",
+ "group_label": "Semester IV",
+ "color": "#0369A1",
+ "lang": "en",
+ "code": "BCA 255",
+ "credits": 3,
+ "semester": 4,
+ "hours": 50,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Server-Side Scripting and PHP Fundamentals",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Client-side versus server-side scripting",
+    "Variables, constants and types",
+    "Control structures",
+    "Arrays",
+    "Functions",
+    "Including files and running from the command line",
+    "Seeing the ideas: from request to running PHP"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Client-side versus server-side scripting"
+    },
+    {
+     "no": "1.2",
+     "title": "Variables, constants and types"
+    },
+    {
+     "no": "1.3",
+     "title": "Control structures"
+    },
+    {
+     "no": "1.4",
+     "title": "Arrays"
+    },
+    {
+     "no": "1.5",
+     "title": "Functions"
+    },
+    {
+     "no": "1.6",
+     "title": "Including files and running from the command line"
+    },
+    {
+     "no": "1.7",
+     "title": "Seeing the ideas: from request to running PHP"
+    }
+   ],
+   "summary": [
+    "PHP runs on the server, generates HTML dynamically and can reach files and databases; the browser never sees the source.",
+    "The language is loosely typed, with strict mode and type declarations available; use ===.",
+    "Arrays are the universal data structure; functions can take defaults, references, variadics and named arguments.",
+    "Files are shared with include/require; the command line and the built-in server make testing easy."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3017,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Forms, Files, Sessions and Cookies",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Receiving form data",
+    "Validation, sanitising and escaping",
+    "Dates, including files",
+    "File handling",
+    "Cookies",
+    "Sessions",
+    "Sending e-mail",
+    "Seeing the ideas: how data travels between browser and server"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Receiving form data"
+    },
+    {
+     "no": "2.2",
+     "title": "Validation, sanitising and escaping"
+    },
+    {
+     "no": "2.3",
+     "title": "Dates, including files"
+    },
+    {
+     "no": "2.4",
+     "title": "File handling"
+    },
+    {
+     "no": "2.5",
+     "title": "Cookies"
+    },
+    {
+     "no": "2.6",
+     "title": "Sessions"
+    },
+    {
+     "no": "2.7",
+     "title": "Sending e-mail"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: how data travels between browser and server"
+    }
+   ],
+   "summary": [
+    "Form data arrives in GET and _POST; it must be validated and escaped because it comes from an untrusted user.",
+    "PHP reads and writes files and CSV, handles dates and uploads, but each of these needs defensive checks.",
+    "Cookies keep small data in the browser; sessions keep state on the server and identify the user with a random ID."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2960,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "MySQL for Web Applications",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "MySQL basics and data types",
+    "Querying: SELECT, WHERE, ORDER BY",
+    "Updating and deleting",
+    "Aggregate functions, GROUP BY and HAVING",
+    "Subqueries and joins",
+    "Administration notes",
+    "Seeing the ideas: how MySQL stores, filters and joins data"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "MySQL basics and data types"
+    },
+    {
+     "no": "3.2",
+     "title": "Querying: SELECT, WHERE, ORDER BY"
+    },
+    {
+     "no": "3.3",
+     "title": "Updating and deleting"
+    },
+    {
+     "no": "3.4",
+     "title": "Aggregate functions, GROUP BY and HAVING"
+    },
+    {
+     "no": "3.5",
+     "title": "Subqueries and joins"
+    },
+    {
+     "no": "3.6",
+     "title": "Administration notes"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing the ideas: how MySQL stores, filters and joins data"
+    }
+   ],
+   "summary": [
+    "MySQL stores web data in tables; types, keys and constraints describe and protect it.",
+    "A handful of statements (SELECT, INSERT, UPDATE, DELETE) with WHERE, grouping, subqueries and joins covers most web needs.",
+    "The server enforces constraints with clear errors, so design them into the schema."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2794,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Connecting PHP to MySQL",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Connecting and closing",
+    "Running queries: insert, select",
+    "Prepared statements: the only safe way",
+    "Complete CRUD",
+    "PDO, errors and transactions",
+    "Error handling and good practice",
+    "Seeing the ideas: PHP talking to MySQL"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Connecting and closing"
+    },
+    {
+     "no": "4.2",
+     "title": "Running queries: insert, select"
+    },
+    {
+     "no": "4.3",
+     "title": "Prepared statements: the only safe way"
+    },
+    {
+     "no": "4.4",
+     "title": "Complete CRUD"
+    },
+    {
+     "no": "4.5",
+     "title": "PDO, errors and transactions"
+    },
+    {
+     "no": "4.6",
+     "title": "Error handling and good practice"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: PHP talking to MySQL"
+    }
+   ],
+   "summary": [
+    "PHP talks to MySQL through mysqli or PDO: connect, query, fetch, close, with exceptions for errors.",
+    "Prepared statements separate SQL from data and are the defence against SQL injection.",
+    "CRUD, pagination and transactions are small patterns repeated across every web application."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2454,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Object-Oriented Programming in PHP",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Classes, objects, constructors and destructors",
+    "Visibility and encapsulation",
+    "Inheritance, overriding and polymorphism",
+    "Abstract classes, interfaces and traits",
+    "Static members, constants and class methods",
+    "Exceptions",
+    "Seeing the ideas: classes, objects and contracts"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Classes, objects, constructors and destructors"
+    },
+    {
+     "no": "5.2",
+     "title": "Visibility and encapsulation"
+    },
+    {
+     "no": "5.3",
+     "title": "Inheritance, overriding and polymorphism"
+    },
+    {
+     "no": "5.4",
+     "title": "Abstract classes, interfaces and traits"
+    },
+    {
+     "no": "5.5",
+     "title": "Static members, constants and class methods"
+    },
+    {
+     "no": "5.6",
+     "title": "Exceptions"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the ideas: classes, objects and contracts"
+    }
+   ],
+   "summary": [
+    "PHP objects bundle state and behaviour, with constructor promotion and visibility modifiers for encapsulation.",
+    "Inheritance, abstract classes and interfaces give polymorphism and contracts; traits reuse code.",
+    "Static members and the singleton pattern share state; exceptions make errors explicit."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2287,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "AJAX, JSON and Web APIs",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "JSON in PHP",
+    "A PHP endpoint and a real HTTP request",
+    "AJAX from the browser",
+    "AJAX with PHP and MySQL",
+    "Seeing the ideas: AJAX, JSON and REST"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "JSON in PHP"
+    },
+    {
+     "no": "6.2",
+     "title": "A PHP endpoint and a real HTTP request"
+    },
+    {
+     "no": "6.3",
+     "title": "AJAX from the browser"
+    },
+    {
+     "no": "6.4",
+     "title": "AJAX with PHP and MySQL"
+    },
+    {
+     "no": "6.5",
+     "title": "Seeing the ideas: AJAX, JSON and REST"
+    }
+   ],
+   "summary": [
+    "AJAX updates part of a page using a background request; JSON is the usual data format.",
+    "A PHP endpoint decodes input, validates it, uses prepared statements, and returns JSON with correct headers and status codes.",
+    "The browser side uses fetch or XMLHttpRequest (or jQuery); output inserted into the page must be escaped."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2994,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Web Application Security and Authentication",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "SQL injection",
+    "Cross-site scripting (XSS)",
+    "Cross-site request forgery (CSRF)",
+    "Passwords: hashing, never encryption",
+    "A complete registration and login flow",
+    "A security checklist",
+    "Seeing the ideas: attacks, defences and the three factors"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "SQL injection"
+    },
+    {
+     "no": "7.2",
+     "title": "Cross-site scripting (XSS)"
+    },
+    {
+     "no": "7.3",
+     "title": "Cross-site request forgery (CSRF)"
+    },
+    {
+     "no": "7.4",
+     "title": "Passwords: hashing, never encryption"
+    },
+    {
+     "no": "7.5",
+     "title": "A complete registration and login flow"
+    },
+    {
+     "no": "7.6",
+     "title": "A security checklist"
+    },
+    {
+     "no": "7.7",
+     "title": "Seeing the ideas: attacks, defences and the three factors"
+    }
+   ],
+   "summary": [
+    "Injection, XSS and CSRF all come from trusting input; each has a standard defence.",
+    "Passwords are stored as slow salted hashes; the login flow regenerates the session ID and reveals nothing about which part failed.",
+    "Security is a checklist applied to every form, query and output, not a feature added at the end."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3009,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Content Management Systems and PHP Frameworks",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "What is a CMS?",
+    "The MVC pattern",
+    "Frameworks and tooling",
+    "Seeing the ideas: CMS layers, MVC, hooks, autoloading and deployment"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "What is a CMS?"
+    },
+    {
+     "no": "8.2",
+     "title": "The MVC pattern"
+    },
+    {
+     "no": "8.3",
+     "title": "Frameworks and tooling"
+    },
+    {
+     "no": "8.4",
+     "title": "Seeing the ideas: CMS layers, MVC, hooks, autoloading and deployment"
+    }
+   ],
+   "summary": [
+    "A CMS lets non-programmers manage content; WordPress and Joomla differ in structure but share themes/templates, plugins/extensions and an admin panel on PHP and MySQL.",
+    "MVC structures applications into model, view, controller and router; frameworks like Laravel provide the plumbing.",
+    "Deployment adds HTTPS, secure configuration and backups."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3209,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 8,
+ "topic_count": 52,
+ "notes_ready": 8
+}

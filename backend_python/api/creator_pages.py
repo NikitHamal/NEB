@@ -34,12 +34,12 @@ from .creator_pages_sanitize import (
 )
 from .creator_pages_schema import (
     ACCENT_RE, BLOCK_FIELDS, BLOCK_GROUPS, BLOCK_HINTS, BLOCK_LABELS, DEFAULT_BLOCKS,
-    DENSITIES, ELIGIBLE_ROLES, FIELD_LABELS, HERO_STYLES, ITEM_FIELDS, ITEM_LABELS,
-    LAYOUTS, LIST_FIELDS, MAX_BLOCKS, MAX_LIST_ITEMS, RADII, SOCIAL_KEYS,
+    ELIGIBLE_ROLES, FIELD_LABELS, ITEM_FIELDS, ITEM_LABELS,
+    LAYOUTS, LIST_FIELDS, MAX_BLOCKS, MAX_LIST_ITEMS, SOCIAL_KEYS,
     URL_FIELDS, block_anchors, block_schema, editor_schema,
 )
 from .creator_templates import TEMPLATES_BY_ID, template_list, template_payload
-from .creator_themes import PALETTES, palette, theme_vocabulary
+from .creator_themes import DENSITIES, HERO_STYLES, PALETTES, RADII, palette, theme_vocabulary
 from .models import (
     CreatorCourse, CreatorCourseResource, CreatorPage, Resource, User,
 )
@@ -277,6 +277,21 @@ def apply_page_update(page, data, allowed=None):
     return page, None
 
 
+COURSE_DELIVERY = ('recorded', 'live', 'hybrid', 'inperson')
+COURSE_ENROLL_MODES = ('buy', 'contact')
+
+
+def clean_contact_link(value):
+    """A phone number becomes tel:, an address mailto:, anything else must be an http(s) or site link."""
+    import re
+    text = str(value or '').strip()
+    if re.fullmatch(r'\+?[\d\s\-]{7,16}', text):
+        return 'tel:' + re.sub(r'[\s\-]', '', text)
+    if re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', text):
+        return 'mailto:' + text
+    return _clean_url(text)
+
+
 def apply_course_fields(course, page, data):
     """Create or update a course. Returns (course, pending_resource_ids, error).
 
@@ -317,6 +332,16 @@ def apply_course_fields(course, page, data):
             value = str(data.get(field) or '').strip()
             setattr(course, field, _clean_url(value))
 
+    for field, allowed, default in (('delivery', COURSE_DELIVERY, 'recorded'), ('enroll_mode', COURSE_ENROLL_MODES, 'buy')):
+        if _has(field):
+            value = str(data.get(field) or '').strip().lower()
+            setattr(course, field, value if value in allowed else default)
+
+    if _has('contact_label'):
+        course.contact_label = str(data.get('contact_label') or '').strip()[:120]
+    if _has('contact_url'):
+        course.contact_url = clean_contact_link(data.get('contact_url'))
+
     if _has('is_free'):
         course.is_free = data.get('is_free') in (True, 'true', 'True', 'on', '1', 1)
 
@@ -339,6 +364,8 @@ def apply_course_fields(course, page, data):
 
     if course.is_free:
         course.price = Decimal('0.00')
+    if course.enroll_mode == 'contact' and not (course.contact_url or course.contact_label):
+        return None, None, 'Add a phone number, email or link so students can reach you'
 
     for field, limit in (('lesson_count', 999), ('seat_limit', 100000)):
         if _has(field):
@@ -368,7 +395,7 @@ def apply_course_fields(course, page, data):
     # priced at Rs. 0 while still listed as paid, which the shelf and the access
     # check then disagreed about. A draft is allowed to be priceless -- that is
     # what a half-written course looks like -- so only a listed one is held to it.
-    if course.status == 'published' and not course.is_free and (course.price or 0) <= 0:
+    if course.status == 'published' and course.enroll_mode == 'buy' and not course.is_free and (course.price or 0) <= 0:
         return None, None, 'A paid course needs a price above Rs. 0'
 
     if _has('featured'):

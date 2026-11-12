@@ -1,5 +1,41 @@
 """Views Misc extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
+import uuid
+from django.db import IntegrityError, transaction
+from django.db.models import Q
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+    throttle_classes,
+)
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from . import counters as _counters
+from .models import Bookmark, FCMToken, Follow, Notification, Post, Reply, Report, Resource, User
+from .serializers import (
+    BookmarkSerializer,
+    NotificationSerializer,
+    PostSerializer,
+    ReportSerializer,
+    ResourceSerializer,
+)
+from .throttles import (
+    AuthRateThrottle,
+    ReportRateThrottle,
+    SearchRateThrottle,
+    WriteActionRateThrottle,
+)
+from .view_helpers import (
+    MAX_REPORT_DESCRIPTION_LENGTH,
+    _get_user_from_request,
+    _now_ms,
+    _page_results,
+    _page_rows,
+    _paginated_response,
+    _require_user,
+    _validate_text_length,
+    logger,
+)
 
 @api_view(['POST'])
 @throttle_classes([WriteActionRateThrottle])
@@ -337,7 +373,9 @@ def notifications_mark_read(request):
     mark_all = request.data.get('mark_all', False)
     notification_ids = request.data.get('notification_ids', [])
 
+    from . import push_engine
     if mark_all:
+        push_engine.mark_all_opened_for_user(user.id, 'inbox')
         count = Notification.objects.filter(recipient=user, is_read=False).update(is_read=True)
         _counters.reset_user_unread_notification_count(user.id)
         logger.info("notifications_mark_read: user %s marked all %d notifications as read", user.username, count)
@@ -347,6 +385,7 @@ def notifications_mark_read(request):
         return Response({'status': 'error', 'message': 'Provide notification_ids or mark_all=true'}, status=400)
 
     notifs = Notification.objects.filter(recipient=user, pk__in=notification_ids, is_read=False)
+    push_engine.mark_opened(list(notifs.exclude(campaign_id='').values_list('id', flat=True)), 'inbox')
     count = notifs.update(is_read=True)
     # Recalculate unread count from DB
     unread = Notification.objects.filter(recipient=user, is_read=False).count()
@@ -367,146 +406,70 @@ def notifications_unread_count(request):
     return Response({'count': count})
 
 
-_WS_URL_MEMO = {'sig': None, 'url': ''}
-
-
-def _ws_log_paths():
-    import glob as _glob
-    import os as _os
-    base_dir = _os.path.dirname(_os.path.dirname(__file__))
-    paths = [
-        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
-        _os.path.join(base_dir, 'logs', 'cloudflared.log'),
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-    ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
-    return base_dir, paths
-
-
-def _ws_url_from_files():
-    """The newest trycloudflare URL in the tunnel logs (or ws_url.txt), as realtime_config
-    always resolved it. That meant reading every log whole and regex-scanning it on each
-    call; the answer is now kept per process until one of those files changes (path,
-    size, mtime and inode of each, and the set of /tmp/cf_quick*.log files)."""
-    import os as _os
-    try:
-        base_dir, paths = _ws_log_paths()
-        sig = []
-        for path in paths + [_os.path.join(base_dir, 'ws_url.txt')]:
-            try:
-                st = _os.stat(path)
-                sig.append((path, st.st_size, st.st_mtime_ns, st.st_ino))
-            except OSError:
-                sig.append((path, None))
-        sig = tuple(sig)
-    except Exception:
-        sig = None
-    if sig is not None and _WS_URL_MEMO['sig'] == sig:
-        return _WS_URL_MEMO['url']
-    url = _resolve_ws_url_from_files()
-    if sig is not None:
-        _WS_URL_MEMO.update(sig=sig, url=url)
-    return url
-
-
-def _resolve_ws_url_from_files():
-    import os as _os
-    ws_url = ''
-    try:
-        import re as _re
-        candidates = []
-        base_dir, paths = _ws_log_paths()
-        for path in paths:
-            try:
-                with open(path, 'r', errors='ignore') as fh:
-                    content = fh.read()
-                matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
-                if matches:
-                    host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
-                    url = 'wss://' + host + '/ws/'
-                    try:
-                        mtime = _os.path.getmtime(path)
-                    except OSError:
-                        mtime = 0
-                    candidates.append((mtime, url))
-            except OSError:
-                continue
-        if candidates:
-            candidates.sort(key=lambda x: x[0], reverse=True)
-            ws_url = candidates[0][1]
-        else:
-            # Fallback ws_url.txt cache
-            try:
-                with open(_os.path.join(base_dir, 'ws_url.txt'), 'r', errors='ignore') as fh:
-                    content = fh.read().strip()
-                if content:
-                    m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
-                    if m:
-                        ws_url = 'wss://' + m.group(1) + '/ws/'
-                    elif content.startswith('wss://'):
-                        ws_url = content.strip()
-            except OSError:
-                pass
-    except Exception:
-        ws_url = ''
-    return ws_url
-
-
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([AllowAny])
 @throttle_classes([])
 def realtime_config(request):
-    """
-    GET /api/realtime/config — public discovery endpoint for mobile and web clients.
+    """GET /api/realtime/config/ -- how this client opens its realtime stream.
 
-    Returns the public WebSocket URL and, when the request is authenticated via
-    session cookie, a short-lived signed ticket for cross-domain (trycloudflare)
-    WebSocket auth. Web clients refetch this on every reconnect so a tunnel
-    restart + ticket rotation is picked up without a page reload.
+    Hosted transport (Ably, see api/realtime_ably.py): returns a self-signed,
+    subscribe-only token plus the SSE endpoint; the browser or app connects to
+    Ably directly and this server holds no socket. Pure HMAC, no database, no
+    network call, so it is cheap enough to be hit on every page.
+
+    `ws_url` stays in the payload (empty unless WS_PUBLIC_URL is set) for older
+    clients that still speak the self-hosted WebSocket.
     """
     import os as _os
     from django.conf import settings as _settings
-    from django.core.cache import cache as _cache
-    from django.core.signing import TimestampSigner as _Signer
-    # Resolve WS URL using the same newest-mtime logic as the page renderer
+    from . import realtime_ably
+
     ws_url = _os.environ.get('WS_PUBLIC_URL', '').strip()
     if not ws_url and hasattr(_settings, 'WS_PUBLIC_URL'):
         ws_url = (_settings.WS_PUBLIC_URL or '').strip()
-    if not ws_url:
-        ws_url = _ws_url_from_files()
-    if ws_url:
-        try:
-            from nebians.tunnel_health import is_tunnel_healthy
-            if not is_tunnel_healthy():
-                ws_url = ''
-        except Exception:
-            pass
-    # Generate a fresh ticket when the caller is authenticated and the tunnel is cross-domain.
-    ticket = ''
-    if ws_url and 'trycloudflare.com' in ws_url:
+
+    user_id = None
+    try:
+        u = getattr(request, 'user', None)
+        if u and getattr(u, 'is_authenticated', False) and not getattr(u, 'is_locked', False):
+            user_id = str(u.pk if hasattr(u, 'pk') else u.id)
+    except Exception:
         user_id = None
-        # 1) DRF's request.user if session auth succeeded (when authentication not empty)
-        try:
-            u = getattr(request, 'user', None)
-            if u and getattr(u, 'is_authenticated', False) and not getattr(u, 'is_locked', False):
-                user_id = str(u.pk if hasattr(u, 'pk') else u.id)
+    if not user_id:
+        try:  # the app sends `Authorization: Bearer <token>`
+            if request.META.get('HTTP_AUTHORIZATION', '').startswith('Bearer '):
+                bearer_user, bearer_err = _require_user(request)
+                if not bearer_err and bearer_user is not None:
+                    user_id = str(bearer_user.pk)
         except Exception:
-            pass
-        # 2) Fallback: resolve via session token (web cookies don't go through DRF auth here because we AllowAny)
-        if not user_id:
-            try:
-                from web.view_helpers import _get_user_id as _resolve_uid
-                uid = _resolve_uid(request)
-                if uid:
-                    user_id = str(uid)
-            except Exception:
-                pass
-        if user_id:
-            try:
-                ticket = _Signer(salt='ws-ticket').sign(user_id)
-            except Exception:
-                ticket = ''
-    return Response({'ws_url': ws_url, 'ticket': ticket, 'heartbeat_interval': 25})
+            user_id = None
+    if not user_id:
+        try:
+            from web.view_helpers import _get_user_id as _resolve_uid
+            uid = _resolve_uid(request)
+            if uid:
+                user_id = str(uid)
+        except Exception:
+            user_id = None
+
+    payload = {'ws_url': ws_url, 'ticket': '', 'heartbeat_interval': 25}
+    try:
+        shard = int(request.GET.get('shard', ''))
+    except (TypeError, ValueError):
+        shard = None
+    hint = '%s|%s' % (
+        (request.META.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR') or '').split(',')[0].strip(),
+        request.META.get('HTTP_USER_AGENT', '')[:80],
+    )
+    hosted = realtime_ably.client_config(user_id, shard=shard, hint=hint)
+    if hosted:
+        payload.update(hosted)
+    else:
+        payload['transport'] = 'ws' if ws_url else 'none'
+    response = Response(payload)
+    response['Cache-Control'] = 'private, no-store'
+    return response
 
 
 @api_view(['POST'])
@@ -516,74 +479,30 @@ def analytics_track(request):
     """
     POST /api/analytics/track/
 
-    Mobile app analytics tracking endpoint. Called by the Android app
-    when a user views a screen (since the middleware only captures web requests).
+    Screen views from the mobile app (the middleware only sees web pages).
     Body: { path, referrer?, utm_source?, utm_medium?, utm_campaign?, platform? }
+
+    Goes through the same pipeline as web hits (bot filter, hashed visitor,
+    sessions, queued write), so app and web rows are directly comparable.
     """
-    import time as _time
-    try:
-        path = request.data.get('path', '') or ''
-        if not path or len(path) > 2000:
-            return Response({'status': 'ignored'})
-        referrer = request.data.get('referrer', '') or ''
-        utm_source = request.data.get('utm_source', '') or ''
-        utm_medium = request.data.get('utm_medium', '') or ''
-        utm_campaign = request.data.get('utm_campaign', '') or ''
-        app_platform = request.data.get('platform', '') or ''
+    from nebians import analytics
 
-        from nebians.middleware import _classify_referrer, _detect_platform
-        from urllib.parse import urlparse
-
-        own_domain = request.get_host().split(':')[0].lower()
-        referrer_domain = ''
-        if referrer:
-            try:
-                referrer_domain = urlparse(referrer).hostname or ''
-            except Exception:
-                pass
-        referrer_type = _classify_referrer(referrer_domain, own_domain)
-        platform = app_platform or _detect_platform(request.META.get('HTTP_USER_AGENT', ''))
-
-        user_agent = request.META.get('HTTP_USER_AGENT', '') or ''
-
-        user_id = None
-        user, _ = _require_user(request)
-        if user and not isinstance(user, Response):
-            try:
-                user_id = int(user.id) if str(user.id).isdigit() else None
-                if user_id is not None:
-                    try:
-                        from api.models import User as UserModel
-                        now_ms = int(_time.time() * 1000)
-                        UserModel.objects.filter(pk=str(user_id)).update(last_active=now_ms)
-                        from django.core.cache import cache
-                        cache.sadd('presence:online', str(user_id))
-                        cache.expire('presence:online', 300)
-                        cache.set(f'presence:user:{str(user_id)}', now_ms, 300)
-                    except Exception:
-                        pass
-            except (ValueError, TypeError):
-                pass
-
-        from api.models import PageView
-        PageView.objects.create(
-            path=path[:2000],
-            full_url=request.build_absolute_uri(),
-            referrer=referrer[:2000],
-            referrer_domain=referrer_domain[:255],
-            referrer_type=referrer_type,
-            utm_source=utm_source[:255],
-            utm_medium=utm_medium[:255],
-            utm_campaign=utm_campaign[:255],
-            user_agent=user_agent[:2000],
-            source='app',
-            platform=platform[:30],
-            ip_address=request.META.get('REMOTE_ADDR'),
-            session_key='',
-            user_id=user_id,
-            user_identifier=str(user_id) if user_id else '',
-            created_at=int(_time.time() * 1000),
-        )
-        return Response({'status': 'ok'})
-    except Exception:
-        return Response({'status': 'error'}, status=500)
+    path = request.data.get('path', '') or ''
+    if not isinstance(path, str) or not path.startswith('/') or len(path) > 2000 \
+            or path.lower().startswith(analytics.events.SKIP_PREFIXES):
+        return Response({'status': 'ignored'})
+    user, _ = _require_user(request)
+    if isinstance(user, Response):
+        user = None
+    event = analytics.event_from_request(
+        request,
+        path=path.split('?', 1)[0],
+        referrer=str(request.data.get('referrer', '') or ''),
+        utm={k: str(request.data.get(f'utm_{k}', '') or '') for k in ('source', 'medium', 'campaign')},
+        force_app=True,
+        app_platform=str(request.data.get('platform', '') or '')[:30],
+        user=user,
+    )
+    if event:
+        analytics.submit(event)
+    return Response({'status': 'ok'})

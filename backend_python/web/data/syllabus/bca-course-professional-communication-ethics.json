@@ -1,0 +1,324 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "professional-communication-ethics",
+ "name": "Professional Communication and Ethics",
+ "name_ne": "",
+ "icon": "groups",
+ "group": "semester-1",
+ "group_label": "Semester I",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 105",
+ "credits": 3,
+ "semester": 1,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "The Communication Process and Its Barriers",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What communication is",
+    "Forms of communication",
+    "Barriers to communication",
+    "Principles: the 7 Cs",
+    "Measuring readability",
+    "Cross-cultural and digital communication",
+    "Eight reasons why communication skills matter to a computing professional"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What communication is"
+    },
+    {
+     "no": "1.2",
+     "title": "Forms of communication"
+    },
+    {
+     "no": "1.3",
+     "title": "Barriers to communication"
+    },
+    {
+     "no": "1.4",
+     "title": "Principles: the 7 Cs"
+    },
+    {
+     "no": "1.5",
+     "title": "Measuring readability"
+    },
+    {
+     "no": "1.6",
+     "title": "Cross-cultural and digital communication"
+    },
+    {
+     "no": "1.7",
+     "title": "Eight reasons why communication skills matter to a computing professional"
+    }
+   ],
+   "summary": [
+    "Communication succeeds only when the intended meaning is understood; feedback confirms it.",
+    "Messages travel in verbal, non-verbal and visual forms and along formal and informal channels.",
+    "Barriers can be removed by plain language, good channel choice, listening and cultural awareness.",
+    "The 7 Cs and a readability check are a practical test for any message before you send it."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2760,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Listening, Speaking and Presentation Skills",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Listening",
+    "Speaking clearly",
+    "Presentations",
+    "Group discussion and meetings",
+    "Job interviews",
+    "Eight habits of a good presenter and listener"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Listening"
+    },
+    {
+     "no": "2.2",
+     "title": "Speaking clearly"
+    },
+    {
+     "no": "2.3",
+     "title": "Presentations"
+    },
+    {
+     "no": "2.4",
+     "title": "Group discussion and meetings"
+    },
+    {
+     "no": "2.5",
+     "title": "Job interviews"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight habits of a good presenter and listener"
+    }
+   ],
+   "summary": [
+    "Listening is an active skill built on attention, paraphrasing and questions.",
+    "Clear speaking comes from structure, pace, voice, body language and rehearsal.",
+    "A presentation starts from the audience and one key message; slides support rather than replace the speaker.",
+    "Group discussions and interviews reward preparation, honest and specific answers, and respect for others."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2688,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Professional Writing: Emails, Letters, CVs and Reports",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Writing well: paragraphs and sentences",
+    "Professional email",
+    "Business letters",
+    "Job application letter and CV",
+    "Notices, memos, agendas and minutes",
+    "Reports and proposals",
+    "Referencing and plagiarism",
+    "Eight rules of good professional writing"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Writing well: paragraphs and sentences"
+    },
+    {
+     "no": "3.2",
+     "title": "Professional email"
+    },
+    {
+     "no": "3.3",
+     "title": "Business letters"
+    },
+    {
+     "no": "3.4",
+     "title": "Job application letter and CV"
+    },
+    {
+     "no": "3.5",
+     "title": "Notices, memos, agendas and minutes"
+    },
+    {
+     "no": "3.6",
+     "title": "Reports and proposals"
+    },
+    {
+     "no": "3.7",
+     "title": "Referencing and plagiarism"
+    },
+    {
+     "no": "3.8",
+     "title": "Eight rules of good professional writing"
+    }
+   ],
+   "summary": [
+    "Good writing is organised into one-idea paragraphs, active sentences and lists where steps are listed.",
+    "Emails state the purpose and the required action in the first lines; letters and CVs follow standard layouts tailored to the reader.",
+    "Notices, agendas and minutes record who decides and who acts.",
+    "Reports lead with a summary; every borrowed idea or line of code needs a citation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3148,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Workplace Communication, Teamwork and Etiquette",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Teams and teamwork",
+    "Conflict and negotiation",
+    "Feedback",
+    "Time management",
+    "Customer communication and support",
+    "Workplace etiquette and remote work",
+    "Eight characteristics of an effective team"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Teams and teamwork"
+    },
+    {
+     "no": "4.2",
+     "title": "Conflict and negotiation"
+    },
+    {
+     "no": "4.3",
+     "title": "Feedback"
+    },
+    {
+     "no": "4.4",
+     "title": "Time management"
+    },
+    {
+     "no": "4.5",
+     "title": "Customer communication and support"
+    },
+    {
+     "no": "4.6",
+     "title": "Workplace etiquette and remote work"
+    },
+    {
+     "no": "4.7",
+     "title": "Eight characteristics of an effective team"
+    }
+   ],
+   "summary": [
+    "Teams pass through predictable stages; clear goals, owners, rituals and early reporting make them productive.",
+    "Conflicts are managed by listening, focusing on interests and agreeing on written actions.",
+    "Feedback is most useful when specific, timely and about behaviour, not personality.",
+    "Time management is the art of choosing what matters and protecting time for it.",
+    "Courtesy, confidentiality and punctuality define professional reputation, in office and online."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2713,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Professional Ethics, Intellectual Property and Cyber Law",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Ethics and professionalism",
+    "A method for ethical decisions",
+    "Codes of ethics",
+    "Intellectual property (IP)",
+    "Privacy, security and responsible data use",
+    "Cyber law in Nepal",
+    "Case studies",
+    "Eight responsibilities of an IT professional"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Ethics and professionalism"
+    },
+    {
+     "no": "5.2",
+     "title": "A method for ethical decisions"
+    },
+    {
+     "no": "5.3",
+     "title": "Codes of ethics"
+    },
+    {
+     "no": "5.4",
+     "title": "Intellectual property (IP)"
+    },
+    {
+     "no": "5.5",
+     "title": "Privacy, security and responsible data use"
+    },
+    {
+     "no": "5.6",
+     "title": "Cyber law in Nepal"
+    },
+    {
+     "no": "5.7",
+     "title": "Case studies"
+    },
+    {
+     "no": "5.8",
+     "title": "Eight responsibilities of an IT professional"
+    }
+   ],
+   "summary": [
+    "Ethics asks what we ought to do; law sets the minimum, and professionals are expected to exceed it.",
+    "A structured method and a code such as ACM's turn vague unease into a defensible decision.",
+    "Copyright, patents, trademarks, trade secrets and licences define what you may do with others' work; plagiarism and piracy violate them.",
+    "Responsible practice means protecting privacy, securing data, testing for bias and speaking up about danger.",
+    "Real failures (Therac-25, VW, 737 MAX, Equifax) show what happens when these duties are ignored."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3758,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 36,
+ "notes_ready": 5
+}

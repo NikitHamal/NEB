@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Sequence and Series",
    "area": "Units",
-   "words": 3981,
+   "words": 3976,
    "read_min": 22,
    "figures": 5,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Quadratic Equations and Graphs",
    "area": "Units",
-   "words": 3322,
+   "words": 3318,
    "read_min": 18,
    "figures": 6,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Matrices and Determinants",
    "area": "Units",
-   "words": 2722,
+   "words": 2713,
    "read_min": 15,
    "figures": 7,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Trigonometry: Multiple, Submultiple and Transformation Formulas",
    "area": "Units",
-   "words": 2197,
+   "words": 2192,
    "read_min": 12,
    "figures": 3,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Conditional Identities, Trigonometric Equations and Height and Distance",
    "area": "Units",
-   "words": 3023,
+   "words": 3015,
    "read_min": 17,
    "figures": 5,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Angle between Two Lines and Pair of Straight Lines",
    "area": "Units",
-   "words": 2585,
+   "words": 2574,
    "read_min": 14,
    "figures": 4,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Conic Sections and Circle",
    "area": "Units",
-   "words": 2680,
+   "words": 2666,
    "read_min": 15,
    "figures": 5,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Vector",
    "area": "Units",
-   "words": 2422,
+   "words": 2413,
    "read_min": 13,
    "figures": 6,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Linear Programming and Transformation",
    "area": "Units",
-   "words": 3773,
+   "words": 3758,
    "read_min": 21,
    "figures": 8,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Continuity",
    "area": "Units",
-   "words": 2424,
+   "words": 2420,
    "read_min": 13,
    "figures": 4,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Statistics: Measures of Dispersion",
    "area": "Units",
-   "words": 2364,
+   "words": 2358,
    "read_min": 13,
    "figures": 3,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "Functions and Polynomials",
    "area": "Units",
-   "words": 4353,
+   "words": 4344,
    "read_min": 24,
    "figures": 4,
    "has_questions": true
@@ -116,21 +116,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Optional Mathematics: Unit-wise Objective Question Bank",
-   "words": 3395,
+   "words": 3377,
    "read_min": 19
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Optional Mathematics: Unit-wise Subjective Question Bank",
-   "words": 3876,
-   "read_min": 22
+   "words": 4673,
+   "read_min": 26
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Optional Mathematics: Model Question Sets and Predicted Questions",
-   "words": 3381,
+   "words": 3370,
    "read_min": 19
   }
  ],

@@ -5,12 +5,7 @@ from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 
 from .throttles import ArenaChatRateThrottle
-
-
-def _require_user(request):
-    from .views import _require_user as _ru
-
-    return _ru(request)
+from .view_helpers import _require_user
 
 
 @api_view(["GET"])
@@ -27,10 +22,11 @@ def tts_models(request):
     from .paradee_proxy import get_models as paradee_models
     from .lazypy_proxy import get_models as lz_models
     from .moe_tts_proxy import get_models as moe_models
+    from .smallest_proxy import get_models as smallest_models
 
     return Response(
         {
-            "tts": airy_models() + lz_models() + g_models() + moe_models() + k_models() + paradee_models() + ch_models() + fish_models(),
+            "tts": airy_models() + lz_models() + g_models() + moe_models() + k_models() + paradee_models() + ch_models() + fish_models() + smallest_models(),
             "image": [],
         }
     )
@@ -56,10 +52,23 @@ def tts_generate(request):
 
         result = airy_tts(
             text=text,
-            voice=voice,
+            voice=request.data.get("voice"),
             style=request.data.get("style") or "normal",
             speed=request.data.get("speed") or 1.0,
             language=request.data.get("lang") or request.data.get("language") or "en",
+        )
+    elif provider.startswith("smallest"):
+        from .smallest_proxy import MAX_TEXT, generate_tts as smallest_tts
+
+        if len(text) > MAX_TEXT:
+            return Response({"error": f"Smallest AI batches {MAX_TEXT} chars max (got {len(text)})"}, status=400)
+        result = smallest_tts(
+            text=text,
+            voice=request.data.get("voice"),
+            model=request.data.get("model") or provider,
+            speed=request.data.get("speed") or 1.0,
+            language=request.data.get("lang") or request.data.get("language") or "en",
+            sample_rate=request.data.get("sample_rate") or request.data.get("sampleRate") or 24000,
         )
     elif provider.startswith("lazypy") or provider in ("bing", "microsoft", "edge"):
         from .lazypy_proxy import generate_tts

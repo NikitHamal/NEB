@@ -1,0 +1,87 @@
+{% load web_extras %}
+<div class="lg-page">
+  <header class="lg-head">
+    <div class="lg-top-row">
+      {% url 'web:home' as back_href %}
+      {% include "web/partials/_back.html" with back_label="Back to Home" %}
+      <span class="lg-updated">
+        <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+        <span>{{ legal_doc.last_updated }}</span>
+      </span>
+    </div>
+
+    <div class="lg-hero">
+      <div class="lg-hero-main">
+        <span class="lg-hero-glyph" aria-hidden="true">
+          <span class="material-symbols-outlined">{% if legal_doc.key == 'terms' %}gavel{% else %}shield{% endif %}</span>
+        </span>
+        <div class="lg-hero-text">
+          <p class="lg-sub">{{ legal_doc.subtitle }}</p>
+          <h1 class="lg-title">{{ legal_doc.title }}</h1>
+        </div>
+      </div>
+
+      <nav class="lg-switch" aria-label="Legal documents">
+        <a href="{% url 'web:privacy_policy' %}" class="lg-switch-tab{% if legal_doc.key == 'privacy' %} is-active{% endif %}"{% if legal_doc.key == 'privacy' %} aria-current="page"{% endif %}>
+          <span class="material-symbols-outlined" aria-hidden="true">lock</span>
+          <span>Privacy Policy</span>
+        </a>
+        <a href="{% url 'web:terms_of_service' %}" class="lg-switch-tab{% if legal_doc.key == 'terms' %} is-active{% endif %}"{% if legal_doc.key == 'terms' %} aria-current="page"{% endif %}>
+          <span class="material-symbols-outlined" aria-hidden="true">description</span>
+          <span>Terms of Service</span>
+        </a>
+        <a href="{% url 'web:copyright_takedown' %}" class="lg-switch-tab">
+          <span class="material-symbols-outlined" aria-hidden="true">policy</span>
+          <span>Copyright</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="lg-body">
+    <nav class="lg-rail" aria-label="Sections">
+      {% for sec in legal_doc.sections %}
+      <a href="#sec-{{ sec.id }}" class="lg-rail-link">
+        <span class="lg-rail-num">{{ sec.number }}</span>
+        <span>{{ sec.title }}</span>
+      </a>
+      {% endfor %}
+    </nav>
+
+    <div class="lg-sections">
+      {% for sec in legal_doc.sections %}
+      <section class="lg-card" id="sec-{{ sec.id }}">
+        <div class="lg-card-head">
+          <span class="lg-num" aria-hidden="true">{{ sec.number }}</span>
+          <h2 class="lg-h2">{{ sec.title }}</h2>
+        </div>
+        <div class="lg-paras">
+          {% for p_html in sec.html_paragraphs %}
+          <p class="lg-para">{{ p_html|safe }}</p>
+          {% endfor %}
+        </div>
+      </section>
+      {% endfor %}
+
+      <footer class="lg-foot">
+        <div class="lg-contact">
+          <span class="lg-contact-icon" aria-hidden="true">
+            <span class="material-symbols-outlined">mail</span>
+          </span>
+          <div>
+            <p class="lg-contact-title">Questions?</p>
+            <a href="mailto:{{ legal_doc.contact_email }}" class="lg-contact-mail">{{ legal_doc.contact_email }}</a>
+          </div>
+        </div>
+        <div class="lg-foot-actions">
+          {% if legal_doc.key == 'privacy' %}
+          <a href="{% url 'web:terms_of_service' %}" class="md-btn md-btn-tonal">Terms of Service</a>
+          {% else %}
+          <a href="{% url 'web:privacy_policy' %}" class="md-btn md-btn-tonal">Privacy Policy</a>
+          {% endif %}
+          <a href="{% url 'web:copyright_takedown' %}" class="md-btn md-btn-outlined">Copyright Takedown</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>

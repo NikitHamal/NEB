@@ -1,0 +1,351 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "artificial-intelligence",
+ "name": "Artificial Intelligence",
+ "name_ne": "",
+ "icon": "smart_toy",
+ "group": "semester-5",
+ "group_label": "Semester V",
+ "color": "#7C3AED",
+ "lang": "en",
+ "code": "BCA 302",
+ "credits": 3,
+ "semester": 5,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Artificial Intelligence and Intelligent Agents",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "What is artificial intelligence?",
+    "Foundations of AI",
+    "Applications of AI",
+    "Intelligent agents",
+    "Seeing the ideas: people, machines, agents and environments"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is artificial intelligence?"
+    },
+    {
+     "no": "1.2",
+     "title": "Foundations of AI"
+    },
+    {
+     "no": "1.3",
+     "title": "Applications of AI"
+    },
+    {
+     "no": "1.4",
+     "title": "Intelligent agents"
+    },
+    {
+     "no": "1.5",
+     "title": "Seeing the ideas: people, machines, agents and environments"
+    }
+   ],
+   "summary": [
+    "AI is the study of agents that act rationally. Four definitions (thinking or acting, humanly or rationally) co-exist; the rational-agent view is the most used.",
+    "Weak AI solves specific tasks and is the only AI that exists; strong AI is a general machine mind and remains a hypothesis.",
+    "AI draws on philosophy, mathematics, economics, neuroscience, psychology and computing; its history alternates enthusiasm and AI winters.",
+    "An agent maps percepts to actions; PEAS specifies its task; agents range from simple reflex to learning agents; the environment type determines how hard the task is."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5253,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Problem Solving Methods",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "Formulating a search problem",
+    "The example graph",
+    "Uninformed (blind) search",
+    "Informed (heuristic) search",
+    "Local search and optimisation",
+    "Constraint satisfaction problems",
+    "Adversarial search and games",
+    "Seeing the ideas: puzzles, people, games and traced searches"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Formulating a search problem"
+    },
+    {
+     "no": "2.2",
+     "title": "The example graph"
+    },
+    {
+     "no": "2.3",
+     "title": "Uninformed (blind) search"
+    },
+    {
+     "no": "2.4",
+     "title": "Informed (heuristic) search"
+    },
+    {
+     "no": "2.5",
+     "title": "Local search and optimisation"
+    },
+    {
+     "no": "2.6",
+     "title": "Constraint satisfaction problems"
+    },
+    {
+     "no": "2.7",
+     "title": "Adversarial search and games"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: puzzles, people, games and traced searches"
+    }
+   ],
+   "summary": [
+    "A search problem is defined by states, actions, a goal test and path costs; the algorithm determines which frontier node is expanded next.",
+    "BFS, UCS and IDDFS are complete; BFS and IDDFS are optimal for equal step costs and UCS for any positive costs; DFS saves memory but is neither.",
+    "A* with an admissible (tree) or consistent (graph) heuristic is optimal and more efficient than blind search; a dominant heuristic expands fewer nodes.",
+    "Local search keeps one state and suits optimisation; simulated annealing escapes local maxima by occasionally accepting worse moves.",
+    "CSPs are solved by backtracking with MRV and forward checking. Games are searched by minimax; alpha–beta gives the same answer with far fewer nodes."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6819,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Knowledge Representation and Reasoning",
+   "hours": 15,
+   "area": "",
+   "topics": [
+    "Knowledge and its importance",
+    "Knowledge representation techniques",
+    "Propositional logic",
+    "First-order logic",
+    "Reasoning under uncertainty",
+    "Seeing the ideas: logicians, rules, networks and probabilities"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Knowledge and its importance"
+    },
+    {
+     "no": "3.2",
+     "title": "Knowledge representation techniques"
+    },
+    {
+     "no": "3.3",
+     "title": "Propositional logic"
+    },
+    {
+     "no": "3.4",
+     "title": "First-order logic"
+    },
+    {
+     "no": "3.5",
+     "title": "Reasoning under uncertainty"
+    },
+    {
+     "no": "3.6",
+     "title": "Seeing the ideas: logicians, rules, networks and probabilities"
+    }
+   ],
+   "summary": [
+    "Knowledge can be held as rules, semantic networks, frames or logic; a good scheme is adequate, inferentially efficient and easy to extend.",
+    "Propositional logic gives sound, complete reasoning by truth table or resolution; Horn clauses allow efficient forward and backward chaining.",
+    "First-order logic adds objects, relations and quantifiers; unification and resolution (with Skolemisation) prove theorems mechanically; Prolog implements the idea.",
+    "Under uncertainty, probability and Bayes' rule update beliefs; Bayesian networks factor the joint distribution into small CPTs and answer queries by enumeration or sampling."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7362,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Learning",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Concepts of machine learning",
+    "Forms of learning in the syllabus",
+    "Decision trees",
+    "Naive Bayes",
+    "k-nearest neighbours",
+    "Clustering (unsupervised)",
+    "Learning by evolution: genetic algorithms",
+    "Seeing the ideas: pioneers, flowers, evolution and the algorithms"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Concepts of machine learning"
+    },
+    {
+     "no": "4.2",
+     "title": "Forms of learning in the syllabus"
+    },
+    {
+     "no": "4.3",
+     "title": "Decision trees"
+    },
+    {
+     "no": "4.4",
+     "title": "Naive Bayes"
+    },
+    {
+     "no": "4.5",
+     "title": "k-nearest neighbours"
+    },
+    {
+     "no": "4.6",
+     "title": "Clustering (unsupervised)"
+    },
+    {
+     "no": "4.7",
+     "title": "Learning by evolution: genetic algorithms"
+    },
+    {
+     "no": "4.8",
+     "title": "Seeing the ideas: pioneers, flowers, evolution and the algorithms"
+    }
+   ],
+   "summary": [
+    "Machine learning improves a task from data: supervised (labelled), unsupervised (structure), reinforcement (rewards); evaluate on unseen data to detect overfitting.",
+    "Rote learning memorises, analogy reuses similar cases, induction generalises, explanation-based learning generalises from one explained example.",
+    "Decision trees split on the attribute with the highest information gain; naive Bayes multiplies class-conditional probabilities; k-NN votes among nearest neighbours.",
+    "Genetic algorithms evolve a population with selection, crossover and mutation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5715,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Neural Networks and Natural Language Processing",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "The artificial neuron",
+    "The perceptron",
+    "Multi-layer feed-forward networks",
+    "Gradient descent and back-propagation",
+    "Feedback networks: Hopfield network and Boltzmann machine",
+    "Natural language processing",
+    "Seeing the ideas: neurons, perceptrons, networks and language"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The artificial neuron"
+    },
+    {
+     "no": "5.2",
+     "title": "The perceptron"
+    },
+    {
+     "no": "5.3",
+     "title": "Multi-layer feed-forward networks"
+    },
+    {
+     "no": "5.4",
+     "title": "Gradient descent and back-propagation"
+    },
+    {
+     "no": "5.5",
+     "title": "Feedback networks: Hopfield network and Boltzmann machine"
+    },
+    {
+     "no": "5.6",
+     "title": "Natural language processing"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the ideas: neurons, perceptrons, networks and language"
+    }
+   ],
+   "summary": [
+    "An artificial neuron sums weighted inputs and applies an activation; a perceptron learns linearly separable functions (AND, OR) but not XOR.",
+    "Hidden layers and back-propagation (the chain rule applied layer by layer) let networks learn non-linear functions; training is gradient descent on a loss.",
+    "Hopfield networks store patterns as energy minima and recall them from noisy input while the load stays below about 0.14 N patterns; Boltzmann machines add stochastic units.",
+    "NLP converts text to meaning by lexical, syntactic, semantic, discourse and pragmatic analysis; n-gram, edit-distance and TF-IDF methods are the classical statistical tools."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6750,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Expert Systems and Machine Vision",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Expert systems",
+    "Machine vision",
+    "Seeing the ideas: expert systems and machine vision"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Expert systems"
+    },
+    {
+     "no": "6.2",
+     "title": "Machine vision"
+    },
+    {
+     "no": "6.3",
+     "title": "Seeing the ideas: expert systems and machine vision"
+    }
+   ],
+   "summary": [
+    "An expert system captures a specialist's rules in a knowledge base used by a general inference engine, explains its reasoning and handles uncertainty with certainty factors; it is brittle outside its domain and costly to maintain.",
+    "Development goes from identification through formalisation to testing and maintenance, with the knowledge engineer bridging expert and program.",
+    "Machine vision turns pixels into decisions by acquisition, preprocessing, segmentation, feature extraction and recognition; edge detection is a convolution with kernels such as Sobel's.",
+    "Both technologies serve real applications in industry, health and agriculture, with privacy, bias and accountability concerns."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5162,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 37,
+ "notes_ready": 6
+}

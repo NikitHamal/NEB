@@ -34,7 +34,6 @@ import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
 import androidx.compose.material3.Icon
-import com.neb.ians.ui.avatar.blobatarAnim
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -96,13 +95,27 @@ fun NebCard(
     content: @Composable () -> Unit
 ) {
     val tactile = rememberTactileFeedback()
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    // A pressable card settles in with a spring and warms one tonal step; it never loses its corners.
+    val pressScale by animateFloatAsState(
+        targetValue = if (pressed && onClick != null) 0.985f else 1f,
+        animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
+        label = "nebCardPress"
+    )
+    val fill by animateColorAsState(
+        targetValue = if (pressed && onClick != null) MaterialTheme.colorScheme.surfaceContainerLow else containerColor,
+        animationSpec = com.neb.ians.ui.theme.nebFastEffectsSpec(),
+        label = "nebCardFill"
+    )
     val base = modifier
+        .graphicsLayer { scaleX = pressScale; scaleY = pressScale }
         .clip(shape)
-        .background(containerColor)
+        .background(fill)
         .then(if (border != null) Modifier.border(border, shape) else Modifier)
     Box(
         modifier = if (onClick != null) {
-            base.clickable(onClick = {
+            base.clickable(interactionSource = interaction, indication = null, onClick = {
                 tactile.perform(TactileType.LightTap)
                 onClick()
             })
@@ -226,11 +239,8 @@ fun NebAvatar(
     verificationLevel: Int = 0,
     modifier: Modifier = Modifier,
 ) {
-    val ringMod = if (ring) {
-        Modifier
-            .background(NebColors.brandBrush, CircleShape)
-            .padding(2.dp)
-    } else Modifier
+    // `ring` is kept for call-site compatibility; avatars carry no stroke and no gradient.
+    val ringMod = Modifier
 
     val resolvedUrl = remember(photoUrl) {
         if (photoUrl.isNullOrBlank()) null
@@ -250,22 +260,20 @@ fun NebAvatar(
 
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
     val isNeby = remember(name) { name.equals("Neby", ignoreCase = true) || name.equals("neby", ignoreCase = true) }
-    val nebAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
     val hasImageBgNeb = !isNeby && !resolvedUrl.isNullOrBlank() && !isError
+    val avatarShape: androidx.compose.ui.graphics.Shape =
+        if (isNeby) CircleShape else rememberAvatarShape(name)
+    val (toneFill, toneInk) = avatarTone(name)
 
     Box(modifier = modifier.then(ringMod), contentAlignment = Alignment.Center) {
         Box(
             modifier = Modifier
                 .size(size)
-                .clip(CircleShape)
+                .clip(avatarShape)
                 .background(
                     if (isNeby) Color.Transparent
                     else if (hasImageBgNeb) MaterialTheme.colorScheme.surfaceContainerLowest
-                    else MaterialTheme.colorScheme.primaryContainer
-                )
-                .then(
-                    if ((isNeby || hasImageBgNeb) && showBorder) Modifier.border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
-                    else Modifier
+                    else toneFill
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -277,14 +285,14 @@ fun NebAvatar(
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.size(size).clip(CircleShape).blobatarAnim(nebAnim),
+                    modifier = Modifier.size(size).clip(avatarShape),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )
             } else {
                 Text(
                     text = name.trim().take(1).uppercase().ifBlank { "?" },
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = toneInk,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = (size.value * 0.4f).sp
                 )
@@ -302,8 +310,7 @@ fun NebAvatar(
                 modifier = Modifier
                     .size(badgeSize)
                     .align(Alignment.BottomEnd)
-                    .background(MaterialTheme.colorScheme.surface, CircleShape)
-                    .padding(1.dp),
+                    ,
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.reader
 
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -69,15 +70,9 @@ fun MiniMediaPlayer(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
-            .shadow(18.dp, shape, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.24f))
             .clip(shape)
             .background(
-                Brush.verticalGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = if (isDark) 0.96f else 0.92f),
-                        MaterialTheme.colorScheme.surfaceContainer.copy(alpha = if (isDark) 0.92f else 0.84f)
-                    )
-                )
+                SolidColor(MaterialTheme.colorScheme.surfaceContainerLow)
             )
             .border(1.dp, Color.White.copy(alpha = if (isDark) 0.12f else 0.58f), shape)
             .pointerInput(resource.id) {

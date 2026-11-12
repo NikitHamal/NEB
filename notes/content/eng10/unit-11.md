@@ -480,3 +480,76 @@ Be gentle and practical. Avoid long philosophy. Offer one clear help. End with a
 
 **3.** Informal letter: sorry to hear, hope for recovery, offer to share notes, wish well.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a moral story and a condolence message. <span class="marks">[10]</span>
+2. Explain how to make negative sentences and the rules of subject–verb agreement. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.0" caption="Forgiveness and peace. Leo Tolstoy (1897), Mahatma Gandhi (1931) and Nelson Mandela (1994): writers and leaders who taught forgiveness and non-violence."
+@ photo id="eng10/tolstoy" cap="Leo Tolstoy, 1897"
+@ photo id="soc10/gandhi" cap="Mahatma Gandhi, 1931"
+@ photo id="nep10/mandela" cap="Nelson Mandela, 1994"
+```
+
+### Model answer D1: a moral story and a condolence message (10 marks)
+
+**Introduction.** A **story** has an opening, a problem, a climax, an ending and a moral. A **condolence message** expresses sorrow, praises the dead person and wishes peace.
+
+**Model story: The Quarrel and the Candle.**
+
+::: example The Quarrel and the Candle
+Once two neighbours in a hill village, Hari and Gopal, quarrelled over a small boundary stone and stopped talking for years. One winter night, Gopal's house caught fire. Hari saw the flames and ran to help. He carried the children out and called the villagers with water buckets. In the morning Gopal came to Hari with tears in his eyes and said, "I was wrong. Please forgive me." Hari smiled and embraced him. After that day they shared everything and the stone was never mentioned again.
+
+**Moral:** Forgive and forget; anger destroys, but love builds.
+:::
+
+**Model condolence message.**
+
+::: example Condolence message
+**Subject: Deepest condolences**  
+Dear Rajesh,  
+I was shocked and saddened to hear about the passing of your grandfather. He was a kind, wise man who always had a smile for everyone, and the village will miss him. Please accept my heartfelt sympathy. May his soul rest in peace, and may you and your family find the strength to bear this loss. I am with you at this difficult time.  
+With sympathy,  
+Prakash
+:::
+
+**Points (8).**
+
+1. Opening: place and characters.
+2. Problem.
+3. Rising action.
+4. Climax.
+5. Solution.
+6. Ending.
+7. Moral in one line.
+8. Message: sorrow, praise, wish and offer of help.
+
+**Conclusion.** A story ends with a lesson; a condolence message ends with comfort.
+
+### Model answer D2: negation and agreement (10 marks)
+
+**Negatives.**
+
+1. Add **do/does/did + not + base verb** when there is no helping verb: *She doesn't like soup.*
+2. After **be, have or a modal**, add *not*: *He is not tall. They cannot come.*
+3. Change **some → any**, **always → never**, **either → neither**: *I don't have any money.*
+4. Avoid **double negatives**: *I don't know anything* (not *I don't know nothing*).
+
+**Agreement.**
+
+5. **A number of** + plural verb (*A number of players were injured*); **the number of** + singular verb (*The number of players is eleven*).
+6. **either/neither ... or/nor:** the verb agrees with the **nearer subject**.
+7. **each, everyone, nobody, one of** + singular verb.
+8. **the + adjective** (*the poor, the rich*) takes a plural verb; a **gerund** or **infinitive** as subject takes a singular verb: *Forgiving is hard.*
+
+| Rule | Correct |
+|---|---|
+| a number of | A number of students were absent. |
+| the number of | The number of students is large. |
+| the + adjective | The poor need help. |
+| nearer subject | Neither Ram nor his friends were there. |
+
+**Conclusion.** Find the real subject and match the verb; check each negative for a helping verb.

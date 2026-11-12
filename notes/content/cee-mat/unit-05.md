@@ -56,6 +56,27 @@ In a net question, find the opposite faces first — it removes two or three opt
 seconds.
 :::
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Time and guessing are both arithmetic. (a) A pocket stopwatch: the 180 minutes for 200 questions give 54 seconds a question, so a set of 20 should take 18 minutes. (b) Under the marking rule +1 for a correct answer and -0.25 for a wrong one, the expected mark of a guess is p - (1 - p) x 0.25, where p is the chance of being right. A blind guess among four options is worth +0.06, ruling out one option raises it to +0.17, ruling out two to +0.38, and a certain answer is worth +1. A guess breaks even at p = 1/5 = 0.20, so with four options even a blind guess does not lose marks on average; the real losses come from careless errors on questions you could have solved."
+@ photo id="ceemat/stopwatch" cap="A pocket stopwatch"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Expected mark of a guess under -0.25 marking"
+E = lambda k: 1 / k - (1 - 1 / k) * 0.25
+rows = ((4, "blind guess"), (3, "1 option out"), (2, "2 options out"), (1, "3 options out"))
+assert [round(E(k), 2) for k, _ in rows] == [0.06, 0.17, 0.38, 1.0] and abs(E(5)) < 1e-12
+assert 180 * 60 / 200 == 54 and 20 * 54 / 60 == 18
+f = Fig(300, 236)
+f.text(150, 12, "Expected mark of one guess", size=10.5, color=NAVY, bold=True)
+for i, (k, nm) in enumerate(rows):
+    y = 32 + i * 38
+    v = E(k)
+    f.text(8, y + 11, nm, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(104, y, v * 150, 22, fill=MINT if k > 1 else SAND, stroke=TEAL if k > 1 else AMBER, r=2)
+    f.text(104 + v * 150 + 6, y + 11, "%+.2f" % v, size=10.5, color=TEAL if k > 1 else AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "break-even chance of being right: 1 in 5", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "180 min / 200 questions = 54 s; 20 = 18 min", size=10.5, color=SLATE, bold=True)
+```
+
 ### Your record
 
 | Set | Date | Time taken | Right | Wrong | Score (right − 0.25 × wrong) |

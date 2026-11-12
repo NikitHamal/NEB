@@ -1,8 +1,6 @@
 import io
-import math
 
 from docx.oxml import parse_xml
-from docx.oxml.ns import qn
 from docx.shared import Pt, Emu, RGBColor
 
 EMU_PER_PT = 12700
@@ -52,46 +50,6 @@ def _add_runs(paragraph, segs):
 
 _NS_W = ('xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/'
          'wordprocessingDrawing"')
-
-
-def _to_anchor(run_element, cx_emu, cy_emu, x_pt, y_pt, z):
-    inline = run_element.find(".//" + qn("wp:inline"))
-    if inline is None:
-        return False
-    inline.tag = qn("wp:anchor")
-    for key, val in (
-        ("distT", "0"), ("distB", "0"), ("distL", "0"), ("distR", "0"),
-        ("simplePos", "0"), ("relativeHeight", str(z)), ("behindDoc", "1"),
-        ("locked", "0"), ("layoutInCell", "1"), ("allowOverlap", "1"),
-    ):
-        inline.set(key, val)
-    extent = inline.find(qn("wp:extent"))
-    effect = inline.find(qn("wp:effectExtent"))
-    if extent is not None:
-        extent.set("cx", str(int(cx_emu)))
-        extent.set("cy", str(int(cy_emu)))
-    pos_h = parse_xml(
-        f'<wp:positionH {_NS_W} relativeFrom="page">'
-        f"<wp:posOffset>{int(x_pt * EMU_PER_PT)}</wp:posOffset></wp:positionH>"
-    )
-    pos_v = parse_xml(
-        f'<wp:positionV {_NS_W} relativeFrom="page">'
-        f"<wp:posOffset>{int(y_pt * EMU_PER_PT)}</wp:posOffset></wp:positionV>"
-    )
-    wrap = parse_xml(f'<wp:wrapNone {_NS_W}/>')
-    if extent is not None:
-        idx = list(inline).index(extent)
-        inline.insert(idx, pos_h)
-        inline.insert(idx + 1, pos_v)
-        anchor_at = idx + 2
-        if effect is None:
-            inline.insert(anchor_at, parse_xml(
-                f'<wp:effectExtent {_NS_W} l="0" t="0" r="0" b="0"/>'))
-            anchor_at += 1
-        else:
-            anchor_at += 1
-        inline.insert(anchor_at, wrap)
-    return True
 
 
 _NS_FULL = (

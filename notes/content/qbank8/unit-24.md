@@ -833,6 +833,110 @@ Check: 100 × 8 + 50 × 11 = 800 + 550 = 1,350 ✓; 10 units cost Rs 80, which i
 Write **points, not paragraphs**: one fact per sentence, one mark per point. In every difference, compare the **same feature** of both things in one sentence. In every program, start with CLS, give every INPUT a prompt, label every output, end with END, and dry-run it once with a simple input — then write that output under the program.
 :::
 
+## 24.21 Extended model answers (8 to 10 marks)
+
+Group C of the Computer Science paper asks for a full-length answer on a big topic. These three model answers show the length, the table and the example expected for 8 to 10 marks.
+
+**Extended questions**
+
+1. What is a generation of computers? Describe the five generations with their technology, speed and examples. <span class="marks">[10]</span>
+2. What is a computer network? Explain the main network devices and the four types of topology. <span class="marks">[10]</span>
+3. What is a computer virus? Explain how it spreads, its symptoms and the ways to protect a computer. <span class="marks">[10]</span>
+
+```photogrid label="24.H" cols="4" ratio="1.25" caption="Four technologies behind the first four generations. (a) Vacuum tubes of the first generation: large, hot and fragile. (b) A transistor card of the second generation from an IBM machine. (c) Integrated circuit chips of the third generation: many transistors on one piece of silicon. (d) The Intel 4004, the first microprocessor, which opened the fourth generation. Every step made computers smaller, cheaper and faster."
+@ photo id="cs8/gen-vacuum-tubes" cap="(a) Vacuum tube"
+@ photo id="cs8/gen-sms-card" cap="(b) Transistor card"
+@ photo id="cs8/gen-ic-chips" cap="(c) IC chips"
+@ photo id="cs8/gen-intel-4004" cap="(d) Intel 4004"
+```
+
+### Model answer D1: generations of computers (10 marks)
+
+**Introduction.** A **generation** of computers is a stage in computer history marked by a major change in the technology used to build the machine. Each new generation brought computers that were smaller, faster, cheaper, more reliable and easier to use. There are five generations, and the technology of each is shown in the photograph strip above.
+
+1. **First generation (1946 to 1959): vacuum tubes.** The machines used thousands of glass vacuum tubes. They filled whole rooms, used huge electricity, produced much heat and failed often. Input was by punched cards and programs were written in machine language. Examples: ENIAC, UNIVAC I.
+2. **Second generation (1959 to 1965): transistors.** The transistor replaced the tube. It was small, cool and far more reliable, so computers became smaller and faster. Assembly language and early high-level languages such as FORTRAN and COBOL appeared. Examples: IBM 1401, IBM 7094.
+3. **Third generation (1965 to 1971): integrated circuits.** Many transistors were placed on one silicon chip called an IC. Computers became small, cheap and fast, and keyboards and monitors replaced punched cards. Operating systems allowed several programs to run together. Examples: IBM 360, PDP-8.
+4. **Fourth generation (1971 to present): microprocessors.** The whole CPU was placed on a single chip, which led to the personal computer. GUI, mouse, networks and the Internet came in this period. Examples: IBM PC, Apple Macintosh, today's laptops and phones.
+5. **Fifth generation (present and future): artificial intelligence.** These computers aim to think, learn and understand speech using AI, robotics and parallel processing. Examples: voice assistants, expert systems and self-learning chatbots.
+
+**Comparison of the five generations**
+
+| Generation | Period | Main technology | Size | Speed and cost |
+|---|---|---|---|---|
+| First | 1946-59 | Vacuum tube | Room-sized | Slow, very costly |
+| Second | 1959-65 | Transistor | Cupboard-sized | Faster, costly |
+| Third | 1965-71 | Integrated circuit | Table-sized | Fast, cheaper |
+| Fourth | 1971-now | Microprocessor (VLSI) | Desktop, pocket | Very fast, cheap |
+| Fifth | Present | Artificial intelligence | Any size | Intelligent, low cost |
+
+**Conclusion.** The progress from vacuum tube to microprocessor made the computer small enough for a home, a school and a mobile phone. The census of Nepal in 2028 BS used an IBM 1401 of the second generation, while today a student's phone is far more powerful.
+
+```photogrid label="24.J" cols="4" ratio="1.25" caption="Parts of a network. (a) A network interface card (NIC) connects a computer to the network. (b) A twisted-pair cable ends in an RJ-45 plug. (c) Rack-mounted switches and a patch panel in a server room. (d) A wireless router gives Wi-Fi to phones and laptops. A school computer lab uses all four."
+@ photo id="cs8/net-nic" cap="(a) NIC card"
+@ photo id="cs8/net-rj45" cap="(b) UTP cable"
+@ photo id="cs8/net-switch-rack" cap="(c) Switches in a rack"
+@ photo id="cs8/net-wifi-router" cap="(d) Wi-Fi router"
+```
+
+### Model answer D2: computer network, devices and topology (10 marks)
+
+**Introduction.** A **computer network** is a group of two or more computers and devices connected together to share data, files, printers and an Internet connection. A school computer lab joined to one printer and one Internet line is a simple network. Networks are of three kinds by size: **LAN** (a room or building), **MAN** (a city) and **WAN** (a country or the world, for example the Internet).
+
+**Network devices.**
+
+1. **NIC (network interface card).** A card in the computer that gives it a network address and a socket for the cable.
+2. **Hub.** A simple device that sends the data it receives to every connected computer. It is cheap but slow, because all computers share the same line.
+3. **Switch.** A smarter device that sends data only to the computer for which it is meant. It is faster and is used in labs and offices.
+4. **Router.** It joins different networks, such as a school LAN and the Internet, and finds the best path for the data.
+5. **Modem.** It changes digital data into signals for the telephone or fibre line and back again.
+6. **Cables.** Twisted-pair cable (UTP) with RJ-45 plugs is common; coaxial and fibre-optic cables carry data over a longer distance.
+
+**Topology.** Topology is the way in which computers are arranged and connected.
+
+| Topology | Layout | Advantage | Disadvantage |
+|---|---|---|---|
+| Bus | All computers on one main cable | Cheap, easy to set up | Whole network fails if the cable breaks |
+| Star | Every computer joined to a central switch | Easy to add or remove; one failure does not stop others | Fails if the switch fails |
+| Ring | Computers joined in a closed loop | Equal chance to send data | One break can stop the ring |
+| Mesh | Every computer joined to every other | Very reliable | Very costly, much cabling |
+
+**Conclusion.** A network saves money by sharing devices and allows fast communication. Most school labs use the **star topology** with a switch because it is easy to manage.
+
+### Model answer D3: computer virus (10 marks)
+
+**Introduction.** A **computer virus** is a harmful program that attaches itself to other files, copies itself without the user's knowledge and damages the data or slows down the computer. Like a biological virus, it needs a host to spread. The 2017 WannaCry attack, which locked computers in about 150 countries, showed how serious malware can be.
+
+**How a virus spreads.**
+
+1. Through infected pen drives and external disks that are shared between computers.
+2. Through email attachments and links in phishing messages.
+3. Through pirated software, cracked games and unsafe websites.
+4. Through networks and shared folders without security.
+
+**Types of malicious software.** A **boot-sector virus** infects the startup area of a disk. A **worm** spreads by itself through a network. A **Trojan horse** pretends to be a useful program. **Ransomware** locks the files and asks for money. **Spyware** secretly records what the user does.
+
+**Symptoms of an infected computer.**
+
+1. The computer becomes slow or hangs often.
+2. Files and folders disappear, or their size changes.
+3. Strange messages, pop-ups or programs appear.
+4. The computer restarts by itself.
+5. The hard disk space falls quickly without a reason.
+
+**Protection.**
+
+| Measure | How it helps |
+|---|---|
+| Install an antivirus and update it | Detects and removes known viruses |
+| Scan every pen drive before opening | Stops infection from outside |
+| Do not open unknown email attachments | Avoids phishing and Trojans |
+| Use licensed software and update the OS | Closes security holes |
+| Take regular backups | Data can be recovered after an attack |
+| Use a firewall and strong passwords | Blocks unauthorised access |
+
+**Conclusion.** A virus can erase a student's project in seconds, but a few habits prevent it: scan, update, back up and think before clicking. Under the Electronic Transactions Act 2063, spreading a virus deliberately is a punishable cyber crime in Nepal.
+
 ## Chapter summary
 
 - Groups B and C carry **40 of the 50 marks**; a 2-mark answer is two complete points, a 4-mark answer four points, a full method or a complete program.

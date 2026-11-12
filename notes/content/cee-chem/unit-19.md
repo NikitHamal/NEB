@@ -337,6 +337,54 @@ cleanest family separation; and **Rosenmund's poisoned catalyst stops at
 the aldehyde** where LiAlH₄ would run on to the alcohol.
 :::
 
+```photogrid label="19.1" cols="2" ratio="1.2" caption="Making soap from an ester. (a) Soap is made by alkaline hydrolysis of fats. (b) For tristearin (M = 891.5 g/mol) 100 g is 0.1122 mol and C3H5(OOCC17H35)3 + 3NaOH gives C3H5(OH)3 + 3C17H35COONa. It needs 13.46 g of NaOH and gives 103.1 g of sodium stearate and 10.33 g of glycerol. The masses balance: 113.46 g in and 113.46 g out. The hydrocarbon tail dissolves in grease and the carboxylate head in water, so one molecule joins oil and water."
+@ photo id="sci10/soap" cap="Soap is the sodium salt of a long-chain carboxylic acid"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mass balance of saponifying 100 g of fat (g)"
+C, H, O, Na = 12.011, 1.008, 15.999, 22.990
+Mt = 57 * C + 110 * H + 6 * O; MNaOH = Na + O + H; Msoap = 18 * C + 35 * H + 2 * O + Na; Mgly = 3 * C + 8 * H + 3 * O
+nf = 100 / Mt; naoh = 3 * nf * MNaOH; soap = 3 * nf * Msoap; gly = nf * Mgly
+tin, tout = 100 + naoh, soap + gly
+assert abs(Mt - 891.5) < 0.1 and abs(naoh - 13.46) < 0.02 and abs(soap - 103.1) < 0.1 and abs(tin - tout) < 1e-9
+facts = dict(mt="%.1f" % Mt, nf="%.4f" % nf, naoh="%.2f" % naoh, soap="%.1f" % soap, gly="%.2f" % gly, tin="%.2f" % tin, tout="%.2f" % tout)
+f = Fig(300, 236)
+f.text(150, 14, "mass in = mass out = %.2f g" % tin, size=10.5, color=NAVY, bold=True)
+S = 1.9
+f.text(14, 40, "in", size=10.5, color=SLATE, anchor="start")
+f.box(40, 28, 100 * S, 22, label="fat 100 g", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=2)
+f.box(40 + 100 * S, 28, naoh * S, 22, fill=ROSE, stroke=RED, r=2)
+f.text(40 + 100 * S + naoh * S / 2, 62, "NaOH %.1f" % naoh, size=10, color=RED, bold=True)
+f.text(14, 96, "out", size=10.5, color=SLATE, anchor="start")
+f.box(40, 84, soap * S, 22, label="soap %.1f g" % soap, fill=MINT, stroke=TEAL, size=10.5, bold=True, r=2)
+f.box(40 + soap * S, 84, gly * S, 22, fill=BLUE, stroke=NAVY, r=2)
+f.text(40 + soap * S + gly * S / 2, 118, "glycerol %.1f" % gly, size=10, color=NAVY, bold=True)
+f.text(150, 160, "n(fat) = %.4f mol; 3 NaOH per fat" % nf, size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "NaOH needed: %.2f g" % naoh, size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "balance: %.2f g in, %.2f g out" % (tin, tout), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="19.2" cols="2" ratio="1.2" caption="Acetylation of salicylic acid. (a) Aspirin tablets contain acetylsalicylic acid, made by treating salicylic acid with acetic anhydride. The phenolic -OH becomes an ester, and a little acid catalyst speeds the reaction. (b) The cell balances the equation C7H6O3 + C4H6O3 gives C9H8O4 + C2H4O2 in grams. 2.00 g of salicylic acid (0.0145 mol) needs 1.48 g of acetic anhydride and gives 2.61 g of aspirin and 0.87 g of acetic acid; the masses in and out are equal. The atom economy is 75.0 per cent, since a quarter of the reactant mass leaves as acetic acid. A 70 per cent yield is 1.83 g, and one 325 mg tablet is 1.80 mmol."
+@ photo id="ceechem2/aspirin" cap="Aspirin tablets (acetylsalicylic acid)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mass balance of aspirin synthesis"
+Msa, Mac, Masp, Mhoac = 138.12, 102.09, 180.16, 60.05
+n = 2.00 / Msa
+rows = [("salicylic acid", 2.00), ("acetic anhydride", n * Mac), ("aspirin", n * Masp), ("acetic acid", n * Mhoac)]
+assert round(rows[2][1], 2) == 2.61 and abs(rows[0][1] + rows[1][1] - rows[2][1] - rows[3][1]) < 1e-9
+ae = Masp / (Msa + Mac) * 100
+f = Fig(300, 236)
+f.text(150, 12, "Mass balance for 2.00 g of salicylic acid, g", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=3.0, fmt="%.2f", x0=104, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 160, "in: %.2f g   out: %.2f g" % (rows[0][1] + rows[1][1], rows[2][1] + rows[3][1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 180, "atom economy = 180.16 / 240.21 = %.1f%%" % ae, size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "70%% yield: %.2f g of aspirin" % (0.7 * rows[2][1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "one 325 mg tablet = %.2f mmol" % (325 / Masp), size=10, color=SLATE, bold=True)
+facts = dict(asp=rows[2][1], ac=rows[1][1], aa=rows[3][1], ae=ae, y70=0.7 * rows[2][1], mm=325 / Masp)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |
@@ -546,3 +594,90 @@ the aldehyde** where LiAlH₄ would run on to the alcohol.
 **9.** (a) — saponification: CH₃CO₂C₂H₅ + NaOH → CH₃CO₂Na + C₂H₅OH.
 **10.** (b) — Hofmann degradation removes the amide carbonyl carbon: CH₃CONH₂ → CH₃NH₂.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain nucleophilic addition to the carbonyl group, aldol condensation, Cannizzaro reaction and the tests that distinguish aldehydes from ketones. <span class="marks">[10]</span>
+2. Discuss the acidity of carboxylic acids, esterification, the Hell-Volhard-Zelinsky reaction and the relative reactivity of acid derivatives. <span class="marks">[10]</span>
+
+```photogrid label="19.H" cols="3" ratio="1.25" caption="Carbonyl and carboxylic compounds. (a) The silver mirror formed when Tollens' reagent oxidises an aldehyde. (b) Vinegar is a dilute solution of ethanoic acid. (c) Aspirin is an ester of salicylic acid, made by acetylation of the phenolic OH."
+@ photo id="qbank/silver-mirror" cap="(a) Silver mirror test"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/vinegar" cap="(b) Vinegar (ethanoic acid)"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/aspirin" cap="(c) Aspirin tablets"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: aldehydes and ketones (10 marks)
+
+**Introduction.** In the carbonyl group C=O, carbon is $\text{sp}^2$ and electron-poor and oxygen is electron-rich. So aldehydes and ketones undergo **nucleophilic addition**.
+
+**Reactivity.** Aldehydes are more reactive than ketones, because of less steric hindrance (one alkyl group) and more positive carbon (one $+I$ group). The order is HCHO > CH₃CHO > CH₃COCH₃. Aromatic aldehydes are less reactive than aliphatic ones because of resonance.
+
+**Nucleophilic addition.** The nucleophile attacks the carbon, giving an alkoxide, which is protonated: $\text{R}_2\text{C=O} + \text{HCN} \to \text{R}_2\text{C(OH)CN}$ (cyanohydrin), with NaHSO₃ giving a crystalline bisulphite compound, with $\text{NH}_2\text{OH}$ an oxime, with $\text{NH}_2\text{NH}_2$ a hydrazone and with 2,4-DNP a yellow-orange precipitate (the test for any carbonyl compound).
+
+**Reactions of the $\alpha$-hydrogen.**
+
+1. **Aldol condensation.** Two molecules of an aldehyde or ketone having $\alpha$-hydrogen react in dilute NaOH: $2\text{CH}_3\text{CHO} \to \text{CH}_3\text{CH(OH)CH}_2\text{CHO}$ (3-hydroxybutanal), which loses water on heating to crotonaldehyde.
+2. **Cannizzaro reaction.** An aldehyde with **no** $\alpha$-hydrogen (HCHO, benzaldehyde) in concentrated NaOH disproportionates into an alcohol and a carboxylate: $2\text{HCHO} + \text{NaOH} \to \text{CH}_3\text{OH} + \text{HCOONa}$.
+3. **Haloform (iodoform) reaction.** Methyl ketones ($\text{CH}_3\text{CO-}$) and ethanol or $\text{CH}_3\text{CH(OH)-}$ compounds give yellow iodoform with I₂/NaOH.
+
+**Distinguishing tests.**
+
+| Test | Aldehyde | Ketone |
+|---|---|---|
+| Tollens' (ammoniacal AgNO₃) | silver mirror | no reaction |
+| Fehling's solution | red precipitate of Cu₂O (aliphatic only) | no reaction |
+| Schiff's reagent | pink colour | no colour |
+| Benedict's solution | red precipitate | none |
+| 2,4-DNP | orange precipitate | orange precipitate |
+
+**Reductions.** $\text{NaBH}_4$ or $\text{LiAlH}_4$ give alcohols ($1^{\circ}$ from aldehydes, $2^{\circ}$ from ketones), Clemmensen reduction (Zn-Hg/HCl) and Wolff-Kishner reduction (NH₂NH₂/KOH) give the alkane.
+
+**Preparation.** Oxidation of alcohols, ozonolysis of alkenes, hydration of alkynes, Rosenmund reduction of acid chlorides ($\text{H}_2$/Pd-BaSO₄, aldehyde), Stephen reaction, Gattermann-Koch and Friedel-Crafts acylation (ketones).
+
+**Numerical.** In the Cannizzaro reaction of $10.6\ \text{g}$ of benzaldehyde ($0.1\ \text{mol}$), the maximum yield is $0.05\ \text{mol}$ of benzyl alcohol ($5.4\ \text{g}$) and $0.05\ \text{mol}$ of sodium benzoate, so the maximum yield of each product is only $50\%$. Iodoform ($\text{CHI}_3$, $394\ \text{g mol}^{-1}$) from $0.1\ \text{mol}$ of acetone gives $39.4\ \text{g}$ at best.
+
+**Conclusion.** Aldehydes are more reactive than ketones, and the presence or absence of an $\alpha$-hydrogen decides between aldol and Cannizzaro reactions.
+
+### Model answer D2: carboxylic acids and their derivatives (10 marks)
+
+**Introduction.** Carboxylic acids contain the $-\text{COOH}$ group. They form hydrogen-bonded **dimers**, so they have higher boiling points than alcohols of similar mass and are soluble in water up to four carbons.
+
+**Acidity.** Acids are weak ($\text{p}K_a \approx 4.8$ for acetic acid), but stronger than phenol and alcohols, because the carboxylate ion is stabilised by resonance, with the negative charge shared equally by two oxygens. They dissolve in NaHCO₃ with effervescence of CO₂, which distinguishes them from phenols.
+
+| Acid | $\text{p}K_a$ | Reason |
+|---|---|---|
+| HCOOH | $3.75$ | no $+I$ group |
+| CH₃COOH | $4.76$ | $+I$ of CH₃ |
+| ClCH₂COOH | $2.86$ | $-I$ of Cl |
+| Cl₃CCOOH | $0.65$ | three $-I$ groups |
+| C₆H₅COOH | $4.20$ | $-I$ of the phenyl group |
+
+**Reactions.**
+
+1. **Esterification (Fischer):** $\text{RCOOH} + \text{R'OH} \rightleftharpoons \text{RCOOR'} + \text{H}_2\text{O}$ with conc. H₂SO₄ and a reversible reaction, so excess alcohol or removal of water drives it forward.
+2. **Acid chloride:** with SOCl₂ or PCl₅.
+3. **Amide:** the ammonium salt is heated.
+4. **Reduction:** $\text{LiAlH}_4$ gives a primary alcohol.
+5. **Hell-Volhard-Zelinsky reaction:** $\text{RCH}_2\text{COOH} + \text{Br}_2/\text{red P} \to \text{RCHBrCOOH}$, which replaces the $\alpha$-hydrogen.
+6. **Decarboxylation:** soda lime ($\text{RCOONa} + \text{NaOH} \to \text{RH} + \text{Na}_2\text{CO}_3$); Kolbe's electrolysis of the salt gives an alkane R-R.
+
+**Derivatives and relative reactivity.**
+
+| Derivative | Reactivity towards nucleophiles | Reason |
+|---|---|---|
+| Acid chloride | highest | Cl is a good leaving group |
+| Acid anhydride | high | carboxylate is a good leaving group |
+| Ester | moderate | alkoxide is a poor leaving group |
+| Amide | lowest | strong resonance of N with C=O |
+
+Hydrolysis of an ester with NaOH is **saponification**, an irreversible reaction that is used to make soap. Acetylation of salicylic acid with acetic anhydride gives aspirin.
+
+**Numerical.** Acetic acid of $0.1\ \text{M}$ and $K_a = 1.8\times10^{-5}$ has $\text{pH} = 2.87$. In Fischer esterification of $0.5\ \text{mol}$ acetic acid with $0.5\ \text{mol}$ ethanol, $K_c = 4$ gives $x^2/(0.5 - x)^2 = 4$, so $x = \dfrac{2(0.5)}{3} = 0.333\ \text{mol}$ of ester ($67\%$). With a $5$-fold excess of alcohol ($2.5\ \text{mol}$) the yield rises to about $0.47\ \text{mol}$ ($94\%$).
+
+**Conclusion.** Carboxylic acids are acidic because of the resonance of the carboxylate ion, and the reactivity of the derivatives falls in the order acid chloride > anhydride > ester > amide.

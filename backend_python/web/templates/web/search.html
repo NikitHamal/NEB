@@ -103,7 +103,7 @@
             {% for v in all_grades %}
             <button type="button" class="neb-choice-chip filter-chip-select{% if v == current_grade %} is-selected{% endif %}"
                     aria-pressed="{% if v == current_grade %}true{% else %}false{% endif %}"
-                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v }}</button>
+                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v|level_label }}</button>
             {% endfor %}
           </div>
         </div>
@@ -170,11 +170,9 @@
         if (d && d.error) { showSnackbar(d.error); return; }
         if (d) {
           if (d.is_following) {
-            el.textContent = 'Following';
-            el.className = el.className.replace('not-following', 'following');
+            nebFollowSet(el, true);
           } else {
-            el.textContent = 'Follow';
-            el.className = el.className.replace('following', 'not-following');
+            nebFollowSet(el, false);
           }
         }
       } catch (e) {

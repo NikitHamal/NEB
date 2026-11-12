@@ -7,28 +7,25 @@ into Facebook, WhatsApp, Viber, Discord or a Google result.
 
 ## Why they look like this
 
-The language is taken from the logo. The NEBians mark is an isometric book-N —
-30-degree axes, three visible faces per solid, a lit top, a dark right, and a
-paper-white rim on every edge — so every sculpture on a card is drawn in that
-same projection, with the same rim.
+M3 Expressive, light. A card is one flat tonal surface (the subject colour at 3.5 %),
+one big expressive shape on the right (a cookie, in the 12 % container tone), a solid
+accent squircle inside it, and a white glyph that says what the page is about
+(`og_m3x.glyph`: books, paper, bubbles, flask, graph, question, cards, spark, mark).
+Four shape variants are chosen from the card seed. On the left: the logo lockup, a tonal
+kicker pill, the title in ink, tonal meta pills, the address.
 
-That is what stops the cards from being a template: a Physics past paper and a
-forum thread are made of the same materials as the brand mark, in the
-subject's own colour. The subject colour comes from
-`web/templatetags/subject_tokens.py`, the table the app and the site already
-share, so a Physics card is the same blue as the Physics chip inside the app.
-
-The ground is a night gradient with a subject-coloured light behind the
-sculpture, a faint isometric lattice, a vignette and film grain. Dark, because
-the mark is a lit object and only reads against something dark — and because a
-dark card is the one that stands out in a feed of white ones.
+Rules: flat colour only (no gradient, glow, grain or shadow), no stroke on a portrait
+(a profile photo is clipped to a cookie shape), no dash punctuation in any card text.
+The subject colour still comes from `web/templatetags/subject_tokens.py`; `og_m3x.roles`
+darkens it until white text on it passes contrast and derives container and on-container.
 
 ## Where it lives
 
 | file | what it is |
 | --- | --- |
 | `web/og_cards.py` | composition: ground, title fitting, kicker, meta, lockup, address. **No Django at import time.** |
-| `web/og_art.py` | geometry and pixels: the isometric `Stage`, the ground, the palette maths |
+| `web/og_m3x.py` | the M3E shapes, glyphs, role colours and the cookie-clipped portrait used by the current design |
+| `web/og_art.py` | legacy isometric geometry and palette maths (kept for the old sculptures and tests) |
 | `web/og_heroes.py` | the ten sculptures: books, paper, bubbles, flask, graph, question, cards, spark, avatar, mark |
 | `web/og_logo.py` | the real mark, loaded from pre-rasterised PNGs |
 | `web/views_og.py` | Django side: what each card says, the cache, the rate limit, the context processor |

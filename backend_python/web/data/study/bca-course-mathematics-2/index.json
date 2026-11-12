@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-2-mathematics-2",
+ "units": [
+  {
+   "no": 1,
+   "title": "Matrices and Determinants",
+   "area": "BCA 154 · Mathematics II · Unit 1",
+   "words": 3465,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Systems of Linear Equations",
+   "area": "BCA 154 · Mathematics II · Unit 2",
+   "words": 3393,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Vector Spaces and Linear Transformations",
+   "area": "BCA 154 · Mathematics II · Unit 3",
+   "words": 3774,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Eigenvalues, Eigenvectors and Diagonalisation",
+   "area": "BCA 154 · Mathematics II · Unit 4",
+   "words": 3297,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Vectors in Space, Lines and Planes",
+   "area": "BCA 154 · Mathematics II · Unit 5",
+   "words": 3614,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

@@ -1,7 +1,45 @@
 """Views Profile extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
+import json
+from api import services
+from api.models import (
+    Bookmark,
+    PaymentVerification,
+    Post,
+    Reply,
+    Resource,
+    ResourceLike,
+    SellerBalance,
+    User,
+    UserPhoto,
+    WithdrawalRequest,
+)
+from api.utils import now_ms, uuid_str
+from django.conf import settings
+from django.db import transaction
+from django.db.models import F
+from django.http import Http404, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from api.resource_catalog import upload_form_options
+from . import api_client as api
+from .view_helpers import (
+    _avatar_url,
+    _build_local_stats,
+    _clear_page_cache,
+    _ctx,
+    _get_user_id,
+    _rate_limit,
+    _request_db_user,
+    _serialize_posts,
+    _serialize_replies,
+    _serialize_resources,
+    _user_achievement_badges,
+    _user_badge_info,
+    _viewer_for_locked_check,
+    get_or_create_seller_balance,
+)
 from api.services import record_username_change
-from api.view_helpers import _profile_incomplete, _can_view_locked_profile
+from api.view_helpers import _profile_incomplete, _can_view_locked_profile, _overlong_field_error
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
 from api.marketplace import get_payment_config
 from api.utils import money_str
@@ -139,6 +177,7 @@ def profile(request, username):
         'school': profile_user.school,
         'school_username': profile_user.school_username,
         'bio': profile_user.bio,
+        'headline': profile_user.headline,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
         'verification_level': profile_user.verification_level,
@@ -152,10 +191,13 @@ def profile(request, username):
         'achievement_info': _user_achievement_badges(profile_user),
     }
 
+    from web.views_institutions_profile import school_context
+    profile_data.update(school_context(profile_user))
+
     if profile_private:
         profile_data.update({
             'email': '', 'dob': '', 'gender': '', 'class_level': '', 'class': '',
-            'subjects': '', 'pradesh': '', 'district': '', 'school': '',
+            'subjects': '', 'pradesh': '', 'district': '', 'school': '', 'school_url': '', 'school_slug': '',
         })
 
     stats = _build_local_stats(profile_user, exclude_anonymous=True) if not profile_private else {
@@ -245,12 +287,20 @@ def profile(request, username):
     if not profile_private and not profile_user.is_bot:
         social_links_data = get_user_links(profile_user.id)
 
-    agent_persona = None
-    if profile_user.is_bot:
-        from api.agent_social.models import AgentPersona
-        agent_persona = AgentPersona.objects.filter(user_id=profile_user.id).first()
-
+    from api import profile_education as _pe
+    from api.education_catalog import ENTRY_KINDS
+    portfolio = None
+    if not profile_private and not profile_user.is_bot:
+        portfolio = {
+            'edu': _pe.education_summary(profile_user),
+            'open_to': _pe.open_to_items(profile_user),
+            'skills': _pe.skills_list(profile_user),
+            'sections': _pe.portfolio_sections(profile_user),
+            'kinds': ENTRY_KINDS,
+            'is_own': bool(viewer_user and getattr(viewer_user, 'id', None) == profile_user.id),
+        }
     return render(request, 'web/profile.html', _ctx(request,
+        portfolio=portfolio,
         profile_user=profile_data,
         username=username,
         stats=stats,
@@ -269,7 +319,6 @@ def profile(request, username):
         seller_balance=seller_balance,
         sales_history=sales_history,
         withdrawal_history=withdrawal_history,
-        agent_persona=agent_persona,
     ))
 
 
@@ -649,31 +698,56 @@ def edit_profile(request):
     if not getattr(db_user, 'email_verified', False):
         return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     has_password = bool(db_user.password_hash)
+    from api import education_catalog as _cat
+    from api.profile_education import apply_education
+    edu_init = {
+        'status': db_user.edu_status or '', 'level': db_user.class_level or '',
+        'program': db_user.edu_program or '', 'term': db_user.edu_term or '',
+        'completed': db_user.edu_completed or '', 'headline': db_user.headline or '',
+        'skills': db_user.skills or '', 'open_to': db_user.open_to or '',
+    }
+    edu_boot = {'catalog': _cat.catalog(), 'initial': {
+        'status': edu_init['status'], 'level': edu_init['level'], 'program': edu_init['program'],
+        'term': edu_init['term'], 'completed': edu_init['completed'],
+        'skills': edu_init['skills'], 'openTo': edu_init['open_to']}}
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         dob = request.POST.get('dob', '').strip()
         display_name = request.POST.get('display_name', '').strip()
         gender = request.POST.get('gender', '').strip()
         role = request.POST.get('role', db_user.role).strip().lower()
-        class_level = request.POST.get('class_level', '').strip()
+        from api.education_catalog import canonical_level
+        class_level = canonical_level(request.POST.get('class_level', ''))
         if role not in ('student', 'teacher', 'institution', 'explorer'):
             role = db_user.role or 'student'
         if not username or not dob:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Username and Date of Birth are required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Username and Date of Birth are required.'))
         if not display_name:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Display Name is required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Display Name is required.'))
         if not gender:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Gender is required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Gender is required.'))
         if role == 'student' and not class_level:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Class is required for students.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Class is required for students.'))
         if role == 'teacher' and not request.POST.get('teaching_subjects', '').strip():
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Teaching subjects are required for teachers.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Teaching subjects are required for teachers.'))
         if role == 'institution' and not request.POST.get('school', '').strip():
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Institution name is required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Institution name is required.'))
+        overlong = _overlong_field_error(User, {
+            'display_name': display_name,
+            'gender': gender,
+            'class_level': class_level,
+            'pradesh': request.POST.get('pradesh', ''),
+            'school': request.POST.get('school', '').strip(),
+            'school_username': request.POST.get('school_username', '').strip(),
+            'institution_type': request.POST.get('institution_type', ''),
+            'dob': dob,
+        })
+        if overlong:
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error=overlong.data['error'] + '.'))
         if username != db_user.username:
             _v_err, _v_code = services.validate_username_change(db_user, username)
             if _v_err:
-                return render(request, 'web/edit_profile.html', _ctx(request, error=_v_err.get('error', 'Username change failed.')))
+                return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error=_v_err.get('error', 'Username change failed.')))
             db_user.username = username
             record_username_change(db_user)
         else:
@@ -695,10 +769,14 @@ def edit_profile(request):
         if district_val and district_val not in NEPAL_DISTRICTS:
             district_val = ''
         db_user.district = district_val or db_user.district or ''
-        db_user.school = request.POST.get('school', '').strip() or db_user.school or ''
-        db_user.school_username = request.POST.get('school_username', '').strip() or ''
+        from api.institutions import apply_school
+        apply_school(db_user, request.POST.get('school_slug', ''), request.POST.get('school', ''),
+                     request.POST.get('school_username', ''))
         db_user.bio = request.POST.get('bio', '').strip()
         db_user.is_locked = request.POST.get('is_locked') == 'on'
+        edu_error = apply_education(db_user, request.POST)
+        if edu_error:
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error=edu_error))
         db_user.save()
         _clear_page_cache()
         updated_data = {
@@ -719,6 +797,7 @@ def edit_profile(request):
             'district': db_user.district,
             'school': db_user.school,
             'school_username': db_user.school_username,
+            'school_slug': db_user.school_slug,
             'bio': db_user.bio,
             'is_locked': 1 if db_user.is_locked else 0,
             'created_at': db_user.created_at,
@@ -729,43 +808,11 @@ def edit_profile(request):
             return redirect(next_url)
         return redirect('web:home')
     profile_incomplete = _profile_incomplete(db_user)
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
+    subjects = upload_form_options()['subjects']
     existing_social_links = get_all_user_links(db_user.id)
     from api.models import SOCIAL_PLATFORMS
     return render(request, 'web/edit_profile.html', _ctx(request,
+        edu_boot=edu_boot, edu_init=edu_init,
         has_password=has_password,
         profile_incomplete=profile_incomplete,
         subjects=subjects,
@@ -850,7 +897,8 @@ def settings_page(request):
         status=AccountDeletionRequest.STATUS_PENDING
     ).first()
 
-    return render(request, 'web/settings.html', _ctx(request, has_password=has_password, pending_request=pending_request))
+    return render(request, 'web/settings.html', _ctx(request, has_password=has_password, pending_request=pending_request,
+                                                       notify_new_resources=bool(db_user.notify_new_resources)))
 
 
 @require_POST
@@ -1023,7 +1071,7 @@ def ajax_social_links_track_click(request):
     except SocialLink.DoesNotExist:
         return JsonResponse({'error': 'Link not found'}, status=404)
     clicker_id = _get_user_id(request)
-    if clicker_id is not None and int(clicker_id) == int(link.user_id):
+    if clicker_id is not None and str(clicker_id) == str(link.user_id):
         return JsonResponse({'ok': True})
     is_follower = None
     clicker_gender = ''
@@ -1047,7 +1095,7 @@ def ajax_social_links_track_click(request):
     clicker_country = (request.META.get('HTTP_CF_IPCOUNTRY') or '').strip().upper()
     SocialLinkClick.objects.create(
         link=link, user=link.user,
-        clicker_id=clicker_id, platform=platform,
+        clicker_id=str(clicker_id) if clicker_id is not None else None, platform=platform,
         url=url, created_at=now_ms(),
         is_follower=is_follower,
         clicker_country=clicker_country,

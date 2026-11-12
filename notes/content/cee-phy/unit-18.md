@@ -589,6 +589,58 @@ countless separate packets.
    intercept is $-\phi/e$; if it gives two metals, the lines are parallel.
 :::
 
+```photogrid label="18.1" cols="2" ratio="1.2" caption="Einstein's photoelectric equation. (a) Light of high enough frequency ejects electrons from the cathode of a vacuum photocell. (b) For a caesium-type cathode of work function 2.1 eV (assumed) the stopping potential is V0 = (h / e) f - phi / e, a straight line of slope h / e = 4.14 x 10^-15 V s. Emission starts at the threshold frequency 5.08 x 10^14 Hz, wavelength 590 nm. Light of 400 nm gives a maximum kinetic energy of 1.00 eV, 500 nm gives 0.38 eV and 600 nm gives none, however bright it is."
+@ photo id="ceephy/photocell" cap="A vacuum photocell: light on the cathode releases photoelectrons collected by the anode"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Stopping potential against frequency (caesium, 2.1 eV)"
+h = 6.626e-34; e = 1.602e-19; phi = 2.1; hc = 1239.84
+f0 = phi * e / h; V0 = lambda fr: h * fr / e - phi
+k = lambda nm: max(0.0, hc / nm - phi)
+slope = (V0(8e14) - V0(6e14)) / 2e14
+assert abs(slope * e - h) < 1e-36 and abs(f0 / 1e14 - 5.08) < 0.01 and abs(k(400) - 1.0) < 0.01 and k(600) == 0
+facts = dict(slope="%.2f" % (slope * 1e15), f0="%.2f" % (f0 / 1e14), l0="%.0f" % (hc / phi), k4="%.2f" % k(400), k5="%.2f" % k(500))
+f = Fig(300, 244)
+f.text(150, 14, "V0 = (h / e) f - phi / e", size=10.5, color=NAVY, bold=True)
+X = lambda fr: 40 + (fr - 3e14) / 1e14 * 48; Y = lambda v: 110 - v * 42
+f.line(X(3e14), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(3e14), Y(-1), X(3e14), 34, color=SOFT, sw=1.2)
+f.line(X(3e14), Y(V0(3e14)), X(8e14), Y(V0(8e14)), color=NAVY, sw=2.6)
+f.line(X(3e14), Y(V0(3e14)), X(f0), Y(0), color=SOFT, sw=0.1)
+f.line(X(f0), Y(0), X(f0), Y(V0(3e14)) , color=AMBER, sw=1.2, dash=True)
+f.circle(X(f0), Y(0), 4, fill=AMBER, stroke=AMBER)
+f.text(X(f0) + 6, Y(0) + 15, "f0 = %.2f" % (f0 / 1e14), size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(X(8e14) - 4, Y(V0(8e14)) - 10, "%.2f V" % V0(8e14), size=10.5, color=NAVY, bold=True, anchor="end")
+for q in (3, 4, 5, 6, 7, 8): f.text(X(q * 1e14), Y(0) - 7 if q > 5 else Y(0) - 7, "%d" % q, size=10.5, color=SLATE)
+f.text(150, 164, "f in units of 10^14 Hz; V0 in volts", size=10.5, color=SLATE)
+f.text(150, 184, "slope h/e = %.2f x 10^-15 V s" % (slope * 1e15), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "threshold %.2f x 10^14 Hz = %.0f nm" % (f0 / 1e14, hc / phi), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "400 nm: %.2f eV; 500 nm: %.2f eV; 600 nm: 0" % (k(400), k(500)), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="18.2" cols="2" ratio="1.2" caption="Photon energy sets the colour. (a) Red, green and clear LEDs: in a light-emitting diode an electron falls across the band gap and releases one photon whose energy is the gap, so the colour is fixed by the semiconductor. (b) The energy of a photon is E = hc / lambda = 1239.8 eV nm / lambda: 1.91 eV for a 650 nm red LED, 2.34 eV for 530 nm green and 2.64 eV for 470 nm blue, and 3.10 eV at the violet end (400 nm). Sodium has a work function of 2.28 eV, so its threshold wavelength is 1239.8 / 2.28 = 544 nm: green and blue photons can eject photoelectrons, but red photons cannot however bright the LED is. Intensity changes the number of photons, not the energy of each one."
+@ photo id="ceephy2/leds" cap="Green, red and clear LEDs"
+fit 1.2
+focus 0.55 0.5
+@ svg cap="Photon energy against wavelength, with the sodium threshold"
+hc = 1239.84
+E = lambda lam: hc / lam
+phi = 2.28
+lam0 = hc / phi
+assert [round(E(x), 2) for x in (650, 530, 470, 400)] == [1.91, 2.34, 2.64, 3.1] and round(lam0) == 544
+f = Fig(300, 236)
+f.text(150, 12, "E = 1239.8 / lambda (eV, nm)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (400, 700), (1.6, 3.2))
+ax.grid(100, 0.4).axes("nm", "eV")
+ax.hline(phi, color=AMBER)
+ax.curve(E, 400, 700, color=NAVY)
+ax.pt(470, E(470), "blue 2.64", dx=8, dy=-8, color="#2563eb")
+ax.pt(530, E(530), "green 2.34", dx=8, dy=-10, color="#16a34a")
+ax.pt(650, E(650), "red 1.91", dx=-6, dy=-10, color=RED, anchor="end")
+f.text(ax.X(412), ax.Y(phi) + 14, "Na 2.28 eV", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 206, "Na threshold 544 nm: green, blue eject", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "red (1.91 eV) never does", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |
@@ -826,3 +878,74 @@ countless separate packets.
 **10.** (d) — $E=V/d=2.0\times10^{4}$ V m⁻¹; $q=mg/E=(3.2\times10^{-15})(10)/(2.0\times10^{4})=1.6\times10^{-18}$ C, which is 10 electrons.
 **11.** (c) — $y_1=V_dL^2/(4dV_a)=100(0.020)^2/(4\times0.010\times1000)=1.0\times10^{-3}$ m $=1.0$ mm.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the photoelectric effect, state its laws and explain Einstein's equation. Solve a numerical. <span class="marks">[10]</span>
+2. Explain de Broglie's hypothesis, the Davisson-Germer experiment and the dual nature of matter. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="3" ratio="1.25" caption="Electrons and light. (a) A phototube converts light into a current, as in the old sound-film reader and light meters. (b) Thomson's tube measured the charge-to-mass ratio of electrons. (c) A Millikan-type apparatus measured the charge on a single electron."
+@ photo id="ceephy/photocell" cap="(a) Photocell"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12/thomson" cap="(b) Thomson tube"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12/millikan" cap="(c) Millikan apparatus"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: the photoelectric effect (10 marks)
+
+**Introduction.** The **photoelectric effect** is the emission of electrons from a metal surface when light of suitable frequency falls on it. Hertz discovered it in 1887, and Einstein explained it in 1905 with the **photon** idea: light travels as quanta of energy $E = hf$ ($h = 6.63\times10^{-34}\ \text{J s}$).
+
+**Experimental laws.**
+
+1. Emission occurs only if the frequency exceeds a **threshold frequency** $f_0$ that depends on the metal, however intense the light is.
+2. The emission is instantaneous (less than $10^{-9}\ \text{s}$).
+3. The photocurrent is proportional to the **intensity** of the light (for $f > f_0$).
+4. The maximum kinetic energy of the electrons depends on the frequency and not on the intensity.
+5. A reverse (stopping) potential $V_0$ stops all electrons, with $eV_0 = K_{max}$.
+
+**Failure of the wave theory.** It predicted that energy could build up with time (delay), that more intense light gives faster electrons, and that any frequency should work. None of these is observed.
+
+**Einstein's equation.** One photon gives all its energy to one electron: $hf = \phi + K_{max}$, where $\phi = hf_0$ is the work function. Hence $K_{max} = \tfrac12mv_{max}^2 = hf - hf_0 = eV_0$.
+
+| Graph | Shape | Gives |
+|---|---|---|
+| $K_{max}$ against $f$ | straight line, intercept on the $f$ axis at $f_0$ | slope $= h$ |
+| $V_0$ against $f$ | straight line | slope $= h/e$ |
+| Current against intensity | straight line | more photons, more electrons |
+
+**Numerical.** Light of wavelength $300\ \text{nm}$ falls on a metal of work function $2.3\ \text{eV}$. The photon energy is $\dfrac{1240}{300} = 4.13\ \text{eV}$, so $K_{max} = 4.13 - 2.3 = 1.83\ \text{eV}$ and $V_0 = 1.83\ \text{V}$. The speed is $v = \sqrt{\dfrac{2\times1.83\times1.6\times10^{-19}}{9.11\times10^{-31}}} = 8.0\times10^5\ \text{m s}^{-1}$. The threshold wavelength is $1240/2.3 = 539\ \text{nm}$.
+
+**Conclusion.** The photoelectric effect shows that light has a particle nature. The energy of the electron depends on frequency, and the number of electrons on intensity.
+
+### Model answer D2: matter waves and the dual nature of radiation (10 marks)
+
+**Introduction.** Light shows interference (wave) and the photoelectric effect (particle). In 1924 de Broglie proposed that matter has the same dual nature.
+
+**de Broglie wavelength.** For a particle of momentum $p$: $\lambda = \dfrac hp = \dfrac h{mv}$. For a charged particle accelerated through a potential $V$:
+
+$$ \lambda = \frac{h}{\sqrt{2meV}}, \qquad \lambda(\text{electron}) = \frac{1.227}{\sqrt V}\ \text{nm} $$
+
+For ordinary objects $\lambda$ is far too small to notice, for example a $0.1\ \text{kg}$ ball at $10\ \text{m s}^{-1}$ has $\lambda = 6.6\times10^{-34}\ \text{m}$.
+
+**Davisson-Germer experiment (1927).** A beam of electrons accelerated through $54\ \text{V}$ was scattered from a nickel crystal. The intensity was maximum at a scattering angle of $50^{\circ}$. The crystal spacing gave $d\sin\theta = \lambda$ and so $\lambda = 0.165\ \text{nm}$, in agreement with de Broglie's value $1.227/\sqrt{54} = 0.167\ \text{nm}$. This confirmed the wave nature of electrons.
+
+**Applications and points.**
+
+1. The **electron microscope** uses electrons with $\lambda$ about $0.01\ \text{nm}$, so its resolution is far better than that of a light microscope.
+2. Photon properties: energy $hf$, momentum $h/\lambda$, zero rest mass, speed $c$.
+3. **Heisenberg uncertainty principle:** $\Delta x\,\Delta p \ge \dfrac{h}{4\pi}$.
+4. Radiation pressure on a surface is $I/c$ for absorption and $2I/c$ for reflection.
+
+| Property | Wave nature | Particle nature |
+|---|---|---|
+| Light | interference, diffraction | photoelectric effect, Compton effect |
+| Electron | electron diffraction | tracks in a cloud chamber |
+
+**Numerical.** For an electron accelerated through $100\ \text{V}$, $\lambda = 1.227/10 = 0.123\ \text{nm}$. A proton with the same kinetic energy has a wavelength smaller by $\sqrt{1836} = 43$ times, about $0.0029\ \text{nm}$.
+
+**Conclusion.** Particles and radiation both behave as waves and particles. The wave character matters only when $\lambda$ is comparable to the sizes involved.

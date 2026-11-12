@@ -19,8 +19,8 @@
     <span class="st-head-icon material-symbols-outlined" aria-hidden="true">{{ syl.icon }}</span>
     <div class="st-head-text">
       <h1 class="st-title">{{ syl.name }}</h1>
-      <p class="st-sub">{% if syl.name_ne %}<span lang="ne">{{ syl.name_ne }}</span> · {% endif %}{{ syl.grade_label }}{% if syl.code %} · Code {{ syl.code }}{% endif %}</p>
-      {% if syl.kind == 'school' %}
+      <p class="st-sub">{% if syl.name_ne %}<span lang="ne">{{ syl.name_ne }}</span> · {% endif %}{% if syl.group_label %}{{ syl.group_label }}{% else %}{{ syl.grade_label }}{% endif %}{% if syl.code %} · {% if syl.kind == 'course' %}{{ syl.code }}{% else %}Code {{ syl.code }}{% endif %}{% endif %}{% if syl.credits %} · {{ syl.credits }} credit{{ syl.credits|pluralize }}{% endif %}</p>
+      {% if syl.kind != 'entrance' %}
       <p class="st-meta">{{ syl.unit_count }} units{% if syl.hours %} · {{ syl.hours }} teaching hours{% endif %}{% if syl_read_min %} · about {% widthratio syl_read_min 60 1 %} h of reading{% endif %}{% if study.banks %} · {{ study.banks|length }} question sets{% endif %}</p>
       {% else %}
       <p class="st-meta">{{ syl.unit_count }} chapters{% if syl.questions %} · {{ syl.questions }} questions in the paper{% endif %}{% if syl.notes_ready < syl.unit_count %} · {{ syl.notes_ready }} written so far{% endif %}{% if syl_read_min %} · about {% widthratio syl_read_min 60 1 %} h of reading{% endif %}</p>
@@ -148,7 +148,7 @@
       {% endif %}
       {% if syl_area_weights %}
       <div class="st-card">
-        {% if syl.kind == 'school' %}
+        {% if syl.kind != 'entrance' %}
         <h2 class="st-card-title">Where the hours go</h2>
         <p class="st-card-note">Teaching hours are the board's guide to how much of the paper each part carries.</p>
         {% else %}

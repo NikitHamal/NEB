@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-6-technical-writing",
+ "units": [
+  {
+   "no": 1,
+   "title": "Audience, Purpose and the Writing Process",
+   "area": "BCA 354 · Technical Writing · Unit 1",
+   "words": 3061,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Style, Clarity and Readability",
+   "area": "BCA 354 · Technical Writing · Unit 2",
+   "words": 3555,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Software Documentation - SRS, README, API Reference, Runbooks and Postmortems",
+   "area": "BCA 354 · Technical Writing · Unit 3",
+   "words": 3337,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Research Proposals, Academic Writing and Citation",
+   "area": "BCA 354 · Technical Writing · Unit 4",
+   "words": 3280,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Visual Communication - Tables, Charts, Diagrams and Slides",
+   "area": "BCA 354 · Technical Writing · Unit 5",
+   "words": 3308,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Editing, Professional Communication and Ethics",
+   "area": "BCA 354 · Technical Writing · Unit 6",
+   "words": 2768,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

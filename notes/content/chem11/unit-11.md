@@ -389,6 +389,31 @@ cirrhosis. Only the non-essential heavy metals — lead, cadmium, mercury,
 arsenic — have no safe biological role at all.
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.27" caption="Iodine is a trace element needed to make the thyroid hormones, and a shortage causes goitre and affects the brain development of children, which is why Nepal sells only iodised salt. (a) A packet of iodised salt. (b) At 30 ppm, each gram of salt supplies 30 micrograms of iodine, so the recommended 150 micrograms a day comes from 5 g of salt, about one level teaspoon, which is also the upper limit advised for sodium. Iodine is added as potassium iodate (M = 214.0), so one kilogram of salt carries 50.6 mg of KIO3. Eating more salt to gain more iodine is harmful, and the trace amount is the safe one."
+@ photo id="chem11/iodsalt" cap="A packet of iodised salt"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Iodine intake against salt eaten per day, at 30 ppm"
+ppm = 30.0
+intake = lambda g: ppm * g
+I, K, O = 126.904, 39.098, 15.999
+KIO3 = K + I + 3 * O
+kio3_mg = ppm * KIO3 / I
+assert abs(intake(5) - 150) < 1e-9 and abs(kio3_mg - 50.6) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "Iodine from salt containing 30 ppm iodine", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 240, 146, (0, 12), (0, 360))
+ax.grid(2, 120, size=9); ax.axes("salt eaten (g/day)", "iodine (ug/day)")
+ax.curve(intake, 0, 12, color=NAVY, sw=2.4)
+ax.hline(150, color=AMBER)
+ax.vline(5, color=AMBER)
+ax.pt(5, 150, "5 g gives 150 ug", dx=10, dy=22, color=RED)
+ax.pt(10, intake(10), "10 g: 300 ug", dx=-8, dy=-10, color=NAVY, anchor="end")
+f.text(150, 207, "30 ppm = 30 mg I per kg salt = 30 ug per g", size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "as KIO3: %.1f mg per kg of salt" % kio3_mg, size=10.5, color=RED, bold=True)
+facts = dict(kio3="%.1f" % kio3_mg, M="%.1f" % KIO3)
+```
+
 ## Chapter summary
 
 - Bio-inorganic chemistry studies the role of inorganic elements, especially
@@ -504,3 +529,68 @@ tubule — itai-itai disease.
 Nepal interim standard. Daily intake $= 0.20 \times 3.0 = 0.60\ \text{mg}$, so in
 30 days $m = 0.60 \times 30 = 18\ \text{mg}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the biological roles of the essential metal ions (macro and micro nutrients) in the human body. <span class="marks">[10]</span>
+2. Describe the sodium-potassium pump and explain metal toxicity, with examples and treatment. <span class="marks">[10]</span>
+
+### Model answer D1: the roles of essential metal ions in the body (10 marks)
+
+**Introduction.** Living organisms need many metal ions for their working. Those needed in **large** amounts (more than $100\ \text{mg}$ a day) are **macronutrients**: Na⁺, K⁺, Ca²⁺ and Mg²⁺. Those needed in **trace** amounts are **micronutrients**: Fe, Zn, Cu, Mn, Co, Mo and others. A shortage or an excess of either group causes disease.
+
+**Roles of the metal ions.**
+
+1. **Sodium (Na⁺).** It is the main cation outside the cells, and it controls the water balance and blood volume. It also carries nerve impulses and helps in the absorption of glucose in the intestine. A very low level causes cramps and confusion, and a high intake raises blood pressure.
+2. **Potassium (K⁺).** It is the main cation inside the cells and works with Na⁺ to create the membrane potential of nerves and muscles. It regulates the heart beat and the activation of many enzymes. Banana, potato and lentils (dal) are rich sources in a Nepali diet.
+3. **Calcium (Ca²⁺).** It forms the hydroxyapatite of bones and teeth, which hold 99% of body calcium. It is needed for blood clotting, muscle contraction and the release of neurotransmitters. Lack of calcium and vitamin D causes rickets in children and osteoporosis in elders.
+4. **Magnesium (Mg²⁺).** It is the central atom of chlorophyll, so it is essential for photosynthesis in plants. In animals it activates enzymes that use ATP and is needed for nerve and muscle function. Green leafy vegetables such as *saag* supply it.
+5. **Iron (Fe).** It is the central metal of haemoglobin, which carries oxygen in the blood, and of myoglobin in muscle. It also occurs in cytochromes of the electron-transport chain. Iron deficiency causes **anaemia**, common among women and children in Nepal, which is why the government distributes iron-folic acid tablets.
+6. **Zinc (Zn²⁺).** It is a part of more than 200 enzymes, including carbonic anhydrase and alcohol dehydrogenase, and it is vital for growth, wound healing and immunity. Zinc supplements are given with ORS in the treatment of childhood diarrhoea.
+7. **Copper (Cu).** It occurs in the enzyme cytochrome oxidase and in the blood pigment of molluscs, and it helps iron use and the formation of connective tissue.
+8. **Cobalt (Co) and molybdenum (Mo).** Cobalt is the metal in **vitamin B₁₂** (cobalamin), needed for red blood cells and nerves; molybdenum is in enzymes such as nitrogenase, which fixes atmospheric nitrogen in legume root nodules.
+
+| Metal | Where found | Main function | Deficiency |
+|---|---|---|---|
+| Fe | Haemoglobin | Carries O₂ | Anaemia |
+| Ca | Bones, blood | Structure, clotting | Rickets |
+| Zn | Enzymes | Growth, immunity | Stunting |
+| Co | Vitamin B₁₂ | Red cell formation | Pernicious anaemia |
+| Mg | Chlorophyll | Photosynthesis | Weak muscles |
+
+**Conclusion.** Metal ions act as structural units, enzyme activators, central atoms of pigments and signal carriers, and the body needs each in the right amount.
+
+### Model answer D2: the Na⁺/K⁺ pump and metal toxicity (10 marks)
+
+**Introduction.** Cell membranes are not equally permeable to all ions, so the concentrations of Na⁺ and K⁺ inside and outside a cell differ. A membrane protein, the **ion pump**, maintains this difference.
+
+**Sodium-potassium pump (Na⁺/K⁺-ATPase).**
+
+1. It is an enzyme-like protein that spans the membrane of nearly all animal cells.
+2. Using the energy of **one ATP**, it moves **3 Na⁺ out** of the cell and **2 K⁺ into** the cell, both **against** their concentration gradients. This is **active transport**.
+3. As a result, Na⁺ is about 10 times more concentrated outside, and K⁺ about 30 times more concentrated inside.
+4. The pump produces a net outward positive charge, so the inside of the cell is negative (about $-70\ \text{mV}$): the **resting membrane potential**.
+
+**Importance of the pump.**
+
+- It generates the nerve impulse, since the opening of Na⁺ and K⁺ channels depends on the gradients.
+- It keeps the cell volume constant by controlling osmosis.
+- It supplies the sodium gradient used to absorb glucose and amino acids in the intestine and kidney.
+- It uses about **one-third** of the body's resting energy.
+
+Other pumps: the **Ca²⁺-ATPase** pump moves Ca²⁺ out of muscle cells, to relax them, and the **H⁺/K⁺ pump** in the stomach wall makes gastric acid.
+
+**Metal toxicity.** Even essential metals are toxic in excess, and non-essential heavy metals are toxic at tiny doses because they bind to the –SH groups of enzymes and block them.
+
+| Metal | Source | Effect | Treatment |
+|---|---|---|---|
+| Lead (Pb) | Old paint, petrol, batteries | Brain damage in children, anaemia | Chelating agents (EDTA) |
+| Mercury (Hg) | Fish, thermometers, mining | Minamata disease, nerve damage | Dimercaprol (BAL) |
+| Arsenic (As) | Groundwater from tube wells | Skin lesions, cancer | Safe water, filters |
+| Cadmium (Cd) | Batteries, fertiliser | Itai-itai disease, kidney damage | Chelation |
+
+**Arsenic in Nepal.** Some tube wells in the Terai districts, such as Nawalparasi, Rautahat and Parsa, were found to have arsenic above the WHO limit of $10\ \mu\text{g L}^{-1}$, so water testing and arsenic filters are used there.
+
+**Treatment: chelation therapy.** A **chelating agent** (EDTA, dimercaprol, penicillamine) wraps around the metal ion, forming a stable, water-soluble complex that is excreted in urine.
+
+**Conclusion.** The Na⁺/K⁺ pump maintains ion gradients using ATP, and toxic metals disturb enzymes; chelation removes them.

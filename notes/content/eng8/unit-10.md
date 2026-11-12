@@ -318,3 +318,85 @@ documents, deadline, contact, signed by the principal.
 the auspicious occasion of the wedding of their daughter … with …*, date, time,
 venue, RSVP with phone number.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a vacancy advertisement and an invitation card. <span class="marks">[10]</span>
+2. Explain prepositions of place and time and the formation of question tags. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="4" ratio="1.0" caption="Applying and inviting. A CV, a newspaper page, a Nepal Post letter box and an addressed envelope are the tools of applying for a job and sending an invitation."
+@ photo id="eng11/cv" cap="Curriculum vitae (CV)"
+@ photo id="eng11/newspaper" cap="Newspaper"
+@ photo id="nep11/postbox" cap="Nepal Post letter box"
+@ photo id="eng11/envelope" cap="Addressed envelope"
+```
+
+### Model answer D1: vacancy advertisement and invitation (10 marks)
+
+**Introduction.** A **vacancy advertisement** invites people to apply for a job. An **invitation card** formally asks guests to attend an event.
+
+**Model vacancy advertisement.**
+
+::: example Vacancy announcement
+**VACANCY ANNOUNCEMENT — Shree Himalaya Secondary School, Pokhara**  
+Applications are invited from **Nepali citizens** for the following posts:  
+**Post:** Computer Teacher (1 seat)  
+**Qualification:** Bachelor's degree in Computer Science or BCA  
+**Experience:** One year of teaching (preferred)  
+**Salary:** According to school rules  
+**Last date:** 15 Magh 2082 (5 p.m.)  
+**How to apply:** Send your CV, citizenship copy and certificates to the Principal's office.  
+Women and disadvantaged groups are encouraged to apply.
+:::
+
+**Model invitation card.**
+
+::: example Invitation card
+*Mr. and Mrs. Gurung request the pleasure of your company at the wedding of their daughter **Sunita** on **Friday, 8 Falgun 2082, at 11 a.m.**, at Hotel Fewa, Lakeside, Pokhara. Lunch will follow.*  
+**RSVP:** 9800000000
+:::
+
+**What to include (8 points).**
+
+1. **Organisation** and place.
+2. **Post** and number of seats.
+3. **Qualification** and experience.
+4. **Salary** or benefits.
+5. **Deadline.**
+6. **How to apply.**
+7. **Equal opportunity** statement.
+8. **Contact** details (and RSVP in an invitation).
+
+| | Informal invitation | Formal card |
+|---|---|---|
+| Person | First (*I'd love you to come*) | Third (*request the pleasure of your company*) |
+| Tone | Friendly | Respectful |
+
+**Conclusion.** Short, exact and complete information is the key.
+
+### Model answer D2: prepositions and question tags (10 marks)
+
+**Prepositions of time and place.**
+
+1. **at** for exact times: *at 6 a.m., at night.*
+2. **on** for days and dates: *on Sunday, on 5 Baisakh.*
+3. **in** for months, years and parts of the day: *in Magh, in 2082, in the evening.*
+4. **in time** = early enough; **on time** = at the exact time: *We arrived on time for the bus.*
+5. Place: **at** a point (*at the gate*), **on** a surface (*on the table*), **in** an enclosed space (*in the room*).
+
+**Question tags.**
+
+6. A positive sentence takes a **negative tag**; a negative sentence takes a **positive tag**: *You are a student, aren't you? / He doesn't smoke, does he?*
+7. The tag repeats the **auxiliary** and uses a **pronoun**; if there is no auxiliary use **do/does/did**: *She sings, doesn't she?*
+8. Special cases: *I am late, aren't I? / Let's go, shall we? / Nobody came, did they?* (*never, hardly, nobody* are negative.)
+
+| Sentence | Tag |
+|---|---|
+| It is cold, | isn't it? |
+| They didn't come, | did they? |
+| You can swim, | can't you? |
+| Open the door, | will you? |
+
+**Conclusion.** Opposite polarity, same helping verb, and a pronoun: these are the three rules for tags.

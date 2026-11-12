@@ -5,11 +5,9 @@
 
 {% block content %}
 <div class="admin-page-header">
-  <div class="admin-eyebrow">Content</div>
   <div class="admin-page-header-row">
     <div>
       <h1>Blog &amp; updates</h1>
-      <p>Publish blog articles, exam result updates, and notices for the NEBians community.</p>
     </div>
     <div class="admin-page-actions">
       <button type="button" class="md-btn md-btn-outlined" id="openNebyDraftModalBtn">
@@ -22,6 +20,46 @@
       </a>
     </div>
   </div>
+</div>
+
+<div class="admin-table-wrap" style="margin-bottom:20px;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th style="min-width:240px;">Auto-import source</th>
+        <th style="width:140px;">Last run</th>
+        <th style="min-width:200px;">Status</th>
+        <th style="width:80px;text-align:center;">Added</th>
+        <th style="width:80px;text-align:center;">Total</th>
+        <th style="width:190px;text-align:right;">
+          <form method="post" style="display:inline;margin:0;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="sync_now">
+            <button type="submit" class="md-btn md-btn-outlined"><span class="material-symbols-outlined">sync</span>Fetch now</button>
+          </form>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sources %}
+      <tr>
+        <td><strong>{{ s.name }}</strong>{% if s.official %} <span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px;color:var(--md-primary);">verified</span>{% endif %}</td>
+        <td>{% if s.last_run_at %}{{ s.last_run_at|time_ago }}{% else %}Never{% endif %}</td>
+        <td style="font-size:0.8125rem;color:var(--md-on-surface-variant);">{{ s.last_status|default:"Waiting for the first run" }}</td>
+        <td style="text-align:center;">{{ s.last_new }}</td>
+        <td style="text-align:center;">{{ s.total }}</td>
+        <td style="text-align:right;">
+          <form method="post" style="display:inline;margin:0;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="toggle_source">
+            <input type="hidden" name="source_key" value="{{ s.key }}">
+            <button type="submit" class="md-btn md-btn-outlined">{% if s.enabled %}On{% else %}Off{% endif %}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% if announcements %}
@@ -123,7 +161,7 @@
 
 <!-- Neby Blog Drafting Modal -->
 <div id="nebyDraftModal" class="admin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px);">
-  <div style="background:var(--md-surface);border-radius:20px;max-width:560px;width:100%;box-shadow:0 12px 32px rgba(0,0,0,0.25);border:1px solid var(--md-outline-variant);overflow:hidden;animation:modalIn 0.2s ease-out;">
+  <div style="background:var(--md-surface);border-radius:20px;max-width:560px;width:100%;border:1px solid var(--md-outline-variant);overflow:hidden;animation:modalIn 0.2s ease-out;">
     <div style="padding:20px 24px;border-bottom:1px solid var(--md-outline-variant);display:flex;align-items:center;justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--md-primary),#6366f1);display:flex;align-items:center;justify-content:center;color:#fff;">

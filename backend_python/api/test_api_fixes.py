@@ -64,5 +64,5 @@ class ApiFixesTests(TestCase):
         self.assertEqual((ram['display_name'], ram['class_level'], ram['follower_count'], ram['is_following'], ram['is_self']),
                          ('Ramesh', '12', 2, True, False))
         self.assertEqual(rows[1]['display_name'], 'aramesh')
-        self.assertTrue(rows[1]['photo_url'])
+        self.assertFalse(rows[1]['photo_url'])  # no photo: clients draw the initial
         self.assertEqual(Client().get('/api/users/search/?q=r').json(), [])

@@ -26,7 +26,7 @@
   </div>
 
   <a href="{% url 'web:edit_profile' %}" class="st-identity">
-    <img class="st-identity-avatar" src="{{ user.avatar_url }}" alt="" width="52" height="52" loading="lazy" decoding="async">
+    {% if user.avatar_url %}<img class="st-identity-avatar" src="{{ user.avatar_url }}" alt="" width="52" height="52" loading="lazy" decoding="async">{% else %}<span class="st-identity-avatar neb-letter">{{ user.display_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
     <div class="st-identity-text">
       <div class="st-identity-name">{{ user.display_name|default:user.username }}</div>
       <div class="st-identity-sub">@{{ user.username }} — edit your profile</div>
@@ -77,15 +77,6 @@
         </div>
         <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
-
-      <a href="{% url 'web:my_avatar' %}" class="st-row">
-        <span class="st-row-icon"><span class="material-symbols-outlined">palette</span></span>
-        <div class="st-row-text">
-          <p class="st-row-title">My avatar</p>
-          <p class="st-row-sub">Shape, mood and colours</p>
-        </div>
-        <span class="material-symbols-outlined st-chevron">chevron_right</span>
-      </a>
     </div>
   </section>
 
@@ -122,11 +113,11 @@
       <div class="st-row">
         <span class="st-row-icon"><span class="material-symbols-outlined">notifications</span></span>
         <div class="st-row-text">
-          <p class="st-row-title">Push notifications</p>
-          <p class="st-row-sub" id="notif-status">Off</p>
+          <p class="st-row-title">New resource alerts</p>
+          <p class="st-row-sub" id="notif-status">{% if notify_new_resources %}On{% else %}Off{% endif %}</p>
         </div>
         <label class="md-switch">
-          <input type="checkbox" id="notif-switch">
+          <input type="checkbox" id="notif-switch" {% if notify_new_resources %}checked{% endif %}>
           <span class="slider"></span>
         </label>
       </div>
@@ -184,6 +175,15 @@
         <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
 
+      <a href="{% url 'web:copyright_takedown' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">policy</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Copyright takedown</p>
+          <p class="st-row-sub">Report unauthorized material</p>
+        </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+
       <a href="{% url 'web:faq' %}" class="st-row">
         <span class="st-row-icon"><span class="material-symbols-outlined">help</span></span>
         <div class="st-row-text">
@@ -193,13 +193,14 @@
         <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
 
-      <div class="st-row">
+      <a href="{% url 'web:about' %}" class="st-row">
         <span class="st-row-icon"><span class="material-symbols-outlined">info</span></span>
         <div class="st-row-text">
-          <p class="st-row-title">Version</p>
-          <p class="st-row-sub">1.0.5</p>
+          <p class="st-row-title">About NEBians</p>
+
         </div>
-      </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
     </div>
   </section>
 
@@ -289,19 +290,32 @@
     const wifiSwitch = document.getElementById('wifi-switch');
     const wifiStatus = document.getElementById('wifi-status');
 
-    const notifEnabled = localStorage.getItem('web_push_notifications') === 'true';
-    if (notifSwitch) notifSwitch.checked = notifEnabled;
-    if (notifStatus) notifStatus.textContent = notifEnabled ? 'On' : 'Off';
 
     const wifiEnabled = localStorage.getItem('web_wifi_only_downloads') === 'true';
     if (wifiSwitch) wifiSwitch.checked = wifiEnabled;
     if (wifiStatus) wifiStatus.textContent = wifiEnabled ? 'Wi-Fi only' : 'Any network';
 
     if (notifSwitch) {
+      // New resource alerts are stored on the account, so the app and the website share one switch.
       notifSwitch.addEventListener('change', function () {
         const val = notifSwitch.checked;
-        localStorage.setItem('web_push_notifications', val);
+        notifSwitch.disabled = true;
         if (notifStatus) notifStatus.textContent = val ? 'On' : 'Off';
+        fetch('{% url "web:ajax_notification_prefs" %}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+          body: JSON.stringify({ new_resources: val })
+        }).then(function (r) { if (!r.ok) throw new Error('save failed'); return r.json(); })
+          .then(function (d) {
+            notifSwitch.checked = !!d.new_resources;
+            if (notifStatus) notifStatus.textContent = d.new_resources ? 'On' : 'Off';
+          })
+          .catch(function () {
+            notifSwitch.checked = !val;
+            if (notifStatus) notifStatus.textContent = !val ? 'On' : 'Off';
+            if (window.showSnackbar) window.showSnackbar('Could not save. Try again.');
+          })
+          .finally(function () { notifSwitch.disabled = false; });
       });
     }
 

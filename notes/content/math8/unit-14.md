@@ -424,6 +424,18 @@ measure, and it is the middle length, as it must be.
 **4.** Draw PQ = 7 cm; make 90° at P and Q; cut PS = QR = 4 cm; join SR (it measures 7 cm).
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. (a) The angles of a triangle are in the ratio $2:3:4$. Find them and name the triangle by its angles. (b) The vertical angle of an isosceles triangle is $40^\circ$. Find the base angles. <span class="marks">[5]</span>
+2. (a) Find the sum of the interior angles of a hexagon. (b) Find each interior and exterior angle of a regular octagon. (c) Each exterior angle of a regular polygon is $24^\circ$: find the number of sides and the sum of its interior angles. <span class="marks">[5]</span>
+3. (a) Two adjacent angles of a parallelogram are $(3x+10)^\circ$ and $(2x+30)^\circ$. Find all four angles. (b) A chord of length 24 cm is drawn in a circle of radius 13 cm. Find its distance from the centre. (c) $AB$ is a diameter and $C$ is a point on the circle with $\angle CAB=35^\circ$: find $\angle ACB$ and $\angle ABC$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Parts $2+3+4=9$, and one part $=180\div9=20^\circ$. The angles are $40^\circ$, $60^\circ$ and $80^\circ$: all acute, all different, so it is an acute-angled scalene triangle. (b) The base angles are equal: $\dfrac{180-40}{2}=70^\circ$ each.
+**2.** (a) $(n-2)\times180=(6-2)\times180=720^\circ$. (b) Each interior angle of a regular octagon $=\dfrac{(8-2)\times180}{8}=135^\circ$; each exterior angle $=180-135=45^\circ$ (also $360\div8=45^\circ$ ✓). (c) The exterior angles of any polygon add to $360^\circ$, so $n=360\div24=15$ sides. The sum of the interior angles $=(15-2)\times180=2340^\circ$.
+**3.** (a) Adjacent angles of a parallelogram are supplementary: $5x+40=180$, so $x=28$. The angles are $3(28)+10=94^\circ$ and $2(28)+30=86^\circ$; the opposite angles are equal, so the four angles are $94^\circ,86^\circ,94^\circ,86^\circ$ (sum $360^\circ$ ✓). (b) The perpendicular from the centre bisects the chord, so half the chord is 12 cm. $d=\sqrt{13^2-12^2}=\sqrt{169-144}=\sqrt{25}=5$ cm. (c) The angle in a semicircle is a right angle, so $\angle ACB=90^\circ$, and $\angle ABC=180-90-35=55^\circ$.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

@@ -602,6 +602,29 @@ So **P** is *p*-cresol and **Q** is 2-hydroxy-5-methylbenzaldehyde,
 C₈H₈O₂ (molar mass 136).
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.2" caption="Phenol is a weak acid, but stronger than an alcohol. (a) Carbolic soap carries the old name of phenol, carbolic acid, which Lister used to disinfect wounds. (b) The cell uses pH = (pKa - log c) / 2 for a 0.1 M weak acid. Acetic acid (pKa 4.76) gives pH 2.88, carbonic acid (6.35) gives 3.67 and phenol (9.99) gives 5.50, with only 0.0032 per cent of the phenol ionised, against 1.32 per cent of the acetic acid. The phenoxide ion is stabilised by resonance over the ring, which makes phenol a million times more acidic than ethanol, yet it is still weaker than carbonic acid, so phenol does not dissolve in sodium bicarbonate solution while carboxylic acids do."
+@ photo id="chem12b/soap" cap="A bar of carbolic soap, which contains phenol-type disinfectant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Acid strength of acetic acid, carbonic acid and phenol"
+import math
+data = [("acetic acid", 4.76), ("carbonic acid", 6.35), ("phenol", 9.99)]
+c = 0.1
+rows = [(n, 0.5 * (pk - math.log10(c))) for n, pk in data]
+frac = [math.sqrt(10 ** -pk / c) * 100 for _, pk in data]
+assert round(rows[2][1], 1) == 5.5 and round(rows[0][1], 2) == 2.88
+f = Fig(300, 236)
+f.text(150, 12, "pH of a 0.1 M solution", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=7, fmt="%.2f", x0=84, y0=30, bw=150, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY)])
+f.text(150, 128, "pH = (pKa - log c) / 2 for a weak acid", size=10.5, color=NAVY, bold=True)
+f.text(150, 150, "ionised: acetic %.2f%%, carbonic %.3f%%," % (frac[0], frac[1]), size=10, color=SLATE, bold=True)
+f.text(150, 166, "phenol %.4f%%" % frac[2], size=10, color=SLATE, bold=True)
+f.text(150, 190, "phenol dissolves in NaOH but not in NaHCO3:", size=10, color=NAVY, bold=True)
+f.text(150, 206, "pKa 9.99 is above carbonic acid's 6.35", size=10, color=NAVY, bold=True)
+facts = dict(a=rows[0][1], c=rows[1][1], p=rows[2][1], fa=frac[0], fp=frac[2])
+```
+
 ## Chapter summary
 
 - A phenol has –OH bonded **directly to the ring**; benzyl alcohol has it on a
@@ -751,3 +774,42 @@ $72 + 3 + 3(46) + 16 = 229\ \text{g mol}^{-1}$. Theoretical mass
 $= 0.10 \times 229 = 22.9\ \text{g}$; at 70 % yield,
 $m = 0.70 \times 22.9 = 16.0\ \text{g}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the acidic nature of phenol by comparing it with ethanol and water, and describe Kolbe's reaction and the Reimer–Tiemann reaction. <span class="marks">[10]</span>
+
+### Model answer D1: acidity of phenol and its important reactions (10 marks)
+
+**Introduction.** **Phenols** are compounds in which an –OH group is bonded to a carbon atom of a benzene ring. The simplest, phenol (carbolic acid), is a colourless crystalline solid that turns pink in air. It is a weak acid, much stronger than alcohol and water but weaker than carbonic acid.
+
+**Acidic nature.** Phenol ionises: $\text{C}_6\text{H}_5\text{OH} \rightleftharpoons \text{C}_6\text{H}_5\text{O}^{-} + \text{H}^{+}$. The phenoxide ion is stabilised by **resonance**, since the negative charge on oxygen is delocalised over the ortho and para carbons of the ring. In ethoxide the charge is localised, and the electron-releasing ethyl group makes it worse.
+
+| Compound | Approximate $pK_{a}$ | Reaction with NaOH | Reaction with NaHCO$_3$ |
+|---|---|---|---|
+| Ethanol | 16 | No | No |
+| Water | 15.7 | — | — |
+| Phenol | 10 | Yes, gives sodium phenoxide | No |
+| Carbonic acid (first) | 6.4 | Yes | — |
+| Benzoic acid | 4.2 | Yes | Yes, with effervescence |
+
+Phenol reacts with sodium and with NaOH, which alcohols do not (ethanol reacts with sodium only). It does not react with NaHCO$_3$, which distinguishes it from a carboxylic acid. Electron-withdrawing groups (for example $-\text{NO}_2$) increase the acidity: 2,4,6-trinitrophenol (picric acid, $pK_{a} = 0.4$) is as strong as a mineral acid. Electron-releasing groups ($-\text{CH}_3$) decrease it.
+
+**Kolbe's reaction (salicylic acid).** Sodium phenoxide is heated with CO$_2$ at 400 K and 4–7 atm, and the product is acidified:
+
+$$ \text{C}_6\text{H}_5\text{ONa} + \text{CO}_2 \Rightarrow \text{o-HOC}_6\text{H}_4\text{COONa} \Rightarrow \text{o-HOC}_6\text{H}_4\text{COOH} $$
+
+The product, **salicylic acid**, is the starting material for **aspirin** (acetylsalicylic acid), made by treating it with acetic anhydride.
+
+**Reimer–Tiemann reaction (salicylaldehyde).** Phenol is warmed with chloroform and aqueous NaOH at about 340 K, and then acidified. The electrophile is dichlorocarbene, :CCl$_2$, generated from CHCl$_3$ and the base, which attacks the electron-rich ortho position. The $-\text{CHCl}_{2}$ group is hydrolysed to –CHO, and **salicylaldehyde** (o-hydroxybenzaldehyde) is the main product. With CCl$_4$ instead of CHCl$_3$ the product is salicylic acid.
+
+**Other reactions.**
+
+- **Bromine water** gives a white precipitate of 2,4,6-tribromophenol, and the test is used to detect phenol.
+- **Neutral FeCl$_3$** gives a violet colour.
+- **Nitration** with dilute HNO$_3$ gives o- and p-nitrophenol, and with concentrated HNO$_3$ gives picric acid.
+- **Zinc dust distillation** gives benzene.
+
+**Uses.** Phenol is used to manufacture Bakelite, aspirin, dyes, disinfectants (dettol contains chloroxylenol) and nylon-6 via cyclohexanol.
+
+**Conclusion.** Resonance stabilisation of the phenoxide ion makes phenol more acidic than ethanol and water, and the activated ring undergoes easy electrophilic substitution.

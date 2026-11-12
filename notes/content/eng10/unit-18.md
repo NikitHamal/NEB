@@ -480,3 +480,71 @@ In conclusion, social media is a gift when used wisely and a danger when used ba
 
 **2.** Introduction; harms (addiction, false news, bullying, privacy); benefits (communication, learning, help); your opinion; conclusion.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a film review of *Hachi: A Dog's Tale* and an opinion essay on social media. <span class="marks">[10]</span>
+2. Explain how to form questions and causative sentences. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="3" ratio="1.0" caption="Loyalty and news. Hachiko the Akita dog, his bronze statue at Shibuya Station in Tokyo and a newspaper page: the true story behind the film and the media that spread it."
+@ photo id="eng10/hachiko-akita" cap="Hachiko"
+@ photo id="eng10/hachiko-statue" cap="Hachiko statue, Shibuya"
+@ photo id="eng11/newspaper" cap="Newspaper"
+```
+
+### Model answer D1: a film review and an opinion essay (10 marks)
+
+**Introduction.** A **review** has a title and rating, an introduction, a summary (without the ending), an evaluation and a conclusion.
+
+**Model review.**
+
+::: example Review of Hachi
+**Hachi: A Dog's Tale (2009) — 4 out of 5 stars**  
+Directed by Lasse Hallström and starring Richard Gere, *Hachi* is based on the true story of **Hachikō**, an Akita dog in Tokyo (1923–1935). A professor finds a lost puppy at a station and takes him home. Every evening the dog waits at Shibuya Station for his master. One day the professor does not return, but Hachi continues to wait for years. **Strengths:** the bond between the man and the dog is touching, and the dog's acting is natural. **Weakness:** the story is slow in the middle. Overall, it is a moving film about love and loyalty, and you may need a handkerchief.
+:::
+
+**Model opinion essay: Social media.**
+
+::: example Social media
+**Social media** such as Facebook and TikTok help us in many ways. They let us stay in touch with relatives abroad, share news at once and learn new things. Some stories have spread kindness: for example, a skateboarder's cheerful video became famous worldwide, and the *We Rate Dogs* page raised money for a dog's wheelchair. However, social media also wastes time, spreads false news and may harm mental health. In my opinion, it is a useful tool when we use it with care and limit our time.
+:::
+
+**Points (8).**
+
+1. Title and rating.
+2. Director and cast.
+3. Summary without the ending.
+4. Strengths.
+5. Weaknesses.
+6. Theme.
+7. Recommendation.
+8. Essay: advantages, disadvantages and your view.
+
+**Conclusion.** Be fair: praise what is good and mention what is weak.
+
+### Model answer D2: questions and causatives (10 marks)
+
+**Questions.**
+
+1. **Yes/no:** auxiliary + subject + verb: *Did Hachi wait? Is he loyal?*
+2. **Wh-question:** wh-word + auxiliary + subject + verb: *Where did he wait?*
+3. **Subject question** (the wh-word is the subject) has no auxiliary: *Who directed the film?*
+4. If there is no auxiliary, use **do/does/did** + base verb.
+
+**Causatives.**
+
+5. **have + person + base verb:** *I had the barber cut my hair.*
+6. **get + person + to + verb:** *She got her brother to fix the bike.*
+7. **make / let + person + base verb:** *The teacher made us write; she let us leave early.*
+8. **have/get + thing + V3:** *We had the house painted.* **be made to + verb** (passive): *They were made to wait.*
+
+| Causative | Example |
+|---|---|
+| have + person | I had the mechanic repair my bike. |
+| get + person + to | I got him to repair it. |
+| have + thing + V3 | I had my bike repaired. |
+| make | The rain made us stay indoors. |
+
+**Conclusion.** Check the word order for questions and the form after each causative.

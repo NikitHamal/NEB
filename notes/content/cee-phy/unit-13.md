@@ -695,6 +695,62 @@ polarized, but in the complementary sense (it is richer in the in-plane componen
 - **Stress analysis** in transparent models, and the study of optically active
   substances (a sugar solution rotates the plane of polarization).
 
+```photogrid label="13.1" cols="2" ratio="1.2" caption="A CD is a reflection grating. (a) The 1.6 micrometre track spacing splits white light into rainbow arcs. (b) From d sin(theta) = m lambda, violet (400 nm) and red (700 nm) leave at 14.5 and 25.9 degrees in order 1, 30.0 and 61.0 degrees in order 2, while order 3 starts at 48.6 degrees and reaches the grazing limit at 533 nm because 3 x 700 / 1600 is more than 1. Orders 2 and 3 overlap from 48.6 to 61.0 degrees, so higher orders are not pure colours. Red bends more than violet, the reverse of a prism."
+@ photo id="ceephy/cdrainbow" cap="Light from a window diffracted by the closely spaced tracks of a compact disc"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Where the first three orders of a CD fall"
+d = 1.6e-6
+ang = lambda lam, m: math.degrees(math.asin(m * lam / d)) if m * lam / d <= 1 else None
+def rgb(l):
+    if l < 440: r, g, b = (440 - l) / 40, 0, 1
+    elif l < 490: r, g, b = 0, (l - 440) / 50, 1
+    elif l < 510: r, g, b = 0, 1, (510 - l) / 20
+    elif l < 580: r, g, b = (l - 510) / 70, 1, 0
+    elif l < 645: r, g, b = 1, (645 - l) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % tuple(int(255 * c) for c in (r, g, b))
+a1v, a1r, a2v, a2r, a3v = ang(400e-9, 1), ang(700e-9, 1), ang(400e-9, 2), ang(700e-9, 2), ang(400e-9, 3)
+assert ang(700e-9, 3) is None and abs(a1v - 14.48) < 0.01 and abs(a2r - 61.04) < 0.01 and abs(a2v - 30.0) < 1e-9
+lo, hi = a3v, a2r
+assert abs(lo - 48.59) < 0.01
+facts = dict(a1v="%.1f" % a1v, a1r="%.1f" % a1r, a2v="%.1f" % a2v, a2r="%.1f" % a2r, a3v="%.1f" % a3v, lo="%.1f" % lo, hi="%.1f" % hi)
+f = Fig(300, 236)
+f.text(150, 14, "d sin(theta) = m lambda, d = 1.6 um", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 2.6
+for m, y in ((1, 40), (2, 80), (3, 120)):
+    f.text(20, y + 13, "m=%d" % m, size=10.5, color=SLATE, bold=True)
+    for lam in range(400, 700, 6):
+        s1, s2 = m * lam * 1e-9 / d, m * (lam + 6) * 1e-9 / d
+        if s2 > 1: break
+        x1, x2 = X(math.degrees(math.asin(s1))), X(math.degrees(math.asin(s2)))
+        f.box(x1, y, max(x2 - x1, 1.2), 26, fill=rgb(lam), stroke=rgb(lam), r=0, sw=0.3)
+f.line(X(0), 160, X(90), 160, color=SLATE, sw=1.4)
+for t in (0, 30, 60, 90): f.text(X(t), 173, "%d" % t, size=10.5, color=SLATE)
+f.text(150, 192, "orders 2 and 3 overlap %.1f to %.1f" % (lo, hi), size=10.5, color=RED, bold=True)
+f.text(150, 210, "order 1: %.1f (violet) to %.1f (red)" % (a1v, a1r), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "angle theta in degrees from the normal", size=10.5, color=SLATE)
+```
+
+```photogrid label="13.2" cols="2" ratio="1.2" caption="Cutting glare with polarisers. (a) Polarising sunglasses pass light vibrating in one direction only, arranged to block the horizontal vibrations of glare. (b) The cell applies Malus's law I = I0 cos2(theta): the transmitted fraction is 75 per cent at 30 degrees, 50 per cent at 45 degrees and zero at 90 degrees. Light reflected from water or glass is partly polarised and is completely polarised parallel to the surface at Brewster's angle, tan(p) = n, which is 53.1 degrees for water and 56.3 degrees for glass. A lens turned across that direction therefore removes the glare from a lake or a windscreen while the rest of the scene stays visible."
+@ photo id="ceephy3/sunglasses" cap="Polarising sunglasses"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Malus's law and Brewster's angle"
+import math
+rows = [("%d deg" % a, math.cos(math.radians(a)) ** 2 * 100) for a in (0, 30, 45, 60, 90)]
+bw_, bg = math.degrees(math.atan(1.33)), math.degrees(math.atan(1.5))
+assert round(rows[1][1]) == 75 and round(rows[2][1]) == 50 and round(bw_, 1) == 53.1 and round(bg, 1) == 56.3
+f = Fig(300, 236)
+f.text(150, 12, "Malus: I / I0 = cos^2(theta), per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=100, fmt="%.0f", x0=56, y0=28, bw=170, gap=26)
+f.text(150, 168, "theta = angle between polariser and analyser", size=10, color=SLATE, bold=True)
+f.text(150, 188, "Brewster angle: water %.1f deg, glass %.1f deg" % (bw_, bg), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "unpolarised light through one polariser: 50%", size=10, color=SLATE, bold=True)
+f.text(150, 222, "then a second at 45 deg: 25% of the original", size=10, color=SLATE, bold=True)
+facts = dict(bw=bw_, bg=bg, a30=rows[1][1], a45=rows[2][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -913,3 +969,75 @@ polarized, but in the complementary sense (it is richer in the in-plane componen
 **9.** (c) — $\tan\theta_p = \sqrt{3}$ gives $\theta_p = 60^{\circ}$; the refracted ray is then at 30° and the two are perpendicular.
 **10.** (a) — $r_3 = \sqrt{3\lambda R} = \sqrt{3(600\times10^{-9})(1)} = 1.34\times10^{-3}$ m. Option (b) is the first dark ring.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Young's double-slit experiment and derive the fringe width. State the conditions for sustained interference. <span class="marks">[10]</span>
+2. Explain single-slit diffraction, the diffraction grating, and polarisation with Brewster's and Malus' laws. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.25" caption="Wave optics in pictures. (a) Ripples from two sources interfere, leaving lines of constructive and destructive interference. (b) A diffraction grating splits light into spectra at angles given by d sin(theta) = n lambda. (c) Polarising sunglasses block horizontally polarised glare."
+@ photo id="cee-phy/ripple-interference" cap="(a) Two-source interference"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/grating" cap="(b) Diffraction grating"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy3/sunglasses" cap="(c) Polarising sunglasses"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Young's double-slit experiment (10 marks)
+
+**Introduction.** **Interference** is the redistribution of energy when two coherent waves overlap. It supports the wave nature of light. Young obtained two coherent sources by dividing one wavefront with two narrow slits $S_1$ and $S_2$ separated by $d$, with the screen at a distance $D$.
+
+**Derivation.** A point $P$ at a distance $y$ from the central point $O$ receives waves from both slits. The path difference is $\Delta = S_2P - S_1P \approx \dfrac{yd}{D}$ for $d, y \ll D$.
+
+1. **Bright fringe:** $\Delta = n\lambda$, so $y_n = \dfrac{n\lambda D}{d}$, with $n = 0, 1, 2, \ldots$
+2. **Dark fringe:** $\Delta = (n + \tfrac12)\lambda$, so $y_n = \dfrac{(n + \tfrac12)\lambda D}{d}$.
+3. **Fringe width** (distance between consecutive bright or dark fringes): $\beta = \dfrac{\lambda D}{d}$.
+4. **Intensity.** With equal slits, $I = 4I_0\cos^2\dfrac\phi2$, where $\phi = \dfrac{2\pi}{\lambda}\Delta$ is the phase difference. $I_{max} = 4I_0$, $I_{min} = 0$, and the average is $2I_0$, so energy is conserved.
+
+**Conditions for sustained interference.** The two sources must be **coherent** (constant phase difference), of the same frequency, have nearly equal amplitudes for good contrast, and be close together. The slits must be narrow and the screen far away.
+
+| Change | Effect on fringe width |
+|---|---|
+| Blue light instead of red | decreases ($\lambda$ smaller) |
+| Slit separation doubled | halves |
+| Screen moved farther | increases |
+| Whole set-up in water | decreases by factor $n$ |
+| Thin sheet of thickness $t$ over one slit | pattern shifts by $(n - 1)tD/d$, width unchanged |
+
+White light gives a white central fringe with coloured edges on both sides.
+
+**Numerical.** For $\lambda = 600\ \text{nm}$, $d = 0.5\ \text{mm}$ and $D = 1.5\ \text{m}$: $\beta = \dfrac{600\times10^{-9}\times1.5}{0.5\times10^{-3}} = 1.8\times10^{-3}\ \text{m} = 1.8\ \text{mm}$. The third bright fringe is at $3\times1.8 = 5.4\ \text{mm}$ and the second dark fringe at $1.5\times1.8 = 2.7\ \text{mm}$.
+
+**Conclusion.** Fringe width $\beta = \lambda D/d$ is uniform, and the experiment gives a simple way to measure the wavelength of light.
+
+### Model answer D2: diffraction, grating and polarisation (10 marks)
+
+**Introduction.** **Diffraction** is the bending of waves around obstacles or through openings of size comparable to the wavelength.
+
+**Single slit** (width $a$). The minima are at $a\sin\theta = n\lambda$ ($n = \pm1, \pm2, \ldots$), and the central maximum, twice as wide as the others, has width $\dfrac{2\lambda D}{a}$ on the screen. Narrower slits give a wider pattern. The secondary maxima are much weaker (about $4.5\%$ and $1.6\%$ of the central one).
+
+**Diffraction grating.** A grating has many equally spaced slits with spacing $d = 1/N$ ($N$ lines per metre). The principal maxima obey $d\sin\theta = n\lambda$. The maxima are sharp, so the grating separates wavelengths far better than a prism. The maximum order is $n_{max} < d/\lambda$.
+
+**Polarisation.** Light is a transverse wave, so it can be polarised. Longitudinal waves such as sound cannot be.
+
+1. **Malus' law.** The intensity transmitted by an analyser at angle $\theta$ to the polariser is $I = I_0\cos^2\theta$. An unpolarised beam falls to half its intensity on passing a polariser.
+2. **Brewster's law.** At the **polarising angle** $\theta_p$, the reflected light is completely plane-polarised and $\tan\theta_p = n$. The reflected and refracted rays are then at $90^{\circ}$.
+3. **Uses.** Sunglasses, 3-D cinema, stress analysis in glass, and sugar solution analysis (optical activity).
+
+| Feature | Interference | Diffraction |
+|---|---|---|
+| Sources | two coherent sources | single wavefront, many points |
+| Fringes | equal width | unequal width |
+| Intensity of minima | zero | not exactly zero |
+
+**Numerical.**
+
+- A slit of width $0.1\ \text{mm}$ with $\lambda = 500\ \text{nm}$ and $D = 1\ \text{m}$ gives a central maximum of width $\dfrac{2\times5\times10^{-7}\times1}{10^{-4}} = 1\ \text{cm}$.
+- A grating with $5000$ lines per cm has $d = 2\times10^{-6}\ \text{m}$. For $500\ \text{nm}$, $\sin\theta_1 = 0.25$, $\theta_1 = 14.5^{\circ}$, and $d/\lambda = 4$, so the highest order is $3$ (the fourth falls at $90^{\circ}$). Total number of maxima $= 7$.
+- For glass with $n = 1.5$, $\theta_p = \tan^{-1}1.5 = 56.3^{\circ}$. An unpolarised beam of intensity $100$ passes two polarisers at $60^{\circ}$ to each other: $100\times\tfrac12\times\cos^260^{\circ} = 12.5$.
+
+**Conclusion.** Diffraction limits the resolution of instruments, the grating exploits it to analyse light, and polarisation proves that light is transverse.

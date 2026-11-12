@@ -64,6 +64,31 @@ $I=I_0\sin\omega t$; $I_{rms}=\frac{I_0}{\sqrt{2}}=0.707I_0$ (220 V mains has a 
 Potential is a scalar and field a vector; when charges are shared, charge is conserved but energy is not. A dielectric inserted with the battery *disconnected* lowers $V$; with it *connected* raises $Q$. In AC problems use rms values unless asked for the peak. The voltage rating of a ceramic capacitor is its limit; the force between parallel wires is attractive for *parallel* currents.
 :::
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Why a Van de Graaff generator has a big smooth sphere. (a) A demonstration generator: charge carried up a belt spreads over the outside of the hollow sphere, and the visitor's hair stands up because every strand gets the same sign of charge. (b) Dry air breaks down when the field at the surface reaches about $3\\times10^{6}$ V per m. Since $E = V/R$ at the surface of a sphere, the largest potential is $V = 3\\times10^{6}R$, and the charge that holds it is $Q = 4\\pi\\varepsilon_0 R V$. Computed for three radii."
+@ photo id="ioephy/vdg" cap="A Van de Graaff generator at a science museum"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Largest potential before air sparks"
+import math
+k = 8.99e9; Emax = 3e6
+rows = []
+for R in (0.10, 0.15, 0.25):
+    V = Emax * R; Q = V * R / k; rows.append((R, V, Q))
+assert abs(rows[1][1] - 450e3) < 1 and abs(rows[1][2] * 1e6 - 7.5) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "dry air limit E = 3 MV/m", size=10.5, color=NAVY, bold=True)
+for i, (R, V, Q) in enumerate(rows):
+    y = 34 + i * 48; w = 200 * V / 750e3
+    f.text(8, y, "radius %d cm" % round(R * 100), size=10.5, color=TEAL, bold=True, anchor="start")
+    f.box(8, y + 6, w, 20, "", fill=MINT, stroke=TEAL, r=3, sw=1)
+    f.text(min(w + 14, 214), y + 16, "%d kV" % round(V / 1000), size=10.5, color=NAVY if w > 200 else TEAL, bold=True, anchor="start", vmid=True)
+    f.text(292, y, "Q = %.1f µC" % (Q * 1e6), size=10.5, color=SLATE, anchor="end")
+f.text(150, 192, "V = E R,  Q = V R / k,  k = 8.99e9", size=10.5, color=SLATE)
+f.text(150, 212, "doubling R doubles V and quadruples Q", size=10.5, color=AMBER, bold=True)
+assert abs(rows[2][2] / rows[0][2] - 6.25) < 1e-6
+f.text(150, 230, "sharp points leak charge: use a smooth sphere", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -186,3 +211,98 @@ Potential is a scalar and field a vector; when charges are shared, charge is con
 **5.** (c) — $\omega_0=316$ rad s⁻¹, $Q=\frac{\omega_0L}{R}=\frac{31.6}{10}$.
 **6.** (d) — $Blv=0.2\times0.5\times4$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Coulomb's law, define electric field and potential, and explain capacitors in series and parallel with the energy stored. <span class="marks">[10]</span>
+2. State Kirchhoff's laws; explain internal resistance, the Wheatstone bridge and the potentiometer, with numericals. <span class="marks">[10]</span>
+3. Explain electromagnetic induction, the transformer and the series LCR circuit with resonance and power factor. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="5" ratio="1.1" caption="Electricity and magnetism. (a) Capacitors store charge and energy. (b) A transformer changes AC voltage by electromagnetic induction. (c) A Van de Graaff generator builds up a very high potential. (d) A galvanometer detects small currents through the torque on a coil. (e) Lightning is a natural electrostatic discharge."
+@ photo id="ceephy/capacitors" cap="(a) Capacitors"
+fit 1.1
+focus 0.5 0.5
+@ photo id="phy12b/transformer" cap="(b) Transformer"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ioephy/vdg" cap="(c) Van de Graaff"
+fit 1.1
+focus 0.5 0.5
+@ photo id="phy12/galvanometer" cap="(d) Galvanometer"
+fit 1.1
+focus 0.5 0.5
+@ photo id="phy12b/lightning" cap="(e) Lightning"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Electrostatics and capacitors (10 marks)
+
+**Introduction.** **Coulomb's law:** the force between two point charges in vacuum is $F = \frac{1}{4\pi\varepsilon_0}\frac{q_1q_2}{r^2}$, along the line joining them, with $\frac{1}{4\pi\varepsilon_0} = 9\times10^9\ \text{N m}^2\text{C}^{-2}$. For $2\ \mu\text{C}$ and $3\ \mu\text{C}$ at $0.3\ \text{m}$: $F = 9\times10^9\times\frac{6\times10^{-12}}{0.09} = 0.6\ \text{N}$.
+
+**Field and potential.**
+
+1. **Electric field** $E = F/q_0 = \frac{kQ}{r^2}$ (unit N C⁻¹ or V m⁻¹).
+2. **Potential** $V = \frac{kQ}{r}$ (a scalar); $E = -\frac{dV}{dr}$.
+3. **Gauss's law:** $\oint E\cdot dA = \frac{Q}{\varepsilon_0}$; inside a charged conducting sphere the field is zero.
+4. **Potential energy** of two charges $U = \frac{kq_1q_2}{r}$.
+
+**Capacitor.** $C = \frac{Q}{V}$; a parallel-plate capacitor has $C = \frac{\varepsilon_0A}{d}$, and a dielectric of constant $K$ multiplies it by $K$.
+
+| Arrangement | Equivalent capacitance | Charge and voltage |
+|---|---|---|
+| Series | $\frac{1}{C} = \frac{1}{C_1} + \frac{1}{C_2}$ | Same $Q$, voltages add |
+| Parallel | $C = C_1 + C_2$ | Same $V$, charges add |
+
+For $4\ \mu\text{F}$ and $12\ \mu\text{F}$: series $= \frac{4\times12}{16} = 3\ \mu\text{F}$ and parallel $= 16\ \mu\text{F}$.
+
+**Energy stored.** $U = \frac{1}{2}CV^2 = \frac{Q^2}{2C} = \frac{1}{2}QV$. For the $3\ \mu\text{F}$ combination charged to $12\ \text{V}$: $U = \frac{1}{2}\times3\times10^{-6}\times144 = 216\ \mu\text{J}$. The energy density is $\frac{1}{2}\varepsilon_0E^2$.
+
+**Conclusion.** Charges create fields and potentials, and capacitors store energy in the field between their plates.
+
+### Model answer D2: DC circuits (10 marks)
+
+**Introduction.** Ohm's law ($V = IR$) is not enough for a network, so Kirchhoff's laws are used.
+
+**Kirchhoff's laws.**
+
+1. **Junction (current) law:** the sum of currents entering a junction equals the sum leaving ($\sum I = 0$), which expresses conservation of charge.
+2. **Loop (voltage) law:** around a closed loop $\sum E = \sum IR$, which expresses conservation of energy.
+
+**Internal resistance.** A cell of emf $E$ and internal resistance $r$ gives $I = \frac{E}{R + r}$ and a terminal voltage $V = E - Ir$. For $E = 12\ \text{V}$, $r = 1\ \Omega$, $R = 5\ \Omega$: $I = 2\ \text{A}$ and $V = 10\ \text{V}$. Maximum power goes to the load when $R = r$.
+
+**Wheatstone bridge.** Four resistances $P, Q, R, S$ are balanced when no current flows in the galvanometer: $\frac{P}{Q} = \frac{R}{S}$. For $P = 10\ \Omega$, $Q = 15\ \Omega$, $R = 20\ \Omega$: $S = \frac{RQ}{P} = 30\ \Omega$. The **meter bridge** is the practical form, using $S = R\,\frac{100 - l}{l}$.
+
+**Potentiometer.** A long uniform wire carries a steady current. A cell is balanced at length $l$ where the potential difference equals its emf, so no current is drawn. Uses: (a) **compare emfs** $\frac{E_1}{E_2} = \frac{l_1}{l_2}$; (b) find the internal resistance $r = R\left(\frac{l_1}{l_2} - 1\right)$. It is more accurate than a voltmeter.
+
+**Series and parallel.** Series: $R = R_1 + R_2$; parallel: $\frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2}$.
+
+| Instrument | Principle | Advantage |
+|---|---|---|
+| Wheatstone bridge | Balanced ratio | Accurate $R$ |
+| Potentiometer | Null deflection | No current drawn from the cell |
+| Voltmeter | Deflection | Draws some current |
+
+**Conclusion.** Kirchhoff's laws solve any network, and null-deflection methods give accurate measurements.
+
+### Model answer D3: Electromagnetic induction, transformer and AC circuits (10 marks)
+
+**Introduction.** **Faraday's law:** the induced emf is $E = -\frac{d\Phi}{dt}$, and **Lenz's law** (the minus sign) says that the induced current opposes the change that produces it, so energy is conserved.
+
+**Transformer.** It has primary and secondary coils on a soft-iron core, and works only with AC. $\frac{V_s}{V_p} = \frac{N_s}{N_p} = \frac{I_p}{I_s}$ (ideal). A step-down transformer from $11{,}000\ \text{V}$ to $230\ \text{V}$ has turns ratio $\frac{11000}{230} = 47.8$. Losses: copper loss, eddy currents (laminated core), hysteresis and flux leakage.
+
+**Series LCR circuit.** The reactances are $X_L = \omega L$ and $X_C = \frac{1}{\omega C}$, so $Z = \sqrt{R^2 + (X_L - X_C)^2}$ and $\tan\phi = \frac{X_L - X_C}{R}$. **Numerical:** $R = 40\ \Omega$, $L = 0.2\ \text{H}$, $C = 100\ \mu\text{F}$, $230\ \text{V}$, $50\ \text{Hz}$.
+
+| Quantity | Working | Value |
+|---|---|---|
+| $X_L$ | $2\pi\times50\times0.2$ | $62.8\ \Omega$ |
+| $X_C$ | $\frac{1}{2\pi\times50\times10^{-4}}$ | $31.8\ \Omega$ |
+| $Z$ | $\sqrt{40^2 + 31.0^2}$ | $50.6\ \Omega$ |
+| $I_{rms}$ | $230/50.6$ | $4.54\ \text{A}$ |
+| Phase angle | $\tan^{-1}(31.0/40)$ | $37.8^\circ$ (voltage leads) |
+| Power factor | $R/Z$ | $0.79$ |
+| Power | $VI\cos\phi = I^2R$ | $826\ \text{W}$ |
+
+**Resonance.** When $X_L = X_C$, $Z = R$ (minimum), the current is maximum and the power factor is 1. The resonant frequency is $f_0 = \frac{1}{2\pi\sqrt{LC}}$; here $f_0 = 35.6\ \text{Hz}$. This is how a radio is tuned to a station.
+
+**Conclusion.** Changing flux induces emf, transformers use it to change voltage, and in an AC circuit the average power depends on the power factor.

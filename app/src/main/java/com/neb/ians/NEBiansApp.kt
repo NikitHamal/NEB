@@ -42,11 +42,6 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader {
         val isLowEnd = DevicePerformance.isLowEndDevice(this)
         return ImageLoader.Builder(this)
-            .components {
-                add(com.neb.ians.ui.avatar.AvatarMapper())
-                add(com.neb.ians.ui.avatar.AvatarKeyer())
-                add(com.neb.ians.ui.avatar.AvatarFetcher.Factory())
-            }
             .memoryCache {
                 MemoryCache.Builder(this)
                     .maxSizePercent(if (isLowEnd) 0.15 else 0.25)
@@ -114,6 +109,11 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                     "Forum Activity",
                     NotificationManager.IMPORTANCE_DEFAULT
                 ).apply { description = "Replies and activity on your forum posts" },
+                NotificationChannel(
+                    "library_alerts",
+                    "Library alerts",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply { description = "New resources for your class and subjects" },
                 NotificationChannel(
                     "downloads",
                     "Downloads",

@@ -87,7 +87,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut PeopleState) {
         }
     }
     scroll_page(ui, env, "people", |ui, env| {
-        widgets::screen_header(ui, &th, "People", Some("Find classmates, teachers and contributors."));
+        widgets::screen_header(ui, &th, "People");
         let w = ui.available_width();
         widgets::text_field(ui, &th, &mut st.query, "Search by name or username", Some(Icon::Search), w.min(560.0), false);
         ui.add_space(16.0);

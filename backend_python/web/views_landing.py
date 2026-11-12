@@ -23,7 +23,7 @@ from .view_helpers import _get_user_id
 LEGACY_PREFIXES = (
     'library', 'forum', 'marketplace', 'interactive', 'subject', 'search', 'news', 'results',
     'tools', 'reader', 'resource', 'upload', 'requests', 'profile', 'settings', 'bookmarks',
-    'analytics', 'credits', 'my-avatar', 'past-papers', 'model-questions',
+    'analytics', 'credits', 'past-papers', 'model-questions',
     'online-learning', 'faq', 'study-space', 'study-lab', 'canvas', 'notifications',
 )
 
@@ -95,6 +95,21 @@ def _live_discussions():
     return data
 
 
+LANDING_SEO = {
+    'title': 'NEBians — Study materials. Study mates.',
+    'description': 'Free notes, past papers and solved study books for every class, field and level in Nepal, and a forum where students answer each other.',
+    'og_description': "Free notes, past papers and solved study books for every class, field and level, and a forum where Nepal's students help each other.",
+    'path': '/',
+}
+
+ABOUT_SEO = {
+    'title': 'About NEBians — Nepal\'s open learning community by Consica Labs',
+    'description': 'NEBians is a free study platform for Nepal: notes, past papers, solved study books and a student forum for every class and level. Meet the team at Consica Labs.',
+    'og_description': 'Free notes, past papers and a student forum for every level in Nepal. Meet the team behind NEBians at Consica Labs.',
+    'path': '/about/',
+}
+
+
 @require_GET
 def landing(request):
     from .views_og import CARD_VERSION
@@ -108,8 +123,30 @@ def landing(request):
         # so it has to name the card itself. Taking the version from the
         # renderer means a redesign bumps the URL here too.
         'og_card_version': CARD_VERSION,
+        'seo': LANDING_SEO,
     }
     response = render(request, 'landing/landing.html', ctx)
+    if not ctx['signed_in']:
+        response['Cache-Control'] = 'private, max-age=60'
+    return response
+
+
+@require_GET
+def about(request):
+    from . import about_data
+    from .views_og import CARD_VERSION
+    ctx = {
+        'signed_in': bool(_get_user_id(request)),
+        'seo': ABOUT_SEO,
+        'jsonld': about_data.jsonld(ABOUT_SEO),
+        'team': about_data.team(),
+        'pillars': about_data.PILLARS,
+        'steps': about_data.STEPS,
+        'promises': about_data.PROMISES,
+        'current': 'about',
+        'og_card_version': CARD_VERSION,
+    }
+    response = render(request, 'landing/about.html', ctx)
     if not ctx['signed_in']:
         response['Cache-Control'] = 'private, max-age=60'
     return response

@@ -53,6 +53,7 @@ class NEBiansFCMService : FirebaseMessagingService() {
     }
 
     private fun resolveChannelId(verb: String, targetType: String): String {
+        if (verb == "new_resource") return CHANNEL_LIBRARY
         if (verb == "system") return CHANNEL_ANNOUNCEMENTS
         if (targetType == "resource" || targetType == "resource_comment") return CHANNEL_DOWNLOADS
         return CHANNEL_FORUM
@@ -62,5 +63,6 @@ class NEBiansFCMService : FirebaseMessagingService() {
         const val CHANNEL_ANNOUNCEMENTS = "announcements"
         const val CHANNEL_FORUM = "forum_activity"
         const val CHANNEL_DOWNLOADS = "downloads"
+        const val CHANNEL_LIBRARY = "library_alerts"
     }
 }

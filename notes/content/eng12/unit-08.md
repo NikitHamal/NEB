@@ -754,3 +754,53 @@ producing one.
 tense throughout. Vary sentence length: after three long sentences, use a short
 one. And resist the urge to say what you learned — a personal essay shows, and
 lets the reader conclude.
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how Emily Dickinson's "A Day" moves from the telling of the sunrise to the guessing of the sunset. <span class="marks">[10]</span>
+2. Discuss the poem's imagery, form and its theme of innocence and experience. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="2" ratio="1.4" caption="Poet and subject. Emily Dickinson (about 1847) and a Himalayan sunrise, the kind of dawn that the child-speaker of the poem tries to describe."
+@ photo id="eng12/dickinson" cap="Emily Dickinson"
+@ photo id="nep10/himalaya-sunrise" cap="A sunrise, the poem's subject"
+```
+
+### Model answer D1: from telling the sunrise to guessing the sunset (10 marks)
+
+**Introduction.** **Emily Dickinson** (1830–1886) of Amherst, Massachusetts wrote about 1,800 poems and published almost none. "A Day" (J318 / F204), written about 1860, was first printed in 1890 and was titled by her editors, not by her. Its sixteen lines form four *abcb* quatrains.
+
+1. **The speaker is a child** who runs in with news: "I'll tell you how the sun rose".
+2. **Stanzas 1–2 tell the sunrise.** The excited, slightly ungrammatical voice pours out pictures and ends in an exclamation mark.
+3. **Four bright metaphors** carry the dawn: a ribbon, amethyst steeples, squirrel-news and hills untying their bonnets.
+4. **The turn comes at "But how he set, I know not".** The child stops; confident telling becomes honest not-knowing.
+5. **Stanzas 3–4 guess at the sunset.** They use a hushed allegory of a **purple stile**, little yellow boys and girls climbing over it, and a **grey dominie**.
+6. **The dominie gently puts up the evening bars** and leads the flock away, a picture of an elder, a teacher or a shepherd.
+7. **The day is a life**: the stile is the boundary of death and the dominie is a consolation the poem offers without quite promising.
+8. **The tone changes** from noise to silence and from certainty to mystery.
+
+**Conclusion.** The poem moves from what a child can see to what no living person can see, and it is honest enough to say "I know not".
+
+### Model answer D2: imagery, form and theme (10 marks)
+
+**Introduction.** "A Day" is a sixteen-line lyric whose bright surface hides a quiet meditation on life and death.
+
+1. **Form:** four *abcb* quatrains in something very close to the hymn-book's **common metre**; the opening line of stanzas 1–3 is a syllable short, which gives the child's voice a breathless start.
+2. **Voice:** the speaker is a child in stanzas 1–2 and a hushed observer in stanzas 3–4.
+3. **Sunrise imagery** is bright and playful: ribbon, amethyst steeples, squirrel-news and bonneted hills.
+4. **Sunset imagery** is an allegory: purple stile, yellow children, grey dominie and evening bars.
+5. **Colour contrast:** the yellows and purples of dawn become the **purple** of dusk and the **grey** of the dominie.
+6. **Theme of innocence and experience:** the child can tell what has been seen but can only wonder about what is unseen.
+7. **Theme of death:** the "stile" is a boundary that the flock climbs over, and the dominie's gentleness softens the fear.
+8. **Poet's technique:** metaphor, personification, allegory and the sudden turn.
+
+| | Stanzas 1–2 | Stanzas 3–4 |
+|---|---|---|
+| Event | Sunrise | Sunset |
+| Voice | Excited child | Hushed guesser |
+| Mood | Knowledge, noise | Mystery, silence |
+| Imagery | Ribbon, steeples, bonnets | Stile, dominie, bars |
+
+**Conclusion.** Dickinson turns one day into a whole life and leaves the reader at the stile, comforted but not certain.

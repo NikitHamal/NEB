@@ -1413,6 +1413,30 @@ Learn this table. Roughly a third of the marks in this unit are a direct
 read-off from one of its rows.
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A parabola sends every incoming ray parallel to its axis through one point, the focus, which is why a dish collects a faint signal there. (a) A satellite dish. (b) The cross-section of a dish 40 cm wide and 10 cm deep follows y^2 = 4ax. Putting y = 0.20 m at x = 0.10 m gives a = 0.100 m, so the focus is 0.10 m from the vertex. The amber rays arrive parallel to the axis and the red lines show each one reflected to F, where the receiver is mounted. A deeper dish has a shorter focal length because a = D^2 / (16 x depth)."
+@ photo id="math12/dish" cap="A satellite dish whose cross-section is a parabola"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Focus of a dish 40 cm wide and 10 cm deep"
+D = 0.40; dep = 0.10
+a = D * D / (16 * dep)
+assert abs(a - 0.1) < 1e-12 and abs(math.sqrt(4 * a * dep) - D / 2) < 1e-12
+f = Fig(300, 236)
+f.text(150, 14, "y^2 = 4ax, vertex at the origin", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 30, 24, 260, 180, (-0.1, 0.55), (-0.225, 0.225))
+for sg in (1, -1):
+    ax.curve(lambda x, sg=sg: sg * math.sqrt(4 * a * x), 0, dep, color=NAVY, sw=3)
+f.line(ax.X(-0.1), ax.Y(0), ax.X(0.55), ax.Y(0), color=SLATE, dash=True)
+for yv in (-0.2, -0.1, 0.1, 0.2):
+    xv = yv * yv / (4 * a)
+    f.line(ax.X(0.5), ax.Y(yv), ax.X(xv), ax.Y(yv), color=AMBER, sw=1.4)
+    f.line(ax.X(xv), ax.Y(yv), ax.X(a), ax.Y(0), color=RED, sw=1.2)
+ax.pt(a, 0, "focus F", dx=6, dy=-10, color=RED)
+f.text(ax.X(0) - 4, ax.Y(0) + 16, "V", size=11, color=NAVY, bold=True)
+f.text(150, 222, "a = D^2 / (16 depth) = %.3f m, rim at x = %.2f m" % (a, dep), size=10, color=NAVY, bold=True)
+facts = dict(a=a, D=D * 100, dep=dep * 100)
+```
+
 ## Chapter summary
 
 - A **conic** is the locus of $P$ with $PS/PM = e$, where $S$ is the focus and the
@@ -1687,3 +1711,120 @@ Normal $\dfrac{a^{2}x}{x_1}-\dfrac{b^{2}y}{y_1} = a^{2}-b^{2}$:
 $$ \frac{9x}{\sqrt{5}} - \frac{4y}{4/3} = 9-4 \Rightarrow
 \frac{9x}{\sqrt{5}} - 3y = 5 \Rightarrow 9x - 3\sqrt{5} y = 5\sqrt{5} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the condition for a line to touch a circle, and find the equations of the tangent and normal to a circle at a point. <span class="marks">[10]</span>
+2. Derive the standard equation of a parabola and find its tangent and normal at a point, with the condition of tangency. <span class="marks">[10]</span>
+3. Derive the standard equations of the ellipse and the hyperbola, and compare their properties. <span class="marks">[10]</span>
+
+### Model answer D1: tangent and normal to a circle (10 marks)
+
+**Introduction.** A **tangent** to a circle is a line that touches it at exactly one point, and it is perpendicular to the radius at that point. The **normal** is the line through the point perpendicular to the tangent, so it passes through the centre.
+
+**Condition of tangency.** For the circle $x^{2}+y^{2}=r^{2}$ and the line $y=mx+c$:
+
+1. The line touches the circle if the **distance of the centre $(0,0)$ from the line equals the radius**.
+2. The distance from $(0,0)$ to $mx-y+c=0$ is $\dfrac{|c|}{\sqrt{1+m^{2}}}$.
+3. Setting it equal to $r$ and squaring:
+
+$$ c^{2}=r^{2}(1+m^{2}) $$
+
+so the tangents of slope $m$ are $y=mx\pm r\sqrt{1+m^{2}}$.
+
+*Alternative proof.* Substituting $y=mx+c$ in the circle gives $(1+m^{2})x^{2}+2mcx+c^{2}-r^{2}=0$; a tangent gives one repeated root, so the discriminant is zero: $4m^{2}c^{2}-4(1+m^{2})(c^{2}-r^{2})=0$, i.e. $c^{2}=r^{2}(1+m^{2})$.
+
+**Tangent at a point $(x_1,y_1)$ on the circle.** The slope of the radius is $\dfrac{y_1}{x_1}$, so the slope of the tangent is $-\dfrac{x_1}{y_1}$. The tangent is $y-y_1=-\dfrac{x_1}{y_1}(x-x_1)$, and using $x_1^{2}+y_1^{2}=r^{2}$:
+
+$$ xx_1+yy_1=r^{2} $$
+
+**Normal at $(x_1,y_1)$.** It passes through the centre: $\dfrac xx_1=\dfrac y{y_1}$, i.e. $y_1x-x_1y=0$.
+
+**General circle** $x^{2}+y^{2}+2gx+2fy+c=0$: centre $(-g,-f)$, radius $\sqrt{g^{2}+f^{2}-c}$, and the tangent at $(x_1,y_1)$ is $xx_1+yy_1+g(x+x_1)+f(y+y_1)+c=0$.
+
+| Item | Formula (circle $x^{2}+y^{2}=r^{2}$) |
+|---|---|
+| Tangency of $y=mx+c$ | $c^{2}=r^{2}(1+m^{2})$ |
+| Tangent at $(x_1,y_1)$ | $xx_1+yy_1=r^{2}$ |
+| Normal at $(x_1,y_1)$ | $y_1x-x_1y=0$ |
+
+**Worked examples.**
+
+1. Tangent at $(3,4)$ to $x^{2}+y^{2}=25$: $3x+4y=25$. Normal: $4x-3y=0$.
+2. Tangents of slope $1$: $c^{2}=25(1+1)=50$, so $y=x\pm5\sqrt2$ ($\pm7.07$).
+3. For $x^{2}+y^{2}-6x+4y-12=0$: $g=-3$, $f=2$, centre $(3,-2)$ and radius $\sqrt{9+4+12}=5$.
+4. Is $3x+4y=25$ tangent to the circle $x^{2}+y^{2}=25$? The distance from the centre is $\dfrac{25}{5}=5=r$, so it is.
+
+**Conclusion.** A line is tangent when the centre-to-line distance equals the radius, and the tangent at $(x_1,y_1)$ is $xx_1+yy_1=r^{2}$.
+
+### Model answer D2: parabola, tangent and normal (10 marks)
+
+**Introduction.** A **parabola** is the locus of a point that moves so that its distance from a fixed point (the **focus**) is equal to its distance from a fixed line (the **directrix**); the eccentricity is $e=1$. The reflector of a satellite dish or a torch has this shape.
+
+**Standard equation.** Let the focus be $S(a,0)$ and the directrix $x=-a$. For a point $P(x,y)$, $SP=PM$ gives
+
+$$ \sqrt{(x-a)^{2}+y^{2}}=x+a\ \Rightarrow\ (x-a)^{2}+y^{2}=(x+a)^{2}\ \Rightarrow\ y^{2}=4ax $$
+
+**Features of $y^{2}=4ax$ ($a>0$).**
+
+| Feature | Value |
+|---|---|
+| Vertex | $(0,0)$ |
+| Focus | $(a,0)$ |
+| Directrix | $x=-a$ |
+| Axis | $y=0$ (the $x$-axis) |
+| Latus rectum (chord through the focus perpendicular to the axis) | Length $4a$, ends $(a,\pm2a)$ |
+| Focal distance of $(x_1,y_1)$ | $x_1+a$ |
+
+Other forms: $y^{2}=-4ax$ (opens left), $x^{2}=4ay$ (opens up) and $x^{2}=-4ay$ (opens down).
+
+**Tangent at $(x_1,y_1)$.** Differentiating $y^{2}=4ax$ gives $2y\dfrac{dy}{dx}=4a$, so the slope is $\dfrac{2a}{y_1}$. The tangent is $y-y_1=\dfrac{2a}{y_1}(x-x_1)$, i.e. $yy_1=2ax-2ax_1+y_1^{2}=2a(x+x_1)$, using $y_1^{2}=4ax_1$:
+
+$$ yy_1=2a(x+x_1) $$
+
+**Normal at $(x_1,y_1)$.** Slope $-\dfrac{y_1}{2a}$: $y-y_1=-\dfrac{y_1}{2a}(x-x_1)$.
+
+**Condition of tangency.** The line $y=mx+c$ touches $y^{2}=4ax$ if $c=\dfrac am$. Substituting, $m^{2}x^{2}+(2mc-4a)x+c^{2}=0$ has equal roots if $(2mc-4a)^{2}=4m^{2}c^{2}$, i.e. $mc=a$.
+
+**Worked example.** For the parabola $y^{2}=12x$: $a=3$, focus $(3,0)$, directrix $x=-3$, latus rectum $12$. At the point $(3,6)$ (the end of the latus rectum): the tangent is $6y=6(x+3)$, i.e. $y=x+3$; the normal has slope $-1$, so $y-6=-(x-3)$, i.e. $x+y=9$. A tangent of slope $1$ would be $y=x+\dfrac{3}{1}$, the same line, as expected.
+
+**Reflecting property.** A ray parallel to the axis reflects through the focus, which is why dish antennas and car head-lamps are parabolic.
+
+**Conclusion.** The parabola $y^{2}=4ax$ has focus $(a,0)$ and directrix $x=-a$; its tangent at $(x_1,y_1)$ is $yy_1=2a(x+x_1)$, and $y=mx+a/m$ is the tangent of slope $m$.
+
+### Model answer D3: ellipse and hyperbola (10 marks)
+
+**Introduction.** Both curves are the locus of a point whose distance from a focus bears a fixed ratio $e$ (eccentricity) to its distance from a directrix: $e<1$ for an ellipse and $e>1$ for a hyperbola. The orbits of planets are ellipses.
+
+**Ellipse.** The sum of the distances from two foci $F_1$ and $F_2$ is constant, $=2a$.
+
+1. With foci $(\pm c,0)$, the condition $\sqrt{(x-c)^{2}+y^{2}}+\sqrt{(x+c)^{2}+y^{2}}=2a$ simplifies (squaring twice) to $(a^{2}-c^{2})x^{2}+a^{2}y^{2}=a^{2}(a^{2}-c^{2})$.
+2. Put $b^{2}=a^{2}-c^{2}$:
+
+$$ \frac{x^{2}}{a^{2}}+\frac{y^{2}}{b^{2}}=1\quad(a>b) $$
+
+3. $e=\dfrac ca<1$, $b^{2}=a^{2}(1-e^{2})$, the directrices are $x=\pm\dfrac ae$ and the latus rectum is $\dfrac{2b^{2}}a$.
+
+**Hyperbola.** The **difference** of the distances from the foci is constant, $=2a$. Similarly,
+
+$$ \frac{x^{2}}{a^{2}}-\frac{y^{2}}{b^{2}}=1,\qquad b^{2}=c^{2}-a^{2}=a^{2}(e^{2}-1),\quad e=\frac ca>1 $$
+
+The **asymptotes** are $y=\pm\dfrac bax$.
+
+| Feature | Ellipse $\dfrac{x^{2}}{a^{2}}+\dfrac{y^{2}}{b^{2}}=1$ | Hyperbola $\dfrac{x^{2}}{a^{2}}-\dfrac{y^{2}}{b^{2}}=1$ |
+|---|---|---|
+| Foci | $(\pm ae,0)$ | $(\pm ae,0)$ |
+| Eccentricity | $e<1$ | $e>1$ |
+| Relation | $b^{2}=a^{2}(1-e^{2})$ | $b^{2}=a^{2}(e^{2}-1)$ |
+| Vertices | $(\pm a,0)$ | $(\pm a,0)$ |
+| Directrices | $x=\pm a/e$ | $x=\pm a/e$ |
+| Latus rectum | $2b^{2}/a$ | $2b^{2}/a$ |
+| Closed? | Yes | No, two branches, asymptotes |
+
+**Worked examples.**
+
+1. $9x^{2}+16y^{2}=144\Rightarrow\dfrac{x^{2}}{16}+\dfrac{y^{2}}9=1$: $a=4$, $b=3$, $c=\sqrt{16-9}=\sqrt7$, $e=\dfrac{\sqrt7}4=0.661$, foci $(\pm2.65,0)$ and latus rectum $\dfrac{2\times9}{4}=4.5$.
+2. $\dfrac{x^{2}}{16}-\dfrac{y^{2}}9=1$: $a=4$, $b=3$, $c=\sqrt{16+9}=5$, $e=\dfrac54$, foci $(\pm5,0)$, asymptotes $y=\pm\dfrac34x$ and latus rectum $4.5$.
+3. **Earth's orbit** is an ellipse with $e=0.0167$, nearly a circle; Halley's comet has $e=0.97$, a long thin ellipse.
+
+**Conclusion.** The ellipse and the hyperbola both come from a focus and directrix; they are separated by their eccentricity, below or above $1$.

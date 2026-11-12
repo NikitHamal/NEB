@@ -481,3 +481,35 @@ waiting there for two hours.*
 **24.** **She will have finished the report by Friday.** — *by* + future time takes *will have* + V3.
 **25.** **At nine last night I was writing my assignment.** — a past moment needs *was* + V-ing.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain the twelve tenses with their structures and uses. <span class="marks">[10]</span>
+
+### Model answer D1: the twelve tenses (10 marks)
+
+**Introduction.** **Tense** shows time; **aspect** shows how the action is seen (simple, continuous, perfect, perfect continuous). Three times and four aspects give **twelve forms**.
+
+| Tense | Present | Past | Future |
+|---|---|---|---|
+| Simple | V1 (+s): *She plays* | V2: *She played* | will + V1: *She will play* |
+| Continuous | am/is/are + V-ing | was/were + V-ing | will be + V-ing |
+| Perfect | have/has + V3 | had + V3 | will have + V3 |
+| Perfect continuous | have/has been + V-ing | had been + V-ing | will have been + V-ing |
+
+**Uses.**
+
+1. **Present simple:** habits and facts.
+2. **Present continuous:** now, or a planned future.
+3. **Present perfect:** a result now or experience.
+4. **Present perfect continuous:** duration up to now.
+5. **Past simple:** finished actions.
+6. **Past continuous:** background or interrupted actions.
+7. **Past perfect:** the earlier of two past actions.
+8. **Future forms:** will (decision), going to (plan), will have + V3 (finished by a time).
+
+**Examples.** *I have been studying since morning. By 2090 she will have retired.*
+
+**Conclusion.** Pick the tense from the time of the action and how long it lasts.

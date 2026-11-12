@@ -1,9 +1,10 @@
-"""Admin media test — TTS (Airy/LazyPy/Google/Moe/Kokoro/Paradee/Chatterbox/Fish)
+"""Admin media test — TTS (Airy/LazyPy/Google/Moe/Kokoro/Paradee/Chatterbox/Fish/Smallest)
 
 Session-authenticated (staff) AJAX endpoint so the admin panel can test
 without Bearer tokens:
-  POST /ajax/admin/media/tts/           {provider, text, voice, service, lang, speaker}
-  GET  /ajax/admin/media/airy-voices/   Airy voice catalogue (?refresh=1)
+  POST /ajax/admin/media/tts/               {provider, text, voice, service, lang, speaker}
+  GET  /ajax/admin/media/airy-voices/       Airy voice catalogue (?refresh=1)
+  GET  /ajax/admin/media/smallest-voices/   Smallest AI voice catalogue (?pool=&refresh=1)
 """
 import json
 
@@ -20,7 +21,7 @@ def admin_media_test(request):
     if resp:
         return resp
 
-    tts_presets = [p for p in SCRAPER_PRESETS if p.slug in ("lazypy", "googletts", "moetts", "kokoro", "paradee", "chatterbox", "fishaudio", "airy")]
+    tts_presets = [p for p in SCRAPER_PRESETS if p.slug in ("lazypy", "googletts", "moetts", "kokoro", "paradee", "chatterbox", "fishaudio", "airy", "smallest")]
 
     tts_models = []
     for p in tts_presets:
@@ -101,6 +102,19 @@ def _run_tts(payload):
                 style=payload.get("style") or "normal",
                 speed=payload.get("speed") or 1.0,
                 language=payload.get("lang") or payload.get("language") or "en",
+            )
+        elif provider.startswith("smallest"):
+            from api.smallest_proxy import MAX_TEXT, generate_tts as smallest_tts
+
+            if len(text) > MAX_TEXT:
+                return JsonResponse({"error": f"Smallest AI batches {MAX_TEXT} chars max (got {len(text)})"}, status=400)
+            result = smallest_tts(
+                text=text,
+                voice=voice,
+                model=payload.get("model") or provider,
+                speed=payload.get("speed") or 1.0,
+                language=payload.get("lang") or payload.get("language") or "en",
+                sample_rate=payload.get("sample_rate") or payload.get("sampleRate") or 24000,
             )
         elif provider.startswith("lazypy") or provider in ("bing", "microsoft", "edge"):
             from api.lazypy_proxy import generate_tts
@@ -218,12 +232,34 @@ def ajax_admin_media_airy_voices(request):
         return JsonResponse({"error": f"{type(exc).__name__}: {exc}", "voices": []}, status=502)
 
 
-@require_POST
-def ajax_admin_media_image(request):
+@require_GET
+def ajax_admin_media_smallest_voices(request):
+    """Smallest AI voice catalogue (public endpoint — no API key needed)."""
     resp = _require_staff_admin(request)
     if resp:
         return JsonResponse({"error": "staff only"}, status=403)
-    return JsonResponse({"error": "Image test not implemented yet."}, status=501)
+    try:
+        from api.smallest_proxy import CHUNK_LIMIT, LANG_CODES, MAX_CHUNKS, MAX_TEXT, POOLS, SAMPLE_RATES, get_voices
+
+        pool = (request.GET.get("pool") or "").strip() or None
+        voices = get_voices(pool, refresh=bool(request.GET.get("refresh")))
+        from api.smallest_proxy import resolve_pool
+
+        resolved = resolve_pool(pool)
+        return JsonResponse({
+            "status": "success",
+            "voices": voices,
+            "pool": resolved,
+            "pools": [{"id": k, "label": v["label"], "note": v["note"]} for k, v in POOLS.items()],
+            "languages": list(LANG_CODES),
+            "sampleRates": list(SAMPLE_RATES),
+            "charLimit": CHUNK_LIMIT,
+            "maxChunks": MAX_CHUNKS,
+            "maxText": MAX_TEXT,
+            "keyRequired": True,
+        })
+    except Exception as exc:
+        return JsonResponse({"error": f"{type(exc).__name__}: {exc}", "voices": []}, status=502)
 
 
 @require_POST
@@ -292,7 +328,7 @@ def ajax_admin_media_voice(request):
 
     # Chat via Mercury (voice turn if scenario, else plain chat)
     try:
-        from api.inception_proxy import voice_turn, stream_chat
+        from api.inception_proxy import voice_turn
         import base64
         # Choose voice pipeline if scenario given, else plain Mercury chat
         if scenario_id:

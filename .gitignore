@@ -89,6 +89,7 @@ firebase-service-account.json
 
 # Scratch directories
 backend_python/scratch/
+.neb-tmp-*
 
 .freebuff
 
@@ -104,3 +105,6 @@ __pycache__/
 *.pyc
 
 .agents
+*.egg-info/
+/scratch/
+backend_python/private_media/

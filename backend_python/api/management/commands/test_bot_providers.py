@@ -6,9 +6,7 @@ Verifies that `call_ai_api()` correctly dispatches to:
 """
 import json
 import threading
-import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from wsgiref.simple_server import make_server, WSGIRequestHandler
 
 from django.core.management.base import BaseCommand
 from api.models import BotConfig

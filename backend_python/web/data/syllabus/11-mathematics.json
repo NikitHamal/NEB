@@ -61,7 +61,7 @@
     "The four set operations"
    ],
    "stats": {
-    "words": 6057,
+    "words": 7075,
     "figures": 6,
     "examples": 12
    },
@@ -106,7 +106,7 @@
     "Absolute value (modulus)"
    ],
    "stats": {
-    "words": 4065,
+    "words": 4764,
     "figures": 7,
     "examples": 11
    },
@@ -159,7 +159,7 @@
     "Exponential and logarithmic functions"
    ],
    "stats": {
-    "words": 4719,
+    "words": 5396,
     "figures": 9,
     "examples": 16
    },
@@ -210,7 +210,7 @@
     "Increasing and decreasing"
    ],
    "stats": {
-    "words": 4491,
+    "words": 5295,
     "figures": 9,
     "examples": 12
    },
@@ -254,7 +254,7 @@
     "The three means"
    ],
    "stats": {
-    "words": 3960,
+    "words": 4647,
     "figures": 4,
     "examples": 11
    },
@@ -305,7 +305,7 @@
     "Adjoint"
    ],
    "stats": {
-    "words": 4458,
+    "words": 5080,
     "figures": 10,
     "examples": 14
    },
@@ -354,7 +354,7 @@
     "Discriminant"
    ],
    "stats": {
-    "words": 3431,
+    "words": 4064,
     "figures": 3,
     "examples": 12
    },
@@ -405,7 +405,7 @@
     "Conjugate"
    ],
    "stats": {
-    "words": 3413,
+    "words": 4015,
     "figures": 4,
     "examples": 12
    },
@@ -444,7 +444,7 @@
     "Inverse sine"
    ],
    "stats": {
-    "words": 2859,
+    "words": 3387,
     "figures": 7,
     "examples": 12
    },
@@ -482,7 +482,7 @@
     "Trigonometric equation"
    ],
    "stats": {
-    "words": 2580,
+    "words": 3166,
     "figures": 6,
     "examples": 12
    },
@@ -518,7 +518,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3100,
+    "words": 3847,
     "figures": 8,
     "examples": 9
    },
@@ -565,7 +565,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3407,
+    "words": 4106,
     "figures": 6,
     "examples": 10
    },
@@ -609,7 +609,7 @@
     "Direction angles and direction cosines"
    ],
    "stats": {
-    "words": 2948,
+    "words": 3693,
     "figures": 6,
     "examples": 10
    },
@@ -667,7 +667,7 @@
     "Scalar (dot) product"
    ],
    "stats": {
-    "words": 4755,
+    "words": 5589,
     "figures": 8,
     "examples": 12
    },
@@ -713,7 +713,7 @@
     "Skewness"
    ],
    "stats": {
-    "words": 4435,
+    "words": 5192,
     "figures": 6,
     "examples": 11
    },
@@ -759,7 +759,7 @@
     "Empirical (statistical) definition"
    ],
    "stats": {
-    "words": 3794,
+    "words": 4529,
     "figures": 6,
     "examples": 12
    },
@@ -805,7 +805,7 @@
     "Continuity at a point"
    ],
    "stats": {
-    "words": 4361,
+    "words": 4944,
     "figures": 7,
     "examples": 13
    },
@@ -878,7 +878,7 @@
     "Point of inflection"
    ],
    "stats": {
-    "words": 9822,
+    "words": 10390,
     "figures": 8,
     "examples": 41
    },
@@ -933,7 +933,7 @@
     "Definite integral"
    ],
    "stats": {
-    "words": 8307,
+    "words": 8855,
     "figures": 8,
     "examples": 38
    },
@@ -986,7 +986,7 @@
     "Bisection method"
    ],
    "stats": {
-    "words": 6665,
+    "words": 7556,
     "figures": 8,
     "examples": 15
    },
@@ -1036,7 +1036,7 @@
     "Displacement, velocity, acceleration"
    ],
    "stats": {
-    "words": 7342,
+    "words": 8105,
     "figures": 6,
     "examples": 18
    },

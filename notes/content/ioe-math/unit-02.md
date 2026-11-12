@@ -24,7 +24,7 @@ A matrix is an array of $m\times n$ numbers. **Types:** square, row, column, dia
 
 **Operations.** Add / subtract same-size matrices; $AB$ exists when columns of $A$ = rows of $B$ and is in general $AB\ne BA$. $(AB)^T=B^TA^T$, $(AB)^{-1}=B^{-1}A^{-1}$. Every square matrix is a sum of a symmetric and a skew-symmetric matrix, $A=\tfrac{1}{2}(A+A^T)+\tfrac{1}{2}(A-A^T)$.
 
-**Determinant.** For $(det | a&b ; c&d |)=ad-bc$; for 3×3 expand along a row with the signs $+-+$. Properties:
+**Determinant.** For $\begin{vmatrix}a&b \\ c&d\end{vmatrix}=ad-bc$; for 3×3 expand along a row with the signs $+-+$. Properties:
 - swapping two rows changes the sign; two equal (or proportional) rows give 0;
 - a common factor of a row comes out; so $|kA|=k^n|A|$ for an $n\times n$ matrix;
 - adding a multiple of one row to another changes nothing;
@@ -92,6 +92,32 @@ For small $x$: $(1+x)^n\approx1+nx$ (better: add the $x^2$ term). $(1-x)^{-1}=1+
 $$e^x=\sum\frac{x^n}{n!},\quad e=\sum\frac{1}{n!}\approx2.71828,\quad a^x=\sum\frac{(x\ln a)^n}{n!},$$
 $$\ln(1+x)=x-\frac{x^2}{2}+\frac{x^3}{3}-\cdots\ (-1<x\le1),\qquad \ln\frac{1+x}{1-x}=2\Big(x+\frac{x^3}{3}+\frac{x^5}{5}+\cdots\Big).$$
 Also $\ln 2=1-\frac{1}{2}+\frac{1}{3}-\cdots$ and $e^{-1}=\sum\frac{(-1)^n}{n!}$.
+
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Logarithms turn multiplication into addition. (a) A slide rule: the scales are marked at distances proportional to log x, so sliding one scale along the other adds two lengths, and the sum of logarithms is the logarithm of the product (log a + log b = log ab). (b) The rule is modelled as 25 cm long, with x placed at 25 log10 x cm. Multiplying 2.5 by 3.2 adds 9.95 cm and 12.63 cm to give 22.58 cm, the position of 8.0. Reading a position to 0.1 mm limits the answer to about 0.09 per cent."
+@ photo id="ioemath/sliderule" cap="A slide rule with its logarithmic scales"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="2.5 x 3.2 by adding lengths on a 25 cm scale"
+import math
+L = 25.0
+pos = lambda x: L * math.log10(x)
+a, b = pos(2.5), pos(3.2); prod = 10 ** ((a + b) / L)
+err = math.log(10) * 0.01 / L
+assert abs(prod - 8.0) < 1e-9 and abs(a - 9.95) < 0.01 and abs(b - 12.63) < 0.01 and abs(err * 100 - 0.092) < 0.001
+X = lambda cm: 10 + cm * 280 / L
+f = Fig(300, 236)
+f.text(150, 14, "x is drawn at 25 log10(x) cm", size=10.5, color=NAVY, bold=True)
+f.line(X(0), 60, X(L), 60, color=NAVY, sw=1.6)
+for v in range(1, 11):
+    f.line(X(pos(v)), 52, X(pos(v)), 68, color=NAVY, sw=1.2); f.text(X(pos(v)), 84, str(v), size=10.5, color=NAVY, bold=True)
+f.box(X(0), 110, X(a) - X(0), 22, "9.95 cm  (2.5)", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(X(a), 110, X(a + b) - X(a), 22, "12.63 cm  (3.2)", fill=MINT, stroke=TEAL, size=10.5, bold=True, r=3)
+f.arrow([(X(a + b), 140), (X(a + b), 94)], color=RED)
+f.text(X(a + b), 154, "22.58 cm = 8.0", size=10.5, color=RED, bold=True, anchor="end")
+f.text(150, 186, "log 2.5 + log 3.2 = %.4f + %.4f = log 8" % (math.log10(2.5), math.log10(3.2)), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "reading error 0.1 mm: %.2f%% of the answer" % (err * 100), size=10.5, color=SLATE)
+f.text(150, 226, "so three figures at best", size=10.5, color=SLATE)
+```
 
 ## Formula and fact sheet
 
@@ -177,7 +203,7 @@ Also $\ln 2=1-\frac{1}{2}+\frac{1}{3}-\cdots$ and $e^{-1}=\sum\frac{(-1)^n}{n!}$
 
 1. If $A$ is $3\times3$ with $|A|=-3$, then $|\mathrm{adj}A|$ is
    (a) $-9$ (b) 9 (c) $-3$ (d) 27
-2. The value of $(det | 1&2&3 ; 4&5&6 ; 7&8&9 |)$ is
+2. The value of $\begin{vmatrix}1&2&3 \\ 4&5&6 \\ 7&8&9\end{vmatrix}$ is
    (a) 0 (b) 1 (c) $-1$ (d) 45
 3. The value of $(1+i)^8$ is
    (a) 8 (b) $16i$ (c) 16 (d) $-16$
@@ -238,3 +264,67 @@ Also $\ln 2=1-\frac{1}{2}+\frac{1}{3}-\cdots$ and $e^{-1}=\sum\frac{(-1)^n}{n!}$
 **7.** (a) — $^nC_4+{}^nC_6=2\,^nC_5$ reduces to $n^2-21n+98=0$: $n=7,14$; sum 21. Check $n=7$: $35+7=2\times21$.
 **8.** (d) — $1+5(0.02)+10(0.02)^2=1+0.1+0.004=1.104$ (exact 1.10408).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Find the inverse of $A=\begin{pmatrix}1&2&3\\0&1&4\\5&6&0\end{pmatrix}$ and solve $x+2y+3z=6$, $y+4z=5$, $5x+6y=11$. State the properties of determinants. <span class="marks">[10]</span>
+2. Solve problems on arrangements, committees, the binomial theorem and the exponential and logarithmic series. <span class="marks">[10]</span>
+
+### Model answer D1: Matrix inverse and a linear system (10 marks)
+
+**Introduction.** A square matrix $A$ has an inverse only if $\det A\ne0$, and $A^{-1}=\frac{1}{\det A}\operatorname{adj}A$.
+
+**Step 1: determinant.** Expanding along the first row, $\det A=1(0-24)-2(0-20)+3(0-5)=-24+40-15=1$.
+
+**Step 2: cofactors.** $C_{11}=-24$, $C_{12}=20$, $C_{13}=-5$, $C_{21}=18$, $C_{22}=-15$, $C_{23}=4$, $C_{31}=5$, $C_{32}=-4$, $C_{33}=1$.
+
+**Step 3: adjoint and inverse.** The adjoint is the transpose of the cofactor matrix, and as $\det A=1$,
+$$A^{-1}=\begin{pmatrix}-24&18&5\\20&-15&-4\\-5&4&1\end{pmatrix}.$$
+
+**Step 4: solve $AX=B$** with $B=(6,5,11)^T$, so $X=A^{-1}B$.
+
+| Row | Working | Value |
+|---|---|---|
+| $x$ | $-24(6)+18(5)+5(11)=-144+90+55$ | $1$ |
+| $y$ | $20(6)-15(5)-4(11)=120-75-44$ | $1$ |
+| $z$ | $-5(6)+4(5)+1(11)=-30+20+11$ | $1$ |
+
+So $x=y=z=1$. **Check:** $1+2+3=6$, $1+4=5$, $5+6=11$. The same solution comes from **Cramer's rule**, $x=\frac{D_x}{D}$.
+
+**Properties of determinants.**
+
+1. $\det A^T=\det A$ and $\det(AB)=\det A\cdot\det B$.
+2. Swapping two rows changes the sign; two equal rows give $0$.
+3. Multiplying one row by $k$ multiplies the determinant by $k$.
+4. Adding a multiple of one row to another leaves it unchanged.
+5. $A\cdot\operatorname{adj}A=(\det A)I$.
+
+**Conclusion.** The inverse method solves a system quickly when $\det A\ne0$; if $\det A=0$ the system has no unique solution.
+
+### Model answer D2: Permutations, binomial theorem and series (10 marks)
+
+**Introduction.** Counting and series are central in the IOE algebra paper.
+
+**1. Permutations.** The letters of COMMITTEE (9 letters: M, T and E twice) can be arranged in $\frac{9!}{2!\,2!\,2!}=\frac{362880}{8}=45{,}360$ ways. A permutation is ${}^nP_r=\frac{n!}{(n-r)!}$ and a combination is ${}^nC_r=\frac{n!}{r!(n-r)!}$.
+
+**2. Committees.** Choose 5 persons from 6 men and 4 women with at least 2 women. Total $={}^{10}C_5=252$. Subtract no woman ${}^6C_5=6$ and one woman ${}^4C_1\cdot{}^6C_4=60$. Answer: $252-6-60=186$.
+
+**3. Binomial theorem.** $(a+b)^n=\sum{}^nC_ra^{n-r}b^r$ with general term $T_{r+1}={}^nC_ra^{n-r}b^r$.
+
+1. Coefficient of $x^3$ in $(1+2x)^6$: ${}^6C_3\cdot2^3=20\times8=160$.
+2. Term independent of $x$ in $\left(x^2+\frac1x\right)^9$: $T_{r+1}={}^9C_rx^{18-3r}$, which is $x^0$ when $r=6$, so the term is ${}^9C_6=84$.
+
+**4. Series.**
+
+| Series | Formula | Example |
+|---|---|---|
+| AP | $S_n=\frac n2[2a+(n-1)d]$ | $3,7,11,\dots$: $S_{20}=10(6+76)=820$ |
+| GP (infinite) | $S_\infty=\frac{a}{1-r}$, $\lvert r\rvert<1$ | $8+4+2+\dots=16$ |
+| Exponential | $e^x=1+x+\frac{x^2}{2!}+\dots$ | $e\approx2.7181$ (7 terms) |
+| Logarithmic | $\ln(1+x)=x-\frac{x^2}{2}+\frac{x^3}{3}-\dots$ | $\ln1.1\approx0.0953$ |
+
+The exponential value is $1+1+0.5+0.1667+0.0417+0.0083+0.0014=2.7181$.
+
+**5. Complex numbers.** $(1+i)^8=\left(\sqrt2\right)^8\left(\cos2\pi+i\sin2\pi\right)=16$ by De Moivre's theorem. The cube roots of unity satisfy $1+\omega+\omega^2=0$ and $\omega^3=1$.
+
+**Conclusion.** Choosing the right formula (arrangement with repetition, complementary counting, general term) gives the answer without long listing.
