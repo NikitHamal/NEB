@@ -92,7 +92,10 @@ def exam_markup(src):
         if m or r:
             flush(); after_or = False
             if r:
-                buf = (s, "sub")
+                if first and num:
+                    buf = (f'<b class="qn">{num}.</b> ' + s, "part"); first = False
+                else:
+                    buf = (s, "sub")
             else:
                 head = f'<b class="qn">{num}.</b> ' if first and num else ""
                 first = False
