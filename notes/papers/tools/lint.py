@@ -23,7 +23,7 @@ def lint_md(path):
             if len(s) > 80: warns.append(f"{path}:{i} inline math over 80 chars")
         if re.search(r"\\\\times|[^\\a-zA-Z]times\s*\d", l) and "$" in l: warns.append(f"{path}:{i} check 'times' usage")
         if re.search(r"\b(TODO|FIXME|PLACEHOLDER)\b", l): errs.append(f"{path}:{i} placeholder marker")
-    for m in re.finditer(r"@mcq (\d+)\n(.*?)(?=\n@|\n##|\Z)", t, re.S):
+    for m in re.finditer(r"@mcq (\d+)\n(.*?)(?=\n@(?!opts)|\n##|\Z)", t, re.S):
         blk = m.group(2)
         if "@opts" not in blk: errs.append(f"{path}: @mcq {m.group(1)} has no @opts")
         else:
