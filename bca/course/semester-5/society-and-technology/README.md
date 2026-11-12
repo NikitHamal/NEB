@@ -4,13 +4,19 @@ How technology and society shape each other: theories (determinism, social const
 
 | Unit | Title | Hours |
 |---|---|---|
-| 1 | Technology and Society: Theories and History | 6 |
-| 2 | Technology Adoption and Diffusion of Innovations | 7 |
-| 3 | The Digital Divide and Digital Nepal | 7 |
-| 4 | Cyber and IT Law in Nepal | 8 |
-| 5 | e-Governance in Nepal | 7 |
-| 6 | Cyberethics, Privacy and Algorithmic Fairness | 5 |
-| 7 | E-Waste, Green Computing and Sustainable Technology | 5 |
+| 1 | Basic Concept of Sociology | 6 |
+| 2 | Organizing Social Life | 6 |
+| 3 | Social System and Social Stratification of Nepalese Societies | 9 |
+| 4 | Technology and Society - Theories and History | 6 |
+| 5 | Technology Adoption and Diffusion of Innovations | 7 |
+| 6 | The Digital Divide and Digital Nepal | 7 |
+| 7 | Cyberethics, Privacy and Algorithmic Fairness | 5 |
+| 8 | Society and Technology: Technological Society and Technological Change in Nepal | 10 |
+| 9 | Cyber and IT Law in Nepal | 8 |
+| 10 | e-Governance in Nepal | 7 |
+| 11 | E-Waste, Green Computing and Sustainable Technology | 5 |
+
+Units 1 to 3 and 8 follow the TU course outline (CACS102 Society and Technology: basic concept of sociology; organizing social life; social system and stratification of Nepalese societies; society and technology, with the older research-in-social-science topic folded into Unit 8). Units 4 to 7 and 9 to 11 are the technology-focused extension of the book.
 
 ## Verification
 
@@ -18,4 +24,4 @@ How technology and society shape each other: theories (determinism, social const
 
 ## Source and honesty
 
-No TU unit list for BCA 305 / CASO102 was retrieved; the seven units are a reconstruction from the topics named in the course brief. **Statutory penalties:** the table in Unit 4 lists only ETA sections 44, 45, 46, 47 and 52, on which four secondary sources (bankingtayari.com, attorneynepal.com, courtmarriageinnepal.com.np, lawalpine.com, read this session) agree; for sections 48 to 55 those sources disagree with each other (amounts and section numbers), so they are deliberately **not tabulated** and the primary text of the Act (Nepal Law Commission) must be checked. Descriptions of the National ID, Nagarik App, GIDC, GIOMS and Palika systems are general; the Digital Nepal Framework's eight sectors and the Acts' names and years are from public knowledge. All province-level, survey, e-government and e-waste figures are **invented for teaching**.
+The TU outline (CACS102 / CASO102) was checked against published course listings (notebahadur.com, bcanotenepal.com, bcanotesnepal.com); Units 4 to 7 and 9 to 11 are extensions, not TU unit titles. **Statutory penalties:** the table in Unit 4 lists only ETA sections 44, 45, 46, 47 and 52, on which four secondary sources (bankingtayari.com, attorneynepal.com, courtmarriageinnepal.com.np, lawalpine.com, read this session) agree; for sections 48 to 55 those sources disagree with each other (amounts and section numbers), so they are deliberately **not tabulated** and the primary text of the Act (Nepal Law Commission) must be checked. Descriptions of the National ID, Nagarik App, GIDC, GIOMS and Palika systems are general; the Digital Nepal Framework's eight sectors and the Acts' names and years are from public knowledge. All province-level, survey, e-government and e-waste figures are **invented for teaching**.

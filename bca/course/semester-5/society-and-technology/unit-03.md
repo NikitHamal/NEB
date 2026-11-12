@@ -150,3 +150,144 @@ Caste is not a code in a database, yet systems encode it silently: a surname fie
 ::: example Gender and digital
 A women's group in a hill municipality uses a mobile app to manage savings. The app works well, but the phone belongs to the household head and charging, data and the PIN are controlled by him. The *social* conditions of access decide whether the technology empowers or not. Sociologists call this the *gender digital divide* (Unit 6).
 :::
+
+## 3.6 Religion-based and ecology-based stratification
+
+### Religion-based stratification
+
+Nepal is a **secular** state under Article 4 of the 2015 constitution, and the Census 2021 shows a plural religious landscape. The constitution defines secularity as *protection of religion and culture inherited from ancient times*, so the state is neither anti-religious nor tied to one faith.
+
+| Religion (Census 2021) | Share of population | Note |
+|---|---|---|
+| Hinduism | 81.19 per cent | Majority religion; the state was officially Hindu until 2006-2008 |
+| Buddhism | 8.21 per cent | Janajati groups of the hills and mountains, and Lumbini as the birthplace of the Buddha |
+| Islam | 5.09 per cent | Mostly in the Terai, with smaller hill communities |
+| Kirat | 3.17 per cent | Indigenous faith of Rai, Limbu and others |
+| Christianity | 1.76 per cent | Fastest growing in the last three censuses |
+| Others | under 1 per cent | Prakriti (nature worship), Bon, Jain, Bahai and Sikh |
+
+**Where does stratification come from?** Religion creates inequality when one faith's calendar, symbols and law are treated as the national default. Historically the Hindu state gave the ruling castes a legal advantage (Section 3.4). Today the issues are more subtle:
+
+- **Public holidays and the calendar.** Most national holidays follow the Hindu calendar; Eid, Christmas, Buddha Jayanti, Lhosar and Udhauli/Ubhauli are recognised in different degrees.
+- **Conversion.** Article 26 of the constitution protects religious freedom but forbids converting another person; the Muluki Criminal Code 2074 punishes it. Critics say the provision restricts missionary work and can be misused against minorities; supporters say it protects social harmony.
+- **Cow slaughter.** The criminal code still treats cow slaughter as an offence, a rule rooted in Hindu belief that Muslims and some Janajati communities find hard to accept.
+- **Cemetery and cremation land.** Burial grounds for Muslims, Christians and Kirat communities have often been hard to secure, a daily reminder that a minority needs *land*, not only rights on paper.
+- **Language of ritual and schooling.** Sanskrit and Hindu texts occupy a large space in schooling, while madrasa and gumba education has found it hard to gain recognition.
+
+**Interfaith life in practice.** A tourist in Kathmandu sees Hindu temples and Buddhist stupas sharing the same courtyard (Swayambhu, Boudhanath, Pashupati), a harmony many Nepalis cite as national strength. Social scientists therefore speak of *syncretism*: the mixing of practices from different traditions, particularly among Newar Buddhists and Hindus.
+
+### Ecology-based stratification
+
+Nepal is divided into three ecological belts that run east-west: **Mountain (Himal)**, **Hill (Pahad)** and **Terai**. Roughly 6 in 100 people live in the mountains, 40 in the hills and 54 in the Terai (Census 2021). Each belt has its own climate, farming system and communities. *Ecological stratification* means that **where a person lives decides access to roads, schools, health care, electricity, markets and the internet**, in addition to caste, class and gender.
+
+| Belt | Typical features | Typical disadvantage |
+|---|---|---|
+| Mountain | Highest altitude, sparse population, herding, trekking tourism, cold winters | Long distances to hospital and school; hard and costly to build roads and towers; seasonal isolation |
+| Hill | Terraced farming, many towns and valleys, strong out-migration | Dispersed settlements; landslides; youth leave and old people stay |
+| Terai | Plains, most fertile and most populated, border with India, strong market links | Floods; caste and gender inequality; high landlessness among Dalit and Madhesi groups; language and citizenship issues |
+
+**Technology and the ecological divide.** Mobile-tower coverage and fibre follow population and roads. A mountain district can have the strongest need for telemedicine and online classes and the weakest signal. Planning therefore compares *per-capita access* between belts and between provinces (Karnali and Sudurpaschim usually score lowest on development indicators; Bagmati and Gandaki highest).
+
+::: example Reading a ranking correctly
+Two districts have 80 per cent mobile-phone coverage. In the first, 20 per cent of households have electricity for fewer than four hours a day; in the second, none. Coverage alone hides the *quality* of access. A responsible analyst reports coverage, reliability, price and skill together, which is why the Unit 6 digital-divide measures use several indicators and not one.
+:::
+
+## 3.7 National integration
+
+**National integration** is the *process of bringing the culturally, linguistically, religiously and regionally different groups of a country into a shared sense of belonging* without erasing their differences. A nation is "imagined" (Benedict Anderson): people who will never meet feel they belong together because of shared symbols, media and institutions.
+
+### Historical process of nationhood
+
+| Phase | Event | Effect on integration |
+|---|---|---|
+| Before 1768 | Many small principalities (the Baise and Chaubise rajya) in the hills; Malla kingdoms in the Kathmandu valley | Each region had its own rulers, languages and customs |
+| 1768-1816 | Unification led by Prithvi Narayan Shah, who conquered Kathmandu in 1768; expansion ended with the Sugauli Treaty of 1816 | Created a single state with approximately today's borders; his *Dibya Upadesh* described Nepal as *a garden of four varnas and thirty-six jats* |
+| 1846-1951 | Rana rule; the Muluki Ain of 1854 fixed a caste hierarchy | Integrated the territory but ranked the people |
+| 1951-1960 | End of Rana rule; early democratic experiment | Opened the state to wider participation |
+| 1960-1990 | Panchayat system; the slogan *one language, one dress, one nation*; Nepali promoted in schools and media | Built a common language and symbols but suppressed minority languages and identities; many groups felt excluded |
+| 1990 and after | Constitution of 1990 recognised a multi-ethnic and multilingual nation; Jana Andolan II (2006), republic (2008) | Moved from *assimilation* to *recognition of diversity* |
+| 2015 | Constitution of Nepal: federal, secular, inclusive; all mother tongues are *languages of the nation* | Integration is now defined as unity in diversity |
+
+### Cultural integration: language, rituals and customs
+
+- **Language.** The 2021 census recorded 124 mother tongues. Nepali is the language of government, the *lingua franca* of the country and the common medium between groups. The constitution allows provinces to choose additional official languages; this is called *the language policy of recognition*. Technology matters here: Unicode, Nepali keyboards, voice typing and machine translation decide whether minority languages enter the digital world (Unit 6, Section 6.3).
+- **Rituals and festivals.** Dashain, Tihar, Holi, Chhath, Eid, Buddha Jayanti, Lhosar, Christmas, Maghe Sankranti and others are shared across regions; the way each community adds its own colour (Newar *Indra Jatra*, Tharu *Maghi*, Kirat *Udhauli*) is *cultural exchange*.
+- **Customs and dress.** The *daura-suruwal* and *dhaka topi* became symbols of the nation in the Panchayat era, while communities keep their own dress for festivals. The same national symbol can be both unifying and exclusionary if it is imposed.
+- **Shared institutions.** The national flag (the only non-rectangular national flag in the world), anthem, army, airline, Nepali cinema, cricket and football all give people a shared story.
+
+**Barriers to integration.** Regional inequality, caste discrimination, language dominance, political polarisation, a weak sense of ownership of the state among excluded groups, and *fake news and hate speech spread through social media* that harden identity lines.
+
+**How technology helps.** Community FM radio in many languages, TikTok, YouTube and Facebook groups let a Tharu singer, a Tamang filmmaker and a Maithili poet reach the whole country, and let the diaspora stay in touch. This is integration *by choice*, in contrast to the integration *by imposition* of the Panchayat era.
+
+```svgfig label="3.2" caption="Four bases of stratification in Nepal. Each base creates unequal access; a person usually stands at the crossing of several bases, which is why inclusion policies target more than one at a time."
+f = Fig(580, 230)
+f.box(215, 92, 150, 46, "Unequal access to\nresources and voice", fill=SAND, stroke=AMBER, size=11, bold=True)
+items = [(20, 14, "Caste and\nethnicity", BLUE, NAVY), (400, 14, "Gender", BLUE, NAVY),
+         (20, 168, "Religion", MINT, TEAL), (400, 168, "Ecology\n(Mountain, Hill, Terai)", MINT, TEAL)]
+for x, y, t, fl, st in items:
+    f.box(x, y, 160, 46, t, fill=fl, stroke=st, size=10.5, bold=True)
+f.arrow([(180, 46), (225, 92)], color=SLATE)
+f.arrow([(400, 46), (355, 92)], color=SLATE)
+f.arrow([(180, 190), (225, 138)], color=SLATE)
+f.arrow([(400, 190), (355, 138)], color=SLATE)
+```
+
+## Chapter summary
+
+- A social system is an organised pattern of statuses, roles, groups and institutions. The social processes are cooperation, competition, conflict, accommodation and assimilation; socialisation turns a newborn into a member of society (Cooley, Mead, Freud, Piaget).
+- Social change alters structure and relationships; cultural change alters beliefs, language and technology. In Nepal the main factors are politics, law, education, migration, technology and media, infrastructure, disasters and rights movements.
+- Stratification is a ranking of people into layers with unequal rewards. Nepal's formal caste hierarchy (Muluki Ain 1854) was abolished by the Muluki Ain 1963; discrimination persists and is criminalised.
+- Caste, ethnicity, gender, religion and ecology each create unequal access, and they overlap.
+- National integration moved from imposed assimilation (one language, one dress, one nation) to unity in diversity under the 2015 constitution.
+
+## Practice
+
+1. Define social system. Name its elements.
+2. List the five social processes with one example each.
+3. What is socialisation? Name four agents of socialisation.
+4. State Cooley's looking-glass self and Mead's stages of the self.
+5. Differentiate social change from cultural change.
+6. Write down five factors of social and cultural change in Nepal.
+7. Define social stratification. How does caste differ from class?
+8. What was the Muluki Ain of 1854 and what replaced it?
+9. Describe two problems that Dalit communities face and one legal protection against them.
+10. How do ecological belts create stratification in Nepal?
+11. What does the constitution say about secularism, and what are the issues for religious minorities?
+12. Define national integration and explain how the policy changed after 1990.
+
+::: note Answers and worked solutions
+**1.** A social system is an organised pattern of interrelated statuses, roles, groups and institutions that functions as a whole. Elements: statuses and roles, norms and values, groups, institutions, social control.
+**2.** Cooperation (parma, open-source teamwork); competition (students for a scholarship); conflict (land disputes, strikes); accommodation (a wage settlement); assimilation (a migrant adopting the host language).
+**3.** Socialisation is the lifelong process of learning the culture, norms and roles of society. Agents: family, peer group, school, mass media and the internet, religion, workplace.
+**4.** Cooley: we imagine how others see us, imagine their judgement, and feel pride or shame. Mead: imitation, play stage, game stage (generalised other); the self has an I and a Me.
+**5.** Social change is a change in social structure and relationships; cultural change is a change in beliefs, values, language, art and technology. Example: a village can adopt phones (cultural-material) while caste rules continue (no social change).
+**6.** Political events, law, education, migration and remittances, technology and media, infrastructure, disasters, social movements (any five).
+**7.** Stratification ranks people into layers with unequal wealth, power and prestige. Caste is ascribed by birth and closed; class is based on economic position and open to movement.
+**8.** The Muluki Ain 1854 was the first national legal code, which fixed a caste hierarchy and applied different punishments by caste. The New Muluki Ain 1963 treated all citizens equally in law; the Caste-based Discrimination and Untouchability Act 2011 made discrimination a crime.
+**9.** Problems: exclusion from temples, water sources and jobs; landlessness and poverty. Protection: Article 24 of the constitution and the 2011 Act (see Section 3.4).
+**10.** Mountain, hill and Terai differ in road, health, school and network access, so where one lives affects opportunity as strongly as caste or income.
+**11.** Article 4 declares Nepal secular, meaning protection of inherited religion and culture, with Article 26 on freedom and the ban on conversion. Issues: public holidays, conversion offences, burial land.
+**12.** National integration is the process of creating a common sense of belonging while respecting differences. Before 1990 the policy was assimilation; the 1990 and 2015 constitutions recognised diversity and all mother tongues as national languages.
+:::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). What is socialisation? Explain the agents of socialisation.**
+
+*Meaning.* Socialisation is the process by which an individual learns the language, values, norms and roles of society and becomes a social being. It continues from birth to death.
+
+*Agents.* The **family** gives language and first values. The **peer group** teaches equality, belonging and fashion. The **school** teaches knowledge, discipline and citizenship. The **mass media and social media** transmit information and shape taste and opinion; they are now among the strongest agents for the young. **Religion** and the **workplace** teach moral codes and professional behaviour.
+
+**Q2 (10 marks). Define social stratification. Explain caste and ethnicity-based stratification in Nepal.**
+
+*Definition.* Social stratification is the hierarchical arrangement of individuals and groups in society according to wealth, power and prestige, a structure that persists across generations.
+
+*Caste system.* In Nepal the Hindu caste system divided people into four *varnas* and numerous *jats*; the Muluki Ain of 1854 fixed the hierarchy into law (the "wearers of the holy cord" at the top, and "water-unacceptable and untouchable" castes at the bottom). The 1963 code abolished legal inequality and the 2011 Act criminalised caste-based discrimination, but Dalits, who are about 13 per cent of the population, still face lower income, land, literacy and political representation.
+
+*Ethnicity.* Janajati communities (Tharu, Tamang, Newar, Magar, Rai, Limbu and others) were classed as "enslavable" or "non-enslavable alcohol-drinking" groups in the 1854 code, lost land and language under assimilation and now press for recognition, autonomy and proportional participation (the Madhesi and Janajati movements of 2006-2015).
+
+*Conclusion.* Caste is closed and ascribed, class open and achieved; in Nepal they overlap. Inclusive provisions of the 2015 constitution, reservation in civil service and education, and awareness campaigns are narrowing the gap, but implementation remains the test.
+
+**Q3 (5 marks). Explain national integration and the role of language and rituals.**
+
+National integration is a process of unifying a diverse population into one nation while retaining differences. In Nepal, history moved from the unification of 1768 and the one-language policy of the Panchayat to the 2015 constitution that recognises all mother tongues as languages of the nation. *Language* provides a common medium (Nepali) and identity (mother tongues); *rituals and festivals* such as Dashain, Tihar, Eid, Lhosar and Buddha Jayanti create shared occasions while keeping local colour. Integration is strong when each group feels the nation is its own.
