@@ -202,6 +202,46 @@ A counter is an FSM with no inputs. The mod-3 JK design in Unit 4 and the Gray c
 7. **Communication protocols.** TCP, which carries every web page, is defined as a state machine with states such as LISTEN, SYN-SENT and ESTABLISHED. Each packet that arrives is an input. A protocol bug is often a missing arrow in the state diagram.
 8. **Household appliances.** A washing machine moves through fill, wash, rinse and spin, and a microwave oven through set, cook and beep. Each step ends by a timer or a sensor. Because the machine has few states, the controller chip is cheap.
 
+## 5.7 Laboratory works in the TU practical syllabus
+
+The course has 2 practical hours a week. The six prescribed laboratory works are summarised here, so that the theory of Units 3 to 5 is linked to the bench. For each lab: **aim, parts, procedure, expected result and viva questions.** Use a 5 V supply, a breadboard and a logic probe or LEDs with 330-ohm resistors.
+
+| Lab | Title | Where the theory is |
+|---|---|---|
+| 1 | Gates using active and passive elements | Section 3.9 |
+| 2 | Half adder and full adder | Section 3.4 |
+| 3 | 16:1 multiplexer | Sections 3.5 and 3.8 |
+| 4 | 1:16 demultiplexer | Sections 3.5 and 3.8 |
+| 5 | Digital watch using counters | Sections 4.2, 4.4 and 5.5 |
+| 6 | Shift registers | Section 4.3 |
+
+### Lab 2: half adder and full adder
+*Parts:* 7486 (XOR), 7408 (AND), 7432 (OR), LEDs. *Procedure:* wire S = A XOR B and C = AB for the half adder; then use two half adders and an OR gate for the full adder. Apply all eight combinations of A, B, Cin and record Sum and Cout. *Expected:* the truth table has Sum = 1 for an odd number of ones, Cout = 1 for two or more ones. *Viva:* why does a full adder need three inputs? How is a ripple-carry adder formed from it?
+
+### Lab 3: 16:1 multiplexer
+*Parts:* 74153 (dual 4-to-1 MUX) or 74151 (8-to-1), 74150 (16-to-1) if available. *Procedure:* with 74150, set the data inputs to a known pattern (for example, alternate 0 and 1) with DIP switches, count through select codes 0000 to 1111 and observe the output (74150 gives the *inverted* data, so add an inverter). Without 74150, use the tree of Figure 3.5. *Expected:* the output equals the data input whose number is on the select lines. *Viva:* how many MUX chips are needed for a 64-to-1 MUX? (Answer: 16 + 4 + 1 = 21 4-to-1 MUXes, or 8 + 1 = 9 8-to-1 MUXes.)
+
+### Lab 4: 1:16 demultiplexer
+*Parts:* 74154 4-to-16 decoder/DEMUX, LEDs with resistors. *Procedure:* put the data bit on one enable pin (G1 low, data on G2), select lines S3 S2 S1 S0 on the address inputs. Output lines are active low, so the addressed LED *lights when the data bit is 0*. *Expected:* only the addressed output follows the data; others stay high. *Viva:* difference between a decoder and a DEMUX.
+
+### Lab 5: digital watch using counters
+*Aim:* count seconds, minutes and hours from a 1 Hz clock. *Parts:* a 555 timer or a 32.768 kHz crystal with a CD4060 divider for the 1 Hz clock; 7490 or 74192 counters; 7447 decoders; common-anode seven-segment displays.
+
+1. **Clock.** A 555 astable with R1 = 1 kilo-ohm, R2 = 68 kilo-ohm and C = 10 microfarad gives f = 1.44 / ((R1 + 2 R2) C) = 1.44 / (137 kilo-ohm x 10 microfarad), about 1.05 Hz. A crystal of 32 768 Hz divided by 2¹⁵ gives exactly 1 Hz and is much more accurate.
+2. **Seconds.** A mod-10 counter (units) followed by a mod-6 counter (tens): 10 x 6 = 60. The carry of the units drives the tens counter; when the tens counter reaches 6 (0110), it resets itself to 0 and sends a carry to the minutes.
+3. **Minutes.** Another mod-60 chain, clocked by the seconds carry.
+4. **Hours.** A mod-24 counter (or mod-12): reset to 00 when the count reaches 24 (the tens digit 2 and units digit 4).
+5. **Display.** Each BCD digit goes to a 7447 and a seven-segment display.
+
+*Expected:* the display counts 00:00:00 to 23:59:59 and rolls over. *Viva:* how do you get a mod-60 counter from a mod-10 and mod-6 counter? Why is a crystal clock more accurate than the 555?
+
+### Lab 6: shift registers
+*Parts:* 7495 or 74194 universal shift register, switches, LEDs. *Procedure:* (a) *serial in, serial out*: apply serial data with one clock pulse per bit and watch it move; (b) *serial in, parallel out*: after four clocks read all four outputs; (c) *parallel in, serial out*: load with the load line, then clock; (d) *parallel in, parallel out*; (e) *shift right and shift left* with the mode input. *Expected:* a 4-bit register takes 4 clock pulses to move a bit through. *Viva:* how can a shift register multiply or divide by 2? What is a ring or Johnson counter built from a shift register?
+
+::: note Safety and good practice for all labs
+Switch the supply off while wiring. Never connect an IC output directly to ground or +5 V. Use a series resistor with every LED. Do not leave CMOS inputs floating. Always draw the circuit and the truth table in the record before the bench work.
+:::
+
 ## Formula and fact sheet
 
 - Moore: z = f(state). Mealy: z = f(state, input).
