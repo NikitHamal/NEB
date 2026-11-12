@@ -48,10 +48,10 @@ Another useful split is by *type*: **project risks** (threaten the schedule or r
 
 ```svgfig label="5.1" caption="The risk management cycle. Risk identification and assessment feed planning; monitoring feeds new risks back into identification."
 f = Fig(620, 240)
-f.box(10, 24, 130, 54, "1. Risk identification", fill=BLUE, color=NAVY, size=11.5, bold=True)
-f.box(165, 24, 130, 54, "2. Risk analysis and prioritisation", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
-f.box(320, 24, 130, 54, "3. Risk planning (responses)", fill="#fde68a", stroke=AMBER, color=NAVY, size=11.5, bold=True)
-f.box(475, 24, 130, 54, "4. Monitoring and control", fill="#fecaca", stroke=RED, color=NAVY, size=11.5, bold=True)
+f.box(10, 24, 130, 54, "1. Risk\nidentification", fill=BLUE, color=NAVY, size=11.5, bold=True)
+f.box(165, 24, 130, 54, "2. Risk analysis,\nprioritisation", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(320, 24, 130, 54, "3. Risk planning\n(responses)", fill="#fde68a", stroke=AMBER, color=NAVY, size=11.5, bold=True)
+f.box(475, 24, 130, 54, "4. Monitoring\nand control", fill="#fecaca", stroke=RED, color=NAVY, size=11.5, bold=True)
 for x in (140, 295, 450):
     f.arrow([(x, 51), (x + 25, 51)], color=NAVY, sw=1.8)
 f.arrow([(540, 78), (540, 150), (75, 150), (75, 78)], color=SLATE, sw=1.6, dash=True)

@@ -134,12 +134,12 @@ Management is cyclic: a manager sets *objectives*, makes a *plan*, *monitors* pr
 
 ```svgfig label="1.2" caption="The project management cycle. Monitoring compares actual progress with the plan; deviations lead to corrective action or replanning."
 f = Fig(620, 230)
-f.box(10, 90, 100, 50, "Project objectives", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(10, 90, 100, 50, "Project\nobjectives", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=11, bold=True)
 f.box(160, 90, 90, 50, "Plan", fill=BLUE, color=NAVY, size=12, bold=True)
 f.box(300, 90, 90, 50, "Execute", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
-f.box(440, 90, 100, 50, "Monitor and compare", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
-f.box(300, 8, 130, 46, "Replan or take corrective action", fill=BLUE, color=NAVY, size=10.5, bold=True)
-f.box(160, 180, 230, 40, "Project closure and lessons learned", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(440, 90, 100, 50, "Monitor and\ncompare", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(300, 8, 130, 46, "Replan or take\ncorrective action", fill=BLUE, color=NAVY, size=10.5, bold=True)
+f.box(160, 180, 230, 40, "Project closure and lessons learned", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=10, bold=True)
 f.arrow([(110, 115), (160, 115)], color=NAVY, sw=1.8)
 f.arrow([(250, 115), (300, 115)], color=NAVY, sw=1.8)
 f.arrow([(390, 115), (440, 115)], color=NAVY, sw=1.8)

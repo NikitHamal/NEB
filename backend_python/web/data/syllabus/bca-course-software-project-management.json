@@ -1,0 +1,388 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "software-project-management",
+ "name": "Software Project Management",
+ "name_ne": "",
+ "icon": "menu_book",
+ "group": "semester-7",
+ "group_label": "Semester VII",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 402",
+ "credits": 3,
+ "semester": 7,
+ "hours": 48,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Software Project Management Concepts",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Introduction: project, software project and project management",
+    "Importance of and problems in software project management",
+    "Activities and the process of software project management",
+    "Characteristics of a good project manager",
+    "Overview of software project planning"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Introduction: project, software project and project management"
+    },
+    {
+     "no": "1.2",
+     "title": "Importance of and problems in software project management"
+    },
+    {
+     "no": "1.3",
+     "title": "Activities and the process of software project management"
+    },
+    {
+     "no": "1.4",
+     "title": "Characteristics of a good project manager"
+    },
+    {
+     "no": "1.5",
+     "title": "Overview of software project planning"
+    }
+   ],
+   "summary": [
+    "A project is a temporary, unique effort with objectives and constraints; a software project delivers software and its supporting documentation.",
+    "Software projects are harder to manage than conventional ones because the product is invisible, complex, constantly changing and difficult to estimate.",
+    "SPM matters because it provides plans, control, early warning and quality assurance; typical problems are poor requirements, estimation, scope creep and weak risk management.",
+    "SPM activities run from feasibility to closure, within a plan-do-monitor-replan cycle and the PMBOK knowledge areas.",
+    "A good project manager combines leadership, communication, planning, negotiation and integrity; success is measured by value delivered and a team that remains intact.",
+    "Planning follows the Step Wise outline and produces several plans, beginning with a clear scope statement."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3682,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Software Project Scheduling",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Objectives of activity planning",
+    "Work breakdown structure (WBS)",
+    "Network planning models",
+    "PERT: program evaluation and review technique",
+    "Shortening project duration",
+    "Gantt charts and monitoring progress"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Objectives of activity planning"
+    },
+    {
+     "no": "2.2",
+     "title": "Work breakdown structure (WBS)"
+    },
+    {
+     "no": "2.3",
+     "title": "Network planning models"
+    },
+    {
+     "no": "2.4",
+     "title": "PERT: program evaluation and review technique"
+    },
+    {
+     "no": "2.5",
+     "title": "Shortening project duration"
+    },
+    {
+     "no": "2.6",
+     "title": "Gantt charts and monitoring progress"
+    }
+   ],
+   "summary": [
+    "Activity planning supports feasibility checks, resource allocation, costing, co-ordination and control; a WBS decomposes deliverables to work packages (100% rule).",
+    "Network models show dependencies; AON with FS, SS, FF, SF relationships and lags is the modern standard; AOA needs dummy activities.",
+    "CPM computes the critical path with a forward and a backward pass; float shows scheduling freedom.",
+    "PERT uses three-point estimates and gives probabilities of meeting a date.",
+    "Only shortening the critical path shortens the project: crash the cheapest critical activity, or fast-track.",
+    "Gantt charts communicate schedules; earned value measures real progress against cost and time."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3682,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Software Estimation Techniques",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Software effort estimation: the problem",
+    "Software effort estimation techniques",
+    "Measuring size",
+    "Parametric (algorithmic) models"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Software effort estimation: the problem"
+    },
+    {
+     "no": "3.2",
+     "title": "Software effort estimation techniques"
+    },
+    {
+     "no": "3.3",
+     "title": "Measuring size"
+    },
+    {
+     "no": "3.4",
+     "title": "Parametric (algorithmic) models"
+    }
+   ],
+   "summary": [
+    "Over-estimation wastes resources (Parkinson's law) and under-estimation harms quality and morale (Brooks' law); estimates are ranges that narrow over time (cone of uncertainty).",
+    "Estimates are based on size, productivity from historical data, and adjustment factors.",
+    "Experience-based methods are expert judgement, Delphi and analogy; decomposition methods are bottom-up and top-down; algorithmic methods are function points and COCOMO.",
+    "Function points measure user functionality independent of language; COCOMO converts KLOC to effort, time and staffing with b > 1.",
+    "Use several techniques, keep records and re-estimate at milestones."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3584,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Software Evaluation and Costing",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Project evaluation: strategic and technical assessment",
+    "Cost-benefit analysis",
+    "Cash flow forecasting",
+    "Cost-benefit evaluation techniques",
+    "Risk evaluation",
+    "Selection of an appropriate project report",
+    "Project approach: choosing technologies and process models"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Project evaluation: strategic and technical assessment"
+    },
+    {
+     "no": "4.2",
+     "title": "Cost-benefit analysis"
+    },
+    {
+     "no": "4.3",
+     "title": "Cash flow forecasting"
+    },
+    {
+     "no": "4.4",
+     "title": "Cost-benefit evaluation techniques"
+    },
+    {
+     "no": "4.5",
+     "title": "Risk evaluation"
+    },
+    {
+     "no": "4.6",
+     "title": "Selection of an appropriate project report"
+    },
+    {
+     "no": "4.7",
+     "title": "Project approach: choosing technologies and process models"
+    }
+   ],
+   "summary": [
+    "Evaluation asks if a project is strategically aligned, technically feasible and economically worthwhile.",
+    "CBA lists costs and benefits; a cash flow forecast shows when they occur; NPV and IRR use the time value of money, payback and ROI do not.",
+    "Risk evaluation uses sensitivity analysis, expected values and risk-adjusted discount rates.",
+    "The project report presents the findings to the sponsor in a structure suited to its readers.",
+    "The project approach covers build-or-buy, technology choice and process model; the right model depends on requirement and technology uncertainty."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3611,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Risk Management",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Risk and its categories",
+    "A framework for dealing with risk",
+    "Evaluating risks to the schedule"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Risk and its categories"
+    },
+    {
+     "no": "5.2",
+     "title": "A framework for dealing with risk"
+    },
+    {
+     "no": "5.3",
+     "title": "Evaluating risks to the schedule"
+    }
+   ],
+   "summary": [
+    "Risk is an uncertain event with probability and impact; exposure combines them. Categories include requirements, estimation, technology, people, organisation and external risks.",
+    "The framework is identification, assessment, planning and monitoring, kept in a risk register and repeated throughout the project.",
+    "Qualitative matrices and quantitative exposure rank risks; responses are avoid, mitigate, transfer or accept, supported by contingency plans and reserves.",
+    "Schedule risk is assessed with PERT, near-critical paths, Monte Carlo simulation and buffers."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2260,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Software Quality Management",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Software quality: definition and importance",
+    "The ISO 9126 quality model",
+    "Place of software quality in software planning",
+    "Total Quality Management (TQM)",
+    "Six Sigma",
+    "Software quality assurance and process maturity"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Software quality: definition and importance"
+    },
+    {
+     "no": "6.2",
+     "title": "The ISO 9126 quality model"
+    },
+    {
+     "no": "6.3",
+     "title": "Place of software quality in software planning"
+    },
+    {
+     "no": "6.4",
+     "title": "Total Quality Management (TQM)"
+    },
+    {
+     "no": "6.5",
+     "title": "Six Sigma"
+    },
+    {
+     "no": "6.6",
+     "title": "Software quality assurance and process maturity"
+    }
+   ],
+   "summary": [
+    "Quality means fitness for use and conformance to measurable requirements; defects cost more the later they are found.",
+    "ISO 9126 divides product quality into six characteristics with sub-characteristics and metrics, and has been succeeded by ISO 25010.",
+    "Quality is planned: quality requirements, a quality plan, reviews and tests, quality gates and metrics such as DRE.",
+    "TQM builds quality into all processes through customer focus, involvement and PDCA; Six Sigma reduces defects statistically with DMAIC.",
+    "SQA, ISO 9001 and CMMI organise quality at the level of the organisation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2978,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Software Configuration Management",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Concept and need for SCM",
+    "Elements of SCM",
+    "Versioning and version control",
+    "The SCM process",
+    "Change control process",
+    "Configuration audit and status reporting",
+    "Case study: version control tools (Git, CVS, SVN)"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Concept and need for SCM"
+    },
+    {
+     "no": "7.2",
+     "title": "Elements of SCM"
+    },
+    {
+     "no": "7.3",
+     "title": "Versioning and version control"
+    },
+    {
+     "no": "7.4",
+     "title": "The SCM process"
+    },
+    {
+     "no": "7.5",
+     "title": "Change control process"
+    },
+    {
+     "no": "7.6",
+     "title": "Configuration audit and status reporting"
+    },
+    {
+     "no": "7.7",
+     "title": "Case study: version control tools (Git, CVS, SVN)"
+    }
+   ],
+   "summary": [
+    "SCM controls change so that every version is identified, traceable and reproducible.",
+    "Configuration items under a repository, frozen as baselines, change only through change control.",
+    "Version control systems are local, centralised (CVS, SVN) or distributed (Git); the copy-modify-merge model dominates, with branches and tags.",
+    "The SCM process is identification, version control, change control, audit and status accounting, with build and release management.",
+    "Change control passes each request through impact analysis and a Change Control Board.",
+    "FCA and PCA verify product and baseline; status reports give the audit trail.",
+    "Git is the leading tool; SVN is centralised with atomic commits; CVS is a legacy predecessor."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3305,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 38,
+ "notes_ready": 7
+}
