@@ -131,3 +131,36 @@ Honest gaps: Nepal-specific company-law thresholds (101 shareholders, seven foun
 3. BCA 153: the TU unit order is 8 units; the book keeps its own order. Consider splitting collections/generics and file handling into separate units, and add RandomAccessFile, deadlock program, and a Swing-free replacement for the old GUI section.
 4. Fix 6 pt labels in old figures (OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21); run `svgkit.lint` over all books.
 5. Electives BCA 405/406, 453/454 remain unwritten slots.
+
+## Session 22/23 results (350+ continuation: BCA 354 Unit 8 built, BCA 154 syllabus gaps closed)
+
+Picked up from sessions 16-21 (no duplicate tracker). Sandbox recipe from session 21 worked unchanged (venv at `/tmp/v`, `sudo apt-get update` first, `cd notes/pipeline/mathjax && npm ci`).
+
+### Re-verified, no change needed
+- **BCA 105** (student feedback): still 6 textbook units, 151 pp. Web reader re-checked in Django + headless Chromium: Unit 3 left rail shows the six textbook units, right rail has no "Formula and fact sheet"; Unit 6 Exercise 6.7.2 "Correct the errors" (`it's database`) typesets as plain parts (a) to (e), no giant box.
+- Keyword audit against the published TU outlines: **BCA 204 SAD** (all syllabus topics present: CASE, RAD, SOA, XP, BPP, JAD, decision tables, supertypes, normalisation, usability, testing, documentation, maintenance) and **BCA 205 Probability and Statistics** (questionnaire, non-sampling error, PPS, one/two-way ANOVA with m observations per cell, ratio/regression estimation) have no gaps.
+
+### BCA 354 Technical Writing: Unit 8 built
+Source (instructions, technical definitions and descriptions, formal reports, recommendation/feasibility reports, checklist) had been committed last session without a build. `check_techwriting.py --verify` = 26 tokens, 0 unfilled; PDF **83 -> 103 pp** (`pdfinfo`), `qa_pdf.py` fails=0 warns=6 (photo credit 6.2 pt, one near-empty page p69); web data 8 units / 49 topics; manifest refreshed. Pages viewed: contents (p3), instructions table (p84), recommendation-report table and checklist (p96).
+
+### BCA 154 Mathematics II: gaps vs the revised TU outline closed
+Checked the CAMT154 outline (units 1-6). Missing and now added, each with worked examples, executed code, practice with solutions and a model answer:
+| Unit | New section | Notes |
+|---|---|---|
+| 2 | 2.7 inverse circular and hyperbolic derivatives (proofs, table, tanh/sigmoid in neural nets, catenary); 2.8 partial derivatives (mixed, chain rule, total differential, Laplace, gradient descent) | 2 figures (hyperbolic curves, contour + descent path), 2 executed blocks, sympy-checked |
+| 4 | 4.8 surface of revolution (cone, sphere, paraboloid); 4.9 numerical integration (trapezoidal, Simpson 1/3 and 3/8, error bounds, table data) | figure 4.3, executed block (errors 2.6e-3 vs 6e-6) |
+| 5 | 5.8 Bernoulli equation + logistic model; 5.9 partial differential equations (forming, direct integration, heat/wave/Laplace, separation of variables) | executed Euler check and sympy PDE check |
+- Old "Eight uses" sections renumbered (2.9, 4.10, 5.10). Unit 6 heading `6.5 ... $f(x) = 0$` had raw TeX leaking into the running header (qa FAIL): fixed by plain text.
+- PDF **57 -> 97 pp**, `qa_pdf.py` fails=0 warns=87 (old figures with 5-6 pt labels). Web data 6 units / 47 topics. Pages viewed: hyperbolic page (p24), numerical integration (p61), Bernoulli/logistic (p78), PDE + heat equation (p79); web reader Unit 5 shows the new sections in "On this page".
+- **Pipeline lesson**: `md2html._inline_one` and `mathsvg.derive` auto-break any formula with 2+ `=`/implication links (and comma lists) into an aligned block, so `$$a = b, \quad c = d$$` or `X'' + ... \Rightarrow X = ..., \qquad T' = ...` renders as garbage. Write each equation as its own `$$...$$`; keep chains for real step-by-step derivations only. A `$...$` inside a `##` heading leaks into the running page header (qa FAIL "leaked TeX").
+
+### Pushed commits (this session)
+`84e0c7e` (354 normalize), `0c62d5d` (354 build + manifest), `64eb0b5` (Math II source), `20d9ca8` (Math II PDF/web/manifest), plus the final tracker commit.
+
+## Prioritised queue for the next session
+1. Audit not yet done against live TU outlines (grep keywords, then add units/sections): BCA 206 Applied Economics, BCA 304 MIS, BCA 305 Society and Technology, BCA 401, BCA 451 Cloud, BCA 156 Principles of Management, BCA 151 Discrete Structure; project books 256/306/356/404.
+2. BCA 153: TU unit order is 8; book has 7 own-order units. Split collections/generics and file handling, add RandomAccessFile and a deadlock program.
+3. Fix 5-6 pt labels in old figures (Mathematics II Fig 5.x p45, OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21); run `svgkit.lint` over all books.
+4. Mathematics II lab part: TU lists Mathematica/Excel/Matlab labs per unit; add a short Python/Excel lab list for each unit.
+5. Electives BCA 405/406, 453/454 remain unwritten slots.
+6. Run `tools/publish/update_books.py --only <slug>` with server credentials for 354 and 154 (manifest already refreshed locally).
