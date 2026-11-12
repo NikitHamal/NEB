@@ -2,241 +2,413 @@
 subject: Professional Communication and Ethics
 grade: BCA Semester 1
 unit: 4
-title: Workplace Communication, Teamwork and Etiquette
+title: Interpersonal and Group Communication
 area: BCA 105 · Professional Communication and Ethics · Unit 4
 ---
 
-Software is built by teams. This unit covers how teams form and work, how to handle disagreement, how to give and take feedback, how to manage time, and the etiquette that makes someone good to work with. It also treats customer communication, which is where many IT careers begin.
+Most of a working day is spent with other people: a senior who gives a task, a classmate who needs a file, a client who is unhappy, a team that must ship a project on Friday. This unit studies communication between individuals and inside groups. It covers interpersonal communication in the workplace, the listening environment, intercultural communication, effective communication in teams (including virtual teams and what makes a team successful), leadership and communication, and the skill of adapting your style to different audiences. It ends with vocabulary and grammar for the topic and two prescribed readings: "Computer and the Pursuit of Happiness" by David Gelernter and "The Collapse of the Family and the Community" by Yuval Noah Harari.
 
 ::: key What this unit gives you
-- Team stages and roles; effective teamwork in software projects.
-- Conflict resolution, negotiation, giving and receiving feedback.
-- Time management and a way to prioritise work.
-- Customer communication, workplace etiquette and remote-work habits.
+- Interpersonal communication in the workplace: its features, types of relationships, and skills (4.1).
+- The listening environment: barriers inside and around the listener, and how a workplace builds a listening culture (4.2).
+- Intercultural communication: culture, Hofstede and Hall models, stereotypes and practical rules (4.3).
+- Effective communication in teams, the rise of virtual teams, and what defines a successful team (4.4).
+- Leadership and communication; adapting communication styles to diverse audiences (4.5, 4.6).
+- Vocabulary and grammar (4.7); reading notes, analysis and solved exercises for two prescribed readings (4.8).
 :::
 
-## 4.1 Teams and teamwork
+## 4.1 Interpersonal communication in the workplace
 
-A **team** is a small group with a shared goal, complementary skills and mutual accountability. **Tuckman's stages**: *forming* (polite, unsure), *storming* (conflict over roles and methods), *norming* (rules and trust develop), *performing* (productive), *adjourning* (project ends).
+**Interpersonal communication** is the exchange of messages, verbal and non-verbal, between two (or a few) people who influence each other and build a relationship through the exchange. It differs from mass communication (one source, many unseen receivers) and from public speaking (one speaker, a large audience, little feedback). In the workplace it is the daily traffic of instructions, requests, updates, jokes, complaints and thanks.
 
-**Belbin-style roles** (a simplified list): leader/coordinator, idea generator, implementer, completer-finisher, evaluator, team worker, specialist. A balanced team needs all of them, though one person plays several.
+### Features of interpersonal communication
 
-**Software team roles:** product owner, project manager or scrum master, developers (front end, back end), UI/UX designer, tester (QA), DevOps/administrator, business analyst.
+1. **Two-way and immediate.** Sender and receiver swap roles all the time; feedback arrives at once, as a nod, a frown or a question.
+2. **Personal and relational.** Every message carries a *content* level (what is said) and a *relationship* level (how the two people stand to each other). "Send me the file" and "Could you please send me the file when you get a minute?" have the same content but different relationship messages.
+3. **Rich in channels.** Face to face, words, voice, face, gaze, posture and space all work together (see 1.5).
+4. **Irreversible.** What has been said cannot be unsaid; a harsh word to a colleague stays in memory even after an apology.
+5. **Contextual.** The same sentence means different things in a staff room, in a client meeting and in a group chat.
+6. **Ethical.** Honesty, respect and confidentiality apply to every conversation, not only to formal documents.
 
-**Practices that make teams work**
+### Types of workplace relationships and directions of flow
 
-1. Agree the **goal and definition of done** in writing.
-2. Divide work by clear ownership; track tasks on a board (Trello, Jira, GitHub Projects).
-3. Short **stand-up** each day or week: *What did I do? What will I do? What blocks me?*
-4. Use version control; review each other's code; keep a shared decision log.
-5. Communicate problems early: a delay reported on day 2 can be fixed; one reported on day 14 cannot.
-6. Credit others publicly; share the blame, never single anyone out.
+| Direction | Between | Typical content | Common problem |
+|---|---|---|---|
+| **Downward** | manager to team | instructions, goals, policy, feedback | too little context; commands without reasons |
+| **Upward** | team to manager | progress, problems, suggestions | fear of giving bad news; filtering |
+| **Horizontal (lateral)** | peers | coordination, sharing information | rivalry; silos between departments |
+| **Diagonal** | across levels and departments | cross-functional projects | unclear authority |
+| **Grapevine** | informal network | rumours, gossip, mood | distortion; can be managed by openness |
 
-**Social loafing**: the tendency of some members to reduce effort in groups. Fix it with visible individual tasks, peer review and small subgroups.
+### The Johari Window
 
-```photogrid label="4.1" cols="2" ratio="1.5" caption="Teams. (a) A work crew holds a short stand-up briefing before starting: everyone hears the plan, the risks and who does what. Software teams hold the same daily stand-up. (b) Tuckman's four stages of team development: performance dips during storming and then rises as the team agrees on rules."
-@ photo id="bca105/scrum" cap="A team briefing before work starts"
-fit 1.5
-focus 0.5 0.55
-call 0.5 0.92 0.35 0.62 "Everyone hears the plan"
-@ svg cap="Tuckman's stages: team performance over time"
-import math
-f = Fig(420, 280)
-a = Axes(f, 30, 20, 370, 190, (0, 4), (0, 1.1)); a.axes("time", "performance")
-a.curve(lambda t: 0.35 + 0.3 * t / 1 if t < 1 else (0.65 - 0.25 * math.sin((t - 1) * math.pi) if t < 2 else 0.65 + 0.3 * (1 - math.exp(-(t - 2) * 1.6))), 0, 4, color=NAVY, sw=2.8, n=300)
-for i, (n, c) in enumerate([("Forming", AMBER), ("Storming", RED), ("Norming", TEAL), ("Performing", NAVY)]):
-    f.text(a.X(i + 0.5), 232, n, size=10.5, color=c, bold=True)
-    if i: a.vline(i, 0, 1.1, color="#94a3b8")
-f.text(210, 254, "polite  -  conflict  -  rules and trust  -  results", size=9.5, color=SLATE)
-```
+The **Johari Window** (Joseph Luft and Harrington Ingham, 1955) is a simple model of how well people know each other. It divides what is known about a person into four areas.
 
-```svgfig label="4.1" caption="The Eisenhower matrix for time management. Sort every task by urgency and importance: do it now, schedule it, delegate it or delete it. Most students waste time in the lower-left box and neglect the upper-right box (studying early, practising skills), which prevents emergencies later."
-f = Fig(700, 280)
-f.box(110, 10, 280, 120, "", fill=ROSE, stroke=RED); f.box(400, 10, 280, 120, "", fill=MINT, stroke=TEAL)
-f.box(110, 140, 280, 120, "", fill=SAND, stroke=AMBER); f.box(400, 140, 280, 120, "", fill=SOFT, stroke=SLATE)
-for x, y, h, t, c in [(250, 34, "1 DO NOW", "urgent + important", RED), (540, 34, "2 SCHEDULE", "important, not urgent", TEAL), (250, 164, "3 DELEGATE / BATCH", "urgent, not important", AMBER), (540, 164, "4 DELETE / LIMIT", "neither", SLATE)]: f.text(x, y, h, size=13, color=c, bold=True); f.text(x, y + 18, t, size=10, color=SLATE, italic=True)
-for x, y, s in [(250, 80, "assignment due tomorrow"), (250, 98, "server down in the lab"), (540, 80, "study plan, exercise, learning C"), (540, 98, "update CV, practise projects"), (250, 210, "most phone calls, some emails"), (250, 228, "a friend's quick request"), (540, 210, "endless scrolling, idle chat"), (540, 228, "unneeded notifications")]: f.text(x, y, s, size=10.5, color=NAVY)
-f.text(100, 75, "URGENT", size=10, color=SLATE, bold=True, anchor="end"); f.text(100, 205, "NOT URGENT", size=10, color=SLATE, bold=True, anchor="end"); f.text(250, 275, "IMPORTANT", size=10, color=SLATE, bold=True); f.text(540, 275, "NOT IMPORTANT", size=10, color=SLATE, bold=True)
-```
-
-## 4.2 Conflict and negotiation
-
-Conflict is normal; badly handled conflict is the problem. Common sources: unclear roles, unequal workload, different priorities, personality clashes, scarce resources.
-
-| Style | Approach | Use when |
+| | **Known to self** | **Not known to self** |
 |---|---|---|
-| Competing | win at the other's cost | an emergency needs a quick decision |
-| Collaborating | find a solution that satisfies both | the issue is important and time exists |
-| Compromising | each gives up something | a quick middle-way will do |
-| Avoiding | postpone or ignore | the issue is trivial or emotions need to cool |
-| Accommodating | give way | the issue matters more to the other side |
+| **Known to others** | **Open (arena):** shared facts, opinions, behaviour | **Blind spot:** habits others see but you do not (always interrupting) |
+| **Not known to others** | **Hidden (facade):** private things you choose not to share | **Unknown:** unrealised abilities and feelings |
 
-**A simple method:** (1) cool down, (2) listen to the other side's view first, (3) separate the **person** from the **problem**, (4) agree on the facts, (5) focus on **interests** (what each side needs) rather than **positions** (what they demand), (6) list options, (7) agree on a fair criterion and a written action.
+Trust grows when the **open** area expands: you *disclose* appropriate information about yourself (shrinking the hidden area) and you *ask for and accept feedback* (shrinking the blind spot). In a new project team, a student who says "I am strong in front end but weak in databases; please review my SQL" enlarges the open area and helps the team plan.
 
-**Negotiation** is the same, with offers. Know your **BATNA** (best alternative to a negotiated agreement); aim for a win–win outcome. Example: a client wants three extra features at the same price; instead of refusing, offer a phased plan: the most valuable feature now within budget, the others in phase 2 with a separate quotation.
+### Interpersonal skills for professionals
 
-## 4.3 Feedback
+- **Active listening** (4.2) and **empathy**: understand the other person's feelings before replying.
+- **Assertiveness**: stating your needs and views clearly and respectfully, neither passive (staying silent) nor aggressive (attacking). "I cannot finish all three modules by Wednesday; I can finish two. Which should I drop?" is assertive.
+- **Questioning**: open questions ("What worries you about the deadline?") to explore, closed questions ("Is the server ready?") to confirm.
+- **Giving and receiving feedback** (SBI model, below).
+- **Respect for hierarchy without fear**: address seniors courteously, but report problems early.
+- **Rapport and small talk**: a short, sincere greeting builds the trust that makes difficult conversations possible.
+- **Emotional intelligence** (Daniel Goleman): self-awareness, self-regulation, motivation, empathy and social skill.
 
-**Giving feedback (SBI model):** describe the **Situation** (when and where), the **Behaviour** (observable, not personality), and the **Impact** (effect on the team or project); then suggest what to do next.
-
-*Poor:* "You are careless." *Better:* "In yesterday's code review (S), three functions had no error checks (B); that caused the demo crash and cost us an hour (I). Could we add a checklist before merging?"
-
-Praise specifically ("The way you documented the API saved the tester two days") as well as correcting. Give feedback promptly and privately for criticism, publicly for praise.
-
-**Receiving feedback:** listen without interrupting, thank the giver, ask for examples, do not argue or justify at once, decide what to act on, and follow up.
-
-## 4.4 Time management
-
-**Eisenhower matrix**
-
-| | Urgent | Not urgent |
-|---|---|---|
-| **Important** | **Do now** (a crash in the live system, tomorrow's submission) | **Schedule** (learning, planning, exercise, refactoring) |
-| **Not important** | **Delegate or minimise** (some emails, interruptions) | **Drop** (endless scrolling) |
-
-**Techniques:** to-do list with three priorities a day; **time-boxing** (assign a fixed block to a task); **Pomodoro** (25 minutes work, 5 minutes break; longer break after four); batching email checks; saying a polite "no"; estimating honestly and adding buffer.
-
-**Parkinson's law:** work expands to fill the time available, so set shorter deadlines for yourself. **Procrastination** fades when you start with a five-minute version of the task.
-
-::: example Worked example: planning a project week
-A student has a database assignment due Friday (4 hours of work), a Java lab report due Thursday (3 h), exam revision (6 h across the week), and a friend's birthday on Wednesday. Plan: Monday: lab report draft (2 h) + revision (1 h); Tuesday: lab report finish (1 h), assignment tables (2 h); Wednesday: revision (2 h), birthday in the evening; Thursday: submit report, revision (2 h); Friday morning: assignment queries and test (2 h), submit. Total 13 hours, all deadlines met with a margin of one day for the assignment's first half.
+::: example Worked example: feedback with the SBI model
+**Situation:** In yesterday's sprint review, **Behaviour:** you showed the demo without testing the login page, **Impact:** it crashed in front of the client and we lost ten minutes. Next time, could we run a five-minute smoke test before the demo?
+The comment names a situation, describes an observable behaviour (not "you are careless"), states the impact, and ends with a request. The receiver can act on it.
 :::
 
-## 4.5 Customer communication and support
+### Conflict in interpersonal communication
 
-- **Listen first**: let the customer finish; note the problem in their words; paraphrase it back.
-- **Empathise without blaming**: "I understand this is frustrating; let's fix it."
-- **Use their language, not yours**: no jargon; say what you will do and by when.
-- **Own the problem**: "I will find out and call you by 3 pm."
-- **Close the loop**: confirm the fix works and record it (ticket).
-- Never promise what you cannot deliver; if you do not know, say so.
+Conflict is normal where people share goals, scarce resources and different habits. Thomas and Kilmann describe five styles: **competing, collaborating, compromising, avoiding and accommodating**. Collaborating (solving the problem so that both sides gain) is best for important issues; avoiding is sensible only for trivial matters or to cool down. Steps: (1) choose a private time; (2) state the issue, not the person; (3) listen to the other view and repeat it; (4) agree on common interests; (5) write down the action and a review date.
 
-**Handling an angry customer (LAST):** **L**isten, **A**pologise for the experience, **S**olve, **T**hank. Keep your voice calm and slow; do not take it personally.
+## 4.2 Listening environment in the workplace
 
-**Writing a support reply:** thank the customer; restate the problem; give the solution in numbered steps; offer further help; sign with a name.
+**Listening** is the active process of receiving, attending to, understanding, evaluating and responding to messages. **Hearing** is only the physical act of sound reaching the ear. Managers spend about half their communication time listening, but studies repeatedly show that people recall only a fraction of what they have just heard, so listening must be trained.
 
-## 4.6 Workplace etiquette and remote work
+### Stages of listening
 
-- **Punctuality** (arrive and join meetings on time), **dress** suited to the organisation, **respect** for everyone regardless of role, gender, caste, ethnicity, religion or disability.
-- **Phone discipline:** silent in meetings; personal calls away from colleagues.
-- **Shared spaces:** clean up after yourself, keep voices down in open offices, label food in the fridge.
-- **Confidentiality:** do not discuss client data or salaries outside the people who need to know; log out and lock the screen when away.
-- **Dining and social events:** moderate behaviour; do not gossip; no discussion of religion or politics unless the setting is suitable.
-- **Social media:** your posts reflect on the employer; never share confidential work or criticise colleagues publicly.
-- **Remote work:** define working hours; update status; write short daily progress notes; prefer written decisions; turn on cameras when asked; keep a quiet place and test your internet link; respect other time zones when scheduling.
+**Receiving** (sensing) → **attending** (choosing to focus) → **understanding** (decoding meaning) → **evaluating** (judging) → **responding** (feedback) → **remembering**. A break in any stage breaks the chain.
 
-**Workplace harassment.** Unwelcome sexual, discriminatory or abusive conduct is never acceptable. Nepal's Sexual Harassment at Workplace Prevention Act, 2071 (2014) requires organisations to have a complaint mechanism. Report to the designated committee or HR, and keep a record.
+### Types of listening
 
-## 4.7 Eight characteristics of an effective team
+| Type | Purpose | Example |
+|---|---|---|
+| **Informational** | learn facts | a lecture, a briefing on the new server |
+| **Critical (evaluative)** | judge arguments | a vendor's sales pitch |
+| **Empathic (therapeutic)** | understand and support feelings | a colleague who is stressed |
+| **Appreciative** | enjoy | music, a speech, a story |
+| **Active** | show attention and confirm meaning | repeat, paraphrase, ask |
 
-1. **A shared, clear goal.** Every member can state in one sentence what the team is building and why. The goal is written down together with the "definition of done". Without it, five talented students pull in five directions.
-2. **Clear roles and ownership.** Each task has one owner, such as front end, back end, testing or documentation. People know who decides what, so work is not duplicated or forgotten. A Trello board in the lab makes ownership visible.
-3. **Open and honest communication.** Members report progress and problems early, in plain words. A delay told on day 2 can be solved, but one told on day 14 cannot. Honesty needs a team where nobody is punished for bad news.
-4. **Mutual trust and respect.** Members believe that others will do their work and listen to different opinions. Respect for age, gender, language and ethnic differences, which are many in Nepali classes, strengthens this trust. Trust is built through small kept promises.
-5. **Constructive handling of conflict.** Disagreement about design or deadlines is healthy when it is about the problem, not the person. The team states the issue, listens to every view and agrees on a test or a vote. Hidden conflict does far more damage than open discussion.
-6. **Shared responsibility and accountability.** Success is shared, and so is the blame. Everyone accepts that they are accountable for their part. Peer review and visible tasks reduce social loafing.
-7. **Regular meetings and feedback.** A short daily or weekly stand-up asks: what did I do, what will I do, what blocks me? Feedback is specific, timely and kind. The team reviews its own method after each milestone.
-8. **Skills that complement each other.** A good team mixes a leader, an idea generator, a careful finisher and a specialist. Members learn from each other and cover each other's weak points. Diversity of skills makes the final product stronger than any single member could.
+### What is a listening environment?
 
-```photogrid label="4.2" cols="2" ratio="1.0" caption="Why big teams need structure. (a) A rowing eight: nine people (eight rowers and a cox) must keep one rhythm, which works because the roles are fixed and the cox speaks for the crew. (b) In a team of n people there are n(n - 1) / 2 possible pairs who may need to talk. Three people have 3 channels; five have 10; the nine-person boat has 36; twelve have 66; twenty have 190. Doubling the team from 9 to 18 would raise the channels from 36 to 153, more than four times. This is why a project with 20 programmers is split into squads of five or six with a lead each, and why Brooks's law warns that adding people to a late project can make it later. Clear roles, a short stand-up and a shared task board keep the number of conversations manageable."
-@ photo id="bcapc/rowing" cap="A rowing eight with its cox"
-fit 1.0
-focus 0.5 0.5
-@ svg cap="Communication channels n(n-1)/2"
+A **listening environment** is the physical, social and organisational setting that makes it easy or hard for people to listen to each other. A manager can have excellent personal skills and still fail if the room is noisy, the meeting is overloaded, or people are punished for speaking up.
+
+**Physical factors:** noise (generators, traffic, open offices), poor acoustics, bad audio on an online call, uncomfortable temperature, phones and notifications, seating that stops eye contact.
+**Psychological factors:** stress, fatigue, prejudice about the speaker, defensiveness, daydreaming, the habit of preparing a reply while the other person is still speaking.
+**Organisational factors:** meetings with no agenda, information overload, strict hierarchy that discourages bottom-up messages, no channel for questions, a culture that rewards talking over listening.
+**Semantic factors:** jargon, unfamiliar accents, a language that is not the listener's first language.
+
+::: key Building a listening culture
+- Put phones away or face down in meetings; give a clear agenda and time limit.
+- Choose a quiet room; check microphones and screen-sharing in virtual meetings.
+- Invite quiet members to speak ("Sita, what is your view?"); do not let two voices dominate.
+- Paraphrase before you reply: "So you are saying the database should move first. Is that right?"
+- Reward bad news that arrives early; never shoot the messenger.
+- Take short written notes and circulate action points afterwards.
+:::
+
+### Poor listening habits to avoid
+
+*Pseudo-listening* (pretending), *selective listening* (hearing only what you like), *interrupting*, *finishing the speaker's sentences*, *jumping to conclusions*, *defensive listening* (hearing criticism as attack), and *stage hogging* (turning every story into your own).
+
+### Active listening: a short method
+
+Face the speaker, keep an open posture and eye contact (as culture allows), **nod and use minimal encouragers** ("I see", "go on"), **paraphrase** content, **reflect** feelings ("You sound worried about the deadline"), **ask clarifying questions**, **summarise** at the end, and **do not interrupt**.
+
+::: example Worked example: bad listening versus good listening
+*Bad:* Ram: "The payment API keeps timing out." Hari (typing, not looking): "Yes, yes, restart it." Ram leaves without being heard; the real fault, a wrong timeout setting, stays.
+*Good:* Hari stops typing: "Timing out how often, and since when?" Ram: "Since the update yesterday." Hari: "So it started with the update; let us check that setting." The problem is solved in ten minutes because Hari questioned and paraphrased.
+:::
+
+## 4.3 Intercultural communication
+
+**Culture** is the shared set of values, beliefs, customs, language, symbols and behaviours of a group that is learned and passed on. **Intercultural communication** is communication between people whose cultural backgrounds are different enough to change how messages are sent and understood. In Nepal this is a daily matter: a Newar, a Tharu and a Sherpa classmate, a Maithili-speaking client in Janakpur, a Chinese or Indian vendor, a Korean employer, a remote team lead in Germany.
+
+### Why it matters in IT
+
+Software teams are global. Nepali developers work for clients in the USA, Europe and Australia; students move abroad; products are used by people who read different languages and expect different colours, dates and names. Poor cultural awareness causes missed deadlines ("yes" that meant "I heard you"), offence (a gesture or joke), and bad products (a form that demands a surname from people who have none).
+
+### Dimensions of culture
+
+**Edward T. Hall: high-context and low-context cultures.**
+
+| | **High-context** | **Low-context** |
+|---|---|---|
+| Meaning lies in | the situation, relationship, tone and what is *not* said | the explicit words |
+| Style | indirect, polite, face-saving | direct, precise, written |
+| "No" is expressed as | "We will try", "It is difficult", silence | "No, we cannot" |
+| Examples (broadly) | Nepal, India, Japan, China, Arab countries | USA, Germany, Scandinavia, Australia |
+| Agreements | built on trust, can be verbal | in detail in a written contract |
+
+**Geert Hofstede's dimensions** (original four, later extended): *power distance* (how far less powerful members accept unequal power: high in Nepal, so juniors rarely contradict seniors in public); *individualism versus collectivism* (self versus group loyalty); *masculinity versus femininity* (competition versus care); *uncertainty avoidance* (comfort with ambiguity); later *long-term orientation* and *indulgence*.
+
+**Time:** **monochronic** cultures treat time as a line (schedule, one task at a time, punctuality is respect); **polychronic** cultures treat it as flexible and relational (many things at once, relationships before schedules).
+
+### Barriers in intercultural communication
+
+- **Ethnocentrism:** judging other cultures by your own as the standard.
+- **Stereotyping:** fixed ideas about a whole group ("all Westerners are rude").
+- **Language and accent**, idioms and slang ("let us touch base"), humour that does not translate.
+- **Non-verbal differences:** the head wobble, the thumbs-up, eye contact (a sign of honesty in the West, of disrespect to elders in some cultures), personal space, the use of the left hand, the meaning of silence.
+- **Different attitudes** to hierarchy, time, deadlines, feedback and women at work.
+
+::: example Worked example: one sentence, two readings
+A Nepali developer is asked by an American manager, "Can you finish this by Friday?" Because saying "no" to a senior is impolite, he replies, "I will try." The manager hears a **yes** (low-context: words carry the meaning). On Friday the work is not ready and both are upset. **Fix:** the manager asks open questions ("What might stop you?"), the developer says, "I can finish the login page by Friday and the reports by Tuesday." Both state expectations explicitly and write them in the ticket.
+:::
+
+### Practical rules for intercultural competence
+
+1. **Learn before you meet:** read about the country, holidays, greeting customs and business hours.
+2. **Use plain English:** short sentences, no idioms, define acronyms, speak slowly (not loudly).
+3. **Check understanding:** ask the other person to restate the plan; do not ask "Do you understand?", which invites a polite "yes".
+4. **Confirm in writing** after a call: dates, owner, deliverable.
+5. **Be patient with silence and accent;** do not finish sentences for others.
+6. **Avoid stereotypes:** treat each person as an individual first.
+7. **Respect holidays and time zones:** schedule meetings at an hour fair to both sides; share the inconvenience.
+8. **Adapt, do not abandon:** respect the other culture while staying true to your own values; seek a "third culture" that works for the team.
+
+## 4.4 Effective communication in teams
+
+A **group** is a collection of people; a **team** is a small group with a common goal, complementary skills, shared accountability and interdependent work. In a team the quality of communication decides the quality of results, because teams succeed or fail at hand-offs: design to code, code to test, test to client.
+
+### Group communication networks
+
+| Network | Shape | Speed | Accuracy | Morale | Best for |
+|---|---|---|---|---|---|
+| **Chain** | A → B → C → D | slow at the ends | distorted | low at ends | formal hierarchy |
+| **Wheel (star)** | all through the leader | fast for simple tasks | high | low except for the leader | routine tasks, emergencies |
+| **Circle** | each speaks to two neighbours | slow | low | moderate | social groups |
+| **All-channel (web)** | everyone to everyone | slower to decide, fast to share | high on complex tasks | highest | creative, complex work |
+
+The number of **possible pairs** in a team of n people is **n(n - 1)/2**: 3 people have 3 channels, 5 have 10, 9 have 36, 20 have 190. Large teams therefore need structure: roles, stand-ups, written decisions and a shared board.
+
+### Stages of team development (Tuckman)
+
+**Forming** (polite, unsure) → **storming** (conflict about roles and methods) → **norming** (rules and trust form) → **performing** (high productivity) → **adjourning** (project ends). Leaders help teams pass through storming by naming it as normal and agreeing on working rules.
+
+### Communication practices that make teams effective
+
+- **A shared goal and definition of done**, written where everyone can see it.
+- **A single source of truth** (a task board, a shared repository, a project wiki), not private chats.
+- **Regular, short meetings:** a daily stand-up (yesterday, today, blockers) and a sprint review.
+- **Meeting discipline:** agenda, time-keeper, notes, actions with owners and dates (see 2.3).
+- **Respectful discussion norms:** one speaker at a time, ideas criticised, not people, decisions recorded.
+- **Psychological safety:** members can admit mistakes and ask questions without ridicule. Google's Project Aristotle found it the strongest predictor of team effectiveness.
+- **Constructive feedback** (SBI) and a retrospective after each milestone.
+- **Documentation:** README, decisions log and meeting minutes, so knowledge does not live only in one head.
+
+### The rise of virtual teams
+
+A **virtual team** works across locations, and often time zones, mainly through technology. Reasons for their rise: broadband and cloud tools; global hiring; freelancing and outsourcing (a major export of Nepal's IT sector); the pandemic years (2020 to 2022), which made remote work normal; lower office costs; access to talent anywhere.
+
+| Advantages | Challenges |
+|---|---|
+| wider talent pool and 24-hour work cycles | loss of non-verbal cues; messages read as cold |
+| savings on travel and office space | time-zone gaps and slow answers |
+| flexible hours; no commute | low trust and feelings of isolation |
+| written records of decisions | tool overload; unreliable power and internet |
+| inclusion of people who cannot relocate | cultural and language misunderstandings |
+
+**Best practices for virtual teams:** hold regular video meetings, with cameras on where bandwidth permits; define **core overlap hours**; prefer **asynchronous** updates (written status notes) so people in other time zones are not blocked; state response-time expectations (for example, "within one working day"); use one tool per purpose (chat for quick questions, a board for tasks, a repository for code, a wiki for decisions); begin calls with a short personal check-in; rotate unfriendly meeting times; send agendas in advance and notes afterwards; celebrate wins online; and meet in person when possible.
+
+### Defining successful teams
+
+A successful team **achieves its goal on time and with quality, stays healthy** (members learn and want to continue), and **improves its own working method**. Eight characteristics are usually named:
+
+1. **A shared, clear goal** that every member can state in one sentence.
+2. **Clear roles and ownership:** each task has one owner.
+3. **Open and honest communication,** especially early reporting of problems.
+4. **Mutual trust and respect,** including for differences of language, gender and background.
+5. **Constructive handling of conflict:** about the problem, not the person.
+6. **Shared responsibility and accountability:** success and failure are shared.
+7. **Regular meetings and feedback:** short, focused and followed by actions.
+8. **Complementary skills:** leader, idea generator, finisher and specialist; members cover each other's weak points.
+
+Team roles (Belbin) include **coordinator, shaper, plant (ideas), monitor-evaluator, implementer, completer-finisher, resource investigator, team worker and specialist**. A team of nine "shapers" fights; a team of nine "plants" never finishes.
+
+```svgfig label="4.1" caption="Communication channels grow much faster than team size. The number of possible pairs is n(n-1)/2: a team of 9 has 36 channels, a team of 18 has 153 (4.25 times more). This is why larger teams need roles, stand-ups and a shared task board."
 ns = [3, 5, 9, 12, 20]
 ch = [n * (n - 1) // 2 for n in ns]
-assert ch == [3, 10, 36, 66, 190] and 18 * 17 // 2 == 153 and round(153 / 36, 2) == 4.25
-f = Fig(300, 240)
-f.text(150, 14, "possible pairs in a team of n", size=10.5, color=NAVY, bold=True)
-base, sc = 176, 130 / 190
+assert ch == [3, 10, 36, 66, 190]
+f = Fig(560, 270)
+f.text(280, 20, "possible communication pairs in a team of n people", size=12, color=NAVY, bold=True)
+base, sc = 210, 150 / 190
 for i, (n, c) in enumerate(zip(ns, ch)):
-    x = 18 + i * 54; h = c * sc
-    f.box(x, base - h, 40, max(h, 2), "", fill="#1d6fb8" if n != 9 else "#d97706", stroke=NAVY, r=0, sw=1)
-    f.text(x + 20, base - h - 8, str(c), size=10.5, color=NAVY, bold=True)
-    f.text(x + 20, base + 14, f"n = {n}", size=10.5, color=SLATE)
-f.line(10, base, 292, base, color=SLATE, sw=1.2)
-f.text(150, 210, "nine in the boat: 36 pairs (amber)", size=10.5, color="#b45309", bold=True)
-f.text(150, 228, "9 -> 18 people: 36 -> 153 channels (4.25x)", size=10.5, color=RED, bold=True)
+    x = 40 + i * 100
+    h = c * sc
+    f.box(x, base - h, 70, max(h, 2), "", fill=BLUE if n != 9 else AMBER, stroke=NAVY)
+    f.text(x + 35, base - h - 9, str(c), size=12, color=NAVY, bold=True)
+    f.text(x + 35, base + 16, "n = " + str(n), size=11, color=SLATE)
+f.line(30, base, 540, base, color=SLATE, sw=1.4)
+f.text(280, 255, "Tuckman: forming - storming - norming - performing - adjourning", size=10.5, color=TEAL, bold=True)
 ```
 
-## Formula and fact sheet
+## 4.5 Leadership and communication
 
-- Tuckman: forming → storming → norming → performing → adjourning.
-- Conflict styles: competing, collaborating, compromising, avoiding, accommodating.
-- SBI feedback: Situation, Behaviour, Impact.
-- Eisenhower: do (urgent + important), schedule, delegate, drop.
-- LAST: Listen, Apologise, Solve, Thank.
-- Stand-up: yesterday, today, blockers.
+A **leader** influences others to work towards a goal. A **manager** plans, organises and controls resources; a leader inspires direction. In a small IT team the same person is often both. Leadership is largely a communication skill: a leader's main tools are talking, listening, writing and example.
 
-## Chapter summary
+### Leadership styles
 
-- Teams pass through predictable stages; clear goals, owners, rituals and early reporting make them productive.
-- Conflicts are managed by listening, focusing on interests and agreeing on written actions.
-- Feedback is most useful when specific, timely and about behaviour, not personality.
-- Time management is the art of choosing what matters and protecting time for it.
-- Courtesy, confidentiality and punctuality define professional reputation, in office and online.
+| Style | How decisions are made | Communication pattern | Suits |
+|---|---|---|---|
+| **Autocratic (authoritarian)** | leader alone | one-way orders | emergencies, inexperienced staff |
+| **Democratic (participative)** | after consultation | two-way discussion | creative work, skilled teams |
+| **Laissez-faire** | the team | little guidance | expert, self-motivated people |
+| **Transformational** | shared vision, inspiring | vision, stories, high expectations | change and innovation |
+| **Servant** | leader serves the team's needs | listening, coaching | knowledge teams, retention |
 
-## Practice
+Kurt Lewin identified the first three; there is no single "best" style. **Situational leadership** (Hersey and Blanchard) says that the leader should adapt: direct a new member, coach a learning one, support a capable one, delegate to an expert.
 
-1. Explain Tuckman's stages with a software-project example.
-2. List five practices of an effective software team.
-3. Two team members each want a different database. Describe how you would resolve it.
-4. Give SBI feedback to a teammate who regularly misses stand-ups.
-5. A customer phones angry that the payroll report is wrong. Write what you would say using LAST.
-6. Place these in the Eisenhower matrix: a server outage, a LinkedIn course, a colleague's casual chat, a bug report due tomorrow.
-7. Write a stand-up update for a developer who finished the login page, is starting the profile page, and is blocked on an API key.
-8. List ten rules of workplace etiquette.
-9. What is social loafing and how do you reduce it?
-10. What is a BATNA? Give an example from a freelance contract.
+### What leaders must communicate
 
-::: note Answers and worked solutions
-**1.** Forming: students agree on a project; storming: argument over language and roles; norming: they set a Git workflow and meeting times; performing: features ship; adjourning: final demo and retrospective.
-**2.** Clear goal and done criteria, task board, daily stand-ups, version control and code review, early problem reporting, shared credit.
-**3.** Listen to each reason; list criteria (data size, team skill, hosting cost, support); evaluate against them or run a small test; decide jointly; record the decision.
-**4.** "In the last three stand-ups (S) you were not present or sent no update (B), so I did not know whether the API task was done and the tester waited (I). Could you send a two-line update by 10 am if you cannot join?"
-**5.** Listen without interrupting; "I am sorry the report was wrong, I understand it affects salary day. Please send me the figures that look wrong. I will check and call you by 3 pm. Thank you for telling us."
-**6.** Outage: do now. Bug report due tomorrow: do now. LinkedIn course: schedule. Casual chat: minimise or drop (be polite).
-**7.** "Yesterday I finished the login page. Today I am starting the profile page. I am blocked on the payment API key and need it from the client."
-**8.** Be punctual, respect others, dress suitably, silence the phone in meetings, keep confidence, tidy shared space, write courteous email, don't gossip, give credit, report harassment.
-**9.** Reduced effort by individuals in a group. Reduce it through visible personal tasks, peer review and small subgroups.
-**10.** The best option if negotiation fails, for example another client offering Rs 40,000 for similar work, which you accept if the first client will not go above Rs 35,000.
+- **Vision and purpose:** why the project matters, in a sentence people can repeat.
+- **Expectations:** deliverables, quality standards, dates.
+- **Feedback and recognition:** praise in public (specific and sincere), correct in private.
+- **Context:** the reasons behind decisions, so that instructions are not "because I said so".
+- **Bad news, early:** projects survive late-but-honest news better than hidden news.
+- **Change:** what is changing, why, what stays the same and what happens next.
+
+### Communication skills of effective leaders
+
+Listening first; asking questions instead of only giving answers; speaking simply and consistently (words and actions must match); transparency about what is not yet known; empathy for stress and personal issues; and *credibility*, which comes from competence, honesty and keeping promises.
+
+::: example Worked example: announcing a delay
+*Poor:* "The release is delayed. Work harder." *Better:* "We will miss Friday by one week because the payment gateway changed its API. Here is the new plan: Monday to Wednesday, integrate; Thursday, test; the next Tuesday, release. I need two volunteers for testing and I will tell the client today. If you see another risk, tell me today, not on release day."
+The better version gives the reason, the new plan, the request for help, and an action by the leader.
 :::
 
-## Model answers: medium (5 marks) and long (10 marks) questions
+## 4.6 Adapting communication styles for diverse audiences
 
-**Q (5 marks). Explain Tuckman's stages of team development with a software-project example.**
+Good communicators change style, not substance, to suit the audience. The question before every message is: **Who is the receiver, what do they already know, what do they need to do, and how do they like to receive information?**
 
-Bruce Tuckman described how a new group becomes an effective team in four stages (a fifth, *adjourning*, was added later). Performance does not rise in a straight line: it dips when the team argues about how to work (Plate 4.1b).
-
-1. **Forming.** Members meet, are polite and unsure of their roles. They depend on the leader. *Example:* four BCA students are told to build a library system and agree on a group name.
-2. **Storming.** Opinions clash about roles, tools and deadlines. Some members dominate or withdraw, and tension is high. *Example:* two members want PHP and two want Java; one person has done no work.
-3. **Norming.** The team agrees on rules, roles and methods, trust grows and members give feedback. *Example:* they choose Java, split modules, set a weekly stand-up and use Git.
-4. **Performing.** The team works smoothly towards the goal, solves problems itself and delivers quality. *Example:* modules are integrated, tested and demonstrated on time.
-5. **Adjourning.** The project ends; the team reviews and celebrates.
-
-**Role of the leader:** direct in forming, mediate in storming, coach in norming and delegate in performing. **Conclusion:** storming is normal, and a team that handles it openly reaches the performing stage sooner.
-
-**Q (10 marks). Describe how a student team should work together: team roles, conflict handling, feedback using the SBI model, and time management with the Eisenhower matrix.**
-
-**Introduction.** A team is a small group with a shared goal, complementary skills and mutual accountability. Software is almost always made by teams, so teamwork is a professional skill, not an extra.
-
-**1. Roles and practices.** Typical software roles are product owner, project manager or scrum master, developers, UI/UX designer, tester and business analyst. Good practice: agree the goal and definition of done in writing, give each task one owner on a board, hold a short stand-up (*What did I do? What will I do? What blocks me?*), use version control with code review, and report problems early.
-
-**2. Conflict handling.** Conflict is normal, especially in the storming stage. Five common styles are *competing* (win-lose), *collaborating* (win-win), *compromising* (split the difference), *avoiding* and *accommodating*. For important issues the best style is collaboration: separate the person from the problem, listen to each view, state shared interests, list options and agree on a test or a fair rule. Escalate to a supervisor only after the team has tried.
-
-**3. Feedback (SBI model).** Describe the **Situation** (when and where), the **Behaviour** (what was seen, not personality) and the **Impact** (its effect). *Example:* "In Tuesday's stand-up (S), you did not report that the login module was late (B), so the testers waited two days (I). Could you tell us earlier next time?" Feedback should be specific, timely, private for criticism and ends with a request.
-
-**4. Time management (Figure 4.1).**
-
-| Box | Task type | Action |
+| Audience | What it needs | How to adapt |
 |---|---|---|
-| 1 | urgent + important | do now |
-| 2 | important, not urgent | schedule (study, practice) |
-| 3 | urgent, not important | delegate or batch |
-| 4 | neither | delete or limit |
+| **Technical experts** (developers, engineers) | detail, evidence, precision | use exact terms, data, diagrams, code and references |
+| **Non-technical** (managers, clients, users) | benefits, risks, cost, time | analogies, plain words, visuals, no jargon; start with the result |
+| **Senior executives** | the decision required | one-page summary: bottom line, options, recommendation |
+| **Seniors and elders** | respect and clarity | polite address, patient pace, face-to-face where possible |
+| **Different generations** | preferred channel | email or phone for some, instant chat for others |
+| **Non-native speakers** | simple language | short sentences, written follow-up, avoid idioms |
+| **People with disabilities** | accessible formats | captions, alt text, large type, screen-reader-friendly files |
+| **Cross-cultural** | cultural fit | see 4.3: context, hierarchy, time, formality |
 
-Other tools: a weekly plan, deadlines with buffer time, one task at a time and removing distractions such as notifications.
+### Four common communication styles
 
-**5. Effective team characteristics.** Shared goal, clear roles, honest communication, trust, healthy conflict, shared accountability, regular feedback and complementary skills.
+1. **Passive:** avoids conflict, hides needs; leads to resentment.
+2. **Aggressive:** wins at others' expense; leads to fear.
+3. **Passive-aggressive:** indirect hostility (sarcasm, silent treatment).
+4. **Assertive:** clear, honest, respectful: "I disagree with this schedule because testing is missing; can we move the release by two days?"
 
-**Conclusion.** A team that agrees its goal and roles, handles conflict openly, gives SBI feedback and manages its time with priorities will deliver better software than the same people working alone.
+The **DISC** model (dominance, influence, steadiness, conscientiousness) describes preferences: a "D" colleague wants the bottom line fast; a "C" colleague wants accuracy and detail; an "S" colleague wants stability and time to adjust; an "I" colleague wants conversation and enthusiasm. Use such models as a prompt for flexibility, not as labels for people.
+
+::: example Worked example: one fact, three audiences
+*Fact:* a database index will cut the report time from 40 s to 2 s.
+*To the developer:* "Adding a composite index on (customer_id, date) reduces the full table scan to an index range scan; the report goes from 40 s to 2 s on 5 million rows."
+*To the manager:* "A small change (half a day) will make the monthly report 20 times faster, so staff stop waiting."
+*To the client:* "Your monthly report will open in two seconds instead of forty."
+The fact is identical; the vocabulary, detail and benefit change.
+:::
+
+## Exercise (Sections 4.1 to 4.6)
+
+1. Define interpersonal communication. List four of its features.
+2. What is the Johari Window? Explain with a workplace example.
+3. Differentiate between hearing and listening. Name the stages of listening.
+4. What is a listening environment? List four factors that damage it and four ways to improve it.
+5. What is meant by high-context and low-context cultures? Give an example of a misunderstanding.
+6. Write short notes on: (a) ethnocentrism, (b) monochronic and polychronic time, (c) power distance.
+7. What are virtual teams? Discuss their advantages and challenges.
+8. Explain the features of a successful team.
+9. Compare autocratic, democratic and laissez-faire leadership with an example for each.
+10. How should a project manager change the way he explains a delay to (a) a client, (b) a developer, (c) the college principal?
+11. Long answer: "Communication, not technology, decides whether a software team succeeds." Discuss with reference to the content of this unit.
+
+::: note Answers and worked solutions
+**1.** Interpersonal communication is the two-way exchange of verbal and non-verbal messages between people who influence each other and build a relationship. Features: two-way and immediate feedback; personal and relational (content plus relationship message); uses many channels; irreversible; depends on context.
+**2.** A model of Luft and Ingham (1955) with four areas: open, blind, hidden and unknown. Disclosure shrinks the hidden area and feedback shrinks the blind spot, so the open area grows and trust increases. Example: a new team member says what she is good and weak at, and asks for review of her SQL.
+**3.** Hearing is physical reception of sound; listening is the active process of attending, understanding, evaluating and responding. Stages: receiving, attending, understanding, evaluating, responding, remembering.
+**4.** It is the physical, social and organisational setting for listening. Damaging factors: noise, phones and notifications, overloaded meetings without agenda, a culture that punishes bad news, jargon. Improvements: quiet room, agenda and time limit, phones away, paraphrasing, inviting quiet members, circulating notes.
+**5.** In high-context cultures meaning lies in the situation and what is unsaid (indirect "no"); in low-context cultures meaning is in the explicit words. A Nepali developer says "I will try" meaning "no" and a US manager hears "yes".
+**6.** (a) Judging other cultures by the standards of one's own. (b) Monochronic: time is a line with strict schedules; polychronic: time is flexible, many things at once, relationships first. (c) The extent to which less powerful members accept unequal power; high in Nepal, so juniors seldom contradict seniors openly.
+**7.** Teams that work across places and time zones mainly through technology. Advantages: wider talent, round-the-clock work, savings, flexibility. Challenges: weak non-verbal cues, time zones, trust and isolation, tool overload, unreliable internet and power.
+**8.** Clear shared goal; clear roles; open communication; trust and respect; constructive conflict handling; shared accountability; regular meetings and feedback; complementary skills.
+**9.** Autocratic: leader decides alone, one-way orders, for emergencies (a fire drill). Democratic: decision after consultation (choosing a framework for a project). Laissez-faire: team decides with little guidance (senior researchers in a lab).
+**10.** (a) Client: the new date, the reason in plain words, what is being done, no jargon. (b) Developer: the technical cause, revised tasks and owners. (c) Principal: one short paragraph with the impact on the programme, the new date and what support is needed.
+**11.** Introduction: tools only carry messages. Body: (i) interpersonal skills and listening prevent misunderstanding; (ii) intercultural awareness avoids silent "yes" problems in global teams; (iii) virtual teams need explicit rules, overlap hours and written records; (iv) leaders must give a vision, feedback and early bad news; (v) the 8 characteristics of success are all communication habits. Conclusion: the best tools fail in a team that does not listen, and a good team succeeds even with simple tools.
+:::
+
+## 4.7 Vocabulary and grammar
+
+The textbook's own list for this section is not reproduced here. This book teaches vocabulary and grammar that you need for the unit: words for people, teams and cultures (4.7.1) and the modal verbs and conditionals used for suggestions, requests and negotiation (4.7.2).
+
+### 4.7.1 Vocabulary of interpersonal and group communication
+
+| Word | Meaning | Example |
+|---|---|---|
+| **rapport** | friendly, trusting relationship | She quickly built rapport with the client. |
+| **empathy** | ability to understand others' feelings | A leader needs empathy, not only authority. |
+| **consensus** | general agreement | The team reached a consensus on the framework. |
+| **collaborate** | work together on something | Three groups collaborated on the app. |
+| **delegate** | give a task to someone else | The manager delegated testing to Sita. |
+| **mediate** | help two sides to settle a dispute | The coordinator mediated between the groups. |
+| **accountable** | responsible for results | Every owner is accountable for the ticket. |
+| **cohesive** | united, sticking together | A cohesive team survives pressure. |
+| **stereotype** | fixed, oversimplified idea of a group | Do not apply stereotypes to colleagues. |
+| **assertive** | confident and respectful | An assertive reply states needs clearly. |
+| **feedback** | information about performance | Give feedback within a day. |
+| **bias** | unfair preference or prejudice | Check your own bias before judging. |
+| **inclusive** | open to all kinds of people | Use inclusive language in a diverse team. |
+| **synchronous / asynchronous** | at the same time / at different times | Email is asynchronous; a call is synchronous. |
+
+**Phrasal verbs for the workplace.** *follow up* (check later), *carry out* (perform), *bring up* (mention a topic), *back up* (support or copy data), *sort out* (resolve), *look into* (investigate), *take over* (assume control), *hand over* (transfer), *come up with* (invent), *put off* (postpone), *call off* (cancel), *get across* (make understood), *speak up* (talk more loudly or openly), *step down* (resign from a post).
+
+**Collocations:** build rapport, reach a consensus, meet a deadline, give feedback, resolve a conflict, set a goal, hold a meeting, make a decision, pay attention, raise a concern.
+
+### Exercise 4.7.1
+
+1. Fill in the blanks with a word from the table: (a) The two departments reached a ______ after a long meeting. (b) A good manager does not do everything but ______ tasks. (c) A ______ team does not break under pressure. (d) A neutral colleague agreed to ______ between the two developers.
+2. Choose the correct phrasal verb: The meeting was (called off / called up) because of the strike.
+3. Replace the underlined words with a phrasal verb: "We must *investigate* the complaint and *resolve* it before Friday."
+4. Write two sentences using *rapport* and *inclusive*.
+
+::: note Answers and worked solutions
+**1.** (a) consensus (b) delegates (c) cohesive (d) mediate.
+**2.** called off (cancelled).
+**3.** "We must look into the complaint and sort it out before Friday."
+**4.** *Sample:* The trainer built rapport by learning every student's name. The college uses inclusive language in its notices.
+:::
+
+### 4.7.2 Modals and conditionals in suggestions, requests and negotiation
+
+**Polite requests and suggestions** use modal verbs. From more direct to more polite: *Send me the file.* → *Can you send me the file?* → *Could you send me the file?* → *Would you mind sending me the file?* → *I was wondering if you could send me the file.* Suggestions: *You could ask the supervisor.* *We should test again.* *Why don't we meet on Monday?* *Shall we begin?*
+
+**Obligation and advice:** must (strong, personal), have to (external rule), should and ought to (advice), need to, had better (warning).
+**Ability and permission:** can/could; may/might for formal permission (May I leave early?).
+**Possibility:** may, might, could, can't (impossibility), must (strong deduction): *She must be in a meeting; her phone is off.*
+
+**Conditionals** (used in negotiation, planning and advice).
+
+| Type | Form | Use | Example |
+|---|---|---|---|
+| **Zero** | if + present, present | general truths | If a server overheats, it shuts down. |
+| **First** | if + present, will + base verb | real, likely future | If you finish by Friday, we will release on Monday. |
+| **Second** | if + past, would + base verb | unreal or unlikely present/future | If we had more time, we would add a search page. |
+| **Third** | if + past perfect, would have + past participle | unreal past | If we had tested, the demo would not have crashed. |
+
+In formal English use *were* for all persons in the second conditional (*If I were you, I would call the client*). **Negotiation phrases:** *If you can offer a discount, we would consider a bigger order.* *Unless we get a reply today, we will cancel the booking.* (unless = if not).
+
+### Exercise 4.7.2
+
+1. Make this request more polite: "Give me the report."
+2. Complete: (a) If it rains, the match ______ (be) postponed. (b) If I ______ (be) the manager, I would hire two more testers. (c) If she had backed up the data, she ______ (not lose) it.
+3. Choose the best modal: "You (must / might) be tired after the flight." (deduction)
+4. Combine using *unless*: "We will not release if the tests do not pass."
+5. Correct the sentence: "If I would have time, I would help you."
+
+::: note Answers and worked solutions
+**1.** "Could you please send me the report?" or "Would you mind giving me the report?"
+**2.** (a) will be (first conditional) (b) were (c) would not have lost.
+**3.** must.
+**4.** "We will not release unless the tests pass."
+**5.** "If I had time, I would help you." (do not use *would* in the if-clause)
+:::
+
