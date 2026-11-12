@@ -236,7 +236,170 @@ call 0.30 0.90 0.28 0.62 "Screen: waveforms of each line"
 call 0.72 0.10 0.70 0.45 "Keypad and rotary knob"
 ```
 
-## 3.7 Where combinational circuits are used: eight applications
+### PROM, EPROM, PAL and PLA in detail
+
+Every programmable logic device (PLD) is built from the same two blocks: an **AND array** that forms product terms from the inputs and their complements, and an **OR array** that adds product terms to make each output. The devices differ in *which array the designer may program*.
+
+| Device | AND array | OR array | Typical use |
+|---|---|---|---|
+| **PROM** (programmable read-only memory) | Fixed: a full decoder, one line for every minterm | Programmable | Look-up tables, microcode, small memories; any function of n inputs needs 2ⁿ words |
+| **EPROM** (erasable PROM) | Fixed decoder | Programmable and erasable with ultraviolet light through a quartz window | Prototype firmware that is erased and rewritten under UV light for about 20 minutes |
+| **PAL** (programmable array logic) | Programmable | Fixed (each output sums a fixed number of product terms) | Cheap, fast glue logic; the most common PLD |
+| **PLA** (programmable logic array) | Programmable | Programmable | Flexible: a product term can be shared between several outputs |
+
+**PROM as a function generator.** A PROM with 3 address inputs has 8 words. Writing the truth table of a function into the words *is* the implementation. Example: a full adder with inputs A, B, Cin and outputs Sum and Cout needs an 8 × 2 PROM whose content is the truth table:
+
+| A B Cin | Word (Cout Sum) |
+|---|---|
+| 000 | 00 |
+| 001 | 01 |
+| 010 | 01 |
+| 011 | 10 |
+| 100 | 01 |
+| 101 | 10 |
+| 110 | 10 |
+| 111 | 11 |
+
+The PROM is simple but wasteful: if an input is added, the number of words doubles, even if the function needs few product terms. For the same reason, 16-input functions are never done in a PROM.
+
+**EPROM, EEPROM and flash.** The EPROM stores a bit as charge on a floating gate. A programming voltage places the charge; ultraviolet light gives the electrons enough energy to leak away, which erases the whole chip. **EEPROM** erases electrically, one byte at a time, and **flash** erases in blocks, which is why it is used in pen drives, SSDs, phones and the BIOS chips of laptops. Programmable-ROM types differ in *how they are erased*, not in the logic they implement.
+
+**PAL.** Each output of a PAL has its own fixed group of product terms (for example, two or four). A PAL16L8 has 16 inputs and 8 outputs. If a function needs more terms than one output provides, the designer chains an output back as an input. PALs are fast because the fixed OR array is short, and they are cheap to make.
+
+**PLA.** Both arrays are programmable, so a product term such as A·B' can be *shared* by several outputs. A PLA implements a set of functions with fewer product terms than separate gates. Compared with a PROM, a PLA does not have to include every minterm; compared with a PAL, it allows sharing but is slower and costs more.
+
+**Reading a PLD diagram.** A cross (×) at a crossing means a fuse is intact, i.e. the input is connected to that product line. A dot means a fixed connection. A missing mark means a blown fuse (no connection). A product line with all fuses intact is always 0 (because A·A' = 0), a standard shorthand.
+
+**Example: sharing in a PLA.** Implement F1 = A·B + A'·C and F2 = A·B + B·C. The product term A·B is used by both outputs. A PLA needs product terms {A·B, A'·C, B·C}, three in total; a PAL with fixed OR gates would need A·B twice, four product terms in total.
+
+```svgfig label="3.4" caption="Block structure of a PROM. The decoder (a fixed AND array) turns each 3-bit address into one active word line; programmable links in the OR array connect word lines to outputs. A PAL swaps the roles, with the AND array programmable and the OR array fixed."
+f = Fig(580, 210)
+f.box(10, 70, 80, 70, "Inputs\nA B C", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(150, 40, 130, 130, "Fixed AND array\n(3-to-8 decoder)\n\nm0 ... m7", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(350, 40, 130, 130, "Programmable\nOR array\n(fuse links)", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(515, 70, 60, 70, "Outputs\nD0 D1", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(90, 105), (150, 105)], color=SLATE)
+f.arrow([(280, 105), (350, 105)], color=SLATE)
+f.text(315, 94, "8 lines", size=9.5, color=SLATE)
+f.arrow([(480, 105), (515, 105)], color=SLATE)
+```
+
+## 3.7 Implementing logic functions with multiplexers and decoders
+
+The TU syllabus asks for *implementation of logical functions using multiplexers*. A MUX and a decoder are both **universal function generators**: with the right wiring, one chip replaces a whole sum-of-products circuit.
+
+### Method A: a 2ⁿ-to-1 MUX for an n-variable function
+
+Connect the n variables to the select lines and wire each data input to 0 or 1 according to the truth table. This is a table look-up. Example: F(A, B, C) = Σm(1, 2, 6, 7) with an 8-to-1 MUX has inputs I1 = I2 = I6 = I7 = 1 and all other data inputs 0.
+
+### Method B: a 2ⁿ⁻¹-to-1 MUX for an n-variable function (the "folding" method)
+
+Use n − 1 variables as the select lines and let the last variable (or its complement, 0 or 1) feed the data inputs. For the same F = Σm(1, 2, 6, 7), use A and B as select lines and C as the data variable:
+
+| Select A B | Minterms in this pair | F in terms of C | Data input |
+|---|---|---|---|
+| 0 0 | m0 (C = 0) gives 0, m1 (C = 1) gives 1 | F = C | I0 = C |
+| 0 1 | m2 (C = 0) gives 1, m3 (C = 1) gives 0 | F = C' | I1 = C' |
+| 1 0 | m4 gives 0, m5 gives 0 | F = 0 | I2 = 0 |
+| 1 1 | m6 gives 1, m7 gives 1 | F = 1 | I3 = 1 |
+
+So a **4-to-1 MUX with I0 = C, I1 = C', I2 = 0, I3 = 1** realises a 3-variable function with one inverter. The rule for each pair of minterms (C = 0, C = 1) is: both 0 gives 0; both 1 gives 1; only the C = 1 minterm gives C; only the C = 0 minterm gives C'.
+
+::: example Step by step: F(A, B, C, D) = Σm(1, 3, 4, 11, 12, 13, 14, 15) with an 8-to-1 MUX
+Use A, B, C as select lines and D as the data variable. Write the truth table in pairs (D = 0, D = 1):
+
+| ABC | Minterms | Which are in F | Data input |
+|---|---|---|---|
+| 000 | m0, m1 | m1 only | I0 = D |
+| 001 | m2, m3 | m3 only | I1 = D |
+| 010 | m4, m5 | m4 only | I2 = D' |
+| 011 | m6, m7 | none | I3 = 0 |
+| 100 | m8, m9 | none | I4 = 0 |
+| 101 | m10, m11 | m11 only | I5 = D |
+| 110 | m12, m13 | both | I6 = 1 |
+| 111 | m14, m15 | both | I7 = 1 |
+
+One 8-to-1 MUX and one inverter replace a four-variable gate network. Check: with ABC = 010 and D = 0, I2 = D' = 1, so F = 1, which is m4 (0100). Correct.
+:::
+
+### Method C: a decoder with OR (or NAND) gates
+
+A decoder produces every minterm; the OR gate collects the ones the function needs. For the full adder with inputs A, B, Cin on a 3-to-8 decoder:
+
+- **Sum** = Σm(1, 2, 4, 7) = OR of outputs Y1, Y2, Y4, Y7
+- **Carry out** = Σm(3, 5, 6, 7) = OR of outputs Y3, Y5, Y6, Y7
+
+A real 74138 decoder has *active-low* outputs, so a **NAND gate** is used instead of an OR (De Morgan: the NAND of active-low lines is the OR of active-high lines). That is why the standard 74138 full adder uses two 4-input NAND gates.
+
+| Technique | Chip count for a 3-variable function | Remarks |
+|---|---|---|
+| Gates (SOP) | Several ANDs, one OR, inverters | Smallest for simple functions |
+| 8-to-1 MUX | One MUX | Direct truth-table mapping |
+| 4-to-1 MUX with a variable | One MUX and at most one inverter | Needs the data-variable folding |
+| 3-to-8 decoder and NAND | One decoder and one NAND per output | Best when several functions share the same inputs |
+
+## 3.8 Building a 16-to-1 multiplexer and a 1-to-16 demultiplexer
+
+The prescribed laboratory work asks for a 16:1 MUX and a 1:16 DEMUX. Commercial parts exist (74150 is a 16-to-1 MUX; 74154 is a 4-to-16 decoder that works as a 1-to-16 DEMUX) but the lab also teaches how to **build large from small**.
+
+**16-to-1 MUX from 4-to-1 MUXes.** Use four 4-to-1 MUXes in the first stage and one in the second stage:
+
+1. The 16 data inputs I0 to I15 are divided into four groups of four. Each group feeds one first-stage MUX.
+2. All four first-stage MUXes share the same select lines S1 S0, the *low* two bits of the 4-bit select.
+3. The four first-stage outputs feed a second-stage 4-to-1 MUX whose select lines are S3 S2, the *high* two bits.
+
+Check: to select I11 (binary 1011), S3 S2 = 10 selects the third group (I8 to I11) and S1 S0 = 11 picks its fourth member. Total: 5 MUX chips, 20 data pins.
+
+**1-to-16 DEMUX from a 4-to-16 decoder.** A decoder with an enable input acts as a DEMUX: the data bit goes to the enable input and the four select lines go to the decoder inputs. Only the addressed output follows the data; all other outputs stay inactive. (The 74154 has two active-low enable inputs G1 and G2. Tie one low and apply the data bit to the other.)
+
+**1-to-16 DEMUX from 1-to-4 DEMUXes (tree).** Use one 1-to-4 DEMUX in the first stage (select S3 S2) and four 1-to-4 DEMUXes in the second stage (select S1 S0). Again five chips.
+
+```svgfig label="3.5" caption="A 16-to-1 multiplexer built from five 4-to-1 multiplexers. The four first-stage MUXes share select lines S1 S0; the second-stage MUX uses S3 S2. The same tree, reversed, gives a 1-to-16 demultiplexer."
+f = Fig(580, 270)
+for i in range(4):
+    y = 8 + i * 64
+    f.box(10, y, 90, 50, "I%d to I%d" % (i * 4, i * 4 + 3), fill=SAND, stroke=AMBER, size=10, bold=True)
+    f.box(170, y, 110, 50, "4-to-1 MUX\n(S1 S0)", fill=BLUE, stroke=NAVY, size=10, bold=True)
+    f.arrow([(100, y + 25), (170, y + 25)], color=SLATE)
+    f.arrow([(280, y + 25), (360, 135)], color=SLATE)
+f.box(360, 105, 110, 60, "4-to-1 MUX\n(S3 S2)", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(515, 115, 55, 40, "Y", fill=ROSE, stroke=RED, size=12, bold=True)
+f.arrow([(470, 135), (515, 135)], color=SLATE)
+```
+
+## 3.9 Logic gates built from passive and active elements
+
+The first laboratory work is *gates using active and passive elements*. **Passive** elements (resistors and diodes in this context) only pass or drop signals; **active** elements (transistors, and the transistors inside ICs) can amplify and restore a signal. Building gates from them shows what a gate IC contains and why ICs are used in practice.
+
+**Assumptions for the circuits below:** supply 5 V, logic 0 = about 0 V, logic 1 = about 5 V, silicon diode forward drop 0.7 V.
+
+| Gate | Parts | How it works | Output levels |
+|---|---|---|---|
+| **AND (diode)** | Two diodes with cathodes at the inputs, anodes joined to the output; a resistor from the output to +5 V | If any input is 0 V, its diode conducts and pulls the output down to the input level plus 0.7 V; only when both inputs are at 5 V do both diodes stay off and the resistor lifts the output to 5 V | Low about 0.7 V, high about 5 V |
+| **OR (diode)** | Two diodes with anodes at the inputs, cathodes joined to the output; a resistor from the output to ground | The higher input conducts and drives the output to the input level minus 0.7 V; with both inputs at 0 V the resistor holds the output at 0 V | Low 0 V, high about 4.3 V |
+| **NOT (transistor)** | An NPN transistor with an emitter at ground, a base resistor (10 kilo-ohm) and a collector resistor (1 kilo-ohm) to +5 V | A high input drives the base current, the transistor saturates and the output drops to about 0.2 V; a low input leaves the transistor cut off and the resistor pulls the output to 5 V | Low about 0.2 V, high about 5 V |
+| **NAND (DTL)** | Diode AND followed by the transistor inverter | AND at the input followed by inversion restores the level | Low about 0.2 V, high about 5 V |
+| **NOR (RTL)** | Two transistors in parallel with a common collector resistor; one base resistor per input | Either input high saturates its transistor and pulls the output low | Low about 0.2 V, high about 5 V |
+
+**Worked check of the inverter.** With the input at 5 V the base current is (5 − 0.7) / 10 kilo-ohm = 0.43 mA. The collector current is limited by the resistor: (5 − 0.2) / 1 kilo-ohm = 4.8 mA. A transistor with a current gain of 100 would need only 0.048 mA of base current to carry 4.8 mA, so the 0.43 mA overdrives it. It is saturated, and the output sits at about 0.2 V, a clean logic 0.
+
+**Why the passive gates are not used alone.**
+
+1. *Level degradation.* A diode gate loses 0.7 V at each stage. After a few gates a "high" is no longer recognised as high.
+2. *No gain and no fan-out.* The passive gate cannot drive many following gates. The transistor restores the level and supplies current.
+3. *Slow and power hungry.* Resistors are slow to charge the load capacitance and waste power.
+
+The fix is to combine them: diode input, transistor output (DTL), then replace the diodes by a multi-emitter transistor (**TTL**, the 74xx family), and finally complementary pairs of MOSFETs (**CMOS**, the 74HC family and every modern processor).
+
+::: note Laboratory procedure: verify the diode AND, diode OR and transistor NOT
+1. Build the circuit on a breadboard with the supply at 5 V.
+2. Connect each input in turn to 0 V and 5 V; measure the output with a multimeter and enter it in a truth table.
+3. Compare the measured levels with the table above. Differences of 0.1 to 0.3 V are normal.
+4. Cascade two diode gates and observe how the high level falls, which shows level degradation.
+5. Replace the circuit with a 7408, 7432 and 7404 and note that the output is now always a clean 0 V or 5 V.
+:::
+
+## 3.10 Where combinational circuits are used: eight applications
 
 1. **Adders inside every CPU.** The ALU is built around full adders chained together. They do addition, and with two's complement they also do subtraction and address calculation. Every spreadsheet total on a Nepali college server passes through such adders.
 2. **Decoders for memory and I/O selection.** A decoder turns an address such as 1011 into a single active line. This selects exactly one memory chip or one device. Without it the CPU could not talk to RAM and the keyboard separately.
@@ -275,6 +438,12 @@ call 0.72 0.10 0.70 0.45 "Keypad and rotary knob"
 8. Implement F(A,B,C) = Σm(1, 2, 4, 7) using an 8-to-1 MUX and then using a 4-to-1 MUX.
 9. Design a 2-bit magnitude comparator (A₁A₀ vs B₁B₀) in terms of its outputs.
 10. How many 3-to-8 decoders make a 5-to-32 decoder?
+11. How many bits must a PROM have to implement three functions of four variables? Why is this wasteful?
+12. Differentiate PROM, EPROM, PAL and PLA in a table.
+13. Implement F(A,B,C) = Σm(0, 2, 3, 5) with a 4-to-1 MUX that uses A and B as select lines.
+14. Show how five 4-to-1 MUXes make a 16-to-1 MUX and trace the path of input I13.
+15. Implement the full-adder outputs with a 74138 decoder and NAND gates.
+16. Why is a purely diode-resistor gate unsuitable for cascading? How does a transistor help?
 
 ::: note Answers and worked solutions
 **1.** AB + A'C + BC = AB + A'C (consensus). A + A'B = A + B; so A + A'B + A'B'C = A + B + A'B'C = A + B + B'C = A + B + C. Final **F = A + B + C**.
@@ -287,9 +456,25 @@ call 0.72 0.10 0.70 0.45 "Keypad and rotary knob"
 **8.** 8-to-1 MUX: select lines A, B, C; I₁ = I₂ = I₄ = I₇ = 1 and the others 0. 4-to-1 MUX: S₁ = A, S₀ = B; for AB = 00 (minterms 0, 1) F = C → I₀ = C; for AB = 01 (2, 3) F = C' → I₁ = C'; for AB = 10 (4, 5) F = C' → I₂ = C'; for AB = 11 (6, 7) F = C → I₃ = C.
 **9.** A = B: (A₁ ⊙ B₁)(A₀ ⊙ B₀). A > B: A₁B₁' + (A₁ ⊙ B₁)A₀B₀'. A < B: A₁'B₁ + (A₁ ⊙ B₁)A₀'B₀.
 **10.** Four 3-to-8 decoders give the 32 outputs. The two most significant input bits go to one 2-to-4 decoder whose four outputs enable one 3-to-8 decoder each; the low three input bits go to all four. That is four 3-to-8 decoders plus one 2-to-4 decoder.
+**11.** 16 words x 3 bits = 48 bits. It is wasteful because a PROM contains every minterm; adding one input doubles the size even when the function has only a few product terms.
+**12.** PROM: fixed AND (decoder), programmable OR. EPROM: a PROM erased with ultraviolet light. PAL: programmable AND, fixed OR. PLA: both arrays programmable, so product terms can be shared.
+**13.** Pairs (C = 0, C = 1): AB = 00 has m0 only, so I0 = C'; AB = 01 has m2 and m3, so I1 = 1; AB = 10 has m5 only, so I2 = C; AB = 11 has none, so I3 = 0.
+**14.** Four first-stage 4-to-1 MUXes take I0 to I3, I4 to I7, I8 to I11 and I12 to I15 with S1 S0 shared; the second-stage MUX picks one of the four outputs with S3 S2. I13 = 1101: S3 S2 = 11 picks the fourth group, S1 S0 = 01 picks the second member of it.
+**15.** Sum = NAND(Y1', Y2', Y4', Y7') = Y1 + Y2 + Y4 + Y7 and Cout = NAND(Y3', Y5', Y6', Y7'), where Yk' are the active-low decoder outputs of the 74138 with A, B, Cin on the three inputs.
+**16.** A diode gate loses about 0.7 V per stage and cannot supply current to many loads, so levels degrade as gates are cascaded. A transistor amplifies and restores the level to a clean 0 or 5 V.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). What are PROM, PAL and PLA? Show how a PROM implements a full adder.**
+
+A programmable logic device contains an AND array and an OR array. In a **PROM** the AND array is fixed (a decoder that produces every minterm) and the OR array is programmable. In a **PAL** the AND array is programmable and the OR array fixed. In a **PLA** both are programmable, so a product term can be shared by several outputs. An **EPROM** is a PROM that can be erased with ultraviolet light and reprogrammed.
+
+*Full adder.* A full adder has three inputs (A, B, Cin) and two outputs (Sum, Cout), so a PROM with 8 words and 2 bits is used. Word 000 holds 00, words 001, 010 and 100 hold 01, words 011, 101 and 110 hold 10, and word 111 holds 11 (Cout Sum). Applying A, B and Cin as the address reads out the correct sum and carry: the truth table is stored in memory.
+
+**Q (5 marks). Implement F(A, B, C, D) = Σm(1, 3, 4, 11, 12, 13, 14, 15) using an 8-to-1 multiplexer.**
+
+Take A, B and C as select lines and D as the data variable. The minterm pairs (D = 0, D = 1) are (0,1), (2,3), (4,5), (6,7), (8,9), (10,11), (12,13), (14,15). For each pair: only m1 is present, so I0 = D; only m3 is present, so I1 = D; only m4 (D = 0) is present, so I2 = D'; none for I3 and I4, so both are 0; only m11 is present, so I5 = D; both of m12, m13 and both of m14, m15 are present, so I6 = I7 = 1. The circuit needs one 8-to-1 MUX and one inverter.
 
 **Q (5 marks). Simplify F(A, B, C, D) = Σm(0, 1, 2, 5, 8, 9, 10) using a Karnaugh map and draw the resulting circuit in words.**
 
