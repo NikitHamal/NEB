@@ -1,11 +1,11 @@
 <!-- SESSION_STATE
 session: 29
-active_class: 12
-phase: solve
-next_ids: []
+active_class: 10
+phase: audit
+next_ids: [10-math-2082-koshi, 10-sci-2082-koshi, 10-eng-2082-koshi, 10-nep-2082-koshi, 10-soc-2082-koshi, 10-math-2082-bagmati]
 completed_ids: [12-bst-2080-628, 12-bmath-2081-4061, 12-acc-2081-1041c, 12-acc-2082-1041k, 12-bio-2079-2021n, 12-bio-2080-9101, 12-bio-2080-general, 12-bio-2081-9101, 12-bio-2081-general, 12-bio-2082-general, 12-chem-2079-3021h, 12-chem-2080-general, 12-chem-2081-9111, 12-chem-2081-general, 12-chem-2082-9111, 12-chem-2082-general, 12-cs-2079-4281, 12-cs-2080-4281, 12-cs-2081-general, 12-cs-2082-general, 12-eng-2079-0041e, 12-eng-2080-004, 12-eng-2080-0041d, 12-eng-2080-0041g, 12-eng-2081-0041b, 12-eng-2082-0041c, 12-eng-2082-0041p, 12-eng-2083-0041c, 12-math-2079-set-k, 12-math-2080-set-h, 12-math-2080-set-i, 12-math-2081-4021, 12-math-2081-9121, 12-math-2081-old216, 12-math-2081-set-w, 12-math-2082-4021a, 12-math-2082-9121, 12-math-2082-set-r, 12-nep-2079-0021h, 12-nep-2080-0021b, 12-nep-2081-0021b, 12-nep-2082-0021b, 12-phy-2079-general, 12-phy-2080-9131, 12-phy-2080-general, 12-phy-2081-9131, 12-phy-2081-general, 12-phy-2082-9131, 12-phy-2082-general, 12-acc-2080-1041q, 12-econ-2081-3041q, 12-bst-2081-2161, 12-econ-2082-3041b, 12-bst-2082-2161]
-deferred: [COSMETIC_DEFERRED: 12-math-2082-set-r-00a09b1a p04 orphan "End of paper" page after full p03; p06 and p13 unit fragments "m." / "cm3 per cm2" wrapped onto their own line after a display equation; p12 Q20(c) Cramer x/y/z shown as one stacked display with "y" mid-block (readable); COSMETIC_DEFERRED: 12-math-2081-set-w-cfb12d60 p03 stray line break in Q22(c) ("goes / south"), p16 stray ":" line before a display equation, 12-econ-2080 (NO_SOURCE: not listed in the dhanraj.com.np 2080 collection or search, S27), COSMETIC_DEFERRED: 12-bst-2080-628 none, equation-breaker garble check in 12-chem-2081-general, 12-math-2079-set-k, 12-math-2080-set-h, 12-math-2080-set-i, 12-math-2081-4021, 12-math-2081-old216, 12-math-2082-4021a (2 more lines), 12-math-2082-9121, 12-phy-2081-general, all-in-one-book (PIPELINE_GAP: no all-in-one target in build_paper.py/bundle_papers.py), fresh visual recheck of the other 44 MathJax-rebuilt papers, Chemistry/Mathematics Technical 2080, 2078 papers, 12-bmath-2081-4061 (queued), Economics 2080/2082 and Business Studies 2080/2082 (URLs on dhanraj.com.np: .../2026/03/Economics-Question-Paper-2082-2025-of-Class-12-NEB.html, .../2026/03/Business-Studies-Question-Paper-2082-2025-of-Class-12-NEB.html, .../2025/08/Business-Studies-Question-Paper-2080-2023-of-Class-12-NEB-Old-Course-Code-628-PDF-Download.html), Economics/BST bundles need a second year, 12-acc-2079 (no source found: dhanraj.com.np and dhanrajgurung.com have no 2079 regular 1041V scan; onlinenpl.com unreachable), COSMETIC_DEFERRED: 12-econ-2082-3041b Fig 2 "TFC = 20" label touches the TC line]
-visual_recheck_done: [S29 (90 dpi 2x2 contact sheets, final committed PDFs, content+numerics re-derived, no content defect): 12-phy-2082-9131-2b9887ed p01-p18 (rebuilt this session: stacked Check fraction flattened so the orphan page 19 is gone, 19 -> 18 pp; p01-p16 also viewed on the earlier 25661ea8 build), 12-chem-2082-9111-45fc97d1 p01-p15, S28 (80 dpi contact sheets, final committed PDFs): 12-math-2082-set-r-00a09b1a p01-p14 (content+numerics cross-checked, no content defect), 12-math-2081-set-w-cfb12d60 p01-p17 (content+numerics cross-checked, no content defect), S27: 12-econ-2081-3041q-89ee010b p02 p10 (final build, after fix) + earlier build p01-p12 viewed as sheets (652ebe54), 12-bst-2081-2161-aa3a3513 p01-p11 (final, no defects), S27: 12-bst-2080-628-664ed037 p01-p10 (final build, viewed at 80 dpi in 3 contact sheets), S24: 12-bmath-2081-4061 p1 p2 p3 p4 p9 p10 p15 p16 (fonts fixed, ok), 12-phy-2081-general p8 (MathJax ok), 12-acc-2080-1041q p11 p12 p18 p19, 12-bio-2080-general p7 (pre-fix, text ok), 12-math-2082-4021a p9 and 12-phy-2081-general p6 (pre-fix PDFs: raw LaTeX leak found, fixed by rebuild), S23: 12-math-2081-4021 p6 (MathJax ok), 12-chem-2081-general p9 (ok), 12-phy-2079-general p8 (ok, tall stacked display eqs), 12-econ-2081 p1 p7 p8 p9 p11, 12-bst-2081 p3 p4 p9, S25 final-build 12-econ-2082-3041b-0b5e7d6e-p06 p07 (earlier build 5bad7345 p1-p12 viewed; defect fixed in 0b5e7d6e), S26: 12-bst-2082-2161-15114cdd-p04 (final build, Fig 2 label fix verified), earlier build 8b989293 p1-p12 viewed as contact sheets (text/tables/Fig 1,3 ok; only Fig 2 changed)]
+deferred: [NO_SOURCE: class 11 (NEB publishes only model questions and schools set the Grade 11 finals; no official board past papers, S29 web search), COSMETIC_DEFERRED: 12-chem-2081-9111-40474ea1 p06 lone "V." line after the E-cell display, p12 Fig 1 tiny red "gangue sinks" label crowds the arrow, p14 holds only two paragraphs; COSMETIC_DEFERRED: 12-chem-2082-9111-45fc97d1 p15 half page (fine), 12-phy-2082-9131-2b9887ed p04 half page before solutions (fine), COSMETIC_DEFERRED: 12-math-2082-set-r-00a09b1a p04 orphan "End of paper" page after full p03; p06 and p13 unit fragments "m." / "cm3 per cm2" wrapped onto their own line after a display equation; p12 Q20(c) Cramer x/y/z shown as one stacked display with "y" mid-block (readable); COSMETIC_DEFERRED: 12-math-2081-set-w-cfb12d60 p03 stray line break in Q22(c) ("goes / south"), p16 stray ":" line before a display equation, 12-econ-2080 (NO_SOURCE: not listed in the dhanraj.com.np 2080 collection or search, S27), COSMETIC_DEFERRED: 12-bst-2080-628 none, equation-breaker garble check in 12-chem-2081-general, 12-math-2079-set-k, 12-math-2080-set-h, 12-math-2080-set-i, 12-math-2081-4021, 12-math-2081-old216, 12-math-2082-4021a (2 more lines), 12-math-2082-9121, 12-phy-2081-general, all-in-one-book (PIPELINE_GAP: no all-in-one target in build_paper.py/bundle_papers.py), fresh visual recheck of the other 44 MathJax-rebuilt papers, Chemistry/Mathematics Technical 2080, 2078 papers, 12-bmath-2081-4061 (queued), Economics 2080/2082 and Business Studies 2080/2082 (URLs on dhanraj.com.np: .../2026/03/Economics-Question-Paper-2082-2025-of-Class-12-NEB.html, .../2026/03/Business-Studies-Question-Paper-2082-2025-of-Class-12-NEB.html, .../2025/08/Business-Studies-Question-Paper-2080-2023-of-Class-12-NEB-Old-Course-Code-628-PDF-Download.html), Economics/BST bundles need a second year, 12-acc-2079 (no source found: dhanraj.com.np and dhanrajgurung.com have no 2079 regular 1041V scan; onlinenpl.com unreachable), COSMETIC_DEFERRED: 12-econ-2082-3041b Fig 2 "TFC = 20" label touches the TC line]
+visual_recheck_done: [S29: 12-chem-2081-9111-40474ea1 p01-p14 (content+numerics re-derived, no content defect), S29 (90 dpi 2x2 contact sheets, final committed PDFs, content+numerics re-derived, no content defect): 12-phy-2082-9131-2b9887ed p01-p18 (rebuilt this session: stacked Check fraction flattened so the orphan page 19 is gone, 19 -> 18 pp; p01-p16 also viewed on the earlier 25661ea8 build), 12-chem-2082-9111-45fc97d1 p01-p15, S28 (80 dpi contact sheets, final committed PDFs): 12-math-2082-set-r-00a09b1a p01-p14 (content+numerics cross-checked, no content defect), 12-math-2081-set-w-cfb12d60 p01-p17 (content+numerics cross-checked, no content defect), S27: 12-econ-2081-3041q-89ee010b p02 p10 (final build, after fix) + earlier build p01-p12 viewed as sheets (652ebe54), 12-bst-2081-2161-aa3a3513 p01-p11 (final, no defects), S27: 12-bst-2080-628-664ed037 p01-p10 (final build, viewed at 80 dpi in 3 contact sheets), S24: 12-bmath-2081-4061 p1 p2 p3 p4 p9 p10 p15 p16 (fonts fixed, ok), 12-phy-2081-general p8 (MathJax ok), 12-acc-2080-1041q p11 p12 p18 p19, 12-bio-2080-general p7 (pre-fix, text ok), 12-math-2082-4021a p9 and 12-phy-2081-general p6 (pre-fix PDFs: raw LaTeX leak found, fixed by rebuild), S23: 12-math-2081-4021 p6 (MathJax ok), 12-chem-2081-general p9 (ok), 12-phy-2079-general p8 (ok, tall stacked display eqs), 12-econ-2081 p1 p7 p8 p9 p11, 12-bst-2081 p3 p4 p9, S25 final-build 12-econ-2082-3041b-0b5e7d6e-p06 p07 (earlier build 5bad7345 p1-p12 viewed; defect fixed in 0b5e7d6e), S26: 12-bst-2082-2161-15114cdd-p04 (final build, Fig 2 label fix verified), earlier build 8b989293 p1-p12 viewed as contact sheets (text/tables/Fig 1,3 ok; only Fig 2 changed)]
 last_commit: bebee74
 last_push_count: 2
 warmup:
@@ -15,7 +15,7 @@ warmup:
   pil_ok: 1
   template_ok: 1
   lint_ok: 1
-notes: "S29: toolchain rebuilt again in a fresh sandbox (weasyprint+markdown+requests via pip --user; pango/poppler via a Debian Packages.xz dependency resolver + dpkg -x into /tmp/neb_root, see Known state). Class 12 sources are exhausted (Chemistry/Mathematics Technical 2080 and Accounting 2079 and Economics 2080 are NO_SOURCE on dhanraj); remaining Class 12 work is the visual-recheck backlog. Rechecked Physics 2082 Technical (fixed, 18 pp) and Chemistry 2082 Technical (clean). Next: recheck Chemistry/Physics 2081 Technical, Mathematics 2079 Set K, 2080 Set H/I; then find a Class 11 source (web search for NEB Grade 11 exam papers) and set active_class 11 or mark NO_SOURCE and advance to 10 (SEE).  Never run bundle_papers.py without reverting the unchanged bundle PDFs (it rewrites all of them byte-wise)."
+notes: "S29: Class 12 exhausted (all sources built; Technical 2080 Chem/Math, Accounting 2079, Economics 2080 are NO_SOURCE); Class 11 NO_SOURCE (model questions only). active_class is now 10 (SEE), phase audit. Source index and the 42 SEE 2082 post URLs are in the Class 10 section of this tracker; Koshi Math/Science scans verified fetchable with tools/fetch.py (8 and 9 page images, OCR text is the draft). First action next session: fetch + read the Koshi Compulsory Math scan (10-math-2082-koshi), create content/10-math-2082-koshi.md with grade 10 front matter (check build_paper.py meta keys for grade/stream/code), build, qa_pdf, then Science. Remaining Class 12 optional side quest: recheck Physics 2081 Technical, Mathematics 2079 Set K, 2080 Set H/I. Never run bundle_papers.py without reverting the unchanged bundle PDFs."
 -->
 
 # Past Papers Pipeline — tracker (read this first in a new session)
@@ -364,3 +364,52 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 
 ## Sandbox bootstrap note (S28)
 Fresh sandboxes may lack pango/poppler and root. Recipe that worked: `pip install --user --break-system-packages weasyprint pillow matplotlib pymupdf`; download the Debian bookworm .debs (libpango, libharfbuzz0b, libfribidi0, libthai0, libdatrie1, libgraphite2-3, libfontconfig1, libfreetype6, libglib2.0-0, poppler-utils, libpoppler126 and their deps) from deb.debian.org, `dpkg -x` them into /tmp/neb_root, then `export LD_LIBRARY_PATH=/tmp/neb_root/usr/lib/x86_64-linux-gnu PATH=/tmp/neb_root/usr/bin:$PATH`; `npm install` in notes/pipeline/mathjax; run notes/pipeline/fonts/install.sh. Existing PDFs can be reviewed without rebuilding (pdftoppm only).
+
+
+## Class 10 (SEE) source index (S29, internal use only; base https://www.dhanraj.com.np/)
+SEE 2082 (Chaitra 2082, regular; provincial papers, 7 provinces; each post has page images, OCR text is draft only; the 2026/06 posts are Compulsory Math, the 2026/04 posts are the other compulsory subjects). Slug capitalisation varies (`Of` vs `of`), so use the exact hrefs below. Id convention `10-<subject>-2082-<province>`. Also on the site: SEE 2080 model question sets (3 sets each for Math, Science, English), SEE 2081 (15 posts), SEE 2074/2075 (60 posts, old course).
+```
+2026/04/SEE-2082-2026-Compulsory-English-Question-Paper-of-Koshi-Province.html
+2026/04/SEE-2082-2026-Compulsory-English-Question-Paper-of-Lumbini-Province.html
+2026/04/SEE-2082-2026-Compulsory-English-Question-Paper-of-Madhesh-Province.html
+2026/04/SEE-2082-2026-Compulsory-English-Question-Paper-of-Sudurpashchim-Province.html
+2026/04/SEE-2082-2026-Compulsory-Math-Question-Paper-of-Bagmati-Province.html
+2026/04/SEE-2082-2026-Compulsory-Math-Question-Paper-of-Gandaki-Province.html
+2026/04/SEE-2082-2026-Compulsory-Nepali-Question-Paper-of-Karnali-Province.html
+2026/04/SEE-2082-2026-Compulsory-Nepali-Question-Paper-of-Koshi-Province.html
+2026/04/SEE-2082-2026-Compulsory-Nepali-Question-Paper-of-Lumbini-Province.html
+2026/04/SEE-2082-2026-Compulsory-Nepali-Question-Paper-of-Madhesh-Province.html
+2026/04/SEE-2082-2026-Compulsory-Nepali-Question-Paper-of-Sudurpashchim-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Bagmati-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Gandaki-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Karnali-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Koshi-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Lumbini-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Madhesh-Province.html
+2026/04/SEE-2082-2026-Compulsory-Science-Question-Paper-of-Sudurpashchim-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Bagmati-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Gandaki-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Karnali-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Koshi-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Lumbini-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Madhesh-Province.html
+2026/04/SEE-2082-2026-Compulsory-Social-Studies-Question-Paper-of-Sudurpashchim-Province.html
+2026/04/SEE-2082-2026-Computer-Science-Optional-II-Question-Paper-RE-3031A.html
+2026/04/SEE-2082-2026-Economics-Optional-I-Question-Paper-RE-2011A.html
+2026/04/SEE-2082-2026-Economics-Optional-I-Question-Paper-RE-2011B.html
+2026/04/SEE-2082-2026-Education-Optional-II-Question-Paper-RE-3021.html
+2026/04/SEE-2082-2026-Environment-Science-Optional-I-Question-Paper-RE-2041.html
+2026/04/SEE-2082-2026-Math-Optional-I-Question-Paper-RE-2021A.html
+2026/04/SEE-2082-2026-Math-Optional-I-Question-Paper-RE-2021B.html
+2026/04/SEE-2082-2026-Office-Management-and-Accounting-Optional-II-Question-Paper-RE-3011A.html
+2026/04/SEE-2082-2026-Office-Management-and-Accounting-Optional-II-Question-Paper-RE-3011B.html
+2026/04/SEE-2082-2026-Optional-Math-Technical-Stream-Question-Paper.html
+2026/04/SEE-2082-2026-Population-Education-Optional-I-Paper-RE-2031.html
+2026/04/SEE-2082-2026-Science-Optional-II-Question-Paper-RE-3061.html
+2026/06/SEE-2082-2026-Compulsory-Math-Question-Paper-Of-Koshi-Province.html
+2026/06/SEE-2082-2026-Compulsory-Math-Question-Paper-Of-Lumbini-Province.html
+2026/06/SEE-2082-2026-Compulsory-Math-Question-Paper-Of-Madhesh-Province.html
+2026/06/SEE-2082-2026-Compulsory-Math-Question-Paper-of-Karnali-Province.html
+2026/06/SEE-2082-2026-Compulsory-Math-Question-Paper-of-Sudurpashchim-Province.html
+```
+Note: the index returned Bagmati and Gandaki Math under 2026/04 and Koshi, Lumbini, Madhesh, Karnali and Sudurpashchim Math under 2026/06; Bagmati/Gandaki/Karnali/Koshi/Lumbini/Madhesh/Sudurpashchim exist for Science and Social Studies; English exists for Koshi, Lumbini, Madhesh, Sudurpashchim only (Karnali English is a separate post); Nepali exists for Karnali, Koshi, Lumbini, Madhesh, Sudurpashchim.
