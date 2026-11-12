@@ -1,3 +1,16 @@
+<!-- SESSION_STATE
+session: 21
+active_class: 12
+phase: visual_recheck
+next_ids: [12-acc-2080-1041, 12-econ-2081-3041q, 12-bst-2081-2161, 12-bmath-2081-4061]
+completed_ids: [12-acc-2081-1041c, 12-acc-2082-1041k, 12-bio-2079-2021n, 12-bio-2080-9101, 12-bio-2080-general, 12-bio-2081-9101, 12-bio-2081-general, 12-bio-2082-general, 12-chem-2079-3021h, 12-chem-2080-general, 12-chem-2081-9111, 12-chem-2081-general, 12-chem-2082-9111, 12-chem-2082-general, 12-cs-2079-4281, 12-cs-2080-4281, 12-cs-2081-general, 12-cs-2082-general, 12-eng-2079-0041e, 12-eng-2080-004, 12-eng-2080-0041d, 12-eng-2080-0041g, 12-eng-2081-0041b, 12-eng-2082-0041c, 12-eng-2082-0041p, 12-eng-2083-0041c, 12-math-2079-set-k, 12-math-2080-set-h, 12-math-2080-set-i, 12-math-2081-4021, 12-math-2081-9121, 12-math-2081-old216, 12-math-2081-set-w, 12-math-2082-4021a, 12-math-2082-9121, 12-math-2082-set-r, 12-nep-2079-0021h, 12-nep-2080-0021b, 12-nep-2081-0021b, 12-nep-2082-0021b, 12-phy-2079-general, 12-phy-2080-9131, 12-phy-2080-general, 12-phy-2081-9131, 12-phy-2081-general, 12-phy-2082-9131, 12-phy-2082-general]
+deferred: [all-in-one-book]
+visual_recheck_done: [12-acc-2082-1041k p3 p12, 12-cs-2082-general p1]
+last_commit: pending
+last_push_count: 0
+notes: "S21 started: bootstrap left md2html.py 0-byte (restored from HEAD, NOT main; PY311 patch kept). Toolchain installed. Next: view older rebuilt papers, then Accounting 2080."
+-->
+
 # Past Papers Pipeline — tracker (read this first in a new session)
 
 Task: rebuild every NEB board paper (all years, all variants) for every class that has a note book in `notes/content`,
