@@ -53,3 +53,5 @@ print("<id>: all checks pass")
 One assert per number and per figure data series. Computed value wins over hand-typed.
 
 Workflow: write source (3 heredocs) -> push -> `python3 notes/papers/tools/lint.py <md>` -> check script -> `build_paper.py <id>` -> `tools/addmanifest.py <id>` -> pdftoppm + 2x2 montage (shots named `<id>-<sha8>-...`) -> `bca/tools/qa_pdf.py` (1 expected Contents FAIL) -> tracker + push.
+
+## 9. Marks chips: `[[..]]` accepts digits, `+` and `.` only. Write printed "3X2+2=8" as `[[6+2]]` and explain the split in the solution.
