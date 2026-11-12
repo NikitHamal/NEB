@@ -1,0 +1,7 @@
+{
+  "name": "neb-mathjax",
+  "private": true,
+  "version": "1.0.0",
+  "description": "MathJax SVG typesetter used by notes/pipeline/mathsvg.py",
+  "dependencies": { "mathjax-full": "3.2.2" }
+}

@@ -11,10 +11,12 @@ BASE="https://github.com/google/fonts/raw/main"
 FILES=(
   "ofl/poppins/Poppins-Light.ttf"
   "ofl/poppins/Poppins-Regular.ttf"
+  "ofl/poppins/Poppins-Medium.ttf"
   "ofl/poppins/Poppins-SemiBold.ttf"
   "ofl/poppins/Poppins-Bold.ttf"
   "ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf"
   "ofl/sourceserif4/SourceSerif4%5Bopsz%2Cwght%5D.ttf"
+  "ofl/sourceserif4/SourceSerif4-Italic%5Bopsz%2Cwght%5D.ttf"
   "ofl/notosansdevanagari/NotoSansDevanagari%5Bwdth%2Cwght%5D.ttf"
   "ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf"
 )
