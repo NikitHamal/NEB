@@ -69,6 +69,33 @@ setting (technical vs professional), not duplication; no change made.
 4. Take web screenshots of one text-heavy and one math-heavy BCA subject to compare reader spacing; optionally widen tables in callouts.
 5. Environment recipe is in the section above; the sandbox needs `pypdf` too (reading payload step).
 
-## Session 19 (in progress)
-- Re-verified BCA 105: PDF 148 pp (`pdfinfo`), `qa_pdf.py` fails=0; 6 textbook units and every TOC sub-heading (1.1.1-1.1.6, 2.3 meetings/agendas/minutes, 4.4 virtual/successful teams, 6.4 malpractice) present in the unit files.
-- FOUND: BCA 106 Hardware Workshop was a *reconstructed* 4-unit book. The real TU syllabus has 9 units (1 Electronic components, 2 Networking components and cabling, 3 Desktop/laptop hardware identification, 4 PC and laptop assembly, 5 Network device deployment + printers, 6 Basic networking configuration, 7 Problem solving, 8 Maintenance and upgrade, 9 Final practical assessment; source hamronotes.com/bca/semester-1/hardware-workshop/chapters). Rewriting the book to those 9 units (see below for progress).
+## Session 19 results
+
+- BCA 105 re-verified: PDF 148 pp (`pdfinfo`), `qa_pdf.py` fails=0; all 6 textbook units and TOC sub-headings present.
+- **BCA 106 Hardware Workshop rewritten to the real 9-unit TU syllabus** (source: hamronotes.com chapter list; the earlier 4-unit book was a reconstruction).
+
+| Unit | Title | New content this session |
+|---|---|---|
+| 1 | Electronic components | done earlier in the session (5.5k words) |
+| 2 | Networking components | NEW: devices by OSI layer, UTP/coax/fibre, T568A/B, straight/crossover/rollover, crimping, cable tests (3.4k words, 2 figures) |
+| 3 | Hardware identification | + RAM generations, ROM family, north/southbridge and buses, storage interfaces, fake SSD test, I/O devices, full PSU section (rails, 24-pin figure, paperclip test, 80 PLUS) |
+| 4 | PC and laptop assembly | + POST and beep codes, POST card, drivers, virtual/real printer install, Windows/Linux/cross-platform commands |
+| 5 | Network devices and deployment | NEW: identification, topologies (figure), file/folder/printer sharing, printer technologies, install and maintenance |
+| 6 | Networking configuration | NEW: IP classes, private ranges, subnetting (all examples checked with `ipaddress`), Cisco CLI, AP setup, RSSI, ping/tracert/ipconfig/netstat/arp/nslookup/route/netsh, mini LAN task |
+| 7 | Problem solving | NEW: Identify-Test-Isolate-Fix-Verify, visual inspection, elimination, log |
+| 8 | Maintenance and upgrade | NEW: compatibility, RAM/SSD/GPU/CPU, cleaning, paste, battery, BIOS flashing, SMART, MemTest86+ |
+| 9 | Final practical assessment | NEW: five stations, checklists, sample 50-mark scheme (flagged as a practice model), 40 viva Q&A |
+
+- PDF `bca/course/semester-1/pdfs/NEBians-BCA-Course-Semester-1-Hardware-Workshop.pdf`: `pdfinfo` = **109 pages** (was 42), `qa_pdf.py` = **fails=0 warns=29** (tiny text in the old Fig 3.1 and photo credits). 11 new figures.
+- Web data exported (`export_course_web.py semester-1/hardware-workshop`): 9 units, 80 topics.
+- Pages inspected as PNG: contents (9 units), Fig 2.1, 24-pin ATX (3.3), topology figure (5.1, fixed: arrows covered node labels, mesh clipped at the right edge), subnet figure (6.1), LAN figure (6.2).
+- Pipeline lessons: `R1 + 2R2` in prose is auto-detected as math and falls back; write R₁, R₂. MathJax server needs `cd notes/pipeline/mathjax && npm ci` in a fresh sandbox. `git add -A bca` misses `backend_python/web/data/study`; use `git add -A`.
+- Not done / honest gaps: Django web-reader screenshots were NOT taken this session (the session 18 verification still stands); unit 6.2 figure 6.2 pushes to a new page leaving white space on p79; old Fig 3.1 has 6 pt labels (p31).
+
+## Prioritised queue for the next session
+1. Take Django + headless Chromium screenshots of BCA 105 Unit 6 and BCA 106 Unit 6 in the web reader (exercise parts, sidebar labels).
+2. Fix Fig 3.1 small labels; reduce the white space after Fig 6.2.
+3. Thin books vs current TU syllabus: BCA 204 System Analysis and Design (60 pp), BCA 154 Mathematics II (57 pp), BCA 153 OOP in Java (79 pp), BCA 354 (71 pp), BCA 403 Financial Accounting (76 pp), project books BCA 256/306/356/404.
+4. Run `svgkit.lint` over all course books (the build hides label overflow warnings when the figure cache hits).
+5. Electives BCA 405/406, 453/454 are still unwritten slots.
+6. Check BCA 106 against the student's printed lab manual if available (hours per unit unknown).
