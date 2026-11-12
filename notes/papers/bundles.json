@@ -1,5 +1,18 @@
 [
  {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Accounting-2081-2082-Bundle.pdf",
+  "subject": "Accounting",
+  "grade": "12",
+  "years_bs": "2081-2082",
+  "papers": [
+   "12-acc-2082-1041k",
+   "12-acc-2081-1041c"
+  ],
+  "pages": 42,
+  "bytes": 318050,
+  "category": "Board Exam Bundle"
+ },
+ {
   "file": "bundles/NEBians-Past-Papers-Grade-12-Biology-2079-2082-Bundle.pdf",
   "subject": "Biology",
   "grade": "12",
@@ -12,8 +25,8 @@
    "12-bio-2080-9101",
    "12-bio-2079-2021n"
   ],
-  "pages": 85,
-  "bytes": 1548768,
+  "pages": 89,
+  "bytes": 1436336,
   "category": "Board Exam Bundle"
  },
  {
@@ -29,8 +42,8 @@
    "12-chem-2080-general",
    "12-chem-2079-3021h"
   ],
-  "pages": 78,
-  "bytes": 1661471,
+  "pages": 81,
+  "bytes": 1177816,
   "category": "Board Exam Bundle"
  },
  {
@@ -48,8 +61,8 @@
    "12-eng-2080-0041d",
    "12-eng-2079-0041e"
   ],
-  "pages": 70,
-  "bytes": 919094,
+  "pages": 81,
+  "bytes": 919103,
   "category": "Board Exam Bundle"
  },
  {
@@ -63,8 +76,8 @@
    "12-nep-2080-0021b",
    "12-nep-2079-0021h"
   ],
-  "pages": 48,
-  "bytes": 498361,
+  "pages": 51,
+  "bytes": 489301,
   "category": "Board Exam Bundle"
  },
  {
@@ -78,8 +91,8 @@
    "12-cs-2080-4281",
    "12-cs-2079-4281"
   ],
-  "pages": 39,
-  "bytes": 581966,
+  "pages": 40,
+  "bytes": 567209,
   "category": "Board Exam Bundle"
  },
  {
@@ -99,8 +112,8 @@
    "12-math-2080-set-i",
    "12-math-2079-set-k"
   ],
-  "pages": 113,
-  "bytes": 5575459,
+  "pages": 116,
+  "bytes": 2085191,
   "category": "Board Exam Bundle"
  },
  {
@@ -117,8 +130,8 @@
    "12-phy-2080-9131",
    "12-phy-2079-general"
   ],
-  "pages": 109,
-  "bytes": 3620409,
+  "pages": 110,
+  "bytes": 1859186,
   "category": "Board Exam Bundle"
  }
 ]
