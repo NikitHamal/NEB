@@ -148,6 +148,103 @@ fit 1.3
 7. **Change is controlled.** Change requests are logged, assessed, tested and approved before release. This stops a quick fix for one office from breaking another.
 8. **Knowledge is preserved.** Updated documentation, a version history and test cases let new staff maintain the system. The system outlives the team that built it.
 
+## 5.5 Documenting the system, training and supporting users
+
+### System and user documentation
+
+Documentation is created *during* implementation, not left until the end. Two kinds:
+
+| Kind | Reader | Contents |
+|---|---|---|
+| **System documentation** | analysts, programmers, maintainers | requirements, DFDs and ER diagrams, design, program specifications, source comments, test cases, data dictionary, change log |
+| **User documentation** | end users, operators, administrators | user guide, quick-reference card, tutorials, FAQ, installation and operations guide, online help, error-message list |
+
+Good user documentation is task-based ("How to print a duplicate receipt"), uses screenshots, plain language and consistent terms, and is tested with real users. Keep it in the same repository as the code and version it with the release.
+
+### Training
+
+Training groups: **managers** (what the system will give them), **end users** (daily tasks), **operators and administrators** (back-up, security, user accounts) and **trainers**. Methods: instructor-led classroom, hands-on labs on a copy of the system, one-to-one coaching, e-learning and video, **train-the-trainer**, and a **sandbox** with practice data. Plan training before go-live, schedule it so that people can use what they learn within days, and measure results (a short test and a satisfaction form).
+
+### Supporting users
+
+Support gives help *after* go-live: a **help desk** (phone, chat, email) with tiers (tier 1 answers common problems, tier 2 handles technical faults, tier 3 are developers), a **ticketing system** that records, prioritises and tracks each request, **self-service** knowledge base, **user groups**, and **floor walkers** (support staff sit with users in the first weeks). Support statistics (number of tickets, time to resolve, top ten problems) feed back into maintenance and training.
+
+::: example Worked example: support plan for a hospital system
+Go-live: 4 departments, 120 users. Plan: two analysts on the floor for the first 2 weeks, a help-desk number answered 7 am to 9 pm, a one-page quick card at every workstation, a weekly 30-minute refresher for nurses, and a ticket target of 90 percent resolved within 1 working day. After week 3 the ticket log shows 40 percent of calls are about the same search screen; the screen is redesigned in the next release.
+:::
+
+## 5.6 Organisational issues in systems implementation
+
+Many systems that work technically fail in the organisation. Typical issues:
+
+1. **Resistance to change.** Causes: fear of job loss, extra work, loss of status, lack of understanding. Response: involve users from the start, communicate benefits and honest plans, give training and reward adoption.
+2. **Management support and a sponsor.** Without visible support from top management, departments may ignore the system.
+3. **Political factors.** A new system moves power by changing who holds information. Identify winners and losers early.
+4. **Ethical issues.** Privacy of customer and employee data, accuracy, fairness of automated decisions, accessibility. In Nepal the Electronic Transactions Act and the Individual Privacy Act set duties, and professional codes (ACM, IEEE) give guidance.
+5. **Security.** Access rights, backup, disaster recovery and audit logs must be in place before go-live.
+6. **Cost and time overruns.** Compare actual to baseline and re-plan early.
+7. **Measuring success.** Compare against the objectives in the charter: time saved, errors reduced, users satisfied, money saved.
+
+### Why information systems fail
+
+The most common causes are poor requirements, lack of user involvement, unrealistic schedules, weak management support, poor testing, resistance and scope creep. These match the earlier chapters: good analysis and planning are the cheapest way to prevent failure.
+
+### Post-implementation review
+
+About three to six months after go-live, a **post-implementation review** checks (a) whether objectives are met, (b) user satisfaction, (c) actual cost and schedule against the baseline, (d) lessons learned and (e) a list of improvements for maintenance. The review closes the project and feeds the next one.
+
+**Likely questions.** (a) Differentiate system and user documentation (5). (b) Explain methods of training users (5). (c) Discuss organisational issues in implementation (10). (d) Why do information systems fail? How can failure be avoided (10).
+
+## 5.7 A worked test plan and maintenance decisions
+
+### Test cases for the receipt module
+
+A **test case** states the input, the expected result and the actual result. Testing without expected results is only trying things out. A good set covers valid input, invalid input and boundaries.
+
+| ID | Level | Input | Expected | Pass? |
+|---|---|---|---|---|
+| T1 | unit | amount = 15000 | receipt total 15,000.00 | pass |
+| T2 | unit | amount = 0 | error "Amount must be above zero" | pass |
+| T3 | unit (boundary) | amount = 1000000 (limit) | accepted | pass |
+| T4 | unit (boundary) | amount = 1000001 | rejected with message | fail: accepted |
+| T5 | integration | save payment then print | receipt number equals the stored payment number | pass |
+| T6 | system | 50 users print together | each print under 3 seconds | pass |
+| T7 | acceptance | officer prints a duplicate | page shows "DUPLICATE" | pass |
+
+T4 fails: the programmer wrote `>` where the rule required `>=` in the check on the limit. The fault is logged, fixed, and **all** tests are repeated (**regression testing**) because a fix can break something else. Result: 6 of 7 passed on the first run, a pass rate of 85.7 percent; the release is held until all seven pass.
+
+### Types of testing at a glance
+
+- **Black-box** testing checks outputs against the specification without looking at the code; **white-box** (glass-box) testing uses the structure of the code, for example every branch.
+- **Unit**, **integration** (top-down, bottom-up, big-bang), **system** (performance, security, recovery, usability) and **acceptance** (alpha by the developer, beta by selected users, user acceptance test, UAT).
+- **Equivalence partitioning** and **boundary value analysis** reduce the number of cases: for an age field 18 to 60, test 17, 18, 19, 59, 60, 61 and one typical value.
+
+### Installation (conversion) strategies compared
+
+| Strategy | Risk | Cost | When |
+|---|---|---|---|
+| **Direct (cold-turkey)** | high | low | old system is useless or the new one is small |
+| **Parallel** | low | high (two systems) | financial and critical systems |
+| **Phased (staged)** | medium | medium | large systems with independent modules |
+| **Pilot** | low to medium | medium | many sites; try at one branch first |
+
+### Maintenance: four types and the decision to rebuild
+
+| Type | Purpose | Typical share of effort |
+|---|---|---|
+| **Corrective** | fix faults found in use | about 20 percent |
+| **Adaptive** | adjust to new law, platform or business change | about 25 percent |
+| **Perfective** | add features, improve speed and usability | about 50 percent |
+| **Preventive** | restructure code to avoid future problems | about 5 percent |
+
+Maintenance is usually the largest part of the life-cycle cost (often 60 to 80 percent). Factors raising its cost: poor documentation, original developers have left, tight coupling, many versions, and lack of tests. **Maintenance process:** obtain a request, analyse and classify it, design the change, implement and test (including regression), release and update the documentation.
+
+::: example Worked example: maintain or replace?
+A billing system costs Rs 600,000 per year to maintain and every change takes 6 weeks. A rebuild would cost Rs 2,400,000 once and cut yearly maintenance to Rs 250,000. Savings per year = 600,000 - 250,000 = Rs 350,000. Payback period = 2,400,000 / 350,000 = **6.9 years**. If the business plan only covers 5 more years, **keep maintaining** (and refactor the worst modules); if the system is expected to last 10 years, **rebuild**.
+:::
+
+**Likely questions.** (a) Design five test cases for a login screen (5). (b) Compare conversion strategies (5). (c) Explain the four types of maintenance (5). (d) Differentiate black-box and white-box testing (5).
+
 ## Formula and fact sheet
 
 - Testing levels: unit → integration → system → acceptance (alpha, beta, UAT). Black-box vs white-box.

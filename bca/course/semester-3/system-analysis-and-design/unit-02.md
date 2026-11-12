@@ -194,6 +194,48 @@ f.text(150, 228, "critical path: 2 + 2 + 2 + 3 + 2 = 11 weeks", size=10.5, color
 7. **Compares alternatives.** Several options, such as build, buy or outsource, are measured with the same criteria. Management then chooses with evidence instead of opinion.
 8. **Creates the baseline plan.** The study ends with scope, budget, schedule and risks written down. Later, progress is measured against this baseline.
 
+## 2.8 Initiating and planning in practice: charter, scope, workbook and baseline plan
+
+Section 2.3 gave the outline of project initiation and planning. This section walks through the actual documents an analyst produces, because the syllabus asks about the *process* and not only the definitions.
+
+### The process of initiating and planning an IS project
+
+1. **Establish the project initiation team.** A small group (the analyst, a user representative and a sponsor) is formed to start the project.
+2. **Establish a relationship with the customer.** Clarify who the customer is, who has authority and how they will be kept informed.
+3. **Establish the project initiation plan.** A short plan for the initiation phase itself: tasks, time, people.
+4. **Establish management procedures.** Team roles, communication plan, reporting, change control and standards.
+5. **Establish the project management environment and workbook.** The **project workbook** is the single, shared folder (paper or online) that holds every project document.
+6. **Develop the project charter.** A short document that states why the project exists and what it will deliver.
+
+### The project charter
+
+A charter is a one-to-two page agreement. It normally holds: project title and sponsor, **business case** (the problem and expected benefit), **objectives** that are measurable, **scope** (in and out), the list of major deliverables, key milestones, high-level budget, assumptions and constraints, major risks and the names and authority of the project manager and steering committee.
+
+::: example Worked example: scope statement for a college library system
+**In scope:** member registration, book catalogue, issue and return, fines, overdue reports for the librarian. **Out of scope:** online payment, e-book lending, integration with the college accounts system (phase 2). **Assumption:** the college provides a server and a barcode scanner. **Constraint:** go-live before the start of the next academic session. Writing "out of scope" items is as important as listing the in-scope ones, because it is the main defence against scope creep.
+:::
+
+### The baseline project plan (BPP)
+
+The BPP is the main output of this phase. It combines (a) a **project scope** and **system description**, (b) the **feasibility assessment**, (c) the **management issues** (team, communication, standards, procedures) and (d) the **schedule and budget**. It is a *baseline*: the agreed reference against which later progress and changes are measured. The plan is then reviewed in a **structured walkthrough**, a peer review where the author presents the plan and colleagues look for errors, omissions and unrealistic estimates, without judging the author. The BPP is presented to the steering committee, which decides whether to continue, change or stop.
+
+### Four project levers
+
+| Lever | Question | If you squeeze it |
+|---|---|---|
+| Scope | What is included? | fewer features |
+| Time | By when? | more people or lower quality |
+| Cost | How much? | smaller team, fewer tools |
+| Quality | How good? | more defects, rework later |
+
+Changing one lever moves at least one other; this is the idea of the project triangle, and every charter should say which lever is fixed.
+
+### Risk and the project plan
+
+Add a **risk register** to the BPP: list the risk (key developer leaves), its probability (low, medium, high), its impact, the response (cross-training, backup person) and the owner. Review it at every meeting.
+
+**Likely questions.** (a) Explain the process of initiating and planning an IS development project (10). (b) What is a baseline project plan? List its four sections (5). (c) What is a structured walkthrough? (5).
+
 ## Formula and fact sheet
 
 - Feasibility: economic, technical, operational, schedule, legal, political.

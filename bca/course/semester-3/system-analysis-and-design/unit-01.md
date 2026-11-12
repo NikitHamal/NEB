@@ -205,6 +205,49 @@ A municipality in Nepal wants a system to issue **birth and marriage certificate
 
 **Exam hint.** A 5-mark answer lists three or four models, one advantage and one disadvantage each, and ends with a sentence on how to choose. A 10-mark answer adds the comparison table and an example for the chosen model.
 
+## 1.13 Information systems and their types, in depth
+
+An **information system (IS)** is an organised set of people, data, processes, hardware and software that collects, stores, processes and distributes information to support operations, management and decision-making. The five organisational levels below each have their own kind of system, and the systems pass data upward.
+
+```svgfig label="1.3" caption="The pyramid of information systems. Transaction processing systems at the base capture raw data; each higher layer summarises it for a more senior user and a less structured decision."
+f = Fig(600, 280)
+f.poly([(300, 14), (360, 64), (240, 64)], fill="#fbcfe8", label="ESS", lx=300, ly=48, size=12, color=NAVY)
+f.poly([(240, 64), (360, 64), (420, 114), (180, 114)], fill="#fde68a", stroke=AMBER, label="DSS / Expert", lx=300, ly=92, size=12, color=NAVY)
+f.poly([(180, 114), (420, 114), (480, 164), (120, 164)], fill="#bbf7d0", stroke=TEAL, label="MIS", lx=300, ly=142, size=12, color=NAVY)
+f.poly([(120, 164), (480, 164), (540, 214), (60, 214)], fill=BLUE, label="TPS", lx=300, ly=192, size=12, color=NAVY)
+f.text(560, 40, "Senior managers", size=10.5, color=NAVY, bold=True, anchor="end")
+f.text(560, 92, "Analysts, managers", size=10.5, color=NAVY, bold=True, anchor="end")
+f.text(560, 142, "Middle managers", size=10.5, color=NAVY, bold=True, anchor="end")
+f.text(300, 240, "Operational staff: clerks, tellers, cashiers", size=11, color=NAVY, bold=True)
+f.text(300, 262, "more data, more detail  (bottom)     more summary, more judgement  (top)", size=10, color=SLATE)
+```
+
+| System | Input | Processing | Output | Nepali example |
+|---|---|---|---|---|
+| **TPS** | raw transactions | validate, record, update files, immediate | receipts, updated balances | eSewa payment, bank teller system, Sajha Yatayat ticketing |
+| **MIS** | TPS data | summarise, compare with plan | periodic and exception reports | monthly loan-recovery report of a cooperative |
+| **DSS** | TPS/MIS data plus models | what-if analysis, simulation | scenarios, charts | a bank's interest-rate simulator, load-shedding planner |
+| **ESS / EIS** | internal and external data | filter, drill down | dashboards, trends | CEO dashboard of branches and NPLs |
+| **Expert system** | rules from experts | inference over a knowledge base | advice, diagnosis | crop-disease advisor for farmers |
+| **Office automation** | documents, messages | edit, share, schedule | letters, calendars | word processor, email, shared drive |
+
+### Properties that separate them
+
+1. **Structure of the decision.** TPS handles fully structured work; MIS supports structured and some semi-structured decisions; DSS and ESS support semi-structured and unstructured decisions.
+2. **Time horizon.** TPS is real time or daily; MIS is weekly or monthly; ESS is yearly and strategic.
+3. **Data.** TPS data is detailed and internal; ESS also uses external data (market, rivals, regulations).
+4. **Users.** Many operational users for TPS; few executives for ESS.
+
+::: example Worked example: one sale travelling up the pyramid
+A customer pays Rs 1,200 at a supermarket. The **TPS** records the sale, reduces stock of three items and prints a bill. At month end the **MIS** adds all bills into a sales-by-category report and flags items below reorder level. The **DSS** lets the manager test "what happens to profit if we cut the price of rice by 3 percent and sales rise by 8 percent?". The **ESS** shows the chief executive the chain's sales trend against the national retail index. Same data, four views.
+:::
+
+### Why analysts must know the types
+
+The type decides the design. A TPS must be fast, accurate and recoverable (data entry validation, locking, audit trail). An MIS must be flexible in reporting. A DSS needs models and friendly what-if screens. Choosing the wrong type is a common reason for failure: managers asked for a "dashboard" but the project delivered a data-entry system with no summary.
+
+**Likely questions.** (a) Define information system and explain the five types with one example each (10 marks). (b) Differentiate TPS and MIS in five points (5 marks). (c) Draw and explain the pyramid of information systems.
+
 ## Formula and fact sheet
 
 - SDLC: planning → analysis → design → implementation → maintenance.

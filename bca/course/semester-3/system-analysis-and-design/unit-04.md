@@ -194,6 +194,150 @@ f.text(338, 222, "action", size=10.5, color=RED, bold=True, anchor="start")
 7. **Design for the user's skill.** Beginners need guidance and menus; experts want shortcuts. A public service kiosk needs very simple screens, while an accountant prefers keyboard commands.
 8. **Make errors forgivable.** Offer undo, confirmation before deleting and safe defaults. A confirmation dialog before deleting a student record saves hours of recovery work.
 
+## 4.7 Transforming ER diagrams into relations, and merging relations
+
+Logical database design has four steps: (1) collect the conceptual ER diagram, (2) **transform** it into relations, (3) **normalise** the relations to third normal form (4.5), and (4) **merge** the relations from different user views into one consistent design.
+
+### The relational model in brief
+
+A **relation** is a two-dimensional table with a name, columns (attributes) and rows (tuples). Properties: each cell holds one atomic value, each row is unique, column order and row order do not matter. The **primary key** uniquely identifies a row; a **foreign key** is an attribute that is the primary key of another relation and links the two. **Entity integrity**: no primary-key part may be null. **Referential integrity**: a foreign key must match an existing primary key value or be null.
+
+### Transformation rules
+
+| ER construct | Becomes | Key points |
+|---|---|---|
+| Regular entity | one relation | simple attributes become columns; choose an identifier as primary key |
+| Composite attribute | only its simple parts | Address becomes street, city, district |
+| Multivalued attribute | a new relation | key is the owner key plus the attribute (STUDENT_PHONE(student_id, phone)) |
+| Weak entity | a relation | key is the owner key plus the partial identifier |
+| 1:N relationship | foreign key on the N side | the key of the *one* side is copied into the *many* side (COURSE key goes into STUDENT) |
+| M:N relationship | a new (associative) relation | key is the two foreign keys combined, plus relationship attributes |
+| 1:1 relationship | foreign key on either side | place it on the side with total participation to avoid nulls |
+| Unary relationship | foreign key to the same table (1:N) or a new relation (M:N) | EMPLOYEE(emp_id, name, manager_id) |
+| Ternary relationship | a new relation with three foreign keys | SUPPLY(supplier_id, part_id, project_id, qty) |
+| Supertype/subtype | a relation for each, subtype key = supertype key | PERSON(person_id...), STUDENT(person_id, program) |
+
+::: example Worked example: library ER diagram to relations
+Entities: MEMBER(member_id, name, phone*) where phone is multivalued; BOOK(book_id, title); PUBLISHER(pub_id, name); relationships: PUBLISHER publishes BOOK (1:N); MEMBER borrows BOOK (M:N, attributes issue_date, due_date).
+**Result:**
+MEMBER(**member_id**, name)
+MEMBER_PHONE(**member_id**, **phone**) with member_id a foreign key.
+PUBLISHER(**pub_id**, name)
+BOOK(**book_id**, title, pub_id) with pub_id a foreign key (the 1 side's key goes to the N side).
+LOAN(**member_id**, **book_id**, **issue_date**, due_date) with member_id and book_id foreign keys; issue_date is included in the key if a member may borrow the same book again later.
+Five entities and relationships became five relations, and the M:N relationship needed its own relation.
+:::
+
+### Merging relations (view integration)
+
+When the relations designed for different users are combined, the same real-world thing may have been modelled twice. Problems to resolve:
+
+- **Synonyms:** two names for one attribute (EMP_NO and STAFF_ID). Choose one name.
+- **Homonyms:** one name for two different attributes (ADDRESS meaning home in one view and office in another). Rename.
+- **Transitive dependencies** that appear after merging (a key in one relation determines non-key attributes in another): remove again.
+- **Supertype/subtype** relationships that the views reveal: model explicitly.
+
+Steps: list all relations, group those with the same primary key, merge groups into one relation (union of attributes, removing duplicates), re-check normalisation and check referential integrity.
+
+::: example Worked example: merging two views
+View 1: STUDENT(student_id, name, program). View 2: STUDENT_RECORD(roll_no, name, phone) where roll_no and student_id are the same identifier (synonym). Merge to STUDENT(student_id, name, program, phone), and record in the data dictionary that roll_no is an alias.
+:::
+
+**Likely questions.** (a) Transform a given ER diagram into relations (10). (b) State the rules for converting M:N and multivalued attributes (5). (c) What are synonyms and homonyms? How are they resolved when merging relations (5).
+
+## 4.8 Physical design: fields, tables, indexes and usability
+
+**Physical design** turns logical relations into a storage structure that is fast and safe in a chosen DBMS. Its inputs are the normalised relations, definitions of attributes, the expected volume, response-time needs and the DBMS features. Its goals are **fast access**, **efficient use of space** and **data integrity and security**.
+
+### Designing fields
+
+A **field** is the smallest named unit of stored data. Choose:
+
+1. **Data type:** integer, decimal, character, date or Boolean. Pick the smallest type that safely holds the largest value (a person's age fits in a small integer, a phone number is text because of leading zeros and plus signs).
+2. **Length:** allow for growth, but not excess.
+3. **Coding and compression:** store codes ("M", "F") instead of long text and decode them when displayed; use lookup tables.
+4. **Default value** and whether the field is **required** (null control).
+5. **Range or set control** (age between 16 and 60; status from a list).
+6. **Referential integrity** (the foreign key must exist).
+7. **Handling of missing data:** substitute a default, flag it and report it, or reject the entry.
+
+### Denormalisation
+
+Normalisation reduces redundancy, but it also produces more tables and more joins. **Denormalisation** deliberately combines tables (or duplicates a column) to speed up reading. It is justified when (a) a join is required in nearly every query, (b) the data is read very much more often than updated, and (c) the response time is critical. Cost: more storage, risk of inconsistency, more update logic.
+
+::: example Worked example: when to denormalise
+A report shows every order with the customer name, using three joins on a table of 5 million rows and it runs hourly. Copying CUSTOMER_NAME into ORDER_SUMMARY removes one join and cuts the time from 40 seconds to 8 seconds in testing. Because customer names change rarely, the risk of stale data is small and acceptable, and a nightly job refreshes the copy.
+:::
+
+### Designing physical tables and files
+
+- **Partitioning:** split a large table horizontally (by year or by branch) or vertically (rarely used columns in another table).
+- **File organisation:** sequential (good for batch processing), indexed (fast for random and sequential access) and hashed (fastest for exact-key lookup). Most DBMS use B-tree **indexes**.
+- **Indexes** speed up queries on the indexed column, but slow down inserts and updates and use space. Index primary keys, foreign keys and columns used often in WHERE and ORDER BY; do not index columns with very few values or that are frequently updated.
+- **Clustering and fill factor** of storage pages, **backup**, **recovery** and **security** (roles, encryption).
+
+### Assessing usability of forms and reports
+
+Usability is how effectively, efficiently and satisfactorily users reach their goals (ISO 9241). Measure it with: **speed** (time to complete a task), **accuracy** (error rate), **learnability** (time to first success), **user satisfaction** (a 1 to 5 survey or the System Usability Scale), and **memorability** after a break. Methods: **heuristic evaluation** (experts check against Nielsen's ten heuristics), **user testing** with five to eight users thinking aloud, and **A/B tests** for production sites.
+
+::: example Worked example: a usability test result
+Eight users register a new patient. Mean time is 94 seconds, 3 of 8 enter the date in the wrong format. Fix: show a date picker and an example. Retest: mean 71 seconds and 0 of 8 wrong. A drop of 23 seconds is about 24 percent faster, with error rate from 37.5 percent to 0.
+:::
+
+**Likely questions.** (a) Explain the guidelines for designing fields (5). (b) What is denormalisation? When is it justified? (5). (c) How do indexes help? What are their costs? (5). (d) Describe three methods to assess usability (5).
+
+## 4.9 Interaction methods, devices and dialogue design
+
+### Interaction methods
+
+| Method | How it works | Good for | Weakness |
+|---|---|---|---|
+| **Command language** | user types commands (SQL, shell) | experts, scripting | must be memorised |
+| **Menus** | choose from lists (menu bar, drop-down, pop-up) | occasional users | deep menus are slow |
+| **Forms** | fill fields on a screen | data entry | can be long |
+| **Object-based (GUI)** | click, drag, drop icons | most users | needs a pointing device |
+| **Natural language and voice** | speak or type a request | hands-free, accessibility | recognition errors |
+| **Touch and gesture** | tap, swipe, pinch | mobile, kiosks | no hover state, fat fingers |
+
+### Interaction devices
+
+Keyboard, mouse, touchpad, touch screen, stylus, **barcode and QR scanner**, **fingerprint reader**, microphone, camera, joystick and **haptic** feedback. Choose by task: a cashier needs a scanner and a numeric keypad, a designer a stylus and large display, a kiosk a robust touch screen. Think about **accessibility**: screen readers, keyboard-only use, enough contrast, large touch targets (about 9 mm).
+
+### Principles of dialogue design
+
+A **dialogue** is the sequence of exchanges between user and system. Good dialogues give: **consistency** (same words and positions everywhere), **feedback** (a message or change after every action), **shortcuts** for experts, **error prevention** (disable impossible choices, confirm destructive actions), **easy reversal** (undo) and **user control** (the user, not the system, leads).
+
+A **dialogue diagram** shows the screens as boxes and the user actions as arrows, so the whole interaction can be checked before programming.
+
+```svgfig label="4.3" caption="Dialogue diagram for a login and billing flow. Boxes are screens, arrows are user actions. Note that every screen has a way back, and a failed login returns to the same screen with an error message."
+f = Fig(600, 210)
+f.box(10, 80, 110, 50, "Login", fill=BLUE, color=NAVY, size=12, bold=True)
+f.box(170, 80, 120, 50, "Main menu", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
+f.box(350, 20, 120, 50, "New bill", fill="#fde68a", stroke=AMBER, color=NAVY, size=12, bold=True)
+f.box(350, 140, 120, 50, "Reports", fill="#fde68a", stroke=AMBER, color=NAVY, size=12, bold=True)
+f.box(500, 80, 90, 50, "Print", fill="#fbcfe8", color=NAVY, size=12, bold=True)
+f.arrow([(120, 105), (170, 105)], color=NAVY, sw=1.8, label="valid", lpos=(145, 94), lsize=9.5)
+f.arrow([(290, 95), (350, 50)], color=NAVY, sw=1.8)
+f.arrow([(290, 118), (350, 165)], color=NAVY, sw=1.8)
+f.arrow([(470, 45), (545, 80)], color=NAVY, sw=1.8, label="save", lpos=(520, 54), lsize=9.5)
+f.arrow([(65, 80), (65, 40), (30, 40), (30, 80)], color=RED, sw=1.5, label="invalid", lpos=(48, 30), lsize=9.5)
+f.arrow([(350, 175), (290, 125)], color=SLATE, sw=1.4, dash=True, label="back", lpos=(300, 162), lsize=9)
+```
+
+### Designing for graphical environments
+
+Use standard **widgets** with their usual meaning: **radio buttons** for one choice from few, **check boxes** for several choices, **drop-down lists** for one choice from many, **text boxes** for free text, **sliders** for ranges, **date pickers** for dates. Group related fields, align labels, put the primary action button where the eye ends (bottom right) and use colour only as a second signal (never colour alone). Provide **tooltips**, clear error messages ("Phone number must have 10 digits", not "Invalid input") and **progress indicators** for slow operations.
+
+::: example Worked example: choosing the widget
+Field: *Gender* with three options, one choice: radio buttons. Field: *District* with 77 options, one choice: searchable drop-down. Field: *Interests* with six options, many allowed: check boxes. Field: *Date of birth*: date picker with typing allowed. Field: *Volume*: slider.
+:::
+
+### Formatting forms and reports
+
+Forms: logical order (top to bottom, left to right), group with headings or boxes, label every field, show format hints, mark required fields, use the same layout as the paper source form when staff transcribe from paper. Reports: title, date and page number, grouped and sorted rows with subtotals, totals at the end, numbers right-aligned and text left-aligned, sensible white space, and units shown in the heading.
+
+**Likely questions.** (a) Compare interaction methods (5). (b) State guidelines for dialogue design (5). (c) Draw a dialogue diagram for ATM withdrawal (5). (d) Which widget would you use for each of these fields and why? (5).
+
 ## Formula and fact sheet
 
 - Normalised relations: CUSTOMER, INVOICE, ITEM, INVOICE_LINE (invoice example). Merge relations, resolve synonyms and homonyms.
