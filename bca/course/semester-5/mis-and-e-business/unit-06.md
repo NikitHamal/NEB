@@ -2,226 +2,286 @@
 subject: MIS and e-Business
 grade: BCA Semester 5
 unit: 6
-title: Security and Control of Information Systems
-hours: 4
+title: Decision Support, Business Intelligence and Knowledge Management
+hours: 8
 area: BCA 304 · MIS and e-Business · Unit 6
 ---
 
-A system that is fast, integrated and loved by users but loses a customer database to a stolen laptop has failed. Security is not an add-on; it is part of the definition of a usable information system. This unit covers the vocabulary of threats, a quantitative way to decide how much to spend on controls (annualised loss expectancy), password strength as entropy, the controls that protect e-commerce, and the legal frame in Nepal.
+Choosing between buying a server, renting cloud capacity or doing nothing is a decision under uncertainty: nobody knows next year's demand. A good manager does not guess; she lists the alternatives, the possible futures and what each alternative earns in each future, assigns probabilities, and computes the expected result. This unit gives the structured tools for that: decision tables (to make rule-based decisions complete and consistent), payoff tables with expected monetary value, regret and other criteria for decisions where probabilities are unknown, decision trees, and the business intelligence and knowledge systems that feed them.
 
 ::: key What this unit gives you
-- Confidentiality, integrity, availability; threats, vulnerabilities, risk and controls.
-- Risk analysis: SLE, ARO, ALE and the cost-benefit of a safeguard.
-- Password entropy numbers; e-commerce controls (TLS, payment verification, fraud rules).
-- Disaster recovery, audit and the Electronic Transactions Act 2063 in outline.
+- Simon's decision process; DSS architecture.
+- Decision tables with a completeness check; payoff tables, EMV, EVPI and four uncertainty criteria.
+- Decision trees and the value of a pilot study.
+- Data warehouses, OLAP, KPIs and dashboards; knowledge management (SECI).
 :::
 
-## 6.1 Security goals, threats and controls
+## 6.1 The decision-making process
 
-The **CIA triad**: **confidentiality** (only authorised people read the data), **integrity** (data are accurate and unaltered) and **availability** (the system works when needed). Add **authenticity** and **non-repudiation** (a sender cannot deny sending). A **threat** is a potential cause of harm (a hacker, a fire, a careless employee); a **vulnerability** is a weakness (an unpatched server); **risk** is the chance a threat exploits a vulnerability times the impact; a **control** reduces risk.
+Herbert Simon's model has four phases: **intelligence** (find and define the problem), **design** (develop alternatives and a model), **choice** (select the best alternative) and **implementation** (carry it out and monitor). A DSS supports each: queries and dashboards for intelligence, models and what-if analysis for design, optimisation and ranking for choice, and tracking for implementation. Decisions can be made **under certainty** (outcomes known), **under risk** (outcomes uncertain but probabilities known), or **under uncertainty** (probabilities unknown). The rest of the unit treats the last two.
 
-| Threat | Example | Typical control |
+## 6.2 Decision tables
+
+For rule-based decisions with several conditions, a **decision table** lists *conditions* above the line and *actions* below, with one column per **rule**. It is more compact than prose and easy to test for *completeness* (every combination covered) and *consistency* (no combination gets two different actions). A dash (—) means "don't care".
+
+::: example Loan screening rules
+Conditions: existing customer, holds a salary account, requested amount at most 5× monthly salary.
+
+| Condition / action | R1 | R2 | R3 | R4 | R5 |
+|---|---|---|---|---|---|
+| Existing customer | Y | Y | Y | N | N |
+| Salary account | Y | Y | N | — | — |
+| Amount ≤ 5× salary | Y | N | — | Y | N |
+| **Action** | Approve | Refer to manager | Refer to manager | Refer to manager | Reject |
+
+Three conditions give 2³ = **8** combinations. Expanding the don't-cares gives the full table below; every combination matches exactly one rule, so the table is complete and consistent.
+
+| Customer | Salary a/c | ≤ 5× salary | Matching rule | Action |
+|---|---|---|---|---|
+| Y | Y | Y | R1 | Approve |
+| Y | Y | N | R2 | Refer to manager |
+| Y | N | Y | R3 | Refer to manager |
+| Y | N | N | R3 | Refer to manager |
+| N | Y | Y | R4 | Refer to manager |
+| N | Y | N | R5 | Reject |
+| N | N | Y | R4 | Refer to manager |
+| N | N | N | R5 | Reject |
+:::
+
+If a combination matched no rule the table would be *incomplete*, and if it matched rules with different actions it would be *contradictory*. Tools enumerate the 2ⁿ combinations to check this automatically, as was done for the table above. A table with n conditions can be reduced by merging rules that differ in only one condition and share an action (**consolidation**).
+
+## 6.3 Decisions under risk: payoff tables and EMV
+
+A **payoff table** shows the profit (or cost) of each alternative in each **state of nature**. With probabilities, the **expected monetary value (EMV)** of an alternative is the probability-weighted average: EMV = Σ pⱼ × payoffⱼ.
+
+::: example Choosing hosting for an online venture
+States: high demand (p = 0.3), medium (0.5), low (0.2). Payoffs in Rs '000 over the first year:
+
+| Alternative (Rs '000 profit) | High demand | Medium | Low | EMV |
+|---|---|---|---|---|
+| Large on-premise server | 900 | 400 | -300 | 410 |
+| Cloud, auto-scaling | 700 | 450 | 100 | 455 |
+| Small server | 300 | 250 | 150 | 245 |
+
+The best EMV is **Cloud, auto-scaling** at Rs 455 thousand. Note the *large on-premise server* has the highest possible payoff (900) but also the worst loss (−300): EMV ignores your attitude to risk.
+:::
+
+**Expected value of perfect information (EVPI).** Suppose a forecaster could tell you the state in advance. You would pick the best action in each state: expected profit with perfect information = 0.3 × 900 + 0.5 × 450 + 0.2 × 150 = Rs **525** thousand. EVPI = 525 − 455 = Rs **70** thousand. No market study that costs more than this can be worth buying; it is the ceiling on the value of any information.
+
+## 6.4 Decisions under uncertainty (probabilities unknown)
+
+When probabilities cannot be estimated, several criteria express different attitudes. Using the same payoffs:
+
+- **Maximin (pessimist):** choose the alternative with the best worst-case. Worst cases are −300, 100 and 150, so the choice is **Small server** (guaranteeing 150).
+- **Maximax (optimist):** choose the best best-case: the large server (900).
+- **Laplace (equal likelihood):** average the payoffs, assuming all states equally likely; best is **Cloud, auto-scaling** with 416.7.
+- **Hurwicz (coefficient of optimism α = 0.6):** α × best + (1 − α) × worst: Large on-premise server = 420, Cloud, auto-scaling = 460, Small server = 240; best is **Cloud, auto-scaling**.
+- **Minimax regret (Savage):** regret = best payoff in that state minus this alternative's payoff; choose the smallest maximum regret.
+
+| Alternative (regret, Rs '000) | High demand | Medium | Low | Maximum regret |
+|---|---|---|---|---|
+| Large on-premise server | 0 | 50 | 450 | 450 |
+| Cloud, auto-scaling | 200 | 0 | 50 | 200 |
+| Small server | 600 | 200 | 0 | 600 |
+
+Minimax regret selects **Cloud, auto-scaling** (maximum regret 200). Different criteria can pick different alternatives; the manager must choose the criterion that matches the organisation's attitude to risk before seeing the numbers.
+
+## 6.5 Decision trees and the value of a pilot
+
+A **decision tree** draws decisions as squares, chance events as circles and payoffs at the leaves. It is solved by **rolling back**: at chance nodes take the expected value, at decision nodes take the best branch.
+
+::: example Build now or pilot first?
+A full roll-out costs nothing extra to decide but pays Rs 800 thousand if successful (probability 0.6) and loses Rs 300 thousand if not. *Build now* has EMV = 0.6 × 800 + 0.4 × (−300) = **360**.
+
+Alternatively, a pilot costing Rs 50 thousand gives a "good" result with probability 0.5 and a "bad" one with 0.5. After a good pilot the probability of success rises to 0.9, after a bad one it falls to 0.3 (consistent with 0.5 × 0.9 + 0.5 × 0.3 = 0.6). Rolling back:
+
+- After "good": EMV(roll out) = 0.9 × 800 + 0.1 × (−300) = **690**; roll out.
+- After "bad": EMV(roll out) = 0.3 × 800 + 0.7 × (−300) = **30**, which is still above 0, so roll out anyway (30).
+- Expected before the pilot cost: 0.5 × 690 + 0.5 × 30 = 360; minus the 50 cost gives **310**.
+
+The better choice is **build now**, by -50. The pilot changes no decision (we would roll out in both cases), so its information has zero value and its cost is wasted. A pilot is worth buying only if some outcome would make you *not* proceed.
+:::
+
+## 6.6 Business intelligence and data warehousing
+
+**Business intelligence (BI)** is the set of technologies for turning data into insight. Operational databases are optimised for fast *transactions* (OLTP) and are poor for analysis, so a **data warehouse** copies, cleans and integrates data from many sources into a subject-oriented, time-variant, non-volatile store optimised for queries. The pipeline is **ETL**: *extract* from source systems, *transform* (clean, convert codes, aggregate), *load* into the warehouse. Data are often arranged as a **star schema**: a central **fact table** (sales amounts) linked to **dimension tables** (date, product, branch, customer). **OLAP** (online analytical processing) lets users slice, dice, drill down and roll up through these dimensions: total sales by province, then by district, then by branch; the same by quarter instead of year. **Data mining** finds patterns automatically (market-basket analysis: customers who buy noodles buy cooking oil; classification; clustering; anomaly detection). A **data mart** is a department-sized warehouse.
+
+**KPIs and dashboards.** A good KPI is measurable, tied to a goal, and has an owner and a target: *non-performing loan ratio*, *order fulfilment time*, *customer churn*, *system uptime*. A dashboard shows few KPIs, with comparison against target and colour-coded status. Avoid vanity metrics (page views without conversions).
+
+## 6.7 Knowledge management
+
+**Knowledge management (KM)** is the set of practices for creating, capturing, sharing and using knowledge. Nonaka and Takeuchi's **SECI model** describes four conversions between tacit and explicit knowledge:
+
+| Mode | Conversion | Example |
 |---|---|---|
-| Malware | Ransomware encrypting the server | Patching, anti-malware, offline backups |
-| Phishing and social engineering | Fake "bank" SMS asking for an OTP | Training, MFA, URL filtering |
-| Insider misuse | Clerk altering account records | Role-based access, logs, segregation of duties |
-| Denial of service | Flood against the booking website | Rate limiting, CDN, redundancy |
-| Physical | Theft, fire, flood, power failure | Locks, UPS, generator, offsite copies |
-| Application flaws | SQL injection, weak sessions | Secure coding, testing, WAF |
+| **S**ocialisation | Tacit → tacit | Apprenticeship; a new engineer shadowing a senior |
+| **E**xternalisation | Tacit → explicit | Writing a post-incident review |
+| **C**ombination | Explicit → explicit | Merging reports into a policy handbook |
+| **I**nternalisation | Explicit → tacit | Learning by working through the handbook |
 
-Controls fall into three families: **preventive** (stop it: access control, encryption, firewalls), **detective** (notice it: logs, alerts, audits) and **corrective** (recover: backups, incident response). They are further classified as **technical**, **administrative** (policies, training) and **physical**. Defence in depth layers several of them so that no single failure exposes the asset.
+Technology supports KM through document repositories, wikis, expert directories, communities of practice and search; but culture (willingness to share, recognition for contributors) decides whether it works. **Geographic information systems (GIS)** and **expert systems** are special DSS: a GIS analyses location data (flood risk by ward), while an expert system encodes expert rules for tasks such as diagnosis. Artificial intelligence now adds recommendation, forecasting and natural-language assistants to BI.
 
-## 6.2 Quantitative risk analysis
+## 6.8 Seeing decisions: steps, payoffs, trees and warehouses
 
-Spending on security must be justified. The classic formulae:
+Decision methods are numerical, so each comes with a picture. The plate shows the physical memory of business intelligence, from an old backup tape to a server hall, and the figures show the decision process, the payoff comparison of Section 6.3, the roll-back of the decision tree in Section 6.5 and the path of data into a data warehouse.
 
-- **Single loss expectancy (SLE)** = asset value (AV) × exposure factor (EF), the fraction of the asset lost in one incident.
-- **Annualised rate of occurrence (ARO)**: expected incidents per year.
-- **Annualised loss expectancy (ALE)** = SLE × ARO.
-
-::: example Is the safeguard worth it?
-A customer database is valued at Rs 20,00,000. A breach would destroy 40% of its value, so SLE = 20,00,000 × 0.4 = Rs **8,00,000**. Incidents are expected once in four years (ARO = 0.25), so ALE = **Rs 2,00,000** per year. A safeguard (encrypted backups, MFA, monitoring) costing Rs 70,000 per year cuts the ARO to 0.05, so the new ALE = 8,00,000 × 0.05 = **Rs 40,000**. Risk reduced by Rs 1,60,000; net benefit after paying for the control = 1,60,000 − 70,000 = **Rs 90,000** per year, a **129%** return on the security spend. The control is justified.
-:::
-
-The numbers are estimates, so analysts use ranges and compare options; the output is a priority list, not a precise forecast. Alternatives to reducing risk: **accept** it, **transfer** it (insurance), **avoid** it (stop the activity) or **mitigate** it (controls).
-
-## 6.3 Authentication and password strength
-
-Authentication proves identity with something you **know** (password), **have** (phone, token) or **are** (fingerprint); **multi-factor authentication (MFA)** combines at least two. The strength of a password scheme is its **entropy**: H = L × log₂(N) bits for L symbols chosen uniformly at random from an alphabet of N. A guesser needs on average half the space. At 10¹⁰ guesses per second (an offline attack against a weak hash):
-
-| Password scheme | Space size | Entropy (bits) | Average time at 10¹⁰ guesses/s |
-|---|---|---|---|
-| 8 random lowercase letters | 2.09e+11 | 37.6 | 10.44 seconds |
-| 8 random chars from 95 printable ASCII | 6.63e+15 | 52.6 | 3.8 days |
-| 12 random lowercase letters | 9.54e+16 | 56.4 | 55.2 days |
-| 4 random words from a 2,048-word list | 1.76e+13 | 44.0 | 14.7 minutes |
-| 6 random words from a 2,048-word list | 7.38e+19 | 66.0 | 116.9 years |
-
-An 8-character password from the full keyboard (52.6 bits) is weaker than 12 random lowercase letters (56.4 bits), and six random words (66 bits) is stronger than both and easier to remember. These figures assume *random* choice; human-chosen passwords (names plus birth year) have far less entropy, which is why systems must store passwords as **salted, slow hashes** (bcrypt, Argon2) and why a one-time password (OTP) from SMS or an authenticator app is added for payments.
-
-## 6.4 Securing e-commerce
-
-- **Transport security:** HTTPS (TLS) encrypts traffic between browser and server and authenticates the server by a certificate. Check for the padlock and a valid certificate; redirect all HTTP to HTTPS.
-- **Do not store card data** you do not need; use a gateway so card numbers never touch your server (and the **PCI DSS** standard applies if you do).
-- **Server-side payment verification:** after a gateway callback, confirm the transaction ID, amount, merchant and status through a back-channel call; compare the amount with the order total.
-- **Fraud controls:** velocity checks (many orders from one device), address mismatch, OTP, blacklists, manual review of large orders, COD limits for new customers.
-- **Application security:** parameterised SQL, output encoding, CSRF tokens, secure session cookies, rate limits, least-privilege database accounts.
-- **Digital signatures and certificates** give integrity and non-repudiation (the cryptography is in *Cryptography and Network Security*).
-- **Privacy:** collect only what you need, state the purpose, protect and delete data on request where the law requires.
-
-## 6.5 Business continuity, audit and law
-
-A **business continuity plan (BCP)** keeps critical functions running; a **disaster recovery plan (DRP)** restores the IT systems. Key numbers: **RPO** (recovery point objective: how much data you can afford to lose, e.g. 15 minutes) and **RTO** (recovery time objective: how long you can be down, e.g. 4 hours). They determine backup frequency and standby systems: a bank with an RPO near zero replicates to a **disaster recovery site** synchronously. Follow the **3-2-1 rule**: three copies, two media, one offsite (and test restoring them). **IS audit** examines controls: logs, access reviews, change management, and segregation of duties (no one person both creates and approves a payment).
-
-In Nepal the **Electronic Transactions Act, 2063 (2008)** gives legal recognition to electronic records and digital signatures, establishes a Controller of Certification Authorities, and defines computer-related offences (unauthorised access, damage, publishing illegal material) with penalties; its provisions are covered in detail in *Society and Technology*. NRB issues an **IT guideline for banks and financial institutions** requiring policies, access control, audit trails and disaster recovery. Treat any incident as both a technical and a legal event: preserve logs, notify as required, and communicate honestly.
-
-## 6.6 Seeing security: factors, risk arithmetic, entropy and recovery
-
-Security decisions are built on three questions: who is it, how likely is the loss, and how fast can we recover. The plate shows the three kinds of proof of identity; the figures put numbers to risk, passwords and recovery.
-
-```photogrid label="6.1" cols="3" ratio="1.0" caption="Three factors of authentication. (a) Something you are: a fingerprint sensor reads a biometric. (b) Something you have: a hardware security key such as the YubiKey proves possession of a device. (c) Something you know: a password or PIN; a password alone is the weakest factor because it can be guessed or stolen. Multi-factor authentication combines at least two different kinds, so a stolen password alone does not open the account."
-@ photo id="bca401/fingerprint" cap="Are: fingerprint sensor"
-fit 1.0
+```photogrid label="6.1" cols="2" ratio="1.2" caption="(a) A Travan TR-3 tape cartridge from the 1990s, which held about 1 GB of backup data; history that firms kept on tapes was the raw material of early data warehouses. (b) A modern server hall, where the warehouse of a large bank or telecom company is stored and queried in seconds. The decision to keep and analyse history is a business decision first and a technology decision second."
+@ photo id="bca304/tape" cap="Backup tape cartridge"
+fit 1.2
+focus 0.5 0.55
+@ photo id="bca401/serverroom" cap="Server hall"
+fit 1.2
 focus 0.5 0.5
-@ photo id="bca401/yubikey" cap="Have: security key"
-fit 1.0
-focus 0.5 0.5
-@ svg cap="Know: the password"
-f = Fig(300, 300)
-f.box(30, 40, 240, 46, "Username", fill=SOFT, stroke=SLATE, size=13, bold=True, color=SLATE)
-f.box(30, 100, 240, 46, "Password  ********", fill=SOFT, stroke=SLATE, size=13, bold=True, color=SLATE)
-f.box(30, 164, 110, 40, "Log in", fill=MINT, stroke=TEAL, size=13, bold=True)
-f.text(150, 240, "Weakest factor:", size=13, color=RED, bold=True)
-f.text(150, 262, "guessed, phished, reused", size=13, color=RED, bold=True)
 ```
 
-```svgfig label="6.1" caption="The CIA triad and some threats to each goal. Confidentiality means only authorised people see the data (threats: phishing, eavesdropping, theft of a laptop; controls: encryption, access control). Integrity means data is correct and unaltered (threats: tampering, malware, mistakes; controls: hashes, digital signatures, audit trails). Availability means systems work when needed (threats: denial of service, power failure, ransomware; controls: backups, redundancy, firewalls). Every control in the unit protects at least one of these three goals."
+```svgfig label="6.1" caption="Simon's four-phase model of decision making. Intelligence: notice a problem or opportunity and collect data. Design: invent and list the alternatives and the criteria. Choice: compare the alternatives (EMV, scoring, decision table) and select one. Implementation and review: carry out the decision and check the result; a poor result sends you back to an earlier phase. Information systems help in every phase: MIS in intelligence, DSS models in design and choice, workflow in implementation."
+f = Fig(580, 140)
+ph = [("1 Intelligence", "find the problem,\ncollect data", MINT, TEAL), ("2 Design", "list alternatives\nand criteria", BLUE, NAVY), ("3 Choice", "compare, select\nthe best", SAND, AMBER), ("4 Implement", "act and\nreview results", ROSE, RED)]
+for i, (t, d, fl, c) in enumerate(ph):
+    x = 8 + i * 144
+    f.box(x, 14, 130, 30, t, fill=fl, stroke=c, size=11, bold=True)
+    f.box(x, 52, 130, 44, d, fill="#ffffff", stroke=c, size=10, bold=True)
+    if i < 3: f.arrow([(x + 130, 29), (x + 144, 29)], color=SLATE)
+f.arrow([(520, 96), (520, 120), (70, 120), (70, 96)], color=SLATE, dash=True, label="feedback if the result is poor", lpos=(300, 113))
+```
+
+```svgfig label="6.2" caption="EMV comparison for the hosting decision. With probabilities 0.3 (high), 0.5 (medium) and 0.2 (low demand) the expected values are large server 0.3 x 900 + 0.5 x 400 + 0.2 x (-300) = 410; cloud 0.3 x 700 + 0.5 x 450 + 0.2 x 100 = 455; small server 0.3 x 300 + 0.5 x 250 + 0.2 x 150 = 245 (Rs thousand). The cloud option has the best EMV. With a perfect forecast the expected profit would be 0.3 x 900 + 0.5 x 450 + 0.2 x 150 = 525, so the expected value of perfect information is 525 - 455 = 70 thousand, which is the most any forecast is worth."
 f = Fig(580, 200)
-f.poly([(290, 8), (400, 160), (180, 160)], fill=BLUE, stroke=NAVY, sw=1.6)
-f.text(290, 70, "Information", size=11, color=NAVY, bold=True); f.text(290, 88, "security", size=11, color=NAVY, bold=True)
-g = [("Confidentiality", 20, 20, "phishing, theft\nencryption, access control", TEAL, MINT), ("Integrity", 410, 20, "tampering, malware\nhashes, signatures", AMBER, SAND), ("Availability", 215, 168, "DoS, power cut, ransomware\nbackups, redundancy", RED, ROSE)]
-f.box(10, 14, 190, 54, "", fill=MINT, stroke=TEAL); f.text(105, 30, "Confidentiality", size=11, color=TEAL, bold=True); f.text(105, 48, "phishing, theft: encryption", size=9.5, color=SLATE, bold=True)
-f.box(380, 14, 190, 54, "", fill=SAND, stroke=AMBER); f.text(475, 30, "Integrity", size=11, color=AMBER, bold=True); f.text(475, 48, "tampering: hashes, signatures", size=9.5, color=SLATE, bold=True)
-f.box(180, 168, 220, 28, "Availability: DoS, ransomware: backups", fill=ROSE, stroke=RED, size=9.5, bold=True)
-```
-
-```svgfig label="6.2" caption="Is the safeguard worth it? A customer database worth Rs 20,00,000 loses 40 percent in a breach, so SLE = 20,00,000 x 0.4 = Rs 8,00,000. With one incident in four years (ARO 0.25) the ALE is Rs 2,00,000. A safeguard costing Rs 70,000 a year cuts ARO to 0.05, so the new ALE is 8,00,000 x 0.05 = Rs 40,000. Risk reduction is 2,00,000 - 40,000 = Rs 1,60,000, and the net benefit after the cost is 1,60,000 - 70,000 = Rs 90,000 a year, so the safeguard is worth buying."
-f = Fig(580, 170)
-f.text(10, 28, "ALE before", size=10.5, color=SLATE, bold=True, anchor="start"); f.box(110, 12, 200000 / 500, 28, "Rs 2,00,000", fill=ROSE, stroke=RED, color=RED, size=10.5, bold=True, r=3)
-f.text(10, 68, "ALE after", size=10.5, color=SLATE, bold=True, anchor="start"); f.box(110, 52, 40000 / 500, 28, "", fill=MINT, stroke=TEAL, r=3); f.text(110 + 40000 / 500 + 6, 66, "Rs 40,000", size=10.5, color=TEAL, bold=True, anchor="start")
-f.text(10, 108, "Safeguard", size=10.5, color=SLATE, bold=True, anchor="start"); f.box(110, 92, 70000 / 500, 28, "", fill=SAND, stroke=AMBER, r=3); f.text(110 + 70000 / 500 + 6, 106, "Rs 70,000 per year", size=10.5, color=AMBER, bold=True, anchor="start")
-f.text(290, 150, "Net benefit = 1,60,000 - 70,000 = Rs 90,000 per year", size=11.5, color=NAVY, bold=True)
-```
-
-```svgfig label="6.3" caption="Password strength as entropy, H = L x log2(N) bits. Eight random lowercase letters give 37.6 bits (about 10 seconds on average at 10 billion guesses a second); eight random printable characters 52.6 bits (3.8 days); twelve random lowercase letters 56.4 bits (55 days); four random words from a 2,048-word list 44.0 bits (15 minutes); six random words 66.0 bits (about 117 years). Each extra bit doubles the work, so six random words are stronger than a complicated eight-character password and easier to remember, but only if the words are chosen at random, not by a person."
-f = Fig(580, 200)
-dt = [("8 random lowercase", 37.6, RED, ROSE), ("4 random words", 44.0, AMBER, SAND), ("8 random printable", 52.6, AMBER, SAND), ("12 random lowercase", 56.4, TEAL, MINT), ("6 random words", 66.0, TEAL, MINT)]
-for i, (n, h, c, fl) in enumerate(dt):
-    y = 8 + i * 37
+data = [("Large server", 410, RED, ROSE), ("Cloud, auto-scaling", 455, TEAL, MINT), ("Small server", 245, NAVY, BLUE), ("Perfect information", 525, AMBER, SAND)]
+for i, (n, v, c, fl) in enumerate(data):
+    y = 10 + i * 38
     f.text(10, y + 17, n, size=10.5, color=SLATE, bold=True, anchor="start")
-    f.box(160, y, h * 6.2, 28, f"{h} bits", fill=fl, stroke=c, color=c, size=11, bold=True, r=3)
+    f.box(150, y, v * 0.7, 28, f"Rs {v}k", fill=fl, stroke=c, color=c, size=11, bold=True, r=3)
+f.text(150, 176, "Best action: Cloud (455).   EVPI = 525 - 455 = 70.", size=11, color=NAVY, bold=True, anchor="start")
+f.text(150, 194, "Large server has the best top payoff (900) but also the worst loss (-300).", size=10, color=SLATE, anchor="start")
 ```
 
-```svgfig label="6.4" caption="Recovery objectives on a timeline. A shop takes a backup every night at 02:00. The server fails at 15:00, so up to 13 hours of transactions since the last backup are lost: the recovery point objective (RPO) actually achieved is 13 hours. If the restore takes 4 hours the service returns at 19:00 and the recovery time objective (RTO) achieved is 4 hours. To lower the RPO, back up more often or replicate continuously; to lower the RTO, keep a standby system ready. Both targets are business decisions set by how much a lost hour costs."
-f = Fig(580, 150)
-f.line(30, 80, 560, 80, color=SLATE)
-for t, x, c, lab in [("02:00", 60, TEAL, "last backup"), ("15:00", 330, RED, "failure"), ("19:00", 480, NAVY, "service restored")]:
-    f.circle(x, 80, 6, fill=c, stroke=c); f.text(x, 100, t, size=10.5, color=c, bold=True); f.text(x, 116, lab, size=10, color=SLATE, bold=True)
-f.arrow([(330, 56), (60, 56)], color=RED, label="data lost: RPO 13 h", lpos=(195, 44))
-f.arrow([(330, 36), (480, 36)], color=NAVY, label="downtime: RTO 4 h", lpos=(405, 24)) if False else None
-f.arrow([(330, 60), (480, 60)], color=NAVY, label="downtime: RTO 4 h", lpos=(405, 48))
+```svgfig label="6.3" caption="Decision tree for build now or pilot first, solved by rolling back. Build now: 0.6 x 800 + 0.4 x (-300) = 360. Pilot first: good result (0.5) gives roll-out EMV 0.9 x 800 + 0.1 x (-300) = 690; bad result (0.5) gives 0.3 x 800 + 0.7 x (-300) = 30, still positive, so roll out in both cases. Expected value before the pilot cost is 0.5 x 690 + 0.5 x 30 = 360, minus the Rs 50 thousand cost gives 310. Since 360 is greater than 310, build now; the pilot changes no decision so its information is worth nothing."
+f = Fig(580, 230)
+f.box(8, 98, 36, 36, "", fill=SAND, stroke=AMBER); f.text(26, 116, "D", size=12, color=AMBER, bold=True)
+f.circle(200, 50, 18, fill=MINT, stroke=TEAL, label="360", size=10)
+f.box(190, 160, 36, 36, "", fill=SAND, stroke=AMBER); f.text(208, 178, "310", size=10, color=AMBER, bold=True)
+f.line(44, 110, 200, 50, color=SLATE); f.line(44, 122, 190, 178, color=SLATE)
+f.text(100, 62, "Build now: 360", size=10.5, color=NAVY, bold=True); f.text(100, 168, "Pilot first (cost 50): 310", size=10.5, color=NAVY, bold=True)
+f.text(330, 20, "success 0.6: +800", size=10.5, color=TEAL, bold=True, anchor="start"); f.line(218, 44, 320, 20, color=SLATE)
+f.text(330, 74, "failure 0.4: -300", size=10.5, color=RED, bold=True, anchor="start"); f.line(218, 56, 320, 72, color=SLATE)
+f.text(330, 130, "good pilot 0.5 -> roll out 690", size=10.5, color=TEAL, bold=True, anchor="start"); f.line(226, 172, 320, 128, color=SLATE)
+f.text(330, 190, "bad pilot 0.5 -> roll out 30", size=10.5, color=AMBER, bold=True, anchor="start"); f.line(226, 186, 320, 188, color=SLATE)
+f.text(330, 216, "0.5 x 690 + 0.5 x 30 = 360;  360 - 50 = 310", size=10.5, color=SLATE, bold=True, anchor="start")
 ```
 
-### 6.6.1 Eight good security practices for an e-business
+```svgfig label="6.4" caption="Data flowing into a data warehouse. Operational systems (core banking, billing, web logs) are extracted, transformed (cleaned, converted to one format, deduplicated) and loaded into the warehouse by an ETL process, usually overnight. The warehouse stores subject-oriented, integrated, time-variant, non-volatile history. Users read it through reports, OLAP cubes (slice, dice, drill-down) and dashboards. Keeping analysis off the live systems protects day-to-day transaction speed."
+f = Fig(580, 170)
+f.box(10, 20, 110, 30, "Core banking", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(10, 62, 110, 30, "Billing", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(10, 104, 110, 30, "Web logs", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(170, 50, 90, 60, "ETL\nextract\ntransform\nload", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.box(310, 50, 110, 60, "Data\nwarehouse", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(470, 20, 100, 30, "Reports", fill=ROSE, stroke=RED, size=10, bold=True)
+f.box(470, 62, 100, 30, "OLAP cubes", fill=ROSE, stroke=RED, size=10, bold=True)
+f.box(470, 104, 100, 30, "Dashboards", fill=ROSE, stroke=RED, size=10, bold=True)
+for y in (35, 77, 119):
+    f.arrow([(120, y), (170, 80)], color=SLATE); f.arrow([(420, 80), (470, y)], color=SLATE)
+f.arrow([(260, 80), (310, 80)], color=SLATE)
+f.text(290, 158, "Source systems  ->  ETL (overnight)  ->  Warehouse  ->  Analysis", size=10, color=SLATE, bold=True)
+```
 
-1. **Use multi-factor authentication.** Ask for a password and a second factor such as a one-time code or a security key. A stolen password alone then cannot open the account. Banks and wallets in Nepal send an OTP for this purpose.
-2. **Encrypt data in transit and at rest.** Use HTTPS for every page and encrypt databases and backups. A lost laptop or stolen backup tape then exposes nothing readable. Encryption is cheap compared with the loss from a leak.
-3. **Store passwords as salted slow hashes.** Never keep passwords in plain text; use bcrypt or Argon2 with a unique salt. If the database is stolen the passwords are still hard to recover. This protects users who reuse passwords on other sites.
-4. **Patch and update quickly.** Install security updates for the operating system, the web server and libraries. Most attacks use known weaknesses that have fixes. A shop that delays updates for months is an easy target.
-5. **Give least privilege.** Each person and program gets only the access needed for the work. A cashier cannot change prices and a report tool cannot delete records. This limits damage from mistakes and insiders.
-6. **Back up and test recovery.** Keep copies offline or in a separate location and test that the restore works. Define the RPO and RTO, as in Figure 6.4. A backup never tested is only a hope.
-7. **Train people.** Phishing and weak habits are the most common cause of breaches. Teach staff to check links, report suspicious email and use a password manager. A short drill each year is far cheaper than a breach.
-8. **Monitor, log and plan the response.** Keep logs, watch for unusual activity and have a written incident plan with named contacts. Report serious incidents as the law requires. Fast response reduces the damage and the loss of trust.
+### 4.8.1 Eight uses of business intelligence in Nepali organisations
+
+1. **Sales analysis.** A retail chain studies sales by product, branch and week to see what sells and what does not. Weak items can be dropped and fast items kept in stock. A supermarket in Lalitpur can decide the festival-season order from last year's pattern.
+2. **Customer segmentation.** A bank groups customers by age, balance and use of services. Each group gets suitable products and offers. A youth savings account for students and a remittance account for families of migrant workers are examples.
+3. **Fraud detection.** Unusual patterns, such as many withdrawals in different cities within an hour, are flagged for checking. Rules and models run on the warehouse and the live feed. This protects customers and reduces the loss of the bank.
+4. **Credit risk assessment.** Past repayment history is analysed to predict who will default. Loan officers use the score together with their own judgement. A better score model means fewer bad loans and fairer access to credit.
+5. **Operations planning.** A telecom operator studies call traffic by hour and place to decide where to add capacity. A hydropower company studies demand to plan maintenance. Decisions follow the data and not only experience.
+6. **Education analytics.** A university studies attendance, internal marks and results to find students at risk. Teachers can offer help early. Tribhuvan University style examination data, when well kept, shows which subjects have the highest failure.
+7. **Performance dashboards.** Executives see sales, cash, complaints and targets on one screen with colour signals. They need not wait for monthly paper reports. Problems are noticed within days.
+8. **Forecasting and budgeting.** Trends in the warehouse are used to forecast demand, revenue and cost. A budget based on three years of data is more reliable than a guess. Forecast errors are measured and used to improve the next forecast.
 
 ## Chapter summary
 
-- Security aims at confidentiality, integrity and availability; controls are preventive, detective or corrective.
-- ALE = AV × EF × ARO; a safeguard is justified when the ALE it removes exceeds its cost.
-- Entropy L × log₂ N measures password strength; use MFA and salted slow hashes.
-- E-commerce security relies on TLS, a gateway, server-side verification, fraud rules and secure code.
-- RPO and RTO drive backup and recovery design; audit and the Electronic Transactions Act supply oversight and legal frame.
+- Decisions follow intelligence, design, choice and implementation; DSS support each phase.
+- Decision tables expose missing or contradictory rules; 2ⁿ combinations must each match exactly one rule.
+- Under risk use EMV; EVPI bounds the value of information. Under uncertainty use maximin, maximax, Laplace, Hurwicz or minimax regret, chosen to fit the risk attitude.
+- Decision trees are solved by rolling back; information is valuable only if it can change the decision.
+- BI relies on ETL, warehouses, star schemas, OLAP and KPIs; KM converts tacit and explicit knowledge (SECI).
 
 ## Practice
 
-1. Define CIA and give one threat to each.
-2. Differentiate threat, vulnerability and risk.
-3. A server worth Rs 10,00,000 has EF = 0.3 and ARO = 0.5. Compute ALE.
-4. A control costing Rs 40,000 cuts that ALE by 60%. Is it worthwhile?
-5. Compute the entropy of a 10-character random password over 62 symbols (letters and digits).
-6. Why is a salted slow hash used for passwords?
-7. List three steps that a merchant takes to verify a payment callback.
-8. Explain RPO and RTO with an example.
-9. State the 3-2-1 backup rule.
-10. Why separate the duties of creating and approving a payment?
+1. List Simon's four phases and the DSS support for each.
+2. How many rules does a complete decision table with 4 yes/no conditions need before consolidation?
+3. Compute the EMV of the small server in the payoff table.
+4. Compute EVPI from the figures given in section 6.3.
+5. Which alternative does maximin choose and why might a risk-averse owner like it?
+6. What do OLTP and OLAP optimise for?
+7. Explain ETL in three steps.
+8. Give one example for each SECI mode.
+9. Why was the pilot not worth Rs 50 thousand in the tree example?
+10. Name four properties of a good KPI.
 
 ::: note Answers and worked solutions
-**1.** Confidentiality (data theft), integrity (tampered records), availability (denial-of-service).
-**2.** Threat: potential cause of harm. Vulnerability: weakness. Risk: likelihood times impact of a threat exploiting a weakness.
-**3.** SLE = 10,00,000 × 0.3 = 3,00,000; ALE = 3,00,000 × 0.5 = **Rs 1,50,000**.
-**4.** The control saves 0.6 × 1,50,000 = 90,000 per year, net 90,000 − 40,000 = **Rs 50,000**: worthwhile.
-**5.** 10 × log₂ 62 = 10 × 5.954 = **59.5 bits**.
-**6.** Salt defeats pre-computed tables and makes equal passwords hash differently; a slow hash makes each guess expensive for an attacker.
-**7.** Check the transaction ID and status by a server-to-server call; compare amount and currency with the order; ensure each ID is used for one order only.
-**8.** RPO is the tolerated data loss (15 minutes means backups or replication at least every 15 minutes); RTO is the tolerated downtime (4 hours means a restore plan that completes within that time).
-**9.** Three copies, on two media, one offsite.
-**10.** One person acting alone could commit fraud; two people must collude, which is harder to hide.
+**1.** Intelligence (queries, dashboards), design (models, what-if), choice (optimisation, ranking), implementation (tracking, alerts).
+**2.** 2⁴ = 16.
+**3.** 0.3 × 300 + 0.5 × 250 + 0.2 × 150 = 90 + 125 + 30 = 245 (Rs '000).
+**4.** 525 − 455 = 70 (Rs '000).
+**5.** Small server (worst case +150). It guarantees a profit whatever happens.
+**6.** OLTP: fast, many small updates and lookups. OLAP: complex read queries over large historical data.
+**7.** Extract data from sources, transform it (clean, standardise, aggregate), load it into the warehouse.
+**8.** Socialisation: shadowing. Externalisation: writing a procedure from experience. Combination: compiling reports into one manual. Internalisation: learning by practising a manual.
+**9.** Roll-out has a positive EMV even after a bad pilot, so the decision never changes; the information has zero value.
+**10.** Measurable, linked to a goal, has an owner, has a target and a time frame (also timely and understandable).
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). A customer database worth Rs 20,00,000 would lose 40 percent of its value in a breach, expected once in four years. A safeguard costing Rs 70,000 a year reduces the rate to once in twenty years. Is it worth buying?**
+**Q1 (5 marks). Explain EMV and EVPI. For the hosting table (probabilities 0.3, 0.5, 0.2) calculate the EMV of each option, choose the best and find the EVPI.**
 
-*Introduction.* Quantitative risk analysis compares the expected annual loss with and without a safeguard (section 6.2, Figure 6.2).
+*Introduction.* When the probabilities of the states of nature are known, the expected monetary value (EMV) of an alternative is the probability-weighted average of its payoffs (section 6.3, Figure 6.2).
 
-1. **SLE.** Asset value x exposure factor = 20,00,000 x 0.4 = **Rs 8,00,000**.
-2. **ALE before.** ARO = 1/4 = 0.25, so ALE = 8,00,000 x 0.25 = **Rs 2,00,000** a year.
-3. **ALE after.** ARO = 1/20 = 0.05, so ALE = 8,00,000 x 0.05 = **Rs 40,000**.
-4. **Risk reduction.** 2,00,000 - 40,000 = Rs 1,60,000 a year.
-5. **Net benefit.** 1,60,000 - 70,000 = **Rs 90,000** a year.
-6. **Decision.** The benefit is greater than the cost, so the safeguard is worth buying. Other responses are accept, transfer (insurance), avoid or mitigate.
+1. **Large server.** 0.3 x 900 + 0.5 x 400 + 0.2 x (-300) = 270 + 200 - 60 = **410**.
+2. **Cloud, auto-scaling.** 0.3 x 700 + 0.5 x 450 + 0.2 x 100 = 210 + 225 + 20 = **455**.
+3. **Small server.** 0.3 x 300 + 0.5 x 250 + 0.2 x 150 = 90 + 125 + 30 = **245** (all in Rs thousand).
+4. **Best choice.** The cloud option, with the highest EMV of Rs 455 thousand.
+5. **EVPI.** With perfect information we pick the best action in each state: 0.3 x 900 + 0.5 x 450 + 0.2 x 150 = 270 + 225 + 30 = 525. EVPI = 525 - 455 = **Rs 70 thousand**, the maximum we should pay for a forecast.
+6. **Limitation.** EMV ignores risk attitude: the large server has the best top payoff (900) but also the worst loss (-300).
 
-*Conclusion.* The calculation shows the safeguard returns more than it costs, but the inputs are estimates, so ranges should be tested.
+| Option | High 0.3 | Medium 0.5 | Low 0.2 | EMV |
+|---|---|---|---|---|
+| Large server | 900 | 400 | -300 | 410 |
+| Cloud | 700 | 450 | 100 | 455 |
+| Small server | 300 | 250 | 150 | 245 |
 
-**Q2 (5 marks). Define password entropy. Compare 8 random lowercase letters, 8 random printable characters and 6 random words from a list of 2,048 words.**
+*Conclusion.* The cloud option is chosen on EMV, and no forecast is worth more than Rs 70 thousand.
 
-*Introduction.* Entropy measures how unpredictable a randomly chosen password is; each additional bit doubles the number of guesses needed (section 6.3, Figure 6.3).
+**Q2 (5 marks). Draw and solve the decision tree: build now (success 0.6 gives +800, failure 0.4 gives -300) or pilot first (cost 50, good result 0.5 raises success to 0.9, bad result lowers it to 0.3).**
 
-1. **Formula.** H = L x log2(N), where L is the number of symbols and N the size of the alphabet.
-2. **8 lowercase letters.** 8 x log2(26) = 8 x 4.70 = **37.6 bits**, about 2.09 x 10^11 combinations.
-3. **8 printable characters.** 8 x log2(95) = 8 x 6.57 = **52.6 bits**, about 6.63 x 10^15.
-4. **6 random words.** 6 x log2(2048) = 6 x 11 = **66 bits**, about 7.4 x 10^19.
-5. **Time.** At 10^10 guesses a second, on average half the space is searched: about 10 seconds, 3.8 days and 117 years respectively.
-6. **Conclusion for users.** Random words beat short complex passwords and are easier to remember, but human-chosen passwords have far less entropy than these figures, so systems also need MFA and slow hashing.
+*Introduction.* A decision tree shows decisions as squares, chance events as circles and payoffs at the leaves, and is solved by rolling back from the right (section 6.5, Figure 6.3).
 
-*Conclusion.* Length and true randomness matter more than complicated character rules.
+1. **Build now.** 0.6 x 800 + 0.4 x (-300) = 480 - 120 = **360**.
+2. **Pilot, good result (0.5).** Roll out EMV = 0.9 x 800 + 0.1 x (-300) = 720 - 30 = **690**.
+3. **Pilot, bad result (0.5).** Roll out EMV = 0.3 x 800 + 0.7 x (-300) = 240 - 210 = **30**; this is above 0 (stopping), so roll out.
+4. **Expected value of the pilot branch.** 0.5 x 690 + 0.5 x 30 = 360, less the pilot cost 50 = **310**.
+5. **Decision.** 360 is more than 310, so **build now**.
+6. **Reason.** The pilot would not change the decision in either outcome, so its information has no value and its cost is lost.
 
-**Q3 (10 marks). Explain the security threats to information systems and e-commerce and the controls used against them. Describe authentication, encryption, and business continuity measures.**
+*Conclusion.* A pilot is worth paying for only if one of its results would make us change the decision.
 
-*Introduction.* Information systems hold the money, records and reputation of an organisation, so their protection is a management duty and not only a technical task. Security aims to protect confidentiality, integrity and availability (the CIA triad) against threats from outside and inside (sections 6.1 to 6.5, Figures 6.1 to 6.4).
+**Q3 (10 marks). Describe the decision-making process and the types of decisions. Explain how decision support systems, business intelligence and data warehouses support managers.**
 
-1. **Threats.** Malware and ransomware, phishing and social engineering, hacking and denial of service, insider misuse, theft or loss of devices, and natural disasters or power failure.
-2. **Risk analysis.** SLE = asset value x exposure factor, ALE = SLE x ARO; compare the ALE reduction with the cost of the control.
-3. **Authentication.** Something you know, have or are; MFA combines at least two. Passwords must be long and random and stored as salted slow hashes.
-4. **Access control.** Least privilege, role-based access and logs of who did what.
-5. **Encryption.** Symmetric encryption (AES) for bulk data; asymmetric encryption and digital signatures for key exchange and proof of origin; TLS secures web traffic and padlock-protected payment pages.
-6. **Network controls.** Firewalls, intrusion detection, patching and segmented networks.
-7. **Business continuity.** Backups, disaster recovery sites, and defined RPO and RTO; tested plans, as in Figure 6.4.
-8. **Audit and law.** Regular audits and logs, and compliance with the Electronic Transactions Act, 2063 (2008) and bank rules.
+*Introduction.* Managers spend most of their time deciding. Good decisions need good information, a clear method and suitable tools. Information systems support each step and each type of decision, and data warehouses and business intelligence give the base for analysis (sections 4.1, 4.6 and 4.7, Figures 4.1 and 4.4).
 
-| Goal | Threat | Control |
+1. **Simon's phases.** Intelligence (identify the problem and gather data), design (develop alternatives and criteria), choice (select by a method) and implementation with review.
+2. **Structured decisions.** Routine and rule-based, such as reordering at the reorder point; they can be automated by TPS and decision tables.
+3. **Semi-structured decisions.** Part rule, part judgement, such as the price of a new package; DSS with what-if models help.
+4. **Unstructured decisions.** Novel and strategic, such as entering a new market; ESS and expert judgement are needed.
+5. **DSS.** An interactive system with a database, a model base (EMV, forecasting, simulation) and a user interface for what-if questions.
+6. **Data warehouse.** A subject-oriented, integrated, time-variant, non-volatile store of history, loaded from operational systems by ETL (extract, transform, load).
+7. **Business intelligence.** Reports, OLAP (slice, dice, drill-down), dashboards and data mining that turn warehouse data into insight.
+8. **Knowledge management.** Capturing expertise, lessons and documents so that the organisation does not lose what individuals know.
+
+| Decision type | Example | Support |
 |---|---|---|
-| Confidentiality | Phishing, theft | Encryption, MFA |
-| Integrity | Tampering, malware | Hashes, signatures, audit trail |
-| Availability | DoS, ransomware | Backups, redundancy |
+| Structured | Reorder at the reorder point | TPS, decision table |
+| Semi-structured | Price of a new package | DSS, EMV |
+| Unstructured | Enter a new market | ESS, judgement |
 
-*Conclusion.* Security is a layered, risk-based process: identify the threats, estimate the loss, choose controls whose cost is below the risk reduction and test recovery. A technical control without trained people and tested backups is not enough.
+*Conclusion.* A systematic process, matched to the type of decision and supported by DSS, a warehouse and BI tools, makes decisions faster and better grounded in facts.

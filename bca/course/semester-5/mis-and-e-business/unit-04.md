@@ -2,286 +2,285 @@
 subject: MIS and e-Business
 grade: BCA Semester 5
 unit: 4
-title: Decision Support, Business Intelligence and Knowledge Management
-hours: 8
+title: Strategy and Competitive Advantage
+hours: 7
 area: BCA 304 · MIS and e-Business · Unit 4
 ---
 
-Choosing between buying a server, renting cloud capacity or doing nothing is a decision under uncertainty: nobody knows next year's demand. A good manager does not guess; she lists the alternatives, the possible futures and what each alternative earns in each future, assigns probabilities, and computes the expected result. This unit gives the structured tools for that: decision tables (to make rule-based decisions complete and consistent), payoff tables with expected monetary value, regret and other criteria for decisions where probabilities are unknown, decision trees, and the business intelligence and knowledge systems that feed them.
+When eSewa launched in 2009 it did not have the best technology in the world; it had the first useful position: merchants and users joined because other users had joined, and each new merchant made the wallet more valuable to the next customer. That is a *strategic* use of an information system: IT is not just making an existing operation cheaper, it is changing the competitive position of the firm. This unit gives you the standard tools for reasoning about such positions: Porter's five forces, the value chain, generic strategies, and the economics of switching costs and network effects, each with numbers you can recompute.
 
 ::: key What this unit gives you
-- Simon's decision process; DSS architecture.
-- Decision tables with a completeness check; payoff tables, EMV, EVPI and four uncertainty criteria.
-- Decision trees and the value of a pilot study.
-- Data warehouses, OLAP, KPIs and dashboards; knowledge management (SECI).
+- Porter's five forces and a weighted way to score industry pressure; market concentration with the HHI.
+- The value chain and where information systems add value in it.
+- Generic strategies and the IT moves that support them.
+- Switching costs, lock-in and network effects (Metcalfe's law); strategic alignment and business process reengineering.
 :::
 
-## 4.1 The decision-making process
+## 4.1 Strategy and the role of information systems
 
-Herbert Simon's model has four phases: **intelligence** (find and define the problem), **design** (develop alternatives and a model), **choice** (select the best alternative) and **implementation** (carry it out and monitor). A DSS supports each: queries and dashboards for intelligence, models and what-if analysis for design, optimisation and ranking for choice, and tracking for implementation. Decisions can be made **under certainty** (outcomes known), **under risk** (outcomes uncertain but probabilities known), or **under uncertainty** (probabilities unknown). The rest of the unit treats the last two.
+A **strategy** is a plan for achieving a goal in a competitive environment: where to compete (which customers and products) and how to win. Information systems enter at three levels. **Operational excellence**: do the same things better, cheaper and faster. **New products, services and business models**: do new things (internet banking, mobile wallets). **Customer and supplier intimacy**: know customers so well that they stay. At the extreme, IT enables **business model innovation**: a ride-hailing app such as Pathao owns no taxis, a marketplace such as Daraz holds little stock of its own.
 
-## 4.2 Decision tables
+An information system gives **competitive advantage** when it lets the firm do something rivals cannot easily copy. The test is sustainability: a technology that any competitor can buy next month (a website, a POS terminal) is a *requirement to compete*, not an advantage. Advantage comes from the combination of technology with unique data, relationships, processes and brand.
 
-For rule-based decisions with several conditions, a **decision table** lists *conditions* above the line and *actions* below, with one column per **rule**. It is more compact than prose and easy to test for *completeness* (every combination covered) and *consistency* (no combination gets two different actions). A dash (—) means "don't care".
+## 4.2 Porter's five forces
 
-::: example Loan screening rules
-Conditions: existing customer, holds a salary account, requested amount at most 5× monthly salary.
+Michael Porter explained industry profitability by five competitive forces. The stronger the forces, the lower the profit available to any firm.
 
-| Condition / action | R1 | R2 | R3 | R4 | R5 |
-|---|---|---|---|---|---|
-| Existing customer | Y | Y | Y | N | N |
-| Salary account | Y | Y | N | — | — |
-| Amount ≤ 5× salary | Y | N | — | Y | N |
-| **Action** | Approve | Refer to manager | Refer to manager | Refer to manager | Reject |
+1. **Threat of new entrants.** Low barriers (little capital, no licence, no brand needed) invite entry. Barriers include economies of scale, network effects, regulation (a Nepali payment service needs a **Nepal Rastra Bank licence**), capital and access to distribution.
+2. **Bargaining power of suppliers.** Few suppliers, unique inputs and high switching costs make suppliers strong (a single cloud vendor or telecom operator).
+3. **Bargaining power of buyers.** Concentrated, price-sensitive, well-informed buyers with many alternatives are strong. The internet raises buyer power by making prices easy to compare.
+4. **Threat of substitutes.** A different product meeting the same need: remittance through a wallet instead of a money-transfer shop; video calls instead of travel.
+5. **Rivalry among existing competitors.** Many equal rivals, slow industry growth, high fixed costs and undifferentiated products produce price wars.
 
-Three conditions give 2³ = **8** combinations. Expanding the don't-cares gives the full table below; every combination matches exactly one rule, so the table is complete and consistent.
+Information technology affects all five. The Internet *lowers* entry barriers for pure-online businesses but *raises* the stakes through scale and data. It increases buyer power (price comparison), may reduce supplier power (many e-marketplaces) and expands the range of substitutes.
 
-| Customer | Salary a/c | ≤ 5× salary | Matching rule | Action |
-|---|---|---|---|---|
-| Y | Y | Y | R1 | Approve |
-| Y | Y | N | R2 | Refer to manager |
-| Y | N | Y | R3 | Refer to manager |
-| Y | N | N | R3 | Refer to manager |
-| N | Y | Y | R4 | Refer to manager |
-| N | Y | N | R5 | Reject |
-| N | N | Y | R4 | Refer to manager |
-| N | N | N | R5 | Reject |
-:::
+### Scoring the forces
 
-If a combination matched no rule the table would be *incomplete*, and if it matched rules with different actions it would be *contradictory*. Tools enumerate the 2ⁿ combinations to check this automatically, as was done for the table above. A table with n conditions can be reduced by merging rules that differ in only one condition and share an action (**consolidation**).
+A manager can turn the qualitative discussion into a rough *intensity score*: rate each force 1 (weak) to 5 (strong), weight the forces by their importance to this industry (weights add to 1) and take the weighted sum. The scoring below is for a hypothetical online grocery start-up.
 
-## 4.3 Decisions under risk: payoff tables and EMV
+| Force | Weight | Intensity (1 low – 5 high) | Weight × intensity |
+|---|---|---|---|
+| Threat of new entrants | 0.2 | 4 | 0.80 |
+| Bargaining power of suppliers | 0.15 | 2 | 0.30 |
+| Bargaining power of buyers | 0.25 | 5 | 1.25 |
+| Threat of substitutes | 0.25 | 4 | 1.00 |
+| Rivalry among competitors | 0.15 | 4 | 0.60 |
+| **Total** | 1.00 |  | **3.95** |
 
-A **payoff table** shows the profit (or cost) of each alternative in each **state of nature**. With probabilities, the **expected monetary value (EMV)** of an alternative is the probability-weighted average: EMV = Σ pⱼ × payoffⱼ.
+The industry pressure score is **3.95** out of 5: high. The dominant contributors are buyer power and substitutes, so the strategy should aim at the loyalty and switching costs that reduce buyer power (a subscription, a delivery-time guarantee) and at differentiation against substitutes (a local market, a kirana store). The scores are judgements, so the useful output is the *conversation* and the sensitivity (how much would the total change if buyer power were 3 instead of 5?), not the decimal.
 
-::: example Choosing hosting for an online venture
-States: high demand (p = 0.3), medium (0.5), low (0.2). Payoffs in Rs '000 over the first year:
+### Market concentration: the HHI
 
-| Alternative (Rs '000 profit) | High demand | Medium | Low | EMV |
-|---|---|---|---|---|
-| Large on-premise server | 900 | 400 | -300 | 410 |
-| Cloud, auto-scaling | 700 | 450 | 100 | 455 |
-| Small server | 300 | 250 | 150 | 245 |
+**Rivalry** depends on how many firms share the market. The **Herfindahl–Hirschman Index (HHI)** is the sum of squared market shares (in percent): 10,000 for a monopoly, near zero for perfect competition. Regulators treat roughly below 1,500 as unconcentrated and above 2,500 as highly concentrated (the thresholds differ by authority). Here is an invented four-wallet market:
 
-The best EMV is **Cloud, auto-scaling** at Rs 455 thousand. Note the *large on-premise server* has the highest possible payoff (900) but also the worst loss (−300): EMV ignores your attitude to risk.
-:::
-
-**Expected value of perfect information (EVPI).** Suppose a forecaster could tell you the state in advance. You would pick the best action in each state: expected profit with perfect information = 0.3 × 900 + 0.5 × 450 + 0.2 × 150 = Rs **525** thousand. EVPI = 525 − 455 = Rs **70** thousand. No market study that costs more than this can be worth buying; it is the ceiling on the value of any information.
-
-## 4.4 Decisions under uncertainty (probabilities unknown)
-
-When probabilities cannot be estimated, several criteria express different attitudes. Using the same payoffs:
-
-- **Maximin (pessimist):** choose the alternative with the best worst-case. Worst cases are −300, 100 and 150, so the choice is **Small server** (guaranteeing 150).
-- **Maximax (optimist):** choose the best best-case: the large server (900).
-- **Laplace (equal likelihood):** average the payoffs, assuming all states equally likely; best is **Cloud, auto-scaling** with 416.7.
-- **Hurwicz (coefficient of optimism α = 0.6):** α × best + (1 − α) × worst: Large on-premise server = 420, Cloud, auto-scaling = 460, Small server = 240; best is **Cloud, auto-scaling**.
-- **Minimax regret (Savage):** regret = best payoff in that state minus this alternative's payoff; choose the smallest maximum regret.
-
-| Alternative (regret, Rs '000) | High demand | Medium | Low | Maximum regret |
-|---|---|---|---|---|
-| Large on-premise server | 0 | 50 | 450 | 450 |
-| Cloud, auto-scaling | 200 | 0 | 50 | 200 |
-| Small server | 600 | 200 | 0 | 600 |
-
-Minimax regret selects **Cloud, auto-scaling** (maximum regret 200). Different criteria can pick different alternatives; the manager must choose the criterion that matches the organisation's attitude to risk before seeing the numbers.
-
-## 4.5 Decision trees and the value of a pilot
-
-A **decision tree** draws decisions as squares, chance events as circles and payoffs at the leaves. It is solved by **rolling back**: at chance nodes take the expected value, at decision nodes take the best branch.
-
-::: example Build now or pilot first?
-A full roll-out costs nothing extra to decide but pays Rs 800 thousand if successful (probability 0.6) and loses Rs 300 thousand if not. *Build now* has EMV = 0.6 × 800 + 0.4 × (−300) = **360**.
-
-Alternatively, a pilot costing Rs 50 thousand gives a "good" result with probability 0.5 and a "bad" one with 0.5. After a good pilot the probability of success rises to 0.9, after a bad one it falls to 0.3 (consistent with 0.5 × 0.9 + 0.5 × 0.3 = 0.6). Rolling back:
-
-- After "good": EMV(roll out) = 0.9 × 800 + 0.1 × (−300) = **690**; roll out.
-- After "bad": EMV(roll out) = 0.3 × 800 + 0.7 × (−300) = **30**, which is still above 0, so roll out anyway (30).
-- Expected before the pilot cost: 0.5 × 690 + 0.5 × 30 = 360; minus the 50 cost gives **310**.
-
-The better choice is **build now**, by -50. The pilot changes no decision (we would roll out in both cases), so its information has zero value and its cost is wasted. A pilot is worth buying only if some outcome would make you *not* proceed.
-:::
-
-## 4.6 Business intelligence and data warehousing
-
-**Business intelligence (BI)** is the set of technologies for turning data into insight. Operational databases are optimised for fast *transactions* (OLTP) and are poor for analysis, so a **data warehouse** copies, cleans and integrates data from many sources into a subject-oriented, time-variant, non-volatile store optimised for queries. The pipeline is **ETL**: *extract* from source systems, *transform* (clean, convert codes, aggregate), *load* into the warehouse. Data are often arranged as a **star schema**: a central **fact table** (sales amounts) linked to **dimension tables** (date, product, branch, customer). **OLAP** (online analytical processing) lets users slice, dice, drill down and roll up through these dimensions: total sales by province, then by district, then by branch; the same by quarter instead of year. **Data mining** finds patterns automatically (market-basket analysis: customers who buy noodles buy cooking oil; classification; clustering; anomaly detection). A **data mart** is a department-sized warehouse.
-
-**KPIs and dashboards.** A good KPI is measurable, tied to a goal, and has an owner and a target: *non-performing loan ratio*, *order fulfilment time*, *customer churn*, *system uptime*. A dashboard shows few KPIs, with comparison against target and colour-coded status. Avoid vanity metrics (page views without conversions).
-
-## 4.7 Knowledge management
-
-**Knowledge management (KM)** is the set of practices for creating, capturing, sharing and using knowledge. Nonaka and Takeuchi's **SECI model** describes four conversions between tacit and explicit knowledge:
-
-| Mode | Conversion | Example |
+| Firm | Share s (%) | s² |
 |---|---|---|
-| **S**ocialisation | Tacit → tacit | Apprenticeship; a new engineer shadowing a senior |
-| **E**xternalisation | Tacit → explicit | Writing a post-incident review |
-| **C**ombination | Explicit → explicit | Merging reports into a policy handbook |
-| **I**nternalisation | Explicit → tacit | Learning by working through the handbook |
+| Wallet A | 45 | 2025 |
+| Wallet B | 30 | 900 |
+| Wallet C | 15 | 225 |
+| Wallet D | 10 | 100 |
+| **HHI** | 100 | **3250** |
 
-Technology supports KM through document repositories, wikis, expert directories, communities of practice and search; but culture (willingness to share, recognition for contributors) decides whether it works. **Geographic information systems (GIS)** and **expert systems** are special DSS: a GIS analyses location data (flood risk by ward), while an expert system encodes expert rules for tasks such as diagnosis. Artificial intelligence now adds recommendation, forecasting and natural-language assistants to BI.
+HHI = **3250**, highly concentrated. If Wallet C (15%) and Wallet D (10%) merged, the new firm would have 25% and the HHI would become **3550**. The change is **300**, which equals 2 × 15 × 10: a merger always raises the HHI by twice the product of the merging shares, a quick screen for competition regulators.
 
-## 4.8 Seeing decisions: steps, payoffs, trees and warehouses
+## 4.3 The value chain
 
-Decision methods are numerical, so each comes with a picture. The plate shows the physical memory of business intelligence, from an old backup tape to a server hall, and the figures show the decision process, the payoff comparison of Section 4.3, the roll-back of the decision tree in Section 4.5 and the path of data into a data warehouse.
+Porter's **value chain** splits a firm into the activities that create value and the margin that remains. **Primary activities** directly create and deliver the product:
 
-```photogrid label="4.1" cols="2" ratio="1.2" caption="(a) A Travan TR-3 tape cartridge from the 1990s, which held about 1 GB of backup data; history that firms kept on tapes was the raw material of early data warehouses. (b) A modern server hall, where the warehouse of a large bank or telecom company is stored and queried in seconds. The decision to keep and analyse history is a business decision first and a technology decision second."
-@ photo id="bca304/tape" cap="Backup tape cartridge"
-fit 1.2
-focus 0.5 0.55
-@ photo id="bca401/serverroom" cap="Server hall"
-fit 1.2
+- **Inbound logistics**: receiving, storing, inventory control.
+- **Operations**: converting inputs into the product or service.
+- **Outbound logistics**: order fulfilment and delivery.
+- **Marketing and sales**: promotion, channels, pricing.
+- **Service**: installation, support, warranty.
+
+**Support activities** make the primary ones possible: **firm infrastructure** (finance, legal, planning), **human resource management**, **technology development** and **procurement**. The **margin** is the difference between the value customers pay and the total cost of all the activities. Information systems are a *thread* through every box: warehouse management in inbound logistics, ERP production planning in operations, route optimisation in outbound, CRM in marketing and service, and the integrated ERP in the infrastructure.
+
+| Activity | Typical information system | Value created |
+|---|---|---|
+| Inbound logistics | Inventory control, supplier portal | Lower stock, fewer stock-outs |
+| Operations | Production planning, quality systems | Lower cost, fewer defects |
+| Outbound logistics | Order management, delivery tracking | Faster, more reliable delivery |
+| Marketing and sales | CRM, e-commerce site, analytics | Better targeting, higher conversion |
+| Service | Help desk, ticketing, knowledge base | Retention, fewer repeat visits |
+| Firm infrastructure | ERP, accounting, compliance reporting | Control, lower overhead |
+| Human resources | HRIS, e-learning | Productivity, lower turnover |
+| Technology | R&D tools, version control | Faster innovation |
+| Procurement | e-procurement, vendor management | Lower purchase price |
+
+The **value system** (or *value network*) extends the view: your value chain sits between suppliers' chains and customers', and the largest gains often come at the *interfaces*: a shared inventory system with a supplier, or a customer-facing order status page.
+
+## 4.4 Generic strategies and supporting IT
+
+Porter identified three generic ways to outperform rivals:
+
+| Strategy | Idea | Information systems support | Risk |
+|---|---|---|---|
+| **Cost leadership** | Be the lowest-cost producer in the industry | Automation, ERP, e-procurement, process control | A rival with lower costs or a technological shift |
+| **Differentiation** | Offer something customers value and will pay extra for | Personalisation, mobile app, quality data, innovation | Imitation; uniqueness not valued |
+| **Focus** | Serve a narrow segment (by region, customer type) better than broad rivals | Segment analytics, niche e-commerce | Segment shrinks or is entered by large firms |
+
+Other IT-based strategic moves:
+
+- **Lock-in** through **switching costs**: once a firm's data, staff skills and integrations are built around a system, changing is expensive, so customers stay.
+- **Alliances and partnerships**: shared platforms among banks (interbank switches, Unit 7), loyalty programmes.
+- **Innovation first-mover**: the first mobile wallet or the first online ticketing service gains users before rivals.
+- **Mass customisation**: producing individualised products at near-mass-production cost through configurable online orders.
+
+## 4.5 Network effects and Metcalfe's law
+
+Some products become more valuable as more people use them: a telephone, a payment network, a marketplace. **Metcalfe's law** is a model, not a law of nature: the *number of possible connections* among n users is n(n − 1)/2 and the network's value is approximated as proportional to it. With 1,000 users there are **4,99,500** possible pairs; with 2,000 users, **19,99,000**, about four times as many for twice the users. The practical lessons: the *early* growth phase is hard (the value to the first users is almost zero, so firms subsidise it with cashback), and once a network is ahead the *winner takes most*. The law overstates value, because most possible connections are never used; later models suggest value proportional to n log n.
+
+::: caution Not every advantage is permanent
+A strategic IS can become a **strategic necessity**: ATMs and internet banking once distinguished a bank, and now a bank without them cannot compete. Before investing, ask: *can a rival copy it within a year? Does it rest on our data, relationships or scale? What happens if we do not invest?*
+:::
+
+## 4.6 Aligning IS strategy with business strategy
+
+An **IS strategy** states which systems the organisation will build or buy and why. It must be **aligned** with business strategy: a bank that competes on branch convenience needs ATM and branch-network systems, while one that competes on low-cost digital service needs mobile and API platforms. A common planning technique is the **critical success factors (CSF)** method: ask executives for the few things that *must* go right (for a wallet: user growth, fraud rate, merchant coverage, settlement uptime), then derive the information needed to monitor them. Other tools: the **balanced scorecard** (financial, customer, internal process, learning and growth perspectives), and **IT governance** (who decides, who funds, how benefits are measured).
+
+## 4.7 Business process reengineering and change
+
+**Business process reengineering (BPR)** (Hammer and Champy) is the fundamental rethinking and radical redesign of business processes to achieve dramatic improvements in cost, quality, speed and service. Instead of automating the existing steps (*paving the cow path*), BPR asks why each step exists. Example: a district land-registration office whose process had nine hand-offs and four signatures is redesigned so that a single case officer handles the file with a shared system, cutting the cycle from 15 days to 3. **Continuous improvement** (Kaizen, Six Sigma) gives smaller, steady gains. BPR often fails because of resistance, unclear ownership and loss of the knowledge embedded in the old process, so it needs sponsorship, communication and training.
+
+## 4.8 Seeing strategy: forces, concentration, chains and networks
+
+Strategy is full of numbers: weights, shares and counts. The figures below turn them into pictures. The plate shows the author of the five-forces and value-chain models, and a container port that is the physical end of a value chain.
+
+```photogrid label="4.1" cols="2" ratio="1.25" caption="(a) Michael Porter of Harvard Business School, who published the five-forces framework in 1979 and the value chain in 1985. (b) Container cranes unloading a ship: for a trading firm the value chain is physical, and every day of delay in inbound logistics becomes cost and stock-out risk. A Nepali importer in Kathmandu depends on ports such as Kolkata, whose delays are outside its control; this is why supplier power and logistics appear in the analysis."
+@ photo id="bca304/porter" cap="Michael Porter"
+fit 1.25
+focus 0.5 0.62
+@ photo id="bca304/ship" cap="Container port, inbound logistics"
+fit 1.25
 focus 0.5 0.5
 ```
 
-```svgfig label="4.1" caption="Simon's four-phase model of decision making. Intelligence: notice a problem or opportunity and collect data. Design: invent and list the alternatives and the criteria. Choice: compare the alternatives (EMV, scoring, decision table) and select one. Implementation and review: carry out the decision and check the result; a poor result sends you back to an earlier phase. Information systems help in every phase: MIS in intelligence, DSS models in design and choice, workflow in implementation."
-f = Fig(580, 140)
-ph = [("1 Intelligence", "find the problem,\ncollect data", MINT, TEAL), ("2 Design", "list alternatives\nand criteria", BLUE, NAVY), ("3 Choice", "compare, select\nthe best", SAND, AMBER), ("4 Implement", "act and\nreview results", ROSE, RED)]
-for i, (t, d, fl, c) in enumerate(ph):
-    x = 8 + i * 144
-    f.box(x, 14, 130, 30, t, fill=fl, stroke=c, size=11, bold=True)
-    f.box(x, 52, 130, 44, d, fill="#ffffff", stroke=c, size=10, bold=True)
-    if i < 3: f.arrow([(x + 130, 29), (x + 144, 29)], color=SLATE)
-f.arrow([(520, 96), (520, 120), (70, 120), (70, 96)], color=SLATE, dash=True, label="feedback if the result is poor", lpos=(300, 113))
+```svgfig label="4.1" caption="Porter's five forces for a mobile-wallet business, scored as in section 4.2. The weighted score of each force is weight x intensity: entrants 0.20 x 4 = 0.80, suppliers 0.15 x 2 = 0.30, buyers 0.25 x 5 = 1.25, substitutes 0.25 x 4 = 1.00, rivalry 0.15 x 4 = 0.60. The total is 3.95 out of 5, a hostile industry. Buyers carry the greatest weighted pressure because switching a wallet costs the user nothing."
+f = Fig(580, 232)
+f.box(220, 92, 140, 48, "Rivalry\n0.15 x 4 = 0.60", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.box(220, 8, 140, 48, "New entrants\n0.20 x 4 = 0.80", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(220, 176, 140, 48, "Substitutes\n0.25 x 4 = 1.00", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(10, 92, 140, 48, "Suppliers\n0.15 x 2 = 0.30", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(430, 92, 140, 48, "Buyers\n0.25 x 5 = 1.25", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(290, 56), (290, 92)], color=SLATE); f.arrow([(290, 176), (290, 140)], color=SLATE)
+f.arrow([(150, 116), (220, 116)], color=SLATE); f.arrow([(430, 116), (360, 116)], color=SLATE)
+f.text(10, 40, "Total weighted score", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(10, 58, "0.80 + 0.30 + 1.25 + 1.00 + 0.60", size=10.5, color=SLATE, anchor="start")
+f.text(10, 76, "= 3.95 out of 5", size=12, color=RED, bold=True, anchor="start")
 ```
 
-```svgfig label="4.2" caption="EMV comparison for the hosting decision. With probabilities 0.3 (high), 0.5 (medium) and 0.2 (low demand) the expected values are large server 0.3 x 900 + 0.5 x 400 + 0.2 x (-300) = 410; cloud 0.3 x 700 + 0.5 x 450 + 0.2 x 100 = 455; small server 0.3 x 300 + 0.5 x 250 + 0.2 x 150 = 245 (Rs thousand). The cloud option has the best EMV. With a perfect forecast the expected profit would be 0.3 x 900 + 0.5 x 450 + 0.2 x 150 = 525, so the expected value of perfect information is 525 - 455 = 70 thousand, which is the most any forecast is worth."
-f = Fig(580, 200)
-data = [("Large server", 410, RED, ROSE), ("Cloud, auto-scaling", 455, TEAL, MINT), ("Small server", 245, NAVY, BLUE), ("Perfect information", 525, AMBER, SAND)]
-for i, (n, v, c, fl) in enumerate(data):
-    y = 10 + i * 38
-    f.text(10, y + 17, n, size=10.5, color=SLATE, bold=True, anchor="start")
-    f.box(150, y, v * 0.7, 28, f"Rs {v}k", fill=fl, stroke=c, color=c, size=11, bold=True, r=3)
-f.text(150, 176, "Best action: Cloud (455).   EVPI = 525 - 455 = 70.", size=11, color=NAVY, bold=True, anchor="start")
-f.text(150, 194, "Large server has the best top payoff (900) but also the worst loss (-300).", size=10, color=SLATE, anchor="start")
-```
-
-```svgfig label="4.3" caption="Decision tree for build now or pilot first, solved by rolling back. Build now: 0.6 x 800 + 0.4 x (-300) = 360. Pilot first: good result (0.5) gives roll-out EMV 0.9 x 800 + 0.1 x (-300) = 690; bad result (0.5) gives 0.3 x 800 + 0.7 x (-300) = 30, still positive, so roll out in both cases. Expected value before the pilot cost is 0.5 x 690 + 0.5 x 30 = 360, minus the Rs 50 thousand cost gives 310. Since 360 is greater than 310, build now; the pilot changes no decision so its information is worth nothing."
-f = Fig(580, 230)
-f.box(8, 98, 36, 36, "", fill=SAND, stroke=AMBER); f.text(26, 116, "D", size=12, color=AMBER, bold=True)
-f.circle(200, 50, 18, fill=MINT, stroke=TEAL, label="360", size=10)
-f.box(190, 160, 36, 36, "", fill=SAND, stroke=AMBER); f.text(208, 178, "310", size=10, color=AMBER, bold=True)
-f.line(44, 110, 200, 50, color=SLATE); f.line(44, 122, 190, 178, color=SLATE)
-f.text(100, 62, "Build now: 360", size=10.5, color=NAVY, bold=True); f.text(100, 168, "Pilot first (cost 50): 310", size=10.5, color=NAVY, bold=True)
-f.text(330, 20, "success 0.6: +800", size=10.5, color=TEAL, bold=True, anchor="start"); f.line(218, 44, 320, 20, color=SLATE)
-f.text(330, 74, "failure 0.4: -300", size=10.5, color=RED, bold=True, anchor="start"); f.line(218, 56, 320, 72, color=SLATE)
-f.text(330, 130, "good pilot 0.5 -> roll out 690", size=10.5, color=TEAL, bold=True, anchor="start"); f.line(226, 172, 320, 128, color=SLATE)
-f.text(330, 190, "bad pilot 0.5 -> roll out 30", size=10.5, color=AMBER, bold=True, anchor="start"); f.line(226, 186, 320, 188, color=SLATE)
-f.text(330, 216, "0.5 x 690 + 0.5 x 30 = 360;  360 - 50 = 310", size=10.5, color=SLATE, bold=True, anchor="start")
-```
-
-```svgfig label="4.4" caption="Data flowing into a data warehouse. Operational systems (core banking, billing, web logs) are extracted, transformed (cleaned, converted to one format, deduplicated) and loaded into the warehouse by an ETL process, usually overnight. The warehouse stores subject-oriented, integrated, time-variant, non-volatile history. Users read it through reports, OLAP cubes (slice, dice, drill-down) and dashboards. Keeping analysis off the live systems protects day-to-day transaction speed."
+```svgfig label="4.2" caption="Market concentration measured by the Herfindahl-Hirschman Index (HHI), the sum of squared percentage shares. Four wallets with shares 45, 30, 15 and 10 give 2025 + 900 + 225 + 100 = 3250, a highly concentrated market (above 2500 in the common convention). If C and D merge into a 25 percent firm the index becomes 2025 + 900 + 625 = 3550, a rise of 300 points; regulators usually examine a merger that adds more than 100 points in an already concentrated market."
 f = Fig(580, 170)
-f.box(10, 20, 110, 30, "Core banking", fill=MINT, stroke=TEAL, size=10, bold=True)
-f.box(10, 62, 110, 30, "Billing", fill=MINT, stroke=TEAL, size=10, bold=True)
-f.box(10, 104, 110, 30, "Web logs", fill=MINT, stroke=TEAL, size=10, bold=True)
-f.box(170, 50, 90, 60, "ETL\nextract\ntransform\nload", fill=SAND, stroke=AMBER, size=10, bold=True)
-f.box(310, 50, 110, 60, "Data\nwarehouse", fill=BLUE, stroke=NAVY, size=12, bold=True)
-f.box(470, 20, 100, 30, "Reports", fill=ROSE, stroke=RED, size=10, bold=True)
-f.box(470, 62, 100, 30, "OLAP cubes", fill=ROSE, stroke=RED, size=10, bold=True)
-f.box(470, 104, 100, 30, "Dashboards", fill=ROSE, stroke=RED, size=10, bold=True)
-for y in (35, 77, 119):
-    f.arrow([(120, y), (170, 80)], color=SLATE); f.arrow([(420, 80), (470, y)], color=SLATE)
-f.arrow([(260, 80), (310, 80)], color=SLATE)
-f.text(290, 158, "Source systems  ->  ETL (overnight)  ->  Warehouse  ->  Analysis", size=10, color=SLATE, bold=True)
+def bars(x, shares, title, total, cols):
+    f.text(x + 130, 14, title, size=11, color=NAVY, bold=True)
+    for i, (n, s) in enumerate(shares):
+        y = 28 + i * 28
+        f.text(x, y + 13, n, size=10, color=SLATE, bold=True, anchor="start")
+        f.box(x + 40, y, s * 4, 22, f"{s}%  ({s*s})" if s >= 15 else "", fill=cols[i % len(cols)], stroke=NAVY, size=9.5, bold=True, r=3)
+        if s < 15: f.text(x + 46 + s * 4, y + 12, f"{s}%  ({s*s})", size=9.5, color=NAVY, bold=True, anchor="start")
+    f.text(x + 130, 150, f"HHI = {total}", size=12, color=RED, bold=True)
+bars(10, [("A", 45), ("B", 30), ("C", 15), ("D", 10)], "Before", 3250, [BLUE, MINT, SAND, ROSE])
+bars(300, [("A", 45), ("B", 30), ("C+D", 25)], "After C and D merge", 3550, [BLUE, MINT, SAND])
 ```
 
-### 4.8.1 Eight uses of business intelligence in Nepali organisations
+```svgfig label="4.3" caption="Porter's value chain. Five primary activities (inbound logistics, operations, outbound logistics, marketing and sales, service) sit on four support activities (infrastructure, human resources, technology, procurement). The margin is what is left of the price after the cost of all activities. IT acts in every box: ERP in operations, a CRM in marketing and sales, tracking in logistics, e-recruitment in HR. A firm gains an advantage by doing an activity cheaper or in a way that customers value more."
+f = Fig(580, 214)
+sup = ["Firm infrastructure", "Human resources", "Technology development", "Procurement"]
+for i, s in enumerate(sup):
+    f.box(10, 10 + i * 28, 460, 24, s, fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+pri = [("Inbound\nlogistics", MINT), ("Operations", MINT), ("Outbound\nlogistics", MINT), ("Marketing\nand sales", MINT), ("Service", MINT)]
+for i, (t, fl) in enumerate(pri):
+    f.box(10 + i * 92, 128, 90, 56, t, fill=fl, stroke=TEAL, size=10, bold=True)
+f.poly([(476, 10), (570, 69), (476, 128)], fill=ROSE, stroke=RED, label="Margin", lx=526, ly=69, size=11)
+f.text(10, 204, "Primary activities run left to right; IT supports every box.", size=10, color=SLATE, bold=True, anchor="start")
+```
 
-1. **Sales analysis.** A retail chain studies sales by product, branch and week to see what sells and what does not. Weak items can be dropped and fast items kept in stock. A supermarket in Lalitpur can decide the festival-season order from last year's pattern.
-2. **Customer segmentation.** A bank groups customers by age, balance and use of services. Each group gets suitable products and offers. A youth savings account for students and a remittance account for families of migrant workers are examples.
-3. **Fraud detection.** Unusual patterns, such as many withdrawals in different cities within an hour, are flagged for checking. Rules and models run on the warehouse and the live feed. This protects customers and reduces the loss of the bank.
-4. **Credit risk assessment.** Past repayment history is analysed to predict who will default. Loan officers use the score together with their own judgement. A better score model means fewer bad loans and fairer access to credit.
-5. **Operations planning.** A telecom operator studies call traffic by hour and place to decide where to add capacity. A hydropower company studies demand to plan maintenance. Decisions follow the data and not only experience.
-6. **Education analytics.** A university studies attendance, internal marks and results to find students at risk. Teachers can offer help early. Tribhuvan University style examination data, when well kept, shows which subjects have the highest failure.
-7. **Performance dashboards.** Executives see sales, cash, complaints and targets on one screen with colour signals. They need not wait for monthly paper reports. Problems are noticed within days.
-8. **Forecasting and budgeting.** Trends in the warehouse are used to forecast demand, revenue and cost. A budget based on three years of data is more reliable than a guess. Forecast errors are measured and used to improve the next forecast.
+```svgfig label="4.4" caption="Metcalfe's law. A network of n users has n(n - 1) / 2 possible connections: 10 users give 45, 20 give 190 and 100 give 4,950. Doubling the users from 10 to 20 more than quadruples the links (45 to 190, that is 4.2 times). This is why a wallet or messaging service with more users is worth more to each new user, and why the first wallet to reach most of the market is hard to dislodge."
+f = Fig(580, 200)
+ax = Axes(f, 60, 14, 480, 150, (0, 100), (0, 5000))
+ax.grid(20, 1000).axes("", "")
+ax.curve(lambda n: n * (n - 1) / 2, 0, 100, color=RED, sw=2.6)
+for n in (10, 20, 100):
+    ax.pt(n, n * (n - 1) / 2, f"n={n}: {int(n*(n-1)/2):,}", dx=-14 if n == 100 else 10, dy=-8 if n == 100 else (-14 if n == 10 else 18), anchor="end" if n == 100 else "start")
+f.text(300, 190, "users n", size=10.5, color=SLATE, bold=True)
+f.text(12, 110, "links", size=10, color=SLATE, bold=True, anchor="start")
+```
+
+### 2.8.1 Eight ways information systems create competitive advantage
+
+1. **Lower cost.** Automating routine work removes labour and error from each unit sold. A wallet company that verifies customers online avoids a costly branch. Lower cost lets a firm lower prices or earn more on the same price.
+2. **Differentiation.** A unique feature makes customers prefer one product, for example a service with bill payment, ticketing and remittance in one app. Differentiation lets a firm charge more or win more users at the same price. The feature must be hard for others to copy quickly.
+3. **Focus on a niche.** Systems make it economical to serve a small group well. A Nepali agricultural app that gives farmers prices and weather in Nepali serves a group big firms ignore. Deep knowledge of the niche creates loyalty.
+4. **Raising switching costs.** When customers store history, contacts and saved cards in a system, leaving is a nuisance. A bank app with years of saved payees keeps its customers. Care is needed: forced lock-in without service quality causes resentment.
+5. **Building network effects.** Each new user adds value to all the others, as Figure 4.4 shows. A ride-hailing or messaging platform that reaches most users becomes the natural choice. The first to reach scale often wins.
+6. **Improving supplier and buyer relations.** Electronic data exchange with suppliers shortens lead times and cuts stock. Sharing sales data with a supplier lets it plan production better. Closer links make rivals' offers less attractive to partners.
+7. **New products and services.** Information turns into a product: online banking, e-ticketing, digital library membership. A theatre that sells seats online reaches buyers who would never visit the counter. New products open new markets.
+8. **Better decisions and speed.** Real-time data helps a firm respond to demand, price and risk faster than a rival. An importer that tracks stock daily reorders before a stock-out. Speed in decisions turns into service quality and lower waste.
 
 ## Chapter summary
 
-- Decisions follow intelligence, design, choice and implementation; DSS support each phase.
-- Decision tables expose missing or contradictory rules; 2ⁿ combinations must each match exactly one rule.
-- Under risk use EMV; EVPI bounds the value of information. Under uncertainty use maximin, maximax, Laplace, Hurwicz or minimax regret, chosen to fit the risk attitude.
-- Decision trees are solved by rolling back; information is valuable only if it can change the decision.
-- BI relies on ETL, warehouses, star schemas, OLAP and KPIs; KM converts tacit and explicit knowledge (SECI).
+- Strategic information systems change the firm's competitive position; sustainability requires data, relationships, scale or processes that rivals cannot easily copy.
+- Porter's five forces (entrants, suppliers, buyers, substitutes, rivalry) can be scored; HHI measures concentration, and a merger raises it by twice the product of the shares.
+- The value chain locates IS value in primary and support activities and in the interfaces with suppliers and customers.
+- Generic strategies are cost leadership, differentiation and focus; switching costs, lock-in and network effects reinforce them.
+- Alignment, CSFs and BPR connect IS investment to business goals.
 
 ## Practice
 
-1. List Simon's four phases and the DSS support for each.
-2. How many rules does a complete decision table with 4 yes/no conditions need before consolidation?
-3. Compute the EMV of the small server in the payoff table.
-4. Compute EVPI from the figures given in section 4.3.
-5. Which alternative does maximin choose and why might a risk-averse owner like it?
-6. What do OLTP and OLAP optimise for?
-7. Explain ETL in three steps.
-8. Give one example for each SECI mode.
-9. Why was the pilot not worth Rs 50 thousand in the tree example?
-10. Name four properties of a good KPI.
+1. List Porter's five forces and say how the Internet changes buyer power.
+2. For the weights and intensities in the scoring table, what would the pressure score be if buyer power were 3 instead of 5?
+3. Compute the HHI for shares 40, 30, 20 and 10.
+4. Two firms with 20% and 30% shares merge. By how much does the HHI rise?
+5. Name the five primary and four support activities of the value chain.
+6. Give one IS for each of cost leadership, differentiation and focus.
+7. Using Metcalfe's law, by what factor does the number of possible connections grow when users go from 500 to 1,000?
+8. What is a switching cost? Give an example from banking.
+9. Why is a website not a competitive advantage by itself?
+10. State three reasons BPR projects fail.
 
 ::: note Answers and worked solutions
-**1.** Intelligence (queries, dashboards), design (models, what-if), choice (optimisation, ranking), implementation (tracking, alerts).
-**2.** 2⁴ = 16.
-**3.** 0.3 × 300 + 0.5 × 250 + 0.2 × 150 = 90 + 125 + 30 = 245 (Rs '000).
-**4.** 525 − 455 = 70 (Rs '000).
-**5.** Small server (worst case +150). It guarantees a profit whatever happens.
-**6.** OLTP: fast, many small updates and lookups. OLAP: complex read queries over large historical data.
-**7.** Extract data from sources, transform it (clean, standardise, aggregate), load it into the warehouse.
-**8.** Socialisation: shadowing. Externalisation: writing a procedure from experience. Combination: compiling reports into one manual. Internalisation: learning by practising a manual.
-**9.** Roll-out has a positive EMV even after a bad pilot, so the decision never changes; the information has zero value.
-**10.** Measurable, linked to a goal, has an owner, has a target and a time frame (also timely and understandable).
+**1.** Entrants, suppliers, buyers, substitutes, rivalry. The Internet makes prices and alternatives visible, so buyer power rises.
+**2.** The buyer-power term changes from 0.25 × 5 = 1.25 to 0.25 × 3 = 0.75, so the total falls by 0.50 from 3.95 to 3.45.
+**3.** 1,600 + 900 + 400 + 100 = 3,000.
+**4.** 2 × 20 × 30 = 1,200.
+**5.** Primary: inbound logistics, operations, outbound logistics, marketing and sales, service. Support: firm infrastructure, human resources, technology development, procurement.
+**6.** Cost leadership: ERP and e-procurement. Differentiation: a personalised mobile app. Focus: an e-commerce site for one niche or region.
+**7.** n(n − 1)/2 gives 124,750 for 500 users and 499,500 for 1,000 users: a factor of about 4.
+**8.** The cost (money, time, risk, retraining) of moving to a competitor; for example re-registering salary accounts, standing orders and digital banking credentials at another bank.
+**9.** Rivals can build one next month; advantage needs something hard to copy such as data, brand or process.
+**10.** Resistance to change, no executive sponsor, loss of tacit knowledge, unrealistic targets, inadequate training.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Explain EMV and EVPI. For the hosting table (probabilities 0.3, 0.5, 0.2) calculate the EMV of each option, choose the best and find the EVPI.**
+**Q1 (5 marks). Explain Porter's five forces. For a mobile-wallet business the weights and intensities are entrants 0.20 x 4, suppliers 0.15 x 2, buyers 0.25 x 5, substitutes 0.25 x 4, rivalry 0.15 x 4. Find the total score and interpret it.**
 
-*Introduction.* When the probabilities of the states of nature are known, the expected monetary value (EMV) of an alternative is the probability-weighted average of its payoffs (section 4.3, Figure 4.2).
+*Introduction.* Porter's five forces framework analyses the attractiveness of an industry by looking at five sources of competitive pressure (section 4.2, Figure 4.1).
 
-1. **Large server.** 0.3 x 900 + 0.5 x 400 + 0.2 x (-300) = 270 + 200 - 60 = **410**.
-2. **Cloud, auto-scaling.** 0.3 x 700 + 0.5 x 450 + 0.2 x 100 = 210 + 225 + 20 = **455**.
-3. **Small server.** 0.3 x 300 + 0.5 x 250 + 0.2 x 150 = 90 + 125 + 30 = **245** (all in Rs thousand).
-4. **Best choice.** The cloud option, with the highest EMV of Rs 455 thousand.
-5. **EVPI.** With perfect information we pick the best action in each state: 0.3 x 900 + 0.5 x 450 + 0.2 x 150 = 270 + 225 + 30 = 525. EVPI = 525 - 455 = **Rs 70 thousand**, the maximum we should pay for a forecast.
-6. **Limitation.** EMV ignores risk attitude: the large server has the best top payoff (900) but also the worst loss (-300).
+1. **Threat of new entrants.** Low entry barriers (little capital, easy licences) let new firms in and push profits down.
+2. **Bargaining power of suppliers.** Suppliers with few alternatives can raise prices; for a wallet, banks and telecom networks are important suppliers.
+3. **Bargaining power of buyers.** Customers who can switch at no cost force prices down and demand more service.
+4. **Threat of substitutes.** Another way of meeting the same need, such as bank apps, cash or cards, limits the price.
+5. **Rivalry among competitors.** Many similar firms competing on price and promotion reduce profit.
+6. **Calculation.** 0.80 + 0.30 + 1.25 + 1.00 + 0.60 = **3.95 out of 5**.
+7. **Interpretation.** A score above 3.5 shows a hostile industry with weak profits; buyers (1.25) and substitutes (1.00) are the biggest worry, so the firm should raise switching costs and differentiate.
 
-| Option | High 0.3 | Medium 0.5 | Low 0.2 | EMV |
-|---|---|---|---|---|
-| Large server | 900 | 400 | -300 | 410 |
-| Cloud | 700 | 450 | 100 | 455 |
-| Small server | 300 | 250 | 150 | 245 |
+*Conclusion.* The five forces turn a vague idea of competition into a scored analysis that points to the strategy to follow.
 
-*Conclusion.* The cloud option is chosen on EMV, and no forecast is worth more than Rs 70 thousand.
+**Q2 (5 marks). Four firms in a market have shares 45, 30, 15 and 10 percent. Calculate the HHI, state what it shows, and find the change if the two smallest firms merge.**
 
-**Q2 (5 marks). Draw and solve the decision tree: build now (success 0.6 gives +800, failure 0.4 gives -300) or pilot first (cost 50, good result 0.5 raises success to 0.9, bad result lowers it to 0.3).**
+*Introduction.* The Herfindahl-Hirschman Index measures market concentration as the sum of the squares of the percentage shares (section 4.2, Figure 4.2).
 
-*Introduction.* A decision tree shows decisions as squares, chance events as circles and payoffs at the leaves, and is solved by rolling back from the right (section 4.5, Figure 4.3).
+1. **Formula.** HHI = s1 squared + s2 squared + and so on, where s is the percentage share, so the value runs from near 0 to 10,000.
+2. **Before the merger.** 45 squared = 2025; 30 squared = 900; 15 squared = 225; 10 squared = 100. HHI = 2025 + 900 + 225 + 100 = **3250**.
+3. **Meaning.** Above 2500 the market is highly concentrated: a few firms dominate and customers have little choice.
+4. **After the merger.** The two firms form one with 25 percent, so HHI = 2025 + 900 + 625 = **3550**.
+5. **Change.** 3550 - 3250 = **300** points; a change above 100 points in a concentrated market normally attracts regulator attention.
 
-1. **Build now.** 0.6 x 800 + 0.4 x (-300) = 480 - 120 = **360**.
-2. **Pilot, good result (0.5).** Roll out EMV = 0.9 x 800 + 0.1 x (-300) = 720 - 30 = **690**.
-3. **Pilot, bad result (0.5).** Roll out EMV = 0.3 x 800 + 0.7 x (-300) = 240 - 210 = **30**; this is above 0 (stopping), so roll out.
-4. **Expected value of the pilot branch.** 0.5 x 690 + 0.5 x 30 = 360, less the pilot cost 50 = **310**.
-5. **Decision.** 360 is more than 310, so **build now**.
-6. **Reason.** The pilot would not change the decision in either outcome, so its information has no value and its cost is lost.
-
-*Conclusion.* A pilot is worth paying for only if one of its results would make us change the decision.
-
-**Q3 (10 marks). Describe the decision-making process and the types of decisions. Explain how decision support systems, business intelligence and data warehouses support managers.**
-
-*Introduction.* Managers spend most of their time deciding. Good decisions need good information, a clear method and suitable tools. Information systems support each step and each type of decision, and data warehouses and business intelligence give the base for analysis (sections 4.1, 4.6 and 4.7, Figures 4.1 and 4.4).
-
-1. **Simon's phases.** Intelligence (identify the problem and gather data), design (develop alternatives and criteria), choice (select by a method) and implementation with review.
-2. **Structured decisions.** Routine and rule-based, such as reordering at the reorder point; they can be automated by TPS and decision tables.
-3. **Semi-structured decisions.** Part rule, part judgement, such as the price of a new package; DSS with what-if models help.
-4. **Unstructured decisions.** Novel and strategic, such as entering a new market; ESS and expert judgement are needed.
-5. **DSS.** An interactive system with a database, a model base (EMV, forecasting, simulation) and a user interface for what-if questions.
-6. **Data warehouse.** A subject-oriented, integrated, time-variant, non-volatile store of history, loaded from operational systems by ETL (extract, transform, load).
-7. **Business intelligence.** Reports, OLAP (slice, dice, drill-down), dashboards and data mining that turn warehouse data into insight.
-8. **Knowledge management.** Capturing expertise, lessons and documents so that the organisation does not lose what individuals know.
-
-| Decision type | Example | Support |
+| Case | Shares | HHI |
 |---|---|---|
-| Structured | Reorder at the reorder point | TPS, decision table |
-| Semi-structured | Price of a new package | DSS, EMV |
-| Unstructured | Enter a new market | ESS, judgement |
+| Before | 45, 30, 15, 10 | 3250 |
+| After | 45, 30, 25 | 3550 |
 
-*Conclusion.* A systematic process, matched to the type of decision and supported by DSS, a warehouse and BI tools, makes decisions faster and better grounded in facts.
+*Conclusion.* The HHI shows that a merger of small firms can raise concentration noticeably, which is why regulators examine such mergers.
+
+**Q3 (10 marks). Explain Porter's value chain and the generic strategies. Show how information systems support each primary and support activity.**
+
+*Introduction.* Michael Porter described a firm as a chain of activities that each add cost and value. The margin is the difference between what customers pay and the cost of the activities. A firm gains a competitive advantage by performing activities at lower cost or in a way that customers value more (sections 2.3 and 2.4, Figures 2.3 and 2.1).
+
+1. **Inbound logistics.** Receiving and storing inputs. IT: inventory and supplier systems, barcode scanning, EDI.
+2. **Operations.** Turning inputs into the product. IT: ERP, production planning, quality tracking.
+3. **Outbound logistics.** Delivering to customers. IT: order tracking, route planning, GPS.
+4. **Marketing and sales.** Making customers aware and taking orders. IT: CRM, e-commerce, social media analytics.
+5. **Service.** After-sales support. IT: help-desk systems, chat, complaint tracking.
+6. **Support activities.** Firm infrastructure (accounting, MIS), human resources (payroll and e-recruitment), technology development (design software, research databases) and procurement (e-tendering, supplier portals).
+7. **Generic strategies.** Cost leadership (lowest cost: automation, scale), differentiation (unique features or service: personalised apps, quality) and focus (a narrow segment served better than anyone else).
+8. **Using the chain.** Draw the chain for the firm, find the activities that are costly or that customers value, and apply IT there; compare the margin with rivals.
+
+| Strategy | Aim | IT example |
+|---|---|---|
+| Cost leadership | Lowest cost | Automated order processing |
+| Differentiation | Unique value | Personalised app, loyalty data |
+| Focus | Serve a niche | Farmer-price app in Nepali |
+
+*Conclusion.* The value chain shows where a firm makes or loses money, and information systems can improve every box. Combined with a clear generic strategy, they turn IT spending into a lasting advantage.
