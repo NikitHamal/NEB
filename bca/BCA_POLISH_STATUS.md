@@ -197,3 +197,36 @@ Gaps found and closed: EPROM and PAL/PLA were one paragraph; no "implementation 
 4. Fix old tiny figure labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21); run `svgkit.lint` over all books.
 5. Electives BCA 405/406, 453/454 are still unwritten slots (pick Machine Learning, E-Commerce, Linux, DBA).
 6. Run `tools/publish/update_books.py --only <slug>` with server credentials for 305, 103, 354, 154.
+
+## Session 25 results (BCA 304 MIS and e-Business brought to the real TU outline; BCA 105 re-verified)
+
+Picked up from sessions 16-24 (this file; no duplicate tracker). Sandbox recipe from session 21 worked unchanged (venv `/tmp/v`, apt, `npm ci` in `notes/pipeline/mathjax`, fonts). Project root in the sandbox was `/home/user/sandbox`.
+
+### BCA 105 Professional Communication and Ethics (student feedback): re-verified, no change needed
+- Heading audit of `unit-01.md` to `unit-06.md` against the textbook TOC photos: every numbered section 1.1.1 to 6.8.2, each unit's Vocabulary and Grammar and both Readings with Exercises are present; 52k words, PDF 151 pp (session 24 `pdfinfo`/`qa_pdf.py`).
+- Web reader checked again in Django (:8765) + headless Chromium: Unit 6 shows the six textbook units in the left rail, the right rail has no "Formula and fact sheet", and Exercise 6.7.2 item 2 "Correct the errors" (the screenshot bug text `it's database`) renders as clean parts (a) to (e), no giant box (`shots/web105_u6.png`, inspected).
+
+### BCA 304 MIS and e-Business: gap audit against the TU outline (CACS, six units; source notebahadur.com)
+The README said no TU outline had been retrieved and the book had no Unit 2 at all. Keyword grep found WAP, I-Way, WiMAX, cPanel, SEO, Heartbleed, ACH, micropayments and crypto missing. Closed:
+
+| Unit | New or extended content |
+|---|---|
+| 2 NEW (3.8k words) | I-Way and components, Internet as e-commerce infrastructure (packet switching, DNS, IXP, intranet/extranet), WAP architecture, stack and working, ADSL/Wi-Fi/WiMAX/UMTS/LTE/5G NR table, 100 MB download-time example, wireless security (evil twin, SIM swap, WAP gap); 3 figures, 11 practice questions, model answers |
+| 5 | 5.6 international information systems, outsourcing vs offshoring (cost example); 5.7 enterprise-system implementation challenges and how to manage them (payback example); 4 more practice items |
+| 7 | 7.6 payment cards (credit, charge, debit, prepaid, smart; four-party model, 3-D Secure, PCI DSS, fee example), 7.7 micropayments, e-checks, ACH, 7.8 mobile wallets/QR/NFC and international payments, 7.9 virtual currency and cryptocurrency (NRB position), 7.10 Nepal case study of emerging trends; 5 new practice items; figure 7.1 (card cycle), old figures renumbered 7.2 to 7.4 |
+| 8 | 8.6 security terminology and the six requirements, 8.7 technical attacks (virus/worm/Trojan, ransomware, Heartbleed, DDoS and botnets, sniffing, page hijacking, malvertising, injection), 8.8 social engineering and fraud; 2 figures (DDoS, attack taxonomy), 6 new practice items; figures renumbered |
+| 10 NEW (4.5k words) | Business plan, cost-benefit and risks, funding, model selection, building process and site hierarchy, domain/DNS/hosting, cPanel walk-through, content and catalogue management, site map, grid, colour, usability, Core Web Vitals, payment implementation, SEO, conversion example; 3 figures, 14 practice questions, 2 model answers |
+
+- README now maps units to the TU outline (units 4, 6, 9 are labelled extensions).
+- PDF `bca/course/semester-5/pdfs/NEBians-BCA-Course-Semester-5-MIS-and-e-Business.pdf`: `pdfinfo` **84 -> 140 pages**, `qa_pdf.py` fails=0 warns=9 (6.2 pt photo credits). Web data re-exported: **10 units, 81 topics**; `gen_status.py` regenerated.
+- Pages inspected as PNG: p23 (Fig 2.1; "regional network" overflowed, fixed with a line break), p25 (WAP figure and stack table), p86 (card cycle figure), p105 (DDoS figure), p107 (attack taxonomy), p129 (site hierarchy), p133 (12-column grid), p136 (conversion funnel). Web reader MIS Unit 10 inspected (`shots/web304_u10.png`): left rail lists all 10 units, right rail lists 10.1 to 10.7, summary, practice, model answers.
+- Figures renumbered so that new figures that sit earlier in the text carry lower numbers (unit 7 and unit 8).
+- Honest gaps: `check_mis.py` was not extended to the new calculations (they were checked by hand: download times, break-even 40 orders, payback 7.5 months, fee Rs 220, DDoS 10 percent pass, outsourcing saving Rs 60,000, funnel 480 orders / 2.4 percent); card interchange rates are labelled illustrative; Nepal payment trends, the NRB crypto stance and cross-border QR links are general knowledge flagged "verify current status"; TU outline hours (7/8/8/10/6/10) are not copied into the unit front matter; the `hours` of units 1 and 3 to 9 still follow the older reconstructed split.
+
+## Prioritised queue for the next session
+1. Same keyword audit against the live TU outline for: BCA 206 Applied Economics, BCA 401 Cyber Security, BCA 451 Cloud, BCA 156 Principles of Management, BCA 151 Discrete Structure, BCA 101/102/104, projects 256/306/356/404 (search the TU outline on notebahadur.com, grep for each topic, add units or sections, rebuild, `qa_pdf.py`).
+2. Extend `bca/tools/check_mis.py` to the new MIS numbers (download time, fee split, DDoS load, funnel).
+3. BCA 153: split collections/generics and file handling into their own units; add RandomAccessFile and a deadlock program.
+4. Old figures with 5-6 pt labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21, Digital Logic); run `svgkit.lint` over all books.
+5. Electives BCA 405/406 and 453/454 are still unwritten slots (Machine Learning, E-Commerce, Linux, DBA are the likely picks); note that the new MIS unit 10 overlaps an E-Commerce elective, so pick another first.
+6. Run `tools/publish/update_books.py --only <slug>` with server credentials for 304, 305, 103, 354, 154.
