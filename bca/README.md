@@ -3,26 +3,26 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**42 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,515,204 raw words of study material, counted over the unit files, including code listings and tables):
+**42 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,546,189 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
 | 1 | BCA 101 | [Computer Fundamentals and Applications](course/semester-1/computer-fundamentals/) | 57,618 | 152 | done |
 | 1 | BCA 102 | [Programming in C](course/semester-1/programming-in-c/) | 33,401 | 103 | done |
 | 1 | BCA 103 | [Digital Logic](course/semester-1/digital-logic/) | 26,783 | 65 | done |
-| 1 | BCA 104 | [Mathematics I](course/semester-1/mathematics-1/) | 27,091 | 82 | done |
-| 1 | BCA 105 | [Professional Communication and Ethics](course/semester-1/professional-communication-ethics/) | 50,231 | 148 | done |
+| 1 | BCA 104 | [Mathematics I](course/semester-1/mathematics-1/) | 30,356 | 82 | done |
+| 1 | BCA 105 | [Professional Communication and Ethics](course/semester-1/professional-communication-ethics/) | 52,328 | 151 | done |
 | 1 | BCA 106 | [Hardware Workshop](course/semester-1/hardware-workshop/) | 37,161 | 109 | done |
 | 2 | BCA 151 | [Discrete Structure](course/semester-2/discrete-structure/) | 28,364 | 75 | done |
 | 2 | BCA 152 | [Microprocessor and Computer Architecture](course/semester-2/microprocessor-computer-architecture/) | 59,057 | 148 | done |
-| 2 | BCA 153 | [OOP in Java](course/semester-2/oop-in-java/) | 21,829 | 79 | done |
-| 2 | BCA 154 | [Mathematics II](course/semester-2/mathematics-2/) | 21,756 | 57 | done |
+| 2 | BCA 153 | [OOP in Java](course/semester-2/oop-in-java/) | 26,154 | 95 | done |
+| 2 | BCA 154 | [Mathematics II](course/semester-2/mathematics-2/) | 25,813 | 57 | done |
 | 2 | BCA 155 | [UX/UI Design](course/semester-2/ux-ui-design/) | 62,924 | 158 | done |
 | 2 | BCA 156 | [Principles of Management](course/semester-2/principles-of-management/) | 30,223 | 93 | done |
 | 3 | BCA 201 | [Data Structure and Algorithms](course/semester-3/data-structure-and-algorithms/) | 55,224 | 146 | done |
 | 3 | BCA 202 | [Database Management System](course/semester-3/dbms/) | 41,830 | 118 | done |
 | 3 | BCA 203 | [Web Technology I](course/semester-3/web-technology-1/) | 30,130 | 92 | done |
-| 3 | BCA 204 | [System Analysis and Design](course/semester-3/system-analysis-and-design/) | 18,130 | 60 | done |
+| 3 | BCA 204 | [System Analysis and Design](course/semester-3/system-analysis-and-design/) | 24,772 | 77 | done |
 | 3 | BCA 205 | [Probability and Statistics](course/semester-3/probability-and-statistics/) | 28,048 | 78 | done |
 | 3 | BCA 206 | [Applied Economics](course/semester-3/applied-economics/) | 28,696 | 75 | done |
 | 4 | BCA 251 | [Operating Systems](course/semester-4/operating-systems/) | 58,932 | 161 | done |
@@ -40,12 +40,12 @@
 | 6 | BCA 351 | [Computer Graphics and Animation](course/semester-6/computer-graphics/) | 39,078 | 94 | done |
 | 6 | BCA 352 | [Mobile Programming](course/semester-6/mobile-programming/) | 34,012 | 98 | done |
 | 6 | BCA 353 | [Cryptography and Network Security](course/semester-6/cryptography-network-security/) | 35,451 | 93 | done |
-| 6 | BCA 354 | [Technical Writing](course/semester-6/technical-writing/) | 23,645 | 71 | done |
+| 6 | BCA 354 | [Technical Writing](course/semester-6/technical-writing/) | 27,915 | 83 | done |
 | 6 | BCA 355 | [Distributed System](course/semester-6/distributed-system/) | 32,615 | 92 | done |
 | 6 | BCA 356 | [Project III](course/semester-6/project-3/) | 20,661 | 59 | done |
 | 7 | BCA 401 | [Cyber Security and Ethical Hacking](course/semester-7/cyber-security-and-ethical-hacking/) | 27,364 | 81 | done |
 | 7 | BCA 402 | [Software Project Management](course/semester-7/software-project-management/) | 25,003 | 84 | done |
-| 7 | BCA 403 | [Financial Accounting](course/semester-7/financial-accounting/) | 24,772 | 76 | done |
+| 7 | BCA 403 | [Financial Accounting](course/semester-7/financial-accounting/) | 31,101 | 94 | done |
 | 7 | BCA 404 | [Project IV](course/semester-7/project-4/) | 26,771 | 76 | done |
 | 8 | BCA 451 | [Cloud Computing](course/semester-8/cloud-computing/) | 24,624 | 74 | done |
 | 8 | BCA 452 | [Internship](course/semester-8/internship/) | 17,628 | 54 | done |

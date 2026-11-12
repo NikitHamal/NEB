@@ -2,7 +2,7 @@
 subject: Financial Accounting
 grade: BCA Semester 7
 unit: 2
-title: "Recording Transactions: Journal, VAT and TDS Entries, Ledger and T-Accounts"
+title: Recording Transactions, Journal, VAT and TDS Entries, Ledger and T-Accounts
 hours: 7
 area: BCA 403 · Financial Accounting · Unit 2
 ---

@@ -356,7 +356,7 @@ row 2 (length 3): [1, 1, 1]
 ```
 A **varargs** parameter (`int... nums`) accepts any number of arguments and inside the method is an ordinary array. Rules: only one varargs parameter, and it must be the **last** one in the list (`void log(String level, String... msgs)`). `System.out.printf` and `String.format` are the varargs methods you use most.
 
-## 7.8 Lambdas, streams, `Optional` and method references: the syllabus checklist
+## 7.8 Lambdas, streams, Optional, method references
 
 Unit 5 explained these in detail; the last item of the syllabus is only to be able to *use* them together. The short reference below is what a practical question expects.
 
