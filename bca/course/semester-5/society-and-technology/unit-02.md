@@ -2,315 +2,235 @@
 subject: Society and Technology
 grade: BCA Semester 5
 unit: 2
-title: Technology Adoption and Diffusion of Innovations
-hours: 7
+title: Organizing Social Life
+hours: 6
 area: BCA 305 · Society and Technology · Unit 2
 ---
 
-Why did mobile wallets spread through Nepali towns in a few years while some excellent software tools never left the lab? Technology does not spread because it is good; it spreads when people *choose* to use it, and they choose through perceptions, peers and circumstances. Two research traditions explain this. The **Technology Acceptance Model (TAM)** looks at the individual's decision. **Diffusion of innovations** looks at the whole population over time and gives the S-shaped adoption curve. Both can be made quantitative, and this unit does so with a small survey (reliability and regression) and with logistic and Bass curves.
+Unit 1 asked what sociology is. This unit looks at how social life is *organised*: how many people there are and where they live, how they share a way of life (culture), what rules guide them (norms and values), what positions they hold (status and role), and which institutions and groups hold everything together (marriage, family, kinship and groups). These are the building blocks that the later units use to describe Nepali society and the effect of technology on it.
 
 ::: key What this unit gives you
-- TAM (perceived usefulness, perceived ease of use) and its extensions; Cronbach's alpha and a regression on survey data.
-- Rogers' adopter categories derived from the normal curve; characteristics of innovations.
-- Logistic S-curve and the Bass model with peak-time calculations.
-- Barriers to adoption, resistance and the role of change agents.
+- Society and community: definitions, characteristics and types; population size and distribution, with Nepal's census figures.
+- Culture: elements, types, cultural lag, ethnocentrism and cultural relativism.
+- Norms and values: folkways, mores, laws, taboos; sanctions and social control.
+- Status and role: ascribed and achieved status, role conflict and role strain.
+- Institutions: marriage, family and kinship in Nepal; primary and secondary groups, reference groups and Nepali community groups.
 :::
 
-## 2.1 The Technology Acceptance Model
+## 2.1 Society and population
 
-Fred Davis (1989) proposed that a person's **behavioural intention (BI)** to use a system depends on two beliefs:
+A **society** is a *system of social relationships* among people who share a territory and a way of life (MacIver and Page: "a web of social relationships"). Its main characteristics are: people living together; mutual awareness and interdependence; cooperation and also conflict; likeness and difference; and a shared culture. A **community** is a smaller, territorially bounded group whose members share a common life and a sense of belonging (a village, a tole, a municipality); the key difference is that a community has *locality* and *community sentiment*, while a society is a wider network of relationships that need not be local (the "Nepali society", the "global society"). In the digital age, an online community has sentiment but not locality, which is why sociologists speak of *virtual communities*.
 
-- **Perceived usefulness (PU):** the degree to which the person believes the system will improve their job or life performance.
-- **Perceived ease of use (PEOU):** the degree to which the person believes using it will be free of effort.
+Societies are classified by their main way of producing a living: **hunting and gathering, pastoral, horticultural (simple farming), agrarian, industrial and post-industrial (information) societies**. Nepal is a mixed case: subsistence farming for many households, growing services, remittance and tourism economies, and a rapidly growing digital sector.
 
-PEOU affects PU (an easier system is more useful) and both affect attitude and intention, which lead to actual use. External variables (training, design, social influence) work through PU and PEOU. **TAM2** adds *subjective norm* (what important others think), *image*, *job relevance* and *voluntariness*. **UTAUT** (Venkatesh et al.) unifies several models into four determinants: **performance expectancy**, **effort expectancy**, **social influence** and **facilitating conditions** (infrastructure and support), moderated by age, gender, experience and voluntariness. For Nepal, facilitating conditions (data price, electricity, trusted help) and *trust* are especially important additions, which is why wallet adoption often depends on a family member teaching the first transaction.
+### Population size and distribution
 
-### A worked survey
+Population is a basic social fact because it sets the demand for schools, jobs, land and services. Sociologists look at **size** (how many), **composition** (age, sex, ethnicity, literacy) and **distribution** (where; density, urban and rural). *Demography* is the statistical study of these. Three processes change the population: **fertility** (births), **mortality** (deaths) and **migration** (movement in or out). Nepal conducts a census every ten years. The 2021 census (BS 2078) recorded:
 
-Eight respondents rate a new bus-ticketing app on 1–5 scales: four items for PU, three for PEOU, and one for intention to use (BI).
+| Indicator, Census 2021 | Value |
+|---|---|
+| Total population | 29,164,578 |
+| Female / male | 14,911,027 / 14,253,551 (more females than males) |
+| Annual growth rate (2011 to 2021) | 0.92 per cent |
+| Average household size | 4.37 persons |
+| Density | 198 persons per square km (29,164,578 / 147,516 km²) |
 
-| Resp. | PU1 | PU2 | PU3 | PU4 | PEOU1 | PEOU2 | PEOU3 | BI | PU mean | PEOU mean |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | 5 | 5 | 4 | 5 | 4 | 4 | 5 | 5 | 4.75 | 4.33 |
-| 2 | 4 | 4 | 4 | 3 | 3 | 4 | 3 | 3 | 3.75 | 3.33 |
-| 3 | 2 | 3 | 2 | 2 | 2 | 2 | 3 | 2 | 2.25 | 2.33 |
-| 4 | 5 | 4 | 5 | 5 | 5 | 5 | 4 | 5 | 4.75 | 4.67 |
-| 5 | 3 | 3 | 4 | 3 | 3 | 2 | 3 | 3 | 3.25 | 2.67 |
-| 6 | 4 | 5 | 4 | 4 | 4 | 4 | 4 | 4 | 4.25 | 4.00 |
-| 7 | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 1 | 1.75 | 1.67 |
-| 8 | 3 | 4 | 3 | 3 | 4 | 3 | 3 | 4 | 3.25 | 3.33 |
+The distribution is uneven. The hills hold much of the area but the Tarai (Madhesh province) and the Kathmandu valley hold the highest densities, and the population is shifting from the hills and mountains to the Tarai and to towns.
 
-**Reliability.** Do the items of one scale measure the same thing? **Cronbach's alpha** for k items is α = k/(k − 1) × (1 − Σσᵢ² / σ²_total), where σᵢ² is each item's sample variance and σ²_total the variance of the sum score. For PU, α = **0.949**; for PEOU, α = **0.903**. A value above 0.7 is conventionally acceptable, so both scales are reliable (with only eight respondents, that is a classroom illustration, not evidence).
+```svgfig label="2.1" caption="Population of Nepal's seven provinces, Census 2021 (millions). Bagmati and Madhesh have about 21 per cent each; Karnali, the largest province by area in the west, has less than 6 per cent. The seven values sum to 29,164,578."
+f = Fig(580, 270)
+data = [("Koshi", 4.961), ("Madhesh", 6.115), ("Bagmati", 6.117), ("Gandaki", 2.466), ("Lumbini", 5.122), ("Karnali", 1.688), ("Sudur-\npashchim", 2.695)]
+base, scale = 215, 26
+f.line(40, base, 560, base, color=SLATE, sw=1.4)
+for i, (n, v) in enumerate(data):
+    x = 62 + i * 72
+    h = v * scale
+    f.box(x, base - h, 48, h, "", fill=BLUE if v < 6 else MINT, stroke=NAVY if v < 6 else TEAL)
+    f.text(x + 24, base - h - 8, "%.2f" % v, size=10, color=SLATE, bold=True)
+    f.text(x + 24, base + 14, n, size=9.5, color=SLATE)
+f.text(290, 14, "Population in millions", size=10, color=SLATE, bold=True)
+```
 
-**Relationships.** The Pearson correlation between PU mean and BI is **0.944**, between PEOU mean and BI **0.964**, and between PU and PEOU **0.975**. PU and PEOU are very strongly correlated here, which is TAM's PEOU → PU link but also a warning: with such **multicollinearity** the regression below cannot separate their effects reliably. Regressing intention on both means gives
+::: example Why distribution matters for IT
+A telemedicine or e-learning project needs to know that Karnali province has fewer than 1.7 million people spread across rough terrain, whereas Bagmati has more than 6 million, much of it in one valley. Network cost per user, language mix and device ownership differ widely, so one national design will not fit all districts.
+:::
 
-BI = -0.969 + 0.090 × PU + 1.224 × PEOU,  R² = **0.930**.
+## 2.2 Culture and community
 
-For a user who scores both PU and PEOU at 4, the model predicts BI = **4.29**. The small coefficient on PU despite its high correlation is the multicollinearity effect; a larger sample would be needed before claiming that ease of use matters more than usefulness.
+**Culture** is the *whole way of life* of a society: the knowledge, beliefs, art, morals, law, custom, language and habits acquired as a member of society (E. B. Tylor, 1871). It is *learned* (not inherited), *shared*, *transmitted* across generations, *cumulative*, *symbolic* (language above all) and *adaptive*.
 
-## 2.2 Diffusion of innovations
+**Elements.** *Material culture* is the physical objects (tools, buildings, a smartphone, a dhaka topi); *non-material culture* covers ideas and behaviour: beliefs, values, norms, language, symbols, rituals and knowledge.
 
-Everett Rogers defined **diffusion** as the process by which an **innovation** is communicated through **channels** over **time** among the members of a **social system**. Four elements: the innovation, communication channels, time and the social system. Five perceived **attributes of an innovation** predict its speed:
+**Types and related terms.**
+- **Subculture:** a group within a culture with its own patterns while sharing the main culture (gamers, Newar guthi communities, hackers, students of a campus).
+- **Counterculture:** a group that rejects dominant values (some youth movements).
+- **Cultural diffusion:** spread of cultural traits between societies (Western-style weddings, momo and pizza, K-pop, Facebook).
+- **Cultural lag** (W. F. Ogburn): non-material culture changes more slowly than material culture, creating gaps. Laws on data privacy trail behind the spread of apps; many people own smartphones before they learn online safety.
+- **Culture shock:** disorientation on meeting an unfamiliar culture, familiar to students moving to Kathmandu or abroad.
+- **Ethnocentrism:** judging other cultures by the standards of one's own, assuming one's own is superior. **Cultural relativism:** understanding a practice within its own cultural context, without moral approval of every practice. Relativism is a method for understanding, not a reason to ignore human-rights standards.
 
-| Attribute | Meaning | Mobile-wallet example |
-|---|---|---|
-| Relative advantage | Better than what it replaces | No queue to pay the electricity bill |
-| Compatibility | Fits values, habits, needs | Works with Nepali interface and existing bank account |
-| Complexity | Hard to understand (slows adoption) | Registration needing many steps |
-| Trialability | Can be tried on a small scale | Rs 10 first top-up |
-| Observability | Results visible to others | Shopkeepers displaying QR codes |
+Nepal's culture is a *mosaic*: more than 120 caste and ethnic groups and over a hundred languages were recorded in recent censuses, with Nepali as the largest mother tongue (by about 44 per cent), followed by Maithili, Bhojpuri, Tharu and Tamang. Festivals such as Dashain, Tihar, Chhath, Eid, Buddha Jayanti, Lhosar and Christmas are celebrated by different communities.
 
-The **innovation-decision process** has five stages: knowledge, persuasion, decision, implementation and confirmation. **Opinion leaders** (respected people in a community) and **change agents** (the professionals who promote the innovation: extension workers, bank agents) speed adoption; **homophily** (people trust others like themselves) means the message must come from similar people.
+## 2.3 Norms and values
 
-### Adopter categories from the normal curve
+**Values** are *general beliefs about what is good, desirable and important* (honesty, hospitality, respect for elders, equality, success). They give direction. **Norms** are *specific rules* that tell people how to behave in a situation; they put values into practice. A value ("respect for teachers") produces many norms (stand when the teacher enters, use *sir* or *miss*, say *namaste*).
 
-Rogers observed that the time to adopt is roughly bell-shaped in the population and cut the curve at multiples of the standard deviation σ from the mean adoption time:
+William Graham Sumner classified norms by their strength:
 
-| Category | Cut-offs (σ from mean adoption time) | Normal-curve area | Rogers' rounded share |
+| Type | Meaning | Example | Sanction if broken |
 |---|---|---|---|
-| Innovators | below −2σ | 2.28% | 2.5% |
-| Early adopters | −2σ to −1σ | 13.59% | 13.5% |
-| Early majority | −1σ to mean | 34.13% | 34% |
-| Late majority | mean to +1σ | 34.13% | 34% |
-| Laggards | above +1σ | 15.87% | 16% |
+| **Folkways** | Everyday habits and conventions; not morally serious | Removing shoes before entering a house or temple; eating with the right hand | Mild disapproval, raised eyebrows |
+| **Mores** | Norms with moral weight; essential to group welfare | Honesty, respect for parents, not cheating in exams | Strong disapproval, social exclusion |
+| **Taboos** | Strongest mores; unthinkable acts | Incest, killing a cow in many Hindu communities | Horror, severe punishment |
+| **Laws** | Norms formalised and enforced by the state | The Muluki Criminal Code, Electronic Transactions Act | Fine, imprisonment |
 
-Innovators are the adventurous few (2.28% exactly, 2.5% rounded); innovators plus early adopters together are **15.87%**. Marketers speak of a **chasm** (Moore) between the early adopters and the early majority: techniques that work for enthusiasts (novelty) do not persuade pragmatists (references, support), and many products die in the gap. **Critical mass** is the point after which adoption becomes self-sustaining because each adopter makes the next one likelier, which is where network effects enter.
+**Sanctions** are the rewards and punishments that enforce norms: *positive* (praise, awards, promotion) and *negative* (ridicule, fine, expulsion), *formal* (imposed by institutions) or *informal* (by peers). **Social control** is the sum of means by which society secures conformity, from the internalised conscience and family upbringing (informal) to school discipline, police and courts (formal). Behaviour that violates norms is **deviance**; what counts as deviant varies by time and place (Merton's typology: conformity, innovation, ritualism, retreatism, rebellion).
 
-## 2.3 The S-curve: logistic growth
+::: example Norms in digital life
+*Netiquette* is a set of folkways for online behaviour (no ALL CAPS, reply promptly, tag with permission). Plagiarism and online harassment violate mores. Hacking and identity theft violate laws. A team's code review rules are norms within a workplace subculture.
+:::
 
-Cumulative adoption over time is S-shaped: slow, then rapid, then saturating. A simple model is the **logistic function** N(t) = K / (1 + e^(−r(t − t₀))), where K is the saturation level, r the growth rate and t₀ the inflection time at which N = K/2. With K = 100%, r = 0.9 per year and t₀ = 6:
+## 2.4 Status and role
 
-| Year t | Adoption % = 100/(1 + e^(−0.9(t−6))) | New adopters this year (points) |
+A **status** is a *position* a person holds in a group or society; a **role** is the *behaviour expected* from the holder of that position. Status is what you *are*, role is what you *do* (Ralph Linton: "status is a collection of rights and duties; role is the dynamic aspect: putting the rights and duties into effect").
+
+- **Ascribed status:** assigned at birth or by automatic processes, not chosen: sex, age, caste or ethnicity, kinship (son, daughter), in some societies royal descent.
+- **Achieved status:** earned through effort and choice: doctor, engineer, programmer, team leader, champion.
+- **Master status:** the status that dominates the others in how a person is seen (for example, "minister", or in discrimination, caste or disability).
+- **Status set:** all statuses a person holds at once; a student may also be a daughter, a part-time developer, a club treasurer and a Facebook-group admin.
+- **Role set:** the set of roles linked to one status. A *teacher* acts with students, colleagues, the principal and parents (Merton).
+
+| Concept | Meaning | Example |
 |---|---|---|
-| 0 | 0.4 |  |
-| 2 | 2.7 | 1.6 |
-| 4 | 14.2 | 7.9 |
-| 6 | 50.0 | 21.1 |
-| 8 | 85.8 | 14.7 |
-| 10 | 97.3 | 3.6 |
-| 12 | 99.6 | 0.6 |
+| **Role conflict** | Demands of *two different* roles clash | A manager must fire an employee who is also her friend; a student needs to study but also earn |
+| **Role strain** | Demands *within one* role clash or are too many | A teacher expected to teach, grade, run activities and handle paperwork |
+| **Role exit** | Leaving an important role | Retirement, divorce, leaving a job |
+| **Role performance** | Actual behaviour versus the expected role | A developer who delivers late despite the role of "dependable" |
 
-At t = 0 only 0.4% have adopted. The fastest growth occurs at t₀ = 6, where the rate is K·r/4 = **22.5 percentage points a year**. The curve is symmetric about t₀, so the first half takes as long as the second. Planning use: before the inflection point, spending on awareness shows little result; the manager must be patient, or the project is cancelled just before takeoff.
+Status and role are links between the individual and society: society needs tasks done, so it defines positions and attaches expectations, while individuals learn the expectations through **socialisation** (Unit 3).
 
-## 2.4 The Bass diffusion model
+::: example Roles on a software project
+A project manager, analyst, developer, tester and client each hold a status with expected roles. Conflict arises when a developer is also the client's relative and is asked to hide a bug (role conflict), or when one person is asked to be developer, tester and support (role strain). Clear role definitions reduce both.
+:::
 
-Frank Bass (1969) built the S-curve from behaviour: adopters are driven by **innovation** (external influence, advertising, coefficient p) and **imitation** (word of mouth, coefficient q). The cumulative fraction of adopters is
+## 2.5 Institutions: marriage, family and kinship
 
-F(t) = (1 − e^(−(p+q)t)) / (1 + (q/p)·e^(−(p+q)t)),
+An **institution** is an *organised, established system of norms, statuses and roles built around a basic social need* (Unit 1's functionalists call these the organs of society). The five major institutions are family, economy, polity (state), education and religion. Here we study the family complex: marriage, family, kinship.
 
-and the number of new adopters in a period is m × (F(t) − F(t − 1)), where m is the total market potential. The peak of new adoptions occurs at **t\* = ln(q/p) / (p + q)**.
+### Marriage
 
-Take p = 0.03, q = 0.40 (typical orders of magnitude for consumer technology) and m = 5,00,000 eventual users of a regional wallet:
+**Marriage** is a *socially approved union* between persons that establishes rights and duties between them, their children and their kin. Its functions include regulation of sexual relations, legitimate childbearing, division of labour, economic cooperation and linking of families.
 
-| Year t | Cumulative F(t) | Cumulative adopters | New adopters in year |
-|---|---|---|---|
-| 0 | 0.0% | 0 | 0 |
-| 1 | 3.6% | 18,064 | 18,064 |
-| 2 | 8.7% | 43,422 | 25,358 |
-| 3 | 15.5% | 77,590 | 34,167 |
-| 4 | 24.2% | 121,169 | 43,580 |
-| 5 | 34.6% | 173,027 | 51,857 |
-| 6 | 46.0% | 229,870 | 56,844 |
-| 7 | 57.4% | 286,838 | 56,968 |
-| 8 | 67.8% | 339,025 | 52,187 |
-| 9 | 76.6% | 383,042 | 44,018 |
-| 10 | 83.5% | 417,656 | 34,614 |
-| 11 | 88.7% | 443,404 | 25,748 |
-| 12 | 92.4% | 461,777 | 18,373 |
+**Forms by number of spouses:** *monogamy* (one spouse at a time; legally the only form in Nepal today), *polygyny* (one husband, several wives), *polyandry* (one wife, several husbands; found historically in some Himalayan communities) and *group marriage* (rare). **Forms of selection:** *arranged* (families choose or approve), *love* (the couple choose), and *mixed*, increasingly common in Nepal with arranged introductions after consent; *endogamy* (marry within a group such as caste or ethnicity) versus *exogamy* (marry outside a group, such as one's clan or gotra); *hypergamy* and *hypogamy* (marriage into a higher or lower group). Other practices of marriage by capture, by elopement, by service exist among some groups.
 
-The theoretical peak time is t\* = ln(0.40/0.03)/(0.43) = **6.02 years**, when 46.2% of the market has adopted; the largest whole-year increment is in year **7** with about **56,968** new users (the continuous formula m(p+q)²/(4q) gives 57,781 users per year at the instant of peak). In year 1 the model gives 18,064 adopters; innovation (advertising) alone accounts for only 7.0% of the total pull (p/(p+q)), so *word of mouth dominates*; by year 12, 92.4% have adopted. For a manager, the actions are different at the two ends: push advertising and free trials at the start (p), and referral schemes and social proof in the middle (q).
+In Nepal the **Muluki Civil Code, 2074** (in force since 2075 BS) sets the minimum age of marriage at **20 years** for both women and men; the **Muluki Criminal Code, 2074** criminalises child marriage and dowry-related harassment. Child marriage and dowry persist in practice in some regions, which is a good example of the gap between law (formal norm) and custom (informal norm).
 
-## 2.5 Barriers and resistance
+### Family
 
-People resist technology for reasons that deserve respect. **Individual:** fear of losing a job or status, low skills, habit, distrust, cost. **Organisational:** inertia, unclear benefit, lack of leadership, inadequate training. **Technical and infrastructural:** unreliable power and connectivity, no Nepali-language interface, poor support. **Social and cultural:** norms about women's phone use, fear of fraud, low trust in digital money. **Policy:** unclear rules, high taxes on devices or data. Strategies: involve users early (participatory design), train and provide local help, run pilots, start with a visible quick benefit, build trust through consumer protection, and adopt **gradual migration** instead of forcing a sudden switch. A change agent who respects the existing practice is more effective than one who insists the old way is wrong.
+A **family** is a *group of persons related by marriage, blood or adoption, living together (usually), cooperating economically and raising children*. It is the *primary* institution of socialisation.
 
-## 2.6 Seeing the ideas: adoption in hardware, TAM, adopter categories and the two growth curves
+| Basis | Types |
+|---|---|
+| **Structure** | *Nuclear* (couple and unmarried children); *joint or extended* (several married couples and generations sharing hearth, property and authority); *single-parent*; *reconstituted* |
+| **Authority** | *Patriarchal* (father or senior male heads; the common form in Nepal), *matriarchal*, *egalitarian* |
+| **Descent and residence** | *Patrilineal* (descent traced through father; *patrilocal* residence: wife moves to husband's home), *matrilineal*, *bilateral* |
+| **Marriage form** | *Monogamous*, *polygynous*, *polyandrous* |
 
-Adoption is visible on the street. Plate 2.1 shows three devices that spread through Nepal in different eras: the basic mobile handset, the smartphone and the bank ATM.
+**Functions of the family:** biological (reproduction), economic (shared income, care), socialisation (language, values), protective (care of children, sick and elderly), status ascription (caste, surname), religious and emotional (ritual, affection, rites of passage).
 
-```photogrid label="2.1" cols="3" ratio="1.0" caption="Technologies that diffused through Nepal. (a) A Nokia 1100 feature phone: cheap, rugged and easy to use, it made mobile telephony a mass technology (high perceived ease of use). (b) An Android smartphone: perceived usefulness grew with mobile wallets and social media. (c) An ATM in Nepal: adoption depended on trust and on bank networks."
-@ photo id="bca-st/nokia1100" cap="Feature phone"
-fit 1.0
-focus 0.5 0.45
-@ photo id="bca101/android" cap="Smartphone"
-fit 1.0
-focus 0.5 0.5
-@ photo id="bca101/atm-nepal" cap="ATM in Nepal"
-fit 1.0
-focus 0.5 0.5
-```
+**Change in the Nepali family.** The traditional ideal is the joint family, but the average household is 4.37 persons (Census 2021), and nuclear households are increasing owing to urbanisation, education, employment and migration. Foreign employment creates *transnational* families: one spouse or both abroad, grandparents raising children, and money and video calls connecting the household. Women manage land, farming and finance in many "left-behind" households; mobile phones, remittance apps and social media are the medium of family life.
 
-```svgfig label="2.1" caption="The Technology Acceptance Model (Davis, 1989). Perceived usefulness and perceived ease of use shape the attitude and the intention to use, which leads to actual use. Ease of use also raises perceived usefulness. External variables such as training, cost and trust act on both beliefs."
-f = Fig(580, 200)
-f.box(6, 78, 104, 44, "External variables\ntraining, cost, trust", fill="#e2e8f0", stroke=SLATE, size=9.5, bold=True)
-f.box(150, 26, 118, 44, "Perceived\nusefulness", fill=MINT, stroke=TEAL, size=10.5, bold=True)
-f.box(150, 130, 118, 44, "Perceived\nease of use", fill=SAND, stroke=AMBER, size=10.5, bold=True)
-f.box(308, 78, 100, 44, "Attitude and\nintention to use", fill=BLUE, stroke=NAVY, size=10, bold=True)
-f.box(452, 78, 122, 44, "Actual\nsystem use", fill=ROSE, stroke=RED, size=10.5, bold=True)
-f.arrow([(110, 90), (150, 50)]); f.arrow([(110, 110), (150, 150)])
-f.arrow([(268, 48), (308, 90)]); f.arrow([(268, 152), (308, 110)]); f.arrow([(408, 100), (452, 100)])
-f.arrow([(209, 130), (209, 70)], color=RED, label="raises", lpos=(236, 100))
-f.arrow([(268, 40), (452, 84)], color=TEAL, dash=True)
-```
+### Kinship
 
-```svgfig label="2.2" caption="Rogers' adopter categories on a bell curve: innovators 2.5%, early adopters 13.5%, early majority 34%, late majority 34% and laggards 16%. The curve of new adopters is bell-shaped; its running total is the S-curve."
-f = Fig(580, 214)
-cats = [("Innovators", 2.5, 60), ("Early\nadopters", 13.5, 72), ("Early\nmajority", 34, 120), ("Late\nmajority", 34, 120), ("Laggards", 16, 90)]
-x = 20
-cols = [(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY), ("#e2e8f0", SLATE)]
-widths = [56, 100, 140, 140, 100]
-heights = [14, 48, 112, 112, 60]
-x = 20
-for (t, p, _), w, h, (fl, st) in zip(cats, widths, heights, cols):
-    f.box(x, 150 - h, w, h, "%s%%" % p, fill=fl, stroke=st, bold=True, size=11)
-    f.text(x + w / 2, 168, t, size=9.5, color=st, bold=True)
-    x += w
-f.text(290, 14, "share of all eventual adopters, by order of adoption", size=10.5, color=NAVY, bold=True)
-f.text(290, 206, "Chasm: a product must cross the gap between early adopters and the early majority", size=9.5, color=RED, bold=True)
-```
+**Kinship** is the *system of social relationships based on blood (consanguineal kin) and marriage (affinal kin)*. Kin are classified in *degrees*: **primary** (parent, child, sibling, spouse), **secondary** (primary kin's primary kin: grandparent, uncle, aunt, in-laws) and **tertiary** (cousins and further). Terms of address and reference in Nepali are detailed and mark side and age: *mama* (mother's brother), *kaka* or *thulo-bua* (father's brothers), *phupu* (father's sister), *maiju* (mother's sister), *bhanja* and *bhanji* (sister's children), *bhatija* (brother's children). Descent groups (lineage, clan) matter for inheritance, ritual obligations (death rites) and in many communities for marriage rules (clan exogamy).
 
-```svgfig label="2.3" caption="Logistic S-curve with K = 100%, r = 0.9 per year and t0 = 6. Adoption is 0.4% at t = 0, 14.2% at t = 4, 50.0% at t = 6, 85.8% at t = 8 and 99.6% at t = 12. The fastest growth is K r / 4 = 22.5 points a year at t0."
-f = Fig(580, 216)
-import math
-X = lambda t: 60 + t * 24
-Y = lambda v: 180 - v * 1.5
-f.line(60, 180, 360, 180, color=SLATE); f.line(60, 180, 60, 28, color=SLATE)
-for t in range(0, 13, 2):
-    f.text(X(t), 194, str(t), size=9.5, color=SLATE)
-for v in (0, 50, 100):
-    f.text(52, Y(v) + 3, "%d%%" % v, size=9.5, color=SLATE, anchor="end")
-pts = [(X(t / 2), Y(100 / (1 + math.exp(-0.9 * (t / 2 - 6))))) for t in range(0, 25)]
-f.arrow(pts, color=TEAL, sw=2.4)
-f.line(X(6), 180, X(6), Y(50), color=AMBER, dash=True); f.line(60, Y(50), X(6), Y(50), color=AMBER, dash=True)
-f.circle(X(6), Y(50), 5, fill=RED, stroke=RED)
-f.text(X(6) + 10, Y(50) + 18, "inflection t0 = 6, 50%", size=9.5, color=RED, bold=True, anchor="start")
-f.box(392, 26, 182, 44, "Slow start: 0.4% to 14.2%\nin the first 4 years", fill=SAND, stroke=AMBER, size=10)
-f.box(392, 82, 182, 44, "Rapid growth around t0:\n22.5 points a year at most", fill=MINT, stroke=TEAL, size=10)
-f.box(392, 138, 182, 44, "Saturation: 97.3% at t = 10,\n99.6% at t = 12", fill=BLUE, stroke=NAVY, size=10)
-f.text(210, 208, "year t", size=9.5, color=SLATE)
-```
+::: note Functions of kinship
+Kinship regulates marriage, gives identity and a social network of mutual support (credit, labour exchange, job references), organises inheritance, and defines ritual duty. In Nepal, kin networks often work as informal social security and as the first source of migration contacts and loans.
+:::
 
-```svgfig label="2.4" caption="Bass model new adopters per year for p = 0.03, q = 0.40 and a market of 5,00,000 users of a regional wallet. New adopters rise from 18,064 in year 1 to a peak of 56,968 in year 7 and then fall; the continuous peak is at t* = ln(q/p)/(p+q) = 6.02 years."
-f = Fig(580, 216)
-vals = [18064, 25358, 34167, 43580, 51857, 56844, 56968, 52187, 44018, 34614, 25748, 18373]
-f.line(50, 170, 560, 170, color=SLATE)
-for i, v in enumerate(vals):
-    h = v / 56968 * 120
-    fl, st = (ROSE, RED) if i == 6 else (BLUE, NAVY)
-    f.box(58 + i * 42, 170 - h, 34, h, "", fill=fl, stroke=st)
-    f.text(75 + i * 42, 184, str(i + 1), size=9.5, color=SLATE)
-    f.text(75 + i * 42, 164 - h, "%dk" % round(v / 1000), size=8.5, color=SLATE)
-f.text(300, 202, "year t (new adopters in thousands above each bar)", size=9.5, color=SLATE)
-f.text(300, 18, "Peak in year 7: 56,968 new users", size=11, color=RED, bold=True)
-```
+## 2.6 Groups
 
-### 2.6.1 Eight barriers to technology adoption
+A **social group** is *two or more people who interact on the basis of shared expectations and a sense of belonging*. A crowd waiting at a bus stop is a *category* or *aggregate*, not a group, because there is no interaction or shared identity.
 
-1. **Cost.** Devices, data packs and subscriptions must fit a family budget. A smartphone that costs a month's income is out of reach for many. Lower prices and instalment plans widen adoption.
-2. **Low perceived usefulness.** People adopt only when the tool solves a problem they have. A farmer will use a price app if it shows today's market rate. If it does not, the app stays unused.
-3. **Poor ease of use.** Complex menus and foreign-language screens push users away. Nepali-language interfaces and voice options help new users. Simple design often matters more than extra features.
-4. **Lack of trust.** People fear fraud, lost money and misuse of data. Early ATMs and wallets grew slowly until trust was built. Clear rules, receipts and complaint channels build it.
-5. **Weak infrastructure.** Electricity, signal and bandwidth must be reliable. A rural clinic with frequent power cuts cannot depend on an online system. Investment in networks comes first.
-6. **Skills gap.** Users need digital skills and confidence. Training programmes in schools and municipalities reduce fear. Peer helpers are very effective.
-7. **Resistance to change.** Habits, jobs and power structures resist new systems. Staff may fear that automation will replace them. Involving them early and explaining benefits lowers resistance.
-8. **Lack of network effects.** A wallet is useful only if shops and friends accept it. Until enough people join, each person sees little value. Shared standards such as common QR codes solve this.
+| Classification | Types | Notes |
+|---|---|---|
+| **Primary and secondary** (Cooley) | *Primary*: small, face-to-face, intimate, lasting (family, close friends, village peer group). *Secondary*: larger, impersonal, goal-oriented (company, political party, university) | Primary groups form the self and values; secondary groups perform specific tasks |
+| **In-group and out-group** (Sumner) | "We" and "they" | Loyalty inside, rivalry outside; the source of ethnocentrism |
+| **Reference group** (Merton, Hyman) | Group a person uses as a standard to evaluate themselves, even without belonging | Aspirations of a student to join a tech company; fashion following |
+| **Formal and informal** | *Formal*: rules, offices, written goals (a company, campus student union). *Informal*: spontaneous, unwritten (friends at lunch) | Informal groups often decide how formal organisations really work |
+| **Gemeinschaft and Gesellschaft** (Toennies) | Community of personal bonds versus society of contract and interest | Village versus city or corporation |
+
+**Nepali community groups.** The same functions are served by traditional and modern groups: **guthi** (Newar trusts for religious and social duties and funeral help), **parma** (traditional labour exchange among neighbours, "labour for labour"), **dhukuti** (rotating savings and credit association among members, a forerunner of cooperatives), **aama samuha** (mothers' groups in health and community programmes), **community forest user groups**, cooperatives, and *tole* development committees. Digital counterparts include WhatsApp and Viber family groups, Facebook community pages and online savings circles.
+
+## 2.7 Technology and the organisation of social life
+
+Each building block of this unit is touched by digital technology. The table shows how; the later units study the changes in detail.
+
+| Block | Effect of technology | Example in Nepal |
+|---|---|---|
+| Population | Better data (census tablets, national ID), targeting of services, new migration patterns | Digital census tools; online job and foreign-employment portals |
+| Culture | Diffusion and mixing of culture; cultural lag in law and etiquette | Short videos spreading songs and trends; slow privacy law |
+| Norms | New online folkways and new forms of deviance | Netiquette; cyber-bullying; loan-app harassment |
+| Status and role | New statuses (influencer, freelancer, admin); role conflict between work and home when always online | Remote work for foreign firms |
+| Family | Transnational families kept together by calls; remittance transfer by wallets | Daily video calls with relatives in the Gulf |
+| Kinship | Kin networks move to group chats | Family groups share news and organise rituals |
+| Groups | Virtual communities, crowdsourcing, online fund-raising | Earthquake relief and lockdown mutual aid groups |
 
 ## Chapter summary
 
-- TAM: PU and PEOU drive intention; UTAUT adds social influence and facilitating conditions; trust matters in Nepal.
-- Cronbach's alpha checks scale reliability; correlated predictors (multicollinearity) limit what a small regression can tell.
-- Rogers' categories come from the normal curve (2.5, 13.5, 34, 34, 16%); the five attributes of innovations predict speed.
-- The logistic curve peaks in rate at t₀; the Bass model combines innovation (p) and imitation (q) with peak time ln(q/p)/(p+q).
-- Barriers are individual, organisational, technical, social and policy-related; respect and participation lower resistance.
+- A society is a web of social relationships; a community adds locality and community sentiment. Nepal (Census 2021) has 29,164,578 people, 4.37 per household and an uneven distribution across provinces.
+- Culture is learned, shared, cumulative, symbolic and adaptive; material and non-material parts change at different speeds (cultural lag). Avoid ethnocentrism; use relativism to understand.
+- Values give direction; norms (folkways, mores, taboos, laws) enforce them through sanctions and social control.
+- Status is a position (ascribed, achieved, master), role the expected behaviour; role conflict is between roles, role strain within one.
+- Marriage, family and kinship are the core institutions of social life; the Nepali family is shifting from joint to nuclear and transnational forms.
+- Groups: primary and secondary, in-group and out-group, reference and formal and informal groups; Nepal has guthi, parma, dhukuti and aama samuha.
 
 ## Practice
 
-1. Define PU and PEOU and state the TAM links.
-2. What does UTAUT add to TAM?
-3. Cronbach's alpha uses which two variance quantities?
-4. Why is a regression on two highly correlated predictors unreliable?
-5. List Rogers' five adopter categories with their percentages.
-6. Which attribute of innovation does a free trial address?
-7. For the logistic curve with r = 0.6, what is the maximum growth rate in percentage points per year (K = 100%)?
-8. For Bass p = 0.02, q = 0.3, compute the time of peak adoption.
-9. Explain the "chasm" between early adopters and the early majority.
-10. Give four barriers to adoption of digital payments in rural Nepal and one remedy for each.
+1. Differentiate society and community.
+2. What is demography? Name three processes that change a population.
+3. Write down four characteristics of culture.
+4. What is cultural lag? Give a digital example.
+5. Distinguish ethnocentrism from cultural relativism.
+6. Differentiate folkways, mores, taboos and laws with examples.
+7. Distinguish ascribed and achieved status; role conflict and role strain.
+8. What is marriage? State two functions and name two forms.
+9. List the types of family by structure; why are nuclear families rising in Nepal?
+10. Differentiate primary and secondary groups. Give Nepali examples of community groups.
 
 ::: note Answers and worked solutions
-**1.** PU: belief that the system improves performance. PEOU: belief that it is effortless. PEOU → PU; PU and PEOU → attitude/intention → use.
-**2.** Social influence, facilitating conditions (and moderators such as age, gender, experience), alongside performance and effort expectancy.
-**3.** The sum of the item variances and the variance of the total (sum) score.
-**4.** The predictors move together, so the data cannot say which one causes the effect; coefficients become unstable.
-**5.** Innovators 2.5%, early adopters 13.5%, early majority 34%, late majority 34%, laggards 16%.
-**6.** Trialability.
-**7.** K·r/4 = 100 × 0.6 / 4 = **15 points per year**.
-**8.** t\* = ln(0.3/0.02)/(0.32) = ln 15 / 0.32 = 2.708/0.32 = **8.46 years**.
-**9.** Enthusiasts accept an unfinished product for novelty; pragmatists need references, support and reliability, so firms that cannot provide them stall after the early adopters.
-**10.** Low digital skills (training by agents); no trust (consumer protection, small first transaction); poor connectivity (offline/USSD options); low incentive (cashback, utility-bill convenience).
+**1.** Society is a wide web of social relationships (need not be local); community is a smaller group in a locality sharing a common life and sentiment.
+**2.** Demography is the statistical study of population size, composition and distribution. Fertility, mortality and migration.
+**3.** Learned, shared, transmitted across generations, cumulative, symbolic (language), adaptive (any four).
+**4.** Non-material culture (laws, habits) changes more slowly than material culture (technology). Example: many users own smartphones before learning safe online behaviour, and privacy laws arrive later.
+**5.** Ethnocentrism judges others by one's own standards; relativism understands a practice in its own context.
+**6.** Folkways: removing shoes at a doorway. Mores: honesty in exams. Taboo: incest. Law: Muluki Criminal Code provisions on theft or cyber-crime.
+**7.** Ascribed: given at birth (sex, caste); achieved: earned (engineer). Role conflict: two roles clash (manager and friend); role strain: strain inside a single role (overloaded teacher).
+**8.** A socially approved union with rights and duties. Functions: regulating sexual relations, legitimate childbearing, economic cooperation. Forms: monogamy, polygyny, polyandry, arranged or love.
+**9.** Nuclear, joint (extended), single-parent, reconstituted. Reasons: urbanisation, education, jobs and migration, housing cost.
+**10.** Primary: small, intimate, face-to-face (family); secondary: large, impersonal, goal-oriented (company, party). Examples: guthi, parma, dhukuti, aama samuha, community forest user groups.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Explain the Technology Acceptance Model with a diagram description and a Nepali example.**
+**Q1 (5 marks). Define norms and values. Explain the types of norms with examples.**
 
-*Introduction.* The Technology Acceptance Model (TAM), proposed by Fred Davis in 1989, explains why people accept or reject a new information system (section 2.1 and Figure 2.1).
+*Definition.* Values are general beliefs about what is good and desirable (honesty, respect). Norms are specific rules of behaviour that put values into practice.
 
-1. **Perceived usefulness (PU).** The degree to which a person believes the system will improve performance.
-2. **Perceived ease of use (PEOU).** The degree to which the person believes using it will be free of effort. PEOU also raises PU, because an easy tool seems more useful.
-3. **Attitude and behavioural intention.** PU and PEOU shape the attitude to the system and the intention to use it.
-4. **Actual use.** Intention leads to real use.
-5. **External variables.** Training, cost, trust and support act on both beliefs.
+*Types (Sumner).* **Folkways** are everyday conventions without moral force, such as removing shoes before entering a temple; breaking them brings mild disapproval. **Mores** are norms with moral force, such as honesty and respect for parents; breach brings strong disapproval. **Taboos** are the strongest prohibitions, such as incest. **Laws** are norms made and enforced by the state, such as the Electronic Transactions Act 2063. Enforced through positive and negative, formal and informal sanctions, norms provide social control.
 
-| Construct | Question the user asks | Example |
-|---|---|---|
-| PU | Will it help me? | A wallet that pays bills without queues |
-| PEOU | Is it simple? | Scan a QR and enter a PIN |
-| Intention | Will I use it? | I will pay my electricity bill this way |
+**Q2 (10 marks). What is a family? Describe its types and functions, and discuss changes in the Nepali family.**
 
-*Nepali example.* A taxpayer will use an online tax portal only if it saves time (PU) and the forms are simple and in Nepali (PEOU). Training and trust, the external variables, decide the rest.
+*Definition.* A family is a group related by marriage, blood or adoption, usually sharing a home and cooperating economically and in raising children; it is the primary agency of socialisation.
 
-*Conclusion.* To raise adoption, improve usefulness and ease of use together.
+*Types.* By structure: nuclear, joint, single-parent, reconstituted. By authority: patriarchal, matriarchal, egalitarian. By descent: patrilineal, matrilineal, bilateral. By marriage: monogamous, polygynous, polyandrous.
 
-**Q2 (5 marks). A technology follows the logistic curve with K = 100%, r = 0.9 per year and t0 = 6. Calculate the adoption at t = 4 and t = 8 and the maximum yearly growth.**
+*Functions.* Reproduction, economic support, socialisation, protection and care, status ascription, religious and emotional support.
 
-*Introduction.* Cumulative adoption over time is S-shaped, and the logistic function models it as N(t) = K / (1 + e^(-r(t - t0))) (section 2.3 and Figure 2.3).
+*Change in Nepal.* Average household size is 4.37 (Census 2021), nuclear forms are increasing because of urbanisation, education, jobs and migration. Foreign employment creates transnational families that stay connected by phone and wallet; women manage many households; the legal minimum marriage age is 20 under the Muluki Civil Code 2074. Joint-family values (respect for elders, shared obligations) persist, but practice is more flexible.
 
-*Calculation at t = 4.* The exponent is -0.9 x (4 - 6) = 1.8, so N = 100 / (1 + e^1.8) = 100 / (1 + 6.0496) = **14.2%**.
+*Conclusion.* The family has not disappeared; it has adapted, and technology is a medium for the adapted form.
 
-*Calculation at t = 8.* The exponent is -0.9 x (8 - 6) = -1.8, so N = 100 / (1 + e^-1.8) = 100 / (1 + 0.1653) = **85.8%**. The curve is symmetric about t0, so 14.2% + 85.8% = 100%.
+**Q3 (5 marks). Explain status and role with types and examples. Differentiate role conflict from role strain.**
 
-*Maximum growth.* It occurs at t0 = 6, where N = 50% and the rate is K x r / 4 = 100 x 0.9 / 4 = **22.5 percentage points a year**.
-
-| t | 0 | 2 | 4 | 6 | 8 | 10 | 12 |
-|---|---|---|---|---|---|---|---|
-| Adoption % | 0.4 | 2.7 | 14.2 | 50.0 | 85.8 | 97.3 | 99.6 |
-
-*Planning use.* Before the inflection point, spending on awareness shows little visible result, but it prepares the take-off. After saturation, growth must come from new products.
-
-**Q3 (10 marks). Explain the Bass diffusion model. For p = 0.03, q = 0.40 and a market of 5,00,000 users, find the time of peak adoption and discuss what it tells a planner.**
-
-*Introduction.* Frank Bass (1969) built the S-curve from human behaviour. Adopters are influenced in two ways: by **innovation** (external influence such as advertising, coefficient p) and by **imitation** (word of mouth, coefficient q) (section 2.4 and Figure 2.4).
-
-*The model.* The cumulative fraction of adopters is F(t) = (1 - e^(-(p+q)t)) / (1 + (q/p) e^(-(p+q)t)). New adopters in a year are m x (F(t) - F(t - 1)), where m is the market potential.
-
-*Peak time.* The peak of new adoptions occurs at t* = ln(q/p) / (p + q) = ln(0.40 / 0.03) / 0.43 = 2.590 / 0.43 = **6.02 years**. At that time F = (1 - p/q) / 2 = 46.2% of the market has adopted. The continuous peak rate is m (p + q)^2 / (4q) = 5,00,000 x 0.1849 / 1.6, about 57,781 users per year.
-
-*Year-by-year result.*
-
-| Year | Cumulative adopters | New adopters |
-|---|---|---|
-| 1 | 18,064 | 18,064 |
-| 4 | 1,21,169 | 43,580 |
-| 7 | 2,86,838 | 56,968 |
-| 10 | 4,17,656 | 34,614 |
-| 12 | 4,61,777 | 18,373 |
-
-The largest whole-year increase is in year 7, with 56,968 new users, close to the continuous estimate.
-
-*Interpretation of p and q.* A large p means a fast start driven by advertising; a large q means growth depends on word of mouth, so early users become the marketing channel. When q is much larger than p, the curve is strongly S-shaped with a late, high peak.
-
-*Use for a planner.* A regional wallet company can see that year 1 brings only 3.6% of the market, so it should expect slow early numbers and plan servers, agents and support for about 57,000 new users a year around the peak. Referral rewards act on q, and advertising acts on p. After year 10, new-user growth falls, so revenue must come from new services.
-
-*Limitations.* The model assumes a fixed market size and constant p and q. Price changes, competitors and regulation can change both.
-
-*Conclusion.* The Bass model explains the S-curve through imitation and gives practical numbers for planning.
+*Status* is a position; *role* is the behaviour expected from it. Ascribed status is given (age, sex, caste); achieved status is earned (doctor, engineer); a master status dominates others. A person has a *status set*, and each status has a *role set*. *Role conflict* arises between two roles (a manager who must discipline a friend); *role strain* arises within one role (a teacher overloaded with conflicting duties).

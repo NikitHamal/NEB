@@ -2,256 +2,251 @@
 subject: Society and Technology
 grade: BCA Semester 5
 unit: 4
-title: Cyber and IT Law in Nepal
-hours: 8
+title: Technology and Society - Theories and History
+hours: 6
 area: BCA 305 · Society and Technology · Unit 4
 ---
 
-A student in Butwal posts an edited photo of a classmate with an insulting caption; a clerk uses a colleague's password to change a record; a company copies a competitor's source code; a shop owner sends a "bank officer" message to collect an OTP. Each act is harmful, and each fits somewhere in Nepal's legal framework. This unit explains the main statutes, concentrating on the **Electronic Transactions Act, 2063 (2008)**, then summarises privacy, copyright and the cyber security policy. It is a study of the law *as it affects computing professionals*; it is not legal advice, and statutes are amended, so the current text must always be checked.
+In 2015 the earthquake cut Kathmandu's roads and, within hours, Facebook's Safety Check, open-source crisis maps and phone-credit transfers were organising relief. In 2020 the lockdown moved Nepali classrooms onto Zoom, and the same phones that carried help carried rumours. Was technology the *cause* of these changes, or did society shape how technology was used? Sociologists have argued both ways for a century. This unit gives you the vocabulary of that argument (determinism, social construction, actor-networks, the politics of artefacts), a short history of the information revolutions, and a quantitative sense of the pace of change (Moore's law).
 
 ::: key What this unit gives you
-- Why law lags technology, and the Nepali sources of cyber law.
-- The Electronic Transactions Act 2063: recognition of electronic records and signatures, certifying authorities, offences and penalties (tabulated).
-- The Individual Privacy Act 2075, the Copyright Act 2059, the Muluki Criminal Code 2074 and the National Cyber Security Policy 2080.
-- How to apply the law to cases, and what a computing professional must do.
+- Society, culture, social structure and social change; what "technology" means.
+- Technological determinism, social shaping, SCOT, actor-network theory, and Winner's "artifacts have politics".
+- Stages of the information revolution; the pace of hardware change (Moore's law with numbers).
+- Positive and negative social impacts of computing; the Nepali setting.
 :::
 
-## 4.1 The need for cyber law
+## 4.1 Society, culture and social change
 
-Cyber law addresses three problems. **Legal recognition:** can a contract made by email be enforced? Is an electronic signature valid? **Crime:** conduct such as unauthorised access, data damage, fraud and illegal content that older laws did not name. **Rights and duties:** privacy, intellectual property, consumer protection and the responsibilities of service providers. Two difficulties recur: **jurisdiction** (the offender may be abroad) and **evidence** (digital evidence is easy to alter, so it needs proper collection and preservation). Many countries based their laws on the **UNCITRAL Model Law on Electronic Commerce (1996)** and on the **Budapest Convention on Cybercrime (2001)**; Nepal's Act follows the model-law approach of *functional equivalence*: an electronic record can satisfy a legal requirement for writing if it is accessible and reliable.
+A **society** is a group of people who share a territory and are bound by relationships, institutions and a common way of life. **Culture** is the shared knowledge, beliefs, values, language, customs and artefacts of a society; **social structure** is the pattern of roles, groups and institutions (family, school, market, state). **Social change** is a significant alteration in that structure or culture over time. Technology is one of its drivers, alongside economy, politics, ideas and demography.
 
-| Source | Role |
-|---|---|
-| **Constitution of Nepal (2015)** | Fundamental rights including freedom of expression, the right to privacy and the right to information |
-| **Electronic Transactions Act, 2063 (2008)** | Electronic records, digital signatures, certifying authorities, computer offences |
-| **Individual Privacy Act, 2075 (2018)** | Protection of personal information, communications and privacy |
-| **Copyright Act, 2059 (2002)** | Protects authors' rights including computer programs |
-| **Muluki Criminal Code, 2074 (2017)** | General offences (forgery, defamation, privacy offences) applied to online conduct |
-| **National Cyber Security Policy, 2080 (2023)** | Policy for the security of national digital infrastructure |
-| **Sectoral rules** | NRB directives for banks and payments, NTA licences for telecoms, the Right to Information Act 2064 |
+**Technology** is the application of knowledge to make tools, systems and techniques that extend human capability. It has three aspects: *artefacts* (a phone), *knowledge and skills* (how to repair and program it) and *organisation* (the networks, companies and rules around it). Treating technology as only the object misses that a phone is useless without towers, spectrum licences, payment systems and literacy.
 
-## 4.2 The Electronic Transactions Act, 2063
+## 4.2 Does technology drive society? Four views
 
-The Act (authenticated in late 2063 B.S., 2008 A.D.) has four jobs.
+**Technological determinism** holds that technology develops by its own internal logic and then *determines* social structure: *the hand-mill gives you the feudal lord, the steam-mill the industrial capitalist* (a line often attributed to Marx). The **strong** form says that once a technology exists, social consequences follow regardless of what people want; the **soft** form says technology creates *opportunities and pressures* that people respond to. Determinism is attractive because impacts are visible: the printing press and literacy, the car and suburbs, the smartphone and constant connectivity. Its weakness is that identical technology produces different outcomes in different places: the same mobile phone supported branchless banking in one country and little in another.
 
-**1. Legal recognition of electronic records and signatures.** An electronic record is valid where the law requires a document in writing, if it is accessible for later reference; a **digital signature** (created with a private key and verified with the matching public key, the *public-key infrastructure* in Unit 5 of this book and in *Cryptography and Network Security*) satisfies a legal requirement for a signature when it meets the conditions of the Act. Government bodies may accept filings, issue licences and receive payments electronically. The Act also covers when an electronic message is deemed sent and received, and the validity of electronic **contracts**.
+**Social construction of technology (SCOT)** (Pinch and Bijker) argues the reverse: technology is shaped by the choices of **relevant social groups**, each with its own interpretation of what the artefact is for. The history of the bicycle shows it: the high-wheeler was a sport machine for young men, a danger for women and the elderly, and the "safety bicycle" with equal wheels emerged when the groups' problems were negotiated. A design passes from **interpretive flexibility** (many possible meanings) to **closure** (one design is accepted and stabilises). Applied to software: the same social-media platform is a news channel, a marketplace, a dating service, a classroom, depending on the group.
 
-**2. Certification.** The Act creates the **Controller of Certification** (a government office), who licenses **Certifying Authorities (CAs)**, which issue **digital signature certificates** binding a public key to a person's identity. The Controller supervises the CAs and maintains the root of trust. Subscribers must keep the private key secure and report compromise.
+**Social shaping of technology and co-production** takes the middle path: technology and society *shape each other*. Economic interests, laws, gender relations and culture influence design, and then the design alters behaviour.
 
-**3. Computer offences.** The Act's chapter on computer offences defines the offences and sets maximum penalties. The table lists the sections on which the sources consulted agree; maxima are *upper limits* set by the court within the Act.
+**Actor-network theory (ANT)** (Latour, Callon) treats people *and* non-human things (machines, documents, protocols) as **actors** in a network whose stability depends on how well they are *enrolled* and aligned. A national ID card works only when enrolment centres, fingerprint scanners, databases, officials, laws and citizens all play their parts; remove one and the network breaks. It is useful in explaining why e-government projects stall.
 
-| Section | Offence | Maximum imprisonment | Maximum fine (Rs) |
+| View | Main claim | Question it asks | Illustration |
 |---|---|---|---|
-| 44 | Pirating, destroying or altering computer source code | 3 years | 2,00,000 |
-| 45 | Unauthorised access to computer material | 3 years | 2,00,000 |
-| 46 | Damage to a computer or information system | 3 years | 2,00,000 |
-| 47 | Publication of illegal material in electronic form | 5 years | 1,00,000 |
-| 52 | Computer fraud | 2 years | 1,00,000 |
+| Determinism | Technology causes social change | What will this technology do to us? | Social media and political polarisation |
+| SCOT | Society shapes technology | Who defined this design, and who was left out? | Interfaces that ignore Nepali script |
+| Co-production | Mutual shaping | How do law, design and use evolve together? | Mobile wallets and NRB regulation |
+| ANT | Human and non-human actors form networks | Which links hold the system together? | Digital ID roll-out |
 
-Reading it: the three "system" offences (sections 44, 45, 46: source code, unauthorised access, damage) share the same ceiling of 3 years and Rs 2,00,000, while the *content* offence (section 47) allows the longest prison term, 5 years, but a lower fine. Adding the five ceilings gives 16 years and Rs 8,00,000 as the theoretical sum, which no single case would reach. Other sections (for example breach of confidentiality, false information to obtain a certificate, abetment, offences committed outside Nepal) also exist but are *not tabulated here*, because the secondary sources checked disagree on their amounts; consult the Act's text.
+### Do artefacts have politics?
 
-::: example Applying the table
-A clerk uses a colleague's password (section 45) and, from inside, publishes defamatory material on the department's page (section 47). The maximum exposure under these two sections is 3 + 5 = **8 years** and Rs 2,00,000 + 1,00,000 = **Rs 3,00,000**, if the court imposes both maxima in full, which is rare; the actual penalty depends on gravity, intent and the court. Separate offences may also arise under the Criminal Code. The case turns on **evidence**: server logs, the account used, the IP address and the device.
-:::
+Langdon Winner argued that technologies can embody social arrangements. Two senses: a design can be *chosen* to settle an issue (low bridges on Long Island parkways, reputedly too low for buses, restricted who could reach the beaches), or a technology can be *inherently political* (a nuclear power system requires central control and security). In software, defaults are political: a form that allows only two genders, a name field that cannot hold a Nepali name, a face-recognition system trained on a narrow set of faces. The practical rule: **ask who benefits, who pays and who is absent** in every design decision.
 
-**4. Other provisions.** Powers of **investigation and search** (police cyber units; the **Nepal Police Cyber Bureau** handles complaints), a **special tribunal** system for cyber cases, and rules on service providers' duties. Offences committed *outside* Nepal that involve a computer or network in Nepal can be prosecuted (extra-territorial reach, as the Act's section on this is usually described).
+## 4.3 A short history of the information revolutions
 
-### What counts as "illegal material"?
+Information technology has changed society in waves, each lowering the cost of storing, copying or moving information:
 
-Section 47 targets electronic publication that is contrary to **public morality or decent behaviour**, spreads **hatred or jealousy** against a person or community, jeopardises **harmonious relations** among castes, religions or communities, or is otherwise prohibited by law. Critics note that these phrases are broad and have been used against satire and criticism, which raises freedom-of-expression concerns. Responsible practice: understand the limits, think before you post, keep records of abuse you receive, and report through platforms and the police cyber unit.
+| Revolution | Technology | Social effect |
+|---|---|---|
+| Speech and writing | Language, scripts, clay tablets | Memory beyond one lifetime; administration, law, religion |
+| Printing | Movable type (15th century) | Mass literacy, science, standard languages, the Reformation |
+| Electric communication | Telegraph, telephone, radio, TV | Instant distance communication; mass media and propaganda |
+| Computing | Mainframes, PCs (1940s–80s) | Automation of calculation and records; new office work |
+| Networking | Internet, web (1990s) | Global publishing, e-commerce, search |
+| Mobile and social | Smartphones, apps, cloud (2007 on) | Always-on connectivity, platform economy, mobile money |
+| Data and AI | Big data, machine learning (2010s on) | Personalisation, automation of cognitive tasks, surveillance |
 
-## 4.3 Privacy: the Individual Privacy Act, 2075
+Nepal's own sequence compressed these waves: radio (1951) and the Nepal Television (1985) reached many homes before landline telephones did; mobile telephony then largely *leapfrogged* fixed lines; and mobile data, wallets and social media spread to the districts before many of them had reliable roads or electricity. Satellite and optical-fibre links, the arrival of competitive ISPs and the expansion of 4G changed access in a decade.
 
-The Constitution (Article 28) guarantees the privacy of a person, their home, property, documents, data, correspondence and character. The **Individual Privacy Act, 2075 (2018)** gives effect to this. It protects personal information, defines the circumstances in which **personal information** (including health, identity and financial data) may be collected, used or published, regulates **surveillance** and recording of private conversations, and prescribes remedies. For computing professionals the key principles are the universal data protection principles: **lawful and fair collection with consent**, **purpose limitation** (use data only for the stated purpose), **data minimisation**, **accuracy**, **security**, **retention limits**, and **individual rights** (access, correction). Nepal has no single comprehensive data-protection authority comparable to the EU's GDPR at the time of writing; obligations come from this Act, sector rules (banking secrecy, health) and the ETA. Practical duties: obtain consent, publish a privacy notice, encrypt and restrict access, log access, and plan for breach reporting.
+## 4.4 The pace of change: Moore's law
 
-## 4.4 Copyright and software
+In 1965 Gordon Moore observed that the number of components on an integrated circuit was doubling regularly; in 1975 he set the period at about two years. This is **Moore's law**, an empirical trend and an industry roadmap, not a law of physics. With the first microprocessor, the Intel 4004 of 1971 (about 2,300 transistors), as the baseline, doubling every two years predicts N(y) = 2,300 × 2^((y − 1971)/2):
 
-The **Copyright Act, 2059 (2002)** protects original works of authorship: literary, artistic and scientific works, and **computer programs** and databases. Rights include reproduction, adaptation, distribution and public performance; protection arises automatically (registration is optional but useful as evidence) and lasts for the life of the author plus a period specified in the Act (50 years after death for most works). *Ideas and algorithms are not protected, only their expression.* **Licences** decide what you may do: **proprietary** (use under terms), **open source** (permissive licences such as MIT and Apache; copyleft such as GPL, which requires derived works to be shared under the same terms) and **Creative Commons** for content. **Software piracy** (using unlicensed copies, or breaking licences) is both an infringement and a security risk (cracked software often carries malware). Related regimes: **patents** (inventions), **trademarks** (names and logos, registered with the Department of Industry) and **trade secrets** (protected by confidentiality). When using code from the web: check the licence, keep the notice, and do not paste proprietary code into assignments or products.
+| Year | Years since 1971 | Doublings (÷ 2) | Predicted transistors |
+|---|---|---|---|
+| 1971 | 0 | 0.0 | 2,300 |
+| 1981 | 10 | 5.0 | 73,600 |
+| 1991 | 20 | 10.0 | 2,355,200 |
+| 2001 | 30 | 15.0 | 75,366,400 |
+| 2011 | 40 | 20.0 | 2,411,724,800 |
+| 2021 | 50 | 25.0 | 77,175,193,600 |
 
-## 4.5 National Cyber Security Policy, 2080
+Between 1971 and 2021 there are 25 doublings, a factor of 2²⁵ = **33,554,432**, giving about **77,175,193,600** transistors; flagship processors of the early 2020s contain tens of billions, so the trend has held, roughly, for half a century. Doubling every two years is a growth of √2 − 1 = **41.4% per year**, compounding. The social meaning: devices that were impossible become cheap, and every few years a *new class* of computing (minicomputer, PC, phone, wearable, sensor) becomes affordable to a new group of people. Limits now come from heat, atomic dimensions and cost, so progress is shifting to parallelism, specialised chips and software.
 
-Nepal's first cyber security policy dates from 2012 and a new **National Cyber Security Policy** was approved in 2080 B.S. (2023). Policies of this type usually set out: protection of **critical information infrastructure** (banking, power, telecom, government systems), a national **computer emergency response team (CERT)** and sector teams, incident reporting, standards and audits, capacity building and research, and international cooperation. They guide agencies but do not by themselves create offences; binding duties need Acts and rules. Nepal's **government CERT (NPCERT)** under the Ministry of Communication and Information Technology coordinates incident response. Banks must also follow NRB's IT guideline and information-security rules.
+Two related laws: **Metcalfe's law** (network value grows as the square of users) and **Wright's law/learning curves** (unit cost falls by a fixed percentage with each doubling of cumulative production). Together they explain why digital goods spread fast once past a threshold.
 
-## 4.6 Professional duties
+## 4.5 Social impacts of computing
 
-A computing professional should: know the offences, so never access systems without written permission (an ethical hacker works under **scope and authorisation**); preserve logs and evidence correctly; protect personal data as a duty; respect licences; refuse to build systems for unlawful surveillance or fraud; and report incidents to the right authority. If you are a victim: **do not delete evidence**, take screenshots with URLs and times, change passwords and enable MFA, report to the platform, then to the police cyber bureau (or the nearest police office), and inform your bank at once for financial fraud.
+| Domain | Benefits | Costs and risks |
+|---|---|---|
+| Work | New jobs, remote work, productivity, access to global clients (freelancing, BPO in Nepal) | Automation of routine jobs, surveillance of workers, always-on culture |
+| Education | Online resources, digital libraries, remote classes | Unequal access, distraction, quality and assessment concerns |
+| Health | Telemedicine, electronic records, health information systems | Privacy of records, misinformation, dependence on connectivity |
+| Commerce | Wider markets, mobile payment, lower prices | Fraud, platform dependence, local shops under pressure |
+| Culture and media | Voice for the unheard, language communities online | Echo chambers, misinformation, loss of attention |
+| Family and community | Contact with migrants abroad (remittance families) | Weakened face-to-face ties, cyber-bullying |
+| Government | Transparency, faster services | Surveillance, exclusion of the offline |
 
-## 4.7 Seeing the ideas: the institutions, the penalty ceilings, the trust chain and the first hour
+Nepal's remittance economy shows the double edge: video calls and wallet transfers connect families across the Gulf and Malaysia, while new patterns of scams and loan apps target the same users. The sociological habit is to look at **who gains, who loses and who decides**, not to declare technology good or bad.
 
-Law is made real by institutions. Plate 4.1 shows three of them: the Nepal Police Cyber Bureau that receives complaints, the Supreme Court that decides the hardest questions, and the gavel that stands for the judge's final word. Digital evidence travels the same path from a victim's phone to a courtroom.
+## 4.6 Seeing the ideas: four information revolutions, the timeline and Moore's law
 
-```photogrid label="4.1" cols="3" ratio="1.25" caption="Where cyber law is enforced. (a) The signboard of the Cyber Bureau of the Nepal Police, Bhotahity, Kathmandu: the office that takes complaints about online fraud, abuse and hacking. (b) The Supreme Court of Nepal: the final authority on how the Electronic Transactions Act and the Constitution are read. (c) A judge's gavel, the symbol of a final judgment. A complaint begins with evidence and ends, if it is serious, with a court order."
-@ photo id="bca-st/cyberbureau" cap="Cyber Bureau, Nepal Police"
-fit 1.25
+Each information revolution came with a machine. Plate 4.1 puts four of them side by side: the printing press, the vacuum-tube computer, the first microprocessor and today's smartphone.
+
+```photogrid label="4.1" cols="4" ratio="1.0" caption="Four machines of the information revolutions. (a) A replica of a Gutenberg-style printing press (c. 1450): books became cheap and literacy spread. (b) A vacuum tube from the ENIAC era (1940s): electronic computing began. (c) The Intel 4004 (1971), the first commercial microprocessor, with about 2,300 transistors. (d) An Android smartphone: billions of transistors, a camera and a network in one pocket."
+@ photo id="bca-st/gutenberg" cap="Printing press (c. 1450)"
+fit 1.0
+focus 0.5 0.35
+@ photo id="bca101/vacuum-tube" cap="Vacuum tube (1940s)"
+fit 1.0
 focus 0.5 0.5
-@ photo id="bca-st/supremecourt" cap="Supreme Court of Nepal"
-fit 1.25
+@ photo id="bca-st/intel4004" cap="Intel 4004 (1971)"
+fit 1.0
 focus 0.5 0.5
-@ photo id="bca-st/gavel" cap="The gavel"
-fit 1.25
+@ photo id="bca101/android" cap="Smartphone (2000s)"
+fit 1.0
 focus 0.5 0.5
 ```
 
-```svgfig label="4.1" caption="From an offence to a decision. Every step depends on evidence: logs, screenshots, the account used and the device. Evidence that was deleted, edited or never saved cannot be recovered later, which is why victims are told to preserve it first."
-f = Fig(580, 150)
-st = [("1. Incident", "fraud, abuse,\nhacking", ROSE, RED), ("2. Evidence", "screenshots,\nURLs, logs", SAND, AMBER), ("3. Complaint", "Cyber Bureau or\npolice office", BLUE, NAVY), ("4. Investigation", "device, log and\nIP analysis", BLUE, NAVY), ("5. Case", "prosecution\nunder ETA, Code", MINT, TEAL)]
-for i, (t, s, fl, sk) in enumerate(st):
-    x = 6 + i * 115
-    f.box(x, 14, 104, 78, t + "\n" + s, fill=fl, stroke=sk, size=9.6, bold=True)
-    if i < 4:
-        f.arrow([(x + 104, 53), (x + 115, 53)], color=SLATE)
-f.box(6, 106, 568, 36, "Weak points: delay (logs are overwritten), foreign servers (jurisdiction), shared accounts (who typed it?)", fill="#f8fafc", stroke=SLATE, size=10)
+```svgfig label="4.1" caption="A timeline of information technologies. The gaps between the dots shrink: thousands of years from writing to print, about 400 years from print to the telegraph, then decades, then years. Each step changed how people work, learn and govern."
+f = Fig(580, 200)
+f.arrow([(14, 100), (566, 100)], color=SLATE, sw=2)
+ev = [(40, "c. 3200 BCE", "Writing\n(Sumer)", SAND, AMBER), (120, "c. 1450", "Printing\npress", BLUE, NAVY), (200, "1844", "Telegraph", MINT, TEAL), (270, "1876", "Telephone", SAND, AMBER), (345, "1946", "ENIAC", BLUE, NAVY), (410, "1971", "Micro-\nprocessor", MINT, TEAL), (475, "1991", "World\nWide Web", SAND, AMBER), (538, "2007", "Smart-\nphone", ROSE, RED)]
+for i, (x, y, t, fl, st) in enumerate(ev):
+    f.circle(x, 100, 7, fill=fl, stroke=st)
+    up = (i % 2 == 0)
+    f.text(x, 78 if up else 124, y, size=9.5, color=st, bold=True)
+    f.box(x - 32, 20 if up else 138, 64, 40, t, fill=fl, stroke=st, size=9.5, bold=True)
+    f.line(x, 60 if up else 138, x, 93 if up else 107, color=st, sw=1)
+f.text(290, 194, "dates are conventional; the pattern is what matters: each gap is shorter than the one before", size=9.5, color=SLATE)
 ```
 
-```svgfig label="4.2" caption="Maximum penalties of the five tabulated ETA 2063 offences, drawn to scale from the table in section 4.2. Bars show the upper limit; courts set the actual penalty below it according to gravity and intent. The content offence (s. 47) has the longest prison ceiling but a lower fine than the system offences."
-f = Fig(580, 218)
-rows = [("s. 44 source code", 3, 2), ("s. 45 unauthorised access", 3, 2), ("s. 46 damage to system", 3, 2), ("s. 47 illegal material", 5, 1), ("s. 52 computer fraud", 2, 1)]
-f.text(170, 12, "maximum imprisonment (years)", size=9.5, color=NAVY, bold=True)
-f.text(440, 12, "maximum fine (Rs lakh)", size=9.5, color=TEAL, bold=True)
-for i, (n, y, r) in enumerate(rows):
-    yy = 24 + i * 34
-    f.text(6, yy + 15, n, size=9.6, color=SLATE, bold=True, anchor="start")
-    f.box(150, yy + 3, y * 24, 20, "", fill=BLUE, stroke=NAVY)
-    f.text(150 + y * 24 + 6, yy + 14, "%d yr" % y, size=10, color=NAVY, bold=True, anchor="start")
-    f.box(390, yy + 3, r * 40, 20, "", fill=MINT, stroke=TEAL)
-    f.text(390 + r * 40 + 6, yy + 14, "Rs %d,00,000" % r, size=10, color=TEAL, bold=True, anchor="start")
-f.text(290, 204, "Sum of the five ceilings: 16 years and Rs 8,00,000 (theoretical only)", size=10, color=RED, bold=True)
-```
-
-```svgfig label="4.3" caption="The trust chain behind a legally valid digital signature. The Controller of Certification licenses a Certifying Authority; the CA signs a certificate that binds a public key to a named person; the person signs a document with the private key; anyone can verify it with the public key. If the private key leaks, the subscriber must report it so the certificate is revoked."
-f = Fig(580, 196)
-f.box(8, 14, 150, 52, "Controller of\nCertification", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
-f.box(215, 14, 150, 52, "Certifying Authority\n(licensed)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
-f.box(422, 14, 150, 52, "Certificate: name +\npublic key, CA-signed", fill=MINT, stroke=TEAL, size=10, bold=True)
-f.arrow([(158, 40), (215, 40)], color=SLATE, label="licenses", lpos=(186, 30))
-f.arrow([(365, 40), (422, 40)], color=SLATE, label="issues", lpos=(394, 30))
-f.box(8, 108, 170, 52, "Signer: private key\nsigns the document", fill=SAND, stroke=AMBER, size=10, bold=True)
-f.box(205, 108, 170, 52, "Signed record\n(document + signature)", fill="#f8fafc", stroke=SLATE, size=10, bold=True)
-f.box(402, 108, 170, 52, "Verifier: public key\nchecks the signature", fill=MINT, stroke=TEAL, size=10, bold=True)
-f.arrow([(178, 134), (205, 134)], color=SLATE); f.arrow([(375, 134), (402, 134)], color=SLATE)
-f.arrow([(497, 66), (497, 108)], color=TEAL, dash=True)
-f.text(290, 184, "Valid only if the certificate is current, not revoked and chains up to a licensed CA", size=9.6, color=RED, bold=True)
-```
-
-```svgfig label="4.4" caption="The first hour after online fraud. The order matters: save evidence before anything is deleted, stop the loss at the bank, secure the accounts, then report. Each step has a reason, shown beside it."
+```svgfig label="4.2" caption="Moore's law on a logarithmic scale. Doubling every two years from 2,300 transistors (1971) predicts 77,175,193,600 in 2021: 25 doublings, a factor of 2^25 = 33,554,432. On a log axis exponential growth is a straight line."
 f = Fig(580, 214)
-st = [("1. Save evidence", "screenshots with URL, time,\nphone number, transaction ID", SAND, AMBER), ("2. Call the bank", "block card or wallet, ask for a\nhold or recall of the transfer", ROSE, RED), ("3. Secure accounts", "change passwords, switch on MFA,\nlog out other devices", BLUE, NAVY), ("4. Report", "platform, then Cyber Bureau\nor nearest police office", MINT, TEAL)]
-for i, (t, s, fl, sk) in enumerate(st):
-    y = 8 + i * 51
-    f.box(8, y, 150, 42, t, fill=fl, stroke=sk, size=10.6, bold=True)
-    f.box(170, y, 400, 42, s, fill="#f8fafc", stroke=SLATE, size=10.2)
-    if i < 3:
-        f.arrow([(83, y + 42), (83, y + 51)], color=SLATE)
+data = [(1971, 2300), (1981, 73600), (1991, 2355200), (2001, 75366400), (2011, 2411724800), (2021, 77175193600)]
+import math
+f.line(70, 180, 70, 20, color=SLATE); f.line(70, 180, 360, 180, color=SLATE)
+for i, (yr, v) in enumerate(data):
+    h = (math.log10(v) - 3) * 28
+    x = 84 + i * 46
+    f.box(x, 180 - h, 34, h, "", fill=BLUE if i < 5 else MINT, stroke=NAVY if i < 5 else TEAL)
+    f.text(x + 17, 194, str(yr), size=9, color=SLATE)
+for e in [3, 5, 7, 9, 11]:
+    y = 180 - (e - 3) * 28
+    f.line(66, y, 360, y, color="#e2e8f0", sw=0.8)
+    f.text(60, y + 3, "10^%d" % e, size=9, color=SLATE, anchor="end")
+f.box(390, 24, 184, 52, "Each decade: 5 doublings\nx 32 transistors", fill=MINT, stroke=TEAL, bold=True, size=10.5)
+f.box(390, 88, 184, 52, "Growth of 41.4% per year\n(sqrt 2 - 1), compounding", fill=BLUE, stroke=NAVY, bold=True, size=10.5)
+f.box(390, 152, 184, 48, "Trend and roadmap,\nnot a law of physics", fill=SAND, stroke=AMBER, bold=True, size=10.5)
 ```
 
-### 4.7.1 Eight duties of a computing professional under Nepali cyber law
+### 4.6.1 Eight social impacts of computing
 
-1. **Work only with written authorisation.** Access without permission is an offence under section 45 even if the intention is good. A penetration tester therefore signs a scope document naming the systems, dates and methods. A student who tests a college portal without asking can still be charged.
-2. **Protect personal data as a duty.** The Individual Privacy Act 2075 and the Constitution treat data about health, identity and money as private. Collect only what you need and keep it only as long as you need it. A school app that stores citizenship photos on an open folder breaks this duty.
-3. **Preserve logs and evidence.** Digital evidence is easy to change, so keep server logs, backups and records with times. A system administrator who wipes logs after an incident may destroy the proof the police need. Write down who copied what and when.
-4. **Keep private keys and credentials safe.** A digital signature is legally valid only if the key stays under the signer's control. Never share a signing token or a password with a colleague. Report a lost token at once so the certificate is revoked.
-5. **Respect licences and copyright.** The Copyright Act 2059 protects programs and databases. Use open-source code under its licence terms and keep attributions. Copying a competitor's source code can also fall under section 44.
-6. **Do not publish or forward illegal material.** Section 47 covers content that spreads hatred or breaks public morality. Think before you post, and report abuse instead of passing it on. Know that the wording is broad and use judgement and the law's text.
-7. **Refuse to build unlawful systems.** Software that spies on people without a legal basis, or that tricks them out of money, is wrong whoever pays for it. A professional can decline and explain why in writing. Ethics and law point the same way here.
-8. **Report incidents to the right authority.** Tell your organisation, the bank or regulator where money is involved, and the Cyber Bureau where a crime is likely. Early reports limit the damage for others. Keeping silent to protect reputation usually makes the harm worse.
+1. **Faster access to information.** A student in Dolpa can now read the same article as a student in Kathmandu if a connection exists. Search engines, e-books and recorded lectures reduce the cost of learning. The gain is largest where libraries are few.
+2. **New kinds of work.** Software, freelancing, digital marketing and remote jobs did not exist at scale a generation ago. Many young Nepalis now earn from international clients. At the same time, some clerical jobs are shrinking.
+3. **Easier payments and services.** Fonepay, eSewa, Khalti and ConnectIPS let people pay bills without standing in a queue. Remittances reach families faster. Small shops gain customers who carry no cash.
+4. **Stronger communication.** Messaging and video calls keep migrant workers close to their families. Disaster alerts reach people within minutes. Community groups organise on social media.
+5. **Privacy risks.** Phones, apps and cameras record where we go and what we buy. This data can be sold, leaked or misused. People need clear rules and the habit of sharing less.
+6. **Misinformation and harm.** False news and scams spread as fast as true news. Online fraud and bullying cause real losses and distress. Media literacy and reporting channels are needed.
+7. **Unequal access.** Those with devices, electricity, skills and language benefit first. Others fall further behind, which is the digital divide of Unit 6. Public policy must widen access, not only improve it for the connected.
+8. **Environmental cost.** Devices use energy, minerals and water, and they become e-waste after a few years. Data centres draw large amounts of power. Responsible use and recycling reduce the damage (Unit 11).
 
 ## Chapter summary
 
-- Cyber law supplies recognition (records, signatures), crime definitions and rights; jurisdiction and evidence are enduring difficulties.
-- The ETA 2063 recognises electronic records and digital signatures, creates the Controller of Certification and Certifying Authorities, and defines computer offences.
-- Sections 44, 45 and 46 carry up to 3 years and Rs 2,00,000; section 47 up to 5 years and Rs 1,00,000; section 52 (computer fraud) up to 2 years and Rs 1,00,000.
-- The Individual Privacy Act 2075, the Copyright Act 2059, the Criminal Code 2074 and the 2080 cyber security policy complete the framework.
-- Professionals act within authorisation, protect data, respect licences and preserve evidence.
+- Society, culture and structure change under many forces, technology among them; technology comprises artefacts, knowledge and organisation.
+- Determinism, SCOT, co-production and ANT give four lenses; Winner's point is that designs carry politics.
+- Information revolutions run from writing and printing to mobile, data and AI; Nepal leapfrogged fixed lines.
+- Moore's law (doubling every ~2 years, √2 − 1 = 41.4% per year) explains the rapid fall in cost of computing; it is a trend, with physical limits.
+- Social impacts are mixed in every domain; ask who benefits, who pays and who is absent.
 
 ## Practice
 
-1. Why do cyber laws need a rule of "functional equivalence"?
-2. State the maximum imprisonment and fine for ETA sections 45 and 47.
-3. A person damages a company's database (s. 46) and commits computer fraud (s. 52). What is the theoretical maximum combined imprisonment and fine?
-4. What are the roles of the Controller of Certification and of a Certifying Authority?
-5. Why is section 47 criticised?
-6. List four data protection principles relevant to a software developer.
-7. Does copyright protect an algorithm? Explain.
-8. Differentiate permissive and copyleft open-source licences.
-9. What should a victim of online fraud do in the first hour?
-10. Why must an ethical hacker have written authorisation?
+1. Define society, culture and social change.
+2. State the strong and soft forms of technological determinism and one objection.
+3. What does SCOT mean by "interpretive flexibility" and "closure"?
+4. How does actor-network theory explain the failure of a national ID project?
+5. Give a software example of an artefact with politics.
+6. Predict transistor counts for 2001 using N(y) = 2,300 × 2^((y − 1971)/2).
+7. By what factor does a quantity grow in 10 years if it doubles every 2 years?
+8. List the information revolutions from speech to AI in order.
+9. Give two benefits and two risks of mobile phones for Nepali migrant families.
+10. State three questions to ask when assessing a technology's social impact.
 
 ::: note Answers and worked solutions
-**1.** To let an electronic record or signature meet a legal requirement for writing or signing so that electronic contracts and filings are valid.
-**2.** Section 45: 3 years and Rs 2,00,000 (either or both, as the court decides). Section 47: 5 years and Rs 1,00,000.
-**3.** 3 + 2 = **5 years** and Rs 2,00,000 + 1,00,000 = **Rs 3,00,000**.
-**4.** The Controller licenses and supervises CAs and maintains the root of trust; a CA issues certificates binding public keys to identities.
-**5.** Its wording (public morality, decent behaviour, hatred) is broad and can be used to restrict legitimate criticism and satire.
-**6.** Consent, purpose limitation, data minimisation, security (also accuracy and retention limits).
-**7.** No; copyright protects the expression (the code), not the underlying idea or algorithm.
-**8.** Permissive (MIT, Apache) allow reuse in proprietary products with attribution; copyleft (GPL) requires derivative works to be released under the same licence.
-**9.** Preserve evidence (screenshots), contact the bank to block the account or card, change passwords and enable MFA, and report to the police cyber unit.
-**10.** Without authorisation, access is an offence (unauthorised access); authorisation and scope make the test lawful.
+**1.** Society: people sharing territory, institutions and way of life. Culture: shared beliefs, values, language, customs. Social change: significant change in structure or culture over time.
+**2.** Strong: technology automatically dictates social outcomes. Soft: it creates opportunities and pressures. Objection: the same technology has different effects in different societies, so social context matters.
+**3.** Interpretive flexibility: different groups see different meanings and designs for an artefact. Closure: debate ends and one design becomes the accepted standard.
+**4.** The system works only if all enrolled actors (centres, scanners, databases, officials, laws, citizens) cooperate; if any link fails (a rule not issued, an unreliable scanner) the network collapses.
+**5.** A form that accepts only two gender options or cannot store a Nepali-language name; a face-recognition model trained on few skin tones.
+**6.** (2001 − 1971)/2 = 15 doublings, so 2,300 × 2¹⁵ = 2,300 × 32,768 = **75,366,400**.
+**7.** 5 doublings: 2⁵ = 32.
+**8.** Speech and writing, printing, electric communication, computing, networking, mobile and social, data and AI.
+**9.** Benefits: free or cheap video calls; instant remittance. Risks: scams targeting remitters; weaker face-to-face bonds (also loan-app harassment).
+**10.** Who benefits? Who pays or is harmed? Who is absent from the design and decision?
 :::
-
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Explain how the Electronic Transactions Act 2063 gives legal recognition to electronic records and digital signatures. What do the Controller of Certification and a Certifying Authority do?**
+**Q1 (5 marks). State Moore's law. Use it to predict the transistor count of a chip in 2021 starting from the Intel 4004 of 1971.**
 
-*Introduction.* Before the Act, a contract, licence or filing had to be on paper with a handwritten signature to be safe in court. The Electronic Transactions Act 2063 (2008) removed that doubt (section 4.2, Figure 4.3).
+*Introduction.* In 1965 Gordon Moore noticed that the number of components on a chip was doubling regularly, and in 1975 he set the period at about two years. It is an empirical trend and an industry roadmap, not a law of physics (section 4.4).
 
-1. **Electronic records.** Where the law requires a document in writing, an electronic record is valid if it can be accessed later for reference. This is called functional equivalence. An emailed contract or an online tax filing is therefore enforceable.
-2. **Digital signatures.** A signature made with a private key and verified with the matching public key satisfies a legal requirement for a signature when the Act's conditions are met. The signature shows who signed and that the text has not changed.
-3. **Controller of Certification.** A government office that licenses Certifying Authorities, supervises them and maintains the root of trust for the country.
-4. **Certifying Authority (CA).** A licensed body that issues digital signature certificates, each binding a public key to a named person or organisation.
-5. **Duties of the subscriber.** The key holder must keep the private key safe and report any compromise so that the certificate can be revoked.
+*Calculation.* The Intel 4004 (1971) had about 2,300 transistors. From 1971 to 2021 is 50 years, so there are 50 / 2 = 25 doublings. The factor is 2^25 = 33,554,432, so the predicted count is 2,300 x 33,554,432 = **77,175,193,600** (Figure 4.2).
 
-| Actor | Role |
-|---|---|
-| Controller of Certification | Licenses and supervises CAs |
-| Certifying Authority | Issues certificates |
-| Subscriber | Signs; protects the private key |
-| Verifier | Checks signature and certificate |
+| Year | Doublings | Predicted transistors |
+|---|---|---|
+| 1971 | 0 | 2,300 |
+| 1991 | 10 | 2,355,200 |
+| 2011 | 20 | 2,411,724,800 |
+| 2021 | 25 | 77,175,193,600 |
 
-*Example.* A company files its annual return online with a director's digital signature. The office verifies the signature against the CA's certificate and accepts the filing.
+*Meaning.* Doubling every two years is a growth of sqrt(2) - 1 = 41.4% per year, compounding. Flagship processors of the early 2020s have tens of billions of transistors, so the trend has held roughly for fifty years.
 
-*Conclusion.* The Act makes electronic dealings as valid as paper ones, but only when keys and certificates are managed properly.
+*Effect on society.* Cheap, powerful chips made computers personal and then pocket-sized. The same cost curve explains why smartphones now reach villages.
 
-**Q2 (5 marks). List the computer offences of the ETA 2063 with their maximum penalties. A student logs in to a classmate's account without permission, deletes her files and then posts an insulting message about her. Which offences arise and what is the maximum exposure?**
+**Q2 (5 marks). Compare technological determinism and social shaping of technology, with an example from Nepal.**
 
-*Introduction.* The Act's chapter on computer offences sets upper limits; the court chooses the actual penalty (section 4.2 and Figure 4.2).
+*Introduction.* People disagree about whether technology drives society or society drives technology (section 4.2).
 
-| Section | Offence | Maximum imprisonment | Maximum fine |
-|---|---|---|---|
-| 44 | Pirating, destroying or altering source code | 3 years | Rs 2,00,000 |
-| 45 | Unauthorised access | 3 years | Rs 2,00,000 |
-| 46 | Damage to a computer or information system | 3 years | Rs 2,00,000 |
-| 47 | Publication of illegal material | 5 years | Rs 1,00,000 |
-| 52 | Computer fraud | 2 years | Rs 1,00,000 |
+1. **Technological determinism.** Technology is the main cause of social change. The argument is that the printing press, the telegraph and the internet each forced new ways of living. A weakness is that the same technology has had different effects in different countries.
+2. **Social shaping (social construction).** Laws, markets, culture and choices decide which technologies are built and how they are used. Mobile money succeeded in some countries quickly and slowly in others because of regulation and trust, not just technology.
+3. **Co-evolution (the usual modern view).** Technology and society shape each other in a loop.
 
-*Application.* (a) Logging in without permission is **section 45**: up to 3 years and Rs 2,00,000. (b) Deleting her files damages information in a system: **section 46**, up to 3 years and Rs 2,00,000. (c) The insulting post may fall under **section 47** if it is illegal material, up to 5 years and Rs 1,00,000, and also under the Criminal Code on defamation.
+| Point | Determinism | Social shaping |
+|---|---|---|
+| Cause | Technology | Society and choices |
+| Policy implication | Adapt to the tool | Steer the tool |
+| Weakness | Ignores context | Underrates technical limits |
 
-*Maximum exposure under the ETA.* Imprisonment 3 + 3 + 5 = **11 years**; fine 2,00,000 + 2,00,000 + 1,00,000 = **Rs 5,00,000**. This is a theoretical ceiling; real penalties are lower and depend on gravity and intent.
+*Nepali example.* QR payments spread after Fonepay and banks agreed on shared standards, and after COVID-19 made cash risky. The technology existed earlier; policy, trust and need decided the timing.
 
-*Evidence.* The case would rest on login logs, the IP address, the device and the account history.
+*Conclusion.* A balanced answer says that technology opens possibilities and society chooses among them.
 
-*Conclusion.* One act can break several sections, so a professional must treat every access and every post as legally significant.
+**Q3 (10 marks). Describe the information revolutions in history and discuss the social impacts of computing, with examples from Nepal.**
 
-**Q3 (10 marks). Describe the cyber law framework of Nepal. Explain the need for cyber law, the main statutes, the offences and penalties under the ETA 2063 and the duties of a computing professional.**
+*Introduction.* An information revolution is a change in how information is recorded, copied or moved that reshapes society. History has several of them, and each arrived faster than the one before (section 4.3 and Figure 4.1).
 
-*Introduction.* Cyber law is the body of rules that gives legal effect to electronic dealings, defines computer crime and protects rights online. Nepal has no single code; it combines the Constitution, several Acts and a policy (section 4.1).
+*The revolutions.*
 
-*Need for cyber law.* Three problems drive it: legal recognition (is an email contract valid?), crime that older laws did not name (unauthorised access, data damage) and rights and duties (privacy, copyright, service providers). Two difficulties remain: jurisdiction, because offenders can be abroad, and evidence, because digital proof is easy to alter.
+1. **Writing (c. 3200 BCE).** Records outlive memory, so trade, law and administration become possible.
+2. **Printing (c. 1450).** Books become cheap (Plate 4.1a), literacy spreads and ideas travel faster than rulers can control.
+3. **Telegraph and telephone (1844, 1876).** Messages travel at the speed of electricity, linking markets and governments.
+4. **Electronic computers (1946).** ENIAC and its vacuum tubes (Plate 4.1b) automate calculation for the census, banks and science.
+5. **Microprocessor (1971).** The Intel 4004 (Plate 4.1c) begins the personal computer; Moore's law then multiplies power by a factor of 33 million in fifty years.
+6. **Web and mobile (1991, 2007).** Anyone can publish, and a smartphone (Plate 4.1d) is a computer, camera and bank in one hand.
 
-*The framework (see the table).*
+*Social impacts (section 4.5).*
 
-| Source | Contribution |
-|---|---|
-| Constitution 2015 | Freedom of expression, privacy (Article 28), right to information |
-| ETA 2063 | Records, signatures, CAs, computer offences |
-| Individual Privacy Act 2075 | Protects personal information and communications |
-| Copyright Act 2059 | Protects programs and databases |
-| Muluki Criminal Code 2074 | Forgery, defamation and privacy offences applied online |
-| National Cyber Security Policy 2080 | Protects critical information infrastructure; CERT |
+| Area | Positive effect | Negative effect |
+|---|---|---|
+| Education | Free lectures and e-books | Distraction, cheating |
+| Work | Remote jobs, freelancing | Job loss from automation |
+| Money | Fonepay, eSewa, ConnectIPS | Online fraud |
+| Communication | Contact with migrant workers | Misinformation |
+| Privacy | Personalised services | Tracking and data leaks |
+| Environment | Paperless offices | E-waste and energy use |
 
-*The ETA 2063 in detail.* It recognises electronic records and digital signatures, creates the Controller of Certification and licensed Certifying Authorities, and lists offences: sections 44, 45 and 46 carry up to 3 years and Rs 2,00,000; section 47 up to 5 years and Rs 1,00,000; section 52 up to 2 years and Rs 1,00,000. It also provides for investigation, special tribunals and prosecution of offences abroad that involve a computer in Nepal. Section 47 is criticised because "public morality" and "decent behaviour" are wide terms that can be used against satire and criticism.
+*Discussion.* The benefits are real, but they are not equally shared. People without devices, skills or electricity gain little, so policy such as the Digital Nepal Framework matters. Society should treat technology as a choice that can be steered by law, education and ethics, not as a force that cannot be questioned.
 
-*Duties of a professional.* Work only with written authorisation; protect personal data; preserve logs and evidence; guard private keys; respect licences; refuse unlawful systems; report incidents to the right authority (section 4.7.1). A victim should save evidence, call the bank, secure accounts and report to the Cyber Bureau (Figure 4.4).
-
-*Conclusion.* Nepal's framework recognises electronic dealings and punishes misuse, but it is spread across several laws and some terms are broad, so professionals must read the current text and act within authorisation, privacy and licence limits.
+*Conclusion.* Each information revolution lowered the cost of information and raised the speed of change. Computing is the largest so far, so its social effects, good and bad, need deliberate management.

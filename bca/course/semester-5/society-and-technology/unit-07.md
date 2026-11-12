@@ -2,292 +2,266 @@
 subject: Society and Technology
 grade: BCA Semester 5
 unit: 7
-title: E-Waste, Green Computing and Sustainable Technology
+title: Cyberethics, Privacy and Algorithmic Fairness
 hours: 5
 area: BCA 305 · Society and Technology · Unit 7
 ---
 
-Every phone, laptop and server starts as mined metal and oil, spends a few years consuming electricity and ends as waste that may be reused, recycled, stored in a drawer, burnt in a roadside fire or dumped. A computing professional shapes all of those stages: what is bought, how long it is used, how efficiently the data centre runs and what happens to the device at the end. This unit shows the life cycle, the hazards, and the *measurements* of green computing: **PUE** for data centres, energy and carbon footprints for equipment, and the surprising arithmetic of extending a device's life.
+A bank deploys a loan-scoring model. It is accurate overall, yet when the data are split by urban and rural applicants, the model rejects far more of the *creditworthy* rural applicants. Nobody wrote a discriminatory line of code; the pattern came from the data. This unit begins with the ethical frameworks and everyday issues of cyberspace (privacy, misinformation, harassment, intellectual honesty), then shows that fairness in automated decisions can be *measured*, with confusion matrices, and that different fairness definitions can conflict.
 
 ::: key What this unit gives you
-- E-waste: definition, composition, hazards, life cycle and the Nepali situation.
-- The 3Rs, extended producer responsibility, the Basel Convention, data sanitisation.
-- Data-centre efficiency: PUE and DCiE, energy and cost calculations.
-- Carbon footprint: embodied and operational emissions; the effect of service life.
+- Ethical theories and professional codes applied to computing.
+- Privacy, surveillance, misinformation, cyber-bullying, plagiarism and netiquette.
+- Fairness metrics: demographic parity, disparate impact, equal opportunity, equalized odds, predictive parity, all computed from one example; why they conflict.
+- Transparency, accountability and a checklist for responsible systems.
 :::
 
-*Emission factors, costs and material flows in the worked examples are **assumptions chosen to show the method**; use measured or published values for real decisions.*
+## 7.1 Ethical frameworks
 
-## 7.1 What is e-waste?
+Ethics asks what we *ought* to do. Four frameworks help structure computing dilemmas:
 
-**Electronic waste (e-waste)** is discarded electrical and electronic equipment: computers, phones, televisions, batteries, chargers, printers, solar-panel inverters, network and medical devices. Worldwide it is the fastest-growing household waste stream, driven by falling prices, short product cycles and difficulty of repair. It matters for two reasons. **Hazards:** devices contain **lead** (solder, CRT glass), **mercury** (some lamps and switches), **cadmium** and other heavy metals (batteries), and **brominated flame retardants** in plastics; informal burning to recover copper releases dioxins and toxic fumes that harm workers and children. **Resources:** the same devices contain copper, aluminium, gold, silver, palladium and rare earths in concentrations higher than many ores, so recycling is also a source of materials (*urban mining*).
-
-## 7.2 The life cycle of a device
-
-1. **Extraction and materials:** mining and refining of metals and the production of plastics (energy-intensive, with human-rights risks in some supply chains).
-2. **Manufacture:** chips, boards and assembly; this stage causes most of a laptop's or phone's lifetime carbon (its **embodied** emissions).
-3. **Distribution:** shipping and packaging.
-4. **Use:** electricity consumption (**operational** emissions), repairs and upgrades.
-5. **End of life:** reuse, refurbishment, recycling, storage, or disposal.
-
-A device's footprint is therefore *front-loaded*: the largest environmental decision is whether to buy a new one at all. A longer service life, repair and reuse are generally better than recycling, which is better than disposal.
-
-### Nepal's situation
-
-Nepal imports almost all of its electronics, including large volumes of **second-hand** equipment, and has no large-scale formal e-waste recycling plant of the kind found in some countries. Much of the waste is stored in homes and offices, collected by scrap dealers (*kabadi*), dismantled informally and partly exported for processing. The **Solid Waste Management Act, 2068 (2011)** is the general framework for waste; specific e-waste rules and collection schemes have been proposed and piloted but enforcement is thin. A typical (illustrative) flow of 1,000 kg of discarded devices:
-
-| Fate of 1,000 kg of discarded devices (illustrative) | kg | Share |
+| Framework | Test | Application to a surveillance feature |
 |---|---|---|
-| Collected by formal recyclers | 120 | 12% |
-| Reused / refurbished | 80 | 8% |
-| Sent informally to scrap dealers | 450 | 45% |
-| Stored at home or office | 300 | 30% |
-| Landfill or burnt | 50 | 5% |
+| **Consequentialism / utilitarianism** | Choose the action with the best overall consequences | Does the safety gain outweigh the privacy loss for everyone affected? |
+| **Deontology (duty)** | Follow rules and respect persons as ends, never merely as means | Does it treat users as people with rights, and would it be acceptable as a universal rule? |
+| **Virtue ethics** | Do what a person of good character would do | Would an honest, caring engineer build it? |
+| **Care and justice** | Attend to relationships, power and fairness | Who is most vulnerable, and are they heard? |
 
-Only 20% reaches formal collection or reuse, while nearly half passes through informal channels with weak protection, and almost a third sits unused in storage. The policy levers are clear: collection points, deposit or take-back schemes, support for safe informal-sector recycling, and awareness.
+Professional codes make these concrete. The **ACM Code of Ethics** (contribute to society, avoid harm, be honest, be fair and non-discriminatory, respect privacy, honour confidentiality, give proper credit for intellectual property, respect copyright, and work only within competence) and the **IEEE Code** commit members to the public interest first. A sound procedure for a dilemma: state the facts; list the stakeholders; identify the principles and laws in play; list options; choose and justify; and seek review. If instructed to do something wrong, *refuse, document and escalate*.
 
-## 7.3 Managing e-waste
+## 7.2 Everyday cyberethics
 
-- **Reduce:** buy only what is needed, choose repairable and upgradeable devices with long software support, share equipment, prefer cloud services with efficient shared hardware where appropriate.
-- **Reuse:** donate or refurbish working equipment for schools and community centres; second-hand markets extend life.
-- **Recycle:** use authorised recyclers who separate hazardous parts, recover metals and handle batteries safely.
-- **Extended producer responsibility (EPR):** producers and importers are responsible for taking back and recycling the products they sell, financing collection through a fee.
-- **Basel Convention:** the international treaty controlling transboundary movements of hazardous wastes and their disposal; it aims to stop rich countries dumping hazardous waste on poorer ones. Nepal is a party.
-- **Right to repair:** access to spare parts, manuals and tools.
-- **Data sanitisation:** before reuse or disposal, wipe storage securely (overwrite, cryptographic erase or physical destruction), because deleted files can be recovered and old disks have leaked personal data. Combine with the security chapter of *MIS and e-Business*.
+- **Privacy and surveillance.** Collect the minimum, with consent, and protect it; beware of **function creep** (data collected for one purpose used for another) and of the permanence of online records. Workplace monitoring needs proportionality and notice.
+- **Misinformation and disinformation.** *Misinformation* is false content spread without intent to deceive; *disinformation* is spread deliberately. Fast sharing, algorithmic amplification and low-cost fakes (including **deepfakes**) increase the problem. Verify before sharing: check the source, date and other reports, and search the image in reverse.
+- **Cyber-bullying and online harassment.** Persistent, public and anonymous, it harms mental health and falls disproportionately on women and minorities; report to platforms and the police cyber bureau, and keep evidence.
+- **Plagiarism and academic integrity.** Using others' words, code or data without credit is dishonest; cite sources, follow licences, and treat AI-generated text and code as a tool whose use must be disclosed according to course rules.
+- **Intellectual property and piracy.** Respect licences (Unit 9).
+- **Netiquette.** Be courteous, respect others' time and privacy, do not shout, think before you post.
+- **Digital footprint and identity.** What you post is searchable and durable; manage privacy settings.
+- **Social engineering and honesty.** Do not exploit trust to obtain access; this is both unethical and often an offence.
 
-## 7.4 Green computing
+## 7.3 Algorithmic bias: where it comes from
 
-**Green (sustainable) computing** is the design, manufacture, use and disposal of computing so as to minimise environmental impact. Practices:
+Bias in automated systems can enter at several points: **historical bias** (the world that produced the data was unequal), **representation bias** (some groups are under-sampled), **measurement bias** (the proxy measured is not the quantity of interest: arrests instead of crime), **label bias** (past human decisions are copied as labels), **aggregation bias** (one model for groups that differ) and **deployment bias** (use in a setting different from the training one). *Removing the sensitive attribute does not remove the bias*, because other variables (postal code, device type, name) act as **proxies**. Risks arise in credit, hiring, policing, health triage and content ranking.
 
-- **Energy-efficient hardware** (labels such as Energy Star), efficient power supplies, SSDs, low-power processors.
-- **Power management:** sleep modes, screen dimming, switching devices off; typical office PCs consume power when idle.
-- **Virtualisation and consolidation:** run many virtual servers on fewer physical ones; raise utilisation (an idle server draws a large fraction of its peak power).
-- **Cloud and shared infrastructure:** large providers run at better efficiency than a typical small server room, although the total demand still grows.
-- **Efficient software:** avoid busy polling, compress data, cache, use efficient algorithms; the cheapest watt is the one not used.
-- **Renewable energy and cooling design:** hot/cold aisles, free cooling in cool climates, solar power for remote facilities.
-- **Telecommuting and dematerialisation:** replacing travel and paper with digital services, with the caveat of *rebound effects* (more consumption because it is cheaper).
+## 7.4 Measuring fairness
 
-### Power usage effectiveness (PUE)
+Consider a loan-approval model evaluated on past applicants for whom the true outcome (repaid or defaulted) is known. "Positive" means *predicted creditworthy (approved)*, and the actual positives are those who truly would repay. For two groups the counts are:
 
-A data centre's electricity feeds the IT equipment (servers, storage, network) and the overhead (cooling, power conversion, lighting). The **Power Usage Effectiveness** is
+| Group | TP | FP | FN | TN | n |
+|---|---|---|---|---|---|
+| Urban applicants (A) | 80 | 20 | 10 | 90 | 200 |
+| Rural applicants (B) | 30 | 10 | 30 | 80 | 150 |
 
-**PUE = total facility power ÷ IT equipment power** (≥ 1; 1.0 would be perfect),
+From each group's counts we compute the standard rates.
 
-and its reciprocal is **DCiE = IT power ÷ total power** (as a percentage).
+| Metric | Group A | Group B |
+|---|---|---|
+| Selection rate (TP+FP)/n | 0.500 | 0.267 |
+| True-positive rate TP/(TP+FN) | 0.889 | 0.500 |
+| False-positive rate FP/(FP+TN) | 0.182 | 0.111 |
+| Precision TP/(TP+FP) | 0.800 | 0.750 |
+| Accuracy | 0.850 | 0.733 |
+| Base rate of repayers | 0.450 | 0.400 |
 
-::: example A server room
-IT load = 100 kW and total facility load = 150 kW, so PUE = **1.50** and DCiE = **66.7%**: one-third of the energy is overhead. Running continuously (8,760 hours a year): total energy = 150 × 8,760 = **13,14,000 kWh**, of which IT 8,76,000 kWh and overhead **4,38,000 kWh**. An efficiency project (better airflow, higher set-point, efficient UPS) brings PUE to 1.3, so the facility draws 100 × 1.3 = **130 kW**: annual energy 11,38,800 kWh, a saving of **1,75,200 kWh**. At an assumed Rs 12 per kWh that is **Rs 21,02,400** a year.
-:::
+Several fairness criteria use these numbers:
 
-PUE is useful but incomplete: it ignores how useful the *IT work* is. A server room at PUE 1.2 full of idle servers wastes more than one at 1.5 whose servers are busy. Pair PUE with **utilisation** and with **work done per kWh**.
+- **Demographic parity (statistical parity):** selection rates should be equal. The difference is **0.233** (A minus B).
+- **Disparate impact ratio:** B's selection rate ÷ A's = **0.533**. The US "four-fifths rule" of thumb asks for at least 0.8, so this model **fails** the test.
+- **Equal opportunity:** qualified applicants should have the same chance of approval in both groups: equal TPR. The TPR gap is **0.389**: an urban applicant who would repay is approved far more often than an equally good rural one.
+- **Equalized odds:** both TPR *and* FPR equal across groups. The FPR gap is **0.071**, and the TPR gap is large, so equalized odds is violated.
+- **Predictive parity (calibration by group):** the precision (of those approved, the fraction who repay) should be equal. The gap is **0.050**, which is small: the approvals are about equally reliable in both groups.
 
-### Carbon footprint
+So the *same model* looks nearly fair by predictive parity and clearly unfair by equal opportunity and demographic parity. What is happening is that the model is cautious with rural applicants: it approves few of them (low selection rate), makes few false approvals (lower FPR) but misses half the creditworthy ones (TPR 0.5).
 
-**Carbon footprint** (in kg CO₂-equivalent) = energy used × **emission factor** (kg CO₂e per kWh of the supplying grid). The factor depends on how the electricity is generated. With an illustrative generic grid factor of 0.5 kg/kWh, the server room's 13,14,000 kWh gives **657.0 tonnes** of CO₂e a year, and the PUE project saves **87.6 tonnes**. Nepal's electricity is overwhelmingly hydroelectric, so a hydro-dominated factor such as 0.02 kg/kWh would give only **26.3 tonnes**: the *same* equipment is far cleaner on a clean grid, so for Nepali users the embodied emissions and diesel generator back-up dominate more than elsewhere. State the factor and its source whenever you quote a footprint.
+### Why you cannot have everything
 
-### Service life and embodied carbon
+The base rate of repayers differs between the groups (0.45 and 0.40 here). The confusion-matrix identity FPR = [p/(1 − p)] × [(1 − PPV)/PPV] × TPR (p is the base rate) shows that **when base rates differ, a model cannot have equal PPV, equal TPR and equal FPR at once** unless it is perfect. If group B had group A's precision (0.8) and the same TPR as A (0.889), its FPR would have to be **0.148**, not A's 0.182. This is the core of the *impossibility results* of Chouldechova and of Kleinberg and colleagues: fairness criteria express different moral claims, and the choice among them is a value judgement for the people affected, not a technical one.
 
-Assume a laptop has embodied emissions of 300 kg CO₂e and uses 50 W for 8 hours a day on 250 days a year, which is **100 kWh** a year, or **50 kg** a year at 0.5 kg/kWh. Spreading the embodied emissions over its service life gives the annual footprint:
+### What can be done
 
-| Service life (years) | Embodied per year (kg CO₂e) | Use per year at 0.5 kg/kWh | Annual total |
-|---|---|---|---|
-| 3 | 100.0 | 50.0 | 150.0 |
-| 4 | 75.0 | 50.0 | 125.0 |
-| 5 | 60.0 | 50.0 | 110.0 |
-| 6 | 50.0 | 50.0 | 100.0 |
+- **Pre-processing:** re-sample or re-weight the data; collect more data from under-represented groups.
+- **In-processing:** add a fairness constraint or penalty to the training objective.
+- **Post-processing:** choose different decision thresholds per group to equalise a chosen metric (legally and ethically sensitive).
+- **Process:** involve affected communities, document the data and model (*datasheets* and *model cards*), test on subgroups before deployment, monitor after, provide **explanations** and a **human appeal** route, and allow the system to be switched off.
 
-Extending the life from 3 to 5 years reduces the annual footprint from 150.0 to 110.0 kg, a cut of **26.7%**, with no new technology at all. This is why *repair, upgrade and reuse* are the most effective actions available to a student or a college lab.
+## 7.5 Transparency and accountability
 
-## 7.5 Responsibility of the computing professional
+Automated decisions affecting rights (credit, benefits, hiring, bail) need: **transparency** (people know a system is used), **explainability** (reasons in understandable terms), **contestability** (a way to challenge), **accountability** (a named person or organisation is responsible) and **auditability** (logs and independent testing). Regulators in several countries now require impact assessments for high-risk systems. In Nepal there is no dedicated AI statute at the time of writing; the general law (Constitution, Privacy Act, Criminal Code, consumer rules and NRB's directives) still applies to the harm caused by automated systems.
 
-Choose and specify long-lived, repairable equipment; design software that does not force hardware upgrades; measure energy and publish it; build services with *efficiency* as a requirement; dispose of equipment responsibly and wipe data; and challenge wasteful practices such as always-on servers without need. The wider concept is **sustainable development**: meeting present needs without compromising the future. The United Nations **Sustainable Development Goals** include industry and innovation, responsible consumption and production, and climate action, to which these practices contribute.
+## 7.6 Seeing the ideas: faces, pipelines, rates and trade-offs
 
-## 7.6 Seeing the ideas: the fires, the sorting line, the aisle, the flows and the footprint
+Automated decisions are made by machines that look at people. Plate 7.1 shows the issue at three scales: the researcher whose 2018 audit of commercial face-analysis systems showed that error rates differed sharply across groups, an access gate that identifies passengers by their face, and a police van that scans crowds. A system that works well on average can still fail a particular group.
 
-E-waste has two faces. In one, workers burn cable sheathing in the open to sell the copper; in the other, shredded devices are sorted into clean fractions of metal and plastic. Plate 7.1 shows both, plus a data-centre aisle, where the electricity bill and the carbon of computing are decided every hour of the year.
-
-```photogrid label="7.1" cols="3" ratio="1.1" caption="Two ends of the life cycle and the busiest middle. (a) Workers burn plastic off cable to recover copper at an informal e-waste site in Ghana: the smoke carries dioxins and metals that harm workers and children. (b) A sample of electronic scrap shredded and separated for recycling, shown at a science exhibit in Japan: the same copper and plastics, recovered safely. (c) A data-centre aisle: where PUE, cooling and the electricity bill are decided."
-@ photo id="bca-st/ewaste-burn" cap="Informal burning"
-fit 1.1
+```photogrid label="7.1" cols="3" ratio="1.0" caption="Algorithms that look at people. (a) Joy Buolamwini, the researcher who with Timnit Gebru published the 2018 Gender Shades audit showing that commercial face-analysis systems made far more errors on darker-skinned women than on lighter-skinned men. (b) A facial-recognition fare gate in a metro station in China: the passenger must register a face to confirm identity. (c) A live facial-recognition van used by police in London. Each use needs a lawful purpose, accuracy testing on every group and a human route to appeal."
+@ photo id="bca-st/buolamwini" cap="Auditing the algorithm"
+fit 1.0
+focus 0.5 0.7
+@ photo id="bca-st/facegate" cap="Face-recognition gate"
+fit 1.0
+focus 0.6 0.5
+@ photo id="bca-st/facevan" cap="Live recognition van"
+fit 1.0
 focus 0.5 0.5
-@ photo id="bca-st/ewaste-sort" cap="Shredded for recycling"
-fit 1.1
-focus 0.5 0.45
-@ photo id="bca451/facebook" cap="Data-centre aisle"
-fit 1.1
-focus 0.5 0.5
 ```
 
-```svgfig label="7.1" caption="The life cycle of a laptop. Manufacture dominates the embodied emissions; use adds operational emissions every year; the end of life either returns materials (recycling, reuse) or releases hazards (burning, dumping). Keeping the device longer spreads the one-time embodied carbon over more years."
-f = Fig(580, 200)
-st = [("Mining and\nrefining", SAND, AMBER), ("Manufacture\n(embodied CO2e)", ROSE, RED), ("Shipping", BLUE, NAVY), ("Use\n(operational)", MINT, TEAL), ("End of life", SAND, AMBER)]
-for i, (t, fl, sk) in enumerate(st):
-    x = 6 + i * 115
-    f.box(x, 14, 104, 56, t, fill=fl, stroke=sk, size=10, bold=True)
-    if i < 4:
-        f.arrow([(x + 104, 42), (x + 115, 42)], color=SLATE)
-f.box(330, 104, 116, 44, "Reuse, repair,\nrefurbish", fill=MINT, stroke=TEAL, size=10, bold=True)
-f.box(458, 104, 116, 44, "Formal recycling:\nmetals recovered", fill=MINT, stroke=TEAL, size=9.6, bold=True)
-f.box(458, 156, 116, 38, "Burning, dumping:\nhazards released", fill=ROSE, stroke=RED, size=9.6, bold=True)
-f.arrow([(520, 70), (520, 104)], color=SLATE); f.arrow([(388, 104), (180, 70)], color=TEAL, dash=True, label="second life", lpos=(270, 96))
-f.text(160, 140, "Longest-lasting action: extend the use stage.\nThe cheapest laptop is the one you already own.", size=10, color=NAVY, bold=True)
-```
-
-```svgfig label="7.2" caption="The waste hierarchy. The wider the bar the better the option for the environment and the budget. Buying less comes first; recycling is the last good option; disposal is the worst."
-f = Fig(580, 188)
-h = [("1 Reduce: buy only what you need, choose repairable models", 560, MINT, TEAL), ("2 Reuse: donate and refurbish for schools", 470, MINT, TEAL), ("3 Recycle: authorised recyclers recover metals", 380, BLUE, NAVY), ("4 Dispose safely: wipe data, treat hazards", 290, SAND, AMBER), ("5 Burn or dump: avoid", 200, ROSE, RED)]
-for i, (t, w, fl, sk) in enumerate(h):
-    f.box(290 - w / 2, 8 + i * 35, w, 29, t, fill=fl, stroke=sk, size=10, bold=True)
-```
-
-```svgfig label="7.3" caption="Fate of 1,000 kg of discarded devices in the illustrative Nepali flow of section 7.2 (assumed figures). Only 200 kg (20%) reaches formal recycling or reuse, while 450 kg passes through informal scrap dealers and 300 kg sits in storage."
-f = Fig(580, 150)
-parts = [("Formal 120", 120, TEAL, MINT), ("Reuse 80", 80, NAVY, BLUE), ("Informal scrap 450", 450, AMBER, SAND), ("Stored 300", 300, SLATE, SOFT), ("Dump 50", 50, RED, ROSE)]
-x = 10.0
-for n, v, sk, fl in parts:
-    w = v * 0.56
-    f.box(x, 24, w, 50, "", fill=fl, stroke=sk)
-    f.text(x + w / 2, 49, "%d" % v, size=11, color=sk, bold=True)
-    x += w
-names = [("120 formal recyclers (12%)", TEAL), ("80 reused (8%)", NAVY), ("450 informal scrap dealers (45%)", AMBER), ("300 stored at home or office (30%)", SLATE), ("50 landfill or burnt (5%)", RED)]
-for i, (n, c) in enumerate(names):
-    f.text(14 + (i % 2) * 290, 96 + (i // 2) * 18, n, size=10, color=c, bold=True, anchor="start")
-f.text(290, 14, "kg out of 1,000 kg", size=9.6, color=SLATE)
-```
-
-```svgfig label="7.4" caption="Power usage effectiveness of the server room of section 7.4. Before: IT 100 kW plus 50 kW overhead, PUE 1.50, 13,14,000 kWh a year. After the efficiency project: 100 kW plus 30 kW, PUE 1.30, 11,38,800 kWh. The saving is 1,75,200 kWh, or Rs 21,02,400 a year at an assumed Rs 12 per kWh."
-f = Fig(580, 190)
-for i, (n, ov, pue) in enumerate([("Before", 50, "1.50"), ("After", 30, "1.30")]):
-    y = 20 + i * 62
-    f.text(8, y + 22, n, size=11, color=NAVY, bold=True, anchor="start")
-    f.box(70, y, 100 * 2.6, 44, "IT load 100 kW", fill=BLUE, stroke=NAVY, size=11, bold=True)
-    f.box(70 + 260, y, ov * 2.6, 44, "+%d kW" % ov, fill=ROSE, stroke=RED, size=10, bold=True)
-    f.text(70 + 260 + ov * 2.6 + 10, y + 22, "PUE " + pue, size=11, color=SLATE, bold=True, anchor="start")
-f.box(8, 146, 564, 36, "PUE = total / IT  (1.50 = 66.7% DCiE;  1.30 = 76.9% DCiE).  Overhead cut by 20 kW x 8,760 h = 1,75,200 kWh", fill=MINT, stroke=TEAL, size=10)
-```
-
-```svgfig label="7.5" caption="Annual footprint of a laptop (embodied 300 kg CO2e, use 50 kg a year at 0.5 kg/kWh) by service life, from the table of section 7.4. Extending life from 3 to 5 years cuts the annual footprint from 150 to 110 kg, a fall of 26.7%, with no new technology."
+```svgfig label="7.1" caption="Where bias enters an automated system. Bias is not only a coding error: it can come from the world that made the data, from who is in the sample, from what is measured, from past labels, from one-size-fits-all models and from the place where the system is finally used."
 f = Fig(580, 214)
-f.box(380, 4, 12, 10, "", fill=ROSE, stroke=RED); f.text(396, 10, "embodied per year", size=9.4, color=RED, anchor="start", bold=True)
-f.box(486, 4, 12, 10, "", fill=MINT, stroke=TEAL); f.text(502, 10, "use", size=9.4, color=TEAL, anchor="start", bold=True)
-for i, yrs in enumerate([3, 4, 5, 6]):
-    emb = 300 / yrs; y = 24 + i * 44
-    f.text(8, y + 18, "%d-year life" % yrs, size=10.4, color=NAVY, bold=True, anchor="start")
-    f.box(100, y, emb * 2.6, 30, "%.0f" % emb, fill=ROSE, stroke=RED, size=10.4, bold=True)
-    f.box(100 + emb * 2.6, y, 50 * 2.6, 30, "50", fill=MINT, stroke=TEAL, size=10.4, bold=True)
-    f.text(100 + (emb + 50) * 2.6 + 8, y + 16, "%.0f kg" % (emb + 50), size=10.4, color=SLATE, bold=True, anchor="start")
-f.text(290, 204, "annual total falls 150 -> 125 -> 110 -> 100 kg CO2e as life is extended", size=9.8, color=SLATE)
+st = [("World", "historical\nbias", ROSE, RED), ("Sampling", "representation\nbias", SAND, AMBER), ("Measuring", "measurement\nbias (proxies)", SAND, AMBER), ("Labelling", "label bias:\npast decisions", SAND, AMBER), ("Model", "aggregation\nbias", BLUE, NAVY), ("Use", "deployment\nbias", ROSE, RED)]
+for i, (t, s, fl, sk) in enumerate(st):
+    x = 6 + i * 96
+    f.box(x, 14, 86, 74, t + "\n" + s, fill=fl, stroke=sk, size=9.6, bold=True)
+    if i < 5:
+        f.arrow([(x + 86, 51), (x + 96, 51)], color=SLATE)
+f.box(6, 104, 568, 42, "Removing the sensitive attribute is not enough: postal code, device type, school or name can act as a proxy for it", fill="#f8fafc", stroke=SLATE, size=10)
+f.box(6, 156, 568, 46, "Example: a loan model trained on past approvals copies the old refusal of rural applicants (label bias),\nthen reads \"village code\" as a risk signal (proxy) and is deployed in new districts (deployment bias)", fill=ROSE, stroke=RED, size=9.6)
 ```
 
-### 7.6.1 Eight practices for responsible handling of e-waste and energy
+```svgfig label="7.2" caption="The loan model of section 7.4 as confusion matrices (counts of applicants). Urban group A: 80 correct approvals, 20 wrong approvals, 10 missed good applicants, 90 correct refusals. Rural group B: 30, 10, 30 and 80. In group B half of the people who would repay (30 of 60) are refused."
+f = Fig(580, 190)
+def mat(x, name, v, cols):
+    f.text(x + 115, 12, name, size=10.5, color=NAVY, bold=True)
+    f.text(x + 62, 30, "predicted approve", size=8.6, color=SLATE); f.text(x + 168, 30, "predicted refuse", size=8.6, color=SLATE)
+    for (r, c), (lab, val) in zip([(0, 0), (0, 1), (1, 0), (1, 1)], v):
+        fl, sk = cols[lab]
+        f.box(x + 8 + c * 106, 38 + r * 56, 100, 50, lab + "\n" + str(val), fill=fl, stroke=sk, size=10.5, bold=True)
+cols = {"TP": (MINT, TEAL), "FN": (ROSE, RED), "FP": (SAND, AMBER), "TN": (BLUE, NAVY)}
+mat(8, "Group A (urban, n = 200)", [("TP", 80), ("FN", 10), ("FP", 20), ("TN", 90)], cols)
+mat(300, "Group B (rural, n = 150)", [("TP", 30), ("FN", 30), ("FP", 10), ("TN", 80)], cols)
+f.text(290, 164, "rows: truly repays (top) / truly defaults (bottom).  TPR = TP/(TP+FN): A = 80/90 = 0.889, B = 30/60 = 0.500", size=9.2, color=SLATE)
+f.text(290, 180, "A is approved more often: 100 of 200 (0.500) against 40 of 150 (0.267)", size=9.2, color=RED, bold=True)
+```
 
-1. **Buy less and buy repairable.** Before a purchase, ask whether the old device can be upgraded with more RAM or an SSD. Choose models with spare parts and long software support. Most of a laptop's carbon is spent when it is made, so not buying is the biggest saving.
-2. **Extend the service life.** Keeping a laptop for five years instead of three cuts its annual footprint by 26.7%. A college lab can clean, re-paste and reinstall old machines for first-year classes. Longer life also postpones the cost of disposal.
-3. **Reuse and donate.** Working equipment can serve a school in a remote ward or a community centre. Refurbished computers keep their value and give training access to students who have none. Always wipe the data first.
-4. **Sanitise data before disposal.** Deleted files can be recovered from old disks. Use secure overwrite, cryptographic erase or physical destruction, and keep a record. Many leaks come from sold or discarded drives, not from hackers.
-5. **Use authorised recyclers.** Formal recyclers separate lead, batteries and plastics and recover copper and gold safely. Informal burning gives workers a little cash but releases dioxins and heavy metals. Support take-back and collection points where they exist.
-6. **Switch on power management.** An idle office PC still draws power. Sleep modes, screen dimming and switching off at night can cut a lab's energy use by about a quarter. The cheapest watt is the one never used.
-7. **Consolidate with virtualisation.** One well-used physical server can run many virtual ones, and an idle server still draws a large part of its peak power. Higher utilisation means fewer machines to buy, cool and later dispose of. Measure utilisation along with PUE.
-8. **Measure carbon with the right factor.** Energy in kWh multiplied by the grid factor gives kg CO2e. On Nepal's hydro-dominated grid operational emissions are small, so embodied emissions and diesel backup matter more. State your assumptions whenever you publish a number.
+```svgfig label="7.3" caption="Five fairness rates for the two groups, from the table of section 7.4. The same model looks fair on precision (gap 0.050) and unfair on selection rate (gap 0.233) and true-positive rate (gap 0.389). The disparate impact ratio is 0.267 / 0.500 = 0.533, below the four-fifths rule of thumb of 0.8."
+f = Fig(580, 250)
+rows = [("Selection rate", 0.500, 0.267), ("True-positive rate", 0.889, 0.500), ("False-positive rate", 0.182, 0.111), ("Precision", 0.800, 0.750), ("Accuracy", 0.850, 0.733)]
+f.box(380, 4, 12, 10, "", fill=BLUE, stroke=NAVY); f.text(396, 10, "A urban", size=9.4, color=NAVY, anchor="start", bold=True)
+f.box(466, 4, 12, 10, "", fill=SAND, stroke=AMBER); f.text(482, 10, "B rural", size=9.4, color=AMBER, anchor="start", bold=True)
+for i, (n, a, b) in enumerate(rows):
+    y = 22 + i * 40
+    f.text(6, y + 20, n, size=10, color=NAVY, bold=True, anchor="start")
+    f.box(150, y, a * 330, 16, "", fill=BLUE, stroke=NAVY); f.text(150 + a * 330 + 5, y + 9, "%.3f" % a, size=9.6, color=NAVY, bold=True, anchor="start")
+    f.box(150, y + 18, b * 330, 16, "", fill=SAND, stroke=AMBER); f.text(150 + b * 330 + 5, y + 27, "%.3f" % b, size=9.6, color=AMBER, bold=True, anchor="start")
+f.text(290, 242, "Disparate impact = 0.267 / 0.500 = 0.533 (< 0.8)", size=10, color=RED, bold=True)
+```
+
+```svgfig label="7.4" caption="Why every fairness criterion cannot hold together. With base rates 0.45 and 0.40, giving group B the same precision (0.800) and true-positive rate (0.889) as group A would force B's false-positive rate to 0.148, not A's 0.182 and not B's actual 0.111. Equalising one rate moves another: the choice is a value judgement for the people affected."
+f = Fig(580, 176)
+rows = [("A actual FPR", 0.182, BLUE, NAVY), ("B actual FPR", 0.111, SAND, AMBER), ("B FPR needed if PPV and TPR match A", 0.148, ROSE, RED)]
+for i, (n, v, fl, sk) in enumerate(rows):
+    y = 12 + i * 38
+    f.text(8, y + 14, n, size=9.8, color=NAVY, bold=True, anchor="start")
+    f.box(250, y, v * 1500, 24, "", fill=fl, stroke=sk)
+    f.text(250 + v * 1500 + 6, y + 13, "%.3f" % v, size=10.4, color=sk, bold=True, anchor="start")
+f.box(8, 128, 564, 40, "FPR = [p / (1 - p)] x [(1 - PPV) / PPV] x TPR  (p = base rate of repayers):\nunequal base rates make equal PPV, TPR and FPR impossible for any imperfect model", fill="#f8fafc", stroke=SLATE, size=9.8)
+```
+
+### 7.6.1 Eight practices for building fair and responsible systems
+
+1. **State the purpose and the people affected.** Write down what decision the system makes and who is affected, including the least powerful group. A loan model for a Nepali microfinance lender must name rural and women borrowers. A clear purpose prevents function creep later.
+2. **Check the data before training.** Count how many examples each group has and how they were collected. If rural applicants are 10% of the data, the model will learn their patterns poorly. Collect more data or reweight before blaming the algorithm.
+3. **Do not trust proxies.** Postal code, device model, school name or surname can stand in for caste, region or gender. Test whether removing the sensitive attribute really removes its effect. Often it does not.
+4. **Measure by group, not only overall.** An accuracy of 85% can hide a true-positive rate of 50% for one group. Report selection rate, TPR, FPR and precision for every group. A table like Figure 7.3 should be part of every evaluation.
+5. **Choose the fairness criterion openly.** The criteria conflict when base rates differ, so someone must decide which error matters most. For loans, missing a creditworthy applicant (low TPR) may be the harm to avoid. Record who made the choice and why.
+6. **Keep a human appeal route.** A refused applicant should get reasons in simple Nepali and a person to ask. Automated refusals without appeal are the most harmful. A short review form at the bank counter is better than none.
+7. **Document and audit.** Keep a datasheet for the data and a model card for the model: purpose, limits, tested groups and known failures. Log decisions so an independent auditor can retest them. Re-check after deployment because the world changes.
+8. **Respect privacy and law.** Collect the minimum personal data, with consent, and secure it. The Constitution, the Individual Privacy Act 2075 and NRB directives still apply to automated systems. Switch the system off when it causes harm.
 
 ## Chapter summary
 
-- E-waste contains hazardous and valuable materials; informal burning harms health; most Nepali e-waste is stored or processed informally.
-- A device's footprint is front-loaded (manufacture), so longer life, repair and reuse beat recycling, which beats disposal.
-- Manage e-waste by reduce, reuse, recycle, EPR and the Basel framework; sanitise data before disposal.
-- PUE = total ÷ IT power (DCiE is its reciprocal); energy = power × hours; carbon = energy × emission factor.
-- Extending a laptop's service life from 3 to 5 years cuts its annual footprint by a quarter in the example.
+- Utilitarian, duty, virtue and care frameworks, plus the ACM and IEEE codes, structure ethical decisions; refuse, document and escalate when asked to do wrong.
+- Everyday cyberethics covers privacy, misinformation, harassment, plagiarism, piracy and netiquette.
+- Bias enters through history, sampling, measurement, labels, aggregation and deployment; proxies defeat attribute removal.
+- Fairness metrics (demographic parity, disparate impact, equal opportunity, equalized odds, predictive parity) are computed from group confusion matrices and can conflict when base rates differ.
+- Responsible systems are transparent, explainable, contestable, accountable and audited.
 
 ## Practice
 
-1. Define e-waste and name two hazardous and two valuable components.
-2. Why is a device's carbon footprint "front-loaded"?
-3. State the waste hierarchy for devices.
-4. What does the Basel Convention regulate?
-5. Compute PUE and DCiE for IT power 80 kW and total power 128 kW.
-6. For question 5, compute the annual energy (kWh) and the cost at Rs 10 per kWh.
-7. A device uses 200 kWh a year at 0.5 kg CO₂e/kWh, with 240 kg embodied. Find the annual footprint for a 4-year life and for a 6-year life.
-8. Why is PUE alone an incomplete measure of data-centre efficiency?
-9. List four green computing practices for a college computer lab.
-10. Why should storage be wiped before a computer is donated?
+1. Apply the four ethical frameworks to a facial-recognition door lock in a school.
+2. Differentiate misinformation and disinformation.
+3. List four sources of algorithmic bias.
+4. Why does deleting the "gender" column not make a model gender-blind?
+5. For a group with TP = 40, FP = 10, FN = 20, TN = 30, compute the selection rate, TPR, FPR and precision.
+6. State the disparate impact ratio and the four-fifths rule.
+7. What is the difference between equal opportunity and equalized odds?
+8. Why can a model not satisfy predictive parity, equal TPR and equal FPR when base rates differ?
+9. Name three process steps that make an automated decision system more accountable.
+10. What should an engineer do when told to hide a known bias from a client?
 
 ::: note Answers and worked solutions
-**1.** Discarded electrical and electronic equipment. Hazardous: lead, mercury, cadmium, flame retardants. Valuable: copper, gold, silver, palladium.
-**2.** Most emissions come from material extraction and manufacture before the first use; use-phase emissions come later.
-**3.** Reduce, reuse (refurbish), recycle, then dispose.
-**4.** The international movement and disposal of hazardous wastes.
-**5.** PUE = 128/80 = **1.60**; DCiE = 80/128 = **62.5%**.
-**6.** 128 × 8,760 = **11,21,280 kWh**; cost = 11,21,280 × 10 = **Rs 1,12,12,800**.
-**7.** Use: 200 × 0.5 = 100 kg. 4 years: 240/4 + 100 = **160 kg**. 6 years: 240/6 + 100 = **140 kg**.
-**8.** It ignores how much useful work the IT equipment does; idle servers at a low PUE still waste energy.
-**9.** Power management, switching off, longer equipment life and repair, virtualisation or shared servers (also donating old machines, efficient software).
-**10.** Deleted files can be recovered; secure wiping prevents leakage of personal and institutional data.
+**1.** Utilitarian: security benefit versus privacy and error costs. Duty: consent and rights of students. Virtue: what a caring, honest engineer would build. Care/justice: who is vulnerable (students with poor recognition accuracy) and who decides.
+**2.** Misinformation is false content shared without intent to deceive; disinformation is spread deliberately.
+**3.** Historical, representation, measurement, label (also aggregation and deployment) bias.
+**4.** Other variables (location, name, device) are correlated with gender and act as proxies.
+**5.** n = 100. Selection = (40 + 10)/100 = **0.50**. TPR = 40/60 = **0.667**. FPR = 10/40 = **0.25**. Precision = 40/50 = **0.80**.
+**6.** DI = selection rate of the protected group ÷ that of the reference group; the four-fifths rule of thumb wants DI ≥ 0.8.
+**7.** Equal opportunity equalises only the TPR; equalized odds equalises both TPR and FPR.
+**8.** With different base rates the identity FPR = p/(1 − p) × (1 − PPV)/PPV × TPR forces FPR to differ if PPV and TPR are equal, unless the classifier is perfect.
+**9.** Documentation (model cards), subgroup testing and monitoring, explanation and appeal routes (also audits and a named owner).
+**10.** Refuse, document the concern, escalate internally and, if necessary, to the appropriate authority; honesty to the client is a professional duty.
 :::
 
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). What is e-waste? Explain its hazards and its value, and describe the situation in Nepal.**
+**Q1 (5 marks). What is algorithmic bias? Explain six sources of bias in automated decision systems.**
 
-*Introduction.* Electronic waste is discarded electrical and electronic equipment: computers, phones, televisions, batteries, chargers and network devices. It is the fastest-growing household waste stream (section 7.1, Plate 7.1).
+*Introduction.* Algorithmic bias is a systematic pattern in which an automated system produces worse outcomes for some groups than for others. It usually comes from the data and the setting, not from a line of code that mentions a group (section 7.3, Figure 7.1).
 
-1. **Hazards.** Devices contain lead in solder and CRT glass, mercury in some lamps, cadmium in batteries and brominated flame retardants in plastics.
-2. **Informal burning.** Burning cable to recover copper releases dioxins and toxic fumes that harm workers and children.
-3. **Value (urban mining).** The same devices hold copper, aluminium, gold, silver, palladium and rare earths in richer concentrations than many ores.
-4. **Nepal.** Almost all electronics are imported, including much second-hand equipment. There is no large formal recycling plant; scrap dealers (kabadi) dismantle devices informally; the Solid Waste Management Act 2068 is the general law and e-waste rules are thinly enforced.
+1. **Historical bias.** The world that produced the data was unequal, so accurate data copy the inequality.
+2. **Representation bias.** Some groups are under-sampled, so the model learns them poorly. Face-analysis audits found higher error rates for darker-skinned women.
+3. **Measurement bias.** The measured proxy is not the real target, for example arrests instead of crime.
+4. **Label bias.** Past human decisions become the labels, so old prejudice is learned, for example past loan refusals.
+5. **Aggregation bias.** One model is used for groups that differ.
+6. **Deployment bias.** The system is used in a setting different from the training one, for example a city model used in hill districts.
 
-| Fate of 1,000 kg (illustrative) | kg | Share |
-|---|---|---|
-| Formal recyclers | 120 | 12% |
-| Reused | 80 | 8% |
-| Informal scrap dealers | 450 | 45% |
-| Stored | 300 | 30% |
-| Landfill or burnt | 50 | 5% |
-
-*Reading.* Only 20% reaches formal collection or reuse; almost half goes through informal channels with weak protection (Figure 7.3).
-
-*Conclusion.* E-waste is both a hazard and a resource; collection points, take-back schemes and safe informal recycling are the main remedies.
-
-**Q2 (5 marks). A server room has IT load 60 kW and total facility load 96 kW. Compute PUE, DCiE and the annual energy. An efficiency project brings PUE to 1.25 with the same IT load. Find the energy and money saved at Rs 12 per kWh and the carbon saved at 0.5 kg/kWh and at 0.02 kg/kWh.**
-
-*Introduction.* PUE = total facility power / IT power; DCiE is its reciprocal (section 7.4, Figure 7.4).
-
-*Before.* PUE = 96 / 60 = **1.60**; DCiE = 60 / 96 = **62.5%**. Annual energy = 96 x 8,760 = **8,40,960 kWh**, of which IT is 5,25,600 kWh and overhead 3,15,360 kWh.
-
-*After.* Facility load = 60 x 1.25 = 75 kW; annual energy = 75 x 8,760 = **6,57,000 kWh**.
-
-| Item | Calculation | Result |
-|---|---|---|
-| Energy saved | 8,40,960 - 6,57,000 | 1,83,960 kWh |
-| Money saved | 1,83,960 x Rs 12 | Rs 22,07,520 |
-| Carbon at 0.5 kg/kWh | 1,83,960 x 0.5 | 91.98 tonnes |
-| Carbon at 0.02 kg/kWh | 1,83,960 x 0.02 | 3.68 tonnes |
-
-*Comment.* The money saving is the same on any grid, but on Nepal's hydro-dominated grid the carbon saving is small, so the business case rests on cost and on embodied emissions.
-
-*Conclusion.* PUE should be paired with utilisation, because an efficient room full of idle servers still wastes energy.
-
-**Q3 (10 marks). Discuss how a computing professional and a college can reduce the environmental impact of computing. Cover the device life cycle, the 3Rs, extended producer responsibility, data sanitisation, green computing practices and carbon calculation.**
-
-*Introduction.* Every device is mined, manufactured, shipped, used and finally discarded. A computing professional shapes each stage by what is bought, how long it is used and how it is retired (sections 7.2 to 7.6, Figure 7.1).
-
-*Life cycle and carbon.* Manufacture causes most of a laptop's lifetime carbon (embodied emissions); use adds operational emissions. For a laptop with 300 kg embodied and 50 kg a year of use, a 3-year life gives 150 kg a year and a 5-year life gives 110 kg, a cut of **26.7%** (Figure 7.5).
-
-*The 3Rs and the hierarchy.* **Reduce** purchases and choose repairable models; **reuse** by donating to schools; **recycle** through authorised recyclers; dispose safely only as the last option (Figure 7.2).
-
-*Extended producer responsibility and law.* Under EPR, producers and importers take back and recycle what they sell, financed by a fee. The Basel Convention controls transboundary movement of hazardous waste; Nepal is a party. The Solid Waste Management Act 2068 is the general framework, with thin enforcement for e-waste.
-
-*Data sanitisation.* Before reuse or disposal, wipe storage by overwrite, cryptographic erase or physical destruction, because deleted data can be recovered.
-
-*Green computing.* Energy-efficient hardware, power management, virtualisation and consolidation, efficient software and good cooling. For data centres, PUE = total / IT power; a fall from 1.50 to 1.30 on a 100 kW IT load saves 1,75,200 kWh a year (Figure 7.4).
-
-| Action | Effect |
+| Source | Example in a loan model |
 |---|---|
-| Extend service life | Spreads embodied carbon |
-| Reuse and donate | Keeps equipment working |
-| Formal recycling | Recovers metals safely |
-| Data wiping | Protects privacy |
-| Power management | Cuts operational energy |
+| Historical | Rural women were rarely given loans |
+| Representation | Only 10% of records are rural |
+| Label | Old refusals treated as "default" |
+| Deployment | Trained in Kathmandu, used in Karnali |
 
-*Conclusion.* The most effective actions are the simplest: buy less, repair, reuse, recycle properly, wipe data and measure impact with stated assumptions.
+*Remark.* Removing the sensitive attribute does not remove bias because proxies such as postal code carry the same information.
+
+*Conclusion.* Bias must be searched for at every stage, not only in the model.
+
+**Q2 (5 marks). A hiring screen was tested on 100 male (M) and 100 female (F) past applicants. M: TP 40, FP 10, FN 20, TN 30. F: TP 15, FP 5, FN 15, TN 65. Compute the selection rate, TPR, FPR and precision for each group, the demographic parity difference and the disparate impact ratio, and comment.**
+
+*Introduction.* Fairness is judged by comparing error and selection rates between groups (section 7.4, Figure 7.3). "Positive" means shortlisted.
+
+| Metric | Formula | M | F |
+|---|---|---|---|
+| Selection rate | (TP+FP)/n | 50/100 = 0.500 | 20/100 = 0.200 |
+| TPR | TP/(TP+FN) | 40/60 = 0.667 | 15/30 = 0.500 |
+| FPR | FP/(FP+TN) | 10/40 = 0.250 | 5/70 = 0.071 |
+| Precision | TP/(TP+FP) | 40/50 = 0.800 | 15/20 = 0.750 |
+
+*Parity measures.* Demographic parity difference = 0.500 - 0.200 = **0.300**. Disparate impact ratio = 0.200 / 0.500 = **0.400**, far below the four-fifths rule of thumb of 0.8, so the screen fails that test.
+
+*Equal opportunity.* The TPR gap is 0.667 - 0.500 = **0.167**: a qualified woman is less likely to be shortlisted than a qualified man. The precision gap is only 0.050, so shortlists are about equally reliable.
+
+*Comment.* The base rates of suitable applicants differ (0.60 and 0.30), which is why selection rates differ even for a good model; but the TPR gap and the 0.400 ratio are large enough to require investigation of the data, features and threshold.
+
+*Conclusion.* The model looks acceptable on precision but fails on selection and opportunity, so it should not be deployed unreviewed.
+
+**Q3 (10 marks). A bank wants to use an automated model to approve or refuse loans. Discuss the ethical issues using ethical frameworks, explain how fairness would be measured, why the measures conflict, and what safeguards should be required.**
+
+*Introduction.* Automated credit decisions affect livelihoods, so they raise questions of ethics, fairness and accountability. A model that is accurate overall can still treat groups unequally (sections 7.1 to 7.5).
+
+*Ethical frameworks.* **Utilitarian:** do the benefits of faster, cheaper lending outweigh the harm of wrongful refusals to rural applicants? **Deontological:** applicants are persons with rights, not mere data points, so reasons and appeal are duties. **Virtue ethics:** would an honest, caring banker accept this model? **Care and justice:** who is most vulnerable and was she heard?
+
+*Measuring fairness.* From each group's confusion matrix compute selection rate, TPR, FPR and precision (Figures 7.2 and 7.3). In the worked example, selection rates are 0.500 (urban) and 0.267 (rural), so the disparate impact is 0.533, below 0.8; the TPR gap is 0.389, so a creditworthy rural applicant is approved far less often; the precision gap is only 0.050.
+
+| Criterion | What it requires | Result in example |
+|---|---|---|
+| Demographic parity | Equal selection rates | Fails (gap 0.233) |
+| Equal opportunity | Equal TPR | Fails (gap 0.389) |
+| Equalized odds | Equal TPR and FPR | Fails |
+| Predictive parity | Equal precision | Nearly met (gap 0.050) |
+
+*Why they conflict.* When base rates differ (0.45 and 0.40), FPR = [p/(1-p)] x [(1-PPV)/PPV] x TPR, so equal precision, TPR and FPR cannot all hold for an imperfect model (Figure 7.4). The choice is a value judgement for those affected.
+
+*Safeguards.* Purpose statement; data audit; testing by group; open choice of criterion; explanation in simple Nepali; human appeal; documentation (datasheet, model card); monitoring after deployment; privacy under the Constitution and the Individual Privacy Act 2075; and a switch-off rule (section 7.6.1).
+
+*Conclusion.* The bank may use the model only if it measures outcomes by group, chooses and publishes its fairness criterion, keeps a human appeal route and stays accountable for harm.
