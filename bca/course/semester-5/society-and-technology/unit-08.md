@@ -130,7 +130,7 @@ Technology does not enter an empty room. Whether a tool is adopted, how it is us
 
 *Relative advantage* (is it better?), *compatibility* (does it fit values and habits?), *complexity* (is it hard to learn?), *trialability* (can I test it?) and *observability* (can I see the results?). Innovations that are advantageous, compatible, simple, testable and visible spread fast.
 
-```svgfig label="8.1" caption="The loop between technology and Nepali society. Social and cultural bases decide which technologies are adopted; the adopted technologies in turn change economy, family and culture, which creates new bases. Cultural lag appears where the right-hand changes outrun laws and norms."
+```svgfig label="8.1" caption="The loop between technology and Nepali society. Social and cultural bases decide which technologies are adopted; the adopted technologies in turn change economy, family and culture, which creates new bases. Cultural lag appears where the consequences outrun laws and norms."
 f = Fig(580, 250)
 f.box(20, 20, 200, 52, "Social and cultural bases\n(income, caste, gender,\nlanguage, values, laws)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
 f.box(360, 20, 200, 52, "Technological change\n(phones, wallets, radio,\nsolar, e-governance)", fill=MINT, stroke=TEAL, size=10.5, bold=True)
@@ -156,6 +156,11 @@ Technology is a double-edged tool. Every consequence below has a positive and a 
 | **Employment and skills** | New jobs for developers, designers, data and support staff; remote work for foreign clients | Skill mismatch; low-paid platform work without security; youth emigration of the best-trained ("brain drain") |
 | **Family and community** | Video calls keep migrant families connected; women run savings groups through apps | Absent parents, care for the old by phone only; screen time; reduced face-to-face community life |
 | **Education** | Online classes during COVID-19, e-libraries, free tutorials, scholarship portals | Unequal access to devices and bandwidth; copying, cyber-cheating and attention problems |
+
+The second half of the table covers health, culture, politics, environment and security.
+
+| Area | Positive consequences | Negative consequences |
+|---|---|---|
 | **Health** | Telemedicine; vaccination and disease tracking; female community health volunteers use phones | Misinformation, self-medication on the basis of online advice, privacy of health data |
 | **Culture and language** | Digitisation of folk songs and manuscripts; global reach of Nepali music and film; mother-tongue content on YouTube | Homogenisation, English and Hindi dominance, loss of minority languages, imitation of foreign lifestyle |
 | **Politics and governance** | e-governance (National ID, online tax filing, vehicle and passport services); campaigning and civic participation; faster accountability | Disinformation and hate speech; surveillance and censorship; polarisation; state control of the net |
