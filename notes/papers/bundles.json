@@ -10,7 +10,7 @@
    "12-acc-2080-1041q"
   ],
   "pages": 61,
-  "bytes": 457551,
+  "bytes": 457422,
   "category": "Board Exam Bundle"
  },
  {
@@ -27,7 +27,21 @@
    "12-bio-2079-2021n"
   ],
   "pages": 89,
-  "bytes": 1443991,
+  "bytes": 1443855,
+  "category": "Board Exam Bundle"
+ },
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Business-Studies-2080-2082-Bundle.pdf",
+  "subject": "Business Studies",
+  "grade": "12",
+  "years_bs": "2080-2082",
+  "papers": [
+   "12-bst-2082-2161",
+   "12-bst-2081-2161",
+   "12-bst-2080-628"
+  ],
+  "pages": 34,
+  "bytes": 412686,
   "category": "Board Exam Bundle"
  },
  {
@@ -44,7 +58,7 @@
    "12-chem-2079-3021h"
   ],
   "pages": 86,
-  "bytes": 1865994,
+  "bytes": 1865871,
   "category": "Board Exam Bundle"
  },
  {
@@ -63,7 +77,7 @@
    "12-eng-2079-0041e"
   ],
   "pages": 81,
-  "bytes": 875329,
+  "bytes": 875206,
   "category": "Board Exam Bundle"
  },
  {
@@ -78,7 +92,7 @@
    "12-nep-2079-0021h"
   ],
   "pages": 51,
-  "bytes": 493787,
+  "bytes": 493663,
   "category": "Board Exam Bundle"
  },
  {
@@ -93,7 +107,7 @@
    "12-cs-2079-4281"
   ],
   "pages": 40,
-  "bytes": 566591,
+  "bytes": 566480,
   "category": "Board Exam Bundle"
  },
  {
@@ -106,7 +120,7 @@
    "12-econ-2081-3041q"
   ],
   "pages": 26,
-  "bytes": 367673,
+  "bytes": 367672,
   "category": "Board Exam Bundle"
  },
  {
@@ -127,7 +141,7 @@
    "12-math-2079-set-k"
   ],
   "pages": 172,
-  "bytes": 7708202,
+  "bytes": 7708081,
   "category": "Board Exam Bundle"
  },
  {
@@ -145,7 +159,7 @@
    "12-phy-2079-general"
   ],
   "pages": 141,
-  "bytes": 4785572,
+  "bytes": 4785447,
   "category": "Board Exam Bundle"
  }
 ]
