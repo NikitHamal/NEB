@@ -11,6 +11,7 @@ Audience and purpose analysis, the writing process and document design; plain-la
 | 5 | Visual Communication: Tables, Charts, Diagrams and Slides | 7 |
 | 6 | Editing, Professional Communication and Ethics | 8 |
 | 7 | Writing for the Web, Information Reports, Proposals and Group Work | 12 |
+| 8 | Instructions, Technical Descriptions and Formal Reports | 10 |
 
 ## Verification
 
@@ -24,3 +25,8 @@ No TU unit list for BCA 354 was retrieved; the six units are a reconstruction fr
 ## Session 21: syllabus gap closed
 
 The published TU outline for Technical Writing (the CSC368 text, which lists 12 teaching units: what technical writing is, audience and purpose, the writing process, brief correspondence, document design and graphics, writing for the web, information reports, instructions, presentations, proposals, formal reports and ethics) names topics that Units 1 to 6 did not cover: **collaborative writing, writing for the web, information reports (summary and abstract, mechanism description, periodic and progress reports, news releases), informal and formal proposals, and group presentations.** They are now Unit 7. Its Python blocks (progress-report arithmetic, proposal budget) are executed by `fill_script_outputs.py`; the examples are invented for illustration. Still thin: *instructions* (only a section in Unit 3) and *formal reports* (Unit 6.4) deserve a full chapter next time.
+
+
+## Session 22: instructions, definitions and formal reports
+
+NEW Unit 8 (about 6k words, 2 figures, 2 executed Python blocks): full chapter on **instructions** (failure modes, planning, parts, imperative style, the four notice levels after ANSI Z535 / ISO 3864, a worked Install-Python model, usability testing), **technical definitions** (parenthetical, formal *class + differentia*, extended with nine methods) and **descriptions** (mechanism, process, system), **formal reports** (kinds, front matter, letter of transmittal, body, back matter, page numbering), **recommendation and feasibility reports** (weighted decision matrix with sensitivity check, cost table and payback, both recomputed by the executed blocks), a three-way report checklist and the ethics of reporting. Closes the Session 21 gap (instructions and formal reports).
