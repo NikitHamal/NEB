@@ -594,6 +594,10 @@ def convert(text, chapter_id="", fig_no_start=1):
     # restarted at a Latin "1." for every item. Escape the dot so the number
     # stays literal text after the bullet.
     body = re.sub(r"(?m)^(\s*[-*+]\s+)([\u0966-\u096F]+)\.(\s)", r"\1\2\\.\3", body)
+    # Fill-in blanks ("______") pair up as emphasis markers across list items and
+    # swallow the text between them. Entities are inert for the markdown parser.
+    body = _outside_code(body, lambda t: re.sub(
+        r"_{3,}", lambda m: "&#95;" * len(m.group(0)), t))
     _MD.reset()
     htm = _MD.convert(body)
     for i, frag in enumerate(store):
