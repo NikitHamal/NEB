@@ -754,5 +754,21 @@
   "pages": 21,
   "bytes": 678557,
   "id": "12-phy-2079-general"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Accounting-2080.pdf",
+  "subject": "Accounting",
+  "grade": "12",
+  "year_bs": "2080",
+  "year_ad": "2023",
+  "stream": "Regular (registration no. 78 and 79)",
+  "code": "1041 'Q'",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For students with registration numbers starting with 78 and 79 only (new course)",
+  "category": "Board Exam",
+  "id": "12-acc-2080-1041q",
+  "pages": 19,
+  "bytes": 135781
  }
 ]
