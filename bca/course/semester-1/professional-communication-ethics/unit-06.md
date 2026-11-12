@@ -275,6 +275,20 @@ Common criteria (Richard De George): (1) the harm to the public is **serious and
 
 **Protections:** many countries have whistle-blower laws; in Nepal, protection exists only in parts of the law (for example, in anti-corruption and good-governance rules) and is weaker than in many countries, so personal risk is high. Check the current law.
 
+```svgfig label="6.2" caption="An escalation ladder for a responsible whistle-blower. Move up one rung at a time, document each step, and go outside the organisation only when the harm is serious and internal routes have failed or are unsafe."
+f = Fig(760, 270)
+steps = [("1  Verify", "check facts, collect\ncopies of evidence", BLUE), ("2  Report inside", "line manager, ethics\nofficer, compliance", MINT), ("3  Escalate", "senior management,\nboard, audit committee", SAND), ("4  Go outside", "regulator, police,\nmedia as last resort", ROSE)]
+for i, (t, s, col) in enumerate(steps):
+    x = 10 + i * 188
+    y = 150 - i * 36
+    f.box(x, y, 172, 90, "", fill=col, stroke=NAVY)
+    f.text(x + 86, y + 24, t, size=12.5, color=NAVY, bold=True)
+    for k, ln in enumerate(s.split("\n")): f.text(x + 86, y + 48 + k * 15, ln, size=10, color=SLATE)
+    if i < 3: f.arrow([(x + 172, y + 45), (x + 188, y - 36 + 55)], color=TEAL, sw=2)
+f.text(380, 262, "Keep records, stay factual, use protected channels, and seek legal advice before any external disclosure.", size=10.5, color=SLATE)
+f.text(10, 22, "rising seriousness and risk", size=10.5, color=RED, bold=True, anchor="start")
+```
+
 ### Professional integrity
 
 **Integrity** means that your values, words and actions agree, even when no one is watching. In IT it means: telling the truth about progress and quality; refusing bribes and favours; declaring conflicts of interest; not accepting credit for others' work; keeping promises; being open about mistakes; respecting confidentiality; and standing by the code of ethics under pressure.

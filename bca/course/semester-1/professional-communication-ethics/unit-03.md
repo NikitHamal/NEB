@@ -96,6 +96,23 @@ Business Analyst, Himalaya Software · 9800000000
 
 **Email types:** *inquiry* (ask for information), *request*, *reply/confirmation*, *complaint*, *apology*, *follow-up*, *cover email* (with an attachment) and *announcement*. A **complaint** states the facts (order number, date), the effect, and the remedy you want, without anger; an **apology** accepts responsibility, states the correction and prevents recurrence.
 
+```svgfig label="3.2" caption="Anatomy of a professional email. The reader decides in about five seconds whether to open, act on or ignore a message, so the subject line, the first sentence and the closing request do most of the work."
+f = Fig(760, 330)
+f.box(10, 10, 440, 310, "", fill=SOFT, stroke=SLATE, r=8)
+lines = [("To:  mr.sharma@college.edu.np", 38), ("Cc:  hod.bca@college.edu.np", 66), ("Subject:  Request for lab access, BCA Sem 1 (Roll 23)", 94),
+         ("Dear Mr. Sharma,", 134), ("I am writing to request access to Lab 2 on Friday", 168), ("from 2 pm to 4 pm to finish my C project demo.", 188),
+         ("I will bring my own pen drive. Could you confirm", 214), ("by Thursday noon?", 234), ("Thank you for your time.", 262), ("Yours sincerely,", 284), ("Anita Rai | BCA Sem 1, Roll 23 | 98XXXXXXXX", 306)]
+for s, y in lines:
+    f.text(24, y, s, size=10.5, color=NAVY if y < 120 else SLATE, bold=(y < 120), anchor="start")
+f.line(10, 110, 450, 110, color=SLATE, sw=1)
+notes = [(38, "Recipient: the person who must act"), (66, "Cc: people who must know, not act"), (94, "Subject: specific, 5 to 9 words"),
+         (134, "Greeting: name and title"), (178, "Body: purpose in the first line"), (224, "One request, one deadline"),
+         (262, "Courtesy close"), (284, "Sign-off"), (306, "Signature: name, role, contact")]
+for y, s in notes:
+    f.arrow([(520, y - 4), (456, y - 4)], color=TEAL, sw=1.4)
+    f.text(526, y, s, size=10.5, color=TEAL, bold=True, anchor="start")
+```
+
 ### Memos
 
 A **memorandum (memo)** is a short **internal** document used to give instructions, announce policies, request action or record decisions. It is more formal than an email, has no salutation or closing and is kept in files. **Format:** organisation name and the word MEMO; **To, From, Date, Subject** (and Cc); a body in three parts (purpose, details, action); initials instead of a signature.
