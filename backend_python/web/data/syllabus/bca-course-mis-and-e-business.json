@@ -15,13 +15,143 @@
  "code": "BCA 304",
  "credits": 3,
  "semester": 5,
- "hours": 45,
+ "hours": 70,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
  "units": [
   {
    "no": 1,
+   "title": "Introduction to e-Commerce and m-Commerce",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Definitions and concepts",
+    "The EC framework",
+    "Classification of e-commerce",
+    "Benefits of e-commerce",
+    "Electronic markets",
+    "The role of the Internet and the Web in e-commerce",
+    "Limitations and barriers of e-commerce",
+    "Social networks and social network services",
+    "m-Commerce: concept, scope, attributes and benefits",
+    "Location-based commerce (l-commerce)"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Definitions and concepts"
+    },
+    {
+     "no": "1.2",
+     "title": "The EC framework"
+    },
+    {
+     "no": "1.3",
+     "title": "Classification of e-commerce"
+    },
+    {
+     "no": "1.4",
+     "title": "Benefits of e-commerce"
+    },
+    {
+     "no": "1.5",
+     "title": "Electronic markets"
+    },
+    {
+     "no": "1.6",
+     "title": "The role of the Internet and the Web in e-commerce"
+    },
+    {
+     "no": "1.7",
+     "title": "Limitations and barriers of e-commerce"
+    },
+    {
+     "no": "1.8",
+     "title": "Social networks and social network services"
+    },
+    {
+     "no": "1.9",
+     "title": "m-Commerce: concept, scope, attributes and benefits"
+    },
+    {
+     "no": "1.10",
+     "title": "Location-based commerce (l-commerce)"
+    }
+   ],
+   "summary": [
+    "EC is buying, selling, transferring or exchanging products, services and information over computer networks. e-business is wider and includes internal processes and collaboration.",
+    "EC is pure when product, process and delivery are all digital; otherwise it is partial. Organisations are brick-and-mortar, virtual or click-and-mortar.",
+    "The EC framework places applications on five support areas and an infrastructure base.",
+    "Classification is by parties: B2C, B2B, C2C, B2B2C, C2B, G2C, G2B, G2G, B2E, plus collaborative commerce and m- and l-commerce.",
+    "Benefits go to organisations, consumers and society; limits are technological and non-technological.",
+    "An e-market matches buyers and sellers, facilitates transactions and gives institutional infrastructure; sell-side, buy-side, public and private types exist.",
+    "Social commerce uses social networks and their trust; m-commerce uses a personal, mobile, always-on device; l-commerce adds the user's location, which needs five components and careful privacy."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4942,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "The Network Infrastructure for E-Commerce",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "The information superhighway (I-Way)",
+    "The Internet as the network infrastructure for e-commerce",
+    "Wireless Application Protocol (WAP)",
+    "Wireless technologies for e-commerce",
+    "Security issues related to wireless communication",
+    "Seeing the network: I-Way, WAP and wireless speeds"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "The information superhighway (I-Way)"
+    },
+    {
+     "no": "2.2",
+     "title": "The Internet as the network infrastructure for e-commerce"
+    },
+    {
+     "no": "2.3",
+     "title": "Wireless Application Protocol (WAP)"
+    },
+    {
+     "no": "2.4",
+     "title": "Wireless technologies for e-commerce"
+    },
+    {
+     "no": "2.5",
+     "title": "Security issues related to wireless communication"
+    },
+    {
+     "no": "2.6",
+     "title": "Seeing the network: I-Way, WAP and wireless speeds"
+    }
+   ],
+   "summary": [
+    "The I-Way is the high-capacity network idea whose practical form is the Internet; its components are access equipment, on-ramps and distribution networks, plus content and the rules.",
+    "The Internet carries e-commerce by packet switching, IP, TCP, HTTP and DNS; intranets and extranets use the same technology for staff and partners.",
+    "WAP (client, gateway, server) brought the web to early phones using WML and a lightweight stack; the gateway created the WAP gap, and smartphones replaced it.",
+    "ADSL, Wi-Fi, WiMAX, UMTS, LTE and 5G differ in range, speed and cost; real speeds are well below the theoretical ones.",
+    "Wireless links face eavesdropping, evil twins, jamming and SIM-swap fraud; encryption (HTTPS, WPA3), VPNs and strong authentication are the main controls."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3212,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
    "title": "Information Systems in the Enterprise",
    "hours": 6,
    "area": "",
@@ -36,31 +166,31 @@
    ],
    "sections": [
     {
-     "no": "1.1",
+     "no": "3.1",
      "title": "Data, information and knowledge"
     },
     {
-     "no": "1.2",
+     "no": "3.2",
      "title": "Systems thinking"
     },
     {
-     "no": "1.3",
+     "no": "3.3",
      "title": "The organisation pyramid and decision levels"
     },
     {
-     "no": "1.4",
+     "no": "3.4",
      "title": "Types of information systems"
     },
     {
-     "no": "1.5",
+     "no": "3.5",
      "title": "How the systems fit together"
     },
     {
-     "no": "1.6",
+     "no": "3.6",
      "title": "Information systems in Nepali organisations"
     },
     {
-     "no": "1.7",
+     "no": "3.7",
      "title": "Seeing information systems: machines, pyramids and flows"
     }
    ],
@@ -80,7 +210,7 @@
    "has_notes": true
   },
   {
-   "no": 2,
+   "no": 4,
    "title": "Strategy and Competitive Advantage",
    "hours": 7,
    "area": "",
@@ -96,35 +226,35 @@
    ],
    "sections": [
     {
-     "no": "2.1",
+     "no": "4.1",
      "title": "Strategy and the role of information systems"
     },
     {
-     "no": "2.2",
+     "no": "4.2",
      "title": "Porter's five forces"
     },
     {
-     "no": "2.3",
+     "no": "4.3",
      "title": "The value chain"
     },
     {
-     "no": "2.4",
+     "no": "4.4",
      "title": "Generic strategies and supporting IT"
     },
     {
-     "no": "2.5",
+     "no": "4.5",
      "title": "Network effects and Metcalfe's law"
     },
     {
-     "no": "2.6",
+     "no": "4.6",
      "title": "Aligning IS strategy with business strategy"
     },
     {
-     "no": "2.7",
+     "no": "4.7",
      "title": "Business process reengineering and change"
     },
     {
-     "no": "2.8",
+     "no": "4.8",
      "title": "Seeing strategy: forces, concentration, chains and networks"
     }
    ],
@@ -144,7 +274,7 @@
    "has_notes": true
   },
   {
-   "no": 3,
+   "no": 5,
    "title": "Enterprise Applications - ERP, CRM and Supply Chain Management",
    "hours": 8,
    "area": "",
@@ -154,31 +284,41 @@
     "Supply chain management (SCM)",
     "The bullwhip effect",
     "Integrating enterprise systems",
+    "International information systems, outsourcing and offshoring",
+    "Challenges of enterprise system implementation and managing the implementation",
     "Seeing enterprise systems: one database, costs and the bullwhip"
    ],
    "sections": [
     {
-     "no": "3.1",
+     "no": "5.1",
      "title": "Enterprise resource planning (ERP)"
     },
     {
-     "no": "3.2",
+     "no": "5.2",
      "title": "Customer relationship management (CRM)"
     },
     {
-     "no": "3.3",
+     "no": "5.3",
      "title": "Supply chain management (SCM)"
     },
     {
-     "no": "3.4",
+     "no": "5.4",
      "title": "The bullwhip effect"
     },
     {
-     "no": "3.5",
+     "no": "5.5",
      "title": "Integrating enterprise systems"
     },
     {
-     "no": "3.6",
+     "no": "5.6",
+     "title": "International information systems, outsourcing and offshoring"
+    },
+    {
+     "no": "5.7",
+     "title": "Challenges of enterprise system implementation and managing the implementation"
+    },
+    {
+     "no": "5.8",
      "title": "Seeing enterprise systems: one database, costs and the bullwhip"
     }
    ],
@@ -190,14 +330,14 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3522,
+    "words": 4607,
     "figures": 0,
-    "examples": 2
+    "examples": 3
    },
    "has_notes": true
   },
   {
-   "no": 4,
+   "no": 6,
    "title": "Decision Support, Business Intelligence and Knowledge Management",
    "hours": 8,
    "area": "",
@@ -213,35 +353,35 @@
    ],
    "sections": [
     {
-     "no": "4.1",
+     "no": "6.1",
      "title": "The decision-making process"
     },
     {
-     "no": "4.2",
+     "no": "6.2",
      "title": "Decision tables"
     },
     {
-     "no": "4.3",
+     "no": "6.3",
      "title": "Decisions under risk: payoff tables and EMV"
     },
     {
-     "no": "4.4",
+     "no": "6.4",
      "title": "Decisions under uncertainty (probabilities unknown)"
     },
     {
-     "no": "4.5",
+     "no": "6.5",
      "title": "Decision trees and the value of a pilot"
     },
     {
-     "no": "4.6",
+     "no": "6.6",
      "title": "Business intelligence and data warehousing"
     },
     {
-     "no": "4.7",
+     "no": "6.7",
      "title": "Knowledge management"
     },
     {
-     "no": "4.8",
+     "no": "6.8",
      "title": "Seeing decisions: steps, payoffs, trees and warehouses"
     }
    ],
@@ -261,7 +401,7 @@
    "has_notes": true
   },
   {
-   "no": 5,
+   "no": 7,
    "title": "e-Business, e-Commerce and Digital Payments in Nepal",
    "hours": 8,
    "area": "",
@@ -271,31 +411,56 @@
     "The payment problem",
     "Nepal's payment architecture",
     "Building and running an e-business",
+    "Online payment cards and how a card payment is processed",
+    "e-Micropayments, e-checks and the ACH network",
+    "Mobile payments, digital wallets and international payments",
+    "Emerging payment systems: virtual currency and cryptocurrency",
+    "Case study: emerging trends in online payments in Nepal",
     "Seeing e-business: funnels, unit economics and netting"
    ],
    "sections": [
     {
-     "no": "5.1",
+     "no": "7.1",
      "title": "e-Business and e-Commerce"
     },
     {
-     "no": "5.2",
+     "no": "7.2",
      "title": "The online customer funnel and unit economics"
     },
     {
-     "no": "5.3",
+     "no": "7.3",
      "title": "The payment problem"
     },
     {
-     "no": "5.4",
+     "no": "7.4",
      "title": "Nepal's payment architecture"
     },
     {
-     "no": "5.5",
+     "no": "7.5",
      "title": "Building and running an e-business"
     },
     {
-     "no": "5.6",
+     "no": "7.6",
+     "title": "Online payment cards and how a card payment is processed"
+    },
+    {
+     "no": "7.7",
+     "title": "e-Micropayments, e-checks and the ACH network"
+    },
+    {
+     "no": "7.8",
+     "title": "Mobile payments, digital wallets and international payments"
+    },
+    {
+     "no": "7.9",
+     "title": "Emerging payment systems: virtual currency and cryptocurrency"
+    },
+    {
+     "no": "7.10",
+     "title": "Case study: emerging trends in online payments in Nepal"
+    },
+    {
+     "no": "7.11",
      "title": "Seeing e-business: funnels, unit economics and netting"
     }
    ],
@@ -304,18 +469,21 @@
     "Funnel metrics, CAC and LTV tell whether growth is profitable; sanity-check the assumptions.",
     "A payment passes through authorisation, clearing and settlement; NRB licenses PSOs and PSPs under the Payment and Settlement Act 2075.",
     "NCHL (NPI, ConnectIPS), Fonepay (switch and QR), wallets and banks form the retail payment network; multilateral netting reduces settlement transfers.",
-    "Always verify payment status server-side with the gateway before fulfilment."
+    "Always verify payment status server-side with the gateway before fulfilment.",
+    "Cards (credit, charge, debit, prepaid, smart) are processed through issuer, acquirer and network; the merchant receives the amount less interchange, network and acquirer fees, and 3-D Secure, tokenisation and PCI DSS reduce card fraud.",
+    "Micropayments need aggregation or wallets; e-checks and the ACH network clear bank-to-bank in cheap batches; wallets, QR and NFC dominate mobile payment, with SIM-swap and interoperability as the main issues.",
+    "Cryptocurrency is volatile, irreversible and not lawful as payment in Nepal; Nepal's payment trends are wallets, QR, bank transfers and interoperability."
    ],
    "terms": [],
    "stats": {
-    "words": 3301,
+    "words": 5552,
     "figures": 0,
-    "examples": 0
+    "examples": 1
    },
    "has_notes": true
   },
   {
-   "no": 6,
+   "no": 8,
    "title": "Security and Control of Information Systems",
    "hours": 4,
    "area": "",
@@ -325,31 +493,46 @@
     "Authentication and password strength",
     "Securing e-commerce",
     "Business continuity, audit and law",
+    "E-commerce security terminology and requirements",
+    "Technical attacks",
+    "Non-technical attacks and fraud",
     "Seeing security: factors, risk arithmetic, entropy and recovery"
    ],
    "sections": [
     {
-     "no": "6.1",
+     "no": "8.1",
      "title": "Security goals, threats and controls"
     },
     {
-     "no": "6.2",
+     "no": "8.2",
      "title": "Quantitative risk analysis"
     },
     {
-     "no": "6.3",
+     "no": "8.3",
      "title": "Authentication and password strength"
     },
     {
-     "no": "6.4",
+     "no": "8.4",
      "title": "Securing e-commerce"
     },
     {
-     "no": "6.5",
+     "no": "8.5",
      "title": "Business continuity, audit and law"
     },
     {
-     "no": "6.6",
+     "no": "8.6",
+     "title": "E-commerce security terminology and requirements"
+    },
+    {
+     "no": "8.7",
+     "title": "Technical attacks"
+    },
+    {
+     "no": "8.8",
+     "title": "Non-technical attacks and fraud"
+    },
+    {
+     "no": "8.9",
      "title": "Seeing security: factors, risk arithmetic, entropy and recovery"
     }
    ],
@@ -358,18 +541,20 @@
     "ALE = AV × EF × ARO; a safeguard is justified when the ALE it removes exceeds its cost.",
     "Entropy L × log₂ N measures password strength; use MFA and salted slow hashes.",
     "E-commerce security relies on TLS, a gateway, server-side verification, fraud rules and secure code.",
-    "RPO and RTO drive backup and recovery design; audit and the Electronic Transactions Act supply oversight and legal frame."
+    "RPO and RTO drive backup and recovery design; audit and the Electronic Transactions Act supply oversight and legal frame.",
+    "Security requirements are confidentiality, integrity, availability, authentication, authorisation and non-repudiation.",
+    "Technical attacks: viruses, worms, Trojans, ransomware (CryptoLocker), Heartbleed, DDoS and botnets, sniffing, page hijacking, malvertising and injection; non-technical attacks are social engineering (phishing, pretexting, baiting), insider abuse and fraud."
    ],
    "terms": [],
    "stats": {
-    "words": 2641,
+    "words": 4228,
     "figures": 0,
-    "examples": 1
+    "examples": 3
    },
    "has_notes": true
   },
   {
-   "no": 7,
+   "no": 9,
    "title": "Developing and Justifying Information Systems",
    "hours": 4,
    "area": "",
@@ -384,31 +569,31 @@
    ],
    "sections": [
     {
-     "no": "7.1",
+     "no": "9.1",
      "title": "Developing and acquiring information systems"
     },
     {
-     "no": "7.2",
+     "no": "9.2",
      "title": "Costs and benefits"
     },
     {
-     "no": "7.3",
+     "no": "9.3",
      "title": "Payback, NPV, IRR and ROI"
     },
     {
-     "no": "7.4",
+     "no": "9.4",
      "title": "Total cost of ownership (TCO)"
     },
     {
-     "no": "7.5",
+     "no": "9.5",
      "title": "Break-even analysis"
     },
     {
-     "no": "7.6",
+     "no": "9.6",
      "title": "Managing change and ethics"
     },
     {
-     "no": "7.7",
+     "no": "9.7",
      "title": "Seeing investment decisions: cash flows, NPV, TCO and break-even"
     }
    ],
@@ -426,9 +611,69 @@
     "examples": 1
    },
    "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Launching a Successful E-Commerce Website",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Planning an online business",
+    "The process of building a website",
+    "Website hosting and obtaining a domain name",
+    "Web content creation and management",
+    "Website design criteria",
+    "Implementation of the payment system",
+    "Website promotion and search engine optimisation (SEO)"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Planning an online business"
+    },
+    {
+     "no": "10.2",
+     "title": "The process of building a website"
+    },
+    {
+     "no": "10.3",
+     "title": "Website hosting and obtaining a domain name"
+    },
+    {
+     "no": "10.4",
+     "title": "Web content creation and management"
+    },
+    {
+     "no": "10.5",
+     "title": "Website design criteria"
+    },
+    {
+     "no": "10.6",
+     "title": "Implementation of the payment system"
+    },
+    {
+     "no": "10.7",
+     "title": "Website promotion and search engine optimisation (SEO)"
+    }
+   ],
+   "summary": [
+    "A business plan and cost-benefit case (with break-even, payback and risks) come before any code; choose the funding source and e-commerce model early.",
+    "Building follows goals, domain and hosting, structure, design, development, content, integration, testing, launch and maintenance; shop structure is a shallow hierarchy.",
+    "A domain is connected by DNS records; hosting may be shared, VPS, dedicated, cloud or managed; cPanel provides File Manager, FTP, MySQL, email, SSL and backups for uploading the site.",
+    "Content is static or dynamic, managed by a CMS with workflow; catalogue data need SKUs, attributes, images and stock synchronisation.",
+    "Design criteria: site map and navigation, 12-column grid, accessible colour, usability heuristics and Core Web Vitals performance.",
+    "Payments are integrated through a gateway with server-side verification; promotion combines SEO (on-page, technical, off-page) with paid and social methods and is measured by conversion rate and cost per order."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4064,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 48,
- "notes_ready": 7
+ "unit_count": 10,
+ "topic_count": 81,
+ "notes_ready": 10
 }
