@@ -264,6 +264,14 @@
   "accent": "#0F766E",
   "status": "done"
  },
+ "semester-7/software-project-management": {
+  "name": "Software Project Management",
+  "code": "BCA 402",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
  "semester-7/financial-accounting": {
   "name": "Financial Accounting",
   "code": "BCA 403",

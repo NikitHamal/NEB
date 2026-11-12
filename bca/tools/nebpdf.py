@@ -145,7 +145,7 @@ FORMULA_BOOKS = {
     "mathematics-1", "mathematics-2", "numerical-methods", "probability-and-statistics",
     "discrete-structure", "digital-logic", "computer-graphics", "microprocessor-computer-architecture",
     "cryptography-network-security", "financial-accounting", "applied-economics", "operating-systems",
-    "computer-networking", "artificial-intelligence",
+    "computer-networking", "artificial-intelligence", "software-project-management",
 }
 
 
