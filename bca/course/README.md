@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**42 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,580,022 raw words of study material, counted over the unit files, including code listings and tables):
+**42 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,599,125 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -34,7 +34,7 @@
 | 5 | BCA 301 | [Computer Network](semester-5/computer-networking/) | 77,065 | 171 | done |
 | 5 | BCA 302 | [Artificial Intelligence](semester-5/artificial-intelligence/) | 75,568 | 159 | done |
 | 5 | BCA 303 | [Advanced Java Programming](semester-5/advanced-java/) | 62,748 | 162 | done |
-| 5 | BCA 304 | [MIS and e-Business](semester-5/mis-and-e-business/) | 29,903 | 84 | done |
+| 5 | BCA 304 | [MIS and e-Business](semester-5/mis-and-e-business/) | 49,006 | 140 | done |
 | 5 | BCA 305 | [Society and Technology](semester-5/society-and-technology/) | 45,171 | 133 | done |
 | 5 | BCA 306 | [Project II](semester-5/project-2/) | 18,093 | 56 | done |
 | 6 | BCA 351 | [Computer Graphics and Animation](semester-6/computer-graphics/) | 39,078 | 94 | done |

@@ -116,9 +116,9 @@ Cards remain the most common electronic payment instrument worldwide. Five kinds
 
 A card payment involves five roles: the **cardholder**, the **merchant**, the **issuer** (the cardholder's bank), the **acquirer** (the merchant's bank or processor) and the **card network** (Visa, Mastercard, UnionPay or a domestic switch) that connects issuers and acquirers. A **payment gateway** sits between the merchant's site and the acquirer and encrypts the card data.
 
-```svgfig label="7.5" caption="The card payment cycle. (1) The cardholder pays on the merchant's checkout, which passes the card data to the payment gateway. (2) The gateway sends an authorisation request to the acquirer, which (3) forwards it through the card network to the issuer. (4) The issuer checks funds and fraud signals and approves or declines; the answer returns along the same path. Later, clearing and settlement move the money: the issuer pays the acquirer less the interchange fee, and the acquirer pays the merchant less its own fee."
+```svgfig label="7.1" caption="The card payment cycle. (1) The cardholder pays on the merchant's checkout, which passes the card data to the payment gateway. (2) The gateway sends an authorisation request to the acquirer, which (3) forwards it through the card network to the issuer. (4) The issuer checks funds and fraud signals and approves or declines; the answer returns along the same path. Later, clearing and settlement move the money: the issuer pays the acquirer less the interchange fee, and the acquirer pays the merchant less its own fee."
 f = Fig(580, 190)
-nodes = [("Card-\nholder", 10, MINT, TEAL), ("Merchant\n+ gateway", 130, BLUE, NAVY), ("Acquirer", 250, SAND, AMBER), ("Card\nnetwork", 370, SOFT, SLATE), ("Issuer", 490, ROSE, RED)]
+nodes = [("Customer", 10, MINT, TEAL), ("Merchant\n+ gateway", 130, BLUE, NAVY), ("Acquirer", 250, SAND, AMBER), ("Card\nnetwork", 370, SOFT, SLATE), ("Issuer", 490, ROSE, RED)]
 for n, x, fl, c in nodes:
     f.box(x, 40, 80, 56, n, fill=fl, stroke=c, size=11, bold=True, color=c, r=6)
 for i in range(4):
@@ -241,7 +241,7 @@ f.text(165, 250, "Overall conversion 1.40%", size=12, color=NAVY, bold=True)
 f.text(165, 268, "Checkout 70% -> 80% adds 200 orders", size=10.5, color=SLATE, bold=True)
 ```
 
-```svgfig label="7.1" caption="Unit economics of one order. Advertising of Rs 1,50,000 brought 1,400 customers, so the customer acquisition cost is 150,000 / 1,400 = Rs 107.14. An average order of Rs 2,400 at a 22 percent gross margin gives a gross profit of 2,400 x 0.22 = Rs 528 per order. After paying for acquisition Rs 528 - 107.14 = Rs 420.86 is left on the first order. A shop where the CAC exceeds the profit per order loses money on every new customer and survives only if customers return."
+```svgfig label="7.2" caption="Unit economics of one order. Advertising of Rs 1,50,000 brought 1,400 customers, so the customer acquisition cost is 150,000 / 1,400 = Rs 107.14. An average order of Rs 2,400 at a 22 percent gross margin gives a gross profit of 2,400 x 0.22 = Rs 528 per order. After paying for acquisition Rs 528 - 107.14 = Rs 420.86 is left on the first order. A shop where the CAC exceeds the profit per order loses money on every new customer and survives only if customers return."
 f = Fig(580, 150)
 f.box(10, 20, 528 * 0.9, 34, "Gross profit per order  Rs 528", fill=MINT, stroke=TEAL, color=TEAL, size=11, bold=True, r=3)
 f.box(10, 66, 107.14 * 0.9, 34, "", fill=ROSE, stroke=RED, r=3)
@@ -251,7 +251,7 @@ f.box(10 + 107.14 * 0.9 + 150, 66, 420.86 * 0.9 - 150, 34, "left  Rs 420.86", fi
 f.text(290, 126, "Order value Rs 2,400 x margin 22% = Rs 528;  Rs 528 - Rs 107.14 = Rs 420.86", size=10.5, color=NAVY, bold=True)
 ```
 
-```svgfig label="7.2" caption="Multilateral netting, the worked example of section 7.4. Gross obligations among four banks total Rs 970 crore. Net positions are A -30, B +80, C 0, D -50 (received minus sent). Only A pays 30 and D pays 50, both to B, so Rs 80 crore moves in settlement instead of 970: a saving of 91.8 percent. Settling pair by pair (bilateral netting) would still need Rs 190 crore of transfers. The positions always sum to zero because money is only moved, never created."
+```svgfig label="7.3" caption="Multilateral netting, the worked example of section 7.4. Gross obligations among four banks total Rs 970 crore. Net positions are A -30, B +80, C 0, D -50 (received minus sent). Only A pays 30 and D pays 50, both to B, so Rs 80 crore moves in settlement instead of 970: a saving of 91.8 percent. Settling pair by pair (bilateral netting) would still need Rs 190 crore of transfers. The positions always sum to zero because money is only moved, never created."
 f = Fig(580, 200)
 pos = {"A": (60, 100), "B": (290, 40), "C": (290, 170), "D": (520, 100)}
 net = {"A": "-30 pays", "B": "+80 receives", "C": "0", "D": "-50 pays"}
@@ -264,7 +264,7 @@ f.text(290, 118, "Settlement: 30 + 50 = 80 crore", size=11, color=NAVY, bold=Tru
 f.text(290, 136, "instead of 970 crore gross (91.8% less)", size=10.5, color=SLATE, bold=True)
 ```
 
-```svgfig label="7.3" caption="The path of a QR payment in a generic wallet and switch architecture. (1) The customer scans the merchant's QR code with a wallet or bank app. (2) The app sends the payment request to the payment service provider or switch. (3) The switch checks the customer's bank and the balance. (4) The customer's bank approves and debits the account. (5) The switch tells the merchant's bank, which credits the merchant. (6) Both apps show a confirmation within seconds. Final interbank settlement happens later by netting through the central bank, so the customer sees an instant payment while the banks settle in batches."
+```svgfig label="7.4" caption="The path of a QR payment in a generic wallet and switch architecture. (1) The customer scans the merchant's QR code with a wallet or bank app. (2) The app sends the payment request to the payment service provider or switch. (3) The switch checks the customer's bank and the balance. (4) The customer's bank approves and debits the account. (5) The switch tells the merchant's bank, which credits the merchant. (6) Both apps show a confirmation within seconds. Final interbank settlement happens later by netting through the central bank, so the customer sees an instant payment while the banks settle in batches."
 f = Fig(580, 190)
 b = [("Customer\napp", 8, MINT, TEAL), ("Switch /\nPSP", 130, SAND, AMBER), ("Customer's\nbank", 252, BLUE, NAVY), ("Merchant's\nbank", 374, BLUE, NAVY), ("Merchant", 496, MINT, TEAL)]
 for t, x, fl, c in b:
@@ -335,7 +335,7 @@ facts = dict(tg=tg, tb=tb, tried=tried)
 2. **Lower operating cost.** There is no need for prime shop space or many counter staff, and orders are processed by software. A small firm can start with a laptop and a phone. Savings can be passed on as lower prices.
 3. **Open all day.** Customers order at midnight or on a holiday. Migrant workers abroad send gifts and recharge at their own time zone. Sales no longer stop when the shutter closes.
 4. **Faster transactions.** Payment by wallet, ConnectIPS or QR completes in seconds and creates a digital record. Cash handling, queues and counting errors fall. A utility company that accepts online payment collects bills faster.
-5. **Better customer data.** Each visit and order produces data on what people want. The shop can personalise offers and measure funnel steps as in Figure 7.1. Decisions are based on evidence, not guesses.
+5. **Better customer data.** Each visit and order produces data on what people want. The shop can personalise offers and measure funnel steps as in Figure 7.2. Decisions are based on evidence, not guesses.
 6. **Direct relationship.** Producers can sell directly to buyers, cutting layers of middlemen. A farmer cooperative can list vegetables and take orders from restaurants. The producer earns more and the buyer pays less.
 7. **Easy scaling.** A system built for 100 orders a day can be upgraded to handle 10,000 with more servers. Cloud services are rented by use. A festival-season rush does not require permanent staff.
 8. **Better service and tracking.** Customers see order status, receipts and delivery tracking, and can complain by chat. Fast replies create trust. Reliable service is the main reason people return to an online shop.
@@ -391,7 +391,7 @@ facts = dict(tg=tg, tb=tb, tried=tried)
 
 **Q1 (5 marks). An online shop gets 100,000 visitors; 5 percent add to cart, 40 percent of those start checkout and 70 percent of those pay. Advertising cost is Rs 1,50,000 and the average order is Rs 2,400 with 22 percent gross margin. Find conversion, CAC and profit per order.**
 
-*Introduction.* An online business is managed with funnel and unit-economics measures (section 7.2, Figure 7.1).
+*Introduction.* An online business is managed with funnel and unit-economics measures (section 7.2, Figure 7.2).
 
 1. **Funnel.** 100,000 x 0.05 = 5,000 add to cart; 5,000 x 0.40 = 2,000 start checkout; 2,000 x 0.70 = **1,400** orders.
 2. **Conversion rate.** Orders / visitors = 1,400 / 100,000 = **1.40 percent**.
@@ -411,7 +411,7 @@ facts = dict(tg=tg, tb=tb, tried=tried)
 
 **Q2 (5 marks). Explain multilateral netting with the four-bank example (net positions A -30, B +80, C 0, D -50) and state its advantage.**
 
-*Introduction.* Banks owe each other many payments during a day; netting reduces them to one net settlement per bank (section 7.4, Figure 7.2).
+*Introduction.* Banks owe each other many payments during a day; netting reduces them to one net settlement per bank (section 7.4, Figure 7.3).
 
 1. **Gross obligations.** Each bank sends payments to the others; in the example the total is Rs 970 crore.
 2. **Net position.** For each bank, received minus sent: A 230 - 260 = -30; B 320 - 240 = +80; C 220 - 220 = 0; D 200 - 250 = -50.

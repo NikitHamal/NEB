@@ -34,7 +34,7 @@ Two further elements make the road useful. **Content and service providers** (on
 ```svgfig label="2.1" caption="The I-Way as a chain. The shopper's device (consumer access equipment) connects through a local on-ramp such as fibre, ADSL or mobile data to an ISP. The ISP joins the national and international backbone (the global information distribution networks), which reaches the seller's data centre. Content and service providers sit at the far end, and policy and law surround the whole chain."
 f = Fig(580, 190)
 xs = [10, 128, 246, 364, 482]
-labs = [("Device", "phone, laptop", SOFT, SLATE), ("On-ramp", "fibre, ADSL, 4G", MINT, TEAL), ("ISP", "regional network", BLUE, NAVY), ("Backbone", "national and\nintl. links", SAND, AMBER), ("Content", "shop, bank,\nportal", ROSE, RED)]
+labs = [("Device", "phone, laptop", SOFT, SLATE), ("On-ramp", "fibre, ADSL, 4G", MINT, TEAL), ("ISP", "regional\nnetwork", BLUE, NAVY), ("Backbone", "national and\nintl. links", SAND, AMBER), ("Content", "shop, bank,\nportal", ROSE, RED)]
 for x, (a, b, fl, st) in zip(xs, labs):
     f.box(x, 40, 88, 78, "", fill=fl, stroke=st, r=6)
     f.text(x + 44, 62, a, size=11.5, color=st, bold=True)
@@ -139,6 +139,7 @@ Real speeds are far lower than the theoretical figures because of distance, inte
 
 ::: example How long does a 100 MB product catalogue take to download?
 Size in bits: 100 MB × 8 = 800 megabits. Time = size ÷ speed.
+
 - ADSL2+ at a realistic 16 Mbps: 800 ÷ 16 = **50 seconds**.
 - 4G at a realistic 40 Mbps: 800 ÷ 40 = **20 seconds**.
 - 5G at a realistic 400 Mbps: 800 ÷ 400 = **2 seconds**.
