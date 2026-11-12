@@ -126,6 +126,20 @@
   "category": "Board Exam Bundle"
  },
  {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Marketing-2080-2082-Bundle.pdf",
+  "subject": "Marketing",
+  "grade": "12",
+  "years_bs": "2080-2082",
+  "papers": [
+   "12-mkt-2082-3081",
+   "12-mkt-2081-3081",
+   "12-mkt-2080-3081"
+  ],
+  "pages": 28,
+  "bytes": 316421,
+  "category": "Board Exam Bundle"
+ },
+ {
   "file": "bundles/NEBians-Past-Papers-Grade-12-Mathematics-2079-2082-Bundle.pdf",
   "subject": "Mathematics",
   "grade": "12",
