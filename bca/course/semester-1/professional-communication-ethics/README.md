@@ -2,14 +2,15 @@
 
 Semester I · 3 credits. A **new subject** in the revised (2082-batch) curriculum; it replaces the old English I (CAEN103) and takes over part of Cyber Law and Professional Ethics (CACS401).
 
-| Unit | Title |
+| Unit | Title (textbook order) |
 |---|---|
-| 1 | The Communication Process and Its Barriers (process, forms, 7 Cs, readability) |
-| 2 | Listening, Speaking and Presentation Skills (active listening, PREP, slides, GD, interviews) |
-| 3 | Professional Writing: Emails, Letters, CVs and Reports (models for each, minutes, referencing) |
-| 4 | Workplace Communication, Teamwork and Etiquette (teams, conflict, feedback, time, customers) |
-| 5 | Professional Ethics, Intellectual Property and Cyber Law (theories, ACM code, IP, privacy, Nepal law, cases) |
+| 1 | Foundation of Professional Communication (language, history, principles, process, non-verbal, barriers; vocabulary and grammar; "Mother Tongue" by Amy Tan, "The Letter" by Dhumaketu) |
+| 2 | Oral Communication (telephone, presentations, meetings, agendas, minutes, elevator pitches, interviews; idioms, reported speech; "Death by Powerpoint" by Angela R. Garber, "Our world on fire needs you" by Maria Ressa) |
+| 3 | Writing Professionally (rules, text messages, emails, memos, notices, letters, resumes and cover letters; business vocabulary, voice; "Gateman's Gift" by R.K. Narayan, "My School" by Rabindranath Tagore) |
+| 4 | Interpersonal and Group Communication (interpersonal, listening environment, intercultural, teams and virtual teams, leadership, adapting style; vocabulary, modals and conditionals; "Computer and the Pursuit of Happiness" by David Gelernter, "The Collapse of the Family and the Community" by Yuval Noah Harari) |
+| 5 | Digital Communication (netiquette, online professionalism, social media and collaborative tools, plagiarism, visuals; social media vocabulary, prepositions; "Cat Pictures Please" by Naomi Kritzer, "ChatGPT May Be Eroding Critical Thinking Skills" (TIME, MIT study)) |
+| 6 | Professional Ethics (ethics in computing, codes, responsibilities, ethical decisions, malpractice, issues for IT users, whistle-blowing, workplace challenges; ethical vocabulary, concord; "The Necklace" by Guy de Maupassant, "The Digital Citizen" by Luigi Ceccarini) |
 
 ## Source and honesty
 
-**The unit structure is reconstructed.** The official BCA 105 syllabus PDF (with per-unit topics and hours) could not be retrieved, so this book is organised around the subject's title and stated purpose (professional communication plus ethics for computing professionals). If your college follows a different unit order, every topic is in the table of contents; hours per unit are not stated. Calculations (Flesch scores) were recomputed. Legal references are to the titles and years of the Acts as commonly cited; section numbers and penalties are deliberately omitted because they are amended, and the Acts should be read on lawcommission.gov.np. The statement that the "93 % non-verbal" figure is a misreading of Mehrabian's work reflects Mehrabian's own clarification.
+**The unit structure follows the table of contents of the current TU textbook** (six units, about 268 printed pages), as photographed by a student: each unit has topic sections, an exercise, a Vocabulary and Grammar section and two prescribed Readings with exercises. The official syllabus PDF with hours per unit was not retrieved, and the textbook's own sub-lists for 4.7 and part of unit 6 were partly out of frame, so the grammar topics in 4.7 are chosen by this book. The prescribed texts are **not reprinted** (copyright); each gets a detailed summary, themes, critical analysis and solved exercises, checked against published summaries and, for "Cat Pictures Please", against the full story. Check small details against your copy. Calculations (Flesch scores) were recomputed. Legal references are to the titles and years of the Acts as commonly cited; section numbers and penalties are deliberately omitted because they are amended, and the Acts should be read on lawcommission.gov.np. The statement that the "93 % non-verbal" figure is a misreading of Mehrabian's work reflects Mehrabian's own clarification.
