@@ -43,3 +43,8 @@ with Vocabulary and Grammar + two prescribed Readings with Exercises.
 3. Add more figures to text-heavy books (photogrid/svgfig), then rebuild, `qa_pdf.py`, `export_course_web.py <book>`.
 4. Take Django web-reader screenshots of BCA Unit 3 and check the right-hand "On this page" list for clipped labels.
 5. Rebuild the other course PDFs only if a sweep flags them; `gen_status.py` showed page counts that differ from earlier tables.
+
+## Session 18 (continuation) - environment recipe (no root in sandbox)
+- `pip install --break-system-packages weasyprint pymupdf matplotlib markdown pillow numpy pygments`; fonts via
+  `bash notes/pipeline/fonts/install.sh`; pango/poppler via micromamba (`micromamba create -n pe -c conda-forge pango poppler fontconfig harfbuzz`),
+  then `. /tmp/env.sh` (PATH + LD_LIBRARY_PATH + FONTCONFIG_FILE). `pdfinfo` of the BCA 105 PDF = 148 pages (verified).
