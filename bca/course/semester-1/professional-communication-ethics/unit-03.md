@@ -320,3 +320,215 @@ Encl.: résumé, certificates
 **9.** Direct: begins with the main point (routine requests, good news): "Please approve the leave from 3 to 5 April." Indirect: begins with context and reasons before bad news: "We have reviewed all applications carefully... we regret that we cannot offer you the post at this time."
 **10.** Use the memo format: To: All staff; From: IT Manager; Date; Subject: Wi-Fi password change; body: from Monday the password changes; collect the new password from the IT room; the old one stops working at 6 pm; contact IT for help.
 :::
+
+## 3.6 Vocabulary and grammar
+
+### 3.6.1 Business vocabulary and its uses
+
+| Word | Meaning | Use in a sentence |
+|---|---|---|
+| **invoice** | a bill listing goods or services and the amount due | Please pay the invoice within 30 days. |
+| **quotation (quote)** | a seller's statement of the price for stated goods | We received three quotations for the laptops. |
+| **tender** | a formal offer to supply goods or do work at a price | The college invited tenders for the new network. |
+| **procurement** | the process of obtaining goods or services | The procurement of servers took two months. |
+| **stakeholder** | a person or group with an interest in a project | Clients and users are key stakeholders. |
+| **deadline** | the time by which work must be finished | The deadline for the report is Friday. |
+| **deliverable** | a product or result to be handed over | The first deliverable is the design document. |
+| **agenda** | list of items for a meeting | Please add this to the agenda. |
+| **revenue / profit / turnover** | income / income minus cost / total sales | Revenue rose 12% but profit fell. |
+| **budget** | a plan of income and spending | The project budget is Rs 5 lakh. |
+| **liability** | a legal responsibility or debt | The company accepts no liability for data loss. |
+| **warranty / guarantee** | a promise to repair or replace | The laptop has a two-year warranty. |
+| **commission** | a payment based on sales | Agents earn a 5% commission. |
+| **retainer** | a fee paid in advance to secure services | The firm keeps a lawyer on retainer. |
+| **outsource** | give work to an outside company | We outsource our payroll. |
+| **negotiate** | discuss to reach an agreement | They negotiated a lower price. |
+| **merger / acquisition** | joining of firms / one firm buying another | The acquisition was completed in March. |
+| **consignment** | goods sent for sale or delivery | The consignment reached Birgunj on Monday. |
+| **overdue / outstanding** | not paid by the due date / unpaid | Please settle the outstanding balance. |
+| **brief / briefing** | short instruction / giving instructions | The manager briefed the team. |
+| **benchmark** | a standard to compare with | The test results exceeded the benchmark. |
+| **scalable** | able to grow without loss of performance | A cloud solution is scalable. |
+| **ROI (return on investment)** | profit gained compared with cost | The ROI of the training was 30%. |
+| **KPI** | key performance indicator | Response time is our main KPI. |
+| **SLA** | service-level agreement | The SLA promises 99.9% uptime. |
+
+**Common confusions in business English:** *affect* (verb: influence) and *effect* (noun: result); *cheque* (payment order) and *check* (verify); *stationary* (not moving) and *stationery* (writing materials); *principal* (head, main) and *principle* (rule); *advice* (noun) and *advise* (verb); *capital* (money, city) and *capitol* (building); *continual* (repeated) and *continuous* (without a break); *complement* (complete) and *compliment* (praise). **Abbreviations in correspondence:** *ASAP, FYI, EOD, N/A, Re:, Encl., cc, PS, i.e. (that is), e.g. (for example), etc.* Use them only with readers who know them.
+
+### Exercise 3.6.1
+
+Fill in the blanks with the right word (*invoice, tender, warranty, deadline, stakeholders, outsource, liability, budget*): (a) The company will ___ its customer support to a call centre. (b) Please send the ___ so that we can process payment. (c) The ___ for submitting the proposal is Friday. (d) The laptop is covered by a one-year ___. (e) All ___ were invited to the project meeting. (f) The college has called a ___ for supplying 50 computers. (g) We cannot accept ___ for loss caused by power failure. (h) The ___ for the website is limited to Rs 3 lakh.
+
+::: note Answers
+(a) outsource (b) invoice (c) deadline (d) warranty (e) stakeholders (f) tender (g) liability (h) budget.
+:::
+
+### 3.6.2 Voice
+
+**Voice** shows whether the subject *does* the action (**active**) or *receives* it (**passive**). **Active:** subject + verb + object ("The administrator reset the password."). **Passive:** object becomes subject + **be + past participle** (+ *by* + doer) ("The password was reset by the administrator.").
+
+**Forming the passive (tense by tense).**
+
+| Tense | Active | Passive |
+|---|---|---|
+| Simple present | The team **tests** the code. | The code **is tested** by the team. |
+| Present continuous | The team **is testing** the code. | The code **is being tested**. |
+| Present perfect | The team **has tested** the code. | The code **has been tested**. |
+| Simple past | The team **tested** the code. | The code **was tested**. |
+| Past continuous | The team **was testing** the code. | The code **was being tested**. |
+| Past perfect | The team **had tested** the code. | The code **had been tested**. |
+| Simple future | The team **will test** the code. | The code **will be tested**. |
+| Modal | The team **must test** the code. | The code **must be tested**. |
+
+**Other forms.** *Questions:* "Who wrote this program?" → "By whom was this program written?" ("Was the file saved by you?") *Imperatives:* "Close the door." → "Let the door be closed." / "You are requested to close the door." *Two objects:* "The manager gave Ram a laptop." → "Ram was given a laptop by the manager." or "A laptop was given to Ram."
+
+**When to use the passive.** (1) The doer is unknown or unimportant: "The server was hacked last night." (2) The action matters more than the doer: "Minutes are sent to all members." (3) Tactful or impersonal tone, especially for bad news or in scientific and technical writing: "The deadline was missed." (4) Notices and reports: "A meeting will be held on Friday." **Use the active** for clear, direct and short writing, especially emails, instructions and CVs ("Developed a system..."): "We will inspect the lab" is better than "The lab will be inspected by us."
+
+::: example Active to passive in professional writing
+Active: "The finance team will pay all invoices within 30 days." Passive: "All invoices will be paid within 30 days."
+Active (clearer): "We found three errors in the report." Passive (hides the doer): "Three errors were found in the report."
+Do not use the passive for the sake of sounding formal: "It is requested by the undersigned that..." is just "Please...".
+:::
+
+### Exercise 3.6.2
+
+1. Change into the passive voice: (a) The engineer is repairing the server. (b) The manager has approved the leave. (c) Who designed this logo? (d) You must submit the form by Friday. (e) They will announce the results tomorrow. (f) The students were writing a report. (g) Open the file. (h) The company gave her a promotion.
+2. Change into the active voice: (a) The email was sent by the HR department. (b) The new software will be installed by the technicians. (c) All the files have been deleted. (d) By whom was the accident reported? (e) The report is being typed.
+
+::: note Answers
+**1.** (a) The server is being repaired by the engineer. (b) The leave has been approved by the manager. (c) By whom was this logo designed? (d) The form must be submitted by you by Friday. (e) The results will be announced tomorrow. (f) A report was being written by the students. (g) Let the file be opened. (h) She was given a promotion by the company. / A promotion was given to her by the company.
+**2.** (a) The HR department sent the email. (b) The technicians will install the new software. (c) Someone has deleted all the files. (d) Who reported the accident? (e) Someone is typing the report.
+:::
+
+## 3.7 Readings
+
+*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, characters or voices, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
+
+### 3.7.1 "Gateman's Gift" by R.K. Narayan
+
+#### The writer and the text
+
+**R.K. Narayan** (Rasipuram Krishnaswami Iyer Narayanaswami, 1906 to 2001) is one of the great Indian writers in English. Almost all his fiction is set in **Malgudi**, an imaginary South Indian town, and treats ordinary people with gentle irony and affection. Famous works include *Swami and Friends*, *The Guide* (Sahitya Akademi Award, 1960) and the story collection *Malgudi Days*. "Gateman's Gift" is a short story of a retired gatekeeper who is terrified by an official letter. It is a comedy of fear and misunderstanding with a quiet comment on class and power.
+
+#### Summary
+
+1. **The gateman.** Govind Singh was for twenty-five years the gateman of Engladia's Insurance Company in Malgudi. A former soldier who had served in Mesopotamia, he was proud of his khaki uniform and was punctual and obedient. He retired on a small pension and spent his time at home.
+2. **A hobby.** One day a neighbour's child brings a broken doll to be mended. Govind Singh repairs it, finds that he has a talent, and begins to make small clay models (including a model of the Engladia building and its people). The models earn praise from the neighbours and he is happy and absorbed.
+3. **The letter.** After he sends models to the company or shows them to its officers, a **registered letter** arrives from his old employer. Having spent his life obeying orders and being afraid of "the Sahib" and official papers, he is sure it is a complaint or a threat to his pension, which is all he has. He is unable to read it himself.
+4. **Fear and refusal.** He will not open the letter and also will not let anyone else open it. He carries it, keeps it in his turban or pocket, and imagines the worst: that he will lose the pension, or be punished for the models. His wife and friends urge him to open it; he refuses.
+5. **He behaves like a madman.** His fear grows into strange behaviour: he talks wildly, stops making his models, breaks things, and neglects his duties at home. People start to say he is mad. He even consults a doctor or institution, which only adds to the confusion. He half believes that he is going mad and, in his fear, behaves accordingly.
+6. **A street scene.** He is taken by a policeman after an outburst (breaking a street lamp), and in the street he tries to give orders to traffic, claiming experience from "Mesopotamia".
+7. **The letter is opened.** A man from the old office (an accountant) meets him, sees the letter, and persuades or forces him to open it. The letter contains **good news**: the company has admired the models and sends a reward (money) with a note of appreciation.
+8. **The ending.** Govind Singh's fear dissolves and he returns to his senses. But he now feels that making clay toys is not a "sensible" occupation for a normal man and decides not to make models again. The gift that brought him recognition also ends his art.
+
+#### Characters
+
+- **Govind Singh:** simple, honest, obedient, proud of his service; he is respectful to authority to the point of fear.
+- **The Sahib / the company:** an unseen authority whose power exists mostly in the gateman's imagination.
+- **His wife, neighbours and friends:** ordinary people who are puzzled by his behaviour and urge him to open the letter.
+- **The accountant:** a kind man who solves the mystery by opening the letter.
+
+#### Themes
+
+- **Fear of authority and the class divide.** A lifetime of obedience has taught the gateman to see official letters as threats; the story shows how hierarchy lives in the mind of the powerless.
+- **Fear distorts behaviour.** A sane man behaves like a madman only because of anxiety; the story shows how much of "madness" is social.
+- **Art, creativity and recognition.** Govind Singh's talent appears late and by accident; recognition is both a joy and, ironically, the end of the hobby.
+- **Communication.** The entire problem comes from one unopened letter: a message not read, not decoded, becomes a fear. This ties directly to Unit 1: feedback and decoding.
+- **Dependence and insecurity of old age.** His pension of a few rupees is the only security he has.
+- **Humour and irony.** The tone is light, but the issues (poverty, dignity, mental health) are serious.
+
+#### Critical analysis and literary devices
+
+- **Irony:** the letter he dreads contains a reward; verbal and situational irony shape the plot. *Dramatic irony:* the reader suspects the letter is harmless before he does.
+- **Narrative voice:** an objective, gently amused third-person narrator who never mocks Govind Singh; this is Narayan's typical *humane humour*.
+- **Setting and symbol:** the **gate** is a symbol of the boundary between the powerful inside and the powerless outside; the **letter** is a symbol of authority and of unspoken communication; the **clay model** stands for creativity and the self.
+- **Structure:** a simple plot with a central mystery (what is in the letter?) that builds suspense, with a quick resolution and a quiet, ironic close.
+- **Critical view:** some critics read it as a story of marginalised people and class anxiety; others see an allegory of the artist who gives up art when the audience recognises it. Both readings are valid. Narayan does not preach; he lets the situation speak.
+- **Link to professional communication:** read your mail; do not let fear fill the gap left by silence; managers should write clear, reassuring messages so that employees do not guess the worst.
+
+#### Key vocabulary
+
+*gateman, pension, registered letter, miniature, clay, eccentric, bewildered, anxiety, misunderstanding, insanity, appreciation, humble.*
+
+### Exercise: "Gateman's Gift"
+
+1. Who is Govind Singh and what was his job?
+2. How did he discover his talent for making models?
+3. Why was he afraid of the registered letter?
+4. How did his behaviour change after receiving it?
+5. How was the mystery of the letter solved, and what did the letter contain?
+6. Why does Govind Singh give up making models at the end?
+7. Long answer: "The real hero of the story is fear." Discuss.
+8. Write a short note on the irony in the story.
+
+::: note Answers and worked solutions
+**1.** A retired gateman of Engladia's Insurance Company in Malgudi, with twenty-five years of service, an ex-soldier living on a small pension.
+**2.** A neighbour's child brought him a damaged doll to repair; he not only repaired it but found that he could model clay figures and miniature buildings and enjoyed doing so.
+**3.** The letter was an official registered letter from his old employer; he had spent his life in fear of authority and official papers and believed it could take away his pension, his only security.
+**4.** He refused to open it, grew anxious, stopped his modelling, behaved wildly, became the subject of gossip that he was mad, and even half believed it himself.
+**5.** A man from the company's office (the accountant) met him and had the letter opened; it contained appreciation of his models and a reward in money.
+**6.** He feels that the occupation of making clay models is not suitable for a sensible person, because it led to his embarrassing fear and madness; recognition made him self-conscious and ends the innocent pleasure of his art.
+**7.** Introduction: the antagonist is not a person but fear. Body: (i) fear of authority is built by years of obedience as a gateman; (ii) fear stops him from simply reading the letter; (iii) it makes a sane man act like a lunatic and the community believes it; (iv) the cure is just information: when the letter is read, fear vanishes. Conclusion: Narayan shows that anxiety and silence do more harm than the thing feared, and that powerless people carry authority within themselves.
+**8.** The letter he fears is a message of praise and reward (situational irony); he gives up modelling at the moment he is recognised for it; and the "mad" man was behaving sensibly in his craft but madly out of fear.
+:::
+
+### 3.7.2 "My School" by Rabindranath Tagore
+
+#### The writer and the text
+
+**Rabindranath Tagore** (1861 to 1941) was a Bengali poet, novelist, playwright, composer and educator, and the first non-European to win the Nobel Prize in Literature (1913, for *Gitanjali*). He founded a school at **Santiniketan** in Bengal in **1901**, which grew into **Visva-Bharati** University. "My School" is a **lecture** delivered in the United States (1916 to 1917) and published in the collection ***Personality*** (1917). It is an **essay of ideas** that explains why he founded his school and what he believes education should be.
+
+#### Summary
+
+1. **An unlikely schoolmaster.** Tagore starts by saying that he started a school when he was nearly forty, after spending most of his life writing verse. People expected something odd, "the product of daring inexperience".
+2. **The origin: unhappy school days.** The idea of the school was not a new theory but the **memory of his own school days**, which he found unhappy. He admits his sensitive temperament played a part, but says that schools in general are like **factories** that grind out uniform results, treating children as an average and ignoring the individual.
+3. **Education cut off from life.** The ordinary school snatches children from a world full of mystery, nature and personality and makes them learn information about it: "We rob the child of his earth to teach him geography, of language to teach him grammar." The child's hunger for the epic is met with a chronicle of dates.
+4. **Education of sympathy.** We are here to **accept** the world, not merely to know it. We gain power by knowledge but **fullness by sympathy**; the highest education makes our life in harmony with all existence. Schools ignore and even repress this education of sympathy.
+5. **Children and nature.** Children love life; they are not born ascetics ready for monastic discipline. In his school boys study under trees; he defends a boy who chose a fork of a branch for his studies, saying that childhood is the one time when a civilised man can choose the branch of a tree rather than a drawing-room chair.
+6. **Ancient India and the teacher.** In ancient India the school was where life itself was: students lived with the master, herded cattle, gathered fuel and fruit, and learnt from the teacher's own spiritual growth. Teaching was part of a teacher's life, not his profession.
+7. **Simplicity, not poverty worship.** He explains the plainness of his school: poverty brings a child into touch with life; wealth is "a golden cage". Bareness of furniture leads to personal experience of the world.
+8. **Freedom of mind.** The aim of education is the **unity of truth** and **freedom of mind and soul**; freedom has its risks and responsibilities, as life does. He wants children free from barriers of country, race and creed.
+9. **Honest ending.** He warns the audience not to carry away an exaggerated picture of the ashram: there are obstacles, weak faith in children's minds, and "a good number of inevitable failures."
+
+#### Themes
+
+- **Education as living, not information.** Learning must be rooted in experience, nature and the whole personality.
+- **Freedom versus discipline.** Mechanical discipline kills joy and creativity.
+- **Harmony with nature and sympathy.** Knowledge should link the learner to the world, not set mind and nature in opposition.
+- **Teacher as companion.** The teacher teaches by life and love, not by command.
+- **Simplicity of life, universal humanism.** Santiniketan welcomes all cultures and rejects narrow nationalism.
+
+#### Critical analysis and rhetorical notes
+
+- **Form:** a spoken lecture turned into an essay; personal, reflective, with the **first person** and anecdotes; moves from memory to criticism to ideal to honest caution.
+- **Imagery and metaphor:** school as a **"manufactory"**, a **"tailoring department"** and the **"shoes of a mandarin woman"** that pinch (reference to foot-binding); wealth as a **"golden cage"**; the idea as a **seed** that grows into a plant, not a fixed foundation.
+- **Contrast and antithesis:** information versus experience, knowledge versus sympathy, drawing-room chair versus tree branch.
+- **Ethos:** honesty and self-deprecation; he admits his inexperience and the school's failures, which makes the argument credible. **Pathos:** the picture of a child's suffering "subdued at last into silence by punishment". **Logos:** the contrast with ancient India and the argument about the unity of mind, body and spirit.
+- **Critical view:** the essay is idealistic and written from the viewpoint of a privileged poet; critics note that his school was small and depended on a rare teacher. Yet many reforms he argued for (activity learning, outdoor classes, arts, no corporal punishment) are central to modern education.
+- **Link to professional communication:** good communication, like good education, depends on respect for the individual; a manager is also a teacher.
+
+#### Key vocabulary
+
+*ashram, sympathy, harmony, ascetic, mechanical, discipline, uniform, manufactory, sensitive, bareness, primary, suppress, seclusion.*
+
+### Exercise: "My School"
+
+1. When and why did Tagore start his school?
+2. What does Tagore compare the ordinary school to, and why?
+3. Explain: "We rob the child of his earth to teach him geography, of language to teach him grammar."
+4. What is the "education of sympathy"?
+5. Why does Tagore defend a boy who climbed a tree to study?
+6. How did the students of ancient India learn?
+7. Long answer: Discuss Tagore's ideas of the aim of education. Are they relevant to a computing student today?
+8. Write a paragraph comparing a rote-learning class with one that is activity based.
+
+::: note Answers and worked solutions
+**1.** In 1901 at Santiniketan, when he was nearing forty, because of the unhappy memory of his own school days, which he found mechanical and cold, and not out of a new theory.
+**2.** To a "manufactory" that grinds out uniform results and a "tailoring department", because it treats all children as the same average and ignores individuality and life.
+**3.** Children are taught facts about the world (geography) and rules of language (grammar) in place of experiencing the earth and speaking living language; knowledge is separated from life.
+**4.** Learning to live in sympathy and harmony with the world and all beings, not only gathering information; it is "fullness" as opposed to power.
+**5.** Because childhood is the only time when a civilised person may choose a tree branch over a drawing-room chair, and a school should not take that freedom away.
+**6.** They lived with their teachers in their homes, took the cattle to pasture, gathered fuel and fruit, and learnt through the teacher's life of aspiration.
+**7.** Introduction: Tagore says the object of education is freedom of mind and the unity of truth. Body: (i) knowledge must connect to life and sympathy; (ii) freedom has risks, but only free learners grow; (iii) the teacher is a companion; (iv) relevance: computing students must learn by building, experimenting, and collaborating, not by cramming; creativity, ethics and empathy are as important as syntax. Conclusion: his ideals remain a standard for judging any education system.
+**8.** Model: In a rote class the teacher dictates and students memorise; the knowledge fades after the exam. In an activity class students build a project, ask questions and teach each other. Learning is slower at first but lasts, which is what Tagore wanted.
+:::
