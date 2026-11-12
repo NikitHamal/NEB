@@ -22,270 +22,381 @@
  "units": [
   {
    "no": 1,
-   "title": "Matrices and Determinants",
+   "title": "Limits and Continuity",
    "hours": null,
    "area": "",
    "topics": [
-    "Matrices and operations",
-    "Determinants",
-    "Inverse of a matrix",
-    "The determinant as an area",
-    "Eight uses of matrices in computing"
+    "The idea of a limit",
+    "Techniques for finding limits",
+    "Limits at infinity and infinite limits",
+    "Continuity",
+    "Eight uses of limits in computing and daily life"
    ],
    "sections": [
     {
      "no": "1.1",
-     "title": "Matrices and operations"
+     "title": "The idea of a limit"
     },
     {
      "no": "1.2",
-     "title": "Determinants"
+     "title": "Techniques for finding limits"
     },
     {
      "no": "1.3",
-     "title": "Inverse of a matrix"
+     "title": "Limits at infinity and infinite limits"
     },
     {
      "no": "1.4",
-     "title": "The determinant as an area"
+     "title": "Continuity"
     },
     {
      "no": "1.5",
-     "title": "Eight uses of matrices in computing"
+     "title": "Eight uses of limits in computing and daily life"
     }
    ],
    "summary": [
-    "Matrix multiplication combines rows with columns, is associative but not commutative.",
-    "The determinant measures scaling and invertibility; row operations compute it efficiently.",
-    "A matrix is invertible exactly when its determinant is non-zero; inverses come from the adjoint or Gauss–Jordan."
+    "A limit describes the approached value and ignores the value at the point; both one-sided limits must agree.",
+    "For (0)/(0), factor, rationalise or use a standard limit; for x → ∞ divide by the highest power.",
+    "Continuity means the graph can be drawn without lifting the pen; the three kinds of break are removable, jump and infinite.",
+    "The IVT guarantees roots of continuous functions between sign changes."
    ],
    "terms": [],
    "stats": {
-    "words": 3201,
+    "words": 3484,
     "figures": 0,
-    "examples": 4
+    "examples": 8
    },
    "has_notes": true
   },
   {
    "no": 2,
-   "title": "Systems of Linear Equations",
+   "title": "Differentiation",
    "hours": null,
    "area": "",
    "topics": [
-    "Systems and their solutions",
-    "Gaussian elimination",
-    "Rank and consistency",
-    "Cramer's rule",
-    "Applications and numerical issues",
-    "Three pictures of a linear system",
-    "Eight uses of linear systems"
+    "The derivative from first principles",
+    "Rules of differentiation",
+    "Implicit differentiation",
+    "Logarithmic differentiation",
+    "Parametric differentiation",
+    "Higher-order derivatives",
+    "Derivatives of inverse trigonometric and hyperbolic functions",
+    "Partial derivatives",
+    "Eight uses of derivatives"
    ],
    "sections": [
     {
      "no": "2.1",
-     "title": "Systems and their solutions"
+     "title": "The derivative from first principles"
     },
     {
      "no": "2.2",
-     "title": "Gaussian elimination"
+     "title": "Rules of differentiation"
     },
     {
      "no": "2.3",
-     "title": "Rank and consistency"
+     "title": "Implicit differentiation"
     },
     {
      "no": "2.4",
-     "title": "Cramer's rule"
+     "title": "Logarithmic differentiation"
     },
     {
      "no": "2.5",
-     "title": "Applications and numerical issues"
+     "title": "Parametric differentiation"
     },
     {
      "no": "2.6",
-     "title": "Three pictures of a linear system"
+     "title": "Higher-order derivatives"
     },
     {
      "no": "2.7",
-     "title": "Eight uses of linear systems"
+     "title": "Derivatives of inverse trigonometric and hyperbolic functions"
+    },
+    {
+     "no": "2.8",
+     "title": "Partial derivatives"
+    },
+    {
+     "no": "2.9",
+     "title": "Eight uses of derivatives"
     }
    ],
    "summary": [
-    "Elimination reduces any system to echelon form and then solves by back-substitution.",
-    "Rank decides the number of solutions; free variables parametrise infinite families.",
-    "Cramer's rule and inverses give formulas but elimination is the practical method.",
-    "Applications range from curve fitting to chemistry, circuits and regression."
+    "The derivative is the limit of difference quotients, equal to the slope of the tangent.",
+    "A small table plus four rules (sum, product, quotient, chain) handles nearly every function.",
+    "Implicit, logarithmic and parametric methods cover curves not written as y = f (x).",
+    "Higher derivatives and nth-derivative formulas appear in series and in applications.",
+    "Inverse trigonometric and hyperbolic functions have their own derivative table; partial derivatives treat all other variables as constants."
    ],
    "terms": [],
    "stats": {
-    "words": 3121,
+    "words": 5713,
     "figures": 0,
-    "examples": 5
+    "examples": 10
    },
    "has_notes": true
   },
   {
    "no": 3,
-   "title": "Vector Spaces and Linear Transformations",
+   "title": "Applications of Derivatives",
    "hours": null,
    "area": "",
    "topics": [
-    "Vector spaces and subspaces",
-    "Span, independence, basis and dimension",
-    "The four subspaces and rank–nullity",
-    "Linear transformations",
-    "Inner products and orthogonality",
-    "The four subspaces in one picture",
-    "Eight uses of vector spaces and linear maps"
+    "Tangent and normal",
+    "Rates of change and related rates",
+    "Increasing, decreasing, maxima and minima",
+    "Optimisation",
+    "Mean value theorems",
+    "L'Hôpital's rule",
+    "Taylor and Maclaurin series",
+    "Eight uses of the applications of derivatives"
    ],
    "sections": [
     {
      "no": "3.1",
-     "title": "Vector spaces and subspaces"
+     "title": "Tangent and normal"
     },
     {
      "no": "3.2",
-     "title": "Span, independence, basis and dimension"
+     "title": "Rates of change and related rates"
     },
     {
      "no": "3.3",
-     "title": "The four subspaces and rank–nullity"
+     "title": "Increasing, decreasing, maxima and minima"
     },
     {
      "no": "3.4",
-     "title": "Linear transformations"
+     "title": "Optimisation"
     },
     {
      "no": "3.5",
-     "title": "Inner products and orthogonality"
+     "title": "Mean value theorems"
     },
     {
      "no": "3.6",
-     "title": "The four subspaces in one picture"
+     "title": "L'Hôpital's rule"
     },
     {
      "no": "3.7",
-     "title": "Eight uses of vector spaces and linear maps"
+     "title": "Taylor and Maclaurin series"
+    },
+    {
+     "no": "3.8",
+     "title": "Eight uses of the applications of derivatives"
     }
    ],
    "summary": [
-    "Vector spaces abstract the idea of vector; subspaces, span, independence, basis and dimension organise them.",
-    "Rank–nullity ties the solutions of A X = 0 to the rank of A.",
-    "Linear maps are matrices; their kernel and image measure what is lost and what is reached.",
-    "Orthogonal bases and projections give coordinates, Gram–Schmidt and least squares."
+    "The derivative gives tangents, rates, and the shape of a graph (increasing, decreasing, concave).",
+    "Optimisation reduces a real problem to one variable and tests critical points and endpoints.",
+    "Rolle and the MVT link the average slope to an instantaneous slope; L'Hôpital turns indeterminate limits into derivative quotients.",
+    "Taylor series replace a function by polynomials and enable numerical approximation."
    ],
    "terms": [],
    "stats": {
-    "words": 3533,
+    "words": 3691,
     "figures": 0,
-    "examples": 4
+    "examples": 10
    },
    "has_notes": true
   },
   {
    "no": 4,
-   "title": "Eigenvalues, Eigenvectors and Diagonalisation",
+   "title": "Integration",
    "hours": null,
    "area": "",
    "topics": [
-    "Eigenvalues and eigenvectors",
-    "Diagonalisation",
+    "Indefinite integrals",
+    "Integration by substitution",
+    "Integration by parts",
+    "Partial fractions",
+    "The definite integral and the Fundamental Theorem",
     "Applications",
-    "What an eigenvector looks like",
-    "Eight uses of eigenvalues"
+    "Improper integrals",
+    "Surface area of a solid of revolution",
+    "Numerical integration",
+    "Eight uses of integration"
    ],
    "sections": [
     {
      "no": "4.1",
-     "title": "Eigenvalues and eigenvectors"
+     "title": "Indefinite integrals"
     },
     {
      "no": "4.2",
-     "title": "Diagonalisation"
+     "title": "Integration by substitution"
     },
     {
      "no": "4.3",
-     "title": "Applications"
+     "title": "Integration by parts"
     },
     {
      "no": "4.4",
-     "title": "What an eigenvector looks like"
+     "title": "Partial fractions"
     },
     {
      "no": "4.5",
-     "title": "Eight uses of eigenvalues"
+     "title": "The definite integral and the Fundamental Theorem"
+    },
+    {
+     "no": "4.6",
+     "title": "Applications"
+    },
+    {
+     "no": "4.7",
+     "title": "Improper integrals"
+    },
+    {
+     "no": "4.8",
+     "title": "Surface area of a solid of revolution"
+    },
+    {
+     "no": "4.9",
+     "title": "Numerical integration"
+    },
+    {
+     "no": "4.10",
+     "title": "Eight uses of integration"
     }
    ],
    "summary": [
-    "Eigenvectors are the directions a matrix only stretches; eigenvalues are the stretch factors.",
-    "The characteristic polynomial finds them; trace and determinant give quick checks.",
-    "Diagonalisation turns matrix powers into powers of numbers; symmetric matrices diagonalise orthogonally.",
-    "Markov chains, PageRank, PCA, stability and vibration analysis are all eigenvalue problems."
+    "Surfaces of revolution use 2 π y ds; integrals with no elementary antiderivative or only tabulated data are approximated by the trapezoidal and Simpson rules.",
+    "Integration is reverse differentiation; always add C for indefinite integrals and verify by differentiating.",
+    "Substitution undoes the chain rule, parts undoes the product rule, partial fractions handle rational functions.",
+    "The Fundamental Theorem lets us compute definite integrals from antiderivatives.",
+    "Areas, volumes, averages and total change are all definite integrals; improper integrals are limits."
    ],
    "terms": [],
    "stats": {
-    "words": 3075,
+    "words": 4605,
     "figures": 0,
-    "examples": 3
+    "examples": 9
    },
    "has_notes": true
   },
   {
    "no": 5,
-   "title": "Vectors in Space, Lines and Planes",
+   "title": "Differential Equations",
    "hours": null,
    "area": "",
    "topics": [
-    "Vectors in three dimensions",
-    "Lines in space",
-    "Planes",
-    "Spheres and applications",
-    "A plane, its normal and the distance to a point",
-    "Eight uses of vectors in space"
+    "Basic terms",
+    "Separable equations",
+    "Homogeneous equations",
+    "Linear first-order equations",
+    "Exact equations",
+    "Second-order linear equations with constant coefficients",
+    "Modelling with differential equations",
+    "Equations reducible to linear form: Bernoulli's equation",
+    "Partial differential equations: basic examples",
+    "Eight uses of differential equations"
    ],
    "sections": [
     {
      "no": "5.1",
-     "title": "Vectors in three dimensions"
+     "title": "Basic terms"
     },
     {
      "no": "5.2",
-     "title": "Lines in space"
+     "title": "Separable equations"
     },
     {
      "no": "5.3",
-     "title": "Planes"
+     "title": "Homogeneous equations"
     },
     {
      "no": "5.4",
-     "title": "Spheres and applications"
+     "title": "Linear first-order equations"
     },
     {
      "no": "5.5",
-     "title": "A plane, its normal and the distance to a point"
+     "title": "Exact equations"
     },
     {
      "no": "5.6",
-     "title": "Eight uses of vectors in space"
+     "title": "Second-order linear equations with constant coefficients"
+    },
+    {
+     "no": "5.7",
+     "title": "Modelling with differential equations"
+    },
+    {
+     "no": "5.8",
+     "title": "Equations reducible to linear form: Bernoulli's equation"
+    },
+    {
+     "no": "5.9",
+     "title": "Partial differential equations: basic examples"
+    },
+    {
+     "no": "5.10",
+     "title": "Eight uses of differential equations"
     }
    ],
    "summary": [
-    "The dot product measures alignment and angles; the cross product measures area and gives normals.",
-    "The triple product measures volume and tests coplanarity.",
-    "Lines and planes have vector, parametric and Cartesian forms, with simple distance and angle formulas.",
-    "The same operations drive lighting, culling and reflection in graphics, and torque and work in physics."
+    "Bernoulli's equation becomes linear under v = y^1-n; partial differential equations have arbitrary functions in their general solutions and are classified by the heat, wave and Laplace equations.",
+    "The order sets the number of constants; initial conditions pick a particular solution.",
+    "Separable, homogeneous, linear and exact first-order equations each have a systematic method.",
+    "Constant-coefficient second-order equations reduce to an auxiliary quadratic whose roots give exponentials, polynomial-times-exponential, or oscillations.",
+    "Growth, decay and cooling are first-order linear models with exponential solutions."
    ],
    "terms": [],
    "stats": {
-    "words": 3344,
+    "words": 4758,
     "figures": 0,
-    "examples": 3
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Computational Methods",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Linear programming problems",
+    "The simplex method (up to three variables)",
+    "Duality",
+    "Solving linear systems on a computer",
+    "Solving non-linear equations f(x) = 0"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Linear programming problems"
+    },
+    {
+     "no": "6.2",
+     "title": "The simplex method (up to three variables)"
+    },
+    {
+     "no": "6.3",
+     "title": "Duality"
+    },
+    {
+     "no": "6.4",
+     "title": "Solving linear systems on a computer"
+    },
+    {
+     "no": "6.5",
+     "title": "Solving non-linear equations f(x) = 0"
+    }
+   ],
+   "summary": [
+    "A linear programming problem has a linear objective and linear constraints; the optimum lies at a corner of the feasible region and can be found graphically (two variables) or by the simplex tableau.",
+    "The dual problem has the same optimal value, and its variables are the shadow prices of the resources.",
+    "Linear systems are solved by inversion, Gauss elimination or Gauss-Seidel iteration; roots of non-linear equations by bisection (safe, slow) or Newton-Raphson (fast, needs a derivative)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3035,
+    "figures": 0,
+    "examples": 9
    },
    "has_notes": true
   }
  ],
- "unit_count": 5,
- "topic_count": 30,
- "notes_ready": 5
+ "unit_count": 6,
+ "topic_count": 47,
+ "notes_ready": 6
 }

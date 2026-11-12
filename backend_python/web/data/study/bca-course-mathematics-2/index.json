@@ -3,47 +3,56 @@
  "units": [
   {
    "no": 1,
-   "title": "Matrices and Determinants",
+   "title": "Limits and Continuity",
    "area": "BCA 154 · Mathematics II · Unit 1",
-   "words": 3465,
-   "read_min": 19,
-   "figures": 3,
+   "words": 3533,
+   "read_min": 20,
+   "figures": 4,
    "has_questions": true
   },
   {
    "no": 2,
-   "title": "Systems of Linear Equations",
+   "title": "Differentiation",
    "area": "BCA 154 · Mathematics II · Unit 2",
-   "words": 3393,
-   "read_min": 19,
-   "figures": 3,
+   "words": 6043,
+   "read_min": 34,
+   "figures": 6,
    "has_questions": true
   },
   {
    "no": 3,
-   "title": "Vector Spaces and Linear Transformations",
+   "title": "Applications of Derivatives",
    "area": "BCA 154 · Mathematics II · Unit 3",
-   "words": 3774,
-   "read_min": 21,
-   "figures": 3,
+   "words": 3938,
+   "read_min": 22,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 4,
-   "title": "Eigenvalues, Eigenvectors and Diagonalisation",
+   "title": "Integration",
    "area": "BCA 154 · Mathematics II · Unit 4",
-   "words": 3297,
-   "read_min": 18,
-   "figures": 3,
+   "words": 5026,
+   "read_min": 28,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 5,
-   "title": "Vectors in Space, Lines and Planes",
+   "title": "Differential Equations",
    "area": "BCA 154 · Mathematics II · Unit 5",
-   "words": 3614,
-   "read_min": 20,
-   "figures": 3,
+   "words": 5174,
+   "read_min": 29,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Computational Methods",
+   "area": "BCA 154 · Mathematics II · Unit 6",
+   "words": 2822,
+   "read_min": 16,
+   "figures": 1,
    "has_questions": true
   }
  ]
