@@ -770,5 +770,37 @@
   "id": "12-acc-2080-1041q",
   "pages": 19,
   "bytes": 135781
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Economics-2081.pdf",
+  "subject": "Economics",
+  "grade": "12",
+  "year_bs": "2081",
+  "year_ad": "2024",
+  "stream": "Regular + grade increment (registration no. 78, 79 and 80)",
+  "code": "3041 'Q'",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For students with registration numbers starting with 78, 79 and 80 (regular and grade increment, new course)",
+  "category": "Board Exam",
+  "pages": 12,
+  "bytes": 157702,
+  "id": "12-econ-2081-3041q"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Business-Studies-2081.pdf",
+  "subject": "Business Studies",
+  "grade": "12",
+  "year_bs": "2081",
+  "year_ad": "2024",
+  "stream": "Regular + grade increment (registration no. 78, 79 and 80)",
+  "code": "2161",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For students with registration numbers starting with 78, 79 and 80 (regular and grade increment, new course)",
+  "category": "Board Exam",
+  "pages": 11,
+  "bytes": 124730,
+  "id": "12-bst-2081-2161"
  }
 ]
