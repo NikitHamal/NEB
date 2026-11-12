@@ -12,8 +12,8 @@ Most of a working day is spent with other people: a senior who gives a task, a c
 - Interpersonal communication in the workplace: its features, types of relationships, and skills (4.1).
 - The listening environment: barriers inside and around the listener, and how a workplace builds a listening culture (4.2).
 - Intercultural communication: culture, Hofstede and Hall models, stereotypes and practical rules (4.3).
-- Effective communication in teams, the rise of virtual teams, and what defines a successful team (4.4).
-- Leadership and communication; adapting communication styles to diverse audiences (4.5, 4.6).
+- Effective communication in teams and the rise of virtual teams (4.4); what defines a successful team (4.5).
+- Leadership and communication, including adapting communication styles to diverse audiences (4.6).
 - Vocabulary and grammar (4.7); reading notes, analysis and solved exercises for two prescribed readings (4.8).
 :::
 
@@ -210,7 +210,7 @@ A **virtual team** works across locations, and often time zones, mainly through 
 
 **Best practices for virtual teams:** hold regular video meetings, with cameras on where bandwidth permits; define **core overlap hours**; prefer **asynchronous** updates (written status notes) so people in other time zones are not blocked; state response-time expectations (for example, "within one working day"); use one tool per purpose (chat for quick questions, a board for tasks, a repository for code, a wiki for decisions); begin calls with a short personal check-in; rotate unfriendly meeting times; send agendas in advance and notes afterwards; celebrate wins online; and meet in person when possible.
 
-### Defining successful teams
+## 4.5 Defining successful teams
 
 A successful team **achieves its goal on time and with quality, stays healthy** (members learn and want to continue), and **improves its own working method**. Eight characteristics are usually named:
 
@@ -242,7 +242,7 @@ f.line(30, base, 540, base, color=SLATE, sw=1.4)
 f.text(280, 252, "n = number of people; each pair is one channel", size=10.5, color=TEAL, bold=True)
 ```
 
-## 4.5 Leadership and communication
+## 4.6 Leadership and communication
 
 A **leader** influences others to work towards a goal. A **manager** plans, organises and controls resources; a leader inspires direction. In a small IT team the same person is often both. Leadership is largely a communication skill: a leader's main tools are talking, listening, writing and example.
 
@@ -276,7 +276,7 @@ Listening first; asking questions instead of only giving answers; speaking simpl
 The better version gives the reason, the new plan, the request for help, and an action by the leader.
 :::
 
-## 4.6 Adapting communication styles for diverse audiences
+### Adapting communication styles for diverse audiences
 
 Good communicators change style, not substance, to suit the audience. The question before every message is: **Who is the receiver, what do they already know, what do they need to do, and how do they like to receive information?**
 
