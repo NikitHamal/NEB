@@ -329,7 +329,13 @@ f.arrow([(350, 175), (290, 125)], color=SLATE, sw=1.4, dash=True, label="back", 
 Use standard **widgets** with their usual meaning: **radio buttons** for one choice from few, **check boxes** for several choices, **drop-down lists** for one choice from many, **text boxes** for free text, **sliders** for ranges, **date pickers** for dates. Group related fields, align labels, put the primary action button where the eye ends (bottom right) and use colour only as a second signal (never colour alone). Provide **tooltips**, clear error messages ("Phone number must have 10 digits", not "Invalid input") and **progress indicators** for slow operations.
 
 ::: example Worked example: choosing the widget
-Field: *Gender* with three options, one choice: radio buttons. Field: *District* with 77 options, one choice: searchable drop-down. Field: *Interests* with six options, many allowed: check boxes. Field: *Date of birth*: date picker with typing allowed. Field: *Volume*: slider.
+| Field | Choices | Widget |
+|---|---|---|
+| Gender | 3 options, pick one | radio buttons |
+| District | 77 options, pick one | searchable drop-down |
+| Interests | 6 options, pick many | check boxes |
+| Date of birth | any date | date picker with typing allowed |
+| Volume | 0 to 100 | slider |
 :::
 
 ### Formatting forms and reports

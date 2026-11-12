@@ -2,267 +2,308 @@
 subject: Mathematics II
 grade: BCA Semester 2
 unit: 2
-title: Systems of Linear Equations
+title: Differentiation
 area: BCA 154 · Mathematics II · Unit 2
 ---
 
-Systems of linear equations appear everywhere: balancing circuits, fitting curves, balancing chemical equations, solving for the weights in a model. This unit gives the systematic method (Gaussian elimination), the theory of when solutions exist (rank), and the alternatives (Cramer's rule, inverse).
+The **derivative** measures the instantaneous rate of change of a function: the slope of its tangent line, the speed of a moving object, the marginal cost of one more item. This unit defines it, builds the rules that make it mechanical, and extends them to implicit, logarithmic, parametric and higher-order cases.
 
 ::: key What this unit gives you
-- Matrix form $A X = B$; augmented matrix; row-echelon forms.
-- Gaussian and Gauss–Jordan elimination with worked examples.
-- Rank and the consistency test: unique, infinitely many, or no solution.
-- Cramer's rule; homogeneous systems; computational cost.
+- The derivative as a limit; differentiability versus continuity.
+- The full table of derivatives and the sum, product, quotient and chain rules.
+- Implicit differentiation, logarithmic differentiation, parametric differentiation.
+- Higher-order derivatives and the nth derivative of standard functions.
 :::
 
-## 2.1 Systems and their solutions
+## 2.1 The derivative from first principles
 
-A system of *m* linear equations in *n* unknowns can be written **$A X = B$**, where A is the coefficient matrix, X the unknowns, B the right-hand side. The **augmented matrix** is [A | B]. Geometrically, in two variables each equation is a line (unique solution: lines meet at a point; none: parallel; infinitely many: the same line); in three variables each equation is a plane.
+The **derivative** of *f* at *x* is
 
-**Elementary row operations** (do not change the solution set): swap two rows; multiply a row by a non-zero constant; add a multiple of one row to another.
+$$f' (x) = \lim_{h \to 0} \frac{f (x + h) - f (x)}{h}$$
 
-## 2.2 Gaussian elimination
+if the limit exists. Geometrically it is the slope of the tangent to $y = f (x)$ at *x*; it is also written $\frac{d y}{d x}$ or Df(x).
 
-**Row echelon form**: all-zero rows at the bottom; each leading entry (pivot) is to the right of the one above. **Reduced** row echelon form (Gauss–Jordan): pivots are 1 and are the only non-zero entry in their column. Method: use a pivot to clear the entries below it (forward elimination), then solve upward (**back-substitution**).
+::: example Worked example: first principles
+**$f (x) = x^{2}$.** $\frac{f (x + h) - f (x)}{h} = \frac{[(x + h)^{2} - x^{2}]}{h} = \frac{(2 x h + h^{2})}{h} = 2 x + h$ → **$2 x$**.
 
-::: example Worked example: unique solution
+**$f (x) = \sqrt{x}$.** $\frac{\sqrt{x + h} - \sqrt{x}}{h} = \frac{h}{h \left( \sqrt{x + h} + \sqrt{x} \right)} = \frac{1}{\sqrt{x + h} + \sqrt{x}}$ → **$\frac{1}{2 \sqrt{x}}$**.
 
-$$x + y + z = 6 ,\  2 x - y + z = 3 ,\  x + 2 y - z = 2$$
-
-Augmented $\begin{bmatrix} 1 & 1 & 1 \mid 6 \\ 2 & - 1 & 1 \mid 3 \\ 1 & 2 & - 1 \mid 2 \end{bmatrix}$.
-
-$R_{2} \to R_{2} - 2 R_{1}$: [0, −3, −1 | −9]. $R_{3} \to R_{3} - R_{1}$: [0, 1, −2 | −4].
-
-Swap $R_{2}$ and $R_{3}$: [0, 1, −2 | −4], [0, −3, −1 | −9]. $R_{3} \to R_{3} + 3 R_{2}$: [0, 0, −7 | −21].
-
-Back-substitute: $z = 3 ;\  y - 2 (3) = - 4 \Rightarrow y = 2 ;\  x + 2 + 3 = 6 \Rightarrow x = 1$. **$(x ,\  y ,\  z) = (1 ,\  2 ,\  3)$.** Check in the 2nd equation: $2 - 2 + 3 = 3$ ✓.
+**$f (x) = \sin x$.** $\frac{\sin (x + h) - \sin x}{h} = \frac{\sin x (\cos h - 1)}{h} + \frac{\cos x (\sin h)}{h} \to \sin x \cdot 0 + \cos x \cdot 1$ = **$\cos x$**.
 :::
 
-::: example Worked example: infinitely many solutions
-$x + y + z = 3 ,\  x - y = 1$. Augmented $\begin{bmatrix} 1 & 1 & 1 \mid 3 \\ 1 & - 1 & 0 \mid 1 \end{bmatrix} \to R_{2} - R_{1}$: [0, −2, −1 | −2]. So $y = 1 - \frac{z}{2}$ (from $- 2 y - z = - 2$), and $x = 1 + y = 2 - \frac{z}{2}$. Let $z = t ( a$ **free variable**): **$(x ,\  y ,\  z) = \left( 2 - \frac{t}{2} ,\  1 - \frac{t}{2} ,\  t \right)$**, a line of solutions. Two equations in three unknowns can never have a unique solution.
-:::
+**Differentiability.** If *f* is differentiable at a, it is continuous at a. The converse is false: $f (x) = |x|$ is continuous at 0 but has a corner there. The left slope is −1 and the right slope is +1, so $f' (0)$ does not exist. A function also fails to be differentiable at a vertical tangent or a discontinuity.
 
-::: example Worked example: no solution
-$x + y = 1 ,\  2 x + 2 y = 3$. $R_{2} - 2 R_{1}$: [0, 0 | 1], i.e. $0 = 1$, a contradiction. **Inconsistent**: the lines are parallel.
-:::
-
-## 2.3 Rank and consistency
-
-The **rank** of a matrix is the number of non-zero rows in its echelon form (the number of pivots), i.e. the number of independent rows (equal to the number of independent columns).
-
-::: example Worked example
-$A = \begin{bmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 1 & 0 & 1 \end{bmatrix}$: $R_{2} - 2 R_{1} = [0 ,\  0 ,\  0] ;\  R_{3} - R_{1} = [0 ,\  - 2 ,\  - 2]$. Two non-zero rows, so **rank $A = 2$**. (Row 2 is twice row 1.)
-:::
-
-**Rouché–Capelli theorem** for $A X = B$ with *n* unknowns:
-
-| Condition | Result |
-|---|---|
-| rank A < rank [A \| B] | **inconsistent** (no solution) |
-| rank A = rank [A \| $B ] = n$ | **unique** solution |
-| rank A = rank [A \| $B ] = r < n$ | **infinitely many**, with $n - r$ free parameters |
-
-**Homogeneous systems $A X = 0$** always have the trivial solution $X = 0$; a non-trivial solution exists iff rank $A < n$, equivalently (for square $A ) \det A = 0$. Example: $x + y = 0 ,\  2 x + 2 y = 0$ has the non-trivial solutions $(t ,\  - t)$.
-
-**Square system** with $\det A \neq 0$: the unique solution $X = A^{-1} B$.
-
-## 2.4 Cramer's rule
-
-For a square system with $\det A \neq 0$, **$x_{i} = \frac{\det A_{i}}{\det A}$**, where $A_{i}$ is A with column *i* replaced by B.
-
-::: example Worked example
-$2 x + y = 5 ,\  x - y = 1$. $\det A = - 2 - 1 = - 3$. $A_{x} = \begin{bmatrix} 5 & 1 \\ 1 & - 1 \end{bmatrix}$: $\det = - 5 - 1 = - 6$, so $x = - 6 / - 3$ = **2**. $A_{y} = \begin{bmatrix} 2 & 5 \\ 1 & 1 \end{bmatrix}$: $\det = 2 - 5 = - 3$, so *y* = **1**.
-:::
-
-Cramer's rule is useful for small systems and for theory (it shows the solution depends continuously on the data); it is **far too slow** for large ones: it needs $n + 1$ determinants, each about $n^{3}$ operations or worse by cofactors, whereas elimination costs about $\left( \frac{2}{3} \right) n^{3}$ operations in total. For $n = 1000$ that is about $6.7 \times 10^{8}$ operations: a fraction of a second.
-
-## 2.5 Applications and numerical issues
-
-- **Curve fitting:** find the parabola $y = a x^{2} + b x + c$ through (1, 2), (2, 3), (3, 6): $a + b + c = 2 ,\  4 a + 2 b + c = 3 ,\  9 a + 3 b + c = 6$. Subtracting: $3 a + b = 1$ and $5 a + b = 3 \Rightarrow a = 1 ,\  b = - 2 ,\  c = 3$. **$y = x^{2} - 2 x + 3$.**
-- **Balancing a chemical equation:** $C_{2} H_{6} + O_{2} \to C O_{2} + H_{2} O$: unknowns for each coefficient, carbon: $2 a = c$; hydrogen: $6 a = 2 d$; oxygen: $2 b = 2 c + d$. With $a = 2$: $c = 4 ,\  d = 6 ,\  b = 7$. **$2 C_{2} H_{6} + 7 O_{2} \to 4 C O_{2} + 6 H_{2} O$.**
-- **Circuits (Kirchhoff):** current and voltage laws give linear systems in the currents.
-- **Networks and traffic flow:** conservation at each node gives a system, usually with free variables.
-- **Partial pivoting:** choose the largest available pivot in a column to limit rounding error. A system like 0.0001x + $y = 1 ,\  x + y = 2$ solved without pivoting in low precision can give badly wrong *x*. **Ill-conditioned** systems (nearly parallel lines or planes) amplify small data errors; the **condition number** measures this.
-- **LU decomposition:** factor $A = L U$ (lower × upper triangular) once, then solve many right-hand sides cheaply; **least squares** solves overdetermined systems (more equations than unknowns) by $A^{T} A X = A^{T} B$, the basis of linear regression.
-
-## 2.6 Three pictures of a linear system
-
-Every system of two equations in two unknowns is a pair of lines, and the lines can meet in exactly three ways (Figure 2.1). Rank says which: **rank A = rank [A | *b*] = number of unknowns** gives one solution; **rank A = rank [A | *b*] < unknowns** gives infinitely many; **rank A < rank [A | *b*]** gives none. The same trichotomy holds for three planes in space and for systems with thousands of unknowns.
-
-```svgfig label="2.1" caption="Three outcomes for two equations. (a) $x + y = 2$ and $x - y = 0$ cross at (1, 1): rank 2 = rank 2, one solution. (b) $x + y = 2$ and $x + y = 2.5$ are parallel: rank $A = 1$ but rank [A|b] = 2, no solution. (c) $x + y = 2$ and $2 x + 2 y = 4$ are the same line: rank 1 = rank $1 < 2$, infinitely many solutions."
-f = Fig(580, 205)
-for k, (title, l2, note) in enumerate([("(a) unique", lambda t: t, "(1, 1)"), ("(b) none", lambda t: 2.5 - t, "parallel"), ("(c) infinite", lambda t: 2 - t, "same line")]):
-    ax = Axes(f, 14 + k * 192, 28, 168, 150, (-1, 4), (-1, 4))
-    ax.grid(1, 1, labels=False)
-    ax.curve(lambda t: 2 - t, -1, 4, color=NAVY, sw=2.4)
-    ax.curve(l2, -1, 4, color=RED, sw=2.4, dash=(k == 2))
-    if k == 0:
-        ax.pt(1, 1, "(1, 1)", dx=8, dy=-10)
-    f.text(98 + k * 192, 16, title, size=11, color=NAVY, bold=True)
-    f.text(98 + k * 192, 194, note, size=10.5, color=SLATE, italic=True)
+```svgfig label="2.1" caption="From secant to tangent for $f (x) = x^{2}$ at $P (1 ,\  1)$. The slope of the secant PQ is $\frac{f (1 + h) - f (1)}{h}$. As *h* shrinks, Q slides down the curve towards P and the secant turns into the tangent, whose slope 2 is the derivative $f' (1)$."
+f = Fig(740, 290)
+a = Axes(f, 30, 14, 350, 255, (-0.5, 3.2), (-0.5, 7.5)); a.grid(1, 1).axes()
+a.curve(lambda x: x * x, color=NAVY, sw=2.6)
+a.curve(lambda x: 1 + 3.5 * (x - 1), -0.2, 2.9, color=AMBER, sw=1.6, dash=True)
+a.curve(lambda x: 1 + 2.75 * (x - 1), -0.2, 2.9, color=TEAL, sw=1.6, dash=True)
+a.curve(lambda x: 2 * x - 1, -0.3, 2.9, color=RED, sw=2.4)
+a.pt(1, 1, "P(1, 1)", dx=8, dy=18); a.pt(2.5, 6.25, "Q₁", color=AMBER, dx=10, dy=-10, anchor="start"); a.pt(1.75, 3.0625, "Q₂", color=TEAL, dx=16, dy=24, anchor="start")
+f.text(a.X(1.9), a.Y(2.0), "tangent: slope 2", size=10.5, color=RED, bold=True, anchor="start")
+f.text(430, 28, "Slope of the secant PQ", size=12, color=NAVY, bold=True, anchor="start")
+rows = [("h = 1.5", "Q = (2.5, 6.25)", "3.5"), ("h = 0.75", "Q = (1.75, 2.0625)", "2.75"), ("h = 0.1", "Q = (1.1, 1.21)", "2.1"), ("h = 0.01", "Q = (1.01, 1.0201)", "2.01"), ("h → 0", "Q → P", "2  (derivative)")]
+for i, (h, q, s) in enumerate(rows):
+    y = 40 + i * 42
+    f.box(430, y, 90, 32, h, fill=BLUE, stroke=NAVY, color=NAVY, size=11, bold=True); f.box(526, y, 120, 32, q, fill=SOFT, stroke="#94a3b8", color=SLATE, size=9.5)
+    f.box(652, y, 82, 32, s, fill=MINT if i == 4 else SAND, stroke=TEAL if i == 4 else AMBER, size=10 if i == 4 else 11.5, bold=True)
+f.text(430, 270, "slope = ((1 + h)² − 1)/h = 2 + h  →  2", size=11, color=SLATE, anchor="start")
 ```
 
-## 2.7 Eight uses of linear systems
-
-1. **Electric circuits.** Kirchhoff's laws turn a network of resistors into a system of linear equations in the currents. Engineers solve it to size wires and fuses. The Nepal Electricity Authority's load-flow studies are huge systems of this kind.
-2. **Traffic and network flow.** The cars entering and leaving each junction must balance, which gives one equation per junction. Solving the system shows the flow on every road. Ring Road planning in Kathmandu uses the same idea.
-3. **Balancing chemical equations.** The number of atoms of each element on both sides must match, giving a linear system for the coefficients. The solution gives the smallest whole numbers. Chemistry software does this automatically.
-4. **Diet and mixing problems.** A feed mix must supply given amounts of protein, fat and minerals from several ingredients. The unknowns are the quantities. A dairy cooperative uses this to design cattle feed at the lowest cost.
-5. **Curve fitting.** To pass a quadratic through three measured points, write $y = a x^{2} + b x + c$ for each point and solve for $a ,\  b ,\  c$. Sensors and calibration charts use this daily.
-6. **GPS positioning.** Distances to several satellites give equations whose solution is your position and clock error. Your phone solves such a system many times a second.
-7. **Economic planning.** An input-output model asks how much each industry must produce so that supply meets demand. This is a linear system with a matrix of industry links. Planners solve it with Gaussian elimination.
-8. **Computer graphics and simulation.** Finding where a ray meets a plane, or the shape of a loaded bridge in a simulation, leads to linear systems with thousands of unknowns. Computers solve them with the same elimination steps you learn here, tuned for speed.
-
-```photogrid label="2.1" cols="2" ratio="1.2" caption="Elimination is cheap, cofactors are not. (a) Carl Friedrich Gauss, whose name is attached to the method of elimination (it was known in China two thousand years earlier, in the Nine Chapters). (b) The system $2 x + y - z = 8 ,\  - 3 x - y + 2 z = - 11 ,\  - 2 x + y + 2 z = - 3$ is reduced to triangular form by R2 + $\left( \frac{3}{2} \right) R 1$ and R3 + R1, then R3 - 4R2, giving $z = - 1$, then $y = 3$, then $x = 2$ by back substitution, all checked in exact fractions. Counting every multiplication and division, elimination on an $n x n$ system costs $\frac{n^{3} + 3 n^{2} - n}{3}$ operations: 17 for $n = 3$ and 430, 3,060, 22,920, 177,040 for $n = 10 ,\  20 ,\  40 ,\  80$. Doubling *n* multiplies the cost by about 8."
-@ photo id="bcamath/gauss" cap="Carl Friedrich Gauss"
-fit 1.2
-focus 0.5 0.4
-@ svg cap="Gaussian elimination: one example and its cost"
-from fractions import Fraction as Fr
-M = [[Fr(2), Fr(1), Fr(-1), Fr(8)], [Fr(-3), Fr(-1), Fr(2), Fr(-11)], [Fr(-2), Fr(1), Fr(2), Fr(-3)]]
-S0 = [r[:] for r in M]
-def addrow(M, i, k, c): M[i] = [a + c * b for a, b in zip(M[i], M[k])]
-addrow(M, 1, 0, Fr(3, 2)); addrow(M, 2, 0, Fr(1)); S1 = [r[:] for r in M]
-addrow(M, 2, 1, Fr(-4)); S2 = [r[:] for r in M]
-z = S2[2][3] / S2[2][2]; y = (S2[1][3] - S2[1][2] * z) / S2[1][1]; x = (S2[0][3] - S2[0][1] * y - S2[0][2] * z) / S2[0][0]
-assert (x, y, z) == (2, 3, -1) and S1[1] == [0, Fr(1, 2), Fr(1, 2), 1] and S2[2] == [0, 0, -1, 1]
-def count(n):
-    c = 0
-    for k in range(n - 1):
-        for i in range(k + 1, n): c += 1 + (n - k)
-    for i in range(n - 1, -1, -1): c += (n - 1 - i) + 1
-    return c
-cs = {n: count(n) for n in (3, 10, 20, 40, 80)}
-assert all(cs[n] == (n ** 3 + 3 * n ** 2 - n) // 3 for n in cs) and cs[3] == 17 and cs[10] == 430 and cs[80] == 177040
-f = Fig(300, 240)
-def show(x, y, S, title):
-    f.text(x + 48, y - 8, title, size=10.5, color=NAVY, bold=True)
-    for i in range(3):
-        for j in range(4):
-            v = S[i][j]
-            f.box(x + j * 24, y + i * 20, 24, 20, str(v), fill=(SAND if j == 3 else BLUE), stroke=(AMBER if j == 3 else NAVY), size=10.5, r=0)
-show(4, 22, S0, "start"); show(102, 22, S1, "R2+3/2R1, R3+R1"); show(200, 22, S2, "R3-4R2")
-f.text(150, 104, "back substitution: z = -1, y = 3, x = 2", size=10.5, color=TEAL, bold=True)
-f.text(10, 128, "n", size=10.5, color=SLATE, bold=True, anchor="start"); f.text(150, 128, "operations (mult + div)", size=10.5, color=SLATE, bold=True)
-mx = cs[80]
-for i, n in enumerate((10, 20, 40, 80)):
-    y = 138 + i * 22
-    f.text(10, y + 9, str(n), size=10.5, color=SLATE, anchor="start", vmid=True)
-    w = max(3, cs[n] / mx * 190)
-    f.box(40, y, w, 18, "", fill=MINT, stroke=TEAL, r=2)
-    f.text(40 + w + 6, y + 9, f"{cs[n]:,}", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
-f.text(150, 236, "doubling n costs about 8 times more", size=10.5, color=SLATE)
-```
-
-```photogrid label="2.2" cols="2" ratio="1.2" caption="A circuit is a linear system. (a) A resistor circuit built on a breadboard: Kirchhoff's voltage law gives one equation for each loop. (b) Two loops share a 6 ohm resistor. Loop 1 (12 V battery, 2 ohm, shared 6 ohm): 8 I1 - 6 I2 = 12. Loop 2 (6 V battery in opposition, 3 ohm, shared 6 ohm): -6 I1 + 9 I2 = -6. The determinant is 8 $x 9 - 36 = 36$, so Cramer's rule gives I1 = $\frac{72}{36} = 2$ A and I2 = $\frac{24}{36} = \frac{2}{3} A$, and the shared resistor carries I1 - I2 = $\frac{4}{3} A$. Energy balances exactly: the 12 V battery supplies 24 W, the three resistors dissipate $8 + \frac{4}{3} + \frac{32}{3} = 20 W$ and the second battery absorbs 4 W (it is being charged)."
-@ photo id="bcamath/breadboard" cap="Resistors on a breadboard"
-fit 1.2
+```photogrid label="2.1" cols="3" ratio="1.0" caption="Derivative = rate of change. (a) The speedometer of a car shows the derivative of distance with respect to time. (b) Isaac Newton (1643-1727) and (c) Gottfried Wilhelm Leibniz (1646-1716) developed calculus independently; the notation $\frac{d y}{d x}$ is Leibniz's, the dot notation is Newton's."
+@ photo id="bca104/speedo" cap="Speedometer: v = ds/dt"
+fit 1.0
 focus 0.5 0.5
-@ svg cap="Two-loop circuit solved with Cramer's rule"
-from fractions import Fraction as Fr
-a, b, c, d, e, g = Fr(8), Fr(-6), Fr(-6), Fr(9), Fr(12), Fr(-6)
-D = a * d - b * c
-I1 = (e * d - b * g) / D; I2 = (a * g - e * c) / D; I3 = I1 - I2
-assert D == 36 and I1 == 2 and I2 == Fr(2, 3) and I3 == Fr(4, 3)
-P1 = 12 * I1; Pr = 2 * I1 ** 2 + 3 * I2 ** 2 + 6 * I3 ** 2; P2 = 6 * I2
-assert P1 == 24 and Pr == 20 and P2 == 4 and P1 == Pr + P2
-f = Fig(300, 240)
-for (x1, y1, x2, y2) in [(30, 24, 270, 24), (30, 124, 270, 124), (30, 24, 30, 124), (270, 24, 270, 124), (150, 24, 150, 124)]:
-    f.line(x1, y1, x2, y2, color=SLATE, sw=1.8)
-f.box(14, 62, 32, 24, "12 V", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
-f.box(254, 62, 32, 24, "6 V", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
-f.box(66, 12, 48, 24, "2 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
-f.box(186, 12, 48, 24, "3 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
-f.box(126, 62, 48, 24, "6 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
-f.text(90, 78, "I1 = 2 A", size=10.5, color=TEAL, bold=True); f.text(210, 78, "I2 = 2/3 A", size=10.5, color=RED, bold=True)
-f.text(150, 112, "I1 - I2 = 4/3 A", size=10.5, color=NAVY, bold=True)
-f.text(150, 150, "8 I1 - 6 I2 = 12;  -6 I1 + 9 I2 = -6", size=10.5, color=SLATE)
-f.text(150, 170, "det = 36, I1 = 72/36, I2 = 24/36", size=10.5, color=SLATE)
-f.text(150, 196, "battery 24 W = resistors 20 W + charging 4 W", size=10.5, color=NAVY, bold=True)
-f.text(150, 216, "all values exact fractions", size=10.5, color=SLATE)
+call 0.5 0.93 0.5 0.62 "Reads ds/dt in km/h"
+@ photo id="bca104/newton" cap="Isaac Newton"
+fit 1.0
+focus 0.5 0.6
+@ photo id="bca104/leibniz" cap="G. W. Leibniz"
+fit 1.0
+focus 0.5 0.62
 ```
+
+## 2.2 Rules of differentiation
+
+| Rule | Statement |
+|---|---|
+| Constant | $(c)' = 0$ |
+| Power | $(x^{n})' = n x^{n-1}$ (any real *n*) |
+| Constant multiple, sum | $(c f)' = c f' ;\  (f \pm g)' = f' \pm g'$ |
+| Product | $(f g)' = f' g + f g'$ |
+| Quotient | $\left( \frac{f}{g} \right)' = \frac{f' g - f g'}{g^{2}}$ |
+| Chain | $(f (g (x)))' = f' (g (x)) \cdot g' (x)$ |
+
+**Table of standard derivatives**
+
+| $f (x)$ | $f' (x)$ | $f (x)$ | $f' (x)$ |
+|---|---|---|---|
+| $e^{x}$ | $e^{x}$ | $a^{x}$ | $a^{x} \ln a$ |
+| $\ln x$ | $\frac{1}{x}$ | $\log_{a} x$ | $\frac{1}{x \ln a}$ |
+| $\sin x$ | $\cos x$ | $\cos x$ | $- \sin x$ |
+| $\tan x$ | $\sec^{2} x$ | $\cot x$ | $- \csc^{2} x$ |
+| $\sec x$ | $\sec x \tan x$ | $\csc x$ | $- \csc x \cot x$ |
+| $\sin^{-1} x$ | $\frac{1}{\sqrt{1 - x^{2}}}$ | $\cos^{-1} x$ | $- \frac{1}{\sqrt{1 - x^{2}}}$ |
+| $\tan^{-1} x$ | $\frac{1}{(1 + x^{2})}$ | $|x|$ | $\frac{x}{|x|} (x \neq 0)$ |
+
+::: example Worked example: product, quotient, chain
+**(a)** $\frac{d}{d x} (x^{2} \sin x) = 2 x \sin x + x^{2} \cos x$.
+
+**(b)** $\frac{d}{d x} \left[ \frac{x^{2} + 1}{x - 1} \right] = \frac{2 x (x - 1) - (x^{2} + 1)}{(x - 1)^{2}}$ = **$\frac{x^{2} - 2 x - 1}{(x - 1)^{2}}$**.
+
+**(c)** $\frac{d}{d x} \sin (3 x^{2}) = \cos (3 x^{2}) \cdot 6 x$ = **$6 x \cos 3 x^{2}$**.
+
+**(d)** $\frac{d}{d x} e^{x^{2} + 1}$ = **$2 x e^{x^{2} + 1}$**.
+
+**(e)** $\frac{d}{d x} \ln (x^{2} + 4) = \frac{2 x}{x^{2} + 4}$.
+
+**(f)** $\frac{d}{d x} \sqrt{1 + x^{3}} = \left( \frac{1}{2} \right) (1 + x^{3})^{- \frac{1}{2}} \cdot 3 x^{2}$ = **$\frac{3 x^{2}}{2 \sqrt{1 + x^{3}}}$**.
+
+**(g)** $\frac{d}{d x} \tan^{-1} (2 x) = \frac{2}{(1 + 4 x^{2})}$.
+:::
+
+**Chain rule in layers.** For $y = \sin^{3} (2 x)$: outer cube, middle sine, inner $2 x$. $y' = 3 \sin^{2} (2 x) \cdot \cos (2 x) \cdot 2 = 6 \sin^{2} (2 x) \cos (2 x)$.
+
+```svgfig label="2.2" caption="A function and its derivative, read together. For $f (x) = x^{3} - 3 x$ (top) the derivative is $f' (x) = 3 x^{2} - 3$ (bottom). Where $f'$ is positive *f* rises, where $f'$ is negative *f* falls, and where $f' = 0 (x = \pm 1)$ the graph of *f* has a flat tangent: a local maximum at $x = - 1$ and a local minimum at $x = 1$."
+f = Fig(740, 330)
+a = Axes(f, 40, 12, 660, 140, (-2.3, 2.3), (-3.2, 3.2)); a.grid(1, 1).axes()
+a.curve(lambda x: x**3 - 3 * x, color=NAVY, sw=2.6); a.pt(-1, 2, "local max (−1, 2)", dx=8, dy=-6); a.pt(1, -2, "local min (1, −2)", dx=-8, dy=18, anchor="end")
+f.text(a.X(1.5), a.Y(2.8), "f(x) = x³ − 3x", size=11.5, color=NAVY, bold=True, anchor="start")
+b = Axes(f, 40, 178, 660, 140, (-2.3, 2.3), (-3.5, 6.5)); b.grid(1, 2).axes()
+b.curve(lambda x: 3 * x * x - 3, color=TEAL, sw=2.6); b.pt(-1, 0, "f′ = 0", dx=-8, dy=-8, anchor="end"); b.pt(1, 0, "f′ = 0", dx=8, dy=-8)
+f.text(b.X(1.2), b.Y(5.6), "f′(x) = 3x² − 3", size=11.5, color=TEAL, bold=True, anchor="start")
+for x in (-1, 1): f.line(a.X(x), a.Y(2.2), a.X(x), b.Y(-3.5), color=AMBER, sw=1.2, dash=True)
+f.text(a.X(-1.9), b.Y(-1.7), "f′ > 0: f rising", size=10, color=TEAL, bold=True); f.text(a.X(0), b.Y(-2.4), "f′ < 0: f falling", size=10, color=TEAL, bold=True); f.text(a.X(1.9), b.Y(-1.7), "f′ > 0: rising", size=10, color=TEAL, bold=True)
+```
+
+## 2.3 Implicit differentiation
+
+When *y* is defined implicitly by an equation in *x* and *y*, differentiate both sides with respect to *x*, treating *y* as a function of *x* (so $\frac{d}{d x} y^{2} = 2 y y'$), then solve for $y'$.
+
+::: example Worked example
+**$x^{2} + y^{2} = 25$.** $2 x + 2 y y' = 0$, so $y' = - \frac{x}{y}$. At (3, 4): slope $- \frac{3}{4}$, so the tangent is $y - 4 = - \left( \frac{3}{4} \right) (x - 3)$, i.e. $3 x + 4 y = 25$.
+
+**$x^{3} + y^{3} = 6 x y$.** $3 x^{2} + 3 y^{2} y' = 6 y + 6 x y'$, so $y' (3 y^{2} - 6 x) = 6 y - 3 x^{2}$, giving **$y' = \frac{(2 y - x^{2})}{y^{2} - 2 x}$**.
+:::
+
+## 2.4 Logarithmic differentiation
+
+For products and quotients with many factors, or for variable exponents $f (x)^{g (x)}$, take ln first: $\ln y = g \ln f$, then differentiate: $\frac{y'}{y} = \ldots$
+
+::: example Worked example
+**$y = x^{x}$.** $\ln y = x \ln x$, so $\frac{y'}{y} = \ln x + 1$ and **$y' = x^{x} (\ln x + 1)$**.
+
+**$y = \frac{x^{2} (x + 1)^{3}}{\sqrt{x - 2}}$.** $\ln y = 2 \ln x + 3 \ln (x + 1) - \frac{1}{2} \ln (x - 2)$, so $\frac{y'}{y} = \frac{2}{x} + \frac{3}{x + 1} - \frac{1}{2 (x - 2)}$.
+
+**$y = (\sin x)^{x}$.** $\ln y = x \ln \sin x ;\  y' = (\sin x)^{x} [\ln \sin x + x \cot x]$.
+:::
+
+## 2.5 Parametric differentiation
+
+If $x = x (t) ,\  y = y (t)$, then **$\dfrac{dy}{dx} = \dfrac{dy/dt}{dx/dt}$** and **$\frac{d^{2} y}{d x^{2}} = \frac{\frac{d}{d t} \left( \frac{d y}{d x} \right)}{\frac{d x}{d t}}$**.
+
+::: example Worked example
+$x = t^{2} ,\  y = t^{3}$. $\frac{d x}{d t} = 2 t ,\  \frac{d y}{d t} = 3 t^{2}$, so $\frac{d y}{d x} = \frac{3 t}{2}$. Then $\frac{d^{2} y}{d x^{2}} = \frac{\frac{3}{2}}{2 t}$ = **$\frac{3}{4 t}$**.
+
+For $x = a \cos t ,\  y = a \sin t ( a$ circle): $\frac{d y}{d x} = - \cot t$.
+:::
+
+## 2.6 Higher-order derivatives
+
+The second derivative $f'' = \frac{d}{d x} (f')$ measures how the slope itself changes (concavity, acceleration). In general $f^{(n)}$ is the nth derivative.
+
+| *y* | $y^{n} - t h$ derivative |
+|---|---|
+| $e^{ax}$ | $a^{n} e^{ax}$ |
+| $\sin x$ | $\sin \left( x + \frac{n \pi}{2} \right)$ |
+| $\cos x$ | $\cos \left( x + \frac{n \pi}{2} \right)$ |
+| $(a x + b)^{m}$ | $m (m - 1) \ldots (m - n + 1) a^{n} (a x + b)^{m - n}$ |
+| $\ln (a x + b)$ | $\frac{(- 1)^{n-1} (n - 1) ! a^{n}}{(a x + b)^{n}}$ |
+| $\frac{1}{x + a}$ | $\frac{(- 1)^{n} n !}{(x + a)^{n+1}}$ |
+
+::: example Worked example
+**$y = x^{3} - 4 x^{2} + 5 x$:** $y' = 3 x^{2} - 8 x + 5 ,\  y'' = 6 x - 8 ,\  y''' = 6 ,\  y^{(4)} = 0$.
+
+**$y = e^{2 x}$:** $y^{(n)} = 2^{n} e^{2 x}$; the 5th derivative is 32 $e^{2 x}$.
+
+**$y = \sin x$:** $y'' = - \sin x ,\  y'''' = \sin x$ (period 4).
+
+**If $y = a \cos (\ln x) + b \sin (\ln x)$, show $x^{2} y'' + x y' + y = 0$.** $y' = \frac{- a \sin (\ln x) + b \cos (\ln x)}{x}$, so $x y' = - a \sin + b \cos$. Differentiate: $y' + x y'' = ( - a \cos - b$ sin)/x, so $x y' + x^{2} y'' = - y$. Hence $x^{2} y'' + x y' + y = 0$. ∎
+:::
+
+**Leibniz's theorem** for the nth derivative of a product:
+
+$$(uv)^{(n)} = \sum_{k=0}^{n} \binom{n}{k}\, u^{(n-k)}\, v^{(k)}$$
+
+For $(x^2 e^x)''$: take $u = x^2$ and $v = e^x$. Then $(x^2 e^x)'' = x^2 e^x + 2(2x)\,e^x + 2\,e^x = (x^2 + 4x + 2)\,e^x$.
+
+```svgfig label="2.3" caption="Implicit differentiation on the circle $x^{2} + y^{2} = 25$. Differentiating both sides gives $2x + 2y\,\dfrac{dy}{dx} = 0$, so $\frac{d y}{d x} = - \frac{x}{y}$. At $P(3, 4)$ the slope is $- \frac{3}{4}$, and the tangent is perpendicular to the radius OP (whose slope is $\frac{4}{3}$)."
+f = Fig(740, 300)
+a = Axes(f, 20, 10, 280, 280, (-7, 7), (-7, 7)); a.grid(1, 1, labels=False).axes()
+a.curve(lambda x: math.sqrt(25 - x * x), -5, 5, color=NAVY, sw=2.6, n=300); a.curve(lambda x: -math.sqrt(25 - x * x), -5, 5, color=NAVY, sw=2.6, n=300)
+a.curve(lambda x: 4 - 0.75 * (x - 3), -1.5, 7, color=RED, sw=2.2); a.curve(lambda x: 4 * x / 3, 0, 3, color=TEAL, sw=2, dash=True)
+a.pt(3, 4, "P(3, 4)", dx=8, dy=-8); a.pt(0, 0, "O", r=3, color=SLATE, dx=-8, dy=14, anchor="end")
+f.text(a.X(5.0), a.Y(2.5), "tangent", size=11, color=RED, bold=True, anchor="start")
+steps = [("1. Differentiate both sides with respect to x", r"\frac{d}{dx}(x^2) + \frac{d}{dx}(y^2) = \frac{d}{dx}(25)"), ("2. Treat y as a function of x (chain rule)", r"2x + 2y \cdot \frac{dy}{dx} = 0"), ("3. Solve for dy/dx", r"\frac{dy}{dx} = -\frac{x}{y}"), ("4. Put in the point (3, 4)", r"m = -\frac{3}{4}"), ("5. Tangent line: y - 4 = m(x - 3)", r"3x + 4y = 25")]
+for i, (s, e) in enumerate(steps):
+    y = 18 + i * 56
+    f.box(330, y, 395, 50, "", fill=BLUE if i % 2 == 0 else SOFT, stroke="#cbd5e1", r=12)
+    f.text(344, y + 17, s, size=10.5, color=NAVY, bold=True, anchor="start"); f.math(344, y + 41, e, size=12.5, color=SLATE)
+```
+
+## 2.7 Eight uses of derivatives
+
+1. **Speed and acceleration.** If $s (t)$ is the position of a vehicle, then $v = \frac{d s}{d t}$ is its speed and $a = \frac{d v}{d t} = \frac{d^{2} s}{d t^{2}}$ is its acceleration. A Kathmandu microbus driver feels the second derivative when the bus brakes at Koteshwor. Traffic engineers use these to set safe speed limits.
+2. **Finding maximum profit and minimum cost.** A business writes profit as a function $P (x)$ of the number of items and solves $P' (x) = 0$. A bakery in Butwal can find the number of cakes that earns most. The second derivative then confirms that the point is a maximum and not a minimum.
+3. **Tangent lines and linear approximation.** Near a point a curve looks like its tangent, so $f (x) \approx f (a) + f' (a) (x - a)$. Calculators use this to find $\sqrt{4.02} \approx 2 + 0.02 / 4 = 2.005$ quickly. Graphics software draws smooth curves in the same way.
+4. **Machine learning and gradient descent.** To train a model, a computer finds the minimum of an error function by moving against the derivative. A positive slope means "go left", a negative slope means "go right". This is how recommendation and speech systems learn.
+5. **Related rates.** When one quantity changes, others linked to it change too. If water is pumped into a tank at a known rate, the derivative tells how fast the level rises. Municipal water engineers use it for the tanks of the Melamchi supply.
+6. **Growth and decay models.** The derivative of a population or an investment tells how fast it grows. For $P = P_{0} e^{kt}$ we get $\frac{dP}{dt} = kP$, so growth is proportional to size. This links directly to the differential equations in Unit 5.
+7. **Curve sketching and optimisation in design.** The first derivative shows where a graph rises and falls, and the second shows its curvature (Figure 2.2). Designers use these to shape road curves, bridge cables and the packaging of a drink can.
+8. **Sensitivity and economics.** The derivative of cost with respect to quantity is the marginal cost, the extra cost of one more unit. A hydropower plant uses marginal cost to decide how many turbines to run. In any formula, a large derivative warns that a small error in input gives a large error in output.
 
 ## Formula and fact sheet
 
-- $A X = B$; augmented [A | B]; three row operations.
-- Rank = number of pivots. rank A < rank [A | B]: none; = *n*: unique; < *n*: infinite with $n - r$ parameters.
-- Homogeneous: non-trivial solutions iff rank < $n ( \det = 0$ when square).
-- Cramer: $x_{i} = \frac{\det A_{i}}{\det A}$. Gaussian elimination ≈ $\left( \frac{2}{3} \right) n^{3}$ operations.
+- $f' (x) = \lim \frac{f (x + h) - f (x)}{h}$.
+- $(x^{n})' = n x^{n-1} ;\  (e^{x})' = e^{x} ;\  (\ln x)' = \frac{1}{x} ;\  (\sin x)' = \cos x ;\  (\cos x)' = - \sin x ;\  (\tan x)' = \sec^{2} x$.
+- $(f g)' = f' g + f g' ;\  \left( \frac{f}{g} \right)' = \frac{f' g - f g'}{g^{2}}$; chain: $f' (g) \cdot g'$.
+- Implicit: differentiate both sides, $y'$ appears with each *y*.
+- Log differentiation for $f^{g}$: $y' = y \left( g' \ln f + \frac{g f'}{f} \right)$.
+- Parametric: $\frac{d y}{d x}$ = ẏ/ẋ.
+- Differentiable ⇒ continuous (not conversely).
 
 ## Chapter summary
 
-- Elimination reduces any system to echelon form and then solves by back-substitution.
-- Rank decides the number of solutions; free variables parametrise infinite families.
-- Cramer's rule and inverses give formulas but elimination is the practical method.
-- Applications range from curve fitting to chemistry, circuits and regression.
+- The derivative is the limit of difference quotients, equal to the slope of the tangent.
+- A small table plus four rules (sum, product, quotient, chain) handles nearly every function.
+- Implicit, logarithmic and parametric methods cover curves not written as $y = f (x)$.
+- Higher derivatives and nth-derivative formulas appear in series and in applications.
 
 ## Practice
 
-1. Solve by Gaussian elimination: $x + 2 y + z = 8 ,\  2 x + y - z = 1 ,\  x - y + 2 z = 5$.
-2. Solve $x + y - z = 1 ,\  2 x + 2 y - 2 z = 2 ,\  x - y + z = 3$ and describe the solution set.
-3. For what values of *k* does $x + y = 2 ,\  2 x + k y = 5$ have no solution? A unique one?
-4. Find the rank of $\begin{bmatrix} 1 & 2 & 3 & 4 \\ 2 & 4 & 6 & 8 \\ 1 & 0 & 1 & 0 \end{bmatrix}$.
-5. Solve by Cramer's rule: $3 x + 2 y = 7 ,\  x - y = 1$.
-6. Find all solutions of the homogeneous system $x + 2 y + 3 z = 0 ,\  2 x + 4 y + 6 z = 0$.
-7. Fit $y = a x^{2} + b x + c$ through (0, 1), (1, 4), (2, 9).
-8. Balance: Fe + $O_{2} \to F e_{2} O_{3}$.
-9. Determine whether the system $x + y = 2 ,\  x - y = 0 ,\  2 x + y = 3$ is consistent.
-10. A 400-equation system takes 1 *s* on a computer. Estimate the time for 4000 equations.
+1. Differentiate from first principles $f (x) = \frac{1}{x}$.
+2. Differentiate: (a) $x^{3} e^{x}$, (b) $\frac{\ln x}{x^{2}}$, (c) $\sin (x^{2}) \cos (3 x)$, (d) $\tan^{-1} (x^{2})$.
+3. Differentiate $y = (1 + x^{2})^{5}$ and $y = \sqrt{\sin x + \cos x}$.
+4. Find $\frac{d y}{d x}$ if $x^{2} y + y^{3} = 10$ at (1, 2).
+5. Differentiate $y = x^{\sin x}$.
+6. If $x = 2 \cos t ,\  y = 3 \sin t$ find $\frac{d y}{d x}$ and $\frac{d^{2} y}{d x^{2}}$.
+7. Find the nth derivative of $y = \frac{1}{x + 2}$ and of $y = \sin 3 x$.
+8. Prove that if $y = e^{x} \sin x$ then $y'' - 2 y' + 2 y = 0$.
+9. Find the point on $y = x^{2} - 4 x + 5$ where the tangent is parallel to the x-axis.
+10. Is $f (x)$ = |x − 1| differentiable at 1? Justify.
 
 ::: note Answers and worked solutions
-**1.** $R_{2} - 2 R_{1}$: [0, −3, −3 | $- 15 ] ;\  R_{3} - R_{1}$: [0, −3, 1 | −3]. $R_{3} - R_{2}$: [0, 0, 4 | $12 ] \Rightarrow z = 3 ;\  - 3 y - 9 = - 15 \Rightarrow y = 2 ;\  x + 4 + 3 = 8 \Rightarrow x = 1$. **(1, 2, 3).**
+**1.** $\frac{\frac{1}{x + h} - \frac{1}{x}}{h} = - \frac{h}{h x (x + h)} = - \frac{1}{x (x + h)}$ → **$- \frac{1}{x^{2}}$**.
 
-**2.** Equation 2 is twice equation 1. Adding eqs 1 and 3: $2 x = 4 \Rightarrow x = 2$; then $2 + y - z = 1 \Rightarrow y - z = - 1$. Solutions **$(2 ,\  t - 1 ,\  t)$**: infinitely many (one free parameter).
+**2.** (a) **$x^{2} e^{x} (3 + x)$**. (b) $\frac{\frac{1}{x} \cdot x^{2} - \ln x \cdot 2 x}{x^{4}}$ = **$\frac{1 - 2 \ln x}{x^{3}}$**. (c) **$2 x \cos (x^{2}) \cos 3 x - 3 \sin (x^{2}) \sin 3 x$**. (d) **$\frac{2 x}{(1 + x^{4})}$**.
 
-**3.** Eliminate: $R_{2} - 2 R_{1} = [ 0 ,\  k - 2$ | 1]. If $k = 2$: $0 = 1$, **no solution**. If $k \neq 2$: **unique** solution.
+**3.** **$10 x (1 + x^{2})^{4}$**; **$\frac{\cos x - \sin x}{2 \sqrt{\sin x + \cos x}}$**.
 
-**4.** $R_{2} - 2 R_{1} = 0 ;\  R_{3} - R_{1} = [0 ,\  - 2 ,\  - 2 ,\  - 4]$. Two independent rows: **rank 2**.
+**4.** $2 x y + x^{2} y' + 3 y^{2} y' = 0$, so $y' = - \frac{2 x y}{(x^{2} + 3 y^{2})}$. At (1, 2): $- \frac{4}{1 + 12}$ = **$- \frac{4}{13}$**. (Check: 1·2 + $8 = 10$ ✓.)
 
-**5.** $\det A = - 3 - 2 = - 5 ;\  x = \det \begin{bmatrix} 7 & 2 \\ 1 & - 1 \end{bmatrix} / - 5 = (- 7 - 2) / - 5$ = **$\frac{9}{5}$**; $y = \det \begin{bmatrix} 3 & 7 \\ 1 & 1 \end{bmatrix} / - 5 = (3 - 7) / - 5$ = **$\frac{4}{5}$**. Check: $3 \left( \frac{9}{5} \right) + 2 \left( \frac{4}{5} \right) = \frac{35}{5} = 7$ ✓.
+**5.** $\ln y = \sin x \cdot \ln x ,\  y' = x^{\sin x} \left[ \cos x \ln x + \frac{\sin x}{x} \right]$.
 
-**6.** Row 2 is twice row 1, so one equation: $x = - 2 y - 3 z$ with $y = s ,\  z = t$ free: **$(- 2 s - 3 t ,\  s ,\  t)$**, a plane through the origin (rank 1, 2 free parameters).
+**6.** $\frac{d y}{d x} = \frac{3 \cos t}{- 2 \sin t}$ = **$- \left( \frac{3}{2} \right) \cot t$**. $\frac{d^{2} y}{d x^{2}} = \frac{\left( \frac{3}{2} \right) \csc^{2} t}{- 2 \sin t}$ = **$- \left( \frac{3}{4} \right) \csc^{3} t$**.
 
-**7.** $c = 1 ;\  a + b + 1 = 4 ;\  4 a + 2 b + 1 = 9 \Rightarrow a + b = 3 ,\  2 a + b = 4 \Rightarrow a = 1 ,\  b = 2$: **$y = x^{2} + 2 x + 1 = (x + 1)^{2}$**.
+**7.** $\frac{(- 1)^{n} n !}{(x + 2)^{n+1}}$; **$3^{n} \sin \left( 3 x + \frac{n \pi}{2} \right)$**.
 
-**8.** a Fe + $b O_{2} \to c F e_{2} O_{3}$: Fe: $a = 2 c ;\  O$: $2 b = 3 c$. With $c = 2$: $a = 4 ,\  b = 3$. **4Fe + $3 O_{2} \to 2 F e_{2} O_{3}$.**
+**8.** $y' = e^{x} (\sin x + \cos x) ,\  y'' = e^{x} (2 \cos x)$. Then $y'' - 2 y' + 2 y = e^{x} [2 \cos x - 2 \sin x - 2 \cos x + 2 \sin x] = 0$. ∎
 
-**9.** From the first two: $x = 1 ,\  y = 1$; the third gives $2 (1) + 1 = 3$ ✓. **Consistent**, unique solution (1, 1) (rank 2 = rank of the augmented matrix).
+**9.** $y' = 2 x - 4 = 0 \Rightarrow x = 2 ,\  y = 1$: **(2, 1)**.
 
-**10.** Elimination is $O (n^{3})$: 10 times more equations is 1000 times more work, about **1000 $s \approx 17$ minutes**.
+**10.** No. Left slope −1, right slope +1, so the two one-sided derivatives differ at the corner $x = 1$ although *f* is continuous there.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Solve by Gaussian elimination: $x + y + z = 6 ,\  2 x - y + z = 3 ,\  x + 2 y - z = 2$.**
+**Q (5 marks). Find the derivative of $f (x) = \sqrt{x}$ from first principles. Find also the slope of the curve at $x = 4$.**
 
-*Introduction.* Gaussian elimination reduces the augmented matrix to upper-triangular form by row operations, then back-substitutes.
+The **derivative** of *f* at *x* is defined by the limit $f' (x) = \lim_{h \to 0} \frac{f (x + h) - f (x)}{h}$, provided the limit exists. It is the slope of the tangent line (Figure 2.1).
 
-*Augmented matrix.* $\begin{bmatrix} 1 & 1 & 1 \mid 6 \\ 2 & - 1 & 1 \mid 3 \\ 1 & 2 & - 1 \mid 2 \end{bmatrix}$.
+1. Write the difference quotient: $\frac{\sqrt{x + h} - \sqrt{x}}{h}$. Putting $h = 0$ gives $\frac{0}{0}$, so we rationalise.
+2. Multiply top and bottom by the conjugate $\sqrt{x + h} + \sqrt{x}$. The numerator becomes $(x + h) - x = h$.
+3. The quotient is $\frac{h}{h \left( \sqrt{x + h} + \sqrt{x} \right)} = \frac{1}{\sqrt{x + h} + \sqrt{x}}$ for $h \neq 0$.
+4. Let $h \to 0$: the denominator tends to $\sqrt{x} + \sqrt{x} = 2 \sqrt{x}$.
 
-*Elimination.* R2 → R2 − 2R1 gives [0, −3, −1 | −9]. R3 → R3 − R1 gives [0, 1, −2 | −4]. Swap to use the simple row: R2 ↔ R3, so [0, 1, −2 | −4] and [0, −3, −1 | −9]. Then R3 → R3 + 3R2 gives [0, 0, −7 | −21].
+So **$f' (x) = \frac{1}{2 \sqrt{x}}$** for $x > 0$. At $x = 4$ the slope is $\frac{1}{2 \times 2}$ = **$\frac{1}{4}$**, and the tangent line is $y - 2 = \frac{1}{4} (x - 4)$. *Check:* between $x = 4$ and $x = 4.04 ,\  \sqrt{4.04} - \sqrt{4} = 2.00998 - 2 = 0.00998$, and $0.00998 / 0.04 \approx 0.2495$, close to $\frac{1}{4}$.
 
-*Back-substitution.* $- 7 z = - 21$, so **$z = 3$**. Then $y - 2 (3) = - 4$ gives **$y = 2$**. Then $x + 2 + 3 = 6$ gives **$x = 1$**.
+**Q (5 marks). If $x^{3} + y^{3} = 6 x y$, find $\frac{d y}{d x}$ by implicit differentiation and the slope of the tangent at (3, 3).**
 
-*Check.* $2 (1) - 2 + 3 = 3$ and $1 + 2 (2) - 3 = 2$, both correct. *Conclusion.* The unique solution is $(x ,\  y ,\  z) = (1 ,\  2 ,\  3)$; the pivots 1, 1, −7 are all non-zero, so the rank is 3.
+When *y* cannot be easily written as a function of *x* we differentiate both sides with respect to *x*, remembering that *y* depends on *x*, so $\frac{d (y^{3})}{d x} = 3 y^{2} \cdot \frac{d y}{d x}$ (chain rule).
 
-**Q2 (10 marks). State and explain the conditions for consistency of a linear system using rank, with an example of each case, and mention Cramer's rule.**
+1. Differentiate: $3 x^{2} + 3 y^{2} \cdot \frac{d y}{d x} = 6 y + 6 x \cdot \frac{d y}{d x}$ (the product rule is used on $6 x y$).
+2. Collect the $\frac{d y}{d x}$ terms on one side: $3 y^{2} \cdot \frac{d y}{d x} - 6 x \cdot \frac{d y}{d x} = 6 y - 3 x^{2}$.
+3. Factor: $\frac{d y}{d x} (3 y^{2} - 6 x) = 6 y - 3 x^{2}$.
+4. Divide: **$\frac{d y}{d x} = \frac{(2 y - x^{2})}{y^{2} - 2 x}$**.
+5. At (3, 3): the numerator is $6 - 9 = - 3$ and the denominator is $9 - 6 = 3$, so the slope is **−1**.
 
-*Introduction.* A system $A X = b$ with *n* unknowns is **consistent** if it has at least one solution. The rank of a matrix is the number of non-zero rows after elimination (equivalently, the number of independent rows). Rank settles consistency completely.
+The point (3, 3) lies on the curve $(27 + 27 = 54 = 6 \times 9)$, so the question is valid. The tangent there is $y - 3 = - (x - 3)$, that is $x + y = 6$. This curve is the *folium of Descartes*, and the symmetry about $y = x$ explains the slope −1 at its point on that line.
 
-*The rank test (Rouché–Capelli).*
+**Q (10 marks). Define the derivative and explain its geometrical meaning. State and illustrate the main rules of differentiation, and explain implicit, logarithmic and parametric differentiation with one example each.**
 
-1. **Compare ranks.** Compute rank A and the rank of the augmented matrix [A | *b*].
-2. **Inconsistent.** If rank A < rank [A | *b*], there is no solution. Example: $x + y = 2$ and $2 x + 2 y = 5$ give rank $A = 1$ but rank [A | $b ] = 2$.
-3. **Unique solution.** If rank A = rank [A | $b ] = n$, there is exactly one solution. Example: $x + y = 2 ,\  x - y = 0$ gives $x = y = 1$.
-4. **Infinitely many.** If rank A = rank [A | $b ] < n$, there are *n* − rank free parameters. Example: $x + y = 2$ and $2 x + 2 y = 4$ give $y = t ,\  x = 2 - t$.
-5. **Geometry.** Cases (a), (b) and (c) of Figure 2.1 are lines that meet once, are parallel, or coincide.
+**Introduction.** The derivative of $y = f (x)$ is $f' (x) = \frac{d y}{d x} = \lim_{h \to 0} \frac{f (x + h) - f (x)}{h}$. Geometrically it is the **slope of the tangent** at the point $(x ,\  f (x))$, the limit of secant slopes as the second point approaches the first (Figure 2.1). Physically it is the instantaneous rate of change, such as speed from distance (Plate 2.1a).
 
-*Cramer's rule.* When A is square and $\det A \neq 0 ,\  x_{i} = \det A_{i} \div \det A$, where $A_{i}$ has column *i* replaced by *b*. For $x + y = 2 ,\  x - y = 0$: $\det A = - 2 ,\  \det A_{1} = \det \begin{bmatrix} 2 & 1 \\ 0 & - 1 \end{bmatrix} = - 2$, so $x = (- 2) \div (- 2) = 1$. It is elegant but costly for large systems, where elimination is preferred.
+**Rules of differentiation.**
 
-| Rank condition | Meaning | Example |
+| Rule | Formula | Example |
 |---|---|---|
-| rank A < rank [A\|b] | no solution | $x + y = 2 ,\  2 x + 2 y = 5$ |
-| rank A = rank [A\|b] = *n* | one solution | $x + y = 2 ,\  x - y = 0$ |
-| rank A = rank [A\|b] < *n* | infinitely many | $x + y = 2 ,\  2 x + 2 y = 4$ |
+| Constant, power | $\frac{d (x^{n})}{d x} = n x^{n-1}$ | $\frac{d (x^{4} - 2 x^{3})}{d x} = 4 x^{3} - 6 x^{2}$ |
+| Sum | $(u + v)' = u' + v'$ |  |
+| Product | $(u v)' = u' v + u v'$ | $\frac{d (x^{2} e^{x})}{d x} = e^{x} (x^{2} + 2 x)$ |
+| Quotient | $\left( \frac{u}{v} \right)' = \frac{u' v - u v'}{v^{2}}$ | $\frac{d \left( \frac{x + 1}{x - 1} \right)}{d x} = - \frac{2}{(x - 1)^{2}}$ |
+| Chain | $\frac{d f (g (x))}{d x} = f' (g (x)) g' (x)$ | $\frac{d (\sin x^{2})}{d x} = 2 x \cos x^{2}$ |
 
-*Conclusion.* Two numbers, rank A and rank [A | *b*], decide whether a system has no, one or infinitely many solutions, and elimination then finds them.
+**Standard derivatives.** $(\sin x)' = \cos x ,\  (\cos x)' = - \sin x ,\  (e^{x})' = e^{x} ,\  (\ln x)' = \frac{1}{x} ,\  (\tan x)' = \sec^{2} x$.
+
+**Implicit differentiation.** For $x^{2} + y^{2} = 25$ differentiate both sides: $2x + 2y\,\dfrac{dy}{dx} = 0$, so $\frac{d y}{d x} = - \frac{x}{y}$; at (3, 4) the slope is $- \frac{3}{4}$ (Figure 2.3).
+
+**Logarithmic differentiation.** For $y = x^{x}$ take logarithms: $\ln y = x \ln x$. Differentiate: $\frac{y'}{y} = \ln x + 1$, so **$y' = x^{x} (\ln x + 1)$**. It is the method for variable exponents and long products.
+
+**Parametric differentiation.** If $x = a \cos t ,\  y = a \sin t$, then $\dfrac{dy}{dx} = \dfrac{dy/dt}{dx/dt} = \dfrac{a \cos t}{- a \sin t}$ = **$- \cot t$**, and the second derivative is $\frac{d^{2} y}{d x^{2}} = ( \frac{d}{d t}$ of dy/dx)/(dx/dt) = $\frac{\csc^{2} t}{- a \sin t}$ = **$- \frac{1}{a \sin^{3} t}$**.
+
+**Higher derivatives.** Differentiating again gives $f''$, which measures curvature: $f'' > 0$ means the graph bends upward, $f'' < 0$ downward. If *s* is position, then $s''$ is acceleration.
+
+**Relation to the graph.** Where $f' > 0$ the function rises; where $f' = 0$ the tangent is flat, giving a possible maximum or minimum (Figure 2.2).
+
+**Conclusion.** The derivative is a limit, and the rules allow us to compute it quickly without returning to the limit each time. In Unit 3 it will be used to optimise, approximate and sketch.

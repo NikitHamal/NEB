@@ -2,7 +2,7 @@
 subject: Mathematics I
 grade: BCA Semester 1
 unit: 1
-title: Functions and Graphs
+title: Logic, Relations, Functions and Graphs
 area: BCA 104 · Mathematics I · Unit 1
 ---
 
@@ -204,6 +204,55 @@ f.text(b.X(-2.9), b.Y(3.6), "y = x² (dashed)", size=10, color=SLATE, anchor="st
 6. **Growth and decay.** Money in a savings account at 8% interest grows as $100000 \times 1.08^{t}$, an exponential function. Bacteria and the spread of a rumour on social media follow similar curves. The inverse function, the logarithm, tells us how many years are needed to double the money.
 7. **Algorithm analysis.** The running time of a program is a function of the input size *n*, such as $n ,\  n^{2}$ or $\log n$. Comparing the graphs shows why $a \log n$ search in a sorted list beats an *n* search for a million records. Computer scientists compare programs by comparing function growth.
 8. **Encoding and decoding.** Encryption is an invertible function: a message goes in and a cipher comes out, and the inverse function recovers the message. Only a one-to-one function can be reversed. This is why Section 1.3 matters for the security of ConnectIPS and Fonepay payments.
+
+## 1.6 Elementary logic
+
+A **proposition** is a sentence that is either true or false, never both. Connectives: **negation** $\neg p$, **conjunction** $p \wedge q$ (and), **disjunction** $p \vee q$ (or), **conditional** $p \to q$ (if $p$ then $q$) and **biconditional** $p \leftrightarrow q$.
+
+| $p$ | $q$ | $\neg p$ | $p \wedge q$ | $p \vee q$ | $p \to q$ | $p \leftrightarrow q$ |
+|---|---|---|---|---|---|---|
+| T | T | F | T | T | T | T |
+| T | F | F | F | T | F | F |
+| F | T | T | F | T | T | F |
+| F | F | T | F | F | T | T |
+
+A **tautology** is always true, a **contradiction** always false. Key laws: **De Morgan** $\neg (p \wedge q) \equiv \neg p \vee \neg q$ and $\neg (p \vee q) \equiv \neg p \wedge \neg q$; **conditional** $p \to q \equiv \neg p \vee q$; **contrapositive** $p \to q \equiv \neg q \to \neg p$ (the **converse** $q \to p$ is *not* equivalent). **Quantifiers:** $\forall x$ (for all) and $\exists x$ (there exists); $\neg \forall x\, P(x) \equiv \exists x\, \neg P(x)$.
+
+::: example Worked example: proving an equivalence
+Show $p \to q \equiv \neg p \vee q$. If $p$ is false, both sides are true. If $p$ is true, both sides equal $q$. The truth table rows (T,T,T), (T,F,F), (F,T,T), (F,F,T) match $\neg p \vee q$ in all four rows. The statement "If the server is down, the site is offline" has contrapositive "If the site is online, the server is up", which is equivalent, while its converse "if the site is offline the server is down" is not (the network may be the cause).
+:::
+
+## 1.7 The real number system
+
+The numbers grow from **natural** numbers $\mathbb{N}$, to **integers** $\mathbb{Z}$, to **rationals** $\mathbb{Q}$ (fractions $\frac{p}{q}$, decimals that end or repeat) and **irrationals** (such as $\sqrt{2}$, $\pi$, $e$, decimals that never repeat); together they form the **real numbers** $\mathbb{R}$. $\mathbb{R}$ is a **field**: addition and multiplication are closed, commutative and associative, with identities 0 and 1, additive inverses, multiplicative inverses (except for 0), and multiplication distributes over addition. It is **ordered**: exactly one of $a < b$, $a = b$, $a > b$ holds, and $a < b$ implies $a + c < b + c$.
+
+**Intervals:** $(a, b)$ open, $[a, b]$ closed, $[a, b)$ half-open. **Absolute value:** $|x| = x$ for $x \ge 0$ and $-x$ for $x < 0$; properties $|a b| = |a| |b|$, $|a + b| \le |a| + |b|$ (triangle inequality), $|x| < r \iff -r < x < r$.
+
+::: example Worked example: absolute-value inequality
+Solve $|2 x - 3| < 5$: $-5 < 2 x - 3 < 5 \Rightarrow -2 < 2 x < 8 \Rightarrow$ **$-1 < x < 4$**, the interval $(-1, 4)$. To show $\sqrt{2}$ is irrational: if $\sqrt{2} = \frac{p}{q}$ in lowest terms, then $p^{2} = 2 q^{2}$ makes $p$ even, so $q$ is even too, which contradicts lowest terms.
+:::
+
+## 1.8 Complex numbers
+
+A complex number is $z = a + b i$ with $i^{2} = -1$; $a = \mathrm{Re}\, z$, $b = \mathrm{Im}\, z$. Conjugate $\bar{z} = a - b i$, modulus $|z| = \sqrt{a^{2} + b^{2}}$, and $z \bar{z} = |z|^{2}$. Division: multiply by the conjugate. **Polar form:** $z = r (\cos \theta + i \sin \theta)$ with $r = |z|$ and $\theta = \arg z$. **De Moivre:** $z^{n} = r^{n} (\cos n \theta + i \sin n \theta)$.
+
+::: example Worked example: complex arithmetic
+$(3 + 4 i)(1 - 2 i) = 3 - 6 i + 4 i - 8 i^{2} = $ **$11 - 2 i$**. $|3 + 4 i| = 5$. $\frac{1 + i}{1 - i} = \frac{(1 + i)^{2}}{2} = \frac{2 i}{2} = i$. For $1 + i$: $r = \sqrt{2}$, $\theta = \frac{\pi}{4}$, so $(1 + i)^{8} = (\sqrt{2})^{8} (\cos 2 \pi + i \sin 2 \pi) = $ **16**. The quadratic $x^{2} + 2 x + 5 = 0$ has roots $x = -1 \pm 2 i$, a conjugate pair.
+:::
+
+Complex numbers describe rotation (multiplying by $i$ rotates by $90^{\circ}$) and signals (the Fourier transform), so they appear in graphics and audio processing.
+
+## 1.9 Relations
+
+A **relation** from $A$ to $B$ is a subset of the Cartesian product $A \times B = \{(a, b)\}$, and $|A \times B| = |A| \cdot |B|$. A relation $R$ on $A$ is **reflexive** ($a R a$ for all $a$), **symmetric** ($a R b \Rightarrow b R a$), **transitive** ($a R b$ and $b R c \Rightarrow a R c$), **antisymmetric** ($a R b$ and $b R a \Rightarrow a = b$). An **equivalence relation** is reflexive, symmetric and transitive, and it splits the set into disjoint **equivalence classes**. The **inverse** relation is $R^{-1} = \{(b, a) : (a, b) \in R\}$.
+
+::: example Worked example: equivalence relation
+On $\mathbb{Z}$ define $a R b$ if $3 \mid (a - b)$ (same remainder mod 3). Reflexive: $a - a = 0$. Symmetric: if $3 \mid (a - b)$ then $3 \mid (b - a)$. Transitive: $(a - b) + (b - c) = a - c$. So $R$ is an equivalence relation with **three classes**, remainders 0, 1 and 2. In a database, "same department" is an equivalence relation on employees, while "reports to" is not (it is not symmetric).
+:::
+
+**How this unit fits the syllabus.** The syllabus Unit 1 reads: elementary logic, the real number system, complex numbers, relations, functions and graphs. Sections 1.6 to 1.9 above cover logic, reals, complex numbers and relations; sections 1.1 to 1.5 cover functions, composition, inverses and graphs.
+
+**Practice for 1.6 to 1.9.** (1) Write the contrapositive and converse of "if $n$ is even then $n^{2}$ is even". (2) Solve $|x - 2| \le 3$. (3) Compute $(2 + i)^{2}$ and $\frac{1}{3 - 4 i}$. (4) Is "$a \le b$" an equivalence relation on $\mathbb{R}$? **Answers:** (1) contrapositive: if $n^{2}$ is odd then $n$ is odd; converse: if $n^{2}$ is even then $n$ is even (true here as well, but it is a different statement); (2) $[-1, 5]$; (3) $3 + 4 i$ and $\frac{3 + 4 i}{25}$; (4) no, it is reflexive and transitive but not symmetric.
 
 ## Formula and fact sheet
 

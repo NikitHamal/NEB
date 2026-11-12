@@ -1,19 +1,22 @@
-# Mathematics II — BCA 154 (Semester II, 3 credits)
+# Mathematics II: BCA 154 (Semester II, 3 credits)
 
-Linear algebra and vector geometry, the maths behind graphics, machine learning and numerical computing.
+**Rebuilt in session 21 to the TU syllabus** (hamronotes.com and tabflux.com both list the same six units for BCA 154). The calculus units previously filed
+under BCA 104 now live here, and Unit 6 is new.
 
-| Unit | Title |
-|---|---|
-| 1 | Matrices and Determinants |
-| 2 | Systems of Linear Equations |
-| 3 | Vector Spaces and Linear Transformations |
-| 4 | Eigenvalues, Eigenvectors and Diagonalisation |
-| 5 | Vectors in Space, Lines and Planes |
+| Unit | Title | Syllabus topics covered |
+|---|---|---|
+| 1 | Limits and Continuity | epsilon-delta idea, one-sided limits, limit laws, continuity, discontinuities, IVT |
+| 2 | Differentiation | first principles, rules, implicit, logarithmic, parametric, higher-order |
+| 3 | Applications of Derivatives | tangent and normal, rates, extrema, optimisation, mean value theorems, L'Hopital, Taylor and Maclaurin |
+| 4 | Integration | substitution, parts, partial fractions, FTC, area, volume, improper integrals |
+| 5 | Differential Equations | separable, homogeneous, exact, linear, second-order, modelling |
+| 6 | Computational Methods (NEW) | LPP, graphical method, simplex (up to 3 variables), duality, matrix inversion, Gauss elimination, Gauss-Seidel, bisection, Newton-Raphson |
+
+## Known gaps against the syllabus (queue for the next session)
+Partial derivatives, derivatives of inverse circular and hyperbolic functions, Cauchy and generalised mean value theorems, applications in economics,
+Riemann-sum definition, surface and volume integrals, trapezoidal and Simpson's rules, reducible-to-linear equations and basic partial differential
+equations are touched lightly or not at all in Units 1 to 5 and should be added as new sections.
 
 ## Verification
-
-`bca/tools/check_math2.py` recomputes with SymPy: products, determinants, inverses, the elimination examples, ranks, null spaces, eigenvalues/eigenvectors, matrix powers, Gram–Schmidt, least squares, cross products and plane/line distances.
-
-## Source and honesty
-
-**The unit structure is reconstructed.** The official BCA 154 / CAMT154 syllabus PDF was not retrievable; secondary sources are vague. The book teaches the standard linear-algebra and 3-D vector content a computing student needs, and it deliberately does *not* guess at other topics that some college syllabi place in Mathematics II (for example Fourier series, vector calculus or numerical methods). Hours per unit are not stated. If your college's list differs, treat this as a strong linear-algebra core and consult your teacher for the rest.
+Units 1 to 5 were SymPy-checked in earlier sessions (`bca/tools/check_math1.py`, old file names). Unit 6 numbers were recomputed in Python this session
+(simplex pivots with exact fractions, Gauss-Seidel iterations, bisection and Newton-Raphson tables, Gauss elimination).

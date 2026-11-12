@@ -2,253 +2,306 @@
 subject: Mathematics II
 grade: BCA Semester 2
 unit: 4
-title: Eigenvalues, Eigenvectors and Diagonalisation
+title: Integration
 area: BCA 154 · Mathematics II · Unit 4
 ---
 
-Most vectors change direction when a matrix acts on them. **Eigenvectors** do not: they are only stretched. These special directions reveal what a transformation really does, and they power Google's PageRank, principal component analysis, vibration analysis and the stability of dynamical systems.
+Integration reverses differentiation and also adds up infinitely many infinitesimal pieces. With it we compute areas, volumes, total change, averages and, in the next unit, solve differential equations.
 
 ::: key What this unit gives you
-- Eigenvalues and eigenvectors: definition, characteristic equation, computation.
-- Properties (trace, determinant), Cayley–Hamilton theorem.
-- Diagonalisation and matrix powers; symmetric matrices.
-- Applications: Markov chains, Fibonacci, PageRank, principal components.
+- Antiderivatives, the table of standard integrals, and the substitution, parts and partial-fraction methods.
+- The definite integral, the Fundamental Theorem of Calculus, and its properties.
+- Area between curves, volume of revolution, average value, and improper integrals.
 :::
 
-## 4.1 Eigenvalues and eigenvectors
+## 4.1 Indefinite integrals
 
-A non-zero vector *v* is an **eigenvector** of a square matrix A with **eigenvalue** *λ* if **Av = $\lambda v$**. Rewrite as $(A - \lambda I) v = 0$; a non-zero solution exists iff $\det (A - \lambda I) = 0$, the **characteristic equation**. For an $n \times n$ matrix it is a polynomial of degree *n*, so there are *n* eigenvalues counting multiplicity (possibly complex).
+F is an **antiderivative** of *f* if $F' = f$. The family of all antiderivatives is the **indefinite integral** $\int f (x) \,d x = F (x) + C$, where C is an arbitrary constant.
 
-**Procedure:** (1) solve $\det (A - \lambda I) = 0$ for *λ*; (2) for each *λ* solve $(A - \lambda I) v = 0$; the non-zero solutions are the eigenvectors (the **eigenspace**).
+| $f (x)$ | $\int f \,d x$ | $f (x)$ | $\int f \,d x$ |
+|---|---|---|---|
+| $x^{n} (n \neq - 1)$ | $\frac{x^{n+1}}{n + 1}$ | $\frac{1}{x}$ | ln\|x\| |
+| $e^{x}$ | $e^{x}$ | $a^{x}$ | $\frac{a^{x}}{\ln}$ a |
+| $\sin x$ | $- \cos x$ | $\cos x$ | $\sin x$ |
+| $\sec^{2} x$ | $\tan x$ | $\csc^{2} x$ | $- \cot x$ |
+| $\sec x \tan x$ | $\sec x$ | $\frac{1}{(1 + x^{2})}$ | $\tan^{-1} x$ |
+| $\frac{1}{\sqrt{1 - x^{2}}}$ | $\sin^{-1} x$ | $\tan x$ | ln\|sec x\| |
+| $\frac{1}{\sqrt{x^{2} + a^{2}}}$ | ln\|x + $\sqrt{x^{2} + a^{2}} \mid$ | $\frac{1}{(x^{2} - a^{2})}$ | $\left( \frac{1}{2 a} \right)$ ln\|(x − $a ) / ( x$ + a)\| |
+
+Linearity: *∫* (af + bg) = $a \int f + b \int g$. Always check an answer by differentiating it.
 
 ::: example Worked example
-$A = \begin{bmatrix} 4 & 1 \\ 2 & 3 \end{bmatrix}$. $\det (A - \lambda I) = (4 - \lambda) (3 - \lambda) - 2 = \lambda^{2} - 7 \lambda + 10 = (\lambda - 5) (\lambda - 2)$, so **$\lambda = 5$, 2**.
 
-$\lambda = 5$: A − 5I = $\begin{bmatrix} - 1 & 1 \\ 2 & - 2 \end{bmatrix} \Rightarrow - x + y = 0 \Rightarrow v$ = **(1, 1)**. Check: $A (1 ,\  1) = (5 ,\  5) = 5 ( 1$, 1) ✓.
+$$\int (3 x^{2} + 2 x + 1) \,d x = x^{3} + x^{2} + x + C$$
 
-$\lambda = 2$: A − 2I = $\begin{bmatrix} 2 & 1 \\ 2 & 1 \end{bmatrix} \Rightarrow 2 x + y = 0 \Rightarrow v$ = **(1, −2)**. Check: $A (1 ,\  - 2) = (2 ,\  - 4) = 2 (1 ,\  - 2)$ ✓.
+$$\int \left( \sqrt{x} + \frac{1}{x^{2}} \right) \,d x = \left( \frac{2}{3} \right) x^{\frac{3}{2}} - \frac{1}{x} + C$$
+
+$$\int \sin^{2} x \,d x = \frac{\int (1 - \cos 2 x)}{2} \,d x = \frac{x}{2} - \frac{\sin 2 x}{4} + C$$
+
 :::
 
-::: example Worked example: a 3 × 3 with repeated eigenvalue
-$A = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 3 & 4 \\ 0 & 4 & 9 \end{bmatrix}$ has $\det (A - \lambda I) = (2 - \lambda) ((3 - \lambda) (9 - \lambda) - 16) = (2 - \lambda) (\lambda^{2} - 12 \lambda + 11) = (2 - \lambda) (\lambda - 1) (\lambda - 11)$; eigenvalues **2, 1, 11**.
-:::
-
-**Properties.** Sum of eigenvalues = **trace** (sum of the diagonal): $5 + 2 = 7 = 4 + 3$ ✓. Product of eigenvalues = **determinant**: $5 \cdot 2 = 10 = 12 - 2$ ✓. A is invertible iff 0 is not an eigenvalue. Eigenvalues of $A^{k}$ are $\lambda^{k}$; of $A^{-1}$ are $\frac{1}{\lambda}$; of $A^{T}$ the same as A; of a triangular matrix the diagonal entries. Eigenvectors for *distinct* eigenvalues are linearly independent. **Cayley–Hamilton:** a matrix satisfies its own characteristic equation: for the example, $A^{2}$ − 7A + 10I = 0 (check: $A^{2} = \begin{bmatrix} 18 & 7 \\ 14 & 11 \end{bmatrix}$; 7A = $\begin{bmatrix} 28 & 7 \\ 14 & 21 \end{bmatrix} ;\  A^{2}$ − 7A + 10I = $\begin{bmatrix} 18 - 28 + 10 & 0 \\ 0 & 11 - 21 + 10 \end{bmatrix} = 0$ ✓). It gives $A^{-1}$ = (7I − $A ) / 10$ quickly.
-
-## 4.2 Diagonalisation
-
-A is **diagonalisable** if there is an invertible P and a diagonal D with **A = PDP⁻¹**: the columns of P are *n* independent eigenvectors and D has the eigenvalues. It happens iff A has *n* independent eigenvectors (guaranteed when the *n* eigenvalues are distinct).
-
-::: example Worked example: powers
-For A above: $P = \begin{bmatrix} 1 & 1 \\ 1 & - 2 \end{bmatrix} ,\  D$ = diag(5, $2 ) ,\  P^{-1} = \left( \frac{1}{- 3} \right) \begin{bmatrix} - 2 & - 1 \\ - 1 & 1 \end{bmatrix} = \begin{bmatrix} \frac{2}{3} & \frac{1}{3} \\ \frac{1}{3} & - \frac{1}{3} \end{bmatrix}$.
-
-**$A^{5} = P D^{5} P^{-1}$** with $D^{5}$ = diag(3125, 32): $P D^{5} = \begin{bmatrix} 3125 & 32 \\ 3125 & - 64 \end{bmatrix}$, and multiplying by $P^{-1}$ gives **$A^{5} = \begin{bmatrix} 2094 & 1031 \\ 2062 & 1063 \end{bmatrix}$**. Check: the trace is $3157 = 3125 + 32$ ✓. Raising A to the power 5 directly needs four matrix products; diagonalisation makes **$A^{n} = P D^{n} P^{-1}$** a one-line computation for any *n*.
-:::
-
-**Not every matrix is diagonalisable**: $\begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$ has the single eigenvalue 1 (repeated) and only one independent eigenvector (1, 0); it is a *defective* matrix (a shear). The general fix is the **Jordan form**, outside this course.
-
-**Symmetric matrices** $(A = A^{T})$ are special: all eigenvalues are real, eigenvectors of different eigenvalues are **orthogonal**, and they are always diagonalisable by an **orthogonal** P (**spectral theorem**): A = QDQᵀ. Example: $\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$ has $\lambda = 3$ (eigenvector $\frac{1 ,\  1}{\sqrt{2}}$) and $\lambda = 1$ (eigenvector $\frac{1 ,\  - 1}{\sqrt{2}}$). A symmetric matrix is **positive definite** if all eigenvalues are > 0 (energy and covariance matrices).
-
-## 4.3 Applications
-
-**Fibonacci in matrix form.** $\begin{bmatrix} 1 & 1 \\ 1 & 0 \end{bmatrix}$ⁿ = $\begin{bmatrix} F_{n+1} & F_{n} \\ F_{n} & F_{n-1} \end{bmatrix}$. Its eigenvalues solve $\lambda^{2} = \lambda + 1$, i.e. $\lambda = \frac{1 \pm \sqrt{5}}{2}$, so diagonalisation gives Binet's formula (Discrete Structure, Unit 4), and $F_{10} = 55$ follows from the 10th power.
-
-**Markov chains.** A **stochastic matrix** P (rows sum to 1) gives the probabilities of moving between states. If the weather is "dry" or "wet" with $P = \begin{bmatrix} 0.9 & 0.1 \\ 0.5 & 0.5 \end{bmatrix}$, the long-run proportions *π* satisfy $\pi P = \pi$, i.e. *π* is a left eigenvector for $\lambda = 1$: $0.1 \pi_{1} = 0.5 \pi_{2} \Rightarrow \pi_{1} = 5 \pi_{2}$, so with $\pi_{1} + \pi_{2} = 1$, **$\pi = \left( \frac{5}{6} ,\  \frac{1}{6} \right)$**: in the long run, 83 % of days are dry. The other eigenvalue is 0.4, so the chain converges geometrically at rate $0.4^{n}$.
-
-**PageRank.** The rank of web pages is the principal eigenvector of the (damped) link matrix: a page is important if important pages link to it. It is found by **power iteration**: multiply a vector by the matrix repeatedly, and it converges to the dominant eigenvector. Example: starting from (1, 0) and applying $A = \begin{bmatrix} 4 & 1 \\ 2 & 3 \end{bmatrix}$: (4, 2), (18, 14), (86, 70), … the ratio tends to (1, 1)-direction: $\frac{86}{70} = 1.23$, then slowly towards 1 ($5^{n}$ dominates $2^{n}$).
-
-**Principal component analysis (PCA).** For data, form the covariance matrix (symmetric); its eigenvectors with the largest eigenvalues are the directions of greatest variance. Keeping the top *k* reduces dimensions with minimal information loss (image compression, face recognition, visualising data).
-
-**Systems of differential equations and stability.** $x'$ = Ax has solutions made of $e^{\lambda t} v$; the system is stable (solutions decay) if all eigenvalues have negative real parts. **Vibrations** of a structure are governed by eigenvalues (natural frequencies). **Graph theory:** the eigenvalues of a graph's adjacency matrix describe its connectivity.
-
-## 4.4 What an eigenvector looks like
-
-Most vectors are turned and stretched when a matrix acts on them. An **eigenvector** is special: the matrix only stretches it along its own line, by the factor *λ*. Figure 4.1 shows $A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$ acting on the unit circle. Every point of the circle goes to an ellipse; the ellipse's long axis lies along the eigenvector (1, 1), stretched by $\lambda = 3$, and its short axis along (1, −1), stretched by $\lambda = 1$. A symmetric matrix always has such perpendicular axes, which is why principal-component analysis of data works.
-
-```svgfig label="4.1" caption="The matrix $\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$ maps the unit circle (dashed) to an ellipse. The eigenvector (1,1) is stretched by 3 and the perpendicular eigenvector (1,-1) by 1; these are the principal axes of the ellipse."
-import math
-f = Fig(580, 240)
-cx, cy, u = 290, 120, 36
-circ = [(cx + u * math.cos(t / 30 * 2 * math.pi), cy - u * math.sin(t / 30 * 2 * math.pi)) for t in range(30)]
-ell = []
-for t in range(60):
-    a = t / 60 * 2 * math.pi
-    x, y = math.cos(a), math.sin(a)
-    X, Y = 2 * x + y, x + 2 * y
-    ell.append((cx + u * X, cy - u * Y))
-f.poly(ell, fill=BLUE, stroke=NAVY)
-f.poly(circ, fill="#ffffff", stroke=SLATE)
-f.line(cx - 95, cy + 95, cx + 95, cy - 95, color=RED, sw=1.2, dash=True)
-f.line(cx - 60, cy - 60, cx + 60, cy + 60, color=TEAL, sw=1.2, dash=True)
-f.arrow([(cx, cy), (cx + 3 * u / 1.414 * 1.0 * 1.0, cy - 3 * u / 1.414)], color=RED, sw=2.6)
-f.arrow([(cx, cy), (cx + u / 1.414, cy + u / 1.414)], color=TEAL, sw=2.6)
-f.text(cx + 100, cy - 90, "lambda = 3 along (1, 1)", size=11, color=RED, bold=True, anchor="start")
-f.text(cx + 52, cy + 62, "lambda = 1 along (1, -1)", size=11, color=TEAL, bold=True, anchor="start")
-f.text(cx, 232, "unit circle (white) becomes an ellipse (blue)", size=10.5, color=SLATE, italic=True)
-```
-
-## 4.5 Eight uses of eigenvalues
-
-1. **Ranking web pages.** PageRank is the eigenvector for the eigenvalue 1 of the web's link matrix. The largest component belongs to the page that many important pages point to. A search engine finds it by repeated multiplication.
-2. **Markov chains and long-run forecasts.** If tomorrow's weather depends only on today's, the chain has a steady state that is the eigenvector for $\lambda = 1$ (Section 4.3 and the answers below). It predicts the long-run share of sunny days, customers or users.
-3. **Principal component analysis (PCA).** The eigenvectors of a data covariance matrix point along the directions of greatest spread. Keeping the top few reduces hundreds of columns to two or three. Face recognition and survey analysis use it.
-4. **Vibrations and earthquakes.** The natural frequencies of a building or bridge are the square roots of eigenvalues of its stiffness matrix. If shaking from an earthquake matches one, resonance can be destructive. Engineers in Nepal check this for tall buildings.
-5. **Population growth.** In a Leslie matrix, the dominant eigenvalue is the long-run growth factor per period, and its eigenvector is the stable age distribution. Planners use this to project school and health needs.
-6. **Stability of systems.** For $x'$ = Ax, all eigenvalues with negative real part mean the system settles. Control engineers choose a controller by moving eigenvalues. Cruise control and drone stabilisation rely on this.
-7. **Image and data compression.** The singular-value decomposition, built from eigenvalues of $A^{T} A$, stores a picture with a few large values and drops the rest. Recommenders and photo apps compress this way.
-8. **Quantum and physical systems.** Energy levels of atoms are eigenvalues of an operator; the allowed states are eigenvectors. The idea that measurement gives eigenvalues is the heart of quantum mechanics.
-
-```photogrid label="4.1" cols="2" ratio="1.2" caption="Every structure has its own favourite frequencies. (a) The Tacoma Narrows Bridge twisting in the wind on 7 November 1940, an event that made engineers compute the natural frequencies of bridges: those frequencies are square roots of eigenvalues. (b) Two equal masses joined by three equal springs have the stiffness matrix $K = \begin{bmatrix} 2 & - 1 \\ - 1 & 2 \end{bmatrix}$. Its eigenvalues are 1 and 3 with eigenvectors (1, 1) and (1, -1): in the first mode both masses swing together at angular frequency 1.00, and in the second they swing in opposite directions at sqrt(3) = 1.73, faster. A wind that pushes at one of these frequencies adds energy every cycle, which is resonance. The values are computed in the figure with eigh."
-@ photo id="bcamath/tacoma" cap="Tacoma Narrows Bridge twisting, 1940"
+```photogrid label="4.1" cols="3" ratio="1.2" caption="Integration in history and in Nepal. (a) Archimedes of Syracuse (*c*. 287-212 BC) found areas and volumes by the method of exhaustion, the ancestor of the integral. (b) Bernhard Riemann (1826-1866) gave the definition by sums that we use today. (c) The reservoir wall of the Kaligandaki A hydropower station in Syangja: the force of water on the wall is an integral of pressure over depth."
+@ photo id="bca104/archimedes" cap="Archimedes (painting by D. Fetti, 1620)"
 fit 1.2
-focus 0.5 0.4
-@ svg cap="Two normal modes of a 2-mass, 3-spring system"
-import numpy as np
-K = np.array([[2.0, -1.0], [-1.0, 2.0]])
-w, V = np.linalg.eigh(K)
-assert np.allclose(w, [1, 3]) and np.allclose(np.abs(V[:, 0]), [2 ** -.5, 2 ** -.5])
-assert np.allclose(K @ V[:, 0], 1 * V[:, 0]) and np.allclose(K @ V[:, 1], 3 * V[:, 1])
-assert round(float(np.sqrt(w[1])), 2) == 1.73 and V[0, 0] * V[1, 0] > 0 and V[0, 1] * V[1, 1] < 0
-f = Fig(300, 240)
-def row(y, d1, d2, title, col):
-    f.text(150, y - 34, title, size=10.5, color=col, bold=True)
-    x1, x2 = 100, 200
-    f.line(20, y, x1 + d1, y, color=SLATE, sw=1.6); f.line(x1 + d1, y, x2 + d2, y, color=SLATE, sw=1.6); f.line(x2 + d2, y, 280, y, color=SLATE, sw=1.6)
-    f.line(20, y - 14, 20, y + 14, color=SLATE, sw=3); f.line(280, y - 14, 280, y + 14, color=SLATE, sw=3)
-    for x in (x1, x2): f.line(x, y - 20, x, y + 20, color="#94a3b8", sw=1, dash=True)
-    f.circle(x1 + d1, y, 13, fill=BLUE, stroke=NAVY, label="m", size=10.5); f.circle(x2 + d2, y, 13, fill=BLUE, stroke=NAVY, label="m", size=10.5)
-row(70, 16, 16, "mode 1: eigenvalue 1, vector (1, 1), w = 1.00", TEAL)
-row(150, 16, -16, "mode 2: eigenvalue 3, vector (1, -1), w = 1.73", RED)
-f.text(150, 206, "dashed = rest positions; solid = displaced", size=10.5, color=SLATE)
-f.text(150, 226, "K v = lambda v checked for both modes", size=10.5, color=NAVY, bold=True)
+focus 0.5 0.7
+@ photo id="bca104/riemann" cap="Bernhard Riemann"
+fit 1.2
+focus 0.5 0.72
+@ photo id="bca104/kgdam" cap="Kaligandaki A dam, Syangja"
+fit 1.2
+call 0.5 0.93 0.5 0.6 "F = ∫ ρ g h w dh"
 ```
 
-```photogrid label="4.2" cols="2" ratio="1.2" caption="Ranking the web is an eigenvector problem. (a) Andrey Markov, who in 1906 studied chains in which the next state depends only on the present one; a random web surfer is such a chain. (b) Four pages with links A to B and C, B to C, C to A, and D to C. With a 0.85 chance of following a link and 0.15 of jumping to a random page, repeating $r = 0.0375 + 0.85 M r$ (the power method) converges in 41 steps to the PageRank vector (0.3725, 0.1958, 0.3941, 0.0375), which adds to 1. It is the eigenvector of the Google matrix for the eigenvalue 1, confirmed with a direct eigen-solver. C wins because three pages point to it, and D, which nobody links to, gets only the 0.0375 minimum."
-@ photo id="bcamath/markov" cap="Andrey Markov (Markov chains)"
-fit 1.2
-focus 0.5 0.35
-@ svg cap="PageRank of four pages by the power method"
-import numpy as np
-links = {0: [1, 2], 1: [2], 2: [0], 3: [2]}; N = 4; d = 0.85
-M = np.zeros((N, N))
-for j, o in links.items():
-    for i in o: M[i, j] = 1 / len(o)
-r = np.ones(N) / N; it = 0
-while True:
-    r2 = (1 - d) / N + d * M @ r; it += 1
-    if abs(r2 - r).sum() < 1e-9: r = r2; break
-    r = r2
-G = (1 - d) / N + d * M
-w, v = np.linalg.eig(G); k = int(np.argmax(w.real)); e = v[:, k].real; e = e / e.sum()
-assert it == 41 and abs(r.sum() - 1) < 1e-9 and np.allclose(r, e, atol=1e-6) and abs(w[k].real - 1) < 1e-9
-assert [round(x, 4) for x in r] == [0.3725, 0.1958, 0.3941, 0.0375]
-f = Fig(300, 240)
-pos = {0: (70, 60), 1: (230, 60), 2: (230, 150), 3: (70, 150)}
-names = "ABCD"
-import math
-def edge(a, b, rad):
-    ax, ay = pos[a]; bx, by = pos[b]; dx, dy = bx - ax, by - ay; L = math.hypot(dx, dy); u = (dx / L, dy / L)
-    f.arrow([(ax + u[0] * rad[0], ay + u[1] * rad[0]), (bx - u[0] * rad[1], by - u[1] * rad[1])], color=SLATE, sw=1.6)
-rad = {i: 12 + 60 * r[i] for i in range(N)}
-for j, o in links.items():
-    for i in o: edge(j, i, (rad[j], rad[i]))
-for i in range(N):
-    f.circle(*pos[i], rad[i], fill=(MINT if i == 2 else BLUE), stroke=(TEAL if i == 2 else NAVY), label=names[i], size=12)
-    f.text(pos[i][0], pos[i][1] + rad[i] + 14, f"{r[i]:.4f}", size=10.5, color=(TEAL if i == 2 else NAVY), bold=True)
-f.text(150, 206, "power method: 41 steps; sum of ranks = 1", size=10.5, color=SLATE)
-f.text(150, 226, "same as eigenvector for eigenvalue 1", size=10.5, color=NAVY, bold=True)
+## 4.2 Integration by substitution
+
+If an integral has the form $\int f (g (x)) g' (x) \,d x$, put $u = g (x) ,\  d u = g' (x) d x$, and integrate in *u*.
+
+::: example Worked example
+**(a)** $\int 2 x e^{x^{2}} \,d x$: $u = x^{2} ,\  d u = 2 x d x$, so $\int e^{u} \,d u = e^{x^{2}} + C$.
+
+**(b)** $\frac{\int x}{x^{2} + 1} \,d x$: $u = x^{2} + 1 ,\  d u = 2 x d x$, so $\frac{1}{2} \frac{\int d u}{u}$ = **$\frac{1}{2} \ln (x^{2} + 1) + C$**.
+
+**(c)** $\int \tan x \,d x = \frac{\int \sin x}{\cos x} \,d x$: $u = \cos x ,\  d u = - \sin x d x$, so −ln|cos x| + C = ln|sec x| + C.
+
+**(d)** $\int \cos^{3} x \,d x = \int (1 - \sin^{2} x) \cos x \,d x$: $u = \sin x$, so $\sin x - \frac{\sin^{3} x}{3} + C$.
+
+**(e)** $\frac{\int 1}{x \ln x} \,d x$: $u = \ln x$, so ln|ln x| + C.
+
+**(f)** $\int (2 x + 3)^{5} \,d x = \frac{(2 x + 3)^{6}}{12} + C$.
+:::
+
+## 4.3 Integration by parts
+
+From $(u v)' = u' v + u v'$: **$\int u \,d v = u v - \int v \,d u$**. Choose *u* in the order **LIATE** (Logarithmic, Inverse trig, Algebraic, Trig, Exponential): the first type that appears becomes *u*.
+
+::: example Worked example
+**(a)** $\int x e^{x} \,d x$: $u = x ,\  \,d v = e^{x} \,d x \Rightarrow x e^{x} - \int e^{x} \,d x$ = **$(x - 1) e^{x} + C$**.
+
+**(b)** $\int x^{2} \ln x \,d x$: $u = \ln x ,\  \,d v = x^{2} \,d x \Rightarrow \left( \frac{x^{3}}{3} \right) \ln x - \frac{\int x^{2}}{3} \,d x$ = **$\left( \frac{x^{3}}{3} \right) \ln x - \frac{x^{3}}{9} + C$**.
+
+**(c)** $\int \ln x \,d x$: $u = \ln x ,\  d v = d x \Rightarrow x \ln x - x + C$.
+
+**(d)** $\int x \sin x \,d x = - x \cos x + \sin x + C$.
+
+**(e)** $\int e^{x} \sin x \,d x = I$. By parts twice, $I = e^{x} \sin x - e^{x} \cos x - I$, so **$I = \frac{e^{x} (\sin x - \cos x)}{2} + C$**.
+
+**(f)** $\int \tan^{-1} x \,d x = x \tan^{-1} x - \frac{1}{2} \ln (1 + x^{2}) + C$.
+:::
+
+## 4.4 Partial fractions
+
+A proper rational function $\frac{P (x)}{Q (x)}$ (degree P < degree Q) is split into simpler fractions by factors of Q: a linear factor $(x - a)$ gives $\frac{A}{x - a}$; a repeated factor $(x - a)^{2}$ gives $\frac{A}{x - a} + \frac{B}{(x - a)^{2}}$; an irreducible quadratic gives (Ax + $B ) / ( x^{2} + p x + q$). If the degree of P ≥ degree of Q, divide first.
+
+::: example Worked example
+**(a)** $\frac{1}{(x - 1) (x + 2)} = \frac{A}{x - 1} + \frac{B}{x + 2}$. Then $1 = A (x + 2) + B (x - 1) ;\  x = 1$ gives $A = \frac{1}{3} ;\  x = - 2$ gives $B = - \frac{1}{3}$. So $\int = \frac{1}{3}$ ln|x − 1| − $\frac{1}{3}$ ln|x + 2| = **$\frac{1}{3}$ ln|(x − $1 ) / ( x$ + 2)| + C**.
+
+**(b)** $\frac{3 x + 5}{((x + 1)^{2})} = \frac{3}{x + 1} + \frac{2}{(x + 1)^{2}}$. $\int = 3$ ln|x + 1| − $\frac{2}{x + 1} + C$.
+
+**(c)** $\frac{\int (x^{2} + 1)}{x - 1} \,d x$: divide, $x^{2} + 1 = (x - 1) (x + 1) + 2$, so $\int \left( x + 1 + \frac{2}{x - 1} \right) \,d x = \frac{x^{2}}{2} + x + 2$ ln|x − 1| + C.
+:::
+
+## 4.5 The definite integral and the Fundamental Theorem
+
+The **definite integral** $\int_{a}^{b} f (x) \,d x$ is the limit of Riemann sums $\sum f (x_{i}) \Delta x$, the signed area between the graph and the x-axis from a to *b*. The **Fundamental Theorem of Calculus** connects it to antiderivatives:
+
+- **Part 1**: if $F (x) = \int_{a}^{x} f (t) \,d t$ then $F' (x) = f (x)$.
+- **Part 2**: **$\int_{a}^{b} f (x) \,d x = F (b) - F (a)$** for any antiderivative F.
+
+**Properties.** $\int_{a}^{b} f = - \int_{a}^{b} f ;\  \int_{a}^{a} f = 0 ;\  \int_{a}^{b} f = \int_{a}^{c} f + \int^{cb} f ;\  \int_{a}^{b} f (x) \,d x = \int_{a}^{b} f (a + b - x) \,d x$; for even $f ,\  \int_{-a}^{a} f = 2 \int_{0}^{a} f$; for odd $f ,\  \int_{-a}^{a} f = 0$. When substituting in a definite integral, change the limits too.
+
+::: example Worked example
+**(a)** $\int_{0}^{\pi} \sin x \,d x = [- \cos x]_{0}^{\pi} = 1 + 1$ = **2**.
+
+**(b)** $\frac{\int_{1}^{2} d x}{x} = \ln 2 - \ln 1$ = **$\ln 2 \approx 0.693$**.
+
+**(c)** $\int_{0}^{1} 2 x e^{x^{2}} \,d x$: $u = x^{2}$, limits $0 \to 1$: $\int_{0}^{1} e^{u} \,d u$ = **$e - 1 \approx 1.718$**.
+
+**(d)** $\int_{0}^{\frac{\pi}{2}} \sin^{3} x \,d x = \int_{0}^{\frac{\pi}{2}} (1 - \cos^{2} x) \sin x \,d x ,\  u = \cos x$: $\int_{0}^{1} (1 - u^{2}) \,d u = 1 - \frac{1}{3}$ = **$\frac{2}{3}$**.
+
+**(e)** $\int_{-1}^{1} x^{3} \,d x$ = **0** (odd function).
+
+**(f)** $\int_{0}^{1} x e^{x} \,d x = [(x - 1) e^{x}]_{0}^{1} = 0 - (- 1)$ = **1**.
+:::
+
+```svgfig label="4.1" caption="Riemann sums for the area under $f (x) = x^{2}$ on [0, 2]. (a) Four left rectangles under-estimate (1.75). (b) Four right rectangles over-estimate (3.75). (c) Twenty mid-point rectangles are almost exact. As $n \to \infty$ every version tends to the definite integral $\int_{0}^{2} x^{2} \,d x = \frac{8}{3} \approx 2.6667$."
+f = Fig(780, 250)
+fx = lambda x: x * x
+mid = sum(fx(0.05 + 0.1 * k) * 0.1 for k in range(20))
+for i, (mode, n, t, val) in enumerate([("left", 4, "(a) left sum, n = 4", "1.75"), ("right", 4, "(b) right sum, n = 4", "3.75"), ("mid", 20, "(c) mid-point sum, n = 20", f"{mid:.4f}")]):
+    cx = 8 + i * 258
+    f.box(cx, 4, 246, 242, "", fill=SOFT, stroke="#cbd5e1")
+    f.text(cx + 123, 22, t, size=11, color=NAVY, bold=True)
+    a = Axes(f, cx + 22, 34, 208, 150, (-0.2, 2.3), (-0.3, 4.6)); a.grid(1, 1, size=8.5)
+    a.bars(fx, 0, 2, n, mode=mode); a.curve(fx, 0, 2.3, color=NAVY, sw=2.4); a.axes("", "")
+    f.text(cx + 123, 214, "sum ≈ " + val, size=12, color=TEAL if i == 2 else AMBER, bold=True); f.text(cx + 123, 235, "exact value 8/3 = 2.6667", size=9.5, color=SLATE)
 ```
+
+## 4.6 Applications
+
+**Area between curves.** If $f \geq g$ on $[a ,\  b]$: $A = \int_{a}^{b} [f (x) - g (x)] \,d x$. If the curves cross, split at the intersections.
+
+**Volume of revolution** about the x-axis (disc method): $V = \pi \int_{a}^{b} [f (x)]^{2} \,d x$; with a hole (washer): $V = \pi \int (R^{2} - r^{2}) \,d x$. About the y-axis (shell method): $V = 2 \pi \int x f (x) \,d x$.
+
+**Average value** of *f* on $[a ,\  b]$: $\left( \frac{1}{b - a} \right) \int_{a}^{b} f \,d x$. **Arc length**: $L = \int_{a}^{b} \sqrt{1 + (f')^{2}} \,d x$. **Total change**: *∫* of a rate gives the net change (distance = *∫* speed $d t$).
+
+::: example Worked example
+**Area** between $y = x$ and $y = x^{2}$: intersections $x = 0 ,\  1 ;\  A = \int_{0}^{1} (x - x^{2}) \,d x = \frac{1}{2} - \frac{1}{3}$ = **$\frac{1}{6}$**.
+
+**Area** under $y = \sin x$ from 0 to *π*: **2**.
+
+**Volume** of $y = x^{2}$ about the x-axis from 0 to 1: $V = \pi \int_{0}^{1} x^{4} \,d x$ = **$\frac{\pi}{5}$**. For $y = \sqrt{x}$ on [0, 4]: $V = \pi \int_{0}^{4} x \,d x$ = **$8 \pi$**.
+
+**Average value** of $f (x) = x^{2}$ on [0, 3]: $\left( \frac{1}{3} \right) \left( \frac{27}{3} \right)$ = **3**.
+
+**Net displacement** for velocity $v (t) = 3 t^{2} - 6 t + 2$ from $t = 0$ to 2: $[t^{3} - 3 t^{2} + 2 t]_{0}^{2} = 8 - 12 + 4$ = **0** (the body returns to its start; the *distance* travelled is $\int |v| \,d t$, which is larger).
+:::
+
+```svgfig label="4.2" caption="Two applications of the definite integral. (a) The area between $y = x$ and $y = x^{2}$ on [0, 1] is $\int_{0}^{1} (x - x^{2}) \,d x = \frac{1}{2} - \frac{1}{3} = \frac{1}{6}$. (b) Rotating $y = \sqrt{x}$ about the x-axis for $0 \leq x \leq 4$ sweeps out a solid made of thin discs of radius $\sqrt{x}$, so $V = \pi \int_{0}^{4} x \,d x = 8 \pi \approx 25.13$ cubic units."
+f = Fig(780, 270)
+f.box(8, 4, 330, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(173, 22, "(a) area between two curves", size=11, color=NAVY, bold=True)
+a = Axes(f, 40, 36, 270, 190, (-0.1, 1.2), (-0.1, 1.2)); a.grid(0.5, 0.5, size=8.5)
+a.area(lambda x: x, 0, 1, fn2=lambda x: x * x, fill="#99f6e4"); a.axes()
+a.curve(lambda x: x, color=NAVY, sw=2.4); a.curve(lambda x: x * x, color=RED, sw=2.4)
+f.text(a.X(0.7), a.Y(0.9), "y = x", size=11, color=NAVY, bold=True, anchor="start"); f.text(a.X(0.78), a.Y(0.4), "y = x²", size=11, color=RED, bold=True, anchor="start"); f.text(173, 250, "area = 1/6 ≈ 0.1667", size=11, color=TEAL, bold=True)
+f.box(346, 4, 426, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(559, 22, "(b) solid of revolution about the x-axis", size=11, color=NAVY, bold=True)
+b = Axes(f, 370, 36, 380, 190, (-0.4, 4.6), (-2.4, 2.4)); b.area(lambda x: math.sqrt(x), 0, 4, fn2=lambda x: -math.sqrt(x), fill="#bfdbfe", opacity=0.6)
+for xv in (1, 2, 3, 4):
+    f.raw(f'<ellipse cx="{b.X(xv)}" cy="{b.Y(0)}" rx="6" ry="{round(b.Y(0) - b.Y(math.sqrt(xv)), 2)}" fill="none" stroke="{TEAL}" stroke-width="1.3"/>')
+b.axes(); b.curve(math.sqrt, 0, 4, color=NAVY, sw=2.4); b.curve(lambda x: -math.sqrt(x), 0, 4, color=NAVY, sw=1.6, dash=True)
+f.text(b.X(1.0), b.Y(1.9), "y = √x, rotated", size=11, color=NAVY, bold=True, anchor="start"); f.text(559, 250, "V = π ∫₀⁴ x dx = 8π ≈ 25.13", size=11, color=TEAL, bold=True)
+```
+
+## 4.7 Improper integrals
+
+An integral with an infinite limit or an infinite integrand is defined as a limit.
+
+::: example Worked example
+**(a)** $\int_{1}^{\infty} x^{-2} \,d x = \lim_{b \to \infty} \left[ - \frac{1}{x} \right]_{1}^{b} = 1 - 0$ = **1** (converges).
+
+**(b)** $\frac{\int_{1}^{\infty} 1}{x} \,d x = \lim \ln b = \infty$ (**diverges**).
+
+**(c)** $\int_{0}^{1} x^{- \frac{1}{2}} \,d x = \lim_{a \to 0^{+}} \left[ 2 \sqrt{x} \right]_{a}^{1}$ = **2** (converges).
+
+**(d)** $\int_{0}^{\infty} e^{- x} \,d x$ = **1**.
+
+**Rule:** $\int_{1}^{\infty} x^{- p} \,d x$ converges iff $p > 1 ;\  \int_{0}^{1} x^{- p} \,d x$ converges iff $p < 1$.
+:::
+
+```svgfig label="4.3" caption="Improper integrals over an infinite interval. (a) The area under $y = \frac{1}{x^{2}}$ from 1 to infinity is finite: $\frac{\int_{1}^{b} d x}{x^{2}} = 1 - \frac{1}{b} \to 1$. (b) The area under $y = \frac{1}{x}$ is infinite: $\frac{\int_{1}^{b} d x}{x} = \ln b \to \infty$. Both curves tend to 0, yet only the first area is finite."
+f = Fig(780, 240)
+for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "converges: area = 1", TEAL), (lambda x: 1 / x, "(b) y = 1/x", "diverges: area = ∞", RED)]):
+    cx = 8 + i * 388
+    f.box(cx, 4, 376, 232, "", fill=SOFT, stroke="#cbd5e1"); f.text(cx + 188, 22, t, size=11.5, color=NAVY, bold=True)
+    a = Axes(f, cx + 36, 34, 320, 150, (0, 6.5), (0, 1.2)); a.grid(1, 0.5, size=8.5)
+    a.area(fn, 1, 6.5, fill="#99f6e4" if i == 0 else "#fecaca"); a.axes(); a.curve(fn, 1, 6.5, color=NAVY, sw=2.4); a.vline(1, 0, 1.2, color=AMBER)
+    f.text(cx + 188, 222, s, size=11.5, color=c, bold=True)
+```
+
+## 4.8 Eight uses of integration
+
+1. **Area of irregular land.** The area under a curve is a definite integral, so surveyors and map software can find the area of a plot with a curved boundary. In Nepal land is measured in ropani and kattha, and the same idea converts a measured outline into area. A smaller strip width gives a more exact answer (Figure 4.1).
+2. **Volume of tanks and solids.** Cutting a solid into thin discs and adding them gives volume (Figure 4.2b). Water tank, bottle and $d a m$ designers use it to know how much each shape holds. The reservoir of a hydropower plant is estimated this way.
+3. **Distance from speed.** If the speed $v (t)$ of a bus is known, the distance travelled is $\int v \,d t$. A GPS tracker adds many small distances to give the trip length. This is the reverse of differentiation: position is the integral of speed.
+4. **Work, force and pressure.** The pressure on a $d a m$ wall increases with depth, so the total force is an integral of pressure over the wall (Plate 4.1c). Engineers of the Kaligandaki and Marsyangdi plants need this to make the wall strong enough. A constant-force formula alone would be wrong.
+5. **Probability and statistics.** For a continuous variable, the probability that a value lies between a and *b* is the area under its density curve. The normal curve of exam marks is integrated to find how many students score above 60. Tribhuvan University result analysis is built on such areas.
+6. **Electricity and signals.** The charge stored in a capacitor is the integral of the current, and the energy used by a house is the integral of power over time. Nepal Electricity Authority meters add power over hours in the same way. Digital signal processing also integrates signals to find their average and energy.
+7. **Computer graphics and numerical methods.** Computers cannot do symbolic integration for every function, so they use Riemann-type sums such as the trapezoidal and Simpson's rules. These give an accurate area with a fast loop. Games and simulations use them for physics.
+8. **Average value and economics.** The average value of a function on $[a ,\  b]$ is $\left( \frac{1}{b - a} \right) \int f \,d x$. An economist finds the average daily electricity demand or the total revenue from a marginal revenue curve. The consumer surplus in a market is also an area between two curves.
 
 ## Formula and fact sheet
 
-- Av = $\lambda v ;\  \det (A - \lambda I) = 0$; eigenspace = null space of $A - \lambda I$.
-- $\sum \lambda$ = trace; $\prod \lambda = \det$. Eigenvalues of $A^{k}$: $\lambda^{k}$; of $A^{-1}$: $\frac{1}{\lambda}$.
-- Cayley–Hamilton: $p (A) = 0$. A = PDP⁻¹ ⇒ Aⁿ = PDⁿP⁻¹.
-- Symmetric: real eigenvalues, orthogonal eigenvectors, A = QDQᵀ.
-- Markov steady state: $\pi P = \pi$ (eigenvalue 1). PageRank: power iteration.
+- $\int x^{n} \,d x = \frac{x^{n+1}}{n + 1} ;\  \frac{\int d x}{x}$ = ln|x|; $\int e^{x} = e^{x} ;\  \int \sin = - \cos ;\  \int \cos = \sin$.
+- Substitution: $u = g (x)$. Parts: $\int u \,d v = u v - \int v \,d u$, LIATE.
+- FTC: $\int_{a}^{b} f = F (b) - F (a)$. Even: $2 \int_{0}^{a}$; odd: 0.
+- Area = *∫* (top − bottom). Disc volume = $\pi \int f^{2}$. Average = $\left( \frac{1}{b - a} \right) \int f$.
+- Improper: $\int_{1}^{\infty} x^{- p}$ converges for $p > 1$.
 
 ## Chapter summary
 
-- Eigenvectors are the directions a matrix only stretches; eigenvalues are the stretch factors.
-- The characteristic polynomial finds them; trace and determinant give quick checks.
-- Diagonalisation turns matrix powers into powers of numbers; symmetric matrices diagonalise orthogonally.
-- Markov chains, PageRank, PCA, stability and vibration analysis are all eigenvalue problems.
+- Integration is reverse differentiation; always add C for indefinite integrals and verify by differentiating.
+- Substitution undoes the chain rule, parts undoes the product rule, partial fractions handle rational functions.
+- The Fundamental Theorem lets us compute definite integrals from antiderivatives.
+- Areas, volumes, averages and total change are all definite integrals; improper integrals are limits.
 
 ## Practice
 
-1. Find the eigenvalues and eigenvectors of $\begin{bmatrix} 3 & 1 \\ 0 & 2 \end{bmatrix}$ and of $\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$.
-2. Find the eigenvalues of $\begin{bmatrix} 1 & 2 & 3 \\ 0 & 4 & 5 \\ 0 & 0 & 6 \end{bmatrix}$ and the determinant.
-3. If the eigenvalues of A are 2, 3 and 5, find $\det A ,\  t r A$, eigenvalues of $A^{2}$ and of $A^{-1}$.
-4. Verify the Cayley–Hamilton theorem for $\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$ and use it to find $A^{-1}$.
-5. Diagonalise $\begin{bmatrix} 4 & 1 \\ 2 & 3 \end{bmatrix}$ and find $A^{3}$.
-6. Is $\begin{bmatrix} 2 & 1 \\ 0 & 2 \end{bmatrix}$ diagonalisable? Explain.
-7. A 2-state Markov chain has $P = \begin{bmatrix} 0.7 & 0.3 \\ 0.4 & 0.6 \end{bmatrix}$. Find the steady state.
-8. Show that the eigenvalues of a symmetric $2 \times 2$ matrix $\begin{bmatrix} a & b \\ b & c \end{bmatrix}$ are always real.
-9. Find the eigenvalues of the rotation matrix $\begin{bmatrix} 0 & - 1 \\ 1 & 0 \end{bmatrix}$. Interpret.
-10. A population model: young Y and adults A, with $Y_{n+1} = 2 A_{n} ,\  A_{n+1} = 0.5 Y_{n} + 0.6 A_{n}$. Find the long-term growth rate.
+1. Evaluate (a) $\int \left( 4 x^{3} - \frac{3}{x} + e^{x} \right) \,d x$, (b) $\int (x^{2} + 1)^{2} \,d x$, (c) $\int \cos^{2} x \,d x$.
+2. Evaluate by substitution (a) $\int x \sqrt{x^{2} + 4} \,d x$, (b) $\int e^{3 x + 1} \,d x$, (c) $\int \sin x \cos^{4} x \,d x$.
+3. Evaluate by parts (a) $\int x \cos x \,d x$, (b) $\int x e^{2 x} \,d x$, (c) $\int x \ln x \,d x$.
+4. Evaluate $\frac{\int (2 x + 3)}{(x - 1) (x + 2)} \,d x$.
+5. Evaluate (a) $\int_{0}^{2} (3 x^{2} - 2 x) \,d x$, (b) $\int_{0}^{\frac{\pi}{4}} \sec^{2} x \,d x$, (c) $\frac{\int_{1}^{e} (\ln x)}{x} \,d x$.
+6. Find the area enclosed by $y = x^{2}$ and $y = 4 x - x^{2}$.
+7. Find the volume generated by revolving $y = x^{2}$ about the x-axis between $x = 1$ and $x = 2$.
+8. Find the average value of $\sin x$ on $[0 ,\  \pi]$.
+9. Does $\frac{\int_{1}^{\infty} 1}{\sqrt{x}} \,d x$ converge? Does $\frac{\int_{1}^{\infty} 1}{x^{\frac{3}{2}}} \,d x$?
+10. If $F (x) = \int_{0}^{x} t e^{t} \,d t$ find $F' (x)$ and $F (1)$.
 
 ::: note Answers and worked solutions
-**1.** $\begin{bmatrix} 3 & 1 \\ 0 & 2 \end{bmatrix}$: triangular, $\lambda = 3 ( v = ( 1$, 0)) and $\lambda = 2 ( A$ − 2I = $\begin{bmatrix} 1 & 1 \\ 0 & 0 \end{bmatrix} \Rightarrow v = (1 ,\  - 1)$). $\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$: $\lambda = 3 (v = (1 ,\  1)) ,\  \lambda = 1 (v = (1 ,\  - 1))$.
+**1.** (a) $x^{4} - 3$ ln|x| + $e^{x} + C$. (b) $\frac{x^{5}}{5} + \frac{2 x^{3}}{3} + x + C$. (c) $\frac{x}{2} + \frac{\sin 2 x}{4} + C$.
 
-**2.** Triangular: **1, 4, 6**; $\det = 1 \cdot 4 \cdot 6$ = **24**.
+**2.** (a) $u = x^{2} + 4$: $\frac{1}{3} (x^{2} + 4)^{\frac{3}{2}} + C$. (b) $\frac{1}{3} e^{3 x + 1} + C$. (c) $u = \cos x$: $- \frac{\cos^{5} x}{5} + C$.
 
-**3.** det = 2·3·5 = **30**; trace = **10**; $A^{2}$ has $4 ,\  9 ,\  25 ;\  A^{-1}$ has $\frac{1}{2} ,\  \frac{1}{3} ,\  \frac{1}{5}$.
+**3.** (a) $x \sin x + \cos x + C$. (b) $\left( \frac{x}{2} \right) e^{2 x} - \frac{e^{2 x}}{4} + C$. (c) $\left( \frac{x^{2}}{2} \right) \ln x - \frac{x^{2}}{4} + C$.
 
-**4.** $t r = 5 ,\  \det = - 2$: $\lambda^{2} - 5 \lambda - 2 = 0$. $A^{2} = \begin{bmatrix} 7 & 10 \\ 15 & 22 \end{bmatrix} ;\  A^{2}$ − 5A − 2I = $\begin{bmatrix} 7 - 5 - 2 & 10 - 10 \\ 15 - 15 & 22 - 20 - 2 \end{bmatrix} = 0$ ✓. Then $A^{2}$ − 5A = 2I ⇒ $A ( A$ − 5I) = 2I ⇒ **$A^{-1} = \frac{A - 5 I}{2} = \begin{bmatrix} - 2 & 1 \\ 1.5 & - 0.5 \end{bmatrix}$**.
+**4.** $\frac{2 x + 3}{(x - 1) (x + 2)} = \frac{A}{x - 1} + \frac{B}{x + 2}$: $A = \frac{5}{3} ,\  B = \frac{1}{3}$. *∫* = **$\left( \frac{5}{3} \right)$ ln|x − 1| + $\left( \frac{1}{3} \right)$ ln|x + 2| + C**.
 
-**5.** $P D P^{-1}$ as in §4.2. $A^{3} = P$ diag(125, 8) $P^{-1} = \begin{bmatrix} 125 & 8 \\ 125 & - 16 \end{bmatrix} \cdot \begin{bmatrix} \frac{2}{3} & \frac{1}{3} \\ \frac{1}{3} & - \frac{1}{3} \end{bmatrix} = \begin{bmatrix} \frac{250 + 8}{3} & \frac{125 - 8}{3} \\ \frac{250 - 16}{3} & \frac{125 + 16}{3} \end{bmatrix}$ = **$\begin{bmatrix} 86 & 39 \\ 78 & 47 \end{bmatrix}$**. (Trace $133 = 125 + 8$ ✓.)
+**5.** (a) $[x^{3} - x^{2}]_{0}^{2} = 8 - 4$ = **4**. (b) $\tan \left( \frac{\pi}{4} \right) - 0$ = **1**. (c) [ (ln x)²/2 ]₁^e = **$\frac{1}{2}$**.
 
-**6.** **No**: $\lambda = 2$ is repeated but A − 2I = $\begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}$ has a one-dimensional null space, so there is only one independent eigenvector.
+**6.** Intersections: $x^{2} = 4 x - x^{2} \Rightarrow x = 0 ,\  2$. $A = \int_{0}^{2} (4 x - 2 x^{2}) \,d x = \left[ 2 x^{2} - \frac{2 x^{3}}{3} \right]_{0}^{2} = 8 - \frac{16}{3}$ = **$\frac{8}{3}$**.
 
-**7.** $\pi P = \pi$: $0.3 \pi_{1} = 0.4 \pi_{2} \Rightarrow \pi_{1} = \left( \frac{4}{3} \right) \pi_{2} ;\  \pi_{1} + \pi_{2} = 1 \Rightarrow \pi_{2} = \frac{3}{7}$. **$\pi = \left( \frac{4}{7} ,\  \frac{3}{7} \right) \approx ( 0.571$, 0.429)**.
+**7.** $V = \pi \int_{1}^{2} x^{4} \,d x = \frac{\pi (32 - 1)}{5}$ = **$\frac{31 \pi}{5} \approx 19.48$**.
 
-**8.** $\lambda^{2} - (a + c) \lambda + (a c - b^{2}) = 0$ has discriminant $(a + c)^{2} - 4 (a c - b^{2}) = (a - c)^{2} + 4 b^{2} \geq 0$, so the roots are real.
+**8.** $\left( \frac{1}{\pi} \right) [- \cos x]_{0}^{\pi} = \frac{2}{\pi}$ ≈ **0.637**.
 
-**9.** $\lambda^{2} + 1 = 0 \Rightarrow \lambda = \pm i$ (complex): a rotation has no real direction that stays fixed (it turns every vector by $90 ^{\circ}$).
+**9.** $\int_{1}^{\infty} x^{- \frac{1}{2}}$ diverges $\left( p = \frac{1}{2} \leq 1 \right)$. $\int_{1}^{\infty} x^{- \frac{3}{2}} = \left[ - 2 x^{- \frac{1}{2}} \right]_{1}^{\infty}$ = **2**, converges.
 
-**10.** Matrix $\begin{bmatrix} 0 & 2 \\ 0.5 & 0.6 \end{bmatrix}$ acting on (Y, A): $\lambda^{2} - 0.6 \lambda - 1 = 0 \Rightarrow \lambda = \frac{0.6 + \sqrt{0.36 + 4}}{2} = \frac{0.6 + 2.088}{2}$ = **1.344**, so the population grows about 34 % per period (the other eigenvalue −0.744 dies out).
+**10.** $F' (x) = x e^{x}$. $F (1) = \int_{0}^{1} t e^{t} \,d t = [(t - 1) e^{t}]_{0}^{1}$ = **1**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Find the eigenvalues and eigenvectors of $A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$, diagonalise it and find $A^{5}$.**
+**Q (5 marks). Evaluate $\int x e^{x} \,d x$ by parts and hence find $\int_{0}^{1} x e^{x} \,d x$.**
 
-*Introduction.* *λ* is an eigenvalue of A if $\det (A - \lambda I) = 0$, and a non-zero vector *v* with Av = $\lambda v$ is the eigenvector.
+**Integration by parts** comes from the product rule: $\int u \,d v = u v - \int v \,d u$. The skill is to choose *u* so that $d u$ is simpler than *u*. The order of preference is *LIATE*: Logarithmic, Inverse trigonometric, Algebraic, Trigonometric, Exponential.
 
-*Characteristic equation.* $\det \begin{bmatrix} 2 - \lambda & 1 \\ 1 & 2 - \lambda \end{bmatrix} = (2 - \lambda)^{2} - 1 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1) (\lambda - 3) = 0$, so **$\lambda = 3$ and $\lambda = 1$**. Check: trace $4 = 3 + 1$ and $\det 3 = 3 \times 1$.
+1. In $x e^{x}$ the algebraic factor *x* comes before the exponential, so let $u = x$ and $d v = e^{x} d x$.
+2. Then $d u = d x$ and $v = e^{x}$.
+3. Apply the formula: $\int x e^{x} \,d x = x e^{x} - \int e^{x} \,d x$.
+4. The remaining integral is $e^{x}$, so $\int x e^{x} \,d x = x e^{x} - e^{x} + C$ = **$(x - 1) e^{x} + C$**.
+5. Check by differentiating: $\frac{d}{d x} [(x - 1) e^{x}] = e^{x} + (x - 1) e^{x} = x e^{x}$ ✓.
 
-*Eigenvectors.* For $\lambda = 3$: (A − 3I)v = 0 gives $- x + y = 0$, so $v_{1} = (1 ,\  1)$. For $\lambda = 1$: $x + y = 0$, so $v_{2} = (1 ,\  - 1)$.
+For the definite integral use the Fundamental Theorem: $\int_{0}^{1} x e^{x} \,d x = [(x - 1) e^{x}]_{0}^{1} = (0) (e) - (- 1) (1)$ = **1**. The area under the curve $y = x e^{x}$ between $x = 0$ and $x = 1$ is exactly one square unit.
 
-*Diagonalisation.* $P = \begin{bmatrix} 1 & 1 \\ 1 & - 1 \end{bmatrix}$ and $D = \begin{bmatrix} 3 & 0 \\ 0 & 1 \end{bmatrix}$, with A = PDP⁻¹.
+**Q (5 marks). Find the area between $y = x$ and $y = x^{2}$ and the volume generated when the curve $y = \sqrt{x} ,\  0 \leq x \leq 4$, is rotated about the x-axis.**
 
-*Power.* $A^{5} = P D^{5} P^{-1}$ with $D^{5} = \begin{bmatrix} 243 & 0 \\ 0 & 1 \end{bmatrix}$. Multiplying gives $A^{5} = \begin{bmatrix} 122 & 121 \\ 121 & 122 \end{bmatrix}$. *Conclusion.* Eigenvalues 3 and 1; diagonalisation turns a matrix power into the power of two numbers.
+*Area (Figure $5.2 a ) . \ast$ The curves meet where $x = x^{2}$, that is $x = 0$ and $x = 1$. Between them the line is above the parabola (at $x = 0.5$: $0.5 > 0.25$). The area is the integral of (upper − lower): $\int_{0}^{1} (x - x^{2}) \,d x = \left[ \frac{x^{2}}{2} - \frac{x^{3}}{3} \right]_{0}^{1} = \frac{1}{2} - \frac{1}{3}$ = **$\frac{1}{6}$ square unit**.
 
-**Q2 (10 marks). Explain eigenvalues, eigenvectors and diagonalisation, state the conditions and properties, and show how a Markov chain uses them.**
+*Volume (Figure $5.2 b ) . \ast$ A thin slice at position *x* is a disc of radius $y = \sqrt{x}$ and thickness $d x$, so its volume is $\pi y^{2} d x = \pi x d x$. Adding all slices from 0 to 4:
 
-*Introduction.* Eigenvalues and eigenvectors expose the directions in which a matrix acts as a simple stretch. They turn hard problems (powers of a matrix, long-run behaviour) into easy ones.
+$V = \pi \int_{0}^{4} x \,d x = \pi \left[ \frac{x^{2}}{2} \right]_{0}^{4} = \pi \times 8$ = **$8 \pi \approx 25.13$ cubic units**.
 
-*Definitions and method.*
+*Remark.* The disc formula is $V = \pi \int y^{2} \,d x$. If the region lies between two curves a washer (a disc with a hole) is used: $V = \pi \int (R^{2} - r^{2}) \,d x$. Always sketch the region first and write which curve is on top.
 
-1. **Eigen-equation.** Av = $\lambda v$ with $v \neq 0$.
-2. **Characteristic equation.** $\det (A - \lambda I) = 0$ is a polynomial of degree *n* in *λ*; its roots are the eigenvalues.
-3. **Eigenvectors.** For each *λ*, solve $(A - \lambda I) v = 0$; the solutions form the eigenspace.
-4. **Properties.** The sum of eigenvalues equals the trace and the product equals the determinant; for $B = \begin{bmatrix} 4 & 1 \\ 2 & 3 \end{bmatrix}$ these are $5 + 2 = 7$ and $5 \times 2 = 10$. A matrix is invertible exactly when 0 is not an eigenvalue.
+**Q (10 marks). Define the definite integral through Riemann sums. State the Fundamental Theorem of Calculus. Explain the methods of integration (substitution, parts, partial fractions) with an example of each, and explain improper integrals.**
 
-*Diagonalisation.*
+**Introduction.** Integration reverses differentiation and also measures accumulated quantities such as area, distance and volume. The **indefinite integral** $\int f \,d x$ is the family of antiderivatives $F (x) + C$, and the **definite integral** $\int_{a}^{b} f \,d x$ is a number, the signed area under the curve.
 
-5. **Condition.** An $n \times n$ matrix is diagonalisable if it has *n* independent eigenvectors (distinct eigenvalues are enough; symmetric matrices always qualify).
-6. **Result.** A = PDP⁻¹ with eigenvectors as columns of P and eigenvalues on the diagonal of D. For B: eigenvectors (1, 1) for 5 and (1, −2) for 2, so $B^{n} = P \mathrm{diag} (5^{n} ,\  2^{n}) P^{-1}$.
+**Riemann sums (Figure 4.1).** Divide $[a ,\  b]$ into *n* strips of width $\Delta x = \frac{b - a}{n}$, build a rectangle of height $f (x_{i})$ on each, and add: $\sum f (x_{i}) \Delta x$. The definite integral is the limit of this sum as $n \to \infty$. For $f = x^{2}$ on [0, 2] the sums are 1.75 (left, $n = 4$), 3.75 (right, $n = 4$) and tend to **$\frac{8}{3}$**.
 
-*Markov chain.* Let sunny days follow sunny days with probability 0.9 and rainy days follow sunny days with probability 0.5 (the other columns 0.1 and 0.5), so the transition matrix is $M = \begin{bmatrix} 0.9 & 0.5 \\ 0.1 & 0.5 \end{bmatrix}$.
+**Fundamental Theorem of Calculus.** (1) If $F (x) = \int_{a}^{x} f (t) \,d t$ then $F' (x) = f (x)$. (2) If $G' = f$ then $\int_{a}^{b} f \,d x = G (b) - G (a)$. Example: $\int_{0}^{2} x^{2} \,d x = \left[ \frac{x^{3}}{3} \right]_{0}^{2} = \frac{8}{3}$ ✓.
 
-7. **Eigenvalues.** One is 1 (the chain conserves probability) and the other is 0.4.
-8. **Steady state.** The eigenvector for $\lambda = 1$ solves 0.9x + 0.5y = *x*, giving $y = x \div 5$, normalised to $\left( \frac{5}{6} ,\  \frac{1}{6} \right)$. In the long run about 83 percent of days are sunny, whatever today's weather is, because the $0.4^{n}$ part dies out.
+**Methods of integration.**
 
-| Idea | Rule |
-|---|---|
-| Eigenvalues | roots of $\det (A - \lambda I) = 0$ |
-| Trace and determinant | sum and product of eigenvalues |
-| Diagonalisation | A = PDP⁻¹, powers: $A^{n} = P D^{n} P^{-1}$ |
-| Steady state | eigenvector for $\lambda = 1$ of a stochastic matrix |
+| Method | When used | Example | Result |
+|---|---|---|---|
+| Substitution | a function and its derivative appear | $\int 2 x \cos (x^{2}) \,d x ,\  u = x^{2}$ | $\sin (x^{2}) + C$ |
+| By parts | product of different types | $\int x e^{x} \,d x ,\  u = x$ | $(x - 1) e^{x} + C$ |
+| Partial fractions | rational function with factorable denominator | $\frac{\int (3 x + 5)}{(x + 1) (x + 2)} \,d x$ | 2 ln\|x + 1\| + ln\|x + 2\| + C |
 
-*Conclusion.* Eigenvalues give the stretching factors, eigenvectors the directions, and together they make powers, long-run forecasts and principal axes easy to compute.
+For the last example write $\frac{3 x + 5}{(x + 1) (x + 2)} = \frac{A}{x + 1} + \frac{B}{x + 2}$. Then $3 x + 5 = A (x + 2) + B (x + 1)$; putting $x = - 1$ gives $A = 2$ and $x = - 2$ gives $B = 1$.
+
+**Applications (Figure 4.2).** Area between curves is $\int ( \mathrm{upper}$ − lower)dx, volume of revolution is $\pi \int y^{2} \,d x$, and average value is $\left( \frac{1}{b - a} \right) \int f \,d x$.
+
+**Improper integrals (Figure 4.3).** An integral with an infinite limit is defined by a limit: $\frac{\int_{1}^{\infty} d x}{x^{2}} = \lim_{b \to \infty} \left( 1 - \frac{1}{b} \right)$ = **1** (converges), but $\frac{\int_{1}^{\infty} d x}{x} = \lim \ln b = \infty$ (diverges). The p-test: $\frac{\int_{1}^{\infty} d x}{x^{p}}$ converges if and only if $p > 1$.
+
+**Conclusion.** Integration accumulates small pieces into a total. The Fundamental Theorem makes it practical by connecting it with antiderivatives, and the three methods cover most examination problems.

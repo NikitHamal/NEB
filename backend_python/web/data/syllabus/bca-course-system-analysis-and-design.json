@@ -36,7 +36,9 @@
     "The origins of software and system acquisition",
     "Managing the information systems project",
     "The life cycle as a picture, and agile practice in the field",
-    "Eight reasons why a systematic life cycle matters"
+    "Eight reasons why a systematic life cycle matters",
+    "Choosing a life-cycle model: waterfall, incremental, prototyping, spiral and RAD",
+    "Information systems and their types, in depth"
    ],
    "sections": [
     {
@@ -82,6 +84,14 @@
     {
      "no": "1.11",
      "title": "Eight reasons why a systematic life cycle matters"
+    },
+    {
+     "no": "1.12",
+     "title": "Choosing a life-cycle model: waterfall, incremental, prototyping, spiral and RAD"
+    },
+    {
+     "no": "1.13",
+     "title": "Information systems and their types, in depth"
     }
    ],
    "summary": [
@@ -91,9 +101,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3225,
+    "words": 4308,
     "figures": 0,
-    "examples": 1
+    "examples": 3
    },
    "has_notes": true
   },
@@ -109,7 +119,8 @@
     "Assessing project feasibility",
     "Building and reviewing the baseline project plan",
     "Seeing the payback, and planning the schedule",
-    "Eight reasons to do a feasibility study first"
+    "Eight reasons to do a feasibility study first",
+    "Initiating and planning in practice: charter, scope, workbook and baseline plan"
    ],
    "sections": [
     {
@@ -139,6 +150,10 @@
     {
      "no": "2.7",
      "title": "Eight reasons to do a feasibility study first"
+    },
+    {
+     "no": "2.8",
+     "title": "Initiating and planning in practice: charter, scope, workbook and baseline plan"
     }
    ],
    "summary": [
@@ -149,9 +164,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2538,
+    "words": 3116,
     "figures": 0,
-    "examples": 2
+    "examples": 3
    },
    "has_notes": true
   },
@@ -165,7 +180,9 @@
     "Process modelling: data flow diagrams",
     "System data requirements: conceptual data modelling",
     "Three models drawn out: context, level-0 and entity-relationship",
-    "Eight benefits of modelling before building"
+    "Eight benefits of modelling before building",
+    "Requirements determination in practice",
+    "Decision tables, supertypes, business rules and packaged models"
    ],
    "sections": [
     {
@@ -187,6 +204,14 @@
     {
      "no": "3.5",
      "title": "Eight benefits of modelling before building"
+    },
+    {
+     "no": "3.6",
+     "title": "Requirements determination in practice"
+    },
+    {
+     "no": "3.7",
+     "title": "Decision tables, supertypes, business rules and packaged models"
     }
    ],
    "summary": [
@@ -196,9 +221,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3256,
+    "words": 4603,
     "figures": 0,
-    "examples": 3
+    "examples": 6
    },
    "has_notes": true
   },
@@ -213,7 +238,10 @@
     "Designing forms and reports",
     "Designing interfaces and dialogues",
     "Normalisation and screen design, drawn out",
-    "Eight rules for good forms, reports and interfaces"
+    "Eight rules for good forms, reports and interfaces",
+    "Transforming ER diagrams into relations, and merging relations",
+    "Physical design: fields, tables, indexes and usability",
+    "Interaction methods, devices and dialogue design"
    ],
    "sections": [
     {
@@ -239,6 +267,18 @@
     {
      "no": "4.6",
      "title": "Eight rules for good forms, reports and interfaces"
+    },
+    {
+     "no": "4.7",
+     "title": "Transforming ER diagrams into relations, and merging relations"
+    },
+    {
+     "no": "4.8",
+     "title": "Physical design: fields, tables, indexes and usability"
+    },
+    {
+     "no": "4.9",
+     "title": "Interaction methods, devices and dialogue design"
     }
    ],
    "summary": [
@@ -249,9 +289,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3264,
+    "words": 5064,
     "figures": 0,
-    "examples": 2
+    "examples": 7
    },
    "has_notes": true
   },
@@ -264,7 +304,10 @@
     "System implementation",
     "System maintenance",
     "Testing levels, installation strategies and maintenance types, in pictures",
-    "Eight reasons why testing and maintenance planning pay off"
+    "Eight reasons why testing and maintenance planning pay off",
+    "Documenting the system, training and supporting users",
+    "Organisational issues in systems implementation",
+    "A worked test plan and maintenance decisions"
    ],
    "sections": [
     {
@@ -282,6 +325,18 @@
     {
      "no": "5.4",
      "title": "Eight reasons why testing and maintenance planning pay off"
+    },
+    {
+     "no": "5.5",
+     "title": "Documenting the system, training and supporting users"
+    },
+    {
+     "no": "5.6",
+     "title": "Organisational issues in systems implementation"
+    },
+    {
+     "no": "5.7",
+     "title": "A worked test plan and maintenance decisions"
     }
    ],
    "summary": [
@@ -291,14 +346,14 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2499,
+    "words": 3803,
     "figures": 0,
-    "examples": 1
+    "examples": 3
    },
    "has_notes": true
   }
  ],
  "unit_count": 5,
- "topic_count": 33,
+ "topic_count": 44,
  "notes_ready": 5
 }

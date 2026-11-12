@@ -183,7 +183,7 @@ f.text(34, 150, "needed", size=11, color=NAVY, bold=True)
 f.box(420, 190, 150, 44, "Waterfall", fill=BLUE, color=NAVY, size=12, bold=True)
 f.box(300, 150, 150, 44, "Incremental", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
 f.box(90, 40, 150, 44, "Agile", fill="#fde68a", stroke=AMBER, color=NAVY, size=12, bold=True)
-f.box(230, 40, 150, 44, "RAD", fill="#fbcfe8", color=NAVY, size=12, bold=True)
+f.box(250, 40, 150, 44, "RAD", fill="#fbcfe8", color=NAVY, size=12, bold=True)
 f.box(90, 150, 150, 44, "Prototyping", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=12, bold=True)
 f.box(90, 98, 150, 44, "Spiral (high risk)", fill=BLUE, color=NAVY, size=12, bold=True)
 ```

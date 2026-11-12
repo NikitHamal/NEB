@@ -2,269 +2,285 @@
 subject: Mathematics II
 grade: BCA Semester 2
 unit: 1
-title: Matrices and Determinants
+title: Limits and Continuity
 area: BCA 154 · Mathematics II · Unit 1
 ---
 
-Matrices store tables of numbers and describe linear change: a rotation of an image, a system of equations, a network's connections, a neural-network layer. This unit builds the algebra of matrices, determinants and inverses, the foundation of the whole subject.
+A **limit** describes what a function approaches near a point, even if it never reaches it. Limits are the foundation of both the derivative (a limit of slopes) and the integral (a limit of sums), and continuity is the property that makes functions well-behaved enough for calculus.
 
 ::: key What this unit gives you
-- Matrix types and operations (sum, product, transpose) with their laws.
-- Determinants: expansion, properties, shortcuts.
-- Inverse by adjoint and by row operations; properties of the inverse.
+- The meaning of $\lim f (x)$ as $x \to a$, one-sided limits, and limits at infinity.
+- The limit laws and every standard technique: factoring, rationalising, standard limits, squeeze.
+- Continuity, the three types of discontinuity, and the Intermediate Value Theorem.
 :::
 
-## 1.1 Matrices and operations
+## 1.1 The idea of a limit
 
-An **$m \times n$ matrix** has *m* rows and *n* columns; $a_{ij}$ is the entry in row *i*, column *j*.
+We write **$\lim_{x \to a} f (x) = L$** if $f (x)$ can be made as close to L as we like by taking *x* close enough to a (but $x \neq a$). The value $f (a)$ itself is irrelevant to the limit.
 
-| Type | Description |
+Take $f (x) = \frac{x^{2} - 1}{x - 1}$. It is undefined at 1, but for $x \neq 1$ it equals $x + 1$. As $x \to 1$ the values approach 2, so the limit is 2: $f (0.9) = 1.9 ,\  f (0.99) = 1.99 ,\  f (1.01) = 2.01$.
+
+**One-sided limits.** $\lim_{x \to a^{+}}$ approaches from the right, $\lim_{x \to a^{-}}$ from the left. **The limit exists iff both one-sided limits exist and are equal.**
+
+::: example Worked example: a limit that does not exist
+$f (x) = \frac{|x|}{x}$. For $x > 0 ,\  f = 1$; for $x < 0 ,\  f = - 1$. The right limit at 0 is 1, the left limit is −1, so **$\lim_{x \to 0} \frac{|x|}{x}$ does not exist**.
+:::
+
+**Limit laws.** If the limits of *f* and *g* exist: the limit of a sum, difference, product and constant multiple is the sum, difference, product and multiple of the limits; the limit of a quotient is the quotient of limits if the denominator's limit ≠ $0 ;\  \lim [f (x)]^{n} = [\lim f (x)]^{n}$. For polynomials and most standard functions, **direct substitution** works: $\lim_{x \to a} P (x) = P (a)$.
+
+```svgfig label="1.1" caption="Three things a limit can do as $x \to a$. (a) The limit exists even though $f (a)$ is undefined: a removable hole. (b) The left and right limits differ, so the limit does not exist: a jump. (c) The values grow without bound: an infinite limit with a vertical asymptote."
+f = Fig(780, 250)
+specs = [("(a) f(x) = (x² − 1)/(x − 1), x → 1", lambda x: x + 1, (-1, 3), (-1, 4.5)), ("(b) f(x) = |x| / x, x → 0", lambda x: x / abs(x), (-3, 3), (-2, 2)), ("(c) f(x) = 1/x², x → 0", lambda x: 1 / (x * x), (-3, 3), (-1, 8))]
+for i, (t, fn, xr, yr) in enumerate(specs):
+    cx = 8 + i * 258
+    f.box(cx, 6, 246, 238, "", fill=SOFT, stroke="#cbd5e1")
+    f.text(cx + 123, 24, t, size=10.5, color=NAVY, bold=True)
+    a = Axes(f, cx + 16, 36, 214, 160, xr, yr); a.axes("", "")
+    a.curve(fn, color=NAVY, sw=2.4)
+    if i == 0:
+        a.pt(1, 2, "", hollow=True, color=RED); a.hline(2, -1, 1, color=AMBER); a.vline(1, -1, 2, color=AMBER)
+        f.text(cx + 123, 214, "limit = 2, but f(1) is undefined", size=10, color=TEAL, bold=True)
+    if i == 1:
+        a.pt(0, 1, "", hollow=True, color=RED); a.pt(0, -1, "", hollow=True, color=RED)
+        f.text(cx + 123, 214, "left limit −1 ≠ right limit 1", size=10, color=TEAL, bold=True)
+    if i == 2:
+        a.vline(0, color=RED, dash=False)
+        f.text(cx + 123, 214, "f(x) → ∞ from both sides", size=10, color=TEAL, bold=True)
+    f.text(cx + 123, 232, ["removable hole", "jump: limit DNE", "infinite limit"][i], size=9.5, color=SLATE)
+```
+
+```photogrid label="1.1" cols="3" ratio="1.0" caption="The precise definition of a limit. (a) Augustin-Louis Cauchy (1789-1857) first demanded that calculus be built on limits. (b) Karl Weierstrass (1815-1897) wrote the $\epsilon - \delta$ definition in the form used today. (c) $\lim f (x) = L$ means: for any band of half-width *ε* around L we can find a window of half-width *δ* around a that keeps *f* inside the band."
+@ photo id="bca104/cauchy" cap="A.-L. Cauchy, French mathematician"
+fit 1.0
+focus 0.5 0.72
+@ photo id="bca104/weier" cap="K. Weierstrass, German mathematician"
+fit 1.0
+focus 0.5 0.75
+@ svg cap="ε-δ for f(x) = x² near a = 1 (ε = 0.5)"
+f = Fig(250, 250)
+a = Axes(f, 30, 14, 200, 205, (0, 2), (0, 2.4)); a.grid(1, 1).axes()
+f.raw(f'<rect x="{a.X(0)}" y="{a.Y(1.5)}" width="{a.w}" height="{round(a.Y(0.5) - a.Y(1.5), 2)}" fill="#fde68a" fill-opacity="0.55"/>')
+f.raw(f'<rect x="{a.X(0.7071)}" y="{a.Y(1.4)}" width="{round(a.X(1.2247) - a.X(0.7071), 2)}" height="{a.h}" fill="#99f6e4" fill-opacity="0.5"/>')
+a.curve(lambda x: x * x, color=NAVY, sw=2.4)
+a.pt(1, 1, "", r=3.5)
+f.text(a.X(1.55), a.Y(1.5) - 4, "L + ε", size=10, color=AMBER, bold=True); f.text(a.X(1.55), a.Y(0.5) + 12, "L − ε", size=10, color=AMBER, bold=True)
+f.text(a.X(0.98), a.Y(0) + 26, "a − δ  …  a + δ", size=10, color=TEAL, bold=True)
+f.text(125, 244, "L = 1 at a = 1", size=10, color=SLATE)
+```
+
+## 1.2 Techniques for finding limits
+
+When substitution gives **$\frac{0}{0}$** (an indeterminate form), rewrite the expression.
+
+**(1) Factor and cancel.**
+
+::: example Worked example
+$\lim_{x \to 3} \frac{x^{2} - 9}{x - 3} = \lim (x + 3)$ = **6**.
+
+$\lim_{x \to 2} \frac{x^{3} - 8}{x^{2} - 4} = \lim \frac{(x - 2) (x^{2} + 2 x + 4)}{(x - 2) (x + 2)} = \frac{4 + 4 + 4}{4}$ = **3**.
+:::
+
+**(2) Rationalise** (multiply by the conjugate).
+
+::: example Worked example
+$\lim_{x \to 0} \frac{\sqrt{x + 4} - 2}{x}$. Multiply top and bottom by $\left( \sqrt{x + 4} + 2 \right)$: numerator becomes $(x + 4) - 4 = x$, so the expression is $\frac{x}{x \left( \sqrt{x + 4} + 2 \right)} = \frac{1}{\sqrt{x + 4} + 2} \to \frac{1}{4}$. Answer **$\frac{1}{4}$**.
+:::
+
+**(3) Standard limits** (*x* in radians):
+
+| Limit | Value |
 |---|---|
-| Square | $m = n$ |
-| Diagonal | non-zero entries only on the main diagonal |
-| Identity $I_{n}$ | diagonal of 1s; AI = $I A = A$ |
-| Zero | all entries 0 |
-| Symmetric | $A^{T} = A$; skew-symmetric: $A^{T} = - A$ |
-| Upper/lower triangular | zeros below/above the diagonal |
-| Orthogonal | $A^{T} A = I$ |
+| $\lim_{x \to 0} \frac{\sin x}{x}$ | 1 |
+| $\lim_{x \to 0} \frac{1 - \cos x}{x^{2}}$ | $\frac{1}{2}$ |
+| $\lim_{x \to 0} \frac{\tan x}{x}$ | 1 |
+| $\lim_{x \to 0} \frac{e^{x} - 1}{x}$ | 1 |
+| $\lim_{x \to 0} \frac{\ln (1 + x)}{x}$ | 1 |
+| $\lim_{x \to 0} \frac{a^{x} - 1}{x}$ | $\ln a$ |
+| $\lim_{x \to 0} (1 + x)^{\frac{1}{x}} = \lim_{x \to \infty} \left( 1 + \frac{1}{x} \right)^{x}$ | *e* |
+| $\lim_{x \to a} \frac{(x^{n} - a^{n})}{x - a}$ | $n a^{n-1}$ |
 
-**Sum and scalar multiple** are entry by entry (same size). The **transpose** $A^{T}$ swaps rows and columns; $(A B)^{T} = B^{T} A^{T}$.
+::: example Worked example: using the standard limits
+**(a)** $\lim_{x \to 0} \frac{\sin 5 x}{3 x} = \left( \frac{5}{3} \right) \cdot \lim \frac{\sin 5 x}{5 x}$ = **$\frac{5}{3}$**.
 
-**Product.** If A is $m \times n$ and B is $n \times p$, AB is $m \times p$ with $(A B)_{ij} = \sum_{k} a_{ik} b_{kj}$ (row of A times column of B). The inner sizes must agree.
+**(b)** $\lim_{x \to 0} \frac{e^{3 x} - 1}{x} = 3 \cdot \lim \frac{e^{3 x} - 1}{3 x}$ = **3**.
 
-::: example Worked example
-$A = \begin{bmatrix} 2 & 1 \\ 4 & 3 \end{bmatrix} ,\  B = \begin{bmatrix} 1 & 0 \\ 2 & 5 \end{bmatrix}$.
+**(c)** $\lim_{x \to \infty} \left( 1 + \frac{2}{x} \right)^{x}$: put $t = \frac{x}{2}$, then $\left( 1 + \frac{1}{t} \right)^{2 t} \to e^{2}$. Answer **$e^{2}$**.
 
-$A B = \begin{bmatrix} 2 \cdot 1 + 1 \cdot 2 & 2 \cdot 0 + 1 \cdot 5 \\ 4 \cdot 1 + 3 \cdot 2 & 4 \cdot 0 + 3 \cdot 5 \end{bmatrix}$ = **$\begin{bmatrix} 4 & 5 \\ 10 & 15 \end{bmatrix}$**.
+**(d)** $\lim_{x \to 0} \frac{1 - \cos x}{x^{2}} = \lim \frac{2 \sin^{2} \left( \frac{x}{2} \right)}{x^{2}} = 2 \cdot \left( \frac{1}{2} \right)^{2} \cdot \lim \left( \frac{\sin \left( \frac{x}{2} \right)}{\frac{x}{2}} \right)^{2}$ = **$\frac{1}{2}$**.
 
-$B A = \begin{bmatrix} 1 \cdot 2 + 0 \cdot 4 & 1 \cdot 1 + 0 \cdot 3 \\ 2 \cdot 2 + 5 \cdot 4 & 2 \cdot 1 + 5 \cdot 3 \end{bmatrix}$ = **$\begin{bmatrix} 2 & 1 \\ 24 & 17 \end{bmatrix}$**.
-
-So **$A B \neq B A$**: matrix multiplication is not commutative. It *is* associative, (AB)C = $A (B C)$, and distributive, $A (B + C) = A B + A C$.
+**(e)** $\lim_{x \to 0} \frac{\tan 2 x - \sin 2 x}{x^{3}}$: $\tan 2 x - \sin 2 x = \tan 2 x (1 - \cos 2 x)$, so the quotient is $\left[ \frac{\tan 2 x}{x} \right] \cdot \left[ \frac{1 - \cos 2 x}{x^{2}} \right] \to 2 \cdot \left( 4 \cdot \frac{1}{2} \right)$ = **4**.
 :::
 
-Warning signs: $A B = 0$ does not imply $A = 0$ or $B = 0 ;\  (A + B)^{2} = A^{2} + A B + B A + B^{2}$ (not 2AB). **Powers:** $A^{n}$ for square A; for a diagonal matrix, raise each diagonal entry. Cost: the product of two $n \times n$ matrices takes about $n^{3}$ multiplications, which is why algorithms (Strassen) and GPUs matter.
+**(4) Squeeze theorem.** If $g (x) \leq f (x) \leq h (x)$ near a and *g* and *h* both → L, then $f \to L$. Example: |x $\sin \left( \frac{1}{x} \right) \mid \leq |x| \to 0$, so $\lim_{x \to 0} x \sin \left( \frac{1}{x} \right) = 0$.
 
-## 1.2 Determinants
-
-The **determinant** $\det A$ (or $|A|$) is a number defined for square matrices.
-
-- $2 \times 2$: $\det \begin{bmatrix} a & b \\ c & d \end{bmatrix}$ = **$a d - b c$**.
-- $3 \times 3$: **cofactor expansion** along a row or column: $\det A = \sum_{j} a_{ij} C_{ij}$, where $C_{ij} = (- 1)^{i+j} M_{ij}$ and the **minor** $M_{ij}$ is the determinant after deleting row *i* and column *j*. Sign pattern: [+ − +; − + −; + − +].
-
-::: example Worked example
-$\det \begin{bmatrix} 2 & 0 & 1 \\ 1 & 3 & 2 \\ 1 & 1 & 1 \end{bmatrix}$ expanded along row 1 = 2·(3·1 − 2·1) − $0 \cdot (\ldots)$ + 1·(1·1 − 3·1) = $2 (1) + (- 2)$ = **0**. A zero determinant means the matrix is **singular** (no inverse).
-
-$\det \begin{bmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 5 & 6 & 0 \end{bmatrix} = 1 (0 - 24) - 2 (0 - 20) + 3 (0 - 5) = - 24 + 40 - 15$ = **1**.
-:::
-
-**Properties** (the shortcuts that make hand computation practical):
-
-1. $\det A^{T} = \det A ;\  \det (A B) = \det A \cdot \det B ;\  \det (k A) = k^{n} \det A$ for $n \times n$.
-2. Swapping two rows changes the sign. A row of zeros, or two equal (or proportional) rows, gives $\det = 0$.
-3. Multiplying one row by *k* multiplies the determinant by *k*.
-4. Adding a multiple of one row to another changes nothing (use this to create zeros).
-5. For triangular matrices, det = product of the diagonal.
-
-::: example Worked example: row reduction for a determinant
-$\det \begin{bmatrix} 2 & 4 & 6 \\ 1 & 3 & 5 \\ 1 & 1 & 2 \end{bmatrix}$: $R_{1} \to R_{1} - 2 R_{2}$ gives $[0 ,\  - 2 ,\  - 4] ;\  R_{3} \to R_{3} - R_{2}$ gives [0, −2, −3]. Now expand along column 1: its only non-zero entry is the 1 in position (2, 1), whose sign is −, so $\det = - 1 \cdot \det \begin{bmatrix} - 2 & - 4 \\ - 2 & - 3 \end{bmatrix} = - 1 \cdot (6 - 8)$ = **2**. (Direct expansion gives the same: $2 (1) - 4 (- 3) + 6 (- 2)$ = 2.)
-:::
-
-**Geometry:** |det A| is the factor by which the transformation *x* ↦ Ax scales areas $(2 \times 2)$ or volumes $(3 \times 3)$; a negative sign means orientation is flipped; $\det = 0$ means the transformation collapses space to a lower dimension. The area of the triangle with vertices $(x_{1} ,\  y_{1}) ,\  (x_{2} ,\  y_{2}) ,\  (x_{3} ,\  y_{3})$ is $\frac{1}{2}$ |det $\begin{bmatrix} x_{1} & y_{1} & 1 \\ x_{2} & y_{2} & 1 \\ x_{3} & y_{3} & 1 \end{bmatrix} \mid$; three points are collinear iff that determinant is 0.
-
-## 1.3 Inverse of a matrix
-
-A square A is **invertible** if there is $A^{-1}$ with $A A^{-1} = A^{-1} A = I$. This happens iff $\det A \neq 0$. Properties: $(A^{-1})^{-1} = A ;\  (A B)^{-1} = B^{-1} A^{-1} ;\  (A^{T})^{-1} = (A^{-1})^{T} ;\  \det A^{-1} = \frac{1}{\det A}$.
-
-**By the adjoint:** $A^{-1} = \frac{\mathrm{adj} (A)}{\det A}$, where adj(A) is the transpose of the cofactor matrix. For $2 \times 2$: $\begin{bmatrix} a & b \\ c & d \end{bmatrix}$⁻¹ = (1/(ad − bc)) $\begin{bmatrix} d & - b \\ - c & a \end{bmatrix}$.
-
-**By row operations (Gauss–Jordan):** write [A | I] and row-reduce until the left side is I; the right side is then $A^{-1}$. This is how computers do it, in about $n^{3}$ operations, and it also tells you if A is singular.
-
-::: example Worked example
-$A = \begin{bmatrix} 2 & 1 \\ 4 & 3 \end{bmatrix}$: $\det = 2$, so $A^{-1} = \frac{1}{2} \begin{bmatrix} 3 & - 1 \\ - 4 & 2 \end{bmatrix}$ = **$\begin{bmatrix} 1.5 & - 0.5 \\ - 2 & 1 \end{bmatrix}$**. Check: row 1 of A times column 1 of $A^{-1}$: $2 (1.5) + 1 (- 2) = 1$ ✓.
-
-$N = \begin{bmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 5 & 6 & 0 \end{bmatrix} ,\  \det N = 1$. Cofactors give **$N^{-1} = \begin{bmatrix} - 24 & 18 & 5 \\ 20 & - 15 & - 4 \\ - 5 & 4 & 1 \end{bmatrix}$**; check the first entry of $N N^{-1}$: $1 (- 24) + 2 (20) + 3 (- 5) = 1$ ✓.
-:::
-
-**Solving $A X = B$** by $X = A^{-1} B$ is elegant but in practice Gaussian elimination (Unit 2) is faster and more stable. **Elementary matrices** perform one row operation each; any invertible matrix is a product of them.
-
-## 1.4 The determinant as an area
-
-A $2 \times 2$ determinant has a picture. Take the matrix A with columns (3, 1) and (1, 2). It sends the unit square to a parallelogram whose sides are those two columns (Figure 1.1). The area of that parallelogram is |det A| = |3·2 − 1·1| = **5**, so A stretches every area by a factor of 5. The sign tells whether the picture is flipped. If the columns point along the same line, as in (2, 1) and (4, 2), the parallelogram collapses to a line segment, the area is $0 ,\  \det = 0$, and the matrix has **no inverse**: a squashed picture cannot be un-squashed.
-
-```svgfig label="1.1" caption="Determinant as area. Left: the matrix with columns (3,1) and (1,2) turns the unit square (light) into a parallelogram of area $\det = 5$. Right: columns (2,1) and (4,2) lie on one line, the parallelogram collapses, $\det = 0$ and the matrix is singular."
-f = Fig(580, 230)
-ox, oy, u = 50, 200, 40
-def P(x, y): return (ox + u * x, oy - u * y)
-f.line(ox, oy, ox + 190, oy, color=SLATE); f.line(ox, oy, ox, oy - 170, color=SLATE)
-f.poly([P(0, 0), P(1, 0), P(1, 1), P(0, 1)], fill="#e2e8f0", stroke=SLATE)
-f.poly([P(0, 0), P(3, 1), P(4, 3), P(1, 2)], fill=BLUE, stroke=NAVY, label="area 5", lx=ox + 100, ly=oy - 80, color=NAVY)
-f.arrow([P(0, 0), P(3, 1)], color=RED); f.arrow([P(0, 0), P(1, 2)], color=TEAL)
-f.text(ox + 122, oy - 22, "(3,1)", size=10.5, color=RED, bold=True); f.text(ox + 14, oy - 92, "(1,2)", size=10.5, color=TEAL, bold=True)
-f.text(ox + 95, oy + 18, "det = 3·2 − 1·1 = 5", size=11, color=NAVY, bold=True)
-ox2 = 340
-f.line(ox2, oy, ox2 + 220, oy, color=SLATE); f.line(ox2, oy, ox2, oy - 170, color=SLATE)
-f.arrow([(ox2, oy), (ox2 + 80, oy - 40)], color=RED); f.arrow([(ox2, oy), (ox2 + 160, oy - 80)], color=TEAL)
-f.text(ox2 + 60, oy - 60, "(2,1)", size=10.5, color=RED, bold=True); f.text(ox2 + 150, oy - 100, "(4,2)", size=10.5, color=TEAL, bold=True)
-f.text(ox2 + 110, oy + 18, "det = 2·2 − 4·1 = 0: area 0", size=11, color=NAVY, bold=True)
-f.text(ox2 + 110, 40, "both columns on one line: singular", size=10.5, color=SLATE, italic=True)
+```svgfig label="1.2" caption="The squeeze theorem at work. Near 0 the curve $\frac{\sin x}{x}$ (navy) is trapped between $\cos x$ (teal) below and the line $y = 1$ (amber) above. Both bounds tend to 1, so $\frac{\sin x}{x} \to 1$. The hole at $x = 0$ is hollow because the function is not defined there."
+import math
+f = Fig(560, 260)
+a = Axes(f, 40, 14, 490, 210, (-3.4, 3.4), (-0.5, 1.3)); a.grid(1, 0.5).axes()
+a.curve(lambda x: 1, color=AMBER, sw=2); a.curve(math.cos, color=TEAL, sw=2)
+a.curve(lambda x: math.sin(x) / x, color=NAVY, sw=2.6)
+a.pt(0, 1, "", hollow=True, color=RED)
+f.text(a.X(1.0), a.Y(1) - 7, "y = 1", size=11, color=AMBER, bold=True, anchor="start")
+f.text(a.X(1.5), a.Y(0.07) + 18, "y = cos x", size=11, color=TEAL, bold=True, anchor="start")
+f.text(a.X(0.45), a.Y(0.84) + 4, "sin x / x", size=11, color=NAVY, bold=True, anchor="start")
 ```
 
-## 1.5 Eight uses of matrices in computing
+## 1.3 Limits at infinity and infinite limits
 
-1. **Computer graphics.** Every rotation, scaling and translation of an image or game object is a matrix multiplied by a coordinate vector. A phone screen applies thousands of such products every frame. Understanding $2 \times 2$ and $3 \times 3$ matrices is the first step to 3D graphics.
-2. **Digital images.** A grey-scale photograph is a matrix of brightness numbers. Blurring, sharpening and edge detection are matrix operations on those numbers. Compression methods such as JPEG use matrix transforms to discard detail the eye cannot see.
-3. **Search ranking.** Google's PageRank treats the web as a huge matrix of links and finds its dominant eigenvector (Unit 4). The same idea ranks pages, researchers and social-media accounts. It is a matrix problem with billions of rows.
-4. **Machine learning.** Every layer of a neural network multiplies a weight matrix by an input vector. Training adjusts the matrix entries to reduce error. Fast matrix multiplication on graphics cards is why modern AI is possible.
-5. **Networks and routing.** An adjacency matrix records which towns, routers or villages are connected. Powers of this matrix count the number of routes of a given length. Planners use it for road, fibre and power-grid design.
-6. **Economics and planning.** Input-output tables show how the output of each industry feeds the others. Solving a linear system with the inverse matrix tells a planner how much each sector must produce to meet demand. The Nepal Rastra Bank and planning bodies use such tables.
-7. **Cryptography.** The Hill cipher encrypts blocks of letters by multiplying with a key matrix; decryption needs the inverse matrix modulo 26. It teaches why a determinant of zero makes a key useless.
-8. **Statistics and data tables.** A census table (districts by age group) is a matrix. Totals, averages and correlations come from matrix products. Spreadsheets and databases are everyday matrix tools.
+For rational functions divide numerator and denominator by the highest power of *x* in the denominator.
 
-```photogrid label="1.1" cols="2" ratio="1.2" caption="Order matters. (a) Arthur Cayley, who in 1858 published the first paper on the algebra of matrices, including the rule for multiplying them. (b) Take $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$ and the swap matrix $B = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$. Then $A B = \begin{bmatrix} 2 & 1 \\ 4 & 3 \end{bmatrix}$ (the columns of A are swapped) but $B A = \begin{bmatrix} 3 & 4 \\ 1 & 2 \end{bmatrix}$ (the rows of A are swapped), so AB is not BA. The determinant of A is 1 $x 4 - 2 x 3 = - 2$, which is not zero, so A has the inverse $A^{- 1} = (1 / - 2) \begin{bmatrix} 4 & - 2 \\ - 3 & 1 \end{bmatrix} = \begin{bmatrix} - 2 & 1 \\ \frac{3}{2} & - \frac{1}{2} \end{bmatrix}$, and the figure checks that A times $A^{- 1}$ is the identity. Also $\det (A B) = \det (A) \det (B) = (- 2) (- 1) = 2$. All entries are computed with exact fractions."
-@ photo id="bcamath/cayley" cap="Arthur Cayley (matrix algebra, 1858)"
-fit 1.2
-focus 0.5 0.35
-@ svg cap="AB and BA differ; A times its inverse is I"
-from fractions import Fraction as Fr
-def mul(X, Y): return [[sum(X[i][k] * Y[k][j] for k in range(2)) for j in range(2)] for i in range(2)]
-def det(X): return X[0][0] * X[1][1] - X[0][1] * X[1][0]
-A = [[Fr(1), Fr(2)], [Fr(3), Fr(4)]]; B = [[Fr(0), Fr(1)], [Fr(1), Fr(0)]]
-d = det(A); Ai = [[A[1][1] / d, -A[0][1] / d], [-A[1][0] / d, A[0][0] / d]]
-AB = mul(A, B); BA = mul(B, A)
-assert AB == [[2, 1], [4, 3]] and BA == [[3, 4], [1, 2]] and AB != BA
-assert d == -2 and Ai == [[-2, 1], [Fr(3, 2), Fr(-1, 2)]] and mul(A, Ai) == [[1, 0], [0, 1]]
-assert det(AB) == det(A) * det(B) == 2
-def fmt(v): return str(v)
-f = Fig(300, 240)
-def mat(x, y, M, fl=BLUE, st=NAVY):
-    for i in range(2):
-        for j in range(2):
-            f.box(x + j * 29, y + i * 22, 28, 20, fmt(M[i][j]), fill=fl, stroke=st, size=10.5, r=2, bold=True)
-def op(x, y, s): f.text(x, y, s, size=13, color=SLATE, bold=True, vmid=True)
-rows = [(10, A, B, AB, "=", "cols swapped", MINT, TEAL), (66, B, A, BA, "=", "rows swapped", ROSE, RED), (122, A, Ai, [[1, 0], [0, 1]], "=", "A A^-1 = I", SAND, AMBER)]
-for y, X, Y, Z, e, note, fl, st in rows:
-    mat(6, y, X); op(68, y + 21, "x"); mat(76, y, Y); op(138, y + 21, e); mat(146, y, Z, fl, st)
-    f.text(208, y + 21, note, size=10.5, color=st, bold=True, anchor="start", vmid=True)
-f.text(150, 188, "det A = -2, det B = -1, det AB = 2 = (-2)(-1)", size=10.5, color=NAVY, bold=True)
-f.text(150, 208, "AB is not BA: the order of rotations matters", size=10.5, color=SLATE)
-f.text(150, 226, "exact fractions, no rounding", size=10.5, color=SLATE)
+::: example Worked example
+$\lim_{x \to \infty} \frac{3 x^{2} + 2 x}{5 x^{2} - 1} = \lim \frac{3 + \frac{2}{x}}{5 - \frac{1}{x^{2}}}$ = **$\frac{3}{5}$**.
+
+$\lim_{x \to \infty} \frac{2 x + 1}{x^{2} + 3} = 0$ (degree of top < degree of bottom).
+
+$\lim_{x \to \infty} \frac{x^{3} + 1}{x^{2} + 1} = \infty$ (degree of top > bottom).
+:::
+
+For differences of square roots, rationalise:
+
+::: example Worked example
+$\lim_{x \to \infty} \left( \sqrt{x^{2} + x} - x \right) = \lim \frac{x}{\sqrt{x^{2} + x} + x} = \lim \frac{1}{\sqrt{1 + \frac{1}{x}} + 1}$ = **$\frac{1}{2}$**.
+:::
+
+The line $y = L$ is a **horizontal asymptote** if $f (x) \to L$ as $x \to \pm \infty ;\  x = a$ is a **vertical asymptote** if $f (x) \to \pm \infty$ as $x \to a$ from one side. For $f (x) = \frac{1}{x - 2}$: vertical asymptote $x = 2$, horizontal asymptote $y = 0$. The five other indeterminate forms are $\frac{\infty}{\infty} ,\  \infty - \infty ,\  0 \cdot \infty ,\  1^{\infty}$ and $0^{0}$ (Unit 3 handles them with L'Hôpital's rule).
+
+## 1.4 Continuity
+
+*f* is **continuous at a** if three things hold: (1) $f (a)$ is defined, $(2) \lim_{x \to a} f (x)$ exists, (3) the limit equals $f (a)$. Polynomials, $\sin ,\  \cos ,\  e^{x}$ are continuous everywhere; rational functions and tan, ln, √ are continuous on their domains. Sums, products, quotients (denominator ≠ 0) and compositions of continuous functions are continuous.
+
+**Types of discontinuity**
+
+| Type | Description | Example at $x = 0$ or 1 |
+|---|---|---|
+| Removable | limit exists but ≠ $f (a)$ or $f (a)$ undefined | $\frac{x^{2} - 1}{x - 1}$ at 1 |
+| Jump | left and right limits exist but differ | $\lfloor x \rfloor$ at integers; $\frac{|x|}{x}$ at 0 |
+| Infinite | function blows up | $\frac{1}{x}$ at 0 |
+
+::: example Worked example: choose k to make f continuous
+$f (x) = \frac{x^{2} - 1}{x - 1}$ for $x \neq 1$ and $f (1) = k$. The limit at 1 is 2, so *f* is continuous only if **$k = 2$**.
+:::
+
+::: example Worked example: piecewise continuity
+$f (x) = a x + 1$ for $x \leq 2 ;\  f (x) = x^{2} - a$ for $x > 2$. Left limit at $2 = 2 a + 1$; right limit = $4 - a$. Continuity needs $2 a + 1 = 4 - a$, so $3 a = 3$, **$a = 1$**.
+:::
+
+**Intermediate Value Theorem (IVT).** If *f* is continuous on $[a ,\  b]$ and N lies between $f (a)$ and $f (b)$, then $f (c) = N$ for some *c* in $(a ,\  b)$. It proves a root exists: $f (x) = x^{3} + x - 1$ has $f (0) = - 1 < 0$ and $f (1) = 1 > 0$, so there is a root in (0, 1). Halving the interval repeatedly (the **bisection method**, studied in Numerical Methods) finds it: $f (0.5) = - 0.375 < 0$, so the root is in $(0.5 ,\  1) ;\  f (0.75) = 0.172 > 0$, so it is in (0.5, 0.75).
+
+```svgfig label="1.3" caption="The Intermediate Value Theorem for $f (x) = x^{3} + x - 1$. Since $f (0) = - 1 < 0$ and $f (1) = 1 > 0$ and *f* is continuous, its graph must cross the x-axis between 0 and 1. The root is $c \approx 0.6823$ (found by bisection)."
+f = Fig(560, 270)
+a = Axes(f, 40, 14, 490, 220, (-1, 2), (-3, 3.2)); a.grid(0.5, 1).axes()
+a.curve(lambda x: x**3 + x - 1, color=NAVY, sw=2.6)
+a.pt(0, -1, "f(0) = −1", color=RED, dx=8, dy=16); a.pt(1, 1, "f(1) = 1", color=RED, dx=8, dy=-8)
+a.vline(0, -3, -1, color=SLATE); a.vline(1, 0, 1, color=SLATE)
+a.pt(0.6823, 0, "c ≈ 0.682", color=TEAL, dx=-8, dy=-12, anchor="end", r=5)
 ```
 
-```photogrid label="1.2" cols="2" ratio="1.2" caption="A picture is a matrix. (a) A small dot-matrix LED display: every character is a grid of lit and unlit dots, which is a matrix of 1s and 0s. (b) The letter A as a 7 *x* 5 matrix with 18 lit dots, and its transpose, a 5 *x* 7 matrix whose rows are the columns of the original. Turning a picture a quarter turn clockwise is the transpose followed by reversing each row; the program checks that the transpose of the transpose is the original, that the 18 lit dots are all still there, and that the rotation matrix $\begin{bmatrix} 0 & - 1 \\ 1 & 0 \end{bmatrix}$ has determinant +1 (a pure turn) while the mirror matrix $\begin{bmatrix} - 1 & 0 \\ 0 & 1 \end{bmatrix}$ has determinant -1 (a reflection). This is how phones rotate photographs."
-@ photo id="bcamath/dotmatrix" cap="A dot-matrix LED display"
-fit 1.2
-focus 0.55 0.5
-@ svg cap="Letter A as a matrix, its transpose and a turn"
-A = ["01110", "10001", "10001", "11111", "10001", "10001", "10001"]
-M = [[int(c) for c in r] for r in A]
-T = [list(r) for r in zip(*M)]
-R = [r[::-1] for r in T]
-assert len(M) == 7 and len(M[0]) == 5 and len(T) == 5 and len(T[0]) == 7
-assert [list(r) for r in zip(*T)] == M and sum(map(sum, M)) == sum(map(sum, T)) == sum(map(sum, R)) == 18
-det = lambda a, b, c, d: a * d - b * c
-assert det(0, -1, 1, 0) == 1 and det(-1, 0, 0, 1) == -1
-f = Fig(300, 240)
-def grid(x, y, G, s=12):
-    for i, row in enumerate(G):
-        for j, v in enumerate(row):
-            f.circle(x + j * s + s / 2, y + i * s + s / 2, 4.6, fill=(RED if v else SOFT), stroke=(RED if v else "#cbd5e1"), sw=1)
-grid(14, 30, M); grid(110, 30, T); grid(206, 30, R)
-f.text(44, 22, "A: 7 x 5", size=10.5, color=NAVY, bold=True)
-f.text(140, 22, "A^T: 5 x 7", size=10.5, color=NAVY, bold=True)
-f.text(236, 22, "turned", size=10.5, color=TEAL, bold=True)
-f.text(150, 140, "18 lit dots in each of the three pictures", size=10.5, color=SLATE)
-f.box(5, 160, 140, 34, "turn [[0, -1], [1, 0]]\ndet = +1", fill=MINT, stroke=TEAL, size=10.5, bold=True)
-f.box(155, 160, 140, 34, "mirror [[-1, 0], [0, 1]]\ndet = -1", fill=ROSE, stroke=RED, size=10.5, bold=True)
-f.text(150, 216, "transpose of transpose = original (checked)", size=10.5, color=SLATE)
-```
+## 1.5 Eight uses of limits in computing and daily life
+
+1. **Instantaneous speed.** A speedometer shows the speed at one instant, which is the limit of (distance travelled) / (time taken) as the time interval shrinks to zero. Without limits that phrase would mean $\frac{0}{0}$. A bus driver on the Prithvi Highway reads this limit from the dial every second.
+2. **Accuracy of numerical software.** Calculators compute $\sin x ,\  e^{x}$ and $\sqrt{x}$ by repeating a step until the answer stops changing, which is a limit of a sequence. The limit $\lim_{x \to 0} \frac{\sin x}{x} = 1$ is the reason small angles can use $\sin x \approx x$. Every scientific calculator relies on this idea.
+3. **Compound interest and the number *e*.** If a bank adds interest *n* times a year, the amount for Rs 1 at 100% is $\left( 1 + \frac{1}{n} \right)^{n}$. As $n \to \infty$ this tends to $e \approx 2.71828$. This limit explains continuous compounding and is used in finance formulas.
+4. **Running time of algorithms.** To compare $3 n^{2} + 2 n$ with $n^{2}$ we look at the limit of their ratio as $n \to \infty$, which is 3. A finite non-zero limit tells us both grow at the same rate, so both are $O (n^{2})$. Big-O notation is a limit idea.
+5. **Convergence of iterative methods.** Newton's method, gradient descent in machine learning and PageRank all repeat a step and hope that the values settle to a limit. If the limit exists the method has converged. Engineers decide when to stop by checking how close successive values are.
+6. **Continuity in digital design.** A real signal such as a voice on a phone call is continuous, and sampling it (Digital Logic, Unit 1) relies on the signal having no sudden jumps between samples. Where a function jumps, a limit does not exist and sampling fails. Continuity is the mathematical guarantee that small changes in input give small changes in output.
+7. **Asymptotes and long-term behaviour.** The limit at infinity tells where a quantity settles. A cooling cup of tea approaches room temperature, and the speed of a falling parachutist approaches a terminal speed. In Nepal, the population of a town in a model may level off at the carrying capacity of its land.
+8. **Foundation of derivative and integral.** Both the derivative and the definite integral are defined as limits, so every rate-of-change and area calculation in the rest of this book rests on this unit. Even the formula for the area of a circle is the limit of polygon areas. Learning limits well makes Units 2 to 6 much easier.
 
 ## Formula and fact sheet
 
-- $(A B)_{ij} = \sum a_{ik} b_{kj} ;\  A B \neq B A ;\  (A B)^{T} = B^{T} A^{T} ;\  (A B)^{-1} = B^{-1} A^{-1}$.
-- $\det \begin{bmatrix} a & b \\ c & d \end{bmatrix} = a d - b c$. $\det (A B) = \det A \det B ;\  \det A^{T} = \det A ;\  \det (k A) = k^{n} \det A$.
-- Row swap flips the sign; adding a row multiple changes nothing; equal rows give 0.
-- $A^{-1} = \frac{\mathrm{adj} (A)}{\det A}$; exists iff $\det A \neq 0$. $2 \times 2$ inverse formula above.
-- Triangle area = $\frac{1}{2}$ |det $\begin{bmatrix} x_{1} & y_{1} & 1 \\ x_{2} & y_{2} & 1 \\ x_{3} & y_{3} & 1 \end{bmatrix} \mid$.
+- $\lim \frac{\sin x}{x} = 1 ,\  \lim \frac{1 - \cos x}{x^{2}} = \frac{1}{2} ,\  \lim \frac{e^{x} - 1}{x} = 1 ,\  \lim \frac{\ln (1 + x)}{x} = 1 ,\  \lim \left( 1 + \frac{1}{x} \right)^{x} = e ,\  \lim \frac{a^{x} - 1}{x} = \ln a$.
+- $\lim \frac{(x^{n} - a^{n})}{x - a} = n a^{n-1}$.
+- Rational at $\infty$: compare degrees (equal → ratio of leading coefficients; top smaller → 0).
+- Continuity at a: $f (a)$ defined, limit exists, limit = $f (a)$.
+- Limit exists ⇔ left limit = right limit.
+- IVT: continuous on $[a ,\  b]$ takes every value between $f (a)$ and $f (b)$.
 
 ## Chapter summary
 
-- Matrix multiplication combines rows with columns, is associative but not commutative.
-- The determinant measures scaling and invertibility; row operations compute it efficiently.
-- A matrix is invertible exactly when its determinant is non-zero; inverses come from the adjoint or Gauss–Jordan.
+- A limit describes the approached value and ignores the value at the point; both one-sided limits must agree.
+- For $\frac{0}{0}$, factor, rationalise or use a standard limit; for $x \to \infty$ divide by the highest power.
+- Continuity means the graph can be drawn without lifting the pen; the three kinds of break are removable, jump and infinite.
+- The IVT guarantees roots of continuous functions between sign changes.
 
 ## Practice
 
-1. For $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$ and $B = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$ find AB, BA, $A^{2}$ and $A^{T}$.
-2. Find $\det \begin{bmatrix} 3 & 1 & 2 \\ 0 & 4 & 1 \\ 2 & 0 & 5 \end{bmatrix}$.
-3. Use properties to show $\det \begin{bmatrix} 1 & a & b + c \\ 1 & b & c + a \\ 1 & c & a + b \end{bmatrix} = 0$.
-4. Find the inverse of $\begin{bmatrix} 3 & 5 \\ 1 & 2 \end{bmatrix}$ and verify.
-5. Find the inverse of $\begin{bmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 5 & 6 & 0 \end{bmatrix}$ by Gauss–Jordan (or check the given $N^{-1}$).
-6. If A is $3 \times 3$ with $\det A = 4$, find $\det (2 A) ,\  \det (A^{-1}) ,\  \det (A^{2})$ and $\det (A^{T})$.
-7. Are the points (1, 2), (3, 8), (5, 14) collinear? Use a determinant.
-8. Find *x* for which $\begin{bmatrix} x & 2 \\ 3 & x + 1 \end{bmatrix}$ is singular.
-9. If $A = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$, find $A^{n}$.
-10. Show that the inverse of an orthogonal matrix is its transpose, and verify for the rotation by $90 ^{\circ} ,\  \begin{bmatrix} 0 & - 1 \\ 1 & 0 \end{bmatrix}$.
+1. Evaluate (a) $\lim_{x \to 2} \frac{x^{2} - 5 x + 6}{x - 2}$, (b) $\lim_{x \to 0} \frac{\sqrt{1 + x} - 1}{x}$, (c) $\lim_{x \to 1} \frac{x^{4} - 1}{x - 1}$.
+2. Evaluate (a) $\lim_{x \to 0} \frac{\sin 7 x}{\sin 3 x}$, (b) $\lim_{x \to 0} \frac{1 - \cos 4 x}{x^{2}}$, (c) $\lim_{x \to 0} \frac{e^{2 x} - 1}{\sin 3 x}$.
+3. Evaluate (a) $\lim_{x \to \infty} \frac{4 x^{3} - x}{2 x^{3} + 5}$, (b) $\lim_{x \to \infty} \left( 1 + \frac{3}{x} \right)^{x}$, (c) $\lim_{x \to \infty} \left( \sqrt{x^{2} + 3 x} - x \right)$.
+4. Does $\lim_{x \to 0} \frac{|x|}{x}$ exist? What about $\lim_{x \to 2}$ |x − $2 \mid / (x - 2)$?
+5. Find a so that $f (x) = \frac{\sin 3 x}{x} (x \neq 0) ,\  f (0) = a$ is continuous at 0.
+6. Find *k* if $f (x) = k x + 2 (x < 1) ,\  f (x) = 3 x^{2} - k (x \geq 1)$ is continuous.
+7. Classify the discontinuities of $f (x) = \frac{x^{2} - 4}{x^{2} - 3 x + 2}$.
+8. Show that $x^{5} - 3 x + 1 = 0$ has a root in (0, 1).
+9. Using the squeeze theorem find $\lim_{x \to \infty} \frac{\sin x}{x}$.
+10. Find the asymptotes of $f (x) = \frac{2 x^{2} + 1}{x^{2} - 1}$.
 
 ::: note Answers and worked solutions
-**1.** $A B = \begin{bmatrix} 2 & 1 \\ 4 & 3 \end{bmatrix}$ (columns swapped); $B A = \begin{bmatrix} 3 & 4 \\ 1 & 2 \end{bmatrix}$ (rows swapped); $A^{2} = \begin{bmatrix} 7 & 10 \\ 15 & 22 \end{bmatrix} ;\  A^{T} = \begin{bmatrix} 1 & 3 \\ 2 & 4 \end{bmatrix}$.
+**1.** (a) $\frac{(x - 2) (x - 3)}{x - 2}$ → **−1**. (b) rationalise: $\frac{x}{x \left( \sqrt{1 + x} + 1 \right)}$ → **$\frac{1}{2}$**. (c) $n a^{n-1}$ with $n = 4 ,\  a = 1$: **4**.
 
-**2.** $3 ( 4 \cdot 5$ − 1·0) − $1 ( 0 \cdot 5$ − 1·2) + $2 ( 0 \cdot 0$ − 4·2) = $60 + 2 - 16$ = **46**.
+**2.** (a) $\left( \frac{\sin 7 x}{7 x} \right) \left( \frac{3 x}{\sin 3 x} \right) \left( \frac{7}{3} \right)$ → **$\frac{7}{3}$**. (b) $1 - \cos 4 x = 2 \sin^{2} 2 x$, so 2·4 = **8** (2 $\frac{\sin^{2} 2 x}{x^{2}}$ = 2·(sin 2x / x)² → 2·4). (c) $\frac{e^{2 x} - 1}{x} \to 2$ and $\frac{\sin 3 x}{x} \to 3$, so **$\frac{2}{3}$**.
 
-**3.** Replace $C_{3}$ by $C_{3} + C_{2}$ (the determinant does not change): every entry of the new third column is $a + b + c$, so it is $(a + b + c)$ times the first column $[1 ,\  1 ,\  1]^{T}$. Two proportional columns give det = **0**.
+**3.** (a) **2**. (b) **$e^{3}$**. (c) multiply by conjugate: $\frac{3 x}{\sqrt{x^{2} + 3 x} + x}$ → **$\frac{3}{2}$**.
 
-**4.** $\det = 6 - 5 = 1$; inverse = $\begin{bmatrix} 2 & - 5 \\ - 1 & 3 \end{bmatrix}$. Check: $\begin{bmatrix} 3 & 5 \\ 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 2 & - 5 \\ - 1 & 3 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$.
+**4.** The first does not exist (left −1, right +1). The second does not exist for the same reason (left −1, right +1).
 
-**5.** $\begin{bmatrix} - 24 & 18 & 5 \\ 20 & - 15 & - 4 \\ - 5 & 4 & 1 \end{bmatrix}$ (see §1.3; multiply to confirm it gives I).
+**5.** The limit is 3, so **$a = 3$**.
 
-**6.** det 2A = $2^{3} \cdot 4$ = **32**; $\det A^{-1}$ = **$\frac{1}{4}$**; $\det A^{2}$ = **16**; $\det A^{T}$ = **4**.
+**6.** Left limit at 1: $k + 2$; right: $3 - k$. $k + 2 = 3 - k$ ⇒ **$k = \frac{1}{2}$**.
 
-**7.** $\det \begin{bmatrix} 1 & 2 & 1 \\ 3 & 8 & 1 \\ 5 & 14 & 1 \end{bmatrix} = 1 (8 - 14) - 2 (3 - 5) + 1 (42 - 40) = - 6 + 4 + 2 = 0$, so **collinear** (they lie on $y = 3 x - 1$).
+**7.** $f = \frac{(x - 2) (x + 2)}{(x - 1) (x - 2)}$. At $x = 2$: limit $\frac{4}{1} = 4$ exists, so a **removable** discontinuity. At $x = 1$: denominator → 0, numerator → −3, so an **infinite** discontinuity (vertical asymptote $x = 1$).
 
-**8.** $x (x + 1) - 6 = 0 \Rightarrow x^{2} + x - 6 = 0 \Rightarrow (x + 3) (x - 2) = 0$ ⇒ **$x = - 3$ or $x = 2$**.
+**8.** $f (0) = 1 > 0 ,\  f (1) = - 1 < 0 ,\  f$ is continuous, so by the IVT there is a root in (0, 1).
 
-**9.** $A^{2} = \begin{bmatrix} 1 & 2 \\ 0 & 1 \end{bmatrix} ,\  A^{3} = \begin{bmatrix} 1 & 3 \\ 0 & 1 \end{bmatrix}$, so **$A^{n} = \begin{bmatrix} 1 & n \\ 0 & 1 \end{bmatrix}$** (induction: multiply by A).
+**9.** $- \frac{1}{x} \leq \frac{\sin x}{x} \leq \frac{1}{x}$ and both bounds → 0, so the limit is **0**.
 
-**10.** $A^{T} A = I$ means $A^{T}$ is a left inverse of A, and for square matrices a left inverse is the inverse. For $R = \begin{bmatrix} 0 & - 1 \\ 1 & 0 \end{bmatrix} ,\  R^{T} R = \begin{bmatrix} 0 & 1 \\ - 1 & 0 \end{bmatrix} \cdot \begin{bmatrix} 0 & - 1 \\ 1 & 0 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$ ✓.
+**10.** Vertical: $x = 1$ and $x = - 1$. Horizontal: limit as $x \to \pm \infty$ is 2, so **$y = 2$**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Find the inverse of $N = \begin{bmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 5 & 6 & 0 \end{bmatrix}$ by the adjoint method.**
+**Q (5 marks). Evaluate $\lim_{x \to 0} \frac{\sin 3 x}{\sin 5 x}$. State the standard limit used and show the working.**
 
-*Introduction.* For a square matrix, $A^{-1}$ = adj(A) ÷ $\det (A)$. The inverse exists only when $\det (A) \neq 0$.
+Direct substitution gives $\frac{0}{0}$, which is an indeterminate form, so the expression must be rewritten. The standard limit that fits is **$\lim_{u \to 0} \frac{\sin u}{u} = 1$** (*u* in radians). The idea is to make each sine look like $\frac{\sin u}{u}$ by supplying the missing factor in the denominator.
 
-*Step 1: determinant.* Expanding along the first row: $\det N = 1 ( 1 \cdot 0$ − 4·6) − $2 ( 0 \cdot 0$ − 4·5) + $3 ( 0 \cdot 6$ − 1·5) = $- 24 + 40 - 15$ = **1**. Since $\det N = 1 \neq 0 ,\  N$ is invertible.
+1. Write $\frac{\sin 3 x}{\sin 5 x} = \left[ \frac{\sin 3 x}{3 x} \right] \times \left[ \frac{5 x}{\sin 5 x} \right] \times \left( \frac{3 x}{5 x} \right)$.
+2. The factor $\frac{3 x}{5 x} = \frac{3}{5}$ for every $x \neq 0$, so it is constant and equals $\frac{3}{5}$.
+3. As $x \to 0$ we also have $3 x \to 0$, so $\frac{\sin 3 x}{3 x} \to 1$ by the standard limit.
+4. Similarly $5 x \to 0$, so $\frac{\sin 5 x}{5 x} \to 1$, and its reciprocal $\frac{5 x}{\sin 5 x} \to 1$.
+5. By the product law the limit of the product is the product of the limits: $1 \times 1 \times \frac{3}{5}$.
 
-*Step 2: cofactors.* C11 = −24, C12 = 20, C13 = −5; C21 = 18, C22 = −15, C23 = 4; C31 = 5, C32 = −4, C33 = 1.
+**Answer: $\frac{3}{5}$.** *Check by numbers:* at $x = 0.01 ,\  \frac{\sin 0.03}{\sin 0.05} = 0.0299955 / 0.0499792 \approx 0.6001$, which is close to 0.6. *General rule:* $\lim_{x \to 0} \frac{\sin a x}{\sin b x} = \frac{a}{b}$.
 
-*Step 3: adjoint and inverse.* adj N is the transpose of the cofactor matrix, so $N^{-1} = \begin{bmatrix} - 24 & 18 & 5 \\ 20 & - 15 & - 4 \\ - 5 & 4 & 1 \end{bmatrix}$ (the determinant is 1, so no division is needed).
+**Q (5 marks). Find *k* so that $f (x) = \frac{x^{2} - 4}{x - 2}$ for $x \neq 2$ and $f (2) = k$ is continuous at $x = 2$. Then show that $x^{3} + x - 1 = 0$ has a root between 0 and 1.**
 
-*Check.* Row 1 of N times column 1 of $N^{-1}$ is $1 (- 24) + 2 (20) + 3 (- 5) = 1$, and row 1 times column 2 is $18 - 30 + 12 = 0$, as required for the identity. *Conclusion.* $N^{-1}$ is the matrix above.
+A function is **continuous at a** if three things hold: $f (a)$ is defined, $\lim_{x \to a} f (x)$ exists, and the two are equal.
 
-**Q2 (10 marks). Explain the operations on matrices and the properties of the determinant, with examples and the geometric meaning.**
+*Part $1 . \ast$ For $x \neq 2 ,\  \frac{x^{2} - 4}{x - 2} = \frac{(x - 2) (x + 2)}{x - 2} = x + 2$. So $\lim_{x \to 2} f (x) = 2 + 2 = 4$. For continuity $f (2)$ must equal this limit, so **$k = 4$**. With any other value the graph has a hole or a jump at $x = 2 ( a$ removable discontinuity, Figure 1.1a).
 
-*Introduction.* A matrix is a rectangular array of numbers; operations on matrices model transformations, systems of equations and data tables. The determinant is a single number that records whether a square matrix can be inverted.
+*Part $2 . \ast$ Let $g (x) = x^{3} + x - 1$. A polynomial is continuous everywhere, so *g* is continuous on [0, 1]. Now $g (0) = - 1 < 0$ and $g (1) = 1 + 1 - 1 = 1 > 0$, so the value 0 lies between $g (0)$ and $g (1)$. By the **Intermediate Value Theorem** there is at least one *c* in (0, 1) with $g (c) = 0$ (Figure 1.3). Testing the midpoint, $g (0.5) = 0.125 + 0.5 - 1 = - 0.375 < 0$, so the root is in (0.5, 1); repeating gives $c \approx 0.6823$.
 
-*Operations.*
+**Q (10 marks). Define the limit of a function and explain one-sided limits, the limit laws, the techniques for evaluating limits, limits at infinity and continuity, with examples.**
 
-1. **Addition and scalar multiplication** work entry by entry and need equal sizes.
-2. **Multiplication.** $(A B)_{ij}$ is row *i* of A times column *j* of B; the inner sizes must match.
-3. **Non-commutative.** For $A = \begin{bmatrix} 2 & 1 \\ 4 & 3 \end{bmatrix}$ and $B = \begin{bmatrix} 1 & 0 \\ 2 & 5 \end{bmatrix} ,\  A B = \begin{bmatrix} 4 & 5 \\ 10 & 15 \end{bmatrix}$ but $B A = \begin{bmatrix} 2 & 1 \\ 24 & 17 \end{bmatrix}$, so $A B \neq B A$ in general.
-4. **Transpose.** Rows become columns, and $(A B)^{T} = B^{T} A^{T}$.
-5. **Inverse.** $A^{-1}$ exists exactly when $\det A \neq 0$; for the $2 \times 2$ case $\begin{bmatrix} a & b \\ c & d \end{bmatrix}$⁻¹ = (1 ÷ (ad − bc)) $\begin{bmatrix} d & - b \\ - c & a \end{bmatrix}$.
+**Introduction.** The limit is the central idea of calculus: $\lim_{x \to a} f (x) = L$ means that $f (x)$ can be made as close to L as we please by taking *x* sufficiently close to a, but not equal to a. Formally, for every $\epsilon > 0$ there is a $\delta > 0$ such that 0 < |x − a| < *δ* implies $\mid f (x)$ − L| < *ε* (Figure 1.1, Plate 1.1c). The value $f (a)$ does not matter.
 
-*Determinant properties.*
+**One-sided limits.** The right limit $(x \to a^{+})$ and left limit $(x \to a^{-})$ look from one side. The limit exists if and only if both exist and are equal. For $f (x) = \frac{|x|}{x}$ the limits at 0 are 1 and −1, so the limit does not exist.
 
-6. Swapping two rows changes the sign; a row of zeros or two equal rows gives 0.
-7. Multiplying a row by *k* multiplies the determinant by *k*, and $\det (A B) = \det A \cdot \det B$.
-8. Geometrically |det A| is the factor by which areas $(2 \times 2)$ or volumes $(3 \times 3)$ are multiplied (Figure $1.1 ) ;\  \det = 0$ means the transformation squashes space and cannot be undone.
+**Limit laws.** The limit of a sum, difference, product, constant multiple and (if the denominator's limit is not 0) quotient is obtained from the individual limits.
 
-| Property | Rule |
-|---|---|
-| AB versus BA | usually different |
-| $(A B)^{T}$ | $B^{T} A^{T}$ |
-| $\det (A B)$ | $\det A \times \det B$ |
-| A invertible | $\det A \neq 0$ |
-| $2 \times 2$ inverse | swap diagonal, negate off-diagonal, divide by det |
+**Techniques (for $\frac{0}{0}$).**
 
-*Example.* For $A = \begin{bmatrix} 3 & 1 \\ 1 & 2 \end{bmatrix} ,\  \det = 5$ and $A^{-1} = \left( \frac{1}{5} \right) \begin{bmatrix} 2 & - 1 \\ - 1 & 3 \end{bmatrix}$. *Conclusion.* Matrices combine data and transformations; the determinant tells at a glance whether a transformation is reversible.
+| Method | Example | Result |
+|---|---|---|
+| Factor and cancel | $\lim_{x \to 3} \frac{x^{2} - 9}{x - 3} = \lim (x + 3)$ | 6 |
+| Rationalise | $\lim_{x \to 0} \frac{\sqrt{x + 4} - 2}{x} = \lim \frac{1}{\sqrt{x + 4} + 2}$ | $\frac{1}{4}$ |
+| Standard limit | $\lim_{x \to 0} \frac{\sin x}{x}$ | 1 |
+| Squeeze | $\cos x \leq \frac{\sin x}{x} \leq 1$ near 0 (Figure 1.2) | 1 |
+
+**Limits at infinity.** Divide numerator and denominator by the highest power of *x*. For example $\lim_{x \to \infty} \frac{3 x^{2} + 2 x - 1}{2 x^{2} + 5} = \lim \frac{3 + \frac{2}{x} - \frac{1}{x^{2}}}{2 + \frac{5}{x^{2}}}$ = **$\frac{3}{2}$**, so $y = \frac{3}{2}$ is a horizontal asymptote. Where a denominator tends to 0 and the numerator does not, the limit is infinite and the line $x = a$ is a vertical asymptote (Figure 1.1c). Another useful trick is $\lim_{x \to \infty} \left( \sqrt{x^{2} + x} - x \right) = \lim \frac{x}{\sqrt{x^{2} + x} + x}$ = **$\frac{1}{2}$**.
+
+**Continuity.** *f* is continuous at a if $f (a) = \lim_{x \to a} f (x)$. Discontinuities are *removable* (a hole), *jump* (unequal one-sided limits) or *infinite*. Polynomials, $\sin ,\  \cos$ and $e^{x}$ are continuous everywhere, and sums, products and compositions of continuous functions are continuous. The **IVT** says a continuous function on $[a ,\  b]$ takes every value between $f (a)$ and $f (b)$, which is why bisection finds roots (Figure 1.3).
+
+**Applications.** Instantaneous speed, compound interest (the number *e*) and Big-O analysis all use limits (Section 1.5).
+
+**Conclusion.** Limits turn the impossible $\frac{0}{0}$ into a definite number. The derivative of Unit 2 and the integral of Unit 4 are both limits, so a student who is fluent here is ready for the rest of the course.
