@@ -2,266 +2,310 @@
 subject: MIS and e-Business
 grade: BCA Semester 5
 unit: 7
-title: Developing and Justifying Information Systems
-hours: 4
+title: e-Business, e-Commerce and Digital Payments in Nepal
+hours: 8
 area: BCA 304 · MIS and e-Business · Unit 7
 ---
 
-A hospital wants a new patient-record system. The vendor's quotation is Rs 12,00,000; the manager must answer one question before any programmer is hired: *is it worth it?* This final unit connects the technical chapters to money. It first shows how systems are developed and acquired (SDLC, prototyping, build, buy or outsource), then evaluates the investment with the standard measures: payback, NPV, IRR, ROI, total cost of ownership and break-even.
+You can order a pair of shoes on a phone in Pokhara, pay with a QR code from a bank account in Biratnagar, and have the shoes delivered in a few days. Three networks cooperated: a marketplace that matched you with a seller, a payment system that moved money between two banks that have never spoken to each other directly, and a logistics network. This unit separates the business ideas (e-business models, revenue models, metrics) from the plumbing (how Nepal's retail payments are cleared and settled), and then shows how to count, in rupees, whether an online business is healthy.
 
 ::: key What this unit gives you
-- Development approaches and the build-versus-buy decision; project success factors and risks.
-- Cost-benefit analysis: payback, discounted payback, NPV, IRR, profitability index, ROI.
-- Total cost of ownership (on-premise versus cloud) and break-even analysis.
-- Change management and ethical considerations.
+- e-business versus e-commerce; B2B, B2C, C2C, B2G/G2C, and m-commerce models and revenue models.
+- Funnel, conversion, CAC and customer lifetime value calculations.
+- Nepal's digital payment architecture: the central bank's role, switches, ConnectIPS, QR payments, wallets and licensing; clearing and multilateral netting with numbers.
 :::
 
-## 7.1 Developing and acquiring information systems
+## 7.1 e-Business and e-Commerce
 
-The **systems development life cycle (SDLC)**: investigation and feasibility, analysis (requirements), design, construction or acquisition, testing, implementation (conversion, training), and maintenance. (The *System Analysis and Design* and *Software Engineering* books treat these in detail.) Alternatives to the sequential waterfall approach: **prototyping** (build a quick model to clarify requirements), **agile** (short iterations with working software), **end-user development** (spreadsheets and no-code tools, with the risk of ungoverned data) and **RAD**.
+**e-Business** is the use of the Internet and related technologies to run *all* the processes of a business: buying, selling, serving customers, collaborating with partners, and internal operations (ERP, e-learning, e-recruitment). **e-Commerce** is the narrower part concerned with *buying and selling* goods and services and the payments that go with them. e-Commerce has stages: pre-sale (search, comparison), the order and payment, delivery, and after-sales service. Benefits: global reach at low cost, 24-hour service, lower transaction and inventory cost, personalisation, and easy measurement. Limits in Nepal: uneven connectivity, trust and fraud worries, cash-on-delivery habit, address and logistics challenges, and thin card penetration.
 
-**Build, buy or outsource?**
-
-| Option | Choose when | Advantage | Risk |
+| Model | Parties | Example | Typical revenue |
 |---|---|---|---|
-| Build in-house | Unique process that is a source of advantage; skills available | Exact fit, control | Cost, time, key-person risk |
-| Buy a package / SaaS | Standard process (accounting, HR) | Fast, proven, lower upfront cost | Fit gaps, vendor dependence |
-| Customise a package | Mostly standard, a few special needs | Balance | Upgrades become hard |
-| Outsource development or operation | Skills or capacity lacking | Access to expertise | Control, confidentiality, contract lock-in |
+| **B2C** (business to consumer) | Firm sells to individuals | Online shop, ticketing, food delivery | Product margin, delivery fees |
+| **B2B** (business to business) | Firm sells to firm | Wholesale portal, e-procurement | Per-order margin, subscription |
+| **C2C** (consumer to consumer) | Individuals via a platform | Second-hand marketplace (Hamrobazar-type classifieds) | Listing fees, advertising, commission |
+| **B2G / G2C / G2B** | Business or citizen with government | Online tax filing, bill payment, Nagarik App services | Service charges (or none) |
+| **P2P / social commerce** | Users trade through social platforms | Facebook shops, live selling | Often none; platform ads |
+| **m-commerce** | Any of the above on a mobile phone | Wallet shopping, app ordering | As above |
 
-**Feasibility** has five facets: **technical** (can it be built?), **economic** (does it pay?), **operational** (will people use it?), **legal** (compliance) and **schedule**. Projects fail mainly for non-technical reasons: unclear requirements, lack of user involvement, scope creep, weak sponsorship and no change management.
+**Revenue models:** direct sales, *commission* on transactions, *subscription*, *advertising*, *listing or membership fees*, *freemium*, *affiliate* links, and *data/analytics* services. A **marketplace** earns commission but owns no stock; an **inventory model** takes the stock risk; a **dropshipper** orders from the supplier after the customer pays.
 
-## 7.2 Costs and benefits
+## 7.2 The online customer funnel and unit economics
 
-**Costs** are one-time (hardware, software, development, data migration, training) and recurring (licences or subscriptions, support, staff, power, upgrades). **Benefits** are **tangible** (cash savings, higher revenue, lower inventory) or **intangible** (better decisions, customer satisfaction, compliance), which should be valued where possible, for example by estimating the cost of the errors avoided.
+An online business is managed as a **funnel**: visitors, then add-to-cart, then checkout, then payment. **Conversion rate** = orders ÷ visitors. Suppose 100,000 visitors in a month with step rates 5%, 40% and 70%:
 
-## 7.3 Payback, NPV, IRR and ROI
-
-Money received later is worth less than money today, so cash flows are **discounted**. The **present value** of a cash flow C received in year t at discount rate r is C / (1 + r)ᵗ. The **net present value** is the sum of the discounted flows including the initial investment (negative). **NPV > 0** means the project earns more than the required rate and should be accepted. The **internal rate of return (IRR)** is the discount rate at which NPV = 0; accept if IRR exceeds the required rate. **Payback period** is the time to recover the investment (ignoring the time value of money); **discounted payback** uses discounted flows. **Profitability index (PI)** = PV of inflows ÷ investment.
-
-::: example Hospital record system
-Cost Rs 12,00,000 at year 0; net benefits (savings less running costs) in years 1–5 of Rs 3,50,000, 4,00,000, 4,50,000, 4,00,000 and 3,00,000. Required return 12%.
-
-| Year | Cash flow (Rs) | Discount factor 1/1.12ᵗ | Present value (Rs) | Cumulative (Rs) | Cumulative PV (Rs) |
-|---|---|---|---|---|---|
-| 0 | -12,00,000 | 1.0000 | -12,00,000 | -12,00,000 | -12,00,000 |
-| 1 | 3,50,000 | 0.8929 | 3,12,500 | -8,50,000 | -8,87,500 |
-| 2 | 4,00,000 | 0.7972 | 3,18,878 | -4,50,000 | -5,68,622 |
-| 3 | 4,50,000 | 0.7118 | 3,20,301 | 0 | -2,48,321 |
-| 4 | 4,00,000 | 0.6355 | 2,54,207 | 4,00,000 | 5,886 |
-| 5 | 3,00,000 | 0.5674 | 1,70,228 | 7,00,000 | 1,76,114 |
-
-- **NPV at 12% = Rs 1,76,114**: positive, so accept.
-- **Payback** = **3.00 years** (the cumulative cash flow reaches zero exactly at the end of year 3). **Discounted payback** = **3.98 years**.
-- **IRR = 17.82%** (found by bisection; NPV at this rate is 0.0000 within rounding): above 12%, so accept. NPV at 8% is Rs 3,22,421 and at 20% it is **Rs -56,674**, so the NPV profile crosses zero between 12% and 20%, as the IRR says.
-- **PI = 1.147**: each rupee invested returns Rs 1.147 in present-value terms.
-:::
-
-**Return on investment (ROI)** in its simple accounting form is (average annual net gain) ÷ (initial investment). Total inflows are Rs 19,00,000, so total net gain = 19,00,000 − 12,00,000 = Rs 7,00,000; average per year = Rs **1,40,000**; ROI = 1,40,000 / 12,00,000 = **11.7% per year** (or 58.3% over the whole life). ROI is easy to explain but ignores timing, so use NPV for the decision and ROI for communication. *Accounting rate of return on average investment* uses half the investment as the base: 23.3%.
-
-::: caution Pitfalls of appraisal
-Optimistic benefits are the most common error; test the sensitivity of NPV to a 20% lower benefit. IRR can mislead when comparing mutually exclusive projects of different size, or with alternating signs of cash flow (multiple IRRs); prefer NPV. Always include *recurring* costs and the cost of change management.
-:::
-
-## 7.4 Total cost of ownership (TCO)
-
-**TCO** counts every cost over the life of the system, not just the purchase price. The usual surprise is that the initial hardware is a minor share. A five-year comparison of an on-premise server against a cloud service for the same office (invented figures; year 0 is purchase and set-up):
-
-| Year | On-premise (Rs) | Cloud (Rs) |
+| Funnel stage | Users | Step rate |
 |---|---|---|
-| 0 | 11,50,000 | 2,00,000 |
-| 1 | 6,90,000 | 8,90,000 |
-| 2 | 6,90,000 | 8,80,000 |
-| 3 | 6,90,000 | 9,20,000 |
-| 4 | 6,90,000 | 9,60,000 |
-| 5 | 6,90,000 | 10,00,000 |
-| **5-year TCO** | **46,00,000** | **48,50,000** |
+| Visitors | 100000 |  |
+| Add to cart | 5,000 | 5% |
+| Start checkout | 2,000 | 40% |
+| Complete payment | 1,400 | 70% |
 
-**On-premise costs Rs 46,00,000 over five years (Rs 9,20,000 a year); cloud costs Rs 48,50,000**, so on-premise minus cloud = Rs -2,50,000 undiscounted. But on-premise spends heavily at year 0, and discounting at 12% gives a present cost of Rs 36,37,296 for on-premise against Rs 35,28,536 for cloud: **cloud is cheaper in present-value terms**. The comparison flips when the discount rate or the subscription growth changes, so state the assumptions. Non-financial factors (data residency, connectivity in the region, control, compliance, skills) decide close cases.
+The overall conversion is **1.40%**, giving **1,400 orders**. Improving the weakest step is cheapest: raising checkout completion from 70% to 80% adds 200 orders without any extra advertising.
 
-## 7.5 Break-even analysis
+**Customer acquisition cost (CAC)** = marketing spend ÷ new customers. With Rs 1,50,000 of advertising and 1,400 orders, CAC = **Rs 107.14**. If the average order value is Rs 2,400 with 22% gross margin, **gross profit per order** is Rs **528**, so the first order already covers its acquisition cost with Rs 420.86 left over. **Customer lifetime value (LTV)** = gross profit per order × orders per year ÷ annual churn. With 3 orders a year and 25% churn (expected life 4 years), LTV = 528 × 3 / 0.25 = **Rs 6,336**, and LTV/CAC = **59.1**. A ratio above 3 is generally healthy; this one is implausibly high, which tells the analyst that the sample is too small or that the CAC ignores returns, delivery cost and discounts. *The usefulness of the metric is in knowing which assumption to challenge.*
 
-**Break-even** is the volume at which revenue equals cost. With fixed cost F per year, price p and variable cost v per unit, break-even quantity = F / (p − v), where p − v is the **contribution margin**. An online service has Rs 1,80,000 fixed annual cost, earns Rs 30 per transaction and spends Rs 12 per transaction on variable costs. Contribution = **Rs 18** per transaction (60% of price), so break-even = 1,80,000 / 18 = **10,000 transactions a year**, which is revenue of Rs 3,00,000. At 20,000 transactions the annual profit would be 20,000 × 18 − 1,80,000 = **Rs 1,80,000**. A system that cannot realistically exceed its break-even volume should not be built.
+## 7.3 The payment problem
 
-## 7.6 Managing change and ethics
+Buying online needs a way for money to move between the buyer's account and the seller's. In cash-based economies this is the hardest part of e-commerce. Payment instruments: **cards** (debit, credit), **bank transfer** (account to account), **mobile wallets** (stored value), **QR payments**, **cash on delivery (COD)**, and (in some countries) **mobile money** accounts at telecoms. Every electronic payment passes through three stages: **authorisation** (is the payer allowed and funded?), **clearing** (exchanging the payment instructions among banks) and **settlement** (the actual movement of funds between the banks' accounts at the central bank).
 
-Systems change jobs; plan the human side. Typical stages: engage users early, communicate benefits and what changes, train *before* go-live, support staff during the first weeks, and measure adoption. **Ethical issues:** privacy of customers and employees, accuracy of information, intellectual property, access (who is excluded?), and accountability for automated decisions. A code of ethics (ACM, IEEE, a national IT body) offers a reference. Keep the post-implementation review: compare actual benefits and costs with the business case and record lessons.
+## 7.4 Nepal's payment architecture
 
-## 7.7 Seeing investment decisions: cash flows, NPV, TCO and break-even
+*Specific limits, fees and product names change often; consult the current Nepal Rastra Bank (NRB) circulars and the operators' websites before relying on them.*
 
-Appraisal numbers are easier to trust when you can see them. The plate shows two things that belong to every public or private information-system project, a government office that procures it and the network equipment that must be paid for every year. The figures draw the cumulative cash flow and payback, the NPV profile and IRR, the five-year cost comparison and the break-even line.
+### The regulator and the law
 
-```photogrid label="7.1" cols="2" ratio="1.2" caption="(a) Singha Durbar, the seat of Nepal's central government in Kathmandu. Public information systems are bought through procurement rules, so the business case, the budget line and the approval route must be clear before work starts. (b) Network switches in an equipment rack: the purchase price of hardware like this is only a small part of the five-year total cost of ownership, because power, space, licences, staff and replacement recur every year."
-@ photo id="bca401/singha" cap="Singha Durbar, Kathmandu"
+The **Nepal Rastra Bank**, the central bank, regulates and oversees payments under the **Payment and Settlement Act, 2075 (2019)** and its by-laws. NRB issues licences and sets rules for risk, customer protection and interoperability. Two licence families matter in this unit: a **Payment System Operator (PSO)** runs a payment *system* (a switch, a clearing house, or a QR network connecting many institutions); a **Payment Service Provider (PSP)** offers payment *services* to customers, such as a mobile wallet or a prepaid card. Banks and financial institutions, licensed by NRB, issue accounts and cards. The settlement of final balances happens in the banks' accounts held at NRB, which is why central-bank money is the "settlement asset".
+
+### The main infrastructure pieces
+
+| Component | Operator and role |
+|---|---|
+| **Nepal Clearing House Limited (NCHL)** | A PSO owned by banks and institutions. Runs the **National Payment Interface (NPI)** for interoperable transfers, **ConnectIPS** (account-to-account credit transfers for bills, remittance, salaries and e-commerce, in which the customer authorises a debit from their bank account in a bank-neutral web or mobile flow), and cheque clearing (ECC); also **NepalPay QR**, a QR scheme |
+| **Fonepay** | A PSO that operates a switch connecting banks' accounts and cards with merchants' **Fonepay QR** codes and ATM/POS networks; most merchants display one |
+| **Wallets (PSPs)** such as eSewa, Khalti, IME Pay | Hold the user's stored value; pay merchants, bills and top-ups; the user loads money from a bank account (often through ConnectIPS) |
+| **Card networks and bank switches** | Domestic cards processed by bank switches; international cards connect through global networks |
+| **Banks and NRB** | Hold customer accounts and, for final settlement, the banks' accounts at NRB |
+
+Operationally, the flow of a QR payment is: (1) the merchant displays a static or dynamic QR code with an identifier; (2) the customer scans it in a bank or wallet app; (3) the app sends an authorisation request through the switch to the customer's bank or wallet; (4) the debit is made and the merchant's bank or wallet is notified; (5) the switch records the obligation and (6) *net* positions between institutions are settled periodically at the central bank. Wallet balances are backed by funds that the PSP must hold in a **settlement or escrow account at a bank**; the customer's wallet balance is a claim on that bank-held pool. Customers' eKYC (identity verification) and limits per transaction and per month are set by NRB's rules.
+
+### Clearing by multilateral netting: a worked example
+
+If every payment between banks were settled one by one, the volume of settlement transfers would be huge. Switches therefore **net** obligations: each bank pays or receives only the *net* of everything it owes and is owed. Below is an invented day's obligations among four banks (rupees in crore; row = payer, column = receiver):
+
+| From \ To | A | B | C | D | Total sent |
+|---|---|---|---|---|---|
+| A | 0 | 120 | 80 | 60 | 260 |
+| B | 90 | 0 | 50 | 100 | 240 |
+| C | 110 | 70 | 0 | 40 | 220 |
+| D | 30 | 130 | 90 | 0 | 250 |
+| **Total received** | 230 | 320 | 220 | 200 | 970 |
+
+Each bank's net position is received minus sent. The positions always sum to zero (money is only moved, never created).
+
+| Bank | Sent | Received | Net position | Settles |
+|---|---|---|---|---|
+| A | 260 | 230 | -30 | pays |
+| B | 240 | 320 | +80 | receives |
+| C | 220 | 220 | +0 | — |
+| D | 250 | 200 | -50 | pays |
+
+Gross obligations total **970** crore, but only **80** crore must actually move (the sum of the positive net positions): a saving of **91.8%**. Netting only between pairs (bilateral) would still require 190 crore of transfers, so multilateral netting through a central switch is more efficient. The risk side: a bank that cannot pay its net debit on settlement breaks the whole cycle, so participants pre-fund collateral or have limits ("settlement risk").
+
+### Why it matters for an e-business
+
+A merchant choosing payment options is choosing fees, settlement time (T+0, T+1), refund process, chargeback or dispute handling, and the risk of fraud. Typical integration: the merchant's website redirects the buyer to a **payment gateway** (a PSP such as a wallet or the bank's page), the gateway returns a **success/failure callback**, and the merchant's server **verifies** the transaction by calling the gateway's lookup API before delivering the goods (never trust the browser redirect alone). Unit 8 covers the controls around this.
+
+## 7.5 Building and running an e-business
+
+An online business needs: a **platform** (own site with a CMS or shop framework, or a marketplace seller account), a **catalogue**, a **payment gateway**, **logistics** (own riders or courier partners, with Nepal-specific issues such as incomplete street addresses and COD returns), **customer service**, **analytics** (funnel, abandoned carts) and **legal compliance** (company registration, VAT, consumer protection, the Electronic Transactions Act 2063). Typical pitfalls: underestimating delivery and returns costs, running promotions that destroy margin, and ignoring mobile-first design when most users arrive by phone.
+
+## 7.6 Seeing e-business: funnels, unit economics and netting
+
+An online business lives on small percentages and thin margins, and Nepal's payment system relies on netting. The plate shows the regulator's home and the funnel of a typical shop, and the figures show the unit economics and the settlement arithmetic.
+
+```photogrid label="7.1" cols="2" ratio="1.2" caption="(a) The head office of Nepal Rastra Bank in Kathmandu. The central bank licenses payment service providers and payment system operators and supervises settlement, so every wallet and card scheme in Nepal ultimately operates under its rules. (b) The funnel of the online shop in section 7.2: of 100,000 visitors only 5,000 add to cart, 2,000 start checkout and 1,400 pay, an overall conversion of 1.40 percent."
+@ photo id="bca304/nrb" cap="Nepal Rastra Bank, Kathmandu"
 fit 1.2
 focus 0.5 0.5
-@ photo id="bca401/switch" cap="Network switches in a rack"
-fit 1.2
+@ svg cap="Funnel of 100,000 visitors"
+f = Fig(330, 275)
+st = [("Visitors", 100000, 300, NAVY, BLUE), ("Add to cart", 5000, 5, TEAL, MINT), ("Checkout", 2000, 2, AMBER, SAND), ("Paid", 1400, 1, RED, ROSE)]
+rows = [("Visitors  100,000", 300, BLUE, NAVY), ("Add to cart  5,000  (5%)", 220, MINT, TEAL), ("Checkout  2,000  (40%)", 150, SAND, AMBER), ("Paid  1,400  (70%)", 100, ROSE, RED)]
+for i, (t, w, fl, c) in enumerate(rows):
+    y = 14 + i * 56
+    f.box(165 - w / 2, y, w, 40, "", fill=fl, stroke=c)
+    f.text(165, y + 20, t, size=11.5, color=c, bold=True) if w >= 150 else f.text(165, y + 20, t, size=10.5, color=c, bold=True)
+f.text(165, 250, "Overall conversion 1.40%", size=12, color=NAVY, bold=True)
+f.text(165, 268, "Checkout 70% -> 80% adds 200 orders", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="7.1" caption="Unit economics of one order. Advertising of Rs 1,50,000 brought 1,400 customers, so the customer acquisition cost is 150,000 / 1,400 = Rs 107.14. An average order of Rs 2,400 at a 22 percent gross margin gives a gross profit of 2,400 x 0.22 = Rs 528 per order. After paying for acquisition Rs 528 - 107.14 = Rs 420.86 is left on the first order. A shop where the CAC exceeds the profit per order loses money on every new customer and survives only if customers return."
+f = Fig(580, 150)
+f.box(10, 20, 528 * 0.9, 34, "Gross profit per order  Rs 528", fill=MINT, stroke=TEAL, color=TEAL, size=11, bold=True, r=3)
+f.box(10, 66, 107.14 * 0.9, 34, "", fill=ROSE, stroke=RED, r=3)
+f.text(10 + 107.14 * 0.9 + 8, 83, "CAC  Rs 107.14", size=11, color=RED, bold=True, anchor="start")
+f.box(10 + 107.14 * 0.9, 66, 420.86 * 0.9, 34, "Left over  Rs 420.86", fill=SAND, stroke=AMBER, color=AMBER, size=11, bold=True, r=3) if False else None
+f.box(10 + 107.14 * 0.9 + 150, 66, 420.86 * 0.9 - 150, 34, "left  Rs 420.86", fill=SAND, stroke=AMBER, color=AMBER, size=11, bold=True, r=3)
+f.text(290, 126, "Order value Rs 2,400 x margin 22% = Rs 528;  Rs 528 - Rs 107.14 = Rs 420.86", size=10.5, color=NAVY, bold=True)
+```
+
+```svgfig label="7.2" caption="Multilateral netting, the worked example of section 7.4. Gross obligations among four banks total Rs 970 crore. Net positions are A -30, B +80, C 0, D -50 (received minus sent). Only A pays 30 and D pays 50, both to B, so Rs 80 crore moves in settlement instead of 970: a saving of 91.8 percent. Settling pair by pair (bilateral netting) would still need Rs 190 crore of transfers. The positions always sum to zero because money is only moved, never created."
+f = Fig(580, 200)
+pos = {"A": (60, 100), "B": (290, 40), "C": (290, 170), "D": (520, 100)}
+net = {"A": "-30 pays", "B": "+80 receives", "C": "0", "D": "-50 pays"}
+for k, (x, y) in pos.items():
+    f.circle(x, y, 26, fill=BLUE if k != "B" else MINT, stroke=NAVY if k != "B" else TEAL, label=k, size=13)
+    f.text(x, y + 42 if k != "B" else y - 38, net[k], size=10.5, color=RED if k in "AD" else TEAL, bold=True)
+f.arrow([(86, 90), (264, 46)], color=RED, label="30", lpos=(170, 56))
+f.arrow([(494, 90), (316, 46)], color=RED, label="50", lpos=(410, 56))
+f.text(290, 118, "Settlement: 30 + 50 = 80 crore", size=11, color=NAVY, bold=True)
+f.text(290, 136, "instead of 970 crore gross (91.8% less)", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="7.3" caption="The path of a QR payment in a generic wallet and switch architecture. (1) The customer scans the merchant's QR code with a wallet or bank app. (2) The app sends the payment request to the payment service provider or switch. (3) The switch checks the customer's bank and the balance. (4) The customer's bank approves and debits the account. (5) The switch tells the merchant's bank, which credits the merchant. (6) Both apps show a confirmation within seconds. Final interbank settlement happens later by netting through the central bank, so the customer sees an instant payment while the banks settle in batches."
+f = Fig(580, 190)
+b = [("Customer\napp", 8, MINT, TEAL), ("Switch /\nPSP", 130, SAND, AMBER), ("Customer's\nbank", 252, BLUE, NAVY), ("Merchant's\nbank", 374, BLUE, NAVY), ("Merchant", 496, MINT, TEAL)]
+for t, x, fl, c in b:
+    f.box(x, 40, 76, 50, t, fill=fl, stroke=c, size=10, bold=True)
+f.arrow([(84, 55), (130, 55)], color=SLATE); f.text(107, 44, "1-2", size=9.5, color=SLATE, bold=True)
+f.arrow([(206, 55), (252, 55)], color=SLATE); f.text(229, 44, "3", size=9.5, color=SLATE, bold=True)
+f.arrow([(252, 78), (206, 78)], color=TEAL); f.text(229, 100, "4", size=9.5, color=TEAL, bold=True)
+f.arrow([(206, 66), (374, 30), (450, 30)], color=SLATE) if False else None
+f.arrow([(168, 40), (168, 18), (412, 18), (412, 40)], color=SLATE); f.text(290, 12, "5 credit instruction", size=9.5, color=SLATE, bold=True)
+f.arrow([(450, 65), (496, 65)], color=SLATE)
+f.box(130, 130, 320, 40, "Later: netted settlement through the central bank", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.text(535, 110, "6 confirmation", size=9.5, color=TEAL, bold=True)
+```
+
+```photogrid label="7.4" cols="2" ratio="1.27" caption="A payment gateway must reject mistyped card numbers instantly, without sending them to the bank. (a) A card terminal at a shop counter reads the number from the chip or stripe. (b) The Luhn algorithm, used on bank card numbers, doubles every second digit from the right, subtracts 9 from any result above 9, and adds all digits. The test card 4111 1111 1111 1111 gives a sum of 30, a multiple of 10, so it passes, while changing only the last digit gives 31 and fails. Brute force over all 144 single-digit mistakes shows that every one is caught. The check protects against typing errors, not against fraud, so authentication and OTP are still required."
+@ photo id="bca304/cardterm" cap="A card payment terminal (point of sale)"
+fit 1.27
 focus 0.5 0.5
+@ svg cap="Luhn check on a 16-digit card number"
+def luhn_total(num):
+    s = 0
+    for k, ch in enumerate(reversed(num)):
+        d = int(ch)
+        if k % 2 == 1:
+            d *= 2
+            if d > 9:
+                d -= 9
+        s += d
+    return s
+good = "4111111111111111"
+bad = "4111111111111112"
+tg, tb = luhn_total(good), luhn_total(bad)
+assert tg % 10 == 0 and tb % 10 != 0
+caught = 0; tried = 0
+for pos in range(16):
+    for d in "0123456789":
+        if d != good[pos]:
+            tried += 1
+            n = good[:pos] + d + good[pos + 1:]
+            caught += luhn_total(n) % 10 != 0
+assert caught == tried == 144
+f = Fig(300, 236)
+f.text(150, 14, "Luhn check digit: 4111 1111 1111 1111", size=10.5, color=NAVY, bold=True)
+dbl = []
+for i, ch in enumerate(good):
+    k = 15 - i
+    d = int(ch) * (2 if k % 2 == 1 else 1)
+    dbl.append(d - 9 if d > 9 else d)
+f.text(6, 34, "digits", size=9, anchor="start")
+f.text(6, 74, "after Luhn", size=9, anchor="start")
+for i, ch in enumerate(good):
+    x = 14 + i * 17
+    f.box(x, 40, 15, 20, ch, fill=BLUE, stroke=NAVY, size=10, bold=True, r=2)
+    hl = (15 - i) % 2 == 1
+    f.box(x, 80, 15, 20, str(dbl[i]), fill=("#fee2e2" if hl else SOFT), stroke=(RED if hl else SLATE), color=(RED if hl else SLATE), size=10, bold=True, r=2)
+f.text(150, 118, "every 2nd digit from the right is doubled", size=9.5, color=RED)
+f.text(150, 140, "sum = %d, and %d mod 10 = 0: accepted" % (tg, tg), size=10.5, color=TEAL, bold=True)
+f.text(150, 160, "change last digit to 2: sum = %d, rejected" % tb, size=10.5, color=RED, bold=True)
+f.text(150, 188, "all %d single-digit errors detected" % tried, size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "(16 positions x 9 wrong digits)", size=9.5)
+f.text(150, 222, "a typing slip is caught before the bank is called", size=9.5, color=SLATE)
+facts = dict(tg=tg, tb=tb, tried=tried)
 ```
 
-```svgfig label="7.1" caption="Cumulative cash flow of the hospital record system (investment Rs 12,00,000, benefits 3,50,000, 4,00,000, 4,50,000, 4,00,000 and 3,00,000 in years 1 to 5). The plain cumulative line reaches zero exactly at the end of year 3, so the payback period is 3.00 years. The line of cumulative present values at 12 percent reaches zero only in year 4 (it is Rs -2,48,321 at year 3 and +5,886 at year 4), giving a discounted payback of 3.98 years. At the end of year 5 the cumulative present value is Rs 1,76,114, which is the NPV."
-f = Fig(580, 230)
-ax = Axes(f, 70, 10, 470, 180, (0, 5), (-1300000, 800000))
-ax.grid(1, 400000, yfmt=lambda v: f"{v/100000:.0f}L").axes("", "")
-cf = [-1200000, 350000, 400000, 450000, 400000, 300000]
-cum = [sum(cf[:i + 1]) for i in range(6)]
-pv = [sum(c / 1.12 ** t for t, c in enumerate(cf[:i + 1])) for i in range(6)]
-for i in range(5):
-    ax.curve(lambda x, i=i: cum[i] + (cum[i + 1] - cum[i]) * (x - i), i, i + 1, color=NAVY, sw=2.4, n=2)
-    ax.curve(lambda x, i=i: pv[i] + (pv[i + 1] - pv[i]) * (x - i), i, i + 1, color=RED, sw=2.4, n=2)
-ax.hline(0, color=SLATE, dash=False, sw=1)
-ax.pt(3, 0, "payback 3.00 y", dx=-10, dy=-12, anchor="end", color=NAVY)
-ax.pt(3.98, 0, "discounted 3.98 y", dx=10, dy=22, color=RED)
-ax.pt(5, pv[5], "NPV 1,76,114", dx=-8, dy=-10, anchor="end", color=RED)
-f.text(100, 208, "cumulative cash flow (navy)", size=10, color=NAVY, bold=True, anchor="start")
-f.text(330, 208, "cumulative present value at 12% (red)", size=10, color=RED, bold=True, anchor="start")
-f.text(300, 224, "year", size=10, color=SLATE, bold=True)
-```
+### 5.6.1 Eight advantages of e-business for Nepali firms
 
-```svgfig label="7.2" caption="The NPV profile of the same project. NPV falls as the discount rate rises: Rs 3,22,421 at 8 percent, Rs 1,76,114 at 12 percent, zero at 17.82 percent and Rs -56,674 at 20 percent. The rate where the curve crosses the axis is the internal rate of return, IRR = 17.82 percent. Because the IRR is above the required 12 percent the project is accepted; the gap between 17.82 and 12 percent is the safety margin against optimistic benefits."
-f = Fig(580, 220)
-ax = Axes(f, 70, 10, 470, 170, (0, 0.30), (-200000, 700000))
-cfl = [-1200000, 350000, 400000, 450000, 400000, 300000]
-npvf = lambda r: sum(c / (1 + r) ** t for t, c in enumerate(cfl))
-ax.grid(0.05, 200000, xfmt=lambda v: f"{v*100:.0f}%", yfmt=lambda v: f"{v/100000:.0f}L").axes("", "")
-ax.curve(npvf, 0, 0.30, color=NAVY, sw=2.6)
-ax.hline(0, color=SLATE, dash=False, sw=1)
-ax.pt(0.08, npvf(0.08), "8%: 3,22,421", dx=10, dy=-10, color=NAVY)
-ax.pt(0.12, npvf(0.12), "12%: 1,76,114", dx=10, dy=-12, color=NAVY)
-ax.pt(0.1782, 0, "IRR 17.82%", dx=10, dy=-14, color=RED)
-ax.pt(0.20, npvf(0.20), "20%: -56,674", dx=10, dy=16, color=NAVY)
-f.text(300, 212, "discount rate", size=10, color=SLATE, bold=True)
-```
-
-```svgfig label="7.3" caption="Five-year total cost of ownership for the on-premise server and the cloud service. On-premise: 11,50,000 at year 0 and 6,90,000 in each of years 1 to 5, a total of Rs 46,00,000. Cloud: 2,00,000 at year 0 and 8,90,000, 8,80,000, 9,20,000, 9,60,000, 10,00,000, a total of Rs 48,50,000. Undiscounted, on-premise is Rs 2,50,000 cheaper. Discounted at 12 percent the present costs are Rs 36,37,296 and Rs 35,28,536, so cloud is cheaper in present-value terms because on-premise spends heavily at the start."
-f = Fig(580, 252)
-on = [1150000] + [690000] * 5; cl = [200000, 890000, 880000, 920000, 960000, 1000000]
-ax = Axes(f, 60, 10, 490, 170, (-0.5, 5.5), (0, 1200000))
-ax.grid(1, 300000, xfmt=lambda v: f"{v:.0f}" if abs(v - round(v)) < 1e-6 else "", yfmt=lambda v: f"{v/100000:.0f}L").axes("", "")
-for i in range(6):
-    xa, xb = ax.X(i - 0.38), ax.X(i)
-    f.raw(f'<rect x="{xa}" y="{ax.Y(on[i])}" width="{xb-xa-1}" height="{ax.Y(0)-ax.Y(on[i])}" fill="#fef2f2" stroke="#b91c1c"/>')
-    xc, xd = ax.X(i), ax.X(i + 0.38)
-    f.raw(f'<rect x="{xc}" y="{ax.Y(cl[i])}" width="{xd-xc-1}" height="{ax.Y(0)-ax.Y(cl[i])}" fill="#ecfdf5" stroke="#0f766e"/>')
-f.text(70, 222, "on-premise (red): 46,00,000 total, PV 36,37,296", size=10, color=RED, bold=True, anchor="start")
-f.text(70, 240, "cloud (green): 48,50,000 total, PV 35,28,536", size=10, color=TEAL, bold=True, anchor="start")
-```
-
-```svgfig label="7.4" caption="Break-even analysis for the online service. Fixed cost is Rs 1,80,000 a year, price Rs 30 and variable cost Rs 12 per transaction, so the contribution is Rs 18 and break-even is 1,80,000 / 18 = 10,000 transactions, a revenue of Rs 3,00,000. At 20,000 transactions revenue is Rs 6,00,000, total cost 1,80,000 + 20,000 x 12 = Rs 4,20,000 and the profit is Rs 1,80,000. Below 10,000 the service makes a loss; every transaction above it adds Rs 18."
-f = Fig(580, 250)
-ax = Axes(f, 70, 10, 470, 170, (0, 25000), (0, 800000))
-ax.grid(5000, 200000, yfmt=lambda v: f"{v/100000:.0f}L").axes("", "")
-ax.curve(lambda q: 30 * q, 0, 25000, color=TEAL, sw=2.6)
-ax.curve(lambda q: 180000 + 12 * q, 0, 25000, color=RED, sw=2.6)
-ax.hline(180000, 0, 25000, color=AMBER)
-ax.pt(10000, 300000, "break-even 10,000", dx=-10, dy=-16, anchor="end", color=NAVY)
-ax.pt(20000, 600000, "profit 1,80,000", dx=-10, dy=-8, anchor="end", color=TEAL)
-f.text(80, 214, "revenue 30q (green)", size=10, color=TEAL, bold=True, anchor="start")
-f.text(290, 214, "cost 1,80,000 + 12q (red)", size=10, color=RED, bold=True, anchor="start")
-f.text(300, 236, "transactions per year", size=10, color=SLATE, bold=True)
-```
-
-### 7.7.1 Eight reasons information-system projects fail, and how to avoid them
-
-1. **Unclear goals.** A project that starts with "we need a system" and not "we need to cut admission time by half" cannot be judged. People then argue about success after the money is spent. Write the goal and the measure of success before the first contract.
-2. **Optimistic benefits and costs.** Planners often overstate savings and understate cost. Test the NPV with benefits 20 percent lower and costs 20 percent higher. If the project still passes, it is a safe bet.
-3. **Ignoring total cost of ownership.** The purchase price of hardware is a small part of five years of cost. Licences, staff, power, training and replacement recur every year. Comparing only the first-year price makes the cheaper-looking option the more costly one.
-4. **Weak management support.** Without a sponsor who can settle disputes and release people, departments protect their old ways. A hospital system without the director's backing is used by half the wards. Visible leadership is the best predictor of success.
-5. **Poor requirements.** Users' real work is not understood, so the system does not fit. Interview users, watch the process and build prototypes. A bank teller can spot a missing field in a minute that an analyst may miss in a month.
-6. **Resistance to change.** People fear loss of skill, status or job. Involve them early, train them well and explain what they gain. Resistance that is ignored becomes quiet non-use.
-7. **Bad data and migration.** Old records are incomplete and duplicated, and moving them is harder than expected. Clean and check the data before and after loading it. A system that shows wrong balances on day one never recovers trust.
-8. **No plan for support and ethics.** After go-live the system needs support, updates and security, and it must treat users' data fairly and lawfully. Budget for these from the start and set rules on privacy and access. Projects that stop at go-live decay quickly.
+1. **Wider market.** An online shop is open to customers across Nepal and abroad, not only to those who pass the building. A Bhaktapur handicraft seller can sell to tourists who returned home. The market grows without new shops.
+2. **Lower operating cost.** There is no need for prime shop space or many counter staff, and orders are processed by software. A small firm can start with a laptop and a phone. Savings can be passed on as lower prices.
+3. **Open all day.** Customers order at midnight or on a holiday. Migrant workers abroad send gifts and recharge at their own time zone. Sales no longer stop when the shutter closes.
+4. **Faster transactions.** Payment by wallet, ConnectIPS or QR completes in seconds and creates a digital record. Cash handling, queues and counting errors fall. A utility company that accepts online payment collects bills faster.
+5. **Better customer data.** Each visit and order produces data on what people want. The shop can personalise offers and measure funnel steps as in Figure 7.1. Decisions are based on evidence, not guesses.
+6. **Direct relationship.** Producers can sell directly to buyers, cutting layers of middlemen. A farmer cooperative can list vegetables and take orders from restaurants. The producer earns more and the buyer pays less.
+7. **Easy scaling.** A system built for 100 orders a day can be upgraded to handle 10,000 with more servers. Cloud services are rented by use. A festival-season rush does not require permanent staff.
+8. **Better service and tracking.** Customers see order status, receipts and delivery tracking, and can complain by chat. Fast replies create trust. Reliable service is the main reason people return to an online shop.
 
 ## Chapter summary
 
-- Choose build, buy, customise or outsource on fit, cost, skills and risk; failures are usually organisational.
-- Discount cash flows; accept projects with NPV > 0 or IRR above the required rate; payback and ROI are simple supplements.
-- TCO includes all lifetime costs; compare options at present value.
-- Break-even volume = fixed cost ÷ contribution margin.
-- Change management and post-implementation review complete the investment cycle.
+- e-Business covers all online business processes; e-commerce is online trade; models include B2C, B2B, C2C, G2C and m-commerce with revenue by margin, commission, subscription or advertising.
+- Funnel metrics, CAC and LTV tell whether growth is profitable; sanity-check the assumptions.
+- A payment passes through authorisation, clearing and settlement; NRB licenses PSOs and PSPs under the Payment and Settlement Act 2075.
+- NCHL (NPI, ConnectIPS), Fonepay (switch and QR), wallets and banks form the retail payment network; multilateral netting reduces settlement transfers.
+- Always verify payment status server-side with the gateway before fulfilment.
 
 ## Practice
 
-1. List the stages of the SDLC and three reasons projects fail.
-2. When would you build rather than buy?
-3. A project costs Rs 5,00,000 and returns Rs 2,00,000 for each of 3 years. Compute payback and simple ROI.
-4. For the same project at 10%, compute the NPV and say whether to accept.
-5. Define IRR and state the acceptance rule.
-6. Why can IRR mislead when comparing projects?
-7. Why might cloud TCO be lower in present value even if the nominal total is higher?
-8. Fixed cost Rs 2,40,000, price Rs 50, variable cost Rs 20. Compute the break-even volume.
-9. How much profit at 10,000 units in question 8?
-10. Name three actions for managing user adoption.
+1. Differentiate e-business from e-commerce.
+2. Classify: (a) buying a train-style ticket online, (b) a wholesaler's ordering portal for shops, (c) selling a used phone on a classifieds site, (d) paying electricity bills online.
+3. For 80,000 visitors with rates 4%, 50% and 80%, compute the number of orders and the conversion rate.
+4. CAC is Rs 200 and LTV Rs 900. What is LTV/CAC? Is it healthy?
+5. Explain authorisation, clearing and settlement.
+6. What is the difference between a PSO and a PSP? Give one example of each from this chapter.
+7. In the netting example, which banks pay, which receive, and how much moves?
+8. Why must a merchant verify payment server-side?
+9. Why does a wallet need an escrow or settlement account at a bank?
+10. List four risks specific to selling online in Nepal.
 
 ::: note Answers and worked solutions
-**1.** Investigation/feasibility, analysis, design, construction, testing, implementation, maintenance. Failures: unclear requirements, weak user involvement, scope creep.
-**2.** When the process is unique and a source of advantage, no package fits, and the skills exist.
-**3.** Payback = 5,00,000 / 2,00,000 = 2.5 years. Total gain = 6,00,000 − 5,00,000 = 1,00,000; per year 33,333; ROI = 33,333 / 5,00,000 = 6.7% per year.
-**4.** Annuity factor at 10% for 3 years = 2.4869; PV = 2,00,000 × 2.4869 = 4,97,370; NPV = 4,97,370 − 5,00,000 = **−2,630**: marginally negative, so reject (or negotiate).
-**5.** The discount rate at which NPV is zero; accept when IRR is above the required rate.
-**6.** It ignores project scale, can give multiple values when cash-flow signs alternate, and may rank mutually exclusive projects differently from NPV.
-**7.** Cloud defers costs (low year-0 spending) and discounting makes later costs smaller.
-**8.** 2,40,000 / (50 − 20) = **8,000 units**.
-**9.** 10,000 × 30 − 2,40,000 = **Rs 60,000**.
-**10.** Early involvement, training before go-live, visible management support and post-go-live help.
+**1.** e-business: all business processes online (including internal ones). e-commerce: buying and selling online.
+**2.** (a) B2C; (b) B2B; (c) C2C; (d) G2C/B2G (citizen-to-government payment) or B2C if the utility is a company.
+**3.** 80,000 × 0.04 = 3,200; × 0.5 = 1,600; × 0.8 = **1,280 orders**; conversion 1,280/80,000 = **1.6%**.
+**4.** 900 / 200 = 4.5, above the common threshold of 3: healthy, subject to the assumptions behind LTV.
+**5.** Authorisation: check the payer and funds. Clearing: exchange and reconcile payment instructions between institutions. Settlement: move final funds between banks' accounts at the central bank.
+**6.** PSO operates a payment system (NCHL, Fonepay); PSP offers customer-facing services such as a wallet (eSewa, Khalti).
+**7.** Net positions (crore): see the table; positive banks receive and negative banks pay, and the total moved is 80 crore.
+**8.** A browser redirect can be forged or interrupted; only a server-to-server lookup proves the payment really succeeded.
+**9.** Wallet balances are claims on real money; the escrow account protects customers' funds from the PSP's own creditors and risks.
+**10.** Fraud and chargebacks, COD return costs, address and delivery problems, connectivity limits and low trust in online payments.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). A hospital record system costs Rs 12,00,000 and gives net benefits of Rs 3,50,000, 4,00,000, 4,50,000, 4,00,000 and 3,00,000 in years 1 to 5. Required return is 12 percent. Find the payback period, NPV and IRR, and decide.**
+**Q1 (5 marks). An online shop gets 100,000 visitors; 5 percent add to cart, 40 percent of those start checkout and 70 percent of those pay. Advertising cost is Rs 1,50,000 and the average order is Rs 2,400 with 22 percent gross margin. Find conversion, CAC and profit per order.**
 
-*Introduction.* Appraisal compares the cost of a project with the discounted value of its benefits (section 7.3, Figures 7.1 and 7.2).
+*Introduction.* An online business is managed with funnel and unit-economics measures (section 7.2, Figure 7.1).
 
-1. **Payback.** Cumulative cash flow: -12,00,000; -8,50,000; -4,50,000; **0** at the end of year 3. Payback = **3.00 years**.
-2. **Present values at 12 percent.** Year 1: 3,50,000 / 1.12 = 3,12,500; year 2: 3,18,878; year 3: 3,20,301; year 4: 2,54,207; year 5: 1,70,228.
-3. **NPV.** Sum of present values = 13,76,114, less 12,00,000 = **Rs 1,76,114**, which is positive.
-4. **Discounted payback.** Cumulative PV is -2,48,321 at year 3 and +5,886 at year 4, so it is recovered in about **3.98 years**.
-5. **IRR.** The rate at which NPV = 0 is found by trial or bisection: **17.82 percent**; NPV is +3,22,421 at 8 percent and -56,674 at 20 percent.
-6. **Decision.** NPV > 0 and IRR (17.82 percent) is greater than 12 percent, so **accept** the project.
+1. **Funnel.** 100,000 x 0.05 = 5,000 add to cart; 5,000 x 0.40 = 2,000 start checkout; 2,000 x 0.70 = **1,400** orders.
+2. **Conversion rate.** Orders / visitors = 1,400 / 100,000 = **1.40 percent**.
+3. **CAC.** Marketing spend / new customers = 1,50,000 / 1,400 = **Rs 107.14**.
+4. **Gross profit per order.** 2,400 x 0.22 = **Rs 528**.
+5. **First-order result.** 528 - 107.14 = **Rs 420.86** left after acquisition.
+6. **Improvement.** Raising checkout completion from 70 to 80 percent gives 2,000 x 0.80 = 1,600 orders, 200 more, without extra advertising.
 
-| Year | Cash flow (Rs) | PV at 12% (Rs) |
+| Stage | Users | Step rate |
 |---|---|---|
-| 0 | -12,00,000 | -12,00,000 |
-| 1 | 3,50,000 | 3,12,500 |
-| 2 | 4,00,000 | 3,18,878 |
-| 3 | 4,50,000 | 3,20,301 |
-| 4 | 4,00,000 | 2,54,207 |
-| 5 | 3,00,000 | 1,70,228 |
+| Visitors | 100,000 | |
+| Add to cart | 5,000 | 5% |
+| Checkout | 2,000 | 40% |
+| Paid | 1,400 | 70% |
 
-*Conclusion.* The project returns its cost in three years, beats the required 12 percent and has a positive NPV of Rs 1,76,114, so it should be accepted.
+*Conclusion.* The shop makes a positive profit on the first order; improving the weakest funnel step is the cheapest growth.
 
-**Q2 (5 marks). An online service has fixed costs of Rs 1,80,000 a year, earns Rs 30 per transaction and spends Rs 12 per transaction on variable cost. Find the break-even volume and the profit at 20,000 transactions.**
+**Q2 (5 marks). Explain multilateral netting with the four-bank example (net positions A -30, B +80, C 0, D -50) and state its advantage.**
 
-*Introduction.* Break-even analysis finds the volume at which total revenue equals total cost (section 7.5, Figure 7.4).
+*Introduction.* Banks owe each other many payments during a day; netting reduces them to one net settlement per bank (section 7.4, Figure 7.2).
 
-1. **Contribution margin.** Price - variable cost = 30 - 12 = **Rs 18** per transaction, which is 60 percent of the price.
-2. **Break-even quantity.** Fixed cost / contribution = 1,80,000 / 18 = **10,000 transactions** a year.
-3. **Break-even revenue.** 10,000 x 30 = **Rs 3,00,000**.
-4. **At 20,000 transactions.** Revenue = 20,000 x 30 = Rs 6,00,000; total cost = 1,80,000 + 20,000 x 12 = Rs 4,20,000.
-5. **Profit.** 6,00,000 - 4,20,000 = **Rs 1,80,000**; equal to (20,000 - 10,000) x 18.
-6. **Meaning.** Below 10,000 transactions the service loses money; each transaction above adds Rs 18. Lowering fixed cost or raising the contribution brings break-even down.
+1. **Gross obligations.** Each bank sends payments to the others; in the example the total is Rs 970 crore.
+2. **Net position.** For each bank, received minus sent: A 230 - 260 = -30; B 320 - 240 = +80; C 220 - 220 = 0; D 200 - 250 = -50.
+3. **Check.** -30 + 80 + 0 - 50 = 0, because money is moved and not created.
+4. **Settlement.** Banks with negative positions pay the central bank or settlement agent: A pays 30 and D pays 50; B receives 80.
+5. **Saving.** Only Rs 80 crore moves instead of 970, a saving of 91.8 percent; bilateral netting would still need 190 crore.
+6. **Risk.** The liquidity needed is much smaller, but a bank that cannot pay its net amount affects all, so limits and collateral are used.
 
-*Conclusion.* The service must handle 10,000 transactions a year to cover its costs, and doubling that volume gives a profit of Rs 1,80,000.
+*Conclusion.* Multilateral netting through a central switch minimises transfers and liquidity and is the basis of retail payment clearing.
 
-**Q3 (10 marks). Explain how an organisation develops or acquires an information system and evaluates it financially. Discuss cost-benefit analysis, NPV, payback, TCO, and the management of change and ethical issues.**
+**Q3 (10 marks). Define e-business and e-commerce. Explain the business models, the payment system architecture in Nepal and the security and legal issues of e-commerce.**
 
-*Introduction.* A new information system is an investment that changes how people work. The organisation must choose how to obtain it (build, buy or rent), decide whether it is worth the money, and make sure people accept and use it. Good decisions need both financial analysis and attention to people and ethics (sections 7.1 to 7.6, Figures 7.1 to 7.4).
+*Introduction.* E-business is the use of the Internet and information systems to run all business activities, such as buying, selling, producing and serving customers. E-commerce is the part that deals with buying and selling online. For Nepal the topic joins technology, payment regulation and law (sections 5.1 to 5.5, Figures 5.1 to 5.3).
 
-1. **Acquisition options.** Build in-house (full fit, high cost and risk), buy a packaged product (fast, may need adaptation), rent software as a service (low start-up cost, ongoing fee), or outsource development.
-2. **Development approaches.** SDLC (waterfall), prototyping, agile iterations and end-user development, chosen by how well the requirements are known.
-3. **Cost-benefit analysis.** List tangible costs (hardware, software, training) and benefits (savings, extra revenue) and intangible ones (satisfaction, image).
-4. **NPV and IRR.** Discount future flows at the required rate; accept if NPV > 0 and IRR is above the required rate (the hospital example: NPV Rs 1,76,114 and IRR 17.82 percent).
-5. **Payback.** The time to recover the investment (3.00 years; discounted 3.98 years); simple but ignores flows after payback.
-6. **TCO.** Count all costs over the life: the five-year costs were Rs 46,00,000 on-premise and Rs 48,50,000 in the cloud, but in present value cloud was cheaper (Rs 35,28,536 against Rs 36,37,296).
-7. **Break-even.** Fixed cost / contribution, as in Rs 1,80,000 / 18 = 10,000 transactions.
-8. **Change management and ethics.** Sponsor, training, communication, data migration and support; ethical duties of privacy, fairness, accessibility and honesty about what the system does.
+1. **E-business versus e-commerce.** E-commerce is the transaction part (online shop); e-business also covers internal processes (ERP), supply chain and customer service.
+2. **Business models.** B2C (Daraz to consumers), B2B (wholesaler to retailer), C2C (marketplace between individuals), G2C (government to citizens, as in the Nagarik App) and G2B (tax and customs portals).
+3. **Revenue models.** Sales margin, commission, advertising, subscription and transaction fees.
+4. **Payment methods.** Cash on delivery, cards, wallets, bank transfer through ConnectIPS and QR payments.
+5. **Architecture.** The customer's app, a payment service provider or switch, the banks and the central bank. The switch routes and authorises instantly; the final settlement is netted and done through the central bank.
+6. **Regulation.** Nepal Rastra Bank licenses payment service providers and operators under the Payment and Settlement Act, 2075 (2019); the Electronic Transactions Act, 2063 (2008) gives legal validity to electronic records and signatures.
+7. **Security.** HTTPS with TLS, strong authentication (MFA), tokenisation of card data, fraud monitoring and secure storage of passwords as salted slow hashes.
+8. **Challenges.** Trust, last-mile delivery, address problems, low digital literacy, internet access and refund handling.
 
-| Method | Question answered | Strength | Weakness |
+| Model | Seller | Buyer | Nepali example |
 |---|---|---|---|
-| Payback | How fast? | Simple | Ignores timing and later flows |
-| NPV | How much value? | Best decision rule | Needs a discount rate |
-| IRR | What return? | Easy to compare with a hurdle rate | Can mislead for different sizes |
-| TCO | Real cost? | Includes recurring cost | Needs careful estimates |
+| B2C | Business | Consumer | Online shop |
+| B2B | Business | Business | Wholesale portal |
+| C2C | Consumer | Consumer | Classified marketplace |
+| G2C | Government | Citizen | Nagarik App |
 
-*Conclusion.* The right choice combines method of acquisition, a sound financial test (NPV first, with payback, IRR and TCO as support) and a plan to manage the people side. Many failures come from skipping the last step and not from wrong arithmetic.
+*Conclusion.* E-business extends the firm across the Internet. It succeeds when a sound business model, an efficient payment path, regulation and security work together, so that customers trust paying online.
