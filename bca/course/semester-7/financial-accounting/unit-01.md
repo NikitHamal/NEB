@@ -111,7 +111,26 @@ Under **double entry**, every transaction has a *debit* aspect and a *credit* as
 
 The memory aid is that the equation's left side (assets) and expenses, which reduce equity, are debit-natured, while the right side and income, which raise equity, are credit-natured. Double entry is powerful because it is self-checking: the total of all debit balances must equal the total of all credit balances (the trial balance of Unit 3). It cannot, however, detect an error that is made on both sides equally.
 
-## 1.7 Seeing the ideas: records, equation and cycle
+## 1.7 Qualitative characteristics and accounting policies
+
+**Qualitative characteristics** are the qualities that make financial information useful. The IASB framework that NFRS follows names two **fundamental** characteristics and four **enhancing** ones.
+
+| Type | Characteristic | Meaning |
+|---|---|---|
+| Fundamental | **Relevance** | Information can change a decision: it has predictive or confirmatory value and is material. |
+| Fundamental | **Faithful representation** | Complete, neutral and free from error; it shows what it claims to show. |
+| Enhancing | Comparability | Users can compare one period or one firm with another. |
+| Enhancing | Verifiability | Independent people would agree that it is faithful. |
+| Enhancing | Timeliness | Available in time to influence a decision. |
+| Enhancing | Understandability | Clear and concise for a user with reasonable knowledge. |
+
+**Fundamental accounting assumptions** are two: the **accrual basis** (effects of transactions are recorded when they occur, not when cash moves) and the **going concern** assumption (the business will continue for the foreseeable future, so assets are not valued as if it were closing down).
+
+**Accounting policies** are the specific principles, bases and practices a business applies in preparing its statements: the depreciation method, the inventory formula (FIFO or weighted average), how revenue is recognised, how doubtful debts are provided for. **Selection:** the policy should give relevant and faithful information and be applied consistently; where an NFRS applies to an item, it must be followed. **Change:** a policy may be changed only if the standard requires it or the change gives more reliable and relevant information; the effect is applied **retrospectively** (as if the new policy had always been used) and the change and its effect are **disclosed** in the notes. A change of an *estimate* (for example a new useful life) is different: it is applied from now on, not backdated.
+
+Example: a shop switched from FIFO to weighted-average inventory. It must restate the opening inventory and the previous year's profit as if weighted average had always been used, and disclose both figures.
+
+## 1.8 Seeing the ideas: records, equation and cycle
 
 ```photogrid label="1.1" cols="3" ratio="1.0" caption="Three generations of the accounting record. (a) A handwritten merchant ledger of 1855: every customer has a debit entry with date, particulars and amount, exactly the discipline of double entry. (b) An antique mechanical cash register: it records each sale at the moment it happens, the source of the day's cash-book total. (c) A bank cheque of 1909: a source document that proves a payment and starts a journal entry."
 @ photo id="bca403/ledger2" cap="Merchant ledger, 1855"
@@ -162,7 +181,7 @@ f.text(528, 80, "profit and\nposition", size=10, color=SLATE)
 f.arrow([(528, 106), (528, 140), (48, 140), (48, 108)], color=RED, dash=True, label="closing balances become next year's opening balances", lpos=(290, 156))
 ```
 
-### 1.7.1 Eight uses of accounting information
+### 1.8.1 Eight uses of accounting information
 
 1. **Owners judge performance.** The profit and loss account shows whether the business earned a surplus after all costs. A shopkeeper in Pokhara who sees a fall in net profit can look for the cause in sales or expenses. Without records, the owner only guesses.
 2. **Banks decide on loans.** A bank asks for balance sheets and cash flows before lending, and uses them to judge repayment ability. A small manufacturer who can show three years of clear accounts is far more likely to get a working-capital loan. Poor records usually mean a refusal or a higher interest rate.
@@ -173,7 +192,7 @@ f.arrow([(528, 106), (528, 140), (48, 140), (48, 108)], color=RED, dash=True, la
 7. **Regulators supervise.** The Nepal Rastra Bank, the Securities Board and the Office of the Company Registrar require standard statements from the entities they supervise. Uniform rules such as NFRS make the figures comparable. This protects the public and the economy.
 8. **Law and audit are satisfied.** The Companies Act and tax law require books to be kept, and auditors check them. Records also give evidence in a dispute, for example when a customer denies a payment. Honest accounts protect the business as much as they bind it.
 
-## 1.8 Summary and exercises
+## 1.9 Summary and exercises
 
 Accounting turns economic events into reliable reports under a shared body of principles; Nepal anchors those principles in NFRS; and the equation A = L + E together with double entry makes the records self-balancing.
 
@@ -216,7 +235,7 @@ In step 3 an expense reduces cash and also reduces capital (profit is part of ca
 
 *Objectives.* (1) Keep systematic records. (2) Find the profit or loss. (3) Show the financial position. (4) Provide information to users. (5) Help in tax and legal compliance. (6) Support planning and control.
 
-*Users.* Internal users are owners and managers. External users are banks, suppliers, investors, employees, the Inland Revenue Department, regulators and the public (Section 1.7.1 lists eight uses).
+*Users.* Internal users are owners and managers. External users are banks, suppliers, investors, employees, the Inland Revenue Department, regulators and the public (Section 1.8.1 lists eight uses).
 
 *Branches.* **Financial accounting** records transactions and prepares statements for outsiders; **cost accounting** finds the cost of products and services; **management accounting** supplies analysis for internal decisions.
 

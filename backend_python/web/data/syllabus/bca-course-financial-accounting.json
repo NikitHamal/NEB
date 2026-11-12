@@ -15,7 +15,7 @@
  "code": "BCA 403",
  "credits": 2,
  "semester": 7,
- "hours": 45,
+ "hours": 54,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -32,6 +32,7 @@
     "Accounting standards, NFRS and IFRS in Nepal",
     "The accounting equation",
     "Double-entry principle and account types",
+    "Qualitative characteristics and accounting policies",
     "Seeing the ideas: records, equation and cycle",
     "Summary and exercises"
    ],
@@ -62,17 +63,21 @@
     },
     {
      "no": "1.7",
-     "title": "Seeing the ideas: records, equation and cycle"
+     "title": "Qualitative characteristics and accounting policies"
     },
     {
      "no": "1.8",
+     "title": "Seeing the ideas: records, equation and cycle"
+    },
+    {
+     "no": "1.9",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2536,
+    "words": 2876,
     "figures": 0,
     "examples": 1
    },
@@ -91,6 +96,7 @@
     "Ledger posting and T-accounts",
     "A journal and ledger engine in Python",
     "Opening, closing and compound entries",
+    "Capital and revenue items, contingent assets and liabilities",
     "Seeing the ideas: debit and credit, the VAT invoice and the cash T-account",
     "Summary and exercises"
    ],
@@ -125,17 +131,21 @@
     },
     {
      "no": "2.8",
-     "title": "Seeing the ideas: debit and credit, the VAT invoice and the cash T-account"
+     "title": "Capital and revenue items, contingent assets and liabilities"
     },
     {
      "no": "2.9",
+     "title": "Seeing the ideas: debit and credit, the VAT invoice and the cash T-account"
+    },
+    {
+     "no": "2.10",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2291,
+    "words": 2661,
     "figures": 0,
     "examples": 3
    },
@@ -269,6 +279,7 @@
     "Disposal of an asset",
     "Inventory valuation",
     "Periodic and perpetual systems",
+    "Stock taking",
     "Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers",
     "Summary and exercises"
    ],
@@ -299,17 +310,21 @@
     },
     {
      "no": "5.7",
-     "title": "Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers"
+     "title": "Stock taking"
     },
     {
      "no": "5.8",
+     "title": "Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers"
+    },
+    {
+     "no": "5.9",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2382,
+    "words": 2612,
     "figures": 0,
     "examples": 2
    },
@@ -328,6 +343,7 @@
     "A complete worked example",
     "Provision for doubtful debts",
     "Final accounts of a company",
+    "Manufacturing account",
     "Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments",
     "Summary and exercises"
    ],
@@ -362,17 +378,21 @@
     },
     {
      "no": "6.8",
-     "title": "Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments"
+     "title": "Manufacturing account"
     },
     {
      "no": "6.9",
+     "title": "Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments"
+    },
+    {
+     "no": "6.10",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2386,
+    "words": 2616,
     "figures": 0,
     "examples": 0
    },
@@ -445,9 +465,74 @@
     "examples": 1
    },
    "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Introduction to Company Accounts",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "What a company is",
+    "Financial statements of a company",
+    "Share capital and its kinds",
+    "Debentures and the difference from shares",
+    "Issue of shares: the journal entries",
+    "Issue of debentures",
+    "Redemption of preference shares",
+    "Seeing the ideas: where each item sits in the balance sheet"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "What a company is"
+    },
+    {
+     "no": "8.2",
+     "title": "Financial statements of a company"
+    },
+    {
+     "no": "8.3",
+     "title": "Share capital and its kinds"
+    },
+    {
+     "no": "8.4",
+     "title": "Debentures and the difference from shares"
+    },
+    {
+     "no": "8.5",
+     "title": "Issue of shares: the journal entries"
+    },
+    {
+     "no": "8.6",
+     "title": "Issue of debentures"
+    },
+    {
+     "no": "8.7",
+     "title": "Redemption of preference shares"
+    },
+    {
+     "no": "8.8",
+     "title": "Seeing the ideas: where each item sits in the balance sheet"
+    }
+   ],
+   "summary": [
+    "A company is a separate legal person whose capital is split into shares; limited liability and perpetual succession follow.",
+    "Share capital has five layers from authorised to paid-up; equity shares carry risk and vote, preference shares carry a fixed preferential dividend.",
+    "Shares give ownership and a dividend; debentures are loans carrying interest and sit in liabilities.",
+    "Share issues pass through application, allotment and call accounts, with premium to Securities Premium and excess application money adjusted; unpaid calls become arrears and may lead to forfeiture and re-issue.",
+    "Debenture issues record the liability at the redemption amount and write the loss on issue off over the term.",
+    "Preference shares are redeemed from profits or a fresh issue, and a capital redemption reserve protects creditors."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4603,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 60,
- "notes_ready": 7
+ "unit_count": 8,
+ "topic_count": 72,
+ "notes_ready": 8
 }
