@@ -31,17 +31,18 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Business-Studies-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Business-Studies-2079-2082-Bundle.pdf",
   "subject": "Business Studies",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-bst-2082-2161",
    "12-bst-2081-2161",
-   "12-bst-2080-628"
+   "12-bst-2080-628",
+   "12-bst-2079-2161a"
   ],
-  "pages": 34,
-  "bytes": 412687,
+  "pages": 45,
+  "bytes": 555746,
   "category": "Board Exam Bundle"
  },
  {
