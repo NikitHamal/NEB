@@ -35,3 +35,6 @@ bca:semester-5/artificial-intelligence
 bca:semester-5/computer-networking
 bca:semester-5/mis-and-e-business
 bca:semester-5/project-2
+bca:semester-5/society-and-technology
+bca:semester-6/computer-graphics
+bca:semester-6/cryptography-network-security
