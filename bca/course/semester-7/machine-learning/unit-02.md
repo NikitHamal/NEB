@@ -394,7 +394,294 @@ print("score x1 + x2 - 2*x1*x2 =", score, "-> class", (score > 0.5).astype(int),
 ```output
 score x1 + x2 - 2*x1*x2 = [0 1 1 0] -> class [0 1 1 0] matches XOR: True
 ```
-## 2.9 Summary and exercises
+## 2.9 Gradient descent in practice: learning rate, batch and stochastic updates
+
+Linear regression, the perceptron, logistic regression and neural networks all learn by the same loop: compute the loss, compute its gradient, move the weights a small step against the gradient. This section isolates the loop. The update is $\mathbf w \leftarrow \mathbf w-\eta\,\nabla L(\mathbf w)$, where $\eta$ is the **learning rate**.
+
+::: definition Batch, stochastic and mini-batch gradient descent
+**Batch** gradient descent uses all $N$ examples to compute one exact gradient per update: stable, but slow when $N$ is huge. **Stochastic** gradient descent (SGD) updates after every single example: very cheap and noisy, which can even help escape poor regions. **Mini-batch** gradient descent uses a small group (typically 16 to 256): it keeps most of the noise reduction, makes good use of vector hardware and is the default for neural networks. One pass over the data is an **epoch**.
+:::
+
+The program fits a line to 200 noisy points (true slope 3, intercept 5; the feature is divided by 10 so the fitted slope is about 30), compares the closed-form least-squares answer with several learning rates, and then compares the three update styles over 30 epochs.
+
+```python
+import numpy as np
+rng = np.random.default_rng(7)
+N = 200
+x = rng.uniform(0, 10, N)
+y = 3.0 * x + 5.0 + rng.normal(0, 2.0, N)          # true line y = 3x + 5 plus noise
+X = np.c_[np.ones(N), x / 10]                        # bias column and a scaled feature
+def mse(w): return float(((X @ w - y) ** 2).mean())
+w_star = np.linalg.lstsq(X, y, rcond=None)[0]
+print("closed form: w = (%.3f, %.3f), MSE = %.3f" % (w_star[0], w_star[1], mse(w_star)))
+def batch(lr, steps):
+    w = np.zeros(2); hist = []
+    for _ in range(steps):
+        w -= lr * 2 * X.T @ (X @ w - y) / N; hist.append(mse(w))
+    return w, hist
+def sgd(lr, epochs, bs):
+    w = np.zeros(2); hist = []
+    for _ in range(epochs):
+        idx = rng.permutation(N)
+        for s in range(0, N, bs):
+            b = idx[s:s + bs]
+            w -= lr * 2 * X[b].T @ (X[b] @ w - y[b]) / len(b)
+        hist.append(mse(w))
+    return w, hist
+lam = float(np.linalg.eigvalsh(2 * X.T @ X / N).max())
+print("largest curvature %.2f, so batch descent is stable only for lr < 2/%.2f = %.3f" % (lam, lam, 2 / lam))
+print("learning rate  steps   final MSE")
+for lr in (0.001, 0.02, 0.1, 0.45, 0.9):
+    w, h = batch(lr, 100)
+    print("%-13g  %-6d  %s" % (lr, 100, "%.3f" % h[-1] if np.isfinite(h[-1]) and h[-1] < 1e6 else "diverged"))
+for name, bs in (("batch (200)", 200), ("mini-batch (20)", 20), ("stochastic (1)", 1)):
+    w, h = sgd({200: 0.1, 20: 0.1, 1: 0.01}[bs], 30, bs)
+    print("%-16s updates/epoch %-4d MSE after 30 epochs %.3f  w = (%.2f, %.2f)" % (name, -(-N // bs), h[-1], w[0], w[1]))
+```
+```output
+closed form: w = (4.868, 30.017), MSE = 3.750
+largest curvature 2.54, so batch descent is stable only for lr < 2/2.54 = 0.787
+learning rate  steps   final MSE
+0.001          100     303.921
+0.02           100     26.534
+0.1            100     6.374
+0.45           100     3.750
+0.9            100     diverged
+batch (200)      updates/epoch 1    MSE after 30 epochs 21.088  w = (12.50, 15.85)
+mini-batch (20)  updates/epoch 10   MSE after 30 epochs 3.761  w = (5.06, 29.65)
+stochastic (1)   updates/epoch 200  MSE after 30 epochs 3.831  w = (4.64, 29.90)
+```
+
+Three lessons follow from the output. First, the **learning rate** is the most important setting: at 0.001 the loss is still 304 after 100 steps (the model has barely moved), 0.02 is slow, 0.45 reaches the closed-form MSE of 3.75, and 0.9 exceeds the stability limit $2/\lambda_{\max}$ (computed from the curvature of the loss) and **diverges**. Second, with the same number of epochs, the style that makes more updates per epoch (mini-batch with 10, SGD with 200) got closest to the optimum, whereas batch descent with one update per epoch had not finished. Third, SGD does not stop exactly at the optimum: its final weights wander slightly around it because every example pulls in its own direction. A **decaying** learning rate removes the wandering.
+
+```svgfig label="2.5" caption="Effect of the learning rate on batch gradient descent for the same regression problem. A small rate (amber) is still far from the minimum after 40 iterations, a moderate rate (navy) converges steadily and a larger rate (green) converges in a handful of steps. A rate above the stability limit diverges."
+import numpy as np
+rng = np.random.default_rng(7)
+N = 200
+x = rng.uniform(0, 10, N)
+y = 3.0 * x + 5.0 + rng.normal(0, 2.0, N)
+X = np.c_[np.ones(N), x / 10]
+def run(lr, steps=40):
+    w = np.zeros(2); h = []
+    for _ in range(steps):
+        h.append(float(((X @ w - y) ** 2).mean()))
+        w -= lr * 2 * X.T @ (X @ w - y) / N
+    return h
+f = Fig(580, 250)
+ax = Axes(f, 70, 15, 400, 190, (0, 40), (0, 500))
+ax.grid(10, 100)
+ax.axes("", "")
+f.text(270, 238, "iteration", size=10.5, color=SLATE)
+f.text(110, 8, "MSE", size=10.5, color=SLATE)
+for lr, col, tag in ((0.02, AMBER, "lr = 0.02: too slow"), (0.1, NAVY, "lr = 0.1"), (0.45, TEAL, "lr = 0.45: fast")):
+    h = run(lr)
+    for i in range(39):
+        f.line(ax.X(i), ax.Y(h[i]), ax.X(i + 1), ax.Y(h[i + 1]), color=col, sw=2.4)
+f.text(525, ax.Y(300), "lr = 0.02", size=10.5, color=AMBER, bold=True)
+f.text(525, ax.Y(300) + 16, "still falling", size=10, color=SLATE)
+f.text(525, ax.Y(60), "lr = 0.1", size=10.5, color=NAVY, bold=True)
+f.text(525, ax.Y(30) + 26, "lr = 0.45", size=10.5, color=TEAL, bold=True)
+f.text(525, ax.Y(30) + 42, "converged", size=10, color=SLATE)
+```
+
+::: tip Practical rules
+Standardise features first (Section 1.11) so one learning rate suits all weights. Start with a learning rate such as 0.1 or 0.01, plot the loss against iterations and read the curve: a flat curve means too small, a zig-zag or growing curve means too large, a smooth fall that levels off means good. In neural networks add **momentum** (keep a running average of past gradients) or use an adaptive optimiser such as Adam; the idea is unchanged.
+:::
+
+## 2.10 Gini impurity, CART and pruning
+
+Section 2.6 grew a tree by information gain (entropy). The **CART** family (Classification and Regression Trees) uses the **Gini impurity** instead, $G=1-\sum_k p_k^2$, which is 0 for a pure node and 0.5 for a 50/50 two-class node. It avoids logarithms and in practice picks nearly the same splits. CART also builds only **binary** splits (a threshold for a numeric feature, a subset for a category) and handles **regression** by predicting the mean of the leaf and measuring impurity by variance.
+
+For PlayTennis (9 yes, 5 no) the root impurity is $1-(9/14)^2-(5/14)^2=0.459$. The first program computes the weighted Gini after splitting on each attribute (multi-way here, to compare with ID3), and then grows a tree on noisy two-class data to show **overfitting** and **pruning**.
+
+```python
+import numpy as np
+def gini(counts):
+    n = sum(counts)
+    return 1 - sum((c / n) ** 2 for c in counts) if n else 0.0
+# PlayTennis: (yes, no) counts per attribute value
+tab = {"Outlook": {"Sunny": (2, 3), "Overcast": (4, 0), "Rain": (3, 2)},
+       "Temperature": {"Hot": (2, 2), "Mild": (4, 2), "Cool": (3, 1)},
+       "Humidity": {"High": (3, 4), "Normal": (6, 1)},
+       "Wind": {"Weak": (6, 2), "Strong": (3, 3)}}
+root = gini((9, 5))
+print("Gini(root) = %.4f" % root)
+for a, vals in tab.items():
+    w = sum(sum(c) / 14 * gini(c) for c in vals.values())
+    print("%-12s weighted Gini %.4f   decrease %.4f" % (a, w, root - w))
+# a small CART tree on noisy two-class data, with a depth limit as pre-pruning
+rng = np.random.default_rng(11)
+def make(n):
+    X = np.vstack([rng.normal((0, 0), 1.2, (n, 2)), rng.normal((1.6, 1.6), 1.2, (n, 2))])
+    return X, np.r_[np.zeros(n, int), np.ones(n, int)]
+Xtr, ytr = make(100); Xte, yte = make(500)
+def grow(X, y, depth, max_depth, min_leaf=1):
+    if depth == max_depth or len(set(y)) == 1 or len(y) < 2 * min_leaf:
+        return int(np.bincount(y, minlength=2).argmax())
+    best = None
+    for j in range(2):
+        for t in np.unique(X[:, j])[:-1]:
+            m = X[:, j] <= t
+            if m.sum() < min_leaf or (~m).sum() < min_leaf: continue
+            g = (m.sum() * gini(np.bincount(y[m], minlength=2)) + (~m).sum() * gini(np.bincount(y[~m], minlength=2))) / len(y)
+            if best is None or g < best[0]: best = (g, j, t)
+    if best is None: return int(np.bincount(y, minlength=2).argmax())
+    _, j, t = best; m = X[:, j] <= t
+    return (j, t, grow(X[m], y[m], depth + 1, max_depth, min_leaf), grow(X[~m], y[~m], depth + 1, max_depth, min_leaf))
+def predict(tree, x):
+    while isinstance(tree, tuple):
+        tree = tree[2] if x[tree[0]] <= tree[1] else tree[3]
+    return tree
+def leaves(tree): return 1 if not isinstance(tree, tuple) else leaves(tree[2]) + leaves(tree[3])
+def acc(tree, X, y): return float(np.mean([predict(tree, x) == t for x, t in zip(X, y)]))
+print("depth  leaves  train acc  test acc")
+for d in (1, 2, 3, 4, 6, 8, 12):
+    tr = grow(Xtr, ytr, 0, d)
+    print("%-5d  %-6d  %-9.3f  %.3f" % (d, leaves(tr), acc(tr, Xtr, ytr), acc(tr, Xte, yte)))
+for ml in (1, 5, 15):
+    tr = grow(Xtr, ytr, 0, 12, ml)
+    print("min_leaf %-3d leaves %-3d train %.3f test %.3f" % (ml, leaves(tr), acc(tr, Xtr, ytr), acc(tr, Xte, yte)))
+```
+```output
+Gini(root) = 0.4592
+Outlook      weighted Gini 0.3429   decrease 0.1163
+Temperature  weighted Gini 0.4405   decrease 0.0187
+Humidity     weighted Gini 0.3673   decrease 0.0918
+Wind         weighted Gini 0.4286   decrease 0.0306
+depth  leaves  train acc  test acc
+1      2       0.800      0.752
+2      4       0.865      0.808
+3      8       0.870      0.822
+4      15      0.915      0.798
+6      29      0.965      0.786
+8      36      0.980      0.775
+12     40      1.000      0.773
+min_leaf 1   leaves 40  train 1.000 test 0.773
+min_leaf 5   leaves 18  train 0.885 test 0.819
+min_leaf 15  leaves 9   train 0.865 test 0.808
+```
+
+Outlook gives the largest drop in impurity (0.116), so Gini picks the same root as information gain in Section 2.6; Humidity is second, Wind and Temperature are weak. The second table is the important one. Training accuracy climbs from 0.80 to 1.00 as the tree grows to 40 leaves, but **test** accuracy peaks at depth 3 (0.822) and falls to 0.773: the deep tree has memorised noise, the overfitting pattern of Section 1.8. Limiting the minimum leaf size to 5 gives a tree of 18 leaves with test accuracy 0.819, far better than the unrestricted tree, with no search for depth at all.
+
+::: definition Pre-pruning and post-pruning
+**Pre-pruning** stops growth early: a maximum depth, a minimum number of examples per leaf, or a minimum impurity decrease. **Post-pruning** grows the full tree and then cuts back subtrees that do not help on held-out data. **Reduced-error pruning** replaces a subtree with a leaf if validation accuracy does not fall; **cost-complexity pruning** in CART minimises $\text{error}+\alpha\cdot(\text{number of leaves})$ and chooses $\alpha$ by cross-validation.
+:::
+
+Other points examiners like: trees need no scaling and handle mixed feature types; they are unstable (a small change in data can change the root) and axis-parallel (a diagonal boundary needs many splits); and they give readable if-then rules. The next section removes the instability.
+
+## 2.11 Ensemble learning: bagging, random forests and boosting
+
+A single flexible model has high variance (Section 1.8); the average of many different models has lower variance. An **ensemble** combines several base learners. Two families matter.
+
+**Bagging** (bootstrap aggregating) trains each learner on a **bootstrap sample**, $N$ examples drawn with replacement, which contains about 63 percent of the distinct examples; the rest (out-of-bag) give a free validation estimate. Predictions are combined by majority vote or averaging. A **random forest** is bagged trees with one more trick: at each split only a random subset of features is considered, which decorrelates the trees. Bagging reduces **variance**.
+
+**Boosting** trains learners in sequence, each focusing on the examples its predecessors got wrong. **AdaBoost** keeps a weight $w_i$ per example, fits a weak learner (often a one-split stump), computes its weighted error $\varepsilon$ and a vote strength $\alpha=\tfrac12\ln\frac{1-\varepsilon}{\varepsilon}$, then multiplies each weight by $e^{-\alpha y_i h(x_i)}$ and renormalises, so misclassified points gain weight. The final prediction is the sign of $\sum_t\alpha_t h_t(x)$. Boosting mainly reduces **bias**.
+
+The program reuses the tree code of Section 2.10. It bags 25 trees, boosts stumps for 1, 5, 25 and 100 rounds, and prints the textbook ten-point AdaBoost example round by round.
+
+```python
+import numpy as np
+def gini(counts):
+    n = sum(counts)
+    return 1 - sum((c / n) ** 2 for c in counts) if n else 0.0
+rng = np.random.default_rng(11)
+def make(n):
+    X = np.vstack([rng.normal((0, 0), 1.2, (n, 2)), rng.normal((1.6, 1.6), 1.2, (n, 2))])
+    return X, np.r_[np.zeros(n, int), np.ones(n, int)]
+Xtr, ytr = make(100); Xte, yte = make(500)
+def grow(X, y, depth, max_depth, min_leaf=1):
+    if depth == max_depth or len(set(y)) == 1 or len(y) < 2 * min_leaf:
+        return int(np.bincount(y, minlength=2).argmax())
+    best = None
+    for j in range(2):
+        for t in np.unique(X[:, j])[:-1]:
+            m = X[:, j] <= t
+            if m.sum() < min_leaf or (~m).sum() < min_leaf: continue
+            g = (m.sum() * gini(np.bincount(y[m], minlength=2)) + (~m).sum() * gini(np.bincount(y[~m], minlength=2))) / len(y)
+            if best is None or g < best[0]: best = (g, j, t)
+    if best is None: return int(np.bincount(y, minlength=2).argmax())
+    _, j, t = best; m = X[:, j] <= t
+    return (j, t, grow(X[m], y[m], depth + 1, max_depth, min_leaf), grow(X[~m], y[~m], depth + 1, max_depth, min_leaf))
+def predict(tree, x):
+    while isinstance(tree, tuple):
+        tree = tree[2] if x[tree[0]] <= tree[1] else tree[3]
+    return tree
+def leaves(tree): return 1 if not isinstance(tree, tuple) else leaves(tree[2]) + leaves(tree[3])
+def acc(tree, X, y): return float(np.mean([predict(tree, x) == t for x, t in zip(X, y)]))
+
+# ---- bagging: 25 deep trees on bootstrap samples, majority vote
+trees = []
+for _ in range(25):
+    i = rng.integers(0, len(ytr), len(ytr))
+    trees.append(grow(Xtr[i], ytr[i], 0, 12))
+single = grow(Xtr, ytr, 0, 12)
+vote = lambda x: int(np.mean([predict(t, x) for t in trees]) > 0.5)
+print("single deep tree test accuracy: %.3f" % acc(single, Xte, yte))
+print("bagging of 25 trees test accuracy: %.3f" % np.mean([vote(x) == t for x, t in zip(Xte, yte)]))
+# ---- AdaBoost with decision stumps, labels -1/+1
+def stump_fit(X, y, w):
+    best = None
+    for j in range(2):
+        for t in np.unique(X[:, j]):
+            for s in (1, -1):
+                p = np.where(X[:, j] <= t, s, -s)
+                e = w[p != y].sum()
+                if best is None or e < best[0]: best = (e, j, t, s)
+    return best
+def boost(X, y, rounds, verbose=False):
+    w = np.ones(len(y)) / len(y); ens = []
+    for r in range(rounds):
+        e, j, t, s = stump_fit(X, y, w)
+        a = 0.5 * np.log((1 - e) / max(e, 1e-12))
+        p = np.where(X[:, j] <= t, s, -s)
+        w = w * np.exp(-a * y * p); w /= w.sum()
+        ens.append((a, j, t, s))
+    return ens
+def bpred(ens, X): return np.sign(sum(a * np.where(X[:, j] <= t, s, -s) for a, j, t, s in ens))
+ypm, ytepm = 2 * ytr - 1, 2 * yte - 1
+for R in (1, 5, 25, 100):
+    e = boost(Xtr, ypm, R)
+    print("AdaBoost %-3d stumps: train %.3f  test %.3f" % (R, np.mean(bpred(e, Xtr) == ypm), np.mean(bpred(e, Xte) == ytepm)))
+# ---- the classic ten point hand example
+x = np.arange(10.0).reshape(-1, 1)
+y = np.array([1, 1, 1, -1, -1, -1, 1, 1, 1, -1])
+w = np.ones(10) / 10
+print("round  threshold  error  alpha   weights after update")
+for r in range(3):
+    best = None
+    for t in np.arange(-0.5, 9.6, 1.0):
+        for s in (1, -1):
+            p = np.where(x[:, 0] <= t, s, -s); e = w[p != y].sum()
+            if best is None or e < best[0] - 1e-12: best = (e, t, s)
+    e, t, s = best
+    a = 0.5 * np.log((1 - e) / e); p = np.where(x[:, 0] <= t, s, -s)
+    w = w * np.exp(-a * y * p); w /= w.sum()
+    print("%-5d  x<=%.1f -> %+d  %.3f  %.3f   %s" % (r + 1, t, s, e, a, np.round(w, 3)))
+```
+```output
+single deep tree test accuracy: 0.773
+bagging of 25 trees test accuracy: 0.827
+AdaBoost 1   stumps: train 0.800  test 0.752
+AdaBoost 5   stumps: train 0.835  test 0.786
+AdaBoost 25  stumps: train 0.895  test 0.821
+AdaBoost 100 stumps: train 0.905  test 0.818
+round  threshold  error  alpha   weights after update
+1      x<=2.5 -> +1  0.300  0.424   [0.071 0.071 0.071 0.071 0.071 0.071 0.167 0.167 0.167 0.071]
+2      x<=8.5 -> +1  0.214  0.650   [0.045 0.045 0.045 0.167 0.167 0.167 0.106 0.106 0.106 0.045]
+3      x<=5.5 -> -1  0.182  0.752   [0.125 0.125 0.125 0.102 0.102 0.102 0.065 0.065 0.065 0.125]
+```
+
+Bagging 25 deep trees lifts test accuracy from 0.773 (one deep tree) to 0.827, better than the best pruned tree: averaging cancelled the individual trees' noise. Boosting improves steadily, from 0.752 for one stump to about 0.82 with 25 stumps, then levels off. In the ten-point example, round 1 picks the stump $x\le2.5\Rightarrow+1$ with weighted error $0.3$ and $\alpha=\tfrac12\ln(0.7/0.3)=0.424$; the three misclassified points $x=6,7,8$ jump from weight 0.10 to 0.167 while the others fall to 0.071. Round 2 therefore prefers a stump that fixes them, with error 0.214 and $\alpha=0.650$. After three rounds the weighted vote classifies all ten points correctly although every individual stump errs on at least one.
+
+| Property | Bagging / random forest | Boosting (AdaBoost) |
+|---|---|---|
+| Training | Parallel, independent learners | Sequential, each depends on the last |
+| Base learner | Deep, high-variance trees | Weak, high-bias stumps |
+| Reduces | Variance | Bias (and some variance) |
+| Sensitive to noisy labels | Little | Yes: noisy points keep gaining weight |
+| Typical use | Safe default for tabular data | Highest accuracy after tuning (gradient boosting) |
+
+## 2.12 Summary and exercises
 
 Regression fits a line by least squares; the perceptron learns linearly separable problems by error-driven updates; hidden layers and back-propagation overcome XOR; ID3 grows a tree by information gain; the SVM picks the maximum-margin separator defined by its support vectors, with kernels for non-linear boundaries.
 
@@ -411,6 +698,12 @@ Regression fits a line by least squares; the perceptron learns linearly separabl
 11. A sigmoid unit has weights (0.5, -0.5), bias 0, input (1, 2) and target 1. Do one gradient step with learning rate 0.5 and report the new output.
 12. A linear SVM has w = (0.5, 0.5) and b = -2. Classify the points (2,2), (3,4) and (0.5,1) and say which lie inside the margin.
 13. State two differences between a perceptron and a multi-layer network trained by back-propagation, and one reason why early stopping helps.
+14. For $L(w)=(w-4)^2$ start at $w=0$ with $\eta=0.3$ and perform three gradient descent steps. For which $\eta$ does the iteration diverge?
+15. Differentiate batch, stochastic and mini-batch gradient descent in a table with one advantage each.
+16. Compute the Gini impurity of a node with 6 positive and 2 negative examples, and of a node with 4 and 4.
+17. Why does a decision tree with 100 percent training accuracy usually generalise badly? Name two ways to prevent it.
+18. Explain bagging and a random forest. Why are the trees in a forest made different on purpose?
+19. In AdaBoost a stump has weighted error 0.2. Find its vote strength $\alpha$ and the factor by which the weight of a misclassified point is multiplied before renormalising.
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
@@ -464,3 +757,25 @@ Forward: $z=0.5(1)-0.5(2)+0=-0.5$, $\hat y=1/(1+e^{0.5})=0.3775$. Error term: $\
 **Q8 (5 marks). Maximum-margin line for positives (2,2), (3,3) and negative (0,0).**
 
 Support vectors are (2,2) and (0,0), so $\mathbf{w}=(a,a)$ by symmetry. Then $-b=1$ gives $b=-1$ and $4a+b=1$ gives $a=0.5$, so $\mathbf{w}=(0.5,0.5)$, boundary $x_1+x_2=2$, margin $2/0.707=2.83$.
+
+**Q9 (5 marks). Gradient descent on $L(w)=(w-4)^2$ with $\eta=0.3$ from $w=0$.**
+
+The gradient is $2(w-4)$. Step 1: $w=0-0.3\cdot(-8)=2.4$. Step 2: gradient $2(2.4-4)=-3.2$, so $w=2.4+0.96=3.36$. Step 3: gradient $-1.28$, so $w=3.36+0.384=3.744$. Each step multiplies the distance to 4 by $1-2\eta=0.4$, so the error is 4, 1.6, 0.64, 0.256. The iteration converges when $|1-2\eta|<1$, that is $0<\eta<1$, and diverges for $\eta>1$ (at $\eta=1$ it oscillates between 0 and 8).
+
+**Q10 (5 marks). Gini impurity of two nodes.**
+
+For 6 positive and 2 negative: $1-(0.75)^2-(0.25)^2=1-0.5625-0.0625=0.375$. For 4 and 4: $1-0.25-0.25=0.5$, the maximum for two classes. A pure node has Gini 0. The split with the lowest weighted child impurity is chosen.
+
+**Q11 (10 marks). Overfitting in decision trees, pruning, and ensembles.**
+
+*Introduction.* A tree grown until every leaf is pure fits the noise in the training set; it has low bias and very high variance.
+
+*Evidence.* In our experiment training accuracy rose from 0.80 to 1.00 with depth while test accuracy peaked at depth 3 (0.822) and fell to 0.773 at 40 leaves.
+
+*Remedies.* Pre-pruning (maximum depth, minimum leaf size, minimum impurity decrease); post-pruning (reduced-error pruning on a validation set, cost-complexity pruning with $\alpha$ by cross-validation); and ensembles. Bagging 25 trees raised test accuracy to 0.827, because averaging independent high-variance models cancels their noise; random forests add random feature subsets at each split to decorrelate the trees. Boosting instead reduces bias by weighting hard examples.
+
+*Conclusion.* Control tree complexity with a validation set; for tabular data prefer a forest or boosted trees to a single tree, and keep one tree only when readability is the goal.
+
+**Q12 (5 marks). AdaBoost with error 0.2.**
+
+$\alpha=\tfrac12\ln(0.8/0.2)=\tfrac12\ln4=0.693$. A misclassified point has $y\,h=-1$, so its weight is multiplied by $e^{0.693}=2$; a correctly classified point by $e^{-0.693}=0.5$. After renormalising, the total weight of the mistakes becomes $0.2\cdot2=0.4$ against $0.8\cdot0.5=0.4$ for the rest: the next stump sees the mistakes as half of the data.
