@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Introduction to Computer System",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 1",
-   "words": 8215,
+   "words": 8216,
    "read_min": 46,
    "figures": 11,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Computer Software",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 2",
-   "words": 6086,
+   "words": 6087,
    "read_min": 34,
    "figures": 9,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Operating System",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 3",
-   "words": 4000,
+   "words": 4001,
    "read_min": 22,
    "figures": 5,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Database Management System",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 4",
-   "words": 5650,
+   "words": 5651,
    "read_min": 31,
    "figures": 8,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Data Communication and Computer Network",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 5",
-   "words": 6849,
+   "words": 6850,
    "read_min": 38,
    "figures": 14,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Internet and the World Wide Web",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 6",
-   "words": 5438,
+   "words": 5439,
    "read_min": 30,
    "figures": 7,
    "has_questions": true
@@ -59,9 +59,18 @@
    "no": 7,
    "title": "Contemporary Technologies",
    "area": "BCA 101 · Computer Fundamentals and Applications · Unit 7",
-   "words": 5298,
+   "words": 5299,
    "read_min": 29,
    "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Laboratory Applications: Word Processor, Spreadsheet, Presentation and Photo Editing",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Laboratory works (units 2 to 5 of the practical)",
+   "words": 4192,
+   "read_min": 23,
+   "figures": 1,
    "has_questions": true
   }
  ]

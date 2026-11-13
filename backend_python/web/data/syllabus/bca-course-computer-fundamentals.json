@@ -15,7 +15,7 @@
  "code": "BCA 101",
  "credits": 3,
  "semester": 1,
- "hours": 60,
+ "hours": 72,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -102,7 +102,7 @@
     "Motherboard"
    ],
    "stats": {
-    "words": 8493,
+    "words": 8494,
     "figures": 0,
     "examples": 2
    },
@@ -151,7 +151,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 6179,
+    "words": 6180,
     "figures": 0,
     "examples": 3
    },
@@ -210,7 +210,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4135,
+    "words": 4136,
     "figures": 0,
     "examples": 2
    },
@@ -269,7 +269,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5581,
+    "words": 5582,
     "figures": 0,
     "examples": 1
    },
@@ -333,7 +333,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 6696,
+    "words": 6697,
     "figures": 0,
     "examples": 3
    },
@@ -389,7 +389,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5458,
+    "words": 5459,
     "figures": 0,
     "examples": 0
    },
@@ -463,14 +463,62 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5262,
+    "words": 5263,
     "figures": 0,
     "examples": 1
    },
    "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Laboratory Applications: Word Processor, Spreadsheet, Presentation and Photo Editing",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Word processor",
+    "Spreadsheet",
+    "Presentation package",
+    "Photo editing package",
+    "Laboratory record checklist"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Word processor"
+    },
+    {
+     "no": "8.2",
+     "title": "Spreadsheet"
+    },
+    {
+     "no": "8.3",
+     "title": "Presentation package"
+    },
+    {
+     "no": "8.4",
+     "title": "Photo editing package"
+    },
+    {
+     "no": "8.5",
+     "title": "Laboratory record checklist"
+    }
+   ],
+   "summary": [
+    "A word processor works best with styles, section settings and mail merge; macros automate but must be treated as a security risk.",
+    "A spreadsheet recalculates formulas, so it supports validation, protection, what-if analysis, consolidation and pivot tables.",
+    "A presentation supports a speaker: structure, master slides and restrained effects.",
+    "Bitmap graphics depend on resolution and colour depth; compression and format choice control file size."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3760,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 55,
- "notes_ready": 7
+ "unit_count": 8,
+ "topic_count": 60,
+ "notes_ready": 8
 }
