@@ -30,7 +30,11 @@ If an object is brighter (or darker) than its background, its histogram has two 
 
 When the peaks overlap, a better choice is **Otsu's method**, which picks the $T$ that **maximizes the between-class variance** (equivalently, minimizes the within-class variance). For a threshold $k$ let $P_1(k)=\sum_{i\le k}p_i$ and $P_2=1-P_1$ be the class probabilities, $m_1(k)$ and $m_2(k)$ the class means and $m_G$ the global mean. Then
 
-$$\sigma_B^{2}(k)=P_1(m_1-m_G)^{2}+P_2(m_2-m_G)^{2}=P_1P_2\,(m_1-m_2)^{2},\qquad k^{*}=\arg\max_k\sigma_B^{2}(k).$$
+$$\sigma_B^{2}(k)=P_1(m_1-m_G)^{2}+P_2(m_2-m_G)^{2}=P_1P_2\,(m_1-m_2)^{2},$$
+
+and the threshold is
+
+$$k^{*}=\arg\max_k\ \sigma_B^{2}(k).$$
 
 It uses only the histogram, needs no parameters, and works well when the classes are of reasonable size; it fails when one class is tiny (the small peak is overwhelmed) or when the illumination is uneven.
 
@@ -39,16 +43,17 @@ import math
 f = Fig(640, 280)
 ax = Axes(f, 60, 25, 540, 200, (0, 255), (0, 1.05))
 ax.grid(dx=32, dy=0.5, labels=False)
-ax.axes(xl="grey level", yl="count")
+ax.axes(xl="", yl="count")
 g = lambda x, m, s, a: a * math.exp(-0.5 * ((x - m) / s) ** 2)
 h = lambda x: g(x, 70, 22, 1.0) + g(x, 175, 28, 0.62)
 ax.area(h, 0, 255, fill="#dbeafe", n=300)
 ax.curve(h, color=NAVY, sw=2.2, n=300)
 ax.vline(118, color=RED, dash=False, sw=2)
-ax.tag(118, 0.97, "threshold T", size=10.5, color=RED, bold=True)
+ax.tag(124, 0.93, "threshold T", size=10.5, color=RED, bold=True, anchor="start")
 ax.tag(70, 0.55, "background", size=10.5, color=NAVY, bold=True)
 ax.tag(190, 0.52, "object", size=10.5, color=NAVY, bold=True)
-f.text(330, 262, "pixels below T are set to 0, pixels above T to 1", size=10, color=SLATE)
+f.text(330, 246, "grey level", size=10, color=SLATE)
+f.text(330, 266, "pixels below T are set to 0, pixels above T to 1", size=10, color=SLATE)
 ```
 
 ### 5.1.3 Variable and adaptive thresholding
@@ -228,10 +233,11 @@ for t in (-90, -40, 20, 60):
     f.circle(qx, qy, 4.5, fill=AMBER, stroke=AMBER, label="")
 f.text(50 + rho * c / 2 + 16, 240 - rho * sn / 2 + 10, "rho", size=11, color=NAVY, bold=True)
 f.text(112, 226, "theta", size=10.5, color=NAVY, bold=True)
-f.text(250, 70, "line: rho = x cos(theta) + y sin(theta)", size=10, color=SLATE, anchor="end")
+f.text(300, 36, "line: rho = x cos(theta) + y sin(theta)", size=10, color=SLATE, anchor="end")
 ax = Axes(f, 390, 30, 280, 210, (0, 180), (-1.6, 1.6))
 ax.grid(dx=45, dy=1)
-ax.axes(xl="theta (degrees)", yl="rho (scaled)")
+ax.axes(xl="", yl="rho (scaled)")
+f.text(530, 268, "theta (degrees)", size=10, color=SLATE)
 pts = [(0.950, 0.311), (0.623, 0.540), (0.295, 0.770), (-0.032, 0.999)]
 def L(x, y): return lambda t: x * math.cos(math.radians(t)) + y * math.sin(math.radians(t))
 cols = (AMBER, TEAL, NAVY, SLATE)

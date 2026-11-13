@@ -39,10 +39,6 @@ $$s=\begin{cases}\alpha r & 0\le r<r_1\\ \beta(r-r_1)+s_1 & r_1\le r<r_2\\ \gamm
 
 If $r_1=s_1$ and $r_2=s_2$ the map is the identity. The most common stretch is **min-max (full-scale) stretching**: $s=(L-1)\dfrac{r-r_{min}}{r_{max}-r_{min}}$. **Clipping** is the special case $\alpha=\gamma=0$: everything below $r_1$ becomes 0 and everything above $r_2$ becomes $L-1$, used to remove noise outside a range. **Thresholding** is the extreme: $s=0$ for $r<T$ and $s=L-1$ for $r\ge T$ (a very steep stretch with $r_1=r_2=T$), giving a binary image used for segmentation (Unit 5).
 
-### 2.1.4 Intensity-level slicing and bit-plane slicing
-
-**Intensity-level (grey-level) slicing** highlights a band $[A,B]$ of grey levels, for instance to show a water body or a particular tissue. Two forms: one gives a high value to all levels in the band and a low value to the rest (a binary result), the other brightens the band and leaves the other levels unchanged. **Bit-plane slicing** treats an 8-bit pixel as eight planes, bit 0 (least significant) to bit 7 (most). The top planes carry most of the visually significant data and the lowest planes look like noise; this is the idea behind some compression and watermarking schemes (Unit 5).
-
 ```svgfig label="2.1" caption="Transfer curves s = T(r) of point operations on an 8-bit image: identity, negative, log, gamma 0.5 and 2.0, and a contrast stretch with control points (70, 20) and (180, 235)."
 f = Fig(680, 345)
 ax = Axes(f, 55, 20, 270, 270, (0, 255), (0, 255))
@@ -67,6 +63,11 @@ bx.pt(70, 20, "(70, 20)", dx=6, dy=-8)
 bx.pt(180, 235, "(180, 235)", dx=-6, dy=14, anchor="end")
 f.text(430, 330, "contrast stretch (navy), gamma 0.5 (teal)", size=9.5, color=SLATE, anchor="start")
 ```
+
+### 2.1.4 Intensity-level slicing and bit-plane slicing
+
+**Intensity-level (grey-level) slicing** highlights a band $[A,B]$ of grey levels, for instance to show a water body or a particular tissue. Two forms: one gives a high value to all levels in the band and a low value to the rest (a binary result), the other brightens the band and leaves the other levels unchanged. **Bit-plane slicing** treats an 8-bit pixel as eight planes, bit 0 (least significant) to bit 7 (most). The top planes carry most of the visually significant data and the lowest planes look like noise; this is the idea behind some compression and watermarking schemes (Unit 5).
+
 
 ```python
 import numpy as np

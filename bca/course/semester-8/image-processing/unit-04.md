@@ -375,7 +375,11 @@ The DCT looks at fixed 8 x 8 blocks and says what frequencies are present, but n
 
 The simplest wavelet is the **Haar** wavelet. For a pair of neighbouring samples $x_0,x_1$ it computes an **approximation** (average) and a **detail** (difference):
 
-$$a=\frac{x_0+x_1}{2},\qquad d=\frac{x_0-x_1}{2}\qquad\Longleftrightarrow\qquad x_0=a+d,\quad x_1=a-d .$$
+$$a=\frac{x_0+x_1}{2},\qquad d=\frac{x_0-x_1}{2},$$
+
+and the pair is recovered exactly by
+
+$$x_0=a+d,\qquad x_1=a-d .$$
 
 Applied to a whole row it produces a half-length low-pass signal $a$ (a blurred, subsampled copy) and a half-length high-pass signal $d$ (the differences, mostly near zero in smooth regions). Repeating on $a$ gives a **multi-level** decomposition. For the row $(9,7,3,5)$: first level $a=(8,4)$, $d=(1,-1)$; second level on $(8,4)$: $a=6$, $d=2$. The transform $(6,\;2,\;1,\;-1)$ holds the same information in a form with a **mean (6)** and details; reversing gives back $8=6+2$, $4=6-2$, then $9,7,3,5$. (The orthonormal version uses $1/\sqrt2$ instead of $1/2$ so that energy is preserved.)
 

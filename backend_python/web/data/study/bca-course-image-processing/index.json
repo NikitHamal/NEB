@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-8-image-processing",
+ "units": [
+  {
+   "no": 1,
+   "title": "Fundamentals of Image Processing",
+   "area": "BCA 454 · Image Processing · Unit 1",
+   "words": 6282,
+   "read_min": 35,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Image Enhancement",
+   "area": "BCA 454 · Image Processing · Unit 2",
+   "words": 6539,
+   "read_min": 36,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Image Restoration",
+   "area": "BCA 454 · Image Processing · Unit 3",
+   "words": 4493,
+   "read_min": 25,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Image Coding and Compression",
+   "area": "BCA 454 · Image Processing · Unit 4",
+   "words": 6481,
+   "read_min": 36,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Image Segmentation and Feature Extraction",
+   "area": "BCA 454 · Image Processing · Unit 5",
+   "words": 8281,
+   "read_min": 46,
+   "figures": 2,
+   "has_questions": true
+  }
+ ]
+}
