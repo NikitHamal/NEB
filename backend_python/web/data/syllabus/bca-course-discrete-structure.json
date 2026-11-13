@@ -368,9 +368,70 @@
     "examples": 6
    },
    "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Proof Pitfalls, Boolean Functions, Databases, Probability and Algorithms",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Proof methods that were missing, and mistakes in proofs",
+    "Boolean functions, floor and ceiling, and relational databases",
+    "Well-ordering, strong induction and the correctness of recursive algorithms",
+    "Integer representations and the algorithms of arithmetic",
+    "Counting objects that are not all different, and generating permutations",
+    "Discrete probability",
+    "Graph models, isomorphism, matching and the travelling salesman problem"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Proof methods that were missing, and mistakes in proofs"
+    },
+    {
+     "no": "7.2",
+     "title": "Boolean functions, floor and ceiling, and relational databases"
+    },
+    {
+     "no": "7.3",
+     "title": "Well-ordering, strong induction and the correctness of recursive algorithms"
+    },
+    {
+     "no": "7.4",
+     "title": "Integer representations and the algorithms of arithmetic"
+    },
+    {
+     "no": "7.5",
+     "title": "Counting objects that are not all different, and generating permutations"
+    },
+    {
+     "no": "7.6",
+     "title": "Discrete probability"
+    },
+    {
+     "no": "7.7",
+     "title": "Graph models, isomorphism, matching and the travelling salesman problem"
+    }
+   ],
+   "summary": [
+    "Vacuous and trivial proofs, proofs by cases, existence and uniqueness proofs and counterexamples complete the proof toolbox; the common mistakes are the converse and inverse errors, circular reasoning and division by zero.",
+    "Floor and ceiling convert real numbers to integers; Boolean functions are maps from bit strings to bits; n-ary relations are the mathematics of database tables with selection, projection and join.",
+    "Well-ordering is equivalent to induction, and recursive algorithms are proved correct by induction on the input size.",
+    "Integers are stored in base 2 and written in base 8 or 16; arithmetic uses carry, shift-and-add, division with remainder and repeated squaring.",
+    "Arrangements with identical objects divide by the factorials of the repeats; next-permutation and combination generation list objects in lexicographic order.",
+    "Probability adds conditional probability, Bayes' theorem, expectation, variance, randomized algorithms and the hashing collision analysis.",
+    "Graphs model many real systems; isomorphism, matching and the travelling salesman problem show where graph questions become easy or hard."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6043,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 6,
- "topic_count": 42,
- "notes_ready": 6
+ "unit_count": 7,
+ "topic_count": 49,
+ "notes_ready": 7
 }

@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,644,287 raw words of study material, counted over the unit files, including code listings and tables):
+**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,652,119 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -13,7 +13,7 @@
 | 1 | BCA 104 | [Mathematics I](course/semester-1/mathematics-1/) | 30,356 | 82 | done |
 | 1 | BCA 105 | [Professional Communication and Ethics](course/semester-1/professional-communication-ethics/) | 52,328 | 151 | done |
 | 1 | BCA 106 | [Hardware Workshop](course/semester-1/hardware-workshop/) | 37,161 | 109 | done |
-| 2 | BCA 151 | [Discrete Structure](course/semester-2/discrete-structure/) | 28,364 | 75 | done |
+| 2 | BCA 151 | [Discrete Structure](course/semester-2/discrete-structure/) | 36,196 | 97 | done |
 | 2 | BCA 152 | [Microprocessor and Computer Architecture](course/semester-2/microprocessor-computer-architecture/) | 59,057 | 148 | done |
 | 2 | BCA 153 | [OOP in Java](course/semester-2/oop-in-java/) | 26,154 | 95 | done |
 | 2 | BCA 154 | [Mathematics II](course/semester-2/mathematics-2/) | 31,797 | 97 | done |
