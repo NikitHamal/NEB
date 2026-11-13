@@ -237,7 +237,31 @@ dim 1000  nearest/farthest distance ratio = 0.90
 | Handles non-linear boundaries naturally | Needs scaling and a sensible distance |
 | Few assumptions; works for classification and regression | Hurt by irrelevant features and high dimensions; stores all data |
 
-## 3.6 Summary and exercises
+## 3.6 Maximum likelihood, MAP and Gaussian naive Bayes
+
+Two ways to estimate a parameter $\theta$ from data $D$: **maximum likelihood (ML)** picks the $\theta$ that makes the data most probable, $\hat\theta_{ML}=\arg\max P(D\mid\theta)$; **maximum a posteriori (MAP)** also uses a prior, $\hat\theta_{MAP}=\arg\max P(D\mid\theta)P(\theta)$. For a coin with 3 heads in 3 tosses, ML says $P(\text{head})=1$ (absurd after three tosses); a prior that favours fair coins moves the MAP estimate towards 0.5. Laplace smoothing is exactly MAP with a uniform prior. With more data the likelihood dominates and the two agree.
+
+For **continuous features** Gaussian naive Bayes models $P(x\mid\omega)$ as a normal density $\mathcal N(\mu_\omega,\sigma_\omega^2)$ whose mean and variance are estimated from each class.
+
+```python
+import numpy as np
+from math import exp, pi, sqrt
+small = np.array([158, 162, 165, 170, 172.0]); tall = np.array([176, 180, 183, 185, 190.0])   # heights (cm): shorter vs taller group
+def pdf(x, v): m, s = v.mean(), v.std(ddof=1); return exp(-((x - m) ** 2) / (2 * s * s)) / (s * sqrt(2 * pi))
+for h in (168, 174, 178):
+    a, b = pdf(h, small) * 0.5, pdf(h, tall) * 0.5
+    print("height %d: P(group A) = %.3f, P(group B) = %.3f -> %s" % (h, a / (a + b), b / (a + b), "A" if a > b else "B"))
+print("ML estimate of P(head) after 3 heads in 3 tosses = 1.0; MAP with a Beta(5,5) prior = %.3f" % ((3 + 4) / (3 + 8)))
+```
+```output
+height 168: P(group A) = 0.977, P(group B) = 0.023 -> A
+height 174: P(group A) = 0.546, P(group B) = 0.454 -> A
+height 178: P(group A) = 0.110, P(group B) = 0.890 -> B
+ML estimate of P(head) after 3 heads in 3 tosses = 1.0; MAP with a Beta(5,5) prior = 0.636
+```
+The **MAP** value uses the prior pseudo-counts: with a Beta(5,5) prior (equivalent to 4 imaginary heads and 4 imaginary tails beyond the first), the estimate is $(3+4)/(3+8)=0.636$, much more sensible than 1.0.
+
+## 3.7 Summary and exercises
 
 Bayes' rule converts likelihood and prior into a posterior. The Bayes classifier picks the most probable class (minimum error) or the least risky action (minimum risk). Naive Bayes multiplies per-feature likelihoods under conditional independence and uses Laplace smoothing. A Bayesian network is a DAG with CPTs that factorises the joint distribution. k-NN votes among the k closest stored examples; the choice of k, the distance and feature scaling decide its quality.
 

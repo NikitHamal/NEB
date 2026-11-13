@@ -51,7 +51,7 @@ f.text(226, 94, "axon", size=9.5, color=TEAL)
 f.text(430, 18, "Artificial neuron", size=11, color=NAVY, bold=True)
 for i, (y, t) in enumerate(((45, "x1"), (105, "x2"), (165, "x3"))):
     f.circle(330, y, 15, fill=BLUE, stroke=NAVY, label=t, size=10)
-    f.arrow([(345, y), (404, 105)], color=NAVY, label="w%d" % (i + 1), lpos=0.45)
+    f.arrow([(345, y), (404, 105)], color=NAVY, label="w%d" % (i + 1), lpos=(372, (y + 105) / 2 - 4 + (6 if y > 105 else 0)))
 f.circle(430, 105, 28, fill=BLUE, stroke=NAVY, label="Σ + b", size=11)
 f.box(470, 90, 50, 30, "f(z)", fill=ROSE, stroke=RED, size=11, bold=True)
 f.arrow([(520, 105), (565, 105)], color=NAVY)
@@ -235,7 +235,47 @@ for n in (15, 25, 50, 100, 400):
  100      0.091    0.103              |     0.084    0.099
  400      0.094    0.100              |     0.088    0.094
 ```
-## 1.9 Summary and exercises
+## 1.9 Regularisation and splitting data in practice
+
+**Regularisation** fights over-fitting by penalising large weights. **Ridge regression** minimises $\sum (\hat y_i-y_i)^2+\lambda\sum w_j^{2}$: the larger $\lambda$ is, the smaller the weights and the smoother the model (more bias, less variance). **Lasso** uses $\lambda\sum|w_j|$, which drives some weights exactly to zero and so selects features. $\lambda$ is a **hyper-parameter**: it is chosen on the validation set, never on the training set. The program fits a degree-9 polynomial to 12 noisy points with several values of $\lambda$ and scores each on fresh data.
+
+```python
+import numpy as np
+rng = np.random.default_rng(11)
+def make(n):
+    x = rng.uniform(-1, 1, n); return x, np.sin(np.pi * x) + rng.normal(0, 0.25, n)
+xt, yt = make(12); xv, yv = make(400)
+def feats(x): return np.vander(x, 10, increasing=True)
+print("lambda      train-MSE  validation-MSE")
+for lam in (0, 1e-6, 1e-3, 1e-1, 1, 10):
+    A = feats(xt)
+    w = np.linalg.solve(A.T @ A + lam * np.eye(10), A.T @ yt)
+    print("%-10g  %8.3f  %12.3f" % (lam, np.mean((A @ w - yt) ** 2), np.mean((feats(xv) @ w - yv) ** 2)))
+```
+```output
+lambda      train-MSE  validation-MSE
+0              0.001        10.177
+1e-06          0.003         0.485
+0.001          0.005         0.106
+0.1            0.019         0.180
+1              0.057         0.333
+10             0.107         0.465
+```
+With $\lambda=0$ the training error is almost zero but the validation error is high (over-fitting); a moderate $\lambda$ trades a little training error for a much better validation error; a very large $\lambda$ flattens the curve and the model under-fits. The same principle appears as **tree depth limits**, **early stopping** in networks and **the C parameter** of the SVM.
+
+**Splitting in code.** Shuffle before splitting (data files are often sorted by class or date), fix the random seed so the experiment can be repeated, and keep the proportions of the classes (stratify). For time-ordered data split by time, training on the past and testing on the future, because a random split would let the model "see" the future.
+
+```python
+import numpy as np
+rng = np.random.default_rng(0)
+y = np.array([0] * 90 + [1] * 10)
+idx = rng.permutation(len(y)); tr, va, te = idx[:60], idx[60:80], idx[80:]
+print("sizes:", len(tr), len(va), len(te), "| positives in each part:", y[tr].sum(), y[va].sum(), y[te].sum())
+```
+```output
+sizes: 60 20 20 | positives in each part: 5 4 1
+```
+## 1.10 Summary and exercises
 
 ML is Mitchell's (T, P, E) definition made practical: supervised, unsupervised, semi-supervised and reinforcement learning. Data is split into training, validation and test sets. Learning is feasible because of Hoeffding-type bounds; the VC bound says test error is at most training error plus a complexity penalty; the error decomposes into bias, variance and noise; and learning curves diagnose which of the two to fix.
 
