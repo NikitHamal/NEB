@@ -389,6 +389,205 @@ f.text(150, 210, "tracking window is lost after long uptime", size=10.5, color=R
 f.text(150, 226, "fix: reboot, or exact arithmetic", size=10.5, color=TEAL, bold=True)
 ```
 
+## 1.11 Floating-point numbers and machine epsilon
+
+A computer stores a real number as a **floating-point** value: a sign, a fixed number of significant binary digits (the **mantissa**) and an exponent, $x = \pm\, m \times 2^{e}$. In IEEE 754 *double precision* the mantissa has 53 bits, which is about 15 to 16 significant decimal digits; in *single precision* it has 24 bits, about 7 digits. Only a finite set of numbers is representable, so every stored value is a rounded copy of the true one.
+
+**Machine epsilon** $\varepsilon_{\text{mach}}$ is the gap between 1 and the next larger representable number. For doubles $\varepsilon_{\text{mach}} = 2^{-52} = 2.220446\times 10^{-16}$; for singles $2^{-23} = 1.192093\times 10^{-7}$. Rounding to nearest gives every stored number a relative error of at most $u = \varepsilon_{\text{mach}}/2$ (the **unit round-off**). Three consequences that matter in every method of this book:
+
+- **Not every decimal is exact.** 0.1 has an endless binary expansion, so in double precision `0.1 + 0.2` evaluates to 0.30000000000000004, and a test `0.1 + 0.2 == 0.3` is false.
+- **Small numbers vanish next to big ones.** `(1 + 1e-16) - 1` evaluates to 0 because $10^{-16}$ is below half of $\varepsilon_{\text{mach}}$: the addition returns exactly 1.
+- **There is a range limit.** Doubles overflow near $1.8\times 10^{308}$ and underflow below $2.2\times 10^{-308}$.
+
+::: key Consequence for the stopping rule
+It is pointless to ask a double-precision iteration for a relative accuracy better than about $10^{-16}$; the table in Section 1.5 reaches the root to ten digits after three Newton steps and then the iterates simply stop changing. Asking for more only produces noise.
+:::
+
+## 1.12 Propagation of error and loss of significance
+
+Suppose a quantity is computed from measured inputs, $z = f(x, y)$, and the inputs carry absolute errors $\Delta x$ and $\Delta y$. A first-order Taylor expansion gives the **error propagation formula**
+
+$$\Delta z \;\lesssim\; \left|\frac{\partial f}{\partial x}\right| \Delta x \;+\; \left|\frac{\partial f}{\partial y}\right| \Delta y .$$
+
+Special cases: for sums and differences the *absolute* errors add; for products and quotients the *relative* errors add; for a power $x^{k}$ the relative error is multiplied by $|k|$.
+
+::: example Volume of a cylinder
+A cylinder has radius $r = 2.50 \pm 0.02$ cm and height $h = 10.0 \pm 0.1$ cm. Its volume is $V = \pi r^{2} h = 196.35\ \text{cm}^3$. The relative error is $2\,(0.02/2.50) + 0.1/10.0 = 0.016 + 0.010 = 0.026$ (2.6 %), so $\Delta V \approx 0.026 \times 196.35 = 5.11\ \text{cm}^3$ and the volume lies between 191.24 and 201.45 cm³. The radius dominates because it is squared.
+:::
+
+**Loss of significance (cancellation).** Subtracting two nearly equal numbers cancels the leading digits that agree and leaves the doubtful trailing digits. The relative error of the difference can be huge even though each input was accurate.
+
+::: example The small root of x² − 1000x + 1 = 0 in five-digit arithmetic
+The exact roots are 999.999001 and 0.001000001. Work with five significant digits. The discriminant is $1000^{2} - 4 = 999996$, which rounds to $1.0000\times 10^{6}$, so $\sqrt{\ } = 1000.0$.
+
+- **Direct formula.** The small root is $(1000 - 1000.0)/2 = 0$. Every digit is wrong: the subtraction of two nearly equal numbers destroyed the answer.
+- **Rationalised formula.** Since the product of the roots is $c/a = 1$, the small root is $\dfrac{2c}{-b - \sqrt{b^{2}-4ac}}$ in magnitude, i.e. $\dfrac{2}{1000 + 1000.0} = 0.0010000$. Correct to five digits, and the subtraction has been replaced by an addition.
+:::
+
+The cure is algebra before arithmetic: rationalise, use a Taylor series, or use a trigonometric identity ($1 - \cos x = 2\sin^{2}(x/2)$ for small $x$) so that no two nearly equal numbers are subtracted.
+
+**Condition and stability.** A *problem* is **ill-conditioned** if small changes in the data change the answer a lot (for instance, roots of a polynomial with clustered roots, Section 1.16, or the linear systems of Unit 4). An *algorithm* is **unstable** if rounding errors grow along the computation. Conditioning belongs to the problem; stability belongs to the method. A good algorithm cannot rescue an ill-conditioned problem, but a bad algorithm can ruin a well-conditioned one.
+
+## 1.13 Accelerating convergence: Aitken's $\Delta^{2}$ and Steffensen's method
+
+Fixed-point iterates $x_{n+1} = g(x_n)$ with $0 < |g'| < 1$ approach the root like a geometric progression, so the **error ratio is nearly constant**. If $x_{n+1} - \alpha \approx k\,(x_n - \alpha)$ for the same $k$ twice in a row, eliminating $k$ and solving for $\alpha$ gives **Aitken's $\Delta^{2}$ formula**:
+
+$$\hat{x}_n = x_n - \frac{(x_{n+1} - x_n)^{2}}{x_{n+2} - 2x_{n+1} + x_n} .$$
+
+**Steffensen's method** applies Aitken's formula immediately and restarts from the improved value: from $x_n$ compute $a = g(x_n)$, $b = g(a)$, then $x_{n+1} = x_n - \dfrac{(a - x_n)^{2}}{b - 2a + x_n}$. It needs no derivative yet converges quadratically.
+
+::: example Accelerating $x = (x + 2)^{1/3}$ from $x_0 = 1.5$ (root 1.5213797068)
+Plain iteration (Section 1.7) gives $x_1 = 1.5182945$, $x_2 = 1.5209353$, $x_3 = 1.5213157$, $x_4 = 1.5213705$: after four evaluations only four decimals are right. Aitken on the first three iterates gives $\hat{x}_0 = 1.5213808$ (error $1.1\times 10^{-6}$); on the next three it gives $1.5213797$.
+
+| Steffensen step | $x_n$ | $a = g(x_n)$ | $b = g(a)$ | $x_{n+1}$ | error |
+|---|---|---|---|---|---|
+| 0 | 1.50000000 | 1.51829449 | 1.52093526 | 1.5213807618 | 1.05e-06 |
+| 1 | 1.52138076 | 1.52137986 | 1.52137973 | 1.5213797068 | 2.4e-15 |
+
+Two Steffensen steps (four evaluations of $g$ in all) reach double-precision accuracy, which plain iteration needs 15 steps for.
+:::
+
+::: caution When Aitken fails
+If the denominator $x_{n+2} - 2x_{n+1} + x_n$ becomes 0 (the iterates have already converged, or $g' \approx 1$) the formula divides by zero. Stop as soon as $|x_{n+2} - x_{n+1}|$ is below the tolerance, before forming the quotient. A third Steffensen step on this example would divide $0/0$ for exactly that reason.
+:::
+
+## 1.14 Multiple roots and the modified Newton method
+
+A root $\alpha$ has **multiplicity** $m$ if $f(x) = (x - \alpha)^{m} h(x)$ with $h(\alpha) \ne 0$; equivalently $f(\alpha) = f'(\alpha) = \dots = f^{(m-1)}(\alpha) = 0$. At a multiple root the graph touches the axis instead of crossing it, so bisection and false position (which need a sign change) cannot see an even-multiplicity root at all, and Newton's method **loses its quadratic speed**: near the root $f$ and $f'$ both tend to 0 and the error ratio tends to $(m - 1)/m$, i.e. the method is only linear (halving the error when $m = 2$).
+
+Two repairs, both restoring quadratic convergence:
+
+1. **Known multiplicity:** $x_{n+1} = x_n - m\,\dfrac{f(x_n)}{f'(x_n)}$.
+2. **Unknown multiplicity:** apply Newton to $u(x) = f(x)/f'(x)$, which has the same roots but all of them *simple*:
+$$x_{n+1} = x_n - \frac{f(x_n)\,f'(x_n)}{[f'(x_n)]^{2} - f(x_n)\,f''(x_n)} .$$
+
+::: example $f(x) = x^3 - 3x + 2 = (x - 1)^{2}(x + 2)$, double root at 1, start $x_0 = 2$
+Ordinary Newton: 1.555556, 1.297907, 1.155390, 1.079562, 1.040288, 1.020277, 1.010172, 1.005095. The error halves every step (0.556, 0.298, 0.155, 0.0796, 0.0403, ...), so eight steps give only two decimals.
+
+Modified Newton with $m = 2$:
+
+| $n$ | $x_n$ | $x_{n+1} = x_n - 2f/f'$ | error of $x_{n+1}$ |
+|---|---|---|---|
+| 0 | 2.00000000 | 1.1111111111 | 1.11e-01 |
+| 1 | 1.11111111 | 1.0019493177 | 1.95e-03 |
+| 2 | 1.00194932 | 1.0000006327 | 6.3e-07 |
+| 3 | 1.00000063 | 1.0000000002 | 1.6e-10 |
+
+Quadratic again: the error is roughly squared each step. The $f/f'$ method with the same start gives 0.909091, 0.998536, 0.9999996, 0.9999999996. Note the last modified-Newton iterate would fall back to $4.8\times 10^{-7}$ if one more step were taken: $f$ and $f'$ are both of size $10^{-10}$ or less there and their ratio is dominated by round-off, a warning that multiple roots are intrinsically ill-conditioned.
+:::
+
+```svgfig label="1.3" caption="Newton's method at the double root of $x^{3} - 3x + 2$ from $x_0 = 2$ (error on a log scale). Ordinary Newton gains only a factor of two per step (a straight line of slope about $-0.3$); with the multiplicity factor $m = 2$ the error falls quadratically and reaches $10^{-10}$ in four steps."
+import math
+f = Fig(560, 230)
+ax = Axes(f, 56, 14, 520, 170, (0, 8), (-11, 0.5))
+ax.grid(1, 2)
+ax.axes("", "")
+g = lambda x: x**3 - 3 * x + 2
+gp = lambda x: 3 * x * x - 3
+def lg(e): return max(-11, math.log10(max(e, 1e-12)))
+def run(m, n):
+    x = 2.0; P = [(0, lg(1.0))]
+    for k in range(1, n + 1):
+        x = x - m * g(x) / gp(x); P.append((k, lg(abs(x - 1))))
+    return P
+for P, col in ((run(1, 8), AMBER), (run(2, 4), RED)):
+    for (n1, e1), (n2, e2) in zip(P, P[1:]):
+        ax.curve(lambda t, n1=n1, e1=e1, n2=n2, e2=e2: e1 + (e2 - e1) * (t - n1) / (n2 - n1), n1, n2, color=col, sw=2.4)
+    for n, e in P:
+        f.circle(ax.X(n), ax.Y(e), 3.2, fill=col, stroke=col)
+f.text(330, 56, "ordinary Newton: linear, ratio 1/2", size=10, color=AMBER, bold=True)
+f.text(150, 160, "modified, m = 2: quadratic", size=10, color=RED, bold=True)
+f.text(300, 206, "iteration number", size=10.5, color=SLATE)
+f.text(300, 222, "log10 of the error", size=10, color=SLATE)
+```
+
+## 1.15 Polynomial roots: Horner's rule, deflation and Müller's method
+
+**Horner's rule (synthetic division).** To evaluate $p(x) = a_0x^{n} + a_1x^{n-1} + \dots + a_n$ at $x = t$ use the nested form $p(t) = (\cdots((a_0 t + a_1)t + a_2)t + \cdots)t + a_n$. The running values are $b_0 = a_0$, $b_k = a_k + t\,b_{k-1}$, and the last one $b_n$ equals $p(t)$. It uses $n$ multiplications instead of about $n^{2}/2$ and is the way to evaluate polynomials in code. The earlier $b_k$ are exactly the coefficients of the **quotient** when $p(x)$ is divided by $(x - t)$, and $b_n$ is the remainder.
+
+::: example Horner at t = 3 for p(x) = 2x³ − 6x² + 2x − 1
+| | 2 | −6 | 2 | −1 |
+|---|---|---|---|---|
+| $t = 3$ | | 6 | 0 | 6 |
+| $b_k$ | 2 | 0 | 2 | 5 |
+
+So $p(3) = 5$ and $p(x) = (x - 3)(2x^{2} + 2) + 5$.
+:::
+
+Applying the same scheme again to the $b_k$ gives $p'(t)$, so one pass of "Horner twice" supplies both $p$ and $p'$ for a Newton step. Once a root $r$ is found, the quotient is a polynomial of one lower degree (**deflation**) and the search continues on it.
+
+::: example Newton with Horner on p(x) = x³ − 6x² + 11x − 6 from x₀ = 0.5
+| $n$ | $x_n$ | $p(x_n)$ | $p'(x_n)$ | $x_{n+1}$ |
+|---|---|---|---|---|
+| 0 | 0.50000000 | −1.875000 | 5.750000 | 0.82608696 |
+| 1 | 0.82608696 | −0.443823 | 3.134216 | 0.96769287 |
+| 2 | 0.96769287 | −0.067779 | 2.196974 | 0.99854405 |
+| 3 | 0.99854405 | −0.002918 | 2.008742 | 0.99999683 |
+| 4 | 0.99999683 | −0.000006 | 2.000019 | 1.00000000 |
+
+The root is 1. Horner at $t = 1$ gives the quotient coefficients 1, −5, 6 and remainder 0, so the deflated quadratic is $x^{2} - 5x + 6 = (x - 2)(x - 3)$ with roots 2 and 3.
+:::
+
+::: caution Deflation order matters
+Deflation passes the rounding error of each root into the quotient. Remove roots in **increasing order of magnitude** (smallest first) for stability, and polish every deflated root by a few Newton steps on the *original* polynomial.
+:::
+
+**Müller's method** generalises the secant method. The secant method fits a *line* through two points; Müller fits a *parabola* through three, $x_0, x_1, x_2$, and takes the nearer zero of the parabola as $x_3$. Put $h_1 = x_1 - x_0$, $h_2 = x_2 - x_1$, $\delta_1 = \dfrac{f(x_1) - f(x_0)}{h_1}$, $\delta_2 = \dfrac{f(x_2) - f(x_1)}{h_2}$. Then
+
+$$A = \frac{\delta_2 - \delta_1}{h_2 + h_1},\quad B = A h_2 + \delta_2,\quad C = f(x_2),\quad x_3 = x_2 - \frac{2C}{B \pm \sqrt{B^{2} - 4AC}} ,$$
+
+where the sign is chosen to make the denominator larger in magnitude. The order of convergence is about 1.84. The special value of Müller's method is that a negative discriminant produces a **complex** $x_3$, so it can find complex roots of a real function starting from real guesses, which Newton and secant cannot.
+
+::: example Müller on x³ − x − 2 from x₀ = 1, x₁ = 1.5, x₂ = 2
+| $n$ | $x_0$ | $x_1$ | $x_2$ | $A$ | $B$ | $C$ | $x_3$ | error |
+|---|---|---|---|---|---|---|---|---|
+| 0 | 1.000000 | 1.500000 | 2.000000 | 4.500000 | 10.500000 | 4.000000 | 1.52051760 | 8.6e-04 |
+| 1 | 1.500000 | 2.000000 | 1.520518 | 5.020518 | 5.945759 | −0.005121 | 1.52137823 | 1.5e-06 |
+| 2 | 2.000000 | 1.520518 | 1.521378 | 5.041896 | 5.944187 | −0.000009 | 1.52137971 | 1.0e-10 |
+
+Three steps give ten correct digits: faster than the secant method (compare Section 1.6) at the price of a square root per step. The fitted coefficients approach the Taylor coefficients at the root: with $f''(\alpha) = 6\alpha = 9.13$ and $f'(\alpha) = 5.94$, the next row of the run has $A = 4.563 \approx f''/2$ and $B = 5.944 \approx f'$.
+:::
+
+```svgfig label="1.4" caption="One Müller step for $x^{3} - x - 2$. The cubic (navy) is replaced by the parabola (red) through the three starting points (1, -2), (1.5, -0.125) and (2, 4); the parabola's zero near 1.5205 is already within $10^{-3}$ of the true root 1.52138. The secant line through the last two points (dashed) crosses at 1.515."
+f = Fig(380, 250)
+ax = Axes(f, 40, 14, 340, 190, (0.9, 2.1), (-3, 5))
+ax.grid(0.2, 1)
+ax.axes("", "")
+g = lambda x: x**3 - x - 2
+ax.curve(g, 0.9, 2.1, color=NAVY, sw=2.2)
+x0, x1, x2 = 1.0, 1.5, 2.0
+y0, y1, y2 = g(x0), g(x1), g(x2)
+def par(x):
+    return y0 * (x - x1) * (x - x2) / ((x0 - x1) * (x0 - x2)) + y1 * (x - x0) * (x - x2) / ((x1 - x0) * (x1 - x2)) + y2 * (x - x0) * (x - x1) / ((x2 - x0) * (x2 - x1))
+ax.curve(par, 0.9, 2.1, color=RED, sw=2)
+ax.curve(lambda x: y1 + (y2 - y1) / (x2 - x1) * (x - x1), 1.2, 2.05, color=SLATE, sw=1.4)
+for x, y in ((x0, y0), (x1, y1), (x2, y2)):
+    f.circle(ax.X(x), ax.Y(y), 4, fill=AMBER, stroke=SLATE)
+f.circle(ax.X(1.5205176), ax.Y(0), 4.5, fill=RED, stroke=RED)
+f.text(110, 60, "cubic f", size=10.5, color=NAVY, bold=True)
+f.text(230, 44, "parabola", size=10.5, color=RED, bold=True)
+f.text(80, 150, "secant line", size=10, color=SLATE)
+f.text(215, 232, "root near 1.5205", size=10, color=RED, bold=True)
+```
+
+## 1.16 Stopping criteria and the sensitivity of roots
+
+**When to stop an iteration.** Three tests are in common use, and a reliable program checks more than one:
+
+1. **Step size:** $|x_{n+1} - x_n| < \varepsilon$ (absolute), or $\dfrac{|x_{n+1} - x_n|}{|x_{n+1}|} < \varepsilon$ (relative, better when the root is large or tiny).
+2. **Residual:** $|f(x_{n+1})| < \delta$. Small residual does *not* guarantee a small error when $f$ is flat near the root: for $f(x) = (x-1)^{5}$ the residual is only $10^{-10}$ at $x = 1.01$, a hundredth away from the root.
+3. **Iteration cap:** $n \le N_{\max}$ (say 50) so that a divergent or cycling iteration terminates.
+
+For bisection the error bound $(b - a)/2^{n}$ is known in advance, so no residual test is needed. For Newton and the secant method, the step size is a good estimate of the *previous* error because the convergence is superlinear.
+
+**Roots can be extremely sensitive to the coefficients.** Take $p(x) = (x-1)(x-2)\cdots(x-6) = x^{6} - 21x^{5} + 175x^{4} - 735x^{3} + 1624x^{2} - 1764x + 720$. Change the coefficient $-21$ by only $10^{-4}$ (to $-21.0001$). The roots move to 0.999999, 2.000133, 2.997983, 4.008602, 4.986963 and 6.006420: the largest root shifts by 0.0064, about *sixty* times the change in the coefficient. The famous **Wilkinson polynomial** $\prod_{k=1}^{20}(x - k)$ is far worse: changing the $x^{19}$ coefficient by $2^{-23} \approx 1.2\times 10^{-7}$ turns ten of the roots into complex pairs, with imaginary parts up to 2.8. The problem is ill-conditioned, so *no* algorithm in double precision (with relative data error $10^{-16}$) can be expected to find those roots reliably. The practical rule: be suspicious of high-degree polynomials with roots that lie close together or spread over a wide range, and prefer computing eigenvalues of the companion matrix (Unit 4, Section 4.6) to expanding the polynomial.
+
+**Measuring the order of convergence.** If $e_n = |x_n - \alpha|$ is known, the order $p$ can be estimated from three successive errors by $p \approx \dfrac{\ln(e_{n+1}/e_n)}{\ln(e_n/e_{n-1})}$. For Newton on $x^{3} - x - 2$ from $x_0 = 3$ the errors are 0.6325, 0.1805, 0.02087, 3.27e-04, 8.21e-08, 5.1e-15, and the estimates are 1.72, 1.93, 1.99, rising toward 2.
+
+::: key Method summary after this section
+Bisection: always works, linear. False position: bracketed, usually linear. Fixed point: linear with ratio $|g'|$; speed it up with Aitken/Steffensen. Newton: quadratic at a simple root, linear at a multiple root unless modified. Secant: order 1.618, no derivative. Müller: order 1.84, finds complex roots. Polynomials: use Horner for evaluation and deflate smallest first.
+:::
+
 ## Formula and fact sheet
 
 - Bisection: $c = \frac{a + b}{2}$; steps $n \geq \log_{2} \left( \frac{b - a}{\epsilon} \right)$.
@@ -398,12 +597,20 @@ f.text(150, 226, "fix: reboot, or exact arithmetic", size=10.5, color=TEAL, bold
 - Fixed point: $x_{n+1} = g (x_{n})$, converges if $|g'| < 1$.
 - Newton for systems: $J \cdot \Delta = - F$.
 - Errors: absolute |x − x̂|; relative = absolute/|x|.
+- Machine epsilon: double $2^{-52} = 2.22\times 10^{-16}$; unit round-off $u = \varepsilon_{\text{mach}}/2$.
+- Error propagation: $\Delta z \lesssim |f_x|\,\Delta x + |f_y|\,\Delta y$; products add relative errors.
+- Aitken: $\hat{x} = x_n - \dfrac{(x_{n+1} - x_n)^{2}}{x_{n+2} - 2x_{n+1} + x_n}$; Steffensen restarts after each Aitken step.
+- Multiple root of multiplicity $m$: $x_{n+1} = x_n - m f/f'$ (quadratic again); unknown $m$: Newton on $f/f'$.
+- Horner: $b_0 = a_0,\ b_k = a_k + t\,b_{k-1}$; $b_n = p(t)$. Müller: parabola through three points, order 1.84, complex roots possible.
+- Order estimate: $p \approx \ln(e_{n+1}/e_n) / \ln(e_n/e_{n-1})$.
 
 ## Chapter summary
 
 - Numerical root-finding replaces an impossible formula by a convergent repetition; errors (round-off, truncation, cancellation) set the achievable accuracy.
 - Bisection and false position are safe but linear; Newton is quadratic but needs $f'$ and a good start; the secant method trades derivative for a 1.618 order; fixed-point iteration depends on $|g'| < 1$.
 - Newton's method extends to systems through the Jacobian.
+- Floating-point arithmetic has a unit round-off near $10^{-16}$; cancellation and error propagation explain why algebraic rearrangement matters before computing.
+- Aitken and Steffensen accelerate fixed-point iteration; multiple roots slow Newton down to linear unless the multiplicity is used; Müller's method and Horner's rule handle polynomial roots, including complex ones.
 
 ## Practice
 
@@ -417,6 +624,16 @@ f.text(150, 226, "fix: reboot, or exact arithmetic", size=10.5, color=TEAL, bold
 8. Perform the first Newton step for $x^{2} + y^{2} = 4 ,\  x y = 1$ from (2, 0.5).
 9. Explain why the false-position method may converge slowly.
 10. Why is $\sqrt{10001} - \sqrt{10000}$ computed badly in short arithmetic, and how can the formula be rearranged?
+11. What is machine epsilon? Why does `(1 + 1e-16) - 1` give 0 in double precision?
+12. A cylinder has $r = 1.20 \pm 0.01$ and $h = 5.00 \pm 0.05$. Find the relative and absolute error in $V = \pi r^{2} h$.
+13. Compute $\sqrt{1000^{2} + 1} - 1000$ in five-digit arithmetic directly and by rationalising. Compare with the true value.
+14. Apply Aitken's formula to the iterates 1.5, 1.5182945, 1.5209353 of $x = (x + 2)^{1/3}$.
+15. Newton's method is applied to $f(x) = (x - 2)^{3}$ from $x_0 = 3$. Find the first two iterates, the error ratio, and the result of the modified method with $m = 3$.
+16. Use Horner's rule to find $p(2)$ and $p'(2)$ for $p(x) = x^{4} - 3x^{2} + 2x - 5$.
+17. Take one Müller step for $f(x) = x^{2} + 1$ from $x_0 = 0,\ x_1 = 1,\ x_2 = 2$. What do you notice?
+18. How many bisection steps are needed to locate a root in [1, 2] to within $10^{-5}$? Which stopping rule is this?
+19. Three successive errors of an iteration are $10^{-2}$, $10^{-4}$ and $10^{-8}$. Estimate the order of convergence.
+20. Why is the residual test $|f(x_n)| < \delta$ unreliable for $f(x) = (x - 1)^{5}$? Give a numerical example.
 
 ::: note Answers and worked solutions
 **1.** Absolute error = |x − x̂|; relative = absolute/|x|; percentage = relative × 100. For $\sqrt{2} = 1.4142136$ and 1.414: absolute 0.0002136, relative 0.0001510, percentage 0.0151 %.
@@ -438,6 +655,27 @@ f.text(150, 226, "fix: reboot, or exact arithmetic", size=10.5, color=TEAL, bold
 **9.** For a convex or concave *f* on the bracket, the chord always crosses the axis on the same side of the root, so one end of the interval never moves and the other creeps up on the root linearly.
 
 **10.** The two square roots are nearly equal, so their difference cancels the leading digits and leaves few significant ones. Multiply and divide by the conjugate: $\sqrt{10001} - \sqrt{10000} = \frac{1}{\sqrt{10001} + \sqrt{10000}} = 0.0049999$, which has no subtraction.
+
+**11.** Machine epsilon is the gap between 1 and the next representable number: $2^{-52} = 2.22\times 10^{-16}$ in double precision. A number smaller than half of that is lost when added to 1, so $1 + 10^{-16}$ is stored as exactly 1 and the subtraction returns 0.
+
+**12.** Relative error $= 2(0.01/1.20) + 0.05/5.00 = 0.016667 + 0.01 = 0.026667$ (2.67 %). $V = \pi(1.44)(5) = 22.620$, so $\Delta V \approx 0.026667 \times 22.620 = 0.603$.
+
+**13.** Directly: $1000^{2} + 1 = 1\,000\,001 \to 1.0000\times 10^{6}$, so the root is 1000.0 and the difference is **0**. Rationalised: $\dfrac{1}{\sqrt{1000^{2}+1} + 1000} = \dfrac{1}{2000.0} = 0.00050000$. The true value is 0.00049999988.
+
+**14.** $\Delta x_0 = 0.0182945$, $\Delta^{2}x_0 = 1.5209353 - 2(1.5182945) + 1.5 = -0.0156537$. So $\hat{x} = 1.5 - \dfrac{(0.0182945)^{2}}{-0.0156537} = 1.5 + 0.021381 = 1.521381$ (more precisely 1.5213808), against the true root 1.5213797: four evaluations of $g$ the plain way give only 1.52137.
+
+**15.** $f/f' = (x - 2)/3$, so $x_{n+1} = x_n - (x_n - 2)/3$: $x_1 = 2.666667$, $x_2 = 2.444444$. The error ratio is $2/3 = (m-1)/m$ with $m = 3$: linear. The modified method $x_1 = 3 - 3(x_0 - 2)/3 = 2$ lands on the root in one step (the function is a pure cube).
+
+**16.** Coefficients 1, 0, −3, 2, −5 with $t = 2$: $b = 1, 2, 1, 4, \mathbf{3}$, so $p(2) = 3$. Apply Horner again to 1, 2, 1, 4: $c = 1, 4, 9, \mathbf{22}$, so $p'(2) = 22$. Check: $4(8) - 6(2) + 2 = 22$.
+
+**17.** $f$ is already a parabola, so the fitted parabola equals $f$: $h_1 = h_2 = 1$, $\delta_1 = 1$, $\delta_2 = 3$, $A = 1$, $B = 4$, $C = 5$. Then $B^{2} - 4AC = -4 < 0$ and $x_3 = 2 - \dfrac{2(5)}{4 + 2i} = 2 - (2 - i) = i$: **an exact complex root in one step**, from real starting points.
+
+**18.** $n \ge \log_{2}(1/10^{-5}) = 16.61$, so 17 steps. This is the a-priori error bound of bisection; no residual test is needed.
+
+**19.** $p \approx \dfrac{\ln(10^{-8}/10^{-4})}{\ln(10^{-4}/10^{-2})} = \dfrac{-9.21}{-4.61} = 2$: quadratic convergence.
+
+**20.** $f$ is extremely flat near 1. At $x = 1.01$, which is 0.01 from the root, $f = (0.01)^{5} = 10^{-10}$, so a residual tolerance of $10^{-8}$ would accept an answer with a 1 % error. Use the step-size test as well, and prefer the modified method with $m = 5$.
+
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -488,3 +726,20 @@ The root is **0.739085** (the correct digits roughly double each step: 0, 1, 3, 
 | Newton-Raphson | 2 | No | Yes | 2 | $f' = 0$, bad start |
 
 *Choice.* Use bisection (or false position) to obtain a safe bracket, then switch to Newton or secant to polish the answer; this hybrid is what library routines such as Brent's method do. Use the secant method when $f'$ is expensive or unavailable. *Conclusion:* there is no best method for every problem; safety and speed trade against each other, and good practice is to combine them.
+
+**Q4 (10 marks). Explain why Newton's method slows down at a multiple root. Find the double root of $f(x) = x^{3} - 3x + 2$ from $x_0 = 2$ by (a) the ordinary Newton method and (b) the modified Newton method (four iterations each).**
+
+*Introduction.* A root has multiplicity $m$ if $f = (x - \alpha)^{m}h(x)$ with $h(\alpha) \ne 0$. Newton's method derives from a tangent line; at a multiple root $f'(\alpha) = 0$ as well, so the tangent is nearly horizontal and the step $f/f'$ is only $\approx (x_n - \alpha)/m$. The error therefore shrinks by the factor $(m-1)/m$ per step (linear convergence, ratio 1/2 for $m = 2$), not squared.
+
+*Ordinary Newton* ($f' = 3x^{2} - 3$): $x_1 = 2 - 4/9 = 1.555556$, $x_2 = 1.297907$, $x_3 = 1.155390$, $x_4 = 1.079562$. The errors 0.556, 0.298, 0.155, 0.080 halve each time, so after four steps only one decimal is right.
+
+*Modified Newton* ($x_{n+1} = x_n - 2f/f'$):
+
+| $n$ | $x_n$ | $x_{n+1}$ | error |
+|---|---|---|---|
+| 0 | 2.00000000 | 1.1111111111 | 1.11e-01 |
+| 1 | 1.11111111 | 1.0019493177 | 1.95e-03 |
+| 2 | 1.00194932 | 1.0000006327 | 6.3e-07 |
+| 3 | 1.00000063 | 1.0000000002 | 1.6e-10 |
+
+*Alternative.* If the multiplicity is unknown, apply Newton to $u = f/f'$: from $x_0 = 2$ it gives 0.909091, 0.998536, 0.9999996, 0.9999999996. *Conclusion:* the double root is $x = 1$; a multiplicity factor (or the $f/f'$ trick) restores quadratic convergence, and a multiple root is nevertheless ill-conditioned because $f$ and $f'$ both vanish there. Figure 1.3 shows the two error curves.
