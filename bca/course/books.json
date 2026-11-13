@@ -328,6 +328,14 @@
   "accent": "#9333EA",
   "status": "done"
  },
+ "semester-7/machine-learning": {
+  "name": "Machine Learning",
+  "code": "BCA 405",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#B45309",
+  "status": "done"
+ },
  "semester-8/internship": {
   "name": "Internship",
   "code": "BCA 452",

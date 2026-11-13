@@ -50,7 +50,8 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | VII | BCA 402 | Software Project Management | 3 | **full book** (`semester-7/software-project-management`) |
 | VII | BCA 403 | Financial Accounting | 2 | **full book** (`semester-7/financial-accounting`) |
 | VII | BCA 404 | Project IV | 3 | **full book** (`semester-7/project-4`) |
-| VII | BCA 405 / 406 | Elective I / Elective II | 3 + 3 | mapped only |
+| VII | BCA 405 | Machine Learning (Elective I) | 3 | mapped only |
+| VII | BCA 406 | Elective II | 3 | mapped only |
 | VIII | BCA 451 | Cloud Computing | 3 | **full book** (`semester-8/cloud-computing`) |
 | VIII | BCA 452 | Internship | 3 | **full book** (`semester-8/internship`) |
 | VIII | BCA 453 / 454 | Elective III / Elective IV | 3 + 3 | mapped only |

@@ -168,6 +168,8 @@ The answer is about 0.284: even with two calls a burglary is less than 30 percen
 
 **Weighted k-NN.** Let closer neighbours count more: weight $w_i = 1/d_i^{2}$, so a very near neighbour outvotes several distant ones.
 
+In the example the weighted vote for $k=5$ is Blue (about 2.07 against 0.67 for Red) because G is so close, so weighting can overturn the plain vote.
+
 **Scaling matters.** If income (in rupees) and age (in years) are both used, income dominates the distance. Standardise or min-max scale every feature first.
 
 ::: example Predict the class
