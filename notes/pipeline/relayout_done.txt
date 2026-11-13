@@ -55,3 +55,5 @@ bca:semester-8/image-processing
 bca:semester-8/internet-of-things
 bca:semester-8/internship
 bca:semester-8/network-administration
+school:ioe-eng
+school:ioe-mock
