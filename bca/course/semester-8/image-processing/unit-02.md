@@ -44,7 +44,7 @@ If $r_1=s_1$ and $r_2=s_2$ the map is the identity. The most common stretch is *
 **Intensity-level (grey-level) slicing** highlights a band $[A,B]$ of grey levels, for instance to show a water body or a particular tissue. Two forms: one gives a high value to all levels in the band and a low value to the rest (a binary result), the other brightens the band and leaves the other levels unchanged. **Bit-plane slicing** treats an 8-bit pixel as eight planes, bit 0 (least significant) to bit 7 (most). The top planes carry most of the visually significant data and the lowest planes look like noise; this is the idea behind some compression and watermarking schemes (Unit 5).
 
 ```svgfig label="2.1" caption="Transfer curves s = T(r) of point operations on an 8-bit image: identity, negative, log, gamma 0.5 and 2.0, and a contrast stretch with control points (70, 20) and (180, 235)."
-f = Fig(680, 330)
+f = Fig(680, 345)
 ax = Axes(f, 55, 20, 270, 270, (0, 255), (0, 255))
 ax.grid(dx=64, dy=64)
 ax.axes(xl="input r", yl="output s")
@@ -53,7 +53,7 @@ ax.curve(lambda r: r, color=SLATE, sw=1.6, dash=True)
 ax.curve(lambda r: 255 - r, color=RED, sw=2.2)
 ax.curve(lambda r: 255 * math.log(1 + r) / math.log(256), color=TEAL, sw=2.2)
 ax.curve(lambda r: 255 * (r / 255) ** 2.0, color=AMBER, sw=2.2)
-f.text(130, 306, "negative (red), log (teal), gamma 2.0 (amber), identity (dashed)", size=9.5, color=SLATE, anchor="start")
+f.text(130, 330, "negative (red), log (teal), gamma 2.0 (amber), identity (dashed)", size=9.5, color=SLATE, anchor="start")
 bx = Axes(f, 385, 20, 270, 270, (0, 255), (0, 255))
 bx.grid(dx=64, dy=64)
 bx.axes(xl="input r", yl="output s")
@@ -65,7 +65,7 @@ bx.curve(stretch, color=NAVY, sw=2.4, n=400)
 bx.curve(lambda r: 255 * (r / 255) ** 0.5, color=TEAL, sw=2.0)
 bx.pt(70, 20, "(70, 20)", dx=6, dy=-8)
 bx.pt(180, 235, "(180, 235)", dx=-6, dy=14, anchor="end")
-f.text(430, 306, "contrast stretch (navy), gamma 0.5 (teal)", size=9.5, color=SLATE, anchor="start")
+f.text(430, 330, "contrast stretch (navy), gamma 0.5 (teal)", size=9.5, color=SLATE, anchor="start")
 ```
 
 ```python
