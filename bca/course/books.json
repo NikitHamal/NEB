@@ -351,5 +351,13 @@
   "credits": 3,
   "accent": "#0F766E",
   "status": "done"
+ },
+ "semester-8/internet-of-things": {
+  "name": "Internet of Things",
+  "code": "BCA 454",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }
