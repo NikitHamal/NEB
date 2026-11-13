@@ -590,4 +590,4 @@ First extrapolation: $R (2 ,\  1) = 1.753931 + \frac{1.753931 - 1.859141}{3}$ = 
 
 *Working for three points.* $\tfrac{1}{2}\left[0.555556(0.987458 + 0.559504) + 0.888889(0.8)\right] = \tfrac{1}{2}(0.859423 + 0.711111) = 0.785267$.
 
-*Conclusion.* The exact value is $\pi/4 = 0.785398$. Three function values give three correct digits (Simpson's rule with the same three points gives 0.783333, an error of hBc6.5\times 10^{-4}$, five times worse).
+*Conclusion.* The exact value is $\pi/4 = 0.785398$. Three function values give three correct digits (Simpson's rule with the same three points gives 0.783333, an error of $-6.5\times 10^{-4}$, five times worse).
