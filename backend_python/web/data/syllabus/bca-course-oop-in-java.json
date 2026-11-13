@@ -32,7 +32,9 @@
     "Control flow and arrays",
     "Input and output",
     "From idea to running program",
-    "Eight features of Java"
+    "Eight features of Java",
+    "Lexical elements: the tokens of a Java program",
+    "Garbage collection: how an object's life ends"
    ],
    "sections": [
     {
@@ -62,17 +64,27 @@
     {
      "no": "1.7",
      "title": "Eight features of Java"
+    },
+    {
+     "no": "1.8",
+     "title": "Lexical elements: the tokens of a Java program"
+    },
+    {
+     "no": "1.9",
+     "title": "Garbage collection: how an object's life ends"
     }
    ],
    "summary": [
     "OOP organises programs around objects that combine state and behaviour, with four guiding pillars.",
     "Java compiles to bytecode that the JVM runs; the garbage collector manages memory.",
     "Primitive types are fixed-size and overflow silently; reference types are objects on the heap.",
-    "Control statements, arrays and formatted I/O are the foundation for the class design of the next unit."
+    "Control statements, arrays and formatted I/O are the foundation for the class design of the next unit.",
+    "Every program is a stream of tokens; knowing the six kinds and the identifier rules answers a favourite short question.",
+    "The garbage collector frees unreachable objects automatically, but never closes files, sockets or connections."
    ],
    "terms": [],
    "stats": {
-    "words": 2296,
+    "words": 3953,
     "figures": 0,
     "examples": 0
    },
@@ -91,7 +103,9 @@
     "toString, equals and hashCode",
     "Enums, records and nested classes",
     "Seeing references: stack and heap",
-    "Eight benefits of good class design"
+    "Eight benefits of good class design",
+    "Recursion and how Java picks an overloaded method",
+    "Packages, JAR files and Javadoc in practice"
    ],
    "sections": [
     {
@@ -125,6 +139,14 @@
     {
      "no": "2.8",
      "title": "Eight benefits of good class design"
+    },
+    {
+     "no": "2.9",
+     "title": "Recursion and how Java picks an overloaded method"
+    },
+    {
+     "no": "2.10",
+     "title": "Packages, JAR files and Javadoc in practice"
     }
    ],
    "summary": [
@@ -132,11 +154,12 @@
     "Encapsulation through private fields and validated methods keeps objects consistent.",
     "Static members belong to the class; instance members belong to each object.",
     "References explain aliasing, parameter passing and why equals/hashCode must be overridden for value-like classes.",
-    "Enums, records and nested classes express fixed sets, data carriers and helper types."
+    "Enums, records and nested classes express fixed sets, data carriers and helper types.",
+    "Recursion trades stack space for clarity; overloads are chosen by the compiler from static types in the order widening, boxing, varargs."
    ],
    "terms": [],
    "stats": {
-    "words": 2482,
+    "words": 3836,
     "figures": 0,
     "examples": 0
    },
@@ -260,7 +283,9 @@
     "Streams",
     "File I/O",
     "The framework map and the stream pipeline",
-    "Eight uses of collections, lambdas and streams"
+    "Eight uses of collections, lambdas and streams",
+    "Iterators, ordering and the Collections utilities",
+    "File handling in depth"
    ],
    "sections": [
     {
@@ -290,17 +315,27 @@
     {
      "no": "5.7",
      "title": "Eight uses of collections, lambdas and streams"
+    },
+    {
+     "no": "5.8",
+     "title": "Iterators, ordering and the Collections utilities"
+    },
+    {
+     "no": "5.9",
+     "title": "File handling in depth"
     }
    ],
    "summary": [
     "Generics make collections type-safe, and the framework offers the right structure for each access pattern.",
     "Choosing between list, set, map, queue and their implementations is a question of ordering, uniqueness and cost.",
     "Lambdas and streams express filter-map-reduce logic concisely and safely.",
-    "File I/O is done with buffered, closed-after-use readers and writers or the Files helpers."
+    "File I/O is done with buffered, closed-after-use readers and writers or the Files helpers.",
+    "Iterators, comparators and the Collections helpers give precise control over traversal and ordering.",
+    "The File class, byte and character streams, data streams, RandomAccessFile and serialization cover all the file-handling questions in the syllabus."
    ],
    "terms": [],
    "stats": {
-    "words": 2283,
+    "words": 4058,
     "figures": 0,
     "examples": 0
    },
@@ -317,7 +352,10 @@
     "Database access with JDBC",
     "Putting it together: a small project design",
     "Threads, servers and databases in pictures",
-    "Eight uses of threads, GUI and JDBC"
+    "Eight uses of threads, GUI and JDBC",
+    "Synchronisation in depth: thread states, producer–consumer and deadlock",
+    "The event-delegation model in depth",
+    "JDBC you can run: CRUD, transactions and SQL injection"
    ],
    "sections": [
     {
@@ -343,6 +381,18 @@
     {
      "no": "6.6",
      "title": "Eight uses of threads, GUI and JDBC"
+    },
+    {
+     "no": "6.7",
+     "title": "Synchronisation in depth: thread states, producer–consumer and deadlock"
+    },
+    {
+     "no": "6.8",
+     "title": "The event-delegation model in depth"
+    },
+    {
+     "no": "6.9",
+     "title": "JDBC you can run: CRUD, transactions and SQL injection"
     }
    ],
    "summary": [
@@ -350,11 +400,14 @@
     "Executors, atomics and concurrent collections are safer than raw threads and locks.",
     "GUI programs are event driven: components register listeners and long work moves off the UI thread.",
     "JDBC connects Java to SQL databases; prepared statements and transactions make it safe.",
-    "A real project combines classes, interfaces, generics, collections, exceptions, I/O, threads and a database."
+    "A real project combines classes, interfaces, generics, collections, exceptions, I/O, threads and a database.",
+    "Correct concurrent code needs the right lock, the right waiting condition and a fixed lock order.",
+    "Swing handles every user action by delegating an event object to registered listeners on the EDT.",
+    "JDBC programs use prepared statements and transactions; the H2 in-memory database lets you run them anywhere."
    ],
    "terms": [],
    "stats": {
-    "words": 2246,
+    "words": 4735,
     "figures": 0,
     "examples": 0
    },
@@ -431,6 +484,6 @@
   }
  ],
  "unit_count": 7,
- "topic_count": 49,
+ "topic_count": 58,
  "notes_ready": 7
 }

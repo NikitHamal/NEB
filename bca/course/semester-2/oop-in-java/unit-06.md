@@ -490,16 +490,16 @@ f.text(545, 135, "handler code runs here", size=10, color=AMBER, bold=True)
 
 When the user acts, the operating system tells AWT, which puts an event on a queue. The single **Event Dispatch Thread (EDT)** takes events from the queue and calls the listener methods of the right source, one at a time. This is the observer pattern of Unit 7 applied to user interfaces.
 
-| Listener interface | Event class | Methods | Adapter class | Typical source |
-|---|---|---|---|---|
-| `ActionListener` | `ActionEvent` | `actionPerformed` | none (one method) | button click, Enter in a text field, menu item |
-| `ItemListener` | `ItemEvent` | `itemStateChanged` | none | check box, combo box |
-| `MouseListener` | `MouseEvent` | `mouseClicked`, `mousePressed`, `mouseReleased`, `mouseEntered`, `mouseExited` | `MouseAdapter` | any component |
-| `MouseMotionListener` | `MouseEvent` | `mouseMoved`, `mouseDragged` | `MouseMotionAdapter` | drawing panels |
-| `KeyListener` | `KeyEvent` | `keyPressed`, `keyReleased`, `keyTyped` | `KeyAdapter` | text components |
-| `WindowListener` | `WindowEvent` | `windowOpened`, `windowClosing`, `windowClosed`, `windowIconified`, ... | `WindowAdapter` | `JFrame` |
-| `FocusListener` | `FocusEvent` | `focusGained`, `focusLost` | `FocusAdapter` | form fields (validate on `focusLost`) |
-| `ListSelectionListener` | `ListSelectionEvent` | `valueChanged` | none | `JList`, `JTable` rows |
+| Listener (event) | Methods | Adapter | Typical source |
+|---|---|---|---|
+| `ActionListener` (`ActionEvent`) | `actionPerformed` | none | button, Enter key, menu item |
+| `ItemListener` (`ItemEvent`) | `itemStateChanged` | none | check box, combo box |
+| `MouseListener` (`MouseEvent`) | `mouseClicked`, `mousePressed`, `mouseReleased`, `mouseEntered`, `mouseExited` | `MouseAdapter` | any component |
+| `MouseMotionListener` (`MouseEvent`) | `mouseMoved`, `mouseDragged` | `MouseMotionAdapter` | drawing panel |
+| `KeyListener` (`KeyEvent`) | `keyPressed`, `keyReleased`, `keyTyped` | `KeyAdapter` | text field |
+| `WindowListener` (`WindowEvent`) | `windowOpened`, `windowClosing`, `windowClosed`, `windowIconified`, and three more | `WindowAdapter` | the frame |
+| `FocusListener` (`FocusEvent`) | `focusGained`, `focusLost` | `FocusAdapter` | form field (validate on lost focus) |
+| `ListSelectionListener` | `valueChanged` | none | list or table rows |
 
 **Adapter classes.** An interface forces you to implement *every* method. `WindowListener` has seven, but you may care only about `windowClosing`. An **adapter** class implements all methods with empty bodies, so you extend it and override just one: `addWindowListener(new WindowAdapter() { public void windowClosing(WindowEvent e) { ... } })`. Because Java has single inheritance, a class that already extends `JFrame` cannot also extend an adapter, and must use an anonymous or inner class.
 
