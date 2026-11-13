@@ -259,3 +259,4 @@ Source of the units and hours: TU CACS456 outline (notebahadur.com): U1 Introduc
 
 ## Session 28 (in progress)
 Picked up from sessions 16-27 (this file; no duplicate tracker). Project root in the sandbox: `/home/user/sandbox`. Plan: rebuild + re-verify BCA 105 (151 pp expected), web reader screenshots, then queue items 3 (keyword audits: 401, 451, 156, 151, 101/102/104) and 5 (label lint).
+- Session 28 (this run, fresh sandbox `/home/user/sandbox`): heading audit of BCA 105 against all 36 TOC photo keywords (sub-sections 1.1.1-6.8.2, both readings per unit) = 0 missing. Env rebuilt from the session-21 recipe. Next: rebuild 105 + web screenshots, then keyword audits for 401, 451, 156, 151.
