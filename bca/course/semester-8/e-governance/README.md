@@ -8,7 +8,7 @@ Study notes for the TU E-Governance elective (course code CACS409 in the TU outl
 | 2 | E-Governance Models | 12 | broadcasting, critical flow, comparative analysis, mobilization and lobbying, interactive service (G2C2G), five maturity levels, key focus areas, good governance |
 | 3 | Infrastructure, Stages in Evolution and Strategies for Success | 8 | e-readiness (data system, legal, institutional, human, technological), evolutionary stages, strategies for success |
 | 4 | Applications of Data Warehousing and Data Mining in Government | 6 | national data warehouses (census, prices of essential commodities), agriculture, rural development, health, planning, education, commerce and trade, other sectors |
-| 5 | Case Studies | 16 | Nepal (master plan, local government, Nagarik App), India (fourteen cases from NICNET to the NIC information services), USA, China, Brazil, Sri Lanka |
+| 5 | Case Studies | 16 | Nepal (master plan, local government, Nagarik App), India (fifteen cases from NICNET to the NIC information services), USA, China, Brazil, Sri Lanka |
 
 ## Verification
 
