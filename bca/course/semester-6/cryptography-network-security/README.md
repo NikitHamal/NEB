@@ -11,12 +11,15 @@ Security goals and classical ciphers (Caesar, Vigenère, Playfair, Hill, rail fe
 | 5 | Hash Functions, MACs, Digital Signatures and PKI | 7 |
 | 6 | Authentication and Secure Network Protocols | 8 |
 | 7 | Network and System Security: Firewalls, IDS, VPN and Wireless | 5 |
+| 8 | Malware, Intruders, Steganography, Network Management Security and Cyber Law | 6 |
 
 ## Verification
 
 `bca/tools/check_crypto.py` plus `fill_script_outputs.py`: every Python block in the book is **executed** and its output inserted; the checker then recomputes each printed line with independent code or published constants and `--verify` demands that every expected line is present. Independent references: the textbook ciphertexts (LXFOPVEFRNHR, WECRLTEERDSOEEFEAOCAIVDEN, BMODZBXDNABEKUDMUIXMMOUVIF, POH) and the Hill inverse via sympy's adjugate; `sympy.gcdex`, the Bézout identity on every row of the extended-Euclid table, `sympy.totient`, `isprime`, `primitive_root`; the FIPS-197 AES-128 vector and the `cryptography` library for AES-ECB/CBC/CTR; the NIST SHA-256("abc") value and RFC 4231 HMAC-SHA256 test case 2; RSA identities and the textbook key (d = 2753, c = 2790); brute-force enumeration of the points on y² = x³ + 2x + 2 (mod 17) and the known multiples of G = (5, 1); and exact arithmetic for the birthday bound, brute-force times, TLS round-trip latency, ESP overhead (loop search for the maximum unfragmented inner packet) and the IDS base-rate calculation. All practice answers computed by hand in the text are asserted too.
 
 ## Source and honesty
+
+Unit 8 (session 30) was added after a keyword audit found steganography, malware, SNMP, SET/dual signature and cyber law missing or thin; it follows the system-security, SNMP and SET topics of typical university outlines (Stallings, Kahate). Nepali legal statements are as commonly taught and should be checked against the current Act.
 
 No TU unit list for BCA 353 was retrieved; the seven units are a reconstruction from the topics named in the course brief (classical ciphers, modular arithmetic, symmetric and asymmetric cryptography, hashes and MACs, signatures and PKI, Kerberos/TLS/IPsec/PGP, firewalls/IDS). Algorithms follow Stallings, *Cryptography and Network Security*, Paar and Pelzl, *Understanding Cryptography*, and the cited standards (FIPS-197, RFC 2104, 4231, 8446); prose is original. The Python implementations are **teaching code, not for production**: use a vetted library. The AES implementation is not constant-time.
 
