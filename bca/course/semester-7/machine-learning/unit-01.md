@@ -276,7 +276,172 @@ print("sizes:", len(tr), len(va), len(te), "| positives in each part:", y[tr].su
 ```output
 sizes: 60 20 20 | positives in each part: 5 4 1
 ```
-## 1.10 Summary and exercises
+## 1.10 Concept learning: Find-S and candidate elimination
+
+Before neural networks and trees, Tom Mitchell's textbook (the first prescribed text) starts with the cleanest possible learning problem: **concept learning**, inferring a Boolean-valued function from labelled examples. The task "on which days does Aisha enjoy her morning cricket practice?" is the standard example. Each day is described by six attributes (Sky, AirTemp, Humidity, Wind, Water, Forecast) and labelled yes or no.
+
+::: definition Hypothesis, version space and inductive bias
+A **hypothesis** here is a conjunction of constraints on the attributes. Each constraint is a specific value (`Sunny`), a don't-care (`?`) or the empty constraint (no value accepted). `<Sunny, Warm, ?, Strong, ?, ?>` means "sunny, warm and strong wind; every other attribute may be anything". A hypothesis $h_1$ is **more general than or equal to** $h_2$ when every instance that satisfies $h_2$ also satisfies $h_1$. The **version space** is the set of all hypotheses consistent with every training example. **Inductive bias** is the set of assumptions that lets a learner generalise to unseen instances; here it is the assumption that the target is a conjunction.
+:::
+
+The training data are four days: (Sunny, Warm, Normal, Strong, Warm, Same) yes; (Sunny, Warm, High, Strong, Warm, Same) yes; (Rainy, Cold, High, Strong, Warm, Change) no; (Sunny, Warm, High, Strong, Cool, Change) yes.
+
+### Find-S: the most specific hypothesis
+
+Find-S starts from the most specific hypothesis and relaxes it only as far as each **positive** example forces. It ignores negatives. For the data above, the first positive gives `<Sunny, Warm, Normal, Strong, Warm, Same>`. The second positive differs in Humidity, so Humidity becomes `?`. The negative is skipped. The fourth example differs in Water and Forecast, so both become `?`. The result is `<Sunny, Warm, ?, Strong, ?, ?>`.
+
+Find-S has three weaknesses worth quoting in an exam: it cannot tell whether it has found the only consistent hypothesis; it returns only the most specific one although others fit equally well; and noisy data break it, because a single wrongly labelled positive example generalises the hypothesis for good.
+
+### Candidate elimination: keeping the whole version space
+
+The **candidate elimination** algorithm keeps two boundaries instead of one hypothesis: $S$, the set of maximally specific consistent hypotheses, and $G$, the set of maximally general consistent ones. Every consistent hypothesis lies between them. The update rules are:
+
+- A **positive** example removes from $G$ every hypothesis that does not cover it and minimally generalises each member of $S$ that does not cover it.
+- A **negative** example removes from $S$ every hypothesis that covers it and minimally specialises each member of $G$ that covers it, keeping only specialisations that are still more general than some member of $S$.
+
+The program below implements both algorithms, prints the boundaries after each example and then enumerates the version space by brute force to confirm that the boundaries describe exactly the right set.
+
+```python
+from itertools import product
+attrs = ["Sky", "AirTemp", "Humidity", "Wind", "Water", "Forecast"]
+dom = [["Sunny", "Cloudy", "Rainy"], ["Warm", "Cold"], ["Normal", "High"],
+       ["Strong", "Weak"], ["Warm", "Cool"], ["Same", "Change"]]
+data = [("Sunny Warm Normal Strong Warm Same", 1), ("Sunny Warm High Strong Warm Same", 1),
+        ("Rainy Cold High Strong Warm Change", 0), ("Sunny Warm High Strong Cool Change", 1)]
+data = [(tuple(x.split()), y) for x, y in data]
+def covers(h, x):
+    return all(a == "?" or a == b for a, b in zip(h, x))
+def more_general(h1, h2):
+    return all(a == "?" or a == b for a, b in zip(h1, h2))
+s = None
+for x, y in data:
+    if y:
+        s = list(x) if s is None else [a if a == b else "?" for a, b in zip(s, x)]
+print("Find-S:", " ".join(s))
+S = [None]; G = [tuple("?" * 6)]
+for n, (x, y) in enumerate(data, 1):
+    if y:
+        G = [g for g in G if covers(g, x)]
+        S = [tuple(x) if h is None else tuple(a if a == b else "?" for a, b in zip(h, x)) for h in S]
+    else:
+        S = [h for h in S if h is None or not covers(h, x)]
+        newG = []
+        for g in G:
+            if not covers(g, x):
+                newG.append(g); continue
+            for i in range(6):
+                if g[i] == "?":
+                    for v in dom[i]:
+                        if v != x[i]:
+                            newG.append(g[:i] + (v,) + g[i + 1:])
+        G = [g for g in newG if not any(g != o and more_general(o, g) for o in newG)]
+    print("after example %d: S = %s" % (n, [" ".join(h) if h else "null" for h in S]))
+    print("                 G = %s" % [" ".join(h) for h in G])
+H = list(product(*[d + ["?"] for d in dom]))
+VS = [h for h in H if all(covers(h, x) == bool(y) for x, y in data)]
+print("version space size:", len(VS))
+for h in sorted(VS, key=lambda h: sum(a == "?" for a in h)):
+    print("  ", " ".join(h))
+for text in ("Sunny Warm Normal Strong Cool Change", "Rainy Cold Normal Weak Warm Same",
+             "Sunny Warm Normal Weak Warm Same"):
+    votes = sum(covers(h, tuple(text.split())) for h in VS)
+    print("%-36s %d of %d hypotheses say yes" % (text, votes, len(VS)))
+```
+```output
+Find-S: Sunny Warm ? Strong ? ?
+after example 1: S = ['Sunny Warm Normal Strong Warm Same']
+                 G = ['? ? ? ? ? ?']
+after example 2: S = ['Sunny Warm ? Strong Warm Same']
+                 G = ['? ? ? ? ? ?']
+after example 3: S = ['Sunny Warm ? Strong Warm Same']
+                 G = ['Sunny ? ? ? ? ?', 'Cloudy ? ? ? ? ?', '? Warm ? ? ? ?', '? ? Normal ? ? ?', '? ? ? Weak ? ?', '? ? ? ? Cool ?', '? ? ? ? ? Same']
+after example 4: S = ['Sunny Warm ? Strong ? ?']
+                 G = ['Sunny ? ? ? ? ?', '? Warm ? ? ? ?', '? ? ? ? Cool ?']
+version space size: 6
+   Sunny Warm ? Strong ? ?
+   Sunny Warm ? ? ? ?
+   Sunny ? ? Strong ? ?
+   ? Warm ? Strong ? ?
+   Sunny ? ? ? ? ?
+   ? Warm ? ? ? ?
+Sunny Warm Normal Strong Cool Change 6 of 6 hypotheses say yes
+Rainy Cold Normal Weak Warm Same     0 of 6 hypotheses say yes
+Sunny Warm Normal Weak Warm Same     3 of 6 hypotheses say yes
+```
+
+The run reproduces the textbook trace. After the first two positives $S$ is `<Sunny, Warm, ?, Strong, Warm, Same>`; the negative example forces $G$ to split into three one-attribute hypotheses; the fourth example (a positive) deletes `<?, ?, ?, ?, ?, Same>` from $G$ because it does not cover the new positive, and generalises $S$ to `<Sunny, Warm, ?, Strong, ?, ?>`. The version space holds six hypotheses.
+
+::: key Using the version space to classify
+An instance on which **all** six hypotheses agree can be classified with certainty relative to the bias: the first instance above is positive (6 of 6) and the second negative (0 of 6). The third instance splits the space 3 to 3, so the training data do not determine its label. A learner should ask a teacher about such an instance, which is the idea behind **active learning**: the best query splits the version space in half.
+:::
+
+### Why bias matters
+
+A learner with no bias cannot generalise at all. If the hypothesis space contained every possible Boolean function of the instances, $S$ would simply be the disjunction of the observed positives and $G$ the negation of the disjunction of observed negatives, so every unseen instance would be undecided. Mitchell calls this the **futility of bias-free learning**: an unbiased learner can only memorise. Find-S and candidate elimination are biased by the conjunctive hypothesis language; ID3 (Section 2.6) is biased towards short trees; k-NN (Section 3.5) assumes nearby points share labels. In the exam, "inductive bias" always has the same two-line answer: the extra assumptions, beyond the training data, that make generalisation possible, with one example.
+
+Practice limits: candidate elimination breaks when the data are noisy (the version space collapses to empty) or when the true concept is not a conjunction (for example "Sky is Sunny or Cloudy"). That motivates decision trees, which can express disjunctions.
+
+## 1.11 Data preparation: missing values, encoding and scaling
+
+Models never see "the world"; they see a matrix. A large share of a real project is spent turning raw records into a clean numeric matrix, and badly prepared data defeat even a good algorithm. Three jobs appear in almost every pipeline.
+
+**Missing values.** A blank cell can be handled by deleting the row (acceptable only when few rows are affected and the loss is random), by filling with a statistic (mean for roughly symmetric data, **median** for skewed data or data with outliers, most frequent value for categories), or by predicting the value from other columns. Whatever the choice, fit the statistic on the training set only and reuse the same number on validation and test data. Computing it on all data lets test information leak into training, the same mistake as using the test set to tune.
+
+**Encoding nominal features.** A feature such as city has no order. Coding Kathmandu = 0, Pokhara = 1, Biratnagar = 2 would tell a distance-based or linear model that Pokhara lies "between" the other two. The fix is **one-hot encoding**: one 0/1 column per category. Ordinal features (grade A, B, C) may keep integer codes because the order is real.
+
+**Scaling.** Gradient descent, k-NN, k-means, SVM and PCA all depend on distances or on the size of the numbers. If age is in years (20 to 60) and income is in thousands (20 to 100), income dominates every Euclidean distance. **Min-max scaling** maps a feature to $[0,1]$ by $x'=(x-x_{\min})/(x_{\max}-x_{\min})$; **standardisation** (z-score) gives mean 0 and standard deviation 1 by $z=(x-\mu)/\sigma$. Min-max is sensitive to outliers (one extreme value squeezes everything else); z-score is the usual default. Tree-based methods do not need scaling because they only compare a feature with a threshold.
+
+The program prepares eight customer records, one of whom (a business owner with income 400) is an outlier and two of whom have a missing income. It also shows scaling changing which of two neighbours is nearer.
+
+```python
+import numpy as np
+# Eight customers: age, monthly income (NPR thousands), city, bought (label). NaN marks a missing income.
+age = np.array([22, 25, 31, 38, 45, 52, 29, 41.0])
+inc = np.array([30, 42, np.nan, 80, 95, np.nan, 55, 400.0])
+city = np.array(["Kathmandu", "Pokhara", "Kathmandu", "Biratnagar", "Pokhara", "Kathmandu", "Biratnagar", "Pokhara"])
+print("missing incomes:", int(np.isnan(inc).sum()))
+mean_inc = np.nanmean(inc); med_inc = np.nanmedian(inc)
+print("mean = %.2f, median = %.2f" % (mean_inc, med_inc))
+inc_f = np.where(np.isnan(inc), med_inc, inc)
+print("income after median fill:", inc_f)
+# one-hot encoding of the nominal feature
+cats = sorted(set(city.tolist()))
+onehot = np.array([[c == k for k in cats] for c in city], dtype=int)
+print("categories:", cats)
+print(onehot[:4])
+# min-max and z-score scaling
+mm = (age - age.min()) / (age.max() - age.min())
+z = (age - age.mean()) / age.std()
+print("age min-max:", np.round(mm, 2))
+print("age z-score:", np.round(z, 2), " mean %.2f std %.2f" % (z.mean(), z.std()))
+# why scaling matters for distance based methods
+a, b, c = np.array([25, 40.0]), np.array([26, 70.0]), np.array([45, 41.0])
+d = lambda p, q: float(np.sqrt(((p - q) ** 2).sum()))
+print("raw units:    d(a,b) = %.2f   d(a,c) = %.2f" % (d(a, b), d(a, c)))
+print("scaled units: d(a,b) = %.2f   d(a,c) = %.2f" % (d(a / [40, 80], b / [40, 80]), d(a / [40, 80], c / [40, 80])))
+```
+```output
+missing incomes: 2
+mean = 117.00, median = 67.50
+income after median fill: [ 30.   42.   67.5  80.   95.   67.5  55.  400. ]
+categories: ['Biratnagar', 'Kathmandu', 'Pokhara']
+[[0 1 0]
+ [0 0 1]
+ [0 1 0]
+ [1 0 0]]
+age min-max: [0.   0.1  0.3  0.53 0.77 1.   0.23 0.63]
+age z-score: [-1.38 -1.07 -0.45  0.27  0.99  1.71 -0.66  0.58]  mean 0.00 std 1.00
+raw units:    d(a,b) = 30.02   d(a,c) = 20.02
+scaled units: d(a,b) = 0.38   d(a,c) = 0.50
+```
+
+Read the results in order. The mean income (117.0) is dragged up by the outlier while the median (67.5) still describes a typical customer, which is why the median fill is safer here. The one-hot matrix has one 1 per row. After min-max scaling the youngest customer is 0 and the oldest 1; after standardisation the mean is 0 and the standard deviation 1. In the last two lines, in raw units customer $c$ (45 years, income 41) looks nearer to $a$ than $b$ does, only because the income axis is numerically larger than the age axis; after scaling by the range of each feature the order reverses and $b$ becomes the nearer neighbour. Distances without scaling answer the question "which unit is larger?", not "which customer is similar?".
+
+::: caution Data leakage
+Fit every preparation step (fill statistic, scaler, encoder categories, feature selection, PCA) on the training split only, then apply it to validation and test. A model evaluated after scaling with statistics from the whole dataset reports an optimistic score that will not survive deployment.
+:::
+
+## 1.12 Summary and exercises
 
 ML is Mitchell's (T, P, E) definition made practical: supervised, unsupervised, semi-supervised and reinforcement learning. Data is split into training, validation and test sets. Learning is feasible because of Hoeffding-type bounds; the VC bound says test error is at most training error plus a complexity penalty; the error decomposes into bias, variance and noise; and learning curves diagnose which of the two to fix.
 
@@ -288,6 +453,12 @@ ML is Mitchell's (T, P, E) definition made practical: supervised, unsupervised, 
 6. Explain bias and variance, and say which a degree-1 polynomial fitted to a sine wave suffers from.
 7. A learning curve shows training and validation errors both stuck at 0.40. Diagnose the problem and suggest two remedies.
 8. Why must the test set be used only once?
+9. Run Find-S on the EnjoySport data with the first two examples swapped. Does the answer change? Why or why not?
+10. List the six hypotheses in the version space after four examples and say which are the S and G boundaries.
+11. A numeric column has values 2, 3, 3, 4, 100 and one missing entry. Which fill value would you choose and why? Give the number.
+12. Why is one-hot encoding preferred to integer codes for a city column in k-NN?
+13. Scale the values 10, 20, 40 to $[0,1]$ and then standardise them (use the population standard deviation).
+14. Give an example of data leakage in a scaling step and the correct procedure.
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
@@ -315,3 +486,15 @@ ML is Mitchell's (T, P, E) definition made practical: supervised, unsupervised, 
 *Body.* (1) The expected squared error equals bias² + variance + noise. (2) A simple model (degree 1) has high bias and low variance: it misses the shape but is stable across samples; the program in Section 1.8 shows high bias² for degree 1. (3) A complex model (degree 5) has low bias and high variance: it follows each sample's noise. (4) Training error always falls with complexity; validation error is U-shaped, so we pick the minimum (Figure 1.2). (5) The VC bound expresses the same idea: test error ≤ training error + penalty that grows with $d_{VC}$ and shrinks with N. (6) Learning curves diagnose which side we are on: both curves high and close means bias, remedy richer model or better features; a wide gap means variance, remedy more data, regularisation or a simpler model.
 
 *Conclusion.* Choose the model class by validation error, collect more data when variance dominates, and add capacity when bias dominates; noise sets a floor that no model can beat.
+
+**Q4 (5 marks). Find-S versus candidate elimination.**
+
+Find-S keeps one hypothesis, the most specific one consistent with the positives, and ignores negatives. Candidate elimination keeps the whole version space through the boundaries $S$ and $G$ and uses negatives to shrink $G$. On the EnjoySport data Find-S returns `<Sunny, Warm, ?, Strong, ?, ?>`, which is the S boundary; candidate elimination also returns $G=\{\langle Sunny,?,?,?,?,?\rangle,\langle ?,Warm,?,?,?,?\rangle\}$ and so shows that six hypotheses remain consistent. Both assume a conjunctive target and both fail on noisy data.
+
+**Q5 (5 marks). Scale 10, 20, 40.**
+
+Min-max: range 30, giving $0,\ 1/3,\ 1$ = 0, 0.333, 1. Mean $=70/3=23.33$; deviations $-13.33,\ -3.33,\ 16.67$; squares $177.8,\ 11.1,\ 277.8$, mean $=155.6$, $\sigma=12.47$; so $z=-1.07,\ -0.27,\ 1.34$. The z-scores have mean 0 and population standard deviation 1.
+
+**Q6 (5 marks). Prepare a messy table for a model.**
+
+*Missing values:* fill numeric gaps with the median (the mean for symmetric data), categorical gaps with the most frequent value, computed on the training set only. *Encoding:* one-hot for nominal features, integer codes for ordinal ones. *Scaling:* standardise features for distance and gradient based models. *Order:* split first, fit all steps on the training part, transform validation and test with the stored values; otherwise test information leaks into training and the reported accuracy is too high.
