@@ -291,7 +291,22 @@ Picked up from sessions 16-27 (this file; no duplicate tracker). Fresh sandbox `
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
 5. Web: wide tables in worked-example callouts stop short of the callout width (cosmetic).
 
-## Session 29 (in progress)
+## Session 29 results (BCA 105 re-checked, BCA 156 brought to the revised TU outline)
 
-Picked up from sessions 16-28 (this file; no duplicate tracker). Fresh sandbox `/home/user/sandbox`; session-21 recipe re-run via `/tmp/setup.sh`.
-Plan: re-verify BCA 105 (headings vs textbook TOC), keyword audits of BCA 156 and BCA 151 against TU outlines (queue item 2), then an elective (queue item 3).
+Picked up from sessions 16-28 (this file; no duplicate tracker). Fresh sandbox `/home/user/sandbox`; the session-21 recipe worked unchanged (`/tmp/setup.sh`: apt, venv `/tmp/v`, pip, `npm ci` in `notes/pipeline/mathjax`, fonts). Note: other agents push to `main` concurrently; use `git pull --rebase origin main` before pushing.
+
+### BCA 105 Professional Communication and Ethics (student feedback): heading check
+`unit-01..06.md` headings still follow the textbook TOC (Units 1-6, sections x.1 to x.8, Vocabulary and Grammar, both prescribed Readings with Exercises per unit; 52k words). Nothing changed this session. The student's 55-page copy is the OLD published PDF; publishing needs server credentials (`tools/publish/update_books.py --only professional-communication-ethics`).
+
+### BCA 156 Principles of Management: NEW Unit 7
+Audit: the book followed the older BBS-style outline (6 units). The revised outline (hamronotes chapter list: Introduction, Planning and Decision Making, Organizing, Leading) names topics the book lacked: forms of business, integrated management framework, role of IT in management/planning/decisions, job design/description/specification, forms of organisational design, generic/situational/emerging leadership, managing teams in crisis, leadership challenges in IT organisations.
+- Unit 7 "IT in Management, Forms of Business, Job Design and Leadership Approaches" (7.2k words): 9 sections, 2 figures (integrated framework; functional/divisional/matrix), a payback worked example (Rs 3,00,000 system: 2.17 years), liability worked example, complete sample job description and specification, Managerial Grid, Fiedler, Hersey-Blanchard, path-goal, VYJ, transformational/servant/authentic, crisis case, IT leadership table; 15 exercises with answers, 4 model answers. Numbers recomputed by hand (2.17, 2.73 years, 4.5 years pessimistic case).
+- PDF `NEBians-BCA-Course-Semester-2-Principles-of-Management.pdf`: `pdfinfo` **113 pages** (was about 97), `qa_pdf.py` fails=0 warns=11. Web data: 7 units / 51 topics.
+- Pages inspected as PNG: Fig 7.1 (ok), Fig 7.2 (first build: matrix part overlapped the divisional part and the rule-of-thumb box was one clipped line; fixed with new coordinates and `\n` breaks, re-rendered).
+- Honest gaps: Nepali legal details (101 shareholders for a private company, seven promoters for a public company, Partnership Act 2020, Companies Act 2063, Cooperatives Act 2074) are as commonly taught and not checked against the Act text; the full revised BCA 156 syllabus page was seen only as a search excerpt; no Django screenshots this session (data schema unchanged, session 28 verification stands).
+
+## Prioritised queue for the next session
+1. Publish updated PDFs (`update_books.py --only <slug>`): 105, 156, 401, 451, 304, 305, 103, 354, 154, 405.
+2. Keyword audits against live TU outlines still pending: BCA 151 Discrete Structure, 101/102/104, projects 256/306/356/404; BCA 353 (Miller-Rabin, Galois fields, HMAC, S/MIME, PGP, IPsec).
+3. Electives BCA 406/453/454 (E-Commerce overlaps MIS Unit 10; Linux, Database Administration, DotNet, Software Testing) remain unwritten slots; deepen BCA 405.
+4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.

@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Organisations and Introduction to Management",
    "area": "BCA 156 · Principles of Management · Unit 1",
-   "words": 3602,
+   "words": 3603,
    "read_min": 20,
    "figures": 4,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Evolution of Management Thought and the Environment",
    "area": "BCA 156 · Principles of Management · Unit 2",
-   "words": 3845,
+   "words": 3846,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Planning and Decision Making",
    "area": "BCA 156 · Principles of Management · Unit 3",
-   "words": 4515,
+   "words": 4516,
    "read_min": 25,
    "figures": 5,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Organising",
    "area": "BCA 156 · Principles of Management · Unit 4",
-   "words": 3903,
+   "words": 3904,
    "read_min": 22,
    "figures": 5,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Leading: Leadership, Motivation and Communication",
    "area": "BCA 156 · Principles of Management · Unit 5",
-   "words": 4314,
+   "words": 4315,
    "read_min": 24,
    "figures": 6,
    "has_questions": true
@@ -50,9 +50,18 @@
    "no": 6,
    "title": "Controlling, Quality and the Global Context",
    "area": "BCA 156 · Principles of Management · Unit 6",
-   "words": 4369,
+   "words": 4370,
    "read_min": 24,
    "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "IT in Management, Forms of Business, Job Design and Leadership Approaches",
+   "area": "BCA 156 · Principles of Management · Unit 7",
+   "words": 6303,
+   "read_min": 35,
+   "figures": 2,
    "has_questions": true
   }
  ]
