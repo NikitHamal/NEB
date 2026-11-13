@@ -230,3 +230,7 @@ The README said no TU outline had been retrieved and the book had no Unit 2 at a
 4. Old figures with 5-6 pt labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, BCA 105 pp12/21, Digital Logic); run `svgkit.lint` over all books.
 5. Electives BCA 405/406 and 453/454 are still unwritten slots (Machine Learning, E-Commerce, Linux, DBA are the likely picks); note that the new MIS unit 10 overlaps an E-Commerce elective, so pick another first.
 6. Run `tools/publish/update_books.py --only <slug>` with server credentials for 304, 305, 103, 354, 154.
+
+## Session 26 (in progress)
+Picked up from sessions 16-25 (this file; no duplicate tracker). Fresh sandbox again needed the session-21 recipe (venv `/tmp/v`, apt, `npm ci`, fonts); project root was `/app`.
+Plan: re-verify BCA 105 and web reader with screenshots, then continue queue items 3 and 4 (BCA 153 collections/file-handling units, label lint).
