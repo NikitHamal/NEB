@@ -69,7 +69,7 @@
   "code": "BCA 154",
   "semester": 2,
   "credits": 3,
-  "accent": "#6D28D9",
+  "accent": "#0E7490",
   "status": "done"
  },
  "semester-2/microprocessor-computer-architecture": {
@@ -125,7 +125,7 @@
   "code": "BCA 204",
   "semester": 3,
   "credits": 3,
-  "accent": "#6D28D9",
+  "accent": "#0E7490",
   "status": "done"
  },
  "semester-3/probability-and-statistics": {
@@ -334,6 +334,14 @@
   "semester": 7,
   "credits": 3,
   "accent": "#B45309",
+  "status": "done"
+ },
+ "semester-7/dotnet-technology": {
+  "name": "DotNet Technology",
+  "code": "BCA 406",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#0E7490",
   "status": "done"
  },
  "semester-8/internship": {
