@@ -453,11 +453,11 @@ Outline (notebahadur.com, benchpartner.com, bcanotesnepal.com): U1 Introduction 
 ### Honest gaps
 - No Linux/Windows command, Nginx/Postfix/BIND/CUPS/Samba/restic/dnsmasq/Nagios configuration was run; they follow Ubuntu 22.04/24.04, Rocky 9 and Windows Server 2019/2022 documentation from memory. Test in a lab VM.
 - Prices in Unit 5 are illustrative planning numbers, not quotations; Public Procurement Act 2063/Rules 2064, thresholds and the percentages of bid security etc. are flagged "check the current text". Uptime tier percentages, SAGE/LOPSA code headings and ASHRAE temperatures are from memory of public sources.
-- The outline lists Unit 5 without a title; "Procurement Plan for an Enterprise Network" is our title. Lab list is not a printed college manual. No Django screenshot of this book yet (same exporter as sessions 18-34). No subject-teacher review.
+- The outline lists Unit 5 without a title; "Procurement Plan for an Enterprise Network" is our title. Lab list is not a printed college manual. No subject-teacher review.
 - Elective slots still unwritten: I (E-Commerce, Database Administration, Linux), II (Business Intelligence, Software Testing, Data Visualization), III (E-Governance, GIS), IV (Digital Marketing and SEO, Image Processing, Data Mining).
 
 ## Prioritised queue for the next session
 1. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (both), 454.
 2. Next electives from TU outlines on notebahadur.com (Software Testing and QA, Data Mining, Image Processing, Linux / Database Administration, GIS); reuse the part-file recipe: write `_p/uNa.md ... uNc.md` (each under 140 lines) then `cat` into `unit-0N.md`, `normalize_md.py`, `fill_script_outputs.py`, build detached, `qa_pdf.py`, `export_course_web.py`, `gen_status.py`.
 3. Keyword audits still pending: projects 256/306/356/404. BCA 153 split of collections/file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books; extend `check_mis.py`.
-4. Take a Django screenshot of a Semester 8 book (Network Administration) to confirm sidebar and code blocks.
+4. (done in session 35) Django + headless Chromium check of Network Administration Unit 4: five units in the left rail, 11 entries in "On this page", no "Formula and fact sheet", code and output blocks render.
