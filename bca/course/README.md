@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,637,062 raw words of study material, counted over the unit files, including code listings and tables):
+**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,644,287 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -18,7 +18,7 @@
 | 2 | BCA 153 | [OOP in Java](semester-2/oop-in-java/) | 26,154 | 95 | done |
 | 2 | BCA 154 | [Mathematics II](semester-2/mathematics-2/) | 31,797 | 97 | done |
 | 2 | BCA 155 | [UX/UI Design](semester-2/ux-ui-design/) | 62,924 | 158 | done |
-| 2 | BCA 156 | [Principles of Management](semester-2/principles-of-management/) | 30,223 | 93 | done |
+| 2 | BCA 156 | [Principles of Management](semester-2/principles-of-management/) | 37,448 | 113 | done |
 | 3 | BCA 201 | [Data Structure and Algorithms](semester-3/data-structure-and-algorithms/) | 55,224 | 146 | done |
 | 3 | BCA 202 | [Database Management System](semester-3/dbms/) | 41,830 | 118 | done |
 | 3 | BCA 203 | [Web Technology I](semester-3/web-technology-1/) | 30,130 | 92 | done |

@@ -68,7 +68,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3666,
+    "words": 3667,
     "figures": 0,
     "examples": 0
    },
@@ -117,7 +117,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3750,
+    "words": 3751,
     "figures": 0,
     "examples": 0
    },
@@ -176,7 +176,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4272,
+    "words": 4273,
     "figures": 0,
     "examples": 5
    },
@@ -250,7 +250,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3757,
+    "words": 3758,
     "figures": 0,
     "examples": 1
    },
@@ -298,7 +298,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4207,
+    "words": 4208,
     "figures": 0,
     "examples": 1
    },
@@ -367,14 +367,85 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4105,
+    "words": 4106,
     "figures": 0,
     "examples": 2
    },
    "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "IT in Management, Forms of Business, Job Design and Leadership Approaches",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Forms of business",
+    "The integrated management framework",
+    "Managing ethics and diversity, and social responsibility (revision map)",
+    "The role of IT in management",
+    "Job analysis, job design, job description and job specification",
+    "Authority distribution and forms of organisational design",
+    "Approaches to leadership: generic, situational and emerging",
+    "Managing teams in a time of crisis",
+    "Leadership challenges in an IT-based organisation"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Forms of business"
+    },
+    {
+     "no": "7.2",
+     "title": "The integrated management framework"
+    },
+    {
+     "no": "7.3",
+     "title": "Managing ethics and diversity, and social responsibility (revision map)"
+    },
+    {
+     "no": "7.4",
+     "title": "The role of IT in management"
+    },
+    {
+     "no": "7.5",
+     "title": "Job analysis, job design, job description and job specification"
+    },
+    {
+     "no": "7.6",
+     "title": "Authority distribution and forms of organisational design"
+    },
+    {
+     "no": "7.7",
+     "title": "Approaches to leadership: generic, situational and emerging"
+    },
+    {
+     "no": "7.8",
+     "title": "Managing teams in a time of crisis"
+    },
+    {
+     "no": "7.9",
+     "title": "Leadership challenges in an IT-based organisation"
+    }
+   ],
+   "summary": [
+    "A form of business is chosen by liability, capital, control and continuity; companies give limited liability and perpetual succession, sole traders and general partners carry unlimited liability.",
+    "The integrated framework shows management as skills, roles and functions inside an environment, steered by ethics and supported by IT.",
+    "IT supports planning, decision making, organising, leading and controlling; it helps structured decisions most and unstructured decisions least, and a cost-benefit view (payback) tests an IT purchase.",
+    "Job analysis produces the description and the specification; job design ranges from simplification to enrichment and the job characteristics model.",
+    "Organisational design may be functional, divisional, matrix, team, network or virtual, each with a trade-off.",
+    "Leadership theories moved from traits to behaviour, to situation, to transformation and service; no single style is best, and a crisis calls for calm, directive and honest leadership.",
+    "IT organisations ask for leaders who combine vision, trust in experts, care for people and a firm ethical line."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6676,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 6,
- "topic_count": 42,
- "notes_ready": 6
+ "unit_count": 7,
+ "topic_count": 51,
+ "notes_ready": 7
 }
