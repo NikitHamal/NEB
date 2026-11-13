@@ -309,6 +309,292 @@ def u4():
     # operation counts: Gauss n^3/3 ; time
     for n in (10, 100, 1000): print(n, n**3 // 3, n**2)
 
+def u5():
+    print("== u5")
+    f = lambda x, y: x + y
+    ex = lambda x: 2 * math.exp(x) - x - 1
+    # 5.10 stability y'=-lam y, y(0)=1
+    lam = 50.0
+    print("stability lam=50: Euler factor h=0.05", 1 - 0.05 * lam, "h=0.04", 1 - 0.04 * lam, "h=0.01", 1 - 0.01 * lam, "h=0.02", 1 - 0.02 * lam)
+    for h in (0.05, 0.04, 0.02, 0.01):
+        y = 1.0; ys = [y]
+        for n in range(round(0.2 / h)): y = y * (1 - h * lam); ys.append(y)
+        print("Euler h", h, "y(0.2)", y, "exact", math.exp(-lam * 0.2), "path", [f"{v:.4f}" for v in ys])
+    for h in (0.05, 0.1):
+        y = 1.0
+        for n in range(round(0.2 / h)): y = y / (1 + h * lam)
+        print("backward Euler h", h, y)
+    # RK4 on y'=-50 y: factor R(z)=1+z+z^2/2+z^3/6+z^4/24
+    R = lambda z: 1 + z + z * z / 2 + z ** 3 / 6 + z ** 4 / 24
+    for h in (0.04, 0.05, 0.06): print("RK4 factor h", h, R(-h * lam))
+    # find RK4 real stability limit
+    lo, hi = 2.0, 3.0
+    for _ in range(60):
+        m = (lo + hi) / 2
+        if abs(R(-m)) < 1: lo = m
+        else: hi = m
+    print("RK4 limit hλ", lo)
+    # 5.11 Adams-Bashforth/Moulton on y'=x+y, h=0.1
+    h = 0.1
+    xs = [0.1 * i for i in range(7)]
+    def rk4(x, y):
+        k1 = f(x, y); k2 = f(x + h / 2, y + h * k1 / 2); k3 = f(x + h / 2, y + h * k2 / 2); k4 = f(x + h, y + h * k3)
+        return y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+    ys = [1.0]
+    for i in range(3): ys.append(rk4(xs[i], ys[i]))
+    print("RK4 start", [f"{v:.6f}" for v in ys], "exact", [f"{ex(x):.6f}" for x in xs[:4]])
+    fs = [f(xs[i], ys[i]) for i in range(4)]
+    print("f0..f3", [f"{v:.6f}" for v in fs])
+    for n in range(3, 6):
+        pred = ys[n] + h / 24 * (55 * fs[n] - 59 * fs[n - 1] + 37 * fs[n - 2] - 9 * fs[n - 3])
+        fp = f(xs[n + 1], pred)
+        corr = ys[n] + h / 24 * (9 * fp + 19 * fs[n] - 5 * fs[n - 1] + fs[n - 2])
+        print(f"x{n+1}={xs[n+1]:.1f} AB4 pred {pred:.6f} f(pred) {fp:.6f} AM4 corr {corr:.6f} exact {ex(xs[n+1]):.6f} perr {abs(pred-ex(xs[n+1])):.2e} cerr {abs(corr-ex(xs[n+1])):.2e}")
+        ys.append(corr); fs.append(f(xs[n + 1], corr))
+    # AB2 from Euler/ Heun start
+    y1 = 1.1 + 0  # not used
+    ys2 = [1.0, rk4(0, 1.0)]; fs2 = [f(0, 1.0), f(0.1, ys2[1])]
+    print("AB2")
+    for n in range(1, 5):
+        yn = ys2[n] + h / 2 * (3 * fs2[n] - fs2[n - 1]); ys2.append(yn); fs2.append(f(xs[n + 1], yn))
+        print(n + 1, f"{xs[n+1]:.1f} {yn:.6f} exact {ex(xs[n+1]):.6f} err {abs(yn-ex(xs[n+1])):.2e}")
+    # Milne: predictor y4 = y0 + 4h/3 (2f1 - f2 + 2f3), corrector y4 = y2 + h/3 (f2 + 4f3 + f4)
+    yy = [1.0] + [ex(0.1 * i) for i in range(1, 4)]
+    ff = [f(0.1 * i, yy[i]) for i in range(4)]
+    p = yy[0] + 4 * h / 3 * (2 * ff[1] - ff[2] + 2 * ff[3]); fp = f(0.4, p)
+    c = yy[2] + h / 3 * (ff[2] + 4 * ff[3] + fp)
+    print("Milne with exact start: pred", p, "corr", c, "exact", ex(0.4))
+    # 5.12 RK3 Kutta and midpoint, Butcher; error table at x=0.5 with h=0.1
+    def run(step):
+        y = 1.0
+        for i in range(5): y = step(0.1 * i, y)
+        return y
+    mid = lambda x, y: y + h * f(x + h / 2, y + h / 2 * f(x, y))
+    def rk3(x, y):
+        k1 = f(x, y); k2 = f(x + h / 2, y + h * k1 / 2); k3 = f(x + h, y - h * k1 + 2 * h * k2)
+        return y + h / 6 * (k1 + 4 * k2 + k3)
+    eul = lambda x, y: y + h * f(x, y)
+    heun = lambda x, y: y + h / 2 * (f(x, y) + f(x + h, y + h * f(x, y)))
+    for nm, st in (("euler", eul), ("midpoint", mid), ("heun", heun), ("rk3", rk3), ("rk4", rk4)):
+        v = run(st); print(nm, f"{v:.6f} err {abs(v-ex(0.5)):.3e}")
+    # midpoint first step
+    print("midpoint first step", mid(0, 1.0), "rk3 first", rk3(0, 1.0))
+    # embedded Euler-Heun adaptive on y'=x+y from 0 with tol 1e-3 (absolute per step)
+    x, y, hh, tol = 0.0, 1.0, 0.2, 1e-3; print("adaptive Euler/Heun")
+    while x < 0.5 - 1e-12:
+        hh = min(hh, 0.5 - x)
+        k1 = f(x, y); k2 = f(x + hh, y + hh * k1)
+        ye = y + hh * k1; yh = y + hh / 2 * (k1 + k2); err = abs(yh - ye)
+        ok = err <= tol
+        print(f"x={x:.4f} h={hh:.4f} Euler {ye:.6f} Heun {yh:.6f} est {err:.2e} {'accept' if ok else 'reject'}")
+        if ok: x += hh; y = yh
+        fac = min(2.0, max(0.3, 0.9 * math.sqrt(tol / max(err, 1e-16)))); hh *= fac
+    print("adaptive y(0.5)", y, "exact", ex(0.5), "err", abs(y - ex(0.5)))
+    # 5.13 applications
+    k = 0.1; Tf = lambda t, T: -k * (T - 20)
+    T = 90.0; hh = 5.0
+    print("cooling RK4 h=5")
+    for i in range(4):
+        t = i * hh
+        k1 = Tf(t, T); k2 = Tf(t + hh / 2, T + hh * k1 / 2); k3 = Tf(t + hh / 2, T + hh * k2 / 2); k4 = Tf(t + hh, T + hh * k3)
+        T = T + hh / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        print(t + hh, f"{T:.4f}", f"exact {20 + 70 * math.exp(-k * (t + hh)):.4f}")
+    # time to reach 40: exact t = ln(70/20)/0.1
+    print("t to 40C", math.log(70 / 20) / k)
+    # Euler h=5 for comparison at 20
+    T = 90.0
+    for i in range(4): T = T + 5 * Tf(0, T)
+    print("Euler h=5 T(20)", T)
+    # logistic P'=0.5P(1-P/100), P0=10; RK4 h=1
+    g = lambda t, P: 0.5 * P * (1 - P / 100)
+    P = 10.0; print("logistic")
+    for i in range(6):
+        k1 = g(0, P); k2 = g(0, P + k1 / 2); k3 = g(0, P + k2 / 2); k4 = g(0, P + k3)
+        P = P + (k1 + 2 * k2 + 2 * k3 + k4) / 6
+        ex_ = 100 / (1 + 9 * math.exp(-0.5 * (i + 1)))
+        print(i + 1, f"{P:.4f} exact {ex_:.4f}")
+    # falling body with drag v' = 9.81 - 0.25 v^2? use v' = g - (c/m) v, c/m=0.5; terminal g/0.5 = 19.62
+    gv = lambda t, v: 9.81 - 0.5 * v
+    v = 0.0; hh = 0.5; print("fall linear drag")
+    for i in range(6):
+        k1 = gv(0, v); k2 = gv(0, v + hh * k1 / 2); k3 = gv(0, v + hh * k2 / 2); k4 = gv(0, v + hh * k3)
+        v = v + hh / 6 * (k1 + 2 * k2 + 2 * k3 + k4); t = (i + 1) * hh
+        print(f"{t:.1f} {v:.4f} exact {19.62 * (1 - math.exp(-0.5 * t)):.4f}")
+    # 5.14 finite difference BVP y''=y y(0)=0 y(1)=2, h=0.25
+    N = 4; hh = 1 / N
+    A = np.zeros((N - 1, N - 1)); b = np.zeros(N - 1)
+    for i in range(N - 1):
+        A[i, i] = -2 - hh * hh
+        if i > 0: A[i, i - 1] = 1
+        if i < N - 2: A[i, i + 1] = 1
+    b[-1] = -2
+    sol = np.linalg.solve(A, b)
+    exs = [2 * math.sinh(x) / math.sinh(1) for x in (0.25, 0.5, 0.75)]
+    print("FD h=0.25", sol, "exact", exs, "err", np.abs(sol - exs))
+    for N in (8, 16):
+        hh = 1 / N; A = np.zeros((N - 1, N - 1)); b = np.zeros(N - 1)
+        for i in range(N - 1):
+            A[i, i] = -2 - hh * hh
+            if i > 0: A[i, i - 1] = 1
+            if i < N - 2: A[i, i + 1] = 1
+        b[-1] = -2; s = np.linalg.solve(A, b)
+        xx = np.arange(1, N) * hh; e = 2 * np.sinh(xx) / math.sinh(1)
+        print("N", N, "max err", np.max(np.abs(s - e)), "mid", s[N // 2 - 1], e[N // 2 - 1])
+    # BVP y'' = -y... nonlinear shooting skip. second BVP: y'' + y = x? skip
+    # Lorenz-free: system RK4 for predator? skip.
+    # Taylor/ Euler global error ratios for h=0.1,0.05 ; Euler estimates step counts for 1e-4 accuracy
+    for nm, st, p in (("euler", 'e', 1), ("rk4", 'r', 4)):
+        pass
+    # steps needed for error 1e-6 at x=0.5: Euler err ~ C h; C from h=0.1: 0.0764*... 
+    Ce = 7.64e-2 / 0.1; Cr = 1.26e-6 / 0.1 ** 4
+    print("Euler h for 1e-6", 1e-6 / Ce, "steps", 0.5 / (1e-6 / Ce), "evals", 0.5 / (1e-6 / Ce))
+    hr = (1e-6 / Cr) ** 0.25; print("RK4 h for 1e-6", hr, "steps", 0.5 / hr, "evals", 4 * 0.5 / hr)
+
+def u6():
+    print("== u6")
+    # 6.7 heat eq explicit FTCS: u_t=u_xx, u(x,0)=sin(pi x), u(0,t)=u(1,t)=0, h=0.1
+    def ftcs(r, h, T):
+        n = round(1 / h); k = r * h * h; steps = round(T / k)
+        u = np.sin(math.pi * np.arange(n + 1) * h)
+        for _ in range(steps):
+            un = u.copy(); un[1:-1] = r * u[:-2] + (1 - 2 * r) * u[1:-1] + r * u[2:]; u = un
+        return u, k, steps
+    ex = lambda x, t: math.exp(-math.pi ** 2 * t) * math.sin(math.pi * x)
+    u, k, st = ftcs(0.5, 0.1, 0.1)
+    print("FTCS r=.5 k", k, "steps", st, "u(0.5,0.1)", u[5], "exact", ex(0.5, 0.1), "u(.3)", u[3], ex(0.3, 0.1))
+    # step by step table for r=0.5 at x=0.1..0.5
+    n = 10; r = 0.5; uu = np.sin(math.pi * np.arange(n + 1) * 0.1); print("t  x=0.1..0.5")
+    print(0, np.round(uu[1:6], 4))
+    for s in range(1, 5):
+        un = uu.copy(); un[1:-1] = r * uu[:-2] + (1 - 2 * r) * uu[1:-1] + r * uu[2:]; uu = un
+        print(f"{s*0.005:.3f}", np.round(uu[1:6], 4), "exact x=.5", round(ex(0.5, s * 0.005), 4))
+    for r_ in (0.25, 0.5, 0.6, 1.0):
+        uu, k, st = ftcs(r_, 0.1, 0.1 if r_ <= 0.5 else 0.1)
+        print("r", r_, "k", k, "steps", st, "max|u|", np.max(abs(uu)), "u(.5)", uu[5], "exact", ex(0.5, st * k))
+    # r=0.6 grows: show the first 12 steps maxima
+    n = 10; r = 0.6; uu = np.sin(math.pi * np.arange(n + 1) * 0.1) + 0.0
+    uu[5] += 1e-3; mx = []
+    for s in range(60):
+        un = uu.copy(); un[1:-1] = r * uu[:-2] + (1 - 2 * r) * uu[1:-1] + r * uu[2:]; uu = un
+        if s in (9, 19, 39, 59): mx.append((s + 1, float(np.max(abs(uu)))))
+    print("r=0.6 growth", mx)
+    # Crank-Nicolson r=1 (k=0.01)
+    def cn(r, h, T):
+        n = round(1 / h); k = r * h * h; steps = round(T / k); m = n - 1
+        A = np.diag([2 + 2 * r] * m) + np.diag([-r] * (m - 1), 1) + np.diag([-r] * (m - 1), -1)
+        B = np.diag([2 - 2 * r] * m) + np.diag([r] * (m - 1), 1) + np.diag([r] * (m - 1), -1)
+        u = np.sin(math.pi * np.arange(1, n) * h)
+        for _ in range(steps): u = np.linalg.solve(A, B @ u)
+        return u, k, steps
+    for r_ in (1.0, 5.0):
+        u, k, st = cn(r_, 0.1, 0.1)
+        print("CN r", r_, "k", k, "steps", st, "u(.5)", u[4], "exact", ex(0.5, st * k), "err", abs(u[4] - ex(0.5, st * k)))
+    u, k, st = ftcs(0.5, 0.1, 0.1); print("FTCS err", abs(u[5] - ex(0.5, 0.1)))
+    u, k, st = ftcs(0.25, 0.1, 0.1); print("FTCS r=.25 err", abs(u[5] - ex(0.5, 0.1)))
+    # CN first step r=1 by hand: tridiagonal 4 -1 ; show first step values
+    r = 1.0; m = 9; A = np.diag([2 + 2 * r] * m) + np.diag([-r] * (m - 1), 1) + np.diag([-r] * (m - 1), -1)
+    B = np.diag([2 - 2 * r] * m) + np.diag([r] * (m - 1), 1) + np.diag([r] * (m - 1), -1)
+    u0 = np.sin(math.pi * np.arange(1, 10) * 0.1); u1 = np.linalg.solve(A, B @ u0)
+    print("CN r=1 step1", np.round(u1, 5), "exact", [round(ex(0.1 * i, 0.01), 5) for i in range(1, 10)])
+    # Bender-Schmidt on a bar with u(0)=0 u(5)=100? classic: u_t = u_xx, 0<x<1, u(0,t)=0,u(1,t)=0? use h=0.25, u0=4x(1-x)? keep sin
+    # 6.8 wave: u_tt = u_xx, u(x,0)=sin(pi x), u_t=0, h=0.1; r=ck/h
+    def wave(r, h, T, nonlin=False):
+        n = round(1 / h); k = r * h; x = np.arange(n + 1) * h
+        u0 = np.sin(math.pi * x); u1 = u0.copy()
+        u1[1:-1] = u0[1:-1] + 0.5 * r * r * (u0[:-2] - 2 * u0[1:-1] + u0[2:])
+        steps = round(T / k); up, uc = u0, u1
+        for _ in range(steps - 1):
+            un = np.zeros_like(uc); un[1:-1] = 2 * uc[1:-1] - up[1:-1] + r * r * (uc[:-2] - 2 * uc[1:-1] + uc[2:]); up, uc = uc, un
+        return uc, k, steps
+    for r_ in (1.0, 0.5, 0.8, 1.1):
+        u, k, st = wave(r_, 0.1, 0.5 if r_ in (1.0, 0.5) else 0.8)
+        T = k * st
+        print("wave r", r_, "k", k, "steps", st, "t", T, "u(.5)", u[5], "exact", math.cos(math.pi * T) * 1.0, "max", np.max(abs(u)))
+    # wave r=1 table: rows t=0, .1, .2 ... at x=.1..0.5
+    r = 1.0; h = 0.1; x = np.arange(11) * h; u0 = np.sin(math.pi * x); u1 = u0.copy()
+    u1[1:-1] = u0[1:-1] + 0.5 * (u0[:-2] - 2 * u0[1:-1] + u0[2:]); rows = [u0, u1]
+    for s in range(4):
+        un = np.zeros(11); un[1:-1] = 2 * rows[-1][1:-1] - rows[-2][1:-1] + (rows[-1][:-2] - 2 * rows[-1][1:-1] + rows[-1][2:]); rows.append(un)
+    for s, rw in enumerate(rows): print(f"t={s*0.1:.1f}", np.round(rw[1:6], 4), "exact x=.5", round(math.cos(math.pi * s * 0.1), 4))
+    # 6.9 SOR on N x N grid Laplace top 100
+    def sor(N, w, tol=1e-6):
+        u = np.zeros((N + 2, N + 2)); u[0, :] = 100; it = 0
+        while True:
+            it += 1; d = 0
+            for i in range(1, N + 1):
+                for j in range(1, N + 1):
+                    gs = 0.25 * (u[i - 1, j] + u[i + 1, j] + u[i, j - 1] + u[i, j + 1]); new = u[i, j] + w * (gs - u[i, j])
+                    d = max(d, abs(new - u[i, j])); u[i, j] = new
+            if d < tol: return it, u
+            if it > 5000: return it, u
+    for N in (3, 7, 15):
+        wopt = 2 / (1 + math.sin(math.pi / (N + 1)))
+        print("N", N, "w_opt", wopt, "GS iters", sor(N, 1.0)[0], "SOR(wopt)", sor(N, wopt)[0], "SOR(1.5)", sor(N, 1.5)[0], "SOR(1.9)", sor(N, 1.9)[0])
+    # diagonal five-point initial guess for 3x3 plate top=100: centre = avg of 4 corner boundary values? use boundary corners of interior diag: 
+    # standard TU example: boundary: top 100 line, others 0 -> u5 = (u_(0,0)... ) use interior 3x3 labelled u1..u9
+    # centre by standard formula: 4 u5 = sum of diagonal neighbours u1+u3+u7+u9 -> with boundary corners of the 4x4 ring? Use general: 
+    # grid indices (i from top): ring values; centre diag neighbours are interior points. Instead use classic: u5=(b(0,0)+b(0,3)+b(3,0)+b(3,3))/4 for the 3x3 interior w/ corners being boundary points of the 4x4 mesh
+    # here corners of 4x4 mesh are (0,0),(0,4),(4,0),(4,4) -> boundary corner values for plate: top corners 100 (assigned), bottom 0? -> 50
+    print("diag-centre guess for N=3 plate with corners 100,100,0,0 ->", (100 + 100 + 0 + 0) / 4)
+    # Liebmann with diag start: u22=50, then u12=(100+0.. ) etc.
+    # insulated edge: left edge insulated (u_x=0), top 100 right 0 bottom 0 ; 2x2... interior columns j=0 (edge) ,1 ; use 3 rows
+    # unknown: a(top-left on edge), b(top-right), c (mid-left), d, e, f ; mesh h=1/3, x from 0(insulated) ,1/3,2/3,1(boundary 0)
+    N = 3
+    # grid cols x=0,1,2 unknown (x=3 boundary zero); rows y=1..3 unknown? use rows from top: y=0 top boundary=100, y=4 bottom 0 -> rows 1..3
+    idx = {(i, j): n for n, (i, j) in enumerate([(i, j) for i in range(1, 4) for j in range(0, 3)])}
+    A = np.zeros((9, 9)); b = np.zeros(9)
+    for (i, j), n in idx.items():
+        A[n, n] = 4
+        for di, dj in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            ii, jj = i + di, j + dj
+            if ii == 0: b[n] += 100
+            elif ii == 4: pass
+            elif jj == 3: pass
+            elif jj == -1: A[n, idx[(i, 0)]] -= 1  # mirror: ghost = interior neighbour (i, 1)? ghost x=-1 equals x=1
+            else: A[n, idx[(ii, jj)]] -= 1
+    # fix: ghost for j=-1 equals value at (i,1)
+    for (i, j), n in idx.items():
+        if j == 0:
+            A[n, idx[(i, 0)]] = 4 + 0  # reset diag (we subtracted 1 above wrongly)
+            A[n, idx[(i, 1)]] = -2 if True else 0
+            # recompute neighbours properly
+    A = np.zeros((9, 9)); b = np.zeros(9)
+    for (i, j), n in idx.items():
+        A[n, n] = 4
+        for di, dj in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            ii, jj = i + di, j + dj
+            if jj == -1: jj = 1
+            if ii == 0: b[n] += 100
+            elif ii == 4 or jj == 3: pass
+            else: A[n, idx[(ii, jj)]] -= 1
+    sol = np.linalg.solve(A, b).reshape(3, 3)
+    print("insulated left edge, columns x=0,1/3,2/3:\n", np.round(sol, 4))
+    # Poisson with SOR? 6.10 error vs h : Laplace with exact solution u = x^2 - y^2 on unit square, boundary from exact; errors for h=1/2,1/4,1/8 at centre
+    ue = lambda x, y: x * x - y * y
+    def solve_exact(N):
+        h = 1 / (N + 1); u = np.zeros((N + 2, N + 2))
+        for i in range(N + 2):
+            for j in range(N + 2):
+                if i in (0, N + 1) or j in (0, N + 1): u[i, j] = ue(j * h, i * h)
+        for _ in range(4000):
+            for i in range(1, N + 1):
+                for j in range(1, N + 1): u[i, j] = 0.25 * (u[i - 1, j] + u[i + 1, j] + u[i, j - 1] + u[i, j + 1])
+        return max(abs(u[i, j] - ue(j * h, i * h)) for i in range(N + 2) for j in range(N + 2))
+    print("x^2-y^2 (exactly linear differences => zero error):", solve_exact(3))
+    # Poisson with non-quadratic exact solution u = sin(pi x) sin(pi y): lap u = -2 pi^2 u ; error vs h at centre
+    for N in (1, 3, 7, 15):
+        h = 1 / (N + 1); M = N * N; A = np.zeros((M, M)); b = np.zeros(M)
+        for i in range(N):
+            for j in range(N):
+                n = i * N + j; A[n, n] = 4
+                if i > 0: A[n, n - N] = -1
+                if i < N - 1: A[n, n + N] = -1
+                if j > 0: A[n, n - 1] = -1
+                if j < N - 1: A[n, n + 1] = -1
+                x, y = (j + 1) * h, (i + 1) * h; b[n] = h * h * 2 * math.pi ** 2 * math.sin(math.pi * x) * math.sin(math.pi * y)
+        s = np.linalg.solve(A, b); c = s[(N // 2) * N + N // 2] if N % 2 else None
+        print("N", N, "h", h, "centre", c, "exact 1.0" if c is not None else "", "err", None if c is None else abs(c - 1))
+
 if __name__ == "__main__":
     for w in which:
         globals()[w]()
