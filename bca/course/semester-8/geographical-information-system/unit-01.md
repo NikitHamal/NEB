@@ -189,7 +189,7 @@ f.text(150, 42, "Elevation (raster)", size=10, color=NAVY, bold=True)
 f.poly([(40, 140), (230, 140), (260, 100), (70, 100)], fill=MINT, stroke=TEAL)
 f.text(150, 122, "Flood zone (polygon)", size=10, color=TEAL, bold=True)
 f.poly([(40, 220), (230, 220), (260, 180), (70, 180)], fill=SAND, stroke=AMBER)
-f.text(150, 202, "Schools (points)", size=10, color=AMBER, bold=True)
+f.text(150, 237, "Schools (points)", size=10, color=AMBER, bold=True)
 for x, y in ((100, 205), (150, 200), (200, 208), (130, 192)):
     f.circle(x, y, 3.5, fill=RED, stroke=RED)
 f.arrow([(275, 40), (350, 110)], color=SLATE)
@@ -320,7 +320,7 @@ A GIS captures, stores, analyses and displays data tied to places. Its functions
 12. What is metadata? List eight items a good metadata record contains.
 13. Discuss three recent trends in GIS and one ethical concern.
 
-**Answers to the numerical item.** (9) Error distance = sqrt(3.2^2 + 2.4^2) = sqrt(10.24 + 5.76) = sqrt(16) = **4.0 m**.
+**Answers to the numerical item.** (9) Error distance = the square root of (3.2 squared + 2.4 squared) = the square root of (10.24 + 5.76) = the square root of 16 = **4.0 m**.
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 

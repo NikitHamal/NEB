@@ -225,7 +225,7 @@ f = Fig(680, 280)
 for cx, title, note in ((115, "Cylindrical", "tangent at the equator"), (340, "Conic", "tangent along a parallel"), (565, "Azimuthal (planar)", "tangent at a point")):
     f.circle(cx, 125, 55, fill=BLUE, stroke=NAVY, label="")
     f.text(cx, 24, title, size=12, color=NAVY, bold=True)
-    f.text(cx, 255, note, size=10, color=SLATE)
+    f.text(cx, 232, note, size=10, color=SLATE)
 # cylinder: rectangle around the globe, equator touching
 f.line(60, 70, 60, 180, color=AMBER, sw=2)
 f.line(170, 70, 170, 180, color=AMBER, sw=2)
