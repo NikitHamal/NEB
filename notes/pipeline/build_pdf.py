@@ -177,7 +177,15 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
     os.makedirs(OUT, exist_ok=True)
     name = spine.pdf_name(slug)
     path = os.path.join(OUT, name)
-    rendered = HTML(string=doc, base_url=HERE).render(stylesheets=[CSS(filename=THEME)])
+    if os.environ.get("NEB_DUMP_HTML"):      # layout debugging: re-render with only the CSS changed
+        os.makedirs(os.environ["NEB_DUMP_HTML"], exist_ok=True)
+        open(os.path.join(os.environ["NEB_DUMP_HTML"], slug + ".html"), "w", encoding="utf-8").write(doc)
+    if os.environ.get("NEB_NO_FLOATFIX"):
+        rendered = HTML(string=doc, base_url=HERE).render(stylesheets=[CSS(filename=THEME)])
+    else:
+        import floatfix
+        rendered = floatfix.render_best(HTML(string=doc, base_url=HERE), CSS(filename=THEME),
+                                        log=print if verbose else None)
     rendered.write_pdf(path, optimize_images=True, jpeg_quality=80, dpi=170)
     attach_reading(path, rendered, slug, subject, grade, accent, L, units, present, chap_print,
                    extras, extra_meta)
