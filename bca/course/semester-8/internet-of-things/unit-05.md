@@ -302,10 +302,10 @@ Servers for IoT range from a local Raspberry Pi to cloud data centres; IaaS, Paa
 8. Compare MQTT, CoAP, HTTP and WebSocket in a table.
 9. What is a device shadow and why is it useful for sleeping devices?
 10. List six criteria for choosing an IoT cloud platform. What happened to Google Cloud IoT Core and what does it teach?
-11. 800 devices publish every 20 seconds at $0.80 per million messages. Find the monthly cost and the cost if the interval becomes 2 minutes.
+11. 800 devices publish every 20 seconds at USD 0.80 per million messages. Find the monthly cost and the cost if the interval becomes 2 minutes.
 12. Explain how a WebSocket connection is established.
 
-**Answers to the numerical items.** (4) $24\times12=288$ readings per device per day; $5000\times288=1{,}440{,}000$ readings; $\times200$ bytes $=288$ MB per day; $\times365=105$ GB per year. (7) `home/+/temp` matches `home/kitchen/temp` only; `home/kitchen/oven/temp` has an extra level and `home/temp` lacks the middle level. `home/#` matches all three. (11) $800\times(86400/20)\times30=103.68$ million messages, cost $=\$82.94$; at 120 s: $800\times720\times30=17.28$ million, cost $=\$13.82$.
+**Answers to the numerical items.** (4) $24\times12=288$ readings per device per day; $5000\times288=1{,}440{,}000$ readings; $\times200$ bytes $=288$ MB per day; $\times365=105$ GB per year. (7) `home/+/temp` matches `home/kitchen/temp` only; `home/kitchen/oven/temp` has an extra level and `home/temp` lacks the middle level. `home/#` matches all three. (11) $800\times(86400/20)\times30=103.68$ million messages, cost $=0.8\times103.68=82.94$ USD; at 120 s: $800\times720\times30=17.28$ million, cost $=0.8\times17.28=13.82$ USD.
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
