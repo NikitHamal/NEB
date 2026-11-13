@@ -8,6 +8,7 @@
 | 4 | Induction, Recursion and Recurrence Relations |
 | 5 | Graphs and Trees |
 | 6 | Number Theory, Modular Arithmetic and Algebraic Structures |
+| 7 | Proof Pitfalls, Boolean Functions, Databases, Probability and Algorithms (outline supplement) |
 
 ## Verification
 
@@ -15,4 +16,4 @@
 
 ## Source and honesty
 
-**The unit structure is reconstructed.** Discrete Structure is new in the revised curriculum (no old CACS code). The official BCA 151 PDF was not retrievable; this book follows the standard content of TU's discrete-structures courses (as in the BSc CSIT syllabus: logic and proof, sets/relations/functions, counting, recurrence, graphs and trees, plus number theory) and what secondary sources describe for BCA. Hours per unit are not stated. If your college's syllabus adds topics such as formal languages or finite automata, they are not covered here.
+**Unit 7 follows the TU BIT152 outline (hamronotes.com), which BCA 151 appears to share; units 1-6 are the original reconstruction, now cross-checked against it.** **The unit structure is reconstructed.** Discrete Structure is new in the revised curriculum (no old CACS code). The official BCA 151 PDF was not retrievable; this book follows the standard content of TU's discrete-structures courses (as in the BSc CSIT syllabus: logic and proof, sets/relations/functions, counting, recurrence, graphs and trees, plus number theory) and what secondary sources describe for BCA. Hours per unit are not stated. If your college's syllabus adds topics such as formal languages or finite automata, they are not covered here.
