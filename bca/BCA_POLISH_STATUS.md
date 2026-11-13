@@ -334,8 +334,13 @@ Gaps (0 or 1 keyword hits before): preprocessor in depth (macros vs functions, `
 - BCA 104 Mathematics I checked: the book follows the revised linear-algebra/conics outline (not the old Indian "calculus" BCA-101 lists seen in search results); no change.
 - Honest gaps: the revised BCA 102 syllabus PDF itself was not retrieved (the hamronotes list is the BIT sibling outline).
 
+### BCA 353 Cryptography and Network Security: NEW Unit 8
+Keyword audit: steganography 0 hits, malware/virus 7, intrusion 6, SNMP/SET none. Unit 8 (about 4k words, 7 sections): malware taxonomy and cases (Morris 1988, ILOVEYOU 2000, Stuxnet, WannaCry 2017), intruder classes, password arithmetic and salted slow hashing (executed Python), steganography and LSB embedding (executed, recovers "Hi"), watermarking, SNMP v1/v2c/v3, SET dual signature (Figure 8.1 plus executed hashlib demo), cyber law (Nepal Electronic Transactions Act 2063, Privacy Act 2075, flagged as "check the current text"), cloud/mobile/e-mail briefly, 12 practice items with answers, 2 model answers.
+- PDF `NEBians-BCA-Course-Semester-6-Cryptography-and-Network-Security.pdf`: **93 -> 104 pp**, `qa_pdf.py` fails=0 warns=15. Web data 8 units. Figure page 99 inspected as PNG.
+- Honest gaps: statute details and the 1988/2000/2017 case facts are from memory of well-known accounts; `check_crypto.py` not extended (outputs come from the embedded executed programs).
+
 ## Prioritised queue for the next session
 1. Publish updated PDFs (`update_books.py --only <slug>`): 102, 105, 156, 401, 451, 304, 305, 103, 354, 154, 405.
-2. Keyword audits still pending: BCA 101, projects 256/306/356/404, BCA 353 (steganography, malware, SNMP, SET, secure e-mail have few or zero hits).
+2. Keyword audits still pending: BCA 101, projects 256/306/356/404.
 3. Electives BCA 406/453/454 remain unwritten slots; deepen BCA 405.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.

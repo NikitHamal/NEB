@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,656,751 raw words of study material, counted over the unit files, including code listings and tables):
+**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,660,523 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -39,7 +39,7 @@
 | 5 | BCA 306 | [Project II](course/semester-5/project-2/) | 18,093 | 56 | done |
 | 6 | BCA 351 | [Computer Graphics and Animation](course/semester-6/computer-graphics/) | 39,078 | 94 | done |
 | 6 | BCA 352 | [Mobile Programming](course/semester-6/mobile-programming/) | 34,012 | 98 | done |
-| 6 | BCA 353 | [Cryptography and Network Security](course/semester-6/cryptography-network-security/) | 35,451 | 93 | done |
+| 6 | BCA 353 | [Cryptography and Network Security](course/semester-6/cryptography-network-security/) | 39,223 | 104 | done |
 | 6 | BCA 354 | [Technical Writing](course/semester-6/technical-writing/) | 34,869 | 103 | done |
 | 6 | BCA 355 | [Distributed System](course/semester-6/distributed-system/) | 32,615 | 92 | done |
 | 6 | BCA 356 | [Project III](course/semester-6/project-3/) | 20,661 | 59 | done |

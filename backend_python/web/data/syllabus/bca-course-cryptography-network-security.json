@@ -15,7 +15,7 @@
  "code": "BCA 353",
  "credits": 3,
  "semester": 6,
- "hours": 50,
+ "hours": 56,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -424,9 +424,69 @@
     "examples": 0
    },
    "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Malware, Intruders, Steganography, Network Management Security and Cyber Law",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Malicious software",
+    "Intruders and password attacks",
+    "Steganography and watermarking",
+    "Network management security: SNMP",
+    "Secure Electronic Transaction and the dual signature",
+    "Cybercrime and the law",
+    "Cloud, mobile and e-mail security in brief"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Malicious software"
+    },
+    {
+     "no": "8.2",
+     "title": "Intruders and password attacks"
+    },
+    {
+     "no": "8.3",
+     "title": "Steganography and watermarking"
+    },
+    {
+     "no": "8.4",
+     "title": "Network management security: SNMP"
+    },
+    {
+     "no": "8.5",
+     "title": "Secure Electronic Transaction and the dual signature"
+    },
+    {
+     "no": "8.6",
+     "title": "Cybercrime and the law"
+    },
+    {
+     "no": "8.7",
+     "title": "Cloud, mobile and e-mail security in brief"
+    }
+   ],
+   "summary": [
+    "Malware types differ by host dependence and replication; defence is layered (patching, least privilege, detection, backups).",
+    "Intruders are masqueraders, misfeasors or clandestine users; password strength is a matter of random length and slow salted hashing.",
+    "Steganography hides existence, cryptography hides content; LSB embedding is simple, invisible and fragile.",
+    "SNMPv1/v2c use clear-text community strings; SNMPv3 adds authentication, privacy and access control.",
+    "The dual signature links PI and OI while hiding each from the wrong party.",
+    "Law and ethics define what a security professional may do; in Nepal the Electronic Transactions Act, 2063 is the core statute."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3042,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 48,
- "notes_ready": 7
+ "unit_count": 8,
+ "topic_count": 55,
+ "notes_ready": 8
 }
