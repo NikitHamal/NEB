@@ -261,34 +261,37 @@ File sizes on a server have mean 50 KB and standard deviation 12 KB (not normal)
 
 ```svgfig label="4.4" caption="Binomial B(20, 0.4) as bars with the normal curve N(8, 2.19 squared) laid over them. The curve passes through the tops of the bars, which is why the normal approximation (with a continuity correction) works when n p and n q are large."
 import math
-f = Fig(580, 225)
+f = Fig(580, 232)
 ax = Axes(f, 60, 14, 470, 160, (-0.5, 16.5), (0, 0.2))
-ax.grid(2, 0.05, labels=True, yfmt=lambda v: "%.2f" % v); ax.axes("number of successes x", "probability")
+ax.grid(2, 0.05, labels=True, yfmt=lambda v: "%.2f" % v); ax.axes("", "probability")
+f.text(295, 204, "number of successes x", size=10.5, color=SLATE)
 pm = [0.0, 0.0005, 0.0031, 0.0123, 0.035, 0.0746, 0.1244, 0.1659, 0.1797, 0.1597, 0.1171, 0.071, 0.0355, 0.0146, 0.0049, 0.0013, 0.0003]
 for k, pv in enumerate(pm):
     f.box(ax.X(k - 0.45), ax.Y(pv), ax.X(k + 0.45) - ax.X(k - 0.45), ax.Y(0) - ax.Y(pv), fill="#bfdbfe", stroke=NAVY, sw=1)
 ax.curve(lambda t: math.exp(-(t - 8) ** 2 / (2 * 4.8)) / math.sqrt(2 * math.pi * 4.8), -0.5, 16.5, color=RED, sw=2.4)
 f.text(ax.X(13.2), ax.Y(0.15), "normal curve", size=10.5, color=RED, bold=True)
 f.text(ax.X(13.2), ax.Y(0.135), "mean 8, sd 2.19", size=10.5, color=RED)
-f.text(290, 218, "blue bars: exact binomial   |   red: normal approximation", size=10.5, color=SLATE, italic=True)
+f.text(290, 224, "blue bars: exact binomial   |   red: normal approximation", size=10.5, color=SLATE, italic=True)
 ```
 
 ```svgfig label="4.5" caption="Uniform and exponential densities. The uniform density on (0, 10) is flat at 0.1, so the shaded P(X above 7) = 0.3 is a rectangle. The exponential density with mean 4 minutes falls steadily; the shaded area to the right of 6 is e to the power minus 1.5 = 0.2231."
 import math
 f = Fig(580, 215)
 a1 = Axes(f, 40, 30, 215, 125, (0, 10), (0, 0.3))
-a1.grid(2, 0.1, labels=True, yfmt=lambda v: "%.1f" % v); a1.axes("x", "density")
+a1.grid(2, 0.1, labels=True, yfmt=lambda v: "%.1f" % v); a1.axes("", "density")
+f.text(147, 184, "x", size=10.5, color=SLATE)
 a1.area(lambda t: 0.1, 7, 10, fill="#bfdbfe")
 a1.curve(lambda t: 0.1, 0, 10, color=NAVY, sw=2.4)
 f.text(147, 20, "Uniform(0, 10)", size=11, color=NAVY, bold=True)
 f.text(a1.X(8.5), a1.Y(0.1) - 8, "0.3", size=10.5, color=NAVY, bold=True)
 a2 = Axes(f, 320, 30, 235, 125, (0, 12), (0, 0.3))
-a2.grid(2, 0.1, labels=True, yfmt=lambda v: "%.1f" % v); a2.axes("t (minutes)", "density")
+a2.grid(2, 0.1, labels=True, yfmt=lambda v: "%.1f" % v); a2.axes("", "density")
+f.text(437, 184, "t (minutes)", size=10.5, color=SLATE)
 a2.area(lambda t: 0.25 * math.exp(-0.25 * t), 6, 12, fill="#fecaca")
 a2.curve(lambda t: 0.25 * math.exp(-0.25 * t), 0, 12, color=RED, sw=2.4)
 f.text(437, 20, "Exponential(mean 4)", size=11, color=RED, bold=True)
 f.text(a2.X(8.5), a2.Y(0.06), "0.2231", size=10.5, color=RED, bold=True)
-f.text(290, 207, "shaded: P(X > 7) = 0.3 and P(T > 6) = 0.2231", size=10.5, color=SLATE, italic=True)
+f.text(290, 208, "shaded: P(X > 7) = 0.3 and P(T > 6) = 0.2231", size=10.5, color=SLATE, italic=True)
 ```
 
 ## Formula and fact sheet

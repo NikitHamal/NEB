@@ -211,7 +211,8 @@ $H_0: \mu = 50$ against $H_1: \mu > 50$ with $\sigma = 10$, $n = 36$, so $\mathr
 import math
 f = Fig(580, 230)
 ax = Axes(f, 50, 22, 480, 150, (43, 61), (0, 0.26))
-ax.axes("sample mean x-bar", "density")
+ax.axes("", "density")
+f.text(290, 206, "sample mean x-bar", size=10.5, color=SLATE)
 nrm = lambda m: (lambda t: math.exp(-(t - m) ** 2 / (2 * 1.667 ** 2)) / (1.667 * math.sqrt(2 * math.pi)))
 ax.area(nrm(50), 52.74, 61, fill="#fecaca", opacity=0.9)
 ax.area(nrm(54), 43, 52.74, fill="#fde68a", opacity=0.9)
@@ -221,9 +222,9 @@ ax.vline(52.74, 0, 0.26, color=SLATE, dash=True, sw=1.6)
 for v in (44, 46, 48, 50, 52, 54, 56, 58, 60):
     f.text(ax.X(v), ax.Y(0) + 15, str(v), size=10)
 f.text(ax.X(50), ax.Y(0.245), "H0: mean 50", size=11, color=NAVY, bold=True)
-f.text(ax.X(56.6), ax.Y(0.245), "H1: mean 54", size=11, color=TEAL, bold=True)
-f.text(ax.X(52.74) + 6, ax.Y(0.19), "critical 52.74", size=10.5, color=SLATE, anchor="start")
-f.text(ax.X(55.3), ax.Y(0.012) - 6, "alpha 0.05", size=10.5, color=RED, bold=True)
+f.text(ax.X(57.6), ax.Y(0.2), "H1: mean 54", size=11, color=TEAL, bold=True)
+f.text(ax.X(52.74), 16, "critical 52.74", size=10.5, color=SLATE, bold=True)
+f.text(ax.X(58.6), ax.Y(0.085), "red tail: alpha 0.05", size=10.5, color=RED, bold=True)
 f.text(ax.X(51.2), ax.Y(0.012) - 6, "beta 0.225", size=10.5, color=AMBER, bold=True)
 f.text(290, 224, "reject H0 to the right of the dashed line", size=10.5, color=SLATE, italic=True)
 ```

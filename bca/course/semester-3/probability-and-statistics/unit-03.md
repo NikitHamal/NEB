@@ -165,7 +165,7 @@ f.text(150, 212, "dashed link is only a confounder effect", size=10.5, color=RED
 f.text(150, 230, "60 simulated days", size=10.5, color=SLATE)
 ```
 
-## 3.5 How good is the fit: $r^2$, standard error of estimate and probable error
+## 3.5 How good is the fit: r-squared, standard error of estimate and probable error
 
 Fitting a line is easy; judging it is the real skill. Four tools do this.
 

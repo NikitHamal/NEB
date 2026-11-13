@@ -575,3 +575,23 @@ Picked up from sessions 16-39 (this file; no duplicate tracker). Fresh sandbox, 
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO (find a TU outline first).
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206.
 5. Django + Chromium screenshots of BCA 206 Unit 5 (5.8) and BCA 105 Unit 6.
+
+## Session 41 results (BCA 205 Probability and Statistics deepened; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-40 (this file; no duplicate tracker). Sparse-clone bootstrap; setup recipe from session 39 plus `pip install scipy` (needed by `check_stats41.py`). Single-book build about 25 s.
+
+### BCA 205 Probability and Statistics: 78 -> 98 pages (qa_pdf fails=0 warns=16, all 6.2 pt photo credits)
+- Ten new sections: 2.5 GM/HM/weighted mean, 2.6 moments, skewness, kurtosis, Chebyshev; 3.5 fit measures (r-squared, s_e, probable error, t test of r), 3.6 partial/multiple correlation and Simpson's paradox; 4.7 expectation, joint tables, covariance, 4.8 more distributions, normal approximation, CLT; 6.11 hypothesis testing in full (Type I/II, power, one/two-sample, paired, F, proportion); 7.7 Latin square with worked ANOVA (blocking turns F = 1.95 into 36.3) and LSD test.
+- Six new figures (2.4, 3.3, 4.4, 4.5, 6.4, 7.5), all inspected as PNG; label overlaps in 4.4, 4.5, 6.4 fixed (axis titles moved below tick labels). Practice items added to units 2, 3, 4, 6, 7 with worked answers; fact sheets and summaries extended.
+- Every number recomputed in `bca/tools/check_stats41.py` (ALL OK). Web data re-exported: 7 units, 51 topics (was 43).
+- Gotchas: headings must not contain `$...$` (qa flags leaked TeX); check the existing practice count before numbering new items (unit 3 had 6, not 7); `Axes.axes(xl, yl)` draws the x title on top of the axis end, so pass "" and place the title yourself.
+
+### Honest gaps
+- Not run through Django + headless Chromium this session. Constants in worked examples are illustrative; BCA 205 TU revised PDF still not retrievable. Unit 5 (sample survey) not extended.
+
+## Prioritised queue for the next session
+1. Depth audit of: BCA 154 Mathematics II, BCA 153 OOP in Java (collections/generics and file handling split, RandomAccessFile, deadlock), BCA 405 Machine Learning (63 pp), projects 256/306/356/404 keyword audit, BCA 355 Distributed System.
+2. Rebuild older books to pick up the callout-orphan CSS fix; check page counts and `qa_pdf.py`.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205.
+5. Django + Chromium screenshots of BCA 105 Unit 6 and BCA 205 Unit 6.
