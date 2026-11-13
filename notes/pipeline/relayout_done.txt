@@ -75,3 +75,5 @@ school:health8
 school:qbank8
 school:soc8
 school:qbank10
+school:eng10
+school:eng11
