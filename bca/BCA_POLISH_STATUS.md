@@ -616,3 +616,8 @@ Picked up from sessions 16-41 (this file; no duplicate tracker). Sparse-clone bo
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205, 153.
 5. Django + Chromium screenshots of BCA 153 Unit 6 and BCA 105 Unit 6.
+
+## Session 43 (in progress): BCA 154 Mathematics II unit 6 (Computational Methods) being deepened
+Picked up from sessions 16-42 (this file). Unit 6 was the thinnest unit (3.2k words, 1 figure, 10 TU hours incl. Excel/Matlab). Plan: LPP formulation and special cases,
+simplex with 3 variables / minimisation via dual / sensitivity, Gauss-Jordan, pivoting, Jacobi vs Gauss-Seidel, ill-conditioning, LU, false position, secant, convergence orders,
+Newton failures, EMI application, Excel/MATLAB/Python lab; checks in `bca/tools/check_math2_u6.py`.
