@@ -391,5 +391,13 @@
   "credits": 3,
   "accent": "#7C2D12",
   "status": "done"
+ },
+ "semester-8/e-governance": {
+  "name": "E-Governance",
+  "code": "BCA 453",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#14532D",
+  "status": "done"
  }
 }

@@ -57,6 +57,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | VIII | BCA 453 | Database Programming (Elective III) | 3 | **full book** (`semester-8/database-programming`) |
 | VIII | BCA 453 | Network Administration (Elective III) | 3 | **full book** (`semester-8/network-administration`) |
 | VIII | BCA 453 | Geographical Information System (Elective III) | 3 | **full book** (`semester-8/geographical-information-system`) |
+| VIII | BCA 453 | E-Governance (Elective III) | 3 | **full book** (`semester-8/e-governance`) |
 | VIII | BCA 454 | Internet of Things (Elective IV) | 3 | **full book** (`semester-8/internet-of-things`) |
 | VIII | BCA 454 | Image Processing (Elective IV) | 3 | **full book** (`semester-8/image-processing`) |
 
