@@ -47,3 +47,6 @@ bca:semester-7/financial-accounting
 bca:semester-7/machine-learning
 bca:semester-7/project-4
 bca:semester-7/software-project-management
+bca:semester-8/cloud-computing
+bca:semester-8/database-programming
+bca:semester-8/e-governance
