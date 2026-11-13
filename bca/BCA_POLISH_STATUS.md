@@ -607,7 +607,7 @@ Picked up from sessions 16-41 (this file; no duplicate tracker). Sparse-clone bo
 - Inspected as PNG: Figs 1.3, 2.2, 5.3, 5.4, 6.3, 6.4, 6.5 and the split code pages (p75, p92).
 
 ### Honest gaps
-- Web reader (Django) not re-screenshotted this session; only data was re-exported. The 8-column listener table first overflowed the page (qa FAIL) and was cut to 4 columns.
+- Web reader checked (Django :8765, headless Chromium, `/app/syllabus/bca-course/oop-in-java/unit-6/`): left rail lists all 7 units, "On this page" shows 6.1 to 6.9 plus "Key facts at a glance" (no formula heading), code and output blocks render cleanly. The 8-column listener table first overflowed the page (qa FAIL) and was cut to 4 columns.
 - Constants and the TU outline are as in the README; the unit order of this book still differs from the printed 8-unit outline.
 
 ## Prioritised queue for the next session
