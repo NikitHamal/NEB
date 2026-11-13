@@ -7,6 +7,9 @@ route-level tests at the bottom need the app.
 import io
 import os
 import unittest
+from unittest.mock import patch
+
+from django.test import TestCase
 
 from PIL import Image
 
@@ -260,3 +263,46 @@ def setUpModule():
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class PoisonedCardCacheTests(TestCase):
+    """A corrupted cached card must be redrawn, never 500.
+
+    2026-11-13: /og/chapter/8/mathematics/19.png raised EOFError from
+    pickle.loads because its cached value was empty. A crawler fetched it, got
+    a 500, and the owner got a mail. The card is a picture: redrawing it costs
+    a few milliseconds.
+    """
+
+    def test_an_empty_cached_value_is_redrawn(self):
+        from web import views_og
+
+        with patch.object(views_og.cache, 'get', return_value=b''), \
+                patch.object(views_og.cache, 'set') as store:
+            response = self.client.get('/og/page/home.png')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'image/png')
+        self.assertTrue(response.content.startswith(b'\x89PNG'))
+        self.assertTrue(store.called, 'the redrawn card should replace the poison')
+
+    def test_a_cached_png_is_served_untouched(self):
+        from web import views_og
+
+        png = views_og.og_cards.to_png(views_og.og_cards.render('page', 'NEBians'))
+        with patch.object(views_og.cache, 'get', return_value=png), \
+                patch.object(views_og.cache, 'set') as store:
+            response = self.client.get('/og/page/home.png')
+
+        self.assertEqual(response.content, png)
+        store.assert_not_called()
+
+    def test_a_non_bytes_cached_value_is_not_served(self):
+        from web import views_og
+
+        with patch.object(views_og.cache, 'get', return_value='not a png'), \
+                patch.object(views_og.cache, 'set'):
+            response = self.client.get('/og/page/home.png')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.content.startswith(b'\x89PNG'))
