@@ -166,7 +166,7 @@ for i, (n, d, c) in enumerate(st):
     f.box(x, 40, 120, 52, n, fill=c, stroke=NAVY, size=11, bold=True)
     f.text(x + 60, 112, d, size=10, color=SLATE)
     if i < 4:
-        f.arrow(x + 120, 66, x + 148, 66, color=NAVY)
+        f.arrow([(x + 120, 66), (x + 148, 66)], color=NAVY)
     x += 150
 for i, (n, flag) in enumerate([("1 Preprocess", "gcc -E"), ("2 Compile", "gcc -S"), ("3 Assemble", "gcc -c"), ("4 Link", "libc + other .o")]):
     f.text(12 + 135 + i * 150, 30, n, size=10, color=TEAL, bold=True)

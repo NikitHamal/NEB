@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Problem Solving with a Computer, and the Shape of a C Program",
    "area": "BCA 102 · Programming in C · Unit 1",
-   "words": 3413,
+   "words": 3414,
    "read_min": 19,
    "figures": 2,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Elements of C: Tokens, Data Types, Operators and Console Input/Output",
    "area": "BCA 102 · Programming in C · Units 2 and 3",
-   "words": 4324,
+   "words": 4325,
    "read_min": 24,
    "figures": 6,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Control Statements: Decisions, Loops and Jumps",
    "area": "BCA 102 · Programming in C · Unit 4",
-   "words": 3440,
+   "words": 3441,
    "read_min": 19,
    "figures": 5,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Arrays and Strings",
    "area": "BCA 102 · Programming in C · Unit 5",
-   "words": 3528,
+   "words": 3529,
    "read_min": 20,
    "figures": 7,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Functions, Recursion and Storage Classes",
    "area": "BCA 102 · Programming in C · Unit 6",
-   "words": 3637,
+   "words": 3638,
    "read_min": 20,
    "figures": 7,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Pointers and Dynamic Memory Allocation",
    "area": "BCA 102 · Programming in C · Unit 8",
-   "words": 3718,
+   "words": 3719,
    "read_min": 21,
    "figures": 6,
    "has_questions": true
@@ -59,9 +59,18 @@
    "no": 7,
    "title": "Structures, Unions and File Handling",
    "area": "BCA 102 · Programming in C · Units 9 and 10",
-   "words": 3121,
+   "words": 3122,
    "read_min": 17,
    "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "The Preprocessor, the Build Process, Bit Operations and Linked Structures",
+   "area": "BCA 102 · Programming in C · Units 4, 5, 7, 8 and 10 (extended topics and laboratory guide)",
+   "words": 4173,
+   "read_min": 23,
+   "figures": 1,
    "has_questions": true
   }
  ]

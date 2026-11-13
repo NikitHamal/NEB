@@ -15,7 +15,7 @@
  "code": "BCA 102",
  "credits": 3,
  "semester": 1,
- "hours": 48,
+ "hours": 56,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -78,7 +78,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3412,
+    "words": 3413,
     "figures": 0,
     "examples": 1
    },
@@ -136,7 +136,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4145,
+    "words": 4146,
     "figures": 0,
     "examples": 0
    },
@@ -184,7 +184,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2852,
+    "words": 2853,
     "figures": 0,
     "examples": 0
    },
@@ -232,7 +232,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2488,
+    "words": 2489,
     "figures": 0,
     "examples": 0
    },
@@ -280,7 +280,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2696,
+    "words": 2697,
     "figures": 0,
     "examples": 0
    },
@@ -333,7 +333,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2970,
+    "words": 2971,
     "figures": 0,
     "examples": 0
    },
@@ -381,14 +381,78 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2615,
+    "words": 2616,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "The Preprocessor, the Build Process, Bit Operations and Linked Structures",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "The C preprocessor in depth",
+    "The build process: from source to running program",
+    "Bitwise operators, masks and bit-fields",
+    "The odd loop, exit, and parameterising main",
+    "Self-referential structures, typedef and table lookup",
+    "Pointers to functions and callbacks",
+    "Eight uses of the topics in this unit",
+    "Laboratory work: the course checklist"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "The C preprocessor in depth"
+    },
+    {
+     "no": "8.2",
+     "title": "The build process: from source to running program"
+    },
+    {
+     "no": "8.3",
+     "title": "Bitwise operators, masks and bit-fields"
+    },
+    {
+     "no": "8.4",
+     "title": "The odd loop, exit, and parameterising main"
+    },
+    {
+     "no": "8.5",
+     "title": "Self-referential structures, typedef and table lookup"
+    },
+    {
+     "no": "8.6",
+     "title": "Pointers to functions and callbacks"
+    },
+    {
+     "no": "8.7",
+     "title": "Eight uses of the topics in this unit"
+    },
+    {
+     "no": "8.8",
+     "title": "Laboratory work: the course checklist"
+    }
+   ],
+   "summary": [
+    "The preprocessor performs textual substitution before compilation; macros are fast but unchecked.",
+    "A C program is built in five stages; errors belong to a stage.",
+    "Bitwise operators manipulate individual bits; bit-fields pack small values.",
+    "The odd loop, exit and argc/argv complete flow control and program interfaces.",
+    "Self-referential structures give linked data; function pointers give callbacks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3361,
     "figures": 0,
     "examples": 0
    },
    "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 41,
- "notes_ready": 7
+ "unit_count": 8,
+ "topic_count": 49,
+ "notes_ready": 8
 }
