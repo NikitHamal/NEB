@@ -303,6 +303,22 @@ The two nodes form a cycle, so a reference-counting scheme would never free them
 
 **Generations.** Most objects die young (a temporary `String`, a loop's `Integer`). HotSpot therefore divides the heap into a **young generation** (new objects are born in *Eden*; survivors are copied between two small *survivor* spaces and their **age** is incremented) and an **old generation** (objects that survive several young collections are promoted). A *minor GC* cleans only the young generation and is fast; a *major* or *full GC* cleans everything and may pause the program. The method area (called **Metaspace** since Java 8) holds class metadata.
 
+```svgfig label="1.3" caption="The generational heap of HotSpot. New objects are born in Eden. A minor GC copies the live ones into a survivor space and raises their age; objects that reach the age threshold are promoted to the old generation, which is cleaned less often."
+f = Fig(640, 230)
+f.box(20, 40, 330, 120, "", fill="#f0fdf4", stroke=TEAL)
+f.text(185, 32, "Young generation (minor GC, frequent and fast)", size=11, color=TEAL, bold=True)
+f.box(34, 58, 150, 90, "Eden\nnew objects", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11.5, bold=True)
+f.box(200, 58, 66, 90, "S0\nage 1", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(278, 58, 60, 90, "S1\nage 2", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(400, 40, 220, 120, "Old generation\nlong-lived objects\n(major or full GC, rare)", fill="#fde68a", stroke=AMBER, color=NAVY, size=11.5, bold=True)
+f.arrow([(184, 103), (200, 103)], color=SLATE, sw=1.6)
+f.arrow([(266, 103), (278, 103)], color=SLATE, sw=1.6, both=True)
+f.arrow([(338, 103), (400, 103)], color=RED, sw=2, label="promote", lpos=(369, 92))
+f.text(185, 182, "most objects die here", size=10.5, color=TEAL, bold=True)
+f.text(510, 182, "survivors that reached the age limit", size=10.5, color=AMBER, bold=True)
+f.text(320, 212, "Metaspace (class metadata) lies outside the heap; thread stacks are separate too", size=10.5, color=NAVY)
+```
+
 | Collector | Idea | Typical use |
 |---|---|---|
 | Serial | one thread, stop-the-world | tiny programs, single core |
@@ -324,6 +340,10 @@ Garbage collection is the automatic reclamation of memory held by unreachable ob
 - Narrowing needs a cast; `(byte) 200 = −56`.
 - Arrays: zero-based, bounds-checked, `length` field.
 - `Scanner` for input; consume the newline after `nextInt`.
+- Six token kinds: keyword, identifier, literal, operator, separator, comment. Identifiers: letters, digits, `_`, `$`; never start with a digit; case sensitive.
+- Literals: `0b1010` = 10, `017` = 15, `0xFF` = 255, `1.5e3` = 1500.0; `'a' + 1` is the int 98; `1 + 2 + "x"` is `3x`, `"x" + 1 + 2` is `x12`.
+- Fields get default values (`0`, `0.0`, `false`, `null`); local variables must be assigned before use.
+- GC reclaims objects that are unreachable from GC roots (even in cycles); generations: Eden, survivors, old; `System.gc()` is only a hint; close resources with try-with-resources.
 
 ## Chapter summary
 
@@ -331,6 +351,8 @@ Garbage collection is the automatic reclamation of memory held by unreachable ob
 - Java compiles to bytecode that the JVM runs; the garbage collector manages memory.
 - Primitive types are fixed-size and overflow silently; reference types are objects on the heap.
 - Control statements, arrays and formatted I/O are the foundation for the class design of the next unit.
+- Every program is a stream of tokens; knowing the six kinds and the identifier rules answers a favourite short question.
+- The garbage collector frees unreachable objects automatically, but never closes files, sockets or connections.
 
 ## Practice
 
@@ -344,6 +366,11 @@ Garbage collection is the automatic reclamation of memory held by unreachable ob
 8. Why does `"a" + 1 + 2` give `a12` but `1 + 2 + "a"` give `3a`?
 9. Explain widening and narrowing conversions with examples.
 10. Differentiate `==` and `equals` for `String`.
+11. List the six kinds of token in Java with two examples each. Which of `2ndYear`, `_total`, `final`, `my$cost`, `Class` are valid identifiers?
+12. Evaluate and explain: `'b' + 2`, `(char) ('b' + 2)`, `1 + 2 + "3"`, `"1" + 2 + 3`, `0x1F + 010`.
+13. Define garbage collection. When does an object become eligible for it? Why does a cycle of two objects not prevent collection?
+14. Explain Eden, survivor spaces and the old generation. Why is a minor GC cheaper than a full GC?
+15. A static `ArrayList` keeps growing in a long-running server although no code uses the old entries. Is that a memory leak in a garbage-collected language? How would you fix it?
 
 ::: note Answers and worked solutions
 **1.** Procedural: functions and data separate; OOP: objects bundle both. Encapsulation: a `BankAccount` keeps `balance` private and changes it only via `deposit()` and `withdraw()`, which enforce the rules.
@@ -356,6 +383,11 @@ Garbage collection is the automatic reclamation of memory held by unreachable ob
 **8.** `+` is left-associative: `"a" + 1` is the string "a1", then "a12". In `1 + 2 + "a"`, 1 + 2 is integer addition (3) first.
 **9.** Widening goes to a larger type automatically (`long l = 5;`); narrowing needs a cast and may lose data (`int i = (int) 9.8;` gives 9).
 **10.** `==` compares references (whether both names point to the same object); `equals` compares the characters. Always use `equals` to compare string contents.
+**11.** Keywords (`class`, `if`), identifiers (`Student`, `total`), literals (`42`, `"Nepal"`), operators (`+`, `&&`), separators (`;`, `{ }`) and comments (`//`, `/* */`). Valid: `_total`, `my$cost`, `Class` (capital C differs from the keyword `class`). Invalid: `2ndYear` (starts with a digit) and `final` (keyword).
+**12.** `'b' + 2` = 98 + 2 = **100** (int). `(char) ('b' + 2)` = **d**. `1 + 2 + "3"` = `3` + `"3"` = **33**. `"1" + 2 + 3` = **123**. `0x1F + 010` = 31 + 8 = **39**.
+**13.** GC automatically reclaims memory of objects the program can no longer use. An object is eligible when no live thread can reach it from a GC root (local variables, static fields, active threads), for example after its only reference is set to `null`. The collector uses reachability, not reference counts, so two objects that refer only to each other are still unreachable from any root and are collected.
+**14.** New objects start in Eden; each minor GC copies survivors between two survivor spaces and increments their age; objects that survive enough collections are promoted to the old generation. Most objects die young, and a minor GC scans only the small young region, so it is fast; a full GC must examine the whole heap and can pause the program for longer.
+**15.** Yes, a logical leak: the list is reachable from a static field, so the GC must keep every entry. Remove entries when they are no longer needed, bound the size (an LRU `LinkedHashMap`, see 5.8), use a weak-reference cache, or store the data outside the JVM.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

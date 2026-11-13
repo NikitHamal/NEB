@@ -139,6 +139,7 @@ public class Collect {
     }
 }
 ```
+
 ```output
 [1, 3, 3, 5, 8]
 [1, 3, 5, 8]
@@ -190,6 +191,7 @@ public class Streams {
     }
 }
 ```
+
 ```output
 [16, 64, 256, 1764]
 108
@@ -249,6 +251,7 @@ public class Files1 {
     }
 }
 ```
+
 ```output
 14
 4
@@ -311,6 +314,366 @@ f.text(300, 30, "intermediate operations are lazy; the terminal operation pulls 
 7. **Short, clear code with lambdas.** A lambda such as `(a, b) -> b.marks() - a.marks()` passes behaviour as data. Sorting, event handling and threading code becomes a line or two instead of a whole class.
 8. **Data processing with streams.** Streams filter, map, group and total data in a readable pipeline. Average marks per faculty or the count of students above 60 are computed without explicit loops, and the same pipeline can be made parallel.
 
+## 5.8 Iterators, ordering and the `Collections` utilities
+
+### The Iterator pattern
+
+Every `Collection` is `Iterable`, which means it can produce an **`Iterator`**, an object that walks through the elements one by one without exposing how they are stored. The enhanced `for` loop is just shorthand for an iterator loop. The interface has three methods: `hasNext()`, `next()` and the optional `remove()`, which deletes the element *most recently returned* by `next()`. A **`ListIterator`** (lists only) can also move backwards (`hasPrevious()`, `previous()`), replace (`set`) and insert (`add`).
+
+**Fail-fast behaviour.** An `ArrayList` counts its structural changes in a field `modCount`. An iterator remembers the value when it was created and compares it on every `next()`; if the list was changed by anything other than the iterator itself, it throws `ConcurrentModificationException`. The check is a *bug detector*, not a thread-safety guarantee.
+
+```java
+import java.util.*;
+public class IterDemo {
+    public static void main(String[] args) {
+        List<Integer> nums = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6));
+        Iterator<Integer> it = nums.iterator();
+        while (it.hasNext()) {
+            if (it.next() % 2 == 0) it.remove();
+        }
+        System.out.println(nums);
+        try {
+            for (Integer n : nums) if (n == 1) nums.remove(n);
+        } catch (ConcurrentModificationException e) {
+            System.out.println("fail-fast: " + e.getClass().getSimpleName());
+        }
+        List<Integer> three = new ArrayList<>(List.of(1, 2, 3));
+        for (Integer n : three) if (n == 2) three.remove(n);
+        System.out.println("no exception for the second last element: " + three);
+        List<String> names = new ArrayList<>(List.of("sita", "ram", "hari"));
+        ListIterator<String> li = names.listIterator();
+        while (li.hasNext()) {
+            String s = li.next();
+            li.set(s.toUpperCase());
+            if (s.equals("ram")) li.add("LAXMAN");
+        }
+        StringBuilder back = new StringBuilder();
+        while (li.hasPrevious()) back.append(li.previous()).append(' ');
+        System.out.println(names + " | backwards: " + back.toString().trim());
+        nums.removeIf(x -> x > 3);
+        System.out.println(nums);
+    }
+}
+```
+
+```output
+[1, 3, 5]
+fail-fast: ConcurrentModificationException
+no exception for the second last element: [1, 3]
+[SITA, RAM, LAXMAN, HARI] | backwards: HARI LAXMAN RAM SITA
+[3]
+```
+
+Look at the third experiment: removing the *second-last* element of a three-element list ends the loop silently, because after the removal `hasNext()` compares the cursor (2) with the new size (2) and returns `false` before `next()` can run the check. It is an old quirk that examiners love; the lesson is the same as before: never modify a collection inside an enhanced `for`; use `Iterator.remove()` or `removeIf`.
+
+### Ordering: `Comparable` and `Comparator`
+
+`TreeSet`, `TreeMap`, `PriorityQueue` and `Collections.sort` need to know which of two objects comes first.
+
+| | `Comparable<T>` | `Comparator<T>` |
+|---|---|---|
+| Package | `java.lang` | `java.util` |
+| Method | `int compareTo(T other)` | `int compare(T a, T b)` |
+| Where it lives | inside the class itself | in a separate object or lambda |
+| Number of orders | one **natural** order | as many as you like |
+| Use when | the class has an obvious order (`roll`, `String`, dates) | you need other orders, or cannot modify the class |
+
+Both return a negative number if the first operand comes first, zero if equal, positive otherwise. Always write them with `Integer.compare(a, b)`, `Double.compare` or `String.compareTo`; the shortcut `return a - b;` **overflows** for large values and gives wrong answers. `Comparator` has combinators: `comparingInt(...)`, `.reversed()`, `.thenComparing(...)`, `nullsFirst(...)`.
+
+```java
+import java.util.*;
+public class Order {
+    static class Student implements Comparable<Student> {
+        final String name; final int roll; final double gpa;
+        Student(String n, int r, double g) { name = n; roll = r; gpa = g; }
+        public int compareTo(Student o) { return Integer.compare(roll, o.roll); }
+        public String toString() { return name + "#" + roll; }
+    }
+    public static void main(String[] args) {
+        List<Student> l = new ArrayList<>(List.of(new Student("Sita", 3, 3.6), new Student("Ram", 1, 3.2),
+                new Student("Hari", 2, 3.6), new Student("Gita", 4, 3.9)));
+        Collections.sort(l);
+        System.out.println("natural (roll): " + l);
+        l.sort(Comparator.comparingDouble((Student s) -> s.gpa).reversed().thenComparing(s -> s.name));
+        System.out.println("gpa desc, name: " + l);
+        l.sort(Comparator.comparing((Student s) -> s.name.length()).thenComparing(Comparator.reverseOrder()));
+        System.out.println("name length, then reverse natural: " + l);
+        TreeSet<Student> set = new TreeSet<>(l);
+        System.out.println(set.first() + " " + set.last() + " " + set.higher(l.get(0)));
+        System.out.println(Integer.MAX_VALUE - (-5) < 0);
+        PriorityQueue<String> pq = new PriorityQueue<>(Comparator.comparing(String::length).thenComparing(Comparator.naturalOrder()));
+        pq.addAll(List.of("pear", "fig", "banana", "kiwi", "apple"));
+        StringBuilder sb = new StringBuilder();
+        while (!pq.isEmpty()) sb.append(pq.poll()).append(' ');
+        System.out.println(sb.toString().trim());
+    }
+}
+```
+```output
+natural (roll): [Ram#1, Hari#2, Sita#3, Gita#4]
+gpa desc, name: [Gita#4, Hari#2, Sita#3, Ram#1]
+name length, then reverse natural: [Ram#1, Gita#4, Sita#3, Hari#2]
+Ram#1 Gita#4 Hari#2
+true
+fig kiwi pear apple banana
+```
+
+The line that prints `true` demonstrates the subtraction trap: `Integer.MAX_VALUE - (-5)` wraps around to a negative number, so a comparator written as `a - b` would claim that a large positive value is *smaller* than −5. Note also that a `PriorityQueue` iterates in heap order, not sorted order, so you must `poll()` repeatedly to get sorted output, as above.
+
+### Useful `Map` and `Collections` methods
+
+```java
+import java.util.*;
+public class CacheDemo {
+    static class Lru<K, V> extends LinkedHashMap<K, V> {
+        private final int cap;
+        Lru(int cap) { super(16, 0.75f, true); this.cap = cap; }
+        protected boolean removeEldestEntry(Map.Entry<K, V> e) { return size() > cap; }
+    }
+    public static void main(String[] args) {
+        Lru<String, Integer> c = new Lru<>(3);
+        c.put("a", 1); c.put("b", 2); c.put("c", 3);
+        c.get("a");
+        c.put("d", 4);
+        System.out.println("LRU keys: " + c.keySet());
+        Map<Character, List<String>> byInitial = new TreeMap<>();
+        for (String w : List.of("nepal", "india", "norway", "iran", "peru"))
+            byInitial.computeIfAbsent(w.charAt(0), k -> new ArrayList<>()).add(w);
+        System.out.println(byInitial);
+        Map<String, Integer> stock = new HashMap<>();
+        System.out.println(stock.getOrDefault("pen", 0));
+        stock.merge("pen", 5, Integer::sum); stock.merge("pen", 3, Integer::sum);
+        System.out.println(stock);
+        List<Integer> v = new ArrayList<>(List.of(4, 1, 3, 1, 5));
+        Collections.sort(v);
+        System.out.println(v + " idx(4)=" + Collections.binarySearch(v, 4) + " freq(1)=" + Collections.frequency(v, 1)
+                + " max=" + Collections.max(v) + " min=" + Collections.min(v));
+        Collections.reverse(v); Collections.swap(v, 0, 4);
+        System.out.println(v);
+        List<Integer> ro = Collections.unmodifiableList(v);
+        try { ro.add(9); } catch (UnsupportedOperationException e) { System.out.println("read-only view"); }
+        v.add(9);
+        System.out.println(ro.size());
+    }
+}
+```
+```output
+LRU keys: [c, a, d]
+{i=[india, iran], n=[nepal, norway], p=[peru]}
+0
+{pen=8}
+[1, 1, 3, 4, 5] idx(4)=3 freq(1)=2 max=5 min=1
+[1, 4, 3, 1, 5]
+read-only view
+6
+```
+
+The `Lru` class is a complete **least-recently-used cache** in eight lines: the third constructor argument `true` makes the map reorder entries on every `get`, and `removeEldestEntry` evicts the oldest entry when the size exceeds the capacity. After `get("a")` the order is `b, c, a`; inserting `d` pushes out `b`, leaving `c, a, d`. Last two lines: `unmodifiableList` is a **view**, not a copy, so it blocks writes through the view while later changes to the original (`v.add(9)`) are visible through it (size 6). Use `List.copyOf(v)` for a true immutable copy. For multi-threaded code use `Collections.synchronizedList(...)` or, better, `ConcurrentHashMap` and `CopyOnWriteArrayList`.
+
+## 5.9 File handling in depth
+
+Unit 5.5 introduced the two stream families. This section completes the picture the TU course asks for: the `File` class, byte-stream copying, character streams, data streams, random access and object serialization, each shown on a real file.
+
+```svgfig label="5.3" caption="The java.io stream families. Byte streams (green) move raw bytes; character streams (amber) add character encoding. Decorators such as BufferedReader and DataInputStream wrap another stream, while InputStreamReader is the bridge from bytes to characters."
+f = Fig(640, 300)
+f.text(150, 16, "Bytes", size=12, color=TEAL, bold=True)
+f.text(490, 16, "Characters", size=12, color=AMBER, bold=True)
+f.box(80, 28, 140, 30, "InputStream", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(420, 28, 140, 30, "Reader", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(10, 100, 130, 40, "FileInputStream", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10, bold=True)
+f.box(160, 100, 130, 40, "DataInputStream\nObjectInputStream", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=9.5, bold=True)
+f.box(340, 100, 130, 40, "InputStreamReader\n(bytes to chars)", fill="#fde68a", stroke=AMBER, color=NAVY, size=9.5, bold=True)
+f.box(490, 100, 140, 40, "BufferedReader\nFileReader", fill="#fde68a", stroke=AMBER, color=NAVY, size=9.5, bold=True)
+for x in (75, 225):
+    f.arrow([(x, 100), (x, 80), (150, 80), (150, 58)], color=SLATE, sw=1.4)
+for x in (405, 560):
+    f.arrow([(x, 100), (x, 80), (490, 80), (490, 58)], color=SLATE, sw=1.4)
+f.box(80, 190, 140, 30, "OutputStream", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(420, 190, 140, 30, "Writer", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(10, 255, 130, 36, "FileOutputStream", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10, bold=True)
+f.box(160, 255, 130, 36, "DataOutputStream\nObjectOutputStream", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=9.5, bold=True)
+f.box(340, 255, 130, 36, "OutputStreamWriter", fill="#fde68a", stroke=AMBER, color=NAVY, size=9.5, bold=True)
+f.box(490, 255, 140, 36, "BufferedWriter\nFileWriter, PrintWriter", fill="#fde68a", stroke=AMBER, color=NAVY, size=9, bold=True)
+for x in (75, 225):
+    f.arrow([(x, 255), (x, 238), (150, 238), (150, 220)], color=SLATE, sw=1.4)
+for x in (405, 560):
+    f.arrow([(x, 255), (x, 238), (490, 238), (490, 220)], color=SLATE, sw=1.4)
+f.text(320, 160, "each arrow points from a subclass to its superclass", size=10, color=NAVY, bold=True)
+```
+
+### The `File` class and byte streams
+
+A `java.io.File` object represents a **path name**, not the file's contents. Creating it does not touch the disk; calling `createNewFile()` does. Useful methods: `exists()`, `isFile()`, `isDirectory()`, `getName()`, `getParent()`, `getAbsolutePath()`, `length()`, `list()` / `listFiles()`, `mkdir()` / `mkdirs()`, `renameTo()`, `delete()`.
+
+A **byte stream** copies raw bytes. `read(byte[] buf)` returns the number of bytes actually read, or **−1 at end of file**; always use that count when writing, because the last block is usually shorter than the buffer. Copying 8 KB at a time is far faster than one byte per call because each call to the operating system is expensive; `BufferedInputStream` does this blocking for you.
+
+```java
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.util.*;
+public class FileLab1 {
+    public static void main(String[] args) throws IOException {
+        File dir = Files.createTempDirectory("neb153").toFile();
+        File src = new File(dir, "data.bin");
+        System.out.println(src.exists() + " " + src.createNewFile() + " " + src.exists() + " " + src.length());
+        try (FileOutputStream out = new FileOutputStream(src)) {
+            for (int i = 0; i < 1000; i++) out.write(i % 256);
+        }
+        File copy = new File(dir, "copy.bin");
+        int total = 0, calls = 0;
+        try (InputStream in = new FileInputStream(src); OutputStream out = new FileOutputStream(copy)) {
+            byte[] buf = new byte[400];
+            int n;
+            while ((n = in.read(buf)) != -1) { out.write(buf, 0, n); total += n; calls++; }
+        }
+        System.out.println(total + " bytes in " + calls + " reads; equal: " + Arrays.equals(Files.readAllBytes(src.toPath()), Files.readAllBytes(copy.toPath())));
+        File txt = new File(dir, "marks.txt");
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(txt, StandardCharsets.UTF_8))) {
+            w.write("Sita 82"); w.newLine(); w.write("Ram 67"); w.newLine(); w.write("नमस्ते 100"); w.newLine();
+        }
+        int sum = 0;
+        try (BufferedReader r = new BufferedReader(new FileReader(txt, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                String[] p = line.split(" ");
+                sum += Integer.parseInt(p[1]);
+                System.out.println(p[0].length() + " chars: " + p[0]);
+            }
+        }
+        System.out.println("sum = " + sum + ", size in bytes = " + txt.length());
+        try (Scanner sc = new Scanner(txt, StandardCharsets.UTF_8)) {
+            int words = 0;
+            while (sc.hasNext()) { sc.next(); words++; }
+            System.out.println("tokens: " + words);
+        }
+        String[] names = dir.list();
+        Arrays.sort(names);
+        System.out.println(Arrays.toString(names) + " dir=" + dir.isDirectory());
+        for (File f : dir.listFiles()) f.delete();
+        System.out.println(dir.delete() + " " + dir.exists());
+        try (FileReader fr = new FileReader("no_such_file.txt")) {
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException handled");
+        }
+    }
+}
+```
+```output
+false true true 0
+1000 bytes in 3 reads; equal: true
+4 chars: Sita
+3 chars: Ram
+6 chars: नमस्ते
+sum = 249, size in bytes = 38
+tokens: 6
+[copy.bin, data.bin, marks.txt] dir=true
+true false
+FileNotFoundException handled
+```
+
+The 1000 bytes are read in blocks of 400, 400 and 200, which is **3 reads**; the loop uses `n`, not `buf.length`, when it writes, so the copy is exactly 1000 bytes. The Devanagari word has 6 characters (four consonants न म स त, the virama ् and the vowel sign े, six code points) but occupies **18 bytes** in UTF-8, three bytes per character, which is why `txt.length()` returns bytes, not characters. Count the file: `Sita 82` plus newline is 8 bytes, `Ram 67` plus newline is 7 bytes, and `नमस्ते 100` plus newline is 18 + 1 + 3 + 1 = 23 bytes, so the size is **38 bytes** and the three numbers sum to 82 + 67 + 100 = 249. Always name the charset (`StandardCharsets.UTF_8`) in `FileReader`, `FileWriter` and `Scanner`; otherwise the platform default is used and Nepali text may be damaged on another computer.
+
+### Data streams, random access and serialization
+
+**`DataOutputStream` / `DataInputStream`** write Java primitives in a fixed binary format (`writeInt` = 4 bytes, `writeDouble` = 8, `writeUTF` = a 2-byte length plus modified UTF-8). Data must be read back in the **same order and types** it was written.
+
+**`RandomAccessFile`** treats a file as a large byte array with a **file pointer**: `seek(pos)` moves it, `getFilePointer()` reports it, `read…`/`write…` act at the pointer and advance it. If every record has a fixed size, record *i* starts at byte `i × recordSize`, so any record can be read or updated in O(1) without touching the others. This is how simple database files work.
+
+```svgfig label="5.4" caption="A RandomAccessFile of fixed 12-byte records (int id, double mark). The byte offset of record i (counting from 0) is 12 * i; the mark field starts 4 bytes later. seek() jumps straight there, so one record is updated without reading or rewriting the rest."
+f = Fig(640, 200)
+for i in range(3):
+    x = 40 + i * 180
+    f.box(x, 60, 60, 40, "int id", fill=BLUE, color=NAVY, size=11, bold=True)
+    f.box(x + 60, 60, 120, 40, "double mark", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+    f.text(x + 90, 50, "record %d" % i, size=10.5, color=NAVY, bold=True)
+    f.text(x, 118, "byte %d" % (12 * i), size=10, color=SLATE, bold=True, anchor="start")
+f.text(580, 118, "end: byte 36", size=10, color=SLATE, bold=True, anchor="end")
+f.arrow([(160, 170), (160, 104)], color=RED, sw=2)
+f.text(160, 186, "seek(12 * 1 + 4) = byte 16: mark of record 1", size=11, color=RED, bold=True)
+f.text(320, 22, "file length = 3 * 12 = 36 bytes", size=11.5, color=NAVY, bold=True)
+```
+
+```java
+import java.io.*;
+import java.nio.file.*;
+public class FileLab2 {
+    static class Account implements Serializable {
+        private static final long serialVersionUID = 1L;
+        String owner; double balance; transient String pin;
+        Account(String o, double b, String p) { owner = o; balance = b; pin = p; }
+    }
+    public static void main(String[] args) throws Exception {
+        Path dir = Files.createTempDirectory("neb153b");
+        File data = dir.resolve("rec.dat").toFile();
+        try (DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(data)))) {
+            out.writeInt(7); out.writeDouble(2.5); out.writeUTF("Pokhara"); out.writeBoolean(true);
+        }
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(data)))) {
+            System.out.println(in.readInt() + " " + in.readDouble() + " " + in.readUTF() + " " + in.readBoolean());
+        }
+        System.out.println("size = " + data.length());
+        File recs = dir.resolve("marks.dat").toFile();
+        try (RandomAccessFile raf = new RandomAccessFile(recs, "rw")) {
+            for (int i = 1; i <= 3; i++) { raf.writeInt(i); raf.writeDouble(50.0 + 10 * i); }
+            System.out.println("length = " + raf.length() + ", pointer = " + raf.getFilePointer());
+            raf.seek(12L * 1 + 4);
+            System.out.println("record 2 mark = " + raf.readDouble());
+            raf.seek(12L * 1 + 4);
+            raf.writeDouble(99.5);
+            raf.seek(12L * 2);
+            System.out.println("record 3: " + raf.readInt() + " " + raf.readDouble());
+            raf.seek(12L * 1);
+            System.out.println("record 2 now: " + raf.readInt() + " " + raf.readDouble());
+        }
+        File ser = dir.resolve("acct.ser").toFile();
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ser))) {
+            oos.writeObject(new Account("Sita", 1250.75, "4321"));
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ser))) {
+            Account a = (Account) ois.readObject();
+            System.out.println(a.owner + " " + a.balance + " pin=" + a.pin);
+        }
+        try (var walk = Files.walk(dir)) {
+            System.out.println(walk.filter(Files::isRegularFile).count() + " files under the folder");
+        }
+        try (var walk = Files.walk(dir)) {
+            walk.sorted(java.util.Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+        }
+        System.out.println(Files.exists(dir));
+    }
+}
+```
+```output
+7 2.5 Pokhara true
+size = 22
+length = 36, pointer = 36
+record 2 mark = 70.0
+record 3: 3 80.0
+record 2 now: 2 99.5
+Sita 1250.75 pin=null
+3 files under the folder
+false
+```
+
+The first record file holds 4 + 8 + (2 + 7) + 1 = **22 bytes** (`writeUTF` stores a two-byte length then the seven bytes of "Pokhara"). The marks file has 3 records of 12 bytes (an `int` of 4 and a `double` of 8) = **36 bytes**, and after writing the file pointer is at the end, 36. Record 2 starts at byte 12; its mark is 4 bytes further on (`12 × 1 + 4`), which is how the program updates **only** that field to 99.5 without rewriting the file. The serialized `Account` comes back with its `owner` and `balance` but `pin=null`, because a **`transient`** field is skipped; that is the correct way to keep passwords out of saved objects. `serialVersionUID` identifies the class version: if the class changes and the number does not match, `readObject` throws `InvalidClassException`.
+
+::: caution Serialization safety
+Reading a serialized stream from an untrusted source can run attacker-chosen code (a long list of real-world vulnerabilities began this way). Use it only for your own files, prefer JSON for exchange, and consider `ObjectInputFilter` to whitelist classes.
+:::
+
+| Need | Best tool |
+|---|---|
+| Copy or read a whole small file | `Files.readAllBytes`, `Files.readString`, `Files.copy` |
+| Read a text file line by line | `BufferedReader` or `Files.lines` |
+| Write text with formatting | `PrintWriter` (`printf`, `println`) |
+| Binary primitives in a fixed format | `DataOutputStream` / `DataInputStream` |
+| Update one record in a big file | `RandomAccessFile` with fixed-size records |
+| Save an object graph (your own use) | `ObjectOutputStream` with `Serializable` |
+| Exchange data with other systems | JSON (Jackson, Gson), CSV, XML |
+
+**Exceptions in file code.** Almost every I/O call declares the checked `IOException`; its subclasses `FileNotFoundException`, `EOFException` (reading past the end with a data stream) and `NoSuchFileException` (the `Files` API) let you respond precisely. Always use **try-with-resources** so that the file is closed even when an exception occurs, and so that data buffered in a writer is flushed by `close()`.
+
 ## Formula and fact sheet
 
 - Generics: compile-time safety, erased at run time; `<T extends X>` bounded; PECS wildcards.
@@ -319,6 +682,10 @@ f.text(300, 30, "intermediate operations are lazy; the terminal operation pulls 
 - Stream: source → lazy intermediate ops → one terminal op; the source is unchanged.
 - Use `java.nio.file.Files`, try-with-resources, explicit UTF-8.
 - `Serializable` + `transient`; avoid deserialising untrusted data.
+- `Iterator.remove()` and `removeIf` are the safe ways to delete while looping; the enhanced `for` with `list.remove` throws `ConcurrentModificationException` (except when removing the second-last element).
+- `Comparable.compareTo` = natural order inside the class; `Comparator.compare` = any other order; never compare with `a - b` (overflow); use `Integer.compare`.
+- `LinkedHashMap(16, 0.75f, true)` + `removeEldestEntry` = LRU cache. `computeIfAbsent`, `merge`, `getOrDefault` replace most `if (containsKey)` code.
+- File I/O: `read(buf)` returns -1 at end; `RandomAccessFile` record *i* starts at `i * size`; `transient` fields are not serialized; name the charset (UTF-8); `File.length()` is in bytes.
 
 ## Chapter summary
 
@@ -326,6 +693,8 @@ f.text(300, 30, "intermediate operations are lazy; the terminal operation pulls 
 - Choosing between list, set, map, queue and their implementations is a question of ordering, uniqueness and cost.
 - Lambdas and streams express filter-map-reduce logic concisely and safely.
 - File I/O is done with buffered, closed-after-use readers and writers or the `Files` helpers.
+- Iterators, comparators and the `Collections` helpers give precise control over traversal and ordering.
+- The `File` class, byte and character streams, data streams, `RandomAccessFile` and serialization cover all the file-handling questions in the syllabus.
 
 ## Practice
 
@@ -339,6 +708,13 @@ f.text(300, 30, "intermediate operations are lazy; the terminal operation pulls 
 8. Differentiate `ArrayList` and `LinkedList`, and `HashMap` and `TreeMap`.
 9. Why does `list.remove(i)` inside an enhanced for loop fail?
 10. What is `transient`? When do you need `serialVersionUID`?
+11. Explain `ConcurrentModificationException` and show two correct ways to remove all even numbers from a list.
+12. Differentiate `Comparable` and `Comparator` in a table. Sort a `List<Student>` by marks descending, then name ascending.
+13. Why is `return a - b;` a wrong comparator? Give integers that break it.
+14. Write a program that copies a binary file with a 4 KB buffer and reports the number of bytes copied.
+15. A file holds fixed 12-byte records (`int id`, `double mark`). Show how to update the mark of record number 7 (counting from 1) with `RandomAccessFile`.
+16. What does `transient` do? What happens to it after `readObject`? Why must you never deserialize untrusted data?
+17. A file contains the text `नेपाल` (5 characters). Why may `File.length()` return 15 and how do you read it correctly?
 
 ::: note Answers and worked solutions
 **1.** `static <T> void swap(T[] a, int i, int j) { T t = a[i]; a[i] = a[j]; a[j] = t; }` and `class Pair<A, B> { final A first; final B second; Pair(A a, B b) { first = a; second = b; } }`.
@@ -351,6 +727,13 @@ f.text(300, 30, "intermediate operations are lazy; the terminal operation pulls 
 **8.** ArrayList: array-backed, O(1) index, fast iteration; LinkedList: node-based, O(1) insert at known nodes but O(n) access. HashMap: unordered O(1); TreeMap: sorted keys O(log n).
 **9.** Modifying the list while its iterator is active changes `modCount`; the iterator detects it and throws `ConcurrentModificationException`.
 **10.** `transient` excludes a field from serialization (passwords, caches). `serialVersionUID` is the class version id; set it explicitly so that compatible changes to the class do not make old serialized data unreadable.
+**11.** The list's iterator detects that the list was changed behind its back (`modCount` differs) and throws on the next `next()`. Correct: `Iterator<Integer> it = list.iterator(); while (it.hasNext()) if (it.next() % 2 == 0) it.remove();` or `list.removeIf(x -> x % 2 == 0);`.
+**12.** `Comparable` is in `java.lang`, defines `compareTo` inside the class and gives one natural order; `Comparator` is in `java.util`, defines `compare` in a separate object and gives any number of orders. Code: `list.sort(Comparator.comparingInt((Student s) -> s.marks).reversed().thenComparing(s -> s.name));`.
+**13.** The difference can overflow `int`: `Integer.MAX_VALUE - (-5)` wraps to a negative number, so the comparator says the big value is smaller. Use `Integer.compare(a, b)`.
+**14.** `try (InputStream in = new FileInputStream(src); OutputStream out = new FileOutputStream(dst)) { byte[] buf = new byte[4096]; int n; long total = 0; while ((n = in.read(buf)) != -1) { out.write(buf, 0, n); total += n; } System.out.println(total); }`. Write `n` bytes, not `buf.length`.
+**15.** Record 7 starts at `(7 - 1) * 12 = 72`; its mark is 4 bytes later: `raf.seek(76); raf.writeDouble(newMark);` inside `try (RandomAccessFile raf = new RandomAccessFile(file, "rw"))`.
+**16.** `transient` excludes a field from serialization (use it for passwords and caches). After `readObject` the field has its default value (`null`, `0`). A crafted stream can instantiate arbitrary classes and trigger harmful code during deserialization.
+**17.** Devanagari characters take 3 bytes each in UTF-8, so 5 characters are 15 bytes. Read with an explicit charset: `Files.readString(path, StandardCharsets.UTF_8)` or `new BufferedReader(new FileReader(f, StandardCharsets.UTF_8))`.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -443,6 +826,7 @@ public class StreamDemo {
     }
 }
 ```
+
 ```output
 passed: Bimal, Sita, Ram, Gita
 average by faculty: {BBA=66.5, BCA=62.666666666666664, BIT=90.0}
