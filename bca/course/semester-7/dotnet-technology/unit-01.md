@@ -408,6 +408,8 @@ class Grade
 Enter your mark: Mark 42: Pass
 ```
 
+The typed input was `42` (not echoed in the captured output).
+
 A **Windows Forms** "hello" has the same logic in an event handler and is compiled but not run here, because the sandbox that checks the book's code has no screen:
 
 ```csharp
