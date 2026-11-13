@@ -1,6 +1,6 @@
 # Cyber Security and Ethical Hacking — BCA 401 (Semester VII, 3 credits)
 
-A defender's and auditor's course: foundations, the CIA triad, threat modelling and CVSS scoring; network protocol analysis and discovery governance; authentication, entropy, key derivation and access control; secure application engineering; network defence architecture (DNSSEC, Wi-Fi key hierarchy, rate limiting, ACLs); intrusion detection statistics, incident response and digital forensics; security audits, penetration-test rules of engagement and Nepal's cyber law.
+A defender's and auditor's course: foundations, the CIA triad, threat modelling and CVSS scoring; network protocol analysis and discovery governance; authentication, entropy, key derivation and access control; secure application engineering; network defence architecture (DNSSEC, Wi-Fi key hierarchy, rate limiting, ACLs); intrusion detection statistics, incident response and digital forensics; security audits, penetration-test rules of engagement and Nepal's cyber law; and (Unit 8, added in session 28 after the CEH-style TU outline) the ethical-hacking methodology: hats and phases, footprinting, scanning and enumeration, password attacks, malware, sniffing and session hijacking, social engineering, DoS, web, wireless, mobile, IoT and cloud attack surfaces, evasion and honeypots, cryptographic attacks.
 
 | Unit | Title | Hours |
 |---|---|---|
@@ -11,6 +11,7 @@ A defender's and auditor's course: foundations, the CIA triad, threat modelling 
 | 5 | Network Defence Architecture, DNSSEC, Wi-Fi Keys, Rate Limiting and ACLs | 6 |
 | 6 | Intrusion Detection, Alert Statistics, Incident Response and Digital Forensics | 6 |
 | 7 | Security Audits, Penetration Testing Rules of Engagement and Nepal Cyber Law | 6 |
+| 8 | Ethical Hacking Methodology, Attack Categories and Their Defences | 8 |
 
 ## Verification
 
@@ -18,7 +19,7 @@ A defender's and auditor's course: foundations, the CIA triad, threat modelling 
 
 ## Scope and safety
 
-The book is deliberately **defensive, analytical and mathematical**: it contains no exploit strings, attack payloads, password-cracking code or packet-crafting tools. Offensive topics appear only as categories to defend against, as detection rules or as governance (authorisation, rules of engagement, law).
+The book is deliberately **defensive, analytical and mathematical**: it contains no exploit strings, attack payloads, password-cracking code or packet-crafting tools. Offensive topics (all of Unit 8) appear only as concepts, categories, detection rules, arithmetic and countermeasures, or as governance (authorisation, rules of engagement, law).
 
 ## Legal note
 
