@@ -587,11 +587,11 @@ Picked up from sessions 16-40 (this file; no duplicate tracker). Sparse-clone bo
 - Gotchas: headings must not contain `$...$` (qa flags leaked TeX); check the existing practice count before numbering new items (unit 3 had 6, not 7); `Axes.axes(xl, yl)` draws the x title on top of the axis end, so pass "" and place the title yourself.
 
 ### Honest gaps
-- Not run through Django + headless Chromium this session. Constants in worked examples are illustrative; BCA 205 TU revised PDF still not retrievable. Unit 5 (sample survey) not extended.
+- Web reader checked (Django :8765, `chromium --headless=new --screenshot`): BCA 205 Unit 6 lists 6.1 to 6.11 in "On this page" and typesets the new sections; BCA 105 Unit 6 shows the six textbook units, a clean right rail with no "Formula and fact sheet" entry, and the Exercise section. Cosmetic, not fixed: the narrow SRSWOR/SRSWR table in 205 Unit 6 does not fill the column width. Constants in worked examples are illustrative; BCA 205 TU revised PDF still not retrievable. Unit 5 (sample survey) not extended.
 
 ## Prioritised queue for the next session
 1. Depth audit of: BCA 154 Mathematics II, BCA 153 OOP in Java (collections/generics and file handling split, RandomAccessFile, deadlock), BCA 405 Machine Learning (63 pp), projects 256/306/356/404 keyword audit, BCA 355 Distributed System.
 2. Rebuild older books to pick up the callout-orphan CSS fix; check page counts and `qa_pdf.py`.
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205.
-5. Django + Chromium screenshots of BCA 105 Unit 6 and BCA 205 Unit 6.
+5. Optional: widen narrow tables in the web reader (`study-reader.css`).
