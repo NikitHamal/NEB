@@ -65,3 +65,5 @@ school:nep8
 school:cs12
 school:eng8
 school:sci8
+school:cs10
+school:ioe-phy
