@@ -35,6 +35,8 @@
     "Training, validation and test data",
     "Theory of learning",
     "Regularisation and splitting data in practice",
+    "Concept learning: Find-S and candidate elimination",
+    "Data preparation: missing values, encoding and scaling",
     "Summary and exercises"
    ],
    "sections": [
@@ -76,13 +78,23 @@
     },
     {
      "no": "1.10",
+     "title": "Concept learning: Find-S and candidate elimination"
+    },
+    {
+     "no": "1.11",
+     "title": "Data preparation: missing values, encoding and scaling"
+    },
+    {
+     "no": "1.12",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
-   "terms": [],
+   "terms": [
+    "Hypothesis, version space and inductive bias"
+   ],
    "stats": {
-    "words": 2779,
+    "words": 4418,
     "figures": 0,
     "examples": 1
    },
@@ -102,6 +114,9 @@
     "The basic decision tree algorithm (ID3)",
     "Support vector machines",
     "Logistic regression and the kernel idea",
+    "Gradient descent in practice: learning rate, batch and stochastic updates",
+    "Gini impurity, CART and pruning",
+    "Ensemble learning: bagging, random forests and boosting",
     "Summary and exercises"
    ],
    "sections": [
@@ -139,13 +154,28 @@
     },
     {
      "no": "2.9",
+     "title": "Gradient descent in practice: learning rate, batch and stochastic updates"
+    },
+    {
+     "no": "2.10",
+     "title": "Gini impurity, CART and pruning"
+    },
+    {
+     "no": "2.11",
+     "title": "Ensemble learning: bagging, random forests and boosting"
+    },
+    {
+     "no": "2.12",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
-   "terms": [],
+   "terms": [
+    "Batch, stochastic and mini-batch gradient descent",
+    "Pre-pruning and post-pruning"
+   ],
    "stats": {
-    "words": 3197,
+    "words": 4782,
     "figures": 0,
     "examples": 4
    },
@@ -163,6 +193,9 @@
     "Bayesian belief networks",
     "K-nearest neighbour (k-NN)",
     "Maximum likelihood, MAP and Gaussian naive Bayes",
+    "Naive Bayes for text and the zero-frequency problem",
+    "Locally weighted regression and lazy learning",
+    "Choosing k, distance weighting and the curse of dimensionality",
     "Summary and exercises"
    ],
    "sections": [
@@ -192,13 +225,27 @@
     },
     {
      "no": "3.7",
+     "title": "Naive Bayes for text and the zero-frequency problem"
+    },
+    {
+     "no": "3.8",
+     "title": "Locally weighted regression and lazy learning"
+    },
+    {
+     "no": "3.9",
+     "title": "Choosing k, distance weighting and the curse of dimensionality"
+    },
+    {
+     "no": "3.10",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
-   "terms": [],
+   "terms": [
+    "Case-based reasoning (CBR)"
+   ],
    "stats": {
-    "words": 2223,
+    "words": 3560,
     "figures": 0,
     "examples": 5
    },
@@ -218,6 +265,9 @@
     "Dimensionality reduction techniques",
     "Principal component analysis (PCA)",
     "Choosing k in practice: elbow and silhouette",
+    "Density-based clustering: DBSCAN",
+    "Soft clustering: Gaussian mixtures and the EM algorithm",
+    "Linear discriminant analysis versus PCA",
     "Summary and exercises"
    ],
    "sections": [
@@ -255,13 +305,27 @@
     },
     {
      "no": "4.9",
+     "title": "Density-based clustering: DBSCAN"
+    },
+    {
+     "no": "4.10",
+     "title": "Soft clustering: Gaussian mixtures and the EM algorithm"
+    },
+    {
+     "no": "4.11",
+     "title": "Linear discriminant analysis versus PCA"
+    },
+    {
+     "no": "4.12",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
-   "terms": [],
+   "terms": [
+    "Core, border and noise points"
+   ],
    "stats": {
-    "words": 2306,
+    "words": 3729,
     "figures": 0,
     "examples": 3
    },
@@ -283,6 +347,9 @@
     "Cross-validation and fair evaluation",
     "Laboratory work and the mini-project",
     "Multi-class problems and the precision-recall trade-off",
+    "More evaluation measures: F-beta, balanced accuracy, MCC, kappa and log loss",
+    "Is classifier A really better than B? Significance tests",
+    "Information leakage: why the test score can lie",
     "Summary and exercises"
    ],
    "sections": [
@@ -328,13 +395,25 @@
     },
     {
      "no": "5.11",
+     "title": "More evaluation measures: F-beta, balanced accuracy, MCC, kappa and log loss"
+    },
+    {
+     "no": "5.12",
+     "title": "Is classifier A really better than B? Significance tests"
+    },
+    {
+     "no": "5.13",
+     "title": "Information leakage: why the test score can lie"
+    },
+    {
+     "no": "5.14",
      "title": "Summary and exercises"
     }
    ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2339,
+    "words": 3642,
     "figures": 0,
     "examples": 2
    },
@@ -342,6 +421,6 @@
   }
  ],
  "unit_count": 5,
- "topic_count": 46,
+ "topic_count": 60,
  "notes_ready": 5
 }

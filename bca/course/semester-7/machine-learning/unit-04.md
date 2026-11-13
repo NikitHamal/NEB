@@ -389,7 +389,7 @@ K-means assigns every point to exactly one cluster (**hard** assignment). A **Ga
 The parameters $(\pi_k,\mu_k,\sigma_k)$ are fitted by **maximum likelihood**, but the component memberships are hidden, so the likelihood cannot be maximised in closed form. The **expectation-maximisation (EM)** algorithm alternates two steps (Mitchell, section 6.12):
 
 1. **E-step:** with the current parameters compute $r_{ik}=\dfrac{\pi_k\,\mathcal N(x_i\mid\mu_k,\sigma_k)}{\sum_j \pi_j\,\mathcal N(x_i\mid\mu_j,\sigma_j)}$.
-2. **M-step:** re-estimate $N_k=\sum_i r_{ik}$, $\pi_k=N_k/N$, $\mu_k=\frac1{N_k}\sum_i r_{ik}x_i$ and $\sigma_k^2=\frac1{N_k}\sum_i r_{ik}(x_i-\mu_k)^2$.
+2. **M-step:** re-estimate $N_k=\sum_i r_{ik}$, $\pi_k=N_k/N$, $\mu_k=\sum_i r_{ik}x_i/N_k$ and $\sigma_k^2=\sum_i r_{ik}(x_i-\mu_k)^2/N_k$.
 
 Each pair of steps never decreases the log-likelihood, so EM converges, but only to a **local** maximum; as with k-means, run it from several starts. K-means is the special case of EM with equal, spherical, vanishingly small variances, where responsibilities become 0 or 1.
 
@@ -547,8 +547,4 @@ $\mathbf w\propto S_W^{-1}(\mathbf m_1-\mathbf m_0)=(2,2)$; normalised $\mathbf 
 
 *Algorithm.* Initialise $\pi,\mu,\sigma$. E-step: compute the responsibility $r_{ik}$ of each component for each point. M-step: set $N_k=\sum_i r_{ik}$, $\pi_k=N_k/N$, $\mu_k=\sum_i r_{ik}x_i/N_k$ and $\sigma_k^2=\sum_i r_{ik}(x_i-\mu_k)^2/N_k$. Repeat until the log-likelihood changes by less than a tolerance.
 
-*Properties.* The likelihood never decreases, so EM converges, but to a local maximum that depends on the start; run several starts. In our experiment the log-likelihood went from $-1056$ to $-638.64$ and the parameters reached weights 0.386/0.614 and means $-0.095$/3.974 against the true 0.4/0.6 and 0/4.
-
-*Relation to k-means.* K-means is EM with hard assignments and equal spherical clusters. A GMM gives soft memberships and elliptical clusters.
-
-*Conclusion.* Use a GMM when clusters overlap or differ in spread and probabilities of membership are useful.
+*Properties.* The likelihood never decreases, so EM converges, but to a local maximum that depends on the start; run several starts. In our experiment the log-likelihood went from $-1056$ to $-638.64$ and the parameters reached weights 0.386/0.614 and means $-0.095$/3.974 against the true 0.4/0.6 and 0/4. K-means is EM with hard assignments and equal spherical clusters; a GMM gives soft memberships and elliptical clusters, so use it when clusters overlap and membership probabilities are useful.
