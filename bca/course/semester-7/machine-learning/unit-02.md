@@ -305,7 +305,7 @@ Rule: $w \leftarrow w + (y-\hat y)x$, $b \leftarrow b + (y - \hat y)$, with $\ha
 | 10 | 0 | 1 | 1 | none | (0,1), 0 |
 | 11 | 1 | 1 | 1 | none | (0,1), 0 |
 
-After one epoch the weights are $(0,1)$ with $b=0$; a second epoch fixes the input 00 and 10 cases and the rule converges, as the convergence theorem promises for separable data.
+After one epoch the weights are $(0,1)$ with $b=0$. Two more epochs are needed: the rule settles at $w=(1,1)$, $b=-1$, which classifies all four inputs correctly, as the convergence theorem promises for separable data.
 
 **Q3 (5 marks). Information gain of a split.**
 
