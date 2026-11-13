@@ -1430,6 +1430,24 @@
      "code": "BCA 405"
     },
     {
+     "subject": "dotnet-technology",
+     "name": "DotNet Technology",
+     "name_ne": "",
+     "icon": "menu_book",
+     "group": "semester-7",
+     "color": "#0E7490",
+     "lang": "en",
+     "hours": 45,
+     "unit_count": 4,
+     "topic_count": 47,
+     "notes_ready": 4,
+     "questions": null,
+     "credits": 3,
+     "semester": 7,
+     "group_label": "Semester VII",
+     "code": "BCA 406"
+    },
+    {
      "subject": "cloud-computing",
      "name": "Cloud Computing",
      "name_ne": "",

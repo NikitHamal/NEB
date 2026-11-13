@@ -349,3 +349,22 @@ The README said the practical half (word processor, spreadsheet, presentation, p
 2. Keyword audits still pending: projects 256/306/356/404 (BCA 101 done, session 30).
 3. Electives BCA 406/453/454 remain unwritten slots; deepen BCA 405.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
+
+## Session 31 results (NEW elective book BCA 406 DotNet Technology; BCA 105 and the other done books left as-is)
+
+Picked up from sessions 16-30 (this file; no duplicate tracker). Per the user: BCA 105 and the books after it are already done, so this session only extended the queue. Fresh sandbox `/home/user/sandbox`; the session-21 recipe worked (apt, venv `/tmp/v`, `npm ci`, fonts), plus `sudo apt-get install mono-mcs mono-runtime mono-devel libmono-system-data4.0-cil libmono-sqlite4.0-cil libmono-system-windows-forms4.0-cil libmono-system-drawing4.0-cil libmono-system-numerics4.0-cil libmono-system-core4.0-cil` for C#.
+
+### BCA 406 DotNet Technology (Elective II): NEW book, was an unwritten slot
+Source: TU CACS302 outline (notebahadur.com, edu-mate.com): U1 Introducing C# and the .NET Framework (7 h), U2 C# Language Basics (12 h), U3 Creating Types in C# (12 h), U4 Advanced C# (14 h). Every outline topic has its own section (README maps them).
+- ~30k words, 4 units, 42 C# programs compiled with Mono `mcs` and 40 run by the NEW `bca/tools/fill_cs_outputs.py` (markers `// noexec`, `// compile-only`, `// stdin: ...`); ADO.NET programs run for real against in-memory SQLite (`Mono.Data.Sqlite`); a middleware-pipeline program built from delegates shows ASP.NET Core's pipeline order; 11 figures (heap and generations, compile/CLR flow, platform layers, type tree, class hierarchy, access matrix, generics, ADO.NET, MVC).
+- PDF `bca/course/semester-7/pdfs/NEBians-BCA-Course-Semester-7-DotNet-Technology.pdf`: `pdfinfo` **120 pages**, `qa_pdf.py` **fails=0 warns=0**. Web data exported (`export_course_web.py semester-7/dotnet-technology`): 4 units, 47 topics, `index.json` entry added; `books.json`, `CURRICULUM.md` (row BCA 406 renamed), STATUS and READMEs regenerated with `gen_status.py` (44 books done).
+- Pages inspected as PNG: contents, Fig 1.1 (the "freed" label overlapped the box edge, fixed), Fig 2.1, precedence table (escaped `\|` showed a backslash in the PDF, rewritten with words), Fig 3.1 (figure moved after the output so the page is no longer nearly empty), Fig 3.2, Fig 4.1, Fig 4.2.
+- Mono limits (the reason for `// noexec`): C# 7 only, so no switch expressions, ranges, `??=`, records, top-level statements, local functions, `readonly struct` or default interface methods; SGen numbers GC generations differently, so the one GC demo (1.4) carries hand-written typical .NET output, labelled as such.
+- Honest gaps: Windows Forms is compiled only; ASP.NET Core, EF Core and Web Forms code is `noexec` (no .NET SDK in the sandbox); .NET/C# version facts up to .NET 10 / C# 14 are stated from public release notes (check the current LTS); no Django screenshot of the new book (data exporter is the same as sessions 18-25); the lab list in 4.9 is mapped from the outline's laboratory paragraph, not from a printed college manual.
+
+## Prioritised queue for the next session
+1. Publish updated PDFs (`update_books.py --only <slug>` with server credentials): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406.
+2. Electives still unwritten: BCA 453/454 (Elective III and IV) and the other Elective I/II options; Software Testing and QA, Database Administration, Linux are the next likely picks. Reuse `fill_cs_outputs.py`-style runners for code verification.
+3. Keyword audits still pending: projects 256/306/356/404.
+4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
+5. Deepen BCA 405 (SVM margin figure, XOR network, more numeric practice).
