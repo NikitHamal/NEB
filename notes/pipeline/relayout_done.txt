@@ -4,3 +4,4 @@ school:bca-eng
 school:bca-gk
 school:bca-math
 school:bca-mock
+bca:semester-7/dotnet-technology
