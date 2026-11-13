@@ -617,3 +617,17 @@ Picked up from sessions 16-41 (this file; no duplicate tracker). Sparse-clone bo
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205, 153.
 5. Django + Chromium screenshots of BCA 153 Unit 6 and BCA 105 Unit 6.
 
+
+## Session 43 results (BCA 154 Mathematics II unit 6 deepened; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-42 (this file; no duplicate tracker). Sandbox: session-39 recipe plus `scipy` and `sympy` in the venv; sparse-clone bootstrap. Single-book build about 45 s. Checks in `bca/tools/check_math2_u6.py` (ALL OK) plus exact-fraction simplex tableaux.
+- **BCA 154: 97 -> 121 pages** (`qa_pdf.py` fails=0; warns are tiny labels in older figures on pp 5-75, none in the new figures). Unit 6: 3.2k -> 12.5k words. New: formulations (diet, three-product mix), special cases (Fig 6.2), simplex path (Fig 6.3), full 3-variable tableaux, degeneracy, sensitivity ranges, big-M note, minimisation through the dual, complementary slackness, Gauss-Jordan inverse, pivoting demo, ill-conditioning, LU, Jacobi vs Gauss-Seidel (Fig 6.4), regula falsi, secant, convergence orders (Fig 6.5), Newton failures (Fig 6.6), Babylonian sqrt, EMI rate by bisection, new 6.6 Excel/MATLAB/Python lab (four executed Python programs), practice 9 to 23 with answers. All figures inspected as PNG; label clipping in 6.4/6.5 and overlaps in 6.3/6.6 fixed. Web data re-exported: 6 units, 48 topics (exporter also moved the subject colour from purple #6D28D9 to #0E7490).
+- Gotchas: an inline `$...$` fraction with `f (b) - b f (a)` inside a *list item* leaked the base64 math image into the PDF text (qa FAIL "text runs into right margin"); writing it as `\left( ... \right) / \left( ... \right)` fixed it. In `svgkit.Fig`, text anchored "middle" near the left edge is clipped (put axis titles above the axis, anchor start). `pdftotext` shows `>=` in code as `<=` because the mono font draws a ligature; the rendered page is correct. Do not `sed` a range delete in this file (it ate the tracker once; restored).
+- Honest gaps: a callout that starts near a page foot can leave a tall empty tinted box when its table moves to the next page (seen p104); CSS not changed. MATLAB code not run (no MATLAB/Octave here); its values are those of the Python runs.
+
+## Prioritised queue for the next session
+1. Depth audit of: BCA 405 Machine Learning (63 pp), projects 256/306/356/404 keyword audit, BCA 355 Distributed System; BCA 154 units 2 to 5 could get the same treatment as unit 6 (limits, partial derivatives, Taylor, PDE).
+2. Rebuild older books to pick up the callout-orphan and code-split CSS; check page counts and `qa_pdf.py` each time.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205, 153.
+5. Consider `break-inside: avoid` for short callouts in `notes/pipeline/theme.css`; Django + Chromium screenshot of BCA 154 Unit 6.
