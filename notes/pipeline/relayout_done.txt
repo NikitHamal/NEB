@@ -17,3 +17,6 @@ school:cee-bot
 bca:semester-2/discrete-structure
 bca:semester-2/mathematics-2
 bca:semester-2/microprocessor-computer-architecture
+bca:semester-2/oop-in-java
+bca:semester-2/principles-of-management
+bca:semester-2/ux-ui-design
