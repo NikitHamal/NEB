@@ -26,6 +26,7 @@ Degraded semantics (fail-open, matching existing call-site conventions):
 from __future__ import annotations
 
 import logging
+import pickle
 import time
 
 try:
@@ -48,9 +49,17 @@ except Exception:
 
 _TRANSIENT_ERRORS = _TRANSIENT_ERRORS + (ConnectionError, TimeoutError, OSError)
 
+# A stored value that cannot be unpickled is not a transport problem: the key
+# exists but its payload is empty or truncated. It reached us on 2026-11-13 on
+# three og_card_png keys (STRLEN 0), which raised EOFError inside pickle.loads
+# and 500ed /og/chapter/8/mathematics/19.png for a crawler. One unreadable
+# value must cost a cache miss, never the response.
+_CORRUPT_VALUE = (pickle.UnpicklingError, EOFError, ValueError, TypeError)
+
 logger = logging.getLogger(__name__)
 
 _last_warning_at = [0.0]
+_last_corrupt_warning_at = [0.0]
 
 
 def _degraded(action, exc):
@@ -60,6 +69,20 @@ def _degraded(action, exc):
         logger.warning('Redis unavailable during cache.%s (%s); degraded response', action, exc)
 
 
+def _corrupt(key, exc):
+    now = time.monotonic()
+    if now - _last_corrupt_warning_at[0] > 60:
+        _last_corrupt_warning_at[0] = now
+        logger.warning('Unreadable cached value at %s (%s); treating it as a miss and removing it',
+                       key, exc)
+
+
+class _Missing:
+    """Distinguishes "cached as empty" from "not cached" in get_many."""
+
+_MISSING = _Missing()
+
+
 class ResilientRedisCache(_BaseCache):
     def get(self, key, default=None, version=None):
         try:
@@ -67,6 +90,28 @@ class ResilientRedisCache(_BaseCache):
         except _TRANSIENT_ERRORS as exc:
             _degraded('get', exc)
             return default
+        except _CORRUPT_VALUE as exc:
+            _corrupt(key, exc)
+            self.delete(key, version)
+            return default
+
+    def get_many(self, keys, version=None):
+        keys = list(keys)
+        try:
+            return super().get_many(keys, version)
+        except _TRANSIENT_ERRORS as exc:
+            _degraded('get_many', exc)
+            return {}
+        except _CORRUPT_VALUE as exc:
+            # One bad value fails the whole batch, and the batch does not say
+            # which key it was. Re-read one at a time; get() drops the poison.
+            _corrupt('<batch of %d>' % len(keys), exc)
+            found = {}
+            for key in keys:
+                value = self.get(key, _MISSING, version)
+                if value is not _MISSING:
+                    found[key] = value
+            return found
 
     def set(self, key, value, timeout=None, version=None):
         try:
@@ -109,13 +154,6 @@ class ResilientRedisCache(_BaseCache):
         except _TRANSIENT_ERRORS as exc:
             _degraded('clear', exc)
             return False
-
-    def get_many(self, keys, version=None):
-        try:
-            return super().get_many(keys, version)
-        except _TRANSIENT_ERRORS as exc:
-            _degraded('get_many', exc)
-            return {}
 
     def set_many(self, data, timeout=None, version=None):
         try:

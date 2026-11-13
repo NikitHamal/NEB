@@ -514,6 +514,13 @@ def _render_response(kind, key, spec):
     cache_key = 'og_card_png:v%d:%s:%s' % (CARD_VERSION, kind, sig)
 
     png = cache.get(cache_key)
+    # A cached card is a PNG or it is nothing. Three og_card_png keys came back
+    # with an empty payload on 2026-11-13, which raised EOFError in the cache
+    # backend and 500ed this endpoint for a crawler; the cache layer now treats
+    # that as a miss, and this guard keeps a zero-byte image from ever being
+    # served if some other backend misbehaves the same way.
+    if not isinstance(png, (bytes, bytearray)) or not png:
+        png = None
     if png is None:
         img = og_cards.render(kind, spec.get('title') or 'NEBians',
                               meta=spec.get('meta', ()),
