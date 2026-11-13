@@ -5,3 +5,6 @@ school:bca-gk
 school:bca-math
 school:bca-mock
 bca:semester-7/dotnet-technology
+bca:semester-1/computer-fundamentals
+bca:semester-1/digital-logic
+bca:semester-1/hardware-workshop
