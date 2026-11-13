@@ -129,6 +129,66 @@ A **multi-layer perceptron (MLP)** stacks layers: an **input layer** (one unit p
 
 A hidden layer lets the network bend the decision boundary. The **universal approximation theorem** says one hidden layer with enough units can approximate any continuous function on a bounded region. For XOR, two hidden units suffice: one learns "x1 OR x2", the other "x1 AND x2", and the output combines them as "OR but not AND".
 
+::: example XOR with two hidden units, by hand
+Take two **step units** (output 1 when the weighted sum is at least 0). Hidden unit $h_1$ has weights $(1,1)$ and bias $-0.5$, so it fires when $x_1+x_2\ge 0.5$: it computes OR. Hidden unit $h_2$ has weights $(1,1)$ and bias $-1.5$, so it fires when $x_1+x_2\ge 1.5$: it computes AND. The output unit has weights $(+1,-1)$ and bias $-0.5$, so it fires when $h_1-h_2\ge 0.5$, which happens only for $h_1=1,h_2=0$: "OR but not AND". For input $(1,1)$ both hidden units fire, the output sum is $1-1-0.5=-0.5<0$ and the output is 0, as XOR requires. The hidden layer has re-coded the four inputs so that the classes become separable by a single line in $(h_1,h_2)$ space.
+:::
+
+```svgfig label="2.2" caption="A two-layer network that computes XOR. Hidden unit OR fires when at least one input is 1, hidden unit AND fires only when both are 1, and the output fires for OR minus AND. Numbers on the arrows are weights; the number beside each unit is its bias."
+f = Fig(580, 250)
+def edge(p, q, w, t=0.62, dy=-9):
+    f.arrow([p, q], color=SLATE)
+    f.text(p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t + dy, w, size=10, color=NAVY, bold=True)
+for x, t in ((70, "input"), (250, "hidden (step units)"), (450, "output")):
+    f.text(x, 14, t, size=10.5, color=SLATE, bold=True)
+f.circle(70, 75, 22, fill=BLUE, stroke=NAVY, label="x1")
+f.circle(70, 185, 22, fill=BLUE, stroke=NAVY, label="x2")
+f.circle(250, 75, 24, fill=MINT, stroke=TEAL, label="OR")
+f.circle(250, 185, 24, fill=MINT, stroke=TEAL, label="AND")
+f.circle(450, 130, 26, fill=ROSE, stroke=RED, label="XOR")
+edge((92, 75), (226, 75), "+1", 0.5, -8)
+edge((90, 82), (230, 170), "+1", 0.3, -4)
+edge((90, 178), (230, 90), "+1", 0.3, 14)
+edge((92, 185), (226, 185), "+1", 0.5, 16)
+edge((274, 85), (426, 122), "+1", 0.5, -8)
+edge((274, 175), (426, 138), "-1", 0.5, 16)
+f.text(250, 42, "bias -0.5", size=9.5, color=TEAL)
+f.text(250, 226, "bias -1.5", size=9.5, color=TEAL)
+f.text(450, 172, "bias -0.5", size=9.5, color=RED)
+```
+
+```python
+step = lambda z: int(z >= 0)
+print("x1 x2 | OR AND | XOR")
+for x1 in (0, 1):
+    for x2 in (0, 1):
+        h1 = step(1 * x1 + 1 * x2 - 0.5); h2 = step(1 * x1 + 1 * x2 - 1.5)
+        print(" %d  %d |  %d   %d  |  %d" % (x1, x2, h1, h2, step(h1 - h2 - 0.5)))
+```
+```output
+x1 x2 | OR AND | XOR
+ 0  0 |  0   0  |  0
+ 0  1 |  1   0  |  1
+ 1  0 |  1   0  |  1
+ 1  1 |  1   1  |  0
+```
+
+**One back-propagation step on a single unit.** Take one sigmoid unit with weights $(0.5,-0.5)$, bias 0, input $\mathbf{x}=(1,2)$, target $y=1$ and learning rate $\eta=0.5$. The sum is $z=0.5-1=-0.5$, so $\hat y=\sigma(-0.5)=0.3775$ and the loss is $\tfrac12(1-0.3775)^2=0.1937$. The error term is $\delta=(\hat y-y)\hat y(1-\hat y)=-0.1463$. Each weight moves by $-\eta\,\delta\,x_j$, the bias by $-\eta\,\delta$:
+
+```python
+import numpy as np
+sig = lambda z: 1 / (1 + np.exp(-z))
+w = np.array([0.5, -0.5]); b = 0.0; x = np.array([1.0, 2.0]); y = 1.0; eta = 0.5
+for step_no in (1, 2):
+    p = sig(w @ x + b); delta = (p - y) * p * (1 - p)
+    print("step %d: z=%.4f  yhat=%.4f  loss=%.4f  delta=%.4f" % (step_no, w @ x + b, p, 0.5 * (y - p) ** 2, delta))
+    w = w - eta * delta * x; b = b - eta * delta
+    print("        new w=(%.4f, %.4f)  b=%.4f" % (w[0], w[1], b))
+```
+```output
+```
+
+After one step the output rises from 0.3775 to 0.4847: the update moved every weight in the direction that lowers the loss, and the input with the larger value (here $x_2=2$) received the larger change.
+
 **Back-propagation** trains the weights in four repeating steps: (1) **forward pass**: compute every layer's output; (2) compute the **loss** (squared error or cross-entropy); (3) **backward pass**: apply the chain rule to find $\partial L/\partial w$ for every weight, working from the output layer back; (4) **update** $w \leftarrow w - \eta\,\partial L/\partial w$. For a sigmoid output unit with squared error, the output-layer error term is $\delta_o = (\hat y - y)\,\hat y(1-\hat y)$, and a hidden unit's term is $\delta_h = \hat h(1-\hat h)\sum_o w_{ho}\delta_o$.
 
 ```python
@@ -225,7 +285,7 @@ Outlook = Sunny
 ```
 **Learned tree.** Outlook = Overcast gives Yes; Outlook = Sunny is split by Humidity (High: No, Normal: Yes); Outlook = Rain is split by Wind (Weak: Yes, Strong: No). **Over-fitting** is controlled by *pruning*: stop early (limit depth, minimum samples) or grow fully and remove branches that do not help on validation data. ID3 prefers attributes with many values (an ID column has maximal gain); **C4.5** corrects this with the *gain ratio*. For numeric attributes the tree tests thresholds ($\text{Humidity} \le 75$).
 
-```svgfig label="2.2" caption="The decision tree ID3 learns from the PlayTennis data. Outlook has the highest information gain and is the root; the Sunny and Rain branches are split further by Humidity and Wind."
+```svgfig label="2.3" caption="The decision tree ID3 learns from the PlayTennis data. Outlook has the highest information gain and is the root; the Sunny and Rain branches are split further by Humidity and Wind."
 f = Fig(580, 250)
 f.box(220, 10, 140, 34, "Outlook", fill=NAVY, stroke=NAVY, color="#ffffff", bold=True, size=12)
 f.box(30, 100, 130, 34, "Humidity", fill=BLUE, stroke=NAVY, bold=True)
@@ -264,14 +324,35 @@ import numpy as np
 P = np.array([[3, 3], [4, 3], [1, 1.0]]); y = np.array([1, 1, -1])
 # solve w=(t,t): 6t+b=1, 2t+b=-1
 t, b = np.linalg.solve([[6, 1], [2, 1]], [1, -1]); w = np.array([t, t])
-print("w =", w, "b =", b, "margin = %.3f" % (2 / np.linalg.norm(w)))
+print("w =", w.round(3), "b =", round(float(b), 3), "margin = %.3f" % (2 / np.linalg.norm(w)))
 print("y*(w.x+b) =", y * (P @ w + b))
-print("support vectors are the points where this equals 1 ->", [tuple(p) for p, v in zip(P, y * (P @ w + b)) if abs(v - 1) < 1e-9])
+print("support vectors are the points where this equals 1 ->", [(float(p[0]), float(p[1])) for p, v in zip(P, y * (P @ w + b)) if abs(v - 1) < 1e-9])
+```
+
+```svgfig label="2.4" caption="The worked SVM example. The boundary x1 + x2 = 4 (solid) lies midway between the dashed margin lines. The support vectors (3,3) and (1,1) sit on the margin lines; (4,3) lies beyond the positive margin and does not affect the solution."
+f = Fig(580, 260)
+ax = Axes(f, 50, 15, 230, 215, (0, 5), (0, 5))
+ax.grid(1, 1)
+ax.axes("x1", "x2")
+f.line(ax.X(0), ax.Y(4), ax.X(4), ax.Y(0), color=TEAL, sw=2.2)
+f.line(ax.X(0), ax.Y(2), ax.X(2), ax.Y(0), color=SLATE, sw=1.3, dash=True)
+f.line(ax.X(1), ax.Y(5), ax.X(5), ax.Y(1), color=SLATE, sw=1.3, dash=True)
+ax.pt(1, 1, "", r=7, color=RED, hollow=True)
+ax.pt(3, 3, "", r=7, color=NAVY)
+ax.pt(4, 3, "", r=7, color=NAVY)
+f.arrow([(ax.X(1.15), ax.Y(1.15)), (ax.X(2.85), ax.Y(2.85))], color=AMBER, sw=1.6, both=True)
+f.text(ax.X(1.9), ax.Y(2.35), "2.83", size=10, color=AMBER, bold=True)
+f.text(310, 55, "boundary: x1 + x2 = 4", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(310, 80, "margin lines: w.x + b = -1 and +1", size=10.5, color=SLATE, anchor="start")
+f.text(310, 110, "w = (0.5, 0.5), b = -2", size=10.5, color=NAVY, anchor="start")
+f.text(310, 135, "margin = 2 / |w| = 2.83", size=10.5, color=NAVY, anchor="start")
+f.text(310, 170, "support vectors: (1,1) and (3,3)", size=10.5, color=RED, anchor="start")
+f.text(310, 195, "hollow = class -1, filled = class +1", size=10, color=SLATE, anchor="start")
 ```
 ```output
-w = [0.5 0.5] b = -1.9999999999999998 margin = 2.828
+w = [0.5 0.5] b = -2.0 margin = 2.828
 y*(w.x+b) = [1.  1.5 1. ]
-support vectors are the points where this equals 1 -> [(np.float64(3.0), np.float64(3.0)), (np.float64(1.0), np.float64(1.0))]
+support vectors are the points where this equals 1 -> [(3.0, 3.0), (1.0, 1.0)]
 ```
 
 ## 2.8 Logistic regression and the kernel idea
@@ -322,6 +403,10 @@ Regression fits a line by least squares; the perceptron learns linearly separabl
 7. List the conditions in which decision-tree learning is appropriate and two ways to reduce over-fitting.
 8. Define margin, support vector and soft margin. What does the parameter C control?
 9. Find the maximum-margin line for the positive points (2,2) and (3,3) and the negative point (0,0).
+10. Build a two-layer network of step units that computes XOR, and show its output for all four inputs.
+11. A sigmoid unit has weights (0.5, -0.5), bias 0, input (1, 2) and target 1. Do one gradient step with learning rate 0.5 and report the new output.
+12. A linear SVM has w = (0.5, 0.5) and b = -2. Classify the points (2,2), (3,4) and (0.5,1) and say which lie inside the margin.
+13. State two differences between a perceptron and a multi-layer network trained by back-propagation, and one reason why early stopping helps.
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
@@ -352,7 +437,7 @@ Parent (6 Yes, 4 No): $H = -0.6\log_2 0.6 - 0.4\log_2 0.4 = 0.971$. Branch 1 (4,
 
 *Body.* (1) Compute the entropy of the whole set $S$. (2) For each attribute compute $\mathrm{Gain}(S,A)$. (3) Place the best attribute at the node and create a branch for each value. (4) Send each example down its branch and recurse. (5) Stop when a subset is pure (leaf with its class), when no attributes remain (leaf with the majority class) or when the subset is empty (leaf with the parent's majority).
 
-*Example.* On the PlayTennis data, $H(S)=0.940$ and the gains are Outlook 0.247, Humidity 0.152, Wind 0.048, Temperature 0.029, so Outlook is the root (Figure 2.2). The Overcast branch is pure (Yes); the Sunny branch is split on Humidity and the Rain branch on Wind, giving three levels and five leaves.
+*Example.* On the PlayTennis data, $H(S)=0.940$ and the gains are Outlook 0.247, Humidity 0.152, Wind 0.048, Temperature 0.029, so Outlook is the root (Figure 2.3). The Overcast branch is pure (Yes); the Sunny branch is split on Humidity and the Rain branch on Wind, giving three levels and five leaves.
 
 *Limits and fixes.* ID3 over-fits and prefers many-valued attributes; pruning and the gain ratio (C4.5) address these. *Conclusion:* ID3 gives readable if-then rules cheaply, suitable for attribute-value problems with discrete classes.
 
@@ -363,3 +448,15 @@ Parent (6 Yes, 4 No): $H = -0.6\log_2 0.6 - 0.4\log_2 0.4 = 0.971$. Branch 1 (4,
 *Body.* (1) Separator $\mathbf{w}\cdot\mathbf{x}+b=0$, labels ±1. (2) Scale so that the nearest points satisfy $y(\mathbf{w}\cdot\mathbf{x}+b)=1$; these are the support vectors. (3) Margin $=2/\|\mathbf{w}\|$. (4) Maximising margin is the convex problem $\min \tfrac12\|\mathbf{w}\|^2$ with $y_i(\mathbf{w}\cdot\mathbf{x}_i+b)\ge1$. (5) Only support vectors determine the result. (6) For non-separable data use a soft margin (parameter C) and kernels (polynomial, RBF) that implicitly map the data to a space where a line separates it.
 
 *Example.* For positives (3,3), (4,3) and negative (1,1), the support vectors are (3,3) and (1,1), $\mathbf{w}=(0.5,0.5)$, $b=-2$ and the margin is 2.83 (Section 2.7). *Conclusion:* large margins generalise well and the kernel trick makes SVMs powerful on small and medium data sets.
+
+**Q6 (5 marks). Construct a network of step units that computes XOR.**
+
+Use two hidden units on the inputs $x_1,x_2$: $h_1=[x_1+x_2-0.5\ge 0]$ (OR) and $h_2=[x_1+x_2-1.5\ge 0]$ (AND), and an output $o=[h_1-h_2-0.5\ge 0]$. For (0,0): $h=(0,0)$, $o=[-0.5\ge 0]=0$. For (0,1) and (1,0): $h=(1,0)$, $o=[0.5\ge 0]=1$. For (1,1): $h=(1,1)$, $o=[-0.5\ge 0]=0$. All four rows match XOR (Figure 2.2). A single perceptron cannot do this because the two classes are not linearly separable; the hidden layer maps the inputs into $(h_1,h_2)$ space, where the XOR-1 points land on (1,0) and the XOR-0 points on (0,0) and (1,1), and the line $h_1-h_2=0.5$ separates them.
+
+**Q7 (5 marks). One back-propagation step on a sigmoid unit.**
+
+Forward: $z=0.5(1)-0.5(2)+0=-0.5$, $\hat y=1/(1+e^{0.5})=0.3775$. Error term: $\delta=(\hat y-y)\hat y(1-\hat y)=(-0.6225)(0.3775)(0.6225)=-0.1463$. Update with $\eta=0.5$: $w_1=0.5-0.5(-0.1463)(1)=0.5731$, $w_2=-0.5-0.5(-0.1463)(2)=-0.3537$, $b=0+0.0731$. New sum $z=0.5731-0.7074+0.0731=-0.0612$, so $\hat y=0.4847$ and the loss falls from 0.1937 to 0.1328.
+
+**Q8 (5 marks). Maximum-margin line for positives (2,2), (3,3) and negative (0,0).**
+
+The closest opposite pair is (2,2) and (0,0), so these are the support vectors and by symmetry $\mathbf{w}=(a,a)$. From $y(\mathbf{w}\cdot\mathbf{x}+b)=1$: $-b=1$ gives $b=-1$ and $4a+b=1$ gives $a=0.5$. So $\mathbf{w}=(0.5,0.5)$, boundary $x_1+x_2=2$, margin $2/0.707=2.83$. The point (3,3) gives $0.5(6)-1=2\ge 1$: outside the margin, not a support vector.
