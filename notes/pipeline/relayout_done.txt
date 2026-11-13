@@ -20,3 +20,6 @@ bca:semester-2/microprocessor-computer-architecture
 bca:semester-2/oop-in-java
 bca:semester-2/principles-of-management
 bca:semester-2/ux-ui-design
+bca:semester-3/applied-economics
+bca:semester-3/data-structure-and-algorithms
+bca:semester-3/dbms
