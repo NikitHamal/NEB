@@ -235,5 +235,24 @@ The README said no TU outline had been retrieved and the book had no Unit 2 at a
 Picked up from sessions 16-25 (this file; no duplicate tracker). Fresh sandbox again needed the session-21 recipe (venv `/tmp/v`, apt, `npm ci`, fonts); project root was `/app`.
 Plan: re-verify BCA 105 and web reader with screenshots, then continue queue items 3 and 4 (BCA 153 collections/file-handling units, label lint).
 
-## Session 27 (in progress)
-Picked up from sessions 16-26 (this file; no duplicate tracker). BCA 105 heading audit against the textbook TOC photos re-run by script (60 section keywords, 0 missing). Plan: queue item 1 (TU outline audit of BCA 206, 401, 451, 156, 151) then rebuild + web export.
+## Session 27 results (BCA 105 re-verified, NEW elective book BCA 405 Machine Learning)
+
+Picked up from sessions 16-26 (this file; no duplicate tracker). Sandbox recipe from session 21 worked unchanged (venv `/tmp/v`, `sudo apt-get update` first, `npm ci` in `notes/pipeline/mathjax`, fonts). Project root in the sandbox was `/app`.
+
+### BCA 105 Professional Communication and Ethics (student feedback): re-verified by script
+A keyword audit of the markdown headings against the 60 textbook-TOC entries (sections 1.1.1 to 6.8.2, Vocabulary and Grammar, both Readings and Exercises of every unit) found 0 missing; 6 units, 52k words. PDF and web-reader fixes (exercise parts instead of the giant MCQ box, no "Formula and fact sheet" outside formula books, 3-line clamp in the TOC rail) are unchanged from sessions 16-25. Not rebuilt this session; the last verified build is 151 pp (session 24). The student's phone copy (55 pp) is the OLD published PDF: the new PDF must be published with `tools/publish/update_books.py --only professional-communication-ethics` using server credentials, which this sandbox does not have.
+
+### BCA 405 Machine Learning (Elective I): NEW book, was an unwritten slot
+Source of the units and hours: TU CACS456 outline (notebahadur.com): U1 Introduction (10 h), U2 Supervised learning (11 h), U3 Bayesian and instance-based learning (11 h), U4 Unsupervised learning and dimensionality reduction (10 h), U5 Performance evaluation (8 h, hours estimated).
+- ~19.5k words, 12 python programs executed by `fill_script_outputs.py` (NumPy only, fixed seeds), 9 figures, 5 units each with summary, exercises and model answers; hand answers re-checked (Hoeffding N = 738, least squares, perceptron trace, PlayTennis gains 0.247/0.152/0.048/0.029, SVM margin 2.83, naive Bayes 0.795/0.90, alarm network 0.284, k-NN k-sweep, k-means trace, PCA 30.385/6.615, ROC AUC 0.84, confidence intervals).
+- Mistakes caught while writing: ill-conditioned degree-9 fit (changed to degree 5), a wrong k-NN distance table and tie (query moved to (2.5, 3.5)), a wrong perceptron epoch count and naive-Bayes product in model answers, `svgkit.Fig.arrow(lpos=...)` takes an (x, y) point, not a fraction.
+- PDF `bca/course/semester-7/pdfs/NEBians-BCA-Course-Semester-7-Machine-Learning.pdf`: `pdfinfo` **61 pages**, `qa_pdf.py` **fails=0 warns=0**. Web data exported (`export_course_web.py semester-7/machine-learning`): 5 units, 46 topics, `index.json` entry added. `books.json`, `CURRICULUM.md` (BCA 405 split from 406), STATUS and READMEs regenerated with `gen_status.py`.
+- Pages inspected as PNG: contents (title with a colon wrapped badly; fixed by removing the colon), Fig 1.1 neuron (arrow labels overlapped, replaced by a caption line), Fig 2.2 decision tree, Fig 3.2 k-NN, Fig 4.1 dendrogram, Fig 5.1 ROC (axis labels overlapped the ticks, fixed), p55 regression measures (R squared now display math).
+- Honest gaps: Django web-reader screenshots were not taken this session (the Session 25 verification stands, only a new book was added); the book is shorter than the other 24-60k-word books (19.5k words) and could take more worked problems, a figure for the SVM margin and an XOR network diagram; Figure 4.2 (elbow) and Figure 3.1 (alarm network) were not rendered to PNG; Unit 5 hours are an estimate; the lab data sets are described, not supplied.
+
+## Prioritised queue for the next session
+1. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 304, 305, 103, 354, 154, 405.
+2. Deepen BCA 405 (SVM margin figure, network diagram, more numerical practice) and write the other electives: BCA 405 alternatives (E-Commerce overlaps MIS Unit 10), Linux, Database Administration; Elective II DotNet, Software Testing; III and IV as in `CURRICULUM.md`.
+3. Keyword audit against the live TU outline for: BCA 401 Cyber Security, 451 Cloud, 156 Principles of Management, 151 Discrete Structure, 101/102/104, projects 256/306/356/404 (BCA 206 Applied Economics was re-checked this session against CAEC353: all 7 units match).
+4. Django + Chromium screenshot of BCA 405 Unit 2 (code outputs, formulas) in the web reader.
+5. BCA 153 split of collections/file handling; fix 5-6 pt figure labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, Digital Logic); run `svgkit.lint` over all books; extend `check_mis.py`.

@@ -2,7 +2,7 @@
 subject: Machine Learning
 grade: BCA Semester 7 (Elective I)
 unit: 2
-title: Supervised Learning: Regression, Perceptron, Neural Networks, Decision Trees and SVM
+title: Supervised Learning, Regression, Perceptron, Neural Networks, Trees and SVM
 hours: 11
 area: BCA 405 · Machine Learning · Unit 2
 ---
