@@ -71,3 +71,5 @@ school:eco10
 school:ioe-math
 school:cs11
 school:nep10
+school:health8
+school:qbank8
