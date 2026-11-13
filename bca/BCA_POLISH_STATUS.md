@@ -693,3 +693,23 @@ Sparse-clone bootstrap; setup recipe from session 39 (apt with sudo, venv `/tmp/
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103 (now 103 pp), 354, 154, 405, 406, 453, 454, 204, 206, 205, 153, 104.
 5. Django + Chromium screenshots of BCA 103 Unit 3 (QM tables) and BCA 104 Unit 6.
+
+## Session 47 results (BCA 253 Numerical Methods deepened to 6 fully developed units; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-46 (this file; no duplicate tracker). Sparse-clone bootstrap; recipe from session 39/46 (`/tmp/setup.sh`: apt with sudo, venv `/tmp/v`, pip incl. weasyprint==70.0, `npm ci`, fonts) worked unchanged, about 4 minutes, run detached. Single-book build about 30 s:
+`NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-4/numerical-methods` (output appears only at the end; wait for "built 1 book(s)" before running `qa_pdf.py`, otherwise it reads the previous PDF).
+- **BCA 253: 85 -> 151 pages**, `qa_pdf.py` fails=0 warns=14 (6 pt photo credits), build math failures = 0, web data re-exported (6 units, **76 topics**). Source about 44k words -> about 56k.
+- Units 1-4 (earlier commits of this session): floating point and error propagation, Aitken/Steffensen, multiple roots, Muller, Horner (U1); interpolation/approximation sections (U2); differentiation/integration sections (U3); pivoting, Cholesky, norms and condition number, SOR, Rayleigh/inverse power/Gershgorin/QR (U4).
+- Unit 5 (new 5.10-5.14): stability and stiffness (Euler limit h < 2/lambda, RK4 limit 2.785, backward Euler), Adams-Bashforth/Moulton PECE and Milne with RK4 starters, Runge-Kutta family (midpoint, Kutta RK3, embedded Euler/Heun adaptive step with reject/accept table, RKF45/Dormand-Prince), applications (cooling, logistic growth, falling body), finite-difference BVP vs shooting; practice 10-21 with answers, model answers Q4-Q6.
+- Unit 6 (new 6.7-6.11): heat equation explicit scheme (r <= 1/2, r = 1/6 special case, r = 0.6 blow-up), Crank-Nicolson, wave equation and CFL (r = 1 exact), insulated edge by fictitious point, diagonal five-point formula on e^x cos y, SOR optimal omega table (13/26/49 sweeps vs 25/99/365), O(h^2) error ratios and Richardson extrapolation; practice 9-17 with answers, model answers Q4-Q6.
+- All numbers computed in `bca/tools/check_numerical47.py u5` / `u6` (new functions this session).
+- Bugs found and fixed while checking the PDF as PNG/text: (1) Unit 1 "Formula and fact sheet" line `f (b) - f (a)` was split by `md2html._split_question` into parts (a)(b) and printed raw SVG data (qa FAIL p22): rewritten with `f_a`, `f_b`. **Authoring rule: never put `(a)` / `(b)` as math tokens in a list item.** (2) Old model answers in units 2, 5, 6 had garbled conversions (`k 1$ + 2k2`, `x 0`, `u_{x} x`) and a list of k's in one `$...$` made MathJax fall back to raw LaTeX on p119: rewritten with proper subscripts, one formula per `$...$`.
+- Pages inspected as PNG: p22 (the bug), p133 (Plate 6.2 + 6.7 opening), p137-138 (wave equation, tables, 6.10 opening). Honest gaps: p137 has white space under the callout heading because the table moves to the next page (cosmetic); no new figures drawn for the heat/wave/stability sections (tables only); other old model answers (units 1, 3, 4) were only scanned for odd-`$` lines and `x 0` patterns, not read line by line; no Django screenshot this session (same exporter).
+
+## Prioritised queue for the next session
+1. Read the model-answer sections of BCA 253 units 1, 3, 4 line by line for garbled conversions like the ones fixed in units 2, 5, 6; run the same `$`-parity and subscript scan on the other older books.
+2. Add figures to BCA 253 Unit 5 (stability regions, Adams error table) and Unit 6 (heat decay profiles, CFL blow-up).
+3. Thin books next: BCA 402 (84 pp), BCA 104 units 1, 3 to 5, BCA 154 units 2 to 5, projects 256/306/356/404 keyword audit.
+4. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+5. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453, 454, 204, 206, 205, 153, 104, 253 (now 151 pp).
+6. Django + Chromium screenshots of BCA 253 Unit 6 (tables, display math) and BCA 103 Unit 3.
