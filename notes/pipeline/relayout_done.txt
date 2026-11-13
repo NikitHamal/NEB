@@ -73,3 +73,5 @@ school:cs11
 school:nep10
 school:health8
 school:qbank8
+school:soc8
+school:qbank10
