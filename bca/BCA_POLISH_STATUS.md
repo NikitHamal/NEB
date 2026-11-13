@@ -368,3 +368,23 @@ Source: TU CACS302 outline (notebahadur.com, edu-mate.com): U1 Introducing C# an
 3. Keyword audits still pending: projects 256/306/356/404.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
 5. Deepen BCA 405 (SVM margin figure, XOR network, more numeric practice).
+
+## Session 32 results (BCA 405 Machine Learning deepened; BCA 105 left as-is per the user)
+
+Picked up from sessions 16-31 (this file; no duplicate tracker). Project root `/app`; the session-21 recipe worked unchanged (apt, venv `/tmp/v`, `npm ci`, fonts). BCA 105 and all books up to BCA 406 are done; BCA 105 PDF is still 151 pp in the repo (`pdfinfo`).
+
+### BCA 405 Machine Learning: queue item "deepen" closed for Unit 2
+- NEW Figure 2.2 (XOR as a two-layer network, step units OR/AND/output, weights and biases labelled) with a hand-built example and an executed truth table; NEW Figure 2.4 (SVM margin figure for the worked three-point example: boundary, margin lines, support vectors, margin 2.83); decision-tree figure renumbered 2.3.
+- NEW one-step back-propagation example on a sigmoid unit (executed: z -0.5, yhat 0.3775, loss 0.1937, delta -0.1463, new w (0.5731, -0.3537), b 0.0731, yhat 0.4847; hand-checked); exercises 10 to 13 and model answers Q6 (XOR network), Q7 (back-prop step), Q8 (max-margin line for (2,2),(3,3) vs (0,0): w=(0.5,0.5), b=-1, margin 2.83).
+- Fixed ugly numpy 2 repr (`np.float64(3.0)`) and `b = -1.9999999999999998` in the SVM program output.
+- PDF `pdfinfo` **61 -> 63 pages**, `qa_pdf.py` fails=0 warns=0. Pages inspected as PNG: XOR figure (p20), SVM figure (p25); an orphan page was removed by tightening the model answers. Web data re-exported.
+
+### Honest gaps
+- Elective III and IV (BCA 453/454), Business Intelligence, Software Testing and QA, Data Visualization, Linux, DBA are still unwritten: no TU-specific outline text for them was found (search returned generic ISTQB/SPPU outlines), so no book was invented. Write them only after the outline is located.
+- Project books (256/306/356/404): TU publishes no unit list, so there is no outline to audit against; they stay companion handbooks.
+- Django web-reader screenshots were not retaken this session (only one book changed, same exporter).
+
+## Prioritised queue for the next session
+1. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406.
+2. Locate the TU outlines for the remaining electives (Elective I-IV lists in `CURRICULUM.md`) and write the most common ones.
+3. BCA 153 split of collections/file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books; extend `check_mis.py`.

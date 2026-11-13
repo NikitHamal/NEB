@@ -185,9 +185,13 @@ for step_no in (1, 2):
     print("        new w=(%.4f, %.4f)  b=%.4f" % (w[0], w[1], b))
 ```
 ```output
+step 1: z=-0.5000  yhat=0.3775  loss=0.1937  delta=-0.1463
+        new w=(0.5731, -0.3537)  b=0.0731
+step 2: z=-0.0612  yhat=0.4847  loss=0.1328  delta=-0.1287
+        new w=(0.6375, -0.2250)  b=0.1375
 ```
 
-After one step the output rises from 0.3775 to 0.4847: the update moved every weight in the direction that lowers the loss, and the input with the larger value (here $x_2=2$) received the larger change.
+After one step the output rises from 0.3775 to 0.4847: the update moved every weight in the direction that lowers the loss, and the input with the larger value (here $x_2=2$) received the larger change. A second step (printed above) lifts the output to 0.4847 and then to a loss of 0.1328 before the next update; many such steps drive $\hat y$ towards 1.
 
 **Back-propagation** trains the weights in four repeating steps: (1) **forward pass**: compute every layer's output; (2) compute the **loss** (squared error or cross-entropy); (3) **backward pass**: apply the chain rule to find $\partial L/\partial w$ for every weight, working from the output layer back; (4) **update** $w \leftarrow w - \eta\,\partial L/\partial w$. For a sigmoid output unit with squared error, the output-layer error term is $\delta_o = (\hat y - y)\,\hat y(1-\hat y)$, and a hidden unit's term is $\delta_h = \hat h(1-\hat h)\sum_o w_{ho}\delta_o$.
 
@@ -328,6 +332,11 @@ print("w =", w.round(3), "b =", round(float(b), 3), "margin = %.3f" % (2 / np.li
 print("y*(w.x+b) =", y * (P @ w + b))
 print("support vectors are the points where this equals 1 ->", [(float(p[0]), float(p[1])) for p, v in zip(P, y * (P @ w + b)) if abs(v - 1) < 1e-9])
 ```
+```output
+w = [0.5 0.5] b = -2.0 margin = 2.828
+y*(w.x+b) = [1.  1.5 1. ]
+support vectors are the points where this equals 1 -> [(3.0, 3.0), (1.0, 1.0)]
+```
 
 ```svgfig label="2.4" caption="The worked SVM example. The boundary x1 + x2 = 4 (solid) lies midway between the dashed margin lines. The support vectors (3,3) and (1,1) sit on the margin lines; (4,3) lies beyond the positive margin and does not affect the solution."
 f = Fig(580, 260)
@@ -348,11 +357,6 @@ f.text(310, 110, "w = (0.5, 0.5), b = -2", size=10.5, color=NAVY, anchor="start"
 f.text(310, 135, "margin = 2 / |w| = 2.83", size=10.5, color=NAVY, anchor="start")
 f.text(310, 170, "support vectors: (1,1) and (3,3)", size=10.5, color=RED, anchor="start")
 f.text(310, 195, "hollow = class -1, filled = class +1", size=10, color=SLATE, anchor="start")
-```
-```output
-w = [0.5 0.5] b = -2.0 margin = 2.828
-y*(w.x+b) = [1.  1.5 1. ]
-support vectors are the points where this equals 1 -> [(3.0, 3.0), (1.0, 1.0)]
 ```
 
 ## 2.8 Logistic regression and the kernel idea
@@ -455,8 +459,8 @@ Use two hidden units on the inputs $x_1,x_2$: $h_1=[x_1+x_2-0.5\ge 0]$ (OR) and 
 
 **Q7 (5 marks). One back-propagation step on a sigmoid unit.**
 
-Forward: $z=0.5(1)-0.5(2)+0=-0.5$, $\hat y=1/(1+e^{0.5})=0.3775$. Error term: $\delta=(\hat y-y)\hat y(1-\hat y)=(-0.6225)(0.3775)(0.6225)=-0.1463$. Update with $\eta=0.5$: $w_1=0.5-0.5(-0.1463)(1)=0.5731$, $w_2=-0.5-0.5(-0.1463)(2)=-0.3537$, $b=0+0.0731$. New sum $z=0.5731-0.7074+0.0731=-0.0612$, so $\hat y=0.4847$ and the loss falls from 0.1937 to 0.1328.
+Forward: $z=0.5(1)-0.5(2)+0=-0.5$, $\hat y=1/(1+e^{0.5})=0.3775$. Error term: $\delta=(\hat y-y)\hat y(1-\hat y)=(-0.6225)(0.3775)(0.6225)=-0.1463$. Update with $\eta=0.5$: $w_1=0.5-0.5(-0.1463)(1)=0.5731$, $w_2=-0.5-0.5(-0.1463)(2)=-0.3537$, $b=0+0.0731$. New sum $z=0.5731-0.7074+0.0731=-0.0612$, so $\hat y=0.4847$.
 
 **Q8 (5 marks). Maximum-margin line for positives (2,2), (3,3) and negative (0,0).**
 
-The closest opposite pair is (2,2) and (0,0), so these are the support vectors and by symmetry $\mathbf{w}=(a,a)$. From $y(\mathbf{w}\cdot\mathbf{x}+b)=1$: $-b=1$ gives $b=-1$ and $4a+b=1$ gives $a=0.5$. So $\mathbf{w}=(0.5,0.5)$, boundary $x_1+x_2=2$, margin $2/0.707=2.83$. The point (3,3) gives $0.5(6)-1=2\ge 1$: outside the margin, not a support vector.
+Support vectors are (2,2) and (0,0), so $\mathbf{w}=(a,a)$ by symmetry. Then $-b=1$ gives $b=-1$ and $4a+b=1$ gives $a=0.5$, so $\mathbf{w}=(0.5,0.5)$, boundary $x_1+x_2=2$, margin $2/0.707=2.83$.
