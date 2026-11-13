@@ -344,6 +344,23 @@ stack overflow, depth > 1000: true
 
 `fact(10)` is 3,628,800 (10!), `fib(10)` is 55, `gcd(84, 36)` is 12 (Euclid: 84 mod 36 = 12, 36 mod 12 = 0), and Towers of Hanoi with 4 discs (the program prints the two moves of disc 3, which must go A to B and later B to C) needs 2⁴ − 1 = **15** moves. The recursive `fib` recomputes the same values again and again (about 1.6ⁿ calls, which is exponential), so for large *n* use a loop or **memoisation**: store each computed value in an array or `HashMap` and reuse it. The same idea turns an exponential algorithm into a linear one.
 
+```svgfig label="2.2" caption="The call stack while fact(3) runs. Each call adds a frame with its own n; the base case fact(1) returns 1 first, and the frames then return in reverse order, multiplying as they go: 1, 2 * 1 = 2, 3 * 2 = 6."
+f = Fig(620, 230)
+f.text(120, 18, "Stack (grows upward)", size=11, color=NAVY, bold=True)
+f.box(40, 28, 160, 36, "fact(1)   n = 1", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11.5, bold=True)
+f.box(40, 70, 160, 36, "fact(2)   n = 2", fill=BLUE, color=NAVY, size=11.5, bold=True)
+f.box(40, 112, 160, 36, "fact(3)   n = 3", fill=BLUE, color=NAVY, size=11.5, bold=True)
+f.box(40, 154, 160, 36, "main", fill="#e5e7eb", stroke=SLATE, color=NAVY, size=11.5, bold=True)
+f.text(380, 18, "Calls go down, returns come back up", size=11, color=NAVY, bold=True)
+f.arrow([(230, 172), (230, 46)], color=SLATE, sw=1.8, label="calls", lpos=(262, 108))
+f.arrow([(330, 46), (330, 172)], color=TEAL, sw=1.8, label="returns", lpos=(372, 108))
+f.text(520, 46, "returns 1", size=11, color=TEAL, bold=True)
+f.text(520, 88, "returns 2 * 1 = 2", size=11, color=TEAL, bold=True)
+f.text(520, 130, "returns 3 * 2 = 6", size=11, color=TEAL, bold=True)
+f.text(520, 172, "prints 6", size=11, color=NAVY, bold=True)
+f.text(310, 214, "no base case: frames pile up until StackOverflowError", size=10.5, color=RED, bold=True)
+```
+
 | Property | Recursion | Iteration (loop) |
 |---|---|---|
 | Control | the method calls itself | `for`, `while`, `do while` |
@@ -447,6 +464,9 @@ project/
 - Init order: static blocks → instance initialisers → constructor.
 - Access: private < package < protected < public.
 - Java is pass-by-value (references are copied); `==` compares references; override `equals` with `hashCode`.
+- Recursion = base case + progress towards it; each call has its own stack frame; missing base case gives `StackOverflowError`.
+- Overload resolution: exact match or widening, then boxing, then varargs; decided at compile time from the declared types (so `h((Object) "a")` calls `h(Object)`).
+- Package workflow: `javac -d out ...`, `java -cp out pkg.Main`, `jar cfe app.jar pkg.Main -C out .`, `javadoc -d docs -sourcepath src pkg`.
 
 ## Chapter summary
 
@@ -455,6 +475,7 @@ project/
 - Static members belong to the class; instance members belong to each object.
 - References explain aliasing, parameter passing and why `equals`/`hashCode` must be overridden for value-like classes.
 - Enums, records and nested classes express fixed sets, data carriers and helper types.
+- Recursion trades stack space for clarity; overloads are chosen by the compiler from static types in the order widening, boxing, varargs.
 
 ## Practice
 
@@ -468,6 +489,11 @@ project/
 8. Create an enum `Day` with `isWeekend()`; loop over `Day.values()`.
 9. Write an immutable `Money` class (final fields, no setters, `add` returning a new object).
 10. Explain the singleton pattern and write a thread-unsafe and a safe version (enum or holder).
+11. Write a recursive method `power(base, exp)` for non-negative `exp`. How many calls does `power(2, 10)` make if you halve the exponent each time?
+12. Why can `fib(40)` take seconds with the naive recursion? Describe two ways to make it fast.
+13. With overloads `f(long)` and `f(Integer)`, which one does `f(5)` call, and why? What changes if `f(int...)` is added?
+14. Why do `void show(String s)` and `void show(Integer i)` make `show(null)` a compile error?
+15. Give the commands to compile a class `np.edu.demo.App` kept in `src/`, run it, and package it as an executable JAR.
 
 ::: note Answers and worked solutions
 **1.** Fields private; constructor sets them and increments `static int total`; `average()` sums `marks` and divides by `marks.length` as a double; `toString` returns formatted name, roll and average.
@@ -480,6 +506,11 @@ project/
 **8.** `enum Day { MON, TUE, WED, THU, FRI, SAT, SUN; boolean isWeekend() { return this == SAT || this == SUN; } }`
 **9.** `public final class Money { private final long paisa; Money(long p){paisa=p;} Money add(Money o){ return new Money(paisa + o.paisa); } long paisa(){ return paisa; } }`
 **10.** A singleton has one instance. Simple (not thread-safe): `static Foo inst; static Foo get(){ if(inst==null) inst=new Foo(); return inst; }`. Safe: `enum Foo { INSTANCE; }` or a holder class `private static class H { static final Foo I = new Foo(); }`.
+**11.** `long power(long b, int e) { if (e == 0) return 1; long h = power(b, e / 2); return e % 2 == 0 ? h * h : h * h * b; }`. For `e` = 10 the exponents are 10, 5, 2, 1, 0: **5 calls**, so the cost is O(log e) instead of O(e).
+**12.** The naive version recomputes the same sub-problems; the number of calls grows about 1.6 times per step, so `fib(40)` makes over 300 million calls. Use a loop with two variables (O(n) time, O(1) space) or memoisation with an array or `HashMap`.
+**13.** `f(long)`: the compiler tries widening (int to long) before boxing (int to Integer). Adding `f(int...)` changes nothing, since varargs is tried last.
+**14.** `null` is a valid `String` and a valid `Integer`; neither type is more specific than the other, so the call is ambiguous. With `show(Object)` and `show(String)`, `String` is more specific and is chosen.
+**15.** `javac -d out src/np/edu/demo/App.java`; `java -cp out np.edu.demo.App`; `jar cfe app.jar np.edu.demo.App -C out .` then `java -jar app.jar`.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
