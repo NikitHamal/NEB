@@ -63,6 +63,24 @@
    "read_min": 17,
    "figures": 5,
    "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Parallel Computing and the MapReduce Model",
+   "area": "BCA 451 · Cloud Computing · Unit 8",
+   "words": 4653,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Service-Oriented Architecture, Cloud Platforms, Applications and Security Practice",
+   "area": "BCA 451 · Cloud Computing · Unit 9",
+   "words": 4133,
+   "read_min": 23,
+   "figures": 2,
+   "has_questions": true
   }
  ]
 }
