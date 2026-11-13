@@ -10,7 +10,7 @@
  "icon": "functions",
  "group": "semester-2",
  "group_label": "Semester II",
- "color": "#6D28D9",
+ "color": "#0E7490",
  "lang": "en",
  "code": "BCA 154",
  "credits": 3,
@@ -358,7 +358,8 @@
     "The simplex method (up to three variables)",
     "Duality",
     "Solving linear systems on a computer",
-    "Solving non-linear equations f(x) = 0"
+    "Solving non-linear equations f(x) = 0",
+    "Computer lab: Excel, MATLAB and Python"
    ],
    "sections": [
     {
@@ -380,23 +381,32 @@
     {
      "no": "6.5",
      "title": "Solving non-linear equations f(x) = 0"
+    },
+    {
+     "no": "6.6",
+     "title": "Computer lab: Excel, MATLAB and Python"
     }
    ],
    "summary": [
     "A linear programming problem has a linear objective and linear constraints; the optimum lies at a corner of the feasible region and can be found graphically (two variables) or by the simplex tableau.",
     "The dual problem has the same optimal value, and its variables are the shadow prices of the resources.",
-    "Linear systems are solved by inversion, Gauss elimination or Gauss-Seidel iteration; roots of non-linear equations by bisection (safe, slow) or Newton-Raphson (fast, needs a derivative)."
+    "Linear systems are solved by inversion, Gauss elimination or Gauss-Seidel iteration; roots of non-linear equations by bisection (safe, slow) or Newton-Raphson (fast, needs a derivative).",
+    "Real problems bring complications: infeasible, unbounded and multiple-optima LPPs, degenerate corners, minimisation through the dual, and sensitivity ranges for the shadow prices.",
+    "Numerical methods trade reliability for speed: pivoting and conditioning decide accuracy for linear systems, and the order of convergence (1, 1.62, 2) separates bisection, secant and Newton-Raphson. Newton-Raphson can cycle or diverge, so bracket first.",
+    "Excel (MINVERSE, MMULT, Solver, fill-down formulas), MATLAB (\\, fzero, linprog) and Python (numpy, scipy) run all of these methods."
    ],
-   "terms": [],
+   "terms": [
+    "Special cases of an LPP"
+   ],
    "stats": {
-    "words": 3035,
+    "words": 10514,
     "figures": 0,
-    "examples": 9
+    "examples": 24
    },
    "has_notes": true
   }
  ],
  "unit_count": 6,
- "topic_count": 47,
+ "topic_count": 48,
  "notes_ready": 6
 }

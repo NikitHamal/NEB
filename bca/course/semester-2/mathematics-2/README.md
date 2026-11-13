@@ -25,3 +25,15 @@ Units 1 to 5 were SymPy-checked in earlier sessions (`bca/tools/check_math1.py`,
 ## Session 23: syllabus gap closed
 
 Checked against the BCA 154 outline (tabflux/hamronotes lists of the revised TU syllabus). Added: derivatives of inverse circular and hyperbolic functions and partial derivatives (2.7, 2.8); surface of revolution and numerical integration, trapezoidal and Simpson (4.8, 4.9); Bernoulli equation, logistic model and basic partial differential equations (5.8, 5.9). All numbers recomputed with sympy/scipy; every code block is executed by `fill_script_outputs.py`.
+
+
+## Session 43: unit 6 (Computational Methods) deepened, 4.1k to 12.5k words, book 97 to 121 pages
+
+New in unit 6 (all numbers recomputed in `bca/tools/check_math2_u6.py`, plus exact-fraction simplex tableaux; Python blocks are executed, outputs are real):
+- 6.1 more formulations (minimum-cost diet, three-product mix, translation tips), the three special cases with Fig 6.2, why only corners matter.
+- 6.2 geometric view of the simplex path (Fig 6.3), full three-variable tableaux, special cases in the tableau, a degenerate corner, sensitivity ranging, big-M note.
+- 6.3 minimisation by simplex on the dual (diet), reading the primal from the dual, complementary slackness, shadow-price meaning, the four primal/dual outcomes.
+- 6.4 Gauss-Jordan inverse of a 3 by 3, partial pivoting with a 3-significant-figure demonstration, ill-conditioning (kappa about 40,000), LU factorisation with a reused right-hand side, Jacobi against Gauss-Seidel with a bad ordering that diverges (Fig 6.4).
+- 6.5 bracketing, regula falsi, secant, orders of convergence (Fig 6.5), Newton failures (cycle, Fig 6.6), Babylonian square root, stopping criteria, the interest rate hidden in an EMI by bisection.
+- 6.6 (new) computer lab: Excel layouts (bisection, Newton, Gauss-Seidel, MINVERSE/MMULT, Solver), four executed Python programs (bisection/Newton/EMI, Gauss-Seidel, NumPy, SciPy linprog), MATLAB equivalents (not executed here; values are those of the Python runs).
+- Practice 9 to 23 with worked answers; fact sheet and summary extended.

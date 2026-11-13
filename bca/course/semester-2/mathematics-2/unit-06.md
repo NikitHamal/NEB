@@ -148,6 +148,7 @@ The graphical method fails beyond two variables. The **simplex method** moves fr
 **Standard form (maximise).** Convert each $\le$ constraint to an equation by adding a **slack variable** ($s_{1}, s_{2} \ge 0$) that measures unused resource. The objective is written $Z - 3 x - 2 y = 0$ so that its row holds the coefficients $-3$ and $-2$.
 
 **Algorithm.**
+
 1. Write the initial tableau. The slack variables are the first **basic** variables (value = right-hand side).
 2. **Entering variable:** the column with the most negative entry in the objective row. If no entry is negative, stop: the solution is optimal.
 3. **Leaving variable (minimum ratio test):** divide each right-hand side by the positive entry of the entering column and choose the smallest ratio; that row is the **pivot row**.
@@ -194,12 +195,13 @@ f.arrow([(54, 148), (211, 203)], color=RED, sw=2.6)
 for (px, py) in [(50, 260), (50, 150), (215, 205), (270, 260)]:
     f.circle(px, py, 5, fill=RED if (px, py) != (270, 260) else BLUE, stroke=RED)
 f.text(64, 276, "O  Z = 0", size=11, color=NAVY, bold=True, anchor="start")
-f.text(62, 143, "C (0, 2)  Z = 6", size=11, color=RED, bold=True, anchor="start")
+f.text(42, 150, "C (0, 2)", size=10.5, color=RED, bold=True, anchor="end")
+f.text(42, 163, "Z = 6", size=10.5, color=RED, bold=True, anchor="end")
 f.text(228, 196, "B (3, 1)  Z = 9  optimal", size=11, color=RED, bold=True, anchor="start")
 f.text(285, 280, "A (4, 0)  Z = 8 (not visited)", size=10, color=SLATE, anchor="start")
-f.text(100, 220, "feasible region", size=11, color=TEAL, bold=True, anchor="start")
-f.text(118, 188, "pivot 1: y enters", size=10, color=RED, anchor="start")
-f.text(120, 100, "pivot 2: x enters", size=10, color=RED, anchor="start")
+f.text(100, 245, "feasible region", size=11, color=TEAL, bold=True, anchor="start")
+f.text(62, 215, "pivot 1: y enters", size=10, color=RED, anchor="start")
+f.text(150, 128, "pivot 2: x enters", size=10, color=RED, anchor="start")
 ```
 
 ### Simplex with three variables
@@ -382,6 +384,7 @@ Gauss-Jordan continues elimination until the left block becomes the identity. Ap
 ::: example Worked example: inverse of a 3 by 3 matrix
 Find $A^{-1}$ for $A = \begin{bmatrix} 2 & 1 & 1 \\ 1 & 3 & 2 \\ 1 & 0 & 0 \end{bmatrix}$ and solve $2 x + y + z = 7$, $x + 3 y + 2 z = 13$, $x = 1$.
 Start with $[A \mid I]$ and use row operations (a row swap is always allowed).
+
 1. $R_{1} \leftrightarrow R_{3}$: rows become $(1, 0, 0 \mid 0, 0, 1)$, $(1, 3, 2 \mid 0, 1, 0)$, $(2, 1, 1 \mid 1, 0, 0)$.
 2. $R_{2} \leftarrow R_{2} - R_{1}$ gives $(0, 3, 2 \mid 0, 1, -1)$; $R_{3} \leftarrow R_{3} - 2 R_{1}$ gives $(0, 1, 1 \mid 1, 0, -2)$.
 3. $R_{2} \leftrightarrow R_{3}$, so the pivot of column 2 is 1: rows $(0, 1, 1 \mid 1, 0, -2)$ and $(0, 3, 2 \mid 0, 1, -1)$.
@@ -442,7 +445,7 @@ Gauss-Seidel is correct to 4 decimals after four sweeps; Jacobi is still off in 
 
 ```svgfig label="6.4" caption="How fast the iterations converge for the 3 by 3 system above. The vertical axis is log10 of the largest error in x, y, z; a drop of 1 means one more correct decimal digit. Gauss-Seidel gains about 1.5 digits per sweep, Jacobi about 0.6, so Gauss-Seidel needs less than half as many sweeps for the same accuracy."
 f = Fig(560, 300)
-L, T, W, H = 70, 24, 440, 220
+L, T, W, H = 70, 34, 440, 210
 def X(k):
     return L + (k - 1) / 7 * W
 def Y(v):
@@ -456,7 +459,7 @@ for k in range(1, 9):
 f.line(L, T, L, T + H, color=SLATE, sw=1.4)
 f.line(L, Y(0), L + W, Y(0), color=SLATE, sw=1.4)
 f.text(L + W / 2, T + H + 36, "iteration number", size=11, color=SLATE)
-f.text(18, T + H / 2, "log10 error", size=11, color=SLATE)
+f.text(L, T - 8, "log10 error", size=11, color=SLATE, anchor="start")
 gs = [-0.3, -1.95, -3.0, -4.45, -6.21, -7.97, -9.03, -10.44]
 ja = [-0.3, -0.82, -1.4, -2.0, -2.56, -3.15, -3.73, -4.31]
 for series, col in ((gs, TEAL), (ja, AMBER)):
@@ -550,7 +553,7 @@ If $e_{n}$ is the error after $n$ steps, a method has **order** $p$ when $e_{n+1
 
 ```svgfig label="6.5" caption="Error of four methods on x^3 - x - 2 = 0 (root 1.5213797). The vertical axis is log10 of the absolute error. Bisection zig-zags down at about 0.3 per step; regula falsi falls steadily at about 0.55 per step; the secant method steepens as it closes in; Newton-Raphson from x0 = 1.5 reaches machine precision (1e-16) in four steps."
 f = Fig(560, 310)
-L, T, W, H = 70, 24, 440, 232
+L, T, W, H = 70, 34, 350, 222
 def X(k):
     return L + (k - 1) / 7 * W
 def Y(v):
@@ -564,7 +567,7 @@ for k in range(1, 9):
 f.line(L, T, L, T + H, color=SLATE, sw=1.4)
 f.line(L, Y(0), L + W, Y(0), color=SLATE, sw=1.4)
 f.text(L + W / 2, T + H + 36, "step number", size=11, color=SLATE)
-f.text(18, T + H / 2, "log10 error", size=11, color=SLATE)
+f.text(L, T - 8, "log10 error", size=11, color=SLATE, anchor="start")
 data = [
     ([-1.67, -0.64, -0.98, -1.39, -2.01, -2.24, -2.69, -2.73], AMBER, "Bisection", 8, -2.2),
     ([-0.73, -1.23, -1.76, -2.3, -2.84, -3.37, -3.91, -4.45], SLATE, "Regula falsi", 8, -5.4),
@@ -595,12 +598,12 @@ ax.vline(0, 0, 2, color=SLATE, dash=True)
 ax.vline(1, 0, 1, color=SLATE, dash=True)
 ax.pt(0, 2, "", color=NAVY)
 ax.pt(1, 1, "", color=NAVY)
-ax.pt(0, 0, "x0 = 0", color=RED, dx=-8, dy=18, anchor="end")
-ax.pt(1, 0, "x1 = 1", color=RED, dx=8, dy=18)
+ax.pt(0, 0, "x0 = 0", color=RED, dx=-8, dy=32, anchor="end")
+ax.pt(1, 0, "x1 = 1", color=RED, dx=10, dy=-8)
 ax.pt(-1.77, 0, "root", color=TEAL, dx=0, dy=-12, anchor="middle", hollow=True)
 ax.tag(-1.7, 3.3, "f(x) = x^3 - 2x + 2", size=11, color=NAVY, bold=True, anchor="start")
-ax.tag(1.15, 3.1, "tangent at 0", size=10, color=AMBER, bold=True, anchor="start")
-ax.tag(1.5, 2.3, "tangent at 1", size=10, color=TEAL, bold=True, anchor="start")
+ax.tag(1.3, -1.0, "tangent at 0", size=10, color=AMBER, bold=True, anchor="start")
+ax.tag(1.62, 1.35, "tangent at 1", size=10, color=TEAL, bold=True, anchor="start")
 ```
 
 ::: tip Safeguards in practice
@@ -814,7 +817,8 @@ A spreadsheet is best for **seeing every iteration** and for business users; MAT
 - Special cases: no feasible region = infeasible; no positive entry in the entering column = unbounded; a zero in the objective row for a non-basic variable = multiple optima; a tied ratio = degenerate.
 - Shadow price of a resource = entry under its slack in the final objective row; it is valid while the basic variables stay $\ge 0$.
 - Partial pivoting: pick the largest $|a_{ik}|$ in the column; LU: $A = L U$, then $L Y = B$ and $U X = Y$; $\kappa (A) = \|A\|\,\|A^{-1}\|$.
-- Regula falsi: $c = \frac{a f (b) - b f (a)}{f (b) - f (a)}$ (order 1); secant (order 1.62); Newton (order 2); Babylonian square root: $x_{n+1} = \frac{1}{2} (x_{n} + \frac{a}{x_{n}})$.
+- Regula falsi, order 1: the chord meets the axis at $c = \left( a f (b) - b f (a) \right) / \left( f (b) - f (a) \right)$. Secant: order 1.62. Newton: order 2.
+- Babylonian square root: $x_{n+1} = \dfrac{1}{2} \left( x_{n} + \dfrac{a}{x_{n}} \right)$.
 
 ## Chapter summary
 
