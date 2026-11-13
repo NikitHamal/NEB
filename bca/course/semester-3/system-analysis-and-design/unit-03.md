@@ -359,12 +359,168 @@ Instead of starting from nothing, analysts adopt **packaged data models**: indus
 
 **Likely questions.** (a) Construct a decision table for a loan approval policy and reduce it (10). (b) Explain supertype and subtype with an ER diagram (5). (c) What are business rules? Give four kinds (5). (d) Advantages and disadvantages of packaged data models (5).
 
+## 3.8 A level-1 decomposition, the data dictionary and the CRUD check, worked end to end
+
+Sections 3.2 and 3.4 drew the context diagram and level 0 of the library system. Analysis does not stop there: a process such as *Issue book* hides decisions that a programmer must know, and the data flows hide structure that a database designer must know. Three more artefacts close the gap: the **level-1 DFD**, the **data dictionary** and the **process specification**. A fourth, the **CRUD matrix**, then checks that all the models agree.
+
+### Level-1 DFD of process 1.0 Issue book
+
+Decomposition replaces one process by its child diagram. The children are numbered 1.1, 1.2 and so on, the data stores that the parent touched appear again, and the flows that cross the parent's boundary must be the same flows in the child diagram. That is **balancing**: Figure 3.5 shows no new external flow, only the member's request in and the slip out.
+
+```svgfig label="3.5" caption="Level-1 DFD of process 1.0 Issue book. The parent had one input (request) and one output (issue slip); the child diagram has the same two external flows, so it is balanced. D1 Members, D2 Books and D3 Loans are the stores seen in the level-0 diagram."
+f = Fig(680, 244)
+f.box(4, 100, 62, 44, "Member", fill=BLUE, color=NAVY, size=11, bold=True)
+labs = ["1.1\nVerify\nmember", "1.2\nCheck\navailability", "1.3\nRecord\nloan", "1.4\nPrint\nslip"]
+px = [112, 246, 380, 514]
+for x, l in zip(px, labs):
+    f.box(x, 96, 90, 52, l, fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(112, 14, 90, 28, "D1 Members", fill="#fde68a", stroke=AMBER, color=NAVY, size=10.5, bold=True)
+f.box(246, 14, 90, 28, "D2 Books", fill="#fde68a", stroke=AMBER, color=NAVY, size=10.5, bold=True)
+f.box(380, 14, 90, 28, "D3 Loans", fill="#fde68a", stroke=AMBER, color=NAVY, size=10.5, bold=True)
+f.arrow([(66, 122), (112, 122)], color=NAVY, sw=1.6)
+f.text(89, 104, "member,\nbook id", size=9, color=SLATE)
+f.arrow([(202, 122), (246, 122)], color=NAVY, sw=1.6)
+f.text(224, 106, "valid\nmember", size=9, color=SLATE)
+f.arrow([(336, 122), (380, 122)], color=NAVY, sw=1.6)
+f.text(358, 106, "copy\nfree", size=9, color=SLATE)
+f.arrow([(470, 122), (514, 122)], color=NAVY, sw=1.6)
+f.text(492, 106, "loan\ndetails", size=9, color=SLATE)
+f.arrow([(157, 42), (157, 96)], color=SLATE, sw=1.5)
+f.arrow([(291, 42), (291, 96)], color=SLATE, sw=1.5)
+f.arrow([(425, 96), (425, 42)], color=SLATE, sw=1.5)
+f.arrow([(396, 96), (334, 42)], color=SLATE, sw=1.5)
+f.arrow([(559, 148), (559, 200), (35, 200), (35, 144)], color=NAVY, sw=1.6)
+f.text(300, 216, "issue slip", size=10, color=NAVY, bold=True)
+f.text(600, 40, "read: store to process\nwrite: process to store", size=9.5, color=SLATE, anchor="start")
+```
+
+### The data dictionary
+
+A DFD names flows and stores, but a name is not a definition. The **data dictionary (DD)** defines every flow, store and element exactly once, so that analysts, programmers and users mean the same thing. The classic notation uses a few symbols:
+
+| Symbol | Meaning | Example |
+|---|---|---|
+| `=` | is composed of | `Member = Member_ID + Name` |
+| `+` | and (sequence) | `Name = First + Last` |
+| `( )` | optional element | `Member = ... + (Email)` |
+| `{ }` | repetition (with limits `n{ }m`) | `1{Book_ID}3` : one to three books |
+| `[ \| ]` | selection (either-or) | `Contact = [Mobile \| Landline]` |
+| `* *` | comment | `* Nepal numbers start with 98 or 97 *` |
+
+```text
+Issue_Slip   = Slip_No + Issue_Date + Member_ID + Member_Name + 1{Book_ID + Title}3 + Due_Date
+Due_Date     = Issue_Date + 14 days                       * rule from the library policy *
+Member       = Member_ID + Name + Phone + (Email) + Status
+Status       = [Active | Suspended | Expired]
+Member_ID    = 4 digits                                   * for example 0173 *
+Book_ID      = Accession_No                               * unique per physical copy *
+```
+
+Read the first line aloud: an issue slip is a slip number, an issue date, the member's number and name, one to three books each with a book number and a title, and a due date. Writing the dictionary often exposes mistakes: if two analysts define *Due_Date* differently, a programmer would have built two systems. In a CASE tool the dictionary is the **repository** that also feeds the screens and the database schema.
+
+### Process specification
+
+A process that is no longer decomposed (a **primitive** process) needs a **process specification**: its logic written precisely in structured English, a decision table or a decision tree (3.2, 3.7).
+
+```text
+PROCESS 1.3  Record loan
+  IF member has fewer than 3 open loans AND the copy is available
+      create a Loan row with Due_Date = today + 14 days
+      mark the Book as Issued
+  ELSE
+      refuse the loan and show the reason (limit reached, or copy issued)
+  END IF
+```
+
+### Common DFD errors
+
+- **Black hole:** a process with inputs but no output (it consumes data and produces nothing).
+- **Miracle:** a process with outputs but no input (it invents data).
+- **Gray hole:** the outputs cannot be produced from the inputs (printing *Due_Date* when no issue date flows in).
+- **Illegal flows:** entity to entity, entity to store, or store to store without a process in between.
+- **Unbalanced child:** flows at the child level that do not appear at the parent.
+- **Unnamed or vague flows**, such as *data* or *information*.
+
+### The CRUD matrix: checking models against each other
+
+A **CRUD matrix** lists processes in rows and data stores (or entities) in columns, and writes C (create), R (read), U (update) or D (delete) where a process touches the data. It joins the process model (DFD) to the data model (ER) and reveals gaps.
+
+| Process | D1 Members | D2 Books | D3 Loans |
+|---|---|---|---|
+| 1.1 Verify member | R | | |
+| 1.2 Check availability | | R | |
+| 1.3 Record loan | | U | C |
+| 1.4 Print slip | R | | R |
+| 2.0 Return book | | U | U |
+| 3.0 Report overdue | R | | R |
+| 4.0 Maintain members | C, R, U, D | | |
+| 5.0 Maintain catalogue | | C, R, U, D | |
+
+Read it by column: **every store needs at least one C** (otherwise nothing ever fills it: before row 5.0 was added, *D2 Books* had no C and the matrix exposed a missing process), **at least one R** (otherwise nobody uses the data), and a **D or an archiving rule** (otherwise it grows for ever). D3 Loans has no D on purpose: loans are kept as history, so the missing delete is a decision to record, not a gap. Read it by row too: a process with no C, U or D is only a report, and one that updates many stores deserves a closer look because it must be done as a single **transaction**.
+
+## 3.9 Requirement quality: writing, reviewing, ranking and tracing
+
+A design can only be as good as the requirement behind it. Industry studies repeatedly find that a large share of project defects start as missing, vague or contradictory requirements, which is why Figure 1.1 puts the cost multiplier of a late fix so high. This section turns "gather requirements" into a checkable craft.
+
+### What a good requirement looks like
+
+A good requirement is **necessary** (a stakeholder needs it), **unambiguous** (one reading only), **verifiable** (a test can say pass or fail), **consistent** with the others, **feasible** and **traceable** to its source. Four weak habits spoil these qualities:
+
+| Weak wording | Why it fails | Rewritten and testable |
+|---|---|---|
+| The system shall be fast. | "fast" cannot be tested | Search results shall appear within 2 seconds for 95 per cent of queries with 50 users online. |
+| The system shall be user friendly. | opinion, not measurement | A new clerk shall register a student in under 3 minutes after 30 minutes of training. |
+| The system shall support all browsers. | "all" is infinite | The system shall work in the two latest versions of Chrome, Firefox and Edge. |
+| Fees and fines shall be calculated and printed and exported. | three requirements in one sentence | Split: R12 calculate fee; R13 print receipt; R14 export fee list to CSV. |
+
+Words that usually signal trouble: *fast, easy, flexible, adequate, as appropriate, etc., and/or, should (when you mean shall), all, never*. Use **shall** for mandatory, **should** for desirable and **may** for optional, and give every requirement a unique identifier (R1, R2, ...).
+
+### The FURPS+ checklist
+
+**FURPS+** reminds the analyst to ask beyond the functions:
+
+- **F**unctionality: features, security, rules.
+- **U**sability: ease of learning, help, accessibility (Nepali language support, screen size).
+- **R**eliability: availability, recovery, accuracy (the system shall lose no more than 5 minutes of data after a crash).
+- **P**erformance: response time, throughput, capacity.
+- **S**upportability: maintainability, portability, configurability.
+- **+** constraints: legal (Electronic Transactions Act), design, implementation, interface and physical limits.
+
+### Reviewing requirements
+
+Requirements are reviewed before design begins, in increasing order of formality: a **desk check** by the author, a **walkthrough** where the author leads peers through the document, and an **inspection** where trained reviewers with checklists look for defects and record them. Cheap and effective checks are: have two analysts write a test for the same requirement and compare; read the document backwards; ask the users to explain each requirement in their own words.
+
+### Ranking requirements
+
+Not everything can be built in the first release, so requirements are ranked. **MoSCoW** puts each in Must have, Should have, Could have or Won't have this time. The **Kano model** adds a view of satisfaction: *basic* needs cause anger when missing but no delight when present (the result system must calculate the grade correctly); *performance* needs raise satisfaction in proportion (faster result publishing); *delighters* are unexpected extras (an SMS alert with the result). The **100-point method** gives each stakeholder 100 points to spread across the requirements and adds up the totals. Ranking is a negotiation, so it is recorded with the reason.
+
+### The requirements traceability matrix
+
+A **traceability matrix** links each requirement forward to the design element, code module and test case that satisfy it, and backward to the stakeholder who asked for it. It answers two questions at any time: *is every requirement covered by a test?* and *does every test and feature serve a requirement?* A change request is judged by following its row to see what would be touched.
+
+| Req. | Statement (short) | Source | Priority | Design element | Test case |
+|---|---|---|---|---|---|
+| R1 | Verify membership before a loan | Librarian | Must | Process 1.1, D1 Members | TC-01, TC-02 |
+| R2 | Refuse a loan at 3 open loans | Policy 4.2 | Must | Process 1.3 rule | TC-05 |
+| R3 | Due date is 14 days after issue | Policy 4.3 | Must | DD: Due_Date | TC-06 |
+| R4 | Overdue list on demand | Principal | Should | Process 3.0 | TC-11 |
+| R5 | SMS reminder 2 days before due | Members | Could | not designed yet | none yet |
+
+A row with an empty test column (R5) is not an error if the requirement is not scheduled, but a **Must** with no test is a defect in the plan. The matrix also ties this unit to unit 5: the test cases in 5.7 are written from the same requirement numbers.
+
+::: example Worked example: finding the defects in a requirement set
+Requirement set for a hostel booking system: (R1) The system shall be easy to use. (R2) A student shall be able to book a room and pay online and cancel. (R3) The system shall never be down. (R4) Rooms shall be shown to students.
+Defects found: **R1** unverifiable (rewrite with a task time); **R2** three requirements fused (split into book, pay, cancel); **R3** infeasible and unmeasurable (rewrite: availability of 99.5 per cent per month, outside a Saturday maintenance window); **R4** incomplete (which rooms? only vacant ones? by which filters?). Four requirements, four defects, found before a single line of code was written: that is the return on a review.
+:::
+
 ## Formula and fact sheet
 
 - Requirements methods: interview, questionnaire, observation, documents (traditional); JAD, prototyping (contemporary); BPR (radical); user stories (agile).
 - DFD elements: external entity, process, data store, data flow. Rules: no miracle/black-hole process; no flow between two entities or two stores without a process; parent and child diagrams balance.
 - Decision table with n yes/no conditions has 2ⁿ combinations; complete and consistent after reduction.
 - E-R: entity, attribute, relationship, cardinality, associative entity, supertype/subtype.
+- Data dictionary symbols: = is composed of, + and, ( ) optional, { } repetition, [ | ] selection. DFD errors: black hole, miracle, gray hole.
+- CRUD matrix: every store needs a C and an R. A good requirement is necessary, unambiguous, verifiable, consistent, feasible and traceable.
 
 ## Chapter summary
 
@@ -383,6 +539,12 @@ Instead of starting from nothing, analysts adopt **packaged data models**: indus
 7. Construct a decision table: a shop gives 10% discount if the customer is a member, and an extra 5% if the bill exceeds 5,000; non-members get 5% if the bill exceeds 5,000.
 8. Draw an E-R diagram for a hospital with doctors, patients and appointments; identify the associative entity.
 9. Explain supertype and subtype with an example.
+10. Decompose process 2.0 Return book of the library DFD into child processes and check that the child is balanced.
+11. Write data dictionary entries for Fee_Receipt (receipt number, date, student, one or more payments) and for Phone (mobile or landline).
+12. Name the DFD error in each: (a) a process that only receives data; (b) a process that prints a total without any amounts flowing in; (c) a flow from one store to another.
+13. Build a CRUD matrix for the processes Register student, Collect fee, Print dues list against the stores Students and Payments, and say what is missing.
+14. Rewrite as testable requirements: (a) The portal shall be fast. (b) The system shall be secure.
+15. List four defects in: R1 The report shall be adequate. R2 The system shall import, validate and archive marks.
 
 ::: note Answers and worked solutions
 **1.** Functional: "print admit card", "calculate fee". Non-functional: "page loads in under 3 seconds", "passwords stored hashed".
@@ -394,6 +556,12 @@ Instead of starting from nothing, analysts adopt **packaged data models**: indus
 **7.** Conditions: Member? Bill > 5,000? Rules: Y,Y → 15%; Y,N → 10%; N,Y → 5%; N,N → 0%. Four rules for 2² = 4 combinations.
 **8.** Doctor(doc_id, name, speciality), Patient(pat_id, name), **Appointment**(date, time, fee) as the associative entity resolving M:N *consults*.
 **9.** Supertype Person (id, name); subtypes Student (roll_no) and Teacher (salary); each inherits id and name.
+**10.** Children: 2.1 Find loan, 2.2 Calculate fine (if late), 2.3 Update loan and book. The child has only the flows of the parent: *returned book* in, *receipt (fine)* out, with D2 Books and D3 Loans as stores. No new external flow, so it is balanced.
+**11.** `Fee_Receipt = Receipt_No + Date + Student_ID + Student_Name + 1{Fee_Head + Amount} + Total`. `Phone = [Mobile | Landline]`, with the comment `* Mobile starts with 98 or 97 *`.
+**12.** (a) Black hole. (b) Gray hole (or miracle if there are no inputs at all). (c) Illegal flow: a store cannot send data directly to another store; a process is needed.
+**13.** Register student: Students C. Collect fee: Students R, Payments C. Print dues list: Students R, Payments R. Missing: no process updates or deletes a student record (add Maintain student), and Payments is never corrected (add Cancel or adjust payment, or record the choice not to).
+**14.** (a) The portal shall display a student's result within 3 seconds for 95 per cent of requests with 200 users online. (b) Passwords shall be stored as salted hashes; an account shall be locked after 5 failed logins within 10 minutes.
+**15.** R1: "adequate" is unverifiable. R2: three requirements fused; "import, validate and archive" are not separately testable; no format, volume or time stated; no identifier of source or priority.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

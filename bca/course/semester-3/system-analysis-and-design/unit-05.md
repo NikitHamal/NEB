@@ -245,12 +245,158 @@ A billing system costs Rs 600,000 per year to maintain and every change takes 6 
 
 **Likely questions.** (a) Design five test cases for a login screen (5). (b) Compare conversion strategies (5). (c) Explain the four types of maintenance (5). (d) Differentiate black-box and white-box testing (5).
 
+
+## 5.8 Designing test cases: partitions, boundaries, paths and a defect log
+
+Section 5.7 listed test types. This section shows how a tester **derives** a small, strong set of cases instead of guessing. Exhaustive testing is impossible: a field that accepts an integer from 0 to 100 can take 101 valid values and infinitely many invalid ones. Test design is the art of choosing a few inputs that behave like all the others.
+
+### Equivalence partitioning and boundary value analysis
+
+**Equivalence partitioning** splits the input into classes in which the program should behave the same way; one test from each class stands for the whole class. **Boundary value analysis (BVA)** adds tests on and either side of each edge, because programmers make off-by-one mistakes (`>` instead of `>=`, as in test T4 of 5.7).
+
+::: example Worked example: a marks field, 0 to 100, with grades by marks
+Rules: marks outside 0 to 100 are invalid; 80 to 100 Distinction; 60 to 79 First; 40 to 59 Pass; 0 to 39 Fail.
+**Partitions (6):** below 0 (invalid), 0 to 39, 40 to 59, 60 to 79, 80 to 100, above 100 (invalid). Add non-numeric input as a seventh invalid class.
+**Boundaries:** -1, 0, 1 | 39, 40, 41 | 59, 60, 61 | 79, 80, 81 | 99, 100, 101. A careful tester picks the values around every edge, about 15 cases; the six partition representatives (for example -5, 20, 50, 70, 90, 105) are the minimum.
+:::
+
+The next program implements the rule and runs the boundary set against the expected grades written **from the requirement, not from the code**, which is what makes it a test.
+
+```python
+def grade(m):
+    if m < 0 or m > 100:
+        return "invalid"
+    if m >= 80:
+        return "Distinction"
+    if m >= 60:
+        return "First"
+    if m >= 40:
+        return "Pass"
+    return "Fail"
+
+cases = [(-1, "invalid"), (0, "Fail"), (1, "Fail"), (39, "Fail"), (40, "Pass"), (41, "Pass"),
+         (59, "Pass"), (60, "First"), (61, "First"), (79, "First"), (80, "Distinction"),
+         (81, "Distinction"), (99, "Distinction"), (100, "Distinction"), (101, "invalid")]
+bad = 0
+for m, want in cases:
+    got = grade(m)
+    flag = "ok" if got == want else "FAIL"
+    bad += got != want
+    print("%4d  expected %-12s got %-12s %s" % (m, want, got, flag))
+print("%d cases, %d failed" % (len(cases), bad))
+```
+
+### White-box testing: paths and cyclomatic complexity
+
+White-box tests are chosen from the code. The code is drawn as a **control-flow graph**: each statement block is a node, each branch an edge. **Cyclomatic complexity** (McCabe) measures the number of independent paths:
+
+V(G) = E - N + 2, or equivalently V(G) = P + 1, where P is the number of simple decision conditions.
+
+It is also the minimum number of test cases needed to execute every independent path. The `grade` function above has five simple conditions (m < 0, m > 100, m >= 80, m >= 60, m >= 40), so **V(G) = 5 + 1 = 6**: six cases reach every path, and they are the same six partition representatives. A function with V(G) above about 10 is hard to test and hard to read, and is a candidate for splitting.
+
+```svgfig label="5.4" caption="Control-flow graph of grade(m). Each diamond is a decision, each box an outcome. The first diamond holds two simple conditions, so there are five conditions in all and V(G) = 5 + 1 = 6 independent paths, so six test cases are needed for full path coverage."
+f = Fig(680, 232)
+f.poly([(70, 40), (112, 20), (154, 40), (112, 60)], fill=BLUE, label="m<0 or\nm>100?", lx=112, ly=40, size=9.5, color=NAVY)
+f.poly([(230, 40), (272, 20), (314, 40), (272, 60)], fill=BLUE, label="m>=80?", lx=272, ly=40, size=9.5, color=NAVY)
+f.poly([(390, 40), (432, 20), (474, 40), (432, 60)], fill=BLUE, label="m>=60?", lx=432, ly=40, size=9.5, color=NAVY)
+f.poly([(550, 40), (592, 20), (634, 40), (592, 60)], fill=BLUE, label="m>=40?", lx=592, ly=40, size=9.5, color=NAVY)
+f.arrow([(154, 40), (230, 40)], color=NAVY, sw=1.5, label="no", lpos=(192, 30), lsize=9.5)
+f.arrow([(314, 40), (390, 40)], color=NAVY, sw=1.5, label="no", lpos=(352, 30), lsize=9.5)
+f.arrow([(474, 40), (550, 40)], color=NAVY, sw=1.5, label="no", lpos=(512, 30), lsize=9.5)
+f.arrow([(112, 60), (112, 140)], color=NAVY, sw=1.5, label="yes", lpos=(126, 100), lsize=9.5)
+f.arrow([(272, 60), (272, 140)], color=NAVY, sw=1.5, label="yes", lpos=(286, 100), lsize=9.5)
+f.arrow([(432, 60), (432, 140)], color=NAVY, sw=1.5, label="yes", lpos=(446, 100), lsize=9.5)
+f.arrow([(592, 60), (592, 140)], color=NAVY, sw=1.5, label="yes", lpos=(606, 100), lsize=9.5)
+f.arrow([(634, 40), (652, 40), (652, 140)], color=NAVY, sw=1.5, label="no", lpos=(646, 30), lsize=9.5)
+f.box(62, 140, 100, 34, "invalid", fill=ROSE, stroke=RED, color=NAVY, size=10.5, bold=True)
+f.box(222, 140, 100, 34, "Distinction", fill=MINT, stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(382, 140, 100, 34, "First", fill=MINT, stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(542, 140, 76, 34, "Pass", fill=MINT, stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(628, 140, 48, 34, "Fail", fill=MINT, stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.text(340, 206, "Test data for the six paths: -5, 105 (invalid)   85   65   45   20", size=10.5, color=SLATE, bold=True)
+```
+
+### Stubs, drivers and the order of integration
+
+When modules are integrated before all of them exist, missing parts are simulated. A **driver** is a throw-away program that **calls** the module under test (it stands in for the caller above it); a **stub** is a simple module that **is called** and returns a fixed answer (it stands in for the callee below). **Top-down** integration starts at the main module and needs stubs; **bottom-up** starts at the lowest modules and needs drivers; **big-bang** joins everything at once and makes faults hard to locate; **sandwich** meets in the middle. Today **continuous integration** servers rebuild and run the whole suite on every commit, which makes the choice less painful.
+
+### The defect log and test metrics
+
+A defect found in testing is recorded, not just fixed. A good defect report has an **ID, title, steps to reproduce, expected and actual result, severity** (how bad: crash, wrong result, cosmetic), **priority** (how soon to fix), the **version**, the **tester** and a **status** that moves through *New, Assigned, Fixed, Retested, Closed* (or *Reopened*). Severity and priority differ: a spelling error in the college name on the home page is low severity but high priority.
+
+Simple metrics make progress visible: **pass rate** = passed / executed; **defect density** = defects / size (per 1,000 lines or per function point); and **defect removal efficiency** = defects found before release / (found before release + found after release).
+
+::: example Worked example: defect removal efficiency
+Testing found 90 defects before release; users reported 10 more in the first three months. DRE = 90 / (90 + 10) = **90 per cent**. If the same release had 20 defects reported after, DRE would drop to 90 / 110 = **82 per cent**, a sign that testing missed too much.
+:::
+
+## 5.9 After go-live: change control, legacy systems and the migration checklist
+
+### Change control
+
+Users start asking for changes on the first day. Without control, the system drifts and nobody knows what version is running. A **change request (CR)** process keeps order:
+
+1. **Raise:** the user fills a CR form (what, why, urgency, who asked).
+2. **Triage:** a small **change control board (CCB)** classifies it: defect, enhancement or new project.
+3. **Impact analysis:** the analyst finds what would be touched, using the traceability matrix of 3.9: requirements, screens, tables, reports, tests, documents and training. Effort, cost and risk are estimated.
+4. **Decide:** approve, defer, reject or merge with another CR; the decision and reason are recorded.
+5. **Implement and test:** in a **copy**, never in the live system; regression tests run.
+6. **Release and record:** a numbered release, release notes, updated documents, user notice.
+
+An emergency fix may skip steps 3 to 4 but never step 6: it is recorded afterwards and reviewed.
+
+### Version control and release numbering
+
+All source, scripts, schema changes and documents live in a **version control system** (Git): every change has an author, a time and a message, any earlier version can be restored, and **branches** let a fix be built without disturbing the main line. Releases are labelled with a version number; the common form is **major.minor.patch** (for example 2.4.1): a *patch* repairs defects, a *minor* adds compatible features, a *major* may change behaviour or data. A **release note** tells users what changed and what they must do.
+
+### Legacy systems
+
+A **legacy system** is an old system that still does essential work but is costly or risky to change: undocumented code, an out-of-date language or database, no tests, original developers gone. Throwing it away is rarely possible overnight, so the options are placed on a scale:
+
+| Option | What is done | Typical use |
+|---|---|---|
+| **Maintain as is** | keep fixing | stable, low change, low cost |
+| **Wrap** | put an interface (API) around it and reuse its functions | the logic is sound but the access is old |
+| **Reverse engineer** | study the code to recover design and documents | there is no documentation |
+| **Re-engineer (restructure)** | clean the code or move it to a new platform without changing behaviour | high maintenance cost, valid business logic |
+| **Replace** | build or buy a new system and migrate | the business has outgrown the system |
+
+**Reverse engineering** analyses the system to recover its design (database schema, call structure, rules) and produces documentation; **re-engineering** goes on to restructure or convert it. Both are tied to **refactoring**, which improves internal structure in small, tested steps without changing behaviour. The rule: **never refactor without tests**, or you cannot tell whether behaviour changed.
+
+### Why systems decay: Lehman's laws of software evolution
+
+Meir Lehman's studies of large systems gave laws that every maintainer meets:
+
+- **Continuing change:** a system that is used must be changed continuously or become less useful.
+- **Increasing complexity:** as it changes, its structure gets more complex unless work is done to reduce it.
+- **Declining quality:** unless rigorously maintained and adapted, perceived quality declines.
+
+The practical lesson is to budget **preventive maintenance** (refactoring, tests, documentation) as part of the plan; a system with no such work is borrowing from the future at high interest, the so-called **technical debt**.
+
+### Data migration and the go-live checklist
+
+Moving the data is often harder than moving the code. **Data migration** follows extract, transform and load steps: extract from the old system; clean (duplicate students, missing dates, phone numbers with letters); map old fields to new ones using the data dictionary of 3.8; load into the new tables; and **reconcile**: record counts and control totals must agree.
+
+::: example Worked example: reconciliation of fee data
+The old file holds 12,480 payment records totalling Rs 148,320,500. After cleaning, 36 duplicate rows (total Rs 412,000) are removed and 4 records with no student number are held back (total Rs 38,000) for manual repair.
+Expected loaded rows = 12,480 - 36 - 4 = **12,440**; expected total = 148,320,500 - 412,000 - 38,000 = **Rs 147,870,500**. After loading, the new system reports exactly these two numbers; if either differs, the migration stops and the difference is traced before any user touches the system.
+:::
+
+A **go-live checklist** asks: backups taken and **restore tested**; data reconciled; users trained and accounts created; support desk staffed; help documents ready; **rollback plan** (how to return to the old system, and until what time) agreed; monitoring on; the sponsor's sign-off recorded. The first weeks are often run as **hypercare**, with developers close at hand and daily review of incidents.
+
+::: note Link to the exam
+"Explain the types of maintenance" (5 marks) is the stock question. Add a sentence on cost drivers and one on change control and the answer rises from a list to a discussion.
+:::
+
 ## Formula and fact sheet
 
 - Testing levels: unit → integration → system → acceptance (alpha, beta, UAT). Black-box vs white-box.
 - Boundary-value testing: test at, just below and just above every limit.
 - Installation: direct (riskiest), parallel (safest, costliest), phased, pilot.
 - Maintenance types: corrective, adaptive, perfective (largest share), preventive. Maintenance is the majority of lifetime cost.
+- Cyclomatic complexity V(G) = E - N + 2 = P + 1: the minimum number of path tests. DRE = found before release / (found before + after).
+- Change control: raise, triage, impact analysis, decide, implement and test, release and record. Version: major.minor.patch.
+- Migration: extract, clean, map, load, reconcile (counts and control totals).
 
 ## Chapter summary
 
@@ -269,6 +415,13 @@ A billing system costs Rs 600,000 per year to maintain and every change takes 6 
 7. Explain the four types of maintenance with examples.
 8. Why is maintenance often the biggest cost?
 9. What is configuration management and why is it needed?
+10. A field accepts a quantity from 1 to 500. Give the equivalence partitions and the boundary test values.
+11. Draw the control-flow graph (describe it) of a function with two simple decisions in sequence and give its cyclomatic complexity and the minimum number of tests.
+12. Define driver and stub, and say which one top-down integration needs.
+13. Testing found 45 defects before release and 5 more were reported by users afterwards. Compute the defect removal efficiency.
+14. Describe the steps of change control when a user asks for a new report after go-live.
+15. Name four options for dealing with a legacy system and the situation in which each is appropriate.
+16. A migration file has 8,200 records totalling Rs 94,600,000; 20 duplicates (Rs 230,000) are removed. What counts and totals must the new system show?
 
 ::: note Answers and worked solutions
 **1.** Verification: the product conforms to its specification (built right). Validation: it satisfies the user's real need (right product).
@@ -280,6 +433,13 @@ A billing system costs Rs 600,000 per year to maintain and every change takes 6 
 **7.** Corrective (fix a defect), adaptive (new tax rate), perfective (new report or speed-up), preventive (refactoring for future ease).
 **8.** The system lives for years while the business, laws and technology change, and each change must be analysed, built, tested and documented; poor design and documentation make each change costlier.
 **9.** Control of versions and changes to all components so any version can be rebuilt or rolled back, and changes are authorised and traceable.
+**10.** Partitions: below 1 (invalid), 1 to 500 (valid), above 500 (invalid), and non-numeric input. Boundary values: 0, 1, 2, 499, 500, 501.
+**11.** Two decisions give three paths: V(G) = P + 1 = 2 + 1 = **3**, equivalently E - N + 2 for the graph. At least **3** tests: both conditions false, first true, first false with the second true.
+**12.** A driver calls the module under test (stands in for the caller); a stub is called by it and returns a canned answer (stands in for the callee). Top-down integration needs **stubs**.
+**13.** DRE = 45 / (45 + 5) = 45 / 50 = **90 per cent**.
+**14.** Raise a change request; the control board classifies it as an enhancement; impact analysis lists the tables, report layout, tests and documents affected, with effort and cost; the board approves and schedules it; it is built and regression-tested in a copy; it is released with a new version number and release note and the documents are updated.
+**15.** Maintain as is (stable, rarely changed); wrap in an API (sound logic, old access); re-engineer (high maintenance cost, valid logic); replace (the business has outgrown it).
+**16.** Rows = 8,200 - 20 = **8,180**; total = 94,600,000 - 230,000 = **Rs 94,370,000**. Both numbers must match after loading.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
