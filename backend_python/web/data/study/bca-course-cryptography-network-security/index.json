@@ -63,6 +63,15 @@
    "read_min": 22,
    "figures": 8,
    "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Malware, Intruders, Steganography, Network Management Security and Cyber Law",
+   "area": "BCA 353 · Cryptography and Network Security · Unit 8 (system security, SNMP, SET and legal aspects)",
+   "words": 3379,
+   "read_min": 19,
+   "figures": 1,
+   "has_questions": true
   }
  ]
 }
