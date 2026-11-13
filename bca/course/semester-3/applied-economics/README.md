@@ -12,6 +12,10 @@ In the revised curriculum BCA 206 is a **2-credit** subject; the syllabus text f
 | 6 | National Income Accounting | 6 |
 | 7 | Money, Banking and International Trade | 6 |
 
+## Depth sections added beyond the outline (session 40)
+
+Each unit gained one new section before its closing "Eight uses" list, all with worked numbers, a drawn figure (except Unit 2, a table), and practice items 9-10 with answers: 1.7 consumer and producer surplus, price ceiling, tax and deadweight loss (Fig 1.3); 2.6 tax incidence by elasticity and revenue-maximising price; 3.5 consumer surplus from a willingness-to-pay table, paradox of value, Engel curve (Fig 3.4); 4.6 production behind cost curves, isoquant and isocost, returns to scale (Fig 4.4); 5.8 Cournot, Stackelberg, Bertrand and the HHI (Fig 5.5); 6.6 consumption function, multiplier derived, Lorenz curve and Gini (Fig 6.4); 7.6 comparative advantage numbers, terms of trade, tariff, quantity theory, Fisher equation (Fig 7.5). These go beyond the printed TU outline; skip them if your teacher does not set them. The book is now 91 pages.
+
 ## Verification
 
 `bca/tools/check_economics.py` recomputes every numerical example (market equilibrium and tax incidence, all elasticities, the cardinal equilibrium bundle, the Hicksian decomposition, the cost schedule, revenue and MR, monopoly, price discrimination, cartel and cheating profits, national-income aggregates and deflator, multipliers, money multiplier, CPI and BoP arithmetic) and prints the values quoted in the text. The syllabus asks for numerical exercises "using Excel"; Excel formulas are given in Units 2, 4 and 6.

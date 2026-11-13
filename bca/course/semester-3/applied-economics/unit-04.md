@@ -77,9 +77,10 @@ TR = 100Q − Q²; MR = 100 − 2Q. At Q = 20: P = 80, TR = 1,600, MR = 60. At Q
 f = Fig(580, 262)
 a = Axes(f, 42, 14, 225, 190, (0, 6.5), (0, 420))
 a.grid(1, 100).axes("Output Q", "Total cost")
+DASH = ' stroke-dasharray="6 4"'
 def line(ax, xs, ys, col, dash=False):
     p = " ".join(f"{ax.X(x)},{ax.Y(y)}" for x, y in zip(xs, ys))
-    f.raw(f'<polyline points="{p}" fill="none" stroke="{col}" stroke-width="2.3" stroke-linejoin="round"{" stroke-dasharray=\"6 4\"" if dash else ""}/>')
+    f.raw(f'<polyline points="{p}" fill="none" stroke="{col}" stroke-width="2.3" stroke-linejoin="round"{DASH if dash else ""}/>')
     for x, y in zip(xs, ys): ax.pt(x, y, "", r=2.6, color=col)
 Q = [0, 1, 2, 3, 4, 5, 6]
 line(a, Q, [100] * 7, SLATE, True); line(a, Q, [0, 50, 90, 120, 160, 220, 300], AMBER); line(a, Q, [100, 150, 190, 220, 260, 320, 400], NAVY)
@@ -196,12 +197,12 @@ Then KL = 4K² = 10,000, so **K = 50, L = 200**, and the minimum cost is 100 × 
 
 ```svgfig label="4.4" caption="Cost minimisation for Q = 100 with w = 100, r = 400. The curve is the isoquant KL = 10,000. The isocost line for Rs 40,000 touches it at L = 200, K = 50 (the cheapest mix). Rs 30,000 cannot reach the isoquant; Rs 50,000 cuts it twice, so some cheaper mix exists."
 f = Fig(580, 262)
-a = Axes(f, 48, 14, 300, 200, (0, 400), (0, 120))
-a.grid(100, 20).axes("Labour L", "Capital K")
-a.curve(lambda L: 10000 / L if L > 0 else 999, 80, 400, color=NAVY, sw=2.6, label="Q = 100", lx=a.X(300), ly=a.Y(46))
-a.curve(lambda L: 75 - L / 4, 0, 300, color=SLATE, dash=True, label="30,000", lx=a.X(20), ly=a.Y(66))
-a.curve(lambda L: 100 - L / 4, 0, 400, color=RED, sw=2.4, label="40,000", lx=a.X(40), ly=a.Y(94))
-a.curve(lambda L: 125 - L / 4, 0, 400, color=SLATE, dash=True, label="50,000", lx=a.X(60), ly=a.Y(116))
+a = Axes(f, 48, 14, 300, 200, (0, 400), (0, 150))
+a.grid(100, 20).axes("L", "K")
+a.curve(lambda L: 10000 / L if L > 0 else 999, 80, 400, color=NAVY, sw=2.6, label="Q = 100", lx=a.X(250), ly=a.Y(52))
+a.curve(lambda L: 75 - L / 4, 0, 300, color=SLATE, dash=True, label="30,000", lx=a.X(8), ly=a.Y(79))
+a.curve(lambda L: 100 - L / 4, 0, 400, color=RED, sw=2.4, label="40,000", lx=a.X(8), ly=a.Y(104))
+a.curve(lambda L: 125 - L / 4, 0, 400, color=SLATE, dash=True, label="50,000", lx=a.X(8), ly=a.Y(129))
 a.hline(50, 0, 200, color=AMBER); a.vline(200, 0, 50, color=AMBER)
 a.pt(200, 50, "", r=5, color=RED)
 f.box(372, 24, 198, 56, "Tangency: MRTS = w/r\nK/L = 100/400 = 0.25", fill=BLUE, stroke=NAVY, size=10.5)

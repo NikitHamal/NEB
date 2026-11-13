@@ -189,21 +189,21 @@ If firm 1 moves first and **knows** that firm 2 will respond on its reaction fun
 
 In **Bertrand** price competition with identical products, each firm can take the whole market by charging a tiny bit less than the rival, so price falls to marginal cost: **P = 20, Q = 80, profit 0** for both. The **cartel** of section 5.6 sets the monopoly output Q = 40 at P = 60 and shares **1,600**.
 
-```svgfig label="5.5" caption="Cournot reaction curves with demand P = 100 − Q and MC = 20. Firm 1's line is q₂ = 80 − 2q₁; firm 2's line is q₂ = (80 − q₁)/2. They cross at the Cournot point (26.7, 26.7). The cartel point (20, 20) and the Stackelberg point (40, 20, leader is firm 1) are marked, and so is the competitive point (40, 40) on the diagonal."
+```svgfig label="5.5" caption="Cournot reaction curves with demand P = 100 − Q and MC = 20. Firm 1's line is q₂ = 80 − 2q₁; firm 2's line is q₂ = (80 − q₁)/2. They cross at the Cournot point A (26.7, 26.7). B is the cartel point (20, 20), C the Stackelberg point (40, 20, leader is firm 1) and D the competitive point (40, 40) on the dashed diagonal."
 f = Fig(580, 262)
 a = Axes(f, 48, 14, 300, 200, (0, 90), (0, 90))
 a.grid(20, 20).axes("q₁", "q₂")
-a.curve(lambda x: 80 - 2 * x, 0, 40, color=NAVY, sw=2.4, label="Firm 1", lx=a.X(3), ly=a.Y(72))
+a.curve(lambda x: 80 - 2 * x, 0, 40, color=NAVY, sw=2.4, label="Firm 1", lx=a.X(12), ly=a.Y(70))
 a.curve(lambda x: (80 - x) / 2, 0, 80, color=RED, sw=2.4, label="Firm 2", lx=a.X(66), ly=a.Y(10))
 a.curve(lambda x: x, 0, 70, color=SLATE, dash=True)
-a.pt(80 / 3, 80 / 3, "", r=5, color=TEAL)
-a.pt(20, 20, "", r=4.5, color=AMBER)
-a.pt(40, 20, "", r=4.5, color=NAVY)
-a.pt(40, 40, "", r=4.5, color=SLATE)
-f.box(372, 14, 198, 46, "Cournot (26.7, 26.7)\nP = 46.7, profit 711 each", fill=MINT, stroke=TEAL, size=10)
-f.box(372, 68, 198, 46, "Cartel (20, 20)\nP = 60, profit 800 each", fill=SAND, stroke=AMBER, size=10)
-f.box(372, 122, 198, 46, "Stackelberg (40, 20)\nP = 40, profit 800 / 400", fill=BLUE, stroke=NAVY, size=10)
-f.box(372, 176, 198, 46, "Competition (40, 40)\nP = 20, profit 0", fill=BLUE, stroke=SLATE, size=10)
+a.pt(80 / 3, 80 / 3, "A", r=5, color=TEAL, dx=7, dy=-7)
+a.pt(20, 20, "B", r=4.5, color=AMBER, dx=-8, dy=14, anchor="end")
+a.pt(40, 20, "C", r=4.5, color=NAVY, dx=7, dy=14)
+a.pt(40, 40, "D", r=4.5, color=SLATE, dx=7, dy=-7)
+f.box(372, 14, 198, 46, "A  Cournot (26.7, 26.7)\nP = 46.7, profit 711 each", fill=MINT, stroke=TEAL, size=10)
+f.box(372, 68, 198, 46, "B  Cartel (20, 20)\nP = 60, profit 800 each", fill=SAND, stroke=AMBER, size=10)
+f.box(372, 122, 198, 46, "C  Stackelberg (40, 20)\nP = 40, profit 800 / 400", fill=BLUE, stroke=NAVY, size=10)
+f.box(372, 176, 198, 46, "D  Competition (40, 40)\nP = 20, profit 0", fill=BLUE, stroke=SLATE, size=10)
 ```
 
 | Outcome | Industry output | Price | Industry profit | Consumers |

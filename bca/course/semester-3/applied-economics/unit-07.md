@@ -203,7 +203,7 @@ A **tariff** is a tax on imports. Take a small country whose domestic demand is 
 ```svgfig label="7.5" caption="A tariff of 10 on imports with domestic demand P = 120 − Q, supply P = 20 + Q and world price 40. Producers gain the grey area 250, the government collects the amber rectangle 400, and the two red triangles (50 each) are the deadweight loss. Consumers lose all four areas, 750."
 f = Fig(580, 262)
 a = Axes(f, 48, 14, 300, 200, (0, 120), (0, 120))
-a.grid(20, 20).axes("Quantity", "Price")
+a.grid(20, 20).axes("Q", "P")
 def poly(pts, fill, op=0.85, st="none"):
     f.raw('<polygon points="' + " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in pts) + f'" fill="{fill}" fill-opacity="{op}" stroke="{st}" stroke-width="1"/>')
 poly([(0, 40), (20, 40), (30, 50), (0, 50)], "#d1d5db")
@@ -213,7 +213,7 @@ poly([(70, 40), (70, 50), (80, 40)], "#fecaca", 0.95, RED)
 a.curve(lambda q: 120 - q, 0, 120, color=NAVY, label="D", lx=a.X(8), ly=a.Y(112))
 a.curve(lambda q: 20 + q, 0, 100, color=TEAL, label="S", lx=a.X(96), ly=a.Y(108))
 a.hline(40, 0, 120, color=SLATE, dash=True); a.hline(50, 0, 120, color=RED, dash=True)
-a.tag(106, 36, "world 40", size=10, color=SLATE, bold=True); a.tag(106, 54, "with tariff 50", size=10, color=RED, bold=True)
+a.tag(104, 33, "world 40", size=10, color=SLATE, bold=True); a.tag(100, 54, "with tariff 50", size=10, color=RED, bold=True)
 f.box(372, 24, 198, 52, "Free trade: Qd 80, Qs 20\nimports 60", fill=BLUE, stroke=NAVY, size=10.5)
 f.box(372, 90, 198, 52, "Tariff: Qd 70, Qs 30\nimports 40, revenue 400", fill=SAND, stroke=AMBER, size=10.5)
 f.box(372, 156, 198, 52, "Consumers −750, producers\n+250, government +400", fill=SAND, stroke=RED, size=10.5)

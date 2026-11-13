@@ -171,7 +171,7 @@ f.raw(f'<rect x="{a.X(0)}" y="{a.Y(39)}" width="{a.X(42)-a.X(0)}" height="{a.Y(2
 f.raw(f'<polygon points="{a.X(42)},{a.Y(39)} {a.X(42)},{a.Y(24)} {a.X(60)},{a.Y(30)}" fill="#fecaca" fill-opacity="0.95" stroke="{RED}" stroke-width="1.2"/>')
 a.curve(D, 0, 70, color=NAVY, label="D", lx=a.X(8), ly=a.Y(58))
 a.curve(S, 0, 70, color=TEAL, label="S", lx=a.X(64), ly=a.Y(31.5))
-a.curve(lambda q: S(q) + 15, 0, 70, color=RED, dash=True, label="S + tax", lx=a.X(52), ly=a.Y(43))
+a.curve(lambda q: S(q) + 15, 0, 70, color=RED, dash=True, label="S + tax", lx=a.X(56), ly=a.Y(50))
 a.hline(39, 0, 42, color=SLATE); a.hline(24, 0, 42, color=SLATE); a.vline(42, 0, 39, color=SLATE)
 a.pt(60, 30, "", r=4, color=NAVY); a.pt(42, 39, "", r=4, color=RED); a.pt(42, 24, "", r=4, color=TEAL)
 f.box(372, 24, 198, 52, "Quantity 60 → 42\nBuyers pay 39 (+9)\nSellers keep 24 (−6)", fill=BLUE, stroke=NAVY, size=10.5)
