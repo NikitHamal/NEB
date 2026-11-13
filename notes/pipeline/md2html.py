@@ -579,7 +579,7 @@ def _layout_fixes(htm):
     return htm
 
 
-LONG_ROWS = 7
+LONG_ROWS = 4
 
 
 def _long_tables(htm):
