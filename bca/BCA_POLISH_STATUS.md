@@ -234,3 +234,6 @@ The README said no TU outline had been retrieved and the book had no Unit 2 at a
 ## Session 26 (in progress)
 Picked up from sessions 16-25 (this file; no duplicate tracker). Fresh sandbox again needed the session-21 recipe (venv `/tmp/v`, apt, `npm ci`, fonts); project root was `/app`.
 Plan: re-verify BCA 105 and web reader with screenshots, then continue queue items 3 and 4 (BCA 153 collections/file-handling units, label lint).
+
+## Session 27 (in progress)
+Picked up from sessions 16-26 (this file; no duplicate tracker). BCA 105 heading audit against the textbook TOC photos re-run by script (60 section keywords, 0 missing). Plan: queue item 1 (TU outline audit of BCA 206, 401, 451, 156, 151) then rebuild + web export.
