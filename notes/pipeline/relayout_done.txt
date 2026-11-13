@@ -50,3 +50,6 @@ bca:semester-7/software-project-management
 bca:semester-8/cloud-computing
 bca:semester-8/database-programming
 bca:semester-8/e-governance
+bca:semester-8/geographical-information-system
+bca:semester-8/image-processing
+bca:semester-8/internet-of-things
