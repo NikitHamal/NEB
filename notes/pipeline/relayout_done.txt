@@ -29,3 +29,6 @@ bca:semester-3/web-technology-1
 bca:semester-4/operating-systems
 bca:semester-4/project-1
 bca:semester-4/software-engineering
+bca:semester-4/web-technology-2
+bca:semester-5/advanced-java
+bca:semester-5/artificial-intelligence
