@@ -242,6 +242,105 @@ The course has 2 practical hours a week. The six prescribed laboratory works are
 Switch the supply off while wiring. Never connect an IC output directly to ground or +5 V. Use a series resistor with every LED. Do not leave CMOS inputs floating. Always draw the circuit and the truth table in the record before the bench work.
 :::
 
+## 5.8 Analysis of a given sequential circuit
+
+Design goes from a specification to a circuit; **analysis** goes the other way, from a circuit to its behaviour. The steps are the design procedure in reverse: write the flip-flop input equations and the output equations, substitute them into the characteristic equation to get the next state, tabulate, and read the behaviour off the state diagram.
+
+::: example Worked example: two D flip-flops A and B with input x
+Equations read from the circuit: D_A = A·x + B·x, D_B = A'·x, and the output y = (A + B)·x'.
+
+For a D flip-flop the next state equals its input, so A⁺ = D_A and B⁺ = D_B. Evaluating for the four present states and both inputs gives the state table:
+
+| Present AB | x = 0: next AB, y | x = 1: next AB, y |
+|---|---|---|
+| 00 | 00, 0 | 01, 0 |
+| 01 | 00, 1 | 11, 0 |
+| 10 | 00, 1 | 10, 0 |
+| 11 | 00, 1 | 10, 0 |
+
+Behaviour: every 1 on x moves the machine 00 → 01 → 11 → 10 and it then stays at 10 for further 1s; a 0 sends it back to 00. The output y is 1 on the 0 that **ends a run of one or more 1s** and is 0 otherwise. Applying the input sequence 1, 1, 1, 0, 1, 0 from state 00 gives the states 00, 01, 11, 10, 00, 01 (before each input) and the outputs 0, 0, 0, 1, 0, 1. The circuit is a *Mealy* machine (y depends on x) that marks the end of each burst of 1s, for example the end of a pulse train.
+:::
+
+State 11 and state 10 behave identically (same next states and outputs for both inputs), so by the partition method of Section 5.3 they are equivalent and the machine could be built with three states; the original circuit is not minimal.
+
+## 5.9 Mealy and Moore: converting between them
+
+Every Mealy machine has an equivalent Moore machine and the other way round, but they may need different numbers of states. A Moore machine attaches the output to the state, so a state that can be entered with two different outputs must be split in two.
+
+::: example Worked example: the "11" detector (overlapping), Mealy to Moore
+**Mealy machine** (output on the arrow), two states A (last bit was 0 or start) and B (last bit was 1):
+
+| State | x = 0 | x = 1 |
+|---|---|---|
+| A | A / 0 | B / 0 |
+| B | A / 0 | B / 1 |
+
+State B is entered with output 0 (from A, first 1) and with output 1 (from B, second or later 1). In a Moore machine these must be different states. **Moore machine** with three states:
+
+| State (output) | x = 0 | x = 1 |
+|---|---|---|
+| A (0) | A | B0 |
+| B0 (0) | A | B1 |
+| B1 (1) | A | B1 |
+
+For the input 0, 1, 1, 1, 0, 1, 1 both machines give the output 0, 0, 1, 1, 0, 0, 1 (I checked equivalence on 200 random input strings). The Mealy output appears *in the same clock cycle* as the second 1 arrives; the Moore output appears right after the clock edge that follows it, so the Moore version responds one cycle later.
+:::
+
+| Point | Mealy | Moore |
+|---|---|---|
+| Output depends on | present state and input | present state only |
+| Number of states | usually fewer | usually more |
+| Timing | output may change as soon as input changes (can glitch) | output changes only after the clock edge |
+| Typical use | fast control, protocol logic | clean outputs, display and lamp drivers |
+
+**Converting Moore to Mealy** is easier: the output of each state is copied to every arrow that enters it, and the state count does not change.
+
+## 5.10 State assignment and a traffic-light controller
+
+The binary codes given to the states are a free choice, and the choice changes how large the combinational logic is. Three common styles:
+
+- **Natural binary** (00, 01, 10, 11 in order of appearance): simple to write down, but several bits can change at once.
+- **Gray code** (00, 01, 11, 10): only one bit changes in each step of a cycle, which avoids glitches and often gives simple equations for ring-like machines.
+- **One-hot** (one flip-flop per state, 0001, 0010, 0100, 1000): needs more flip-flops, but each state is detected by one bit, so the logic is small and fast; this is the common choice for FPGAs.
+
+For n states a minimum-bit code needs ⌈log₂ n⌉ flip-flops and one-hot needs n. The number of possible assignments grows very fast (4 states in 2 bits can be coded in 4! = 24 ways, 8 states in 3 bits in 8! = 40,320 ways), so nobody tries all of them by hand; a few sensible candidates are compared, or a tool does the search.
+
+::: example Worked design: traffic lights at a crossing (Moore machine, Gray code, D flip-flops)
+Inputs: T = 1 when the timer has finished the present phase. States and outputs:
+
+| State | Q1 Q0 | North-south | East-west |
+|---|---|---|---|
+| S0 | 00 | green | red |
+| S1 | 01 | yellow | red |
+| S2 | 11 | red | green |
+| S3 | 10 | red | yellow |
+
+If T = 0 the machine stays; if T = 1 it moves to the next state in the cycle S0 → S1 → S2 → S3 → S0. The Gray assignment is chosen so that only one flip-flop changes per step, hence no momentary wrong lamp pattern.
+
+Next-state table for T = 1: 00 → 01, 01 → 11, 11 → 10, 10 → 00. Equations (D = next state):
+
+- D1 = T·Q0 + T'·Q1
+- D0 = T·Q1' + T'·Q0
+
+Check: state 11 with T = 1 gives D1 = 1, D0 = 0, which is 10 (S2 → S3). With T = 0 each flip-flop reloads its own value.
+
+Outputs (Moore, from the state only): NS green = Q1'Q0'; NS yellow = Q1'Q0; NS red = Q1; EW green = Q1Q0; EW yellow = Q1Q0'; EW red = Q1'.
+
+Simulating the equations with T = 0, 1, 0, 1, 1, 1, 1, 0, 1 from S0 produces S0, S0, S1, S1, S2, S3, S0, S1, S1 as present states, so the signal advances only when the timer says so.
+:::
+
+```svgfig label="5.3" caption="State diagram of the traffic-light controller. Each state is a Moore state with the lamp pattern as its output; T = 1 (timer done) moves to the next state, T = 0 keeps the machine where it is (self-loops omitted)."
+f = Fig(760, 300)
+S = [("S0  00", "NS green  EW red", 90, 60, MINT, TEAL), ("S1  01", "NS yellow  EW red", 430, 60, SAND, AMBER), ("S2  11", "NS red  EW green", 430, 190, MINT, TEAL), ("S3  10", "NS red  EW yellow", 90, 190, SAND, AMBER)]
+for t, o, x, y, fl, st in S:
+    f.box(x, y, 240, 62, t + "\n" + o, fill=fl, stroke=st, size=11, bold=True)
+f.arrow([(330, 91), (430, 91)], color=NAVY, sw=1.8, label="T = 1", lpos=(380, 80))
+f.arrow([(550, 122), (550, 190)], color=NAVY, sw=1.8, label="T = 1", lpos=(584, 160))
+f.arrow([(430, 221), (330, 221)], color=NAVY, sw=1.8, label="T = 1", lpos=(380, 242))
+f.arrow([(210, 190), (210, 122)], color=NAVY, sw=1.8, label="T = 1", lpos=(176, 160))
+f.text(380, 140, "T = 0: stay", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Moore: z = f(state). Mealy: z = f(state, input).
@@ -249,6 +348,8 @@ Switch the supply off while wiring. Never connect an IC output directly to groun
 - Partition: group by output, split by next-state blocks, repeat.
 - Overlapping "101" detector: D₁ = Q₀x', D₀ = x, z = Q₁x (codes 00/01/10).
 - Excitation tables convert state changes into flip-flop inputs.
+- Analysis: next state = flip-flop input equations; Moore to Mealy copies outputs onto entering arrows; Mealy to Moore splits states with two entry outputs.
+- Gray code: one bit changes per step; one-hot: n flip-flops for n states.
 
 ## Chapter summary
 
@@ -256,6 +357,7 @@ Switch the supply off while wiring. Never connect an IC output directly to groun
 - Mealy outputs react to the input directly; Moore outputs change only with the state.
 - State reduction and sensible assignment shrink the circuit.
 - Always check the unused states and test the design with a sample input stream.
+- Analysis reverses design; Mealy and Moore machines convert into each other; Gray and one-hot assignments are common alternatives to natural binary.
 
 ## Practice
 
@@ -266,6 +368,12 @@ Switch the supply off while wiring. Never connect an IC output directly to groun
 5. Design a "11" detector (output 1 when the last two bits are 11, overlapping) with D flip-flops; give D and z.
 6. For the detector designed in the text, give the output for the input 1 1 0 1 0 1.
 7. Why must unused states be considered in the design?
+8. Write the next-state equations of the traffic-light controller of Section 5.10 using one-hot coding. How many flip-flops are needed, compared with the Gray-coded version?
+9. Convert the three-state Moore machine of Section 5.9 back to a Mealy machine. Can the result be reduced?
+10. For the circuit analysed in Section 5.8, give the states and outputs for the input 0, 1, 1, 0 starting in state 00.
+11. Why does the traffic-light design use a Gray-code assignment?
+12. How many flip-flops does a 10-state machine need with binary coding and with one-hot coding?
+13. Merge the equivalent states of the machine of Section 5.8 and write the reduced state table.
 
 ::: note Answers and worked solutions
 **1.** Moore: output depends on state only, such as a traffic light controller whose lamp colour is a function of the state. Mealy: output depends on state and input, such as the "101" detector whose output is 1 only while the final 1 is present.
@@ -275,6 +383,12 @@ Switch the supply off while wiring. Never connect an IC output directly to groun
 **5.** States: S₀ (no 1 just seen), S₁ (last bit was 1). S₀: x = 0 → S₀/0, x = 1 → S₁/0. S₁: x = 0 → S₀/0, x = 1 → S₁/1. With Q = 0 for S₀ and 1 for S₁: D = x and z = Qx.
 **6.** The machine goes S₀→S₁ (x=1, z0), S₁→S₁ (x=1, z0), S₁→S₂ (x=0, z0), S₂→S₁ (x=1, z1), S₁→S₂ (x=0, z0), S₂→S₁ (x=1, z1). Output 0 0 0 1 0 1.
 **7.** A glitch, noise or power-up can put the flip-flops in an unused code. If its transitions are not defined, the machine may never return to the intended sequence (lock-out).
+**8.** One-hot states S0 to S3, one flip-flop each (4 flip-flops, against 2 for the Gray code): D_S0 = T·S3 + T'·S0; D_S1 = T·S0 + T'·S1; D_S2 = T·S1 + T'·S2; D_S3 = T·S2 + T'·S3. Outputs need no decoding: NS green = S0, NS yellow = S1, NS red = S2 + S3, EW green = S2, EW yellow = S3, EW red = S0 + S1.
+**9.** Copy each state's output to the arrows entering it: A: 0 → A/0, 1 → B0/0; B0: 0 → A/0, 1 → B1/1; B1: 0 → A/0, 1 → B1/1. B0 and B1 now have identical rows (A/0 on 0, B1/1 on 1), so they are equivalent and merge into B: the two-state Mealy machine of Section 5.9.
+**10.** Present states 00, 00, 01, 11 with inputs 0, 1, 1, 0 give outputs 0, 0, 0, 1 and the final state 00 (from 11 with x = 0, y = (A + B)x' = 1).
+**11.** Gray code changes one bit per step, so the flip-flops never pass through a wrong intermediate code that would show a false lamp pattern for an instant; it also keeps the equations small.
+**12.** Binary: ⌈log₂ 10⌉ = 4 flip-flops (16 codes, 6 unused). One-hot: 10 flip-flops.
+**13.** States 10 and 11 have the same next states and outputs for both inputs, so call the merged state E. Table: 00: x = 0 → 00 / 0, x = 1 → 01 / 0; 01: x = 0 → 00 / 1, x = 1 → E / 0; E: x = 0 → 00 / 1, x = 1 → E / 0. Three states need two flip-flops, the same as before, but the logic is simpler because one code becomes a don't-care.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -372,3 +486,25 @@ A machine with **N states** needs **k flip-flops** where 2ᵏ ≥ N, that is k =
 | Equation | D = C + Q·P′ |
 
 **Conclusion.** The same procedure of specification, states, table, equation, circuit and verification works for a machine of any size. Only the number of flip-flops and the size of the Karnaugh maps grow. A designer must always check the don't-care input combinations and give the machine a safe starting state.
+
+**Q (10 marks). Design a traffic-light controller for a two-road crossing with D flip-flops. Give the state table, the equations and the lamp outputs.**
+
+*Introduction.* A traffic controller is a synchronous sequential machine: its state is the present lamp pattern, its input is a timer signal T that says the present phase is over, and its outputs drive the lamps. Because the lamps depend on the state only, it is a **Moore machine**.
+
+*States.* S0: north-south green, east-west red; S1: north-south yellow, east-west red; S2: north-south red, east-west green; S3: north-south red, east-west yellow. Four states need two flip-flops Q1 Q0. Using a Gray code (S0 = 00, S1 = 01, S2 = 11, S3 = 10) means that only one bit changes at each step, so no false intermediate lamp pattern appears.
+
+*State table.*
+
+| Present Q1 Q0 | T = 0 | T = 1 |
+|---|---|---|
+| 00 (S0) | 00 | 01 |
+| 01 (S1) | 01 | 11 |
+| 11 (S2) | 11 | 10 |
+| 10 (S3) | 10 | 00 |
+
+*Equations.* For T = 1 the next Q1 is Q0 and the next Q0 is Q1'; for T = 0 each keeps its value. With D flip-flops D = next state, so **D1 = T·Q0 + T'·Q1** and **D0 = T·Q1' + T'·Q0**.
+
+*Outputs.* NS green = Q1'Q0'; NS yellow = Q1'Q0; NS red = Q1; EW green = Q1Q0; EW yellow = Q1Q0'; EW red = Q1'. Exactly one lamp of each road is on in every state.
+
+*Timer.* A counter driven by a 1 Hz clock produces T after the required time of each phase (for example 30 s for green and 4 s for yellow); T resets the counter. *Conclusion.* Any controller of this kind follows the same seven steps (diagram, table, reduction, assignment, excitation, simplification, check), and a vehicle-sensor input can be added as a second input without changing the method.
+

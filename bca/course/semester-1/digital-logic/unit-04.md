@@ -302,6 +302,106 @@ f.text(380, 230, "Lesson: a ring or Johnson counter must be preset or cleared wh
 7. **Keyboards and buttons.** A D flip-flop samples the key line on the clock and removes the jitter of a bouncing contact. Without it one key press could appear as several letters. USB keyboards and ATM keypads rely on this.
 8. **Serial ports and Wi-Fi.** Shift registers turn the serial bit stream of USB, UART and Ethernet into bytes, and bytes back into a stream (Figure 4.3). Routers and modems do this millions of times each second. Without it computers could not talk over a single wire or antenna.
 
+## 4.5 Up/down counters and presettable counters
+
+A counter that can count in both directions is needed wherever a quantity rises and falls: the number of cars in a car park (entry gate adds one, exit gate subtracts one), the position of a motor shaft, the pointer of a stack or a FIFO buffer.
+
+A **synchronous up/down counter** is built from T flip-flops (or JK with J = K = T) sharing one clock. For a binary up counter the toggle input of stage i is the AND of all lower outputs; for a down counter it is the AND of all lower *complemented* outputs. A control input U/D' (1 = up, 0 = down) selects between them:
+
+- T0 = 1
+- T1 = U·Q0 + U'·Q0'
+- T2 = U·Q1Q0 + U'·Q1'Q0'
+
+The two terms are an OR of "all lower bits are 1" (carry for counting up) and "all lower bits are 0" (borrow for counting down). With the clock running, the sequence for the control values U, U, U, U, D, D from state 000 is
+
+| Clock | Control | State before | State after |
+|---|---|---|---|
+| 1 | up | 000 | 001 |
+| 2 | up | 001 | 010 |
+| 3 | up | 010 | 011 |
+| 4 | up | 011 | 100 |
+| 5 | down | 100 | 011 |
+| 6 | down | 011 | 010 |
+
+Counting down from 000 wraps round to 111, exactly as counting up from 111 wraps to 000. I simulated these toggle equations bit by bit and the table agrees.
+
+**Presettable (loadable) counters.** Most counter chips can also be loaded with a starting value. The 74193 is a synchronous 4-bit up/down counter with separate count-up and count-down clock inputs, an asynchronous LOAD input that copies the data inputs D3 to D0 into the flip-flops, a CLEAR input, and carry and borrow outputs that make cascading easy. Loading makes a **modulo-N counter by reloading** possible: instead of clearing to 0 at a detected state (which shows the unwanted state for a moment, see Section 4.2), the counter is loaded with a start value when it reaches the end value. A 74193 counting down from 9 and reloading 9 each time its borrow output goes low makes a decade down counter that never displays a false state.
+
+## 4.6 Frequency division and the digital clock chain
+
+A toggle flip-flop changes state on every second clock pulse, so its output has **half** the frequency of its clock. Each stage of a ripple counter therefore halves the frequency again: the output of stage n is f / 2ⁿ. This is **frequency division**, and it is the commonest use of counters in electronics.
+
+A quartz crystal of **32,768 Hz** is used in almost every watch because 32,768 = 2¹⁵. Fifteen divide-by-two stages give exactly 1 Hz:
+
+| After stage | 1 | 5 | 10 | 14 | 15 |
+|---|---|---|---|---|---|
+| Frequency (Hz) | 16,384 | 1,024 | 32 | 2 | 1 |
+
+The 1 Hz pulse then drives the counters that keep time. This is the digital-watch laboratory of the TU syllabus:
+
+- **Seconds:** a MOD-10 counter (units, BCD 0 to 9) followed by a MOD-6 counter (tens, 0 to 5), together MOD-60. The tens counter advances when the units counter goes from 9 to 0.
+- **Minutes:** a second MOD-60 chain driven by the carry of the seconds tens counter (59 to 00).
+- **Hours:** a MOD-24 counter (tens 0 to 2, units 0 to 9) that clears when it reaches 24, detected by tens = 2 (0010) and units = 4 (0100). In 12-hour mode it is a MOD-12 counter that shows 12 instead of 0.
+
+```svgfig label="4.5" caption="Block diagram of a digital watch. A 32,768 Hz crystal oscillator is divided by 2^15 to give 1 Hz; the counter chain MOD-10, MOD-6, MOD-10, MOD-6, MOD-24 counts seconds, minutes and hours, and each BCD digit goes to a seven-segment decoder."
+f = Fig(760, 250)
+bx = [("Crystal\n32,768 Hz", 14, 92), ("Divide\nby 2^15", 126, 82), ("MOD-10\nsec units", 228, 82), ("MOD-6\nsec tens", 330, 82), ("MOD-10\nmin units", 432, 82), ("MOD-6\nmin tens", 534, 82), ("MOD-24\nhours", 636, 100)]
+for i, (t, x, w) in enumerate(bx):
+    f.box(x, 40, w, 62, t, fill=SOFT if i > 1 else SAND, stroke=NAVY, size=10.5, bold=True)
+    if i: f.arrow([(bx[i - 1][1] + bx[i - 1][2], 71), (x, 71)], color=SLATE, sw=1.6)
+f.text(171, 124, "1 Hz", size=10, color=RED, bold=True)
+for i, (t, x, w) in enumerate(bx[2:]):
+    cx = x + w / 2
+    f.arrow([(cx, 102), (cx, 150)], color=TEAL, sw=1.4)
+    f.box(x, 150, w, 36, "7-seg\ndecoder", fill="#ffffff", stroke=TEAL, size=9.5, bold=True)
+    f.arrow([(cx, 186), (cx, 206)], color=TEAL, sw=1.4)
+    f.box(x + w / 2 - 20, 206, 40, 34, "8", fill=NAVY, stroke=NAVY, color="#ffffff", size=16, bold=True)
+```
+
+**Counting the hardware.** Seconds need 4 + 3 = 7 flip-flops, minutes 7, hours 4 + 2 = 6 (tens digit needs two bits for 0 to 2), so the time-keeping part has 20 flip-flops. Together with the 15 divider stages the watch has 35 flip-flops. From 23:59:59 one more pulse makes every stage clear together, which is 86,400 pulses (24 × 3600) after the start of the day.
+
+**The frequency counter** (the other application of this section) uses the same blocks the other way round. An accurate **gate signal**, produced by dividing a crystal clock down to, say, exactly 1 s, opens an AND gate for that time; the unknown signal passes through to a decade counter chain, and the count is shown when the gate closes. A gate time of 1 s reads in hertz, of 0.1 s reads in units of 10 Hz, of 10 ms in units of 100 Hz. The resolution is one count, so a longer gate gives a finer reading but a slower display.
+
+## 4.7 Metastability and synchronisers
+
+Setup and hold times were defined in Unit 1: the data input must be stable for t_su before and t_h after the active clock edge. If an input changes inside that window, a flip-flop can enter a **metastable state**, in which its output hangs at an in-between voltage for an unpredictable time before it falls to 0 or to 1. The output then may be read differently by different gates and the whole system can behave wrongly.
+
+Metastability cannot be avoided when a signal comes from outside the clock domain: a button press, a signal from another clock, a network line. It is made **unlikely** by giving the flip-flop time to settle. The mean time between failures for one flip-flop is
+
+$$\mathrm{MTBF} = \frac{e^{\,t_r/\tau}}{T_0 \, f_c \, f_d}$$
+
+where t_r is the settling time allowed, τ is the settling time constant of the flip-flop, T₀ is a constant related to its sampling window, f_c is the clock frequency and f_d is the rate of data changes.
+
+::: example Worked example: why two flip-flops
+Take illustrative values τ = 0.2 ns, T₀ = 0.5 ns, f_c = 100 MHz, f_d = 10 MHz.
+
+*One flip-flop feeding logic directly,* with only 1 ns allowed to settle: MTBF = e⁵ / (0.5×10⁻⁹ × 10⁸ × 10⁷) = 148.4 / (5×10⁵) ≈ **0.3 ms**. The system would fail thousands of times per second.
+
+*Two flip-flops in series (a two-stage synchroniser),* so that the first has a whole clock period, 8 ns after allowing for delays: MTBF = e⁴⁰ / (5×10⁵) ≈ 4.7×10¹¹ s ≈ **15,000 years**.
+
+Giving the first flip-flop 7 ns more of settling time raised the MTBF by a factor of about 10¹⁵, because time appears in an exponent.
+:::
+
+So the standard rule is: **pass every asynchronous input through two flip-flops clocked by the receiving clock** before using it. The cost is one clock of latency. A pushbutton input of a microcontroller, the reset of an FPGA and every signal crossing between two clock domains use this synchroniser.
+
+## 4.8 Shift-register sequence generators: the LFSR
+
+If the input of a shift register is not external but a function of its own outputs, it produces a long sequence from a few flip-flops. The ring and Johnson counters of Section 4.2 are the simplest cases. The most useful case is the **linear-feedback shift register (LFSR)**, in which the new input bit is the XOR of selected stages (the **taps**).
+
+A 4-bit LFSR with taps on Q4 and Q3 (the polynomial x⁴ + x³ + 1) shifts left and feeds back Q4 ⊕ Q3. Starting from 0001, it passes through all 15 non-zero states before repeating:
+
+| Step | State | Step | State | Step | State |
+|---|---|---|---|---|---|
+| 0 | 0001 | 5 | 0110 | 10 | 0111 |
+| 1 | 0010 | 6 | 1101 | 11 | 1111 |
+| 2 | 0100 | 7 | 1010 | 12 | 1110 |
+| 3 | 1001 | 8 | 0101 | 13 | 1100 |
+| 4 | 0011 | 9 | 1011 | 14 | 1000 |
+
+After step 14 the next state is 0001 again, so the period is 2⁴ − 1 = **15**, the maximum possible. The all-zero state is excluded, because XOR of zeros gives zero and the register would stay there for ever.
+
+An n-bit LFSR with well-chosen taps has a period of 2ⁿ − 1 using only n flip-flops and one XOR gate. The output bits look random (hence **pseudo-random**) but repeat exactly, which is what is needed in several places: **CRC** check calculation for network frames and disk blocks; **scrambling** of data on a link to avoid long runs of equal bits; **test-pattern generation** for chips; spread-spectrum codes in GPS and mobile networks; and simple random-number sources in games and simulators. It is not secure against an attacker, because 2n output bits allow the taps to be found.
+
 ## Formula and fact sheet
 
 - SR: Q⁺ = S + R'Q (SR = 0). JK: Q⁺ = JQ' + K'Q. D: Q⁺ = D. T: Q⁺ = T ⊕ Q.
@@ -310,7 +410,8 @@ f.text(380, 230, "Lesson: a ring or Johnson counter must be preset or cleared wh
 - Ripple settling time ≈ n × t_pd; f_max ≈ 1 / (n × t_pd).
 - Ring: n states; Johnson: 2n states.
 - Reset to make MOD-N: NAND the outputs that are 1 in the binary value of N.
-- Digital clock: 32,768 Hz / 2¹⁵ = 1 Hz.
+- Digital clock: 32,768 Hz / 2¹⁵ = 1 Hz. Up/down: T1 = U·Q0 + U'·Q0', T2 = U·Q1Q0 + U'·Q1'Q0'.
+- Frequency counter: f = count / gate time. MTBF = exp(t_r/τ) / (T₀ f_c f_d). n-bit LFSR period ≤ 2ⁿ − 1.
 
 ## Chapter summary
 
@@ -318,6 +419,8 @@ f.text(380, 230, "Lesson: a ring or Johnson counter must be preset or cleared wh
 - Excitation tables turn a wanted state change into flip-flop inputs.
 - Ripple counters are simple and slow; synchronous counters are fast and need design.
 - Counters count and divide frequency; registers store and shift words.
+- Up/down and presettable counters, the digital-watch chain and the frequency counter apply the same blocks.
+- Metastability is made unlikely by a two-flip-flop synchroniser; an LFSR gives a long pseudo-random sequence from a few flip-flops.
 
 ## Practice
 
@@ -331,6 +434,13 @@ f.text(380, 230, "Lesson: a ring or Johnson counter must be preset or cleared wh
 8. Design a synchronous 2-bit counter that goes 00 → 01 → 11 → 10 → 00 with D flip-flops.
 9. A 4-bit PISO register is clocked at 1 kHz. How long does it take to send out one loaded word?
 10. How many flip-flops are needed for a MOD-60 counter, and how would you build it from decade counters?
+11. A 3-bit synchronous up/down counter starts at 010 and receives the controls up, up, down, down, down. Give the states.
+12. For the up/down counter of Section 4.5 find T2 T1 T0 in state 101 when counting up and when counting down. What is the next state each time?
+13. A 32,768 Hz crystal feeds a chain of toggle flip-flops. How many stages give 1 Hz? Which stage output is 8 Hz?
+14. A 1 MHz clock must be reduced to 1 Hz using decade counters. How many are needed?
+15. A frequency counter with a 0.1 s gate shows 4,523. What is the frequency and what is the resolution?
+16. Why does a signal from a push-button need two flip-flops before it reaches synchronous logic? Why is a second flip-flop so effective?
+17. The 4-bit LFSR of Section 4.8 (feedback Q4 xor Q3, shift left) is in state 0110. Give the next three states. Why is 0000 not used?
 
 ::: note Answers and worked solutions
 **1.** Q⁺ = JQ' + K'Q. J K = 00 → Q; 01 → 0; 10 → 1; 11 → Q'. SR has the forbidden input 11; JK uses it to toggle.
@@ -343,6 +453,13 @@ f.text(380, 230, "Lesson: a ring or Johnson counter must be preset or cleared wh
 **8.** The next Q₁ is 0, 1, 1, 0 for states 00, 01, 11, 10, so D₁ = Q₀. The next Q₀ is 1, 1, 0, 0, so D₀ = Q₁'. Check: 00 → 01 → 11 → 10 → 00 ✔.
 **9.** At 1 kHz one clock period is 1 ms. One pulse loads the word and then four periods shift the four bits out, so the word is transmitted in 4 ms after a 1 ms load (5 ms in all).
 **10.** A single binary counter for 60 states needs 6 flip-flops (2⁶ = 64 ≥ 60). The practical BCD build is a MOD-10 counter (4 flip-flops) cascaded with a MOD-6 counter (3 flip-flops), 7 in total: the MOD-10 carries into the MOD-6 every ten pulses, and both give BCD outputs for a two-digit display counting 00–59.
+**11.** 010 → (up) 011 → (up) 100 → (down) 011 → (down) 010 → (down) 001.
+**12.** State 101: Q2 = 1, Q1 = 0, Q0 = 1. Up: T0 = 1, T1 = Q0 = 1, T2 = Q1Q0 = 0, so Q1 and Q0 toggle: 101 → 110. Down: T0 = 1, T1 = Q0' = 0, T2 = Q1'Q0' = 0, so only Q0 toggles: 101 → 100.
+**13.** 32,768 = 2¹⁵, so 15 stages give 1 Hz. 8 Hz = 32,768 / 4096 and 4096 = 2¹², so the output of stage 12 gives 8 Hz.
+**14.** 10⁶ = (10)⁶, so six decade counters in cascade.
+**15.** f = 4,523 / 0.1 s = 45,230 Hz. The resolution is one count, so ±1 / 0.1 s = ±10 Hz.
+**16.** The push-button changes at any moment, so it can change inside the setup/hold window of the first flip-flop and make it metastable. A second flip-flop gives the first a whole clock period to settle before its output is used; because the failure rate falls exponentially with settling time, one extra period makes the MTBF astronomically larger (about 15,000 years in the worked example) for the price of one clock of delay.
+**17.** 0110: feedback = Q4 ⊕ Q3 = 0 ⊕ 1 = 1, shift left gives 1101. Then 1 ⊕ 1 = 0 gives 1010. Then 1 ⊕ 0 = 1 gives 0101. The sequence is 0110 → 1101 → 1010 → 0101. In the all-zero state the XOR of the taps is 0, so the register stays at 0000 for ever; it is the one state outside the 15-state cycle.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -451,3 +568,23 @@ State 110 lasts only a few nanoseconds, so it is not seen as a count. **Frequenc
 **Applications.** Serial-to-parallel and parallel-to-serial conversion, time delay, multiplying and dividing by 2, ring and Johnson counters for control timing, and extra output pins for a microcontroller through a 74HC595.
 
 **Conclusion.** Shift registers are the simplest sequential circuits and the key link between serial communication and parallel processing. By choosing the way data enter and leave, one chain of flip-flops can act as storage, delay line, converter or counter.
+
+**Q (5 marks). Explain metastability and how a two-flip-flop synchroniser reduces its effect.**
+
+A flip-flop needs its data input to be stable for the **setup time** before and the **hold time** after the active clock edge. If the input changes inside this window the internal latch may balance between 0 and 1: the output stays at an in-between voltage for a random time, then falls to either value. This is **metastability**. A signal that arrives asynchronously (a button, another clock domain) will sooner or later break the window.
+
+The failure rate is characterised by MTBF = exp(t_r/τ) / (T₀ f_c f_d): it grows **exponentially** with the settling time t_r. A **two-flip-flop synchroniser** passes the input through two flip-flops of the receiving clock; the first may go metastable, but its output has a full clock period to settle before the second samples it, and only the second drives the logic. With τ = 0.2 ns, T₀ = 0.5 ns, f_c = 100 MHz, f_d = 10 MHz, one flip-flop with 1 ns of settling gives an MTBF of about 0.3 ms, but two stages with 8 ns give about 4.7×10¹¹ s (15,000 years). *Conclusion:* metastability cannot be eliminated, only made negligibly rare, at a cost of one extra clock of delay.
+
+**Q (10 marks). Design the time-keeping part of a digital watch from a 32,768 Hz crystal. State the number of flip-flops needed.**
+
+*Introduction.* A digital watch counts seconds, minutes and hours from a stable clock. The crystal frequency is chosen as 2¹⁵ so that binary division gives exactly 1 Hz.
+
+*Divider.* Fifteen toggle flip-flops in a ripple chain divide 32,768 Hz by 2¹⁵ = 32,768, giving 1 Hz after stage 15 (16,384 Hz after stage 1, 1,024 Hz after stage 5, 2 Hz after stage 14). The delay is irrelevant because only the final 1 Hz pulse is used; a ripple counter is acceptable here.
+
+*Seconds and minutes.* A MOD-10 BCD counter for units (clears at 1010, detected by Q3·Q1) feeds a MOD-6 counter for tens (clears at 0110, detected by Q2·Q1). Their combination is MOD-60 and needs 4 + 3 = 7 flip-flops. The carry (tens going 5 → 0) clocks the next MOD-60 chain for minutes: another 7 flip-flops.
+
+*Hours.* A MOD-24 counter with a BCD units digit (4 flip-flops) and tens digit (2 flip-flops) clears when tens = 2 and units = 4 (0010 and 0100 detected together), so the display runs 23:59:59 → 00:00:00. For a 12-hour display a MOD-12 counter that shows 12 for 0 is used. It needs 6 flip-flops.
+
+*Display.* Each BCD digit is applied to a BCD to seven-segment decoder (7447) and one seven-segment unit; six digits give HH:MM:SS.
+
+*Count of flip-flops.* 15 (divider) + 7 + 7 + 6 = **35**. From midnight the counters step through 24 × 3600 = 86,400 pulses and return to zero. *Conclusion.* A watch is a chain of counters with different moduli, and the same decade counters, decoders and a crystal reference are used in every clock, timer and frequency meter.

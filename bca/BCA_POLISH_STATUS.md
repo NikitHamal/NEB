@@ -674,3 +674,22 @@ Picked up from sessions 16-44 (this file; no duplicate tracker). Sparse-clone bo
 ## Session 46 start (BCA 103 Digital Logic depth audit; BCA 105 and later-listed done books left as-is per the user)
 
 Picked up from sessions 16-45 (this file; no duplicate tracker). Plan: BCA 103 is 5 units / 31k words / 74 pp. Keyword audit shows gaps: Quine-McCluskey, 5-variable maps, hazards, BCD adder worked examples, carry-lookahead numbers, tri-state/open-collector, Schmitt trigger (unit 1), Moore/Mealy conversion and HDL view (unit 5). Checks in `bca/tools/check_digital.py`.
+
+## Session 46 results (BCA 103 Digital Logic deepened 74 -> 103 pages; BCA 105 and later-listed done books left as-is per the user)
+
+Sparse-clone bootstrap; setup recipe from session 39 (apt with sudo, venv `/tmp/v`, pip incl. weasyprint==70.0, scipy, sympy, `npm ci`, fonts) worked in about 4 minutes, run detached. Single-book build about 25 s: `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-1/digital-logic`.
+- **BCA 103: 74 -> 103 pages**, `qa_pdf.py` fails=0 (warns are 5.5-6 pt labels in older figures), web data re-exported (5 units, **48 topics**, was 32). Source 31k -> about 43k words.
+- Unit 1 (new 1.6-1.9): logic-family table with PDP, CMOS dynamic power P = CV^2 f, fan-out, propagation-delay/clock-limit examples, totem-pole / open-collector (pull-up R_min, R_max) / tri-state with bus figure, Schmitt trigger (figure with simulated 7 vs 1 edges) and debouncing, sampling, SNR 6.02n + 1.76, CD data rate; practice 8-15, two model answers.
+- Unit 3 (new 3.11-3.15): five-variable map figure, Quine-McCluskey full worked table, static hazard with timing figure, BCD adder (correction rule K + S3S2 + S3S1 verified for all 200 cases) and carry-lookahead numbers, BCD to seven-segment design (all seven equations verified); practice 17-25, four model answers.
+- Unit 4 (new 4.5-4.8): up/down and presettable counters, frequency division and digital-watch chain figure (35 flip-flops), metastability and MTBF, LFSR (period 15 table); practice 11-17, two model answers.
+- Unit 5 (new 5.8-5.10): analysis of a circuit, Mealy/Moore conversion (checked on 200 random strings), state assignment, traffic-light controller with state-diagram figure; practice 8-13, one model answer.
+- All numbers: `bca/tools/check_digital.py` (OK). Pages inspected as PNG: tri-state p12, Schmitt p13 (redrawn: the first version never crossed the thresholds), 5-variable map p49, hazard timing p52 (tick label `t=7` clipped, fixed), watch chain p74 (carry label crossed the arrows, removed), MTBF p75 (inline `e^(...)` rendered badly, now a display equation), traffic-light p94.
+- Gotchas: inline `^(...)` in running text is turned into a superscript by the pipeline: use a `$$` display equation or the word `exp(...)`; `svgfig` waveform helpers should not draw a tick label at the right edge.
+- Honest gaps: QM, hazards, metastability and LFSR go beyond the printed TU outline (README says so). No Django screenshot this session (same exporter).
+
+## Prioritised queue for the next session
+1. Thin books next: BCA 253 Numerical Methods (85 pp), BCA 402 (84 pp), BCA 104 units 1, 3 to 5 (4k words each), BCA 154 units 2 to 5, projects 256/306/356/404 keyword audit.
+2. Rebuild older books to pick up the callout-orphan and code-split CSS; check page counts and `qa_pdf.py` each time.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103 (now 103 pp), 354, 154, 405, 406, 453, 454, 204, 206, 205, 153, 104.
+5. Django + Chromium screenshots of BCA 103 Unit 3 (QM tables) and BCA 104 Unit 6.
