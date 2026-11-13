@@ -11,8 +11,9 @@ Semester I · 3 credits (4 in the 2074 curriculum). Seven units in TU order: 16,
 | 5 | Data Communication and Computer Network | 10 | signals, Shannon capacity, media, topologies, devices, OSI/TCP-IP, IP addressing and subnetting |
 | 6 | Internet and the World Wide Web | 6 | history, DNS/URL/HTTP journey, services, search engines, security, Nepal's legal context |
 | 7 | Contemporary Technologies | 13 | e-commerce, e-governance, multimedia sizes, AI/ML, IoT, big data, cloud, blockchain, VR/AR, 5G, green computing |
+| 8 | Laboratory Applications | 12 | word processor (styles, mail merge, macros), spreadsheet (PMT, validation, what-if, pivot, consolidation), presentation, photo editing (bitmap/vector, colour depth, formats, layers), lab checklist |
 
-**Practical component (not in the PDF):** the TU lab covers an OS, a word processor, a spreadsheet, a presentation package and photo editing. Practise on Windows or Linux with LibreOffice (Writer, Calc, Impress) and GIMP; the concepts that those labs rely on are in units 1–3.
+**Practical component (Unit 8, added in session 30, covers the application packages):** the TU lab covers an OS, a word processor, a spreadsheet, a presentation package and photo editing. Practise on Windows or Linux with LibreOffice (Writer, Calc, Impress) and GIMP; Unit 8 teaches these packages; the OS and DOS labs rely on units 1–3.
 
 ## Verification
 
