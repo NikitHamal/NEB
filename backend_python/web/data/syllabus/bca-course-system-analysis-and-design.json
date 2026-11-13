@@ -10,7 +10,7 @@
  "icon": "analytics",
  "group": "semester-3",
  "group_label": "Semester III",
- "color": "#6D28D9",
+ "color": "#0E7490",
  "lang": "en",
  "code": "BCA 204",
  "credits": 3,
@@ -38,7 +38,10 @@
     "The life cycle as a picture, and agile practice in the field",
     "Eight reasons why a systematic life cycle matters",
     "Choosing a life-cycle model: waterfall, incremental, prototyping, spiral and RAD",
-    "Information systems and their types, in depth"
+    "Information systems and their types, in depth",
+    "Object-oriented analysis with UML: use cases, classes, sequences and states",
+    "Acquiring a system: build, buy, outsource or rent",
+    "Project management software, the work breakdown structure and earned value"
    ],
    "sections": [
     {
@@ -92,6 +95,18 @@
     {
      "no": "1.13",
      "title": "Information systems and their types, in depth"
+    },
+    {
+     "no": "1.14",
+     "title": "Object-oriented analysis with UML: use cases, classes, sequences and states"
+    },
+    {
+     "no": "1.15",
+     "title": "Acquiring a system: build, buy, outsource or rent"
+    },
+    {
+     "no": "1.16",
+     "title": "Project management software, the work breakdown structure and earned value"
     }
    ],
    "summary": [
@@ -101,9 +116,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4308,
+    "words": 7324,
     "figures": 0,
-    "examples": 3
+    "examples": 6
    },
    "has_notes": true
   },
@@ -182,7 +197,9 @@
     "Three models drawn out: context, level-0 and entity-relationship",
     "Eight benefits of modelling before building",
     "Requirements determination in practice",
-    "Decision tables, supertypes, business rules and packaged models"
+    "Decision tables, supertypes, business rules and packaged models",
+    "A level-1 decomposition, the data dictionary and the CRUD check, worked end to end",
+    "Requirement quality: writing, reviewing, ranking and tracing"
    ],
    "sections": [
     {
@@ -212,6 +229,14 @@
     {
      "no": "3.7",
      "title": "Decision tables, supertypes, business rules and packaged models"
+    },
+    {
+     "no": "3.8",
+     "title": "A level-1 decomposition, the data dictionary and the CRUD check, worked end to end"
+    },
+    {
+     "no": "3.9",
+     "title": "Requirement quality: writing, reviewing, ranking and tracing"
     }
    ],
    "summary": [
@@ -221,9 +246,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4603,
+    "words": 6690,
     "figures": 0,
-    "examples": 6
+    "examples": 7
    },
    "has_notes": true
   },
@@ -241,7 +266,9 @@
     "Eight rules for good forms, reports and interfaces",
     "Transforming ER diagrams into relations, and merging relations",
     "Physical design: fields, tables, indexes and usability",
-    "Interaction methods, devices and dialogue design"
+    "Interaction methods, devices and dialogue design",
+    "Keys, dependencies, BCNF and input validation: the database designer's toolkit",
+    "Interface design rules, Fitts's law, wireframes and report types"
    ],
    "sections": [
     {
@@ -279,6 +306,14 @@
     {
      "no": "4.9",
      "title": "Interaction methods, devices and dialogue design"
+    },
+    {
+     "no": "4.10",
+     "title": "Keys, dependencies, BCNF and input validation: the database designer's toolkit"
+    },
+    {
+     "no": "4.11",
+     "title": "Interface design rules, Fitts's law, wireframes and report types"
     }
    ],
    "summary": [
@@ -289,9 +324,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5064,
+    "words": 6963,
     "figures": 0,
-    "examples": 7
+    "examples": 10
    },
    "has_notes": true
   },
@@ -307,7 +342,9 @@
     "Eight reasons why testing and maintenance planning pay off",
     "Documenting the system, training and supporting users",
     "Organisational issues in systems implementation",
-    "A worked test plan and maintenance decisions"
+    "A worked test plan and maintenance decisions",
+    "Designing test cases: partitions, boundaries, paths and a defect log",
+    "After go-live: change control, legacy systems and the migration checklist"
    ],
    "sections": [
     {
@@ -337,6 +374,14 @@
     {
      "no": "5.7",
      "title": "A worked test plan and maintenance decisions"
+    },
+    {
+     "no": "5.8",
+     "title": "Designing test cases: partitions, boundaries, paths and a defect log"
+    },
+    {
+     "no": "5.9",
+     "title": "After go-live: change control, legacy systems and the migration checklist"
     }
    ],
    "summary": [
@@ -346,14 +391,14 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3803,
+    "words": 5767,
     "figures": 0,
-    "examples": 3
+    "examples": 6
    },
    "has_notes": true
   }
  ],
  "unit_count": 5,
- "topic_count": 44,
+ "topic_count": 53,
  "notes_ready": 5
 }

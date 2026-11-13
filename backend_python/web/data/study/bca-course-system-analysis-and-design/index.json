@@ -5,9 +5,9 @@
    "no": 1,
    "title": "System Development Fundamentals",
    "area": "BCA 204 · System Analysis and Design · Unit 1",
-   "words": 4064,
-   "read_min": 23,
-   "figures": 4,
+   "words": 6996,
+   "read_min": 39,
+   "figures": 8,
    "has_questions": true
   },
   {
@@ -23,27 +23,27 @@
    "no": 3,
    "title": "Analysis",
    "area": "BCA 204 · System Analysis and Design · Unit 3",
-   "words": 4550,
-   "read_min": 25,
-   "figures": 6,
+   "words": 6592,
+   "read_min": 37,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Design",
    "area": "BCA 204 · System Analysis and Design · Unit 4",
-   "words": 4794,
-   "read_min": 27,
-   "figures": 4,
+   "words": 6718,
+   "read_min": 37,
+   "figures": 6,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "Implementation and Maintenance",
    "area": "BCA 204 · System Analysis and Design · Unit 5",
-   "words": 3578,
-   "read_min": 20,
-   "figures": 4,
+   "words": 5699,
+   "read_min": 32,
+   "figures": 5,
    "has_questions": true
   }
  ]

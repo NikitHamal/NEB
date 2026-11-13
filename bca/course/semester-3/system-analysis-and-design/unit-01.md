@@ -298,6 +298,7 @@ f.arrow([(353, 245), (287, 245)], color=AMBER, sw=1.5, dash=True, label="<<exten
 
 ::: example Worked example: reading a use case description
 A diagram shows only names; the real analysis is the **use case description**. For *Borrow book*:
+
 - **Actor:** Member (primary), Librarian (operates the counter). **Trigger:** the member presents a book and a card.
 - **Precondition:** the member record exists and is not suspended. **Main flow:** (1) librarian scans the card; (2) system verifies membership (included use case); (3) librarian scans the book; (4) system checks that the copy is available and that the member has fewer than 3 loans; (5) system records the loan with a due date 14 days ahead; (6) system prints the slip.
 - **Alternative flows:** 2a card expired, system refuses and the use case ends; 4a limit reached, system asks to return a book first; 4b book already issued, system shows the due date.
@@ -307,18 +308,8 @@ Each numbered step becomes a test case in unit 5, and each alternative flow beco
 
 ### Class diagrams
 
-A **class** is drawn as a rectangle with three compartments: the name, the **attributes** (data) and the **operations** (behaviour). A **visibility mark** can precede each member: + public, - private, # protected. The lines between classes carry the design:
-
-| Relationship | Meaning | Notation | Library example |
-|---|---|---|---|
-| **Association** | objects know each other; carries a **multiplicity** (1, 0..1, 0..*, 1..*) | plain line | one Member has 0..* Loans |
-| **Aggregation** | whole and parts, parts can live alone | line with hollow diamond at the whole | a Shelf has Books |
-| **Composition** | whole and parts, parts die with the whole | line with filled diamond | an Invoice has InvoiceLines |
-| **Generalisation (inheritance)** | a subclass is a kind of the superclass | line with hollow triangle at the superclass | Student and Teacher are kinds of Member |
-| **Dependency** | one class uses another briefly | dashed arrow | FineCalculator uses Loan |
-
 ```svgfig label="1.5" caption="Class diagram of the library system. Member, Loan and Book are classes with attributes and operations. One Member has zero or more Loans (1 to 0..*), each Loan is for exactly one Book (0..* to 1). Student and Teacher inherit from Member (hollow triangle)."
-f = Fig(640, 292)
+f = Fig(680, 292)
 def cls(x, y, w, name, attrs, ops, fill=BLUE):
     ha = 20 + 15 * len(attrs) + 6
     ho = 15 * len(ops) + 8
@@ -331,27 +322,37 @@ def cls(x, y, w, name, attrs, ops, fill=BLUE):
     f.line(x, ly, x + w, ly, color=NAVY, sw=1.2)
     for i, o in enumerate(ops):
         f.text(x + 8, ly + 11 + 15 * i, o, size=9.8, color=SLATE, anchor="start", vmid=True)
-cls(15, 15, 170, "Member", ["- memberId : int", "- name : String", "- phone : String"], ["+ borrow(book)", "+ giveBack(book)"])
-cls(235, 15, 170, "Loan", ["- loanId : int", "- issueDate : Date", "- dueDate : Date"], ["+ calculateFine() : int", "+ isOverdue() : boolean"], fill="#fde68a")
-cls(455, 15, 170, "Book", ["- bookId : int", "- title : String", "- author : String"], ["+ isAvailable() : boolean", "+ markIssued()"])
-f.line(185, 80, 235, 80, color=NAVY, sw=1.6)
-f.line(405, 80, 455, 80, color=NAVY, sw=1.6)
-f.text(194, 70, "1", size=10.5, color=RED, bold=True)
-f.text(224, 70, "0..*", size=10.5, color=RED, bold=True)
-f.text(414, 70, "0..*", size=10.5, color=RED, bold=True)
-f.text(446, 70, "1", size=10.5, color=RED, bold=True)
-f.text(210, 96, "has", size=10, color=SLATE, italic=True)
-f.text(430, 96, "is for", size=10, color=SLATE, italic=True)
-f.poly([(100, 142), (88, 160), (112, 160)], fill="#ffffff", stroke=NAVY, sw=1.6)
-f.line(100, 142, 100, 130, color=NAVY, sw=1.6)
-f.line(100, 160, 100, 178, color=NAVY, sw=1.6)
+cls(10, 15, 160, "Member", ["- memberId : int", "- name : String", "- phone : String"], ["+ borrow(book)", "+ giveBack(book)"])
+cls(260, 15, 160, "Loan", ["- loanId : int", "- issueDate : Date", "- dueDate : Date"], ["+ calculateFine() : int", "+ isOverdue() : boolean"], fill="#fde68a")
+cls(510, 15, 160, "Book", ["- bookId : int", "- title : String", "- author : String"], ["+ isAvailable() : boolean", "+ markIssued()"])
+f.line(170, 80, 260, 80, color=NAVY, sw=1.6)
+f.line(420, 80, 510, 80, color=NAVY, sw=1.6)
+f.text(181, 70, "1", size=10.5, color=RED, bold=True)
+f.text(243, 70, "0..*", size=10.5, color=RED, bold=True)
+f.text(437, 70, "0..*", size=10.5, color=RED, bold=True)
+f.text(499, 70, "1", size=10.5, color=RED, bold=True)
+f.text(215, 96, "has", size=10, color=SLATE, italic=True)
+f.text(465, 96, "is for", size=10, color=SLATE, italic=True)
+f.poly([(90, 142), (78, 160), (102, 160)], fill="#ffffff", stroke=NAVY, sw=1.6)
+f.line(90, 142, 90, 128, color=NAVY, sw=1.6)
+f.line(90, 160, 90, 178, color=NAVY, sw=1.6)
 f.line(52, 178, 157, 178, color=NAVY, sw=1.6)
 f.line(52, 178, 52, 196, color=NAVY, sw=1.6)
 f.line(157, 178, 157, 196, color=NAVY, sw=1.6)
 cls(5, 196, 95, "Student", ["- program"], ["+ borrowLimit()"], fill=MINT)
 cls(110, 196, 95, "Teacher", ["- department"], ["+ borrowLimit()"], fill=MINT)
-f.text(430, 232, "Visibility: + public, - private.\nMultiplicity: 1 exactly one,\n0..* zero or more.\nSubclasses redefine borrowLimit()\n(polymorphism).", size=10, color=SLATE, anchor="start")
+f.text(470, 232, "Visibility: + public, - private.\nMultiplicity: 1 exactly one,\n0..* zero or more.\nSubclasses redefine borrowLimit()\n(polymorphism).", size=10, color=SLATE, anchor="start")
 ```
+
+A **class** is drawn as a rectangle with three compartments: the name, the **attributes** (data) and the **operations** (behaviour). A **visibility mark** can precede each member: + public, - private, # protected. The lines between classes carry the design:
+
+| Relationship | Meaning | Notation | Library example |
+|---|---|---|---|
+| **Association** | objects know each other; carries a **multiplicity** (1, 0..1, 0..*, 1..*) | plain line | one Member has 0..* Loans |
+| **Aggregation** | whole and parts, parts can live alone | line with hollow diamond at the whole | a Shelf has Books |
+| **Composition** | whole and parts, parts die with the whole | line with filled diamond | an Invoice has InvoiceLines |
+| **Generalisation (inheritance)** | a subclass is a kind of the superclass | line with hollow triangle at the superclass | Student and Teacher are kinds of Member |
+| **Dependency** | one class uses another briefly | dashed arrow | FineCalculator uses Loan |
 
 ### Sequence diagrams
 
