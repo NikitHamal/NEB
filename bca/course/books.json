@@ -367,5 +367,13 @@
   "credits": 3,
   "accent": "#9A3412",
   "status": "done"
+ },
+ "semester-8/network-administration": {
+  "name": "Network Administration",
+  "code": "BCA 453",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#1D4E89",
+  "status": "done"
  }
 }
