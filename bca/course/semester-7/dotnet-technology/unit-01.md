@@ -141,7 +141,7 @@ f.box(230, 134, 340, 44, "Generation 1  and  Generation 2 (survivors)", fill=SAN
 f.box(230, 190, 340, 40, "Large Object Heap (85,000 bytes or more)", fill=SOFT, stroke=SLATE, size=10)
 f.arrow([(160, 94), (246, 82)], color=NAVY)
 f.arrow([(160, 140), (200, 140), (200, 110), (350, 100)], color=NAVY)
-f.text(504, 124, "freed", size=9.5, color=RED, bold=True)
+f.text(504, 113, "freed", size=9, color=RED, bold=True)
 ```
 
 **What the GC does not manage.** The GC knows only about memory. A file handle, a database connection or a network socket is an *unmanaged resource* owned by the operating system, and the GC will not close it at a predictable time. Classes that hold such resources implement `IDisposable`; you release them deterministically with `using`:

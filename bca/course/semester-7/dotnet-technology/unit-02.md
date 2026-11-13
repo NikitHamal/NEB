@@ -350,11 +350,11 @@ An **expression** is a combination of values, variables and operators that produ
 | Shift | `<<`, `>>` |
 | Relational and type testing | `<`, `>`, `<=`, `>=`, `is`, `as` |
 | Equality | `==`, `!=` |
-| Bitwise AND, XOR, OR | `&`, then `^`, then `\|` |
-| Conditional AND, OR | `&&`, then `\|\|` |
+| Bitwise AND, then XOR, then OR | `&`, then `^`, then the single vertical bar |
+| Conditional AND, then OR | `&&`, then the double vertical bar |
 | Null-coalescing | `??` |
 | Conditional | `?:` |
-| Assignment and lambda | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `\|=`, `^=`, `<<=`, `>>=`, `=>` |
+| Assignment and lambda | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `^=`, `<<=`, `>>=`, the OR-assignment (vertical bar followed by `=`), `=>` |
 
 **Arithmetic.** `/` on two integers is integer division (the fraction is discarded); `%` is the remainder and takes the sign of the left operand (`-7 % 3` is `-1`). Dividing an integer by zero throws `DivideByZeroException`, while a floating-point division by zero gives `Infinity` or `NaN`. `++` and `--` add or subtract one; the prefix form (`++x`) changes first and yields the new value, the postfix form (`x++`) yields the old value and then changes.
 
