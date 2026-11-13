@@ -15,7 +15,7 @@
  "code": "BCA 401",
  "credits": 3,
  "semester": 7,
- "hours": 45,
+ "hours": 53,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -410,9 +410,97 @@
     "examples": 0
    },
    "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Ethical Hacking Methodology, Attack Categories and Their Defences",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Hackers, hats and the phases of an attack",
+    "Footprinting and reconnaissance",
+    "Scanning and enumeration",
+    "System hacking and password attacks",
+    "Malware threats",
+    "Sniffing, spoofing and session hijacking",
+    "Social engineering and insider threats",
+    "Denial of service and botnets",
+    "Hacking web servers and web applications",
+    "Wireless, mobile, IoT and cloud attack surfaces",
+    "Evading detection: IDS, firewalls and honeypots",
+    "Cryptographic attacks",
+    "Seeing the ideas: the phases, amplification and worm growth",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Hackers, hats and the phases of an attack"
+    },
+    {
+     "no": "8.2",
+     "title": "Footprinting and reconnaissance"
+    },
+    {
+     "no": "8.3",
+     "title": "Scanning and enumeration"
+    },
+    {
+     "no": "8.4",
+     "title": "System hacking and password attacks"
+    },
+    {
+     "no": "8.5",
+     "title": "Malware threats"
+    },
+    {
+     "no": "8.6",
+     "title": "Sniffing, spoofing and session hijacking"
+    },
+    {
+     "no": "8.7",
+     "title": "Social engineering and insider threats"
+    },
+    {
+     "no": "8.8",
+     "title": "Denial of service and botnets"
+    },
+    {
+     "no": "8.9",
+     "title": "Hacking web servers and web applications"
+    },
+    {
+     "no": "8.10",
+     "title": "Wireless, mobile, IoT and cloud attack surfaces"
+    },
+    {
+     "no": "8.11",
+     "title": "Evading detection: IDS, firewalls and honeypots"
+    },
+    {
+     "no": "8.12",
+     "title": "Cryptographic attacks"
+    },
+    {
+     "no": "8.13",
+     "title": "Seeing the ideas: the phases, amplification and worm growth"
+    },
+    {
+     "no": "8.14",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 8686,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 53,
- "notes_ready": 7
+ "unit_count": 8,
+ "topic_count": 67,
+ "notes_ready": 8
 }

@@ -63,6 +63,15 @@
    "read_min": 18,
    "figures": 5,
    "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Ethical Hacking Methodology, Attack Categories and Their Defences",
+   "area": "BCA 401 · Cyber Security and Ethical Hacking · Unit 8",
+   "words": 8522,
+   "read_min": 47,
+   "figures": 3,
+   "has_questions": true
   }
  ]
 }
