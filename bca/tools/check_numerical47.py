@@ -88,5 +88,159 @@ def u1():
     print("newton errs", es)
     ps = [math.log(es[i + 1] / es[i]) / math.log(es[i] / es[i - 1]) for i in range(1, 4)]
     print("p est", ps)
-for w in which:
-    globals()[w]()
+
+def u2():
+    print("== u2")
+    # Neville: cos at x=0.8 from nodes 0,0.5,1.0,1.5
+    xs = [0.0, 0.5, 1.0, 1.5]; ys = [math.cos(x) for x in xs]; x = 0.8
+    print("cos nodes", ys)
+    P = [ys[:]]
+    for k in range(1, 4):
+        P.append([((x - xs[i]) * P[k-1][i+1] - (x - xs[i+k]) * P[k-1][i]) / (xs[i+k] - xs[i]) for i in range(4 - k)])
+    for r in P: print([f"{v:.6f}" for v in r])
+    print("true", math.cos(0.8), "err", abs(P[3][0] - math.cos(0.8)))
+    # inverse interpolation: f(x)=x^3-x-2 at 1.0,1.2,1.4,1.6; find x with f=0 ; Lagrange in y
+    X = [1.0, 1.2, 1.4, 1.6]; Y = [x**3 - x - 2 for x in X]; print("Y", Y)
+    def lag(xs_, ys_, t):
+        s = 0
+        for i in range(len(xs_)):
+            L = 1
+            for j in range(len(xs_)):
+                if j != i: L *= (t - xs_[j]) / (xs_[i] - xs_[j])
+            s += ys_[i] * L
+        return s
+    print("inverse", lag(Y, X, 0.0), "true", 1.5213797068, "using 3 pts (1.2,1.4,1.6):", lag(Y[1:], X[1:], 0.0))
+    # Runge: equispaced vs Chebyshev
+    f = lambda x: 1 / (1 + 25 * x * x)
+    grid = np.linspace(-1, 1, 2001)
+    for n in (5, 9, 13):
+        xe = np.linspace(-1, 1, n + 1); xc = np.cos((2 * np.arange(n + 1) + 1) * np.pi / (2 * (n + 1)))
+        ee = max(abs(lag(xe, f(xe), t) - f(t)) for t in grid[::10]); ec = max(abs(lag(xc, f(xc), t) - f(t)) for t in grid[::10])
+        print("n", n, "equi", ee, "cheb", ec)
+    n = 4; print("cheb nodes n=4 on [-1,1]:", np.cos((2 * np.arange(5) + 1) * np.pi / 10))
+    # error bound example: sin x on [0, pi/2] with nodes 0, pi/4, pi/2 at x=pi/8? bound
+    # Stirling: sin at x0=30 deg table step 10? use f=e^x table x=0.5..1.5 step 0.25? central at 1.0
+    # difference table with typo detection: y = x^3 at 0..7 with one wrong value
+    ys = [0, 1, 8, 27, 74, 125, 216, 343]  # 64 replaced by 74
+    d = [ys]
+    for k in range(5): d.append([d[-1][i+1] - d[-1][i] for i in range(len(d[-1]) - 1)])
+    for r in d: print(r)
+    ys2 = [x**3 for x in range(8)]; d2 = [ys2]
+    for k in range(4): d2.append([d2[-1][i+1] - d2[-1][i] for i in range(len(d2[-1]) - 1)])
+    for r in d2: print(r)
+    # Stirling at x=1.0 table e^x step .25? compute f(1.1) with h=0.1 table at 0.8..1.2
+    xs = [0.8, 0.9, 1.0, 1.1, 1.2]; ys = [math.exp(x) for x in xs]
+    print("e^x", ys); 
+    # stirling: x0=1.0, p=(x-x0)/h. we estimate e^1.04
+    h = 0.1; p = 0.4
+    d1 = [ys[i+1] - ys[i] for i in range(4)]; d2_ = [d1[i+1] - d1[i] for i in range(3)]; d3 = [d2_[i+1] - d2_[i] for i in range(2)]; d4 = d3[1] - d3[0]
+    print("d1", d1, "d2", d2_, "d3", d3, "d4", d4)
+    st = ys[2] + p * (d1[1] + d1[2]) / 2 + p**2 / 2 * d2_[1] + p * (p**2 - 1) / 6 * (d3[0] + d3[1]) / 2 + p**2 * (p**2 - 1) / 24 * d4
+    print("stirling e^1.04", st, "true", math.exp(1.04), "err", abs(st - math.exp(1.04)))
+    st3 = ys[2] + p * (d1[1] + d1[2]) / 2 + p**2 / 2 * d2_[1]
+    print("stirling 2nd order", st3)
+    # least squares: R^2 for data of Q2 in unit 2
+    X = np.array([1, 2, 3, 4, 5.]); Yv = np.array([2.1, 3.9, 6.2, 7.8, 10.1])
+    A = np.vstack([np.ones(5), X]).T; coef = np.linalg.lstsq(A, Yv, rcond=None)[0]
+    res = Yv - A @ coef; SSE = (res**2).sum(); SST = ((Yv - Yv.mean())**2).sum()
+    print("coef", coef, "res", res, "SSE", SSE, "SST", SST, "R2", 1 - SSE / SST, "se", math.sqrt(SSE / 3))
+    # outlier
+    Y2 = Yv.copy(); Y2[4] = 5.0; c2 = np.linalg.lstsq(A, Y2, rcond=None)[0]; print("with outlier", c2)
+    # weighted LS: weights 1,1,1,1,0.1 for last
+    W = np.diag([1, 1, 1, 1, 0.1]); cw = np.linalg.solve(A.T @ W @ A, A.T @ W @ Y2); print("weighted", cw)
+    # Hilbert/normal-equation conditioning: monomial fit degree m on x=1..10
+    xx = np.arange(1, 11.0)
+    for m in (1, 2, 4, 6):
+        V = np.vander(xx, m + 1); print("deg", m, "cond(V)", np.linalg.cond(V), "cond(V^T V)", np.linalg.cond(V.T @ V))
+    print("hilbert 5 cond", np.linalg.cond(np.array([[1/(i+j+1) for j in range(5)] for i in range(5)])))
+    # piecewise comparisons: sin x on [0,pi], 5 nodes (h=pi/4): linear, natural spline, clamped spline errors
+    from scipy.interpolate import CubicSpline
+    xn = np.linspace(0, math.pi, 5); yn = np.sin(xn); tt = np.linspace(0, math.pi, 1001)
+    lin = np.interp(tt, xn, yn); nat = CubicSpline(xn, yn, bc_type="natural")(tt); cla = CubicSpline(xn, yn, bc_type=((1, 1.0), (1, -1.0)))(tt)
+    poly = np.array([lag(xn, yn, t) for t in tt])
+    for nm, v in (("linear", lin), ("natural", nat), ("clamped", cla), ("poly4", poly)): print(nm, abs(v - np.sin(tt)).max())
+    print("at 1.0: sin", math.sin(1.0), "lin", np.interp(1.0, xn, yn), "nat", CubicSpline(xn, yn, bc_type="natural")(1.0), "cla", CubicSpline(xn, yn, bc_type=((1, 1.0), (1, -1.0)))(1.0))
+    # interpolation error bound: sin on nodes 0, pi/4, pi/2, at x = pi/8
+    xk = [0, math.pi / 4, math.pi / 2]; t = math.pi / 8
+    w = 1
+    for xi in xk: w *= (t - xi)
+    print("w", w, "bound", abs(w) / 6, "actual err", abs(lag(xk, [math.sin(v) for v in xk], t) - math.sin(t)))
+
+def u3():
+    print("== u3")
+    # derivative of e^x at 1, forward vs central vs h
+    print("h  forward  central  err_f  err_c")
+    ex = math.e
+    for k in range(1, 17):
+        h = 10.0**-k
+        fw = (math.exp(1 + h) - math.exp(1)) / h; ce = (math.exp(1 + h) - math.exp(1 - h)) / (2 * h)
+        print(f"1e-{k} {fw:.10f} {ce:.10f} {abs(fw-ex):.2e} {abs(ce-ex):.2e}")
+    # Richardson on central: D(h)=central h; D(h/2); R=(4D(h/2)-D(h))/3
+    f = math.cos; x = 1.0; true = -math.sin(1.0)
+    D = lambda h: (f(x + h) - f(x - h)) / (2 * h)
+    print("cos' at 1: D(.4)", D(.4), "D(.2)", D(.2), "D(.1)", D(.1), "true", true)
+    R1 = [(4 * D(h/2) - D(h)) / 3 for h in (0.4, 0.2)]
+    R2 = (16 * R1[1] - R1[0]) / 15
+    print("R1", R1, "R2", R2, "errs", [abs(r - true) for r in R1], abs(R2 - true))
+    # five-point formula
+    h = 0.1; fp5 = (f(x - 2*h) - 8*f(x - h) + 8*f(x + h) - f(x + 2*h)) / (12 * h); print("5pt", fp5, abs(fp5 - true))
+    # second derivative
+    h = 0.1; f2 = (f(x + h) - 2 * f(x) + f(x - h)) / h**2; print("2nd", f2, "true", -math.cos(1), abs(f2 + math.cos(1)))
+    # optimal h estimate
+    print("opt h forward ~ 2*sqrt(eps)", 2*math.sqrt(2.2e-16), "central ~ eps^(1/3)", (2.2e-16)**(1/3))
+    # strips needed: integral of e^x on [0,1] trapezoid, simpson, tolerance 1e-6
+    # trap error <= (b-a)h^2/12 max f'' = e h^2/12 -> h<= sqrt(12e-6/e) ; simpson (b-a)h^4/180 e
+    n_t = math.ceil(1 / math.sqrt(12e-6 / math.e)); n_s = math.ceil(1 / (180e-6 / math.e) ** 0.25)
+    if n_s % 2: n_s += 1
+    print("n trap", n_t, "n simpson", n_s)
+    def trap(f, a, b, n): h = (b - a) / n; return h * (f(a)/2 + sum(f(a + i*h) for i in range(1, n)) + f(b)/2)
+    def simp(f, a, b, n): h = (b - a) / n; return h/3 * (f(a) + f(b) + 4*sum(f(a + i*h) for i in range(1, n, 2)) + 2*sum(f(a + i*h) for i in range(2, n, 2)))
+    I = math.e - 1
+    print("trap n_t", trap(math.exp, 0, 1, n_t) - I, "simp n_s", simp(math.exp, 0, 1, n_s) - I)
+    for n in (2, 4, 8, 16): print(n, trap(math.exp, 0, 1, n) - I, simp(math.exp, 0, 1, n) - I)
+    # midpoint
+    def mid(f, a, b, n): h = (b - a) / n; return h * sum(f(a + (i + .5) * h) for i in range(n))
+    print("mid n=4", mid(math.exp, 0, 1, 4), "err", mid(math.exp,0,1,4)-I, "trap n=4", trap(math.exp,0,1,4))
+    # Boole's rule (4 strips, h=0.25) for e^x
+    h = 0.25; xs = [i*h for i in range(5)]; ys = [math.exp(v) for v in xs]
+    boole = 2*h/45 * (7*ys[0] + 32*ys[1] + 12*ys[2] + 32*ys[3] + 7*ys[4]); print("boole", boole, boole - I, "simpson n=4", simp(math.exp,0,1,4)-I)
+    # Gauss-Legendre
+    for n in (2, 3, 4):
+        xg, wg = np.polynomial.legendre.leggauss(n); print(n, xg, wg)
+        v = 0.5 * sum(w * math.exp(0.5 * (x + 1)) for x, w in zip(xg, wg)); print("GL", n, "e^x [0,1]", v, v - I)
+    # sin on [0,pi]
+    for n in (2, 3, 4):
+        xg, wg = np.polynomial.legendre.leggauss(n); v = math.pi/2 * sum(w * math.sin(math.pi/2 * (x + 1)) for x, w in zip(xg, wg)); print("GL", n, "sin[0,pi]", v, v - 2)
+    print("simpson n=2 sin", simp(math.sin, 0, math.pi, 2), "simp 4", simp(math.sin, 0, math.pi, 4))
+    # int 1/(1+x^2) 0..1 = pi/4 using GL2, GL3
+    for n in (2, 3):
+        xg, wg = np.polynomial.legendre.leggauss(n); v = 0.5 * sum(w / (1 + (0.5*(x+1))**2) for x, w in zip(xg, wg)); print("GL atan", n, v, v - math.pi/4)
+    # exactness check: GL2 integrates x^3 on [-1,1]
+    # adaptive Simpson on sqrt-like (x^0.5) 0..1 and on sin(1/x)? use exp(-x^2)? choose peak function 1/(1e-2 + (x-0.3)^2) 0..1
+    cnt = [0]
+    def g(x): cnt[0] += 1; return 1 / (0.01 + (x - 0.3)**2)
+    def asr(f, a, b, tol, whole, fa, fm, fb, depth=0):
+        m = (a + b) / 2; lm = (a + m) / 2; rm = (m + b) / 2; flm = f(lm); frm = f(rm)
+        left = (m - a) / 6 * (fa + 4 * flm + fm); right = (b - m) / 6 * (fm + 4 * frm + fb)
+        if abs(left + right - whole) <= 15 * tol or depth > 40: return left + right + (left + right - whole) / 15
+        return asr(f, a, m, tol/2, left, fa, flm, fm, depth+1) + asr(f, m, b, tol/2, right, fm, frm, fb, depth+1)
+    a, b = 0, 1; fa, fb = g(a), g(b); fm = g(.5); whole = (b - a)/6*(fa + 4*fm + fb)
+    cnt[0] = 0; val = asr(g, a, b, 1e-8, whole, fa, fm, fb); ncount = cnt[0]
+    exact = 10 * (math.atan((1 - 0.3)/0.1) - math.atan(-0.3/0.1))
+    print("adaptive", val, exact, abs(val - exact), "evals", ncount)
+    # fixed Simpson with same accuracy: find n
+    for n in (10, 20, 50, 100, 200, 400, 800, 1600):
+        v = simp(lambda x: 1/(0.01 + (x-0.3)**2), 0, 1, n); print(n, abs(v - exact))
+    # improper: int_0^1 x^-1/2 : substitution x=t^2 -> int 2 dt = 2 ; simpson fails
+    print("sqrt-sing trap n=100 midpoint:", mid(lambda x: x**-0.5, 0, 1, 100), mid(lambda x: x**-0.5, 0, 1, 10000))
+    # int_0^inf e^-x^2 = sqrt(pi)/2 via x=t/(1-t)
+    h2 = lambda t: math.exp(-(t/(1-t))**2) / (1-t)**2 if t < 1 else 0.0
+    print("inf", simp(h2, 0, 1, 40), math.sqrt(math.pi)/2)
+    # Monte Carlo e^x on 0..1
+    rng = np.random.default_rng(2024)
+    for N in (100, 10000, 1000000):
+        xs_ = rng.random(N); v = np.exp(xs_).mean(); print("MC", N, v, v - I, "se", np.exp(xs_).std() / math.sqrt(N))
+
+if __name__ == "__main__":
+    for w in which:
+        globals()[w]()

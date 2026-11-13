@@ -309,6 +309,193 @@ f.text(306, 222, "x", size=10, color=SLATE)
 7. **Numerical integration and differentiation.** Rules such as Simpson's are derived by fitting a polynomial through a few points and integrating it. Interpolation is therefore the base of the next unit. Without it there would be no Newton-Cotes formulas.
 8. **Machine learning and data science.** Linear regression is least squares, and curve fitting underlies many models that learn from noisy data. Understanding it explains overfitting, which is the modern form of Runge's wiggles. The idea of balance between fit and smoothness appears everywhere.
 
+## 2.9 Neville's algorithm and inverse interpolation
+
+**Neville's algorithm** evaluates the interpolating polynomial at *one* value $x$ without ever finding its coefficients. Write $P_{i,j}(x)$ for the value at $x$ of the polynomial through the nodes $x_i, \dots, x_j$. Single nodes give $P_{i,i} = y_i$, and each higher entry blends two neighbours:
+
+$$P_{i,j}(x) = \frac{(x - x_i)\,P_{i+1,j}(x) - (x - x_j)\,P_{i,j-1}(x)}{x_j - x_i} .$$
+
+The table is built column by column and the top-right entry is the answer. It is the method of choice when the interpolant is needed at a single point, and the intermediate columns show how the estimate settles as nodes are added.
+
+::: example cos 0.8 from the nodes 0, 0.5, 1.0, 1.5
+Node values: $\cos 0 = 1.000000$, $\cos 0.5 = 0.877583$, $\cos 1.0 = 0.540302$, $\cos 1.5 = 0.070737$.
+
+| $x_i$ | $P_{i,i}$ | $P_{i,i+1}$ | $P_{i,i+2}$ | $P_{i,i+3}$ |
+|---|---|---|---|---|
+| 0.0 | 1.000000 | 0.804132 | 0.700998 | **0.695713** |
+| 0.5 | 0.877583 | 0.675214 | 0.691089 | |
+| 1.0 | 0.540302 | 0.728128 | | |
+| 1.5 | 0.070737 | | | |
+
+The true value is $\cos 0.8 = 0.696707$, so the cubic interpolant is in error by $9.9\times 10^{-4}$. The successive top-row entries 1.000, 0.804, 0.701, 0.696 show the estimate converging, and the last step changes it by only 0.005, which is a useful warning of the size of the remaining error. Newton's divided differences (Section 2.4) give the *same* polynomial; Neville avoids storing its coefficients.
+:::
+
+**Inverse interpolation.** Given a table of $y = f(x)$ and a target value $y^{*}$, find the $x$ with $f(x) = y^{*}$. If $f$ is monotonic on the table, interchange the roles: interpolate $x$ as a function of $y$ with Lagrange or Newton, and evaluate at $y^{*}$. Setting $y^{*} = 0$ gives a **root-finding method** that needs only tabulated values (no derivative). The $x$ values need not be equally spaced, so Lagrange's form is the natural tool.
+
+::: example Root of x³ − x − 2 from a table
+For $x = 1.4, 1.5, 1.6, 1.7$ the values are $-0.656, -0.125, +0.496, +1.213$. Lagrange interpolation of $x$ against $y$ at $y = 0$ gives $x = 1.52143$ (true root 1.52138, error $5\times 10^{-5}$). A coarser table with $x = 1.0, 1.2, 1.4, 1.6$ gives only 1.5136, an error of 0.008: the polynomial in $y$ must follow $x = f^{-1}(y)$, which curves more sharply when the table spacing is wide. Narrow the bracket first.
+:::
+
+## 2.10 Error bound and the choice of nodes: Chebyshev points
+
+For $n+1$ nodes the interpolation error at $x$ is
+
+$$f(x) - p_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}\,(x - x_0)(x - x_1)\cdots(x - x_n),\qquad \xi \in (\min, \max).$$
+
+The first factor is a property of $f$; the product $w(x) = \prod (x - x_i)$ is a property of the **nodes**, and we are free to choose them.
+
+::: example Error bound for sin x at x = π/8 with three nodes 0, π/4, π/2
+Here $|f'''| = |\cos \xi| \le 1$ and $w(\pi/8) = (\pi/8)(-\pi/8)(-3\pi/8) = 0.18168$. So $|E| \le \dfrac{0.18168}{3!} = 0.0303$. The actual error of the quadratic through the three nodes is 0.0226, comfortably inside the bound. The bound is only as good as the estimate for the derivative.
+:::
+
+**Which nodes make $\max|w(x)|$ smallest?** Equally spaced nodes make $w$ small in the middle and large near the ends, which is the cause of Runge's phenomenon (Section 2.8). The minimum possible maximum over $[-1, 1]$ is achieved by the **Chebyshev nodes**, the zeros of the Chebyshev polynomial $T_{n+1}$:
+
+$$x_k = \cos\!\left(\frac{(2k+1)\pi}{2(n+1)}\right),\qquad k = 0, 1, \dots, n,$$
+
+which bunch up towards the ends of the interval. For a general interval $[a, b]$ map them with $x = \frac{a+b}{2} + \frac{b-a}{2}\,x_k$. For $n = 4$ the nodes on $[-1, 1]$ are $\pm 0.9511$, $\pm 0.5878$ and 0. With them $\max|w| = 2^{-n}$ (for $[-1, 1]$) which is the best possible.
+
+::: example Interpolating 1/(1 + 25x²) on [−1, 1]
+Maximum error over the interval for a polynomial of degree $n$ (computed on a fine grid):
+
+| Degree $n$ | Equally spaced nodes | Chebyshev nodes |
+|---|---|---|
+| 4 | 0.438 | 0.402 |
+| 8 | 1.045 | 0.171 |
+| 12 | 3.663 | 0.0692 |
+| 16 | 14.39 | 0.0326 |
+| 20 | 59.82 | 0.0153 |
+
+With equally spaced nodes the error *grows* by a factor of about four for every four extra nodes; with Chebyshev nodes it shrinks steadily. Same function, same degree, same method; only the node positions differ.
+:::
+
+```svgfig label="2.5" caption="Maximum interpolation error of $1/(1 + 25x^{2})$ on [-1, 1] against polynomial degree (log scale; 0 means an error of 1, 1 means an error of 10). Equally spaced nodes (red) get steadily worse, Chebyshev nodes (navy) steadily better. Values from the table above."
+import math
+f = Fig(540, 240)
+ax = Axes(f, 56, 14, 500, 180, (2, 22), (-2.2, 2.2))
+ax.grid(4, 1)
+ax.axes("", "")
+deg = [4, 8, 12, 16, 20]
+eq = [0.4384, 1.0452, 3.6634, 14.3939, 59.8223]
+ch = [0.402, 0.1708, 0.0692, 0.0326, 0.0153]
+for vals, col in ((eq, RED), (ch, NAVY)):
+    P = [(d, math.log10(v)) for d, v in zip(deg, vals)]
+    for (x1, y1), (x2, y2) in zip(P, P[1:]):
+        f.line(ax.X(x1), ax.Y(y1), ax.X(x2), ax.Y(y2), color=col, sw=2.4)
+    for x, y in P:
+        f.circle(ax.X(x), ax.Y(y), 3.6, fill=col, stroke=col)
+f.text(380, 40, "equally spaced nodes", size=10.5, color=RED, bold=True)
+f.text(380, 160, "Chebyshev nodes", size=10.5, color=NAVY, bold=True)
+f.text(280, 214, "polynomial degree n", size=10.5, color=SLATE)
+f.text(280, 230, "log10 of the maximum error", size=10, color=SLATE)
+```
+
+```svgfig label="2.6" caption="Where to place the nodes. Equal angles on a semicircle project onto the axis as the Chebyshev nodes (navy): they crowd towards both ends. Equally spaced nodes of the same number (red, below the axis) are uniform. Fourteen nodes on [-1, 1]."
+import math
+f = Fig(560, 230)
+cx, cy, R = 280, 150, 215
+f.line(cx - R - 10, cy, cx + R + 10, cy, color=SLATE, sw=1.4)
+pts = []
+for i in range(0, 61):
+    t = math.pi * i / 60
+    pts.append((cx + R * math.cos(t), cy - R * 0.6 * math.sin(t)))
+for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+    f.line(x1, y1, x2, y2, color=SLATE, sw=1.2)
+for k in range(14):
+    t = math.pi * (2 * k + 1) / 28
+    x, y = cx + R * math.cos(t), cy - R * 0.6 * math.sin(t)
+    f.line(x, y, x, cy, color=NAVY, sw=0.9, dash=True)
+    f.circle(x, y, 3, fill=BLUE, stroke=NAVY)
+    f.circle(x, cy, 4.5, fill=BLUE, stroke=NAVY)
+    xe = cx - R + 2 * R * k / 13
+    f.circle(xe, cy + 26, 4.5, fill=ROSE, stroke=RED)
+f.text(cx - R - 8, cy + 54, "-1", size=10, color=SLATE)
+f.text(cx + R - 6, cy + 54, "+1", size=10, color=SLATE)
+f.text(cx - 4, cy + 54, "0", size=10, color=SLATE)
+f.text(cx - 60, 24, "Chebyshev nodes (navy)", size=10.5, color=NAVY, bold=True)
+f.text(cx - 100, cy + 76, "equally spaced nodes (red)", size=10.5, color=RED, bold=True)
+```
+
+## 2.11 Central differences and checking a difference table
+
+**Stirling's formula.** Newton's forward and backward formulas are best at the start and end of a table. For a point near the **middle**, central-difference formulas use values on both sides and converge faster. With $p = (x - x_0)/h$ and the central entry $y_0$, *Stirling's formula* is
+
+$$y_p = y_0 + p\,\frac{\Delta y_{-1} + \Delta y_0}{2} + \frac{p^{2}}{2}\Delta^{2}y_{-1} + \frac{p(p^{2}-1)}{3!}\cdot\frac{\Delta^{3}y_{-2} + \Delta^{3}y_{-1}}{2} + \frac{p^{2}(p^{2}-1)}{4!}\Delta^{4}y_{-2} + \cdots$$
+
+It is most accurate for $|p| \le 0.25$ but works well up to about 0.5.
+
+::: example e^1.04 from the table e^x at 0.8, 0.9, 1.0, 1.1, 1.2 (x₀ = 1.0, h = 0.1, p = 0.4)
+Values: 2.225541, 2.459603, 2.718282, 3.004166, 3.320117.
+
+| $x$ | $y$ | $\Delta y$ | $\Delta^2 y$ | $\Delta^3 y$ | $\Delta^4 y$ |
+|---|---|---|---|---|---|
+| 0.8 | 2.225541 | 0.234062 | 0.024617 | 0.002589 | 0.000272 |
+| 0.9 | 2.459603 | 0.258679 | 0.027205 | 0.002861 | |
+| 1.0 | 2.718282 | 0.285884 | 0.030067 | | |
+| 1.1 | 3.004166 | 0.315951 | | | |
+| 1.2 | 3.320117 | | | | |
+
+With two terms plus the second-difference term the estimate is 2.829371 (error $1.5\times 10^{-4}$); with all terms through $\Delta^{4}$ it is **2.829217**, against the true $e^{1.04} = 2.829217$ (error $3\times 10^{-7}$). Every added difference gains roughly two decimals, so the size of the next difference tells you when to stop.
+:::
+
+**Finding bad data with differences.** The $k$-th differences of a polynomial of degree $k$ are constant, and for smooth data they are small and smooth. A single wrong entry spreads into the table in the **binomial pattern** $\varepsilon\,(1, -1)$, $\varepsilon\,(1, -2, 1)$, $\varepsilon\,(1, -3, 3, -1)$, ... growing in each column, with the middle value in line with the mistake.
+
+::: example A typo in a table of x³
+The true values for $x = 0, 1, \dots, 7$ are 0, 1, 8, 27, 64, 125, 216, 343; a clerk writes 74 for 64. Third differences should be a constant 6:
+
+| | | | | | | | |
+|---|---|---|---|---|---|---|---|
+| $y$ | 0 | 1 | 8 | 27 | 74 | 125 | 216 | 343 |
+| $\Delta^3 y$ | 6 | 16 | −24 | 36 | −4 | | | |
+
+The deviations from 6 are 0, 10, −30, 30, −10, which is $10\times(1, -3, 3, -1)$: the pattern of a single error of size $\varepsilon = 10$, centred on the fifth value, 74. Correcting it to 64 restores the constant 6.
+:::
+
+## 2.12 Piecewise interpolation compared: linear, spline and one polynomial
+
+A single high-degree polynomial through many points oscillates (Section 2.8). The remedy is a **piecewise** interpolant: low-degree pieces joined at the nodes. Piecewise linear interpolation joins the points with straight lines: continuous but with corners, and error $\le \dfrac{h^{2}}{8}\max|f''|$. A **cubic spline** (Section 2.6) uses a cubic on every sub-interval and demands matching $y$, $y'$ and $y''$ at every interior node, which makes it smooth to the eye. Two extra conditions are needed at the ends: the **natural** spline sets $S'' = 0$ there; the **clamped** spline sets $S'$ to the known end slopes. The clamped spline is more accurate when the end slopes are known; the natural spline forces a zero second derivative that the data may not have.
+
+::: example Five points of sin x on [0, π] (h = π/4): maximum error over the whole interval
+| Interpolant | Maximum error |
+|---|---|
+| Piecewise linear | 0.0704 |
+| One polynomial of degree 4 | 0.00181 |
+| Natural cubic spline | 0.00107 |
+| Clamped cubic spline (slopes +1 and −1) | 0.00112 |
+
+At $x = 1.0$ (true $\sin 1 = 0.841471$) the linear value is 0.787137, the natural spline 0.840726 and the clamped spline 0.840662. On smooth data like this the spline beats the degree-4 polynomial although it uses the same five points, and unlike the polynomial it does not get worse as points are added. Natural and clamped agree to about $5\times 10^{-4}$ because the true end curvature of sine is near zero, so the natural condition is nearly right here.
+:::
+
+## 2.13 How good is the fit? Residuals, weighted least squares and conditioning
+
+**Residuals and the fit measure.** After fitting $\hat{y}_i = a + bx_i$, the residuals $r_i = y_i - \hat{y}_i$ always satisfy $\sum r_i = 0$ and $\sum x_i r_i = 0$ (the normal equations). Two summary numbers are used: the **sum of squared errors** $SSE = \sum r_i^{2}$ and the **coefficient of determination**
+
+$$R^{2} = 1 - \frac{SSE}{SST},\qquad SST = \sum (y_i - \bar{y})^{2},$$
+
+the fraction of the variation in $y$ explained by the fit ($R^{2} = 1$ is perfect). The standard error $s_e = \sqrt{SSE/(n-2)}$ for a straight line is a typical size of the residual in the units of $y$.
+
+::: example The five-point line of Section 2.7
+For the data (1, 2.1), (2, 3.9), (3, 6.2), (4, 7.8), (5, 10.1) the line is $y = 0.05 + 1.99x$. The residuals are +0.06, −0.13, +0.18, −0.21, +0.10 (sum 0), $SSE = 0.107$ and $SST = 39.708$, so $R^{2} = 0.9973$ and $s_e = \sqrt{0.107/3} = 0.189$. The fit explains 99.7 % of the variation, and a prediction is typically wrong by about 0.19.
+:::
+
+**Outliers.** Squaring the residuals gives a bad point a big vote. Replacing the last observation 10.1 by 5.0 changes the fitted line to $y = 2.09 + 0.97x$: the slope halves because of one point.
+
+**Weighted least squares.** If observation $i$ is trusted with weight $w_i$, minimise $\sum w_i r_i^{2}$. The normal equations become $(A^{T}WA)\,c = A^{T}W y$ with $W = \operatorname{diag}(w_i)$. Giving the doubtful point weight 0.1 (others 1) turns the line above into $y = 0.57 + 1.73x$, which is again close to the trend of the other four points. Use weights $w_i = 1/\sigma_i^{2}$ when the measurement variances $\sigma_i^{2}$ are known.
+
+**Conditioning of the normal equations.** For a polynomial fit of degree $m$ the matrix $A^{T}A$ of the normal equations is nearly singular once $m$ is more than four or five. For $x = 1, 2, \dots, 10$ the condition number of the design matrix $A$ and of $A^{T}A$ (the square, since cond$(A^{T}A) = $ cond$(A)^{2}$) are:
+
+| Degree | cond($A$) | cond($A^{T}A$) |
+|---|---|---|
+| 1 | 14 | $1.9\times 10^{2}$ |
+| 2 | $2.0\times 10^{2}$ | $4.1\times 10^{4}$ |
+| 4 | $6.6\times 10^{4}$ | $4.4\times 10^{9}$ |
+| 6 | $3.7\times 10^{7}$ | $1.4\times 10^{15}$ |
+
+At degree 6 the normal equations hold no reliable digits in double precision. The cures are to centre and scale $x$ (use $t = (x - \bar{x})/s$), to solve the least-squares problem by **QR factorisation** (which works with $A$ itself, not $A^{T}A$), or to use **orthogonal polynomials** (Legendre, Chebyshev) for which $A^{T}A$ is diagonal. The Hilbert matrix, the normal-equation matrix of fitting by powers on $[0, 1]$, has condition number $4.8\times 10^{5}$ at size 5 and grows exponentially.
+
+::: caution Do not fit a high degree just because you can
+Degree $n - 1$ passes through all $n$ points ($R^{2} = 1$, zero residual) and says nothing about the next observation. Compare fits on data that were *not* used (a hold-out set) and choose the smallest degree whose residuals look like noise.
+:::
+
 ## Formula and fact sheet
 
 - Error: $f (x) - P_{n} (x) = \frac{f^{(n+1)} (\xi)}{(n + 1) !} \cdot \Pi (x - x_{i})$.
@@ -317,6 +504,10 @@ f.text(306, 222, "x", size=10, color=SLATE)
 - Forward: $u = \frac{(x - x_{0})}{h}$, terms $\frac{u (u - 1) \ldots}{k}$! $\Delta^{k} y_{0}$. Backward: $u = \frac{(x - x_{n})}{h}$, terms $\frac{u (u + 1) \ldots}{k}$! $\nabla^{k} y_{n}$.
 - Spline: continuity of $S ,\  S' ,\  S''$; natural ends $S'' = 0$; tridiagonal system for $M_{i}$.
 - Line fit: $b = \frac{n \sum x y - \sum x \sum y}{n \sum x^{2} - \left( \sum x \right)^{2}} ,\  a = \frac{\sum y - b \sum x}{n}$.
+- Neville: $P_{i,j} = \dfrac{(x - x_i)P_{i+1,j} - (x - x_j)P_{i,j-1}}{x_j - x_i}$; inverse interpolation swaps the roles of $x$ and $y$.
+- Interpolation error $= \dfrac{f^{(n+1)}(\xi)}{(n+1)!}\prod (x - x_i)$; Chebyshev nodes $\cos\frac{(2k+1)\pi}{2(n+1)}$ minimise the product (max $= 2^{-n}$ on $[-1,1]$).
+- Stirling (central): $y_0 + p\frac{\Delta y_{-1} + \Delta y_0}{2} + \frac{p^2}{2}\Delta^2 y_{-1} + \cdots$; one wrong entry $\varepsilon$ spreads as $\varepsilon(1, -3, 3, -1)$ in $\Delta^3$.
+- Fit quality: $R^2 = 1 - SSE/SST$; weighted LS: $(A^TWA)c = A^TWy$; cond$(A^TA) = $ cond$(A)^2$.
 
 ## Chapter summary
 
@@ -324,6 +515,7 @@ f.text(306, 222, "x", size=10, color=SLATE)
 - The error depends on the (*n* + 1)th derivative and the product of distances to the nodes: interpolate near the centre and avoid very high degrees.
 - Cubic splines give a smooth piecewise fit by solving a tridiagonal system.
 - Least squares fits noisy data by minimising squared residuals; many non-linear models reduce to straight lines after a transformation.
+- Neville's algorithm and inverse interpolation extend the Lagrange/Newton tools; node choice (Chebyshev) controls the error bound; central differences suit mid-table values and detect bad data; splines beat one high-degree polynomial; least-squares quality is judged by residuals and $R^2$, weights handle unequal trust and the normal equations become ill-conditioned for high degree.
 
 ## Practice
 
@@ -337,6 +529,16 @@ f.text(306, 222, "x", size=10, color=SLATE)
 8. Fit $y = A e^{B x}$ to (1, 2.7), (2, 4.0), (3, 6.1), (4, 9.2), (5, 13.5).
 9. Distinguish interpolation from least-squares approximation.
 10. What is Runge's phenomenon, and how do splines avoid it?
+11. Use Neville's algorithm to estimate $\sqrt{5}$ from the nodes $x = 1, 4, 9$ ($y = 1, 2, 3$).
+12. The table $x = 0, 0.1, 0.2, 0.3$ gives $y = 1.0000, 1.1052, 1.2214, 1.3499$ (values of $e^{x}$). Estimate the $x$ for which $y = 1.15$ by inverse Lagrange interpolation and compare with $\ln 1.15$.
+13. Bound the error of linear interpolation of $\ln x$ between $x = 2$ and $x = 3$ at $x = 2.5$, and compare with the actual error.
+14. Find the Chebyshev nodes of degree 2 (three nodes) on $[-1, 1]$ and on $[0, 4]$.
+15. The values 3, 8, 15, 24, 38, 48, 63 are meant to be $x^{2} - 1$ for $x = 2, \dots, 8$. Locate the wrong entry with a difference table.
+16. Estimate $e^{1.04}$ using only Stirling's terms up to $\Delta^{2}$ with the table of Section 2.11, and state the error.
+17. Why can a natural cubic spline be less accurate than a clamped one near the ends?
+18. For the data (1, 2.1), (2, 3.9), (3, 6.2), (4, 7.8), (5, 10.1) verify that the residuals of the least-squares line sum to zero and find $R^{2}$.
+19. Explain why fitting a degree-9 polynomial through ten noisy points is a poor idea even though the fit error is zero.
+20. A fit is made with weights 1, 1, 1, 1, 0.1 on the last point. Write the weighted normal equations for a line in terms of $\sum w$, $\sum wx$, $\sum wx^{2}$, $\sum wy$, $\sum wxy$.
 
 ::: note Answers and worked solutions
 **1.** $f (x) - P_{n} (x) = \frac{f^{(n+1)} (\xi) (x - x_{0}) \ldots (x - x_{n})}{(n + 1) !}$. Near the middle the factors |x − $x_{i} \mid$ are smaller (some nodes lie on either side), whereas near the ends all distances are large, so the product and the error are bigger.
@@ -358,6 +560,27 @@ f.text(306, 222, "x", size=10, color=SLATE)
 **9.** Interpolation reproduces the data points exactly and is suited to exact (or very accurate) data; least squares gives a smoother curve that need not pass through any point and is suited to noisy data.
 
 **10.** For equally spaced nodes, a high-degree interpolating polynomial may oscillate wildly near the interval ends (for example $\frac{1}{(1 + 25 x^{2})}$). A spline uses low-degree cubic pieces, so a local change affects only nearby intervals and no big oscillations build up.
+
+**11.** Nodes 1, 4, 9 with $y = 1, 2, 3$ and $x = 5$. $P_{1,2} = \dfrac{(5-1)(2) - (5-4)(1)}{4-1} = \dfrac{8 - 1}{3} = 2.3333$; $P_{2,3} = \dfrac{(5-4)(3) - (5-9)(2)}{9-4} = \dfrac{3 + 8}{5} = 2.2$; $P_{1,3} = \dfrac{(5-1)(2.2) - (5-9)(2.3333)}{9-1} = \dfrac{8.8 + 9.3333}{8} = \mathbf{2.2667}$. True $\sqrt{5} = 2.2361$ (error 0.031: three widely spaced nodes).
+
+**12.** Interpolate $x$ against $y$ and evaluate at $y = 1.15$: $x = 0.139759$. Exact $\ln 1.15 = 0.139762$, error $3\times 10^{-6}$ (the table is narrow and monotone, so inverse interpolation works well).
+
+**13.** $|E| \le \dfrac{|(x-2)(x-3)|}{2}\max|f''| = \dfrac{0.25}{2}\cdot\dfrac{1}{4} = 0.03125$ since $f'' = -1/x^{2}$ has maximum modulus $1/4$ on $[2, 3]$. The linear estimate is $(\ln 2 + \ln 3)/2 = 0.895880$ against $\ln 2.5 = 0.916291$: actual error 0.0204, inside the bound.
+
+**14.** Degree 2 means three nodes $\cos\frac{(2k+1)\pi}{6}$: $+0.8660,\ 0,\ -0.8660$ on $[-1, 1]$. On $[0, 4]$ use $x = 2 + 2x_k$: $3.7321,\ 2,\ 0.2679$.
+
+**15.** Second differences of $x^{2} - 1$ must be the constant 2. The table gives 2, 2, 5, −4, 5. The deviations from 2 are 0, 0, 3, −6, 3 = $3\times(1, -2, 1)$, centred on the fifth value in the list (that is $x = 6$): it was written as 38 instead of $6^{2} - 1 = 35$ (error $+3$).
+
+**16.** Here $p = 0.4$ and $y_0 = 2.718282$. First-order term: $p\,\dfrac{\Delta y_{-1} + \Delta y_0}{2} = 0.4(0.272281) = 0.108913$. Second-order term: $\dfrac{p^{2}}{2}\Delta^{2}y_{-1} = 0.08(0.027205) = 0.002176$. Sum: $\mathbf{2.829371}$. True $e^{1.04} = 2.829217$, error $1.5\times 10^{-4}$; the omitted third-difference term is $\approx \dfrac{p(p^{2}-1)}{6}(0.002725) = -0.000153$, which is about the size of the error, so including it removes it.
+
+**17.** The natural spline forces $S'' = 0$ at both ends whether or not the function has zero curvature there; the error is largest next to the ends where this wrong condition acts. The clamped spline uses the true end slopes and loses this error. If the true $f''$ is near zero at the ends (as for sine on $[0, \pi]$) the two are nearly equal (maximum errors 0.00107 and 0.00112).
+
+**18.** The line is $y = 0.05 + 1.99x$. Fitted values: 2.04, 4.03, 6.02, 8.01, 10.00; residuals $+0.06, -0.13, +0.18, -0.21, +0.10$, which sum to 0. $SSE = 0.0036 + 0.0169 + 0.0324 + 0.0441 + 0.01 = 0.107$; $SST = \sum (y - 6.02)^{2} = 39.708$; $R^{2} = 1 - 0.107/39.708 = 0.9973$.
+
+**19.** Nine degrees of freedom for ten points means zero residual at the data, but the polynomial then has to wiggle through the noise (Runge-type oscillation between and beyond the points) and the monomial normal equations are badly conditioned. The model memorises the noise (over-fitting) and predicts new points poorly. Use a low degree or a spline, and check on held-out data.
+
+**20.** With $W = \operatorname{diag}(1, 1, 1, 1, 0.1)$: $\left(\sum w\right) a + \left(\sum wx\right) b = \sum wy$ and $\left(\sum wx\right) a + \left(\sum wx^{2}\right) b = \sum wxy$, where $\sum w = 4.1$ and the last point enters every sum with one tenth of its usual size.
+
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -418,3 +641,16 @@ $b = \frac{n \sum x y - \sum x \sum y}{n \sum x^{2} - \left( \sum x \right)^{2}}
 | Typical use | Table look-up, graphics | Trend lines, calibration |
 
 *Conclusion.* Use interpolation for accurate tabulated values within the range, using Newton's form for convenience and splines for many points; use least squares for measurement data. Extrapolation is less reliable than interpolation in both cases.
+
+**Q4 (5 marks). Use Neville's algorithm to estimate $\cos 0.8$ from the values of $\cos x$ at $x = 0, 0.5, 1.0, 1.5$. State the error.**
+
+*Formula.* $P_{i,j}(x) = \dfrac{(x - x_i)P_{i+1,j} - (x - x_j)P_{i,j-1}}{x_j - x_i}$ with $P_{i,i} = y_i$.
+
+| $x_i$ | $P_{i,i}$ | $P_{i,i+1}$ | $P_{i,i+2}$ | $P_{i,i+3}$ |
+|---|---|---|---|---|
+| 0.0 | 1.000000 | 0.804132 | 0.700998 | 0.695713 |
+| 0.5 | 0.877583 | 0.675214 | 0.691089 | |
+| 1.0 | 0.540302 | 0.728128 | | |
+| 1.5 | 0.070737 | | | |
+
+*Result.* $\cos 0.8 \approx 0.695713$; true 0.696707, error $9.9\times 10^{-4}$. *Check by bound:* $\dfrac{|f^{(4)}|}{4!}|w(0.8)|$ with $|f^{(4)}| \le 1$ and $w(0.8) = (0.8)(0.3)(-0.2)(-0.7) = 0.0336$ gives $\le 0.0014$, consistent with the actual error. *Conclusion:* the cubic through four nodes gives three decimals.
