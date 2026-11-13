@@ -137,3 +137,16 @@ authored prose with `plain text` maths inside captions (`S(r) = 2 pi r^2` in pho
   Re-run it with the same target list to resume; finished targets are skipped. Needs `/tmp/v` (see How to build) and
   `npm ci` in `notes/pipeline/mathjax` (without it the MathJax server dies silently and the build hangs).
 - Do not use `pkill -f` with a pattern that also appears in your own command line; it kills the shell.
+
+## Session: layout audit of every class (white holes, stranded tables)
+- Audit of all committed PDFs (`gapaudit.py --min 25`) found about 1,300 pages of white space across 110 PDFs (counting the
+  duplicated entrance copies). Worst cases came from books built before the page-economy layout: BCA 3rd/4th semester code
+  books (code blocks jumping whole to the next page), Grade 11/12 English, Nepali, Question Banks, CEE Botany/Chemistry/Physics.
+- Rebuilt with the page-economy layout and pushed in batches of 2-3 by `relayout_batch.py`: every BCA course book (50) first,
+  then the school, CEE, IOE books from the smallest PDF upwards. `relayout_done.txt` lists finished targets.
+- `floatfix.py`: a figure may now skip two unbreakable blocks (was one) while looking for text to pull up, and up to 5 re-render
+  passes (was 3). On BCA Artificial Intelligence this cut holes from 52 to 43 pages. The result is only kept when the hole total drops.
+- Known leftover: runs of back-to-back photo plates and large figures (AI unit 2, Computer Networks) still leave 50-80 mm at a page
+  foot because no text exists between them to float up. Fix would be shrinking plates or interleaving text at the source.
+- Short tables (3 body rows or fewer) intentionally stay whole with their lead-in line; tables with 4+ body rows split between rows.
+- Environment note: WeasyPrint needs `libpangoft2-1.0-0` and `libpangocairo-1.0-0` besides `libpango-1.0-0`.
