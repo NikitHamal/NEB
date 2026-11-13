@@ -256,3 +256,6 @@ Source of the units and hours: TU CACS456 outline (notebahadur.com): U1 Introduc
 3. Keyword audit against the live TU outline for: BCA 401 Cyber Security, 451 Cloud, 156 Principles of Management, 151 Discrete Structure, 101/102/104, projects 256/306/356/404 (BCA 206 Applied Economics was re-checked this session against CAEC353: all 7 units match).
 4. Django + Chromium screenshot of BCA 405 Unit 2 (code outputs, formulas) in the web reader.
 5. BCA 153 split of collections/file handling; fix 5-6 pt figure labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, Digital Logic); run `svgkit.lint` over all books; extend `check_mis.py`.
+
+## Session 28 (in progress)
+Picked up from sessions 16-27 (this file; no duplicate tracker). Project root in the sandbox: `/home/user/sandbox`. Plan: rebuild + re-verify BCA 105 (151 pp expected), web reader screenshots, then queue items 3 (keyword audits: 401, 451, 156, 151, 101/102/104) and 5 (label lint).
