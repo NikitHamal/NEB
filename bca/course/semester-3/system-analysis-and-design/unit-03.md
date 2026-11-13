@@ -359,7 +359,7 @@ Instead of starting from nothing, analysts adopt **packaged data models**: indus
 
 **Likely questions.** (a) Construct a decision table for a loan approval policy and reduce it (10). (b) Explain supertype and subtype with an ER diagram (5). (c) What are business rules? Give four kinds (5). (d) Advantages and disadvantages of packaged data models (5).
 
-## 3.8 A level-1 decomposition, the data dictionary and the CRUD check, worked end to end
+## 3.8 Level-1 DFD, data dictionary and CRUD check
 
 Sections 3.2 and 3.4 drew the context diagram and level 0 of the library system. Analysis does not stop there: a process such as *Issue book* hides decisions that a programmer must know, and the data flows hide structure that a database designer must know. Three more artefacts close the gap: the **level-1 DFD**, the **data dictionary** and the **process specification**. A fourth, the **CRUD matrix**, then checks that all the models agree.
 
