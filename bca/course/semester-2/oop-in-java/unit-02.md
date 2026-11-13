@@ -118,6 +118,7 @@ public class Init {
     public static void main(String[] args) { new Init(); new Init(); }
 }
 ```
+
 ```output
 static block
 instance block
@@ -157,6 +158,7 @@ public class Pass {
     }
 }
 ```
+
 ```output
 99 5 3
 hi! true
@@ -185,6 +187,7 @@ public class EqHash {
     }
 }
 ```
+
 ```output
 2 true false
 ```
@@ -240,6 +243,7 @@ public class Days {
     }
 }
 ```
+
 ```output
 LOW 1 0
 HIGH 3 1
@@ -282,6 +286,158 @@ f.text(300, 232, "a == b true   |   a == c false   |   a.equals(c) true", size=1
 6. **Shared data with `static`.** A `static` field belongs to the class, not to any object, so all objects see one value. A counter of registered students or the college name can be kept this way. It saves memory and keeps one source of truth.
 7. **Correct comparison and hashing.** Overriding `equals` and `hashCode` lets objects work properly in sets and maps. Two `Student` objects with the same roll number can then be recognised as the same person, which prevents duplicate entries in a register.
 8. **Readable output.** Overriding `toString` gives each object a clear text form for logs and screens. Debugging a program that prints `Student[roll=7, name=Sita]` is far easier than reading `Student@1b6d3586`.
+
+## 2.9 Recursion and how Java picks an overloaded method
+
+### Recursion
+
+A method is **recursive** when it calls itself, directly or through another method. Every correct recursive method has two parts: a **base case** that returns without recursing, and a **recursive case** that moves the problem strictly closer to the base case. Each call gets its own **stack frame** holding its parameters and local variables, so a recursion of depth *n* uses O(*n*) stack space; if the base case is never reached the stack fills and the JVM throws **`StackOverflowError`**.
+
+```java
+public class Recur {
+    static long fact(int n) {
+        if (n <= 1) return 1;
+        return n * fact(n - 1);
+    }
+    static int fib(int n) {
+        return n < 2 ? n : fib(n - 1) + fib(n - 2);
+    }
+    static int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+    static void hanoi(int n, char from, char to, char via, int[] moves) {
+        if (n == 0) return;
+        hanoi(n - 1, from, via, to, moves);
+        moves[0]++;
+        if (n == 3) System.out.println("move disc 3 from " + from + " to " + to);
+        hanoi(n - 1, via, to, from, moves);
+    }
+    static boolean palindrome(String s) {
+        if (s.length() < 2) return true;
+        return s.charAt(0) == s.charAt(s.length() - 1) && palindrome(s.substring(1, s.length() - 1));
+    }
+    static int depth = 0;
+    static void forever() { depth++; forever(); }
+    public static void main(String[] args) {
+        System.out.println(fact(10));
+        System.out.println(fib(10));
+        System.out.println(gcd(84, 36));
+        int[] moves = {0};
+        hanoi(4, 'A', 'C', 'B', moves);
+        System.out.println(moves[0]);
+        System.out.println(palindrome("madam") + " " + palindrome("nepal"));
+        try { forever(); } catch (StackOverflowError e) { System.out.println("stack overflow, depth > 1000: " + (depth > 1000)); }
+    }
+}
+```
+
+```output
+3628800
+55
+12
+move disc 3 from A to B
+move disc 3 from B to C
+15
+true false
+stack overflow, depth > 1000: true
+```
+
+`fact(10)` is 3,628,800 (10!), `fib(10)` is 55, `gcd(84, 36)` is 12 (Euclid: 84 mod 36 = 12, 36 mod 12 = 0), and Towers of Hanoi with 4 discs (the program prints the two moves of disc 3, which must go A to B and later B to C) needs 2⁴ − 1 = **15** moves. The recursive `fib` recomputes the same values again and again (about 1.6ⁿ calls, which is exponential), so for large *n* use a loop or **memoisation**: store each computed value in an array or `HashMap` and reuse it. The same idea turns an exponential algorithm into a linear one.
+
+| Property | Recursion | Iteration (loop) |
+|---|---|---|
+| Control | the method calls itself | `for`, `while`, `do while` |
+| Termination | base case reached | loop condition false |
+| Memory | one stack frame per call | constant |
+| Speed | call overhead | usually faster |
+| Best for | trees, divide and conquer, backtracking | simple counting, scanning arrays |
+| Failure mode | `StackOverflowError` | infinite loop |
+
+**Tail recursion** (the recursive call is the very last action) can be rewritten as a loop mechanically, but the Java compiler does **not** perform that optimisation, so a deep tail-recursive method in Java still consumes stack.
+
+### Overload resolution
+
+When several methods share a name, the **compiler** (not the JVM) chooses one at compile time from the *static types* of the arguments, using this order of preference:
+
+1. **Exact match**, or a widening of a primitive (`int` → `long` → `float` → `double`, `char` → `int`).
+2. **Boxing or unboxing** (`int` ↔ `Integer`).
+3. **Varargs** (`int...`), which is the last resort.
+
+Among the applicable methods the *most specific* wins. If two are equally specific the call is **ambiguous** and does not compile. The return type plays no part in the choice, which is why two methods that differ only in return type cannot coexist.
+
+```java
+public class Pick {
+    static String f(int x)       { return "int"; }
+    static String f(long x)      { return "long"; }
+    static String f(double x)    { return "double"; }
+    static String f(Integer x)   { return "Integer"; }
+    static String f(Object x)    { return "Object"; }
+    static String f(int... x)    { return "varargs"; }
+    static String g(long x)      { return "long"; }
+    static String g(Integer x)   { return "Integer"; }
+    static String h(Object o)    { return "Object"; }
+    static String h(String s)    { return "String"; }
+    public static void main(String[] args) {
+        byte b = 1; short s = 2; char c = 'x';
+        System.out.println(f(5));
+        System.out.println(f(b) + " " + f(s) + " " + f(c));
+        System.out.println(f(5L) + " " + f(5.0f));
+        System.out.println(f(Integer.valueOf(5)));
+        System.out.println(f("text"));
+        System.out.println(f());
+        System.out.println(g(5));
+        System.out.println(h("a") + " " + h((Object) "a") + " " + h(null));
+    }
+}
+```
+```output
+int
+int int int
+long double
+Integer
+Object
+varargs
+long
+String Object String
+```
+
+Read the output line by line. `f(5)` picks `int` (exact). A `byte` and a `short` widen to the *nearest* wider primitive, `int`; a `char` also widens to `int`. A `long` argument is exact; a `float` widens to `double`. The `Integer` object matches `f(Integer)` exactly, a `String` can only go to `f(Object)`, and the empty call falls back to varargs. `g(5)` chooses **widening** (`long`) over **boxing** (`Integer`), because phase 1 tries widening before phase 2 allows boxing. Finally `h(null)` picks `String`, the more specific type, while `h((Object) "a")` picks `Object` because overloads use the **declared type of the expression, not the runtime type**. That last rule is exactly the difference from overriding (Unit 3), where the runtime type decides.
+
+::: caution A classic exam trap
+`static void show(Object o)` and `static void show(String s)` called as `show(null)` runs the `String` version. If the two overloads were `show(String s)` and `show(Integer i)`, then `show(null)` would be ambiguous and the compiler would reject it.
+:::
+
+## 2.10 Packages, JAR files and Javadoc in practice
+
+Section 2.3 gave the idea of a package. This section shows the mechanics a lab examiner expects you to perform with the command line.
+
+**1. Declare a package.** The first statement of a file is `package np.edu.demo.model;`. The file must then live in a folder tree that mirrors the name: `src/np/edu/demo/model/Student.java`. Classes in the same package see each other's package-private members; classes in other packages need `import` and can use only `public` members.
+
+**2. Compile into a separate output folder.** `javac -d out src/np/edu/demo/model/Student.java src/np/edu/demo/App.java` creates `out/np/edu/demo/model/Student.class` and so on; the folders are created automatically.
+
+**3. Run with the fully qualified name.** `java -cp out np.edu.demo.App`. The **class path** (`-cp`) lists the folders and JAR files where the JVM looks for classes; forgetting it, or typing the name without the package, gives `ClassNotFoundException` or `NoClassDefFoundError`, the two most common beginner errors.
+
+**4. Pack a JAR.** A **JAR** (Java ARchive) is a ZIP file of classes plus a `META-INF/MANIFEST.MF`. `jar cfe demo.jar np.edu.demo.App -C out .` creates an executable JAR whose manifest names the entry point; `java -jar demo.jar` runs it and `jar tf demo.jar` lists its contents.
+
+**5. Generate documentation.** Comments that start with `/**` and sit directly above a class or method are **Javadoc**. Tags: `@param name description`, `@return description`, `@throws Exception when`, `@author`, `@since`, `{@code x}`. `javadoc -d docs -sourcepath src np.edu.demo.model` builds a browsable HTML manual.
+
+```text
+project/
+  src/np/edu/demo/model/Student.java     package np.edu.demo.model;
+  src/np/edu/demo/App.java               package np.edu.demo;  import np.edu.demo.model.Student;
+  out/                                   javac -d out ...  (class files, same folder tree)
+  demo.jar                               jar cfe demo.jar np.edu.demo.App -C out .
+  docs/                                  javadoc -d docs -sourcepath src np.edu.demo.model
+```
+
+**Access modifiers across packages** (reproduced because it is asked every year): `public` is visible everywhere; `protected` in the same package and in subclasses anywhere; no modifier (*package-private*) only in the same package; `private` only inside the class. Since Java 9 a **module** (`module-info.java`) can additionally hide whole packages from other modules, which is how the JDK itself is organised (`java.base`, `java.sql`, `java.desktop`).
+
+| Common error message | Meaning | Fix |
+|---|---|---|
+| `class X is public, should be declared in a file named X.java` | file name differs from the public class | rename the file or the class |
+| `package a.b does not exist` | wrong folder layout or missing `-cp` / `-d` | compile with the right source path |
+| `Error: Could not find or load main class` | the class name was typed without its package, or `-cp` is wrong | `java -cp out np.edu.demo.App` |
+| `has private access in` | member used from another class | use a getter or change the design |
 
 ## Formula and fact sheet
 
@@ -406,6 +562,7 @@ public class StudentDemo {
     }
 }
 ```
+
 ```output
 Student[roll=7, name=Sita]
 a == b: false, a.equals(b): true

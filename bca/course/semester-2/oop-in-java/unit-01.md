@@ -109,6 +109,7 @@ public class Arrays1 {
     }
 }
 ```
+
 ```output
 Sum=370 Max=91 Avg=74.0
 [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
@@ -136,6 +137,7 @@ public class ReadInput {
     }
 }
 ```
+
 ```output
 12 3.5 Sita | Second line here
 ```
@@ -201,6 +203,118 @@ f.text(300, 240, "Polymorphism: for (Account a : list) a.applyMonth();", size=10
 6. **Built-in multithreading.** Threads are part of the language and the standard library, so one program can do several jobs at once. A web server can answer many users together, and a desktop program can stay responsive while it downloads.
 7. **Security.** The JVM verifies bytecode and has no raw pointers, which blocks many attacks that exploit memory errors. A security manager and class loaders can restrict what downloaded code may do. This is one reason Java is trusted in banking and government systems.
 8. **Rich standard library and ecosystem.** Collections, networking, file handling, dates, GUI and database access (JDBC) come ready-made. Android apps, large web back ends and tools used by Nepali fintech companies are all written with the same library.
+
+## 1.8 Lexical elements: the tokens of a Java program
+
+Before the compiler understands what a program *means*, it breaks the text into **tokens**, the smallest pieces that carry meaning. Every Java source file is a stream of six kinds of token plus white space and comments. Exam questions often ask you to "list the tokens of Java" or to spot an illegal identifier, so learn the six kinds by heart.
+
+| Token kind | What it is | Examples |
+|---|---|---|
+| **Keyword** | A word reserved by the language (about 50, all lower case) | `class`, `public`, `static`, `if`, `while`, `new`, `return` |
+| **Identifier** | A name you invent for a class, variable, method or package | `Student`, `totalMarks`, `calcFee` |
+| **Literal** | A fixed value written directly in the code | `42`, `3.14`, `'A'`, `"Kathmandu"`, `true`, `null` |
+| **Operator** | A symbol that acts on operands | `+`, `-`, `*`, `==`, `&&`, `?:`, `instanceof` |
+| **Separator** | Punctuation that structures code | `( ) { } [ ] ; , . ::` |
+| **Comment** | Ignored by the compiler; for humans | `// line`, `/* block */`, `/** Javadoc */` |
+
+**Rules for identifiers.** An identifier may contain letters, digits, the underscore `_` and the dollar sign `$`. It must **not start with a digit**, must **not be a keyword**, and is **case sensitive** (`Total`, `total` and `TOTAL` are three different names). `true`, `false` and `null` are literals, not keywords, but they are reserved too, so they cannot be identifiers either. Spaces are never allowed. Valid: `marks1`, `_temp`, `$price`, `studentName`. Invalid: `1stYear` (starts with a digit), `class` (keyword), `my-name` (hyphen is the minus operator), `total marks` (space).
+
+**Naming conventions** (not enforced by the compiler, but followed by every Java team and expected in lab work):
+
+| Kind | Convention | Example |
+|---|---|---|
+| Class, interface, enum, record | `UpperCamelCase`, usually a noun | `LoanAccount`, `Comparable` |
+| Method, variable | `lowerCamelCase`; methods usually start with a verb | `computeInterest`, `rollNo` |
+| Constant (`static final`) | `UPPER_SNAKE_CASE` | `MAX_SEATS`, `PI` |
+| Package | all lower case, reversed domain | `np.edu.tu.library` |
+
+**Literals in detail.** Integer literals are `int` unless they end with `L` (`long`): `100`, `5_000_000L` (underscores are allowed for readability), `0b1010` (binary, = 10), `017` (octal, = 15) and `0xFF` (hexadecimal, = 255). Floating literals are `double` unless they end with `f`: `2.5`, `1.5e3` (= 1500.0), `2.5f`. A `char` literal uses single quotes and may be an escape: `'\n'` (newline), `'\t'` (tab), `'\\'`, `'\''`, or a Unicode escape such as `'\u0905'`, which is the Devanagari letter अ. A `String` literal uses double quotes. Since Java 15 a **text block** `"""..."""` holds several lines without escapes.
+
+```java
+public class Tokens {
+    public static void main(String[] args) {
+        int bin = 0b1010, oct = 017, hex = 0xFF, big = 5_000_000;
+        long population = 29_164_578L;
+        double sci = 1.5e3;
+        float f = 2.5f;
+        char devanagari = '\u0905';
+        var $price = 99.5;
+        int _count = 3;
+        System.out.println(bin + " " + oct + " " + hex + " " + big);
+        System.out.println(population + " " + sci + " " + f);
+        System.out.println(devanagari + " " + (int) devanagari);
+        System.out.println($price * _count);
+        System.out.println('a' + 1);
+        System.out.println((char) ('a' + 1));
+        System.out.println("Tab:\t|" + " Quote:\" Backslash:\\");
+    }
+}
+```
+
+```output
+10 15 255 5000000
+29164578 1500.0 2.5
+अ 2309
+298.5
+98
+b
+Tab:	| Quote:" Backslash:\
+```
+
+The output shows the literal values converted to decimal (`10 15 255 5000000`), the Devanagari letter together with its Unicode number 2309, and the classic surprise `'a' + 1`: a `char` in arithmetic is promoted to `int`, so the result is the number 98, and only the cast `(char)` turns it back into the letter `b`. Note also that `System.out.println(1 + 2 + "x")` prints `3x` while `"x" + 1 + 2` prints `x12`, because `+` is evaluated left to right and becomes concatenation as soon as one operand is a `String`.
+
+**Primitive default values.** Fields (not local variables) get automatic defaults: `0` for `byte`, `short`, `int`, `long`; `0.0` for `float`, `double`; `'\u0000'` for `char`; `false` for `boolean`; `null` for every reference type. **Local variables have no default**: using one before assigning it is a compile-time error ("variable might not have been initialized"), a rule that catches many bugs before the program runs.
+
+## 1.9 Garbage collection: how an object's life ends
+
+In C you call `free()`; in Java there is no `delete`. The **garbage collector (GC)**, a background service of the JVM, finds objects that the program can no longer reach and reclaims their memory. This removes two whole families of bugs (memory leaks from forgotten `free()`, and crashes from using freed memory), which is why the list of Java's features in 1.7 includes "automatic memory management".
+
+**Reachability, not reference counting.** An object is *alive* if it can be reached from a **GC root** by following references: local variables on a thread's stack, static fields, and active threads. Everything else is garbage, even objects that point to each other in a cycle. When `Student s = new Student("Sita"); s = null;` runs, the `Student` object has no remaining route from any root and becomes **eligible** for collection. Eligible does not mean "collected now": the JVM decides when.
+
+```java
+public class Gc {
+    static class Node {
+        String name; Node next;
+        Node(String n) { name = n; }
+    }
+    public static void main(String[] args) {
+        Node a = new Node("A");
+        Node b = new Node("B");
+        a.next = b;
+        b.next = a;
+        System.out.println(a.next.next.name);
+        a = null;
+        b = null;
+        System.out.println("A and B point to each other, yet both are unreachable now");
+        Runtime rt = Runtime.getRuntime();
+        System.out.println(rt.maxMemory() > rt.totalMemory() / 2);
+        System.out.println(rt.freeMemory() <= rt.totalMemory());
+    }
+}
+```
+```output
+A
+A and B point to each other, yet both are unreachable now
+true
+true
+```
+
+The two nodes form a cycle, so a reference-counting scheme would never free them; the Java collector does, because no *root* reaches either one.
+
+**Generations.** Most objects die young (a temporary `String`, a loop's `Integer`). HotSpot therefore divides the heap into a **young generation** (new objects are born in *Eden*; survivors are copied between two small *survivor* spaces and their **age** is incremented) and an **old generation** (objects that survive several young collections are promoted). A *minor GC* cleans only the young generation and is fast; a *major* or *full GC* cleans everything and may pause the program. The method area (called **Metaspace** since Java 8) holds class metadata.
+
+| Collector | Idea | Typical use |
+|---|---|---|
+| Serial | one thread, stop-the-world | tiny programs, single core |
+| Parallel | many threads collect together | throughput-oriented batch jobs |
+| G1 (default since Java 9) | the heap is split into regions; collects the most garbage-filled regions first | general servers |
+| ZGC, Shenandoah | concurrent, pause time of a millisecond or less | very large heaps, latency-sensitive services |
+
+**What the programmer controls.** `System.gc()` is only a *request*; the JVM may ignore it, and calling it in production code is a poor practice. The `finalize()` method was once used for cleanup but is **deprecated for removal** (it is unpredictable and slows collection); use **try-with-resources** (`AutoCloseable`) for files, sockets and connections, because the GC reclaims *memory* but knows nothing about *file handles*. Java can still leak memory logically: a static `List` that keeps growing, a listener that is never removed, or a cache without a size limit keeps objects *reachable* and therefore alive. For caches, `WeakReference` and `WeakHashMap` hold objects that the GC may reclaim when nothing else refers to them.
+
+::: tip Exam answer in four lines
+Garbage collection is the automatic reclamation of memory held by unreachable objects. An object becomes eligible when no live thread can reach it, for example after its only reference is set to `null` or goes out of scope. The collector runs when the JVM chooses, working mostly on the young generation; `System.gc()` is merely a hint. It frees memory but not other resources, so files must still be closed with try-with-resources.
+:::
 
 ## Formula and fact sheet
 
