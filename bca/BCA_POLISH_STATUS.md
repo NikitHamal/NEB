@@ -321,3 +321,21 @@ Gaps found by keyword grep (0 hits): vacuous/trivial/uniqueness proofs and mista
 2. Keyword audits against live TU outlines still pending: 101/102/104, projects 256/306/356/404; BCA 353 (Miller-Rabin, Galois fields, HMAC, S/MIME, PGP, IPsec).
 3. Electives BCA 406/453/454 (E-Commerce overlaps MIS Unit 10; Linux, Database Administration, DotNet, Software Testing) remain unwritten slots; deepen BCA 405.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
+
+## Session 30 results (BCA 105 and 101/103/104 left as-is; BCA 102 brought to the TU 10-unit outline)
+
+Picked up from sessions 16-29 (this file; no duplicate tracker). Fresh sandbox `/home/user/sandbox`. Recipe: session-21 apt/venv/pip/`npm ci` line **plus `bash notes/pipeline/fonts/install.sh; fc-cache -f`** (without the fonts `qa_pdf.py` reports 2 FAILs "house font not embedded: Poppins/SourceSerif4" and page counts differ by about 3). Detached build and `export_course_web.py` worked unchanged.
+
+### BCA 102 Programming in C: NEW Unit 8 (audit against the 10-unit TU outline on hamronotes.com)
+Gaps (0 or 1 keyword hits before): preprocessor in depth (macros vs functions, `#`/`##`, `#elif`, `#undef`, `#pragma`), the build process, odd loop, comma operator, bit-fields, `argc/argv`, self-referential structures and linked list, table lookup, function pointers, lab work list.
+- Unit 8 "The Preprocessor, the Build Process, Bit Operations and Linked Structures" (about 4k words, 8 sections), 10 complete C programs compiled and run (`fill_c_outputs.py`, `check_c_examples.py`: 10 programs, 0 problems), Figure 8.1 (build stages), lab checklist mapped to outline units 1-10, fact sheet, 17 practice items with answers, 3 model answers.
+- PDF `NEBians-BCA-Course-Semester-1-Programming-in-C.pdf`: **103 -> 120 pp** (`pdfinfo`), `qa_pdf.py` fails=0 warns=251 (6 pt labels in old figures). Web data: 8 units, 49 topics. Figure page 105 inspected as PNG.
+- Authoring lessons: `fill_c_outputs.py` does not feed stdin, so for programs with an ```input fence run it first, then add the input fence and hand-write the output after it (order must be c, input, output). `Fig.arrow` takes a list of points, not four coordinates. Do not put undefined-behaviour examples (`SQUARE(i++)`) in a program that is run; describe them in prose.
+- BCA 104 Mathematics I checked: the book follows the revised linear-algebra/conics outline (not the old Indian "calculus" BCA-101 lists seen in search results); no change.
+- Honest gaps: the revised BCA 102 syllabus PDF itself was not retrieved (the hamronotes list is the BIT sibling outline).
+
+## Prioritised queue for the next session
+1. Publish updated PDFs (`update_books.py --only <slug>`): 102, 105, 156, 401, 451, 304, 305, 103, 354, 154, 405.
+2. Keyword audits still pending: BCA 101, projects 256/306/356/404, BCA 353 (steganography, malware, SNMP, SET, secure e-mail have few or zero hits).
+3. Electives BCA 406/453/454 remain unwritten slots; deepen BCA 405.
+4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
