@@ -125,7 +125,68 @@ fit 1.0
 focus 0.4 0.5
 ```
 
-## 1.7 Eight applications of economic thinking for a BCA student
+## 1.7 Surplus, price controls and the cost of a tax
+
+Section 1.5 found the equilibrium price and quantity. This section puts a **money value** on what buyers and sellers gain from trading, and shows why a price ceiling or a tax makes the market smaller and the total gain less. Every number below is recomputed in `bca/tools/check_economics.py`.
+
+**Consumer surplus (CS)** is the difference between the most a buyer is willing to pay and the price actually paid, added over all units bought. On a straight demand curve it is the **triangle between the demand line and the price line**. **Producer surplus (PS)** is the difference between the price received and the lowest price at which the seller would have supplied, which on a supply line is the triangle between the price line and the supply line. **Total surplus = CS + PS** is the gain from trade; a competitive market with no distortion makes it as large as possible.
+
+::: example Worked example: surplus at equilibrium
+Demand is Q = 120 − 2P (so P = 60 − Q/2) and supply is Q = 3P − 30 (so P = 10 + Q/3).
+**Equilibrium:** 120 − 2P = 3P − 30 gives P = **30**, Q = **60**. The demand line meets the price axis at 60 and the supply line at 10.
+**CS** = ½ × (60 − 30) × 60 = **900**. **PS** = ½ × (30 − 10) × 60 = **600**. **Total surplus = 1,500.**
+:::
+
+### Price ceiling: a shortage and a lost triangle
+
+A **price ceiling** is a legal maximum below the equilibrium price (cooking gas, rent control, a cap on fuel). At the ceiling buyers want more than sellers supply, so the quantity traded is set by the **short side, the supply**.
+
+::: example Worked example: a ceiling of 20
+At P = 20 buyers demand Q = 120 − 40 = **80** but sellers supply Q = 60 − 30 = **30**: a shortage of **50**. Only 30 units trade.
+**CS** = the area under the demand line up to Q = 30, minus what is paid: (60 × 30 − 30²/4) − 20 × 30 = 1,575 − 600 = **975**. **PS** = ½ × (20 − 10) × 30 = **150**.
+**Total surplus = 1,125**, a loss of 1,500 − 1,125 = **375** (the **deadweight loss**). Check with the triangle: at Q = 30 buyers would pay 45, sellers need only 20, so the lost triangle is ½ × (45 − 20) × (60 − 30) = **375**.
+Note that CS rose from 900 to 975: the lucky buyers who find a unit gain, but those who queue or pay on the black market lose, and sellers lose 450. The ceiling helps some buyers at the cost of the market as a whole.
+:::
+
+A **price floor** (a minimum wage, a support price for sugarcane) set above equilibrium works the other way: sellers want to sell more than buyers will take, so the **demand** sets the quantity and a **surplus** of unsold goods appears.
+
+### A tax on sellers: who pays and what is lost
+
+A **per-unit tax** t on sellers shifts the supply line up by t. Buyers pay a higher price, sellers keep a lower one, and fewer units are traded. The government collects t × Q. The part of the lost surplus that no one receives is again a **deadweight loss**, the triangle between the old and new quantity.
+
+::: example Worked example: a tax of 15 per unit
+New supply line: P = 10 + Q/3 + 15 = 25 + Q/3. Set equal to demand: 60 − Q/2 = 25 + Q/3, so 35 = 5Q/6 and **Q = 42**.
+**Buyers pay** 60 − 42/2 = **39** (up 9). **Sellers keep** 39 − 15 = **24** (down 6). The burden is shared 9 : 6 between buyers and sellers.
+**Tax revenue** = 15 × 42 = **630**. **CS** = ½ × (60 − 39) × 42 = **441**. **PS** = ½ × (24 − 10) × 42 = **294**.
+**Check:** 441 + 294 + 630 = 1,365, so the loss is 1,500 − 1,365 = **135**, equal to ½ × 15 × (60 − 42) = **135**.
+:::
+
+```svgfig label="1.3" caption="A tax of 15 per unit with demand P = 60 − Q/2 and supply P = 10 + Q/3. The old equilibrium is (60, 30). The tax lifts the supply line by 15, the quantity falls to 42, buyers pay 39 and sellers keep 24. The amber rectangle is tax revenue 630; the red triangle is the deadweight loss 135."
+f = Fig(580, 262)
+a = Axes(f, 48, 14, 300, 200, (0, 70), (0, 70))
+a.grid(10, 10).axes("Quantity", "Price")
+D = lambda q: 60 - q / 2
+S = lambda q: 10 + q / 3
+f.raw(f'<rect x="{a.X(0)}" y="{a.Y(39)}" width="{a.X(42)-a.X(0)}" height="{a.Y(24)-a.Y(39)}" fill="#fde68a" fill-opacity="0.8"/>')
+f.raw(f'<polygon points="{a.X(42)},{a.Y(39)} {a.X(42)},{a.Y(24)} {a.X(60)},{a.Y(30)}" fill="#fecaca" fill-opacity="0.95" stroke="{RED}" stroke-width="1.2"/>')
+a.curve(D, 0, 70, color=NAVY, label="D", lx=a.X(8), ly=a.Y(58))
+a.curve(S, 0, 70, color=TEAL, label="S", lx=a.X(64), ly=a.Y(31.5))
+a.curve(lambda q: S(q) + 15, 0, 70, color=RED, dash=True, label="S + tax", lx=a.X(52), ly=a.Y(43))
+a.hline(39, 0, 42, color=SLATE); a.hline(24, 0, 42, color=SLATE); a.vline(42, 0, 39, color=SLATE)
+a.pt(60, 30, "", r=4, color=NAVY); a.pt(42, 39, "", r=4, color=RED); a.pt(42, 24, "", r=4, color=TEAL)
+f.box(372, 24, 198, 52, "Quantity 60 → 42\nBuyers pay 39 (+9)\nSellers keep 24 (−6)", fill=BLUE, stroke=NAVY, size=10.5)
+f.box(372, 90, 198, 44, "Tax revenue\n15 × 42 = 630", fill=SAND, stroke=AMBER, size=10.5)
+f.box(372, 148, 198, 52, "Deadweight loss\n½ × 15 × 18 = 135", fill=SAND, stroke=RED, size=10.5)
+```
+
+### What to remember
+
+- Surplus is a **money measure of gain**: CS lies below the demand line and above the price, PS lies above the supply line and below the price.
+- A binding **ceiling** makes the short side (supply) decide the quantity and causes a shortage; a binding **floor** makes demand decide it and causes a surplus.
+- A **tax** splits its burden between the two sides and always creates a deadweight loss that grows with the **square** of the tax: halving the tax to 7.5 gives Q = 51 and a loss of ½ × 7.5 × 9 = 33.75, exactly a quarter of 135.
+- Who pays more depends on elasticity (section 2.6), not on who writes the cheque to the tax office.
+
+## 1.8 Eight applications of economic thinking for a BCA student
 
 1. **Opportunity cost in daily choices.** Every hour has a best alternative use, so a student who spends a Saturday on a freelance website job gives up that day of revision. Counting the forgone alternative, and not only the money paid, leads to wiser choices. A Kathmandu start-up deciding between building its own server room and renting cloud space makes the same comparison.
 2. **Pricing a product or service.** Demand and supply tell a software firm how many subscriptions it can sell at each price. If the price is set above equilibrium, subscriptions pile up unsold, and if it is set too low, the servers are overloaded. Nepali apps such as ride-hailing and food delivery change prices by the hour for exactly this reason.
@@ -142,6 +203,7 @@ focus 0.4 0.5
 - Macro goals: growth, price stability, full employment, external balance, equity. Instruments: fiscal, monetary, trade/exchange rate.
 - Equilibrium: Q_d = Q_s; shortage if price below, surplus if above.
 - Movement along vs shift of a curve.
+- Surplus: CS = area under demand above price, PS = area above supply below price; ceiling (binding) → shortage and deadweight loss; tax burden shared, deadweight loss ∝ tax².
 
 ## Chapter summary
 
@@ -158,6 +220,7 @@ focus 0.4 0.5
 5. Explain the difference between a movement along and a shift of the demand curve.
 6. What happens to price and quantity if supply increases (all else equal)?
 7. Explain the PPF and what a point inside it means.
+8. A price ceiling of 25 is set in the market Q = 120 − 2P, Q = 3P − 30. Find the shortage and the deadweight loss. Then find the effect of a tax of 5 per unit on sellers.
 
 ::: note Answers and worked solutions
 **1.** Scarcity: limited resources against unlimited wants. Opportunity cost: the best alternative forgone; e.g. an evening at a part-time job instead of studying has the study time as its cost.
@@ -167,6 +230,7 @@ focus 0.4 0.5
 **5.** A price change moves us along the same curve; a change in income, tastes, related prices or expectations shifts the whole curve.
 **6.** Supply shifts right: equilibrium **price falls**, **quantity rises**.
 **7.** The PPF shows the maximum outputs attainable; a point inside means resources are unemployed or misused (inefficiency); outside is unattainable with present resources.
+**8.** At P = 25: Qd = 70, Qs = 45, **shortage 25**; only 45 trade. Buyers would pay 60 − 22.5 = 37.5 for the 45th unit and sellers need 10 + 15 = 25, so DWL = ½ × (37.5 − 25) × (60 − 45) = **93.75**. **Tax of 5:** 60 − Q/2 = 15 + Q/3 gives **Q = 54**, buyers pay **33**, sellers keep **28**, revenue 270, deadweight loss ½ × 5 × 6 = **15**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

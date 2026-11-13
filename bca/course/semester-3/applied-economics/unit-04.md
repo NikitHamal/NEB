@@ -166,7 +166,64 @@ f.text(150, 206, "break-even 115.4 -> 116 cups a day", size=10.5, color=NAVY, bo
 f.text(150, 226, "100 cups: -Rs 200;  200 cups: +Rs 1,100", size=10.5, color=TEAL, bold=True)
 ```
 
-## 4.6 Eight uses of cost and revenue analysis
+## 4.6 The production behind the cost curves: returns to scale and cost minimisation
+
+The cost curves of sections 4.1 to 4.3 come from **how inputs turn into output**. This section links the two with a worked production function.
+
+### Short run: diminishing returns make MC rise
+
+In the short run at least one input is fixed. Suppose a workshop has **K = 100** machines (fixed) and hires labour L, with output Q = √(K × L) = 10√L. Labour costs w = Rs 100 per unit and each machine costs r = Rs 400.
+
+::: example Worked example: from production to cost
+Output needs L = Q²/100 units of labour (square both sides of Q = 10√L).
+**Fixed cost** = 400 × 100 = **40,000**. **Variable cost** = 100 × L = 100 × Q²/100 = **Q²**. So **TC = 40,000 + Q²**.
+**MC** = 2Q (rising), **AVC** = Q, **AFC** = 40,000/Q, **AC** = Q + 40,000/Q.
+**Minimum AC:** set AC = MC: Q + 40,000/Q = 2Q gives Q² = 40,000, so **Q = 200** and AC = **400**. This is the bottom of the U that section 4.2 describes, and MC cuts AC there.
+Why MC rises: the **marginal product of labour** MPL = dQ/dL = 5/√L falls as more labour is added to the same machines (diminishing returns), and MC = w / MPL. A smaller MPL means a larger MC.
+:::
+
+### Long run: isoquant, isocost and the cheapest input mix
+
+In the long run both inputs vary. An **isoquant** joins all combinations of labour and capital that give the same output. Its slope is the **marginal rate of technical substitution (MRTS = MPL / MPK)**. An **isocost line** joins all combinations that cost the same total: wL + rK = C, with slope −w/r. The cost-minimising mix is where an isocost line **just touches** the isoquant, so **MRTS = w / r**, or equivalently **MPL / w = MPK / r**: the last rupee spent on each input gives the same extra output (the producer's version of the equal-marginal-utility rule in section 3.1).
+
+::: example Worked example: the cheapest way to make 100 units
+Q = √(KL) = 100 means KL = 10,000. With w = 100 and r = 400, the isocost line is 100L + 400K = C.
+MPL = ½√(K/L), MPK = ½√(L/K), so MRTS = K/L. Setting K/L = w/r = 100/400 = 0.25 gives **L = 4K**.
+Then KL = 4K² = 10,000, so **K = 50, L = 200**, and the minimum cost is 100 × 200 + 400 × 50 = **Rs 40,000**, so AC = 400.
+**Link to the short run:** with the plant fixed at K = 100 the firm would use L = 100 hours for Q = 100 and pay 50,000, which is more. The plant of 100 machines is the cheapest one only for Q = 200 (there K = 100, L = 400, cost 80,000 on both counts), which is why the short-run AC bottom (Q = 200, AC = 400) touches the long-run curve at that output. Because this function has constant returns to scale, LAC = 400 at every output.
+**If wages rise to 200:** K/L = 0.5, so L = 2K and 2K² = 10,000, K = 70.7, L = 141.4, cost = 200 × 141.4 + 400 × 70.7 = **Rs 56,569**. The firm substitutes machines for labour.
+:::
+
+```svgfig label="4.4" caption="Cost minimisation for Q = 100 with w = 100, r = 400. The curve is the isoquant KL = 10,000. The isocost line for Rs 40,000 touches it at L = 200, K = 50 (the cheapest mix). Rs 30,000 cannot reach the isoquant; Rs 50,000 cuts it twice, so some cheaper mix exists."
+f = Fig(580, 262)
+a = Axes(f, 48, 14, 300, 200, (0, 400), (0, 120))
+a.grid(100, 20).axes("Labour L", "Capital K")
+a.curve(lambda L: 10000 / L if L > 0 else 999, 80, 400, color=NAVY, sw=2.6, label="Q = 100", lx=a.X(300), ly=a.Y(46))
+a.curve(lambda L: 75 - L / 4, 0, 300, color=SLATE, dash=True, label="30,000", lx=a.X(20), ly=a.Y(66))
+a.curve(lambda L: 100 - L / 4, 0, 400, color=RED, sw=2.4, label="40,000", lx=a.X(40), ly=a.Y(94))
+a.curve(lambda L: 125 - L / 4, 0, 400, color=SLATE, dash=True, label="50,000", lx=a.X(60), ly=a.Y(116))
+a.hline(50, 0, 200, color=AMBER); a.vline(200, 0, 50, color=AMBER)
+a.pt(200, 50, "", r=5, color=RED)
+f.box(372, 24, 198, 56, "Tangency: MRTS = w/r\nK/L = 100/400 = 0.25", fill=BLUE, stroke=NAVY, size=10.5)
+f.box(372, 94, 198, 56, "L = 200, K = 50\ncost = 20,000 + 20,000", fill=MINT, stroke=TEAL, size=10.5)
+f.box(372, 164, 198, 56, "Wage to 200: L = 141,\nK = 71, cost 56,569", fill=SAND, stroke=AMBER, size=10.5)
+```
+
+### Returns to scale
+
+**Returns to scale** ask what happens to output when **all** inputs are multiplied by the same factor. This is the long-run basis of the LAC curve in section 4.3.
+
+| Production function | Double K and L → output × | Type | LAC |
+|---|---|---|---|
+| Q = K^0.6 L^0.6 | 2^1.2 = 2.30 | increasing returns | falls |
+| Q = K^0.5 L^0.5 | 2^1.0 = 2.00 | constant returns | flat |
+| Q = K^0.4 L^0.4 | 2^0.8 = 1.74 | decreasing returns | rises |
+
+Increasing returns arise from specialisation, bulk buying and spreading of overhead (software has an extreme case: the second copy costs almost nothing). Decreasing returns appear when coordination becomes hard. **Do not confuse** returns to scale (all inputs change, long run) with **diminishing marginal returns** (one input changes, short run): a production function can have constant returns to scale and still show diminishing returns to labour.
+
+**Practice:** (i) For Q = √(KL) with w = 50 and r = 200, find the cheapest way to produce 400 units. (ii) What does MRTS > w/r tell the firm to do?
+
+## 4.7 Eight uses of cost and revenue analysis
 
 1. **Deciding the price of a product.** A firm must cover its average cost, so it never sells below the minimum of the AC curve for long. A Kathmandu printing press adds a margin to the unit cost of each job. Without knowing the cost curve the price would be a guess.
 2. **Choosing how much to produce.** Output should rise as long as marginal revenue is above marginal cost. A bakery in Pokhara bakes extra batches only while the extra income covers the extra flour, gas and labour. This simple rule is the base of all profit decisions.
@@ -184,6 +241,7 @@ f.text(150, 226, "100 cups: -Rs 200;  200 cups: +Rs 1,100", size=10.5, color=TEA
 - LAC is the envelope of SAC; economies then diseconomies of scale.
 - TR = PQ; AR = P; MR = ΔTR/ΔQ. Perfect competition: AR = MR = P. Otherwise MR < AR; linear: MR has twice the slope.
 - MR = AR(1 − 1/|e|); TR maximum where MR = 0.
+- Production: MC = w/MPL; cost minimum where MRTS = w/r; returns to scale: all inputs × λ → output × λᵏ (k > 1 increasing, k = 1 constant, k < 1 decreasing).
 
 ## Chapter summary
 
@@ -200,6 +258,8 @@ f.text(150, 226, "100 cups: -Rs 200;  200 cups: +Rs 1,100", size=10.5, color=TEA
 5. Explain the long-run average cost curve and economies of scale.
 6. Why is MR below AR for a monopolist but equal to it in perfect competition?
 7. A firm has revenue 800, explicit costs 500, and implicit costs 350. Find accounting and economic profit.
+8. For Q = √(KL) with w = 50 and r = 200, find the cheapest way to produce 400 units.
+9. What does MRTS > w/r tell a firm?
 
 ::: note Answers and worked solutions
 **1.** Explicit: paid to outsiders. Implicit: opportunity cost of owner's resources. Accounting cost = explicit; economic cost = explicit + implicit.
@@ -209,6 +269,8 @@ f.text(150, 226, "100 cups: -Rs 200;  200 cups: +Rs 1,100", size=10.5, color=TEA
 **5.** LAC is the envelope of short-run AC curves: the lowest cost of each output when the plant size can be chosen. It falls with economies of scale, is flat at the minimum efficient scale and rises with diseconomies of scale.
 **6.** To sell one more unit a monopolist must lower the price on **all** units, so the extra revenue is less than the price; a price-taker sells every unit at the same fixed price, so MR = P.
 **7.** Accounting profit = 800 − 500 = **300**; economic profit = 800 − 850 = **−50** (a loss compared with the best alternative).
+**8.** MRTS = K/L = w/r = 0.25 so L = 4K; KL = 4K² = 160,000 gives **K = 200, L = 800**; cost = 50 × 800 + 200 × 200 = **Rs 80,000**.
+**9.** MPL/MPK exceeds w/r, so labour gives more extra output per rupee than capital: use more labour and less capital until MPL/w = MPK/r.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

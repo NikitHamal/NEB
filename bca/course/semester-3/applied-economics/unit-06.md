@@ -141,7 +141,65 @@ fit 1.0
 focus 0.4 0.5
 ```
 
-## 6.6 Eight uses of national income statistics
+## 6.6 The consumption function, the multiplier derived, and measuring inequality
+
+Section 6.4 and the Keynesian cross used the multiplier. Here it is **derived** from the consumption function, and the unit closes with the standard tool for describing **how evenly** national income is shared.
+
+### Consumption and saving functions
+
+Households spend part of their income. The simplest **consumption function** is **C = a + bY**, where **a** is **autonomous consumption** (spending even at zero income, financed from past saving or borrowing) and **b** is the **marginal propensity to consume (MPC) = ΔC/ΔY**, between 0 and 1. Because income is either spent or saved, **S = Y − C = −a + (1 − b)Y**, and **MPS = 1 − b**. The **average propensity to consume** is APC = C/Y; it falls as income rises when a > 0, because the fixed part a is spread over more income.
+
+### Deriving the multiplier
+
+In a closed economy without government, equilibrium needs **Y = C + I**. With C = a + bY and a fixed investment I:
+
+Y = a + bY + I, so **Y(1 − b) = a + I** and **Y = (a + I)/(1 − b)**.
+
+The factor **k = 1/(1 − b) = 1/MPS** is the **multiplier**. A rise ΔI raises income by **ΔY = k ΔI** because the first round of spending becomes someone's income, a fraction b of it is spent again, and so on: ΔI(1 + b + b² + …) = ΔI/(1 − b).
+
+::: example Worked example: a numerical economy
+C = 200 + 0.8Y and I = 300 (all in Rs billion).
+**Y** = (200 + 300)/(1 − 0.8) = 500/0.2 = **2,500**. **C** = 200 + 0.8 × 2,500 = **2,200**. **S** = 2,500 − 2,200 = **300** = I (saving equals investment at equilibrium).
+**Multiplier** k = 1/0.2 = **5**. If investment rises by 50, ΔY = 5 × 50 = **250**, so new Y = 2,750.
+**With an income tax** at the rate t = 25 %, disposable income is 0.75Y, so spending rises only by b(1 − t) = 0.6 of each rupee of income: **k = 1/(1 − 0.6) = 2.5**. Taxes act as an **automatic stabiliser**: they make the multiplier smaller in both booms and slumps.
+**Balanced budget:** if the government raises G by 100 and taxes by 100 (lump sum), the rise in G adds 100 × 5 = 500 and the tax lowers consumption by 0.8 × 100 = 80, which lowers income by 80 × 5 = 400. Net **ΔY = 100**: the **balanced-budget multiplier is 1**.
+:::
+
+**Paradox of thrift.** If every household tries to save more (b falls), the multiplier falls and income drops; total saving, which must equal investment, may not rise at all. What is wise for one household can be harmful when everyone does it, and remittance-receiving households in Nepal spend a high share of added income, so the MPC is high and the multiplier larger.
+
+### Lorenz curve and the Gini coefficient
+
+National income per head hides the way income is shared. The **Lorenz curve** plots the **cumulative share of income** (vertical) against the **cumulative share of population** (horizontal), with the population ordered from poorest to richest. The 45° line is perfect equality. The **Gini coefficient** is **the area between the line of equality and the Lorenz curve divided by the whole area under the line of equality** (which is ½), so **G = 2 × (area between)**. It runs from 0 (equal) to 1 (one person has everything).
+
+::: example Worked example: five income groups
+The five quintiles (poorest 20 % first) receive 5 %, 9 %, 14 %, 22 % and 50 % of income. Cumulative shares: **5, 14, 28, 50, 100**.
+Area under the Lorenz curve, by the trapezium rule over five strips of width 0.2: 0.2 × [(0 + 5)/2 + (5 + 14)/2 + (14 + 28)/2 + (28 + 50)/2 + (50 + 100)/2]/100 = 0.2 × 147/100 = **0.294**.
+Area between = 0.5 − 0.294 = 0.206, and **Gini = 2 × 0.206 = 0.412**. With only five points the trapezium rule slightly underestimates the true curve's inequality.
+Reading: the richest fifth receives half of all income, and the poorest fifth only 5 %: a ratio of **10 : 1**.
+:::
+
+```svgfig label="6.4" caption="Lorenz curve for the five-group example (cumulative shares 5, 14, 28, 50, 100). The shaded area between the equality line and the curve is 0.206 of the whole square, so Gini = 2 × 0.206 = 0.412."
+f = Fig(580, 262)
+a = Axes(f, 48, 14, 200, 200, (0, 100), (0, 100))
+a.grid(20, 20).axes("Cumulative population %", "Cumulative income %")
+pts = [(0, 0), (20, 5), (40, 14), (60, 28), (80, 50), (100, 100)]
+top = " ".join(f"{a.X(x)},{a.Y(x)}" for x, _ in pts)
+bot = " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in reversed(pts))
+f.raw(f'<polygon points="{top} {bot}" fill="#fecaca" fill-opacity="0.8" stroke="none"/>')
+a.curve(lambda x: x, 0, 100, color=SLATE, dash=True, label="Equality", lx=a.X(58), ly=a.Y(70))
+f.raw('<polyline points="' + " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in pts) + f'" fill="none" stroke="{NAVY}" stroke-width="2.6" stroke-linejoin="round"/>')
+for x, y in pts[1:]: a.pt(x, y, "", r=3.6, color=NAVY)
+f.text(a.X(70), a.Y(22), "Lorenz curve", size=11, color=NAVY, bold=True)
+f.box(290, 30, 280, 46, "Area between = 0.206\nGini = 2 × 0.206 = 0.412", fill=SAND, stroke=RED, size=10.5)
+f.box(290, 90, 280, 46, "Poorest 20 % get 5 %\nRichest 20 % get 50 %", fill=BLUE, stroke=NAVY, size=10.5)
+f.box(290, 150, 280, 46, "Gini 0 = equal\nGini 1 = one person has all", fill=MINT, stroke=TEAL, size=10.5)
+```
+
+Other measures include the **Palma ratio** (share of the richest 10 % divided by that of the poorest 40 %) and the **poverty headcount ratio** (share of people below the poverty line). A high GDP per head with a high Gini means growth is not reaching most people, which is why the Human Development Index and similar measures are used beside GDP. The Gini of a country depends on the survey used (income or consumption), so compare only like with like.
+
+**Practice:** (i) C = 100 + 0.75Y and I = 200: find Y, C, S and the multiplier; find ΔY for ΔI = 40. (ii) Cumulative income shares for quintiles are 8, 20, 36, 60, 100: find the Gini by the trapezium rule. (iii) Why is the multiplier smaller when there is an income tax or when people import more?
+
+## 6.7 Eight uses of national income statistics
 
 1. **Measuring the size and growth of the economy.** GDP tells how much the country produces in a year, and its growth rate tells whether output is rising. The Central Bureau of Statistics publishes it, and the Ministry of Finance bases the budget on it. Without such a figure, policy would work in the dark.
 2. **Comparing living standards.** Per capita income divides national income by population, so it allows comparison between districts, years and countries. Nepal can see how far it is from other South Asian countries on this scale. It is an imperfect measure, but it is the most common starting point.
@@ -159,6 +217,7 @@ focus 0.4 0.5
 - PI = NI − retained profits − corporate tax + transfers. DI = PI − personal taxes. PCI = NI/population.
 - Deflator = nominal/real × 100. Real GDP = nominal/deflator × 100.
 - Methods: product (value added), income, expenditure.
+- Consumption: C = a + bY, k = 1/(1 − b); with tax rate t, k = 1/(1 − b(1 − t)); Gini = 1 − 2 × (area under Lorenz) = 2 × (area between).
 
 ## Chapter summary
 
@@ -175,6 +234,8 @@ focus 0.4 0.5
 5. A mill buys wheat worth 200 and sells flour worth 500. Find its value added.
 6. List the items excluded from GDP and give reasons.
 7. Explain the income method.
+8. C = 100 + 0.75Y and I = 200: find Y, C, S, the multiplier, and ΔY for ΔI = 40. For the Lorenz data 8, 20, 36, 60, 100 (cumulative %), find the Gini by the trapezium rule.
+9. Why is the multiplier smaller when there is an income tax or when people import more?
 
 ::: note Answers and worked solutions
 **1.** GDP counts output within the country's borders; GNP counts output of the country's residents anywhere (GDP + NFIA). Nominal uses current prices; real uses constant prices.
@@ -184,6 +245,8 @@ focus 0.4 0.5
 **5.** 500 − 200 = **300**.
 **6.** Intermediate goods (double counting), transfer payments and second-hand sales (no new output), financial transactions, unpaid household work and the underground economy (not recorded).
 **7.** Add all incomes earned by factors: wages and salaries, rent, interest and profits (and mixed income of the self-employed), to obtain national income at factor cost.
+**8.** Y = 300/0.25 = **1,200**; C = 100 + 900 = **1,000**; S = **200** = I; k = **4**; ΔY = **160**. Area under Lorenz = 0.2 × (4 + 14 + 28 + 48 + 80)/100 = 0.348, so Gini = 1 − 2 × 0.348 = **0.304**.
+**9.** Taxes and imports are leakages: a part of each extra rupee of income is not spent on home output, so the fraction passed on is below b and k = 1/(1 − b(1 − t) + m) is smaller.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

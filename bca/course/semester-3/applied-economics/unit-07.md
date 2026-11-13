@@ -159,7 +159,83 @@ for i, (n, s, e, c) in enumerate(bars):
 f.line(a.X(0), a.Y(0), a.X(8), a.Y(0), color=SLATE, sw=1.2)
 ```
 
-## 7.6 Eight roles of money, banks and trade in everyday Nepali life
+## 7.6 Gains from trade, tariffs, the terms of trade and the quantity theory of money
+
+Section 7.4 stated the principle of comparative advantage and the balance of payments. This section works the numbers, shows what a tariff does to the market of section 1.7, and gives the standard equation linking money and prices.
+
+### Comparative advantage with numbers
+
+Compare Nepal and India producing two goods, **ginger** and **handicrafts**. Each country has 120 labour hours. The table gives the **hours needed per unit**.
+
+| | Ginger (hours per unit) | Handicraft (hours per unit) | Opportunity cost of 1 ginger | Opportunity cost of 1 handicraft |
+|---|---|---|---|---|
+| Nepal | 2 | 3 | 2/3 handicraft | 1.5 ginger |
+| India | 1 | 2 | 1/2 handicraft | 2 ginger |
+
+India is better at **both** goods (absolute advantage), but trade still pays because the **opportunity costs differ**. Nepal gives up less ginger to make a handicraft (1.5 against 2), so Nepal has the **comparative advantage in handicrafts**; India gives up less to make ginger (0.5 against 0.667), so it has it in ginger.
+
+::: example Worked example: gains from trade
+**Without trade**, each country splits its 120 hours equally. Nepal: 60 h gives 30 ginger and 20 handicrafts. India: 60 h gives 60 ginger and 30 handicrafts.
+**With specialisation**, Nepal makes only handicrafts: 120/3 = **40**. India makes only ginger: 120/1 = **120**.
+They trade at **1 handicraft = 1.75 ginger**, a rate between the two opportunity costs (1.5 and 2), so both sides gain. Nepal sells 20 handicrafts and receives 35 ginger.
+**Nepal ends with** 20 handicrafts and 35 ginger, against 20 and 30 before: **5 more ginger** with no loss. **India ends with** 85 ginger and 20 handicrafts, against 60 and 30 before: it has 25 more ginger and 10 fewer handicrafts, and 10 handicrafts are worth 20 ginger at its own opportunity cost, so India is better off by **5 ginger equivalents**.
+World output rises from 90 ginger + 50 handicrafts to 120 ginger + 40 handicrafts. At the trading rate (1 handicraft = 1.75 ginger) that is worth 90 + 87.5 = 177.5 ginger before and 120 + 70 = 190 ginger after: the world package is larger.
+:::
+
+The gains disappear if the trading rate lies **outside** the range of the two opportunity costs, because one country would then do better at home. Real trade has transport costs, tariffs and quotas, and specialisation has risks (Nepal's trade with a single dominant partner exposes it to that partner's shocks); the theory explains why trade is useful, not that every deal is.
+
+### The terms of trade
+
+The **terms of trade** show how many imports one unit of exports buys: **terms of trade index = (export price index / import price index) × 100**. If export prices are 120 and import prices 150 (base year 100), the index is 120/150 × 100 = **80**: each unit of exports now buys only 80 % of the imports it bought in the base year. The terms of trade have **deteriorated**. A country exporting primary products and importing fuel and machines often sees this.
+
+### A tariff on imports
+
+A **tariff** is a tax on imports. Take a small country whose domestic demand is **Qd = 120 − P** and domestic supply **Qs = P − 20**, with a world price of **40**.
+
+::: example Worked example: a tariff of 10
+**Free trade at P = 40:** Qd = 80, Qs = 20, so imports = **60**.
+**Tariff of 10 raises the domestic price to 50:** Qd = 70, Qs = 30, so imports = **40**.
+**Consumers lose** the area under demand between P = 40 and 50: 10 × 70 + ½ × 10 × 10 = **750**.
+**Producers gain**: 10 × 20 + ½ × 10 × 10 = **250**. **Government collects** 10 × 40 = **400**.
+**Net loss** = 750 − 250 − 400 = **100**, two triangles of 50: **½ × 10 × (30 − 20)** from producing units that could be bought cheaper abroad, and **½ × 10 × (80 − 70)** from consumers who now buy less.
+:::
+
+```svgfig label="7.5" caption="A tariff of 10 on imports with domestic demand P = 120 − Q, supply P = 20 + Q and world price 40. Producers gain the grey area 250, the government collects the amber rectangle 400, and the two red triangles (50 each) are the deadweight loss. Consumers lose all four areas, 750."
+f = Fig(580, 262)
+a = Axes(f, 48, 14, 300, 200, (0, 120), (0, 120))
+a.grid(20, 20).axes("Quantity", "Price")
+def poly(pts, fill, op=0.85, st="none"):
+    f.raw('<polygon points="' + " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in pts) + f'" fill="{fill}" fill-opacity="{op}" stroke="{st}" stroke-width="1"/>')
+poly([(0, 40), (20, 40), (30, 50), (0, 50)], "#d1d5db")
+poly([(20, 40), (30, 50), (30, 40)], "#fecaca", 0.95, RED)
+poly([(30, 40), (30, 50), (70, 50), (70, 40)], "#fde68a")
+poly([(70, 40), (70, 50), (80, 40)], "#fecaca", 0.95, RED)
+a.curve(lambda q: 120 - q, 0, 120, color=NAVY, label="D", lx=a.X(8), ly=a.Y(112))
+a.curve(lambda q: 20 + q, 0, 100, color=TEAL, label="S", lx=a.X(96), ly=a.Y(108))
+a.hline(40, 0, 120, color=SLATE, dash=True); a.hline(50, 0, 120, color=RED, dash=True)
+a.tag(106, 36, "world 40", size=10, color=SLATE, bold=True); a.tag(106, 54, "with tariff 50", size=10, color=RED, bold=True)
+f.box(372, 24, 198, 52, "Free trade: Qd 80, Qs 20\nimports 60", fill=BLUE, stroke=NAVY, size=10.5)
+f.box(372, 90, 198, 52, "Tariff: Qd 70, Qs 30\nimports 40, revenue 400", fill=SAND, stroke=AMBER, size=10.5)
+f.box(372, 156, 198, 52, "Consumers −750, producers\n+250, government +400", fill=SAND, stroke=RED, size=10.5)
+```
+
+Arguments for tariffs include protecting an **infant industry** until it can compete, raising revenue (an important source of government income in Nepal) and national security. The arguments against are the deadweight loss above, higher prices for users of imported inputs and the risk of **retaliation**. **Dumping** means selling abroad below the home price or below cost; a country may answer it with an **anti-dumping duty**, but the claim must be proved. A **quota** limits quantity instead of price; unlike a tariff its price gain goes to whoever holds the import licences.
+
+### The quantity theory of money
+
+The **equation of exchange** is **MV = PY**: money supply M times its **velocity** V (how many times a unit of money is spent in a year) equals the price level P times real output Y. If V and Y are roughly constant, **P is proportional to M**.
+
+::: example Worked example: money and prices
+M = 1,500, V = 4, Y = 2,000 gives P = 1,500 × 4/2,000 = **3.0**. If M rises by 10 % to 1,650 with V and Y unchanged, **P = 3.3**: prices also rise 10 %. If output grows 5 % at the same time, P = 6,600/2,100 = 3.14, a rise of only 4.8 %.
+:::
+
+Real life is less tidy: V changes with interest rates and payment habits (digital wallets raise velocity), and output responds in the short run. The theory is best used for the **long-run** link between money growth and inflation, as in section 7.2.
+
+**Fisher equation.** The **real interest rate ≈ nominal rate − inflation**. A deposit paying 9 % while prices rise 6 % earns a real rate of about **3 %** (exactly 1.09/1.06 − 1 = 2.83 %). When inflation exceeds the deposit rate, the real return is negative.
+
+**Practice:** (i) Country A needs 5 hours per kg of rice and 10 hours per metre of cloth; B needs 4 and 6. Who has the comparative advantage in each? (ii) With Qd = 100 − P, Qs = P − 20 and a world price of 30, find imports before and after a tariff of 10, and the tariff revenue. (iii) M = 800, V = 5, Y = 1,000: find P, then P if M rises 25 %.
+
+## 7.7 Eight roles of money, banks and trade in everyday Nepali life
 
 1. **Money makes exchange simple.** Without money a farmer who wants a phone must find a phone seller who wants rice. A common medium of exchange removes this double coincidence of wants. Notes, cards and QR payments such as Fonepay all do the same job.
 2. **Money is a store of value and a unit of account.** Savings kept as money can be spent later, but they lose value when prices rise. Every price in a Nepali shop is quoted in rupees, so goods can be compared quickly. Inflation reduces this value, which is why real assets are sometimes preferred.
@@ -178,6 +254,7 @@ f.line(a.X(0), a.Y(0), a.X(8), a.Y(0), color=SLATE, sw=1.2)
 - Inflation = (CPI₁ − CPI₀)/CPI₀ × 100; demand-pull, cost-push, structural.
 - NRB tools: CRR, SLR, bank rate, repo/SLF, open market operations.
 - BoT = exports − imports (goods). BoP = current + capital + financial account (= 0 overall).
+- Terms of trade = (export price index / import price index) × 100; tariff loss = two triangles; MV = PY; real rate ≈ nominal − inflation.
 
 ## Chapter summary
 
@@ -196,6 +273,7 @@ f.line(a.X(0), a.Y(0), a.X(8), a.Y(0), color=SLATE, sw=1.2)
 6. Differentiate BoT and BoP; compute BoT for exports 80 and imports 300.
 7. Explain how raising the CRR affects the money supply.
 8. List differences between internal and international trade.
+9. A needs 5 hours per kg of rice and 10 per metre of cloth; B needs 4 and 6. Who has the comparative advantage in each? With Qd = 100 − P, Qs = P − 20, world price 30, find imports before and after a tariff of 10 and the revenue. M = 800, V = 5, Y = 1,000: find P, then P after M rises by 25 %.
 
 ::: note Answers and worked solutions
 **1.** Medium of exchange, unit of account, store of value, standard of deferred payment. Money removes the need for a double coincidence of wants: you can sell for money and buy anything with it.
@@ -206,6 +284,7 @@ f.line(a.X(0), a.Y(0), a.X(8), a.Y(0), color=SLATE, sw=1.2)
 **6.** BoT covers only visible goods (80 − 300 = **−220**); BoP records all transactions including services, income, transfers, capital and financial flows.
 **7.** Banks must hold more cash with the NRB, lend less, deposit creation falls, so money supply contracts.
 **8.** Factor mobility, currency, laws and tariffs, transport and risk, language and customs.
+**9.** A: 1 kg rice costs 0.5 m of cloth, B: 0.67 m; A has the advantage in **rice**. A: 1 m cloth costs 2 kg rice, B: 1.5 kg; B in **cloth**. Tariff: P = 30: Qd 70, Qs 10, imports **60**; P = 40: Qd 60, Qs 20, imports **40**; revenue **400**. P = 800 × 5/1000 = **4**; with M = 1,000, P = **5** (+25 %).
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
