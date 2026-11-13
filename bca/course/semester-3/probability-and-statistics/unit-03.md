@@ -165,16 +165,100 @@ f.text(150, 212, "dashed link is only a confounder effect", size=10.5, color=RED
 f.text(150, 230, "60 simulated days", size=10.5, color=SLATE)
 ```
 
+## 3.5 How good is the fit: $r^2$, standard error of estimate and probable error
+
+Fitting a line is easy; judging it is the real skill. Four tools do this.
+
+**Coefficient of determination.** $r^2$ is the fraction of the variation in *y* explained by the regression on *x*. Write the total variation as $SS_T = \sum (y - \bar{y})^2$, the unexplained part as $SS_E = \sum (y - \hat{y})^2$ (the squared residuals), then $r^2 = 1 - \frac{SS_E}{SS_T}$. If $r = 0.8$ then $r^2 = 0.64$: 64% of the variation in *y* is explained, 36% is not.
+
+**Standard error of estimate.** It is the typical size of a residual: $s_e = \sqrt{\frac{SS_E}{n - 2}}$. (Some books divide by *n* and get $\sigma_y\sqrt{1 - r^2}$; use *n* − 2 when generalising from a sample.) A prediction is then roughly $\hat{y} \pm 2 s_e$ for about 95% of cases.
+
+**Probable error of *r*.** $\mathrm{PE} = 0.6745 \times \frac{1 - r^2}{\sqrt{n}}$. Old rule of thumb: if $|r| < \mathrm{PE}$ there is no evidence of correlation; if $|r| > 6\,\mathrm{PE}$ it is certainly significant. Modern practice uses the *t* test below, but the PE appears in the TU syllabus questions.
+
+**Test of *r*.** For the null hypothesis of no correlation, $t = \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}$ with $n - 2$ degrees of freedom. A significant *r* is not a causal link.
+
+::: example Worked example: hours studied and marks
+Seven students: hours studied *x* = 2, 3, 4, 5, 6, 7, 8 and marks *y* = 45, 50, 58, 60, 68, 72, 80. Here $\bar{x} = 5$, $\bar{y} = 61.86$, $S_{xx} = 28$, $S_{xy} = 159$ and $SS_T = 912.86$.
+
+Slope $b = \frac{159}{28} = 5.679$ and intercept $a = 61.857 - 5.679(5) = 33.464$, so $\hat{y} = 33.46 + 5.679x$. Correlation $r = \frac{159}{\sqrt{28 \times 912.86}} = 0.9945$ and $r^2 = $ **0.9891**.
+
+| *x* | *y* | $\hat{y}$ | residual $y - \hat{y}$ |
+|---|---|---|---|
+| 2 | 45 | 44.82 | 0.18 |
+| 3 | 50 | 50.50 | −0.50 |
+| 4 | 58 | 56.18 | 1.82 |
+| 5 | 60 | 61.86 | −1.86 |
+| 6 | 68 | 67.54 | 0.46 |
+| 7 | 72 | 73.21 | −1.21 |
+| 8 | 80 | 78.89 | 1.11 |
+
+$SS_E = 9.964$, so $s_e = \sqrt{\frac{9.964}{5}} = $ **1.41 marks**. A student studying 6.5 hours is predicted to score $33.46 + 5.679(6.5) = 70.4$, give or take about 2.8 marks (2$s_e$). The *t* statistic is $\frac{0.9945\sqrt{5}}{\sqrt{1 - 0.9891}} = 21.3$, far above the critical value 2.571 for 5 d.f. at the 5% level, so the correlation is significant. **Extrapolation warning:** the line says 9 hours gives 84.6, but nothing in the data covers 9 hours, so that figure is a guess.
+:::
+
+::: example Worked example: probable error
+$r = 0.8$ from $n = 25$ pairs: $\mathrm{PE} = 0.6745 \times \frac{1 - 0.64}{\sqrt{25}} = 0.6745 \times \frac{0.36}{5} = 0.0486$. Since $\frac{r}{\mathrm{PE}} = 16.5 > 6$, the correlation is significant by the old rule.
+:::
+
+```svgfig label="3.3" caption="The fitted line for the hours-and-marks data with the residuals drawn as vertical segments. The segments are all short, which is what r squared = 0.989 and s_e = 1.41 mean."
+f = Fig(580, 230)
+ax = Axes(f, 60, 14, 470, 165, (1, 9), (40, 90))
+ax.grid(1, 10, labels=True); ax.axes("hours studied", "marks")
+ax.curve(lambda t: 33.464 + 5.6786 * t, 1.5, 8.5, color=NAVY, sw=2.2)
+for xv, yv in zip([2, 3, 4, 5, 6, 7, 8], [45, 50, 58, 60, 68, 72, 80]):
+    yh = 33.464 + 5.6786 * xv
+    f.line(ax.X(xv), ax.Y(yh), ax.X(xv), ax.Y(yv), color=RED, sw=2)
+    ax.pt(xv, yv, "", r=4.2, color=NAVY)
+f.text(ax.X(2.1) + 6, ax.Y(78), "y-hat = 33.46 + 5.679 x", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(ax.X(2.1) + 6, ax.Y(73), "red = residual (y - y-hat)", size=10.5, color=RED, bold=True, anchor="start")
+f.text(290, 224, "r = 0.9945   r squared = 0.989   s_e = 1.41", size=10.5, color=SLATE, italic=True)
+```
+
+## 3.6 Partial and multiple correlation, and a warning about pooled data
+
+Often more than two variables are involved. Let 1 = marks, 2 = hours studied and 3 = attendance. Attendance affects both hours and marks, so the simple $r_{12}$ may overstate the direct link between hours and marks.
+
+**Partial correlation** removes the effect of a third variable: $r_{12.3} = \frac{r_{12} - r_{13} r_{23}}{\sqrt{(1 - r_{13}^2)(1 - r_{23}^2)}}$. It reads: the correlation between 1 and 2 when 3 is held fixed.
+
+**Multiple correlation** measures how well variables 2 and 3 *together* predict 1: $R_{1.23}^2 = \frac{r_{12}^2 + r_{13}^2 - 2 r_{12} r_{13} r_{23}}{1 - r_{23}^2}$, and always $R_{1.23} \geq |r_{12}|$ and $\geq |r_{13}|$. The regression equation of $X_1$ on $X_2$ and $X_3$ is $X_1 = a + b_{12.3} X_2 + b_{13.2} X_3$; it is fitted by the normal equations or software (Excel LINEST, Python `numpy.linalg.lstsq`).
+
+::: example Worked example: three variables
+Given $r_{12} = 0.8$, $r_{13} = 0.7$ and $r_{23} = 0.6$:
+
+$r_{12.3} = \frac{0.8 - 0.7 \times 0.6}{\sqrt{(1 - 0.49)(1 - 0.36)}} = \frac{0.38}{\sqrt{0.51 \times 0.64}} = \frac{0.38}{0.5713} = $ **0.665**.
+
+$r_{13.2} = \frac{0.7 - 0.8 \times 0.6}{\sqrt{(1 - 0.64)(1 - 0.36)}} = \frac{0.22}{0.48} = $ **0.458**.
+
+$R_{1.23}^2 = \frac{0.64 + 0.49 - 2(0.8)(0.7)(0.6)}{1 - 0.36} = \frac{0.458}{0.64} = 0.7156$, so $R_{1.23} = $ **0.846**.
+
+Hours alone explain $r_{12}^2 = 64\%$ of the variation in marks; hours and attendance together explain 71.6%. Once attendance is held fixed, the hours-marks link falls from 0.80 to 0.665, which tells us part of the original correlation came through attendance.
+:::
+
+**Simpson's paradox.** A trend present in every sub-group can reverse when the groups are pooled, because the groups have different sizes. This is why one must look at the structure of the data before reporting a single correlation or percentage.
+
+::: example Worked example: two debugging tools
+Tool A and tool B were each used on 110 bugs, split into easy and hard ones.
+
+| | Easy bugs fixed | Hard bugs fixed | Overall |
+|---|---|---|---|
+| Tool A | 8 of 10 (80%) | 30 of 100 (30%) | 38 of 110 (**34.5%**) |
+| Tool B | 70 of 100 (70%) | 2 of 10 (20%) | 72 of 110 (**65.5%**) |
+
+Tool A is better on easy bugs *and* on hard bugs, yet its overall rate is far lower, because A was given mostly hard bugs and B mostly easy ones. Comparing the overall figures says B is the better tool; comparing like with like says A is. The lurking variable here is bug difficulty.
+:::
+
 ## Formula and fact sheet
 
 - $r = \frac{\mathrm{Sxy}}{\sqrt{\mathrm{Sxx} \cdot \mathrm{Syy}}} ;\  - 1 \leq r \leq 1 ;\  r^{2}$ = proportion explained.
 - Least squares: *b* = Sxy/Sxx, a = ȳ − $b \bar{x}$; ŷ = $a + b x$; lines meet at ($\bar{x}$, ȳ).
 - $b_{y} x \times b_{x} y = r^{2}$. Spearman $r_{s} = 1 - \frac{6 \sum d^{2}}{n (n^{2} - 1)}$.
+- $r^2 = 1 - \frac{SS_E}{SS_T}$; $s_e = \sqrt{\frac{SS_E}{n - 2}}$; $\mathrm{PE} = 0.6745\frac{1 - r^2}{\sqrt{n}}$; $t = \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}$.
+- $r_{12.3} = \frac{r_{12} - r_{13} r_{23}}{\sqrt{(1 - r_{13}^2)(1 - r_{23}^2)}}$; $R_{1.23}^2 = \frac{r_{12}^2 + r_{13}^2 - 2 r_{12} r_{13} r_{23}}{1 - r_{23}^2}$.
 
 ## Chapter summary
 
 - Correlation measures linear association with *r* from −1 to +1; correlation does not prove causation.
 - Least squares regression gives the best-fitting line for predicting *y* from *x*; the two regression lines meet at the means and their slopes multiply to $r^{2}$.
+- $r^2$, the standard error of estimate and the probable error judge a fitted line; partial and multiple correlation handle a third variable; pooled data can mislead (Simpson's paradox).
 
 ## Practice
 
@@ -184,6 +268,11 @@ f.text(150, 230, "60 simulated days", size=10.5, color=SLATE)
 4. If $b_{y} x = 0.8$ and $b_{x} y = 0.45$, find *r*.
 5. Why must the regression line of *y* on *x* not be used to predict *x*?
 6. State three properties of *r*.
+7. For $r = 0.6$ from $n = 36$ pairs compute $r^2$, the probable error, and decide if $r$ is significant by the PE rule.
+8. If $\sigma_y = 10$ and $r = 0.8$ find the standard error of estimate using $\sigma_y\sqrt{1 - r^2}$.
+9. Given $r_{12} = 0.6$, $r_{13} = 0.5$ and $r_{23} = 0.4$, find $r_{12.3}$ and $R_{1.23}$.
+10. Using the line $\hat{y} = 33.46 + 5.679x$ of section 3.5, predict the marks for 4.5 hours of study, and say why a prediction for 12 hours is unreliable.
+11. Tool A fixes 8 of 10 easy and 30 of 100 hard bugs; tool B fixes 70 of 100 easy and 2 of 10 hard bugs. Which tool is better, and why do the overall rates disagree?
 
 ::: note Answers and worked solutions
 **1.** Correlation measures strength and direction of association (symmetric); regression gives an equation to predict a dependent variable from an independent one (asymmetric).
@@ -197,6 +286,16 @@ f.text(150, 230, "60 simulated days", size=10.5, color=SLATE)
 **5.** That line minimises errors in *y*, not in *x*; the x-on-y line is the correct one for estimating *x*.
 
 **6.** Between −1 and 1; independent of origin and scale; unitless.
+
+**7.** $r^2 = 0.36$: 36% of the variation is explained. $\mathrm{PE} = 0.6745 \times \frac{1 - 0.36}{6} = $ **0.0719**. $\frac{r}{\mathrm{PE}} = \frac{0.6}{0.0719} = 8.3 > 6$, so the correlation is significant.
+
+**8.** $s_e = 10\sqrt{1 - 0.64} = 10 \times 0.6$ = **6**.
+
+**9.** $r_{12.3} = \frac{0.6 - 0.5 \times 0.4}{\sqrt{(1 - 0.25)(1 - 0.16)}} = \frac{0.4}{\sqrt{0.63}}$ = **0.504**. $R_{1.23}^2 = \frac{0.36 + 0.25 - 2(0.6)(0.5)(0.4)}{0.84} = \frac{0.37}{0.84} = 0.4405$, so $R_{1.23}$ = **0.664**.
+
+**10.** $33.46 + 5.679 \times 4.5 = 33.46 + 25.56$ = **59.0 marks**. The observed *x* values are only 2 to 8 hours, so 12 hours is extrapolation: the straight line may bend (a ceiling of 100 marks, tiredness) and the formula cannot know.
+
+**11.** Tool A is better on both easy (80% against 70%) and hard bugs (30% against 20%). Overall A gets 38/110 = 34.5% and B gets 72/110 = 65.5% because A was used mostly on hard bugs and B on easy ones. This is Simpson's paradox; compare within difficulty groups, not overall.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

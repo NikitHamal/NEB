@@ -185,18 +185,87 @@ f.text(290, 192, "Fixed rule: χ² > critical value means reject; otherwise the 
 7. **The *z* and *t* distributions.** They give confidence intervals and tests for a mean. Use *z* when *σ* is known or *n* is large, and *t* when *σ* is unknown and *n* is small, as Gosset showed. A software tester comparing the load times of 12 pages uses *t*.
 8. **The chi-square test.** It compares observed counts with expected counts. A college can test whether language preference differs by gender, or whether a die or random-number generator is fair. The decision rule is the shaded tail of Figure 6.3.
 
+## 6.11 Hypothesis testing in full: errors, power and the standard tests
+
+Section 6.8 gave the tools. A complete test follows the same six steps every time.
+
+1. State the **null hypothesis** $H_0$ (no effect, no difference) and the **alternative** $H_1$ (one-tailed or two-tailed).
+2. Fix the **significance level** $\alpha$ (usually 0.05), the probability of rejecting $H_0$ when it is true.
+3. Choose the test statistic (*z*, *t*, $\chi^2$ or *F*) from the data type, sample size and what is known.
+4. Compute the statistic and either compare it with the **critical value** or find the ***p*-value**.
+5. Decide: reject $H_0$ if $|\text{statistic}|$ exceeds the critical value, equivalently if $p < \alpha$.
+6. Write the conclusion in words about the problem. "Do not reject" means the evidence is insufficient, **not** that $H_0$ is proved.
+
+**Two kinds of error.** A **Type I error** is rejecting a true $H_0$; its probability is $\alpha$. A **Type II error** is failing to reject a false $H_0$; its probability is $\beta$. The **power** of a test is $1 - \beta$, the chance of detecting a real effect. For a fixed sample size, lowering $\alpha$ raises $\beta$; the only way to lower both is to take a larger sample.
+
+| Decision | $H_0$ true | $H_0$ false |
+|---|---|---|
+| Reject $H_0$ | Type I error (probability $\alpha$) | Correct (power $1 - \beta$) |
+| Do not reject $H_0$ | Correct ($1 - \alpha$) | Type II error (probability $\beta$) |
+
+::: example Worked example: Type II error and power
+$H_0: \mu = 50$ against $H_1: \mu > 50$ with $\sigma = 10$, $n = 36$, so $\mathrm{SE} = \frac{10}{6} = 1.667$ and $\alpha = 0.05$. Reject if $\bar{x} > 50 + 1.645(1.667) = 52.74$. Suppose the true mean is really 54. The test fails to reject when $\bar{x} \leq 52.74$, which has probability $\beta = P\!\left(Z \leq \frac{52.74 - 54}{1.667}\right) = P(Z \leq -0.76) = $ **0.225**, so the power is **0.775**. With a two-tailed test at the same $\alpha$ the acceptance region is 46.73 to 53.27 and the power for a true mean of 54 falls to 0.670: a one-tailed test is more powerful in the direction it looks.
+:::
+
+```svgfig label="6.4" caption="Alpha and beta for a one-tailed test of mean 50 against a true mean of 54 (SE = 1.667). The red tail of the null curve to the right of the critical value 52.74 is alpha = 0.05; the amber part of the alternative curve to its left is beta = 0.225. Moving the line right lowers alpha and raises beta."
+import math
+f = Fig(580, 230)
+ax = Axes(f, 50, 22, 480, 150, (43, 61), (0, 0.26))
+ax.axes("sample mean x-bar", "density")
+nrm = lambda m: (lambda t: math.exp(-(t - m) ** 2 / (2 * 1.667 ** 2)) / (1.667 * math.sqrt(2 * math.pi)))
+ax.area(nrm(50), 52.74, 61, fill="#fecaca", opacity=0.9)
+ax.area(nrm(54), 43, 52.74, fill="#fde68a", opacity=0.9)
+ax.curve(nrm(50), 43, 61, color=NAVY, sw=2.4)
+ax.curve(nrm(54), 43, 61, color=TEAL, sw=2.4)
+ax.vline(52.74, 0, 0.26, color=SLATE, dash=True, sw=1.6)
+for v in (44, 46, 48, 50, 52, 54, 56, 58, 60):
+    f.text(ax.X(v), ax.Y(0) + 15, str(v), size=10)
+f.text(ax.X(50), ax.Y(0.245), "H0: mean 50", size=11, color=NAVY, bold=True)
+f.text(ax.X(56.6), ax.Y(0.245), "H1: mean 54", size=11, color=TEAL, bold=True)
+f.text(ax.X(52.74) + 6, ax.Y(0.19), "critical 52.74", size=10.5, color=SLATE, anchor="start")
+f.text(ax.X(55.3), ax.Y(0.012) - 6, "alpha 0.05", size=10.5, color=RED, bold=True)
+f.text(ax.X(51.2), ax.Y(0.012) - 6, "beta 0.225", size=10.5, color=AMBER, bold=True)
+f.text(290, 224, "reject H0 to the right of the dashed line", size=10.5, color=SLATE, italic=True)
+```
+
+**The standard tests at a glance.**
+
+| Situation | Statistic | Degrees of freedom |
+|---|---|---|
+| One mean, $\sigma$ unknown | $t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$ | $n - 1$ |
+| Two independent means, equal variances | $t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_p^2\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}$, $s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}$ | $n_1 + n_2 - 2$ |
+| Paired measurements | $t = \frac{\bar{d}}{s_d/\sqrt{n}}$ on the differences | $n - 1$ |
+| Two variances | $F = \frac{s_1^2}{s_2^2}$ (larger on top) | $n_1 - 1,\ n_2 - 1$ |
+| One proportion | $z = \frac{\hat{p} - p_0}{\sqrt{p_0 q_0/n}}$ | none (normal) |
+
+::: example Worked example: one-sample t
+Claim: the mean response time is 50 ms. A sample of $n = 16$ gives $\bar{x} = 54$ and $s = 6$. $t = \frac{54 - 50}{6/4} = \frac{4}{1.5} = 2.667$ with 15 d.f. The two-tailed critical value is 2.131 and $p = 0.0176$, so **reject** the claim at 5%: the true mean is probably higher.
+:::
+
+::: example Worked example: two independent samples
+Two sorting routines are timed: A on 10 runs with mean 72 and $s = 6$, B on 12 runs with mean 66 and $s = 7$. $s_p^2 = \frac{9(36) + 11(49)}{20} = 43.15$, $\mathrm{SE} = \sqrt{43.15\left(\frac{1}{10} + \frac{1}{12}\right)} = 2.813$, $t = \frac{6}{2.813} = 2.13$ with 20 d.f. The critical value is 2.086 and $p = 0.0455$, so **reject** equal means at 5%. A 95% confidence interval for the difference is $6 \pm 2.086(2.813) = $ **(0.13, 11.87)**, which just excludes 0, in agreement with the test. The *F* check of the equal-variance assumption: $F = \frac{49}{36} = 1.36$ against the 5% critical value 3.10 (11, 9 d.f.), so the variances are not significantly different and pooling is acceptable.
+:::
+
+::: example Worked example: paired t and a proportion
+**Paired.** Page-load times (s) of 8 devices before and after an optimisation: before 12, 15, 11, 14, 13, 16, 12, 15; after 10, 13, 11, 11, 12, 13, 10, 14. The differences are 2, 2, 0, 3, 1, 3, 2, 1: $\bar{d} = 1.75$, $s_d = 1.035$, $t = \frac{1.75}{1.035/\sqrt{8}} = $ **4.78** with 7 d.f. (critical 2.365, $p = 0.002$): the optimisation is effective. Treating the two columns as independent samples would waste the pairing and give a much weaker test.
+**Proportion.** In a survey of 200 users 118 prefer the new interface. $H_0: p = 0.5$. $\hat{p} = 0.59$ and $z = \frac{0.59 - 0.5}{\sqrt{0.25/200}} = $ **2.55**, $p = 0.011$: reject, a majority prefers it. A 95% interval is $0.59 \pm 1.96\sqrt{\frac{0.59 \times 0.41}{200}} = $ **(0.522, 0.658)**.
+:::
+
 ## Formula and fact sheet
 
 - SRSWOR: Var(ȳ) = $\frac{(1 - f) s^{2}}{n}$; total Ŷ = Nȳ, Var = $\frac{N^{2} (1 - f) s^{2}}{n}$. SRSWR: $\frac{s^{2}}{n}$.
 - Stratified: ȳ_st = ΣW_hȳ_h; Var = $\frac{\sum W_{h}^{2} (1 - f_{h}) s_{h}^{2}}{n_{h}}$; Neyman $n_{h} \propto N_{h} S_{h}$.
 - Systematic: $k = \frac{N}{n}$, random start. PPS: Ŷ = $\frac{\left( \frac{1}{n} \right) \sum y_{i}}{p_{i}}$. Ratio: ȳ_R = (ȳ/x̄)X̄.
 - SE of mean $\frac{\sigma}{\sqrt{n}} ;\  z = 1.96$ (95%); *t* with df $n - 1 ;\  \chi^{2} = \frac{\sum (O - E)^{2}}{E}$, df = $(r - 1) (c - 1)$.
+- Errors: $\alpha = P(\text{reject } H_0 \mid H_0 \text{ true})$, $\beta = P(\text{keep } H_0 \mid H_0 \text{ false})$, power $= 1 - \beta$.
+- Pooled $s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}$; paired $t = \frac{\bar{d}}{s_d/\sqrt{n}}$; $F = \frac{s_1^2}{s_2^2}$; proportion $z = \frac{\hat{p} - p_0}{\sqrt{p_0 q_0/n}}$.
 
 ## Chapter summary
 
 - SRS is the baseline; stratification gains precision from homogeneous strata; systematic sampling is simple but pattern-sensitive; cluster and multistage designs cut cost; PPS handles unequal clusters.
 - Ratio and regression estimators exploit an auxiliary variable.
 - The CLT justifies $z ;\  t$ replaces *z* for small *n* with unknown $\sigma ;\  \chi^{2}$ tests counts.
+- A complete hypothesis test states $H_0$ and $H_1$, fixes $\alpha$, computes a statistic and concludes in words; Type I and II errors trade off, and power rises with sample size; paired, two-sample, variance and proportion tests extend the one-sample tests.
 
 ## Practice
 
@@ -208,6 +277,11 @@ f.text(290, 192, "Fixed rule: χ² > critical value means reject; otherwise the 
 6. $n = 25 ,\  \bar{x} = 100 ,\  s = 15$: 95% CI (t₀.₀₂₅ with 24 df = 2.064).
 7. Test independence for $\begin{bmatrix} 40 & 10 \\ 20 & 30 \end{bmatrix}$ at 5%.
 8. When is *t* used instead of *z*?
+9. State the six steps of a hypothesis test, and define Type I error, Type II error and power.
+10. A sample of 25 bulbs has mean life 1,020 hours and $s = 80$. Test $H_0: \mu = 1000$ against a two-tailed alternative at 5% (critical *t* for 24 d.f. is 2.064).
+11. Group A: $n = 8$, mean 15, $s = 2$; group B: $n = 8$, mean 12, $s = 3$. Test equality of means at 5% (critical *t* for 14 d.f. is 2.145).
+12. In a poll of 400 voters 232 support a proposal. Test $H_0: p = 0.5$ at 5% and give a 95% confidence interval for *p*.
+13. Why does lowering $\alpha$ from 0.05 to 0.01 usually increase $\beta$, and how can both be reduced?
 
 ::: note Answers and worked solutions
 **1.** $f = 0.1$; Var = $0.9 \times \frac{36}{50}$ = **0.648**, $S E = 0.805 ;\  C I 40 \pm 1.96 \times 0.805$ = **(38.42, 41.58)**; total $500 \times 40$ = **20,000**, $S E = 500 \times 0.805$ = **402.5**.
@@ -225,6 +299,16 @@ f.text(290, 192, "Fixed rule: χ² > critical value means reject; otherwise the 
 **7.** Row totals 50, 50; column totals 60, 40; expected: $30 ,\  \frac{20}{30} ,\  20$. $\chi^{2} = (10^{2} / 30 + 10^{2} / 20) \times 2 = (3.333 + 5) \times 2$ = **16.67** > 3.841 → **reject independence**.
 
 **8.** When *σ* is unknown and the sample is small $(n < 30)$, the data being roughly normal.
+
+**9.** Steps: state $H_0$ and $H_1$; fix $\alpha$; choose the statistic; compute it and the critical value or *p*-value; decide; conclude in words. Type I: rejecting a true $H_0$ (probability $\alpha$). Type II: keeping a false $H_0$ (probability $\beta$). Power $= 1 - \beta$, the probability of detecting a real effect.
+
+**10.** $\mathrm{SE} = \frac{80}{5} = 16$, $t = \frac{20}{16} = $ **1.25** < 2.064: do **not** reject; the data do not contradict a mean life of 1,000 hours.
+
+**11.** $s_p^2 = \frac{7(4) + 7(9)}{14} = 6.5$, $\mathrm{SE} = \sqrt{6.5\left(\frac{1}{8} + \frac{1}{8}\right)} = 1.275$, $t = \frac{3}{1.275} = $ **2.35** > 2.145: **reject** equality of means at 5%.
+
+**12.** $\hat{p} = \frac{232}{400} = 0.58$, $z = \frac{0.58 - 0.5}{\sqrt{0.25/400}} = \frac{0.08}{0.025} = $ **3.2**: reject (support exceeds 50%). Interval: $0.58 \pm 1.96\sqrt{\frac{0.58 \times 0.42}{400}} = 0.58 \pm 0.048$ = **(0.532, 0.628)**.
+
+**13.** A smaller $\alpha$ moves the critical value outward, so the rejection region shrinks and more false null hypotheses survive (Figure 6.4: moving the line right lowers $\alpha$ and raises $\beta$). Both errors fall only if the sample size is increased (smaller SE) or the measurements are made more precise.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
