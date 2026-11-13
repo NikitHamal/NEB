@@ -101,6 +101,66 @@ pass 1: fitted slope across the columns 1.30 grey levels per pixel (true 1.26), 
 pass 2: fitted slope across the columns 1.24 grey levels per pixel (true 1.26), accuracy 99.8%
 pass 3: fitted slope across the columns 1.24 grey levels per pixel (true 1.26), accuracy 99.8%
 ```
+## 5.2 Region-based segmentation
+
+Thresholding uses pixel values only. **Region-based** methods use also the **connectivity and similarity** of neighbours, so a region is guaranteed to be connected.
+
+### 5.2.1 Region growing
+
+Start from one or more **seed** points and grow each region by adding neighbouring pixels that satisfy a **similarity criterion** (the grey level differs from the region mean by less than a tolerance, or the local variance is small), stopping when no pixel qualifies. The choices to make are the seeds (chosen by the user, by the brightest pixels, or from a threshold), the criterion, the connectivity (4 or 8) and a stopping rule. It works well on noisy images (a threshold on the single pixel fails) and where edges are hard to detect, but depends on the seed and the order of visiting the pixels, and can leak through a weak boundary.
+
+### 5.2.2 Region splitting and merging
+
+The opposite approach starts with the **whole image** as one region. The **splitting** step divides every region that fails the predicate $Q$ (for example, its standard deviation is too high) into four quadrants, recursively, producing a **quadtree**. The **merging** step then joins adjacent regions $R_i$ and $R_j$ if $Q(R_i\cup R_j)$ is true. The result is a set of homogeneous regions of irregular shape built from square blocks. It needs no seed, but the blocky boundaries need a clean-up.
+
+### 5.2.3 Other region methods
+
+**Watershed segmentation** treats the grey-level image (usually the gradient magnitude) as a topographic surface: water poured into each local minimum floods basins which are separated by **watershed lines** where the floods meet; with **markers** to avoid over-segmentation it separates touching objects such as cells and coins. **K-means clustering** of pixel colours (Section 5.5) and **graph cuts** are also in common use, and **deep networks** (U-Net, Mask R-CNN) now give the best results for complex scenes when training data exist.
+
+```python
+import numpy as np
+from collections import deque
+rng = np.random.default_rng(41)
+n = 64; yy, xx = np.mgrid[0:n, 0:n]
+truth = ((yy - 30) ** 2 + (xx - 28) ** 2) < 18 ** 2
+img = np.where(truth, 150.0, 90.0) + rng.normal(0, 10, (n, n))
+img[(yy > 58) & (xx > 50)] = 150                                    # a distant bright patch, not connected to the object
+
+def grow(img, seed, tol):
+    seg = np.zeros(img.shape, bool); seg[seed] = True; total, cnt = float(img[seed]), 1
+    dq = deque([seed])
+    while dq:
+        a, b = dq.popleft()
+        for da, db in ((-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)):
+            u, v = a + da, b + db
+            if 0 <= u < n and 0 <= v < n and not seg[u, v] and abs(img[u, v] - total / cnt) < tol:
+                seg[u, v] = True; total += img[u, v]; cnt += 1; dq.append((u, v))
+    return seg
+seg = grow(img, (30, 28), 30)
+thr = img > 120
+print("object pixels (truth): %d" % truth.sum())
+print("global threshold at 120 : %d pixels, includes the unconnected patch: %s" % (thr.sum(), bool(thr[60, 55])))
+print("region growing, tol 30  : %d pixels, includes the unconnected patch: %s" % (seg.sum(), bool(seg[60, 55])))
+print("region growing accuracy on the object: %.1f%%" % (100 * np.mean(seg == truth)))
+
+# Split and merge predicate: split a block while its standard deviation exceeds 20 (quadtree).
+def split(a, r, c, s, out):
+    blk = a[r:r + s, c:c + s]
+    if s > 4 and blk.std() > 20:
+        h = s // 2
+        for dr in (0, h):
+            for dc in (0, h): split(a, r + dr, c + dc, h, out)
+    else: out.append((r, c, s, blk.mean()))
+blocks = []; split(img, 0, 0, n, blocks)
+print("quadtree: %d leaf blocks, sizes used: %s" % (len(blocks), sorted(set(b[2] for b in blocks), reverse=True)))
+```
+```output
+object pixels (truth): 1005
+global threshold at 120 : 1073 pixels, includes the unconnected patch: True
+region growing, tol 30  : 1002 pixels, includes the unconnected patch: False
+region growing accuracy on the object: 99.9%
+quadtree: 70 leaf blocks, sizes used: [16, 8, 4]
+```
 ## 5.3 Edges, lines and curves
 
 An **edge** is a set of connected pixels on the boundary between two regions where the intensity changes rapidly. Edge detection is the commonest way to find boundaries; it is the discontinuity approach. Real edges are modelled as a **step** (an ideal jump), a **ramp** (a blurred step, the commonest), or a **roof** (a thin line). The first derivative of a ramp is a non-zero plateau along it, the second derivative is a **positive then negative** pair with a **zero crossing** at the centre of the edge. Hence: the magnitude of the first derivative detects the presence of an edge, and the sign change of the second derivative locates it. Both derivatives are strongly affected by noise, so the image should be smoothed first.
