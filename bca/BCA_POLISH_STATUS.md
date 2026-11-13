@@ -322,7 +322,7 @@ Gaps found by keyword grep (0 hits): vacuous/trivial/uniqueness proofs and mista
 3. Electives BCA 406/453/454 (E-Commerce overlaps MIS Unit 10; Linux, Database Administration, DotNet, Software Testing) remain unwritten slots; deepen BCA 405.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
 
-## Session 30 results (BCA 105 and 101/103/104 left as-is; BCA 102 brought to the TU 10-unit outline)
+## Session 30 results (BCA 102, 353 and 101 extended; BCA 105 and 104 left as-is)
 
 Picked up from sessions 16-29 (this file; no duplicate tracker). Fresh sandbox `/home/user/sandbox`. Recipe: session-21 apt/venv/pip/`npm ci` line **plus `bash notes/pipeline/fonts/install.sh; fc-cache -f`** (without the fonts `qa_pdf.py` reports 2 FAILs "house font not embedded: Poppins/SourceSerif4" and page counts differ by about 3). Detached build and `export_course_web.py` worked unchanged.
 
@@ -339,8 +339,13 @@ Keyword audit: steganography 0 hits, malware/virus 7, intrusion 6, SNMP/SET none
 - PDF `NEBians-BCA-Course-Semester-6-Cryptography-and-Network-Security.pdf`: **93 -> 104 pp**, `qa_pdf.py` fails=0 warns=15. Web data 8 units. Figure page 99 inspected as PNG.
 - Honest gaps: statute details and the 1988/2000/2017 case facts are from memory of well-known accounts; `check_crypto.py` not extended (outputs come from the embedded executed programs).
 
+### BCA 101 Computer Fundamentals and Applications: NEW Unit 8 (laboratory applications)
+The README said the practical half (word processor, spreadsheet, presentation, photo editing) was "not in the PDF"; the TU outline lists it explicitly. Keyword audit: goal seek, scenario manager, data table, amortisation, data validation, mail merge, dithering, interlaced, anti-aliasing all 0 hits. Unit 8 (about 5k words): word processor (styles, layout, tables, mail merge with executed demo, macros and macro-virus risk), spreadsheet (references, functions, templates, protection, charts, validation, loan amortisation, data table, goal seek, scenario manager, consolidation, database functions, pivot table), presentation, photo editing (bitmap vs vector figure, resolution, colour depth with executed size table, formats, lossy/lossless, interlaced, dithering, anti-aliasing, selections, layers), lab checklist, 12 practice items with answers, 2 model answers. All numbers from executed Python (PMT 11,122.22; total interest 167,333.43; pivot total 438,000).
+- PDF `NEBians-BCA-Course-Semester-1-Computer-Fundamentals-and-Applications.pdf`: **152 -> 165 pp**, `qa_pdf.py` fails=0 warns=413 (old 6 pt figure labels). Web data 8 units. Figure page 156 inspected as PNG.
+- Honest gaps: menu paths follow current Microsoft Office/LibreOffice names; no screenshots of the packages themselves (copyright-free captures were not prepared).
+
 ## Prioritised queue for the next session
 1. Publish updated PDFs (`update_books.py --only <slug>`): 102, 105, 156, 401, 451, 304, 305, 103, 354, 154, 405.
-2. Keyword audits still pending: BCA 101, projects 256/306/356/404.
+2. Keyword audits still pending: projects 256/306/356/404 (BCA 101 done, session 30).
 3. Electives BCA 406/453/454 remain unwritten slots; deepen BCA 405.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
