@@ -1,0 +1,443 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "database-programming",
+ "name": "Database Programming",
+ "name_ne": "",
+ "icon": "menu_book",
+ "group": "semester-8",
+ "group_label": "Semester VIII",
+ "color": "#9A3412",
+ "lang": "en",
+ "code": "BCA 453",
+ "credits": 3,
+ "semester": 8,
+ "hours": 48,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction of RDBMS",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Overview of the Oracle Database architecture",
+    "Getting familiar with SQL*Plus",
+    "SQL*Plus buffer commands",
+    "Script files",
+    "Accepting values at runtime",
+    "The sample schema: EMP and DEPT",
+    "Fundamental SQL: DDL",
+    "Fundamental SQL: DML and transaction control",
+    "Fundamental SQL: DCL",
+    "Joins",
+    "Subqueries",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Overview of the Oracle Database architecture"
+    },
+    {
+     "no": "1.2",
+     "title": "Getting familiar with SQL*Plus"
+    },
+    {
+     "no": "1.3",
+     "title": "SQL*Plus buffer commands"
+    },
+    {
+     "no": "1.4",
+     "title": "Script files"
+    },
+    {
+     "no": "1.5",
+     "title": "Accepting values at runtime"
+    },
+    {
+     "no": "1.6",
+     "title": "The sample schema: EMP and DEPT"
+    },
+    {
+     "no": "1.7",
+     "title": "Fundamental SQL: DDL"
+    },
+    {
+     "no": "1.8",
+     "title": "Fundamental SQL: DML and transaction control"
+    },
+    {
+     "no": "1.9",
+     "title": "Fundamental SQL: DCL"
+    },
+    {
+     "no": "1.10",
+     "title": "Joins"
+    },
+    {
+     "no": "1.11",
+     "title": "Subqueries"
+    },
+    {
+     "no": "1.12",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3687,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "PL/SQL",
+   "hours": 13,
+   "area": "",
+   "topics": [
+    "PL/SQL concepts and architecture",
+    "Block structure",
+    "Executing a script and DBMS_OUTPUT.PUT_LINE",
+    "The substitution variable feature",
+    "PL/SQL language fundamentals",
+    "DML statements in PL/SQL",
+    "Transaction control in PL/SQL",
+    "Conditional control",
+    "Repetitive control",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "PL/SQL concepts and architecture"
+    },
+    {
+     "no": "2.2",
+     "title": "Block structure"
+    },
+    {
+     "no": "2.3",
+     "title": "Executing a script and DBMS_OUTPUT.PUT_LINE"
+    },
+    {
+     "no": "2.4",
+     "title": "The substitution variable feature"
+    },
+    {
+     "no": "2.5",
+     "title": "PL/SQL language fundamentals"
+    },
+    {
+     "no": "2.6",
+     "title": "DML statements in PL/SQL"
+    },
+    {
+     "no": "2.7",
+     "title": "Transaction control in PL/SQL"
+    },
+    {
+     "no": "2.8",
+     "title": "Conditional control"
+    },
+    {
+     "no": "2.9",
+     "title": "Repetitive control"
+    },
+    {
+     "no": "2.10",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3620,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "PL/SQL Exception",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "What an exception is",
+    "Handling exceptions",
+    "Exception scope",
+    "User-defined exceptions",
+    "Exception propagation",
+    "Advanced exception concepts",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "What an exception is"
+    },
+    {
+     "no": "3.2",
+     "title": "Handling exceptions"
+    },
+    {
+     "no": "3.3",
+     "title": "Exception scope"
+    },
+    {
+     "no": "3.4",
+     "title": "User-defined exceptions"
+    },
+    {
+     "no": "3.5",
+     "title": "Exception propagation"
+    },
+    {
+     "no": "3.6",
+     "title": "Advanced exception concepts"
+    },
+    {
+     "no": "3.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2465,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Database Cursors",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Types of cursors",
+    "The explicit cursor: DECLARE, OPEN, FETCH, CLOSE",
+    "Cursor loops",
+    "Parameterised cursors",
+    "Nested cursors",
+    "FOR UPDATE and WHERE CURRENT OF",
+    "Cursor variables and bulk fetch (a short look)",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Types of cursors"
+    },
+    {
+     "no": "4.2",
+     "title": "The explicit cursor: DECLARE, OPEN, FETCH, CLOSE"
+    },
+    {
+     "no": "4.3",
+     "title": "Cursor loops"
+    },
+    {
+     "no": "4.4",
+     "title": "Parameterised cursors"
+    },
+    {
+     "no": "4.5",
+     "title": "Nested cursors"
+    },
+    {
+     "no": "4.6",
+     "title": "FOR UPDATE and WHERE CURRENT OF"
+    },
+    {
+     "no": "4.7",
+     "title": "Cursor variables and bulk fetch (a short look)"
+    },
+    {
+     "no": "4.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2170,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Database Triggers",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "What a trigger is and why use one",
+    "Syntax, :OLD and :NEW, and the order of firing",
+    "Statement-level triggers",
+    "Row-level triggers",
+    "INSTEAD OF triggers",
+    "Managing triggers, and restrictions",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "What a trigger is and why use one"
+    },
+    {
+     "no": "5.2",
+     "title": "Syntax, :OLD and :NEW, and the order of firing"
+    },
+    {
+     "no": "5.3",
+     "title": "Statement-level triggers"
+    },
+    {
+     "no": "5.4",
+     "title": "Row-level triggers"
+    },
+    {
+     "no": "5.5",
+     "title": "INSTEAD OF triggers"
+    },
+    {
+     "no": "5.6",
+     "title": "Managing triggers, and restrictions"
+    },
+    {
+     "no": "5.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2412,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Records and Procedures",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Records",
+    "Nested records",
+    "Procedures",
+    "Parameters: IN, OUT and IN OUT",
+    "A larger procedure: hiring with checks, and a record parameter",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Records"
+    },
+    {
+     "no": "6.2",
+     "title": "Nested records"
+    },
+    {
+     "no": "6.3",
+     "title": "Procedures"
+    },
+    {
+     "no": "6.4",
+     "title": "Parameters: IN, OUT and IN OUT"
+    },
+    {
+     "no": "6.5",
+     "title": "A larger procedure: hiring with checks, and a record parameter"
+    },
+    {
+     "no": "6.6",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2179,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Functions and Packages",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Creating and invoking functions",
+    "Optimising function execution",
+    "Packages",
+    "Creating a package",
+    "Extending a package",
+    "Package instantiation and initialisation",
+    "Laboratory checklist for the course",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Creating and invoking functions"
+    },
+    {
+     "no": "7.2",
+     "title": "Optimising function execution"
+    },
+    {
+     "no": "7.3",
+     "title": "Packages"
+    },
+    {
+     "no": "7.4",
+     "title": "Creating a package"
+    },
+    {
+     "no": "7.5",
+     "title": "Extending a package"
+    },
+    {
+     "no": "7.6",
+     "title": "Package instantiation and initialisation"
+    },
+    {
+     "no": "7.7",
+     "title": "Laboratory checklist for the course"
+    },
+    {
+     "no": "7.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3196,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 58,
+ "notes_ready": 7
+}

@@ -32,10 +32,10 @@ ok(14 * 4 == 56, "cross join")
 ok(800 * 12 == 9600 and sum(range(1, 101)) == 5050 and math.factorial(5) == 120 and sum(i * i for i in range(1, 6)) == 55, "2.x basics")
 ok(sum(q("SELECT sal FROM emp WHERE deptno=10")[i][0] * 1.1 for i in range(3)) == 9625.000000000002 or abs(8750 * 1.1 - 9625) < 1e-6, "dept 10 raise")
 ok(10875 + 5 * 100 == 11375, "dept 20 +100")
-ok((0.10 * 1600, 0.02 * 3000, 0.15 * 2975) == (160.0, 60.0, 446.25), "bonuses")
+ok((round(0.10 * 1600, 6), round(0.02 * 3000, 6), round(0.15 * 2975, 6)) == (160.0, 60.0, 446.25), "bonuses")
 ok([i for i in range(1, 10) if i % 2] == [1, 3, 5, 7, 9] and next((i, j) for i in range(1, 6) for j in range(1, 6) if i * j == 12) == (3, 4), "loops")
 # Unit 3
-ok((3000 * 1.10, 3000 * 1.80) == (3300.0, 5400.0) and 5400 > 5000, "3.4 cap")
+ok((round(3000 * 1.10, 6), round(3000 * 1.80, 6)) == (3300.0, 5400.0) and 5400 > 5000, "3.4 cap")
 # Unit 4
 ok([r[0] for r in q("SELECT ename FROM emp WHERE deptno=30 ORDER BY sal DESC, ename")] == ["BLAKE","ALLEN","TURNER","MARTIN","WARD","JAMES"], "d30 order")
 ok(q("SELECT job,COUNT(*),SUM(sal) FROM emp GROUP BY job ORDER BY job") == [("ANALYST",2,6000),("CLERK",4,4150),("MANAGER",3,8275),("PRESIDENT",1,5000),("SALESMAN",4,5600)], "job groups")

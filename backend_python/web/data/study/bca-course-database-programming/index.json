@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-8-database-programming",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction of RDBMS",
+   "area": "BCA 453 · Database Programming · Unit 1",
+   "words": 4738,
+   "read_min": 26,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "PL/SQL",
+   "area": "BCA 453 · Database Programming · Unit 2",
+   "words": 4514,
+   "read_min": 25,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "PL/SQL Exception",
+   "area": "BCA 453 · Database Programming · Unit 3",
+   "words": 2855,
+   "read_min": 16,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Database Cursors",
+   "area": "BCA 453 · Database Programming · Unit 4",
+   "words": 2839,
+   "read_min": 16,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Database Triggers",
+   "area": "BCA 453 · Database Programming · Unit 5",
+   "words": 2846,
+   "read_min": 16,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Records and Procedures",
+   "area": "BCA 453 · Database Programming · Unit 6",
+   "words": 2903,
+   "read_min": 16,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Functions and Packages",
+   "area": "BCA 453 · Database Programming · Unit 7",
+   "words": 3858,
+   "read_min": 21,
+   "figures": 1,
+   "has_questions": true
+  }
+ ]
+}

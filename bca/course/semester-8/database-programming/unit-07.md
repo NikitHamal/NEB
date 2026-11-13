@@ -213,7 +213,7 @@ f.text(330, 158, "code of raise_salary and net_pay", size=9.5, anchor="middle", 
 f.text(330, 176, "private function valid_pct(...)", size=9.5, anchor="middle", color=SLATE)
 f.text(330, 194, "private variable g_raise_count", size=9.5, anchor="middle", color=SLATE)
 f.text(330, 222, "initialisation block (runs once)", size=9.5, anchor="middle", color=SLATE)
-f.arrow([(140, 50), (190, 50)], color=NAVY, label="emp_pkg.net_pay", lpos=(165, 40))
+f.arrow([(140, 50), (190, 50)], color=NAVY, label="call", lpos=(165, 40))
 f.arrow([(330, 90), (330, 120)], color=TEAL, dash=True)
 ```
 
