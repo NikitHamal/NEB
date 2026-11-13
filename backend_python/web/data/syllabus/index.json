@@ -1482,6 +1482,24 @@
      "semester": 8,
      "group_label": "Semester VIII",
      "code": "BCA 452"
+    },
+    {
+     "subject": "internet-of-things",
+     "name": "Internet of Things",
+     "name_ne": "",
+     "icon": "menu_book",
+     "group": "semester-8",
+     "color": "#0F766E",
+     "lang": "en",
+     "hours": 48,
+     "unit_count": 6,
+     "topic_count": 50,
+     "notes_ready": 6,
+     "questions": null,
+     "credits": 3,
+     "semester": 8,
+     "group_label": "Semester VIII",
+     "code": "BCA 454"
     }
    ]
   }

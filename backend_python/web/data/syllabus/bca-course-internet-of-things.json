@@ -1,0 +1,385 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "internet-of-things",
+ "name": "Internet of Things",
+ "name_ne": "",
+ "icon": "menu_book",
+ "group": "semester-8",
+ "group_label": "Semester VIII",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 454",
+ "credits": 3,
+ "semester": 8,
+ "hours": 48,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to IoT",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Definition and characteristics of IoT",
+    "Physical design of IoT",
+    "Logical design of IoT",
+    "IoT enabling technologies",
+    "IoT levels and deployment templates",
+    "IoT and M2M",
+    "Domain-specific IoTs",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Definition and characteristics of IoT"
+    },
+    {
+     "no": "1.2",
+     "title": "Physical design of IoT"
+    },
+    {
+     "no": "1.3",
+     "title": "Logical design of IoT"
+    },
+    {
+     "no": "1.4",
+     "title": "IoT enabling technologies"
+    },
+    {
+     "no": "1.5",
+     "title": "IoT levels and deployment templates"
+    },
+    {
+     "no": "1.6",
+     "title": "IoT and M2M"
+    },
+    {
+     "no": "1.7",
+     "title": "Domain-specific IoTs"
+    },
+    {
+     "no": "1.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3401,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Sensors, Actuators and Interfacing",
+   "hours": 18,
+   "area": "",
+   "topics": [
+    "Roles of sensors and actuators",
+    "Types of sensors",
+    "Sensor characteristics and the ADC",
+    "Working of sensors: position, occupancy, motion, velocity, force, pressure and flow",
+    "Working of sensors: acoustic, humidity, light, radiation and temperature",
+    "Working of sensors: chemical, biosensor and camera",
+    "Actuators and how to drive them",
+    "Development boards: Arduino",
+    "Development boards: Raspberry Pi",
+    "Interfacing in practice: executable models",
+    "Laboratory work",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Roles of sensors and actuators"
+    },
+    {
+     "no": "2.2",
+     "title": "Types of sensors"
+    },
+    {
+     "no": "2.3",
+     "title": "Sensor characteristics and the ADC"
+    },
+    {
+     "no": "2.4",
+     "title": "Working of sensors: position, occupancy, motion, velocity, force, pressure and flow"
+    },
+    {
+     "no": "2.5",
+     "title": "Working of sensors: acoustic, humidity, light, radiation and temperature"
+    },
+    {
+     "no": "2.6",
+     "title": "Working of sensors: chemical, biosensor and camera"
+    },
+    {
+     "no": "2.7",
+     "title": "Actuators and how to drive them"
+    },
+    {
+     "no": "2.8",
+     "title": "Development boards: Arduino"
+    },
+    {
+     "no": "2.9",
+     "title": "Development boards: Raspberry Pi"
+    },
+    {
+     "no": "2.10",
+     "title": "Interfacing in practice: executable models"
+    },
+    {
+     "no": "2.11",
+     "title": "Laboratory work"
+    },
+    {
+     "no": "2.12",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 6166,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "IoT Platform Design Methodology",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The ten steps of the methodology",
+    "Step 1: Purpose and requirements for the weather monitor",
+    "Step 2: Process specification",
+    "Step 3: Domain model specification",
+    "Step 4: Information model specification",
+    "Step 5: Service specification",
+    "Step 6: IoT level specification",
+    "Steps 7 and 8: Functional and operational views",
+    "Step 9: Device and component integration",
+    "Step 10: Application development",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "The ten steps of the methodology"
+    },
+    {
+     "no": "3.2",
+     "title": "Step 1: Purpose and requirements for the weather monitor"
+    },
+    {
+     "no": "3.3",
+     "title": "Step 2: Process specification"
+    },
+    {
+     "no": "3.4",
+     "title": "Step 3: Domain model specification"
+    },
+    {
+     "no": "3.5",
+     "title": "Step 4: Information model specification"
+    },
+    {
+     "no": "3.6",
+     "title": "Step 5: Service specification"
+    },
+    {
+     "no": "3.7",
+     "title": "Step 6: IoT level specification"
+    },
+    {
+     "no": "3.8",
+     "title": "Steps 7 and 8: Functional and operational views"
+    },
+    {
+     "no": "3.9",
+     "title": "Step 9: Device and component integration"
+    },
+    {
+     "no": "3.10",
+     "title": "Step 10: Application development"
+    },
+    {
+     "no": "3.11",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2963,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Data and Analytics for IoT",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "An introduction to data analytics for IoT",
+    "Machine learning for IoT",
+    "Big data analytics tools and technology",
+    "Edge streaming analytics",
+    "Network analytics",
+    "Putting the pieces together: an IoT analytics pipeline",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "An introduction to data analytics for IoT"
+    },
+    {
+     "no": "4.2",
+     "title": "Machine learning for IoT"
+    },
+    {
+     "no": "4.3",
+     "title": "Big data analytics tools and technology"
+    },
+    {
+     "no": "4.4",
+     "title": "Edge streaming analytics"
+    },
+    {
+     "no": "4.5",
+     "title": "Network analytics"
+    },
+    {
+     "no": "4.6",
+     "title": "Putting the pieces together: an IoT analytics pipeline"
+    },
+    {
+     "no": "4.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3438,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "IoT Physical Servers and Cloud Offering",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "IoT physical servers",
+    "Cloud storage models for IoT data",
+    "Communication APIs of IoT systems",
+    "IoT cloud platforms",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "IoT physical servers"
+    },
+    {
+     "no": "5.2",
+     "title": "Cloud storage models for IoT data"
+    },
+    {
+     "no": "5.3",
+     "title": "Communication APIs of IoT systems"
+    },
+    {
+     "no": "5.4",
+     "title": "IoT cloud platforms"
+    },
+    {
+     "no": "5.5",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2850,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Securing IoT Systems",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "IoT security challenges",
+    "Incidents that shaped IoT security",
+    "Threats in a worked threat model",
+    "IoT security practices",
+    "Verifying firmware before installing it",
+    "Case study: securing a smart-farm system",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "IoT security challenges"
+    },
+    {
+     "no": "6.2",
+     "title": "Incidents that shaped IoT security"
+    },
+    {
+     "no": "6.3",
+     "title": "Threats in a worked threat model"
+    },
+    {
+     "no": "6.4",
+     "title": "IoT security practices"
+    },
+    {
+     "no": "6.5",
+     "title": "Verifying firmware before installing it"
+    },
+    {
+     "no": "6.6",
+     "title": "Case study: securing a smart-farm system"
+    },
+    {
+     "no": "6.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3186,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 50,
+ "notes_ready": 6
+}
