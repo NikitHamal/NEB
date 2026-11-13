@@ -344,12 +344,168 @@ Forms: logical order (top to bottom, left to right), group with headings or boxe
 
 **Likely questions.** (a) Compare interaction methods (5). (b) State guidelines for dialogue design (5). (c) Draw a dialogue diagram for ATM withdrawal (5). (d) Which widget would you use for each of these fields and why? (5).
 
+
+## 4.10 Keys, dependencies, BCNF and input validation: the database designer's toolkit
+
+Section 4.1 normalised a relation to third normal form. This section adds the vocabulary that lets you **prove** a table is well designed, and the validation rules that keep bad data out of it.
+
+### Functional dependencies and keys
+
+A **functional dependency** A -> B says that the value of A determines exactly one value of B: *student_id -> student_name*. A **candidate key** is a minimal set of attributes whose values determine every other attribute; the one chosen is the **primary key**, the others are **alternate keys**. The **closure** of a set of attributes X, written X+, is everything X determines, and is found by repeatedly applying the dependencies.
+
+::: example Worked example: closure and candidate key
+Relation R(A, B, C, D) with A -> B and B -> C. Start with {A}: A -> B adds B, B -> C adds C, so **A+ = {A, B, C}**. D is not reached, so A is not a key. **{A, D}+ = {A, B, C, D}** covers every attribute, and neither A nor D alone does, so **{A, D} is the candidate key**.
+:::
+
+A **natural key** carries meaning (citizenship number, roll number); a **surrogate key** is a meaningless number made by the system (`loan_id`). Natural keys can change or be mistyped (a roll number is reissued after a re-admission); surrogate keys never change, are short and make joins fast, but you still declare a **unique constraint** on the natural key so duplicates are caught.
+
+### Boyce-Codd normal form
+
+**3NF** allows a dependency A -> B when B is part of a key, even if A is not a key. **BCNF** is stricter: **every determinant must be a candidate key**. The two forms differ only when a relation has several overlapping candidate keys.
+
+```svgfig label="4.4" caption="A BCNF decomposition. In TEACHING(student, teacher, course) each teacher teaches one course (teacher -> course), but teacher is not a key, so the relation is in 3NF but not BCNF. Splitting it into TEACHES and ENROLS removes the problem without losing information."
+f = Fig(680, 190)
+f.box(10, 30, 210, 110, "TEACHING\nstudent, teacher, course\n\nkeys: (student, course)\nand (student, teacher)\nteacher -> course", fill=ROSE, stroke=RED, color=NAVY, size=10.5, bold=True)
+f.arrow([(222, 85), (330, 85)], color=SLATE, sw=2, label="decompose", lpos=(276, 70), lsize=10)
+f.box(340, 20, 170, 60, "TEACHES\nteacher, course\nkey: teacher", fill=MINT, stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(340, 100, 170, 60, "ENROLS\nstudent, teacher\nkey: (student, teacher)", fill=MINT, stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.text(600, 85, "Every determinant is\nnow a key.\nNo anomaly: changing a\nteacher's course means\nediting one row.", size=10.5, color=SLATE)
+```
+
+Check the decomposition: join TEACHES and ENROLS on *teacher* and you rebuild every original (student, teacher, course) triple, so it is **lossless**. The price is that the dependency (student, course) -> teacher is no longer enforced by a key in one table; the designer must decide whether that matters. In practice most schemas stop at 3NF, and BCNF is applied when the anomaly is real.
+
+### Validation: stopping bad data at the door
+
+A form should reject bad input at the **client** (fast feedback) **and** at the **server** and the **database** (the only checks that cannot be bypassed). The usual checks:
+
+| Check | Question | Example |
+|---|---|---|
+| **Presence** | is a required value there? | name must not be empty |
+| **Type** | is it the right kind of value? | marks must be a number |
+| **Range** | is it within limits? | marks 0 to 100 |
+| **Length** | right number of characters? | phone has 10 digits |
+| **Format (mask)** | right pattern? | date as BS year-month-day |
+| **List / lookup** | is it one of the allowed values? | faculty in the faculty table |
+| **Consistency** | do two fields agree? | due date not before issue date |
+| **Uniqueness** | is it new? | roll number not used already |
+| **Check digit** | is the code itself plausible? | member number with check digit |
+
+A **check digit** is an extra digit calculated from the others, so that typing errors are caught without a lookup. A simple scheme multiplies the digits of the code by weights and takes the result modulo 11.
+
+::: example Worked example: a check digit for member numbers
+Member number **0173**, weights **5, 4, 3, 2**. Sum = 0 x 5 + 1 x 4 + 7 x 3 + 3 x 2 = 31. 31 mod 11 = 9. Check digit = 11 - 9 = **2**, so the full number is **01732**.
+A clerk types **07132** (the 1 and the 7 swapped). The system recomputes the check digit for 0713: 0 x 5 + 7 x 4 + 1 x 3 + 3 x 2 = 37, 37 mod 11 = 4, check digit 11 - 4 = 7, which is not the typed 2, so the entry is **rejected at once**. Such a scheme catches every single-digit error and most swaps of neighbouring digits. (When the remainder is 1 the check digit would be 10; real systems use the letter X or avoid such numbers.)
+:::
+
+The same rule as a short program, with the two numbers of the example:
+
+```python
+WEIGHTS = (5, 4, 3, 2)
+
+def check_digit(code):
+    total = sum(int(c) * w for c, w in zip(code, WEIGHTS))
+    return (11 - total % 11) % 11          # 10 would need the letter X; see the text
+
+def is_valid(full):
+    return check_digit(full[:-1]) == int(full[-1])
+
+print("check digit of 0173:", check_digit("0173"), "-> full number 01732")
+print("01732 valid?", is_valid("01732"))
+print("07132 valid? (digits 1 and 7 swapped)", is_valid("07132"))
+print("check digit of 2594:", check_digit("2594"))
+```
+
+Error messages follow the same rule as the rest of the dialogue: say **what is wrong and how to fix it** ("Marks must be a number from 0 to 100"), keep the user's other entries, and put the cursor on the faulty field.
+
+## 4.11 Interface design rules, Fitts's law, wireframes and report types
+
+### Shneiderman's eight golden rules
+
+Ben Shneiderman's eight rules summarise decades of interface experience and are a standard checklist for dialogues:
+
+1. **Strive for consistency:** the same words, colours, layouts and shortcuts for the same actions.
+2. **Enable frequent users to use shortcuts:** keyboard keys, defaults, saved templates.
+3. **Offer informative feedback:** every action produces a visible response, proportionate to its importance.
+4. **Design dialogues to yield closure:** sequences of actions have a beginning, middle and end ("Receipt saved").
+5. **Offer error prevention and simple error handling:** disable impossible choices, validate early, give clear fixes.
+6. **Permit easy reversal of actions:** undo, cancel, back.
+7. **Keep users in control:** the user starts the actions; the system responds.
+8. **Reduce short-term memory load:** show choices instead of asking users to recall codes; keep screens simple.
+
+### Fitts's law: how big and how near should a button be?
+
+**Fitts's law** predicts the time to point at a target: the farther away and the smaller it is, the longer it takes. In the common (Shannon) form, with distance D, target width W and constants a and b found by experiment,
+
+T = a + b x log2(D / W + 1) seconds.
+
+::: example Worked example: a Save button
+Take a = 0.10 s and b = 0.15 s per bit (illustrative constants for a mouse). The pointer is 400 px from the button.
+Narrow button, W = 20 px: log2(400/20 + 1) = log2(21) = 4.39 bits, so T = 0.10 + 0.15 x 4.39 = **0.76 s**.
+Wide button, W = 80 px: log2(400/80 + 1) = log2(6) = 2.58 bits, so T = 0.10 + 0.15 x 2.58 = **0.49 s**.
+Quadrupling the width saves about **0.27 s** per click, roughly 36 per cent, which over a clerk's 500 clicks a day is more than two minutes. The screen corners and edges are the fastest targets of all because the pointer stops there (an effectively infinite width), which is why menu bars sit at the top edge.
+:::
+
+Design consequences: make **primary actions large**, put frequently used controls **close together**, keep **dangerous actions** (Delete) small, away from Save and behind a confirmation, and on touch screens make targets at least about 9 mm (roughly 48 px) square.
+
+### Wireframes
+
+A **wireframe** is a low-fidelity sketch of one screen that shows the layout, fields and actions without colour or images. It is drawn **before** coding, reviewed with users (the cheapest usability test there is), and updated when the dialogue diagram of 4.4 changes. A wireframe documents what is on the screen, where it is, and what each control does; the visual design comes later.
+
+```svgfig label="4.5" caption="Wireframe of a fee-collection form with the design decisions numbered. The numbers refer to the notes at the right."
+f = Fig(680, 296)
+f.box(10, 8, 400, 282, "", fill=SOFT, stroke=SLATE, r=4)
+f.box(10, 8, 400, 28, "Fee collection", fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True, r=4)
+f.text(24, 54, "Student ID", size=9.5, anchor="start", color=SLATE)
+f.box(24, 60, 130, 24, "", fill="#ffffff", stroke=SLATE, r=3)
+f.box(160, 60, 50, 24, "Find", fill=BLUE, color=NAVY, size=10, bold=True, r=3)
+f.text(230, 54, "Name (read only)", size=9.5, anchor="start", color=SLATE)
+f.box(230, 60, 164, 24, "Anita Sharma", fill="#e2e8f0", stroke=SLATE, color=SLATE, size=10, r=3)
+f.text(24, 108, "Fee head", size=9.5, anchor="start", color=SLATE)
+f.box(24, 114, 186, 24, "Tuition", fill="#ffffff", stroke=SLATE, color=SLATE, size=10, r=3, anchor="start")
+f.text(196, 126, "v", size=10, color=SLATE, bold=True)
+f.text(230, 108, "Amount (Rs)", size=9.5, anchor="start", color=SLATE)
+f.box(230, 114, 164, 24, "abc", fill="#ffffff", stroke=RED, color=SLATE, size=10, r=3, anchor="start")
+f.text(230, 152, "Enter a number above 0", size=9.5, anchor="start", color=RED)
+f.text(24, 180, "Payment mode", size=9.5, anchor="start", color=SLATE)
+f.circle(34, 200, 6, fill=NAVY, stroke=NAVY)
+f.text(46, 200, "Cash", size=10, anchor="start", color=SLATE, vmid=True)
+f.circle(110, 200, 6, fill="#ffffff", stroke=NAVY)
+f.text(122, 200, "Bank deposit", size=10, anchor="start", color=SLATE, vmid=True)
+f.box(240, 240, 80, 32, "Save receipt", fill=TEAL, stroke=TEAL, color="#ffffff", size=10, bold=True, r=4)
+f.box(328, 240, 66, 32, "Cancel", fill="#ffffff", stroke=SLATE, color=SLATE, size=10, r=4)
+notes = [(62, "1  Related fields sit together;\n    labels above the inputs."), (100, "2  A read-only field is grey,\n    so users do not try to edit it."),
+         (150, "3  The error stays beside the field,\n    in plain words, other input kept."), (200, "4  Few exclusive choices: radio\n    buttons; long lists: dropdown."),
+         (256, "5  Main action is wide and verb-led;\n    Cancel is visually weaker.")]
+for y, t in notes:
+    f.text(444, y, t, size=10, color=NAVY, anchor="start")
+    f.line(438, y, 400, y if y != 256 else 256, color=SLATE, sw=1, dash=True)
+```
+
+### Report types
+
+Reports are designed by the decision they support. Four types cover most needs:
+
+| Type | Content | Example | Design note |
+|---|---|---|---|
+| **Detail report** | every transaction | day-book of all fee receipts | sorted and grouped, with page totals |
+| **Summary report** | totals by group | fees collected per faculty per month | one line per group, grand total at the end |
+| **Exception report** | only items beyond a threshold | students with dues above Rs 5,000 | the threshold is printed on the report |
+| **Drill-down / dashboard** | a summary that opens into detail | monthly bar chart that opens into receipts | the top level answers the question; detail is one click away |
+
+A report needs the same care as a form: a **title**, **run date and period**, **page numbers**, clear **column headings**, numbers **right-aligned with the same decimals**, **subtotals** at group breaks and a **grand total**, and a **footer** that says who produced it. A dashboard adds one more rule: show **five to nine** key indicators, each with a comparison (last month, target) and a colour that is never the only carrier of meaning, so that colour-blind users are not left out.
+
+::: note A common exam trap
+"Design a form" answers should include the **fields with their types and validation**, the **layout reasoning** (grouping, order, defaults) and the **navigation** (what Save, Cancel and Back do). A picture without these three scores half marks.
+:::
+
 ## Formula and fact sheet
 
 - Normalised relations: CUSTOMER, INVOICE, ITEM, INVOICE_LINE (invoice example). Merge relations, resolve synonyms and homonyms.
 - E-R to relations: 1:N → foreign key on the many side; M:N → new relation with composite key.
 - Physical design: field types, defaults, checks; denormalize only with reason; index fields used in WHERE/JOIN/ORDER BY.
 - Usability = effectiveness + efficiency + satisfaction. Interaction methods: command, menu, form, GUI, natural language.
+- Closure X+; BCNF: every determinant is a candidate key. Check digit = 11 - (weighted sum mod 11).
+- Fitts's law T = a + b log2(D/W + 1). Shneiderman: consistency, shortcuts, feedback, closure, error prevention, reversal, control, low memory load.
 
 ## Chapter summary
 
@@ -369,6 +525,12 @@ Forms: logical order (top to bottom, left to right), group with headings or boxe
 7. Define usability and name two ways to assess it.
 8. Compare menus and command languages as interaction methods.
 9. Draw a dialogue diagram for withdrawing cash at an ATM.
+10. R(A, B, C, D, E) has A -> B, B -> C and D -> E. Find the closure of {A, D} and the candidate key.
+11. R(student, subject, teacher) has teacher -> subject and (student, subject) -> teacher. Is R in BCNF? Decompose if not.
+12. Compute the check digit for the member number 2594 using weights 5, 4, 3, 2 and modulus 11.
+13. With a = 0.10 s and b = 0.15 s/bit, compare the pointing time for a target 300 px away that is 30 px wide with one that is 60 px wide.
+14. Which golden rule is broken: (a) Delete removes a record at once with no confirmation; (b) the same action is called Submit, Send and OK on three screens; (c) users must remember a six-digit product code.
+15. Choose the report type (detail, summary, exception, drill-down) for: (a) list of students with attendance below 75 per cent; (b) monthly fee total per faculty; (c) all fee receipts of one day.
 
 ::: note Answers and worked solutions
 **1.** 1NF: `ORDER(order_no, date, cust_id, cust_name)`, `ORDER_LINE(order_no, product_id, product_name, price, qty)`. 2NF: `PRODUCT(product_id, product_name, price)`, `ORDER_LINE(order_no, product_id, qty)`. 3NF: `CUSTOMER(cust_id, cust_name)`, `ORDER(order_no, date, cust_id)`.
@@ -380,6 +542,12 @@ Forms: logical order (top to bottom, left to right), group with headings or boxe
 **7.** Usability is effectiveness, efficiency and satisfaction. Assess with usability testing with real users and heuristic evaluation (or SUS).
 **8.** Menus: easy for novices, recognition-based, slower for experts. Command languages: fast and powerful for experts, hard to learn and remember.
 **9.** Insert card → enter PIN (3 tries) → menu → withdraw → choose amount → balance check (insufficient: message and back to amount) → dispense cash → receipt? → return card.
+**10.** A -> B gives B, B -> C gives C; D -> E gives E. {A, D}+ = {A, B, C, D, E}, all attributes. Neither A nor D alone reaches everything, so **{A, D}** is the candidate key.
+**11.** No. The determinant *teacher* is not a candidate key (keys are (student, subject) and (student, teacher)), so R is in 3NF but not BCNF. Decompose into TEACHES(teacher, subject) and ENROLS(student, teacher).
+**12.** 2 x 5 + 5 x 4 + 9 x 3 + 4 x 2 = 10 + 20 + 27 + 8 = 65. 65 mod 11 = 10 (since 5 x 11 = 55). Check digit = 11 - 10 = **1**, giving **25941**.
+**13.** W = 30: log2(300/30 + 1) = log2(11) = 3.46, T = 0.10 + 0.15 x 3.46 = **0.62 s**. W = 60: log2(6) = 2.58, T = **0.49 s**. The wider target is about 0.13 s faster.
+**14.** (a) Error prevention and easy reversal (rules 5 and 6). (b) Consistency (rule 1). (c) Reduce short-term memory load (rule 8).
+**15.** (a) Exception report. (b) Summary report. (c) Detail report.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
