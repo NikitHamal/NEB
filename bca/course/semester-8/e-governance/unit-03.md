@@ -26,13 +26,13 @@ A portal is the visible one per cent of an e-governance project. Under it lie re
 ```svgfig label="3.1" caption="The five infrastructures of e-readiness as pillars under the e-services roof. If one pillar is missing the roof tilts; a strong portal does not repair a weak register."
 f = Fig(680, 320)
 f.poly([(40, 80), (340, 20), (640, 80)], fill=SAND, stroke=AMBER, label="E-services and e-governance outcomes", lx=340, ly=62, size=12, color=AMBER)
-pillars = [("Data system", "registers, IDs,\nquality, standards", NAVY, BLUE), ("Legal", "e-records, RTI,\nprivacy, cyber law", RED, ROSE), ("Institutional", "mandate, CIO,\nfunding, coordination", AMBER, SAND),
-           ("Human", "skills, literacy,\nchange readiness", TEAL, MINT), ("Technological", "network, data centre,\ndevices, security", NAVY, BLUE)]
+pillars = [("Data system", "registers, IDs,\nquality,\nstandards", NAVY, BLUE), ("Legal", "e-records,\nRTI, privacy,\ncyber law", RED, ROSE), ("Institutional", "mandate, CIO,\nfunding,\ncoordination", AMBER, SAND),
+           ("Human", "skills,\nliteracy, change\nreadiness", TEAL, MINT), ("Technological", "network,\ndata centre,\ndevices, security", NAVY, BLUE)]
 for i, (a, b, col, fill) in enumerate(pillars):
     x = 40 + i * 120
     f.box(x, 95, 100, 175, "", fill=fill, stroke=col)
     f.text(x + 50, 125, a, size=10.5, color=col, bold=True)
-    f.text(x + 50, 175, b, size=9, color=SLATE)
+    f.text(x + 50, 170, b, size=10, color=SLATE)
 f.box(30, 275, 620, 30, "Foundation: political will, citizen demand, sustained budget", fill=SOFT, stroke=SLATE, size=10.5, color=SLATE)
 ```
 
@@ -109,14 +109,14 @@ E-governance does not appear in a single step. Governments move through stages, 
 
 ```svgfig label="3.2" caption="Evolutionary stages of e-governance with a Nepali illustration for each. The citizen-facing value rises with each stage, and so does the dependence on the stages below."
 f = Fig(680, 300)
-st = [("1 Computerisation", "payroll and census\non computers", SOFT, SLATE), ("2 Networking", "office LANs, email,\nwide-area links", BLUE, NAVY), ("3 Online presence", "ministry websites,\nnotices, forms to read", MINT, TEAL),
-      ("4 Interaction", "download forms, RTI\nrequests, e-mail replies", SAND, AMBER), ("5 Transaction", "online PAN, tax,\nbids, payments", ROSE, RED), ("6 Transformation", "one identity, shared data,\nNagarik App, one-stop", BLUE, NAVY)]
+st = [("1 Computers", "payroll,\ncensus on\ncomputers", SOFT, SLATE), ("2 Network", "LAN, email,\nwide-area\nlinks", BLUE, NAVY), ("3 Web presence", "ministry\nwebsites,\nnotices", MINT, TEAL),
+      ("4 Interaction", "download\nforms, RTI,\nstatus check", SAND, AMBER), ("5 Transaction", "online PAN,\ntax, bids,\npayments", ROSE, RED), ("6 Transform", "one identity,\nshared data,\none-stop", BLUE, NAVY)]
 for i, (a, b, fill, col) in enumerate(st):
     x = 12 + i * 111
-    h = 60 + i * 38
+    h = 100 + i * 33
     f.box(x, 285 - h, 104, h, "", fill=fill, stroke=col)
-    f.text(x + 52, 285 - h + 16, a, size=9, color=col, bold=True)
-    f.text(x + 52, 285 - h + 42, b, size=8, color=SLATE)
+    f.text(x + 52, 285 - h + 17, a, size=10, color=col, bold=True)
+    f.text(x + 52, 285 - h + 42, b, size=10, color=SLATE)
 ```
 
 | Stage | What exists | Citizen's experience | Main risk |
