@@ -1,3 +1,6 @@
 bca:semester-4/numerical-methods
 school:acc10
 school:bca-eng
+school:bca-gk
+school:bca-math
+school:bca-mock
