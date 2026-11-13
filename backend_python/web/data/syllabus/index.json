@@ -1554,6 +1554,24 @@
      "semester": 8,
      "group_label": "Semester VIII",
      "code": "BCA 454"
+    },
+    {
+     "subject": "image-processing",
+     "name": "Image Processing",
+     "name_ne": "",
+     "icon": "image",
+     "group": "semester-8",
+     "color": "#7C2D12",
+     "lang": "en",
+     "hours": 48,
+     "unit_count": 5,
+     "topic_count": 37,
+     "notes_ready": 5,
+     "questions": null,
+     "credits": 3,
+     "semester": 8,
+     "group_label": "Semester VIII",
+     "code": "BCA 454"
     }
    ]
   }
