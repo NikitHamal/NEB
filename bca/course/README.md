@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**47 of 47 subject slots are written, built and QA-checked; 0 core subjects are not started; 0 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,781,352 raw words of study material, counted over the unit files, including code listings and tables):
+**48 of 48 subject slots are written, built and QA-checked; 0 core subjects are not started; 0 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,810,356 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -53,6 +53,7 @@
 | 8 | BCA 452 | [Internship](semester-8/internship/) | 17,628 | 54 | done |
 | 8 | BCA 453 | [Database Programming (Elective III)](semester-8/database-programming/) | 27,025 | 102 | done |
 | 8 | BCA 453 | [Network Administration (Elective III)](semester-8/network-administration/) | 28,482 | 87 | done |
+| 8 | BCA 453 | [Geographical Information System (Elective III)](semester-8/geographical-information-system/) | 29,004 | 86 | done |
 | 8 | BCA 454 | [Internet of Things (Elective IV)](semester-8/internet-of-things/) | 29,310 | 94 | done |
 
 Semesters I, II, III and IV are fully done (Semester IV's Project I is a project with no notes by nature). Everything else in `CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.

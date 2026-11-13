@@ -47,8 +47,8 @@ All of them come from the **dimensionally extended nine-intersection model (DE-9
 
 ```svgfig label="4.1" caption="Spatial predicates between a polygon A and other geometries. Touches and Overlaps look similar but differ in whether the interiors share area."
 f = Fig(680, 250)
-def panel(x, title):
-    f.text(x + 55, 18, title, size=10.5, color=NAVY, bold=True)
+def panel(x, title, y=18):
+    f.text(x + 55, y, title, size=10.5, color=NAVY, bold=True)
 # disjoint
 panel(10, "Disjoint")
 f.box(15, 40, 55, 55, "A", fill=BLUE, stroke=NAVY, size=10)
@@ -66,20 +66,21 @@ panel(520, "Within")
 f.box(525, 35, 120, 85, "B", fill=SAND, stroke=AMBER, size=10)
 f.box(555, 70, 40, 35, "A", fill=BLUE, stroke=NAVY, size=10)
 # crosses
-panel(10, "Crosses (line, polygon)")
-f.box(15, 150, 100, 70, "A", fill=BLUE, stroke=NAVY, size=10)
+panel(10, "Crosses (line, polygon)", 135)
+f.box(15, 150, 100, 70, "", fill=BLUE, stroke=NAVY, size=10)
 f.line(0, 215, 130, 150, color=RED, sw=3)
+f.text(100, 238, "road crosses polygon A", size=9, color=RED)
 # contains/point in polygon
-panel(180, "Point in polygon")
+panel(180, "Point in polygon", 135)
 f.box(185, 150, 100, 70, "A", fill=BLUE, stroke=NAVY, size=10)
 f.circle(235, 195, 5, fill=RED, stroke=RED)
 f.circle(310, 185, 5, fill="#ffffff", stroke=RED)
 f.text(310, 208, "outside", size=9, color=RED)
 # line meets line
-panel(350, "Connected lines (network)")
+panel(350, "Connected lines", 135)
 f.line(360, 220, 420, 170, color=AMBER, sw=3)
 f.line(420, 170, 470, 215, color=AMBER, sw=3)
-f.line(420, 170, 440, 125, color=AMBER, sw=3)
+f.line(420, 170, 440, 150, color=AMBER, sw=3)
 f.circle(420, 170, 5, fill=NAVY, stroke=NAVY)
 f.text(450, 168, "node", size=9, color=NAVY)
 f.text(585, 168, "Predicates return true or false;", size=9.5, color=SLATE)

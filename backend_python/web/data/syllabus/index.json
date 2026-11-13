@@ -1520,6 +1520,24 @@
      "code": "BCA 453"
     },
     {
+     "subject": "geographical-information-system",
+     "name": "Geographical Information System",
+     "name_ne": "",
+     "icon": "map",
+     "group": "semester-8",
+     "color": "#0F766E",
+     "lang": "en",
+     "hours": 45,
+     "unit_count": 5,
+     "topic_count": 26,
+     "notes_ready": 5,
+     "questions": null,
+     "credits": 3,
+     "semester": 8,
+     "group_label": "Semester VIII",
+     "code": "BCA 453"
+    },
+    {
      "subject": "internet-of-things",
      "name": "Internet of Things",
      "name_ne": "",

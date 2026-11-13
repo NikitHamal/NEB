@@ -89,7 +89,7 @@ Neighbourhood operations on a DEM give the common **derived surfaces**:
 
 - dz/dx = ((c + 2f + i) - (a + 2d + g)) / (8 s)
 - dz/dy = ((a + 2b + c) - (g + 2h + i)) / (8 s)  (north is positive, rows run north to south)
-- slope = arctan(sqrt((dz/dx)^2 + (dz/dy)^2))
+- slope = arctan of the square root of ((dz/dx) squared + (dz/dy) squared)
 
 ```python
 # Slope, aspect and hillshade at the centre of a 3x3 window (Horn's method), 30 m cells.
@@ -175,7 +175,7 @@ The classical workflow has five steps, each producing a raster:
 D8 sends all water from a cell to a single neighbour, which makes parallel straight flow on planar slopes. Multiple-flow-direction methods (**D-infinity**, **MFD**) split flow among several lower neighbours and give more natural results on hillslopes, while D8 remains the standard for streams and watersheds.
 
 ```svgfig label="5.1" caption="D8 flow routing on a 5 by 5 window. Left: elevations and the steepest-descent arrow from each cell. Right: flow accumulation (cells draining through each cell); shaded cells exceed the stream threshold."
-f = Fig(680, 270)
+f = Fig(680, 292)
 elev = [[50, 48, 46, 48, 50], [45, 42, 40, 42, 45], [40, 36, 34, 36, 40], [34, 30, 28, 30, 34], [30, 26, 22, 26, 30]]
 down = {}
 for r in range(5):
@@ -198,13 +198,13 @@ f.text(510, 16, "Flow accumulation (cells)", size=11, color=NAVY, bold=True)
 for r in range(5):
     for c in range(5):
         f.box(40 + c * 50, 28 + r * 46, 50, 46, str(elev[r][c]), fill=SOFT, stroke=SLATE, size=10)
-        stream = acc[r][c] >= 10
+        stream = acc[r][c] >= 5
         f.box(390 + c * 50, 28 + r * 46, 50, 46, str(acc[r][c]), fill=("#bfdbfe" if stream else SOFT), stroke=(NAVY if stream else SLATE), size=10, bold=stream)
         if down[(r, c)]:
             a, b = down[(r, c)]
             f.arrow([(65 + c * 50 + (c - c) * 0, 51 + r * 46 + 9), (65 + c * 50 + (b - c) * 17, 51 + r * 46 + 9 + (a - r) * 15)], color=AMBER, sw=1.4)
-f.text(160, 260, "outlet: the lowest cell, bottom of the middle column", size=9.5, color=SLATE)
-f.text(510, 260, "threshold 10 cells marks the stream (shaded)", size=9.5, color=SLATE)
+f.text(160, 282, "outlet: the lowest cell, bottom of the middle column", size=9.5, color=SLATE)
+f.text(510, 282, "threshold 5 cells marks the stream (shaded)", size=9.5, color=SLATE)
 ```
 
 ```python
@@ -290,9 +290,8 @@ f.box(35, 76, 440, 170, "MAIN MAP\n(data frame, graticule labels)", fill=BLUE, s
 f.box(490, 30, 160, 70, "LOCATOR\nINSET MAP", fill=MINT, stroke=TEAL, size=10)
 f.box(490, 112, 160, 78, "LEGEND\nsymbols and class limits", fill=SOFT, stroke=SLATE, size=10)
 f.box(490, 202, 160, 26, "North arrow", fill=SOFT, stroke=SLATE, size=10)
-f.box(35, 252, 160, 14, "", fill=SOFT, stroke=SLATE)
-f.text(115, 262, "Scale bar 0 - 1 - 2 km", size=8.5, color=SLATE)
-f.text(560, 245, "Source, date, CRS, author", size=8.5, color=SLATE)
+f.box(35, 250, 200, 16, "Scale bar 0 - 1 - 2 km", fill=SOFT, stroke=SLATE, size=10)
+f.box(490, 236, 160, 28, "Source, date, CRS", fill=SOFT, stroke=SLATE, size=10)
 ```
 
 ### 5.3.2 Cartographic design principles

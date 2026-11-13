@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-8-geographical-information-system",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "area": "BCA 453 · Geographical Information System · Unit 1",
+   "words": 4027,
+   "read_min": 22,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "GIS and Map",
+   "area": "BCA 453 · Geographical Information System · Unit 2",
+   "words": 4632,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "GIS Data Sources and Structures",
+   "area": "BCA 453 · Geographical Information System · Unit 3",
+   "words": 6399,
+   "read_min": 36,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Spatial Data Modeling and Analysis",
+   "area": "BCA 453 · Geographical Information System · Unit 4",
+   "words": 5753,
+   "read_min": 32,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "GIS Data Modeling and Creating Maps",
+   "area": "BCA 453 · Geographical Information System · Unit 5",
+   "words": 4989,
+   "read_min": 28,
+   "figures": 2,
+   "has_questions": true
+  }
+ ]
+}
