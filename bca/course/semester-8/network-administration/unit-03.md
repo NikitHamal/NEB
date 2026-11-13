@@ -324,7 +324,7 @@ A **data centre** is a facility built to house servers, storage and network equi
 | Tier | Design | Availability | Downtime per year |
 |---|---|---|---|
 | I | Basic capacity, single path, no redundancy | 99.671% | about 28.8 h |
-| II | Redundant components, single path | 99.741% | about 22 h |
+| II | Redundant components, single path | 99.741% | about 22.7 h |
 | III | Concurrently maintainable: any component can be maintained without shutdown | 99.982% | about 1.6 h |
 | IV | Fault tolerant: survives any single failure, compartmentalised | 99.995% | about 26 min |
 
