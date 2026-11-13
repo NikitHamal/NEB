@@ -8,3 +8,9 @@ bca:semester-7/dotnet-technology
 bca:semester-1/computer-fundamentals
 bca:semester-1/digital-logic
 bca:semester-1/hardware-workshop
+bca:semester-1/mathematics-1
+bca:semester-1/professional-communication-ethics
+bca:semester-1/programming-in-c
+school:bio11
+school:bio12
+school:cee-bot
