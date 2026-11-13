@@ -477,11 +477,11 @@ for lr, col, tag in ((0.02, AMBER, "lr = 0.02: too slow"), (0.1, NAVY, "lr = 0.1
     h = run(lr)
     for i in range(39):
         f.line(ax.X(i), ax.Y(h[i]), ax.X(i + 1), ax.Y(h[i + 1]), color=col, sw=2.4)
-f.text(525, ax.Y(300), "lr = 0.02", size=10.5, color=AMBER, bold=True)
-f.text(525, ax.Y(300) + 16, "still falling", size=10, color=SLATE)
-f.text(525, ax.Y(60), "lr = 0.1", size=10.5, color=NAVY, bold=True)
-f.text(525, ax.Y(30) + 26, "lr = 0.45", size=10.5, color=TEAL, bold=True)
-f.text(525, ax.Y(30) + 42, "converged", size=10, color=SLATE)
+lx = ax.X(26)
+for i, (col, tag) in enumerate(((AMBER, "lr = 0.02 (too slow)"), (NAVY, "lr = 0.1 (steady)"), (TEAL, "lr = 0.45 (fast)"))):
+    yy = 40 + i * 22
+    f.line(lx, yy, lx + 26, yy, color=col, sw=3)
+    f.text(lx + 34, yy, tag, size=10.5, color=col, bold=True, anchor="start", vmid=True)
 ```
 
 ::: tip Practical rules

@@ -635,3 +635,17 @@ Picked up from sessions 16-42 (this file; no duplicate tracker). Sandbox: sessio
 ## Session 44 start (BCA 405 Machine Learning depth audit; BCA 105 and later-listed done books left as-is per the user)
 
 Picked up from sessions 16-43 (this file; no duplicate tracker). Plan: queue item 1 (BCA 405 Machine Learning, 63 pp, about 3.5k words per unit): add concept learning (Find-S / candidate elimination), gradient descent variants, Gini/CART and pruning, ensembles, locally weighted regression, Laplace smoothing and spam filter, DBSCAN, Gaussian mixtures with EM, LDA, extra evaluation measures, and classifier comparison tests. Every code block executed by `fill_script_outputs.py`.
+
+## Session 44 results (BCA 405 Machine Learning deepened 63 -> 95 pages; BCA 105 and later-listed done books left as-is per the user)
+
+Sandbox: `/home/user/sandbox`; recipe in this file (venv `/tmp/v`, apt, `npm ci`, fonts) worked unchanged; single-book build about 25 s, run detached. Insertion helper used: write new `## N.M` sections to a part file, then insert before the old "Summary and exercises" heading (renumbered), extend the exercise list and append model answers; run `fill_script_outputs.py` (pitfalls: use `city.tolist()` not `set(np array)` to avoid `np.str_` in output; print headers after any line that precedes them).
+- **BCA 405: 63 -> 95 pages**, `qa_pdf.py` fails=0 warns=0, web data re-exported (5 units, **60 topics**, was 46). 13 new sections, all with executed code and real output, new exercises and model answers Q4+ in each unit: 1.10 Find-S/candidate elimination (Mitchell EnjoySport trace reproduced, version space of 6), 1.11 data preparation and leakage; 2.9 gradient descent (Fig 2.5, learning-rate divergence at 0.9 above the 2/lambda limit), 2.10 Gini/CART/pruning, 2.11 bagging/AdaBoost (ten-point example: eps 0.3, alpha 0.424, 0.650, 0.752); 3.7 naive Bayes for text with Laplace smoothing (hand-checked -8.566 / -9.146), 3.8 locally weighted regression and CBR, 3.9 k choice and curse of dimensionality; 4.9 DBSCAN vs k-means on moons, 4.10 Gaussian mixture EM, 4.11 LDA vs PCA; 5.11 F-beta/MCC/kappa/log loss, 5.12 McNemar and paired t-test, 5.13 leakage in cross-validation (0.94 leaky vs 0.60 correct on random labels).
+- Inspected as PNG: Fig 2.5 (legend moved inside the plot after the first look showed labels detached from the curves), p60 model answers, EM list page (display-math sigma formula rewritten inline), near-empty page at the end of unit 4 removed by tightening Q9.
+- Honest gaps: Sections 1.10 to 5.13 go beyond the printed TU outline (Find-S, EM, LDA, DBSCAN, ensembles, tests are Mitchell/Marsland material); README says so. No Django screenshot of the new ML units this session (same exporter as before).
+
+## Prioritised queue for the next session
+1. Depth audit of: BCA 355 Distributed System, projects 256/306/356/404 keyword audit; BCA 154 units 2 to 5 could get the same treatment as unit 6 (limits, partial derivatives, Taylor, PDE).
+2. Rebuild older books to pick up the callout-orphan and code-split CSS; check page counts and `qa_pdf.py` each time.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405 (now 95 pp), 406, 453 (all four), 454 (both), 204, 206, 205, 153.
+5. Django + Chromium screenshot of BCA 405 new units, BCA 154 Unit 6.

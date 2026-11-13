@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Introduction to Machine Learning and the Theory of Learning",
    "area": "BCA 405 · Machine Learning · Unit 1",
-   "words": 3053,
-   "read_min": 17,
+   "words": 5511,
+   "read_min": 31,
    "figures": 2,
    "has_questions": true
   },
@@ -14,17 +14,17 @@
    "no": 2,
    "title": "Supervised Learning, Regression, Perceptron, Neural Networks, Trees and SVM",
    "area": "BCA 405 · Machine Learning · Unit 2",
-   "words": 4443,
-   "read_min": 25,
-   "figures": 4,
+   "words": 7510,
+   "read_min": 42,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Bayesian and Instance-Based Learning",
    "area": "BCA 405 · Machine Learning · Unit 3",
-   "words": 2963,
-   "read_min": 16,
+   "words": 5047,
+   "read_min": 28,
    "figures": 2,
    "has_questions": true
   },
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "Unsupervised Learning and Dimensionality Reduction",
    "area": "BCA 405 · Machine Learning · Unit 4",
-   "words": 2990,
-   "read_min": 17,
+   "words": 5256,
+   "read_min": 29,
    "figures": 2,
    "has_questions": true
   },
@@ -41,8 +41,8 @@
    "no": 5,
    "title": "Measures for Performance Evaluation of ML Algorithms",
    "area": "BCA 405 · Machine Learning · Unit 5",
-   "words": 3209,
-   "read_min": 18,
+   "words": 5344,
+   "read_min": 30,
    "figures": 2,
    "has_questions": true
   }
