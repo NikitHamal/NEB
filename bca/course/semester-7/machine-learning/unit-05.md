@@ -266,7 +266,137 @@ threshold  TP FP  precision  recall   F1
    0.50    4  2     0.667    0.80  0.727
    0.35    5  3     0.625    1.00  0.769
 ```
-## 5.11 Summary and exercises
+## 5.11 More evaluation measures: F-beta, balanced accuracy, MCC, kappa and log loss
+
+Accuracy alone is dangerous when classes are imbalanced (Section 5.1). Suppose 50 of 1000 patients are sick. A classifier that always answers "healthy" scores 95 percent accuracy and finds nobody. Several measures were invented to expose this.
+
+- **F-beta** generalises F1: $F_\beta=(1+\beta^2)\dfrac{P\,R}{\beta^2P+R}$. With $\beta=2$ recall counts four times as much as precision (screening for disease); with $\beta=0.5$ precision counts more (spam filter that must not delete real mail).
+- **Balanced accuracy** is the mean of sensitivity and specificity, so each class counts equally.
+- **Matthews correlation coefficient (MCC)** is the correlation between predicted and true labels, $\dfrac{TP\cdot TN-FP\cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}$, from $-1$ to $+1$ and 0 for guessing. It is high only if all four cells of the confusion matrix are good.
+- **Cohen's kappa** compares accuracy with the accuracy $p_e$ expected from chance agreement: $\kappa=(p_o-p_e)/(1-p_e)$.
+- **Log loss** and the **Brier score** judge predicted *probabilities*, not just labels: $-\frac1N\sum[y\ln p+(1-y)\ln(1-p)]$ and $\frac1N\sum(p-y)^2$. Both punish confident mistakes heavily.
+
+The program compares three classifiers on the 1000-patient test set and then two probability models with the same accuracy.
+
+```python
+import numpy as np
+# imbalanced test set: 1000 patients, 50 sick. Two classifiers are compared.
+tp, fn, fp, tn = 30, 20, 40, 910            # classifier A (confusion counts)
+def div(a, b): return a / b if b else 0.0        # report 0 when a ratio is undefined
+def report(name, tp, fn, fp, tn):
+    n = tp + fn + fp + tn
+    acc = (tp + tn) / n; rec = div(tp, tp + fn); spec = div(tn, tn + fp); prec = div(tp, tp + fp)
+    f1 = div(2 * prec * rec, prec + rec); f2 = div(5 * prec * rec, 4 * prec + rec)
+    bal = (rec + spec) / 2
+    mcc = div(tp * tn - fp * fn, np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
+    po = acc; pe = ((tp + fn) * (tp + fp) + (tn + fp) * (tn + fn)) / n ** 2
+    kappa = (po - pe) / (1 - pe)
+    print("%-22s acc %.3f  recall %.3f  prec %.3f  F1 %.3f  F2 %.3f  bal.acc %.3f  MCC %.3f  kappa %.3f" % (name, acc, rec, prec, f1, f2, bal, mcc, kappa))
+report("A (detects some)", 30, 20, 40, 910)
+report("B (always healthy)", 0, 50, 0, 950)
+report("C (flags 200 people)", 45, 5, 155, 795)
+# log loss rewards honest probabilities
+y = np.array([1, 1, 0, 0, 0, 1, 0, 0])
+def logloss(p): p = np.clip(p, 1e-15, 1 - 1e-15); return float(-np.mean(y * np.log(p) + (1 - y) * np.log(1 - p)))
+cautious = np.array([.7, .6, .3, .2, .6, .4, .3, .2]); brash = np.array([.99, .99, .01, .01, .99, .01, .01, .01])
+for name, p in (("cautious", cautious), ("overconfident", brash)):
+    print("%-14s accuracy %.3f  log loss %.3f  Brier %.3f" % (name, ((p > .5) == y).mean(), logloss(p), ((p - y) ** 2).mean()))
+```
+```output
+A (detects some)       acc 0.940  recall 0.600  prec 0.429  F1 0.500  F2 0.556  bal.acc 0.779  MCC 0.477  kappa 0.469
+B (always healthy)     acc 0.950  recall 0.000  prec 0.000  F1 0.000  F2 0.000  bal.acc 0.500  MCC 0.000  kappa 0.000
+C (flags 200 people)   acc 0.840  recall 0.900  prec 0.225  F1 0.360  F2 0.562  bal.acc 0.868  MCC 0.401  kappa 0.304
+cautious       accuracy 0.750  log loss 0.482  Brier 0.154
+overconfident  accuracy 0.750  log loss 1.159  Brier 0.245
+```
+
+Classifier B ("always healthy") has the highest accuracy, 0.950, yet recall 0, balanced accuracy 0.500, MCC 0 and kappa 0: every imbalance-aware measure sees through it. Classifier C flags 200 people and catches 45 of the 50 sick (recall 0.90) at the cost of precision 0.225; it has the best balanced accuracy and $F_2$ but the worst accuracy among the useful models, so which one is "best" depends on the cost of a missed patient against the cost of a false alarm (Section 5.2). In the last two rows both probability models are right 6 times out of 8, but the overconfident one is certain on its two errors and its log loss (1.159) is more than twice that of the cautious model (0.482).
+
+## 5.12 Is classifier A really better than B? Significance tests
+
+Two classifiers scoring 72.5 and 65.0 percent on the same test set may differ only by luck. Two standard tests answer the question.
+
+**McNemar's test** is used when both classifiers were evaluated on the same cases. Only the disagreements matter: $b$ cases A got right and B wrong, $c$ cases A got wrong and B right. Under the null hypothesis of equal accuracy, $b$ and $c$ should be about equal, and
+
+$$\chi^2=\frac{(|b-c|-1)^2}{b+c}$$
+
+follows a chi-square distribution with one degree of freedom (critical value 3.84 at the 5 percent level). **The paired t-test** is used on the per-fold scores of cross-validation: take the 10 differences $d_i=A_i-B_i$ and test whether their mean is zero with $t=\bar d/(s_d/\sqrt{10})$ and 9 degrees of freedom (critical value 2.262).
+
+```python
+import numpy as np
+from math import comb, sqrt
+# Two classifiers tested on the same 200 cases. b = A right and B wrong, c = A wrong and B right.
+both_right, b, c, both_wrong = 120, 25, 10, 45
+n = both_right + b + c + both_wrong
+print("accuracy A = %.3f, accuracy B = %.3f" % ((both_right + b) / n, (both_right + c) / n))
+chi2 = (abs(b - c) - 1) ** 2 / (b + c)
+print("McNemar chi-square (with continuity correction) = %.3f  (critical 3.84 at 5 percent)" % chi2)
+k = min(b, c); m = b + c
+p = min(1.0, 2 * sum(comb(m, i) for i in range(k + 1)) / 2 ** m)
+print("exact two-sided binomial p-value = %.4f" % p)
+# paired t-test over 10 cross-validation folds
+A = np.array([0.82, 0.79, 0.85, 0.81, 0.80, 0.84, 0.78, 0.83, 0.82, 0.80])
+B = np.array([0.80, 0.77, 0.84, 0.78, 0.79, 0.81, 0.78, 0.80, 0.81, 0.77])
+d = A - B
+t = d.mean() / (d.std(ddof=1) / sqrt(len(d)))
+print("fold differences:", np.round(d, 2))
+print("mean difference %.3f, std %.4f, t = %.3f with %d degrees of freedom (critical 2.262 at 5 percent)" % (d.mean(), d.std(ddof=1), t, len(d) - 1))
+half = 2.262 * d.std(ddof=1) / sqrt(len(d))
+print("95 percent confidence interval for the difference: (%.4f, %.4f)" % (d.mean() - half, d.mean() + half))
+```
+```output
+accuracy A = 0.725, accuracy B = 0.650
+McNemar chi-square (with continuity correction) = 5.600  (critical 3.84 at 5 percent)
+exact two-sided binomial p-value = 0.0167
+fold differences: [0.02 0.02 0.01 0.03 0.01 0.03 0.   0.03 0.01 0.03]
+mean difference 0.019, std 0.0110, t = 5.460 with 9 degrees of freedom (critical 2.262 at 5 percent)
+95 percent confidence interval for the difference: (0.0111, 0.0269)
+```
+
+In the first test the classifiers disagree on 35 of 200 cases; A wins 25 and B wins 10. The statistic 5.6 exceeds 3.84 and the exact binomial p-value is 0.017, so the 7.5-point difference is unlikely to be chance. In the second test A beats B by 1.9 points on average over the folds, with $t=5.46$, far above 2.262, and the 95 percent confidence interval (0.011, 0.027) excludes zero. Two cautions for the exam and for practice: cross-validation folds share training data, so the plain paired t-test is somewhat optimistic (a corrected resampled t-test widens the interval), and testing many classifiers against each other inflates false positives, so a statistically significant 1-point gain is not necessarily worth a more complex model.
+
+## 5.13 Information leakage: why the test score can lie
+
+The most expensive mistake in applied machine learning is **leakage**: information from the evaluation data reaching the training process. The commonest form is to select features, scale or tune a model using all the data and only then cross-validate. The program below creates 50 examples with 1000 random features and **random labels**, so no classifier can do better than 50 percent. It then selects the 10 features most correlated with the labels once with all the data (wrong) and once inside every training fold (right).
+
+```python
+import numpy as np
+rng = np.random.default_rng(0)
+N, P = 50, 1000
+X = rng.normal(size=(N, P)); y = rng.integers(0, 2, N)            # labels are pure coin flips: no real signal
+def top_features(X, y, k=10):
+    a, b = X[y == 0].mean(0), X[y == 1].mean(0)
+    s = np.abs(a - b) / (X.std(0) + 1e-9)
+    return np.argsort(s)[-k:]
+def centroid_acc(Xtr, ytr, Xte, yte):
+    m0, m1 = Xtr[ytr == 0].mean(0), Xtr[ytr == 1].mean(0)
+    pred = (((Xte - m1) ** 2).sum(1) < ((Xte - m0) ** 2).sum(1)).astype(int)
+    return float((pred == yte).mean())
+folds = np.array_split(rng.permutation(N), 5)
+wrong = top_features(X, y)                       # WRONG: chosen with all labels, before splitting
+acc_w, acc_r = [], []
+for f in folds:
+    tr = np.setdiff1d(np.arange(N), f)
+    acc_w.append(centroid_acc(X[tr][:, wrong], y[tr], X[f][:, wrong], y[f]))
+    right = top_features(X[tr], y[tr])           # RIGHT: chosen inside the training fold only
+    acc_r.append(centroid_acc(X[tr][:, right], y[tr], X[f][:, right], y[f]))
+print("selection before the split (leaky):   CV accuracy %.3f" % np.mean(acc_w))
+print("selection inside each fold (correct): CV accuracy %.3f" % np.mean(acc_r))
+print("true accuracy of a coin flip: 0.500")
+```
+```output
+selection before the split (leaky):   CV accuracy 0.940
+selection inside each fold (correct): CV accuracy 0.600
+true accuracy of a coin flip: 0.500
+```
+
+With leaky selection the cross-validated accuracy is 0.94 on data that contain no signal at all: with 1000 random features some 10 of them will correlate with 50 random labels by chance, and selecting them with all the labels lets the test fold's labels guide the choice. Doing the selection inside each training fold gives 0.60, near the true 0.50 (with 50 examples chance alone moves the figure by about 0.07). The rule: **everything learned from data**, including scaling, imputation, feature selection, PCA and hyper-parameter search, belongs inside the cross-validation loop, and the final test set is touched once.
+
+::: key Evaluation checklist
+1. Is the metric matched to the cost of errors and the class balance? 2. Is there a trivial baseline (majority class, mean, last value) to beat? 3. Were all preparation steps fitted on training data only? 4. Is the difference between models larger than the noise (confidence interval or significance test)? 5. Does a learning curve say whether more data or a better model is needed? 6. Is the final test set untouched until the single last evaluation?
+:::
+
+## 5.14 Summary and exercises
 
 Accuracy hides class imbalance, so read the confusion matrix and use sensitivity, specificity, precision, recall and F1 as the problem demands; weight errors by their costs; the ROC curve and AUC show performance across all thresholds; box plots and confidence intervals show the variability of results; cross-validation with careful splitting gives a fair estimate.
 
@@ -279,6 +409,12 @@ Accuracy hides class imbalance, so read the confusion matrix and use sensitivity
 7. Explain k-fold cross-validation and why stratification matters.
 8. What does a box plot show? Interpret two box plots with equal medians but different box heights.
 9. List the steps of a machine-learning mini-project.
+10. A test set has 20 positives and 980 negatives. A classifier predicts everything negative. Find accuracy, recall, balanced accuracy and MCC.
+11. From TP = 40, FN = 10, FP = 20, TN = 130 compute precision, recall, F1 and F2, and say which of F1 and F2 favours recall.
+12. Explain why log loss may rank two classifiers differently from accuracy.
+13. Classifiers A and B disagree on 40 cases: A is right on 28 and B on 12. Apply McNemar's test at the 5 percent level.
+14. What is data leakage? Give two examples and the correct procedure.
+15. A paired t-test over 10 folds gives mean difference 0.01 and standard deviation 0.02. Is the difference significant at 5 percent (critical t = 2.262)?
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
@@ -313,3 +449,29 @@ $SE=\sqrt{0.9(0.1)/200}=\sqrt{0.00045}=0.0212$. Margin $=1.96\times0.0212=0.0416
 *ROC.* A model gives scores; a threshold gives a class. Varying the threshold from high to low and plotting TPR against FPR traces the curve from (0,0) to (1,1). The diagonal is chance, the top-left corner is perfect, and the AUC (0.5 to 1) equals the probability that a random positive outranks a random negative. For the ten-example classifier of Section 5.4 the AUC is 0.84. The curve lets us choose a threshold to suit costs, and compare models independently of any one threshold.
 
 *Conclusion.* Cross-validation gives a trustworthy estimate of how well the model generalises; the ROC curve shows how it behaves at every operating point.
+
+**Q6 (5 marks). Always-negative classifier on 20 positives and 980 negatives.**
+
+TP = 0, FN = 20, FP = 0, TN = 980. Accuracy $=980/1000=0.98$; recall $=0/20=0$; specificity $=1$, so balanced accuracy $=(0+1)/2=0.5$; the MCC numerator is $0\cdot980-0\cdot20=0$, so MCC $=0$. The accuracy of 98 percent hides that the classifier finds no positive at all.
+
+**Q7 (5 marks). Precision, recall, F1 and F2.**
+
+Precision $=40/60=0.667$; recall $=40/50=0.8$. $F_1=2(0.667)(0.8)/(1.467)=0.727$. $F_2=5(0.667)(0.8)/(4\cdot0.667+0.8)=2.667/3.467=0.769$. $F_2$ is larger because it weights recall (0.8, the higher figure) four times as much as precision.
+
+**Q8 (5 marks). McNemar's test with $b=28$, $c=12$.**
+
+$\chi^2=(|28-12|-1)^2/40=225/40=5.625$. The critical value for one degree of freedom at 5 percent is 3.84, so $5.625>3.84$ and the null hypothesis of equal accuracy is rejected: A is significantly better than B.
+
+**Q9 (5 marks). Paired t-test with mean 0.01 and standard deviation 0.02 over 10 folds.**
+
+$t=0.01/(0.02/\sqrt{10})=0.01/0.00632=1.58$, which is below 2.262 with 9 degrees of freedom, so the difference is **not** significant at the 5 percent level; more folds or repeated runs would be needed to decide.
+
+**Q10 (10 marks). Data leakage and how to prevent it.**
+
+*Introduction.* Leakage occurs when information from validation or test data influences training, so the reported performance is better than the real one.
+
+*Examples.* (1) Selecting the 10 best features using all labels and then cross-validating: in our experiment on 50 random-label examples this gave 0.94 accuracy where the true value is 0.50. (2) Fitting a scaler or imputing a median on the whole data set, or including a feature that is created after the outcome is known (for example a "refund issued" flag when predicting refunds).
+
+*Prevention.* Split first. Put scaling, imputation, feature selection, PCA and hyper-parameter tuning inside the cross-validation loop (a pipeline), so each fold learns them from its own training part. Keep a final test set that is used once. Check suspiciously good results.
+
+*Conclusion.* Doing selection inside each fold dropped the same experiment's accuracy to 0.60, close to chance, which is the honest answer.

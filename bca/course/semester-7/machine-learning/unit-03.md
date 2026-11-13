@@ -261,7 +261,155 @@ ML estimate of P(head) after 3 heads in 3 tosses = 1.0; MAP with a Beta(5,5) pri
 ```
 The **MAP** value uses the prior pseudo-counts: with a Beta(5,5) prior (equivalent to 4 imaginary heads and 4 imaginary tails beyond the first), the estimate is $(3+4)/(3+8)=0.636$, much more sensible than 1.0.
 
-## 3.7 Summary and exercises
+## 3.7 Naive Bayes for text and the zero-frequency problem
+
+Spam filtering is the classic naive Bayes application. A message is a bag of words; the **multinomial** model estimates $P(w\mid c)$ as the fraction of all word positions in class $c$ that hold word $w$, and scores a message by $\log P(c)+\sum_{w}\log P(w\mid c)$. Logarithms turn a product of many tiny numbers into a sum and prevent numerical underflow; the class with the larger score wins.
+
+The trouble is a word never seen in one class during training. Its estimated probability is $0$, and a single zero multiplies the whole product to $0$, no matter how strongly the other words point to that class. **Laplace smoothing** (add-one) repairs this by adding $\alpha=1$ to every count and $\alpha V$ to the denominator, where $V$ is the vocabulary size:
+
+$$P(w\mid c)=\frac{\text{count}(w,c)+\alpha}{\text{tokens}(c)+\alpha V}.$$
+
+The program trains on seven tiny messages (three spam, four ham) and scores three new messages with $\alpha=0$ and with $\alpha=1$.
+
+```python
+import math
+from collections import Counter
+spam = ["win free prize now", "free recharge offer win", "claim prize free offer"]
+ham = ["meeting at ten tomorrow", "send the notes tomorrow", "lab report due tomorrow", "free at ten for meeting"]
+vocab = sorted({w for m in spam + ham for w in m.split()})
+cs, ch = Counter(w for m in spam for w in m.split()), Counter(w for m in ham for w in m.split())
+ns, nh = sum(cs.values()), sum(ch.values())
+print("vocabulary size V = %d, spam tokens = %d, ham tokens = %d" % (len(vocab), ns, nh))
+print("P(spam) = %d/7, P(ham) = %d/7" % (len(spam), len(ham)))
+def logpost(msg, counts, n, prior, alpha):
+    s = math.log(prior)
+    for w in msg.split():
+        p = (counts[w] + alpha) / (n + alpha * len(vocab))
+        if p == 0: return float("-inf")
+        s += math.log(p)
+    return s
+for msg in ("free prize tomorrow", "win free notes", "claim cash offer now"):
+    for alpha in (0, 1):
+        a = logpost(msg, cs, ns, 3 / 7, alpha); b = logpost(msg, ch, nh, 4 / 7, alpha)
+        if a == b == float("-inf"): verdict, pr = "undefined", "both zero"
+        else:
+            verdict = "spam" if a > b else "ham"
+            pr = "P(spam|msg) = %.3f" % (1 / (1 + math.exp(b - a))) if math.isfinite(a) and math.isfinite(b) else ("P(spam|msg) = %d" % (a > b))
+        print("%-22s alpha=%d  log spam %8.3f  log ham %8.3f  -> %s (%s)" % (msg, alpha, a, b, verdict, pr))
+```
+```output
+vocabulary size V = 18, spam tokens = 12, ham tokens = 17
+P(spam) = 3/7, P(ham) = 4/7
+free prize tomorrow    alpha=0  log spam     -inf  log ham     -inf  -> undefined (both zero)
+free prize tomorrow    alpha=1  log spam   -8.566  log ham   -9.146  -> spam (P(spam|msg) = 0.641)
+win free notes         alpha=0  log spam     -inf  log ham     -inf  -> undefined (both zero)
+win free notes         alpha=1  log spam   -8.566  log ham   -9.839  -> spam (P(spam|msg) = 0.781)
+claim cash offer now   alpha=0  log spam     -inf  log ham     -inf  -> undefined (both zero)
+claim cash offer now   alpha=1  log spam  -11.967  log ham  -14.781  -> spam (P(spam|msg) = 0.943)
+```
+
+Without smoothing every test message is **undefined**: each contains one word that is missing from one class and another word that is missing from the other, so both scores are zero. With add-one smoothing the filter gives a decision with a calibrated-looking probability. Work the first message by hand: the spam class has 12 tokens and the vocabulary has 18 words, so $P(\text{free}\mid S)=4/30$, $P(\text{prize}\mid S)=3/30$, $P(\text{tomorrow}\mid S)=1/30$ and the score is $\ln(\tfrac37\cdot\tfrac{4\cdot3\cdot1}{30^3})=-8.566$. The ham class has 17 tokens, so the denominators are 35 and the score is $\ln(\tfrac47\cdot\tfrac{2\cdot1\cdot4}{35^3})=-9.146$. Spam wins by a factor $e^{0.58}=1.8$, which is a posterior of 0.641: honest uncertainty, since "free" occurs in both classes and "tomorrow" is a ham word.
+
+::: tip Practical notes for naive Bayes text models
+Lower-case and tokenise first; drop very frequent stop words if they carry no class information; use $\alpha$ between 0.1 and 1 chosen on validation data; store log probabilities, not probabilities; for long documents the independence assumption makes the posterior over-confident, but the **ranking** of classes is usually still right, which is all classification needs.
+:::
+
+## 3.8 Locally weighted regression and lazy learning
+
+k-NN is a **lazy** learner: it stores the data and does the work only when a query arrives. Mitchell (chapter 8) generalises the idea to numeric targets with **locally weighted regression** (LWR). To predict at a query point $q$, fit a simple model, here a straight line, using **all** training points but weight each point by its closeness to $q$,
+
+$$w_i=\exp\!\left(-\frac{(x_i-q)^2}{2\tau^2}\right),\qquad \boldsymbol\beta(q)=(A^{T}WA)^{-1}A^{T}Wy,$$
+
+where $W$ is the diagonal matrix of the weights and $\tau$ is the **bandwidth**. A fresh line is fitted for every query, so the final prediction function can bend to follow the data even though each local model is a straight line. A small $\tau$ means a narrow neighbourhood (flexible, high variance); a large $\tau$ makes all weights almost equal and gives the ordinary global line (rigid, high bias). The bandwidth is therefore the bias-variance dial of Section 1.8.
+
+The program fits 60 noisy points of $y=\sin x+0.3x$ and reports the error of a global line and of LWR with four bandwidths against the true curve.
+
+```python
+import numpy as np
+rng = np.random.default_rng(5)
+x = np.sort(rng.uniform(0, 6, 60)); true = lambda t: np.sin(t) + 0.3 * t
+y = true(x) + rng.normal(0, 0.15, 60)
+def lwr(q, tau):
+    w = np.exp(-(x - q) ** 2 / (2 * tau ** 2))          # Gaussian weight of each training point
+    A = np.c_[np.ones_like(x), x]
+    beta = np.linalg.solve(A.T @ (w[:, None] * A), A.T @ (w * y))
+    return beta[0] + beta[1] * q
+grid = np.linspace(0.3, 5.7, 28)
+glob = np.polyfit(x, y, 1)
+rows = [("global straight line", np.polyval(glob, grid))]
+for tau in (2.0, 0.6, 0.25, 0.05):
+    rows.append(("LWR tau = %.2f" % tau, np.array([lwr(q, tau) for q in grid])))
+print("method                  RMSE against the true curve")
+for name, pred in rows:
+    print("%-22s  %.3f" % (name, np.sqrt(np.mean((pred - true(grid)) ** 2))))
+q = 3.0
+for tau in (0.6,):
+    w = np.exp(-(x - q) ** 2 / (2 * tau ** 2))
+    print("query x = %.1f, tau = %.1f: effective points = %.1f of 60, prediction %.3f, truth %.3f" % (q, tau, w.sum() ** 2 / (w ** 2).sum(), lwr(q, tau), true(q)))
+```
+```output
+method                  RMSE against the true curve
+global straight line    0.390
+LWR tau = 2.00          0.338
+LWR tau = 0.60          0.126
+LWR tau = 0.25          0.063
+LWR tau = 0.05          2.233
+query x = 3.0, tau = 0.6: effective points = 19.2 of 60, prediction 0.971, truth 1.041
+```
+
+The global line (RMSE 0.390) cannot follow the sine wave; $\tau=2$ is nearly as rigid (0.338). Bandwidths 0.6 and 0.25 follow the curve well (0.126 and 0.063). At $\tau=0.05$ the weights are almost zero for all but one or two points, the weighted fit is nearly singular and the error jumps to 2.233: the model has become pure variance. At the query $x=3$ with $\tau=0.6$ about 19 of the 60 points effectively take part. The price of lazy learning is clear: no model is built in advance, but every prediction costs a full pass over the data and a small linear solve.
+
+::: definition Case-based reasoning (CBR)
+**Case-based reasoning** extends instance-based learning to rich, non-numeric instances such as past help-desk tickets or legal cases. Its four steps are **retrieve** the most similar stored case, **reuse** its solution, **revise** the solution when it does not fit, and **retain** the corrected case for the future. A bank that approves a loan by finding the most similar previous applicants is doing CBR with a similarity measure instead of a model.
+:::
+
+## 3.9 Choosing k, distance weighting and the curse of dimensionality
+
+Two design choices decide whether k-NN works. **The value of k:** a small $k$ follows noise (high variance), a large $k$ blurs the class boundary (high bias), and $k=n$ simply predicts the majority class. Choose $k$ by validation, preferably odd for two classes to avoid ties. **Distance weighting:** let a neighbour at distance $d$ vote with weight $1/d^2$ so that nearer neighbours count more.
+
+The second danger is **dimension**. In high dimensions all points are almost equally far from each other, so "nearest" loses meaning, and a feature irrelevant to the label adds noise to every distance. The program measures leave-one-out accuracy on 120 overlapping points and then the relative gap between the farthest and the nearest of 500 random points as the number of dimensions grows.
+
+```python
+import numpy as np
+rng = np.random.default_rng(3)
+# (a) leave-one-out accuracy of k-NN on two overlapping classes, plain and distance-weighted vote
+X = np.vstack([rng.normal(0, 1.0, (60, 2)), rng.normal(1.5, 1.0, (60, 2))]); y = np.r_[np.zeros(60, int), np.ones(60, int)]
+D = np.sqrt(((X[:, None] - X[None]) ** 2).sum(-1)); np.fill_diagonal(D, np.inf)
+order = np.argsort(D, axis=1)
+print("k    plain vote   distance-weighted vote")
+for k in (1, 3, 5, 9, 15, 31, 61):
+    nn = order[:, :k]
+    plain = (y[nn].mean(1) > 0.5).astype(int)
+    wts = 1 / (np.take_along_axis(D, nn, 1) ** 2 + 1e-9)
+    wtd = ((wts * y[nn]).sum(1) / wts.sum(1) > 0.5).astype(int)
+    print("%-3d  %.3f        %.3f" % (k, (plain == y).mean(), (wtd == y).mean()))
+# (b) distance concentration in high dimension: ratio (farthest - nearest) / nearest from a random query
+print("dimension   (max - min) / min distance")
+for d in (1, 2, 10, 100, 1000):
+    P = rng.uniform(0, 1, (500, d)); q = rng.uniform(0, 1, d)
+    dist = np.sqrt(((P - q) ** 2).sum(1))
+    print("%-10d  %.2f" % (d, (dist.max() - dist.min()) / dist.min()))
+```
+```output
+k    plain vote   distance-weighted vote
+1    0.783        0.783
+3    0.800        0.783
+5    0.825        0.800
+9    0.858        0.808
+15   0.858        0.808
+31   0.867        0.817
+61   0.850        0.808
+dimension   (max - min) / min distance
+1           259.94
+2           101.05
+10          2.06
+100         0.44
+1000        0.12
+```
+
+Accuracy rises from 0.78 at $k=1$ to a plateau of about 0.86 for $k$ from 9 to 31 and drops slightly at $k=61$, the expected bias-variance shape. On this data the weighted vote was **not** better than the plain vote: weighting helps mostly when classes overlap little or neighbour distances differ a lot, so it must be tested, not assumed. The second table is the **curse of dimensionality**: the relative contrast $(d_{\max}-d_{\min})/d_{\min}$ collapses from about 260 in one dimension to 0.12 in 1000 dimensions, so the farthest point is only 12 percent farther than the nearest. Remedies are feature selection, dimensionality reduction (Section 4.7) and metrics learned from data.
+
+## 3.10 Summary and exercises
 
 Bayes' rule converts likelihood and prior into a posterior. The Bayes classifier picks the most probable class (minimum error) or the least risky action (minimum risk). Naive Bayes multiplies per-feature likelihoods under conditional independence and uses Laplace smoothing. A Bayesian network is a DAG with CPTs that factorises the joint distribution. k-NN votes among the k closest stored examples; the choice of k, the distance and feature scaling decide its quality.
 
@@ -274,6 +422,12 @@ Bayes' rule converts likelihood and prior into a posterior. The Bayes classifier
 7. Classify the query (5,5) with k = 3 using the seven points of Section 3.5, and then repeat with k = 5.
 8. What is the effect of k = 1 and of k = N? How do you select k?
 9. Why must features be scaled for k-NN? Give an example.
+10. Using the seven training messages of Section 3.7, classify "prize offer" with add-one smoothing and show the two scores.
+11. Why does Laplace smoothing use $\alpha V$ in the denominator? Show that the smoothed probabilities of all words in a class sum to 1.
+12. Explain locally weighted regression and the role of the bandwidth $\tau$.
+13. Differentiate eager and lazy learners; give two examples of each and one drawback of lazy learning.
+14. Describe the four steps of case-based reasoning with a help-desk example.
+15. Describe the curse of dimensionality and two ways to reduce its effect on k-NN.
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
@@ -315,3 +469,25 @@ Distances: D (6,5) = 1.00, F (6,6) = 1.41, G (3,3) = 2.83, E (7,7) = 2.83, C (2,
 | Weak point | Correlated features | Irrelevant features, high dimensions |
 
 *Conclusion.* Use naive Bayes for text and fast baselines with little data, and k-NN when the boundary is irregular, the feature count is small and prediction speed is not critical.
+
+**Q6 (5 marks). Classify "prize offer" with add-one smoothing.**
+
+Spam has 12 tokens, ham 17, $V=18$. Counts: in spam prize = 2 and offer = 2; in ham both are 0. Spam score: $\ln\!\big(\tfrac37\cdot\tfrac{3}{30}\cdot\tfrac{3}{30}\big)=\ln(0.004286)=-5.45$. Ham score: $\ln\!\big(\tfrac47\cdot\tfrac{1}{35}\cdot\tfrac{1}{35}\big)=\ln(0.000467)=-7.67$. Spam is larger by a factor $e^{2.22}\approx9.2$, so the message is spam with posterior about 0.90.
+
+**Q7 (5 marks). Why $\alpha V$ in the denominator.**
+
+Adding $\alpha$ to each of the $V$ word counts adds $\alpha V$ to the total, so $\sum_w \frac{n_w+\alpha}{N+\alpha V}=\frac{N+\alpha V}{N+\alpha V}=1$: the smoothed estimates remain a probability distribution. It also guarantees that no word has probability 0.
+
+**Q8 (5 marks). Eager versus lazy learners.**
+
+An eager learner builds a global model during training and discards the data (decision trees, naive Bayes, neural networks, SVM); prediction is fast. A lazy learner postpones all work to query time and keeps the data (k-NN, locally weighted regression, case-based reasoning); it adapts to each query but every prediction needs the whole data set, so it is slow and memory hungry for large $N$ and is hurt by irrelevant features.
+
+**Q9 (10 marks). Locally weighted regression.**
+
+*Introduction.* LWR is a lazy method for numeric targets that fits a separate weighted linear model for every query.
+
+*Method.* For a query $q$ compute $w_i=\exp(-(x_i-q)^2/2\tau^2)$, solve $\beta=(A^TWA)^{-1}A^TWy$, and predict $\beta_0+\beta_1q$. The local lines together form a curve that bends with the data.
+
+*Role of $\tau$.* Small $\tau$: few points matter, the curve is flexible and noisy (in our test RMSE 2.233 at $\tau=0.05$). Large $\tau$: all weights similar, the result approaches one global line (0.390 for the global line against 0.063 at $\tau=0.25$). The best $\tau$ is chosen by validation, the bias-variance trade-off.
+
+*Conclusion.* LWR fits non-linear data without choosing a global form, at the price of computation at every query.
