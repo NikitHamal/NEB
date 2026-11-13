@@ -10,6 +10,7 @@ The functions of management — planning, organising, leading, controlling — p
 | 4 | Organising |
 | 5 | Leading: Leadership, Motivation and Communication |
 | 6 | Controlling, Quality and the Global Context |
+| 7 | IT in Management, Forms of Business, Job Design and Leadership Approaches (revised-outline topics) |
 
 ## Verification
 
