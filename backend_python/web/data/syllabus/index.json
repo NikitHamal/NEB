@@ -1502,6 +1502,24 @@
      "code": "BCA 453"
     },
     {
+     "subject": "network-administration",
+     "name": "Network Administration",
+     "name_ne": "",
+     "icon": "lan",
+     "group": "semester-8",
+     "color": "#1D4E89",
+     "lang": "en",
+     "hours": 58,
+     "unit_count": 5,
+     "topic_count": 29,
+     "notes_ready": 5,
+     "questions": null,
+     "credits": 3,
+     "semester": 8,
+     "group_label": "Semester VIII",
+     "code": "BCA 453"
+    },
+    {
      "subject": "internet-of-things",
      "name": "Internet of Things",
      "name_ne": "",

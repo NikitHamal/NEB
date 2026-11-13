@@ -8,7 +8,21 @@ import fitz
 BCA = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 C = os.path.join(BCA, "course")
 reg = {k: v for k, v in json.load(open(os.path.join(C, "books.json"), encoding="utf-8")).items() if not k.startswith("_")}
-bycode = {v["code"]: (k, v) for k, v in reg.items()}
+_bc = {}
+for _k, _v in reg.items():
+    _bc.setdefault(_v["code"], []).append((_k, _v))
+
+
+class _ByCode(dict):
+    """code -> (rel, meta); several electives share one code (BCA 453), so the row name picks the book."""
+    def pick(self, code, name):
+        c = _bc.get(code, [])
+        for k, v in c:
+            if name.startswith(v["name"]): return (k, v)
+        return c[0] if len(c) == 1 else None
+
+
+bycode = _ByCode()
 ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8}
 
 
@@ -29,8 +43,9 @@ for ln in lines:
     m = re.match(r"^\| (I|II|III|IV|V|VI|VII|VIII) \| (BCA \d+(?: / \d+)?) \| (.+?) \| (\d(?: \+ \d)?) \| (.*) \|$", ln)
     if m and not m.group(2).startswith("Code"):
         sem, code, name, cr, rest = m.groups(); name = name.replace("**", "")
-        if code in bycode:
-            rel, meta = bycode[code]
+        hit = bycode.pick(code, name)
+        if hit:
+            rel, meta = hit
             u, w, p, pdf = stats(rel, meta)
             rows.append((ROMAN[sem], code, name, cr, "done", rel, u, w, p, pdf))
             ln = f"| {sem} | {code} | {name} | {cr} | **full book** (`{rel}`) |"

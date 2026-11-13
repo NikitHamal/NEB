@@ -84,14 +84,15 @@ Wi-Fi (IEEE 802.11) is the access network for most users, so its design is as im
 Inside a data centre most traffic flows **east-west** (server to server) rather than north-south (to the outside). The classic tree of three tiers makes the paths between servers uneven, so large sites use a **leaf-spine** (Clos) design: every **leaf** switch (at the top of a rack) connects to every **spine** switch; any two servers on different racks are always the same two hops apart, and capacity is raised by adding spines.
 
 ```svgfig label="3.2" caption="Leaf-spine data-centre network: every leaf connects to every spine, so all rack-to-rack paths have equal length."
-f = Fig(640, 230)
-for i, x in enumerate((130, 310, 490)):
+f = Fig(680, 230)
+SP = (150, 340, 530)
+for i, x in enumerate(SP):
     f.box(x - 55, 20, 110, 36, "Spine %d" % (i + 1), fill=BLUE, stroke=NAVY, size=10)
-for j, x in enumerate((60, 200, 340, 480, 600)):
+for j, x in enumerate((70, 215, 340, 465, 610)):
     f.box(x - 45, 120, 90, 36, "Leaf %d" % (j + 1), fill=SOFT, stroke=SLATE, size=10)
     f.box(x - 45, 185, 90, 30, "Rack %d" % (j + 1), fill=SAND, stroke=AMBER, size=9)
     f.arrow([(x, 156), (x, 185)], color=SLATE)
-    for sx in (130, 310, 490):
+    for sx in SP:
         f.line(sx, 56, x, 120, color=NAVY, sw=1)
 ```
 
@@ -365,19 +366,19 @@ Power is the most common cause of data-centre failures, so the chain is designed
 
 All power consumed by IT equipment is released as heat, and servers shut down when they overheat. Cooling methods: **CRAC/CRAH units** (computer-room air conditioners) with a raised floor, in-row coolers, rear-door heat exchangers, and liquid cooling for very dense racks. The key technique is **hot-aisle/cold-aisle layout**: racks face each other so that the fronts (air intake) face a cold aisle and the backs (exhaust) face a hot aisle; blanking panels fill empty rack spaces, and the aisle is **contained** so that hot and cold air do not mix. Typical supply temperature recommended by ASHRAE is 18 to 27 degrees C at the server intake, with relative humidity kept within a moderate range to avoid static and condensation.
 
-```svgfig label="3.3" caption="Hot-aisle / cold-aisle layout: cold air rises through perforated tiles in front of the racks; hot air leaves from the back and returns to the cooling unit."
-f = Fig(640, 230)
-f.box(20, 30, 70, 150, "CRAC\ncooling\nunit", fill=SAND, stroke=AMBER, size=10)
-f.box(150, 30, 70, 90, "Rack\nrow A", fill=BLUE, stroke=NAVY, size=10)
-f.box(340, 30, 70, 90, "Rack\nrow B", fill=BLUE, stroke=NAVY, size=10)
-f.box(500, 30, 70, 90, "Rack\nrow C", fill=BLUE, stroke=NAVY, size=10)
-f.text(280, 135, "COLD aisle", size=10, bold=True, color=NAVY)
-f.text(445, 135, "HOT aisle", size=10, bold=True, color=RED)
-f.text(120, 135, "hot aisle", size=9, color=RED)
-f.arrow([(90, 190), (280, 190), (280, 150)], color=NAVY, label="cold air under raised floor", lpos=(200, 205))
-f.arrow([(280, 118), (222, 80)], color=NAVY)
-f.arrow([(280, 118), (338, 80)], color=NAVY)
-f.arrow([(410, 40), (445, 15), (60, 15), (60, 30)], color=RED, label="warm air returns", lpos=(250, 8))
+```svgfig label="3.3" caption="Hot-aisle / cold-aisle layout: cold air is delivered to the aisle between two rows and drawn through the servers; hot air leaves at the back and returns above the racks to the cooling unit."
+f = Fig(640, 240)
+f.box(15, 50, 80, 140, "CRAC\ncooling\nunit", fill=SAND, stroke=AMBER, size=10)
+f.box(150, 60, 70, 90, "Rack\nrow A", fill=BLUE, stroke=NAVY, size=10)
+f.box(340, 60, 70, 90, "Rack\nrow B", fill=BLUE, stroke=NAVY, size=10)
+f.text(280, 170, "COLD aisle", size=10, bold=True, color=NAVY)
+f.text(120, 170, "HOT\naisle", size=9, bold=True, color=RED)
+f.text(470, 170, "HOT aisle", size=10, bold=True, color=RED)
+f.arrow([(95, 215), (280, 215), (280, 185)], color=NAVY, label="cold air under the raised floor", lpos=(190, 230))
+f.arrow([(280, 120), (222, 105)], color=NAVY)
+f.arrow([(280, 120), (338, 105)], color=NAVY)
+f.arrow([(148, 105), (120, 105), (120, 20), (55, 20), (55, 50)], color=RED)
+f.arrow([(412, 105), (470, 105), (470, 20), (120, 20)], color=RED, label="warm air returns above the racks", lpos=(300, 10))
 ```
 
 **PUE (power usage effectiveness)** measures the efficiency of the facility:
