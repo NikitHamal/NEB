@@ -1,0 +1,41 @@
+{
+ "book": "bcacourse-semester-7-dotnet-technology",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introducing C# and the .NET Framework",
+   "area": "BCA 406 · DotNet Technology · Unit 1",
+   "words": 4768,
+   "read_min": 26,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "The C# Language Basics",
+   "area": "BCA 406 · DotNet Technology · Unit 2",
+   "words": 7116,
+   "read_min": 40,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Creating Types in C#",
+   "area": "BCA 406 · DotNet Technology · Unit 3",
+   "words": 7471,
+   "read_min": 42,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Advanced C#",
+   "area": "BCA 406 · DotNet Technology · Unit 4",
+   "words": 8003,
+   "read_min": 44,
+   "figures": 2,
+   "has_questions": true
+  }
+ ]
+}
