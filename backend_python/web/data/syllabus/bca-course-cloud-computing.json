@@ -15,7 +15,7 @@
  "code": "BCA 451",
  "credits": 3,
  "semester": 8,
- "hours": 45,
+ "hours": 65,
  "questions": null,
  "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
@@ -415,9 +415,115 @@
     "examples": 1
    },
    "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Parallel Computing and the MapReduce Model",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Introduction to parallel computing",
+    "The MapReduce model",
+    "Applications of MapReduce",
+    "Parallel efficiency of MapReduce",
+    "MapReduce infrastructure",
+    "Seeing the ideas: the dataflow and the limits of speedup",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Introduction to parallel computing"
+    },
+    {
+     "no": "8.2",
+     "title": "The MapReduce model"
+    },
+    {
+     "no": "8.3",
+     "title": "Applications of MapReduce"
+    },
+    {
+     "no": "8.4",
+     "title": "Parallel efficiency of MapReduce"
+    },
+    {
+     "no": "8.5",
+     "title": "MapReduce infrastructure"
+    },
+    {
+     "no": "8.6",
+     "title": "Seeing the ideas: the dataflow and the limits of speedup"
+    },
+    {
+     "no": "8.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 4221,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Service-Oriented Architecture, Cloud Platforms, Applications and Security Practice",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Cloud design and implementation using SOA",
+    "Cloud platforms",
+    "Cloud applications",
+    "Cloud security in practice",
+    "Open challenges and cloud adoption",
+    "Seeing the ideas: the SOA triangle and the composed-service chain",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Cloud design and implementation using SOA"
+    },
+    {
+     "no": "9.2",
+     "title": "Cloud platforms"
+    },
+    {
+     "no": "9.3",
+     "title": "Cloud applications"
+    },
+    {
+     "no": "9.4",
+     "title": "Cloud security in practice"
+    },
+    {
+     "no": "9.5",
+     "title": "Open challenges and cloud adoption"
+    },
+    {
+     "no": "9.6",
+     "title": "Seeing the ideas: the SOA triangle and the composed-service chain"
+    },
+    {
+     "no": "9.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 4350,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
   }
  ],
- "unit_count": 7,
- "topic_count": 54,
- "notes_ready": 7
+ "unit_count": 9,
+ "topic_count": 68,
+ "notes_ready": 9
 }
