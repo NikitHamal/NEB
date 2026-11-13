@@ -14,3 +14,6 @@ bca:semester-1/programming-in-c
 school:bio11
 school:bio12
 school:cee-bot
+bca:semester-2/discrete-structure
+bca:semester-2/mathematics-2
+bca:semester-2/microprocessor-computer-architecture
