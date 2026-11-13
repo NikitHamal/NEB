@@ -61,3 +61,5 @@ school:qbankc10
 school:cee-mock
 school:ioe-chem
 school:cee-mat
+school:nep8
+school:cs12
