@@ -435,17 +435,6 @@ Which version of a virtual method runs is decided at **run time**, by the real t
 
 An **abstract class** models an idea that is incomplete by itself ("Shape"). It may contain fields, constructors, normal methods and abstract methods. You cannot write `new Shape()`, but you can declare `Shape s = new Circle(2);`.
 
-```svgfig label="3.1" caption="A class hierarchy with an abstract base class. Circle and Rectangle override the abstract Area method. A Shape variable can refer to either, and the call s.Area() is bound at run time to the actual object's version."
-f = Fig(560, 230)
-f.box(190, 10, 180, 56, "abstract class Shape\nName\nabstract double Area()", fill=SAND, stroke=AMBER, size=10, bold=True)
-f.box(40, 130, 190, 50, "class Circle\nRadius\noverride Area()", fill=BLUE, stroke=NAVY, size=10)
-f.box(330, 130, 190, 50, "class Rectangle\nWidth, Height\noverride Area()", fill=BLUE, stroke=NAVY, size=10)
-f.arrow([(135, 130), (135, 98), (280, 98), (280, 66)], color=SLATE)
-f.arrow([(425, 130), (425, 98), (280, 98), (280, 66)], color=SLATE)
-f.text(280, 90, "inherits from", size=9.5, color=SLATE)
-f.text(280, 212, "Shape s = new Circle(2);   s.Area() runs Circle.Area", size=10.5, color=TEAL, bold=True)
-```
-
 ```csharp
 using System;
 
@@ -516,6 +505,17 @@ a is Dog: True, a is object: True, type name: Dog
 ```
 
 The output shows both rules: `Move()` is virtual and overridden, so the real type (`Dog`) decides even through an `Animal` variable; `Speak()` is hidden with `new`, so the declared type decides. In examinations, always say that **overriding gives run-time polymorphism and hiding does not**.
+
+```svgfig label="3.1" caption="A class hierarchy with an abstract base class. Circle and Rectangle override the abstract Area method. A Shape variable can refer to either, and the call s.Area() is bound at run time to the actual object's version."
+f = Fig(560, 230)
+f.box(190, 10, 180, 56, "abstract class Shape\nName\nabstract double Area()", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.box(40, 130, 190, 50, "class Circle\nRadius\noverride Area()", fill=BLUE, stroke=NAVY, size=10)
+f.box(330, 130, 190, 50, "class Rectangle\nWidth, Height\noverride Area()", fill=BLUE, stroke=NAVY, size=10)
+f.arrow([(135, 130), (135, 98), (280, 98), (280, 66)], color=SLATE)
+f.arrow([(425, 130), (425, 98), (280, 98), (280, 66)], color=SLATE)
+f.text(292, 91, "inherits from", size=9.5, color=SLATE, anchor="start")
+f.text(280, 212, "Shape s = new Circle(2);   s.Area() runs Circle.Area", size=10.5, color=TEAL, bold=True)
+```
 
 ### Method overloading versus overriding
 
