@@ -35,7 +35,13 @@
     "Fixed-point iteration and convergence",
     "Systems of nonlinear equations",
     "Choosing a method",
-    "Seeing the ideas: Newton's tangent, bracketing and how fast each method converges"
+    "Seeing the ideas: Newton's tangent, bracketing and how fast each method converges",
+    "Floating-point numbers and machine epsilon",
+    "Propagation of error and loss of significance",
+    "Accelerating convergence: Aitken's delta-squared and Steffensen's method",
+    "Multiple roots and the modified Newton method",
+    "Polynomial roots: Horner's rule, deflation and Müller's method",
+    "Stopping criteria and the sensitivity of roots"
    ],
    "sections": [
     {
@@ -77,18 +83,44 @@
     {
      "no": "1.10",
      "title": "Seeing the ideas: Newton's tangent, bracketing and how fast each method converges"
+    },
+    {
+     "no": "1.11",
+     "title": "Floating-point numbers and machine epsilon"
+    },
+    {
+     "no": "1.12",
+     "title": "Propagation of error and loss of significance"
+    },
+    {
+     "no": "1.13",
+     "title": "Accelerating convergence: Aitken's delta-squared and Steffensen's method"
+    },
+    {
+     "no": "1.14",
+     "title": "Multiple roots and the modified Newton method"
+    },
+    {
+     "no": "1.15",
+     "title": "Polynomial roots: Horner's rule, deflation and Müller's method"
+    },
+    {
+     "no": "1.16",
+     "title": "Stopping criteria and the sensitivity of roots"
     }
    ],
    "summary": [
     "Numerical root-finding replaces an impossible formula by a convergent repetition; errors (round-off, truncation, cancellation) set the achievable accuracy.",
     "Bisection and false position are safe but linear; Newton is quadratic but needs f' and a good start; the secant method trades derivative for a 1.618 order; fixed-point iteration depends on |g'| < 1.",
-    "Newton's method extends to systems through the Jacobian."
+    "Newton's method extends to systems through the Jacobian.",
+    "Floating-point arithmetic has a unit round-off near 10^-16; cancellation and error propagation explain why algebraic rearrangement matters before computing.",
+    "Aitken and Steffensen accelerate fixed-point iteration; multiple roots slow Newton down to linear unless the multiplicity is used; Müller's method and Horner's rule handle polynomial roots, including complex ones."
    ],
    "terms": [],
    "stats": {
-    "words": 4824,
+    "words": 8278,
     "figures": 0,
-    "examples": 10
+    "examples": 17
    },
    "has_notes": true
   },
@@ -105,7 +137,12 @@
     "Newton's forward and backward difference formulas (equal spacing)",
     "Cubic spline interpolation",
     "Least-squares approximation",
-    "Seeing the ideas: one polynomial, divided differences, Runge's warning and the best-fit line"
+    "Seeing the ideas: one polynomial, divided differences, Runge's warning and the best-fit line",
+    "Neville's algorithm and inverse interpolation",
+    "Error bound and the choice of nodes: Chebyshev points",
+    "Central differences and checking a difference table",
+    "Piecewise interpolation compared: linear, spline and one polynomial",
+    "How good is the fit? Residuals, weighted least squares and conditioning"
    ],
    "sections": [
     {
@@ -139,19 +176,40 @@
     {
      "no": "2.8",
      "title": "Seeing the ideas: one polynomial, divided differences, Runge's warning and the best-fit line"
+    },
+    {
+     "no": "2.9",
+     "title": "Neville's algorithm and inverse interpolation"
+    },
+    {
+     "no": "2.10",
+     "title": "Error bound and the choice of nodes: Chebyshev points"
+    },
+    {
+     "no": "2.11",
+     "title": "Central differences and checking a difference table"
+    },
+    {
+     "no": "2.12",
+     "title": "Piecewise interpolation compared: linear, spline and one polynomial"
+    },
+    {
+     "no": "2.13",
+     "title": "How good is the fit? Residuals, weighted least squares and conditioning"
     }
    ],
    "summary": [
     "Through n + 1 points there is one polynomial of degree ≤ n; Lagrange, Newton divided-difference and Newton difference formulas all give it.",
     "The error depends on the (n + 1)th derivative and the product of distances to the nodes: interpolate near the centre and avoid very high degrees.",
     "Cubic splines give a smooth piecewise fit by solving a tridiagonal system.",
-    "Least squares fits noisy data by minimising squared residuals; many non-linear models reduce to straight lines after a transformation."
+    "Least squares fits noisy data by minimising squared residuals; many non-linear models reduce to straight lines after a transformation.",
+    "Neville's algorithm and inverse interpolation extend the Lagrange/Newton tools; node choice (Chebyshev) controls the error bound; central differences suit mid-table values and detect bad data; splines beat one high-degree polynomial; least-squares quality is judged by residuals and R^2, weights handle unequal trust and the normal equation"
    ],
    "terms": [],
    "stats": {
-    "words": 4178,
+    "words": 7169,
     "figures": 0,
-    "examples": 6
+    "examples": 14
    },
    "has_notes": true
   },
@@ -165,7 +223,12 @@
     "Numerical integration: Newton–Cotes rules",
     "Romberg integration",
     "Numerical double integration",
-    "Seeing the ideas: areas under curves, Romberg's table and the error of a derivative"
+    "Seeing the ideas: areas under curves, Romberg's table and the error of a derivative",
+    "Choosing the step: truncation error against round-off, and Richardson extrapolation",
+    "Error bounds and the number of strips needed",
+    "Gauss–Legendre quadrature",
+    "Adaptive Simpson and improper integrals",
+    "Monte Carlo integration"
    ],
    "sections": [
     {
@@ -187,19 +250,40 @@
     {
      "no": "3.5",
      "title": "Seeing the ideas: areas under curves, Romberg's table and the error of a derivative"
+    },
+    {
+     "no": "3.6",
+     "title": "Choosing the step: truncation error against round-off, and Richardson extrapolation"
+    },
+    {
+     "no": "3.7",
+     "title": "Error bounds and the number of strips needed"
+    },
+    {
+     "no": "3.8",
+     "title": "Gauss–Legendre quadrature"
+    },
+    {
+     "no": "3.9",
+     "title": "Adaptive Simpson and improper integrals"
+    },
+    {
+     "no": "3.10",
+     "title": "Monte Carlo integration"
     }
    ],
    "summary": [
     "Derivatives come from differentiating interpolation polynomials; central differences are second-order and best; too small an h lets round-off dominate.",
     "Newton–Cotes rules integrate interpolating polynomials; Simpson's rules beat the trapezoidal rule at the same cost.",
     "Romberg extrapolation turns cheap trapezoidal values into a high-order estimate.",
-    "Double integrals reuse the one-dimensional rules with product weights."
+    "Double integrals reuse the one-dimensional rules with product weights.",
+    "Step choice in differentiation balances truncation against round-off; Richardson extrapolation and five-point formulas give high accuracy without a tiny h. Error formulas tell how many strips are needed, Gauss-Legendre rules reach degree 2n - 1 with n nodes, adaptive Simpson focuses effort on hard regions, substitutions remove singulariti"
    ],
    "terms": [],
    "stats": {
-    "words": 3577,
+    "words": 6273,
     "figures": 0,
-    "examples": 5
+    "examples": 12
    },
    "has_notes": true
   },
@@ -215,7 +299,12 @@
     "Iterative methods: Jacobi and Gauss–Seidel",
     "Ill-conditioning",
     "Eigenvalues: the power method",
-    "Seeing the ideas: elimination, iteration speed and the geometry of ill-conditioning"
+    "Seeing the ideas: elimination, iteration speed and the geometry of ill-conditioning",
+    "Pivoting, operation counts and tridiagonal systems",
+    "Cholesky factorisation for symmetric positive definite matrices",
+    "Norms, condition number and the meaning of a small residual",
+    "Convergence of iterations and successive over-relaxation",
+    "More on eigenvalues: Rayleigh quotient, inverse power method, Gershgorin and QR"
    ],
    "sections": [
     {
@@ -245,19 +334,40 @@
     {
      "no": "4.7",
      "title": "Seeing the ideas: elimination, iteration speed and the geometry of ill-conditioning"
+    },
+    {
+     "no": "4.8",
+     "title": "Pivoting, operation counts and tridiagonal systems"
+    },
+    {
+     "no": "4.9",
+     "title": "Cholesky factorisation for symmetric positive definite matrices"
+    },
+    {
+     "no": "4.10",
+     "title": "Norms, condition number and the meaning of a small residual"
+    },
+    {
+     "no": "4.11",
+     "title": "Convergence of iterations and successive over-relaxation"
+    },
+    {
+     "no": "4.12",
+     "title": "More on eigenvalues: Rayleigh quotient, inverse power method, Gershgorin and QR"
     }
    ],
    "summary": [
     "Direct methods (Gauss, Gauss–Jordan, LU) give the exact answer in a fixed number of steps; use partial pivoting.",
     "Iterative methods suit large sparse systems; Gauss–Seidel usually converges faster than Jacobi, and diagonal dominance guarantees it.",
     "Ill-conditioned systems amplify data errors regardless of method; the condition number quantifies this.",
-    "The power method estimates the dominant eigenpair using repeated multiplication."
+    "The power method estimates the dominant eigenpair using repeated multiplication.",
+    "Pivoting prevents division by tiny numbers, the Thomas and Cholesky algorithms exploit structure, norms and the condition number quantify sensitivity (a small residual is not a small error), spectral radius governs iteration speed and SOR with a good ω is several times faster than Gauss-Seidel; Rayleigh quotients, shifts, Gershgorin discs"
    ],
    "terms": [],
    "stats": {
-    "words": 3696,
+    "words": 7075,
     "figures": 0,
-    "examples": 6
+    "examples": 13
    },
    "has_notes": true
   },
@@ -275,7 +385,12 @@
     "Runge–Kutta methods",
     "Higher-order equations and systems",
     "Boundary value problems and the shooting method",
-    "Seeing the ideas: stepping along slopes, the four slopes of RK4 and how the methods compare"
+    "Seeing the ideas: stepping along slopes, the four slopes of RK4 and how the methods compare",
+    "Stability, stiffness and implicit methods",
+    "Multistep methods: Adams-Bashforth, Adams-Moulton and predictor-corrector",
+    "More on Runge-Kutta: the family, order and automatic step control",
+    "Applications: cooling, population growth and falling bodies",
+    "Boundary value problems by finite differences"
    ],
    "sections": [
     {
@@ -313,19 +428,41 @@
     {
      "no": "5.9",
      "title": "Seeing the ideas: stepping along slopes, the four slopes of RK4 and how the methods compare"
+    },
+    {
+     "no": "5.10",
+     "title": "Stability, stiffness and implicit methods"
+    },
+    {
+     "no": "5.11",
+     "title": "Multistep methods: Adams-Bashforth, Adams-Moulton and predictor-corrector"
+    },
+    {
+     "no": "5.12",
+     "title": "More on Runge-Kutta: the family, order and automatic step control"
+    },
+    {
+     "no": "5.13",
+     "title": "Applications: cooling, population growth and falling bodies"
+    },
+    {
+     "no": "5.14",
+     "title": "Boundary value problems by finite differences"
     }
    ],
    "summary": [
     "An IVP is solved by stepping from the initial condition: Taylor and Picard give series; Euler, Heun and RK4 give numbers.",
     "Euler's method is first order, Heun second, RK4 fourth; halving h reduces the error by about 2, 4 and 16 respectively.",
     "Higher-order equations become first-order systems.",
-    "BVPs are solved by shooting (guess the slope, integrate, correct with interpolation or secant steps) or by finite differences."
+    "BVPs are solved by shooting (guess the slope, integrate, correct with interpolation or secant steps) or by finite differences.",
+    "Stability limits the step as much as accuracy does: Euler needs h < 2/λ on decay problems; stiff problems need implicit methods.",
+    "Adams-Bashforth-Moulton predictor-corrector methods need one or two evaluations of f per step but must be started by RK4; embedded pairs (RKF45, Dormand-Prince) control the step automatically."
    ],
    "terms": [],
    "stats": {
-    "words": 4092,
+    "words": 8578,
     "figures": 0,
-    "examples": 5
+    "examples": 11
    },
    "has_notes": true
   },
@@ -340,7 +477,12 @@
     "Laplace's equation on a square plate",
     "Poisson's equation",
     "Accuracy and practical notes",
-    "Seeing the ideas: the five-point stencil, the solved plate and Gauss-Seidel on the grid"
+    "Seeing the ideas: the five-point stencil, the solved plate and Gauss-Seidel on the grid",
+    "Parabolic equations: the heat equation by the explicit method",
+    "The implicit Crank-Nicolson method",
+    "Hyperbolic equations: the wave equation",
+    "Derivative boundary conditions and the diagonal formula",
+    "Faster iteration (SOR) and the accuracy of the grid"
    ],
    "sections": [
     {
@@ -366,23 +508,44 @@
     {
      "no": "6.6",
      "title": "Seeing the ideas: the five-point stencil, the solved plate and Gauss-Seidel on the grid"
+    },
+    {
+     "no": "6.7",
+     "title": "Parabolic equations: the heat equation by the explicit method"
+    },
+    {
+     "no": "6.8",
+     "title": "The implicit Crank-Nicolson method"
+    },
+    {
+     "no": "6.9",
+     "title": "Hyperbolic equations: the wave equation"
+    },
+    {
+     "no": "6.10",
+     "title": "Derivative boundary conditions and the diagonal formula"
+    },
+    {
+     "no": "6.11",
+     "title": "Faster iteration (SOR) and the accuracy of the grid"
     }
    ],
    "summary": [
     "Elliptic PDEs such as Laplace's and Poisson's equations describe steady states and are determined by their boundary values.",
     "Replacing derivatives by central differences turns the PDE into one algebraic equation per grid point: the value is the average of its neighbours (Laplace) plus a source term (Poisson).",
-    "The resulting diagonally dominant system is solved directly or by Liebmann's iteration."
+    "The resulting diagonally dominant system is solved directly or by Liebmann's iteration, accelerated by over-relaxation.",
+    "Parabolic (heat) and hyperbolic (wave) equations are marched in time; the explicit heat scheme needs r ≤ (1)/(2), the wave scheme r ≤ 1, and Crank-Nicolson is stable for any r."
    ],
    "terms": [],
    "stats": {
-    "words": 3376,
+    "words": 7981,
     "figures": 0,
-    "examples": 4
+    "examples": 11
    },
    "has_notes": true
   }
  ],
  "unit_count": 6,
- "topic_count": 45,
+ "topic_count": 76,
  "notes_ready": 6
 }
