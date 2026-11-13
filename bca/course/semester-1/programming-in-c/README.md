@@ -13,16 +13,17 @@ Semester I (revised curriculum, 2082 batch) · 3 credits. For students on the 20
 | 5 | Functions, Recursion and Storage Classes | prototypes, call by value, arrays as arguments, recursion, scope, `auto`/`static`/`extern`/`register` |
 | 6 | Pointers and Dynamic Memory Allocation | `&`/`*`, pointer arithmetic, pointers and arrays/strings, array of pointers, pointer to pointer, `malloc`/`calloc`/`realloc`/`free` |
 | 7 | Structures, Unions and File Handling | structures, nested/array of structures, unions, enum, preprocessor, text and binary files, random access |
+| 8 | The Preprocessor, the Build Process, Bit Operations and Linked Structures | macros with arguments, `#`/`##`, macros vs functions, conditional compilation, `#pragma`, the five build stages, bitwise operators and bit-fields, comma operator, odd loop, `exit`, `argc`/`argv`, self-referential structures, linked list, table lookup, function pointers, lab checklist |
 
 Each unit has worked examples, a formula and fact sheet, a chapter summary and a practice set (short questions, predict-the-output, programs) **with worked answers**.
 
 ## How this was verified
 
-Every complete program in the book (26 of them) is compiled with `gcc -std=c11 -Wall` and run by `bca/tools/check_c_examples.py`, which compares the real output with the output printed in the book. The checker caught two programs whose output depended on the unspecified order of evaluation of function arguments; both were rewritten. All predict-the-output questions in units 2–4 were also compiled and run to confirm the answer key.
+Every complete program in the book (36 of them) is compiled with `gcc -std=c11 -Wall` and run by `bca/tools/check_c_examples.py`, which compares the real output with the output printed in the book. The checker caught two programs whose output depended on the unspecified order of evaluation of function arguments; both were rewritten. All predict-the-output questions in units 2–4 were also compiled and run to confirm the answer key.
 
 ## Source and honesty
 
-The unit structure follows the TU C-programming syllabus family (the TU IOST 10-unit "C Programming" outline: Introduction, Elements of C, I/O, Control, Arrays and Strings, Functions, Pointers, Structure and Union, File Handling) and the BCA 2074 CACS151 course description. **The revised BCA 102 syllabus PDF itself could not be retrieved**, so the topic list was matched to the older BCA and the IOST syllabi rather than to the new PDF. If your college's syllabus lists a topic not found here (for example bit-fields or graphics functions), tell us.
+The unit structure follows the TU C-programming syllabus family (the TU IOST 10-unit "C Programming" outline: Introduction, Elements of C, I/O, Control, Arrays and Strings, Functions, Pointers, Structure and Union, File Handling) and the BCA 2074 CACS151 course description. Unit 8 was added in session 30 after comparing with the 10-unit outline on hamronotes.com (preprocessor and build process, `typedef` and table lookup, odd loop, parameterised `main`, lab list). **The revised BCA 102 syllabus PDF itself could not be retrieved**, so the topic list was matched to the older BCA and the IOST syllabi rather than to the new PDF. If your college's syllabus lists a topic not found here (for example bit-fields or graphics functions), tell us.
 
 Examples use C11 and the GCC compiler; Turbo C (16-bit, 2-byte `int`) differences are called out where an older exam answer would differ.
 
