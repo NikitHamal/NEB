@@ -22,6 +22,7 @@ ATOMIC = {"figure", "table", "div"}
 HEADS = {"h1", "h2", "h3", "h4"}
 MIN_GAP = 22 * MM                   # holes smaller than this are ordinary ragged page ends
 PASSES = 3
+DEBUG = False
 
 
 def _walk(box):
@@ -96,6 +97,10 @@ def _fix_once(doc, parent):
     holes, total = _score(doc, parent)
     frags, limits = measure(doc)
     moved = 0
+    height = {}
+    for d in frags:
+        for e, (y0, y1, _b) in d.items():
+            height[e] = height.get(e, 0.0) + (y1 - y0)
     for i, gap, nxt in holes:
         t1 = limits[i + 1][0]
         cand = None
@@ -109,30 +114,48 @@ def _fix_once(doc, parent):
         y0, y1, el = cand
         # must open the page and start here (not a continuation of a block from the page above)
         if y0 - t1 > 3 * MM or not _atomic(el) or el in frags[i]:
+            if DEBUG: print('skip', i + 1, el.tag, el.get('class'), round((y0 - t1) / MM), el in frags[i])
             continue
         par = parent.get(el)
         if par is None or not _is_chapter(par):
             continue
         sibs = list(par)
         k = sibs.index(el)
-        acc, last = 0.0, None
+        acc, fill, skipped, crossed = 0.0, [], 0, 0
         for s in sibs[k + 1:]:
             cls = (s.get("class") or "").split()
-            if s.tag in HEADS or s.tag in ("figure", "table") or "hk" in cls or "nobreak" in cls:
+            if "ch-head" in cls or "chsum" in cls or "paper" in cls:
                 break
-            fr = frags[i + 1].get(s)
-            h = (fr[1] - fr[0]) if fr else 0
-            if fr is None and any(s in f for f in frags):
+            if s.tag in HEADS:
+                # a plate may drift one section down when the hole is big; other blocks never cross
+                if el.tag != "figure" or gap < 40 * MM or crossed or s.tag == "h1":
+                    break
+                crossed = 1
+                fill.append(s)
+                acc += height.get(s, 0.0)
                 continue
+            if s.tag in ("figure", "table") or "hk" in cls or "nobreak" in cls:
+                skipped += 1
+                if skipped > 1:
+                    break
+                continue
+            h = height.get(s, 0.0)
             acc += h
-            last = s
+            if h > 4 * MM:
+                fill.append(s)
             if acc >= gap * 0.95:
                 break
-        if last is None or acc < gap * 0.45:
+        while fill and fill[-1].tag in HEADS:
+            fill.pop()
+        if DEBUG: print('page', i + 1, 'gap', round(gap / MM), 'acc', round(acc / MM), len(fill))
+        if not fill or acc < gap * 0.45:
             continue
-        par.remove(el)
-        par.insert(list(par).index(last) + 1, el)
-        # keep the figure's lead-in sentence and caption-less anchor paragraph where they are
+        # the text moves up in front of the block: the block floats down past it
+        at = list(par).index(el)
+        for s in fill:
+            par.remove(s)
+        for j, s in enumerate(fill):
+            par.insert(at + j, s)
         moved += 1
     return moved
 
