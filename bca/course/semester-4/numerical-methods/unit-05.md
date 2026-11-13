@@ -518,7 +518,7 @@ The error behaves as $O(h^{2})$: with $N = 8$ and $N = 16$ intervals the largest
 
 **4.** The first two rows of the Heun table in Section 5.5 give $y_{1}$ and $y_{2}$; Heun is much closer to the exact solution than Euler.
 
-**5.** $k_{1} = f (x ,\  y) ,\  k_{2} = f \left( x + \frac{h}{2} ,\  y + \frac{h k_{1}}{2} \right) ,\  k_{3} = f \left( x + \frac{h}{2} ,\  y + \frac{h k_{2}}{2} \right) ,\  k_{4} = f (x + h ,\  y + h k_{3}) ,\  y_{1} = y_{0} + \left( \frac{h}{6} \right) (k_{1} + 2 k_{2} + 2 k_{3} + k_{4})$. First step: k's = $(1.000000 ,\  1.100000 ,\  1.105000 ,\  1.210500) ,\  y_{1} = 1.110342$.
+**5.** $k_{1} = f(x, y)$, $k_{2} = f\left(x + \frac{h}{2},\ y + \frac{h k_{1}}{2}\right)$, $k_{3} = f\left(x + \frac{h}{2},\ y + \frac{h k_{2}}{2}\right)$, $k_{4} = f(x + h,\ y + h k_{3})$, and $y_{1} = y_{0} + \frac{h}{6}(k_{1} + 2k_{2} + 2k_{3} + k_{4})$. First step: $k_{1} = 1.000000$, $k_{2} = 1.100000$, $k_{3} = 1.105000$, $k_{4} = 1.210500$, $y_{1} = 1.110342$.
 
 **6.** Each step commits an $O (h^{2})$ error. Reaching a fixed *x* takes about $\frac{1}{h}$ steps, so the errors accumulate to about $\left( \frac{1}{h} \right) \cdot O (h^{2}) = O (h)$.
 
@@ -573,9 +573,9 @@ So Euler gives **$y (0.5) = 1.72102$** against the exact **1.79744**, an error o
 
 **Q2 (5 marks). Apply one step of the fourth-order Runge-Kutta method to $\frac{d y}{d x} = x + y ,\  y (0) = 1 ,\  h = 0.1$.**
 
-*Formulas.* k1 = $f ( x 0$, y0); k2 = $f ( x 0 + \frac{h}{2}$, y0 + $\frac{h k 1}{2}$); k3 = $f ( x 0 + \frac{h}{2}$, y0 + $\frac{h k 2}{2}$); k4 = $f ( x 0 + h$, y0 + *h* k3); y1 = y0 + ($\frac{h}{6} ) ( k 1$ + 2k2 + 2k3 + k4).
+*Formulas.* $k_{1} = f(x_{0}, y_{0})$; $k_{2} = f\left(x_{0} + \frac{h}{2},\ y_{0} + \frac{h k_{1}}{2}\right)$; $k_{3} = f\left(x_{0} + \frac{h}{2},\ y_{0} + \frac{h k_{2}}{2}\right)$; $k_{4} = f(x_{0} + h,\ y_{0} + h k_{3})$; $y_{1} = y_{0} + \frac{h}{6}(k_{1} + 2k_{2} + 2k_{3} + k_{4})$.
 
-*Calculation.* k1 = $0 + 1$ = **1**. k2 = $f (0.05 ,\  1 + 0.05 x 1) = 0.05 + 1.05$ = **1.1**. k3 = $f (0.05 ,\  1 + 0.05 x 1.1) = 0.05 + 1.055$ = **1.105**. k4 = $f (0.1 ,\  1 + 0.1 x 1.105) = 0.1 + 1.1105$ = **1.2105**. Then y1 = $1 + (0.1 / 6) (1 + 2.2 + 2.21 + 1.2105) = 1 + (0.1 / 6) (6.6205)$ = **1.110342**.
+*Calculation.* $k_{1} = 0 + 1 = \mathbf{1}$. $k_{2} = f(0.05,\ 1 + 0.05 \times 1) = 0.05 + 1.05 = \mathbf{1.1}$. $k_{3} = f(0.05,\ 1 + 0.05 \times 1.1) = 0.05 + 1.055 = \mathbf{1.105}$. $k_{4} = f(0.1,\ 1 + 0.1 \times 1.105) = 0.1 + 1.1105 = \mathbf{1.2105}$. Then $y_{1} = 1 + \frac{0.1}{6}(1 + 2.2 + 2.21 + 1.2105) = 1 + \frac{0.1}{6}(6.6205) = \mathbf{1.110342}$.
 
 The exact value is $2 e^{0} . 1 - 0.1 - 1 = 1.110342$, so one RK4 step is correct to six decimals (Figure 5.2), while one Euler step gave 1.1. *Conclusion:* RK4 has error $O (h^{4})$ and is the standard general-purpose method.
 
@@ -589,7 +589,7 @@ The exact value is $2 e^{0} . 1 - 0.1 - 1 = 1.110342$, so one RK4 step is correc
 
 *Heun (improved Euler).* A predictor-corrector: predict $y \ast = y + h f (x ,\  y)$, then correct $y (n + 1) = y + \left( \frac{h}{2} \right) [f (x ,\  y) + f (x + h ,\  y \ast)]$, averaging the slopes at both ends. Second order.
 
-*Runge-Kutta (RK4).* A weighted average of four slopes per step: $y (n + 1) = y + \left( \frac{h}{6} \right) ( k 1$ + 2k2 + 2k3 + k4) (Figure 5.2). Fourth order: global error $O (h^{4})$; no derivatives of *f* are needed.
+*Runge-Kutta (RK4).* A weighted average of four slopes per step: $y_{n+1} = y_{n} + \frac{h}{6}(k_{1} + 2k_{2} + 2k_{3} + k_{4})$ (Figure 5.2). Fourth order: global error $O (h^{4})$; no derivatives of *f* are needed.
 
 *Illustration.* For $y' = x + y ,\  y (0) = 1 ,\  h = 0.1$, the exact value $y (0.5) = 1.797443$ is approximated as follows.
 

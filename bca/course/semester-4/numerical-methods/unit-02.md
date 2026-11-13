@@ -624,9 +624,9 @@ $b = \frac{n \sum x y - \sum x \sum y}{n \sum x^{2} - \left( \sum x \right)^{2}}
 
 *Lagrange form.* $P (x)$ = sum of yi Li(x), where Li(x) = product over *j* not equal *i* of (*x* - xj)/(xi - xj) equals 1 at xi and 0 at other nodes. It is simple to write, but adding a point means recomputing every term.
 
-*Newton form.* $P (x) = f (x 0) + f (x 0 ,\  x 1) ( x$ - x0) + $f (x 0 ,\  x 1 ,\  x 2) (x - x 0) ( x$ - x1) + ... where the coefficients are divided differences made by the table of Figure 2.2. A new point adds one new term, so the work already done is kept. For equally spaced data the divided differences become forward or backward differences and the Gregory-Newton formulas are used.
+*Newton form.* $P(x) = f[x_{0}] + f[x_{0}, x_{1}](x - x_{0}) + f[x_{0}, x_{1}, x_{2}](x - x_{0})(x - x_{1}) + \cdots$, where the coefficients are divided differences made by the table of Figure 2.2. A new point adds one new term, so the work already done is kept. For equally spaced data the divided differences become forward or backward differences and the Gregory-Newton formulas are used.
 
-*Error.* $f (x) - P (x) = \frac{f^{n + 1} (x i)}{(n + 1) !} x (x - x 0) \ldots (x - x n)$. The product is small near the middle of the data and large near the ends, so interpolate near the centre. In Figure 2.1 the cubic through four points of $\ln x$ has error 0.0248 at $x = 3$ and 0.0322 at $x = 5$.
+*Error.* $f(x) - P(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}\,(x - x_{0})(x - x_{1})\cdots(x - x_{n})$. The product is small near the middle of the data and large near the ends, so interpolate near the centre. In Figure 2.1 the cubic through four points of $\ln x$ has error 0.0248 at $x = 3$ and 0.0322 at $x = 5$.
 
 *Runge's phenomenon.* Raising the degree with equally spaced nodes does not always improve accuracy: for $\frac{1}{(1 + 25 x^{2})}$ the degree-10 interpolant oscillates wildly near the ends (Figure 2.3). Remedies are low-degree piecewise polynomials such as **cubic splines** (continuous first and second derivatives) or Chebyshev-spaced nodes.
 

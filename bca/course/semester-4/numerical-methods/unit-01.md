@@ -599,7 +599,7 @@ Bisection: always works, linear. False position: bracketed, usually linear. Fixe
 ## Formula and fact sheet
 
 - Bisection: $c = \frac{a + b}{2}$; steps $n \geq \log_{2} \left( \frac{b - a}{\epsilon} \right)$.
-- False position: $c = \frac{a f (b) - b f (a)}{f (b) - f (a)}$.
+- False position: $c = \frac{a f_{b} - b f_{a}}{f_{b} - f_{a}}$, with $f_{a}$ and $f_{b}$ the function values at the two ends.
 - Newton: $x_{n+1} = x_{n} - \frac{f (x_{n})}{f' (x_{n})} ;\  e_{n+1} \approx \left[ \frac{f''}{2 f'} \right] e_{n}^{2}$.
 - Secant: $x_{n+1} = x_{n} - \frac{f (x_{n}) (x_{n} - x_{n-1})}{f (x_{n}) - f (x_{n-1})}$; order 1.618.
 - Fixed point: $x_{n+1} = g (x_{n})$, converges if $|g'| < 1$.

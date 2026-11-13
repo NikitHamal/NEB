@@ -532,13 +532,13 @@ The error shrinks by a factor of about two each sweep here (Figure 6.2). *Speed-
 
 **Q3 (10 marks). Classify second-order partial differential equations. Derive the difference equations for Laplace's and Poisson's equations and explain how a Dirichlet problem is solved numerically.**
 
-*Classification.* For A $u_{x} x + B u_{x} y + C u_{y} y$ + lower terms = 0, the sign of $B^{2}$ - 4AC decides the type: **elliptic** if negative (Laplace $u_{x} x + u_{y} y = 0$, Poisson $u_{x} x + u_{y} y = f$; steady state), **parabolic** if zero (heat $u_{t} = c^{2} u_{x} x$; diffusion in time), **hyperbolic** if positive (wave $u_{t} t = c^{2} u_{x} x$; vibration). This unit treats the elliptic type.
+*Classification.* For $A u_{xx} + B u_{xy} + C u_{yy}$ + lower terms $= 0$, the sign of $B^{2} - 4AC$ decides the type: **elliptic** if negative (Laplace $u_{xx} + u_{yy} = 0$, Poisson $u_{xx} + u_{yy} = f$; steady state), **parabolic** if zero (heat $u_{t} = c^{2} u_{xx}$; diffusion in time), **hyperbolic** if positive (wave $u_{tt} = c^{2} u_{xx}$; vibration). This unit treats the elliptic type first and then the other two (Sections 6.7 to 6.9).
 
-*Difference equations.* Cover the region with a grid of spacing *h*. Taylor series give $u_{x} x$ is about $\frac{u (i + 1 ,\  j) - 2 u (i ,\  j) + u (i - 1 ,\  j)}{h^{2}}$ and likewise for $u_{y} y$, with error $O (h^{2})$. Adding them gives for **Laplace**: $u (i ,\  j) = \frac{u (i + 1 ,\  j) + u (i - 1 ,\  j) + u (i ,\  j + 1) + u (i ,\  j - 1)}{4}$, the average of the four neighbours (the stencil of Plate 6.1). For **Poisson**: $u (i ,\  j)$ = [sum of four neighbours - $h^{2} f (i ,\  j) ] / 4$.
+*Difference equations.* Cover the region with a grid of spacing $h$. Taylor series give $u_{xx} \approx \frac{u_{i+1,j} - 2u_{i,j} + u_{i-1,j}}{h^{2}}$ and likewise for $u_{yy}$, with error $O(h^{2})$. Adding them gives for **Laplace**: $u_{i,j} = \frac{u_{i+1,j} + u_{i-1,j} + u_{i,j+1} + u_{i,j-1}}{4}$, the average of the four neighbours (the stencil of Plate 6.1). For **Poisson**: $u_{i,j} = \frac{u_{i+1,j} + u_{i-1,j} + u_{i,j+1} + u_{i,j-1} - h^{2} f_{i,j}}{4}$.
 
-*Dirichlet problem.* The values of *u* on the boundary are given. Each interior point gives one linear equation, so an $n x n$ interior grid gives $n^{2}$ equations (nine for the 3 *x* 3 plate of Figure 6.1). They are solved by Gauss elimination or by iteration (Gauss-Seidel, SOR; Figure 6.2), the latter being preferred for fine grids.
+*Dirichlet problem.* The values of *u* on the boundary are given. Each interior point gives one linear equation, so an $n \times n$ interior grid gives $n^{2}$ equations (nine for the $3 \times 3$ plate of Figure 6.1). They are solved by Gauss elimination or by iteration (Gauss-Seidel, SOR; Figure 6.2), the latter being preferred for fine grids.
 
-*Worked Poisson example.* For $u_{x} x + u_{y} y = - 10$ on a square with $u = 0$ on all edges and $h = 1$, the single interior point of a 3 *x* 3 grid has 4u = $0 + 0 + 0 + 0 - h^{2} (- 10)$, so **$u = 2.5$**. Halving *h* gives a more accurate answer with more points.
+*Worked Poisson example.* For $u_{xx} + u_{yy} = -10$ on a square with $u = 0$ on all edges and $h = 1$, the single interior point of a $3 \times 3$ grid has $4u = 0 + 0 + 0 + 0 - h^{2}(-10)$, so **$u = 2.5$**. Halving $h$ gives a more accurate answer with more points.
 
 | Type | Example | Physical meaning | Numerical idea |
 |---|---|---|---|
