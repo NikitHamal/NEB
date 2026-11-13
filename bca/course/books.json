@@ -375,5 +375,13 @@
   "credits": 3,
   "accent": "#1D4E89",
   "status": "done"
+ },
+ "semester-8/geographical-information-system": {
+  "name": "Geographical Information System",
+  "code": "BCA 453",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }
