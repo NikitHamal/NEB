@@ -311,6 +311,11 @@ Gaps found by keyword grep (0 hits): vacuous/trivial/uniqueness proofs and mista
 - PDF `NEBians-BCA-Course-Semester-2-Discrete-Structure.pdf`: `pdfinfo` **97 pages** (was 75), `qa_pdf.py` fails=0 (warns=331, same as before: 6 pt labels in old figures). Web data 7 units. Figures 7.1 and 7.2 inspected as PNG (ok).
 - Honest gaps: `check_discrete.py` was not extended for Unit 7 (the numbers come from the embedded executed programs and hand re-checks); BCA 151 outline is assumed to equal BIT152 (the BCA 151 PDF was not retrievable); Unit 4 (number theory in the outline) lives in book Unit 6, and units 1 to 6 keep the original order.
 
+### Web reader verified (Django :8765 + headless Chromium, screenshots inspected then deleted)
+- BCA 105 Unit 3 and Unit 6: left rail lists the six textbook units, right rail has no "Formula and fact sheet" entry, no clipped labels, the "My School" and "The Necklace" readings and exercises render with proper headings and lists.
+- BCA 156 Unit 7: seven units in the rail, tables and the worked-example callout render, right rail lists 7.1 to 7.9, Key facts, Summary, Practice, Model answers.
+- BCA 151 Unit 7: executed code and output blocks, inline math (minterms, exponentials) and the rail all render. Minor: a 4-line rail label ("7.7 ... salesman problem") is clamped to 3 lines with an ellipsis (by design).
+
 ## Prioritised queue for the next session
 1. Publish updated PDFs (`update_books.py --only <slug>`): 105, 156, 401, 451, 304, 305, 103, 354, 154, 405.
 2. Keyword audits against live TU outlines still pending: 101/102/104, projects 256/306/356/404; BCA 353 (Miller-Rabin, Galois fields, HMAC, S/MIME, PGP, IPsec).
