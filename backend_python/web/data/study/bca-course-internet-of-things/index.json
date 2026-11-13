@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-8-internet-of-things",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to IoT",
+   "area": "BCA 454 · Internet of Things · Unit 1",
+   "words": 3320,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Sensors, Actuators and Interfacing",
+   "area": "BCA 454 · Internet of Things · Unit 2",
+   "words": 7593,
+   "read_min": 42,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "IoT Platform Design Methodology",
+   "area": "BCA 454 · Internet of Things · Unit 3",
+   "words": 3387,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Data and Analytics for IoT",
+   "area": "BCA 454 · Internet of Things · Unit 4",
+   "words": 4291,
+   "read_min": 24,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "IoT Physical Servers and Cloud Offering",
+   "area": "BCA 454 · Internet of Things · Unit 5",
+   "words": 3583,
+   "read_min": 20,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Securing IoT Systems",
+   "area": "BCA 454 · Internet of Things · Unit 6",
+   "words": 3593,
+   "read_min": 20,
+   "figures": 2,
+   "has_questions": true
+  }
+ ]
+}

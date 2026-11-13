@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**44 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 1 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,696,535 raw words of study material, counted over the unit files, including code listings and tables):
+**45 of 46 subject slots are written, built and QA-checked; 0 core subjects are not started; 1 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,725,845 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -51,6 +51,7 @@
 | 7 | BCA 406 | [DotNet Technology (Elective II)](course/semester-7/dotnet-technology/) | 30,370 | 120 | done |
 | 8 | BCA 451 | [Cloud Computing](course/semester-8/cloud-computing/) | 34,658 | 104 | done |
 | 8 | BCA 452 | [Internship](course/semester-8/internship/) | 17,628 | 54 | done |
+| 8 | BCA 454 | [Internet of Things (Elective IV)](course/semester-8/internet-of-things/) | 29,310 | 94 | done |
 
 Semesters I, II, III and IV are fully done (Semester IV's Project I is a project with no notes by nature). Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
 <!-- /COURSE-STATUS -->

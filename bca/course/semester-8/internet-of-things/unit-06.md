@@ -185,7 +185,7 @@ print("tag length: %d hex characters = %d bits" % (len(tag), 4 * len(tag)))
 tag length: 64 hex characters = 256 bits
 ```
 ```svgfig label="6.2" caption="Secure over-the-air update. The device downloads an image and its signature, checks the signature and that the version is newer, installs into the spare slot, reboots into it and confirms; if the check or the boot fails it keeps the old image."
-f = Fig(640, 210)
+f = Fig(640, 232)
 f.box(10, 80, 100, 50, "Update server\nsigned image\n+ version", fill=SAND, stroke=AMBER, size=9.5)
 f.box(150, 80, 100, 50, "Download over\nTLS", fill=BLUE, stroke=NAVY, size=10)
 f.box(290, 20, 120, 50, "Signature valid?\nversion newer?", fill=ROSE, stroke=RED, size=10)
@@ -199,7 +199,7 @@ f.arrow([(350, 70), (350, 140)], color=TEAL, label="yes", lpos=(370, 105))
 f.arrow([(410, 40), (450, 40)], color=RED, label="no", lpos=(430, 32))
 f.arrow([(410, 165), (450, 165)], color=NAVY)
 f.arrow([(540, 160), (590, 130)], color=TEAL, label="ok", lpos=(575, 158))
-f.arrow([(495, 190), (495, 202), (60, 202), (60, 130)], color=RED, dash=True, label="boot fails: roll back to A", lpos=(280, 196))
+f.arrow([(495, 190), (495, 222), (60, 222), (60, 130)], color=RED, dash=True, label="boot fails: roll back to A", lpos=(280, 212))
 ```
 
 ## 6.5 Verifying firmware before installing it

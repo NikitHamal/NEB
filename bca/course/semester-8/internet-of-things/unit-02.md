@@ -42,7 +42,7 @@ f.arrow([(390, 43), (420, 43)], color=NAVY)
 f.arrow([(500, 43), (575, 70)], color=NAVY)
 f.arrow([(575, 126), (400, 160)], color=TEAL)
 f.arrow([(290, 163), (260, 163)], color=TEAL)
-f.arrow([(150, 163), (60, 126)], color=TEAL, label="acts on")
+f.arrow([(150, 163), (60, 126)], color=TEAL, label="acts on", lpos=(78, 158))
 ```
 
 ## 2.2 Types of sensors
