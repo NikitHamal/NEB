@@ -32,6 +32,7 @@
     "Goals and instruments of macroeconomics",
     "Demand, supply and market equilibrium",
     "Seeing the ideas: frontier, equilibrium and the people behind them",
+    "Surplus, price controls and the cost of a tax",
     "Eight applications of economic thinking for a BCA student"
    ],
    "sections": [
@@ -61,6 +62,10 @@
     },
     {
      "no": "1.7",
+     "title": "Surplus, price controls and the cost of a tax"
+    },
+    {
+     "no": "1.8",
      "title": "Eight applications of economic thinking for a BCA student"
     }
    ],
@@ -71,9 +76,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2873,
+    "words": 3866,
     "figures": 0,
-    "examples": 1
+    "examples": 4
    },
    "has_notes": true
   },
@@ -88,6 +93,7 @@
     "Uses of elasticity",
     "Elasticity of supply",
     "Seeing elasticity: five cases, the demand line and the bumper harvest",
+    "Elasticity decides who pays a tax",
     "Eight uses of elasticity in business, government and Nepal"
    ],
    "sections": [
@@ -113,6 +119,10 @@
     },
     {
      "no": "2.6",
+     "title": "Elasticity decides who pays a tax"
+    },
+    {
+     "no": "2.7",
      "title": "Eight uses of elasticity in business, government and Nepal"
     }
    ],
@@ -123,9 +133,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2811,
+    "words": 3746,
     "figures": 0,
-    "examples": 5
+    "examples": 7
    },
    "has_notes": true
   },
@@ -139,6 +149,7 @@
     "Ordinal utility: indifference curves",
     "Price effect, income effect and substitution effect",
     "Seeing utility: diminishing returns, bundle choice and Hicks's split",
+    "Consumer surplus, the paradox of value and the Engel curve",
     "Eight uses of utility and indifference-curve analysis"
    ],
    "sections": [
@@ -160,6 +171,10 @@
     },
     {
      "no": "3.5",
+     "title": "Consumer surplus, the paradox of value and the Engel curve"
+    },
+    {
+     "no": "3.6",
      "title": "Eight uses of utility and indifference-curve analysis"
     }
    ],
@@ -170,9 +185,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2825,
+    "words": 3614,
     "figures": 0,
-    "examples": 2
+    "examples": 4
    },
    "has_notes": true
   },
@@ -187,6 +202,7 @@
     "Long-run cost curves",
     "Concept of revenue",
     "Seeing costs and revenues: schedules, the long-run envelope and the MR line",
+    "The production behind the cost curves: returns to scale and cost minimisation",
     "Eight uses of cost and revenue analysis"
    ],
    "sections": [
@@ -212,6 +228,10 @@
     },
     {
      "no": "4.6",
+     "title": "The production behind the cost curves: returns to scale and cost minimisation"
+    },
+    {
+     "no": "4.7",
      "title": "Eight uses of cost and revenue analysis"
     }
    ],
@@ -222,9 +242,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2870,
+    "words": 3760,
     "figures": 0,
-    "examples": 2
+    "examples": 4
    },
    "has_notes": true
   },
@@ -241,6 +261,7 @@
     "Monopolistic competition",
     "Oligopoly",
     "Seeing the market structures: price taker, monopolist, discriminator, oligopolist",
+    "Two duopoly models and a measure of concentration",
     "Eight lessons from market structures for Nepali firms and consumers"
    ],
    "sections": [
@@ -274,6 +295,10 @@
     },
     {
      "no": "5.8",
+     "title": "Two duopoly models and a measure of concentration"
+    },
+    {
+     "no": "5.9",
      "title": "Eight lessons from market structures for Nepali firms and consumers"
     }
    ],
@@ -284,9 +309,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3591,
+    "words": 4476,
     "figures": 0,
-    "examples": 4
+    "examples": 5
    },
    "has_notes": true
   },
@@ -301,6 +326,7 @@
     "Real and nominal GDP; GDP deflator",
     "Methods of computing national income",
     "Seeing national income: flows, the Keynesian cross and the value chain",
+    "The consumption function, the multiplier derived, and measuring inequality",
     "Eight uses of national income statistics"
    ],
    "sections": [
@@ -326,6 +352,10 @@
     },
     {
      "no": "6.6",
+     "title": "The consumption function, the multiplier derived, and measuring inequality"
+    },
+    {
+     "no": "6.7",
      "title": "Eight uses of national income statistics"
     }
    ],
@@ -336,9 +366,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2815,
+    "words": 3864,
     "figures": 0,
-    "examples": 4
+    "examples": 6
    },
    "has_notes": true
   },
@@ -353,6 +383,7 @@
     "Banking: commercial banks and the central bank",
     "International trade, balance of trade and balance of payments",
     "Seeing money, inflation, central banking and trade",
+    "Gains from trade, tariffs, the terms of trade and the quantity theory of money",
     "Eight roles of money, banks and trade in everyday Nepali life"
    ],
    "sections": [
@@ -378,6 +409,10 @@
     },
     {
      "no": "7.6",
+     "title": "Gains from trade, tariffs, the terms of trade and the quantity theory of money"
+    },
+    {
+     "no": "7.7",
      "title": "Eight roles of money, banks and trade in everyday Nepali life"
     }
    ],
@@ -389,14 +424,14 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3258,
+    "words": 4506,
     "figures": 0,
-    "examples": 3
+    "examples": 6
    },
    "has_notes": true
   }
  ],
  "unit_count": 7,
- "topic_count": 44,
+ "topic_count": 51,
  "notes_ready": 7
 }

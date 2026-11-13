@@ -553,3 +553,25 @@ Picked up from sessions 16-38 (this file; no duplicate tracker). The user again 
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO (find a TU outline first); software testing outline not found online.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204.
 5. `svgkit.lint` over all course books; Django screenshot of E-Governance Unit 5 and BCA 105 Unit 6.
+
+## Session 40 results (BCA 206 Applied Economics deepened; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-39 (this file; no duplicate tracker). Fresh sandbox, sparse-clone bootstrap, setup recipe from session 39 unchanged (detached `/tmp/setup.sh`, about 4 min). **New gotcha:** the venv Python is 3.11, which rejects a backslash inside an f-string expression; one old figure in BCA 206 Unit 4 broke the build and was rewritten with a `DASH` constant. Write svgfig code without backslashes inside `{}`.
+
+### BCA 206 Applied Economics: 75 -> 91 pages (qa_pdf fails=0 warns=10, all 6.2 pt photo credits)
+- Seven new sections (1.7, 2.6, 3.5, 4.6, 5.8, 6.6, 7.6, listed in the book README), six new figures (1.3, 3.4, 4.4, 5.5, 6.4, 7.5), practice items 9-10 with answers per unit, fact sheet lines extended; the old "Eight uses" sections were renumbered (1.8, 2.7, 3.6, 4.7, 5.9, 6.7, 7.7).
+- Every number is recomputed in `bca/tools/check_economics.py` (appended block "session 40"; labels there say 2.5 and 6.7 for what the book calls 2.6 and 6.6).
+- Figures inspected as PNG after a first pass that showed clipped or overlapping labels (axis label over bars in 3.4, isocost labels over the axis title in 4.4, unlabeled points in 5.5, curve labels on the line in 6.4/1.3/7.5); all fixed and rebuilt.
+- Web data re-exported (`export_course_web.py semester-3/applied-economics`): 7 units, 51 topics (was 44). `gen_status.py` rerun.
+
+### Honest gaps
+- Not run through Django + headless Chromium this session. Pages 70 and 83 (Figs 6.4, 7.5) were re-rendered only in the first pass; the label moves after it were not viewed.
+- Constants in the numerical examples are illustrative; the HHI threshold quoted (1,800) is from the 2023 US merger guidelines, not a Nepal rule.
+- The TU revised BCA 206 PDF is still not retrievable; the unit list is unchanged.
+
+## Prioritised queue for the next session
+1. Same depth audit for: BCA 205 Probability and Statistics (78 pp), BCA 154 Mathematics II (97 pp), BCA 153 OOP in Java (split collections/generics and file handling, add RandomAccessFile and a deadlock program), BCA 405 Machine Learning (63 pp), projects 256/306/356/404 keyword audit, BCA 355 Distributed System.
+2. Rebuild older books to pick up the callout-orphan CSS fix; check page counts and `qa_pdf.py`.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO (find a TU outline first).
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206.
+5. Django + Chromium screenshots of BCA 206 Unit 5 (5.8) and BCA 105 Unit 6.

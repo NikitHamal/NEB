@@ -181,15 +181,15 @@ Reading: the richest fifth receives half of all income, and the poorest fifth on
 ```svgfig label="6.4" caption="Lorenz curve for the five-group example (cumulative shares 5, 14, 28, 50, 100). The shaded area between the equality line and the curve is 0.206 of the whole square, so Gini = 2 × 0.206 = 0.412."
 f = Fig(580, 262)
 a = Axes(f, 48, 14, 200, 200, (0, 100), (0, 100))
-a.grid(20, 20).axes("Cumulative population %", "Cumulative income %")
+a.grid(20, 20).axes("Population %", "Income %")
 pts = [(0, 0), (20, 5), (40, 14), (60, 28), (80, 50), (100, 100)]
 top = " ".join(f"{a.X(x)},{a.Y(x)}" for x, _ in pts)
 bot = " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in reversed(pts))
 f.raw(f'<polygon points="{top} {bot}" fill="#fecaca" fill-opacity="0.8" stroke="none"/>')
-a.curve(lambda x: x, 0, 100, color=SLATE, dash=True, label="Equality", lx=a.X(58), ly=a.Y(70))
+a.curve(lambda x: x, 0, 100, color=SLATE, dash=True, label="Equality", lx=a.X(28), ly=a.Y(62))
 f.raw('<polyline points="' + " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in pts) + f'" fill="none" stroke="{NAVY}" stroke-width="2.6" stroke-linejoin="round"/>')
 for x, y in pts[1:]: a.pt(x, y, "", r=3.6, color=NAVY)
-f.text(a.X(70), a.Y(22), "Lorenz curve", size=11, color=NAVY, bold=True)
+f.text(a.X(86), a.Y(24), "Lorenz curve", size=11, color=NAVY, bold=True)
 f.box(290, 30, 280, 46, "Area between = 0.206\nGini = 2 × 0.206 = 0.412", fill=SAND, stroke=RED, size=10.5)
 f.box(290, 90, 280, 46, "Poorest 20 % get 5 %\nRichest 20 % get 50 %", fill=BLUE, stroke=NAVY, size=10.5)
 f.box(290, 150, 280, 46, "Gini 0 = equal\nGini 1 = one person has all", fill=MINT, stroke=TEAL, size=10.5)

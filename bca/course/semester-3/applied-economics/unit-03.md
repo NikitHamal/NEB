@@ -200,8 +200,8 @@ A lower price raises surplus for two reasons: each earlier unit costs less, and 
 
 ```svgfig label="3.4" caption="Consumer surplus in the mango example. The steps are the buyer's willingness to pay for each mango (50, 40, 30, 20, 10). At a price of 25 the buyer takes three mangoes; the green area above the price line and below the steps is the surplus 25 + 15 + 5 = 45. The grey part of each bar is the money actually paid."
 f = Fig(580, 232)
-a = Axes(f, 48, 14, 300, 176, (0, 6), (0, 60))
-a.grid(1, 10).axes("Mango number", "Rupees")
+a = Axes(f, 48, 14, 300, 176, (0, 7), (0, 60))
+a.grid(1, 10).axes("Mango no.", "Rupees")
 for i, w in enumerate([50, 40, 30, 20, 10]):
     x0 = i + 0.1; x1 = i + 0.9
     paid = 25 if w >= 25 else 0
@@ -210,8 +210,8 @@ for i, w in enumerate([50, 40, 30, 20, 10]):
         f.raw(f'<rect x="{a.X(x0)}" y="{a.Y(w)}" width="{a.X(x1)-a.X(x0)}" height="{a.Y(paid)-a.Y(w)}" fill="#bbf7d0" stroke="{TEAL}" stroke-width="1.2"/>')
     else:
         f.raw(f'<rect x="{a.X(x0)}" y="{a.Y(w)}" width="{a.X(x1)-a.X(x0)}" height="{a.Y(0)-a.Y(w)}" fill="#ffffff" stroke="{SLATE}" stroke-width="1" stroke-dasharray="4 3"/>')
-a.hline(25, 0, 6, color=RED, dash=False, sw=1.8)
-a.tag(5.5, 28, "price 25", size=10, color=RED, bold=True)
+a.hline(25, 0, 7, color=RED, dash=False, sw=1.8)
+a.tag(6.2, 28, "price 25", size=10, color=RED, bold=True)
 f.box(372, 24, 198, 56, "Surplus at Rs 25\n25 + 15 + 5 = Rs 45", fill=MINT, stroke=TEAL, size=10.5)
 f.box(372, 94, 198, 56, "Paid: 3 × 25 = Rs 75\nValue: 50+40+30 = Rs 120", fill=SAND, stroke=AMBER, size=10.5)
 f.box(372, 164, 198, 46, "4th and 5th mango\nnot worth the price", fill=BLUE, stroke=SLATE, size=10.5)
