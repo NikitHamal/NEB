@@ -359,5 +359,13 @@
   "credits": 3,
   "accent": "#0F766E",
   "status": "done"
+ },
+ "semester-8/database-programming": {
+  "name": "Database Programming",
+  "code": "BCA 453",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#9A3412",
+  "status": "done"
  }
 }
