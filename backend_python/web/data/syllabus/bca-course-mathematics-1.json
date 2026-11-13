@@ -22,7 +22,7 @@
  "units": [
   {
    "no": 1,
-   "title": "Functions and Graphs",
+   "title": "Logic, Relations, Functions and Graphs",
    "hours": null,
    "area": "",
    "topics": [
@@ -31,7 +31,11 @@
     "Even, odd and one-to-one functions",
     "Composition and inverse",
     "Graph transformations",
-    "Eight ways functions are used in computing"
+    "Eight ways functions are used in computing",
+    "Elementary logic",
+    "The real number system",
+    "Complex numbers",
+    "Relations"
    ],
    "sections": [
     {
@@ -57,6 +61,22 @@
     {
      "no": "1.6",
      "title": "Eight ways functions are used in computing"
+    },
+    {
+     "no": "1.6",
+     "title": "Elementary logic"
+    },
+    {
+     "no": "1.7",
+     "title": "The real number system"
+    },
+    {
+     "no": "1.8",
+     "title": "Complex numbers"
+    },
+    {
+     "no": "1.9",
+     "title": "Relations"
     }
    ],
    "summary": [
@@ -67,55 +87,75 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3836,
+    "words": 4902,
     "figures": 0,
-    "examples": 5
+    "examples": 9
    },
    "has_notes": true
   },
   {
    "no": 2,
-   "title": "Limits and Continuity",
+   "title": "Sequence and Series",
    "hours": null,
    "area": "",
    "topics": [
-    "The idea of a limit",
-    "Techniques for finding limits",
-    "Limits at infinity and infinite limits",
-    "Continuity",
-    "Eight uses of limits in computing and daily life"
+    "Sequences and series",
+    "Arithmetic progression (AP)",
+    "Geometric progression (GP)",
+    "Harmonic progression and the means",
+    "Special sums and the arithmetico-geometric series",
+    "Recurrence relations: sequences defined by their predecessors",
+    "Limits of sequences and convergence of series",
+    "Telescoping sums and the method of differences",
+    "Series in computing and finance"
    ],
    "sections": [
     {
      "no": "2.1",
-     "title": "The idea of a limit"
+     "title": "Sequences and series"
     },
     {
      "no": "2.2",
-     "title": "Techniques for finding limits"
+     "title": "Arithmetic progression (AP)"
     },
     {
      "no": "2.3",
-     "title": "Limits at infinity and infinite limits"
+     "title": "Geometric progression (GP)"
     },
     {
      "no": "2.4",
-     "title": "Continuity"
+     "title": "Harmonic progression and the means"
     },
     {
      "no": "2.5",
-     "title": "Eight uses of limits in computing and daily life"
+     "title": "Special sums and the arithmetico-geometric series"
+    },
+    {
+     "no": "2.6",
+     "title": "Recurrence relations: sequences defined by their predecessors"
+    },
+    {
+     "no": "2.7",
+     "title": "Limits of sequences and convergence of series"
+    },
+    {
+     "no": "2.8",
+     "title": "Telescoping sums and the method of differences"
+    },
+    {
+     "no": "2.9",
+     "title": "Series in computing and finance"
     }
    ],
    "summary": [
-    "A limit describes the approached value and ignores the value at the point; both one-sided limits must agree.",
-    "For (0)/(0), factor, rationalise or use a standard limit; for x → ∞ divide by the highest power.",
-    "Continuity means the graph can be drawn without lifting the pen; the three kinds of break are removable, jump and infinite.",
-    "The IVT guarantees roots of continuous functions between sign changes."
+    "An AP has a constant difference, a GP a constant ratio and an HP has reciprocals in AP.",
+    "The infinite GP sum exists only for |r| < 1.",
+    "The means obey AM ≥ GM ≥ HM, and the sums of k, k^2, k^3 are standard tools for counting loop iterations.",
+    "A recurrence is solved by finding its fixed value; telescoping and second differences turn awkward sums into closed forms; EMI and annuities are GP sums."
    ],
    "terms": [],
    "stats": {
-    "words": 3484,
+    "words": 3683,
     "figures": 0,
     "examples": 8
    },
@@ -123,253 +163,348 @@
   },
   {
    "no": 3,
-   "title": "Differentiation",
+   "title": "Matrices and Determinants",
    "hours": null,
    "area": "",
    "topics": [
-    "The derivative from first principles",
-    "Rules of differentiation",
-    "Implicit differentiation",
-    "Logarithmic differentiation",
-    "Parametric differentiation",
-    "Higher-order derivatives",
-    "Eight uses of derivatives"
+    "Matrices and operations",
+    "Determinants",
+    "Inverse of a matrix",
+    "The determinant as an area",
+    "Eight uses of matrices in computing"
    ],
    "sections": [
     {
      "no": "3.1",
-     "title": "The derivative from first principles"
+     "title": "Matrices and operations"
     },
     {
      "no": "3.2",
-     "title": "Rules of differentiation"
+     "title": "Determinants"
     },
     {
      "no": "3.3",
-     "title": "Implicit differentiation"
+     "title": "Inverse of a matrix"
     },
     {
      "no": "3.4",
-     "title": "Logarithmic differentiation"
+     "title": "The determinant as an area"
     },
     {
      "no": "3.5",
-     "title": "Parametric differentiation"
-    },
-    {
-     "no": "3.6",
-     "title": "Higher-order derivatives"
-    },
-    {
-     "no": "3.7",
-     "title": "Eight uses of derivatives"
+     "title": "Eight uses of matrices in computing"
     }
    ],
    "summary": [
-    "The derivative is the limit of difference quotients, equal to the slope of the tangent.",
-    "A small table plus four rules (sum, product, quotient, chain) handles nearly every function.",
-    "Implicit, logarithmic and parametric methods cover curves not written as y = f (x).",
-    "Higher derivatives and nth-derivative formulas appear in series and in applications."
+    "Matrix multiplication combines rows with columns, is associative but not commutative.",
+    "The determinant measures scaling and invertibility; row operations compute it efficiently.",
+    "A matrix is invertible exactly when its determinant is non-zero; inverses come from the adjoint or Gauss–Jordan."
    ],
    "terms": [],
    "stats": {
-    "words": 3326,
+    "words": 3201,
     "figures": 0,
-    "examples": 6
+    "examples": 4
    },
    "has_notes": true
   },
   {
    "no": 4,
-   "title": "Applications of Derivatives",
+   "title": "Systems of Linear Equations",
    "hours": null,
    "area": "",
    "topics": [
-    "Tangent and normal",
-    "Rates of change and related rates",
-    "Increasing, decreasing, maxima and minima",
-    "Optimisation",
-    "Mean value theorems",
-    "L'Hôpital's rule",
-    "Taylor and Maclaurin series",
-    "Eight uses of the applications of derivatives"
+    "Systems and their solutions",
+    "Gaussian elimination",
+    "Rank and consistency",
+    "Cramer's rule",
+    "Applications and numerical issues",
+    "Three pictures of a linear system",
+    "Eight uses of linear systems"
    ],
    "sections": [
     {
      "no": "4.1",
-     "title": "Tangent and normal"
+     "title": "Systems and their solutions"
     },
     {
      "no": "4.2",
-     "title": "Rates of change and related rates"
+     "title": "Gaussian elimination"
     },
     {
      "no": "4.3",
-     "title": "Increasing, decreasing, maxima and minima"
+     "title": "Rank and consistency"
     },
     {
      "no": "4.4",
-     "title": "Optimisation"
+     "title": "Cramer's rule"
     },
     {
      "no": "4.5",
-     "title": "Mean value theorems"
+     "title": "Applications and numerical issues"
     },
     {
      "no": "4.6",
-     "title": "L'Hôpital's rule"
+     "title": "Three pictures of a linear system"
     },
     {
      "no": "4.7",
-     "title": "Taylor and Maclaurin series"
-    },
-    {
-     "no": "4.8",
-     "title": "Eight uses of the applications of derivatives"
+     "title": "Eight uses of linear systems"
     }
    ],
    "summary": [
-    "The derivative gives tangents, rates, and the shape of a graph (increasing, decreasing, concave).",
-    "Optimisation reduces a real problem to one variable and tests critical points and endpoints.",
-    "Rolle and the MVT link the average slope to an instantaneous slope; L'Hôpital turns indeterminate limits into derivative quotients.",
-    "Taylor series replace a function by polynomials and enable numerical approximation."
+    "Elimination reduces any system to echelon form and then solves by back-substitution.",
+    "Rank decides the number of solutions; free variables parametrise infinite families.",
+    "Cramer's rule and inverses give formulas but elimination is the practical method.",
+    "Applications range from curve fitting to chemistry, circuits and regression."
    ],
    "terms": [],
    "stats": {
-    "words": 3711,
+    "words": 3121,
     "figures": 0,
-    "examples": 10
+    "examples": 5
    },
    "has_notes": true
   },
   {
    "no": 5,
-   "title": "Integration",
+   "title": "Eigenvalues, Eigenvectors and Diagonalisation",
    "hours": null,
    "area": "",
    "topics": [
-    "Indefinite integrals",
-    "Integration by substitution",
-    "Integration by parts",
-    "Partial fractions",
-    "The definite integral and the Fundamental Theorem",
+    "Eigenvalues and eigenvectors",
+    "Diagonalisation",
     "Applications",
-    "Improper integrals",
-    "Eight uses of integration"
+    "What an eigenvector looks like",
+    "Eight uses of eigenvalues"
    ],
    "sections": [
     {
      "no": "5.1",
-     "title": "Indefinite integrals"
+     "title": "Eigenvalues and eigenvectors"
     },
     {
      "no": "5.2",
-     "title": "Integration by substitution"
+     "title": "Diagonalisation"
     },
     {
      "no": "5.3",
-     "title": "Integration by parts"
-    },
-    {
-     "no": "5.4",
-     "title": "Partial fractions"
-    },
-    {
-     "no": "5.5",
-     "title": "The definite integral and the Fundamental Theorem"
-    },
-    {
-     "no": "5.6",
      "title": "Applications"
     },
     {
-     "no": "5.7",
-     "title": "Improper integrals"
+     "no": "5.4",
+     "title": "What an eigenvector looks like"
     },
     {
-     "no": "5.8",
-     "title": "Eight uses of integration"
+     "no": "5.5",
+     "title": "Eight uses of eigenvalues"
     }
    ],
    "summary": [
-    "Integration is reverse differentiation; always add C for indefinite integrals and verify by differentiating.",
-    "Substitution undoes the chain rule, parts undoes the product rule, partial fractions handle rational functions.",
-    "The Fundamental Theorem lets us compute definite integrals from antiderivatives.",
-    "Areas, volumes, averages and total change are all definite integrals; improper integrals are limits."
+    "Eigenvectors are the directions a matrix only stretches; eigenvalues are the stretch factors.",
+    "The characteristic polynomial finds them; trace and determinant give quick checks.",
+    "Diagonalisation turns matrix powers into powers of numbers; symmetric matrices diagonalise orthogonally.",
+    "Markov chains, PageRank, PCA, stability and vibration analysis are all eigenvalue problems."
    ],
    "terms": [],
    "stats": {
-    "words": 3591,
+    "words": 3075,
     "figures": 0,
-    "examples": 7
+    "examples": 3
    },
    "has_notes": true
   },
   {
    "no": 6,
-   "title": "Differential Equations",
+   "title": "Analytical Geometry: Conic Sections",
    "hours": null,
    "area": "",
    "topics": [
-    "Basic terms",
-    "Separable equations",
-    "Homogeneous equations",
-    "Linear first-order equations",
-    "Exact equations",
-    "Second-order linear equations with constant coefficients",
-    "Modelling with differential equations",
-    "Eight uses of differential equations"
+    "Defining terms and the conic sections",
+    "The circle",
+    "The parabola",
+    "The ellipse",
+    "The hyperbola",
+    "Conic sections in terms of eccentricity and polar equations",
+    "Tangents and normals",
+    "Parametric forms and focal distances",
+    "Translation of axes and completing the square",
+    "The general second-degree equation, rotation and classification",
+    "Properties and applications of the conics"
    ],
    "sections": [
     {
      "no": "6.1",
-     "title": "Basic terms"
+     "title": "Defining terms and the conic sections"
     },
     {
      "no": "6.2",
-     "title": "Separable equations"
+     "title": "The circle"
     },
     {
      "no": "6.3",
-     "title": "Homogeneous equations"
+     "title": "The parabola"
     },
     {
      "no": "6.4",
-     "title": "Linear first-order equations"
+     "title": "The ellipse"
     },
     {
      "no": "6.5",
-     "title": "Exact equations"
+     "title": "The hyperbola"
     },
     {
      "no": "6.6",
-     "title": "Second-order linear equations with constant coefficients"
+     "title": "Conic sections in terms of eccentricity and polar equations"
     },
     {
      "no": "6.7",
-     "title": "Modelling with differential equations"
+     "title": "Tangents and normals"
     },
     {
      "no": "6.8",
-     "title": "Eight uses of differential equations"
+     "title": "Parametric forms and focal distances"
+    },
+    {
+     "no": "6.9",
+     "title": "Translation of axes and completing the square"
+    },
+    {
+     "no": "6.10",
+     "title": "The general second-degree equation, rotation and classification"
+    },
+    {
+     "no": "6.11",
+     "title": "Properties and applications of the conics"
     }
    ],
    "summary": [
-    "The order sets the number of constants; initial conditions pick a particular solution.",
-    "Separable, homogeneous, linear and exact first-order equations each have a systematic method.",
-    "Constant-coefficient second-order equations reduce to an auxiliary quadratic whose roots give exponentials, polynomial-times-exponential, or oscillations.",
-    "Growth, decay and cooling are first-order linear models with exponential solutions."
+    "Every conic is defined by a focus, a directrix and the eccentricity e.",
+    "Reading a, b, c from the standard equation gives the foci, vertices, directrices, eccentricity and asymptotes.",
+    "In polar form with a focus at the pole, one equation describes all four curves.",
+    "Tangents follow the splitting rule; completing the square handles shifted conics; the sign of B^2 - 4 A C classifies any second-degree curve, and a rotation removes the x y term."
    ],
    "terms": [],
    "stats": {
-    "words": 3675,
+    "words": 4948,
     "figures": 0,
-    "examples": 8
+    "examples": 14
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Vector Spaces and Linear Transformations",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Vector spaces and subspaces",
+    "Span, independence, basis and dimension",
+    "The four subspaces and rank–nullity",
+    "Linear transformations",
+    "Inner products and orthogonality",
+    "The four subspaces in one picture",
+    "Eight uses of vector spaces and linear maps"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Vector spaces and subspaces"
+    },
+    {
+     "no": "7.2",
+     "title": "Span, independence, basis and dimension"
+    },
+    {
+     "no": "7.3",
+     "title": "The four subspaces and rank–nullity"
+    },
+    {
+     "no": "7.4",
+     "title": "Linear transformations"
+    },
+    {
+     "no": "7.5",
+     "title": "Inner products and orthogonality"
+    },
+    {
+     "no": "7.6",
+     "title": "The four subspaces in one picture"
+    },
+    {
+     "no": "7.7",
+     "title": "Eight uses of vector spaces and linear maps"
+    }
+   ],
+   "summary": [
+    "Vector spaces abstract the idea of vector; subspaces, span, independence, basis and dimension organise them.",
+    "Rank–nullity ties the solutions of A X = 0 to the rank of A.",
+    "Linear maps are matrices; their kernel and image measure what is lost and what is reached.",
+    "Orthogonal bases and projections give coordinates, Gram–Schmidt and least squares."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3533,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Vectors in Space, Lines and Planes",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Vectors in three dimensions",
+    "Lines in space",
+    "Planes",
+    "Spheres and applications",
+    "A plane, its normal and the distance to a point",
+    "Eight uses of vectors in space"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Vectors in three dimensions"
+    },
+    {
+     "no": "8.2",
+     "title": "Lines in space"
+    },
+    {
+     "no": "8.3",
+     "title": "Planes"
+    },
+    {
+     "no": "8.4",
+     "title": "Spheres and applications"
+    },
+    {
+     "no": "8.5",
+     "title": "A plane, its normal and the distance to a point"
+    },
+    {
+     "no": "8.6",
+     "title": "Eight uses of vectors in space"
+    }
+   ],
+   "summary": [
+    "The dot product measures alignment and angles; the cross product measures area and gives normals.",
+    "The triple product measures volume and tests coplanarity.",
+    "Lines and planes have vector, parametric and Cartesian forms, with simple distance and angle formulas.",
+    "The same operations drive lighting, culling and reflection in graphics, and torque and work in physics."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3344,
+    "figures": 0,
+    "examples": 3
    },
    "has_notes": true
   }
  ],
- "unit_count": 6,
- "topic_count": 42,
- "notes_ready": 6
+ "unit_count": 8,
+ "topic_count": 60,
+ "notes_ready": 8
 }

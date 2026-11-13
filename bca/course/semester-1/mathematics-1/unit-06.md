@@ -177,10 +177,10 @@ for y0 in (1.0, 2.0, -3.0):
     ax.hline(y0, xp, 6.3, color=AMBER, dash=False, sw=1.5)
     f.line(ax.X(xp), ax.Y(y0), ax.X(1), ax.Y(0), color=TEAL, sw=1.5)
 ax.hline(2, -1, 1, color=SLATE, dash=True, sw=1.2)
-ax.pt(1, 0, "F (1, 0)", color=RED, dx=8, dy=16)
-ax.pt(1, 2, "P (1, 2)", color=NAVY, dx=8, dy=-8)
+ax.pt(1, 0, "F (1, 0)", color=RED, dx=9, dy=-9)
+ax.pt(1, 2, "P (1, 2)", color=NAVY, dx=8, dy=-12)
 ax.pt(-1, 2, "D", color=NAVY, dx=-14, dy=-8)
-f.text(ax.X(-1) - 8, ax.Y(-3.2), "directrix x = -1", size=10, color=RED, bold=True, anchor="start")
+f.text(ax.X(-1) - 5, ax.Y(-1.5), "x = -1", size=10, color=RED, bold=True, anchor="end")
 f.text(390, 110, "Incoming rays", size=10.5, color=AMBER, bold=True, anchor="start")
 f.text(390, 126, "(parallel to the axis)", size=10, color=AMBER, anchor="start")
 f.text(390, 160, "Reflected rays", size=10.5, color=TEAL, bold=True, anchor="start")
@@ -199,8 +199,8 @@ Every conic (and its degenerate cases) has an equation $A x^{2} + B x y + C y^{2
 | $\Delta > 0$ | hyperbola | two intersecting lines |
 
 A term $B x y$ means the axes of the conic are tilted. **Rotate** the axes through the angle $\theta$ with
-$$\tan 2 \theta = \frac{B}{A - C} \quad (\theta = 45^{\circ} \text{ if } A = C),$$
-using $x = X \cos \theta - Y \sin \theta$, $y = X \sin \theta + Y \cos \theta$. The new coefficients of $X^{2}$ and $Y^{2}$ are the **eigenvalues** of the matrix $\begin{pmatrix} A & B/2 \\ B/2 & C \end{pmatrix}$ (see Unit 5), and the new axes point along its eigenvectors.
+$$\tan 2 \theta = \frac{B}{A - C}$$
+(take $\theta = 45^{\circ}$ if $A = C$), using $x = X \cos \theta - Y \sin \theta$, $y = X \sin \theta + Y \cos \theta$. The new coefficients of $X^{2}$ and $Y^{2}$ are the **eigenvalues** of the matrix $\begin{pmatrix} A & B/2 \\ B/2 & C \end{pmatrix}$ (see Unit 5), and the new axes point along its eigenvectors.
 
 ::: example Worked example: $x y = 1$
 $A = C = 0$, $B = 1$: $\Delta = 1 > 0$, a hyperbola. Rotate by $45^{\circ}$: $x = \frac{X - Y}{\sqrt{2}}$, $y = \frac{X + Y}{\sqrt{2}}$, so $x y = \frac{X^{2} - Y^{2}}{2} = 1$, that is $\frac{X^{2}}{2} - \frac{Y^{2}}{2} = 1$. It is a rectangular hyperbola with $a = b = \sqrt{2}$, $c = 2$, $e = \sqrt{2}$, vertices $(1, 1)$ and $(-1, -1)$ and foci $(\sqrt{2}, \sqrt{2})$ and $(-\sqrt{2}, -\sqrt{2})$. The axes $x = 0$ and $y = 0$ are its asymptotes.
@@ -233,14 +233,14 @@ ax.curve(lambda x: 0.75 * x, -7.2, 7.2, color=AMBER, sw=1.5, dash=True)
 ax.curve(lambda x: -0.75 * x, -7.2, 7.2, color=AMBER, sw=1.5, dash=True)
 for (x0, y0, x1, y1) in ((-4, -3, 4, -3), (-4, 3, 4, 3), (-4, -3, -4, 3), (4, -3, 4, 3)):
     f.line(ax.X(x0), ax.Y(y0), ax.X(x1), ax.Y(y1), color=TEAL, sw=1.2, dash=True)
-ax.pt(5, 0, "F2 (5, 0)", color=RED, dx=6, dy=18)
-ax.pt(-5, 0, "F1 (-5, 0)", color=RED, dx=-6, dy=18, anchor="end")
+ax.pt(5, 0, "F2 (5, 0)", color=RED, dx=8, dy=-10)
+ax.pt(-5, 0, "F1 (-5, 0)", color=RED, dx=-8, dy=-10, anchor="end")
 ax.pt(4, 0, "", color=NAVY, r=3.5)
 ax.pt(-4, 0, "", color=NAVY, r=3.5)
 f.text(ax.X(4) - 4, ax.Y(0) - 8, "(4, 0)", size=9.5, color=NAVY, bold=True, anchor="end")
 f.text(ax.X(-4) + 4, ax.Y(0) - 8, "(-4, 0)", size=9.5, color=NAVY, bold=True, anchor="start")
-f.text(ax.X(6.0), ax.Y(5.0), "y = 3x/4", size=10, color=AMBER, bold=True, anchor="start")
-f.text(ax.X(6.0), ax.Y(-5.0), "y = -3x/4", size=10, color=AMBER, bold=True, anchor="start")
+f.text(ax.X(0.8), ax.Y(2.1), "y = 3x/4", size=10, color=AMBER, bold=True, anchor="start")
+f.text(ax.X(0.6), ax.Y(-2.85), "y = -3x/4", size=10, color=AMBER, bold=True, anchor="start")
 ```
 
 **Satellite dish.** A dish is a paraboloid; its cross-section $x^{2} = 4 a y$. A dish 1.2 m across and 0.2 m deep has the rim point $(0.6, 0.2)$, so $0.36 = 4 a (0.2)$ and $a = 0.45$ m: the receiver sits 0.45 m above the vertex. Flatter dishes (smaller depth) have a larger $a$.
@@ -267,11 +267,11 @@ poly(0.5, 0, 2 * math.pi, TEAL)
 poly(1, -2.3, 2.3, AMBER)
 poly(1.5, -2.03, 2.03, RED)
 f.circle(ox, oy, 4, fill=NAVY, stroke=NAVY)
-f.text(ox + 8, oy + 16, "pole", size=10, color=NAVY, bold=True, anchor="start")
 f.text(30, 24, "e = 0 circle (r = 3)", size=10.5, color=SLATE, bold=True, anchor="start")
 f.text(30, 42, "e = 0.5 ellipse", size=10.5, color=TEAL, bold=True, anchor="start")
 f.text(30, 60, "e = 1 parabola", size=10.5, color=AMBER, bold=True, anchor="start")
 f.text(30, 78, "e = 1.5 hyperbola", size=10.5, color=RED, bold=True, anchor="start")
+f.text(30, 96, "dot = pole (the focus)", size=10.5, color=NAVY, bold=True, anchor="start")
 ```
 
 **Navigation (LORAN-type hyperbolas).** Two radio stations 10 km apart ($c = 5$) send pulses together. A receiver that hears one pulse 8 km of travel later than the other lies on the hyperbola with $2 a = 8$, that is $a = 4$, $b = 3$: the hyperbola of Fig 6.3. A third station gives a second hyperbola and the receiver lies where they cross.
