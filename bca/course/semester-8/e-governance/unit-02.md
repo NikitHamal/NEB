@@ -333,14 +333,14 @@ Governments differ widely in how far they have travelled. A **maturity model** d
 
 ```svgfig label="2.3" caption="Five maturity levels of e-governance, drawn as a staircase. Each level keeps what the one below has and adds the focus area written on its step."
 f = Fig(680, 300)
-steps = [("1  Initial", "ad hoc, isolated\ncomputerisation", SOFT, SLATE), ("2  Managed", "repeatable projects,\nstandards, basic services", BLUE, NAVY),
-         ("3  Defined", "organisation-wide\nprocess and architecture", MINT, TEAL), ("4  Measured", "indicators, service\nlevels, citizen metrics", SAND, AMBER), ("5  Optimising", "continuous improvement,\ninnovation, proactive service", ROSE, RED)]
+steps = [("1 Initial", "ad hoc,\nisolated\nPCs", SOFT, SLATE), ("2 Managed", "repeatable,\nstandards,\nbasic services", BLUE, NAVY),
+         ("3 Defined", "organisation-\nwide process,\narchitecture", MINT, TEAL), ("4 Measured", "indicators,\nservice levels,\ncitizen metrics", SAND, AMBER), ("5 Optimising", "continuous\nimprovement,\ninnovation", ROSE, RED)]
 for i, (a, b, fill, col) in enumerate(steps):
     x = 20 + i * 128
-    h = 70 + i * 40
-    f.box(x, 280 - h, 120, h, "", fill=fill, stroke=col)
-    f.text(x + 60, 280 - h + 18, a, size=10.5, color=col, bold=True)
-    f.text(x + 60, 280 - h + 42, b, size=8.5, color=SLATE)
+    h = 100 + i * 36
+    f.box(x, 285 - h, 120, h, "", fill=fill, stroke=col)
+    f.text(x + 60, 285 - h + 18, a, size=11, color=col, bold=True)
+    f.text(x + 60, 285 - h + 44, b, size=10, color=SLATE)
 ```
 
 ### 2.7.2 The five levels

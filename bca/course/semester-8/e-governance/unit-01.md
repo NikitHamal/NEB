@@ -260,7 +260,7 @@ An equal rise in any component adds 0.0333 to the EGDI, so the useful question i
 
 ```svgfig label="1.2" caption="Nepal's three EGDI components in the UN E-Government Survey 2024 (as reported). Telecommunication is the strongest; the online services index is the weakest and the one that policy can move fastest."
 f = Fig(680, 190)
-hbars(f, [("Online services (OSI)", 0.4481), ("Telecom infrastructure (TII)", 0.7653), ("Human capital (HCI)", 0.5210), ("EGDI (average)", 0.5781)], x0=190, y0=20, bw=400, vmax=1.0, fmt="%.4f", colors=[AMBER, TEAL, NAVY, RED])
+hbars(f, [("Online services (OSI)", 0.4481), ("Telecom infrastructure (TII)", 0.7653), ("Human capital (HCI)", 0.5210), ("EGDI (average)", 0.5781)], x0=190, y0=20, bw=400, vmax=1.0, fmt="%.4f", colors=[(SAND, AMBER), (MINT, TEAL), (BLUE, NAVY), (ROSE, RED)])
 ```
 
 ## 1.6 E-governance applications
