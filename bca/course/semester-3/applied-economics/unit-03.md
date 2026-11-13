@@ -183,7 +183,66 @@ f.text(150, 186, "tea/coffee   left/right shoe   X times Y", size=10.5, color=SL
 f.text(150, 212, "lines get higher = more utility", size=10.5, color=NAVY, bold=True)
 ```
 
-## 3.5 Eight uses of utility and indifference-curve analysis
+## 3.5 Consumer surplus, the paradox of value and the Engel curve
+
+Section 3.1 explained why marginal utility falls as consumption rises. Three further results follow from it: the idea of **consumer surplus**, the solution of the old **paradox of value**, and the **Engel curve** that links income to purchases.
+
+### Consumer surplus from a willingness-to-pay table
+
+The first mango is worth more to a hungry buyer than the fifth. If we write down the most the buyer would pay for each successive unit (the **marginal willingness to pay**, which is marginal utility measured in rupees), the buyer pays **one price for every unit**, so every unit except the last gives a gain.
+
+::: example Worked example: five mangoes
+Willingness to pay for the 1st to 5th mango: Rs 50, 40, 30, 20, 10.
+**At a price of Rs 25** the buyer takes 3 mangoes (the fourth is worth only 20). Surplus: (50 − 25) + (40 − 25) + (30 − 25) = 25 + 15 + 5 = **Rs 45**. Spending is 75; total value to the buyer is 120.
+**At Rs 15** the buyer takes 4: surplus = 35 + 25 + 15 + 5 = **Rs 80**. **At Rs 5** the buyer takes all 5: surplus = **Rs 125**.
+A lower price raises surplus for two reasons: each earlier unit costs less, and one more unit is worth buying. The area between the stepped demand curve and the price line is the surplus; with many small units it becomes the smooth triangle of section 1.7.
+:::
+
+```svgfig label="3.4" caption="Consumer surplus in the mango example. The steps are the buyer's willingness to pay for each mango (50, 40, 30, 20, 10). At a price of 25 the buyer takes three mangoes; the green area above the price line and below the steps is the surplus 25 + 15 + 5 = 45. The grey part of each bar is the money actually paid."
+f = Fig(580, 232)
+a = Axes(f, 48, 14, 300, 176, (0, 6), (0, 60))
+a.grid(1, 10).axes("Mango number", "Rupees")
+for i, w in enumerate([50, 40, 30, 20, 10]):
+    x0 = i + 0.1; x1 = i + 0.9
+    paid = 25 if w >= 25 else 0
+    if paid:
+        f.raw(f'<rect x="{a.X(x0)}" y="{a.Y(paid)}" width="{a.X(x1)-a.X(x0)}" height="{a.Y(0)-a.Y(paid)}" fill="#e2e8f0" stroke="{SLATE}" stroke-width="1"/>')
+        f.raw(f'<rect x="{a.X(x0)}" y="{a.Y(w)}" width="{a.X(x1)-a.X(x0)}" height="{a.Y(paid)-a.Y(w)}" fill="#bbf7d0" stroke="{TEAL}" stroke-width="1.2"/>')
+    else:
+        f.raw(f'<rect x="{a.X(x0)}" y="{a.Y(w)}" width="{a.X(x1)-a.X(x0)}" height="{a.Y(0)-a.Y(w)}" fill="#ffffff" stroke="{SLATE}" stroke-width="1" stroke-dasharray="4 3"/>')
+a.hline(25, 0, 6, color=RED, dash=False, sw=1.8)
+a.tag(5.5, 28, "price 25", size=10, color=RED, bold=True)
+f.box(372, 24, 198, 56, "Surplus at Rs 25\n25 + 15 + 5 = Rs 45", fill=MINT, stroke=TEAL, size=10.5)
+f.box(372, 94, 198, 56, "Paid: 3 × 25 = Rs 75\nValue: 50+40+30 = Rs 120", fill=SAND, stroke=AMBER, size=10.5)
+f.box(372, 164, 198, 46, "4th and 5th mango\nnot worth the price", fill=BLUE, stroke=SLATE, size=10.5)
+```
+
+### The paradox of value
+
+Adam Smith asked why water, which is essential, costs almost nothing while diamonds, which are not, cost a fortune. **Price follows marginal utility, not total utility.** Water is so plentiful that the last bucket adds very little, so people will pay little for one more. Diamonds are scarce, so the marginal unit is valued highly. Water has a very large total utility and a very large consumer surplus; its price is low because supply is abundant. When water is scarce (a Kathmandu household buying a tanker in the dry season) its marginal utility and price rise sharply.
+
+### The Engel curve
+
+An **Engel curve** plots the quantity bought of one good against the consumer's income, with prices fixed. Its slope decides the type of good, and the **income elasticity** E_Y (section 2.2) measures it.
+
+| Type of good | E_Y | Engel curve | Example |
+|---|---|---|---|
+| Necessity | between 0 and 1 | rises, but flatter than proportional | rice, salt |
+| Luxury | above 1 | rises faster than income | mobile data, travel |
+| Inferior | below 0 | falls as income rises | cheap bus rides, low-grade rice |
+
+::: example Worked example: classify three goods
+A family's monthly income rises from Rs 20,000 to Rs 30,000 (mid-point 25,000; change = 40% of the mid-point).
+**Rice:** 30 kg → 33 kg: change = 3/31.5 = 9.5%; E_Y = 0.095/0.4 = **0.24** (necessity).
+**Mobile data:** 5 GB → 9 GB: change = 4/7 = 57%; E_Y = 0.571/0.4 = **1.43** (luxury).
+**Local bus rides:** 40 → 30 a month: change = −10/35 = −28.6%; E_Y = −0.286/0.4 = **−0.71** (inferior: the family now uses a scooter or a taxi).
+:::
+
+**Engel's law.** As income rises, the **share of income spent on food falls**, even though the amount spent on food rises. This is why a low-income country spends a large share of its household budget on food, and why the CPI basket (section 7.2) has a heavy food weight in Nepal.
+
+**Practice:** (i) A buyer values the 1st to 4th cup of tea at Rs 30, 22, 14, 6. Find the surplus at a price of Rs 10 and at Rs 20. (ii) Why does a rise in income reduce the demand for an inferior good?
+
+## 3.6 Eight uses of utility and indifference-curve analysis
 
 1. **Explaining why the demand curve slopes down.** Because each extra unit gives less satisfaction, a buyer will take more only at a lower price. A mobile-data user who already has plenty of gigabytes will buy another pack only at a discount. This is the root of the law of demand.
 2. **Budgeting by students and families.** The equi-marginal rule says to move money from goods with low marginal utility per rupee to goods with high. A student who compares the value of one more meal, one more recharge and one more book is applying it. The final rupee should give equal satisfaction everywhere.
@@ -200,6 +259,7 @@ f.text(150, 212, "lines get higher = more utility", size=10.5, color=NAVY, bold=
 - MRS_xy = MU_x/MU_y. Budget line: P_xX + P_yY = M, slope −P_x/P_y.
 - Ordinal equilibrium: tangency, MRS = P_x/P_y.
 - Price effect = substitution effect + income effect. Giffen: inferior with dominant income effect.
+- Consumer surplus = Σ (willingness to pay − price); price follows marginal, not total, utility; Engel curve: necessity 0 < E_Y < 1, luxury E_Y > 1, inferior E_Y < 0.
 
 ## Chapter summary
 
@@ -216,6 +276,8 @@ f.text(150, 212, "lines get higher = more utility", size=10.5, color=NAVY, bold=
 5. Explain the income and substitution effects of a price fall for a normal good.
 6. For U = XY, M = 80, P_x = 2, P_y = 4, find the optimal bundle and utility.
 7. What are the criticisms of cardinal utility?
+8. A buyer values the 1st to 4th cup of tea at Rs 30, 22, 14 and 6. Find the consumer surplus at a price of Rs 10 and at Rs 20.
+9. Why does a rise in income reduce the demand for an inferior good?
 
 ::: note Answers and worked solutions
 **1.** MU = 12, 10, 8, 6, 4; MU is lowest (4) at the fifth unit.
@@ -225,6 +287,8 @@ f.text(150, 212, "lines get higher = more utility", size=10.5, color=NAVY, bold=
 **5.** A fall in P_x makes X relatively cheaper (substitution towards X) and raises real income (income effect also raises X for a normal good): both increase consumption.
 **6.** X = M/(2P_x) = 80/4 = **20**, Y = 80/8 = **10**, U = **200**.
 **7.** Utility cannot be measured in numbers; MU of money is not constant; it ignores income and substitution effects; cannot explain Giffen goods.
+**8.** At 10 the buyer takes 3 cups: (30 − 10) + (22 − 10) + (14 − 10) = **36**. At 20 the buyer takes 2 cups: 10 + 2 = **12**.
+**9.** With more income the consumer can afford better substitutes (a scooter instead of the bus), so the income effect is negative; E_Y < 0 and the Engel curve slopes down.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

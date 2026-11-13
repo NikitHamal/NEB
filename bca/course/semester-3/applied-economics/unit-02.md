@@ -184,7 +184,52 @@ f.text(150, 206, "buyers +8, sellers -4: buyers bear 2/3", size=10.5, color=RED,
 f.text(150, 226, "Ed 0.5 (steeper) < Es 1.0, revenue 2,208", size=10.5, color=TEAL, bold=True)
 ```
 
-## 2.6 Eight uses of elasticity in business, government and Nepal
+## 2.6 Elasticity decides who pays a tax
+
+Section 1.7 showed that a tax is shared between buyers and sellers. Elasticity tells **how it is shared**. The side that finds it harder to leave the market, the **less elastic** side, bears more of the tax.
+
+**Rule.** For a small per-unit tax, the share of the tax paid by buyers is
+
+**buyer share = Eₛ / (Eₛ + |E_d|)**, and the seller share = |E_d| / (Eₛ + |E_d|),
+
+where E_d is the price elasticity of demand and Eₛ the price elasticity of supply, both at the pre-tax equilibrium. If demand is perfectly inelastic (insulin for a patient) buyers pay all of it; if demand is perfectly elastic, sellers pay all of it.
+
+::: example Worked example: the same tax in three markets
+Supply is P = 20 + Q in all three markets, and each market starts at P = 60, Q = 40, so **Eₛ = (1/1) × 60/40 = 1.5**. The three demand lines are:
+**A:** P = 100 − Q (slope 1) → |E_d| = 1.5 · **B:** P = 180 − 3Q (steep) → |E_d| = (1/3) × 1.5 = 0.5 · **C:** P = 80 − 0.5Q (flat) → |E_d| = (1/0.5) × 1.5 = 3.
+A **tax of 12** per unit moves the supply line to P = 32 + Q. Solving each market:
+
+| Market | Demand | New Q | Buyers pay | Sellers keep | Rise for buyers | Fall for sellers | Revenue | Deadweight loss |
+|---|---|---|---|---|---|---|---|---|
+| A | equal elasticities | 34 | 66 | 54 | 6 | 6 | 408 | 36 |
+| B | inelastic demand, 0.5 | 37 | 69 | 57 | 9 | 3 | 444 | 18 |
+| C | elastic demand, 3 | 32 | 64 | 52 | 4 | 8 | 384 | 48 |
+
+**Check with the rule:** market B buyers' share = 1.5 / (1.5 + 0.5) = 0.75, and 0.75 × 12 = **9** ✓. Market C: 1.5 / (1.5 + 3) = 1/3, and 12/3 = **4** ✓.
+:::
+
+Three lessons follow from the table.
+
+1. **The less elastic side pays more.** In B buyers carry 9 of the 12; in C sellers carry 8 of the 12.
+2. **Revenue is highest and the deadweight loss lowest where demand is inelastic.** B raises 444 and wastes 18; C raises 384 and wastes 48. This is why governments tax goods with inelastic demand: tobacco, alcohol, fuel, salt.
+3. **The legal payer does not decide the burden.** The tax in the example was collected from sellers, yet in market B the buyers' price rose by three times as much as the sellers' price fell. Collecting the tax from buyers instead gives the same split.
+
+### Elasticity and total revenue for a business
+
+A seller can combine this with section 2.1. If demand is **elastic** (|E_d| > 1), cutting the price raises revenue, because quantity rises by a bigger percentage than the price falls. If demand is **inelastic** (|E_d| < 1), raising the price raises revenue. At **|E_d| = 1** revenue is at its maximum.
+
+::: example Worked example: a subscription price
+A streaming app has demand Q = 1,000 − 20P (Q in subscribers, P in rupees per month). Revenue is R = P × Q = 1,000P − 20P². Maximum revenue is where dR/dP = 1,000 − 40P = 0, so **P = 25** and Q = 500, revenue **12,500**. The point elasticity there is −20 × 25 / 500 = **−1**, as the rule says.
+At P = 15: Q = 700, R = 10,500, and |E_d| = 20 × 15/700 = 0.43 (inelastic), so a rise toward 25 adds revenue. At P = 35: Q = 300, R = 10,500, and |E_d| = 20 × 35/300 = 2.33 (elastic), so a cut toward 25 adds revenue.
+:::
+
+### Excel and practice
+
+In Excel, put the demand slope b in B1 and the supply slope c in B2. The buyer's share of a tax t in B3 is `=B1/(B1+B2)*B3`; the new quantity is `=(a-s-B3)/(B1+B2)` where a and s are the two intercepts. Copy the formula down for several values of b to see the buyer's share rise as demand becomes steeper.
+
+**Try these (answers in Practice):** (i) demand P = 100 − Q, supply P = 10 + 2Q, tax of 15: find the new quantity, the two prices, revenue and deadweight loss; (ii) why does a government prefer to tax cigarettes rather than restaurant meals if it wants revenue?
+
+## 2.7 Eight uses of elasticity in business, government and Nepal
 
 1. **Setting the price of a product.** If demand is elastic, a small price cut brings a large rise in sales, so total revenue grows. A Nepali mobile-data company with many rivals therefore offers cheap packs to win users. If demand is inelastic, a price cut only loses revenue, so a seller of an essential item keeps the price firm.
 2. **Choosing which goods to tax.** Governments prefer to tax goods with inelastic demand, such as fuel, cigarettes and alcohol, because buyers keep buying and the revenue is steady. Nepal's excise duties follow this logic. Heavy taxes on an elastic luxury would simply push buyers to stop or to smuggle.
@@ -202,6 +247,7 @@ f.text(150, 226, "Ed 0.5 (steeper) < Es 1.0, revenue 2,208", size=10.5, color=TE
 - Linear demand: elastic above the midpoint, e = 1 at the midpoint, inelastic below.
 - e_y > 0 normal (>1 luxury), < 0 inferior. e_xy > 0 substitutes, < 0 complements.
 - Supply elasticity grows with time.
+- Tax incidence: buyer share = Es/(Es + |Ed|); the less elastic side pays more; revenue is greatest and deadweight loss smallest where demand is inelastic.
 
 ## Chapter summary
 
@@ -218,6 +264,8 @@ f.text(150, 226, "Ed 0.5 (steeper) < Es 1.0, revenue 2,208", size=10.5, color=TE
 5. Explain why a bumper crop may reduce farmers' income.
 6. List four determinants of price elasticity of demand.
 7. Price rises from 100 to 110 and Q_s from 500 to 560. Find e_s (midpoint).
+8. Demand P = 100 − Q, supply P = 10 + 2Q, tax of 15 per unit on sellers: find the new quantity, both prices, revenue and deadweight loss.
+9. Why would a government wanting revenue tax cigarettes rather than restaurant meals?
 
 ::: note Answers and worked solutions
 **1.** ΔQ = −50, Q̄ = 175 → −28.57%; ΔP = 5, P̄ = 22.5 → 22.22%; e = **−1.286** → elastic. TE: 20 × 200 = 4,000 → 25 × 150 = 3,750: price up, outlay down (opposite) → elastic ✓.
@@ -227,6 +275,8 @@ f.text(150, 226, "Ed 0.5 (steeper) < Es 1.0, revenue 2,208", size=10.5, color=TE
 **5.** Demand for food is inelastic, so the price falls proportionally more than output rises and total revenue falls.
 **6.** Substitutes, necessity vs luxury, share of income, time period (also market definition).
 **7.** ΔQ = 60, Q̄ = 530 → 11.32%; ΔP = 10, P̄ = 105 → 9.52%; **e_s = 1.19**.
+**8.** Original: Q = 30, P = 70. With tax: 100 − Q = 25 + 2Q gives **Q = 25**; buyers pay **75** (+5), sellers keep **60** (−10); revenue 15 × 25 = **375**; DWL = ½ × 15 × 5 = **37.5**. Supply is steeper than demand, so sellers bear two thirds.
+**9.** Cigarette demand is inelastic, so quantity falls little and revenue is high with a small deadweight loss; most of the burden falls on buyers. Restaurant meals have many substitutes (elastic demand), so the quantity would fall sharply and revenue would be small.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

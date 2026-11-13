@@ -169,7 +169,65 @@ for i, (r, c, t, fl) in enumerate([(0, 0, "800 , 800", MINT), (0, 1, "600 , 900"
 f.text(448, 244, "(b) cartel pay-offs (profit A , profit B)", size=11, color=SLATE, italic=True)
 ```
 
-## 5.8 Eight lessons from market structures for Nepali firms and consumers
+## 5.8 Two duopoly models and a measure of concentration
+
+Section 5.6 named Cournot, Bertrand and the cartel. With a straight demand line and constant cost each of them gives a definite answer, and the answers can be ranked. Use the same market throughout: **demand P = 100 − Q, where Q = q₁ + q₂, and MC = 20 for both firms (no fixed cost).**
+
+### Cournot: firms choose quantities at the same time
+
+Each firm picks its output taking the **rival's output as given**. Firm 1's profit is (100 − q₁ − q₂ − 20) q₁ = (80 − q₂) q₁ − q₁². Setting its marginal profit to zero, 80 − q₂ − 2q₁ = 0, gives its **reaction function**
+
+**q₁ = (80 − q₂)/2**, and by symmetry **q₂ = (80 − q₁)/2**.
+
+The **Cournot equilibrium** is where the two reaction functions cross: q₁ = q₂ = q gives q = (80 − q)/2, so **q = 80/3 = 26.67** each, Q = 53.33 and **P = 46.67**. Profit per firm = (46.67 − 20) × 26.67 = **711.1**, and industry profit **1,422.2**.
+
+### Stackelberg: one firm moves first
+
+If firm 1 moves first and **knows** that firm 2 will respond on its reaction function, firm 1 maximises (80 − q₂) q₁ − q₁² with q₂ = (80 − q₁)/2, which simplifies to π₁ = (40 + q₁/2) q₁ − q₁² = 40q₁ − q₁²/2. Setting 40 − q₁ = 0 gives **q₁ = 40**, and the follower answers q₂ = (80 − 40)/2 = **20**. Total output is 60 and **P = 40**. The leader earns (40 − 20) × 40 = **800**; the follower earns (40 − 20) × 20 = **400**. Moving first is an advantage, because the leader commits to a large output and the follower must adjust around it.
+
+### Bertrand and the cartel
+
+In **Bertrand** price competition with identical products, each firm can take the whole market by charging a tiny bit less than the rival, so price falls to marginal cost: **P = 20, Q = 80, profit 0** for both. The **cartel** of section 5.6 sets the monopoly output Q = 40 at P = 60 and shares **1,600**.
+
+```svgfig label="5.5" caption="Cournot reaction curves with demand P = 100 − Q and MC = 20. Firm 1's line is q₂ = 80 − 2q₁; firm 2's line is q₂ = (80 − q₁)/2. They cross at the Cournot point (26.7, 26.7). The cartel point (20, 20) and the Stackelberg point (40, 20, leader is firm 1) are marked, and so is the competitive point (40, 40) on the diagonal."
+f = Fig(580, 262)
+a = Axes(f, 48, 14, 300, 200, (0, 90), (0, 90))
+a.grid(20, 20).axes("q₁", "q₂")
+a.curve(lambda x: 80 - 2 * x, 0, 40, color=NAVY, sw=2.4, label="Firm 1", lx=a.X(3), ly=a.Y(72))
+a.curve(lambda x: (80 - x) / 2, 0, 80, color=RED, sw=2.4, label="Firm 2", lx=a.X(66), ly=a.Y(10))
+a.curve(lambda x: x, 0, 70, color=SLATE, dash=True)
+a.pt(80 / 3, 80 / 3, "", r=5, color=TEAL)
+a.pt(20, 20, "", r=4.5, color=AMBER)
+a.pt(40, 20, "", r=4.5, color=NAVY)
+a.pt(40, 40, "", r=4.5, color=SLATE)
+f.box(372, 14, 198, 46, "Cournot (26.7, 26.7)\nP = 46.7, profit 711 each", fill=MINT, stroke=TEAL, size=10)
+f.box(372, 68, 198, 46, "Cartel (20, 20)\nP = 60, profit 800 each", fill=SAND, stroke=AMBER, size=10)
+f.box(372, 122, 198, 46, "Stackelberg (40, 20)\nP = 40, profit 800 / 400", fill=BLUE, stroke=NAVY, size=10)
+f.box(372, 176, 198, 46, "Competition (40, 40)\nP = 20, profit 0", fill=BLUE, stroke=SLATE, size=10)
+```
+
+| Outcome | Industry output | Price | Industry profit | Consumers |
+|---|---|---|---|---|
+| Cartel / monopoly | 40 | 60 | 1,600 | worst |
+| Cournot | 53.3 | 46.7 | 1,422 | second worst |
+| Stackelberg | 60 | 40 | 1,200 | better |
+| Bertrand / competition | 80 | 20 | 0 | best |
+
+The ranking shows the general rule: **more output and a lower price as the rivalry between the firms becomes sharper**. Price and industry profit fall in the same order, cartel > Cournot > Stackelberg > Bertrand, and consumer surplus rises in that order. Cournot lies between monopoly and perfect competition; it is the standard model of a market with a few firms that choose capacity or output in advance.
+
+### Measuring concentration: the Herfindahl-Hirschman Index
+
+How many firms is "few"? Regulators use a **concentration ratio** (the combined market share of the largest 2, 4 or 8 firms) or the **Herfindahl-Hirschman Index (HHI)**, the **sum of the squares of the percentage shares of all firms**. It ranges from near 0 (very many tiny firms) to 10,000 (monopoly).
+
+::: example Worked example: concentration in a mobile-data market
+A market has three firms with shares 55 %, 35 % and 10 %. **HHI = 55² + 35² + 10² = 3,025 + 1,225 + 100 = 4,350.** The two-firm concentration ratio is 90 %.
+For comparison: four equal firms give 4 × 25² = **2,500**; ten equal firms give 10 × 10² = **1,000**; a monopoly gives 100² = **10,000**. A merger of the two smallest of the three firms (45 % and 55 %) would give 45² + 55² = **5,050**, a rise of 700, which is the kind of change a competition authority examines.
+Rules of thumb vary by country; the 2023 United States merger guidelines treat an HHI above 1,800 as highly concentrated. Nepal has no equally famous threshold in the syllabus, so use the index to **compare** markets.
+:::
+
+**Practice:** (i) Find the Cournot output and price when demand is P = 120 − Q and MC = 30. (ii) Compute the HHI for shares 40, 30, 20, 10. (iii) Why does the Bertrand result differ so sharply from Cournot?
+
+## 5.9 Eight lessons from market structures for Nepali firms and consumers
 
 1. **Competition keeps prices close to cost.** In a market with many sellers, such as vegetables at Kalimati, no seller can charge much above the going price. A trader who raises the price loses customers to the next stall. Consumers gain, and sellers earn only a normal profit in the long run.
 2. **A monopoly can charge more and produce less.** A single seller sets output where MR equals MC and reads a higher price from the demand curve. This is why services such as electricity distribution and water supply are regulated. Without a rule the buyer has no other place to go.
@@ -188,6 +246,7 @@ f.text(448, 244, "(b) cartel pay-offs (profit A , profit B)", size=11, color=SLA
 - Price discrimination: MR₁ = MR₂ = MC; higher price where demand is less elastic.
 - Monopolistic competition long run: tangency, excess capacity, zero economic profit.
 - Oligopoly: interdependence; kinked demand; cartel = monopoly outcome, unstable.
+- Cournot (demand a − Q, cost c): q = (a − c)/3 each; Stackelberg leader (a − c)/2, follower (a − c)/4; HHI = Σ share².
 
 ## Chapter summary
 
@@ -205,6 +264,8 @@ f.text(448, 244, "(b) cartel pay-offs (profit A , profit B)", size=11, color=SLA
 6. Why does monopolistic competition lead to excess capacity?
 7. Explain the kinked demand curve and why prices are rigid in oligopoly.
 8. Why do cartels tend to collapse?
+9. Find the Cournot output and price when demand is P = 120 − Q and MC = 30, and the profit per firm.
+10. Compute the HHI for shares 40, 30, 20 and 10. Why does Bertrand competition give a lower price than Cournot?
 
 ::: note Answers and worked solutions
 **1.** Many buyers and sellers, identical product, free entry/exit, perfect knowledge. A single firm is too small to affect the market price, so it can sell any amount at the market price: horizontal demand (AR = MR = P).
@@ -215,6 +276,8 @@ f.text(448, 244, "(b) cartel pay-offs (profit A , profit B)", size=11, color=SLA
 **6.** Long-run tangency between demand and LAC occurs on the falling part of LAC, so output is below the minimum-cost scale.
 **7.** Rivals match price cuts but not rises, so demand is elastic above and inelastic below the current price; MR has a vertical gap, and cost changes within the gap do not change price.
 **8.** Each member gains by secretly selling more than its quota (the prisoner's dilemma), and monitoring is difficult.
+**9.** Reaction: q₁ = (90 − q₂)/2; symmetric q = 30; Q = 60; **P = 60**; profit (60 − 30) × 30 = **900** each.
+**10.** HHI = 1,600 + 900 + 400 + 100 = **3,000**. In Bertrand a firm can win the whole market by undercutting slightly, so price falls to MC; in Cournot output is committed in advance, so neither firm can take the whole market.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
