@@ -26,3 +26,6 @@ bca:semester-3/dbms
 bca:semester-3/probability-and-statistics
 bca:semester-3/system-analysis-and-design
 bca:semester-3/web-technology-1
+bca:semester-4/operating-systems
+bca:semester-4/project-1
+bca:semester-4/software-engineering
