@@ -187,18 +187,111 @@ f.text(150, 218, "the outlier drags the mean, not the median", size=10.5, color=
 f.text(150, 14, "salaries in thousand rupees", size=10.5, color=SLATE)
 ```
 
+## 2.5 Other averages: geometric mean, harmonic mean and weighted mean
+
+The arithmetic mean is not always the right average. Three relatives cover the cases where it misleads.
+
+**Geometric mean (GM)** is the *n*th root of the product: $\mathrm{GM} = (x_1 x_2 \cdots x_n)^{1/n}$, or $\log \mathrm{GM} = \frac{\sum \log x}{n}$. Use it for **ratios and growth rates**, because growth compounds by multiplication. All values must be positive.
+
+**Harmonic mean (HM)** is the reciprocal of the mean of reciprocals: $\mathrm{HM} = \frac{n}{\sum (1/x)}$. Use it for **rates over a fixed distance or a fixed amount of work**, such as speeds or price per unit.
+
+**Weighted mean** gives each value an importance weight: $\bar{x}_w = \frac{\sum w x}{\sum w}$. Use it when the items do not count equally, as with credit-weighted grades or a price index.
+
+For any positive data that are not all equal, **AM > GM > HM**. They are equal only when every value is the same.
+
+::: example Worked example: growth, speed and grades
+**Growth (GM).** A user base grows by 10%, 20% and 50% in three successive years, so the growth factors are 1.10, 1.20 and 1.50. The arithmetic mean of the factors is 1.2667 (26.7%), but compounding it gives $1.2667^3 = 2.032$, while the real growth is $1.10 \times 1.20 \times 1.50 = 1.98$. The geometric mean $\mathrm{GM} = 1.98^{1/3} = 1.2557$ reproduces the real result: **average growth 25.6% a year**, and $1.2557^3 = 1.98$.
+
+**Speed (HM).** A bus travels from Kathmandu to Pokhara at 60 km/h and returns at 40 km/h over the same distance. The average speed is **not** 50 km/h. For a distance *d* each way the time is $\frac{d}{60} + \frac{d}{40} = \frac{5d}{120}$, so the average speed is $\frac{2d}{5d/120} = 48$ km/h, which is the harmonic mean $\frac{2}{1/60 + 1/40} = 48$.
+
+**Grades (weighted mean).** A student scores 72 in a 2-credit course, 85 in a 3-credit course and 60 in a 1-credit course: $\frac{2(72) + 3(85) + 1(60)}{2 + 3 + 1} = \frac{459}{6} = $ **76.5**. The simple mean, 72.3, ignores the credits.
+
+**Ordering.** For the two values 4 and 16: AM = 10, GM = $\sqrt{64}$ = 8 and HM = $\frac{2}{1/4 + 1/16} = 6.4$, so AM > GM > HM, and also $\mathrm{GM}^2 = \mathrm{AM} \times \mathrm{HM}$ (64 = 10 × 6.4).
+:::
+
+::: tip Which average to choose
+- Additive quantities such as marks, heights and counts: **arithmetic mean**.
+- Ratios, percentage changes and index numbers: **geometric mean**.
+- Rates with a fixed numerator, such as km/h over equal distances: **harmonic mean**.
+- Unequal importance: **weighted mean**.
+- Skewed data or open-ended classes: **median**.
+:::
+
+## 2.6 Moments, skewness, kurtosis and Chebyshev's inequality
+
+**Moments.** The *r*th moment about the mean is $\mu_r = \frac{\sum (x - \bar{x})^r}{n}$ (for a frequency table, $\frac{\sum f (x - \bar{x})^r}{n}$). Always $\mu_1 = 0$ and $\mu_2 = \sigma^2$. The third moment captures asymmetry and the fourth captures tail weight.
+
+**Skewness** measures the direction and degree of asymmetry. Three measures are in use.
+
+| Measure | Formula | Reading |
+|---|---|---|
+| Karl Pearson | $Sk = \frac{\mathrm{mean} - \mathrm{mode}}{\sigma}$, or $\frac{3(\mathrm{mean} - \mathrm{median})}{\sigma}$ | 0 symmetric; positive, long right tail; negative, long left tail |
+| Bowley (quartile) | $Sk_B = \frac{Q_3 + Q_1 - 2\,\mathrm{Md}}{Q_3 - Q_1}$ | lies between −1 and +1; uses only the middle half, so outliers do not distort it |
+| Moment measure | $\gamma_1 = \frac{\mu_3}{\sigma^3}$ (and $\beta_1 = \gamma_1^2 = \frac{\mu_3^2}{\mu_2^3}$) | sign gives direction; $\beta_1$ ignores the sign |
+
+**Kurtosis** measures the peakedness or tail weight relative to the normal curve: $\beta_2 = \frac{\mu_4}{\mu_2^2}$ and excess kurtosis $\gamma_2 = \beta_2 - 3$. The normal curve has $\beta_2 = 3$. If $\beta_2 > 3$ the curve is **leptokurtic** (sharp peak, heavy tails); if $\beta_2 < 3$ it is **platykurtic** (flat); if $\beta_2 = 3$ it is **mesokurtic**.
+
+::: example Worked example: moments of five values
+Data: 1, 2, 3, 4, 10, so $n = 5$, $\bar{x} = 4$. The deviations are −3, −2, −1, 0, 6.
+
+| *x* | $x - \bar{x}$ | $(x - \bar{x})^2$ | $(x - \bar{x})^3$ | $(x - \bar{x})^4$ |
+|---|---|---|---|---|
+| 1 | −3 | 9 | −27 | 81 |
+| 2 | −2 | 4 | −8 | 16 |
+| 3 | −1 | 1 | −1 | 1 |
+| 4 | 0 | 0 | 0 | 0 |
+| 10 | 6 | 36 | 216 | 1296 |
+| Sum | 0 | 50 | 180 | 1394 |
+
+$\mu_2 = 50/5 = 10$, $\mu_3 = 180/5 = 36$, $\mu_4 = 1394/5 = 278.8$, and $\sigma = \sqrt{10} = 3.162$.
+
+$\gamma_1 = \frac{36}{10^{1.5}} = $ **1.138** (positive skew: the value 10 drags a long right tail), $\beta_1 = 1.296$.
+$\beta_2 = \frac{278.8}{10^2} = $ **2.788**, so $\gamma_2 = -0.212$: slightly platykurtic, but with only five values this is not meaningful. Treat moment measures as reliable only for large samples.
+:::
+
+::: example Worked example: skewness of the grouped marks in Model answer Q1
+For the 50 marks of Q1 below, mean = 26.2, median = 26.11, mode = 25.71 and $\sigma = 11.07$ (variance 122.56). Karl Pearson: $Sk = \frac{26.2 - 25.71}{11.07} = 0.044$. Using $Q_1 = 18.5$ and $Q_3 = 34.58$, Bowley: $\frac{34.58 + 18.5 - 2(26.11)}{34.58 - 18.5} = \frac{0.86}{16.08} = 0.054$. Moment measures give $\mu_3 = -82.9$, so $\gamma_1 = -0.061$ and $\beta_2 = 2.38$. All three skewness measures are almost zero, so the distribution is essentially symmetric. The moment measure has the opposite sign, but at −0.06 it is just as negligible: when measures this close to zero disagree in sign, read the distribution as symmetric. The kurtosis 2.38 < 3 says the distribution is flatter than the normal curve, which agrees with a table whose frequencies are spread over five classes.
+:::
+
+**Chebyshev's inequality** needs no assumption about the shape. For *any* distribution with mean $\mu$ and standard deviation $\sigma$, at least $1 - \frac{1}{k^2}$ of the values lie within $k\sigma$ of the mean $(k > 1)$. For $k = 2$ this is 75%, and for $k = 3$ it is 88.9%. If the distribution is normal the empirical rule is much sharper (95.4% and 99.7%).
+
+::: example Worked example: response times
+A web service has mean response time 200 ms and $\sigma = 30$ ms, shape unknown. Within $k = 2$ standard deviations, that is **140 to 260 ms**, at least $1 - \frac{1}{4} = 75\%$ of requests fall. To guarantee at least 96% we need $1 - \frac{1}{k^2} = 0.96$, so $k = 5$ and the interval is **50 to 350 ms**. The bound is safe but loose: if the times were normal, 95.4% would already fall within the first interval.
+:::
+
+```svgfig label="2.4" caption="Chebyshev's guaranteed minimum (grey) against what a normal distribution actually delivers (blue) within k standard deviations. The bound holds for every distribution, so it is conservative: at k = 2 it promises 75% while a normal curve gives 95.4%."
+f = Fig(580, 215)
+ax = Axes(f, 60, 20, 470, 140, (0, 3), (0, 100))
+f.line(ax.X(0), ax.Y(0), ax.X(3), ax.Y(0), color=SLATE, sw=1.2)
+for yv in (0, 25, 50, 75, 100):
+    f.line(ax.X(0) - 4, ax.Y(yv), ax.X(0), ax.Y(yv), color=SLATE); f.text(ax.X(0) - 8, ax.Y(yv) + 4, str(yv), size=10, anchor="end")
+for i, (k, ch, nm) in enumerate([(1.5, 55.6, 86.6), (2, 75.0, 95.4), (3, 88.9, 99.7)]):
+    cx = 90 + i * 150
+    f.box(cx, ax.Y(ch), 52, ax.Y(0) - ax.Y(ch), fill="#e2e8f0", stroke=SLATE, sw=1.4)
+    f.box(cx + 58, ax.Y(nm), 52, ax.Y(0) - ax.Y(nm), fill="#bfdbfe", stroke=NAVY, sw=1.4)
+    f.text(cx + 26, ax.Y(ch) - 6, "%.1f" % ch, size=10.5, color=SLATE, bold=True)
+    f.text(cx + 84, ax.Y(nm) - 6, "%.1f" % nm, size=10.5, color=NAVY, bold=True)
+    f.text(cx + 55, 180, "k = %s" % k, size=11, color=NAVY, bold=True)
+f.text(290, 205, "grey: Chebyshev minimum %    blue: normal distribution %", size=10.5, color=SLATE, italic=True)
+f.text(22, 100, "%", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 - $\bar{x} = \frac{\sum x}{n}$; grouped $\frac{\sum f x}{n}$. Median = $L + ( ( \frac{n}{2}$ − cf)/f)h. Mode = $L + \left( \frac{d_{1}}{(d_{1} + d_{2})} \right) h$.
 - $Q_{i}$ at position $\frac{i (n + 1)}{4}$. Range, $Q D = \frac{(Q_{3} - Q_{1})}{2} ,\  M D = \frac{\sum |x - \bar{x}|}{n}$.
 - $\sigma^{2} = \frac{\sum (x - \bar{x})^{2}}{n} = \frac{\sum x^{2}}{n} - \bar{x}^{2} ;\  s^{2}$ divides by $n - 1$. $C V = \frac{\sigma}{\bar{x}} \times 100$.
 - Mean − mode ≈ $3 ( \mathrm{mean}$ − median). $\sum (x - \bar{x}) = 0$.
+- $\mathrm{GM} = (x_1 \cdots x_n)^{1/n}$, $\mathrm{HM} = \frac{n}{\sum 1/x}$, weighted mean $\frac{\sum w x}{\sum w}$; AM ≥ GM ≥ HM.
+- $\mu_r = \frac{\sum (x - \bar{x})^r}{n}$; $Sk = \frac{\bar{x} - \mathrm{mode}}{\sigma}$; Bowley $\frac{Q_3 + Q_1 - 2\,\mathrm{Md}}{Q_3 - Q_1}$; $\gamma_1 = \frac{\mu_3}{\sigma^3}$; $\beta_2 = \frac{\mu_4}{\mu_2^2}$ (normal = 3).
+- Chebyshev: at least $1 - \frac{1}{k^2}$ of the data lie within $k\sigma$ of the mean, for any shape.
 
 ## Chapter summary
 
 - Mean, median and mode locate the centre; quartiles, deciles and percentiles split the data.
 - Range, QD, MD, variance, standard deviation and CV measure spread; CV compares different data sets.
 - The median resists outliers; the standard deviation is the standard measure of spread.
+- GM suits growth ratios, HM suits rates over equal distances, the weighted mean handles unequal importance; moments give skewness and kurtosis, and Chebyshev's bound works for any shape.
 
 ## Practice
 
@@ -209,6 +302,11 @@ f.text(150, 14, "salaries in thousand rupees", size=10.5, color=SLATE)
 5. State the effect on the mean and standard deviation if every mark is increased by 5 and then doubled.
 6. Prove $\sum (x - \bar{x}) = 0$.
 7. Compute the median of the data 3, 7, 7, 2, 9, 4.
+8. Find the arithmetic, geometric and harmonic means of 2, 8 and 4, and check that AM > GM > HM.
+9. A car covers the first 30 km at 40 km/h and the next 30 km at 60 km/h. Find its average speed.
+10. A distribution has mean 45, mode 52 and $\sigma = 10$. Find the Karl Pearson coefficient of skewness. With $Q_1 = 30$, $Q_3 = 60$ and median 52, find Bowley's coefficient.
+11. A data set has mean 50 and $\sigma = 5$ with unknown shape. At least what percentage lies between 40 and 60, and between 35 and 65?
+12. For a data set $\mu_2 = 16$, $\mu_3 = -32$ and $\mu_4 = 768$. Find $\gamma_1$ and $\beta_2$ and describe the shape.
 
 ::: note Answers and worked solutions
 **1.** Mean $\frac{40}{5}$ = **8**; ordered 4, 6, 8, 10, 12, median **8**. Squared deviations $16 ,\  0 ,\  4 ,\  4 ,\  16 = 40$: population variance $8 ,\  \sigma$ = **2.83**; sample variance $10 ,\  s$ = **3.16**; $C V = 2.83 / 8 \times 100$ = **35.4%**.
@@ -224,6 +322,16 @@ f.text(150, 14, "salaries in thousand rupees", size=10.5, color=SLATE)
 **6.** $\sum (x - \bar{x}) = \sum x - n \cdot \bar{x} = \sum x - \sum x = 0$.
 
 **7.** Ordered 2, 3, 4, 7, 7, 9: middle values 4 and 7 → **5.5**.
+
+**8.** AM = $\frac{14}{3}$ = **4.667**. GM = $(2 \times 8 \times 4)^{1/3} = 64^{1/3}$ = **4**. HM = $\frac{3}{1/2 + 1/8 + 1/4} = \frac{3}{0.875}$ = **3.429**. Indeed 4.667 > 4 > 3.429.
+
+**9.** Equal distances, so use the harmonic mean: total time $\frac{30}{40} + \frac{30}{60} = 0.75 + 0.5 = 1.25$ h for 60 km, so the average speed is $\frac{60}{1.25}$ = **48 km/h** (not 50).
+
+**10.** $Sk = \frac{45 - 52}{10}$ = **−0.7** (negatively skewed, long left tail). Bowley $= \frac{60 + 30 - 2(52)}{60 - 30} = \frac{-14}{30}$ = **−0.467**, also negative.
+
+**11.** 40 to 60 is $k = 2$: at least $1 - \frac{1}{4}$ = **75%**. 35 to 65 is $k = 3$: at least $1 - \frac{1}{9}$ = **88.9%**.
+
+**12.** $\sigma = 4$, so $\gamma_1 = \frac{-32}{4^3}$ = **−0.5** (moderate negative skew) and $\beta_2 = \frac{768}{16^2}$ = **3**, which is mesokurtic: the same peakedness as the normal curve.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

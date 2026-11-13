@@ -223,18 +223,91 @@ f.text(150, 200, "576 Latin squares of order 4 (counted)", size=10.5, color=NAVY
 f.text(150, 220, "df: varieties 3, rows 3, columns 3, error 6", size=10.5, color=SLATE)
 ```
 
+## 7.7 Latin square design and multiple comparisons
+
+A **Latin square design (LSD)** controls *two* sources of nuisance variation at once. The *t* treatments are arranged in a $t \times t$ square so that every treatment appears **exactly once in each row and exactly once in each column**. Rows and columns are two blocking factors (for example servers and time slots, or soil gradient in two directions). It needs the same number of rows, columns and treatments, so it is practical for $t$ from about 3 to 8. **Randomisation:** choose a standard square, then shuffle the rows, the columns and the treatment labels at random.
+
+**Linear model:** $y_{ijk} = \mu + \rho_i + \gamma_j + \tau_k + e_{ijk}$ (row, column and treatment effects plus error). The sum of squares splits into four parts:
+
+$SS_T = SS_R + SS_C + SS_{Trt} + SS_E$, with degrees of freedom $t^2 - 1 = (t - 1) + (t - 1) + (t - 1) + (t - 1)(t - 2)$.
+
+Computation: $CF = \frac{G^2}{t^2}$; $SS_T = \sum y^2 - CF$; $SS_R = \frac{\sum R_i^2}{t} - CF$; $SS_C = \frac{\sum C_j^2}{t} - CF$; $SS_{Trt} = \frac{\sum T_k^2}{t} - CF$; $SS_E$ by subtraction. The test for treatments is $F = \frac{MS_{Trt}}{MS_E}$ with $(t - 1)$ and $(t - 1)(t - 2)$ d.f.
+
+::: example Worked example: four compression algorithms
+Algorithms A, B, C, D are timed (ms) on four servers (rows) in four time slots (columns). Each algorithm runs once on each server and once in each slot.
+
+| | Slot 1 | Slot 2 | Slot 3 | Slot 4 | Row total |
+|---|---|---|---|---|---|
+| Server 1 | A 39 | B 34 | C 35 | D 40 | 148 |
+| Server 2 | B 37 | C 27 | D 38 | A 28 | 130 |
+| Server 3 | C 28 | D 31 | A 31 | B 29 | 119 |
+| Server 4 | D 36 | A 22 | B 31 | C 21 | 110 |
+| Column total | 140 | 114 | 135 | 118 | 507 |
+
+Treatment totals: A = 120, B = 131, C = 111, D = 145 (means 30.00, 32.75, 27.75, 36.25).
+$CF = \frac{507^2}{16} = 16065.56$; $SS_T = 491.44$; $SS_R = 200.69$; $SS_C = 120.69$; $SS_{Trt} = 161.19$; $SS_E = 491.44 - 200.69 - 120.69 - 161.19 = 8.88$.
+
+| Source | SS | d.f. | MS | *F* |
+|---|---|---|---|---|
+| Servers (rows) | 200.69 | 3 | 66.90 | 45.2 |
+| Slots (columns) | 120.69 | 3 | 40.23 | 27.2 |
+| Algorithms | 161.19 | 3 | 53.73 | **36.3** |
+| Error | 8.88 | 6 | 1.479 | |
+| Total | 491.44 | 15 | | |
+
+The critical value is $F_{0.05}(3, 6) = 4.76$, so the algorithms differ significantly ($p = 0.0003$); servers and slots matter too, which is why blocking on both was worthwhile.
+**What if we had ignored the blocks?** A one-way ANOVA on the same 16 numbers gives $F = 1.95$ with $p = 0.175$, which is **not** significant: the server and slot differences swamp the algorithm differences. The Latin square removed 321.4 of the 491.4 total variation from the error term (error mean square falls from about 22.3 to 1.48).
+:::
+
+```svgfig label="7.5" caption="The 4 by 4 Latin square of the worked example. Every algorithm (colour and letter) appears once in every row (server) and once in every column (time slot); the number is the measured time in milliseconds. Row and column totals are shown at the margins."
+f = Fig(580, 245)
+L = ["ABCD", "BCDA", "CDAB", "DABC"]
+Y = [[39, 34, 35, 40], [37, 27, 38, 28], [28, 31, 31, 29], [36, 22, 31, 21]]
+fills = {"A": "#bfdbfe", "B": "#fde68a", "C": "#bbf7d0", "D": "#fecaca"}
+x0, y0, w, h = 150, 40, 70, 40
+for j in range(4):
+    f.text(x0 + j * w + w / 2, 30, "Slot %d" % (j + 1), size=11, color=NAVY, bold=True)
+for i in range(4):
+    f.text(x0 - 10, y0 + i * h + h / 2 + 4, "Server %d" % (i + 1), size=11, color=NAVY, bold=True, anchor="end")
+    for j in range(4):
+        k = L[i][j]
+        f.box(x0 + j * w, y0 + i * h, w, h, fill=fills[k], stroke=NAVY, sw=1.4)
+        f.text(x0 + j * w + w / 2, y0 + i * h + h / 2 + 5, "%s  %d" % (k, Y[i][j]), size=13, color=NAVY, bold=True)
+for i, t in enumerate([148, 130, 119, 110]):
+    f.text(x0 + 4 * w + 12, y0 + i * h + h / 2 + 4, str(t), size=11, color=SLATE, bold=True, anchor="start")
+for j, t in enumerate([140, 114, 135, 118]):
+    f.text(x0 + j * w + w / 2, y0 + 4 * h + 18, str(t), size=11, color=SLATE, bold=True)
+f.text(x0 + 4 * w + 12, 30, "total", size=10.5, color=SLATE, anchor="start")
+f.text(x0 - 10, y0 + 4 * h + 18, "total", size=10.5, color=SLATE, anchor="end")
+f.text(290, 238, "A = blue, B = amber, C = green, D = red; each letter once per row and once per column", size=10.5, color=SLATE, italic=True)
+```
+
+**Comparing the three standard designs.**
+
+| Feature | Completely randomised (CRD) | Randomised block (RBD) | Latin square (LSD) |
+|---|---|---|---|
+| Nuisance factors controlled | none | one (blocks) | two (rows and columns) |
+| Error d.f. | $N - t$ | $(t - 1)(b - 1)$ | $(t - 1)(t - 2)$ |
+| Best when | units are uniform | one clear source of variation | two crossed sources |
+| Weakness | large error if units differ | block effect must not interact with treatments | needs $t$ rows = $t$ columns = $t$ treatments, few error d.f. for small $t$ |
+
+**Multiple comparisons: the least significant difference (LSD) test.** A significant *F* says only that *some* means differ. The **least significant difference** is $\mathrm{LSD} = t_{\alpha/2,\ \mathrm{d.f.\ of\ error}} \sqrt{\frac{2\,MS_E}{r}}$ for means of $r$ observations each; two treatment means differ significantly if their gap exceeds it. In the example $t_{0.025, 6} = 2.447$ and $\mathrm{LSD} = 2.447\sqrt{\frac{2 \times 1.479}{4}} = $ **2.10 ms**. The gaps: C 27.75, A 30.00 (2.25), B 32.75 (2.75 from A), D 36.25 (3.50 from B); every adjacent gap exceeds 2.10, so all four means are pairwise different and **C is the fastest**. Apply LSD only after a significant *F*, and remember that with many comparisons the chance of at least one false alarm rises; Tukey's HSD or Bonferroni's $\alpha/m$ are the safer choices when there are many treatments.
+
 ## Formula and fact sheet
 
 - F = MSB/MSW with $(k - 1 ,\  N - k)$ df; reject if $F > F_{c} \mathrm{ritical}$.
 - One-way: SST = SSB + SSW; SSB = Σn_i(ȳ_i − ȳ)².
 - Two-way: $C F = \frac{G^{2}}{N} ;\  \mathrm{SSR}$, SSC from totals; $\mathrm{SSE} = \mathrm{SST} - \mathrm{SSR} - \mathrm{SSC}$; error df $(a - 1) (b - 1)$.
 - Principles: randomisation, replication, blocking.
+- Latin square: $SS_T = SS_R + SS_C + SS_{Trt} + SS_E$; error d.f. $(t - 1)(t - 2)$; $F = \frac{MS_{Trt}}{MS_E}$.
+- $\mathrm{LSD} = t_{\alpha/2}\sqrt{\frac{2\,MS_E}{r}}$ (use after a significant *F*).
 
 ## Chapter summary
 
 - ANOVA compares several means by splitting total variation into between and within parts and testing their ratio with the F distribution.
 - One-way ANOVA handles one factor; two-way ANOVA adds a blocking factor to reduce error.
 - A significant F says means differ somewhere; follow-up tests locate the difference.
+- A Latin square controls two nuisance factors with error d.f. $(t - 1)(t - 2)$; ignoring the blocks can hide a real treatment effect; the LSD test compares individual means after a significant *F*.
 
 ## Practice
 
@@ -244,6 +317,9 @@ f.text(150, 220, "df: varieties 3, rows 3, columns 3, error 6", size=10.5, color
 4. Explain randomisation, replication and blocking.
 5. In a two-way design with 4 rows and 5 columns, give the degrees of freedom of each source.
 6. What does a significant F-ratio not tell you?
+7. Explain the structure of a Latin square design, state its degrees of freedom for $t = 5$, and give one situation where it is preferable to a randomised block design.
+8. For a $3 \times 3$ Latin square the totals are $SS_T = 96$, $SS_R = 12$, $SS_C = 18$, $SS_{Trt} = 60$. Complete the ANOVA table and test the treatments at 5% (critical $F(2, 2) = 19.0$).
+9. In the compression example, find the 95% LSD if $MS_E = 1.479$, $r = 4$ and $t_{0.025, 6} = 2.447$, and say whether the means of A (30.00) and B (32.75) differ.
 
 ::: note Answers and worked solutions
 **1.** Each test has a 5% chance of a false positive, so repeated testing inflates the overall error rate; ANOVA tests all means with one test.
@@ -257,6 +333,12 @@ f.text(150, 220, "df: varieties 3, rows 3, columns 3, error 6", size=10.5, color
 **5.** Rows 3, columns 4, error 12, total 19.
 
 **6.** Which means differ, by how much, or whether the differences matter in practice.
+
+**7.** A $5 \times 5$ square puts each of 5 treatments once in every row and column, so it blocks two factors at once. d.f.: treatments 4, rows 4, columns 4, error $(5 - 1)(5 - 2) = 12$, total 24. It is preferable when there are two crossed sources of variation, such as soil fertility changing both north-south and east-west, or machines and operators in an experiment.
+
+**8.** $SS_E = 96 - 12 - 18 - 60 = 6$ with $(3 - 1)(3 - 2) = 2$ d.f., so $MS_E = 3$. $MS_{Trt} = \frac{60}{2} = 30$ and $F = \frac{30}{3} = $ **10**, which is less than 19.0: **do not reject** the equality of treatments. With only 2 error d.f. the test has little power, which is the weakness of small Latin squares.
+
+**9.** $\mathrm{LSD} = 2.447\sqrt{\frac{2(1.479)}{4}} = 2.447 \times 0.860$ = **2.10**. The gap $32.75 - 30.00 = 2.75 > 2.10$, so **A and B differ significantly**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions

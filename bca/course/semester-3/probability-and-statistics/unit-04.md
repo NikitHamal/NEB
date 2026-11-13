@@ -203,17 +203,109 @@ for k, (t, prev, title) in enumerate([(a, 1, "Mass screening: 1% infected"), (b,
     f.text(150, y + 92, "true among positives: %.1f%%" % (t[3] * 100), size=10.5, color=NAVY, bold=True)
 ```
 
+## 4.7 Expectation, variance and joint distributions
+
+**Expected value** of a function: $E[g(X)] = \sum g(x)\,p(x)$. Two linear rules do most of the work: $E(aX + b) = aE(X) + b$ and $\mathrm{Var}(aX + b) = a^2\,\mathrm{Var}(X)$. Adding a constant shifts the mean but not the spread; multiplying by *a* scales the mean by *a* and the variance by $a^2$. For two variables always $E(X + Y) = E(X) + E(Y)$; and **if *X* and *Y* are independent**, $\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)$ and $E(XY) = E(X)E(Y)$.
+
+::: example Worked example: defects in a module
+*X* is the number of defects found in a module, with $p(0) = 0.4$, $p(1) = 0.3$, $p(2) = 0.2$, $p(3) = 0.1$.
+$E(X) = 0(0.4) + 1(0.3) + 2(0.2) + 3(0.1) = $ **1.0**; $E(X^2) = 0 + 0.3 + 0.8 + 0.9 = 2.0$; $\mathrm{Var}(X) = 2.0 - 1.0^2 = $ **1.0**, $\sigma = 1$.
+If each defect costs Rs 2,000 to fix plus a fixed review fee of Rs 5,000, the cost is $C = 5000 + 2000X$ rupees: $E(C) = 5000 + 2000(1) = $ **Rs 7,000** and $\mathrm{Var}(C) = 2000^2 \times 1 $, so $\sigma_C = $ Rs 2,000.
+:::
+
+**Joint distribution.** For two discrete variables the **joint pmf** $p(x, y) = P(X = x, Y = y)$ gives every probability at once. Summing across a row or column gives the **marginal** distributions. The **covariance** is $\mathrm{Cov}(X, Y) = E(XY) - E(X)E(Y)$ and the correlation is $\rho = \frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y}$ (the same *r* as in Unit 3, now for a population). *X* and *Y* are **independent** if $p(x, y) = p_X(x)\,p_Y(y)$ for every cell. Independence means covariance 0, but zero covariance does *not* guarantee independence.
+
+::: example Worked example: a joint table
+*X* = 1 if a build is slow (else 0) and *Y* = number of failed tests (0, 1 or 2).
+
+| | $Y = 0$ | $Y = 1$ | $Y = 2$ | Marginal of *X* |
+|---|---|---|---|---|
+| $X = 0$ | 0.10 | 0.20 | 0.10 | 0.40 |
+| $X = 1$ | 0.20 | 0.10 | 0.30 | 0.60 |
+| Marginal of *Y* | 0.30 | 0.30 | 0.40 | 1.00 |
+
+$E(X) = 0.6$, $E(Y) = 0(0.3) + 1(0.3) + 2(0.4) = 1.1$, $E(XY) = 1 \times 1 \times 0.10 + 1 \times 2 \times 0.30 = 0.70$.
+$\mathrm{Cov} = 0.70 - 0.6 \times 1.1 = $ **0.04**. $\mathrm{Var}(X) = 0.24$, $\mathrm{Var}(Y) = 1.7 - 1.21 = 0.69$, so $\rho = \frac{0.04}{\sqrt{0.24 \times 0.69}} = $ **0.098**: slow builds fail slightly more tests, but the link is weak.
+**Independence check:** $p_X(0)\,p_Y(0) = 0.4 \times 0.3 = 0.12$, while the cell is 0.10, so *X* and *Y* are **not** independent.
+:::
+
+## 4.8 More distributions, normal approximation and the central limit theorem
+
+**Hypergeometric.** Sampling *without replacement* from a finite population of *N* items, *K* of them "successes": $P(X = k) = \frac{C(K, k)\,C(N - K,\, n - k)}{C(N, n)}$, mean $n\frac{K}{N}$, variance $n\frac{K}{N}\left(1 - \frac{K}{N}\right)\frac{N - n}{N - 1}$. When $n$ is small relative to *N* it behaves like a binomial with $p = K/N$.
+
+**Geometric.** The number of trials up to and including the first success: $P(X = x) = q^{x-1}p$, $x = 1, 2, \ldots$; mean $\frac{1}{p}$, variance $\frac{q}{p^2}$, and $P(X \leq x) = 1 - q^{x}$.
+
+**Uniform on (a, b).** Every value equally likely: $f(x) = \frac{1}{b - a}$; mean $\frac{a + b}{2}$, variance $\frac{(b - a)^2}{12}$. Random-number generators produce $U(0, 1)$.
+
+**Exponential.** The waiting time between events of a Poisson process with rate $\lambda$: $f(t) = \lambda e^{-\lambda t}$, $P(T > t) = e^{-\lambda t}$, mean $\frac{1}{\lambda}$, variance $\frac{1}{\lambda^2}$. It is **memoryless**: $P(T > s + t \mid T > s) = P(T > t)$.
+
+::: example Worked example: four distributions
+**Hypergeometric.** A box has 20 modules, 6 of them defective; 5 are inspected without replacement. $P(X = 2) = \frac{C(6, 2)\,C(14, 3)}{C(20, 5)} = \frac{15 \times 364}{15504} = $ **0.3522**; $P(X \geq 1) = 1 - \frac{C(14, 5)}{C(20, 5)} = 1 - 0.1291 = $ **0.8709**; mean 1.5. (A binomial with $p = 0.3$ would give 0.3087 for $X = 2$: the difference shows why sampling without replacement matters in a small box.)
+**Geometric.** A login attempt succeeds with probability $p = 0.2$. $P(\text{first success on the 5th try}) = 0.8^4 \times 0.2 = $ **0.0819**; $P(\text{within 5 tries}) = 1 - 0.8^5 = $ **0.6723**; the mean number of tries is $\frac{1}{0.2} = 5$.
+**Uniform.** A delay is uniform on 0 to 10 s: $P(X > 7) = \frac{3}{10} = $ **0.3**, mean 5, variance $\frac{100}{12} = 8.33$.
+**Exponential.** The time between support calls averages 4 minutes, so $\lambda = 0.25$. $P(T > 6) = e^{-1.5} = $ **0.2231**; $P(T \leq 2) = 1 - e^{-0.5} = 0.3935$; $P(2 < T < 6) = e^{-0.5} - e^{-1.5} = $ **0.3834**. Given that 2 minutes have passed with no call, the chance of waiting beyond 8 minutes in total is again $e^{-1.5} = 0.2231$ (memoryless).
+:::
+
+**Normal approximation to the binomial.** When $np \geq 5$ and $nq \geq 5$, $X \sim B(n, p)$ is approximately $N(np,\ npq)$. Because the binomial is discrete, use a **continuity correction**: $P(X \leq a) \approx P(Z \leq \frac{a + 0.5 - np}{\sqrt{npq}})$ and $P(X \geq a) \approx P(Z \geq \frac{a - 0.5 - np}{\sqrt{npq}})$.
+
+::: example Worked example: normal approximation
+$X \sim B(100, 0.4)$: $\mu = 40$, $\sigma = \sqrt{24} = 4.899$. For $P(X \leq 45)$: $z = \frac{45.5 - 40}{4.899} = 1.12$, $\Phi(1.12) = 0.8686$, against the exact binomial sum **0.8689**. Without the correction $z = 1.02$ would give 0.846, noticeably worse. For $P(35 \leq X \leq 45)$ the limits become 34.5 and 45.5, giving $z = \pm 1.12$ and $2(0.8686) - 1 = 0.737$ (exact 0.7386).
+**Poisson as a limit:** 200 packets, each corrupted with probability 0.01: exact $P(X = 3) = 0.1814$ and the Poisson with $\lambda = 2$ gives 0.1804.
+:::
+
+**Central limit theorem (CLT).** For a random sample of size *n* from *any* population with mean $\mu$ and standard deviation $\sigma$, the sample mean is approximately $N\!\left(\mu,\ \frac{\sigma^2}{n}\right)$ once *n* is moderately large (about 30 or more). The standard deviation of $\bar{x}$ is the **standard error** $\frac{\sigma}{\sqrt{n}}$. This is why the normal distribution appears everywhere in inference (Unit 6).
+
+::: example Worked example: CLT
+File sizes on a server have mean 50 KB and standard deviation 12 KB (not normal). For a sample of $n = 36$ files, $\mathrm{SE} = \frac{12}{\sqrt{36}} = 2$. $P(\bar{x} > 53) = P(Z > \frac{53 - 50}{2}) = P(Z > 1.5) = 1 - 0.9332 = $ **0.0668**: only about 6.7% of such samples will average more than 53 KB.
+:::
+
+```svgfig label="4.4" caption="Binomial B(20, 0.4) as bars with the normal curve N(8, 2.19 squared) laid over them. The curve passes through the tops of the bars, which is why the normal approximation (with a continuity correction) works when n p and n q are large."
+import math
+f = Fig(580, 225)
+ax = Axes(f, 60, 14, 470, 160, (-0.5, 16.5), (0, 0.2))
+ax.grid(2, 0.05, labels=True, yfmt=lambda v: "%.2f" % v); ax.axes("number of successes x", "probability")
+pm = [0.0, 0.0005, 0.0031, 0.0123, 0.035, 0.0746, 0.1244, 0.1659, 0.1797, 0.1597, 0.1171, 0.071, 0.0355, 0.0146, 0.0049, 0.0013, 0.0003]
+for k, pv in enumerate(pm):
+    f.box(ax.X(k - 0.45), ax.Y(pv), ax.X(k + 0.45) - ax.X(k - 0.45), ax.Y(0) - ax.Y(pv), fill="#bfdbfe", stroke=NAVY, sw=1)
+ax.curve(lambda t: math.exp(-(t - 8) ** 2 / (2 * 4.8)) / math.sqrt(2 * math.pi * 4.8), -0.5, 16.5, color=RED, sw=2.4)
+f.text(ax.X(13.2), ax.Y(0.15), "normal curve", size=10.5, color=RED, bold=True)
+f.text(ax.X(13.2), ax.Y(0.135), "mean 8, sd 2.19", size=10.5, color=RED)
+f.text(290, 218, "blue bars: exact binomial   |   red: normal approximation", size=10.5, color=SLATE, italic=True)
+```
+
+```svgfig label="4.5" caption="Uniform and exponential densities. The uniform density on (0, 10) is flat at 0.1, so the shaded P(X above 7) = 0.3 is a rectangle. The exponential density with mean 4 minutes falls steadily; the shaded area to the right of 6 is e to the power minus 1.5 = 0.2231."
+import math
+f = Fig(580, 215)
+a1 = Axes(f, 40, 30, 215, 125, (0, 10), (0, 0.3))
+a1.grid(2, 0.1, labels=True, yfmt=lambda v: "%.1f" % v); a1.axes("x", "density")
+a1.area(lambda t: 0.1, 7, 10, fill="#bfdbfe")
+a1.curve(lambda t: 0.1, 0, 10, color=NAVY, sw=2.4)
+f.text(147, 20, "Uniform(0, 10)", size=11, color=NAVY, bold=True)
+f.text(a1.X(8.5), a1.Y(0.1) - 8, "0.3", size=10.5, color=NAVY, bold=True)
+a2 = Axes(f, 320, 30, 235, 125, (0, 12), (0, 0.3))
+a2.grid(2, 0.1, labels=True, yfmt=lambda v: "%.1f" % v); a2.axes("t (minutes)", "density")
+a2.area(lambda t: 0.25 * math.exp(-0.25 * t), 6, 12, fill="#fecaca")
+a2.curve(lambda t: 0.25 * math.exp(-0.25 * t), 0, 12, color=RED, sw=2.4)
+f.text(437, 20, "Exponential(mean 4)", size=11, color=RED, bold=True)
+f.text(a2.X(8.5), a2.Y(0.06), "0.2231", size=10.5, color=RED, bold=True)
+f.text(290, 207, "shaded: P(X > 7) = 0.3 and P(T > 6) = 0.2231", size=10.5, color=SLATE, italic=True)
+```
+
 ## Formula and fact sheet
 
 - $P (A \cup B) = P (A) + P (B) - P (A \cap B) ;\  P (A \cap B) = P (A) P ( B$ | $A ) ;\  P ( A$ | $B ) = \frac{P (A \cap B)}{P} ( B$).
 - Bayes: $P ( A$ | $B ) = P ( B$ | $A ) \frac{P (A)}{P} ( B$).
 - Binomial: $C (n ,\  x) p^{x} q^{n-x}$; mean $n p ,\  v a r n p q$. Poisson: $\frac{e^{- \lambda} \lambda^{x}}{x}$!; mean = $v a r = \lambda$.
 - Normal: $Z = \frac{X - \mu}{\sigma} ;\  \pm 1 \sigma$ 68.27%, $\pm 2 \sigma$ 95.45%, $\pm 3 \sigma$ 99.73%.
+- $E(aX + b) = aE(X) + b$; $\mathrm{Var}(aX + b) = a^2\mathrm{Var}(X)$; $\mathrm{Cov} = E(XY) - E(X)E(Y)$; independent: $p(x, y) = p_X p_Y$.
+- Hypergeometric $\frac{C(K, k)C(N - K, n - k)}{C(N, n)}$; geometric $q^{x-1}p$ (mean $\frac{1}{p}$); uniform mean $\frac{a + b}{2}$, variance $\frac{(b - a)^2}{12}$; exponential $P(T > t) = e^{-\lambda t}$, mean $\frac{1}{\lambda}$.
+- Normal approximation to $B(n, p)$: $N(np, npq)$ with $\pm 0.5$. CLT: $\bar{x} \approx N(\mu, \frac{\sigma^2}{n})$, $\mathrm{SE} = \frac{\sigma}{\sqrt{n}}$.
 
 ## Chapter summary
 
 - Probability follows the addition and multiplication laws; conditioning updates probabilities and Bayes' rule inverts them.
 - Binomial models fixed trials, Poisson rare events, normal measurements, which are standardised to Z for table lookup.
+- Expectation and variance follow linear rules; joint tables give marginals, covariance and an independence test; hypergeometric, geometric, uniform and exponential distributions complete the standard list; the CLT justifies the normal approximation.
 
 ## Practice
 
@@ -225,6 +317,12 @@ for k, (t, prev, title) in enumerate([(a, 1, "Mass screening: 1% infected"), (b,
 6. X ~ $N (50 ,\  10^{2})$. Find $P (40 < X < 65)$.
 7. Marks are $N (60 ,\  15^{2})$. What fraction scores below 40? Above 90?
 8. Explain independence $v s$ mutual exclusivity.
+9. $X$ has $p(1) = 0.2$, $p(2) = 0.5$, $p(3) = 0.3$. Find $E(X)$, $\mathrm{Var}(X)$ and $E(4X - 1)$, $\mathrm{Var}(4X - 1)$.
+10. In the joint table of 4.7 find $P(Y \geq 1 \mid X = 1)$.
+11. A lot of 10 chips has 3 faulty. Two chips are drawn without replacement. Find the probability that both are faulty and that exactly one is faulty.
+12. The time to serve a customer is exponential with mean 5 minutes. Find the probability of waiting more than 10 minutes, and the median time.
+13. $X \sim B(64, 0.5)$. Use the normal approximation with continuity correction to find $P(X \geq 36)$.
+14. Weights have mean 70 kg and $\sigma = 8$ kg. For a sample of 64 people find $P(\bar{x} < 68)$.
 
 ::: note Answers and worked solutions
 **1.** $1 - P ( n o$ heads) = $1 - \frac{1}{4}$ = **$\frac{3}{4}$**.
@@ -242,6 +340,18 @@ for k, (t, prev, title) in enumerate([(a, 1, "Mass screening: 1% infected"), (b,
 **7.** Below 40: $z = - 1.33 ,\  \Phi = 0.0918$ (**9.2%**). Above 90: $z = 2 ,\  1 - 0.9772$ = **2.3%**.
 
 **8.** Independent: occurrence of one does not change the probability of the other $(P (A \cap B) = P (A) P (B))$. Mutually exclusive: cannot both occur $(P (A \cap B) = 0)$. Events with nonzero probabilities cannot be both.
+
+**9.** $E(X) = 0.2 + 1.0 + 0.9 = $ **2.1**; $E(X^2) = 0.2 + 2.0 + 2.7 = 4.9$, $\mathrm{Var}(X) = 4.9 - 4.41 = $ **0.49**. $E(4X - 1) = 4(2.1) - 1 = $ **7.4**; $\mathrm{Var}(4X - 1) = 16 \times 0.49 = $ **7.84**.
+
+**10.** $P(X = 1) = 0.6$ and $P(Y \geq 1 \text{ and } X = 1) = 0.10 + 0.30 = 0.40$, so $P = \frac{0.40}{0.60}$ = **0.667**.
+
+**11.** $P(\text{both faulty}) = \frac{C(3, 2)}{C(10, 2)} = \frac{3}{45}$ = **0.0667**. $P(\text{exactly one}) = \frac{C(3, 1)C(7, 1)}{45} = \frac{21}{45}$ = **0.4667**.
+
+**12.** $\lambda = \frac{1}{5} = 0.2$: $P(T > 10) = e^{-2}$ = **0.1353**. Median: $e^{-0.2 m} = 0.5$ gives $m = 5 \ln 2$ = **3.47 minutes** (less than the mean because of the right skew).
+
+**13.** $\mu = 32$, $\sigma = \sqrt{16} = 4$. $P(X \geq 36) \approx P(Z \geq \frac{35.5 - 32}{4}) = P(Z \geq 0.875) = 1 - 0.8092 = $ **0.19**.
+
+**14.** $\mathrm{SE} = \frac{8}{\sqrt{64}} = 1$, $z = \frac{68 - 70}{1} = -2$, $P = \Phi(-2) = 1 - 0.9772 = $ **0.0228**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
