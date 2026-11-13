@@ -120,3 +120,20 @@ What `md2html.py` does with maths now (every book, no source change needed):
 Rebuild state: Mathematics I plus every BCA, Grade 8-12, CEE and IOE book was rebuilt with this (see the pushed `pdf rebuild` commits).
 Known leftovers: figure labels still use matplotlib text (a few Greek or arrow glyphs in figures warn `Font 'default' does not have a glyph`);
 authored prose with `plain text` maths inside captions (`S(r) = 2 pi r^2` in photo captions) needs rewriting at the source.
+
+## Session: page-economy layout (white holes at page feet)
+- **Cause found.** `theme.css` had `table { break-inside:avoid }` for every table, and `md2html._layout_fixes` wrapped
+  every heading + table in an unbreakable `.hk`. A 9-row table that missed the page foot jumped whole to the next page,
+  leaving a hole above it and its lead-in line stranded (BCA 253 p137). Photo plates and figures (`.nobreak`) did the same.
+- **Fix 1 (md2html + theme.css).** Tables taller than 7 rows get `data-long`: they split between rows (header repeats, first and
+  last two rows stay together) and are no longer wrapped in `.hk`. Short tables stay whole.
+- **Fix 2 (`notes/pipeline/floatfix.py`, called from `build_pdf.build`).** WeasyPrint has no page floats, so after the first
+  render each hole above 22 mm is measured; if the next page opens with an unbreakable figure/table, the paragraphs after it are
+  moved in front of it (a plate may drift past one heading when the hole is over 40 mm), up to 3 re-renders, kept only if the
+  hole total drops. `NEB_NO_FLOATFIX=1` disables it. `NEB_DUMP_HTML=/dir` dumps the HTML for fast layout experiments.
+- **Audit.** `python3 notes/pipeline/gapaudit.py --min 25 book.pdf` lists pages that end early and what opens the next page.
+- **Batch.** `notes/pipeline/relayout_batch.py` rebuilds, syncs duplicate copies (ioe/pdfs, bca/entrance, bca-viewer), audits
+  before/after into `/tmp/relayout_results.tsv`, pushes every 3 books and records finished targets in `relayout_done.txt`.
+  Re-run it with the same target list to resume; finished targets are skipped. Needs `/tmp/v` (see How to build) and
+  `npm ci` in `notes/pipeline/mathjax` (without it the MathJax server dies silently and the build hangs).
+- Do not use `pkill -f` with a pattern that also appears in your own command line; it kills the shell.

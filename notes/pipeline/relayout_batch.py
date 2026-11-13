@@ -41,6 +41,13 @@ def pdf_for(t):
 
 def build(t):
     kind, name = t.split(":", 1)
+    if kind == "school" and name.startswith("bca-"):
+        d = {"bca-math": "mathematics", "bca-eng": "english", "bca-gk": "gk-and-it", "bca-mock": "model-papers"}[name]
+        r = run([PY, "bca/tools/nebpdf.py", "entrance/" + d])
+        base = os.path.basename(pdf_for("school:" + name))
+        pdf = os.path.join(REPO, "bca", "entrance", "pdfs", base)
+        return r, pdf, [os.path.join(REPO, "notes", "pdf", base),
+                        os.path.join(REPO, "notes", "bca-viewer", "public", "bca", "pdf", base)]
     if kind == "school":
         r = run([PY, "build_pdf.py", name], cwd=os.path.join(REPO, "notes", "pipeline"))
         import spine
