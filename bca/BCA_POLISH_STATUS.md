@@ -670,3 +670,7 @@ Picked up from sessions 16-44 (this file; no duplicate tracker). Sparse-clone bo
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453, 454, 204, 206, 205, 153, 104.
 5. Django + Chromium screenshots of BCA 104 Unit 6 and BCA 405 Unit 4.
+
+## Session 46 start (BCA 103 Digital Logic depth audit; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-45 (this file; no duplicate tracker). Plan: BCA 103 is 5 units / 31k words / 74 pp. Keyword audit shows gaps: Quine-McCluskey, 5-variable maps, hazards, BCD adder worked examples, carry-lookahead numbers, tri-state/open-collector, Schmitt trigger (unit 1), Moore/Mealy conversion and HDL view (unit 5). Checks in `bca/tools/check_digital.py`.
