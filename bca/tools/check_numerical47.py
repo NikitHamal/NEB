@@ -241,6 +241,74 @@ def u3():
     for N in (100, 10000, 1000000):
         xs_ = rng.random(N); v = np.exp(xs_).mean(); print("MC", N, v, v - I, "se", np.exp(xs_).std() / math.sqrt(N))
 
+def u4():
+    print("== u4")
+    # pivoting: [1e-20 1; 1 1] x = [1; 2] ; no pivot vs partial pivot (double)
+    e = 1e-20
+    m = 1 / e; a22 = 1 - m * 1; b2 = 2 - m * 1; x2 = b2 / a22; x1 = (1 - x2) / e
+    print("no pivot", x1, x2, "true ~ (1, 1)")
+    # ordinary-size version: 0.0001 x + y = 1 ; x + y = 2 in 3 digit arithmetic
+    # Cholesky 3x3
+    A = np.array([[4., 12, -16], [12, 37, -43], [-16, -43, 98]]); L = np.linalg.cholesky(A); print("chol L\n", L, np.allclose(L @ L.T, A))
+    # Thomas algorithm: tridiagonal 2,-1 system n=5 with b=[1,0,0,0,1]
+    n = 5; a = [0, -1, -1, -1, -1]; b = [2] * 5; c = [-1, -1, -1, -1, 0]; d = [1, 0, 0, 0, 1]
+    cp = [0] * n; dp = [0] * n; cp[0] = c[0] / b[0]; dp[0] = d[0] / b[0]
+    for i in range(1, n):
+        den = b[i] - a[i] * cp[i-1]; cp[i] = c[i] / den; dp[i] = (d[i] - a[i] * dp[i-1]) / den
+    x = [0] * n; x[-1] = dp[-1]
+    for i in range(n - 2, -1, -1): x[i] = dp[i] - cp[i] * x[i+1]
+    print("thomas cp", cp, "dp", dp, "x", x)
+    T = np.diag(b) + np.diag(a[1:], -1) + np.diag(c[:-1], 1); print(np.linalg.solve(T, d))
+    # norms and condition number
+    M = np.array([[1, 2], [1.0001, 2.0001]]); print("cond1", np.linalg.cond(M, 1), "cond_inf", np.linalg.cond(M, np.inf), "det", np.linalg.det(M))
+    b0 = np.array([3, 3.0001]); b1 = np.array([3, 3.0002]); print(np.linalg.solve(M, b0), np.linalg.solve(M, b1))
+    Mi = np.linalg.inv(M); print("inv", Mi, "norm_inf M", np.abs(M).sum(1).max(), "norm_inf inv", np.abs(Mi).sum(1).max())
+    H = np.array([[1/(i+j+1) for j in range(3)] for i in range(3)]); print("H3 cond", np.linalg.cond(H, np.inf), "H3 inv\n", np.round(np.linalg.inv(H)))
+    # residual vs error: x_approx = (1.1 -?) for M
+    xt = np.array([1., 1.]); xa = np.array([2, 0.5]); print("residual", M @ xa - M @ xt, "error", xa - xt)
+    xa = np.array([3.0, 0.0]); print("res", M @ xa - np.array([3, 3.0001]), "err", xa - xt)
+    # SOR vs Jacobi vs GS on tridiagonal 4,-1 n=5?  use the 1-D Poisson matrix 2,-1 n=9? use (4,-1) n=6
+    n = 8; A = 2 * np.eye(n) - np.eye(n, k=1) - np.eye(n, k=-1); bb = np.ones(n)
+    def run(w, kind, tol=1e-6, maxit=5000):
+        x = np.zeros(n); xs = np.linalg.solve(A, bb)
+        for it in range(1, maxit):
+            xo = x.copy()
+            if kind == "J":
+                x = (bb - (A - np.diag(np.diag(A))) @ xo) / np.diag(A)
+            else:
+                for i in range(n):
+                    s = bb[i] - A[i, :i] @ x[:i] - A[i, i+1:] @ xo[i+1:]
+                    x[i] = (1 - w) * xo[i] + w * s / A[i, i]
+            if np.abs(x - xo).max() < tol: return it
+        return None
+    print("Jacobi", run(1, "J"), "GS", run(1, "S"))
+    for w in (1.0, 1.2, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.95):
+        print("w", w, run(w, "S"))
+    rho = max(abs(np.linalg.eigvals(np.eye(n) - np.diag(1 / np.diag(A)) @ A)))
+    wopt = 2 / (1 + math.sqrt(1 - rho**2)); print("rho_J", rho, "rho_GS", rho**2, "wopt", wopt)
+    # spectral radius for textbook 3x3 diag dominant system 10x+y+z=12 etc
+    A3 = np.array([[10., 1, 1], [2, 10, 1], [2, 2, 10]]); D = np.diag(np.diag(A3))
+    TJ = np.eye(3) - np.linalg.inv(D) @ A3; print("rho Jacobi", max(abs(np.linalg.eigvals(TJ))))
+    TG = -np.linalg.inv(np.tril(A3)) @ np.triu(A3, 1); print("rho GS", max(abs(np.linalg.eigvals(TG))))
+    # non-dominant system where Jacobi diverges: x + 2y = 3, 3x + y = 4? 
+    Ab = np.array([[1., 2], [3, 1]]); Dd = np.diag(np.diag(Ab)); print("rho J nondom", max(abs(np.linalg.eigvals(np.eye(2) - np.linalg.inv(Dd) @ Ab))))
+    # eigenvalues: Gershgorin and inverse power
+    G = np.array([[4., 1, 0], [1, 3, 1], [0, 1, 2]]); print("eig", np.linalg.eigvalsh(G), "gersh centers/radii", [(G[i, i], abs(G[i]).sum() - abs(G[i, i])) for i in range(3)])
+    x = np.array([1., 1, 1]); print("power")
+    for k in range(8):
+        y = G @ x; lam = np.max(abs(y)); rq = (x @ y) / (x @ x); x = y / lam; print(k, np.round(y, 5), round(lam, 6), "RQ", round(rq, 6))
+    # inverse power with shift 1.5
+    sh = 1.5; x = np.array([1., 1, 1]); print("inverse power shift", sh)
+    for k in range(5):
+        y = np.linalg.solve(G - sh * np.eye(3), x); lam = y[np.argmax(abs(y))]; x = y / lam; print(k, np.round(x, 5), "eig est", sh + 1 / lam)
+    # QR iteration unshifted
+    Ak = G.copy()
+    for k in range(6):
+        Q, R = np.linalg.qr(Ak); Ak = R @ Q
+    print("QR after 6", np.round(np.diag(Ak), 5), np.round(Ak, 4))
+    # operation counts: Gauss n^3/3 ; time
+    for n in (10, 100, 1000): print(n, n**3 // 3, n**2)
+
 if __name__ == "__main__":
     for w in which:
         globals()[w]()
