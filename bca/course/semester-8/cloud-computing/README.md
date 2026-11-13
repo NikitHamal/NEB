@@ -11,6 +11,8 @@ Cloud foundations and the NIST model; virtualization internals and containers; c
 | 5 | Microservices, Kubernetes, Autoscaling and Queueing Theory | 7 |
 | 6 | Cloud Security, IAM Evaluation and Envelope Encryption | 6 |
 | 7 | Cloud Economics, SLA Mathematics and FinOps | 7 |
+| 8 | Parallel Computing and the MapReduce Model | 8 |
+| 9 | Service-Oriented Architecture, Cloud Platforms, Applications and Security Practice | 12 |
 
 ## Verification
 
