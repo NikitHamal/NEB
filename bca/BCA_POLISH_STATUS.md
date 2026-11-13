@@ -257,6 +257,36 @@ Source of the units and hours: TU CACS456 outline (notebahadur.com): U1 Introduc
 4. Django + Chromium screenshot of BCA 405 Unit 2 (code outputs, formulas) in the web reader.
 5. BCA 153 split of collections/file handling; fix 5-6 pt figure labels (Math II, OOP Java p17, Hardware Workshop Fig 3.1, Digital Logic); run `svgkit.lint` over all books; extend `check_mis.py`.
 
-## Session 28 (in progress)
-Picked up from sessions 16-27 (this file; no duplicate tracker). Project root in the sandbox: `/home/user/sandbox`. Plan: rebuild + re-verify BCA 105 (151 pp expected), web reader screenshots, then queue items 3 (keyword audits: 401, 451, 156, 151, 101/102/104) and 5 (label lint).
-- Session 28 (this run, fresh sandbox `/home/user/sandbox`): heading audit of BCA 105 against all 36 TOC photo keywords (sub-sections 1.1.1-6.8.2, both readings per unit) = 0 missing. Env rebuilt from the session-21 recipe. Next: rebuild 105 + web screenshots, then keyword audits for 401, 451, 156, 151.
+## Session 28 results (student feedback re-verified; BCA 401 and BCA 451 brought to the real TU outlines)
+
+Picked up from sessions 16-27 (this file; no duplicate tracker). Fresh sandbox `/home/user/sandbox`; session-21 recipe worked (add `python3-venv`; `cd notes/pipeline/mathjax && npm ci`; fonts installer).
+
+### BCA 105 Professional Communication and Ethics (student feedback): re-verified
+- Heading audit of the six `unit-0N.md` against 36 textbook-TOC keywords (every 1.1.1 to 6.8.2 sub-section, Vocabulary and Grammar, both Readings per unit): 0 missing. `pdfinfo` of the committed PDF: **151 pages** (qa fails=0, session 24). The student's phone copy (55 pp) is the OLD published file; publish with `tools/publish/update_books.py --only professional-communication-ethics` (needs server credentials, not available here).
+- Web reader inspected in Django :8765 + headless Chromium: left rail lists the six textbook units; right rail has no "Formula and fact sheet"; Unit 6 Exercise 6.7.2 item 2 ("Correct the errors", the `it's database` text from the bug report) renders as plain parts (a) to (e) with no giant box; Unit 3 intro and rail render cleanly (screenshots inspected, then deleted).
+
+### BCA 401 Cyber Security and Ethical Hacking: NEW Unit 8 (the TU outline is CEH-style; the book had no attack-methodology unit)
+- Unit 8 "Ethical Hacking Methodology, Attack Categories and Their Defences" (7.7k words): hats and five phases (kill chain, ATT&CK), footprinting, scanning and enumeration (scan types, service leaks, detector), system hacking and password attacks, malware (SI worm model), sniffing and session hijacking, social engineering, DoS/DDoS (amplification, SYN flood), OWASP Top 10, wireless/mobile/IoT/cloud, evasion and honeypots, cryptographic attacks; 3 figures, 6 executed Python blocks (output filled by `fill_script_outputs.py`, numbers re-checked by hand), 15 exercises, 5 model answers. Still defensive: no payloads or attack commands.
+- PDF `NEBians-BCA-Course-Semester-7-Cyber-Security-and-Ethical-Hacking.pdf`: `pdfinfo` **110 pages** (was about 80), `qa_pdf.py` fails=0 warns=9 (photo credits 6.2 pt). `check_cybersec.py --verify`: 39 tokens, 0 unfilled. Web data 8 units / 67 topics.
+- Pages inspected as PNG: contents (8 units), Fig 8.1 (label overlapped the boxes, spacing fixed), Fig 8.2 (literal `\n` and clipped footer, fixed), Fig 8.3 (curve label hit the axis title, moved).
+
+### BCA 451 Cloud Computing: NEW Units 8 and 9 (TU outline: Map Reduce unit, SOA, platforms, applications, security topics were missing)
+- Unit 8 "Parallel Computing and the MapReduce Model" (about 6k words): parallelism, Flynn, speedup/efficiency, Amdahl and Gustafson, map/shuffle/reduce, combiner and partitioner, applications, cost model with stragglers, Hadoop HDFS/YARN, fault tolerance; 2 figures, 5 executed blocks (job 800 s vs 62,000 s serial, speedup 77.5; combiner 16 GB to 0.32 GB; 1 GB file = 24 block replicas), 14 exercises, 4 model answers.
+- Unit 9 "Service-Oriented Architecture, Cloud Platforms, Applications and Security Practice" (about 5k words): SOA principles, SOAP/WSDL/UDDI vs REST, composed availability (98.31%, 148 h/yr), Google App Engine, Azure, Aneka, scientific/business/consumer applications, SaaS/application/VM/data security, monitoring, trust and privacy, adoption sequence, field-visit report outline; 2 figures, 15 exercises, 5 model answers.
+- PDF `NEBians-BCA-Course-Semester-8-Cloud-Computing.pdf`: `pdfinfo` **104 pages** (was about 74), `qa_pdf.py` fails=0 warns=12. `check_cloud.py --verify`: 44 tokens, 0 unfilled. Web data 9 units / 68 topics.
+- Pages inspected as PNG: Fig 8.1 and 8.2 (Amdahl curve labels collided with the axis title and the 0.95 curve, moved and re-rendered), Fig 9.1 and 9.2.
+
+### Honest gaps
+- Aneka, App Engine and Azure details come from public descriptions (Buyya et al. 2013; vendor documentation), not from the student's textbook; check the printed chapter. The old TU 2074 cloud outline was used (benchpartner.com); the 2082 revised outline for BCA 451 was not retrievable.
+- BCA 401 unit hours are my estimate (8); MapReduce hours (8) and platforms (12) follow the TU outline.
+- Not re-audited this session: BCA 156, 151, 101/102/104 and project books; the 6 pt labels in older figures remain; PDFs are not published to the server.
+
+### Pushed commits this session
+`7b33e34` (tracker), `6c67ed1` (401 source), `65369b2` (401 PDF/web), `c9b3ae5` (451 unit 8 source), `b314982` (451 unit 9 source), `4ea3463` (451 PDF/web), plus the final tracker commit.
+
+## Prioritised queue for the next session
+1. Publish updated PDFs (`update_books.py --only <slug>`): 105, 401, 451, 304, 305, 103, 354, 154, 405.
+2. Keyword audits against live TU outlines still pending: BCA 156 Principles of Management, 151 Discrete Structure, 101/102/104, projects 256/306/356/404; BCA 353 (check the CACS459-style Information Security items: Miller-Rabin, Galois fields, HMAC, S/MIME, PGP, IPsec).
+3. Electives: BCA 406/453/454 (E-Commerce overlaps MIS Unit 10; Linux, Database Administration, DotNet, Software Testing) are still unwritten slots; deepen BCA 405 (SVM margin figure, network diagram).
+4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
+5. Web: wide tables in worked-example callouts stop short of the callout width (cosmetic).
