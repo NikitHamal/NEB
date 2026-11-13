@@ -368,7 +368,7 @@ Sections 3.2 and 3.4 drew the context diagram and level 0 of the library system.
 Decomposition replaces one process by its child diagram. The children are numbered 1.1, 1.2 and so on, the data stores that the parent touched appear again, and the flows that cross the parent's boundary must be the same flows in the child diagram. That is **balancing**: Figure 3.5 shows no new external flow, only the member's request in and the slip out.
 
 ```svgfig label="3.5" caption="Level-1 DFD of process 1.0 Issue book. The parent had one input (request) and one output (issue slip); the child diagram has the same two external flows, so it is balanced. D1 Members, D2 Books and D3 Loans are the stores seen in the level-0 diagram."
-f = Fig(680, 244)
+f = Fig(680, 262)
 f.box(4, 100, 62, 44, "Member", fill=BLUE, color=NAVY, size=11, bold=True)
 labs = ["1.1\nVerify\nmember", "1.2\nCheck\navailability", "1.3\nRecord\nloan", "1.4\nPrint\nslip"]
 px = [112, 246, 380, 514]
@@ -391,7 +391,7 @@ f.arrow([(425, 96), (425, 42)], color=SLATE, sw=1.5)
 f.arrow([(396, 96), (334, 42)], color=SLATE, sw=1.5)
 f.arrow([(559, 148), (559, 200), (35, 200), (35, 144)], color=NAVY, sw=1.6)
 f.text(300, 216, "issue slip", size=10, color=NAVY, bold=True)
-f.text(600, 40, "read: store to process\nwrite: process to store", size=9.5, color=SLATE, anchor="start")
+f.text(340, 246, "A flow arrow from a store to a process is a read; from a process to a store, a write.", size=9.5, color=SLATE)
 ```
 
 ### The data dictionary
@@ -404,7 +404,7 @@ A DFD names flows and stores, but a name is not a definition. The **data diction
 | `+` | and (sequence) | `Name = First + Last` |
 | `( )` | optional element | `Member = ... + (Email)` |
 | `{ }` | repetition (with limits `n{ }m`) | `1{Book_ID}3` : one to three books |
-| `[ \| ]` | selection (either-or) | `Contact = [Mobile \| Landline]` |
+| `[ ]` | selection: one of the listed choices, separated by a vertical bar | `Contact = [Mobile / Landline]` (bar shown as a slash in this table) |
 | `* *` | comment | `* Nepal numbers start with 98 or 97 *` |
 
 ```text

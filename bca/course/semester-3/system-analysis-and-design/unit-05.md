@@ -285,7 +285,24 @@ for m, want in cases:
     print("%4d  expected %-12s got %-12s %s" % (m, want, got, flag))
 print("%d cases, %d failed" % (len(cases), bad))
 ```
-
+```output
+  -1  expected invalid      got invalid      ok
+   0  expected Fail         got Fail         ok
+   1  expected Fail         got Fail         ok
+  39  expected Fail         got Fail         ok
+  40  expected Pass         got Pass         ok
+  41  expected Pass         got Pass         ok
+  59  expected Pass         got Pass         ok
+  60  expected First        got First        ok
+  61  expected First        got First        ok
+  79  expected First        got First        ok
+  80  expected Distinction  got Distinction  ok
+  81  expected Distinction  got Distinction  ok
+  99  expected Distinction  got Distinction  ok
+ 100  expected Distinction  got Distinction  ok
+ 101  expected invalid      got invalid      ok
+15 cases, 0 failed
+```
 ### White-box testing: paths and cyclomatic complexity
 
 White-box tests are chosen from the code. The code is drawn as a **control-flow graph**: each statement block is a node, each branch an edge. **Cyclomatic complexity** (McCabe) measures the number of independent paths:

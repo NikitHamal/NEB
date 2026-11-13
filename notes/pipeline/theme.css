@@ -404,3 +404,7 @@ p.kn + table, p.kn + .fxp { break-before:avoid; }
 .part .dv, .stps .dv, .box .dv { border:0; padding:0; margin:.8mm 0 .8mm 0; }
 .part .dvt, .stps .dvt, .box .dvt { margin-left:0; }
 table td:first-child, table th:first-child { hyphens:none; -weasy-hyphens:none; overflow-wrap:normal; }
+
+/* keep a callout label with the first lines of its body (no orphaned label pill at a page foot) */
+.box > .bt { break-after:avoid; }
+.box > .bt + * { break-before:avoid; }

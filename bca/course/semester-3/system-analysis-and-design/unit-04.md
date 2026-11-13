@@ -414,7 +414,12 @@ print("01732 valid?", is_valid("01732"))
 print("07132 valid? (digits 1 and 7 swapped)", is_valid("07132"))
 print("check digit of 2594:", check_digit("2594"))
 ```
-
+```output
+check digit of 0173: 2 -> full number 01732
+01732 valid? True
+07132 valid? (digits 1 and 7 swapped) False
+check digit of 2594: 1
+```
 Error messages follow the same rule as the rest of the dialogue: say **what is wrong and how to fix it** ("Marks must be a number from 0 to 100"), keep the user's other entries, and put the cursor on the faulty field.
 
 ## 4.11 Interface design rules, Fitts's law, wireframes and report types
