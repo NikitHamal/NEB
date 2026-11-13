@@ -23,3 +23,6 @@ bca:semester-2/ux-ui-design
 bca:semester-3/applied-economics
 bca:semester-3/data-structure-and-algorithms
 bca:semester-3/dbms
+bca:semester-3/probability-and-statistics
+bca:semester-3/system-analysis-and-design
+bca:semester-3/web-technology-1
