@@ -53,3 +53,5 @@ bca:semester-8/e-governance
 bca:semester-8/geographical-information-system
 bca:semester-8/image-processing
 bca:semester-8/internet-of-things
+bca:semester-8/internship
+bca:semester-8/network-administration
