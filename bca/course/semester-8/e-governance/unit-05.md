@@ -73,7 +73,7 @@ f.arrow([(125, 140), (165, 140)], color=TEAL, both=True)
 f.arrow([(295, 140), (335, 140)], color=AMBER, both=True)
 for y in (40, 100, 160, 220):
     f.arrow([(465, 140), (505, y)], color=NAVY, both=True)
-f.box(165, 235, 300, 45, "Verified output: PDF with dynamic QR code; the office scans it and checks the record online", fill=ROSE, stroke=RED, size=9.5)
+f.box(135, 232, 360, 58, "Verified output: PDF with a dynamic QR code;\nthe office scans it and checks the record online", fill=ROSE, stroke=RED, size=10)
 f.arrow([(400, 190), (340, 235)], color=RED)
 ```
 

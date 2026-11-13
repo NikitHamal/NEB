@@ -1,0 +1,282 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "e-governance",
+ "name": "E-Governance",
+ "name_ne": "",
+ "icon": "account_balance",
+ "group": "semester-8",
+ "group_label": "Semester VIII",
+ "color": "#14532D",
+ "lang": "en",
+ "code": "BCA 453",
+ "credits": 3,
+ "semester": 8,
+ "hours": 48,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "E-governance: an overview",
+    "Why e-governance",
+    "Issues in e-governance applications and the digital divide",
+    "Evolution, scope and content of e-governance",
+    "Present global trends of growth in e-governance",
+    "E-governance applications",
+    "E-governance initiatives in Nepal",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "E-governance: an overview"
+    },
+    {
+     "no": "1.2",
+     "title": "Why e-governance"
+    },
+    {
+     "no": "1.3",
+     "title": "Issues in e-governance applications and the digital divide"
+    },
+    {
+     "no": "1.4",
+     "title": "Evolution, scope and content of e-governance"
+    },
+    {
+     "no": "1.5",
+     "title": "Present global trends of growth in e-governance"
+    },
+    {
+     "no": "1.6",
+     "title": "E-governance applications"
+    },
+    {
+     "no": "1.7",
+     "title": "E-governance initiatives in Nepal"
+    },
+    {
+     "no": "1.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3572,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "E-Governance Models",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Introduction to models of digital governance",
+    "Broadcasting / wider dissemination model",
+    "Critical flow model",
+    "Comparative analysis model",
+    "Mobilization and lobbying model",
+    "Interactive service model (Government-to-Citizen-to-Government, G2C2G)",
+    "Evolution in e-governance and maturity models",
+    "Towards good governance through e-governance models",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Introduction to models of digital governance"
+    },
+    {
+     "no": "2.2",
+     "title": "Broadcasting / wider dissemination model"
+    },
+    {
+     "no": "2.3",
+     "title": "Critical flow model"
+    },
+    {
+     "no": "2.4",
+     "title": "Comparative analysis model"
+    },
+    {
+     "no": "2.5",
+     "title": "Mobilization and lobbying model"
+    },
+    {
+     "no": "2.6",
+     "title": "Interactive service model (Government-to-Citizen-to-Government, G2C2G)"
+    },
+    {
+     "no": "2.7",
+     "title": "Evolution in e-governance and maturity models"
+    },
+    {
+     "no": "2.8",
+     "title": "Towards good governance through e-governance models"
+    },
+    {
+     "no": "2.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 4370,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "E-Governance Infrastructure, Stages in Evolution and Strategies for Success",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "E-readiness",
+    "Evolutionary stages in e-governance",
+    "Strategies for success",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "E-readiness"
+    },
+    {
+     "no": "3.2",
+     "title": "Evolutionary stages in e-governance"
+    },
+    {
+     "no": "3.3",
+     "title": "Strategies for success"
+    },
+    {
+     "no": "3.4",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3158,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Applications of Data Warehousing and Data Mining in Government",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Introduction",
+    "National data warehouses",
+    "Other areas for data warehousing and data mining",
+    "Privacy, ethics and governance of government data",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "4.2",
+     "title": "National data warehouses"
+    },
+    {
+     "no": "4.3",
+     "title": "Other areas for data warehousing and data mining"
+    },
+    {
+     "no": "4.4",
+     "title": "Privacy, ethics and governance of government data"
+    },
+    {
+     "no": "4.5",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3256,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Case Studies",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "How to analyse an e-governance case",
+    "Nepal",
+    "India",
+    "Other countries",
+    "Comparison and lessons",
+    "Laboratory work and the course project",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "How to analyse an e-governance case"
+    },
+    {
+     "no": "5.2",
+     "title": "Nepal"
+    },
+    {
+     "no": "5.3",
+     "title": "India"
+    },
+    {
+     "no": "5.4",
+     "title": "Other countries"
+    },
+    {
+     "no": "5.5",
+     "title": "Comparison and lessons"
+    },
+    {
+     "no": "5.6",
+     "title": "Laboratory work and the course project"
+    },
+    {
+     "no": "5.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 6554,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 33,
+ "notes_ready": 5
+}

@@ -1538,6 +1538,24 @@
      "code": "BCA 453"
     },
     {
+     "subject": "e-governance",
+     "name": "E-Governance",
+     "name_ne": "",
+     "icon": "account_balance",
+     "group": "semester-8",
+     "color": "#14532D",
+     "lang": "en",
+     "hours": 48,
+     "unit_count": 5,
+     "topic_count": 33,
+     "notes_ready": 5,
+     "questions": null,
+     "credits": 3,
+     "semester": 8,
+     "group_label": "Semester VIII",
+     "code": "BCA 453"
+    },
+    {
      "subject": "internet-of-things",
      "name": "Internet of Things",
      "name_ne": "",

@@ -23,10 +23,10 @@ A model is useful only if it helps you decide what to build. The five models bel
 ```svgfig label="2.1" caption="Information flow in the five models. Arrows show the direction in which the main content moves; the broken arrow shows the action that the model hopes to trigger."
 f = Fig(680, 330)
 rows = [("Broadcasting", "Government", "Citizens at large", None, NAVY),
-        ("Critical flow", "Source of the facts", "Media, NGOs, affected groups", "Government is pressed", RED),
-        ("Comparative analysis", "Data from many places or years", "Policy makers and public", "Practice is copied or changed", TEAL),
-        ("Mobilization and lobbying", "Citizens and groups", "Each other, then government", "Government is lobbied", AMBER),
-        ("Interactive service (G2C2G)", "Government and citizens", "Both, in a loop", "Service and policy improve", NAVY)]
+        ("Critical flow", "Source of\nthe facts", "Media, NGOs,\naffected groups", "Government is pressed", RED),
+        ("Comparative analysis", "Data from many\nplaces or years", "Policy makers\nand public", "Practice is copied\nor changed", TEAL),
+        ("Mobilization and lobbying", "Citizens and\ngroups", "Each other, then\ngovernment", "Government is lobbied", AMBER),
+        ("Interactive service (G2C2G)", "Government and\ncitizens", "Both, in a loop", "Service and policy\nimprove", NAVY)]
 for i, (m, a, b, c, col) in enumerate(rows):
     y = 18 + i * 62
     f.box(10, y, 150, 46, m, fill=SOFT, stroke=col, size=9.5, bold=True)
