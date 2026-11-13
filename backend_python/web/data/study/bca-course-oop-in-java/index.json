@@ -5,18 +5,18 @@
    "no": 1,
    "title": "Object-Oriented Concepts and Java Fundamentals",
    "area": "BCA 153 · OOP in Java · Unit 1",
-   "words": 2739,
-   "read_min": 15,
-   "figures": 3,
+   "words": 4536,
+   "read_min": 25,
+   "figures": 4,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Classes, Objects, Constructors and Encapsulation",
    "area": "BCA 153 · OOP in Java · Unit 2",
-   "words": 3247,
-   "read_min": 18,
-   "figures": 3,
+   "words": 4970,
+   "read_min": 28,
+   "figures": 4,
    "has_questions": true
   },
   {
@@ -41,18 +41,18 @@
    "no": 5,
    "title": "Generics, Collections, Lambdas, Streams and File I/O",
    "area": "BCA 153 · OOP in Java · Unit 5",
-   "words": 3015,
-   "read_min": 17,
-   "figures": 4,
+   "words": 5916,
+   "read_min": 33,
+   "figures": 6,
    "has_questions": true
   },
   {
    "no": 6,
    "title": "Multithreading, GUI Event Handling and Database Access",
    "area": "BCA 153 · OOP in Java · Unit 6",
-   "words": 2960,
-   "read_min": 16,
-   "figures": 3,
+   "words": 6885,
+   "read_min": 38,
+   "figures": 6,
    "has_questions": true
   },
   {

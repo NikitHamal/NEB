@@ -595,3 +595,24 @@ Picked up from sessions 16-40 (this file; no duplicate tracker). Sparse-clone bo
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205.
 5. Optional: widen narrow tables in the web reader (`study-reader.css`).
+
+## Session 42 results (BCA 153 OOP in Java deepened; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-41 (this file; no duplicate tracker). Sparse-clone bootstrap; setup recipe from session 39 plus `sudo apt-get install default-jdk-headless libh2-java` (JDK and H2 are NOT in the recipe, `fill_java_outputs.py` needs both). Single-book build about 15 s.
+
+### BCA 153 OOP in Java: 95 -> 126 pages (qa_pdf fails=0; warns are 6 pt labels in the old Fig 2.1 on p23)
+- New sections 1.8, 1.9, 2.9, 2.10, 5.8, 5.9, 6.7, 6.8, 6.9, seven new figures, practice 11+ in units 1, 2, 5, 6 (list in the book README). All outputs real (OpenJDK 17), web data re-exported: 7 units, 58 topics (was 49).
+- **Pipeline change (`notes/pipeline/theme.css`)**: `pre` may now break across pages (`break-inside:auto; orphans:6; widows:6`). Before, a 60-line program jumped whole to the next page and left a page 70 percent blank; this book dropped from 134 to 126 pages for that reason. Other books were not rebuilt, so re-run `qa_pdf.py` when each is next rebuilt.
+- Gotchas: `fill_java_outputs.py` drops the blank line after an output fence (run `python3 /tmp/fixblank.py`-style fix: add a blank line after every ```output fence); do not reuse a class name already present in the same unit (it was renamed by mistake once); callout kinds that exist are key/note/tip/caution/example/definition (there is no `warn`); `JButton.doClick()` and `DefaultTableModel` work headless, so Swing event handling can have real output.
+- Inspected as PNG: Figs 1.3, 2.2, 5.3, 5.4, 6.3, 6.4, 6.5 and the split code pages (p75, p92).
+
+### Honest gaps
+- Web reader (Django) not re-screenshotted this session; only data was re-exported. The 8-column listener table first overflowed the page (qa FAIL) and was cut to 4 columns.
+- Constants and the TU outline are as in the README; the unit order of this book still differs from the printed 8-unit outline.
+
+## Prioritised queue for the next session
+1. Depth audit of: BCA 154 Mathematics II, BCA 405 Machine Learning (63 pp), projects 256/306/356/404 keyword audit, BCA 355 Distributed System.
+2. Rebuild older books to pick up the callout-orphan and code-split CSS; check page counts and `qa_pdf.py` each time.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205, 153.
+5. Django + Chromium screenshots of BCA 153 Unit 6 and BCA 105 Unit 6.

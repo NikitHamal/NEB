@@ -158,7 +158,7 @@ code { font-family:"JetBrains Mono",monospace; font-size:8.6pt;
 pre { font-family:"JetBrains Mono",monospace; font-size:8.2pt; line-height:1.5;
       background:var(--surface); border:0; border-radius:4mm;
       padding:3.6mm 5mm; margin:3.4mm 0; overflow-wrap:break-word; white-space:pre-wrap;
-      break-inside:avoid; text-align:left; -weasy-hyphens:none; hyphens:none; }
+      break-inside:auto; orphans:6; widows:6; text-align:left; -weasy-hyphens:none; hyphens:none; }
 pre code { background:none; padding:0; color:var(--ink); }
 
 /* ---------- math ---------- */
