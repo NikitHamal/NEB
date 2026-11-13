@@ -408,3 +408,9 @@ table td:first-child, table th:first-child { hyphens:none; -weasy-hyphens:none; 
 /* keep a callout label with the first lines of its body (no orphaned label pill at a page foot) */
 .box > .bt { break-after:avoid; }
 .box > .bt + * { break-before:avoid; }
+
+/* long tables split between rows: header repeats, no lone first or last row at a page edge */
+table[data-long] { break-inside:auto; }
+table[data-long] tbody tr:first-child { break-after:avoid; }
+table[data-long] tbody tr:nth-last-child(2) { break-after:avoid; }
+table[data-long] thead { break-after:avoid; }

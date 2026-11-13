@@ -569,12 +569,33 @@ def _layout_fixes(htm):
         cols = len(re.findall(r"<t[hd]\b", first.group(0))) if first else 0
         cls = "dense2" if cols >= 9 else ("dense" if cols >= 7 else "")
         if cls and 'class="' not in tbl[:30]:
-            return tbl.replace("<table", '<table class="%s"' % cls, 1)
+            tbl = tbl.replace("<table", '<table class="%s"' % cls, 1)
         return tbl
     htm = re.sub(r"<table\b.*?</table>", dense, htm, flags=re.S)
+    htm = _long_tables(htm)
     pat = re.compile(r"(<h[234]\b[^>]*>(?:(?!</h[234]>).)*</h[234]>\s*)((?:<p>\s*)?(?:<(?:figure|table)\b.*?</(?:figure|table)>|<div class=.dm.>.*?</div>)(?:\s*</p>)?)", re.S)
-    htm = pat.sub(lambda m: '<div class="hk">' + m.group(1) + m.group(2) + '</div>', htm)
+    htm = pat.sub(lambda m: m.group(0) if 'data-long' in m.group(2)[:80]
+                  else '<div class="hk">' + m.group(1) + m.group(2) + '</div>', htm)
     return htm
+
+
+LONG_ROWS = 7
+
+
+def _long_tables(htm):
+    """A table taller than about a quarter page may split between rows (header repeats, the
+    first and last two rows stay together; see theme.css). Shorter ones stay whole. Without
+    this every table was unbreakable and a 9-row table that missed the page foot jumped to the
+    next page, leaving a hole above it and a heading or lead-in stranded away from its table."""
+    def mark(m):
+        tbl = m.group(0)
+        if 'class="pgrid"' in tbl[:60] or 'data-long' in tbl[:60]:
+            return tbl
+        rows = len(re.findall(r"<tr\b", tbl))
+        if rows > LONG_ROWS:
+            return tbl.replace("<table", "<table data-long", 1)
+        return tbl
+    return re.sub(r"<table\b.*?</table>", mark, htm, flags=re.S)
 
 def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
