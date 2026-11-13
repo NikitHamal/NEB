@@ -58,7 +58,7 @@ class SyllabusTests(TestCase):
 
 
 class BcaCourseTests(TestCase):
-    """The TU BCA course (41 subjects, 8 semesters) is a track of kind "course"."""
+    """The TU BCA course (43 subjects, 8 semesters) is a track of kind "course"."""
 
     def course(self):
         return next(g for g in syllabus_data.index()['grades'] if g['grade'] == 'bca-course')
@@ -67,7 +67,7 @@ class BcaCourseTests(TestCase):
         track = self.course()
         self.assertEqual(track['kind'], 'course')
         self.assertEqual(track['short'], 'BCA Course')
-        self.assertEqual(len(track['subjects']), 41)
+        self.assertEqual(len(track['subjects']), 43)
         self.assertEqual(sorted({s['semester'] for s in track['subjects']}), list(range(1, 9)))
         order = [(s['semester'], s['code']) for s in track['subjects']]
         self.assertEqual(order, sorted(order))

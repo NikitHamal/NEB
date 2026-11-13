@@ -14,6 +14,8 @@ import json
 from typing import Iterable, Optional
 from urllib.parse import quote
 
+from django.utils.safestring import mark_safe
+
 SITE = 'https://nebians.consica.com.np'
 ORG_ID = SITE + '/#organization'
 
@@ -29,10 +31,21 @@ def ld_json(payload) -> str:
     contains "</script>" would close the tag and spill the rest of the graph
     into the page. Escaping the angle brackets keeps the JSON valid and the
     document intact.
+
+    The result is marked safe because it is inserted with {{ block }} and
+    Django's autoescaping would otherwise turn every quote into &quot;. Browsers
+    do not decode entities inside a script element, so Google read literal
+    `{&quot;@context&quot;: ...}` and reported "Parsing error: Missing '}' or
+    object member name" on every forum thread, news article and syllabus page
+    (Search Console, 2026-11-05). The angle brackets and ampersands escaped
+    above are exactly what makes it safe to insert unescaped.
     """
-    return (json.dumps(payload, ensure_ascii=False)
-            .replace('<', '\\u003c').replace('>', '\\u003e')
-            .replace('&', '\\u0026'))
+    return mark_safe(
+        json.dumps(payload, ensure_ascii=False)
+        .replace('<', '\\u003c').replace('>', '\\u003e')
+        .replace('&', '\\u0026')
+        .replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
+    )
 
 
 def _iso(value) -> str:
