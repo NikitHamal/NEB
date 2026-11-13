@@ -18,6 +18,14 @@ Laboratory work in the TU syllabus (gates from discrete components, half/full ad
 - Every K-map answer in unit 3 was checked against SymPy's minimiser (`SOPform`), including the don't-care case.
 - The MOD-3 JK counter, the 2-bit Gray counter, the Johnson counter, the overlapping and non-overlapping "101" detectors and the "11" detector in units 4 and 5 were simulated bit by bit and the printed state sequences and outputs match.
 
+## Additions (session 46)
+
+- Unit 1: logic-family parameters with worked fan-out, power-delay and CMOS dynamic-power numbers; totem-pole, open-collector (pull-up sizing) and tri-state outputs; Schmitt trigger and debouncing; sampling, quantisation and SNR.
+- Unit 3: five-variable maps, Quine-McCluskey, static hazards, BCD adder and carry-lookahead worked through, BCD to seven-segment design.
+- Unit 4: up/down and presettable counters, frequency division and the digital-watch chain, metastability and synchronisers, LFSR.
+- Unit 5: analysis of a given circuit, Mealy/Moore conversion, state assignment, traffic-light controller.
+- These go beyond the printed TU outline (QM, hazards, LFSR, metastability are standard textbook extensions) and are marked as extensions in the text. Every number was recomputed by `bca/tools/check_digital.py`.
+
 ## Source and honesty
 
 Unit titles, hours and topic lists follow the CACS105 Digital Logic syllabus as reproduced on benchpartner.com, notebahadur.com and the college micro-syllabus (neporesult.com), which agree with each other. The revised BCA 103 PDF itself could not be retrieved; the new subject is a re-coding of CACS105 as far as the secondary sources show. **Diagrams are given as text tables and ASCII; this book contains no gate-level drawings**, so draw each circuit by hand as you read the equations. TU's marks distribution per unit is not stated here because it was not found in a primary source.

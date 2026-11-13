@@ -30,7 +30,11 @@
     "Logic levels and logic polarity",
     "Pulses and the clock waveform",
     "Digital logic operations and integrated circuits",
-    "Advantages and applications of digital systems"
+    "Advantages and applications of digital systems",
+    "Logic families and their parameters",
+    "Output stages: totem-pole, open-collector and tri-state",
+    "Schmitt trigger and switch debouncing",
+    "Sampling, quantisation and the cost of going digital"
    ],
    "sections": [
     {
@@ -52,19 +56,37 @@
     {
      "no": "1.5",
      "title": "Advantages and applications of digital systems"
+    },
+    {
+     "no": "1.6",
+     "title": "Logic families and their parameters"
+    },
+    {
+     "no": "1.7",
+     "title": "Output stages: totem-pole, open-collector and tri-state"
+    },
+    {
+     "no": "1.8",
+     "title": "Schmitt trigger and switch debouncing"
+    },
+    {
+     "no": "1.9",
+     "title": "Sampling, quantisation and the cost of going digital"
     }
    ],
    "summary": [
     "Digital signals resist noise because they are decided by thresholds.",
     "Logic levels have guaranteed bands and a forbidden zone; noise margin measures the safety.",
     "Clocks are described by period, frequency, duty cycle and edges; setup and hold times limit speed.",
-    "ICs range from SSI gates to ULSI processors; CMOS is the dominant family."
+    "ICs range from SSI gates to ULSI processors; CMOS is the dominant family.",
+    "Output stages decide wiring: totem-pole drives both levels, open-collector needs a pull-up and gives wired-AND, tri-state outputs share a bus.",
+    "A Schmitt trigger cleans noisy edges; sampling rate and bit count fix digital-audio quality and cost."
    ],
    "terms": [],
    "stats": {
-    "words": 2872,
+    "words": 5630,
     "figures": 0,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -136,7 +158,12 @@
     "Implementing logic functions with multiplexers and decoders",
     "Building a 16-to-1 multiplexer and a 1-to-16 demultiplexer",
     "Logic gates built from passive and active elements",
-    "Where combinational circuits are used: eight applications"
+    "Where combinational circuits are used: eight applications",
+    "Five-variable maps",
+    "The Quine–McCluskey tabular method",
+    "Hazards and glitches",
+    "BCD adder and carry-lookahead worked through",
+    "Design problem: BCD to seven-segment decoder"
    ],
    "sections": [
     {
@@ -178,19 +205,41 @@
     {
      "no": "3.10",
      "title": "Where combinational circuits are used: eight applications"
+    },
+    {
+     "no": "3.11",
+     "title": "Five-variable maps"
+    },
+    {
+     "no": "3.12",
+     "title": "The Quine–McCluskey tabular method"
+    },
+    {
+     "no": "3.13",
+     "title": "Hazards and glitches"
+    },
+    {
+     "no": "3.14",
+     "title": "BCD adder and carry-lookahead worked through"
+    },
+    {
+     "no": "3.15",
+     "title": "Design problem: BCD to seven-segment decoder"
     }
    ],
    "summary": [
     "Gates → Boolean algebra → minimal expressions (K-map) → standard building blocks.",
     "NAND and NOR alone are enough for any circuit.",
     "Adders chain into n-bit arithmetic; the same adder subtracts with XORs on B.",
-    "Decoders, encoders, multiplexers and demultiplexers route data; any function is one MUX or decoder plus gates."
+    "Decoders, encoders, multiplexers and demultiplexers route data; any function is one MUX or decoder plus gates.",
+    "Beyond four variables use a two-map layout or the QM table; hazards come from unequal path delays and are removed by consensus terms.",
+    "BCD addition needs a +6 correction; carry-lookahead removes the ripple delay at the cost of more gates."
    ],
    "terms": [],
    "stats": {
-    "words": 6750,
+    "words": 11477,
     "figures": 0,
-    "examples": 3
+    "examples": 6
    },
    "has_notes": true
   },
@@ -203,7 +252,11 @@
     "Latches and flip-flops",
     "Counters",
     "Registers",
-    "Applications of flip-flops, counters and registers: eight uses"
+    "Applications of flip-flops, counters and registers: eight uses",
+    "Up/down counters and presettable counters",
+    "Frequency division and the digital clock chain",
+    "Metastability and synchronisers",
+    "Shift-register sequence generators: the LFSR"
    ],
    "sections": [
     {
@@ -221,19 +274,37 @@
     {
      "no": "4.4",
      "title": "Applications of flip-flops, counters and registers: eight uses"
+    },
+    {
+     "no": "4.5",
+     "title": "Up/down counters and presettable counters"
+    },
+    {
+     "no": "4.6",
+     "title": "Frequency division and the digital clock chain"
+    },
+    {
+     "no": "4.7",
+     "title": "Metastability and synchronisers"
+    },
+    {
+     "no": "4.8",
+     "title": "Shift-register sequence generators: the LFSR"
     }
    ],
    "summary": [
     "Flip-flops store one bit and change on a clock edge; JK toggles on 11, D delays, T toggles.",
     "Excitation tables turn a wanted state change into flip-flop inputs.",
     "Ripple counters are simple and slow; synchronous counters are fast and need design.",
-    "Counters count and divide frequency; registers store and shift words."
+    "Counters count and divide frequency; registers store and shift words.",
+    "Up/down and presettable counters, the digital-watch chain and the frequency counter apply the same blocks.",
+    "Metastability is made unlikely by a two-flip-flop synchroniser; an LFSR gives a long pseudo-random sequence from a few flip-flops."
    ],
    "terms": [],
    "stats": {
-    "words": 4688,
+    "words": 7167,
     "figures": 0,
-    "examples": 1
+    "examples": 2
    },
    "has_notes": true
   },
@@ -249,7 +320,10 @@
     "Worked design: a \"101\" sequence detector (Mealy, overlapping)",
     "Counter design as a special case",
     "Eight applications of finite state machines",
-    "Laboratory works in the TU practical syllabus"
+    "Laboratory works in the TU practical syllabus",
+    "Analysis of a given sequential circuit",
+    "Mealy and Moore: converting between them",
+    "State assignment and a traffic-light controller"
    ],
    "sections": [
     {
@@ -279,24 +353,37 @@
     {
      "no": "5.7",
      "title": "Laboratory works in the TU practical syllabus"
+    },
+    {
+     "no": "5.8",
+     "title": "Analysis of a given sequential circuit"
+    },
+    {
+     "no": "5.9",
+     "title": "Mealy and Moore: converting between them"
+    },
+    {
+     "no": "5.10",
+     "title": "State assignment and a traffic-light controller"
     }
    ],
    "summary": [
     "An FSM is a state register plus next-state and output logic.",
     "Mealy outputs react to the input directly; Moore outputs change only with the state.",
     "State reduction and sensible assignment shrink the circuit.",
-    "Always check the unused states and test the design with a sample input stream."
+    "Always check the unused states and test the design with a sample input stream.",
+    "Analysis reverses design; Mealy and Moore machines convert into each other; Gray and one-hot assignments are common alternatives to natural binary."
    ],
    "terms": [],
    "stats": {
-    "words": 4140,
+    "words": 6074,
     "figures": 0,
-    "examples": 1
+    "examples": 4
    },
    "has_notes": true
   }
  ],
  "unit_count": 5,
- "topic_count": 32,
+ "topic_count": 48,
  "notes_ready": 5
 }

@@ -15,6 +15,8 @@ A **combinational circuit** is one whose outputs depend only on its present inpu
 - Karnaugh maps (2 to 4 variables) with don't-cares.
 - Half and full adders and subtractors; parallel adder.
 - Encoders, decoders, multiplexers, demultiplexers, comparators, parity circuits, and a note on programmable logic.
+- Five-variable maps, the Quine–McCluskey tabular method, static hazards and their cure.
+- BCD adder and carry-lookahead worked with numbers; a complete BCD to seven-segment design.
 :::
 
 ## 3.1 Logic gates
@@ -415,6 +417,208 @@ The fix is to combine them: diode input, transistor output (DTL), then replace t
 7. **Parity generators and checkers.** An XOR tree creates the parity bit on sending and re-checks it on receiving. Memory modules and serial communication use this to spot a flipped bit. The circuit is simple and fast.
 8. **Programmable logic (PLA, PAL, FPGA).** A designer can place a whole sum-of-products design in one programmable chip instead of many gates. This saves board space and allows a later change. University labs use FPGAs to test new processor designs.
 
+## 3.11 Five-variable maps
+
+The TU outline stops at four variables, but a five-variable function is a common extension and tests whether the adjacency idea is understood. A 5-variable function has 32 cells, drawn as **two 4-variable maps side by side**: the left one for A = 0 (minterms 0 to 15) and the right one for A = 1 (minterms 16 to 31). Here the rows are BC and the columns DE, each in Gray order.
+
+Two cells are adjacent if they are neighbours inside one map (including the wrap-around of the edges), **or** if they occupy the same position in the two maps (they differ only in A). Think of the right map as lying directly on top of the left one. Groups of 1, 2, 4, 8 and 16 cells are formed as before; a group that sits in the same place on both maps loses the variable A.
+
+::: example Worked example: F(A, B, C, D, E) = Σm(0, 2, 4, 6, 9, 11, 13, 15, 17, 21, 25, 27, 29, 31)
+Three groups cover all 14 ones (Figure 3.6):
+
+- **Octet** m9, m11, m13, m15 (A = 0) with m25, m27, m29, m31 (A = 1): the same 2 × 2 block in both maps, so A drops out; B = 1 and E = 1 stay. Term **BE**.
+- **Quad** m17, m21, m25, m29 (right map, the column DE = 01, all four rows): A = 1, D = 0, E = 1 stay. Term **AD'E**.
+- **Quad** m0, m2, m4, m6 (left map, rows 00 and 01, columns 00 and 10, which are adjacent through the wrap-around): A = 0, B = 0, E = 0 stay. Term **A'B'E'**.
+
+F = BE + AD'E + A'B'E'. Three terms with 7 literals replace fourteen five-literal minterms (70 literals). The result agrees with the SymPy minimiser.
+:::
+
+```svgfig label="3.6" caption="Five-variable Karnaugh map as two 4-variable maps. Teal octet (in both maps) = BE; navy quad (right map) = AD'E; red quad (left map, wrapping across the columns) = A'B'E'."
+f = Fig(760, 300)
+rows = ["00", "01", "11", "10"]; cols = ["00", "01", "11", "10"]
+ones = {0, 2, 4, 6, 9, 11, 13, 15, 17, 21, 25, 27, 29, 31}; w = 52
+def mp(x0, y0, a, title):
+    f.text(x0 + 2 * w, y0 - 30, title, size=11, color=NAVY, bold=True)
+    f.text(x0 - 40, y0 - 8, "BC \\ DE", size=9.5, color=NAVY, bold=True, anchor="start")
+    for j, c in enumerate(cols): f.text(x0 + j * w + w / 2, y0 - 8, c, size=10.5, color=NAVY, bold=True)
+    for i, r in enumerate(rows):
+        f.text(x0 - 14, y0 + i * w + w / 2 + 4, r, size=10.5, color=NAVY, bold=True)
+        for j, c in enumerate(cols):
+            m = a * 16 + int(r + c, 2)
+            f.box(x0 + j * w, y0 + i * w, w, w, "1" if m in ones else "0", fill="#ffffff", stroke="#cbd5e1", size=15, bold=m in ones, color=NAVY if m in ones else "#9ca3af")
+            f.text(x0 + j * w + 6, y0 + i * w + 11, "m" + str(m), size=7.5, color=SLATE, anchor="start")
+def g(x0, y0, r1, c1, r2, c2, col, pad):
+    f.box(x0 + c1 * w + pad, y0 + r1 * w + pad, (c2 - c1 + 1) * w - 2 * pad, (r2 - r1 + 1) * w - 2 * pad, "", fill="none", stroke=col, r=12)
+X0, X1, Y0 = 60, 420, 60
+mp(X0, Y0, 0, "A = 0   (m0 to m15)"); mp(X1, Y0, 1, "A = 1   (m16 to m31)")
+for x in (X0, X1): g(x, Y0, 2, 1, 3, 2, TEAL, 4)
+g(X1, Y0, 0, 1, 3, 1, NAVY, 10)
+g(X0, Y0, 0, 0, 1, 0, RED, 8); g(X0, Y0, 0, 3, 1, 3, RED, 8)
+f.text(60, 288, "BE (teal, both maps)", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(300, 288, "AD'E (navy)", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(460, 288, "A'B'E' (red, wraps columns 00 and 10)", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+## 3.12 The Quine–McCluskey tabular method
+
+A K-map is a picture and stops being practical beyond five or six variables. The **Quine–McCluskey (QM) method** does the same job as a table and can be programmed; it is the basis of the minimisers in logic-design software. It has two phases: find all **prime implicants**, then choose a minimum set of them that covers every minterm.
+
+**Phase 1: prime implicants.**
+
+1. List the minterms in binary and group them by the **number of 1s**.
+2. Compare each term of one group with each term of the next group. If they differ in exactly one bit, write the merged term with a dash in that bit and tick both parents.
+3. Repeat on the merged terms (dashes must be in the same place) until no more merging is possible.
+4. Every term that was never ticked is a **prime implicant**.
+
+**Phase 2: cover.** Draw a chart with prime implicants as rows and minterms as columns. A minterm covered by exactly one prime implicant makes that implicant **essential**. Take all essential ones, strike the minterms they cover, and choose the cheapest way to cover what remains (for a cyclic remainder, **Petrick's method** lists the alternatives algebraically). Don't-care minterms take part in phase 1 but are *not* columns of the chart, because they need not be covered.
+
+::: example Worked example: F(A, B, C, D) = Σm(0, 1, 2, 5, 6, 7, 8, 9, 10, 14)
+**Step 1: group by number of ones**
+
+| Ones | Minterm | ABCD |
+|---|---|---|
+| 0 | 0 | 0000 |
+| 1 | 1 | 0001 |
+| 1 | 2 | 0010 |
+| 1 | 8 | 1000 |
+| 2 | 5 | 0101 |
+| 2 | 6 | 0110 |
+| 2 | 9 | 1001 |
+| 2 | 10 | 1010 |
+| 3 | 7 | 0111 |
+| 3 | 14 | 1110 |
+
+**Step 2: first merge (pairs differing in one bit)**
+
+| Pair | Pattern | Pair | Pattern |
+|---|---|---|---|
+| 0, 1 | 000- | 2, 10 | -010 |
+| 0, 2 | 00-0 | 8, 9 | 100- |
+| 0, 8 | -000 | 8, 10 | 10-0 |
+| 1, 5 | 0-01 | 5, 7 | 01-1 |
+| 1, 9 | -001 | 6, 7 | 011- |
+| 2, 6 | 0-10 | 6, 14 | -110 |
+| | | 10, 14 | 1-10 |
+
+**Step 3: second merge.** Pairs of pairs with the same dash position: (0, 1) with (8, 9) gives **-00-**; (0, 2) with (8, 10) gives **-0-0**; (2, 6) with (10, 14) gives **--10**. No third merge exists.
+
+**Step 4: prime implicants** (never merged further): -00- = B'C' (0, 1, 8, 9); -0-0 = B'D' (0, 2, 8, 10); --10 = CD' (2, 6, 10, 14); 0-01 = A'C'D (1, 5); 01-1 = A'BD (5, 7); 011- = A'BC (6, 7).
+
+**Step 5: chart.** Minterm 9 appears only under B'C', and minterm 14 only under CD'. Both are **essential**; together they cover 0, 1, 2, 6, 8, 9, 10 and 14. Minterms 5 and 7 remain. A'BD covers both with one term (the alternative A'C'D + A'BC needs two terms and B'D' is not needed at all).
+
+**Result:** F = B'C' + CD' + A'BD (three terms, seven literals), the same as the K-map and SymPy give.
+:::
+
+The method also shows something a map hides: the cover is sometimes **not unique**. Here 5 and 7 could also be covered by A'C'D and A'BC, which gives a second correct answer of higher cost. QM guarantees a minimum only if you pick the lowest-cost choice at this step. The weakness of the method is size: n variables may have up to 3ⁿ/n prime implicants, and exact covering is a hard problem, so tools such as Espresso use heuristics for large functions.
+
+## 3.13 Hazards and glitches
+
+Section 3.2 treated gates as instant. Real gates have a propagation delay, and when two paths from one input to the output have different delays, the output can show a short wrong pulse, a **glitch**, even though the Boolean function says that it should stay constant. This is a **hazard**.
+
+A **static-1 hazard** is a momentary 0 when the output should stay 1. Take F = AB + A'C with B = C = 1. The function is then F = A + A' = 1 for either value of A. But when A falls from 1 to 0:
+
+- the AND gate AB sees A fall and its output drops after one gate delay;
+- the inverter first has to produce A', and then the AND gate A'C raises its output, which takes **two** delays;
+- during the one delay in which AB is already 0 and A'C is not yet 1, the OR gate sees 0 and 0, so F dips to 0.
+
+```svgfig label="3.7" caption="Static-1 hazard in F = AB + A'C with B = C = 1. Each gate has a delay of one unit. A falls at t = 2; AB falls at t = 3 but A'C rises only at t = 4, so F (after the OR delay) drops to 0 between t = 4 and t = 5."
+f = Fig(760, 330)
+U = 90; X0 = 130
+def wave(y, name, edges, init, col=NAVY, extra=None):
+    f.text(X0 - 14, y + 4, name, size=11, color=col, bold=True, anchor="end")
+    t = 0; v = init; hi, lo = y - 14, y + 14
+    for te, ve in edges + [(7, v)]:
+        f.line(X0 + t * U, hi if v else lo, X0 + te * U, hi if v else lo, color=col, sw=2.2)
+        if te < 7: f.line(X0 + te * U, hi if v else lo, X0 + te * U, hi if ve else lo, color=col, sw=2.2)
+        t = te; v = ve
+for k in range(7): f.line(X0 + k * U, 30, X0 + k * U, 300, color="#e5e7eb", sw=0.8); f.text(X0 + k * U, 22, "t=" + str(k), size=9, color=SLATE)
+wave(60, "A", [(2, 0)], 1)
+wave(110, "A'", [(3, 1)], 0)
+wave(160, "AB", [(3, 0)], 1, TEAL)
+wave(210, "A'C", [(4, 1)], 0, TEAL)
+wave(270, "F", [(4, 0), (5, 1)], 1, RED)
+f.box(X0 + 4 * U, 236, U, 62, "", fill="none", stroke=RED, r=6)
+f.text(X0 + 4.5 * U, 322, "glitch", size=10.5, color=RED, bold=True)
+```
+
+The cure is to add the **consensus term** BC: F = AB + A'C + BC. When B = C = 1, the extra gate holds F at 1 during the whole change of A. On a K-map the two groups AB and A'C touch but do not overlap, and the hazard sits on the boundary; the rule is: **a two-level SOP circuit is free of static-1 hazards if every pair of adjacent 1s is covered by a common group**. The dual statement for POS circuits removes **static-0 hazards** (a brief 1 where 0 is expected). A **dynamic hazard** is a change of the output of more than one pulse when it should change once; it needs three or more paths and appears in multi-level circuits.
+
+Hazards matter wherever a glitch can be mistaken for data: the asynchronous reset or clock input of a flip-flop, the enable line of a latch, and any asynchronous sequential circuit. In a fully synchronous design a glitch is harmless as long as the logic settles before the setup time of the next clock edge, which is why most designs use a single clock and treat the combinational logic as a delay that must fit inside one period.
+
+## 3.14 BCD adder and carry-lookahead worked through
+
+**BCD addition.** Binary-coded decimal keeps each decimal digit in four bits, so a BCD adder must add digits and still produce valid digits. A 4-bit binary adder gives a result from 0 to 19 (9 + 9 + carry-in 1). If the sum is 9 or less and no carry came out, it is already the right BCD digit. Otherwise the sum must be corrected by **adding 0110** (6), which skips the six unused codes 1010 to 1111 and generates the decimal carry.
+
+| Digits | Binary sum | Greater than 9? | After adding 0110 | BCD result |
+|---|---|---|---|---|
+| 4 + 3 | 0111 | no | not needed | 0111 = 7 |
+| 7 + 5 | 01100 | yes (12) | 01100 + 00110 = 10010 | 0001 0010 = 12 |
+| 6 + 7 | 01101 | yes (13) | 01101 + 00110 = 10011 | 0001 0011 = 13 |
+| 9 + 8 | 10001 | yes, carry out = 1 (17) | 10001 + 00110 = 10111 | 0001 0111 = 17 |
+
+The circuit needs the condition "sum > 9" from the binary sum bits S3 S2 S1 S0 and the carry-out K of the first adder:
+
+**Correction = K + S3·S2 + S3·S1**
+
+The terms S3S2 (sums 12 to 15) and S3S1 (sums 10, 11, 14 and 15) together detect 10 to 15, and K detects 16 to 19. When the correction is active, a second 4-bit adder adds 0110 to S3S0 and the correction signal itself is the decimal carry-out. I verified this rule for all 200 combinations of two digits and a carry-in. A multi-digit decimal adder chains one such stage per digit, which is how calculators and the cash registers of shops add amounts without converting to binary.
+
+**Carry-lookahead in numbers.** In a ripple-carry adder, stage i must wait for the carry of stage i − 1, so the delay grows with the word length. The look-ahead idea computes every carry directly from the inputs, using two signals for each bit position:
+
+- **generate** G_i = A_i B_i (this stage makes a carry by itself);
+- **propagate** P_i = A_i ⊕ B_i (this stage passes an incoming carry on).
+
+Then C_{i+1} = G_i + P_i C_i, and expanding for four bits:
+
+- C1 = G0 + P0C0
+- C2 = G1 + P1G0 + P1P0C0
+- C3 = G2 + P2G1 + P2P1G0 + P2P1P0C0
+- C4 = G3 + P3G2 + P3P2G1 + P3P2P1G0 + P3P2P1P0C0
+
+and the sum is S_i = P_i ⊕ C_i. Every carry is a two-level AND-OR of the inputs, so all four are ready together.
+
+::: example Worked example: A = 1011 (11), B = 0110 (6), C0 = 0
+| Bit | A | B | G = AB | P = A⊕B |
+|---|---|---|---|---|
+| 0 | 1 | 0 | 0 | 1 |
+| 1 | 1 | 1 | 1 | 0 |
+| 2 | 0 | 1 | 0 | 1 |
+| 3 | 1 | 0 | 0 | 1 |
+
+C1 = G0 + P0C0 = 0 + 0 = 0. C2 = G1 + P1G0 + P1P0C0 = 1. C3 = G2 + P2G1 + … = 0 + 1·1 = 1. C4 = G3 + P3G2 + P3P2G1 + … = 0 + 0 + 1·1·1 = 1.
+Sum bits: S0 = 1⊕0 = 1, S1 = 0⊕0 = 0, S2 = 1⊕1 = 0, S3 = 1⊕1 = 0. Result: C4 S3 S2 S1 S0 = **10001 = 17**, and 11 + 6 = 17.
+:::
+
+**Delay comparison.** Count one gate delay for each AND, OR or XOR level. In a ripple adder each stage adds two delays (AND then OR), so a carry through 4 bits needs 8 delays, through 16 bits 32, and through 32 bits 64. In a 4-bit look-ahead block, P and G appear after 1 delay, all carries after 2 more, and the sums after 1 more: every sum is ready after about 4 delays. For a 16-bit adder made of four 4-bit look-ahead blocks whose carries ripple from block to block, the final carry appears after about 1 + 2 + 2 + 2 + 2 = 9 delays instead of 32; adding a second look-ahead level (the 74182 chip) cuts this further. The cost is more gates and a larger fan-in, which is the usual trade of speed against hardware.
+
+## 3.15 Design problem: BCD to seven-segment decoder
+
+A seven-segment display lights segments a to g to show a digit. A **common-cathode** display lights a segment when its input is 1. The decoder has four BCD inputs A B C D (A is the most significant bit) and seven outputs. Codes 1010 to 1111 never occur in BCD, so they are **don't-cares** and make the K-maps much simpler.
+
+| Digit | ABCD | a | b | c | d | e | f | g |
+|---|---|---|---|---|---|---|---|---|
+| 0 | 0000 | 1 | 1 | 1 | 1 | 1 | 1 | 0 |
+| 1 | 0001 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
+| 2 | 0010 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
+| 3 | 0011 | 1 | 1 | 1 | 1 | 0 | 0 | 1 |
+| 4 | 0100 | 0 | 1 | 1 | 0 | 0 | 1 | 1 |
+| 5 | 0101 | 1 | 0 | 1 | 1 | 0 | 1 | 1 |
+| 6 | 0110 | 1 | 0 | 1 | 1 | 1 | 1 | 1 |
+| 7 | 0111 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| 8 | 1000 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 9 | 1001 | 1 | 1 | 1 | 1 | 0 | 1 | 1 |
+
+Grouping the ones of each column with the don't-cares 10 to 15 on a four-variable K-map gives (checked with a minimiser):
+
+- a = A + C + BD + B'D'
+- b = B' + CD + C'D'
+- c = B + C' + D
+- d = A + B'C + CD' + B'D' + BC'D
+- e = CD' + B'D'
+- f = A + BC' + BD' + C'D'
+- g = A + BC' + B'C + CD'
+
+Check digit 7 (ABCD = 0111): a = 0 + 1 + … = 1; B' = 0 but CD = 1, so b = 1; c = B = 1; d = 0 + B'C (0) + CD' (0) + B'D' (0) + BC'D (0) = 0; e = CD' = 0 and B'D' = 0, so e = 0; f = 0 + BC' (0) + BD' (0) + C'D' (0) = 0; g = 0 + BC' (0) + B'C (0) + CD' (0) = 0. The lit segments are a, b, c, which is the digit 7. The 7447 chip is exactly this decoder with active-low outputs for common-anode displays.
+
 ## Formula and fact sheet
 
 - Half adder: S = A⊕B, C = AB. Full adder: S = A⊕B⊕Cin, Cout = AB + Cin(A⊕B).
@@ -423,6 +627,9 @@ The fix is to combine them: diode input, transistor output (DTL), then replace t
 - K-map groups: powers of two, wrap-around, fewest and largest; X cells optional.
 - n-to-2ⁿ decoder yields minterms; 2ⁿ-to-1 MUX implements any n-variable function.
 - NAND–NAND = SOP; NOR–NOR = POS. A − B = A + B' + 1.
+- QM: group by number of 1s, merge pairs that differ in one bit, unticked terms are prime; essential = sole cover of a minterm.
+- Static-1 hazard: add the consensus term. BCD correction: add 0110 when K + S3S2 + S3S1 = 1.
+- Look-ahead: G = AB, P = A⊕B, C(i+1) = G(i) + P(i)C(i), S(i) = P(i)⊕C(i).
 
 ## Chapter summary
 
@@ -430,6 +637,8 @@ The fix is to combine them: diode input, transistor output (DTL), then replace t
 - NAND and NOR alone are enough for any circuit.
 - Adders chain into n-bit arithmetic; the same adder subtracts with XORs on B.
 - Decoders, encoders, multiplexers and demultiplexers route data; any function is one MUX or decoder plus gates.
+- Beyond four variables use a two-map layout or the QM table; hazards come from unequal path delays and are removed by consensus terms.
+- BCD addition needs a +6 correction; carry-lookahead removes the ripple delay at the cost of more gates.
 
 ## Practice
 
@@ -449,6 +658,15 @@ The fix is to combine them: diode input, transistor output (DTL), then replace t
 14. Show how five 4-to-1 MUXes make a 16-to-1 MUX and trace the path of input I13.
 15. Implement the full-adder outputs with a 74138 decoder and NAND gates.
 16. Why is a purely diode-resistor gate unsuitable for cascading? How does a transistor help?
+17. Use the Quine–McCluskey method to minimise F(A, B, C, D) = Σm(1, 3, 4, 5, 9, 11, 12, 13, 14, 15). List the prime implicants and the essential ones.
+18. Minimise F(A, B, C, D) = Σm(4, 8, 10, 11, 12, 15) + d(9, 14) with the tabular method.
+19. Minimise F(A, B, C, D, E) = Σm(1, 3, 5, 7, 9, 11, 13, 15, 16, 20, 24, 28) on a five-variable map.
+20. A five-variable function is 1 for the 16 minterms 0, 1, 4, 5, 10, 11, 14, 15, 16, 17, 20, 21, 26, 27, 30, 31. Show that it depends on only two variables.
+21. Find a static-1 hazard in F = A'B + AC (with B = C = 1) and remove it. Draw the timing if every gate has a delay of one unit.
+22. Add the BCD numbers 0110 and 1000, and 1001 and 1001 (with a carry-in of 0), showing the correction step.
+23. Using generate and propagate signals, compute the carries and sum of A = 0111, B = 0101 with C0 = 1.
+24. Why is a ripple-carry adder slow and how does look-ahead help? Compare gate delays for 16 bits.
+25. Write the segment equation e of the BCD to seven-segment decoder and check it for digits 0, 2, 6 and 8.
 
 ::: note Answers and worked solutions
 **1.** AB + A'C + BC = AB + A'C (consensus). A + A'B = A + B; so A + A'B + A'B'C = A + B + A'B'C = A + B + B'C = A + B + C. Final **F = A + B + C**.
@@ -467,6 +685,15 @@ The fix is to combine them: diode input, transistor output (DTL), then replace t
 **14.** Four first-stage 4-to-1 MUXes take I0 to I3, I4 to I7, I8 to I11 and I12 to I15 with S1 S0 shared; the second-stage MUX picks one of the four outputs with S3 S2. I13 = 1101: S3 S2 = 11 picks the fourth group, S1 S0 = 01 picks the second member of it.
 **15.** Sum = NAND(Y1', Y2', Y4', Y7') = Y1 + Y2 + Y4 + Y7 and Cout = NAND(Y3', Y5', Y6', Y7'), where Yk' are the active-low decoder outputs of the 74138 with A, B, Cin on the three inputs.
 **16.** A diode gate loses about 0.7 V per stage and cannot supply current to many loads, so levels degrade as gates are cascaded. A transistor amplifies and restores the level to a clean 0 or 5 V.
+**17.** Prime implicants: B'D (1, 3, 9, 11), C'D (1, 5, 9, 13), BC' (4, 5, 12, 13), AD (9, 11, 13, 15), AB (12, 13, 14, 15). Minterm 3 appears only in B'D, minterm 4 only in BC' and minterm 14 only in AB, so these three are **essential**. They already cover 1, 3, 4, 5, 9, 11, 12, 13, 14 and 15, so C'D and AD are not needed. **F = AB + BC' + B'D**.
+**18.** Treat 9 and 14 as ones in phase 1 but not in the chart. Prime implicants: BC'D' (4, 12), AB' (8, 9, 10, 11), AD' (8, 10, 12, 14), AC (10, 11, 14, 15). Minterm 4 appears only in BC'D' and minterm 15 only in AC: both essential. They cover 4, 12, 10, 11, 15; minterm 8 is left and either AB' or AD' covers it at the same cost. **F = AC + BC'D' + AD'** (or AB' in place of AD', an equally good answer).
+**19.** The ones are the eight with A = 0 and E = 1 (1 to 15 odd) and the four with A = 1, D = 0, E = 0. Octet: A'E. Quad: AD'E'. **F = A'E + AD'E'**.
+**20.** In every listed minterm the bits B and D are equal (for example 10 = 01010 has B = D = 1, and 17 = 10001 has B = D = 0), and there are exactly 2 × 8 = 16 such minterms. So **F = BD + B'D' = B ⊙ D**; A, C and E are irrelevant.
+**21.** With B = C = 1, F = A' + A = 1. When A falls from 1 to 0, the AND gate AC drops after one gate delay, but A'B can rise only after the inverter and the AND gate, two delays. During the one unit in which both terms are 0 the output dips to 0: a static-1 hazard. (When A rises there is no hazard, because A'B falls after two delays but AC rises after one.) Add the consensus term BC: **F = A'B + AC + BC**, which stays 1 whatever A does while B = C = 1.
+**22.** 0110 + 1000 = 1110 (14 > 9), add 0110: 1110 + 0110 = 1 0100, so the BCD result is 0001 0100 = 14. 1001 + 1001 = 1 0010 (18, K = 1), add 0110: 1 0010 + 0110 = 1 1000, so the result is 0001 1000 = 18.
+**23.** A = 0111, B = 0101: G0 = 1, P0 = 0; G1 = 0, P1 = 1; G2 = 1, P2 = 0; G3 = 0, P3 = 0. C1 = G0 + P0C0 = 1; C2 = G1 + P1C1 = 1; C3 = G2 + P2C2 = 1; C4 = G3 + P3C3 = 0. Sums: S0 = P0 ⊕ C0 = 1, S1 = P1 ⊕ C1 = 0, S2 = P2 ⊕ C2 = 1, S3 = P3 ⊕ C3 = 1. Result 01101 = 13, and 7 + 5 + 1 = 13.
+**24.** Each stage waits for the previous carry (two gate delays per stage), so 16 bits need about 32 delays. Look-ahead computes every carry directly from G and P in two gate levels, so with four 4-bit look-ahead blocks the final carry appears after about 9 delays; the price is more gates and wider AND/OR gates.
+**25.** e = CD' + B'D'. Digit 0 (0000): CD' = 0, B'D' = 1, so e = 1. Digit 2 (0010): CD' = 1, so e = 1. Digit 6 (0110): CD' = 1, so e = 1. Digit 8 (1000): B'D' = 1, so e = 1. For digit 1 (0001) both terms are 0, so e = 0 as required.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -532,3 +759,60 @@ Boolean expression: **Y = S1'S0'·I0 + S1'S0·I1 + S1S0'·I2 + S1S0·I3**. Inter
 | Chip example | two 7482 | 74283 (4-bit) with 74182 |
 
 *Conclusion.* The full adder follows directly from its truth table and a K-map. Chaining it gives a multi-bit adder, and the speed problem of the carry is solved by lookahead logic at the cost of more gates.
+
+**Q (10 marks). Explain the Quine–McCluskey method and minimise F(A, B, C, D) = Σm(1, 3, 4, 5, 9, 11, 12, 13, 14, 15) with it.**
+
+*Introduction.* A Karnaugh map is practical only up to about five variables because the eye must find the groups. The Quine–McCluskey (QM) method is a tabular, algorithmic form of the same Boolean simplification (combining two terms that differ in one variable) and can be executed by a program.
+
+*Method.* (1) Write the minterms in binary and group them by the number of 1s. (2) Compare adjacent groups; terms that differ in exactly one bit are merged with a dash in that position, and both parents are ticked. (3) Repeat with the merged terms, dashes aligned, until nothing merges. (4) The unticked terms are the prime implicants. (5) Build the chart of prime implicants against minterms; a minterm with a single cross identifies an essential prime implicant. (6) Take all essential ones and cover the rest with the cheapest choice.
+
+*Solution.*
+
+| Ones | Minterm | ABCD |
+|---|---|---|
+| 1 | 1 | 0001 |
+| 1 | 4 | 0100 |
+| 2 | 3 | 0011 |
+| 2 | 5 | 0101 |
+| 2 | 9 | 1001 |
+| 2 | 12 | 1100 |
+| 3 | 11 | 1011 |
+| 3 | 13 | 1101 |
+| 3 | 14 | 1110 |
+| 4 | 15 | 1111 |
+
+Merging pairs gives 1,3 (00-1); 1,5 (0-01); 1,9 (-001); 4,5 (010-); 4,12 (-100); 3,11 (-011); 5,13 (-101); 9,11 (10-1); 9,13 (1-01); 12,13 (110-); 12,14 (11-0); 11,15 (1-11); 13,15 (11-1); 14,15 (111-). The second merge gives -0-1 (1, 3, 9, 11), --01 (1, 5, 9, 13), -10- (4, 5, 12, 13), 1--1 (9, 11, 13, 15) and 11-- (12, 13, 14, 15). The prime implicants are therefore B'D, C'D, BC', AD and AB.
+
+In the chart, minterm 3 is covered only by B'D, minterm 4 only by BC' and minterm 14 only by AB, so these three are essential. They cover every minterm (1, 3, 9, 11; 4, 5, 12, 13; 12, 13, 14, 15), so C'D and AD are redundant.
+
+**F = AB + BC' + B'D.** *Conclusion.* The ten minterms (40 literals) reduce to three terms with six literals. QM gives the same answer as the map and also lists every prime implicant, which is the starting point for hazard-free design.
+
+**Q (5 marks). What is a static hazard? Show it for F = AB + A'C and explain how to remove it.**
+
+A **hazard** is a momentary, unwanted output change caused by unequal propagation delays along different paths from one input to the output. A **static-1 hazard** is a brief 0 when the output should remain 1.
+
+For F = AB + A'C take B = C = 1: the function is A + A' = 1. When A falls, the AB product falls after one gate delay, but A'C rises only after the inverter and the AND gate (two delays). For one delay both products are 0, so the OR output dips to 0 (Figure 3.7). If this output drives a flip-flop clock or an asynchronous reset the glitch can cause a false action.
+
+**Cure:** add the consensus term BC, giving F = AB + A'C + BC. With B = C = 1 the new term holds the output at 1 throughout the change. The general rule is that every pair of adjacent 1s on the K-map must lie in a common group. In synchronous design the hazard is harmless if the output settles before the setup time of the next clock edge.
+
+**Q (5 marks). Design a one-digit BCD adder and add 7 and 5.**
+
+A **BCD adder** adds two 4-bit BCD digits (and a carry-in) with a 4-bit binary adder, then corrects the result when it is not a valid digit. The binary sum is between 0 and 19. When it exceeds 9, the six unused codes 1010 to 1111 must be skipped by adding 0110 with a second 4-bit adder, and the decimal carry is 1.
+
+The condition for correction is **K + S3·S2 + S3·S1**, where K is the carry-out of the first adder and S3 S2 S1 S0 are its sum bits. It is 1 for sums 10 to 19. Circuit: adder 1 (A + B + Cin), the AND-OR correction gate, and adder 2 adding 0, C, C, 0 (that is 0110 when the correction is active, 0000 otherwise) to S3 S2 S1 S0. The correction signal is the carry-out of the digit.
+
+*Example 7 + 5:* 0111 + 0101 = 1100 (12), S3 S2 = 1·1 = 1, so correct: 1100 + 0110 = 1 0010. The digit is 0010 and the carry is 1, so the result is 0001 0010, which is BCD 12.
+
+**Q (10 marks). Design a BCD to seven-segment decoder for a common-cathode display. Give the truth table, the minimised equations and a check.**
+
+*Introduction.* A seven-segment display shows decimal digits by lighting some of seven LED segments a to g. The decoder is a combinational circuit with four BCD inputs ABCD (A most significant) and seven outputs; the segment lights when its output is 1 (common cathode).
+
+*Truth table.* For digits 0 to 9 the lit segments are 0: abcdef; 1: bc; 2: abdeg; 3: abcdg; 4: bcfg; 5: acdfg; 6: acdefg; 7: abc; 8: abcdefg; 9: abcdfg. The input codes 1010 to 1111 never occur in BCD, so they are don't-care conditions.
+
+*Simplification.* For each segment draw a four-variable K-map, enter 1 for the digits that light the segment, X for 10 to 15, and group as large as possible. This gives a = A + C + BD + B'D'; b = B' + CD + C'D'; c = B + C' + D; d = A + B'C + CD' + B'D' + BC'D; e = CD' + B'D'; f = A + BC' + BD' + C'D'; g = A + BC' + B'C + CD'.
+
+*Implementation.* Each output is a two-level AND-OR circuit; sharing terms (for example B'D' is used in a, d and e) reduces the gate count. A ready-made chip, the 7447 (open-collector, active-low outputs for common-anode displays) or the 7448 (active-high outputs), contains this circuit.
+
+*Check.* Digit 5 (ABCD = 0101): a = 0 + 0 + BD (1) = 1 so a is lit; b = B' (0) + CD (0) + C'D' (0) = 0 so b is off; c = B = 1 lit; d = BC'D = 1 lit; e = CD' (0) + B'D' (0) = 0 off; f = BC' = 1 lit; g = BC' = 1 lit. Lit segments a, c, d, f, g form the digit 5.
+
+*Conclusion.* Using the don't-cares cut the logic to a handful of small terms; the same procedure designs any code converter.
