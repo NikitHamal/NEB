@@ -38,3 +38,6 @@ bca:semester-5/project-2
 bca:semester-5/society-and-technology
 bca:semester-6/computer-graphics
 bca:semester-6/cryptography-network-security
+bca:semester-6/distributed-system
+bca:semester-6/mobile-programming
+bca:semester-6/project-3
