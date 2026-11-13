@@ -198,7 +198,7 @@
     "Eight benefits of modelling before building",
     "Requirements determination in practice",
     "Decision tables, supertypes, business rules and packaged models",
-    "A level-1 decomposition, the data dictionary and the CRUD check, worked end to end",
+    "Level-1 DFD, data dictionary and CRUD check",
     "Requirement quality: writing, reviewing, ranking and tracing"
    ],
    "sections": [
@@ -232,7 +232,7 @@
     },
     {
      "no": "3.8",
-     "title": "A level-1 decomposition, the data dictionary and the CRUD check, worked end to end"
+     "title": "Level-1 DFD, data dictionary and CRUD check"
     },
     {
      "no": "3.9",
@@ -246,7 +246,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 6690,
+    "words": 6683,
     "figures": 0,
     "examples": 7
    },
