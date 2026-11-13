@@ -305,8 +305,14 @@ Audit: the book followed the older BBS-style outline (6 units). The revised outl
 - Pages inspected as PNG: Fig 7.1 (ok), Fig 7.2 (first build: matrix part overlapped the divisional part and the rule-of-thumb box was one clipped line; fixed with new coordinates and `\n` breaks, re-rendered).
 - Honest gaps: Nepali legal details (101 shareholders for a private company, seven promoters for a public company, Partnership Act 2020, Companies Act 2063, Cooperatives Act 2074) are as commonly taught and not checked against the Act text; the full revised BCA 156 syllabus page was seen only as a search excerpt; no Django screenshots this session (data schema unchanged, session 28 verification stands).
 
+### BCA 151 Discrete Structure: NEW Unit 7 (audit against the TU BIT152 outline from hamronotes.com)
+Gaps found by keyword grep (0 hits): vacuous/trivial/uniqueness proofs and mistakes in proofs, Boolean functions, n-ary relations and database operations, well-ordering, correctness of recursive algorithms, octal/hexadecimal and arithmetic algorithms, permutations with indistinguishable objects, next-permutation, random variables/expected value/variance/Bayes/randomized algorithms, graph models/tournaments/mixed graphs/isomorphism/matching/TSP.
+- Unit 7 "Proof Pitfalls, Boolean Functions, Databases, Probability and Algorithms" (7.1k words): 7 sections, 14 executed Python blocks (output filled by `fill_script_outputs.py`: n^2+n+41 fails at 40 = 41 x 41, SUCCESS 420, MISSISSIPPI 34,650, next permutation after 362541 = 364125, E(two dice) = 7, V = 35/6, P(spam|prize) = 0.882, birthday 0.5073, TSP best 80), 2 figures (3-cube, matching), 19 exercises with answers (all hand answers re-checked), key facts, summary.
+- PDF `NEBians-BCA-Course-Semester-2-Discrete-Structure.pdf`: `pdfinfo` **97 pages** (was 75), `qa_pdf.py` fails=0 (warns=331, same as before: 6 pt labels in old figures). Web data 7 units. Figures 7.1 and 7.2 inspected as PNG (ok).
+- Honest gaps: `check_discrete.py` was not extended for Unit 7 (the numbers come from the embedded executed programs and hand re-checks); BCA 151 outline is assumed to equal BIT152 (the BCA 151 PDF was not retrievable); Unit 4 (number theory in the outline) lives in book Unit 6, and units 1 to 6 keep the original order.
+
 ## Prioritised queue for the next session
 1. Publish updated PDFs (`update_books.py --only <slug>`): 105, 156, 401, 451, 304, 305, 103, 354, 154, 405.
-2. Keyword audits against live TU outlines still pending: BCA 151 Discrete Structure, 101/102/104, projects 256/306/356/404; BCA 353 (Miller-Rabin, Galois fields, HMAC, S/MIME, PGP, IPsec).
+2. Keyword audits against live TU outlines still pending: 101/102/104, projects 256/306/356/404; BCA 353 (Miller-Rabin, Galois fields, HMAC, S/MIME, PGP, IPsec).
 3. Electives BCA 406/453/454 (E-Commerce overlaps MIS Unit 10; Linux, Database Administration, DotNet, Software Testing) remain unwritten slots; deepen BCA 405.
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
