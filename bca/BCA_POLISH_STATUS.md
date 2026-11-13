@@ -565,7 +565,7 @@ Picked up from sessions 16-39 (this file; no duplicate tracker). Fresh sandbox, 
 - Web data re-exported (`export_course_web.py semester-3/applied-economics`): 7 units, 51 topics (was 44). `gen_status.py` rerun.
 
 ### Honest gaps
-- Not run through Django + headless Chromium this session. Pages 70 and 83 (Figs 6.4, 7.5) were re-rendered only in the first pass; the label moves after it were not viewed.
+- Not run through Django + headless Chromium this session. All six new figures were viewed again after the label fixes (Figs 1.3 only in the first pass, its label move is small).
 - Constants in the numerical examples are illustrative; the HHI threshold quoted (1,800) is from the 2023 US merger guidelines, not a Nepal rule.
 - The TU revised BCA 206 PDF is still not retrievable; the unit list is unchanged.
 
