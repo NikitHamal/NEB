@@ -551,11 +551,11 @@ for i, (t, s) in enumerate(st):
     x = 6 + i * 115
     f.box(x, 12, 108, 30, t, fill=BLUE, stroke=NAVY, bold=True, size=10.5)
     f.box(x, 48, 108, 56, s, fill=SAND, stroke=AMBER, size=9.5)
-    f.box(x, 118, 108, 44, ct[i], fill=MINT, stroke=TEAL, size=9.5)
+    f.box(x, 128, 108, 42, ct[i], fill=MINT, stroke=TEAL, size=9.5)
     if i < 4:
         f.arrow([(x + 108, 27), (x + 115, 27)])
-f.text(290, 110, "defender's control at the same phase", size=9, color=TEAL, bold=True)
-f.box(6, 172, 564, 36, "Ethical hacking: authorised, scoped, honest report, then 6 Retest after the fixes are made.", fill="#f8fafc", stroke=SLATE, size=10)
+f.text(290, 117, "defender's control at the same phase", size=9, color=TEAL, bold=True)
+f.box(6, 178, 564, 30, "Ethical hacking: authorised, scoped, honest report, then 6 Retest after the fixes are made.", fill="#f8fafc", stroke=SLATE, size=10)
 ```
 
 ```svgfig label="8.2" caption="Amplification turns a small attacker into a large attack. A 100 Mbit/s attacker sends 0.1 Gbit/s directly; through a 50x DNS amplifier the victim receives 5 Gbit/s and through a 200x NTP-style amplifier 20 Gbit/s (section 8.8). The defence is to close the reflectors and filter spoofed sources."
@@ -566,7 +566,7 @@ for i, (name, v, fl, st) in enumerate(rows):
     f.text(8, y + 15, name, size=10.5, color=NAVY, bold=True, anchor="start")
     f.box(96, y, max(v * 18, 3), 28, "", fill=fl, stroke=st)
     f.text(96 + max(v * 18, 3) + 6, y + 15, f"{v:g} Gbit/s", size=10.5, color=st, bold=True, anchor="start", vmid=True)
-f.box(8, 150, 564, 56, "Factor = response size / request size. Attacker bandwidth is multiplied, and the replies are sent by innocent servers\\nto a forged source address: the victim. Fix: disable open resolvers, rate-limit responses, and apply ingress filtering (BCP 38).", fill=BLUE, stroke=NAVY, size=10)
+f.box(8, 140, 564, 66, "Factor = response size / request size. Attacker bandwidth is multiplied.\nThe replies are sent by innocent servers to a forged source address: the victim.\nFix: disable open resolvers, rate-limit responses, apply ingress filtering (BCP 38).", fill=BLUE, stroke=NAVY, size=10)
 ```
 
 ```svgfig label="8.3" caption="Worm growth in the SI model with N = 10,000 hosts, contact rate 0.8 per step and one initial infection (section 8.5). Growth is exponential at first (1% at step 8), then saturates (50% at step 16, 99% at step 20)."
@@ -579,7 +579,7 @@ vals = [1.0]
 for _ in range(24):
     I = vals[-1]
     vals.append(I + beta * I * (N - I) / N)
-ax.curve(lambda x: vals[int(round(x))], 0, 24, color=RED, n=24, label="infected", lx=ax.X(1), ly=ax.Y(9300))
+ax.curve(lambda x: vals[int(round(x))], 0, 24, color=RED, n=24, label="infected", lx=ax.X(17.4), ly=ax.Y(4000))
 ax.hline(5000, color=AMBER)
 ax.pt(16, vals[16], "50% at step 16", dx=-120, dy=-6, anchor="start")
 ax.pt(8, vals[8], "1% at step 8", dx=10, dy=-12)
