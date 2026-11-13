@@ -631,3 +631,7 @@ Picked up from sessions 16-42 (this file; no duplicate tracker). Sandbox: sessio
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (all four), 454 (both), 204, 206, 205, 153.
 5. Consider `break-inside: avoid` for short callouts in `notes/pipeline/theme.css`; Django + Chromium screenshot of BCA 154 Unit 6.
+
+## Session 44 start (BCA 405 Machine Learning depth audit; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-43 (this file; no duplicate tracker). Plan: queue item 1 (BCA 405 Machine Learning, 63 pp, about 3.5k words per unit): add concept learning (Find-S / candidate elimination), gradient descent variants, Gini/CART and pruning, ensembles, locally weighted regression, Laplace smoothing and spam filter, DBSCAN, Gaussian mixtures with EM, LDA, extra evaluation measures, and classifier comparison tests. Every code block executed by `fill_script_outputs.py`.
