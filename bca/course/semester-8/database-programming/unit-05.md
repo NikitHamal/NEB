@@ -81,13 +81,13 @@ f.box(10, 70, 110, 50, "BEFORE\nstatement\ntrigger", fill=SAND, stroke=AMBER, si
 f.box(155, 30, 120, 40, "BEFORE row\ntrigger", fill=BLUE, stroke=NAVY, size=10)
 f.box(155, 80, 120, 40, "Row is changed", fill=SOFT, stroke=SLATE, size=10)
 f.box(155, 130, 120, 40, "AFTER row\ntrigger", fill=BLUE, stroke=NAVY, size=10)
-f.box(320, 70, 110, 50, "AFTER\nstatement\ntrigger", fill=SAND, stroke=AMBER, size=10)
+f.box(390, 70, 110, 50, "AFTER\nstatement\ntrigger", fill=SAND, stroke=AMBER, size=10)
 f.arrow([(120, 95), (155, 50)], color=NAVY)
 f.arrow([(215, 70), (215, 80)], color=NAVY)
 f.arrow([(215, 120), (215, 130)], color=NAVY)
-f.arrow([(275, 150), (300, 150), (300, 50), (275, 50)], color=SLATE, dash=True, label="next row", lpos=(335, 150))
-f.arrow([(275, 150), (320, 110)], color=NAVY, label="no rows left", lpos=(420, 168))
-f.text(530, 95, "A statement that\nchanges 3 rows fires\nrow triggers 3 times,\nstatement triggers once.", size=9.5, anchor="middle", color=SLATE)
+f.arrow([(275, 150), (300, 150), (300, 50), (275, 50)], color=SLATE, dash=True, label="next row", lpos=(338, 100))
+f.arrow([(275, 158), (345, 158), (390, 112)], color=NAVY, label="no rows left", lpos=(330, 175))
+f.text(565, 40, "A statement that\nchanges 3 rows fires\nrow triggers 3 times,\nstatement triggers once.", size=9, anchor="middle", color=SLATE)
 ```
 
 ## 5.3 Statement-level triggers

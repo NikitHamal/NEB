@@ -56,7 +56,7 @@ When you "start Oracle", you start an instance, which then **mounts** and **open
 A **tablespace** (for example SYSTEM, SYSAUX, USERS, TEMP, UNDO) is a named group of data files. A **segment** is the space for one object, such as a table or an index. An **extent** is a set of contiguous blocks given to a segment at once, and a **data block** (usually 8 KB) is the smallest unit of I/O. A **schema** is the collection of objects (tables, views, procedures, packages) owned by one user, and the **data dictionary** is a set of read-only tables and views (`USER_TABLES`, `USER_SOURCE`, `USER_ERRORS` and so on) where Oracle describes everything in the database. You will query it often, for example to see PL/SQL compile errors.
 
 ```svgfig label="1.1" caption="Oracle instance and database. Sessions talk to server processes; the SGA caches data and SQL; background processes move data between the SGA and the files."
-f = Fig(640, 300)
+f = Fig(640, 330)
 f.box(10, 10, 130, 40, "User session\nSQL*Plus / app", fill=SOFT, stroke=SLATE, size=9.5)
 f.box(10, 70, 130, 40, "Server process\n(with its PGA)", fill=BLUE, stroke=NAVY, size=9.5)
 f.arrow([(75, 50), (75, 70)], color=NAVY)
@@ -67,13 +67,13 @@ f.box(325, 36, 135, 44, "Shared pool\nSQL, PL/SQL, dictionary", fill="#ffffff", 
 f.box(180, 92, 135, 44, "Redo log\nbuffer", fill="#ffffff", stroke=AMBER, size=9.5)
 f.box(325, 92, 135, 44, "Background:\nDBWn LGWR CKPT\nSMON PMON", fill=MINT, stroke=TEAL, size=8.5)
 f.arrow([(140, 90), (170, 90)], color=NAVY)
-f.box(170, 200, 300, 90, "", fill=MINT, stroke=TEAL)
-f.text(320, 214, "DATABASE: files on disk", size=10, anchor="middle", color=TEAL)
-f.box(180, 226, 90, 52, "Data files\n(tablespaces)", fill="#ffffff", stroke=TEAL, size=9)
-f.box(280, 226, 90, 52, "Redo log\nfiles", fill="#ffffff", stroke=TEAL, size=9)
-f.box(380, 226, 80, 52, "Control\nfiles", fill="#ffffff", stroke=TEAL, size=9)
-f.arrow([(247, 160), (247, 226)], color=TEAL, label="DBWn", lpos=(272, 195))
-f.arrow([(325, 160), (325, 226)], color=TEAL, label="LGWR", lpos=(350, 195))
+f.box(170, 200, 300, 120, "", fill=MINT, stroke=TEAL)
+f.box(180, 212, 90, 52, "Data files\n(tablespaces)", fill="#ffffff", stroke=TEAL, size=9)
+f.box(280, 212, 90, 52, "Redo log\nfiles", fill="#ffffff", stroke=TEAL, size=9)
+f.box(380, 212, 80, 52, "Control\nfiles", fill="#ffffff", stroke=TEAL, size=9)
+f.text(320, 300, "DATABASE: files on disk", size=10, anchor="middle", color=TEAL)
+f.arrow([(225, 160), (225, 212)], color=TEAL, label="DBWn", lpos=(250, 186))
+f.arrow([(325, 160), (325, 212)], color=TEAL, label="LGWR", lpos=(350, 186))
 ```
 
 **How one statement runs.** For `UPDATE emp SET sal = sal + 100 WHERE empno = 7369;` the server process (1) parses the statement, reusing a cached version from the shared pool if the same text came before; (2) finds the block holding the row, reading it into the buffer cache if it is not there; (3) records the change in the redo log buffer and in undo; (4) changes the block in the cache. Nothing is yet permanent. On `COMMIT`, LGWR writes the redo to disk and the change is durable; DBWn writes the data block later, in its own time. This **write-ahead** design is why Oracle can recover committed work after a crash.

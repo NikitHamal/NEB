@@ -409,3 +409,31 @@ Outline found: TU CACS460 Internet of Things (notebahadur.com): U1 Introduction 
 1. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 454.
 2. Next elective books from TU outlines on notebahadur.com (Data Mining and Data Warehousing, Image Processing, Digital Marketing, Network Administration, Database Programming, GIS), same recipe as 454.
 3. Keyword audits still pending: projects 256/306/356/404. BCA 153 split of collections/file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books; extend `check_mis.py`.
+
+## Session 34 results (NEW elective book BCA 453 Database Programming; BCA 105 and the other done books left as-is)
+
+Picked up from sessions 16-33 (this file; no duplicate tracker). BCA 105 (6 textbook units, 151 pp) and all other done books were not touched: the user stated they are finished. Fresh sandbox `/home/user/sandbox`; the session-21 recipe worked unchanged (`/tmp/setup.sh`: apt, venv `/tmp/v`, pip, `npm ci`, fonts). Note: the clone is sparse and blob-filtered, so `git show --stat <old commit>` needs the askpass env.
+
+### BCA 453 Database Programming (Elective III): NEW book, was the last unwritten Elective III/IV slot with an outline
+Outline found: TU CACS453 Database Programming (notebahadur.com, benchpartner.com): U1 Introduction of RDBMS 10 h, U2 PL/SQL 13 h, U3 PL/SQL Exception 5 h, U4 Database Cursors 5 h, U5 Database Triggers 5 h, U6 Record and Procedures 5 h, U7 Functions and Package 5 h. Registered in `books.json` and `CURRICULUM.md` (BCA 453 row now names the book); `gen_status.py` regenerated STATUS/READMEs.
+- 27k words, 7 units, 5 figures (Oracle instance/database, PL/SQL engine, trigger firing order, parameter modes, package spec/body), every unit with worked examples on the EMP/DEPT demo tables, summary, 12-14 exercises with answers and 5- and 10-mark model answers. Unit 7 ends with a 10-lab checklist and a mini-project.
+- PDF `bca/course/semester-8/pdfs/NEBians-BCA-Course-Semester-8-Database-Programming.pdf`: `pdfinfo` **102 pages**, `qa_pdf.py` **fails=0 warns=0**. Web data exported (`export_course_web.py semester-8/database-programming`): 7 units, 58 topics, `index.json` entry added (additive).
+- Pages inspected as PNG: Fig 1.1 (first build: DBWn/LGWR arrows crossed the "DATABASE" title, title moved below the boxes), Fig 5.1 (labels re-placed, AFTER statement box moved), Fig 7.1 (arrow label shortened); re-rendered and re-opened Figs 1.1 and 5.1 after the fix. Figs 2.1, 6.1 and the contents page were rendered at first build but not re-opened.
+- Web reader checked in Django + headless Chromium: Unit 5 shows the seven units in the left rail, the "On this page" list (no "Formula and fact sheet"), SQL*Plus and PL/SQL code blocks and inline code render correctly.
+
+### Verification method (important: no Oracle in the sandbox)
+- Unit 1 and Unit 7 (memoisation) contain executed Python blocks (SQLite on the same data, real output filled by `fill_script_outputs.py`).
+- All PL/SQL and SQL*Plus examples are in `plsql` / `sqlplus` fences (the runner ignores them) with hand-traced "output" blocks. `bca/tools/check_dbprog.py` recomputes every printed number with SQLite/Python: **28 checks, 0 problems**.
+- Gotchas learned: a `plsql` fence followed by an `output` fence is not stripped by the runner (a `# noexec` python block's output fence IS stripped); line numbers in `ORA-06512` lines were counted by hand from the `CREATE` line; avoid showing DBMS_OUTPUT text before an error in the same block (SQL*Plus ordering is uncertain), so error examples are in separate blocks.
+
+### Honest gaps
+- No PL/SQL block was run on Oracle: syntax, error-number wording (`ORA-06512` line numbers, `ORA-04088` text), and the exact SQL*Plus echo formatting come from documented Oracle 11g-19c behaviour and memory. Run the scripts on Oracle XE and compare.
+- The tax slabs in Unit 7 are an illustrative teaching model (labelled as such), not current Nepal rates.
+- The outline text for the lab hours was not found; the lab list is a suggested checklist.
+- Elective I (E-Commerce, Database Administration, Linux), Elective II (Business Intelligence, Software Testing, Data Visualization), Elective III (Network Administration, E-Governance, GIS) and Elective IV (Digital Marketing, Image Processing, Data Mining) remain unwritten. Outlines found this session: Network Administration (TU CACS406: 5 units, 4/16/16/16/6 h, Limoncelli's *The Practice of System and Network Administration*) is the next best candidate.
+
+## Prioritised queue for the next session
+1. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453, 454.
+2. Next elective: Network Administration (outline above), then GIS / Data Visualization / Data Mining once outlines are located.
+3. If Oracle XE becomes available, run the 453 scripts and fix any syntax or message differences.
+4. Keyword audits still pending: projects 256/306/356/404. BCA 153 split of collections/file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books; extend `check_mis.py`.

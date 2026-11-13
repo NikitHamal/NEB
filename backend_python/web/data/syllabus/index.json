@@ -1484,6 +1484,24 @@
      "code": "BCA 452"
     },
     {
+     "subject": "database-programming",
+     "name": "Database Programming",
+     "name_ne": "",
+     "icon": "menu_book",
+     "group": "semester-8",
+     "color": "#9A3412",
+     "lang": "en",
+     "hours": 48,
+     "unit_count": 7,
+     "topic_count": 58,
+     "notes_ready": 7,
+     "questions": null,
+     "credits": 3,
+     "semester": 8,
+     "group_label": "Semester VIII",
+     "code": "BCA 453"
+    },
+    {
      "subject": "internet-of-things",
      "name": "Internet of Things",
      "name_ne": "",
