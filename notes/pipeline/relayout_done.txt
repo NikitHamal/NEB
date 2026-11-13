@@ -59,3 +59,5 @@ school:ioe-eng
 school:ioe-mock
 school:qbankc10
 school:cee-mock
+school:ioe-chem
+school:cee-mat
