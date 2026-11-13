@@ -41,3 +41,6 @@ bca:semester-6/cryptography-network-security
 bca:semester-6/distributed-system
 bca:semester-6/mobile-programming
 bca:semester-6/project-3
+bca:semester-6/technical-writing
+bca:semester-7/cyber-security-and-ethical-hacking
+bca:semester-7/financial-accounting

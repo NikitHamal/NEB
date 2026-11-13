@@ -21,7 +21,7 @@ MM = 96 / 25.4                      # WeasyPrint lengths are CSS px
 ATOMIC = {"figure", "table", "div"}
 HEADS = {"h1", "h2", "h3", "h4"}
 MIN_GAP = 22 * MM                   # holes smaller than this are ordinary ragged page ends
-PASSES = 3
+PASSES = 5
 DEBUG = False
 
 
@@ -136,7 +136,7 @@ def _fix_once(doc, parent):
                 continue
             if s.tag in ("figure", "table") or "hk" in cls or "nobreak" in cls:
                 skipped += 1
-                if skipped > 1:
+                if skipped > 2:
                     break
                 continue
             h = height.get(s, 0.0)
