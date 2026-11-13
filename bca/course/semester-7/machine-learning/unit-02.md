@@ -231,12 +231,12 @@ f.box(220, 10, 140, 34, "Outlook", fill=NAVY, stroke=NAVY, color="#ffffff", bold
 f.box(30, 100, 130, 34, "Humidity", fill=BLUE, stroke=NAVY, bold=True)
 f.box(225, 100, 130, 34, "Yes", fill=MINT, stroke=TEAL, bold=True)
 f.box(420, 100, 130, 34, "Wind", fill=BLUE, stroke=NAVY, bold=True)
-f.arrow([(250, 44), (110, 100)], color=SLATE, label="Sunny", lpos=0.4)
-f.arrow([(290, 44), (290, 100)], color=SLATE, label="Overcast", lpos=0.5)
-f.arrow([(330, 44), (470, 100)], color=SLATE, label="Rain", lpos=0.4)
-for x, t, fill, stroke, lab in ((5, "No", ROSE, RED, "High"), (100, "Yes", MINT, TEAL, "Normal"), (395, "Yes", MINT, TEAL, "Weak"), (490, "No", ROSE, RED, "Strong")):
-    f.box(x + 25, 190, 70, 34, t, fill=fill, stroke=stroke, bold=True)
-    f.arrow([((95 if x < 300 else 485), 134), (x + 60, 190)], color=SLATE, label=lab, lpos=0.5)
+f.arrow([(250, 44), (110, 100)], color=SLATE, label="Sunny", lpos=(165, 66))
+f.arrow([(290, 44), (290, 100)], color=SLATE, label="Overcast", lpos=(325, 76))
+f.arrow([(330, 44), (470, 100)], color=SLATE, label="Rain", lpos=(420, 66))
+for cx, sx, t, fill, stroke, lab, lx in ((65, 95, "No", ROSE, RED, "High", 58), (160, 95, "Yes", MINT, TEAL, "Normal", 160), (440, 485, "Yes", MINT, TEAL, "Weak", 440), (530, 485, "No", ROSE, RED, "Strong", 535)):
+    f.box(cx - 35, 190, 70, 34, t, fill=fill, stroke=stroke, bold=True)
+    f.arrow([(sx, 134), (cx, 190)], color=SLATE, label=lab, lpos=(lx, 156))
 ```
 
 ## 2.7 Support vector machines
@@ -274,7 +274,42 @@ y*(w.x+b) = [1.  1.5 1. ]
 support vectors are the points where this equals 1 -> [(np.float64(3.0), np.float64(3.0)), (np.float64(1.0), np.float64(1.0))]
 ```
 
-## 2.8 Summary and exercises
+## 2.8 Logistic regression and the kernel idea
+
+**Logistic regression** is the classification cousin of linear regression: it passes the linear score through a sigmoid to get a probability, $P(y=1\mid\mathbf{x})=\sigma(\mathbf{w}\cdot\mathbf{x}+b)$, and predicts class 1 when this exceeds 0.5 (that is, when $\mathbf{w}\cdot\mathbf{x}+b>0$, so the boundary is still a straight line). It is trained by minimising the **cross-entropy loss** $-\frac1N\sum[y\ln\hat p+(1-y)\ln(1-\hat p)]$ with gradient descent; the gradient has the same simple form as in linear regression, $\nabla_{\mathbf{w}}=\frac1N X^{T}(\hat{\mathbf{p}}-\mathbf{y})$. Unlike the perceptron it gives probabilities, and its weights are interpretable: $e^{w_j}$ is the factor by which the odds change when feature $j$ rises by one unit.
+
+```python
+import numpy as np
+hours = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5.0]); passed = np.array([0, 0, 0, 0, 1, 0, 1, 1, 1, 1.0])
+z = (hours - hours.mean()) / hours.std(); w = b = 0.0
+for _ in range(5000):
+    p = 1 / (1 + np.exp(-(w * z + b)))
+    w -= 0.5 * np.mean((p - passed) * z); b -= 0.5 * np.mean(p - passed)
+slope = w / hours.std(); icpt = b - slope * hours.mean()
+print("P(pass) = sigmoid(%.2f * hours %+.2f)" % (slope, icpt))
+print("hours at which P(pass) = 0.5: %.2f" % (-icpt / slope))
+for h in (1, 2.5, 4):
+    print("P(pass | %.1f h) = %.2f" % (h, 1 / (1 + np.exp(-(slope * h + icpt)))))
+```
+```output
+P(pass) = sigmoid(2.60 * hours -7.16)
+hours at which P(pass) = 0.5: 2.75
+P(pass | 1.0 h) = 0.01
+P(pass | 2.5 h) = 0.34
+P(pass | 4.0 h) = 0.96
+```
+**The kernel idea in one line.** XOR is not linearly separable in $(x_1,x_2)$, but add the product $x_1x_2$ as a third feature and it becomes separable: with features $(x_1,x_2,x_1x_2)$ the points (0,1) and (1,0) have product 0 while (1,1) has product 1, and the rule "$x_1+x_2-2x_1x_2>0.5$" gives XOR exactly. A **kernel** such as the polynomial kernel $K(\mathbf{x},\mathbf{z})=(\mathbf{x}\cdot\mathbf{z}+1)^{2}$ computes the dot product in such an enlarged feature space *without* building the features, which is how an SVM draws curved boundaries.
+
+```python
+import numpy as np
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]]); y = np.array([0, 1, 1, 0])
+score = X[:, 0] + X[:, 1] - 2 * X[:, 0] * X[:, 1]
+print("score x1 + x2 - 2*x1*x2 =", score, "-> class", (score > 0.5).astype(int), "matches XOR:", bool(((score > 0.5) == y).all()))
+```
+```output
+score x1 + x2 - 2*x1*x2 = [0 1 1 0] -> class [0 1 1 0] matches XOR: True
+```
+## 2.9 Summary and exercises
 
 Regression fits a line by least squares; the perceptron learns linearly separable problems by error-driven updates; hidden layers and back-propagation overcome XOR; ID3 grows a tree by information gain; the SVM picks the maximum-margin separator defined by its support vectors, with kernels for non-linear boundaries.
 

@@ -231,7 +231,83 @@ variance of projections: 30.385
 ```
 **Uses and cautions.** PCA speeds up learning, removes correlated features, compresses images and gives 2-D plots. Components are mixtures of features and hard to interpret; PCA is linear (curved structure is missed); it is sensitive to scale (standardise first); and high variance is not the same as usefulness for predicting a label.
 
-## 4.8 Summary and exercises
+## 4.8 Choosing k in practice: elbow and silhouette
+
+Real data rarely shows an obvious k, so run k-means for a range of k and look at two curves. The program builds three well-separated groups of 40 points each in two dimensions, runs k-means with several restarts for k = 1 to 6, and prints the WCSS and the mean silhouette score.
+
+```python
+import numpy as np
+rng = np.random.default_rng(2)
+X = np.vstack([rng.normal(c, 0.6, (40, 2)) for c in ((0, 0), (5, 1), (2, 5))])
+def kmeans(X, k, restarts=8):
+    best = None
+    for _ in range(restarts):
+        mu = X[rng.choice(len(X), k, replace=False)]
+        for _ in range(100):
+            lab = np.argmin(((X[:, None] - mu[None]) ** 2).sum(-1), axis=1)
+            new = np.array([X[lab == j].mean(0) if (lab == j).any() else mu[j] for j in range(k)])
+            if np.allclose(new, mu): break
+            mu = new
+        w = sum(((X[lab == j] - mu[j]) ** 2).sum() for j in range(k))
+        if best is None or w < best[0]: best = (w, lab)
+    return best
+def silhouette(X, lab):
+    D = np.sqrt(((X[:, None] - X[None]) ** 2).sum(-1)); s = []
+    for i in range(len(X)):
+        same = (lab == lab[i]) & (np.arange(len(X)) != i)
+        a = D[i, same].mean() if same.any() else 0
+        b = min(D[i, lab == j].mean() for j in set(lab) if j != lab[i])
+        s.append((b - a) / max(a, b))
+    return float(np.mean(s))
+print("k   WCSS     silhouette")
+for k in range(1, 7):
+    w, lab = kmeans(X, k)
+    print("%d  %7.1f   %s" % (k, w, "   n/a" if k == 1 else "%.3f" % silhouette(X, lab)))
+```
+```output
+k   WCSS     silhouette
+1   1133.9      n/a
+2    580.4   0.538
+3     86.5   0.777
+4     72.3   0.636
+5     62.1   0.486
+6     50.8   0.369
+```
+The WCSS falls steeply from k = 1 to 3 and only slowly afterwards: the elbow is at **k = 3**, and the silhouette score peaks at k = 3 as well, so both methods agree with the three groups that generated the data.
+
+```svgfig label="4.2" caption="The elbow method. Within-cluster sum of squares (WCSS) falls steeply until k = 3, the number of groups that generated the data, and then flattens. The elbow marks the best k."
+import numpy as np
+rng = np.random.default_rng(2)
+X = np.vstack([rng.normal(c, 0.6, (40, 2)) for c in ((0, 0), (5, 1), (2, 5))])
+def km(k):
+    best = 1e18
+    for _ in range(8):
+        mu = X[rng.choice(len(X), k, replace=False)]
+        for _ in range(100):
+            lab = np.argmin(((X[:, None] - mu[None]) ** 2).sum(-1), axis=1)
+            new = np.array([X[lab == j].mean(0) if (lab == j).any() else mu[j] for j in range(k)])
+            if np.allclose(new, mu): break
+            mu = new
+        best = min(best, sum(((X[lab == j] - mu[j]) ** 2).sum() for j in range(k)))
+    return best
+W = [km(k) for k in range(1, 7)]
+f = Fig(580, 230)
+ax = Axes(f, 70, 15, 330, 170, (0.5, 6.5), (0, 500))
+ax.grid(1, 100)
+ax.axes("", "")
+for k in range(1, 7):
+    f.text(ax.X(k), 205, str(k), size=10.5, color=SLATE)
+for k in range(1, 6):
+    f.line(ax.X(k), ax.Y(W[k - 1]), ax.X(k + 1), ax.Y(W[k]), color=NAVY, sw=2.4)
+for k in range(1, 7):
+    ax.pt(k, W[k - 1], "", r=4.5, color=(RED if k == 3 else NAVY))
+f.text(235, 226, "number of clusters k", size=10.5, color=SLATE)
+f.text(490, 80, "elbow at k = 3", size=11, color=RED, bold=True)
+f.text(490, 102, "WCSS drops from", size=10.5, color=SLATE)
+f.text(490, 120, "%d to %d, then slowly" % (W[0], W[2]), size=10.5, color=SLATE)
+```
+
+## 4.9 Summary and exercises
 
 Clustering groups unlabelled data using a distance; k-means alternates assignment and centroid update to reduce WCSS; hierarchical clustering merges clusters by a linkage and is read from a dendrogram; clusters can supply labels or features to supervised learners; PCA rotates the data to the directions of largest variance and keeps the first few.
 

@@ -224,7 +224,43 @@ The syllabus requires laboratory work on every unit and a small project in Pytho
 
 Suggested laboratory sequence: (1) statistics and plots with NumPy and matplotlib; (2) linear regression by the normal equation and gradient descent; (3) perceptron on AND, OR, XOR; (4) back-propagation on XOR; (5) ID3 on PlayTennis; (6) naive Bayes on text; (7) k-NN with different k; (8) k-means and hierarchical clustering; (9) PCA on a data set; (10) confusion matrix, ROC and cross-validation of all earlier models.
 
-## 5.10 Summary and exercises
+## 5.10 Multi-class problems and the precision-recall trade-off
+
+With more than two classes, compute precision, recall and F1 **per class** (treating that class as positive and the rest as negative) and then combine them. **Macro-average** is the plain mean over classes, so every class counts equally; **micro-average** pools all TP, FP and FN first, so big classes dominate (for single-label problems micro precision, recall and F1 all equal accuracy). Use macro when the rare classes matter.
+
+```python
+import numpy as np
+M = np.array([[50, 3, 2], [4, 30, 6], [1, 5, 19]])     # rows: actual class A, B, C; columns: predicted
+tp = np.diag(M); fp = M.sum(0) - tp; fn = M.sum(1) - tp
+P = tp / (tp + fp); R = tp / (tp + fn); F = 2 * P * R / (P + R)
+for c, n in enumerate("ABC"): print("class %s precision %.3f recall %.3f F1 %.3f" % (n, P[c], R[c], F[c]))
+print("accuracy %.3f | macro-F1 %.3f | micro-F1 %.3f" % (tp.sum() / M.sum(), F.mean(), 2 * tp.sum() / (2 * tp.sum() + fp.sum() + fn.sum())))
+```
+```output
+class A precision 0.909 recall 0.909 F1 0.909
+class B precision 0.789 recall 0.750 F1 0.769
+class C precision 0.704 recall 0.760 F1 0.731
+accuracy 0.825 | macro-F1 0.803 | micro-F1 0.825
+```
+**The trade-off in numbers.** Using the ten scores of Section 5.4 as a spam filter, lowering the threshold catches more spam (recall up) but blocks more good mail (precision down). Choose the threshold by the cost of each error, or by the point on the precision-recall curve that meets a stated target, for example "recall at least 0.8".
+
+```python
+pos = [0.95, 0.85, 0.70, 0.60, 0.45]; neg = [0.80, 0.55, 0.40, 0.30, 0.20]
+print("threshold  TP FP  precision  recall   F1")
+for th in (0.9, 0.75, 0.65, 0.5, 0.35):
+    tp = sum(p >= th for p in pos); fp = sum(n >= th for n in neg)
+    P = tp / (tp + fp) if tp + fp else 0.0; R = tp / 5
+    print("%7.2f   %2d %2d  %8.3f  %6.2f  %5.3f" % (th, tp, fp, P, R, 2 * P * R / (P + R) if P + R else 0))
+```
+```output
+threshold  TP FP  precision  recall   F1
+   0.90    1  0     1.000    0.20  0.333
+   0.75    2  1     0.667    0.40  0.500
+   0.65    3  1     0.750    0.60  0.667
+   0.50    4  2     0.667    0.80  0.727
+   0.35    5  3     0.625    1.00  0.769
+```
+## 5.11 Summary and exercises
 
 Accuracy hides class imbalance, so read the confusion matrix and use sensitivity, specificity, precision, recall and F1 as the problem demands; weight errors by their costs; the ROC curve and AUC show performance across all thresholds; box plots and confidence intervals show the variability of results; cross-validation with careful splitting gives a fair estimate.
 
