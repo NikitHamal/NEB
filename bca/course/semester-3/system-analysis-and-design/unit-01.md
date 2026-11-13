@@ -248,6 +248,249 @@ The type decides the design. A TPS must be fast, accurate and recoverable (data 
 
 **Likely questions.** (a) Define information system and explain the five types with one example each (10 marks). (b) Differentiate TPS and MIS in five points (5 marks). (c) Draw and explain the pyramid of information systems.
 
+## 1.14 Object-oriented analysis with UML: use cases, classes, sequences and states
+
+Section 1.7 named the idea; this section shows how an analyst actually draws it. The **Unified Modeling Language (UML)** is a standard set of diagrams, not a method. Each diagram answers one question about the system, and the analyst picks only the diagrams that help. For a college project four are enough: the use case diagram (who uses the system and for what), the class diagram (what things the system must remember), the sequence diagram (how objects talk to finish one scenario) and the state diagram (the life of one object).
+
+| Diagram | Question it answers | Drawn during | Structured-analysis cousin |
+|---|---|---|---|
+| **Use case** | Which actors want which goals from the system? | analysis | context diagram, list of processes |
+| **Class** | Which classes, attributes, operations and relationships exist? | analysis, then design | entity-relationship diagram |
+| **Sequence** | In what order do objects exchange messages in one scenario? | analysis and design | the logic of one DFD process |
+| **State (state machine)** | Which states can one object be in and what moves it between them? | design | entity life history, decision logic |
+| **Activity** | What is the flow of actions, with branches and parallel paths? | analysis | flowchart, process model |
+
+### Use case diagrams
+
+An **actor** is anything outside the system that interacts with it: a person in a role (Member, Librarian), another system (the SMS gateway) or a clock that triggers a job. An actor is a role, not a person; one librarian can also be a member, and the diagram then shows two actors. A **use case** is a goal of an actor that the system helps to reach, named with a verb phrase: *Borrow book*, not *Borrowing screen*. The **system boundary** is a rectangle; actors stand outside it, use cases inside. A line joins an actor to the use cases it takes part in.
+
+Two relationships between use cases appear in almost every exam answer. **`<<include>>`** means the base use case always calls the other one (Borrow book always includes Verify membership), so shared steps are written once. **`<<extend>>`** means the other use case happens only sometimes and under a condition (Calculate fine extends Return book, but only when the book is late). Use **generalisation** when one actor or use case is a special kind of another (Student member is a kind of Member).
+
+```svgfig label="1.4" caption="Use case diagram of the library system. Stick figures are actors outside the boundary; ovals are use cases. Borrow book always includes Verify membership (dashed arrow, include); Calculate fine extends Return book only when the book is late (dashed arrow, extend)."
+f = Fig(640, 312)
+f.box(120, 6, 400, 292, "", fill="#ffffff", stroke=SLATE, r=4, dash=True)
+f.text(320, 22, "Library system", size=11.5, color=SLATE, bold=True)
+def actor(x, y, name):
+    f.circle(x, y, 9, fill="#ffffff", stroke=NAVY, sw=1.8)
+    f.line(x, y + 9, x, y + 40, color=NAVY, sw=1.8)
+    f.line(x - 16, y + 20, x + 16, y + 20, color=NAVY, sw=1.8)
+    f.line(x, y + 40, x - 13, y + 62, color=NAVY, sw=1.8)
+    f.line(x, y + 40, x + 13, y + 62, color=NAVY, sw=1.8)
+    f.text(x, y + 78, name, size=11, color=NAVY, bold=True)
+def uc(cx, cy, label):
+    f.raw('<ellipse cx="%s" cy="%s" rx="72" ry="26" fill="#ecfdf5" stroke="#0f766e" stroke-width="1.6"/>' % (cx, cy))
+    f.text(cx, cy, label, size=10.5, color=NAVY, bold=True, vmid=True)
+actor(55, 140, "Member")
+actor(585, 140, "Librarian")
+uc(215, 75, "Search\ncatalogue")
+uc(215, 160, "Borrow\nbook")
+uc(215, 245, "Return\nbook")
+uc(425, 75, "Add new\nbook")
+uc(425, 160, "Verify\nmembership")
+uc(425, 245, "Calculate\nfine")
+for yy in (75, 160, 245):
+    f.line(71, 170, 143, yy, color=NAVY, sw=1.3)
+f.line(569, 170, 497, 75, color=NAVY, sw=1.3)
+f.line(569, 170, 497, 245, color=NAVY, sw=1.3)
+f.arrow([(287, 160), (353, 160)], color=RED, sw=1.5, dash=True, label="<<include>>", lpos=(320, 150), lsize=9.5, lcolor=RED)
+f.arrow([(353, 245), (287, 245)], color=AMBER, sw=1.5, dash=True, label="<<extend>>", lpos=(320, 235), lsize=9.5, lcolor=AMBER)
+```
+
+::: example Worked example: reading a use case description
+A diagram shows only names; the real analysis is the **use case description**. For *Borrow book*:
+- **Actor:** Member (primary), Librarian (operates the counter). **Trigger:** the member presents a book and a card.
+- **Precondition:** the member record exists and is not suspended. **Main flow:** (1) librarian scans the card; (2) system verifies membership (included use case); (3) librarian scans the book; (4) system checks that the copy is available and that the member has fewer than 3 loans; (5) system records the loan with a due date 14 days ahead; (6) system prints the slip.
+- **Alternative flows:** 2a card expired, system refuses and the use case ends; 4a limit reached, system asks to return a book first; 4b book already issued, system shows the due date.
+- **Postcondition:** one new LOAN row exists and the book is marked issued.
+Each numbered step becomes a test case in unit 5, and each alternative flow becomes a rule in the requirements specification.
+:::
+
+### Class diagrams
+
+A **class** is drawn as a rectangle with three compartments: the name, the **attributes** (data) and the **operations** (behaviour). A **visibility mark** can precede each member: + public, - private, # protected. The lines between classes carry the design:
+
+| Relationship | Meaning | Notation | Library example |
+|---|---|---|---|
+| **Association** | objects know each other; carries a **multiplicity** (1, 0..1, 0..*, 1..*) | plain line | one Member has 0..* Loans |
+| **Aggregation** | whole and parts, parts can live alone | line with hollow diamond at the whole | a Shelf has Books |
+| **Composition** | whole and parts, parts die with the whole | line with filled diamond | an Invoice has InvoiceLines |
+| **Generalisation (inheritance)** | a subclass is a kind of the superclass | line with hollow triangle at the superclass | Student and Teacher are kinds of Member |
+| **Dependency** | one class uses another briefly | dashed arrow | FineCalculator uses Loan |
+
+```svgfig label="1.5" caption="Class diagram of the library system. Member, Loan and Book are classes with attributes and operations. One Member has zero or more Loans (1 to 0..*), each Loan is for exactly one Book (0..* to 1). Student and Teacher inherit from Member (hollow triangle)."
+f = Fig(640, 292)
+def cls(x, y, w, name, attrs, ops, fill=BLUE):
+    ha = 20 + 15 * len(attrs) + 6
+    ho = 15 * len(ops) + 8
+    f.raw('<rect x="%s" y="%s" width="%s" height="%s" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.5"/>' % (x, y, w, 24 + ha - 20 + ho))
+    f.raw('<rect x="%s" y="%s" width="%s" height="24" fill="%s" stroke="#1e3a8a" stroke-width="1.5"/>' % (x, y, w, fill))
+    f.text(x + w / 2, y + 12, name, size=11.5, color=NAVY, bold=True, vmid=True)
+    for i, a in enumerate(attrs):
+        f.text(x + 8, y + 24 + 12 + 15 * i, a, size=9.8, color=SLATE, anchor="start", vmid=True)
+    ly = y + 24 + 6 + 15 * len(attrs)
+    f.line(x, ly, x + w, ly, color=NAVY, sw=1.2)
+    for i, o in enumerate(ops):
+        f.text(x + 8, ly + 11 + 15 * i, o, size=9.8, color=SLATE, anchor="start", vmid=True)
+cls(15, 15, 170, "Member", ["- memberId : int", "- name : String", "- phone : String"], ["+ borrow(book)", "+ giveBack(book)"])
+cls(235, 15, 170, "Loan", ["- loanId : int", "- issueDate : Date", "- dueDate : Date"], ["+ calculateFine() : int", "+ isOverdue() : boolean"], fill="#fde68a")
+cls(455, 15, 170, "Book", ["- bookId : int", "- title : String", "- author : String"], ["+ isAvailable() : boolean", "+ markIssued()"])
+f.line(185, 80, 235, 80, color=NAVY, sw=1.6)
+f.line(405, 80, 455, 80, color=NAVY, sw=1.6)
+f.text(194, 70, "1", size=10.5, color=RED, bold=True)
+f.text(224, 70, "0..*", size=10.5, color=RED, bold=True)
+f.text(414, 70, "0..*", size=10.5, color=RED, bold=True)
+f.text(446, 70, "1", size=10.5, color=RED, bold=True)
+f.text(210, 96, "has", size=10, color=SLATE, italic=True)
+f.text(430, 96, "is for", size=10, color=SLATE, italic=True)
+f.poly([(100, 142), (88, 160), (112, 160)], fill="#ffffff", stroke=NAVY, sw=1.6)
+f.line(100, 142, 100, 130, color=NAVY, sw=1.6)
+f.line(100, 160, 100, 178, color=NAVY, sw=1.6)
+f.line(52, 178, 157, 178, color=NAVY, sw=1.6)
+f.line(52, 178, 52, 196, color=NAVY, sw=1.6)
+f.line(157, 178, 157, 196, color=NAVY, sw=1.6)
+cls(5, 196, 95, "Student", ["- program"], ["+ borrowLimit()"], fill=MINT)
+cls(110, 196, 95, "Teacher", ["- department"], ["+ borrowLimit()"], fill=MINT)
+f.text(430, 232, "Visibility: + public, - private.\nMultiplicity: 1 exactly one,\n0..* zero or more.\nSubclasses redefine borrowLimit()\n(polymorphism).", size=10, color=SLATE, anchor="start")
+```
+
+### Sequence diagrams
+
+A **sequence diagram** shows one scenario of a use case. Objects (or actors) stand along the top as boxes, each with a dashed vertical **lifeline**; time runs downward. A solid arrow is a call (message), a dashed arrow is the return. The order of the arrows is the order of events, so a sequence diagram is the quickest way to find a missing operation: every arrow that arrives at an object must correspond to an operation in that object's class. In Figure 1.6 the arrow *isAvailable(bookId)* tells us that class Book (or the BOOK table's data-access class) needs that operation, which is exactly what Figure 1.5 lists.
+
+```svgfig label="1.6" caption="Sequence diagram for the main flow of Borrow book. Time runs downward. Solid arrows are messages, dashed arrows are returns. Each message names an operation that some class in Figure 1.5 must provide."
+f = Fig(640, 322)
+xs = [80, 240, 400, 560]
+names = [":Librarian", ":IssueScreen", ":LoanService", ":BookTable"]
+for x, n in zip(xs, names):
+    f.box(x - 58, 8, 116, 28, n, fill=BLUE, color=NAVY, size=11, bold=True)
+    f.line(x, 36, x, 312, color=SLATE, sw=1.2, dash=True)
+msgs = [(0, 1, 76, "1: issue(memberId, bookId)", False), (1, 2, 112, "2: createLoan()", False),
+        (2, 3, 148, "3: isAvailable(bookId)", False), (3, 2, 184, "4: true", True),
+        (2, 3, 220, "5: markIssued(bookId)", False), (2, 1, 256, "6: dueDate", True),
+        (1, 0, 292, "7: slip printed", True)]
+for a, b, y, lab, ret in msgs:
+    f.arrow([(xs[a], y), (xs[b], y)], color=AMBER if ret else NAVY, sw=1.6, dash=ret)
+    f.text((xs[a] + xs[b]) / 2, y - 8, lab, size=10, color=SLATE, bold=not ret)
+```
+
+### State diagrams
+
+A **state diagram** (state machine) describes the life of one object whose behaviour depends on its history: a book is *Available*, then *Issued*, possibly *Overdue*, then back to *Available*. A black dot is the start; rounded boxes are **states**; arrows are **transitions** labelled *event [guard] / action*, where the guard in square brackets must be true for the transition to fire. State diagrams are the right tool for objects with a clear life cycle: orders, loans, exam papers, support tickets.
+
+```svgfig label="1.7" caption="State diagram of one Book copy. The black dot is the start. A transition is labelled event [guard]. Returning a late book also needs the fine to be paid, so the Overdue to Available arrow carries a guard."
+f = Fig(640, 232)
+f.circle(18, 96, 7, fill=NAVY, stroke=NAVY)
+f.box(55, 72, 120, 48, "Available", fill=MINT, stroke=TEAL, color=NAVY, size=12, bold=True, r=22)
+f.box(260, 72, 120, 48, "Issued", fill=BLUE, color=NAVY, size=12, bold=True, r=22)
+f.box(465, 72, 120, 48, "Overdue", fill=ROSE, stroke=RED, color=NAVY, size=12, bold=True, r=22)
+f.arrow([(25, 96), (55, 96)], color=NAVY, sw=1.6)
+f.arrow([(175, 90), (260, 90)], color=NAVY, sw=1.6, label="issue [member valid]", lpos=(217, 62), lsize=9.5)
+f.arrow([(380, 90), (465, 90)], color=NAVY, sw=1.6, label="due date passes", lpos=(423, 62), lsize=9.5)
+f.arrow([(320, 120), (320, 160), (115, 160), (115, 120)], color=TEAL, sw=1.6, label="return", lpos=(218, 176), lsize=10)
+f.arrow([(525, 120), (525, 206), (140, 206), (140, 120)], color=RED, sw=1.6, label="return [fine paid]", lpos=(332, 222), lsize=10)
+```
+
+An **activity diagram** is the object-oriented flowchart: rounded actions, diamonds for decisions, thick bars for fork and join (parallel work), and **swimlanes** that show which actor performs each action. It is the usual way to show a business process before it is split into use cases.
+
+### From the diagrams to code
+
+The diagrams are a bridge to the programming units. Each class becomes a Java or Python class, each attribute a field, each operation a method, each association a field or collection reference (Member holds a list of Loan), and each generalisation an `extends`. A state diagram becomes an `enum` plus a `switch` in the methods that change state. A sequence diagram becomes the body of one method: the arrows leaving :LoanService are the calls made inside `createLoan()`.
+
+::: note Structured versus object-oriented: say it in two lines
+Structured analysis separates **processes** (DFD) from **data** (ER) and asks "what happens to the data?". Object-oriented analysis keeps data and behaviour together in **classes** and asks "which objects collaborate to do this?". Both are valid in an exam; a good answer names one diagram from each family and says what question it answers.
+:::
+
+## 1.15 Acquiring a system: build, buy, outsource or rent
+
+The TU syllabus lists **system acquisition** and **reuse** under the origins of software. The decision is rarely "write everything ourselves". It is a comparison of fit, cost over several years, risk and speed.
+
+### Total cost of ownership
+
+The **licence or development price is only the first line** of the bill. The **total cost of ownership (TCO)** adds set-up, customisation, training, annual support, upgrades and the cost of leaving. A five-year view prevents a cheap start from hiding an expensive tail.
+
+::: example Worked example: five-year TCO of three routes for a college fee system (Rs, invented figures)
+- **Build in-house:** development 1,800,000 once; maintenance 270,000 a year. Five years: 1,800,000 + 5 x 270,000 = **3,150,000**.
+- **Buy a package and customise it:** licence 600,000 + customisation 400,000 once; support 120,000 a year. Five years: 600,000 + 400,000 + 5 x 120,000 = **1,600,000**.
+- **Rent software as a service:** set-up 100,000 once; subscription 15,000 a month = 180,000 a year. Five years: 100,000 + 5 x 180,000 = **1,000,000**.
+The cheapest total is the rented service, but the subscription never ends and the college does not own the code; the in-house build costs three times as much but fits the college's rules exactly. TCO therefore **feeds** the decision; it does not make it.
+:::
+
+### Scoring vendors with a weighted matrix
+
+After the RFP, the committee scores each proposal against criteria that were weighted **before** the proposals arrived (otherwise the weights drift toward the favourite). Each score runs from 1 (poor) to 5 (excellent); the weighted total is the sum of weight x score.
+
+| Criterion | Weight | A: packaged | B: local firm, custom | C: SaaS |
+|---|---|---|---|---|
+| Functionality (fit to rules) | 30 | 4 | 5 | 3 |
+| Total cost (TCO, higher score = cheaper) | 25 | 4 | 2 | 4 |
+| Support and maintenance | 20 | 3 | 4 | 4 |
+| Flexibility to change | 15 | 2 | 5 | 3 |
+| Training and documentation | 10 | 4 | 4 | 3 |
+| **Weighted total (out of 500)** | 100 | **350** | **395** | **345** |
+
+Check, vendor B: 30 x 5 + 25 x 2 + 20 x 4 + 15 x 5 + 10 x 4 = 150 + 50 + 80 + 75 + 40 = **395**. Vendor B wins on fit and flexibility even though it is the dearest, because the committee gave functionality the biggest weight. Change the weights (cost 40, functionality 20) and the order changes: **always run a sensitivity check** and write the reason for the final choice in the project file.
+
+### Reuse
+
+**Reuse** means building the new system from parts that already exist. Levels, from small to large: copied code, **libraries and frameworks**, **components and services** (a payment API, an SMS gateway), **design patterns** and whole **product lines**. Benefits are lower cost, fewer defects and faster delivery. The costs are real: reusable parts must be documented and tested, their licences checked (MIT, Apache, GPL differ in what they require of your code), and their updates tracked, because a library with a security hole becomes your security hole.
+
+| Route | Best when | Main risk | Question to ask before choosing |
+|---|---|---|---|
+| Build | the process is unique and gives advantage | cost, delay, skills | can we maintain it for years? |
+| Buy package | the process is standard (accounts, payroll) | forcing the business to fit the package | how many requirements are met without customising? |
+| Outsource | skills or staff are missing | dependence, confidentiality | who owns the code and the data? |
+| Rent (SaaS) | quick start, small IT team | lock-in, data location, price rises | can we export our data in a usable format? |
+| Reuse components | common technical needs | licence and update burden | is the component maintained and licensed for our use? |
+
+## 1.16 Project management software, the work breakdown structure and earned value
+
+Section 1.9 introduced Gantt charts and the critical path. Real projects add three more habits: break the work down properly, record a **baseline**, and measure progress in money and time with the same yardstick.
+
+### Work breakdown structure (WBS)
+
+A **work breakdown structure** divides the project deliverables into smaller and smaller pieces until each piece is a **work package** that one person can estimate, assign and finish in a few days. The rule of thumb is the **100 per cent rule**: the children of a box add up to exactly the parent, nothing missing and nothing extra. A WBS is organised by deliverable (nouns: *Result database*, *Marks-entry screen*), not by activity, and it is the checklist from which the schedule and the budget are built. For the result system a first level could be: 1 Management, 2 Requirements, 3 Database, 4 Screens, 5 Reports, 6 Testing, 7 Deployment and training; the work package *3.2 Create tables and keys* then feeds the network diagram as an activity with a duration and a predecessor.
+
+### What project management software does
+
+Tools such as MS Project, OpenProject, Jira, Trello or a spreadsheet template keep the plan alive. Their useful features, in the order a student project meets them:
+
+1. **Task list with dependencies.** Finish-to-start is the usual link; start-to-start (both begin together) and finish-to-finish also exist, and **lag** or **lead** time can be added.
+2. **Automatic critical path.** Change one duration and the whole schedule is recalculated, including the slack of every task.
+3. **Resources and calendars.** Assigning one person to two tasks at the same time shows **over-allocation**; a holiday such as Dashain removes working days from the calendar.
+4. **Baseline.** A saved copy of the approved plan. The software then shows variance: planned versus actual dates and effort.
+5. **Boards and backlogs** (Jira, Trello): cards move across *To do, In progress, Done*, which suits agile sprints better than a Gantt chart.
+6. **Reports:** milestone list, burn-down chart, resource load, cost to date.
+
+The software calculates; it does not manage. A beautiful plan built on wrong estimates is a precise error.
+
+### Earned value in one page
+
+**Earned value management (EVM)** answers "are we ahead or behind, and are we over or under budget?" with three quantities at the status date:
+
+- **Planned value (PV)** = the budgeted cost of the work that **should** be finished by now.
+- **Earned value (EV)** = the budgeted cost of the work **actually** finished.
+- **Actual cost (AC)** = the money actually spent.
+
+| Measure | Formula | Reading |
+|---|---|---|
+| Schedule variance | SV = EV - PV | negative: behind schedule |
+| Cost variance | CV = EV - AC | negative: over budget |
+| Schedule performance index | SPI = EV / PV | below 1: behind |
+| Cost performance index | CPI = EV / AC | below 1: over budget |
+| Estimate at completion | EAC = BAC / CPI | forecast final cost if the present efficiency continues |
+
+::: example Worked example: a result system a third of the way through
+Budget at completion BAC = Rs 1,000,000. At the status date, the plan says 50 per cent should be finished; the team has finished 40 per cent and spent Rs 520,000.
+PV = 0.50 x 1,000,000 = **500,000**; EV = 0.40 x 1,000,000 = **400,000**; AC = **520,000**.
+SV = 400,000 - 500,000 = **-100,000** and SPI = 400,000 / 500,000 = **0.80**: the project is 20 per cent behind schedule.
+CV = 400,000 - 520,000 = **-120,000** and CPI = 400,000 / 520,000 = **0.77**: every rupee spent buys 77 paisa of planned work.
+EAC = 1,000,000 / 0.769 = **1,300,000**: if nothing changes the project ends **Rs 300,000 over** budget. The manager must act now (reduce scope, add skilled help, or ask the sponsor) rather than at the end.
+:::
+
+::: note Why earned value beats "percent of budget spent"
+Spending 52 per cent of the budget sounds like being close to the plan of 50 per cent. Only EV shows that the 52 per cent bought just 40 per cent of the work. Money spent is never a measure of progress on its own.
+:::
+
 ## Formula and fact sheet
 
 - SDLC: planning → analysis → design → implementation → maintenance.
@@ -255,6 +498,9 @@ The type decides the design. A TPS must be fast, accurate and recoverable (data 
 - Critical path = longest path, zero slack, sets project duration.
 - Waterfall: sequential, fixed requirements. Agile: iterations, change welcome. XP: pair programming, TDD, CI, refactoring.
 - IS types: TPS, MIS, DSS, ESS, expert.
+- UML: use case (actors, include, extend), class (association, aggregation, composition, generalisation), sequence (time downward), state (event [guard]).
+- TCO = purchase or build + set-up + years x (support + maintenance). Weighted score = sum of weight x score.
+- Earned value: SV = EV - PV, CV = EV - AC, SPI = EV/PV, CPI = EV/AC, EAC = BAC/CPI.
 
 ## Chapter summary
 
@@ -273,6 +519,14 @@ The type decides the design. A TPS must be fast, accurate and recoverable (data 
 7. Compare building in-house, buying packaged software and outsourcing.
 8. Activities: A 2 (none), B 4 (A), C 3 (A), D 2 (B, C). Find the project duration, critical path and slack of C.
 9. Compute the PERT expected time for a = 4, m = 6, b = 14.
+10. Draw a use case diagram for an online examination system with the actors Student, Teacher and Admin, and show one include and one extend relationship.
+11. Distinguish the include and extend relationships between use cases with one example each.
+12. For Student, Course and Enrolment, give the classes, two attributes each, and the multiplicities of the associations.
+13. List the messages of a sequence diagram for withdrawing cash from an ATM.
+14. List the states and transitions of an online order.
+15. Build costs Rs 2,000,000 plus Rs 300,000 a year; a package costs Rs 900,000 plus Rs 150,000 a year. Compare the four-year TCO.
+16. Weights: function 50, cost 30, support 20. Vendor X scores 4, 3, 5; vendor Y scores 5, 4, 2 (scale 1 to 5). Which wins?
+17. BAC = Rs 600,000. The plan says 50 per cent should be done; 35 per cent is done and Rs 240,000 is spent. Find SV, CV, SPI, CPI and EAC.
 
 ::: note Answers and worked solutions
 **1.** System: interrelated components pursuing a goal. IS: people, procedures, data, hardware and software that process information. Analyst: the person who studies the business problem and defines and designs the solution.
@@ -284,6 +538,14 @@ The type decides the design. A TPS must be fast, accurate and recoverable (data 
 **7.** In-house: tailored but slow and costly; packaged: quick and cheap but must adapt to the package; outsourcing: access to skills but dependence and contract management.
 **8.** Paths: A-B-D = 2 + 4 + 2 = 8; A-C-D = 2 + 3 + 2 = 7. Duration **8**; critical path **A → B → D**; slack of C = 8 − 7 = **1**.
 **9.** t = (4 + 24 + 14)/6 = **7**.
+**10.** Actors outside the boundary; use cases: Log in, Take exam, Submit answers, View result (Student); Create question set, Mark answers (Teacher); Manage users (Admin). Take exam *includes* Log in; Show timeout warning *extends* Take exam (only when time is nearly over).
+**11.** Include: always happens as a part of the base use case (Borrow book includes Verify membership). Extend: optional, conditional addition (Calculate fine extends Return book when the book is late).
+**12.** Student (studentId, name), Course (courseCode, title), Enrolment (enrolDate, grade). Student 1 to 0..* Enrolment; Course 1 to 0..* Enrolment; Enrolment resolves the many-to-many link between Student and Course.
+**13.** Customer inserts card; ATM sends verifyPin(); Bank returns ok; ATM sends withdraw(amount); Bank checks balance and returns approved; ATM dispenses cash; ATM prints receipt.
+**14.** Placed, Paid, Packed, Shipped, Delivered; Cancelled (from Placed or Paid). Events: pay, pack, ship, deliver, cancel [before shipping].
+**15.** Build: 2,000,000 + 4 x 300,000 = **3,200,000**. Package: 900,000 + 4 x 150,000 = **1,500,000**. The package is cheaper by **1,700,000** over four years.
+**16.** X: 50 x 4 + 30 x 3 + 20 x 5 = 200 + 90 + 100 = **390**. Y: 50 x 5 + 30 x 4 + 20 x 2 = 250 + 120 + 40 = **410**. Y wins by 20 points.
+**17.** PV = 300,000; EV = 210,000; SV = **-90,000**; SPI = **0.70**; CV = 210,000 - 240,000 = **-30,000**; CPI = **0.875**; EAC = 600,000 / 0.875 = **Rs 685,714**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
