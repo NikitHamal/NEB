@@ -1,0 +1,262 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "network-administration",
+ "name": "Network Administration",
+ "name_ne": "",
+ "icon": "lan",
+ "group": "semester-8",
+ "group_label": "Semester VIII",
+ "color": "#1D4E89",
+ "lang": "en",
+ "code": "BCA 453",
+ "credits": 3,
+ "semester": 8,
+ "hours": 58,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "The network administrator as a profession",
+    "Professional ethics of the network administrator",
+    "Recent trends in network administration",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "The network administrator as a profession"
+    },
+    {
+     "no": "1.2",
+     "title": "Professional ethics of the network administrator"
+    },
+    {
+     "no": "1.3",
+     "title": "Recent trends in network administration"
+    },
+    {
+     "no": "1.4",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3334,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Workstation, Server and Services",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Workstations",
+    "Servers",
+    "Services",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Workstations"
+    },
+    {
+     "no": "2.2",
+     "title": "Servers"
+    },
+    {
+     "no": "2.3",
+     "title": "Services"
+    },
+    {
+     "no": "2.4",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 5040,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Infrastructure",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Network architecture",
+    "Network operations",
+    "Data centres",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Network architecture"
+    },
+    {
+     "no": "3.2",
+     "title": "Network operations"
+    },
+    {
+     "no": "3.3",
+     "title": "Data centres"
+    },
+    {
+     "no": "3.4",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 4919,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Service Recommendation",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Server upgrade",
+    "Centralising a service",
+    "Service monitoring",
+    "Namespaces",
+    "E-mail service",
+    "Print services",
+    "Data storage",
+    "Backup and restore",
+    "Software repository",
+    "Web services",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Server upgrade"
+    },
+    {
+     "no": "4.2",
+     "title": "Centralising a service"
+    },
+    {
+     "no": "4.3",
+     "title": "Service monitoring"
+    },
+    {
+     "no": "4.4",
+     "title": "Namespaces"
+    },
+    {
+     "no": "4.5",
+     "title": "E-mail service"
+    },
+    {
+     "no": "4.6",
+     "title": "Print services"
+    },
+    {
+     "no": "4.7",
+     "title": "Data storage"
+    },
+    {
+     "no": "4.8",
+     "title": "Backup and restore"
+    },
+    {
+     "no": "4.9",
+     "title": "Software repository"
+    },
+    {
+     "no": "4.10",
+     "title": "Web services"
+    },
+    {
+     "no": "4.11",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 5905,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Procurement Plan for an Enterprise Network",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The procurement process",
+    "The case study: requirements and design",
+    "The procurement document",
+    "Evaluating bids",
+    "Implementation plan, acceptance and handover",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The procurement process"
+    },
+    {
+     "no": "5.2",
+     "title": "The case study: requirements and design"
+    },
+    {
+     "no": "5.3",
+     "title": "The procurement document"
+    },
+    {
+     "no": "5.4",
+     "title": "Evaluating bids"
+    },
+    {
+     "no": "5.5",
+     "title": "Implementation plan, acceptance and handover"
+    },
+    {
+     "no": "5.6",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3575,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 29,
+ "notes_ready": 5
+}

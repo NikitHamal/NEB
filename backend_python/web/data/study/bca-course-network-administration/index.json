@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-8-network-administration",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "area": "BCA 453 · Network Administration · Unit 1",
+   "words": 3257,
+   "read_min": 18,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Workstation, Server and Services",
+   "area": "BCA 453 · Network Administration · Unit 2",
+   "words": 5633,
+   "read_min": 31,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Infrastructure",
+   "area": "BCA 453 · Network Administration · Unit 3",
+   "words": 5243,
+   "read_min": 29,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Service Recommendation",
+   "area": "BCA 453 · Network Administration · Unit 4",
+   "words": 7277,
+   "read_min": 40,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Procurement Plan for an Enterprise Network",
+   "area": "BCA 453 · Network Administration · Unit 5",
+   "words": 4109,
+   "read_min": 23,
+   "figures": 1,
+   "has_questions": true
+  }
+ ]
+}

@@ -437,3 +437,27 @@ Outline found: TU CACS453 Database Programming (notebahadur.com, benchpartner.co
 2. Next elective: Network Administration (outline above), then GIS / Data Visualization / Data Mining once outlines are located.
 3. If Oracle XE becomes available, run the 453 scripts and fix any syntax or message differences.
 4. Keyword audits still pending: projects 256/306/356/404. BCA 153 split of collections/file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books; extend `check_mis.py`.
+
+## Session 35 results (NEW elective book BCA 453 Network Administration; BCA 105 and the other done books left as-is)
+
+Picked up from sessions 16-34 (this file; no duplicate tracker). BCA 105 (6 textbook units, 151 pp), the web-reader fixes of sessions 16-18 and every earlier book were not touched: the user restated that they are finished. Fresh sandbox; recipe: `/tmp/setup.sh` (apt incl. python3-venv, venv `/tmp/v`, pip with `-r backend_python/requirements.txt`, `npm ci` in `notes/pipeline/mathjax`, fonts installer) worked unchanged, about 4 minutes, run detached.
+
+### BCA 453 Network Administration (Elective III, TU CACS406): NEW book (the queue's "next elective")
+Outline (notebahadur.com, benchpartner.com, bcanotesnepal.com): U1 Introduction 4 h, U2 Workstation, Server and Services 16 h, U3 Infrastructure 16 h, U4 Service Recommendation 16 h, U5 procurement plan for an enterprise network 6 h; text Limoncelli, Hogan and Chalup 3rd ed. (README maps every outline topic).
+- ~28.5k words, 5 units, 10 figures, 25 executed Python programs (availability series/parallel and N+1, M/M/1 delay, RAID capacity, UPS and PUE, subnet plan with `ipaddress`, ACL first-match, SNMP counter wrap, RTO/RPO check, backup sizing, BoQ and TCO, weighted bid scoring); Linux, Windows and config-file samples are in `bash`/`ini` fences, not executed.
+- Registered in `books.json` (code `BCA 453`, shared with Database Programming: `gen_status.py` now picks the book by code AND row name, see `_ByCode`), `CURRICULUM.md` row added, `export_course_web.py` icon map (`lan`).
+- PDF `bca/course/semester-8/pdfs/NEBians-BCA-Course-Semester-8-Network-Administration.pdf`: `pdfinfo` **87 pages**, `qa_pdf.py` **fails=0 warns=0**. Web data exported (`export_course_web.py semester-8/network-administration`): 5 units, 29 topics, `index.json` entry added (additive).
+- Pages inspected as PNG: Figs 1.1, 2.1, 2.2, 3.1, 3.2, 3.3, 4.1, 4.2, 5.1. Fixed after inspection: Fig 3.2 leaf 5 and rack 5 were clipped at the right edge (figure widened), Fig 3.3 hot/cold aisle was confusing (redrawn), Fig 4.1 row labels. Figs 2.1 and 2.2 were checked at the 2-unit trial build.
+- Numbers checked by the executed output: BoQ first priced at NPR 14.77 million (over the 12 million ceiling), so unit prices were revised and the printed total is NPR 11,921,240 (VAT 13% and 5% contingency included); five-year TCO Vendor A 19.15 M vs B 22.80 M; bid scores A 88.8, B 74.8.
+
+### Honest gaps
+- No Linux/Windows command, Nginx/Postfix/BIND/CUPS/Samba/restic/dnsmasq/Nagios configuration was run; they follow Ubuntu 22.04/24.04, Rocky 9 and Windows Server 2019/2022 documentation from memory. Test in a lab VM.
+- Prices in Unit 5 are illustrative planning numbers, not quotations; Public Procurement Act 2063/Rules 2064, thresholds and the percentages of bid security etc. are flagged "check the current text". Uptime tier percentages, SAGE/LOPSA code headings and ASHRAE temperatures are from memory of public sources.
+- The outline lists Unit 5 without a title; "Procurement Plan for an Enterprise Network" is our title. Lab list is not a printed college manual. No Django screenshot of this book yet (same exporter as sessions 18-34). No subject-teacher review.
+- Elective slots still unwritten: I (E-Commerce, Database Administration, Linux), II (Business Intelligence, Software Testing, Data Visualization), III (E-Governance, GIS), IV (Digital Marketing and SEO, Image Processing, Data Mining).
+
+## Prioritised queue for the next session
+1. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453 (both), 454.
+2. Next electives from TU outlines on notebahadur.com (Software Testing and QA, Data Mining, Image Processing, Linux / Database Administration, GIS); reuse the part-file recipe: write `_p/uNa.md ... uNc.md` (each under 140 lines) then `cat` into `unit-0N.md`, `normalize_md.py`, `fill_script_outputs.py`, build detached, `qa_pdf.py`, `export_course_web.py`, `gen_status.py`.
+3. Keyword audits still pending: projects 256/306/356/404. BCA 153 split of collections/file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books; extend `check_mis.py`.
+4. Take a Django screenshot of a Semester 8 book (Network Administration) to confirm sidebar and code blocks.
