@@ -122,16 +122,20 @@ ax.hline(2, color=TEAL)
 ax.hline(1.645, color=AMBER)
 f.text(520, 262, "n", size=11, color=SLATE, bold=True, anchor="start")
 f.text(60, 274, "S_n", size=11, color=SLATE, bold=True, anchor="start")
-ax.tag(14, 0.6, "1 + 1/2 + 1/4 + ... (limit 2)", size=10, color=TEAL, bold=True)
-ax.tag(14, 2.6, "sum of 1/k^2 (limit 1.645)", size=10, color=AMBER, bold=True)
+ax.tag(14, 2.5, "1 + 1/2 + 1/4 + ... (limit 2)", size=10, color=TEAL, bold=True)
+ax.tag(14, 1.0, "sum of 1/k^2 (limit 1.645)", size=10, color=AMBER, bold=True)
 ax.tag(10, 4.3, "harmonic series (no limit)", size=10.5, color=RED, bold=True)
 ```
 
 ## 2.8 Telescoping sums and the method of differences
 
-Many sums collapse when each term is written as a difference $a_{k} = b_{k} - b_{k+1}$: then $\sum_{k=1}^{n} a_{k} = b_{1} - b_{n+1}$, because every middle term cancels. Partial fractions are the usual way to create the difference.
+Many sums collapse when each term is written as a difference $a_{k} = b_{k} - b_{k+1}$: then the sum of the first $n$ terms is $b_{1} - b_{n+1}$, because every middle term cancels:
+$$\sum_{k=1}^{n} a_{k} = b_{1} - b_{n+1}.$$
+Partial fractions are the usual way to create the difference.
 
-$$\frac{1}{k (k + 1)} = \frac{1}{k} - \frac{1}{k + 1} \quad \Rightarrow \quad \sum_{k=1}^{n} \frac{1}{k (k + 1)} = 1 - \frac{1}{n + 1} = \frac{n}{n + 1}.$$
+$$\frac{1}{k (k + 1)} = \frac{1}{k} - \frac{1}{k + 1}.$$
+Therefore
+$$\sum_{k=1}^{n} \frac{1}{k (k + 1)} = 1 - \frac{1}{n + 1} = \frac{n}{n + 1}.$$
 For $n = 99$ the sum is exactly $\frac{99}{100}$, and as $n \to \infty$ the infinite series converges to 1.
 
 ::: example Worked example: $\sum \frac{1}{k (k + 2)}$

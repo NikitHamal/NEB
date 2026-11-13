@@ -653,3 +653,20 @@ Sandbox: `/home/user/sandbox`; recipe in this file (venv `/tmp/v`, apt, `npm ci`
 ### Session 44 addendum: web reader and audit
 - Web reader checked (Django :8765 + headless Chromium, `/app/syllabus/bca-course/machine-learning/unit-4/`): left rail lists all 5 units, right rail lists 4.1 to 4.12 plus model answers (no "Formula and fact sheet"), new sections 4.9 to 4.11 render with executed code blocks and inline math in list items. Very long code lines scroll sideways inside the block (not wrapped); cosmetic.
 - BCA 355 Distributed System audited: 7 units, 32k words, 92 pp, 7 sections per unit with figures and model answers; covers the whole outline (including Paxos, Raft, Byzantine agreement, snapshots, DFS), so it was left unchanged. Possible extra: MapReduce/Spark section in unit 7.
+
+## Session 45 results (BCA 104 Mathematics I units 2 and 6 deepened; BCA 105 and later-listed done books left as-is per the user)
+
+Picked up from sessions 16-44 (this file; no duplicate tracker). Sparse-clone bootstrap; setup recipe from session 21/39 (`/tmp/setup.sh`: apt, venv `/tmp/v`, pip, `npm ci`, fonts) worked unchanged, about 4 minutes. Single-book build about 60 s, run detached; output appears only at the end.
+- Reason for the pick: BCA 104 units 2 (1.4k words) and 6 (1.7k words) were a third of the size of the other units and had only been hand-checked.
+- **BCA 104: 82 -> 99 pages** (`qa_pdf.py` fails=0; warns are 6 pt tick labels in older figures, none in the new ones). Unit 2: new 2.6 recurrences (Hanoi, Fibonacci, Binet), 2.7 convergence (harmonic, p-series, ratio test), 2.8 telescoping and differences, 2.9 loop counts, amortised doubling, annuity, EMI; Fig 2.1; practice 9 to 20 with answers. Unit 6: new 6.7 tangents/normals/tangent length, 6.8 parametric forms and focal distances, 6.9 translation of axes (three worked reductions), 6.10 general second-degree equation and rotation, 6.11 applications; Figs 6.2 (parabola reflection), 6.3 (hyperbola), 6.4 (polar family e = 0, 0.5, 1, 1.5); practice 9 to 24 with answers.
+- All numbers recomputed in `bca/tools/check_math1_u2u6.py` (ALL OK). Web data re-exported (`export_course_web.py semester-1/mathematics-1`).
+- Inspected as PNG (two rounds): Figs 2.1, 6.2, 6.3, 6.4 and the 2.8 and 6.10 display maths. Fixes after the first look: legend labels sat under the wrong series in Fig 2.1; labels overlapped tick numbers and the directrix in Figs 6.2 and 6.3; a long `\tan 2\theta` display with a parenthetical wrapped into three lines (parenthetical moved out of the `$$`); an inline `\sum` with limits is promoted to a display block by the pipeline, and a `$$` with `\Rightarrow` is typeset as aligned lines, so write one equation per `$$`.
+- Gotchas: `create_file` rejects absolute paths (stage parts under `shots/`, which is git-excluded); `svgfig` Axes tick labels sit just below the x axis and left of the y axis, so keep point labels above the axis (dy negative); `readflow` splits long paragraphs at sentence ends, this is intentional.
+- Honest gaps: web reader not re-screenshotted this session (same exporter, no template change); sections 2.6 to 2.9 and 6.7 to 6.11 go beyond the printed TU topic list and the README says so.
+
+## Prioritised queue for the next session
+1. Thin books next: BCA 253 Numerical Methods (85 pp), BCA 103 Digital Logic (74 pp, 5 units), BCA 402 (84 pp), BCA 104 units 1, 3 to 5 (4k words each) and projects 256/306/356/404 keyword audit; BCA 154 units 2 to 5.
+2. Rebuild older books to pick up the callout-orphan and code-split CSS; check page counts and `qa_pdf.py` each time.
+3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
+4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405, 406, 453, 454, 204, 206, 205, 153, 104.
+5. Django + Chromium screenshots of BCA 104 Unit 6 and BCA 405 Unit 4.

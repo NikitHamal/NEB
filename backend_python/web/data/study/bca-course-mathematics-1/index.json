@@ -3,56 +3,74 @@
  "units": [
   {
    "no": 1,
-   "title": "Functions and Graphs",
+   "title": "Logic, Relations, Functions and Graphs",
    "area": "BCA 104 · Mathematics I · Unit 1",
-   "words": 3779,
-   "read_min": 21,
+   "words": 4775,
+   "read_min": 27,
    "figures": 4,
    "has_questions": true
   },
   {
    "no": 2,
-   "title": "Limits and Continuity",
+   "title": "Sequence and Series",
    "area": "BCA 104 · Mathematics I · Unit 2",
-   "words": 3532,
+   "words": 3592,
    "read_min": 20,
-   "figures": 4,
+   "figures": 1,
    "has_questions": true
   },
   {
    "no": 3,
-   "title": "Differentiation",
+   "title": "Matrices and Determinants",
    "area": "BCA 104 · Mathematics I · Unit 3",
-   "words": 3350,
+   "words": 3465,
    "read_min": 19,
-   "figures": 4,
+   "figures": 3,
    "has_questions": true
   },
   {
    "no": 4,
-   "title": "Applications of Derivatives",
+   "title": "Systems of Linear Equations",
    "area": "BCA 104 · Mathematics I · Unit 4",
-   "words": 3958,
-   "read_min": 22,
-   "figures": 5,
+   "words": 3393,
+   "read_min": 19,
+   "figures": 3,
    "has_questions": true
   },
   {
    "no": 5,
-   "title": "Integration",
+   "title": "Eigenvalues, Eigenvectors and Diagonalisation",
    "area": "BCA 104 · Mathematics I · Unit 5",
-   "words": 3674,
-   "read_min": 20,
-   "figures": 4,
+   "words": 3297,
+   "read_min": 18,
+   "figures": 3,
    "has_questions": true
   },
   {
    "no": 6,
-   "title": "Differential Equations",
+   "title": "Analytical Geometry: Conic Sections",
    "area": "BCA 104 · Mathematics I · Unit 6",
-   "words": 3873,
-   "read_min": 22,
-   "figures": 5,
+   "words": 4866,
+   "read_min": 27,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Vector Spaces and Linear Transformations",
+   "area": "BCA 104 · Mathematics I · Unit 7",
+   "words": 3774,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Vectors in Space, Lines and Planes",
+   "area": "BCA 104 · Mathematics I · Unit 8",
+   "words": 3614,
+   "read_min": 20,
+   "figures": 3,
    "has_questions": true
   }
  ]

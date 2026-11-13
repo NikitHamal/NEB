@@ -12,6 +12,9 @@ vectors in BCA 104, and calculus in BCA 154. The calculus units moved to `semest
 | 4 Analytical geometry (conics, polar equations) | Unit 6 Conic sections |
 | 5 Vector and vector space | Unit 7 Vector Spaces and Linear Transformations, Unit 8 Vectors in Space, Lines and Planes |
 
+## Session 45 additions
+Unit 2 gained 2.6 recurrences (Hanoi, Fibonacci/Binet), 2.7 limits and convergence tests, 2.8 telescoping and the method of differences, 2.9 series in computing and finance (loop counts, amortised doubling, annuity, EMI), Figure 2.1 and practice 9 to 20. Unit 6 gained 6.7 tangents and normals, 6.8 parametric forms and focal distances, 6.9 translation of axes, 6.10 the general second-degree equation and rotation, 6.11 applications, Figures 6.2 to 6.4 and practice 9 to 24. Every number is recomputed in `bca/tools/check_math1_u2u6.py` (ALL OK). Sections 2.6 to 2.9 and 6.7 to 6.11 go beyond the printed topic list as reinforcement.
+
 ## Verification
 Worked numbers in units 3, 4, 5, 7 and 8 were checked with SymPy in earlier sessions (`bca/tools/check_math2.py`, written for the old BCA 154 file names).
 Numbers in the new Unit 2, Unit 6 and Unit 1 sections 1.6 to 1.9 were checked by hand (identities and arithmetic re-derived).
