@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**49 of 49 subject slots are written, built and QA-checked; 0 core subjects are not started; 0 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,845,624 raw words of study material, counted over the unit files, including code listings and tables):
+**50 of 50 subject slots are written, built and QA-checked; 0 core subjects are not started; 0 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,873,297 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -54,6 +54,7 @@
 | 8 | BCA 453 | [Database Programming (Elective III)](semester-8/database-programming/) | 27,025 | 102 | done |
 | 8 | BCA 453 | [Network Administration (Elective III)](semester-8/network-administration/) | 28,482 | 87 | done |
 | 8 | BCA 453 | [Geographical Information System (Elective III)](semester-8/geographical-information-system/) | 29,004 | 86 | done |
+| 8 | BCA 453 | [E-Governance (Elective III)](semester-8/e-governance/) | 27,673 | 84 | done |
 | 8 | BCA 454 | [Internet of Things (Elective IV)](semester-8/internet-of-things/) | 29,310 | 94 | done |
 | 8 | BCA 454 | [Image Processing (Elective IV)](semester-8/image-processing/) | 35,268 | 110 | done |
 

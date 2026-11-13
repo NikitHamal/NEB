@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-8-e-governance",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction",
+   "area": "BCA 453 · E-Governance · Unit 1",
+   "words": 4056,
+   "read_min": 23,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "E-Governance Models",
+   "area": "BCA 453 · E-Governance · Unit 2",
+   "words": 5796,
+   "read_min": 32,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "E-Governance Infrastructure, Stages in Evolution and Strategies for Success",
+   "area": "BCA 453 · E-Governance · Unit 3",
+   "words": 3717,
+   "read_min": 21,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Applications of Data Warehousing and Data Mining in Government",
+   "area": "BCA 453 · E-Governance · Unit 4",
+   "words": 4612,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Case Studies",
+   "area": "BCA 453 · E-Governance · Unit 5",
+   "words": 7060,
+   "read_min": 39,
+   "figures": 1,
+   "has_questions": true
+  }
+ ]
+}
