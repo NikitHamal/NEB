@@ -290,3 +290,8 @@ Picked up from sessions 16-27 (this file; no duplicate tracker). Fresh sandbox `
 3. Electives: BCA 406/453/454 (E-Commerce overlaps MIS Unit 10; Linux, Database Administration, DotNet, Software Testing) are still unwritten slots; deepen BCA 405 (SVM margin figure, network diagram).
 4. BCA 153 split of collections and file handling; fix 5-6 pt labels in old figures; run `svgkit.lint` over all books.
 5. Web: wide tables in worked-example callouts stop short of the callout width (cosmetic).
+
+## Session 29 (in progress)
+
+Picked up from sessions 16-28 (this file; no duplicate tracker). Fresh sandbox `/home/user/sandbox`; session-21 recipe re-run via `/tmp/setup.sh`.
+Plan: re-verify BCA 105 (headings vs textbook TOC), keyword audits of BCA 156 and BCA 151 against TU outlines (queue item 2), then an elective (queue item 3).
