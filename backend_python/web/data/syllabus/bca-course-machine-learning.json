@@ -1,0 +1,347 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "machine-learning",
+ "name": "Machine Learning",
+ "name_ne": "",
+ "icon": "menu_book",
+ "group": "semester-7",
+ "group_label": "Semester VII",
+ "color": "#B45309",
+ "lang": "en",
+ "code": "BCA 405",
+ "credits": 3,
+ "semester": 7,
+ "hours": 50,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Machine Learning and the Theory of Learning",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "History of machine learning",
+    "The brain-neuron learning system",
+    "Definition and types of learning",
+    "The need for machine learning",
+    "Data and tools",
+    "Review of statistics",
+    "Training, validation and test data",
+    "Theory of learning",
+    "Regularisation and splitting data in practice",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "History of machine learning"
+    },
+    {
+     "no": "1.2",
+     "title": "The brain-neuron learning system"
+    },
+    {
+     "no": "1.3",
+     "title": "Definition and types of learning"
+    },
+    {
+     "no": "1.4",
+     "title": "The need for machine learning"
+    },
+    {
+     "no": "1.5",
+     "title": "Data and tools"
+    },
+    {
+     "no": "1.6",
+     "title": "Review of statistics"
+    },
+    {
+     "no": "1.7",
+     "title": "Training, validation and test data"
+    },
+    {
+     "no": "1.8",
+     "title": "Theory of learning"
+    },
+    {
+     "no": "1.9",
+     "title": "Regularisation and splitting data in practice"
+    },
+    {
+     "no": "1.10",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2779,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Supervised Learning, Regression, Perceptron, Neural Networks, Trees and SVM",
+   "hours": 11,
+   "area": "",
+   "topics": [
+    "Classification problems",
+    "Linear regression: predicting a numerical value",
+    "The perceptron",
+    "Learning neural network structures",
+    "Decision tree representation",
+    "The basic decision tree algorithm (ID3)",
+    "Support vector machines",
+    "Logistic regression and the kernel idea",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Classification problems"
+    },
+    {
+     "no": "2.2",
+     "title": "Linear regression: predicting a numerical value"
+    },
+    {
+     "no": "2.3",
+     "title": "The perceptron"
+    },
+    {
+     "no": "2.4",
+     "title": "Learning neural network structures"
+    },
+    {
+     "no": "2.5",
+     "title": "Decision tree representation"
+    },
+    {
+     "no": "2.6",
+     "title": "The basic decision tree algorithm (ID3)"
+    },
+    {
+     "no": "2.7",
+     "title": "Support vector machines"
+    },
+    {
+     "no": "2.8",
+     "title": "Logistic regression and the kernel idea"
+    },
+    {
+     "no": "2.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2691,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Bayesian and Instance-Based Learning",
+   "hours": 11,
+   "area": "",
+   "topics": [
+    "Probability theory and Bayes' rule",
+    "Classifying with Bayes decision theory",
+    "Naive Bayes classifier",
+    "Bayesian belief networks",
+    "K-nearest neighbour (k-NN)",
+    "Maximum likelihood, MAP and Gaussian naive Bayes",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Probability theory and Bayes' rule"
+    },
+    {
+     "no": "3.2",
+     "title": "Classifying with Bayes decision theory"
+    },
+    {
+     "no": "3.3",
+     "title": "Naive Bayes classifier"
+    },
+    {
+     "no": "3.4",
+     "title": "Bayesian belief networks"
+    },
+    {
+     "no": "3.5",
+     "title": "K-nearest neighbour (k-NN)"
+    },
+    {
+     "no": "3.6",
+     "title": "Maximum likelihood, MAP and Gaussian naive Bayes"
+    },
+    {
+     "no": "3.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2223,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Unsupervised Learning and Dimensionality Reduction",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Introduction to clustering",
+    "Different distance functions for clustering",
+    "K-means clustering",
+    "Hierarchical clustering",
+    "Supervised learning after clustering",
+    "Dimensionality reduction techniques",
+    "Principal component analysis (PCA)",
+    "Choosing k in practice: elbow and silhouette",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Introduction to clustering"
+    },
+    {
+     "no": "4.2",
+     "title": "Different distance functions for clustering"
+    },
+    {
+     "no": "4.3",
+     "title": "K-means clustering"
+    },
+    {
+     "no": "4.4",
+     "title": "Hierarchical clustering"
+    },
+    {
+     "no": "4.5",
+     "title": "Supervised learning after clustering"
+    },
+    {
+     "no": "4.6",
+     "title": "Dimensionality reduction techniques"
+    },
+    {
+     "no": "4.7",
+     "title": "Principal component analysis (PCA)"
+    },
+    {
+     "no": "4.8",
+     "title": "Choosing k in practice: elbow and silhouette"
+    },
+    {
+     "no": "4.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2306,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Measures for Performance Evaluation of ML Algorithms",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Classification accuracy and the confusion matrix",
+    "Misclassification costs",
+    "Sensitivity, specificity, recall and precision",
+    "The ROC curve",
+    "Regression measures",
+    "Box plots and variability of results",
+    "Confidence intervals",
+    "Cross-validation and fair evaluation",
+    "Laboratory work and the mini-project",
+    "Multi-class problems and the precision-recall trade-off",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Classification accuracy and the confusion matrix"
+    },
+    {
+     "no": "5.2",
+     "title": "Misclassification costs"
+    },
+    {
+     "no": "5.3",
+     "title": "Sensitivity, specificity, recall and precision"
+    },
+    {
+     "no": "5.4",
+     "title": "The ROC curve"
+    },
+    {
+     "no": "5.5",
+     "title": "Regression measures"
+    },
+    {
+     "no": "5.6",
+     "title": "Box plots and variability of results"
+    },
+    {
+     "no": "5.7",
+     "title": "Confidence intervals"
+    },
+    {
+     "no": "5.8",
+     "title": "Cross-validation and fair evaluation"
+    },
+    {
+     "no": "5.9",
+     "title": "Laboratory work and the mini-project"
+    },
+    {
+     "no": "5.10",
+     "title": "Multi-class problems and the precision-recall trade-off"
+    },
+    {
+     "no": "5.11",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2339,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 46,
+ "notes_ready": 5
+}

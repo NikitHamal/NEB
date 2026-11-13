@@ -5,7 +5,7 @@ Study notes for the TU Machine Learning elective (course code CACS456 in the TU 
 | Unit | Title | Hours |
 |---|---|---|
 | 1 | Introduction to Machine Learning and the Theory of Learning | 10 |
-| 2 | Supervised Learning: Regression, Perceptron, Neural Networks, Decision Trees and SVM | 11 |
+| 2 | Supervised Learning, Regression, Perceptron, Neural Networks, Trees and SVM | 11 |
 | 3 | Bayesian and Instance-Based Learning | 11 |
 | 4 | Unsupervised Learning and Dimensionality Reduction | 10 |
 | 5 | Measures for Performance Evaluation of ML Algorithms | 8 |

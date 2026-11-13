@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**42 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,599,125 raw words of study material, counted over the unit files, including code listings and tables):
+**43 of 45 subject slots are written, built and QA-checked; 0 core subjects are not started; 2 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,617,268 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -47,6 +47,7 @@
 | 7 | BCA 402 | [Software Project Management](course/semester-7/software-project-management/) | 25,003 | 84 | done |
 | 7 | BCA 403 | [Financial Accounting](course/semester-7/financial-accounting/) | 31,101 | 94 | done |
 | 7 | BCA 404 | [Project IV](course/semester-7/project-4/) | 26,771 | 76 | done |
+| 7 | BCA 405 | [Machine Learning (Elective I)](course/semester-7/machine-learning/) | 18,143 | 61 | done |
 | 8 | BCA 451 | [Cloud Computing](course/semester-8/cloud-computing/) | 24,624 | 74 | done |
 | 8 | BCA 452 | [Internship](course/semester-8/internship/) | 17,628 | 54 | done |
 

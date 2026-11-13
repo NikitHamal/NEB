@@ -103,7 +103,9 @@ threshold 0.35 -> TPR 1.0, FPR 0.6
 f = Fig(580, 270)
 ax = Axes(f, 70, 15, 220, 220, (0, 1), (0, 1))
 ax.grid(0.2, 0.2, xfmt=lambda v: "%.1f" % v, yfmt=lambda v: "%.1f" % v)
-ax.axes("false-positive rate", "true-positive rate")
+ax.axes("", "")
+f.text(180, 262, "false-positive rate (FPR)", size=10.5, color=SLATE)
+f.text(36, 125, "TPR", size=10.5, color=SLATE)
 pos = [0.95, 0.85, 0.70, 0.60, 0.45]; neg = [0.80, 0.55, 0.40, 0.30, 0.20]
 pts = [(0.0, 0.0)]; tp = fp = 0
 for s, l in sorted([(s, 1) for s in pos] + [(s, 0) for s in neg], reverse=True):
@@ -123,7 +125,11 @@ f.text(430, 162, "the top-left corner", size=10.5, color=SLATE)
 
 ## 5.5 Regression measures
 
-For numeric predictions, with errors $e_i=\hat y_i-y_i$: **MAE** $=\frac1N\sum|e_i|$ (average size of error, same units as $y$), **MSE** $=\frac1N\sum e_i^2$ and **RMSE** $=\sqrt{\text{MSE}}$ (punish big errors), and $R^2=1-\frac{\sum e_i^2}{\sum(y_i-\bar y)^2}$ (share of variance explained; 0 means no better than predicting the mean). RMSE is at least MAE; a large gap means a few big errors.
+For numeric predictions, with errors $e_i=\hat y_i-y_i$, the common measures are **MAE** $=\frac1N\sum|e_i|$ (average size of error, in the units of $y$), **MSE** $=\frac1N\sum e_i^2$ and **RMSE** $=\sqrt{\text{MSE}}$ (both punish big errors), and the coefficient of determination
+
+$$R^{2}=1-\frac{\sum e_i^{2}}{\sum (y_i-\bar y)^{2}},$$
+
+the share of variance explained (0 means no better than predicting the mean). RMSE is at least MAE; a large gap means a few big errors.
 
 ## 5.6 Box plots and variability of results
 

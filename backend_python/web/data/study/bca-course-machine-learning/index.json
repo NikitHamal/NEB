@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-7-machine-learning",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Machine Learning and the Theory of Learning",
+   "area": "BCA 405 · Machine Learning · Unit 1",
+   "words": 3053,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Supervised Learning, Regression, Perceptron, Neural Networks, Trees and SVM",
+   "area": "BCA 405 · Machine Learning · Unit 2",
+   "words": 3636,
+   "read_min": 20,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Bayesian and Instance-Based Learning",
+   "area": "BCA 405 · Machine Learning · Unit 3",
+   "words": 2963,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Unsupervised Learning and Dimensionality Reduction",
+   "area": "BCA 405 · Machine Learning · Unit 4",
+   "words": 2990,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Measures for Performance Evaluation of ML Algorithms",
+   "area": "BCA 405 · Machine Learning · Unit 5",
+   "words": 3209,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  }
+ ]
+}
