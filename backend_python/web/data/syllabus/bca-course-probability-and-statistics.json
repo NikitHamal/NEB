@@ -81,7 +81,9 @@
     "Measures of central tendency",
     "Measures of dispersion",
     "Pictures of centre and spread",
-    "Eight uses of averages and measures of spread"
+    "Eight uses of averages and measures of spread",
+    "Other averages: geometric mean, harmonic mean and weighted mean",
+    "Moments, skewness, kurtosis and Chebyshev's inequality"
    ],
    "sections": [
     {
@@ -99,18 +101,27 @@
     {
      "no": "2.4",
      "title": "Eight uses of averages and measures of spread"
+    },
+    {
+     "no": "2.5",
+     "title": "Other averages: geometric mean, harmonic mean and weighted mean"
+    },
+    {
+     "no": "2.6",
+     "title": "Moments, skewness, kurtosis and Chebyshev's inequality"
     }
    ],
    "summary": [
     "Mean, median and mode locate the centre; quartiles, deciles and percentiles split the data.",
     "Range, QD, MD, variance, standard deviation and CV measure spread; CV compares different data sets.",
-    "The median resists outliers; the standard deviation is the standard measure of spread."
+    "The median resists outliers; the standard deviation is the standard measure of spread.",
+    "GM suits growth ratios, HM suits rates over equal distances, the weighted mean handles unequal importance; moments give skewness and kurtosis, and Chebyshev's bound works for any shape."
    ],
    "terms": [],
    "stats": {
-    "words": 2834,
+    "words": 4344,
     "figures": 0,
-    "examples": 3
+    "examples": 7
    },
    "has_notes": true
   },
@@ -123,7 +134,9 @@
     "Correlation",
     "Regression analysis",
     "Seeing correlation and regression",
-    "Eight uses of correlation and regression"
+    "Eight uses of correlation and regression",
+    "How good is the fit: r-squared, standard error of estimate and probable error",
+    "Partial and multiple correlation, and a warning about pooled data"
    ],
    "sections": [
     {
@@ -141,17 +154,26 @@
     {
      "no": "3.4",
      "title": "Eight uses of correlation and regression"
+    },
+    {
+     "no": "3.5",
+     "title": "How good is the fit: r-squared, standard error of estimate and probable error"
+    },
+    {
+     "no": "3.6",
+     "title": "Partial and multiple correlation, and a warning about pooled data"
     }
    ],
    "summary": [
     "Correlation measures linear association with r from −1 to +1; correlation does not prove causation.",
-    "Least squares regression gives the best-fitting line for predicting y from x; the two regression lines meet at the means and their slopes multiply to r^2."
+    "Least squares regression gives the best-fitting line for predicting y from x; the two regression lines meet at the means and their slopes multiply to r^2.",
+    "r^2, the standard error of estimate and the probable error judge a fitted line; partial and multiple correlation handle a third variable; pooled data can mislead (Simpson's paradox)."
    ],
    "terms": [],
    "stats": {
-    "words": 2530,
+    "words": 3845,
     "figures": 0,
-    "examples": 2
+    "examples": 6
    },
    "has_notes": true
   },
@@ -166,7 +188,9 @@
     "Conditional probability and Bayes' theorem",
     "Random variables and probability distributions",
     "Pictures of probability",
-    "Eight uses of probability and distributions"
+    "Eight uses of probability and distributions",
+    "Expectation, variance and joint distributions",
+    "More distributions, normal approximation and the central limit theorem"
    ],
    "sections": [
     {
@@ -192,17 +216,26 @@
     {
      "no": "4.6",
      "title": "Eight uses of probability and distributions"
+    },
+    {
+     "no": "4.7",
+     "title": "Expectation, variance and joint distributions"
+    },
+    {
+     "no": "4.8",
+     "title": "More distributions, normal approximation and the central limit theorem"
     }
    ],
    "summary": [
     "Probability follows the addition and multiplication laws; conditioning updates probabilities and Bayes' rule inverts them.",
-    "Binomial models fixed trials, Poisson rare events, normal measurements, which are standardised to Z for table lookup."
+    "Binomial models fixed trials, Poisson rare events, normal measurements, which are standardised to Z for table lookup.",
+    "Expectation and variance follow linear rules; joint tables give marginals, covariance and an independence test; hypergeometric, geometric, uniform and exponential distributions complete the standard list; the CLT justifies the normal approximation."
    ],
    "terms": [],
    "stats": {
-    "words": 2937,
+    "words": 4481,
     "figures": 0,
-    "examples": 5
+    "examples": 10
    },
    "has_notes": true
   },
@@ -273,7 +306,8 @@
     "Ratio and regression methods of estimation",
     "Sampling distributions: z, t and χ²",
     "Pictures of sampling designs and sampling distributions",
-    "Eight sampling designs and tools, and what each is used for"
+    "Eight sampling designs and tools, and what each is used for",
+    "Hypothesis testing in full: errors, power and the standard tests"
    ],
    "sections": [
     {
@@ -315,18 +349,23 @@
     {
      "no": "6.10",
      "title": "Eight sampling designs and tools, and what each is used for"
+    },
+    {
+     "no": "6.11",
+     "title": "Hypothesis testing in full: errors, power and the standard tests"
     }
    ],
    "summary": [
     "SRS is the baseline; stratification gains precision from homogeneous strata; systematic sampling is simple but pattern-sensitive; cluster and multistage designs cut cost; PPS handles unequal clusters.",
     "Ratio and regression estimators exploit an auxiliary variable.",
-    "The CLT justifies z ; t replaces z for small n with unknown σ ; chi^2 tests counts."
+    "The CLT justifies z ; t replaces z for small n with unknown σ ; chi^2 tests counts.",
+    "A complete hypothesis test states H0 and H1, fixes α, computes a statistic and concludes in words; Type I and II errors trade off, and power rises with sample size; paired, two-sample, variance and proportion tests extend the one-sample tests."
    ],
    "terms": [],
    "stats": {
-    "words": 3370,
+    "words": 4598,
     "figures": 0,
-    "examples": 8
+    "examples": 12
    },
    "has_notes": true
   },
@@ -342,7 +381,8 @@
     "One-way classification",
     "Two-way classification (one observation per cell)",
     "Pictures of ANOVA and experimental design",
-    "Eight uses of ANOVA and designed experiments"
+    "Eight uses of ANOVA and designed experiments",
+    "Latin square design and multiple comparisons"
    ],
    "sections": [
     {
@@ -372,23 +412,28 @@
     {
      "no": "7.7",
      "title": "Eight uses of ANOVA and designed experiments"
+    },
+    {
+     "no": "7.7",
+     "title": "Latin square design and multiple comparisons"
     }
    ],
    "summary": [
     "ANOVA compares several means by splitting total variation into between and within parts and testing their ratio with the F distribution.",
     "One-way ANOVA handles one factor; two-way ANOVA adds a blocking factor to reduce error.",
-    "A significant F says means differ somewhere; follow-up tests locate the difference."
+    "A significant F says means differ somewhere; follow-up tests locate the difference.",
+    "A Latin square controls two nuisance factors with error d.f. (t - 1)(t - 2); ignoring the blocks can hide a real treatment effect; the LSD test compares individual means after a significant F."
    ],
    "terms": [],
    "stats": {
-    "words": 2711,
+    "words": 3837,
     "figures": 0,
-    "examples": 2
+    "examples": 3
    },
    "has_notes": true
   }
  ],
  "unit_count": 7,
- "topic_count": 43,
+ "topic_count": 51,
  "notes_ready": 7
 }

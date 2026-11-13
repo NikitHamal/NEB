@@ -14,27 +14,27 @@
    "no": 2,
    "title": "Descriptive Statistics",
    "area": "BCA 205 · Probability and Statistics · Unit 2",
-   "words": 3102,
-   "read_min": 17,
-   "figures": 5,
+   "words": 4548,
+   "read_min": 25,
+   "figures": 6,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Correlation and Regression Analysis",
    "area": "BCA 205 · Probability and Statistics · Unit 3",
-   "words": 2884,
-   "read_min": 16,
-   "figures": 5,
+   "words": 4139,
+   "read_min": 23,
+   "figures": 6,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Probability",
    "area": "BCA 205 · Probability and Statistics · Unit 4",
-   "words": 3206,
-   "read_min": 18,
-   "figures": 5,
+   "words": 4759,
+   "read_min": 26,
+   "figures": 7,
    "has_questions": true
   },
   {
@@ -50,18 +50,18 @@
    "no": 6,
    "title": "Sample Survey Methods",
    "area": "BCA 205 · Probability and Statistics · Unit 6",
-   "words": 3491,
-   "read_min": 19,
-   "figures": 4,
+   "words": 4698,
+   "read_min": 26,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 7,
    "title": "Design of Experiment",
    "area": "BCA 205 · Probability and Statistics · Unit 7",
-   "words": 3112,
-   "read_min": 17,
-   "figures": 6,
+   "words": 4156,
+   "read_min": 23,
+   "figures": 7,
    "has_questions": true
   }
  ]
