@@ -649,3 +649,7 @@ Sandbox: `/home/user/sandbox`; recipe in this file (venv `/tmp/v`, apt, `npm ci`
 3. Electives still unwritten: Data Mining and Data Warehouse, Business Intelligence, Data Visualization, Digital Marketing and SEO.
 4. Publish updated PDFs with server credentials (`update_books.py --only <slug>`): 105, 101, 102, 353, 304, 305, 103, 354, 154, 405 (now 95 pp), 406, 453 (all four), 454 (both), 204, 206, 205, 153.
 5. Django + Chromium screenshot of BCA 405 new units, BCA 154 Unit 6.
+
+### Session 44 addendum: web reader and audit
+- Web reader checked (Django :8765 + headless Chromium, `/app/syllabus/bca-course/machine-learning/unit-4/`): left rail lists all 5 units, right rail lists 4.1 to 4.12 plus model answers (no "Formula and fact sheet"), new sections 4.9 to 4.11 render with executed code blocks and inline math in list items. Very long code lines scroll sideways inside the block (not wrapped); cosmetic.
+- BCA 355 Distributed System audited: 7 units, 32k words, 92 pp, 7 sections per unit with figures and model answers; covers the whole outline (including Paxos, Raft, Byzantine agreement, snapshots, DFS), so it was left unchanged. Possible extra: MapReduce/Spark section in unit 7.
