@@ -295,6 +295,159 @@ for i, n in enumerate(ns):
 f.text(150, 228, "exact area %.3f m2, flow at 0.8 m/s = %.1f m3/s" % (exact, Q), size=10.5, color=NAVY, bold=True)
 ```
 
+## 3.6 Choosing the step: truncation error against round-off, and Richardson extrapolation
+
+A difference formula has **truncation error** that shrinks as $h \to 0$ (forward difference $O(h)$, central difference $O(h^{2})$), but the subtraction $f(x+h) - f(x)$ loses digits to cancellation (Section 1.12) and the division by a tiny $h$ magnifies what remains. The two effects pull in opposite directions, so there is a best $h$, and going below it makes the answer *worse*.
+
+::: example d/dx of eˣ at x = 1 in double precision (true value e = 2.718281828459)
+| $h$ | forward-difference error | central-difference error |
+|---|---|---|
+| $10^{-1}$ | $1.4\times 10^{-1}$ | $4.5\times 10^{-3}$ |
+| $10^{-2}$ | $1.4\times 10^{-2}$ | $4.5\times 10^{-5}$ |
+| $10^{-4}$ | $1.4\times 10^{-4}$ | $4.5\times 10^{-9}$ |
+| $10^{-6}$ | $1.4\times 10^{-6}$ | $1.6\times 10^{-10}$ |
+| $10^{-8}$ | $6.6\times 10^{-9}$ | $6.6\times 10^{-9}$ |
+| $10^{-10}$ | $1.5\times 10^{-6}$ | $6.7\times 10^{-7}$ |
+| $10^{-12}$ | $4.3\times 10^{-4}$ | $2.1\times 10^{-4}$ |
+| $10^{-14}$ | $9.3\times 10^{-3}$ | $9.3\times 10^{-3}$ |
+| $10^{-16}$ | 2.72 (answer 0) | 2.72 (answer 0) |
+
+The forward error falls like $h$ down to $h \approx 10^{-8}$ and then rises like $\varepsilon/h$; the central error falls like $h^{2}$ and bottoms out near $10^{-10}$ to $10^{-11}$ (at $h = 10^{-5}$ it is $5.9\times 10^{-11}$), then rises. At $h = 10^{-16}$ the points $1 + h$ and $1$ are the same number, the numerator is exactly zero and the derivative is "0".
+:::
+
+Balancing a truncation error $Ch^{p}$ against a round-off error $\varepsilon/h$ gives the optimum $h \approx \varepsilon^{1/(p+1)}$: about $10^{-8}$ for the forward formula and $6\times 10^{-6}$ for the central formula. In single precision these become about $3\times 10^{-4}$ and $5\times 10^{-3}$.
+
+```svgfig label="3.4" caption="Error of two derivative formulas for $e^{x}$ at $x = 1$ against the step $h$ (both axes logarithmic, double precision). Each curve falls with the slope of its truncation error (1 for forward, 2 for central) and then turns up where round-off dominates. Values from the table above."
+import math
+f = Fig(560, 250)
+ax = Axes(f, 56, 14, 520, 190, (-16.5, -0.5), (-12, 1))
+ax.grid(2, 2)
+ax.axes("", "")
+H = [-1, -2, -4, -6, -8, -10, -12, -14, -16]
+fw = [1.41e-1, 1.36e-2, 1.36e-4, 1.36e-6, 6.6e-9, 1.55e-6, 4.32e-4, 9.34e-3, 2.72]
+ce = [4.53e-3, 4.53e-5, 4.53e-9, 1.63e-10, 6.6e-9, 6.73e-7, 2.1e-4, 9.34e-3, 2.72]
+for vals, col in ((fw, RED), (ce, NAVY)):
+    P = [(h, math.log10(v)) for h, v in zip(H, vals)]
+    for (x1, y1), (x2, y2) in zip(P, P[1:]):
+        f.line(ax.X(x1), ax.Y(y1), ax.X(x2), ax.Y(y2), color=col, sw=2.4)
+    for x, y in P:
+        f.circle(ax.X(x), ax.Y(y), 3.4, fill=col, stroke=col)
+f.text(150, 60, "forward: slope 1", size=10.5, color=RED, bold=True)
+f.text(120, 176, "central: slope 2", size=10.5, color=NAVY, bold=True)
+f.text(300, 226, "log10 of the step h", size=10.5, color=SLATE)
+f.text(300, 244, "log10 of the error", size=10, color=SLATE)
+```
+
+**Richardson extrapolation.** If a formula $D(h)$ has error $c_2h^{2} + c_4h^{4} + \cdots$, then the combination
+$$D^{(1)}(h) = \frac{4\,D(h/2) - D(h)}{3}$$
+cancels the $h^{2}$ term, leaving $O(h^{4})$. A second round, $D^{(2)} = \dfrac{16\,D^{(1)}(h/2) - D^{(1)}(h)}{15}$, leaves $O(h^{6})$. This is the same idea as Romberg integration (Section 3.3) applied to differentiation.
+
+::: example Derivative of cos x at x = 1 (true value −sin 1 = −0.8414709848)
+The central difference $D(h) = \dfrac{\cos(1+h) - \cos(1-h)}{2h}$ gives $D(0.4) = -0.819211$, $D(0.2) = -0.835872$ and $D(0.1) = -0.840069$ (errors 0.0223, 0.0056, 0.0015). One extrapolation: $D^{(1)}(0.4) = -0.841426$ and $D^{(1)}(0.2) = -0.841468$ (errors $4.5\times 10^{-5}$ and $2.8\times 10^{-6}$, a factor 16 each time). The second: $D^{(2)} = \dfrac{16(-0.841468183) - (-0.841426320)}{15} = -0.84147097$, error $1.1\times 10^{-8}$. Three cheap central differences, no tiny $h$, and eight correct digits.
+:::
+
+**The five-point formula.** Using $f(x \pm h)$ and $f(x \pm 2h)$ with weights chosen to cancel the $h^{2}$ error:
+$$f'(x) \approx \frac{f(x-2h) - 8f(x-h) + 8f(x+h) - f(x+2h)}{12h}, \qquad \text{error } = O(h^{4}).$$
+For $\cos$ at $x = 1$, $h = 0.1$ it gives $-0.841468$ (error $2.8\times 10^{-6}$), exactly the first Richardson value above (the two are the same formula). The three-point second-derivative formula $f''(x) \approx \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^{2}}$ gives $-0.539852$ for $\cos$ at $1$ with $h = 0.1$, against $-0.540302$ (error $4.5\times 10^{-4}$, $O(h^{2})$).
+
+## 3.7 Error bounds and the number of strips needed
+
+The composite rules have known error terms. For $n$ strips of width $h = (b-a)/n$:
+
+$$E_{\text{trap}} = -\frac{(b-a)\,h^{2}}{12}\,f''(\xi), \qquad E_{\text{Simpson}} = -\frac{(b-a)\,h^{4}}{180}\,f^{(4)}(\xi).$$
+
+Bound the derivative by its maximum $M$ on $[a, b]$ and solve for $h$ to get the number of strips guaranteeing a tolerance, **before** computing anything.
+
+::: example Strips to compute the integral of eˣ on [0, 1] to within 10⁻⁶
+Here $M = e = 2.718$ for every derivative. Trapezoidal: $\dfrac{e\,h^{2}}{12} \le 10^{-6}$ gives $h \le 0.00210$, so $n \ge 476$ strips. Simpson: $\dfrac{e\,h^{4}}{180} \le 10^{-6}$ gives $h \le 0.0902$, so $n \ge 11.1$, and Simpson needs an even number: **$n = 12$**. The actual errors with these $n$ are $6.3\times 10^{-7}$ (trapezoid, $n = 476$) and $4.6\times 10^{-7}$ (Simpson, $n = 12$): the bounds are honest. Simpson needs forty times fewer function values for the same accuracy.
+:::
+
+**Order checks from the table.** Doubling $n$ should cut the trapezoidal error by 4 and the Simpson error by 16. For $e^{x}$ on $[0,1]$:
+
+| $n$ | trapezoid error | ratio | Simpson error | ratio |
+|---|---|---|---|---|
+| 2 | $3.56\times 10^{-2}$ | | $5.79\times 10^{-4}$ | |
+| 4 | $8.94\times 10^{-3}$ | 3.99 | $3.70\times 10^{-5}$ | 15.7 |
+| 8 | $2.24\times 10^{-3}$ | 4.00 | $2.33\times 10^{-6}$ | 15.9 |
+| 16 | $5.59\times 10^{-4}$ | 4.00 | $1.46\times 10^{-7}$ | 16.0 |
+
+This ratio test is also a practical way to estimate the error of an answer when no derivative bound is available: if $I_n$ and $I_{2n}$ are two Simpson results, the error of $I_{2n}$ is about $(I_{2n} - I_n)/15$.
+
+**More rules.** The *midpoint rule* $M_n = h\sum f(\text{midpoints})$ has error $+\dfrac{(b-a)h^{2}}{24}f''$, half the trapezoid's and of opposite sign: for $e^{x}$ with $n = 4$ it gives 1.713815 (error $-4.5\times 10^{-3}$) against the trapezoid's 1.727222 (error $+8.9\times 10^{-3}$). **Boole's rule**, the next closed Newton-Cotes rule, uses five points:
+$$\int_{x_0}^{x_4} f\,dx \approx \frac{2h}{45}\left[7f_0 + 32f_1 + 12f_2 + 32f_3 + 7f_4\right], \qquad \text{error } O(h^{7}) \text{ per application.}$$
+For $e^{x}$ with $h = 0.25$ it gives 1.7182827 (error $8.6\times 10^{-7}$) from the same five points where Simpson's rule gives an error of $3.7\times 10^{-5}$. Boole's rule is exactly the third column of the Romberg table.
+
+## 3.8 Gauss–Legendre quadrature
+
+Newton–Cotes rules fix the node positions (equally spaced) and choose the weights; a rule with $n$ points is exact for polynomials of degree $n - 1$ (or $n$ for odd $n$). **Gaussian quadrature** chooses the nodes *and* the weights, using $2n$ free numbers to be exact for every polynomial up to degree $2n - 1$. On $[-1, 1]$:
+
+$$\int_{-1}^{1} f(x)\,dx \approx \sum_{i=1}^{n} w_i\,f(x_i),\qquad x_i = \text{zeros of the Legendre polynomial } P_n .$$
+
+| $n$ | nodes $x_i$ | weights $w_i$ | exact up to degree |
+|---|---|---|---|
+| 1 | 0 | 2 | 1 |
+| 2 | $\pm 0.577350$ ($\pm 1/\sqrt{3}$) | 1, 1 | 3 |
+| 3 | $0,\ \pm 0.774597$ ($\pm\sqrt{3/5}$) | 0.888889 ($8/9$), 0.555556 ($5/9$) | 5 |
+| 4 | $\pm 0.339981,\ \pm 0.861136$ | 0.652145, 0.347855 | 7 |
+
+For a general interval $[a, b]$ substitute $x = \frac{b-a}{2}t + \frac{a+b}{2}$, so that $\int_a^b f\,dx = \dfrac{b-a}{2}\int_{-1}^{1} f(x(t))\,dt$.
+
+::: example Two-point Gauss rule is exact for cubics: ∫ from −1 to 1 of (x³ + x² + 1) dx
+Exact value: $0 + \frac{2}{3} + 2 = \frac{8}{3}$. Two-point rule: $f(-0.57735) + f(0.57735) = (-0.19245 + 0.33333 + 1) + (0.19245 + 0.33333 + 1) = 2.66667$. Exact with only two function values; Simpson needs three.
+:::
+
+::: example ∫ eˣ dx on [0, 1] (true value e − 1 = 1.718281828) by Gauss–Legendre
+With $t_i$ mapped to $x_i = (t_i + 1)/2$: two points give 1.717896 (error $3.9\times 10^{-4}$), three points give 1.7182810 (error $8.2\times 10^{-7}$) and four points give 1.7182818275 (error $9.3\times 10^{-10}$). For $\int_0^{\pi}\sin x\,dx = 2$: two points give 1.935820, three points 2.001389, four points 1.999984. For $\int_0^1 \frac{dx}{1+x^{2}} = \frac{\pi}{4}$ two points give 0.786885 and three points 0.785267 (true 0.785398).
+:::
+
+```svgfig label="3.5" caption="Accuracy against the number of function evaluations for the integral of $e^{x}$ on [0, 1] (log scale). The trapezoidal rule (red) gains a factor of 4 for each doubling, Simpson's rule (amber) a factor of 16, and Gauss-Legendre (navy), which also chooses its nodes, gains about two to three digits for every added point."
+import math
+f = Fig(560, 250)
+ax = Axes(f, 56, 14, 520, 190, (0, 34), (-13, 0))
+ax.grid(5, 2)
+ax.axes("", "")
+series = [
+    (RED, [(2, 1.409e-1), (3, 3.565e-2), (5, 8.94e-3), (9, 2.237e-3), (17, 5.593e-4), (33, 1.398e-4)]),
+    (AMBER, [(3, 5.793e-4), (5, 3.701e-5), (9, 2.326e-6), (17, 1.456e-7), (33, 9.103e-9)]),
+    (NAVY, [(1, 6.956e-2), (2, 3.855e-4), (3, 8.241e-7), (4, 9.33e-10), (5, 6.537e-13)]),
+]
+for col, pts in series:
+    P = [(n, math.log10(e)) for n, e in pts]
+    for (x1, y1), (x2, y2) in zip(P, P[1:]):
+        f.line(ax.X(x1), ax.Y(y1), ax.X(x2), ax.Y(y2), color=col, sw=2.4)
+    for x, y in P:
+        f.circle(ax.X(x), ax.Y(y), 3.4, fill=col, stroke=col)
+f.text(440, 62, "trapezoid", size=10.5, color=RED, bold=True)
+f.text(440, 128, "Simpson", size=10.5, color=AMBER, bold=True)
+f.text(150, 150, "Gauss-Legendre", size=10.5, color=NAVY, bold=True)
+f.text(300, 226, "number of function evaluations", size=10.5, color=SLATE)
+f.text(300, 244, "log10 of the error", size=10, color=SLATE)
+```
+
+## 3.9 Adaptive Simpson and improper integrals
+
+**Adaptive quadrature.** A uniform grid spends as many points on the smooth parts of an integrand as on the hard parts. *Adaptive Simpson* compares one Simpson estimate $S_{[a,b]}$ on an interval with the sum $S_{[a,m]} + S_{[m,b]}$ of the two half-intervals. If $|S_{[a,m]} + S_{[m,b]} - S_{[a,b]}| \le 15\,\varepsilon$ the interval is accepted (with the Richardson correction $+\frac{1}{15}$ of the difference) and otherwise each half is treated recursively with tolerance $\varepsilon/2$. Subdivision therefore concentrates where the integrand changes fast.
+
+::: example A sharp peak: ∫ from 0 to 1 of dx/(0.01 + (x − 0.3)²) = 26.7794504459
+The integrand has a peak of height 100 at $x = 0.3$ and width about 0.1. Adaptive Simpson with $\varepsilon = 10^{-8}$ returns 26.7794504459 (error $1.8\times 10^{-12}$) using **934** function evaluations. Fixed-step Simpson gives errors $1.0$ ($n = 10$), $3.9\times 10^{-2}$ ($n = 20$), $2.0\times 10^{-6}$ ($n = 50$), $2.0\times 10^{-8}$ ($n = 200$), $1.3\times 10^{-9}$ ($n = 400$) and needs about 2,100 strips to reach the same $10^{-12}$ accuracy: more than twice the work, because it refines the flat parts too.
+:::
+
+**Integrals with a singularity or an infinite range.** Newton-Cotes and Gauss rules assume a smooth integrand on a finite interval. For $\int_0^1 x^{-1/2}\,dx = 2$ the integrand is infinite at 0; the midpoint rule (which never evaluates there) crawls: 1.9395 with $n = 100$ and 1.99395 with $n = 10000$, an error that falls only like $1/\sqrt{n}$. The cure is a **change of variable** that removes the singularity: with $x = t^{2}$, $dx = 2t\,dt$ the integral becomes $\int_0^1 2\,dt = 2$, which any rule integrates exactly. For an infinite range such as $\int_0^{\infty} e^{-x^{2}}dx = \frac{\sqrt{\pi}}{2} = 0.886227$, put $x = \dfrac{t}{1-t}$, $dx = \dfrac{dt}{(1-t)^{2}}$, giving $\int_0^1 \dfrac{e^{-t^{2}/(1-t)^{2}}}{(1-t)^{2}}\,dt$; Simpson's rule with 40 strips gives 0.88622691 (error $1.6\times 10^{-8}$). The alternatives are to truncate at a large $b$ (when the tail is negligible) or to use Gauss-Laguerre or Gauss-Hermite rules built for such integrals.
+
+## 3.10 Monte Carlo integration
+
+For integrals in many dimensions, grids become impossible (ten strips per axis in 10 dimensions is $10^{10}$ points). **Monte Carlo integration** estimates $\int_a^b f\,dx \approx (b-a)\,\overline{f}$, where $\overline{f}$ is the average of $f$ at $N$ random points in $[a, b]$. The error is statistical: about $\sigma/\sqrt{N}$, where $\sigma$ is the standard deviation of $f$ on the interval, **independent of the dimension**. To gain one more decimal digit you need 100 times more points.
+
+::: example ∫ eˣ dx on [0, 1] with N random points (true value 1.718282; seeded generator)
+| $N$ | estimate | error | standard error $\sigma/\sqrt{N}$ |
+|---|---|---|---|
+| 100 | 1.59130 | −0.1270 | 0.0452 |
+| 10 000 | 1.72099 | +0.0027 | 0.0049 |
+| 1 000 000 | 1.71787 | −0.00041 | 0.00049 |
+
+For this one-dimensional integral Simpson's rule with 33 points is better than a million random ones by five orders of magnitude, so Monte Carlo is the **wrong** tool in one dimension and the right one in ten.
+:::
+
 ## Formula and fact sheet
 
 - Forward/backward: $O (h)$; central: $\frac{f (x + h) - f (x - h)}{2 h} ,\  O (h^{2}) ;\  f'' \approx \frac{f (x + h) - 2 f (x) + f (x - h)}{h^{2}}$.
@@ -302,6 +455,11 @@ f.text(150, 228, "exact area %.3f m2, flow at 0.8 m/s = %.1f m3/s" % (exact, Q),
 - Error orders: trapezoid $h^{2}$, Simpson $h^{4}$.
 - Romberg: $R (k ,\  j) = R (k ,\  j - 1) + \frac{R (k ,\  j - 1) - R (k - 1 ,\  j - 1)}{4^{j} - 1}$.
 - Double integral: weighted sum with product weights.
+- Best step: forward difference $h \approx \varepsilon^{1/2}$, central $h \approx \varepsilon^{1/3}$; Richardson: $D^{(1)} = \dfrac{4D(h/2) - D(h)}{3}$, $D^{(2)} = \dfrac{16D^{(1)}(h/2) - D^{(1)}(h)}{15}$.
+- Five-point: $f' \approx \dfrac{f_{-2} - 8f_{-1} + 8f_{1} - f_{2}}{12h}$; second derivative $\dfrac{f_{1} - 2f_0 + f_{-1}}{h^{2}}$.
+- Errors: trapezoid $\dfrac{(b-a)h^2}{12}M_2$, midpoint $\dfrac{(b-a)h^2}{24}M_2$, Simpson $\dfrac{(b-a)h^4}{180}M_4$; Boole $\dfrac{2h}{45}[7, 32, 12, 32, 7]$.
+- Gauss–Legendre $n$ points: exact to degree $2n-1$; 2-point nodes $\pm 1/\sqrt{3}$, weights 1; 3-point nodes $0, \pm\sqrt{3/5}$, weights $8/9, 5/9$; map $[a,b]$ by $x = \frac{b-a}{2}t + \frac{a+b}{2}$.
+- Monte Carlo error $\approx \sigma/\sqrt{N}$, independent of dimension.
 
 ## Chapter summary
 
@@ -309,6 +467,7 @@ f.text(150, 228, "exact area %.3f m2, flow at 0.8 m/s = %.1f m3/s" % (exact, Q),
 - Newton–Cotes rules integrate interpolating polynomials; Simpson's rules beat the trapezoidal rule at the same cost.
 - Romberg extrapolation turns cheap trapezoidal values into a high-order estimate.
 - Double integrals reuse the one-dimensional rules with product weights.
+- Step choice in differentiation balances truncation against round-off; Richardson extrapolation and five-point formulas give high accuracy without a tiny $h$. Error formulas tell how many strips are needed, Gauss-Legendre rules reach degree $2n - 1$ with $n$ nodes, adaptive Simpson focuses effort on hard regions, substitutions remove singularities and infinite ranges, and Monte Carlo is the tool for high dimensions.
 
 ## Practice
 
@@ -321,6 +480,16 @@ f.text(150, 228, "exact area %.3f m2, flow at 0.8 m/s = %.1f m3/s" % (exact, Q),
 7. Build a Romberg table with four trapezoidal estimates and extrapolate.
 8. Estimate $\frac{\int_{0}^{1} \int_{1}^{2} d y d x}{x + y}$ with Simpson's rule, $h = k = 0.5$, and compare it with the exact value.
 9. State two reasons why a very small *h* does not give a better numerical derivative.
+10. Explain why the forward-difference error for $e^{x}$ at $x = 1$ stops falling at about $h = 10^{-8}$ and then rises.
+11. Given the central differences $D(0.4) = -0.819211$ and $D(0.2) = -0.835872$ for $\cos x$ at $x = 1$, compute the Richardson value $D^{(1)}(0.4)$ and its error ($-\sin 1 = -0.841471$).
+12. Use the five-point formula with $h = 0.1$ to estimate $f'(1)$ for $f(x) = \ln x$.
+13. How many strips guarantee that the trapezoidal rule gives $\int_1^2 \dfrac{dx}{x}$ with error below $10^{-4}$? How many for Simpson's rule?
+14. Apply the midpoint rule with $n = 4$ and the trapezoidal rule with $n = 4$ to $\int_0^1 x^{2}\,dx$. Compare their errors.
+15. Apply Boole's rule with $h = 0.25$ to $\int_0^1 x^{4}\,dx$. Why is the answer exact?
+16. Evaluate $\int_{0}^{2}(x^{3} + 1)\,dx$ by the two-point Gauss–Legendre rule and verify that it is exact.
+17. Evaluate $\int_{1}^{3}\dfrac{dx}{x}$ by the three-point Gauss–Legendre rule. Compare with $\ln 3$.
+18. Substitute $x = t^{2}$ in $\int_{0}^{1}\dfrac{dx}{\sqrt{x}(1+x)}$ and evaluate by Simpson's rule with $n = 4$. The exact value is $\pi/2$.
+19. How does the error of a Monte Carlo estimate change when $N$ is multiplied by 100? Why is the method used in 10 dimensions but not in 1?
 
 ::: note Answers and worked solutions
 **1.** $f (x + h) = f (x) + h f' (x) + \left( \frac{h^{2}}{2} \right) f'' (\xi)$. Rearranging, $f' (x) = \frac{f (x + h) - f (x)}{h} - \left( \frac{h}{2} \right) f'' (\xi)$. The truncation error is proportional to *h*: first order, $O (h)$.
@@ -340,6 +509,27 @@ f.text(150, 228, "exact area %.3f m2, flow at 0.8 m/s = %.1f m3/s" % (exact, Q),
 **8.** Simpson: 0.524074; exact: 0.523248; error 0.000826 (the trapezoidal rule gives 0.537500).
 
 **9.** Truncation error falls with *h*, but round-off grows because $f (x + h) - f (x)$ subtracts nearly equal numbers, then is divided by a tiny *h*; and measured data carry noise which is amplified by $\frac{1}{h}$. Beyond an optimal *h* the total error increases.
+
+**10.** The truncation error of the forward difference is about $\frac{h}{2}f''$ and falls with $h$. The round-off error is about $\varepsilon\,|f|/h$ (the subtraction of nearly equal numbers with relative error $10^{-16}$, divided by $h$). The sum is smallest where the two are equal, at $h \approx 10^{-8}$; below this the round-off term grows like $1/h$ (Section 3.6 table, 6.6e-9 at the minimum, 2.7 at $h = 10^{-16}$).
+
+**11.** $D^{(1)}(0.4) = \dfrac{4(-0.835872) - (-0.819211)}{3} = \dfrac{-3.343488 + 0.819211}{3} = -0.841426$. The error is $|-0.841426 + 0.841471| = 4.5\times 10^{-5}$, a gain of about 500 over $D(0.4)$ (error 0.0223).
+
+**12.** $f'(1) \approx \dfrac{\ln 0.8 - 8\ln 0.9 + 8\ln 1.1 - \ln 1.2}{1.2} = 0.999917$ against the true $1/x = 1$ (error $8.3\times 10^{-5}$).
+
+**13.** $f = 1/x$ on $[1, 2]$: $|f''| = 2/x^{3} \le 2$ and $|f^{(4)}| = 24/x^{5} \le 24$. Trapezoid: $\dfrac{(1)h^{2}}{12}(2) \le 10^{-4}$ gives $h \le 0.0245$, so $n \ge 40.8$: **41 strips**. Simpson: $\dfrac{h^{4}}{180}(24) \le 10^{-4}$ gives $h \le 0.1655$, so $n \ge 6.04$, and with an even $n$: **8 strips**.
+
+**14.** The exact value is $1/3$. Midpoint (points 0.125, 0.375, 0.625, 0.875): $0.25(0.015625 + 0.140625 + 0.390625 + 0.765625) = 0.328125$, error $-0.00521$. Trapezoid: $0.25\left(0 + 0.0625 + 0.25 + 0.5625 + 0.5\right) = 0.34375$, error $+0.01042$. The trapezoid error is twice the midpoint error and of opposite sign.
+
+**15.** With $f(x) = x^{4}$ at 0, 0.25, 0.5, 0.75, 1: $0, 0.003906, 0.0625, 0.316406, 1$. Boole: $\dfrac{2(0.25)}{45}\left[0 + 32(0.003906) + 12(0.0625) + 32(0.316406) + 7\right] = \dfrac{0.5}{45}(18) = 0.2$. It is exact because the five-point Newton-Cotes rule is exact for all polynomials up to degree 5 (its error involves $f^{(6)}$, which is zero here).
+
+**16.** Substitute $x = t + 1$, so $\int_0^2 (x^{3}+1)\,dx = \int_{-1}^{1}\left((t+1)^{3} + 1\right)dt$. The two-point rule gives $f(-0.57735) + f(0.57735)$ with $f(t) = (t+1)^{3} + 1$: $(0.42265)^{3} + 1 = 1.07550$ and $(1.57735)^{3} + 1 = 4.92450$, whose sum is **6.00000**. Exact: $\left[\frac{x^{4}}{4} + x\right]_0^2 = 4 + 2 = 6$. It is exact because the integrand is a cubic.
+
+**17.** Map to $[1, 3]$: $x = t + 2$ and $dx = dt$. Nodes $t = 0, \pm 0.774597$ give $x = 2, 1.225403, 2.774597$ and the sum is $\frac{8}{9}\cdot\frac{1}{2} + \frac{5}{9}\left(\frac{1}{1.225403} + \frac{1}{2.774597}\right) = 1.098039$. True $\ln 3 = 1.098612$, error $-5.7\times 10^{-4}$ from only three function values.
+
+**18.** With $x = t^{2}$: $\int_0^1 \dfrac{2t\,dt}{t(1+t^{2})} = \int_0^1 \dfrac{2\,dt}{1 + t^{2}}$, smooth. Values at $t = 0, 0.25, 0.5, 0.75, 1$: 2, 1.882353, 1.6, 1.28, 1. Simpson ($h = 0.25$): $\dfrac{0.25}{3}\left[2 + 1 + 4(1.882353 + 1.28) + 2(1.6)\right] = 1.570784$, against $\pi/2 = 1.570796$ (error $1.2\times 10^{-5}$).
+
+**19.** The standard error falls like $1/\sqrt{N}$, so multiplying $N$ by 100 reduces it by 10 (one more decimal digit). The rate does not depend on the dimension, whereas a grid with $m$ points per axis needs $m^{d}$ points in $d$ dimensions. In one dimension Simpson or Gauss rules converge much faster; in ten dimensions grids are impossible but Monte Carlo keeps its $1/\sqrt{N}$ rate.
+
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -388,3 +578,16 @@ First extrapolation: $R (2 ,\  1) = 1.753931 + \frac{1.753931 - 1.859141}{3}$ = 
 | Romberg | $h^{2} ,\  h^{4} ,\  h^{6} \ldots$ | halving *h* | high accuracy by reuse |
 
 *Conclusion.* Romberg integration reaches six correct decimals from only four function evaluations beyond the trapezoid starts, and the difference between successive entries gives a built-in error estimate. Use Simpson for a quick answer and Romberg when high accuracy is required.
+
+**Q4 (5 marks). Evaluate $\int_0^1 \dfrac{dx}{1 + x^{2}}$ by the two-point and three-point Gauss–Legendre rules and compare with the exact value $\pi/4$.**
+
+*Formula.* $\int_0^1 f\,dx = \dfrac{1}{2}\int_{-1}^{1} f\!\left(\dfrac{t+1}{2}\right)dt \approx \dfrac{1}{2}\sum w_i f(x_i)$ with $x_i = (t_i + 1)/2$.
+
+| Rule | nodes $x_i$ | $f(x_i)$ | weights | estimate | error |
+|---|---|---|---|---|---|
+| 2 points | 0.211325, 0.788675 | 0.957251, 0.616520 | 1, 1 | 0.786885 | +1.5e-03 |
+| 3 points | 0.112702, 0.5, 0.887298 | 0.987458, 0.8, 0.559504 | 0.555556, 0.888889, 0.555556 | 0.785267 | −1.3e-04 |
+
+*Working for three points.* $\tfrac{1}{2}\left[0.555556(0.987458 + 0.559504) + 0.888889(0.8)\right] = \tfrac{1}{2}(0.859423 + 0.711111) = 0.785267$.
+
+*Conclusion.* The exact value is $\pi/4 = 0.785398$. Three function values give three correct digits (Simpson's rule with the same three points gives 0.783333, an error of hBc6.5\times 10^{-4}$, five times worse).

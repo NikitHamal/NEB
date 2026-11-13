@@ -428,7 +428,7 @@ The cure is algebra before arithmetic: rationalise, use a Taylor series, or use 
 
 **Condition and stability.** A *problem* is **ill-conditioned** if small changes in the data change the answer a lot (for instance, roots of a polynomial with clustered roots, Section 1.16, or the linear systems of Unit 4). An *algorithm* is **unstable** if rounding errors grow along the computation. Conditioning belongs to the problem; stability belongs to the method. A good algorithm cannot rescue an ill-conditioned problem, but a bad algorithm can ruin a well-conditioned one.
 
-## 1.13 Accelerating convergence: Aitken's $\Delta^{2}$ and Steffensen's method
+## 1.13 Accelerating convergence: Aitken's delta-squared and Steffensen's method
 
 Fixed-point iterates $x_{n+1} = g(x_n)$ with $0 < |g'| < 1$ approach the root like a geometric progression, so the **error ratio is nearly constant**. If $x_{n+1} - \alpha \approx k\,(x_n - \alpha)$ for the same $k$ twice in a row, eliminating $k$ and solving for $\alpha$ gives **Aitken's $\Delta^{2}$ formula**:
 
@@ -580,9 +580,17 @@ f.text(215, 232, "root near 1.5205", size=10, color=RED, bold=True)
 
 For bisection the error bound $(b - a)/2^{n}$ is known in advance, so no residual test is needed. For Newton and the secant method, the step size is a good estimate of the *previous* error because the convergence is superlinear.
 
-**Roots can be extremely sensitive to the coefficients.** Take $p(x) = (x-1)(x-2)\cdots(x-6) = x^{6} - 21x^{5} + 175x^{4} - 735x^{3} + 1624x^{2} - 1764x + 720$. Change the coefficient $-21$ by only $10^{-4}$ (to $-21.0001$). The roots move to 0.999999, 2.000133, 2.997983, 4.008602, 4.986963 and 6.006420: the largest root shifts by 0.0064, about *sixty* times the change in the coefficient. The famous **Wilkinson polynomial** $\prod_{k=1}^{20}(x - k)$ is far worse: changing the $x^{19}$ coefficient by $2^{-23} \approx 1.2\times 10^{-7}$ turns ten of the roots into complex pairs, with imaginary parts up to 2.8. The problem is ill-conditioned, so *no* algorithm in double precision (with relative data error $10^{-16}$) can be expected to find those roots reliably. The practical rule: be suspicious of high-degree polynomials with roots that lie close together or spread over a wide range, and prefer computing eigenvalues of the companion matrix (Unit 4, Section 4.6) to expanding the polynomial.
+**Roots can be extremely sensitive to the coefficients.** Take $p(x) = (x-1)(x-2)\cdots(x-6) = x^{6} - 21x^{5} + 175x^{4} - 735x^{3} + 1624x^{2} - 1764x + 720$. Change the coefficient $-21$ by only $10^{-4}$ (to $-21.0001$). The roots move to 0.999999, 2.000133, 2.997983, 4.008602, 4.986963 and 6.006420: the largest root shifts by 0.0064, about *sixty* times the change in the coefficient. The famous **Wilkinson polynomial**
 
-**Measuring the order of convergence.** If $e_n = |x_n - \alpha|$ is known, the order $p$ can be estimated from three successive errors by $p \approx \dfrac{\ln(e_{n+1}/e_n)}{\ln(e_n/e_{n-1})}$. For Newton on $x^{3} - x - 2$ from $x_0 = 3$ the errors are 0.6325, 0.1805, 0.02087, 3.27e-04, 8.21e-08, 5.1e-15, and the estimates are 1.72, 1.93, 1.99, rising toward 2.
+$$W(x) = (x-1)(x-2)\cdots(x-20)$$
+
+is far worse: changing the $x^{19}$ coefficient by $2^{-23} \approx 1.2\times 10^{-7}$ turns ten of the roots into complex pairs, with imaginary parts up to 2.8. The problem is ill-conditioned, so *no* algorithm in double precision (with relative data error $10^{-16}$) can be expected to find those roots reliably. The practical rule: be suspicious of high-degree polynomials with roots that lie close together or spread over a wide range, and prefer computing eigenvalues of the companion matrix (Unit 4, Section 4.6) to expanding the polynomial.
+
+**Measuring the order of convergence.** If $e_n = |x_n - \alpha|$ is known, the order $p$ can be estimated from three successive errors by
+
+$$p \approx \frac{\ln (e_{n+1}/e_n)}{\ln (e_n/e_{n-1})} .$$
+
+For example, for Newton on $x^{3} - x - 2$ from $x_0 = 3$ the errors are 0.6325, 0.1805, 0.02087, 3.27e-04, 8.21e-08, 5.1e-15, and the estimates are 1.72, 1.93, 1.99, rising toward 2.
 
 ::: key Method summary after this section
 Bisection: always works, linear. False position: bracketed, usually linear. Fixed point: linear with ratio $|g'|$; speed it up with Aitken/Steffensen. Newton: quadratic at a simple root, linear at a multiple root unless modified. Secant: order 1.618, no derivative. Müller: order 1.84, finds complex roots. Polynomials: use Horner for evaluation and deflate smallest first.
