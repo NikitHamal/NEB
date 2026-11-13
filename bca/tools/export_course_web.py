@@ -53,7 +53,7 @@ ICONS = {
     "system-analysis-and-design": "analytics", "probability-and-statistics": "analytics",
     "applied-economics": "trending_up", "operating-systems": "dns", "numerical-methods": "calculate",
     "software-engineering": "engineering", "python-programming": "terminal", "web-technology-2": "language",
-    "computer-networking": "lan", "network-administration": "lan", "geographical-information-system": "map", "image-processing": "image", "artificial-intelligence": "smart_toy", "advanced-java": "code",
+    "computer-networking": "lan", "network-administration": "lan", "geographical-information-system": "map", "image-processing": "image", "e-governance": "account_balance", "artificial-intelligence": "smart_toy", "advanced-java": "code",
     "mis-and-e-business": "storage", "society-and-technology": "public", "computer-graphics": "draw",
     "mobile-programming": "smartphone", "cryptography-network-security": "lock",
     "technical-writing": "edit_note", "distributed-system": "hub", "financial-accounting": "account_balance",
