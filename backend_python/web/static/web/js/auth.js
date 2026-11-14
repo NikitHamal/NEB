@@ -140,6 +140,12 @@
     if (/[A-Z]/.test(p) && /[a-z]/.test(p)) n++;
     if (/\d/.test(p) && /[^A-Za-z0-9]/.test(p)) n++;
     $('signup-meter').dataset.level = p ? Math.max(1, n) : 0;
+    var lab = $('signup-meter-label');
+    if (lab) {
+      var lvl = p ? Math.max(1, n) : 0;
+      lab.textContent = !p ? '8 or more characters' : p.length < 8 ? 'Too short' : ['', 'Weak', 'Fair', 'Good', 'Strong'][lvl];
+      lab.dataset.level = p.length < 8 ? 0 : lvl;
+    }
   });
   $('signup-form').addEventListener('submit', function (e) {
     e.preventDefault();
