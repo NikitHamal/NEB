@@ -45,6 +45,26 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiPoll
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.rounded.Poll
+import androidx.compose.material.icons.rounded.Quiz
+import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.theme.nebFastSpatialSpec
 
 // ---------------------------------------------------------------------------
 // Poll UI model
@@ -119,10 +139,12 @@ private fun votesLabel(n: Int) = if (n == 1) "1 vote" else "$n votes"
 // ---------------------------------------------------------------------------
 
 /**
- * One poll, M3 Expressive. Tonal surface, no frame, no shadow. Voting rows turn into result
- * bars once the viewer has voted or the poll has ended; the leading option takes the stronger
- * container. When the author allows it, anyone can add an option from the card.
+ * One poll, M3 Expressive. A white card with a hairline, no shadow. Options are white fields whose
+ * stroke turns primary when picked; once the viewer has voted (or it ended) they become result bars
+ * that spring out to their share, the leader in the stronger container, quiz answers in right and
+ * wrong tones. When the author allows it, anyone can add an option from the card.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun NebPollCard(
     poll: PollUi,
@@ -136,300 +158,149 @@ fun NebPollCard(
     var picked by remember(poll.id, poll.votedIds) { mutableStateOf(setOf<String>()) }
     var adding by rememberSaveable(poll.id) { mutableStateOf(false) }
     var draft by rememberSaveable(poll.id) { mutableStateOf("") }
+    val shape = RoundedCornerShape(24.dp)
 
-    Surface(
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .animateContentSize(),
-        shape = RoundedCornerShape(28.dp),
-        color = scheme.surfaceContainerLow
+            .animateContentSize(nebFastSpatialSpec())
+            .clip(shape)
+            .background(scheme.surfaceContainerLowest)
+            .border(BorderStroke(1.dp, scheme.outlineVariant), shape)
+            .padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                verticalAlignment = Alignment.CenterVertically
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Box(
+                Modifier.size(34.dp).clip(RoundedCornerShape(12.dp)).background(scheme.primaryContainer),
+                contentAlignment = Alignment.Center
             ) {
-                PollTag(if (poll.isMcq) "Quiz" else "Poll", strong = true)
-                if (poll.allowMultiple) PollTag("Multiple answers")
-                if (poll.allowAddOptions && !poll.isMcq) PollTag("Open options")
-            }
-
-            if (poll.question.isNotBlank()) {
-                Text(
-                    text = poll.question,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = scheme.onSurface
+                Icon(
+                    if (poll.isMcq) Icons.Rounded.Quiz else Icons.Rounded.Poll, null,
+                    Modifier.size(20.dp), tint = scheme.onPrimaryContainer
                 )
             }
+            Text(
+                text = if (poll.isMcq) "Quiz" else "Poll",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                color = scheme.onSurface,
+                modifier = Modifier.weight(1f)
+            )
+            val ends = endsLabel(poll)
+            if (ends.isNotEmpty()) PollChip(ends, Icons.Rounded.Schedule, strong = !poll.isExpired)
+        }
 
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                poll.options.forEach { option ->
-                    if (poll.showResults) {
-                        PollResultRow(poll, option)
-                    } else {
-                        PollChoiceRow(
-                            option = option,
-                            multiple = poll.allowMultiple,
-                            selected = option.id in picked,
-                            enabled = !busy,
-                            onClick = {
-                                if (poll.allowMultiple) {
-                                    picked = if (option.id in picked) picked - option.id else picked + option.id
-                                } else {
-                                    onVote(listOf(option.id))
-                                }
-                            }
-                        )
-                    }
-                }
+        if (poll.allowMultiple || (poll.allowAddOptions && !poll.isMcq)) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                if (poll.allowMultiple) PollChip("Multiple answers")
+                if (poll.allowAddOptions && !poll.isMcq) PollChip("Open options")
             }
+        }
 
-            if (poll.canAddOption) {
-                if (adding) {
-                    AddOptionField(
-                        value = draft,
-                        onValueChange = { if (it.length <= 120) draft = it },
+        if (poll.question.isNotBlank()) {
+            Text(
+                text = poll.question,
+                style = MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp, lineHeight = 22.sp),
+                fontWeight = FontWeight.SemiBold,
+                color = scheme.onSurface
+            )
+        }
+
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            poll.options.forEachIndexed { index, option ->
+                if (poll.showResults) {
+                    PollResultRow(poll, option, index)
+                } else {
+                    PollChoiceRow(
+                        option = option,
+                        multiple = poll.allowMultiple,
+                        selected = option.id in picked,
                         enabled = !busy,
-                        onCancel = { adding = false; draft = "" },
-                        onSubmit = {
-                            val text = draft.trim()
-                            if (text.isNotEmpty()) {
-                                onAddOption(text)
-                                draft = ""
-                                adding = false
+                        onClick = {
+                            if (poll.allowMultiple) {
+                                picked = if (option.id in picked) picked - option.id else picked + option.id
+                            } else {
+                                onVote(listOf(option.id))
                             }
                         }
                     )
-                } else {
-                    Row(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(percent = 50))
-                            .clickable(enabled = !busy) { adding = true }
-                            .heightIn(min = 40.dp)
-                            .padding(horizontal = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        Icon(Icons.Rounded.Add, null, Modifier.size(18.dp), tint = scheme.primary)
-                        Text(
-                            "Add option",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = scheme.primary
-                        )
-                    }
                 }
             }
+        }
 
-            if (!poll.showResults && poll.allowMultiple && picked.isNotEmpty()) {
-                NebButton(
-                    text = "Vote (${picked.size})",
-                    onClick = { onVote(picked.toList()) },
-                    size = NebButtonSize.Small,
+        if (poll.canAddOption) {
+            if (adding) {
+                AddOptionField(
+                    value = draft,
+                    onValueChange = { if (it.length <= 120) draft = it },
                     enabled = !busy,
-                    loading = busy,
-                    fillWidth = true
+                    onCancel = { adding = false; draft = "" },
+                    onSubmit = {
+                        val text = draft.trim()
+                        if (text.isNotEmpty()) {
+                            onAddOption(text)
+                            draft = ""
+                            adding = false
+                        }
+                    }
                 )
-            }
-
-            if (poll.isMcq && poll.hasVoted && poll.explanation.isNotBlank()) {
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = scheme.secondaryContainer,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = poll.explanation,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = scheme.onSecondaryContainer,
-                        modifier = Modifier.padding(12.dp)
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val ends = endsLabel(poll)
-                Text(
-                    text = if (ends.isEmpty()) votesLabel(poll.totalVotes) else "${votesLabel(poll.totalVotes)}  \u00B7  $ends",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = scheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f)
-                )
-                if (poll.canRetract && !busy) {
-                    Text(
-                        text = "Change vote",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = scheme.primary,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(percent = 50))
-                            .clickable { onRetract() }
-                            .padding(horizontal = 10.dp, vertical = 6.dp)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun PollTag(label: String, strong: Boolean = false) {
-    val scheme = MaterialTheme.colorScheme
-    Surface(
-        shape = RoundedCornerShape(percent = 50),
-        color = if (strong) scheme.primaryContainer else scheme.secondaryContainer
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.SemiBold,
-            color = if (strong) scheme.onPrimaryContainer else scheme.onSecondaryContainer,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
-        )
-    }
-}
-
-@Composable
-private fun PollChoiceRow(
-    option: PollOptionUi,
-    multiple: Boolean,
-    selected: Boolean,
-    enabled: Boolean,
-    onClick: () -> Unit
-) {
-    val scheme = MaterialTheme.colorScheme
-    val markShape = if (multiple) RoundedCornerShape(7.dp) else RoundedCornerShape(percent = 50)
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(if (selected) scheme.primaryContainer else scheme.surfaceContainerHighest)
-            .clickable(enabled = enabled, onClick = onClick)
-            .heightIn(min = 52.dp)
-            .padding(horizontal = 14.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(22.dp)
-                .clip(markShape)
-                .background(if (selected) scheme.primary else scheme.outline),
-            contentAlignment = Alignment.Center
-        ) {
-            if (selected) {
-                Icon(Icons.Rounded.Check, null, Modifier.size(16.dp), tint = scheme.onPrimary)
             } else {
-                Box(
-                    Modifier
-                        .size(18.dp)
-                        .clip(markShape)
-                        .background(scheme.surfaceContainerHighest)
-                )
-            }
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = option.text,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
-                color = if (selected) scheme.onPrimaryContainer else scheme.onSurface
-            )
-            val by = when {
-                option.addedByMe -> "Added by you"
-                option.isAdded -> "Added by a member"
-                else -> ""
-            }
-            if (by.isNotEmpty()) {
-                Text(
-                    by,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = if (selected) scheme.onPrimaryContainer else scheme.onSurfaceVariant
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
-    val scheme = MaterialTheme.colorScheme
-    val total = poll.totalVotes.coerceAtLeast(1)
-    val fraction = option.votes.toFloat() / total
-    val animated by animateFloatAsState(fraction, tween(550), label = "pollFill")
-    val mine = option.id in poll.votedIds
-    val leader = option.id == poll.leaderId
-    val quiz = poll.isMcq && poll.hasVoted
-    val wrongPick = quiz && mine && !option.correct
-    val rightOne = quiz && option.correct
-
-    val fill = when {
-        wrongPick -> scheme.errorContainer
-        rightOne -> scheme.tertiaryContainer
-        leader -> scheme.primaryContainer
-        else -> scheme.secondaryContainer
-    }
-    val pct = if (poll.totalVotes > 0) option.votes * 100 / poll.totalVotes else 0
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 52.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(scheme.surfaceContainerHighest)
-    ) {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(animated.coerceIn(0f, 1f))
-                    .background(fill)
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            when {
-                rightOne -> Icon(Icons.Rounded.CheckCircle, "Correct", Modifier.size(18.dp), tint = scheme.onSurface)
-                wrongPick -> Icon(Icons.Rounded.Cancel, "Your answer", Modifier.size(18.dp), tint = scheme.error)
-                mine -> Icon(Icons.Rounded.CheckCircle, "Your vote", Modifier.size(18.dp), tint = scheme.primary)
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = option.text,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = if (mine || leader) FontWeight.SemiBold else FontWeight.Medium,
-                    color = scheme.onSurface,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-                if (option.addedByMe) {
-                    Text("Added by you", style = MaterialTheme.typography.labelSmall, color = scheme.onSurfaceVariant)
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .nebPressable(enabled = !busy, onClick = { adding = true })
+                        .heightIn(min = 40.dp)
+                        .padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Icon(Icons.Rounded.Add, null, Modifier.size(18.dp), tint = scheme.primary)
+                    Text("Add option", style = MaterialTheme.typography.labelLarge, color = scheme.primary)
                 }
             }
-            Column(horizontalAlignment = Alignment.End) {
+        }
+
+        AnimatedVisibility(visible = !poll.showResults && poll.allowMultiple && picked.isNotEmpty()) {
+            NebButton(
+                text = "Vote (${picked.size})",
+                onClick = { onVote(picked.toList()) },
+                size = NebButtonSize.Small,
+                enabled = !busy,
+                loading = busy,
+                fillWidth = true
+            )
+        }
+
+        if (poll.isMcq && poll.hasVoted && poll.explanation.isNotBlank()) {
+            Text(
+                text = poll.explanation,
+                style = MaterialTheme.typography.bodySmall,
+                color = scheme.onSurface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(scheme.surfaceContainerLow)
+                    .padding(12.dp)
+            )
+        }
+
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = votesLabel(poll.totalVotes),
+                style = MaterialTheme.typography.labelMedium,
+                color = scheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f)
+            )
+            if (poll.canRetract && !busy) {
                 Text(
-                    text = "$pct%",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = scheme.onSurface
-                )
-                Text(
-                    text = option.votes.toString(),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = scheme.onSurfaceVariant
+                    text = "Change vote",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = scheme.primary,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(18.dp))
+                        .nebPressable(onClick = onRetract)
+                        .padding(horizontal = 12.dp, vertical = 8.dp)
                 )
             }
         }
@@ -445,135 +316,149 @@ private fun AddOptionField(
     onSubmit: () -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
+    val focus = remember { FocusRequester() }
+    LaunchedEffect(Unit) { runCatching { focus.requestFocus() } }
+    val shape = RoundedCornerShape(18.dp)
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 52.dp)
+            .clip(shape)
+            .background(scheme.surfaceContainerLowest)
+            .border(BorderStroke(1.5.dp, scheme.primary), shape)
+            .padding(start = 14.dp, end = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        TextField(
-            value = value,
-            onValueChange = onValueChange,
-            enabled = enabled,
-            singleLine = true,
-            placeholder = { Text("Your option") },
-            shape = RoundedCornerShape(20.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                focusedContainerColor = scheme.surfaceContainerHighest,
-                unfocusedContainerColor = scheme.surfaceContainerHighest
-            ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = { onSubmit() }),
-            modifier = Modifier.weight(1f)
-        )
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clip(RoundedCornerShape(percent = 50))
-                .background(if (value.isBlank()) scheme.surfaceContainerHighest else scheme.primary)
-                .clickable(enabled = enabled && value.isNotBlank(), onClick = onSubmit),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Rounded.Check, "Add",
-                tint = if (value.isBlank()) scheme.onSurfaceVariant else scheme.onPrimary,
-                modifier = Modifier.size(20.dp)
+        Box(Modifier.weight(1f)) {
+            if (value.isEmpty()) {
+                Text("New option", style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
+            }
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                enabled = enabled,
+                singleLine = true,
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = scheme.onSurface),
+                cursorBrush = SolidColor(scheme.primary),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { onSubmit() }),
+                modifier = Modifier.fillMaxWidth().focusRequester(focus)
             )
         }
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clip(RoundedCornerShape(percent = 50))
-                .clickable(onClick = onCancel),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(Icons.Rounded.Close, "Cancel", tint = scheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+        IconButton(onClick = onCancel, enabled = enabled) {
+            Icon(Icons.Rounded.Close, "Cancel", tint = scheme.onSurfaceVariant)
+        }
+        IconButton(onClick = onSubmit, enabled = enabled && value.isNotBlank()) {
+            Icon(
+                Icons.Rounded.Check, "Add option",
+                tint = if (value.isNotBlank()) scheme.primary else scheme.outline
+            )
         }
     }
 }
 
+// ---------------------------------------------------------------------------
+// The feed preview
+// ---------------------------------------------------------------------------
+
 /**
- * Feed-row preview of a poll: the question and the two leading options as slim bars. The row
- * itself opens the post, where the full card lives.
+ * A poll on a feed card: the same white card, smaller. It shows the question, up to three options
+ * (as result bars once there is something to show) and how many more there are; tapping the card
+ * opens the post, where the full card lives.
  */
 @Composable
 fun NebPollPreview(poll: PollUi, modifier: Modifier = Modifier) {
     val scheme = MaterialTheme.colorScheme
-    val shown = poll.options.sortedByDescending { it.votes }.take(2)
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        color = scheme.surfaceContainerLow
+    val ordered = if (poll.showResults) poll.options.sortedByDescending { it.votes } else poll.options
+    val shown = ordered.take(3)
+    val more = poll.options.size - shown.size
+    val shape = RoundedCornerShape(20.dp)
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(scheme.surfaceContainerLowest)
+            .border(BorderStroke(1.dp, scheme.outlineVariant), shape)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                PollTag(if (poll.isMcq) "Quiz" else "Poll", strong = true)
-                Text(
-                    text = votesLabel(poll.totalVotes),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = scheme.onSurfaceVariant
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Box(
+                Modifier.size(26.dp).clip(RoundedCornerShape(9.dp)).background(scheme.primaryContainer),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    if (poll.isMcq) Icons.Rounded.Quiz else Icons.Rounded.Poll, null,
+                    Modifier.size(16.dp), tint = scheme.onPrimaryContainer
                 )
             }
-            if (poll.question.isNotBlank()) {
+            Text(
+                if (poll.isMcq) "Quiz" else "Poll",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                color = scheme.onSurface,
+                modifier = Modifier.weight(1f)
+            )
+            val ends = endsLabel(poll)
+            Text(
+                text = if (ends.isEmpty()) votesLabel(poll.totalVotes) else "${votesLabel(poll.totalVotes)} \u00B7 $ends",
+                style = MaterialTheme.typography.labelSmall,
+                color = scheme.onSurfaceVariant,
+                maxLines = 1
+            )
+        }
+        if (poll.question.isNotBlank()) {
+            Text(
+                poll.question,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+                color = scheme.onSurface,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        shown.forEach { option -> PollPreviewRow(poll, option) }
+        if (more > 0) {
+            Text("+$more more", style = MaterialTheme.typography.labelMedium, color = scheme.onSurfaceVariant)
+        }
+    }
+}
+
+@Composable
+private fun PollPreviewRow(poll: PollUi, option: PollOptionUi) {
+    val scheme = MaterialTheme.colorScheme
+    val shape = RoundedCornerShape(14.dp)
+    val frac = if (poll.totalVotes > 0) option.votes.toFloat() / poll.totalVotes else 0f
+    val fill = if (option.id == poll.leaderId) scheme.primaryContainer else scheme.secondaryContainer
+    val track = if (poll.showResults) scheme.surfaceContainerLow else scheme.surfaceContainerLowest
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 38.dp)
+            .clip(shape)
+            .background(track)
+            .drawBehind { if (poll.showResults) drawRect(fill, size = Size(size.width * frac.coerceIn(0f, 1f), size.height)) }
+            .border(BorderStroke(1.dp, scheme.outlineVariant), shape)
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                option.text,
+                style = MaterialTheme.typography.labelLarge,
+                color = scheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+            if (poll.showResults) {
                 Text(
-                    poll.question,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = scheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            shown.forEach { option ->
-                val frac = if (poll.totalVotes > 0) option.votes.toFloat() / poll.totalVotes else 0f
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 34.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(scheme.surfaceContainerHighest)
-                ) {
-                    Box(Modifier.matchParentSize()) {
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .fillMaxWidth(frac.coerceIn(0f, 1f))
-                                .background(
-                                    if (option.id == poll.leaderId) scheme.primaryContainer else scheme.secondaryContainer
-                                )
-                        )
-                    }
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            option.text,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = scheme.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Box(Modifier.width(8.dp))
-                        Text(
-                            "${(frac * 100).toInt()}%",
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = scheme.onSurface
-                        )
-                    }
-                }
-            }
-            if (poll.options.size > 2) {
-                Text(
-                    "+${poll.options.size - 2} more",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = scheme.onSurfaceVariant
+                    "${if (poll.totalVotes > 0) option.votes * 100 / poll.totalVotes else 0}%",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = scheme.onSurface
                 )
             }
         }
