@@ -83,3 +83,5 @@ school:sci8
 school:soc8
 school:cee-zoo
 school:soc10
+school:chem11
+school:math10
