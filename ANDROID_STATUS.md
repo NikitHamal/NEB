@@ -15,6 +15,9 @@ One file for this batch. Read it first, extend it, do not start another. Nothing
 | 7 | **Create menu**: label then glyph on the right, hugging white pills, frosted scrim, the page blurs behind it on Android 12+. | `NebFabMenu.kt`, `Navigation.kt` |
 | 8 | **Glass nav**: blur set in the draw pass, 26dp, clearer tint; skipped on low-end devices and below Android 12 (solid tint), which also stops the page being recorded twice. | `LiquidGlassNav.kt` |
 
+## CI fix
+First push failed to compile: duplicate `Icons` import in `ReplyKinds.kt`, missing `getValue` import in `NebPollParts.kt`, missing `KeyboardArrowDown` import in `Markdown.kt`. Fixed in the follow-up commit; check the Actions run for it.
+
 ## Next
 - On-device visual pass (poll card, Solved scroll offset, glass blur strength).
 - Create-post poll builder still uses the older field style.
