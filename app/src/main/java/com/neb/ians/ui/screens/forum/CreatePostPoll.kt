@@ -10,7 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.luminance
+import com.neb.ians.ui.theme.nebEffectsSpec
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
@@ -194,23 +198,30 @@ fun PostPollPanel(
 
 @Composable
 private fun CorrectMark(correct: Boolean, onClick: () -> Unit) {
+    val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val fill by animateColorAsState(
+        if (correct) com.neb.ians.ui.components.ReplyTones.good(dark)
+        else MaterialTheme.colorScheme.surfaceContainerHigh,
+        nebEffectsSpec(), label = "correctFill"
+    )
+    val ink by animateColorAsState(
+        if (correct) com.neb.ians.ui.components.ReplyTones.onGood(dark)
+        else MaterialTheme.colorScheme.onSurfaceVariant,
+        nebEffectsSpec(), label = "correctInk"
+    )
     Box(
         modifier = Modifier
             .nebPressable(onClick = onClick)
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(
-                if (correct) MaterialTheme.colorScheme.onSurface
-                else MaterialTheme.colorScheme.surfaceContainerHighest
-            ),
+            .size(44.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(fill),
         contentAlignment = Alignment.Center
     ) {
         com.neb.ians.ui.components.NebIcon(
             com.neb.ians.ui.components.NebIcons.Check,
             if (correct) "Correct answer" else "Mark as correct",
-            size = 18.dp,
-            tint = if (correct) MaterialTheme.colorScheme.surface
-            else MaterialTheme.colorScheme.onSurfaceVariant
+            size = 20.dp,
+            tint = ink
         )
     }
 }
@@ -220,9 +231,9 @@ private fun OptionAction(onClick: () -> Unit, description: String) {
     Box(
         modifier = Modifier
             .nebPressable(onClick = onClick)
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+            .size(44.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
         contentAlignment = Alignment.Center
     ) {
         com.neb.ians.ui.components.NebIcon(

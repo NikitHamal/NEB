@@ -45,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -108,6 +109,14 @@ fun PostInput(
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
     val scheme = MaterialTheme.colorScheme
+    var focused by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+    // One white field, one 1.5dp stroke; only the stroke colour changes on focus (web .md-input).
+    val stroke by animateColorAsState(
+        targetValue = if (focused) scheme.primary else scheme.outline.copy(alpha = 0.58f),
+        animationSpec = nebEffectsSpec(),
+        label = "postInputStroke"
+    )
+    val fieldShape = RoundedCornerShape(18.dp)
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
@@ -117,13 +126,16 @@ fun PostInput(
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
         cursorBrush = SolidColor(scheme.primary),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusEdge { focused = it },
         decorationBox = { inner ->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(scheme.surfaceContainerLow)
+                    .clip(fieldShape)
+                    .background(scheme.surfaceContainerLowest)
+                    .border(1.5.dp, stroke, fieldShape)
                     .padding(horizontal = 14.dp, vertical = 12.dp)
             ) {
                 if (value.isEmpty()) {
@@ -326,3 +338,6 @@ fun ComposerAttachmentList(
         }
     }
 }
+
+private fun Modifier.onFocusEdge(onChange: (Boolean) -> Unit): Modifier =
+    this.onFocusChanged { onChange(it.isFocused) }
