@@ -46,7 +46,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.icons.Icons
 import com.neb.ians.ui.theme.nebAnimationsReduced
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

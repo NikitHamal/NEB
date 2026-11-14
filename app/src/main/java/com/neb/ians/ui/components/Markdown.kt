@@ -1,5 +1,7 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.heightIn
@@ -989,7 +991,7 @@ fun ExpandableMarkdownText(
                         color = MaterialTheme.colorScheme.primary
                     )
                     Icon(
-                        imageVector = androidx.compose.material.icons.Icons.Filled.KeyboardArrowDown,
+                        imageVector = Icons.Filled.KeyboardArrowDown,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp).graphicsLayer { rotationZ = flip }
