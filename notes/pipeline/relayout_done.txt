@@ -81,3 +81,5 @@ school:qbank8
 school:qbankc10
 school:sci8
 school:soc8
+school:cee-zoo
+school:soc10
