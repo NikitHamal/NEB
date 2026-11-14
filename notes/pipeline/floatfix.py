@@ -22,6 +22,7 @@ ATOMIC = {"figure", "table", "div"}
 HEADS = {"h1", "h2", "h3", "h4"}
 MIN_GAP = 22 * MM                   # holes smaller than this are ordinary ragged page ends
 PASSES = 5
+SPLIT_GAP = 30 * MM                 # a hole this big justifies splitting a card or short table
 DEBUG = False
 
 
@@ -40,6 +41,13 @@ def _atomic(el):
         return False
     cls = (el.get("class") or "").split()
     return not ({"ch-head", "syllabus", "ch-chips"} & set(cls))
+
+
+def _splittable(el):
+    cls = (el.get("class") or "").split()
+    if el.tag == "table":
+        return True
+    return el.tag == "div" and ("box" in cls or "hk" in cls)
 
 
 def measure(doc):
@@ -149,6 +157,12 @@ def _fix_once(doc, parent):
             fill.pop()
         if DEBUG: print('page', i + 1, 'gap', round(gap / MM), 'acc', round(acc / MM), len(fill))
         if not fill or acc < gap * 0.45:
+            # nothing to pull up: let a tall card or short table split across the page break instead
+            if gap >= SPLIT_GAP and _splittable(el) and not el.get("data-split"):
+                el.set("data-split", "1")
+                if el.tag == "table":
+                    el.set("data-long", "1")
+                moved += 1
             continue
         # the text moves up in front of the block: the block floats down past it
         at = list(par).index(el)
