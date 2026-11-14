@@ -150,3 +150,13 @@ authored prose with `plain text` maths inside captions (`S(r) = 2 pi r^2` in pho
   foot because no text exists between them to float up. Fix would be shrinking plates or interleaving text at the source.
 - Short tables (3 body rows or fewer) intentionally stay whole with their lead-in line; tables with 4+ body rows split between rows.
 - Environment note: WeasyPrint needs `libpangoft2-1.0-0` and `libpangocairo-1.0-0` besides `libpango-1.0-0`.
+
+## Session: layout audit continued + auth screens
+- `relayout_batch.py` resumed from `relayout_done.txt` (add `school:nep11 school:nep12` were pushed but unrecorded). Remaining order:
+  `$(cat /tmp/targets.txt)` = math8 omath8 cee-zoo soc10 chem11 math10 omath10 eng12 cs8 chem12 sci10 cee-chem qbank11 phy12 phy11 cee-phy math11 math12 qbank12,
+  then `bca:semester-4/python-programming` (needs `pandas` in `/tmp/v`). Resume: run the batch with the same list; finished targets are skipped.
+- Math Grade 8 rebuilt: 278 pages, holes 32 to 14, wasted 6.0 to 1.8 pages, qa_pdf 0 fails. Remaining gaps sit before chapter summaries/headings.
+- Environment: `apt-get update` first; `libpangocairo-1.0-0` is not a package name on Debian 12 (it is pulled in by libpango).
+- Auth screens (`web/login.html`, `css/m3x/app-auth.css`): form sits open on the page (no tinted card), sub line, footer (home, terms, privacy);
+  the art panel is now a product preview (book, forum answer, question bank cards, class chips, three perks) over tonal shapes, headline swaps with the mode.
+  Bundle with `python3 tools/css/bundle.py`; restart the Django dev server after CSS edits (static files are cached at start).
