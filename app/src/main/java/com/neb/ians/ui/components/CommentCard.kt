@@ -18,7 +18,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.TaskAlt
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -39,7 +46,7 @@ import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.util.TactileType
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun CommentCard(
     reply: ApiReply,
@@ -61,17 +68,38 @@ fun CommentCard(
       onRepliesBarClick: (() -> Unit)? = null,
       onInlineImageClick: (String) -> Unit = {},
       pollContent: (@Composable (com.neb.ians.data.api.ApiPoll) -> Unit)? = null,
+      highlighted: Boolean = false,
       modifier: Modifier = Modifier
   ) {
     val tactile = rememberTactileFeedback()
     // Flat like a web reply: no frame, one hairline under the row, the body indented past the avatar.
     val hairline = MaterialTheme.colorScheme.outlineVariant
+    val scheme = MaterialTheme.colorScheme
+    val dark = scheme.surface.luminance() < 0.5f
+    val accepted = reply.label == "accepted"
+    val acceptedFill = ReplyTones.good(dark).copy(alpha = 0.55f)
+    val acceptedLine = ReplyTones.goodLine(dark)
+    // the web's `fp-fresh`: a primary-container flash that fades over ~2.4s when the Solved chip lands here
+    val flash by animateColorAsState(
+        targetValue = if (highlighted) scheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent,
+        animationSpec = tween(if (highlighted) 160 else 1800),
+        label = "replyFlash"
+    )
+    val dim = when (reply.label) { "spam" -> 0.72f; "incorrect" -> 0.9f; else -> 1f }
     Surface(
         shape = androidx.compose.ui.graphics.RectangleShape,
         color = androidx.compose.ui.graphics.Color.Transparent,
         modifier = modifier
             .fillMaxWidth()
+            .drawBehind {
+                if (accepted) {
+                    drawRect(acceptedFill)
+                    drawRect(acceptedLine, size = androidx.compose.ui.geometry.Size(4.dp.toPx(), size.height))
+                }
+                if (flash.alpha > 0f) drawRect(flash)
+            }
             .bottomHairline(hairline)
+            .graphicsLayer { alpha = dim }
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(
@@ -104,58 +132,62 @@ fun CommentCard(
                     )
                 }
                 Column(modifier = Modifier.weight(1f)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = reply.authorName,
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier
-                                .weight(1f, fill = false)
-                                .then(
-                                    if (reply.isAnonymous) Modifier
-                                    else Modifier.combinedClickable(
-                                        onClick = { onProfileClick(reply.authorName) },
-                                        onLongClick = onAuthorLongPress
+                    // the web's `.author-line`: name, badge, dot, time, then the kind and label chips on the same line
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.height(24.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = reply.authorName,
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .widthIn(max = 168.dp)
+                                    .then(
+                                        if (reply.isAnonymous) Modifier
+                                        else Modifier.combinedClickable(
+                                            onClick = { onProfileClick(reply.authorName) },
+                                            onLongClick = onAuthorLongPress
+                                        )
                                     )
+                            )
+                            if (reply.isAnonymous) {
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Icon(
+                                    imageVector = Icons.Outlined.VisibilityOff,
+                                    contentDescription = "Anonymous",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(13.dp)
                                 )
-                        )
-                        if (reply.isAnonymous) {
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Icon(
-                                imageVector = Icons.Outlined.VisibilityOff,
-                                contentDescription = "Anonymous",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(13.dp)
-                            )
-                        }
-                        reply.authorBadgeInfo?.let { badge ->
-                            Spacer(modifier = Modifier.width(5.dp))
-                            NebBadge(badge)
-                        }
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = formatTimeAgo(reply.createdAt),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        if (reply.isArchived == true) {
+                            }
+                            reply.authorBadgeInfo?.let { badge ->
+                                Spacer(modifier = Modifier.width(4.dp))
+                                NebBadge(badge)
+                            }
                             Text(
-                                text = ", archived",
+                                text = "\u00B7",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(horizontal = 6.dp)
                             )
-                        }
-                        if (reply.isEdited == true) {
                             Text(
-                                text = ", edited",
+                                text = formatTimeAgo(reply.createdAt) +
+                                    (if (reply.isArchived == true) ", archived" else "") +
+                                    (if (reply.isEdited == true) ", edited" else ""),
                                 style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
                             )
                         }
+                        ReplyKindTag(reply.kind)
+                        ReplyLabelTag(reply.label)
                     }
                 }
                 if (onBookmarkClick != null || onReportClick != null || onEditClick != null || onArchiveClick != null || onDeleteClick != null) {
@@ -173,15 +205,7 @@ fun CommentCard(
             }
 
             Column(modifier = Modifier.padding(start = 48.dp)) {
-            if ((reply.kind.isNotBlank() && reply.kind != "comment") || reply.label.isNotBlank()) {
-                Spacer(modifier = Modifier.height(10.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    ReplyKindTag(reply.kind)
-                    ReplyLabelTag(reply.label)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             if (!quotedContent.isNullOrBlank()) {
                 Surface(
@@ -239,12 +263,13 @@ fun CommentCard(
                 }
             }
 
-            MarkdownText(
+            ExpandableMarkdownText(
                 markdown = reply.content,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 onMentionClick = onProfileClick,
                 onLinkClick = onLinkClick,
+                minimizedMaxLines = 5,
                 onInlineImageClick = onInlineImageClick
             )
 
@@ -269,8 +294,35 @@ fun CommentCard(
                     liked = reply.isThumbedUp,
                     onClick = onThumbsUpClick
                 )
+                if (reply.canLabel && onLabelClick != null) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Row(
+                        modifier = Modifier
+                            .clip(WebPillShape)
+                            .clickable(onClick = {
+                                tactile.perform(TactileType.LightTap)
+                                onLabelClick()
+                            })
+                            .padding(horizontal = 8.dp, vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.CheckCircle,
+                            contentDescription = "Mark reply",
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = if (reply.label.isNotBlank()) "Marked" else "Mark",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
                 if (onReplyClick != null) {
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Row(
                         modifier = Modifier
                             .clip(WebPillShape)
@@ -292,33 +344,6 @@ fun CommentCard(
                             text = "Reply",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                if (reply.canLabel && onLabelClick != null) {
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Row(
-                        modifier = Modifier
-                            .clip(WebPillShape)
-                            .clickable(onClick = {
-                                tactile.perform(TactileType.LightTap)
-                                onLabelClick()
-                            })
-                            .padding(horizontal = 8.dp, vertical = 5.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.TaskAlt,
-                            contentDescription = "Mark reply",
-                            modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = "Mark",
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }

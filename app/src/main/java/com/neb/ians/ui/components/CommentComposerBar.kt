@@ -237,7 +237,7 @@ private fun NebCommentComposerBarFrame(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = if (docked) 12.dp else 16.dp, vertical = if (docked) 8.dp else 12.dp)
+                .padding(horizontal = if (docked) 4.dp else 8.dp, vertical = if (docked) 8.dp else 12.dp)
                 .then(if (docked) Modifier.navigationBarsPadding().imePadding() else Modifier)
         ) {
             extraContent()

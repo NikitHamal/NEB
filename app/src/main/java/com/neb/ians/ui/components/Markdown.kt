@@ -1,6 +1,14 @@
 package com.neb.ians.ui.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -914,7 +922,7 @@ fun ExpandableMarkdownText(
     var isExpanded by remember { mutableStateOf(false) }
     var hasOverflow by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.animateContentSize(com.neb.ians.ui.theme.nebFastSpatialSpec())) {
         if (isExpanded) {
             MarkdownText(
                 markdown = markdown,
@@ -959,17 +967,35 @@ fun ExpandableMarkdownText(
             )
         }
         if (hasOverflow || isExpanded) {
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = if (isExpanded) "See less" else "See more",
-                style = style.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = { isExpanded = !isExpanded }
-                )
+            // Right corner, a notch smaller than the body, with a 40dp-tall pill target and a chevron
+            // that flips on a spring, so it is easy to hit and obvious which way it will go.
+            val flip by androidx.compose.animation.core.animateFloatAsState(
+                targetValue = if (isExpanded) 180f else 0f,
+                animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
+                label = "seeMoreChevron"
             )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Row(
+                    modifier = Modifier
+                        .heightIn(min = 36.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .clickable(onClick = { isExpanded = !isExpanded })
+                        .padding(start = 12.dp, end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (isExpanded) "See less" else "See more",
+                        style = MaterialTheme.typography.labelMedium.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Icon(
+                        imageVector = androidx.compose.material.icons.Icons.Filled.KeyboardArrowDown,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(18.dp).graphicsLayer { rotationZ = flip }
+                    )
+                }
+            }
         }
     }
 }
