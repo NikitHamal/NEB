@@ -26,11 +26,37 @@ import androidx.compose.material.icons.outlined.Rule
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material.icons.outlined.VolunteerActivism
+import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.ChatBubble
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.FormatListNumbered
+import androidx.compose.material.icons.filled.Functions
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.Report
+import androidx.compose.material.icons.filled.Rule
+import androidx.compose.material.icons.filled.TaskAlt
+import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.filled.VolunteerActivism
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import com.neb.ians.ui.theme.nebAnimationsReduced
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,53 +76,131 @@ data class ReplyKindSpec(val key: String, val label: String, val icon: ImageVect
 data class ReplyLabelSpec(val key: String, val label: String, val icon: ImageVector, val tone: String, val hint: String)
 
 val REPLY_KINDS = listOf(
-    ReplyKindSpec("comment", "Comment", Icons.Outlined.ChatBubbleOutline),
-    ReplyKindSpec("answer", "Answer", Icons.Outlined.TaskAlt),
-    ReplyKindSpec("solution", "Solution", Icons.Outlined.FormatListNumbered),
-    ReplyKindSpec("hint", "Hint", Icons.Outlined.Lightbulb),
-    ReplyKindSpec("formula", "Formula", Icons.Outlined.Functions)
+    ReplyKindSpec("comment", "Comment", Icons.Filled.ChatBubble),
+    ReplyKindSpec("answer", "Answer", Icons.Filled.TaskAlt),
+    ReplyKindSpec("solution", "Solution", Icons.Filled.FormatListNumbered),
+    ReplyKindSpec("hint", "Hint", Icons.Filled.Lightbulb),
+    ReplyKindSpec("formula", "Formula", Icons.Filled.Functions)
 )
 
 val REPLY_LABELS = listOf(
-    ReplyLabelSpec("accepted", "Accepted answer", Icons.Outlined.CheckCircle, "good", "This solved it"),
-    ReplyLabelSpec("correct", "Correct", Icons.Outlined.Verified, "good", "The working and result are right"),
-    ReplyLabelSpec("partial", "Partly correct", Icons.Outlined.Rule, "warn", "Right idea, something is missing"),
-    ReplyLabelSpec("incorrect", "Incorrect", Icons.Outlined.Cancel, "bad", "There is a mistake in it"),
-    ReplyLabelSpec("helpful", "Helpful", Icons.Outlined.VolunteerActivism, "info", "Useful, even if not the answer"),
-    ReplyLabelSpec("spam", "Spam", Icons.Outlined.Report, "bad", "Off topic, ads or noise")
+    ReplyLabelSpec("accepted", "Accepted answer", Icons.Filled.CheckCircle, "good", "This solved it"),
+    ReplyLabelSpec("correct", "Correct", Icons.Filled.Verified, "good", "The working and result are right"),
+    ReplyLabelSpec("partial", "Partly correct", Icons.Filled.Rule, "warn", "Right idea, something is missing"),
+    ReplyLabelSpec("incorrect", "Incorrect", Icons.Filled.Cancel, "bad", "There is a mistake in it"),
+    ReplyLabelSpec("helpful", "Helpful", Icons.Filled.VolunteerActivism, "info", "Useful, even if not the answer"),
+    ReplyLabelSpec("spam", "Spam", Icons.Filled.Report, "bad", "Off topic, ads or noise")
 )
 
 fun replyKind(key: String): ReplyKindSpec = REPLY_KINDS.firstOrNull { it.key == key } ?: REPLY_KINDS.first()
 
 fun replyLabel(key: String): ReplyLabelSpec? = REPLY_LABELS.firstOrNull { it.key == key }
 
-private val ChipShape = RoundedCornerShape(28.dp)
+private val ChipShape = RoundedCornerShape(12.dp)
 
-/** Container and content colours for a label tone, from the same tonal family as the web chips. */
+/** Web tokens `--fl-good/warn/bad/info` and their `on` colours (`app-forum.css`), light and dark. */
+object ReplyTones {
+    val goodLight = Color(0xFFD3F1DE); val onGoodLight = Color(0xFF0A3A1C); val goodLineLight = Color(0xFF7CCF9B)
+    val goodDark = Color(0xFF14402A); val onGoodDark = Color(0xFFC3F2D5); val goodLineDark = Color(0xFF3F9B69)
+    fun good(dark: Boolean) = if (dark) goodDark else goodLight
+    fun onGood(dark: Boolean) = if (dark) onGoodDark else onGoodLight
+    fun goodLine(dark: Boolean) = if (dark) goodLineDark else goodLineLight
+}
+
+/** Container and content colours for a label tone, the same values the web chips use. */
 @Composable
 private fun labelColors(tone: String): Pair<Color, Color> {
     val cs = MaterialTheme.colorScheme
     val dark = cs.surface.luminance() < 0.5f
     return when (tone) {
-        "good" -> NebTone.Aqua.container(dark) to NebTone.Aqua.deep(dark)
-        "info" -> NebTone.Sky.container(dark) to NebTone.Sky.deep(dark)
-        "bad" -> cs.errorContainer to cs.onErrorContainer
-        else -> cs.secondaryContainer to cs.onSecondaryContainer
+        "good" -> ReplyTones.good(dark) to ReplyTones.onGood(dark)
+        "warn" -> (if (dark) Color(0xFF4A3708) else Color(0xFFFDE8BD)) to (if (dark) Color(0xFFFFE2A6) else Color(0xFF432B00))
+        "bad" -> (if (dark) Color(0xFF6B1B1B) else Color(0xFFFFDAD6)) to (if (dark) Color(0xFFFFDAD6) else Color(0xFF5C0008))
+        else -> cs.primaryContainer to cs.onPrimaryContainer
     }
 }
 
+/** The web's `.fl-chip`: 24dp, 12dp corners, 16dp filled glyph, 12sp bold, pops in on a spring. */
 @Composable
 private fun TonalTag(icon: ImageVector, text: String, container: Color, content: Color, modifier: Modifier = Modifier) {
+    val reduced = nebAnimationsReduced()
+    val pop = remember { Animatable(if (reduced) 1f else 0.8f) }
+    LaunchedEffect(Unit) {
+        if (!reduced) pop.animateTo(1f, spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessMediumLow))
+    }
     Row(
         modifier = modifier
+            .graphicsLayer {
+                scaleX = pop.value
+                scaleY = pop.value
+                alpha = ((pop.value - 0.8f) / 0.2f).coerceIn(0f, 1f)
+            }
+            .height(24.dp)
             .clip(ChipShape)
             .background(container)
-            .padding(horizontal = 10.dp, vertical = 4.dp),
+            .padding(start = 7.dp, end = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(14.dp))
-        Spacer(Modifier.width(5.dp))
-        Text(text, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = content)
+        Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(16.dp))
+        Spacer(Modifier.width(4.dp))
+        Text(text, fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.12.sp, color = content, maxLines = 1)
+    }
+}
+
+/**
+ * The web's `.fl-solved-chip`: a good-tone pill with a filled check and a small arrow that
+ * points at the accepted answer; tapping it scrolls there. Springs on press, arrow nudges on entry.
+ */
+@Composable
+fun SolvedChip(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val reduced = nebAnimationsReduced()
+    val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val container = ReplyTones.good(dark)
+    val content = ReplyTones.onGood(dark)
+    val pop = remember { Animatable(if (reduced) 1f else 0.8f) }
+    val nudge = remember { Animatable(0f) }
+    val press = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val pressed by press.collectIsPressedAsState()
+    val pressScale by androidx.compose.animation.core.animateFloatAsState(
+        if (pressed) 0.95f else 1f, spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessMedium), label = "solvedPress"
+    )
+    LaunchedEffect(Unit) {
+        if (!reduced) {
+            pop.animateTo(1f, spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessMediumLow))
+            repeat(2) {
+                nudge.animateTo(1f, androidx.compose.animation.core.tween(220))
+                nudge.animateTo(0f, spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessMedium))
+            }
+        }
+    }
+    Row(
+        modifier = modifier
+            .graphicsLayer {
+                val k = pop.value * pressScale
+                scaleX = k
+                scaleY = k
+                alpha = ((pop.value - 0.8f) / 0.2f).coerceIn(0f, 1f)
+            }
+            .height(26.dp)
+            .clip(RoundedCornerShape(13.dp))
+            .background(container)
+            .clickable(interactionSource = press, indication = null, onClick = onClick)
+            .semantics { contentDescription = "Go to the accepted answer" }
+            .padding(start = 8.dp, end = 11.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = content, modifier = Modifier.size(17.dp))
+        Spacer(Modifier.width(4.dp))
+        Text("Solved", fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.12.sp, color = content)
+        Icon(
+            Icons.Filled.ArrowDownward,
+            contentDescription = null,
+            tint = content.copy(alpha = 0.8f),
+            modifier = Modifier
+                .padding(start = 0.dp)
+                .size(15.dp)
+                .graphicsLayer { translationY = nudge.value * 2.dp.toPx() }
+        )
     }
 }
 

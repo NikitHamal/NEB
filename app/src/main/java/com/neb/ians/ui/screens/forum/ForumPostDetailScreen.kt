@@ -170,6 +170,8 @@ fun ForumPostDetailScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
+    val listState = androidx.compose.foundation.lazy.rememberLazyListState()
+    var flashReplyId by remember { mutableStateOf<String?>(null) }
 
     // Bottom sheet state for thread
     // Id-based so the sheet always renders from live state (likes/bookmarks recompose).
@@ -312,7 +314,9 @@ fun ForumPostDetailScreen(
                         .fillMaxSize()
                         .padding(paddingValues)
                 ) {
+                val hasComposer = uiState.currentUserId != null
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier
                         .fillMaxSize()
                         .imePadding(),
@@ -323,6 +327,17 @@ fun ForumPostDetailScreen(
                             post = post,
                             poll = uiState.poll,
                             isOwnPost = isOwnPost,
+                            solved = uiState.isSolved,
+                            onSolvedClick = {
+                                val at = topLevel.indexOfFirst { it.label == "accepted" }
+                                if (at >= 0) scope.launch {
+                                    // post header, composer (signed in), replies header, then the replies
+                                    listState.animateScrollToItem(2 + (if (hasComposer) 1 else 0) + at)
+                                    flashReplyId = topLevel[at].id
+                                    kotlinx.coroutines.delay(1200)
+                                    flashReplyId = null
+                                }
+                            },
                             busy = uiState.busyPollId != null,
                             onThumbsUpClick = viewModel::toggleThumbsUp,
                             onBookmarkClick = viewModel::togglePostBookmark,
@@ -407,6 +422,7 @@ fun ForumPostDetailScreen(
                         CommentCard(
                             reply = reply,
                             pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
+                            highlighted = flashReplyId == reply.id,
                             isOwn = reply.isOwner || (uiState.currentUserId != null && reply.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
                             onLabelClick = { labelTarget = reply },
@@ -780,6 +796,8 @@ private fun PostContentSection(
     post: ApiPost,
     poll: com.neb.ians.ui.components.PollUi?,
     isOwnPost: Boolean,
+    solved: Boolean,
+    onSolvedClick: () -> Unit,
     busy: Boolean,
     onThumbsUpClick: () -> Unit,
     onBookmarkClick: () -> Unit,
@@ -880,20 +898,25 @@ private fun PostContentSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        if (solved) {
+            Spacer(modifier = Modifier.height(12.dp))
+            com.neb.ians.ui.components.SolvedChip(onClick = onSolvedClick)
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         KaTeXText(
             text = post.title,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleLarge.copy(fontSize = 19.sp, lineHeight = 25.sp),
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         ExpandableMarkdownText(
             markdown = post.content,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.5.sp, lineHeight = 21.sp),
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
             onLinkClick = onLinkClick,

@@ -39,6 +39,17 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import javax.inject.Inject
 
+/** Lower ranks first; the same table the web uses for its reply list. */
+internal fun replyRank(label: String): Int = when (label) {
+    "accepted" -> 0
+    "correct" -> 1
+    "helpful" -> 2
+    "partial" -> 3
+    "incorrect" -> 5
+    "spam" -> 6
+    else -> 4
+}
+
 data class PostDetailUiState(
     val post: ApiPost? = null,
     val replies: List<ApiReply> = emptyList(),
@@ -50,17 +61,25 @@ data class PostDetailUiState(
     val snackbarMessage: String? = null,
     val currentUserId: String? = null
 ) {
-    /** Top-level replies in the selected sort order. */
+    /** Whether any reply carries the accepted label: the web's `post.isResolved`. */
+    val isSolved: Boolean get() = replies.any { it.label == "accepted" }
+
+    /**
+     * Top-level replies in the selected sort order, marked ones first like the web: accepted,
+     * correct, helpful, partly correct, then unmarked; incorrect and spam sink. The sort is
+     * stable, so the chosen order still decides within each group.
+     */
     val topLevelReplies: List<ApiReply>
         get() {
             val topLevel = replies.filter { it.parentReplyId.isNullOrBlank() }
-            return when (replySort) {
+            val ordered = when (replySort) {
                 "newest" -> topLevel.sortedByDescending { it.createdAt }
                 "top" -> topLevel.sortedWith(
                     compareByDescending<ApiReply> { it.thumbsUpCount }.thenBy { it.createdAt }
                 )
                 else -> topLevel.sortedBy { it.createdAt } // oldest
             }
+            return ordered.sortedBy { replyRank(it.label) }
         }
 
     /** Children and descendants of a given reply, oldest first. */
