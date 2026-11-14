@@ -25,6 +25,7 @@
       <!-- sign in -->
       <div class="ax-panel is-on" id="panel-login" data-title="Welcome back">
         <h1 class="ax-title" tabindex="-1">Welcome back</h1>
+        <p class="ax-sub">Sign in to open your library and saved notes.</p>
         <form id="login-form" class="ax-form" novalidate>
           <div class="ob-field">
             <label for="login-email">Username or email</label>
@@ -47,6 +48,7 @@
       <!-- create account -->
       <div class="ax-panel" id="panel-signup" data-title="Create your account">
         <h1 class="ax-title" tabindex="-1">Create your account</h1>
+        <p class="ax-sub">Free notes, PDF books and answers for your class.</p>
         <form id="signup-form" class="ax-form" novalidate>
           <div class="ob-field">
             <label for="signup-username">Username</label>
@@ -129,6 +131,12 @@
         </form>
       </div>
     </div>
+
+    <footer class="ax-foot">
+      <a href="{% url 'web:home' %}"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>Back to home</a>
+      <a href="{% url 'web:terms_of_service' %}">Terms</a>
+      <a href="{% url 'web:privacy_policy' %}">Privacy</a>
+    </footer>
   </section>
 
   <section class="ax-art" aria-hidden="true">
@@ -138,7 +146,41 @@
     <span class="ax-shape ax-s4"><span class="md-shape-slanted"></span></span>
     <span class="ax-shape ax-s5"><span class="md-shape-sunny"></span></span>
     <span class="ax-shape ax-s6"><span class="md-shape-soft-burst"></span></span>
-    <span class="ax-core md-shape-cookie-9"><img src="{% static 'web/img/n-logo-512.png' %}" alt="" width="96" height="96"></span>
+
+    <div class="ax-stage">
+      <div class="ax-hl">
+        <span class="ax-hl-login">Pick up where you left off.</span>
+        <span class="ax-hl-signup">Study smarter, from Grade 8 to BCA.</span>
+      </div>
+
+      <div class="ax-stack">
+        <div class="ax-pcard ax-pc-book">
+          <span class="ax-glyph md-shape-cookie-9"><span class="material-symbols-outlined">calculate</span></span>
+          <span class="ax-ptext"><b>Mathematics</b><i>Grade 10 &middot; PDF book</i></span>
+          <span class="ax-ptag">PDF</span>
+        </div>
+        <div class="ax-pcard ax-pc-ask">
+          <span class="ax-letter">R</span>
+          <span class="ax-ptext"><b>How do I find the range of a quadratic?</b><i>Forum &middot; Grade 11 Mathematics</i></span>
+          <span class="ax-ptag ax-ptag-ok"><span class="material-symbols-outlined">check</span>Answer</span>
+        </div>
+        <div class="ax-pcard ax-pc-quiz">
+          <span class="ax-glyph md-shape-sunny"><span class="material-symbols-outlined">quiz</span></span>
+          <span class="ax-ptext"><b>Question bank</b><i>Model papers and mock tests</i></span>
+          <span class="ax-ptag">Practice</span>
+        </div>
+      </div>
+
+      <div class="ax-chips">
+        <span>Grade 8</span><span>Grade 10</span><span>Grade 11</span><span>Grade 12</span><span>CEE</span><span>IOE</span><span>BCA</span>
+      </div>
+
+      <ul class="ax-perks">
+        <li><span class="material-symbols-outlined">menu_book</span><b>Notes and PDF books</b><i>For every class</i></li>
+        <li><span class="material-symbols-outlined">quiz</span><b>Question banks</b><i>Past and model papers</i></li>
+        <li><span class="material-symbols-outlined">forum</span><b>Forum</b><i>Ask and get answers</i></li>
+      </ul>
+    </div>
   </section>
 </div>
 {% endblock %}
