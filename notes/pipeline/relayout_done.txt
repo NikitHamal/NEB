@@ -77,3 +77,5 @@ school:soc8
 school:qbank10
 school:eng10
 school:eng11
+school:nep11
+school:nep12
