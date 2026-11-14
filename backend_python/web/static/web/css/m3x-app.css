@@ -3515,7 +3515,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .ax-stage { position: relative; z-index: 1; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 26px;
   padding: clamp(32px, 4.4vw, 64px); max-width: 620px; margin: 0 auto 0 0; }
 .ax-hl { display: grid; }
-.ax-hl > span { grid-area: 1 / 1; font: 700 clamp(2rem, 3.2vw, 3rem)/1.08 var(--md-font-display); letter-spacing: -.02em; max-width: 11em; text-wrap: balance;
+.ax-hl > span { grid-area: 1 / 1; display: grid; gap: 14px; align-content: start;
   opacity: 0; transform: translateY(14px); transition: opacity .3s ease, transform .55s var(--spring); }
 .ax .ax-hl-login, .ax[data-mode="signup"] .ax-hl-signup { opacity: 1; transform: none; }
 .ax[data-mode="signup"] .ax-hl-login { opacity: 0; transform: translateY(-14px); }
@@ -3631,6 +3631,98 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .ax-seg { margin-bottom: 20px; }
 .ax-or { margin: 20px 0 14px; }
 [data-theme="dark"] .ax-letter { background: var(--md-surface-container-highest); }
+
+
+/* ================= polish: anchored card, leading icons, social first, richer art ================= */
+/* The card no longer re-centres when the panel height changes (sign in is shorter than create account). */
+.ax-side { padding-top: 20px; }
+.ax-card { margin: 0 auto; align-self: flex-start; flex: 1 0 auto; padding-top: clamp(0px, 4vh, 40px); }
+.ax-foot { margin: 0 auto; }
+
+.ax-title { margin-bottom: 8px; font-size: clamp(1.9rem, 3.4vw, 2.5rem); }
+.ax-sub { margin: 0 0 22px; }
+.ax-lead { margin: 0 0 18px; }
+.ax-form { gap: 2px; }
+
+/* social first: the fastest way in sits on top, email form below */
+.ax-social { margin: 0; }
+.ax-social-btn { min-height: 50px; }
+.ax-or { margin: 18px 0 16px; text-transform: none; }
+.ax-or span { padding: 0 2px; font-weight: 500; }
+.ax-legal { margin: 16px 0 0; }
+
+/* leading field icons */
+.ax-in { position: relative; display: block; }
+.ax-in .ob-input { padding-left: 48px; }
+.ax-ico { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 21px; color: var(--md-on-surface-variant); pointer-events: none; transition: color .2s; }
+.ax-in:focus-within .ax-ico { color: var(--md-primary); }
+.ax-in:has(.has-error) .ax-ico { color: var(--md-error); }
+.ax-pass .ob-input { padding-right: 56px; }
+.ax-eye { top: 50%; transform: translateY(-50%); }
+.ax-status { top: 50%; }
+.ax-status-wrap .ob-input { padding-right: 104px; }
+.ob-field > label { display: block; margin-bottom: 8px; }
+
+/* password strength: bar plus a word, so the meter says something */
+.ax-meter-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; margin-top: 10px; }
+.ax-meter { margin-top: 0; }
+.ax-meter-label { min-width: 7.5em; text-align: right; font: 500 .8rem var(--md-font); color: var(--md-on-surface-variant); }
+.ax-meter-label[data-level="1"] { color: var(--md-error); }
+.ax-meter-label[data-level="3"], .ax-meter-label[data-level="4"] { color: var(--md-primary); font-weight: 600; }
+.ax-submit { margin-top: 20px; }
+
+/* art side: centred composition, bigger cards, tile icons */
+.ax-art { display: grid; align-items: center; }
+.ax-stage { height: auto; width: 100%; max-width: 620px; margin: 0 auto; gap: 30px; padding: clamp(32px, 4vw, 56px); }
+.ax-hl > span b { font: 700 clamp(2.2rem, 3.6vw, 3.4rem)/1.05 var(--md-font-display); letter-spacing: -.025em; text-wrap: balance; }
+.ax-hl > span em { font: 500 1.02rem/1.5 var(--md-font); font-style: normal; max-width: 30em; color: var(--md-on-primary-container); opacity: .85; text-wrap: pretty; }
+[data-theme="dark"] .ax-hl > span em { color: var(--md-on-surface-variant); opacity: 1; }
+.ax-pcard { width: min(100%, 540px); padding: 16px 18px; }
+.ax-pc-ask { margin-left: clamp(0px, 5vw, 72px); width: min(calc(100% - clamp(0px, 5vw, 72px)), 540px); }
+.ax-pc-quiz { margin-left: clamp(0px, 2vw, 28px); width: min(calc(100% - clamp(0px, 2vw, 28px)), 540px); }
+.ax-perks { gap: 16px; margin-top: 6px; padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--md-on-primary-container) 18%, transparent); }
+[data-theme="dark"] .ax-perks { border-top-color: var(--md-outline-variant); }
+.ax-perks .material-symbols-outlined { width: 44px; height: 44px; display: grid; place-items: center; font-size: 24px; margin-bottom: 10px;
+  border-radius: 16px; background: var(--md-surface-container-lowest); color: var(--md-primary); transition: border-radius .45s var(--spring); }
+.ax-perks li:hover .material-symbols-outlined { border-radius: 22px; }
+[data-theme="dark"] .ax-perks .material-symbols-outlined { background: var(--md-surface-container-high); }
+
+/* phone and tablet: the art is gone, so the value goes under the form */
+.ax-mfoot { display: none; }
+@media (max-width: 900px) {
+  .ax-card { margin: 0 auto; flex: 0 0 auto; padding-top: 8px; }
+  .ax-mfoot { display: grid; gap: 14px; width: 100%; max-width: 440px; margin: 28px auto 0; padding-top: 22px; border-top: 1px solid var(--md-outline-variant); box-sizing: border-box; }
+  .ax[data-mode="verify"] .ax-mfoot, .ax[data-mode="forgot"] .ax-mfoot { display: none; }
+  .ax-mperks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .ax-mperks li { display: grid; justify-items: start; gap: 8px; padding: 12px; border-radius: 20px; background: var(--md-surface-container-low); }
+  .ax-mperks .material-symbols-outlined { width: 36px; height: 36px; display: grid; place-items: center; font-size: 21px; border-radius: 14px; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+  .ax-mperks b { font: 600 .78rem/1.3 var(--md-font); color: var(--md-on-surface); }
+  .ax-mchips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+  .ax-mchips::-webkit-scrollbar { display: none; }
+  .ax-mchips span { flex: none; padding: 7px 14px; border-radius: 18px; font: 600 .8rem var(--md-font); background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface); }
+  .ax-foot { margin: 0 auto; }
+}
+@media (max-width: 600px) {
+  .ax-title { font-size: 1.9rem; }
+  .ax-social { grid-template-columns: 1fr 1fr; }
+  .ax-mperks { grid-template-columns: 1fr; }
+  .ax-mperks li { grid-template-columns: auto 1fr; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; }
+}
+@media (max-height: 780px) { .ax-perks { display: grid; } }
+@media (max-height: 700px) { .ax-perks { display: none; } }
+@media (min-width: 901px) and (max-width: 1180px) { .ax-perks { grid-template-columns: 1fr; } }
+
+.ax .ob-field { margin-top: 12px; gap: 0; }
+.ax .ob-field > label { margin-bottom: 8px; }
+.ax-hl > span b { max-width: 12em; }
+
+.ax-in .ob-input { display: block; }
+.ax-s5 { --l: 38%; --t: 94%; }
+.ax-s1 { --l: 80%; }
+.ax[data-mode="signup"] .ax-s5 { --x: 40%; --y: -10%; }
+.ax-art { align-items: start; }
+.ax-stage { padding-top: clamp(40px, 7vh, 72px); padding-bottom: 32px; }
+.ax-stage { gap: 24px; }
 
 /* ---- m3x/app-portfolio.css ---- */
 /* Profile portfolio card (web/profile/_portfolio.html + js/portfolio.js).

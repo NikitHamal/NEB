@@ -26,14 +26,15 @@
       <div class="ax-panel is-on" id="panel-login" data-title="Welcome back">
         <h1 class="ax-title" tabindex="-1">Welcome back</h1>
         <p class="ax-sub">Sign in to open your library and saved notes.</p>
+        {% include "web/_auth_social.html" %}
         <form id="login-form" class="ax-form" novalidate>
           <div class="ob-field">
             <label for="login-email">Username or email</label>
-            <input class="ob-input" type="text" id="login-email" autocomplete="username" required>
+            <div class="ax-in"><span class="ax-ico material-symbols-outlined" aria-hidden="true">person</span><input class="ob-input" type="text" id="login-email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="you@example.com" required></div>
           </div>
           <div class="ob-field">
             <label for="login-password">Password</label>
-            <div class="ax-pass">
+            <div class="ax-pass ax-in"><span class="ax-ico material-symbols-outlined" aria-hidden="true">lock</span>
               <input class="ob-input" type="password" id="login-password" autocomplete="current-password" required>
               <button type="button" class="ax-eye" data-eye="login-password" aria-label="Show password"><span class="material-symbols-outlined">visibility</span></button>
             </div>
@@ -42,37 +43,38 @@
           <button class="ob-btn ob-btn-fill ax-submit" type="submit" id="login-btn"><span>Sign in</span></button>
           <button type="button" class="ax-link" data-go="forgot">Forgot password?</button>
         </form>
-        {% include "web/_auth_social.html" %}
+        {% include "web/_auth_legal.html" %}
       </div>
 
       <!-- create account -->
       <div class="ax-panel" id="panel-signup" data-title="Create your account">
         <h1 class="ax-title" tabindex="-1">Create your account</h1>
         <p class="ax-sub">Free notes, PDF books and answers for your class.</p>
+        {% include "web/_auth_social.html" %}
         <form id="signup-form" class="ax-form" novalidate>
           <div class="ob-field">
             <label for="signup-username">Username</label>
-            <div class="ax-status-wrap">
-              <input class="ob-input" type="text" id="signup-username" autocomplete="username" maxlength="50" autocapitalize="none" spellcheck="false" required>
+            <div class="ax-status-wrap ax-in"><span class="ax-ico material-symbols-outlined" aria-hidden="true">alternate_email</span>
+              <input class="ob-input" type="text" id="signup-username" placeholder="yourname" autocomplete="username" maxlength="50" autocapitalize="none" spellcheck="false" required>
               <span class="ax-status" id="signup-username-status" aria-live="polite"></span>
             </div>
           </div>
           <div class="ob-field">
             <label for="signup-email">Email</label>
-            <input class="ob-input" type="email" id="signup-email" autocomplete="email" required>
+            <div class="ax-in"><span class="ax-ico material-symbols-outlined" aria-hidden="true">mail</span><input class="ob-input" type="email" id="signup-email" autocomplete="email" placeholder="you@example.com" required></div>
           </div>
           <div class="ob-field">
             <label for="signup-password">Password</label>
-            <div class="ax-pass">
-              <input class="ob-input" type="password" id="signup-password" autocomplete="new-password" minlength="8" required>
+            <div class="ax-pass ax-in"><span class="ax-ico material-symbols-outlined" aria-hidden="true">lock</span>
+              <input class="ob-input" type="password" id="signup-password" placeholder="8 or more characters" autocomplete="new-password" minlength="8" required>
               <button type="button" class="ax-eye" data-eye="signup-password" aria-label="Show password"><span class="material-symbols-outlined">visibility</span></button>
             </div>
-            <div class="ax-meter" id="signup-meter" data-level="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div class="ax-meter-row"><div class="ax-meter" id="signup-meter" data-level="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div><span class="ax-meter-label" id="signup-meter-label" aria-live="polite">8 or more characters</span></div>
           </div>
           <p class="ax-error" id="signup-error" role="alert"></p>
           <button class="ob-btn ob-btn-fill ax-submit" type="submit" id="signup-btn"><span>Create account</span></button>
         </form>
-        {% include "web/_auth_social.html" %}
+        {% include "web/_auth_legal.html" %}
       </div>
 
       <!-- verify -->
@@ -103,7 +105,7 @@
         <form id="forgot-form" class="ax-form" novalidate>
           <div class="ob-field">
             <label for="forgot-email">Email</label>
-            <input class="ob-input" type="email" id="forgot-email" autocomplete="email" required>
+            <div class="ax-in"><span class="ax-ico material-symbols-outlined" aria-hidden="true">mail</span><input class="ob-input" type="email" id="forgot-email" autocomplete="email" placeholder="you@example.com" required></div>
           </div>
           <p class="ax-error" id="forgot-error" role="alert"></p>
           <button class="ob-btn ob-btn-fill ax-submit" type="submit" id="forgot-btn"><span>Send code</span></button>
@@ -132,6 +134,15 @@
       </div>
     </div>
 
+    <div class="ax-mfoot" aria-hidden="true">
+      <ul class="ax-mperks">
+        <li><span class="material-symbols-outlined">menu_book</span><b>Notes and PDF books</b></li>
+        <li><span class="material-symbols-outlined">quiz</span><b>Question banks</b></li>
+        <li><span class="material-symbols-outlined">forum</span><b>Forum answers</b></li>
+      </ul>
+      <div class="ax-mchips"><span>Grade 8</span><span>Grade 10</span><span>Grade 11</span><span>Grade 12</span><span>CEE</span><span>IOE</span><span>BCA</span></div>
+    </div>
+
     <footer class="ax-foot">
       <a href="{% url 'web:home' %}"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>Back to home</a>
       <a href="{% url 'web:terms_of_service' %}">Terms</a>
@@ -149,8 +160,8 @@
 
     <div class="ax-stage">
       <div class="ax-hl">
-        <span class="ax-hl-login">Pick up where you left off.</span>
-        <span class="ax-hl-signup">Study smarter, from Grade 8 to BCA.</span>
+        <span class="ax-hl-login"><b>Pick up where you left off.</b><em>Your saved notes, books and answers are right where you left them.</em></span>
+        <span class="ax-hl-signup"><b>Study smarter, from Grade 8 to BCA.</b><em>One free account for notes, PDF books, question banks and the forum.</em></span>
       </div>
 
       <div class="ax-stack">
