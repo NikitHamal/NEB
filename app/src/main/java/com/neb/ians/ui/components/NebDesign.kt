@@ -51,6 +51,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -328,82 +329,43 @@ fun NebAvatar(
 // Role / verification badge (mirrors .role-badge-* / verified pills).
 // ---------------------------------------------------------------------------
 
+/**
+ * Role / verification badge, the web's `.role-badge`: the Material Symbols glyph the server names
+ * (`authorBadgeInfo.icon`), filled, in the role's ink colour. No disc, no fill, no ring behind it.
+ */
 @Composable
-fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
+fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier, size: androidx.compose.ui.unit.Dp = 18.dp) {
     if (badge == null) return
-    val (bg, fg, icon, drawableRes) = badgeStyle(badge)
-    val badgeSize = 20.dp
-    val iconSize = 14.dp
-
-    Surface(
-        modifier = modifier.size(badgeSize),
-        shape = CircleShape,
-        color = bg,
-        contentColor = fg
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            when {
-                drawableRes != null -> Icon(
-                    painter = painterResource(id = drawableRes),
-                    contentDescription = badge.label,
-                    tint = fg,
-                    modifier = Modifier.size(iconSize)
-                )
-                icon != null -> Icon(
-                    imageVector = icon,
-                    contentDescription = badge.label,
-                    tint = fg,
-                    modifier = Modifier.size(iconSize)
-                )
-            }
-        }
-    }
+    val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    Icon(
+        painter = painterResource(id = badgeGlyph(badge)),
+        contentDescription = badge.label,
+        tint = badgeInk(badge.type, dark),
+        modifier = modifier.size(size)
+    )
 }
 
-private data class BadgeStyle(val bg: Color, val fg: Color, val icon: ImageVector? = null, val drawableRes: Int? = null)
+/** The glyph the web draws, by the Material Symbols name the API sends (falls back by role). */
+private fun badgeGlyph(badge: ApiBadgeInfo): Int = when (badge.icon ?: badge.type) {
+    "crown", "admin" -> R.drawable.ic_sym_crown
+    "smart_toy", "bot" -> R.drawable.ic_sym_smart_toy
+    "local_police" -> R.drawable.ic_sym_local_police
+    "shield" -> R.drawable.ic_sym_shield
+    "shield_with_heart" -> R.drawable.ic_sym_shield_with_heart
+    "moderator" -> R.drawable.ic_sym_local_police
+    "school", "teacher" -> R.drawable.ic_sym_school
+    "account_balance", "institution" -> R.drawable.ic_sym_account_balance
+    "travel_explore", "explorer" -> R.drawable.ic_sym_travel_explore
+    else -> R.drawable.ic_sym_verified
+}
 
-@Composable
-private fun badgeStyle(badge: ApiBadgeInfo): BadgeStyle = when (badge.type) {
-    "admin" -> BadgeStyle(
-        MaterialTheme.colorScheme.inverseSurface,
-        MaterialTheme.colorScheme.inverseOnSurface,
-        drawableRes = R.drawable.ic_crown
-    )
-    "moderator" -> BadgeStyle(
-        MaterialTheme.colorScheme.surfaceContainerHighest,
-        MaterialTheme.colorScheme.onSurface,
-        icon = Icons.Outlined.Shield
-    )
-    "verified" -> BadgeStyle(
-        MaterialTheme.colorScheme.surfaceContainerHighest,
-        MaterialTheme.colorScheme.onSurface,
-        icon = Icons.Filled.Verified
-    )
-    "teacher" -> BadgeStyle(
-        MaterialTheme.colorScheme.surfaceContainerHigh,
-        MaterialTheme.colorScheme.onSurface,
-        icon = Icons.Filled.School
-    )
-    "institution" -> BadgeStyle(
-        MaterialTheme.colorScheme.surfaceContainerHigh,
-        MaterialTheme.colorScheme.onSurface,
-        icon = Icons.Filled.AccountBalance
-    )
-    "explorer" -> BadgeStyle(
-        MaterialTheme.colorScheme.surfaceContainer,
-        MaterialTheme.colorScheme.onSurfaceVariant,
-        icon = Icons.Filled.Explore
-    )
-    "bot" -> BadgeStyle(
-        MaterialTheme.colorScheme.surfaceContainer,
-        MaterialTheme.colorScheme.onSurfaceVariant,
-        icon = Icons.Filled.AutoAwesome
-    )
-    else -> BadgeStyle(
-        MaterialTheme.colorScheme.secondaryContainer,
-        MaterialTheme.colorScheme.onSecondaryContainer,
-        null
-    )
+/** `--bd-ink` per role from `m3x-app.css`, with the `--neb-accent-*` values for light and dark. */
+private fun badgeInk(type: String, dark: Boolean): Color = when (type) {
+    "admin", "explorer" -> if (dark) Color(0xFFE8B457) else Color(0xFF9A6206)
+    "bot" -> if (dark) Color(0xFFC9B6FE) else Color(0xFF7C3AED)
+    "teacher" -> if (dark) Color(0xFF7CD9A0) else Color(0xFF15803D)
+    "institution" -> if (dark) Color(0xFFB4B0FF) else Color(0xFF4F46E5)
+    else -> if (dark) Color(0xFFB4C5FF) else Color(0xFF004AC6)
 }
 
 // ---------------------------------------------------------------------------

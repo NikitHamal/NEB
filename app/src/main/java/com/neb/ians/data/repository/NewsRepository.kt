@@ -179,8 +179,9 @@ class NewsRepository @Inject constructor(
         }
 
     private fun parseNewsList(html: String): List<NewsAnnouncement> {
+        // Both card generations: the old `.news-card` and the web's current `.bcard` / `.bhero`.
         val cardRegex = Regex(
-            pattern = "<a\\s+href=\"(?<href>[^\"]+)\"\\s+class=\"news-card(?<classes>[^\"]*)\"[^>]*>(?<body>.*?)</a>",
+            pattern = "<a\\s+href=\"(?<href>[^\"]+)\"\\s+class=\"(?:news-card|bcard|bhero)(?<classes>[^\"]*)\"[^>]*>(?<body>.*?)</a>",
             option = RegexOption.DOT_MATCHES_ALL
         )
         return cardRegex.findAll(html)
@@ -190,21 +191,22 @@ class NewsRepository @Inject constructor(
     }
 
     private fun parseNewsDetail(slug: String, html: String): NewsDetail {
-        val header = html.firstGroup("<div[^>]*class=\"news-detail-header\"[^>]*>(.*?)</div>\\s*(?:<div class=\"news-detail-cover\"|<div class=\"news-detail-content)")
+        val header = html.firstGroup("<(?:div|header)[^>]*class=\"news-detail-header\"[^>]*>(.*?)</(?:div|header)>\\s*(?:<div class=\"news-detail-cover\"|<div class=\"news-detail-content)")
             .ifBlank { html }
         val title = header.firstGroup("<h1[^>]*class=\"[^\"]*news-detail-title[^\"]*\"[^>]*>(.*?)</h1>").cleanHtml()
             .ifBlank { html.firstGroup("<title>(.*?)</title>").cleanHtml().substringBefore(" — ") }
         val summary = header.firstGroup("<p[^>]*class=\"[^\"]*news-detail-summary[^\"]*\"[^>]*>(.*?)</p>").cleanHtml()
-        val badge = Regex("<span[^>]*class=\"news-category-badge\"[^>]*style=\"background:([^\"]+)\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)", setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)).find(html)
+        val badge = Regex("<span[^>]*class=\"news-category-badge\"[^>]*style=\"(?:background|--cat-color):([^\";]+)[^\"]*\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)", setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)).find(html)
         val icon = badge?.groups?.get(2)?.value?.cleanHtml().orEmpty().ifBlank { "info" }
         val label = badge?.groups?.get(3)?.value?.cleanHtml().orEmpty().ifBlank { "General" }
         val color = badge?.groups?.get(1)?.value.orEmpty().ifBlank { label.toCategoryColor() }
-        val cover = html.firstGroup("<div[^>]*class=\"news-detail-cover\"[^>]*>\\s*<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val content = html.firstGroup("<div[^>]*class=\"news-detail-content[^\"]*\"[^>]*id=\"news-content\"[^>]*>(.*?)</div>").cleanArticleContent()
-        val external = html.firstGroup("<a\\s+href=\"([^\"]+)\"[^>]*class=\"[^\"]*news-detail-cta[^\"]*\"").cleanHtml()
+        val cover = html.firstGroup("<div[^>]*class=\"news-detail-cover\"[^>]*>\\s*<img[^>]*?\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
+        val content = articleHtml(html).cleanArticleContent()
+        val external = html.firstGroup("<a[^>]*class=\"[^\"]*nd-source-btn[^\"]*\"[^>]*href=\"([^\"]+)\"").cleanHtml()
+            .ifBlank { html.firstGroup("<a\\s+href=\"([^\"]+)\"[^>]*class=\"[^\"]*news-detail-cta[^\"]*\"").cleanHtml() }
         val authorBlock = html.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
         val authorPhoto = authorBlock.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
+        val authorName = authorBlock.replace(verifiedMark, "").replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
         val publishedAgo = html.findTimeAgo()
         val views = html.findViews()
         val announcement = NewsAnnouncement(
@@ -228,27 +230,48 @@ class NewsRepository @Inject constructor(
         return NewsDetail(announcement = announcement, content = content, externalUrl = external, related = related)
     }
 
+    /** The article body: from `#news-content` to the block that follows it (nested divs safe). */
+    private fun articleHtml(html: String): String {
+        val marker = html.indexOf("id=\"news-content\"")
+        if (marker < 0) return ""
+        val start = html.indexOf('>', marker) + 1
+        val ends = listOf("<section class=\"nd-files\"", "<aside class=\"nd-source\"", "<div class=\"nd-actionbar\"", "</article>")
+            .map { html.indexOf(it, start) }
+            .filter { it >= 0 }
+        val end = ends.minOrNull() ?: html.length
+        return html.substring(start, end).trimEnd().removeSuffix("</div>")
+    }
+
+    private val verifiedMark = Regex("<span[^>]*src-verified[^>]*>.*?</span>", RegexOption.DOT_MATCHES_ALL)
+    private val categoryBadgeRegex = Regex(
+        "<span[^>]*class=\"(?:news-category-badge|bcard-cat|bhero-kicker)\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)",
+        setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)
+    )
+
     private fun parseCard(index: Int, match: MatchResult): NewsAnnouncement? {
         val href = match.groups["href"]?.value.orEmpty()
         val body = match.groups["body"]?.value.orEmpty()
         val classes = match.groups["classes"]?.value.orEmpty()
         val slug = href.trim('/').substringAfterLast('/').takeIf { it.isNotBlank() } ?: return null
-        val title = body.firstGroup("<h2[^>]*class=\"news-card-title\"[^>]*>(.*?)</h2>").cleanHtml()
+        val title = body.firstGroup("<h2[^>]*class=\"(?:news-card|bcard|bhero)-title\"[^>]*>(.*?)</h2>").cleanHtml()
         if (title.isBlank()) return null
-        val summary = body.firstGroup("<p[^>]*class=\"news-card-summary\"[^>]*>(.*?)</p>").cleanHtml()
-        val badgeMatch = Regex(
-            "<span[^>]*class=\"news-category-badge\"[^>]*style=\"background:([^\"]+)\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)",
-            setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)
-        ).find(body)
-        val icon = badgeMatch?.groups?.get(2)?.value?.cleanHtml().orEmpty().ifBlank { "info" }
-        val categoryLabel = badgeMatch?.groups?.get(3)?.value?.cleanHtml().orEmpty().ifBlank { "General" }
-        val color = badgeMatch?.groups?.get(1)?.value.orEmpty().ifBlank {
-            body.firstGroup("--accent-color:\\s*([^;\"]+)")
-        }.ifBlank { categoryLabel.toCategoryColor() }
-        val cover = body.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
+        val summary = body.firstGroup("<p[^>]*class=\"(?:news-card-summary|bcard-sum|bhero-sum)\"[^>]*>(.*?)</p>").cleanHtml()
+        val badgeMatch = categoryBadgeRegex.find(body)
+        val icon = badgeMatch?.groups?.get(1)?.value?.cleanHtml().orEmpty().ifBlank { "info" }
+        val rawLabel = badgeMatch?.groups?.get(2)?.value?.cleanHtml().orEmpty()
+        val pinned = classes.contains("pinned", ignoreCase = true) || body.contains("news-pin-badge") ||
+            rawLabel.equals("Pinned", ignoreCase = true) || icon == "push_pin"
+        val categoryLabel = rawLabel.takeUnless { pinned || it.isBlank() } ?: "General"
+        val color = body.firstGroup("--cc:\\s*([^;\"]+)")
+            .ifBlank { match.value.firstGroup("--cc:\\s*([^;\"]+)") }
+            .ifBlank { body.firstGroup("--accent-color:\\s*([^;\"]+)") }
+            .ifBlank { categoryLabel.toCategoryColor() }
+        val cover = body.firstGroup("<img[^>]*?\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
         val authorBlock = body.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
+            .ifBlank { body.firstGroup("<(?:b|strong)>(.*?)</(?:b|strong)>") }
         val authorPhoto = authorBlock.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
+        val authorName = authorBlock.replace(verifiedMark, "").replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "")
+            .cleanHtml().ifBlank { "NEBians Team" }
         val publishedAgo = body.findTimeAgo()
         val views = body.findViews()
         val categoryKey = NewsCategories.firstOrNull { it.label.equals(categoryLabel, ignoreCase = true) }?.key ?: "general"
@@ -262,7 +285,7 @@ class NewsRepository @Inject constructor(
             categoryLabel = categoryLabel,
             categoryIcon = icon,
             categoryColorHex = color.trim(),
-            isPinned = classes.contains("pinned", ignoreCase = true) || body.contains("news-pin-badge"),
+            isPinned = pinned,
             coverImageUrl = cover,
             authorName = authorName,
             authorPhotoUrl = authorPhoto,
@@ -371,8 +394,9 @@ class NewsRepository @Inject constructor(
     }
 
     private fun String.findViews(): String {
+        Regex("([0-9][0-9.,KkMm]*)\\s*views", RegexOption.IGNORE_CASE).find(this)?.groups?.get(1)?.value?.let { return it }
         val afterVisibility = substringAfter("visibility", missingDelimiterValue = "")
-        return Regex("([0-9.,KkMm]+)").find(afterVisibility)?.value.orEmpty()
+        return Regex("([0-9][0-9.,KkMm]*)").find(afterVisibility)?.value.orEmpty()
     }
 
     private fun String.toCategoryColor(): String = when (lowercase()) {

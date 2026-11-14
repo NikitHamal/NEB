@@ -365,7 +365,10 @@ def forum_post(request, post_id):
             top_level.append(r)
         else:
             children_map.setdefault(r['parentReplyId'], []).append(r)
-    top_level.sort(key=lambda r: 0 if r.get('label') == 'accepted' else 1)
+    # Marked replies rank first: accepted, then correct, helpful, partly correct; unmarked next;
+    # incorrect and spam sink. Stable, so the chosen sort still orders each group.
+    _rank = {'accepted': 0, 'correct': 1, 'helpful': 2, 'partial': 3, 'incorrect': 5, 'spam': 6}
+    top_level.sort(key=lambda r: _rank.get(r.get('label') or '', 4))
     label_counts = {}
     for r in all_replies:
         if r.get('label'):
