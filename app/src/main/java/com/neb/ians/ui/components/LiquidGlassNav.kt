@@ -466,18 +466,24 @@ private fun Color.luminanceIsDark(): Boolean {
 
 /** The captured screen content a glass surface blurs; see [glassSource] and [liquidGlass]. */
 @Stable
-class GlassBackdrop internal constructor(internal val layer: GraphicsLayer) {
+class GlassBackdrop internal constructor(internal val layer: GraphicsLayer, internal val enabled: Boolean) {
     internal var origin by mutableStateOf(Offset.Zero)
 }
 
+/**
+ * Blur needs Android 12 and a device that can pay for it: the page is drawn twice (once as itself,
+ * once into the layer the glass samples), so phones in the low tier skip it and get the solid tint.
+ */
 @Composable
 fun rememberGlassBackdrop(): GlassBackdrop {
     val layer = rememberGraphicsLayer()
-    return remember(layer) { GlassBackdrop(layer) }
+    val lowEnd = com.neb.ians.util.rememberIsLowEndDevice()
+    val enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !lowEnd
+    return remember(layer, enabled) { GlassBackdrop(layer, enabled) }
 }
 
 /** Marks the content that sits behind glass: it still draws normally and is also recorded. */
-fun Modifier.glassSource(backdrop: GlassBackdrop): Modifier = this
+fun Modifier.glassSource(backdrop: GlassBackdrop): Modifier = if (!backdrop.enabled) this else this
     .onGloballyPositioned { backdrop.origin = it.positionInRoot() }
     .drawWithContent {
         backdrop.layer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
@@ -492,17 +498,15 @@ fun Modifier.glassSource(backdrop: GlassBackdrop): Modifier = this
  * Flat colour only: no shadow, no coloured wash.
  */
 @Composable
-fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 22.dp): Modifier {
+fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 26.dp): Modifier {
     val scheme = MaterialTheme.colorScheme
     val dark = scheme.surface.luminanceIsDark()
     val blurLayer = rememberGraphicsLayer()
     val blurPx = with(LocalDensity.current) { blur.toPx() }
-    val canBlur = backdrop != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    SideEffect {
-        blurLayer.renderEffect = if (canBlur) BlurEffect(blurPx, blurPx, TileMode.Clamp) else null
-    }
+    val canBlur = backdrop != null && backdrop.enabled
+    val blurEffect = remember(blurPx) { BlurEffect(blurPx, blurPx, TileMode.Clamp) }
     var origin by remember { mutableStateOf(Offset.Zero) }
-    val tint = if (canBlur) scheme.surface.copy(alpha = if (dark) 0.50f else 0.56f) else scheme.surface.copy(alpha = 0.95f)
+    val tint = if (canBlur) scheme.surface.copy(alpha = if (dark) 0.42f else 0.46f) else scheme.surface.copy(alpha = 0.95f)
     val sheen = Brush.verticalGradient(
         0f to Color.White.copy(alpha = if (dark) 0.10f else 0.60f),
         0.55f to Color.Transparent
@@ -512,6 +516,7 @@ fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 22.d
         .clip(shape)
         .drawBehind {
             if (canBlur && backdrop != null) {
+                blurLayer.renderEffect = blurEffect
                 blurLayer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
                     val d = origin - backdrop.origin
                     translate(-d.x, -d.y) { drawLayer(backdrop.layer) }
