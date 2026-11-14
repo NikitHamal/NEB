@@ -23,3 +23,5 @@ First push failed to compile: duplicate `Icons` import in `ReplyKinds.kt`, missi
 ## Next
 - On-device visual pass (poll card, Solved scroll offset, glass blur strength).
 
+
+CI for the poll builder change: first push failed (missing `setValue` import in `PostInput`), fixed in `5484c06`; the Android release build is green.
