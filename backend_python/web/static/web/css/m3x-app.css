@@ -3525,7 +3525,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   background: var(--md-surface-container-lowest); color: var(--md-on-surface); border: 1px solid var(--md-outline-variant);
   animation: axRise .7s var(--spring) both; }
 .ax-pc-book { animation-delay: .05s; }
-.ax-pc-ask { margin-left: clamp(0px, 5vw, 72px); width: min(100%, 460px); animation-delay: .12s; }
+.ax-pc-ask { margin-left: clamp(0px, 4vw, 56px); width: min(calc(100% - clamp(0px, 4vw, 56px)), 460px); animation-delay: .12s; }
 .ax-pc-quiz { animation-delay: .19s; }
 @keyframes axRise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 .ax-glyph { flex: none; width: 52px; height: 52px; display: grid; place-items: center; background: var(--md-primary-container); color: var(--md-on-primary-container); }
