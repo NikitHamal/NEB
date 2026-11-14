@@ -414,3 +414,8 @@ table[data-long] { break-inside:auto; }
 table[data-long] tbody tr:first-child { break-after:avoid; }
 table[data-long] tbody tr:nth-last-child(2) { break-after:avoid; }
 table[data-long] thead { break-after:avoid; }
+
+/* floatfix marks a card or short table that opens a page after a big hole: it may split */
+.box[data-split] { break-inside:auto; }
+table[data-split] { break-inside:auto; }
+.hk[data-split] { break-inside:auto; }

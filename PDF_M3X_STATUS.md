@@ -160,3 +160,9 @@ authored prose with `plain text` maths inside captions (`S(r) = 2 pi r^2` in pho
 - Auth screens (`web/login.html`, `css/m3x/app-auth.css`): form sits open on the page (no tinted card), sub line, footer (home, terms, privacy);
   the art panel is now a product preview (book, forum answer, question bank cards, class chips, three perks) over tonal shapes, headline swaps with the mode.
   Bundle with `python3 tools/css/bundle.py`; restart the Django dev server after CSS edits (static files are cached at start).
+
+## Session: card/table split in floatfix + auth screen polish
+- Remaining holes after float-up were mostly a tall unbreakable callout card (`.box.key/.tip/.caution/.definition/.memory`, `.hk` heading+table) that opened the next page after text could not fill the hole (Optional Mathematics 8 p122: 122 mm hole before "The six trigonometric ratios" card).
+  `floatfix._fix_once` now marks such a block `data-split="1"` when the hole is 30 mm or more and there is nothing to pull up; `theme.css` (`.box[data-split]`, `.hk[data-split]`, `table[data-split]`) lets it break across the page. A short table also gets `data-long`. Kept only when the hole total drops (same rule as before).
+- Environment on a fresh box: Python 3.12 venv in `/tmp/v` via `uv`, `sudo apt-get install fontconfig poppler-utils libpango-1.0-0 libpangoft2-1.0-0`, `bash notes/pipeline/fonts/install.sh`, `npm ci` in `notes/pipeline/mathjax`. 2 cores / 2 GB: one build at a time (a build peaks near 1.3 GB). Never `pkill -f` a pattern from your own command line.
+- Auth (`web/login.html`, `m3x/app-auth.css`, `js/auth.js`): Google and GitHub sit on top ("or with email" divider), leading field icons, a strength word beside the meter, the card is anchored (no vertical jump between Sign in and Create account), the art panel is centred with larger cards and tile icons, and phones get a value strip (three perks plus class chips) under the form. Legal text moved to `_auth_legal.html`.
