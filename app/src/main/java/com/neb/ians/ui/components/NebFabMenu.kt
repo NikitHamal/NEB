@@ -173,9 +173,6 @@ private fun NebFabMenuPill(
     action: NebFabAction,
     onDismissRequest: () -> Unit
 ) {
-    val tactile = rememberTactileFeedback()
-    val interaction = remember { MutableInteractionSource() }
-
     val accent = when {
         action.destructive -> NebAccents.Rose.resolve()
         action.accent != null -> action.accent.resolve()
@@ -196,39 +193,38 @@ private fun NebFabMenuPill(
     /** The glyph is the one thing allowed to carry the action's own colour. */
     val iconColor = accent ?: MaterialTheme.colorScheme.onSurface
 
+    // Label first, glyph last on the right edge, so every pill's glyph lines up over the create button
+    // below it. The pill hugs its label, white with one hairline, pressing squeezes it on a spring.
+    val pillShape = RoundedCornerShape(28.dp)
     Row(
         modifier = Modifier
             .then(action.testTag?.let { Modifier.testTag(it) } ?: Modifier)
-            .heightIn(min = 56.dp)
-            .widthIn(max = 280.dp)
-            .clip(RoundedCornerShape(50))
+            .heightIn(min = 52.dp)
+            .widthIn(min = 132.dp, max = 280.dp)
+            .clip(pillShape)
             .background(container)
-            .border(1.dp, outline, RoundedCornerShape(50))
-            .clickable(
-                interactionSource = interaction,
-                indication = ripple(bounded = true, color = iconColor),
-                onClick = {
-                    tactile.perform(TactileType.ButtonTap)
-                    onDismissRequest()
-                    action.onClick()
-                }
-            )
-            .padding(horizontal = 22.dp, vertical = 14.dp),
+            .border(1.dp, outline, pillShape)
+            .nebPressable(scale = 0.95f, onClick = {
+                onDismissRequest()
+                action.onClick()
+            })
+            .padding(start = 22.dp, end = 16.dp, top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Icon(
-            imageVector = action.icon,
-            contentDescription = null,
-            tint = iconColor,
-            modifier = Modifier.size(22.dp)
-        )
         Text(
             text = action.label,
             style = MaterialTheme.typography.labelLargeEmphasized,
             color = labelColor,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false)
+        )
+        Icon(
+            imageVector = action.icon,
+            contentDescription = null,
+            tint = iconColor,
+            modifier = Modifier.size(24.dp)
         )
     }
 }
@@ -251,9 +247,8 @@ fun NebFabMenuScrim(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    if (isDark) Color.Black.copy(alpha = 0.62f) else Color.Black.copy(alpha = 0.34f)
-                )
+                // a frost of the page colour over the softened page, never a black dim
+                .background(MaterialTheme.colorScheme.surface.copy(alpha = if (isDark) 0.58f else 0.62f))
                 .clickable(
                     interactionSource = interaction,
                     indication = null,

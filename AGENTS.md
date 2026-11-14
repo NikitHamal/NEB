@@ -42,7 +42,10 @@ and sheets and a comment bar the web does not have, because none of this was wri
    figures and tables open full screen (`RdZoomDialog`: pinch, pan, double tap), lettered choices become tappable option
    rows, `Answer:` `Hint:` `Note:` paragraphs become tonal cards. See `PDF_ANDROID_STATUS.md` for the content types the
    print pipeline produces and what is still unmapped.
-7. **About** (`ui/screens/about/AboutScreen.kt`) mirrors `web/about_data.py` word for word. Edit the team in both places.
+7. **No colour wash behind a screen.** The splash, intro and auth screens sit on the page colour (white, or the dark navy in dark). The tonal blue `primaryContainer` is for chips and selected rows, never a full-screen background. Written down after it came back in the splash twice.
+8. **Badges are the web's glyphs.** `NebBadge` draws `ic_sym_*` (Material Symbols, filled) by the `authorBadgeInfo.icon` name in the web's `--bd-ink` colours, no disc. Reply chips and the Solved chip take the web `--fl-*` tones (`ReplyTones`). Marked replies rank first (`replyRank`).
+9. **Glass** (`liquidGlass`, `glassSource`): blur needs Android 12 and a non low-end device (`rememberGlassBackdrop().enabled`); otherwise a solid tint.
+10. **About** (`ui/screens/about/AboutScreen.kt`) mirrors `web/about_data.py` word for word. Edit the team in both places.
 
 ## Push, autopilot and library reach
 

@@ -75,7 +75,8 @@ HARD BANS
 - No rings or strokes around profile pictures.
 - No background fill on user, role or verification badges.
 - No hover that morphs a rounded control into border-radius 0 (finite radii only).
-- No glassmorphism, neon glows, bento-for-the-sake-of-bento, floating blobs, decorative orbs, "LIVE" dots.
+- No tinted colour wash as a screen background (splash, intro, hero): the page colour only. The blue-tinted container the old splash filled the screen with is banned for good.
+- No glassmorphism except the floating bottom navigation (a real blur of the page behind it on Android 12+, solid tint elsewhere), no neon glows, bento-for-the-sake-of-bento, floating blobs, decorative orbs, "LIVE" dots.
 - No purple. The accent family is azure, sky, aqua, periwinkle, all derived from the brand blue.
 - No lorem ipsum, no stock avatars, no fake testimonials, no fake numbers.
 
@@ -471,6 +472,6 @@ surface role is a neutral grey (no blue in a card, popup or background), and sha
 - **Bento sheet:** a settings sheet is one scrolling column of tonal cards, each with its own hue (blue, amber, green, violet, indigo, rose; each with a dark mode partner), a bold value, and the control inside. A selected choice becomes the strong colour and rounds further (24 dp, never to a square).
 - **Toast bus (session 12):** a message from anywhere (a click handler, a download callback) goes through `Context.nebToast(text)`, which sends it to the one `NebToastBusHost` mounted over the navigation host in `MainActivity`. Nobody calls `Toast.makeText` (only the crash screen, which has no host, and the bus's own fallback do). The host sits above the navigation bar.
 - **Minimal composer (news):** a comment bar that takes text only carries the identity avatar menu (you or anonymous) in the leading slot and a send button. No tools, no plus.
-- **Splash:** one expressive shape is the stage. A cookie grows from the centre of a white screen, morphing through clover, sunny and flower until the tonal blue fills every edge; the mark drops in with a springy tilt; the name is cut in letter by letter, each rising out of its own clip; then the colour drains to white and the stack lifts away. Nothing orbits, pulses or rings the logo. Springs only, values read in the draw phase.
+- **Splash:** the page colour (white in light, the deep navy in dark, following the theme chosen in settings; `values-night/colors.xml` keeps the system window and the API 31 splash on the same colour), the N settling in on a spring, NEBians cut in letter by letter, then the stack lifts away. No tinted wash, no big shape behind the logo, nothing orbits, pulses or rings it. Springs only, values read in the draw phase.
 - **About:** it fills the screen like a poster: big shape and name, version tiles (version, build, channel; this is the only place version info lives, Settings has one About row and no version card), team, then credits for open source libraries and the on-device models (Whistle, Phonon, Needle). No scroll-driven animation anywhere in the Android app: no parallax, no collapsing-on-scroll effects, no items that animate in as they scroll into view. Motion answers a touch or a state change only.
 - **Upload (Android):** a three pill stepper (the open pill carries its name, done steps are ticks and tap back), steps slide in the direction of travel, a full width Scan tile plus Gallery and Files tiles in their own tones, and publishing covers the screen with a morphing shape, the percentage and a flat bar. No bar pinned to the bottom of the screen.
