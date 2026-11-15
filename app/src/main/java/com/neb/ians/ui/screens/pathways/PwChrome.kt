@@ -49,6 +49,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.boundedWidth
 
 private class PwTab(val root: String, val label: String, val off: ImageVector, val on: ImageVector)
 
@@ -111,7 +112,7 @@ internal fun PwSaveButton(key: String, ui: PathwaysUiState, vm: PathwaysViewMode
 
 @Composable
 internal fun <T> PwChipRow(items: List<T>, selected: (T) -> Boolean, label: (T) -> String, onPick: (T) -> Unit, modifier: Modifier = Modifier, pad: Int = 20) {
-    LazyRow(modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = pad.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    LazyRow(modifier.fillMaxWidth().boundedWidth(), contentPadding = PaddingValues(horizontal = pad.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(items.size, key = { it }) { i -> PwChip(label(items[i]), selected(items[i]), { onPick(items[i]) }) }
     }
 }
