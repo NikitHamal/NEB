@@ -26,3 +26,14 @@ HSPLcom/neb/ians/ui/screens/notifications/**->**(**)**
 HSPLcom/neb/ians/ui/screens/profile/**->**(**)**
 HSPLcom/neb/ians/ui/screens/people/**->**(**)**
 HSPLcom/neb/ians/ui/screens/search/**->**(**)**
+# Notes list and editor, the writing field with pictures in it, the selection menu and the crash screen
+# (the paths a student runs right after Home) plus the screens that were missing from the first list.
+HSPLcom/neb/ians/ui/screens/notes/**->**(**)**
+HSPLcom/neb/ians/ui/crash/**->**(**)**
+HSPLcom/neb/ians/ui/screens/settings/**->**(**)**
+HSPLcom/neb/ians/ui/screens/bookmarks/**->**(**)**
+HSPLcom/neb/ians/ui/screens/downloads/**->**(**)**
+HSPLcom/neb/ians/ui/screens/marketplace/**->**(**)**
+HSPLcom/neb/ians/ui/screens/reader/**->**(**)**
+HSPLcom/neb/ians/ui/screens/onboarding/**->**(**)**
+HSPLcom/neb/ians/ui/screens/upload/**->**(**)**

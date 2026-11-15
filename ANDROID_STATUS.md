@@ -338,3 +338,23 @@ See `docs/M3X_DESIGN_SYSTEM.md` 13.5 (paragraph never ends on a line break, no f
 - On-device pass: drag a picture between lines of a wrapped paragraph (the whole paragraph that holds a picture is the taller one, Compose has no per-visual-line height), caret placement on the empty line after a picture, the selection menu next to the top edge and with the glass bottom bar, staggered card heights with many media notes.
 
 CI session 14: `7e078d9` is green on the first push; the Android release build (APK and AAB) compiles. Nothing was run on a device.
+
+---
+
+# Session 15: audit of session 14, startup profile for the notes path
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. The request came again (caret that follows the dragged picture, line gap after a picture, staggered notes list with every preview, smaller record controls, own selection menu, crash screen, speed). Items 81 to 87 were read against the code and the screenshots; they cover every point, so nothing was redone:
+
+- Drag: no bar anywhere in `RichTextField`; `RichState.moveCaret` walks the real selection under the fingertip, the field draws the caret at text height, solid while dragging, `restoreSelection` on cancel.
+- Gap: picture paragraph ends on U+200B, not `\n`; picture 32dp, line = picture + 4dp, other lines keep the text's height.
+- Notes list, record controls, selection menu, crash screen: items 83 to 86. Audit of those files: no emoji, no shadow, no gradient.
+- Web: the 2px drop caret and the touch drag path exist in `inline-media.js`.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 88 | **Baseline profile covers the notes path.** The profile listed Home, forum, library and the data layer only, so the notes list, the editor, the crash screen and settings, bookmarks, downloads, marketplace, reader, onboarding and upload ran interpreted until the idle-time compiler caught up. They are now compiled ahead of time at install (`components/**`, which holds the writing field, the selection menu and the card previews, was already listed). | `app/src/main/baseline-prof.txt` |
+
+## Not done / next
+- On-device pass (nothing here has run on a phone): drag between lines of a wrapped paragraph (the whole paragraph that holds a picture is the taller one; Compose has no per-visual-line height), the selection menu near the top edge, staggered card heights with many media notes. If the line gap still looks wrong on the phone, send a screenshot of the exact text; the cause will be in `RichVisual.build` paragraph ranges.
