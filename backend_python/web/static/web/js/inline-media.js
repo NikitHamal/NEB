@@ -390,11 +390,11 @@
       if (!dropCaretEl) {
         dropCaretEl = document.createElement('div');
         dropCaretEl.setAttribute('aria-hidden', 'true');
-        dropCaretEl.style.cssText = 'position:fixed;left:0;top:0;width:3px;border-radius:2px;background:var(--md-primary,#0058df);pointer-events:none;z-index:2147483000;transition:transform .09s cubic-bezier(.2,.8,.2,1),height .09s,opacity .12s;opacity:0;will-change:transform';
+        dropCaretEl.style.cssText = 'position:fixed;left:0;top:0;width:2px;border-radius:1px;background:var(--md-primary,#0058df);pointer-events:none;z-index:2147483000;transition:transform .09s cubic-bezier(.2,.8,.2,1),height .09s,opacity .12s;opacity:0;will-change:transform';
         document.body.appendChild(dropCaretEl);
       }
       dropCaretEl.style.height = Math.max(18, rc.height) + 'px';
-      dropCaretEl.style.transform = 'translate(' + Math.round(rc.left - 1.5) + 'px,' + Math.round(rc.top) + 'px)';
+      dropCaretEl.style.transform = 'translate(' + Math.round(rc.left - 1) + 'px,' + Math.round(rc.top) + 'px)';
       dropCaretEl.style.opacity = '1';
     }
     function hideDropCaret() { if (dropCaretEl) dropCaretEl.style.opacity = '0'; }

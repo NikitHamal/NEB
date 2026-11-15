@@ -15,6 +15,9 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.FormatBold
+import androidx.compose.material.icons.outlined.FormatItalic
+import androidx.compose.material.icons.outlined.FormatUnderlined
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -83,7 +86,7 @@ fun RichTextField(
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     minLines: Int = 1,
     maxLines: Int = Int.MAX_VALUE,
-    chipDp: Float = 38f,
+    chipDp: Float = 32f,
     onImageClick: (Int) -> Unit = {},
     onChange: ((androidx.compose.ui.text.input.TextFieldValue) -> Unit)? = null,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
@@ -105,7 +108,7 @@ fun RichTextField(
     // Meta's caret is the font's height (about 1.2 em), not the line's: it never stretches with a picture
     val baseLineH = emPx * 1.2f
     val imageLine = remember(chipDp, density, style) {
-        val need = with(density) { (chipDp + 6f).dp.toSp() }
+        val need = with(density) { (chipDp + 4f).dp.toSp() }
         val cur = style.lineHeight
         ParagraphStyle(
             lineHeight = if (cur.isSp && cur.value >= need.value) cur else need,
@@ -131,8 +134,9 @@ fun RichTextField(
         )
     }
     var layout by remember { mutableStateOf<TextLayoutResult?>(null) }
-    // where a dragged picture would land: the caret is drawn there while the finger is down
-    var dropCaret by remember { mutableStateOf<androidx.compose.ui.geometry.Rect?>(null) }
+    // where a dragged picture would land: the writing caret itself moves there while the finger is down
+    var dragging by remember { mutableStateOf(false) }
+    val dragMemo = remember { intArrayOf(-1, -1, -1) } // last landing offset, saved selection start and end
     val value = state.value
     var focused by remember { mutableStateOf(false) }
     var caretOn by remember { mutableStateOf(true) }
@@ -171,6 +175,16 @@ fun RichTextField(
         return if (o.isAttached && from.isAttached) o.localPositionOf(from, at) else null
     }
 
+    // Bold, Italic and Underline sit in the selection menu beside Cut, Copy and Paste
+    val extras = remember(state, enabled, readOnly, decorationBox != null) {
+        if (!enabled || readOnly || decorationBox != null) emptyList()
+        else listOf(
+            NebToolAction("Bold", Icons.Outlined.FormatBold) { state.toggleInline(Fmt.BOLD) },
+            NebToolAction("Italic", Icons.Outlined.FormatItalic) { state.toggleInline(Fmt.ITALIC) },
+            NebToolAction("Underline", Icons.Outlined.FormatUnderlined) { state.toggleInline(Fmt.UNDERLINE) },
+        )
+    }
+    NebTextToolbarProvider(extras) {
     Box(modifier = modifier.bringIntoViewRequester(reveal), propagateMinConstraints = true) {
         BasicTextField(
             value = value,
@@ -227,12 +241,32 @@ fun RichTextField(
                         onOpen = { onImageClick(index) },
                         onRemove = { state.removeImage(state.doc.keys.indexOf(imageKey)) },
                         onHover = { from, local ->
-                            val finger = if (from == null) null else toField(from, local)
-                            dropCaret = finger?.let { runCatching { slim(lr.getCursorRect(snap(lr.getOffsetForPosition(it)))) }.getOrNull() }
-                            dropCaret?.let { follow(it) }
+                            if (from == null) {
+                                // finger up or cancelled: give the caret back (a drop sets its own)
+                                if (dragging) {
+                                    dragging = false
+                                    if (dragMemo[1] >= 0) state.restoreSelection(dragMemo[1], dragMemo[2])
+                                    dragMemo[0] = -1; dragMemo[1] = -1
+                                }
+                            } else {
+                                val finger = toField(from, local)
+                                if (finger != null) {
+                                    if (!dragging) {
+                                        dragging = true
+                                        dragMemo[1] = state.value.selection.start; dragMemo[2] = state.value.selection.end
+                                    }
+                                    val t = snap(lr.getOffsetForPosition(finger))
+                                    val orig = built.toOriginal(t)
+                                    if (orig != dragMemo[0]) {
+                                        dragMemo[0] = orig
+                                        // the real caret of the keyboard walks to where the picture will land
+                                        state.moveCaret(orig)
+                                        runCatching { slim(lr.getCursorRect(t)) }.getOrNull()?.let { follow(it) }
+                                    }
+                                }
+                            }
                         },
                         onDrop = { from, local ->
-                            dropCaret = null
                             val finger = toField(from, local)
                             if (finger != null) {
                                 val at = built.toOriginal(snap(lr.getOffsetForPosition(finger)))
@@ -243,25 +277,17 @@ fun RichTextField(
                 }
             }
         }
-        if (ownCaret && focused && sel.collapsed && lr != null) {
+        if (ownCaret && (focused || dragging) && sel.collapsed && lr != null) {
             val r = runCatching { slim(lr.getCursorRect(built.transformed.offsetMapping.originalToTransformed(sel.start))) }.getOrNull()
             if (r != null) Box(
                 Modifier.matchParentSize().drawBehind {
-                    if (caretOn) drawRoundRect(
+                    if (caretOn || dragging) drawRoundRect(
                         scheme.primary, Offset(r.left - 0.75.dp.toPx(), r.top), Size(2.dp.toPx(), r.height), CornerRadius(1.dp.toPx())
                     )
                 }
             )
         }
-        dropCaret?.let { r ->
-            Box(
-                Modifier
-                    .offset { IntOffset((r.left - with(density) { 1.25.dp.toPx() }).roundToInt(), r.top.roundToInt()) }
-                    .size(width = 2.5.dp, height = with(density) { r.height.toDp() })
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(scheme.primary)
-            )
-        }
+    }
     }
 }
 

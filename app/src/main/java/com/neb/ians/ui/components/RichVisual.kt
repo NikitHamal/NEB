@@ -37,6 +37,8 @@ internal class RichBuilt(
 }
 
 internal object RichVisual {
+    private const val ZW = '\u200B'
+
     /** [imageLine] is the paragraph style of a line that holds a picture: only those lines grow, the rest keep the text's own height. */
     fun build(doc: RichDoc, c: LiveColors, blankSpacing: TextUnit, imageLine: ParagraphStyle? = null): RichBuilt {
         val t = doc.text
@@ -62,7 +64,7 @@ internal object RichVisual {
         }
         val ph = InlineImageTokens.PLACEHOLDER_LEN
         val imgs = t.count { it == IMG }
-        val cap = n + (ph - 1) * imgs + prefixTotal + 2
+        val cap = n + (ph - 1) * imgs + prefixTotal + 4
         val o2t = IntArray(n + 1)
         val t2o = IntArray(cap + 1)
         val sb = StringBuilder(cap)
@@ -71,6 +73,16 @@ internal object RichVisual {
         val paras = ArrayList<AnnotatedString.Range<ParagraphStyle>>()
         val code = SpanStyle(fontFamily = FontFamily.Monospace, background = c.code, color = c.codeText)
         val blank = SpanStyle(color = Color.Transparent, letterSpacing = blankSpacing)
+        // A line break next to a picture line becomes a zero width mark: a Compose paragraph that ends in a real line
+        // break gets one more empty line from the platform layout, which was the gap under every picture line.
+        val hasImg = BooleanArray(lines)
+        for (li in 0 until lines) {
+            val a = doc.lineStart(li)
+            val b = doc.lineEnd(li)
+            var k = a
+            while (k < b) { if (t[k] == IMG) { hasImg[li] = true; break }; k++ }
+        }
+        var tailMark = false
 
         for (li in 0 until lines) {
             val ls = doc.lineStart(li)
@@ -95,9 +107,12 @@ internal object RichVisual {
             }
             o2t[le] = if (le == ls) contentStart else o2t[le]
             val contentEnd = sb.length
-            if (imageLine != null && slots.isNotEmpty() && slots.last() >= tStart) {
-                // the line break belongs to the paragraph it ends
-                paras.add(AnnotatedString.Range(imageLine, tStart, if (li < lines - 1) contentEnd + 1 else contentEnd))
+            // an empty last line right after a picture line has no characters, so it would not get a line at all
+            if (li == lines - 1 && li > 0 && hasImg[li - 1] && le == ls && pre.isEmpty()) {
+                o2t[le] = sb.length
+                t2o[sb.length] = le
+                sb.append(ZW)
+                tailMark = true
             }
             if (contentEnd > contentStart) {
                 when (kind) {
@@ -112,10 +127,14 @@ internal object RichVisual {
             if (li < lines - 1) {
                 o2t[le] = sb.length
                 t2o[sb.length] = le
-                sb.append('\n')
+                sb.append(if (hasImg[li] || hasImg[li + 1]) ZW else '\n')
+            }
+            if (imageLine != null && hasImg[li]) {
+                // the paragraph ends with the zero width mark (never a real line break), so it adds no empty line
+                paras.add(AnnotatedString.Range(imageLine, tStart, sb.length))
             }
         }
-        o2t[n] = sb.length
+        o2t[n] = if (tailMark) sb.length - 1 else sb.length
         t2o[sb.length] = n
 
         // inline styles: one span per run of equal formatting

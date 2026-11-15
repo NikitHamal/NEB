@@ -21,6 +21,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Notes
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.Warning
@@ -81,8 +88,9 @@ class CrashActivity : ComponentActivity() {
 }
 
 /**
- * The screen after a crash: page colour, one expressive tile, a short title, the error as a tonal chip and the log
- * folded away until asked for. Two actions pinned at the bottom. No shadows, no gradients.
+ * The screen after a crash, in M3X: page colour, one expressive tile that springs in, a short title, the error in a
+ * hairline card (type as a tonal chip), the log folded away until asked for, and a single filled action at the bottom
+ * with copy and share beside it. No shadows, no gradients, no emojis.
  */
 @Composable
 fun CrashScreen(
@@ -96,6 +104,10 @@ fun CrashScreen(
     var open by remember { mutableStateOf(false) }
     var copied by remember { mutableStateOf(false) }
     val shortType = crashType.substringAfterLast('.').ifBlank { crashType }
+    val pop = remember { Animatable(0.6f) }
+    LaunchedEffect(Unit) { pop.animateTo(1f, spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessLow)) }
+    val turn by animateFloatAsState(if (open) 180f else 0f, spring(stiffness = Spring.StiffnessMediumLow), label = "crashChevron")
+    val cardShape = RoundedCornerShape(24.dp)
 
     Column(
         modifier = Modifier
@@ -106,19 +118,21 @@ fun CrashScreen(
             .padding(horizontal = 20.dp)
     ) {
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
+            modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            Spacer(Modifier.height(36.dp))
+            Spacer(Modifier.height(32.dp))
             Box(
-                modifier = Modifier.size(76.dp).clip(nebShape(NebShapes.Avatar)).background(c.errorContainer),
+                modifier = Modifier
+                    .size(104.dp)
+                    .graphicsLayer { scaleX = pop.value; scaleY = pop.value; rotationZ = (1f - pop.value) * -24f }
+                    .clip(nebShape(NebShapes.Accent))
+                    .background(c.errorContainer),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Outlined.Warning, contentDescription = null, tint = c.onErrorContainer, modifier = Modifier.size(34.dp))
+                Icon(Icons.Outlined.Warning, contentDescription = null, tint = c.onErrorContainer, modifier = Modifier.size(42.dp))
             }
+            Spacer(Modifier.height(4.dp))
             Text(
                 text = "Something went wrong",
                 style = MaterialTheme.typography.headlineMedium,
@@ -126,65 +140,67 @@ fun CrashScreen(
                 color = c.onSurface
             )
             Text(
-                text = shortType,
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = c.onErrorContainer,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(c.errorContainer)
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
-            )
-            Text(
-                text = crashMessage.take(400),
-                style = MaterialTheme.typography.bodyMedium,
+                text = "NEBians closed unexpectedly.",
+                style = MaterialTheme.typography.bodyLarge,
                 color = c.onSurfaceVariant
             )
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(4.dp))
 
-            val cardShape = RoundedCornerShape(24.dp)
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(cardShape)
-                    .background(c.surfaceContainerLowest)
-                    .border(1.dp, c.outlineVariant, cardShape)
-                    .animateContentSize()
+                modifier = Modifier.fillMaxWidth().clip(cardShape).background(c.surfaceContainerLowest).border(1.dp, c.outlineVariant, cardShape)
+                    .padding(horizontal = 18.dp, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = shortType,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = c.onErrorContainer,
+                    maxLines = 1,
+                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(c.errorContainer).padding(horizontal = 12.dp, vertical = 5.dp)
+                )
+                Text(
+                    text = crashMessage.take(400),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = c.onSurface,
+                    maxLines = 8
+                )
+            }
+
+            Column(
+                modifier = Modifier.fillMaxWidth().clip(cardShape).background(c.surfaceContainerLowest).border(1.dp, c.outlineVariant, cardShape)
+                    .animateContentSize(spring(stiffness = Spring.StiffnessMediumLow))
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 56.dp)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = androidx.compose.material3.ripple()
-                        ) { open = !open }
+                        .clip(cardShape)
+                        .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { open = !open }
                         .padding(horizontal = 18.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Icon(Icons.AutoMirrored.Outlined.Notes, null, tint = c.onSurfaceVariant, modifier = Modifier.size(22.dp))
-                    Text(
-                        "Details",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        color = c.onSurface,
-                        modifier = Modifier.weight(1f)
-                    )
+                    Text("Log", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = c.onSurface, modifier = Modifier.weight(1f))
                     Icon(
-                        if (open) Icons.Outlined.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown,
-                        contentDescription = if (open) "Hide details" else "Show details",
-                        tint = c.onSurfaceVariant
+                        Icons.Outlined.KeyboardArrowDown,
+                        contentDescription = if (open) "Hide log" else "Show log",
+                        tint = c.onSurfaceVariant,
+                        modifier = Modifier.graphicsLayer { rotationZ = turn }
                     )
                 }
                 if (open) {
                     Box(
                         modifier = Modifier
+                            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
                             .fillMaxWidth()
-                            .heightIn(max = 320.dp)
-                            .padding(start = 18.dp, end = 18.dp, bottom = 16.dp)
+                            .heightIn(max = 300.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(c.surfaceContainerLow)
                             .verticalScroll(rememberScrollState())
                             .nebHorizontalScroll(rememberScrollState())
+                            .padding(12.dp)
                     ) {
                         Text(
                             text = stackTrace,
@@ -200,28 +216,42 @@ fun CrashScreen(
             Spacer(Modifier.height(8.dp))
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            NebButton(
-                text = if (copied) "Copied" else "Copy log",
-                onClick = {
-                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    clipboard.setPrimaryClip(ClipData.newPlainText("NEBians crash log", stackTrace))
-                    copied = true
-                },
-                icon = Icons.Filled.ContentCopy,
-                tone = NebButtonTone.Tonal,
-                size = NebButtonSize.Hero,
-                modifier = Modifier.weight(1f)
-            )
+        Column(Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                NebButton(
+                    text = if (copied) "Copied" else "Copy log",
+                    onClick = {
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText("NEBians crash log", stackTrace))
+                        copied = true
+                    },
+                    icon = Icons.Filled.ContentCopy,
+                    tone = NebButtonTone.Tonal,
+                    size = NebButtonSize.Standard,
+                    modifier = Modifier.weight(1f)
+                )
+                NebButton(
+                    text = "Share",
+                    onClick = {
+                        val send = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "NEBians crash log")
+                            putExtra(Intent.EXTRA_TEXT, stackTrace)
+                        }
+                        runCatching { context.startActivity(Intent.createChooser(send, "Share log").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+                    },
+                    icon = Icons.Filled.Share,
+                    tone = NebButtonTone.Tonal,
+                    size = NebButtonSize.Standard,
+                    modifier = Modifier.weight(1f)
+                )
+            }
             NebButton(
                 text = "Restart",
                 onClick = onRestart,
                 icon = Icons.Filled.Refresh,
                 size = NebButtonSize.Hero,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

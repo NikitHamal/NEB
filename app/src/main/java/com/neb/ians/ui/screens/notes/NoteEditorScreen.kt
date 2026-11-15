@@ -389,7 +389,7 @@ fun NoteEditorScreen(
                 AnimatedVisibility(!barOpen, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                     Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                         Box(
-                            Modifier.size(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh).clickable { barOpen = true },
+                            Modifier.size(40.dp).clip(RoundedCornerShape(20.dp)).background(c.surfaceContainerHigh).clickable { barOpen = true },
                             contentAlignment = Alignment.Center,
                         ) { Icon(Icons.Outlined.TextFormat, "Show toolbar", tint = c.onSurface) }
                         Spacer(Modifier.weight(1f))
@@ -577,13 +577,13 @@ private fun MicButton(listening: Boolean, level: kotlinx.coroutines.flow.StateFl
     val pulse by animateFloatAsState(if (listening) 1f + lvl * 0.14f else 1f, tween(90), label = "micPulse")
     Surface(
         onClick = onClick,
-        shape = RoundedCornerShape(if (listening) 18.dp else 24.dp),
+        shape = RoundedCornerShape(if (listening) 14.dp else 20.dp),
         color = if (listening) c.error else c.primary,
         contentColor = if (listening) c.onError else c.onPrimary,
-        modifier = Modifier.size(52.dp).scale(pulse),
+        modifier = Modifier.size(40.dp).scale(pulse),
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Icon(if (listening) Icons.Outlined.Stop else Icons.Outlined.Mic, if (listening) "Stop dictation" else "Dictate")
+            Icon(if (listening) Icons.Outlined.Stop else Icons.Outlined.Mic, if (listening) "Stop dictation" else "Dictate", modifier = Modifier.size(20.dp))
         }
     }
 }

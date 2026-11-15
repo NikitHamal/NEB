@@ -339,12 +339,25 @@ class RichState(
     /** Moves picture [index] so it sits at text offset [target] (an offset in the current text). */
     fun moveImage(index: Int, target: Int) {
         val from = imagePositions().getOrNull(index) ?: return
-        if (target == from || target == from + 1) return
+        if (target == from || target == from + 1) { moveCaret(from + 1); return }
         val key = doc.keys[index]
         val cut = doc.splice(from, from + 1, "", 0, 0)
         val at = (if (target > from) target - 1 else target).coerceIn(0, cut.text.length)
         val d = cut.splice(at, at, IMG.toString(), 0, 0, listOf(key))
         commit(d, TextFieldValue(d.text, TextRange(at + 1)))
+    }
+
+    /** Put the caret (nothing selected) at [at]; used while a picture is dragged so the caret shows where it lands. */
+    fun moveCaret(at: Int) {
+        val a = at.coerceIn(0, doc.text.length)
+        if (value.selection.collapsed && value.selection.start == a) return
+        value = value.copy(selection = TextRange(a))
+        armed = -1
+    }
+
+    fun restoreSelection(start: Int, end: Int) {
+        val len = doc.text.length
+        value = value.copy(selection = TextRange(start.coerceIn(0, len), end.coerceIn(0, len)))
     }
 
     fun pendingKeys(): List<String> = doc.keys.filter { it.startsWith("u") }
