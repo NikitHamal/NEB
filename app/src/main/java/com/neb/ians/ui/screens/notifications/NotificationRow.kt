@@ -95,7 +95,7 @@ fun NotificationItem(
                     name = notification.actorName ?: "?",
                     imageUrl = notification.actorPhotoUrl,
                     size = 42.dp,
-                    modifier = Modifier.clickable(onClick = onAvatarClick)
+                    modifier = Modifier.clip(CircleShape).clickable(onClick = onAvatarClick)
                 )
             }
             Box(

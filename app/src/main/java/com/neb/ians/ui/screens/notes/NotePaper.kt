@@ -11,6 +11,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -81,7 +82,7 @@ fun PaperPicker(current: Int, onPick: (Int) -> Unit) {
         NotePaper.labels.forEachIndexed { index, label ->
             val on = index == current
             Surface(
-                modifier = Modifier.height(44.dp).clickable { onPick(index) },
+                modifier = Modifier.height(44.dp).clip(RoundedCornerShape(22.dp)).clickable { onPick(index) },
                 shape = RoundedCornerShape(22.dp),
                 color = if (on) c.secondaryContainer else c.surfaceContainerLowest,
                 border = if (on) null else BorderStroke(1.dp, c.outlineVariant),

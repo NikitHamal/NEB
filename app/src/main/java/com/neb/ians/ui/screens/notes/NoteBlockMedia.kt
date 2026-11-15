@@ -225,22 +225,22 @@ fun ImageBlockView(
 internal fun ImageTools(block: NoteBlock, vm: NoteEditorViewModel) {
     val c = MaterialTheme.colorScheme
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.fillImage(block.id, uri) }
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-        listOf("S" to 0.33f, "M" to 0.55f, "L" to 0.8f, "Full" to 1f).forEach { (label, f) ->
-            val on = abs(block.size - f) < 0.04f
-            ToolChip(label = label, on = on) { vm.update(block.id) { it.copy(size = f) } }
-        }
-        ToolDivider()
-        listOf(Icons.Outlined.FormatAlignLeft to "Left", Icons.Outlined.FormatAlignCenter to "Centre", Icons.Outlined.FormatAlignRight to "Right").forEachIndexed { i, (icon, name) ->
-            ToolIcon(icon, name, block.align == i) { vm.update(block.id) { it.copy(align = i, wrap = if (i == 1) false else it.wrap) } }
-        }
-        ToolIcon(Icons.AutoMirrored.Outlined.WrapText, "Text beside", block.wrap) {
-            vm.update(block.id) { it.copy(wrap = !it.wrap, align = if (!it.wrap && it.align == 1) 0 else it.align, size = if (!it.wrap) it.size.coerceAtMost(0.5f) else it.size) }
-        }
-        ToolDivider()
-        ToolChip(label = ImageRatios[block.ratio].first, on = block.ratio != 0, icon = Icons.Outlined.Crop) { vm.update(block.id) { it.copy(ratio = (it.ratio + 1) % ImageRatios.size) } }
-        ToolIcon(Icons.Outlined.PhotoLibrary, "Replace", false) { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
+    // Emits its controls straight into the caller's row (MediaFrame owns the one horizontal scroll). A second
+    // horizontalScroll here crashed with infinite max width constraints.
+    listOf("S" to 0.33f, "M" to 0.55f, "L" to 0.8f, "Full" to 1f).forEach { (label, f) ->
+        val on = abs(block.size - f) < 0.04f
+        ToolChip(label = label, on = on) { vm.update(block.id) { it.copy(size = f) } }
     }
+    ToolDivider()
+    listOf(Icons.Outlined.FormatAlignLeft to "Left", Icons.Outlined.FormatAlignCenter to "Centre", Icons.Outlined.FormatAlignRight to "Right").forEachIndexed { i, (icon, name) ->
+        ToolIcon(icon, name, block.align == i) { vm.update(block.id) { it.copy(align = i, wrap = if (i == 1) false else it.wrap) } }
+    }
+    ToolIcon(Icons.AutoMirrored.Outlined.WrapText, "Text beside", block.wrap) {
+        vm.update(block.id) { it.copy(wrap = !it.wrap, align = if (!it.wrap && it.align == 1) 0 else it.align, size = if (!it.wrap) it.size.coerceAtMost(0.5f) else it.size) }
+    }
+    ToolDivider()
+    ToolChip(label = ImageRatios[block.ratio].first, on = block.ratio != 0, icon = Icons.Outlined.Crop) { vm.update(block.id) { it.copy(ratio = (it.ratio + 1) % ImageRatios.size) } }
+    ToolIcon(Icons.Outlined.PhotoLibrary, "Replace", false) { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
 }
 
 @Composable

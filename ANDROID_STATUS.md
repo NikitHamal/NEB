@@ -219,3 +219,40 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 CI session 7: `0daff0f` (templates, photo cards, cover controls) is green. `5720dff` (a parallel push: page picture, ink, paper) failed on one wrong `ImageVector` import in `NoteInkControls.kt`; fixed in the next commit.
 
 CI session 8: `5720dff` failed on one wrong `ImageVector` import (fixed in `d809ef8`); the duplicate-files change is the next commit.
+
+---
+
+# Session 9: drop caret and line height, press shape, nav on scroll, notes list, crash screen
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picked up sessions 3 to 8 (pictures in text, cover controls, notes list). Nothing redone; what was wrong is replaced.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 58 | **Crash fix**: `Horizontally scrollable component was measured with an infinity maximum width`. `ImageTools` had its own `horizontalScroll` Row and was placed inside the `MediaFrame` tools Row, which also scrolls. It now emits its controls straight into the caller's row. | `NoteBlockMedia.kt` |
+| 59 | **Line height with pictures**: the field no longer raises the line height of every line when one picture exists. Only the paragraph holding a picture grows (`ParagraphStyle` with centred `LineHeightStyle`), the rest keep the text's own height. | `RichVisual.build(imageLine)`, `RichTextField.kt` |
+| 60 | **Caret height**: with pictures in the field the platform caret is hidden and the field draws its own, text height, centred in the line, blinking, so it never grows on a picture line (as in Meta). | `RichTextField.kt` |
+| 61 | **Drop caret**: dragging a picture shows the caret under the fingertip (not the picture's centre), the picture rides 30dp above the finger, the drop snaps before or after a neighbouring picture and never inside one. Web: the drop bar is capped to the text's line height. | `RichTextField.kt` (`RichChip`), `inline-media.js` |
+| 62 | **No gap between tool tiles** (comment composer A and the next tile): `ComposerTools` is a Row with 6dp spacing; the note format bar uses 4dp. Web `.fc-tools` gap 6px. | `CommentComposerBar.kt`, `NoteBlockEditor.kt`, `m3x/app-press.css` |
+| 63 | **Press follows the shape**: the create (clover) button and the profile sheet settings tile are clipped before they are clickable. Web: tap flash off globally, tool tiles keep their radius. Audit of 104 clickables found the rest already clipped or indication-free. Rule in the design system section 13 and `AGENTS.md` 7b. | `LiquidGlassNav.kt`, `LiquidGlassProfileSheet.kt`, `m3x/app-press.css` |
+| 64 | **Contrast**: `readableOn` / `softReadable` pick an ink that reaches 4.5:1 (text) or 3:1 (icons) on the note colour. Used for the editor top bar (undo and redo no longer fade to 35%), the pin, the Untitled hint and the card pin and tick. | `NoteContrast.kt`, `NoteEditorScreen.kt`, `NotesScreen.kt` |
+| 65 | **Notes header**: one 56dp row (title, four 40dp tools 4dp apart, filled add tile), filters directly under it, search field 48dp. Tools are clipped tonal tiles. | `NotesScreen.kt` (`Header`, `HeaderTool`) |
+| 66 | **Note cards**: adaptive staggered grid (156dp minimum, 2 columns on phones), 8dp gaps; cover 64dp (grid) and 84dp (list); icon tile 24dp, title on titleSmall; at most 3 preview lines in the grid, 2 lines each; one row of thumbnails at 52 or 64dp. | `NotesScreen.kt` (`NoteCard`) |
+| 67 | **Covers**: editor cover height follows the width (`aspectRatio(1.9)`, 168 to 264dp). Banner art scales with the banner's proportions. Change and Remove show only after tapping the cover and fold after 4s. | `NoteEditorScreen.kt`, `NotePage.kt` |
+| 68 | **Bottom bar hides on scroll down, returns on scroll up** (Home, Library, Notes and every screen that shows it): one `NestedScrollConnection` above the NavHost, the bar follows the finger, a spring settles it, layer transform only. Pinned while the create menu is open; resets on route change. | `NavBarScroll.kt`, `Navigation.kt` |
+| 69 | **Crash screen** rebuilt in M3X: page colour, expressive tile, short title, error type chip, details folded away, Copy log (tonal) and Restart (filled) pinned at the bottom. | `CrashActivity.kt` |
+
+## Rules (also in `docs/M3X_DESIGN_SYSTEM.md` section 13)
+- Clip before clickable, same shape. Tiles in a row have a gap. No same-axis scroller inside another. Icons on a themed surface go through `readableOn`.
+- Text with pictures: normal line height, only the picture line grows, own caret at text height.
+
+## Not done / next
+- On-device pass: caret blink after a picture is inserted, the drop caret near the field's bottom edge (no auto-scroll while dragging yet), staggered card heights with many photos, the bar returning when a list is shorter than the screen.
+
+CI session 9: `82ee9dc` failed to compile: `AnimatedVisibility` in the cover header resolved to the `ColumnScope` extension of the surrounding `Column` ("cannot be called in this context with an implicit receiver"). Fixed by moving the cover and its Change / Remove pills into `NoteCoverArea` (own function, no outer receiver). Rule: an `AnimatedVisibility` inside a `Box` that sits inside a `Column` or `Row` lambda needs its own composable.
+
+| 70 | **Press follows the shape, second pass**: re-audited every `clickable` by script (clip within the 9 lines before it). Fixed the ones that still drew a square ripple: notification avatar (circle), note paper chips (22dp), comment composer menu rows (16dp), library selector (14dp), note icon tile (20dp). | `NotificationRow.kt`, `NotePaper.kt`, `CommentComposerBar.kt`, `LibraryScreen.kt`, `NoteEditorScreen.kt` |
+
+CI: `abb8165` (cover area fix plus press pass) is green; the Android release build compiles. Web CSS bundle is in sync (`python3 tools/css/bundle.py --check`).
+
