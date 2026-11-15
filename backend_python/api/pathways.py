@@ -27,16 +27,23 @@ def payload():
     by_id = {r['id']: r for r in routes}
     for rid, more in extra.get('where_add', {}).items():
         by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
+    wave = _load('wave3.json')
+    routes += wave['routes']
+    by_id.update({r['id']: r for r in wave['routes']})
+    for rid, more in wave.get('where_add', {}).items():
+        by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
+    for rid, more in wave.get('careers_add', {}).items():
+        by_id[rid]['careers'] = list(dict.fromkeys(list(by_id[rid].get('careers') or []) + more))
     for r in routes:
         r['where'] = list(dict.fromkeys(r.get('where') or []))
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
         'routes': routes,
-        'careers': _load('careers.json')['careers'] + _load('extra_careers.json')['careers'],
-        'providers': places['providers'] + extra['providers'],
-        'scholarships': places['scholarships'] + extra['scholarships'],
-        'abroad': places['abroad'] + extra['abroad'],
+        'careers': _load('careers.json')['careers'] + _load('extra_careers.json')['careers'] + wave['careers'],
+        'providers': places['providers'] + extra['providers'] + wave['providers'],
+        'scholarships': places['scholarships'] + extra['scholarships'] + wave['scholarships'],
+        'abroad': places['abroad'] + extra['abroad'] + wave['abroad'],
         'topics': _load('faq.json')['topics'],
         'faq': _load('faq.json')['faq'],
     }

@@ -437,3 +437,28 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Migrate the legacy raw sheets to `NebModalSheet`.
 - Pathways: Nepali labels, saved pathways, per-course seat and fee tables, more private colleges per district.
 - On-device pass for the sheets (390 px: 22dp from both edges, scrim band above a tall sheet).
+
+
+---
+
+# Session 19: dynamic posts lab v2 (app and web), Pathways wave 3, sheet body bound
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run (and `backend-tests.yml`). The brief came again (dynamic posts, caret, guest browsing, Pathways, flawed sheets). Items 89 to 102 were read against the code and the two screenshots (Sign in sheet with text at x = 0, Pathways route sheet under the status bar). Both screenshots are the build from before item 99: `NebModalSheet` now pads its body and caps its height, so nothing was redone. New:
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 103 | **Dynamic posts lab v2, Android.** Moved to `ui/screens/lab/` and split in five files. Ten looks (Paper, Ink, Garden, Sunrise, Blueprint, Rose, Chalk, Citrus, Ocean, Mono) plus the Default fallback. Nine flat cover patterns (Dots, Lines, Grid, Waves, Rings, Blobs, Stripes, Confetti, None). Three sample posts (Story, Guide, Notice). Three views: Card, Reading, Mixed feed (eight cards in different looks beside one default card, to judge the feed as a whole). Reading view shows what a post can hold: drop cap, highlighted phrase, callout, pull quote (bar or large mark), numbered steps or a tick list you can tap, three divider styles. A live customiser (cover, type, corners, tall cover, centred title, divider, drop cap, quote bar, highlight, accent) with Reset. Colours and corners ease between looks. No emoji, no shadow, no gradient, avatars are frameless squircles. | `DynamicLooks.kt`, `DynamicArt.kt`, `DynamicPostFeed.kt`, `DynamicPostReading.kt`, `DynamicPostsLabScreen.kt` |
+| 104 | **Dynamic posts lab v2, web** `/app/lab/dynamic-posts/`: same looks, samples, mix and customiser. Data is `dynamic-posts-data.js` (mirror of `DynamicLooks.kt`; change both). Mixed feed is a two column masonry. Per card CSS variables, so every card in the feed keeps its own look. | `dynamic-posts-data.js`, `dynamic-posts-lab.js`, `dynamic-posts-lab.css`, `dynamic_posts_lab.html` |
+| 105 | **Pathways wave 3** (no UI change, both apps read the same API): routes 63 to 68 (BIT, BSc Forestry, BTech Food Technology, BSc Environmental Science, commercial pilot), careers 32 to 37, providers 36 to 38, scholarships 22 to 26 (Taiwan, Italy, Rhodes, SINGA), study abroad 16 to 20 (Ireland, Singapore, Italy, Taiwan). One file `wave3.json`, merged in `pathways.py` (`careers_add` attaches new careers to existing routes). New routes list no providers yet, so the app shows the institution catalogue fallback. Figures are indicative and must be checked against each institution. | `api/data/pathways/wave3.json`, `api/pathways.py`, `api/test_pathways.py` |
+| 106 | **Sheet body is bounded.** The padded body of `NebModalSheet` is `weight(1f, fill = false)`, so a long body scrolls inside the cap and the bottom spacer is never pushed off the sheet. | `components/NebSheet.kt` |
+
+## Dynamic posts: the vocabulary that would ship
+`look` = paper, ink, accent, soft, font (serif, sans, mono), cover pattern, corner, tall cover, centred title, divider, drop cap, quote bar, highlight. Null look = the default card, so old posts never change. Not wired to the server yet on purpose: the owner reviews the demo first.
+
+## Not done / next
+- Owner picks a direction in the lab (looks to drop, decorations to add). Then: `look` JSON on forum posts (null default), a look picker in both composers, render in the feed card and the reader.
+- Legacy raw sheets (`NebPickerSheet`, `ReadingSheet`, `AuthLegalSheet`, `LiquidGlassProfileSheet`, `CreatorStudioSections`, `StudyReader`) pad their own body but do not cap their height under the status bar. Migrate to `NebModalSheet` one by one with an on-device check.
+- Pathways: per route provider lists for the new routes, Nepali labels, saved pathways, seat and fee tables.
+- On-device pass: lab on a phone, sign-in return from the reply bar, sheets at 390 px.

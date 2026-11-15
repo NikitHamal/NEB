@@ -44,3 +44,15 @@ class PathwaysDataTests(TestCase):
             self.assertNotIn('\u2013', f['a'])
             self.assertNotIn('--', f['a'])
         self.assertEqual(pathways.problems(), [])
+
+    def test_wave3_is_merged(self):
+        d = pathways.payload()
+        for key, rid in (('routes', 'bit'), ('careers', 'ai-engineer'), ('providers', 'p-cct'), ('scholarships', 's-taiwan'), ('abroad', 'ie')):
+            self.assertIn(rid, {x['id'] for x in d[key]}, rid)
+        self.assertIn('ai-engineer', next(r for r in d['routes'] if r['id'] == 'bsc-csit')['careers'])
+
+    def test_dynamic_posts_lab_loads_data_before_lab(self):
+        r = self.client.get('/app/lab/dynamic-posts/')
+        self.assertEqual(r.status_code, 200)
+        html = r.content.decode()
+        self.assertLess(html.index('dynamic-posts-data.js'), html.index('dynamic-posts-lab.js'))
