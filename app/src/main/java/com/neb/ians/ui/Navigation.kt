@@ -25,6 +25,8 @@ import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.neb.ians.ui.components.navBarScrollSource
 import com.neb.ians.ui.components.navBarScrollTransform
 import androidx.compose.runtime.getValue
@@ -60,6 +62,12 @@ import androidx.compose.ui.draw.blur
 import com.neb.ians.ui.components.LiquidGlassProfileSheet
 import com.neb.ians.ui.components.NebFabAction
 import com.neb.ians.ui.components.NebFabMenuScrim
+import com.neb.ians.ui.components.AuthGate
+import com.neb.ians.ui.components.GateReason
+import com.neb.ians.ui.components.LocalAuthGate
+import com.neb.ians.ui.components.SignInSheet
+import com.neb.ians.ui.screens.pathways.PathwaysScreen
+import com.neb.ians.ui.screens.pathways.DynamicPostsLabScreen
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
@@ -203,6 +211,8 @@ sealed class Screen(val route: String) {
     data object WebPortal : Screen("web_portal/{url}") {
         fun createRoute(url: String) = "web_portal/${java.net.URLEncoder.encode(url, "UTF-8")}"
     }
+    data object Pathways : Screen("pathways")
+    data object PostLab : Screen("forum/lab")
     data object Legal : Screen("legal/{doc}") {
         fun createRoute(doc: String) = "legal/$doc"
     }
@@ -216,6 +226,18 @@ private val PRE_APP_ROUTES = setOf(
     Screen.EmailAuth.route,
     Screen.CompleteProfile.route,
 )
+
+/** Screens that need an account; a guest is stopped at the door with the sign-in sheet and sent on after. */
+private fun gateReasonFor(route: String?): GateReason? = when (route) {
+    Screen.Upload.route, Screen.CreatorStudio.route, Screen.ResourceRequests.route -> GateReason.Upload
+    Screen.CreatePost.route, Screen.EditPost.route -> GateReason.Post
+    Screen.Bookmarks.route -> GateReason.Save
+    Screen.Notifications.route -> GateReason.Notifications
+    Screen.Analytics.route, Screen.NebyCredits.route, Screen.EditProfile.route,
+    Screen.DeleteAccount.route, Screen.AccountSecurity.route, Screen.PostInsights.route,
+    Screen.ResourceInsights.route -> GateReason.Profile
+    else -> null
+}
 
 val glassNavItems = listOf(
     NebNavItem(
@@ -255,6 +277,27 @@ fun NEBiansNavHost(
     val playerStarted by remember { derivedStateOf { mediaPlayerState.isPlaying || mediaPlayerState.currentTimeMs > 0L } }
     var showMiniPlayer by remember { mutableStateOf(false) }
     val isAuthenticated = authState is AuthState.Authenticated
+    var gateReason by remember { mutableStateOf<GateReason?>(null) }
+    // the screen a guest was trying to reach; once they are signed in they are sent there
+    var pendingRoute by rememberSaveable { mutableStateOf<String?>(null) }
+    val gate = remember(isAuthenticated) { AuthGate(isAuthenticated) { gateReason = it } }
+    val openSignIn: () -> Unit = {
+        gateReason = null
+        navController.navigate(Screen.Login.route) { launchSingleTop = true }
+    }
+    // Leaves the sign-in screens for the screen the guest came from (never Home by default).
+    val leaveAuth: () -> Unit = {
+        val back = navController.popBackStack(Screen.Login.route, true)
+        if (!back) {
+            navController.navigate(Screen.Home.route) {
+                popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+            }
+        }
+        pendingRoute?.let { target ->
+            pendingRoute = null
+            navController.navigate(target) { launchSingleTop = true }
+        }
+    }
     LaunchedEffect(authState) {
         val state = authState
         when (state) {
@@ -262,14 +305,15 @@ fun NEBiansNavHost(
                 showMiniPlayer = false
                 mediaPlayerViewModel.stopPlayback()
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                // Allow Splash to complete its 2-second experience and route to Login naturally
+                // Signed out (or a guest from the start): stay in the app, on Home.
                 if (currentRoute != null &&
                     currentRoute != Screen.Splash.route &&
                     currentRoute != Screen.Intro.route &&
                     currentRoute != Screen.Login.route &&
-                    currentRoute != Screen.EmailAuth.route
+                    currentRoute != Screen.EmailAuth.route &&
+                    currentRoute != Screen.Home.route
                 ) {
-                    navController.navigate(Screen.Login.route) {
+                    navController.navigate(Screen.Home.route) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                     }
                 }
@@ -277,10 +321,8 @@ fun NEBiansNavHost(
             is AuthState.Authenticated -> {
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                 if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
-                    val dest = if (state.isProfileComplete) Screen.Home.route else Screen.CompleteProfile.route
-                    navController.navigate(dest) {
-                        popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
-                    }
+                    if (state.isProfileComplete) leaveAuth()
+                    else navController.navigate(Screen.CompleteProfile.route)
                 }
             }
             else -> {}
@@ -323,6 +365,13 @@ fun NEBiansNavHost(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentRoute = currentDestination?.route?.substringBefore("?")
+    LaunchedEffect(currentRoute, authState) {
+        if (authState !is AuthState.Unauthenticated) return@LaunchedEffect
+        val reason = gateReasonFor(currentDestination?.route) ?: gateReasonFor(currentRoute) ?: return@LaunchedEffect
+        pendingRoute = navBackStackEntry?.destination?.route?.takeIf { !it.contains("{") }
+        navController.popBackStack()
+        gateReason = reason
+    }
     LaunchedEffect(pendingDeepLink, isAuthenticated, currentRoute) {
         if (!isAuthenticated || pendingDeepLink == null) return@LaunchedEffect
         val route = currentRoute ?: return@LaunchedEffect
@@ -344,7 +393,7 @@ fun NEBiansNavHost(
     }
     var showProfileDropdown by remember { mutableStateOf(false) }
     var showCreateMenu by remember { mutableStateOf(false) }
-    val createMenuActions = remember(navController) {
+    val createMenuActions = remember(navController, isAuthenticated) {
         listOf(
             NebFabAction(
                 label = "New note",
@@ -356,25 +405,37 @@ fun NEBiansNavHost(
             NebFabAction(
                 label = "Upload materials",
                 icon = Icons.Outlined.CloudUpload,
-                onClick = { navController.navigate(Screen.Upload.route) },
+                onClick = {
+                    if (isAuthenticated) navController.navigate(Screen.Upload.route)
+                    else { pendingRoute = Screen.Upload.route; gateReason = GateReason.Upload }
+                },
                 accent = NebAccents.Amber,
                 testTag = "create_menu_upload_materials"
             ),
             NebFabAction(
                 label = "New post",
                 icon = Icons.Outlined.RateReview,
-                onClick = { navController.navigate(Screen.CreatePost.route) },
+                onClick = {
+                    if (isAuthenticated) navController.navigate(Screen.CreatePost.route)
+                    else { pendingRoute = Screen.CreatePost.route; gateReason = GateReason.Post }
+                },
                 accent = NebAccents.Brand,
                 testTag = "create_menu_new_post"
             )
         )
     }
     BackHandler(enabled = showCreateMenu) { showCreateMenu = false }
+    BackHandler(enabled = currentRoute == Screen.Login.route) {
+        pendingRoute = null
+        navController.popBackStack()
+    }
     LaunchedEffect(currentRoute) { showCreateMenu = false }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
         if (username != null) {
             showProfileDropdown = !showProfileDropdown
+        } else if (!isAuthenticated) {
+            gateReason = GateReason.Profile
         } else {
             navController.navigate(Screen.Settings.route)
         }
@@ -404,6 +465,7 @@ fun NEBiansNavHost(
 
     val navScroll = com.neb.ians.ui.components.rememberNavBarScroll()
     LaunchedEffect(currentRoute) { navScroll.show() }
+    CompositionLocalProvider(LocalAuthGate provides gate) {
     Box(modifier = Modifier.fillMaxSize().navBarScrollSource(navScroll)) {
         NavHost(
             navController = navController,
@@ -451,9 +513,11 @@ fun NEBiansNavHost(
                         openDeepLink()
                     },
                     onNavigateToLogin = {
-                        navController.navigate(Screen.Login.route) {
+                        // guests browse first; sign-in is asked for when something needs it
+                        navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
                         }
+                        openDeepLink()
                     },
                     onNavigateToCompleteProfile = {
                         navController.navigate(Screen.CompleteProfile.route) {
@@ -476,7 +540,7 @@ fun NEBiansNavHost(
                 IntroScreen(
                     onFinish = {
                         introScope.launch { settingsViewModel.settingsRepository.setIntroSeen(true) }
-                        navController.navigate(Screen.Login.route) {
+                        navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Intro.route) { inclusive = true }
                         }
                     }
@@ -489,22 +553,15 @@ fun NEBiansNavHost(
                 exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMedium)) }
             ) {
                 LoginScreen(
-                    onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) }
+                    onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) },
+                    onClose = { pendingRoute = null; navController.popBackStack() }
                 )
             }
             composable(Screen.EmailAuth.route) {
                 EmailAuthScreen(
                     onClose = { navController.popBackStack() },
-                    onNavigateToHome = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToOnboarding = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
-                    },
+                    onNavigateToHome = leaveAuth,
+                    onNavigateToOnboarding = { navController.navigate(Screen.CompleteProfile.route) },
                     onNavigateToVerification = { email ->
                         navController.navigate(Screen.EmailVerification.createRoute(email))
                     },
@@ -522,16 +579,8 @@ fun NEBiansNavHost(
                 EmailVerificationScreen(
                     email = email,
                     authRepository = authRepository,
-                    onNavigateToHome = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.EmailVerification.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToOnboarding = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.EmailVerification.route) { inclusive = true }
-                        }
-                    },
+                    onNavigateToHome = leaveAuth,
+                    onNavigateToOnboarding = { navController.navigate(Screen.CompleteProfile.route) },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
@@ -544,25 +593,16 @@ fun NEBiansNavHost(
                 ForgotPasswordScreen(
                     initialEmail = email,
                     authRepository = authRepository,
-                    onNavigateToHome = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.ForgotPassword.route) { inclusive = true }
-                        }
-                    },
+                    onNavigateToHome = leaveAuth,
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.CompleteProfile.route) {
                 OnboardingScreen(
-                    onFinished = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.CompleteProfile.route) { inclusive = true }
-                        }
-                    },
+                    onFinished = leaveAuth,
                     onSignInAgain = {
-                        navController.navigate(Screen.Login.route) {
-                            popUpTo(0) { inclusive = true }
-                        }
+                        navController.navigate(Screen.Home.route) { popUpTo(0) { inclusive = true } }
+                        navController.navigate(Screen.Login.route)
                     }
                 )
             }
@@ -576,6 +616,7 @@ fun NEBiansNavHost(
                     onForumClick = { navController.navigate(Screen.Forum.route) },
                     onNotesClick = { navController.navigate(Screen.Notes.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
+                    onPathwaysClick = { navController.navigate(Screen.Pathways.route) },
                     onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
@@ -647,7 +688,7 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
-                    onSignInRequired = { navController.navigate(Screen.Login.route) }
+                    onSignInRequired = { gate.ask(GateReason.Generic) }
                 )
             }
             composable(Screen.Forum.route) {
@@ -697,8 +738,16 @@ fun NEBiansNavHost(
                 ToolsScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onNavigateToResultChecker = { navController.navigate(Screen.ResultChecker.route) },
-                    onNavigateToNotes = { navController.navigate(Screen.Notes.route) }
+                    onNavigateToNotes = { navController.navigate(Screen.Notes.route) },
+                    onNavigateToPathways = { navController.navigate(Screen.Pathways.route) },
+                    onNavigateToPostLab = { navController.navigate(Screen.PostLab.route) }
                 )
+            }
+            composable(Screen.Pathways.route) {
+                PathwaysScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(Screen.PostLab.route) {
+                DynamicPostsLabScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(
                 route = Screen.Search.route,
@@ -891,7 +940,7 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.AccountSecurity.route)
                     },
                     onNavigateToLogin = {
-                        navController.navigate(Screen.Login.route) {
+                        navController.navigate(Screen.Home.route) {
                             popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                         }
                     },
@@ -1169,6 +1218,14 @@ fun NEBiansNavHost(
                 )
             }
         }
+        gateReason?.let { reason ->
+            SignInSheet(
+                reason = reason,
+                onSignIn = openSignIn,
+                onDismiss = { gateReason = null; pendingRoute = null }
+            )
+        }
+    }
     }
 }
 

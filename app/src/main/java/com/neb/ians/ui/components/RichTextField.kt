@@ -168,6 +168,19 @@ fun RichTextField(
         followJob?.cancel()
         followJob = scope.launch { runCatching { reveal.bringIntoView(androidx.compose.ui.geometry.Rect(r.left, r.top - revealPx, r.right + 1f, r.bottom + revealPx)) } }
     }
+    // Writing keeps the caret in view: when the line under it runs past the bottom (or is hidden by the keyboard and
+    // the bar above it) the page scrolls just enough, and again once the keyboard has settled.
+    val keepPx = with(density) { 112.dp.toPx() }
+    LaunchedEffect(sel.start, sel.end, layout, focused) {
+        if (!focused || !sel.collapsed || readOnly || dragging) return@LaunchedEffect
+        val lr = layout ?: return@LaunchedEffect
+        val at = built.transformed.offsetMapping.originalToTransformed(sel.start).coerceIn(0, lr.layoutInput.text.length)
+        val r = runCatching { lr.getCursorRect(at) }.getOrNull() ?: return@LaunchedEffect
+        val want = androidx.compose.ui.geometry.Rect(r.left, r.top - emPx, r.right + 1f, r.bottom + keepPx)
+        runCatching { reveal.bringIntoView(want) }
+        delay(280)
+        runCatching { reveal.bringIntoView(want) }
+    }
     // the overlay shares the text layout's origin, so a point in a picture converts straight to a text position
     val overlayRef = remember { arrayOfNulls<androidx.compose.ui.layout.LayoutCoordinates>(1) }
     fun toField(from: androidx.compose.ui.layout.LayoutCoordinates, at: Offset): Offset? {

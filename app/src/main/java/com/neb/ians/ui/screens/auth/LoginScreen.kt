@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.screens.onboarding.Reveal
+import androidx.compose.material.icons.outlined.Close
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.nebAuthPalette
 
@@ -50,7 +51,8 @@ import com.neb.ians.ui.theme.nebAuthPalette
  */
 @Composable
 fun LoginScreen(
-    onNavigateToEmailAuth: () -> Unit
+    onNavigateToEmailAuth: () -> Unit,
+    onClose: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
     val isDark = false
@@ -159,6 +161,21 @@ fun LoginScreen(
                     onEmailClick = onNavigateToEmailAuth,
                     onTermsClick = { activeLegalSheet = LegalSheetType.TERMS },
                     onPrivacyClick = { activeLegalSheet = LegalSheetType.PRIVACY }
+                )
+            }
+        }
+
+        if (onClose != null) {
+            androidx.compose.material3.IconButton(
+                onClick = onClose,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 4.dp, end = 4.dp)
+            ) {
+                androidx.compose.material3.Icon(
+                    androidx.compose.material.icons.Icons.Outlined.Close,
+                    contentDescription = "Close",
+                    tint = Color(0xFF0A0A0B)
                 )
             }
         }

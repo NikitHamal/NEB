@@ -1,0 +1,41 @@
+{
+  "stages": [
+    {"id": "after8", "label": "After Class 8", "icon": "menu_book", "tone": "amber", "blurb": "Stay on track for SEE and know what a technical stream offers.", "tip": "Marks in Class 8 do not lock a career. Build reading, maths and one hands-on skill now."},
+    {"id": "after10", "label": "After SEE", "icon": "school", "tone": "teal", "blurb": "Plus Two streams, CTEVT diplomas and health programmes.", "tip": "Pick the stream that fits the degree you want at 18, not the one friends choose."},
+    {"id": "after12", "label": "After +2", "icon": "workspace_premium", "tone": "brand", "blurb": "Bachelor degrees in Nepal, with entrance exams, costs and careers.", "tip": "Entrance exams open in the months after results. Apply to three tiers: dream, likely, safe."},
+    {"id": "afterbach", "label": "After Bachelor", "icon": "military_tech", "tone": "rose", "blurb": "Masters, professional qualifications, government service and abroad.", "tip": "A master degree helps most when it adds a skill or a licence, not only a title."}
+  ],
+  "routes": [
+    {"id": "see-general", "stage": "after8", "name": "Class 9 and 10 (SEE)", "kind": "School", "group": "school", "years": "2 years", "fee": [0, 600000],
+     "entry": "Passed Class 8", "about": "Community schools are free. Private schools charge tuition plus transport and exam fees. The SEE grade decides the stream you can enter at +2.",
+     "exam": "SEE (Secondary Education Examination)", "careers": [], "skills": ["Maths", "English", "Science", "Nepali"], "next": ["plus2-science", "plus2-management", "plus2-humanities", "plus2-education", "plus2-law", "dip-engineering", "dip-health"], "where": []},
+    {"id": "tvet-school", "stage": "after8", "name": "Technical stream in school (Class 9 to 12)", "kind": "Technical", "group": "tech", "years": "4 years", "fee": [0, 200000],
+     "entry": "Passed Class 8 and admitted to a school that runs a technical stream", "about": "A small number of public schools run technical streams such as agriculture, electrical or computer trades next to the regular subjects. Check with your local education unit for availability.",
+     "exam": "SEE, then Class 12 technical examination", "careers": ["electrician", "agri-tech"], "skills": ["Hands-on trade skill", "Safety", "Basic maths"], "next": ["dip-engineering", "dip-agriculture"], "where": []},
+
+    {"id": "plus2-science", "stage": "after10", "name": "+2 Science (Physical or Biology)", "kind": "Plus Two", "group": "sci", "years": "2 years", "fee": [30000, 700000],
+     "entry": "SEE with the college's minimum GPA (often 2.4 or more, higher for top colleges). Maths and Science grades matter most.", "about": "Physical group (Physics, Chemistry, Maths) leads to engineering and IT. Biology group leads to medicine, nursing and allied health. Entrance cut-offs for good colleges are high.",
+     "exam": "College entrance test, then NEB Class 11 and 12", "careers": ["civil-engineer", "software-dev", "doctor", "nurse"], "skills": ["Problem solving", "Lab work", "Maths", "Time management"], "next": ["be-computer", "be-civil", "mbbs", "bsc-nursing", "bsc-csit", "bca", "bsc-agri", "bpharm"], "where": ["p-ncit", "p-pulchowk", "p-ku-eng", "p-pu"]},
+    {"id": "plus2-management", "stage": "after10", "name": "+2 Management", "kind": "Plus Two", "group": "biz", "years": "2 years", "fee": [30000, 500000],
+     "entry": "SEE with the college's minimum GPA", "about": "Accountancy, Economics, Business Studies and Mathematics or Computer. Opens BBS, BBA, BCA and CA routes.",
+     "exam": "College entrance test, then NEB Class 11 and 12", "careers": ["accountant", "bank-officer", "entrepreneur"], "skills": ["Accounting", "Spreadsheets", "Communication", "Numeracy"], "next": ["bbs", "bba", "bca", "bhm", "ca-route"], "where": ["p-ncc"]},
+    {"id": "plus2-humanities", "stage": "after10", "name": "+2 Humanities", "kind": "Plus Two", "group": "arts", "years": "2 years", "fee": [20000, 300000],
+     "entry": "SEE pass in the school's stated grade", "about": "Sociology, Population, Political Science, Mass Communication and languages. Strong base for BA, BSW, journalism, law and civil service.",
+     "exam": "NEB Class 11 and 12", "careers": ["journalist", "social-worker", "lawyer", "teacher"], "skills": ["Writing", "Research", "Critical thinking", "Public speaking"], "next": ["ba", "bjmc", "llb", "bsw"], "where": []},
+    {"id": "plus2-education", "stage": "after10", "name": "+2 Education", "kind": "Plus Two", "group": "edu", "years": "2 years", "fee": [10000, 200000],
+     "entry": "SEE pass", "about": "Education stream for those who want to teach. Leads to B.Ed and teaching licence routes.",
+     "exam": "NEB Class 11 and 12", "careers": ["teacher"], "skills": ["Explaining", "Planning", "Patience"], "next": ["bed"], "where": []},
+    {"id": "plus2-law", "stage": "after10", "name": "+2 Law", "kind": "Plus Two", "group": "law", "years": "2 years", "fee": [30000, 300000],
+     "entry": "SEE pass; offered by a small number of colleges", "about": "Law subjects from Class 11. Not required for LLB, any stream can apply, but it gives an early start.",
+     "exam": "NEB Class 11 and 12", "careers": ["lawyer"], "skills": ["Reading", "Argument", "Writing"], "next": ["llb"], "where": []},
+    {"id": "dip-engineering", "stage": "after10", "name": "Diploma in Engineering (CTEVT)", "kind": "Diploma", "group": "tech", "years": "3 years", "fee": [0, 600000],
+     "entry": "SEE with the minimum GPA set by CTEVT for the programme", "about": "Civil, Electrical, Computer, Mechanical, Electronics and more. Shorter and cheaper than a degree, with a clear route to a bachelor through the lateral entry seats and job-ready skills.",
+     "exam": "CTEVT entrance, then CTEVT board exams", "careers": ["civil-engineer", "electrician", "software-dev"], "skills": ["Drawing and CAD", "Site practice", "Programming basics", "Safety"], "next": ["be-civil", "be-computer"], "where": ["p-bset", "p-kec"]},
+    {"id": "dip-health", "stage": "after10", "name": "Health diplomas (CTEVT)", "kind": "Diploma", "group": "health", "years": "3 years (varies)", "fee": [0, 1200000],
+     "entry": "SEE with Science and Maths grades above the cut-off", "about": "General Medicine (health assistant), Pharmacy, Medical Laboratory, Radiography, Nursing at diploma level. The fastest way to a clinical job.",
+     "exam": "CTEVT entrance, then board exams and council registration", "careers": ["nurse", "pharmacist", "lab-tech", "health-assistant"], "skills": ["Clinical practice", "Patient care", "Hygiene", "Record keeping"], "next": ["bsc-nursing", "bpharm"], "where": ["p-cmc", "p-iom"]},
+    {"id": "dip-agriculture", "stage": "after10", "name": "Diploma in Agriculture or Veterinary", "kind": "Diploma", "group": "ag", "years": "3 years", "fee": [0, 400000],
+     "entry": "SEE, Science and Maths grades matter", "about": "Plant science, animal science, veterinary support. Strong demand in commercial farming and extension services.",
+     "exam": "CTEVT entrance, then board exams", "careers": ["agri-tech"], "skills": ["Field practice", "Soil science", "Animal health", "Farm business"], "next": ["bsc-agri"], "where": []}
+  ]
+}

@@ -36,6 +36,7 @@ from . import views_tools
 from . import views_landing
 from . import views_admin_themes
 from . import views_institutions
+from . import views_pathways
 from . import views_admin_institutions
 
 app_name = 'web'
@@ -84,6 +85,7 @@ urlpatterns = [
     path('app/news/<slug:slug>/', views_news.news_detail, name='news_detail'),
     path('app/results/', views_news.results_guide, name='results_guide'),
     path('app/results/check/', views_results.result_check_page, name='result_check'),
+    path('app/pathways/', views_pathways.pathways_page, name='pathways'),
     path('app/schools/', views_institutions.schools_directory, name='schools'),
     path('app/schools/verify/', views_institutions.school_apply, name='school_apply'),
     path('app/schools/<slug:slug>/', views_institutions.school_detail, name='school_detail'),
