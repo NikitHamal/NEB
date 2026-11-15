@@ -55,3 +55,5 @@ Version 1.7.5 (29).
 ## Next
 - On-device pass on a Xiaomi/MIUI phone: first sign-in with the process killed while the browser is open (MIUI kills background apps; the callback then cold-starts the app).
 - Baseline Profile for the splash to first screen path.
+
+CI: `7b3d9a8`, `0b0c977` and `b8a5254` (run merging) all green on the first push; Android release build (APK + AAB) compiles.
