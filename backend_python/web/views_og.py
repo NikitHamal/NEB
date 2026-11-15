@@ -664,7 +664,7 @@ _ALT = {
     'news': 'A NEBians card for this article',
     'profile': 'A NEBians profile card',
     'subject': 'A NEBians card for this subject',
-    'page': "NEBians — Nepal's Learning Community",
+    'page': "NEBians, Nepal's Learning Community",
     'syllabus': 'A NEBians syllabus card',
     'grade': 'A NEBians syllabus card',
     'chapter': 'A NEBians card for this unit',
