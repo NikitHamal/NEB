@@ -578,6 +578,7 @@ fun ComposerAttachMenu(
                 Row(
                     Modifier
                         .widthIn(min = 176.dp)
+                        .clip(RoundedCornerShape(16.dp))
                         .clickable(role = Role.Button) { open = false; option.onClick() }
                         .padding(horizontal = 10.dp, vertical = 5.dp),
                     verticalAlignment = Alignment.CenterVertically,
