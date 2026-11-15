@@ -182,6 +182,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 | --- | --- | --- |
 | 49 | **New note templates**: Meeting notes, Cornell notes, Project plan, Vocabulary (12 in all). Chapter outline had a bare chevron for an icon; it is now a tree icon. The template sheet scrolls once the grid is taller than the screen. | `NoteBlocks.kt` (`NoteTemplate`), `NotesScreen.kt` (`templateIcon`, `TemplateGrid`) |
 | 50 | **List cards show the note's photos**: up to three thumbnails (two in the compact grid) decoded at 320 px, a +n count after them. The `[image]`, `[audio recording]`, `[drawing]` placeholders no longer show as text in the card preview. | `NotesScreen.kt` (`NoteCard`, `previewSkip`) |
+| 52 | **Web: the full composer's formatting bar folds** (chevron at its start, Aa brings it back, choice kept in localStorage), the compact comment composer already had it. | `forum-composer.js`, `m3x/app-fc.css`, bundle rebuilt |
 | 51 | **Cover controls**: Change keeps its label, Remove is an icon only; both 36dp with finite radii. The page icon over a cover uses the same tonal tile as without one (it was a white tile on a tinted page). | `NoteEditorScreen.kt` (`NotePageHeader`, `HeaderPill`) |
 
 ## Not done / next
