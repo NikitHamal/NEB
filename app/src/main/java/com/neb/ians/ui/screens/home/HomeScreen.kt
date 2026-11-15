@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.ui.components.GateReason
+import com.neb.ians.ui.components.LocalAuthGate
 import com.neb.ians.ui.components.NebToastHost
 import com.neb.ians.ui.theme.seasonAmbience
 import com.neb.ians.ui.theme.hasGarland
@@ -64,6 +66,7 @@ fun HomeScreen(
     onForumClick: () -> Unit = {},
     onNotesClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
+    onPathwaysClick: () -> Unit = {},
     onUploadClick: () -> Unit = {},
     onNewsItemClick: (String) -> Unit = {},
     onPostClick: (String) -> Unit = {},
@@ -75,6 +78,7 @@ fun HomeScreen(
     onCreatePostClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val gate = LocalAuthGate.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val suggestedPeers by viewModel.suggestedPeers.collectAsStateWithLifecycle()
     LaunchedEffect(uiState.recentPosts) { prewarmCardPreviews(uiState.recentPosts.map { it.content }) }
@@ -183,6 +187,7 @@ fun HomeScreen(
                             bottom = 24.dp
                         )
                     ) {
+                        item(key = "pathways_entry") { PathwaysEntry(onClick = onPathwaysClick) }
                         if (siteTheme.festive && siteTheme.cardOpen) {
                             item(key = "season_card") {
                                 com.neb.ians.ui.theme.SeasonCard(
@@ -238,8 +243,8 @@ fun HomeScreen(
                                             com.neb.ians.ui.components.PostReachHints.set(entry.post.id, "feed")
                                             onPostClick(entry.post.id)
                                         },
-                                        onLikeClick = { viewModel.toggleThumbsUp(entry.post.id) },
-                                        onBookmarkClick = { viewModel.toggleBookmark(entry.post.id) },
+                                        onLikeClick = { gate.require(GateReason.Like) { viewModel.toggleThumbsUp(entry.post.id) } },
+                                        onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleBookmark(entry.post.id) } },
                                         onShareClick = { sharePost(context, entry.post.id) },
                                         onReportClick = {},
                                         onEditClick = { onEditPostClick(entry.post.id) },
@@ -270,7 +275,7 @@ fun HomeScreen(
                                     is HomeFeedEntry.Peers -> HomeSuggestedPeersRail(
                                         peers = entry.peers,
                                         onPeerClick = onUserProfileClick,
-                                        onFollowClick = { authorId -> viewModel.toggleFollowUser(authorId) },
+                                        onFollowClick = { authorId -> gate.require(GateReason.Follow) { viewModel.toggleFollowUser(authorId) } },
                                         onSeeAllClick = onSeeAllPeopleClick
                                     )
 

@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.forum
 
+import com.neb.ians.ui.components.GateReason
+import com.neb.ians.ui.components.LocalAuthGate
 import com.neb.ians.ui.components.NebToastHost
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -103,6 +105,7 @@ fun ForumScreen(
     onEditPostClick: (String) -> Unit = {},
     viewModel: ForumViewModel = hiltViewModel()
 ) {
+    val gate = LocalAuthGate.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(uiState.posts) { prewarmCardPreviews(uiState.posts.map { it.content }) }
     val context = LocalContext.current
@@ -334,8 +337,8 @@ fun ForumScreen(
                                     com.neb.ians.ui.components.PostReachHints.set(post.id, "feed")
                                     onPostClick(post.id)
                                 },
-                                onLikeClick = { viewModel.toggleThumbsUp(post.id) },
-                                onBookmarkClick = { viewModel.toggleBookmark(post.id) },
+                                onLikeClick = { gate.require(GateReason.Like) { viewModel.toggleThumbsUp(post.id) } },
+                                onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleBookmark(post.id) } },
                                 onShareClick = { sharePost(context, post.id) },
                                 onReportClick = { reportPostId = post.id },
                                 onEditClick = { onEditPostClick(post.id) },

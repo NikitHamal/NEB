@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pathways: what to study after Class 8, SEE, +2 and a bachelor | NEBians{% endblock %}
+{% block description %}Courses, careers, salaries, colleges by district, study abroad and scholarships for Nepali students, in one place.{% endblock %}
+{% block og_title %}Pathways | NEBians{% endblock %}
+{% block og_description %}What to study after Class 8, SEE, +2 and a bachelor in Nepal, with careers, costs, colleges and scholarships.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/pathways.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="pw-page" id="pw-root" data-reviewed="{{ pathways_data.reviewed }}">
+  <header class="pw-head">
+    {% url 'web:tools_hub' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Tools" %}
+    <h1 class="pw-title">Pathways</h1>
+  </header>
+
+  <div class="pw-tabs-wrap">
+    <nav class="pw-tabs" id="pw-tabs" role="tablist" aria-label="Pathways"></nav>
+  </div>
+
+  <section id="pw-view" class="pw-view" aria-live="polite" data-src="/api/pathways/">
+    <noscript>
+      <ul class="pw-plain">
+        {% for s in pathways_data.stages %}<li>{{ s.label }}: {{ s.blurb }}</li>{% endfor %}
+      </ul>
+    </noscript>
+  </section>
+
+  <p class="pw-foot">Figures are indicative ranges reviewed {{ pathways_data.reviewed }}. Confirm fees, seats and dates with the institution.</p>
+
+  <div class="pw-scrim" id="pw-scrim" hidden></div>
+  <aside class="pw-sheet" id="pw-sheet" role="dialog" aria-modal="true" aria-label="Pathway detail" hidden>
+    <button class="pw-sheet-close md-icon-btn" id="pw-close" type="button" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+    <div class="pw-sheet-body" id="pw-sheet-body"></div>
+  </aside>
+</div>
+{{ districts|json_script:"pw-districts" }}
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways.js' %}" defer></script>
+{% endblock %}

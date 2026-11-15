@@ -360,3 +360,32 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device pass (nothing here has run on a phone): drag between lines of a wrapped paragraph (the whole paragraph that holds a picture is the taller one; Compose has no per-visual-line height), the selection menu near the top edge, staggered card heights with many media notes. If the line gap still looks wrong on the phone, send a screenshot of the exact text; the cause will be in `RichVisual.build` paragraph ranges.
 
 CI session 15: `66ad86e` is green; the Android release build (APK and AAB) compiles. Nothing was run on a device.
+
+
+---
+
+# Session 16: guest browsing, sign-in that returns, caret follow, Pathways, dynamic post demos
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run (and `backend-tests.yml` for the Django side). Picks up sessions 14 and 15; nothing redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 89 | **No login gate.** Splash and Intro now go to Home for a guest. Signing out lands on Home, not Login. Login is a screen you are sent to, with a close button; system Back returns to where you were. | `Navigation.kt`, `LoginScreen.kt` |
+| 90 | **One door for protected actions**: `AuthGate` (`LocalAuthGate.current.require(GateReason.X) { ... }`). A guest gets the `SignInSheet` (icon, one line, Sign in, Not now) and stays on the screen. Wired: like, save, follow, poll vote, reply (feed, forum, detail, thread sheet), New post and Upload in the create menu, profile avatar. The reply composer is replaced by `GuestReplyBar` for guests. | `components/AuthGate.kt`, `ForumPostDetailScreen.kt`, `ForumScreen.kt`, `HomeScreen.kt` |
+| 91 | **Returns to the same screen after sign-in.** Login is pushed over the origin screen; every finish path (social sign-in, email, verify, forgot, complete profile) calls `leaveAuth()` which pops back to Login's parent. A gated destination (create post, upload, bookmarks, notifications, analytics, credits, edit profile ...) is stopped by `gateReasonFor(route)`, the guest is popped back and the sheet opens; the wanted route is kept in `pendingRoute` (saveable) and opened once signed in. Back from Login clears it. | `Navigation.kt` |
+| 92 | **Caret follows the writing.** `RichTextField` scrolls the page so the caret line plus 112dp stays visible while typing (also after the keyboard has settled, 280 ms later), in posts, replies and note blocks. Skipped while a picture is dragged (that path has its own follow). | `RichTextField.kt` |
+| 93 | **Pathways** (web `/app/pathways/`, API `/api/pathways/`, Android `PathwaysScreen`): 4 stages (After Class 8, SEE, +2, Bachelor) with 45 routes, 24 careers (demand, competition, abroad demand, monthly pay, trend), 17 listed providers, 14 scholarships (embassy and government routes), 10 study abroad countries. Route sheet: cost, duration, entry, exam, skills, careers, next steps, where to study with a district picker (listed providers plus live colleges from `/api/institutions/`). One shared JSON (`api/data/pathways/*.json`, merged by `api/pathways.py`, ETag + 1h cache). Android keeps a disk copy and refreshes with `If-None-Match`. Entry points: Home top row (guests too), Tools, web Tools hub. | `api/pathways.py`, `api/views_pathways.py`, `web/views_pathways.py`, `pathways.js/css/html`, `ui/screens/pathways/` |
+| 94 | **Dynamic posts: demo lab** (no backend change yet). Six looks (Paper, Ink, Garden, Sunrise, Blueprint, Rose) plus Default, each with paper, ink, accent, type, a flat cover pattern, drop cap and quote bar; every look shown as feed card and as reading view. Tools, Android only for now. | `ui/screens/pathways/DynamicPostsLabScreen.kt` |
+
+## Data rules (Pathways)
+- Fees are total programme cost in NPR, pay is monthly NPR, demand and competition are 1 to 5. All are indicative and the screen says so. `api/test_pathways.py` fails on a broken id reference, an out of range score, a non-public API or an emoji.
+- To add a college: append to `places.json` `providers` and put its id in the route's `where`. To add a course: append to `routes_*.json` (stage must exist, careers and next must resolve).
+- Verify every figure against the institution or ministry before widening claims; many seat counts and fees change every intake.
+
+## Not done / next
+- Dynamic posts: pick a direction from the lab, then add a `look` field to posts (server) and a look picker in the composer; web lab page. Nothing of the post model changed.
+- Web: guests already browse the web; sign-in prompts for web interactions are not unified with the Android sheet yet.
+- Pathways: more providers per district (the live list falls back to the 24k institution catalogue), per-course seat and fee tables, Nepali labels, saved pathways for signed-in users.
+- On-device pass: sign-in return from the reply bar, gated create menu, caret scroll with the glass bar.

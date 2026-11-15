@@ -1,5 +1,8 @@
 package com.neb.ians.ui.screens.forum
 
+import com.neb.ians.ui.components.GateReason
+import com.neb.ians.ui.components.GuestReplyBar
+import com.neb.ians.ui.components.LocalAuthGate
 import com.neb.ians.ui.components.inlineGallery
 import com.neb.ians.ui.components.boundedWidth
 import com.neb.ians.ui.components.NebToastHost
@@ -134,6 +137,7 @@ fun ForumPostDetailScreen(
     onProfileClick: (String) -> Unit = {},
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
+    val gate = LocalAuthGate.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val mainReplyText by viewModel.mainReplyText.collectAsStateWithLifecycle()
     val mainMentionSuggestions by viewModel.mainMentionSuggestions.collectAsStateWithLifecycle()
@@ -203,7 +207,7 @@ fun ForumPostDetailScreen(
         }
     }
 
-    val mainComposer: @Composable () -> Unit = {
+    val mainComposerSignedIn: @Composable () -> Unit = {
             NebCommentComposerBar(
                 value = mainReplyText,
                 onValueChange = viewModel::onMainReplyChange,
@@ -236,7 +240,8 @@ fun ForumPostDetailScreen(
                             poll = ComposerPoll(active = composerPoll != null, onToggle = viewModel::toggleComposerPoll)
                         )
                     },
-                onSend = {
+                onSend = send@{
+                    if (!gate.signedIn) { gate.ask(GateReason.Reply); return@send }
                     keyboardController?.hide()
                     viewModel.submitReply(
                         content = mainReplyText.text,
@@ -265,6 +270,11 @@ fun ForumPostDetailScreen(
                     )
                 }
             }
+    }
+
+    val mainComposer: @Composable () -> Unit = {
+        if (gate.signedIn) mainComposerSignedIn()
+        else GuestReplyBar(onClick = { gate.ask(GateReason.Reply) })
     }
 
     Scaffold(
@@ -349,7 +359,7 @@ fun ForumPostDetailScreen(
                             onArchiveClick = viewModel::archivePost,
                             onDeleteClick = { deletingPost = true },
                             onReplyClick = { mainFocusRequester.requestFocus() },
-                            onVote = { ids -> uiState.poll?.let { viewModel.votePoll(it.id, ids, it.allowMultiple) } },
+                            onVote = { ids -> gate.require(GateReason.Like) { uiState.poll?.let { viewModel.votePoll(it.id, ids, it.allowMultiple) } } },
                             onAddOption = { text -> uiState.poll?.let { viewModel.addPollOption(it.id, text) } },
                             onRetract = { uiState.poll?.let { viewModel.retractPollVote(it.id) } },
                             onProfileClick = onProfileClick,
@@ -426,7 +436,7 @@ fun ForumPostDetailScreen(
                             pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                             highlighted = flashReplyId == reply.id,
                             isOwn = reply.isOwner || (uiState.currentUserId != null && reply.authorId == uiState.currentUserId),
-                            onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
+                            onThumbsUpClick = { gate.require(GateReason.Like) { viewModel.toggleReplyThumbsUp(reply.id) } },
                             onLabelClick = { labelTarget = reply },
                             onReplyClick = {
                                 activeThreadParentId = reply.id
@@ -439,7 +449,7 @@ fun ForumPostDetailScreen(
                                     )
                                 )
                             },
-                            onBookmarkClick = { viewModel.toggleReplyBookmark(reply.id) },
+                            onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleReplyBookmark(reply.id) } },
                             onReportClick = { reportTarget = "reply" to reply.id },
                             onEditClick = { editingReply = reply },
                             onArchiveClick = { viewModel.archiveReply(reply.id) },
@@ -613,7 +623,7 @@ fun ForumPostDetailScreen(
                             reply = parent,
                             pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                             isOwn = parent.isOwner || (uiState.currentUserId != null && parent.authorId == uiState.currentUserId),
-                            onThumbsUpClick = { viewModel.toggleReplyThumbsUp(parent.id) },
+                            onThumbsUpClick = { gate.require(GateReason.Like) { viewModel.toggleReplyThumbsUp(parent.id) } },
                             onLabelClick = { labelTarget = parent },
                              onReplyClick = {
                                  activeThreadTargetReply = parent
@@ -629,7 +639,7 @@ fun ForumPostDetailScreen(
                                      )
                                  }
                              },
-                            onBookmarkClick = { viewModel.toggleReplyBookmark(parent.id) },
+                            onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleReplyBookmark(parent.id) } },
                             onReportClick = { reportTarget = "reply" to parent.id },
                             onEditClick = { editingReply = parent },
                             onArchiveClick = { viewModel.archiveReply(parent.id) },
@@ -671,7 +681,7 @@ fun ForumPostDetailScreen(
                                     reply = child,
                                     pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                                     isOwn = child.isOwner || (uiState.currentUserId != null && child.authorId == uiState.currentUserId),
-                                    onThumbsUpClick = { viewModel.toggleReplyThumbsUp(child.id) },
+                                    onThumbsUpClick = { gate.require(GateReason.Like) { viewModel.toggleReplyThumbsUp(child.id) } },
                                      onReplyClick = {
                                          activeThreadTargetReply = child
                                          val currentText = threadReplyText.text
@@ -686,7 +696,7 @@ fun ForumPostDetailScreen(
                                              )
                                          }
                                      },
-                                    onBookmarkClick = { viewModel.toggleReplyBookmark(child.id) },
+                                    onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleReplyBookmark(child.id) } },
                                     onReportClick = { reportTarget = "reply" to child.id },
                                     onEditClick = { editingReply = child },
                                     onArchiveClick = { viewModel.archiveReply(child.id) },
@@ -733,6 +743,7 @@ fun ForumPostDetailScreen(
                             )
                         },
                         onSend = {
+                            if (!gate.signedIn) { gate.ask(GateReason.Reply); return@NebCommentComposerBar }
                             val targetId = activeThreadTargetReply?.id ?: parent.id
                             viewModel.submitReply(
                                 content = threadReplyText.text,

@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.FactCheck
 import androidx.compose.material.icons.outlined.EditNote
+import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.School
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -34,7 +36,9 @@ import com.neb.ians.ui.components.WebTopBar
 fun ToolsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToResultChecker: () -> Unit,
-    onNavigateToNotes: () -> Unit = {}
+    onNavigateToNotes: () -> Unit = {},
+    onNavigateToPathways: () -> Unit = {},
+    onNavigateToPostLab: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -61,6 +65,13 @@ fun ToolsScreen(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
+            }
+
+            item {
+                ToolRow(Icons.Outlined.School, "Pathways", "What to study after Class 8, SEE, +2 and a bachelor: careers, pay, colleges by district, abroad and scholarships.", onNavigateToPathways)
+            }
+            item {
+                ToolRow(Icons.Outlined.Palette, "Dynamic posts", "Preview posts with their own paper, type and decoration.", onNavigateToPostLab)
             }
 
             item {
@@ -183,6 +194,26 @@ fun ToolsScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ToolRow(icon: androidx.compose.ui.graphics.vector.ImageVector, title: String, body: String, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth().clip(WebPanelShape).clickable(onClick = onClick),
+        shape = WebPanelShape,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Icon(icon, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(32.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
+                Spacer(Modifier.height(4.dp))
+                Text(body, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Icon(Icons.Outlined.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(24.dp))
         }
     }
 }
