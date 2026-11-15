@@ -515,7 +515,7 @@ private fun TextBlockRow(
         BlockType.H2 -> typo.titleLarge.copy(fontWeight = FontWeight.SemiBold)
         BlockType.H3 -> typo.titleMedium.copy(fontWeight = FontWeight.SemiBold)
         BlockType.Code -> typo.bodyMedium.copy(fontFamily = FontFamily.Monospace)
-        else -> typo.bodyLarge.copy(lineHeight = 26.sp)
+        else -> typo.bodyLarge.copy(lineHeight = 24.sp)
     }.copy(color = textColor, textDecoration = if (done) TextDecoration.LineThrough else TextDecoration.None, textAlign = inkAlign(block.align))
     val hint = when (type) {
         BlockType.Text -> if (onlyBlock) "Start writing, or type / for blocks" else if (focused) "Type / for blocks" else ""
