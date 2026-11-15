@@ -216,3 +216,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Comment bar pictures are still attachments, not inline.
 - Web has no notes screen; the web composers are unchanged this session.
 - On-device pass: wash strength on busy photos, ink contrast on the dark tones, Block sheet height with the keyboard open.
+
+CI session 7: `0daff0f` (templates, photo cards, cover controls) is green. `5720dff` (a parallel push: page picture, ink, paper) failed on one wrong `ImageVector` import in `NoteInkControls.kt`; fixed in the next commit.
