@@ -249,3 +249,6 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Not done / next
 - On-device pass: caret blink after a picture is inserted, the drop caret near the field's bottom edge (no auto-scroll while dragging yet), staggered card heights with many photos, the bar returning when a list is shorter than the screen.
+
+CI session 9: `82ee9dc` failed to compile: `AnimatedVisibility` in the cover header resolved to the `ColumnScope` extension of the surrounding `Column` ("cannot be called in this context with an implicit receiver"). Fixed by moving the cover and its Change / Remove pills into `NoteCoverArea` (own function, no outer receiver). Rule: an `AnimatedVisibility` inside a `Box` that sits inside a `Column` or `Row` lambda needs its own composable.
+
