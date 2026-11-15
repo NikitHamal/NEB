@@ -52,6 +52,13 @@ import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Notes
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.Translate
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.VerticalSplit
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.AccountTree
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
@@ -234,14 +241,21 @@ private fun templateIcon(t: NoteTemplate) = when (t) {
     NoteTemplate.Week -> Icons.Outlined.CalendarMonth
     NoteTemplate.Reading -> Icons.Outlined.MenuBook
     NoteTemplate.Journal -> Icons.Outlined.EditNote
-    NoteTemplate.Outline -> Icons.Outlined.ChevronRight
+    NoteTemplate.Outline -> Icons.Outlined.AccountTree
+    NoteTemplate.Meeting -> Icons.Outlined.Groups
+    NoteTemplate.Cornell -> Icons.Outlined.VerticalSplit
+    NoteTemplate.Project -> Icons.Outlined.Flag
+    NoteTemplate.Vocab -> Icons.Outlined.Translate
 }
 
 /** Where a note starts: a blank page, or one already shaped like what it is for. */
 @Composable
 private fun TemplateGrid(onPick: (NoteTemplate) -> Unit) {
     val c = MaterialTheme.colorScheme
-    Column(Modifier.fillMaxWidth().padding(bottom = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    Column(
+        Modifier.fillMaxWidth().heightIn(max = 520.dp).verticalScroll(rememberScrollState()).padding(bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
         NoteTemplate.entries.chunked(2).forEach { pair ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 pair.forEach { t ->
@@ -459,6 +473,7 @@ private sealed interface PreviewLine {
 }
 
 private val previewCheck = Regex("^\\s*[-*+]\\s\\[([ xX])]\\s?(.*)$")
+private val previewSkip = setOf("[image]", "[audio recording]", "[drawing]")
 private val previewRule = Regex("^\\s*(-{3,}|\\*{3,}|_{3,})\\s*$")
 
 /** The first lines of a note as they will look: markers are hidden and their effect drawn, never shown as characters. */
@@ -468,7 +483,7 @@ private fun previewLines(body: String, max: Int, colors: LiveColors): List<Previ
     for (line in body.lineSequence()) {
         if (line.trimStart().startsWith("```")) { inCode = !inCode; continue }
         val raw = InlineImageTokens.plainText(line, "").replace(LiveMarkdown.ZWSP, "")
-        if (inCode || raw.isBlank() || previewRule.matches(raw)) continue
+        if (inCode || raw.isBlank() || previewRule.matches(raw) || raw.trim() in previewSkip) continue
         val chk = previewCheck.find(raw)
         if (chk != null) {
             val text = LiveMarkdown.transform(chk.groupValues[2].trim(), colors).styled
@@ -510,6 +525,11 @@ private fun NoteCard(
     val live = LiveColors(tone.content.copy(alpha = 0.12f), tone.content, tone.content, tone.content.copy(alpha = 0.75f), tone.content.copy(alpha = 0.6f))
     val lines = remember(note.body, compact, tone) { previewLines(note.body, if (compact) 6 else 4, live) }
     val (done, total) = remember(note.body) { NoteFormatting.checkProgress(note.body) }
+    // the first pictures of the note, so a card with photos looks like it has photos
+    val pics = remember(note.doc) {
+        if (!note.doc.contains("\"Image\"")) emptyList()
+        else NoteDoc.fromJson(note.doc).filter { it.type == BlockType.Image && it.path.isNotBlank() }.map { it.path }
+    }
     val border = when {
         selected -> BorderStroke(2.dp, c.primary)
         tone.hairline -> BorderStroke(1.dp, c.outlineVariant)
@@ -555,6 +575,23 @@ private fun NoteCard(
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                     )
                 }
+            }
+        }
+        if (pics.isNotEmpty()) {
+            val ctx = androidx.compose.ui.platform.LocalContext.current
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                pics.take(if (compact) 2 else 3).forEach { path ->
+                    coil.compose.AsyncImage(
+                        model = remember(path) { coil.request.ImageRequest.Builder(ctx).data(java.io.File(path)).size(320).build() },
+                        contentDescription = null,
+                        contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                        modifier = Modifier.weight(1f).height(if (compact) 64.dp else 76.dp).clip(RoundedCornerShape(14.dp)).background(tone.content.copy(alpha = 0.08f)),
+                    )
+                }
+                if (pics.size > (if (compact) 2 else 3)) Text(
+                    "+${pics.size - (if (compact) 2 else 3)}", style = MaterialTheme.typography.labelMedium, color = tone.content.copy(alpha = 0.7f),
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                )
             }
         }
         if (note.tagList.isNotEmpty()) {

@@ -464,7 +464,7 @@ private fun NotePageHeader(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         HeaderPill("Change", Icons.Outlined.Image, onCover)
-                        HeaderPill("Remove", Icons.Outlined.Close, onClearCover)
+                        HeaderPill(null, Icons.Outlined.Close, onClearCover, "Remove cover")
                     }
                 }
             }
@@ -481,7 +481,7 @@ private fun NotePageHeader(
                     )
                     .let { if (editable) it.clickable(onClick = onIcon) else it },
             ) {
-                NoteIconTile(icon, 64.dp, container = if (hasCover) c.surface else container, content = fg)
+                NoteIconTile(icon, 64.dp, container = container, content = fg)
             }
         }
         if (editable && (!hasIcon || !hasCover)) {
@@ -497,15 +497,15 @@ private fun NotePageHeader(
 }
 
 @Composable
-private fun HeaderPill(label: String, icon: ImageVector, onClick: () -> Unit) {
+private fun HeaderPill(label: String?, icon: ImageVector, onClick: () -> Unit, description: String? = null) {
     val c = MaterialTheme.colorScheme
     Row(
-        Modifier.clip(RoundedCornerShape(50)).background(c.surface).clickable(onClick = onClick)
-            .padding(start = 10.dp, end = 14.dp, top = 8.dp, bottom = 8.dp),
+        Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(c.surface).clickable(onClick = onClick)
+            .padding(start = 10.dp, end = if (label == null) 10.dp else 14.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Icon(icon, null, tint = c.onSurface, modifier = Modifier.size(16.dp))
-        Text(label, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = c.onSurface)
+        Icon(icon, description, tint = c.onSurface, modifier = Modifier.size(16.dp))
+        if (label != null) Text(label, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = c.onSurface)
     }
 }
 

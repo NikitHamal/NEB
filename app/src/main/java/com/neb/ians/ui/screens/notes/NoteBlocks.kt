@@ -349,7 +349,11 @@ enum class NoteTemplate(val label: String) {
     Week("Weekly plan"),
     Reading("Reading log"),
     Journal("Daily review"),
-    Outline("Chapter outline");
+    Outline("Chapter outline"),
+    Meeting("Meeting notes"),
+    Cornell("Cornell notes"),
+    Project("Project plan"),
+    Vocab("Vocabulary");
 
     fun blocks(): List<NoteBlock> {
         fun t(type: BlockType, text: String = "", indent: Int = 0, open: Boolean = true) = NoteBlock(type = type, text = text, indent = indent, open = open)
@@ -395,6 +399,27 @@ enum class NoteTemplate(val label: String) {
                 t(BlockType.Bullet, "Main idea", indent = 1), t(BlockType.Bullet, "Definitions", indent = 1),
                 t(BlockType.Toggle, "Chapter 3", open = false),
                 t(BlockType.Bullet, "Main idea", indent = 1),
+            )
+            Meeting -> listOf(
+                t(BlockType.Callout, "Date, time and who is there"),
+                t(BlockType.H2, "Agenda"), t(BlockType.Number), t(BlockType.Number), t(BlockType.Number),
+                t(BlockType.H2, "Decisions"), t(BlockType.Bullet),
+                t(BlockType.H2, "Action items"), t(BlockType.Todo), t(BlockType.Todo), t(BlockType.Todo),
+            )
+            Cornell -> listOf(
+                t(BlockType.H2, "Topic"), t(BlockType.Text),
+                NoteBlock(type = BlockType.Table, rows = listOf(listOf("Cue", "Notes"), listOf("", ""), listOf("", ""), listOf("", ""), listOf("", ""))),
+                t(BlockType.H2, "Summary"), t(BlockType.Quote),
+            )
+            Project -> listOf(
+                t(BlockType.Callout, "Goal and deadline"),
+                t(BlockType.H2, "Steps"), t(BlockType.Todo), t(BlockType.Todo), t(BlockType.Todo), t(BlockType.Todo),
+                t(BlockType.H2, "Resources"), t(BlockType.Bullet),
+                t(BlockType.H2, "Blocked by"), t(BlockType.Bullet),
+            )
+            Vocab -> listOf(
+                NoteBlock(type = BlockType.Table, rows = listOf(listOf("Word", "Meaning", "Example"), listOf("", "", ""), listOf("", "", ""), listOf("", "", ""), listOf("", "", ""))),
+                t(BlockType.H2, "Hard ones"), t(BlockType.Bullet),
             )
         }
     }

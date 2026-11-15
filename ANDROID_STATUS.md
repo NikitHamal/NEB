@@ -169,3 +169,22 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device pass: Underline with Gboard autocorrect, DatePicker inside the Block sheet, long-press drag of a picture on a phone browser.
 
 CI session 6: `7eaf103` failed on two session 5 leftovers in `CreatePostChrome.kt` (missing `setValue`, `ChevronLeft` and `FormatSize` imports); fixed in `2584d07`, and the Android release build (modern APK and AAB) is green. Nothing was run on a device.
+
+---
+
+# Session 7: templates, photo cards, cover controls
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picked up sessions 3 to 6. Audited first, nothing redone: the `RichState` engine (no markers in the field, so space and backspace cannot leak or revert formatting), block handle and 3-dot gone from every note block (the screenshots predate session 4), Block sheet, sheet insets, hide and show of the format bar in notes, posts and the comment composer, drop caret for dragged pictures, web `neb-live.js` (contenteditable, no Markdown in the field).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 49 | **New note templates**: Meeting notes, Cornell notes, Project plan, Vocabulary (12 in all). Chapter outline had a bare chevron for an icon; it is now a tree icon. The template sheet scrolls once the grid is taller than the screen. | `NoteBlocks.kt` (`NoteTemplate`), `NotesScreen.kt` (`templateIcon`, `TemplateGrid`) |
+| 50 | **List cards show the note's photos**: up to three thumbnails (two in the compact grid) decoded at 320 px, a +n count after them. The `[image]`, `[audio recording]`, `[drawing]` placeholders no longer show as text in the card preview. | `NotesScreen.kt` (`NoteCard`, `previewSkip`) |
+| 51 | **Cover controls**: Change keeps its label, Remove is an icon only; both 36dp with finite radii. The page icon over a cover uses the same tonal tile as without one (it was a white tile on a tinted page). | `NoteEditorScreen.kt` (`NotePageHeader`, `HeaderPill`) |
+
+## Not done / next
+- Page background pictures (full page, not cover): needs a column and a migration.
+- Comment bar pictures are attachments, not inline.
+- On-device pass for everything in sessions 4 to 7.
