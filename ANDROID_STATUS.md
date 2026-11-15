@@ -167,3 +167,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Comment bar still has pictures as attachments, not inline.
 - Paper and due dates are not in the plain-text share or the list cards yet.
 - On-device pass: Underline with Gboard autocorrect, DatePicker inside the Block sheet, long-press drag of a picture on a phone browser.
+
+CI session 6: `7eaf103` failed on two session 5 leftovers in `CreatePostChrome.kt` (missing `setValue`, `ChevronLeft` and `FormatSize` imports); fixed in `2584d07`, and the Android release build (modern APK and AAB) is green. Nothing was run on a device.
