@@ -345,12 +345,14 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
         val fade = t.coerceIn(0f, 1f)
         val h = size.height
         val w = size.width
+        // shapes scale with the banner's own proportions: a wide, short banner (a card) keeps them as bold as a tall one
+        val u = h * (w / (h * 2.2f)).coerceIn(0.9f, 1.55f)
         drawGlyph(
-            pa, Offset(w * spec.ax, h * spec.ay), h * spec.asz * (0.55f + 0.45f * t), vivid,
+            pa, Offset(w * spec.ax, h * spec.ay), u * spec.asz * (0.55f + 0.45f * t), vivid,
             rotation = spec.ar - 40f * (1f - t), alpha = (if (dark) 0.5f else 0.85f) * fade,
         )
         drawGlyph(
-            pb, Offset(w * spec.bx, h * spec.by), h * spec.bsz * (0.4f + 0.6f * t), ink,
+            pb, Offset(w * spec.bx, h * spec.by), u * spec.bsz * (0.4f + 0.6f * t), ink,
             rotation = spec.br + 60f * (1f - t), alpha = 0.26f * fade,
         )
     }

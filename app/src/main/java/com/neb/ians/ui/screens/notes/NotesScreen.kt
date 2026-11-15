@@ -105,6 +105,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.NoteEntity
@@ -195,11 +196,11 @@ fun NotesScreen(
                         modifier = Modifier.align(Alignment.Center),
                     )
                     else -> LazyVerticalStaggeredGrid(
-                        columns = StaggeredGridCells.Fixed(if (ui.grid) 2 else 1),
+                        columns = if (ui.grid) StaggeredGridCells.Adaptive(156.dp) else StaggeredGridCells.Fixed(1),
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 180.dp),
-                        verticalItemSpacing = 10.dp,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 160.dp),
+                        verticalItemSpacing = 8.dp,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         items(ui.notes, key = { it.id }) { note ->
                             NoteCard(
@@ -286,17 +287,21 @@ private fun TemplateGrid(onPick: (NoteTemplate) -> Unit) {
 @Composable
 private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit, showAdd: Boolean, onAdd: () -> Unit) {
     var sortMenu by remember { mutableStateOf(false) }
+    val c = MaterialTheme.colorScheme
+    // one 56dp row: the title, four quiet 40dp tools four apart, and the one filled action
     Row(
-        Modifier.fillMaxWidth().padding(start = 20.dp, end = 8.dp, top = 12.dp, bottom = 4.dp),
+        Modifier.fillMaxWidth().height(56.dp).padding(start = 20.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Text("Notes", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
-        IconButton(onClick = { vm.setSearching(!ui.searching) }) { Icon(Icons.Outlined.Search, "Search") }
-        IconButton(onClick = vm::toggleGrid) {
-            Icon(if (ui.grid) Icons.Outlined.ViewAgenda else Icons.Outlined.GridView, if (ui.grid) "List view" else "Grid view")
-        }
+        Text(
+            "Notes", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold,
+            color = c.onSurface, modifier = Modifier.weight(1f),
+        )
+        HeaderTool(Icons.Outlined.Search, "Search", on = ui.searching) { vm.setSearching(!ui.searching) }
+        HeaderTool(if (ui.grid) Icons.Outlined.ViewAgenda else Icons.Outlined.GridView, if (ui.grid) "List view" else "Grid view", on = false, onClick = vm::toggleGrid)
         Box {
-            IconButton(onClick = { sortMenu = true }) { Icon(Icons.Outlined.Sort, "Sort") }
+            HeaderTool(Icons.Outlined.Sort, "Sort", on = sortMenu) { sortMenu = true }
             NebDropdownMenu(
                 expanded = sortMenu, onDismissRequest = { sortMenu = false },
             ) {
@@ -309,13 +314,11 @@ private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit, sho
                 }
             }
         }
-        IconButton(onClick = onOpenVoice) { Icon(Icons.Outlined.GraphicEq, "Voice") }
+        HeaderTool(Icons.Outlined.GraphicEq, "Voice", on = false, onClick = onOpenVoice)
         if (showAdd) {
-            // the one way to start a note from here: a tonal tile at the end of the header
-            val c = MaterialTheme.colorScheme
             Box(
                 Modifier
-                    .padding(start = 4.dp, end = 4.dp)
+                    .padding(start = 4.dp)
                     .size(44.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(c.primary)
@@ -324,6 +327,17 @@ private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit, sho
             ) { Icon(Icons.Outlined.Add, "New note", tint = c.onPrimary) }
         }
     }
+}
+
+/** A 40dp tool: ghost at rest, tonal while it is on. Clipped to its own rounded box so press feedback keeps the shape. */
+@Composable
+private fun HeaderTool(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, on: Boolean, onClick: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    val bg by androidx.compose.animation.animateColorAsState(if (on) c.secondaryContainer else androidx.compose.ui.graphics.Color.Transparent, label = "toolBg")
+    Box(
+        Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(bg).clickable(onClickLabel = label, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) { Icon(icon, label, tint = if (on) c.onSecondaryContainer else c.onSurface, modifier = Modifier.size(22.dp)) }
 }
 
 /** No notes yet: a small stack of paper, still, and the two ways to begin. */
@@ -380,8 +394,8 @@ private fun SearchField(query: String, onChange: (String) -> Unit) {
     val focus = remember { FocusRequester() }
     androidx.compose.runtime.LaunchedEffect(Unit) { focus.requestFocus() }
     Row(
-        Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).height(52.dp)
-            .clip(RoundedCornerShape(28.dp)).background(c.surfaceContainerHigh).padding(horizontal = 16.dp),
+        Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 8.dp).height(48.dp)
+            .clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh).padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(Icons.Outlined.Search, null, tint = c.onSurfaceVariant, modifier = Modifier.size(20.dp))
@@ -403,7 +417,7 @@ private fun SearchField(query: String, onChange: (String) -> Unit) {
 @Composable
 private fun FilterRow(ui: NotesUi, vm: NotesViewModel) {
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 6.dp),
+        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 6.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         NoteFilter.entries.forEach { f ->
@@ -523,7 +537,7 @@ private fun NoteCard(
     val tone = noteTone(note.tone)
     val shape = RoundedCornerShape(24.dp)
     val live = LiveColors(tone.content.copy(alpha = 0.12f), tone.content, tone.content, tone.content.copy(alpha = 0.75f), tone.content.copy(alpha = 0.6f))
-    val lines = remember(note.body, compact, tone) { previewLines(note.body, if (compact) 6 else 4, live) }
+    val lines = remember(note.body, compact, tone) { previewLines(note.body, if (compact) 3 else 4, live) }
     val (done, total) = remember(note.body) { NoteFormatting.checkProgress(note.body) }
     // the first pictures of the note, so a card with photos looks like it has photos
     val pics = remember(note.doc) {
@@ -548,25 +562,28 @@ private fun NoteCard(
     if (note.cover != 0) {
         val ctx = androidx.compose.ui.platform.LocalContext.current
         val photo = if (note.cover < 0 && note.coverPhoto.isNotEmpty()) java.io.File(ctx.filesDir, "notes/${note.id}/${note.coverPhoto}") else null
-        NoteCover(note.cover, photo, Modifier.fillMaxWidth().height(if (compact) 56.dp else 72.dp), animate = false, light = true)
+        NoteCover(note.cover, photo, Modifier.fillMaxWidth().height(if (compact) 64.dp else 84.dp), animate = false, light = true)
     }
-    Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            if (note.icon.isNotEmpty()) NoteIconTile(note.icon, 32.dp, container = tone.content.copy(alpha = 0.12f), content = tone.content)
+    val pad = if (compact) 12.dp else 16.dp
+    Column(Modifier.fillMaxWidth().padding(horizontal = pad, vertical = if (compact) 10.dp else 14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (note.icon.isNotEmpty()) NoteIconTile(note.icon, if (compact) 24.dp else 30.dp, container = tone.content.copy(alpha = 0.12f), content = tone.content)
             if (note.title.isNotBlank()) {
                 Text(
-                    note.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
-                    color = tone.content, maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
+                    note.title,
+                    style = if (compact) MaterialTheme.typography.titleSmall else MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold, color = tone.content, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f).padding(top = if (note.icon.isNotEmpty()) 2.dp else 0.dp),
                 )
             } else Box(Modifier.weight(1f))
-            if (selected) Icon(Icons.Outlined.Check, null, tint = c.primary, modifier = Modifier.size(20.dp))
-            else if (note.pinned) Icon(Icons.Outlined.PushPin, "Pinned", tint = tone.content.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
+            if (selected) Icon(Icons.Outlined.Check, null, tint = readableOn(c.primary, tone.container, 3f), modifier = Modifier.size(20.dp))
+            else if (note.pinned) Icon(Icons.Outlined.PushPin, "Pinned", tint = readableOn(tone.content, tone.container, 3f), modifier = Modifier.size(16.dp))
         }
         lines.forEach { line ->
             when (line) {
                 is PreviewLine.Plain -> Text(
-                    line.text, style = MaterialTheme.typography.bodyMedium, color = tone.content.copy(alpha = 0.86f),
-                    maxLines = 3, overflow = TextOverflow.Ellipsis,
+                    line.text, style = MaterialTheme.typography.bodySmall.copy(lineHeight = 18.sp), color = tone.content.copy(alpha = 0.86f),
+                    maxLines = if (compact) 2 else 3, overflow = TextOverflow.Ellipsis,
                 )
                 is PreviewLine.Check -> Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Box(
@@ -575,8 +592,8 @@ private fun NoteCard(
                         contentAlignment = Alignment.Center,
                     ) { if (line.done) Icon(Icons.Outlined.Check, null, tint = c.onPrimary, modifier = Modifier.size(10.dp)) }
                     Text(
-                        line.text, style = MaterialTheme.typography.bodyMedium,
-                        color = tone.content.copy(alpha = if (line.done) 0.55f else 0.86f),
+                        line.text, style = MaterialTheme.typography.bodySmall.copy(lineHeight = 18.sp),
+                        color = tone.content.copy(alpha = if (line.done) 0.6f else 0.86f),
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                     )
                 }
@@ -590,7 +607,7 @@ private fun NoteCard(
                         model = remember(path) { coil.request.ImageRequest.Builder(ctx).data(java.io.File(path)).size(320).build() },
                         contentDescription = null,
                         contentScale = androidx.compose.ui.layout.ContentScale.Crop,
-                        modifier = Modifier.weight(1f).height(if (compact) 64.dp else 76.dp).clip(RoundedCornerShape(14.dp)).background(tone.content.copy(alpha = 0.08f)),
+                        modifier = Modifier.weight(1f).height(if (compact) 52.dp else 64.dp).clip(RoundedCornerShape(12.dp)).background(tone.content.copy(alpha = 0.08f)),
                     )
                 }
                 if (pics.size > (if (compact) 2 else 3)) Text(

@@ -300,6 +300,7 @@ fun LiquidGlassBottomNav(
                             // -- the same trick the expanded menu uses, where
                             // every pill is the light surface and only the icon
                             // differs.
+                            .clip(createShape)
                             .clickable(
                                 interactionSource = createInteractionSource,
                                 indication = ripple(bounded = true, color = primaryColor),
