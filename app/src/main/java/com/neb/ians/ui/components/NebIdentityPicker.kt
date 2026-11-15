@@ -83,10 +83,15 @@ fun NebIdentityPicker(
                     color = scheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.widthIn(max = 120.dp)
+                    modifier = Modifier.widthIn(max = 120.dp).weight(1f, fill = false)
                 )
             }
-            NebIcon(NebIcons.ChevronDown, "Choose identity", size = 20.dp, tint = scheme.onSurface)
+            androidx.compose.material3.Icon(
+                imageVector = androidx.compose.material.icons.Icons.Rounded.KeyboardArrowDown,
+                contentDescription = "Choose identity",
+                tint = scheme.onSurface,
+                modifier = Modifier.size(22.dp)
+            )
         }
 
         IdentityDropdown(
