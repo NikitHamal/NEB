@@ -29,10 +29,13 @@ import androidx.compose.ui.unit.em
  */
 
 /** Colours the live view needs; the rest comes from the text style of the field. */
-class LiveColors(val code: Color, val codeText: Color, val link: Color, val quote: Color, val muted: Color)
+data class LiveColors(val code: Color, val codeText: Color, val link: Color, val quote: Color, val muted: Color)
 
 /** A styled run, in raw offsets, for toolbar state ("is the caret in bold"). */
 data class LiveKind(val kind: String, val start: Int, val end: Int)
+
+/** A matched pair of inline markers in raw offsets: [open] and [close] are the first characters of each marker. */
+data class MarkPair(val open: Int, val close: Int, val mark: String)
 
 class LiveText(
     val raw: String,
@@ -43,7 +46,8 @@ class LiveText(
     val visibleToOriginal: IntArray,
     /** Raw offset of every visible character (exact, not sticky). */
     val charOrigin: IntArray,
-    val kinds: List<LiveKind>
+    val kinds: List<LiveKind>,
+    val pairs: List<MarkPair> = emptyList()
 ) {
     val offsetMapping: OffsetMapping = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int = originalToVisible[offset.coerceIn(0, raw.length)]
@@ -54,12 +58,13 @@ class LiveText(
 enum class LineKind { Heading, Quote, Bullet, Number, Check }
 
 object LiveMarkdown {
-    private const val ZWSP = "\u200B"
+    internal const val ZWSP = "\u200B"
     private const val ESCAPABLE = "\\`*_~|[]()#>-+.!$"
     private val headingRe = Regex("^(#{1,3}) ")
     private val bulletRe = Regex("^(\\s*)([-*+]) (?!\\[[ xX]] )")
     private val todoRe = Regex("^(\\s*)[-*+] \\[([ xX])] ")
     private val hrRe = Regex("^(-{3,}|\\*{3,}|_{3,})$")
+    private val numberRe = Regex("^\\d+[.)] ")
     private val prefixRe = Regex("^(#{1,3} |> |[-*+] \\[[ xX]] |[-*+] |\\d+[.)] )")
 
     private val plain = LiveColors(Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified)
@@ -73,21 +78,45 @@ object LiveMarkdown {
     }
 
     fun transformation(colors: LiveColors): VisualTransformation = object : VisualTransformation {
-        private var lastRaw: String? = null
-        private var last: LiveText? = null
         override fun filter(text: AnnotatedString): TransformedText {
-            val cached = last
-            val lt = if (cached != null && lastRaw == text.text) cached else transform(text.text, colors).also { last = it; lastRaw = text.text }
+            val lt = transform(text.text, colors)
             return TransformedText(lt.styled, lt.offsetMapping)
         }
     }
 
+    // The toolbar, the field and the reconcile pass all ask for the same text on every key; parse it once.
+    private val lru = arrayOfNulls<LiveText>(4)
+    private val lruColors = arrayOfNulls<LiveColors>(4)
+    private var lruNext = 0
+
+    /** The structure of [raw] (pairs, hidden characters, runs) from whichever parse is already cached; styles may differ. */
+    fun structure(raw: String): LiveText {
+        synchronized(lru) { for (hit in lru) if (hit != null && hit.raw == raw) return hit }
+        return transform(raw)
+    }
+
     fun transform(raw: String, colors: LiveColors = plain): LiveText {
+        synchronized(lru) {
+            for (i in lru.indices) {
+                val hit = lru[i]
+                if (hit != null && lruColors[i] == colors && hit.raw == raw) return hit
+            }
+        }
+        val made = parse(raw, colors)
+        synchronized(lru) {
+            lru[lruNext] = made; lruColors[lruNext] = colors
+            lruNext = (lruNext + 1) % lru.size
+        }
+        return made
+    }
+
+    private fun parse(raw: String, colors: LiveColors): LiveText {
         val n = raw.length
         val hidden = BooleanArray(n)
         val replace = CharArray(n)
         val runs = ArrayList<Triple<Int, Int, SpanStyle>>()
         val kinds = ArrayList<LiveKind>()
+        val pairs = ArrayList<MarkPair>()
 
         val codeStyle = SpanStyle(fontFamily = FontFamily.Monospace, background = colors.code, color = colors.codeText)
         val boldStyle = SpanStyle(fontWeight = FontWeight.Bold)
@@ -100,17 +129,22 @@ object LiveMarkdown {
         fun scanInline(from: Int, to: Int) {
             fun opens(i: Int, mark: Int): Boolean {
                 if (i + mark >= to || raw[i + mark].isWhitespace()) return false
-                if (i > from) { val p = raw[i - 1]; if (p.isLetterOrDigit() || p == raw[i]) return false }
+                if (i > from) {
+                    val p = raw[i - 1]
+                    // a word-internal underscore is part of the word (snake_case); stars and tildes may sit inside one
+                    if (p == raw[i] || (raw[i] == '_' && p.isLetterOrDigit())) return false
+                }
                 return true
             }
             fun closer(c: Char, mark: Int, start: Int): Int {
-                var j = start + 1
+                var j = start
                 while (j + mark <= to) {
                     if (raw[j] == c && (mark == 1 || (j + 1 < to && raw[j + 1] == c)) && raw[j - 1] != '\\' && !hidden[j]) {
                         val before = raw[j - 1]
                         val after = if (j + mark < to) raw[j + mark] else ' '
                         val single = mark == 1 && (before == c || (j + 1 < to && raw[j + 1] == c))
-                        if (!before.isWhitespace() && !after.isLetterOrDigit() && !single) return j
+                        val wordEdge = c == '_' && after.isLetterOrDigit()
+                        if (!before.isWhitespace() && !wordEdge && !single) return j
                     }
                     j++
                 }
@@ -125,13 +159,23 @@ object LiveMarkdown {
                     val j = raw.indexOf('`', i + 1)
                     if (j > i + 1 && j < to) {
                         hide(i, i + 1); hide(j, j + 1)
-                        runs.add(Triple(i + 1, j, codeStyle)); kinds.add(LiveKind("code", i + 1, j))
+                        runs.add(Triple(i + 1, j, codeStyle)); kinds.add(LiveKind("code", i + 1, j)); pairs.add(MarkPair(i, j, "`"))
                         i = j + 1; continue
                     }
                 }
                 if (c == '$') {
                     val j = raw.indexOf('$', i + 1)
                     if (j > i + 1 && j < to) { i = j + 1; continue }
+                }
+                if (c == '*' && i + 2 < to && raw[i + 1] == '*' && raw[i + 2] == '*' && opens(i, 3)) {
+                    val j3 = raw.indexOf("***", i + 3)
+                    if (j3 >= i + 3 && j3 + 3 <= to && !raw[j3 - 1].isWhitespace() && !hidden[j3]) {
+                        hide(i, i + 3); hide(j3, j3 + 3)
+                        runs.add(Triple(i + 3, j3, boldStyle)); runs.add(Triple(i + 3, j3, italicStyle))
+                        kinds.add(LiveKind("bold", i + 3, j3)); kinds.add(LiveKind("italic", i + 3, j3))
+                        pairs.add(MarkPair(i, j3, "***"))
+                        i = j3 + 3; continue
+                    }
                 }
                 if (c == '*' || c == '~' || c == '_') {
                     val dbl = i + 1 < to && raw[i + 1] == c
@@ -143,7 +187,7 @@ object LiveMarkdown {
                             hide(i, i + mark); hide(j, j + mark)
                             val kind = if (c == '~') "strike" else if (mark == 2) "bold" else "italic"
                             val style = if (c == '~') strikeStyle else if (mark == 2) boldStyle else italicStyle
-                            runs.add(Triple(i + mark, j, style)); kinds.add(LiveKind(kind, i + mark, j))
+                            runs.add(Triple(i + mark, j, style)); kinds.add(LiveKind(kind, i + mark, j)); pairs.add(MarkPair(i, j, raw.substring(i, i + mark)))
                             i += mark; continue
                         }
                     }
@@ -213,7 +257,7 @@ object LiveMarkdown {
                         for (i in ls until le) replace[i] = '\u2500'
                         from = le
                     }
-                    Regex("^\\d+[.)] ").containsMatchIn(line) -> kinds.add(LiveKind("number", ls, le))
+                    numberRe.containsMatchIn(line) -> kinds.add(LiveKind("number", ls, le))
                 }
                 scanInline(from, le)
             }
@@ -249,14 +293,14 @@ object LiveMarkdown {
             if (b > a) spans.add(AnnotatedString.Range(style, a, b))
         }
         val visible = sb.toString()
-        return LiveText(raw, visible, AnnotatedString(visible, spans), hidden, o2t, t2o, charOrigin, kinds)
+        return LiveText(raw, visible, AnnotatedString(visible, spans), hidden, o2t, t2o, charOrigin, kinds, pairs)
     }
 
     // ---------------------------------------------------------------- toolbar state
 
     /** Whether the caret (or the whole selection) sits inside a run of [kind]. */
     fun isActive(v: TextFieldValue, kind: String): Boolean {
-        val lt = transform(v.text)
+        val lt = structure(v.text)
         val s = v.selection.min
         val e = v.selection.max
         return lt.kinds.any { it.kind == kind && it.start <= s && it.end >= e }
@@ -268,20 +312,64 @@ object LiveMarkdown {
         "**" -> "bold"; "*" -> "italic"; "~~" -> "strike"; else -> "code"
     }
 
-    /** Bold, italic, strike, code. Selection: wrap or unwrap. Caret in a word: that word. Caret elsewhere: starts the style. */
+    /**
+     * Bold, italic, strike, code. Selection: wrap or unwrap. Caret in a word: that word. Caret elsewhere: starts the style,
+     * and tapping again before typing takes it back. A selection over several lines is styled line by line, because a
+     * marker pair never spans a line.
+     */
     fun toggleInline(v: TextFieldValue, mark: String): TextFieldValue {
         val t = v.text
-        val lt = transform(t)
+        val s = v.selection.min.coerceIn(0, t.length)
+        val e = v.selection.max.coerceIn(0, t.length)
+        if (s < e && t.indexOf('\n', s).let { it in s until e }) return toggleLines(v, mark, s, e)
+        return toggleOne(v, mark)
+    }
+
+    private fun toggleLines(v: TextFieldValue, mark: String, s: Int, e: Int): TextFieldValue {
+        val t = v.text
+        val lt = structure(t)
+        val kind = kindFor(mark)
+        val segs = ArrayList<IntArray>()
+        var ls = s
+        while (ls <= e) {
+            var le = t.indexOf('\n', ls)
+            if (le < 0 || le > e) le = e
+            var a = ls
+            var b = le
+            while (a < b && (t[a].isWhitespace() || lt.hidden[a])) a++
+            while (b > a && (t[b - 1].isWhitespace() || lt.hidden[b - 1])) b--
+            if (b > a) segs.add(intArrayOf(a, b))
+            ls = le + 1
+        }
+        if (segs.isEmpty()) return v
+        val on = segs.map { sg -> lt.kinds.any { it.kind == kind && it.start <= sg[0] && it.end >= sg[1] } }
+        val allOn = on.all { it }
+        var cur = TextFieldValue(t)
+        for (k in segs.indices.reversed()) {
+            if (on[k] != allOn) continue
+            cur = toggleOne(TextFieldValue(cur.text, TextRange(segs[k][0], segs[k][1])), mark)
+        }
+        val end = (segs.last()[1] + cur.text.length - t.length).coerceIn(0, cur.text.length)
+        return TextFieldValue(cur.text, TextRange(segs.first()[0].coerceAtMost(end), end))
+    }
+
+    private fun toggleOne(v: TextFieldValue, mark: String): TextFieldValue {
+        val t = v.text
+        val lt = structure(t)
         val m = mark.length
         val kind = kindFor(mark)
         var s = v.selection.min.coerceIn(0, t.length)
         var e = v.selection.max.coerceIn(0, t.length)
-        while (s < e && s < t.length && lt.hidden[s]) s++
+        while (s < e && lt.hidden[s]) s++
         while (e > s && lt.hidden[e - 1]) e--
         var caretOnly = s == e
         var shift = 0
         if (caretOnly) {
-            val exit = lt.kinds.firstOrNull { it.kind == kind && it.end == s && t.startsWith(mark, s) }
+            val pending = lt.pairs.firstOrNull {
+                it.mark == mark && it.close - it.open - m == 1 && t[it.open + m] == '\u200B' && s >= it.open + m && s <= it.close
+            }
+            if (pending != null) return TextFieldValue(t.removeRange(pending.open, pending.close + m), TextRange(pending.open))
+            val exit = lt.kinds.firstOrNull { it.kind == kind && it.end == s && it.start < it.end && t.startsWith(mark, s) }
             if (exit != null) return TextFieldValue(t, TextRange(s + m))
             if (s > 0 && s < t.length && t[s - 1].isLetterOrDigit() && t[s].isLetterOrDigit()) {
                 var a = s
@@ -318,7 +406,7 @@ object LiveMarkdown {
         LineKind.Heading -> headingRe.containsMatchIn(line)
         LineKind.Quote -> line.startsWith("> ")
         LineKind.Bullet -> bulletRe.containsMatchIn(line)
-        LineKind.Number -> Regex("^\\d+[.)] ").containsMatchIn(line)
+        LineKind.Number -> numberRe.containsMatchIn(line)
         LineKind.Check -> todoRe.containsMatchIn(line)
     }
 
@@ -387,5 +475,7 @@ object LiveMarkdown {
     }
 
     /** Without the invisible helper character used to start a style on an empty caret. */
-    fun cleaned(text: String): String = text.replace(Regex("(\\*\\*|\\*|~~|`)\u200B\\1"), "").replace(ZWSP, "")
+    fun cleaned(text: String): String = text.replace(emptyPending, "").replace(ZWSP, "")
+
+    private val emptyPending = Regex("(\\*\\*\\*|\\*\\*|\\*|~~|`)\u200B\\1")
 }

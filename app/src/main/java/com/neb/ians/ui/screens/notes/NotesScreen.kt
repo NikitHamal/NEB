@@ -307,30 +307,19 @@ private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit, sho
     }
 }
 
-/** No notes yet: a small stack of paper that floats, and the two ways to begin. */
+/** No notes yet: a small stack of paper, still, and the two ways to begin. */
 @Composable
 private fun NotesEmptyState(onWrite: () -> Unit, onDictate: () -> Unit, modifier: Modifier = Modifier) {
     val c = MaterialTheme.colorScheme
-    val transition = androidx.compose.animation.core.rememberInfiniteTransition(label = "notes-empty")
-    val bob by transition.animateFloat(
-        initialValue = -5f, targetValue = 5f,
-        animationSpec = androidx.compose.animation.core.infiniteRepeatable(
-            androidx.compose.animation.core.tween(2600, easing = androidx.compose.animation.core.FastOutSlowInEasing),
-            androidx.compose.animation.core.RepeatMode.Reverse
-        ),
-        label = "bob",
-    )
     Column(
         modifier.fillMaxWidth().padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(22.dp),
     ) {
         Box(Modifier.size(width = 200.dp, height = 160.dp), contentAlignment = Alignment.Center) {
-            PaperCard(c.tertiaryContainer, c.onTertiaryContainer, -13f, (-46).dp, 8.dp - bob.dp * 0.6f)
-            PaperCard(c.secondaryContainer, c.onSecondaryContainer, 11f, 46.dp, 10.dp + bob.dp * 0.6f)
-            Box(Modifier.offset(y = bob.dp)) {
-                PaperCard(c.primaryContainer, c.onPrimaryContainer, 0f, 0.dp, 0.dp, front = true)
-            }
+            PaperCard(c.tertiaryContainer, c.onTertiaryContainer, -13f, (-46).dp, 8.dp)
+            PaperCard(c.secondaryContainer, c.onSecondaryContainer, 11f, 46.dp, 10.dp)
+            PaperCard(c.primaryContainer, c.onPrimaryContainer, 0f, 0.dp, 0.dp, front = true)
         }
         Text("No notes yet", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
