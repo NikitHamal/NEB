@@ -183,24 +183,52 @@ fun ComposerFormatRow(
     modifier: Modifier = Modifier
 ) {
     val scheme = MaterialTheme.colorScheme
+    var open by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(true) }
+    val showTools = open && !state.showPreview
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier
-                .weight(1f)
-                .horizontalScroll(rememberScrollState()),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (!state.showPreview) {
-                MarkdownToolbar(state = viewModel.editor)
-                FormatTool(
-                    icon = NebIcons.Image,
-                    description = "Insert picture in text",
-                    enabled = insertImageEnabled && !state.isSubmitting,
-                    onClick = onInlineImage
+        if (!state.showPreview) {
+            // Hide the formatting row to write on a clean page; the same button brings it back.
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(if (open) androidx.compose.ui.graphics.Color.Transparent else scheme.primaryContainer)
+                    .nebPressable(scale = 0.88f, onClick = { open = !open })
+                    .semantics {
+                        role = Role.Button
+                        contentDescription = if (open) "Hide formatting" else "Show formatting"
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                androidx.compose.material3.Icon(
+                    if (open) androidx.compose.material.icons.Icons.Outlined.ChevronLeft else androidx.compose.material.icons.Icons.Outlined.FormatSize,
+                    null,
+                    modifier = Modifier.size(20.dp),
+                    tint = if (open) scheme.onSurfaceVariant else scheme.onPrimaryContainer
                 )
+            }
+        }
+        Box(modifier = Modifier.weight(1f)) {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = showTools,
+                enter = androidx.compose.animation.expandHorizontally() + androidx.compose.animation.fadeIn(),
+                exit = androidx.compose.animation.shrinkHorizontally() + androidx.compose.animation.fadeOut()
+            ) {
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    MarkdownToolbar(state = viewModel.editor)
+                    FormatTool(
+                        icon = NebIcons.Image,
+                        description = "Insert picture in text",
+                        enabled = insertImageEnabled && !state.isSubmitting,
+                        onClick = onInlineImage
+                    )
+                }
             }
         }
         ModeSwitch(preview = state.showPreview, onChange = viewModel::togglePreview, modifier = Modifier.padding(start = 8.dp))
