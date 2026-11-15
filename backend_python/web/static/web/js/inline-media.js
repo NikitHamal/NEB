@@ -397,6 +397,7 @@
     }
 
     editor.addEventListener('dragstart', function (e) {
+      if (e.defaultPrevented) return;
       var chip = e.target.closest('.neb-chip');
       if (!chip || !editor.contains(chip)) return;
       dragSrcId = chip.getAttribute('data-neb-img');
@@ -470,6 +471,76 @@
       }
     });
 
+
+    // Touch: press and hold a picture, then drag it. Phones do not start a native drag from a touch reliably, so the
+    // picture follows the finger itself and the same drop bar shows where it will land.
+    var holdTimer = 0, touchDrag = null, touchStart = null;
+    function endTouchDrag(drop) {
+      var d = touchDrag; touchDrag = null;
+      clearTimeout(holdTimer); holdTimer = 0;
+      if (!d) return;
+      cancelAnimationFrame(d.raf);
+      if (d.ghost && d.ghost.parentNode) d.ghost.parentNode.removeChild(d.ghost);
+      d.chip.classList.remove('neb-chip-editor-dragging');
+      editor.classList.remove('neb-drop-active');
+      hideDropCaret();
+      if (drop && d.range) {
+        try {
+          var inside = editor.contains(d.range.startContainer) || d.range.startContainer === editor;
+          if (inside) {
+            var id = d.chip.getAttribute('data-neb-img');
+            var sel3 = window.getSelection();
+            sel3.removeAllRanges(); sel3.addRange(d.range);
+            if (d.chip.parentNode) d.chip.remove();
+            insertChipAtCaret(editor, parseInt(id, 10));
+            dispatchInput(editor);
+          }
+        } catch (_) {}
+      }
+      lastDragEnd = Date.now();
+    }
+    function beginTouchDrag(chip, x, y) {
+      var rect = chip.getBoundingClientRect();
+      var ghost = chip.cloneNode(true);
+      ghost.removeAttribute('draggable');
+      var rm = ghost.querySelector('.neb-chip-remove'); if (rm) rm.remove();
+      ghost.style.cssText = 'position:fixed;left:0;top:0;margin:0;pointer-events:none;z-index:2147483001;opacity:.92;'
+        + 'transition:transform .12s cubic-bezier(.2,.8,.2,1);will-change:transform;border-radius:.6em;outline:2px solid var(--md-primary,#0058df);'
+        + 'width:' + rect.width + 'px;height:' + rect.height + 'px';
+      document.body.appendChild(ghost);
+      chip.classList.add('neb-chip-editor-dragging');
+      editor.classList.add('neb-drop-active');
+      touchDrag = { chip: chip, ghost: ghost, w: rect.width, h: rect.height, x: x, y: y, range: null, raf: 0 };
+      if (navigator.vibrate) { try { navigator.vibrate(12); } catch (_) {} }
+      function frame() {
+        var d = touchDrag; if (!d) return;
+        d.ghost.style.transform = 'translate(' + Math.round(d.x - d.w / 2) + 'px,' + Math.round(d.y - d.h - 28) + 'px) scale(1.12)';
+        var r = pointRange(d.x, d.y - 12);
+        if (r && (editor.contains(r.startContainer) || r.startContainer === editor)) { d.range = r; showDropCaret(r); }
+        edgeScroll(d.y);
+        d.raf = requestAnimationFrame(frame);
+      }
+      frame();
+    }
+    editor.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'touch') return;
+      var chip = e.target.closest && e.target.closest('.neb-chip-editor');
+      if (!chip || !editor.contains(chip) || e.target.closest('.neb-chip-remove')) return;
+      touchStart = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      clearTimeout(holdTimer);
+      holdTimer = setTimeout(function () { holdTimer = 0; if (touchStart) beginTouchDrag(chip, touchStart.x, touchStart.y); }, 360);
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (touchDrag) { touchDrag.x = e.clientX; touchDrag.y = e.clientY; return; }
+      if (holdTimer && touchStart && Math.abs(e.clientX - touchStart.x) + Math.abs(e.clientY - touchStart.y) > 9) { clearTimeout(holdTimer); holdTimer = 0; }
+      if (touchStart) { touchStart.x = e.clientX; touchStart.y = e.clientY; }
+    }, { passive: true });
+    function releaseTouch(drop) { touchStart = null; clearTimeout(holdTimer); holdTimer = 0; endTouchDrag(drop); }
+    window.addEventListener('pointerup', function () { releaseTouch(true); });
+    window.addEventListener('pointercancel', function () { releaseTouch(false); });
+    editor.addEventListener('touchmove', function (e) { if (touchDrag && e.cancelable) e.preventDefault(); }, { passive: false });
+    editor.addEventListener('contextmenu', function (e) { if (e.target.closest && e.target.closest('.neb-chip-editor') && (touchDrag || holdTimer || touchStart)) e.preventDefault(); });
+    editor.addEventListener('dragstart', function (e) { if (touchDrag || holdTimer || touchStart) e.preventDefault(); }, true);
 
     // With the on-screen keyboard open the caret (and a picture next to it) must stay inside the visible part of the page.
     function keepCaretVisible() {

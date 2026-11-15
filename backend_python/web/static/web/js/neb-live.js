@@ -144,10 +144,10 @@
   function escLead(line) {
     return line.replace(/^(\s*)(#{1,6}\s|>|[-+]\s|\d+[.)]\s|={3,}|-{3,})/, function (m, sp, mark) { return sp + '\\' + mark; });
   }
-  function wrapMark(mark, inner) {
+  function wrapMark(mark, inner, end) {
     if (!inner.replace(/\s/g, '')) return inner;
     var m = /^(\s*)([\s\S]*?)(\s*)$/.exec(inner);
-    return m[1] + mark + m[2] + mark + m[3];
+    return m[1] + mark + m[2] + (end || mark) + m[3];
   }
   function inlineOne(n) {
     var holder = document.createElement('div');
@@ -174,6 +174,7 @@
       if (tag === 'B' || tag === 'STRONG' || (n.style && /^(bold|[6-9]00)$/.test(n.style.fontWeight))) out += wrapMark('**', inner);
       else if (tag === 'I' || tag === 'EM' || (n.style && n.style.fontStyle === 'italic')) out += wrapMark('*', inner);
       else if (tag === 'S' || tag === 'STRIKE' || tag === 'DEL') out += wrapMark('~~', inner);
+      else if (tag === 'U' || (n.style && /underline/.test(n.style.textDecoration || n.style.textDecorationLine || ''))) out += wrapMark('<u>', inner, '</u>');
       else if (tag === 'CODE') out += wrapMark('`', n.textContent.replace(/\u200b/g, ''));
       else if (tag === 'A') {
         var href = n.getAttribute('href') || '';
@@ -727,7 +728,7 @@
     };
     ed.addEventListener('input', function (e) {
       /* "- ", "1. ", "# ", "> " at the start of a line become a list, heading or quote, no code typed. */
-      if (e && e.inputType === 'insertText' && e.data === ' ' && autoformat(ed)) return;
+      if (e && (e.inputType === 'insertText' || e.inputType === 'insertCompositionText') && (e.data == null || /\s$/.test(e.data) || e.data === '\u00a0') && autoformat(ed)) return;
       c.dirty = true;
       ed.classList.toggle('is-empty', isEmpty(ed));
       if (c.ta) {
