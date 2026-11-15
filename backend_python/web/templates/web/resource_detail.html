@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function toggleResourceLike(id) {
-  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTH) { NebAuth.require(); return; }
   var btn = document.getElementById('resource-like-btn');
   var countEl = document.getElementById('resource-like-count');
   btn.disabled = true;
@@ -305,7 +305,7 @@ function toggleResourceLike(id) {
 }
 
 function toggleResourceCommentLike(commentId) {
-  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTH) { NebAuth.require(); return; }
   var btn = document.getElementById('comment-like-btn-' + commentId);
   var countEl = document.getElementById('comment-like-count-' + commentId);
   if (!btn) return;
@@ -388,7 +388,7 @@ function shareResourcePage() {
 registerActions({
   'toggle-resource-like': function(btn) { toggleResourceLike(btn.dataset.resourceId); },
   'toggle-bookmark': function(btn) {
-    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    if (!IS_AUTH) { NebAuth.require(); return; }
     fetch('/ajax/bookmark/toggle/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
@@ -419,7 +419,7 @@ registerActions({
     }
   },
   'reply-to-comment': function(btn) {
-    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    if (!IS_AUTH) { NebAuth.require(); return; }
     var commentId = btn.dataset.commentId;
     var authorName = btn.dataset.authorName;
     var parentCard = document.getElementById('comment-card-' + commentId);

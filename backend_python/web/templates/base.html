@@ -170,6 +170,7 @@
      before DOMContentLoaded, and they now load at the end of <body>. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-toast.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-auth-gate.js' %}"></script>
 <!-- HTMX global config: disable history cache to ensure clean full page back navigation -->
   <meta name="htmx-config" content='{"historyEnabled":false,"refreshOnHistoryMiss":true}'>
 </head>

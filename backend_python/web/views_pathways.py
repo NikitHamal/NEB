@@ -14,3 +14,9 @@ def pathways_page(request):
     return render(request, 'web/pathways.html', _ctx(
         request, pathways_data=pathways.payload(), districts=NEPAL_DISTRICTS,
     ))
+
+
+@require_GET
+@cache_control(public=True, max_age=300)
+def dynamic_posts_lab(request):
+    return render(request, 'web/dynamic_posts_lab.html', _ctx(request))

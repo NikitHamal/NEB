@@ -743,7 +743,7 @@
       }
     },
     'toggle-subject-post-like': async function(el) {
-      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+      if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
       var postId = el.dataset.postId;
       try {
         const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
@@ -757,13 +757,13 @@
       } catch (e) { showSnackbar('Failed to like post'); }
     },
     'toggle-follow': async function(el) {
-      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+      if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
       var userId = el.dataset.userId;
       el.disabled = true;
       try {
         const desired = el.classList.contains('following') ? 'unfollow' : 'follow';
         const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin', body: JSON.stringify({ action: desired }) });
-        if (r.status === 401) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+        if (r.status === 401) { NebAuth.require(); return; }
         const d = await r.json();
         el.disabled = false;
         if (d && d.error) { showSnackbar(d.error); return; }
@@ -784,7 +784,7 @@
     },
     'toggle-bookmark': async function(el) {
       closeAllMenus();
-      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+      if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
       var targetType = el.dataset.targetType;
       var targetId = el.dataset.targetId;
       try {
@@ -793,7 +793,7 @@
           credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
         });
         const d = await r.json();
-        if (r.status === 401) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+        if (r.status === 401) { NebAuth.require(); return; }
         if (d.isBookmarked !== undefined) {
           var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
           var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
@@ -955,7 +955,7 @@
   async function createNewAISession() {
     if (!IS_AUTHENTICATED) {
       showSnackbar('Please sign in to chat with Neby AI.');
-      window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname);
+      NebAuth.require();
       return;
     }
     
