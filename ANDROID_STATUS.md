@@ -25,3 +25,33 @@ First push failed to compile: duplicate `Icons` import in `ReplyKinds.kt`, missi
 
 
 CI for the poll builder change: first push failed (missing `setValue` import in `PostInput`), fixed in `5484c06`; the Android release build is green.
+
+
+---
+
+# Session 2: sign-in stall, no-code composers, glass, notes empty state
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 10 | **Sign-in stall (Xiaomi 11i "NEBians isn't responding")**. Picked up from `59d3742` (Keystore token write moved to IO, Play update bind deferred). Added: the one deliberate main-thread block left, `currentUserNameFlow`'s `runBlocking` read while MainActivity is injected, is capped at 120 ms (the flow corrects the name when the read lands). Remaining suspects are listed under Next. | `AuthRepository.kt` |
+| 11 | **Composers keep valid Markdown on every edit**. The leak came from the field holding raw Markdown while only a strict parser hid it: a space typed before a closing `**` (`**a **`), Enter inside bold, Backspace over a hidden marker, or a letter right after a closer each made the pair invalid for one frame or for good. `LiveReconcile.apply(old, new)` now runs on every edit (posts, comments, note blocks) and repairs the pair before it is stored: spaces move outside the markers, a trailing space leaves the style armed for the next letter, Enter closes and reopens the style per line, Backspace deletes the character you can see (never half a marker), an emptied run stays armed, a line prefix (bullet, number, quote, heading, to-do) goes in one Backspace, a destroyed marker removes its orphan. Plain typing returns on a cheap check. | `LiveReconcile.kt`, `LiveRebuild.kt`, `LiveMarkdown.kt` |
+| 12 | **Formatting buttons**: a selection over several lines is styled per line (a pair never spans lines, so it used to show markers); `***` renders bold italic; stars and tildes work inside a word (`he**ll**o`) like the web; tapping Bold twice with nothing typed takes it back; armed styles no longer leave a stray character behind once the caret leaves. | `LiveMarkdown.kt` |
+| 13 | **Typing cost**: one parse per text shared by field, toolbar and reconcile (4-entry cache, `structure()`), regexes compiled once. Before: every toolbar button re-parsed the whole text on each key. | `LiveMarkdown.kt` |
+| 14 | **Comment field** holds a `TextFieldValue` (the `String` overload dropped the caret and the keyboard's composing word on each external change). | `CommentComposerBar.kt` |
+| 15 | **Notes empty state is static**: the floating paper stack no longer animates. | `NotesScreen.kt` |
+| 16 | **Glass**: blur plus a saturation lift on the blurred backdrop (`glassEffect`, API 31+), a rim lit along the top edge, a soft sheen. The page is not recorded into the glass layer on screens that show no glass (`GlassBackdrop.active`, set from `showBottomBar`). Low-end and pre-12 devices keep the solid tint. | `LiquidGlassNav.kt`, `Navigation.kt` |
+
+Version 1.7.5 (29).
+
+## Rules for composers (do not break)
+- Every editable Markdown field passes `onValueChange` through `LiveReconcile.apply(old, new)`. Toolbar actions (`toggleInline`, `toggleLine`, ...) write directly.
+- Pending style = `mark + U+200B + mark`; only `LiveReconcile` and `toggleInline` create or remove it.
+- A pair never spans a line. Markers are `*`, `**`, `***`, `~~`, `` ` ``, `_`.
+
+## Next
+- On-device pass on a Xiaomi/MIUI phone: first sign-in with the process killed while the browser is open (MIUI kills background apps; the callback then cold-starts the app).
+- Baseline Profile for the splash to first screen path.
