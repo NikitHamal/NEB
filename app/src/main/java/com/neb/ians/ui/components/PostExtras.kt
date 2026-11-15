@@ -991,6 +991,7 @@ fun MarkdownToolbar(
     ) {
         ToolbarButton(NebIcons.Bold, "Bold", state.isActive(Fmt.BOLD)) { state.toggleInline(Fmt.BOLD) }
         ToolbarButton(NebIcons.Italic, "Italic", state.isActive(Fmt.ITALIC)) { state.toggleInline(Fmt.ITALIC) }
+        ToolbarButton(NebIcons.Underline, "Underline", state.isActive(Fmt.UNDERLINE)) { state.toggleInline(Fmt.UNDERLINE) }
         ToolbarButton(NebIcons.Code, "Code", state.isActive(Fmt.CODE)) { state.toggleInline(Fmt.CODE) }
         if (!compact) {
             ToolbarButton(NebIcons.Strike, "Strikethrough", state.isActive(Fmt.STRIKE)) { state.toggleInline(Fmt.STRIKE) }

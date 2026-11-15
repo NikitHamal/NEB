@@ -127,6 +127,10 @@ object RichMarkdown {
                     i = m.range.last + 1; continue
                 }
             }
+            if (c == '<' && s.startsWith("<u>", i)) {
+                val j = s.indexOf("</u>", i + 3)
+                if (j >= i + 3 && j + 4 <= to) { inline(b, s, i + 3, j, mask or Fmt.UNDERLINE, link); i = j + 4; continue }
+            }
             if (c == '`') {
                 val j = s.indexOf('`', i + 1)
                 if (j > i + 1 && j < to) { for (k in i + 1 until j) b.add(s[k], mask or Fmt.CODE, link); i = j + 1; continue }
@@ -188,6 +192,7 @@ object RichMarkdown {
     private fun opener(mask: Int, link: Int): String {
         val sb = StringBuilder()
         if (link != 0) sb.append('[')
+        if (mask and Fmt.UNDERLINE != 0) sb.append("<u>")
         if (mask and Fmt.STRIKE != 0) sb.append("~~")
         sb.append(if (mask and Fmt.BOLD != 0 && mask and Fmt.ITALIC != 0) "***" else if (mask and Fmt.BOLD != 0) "**" else if (mask and Fmt.ITALIC != 0) "*" else "")
         if (mask and Fmt.CODE != 0) sb.append('`')
@@ -199,6 +204,7 @@ object RichMarkdown {
         if (mask and Fmt.CODE != 0) sb.append('`')
         sb.append(if (mask and Fmt.BOLD != 0 && mask and Fmt.ITALIC != 0) "***" else if (mask and Fmt.BOLD != 0) "**" else if (mask and Fmt.ITALIC != 0) "*" else "")
         if (mask and Fmt.STRIKE != 0) sb.append("~~")
+        if (mask and Fmt.UNDERLINE != 0) sb.append("</u>")
         if (link != 0) sb.append("](").append(url.replace(" ", "%20").replace(")", "%29")).append(')')
         return sb.toString()
     }

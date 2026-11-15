@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private val inlineToken = Regex(
-    "\\*\\*(.+?)\\*\\*|__(.+?)__|~~(.+?)~~|`([^`]+)`|\\*([^*\\n]+)\\*|(?<!\\w)_([^_\\n]+)_(?!\\w)|\\[([^\\]]+)]\\(([^)]*)\\)|(?<![\\w&])#(\\w+)"
+    "\\*\\*(.+?)\\*\\*|__(.+?)__|~~(.+?)~~|`([^`]+)`|\\*([^*\\n]+)\\*|(?<!\\w)_([^_\\n]+)_(?!\\w)|\\[([^\\]]+)]\\(([^)]*)\\)|(?<![\\w&])#(\\w+)|<u>(.+?)</u>"
 )
 
 /** Inline Markdown to styled text: bold, italic, strike, code, links and #tags. */
@@ -50,6 +50,7 @@ fun noteInline(text: String, accent: Color, codeBg: Color): AnnotatedString = bu
             g[5].isNotEmpty() -> withStyle(SpanStyle(fontStyle = FontStyle.Italic)) { append(g[5]) }
             g[6].isNotEmpty() -> withStyle(SpanStyle(fontStyle = FontStyle.Italic)) { append(g[6]) }
             g[7].isNotEmpty() -> withStyle(SpanStyle(color = accent, textDecoration = TextDecoration.Underline)) { append(g[7]) }
+            g[10].isNotEmpty() -> withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) { append(g[10]) }
             g[9].isNotEmpty() -> withStyle(SpanStyle(color = accent, fontWeight = FontWeight.Medium)) { append("#" + g[9]) }
         }
         last = m.range.last + 1

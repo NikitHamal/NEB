@@ -30,6 +30,8 @@ data class NoteEntity(
     @ColumnInfo(defaultValue = "0") val cover: Int = 0,
     /** File name of a gallery cover inside `notes/<id>/`; empty when the cover is a built-in one. `cover` is -1 while it is set. */
     @ColumnInfo(defaultValue = "") val coverPhoto: String = "",
+    /** Page paper from `NotePaper`: 0 plain, 1 lines, 2 grid, 3 dots. */
+    @ColumnInfo(defaultValue = "0") val paper: Int = 0,
 ) {
     val tagList: List<String>
         get() = tags.split(' ').filter { it.isNotBlank() }

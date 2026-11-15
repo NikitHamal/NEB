@@ -14,6 +14,7 @@ object Fmt {
     const val ITALIC = 2
     const val STRIKE = 4
     const val CODE = 8
+    const val UNDERLINE = 16
 }
 
 object RLine {

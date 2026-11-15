@@ -37,6 +37,8 @@ import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
@@ -129,7 +131,16 @@ fun RichTextField(
             onTextLayout = { layout = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .onPreviewKeyEvent { e -> e.type == KeyEventType.KeyDown && e.key == Key.Backspace && state.backspaceAtLineStart() },
+                .onPreviewKeyEvent { e ->
+                    if (e.type != KeyEventType.KeyDown) false
+                    else if (e.isCtrlPressed || e.isMetaPressed) when (e.key) {
+                        Key.B -> { state.toggleInline(Fmt.BOLD); true }
+                        Key.I -> { state.toggleInline(Fmt.ITALIC); true }
+                        Key.U -> { state.toggleInline(Fmt.UNDERLINE); true }
+                        else -> false
+                    }
+                    else e.key == Key.Backspace && state.backspaceAtLineStart()
+                },
             decorationBox = { inner ->
                 if (decorationBox != null) decorationBox(inner) else Box {
                     if (value.text.isEmpty() && placeholder.isNotEmpty()) {

@@ -70,6 +70,8 @@ import androidx.compose.material.icons.outlined.FormatListBulleted
 import androidx.compose.material.icons.outlined.FormatListNumbered
 import androidx.compose.material.icons.outlined.FormatQuote
 import androidx.compose.material.icons.outlined.FormatStrikethrough
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.FormatUnderlined
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Title
@@ -445,6 +447,14 @@ private fun BlockSheet(block: NoteBlock, vm: NoteEditorViewModel, onDismiss: () 
                 ToolChip("Delete", false, Icons.Outlined.Delete) { onDismiss(); vm.delete(block.id) }
             }
             if (block.type == BlockType.Todo) {
+                var pick by remember { mutableStateOf(false) }
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ToolChip("Today", block.due == NoteDue.today(), Icons.Outlined.Event) { onDismiss(); vm.setDue(block.id, NoteDue.today()) }
+                    ToolChip("Tomorrow", block.due == NoteDue.today() + 1, Icons.Outlined.Event) { onDismiss(); vm.setDue(block.id, NoteDue.today() + 1) }
+                    ToolChip("Pick date", false, Icons.Outlined.Event) { pick = true }
+                    if (block.due > 0L) ToolChip("No date", false) { onDismiss(); vm.setDue(block.id, 0L) }
+                }
+                if (pick) DueDialog(block.due, onPick = { vm.setDue(block.id, it) }, onDismiss = { pick = false; onDismiss() })
                 Text("Clear completed", style = MaterialTheme.typography.labelLarge, color = c.primary,
                     modifier = Modifier.clip(RoundedCornerShape(18.dp)).clickable { onDismiss(); vm.clearDone() }.padding(horizontal = 4.dp, vertical = 8.dp))
             }
@@ -481,6 +491,7 @@ private fun TextBlockRow(
         }
     }
 
+    var pickDue by remember { mutableStateOf(false) }
     val typo = MaterialTheme.typography
     val done = type == BlockType.Todo && block.checked
     val textColor = when {
@@ -601,6 +612,10 @@ private fun TextBlockRow(
                 }
             }
         }
+        if (type == BlockType.Todo && block.due > 0L) {
+            DueChip(block.due, block.checked, onClick = { if (!readOnly) pickDue = true }, modifier = Modifier.padding(start = 8.dp, top = 1.dp))
+        }
+        if (pickDue) DueDialog(block.due, onPick = { vm.setDue(block.id, it) }, onDismiss = { pickDue = false })
         if (hiddenKids > 0) {
             Text(
                 "$hiddenKids", style = MaterialTheme.typography.labelSmall, color = c.onSecondaryContainer,
@@ -681,6 +696,7 @@ fun BlockFormatBar(
             }
             BarButton(Icons.Outlined.FormatBold, "Bold", fg, active(Fmt.BOLD)) { applyInline(Fmt.BOLD) }
             BarButton(Icons.Outlined.FormatItalic, "Italic", fg, active(Fmt.ITALIC)) { applyInline(Fmt.ITALIC) }
+            BarButton(Icons.Outlined.FormatUnderlined, "Underline", fg, active(Fmt.UNDERLINE)) { applyInline(Fmt.UNDERLINE) }
             BarButton(Icons.Outlined.FormatStrikethrough, "Strikethrough", fg, active(Fmt.STRIKE)) { applyInline(Fmt.STRIKE) }
             BarButton(Icons.Outlined.Code, "Inline code", fg, active(Fmt.CODE)) { applyInline(Fmt.CODE) }
             BarButton(Icons.Outlined.Link, "Link", fg, false) { if (canInline) linkDialog = true }
