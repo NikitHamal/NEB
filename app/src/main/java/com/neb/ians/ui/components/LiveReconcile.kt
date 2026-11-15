@@ -116,7 +116,38 @@ object LiveReconcile {
         val text = sb.toString()
         val a = mapCaret(sel.start).coerceIn(0, text.length)
         val b = mapCaret(sel.end).coerceIn(0, text.length)
-        return TextFieldValue(text, TextRange(a, b))
+        return merge(TextFieldValue(text, TextRange(a, b)))
+    }
+
+    /**
+     * Typing a space at the end of bold text closes the run and arms a new one after the space. Once the next letter is
+     * typed the two runs are one again (`**a** **b**` becomes `**a b**`), so a bold sentence is one bold run, a struck
+     * sentence is struck through its spaces, and a code span keeps its spaces.
+     */
+    private fun merge(v: TextFieldValue): TextFieldValue {
+        val t = v.text
+        if (t.length < 5) return v
+        val lt = LiveMarkdown.structure(t)
+        if (lt.pairs.size < 2) return v
+        val ps = lt.pairs.sortedBy { it.open }
+        fun solid(pr: MarkPair) = t.substring(pr.open + pr.mark.length, pr.close).any { it != Z && !it.isWhitespace() }
+        val cuts = ArrayList<IntArray>()
+        for (i in 0 until ps.size - 1) {
+            val a = ps[i]
+            val b = ps[i + 1]
+            val m = a.mark.length
+            if (a.mark != b.mark || b.open <= a.close + m) continue
+            val gap = t.substring(a.close + m, b.open)
+            if (gap.any { it != ' ' && it != '\t' } || !solid(a) || !solid(b)) continue
+            cuts.add(intArrayOf(a.close, a.close + m))
+            cuts.add(intArrayOf(b.open, b.open + b.mark.length))
+        }
+        if (cuts.isEmpty()) return v
+        val sb = StringBuilder(t)
+        for (c in cuts.sortedByDescending { it[0] }) sb.delete(c[0], c[1])
+        fun mapPos(pos: Int) = pos - cuts.sumOf { c -> if (c[1] <= pos) c[1] - c[0] else if (c[0] < pos) pos - c[0] else 0 }
+        val text = sb.toString()
+        return TextFieldValue(text, TextRange(mapPos(v.selection.start).coerceIn(0, text.length), mapPos(v.selection.end).coerceIn(0, text.length)))
     }
 
     /** A style armed with nothing typed yet is dropped once the caret leaves it. */
