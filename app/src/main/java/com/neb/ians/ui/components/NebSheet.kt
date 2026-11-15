@@ -145,7 +145,7 @@ fun NebModalSheet(
             if (fullBleed) {
                 content()
             } else {
-                Column(modifier = Modifier.fillMaxWidth().padding(horizontal = horizontalPadding)) { content() }
+                Column(modifier = Modifier.fillMaxWidth().weight(1f, fill = false).padding(horizontal = horizontalPadding)) { content() }
             }
             Spacer(modifier = Modifier.height(16.dp))
         }

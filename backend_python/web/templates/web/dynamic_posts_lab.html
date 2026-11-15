@@ -16,11 +16,11 @@
     {% include "web/partials/_back.html" with back_label="Back to Tools" %}
     <h1 class="dp-h1">Dynamic posts</h1>
   </header>
-  <p class="dp-sub">Pick a look, then change pattern, type, corners and accent. See the same post as a feed card and as the page people read.</p>
-
   <div class="dp-bar">
     <div class="dp-looks" id="dp-looks" role="group" aria-label="Look"></div>
     <div class="dp-view" id="dp-view" role="group" aria-label="Preview"></div>
+    <div class="dp-view" id="dp-sample" role="group" aria-label="Post"></div>
+    <div class="dp-view" id="dp-toggle" role="group" aria-label="Customise"></div>
   </div>
   <div class="dp-custom" id="dp-custom"></div>
   <div class="dp-stage" id="dp-stage"><div id="dp-preview" aria-live="polite"></div></div>
@@ -28,5 +28,6 @@
 {% endblock %}
 
 {% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/dynamic-posts-data.js' %}" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/dynamic-posts-lab.js' %}" defer></script>
 {% endblock %}
