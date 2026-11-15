@@ -372,7 +372,7 @@ fun InlineImageField(
             value = value,
             onValueChange = { nv ->
                 val old = currentValue
-                onValueChange(if (nv.text != old.text) (NoteFormatting.continueList(old, nv) ?: nv) else nv)
+                onValueChange(NoteFormatting.continueList(old, nv) ?: LiveReconcile.apply(old, nv))
             },
             enabled = enabled,
             textStyle = editorTextStyle.copy(color = MaterialTheme.colorScheme.onSurface),

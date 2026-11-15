@@ -107,6 +107,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.LiveMarkdown
+import com.neb.ians.ui.components.LiveReconcile
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
 
@@ -486,7 +487,8 @@ private fun TextBlockRow(
         Box(Modifier.weight(1f)) {
             BasicTextField(
                 value = value,
-                onValueChange = { nv ->
+                onValueChange = { typed ->
+                    val nv = if (type == BlockType.Code) typed else LiveReconcile.apply(registry.valueOf(block), typed)
                     if (type != BlockType.Code && nv.text.contains('\n')) {
                         val parts = nv.text.split('\n')
                         registry.setLocal(block.id, TextFieldValue(parts.first(), TextRange(parts.first().length)))

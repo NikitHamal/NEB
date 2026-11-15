@@ -74,6 +74,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -477,9 +478,16 @@ private fun ComposerInput(
     leadingVisible: Boolean = true
 ) {
     val scheme = MaterialTheme.colorScheme
+    // Held as a TextFieldValue so the caret and the keyboard's composing word survive each edit.
+    var held by remember { mutableStateOf(TextFieldValue(value, TextRange(value.length))) }
+    val shown = if (held.text == value) held else TextFieldValue(value, TextRange(value.length))
     BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
+        value = shown,
+        onValueChange = { typed ->
+            val next = LiveReconcile.apply(shown, typed)
+            held = next
+            if (next.text != value) onValueChange(next.text)
+        },
         enabled = enabled,
         maxLines = 5,
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
@@ -504,7 +512,7 @@ private fun ComposerInput(
     val scheme = MaterialTheme.colorScheme
     BasicTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { typed -> onValueChange(LiveReconcile.apply(value, typed)) },
         enabled = enabled,
         maxLines = 5,
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
