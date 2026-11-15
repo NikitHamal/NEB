@@ -3,7 +3,7 @@
 package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -216,7 +216,7 @@ internal fun LazyListScope.studioEarningsTab(
             )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
+                modifier = Modifier.nebHorizontalScroll(rememberScrollState())
             ) {
                 PAYOUT_METHODS.forEach { (value, label) ->
                     NebChip(

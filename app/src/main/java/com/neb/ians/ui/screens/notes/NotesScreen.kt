@@ -22,7 +22,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -417,7 +417,7 @@ private fun SearchField(query: String, onChange: (String) -> Unit) {
 @Composable
 private fun FilterRow(ui: NotesUi, vm: NotesViewModel) {
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 6.dp),
+        Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 6.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         NoteFilter.entries.forEach { f ->
@@ -617,7 +617,7 @@ private fun NoteCard(
             }
         }
         if (note.tagList.isNotEmpty()) {
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(Modifier.nebHorizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 note.tagList.take(3).forEach { t ->
                     Text(
                         "#$t", style = MaterialTheme.typography.labelSmall, color = tone.content,

@@ -277,3 +277,19 @@ Crash re-check: every `horizontalScroll` / `LazyRow` caller was read for a scrol
 
 ## Not done / next
 - On-device pass for `NebIndication` on dark note tones (content colour on tone) and on the glass bottom bar.
+
+---
+
+# Session 12: crash guard, drag caret that follows the finger
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. The request came a fourth time. Items 58 to 74 were read against the code again (nav bar scroll, notes header and cards, covers, contrast, crash screen, press shape, web drop bar). They stand; only what was still weak is changed.
+
+| # | What | Where |
+| --- | --- | --- |
+| 75 | **Crash, defence in depth**. Sessions 9 to 11 removed the one known nested scroller, but the report keeps coming from a release build whose stack names no screen. Every `horizontalScroll` (33 files) now goes through `nebHorizontalScroll`, which puts `boundedWidth()` in front: an infinite max width from any ancestor becomes the screen width, so it can not throw. | `ui/components/SafeScroll.kt`, all callers |
+| 76 | **Drop caret no longer drifts**. The finger was computed from accumulated drag deltas, so a page that scrolled during the drag (item 71) moved the caret away from the finger. It is now read with `localPositionOf` between the picture and the field's overlay. Scroll-follow keeps one job and cancels the previous. | `RichTextField.kt` |
+| 77 | **Tighter picture line, Meta caret**. A picture line is the picture plus 6dp (was 10); the caret is 1.2 em (was the measured line height of the style). | `RichTextField.kt` |
+| 78 | Rules: `nebHorizontalScroll` only; drop caret from screen position. | `docs/M3X_DESIGN_SYSTEM.md` 13.4, 13.5, `AGENTS.md` 7b |
+
+## Not done / next
+- On-device pass: drag a picture near the field's bottom edge while the page scrolls; caret on a picture line after the keyboard opens.

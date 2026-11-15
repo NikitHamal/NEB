@@ -30,7 +30,7 @@ import androidx.compose.material.icons.outlined.FormatAlignRight
 import androidx.compose.material.icons.automirrored.outlined.WrapText
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.PhotoLibrary
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -431,7 +431,7 @@ fun TableBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean,
     val cols = rows.maxOf { it.size }
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Column(
-            Modifier.horizontalScroll(rememberScrollState()).clip(RoundedCornerShape(16.dp)).border(1.dp, c.outlineVariant, RoundedCornerShape(16.dp)),
+            Modifier.nebHorizontalScroll(rememberScrollState()).clip(RoundedCornerShape(16.dp)).border(1.dp, c.outlineVariant, RoundedCornerShape(16.dp)),
         ) {
             rows.forEachIndexed { r, row ->
                 Row(Modifier.background(if (r == 0) c.surfaceContainerHigh else Color.Transparent)) {
@@ -459,7 +459,7 @@ fun TableBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean,
             }
         }
         if (!readOnly) {
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.nebHorizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 TableChip("Row", true) { vm.tableShape(block.id, addRow = 1) }
                 TableChip("Column", true) { vm.tableShape(block.id, addCol = 1) }
                 if (rows.size > 1) TableChip("Row", false) { vm.tableShape(block.id, addRow = -1) }
@@ -569,7 +569,7 @@ fun DrawingBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolea
             }
         }
         if (editing && !readOnly) {
-            Row(Modifier.horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.nebHorizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 InkColors.forEach { ink ->
                     val on = !eraser && ink == color
                     Box(

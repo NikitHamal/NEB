@@ -51,7 +51,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Surface
 
@@ -169,7 +169,7 @@ fun MarkdownText(
                                 text = block.code,
                                 style = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 13.sp),
                                 color = color,
-                                modifier = Modifier.horizontalScroll(rememberScrollState())
+                                modifier = Modifier.nebHorizontalScroll(rememberScrollState())
                             )
                         }
                     }

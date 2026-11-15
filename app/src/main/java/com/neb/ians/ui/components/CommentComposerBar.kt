@@ -11,7 +11,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material.icons.outlined.CloseFullscreen
@@ -271,7 +271,7 @@ private fun NebCommentComposerBarFrame(
                         Row(
                             modifier = Modifier
                                 .weight(1f)
-                                .horizontalScroll(rememberScrollState())
+                                .nebHorizontalScroll(rememberScrollState())
                                 .padding(start = 4.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) { formatBar?.invoke() }

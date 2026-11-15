@@ -9,7 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -155,7 +155,7 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
                 item(key = "tools") {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         SyllabusSearchField(state.filter, viewModel::setFilter, placeholder = "Find a chapter or topic")
-                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             NebFilterChip(label = "All", selected = state.show == SyllabusShow.All, onClick = { viewModel.setShow(SyllabusShow.All) })
                             NebFilterChip(label = "To read", selected = state.show == SyllabusShow.ToStudy, onClick = { viewModel.setShow(SyllabusShow.ToStudy) })
                             NebFilterChip(label = "Done", selected = state.show == SyllabusShow.Done, onClick = { viewModel.setShow(SyllabusShow.Done) })

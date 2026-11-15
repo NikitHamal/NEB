@@ -37,7 +37,7 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -423,7 +423,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
                     .padding(top = topGap)
                     .clip(RoundedCornerShape(16.dp))
                     .background(p.tonal)
-                    .horizontalScroll(rememberScrollState())
+                    .nebHorizontalScroll(rememberScrollState())
                     .padding(16.dp)
             ) {
                 SelectionContainer {
@@ -496,7 +496,7 @@ private fun RdTableBody(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGa
             .padding(top = topGap)
             .clip(RoundedCornerShape(18.dp))
             .background(p.tonal)
-            .then(if (wide) Modifier.horizontalScroll(rememberScrollState()) else Modifier)
+            .then(if (wide) Modifier.nebHorizontalScroll(rememberScrollState()) else Modifier)
     ) {
         b.rows.forEachIndexed { i, row ->
             Row(
