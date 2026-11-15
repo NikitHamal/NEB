@@ -120,3 +120,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Touch drag of inline pictures on the web relies on the browser's own long-press drag.
 - Photo (gallery) covers and page backgrounds need a path column in the notes table.
 - On-device pass: pinch sizing inside the scrolling page, text beside picture while typing, hide / show toolbar with keyboard open.
+
+CI session 4: `e3650bb` is green on the first push; the Android release build (APK and AAB) compiles. Nothing was run on a device.
