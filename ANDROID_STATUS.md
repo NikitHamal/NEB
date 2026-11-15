@@ -295,3 +295,17 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device pass: drag a picture near the field's bottom edge while the page scrolls; caret on a picture line after the keyboard opens.
 
 CI session 12: `8fc2292` (guarded scroller, drag caret, picture line) is green; the Android release build compiles.
+
+---
+
+# Session 13: crash guard for lazy lists and pagers
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. The request came a fifth time with the same stack. Items 58 to 78 were read against the code again; they stand. The one hole left in the crash fix: session 12 guarded `horizontalScroll`, but `LazyRow` and `HorizontalPager` run the same constraint check (`checkScrollableContainerConstraints`) and were not guarded, so a lazy list under any horizontally scrolling or wrap-content ancestor still threw.
+
+| # | What | Where |
+| --- | --- | --- |
+| 79 | **Crash, lazy lists and pagers**. All 15 `LazyRow` and 4 `HorizontalPager` calls take `Modifier.boundedWidth()` (an infinite max width becomes the screen width). | Home, news, marketplace, creator studio, upload, shimmer, reader, intro, zoom, post detail |
+| 80 | **Audit script** `tools/android/check_scrollers.py`: fails on a bare `horizontalScroll(` or an unguarded `LazyRow(` / `HorizontalPager(`. Runs first in `build-release.yml`. Rule in design system 13.4 and `AGENTS.md` 7b. | `tools/android`, workflow |
+
+## Not done / next
+- On-device pass for the drag caret and for the bar hiding on Home, Library and Notes.

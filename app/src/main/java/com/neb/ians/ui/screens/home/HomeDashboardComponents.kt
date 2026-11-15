@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.home
 
 import com.neb.ians.ui.components.NebGlyphShapes
+import com.neb.ians.ui.components.boundedWidth
 import com.neb.ians.ui.components.nebShape
 import androidx.compose.ui.graphics.SolidColor
 import com.neb.ians.util.TactileType
@@ -91,6 +92,7 @@ internal fun HomeSubjectStrip(
     onSubjectClick: (String) -> Unit
 ) {
     LazyRow(
+        modifier = Modifier.boundedWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -171,6 +173,7 @@ internal fun HomeResourceCarousel(
     onResourceClick: (String) -> Unit
 ) {
     LazyRow(
+        modifier = Modifier.boundedWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -200,6 +203,7 @@ internal fun HomeNewResourcesRail(
             onActionClick = onViewAllClick
         )
         LazyRow(
+            modifier = Modifier.boundedWidth(),
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -237,6 +241,7 @@ internal fun HomeSuggestedDeck(
     onLikeClick: (String) -> Unit = {}
 ) {
     LazyRow(
+        modifier = Modifier.boundedWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -588,6 +593,7 @@ internal fun HomeFeedFilterStrip(
     }
 
     LazyRow(
+        modifier = Modifier.boundedWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -878,6 +884,7 @@ internal fun HomeSuggestedPeersRail(
             onActionClick = onSeeAllClick
         )
         LazyRow(
+            modifier = Modifier.boundedWidth(),
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {

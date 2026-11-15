@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.onboarding
 
 import androidx.compose.animation.animateContentSize
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -140,7 +141,7 @@ fun IntroScreen(onFinish: () -> Unit) {
 
             HorizontalPager(
                 state = pager,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).boundedWidth(),
                 beyondViewportPageCount = 1
             ) { page ->
                 val active = pager.settledPage == page || pager.currentPage == page

@@ -29,6 +29,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - name: Check horizontal scrollers (infinite width crash guard)
+        run: python3 tools/android/check_scrollers.py
+
       - name: Set up JDK 17
         uses: actions/setup-java@v6
         with:

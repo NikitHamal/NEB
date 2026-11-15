@@ -6,6 +6,7 @@
 package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,6 +78,7 @@ internal fun StudioTemplateGallery(
         }
         NebFieldHint("Finished pages. Pick one, then change anything you like.")
         LazyRow(
+            modifier = Modifier.boundedWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             contentPadding = PaddingValues(vertical = 2.dp)
         ) {

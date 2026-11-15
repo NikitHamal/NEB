@@ -513,6 +513,8 @@ These are the flaws that keep appearing in dialogs, popups, sheets, toolbars and
 
 - **Always `nebHorizontalScroll`, never `horizontalScroll`** (`ui/components/SafeScroll.kt`). It puts a width guard (`boundedWidth`) in front of the scroller, so an ancestor that hands down an infinite width (an intrinsic probe, a wrap-content parent, a scroller above) degrades to a layout that scrolls instead of a crash. A grep for the bare name must return only `SafeScroll.kt`. Do not "fix" a crash by removing the guard.
 
+- **`LazyRow`, `HorizontalPager` and every other lazy horizontal list carry `Modifier.boundedWidth()`** in their `modifier`. They check their constraints too and throw the same infinity error; `nebHorizontalScroll` alone did not cover them (session 13). `python3 tools/android/check_scrollers.py` fails on a bare `horizontalScroll(` or an unguarded `LazyRow(` / `HorizontalPager(`, and runs first in the Android release workflow. Run it before every push that touches a scroller.
+
 ### 13.5 Text with pictures inside (post, reply and note composers)
 - The text keeps its normal line height everywhere. Only the paragraph (line) that holds a picture grows (`ParagraphStyle`), so an ordinary line never gets taller because a picture exists elsewhere.
 - The caret is as tall as the text and centred in its line, also on a line that holds a picture. On Android the field draws its own caret when pictures exist (`RichTextField`); on the web the drop bar is capped to the text's line height.

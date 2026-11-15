@@ -3,6 +3,7 @@
 package com.neb.ians.ui.screens.upload
 
 import androidx.compose.animation.AnimatedVisibility
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -328,7 +329,7 @@ private fun PageStrip(
     onRemove: (Int) -> Unit
 ) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().boundedWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(end = 4.dp)
     ) {

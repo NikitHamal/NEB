@@ -7,6 +7,7 @@
 package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -407,7 +408,7 @@ private fun CourseShelf(
             }
         }
     } else {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(courses, key = { it.id }) { course ->
                 MarketplaceCourseCard(
                     course = course,

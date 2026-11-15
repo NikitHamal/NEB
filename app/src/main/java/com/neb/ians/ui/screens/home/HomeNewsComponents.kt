@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.home
 
 import androidx.compose.foundation.BorderStroke
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,6 +62,7 @@ fun HomeNewsSection(
             onActionClick = onViewAllClick
         )
         LazyRow(
+            modifier = Modifier.boundedWidth(),
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {

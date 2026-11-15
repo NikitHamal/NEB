@@ -92,7 +92,7 @@ fun ZoomableImageDialog(
         ) {
             HorizontalPager(
                 state = pager,
-                modifier = Modifier.fillMaxSize().graphicsLayer { translationY = drag },
+                modifier = Modifier.boundedWidth().fillMaxSize().graphicsLayer { translationY = drag },
                 beyondViewportPageCount = 1,
                 pageSpacing = 12.dp,
                 userScrollEnabled = zoom <= 1.02f

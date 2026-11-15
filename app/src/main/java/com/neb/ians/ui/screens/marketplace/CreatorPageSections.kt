@@ -7,6 +7,7 @@
 package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -168,7 +169,7 @@ internal fun CreatorPricingBlock(block: ApiCreatorBlock, isLast: Boolean, onJump
         subtitle = block.subtitle,
         isLast = isLast
     ) {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
               item {
                 // `.mkt-plan-featured`: the badge is how a creator says "this
@@ -354,7 +355,7 @@ internal fun CreatorTeamBlock(block: ApiCreatorBlock, isLast: Boolean) {
         subtitle = block.subtitle,
         isLast = isLast
     ) {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
                 item {
                     Column(
