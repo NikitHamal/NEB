@@ -377,29 +377,32 @@ private fun RowScope.ComposerTools(
     onKind: (() -> Unit)?,
     trailingContent: (@Composable RowScope.() -> Unit)?
 ) {
-    if (canFormat) {
-        ComposerToolButton(
-            icon = {
-                Icon(
-                    Icons.Outlined.FormatColorText,
-                    contentDescription = if (formatOpen) "Hide formatting" else "Show formatting",
-                    modifier = Modifier.size(20.dp)
-                )
-            },
-            active = formatOpen,
-            enabled = enabled,
-            onClick = onFormat
-        )
-    }
-    trailingContent?.invoke(this)
-    if (kind != null && onKind != null) {
-        val spec = REPLY_KINDS.firstOrNull { it.key == kind } ?: REPLY_KINDS.first()
-        ComposerToolButton(
-            icon = { Icon(spec.icon, contentDescription = "Reply type: ${spec.label}", modifier = Modifier.size(20.dp)) },
-            active = kind != "comment",
-            enabled = enabled,
-            onClick = onKind
-        )
+    // tiles never touch: a tonal (on or pressed) tile keeps a 6dp gap to its neighbour
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+        if (canFormat) {
+            ComposerToolButton(
+                icon = {
+                    Icon(
+                        Icons.Outlined.FormatColorText,
+                        contentDescription = if (formatOpen) "Hide formatting" else "Show formatting",
+                        modifier = Modifier.size(20.dp)
+                    )
+                },
+                active = formatOpen,
+                enabled = enabled,
+                onClick = onFormat
+            )
+        }
+        trailingContent?.invoke(this)
+        if (kind != null && onKind != null) {
+            val spec = REPLY_KINDS.firstOrNull { it.key == kind } ?: REPLY_KINDS.first()
+            ComposerToolButton(
+                icon = { Icon(spec.icon, contentDescription = "Reply type: ${spec.label}", modifier = Modifier.size(20.dp)) },
+                active = kind != "comment",
+                enabled = enabled,
+                onClick = onKind
+            )
+        }
     }
 }
 
