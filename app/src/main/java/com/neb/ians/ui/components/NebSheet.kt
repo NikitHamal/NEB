@@ -8,6 +8,9 @@ package com.neb.ians.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,8 +36,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+
+/** Visible scrim band between the status bar and the top of a full height sheet. */
+private val SheetTopGap = 24.dp
+private val SheetHandleAllowance = 26.dp
 
 @Composable
 fun NebSheetHandle() {
@@ -63,8 +72,18 @@ fun NebModalSheet(
     showClose: Boolean = false,
     sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     horizontalPadding: Dp = 22.dp,
+    /**
+     * Default false: the sheet pads `content` by [horizontalPadding] so nothing can touch the screen edge.
+     * Pass true only when the content draws its own edge to edge rows (menu rows, lazy lists) or pads itself.
+     */
+    fullBleed: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    // A sheet never grows under the status bar: keep a visible scrim band above it.
+    val density = LocalDensity.current
+    val windowH = LocalWindowInfo.current.containerSize.height
+    val statusTop = WindowInsets.statusBars.getTop(density)
+    val maxSheetContent = with(density) { (windowH - statusTop).toDp() } - SheetTopGap - SheetHandleAllowance
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
@@ -77,6 +96,7 @@ fun NebModalSheet(
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .heightIn(max = maxSheetContent.coerceAtLeast(240.dp))
                 .imePadding()
                 .navigationBarsPadding()
         ) {
@@ -122,7 +142,11 @@ fun NebModalSheet(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            content()
+            if (fullBleed) {
+                content()
+            } else {
+                Column(modifier = Modifier.fillMaxWidth().padding(horizontal = horizontalPadding)) { content() }
+            }
             Spacer(modifier = Modifier.height(16.dp))
         }
     }

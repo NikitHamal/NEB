@@ -66,7 +66,8 @@ fun FilterDialog(
         } else {
             "$activeCount filter${if (activeCount == 1) "" else "s"} active"
         },
-        showClose = true
+        showClose = true,
+        fullBleed = true // bleed: content pads itself or draws edge to edge rows
     ) {
         Column(
             modifier = Modifier

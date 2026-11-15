@@ -545,7 +545,8 @@ fun ResourcePurchaseSheet(
 
     NebModalSheet(
         onDismiss = onDismiss,
-        sheetState = sheetState
+        sheetState = sheetState,
+        fullBleed = true // bleed: content pads itself or draws edge to edge rows
     ) {
         Column(
             modifier = Modifier

@@ -530,3 +530,15 @@ These are the flaws that keep appearing in dialogs, popups, sheets, toolbars and
 - Change and Remove appear only after a tap on the cover and fold away after a few seconds.
 - A list card shows a short preview: a title, two to four lines, and one small preview of what the note holds (pictures as a 1, 2 or 3-up mosaic with +N, a recording as a waveform tile, a drawing redrawn from its strokes, a table as a mini grid, code as a mono tile), then one footer line. Media is read from the note's blocks off the main thread and cached (`NoteMediaCache`). Lists of notes use a staggered grid (adaptive columns) and a header that is one 56dp row followed directly by the filters.
 - The drop caret reads the fingertip from the screen (`localPositionOf` the field's overlay), never from accumulated drag deltas, so a page that scrolls while a picture is dragged cannot make the caret drift away from the finger. A picture's line is the picture plus 6dp; the caret is 1.2 em tall (Meta's), not the line's height. One scroll-follow job at a time (cancel the previous).
+
+### 13.7 Bottom sheets: padded content, never under the status bar (session 18, third time)
+
+Why it kept happening: `NebModalSheet` padded only its title row. Whatever a caller put in the body started at x = 0, so every new sheet (Sign in, Pathways route detail) shipped with text and buttons glued to the screen edge, and a tall sheet ran up under the status bar. Each agent copied the nearest sheet and nobody owned the padding.
+
+The rule now lives in the component, not in the caller:
+- `NebModalSheet` pads its body by `horizontalPadding` (22dp) by default. A new sheet writes content and gets correct margins for free. Do not add your own horizontal padding on top.
+- `fullBleed = true` is for menu style rows that draw edge to edge, lazy lists, or content that already pads itself. It needs a `// bleed: why` comment on the call.
+- The body is capped to the window height minus the status bar minus a 24dp scrim band, so a full height sheet never touches or passes the status bar. Keep long content in a `verticalScroll` or lazy list inside the sheet.
+- Never call `ModalBottomSheet(` directly in a new file. `tools/android/check_sheets.py` (first CI step) fails on it, and on `fullBleed = true` without the comment. The legacy raw sheets are in the script's list; migrate them, do not extend it.
+- Same check by eye before saying done: open the sheet at 390 px wide, the text must have 22dp from both edges and the buttons must not touch the screen sides.
+

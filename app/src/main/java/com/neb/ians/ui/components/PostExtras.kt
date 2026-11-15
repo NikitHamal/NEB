@@ -652,7 +652,8 @@ fun PostMoreMenu(
     }
     if (showSheet) {
         NebModalSheet(
-            onDismiss = { showSheet = false }
+            onDismiss = { showSheet = false },
+            fullBleed = true // bleed: content pads itself or draws edge to edge rows
         ) {
             Column(modifier = Modifier.padding(bottom = 8.dp)) {
                 BottomSheetItem(

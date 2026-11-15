@@ -202,7 +202,8 @@ fun NebChoiceSheet(
         onDismiss = onDismiss,
         title = title,
         subtitle = subtitle,
-        showClose = true
+        showClose = true,
+        fullBleed = true // bleed: content pads itself or draws edge to edge rows
     ) {
         Column(
             modifier = Modifier

@@ -73,7 +73,7 @@ fun ReaderOptionsSheet(
     assistantHidden: Boolean = false,
     onAssistantHidden: ((Boolean) -> Unit)? = null
 ) {
-    NebModalSheet(onDismiss = onDismiss, title = "Page options") {
+    NebModalSheet(onDismiss = onDismiss, title = "Page options", fullBleed = true) { // bleed: content pads itself or draws edge to edge rows
         Column(Modifier.padding(horizontal = 22.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 OptionLabel("Page colour")
@@ -162,7 +162,7 @@ fun ThumbnailsSheet(
     onPick: (Int) -> Unit,
     onDismiss: () -> Unit
 ) {
-    NebModalSheet(onDismiss = onDismiss, title = "All pages", subtitle = "${aspects.size} pages") {
+    NebModalSheet(onDismiss = onDismiss, title = "All pages", subtitle = "${aspects.size} pages", fullBleed = true) { // bleed: content pads itself or draws edge to edge rows
         val gridState = rememberLazyGridState(initialFirstVisibleItemIndex = (current - 3).coerceAtLeast(0))
         LazyVerticalGrid(
             columns = GridCells.Adaptive(96.dp),
@@ -227,7 +227,7 @@ fun BookmarksSheet(
     onDismiss: () -> Unit
 ) {
     val pages = remember(bookmarks) { bookmarks.filter { it in aspects.indices }.sorted() }
-    NebModalSheet(onDismiss = onDismiss, title = "Bookmarks") {
+    NebModalSheet(onDismiss = onDismiss, title = "Bookmarks", fullBleed = true) { // bleed: content pads itself or draws edge to edge rows
         if (pages.isEmpty()) {
             NebEmptyState(
                 icon = Icons.Outlined.BookmarkBorder,
@@ -296,7 +296,7 @@ fun ContentsSheet(
     onPick: (OutlineItem) -> Unit,
     onDismiss: () -> Unit
 ) {
-    NebModalSheet(onDismiss = onDismiss, title = "Contents") {
+    NebModalSheet(onDismiss = onDismiss, title = "Contents", fullBleed = true) { // bleed: content pads itself or draws edge to edge rows
         if (items.isEmpty()) {
             NebEmptyState(
                 icon = Icons.Outlined.BookmarkBorder,

@@ -361,7 +361,7 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
 /** A notes sheet: the same sheet as everywhere, with the content inset to the title's edge so nothing touches the screen sides. */
 @Composable
 fun NoteSheet(onDismiss: () -> Unit, title: String, content: @Composable ColumnScope.() -> Unit) {
-    NebModalSheet(onDismiss = onDismiss, title = title) {
+    NebModalSheet(onDismiss = onDismiss, title = title, fullBleed = true) { // bleed: content pads itself or draws edge to edge rows
         Column(Modifier.fillMaxWidth().padding(horizontal = 22.dp), content = content)
     }
 }
