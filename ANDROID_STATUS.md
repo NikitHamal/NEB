@@ -416,3 +416,24 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device pass: sign-in return from the reply bar, gated create menu.
 
 CI session 17: `9579340` (opt-in fix) is green, the Android release build compiles. `bbc1dc4` touched only the Django side; `backend-tests.yml` is green. Nothing was run on a device.
+
+---
+
+# Session 18: sheet flaw fixed at the root, Questions tab, entity text
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run (and `backend-tests.yml`). The brief came again (dynamic posts, caret, guest browsing, Pathways). Items 89 to 98 were read against the code; the caret follow, guest browsing with return to the screen, Pathways and the dynamic posts lab all exist, so nothing was redone. New in this session:
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 99 | **Why every new sheet was flawed (Sign in sheet, Pathways route sheet): `NebModalSheet` padded only its title.** A body started at x = 0, so text and buttons touched the screen edges, and a full height sheet ran up under the status bar. Each agent copied the nearest sheet and nobody owned the margin. Fixed in the component: the body is padded by `horizontalPadding` (22dp) by default; `fullBleed = true` is the explicit opt out (menu rows, lazy lists, content that pads itself, 13 existing callers marked with a `// bleed:` comment); the body is capped to window height minus status bar minus 24dp so a scrim band stays above the sheet. | `components/NebSheet.kt` and the callers |
+| 100 | **Guard so it cannot come back.** `tools/android/check_sheets.py` runs first in `build-release.yml`: no new raw `ModalBottomSheet(`, no `fullBleed = true` without `// bleed:`. Rule in `docs/M3X_DESIGN_SYSTEM.md` 13.7 and `AGENTS.md` 7c. Legacy raw sheets (picker, reading, legal, creator studio, study reader, profile glass) are listed in the script and still need migrating. | `tools/android`, docs |
+| 101 | **`&amp;` in feed titles ("Tihar &amp; Kag Tihar").** Post title and content, and reply content, are decoded once when read (`EntityString` serializer on `ApiPost` and `ApiReply`). | `data/api/EntityString.kt`, `ApiService.kt` |
+| 102 | **Pathways Questions tab** (web and Android): 20 plain answers in 6 topics (After Class 8, After SEE, After +2, After a bachelor, Going abroad, Choosing well), each with chips that open the matching route. One dataset `api/data/pathways/faq.json` in the same ETag payload; `problems()` and a test check topics and route references and the no-dash rule. Web: native `details`, spring chevron. Android: expandable cards with `animateContentSize`. | `api/pathways.py`, `faq.json`, `pathways.js/css`, `PathwaysFaq.kt` |
+
+## Not done / next
+- Dynamic posts stays a demo on purpose (the owner wants to review first). Next once approved: `look` JSON on forum posts (null default), look picker in both composers, render in feed card and reader.
+- Migrate the legacy raw sheets to `NebModalSheet`.
+- Pathways: Nepali labels, saved pathways, per-course seat and fee tables, more private colleges per district.
+- On-device pass for the sheets (390 px: 22dp from both edges, scrim band above a tall sheet).
