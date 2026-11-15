@@ -205,16 +205,17 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 | 54 | **Text alignment per block**: left, centre, right (reuses block `align`, JSON `a`; the hint follows it). The Block sheet scrolls now (it was taller than small screens once these were added). | `NoteBlockEditor.kt`, `NoteEditorViewModel.setLook` |
 | 55 | **Paper**: Margin and Wide grid added; the picker scrolls. | `NotePaper.kt` |
 | 56 | **Looks**: six more note colours (Lilac, Apricot, Olive, Cocoa, Charcoal, Steel; 28 in all) and five more one-tap themes (Notebook, Recipe, Grove, Cocoa, Studio; 20 in all). | `NoteTones.kt` |
-| 57 | **List cards** show the nearest due date of the open to-dos as a tonal chip (red once late). Duplicating a note keeps its paper. | `NotesScreen.kt`, `NotesRepository.kt` |
+| 57 | **List cards** show the nearest due date of the open to-dos as a tonal chip (red once late). Duplicating a note keeps its paper and copies its cover and page picture files into the new note's folder (`NotesRepository.duplicate`; picture blocks still point at the same files). | `NotesScreen.kt`, `NotesRepository.kt` |
 
 ## Rules
 - Block look (`align`, `tint`, `mark`) is block data, never a marker in the text. Change it only through `NoteEditorViewModel.setLook`.
 - The page picture is drawn by `Modifier.noteBackdrop` placed before `verticalScroll`; do not move it inside the scrolled content.
 
 ## Not done / next
-- Duplicating a note copies the cover and page picture file names but not the files (the new note has its own folder). Copy `notes/<old>/` on duplicate.
 - Comment bar pictures are still attachments, not inline.
 - Web has no notes screen; the web composers are unchanged this session.
 - On-device pass: wash strength on busy photos, ink contrast on the dark tones, Block sheet height with the keyboard open.
 
 CI session 7: `0daff0f` (templates, photo cards, cover controls) is green. `5720dff` (a parallel push: page picture, ink, paper) failed on one wrong `ImageVector` import in `NoteInkControls.kt`; fixed in the next commit.
+
+CI session 8: `5720dff` failed on one wrong `ImageVector` import (fixed in `d809ef8`); the duplicate-files change is the next commit.
