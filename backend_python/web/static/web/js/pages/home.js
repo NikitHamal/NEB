@@ -318,6 +318,24 @@
 
     // ── Rich Markdown & LaTeX Formatting Toolset ──
     var formatToolbar = document.getElementById('homePostFormatToolbar');
+    /* The formatting row folds away for a clean page and comes back with the same button; the choice is remembered. */
+    (function () {
+      var fold = document.getElementById('homePostFoldBtn');
+      if (!fold || !formatToolbar) return;
+      var row = fold.parentNode, icon = fold.querySelector('.material-symbols-outlined');
+      function set(open, save) {
+        row.classList.toggle('is-folded', !open);
+        fold.setAttribute('aria-expanded', open ? 'true' : 'false');
+        var label = open ? 'Hide formatting' : 'Show formatting';
+        fold.setAttribute('aria-label', label); fold.title = label;
+        if (icon) icon.textContent = open ? 'chevron_left' : 'text_format';
+        if (save) { try { localStorage.setItem('nebFormatOpen', open ? '1' : '0'); } catch (e) { /* private mode */ } }
+      }
+      var saved = null;
+      try { saved = localStorage.getItem('nebFormatOpen'); } catch (e) { /* private mode */ }
+      set(saved !== '0', false);
+      fold.addEventListener('click', function () { set(row.classList.contains('is-folded'), true); });
+    })();
     var mathHelper = document.getElementById('homePostMathHelper');
     var writeModeBtn = document.getElementById('homePostWriteModeBtn');
     var previewModeBtn = document.getElementById('homePostPreviewModeBtn');

@@ -122,3 +122,25 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device pass: pinch sizing inside the scrolling page, text beside picture while typing, hide / show toolbar with keyboard open.
 
 CI session 4: `e3650bb` is green on the first push; the Android release build (APK and AAB) compiles. Nothing was run on a device.
+
+---
+
+# Session 5: sheet insets, photo covers, more looks, web editor speed
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picks up session 4 (block sheet, picture tools, appearance sheet) and the web editor `neb-live.js`, which already is a contenteditable WYSIWYG (the session 4 note saying the web composer still writes Markdown into a textarea was out of date: `forum-composer.js` / `home.js` talk to `NebLive`).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 36 | **Sheets in notes no longer touch the screen sides.** The title was inset and the content was not (icon grid, New note tiles, Block, Appearance, Colour, voice setup). One wrapper, `NoteSheet`, insets the content to the title's edge. | `NotePage.kt` (`NoteSheet`), callers in `NotesScreen`, `NoteEditorScreen`, `NoteBlockEditor`, `VoiceModelsScreen` |
+| 37 | **Cover from the gallery.** Cover sheet has a From gallery row; the picture is scaled to 1600 px, saved in the note's own folder (`notes/<id>/cover_<time>.jpg`), decoded off the main thread, shown on the page and on list cards (half size). Built-in cover index is -1 while a photo is set. Room version 6, column `coverPhoto` (migration 5 to 6). | `NoteCoverPhoto.kt`, `NoteEditorViewModel.setCoverPhoto`, `NoteEntity`, `DatabaseMigrations` |
+| 38 | **More looks**: covers 24 to 40 (six new palettes), tones 18 to 22 (Rose, Teal, Coral, Dusk added), themes 9 to 15, icons 60 to 70. | `NotePage.kt`, `NoteTones.kt` |
+| 39 | **Post composer: formatting row can be hidden** (chevron at its start, Aa brings it back, state survives rotation). | `CreatePostChrome.kt` (`ComposerFormatRow`) |
+| 40 | **Web editor speed and glitches.** The Markdown copy and the textarea `input` event now run once per frame instead of once per key (`flush()` runs first on blur and whenever `value` is read). Writing back the text the editor already holds no longer rebuilds the document (that rebuild moved the caret and flashed the formatting). | `neb-live.js` |
+| 41 | **Web: no code to start a list.** `- `, `* `, `1. `, `# `, `## `, `> ` at the start of a plain line become a bullet list, numbered list, heading or quote. | `neb-live.js` (`autoformat`) |
+| 42 | **Web: formatting row folds** in the post dialog (chevron button, choice kept in localStorage). | `_home_composer.html`, `pages/home.js`, `m3x-app.css` |
+
+## Not done / next
+- Page background pictures (cover only for now), to-do due dates.
+- On-device pass: photo cover on a list card, pinch sizing inside the scrolling note, Autoformat after Enter on the web.
