@@ -36,7 +36,11 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -151,7 +155,15 @@ fun RichTextField(
         return androidx.compose.ui.geometry.Rect(r.left, cy - h / 2f, r.right, cy + h / 2f)
     }
 
-    Box(modifier = modifier, propagateMinConstraints = true) {
+    // while a picture is dragged, the scrolling page follows the drop caret (a little room above and below it)
+    val reveal = remember { BringIntoViewRequester() }
+    val scope = rememberCoroutineScope()
+    val revealPx = with(density) { 56.dp.toPx() }
+    fun follow(r: androidx.compose.ui.geometry.Rect) {
+        scope.launch { runCatching { reveal.bringIntoView(androidx.compose.ui.geometry.Rect(r.left, r.top - revealPx, r.right + 1f, r.bottom + revealPx)) } }
+    }
+
+    Box(modifier = modifier.bringIntoViewRequester(reveal), propagateMinConstraints = true) {
         BasicTextField(
             value = value,
             onValueChange = onChange ?: state::onChange,
@@ -208,6 +220,7 @@ fun RichTextField(
                         onRemove = { state.removeImage(state.doc.keys.indexOf(imageKey)) },
                         onHover = { finger ->
                             dropCaret = finger?.let { runCatching { slim(lr.getCursorRect(snap(lr.getOffsetForPosition(it)))) }.getOrNull() }
+                            dropCaret?.let { follow(it) }
                         },
                         onDrop = { finger ->
                             val at = built.toOriginal(snap(lr.getOffsetForPosition(finger)))
