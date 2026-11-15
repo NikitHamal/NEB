@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Newspaper
+import androidx.compose.material.icons.outlined.Route
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -52,6 +53,7 @@ fun LiquidGlassProfileSheet(
     onDownloadsClick: () -> Unit,
     onBlogClick: () -> Unit,
     onToolsClick: () -> Unit,
+    onPathwaysClick: () -> Unit = {},
     onSettingsClick: () -> Unit,
     onSignOutClick: () -> Unit
 ) {
@@ -157,6 +159,7 @@ fun LiquidGlassProfileSheet(
                     .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .padding(vertical = 6.dp)
             ) {
+                ProfileGlassRow(Icons.Outlined.Route, "Pathways", onPathwaysClick)
                 ProfileGlassRow(Icons.Outlined.Newspaper, "Blog", onBlogClick)
                 ProfileGlassRow(Icons.Outlined.Build, "Tools", onToolsClick)
                 HorizontalDivider(

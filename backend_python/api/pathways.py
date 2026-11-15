@@ -63,6 +63,8 @@ def payload():
         'abroad': abroad,
         'topics': _load('faq.json')['topics'],
         'faq': _load('faq.json')['faq'],
+        'govt_tracks': _load('govt.json')['tracks'],
+        'govt': _load('govt.json')['govt'],
     }
     body = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     data['etag'] = hashlib.md5(body.encode('utf-8')).hexdigest()[:16]

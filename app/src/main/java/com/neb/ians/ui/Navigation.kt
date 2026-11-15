@@ -1203,6 +1203,10 @@ fun NEBiansNavHost(
                         showProfileDropdown = false
                         navController.navigate(Screen.News.route)
                     },
+                    onPathwaysClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.Pathways.route)
+                    },
                     onToolsClick = {
                         showProfileDropdown = false
                         navController.navigate(Screen.Tools.route)
