@@ -108,6 +108,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.material.icons.outlined.TextFormat
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -184,6 +188,7 @@ fun NoteEditorScreen(
     var setup by remember { mutableStateOf<Setup?>(null) }
     var menu by remember { mutableStateOf(false) }
     var toneSheet by remember { mutableStateOf(false) }
+    var barOpen by rememberSaveable { mutableStateOf(true) }
     var iconSheet by remember { mutableStateOf(false) }
     var coverSheet by remember { mutableStateOf(false) }
     var tagDialog by remember { mutableStateOf(false) }
@@ -255,9 +260,7 @@ fun NoteEditorScreen(
                         MenuItem("Restore", Icons.Outlined.RestoreFromTrash) { menu = false; vm.restoreFromBin() }
                         MenuItem("Delete forever", Icons.Outlined.DeleteForever, danger = true) { menu = false; confirmDelete = true }
                     } else {
-                        MenuItem("Colour", Icons.Outlined.Palette) { menu = false; toneSheet = true }
-                        MenuItem(if (iconKey.isEmpty()) "Add icon" else "Change icon", Icons.Outlined.Category) { menu = false; iconSheet = true }
-                        MenuItem(if (coverIndex == 0) "Add cover" else "Change cover", Icons.Outlined.Image) { menu = false; coverSheet = true }
+                        MenuItem("Appearance", Icons.Outlined.Palette) { menu = false; toneSheet = true }
                         MenuItem("Add tag", Icons.Outlined.Add) { menu = false; tagDialog = true }
                         MenuItem("Share", Icons.Outlined.Share) { menu = false; shareText(context, vm.shareText()) }
                         MenuItem("Duplicate", Icons.Outlined.ContentCopy) { menu = false; vm.duplicate(onOpenNote) }
@@ -330,6 +333,11 @@ fun NoteEditorScreen(
                     }
                 }
             }
+            val todoTotal = blocks.count { it.type == BlockType.Todo }
+            if (todoTotal > 0) {
+                val todoDone = blocks.count { it.type == BlockType.Todo && it.checked }
+                TodoProgress(todoDone, todoTotal, fg, trashed) { vm.clearDone() }
+            }
             Spacer(Modifier.height(6.dp))
             NoteBlockEditor(blocks, vm, registry, readOnly = trashed, fg = fg, modifier = Modifier.padding(top = 4.dp), reorder = reorder)
             Spacer(Modifier.height(40.dp))
@@ -351,14 +359,30 @@ fun NoteEditorScreen(
             }
             notice?.let { ErrorBar(it, vm::clearNotice) }
             if (!trashed) {
-                BlockFormatBar(
-                    blocks = blocks, vm = vm, registry = registry, fg = fg,
-                    modifier = Modifier.padding(start = 12.dp, end = 16.dp, top = 4.dp, bottom = 10.dp),
-                ) {
-                    Spacer(Modifier.width(8.dp))
-                    MicButton(listening = listening, level = vm.level) {
-                        tactile.perform(TactileType.LightTap)
-                        if (listening) vm.stopDictation() else beginDictation()
+                AnimatedVisibility(barOpen, enter = expandVertically(spring(stiffness = 500f)) + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+                    BlockFormatBar(
+                        blocks = blocks, vm = vm, registry = registry, fg = fg,
+                        modifier = Modifier.padding(start = 12.dp, end = 16.dp, top = 4.dp, bottom = 10.dp),
+                        onCollapse = { barOpen = false },
+                    ) {
+                        Spacer(Modifier.width(8.dp))
+                        MicButton(listening = listening, level = vm.level) {
+                            tactile.perform(TactileType.LightTap)
+                            if (listening) vm.stopDictation() else beginDictation()
+                        }
+                    }
+                }
+                AnimatedVisibility(!barOpen, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+                    Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            Modifier.size(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh).clickable { barOpen = true },
+                            contentAlignment = Alignment.Center,
+                        ) { Icon(Icons.Outlined.TextFormat, "Show toolbar", tint = c.onSurface) }
+                        Spacer(Modifier.weight(1f))
+                        MicButton(listening = listening, level = vm.level) {
+                            tactile.perform(TactileType.LightTap)
+                            if (listening) vm.stopDictation() else beginDictation()
+                        }
                     }
                 }
             }
@@ -372,8 +396,17 @@ fun NoteEditorScreen(
         NoteCoverSheet(current = coverIndex, onPick = { vm.setCover(it); coverSheet = false }, onDismiss = { coverSheet = false })
     }
     if (toneSheet) {
-        NebModalSheet(onDismiss = { toneSheet = false }, title = "Colour") {
-            ToneSwatches(current = toneIndex, onPick = { vm.setTone(it); toneSheet = false })
+        NebModalSheet(onDismiss = { toneSheet = false }, title = "Appearance") {
+            Column(Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("Themes", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
+                NoteThemeRow(toneIndex) { th -> vm.setTone(th.tone); vm.setCover(th.cover); vm.setIcon(th.icon) }
+                Text("Colour", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
+                ToneSwatches(current = toneIndex, onPick = { vm.setTone(it) })
+                Row(Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    GhostChip(if (iconKey.isEmpty()) "Add icon" else "Change icon", Icons.Outlined.Category, Modifier.weight(1f)) { toneSheet = false; iconSheet = true }
+                    GhostChip(if (coverIndex == 0) "Add cover" else "Change cover", Icons.Outlined.Image, Modifier.weight(1f)) { toneSheet = false; coverSheet = true }
+                }
+            }
         }
     }
     if (setup != null) {
@@ -649,4 +682,38 @@ private fun TagDialog(onAdd: (String) -> Unit, onDismiss: () -> Unit) {
         confirmButton = { TextButton(onClick = { onAdd(text.text) }, enabled = text.text.isNotBlank()) { Text("Add") } },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
     )
+}
+
+@Composable
+private fun GhostChip(label: String, icon: ImageVector, modifier: Modifier, onClick: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    Row(
+        modifier.height(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh).clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+    ) {
+        Icon(icon, null, tint = c.onSurfaceVariant, modifier = Modifier.size(18.dp))
+        Text(label, style = MaterialTheme.typography.labelLarge, color = c.onSurface)
+    }
+}
+
+/** A slim bar and a count above the list of to-dos; the bar fills with a spring as items are ticked. */
+@Composable
+private fun TodoProgress(done: Int, total: Int, fg: Color, readOnly: Boolean, onClear: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    val p by androidx.compose.animation.core.animateFloatAsState(
+        if (total == 0) 0f else done.toFloat() / total,
+        androidx.compose.animation.core.spring(dampingRatio = 0.7f, stiffness = 300f), label = "todo_progress",
+    )
+    Row(Modifier.fillMaxWidth().padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Box(Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(3.dp)).background(fg.copy(alpha = 0.12f))) {
+            Box(Modifier.fillMaxWidth(p).height(6.dp).clip(RoundedCornerShape(3.dp)).background(c.primary))
+        }
+        Text("$done of $total", style = MaterialTheme.typography.labelMedium, color = fg.copy(alpha = 0.7f))
+        if (done > 0 && !readOnly) {
+            Text(
+                "Clear", style = MaterialTheme.typography.labelMedium, color = c.primary,
+                modifier = Modifier.clip(RoundedCornerShape(12.dp)).clickable(onClick = onClear).padding(horizontal = 8.dp, vertical = 6.dp),
+            )
+        }
+    }
 }

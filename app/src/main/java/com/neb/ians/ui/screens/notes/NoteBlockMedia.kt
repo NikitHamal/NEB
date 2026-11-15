@@ -18,6 +18,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.calculateZoom
+import androidx.compose.ui.input.pointer.PointerEventPass
+import coil.request.ImageRequest
+import androidx.compose.material.icons.outlined.OpenInFull
+import androidx.compose.material.icons.outlined.FormatAlignLeft
+import androidx.compose.material.icons.outlined.FormatAlignCenter
+import androidx.compose.material.icons.outlined.FormatAlignRight
+import androidx.compose.material.icons.automirrored.outlined.WrapText
+import androidx.compose.material.icons.outlined.Crop
+import androidx.compose.material.icons.outlined.PhotoLibrary
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -111,61 +123,151 @@ private fun EmptyMediaCard(icon: ImageVector, label: String, onClick: () -> Unit
 
 // ---------------------------------------------------------------------------------------------------- photos
 
+/** Crop presets, 0 is the picture as taken. */
+internal val ImageRatios = listOf("Original" to 0f, "Square" to 1f, "Wide" to 16f / 9f, "Tall" to 0.8f)
+
 @Composable
-fun ImageBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean) {
+fun ImageBlockView(
+    block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean,
+    selected: Boolean, onSelect: () -> Unit, inRow: Boolean = false,
+) {
     val c = MaterialTheme.colorScheme
+    val context = LocalContext.current
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.fillImage(block.id, uri) }
     if (block.path.isBlank()) {
         if (!readOnly) EmptyMediaCard(Icons.Outlined.Image, "Add a photo", { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) })
         return
     }
-    val aspect by produceState(1.5f, block.path) {
+    val natural by produceState(1.5f, block.path) {
         value = withContext(Dispatchers.IO) {
             val o = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeFile(block.path, o)
             if (o.outWidth > 0 && o.outHeight > 0) (o.outWidth.toFloat() / o.outHeight).coerceIn(0.4f, 3f) else 1.5f
         }
     }
-    var selected by remember { mutableStateOf(false) }
+    val aspect = ImageRatios.getOrNull(block.ratio)?.second?.takeIf { it > 0f } ?: natural
+    val edit = selected && !readOnly
     var live by remember(block.id) { mutableFloatStateOf(block.size) }
     LaunchedEffect(block.size) { live = block.size }
     var fullPx by remember { mutableIntStateOf(0) }
-    Column(Modifier.fillMaxWidth().onSizeChanged { fullPx = it.width }, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Box(Modifier.fillMaxWidth(live.coerceIn(0.2f, 1f)).aspectRatio(aspect)) {
-            AsyncImage(
-                model = File(block.path), contentDescription = "Photo", contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize().clip(RoundedCornerShape(18.dp)).clickable(enabled = !readOnly) { selected = !selected },
-            )
-            if (selected && !readOnly) {
-                Box(
-                    Modifier.matchParentSize().clip(RoundedCornerShape(18.dp)).border(2.dp, c.primary, RoundedCornerShape(18.dp)),
+    val shape = RoundedCornerShape(18.dp)
+    val request = remember(block.path) { ImageRequest.Builder(context).data(File(block.path)).size(1280).crossfade(true).build() }
+    val frac = if (inRow) 1f else live.coerceIn(0.2f, 1f)
+    Column(Modifier.fillMaxWidth().onSizeChanged { fullPx = it.width }, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Box(
+            Modifier.fillMaxWidth(),
+            contentAlignment = when (block.align) { 1 -> Alignment.TopCenter; 2 -> Alignment.TopEnd; else -> Alignment.TopStart },
+        ) {
+            Box(
+                Modifier.fillMaxWidth(frac).aspectRatio(aspect)
+                    .pointerInput(edit, fullPx) {
+                        if (!edit) return@pointerInput
+                        // two fingers pinch the picture to size; one finger is left to the page so it still scrolls
+                        awaitEachGesture {
+                            awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                            var changed = false
+                            do {
+                                val ev = awaitPointerEvent(PointerEventPass.Initial)
+                                if (ev.changes.size >= 2) {
+                                    val z = ev.calculateZoom()
+                                    if (z != 1f) {
+                                        live = (live * z).coerceIn(0.2f, 1f)
+                                        changed = true
+                                        ev.changes.forEach { it.consume() }
+                                    }
+                                }
+                            } while (ev.changes.any { it.pressed })
+                            if (changed) vm.update(block.id) { it.copy(size = live) }
+                        }
+                    },
+            ) {
+                AsyncImage(
+                    model = request, contentDescription = "Photo", contentScale = ContentScale.Crop,
+                    modifier = Modifier.matchParentSize().clip(shape).clickable(enabled = !readOnly, onClick = onSelect),
                 )
-                Box(
-                    Modifier.align(Alignment.BottomEnd).padding(10.dp).size(28.dp).clip(CircleShape).background(c.primary)
-                        .pointerInput(fullPx) {
-                            detectDragGestures(onDragEnd = { vm.update(block.id) { it.copy(size = live) } }) { change, drag ->
-                                change.consume()
-                                if (fullPx > 0) live = (live + drag.x / fullPx).coerceIn(0.2f, 1f)
-                            }
-                        },
-                    contentAlignment = Alignment.Center,
-                ) { Icon(Icons.Outlined.DragHandle, "Resize", tint = c.onPrimary, modifier = Modifier.size(16.dp)) }
-            }
-        }
-        if (selected && !readOnly) {
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("Small" to 0.33f, "Medium" to 0.55f, "Large" to 0.8f, "Full" to 1f).forEach { (label, f) ->
-                    val on = abs(block.size - f) < 0.04f
-                    Text(
-                        label, style = MaterialTheme.typography.labelLarge,
-                        color = if (on) c.onPrimaryContainer else c.onSurfaceVariant,
-                        modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(if (on) c.primaryContainer else c.surfaceContainerHigh)
-                            .clickable { live = f; vm.update(block.id) { it.copy(size = f) } }.padding(horizontal = 14.dp, vertical = 8.dp),
-                    )
+                if (edit) {
+                    Box(Modifier.matchParentSize().border(2.dp, c.primary, shape))
+                    val left = block.align == 2 && !inRow
+                    Box(
+                        Modifier.align(if (left) Alignment.BottomStart else Alignment.BottomEnd).padding(10.dp).size(30.dp).clip(CircleShape).background(c.primary)
+                            .pointerInput(fullPx, left) {
+                                detectDragGestures(onDragEnd = { vm.update(block.id) { it.copy(size = live) } }) { change, drag ->
+                                    change.consume()
+                                    if (fullPx > 0 && !inRow) live = (live + (if (left) -drag.x else drag.x) / fullPx).coerceIn(0.2f, 1f)
+                                }
+                            },
+                        contentAlignment = Alignment.Center,
+                    ) { Icon(Icons.Outlined.OpenInFull, "Resize", tint = c.onPrimary, modifier = Modifier.size(16.dp)) }
                 }
             }
         }
+        if (block.caption.isNotEmpty() || edit) {
+            var cap by remember(block.id) { mutableStateOf(block.caption) }
+            androidx.compose.foundation.text.BasicTextField(
+                value = cap, onValueChange = { cap = it.take(160); vm.update(block.id, force = false) { b -> b.copy(caption = cap) } },
+                readOnly = readOnly, singleLine = true,
+                textStyle = MaterialTheme.typography.bodySmall.copy(color = c.onSurfaceVariant, textAlign = when (block.align) { 1 -> androidx.compose.ui.text.style.TextAlign.Center; 2 -> androidx.compose.ui.text.style.TextAlign.End; else -> androidx.compose.ui.text.style.TextAlign.Start }),
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(c.primary),
+                decorationBox = { inner ->
+                    Box(Modifier.fillMaxWidth()) {
+                        if (cap.isEmpty()) Text("Add a caption", style = MaterialTheme.typography.bodySmall, color = c.onSurfaceVariant.copy(alpha = 0.6f))
+                        inner()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp),
+            )
+        }
     }
+}
+
+/** What a selected picture offers: size, place, beside text, crop, replace. */
+@Composable
+internal fun ImageTools(block: NoteBlock, vm: NoteEditorViewModel) {
+    val c = MaterialTheme.colorScheme
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.fillImage(block.id, uri) }
+    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+        listOf("S" to 0.33f, "M" to 0.55f, "L" to 0.8f, "Full" to 1f).forEach { (label, f) ->
+            val on = abs(block.size - f) < 0.04f
+            ToolChip(label = label, on = on) { vm.update(block.id) { it.copy(size = f) } }
+        }
+        ToolDivider()
+        listOf(Icons.Outlined.FormatAlignLeft to "Left", Icons.Outlined.FormatAlignCenter to "Centre", Icons.Outlined.FormatAlignRight to "Right").forEachIndexed { i, (icon, name) ->
+            ToolIcon(icon, name, block.align == i) { vm.update(block.id) { it.copy(align = i, wrap = if (i == 1) false else it.wrap) } }
+        }
+        ToolIcon(Icons.AutoMirrored.Outlined.WrapText, "Text beside", block.wrap) {
+            vm.update(block.id) { it.copy(wrap = !it.wrap, align = if (!it.wrap && it.align == 1) 0 else it.align, size = if (!it.wrap) it.size.coerceAtMost(0.5f) else it.size) }
+        }
+        ToolDivider()
+        ToolChip(label = ImageRatios[block.ratio].first, on = block.ratio != 0, icon = Icons.Outlined.Crop) { vm.update(block.id) { it.copy(ratio = (it.ratio + 1) % ImageRatios.size) } }
+        ToolIcon(Icons.Outlined.PhotoLibrary, "Replace", false) { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
+    }
+}
+
+@Composable
+internal fun ToolDivider() {
+    Box(Modifier.padding(horizontal = 2.dp).size(width = 1.dp, height = 22.dp).background(MaterialTheme.colorScheme.outlineVariant))
+}
+
+@Composable
+internal fun ToolChip(label: String, on: Boolean, icon: androidx.compose.ui.graphics.vector.ImageVector? = null, onClick: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    Row(
+        Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(if (on) c.primaryContainer else c.surfaceContainerHigh)
+            .clickable(onClick = onClick).padding(horizontal = 14.dp),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        if (icon != null) Icon(icon, null, tint = if (on) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(16.dp))
+        Text(label, style = MaterialTheme.typography.labelLarge, color = if (on) c.onPrimaryContainer else c.onSurfaceVariant)
+    }
+}
+
+@Composable
+internal fun ToolIcon(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, on: Boolean, onClick: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    Box(
+        Modifier.size(36.dp).clip(RoundedCornerShape(18.dp)).background(if (on) c.primaryContainer else c.surfaceContainerHigh).clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) { Icon(icon, label, tint = if (on) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(18.dp)) }
 }
 
 // ---------------------------------------------------------------------------------------------------- audio

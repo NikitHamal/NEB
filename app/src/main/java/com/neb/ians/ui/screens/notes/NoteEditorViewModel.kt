@@ -248,6 +248,15 @@ class NoteEditorViewModel @Inject constructor(
     fun toggleTodo(id: String) = update(id) { it.copy(checked = !it.checked) }
 
     /** Folds or unfolds a toggle block; what sits under it hides with it. */
+    /** Removes every ticked to-do. */
+    fun clearDone() {
+        val out = _blocks.value.filterNot { it.type == BlockType.Todo && it.checked }.ifEmpty { listOf(NoteBlock()) }
+        commit(out, force = true)
+    }
+
+    /** Ticked and total to-dos in the note. */
+    fun todoCount(): Pair<Int, Int> = _blocks.value.filter { it.type == BlockType.Todo }.let { l -> l.count { it.checked } to l.size }
+
     fun toggleOpen(id: String) = update(id) { it.copy(open = !it.open) }
 
     /**

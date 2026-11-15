@@ -26,6 +26,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -423,22 +424,24 @@ private fun SelectionBar(
 
 @Composable
 internal fun ToneSwatches(current: Int, onPick: (Int) -> Unit) {
-    Row(
-        Modifier.fillMaxWidth().padding(vertical = 8.dp).horizontalScroll(rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        for (i in 0 until NoteTones.count) {
-            val tone = noteTone(i)
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Box(
-                    Modifier.size(56.dp).clip(RoundedCornerShape(18.dp)).background(tone.container)
-                        .then(if (tone.hairline || current == i) Modifier.androidBorder(current == i) else Modifier)
-                        .combinedClickable(onClick = { onPick(i) }),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (current == i) Icon(Icons.Outlined.Check, null, tint = tone.content)
+    Column(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        (0 until NoteTones.count).chunked(5).forEach { row ->
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                row.forEach { i ->
+                    val tone = noteTone(i)
+                    Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Box(
+                            Modifier.fillMaxWidth().height(52.dp).clip(RoundedCornerShape(if (current == i) 26.dp else 18.dp)).background(tone.container)
+                                .then(if (tone.hairline || current == i) Modifier.androidBorder(current == i) else Modifier)
+                                .combinedClickable(onClick = { onPick(i) }),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            if (current == i) Icon(Icons.Outlined.Check, null, tint = tone.content)
+                        }
+                        Text(NoteTones.labels[i], style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+                    }
                 }
-                Text(NoteTones.labels[i], style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                repeat(5 - row.size) { Spacer(Modifier.weight(1f)) }
             }
         }
     }

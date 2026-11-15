@@ -78,6 +78,14 @@ data class NoteBlock(
     val indent: Int = 0,
     /** Toggle blocks: false hides everything nested under it. */
     val open: Boolean = true,
+    /** Image placement: 0 left, 1 centre, 2 right. */
+    val align: Int = 0,
+    /** Image: the text block after it is written beside it instead of below. */
+    val wrap: Boolean = false,
+    /** Image caption. */
+    val caption: String = "",
+    /** Image crop: 0 as taken, 1 square, 2 wide, 3 tall. */
+    val ratio: Int = 0,
 ) {
     val isBlank: Boolean
         get() = when (type) {
@@ -153,6 +161,10 @@ object NoteDoc {
             if (b.type == BlockType.Drawing) o.put("h", b.height.toDouble())
             if (b.indent > 0) o.put("i", b.indent)
             if (!b.open) o.put("o", false)
+            if (b.align != 0) o.put("a", b.align)
+            if (b.wrap) o.put("w", true)
+            if (b.caption.isNotEmpty()) o.put("q", b.caption)
+            if (b.ratio != 0) o.put("ra", b.ratio)
             arr.put(o)
         }
         return arr.toString()
@@ -200,6 +212,10 @@ object NoteDoc {
                         height = o.optDouble("h", 260.0).toFloat(),
                         indent = o.optInt("i", 0).coerceIn(0, MAX_INDENT),
                         open = o.optBoolean("o", true),
+                        align = o.optInt("a", 0).coerceIn(0, 2),
+                        wrap = o.optBoolean("w", false),
+                        caption = o.optString("q", ""),
+                        ratio = o.optInt("ra", 0).coerceIn(0, 3),
                     )
                 )
             }

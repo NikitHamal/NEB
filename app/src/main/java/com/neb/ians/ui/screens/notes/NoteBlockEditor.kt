@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 
 package com.neb.ians.ui.screens.notes
 
@@ -6,6 +6,28 @@ import com.neb.ians.ui.components.Fmt
 import com.neb.ians.ui.components.RichTextField
 import com.neb.ians.ui.components.RichState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material.icons.outlined.ArrowUpward
+import androidx.compose.material.icons.outlined.ArrowDownward
+import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
+import com.neb.ians.ui.components.NebModalSheet
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -128,6 +150,8 @@ import com.neb.ians.util.rememberTactileFeedback
 class BlockFieldRegistry {
     private val states = HashMap<String, RichState>()
     var focusedId by mutableStateOf<String?>(null)
+    /** A picture, recording, table or drawing the user has tapped: its tools show right under it. */
+    var selectedId by mutableStateOf<String?>(null)
 
     /** The editor of one block. Plain text and its formatting live in it; the view model gets Markdown on every edit. */
     fun stateOf(vm: NoteEditorViewModel, block: NoteBlock): RichState {
@@ -232,26 +256,6 @@ private fun BlockReorder.shiftFor(id: String, slot: Int): Float {
 }
 
 @Composable
-private fun DragHandle(block: NoteBlock, reorder: BlockReorder, onSurface: Boolean = false) {
-    val c = MaterialTheme.colorScheme
-    val centreY = remember { FloatArray(1) }
-    Box(
-        Modifier.size(32.dp).clip(CircleShape)
-            .onGloballyPositioned { centreY[0] = it.positionInWindow().y + it.size.height / 2f }
-            .then(if (onSurface) Modifier.background(c.surface.copy(alpha = 0.85f)) else Modifier)
-            .pointerInput(block.id) {
-                detectDragGestures(
-                    onDragStart = { reorder.start(block.id, centreY[0]) },
-                    onDrag = { change, amount -> change.consume(); reorder.drag(amount.y) },
-                    onDragEnd = { reorder.finish(reorder.target()) },
-                    onDragCancel = { reorder.cancel() },
-                )
-            },
-        contentAlignment = Alignment.Center,
-    ) { Icon(Icons.Outlined.DragIndicator, "Drag to move", tint = c.onSurfaceVariant, modifier = Modifier.size(20.dp)) }
-}
-
-@Composable
 private fun ReorderSlot(id: String, reorder: BlockReorder, slot: Int, content: @Composable () -> Unit) {
     val dragging = reorder.dragId == id
     val shift by animateShift(
@@ -298,7 +302,16 @@ fun NoteBlockEditor(
         }
     }
     val hidden = remember(blocks) { NoteDoc.hiddenIndexes(blocks) }
-    reorder.order = blocks.filterIndexed { i, _ -> i !in hidden }.map { it.id }
+    // a picture set beside text takes the text block after it into its own row
+    val partners = remember(blocks) {
+        blocks.indices.filter { i ->
+            val b = blocks[i]
+            val n = blocks.getOrNull(i + 1)
+            b.type == BlockType.Image && b.wrap && b.path.isNotBlank() && i !in hidden && n != null && n.type.hasText && n.type != BlockType.Code && (i + 1) !in hidden
+        }.toSet()
+    }
+    val skip = remember(hidden, partners) { hidden + partners.map { it + 1 } }
+    reorder.order = blocks.filterIndexed { i, _ -> i !in skip }.map { it.id }
     reorder.gap = with(LocalDensity.current) { 6.dp.toPx() }
     reorder.commit = { id, over -> vm.moveBlock(id, over) }
     val slot by remember { derivedStateOf { reorder.target() } }
@@ -318,69 +331,125 @@ fun NoteBlockEditor(
     }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         blocks.forEachIndexed { index, block ->
-            if (index in hidden) return@forEachIndexed
+            if (index in skip) return@forEachIndexed
             key(block.id) {
                 ReorderSlot(block.id, reorder, slot) {
                     when (block.type) {
-                        BlockType.Divider -> MediaFrame(block, vm, readOnly, reorder, always = false) {
+                        BlockType.Divider -> MediaFrame(block, vm, registry, readOnly, reorder, tappable = true) {
                             Box(Modifier.fillMaxWidth().padding(vertical = 10.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(fg.copy(alpha = 0.2f)))
                         }
-                        BlockType.Image -> MediaFrame(block, vm, readOnly, reorder) { ImageBlockView(block, vm, readOnly) }
-                        BlockType.Audio -> MediaFrame(block, vm, readOnly, reorder) { AudioBlockView(block, vm, readOnly) }
-                        BlockType.Table -> MediaFrame(block, vm, readOnly, reorder) { TableBlockView(block, vm, readOnly, fg) }
-                        BlockType.Drawing -> MediaFrame(block, vm, readOnly, reorder) { DrawingBlockView(block, vm, readOnly) }
+                        BlockType.Image -> {
+                            val partner = if (index in partners) blocks[index + 1] else null
+                            val picked = registry.selectedId == block.id
+                            val imageTools: (@Composable () -> Unit)? = if (block.path.isNotBlank()) ({ ImageTools(block, vm) }) else null
+                            val sideText: (@Composable () -> Unit)? = if (partner != null) ({
+                                TextBlockRow(partner, numbers[index + 1], false, vm, registry, readOnly, fg, focusRequest == partner.id, 0, reorder)
+                            }) else null
+                            MediaFrame(block, vm, registry, readOnly, reorder, tappable = false, tools = imageTools, beside = sideText) { inRow ->
+                                ImageBlockView(block, vm, readOnly, picked, { registry.selectedId = if (picked) null else block.id }, inRow = inRow)
+                            }
+                        }
+                        BlockType.Audio -> MediaFrame(block, vm, registry, readOnly, reorder, tappable = true) { AudioBlockView(block, vm, readOnly) }
+                        BlockType.Table -> MediaFrame(block, vm, registry, readOnly, reorder, tappable = true) { TableBlockView(block, vm, readOnly, fg) }
+                        BlockType.Drawing -> MediaFrame(block, vm, registry, readOnly, reorder, tappable = false) { DrawingBlockView(block, vm, readOnly) }
                         else -> TextBlockRow(block, numbers[index], blocks.size == 1, vm, registry, readOnly, fg, focusRequest == block.id, if (block.type == BlockType.Toggle && !block.open) NoteDoc.childCount(blocks, index) else 0, reorder)
                     }
                 }
             }
         }
         if (!readOnly) {
-            Box(Modifier.fillMaxWidth().height(180.dp).clickable { vm.tapBelow() })
+            Box(Modifier.fillMaxWidth().height(180.dp).clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { registry.selectedId = null; vm.tapBelow() })
         }
     }
 }
 
-/** A media block with its menu pinned top-right. */
+/**
+ * A media block. Tap selects it and its tools open right under it (no floating buttons over the content); press and hold
+ * moves it, the others slide out of the way and a line shows where it will land.
+ */
 @Composable
-private fun MediaFrame(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean, reorder: BlockReorder, always: Boolean = true, content: @Composable () -> Unit) {
-    Box(Modifier.fillMaxWidth()) {
-        content()
-        if (!readOnly && always) Row(Modifier.align(Alignment.TopEnd).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            DragHandle(block, reorder, onSurface = true)
-            BlockMenuButton(block, vm, onSurface = true)
-        }
-    }
-}
-
-@Composable
-private fun BlockMenuButton(block: NoteBlock, vm: NoteEditorViewModel, onSurface: Boolean = false) {
-    val c = MaterialTheme.colorScheme
-    var open by remember { mutableStateOf(false) }
-    Box {
-        Box(
-            Modifier.size(32.dp).clip(CircleShape).then(if (onSurface) Modifier.background(c.surface.copy(alpha = 0.85f)) else Modifier).clickable { open = true },
-            contentAlignment = Alignment.Center,
-        ) { Icon(Icons.Outlined.MoreVert, "Block options", tint = c.onSurfaceVariant, modifier = Modifier.size(20.dp)) }
-        NebDropdownMenu(
-            expanded = open, onDismissRequest = { open = false },
-        ) {
-            if (block.type.hasText) {
-                listOf(BlockType.Text, BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Todo, BlockType.Toggle, BlockType.Bullet, BlockType.Number, BlockType.Quote, BlockType.Callout, BlockType.Code).forEach { t ->
-                    DropdownMenuItem(
-                        text = { Text(t.label, color = if (block.type == t) c.primary else c.onSurface, fontWeight = if (block.type == t) FontWeight.SemiBold else FontWeight.Normal) },
-                        onClick = { open = false; vm.convert(block.id, t) },
+private fun MediaFrame(
+    block: NoteBlock, vm: NoteEditorViewModel, registry: BlockFieldRegistry, readOnly: Boolean, reorder: BlockReorder,
+    tappable: Boolean,
+    tools: (@Composable () -> Unit)? = null,
+    beside: (@Composable () -> Unit)? = null,
+    content: @Composable (inRow: Boolean) -> Unit,
+) {
+    val selected = registry.selectedId == block.id && !readOnly
+    val centreY = remember { FloatArray(1) }
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+    Column(
+        Modifier.fillMaxWidth()
+            .onGloballyPositioned { centreY[0] = it.positionInWindow().y + it.size.height / 2f }
+            .then(
+                if (readOnly) Modifier else Modifier.pointerInput(block.id) {
+                    detectDragGesturesAfterLongPress(
+                        onDragStart = { haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress); reorder.start(block.id, centreY[0]) },
+                        onDrag = { change, amount -> change.consume(); reorder.drag(amount.y) },
+                        onDragEnd = {
+                            val moved = kotlin.math.abs(reorder.offset) > 6f
+                            if (moved) reorder.finish(reorder.target()) else { reorder.cancel(); registry.selectedId = block.id }
+                        },
+                        onDragCancel = { reorder.cancel() },
                     )
                 }
+            )
+            .then(
+                if (tappable && !readOnly) Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
+                    registry.selectedId = if (selected) null else block.id
+                } else Modifier
+            ),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        if (beside != null) {
+            val share = block.size.coerceIn(0.25f, 0.6f)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                if (block.align == 2) Box(Modifier.weight(1f - share)) { beside() }
+                Box(Modifier.weight(share)) { content(true) }
+                if (block.align != 2) Box(Modifier.weight(1f - share)) { beside() }
             }
-            if (block.type.hasText) {
-                DropdownMenuItem(text = { Text("Indent") }, leadingIcon = { Icon(Icons.Outlined.FormatIndentIncrease, null) }, onClick = { open = false; vm.indent(block.id, 1) })
-                DropdownMenuItem(text = { Text("Outdent") }, leadingIcon = { Icon(Icons.Outlined.FormatIndentDecrease, null) }, onClick = { open = false; vm.indent(block.id, -1) })
+        } else content(false)
+        AnimatedVisibility(selected, enter = expandVertically(spring(stiffness = 500f)) + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (tools != null) { tools(); ToolDivider() }
+                ToolIcon(Icons.Outlined.ArrowUpward, "Move up", false) { vm.move(block.id, -1) }
+                ToolIcon(Icons.Outlined.ArrowDownward, "Move down", false) { vm.move(block.id, 1) }
+                ToolIcon(Icons.Outlined.ContentCopy, "Duplicate", false) { vm.duplicate(block.id) }
+                ToolIcon(Icons.Outlined.Delete, "Delete", false) { registry.selectedId = null; vm.delete(block.id) }
             }
-            DropdownMenuItem(text = { Text("Move up") }, onClick = { open = false; vm.move(block.id, -1) })
-            DropdownMenuItem(text = { Text("Move down") }, onClick = { open = false; vm.move(block.id, 1) })
-            DropdownMenuItem(text = { Text("Duplicate") }, onClick = { open = false; vm.duplicate(block.id) })
-            DropdownMenuItem(text = { Text("Delete", color = c.error) }, onClick = { open = false; vm.delete(block.id) })
         }
+    }
+}
+
+/** Everything a block can be turned into, moved, copied or removed. Opened from the bar, so no handle sits on the page. */
+@Composable
+private fun BlockSheet(block: NoteBlock, vm: NoteEditorViewModel, onDismiss: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    NebModalSheet(onDismiss = onDismiss, title = "Block") {
+        Column(Modifier.padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            if (block.type.hasText) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf(BlockType.Text, BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Todo, BlockType.Toggle, BlockType.Bullet, BlockType.Number, BlockType.Quote, BlockType.Callout, BlockType.Code).forEach { t ->
+                        ToolChip(label = t.label, on = block.type == t, icon = blockIcon(t)) { onDismiss(); vm.convert(block.id, t) }
+                    }
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ToolChip("Outdent", false, Icons.Outlined.FormatIndentDecrease) { vm.indent(block.id, -1) }
+                    ToolChip("Indent", false, Icons.Outlined.FormatIndentIncrease) { vm.indent(block.id, 1) }
+                }
+            }
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                ToolChip("Move up", false, Icons.Outlined.ArrowUpward) { vm.move(block.id, -1) }
+                ToolChip("Move down", false, Icons.Outlined.ArrowDownward) { vm.move(block.id, 1) }
+                ToolChip("Duplicate", false, Icons.Outlined.ContentCopy) { onDismiss(); vm.duplicate(block.id) }
+                ToolChip("Delete", false, Icons.Outlined.Delete) { onDismiss(); vm.delete(block.id) }
+            }
+            if (block.type == BlockType.Todo) {
+                Text("Clear completed", style = MaterialTheme.typography.labelLarge, color = c.primary,
+                    modifier = Modifier.clip(RoundedCornerShape(18.dp)).clickable { onDismiss(); vm.clearDone() }.padding(horizontal = 4.dp, vertical = 8.dp))
+            }
+        }
+        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -503,7 +572,7 @@ private fun TextBlockRow(
                     .focusRequester(focusRequester)
                     .onFocusChanged {
                         focused = it.hasFocus
-                        if (it.hasFocus) { registry.focusedId = block.id; vm.setFocused(block.id) }
+                        if (it.hasFocus) { registry.focusedId = block.id; registry.selectedId = null; vm.setFocused(block.id) }
                     }
                     .onPreviewKeyEvent { ev ->
                         val sel = state.value.selection
@@ -538,10 +607,6 @@ private fun TextBlockRow(
                 modifier = Modifier.padding(start = 6.dp, top = 4.dp).clip(RoundedCornerShape(8.dp)).background(c.secondaryContainer).padding(horizontal = 8.dp, vertical = 2.dp),
             )
         }
-        if (!readOnly && (focused || reorder.dragId == block.id)) Row(Modifier.padding(start = 4.dp)) {
-            DragHandle(block, reorder)
-            BlockMenuButton(block, vm)
-        }
     }
 }
 
@@ -554,13 +619,25 @@ fun BlockFormatBar(
     registry: BlockFieldRegistry,
     fg: Color,
     modifier: Modifier = Modifier,
+    onCollapse: () -> Unit = {},
     trailing: @Composable () -> Unit,
 ) {
     val c = MaterialTheme.colorScheme
     val focusedId = registry.focusedId
-    val block = blocks.firstOrNull { it.id == focusedId }
-    val rich = block?.let { registry.stateOf(vm, it) }
-    val canInline = block != null && block.type.hasText && block.type != BlockType.Code
+    val block = blocks.firstOrNull { it.id == (registry.selectedId ?: focusedId) }
+    val textBlock = blocks.firstOrNull { it.id == focusedId }
+    var blockSheet by remember { mutableStateOf(false) }
+    val photos = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(10)) { uris ->
+        var after = registry.selectedId ?: vm.focusedId
+        uris.forEach { uri ->
+            val b = NoteBlock(type = BlockType.Image)
+            vm.insert(BlockType.Image, afterId = after, block = b)
+            vm.fillImage(b.id, uri)
+            after = b.id
+        }
+    }
+    val rich = textBlock?.let { registry.stateOf(vm, it) }
+    val canInline = textBlock != null && textBlock.type.hasText && textBlock.type != BlockType.Code
     rich?.value
     rich?.armed
     var insertMenu by remember { mutableStateOf(false) }
@@ -571,12 +648,13 @@ fun BlockFormatBar(
     }
     fun active(flag: Int) = canInline && rich != null && rich.isActive(flag)
     fun turn(type: BlockType) {
-        val id = block?.id ?: vm.focusedId ?: return
+        val id = textBlock?.id ?: vm.focusedId ?: return
         vm.convert(id, type)
     }
 
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
+            BarButton(Icons.Outlined.KeyboardArrowDown, "Hide toolbar", fg, false) { onCollapse() }
             Box {
                 BarButton(Icons.Outlined.Add, "Add a block", fg, false) { insertMenu = true }
                 NebDropdownMenu(
@@ -598,22 +676,27 @@ fun BlockFormatBar(
                     }
                 }
             }
+            BarButton(Icons.Outlined.AddPhotoAlternate, "Photos", fg, false) {
+                photos.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
             BarButton(Icons.Outlined.FormatBold, "Bold", fg, active(Fmt.BOLD)) { applyInline(Fmt.BOLD) }
             BarButton(Icons.Outlined.FormatItalic, "Italic", fg, active(Fmt.ITALIC)) { applyInline(Fmt.ITALIC) }
             BarButton(Icons.Outlined.FormatStrikethrough, "Strikethrough", fg, active(Fmt.STRIKE)) { applyInline(Fmt.STRIKE) }
             BarButton(Icons.Outlined.Code, "Inline code", fg, active(Fmt.CODE)) { applyInline(Fmt.CODE) }
             BarButton(Icons.Outlined.Link, "Link", fg, false) { if (canInline) linkDialog = true }
-            BarButton(Icons.Outlined.Title, "Heading", fg, block?.type == BlockType.H2) { turn(BlockType.H2) }
-            BarButton(Icons.Outlined.Checklist, "To-do", fg, block?.type == BlockType.Todo) { turn(BlockType.Todo) }
-            BarButton(Icons.Outlined.FormatListBulleted, "Bullets", fg, block?.type == BlockType.Bullet) { turn(BlockType.Bullet) }
-            BarButton(Icons.Outlined.FormatListNumbered, "Numbers", fg, block?.type == BlockType.Number) { turn(BlockType.Number) }
-            BarButton(Icons.Outlined.FormatQuote, "Quote", fg, block?.type == BlockType.Quote) { turn(BlockType.Quote) }
-            BarButton(Icons.Outlined.FormatIndentDecrease, "Outdent", fg, false) { (block?.id ?: vm.focusedId)?.let { vm.indent(it, -1) } }
-            BarButton(Icons.Outlined.FormatIndentIncrease, "Indent", fg, false) { (block?.id ?: vm.focusedId)?.let { vm.indent(it, 1) } }
+            BarButton(Icons.Outlined.Title, "Heading", fg, textBlock?.type == BlockType.H2) { turn(BlockType.H2) }
+            BarButton(Icons.Outlined.Checklist, "To-do", fg, textBlock?.type == BlockType.Todo) { turn(BlockType.Todo) }
+            BarButton(Icons.Outlined.FormatListBulleted, "Bullets", fg, textBlock?.type == BlockType.Bullet) { turn(BlockType.Bullet) }
+            BarButton(Icons.Outlined.FormatListNumbered, "Numbers", fg, textBlock?.type == BlockType.Number) { turn(BlockType.Number) }
+            BarButton(Icons.Outlined.FormatQuote, "Quote", fg, textBlock?.type == BlockType.Quote) { turn(BlockType.Quote) }
+            BarButton(Icons.Outlined.FormatIndentDecrease, "Outdent", fg, false) { (textBlock?.id ?: vm.focusedId)?.let { vm.indent(it, -1) } }
+            BarButton(Icons.Outlined.FormatIndentIncrease, "Indent", fg, false) { (textBlock?.id ?: vm.focusedId)?.let { vm.indent(it, 1) } }
+            BarButton(Icons.Outlined.MoreHoriz, "Block options", fg, false) { if (block != null) blockSheet = true }
         }
         trailing()
     }
 
+    if (blockSheet && block != null) BlockSheet(block, vm) { blockSheet = false }
     if (linkDialog && block != null && rich != null) {
         var url by remember { mutableStateOf("") }
         AlertDialog(
