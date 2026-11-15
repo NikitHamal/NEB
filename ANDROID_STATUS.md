@@ -252,3 +252,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 CI session 9: `82ee9dc` failed to compile: `AnimatedVisibility` in the cover header resolved to the `ColumnScope` extension of the surrounding `Column` ("cannot be called in this context with an implicit receiver"). Fixed by moving the cover and its Change / Remove pills into `NoteCoverArea` (own function, no outer receiver). Rule: an `AnimatedVisibility` inside a `Box` that sits inside a `Column` or `Row` lambda needs its own composable.
 
+| 70 | **Press follows the shape, second pass**: re-audited every `clickable` by script (clip within the 9 lines before it). Fixed the ones that still drew a square ripple: notification avatar (circle), note paper chips (22dp), comment composer menu rows (16dp), library selector (14dp), note icon tile (20dp). | `NotificationRow.kt`, `NotePaper.kt`, `CommentComposerBar.kt`, `LibraryScreen.kt`, `NoteEditorScreen.kt` |
+
+CI: `abb8165` (cover area fix plus press pass) is green; the Android release build compiles. Web CSS bundle is in sync (`python3 tools/css/bundle.py --check`).
+
