@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
@@ -63,7 +64,7 @@ internal fun PwSearch(d: PwData, nav: PwNav) {
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item("bar") {
             Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                PwIconButton(androidx.compose.material.icons.Icons.AutoMirrored.Outlined.ArrowBack, "Back", nav.pop)
+                PwIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Back", nav.pop)
                 Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh), verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Outlined.Search, null, Modifier.padding(start = 16.dp, end = 10.dp).size(20.dp), tint = c.onSurfaceVariant)
                     BasicTextField(q, { q = it }, Modifier.weight(1f), singleLine = true, textStyle = TextStyle(color = c.onSurface, fontSize = 15.sp), cursorBrush = SolidColor(c.primary),
