@@ -3821,3 +3821,16 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   outline: 0;
   border-color: var(--md-primary);
 }
+
+/* ---- m3x/app-press.css ---- */
+/* Press feedback and neighbour spacing (M3X doc section 13).
+   1. The browser's own tap flash is a plain rectangle that ignores border-radius. It is switched off and every
+      control shows its own :hover / :active tone, which is drawn on the control's own rounded box.
+   2. Icon buttons that sit side by side never touch: a selected, hovered or pressed tile keeps a gap to its
+      neighbour, so two tonal tiles can never read as one slab. */
+:where(a, button, summary, label, select, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [tabindex]) {
+  -webkit-tap-highlight-color: transparent;
+}
+:where(button, [role="button"], [role="tab"], [role="menuitem"]):focus:not(:focus-visible) { outline: 0; }
+.fc-tools { gap: 6px; }
+:where(.fc-tool, .nl-tool, .neb-icon-btn, .icon-btn) { border-radius: 14px; overflow: hidden; }

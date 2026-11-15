@@ -376,8 +376,16 @@
       }
       return rc;
     }
+    // The drop bar is as tall as the text, never as tall as a picture that shares the line.
+    function slimRect(rc) {
+      if (!rc) return rc;
+      var cs = window.getComputedStyle(editor), fs = parseFloat(cs.fontSize) || 16;
+      var lh = parseFloat(cs.lineHeight); if (!(lh > 0)) lh = fs * 1.3;
+      var h = Math.min(rc.height, Math.max(18, lh));
+      return { left: rc.left, top: rc.top + (rc.height - h) / 2, height: h };
+    }
     function showDropCaret(r) {
-      var rc = r && dropCaretRect(r);
+      var rc = r && slimRect(dropCaretRect(r));
       if (!rc) return hideDropCaret();
       if (!dropCaretEl) {
         dropCaretEl = document.createElement('div');
