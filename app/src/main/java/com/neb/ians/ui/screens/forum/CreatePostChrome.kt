@@ -28,6 +28,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ChevronLeft
+import androidx.compose.material.icons.outlined.FormatSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -204,7 +208,7 @@ fun ComposerFormatRow(
                 contentAlignment = Alignment.Center
             ) {
                 androidx.compose.material3.Icon(
-                    if (open) androidx.compose.material.icons.Icons.Outlined.ChevronLeft else androidx.compose.material.icons.Icons.Outlined.FormatSize,
+                    if (open) Icons.Outlined.ChevronLeft else Icons.Outlined.FormatSize,
                     null,
                     modifier = Modifier.size(20.dp),
                     tint = if (open) scheme.onSurfaceVariant else scheme.onPrimaryContainer

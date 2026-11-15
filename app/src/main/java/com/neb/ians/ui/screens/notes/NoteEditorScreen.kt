@@ -405,7 +405,7 @@ fun NoteEditorScreen(
         NoteSheet(onDismiss = { toneSheet = false }, title = "Appearance") {
             Column(Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text("Themes", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
-                NoteThemeRow(toneIndex) { th -> vm.setTone(th.tone); vm.setCover(th.cover); vm.setIcon(th.icon) }
+                NoteThemeRow(toneIndex) { th -> vm.setTone(th.tone); vm.setCover(th.cover); vm.setIcon(th.icon); vm.setPaper(th.paper) }
                 Text("Colour", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
                 ToneSwatches(current = toneIndex, onPick = { vm.setTone(it) })
                 Text("Paper", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
