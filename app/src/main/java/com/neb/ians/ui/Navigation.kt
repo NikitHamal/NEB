@@ -67,7 +67,7 @@ import com.neb.ians.ui.components.GateReason
 import com.neb.ians.ui.components.LocalAuthGate
 import com.neb.ians.ui.components.SignInSheet
 import com.neb.ians.ui.screens.pathways.PathwaysScreen
-import com.neb.ians.ui.screens.pathways.DynamicPostsLabScreen
+import com.neb.ians.ui.screens.lab.DynamicPostsLabScreen
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
