@@ -40,7 +40,6 @@ import com.neb.ians.ui.components.NebChoiceSheet
 import com.neb.ians.ui.components.NebLoader
 import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.ZoomableImageDialog
-import com.neb.ians.ui.components.rememberInlineImageFieldHandle
 
 private enum class PostSheet { Category }
 
@@ -66,13 +65,14 @@ fun CreatePostScreen(
     val anonTag by viewModel.anonTag.collectAsStateWithLifecycle()
     val isEditing = postId != null || uiState.isEditMode
 
-    val inlineHandle = rememberInlineImageFieldHandle()
-    var pendingInlineCount by remember { mutableIntStateOf(0) }
-    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+    var zoomGallery by remember { mutableStateOf<Pair<List<String>, Int>?>(null) }
+    val inlinePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickMultipleVisualMedia(InlineImageTokens.MAX_IMAGES_PER_CONTENT)
+    ) { uris -> if (uris.isNotEmpty()) viewModel.addInlinePictures(uris) }
     var sheet by remember { mutableStateOf<PostSheet?>(null) }
 
-    zoomImageUrl?.let { url ->
-        ZoomableImageDialog(imageUrl = url, onDismiss = { zoomImageUrl = null })
+    zoomGallery?.let { (urls, at) ->
+        ZoomableImageDialog(imageUrls = urls, initialIndex = at, onDismiss = { zoomGallery = null })
     }
 
     val imagePicker = rememberLauncherForActivityResult(
@@ -87,7 +87,7 @@ fun CreatePostScreen(
         if (postId != null) viewModel.loadForEdit(postId)
     }
 
-    val blocker = submitBlocker(uiState, pendingInlineCount)
+    val blocker = submitBlocker(uiState)
     val scheme = MaterialTheme.colorScheme
 
     Scaffold(
@@ -136,8 +136,10 @@ fun CreatePostScreen(
                     ComposerFormatRow(
                         state = uiState,
                         viewModel = viewModel,
-                        insertImageEnabled = pendingInlineCount == 0 && !uiState.showPreview,
-                        onInlineImage = { inlineHandle.pickImage() }
+                        insertImageEnabled = !uiState.showPreview,
+                        onInlineImage = {
+                            inlinePicker.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                        }
                     )
                 }
 
@@ -152,9 +154,7 @@ fun CreatePostScreen(
                     ComposerEditor(
                         state = uiState,
                         viewModel = viewModel,
-                        handle = inlineHandle,
-                        onPendingCountChange = { pendingInlineCount = it },
-                        onImageClick = { zoomImageUrl = it }
+                        onImageClick = { urls, at -> zoomGallery = urls to at }
                     )
                     if (!isEditing && uiState.pollEnabled) {
                         PostPollPanel(state = uiState, viewModel = viewModel)
@@ -241,13 +241,11 @@ private fun CreatePostSheets(
 }
 
 /** The single reason the post cannot go yet, said the way a person would say it. */
-private fun submitBlocker(state: CreatePostUiState, pendingInline: Int): String? = when {
+private fun submitBlocker(state: CreatePostUiState): String? = when {
     state.isLoadingPost -> "Loading your discussion"
     state.isSubmitting -> "Posting"
     state.content.text.isBlank() -> "Write something first"
     state.isCustomCategory && state.customCategory.isBlank() -> "Name your category"
-    pendingInline > 0 || InlineImageTokens.hasPending(state.content.text) ->
-        "An image is still uploading"
     state.mediaAttachments.any { it.uploading } -> "An attachment is still uploading"
     else -> pollProblem(state)
 }

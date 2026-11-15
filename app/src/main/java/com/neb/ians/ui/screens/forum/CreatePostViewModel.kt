@@ -145,9 +145,27 @@ class CreatePostViewModel @Inject constructor(
     private var mentionJob: Job? = null
     private var loadedEditPostId: String? = null
 
-    /** Uploads an inline text-image chip; returns the server row on success. */
-    suspend fun uploadInlineImage(uri: android.net.Uri) =
-        contentImageRepository.upload(uri)
+    /** The writing field: plain text with its formatting kept beside it; Markdown is written from it on every edit. */
+    val editor = com.neb.ians.ui.components.RichState(MAX_POST_CONTENT).also { r ->
+        r.onEdited = { st ->
+            val v = TextFieldValue(st.lastMarkdown, androidx.compose.ui.text.TextRange(st.lastCaret))
+            _uiState.update { it.copy(content = v) }
+            scheduleMentionSearch(v)
+        }
+    }
+
+    /** Pictures chosen for the text stay on the phone and go up only when the post is published. */
+    fun addInlinePictures(uris: List<android.net.Uri>) {
+        for (uri in uris) {
+            if (editor.doc.keys.size >= com.neb.ians.ui.components.InlineImageTokens.MAX_IMAGES_PER_CONTENT) {
+                reportError("Maximum ${com.neb.ians.ui.components.InlineImageTokens.MAX_IMAGES_PER_CONTENT} pictures in the text")
+                return
+            }
+            val size = imageSizeBytes(uri)
+            if (size != null && size > MAX_IMAGE_BYTES) { reportError("Picture too large (max 10MB)"); continue }
+            editor.insertImage(com.neb.ians.ui.components.InlineImageTokens.newPendingKey(), uri)
+        }
+    }
 
     fun reportError(message: String) {
         _uiState.update { it.copy(error = message) }
@@ -169,6 +187,7 @@ class CreatePostViewModel @Inject constructor(
             forumRepository.getPost(postId)
                 .onSuccess { post ->
                     val knownCategory = post.category in CreatePostUiState.CATEGORIES
+                    editor.setMarkdown(post.content)
                     _uiState.update {
                         it.copy(
                             title = post.title,
@@ -208,6 +227,7 @@ class CreatePostViewModel @Inject constructor(
 
     fun onContentChange(content: TextFieldValue) {
         if (content.text.length > MAX_POST_CONTENT) return
+        editor.setMarkdown(content.text, content.selection.end)
         _uiState.update { it.copy(content = content) }
         scheduleMentionSearch(content)
     }
@@ -236,12 +256,9 @@ class CreatePostViewModel @Inject constructor(
     }
 
     fun selectMention(user: ApiUserSearchResult) {
-        _uiState.update {
-            it.copy(
-                content = applyMention(it.content, user.username),
-                mentionSuggestions = emptyList()
-            )
-        }
+        val applied = applyMention(_uiState.value.content, user.username)
+        editor.setMarkdown(applied.text, applied.selection.end)
+        _uiState.update { it.copy(content = applied, mentionSuggestions = emptyList()) }
     }
 
     fun onCategoryChange(category: String) {
@@ -418,7 +435,7 @@ class CreatePostViewModel @Inject constructor(
 
     fun submitPost(onSuccess: () -> Unit) {
         val state = _uiState.value
-        val content = state.content.text.trim()
+        var content = state.content.text.trim()
         // The title is optional, as on the web: without one the first line of the post stands in.
         val title = state.title.trim().ifBlank { derivePostTitle(content) }
         val category = state.effectiveCategory
@@ -480,6 +497,17 @@ class CreatePostViewModel @Inject constructor(
                     return@launch
                 }
                 imageUrls.add(url)
+            }
+
+            // Pictures written into the text go up now, not when they were picked.
+            for (key in editor.pendingKeys().distinct()) {
+                val uri = editor.uris[key] ?: continue
+                val up = contentImageRepository.upload(uri).getOrNull()
+                if (up == null) {
+                    _uiState.update { it.copy(isSubmitting = false, error = "A picture in your text did not upload. Try again.") }
+                    return@launch
+                }
+                content = content.replace("[[img:$key]]", "[[img:${up.id}]]")
             }
 
             val result = if (state.isEditMode) {

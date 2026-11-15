@@ -969,40 +969,39 @@ fun insertMarkdown(value: TextFieldValue, prefix: String, suffix: String = ""): 
 }
 
 /**
- * Formatting toolbar for the composers. The text underneath is Markdown, but the writer never sees it: each button
- * writes the markers and the field draws the result live (see [LiveMarkdown]). Buttons light up where the caret is.
+ * Formatting toolbar for the composers. Each button changes the formatting of the text under the caret or selection;
+ * nothing is typed into the field, so there is nothing to leak. Buttons light up where the caret is.
  */
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun MarkdownToolbar(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    state: RichState,
     modifier: Modifier = Modifier,
     compact: Boolean = false
 ) {
     var linkDialog by remember { mutableStateOf(false) }
     var symbolDialog by remember { mutableStateOf(false) }
-    val live = remember(value.text) { LiveMarkdown.transform(value.text) }
-    val sel = value.selection
-    fun on(kind: String) = live.kinds.any { it.kind == kind && it.start <= sel.min && it.end >= sel.max }
+    // read so the buttons follow the caret and the text
+    state.value
+    state.armed
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ToolbarButton(NebIcons.Bold, "Bold", on("bold")) { onValueChange(LiveMarkdown.toggleInline(value, "**")) }
-        ToolbarButton(NebIcons.Italic, "Italic", on("italic")) { onValueChange(LiveMarkdown.toggleInline(value, "*")) }
-        ToolbarButton(NebIcons.Code, "Code", on("code")) { onValueChange(LiveMarkdown.toggleInline(value, "`")) }
+        ToolbarButton(NebIcons.Bold, "Bold", state.isActive(Fmt.BOLD)) { state.toggleInline(Fmt.BOLD) }
+        ToolbarButton(NebIcons.Italic, "Italic", state.isActive(Fmt.ITALIC)) { state.toggleInline(Fmt.ITALIC) }
+        ToolbarButton(NebIcons.Code, "Code", state.isActive(Fmt.CODE)) { state.toggleInline(Fmt.CODE) }
         if (!compact) {
-            ToolbarButton(NebIcons.Strike, "Strikethrough", on("strike")) { onValueChange(LiveMarkdown.toggleInline(value, "~~")) }
-            ToolbarButton(NebIcons.Heading, "Heading", on("heading")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Heading)) }
-            ToolbarButton(NebIcons.ListBullet, "Bullet list", on("bullet")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Bullet)) }
-            ToolbarButton(NebIcons.ListNumber, "Numbered list", on("number")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Number)) }
-            ToolbarButton(NebIcons.Quote, "Quote", on("quote")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Quote)) }
-            ToolbarButton(NebIcons.Link, "Link", on("link")) { linkDialog = true }
+            ToolbarButton(NebIcons.Strike, "Strikethrough", state.isActive(Fmt.STRIKE)) { state.toggleInline(Fmt.STRIKE) }
+            ToolbarButton(NebIcons.Heading, "Heading", state.isLineActive(RLine.H2)) { state.toggleLine(RLine.H2) }
+            ToolbarButton(NebIcons.ListBullet, "Bullet list", state.isLineActive(RLine.BULLET)) { state.toggleLine(RLine.BULLET) }
+            ToolbarButton(NebIcons.ListNumber, "Numbered list", state.isLineActive(RLine.NUMBER)) { state.toggleLine(RLine.NUMBER) }
+            ToolbarButton(NebIcons.Quote, "Quote", state.isLineActive(RLine.QUOTE)) { state.toggleLine(RLine.QUOTE) }
+            ToolbarButton(NebIcons.Link, "Link", false) { linkDialog = true }
             ToolbarButton(NebIcons.Math, "Maths symbols", false) { symbolDialog = true }
-            ToolbarButton(NebIcons.CodeBlock, "Code block", false) { onValueChange(LiveMarkdown.insertCodeBlock(value)) }
-            ToolbarButton(NebIcons.Divider, "Divider", false) { onValueChange(LiveMarkdown.insertDivider(value)) }
+            ToolbarButton(NebIcons.CodeBlock, "Code block", state.isLineActive(RLine.CODE)) { state.toggleLine(RLine.CODE) }
+            ToolbarButton(NebIcons.Divider, "Divider", false) { state.insertDivider() }
         }
     }
     if (linkDialog) {
@@ -1020,7 +1019,7 @@ fun MarkdownToolbar(
             },
             confirmButton = {
                 TextButton(
-                    onClick = { onValueChange(LiveMarkdown.insertLink(value, url)); linkDialog = false },
+                    onClick = { state.insertLink(url); linkDialog = false },
                     enabled = url.isNotBlank()
                 ) { Text("Add") }
             },
@@ -1044,7 +1043,7 @@ fun MarkdownToolbar(
                                 .size(44.dp)
                                 .clip(RoundedCornerShape(14.dp))
                                 .background(MaterialTheme.colorScheme.secondaryContainer)
-                                .clickable { onValueChange(LiveMarkdown.insertSymbol(value, sym)) },
+                                .clickable { state.insertSymbol(sym) },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(sym, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSecondaryContainer)

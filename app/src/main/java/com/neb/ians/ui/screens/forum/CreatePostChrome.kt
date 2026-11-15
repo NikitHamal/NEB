@@ -194,10 +194,7 @@ fun ComposerFormatRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (!state.showPreview) {
-                MarkdownToolbar(
-                    value = state.content,
-                    onValueChange = viewModel::onContentChange
-                )
+                MarkdownToolbar(state = viewModel.editor)
                 FormatTool(
                     icon = NebIcons.Image,
                     description = "Insert picture in text",
