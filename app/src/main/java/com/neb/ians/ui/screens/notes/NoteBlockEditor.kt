@@ -679,7 +679,7 @@ fun BlockFormatBar(
     }
 
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
             BarButton(Icons.Outlined.KeyboardArrowDown, "Hide toolbar", fg, false) { onCollapse() }
             Box {
                 BarButton(Icons.Outlined.Add, "Add a block", fg, false) { insertMenu = true }

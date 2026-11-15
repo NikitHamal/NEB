@@ -25,6 +25,8 @@ import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import com.neb.ians.ui.components.navBarScrollSource
+import com.neb.ians.ui.components.navBarScrollTransform
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
@@ -400,7 +402,9 @@ fun NEBiansNavHost(
         label = "create_menu_blur"
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    val navScroll = com.neb.ians.ui.components.rememberNavBarScroll()
+    LaunchedEffect(currentRoute) { navScroll.show() }
+    Box(modifier = Modifier.fillMaxSize().navBarScrollSource(navScroll)) {
         NavHost(
             navController = navController,
             startDestination = Screen.Splash.route,
@@ -1100,6 +1104,7 @@ fun NEBiansNavHost(
                 onMenuDismiss = { showCreateMenu = false },
                 backdrop = glassBackdrop,
                 modifier = Modifier.align(Alignment.BottomCenter)
+                    .navBarScrollTransform(navScroll, pinned = showCreateMenu)
             )
         }
 

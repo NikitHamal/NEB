@@ -80,6 +80,13 @@ HARD BANS
 - No purple. The accent family is azure, sky, aqua, periwinkle, all derived from the brand blue.
 - No lorem ipsum, no stock avatars, no fake testimonials, no fake numbers.
 
+PRESS, SPACING, SCROLL (hard rules, details in section 13)
+- Press feedback (ripple, state layer, tap flash) is clipped to the control's own shape. Clip first, then make it clickable; never the other way round.
+- Tonal tiles that sit side by side keep a gap of at least 4px (6 for 38 to 44px tiles). A selected, hovered or pressed tile may never touch its neighbour.
+- Icons and glyphs drawn on a themed surface must reach 3:1 against it (text 4.5:1). Never a fixed low alpha for a disabled icon.
+- Never nest two scrollers of the same axis. A parent that scrolls horizontally must not contain a child that scrolls horizontally.
+- Text with pictures inside keeps its own line height; only the line that holds a picture grows, and the caret stays as tall as the text.
+
 Before you answer, run the checklist: tokens only, both themes, finite radii, no shadows, no gradients, no emojis, no picture rings, no filled role badges, springs plus reduced motion, touch targets 44px, copy short.
 ```
 
@@ -475,3 +482,40 @@ surface role is a neutral grey (no blue in a card, popup or background), and sha
 - **Splash:** the page colour (white in light, the deep navy in dark, following the theme chosen in settings; `values-night/colors.xml` keeps the system window and the API 31 splash on the same colour), the N settling in on a spring, NEBians cut in letter by letter, then the stack lifts away. No tinted wash, no big shape behind the logo, nothing orbits, pulses or rings it. Springs only, values read in the draw phase.
 - **About:** it fills the screen like a poster: big shape and name, version tiles (version, build, channel; this is the only place version info lives, Settings has one About row and no version card), team, then credits for open source libraries and the on-device models (Whistle, Phonon, Needle). No scroll-driven animation anywhere in the Android app: no parallax, no collapsing-on-scroll effects, no items that animate in as they scroll into view. Motion answers a touch or a state change only.
 - **Upload (Android):** a three pill stepper (the open pill carries its name, done steps are ticks and tap back), steps slide in the direction of travel, a full width Scan tile plus Gallery and Files tiles in their own tones, and publishing covers the screen with a morphing shape, the percentage and a flat bar. No bar pinned to the bottom of the screen.
+
+---
+
+## 13. Press, spacing, contrast, scroll (written after these flaws came back again and again)
+
+These are the flaws that keep appearing in dialogs, popups, sheets, toolbars and composers. Every agent checks them before it says done, on web and Android.
+
+### 13.1 Press feedback follows the shape
+- A ripple, state layer, pressed tint or tap flash is drawn inside the control's own rounded box. A rounded or circular control with a rectangular flash is a bug.
+- Android: `Modifier.clip(shape)` comes BEFORE `.clickable(...)` / `.combinedClickable(...)` / `.selectable(...)`, with the same `shape` as the background. A `background(color, shape)` alone does not clip the ripple. Material components (`IconButton`, `Button`, `Card(onClick)`, `FilterChip`) already clip; a custom `Box` or `Row` does not. Custom expressive shapes (the clover create button) are clipped with the same `nebShape(...)`.
+- Web: `-webkit-tap-highlight-color: transparent` on every interactive element (`m3x/app-press.css`), and the pressed or hover tone is a background on the element itself, which already has its radius. Never an overlay without `border-radius: inherit`.
+- Press may change the radius only between two rounded values, never to 0.
+
+### 13.2 Neighbours never touch
+- Icon buttons, tonal tiles, toggles and chips in a row are separated by a gap: 4px minimum, 6px for 38 to 44px tiles. In Compose use `Arrangement.spacedBy(...)`; never rely on tile padding for the gap.
+- Reason: a tile at rest is transparent, so zero gap looks fine until one is selected or pressed and its tonal fill meets the next tile's fill. The two fills then read as one slab.
+- Applies to toolbars, composer tool rows, dialog action rows, segmented groups that are not a real segmented control, and sheet icon grids.
+
+### 13.3 Contrast on themed surfaces
+- Notes, cards and sheets that take a theme colour compute their ink with `readableOn(ink, background, min)` (`screens/notes/NoteContrast.kt`): 4.5 for text, 3 for icons and glyphs. If the themed ink fails, it falls back to black or white.
+- A disabled or secondary icon uses `softReadable(...)`, which keeps 3:1. Do not write `tint = fg.copy(alpha = 0.35f)`.
+- The brand blue is never used as an icon colour on a coloured note tone without `readableOn(c.primary, tone.container, 3f)`.
+
+### 13.4 Scroll
+- Never put a `horizontalScroll` / `LazyRow` inside another horizontal scroller. The child gets an infinite maximum width and Compose throws `Horizontally scrollable component was measured with an infinity maximum width constraints`. A helper that is placed inside a scrolling row emits its items directly and does not scroll itself (`ImageTools`).
+- The same goes for vertical: no `verticalScroll` or `LazyColumn` inside a vertical scroller without a bounded `heightIn(max = ...)`.
+- The floating bottom bar hides while the user scrolls down and returns on scroll up (`NavBarScroll.kt`): it follows the finger and a spring settles it. Only the layer transform changes, nothing recomposes per frame. The create menu pins the bar.
+
+### 13.5 Text with pictures inside (post, reply and note composers)
+- The text keeps its normal line height everywhere. Only the paragraph (line) that holds a picture grows (`ParagraphStyle`), so an ordinary line never gets taller because a picture exists elsewhere.
+- The caret is as tall as the text and centred in its line, also on a line that holds a picture. On Android the field draws its own caret when pictures exist (`RichTextField`); on the web the drop bar is capped to the text's line height.
+- While a picture is dragged, a caret shows the exact drop place under the fingertip; the picture rides above the finger so it never hides the caret. A drop never lands inside another picture.
+
+### 13.6 Covers and cards
+- A cover is as tall as its width asks, not a fixed strip: the editor cover is `aspectRatio(1.9)` between 168 and 264dp. Cover art scales with the banner's proportions, so a short wide banner keeps its shapes bold.
+- Change and Remove appear only after a tap on the cover and fold away after a few seconds.
+- A list card shows a short preview: three lines of text at most, one row of thumbnails. Lists of notes use a staggered grid (adaptive columns) and a header that is one 56dp row followed directly by the filters.

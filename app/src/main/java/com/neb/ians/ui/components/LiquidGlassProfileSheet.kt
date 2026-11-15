@@ -118,6 +118,7 @@ fun LiquidGlassProfileSheet(
                 Box(
                     modifier = Modifier
                         .size(38.dp)
+                        .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
                         .clickable(onClick = onSettingsClick),
                     contentAlignment = Alignment.Center

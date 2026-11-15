@@ -2,6 +2,7 @@ package com.neb.ians.ui.components
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -36,7 +37,8 @@ internal class RichBuilt(
 }
 
 internal object RichVisual {
-    fun build(doc: RichDoc, c: LiveColors, blankSpacing: TextUnit): RichBuilt {
+    /** [imageLine] is the paragraph style of a line that holds a picture: only those lines grow, the rest keep the text's own height. */
+    fun build(doc: RichDoc, c: LiveColors, blankSpacing: TextUnit, imageLine: ParagraphStyle? = null): RichBuilt {
         val t = doc.text
         val n = t.length
         val lines = doc.kinds.size
@@ -66,6 +68,7 @@ internal object RichVisual {
         val sb = StringBuilder(cap)
         val spans = ArrayList<AnnotatedString.Range<SpanStyle>>()
         val slots = ArrayList<Int>()
+        val paras = ArrayList<AnnotatedString.Range<ParagraphStyle>>()
         val code = SpanStyle(fontFamily = FontFamily.Monospace, background = c.code, color = c.codeText)
         val blank = SpanStyle(color = Color.Transparent, letterSpacing = blankSpacing)
 
@@ -92,6 +95,10 @@ internal object RichVisual {
             }
             o2t[le] = if (le == ls) contentStart else o2t[le]
             val contentEnd = sb.length
+            if (imageLine != null && slots.isNotEmpty() && slots.last() >= tStart) {
+                // the line break belongs to the paragraph it ends
+                paras.add(AnnotatedString.Range(imageLine, tStart, if (li < lines - 1) contentEnd + 1 else contentEnd))
+            }
             if (contentEnd > contentStart) {
                 when (kind) {
                     RLine.H1 -> spans.add(AnnotatedString.Range(SpanStyle(fontSize = 1.45f.em, fontWeight = FontWeight.Bold), contentStart, contentEnd))
@@ -141,7 +148,7 @@ internal object RichVisual {
             if (b > a) spans.add(AnnotatedString.Range(style, a, b))
             i = j
         }
-        val text = AnnotatedString(sb.toString(), spans)
+        val text = AnnotatedString(sb.toString(), spans, paras)
         return RichBuilt(text, o2t, t2o, slots.toIntArray(), n)
     }
 }
