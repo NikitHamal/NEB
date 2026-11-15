@@ -8,7 +8,7 @@
   var tabsEl = $('pw-tabs'), view = $('pw-view'), sheet = $('pw-sheet'), scrim = $('pw-scrim'), sheetBody = $('pw-sheet-body');
   var TABS = [];
   var GROUPS = { school: 'School', tech: 'Engineering and IT', sci: 'Science', health: 'Health', biz: 'Business', arts: 'Arts and media', edu: 'Education', law: 'Law', ag: 'Agriculture', gov: 'Government', abroad: 'Abroad' };
-  var state = { tab: 'after10', group: '', scope: '', level: '', district: localStorage.getItem('pw-district') || '', open: '' };
+  var state = { tab: 'after10', group: '', topic: '', scope: '', level: '', district: localStorage.getItem('pw-district') || '', open: '' };
 
   function h(tag, attrs, kids) {
     var el = document.createElement(tag);
@@ -118,6 +118,20 @@
     view.appendChild(h('div', { class: 'pw-intro' }, [h('h2', { text: 'Scholarships' }), h('p', { text: 'Embassy routes, government awards and fellowships.' })]));
     view.appendChild(f); view.appendChild(grid);
   }
+  /* ---- questions ---- */
+  function drawFaq() {
+    var f = h('div', { class: 'pw-filters', role: 'group', 'aria-label': 'Topic' }, [chip('', 'All', !state.topic, 'topic')]);
+    (D.topics || []).forEach(function (t) { f.appendChild(chip(t.id, t.label, state.topic === t.id, 'topic')); });
+    var list = h('div', { class: 'pw-faq' });
+    (D.faq || []).filter(function (q) { return !state.topic || q.topic === state.topic; }).forEach(function (q) {
+      var go = (q.go || []).map(function (id) { return routes[id]; }).filter(Boolean);
+      var body = h('div', { class: 'pw-q-body' }, [h('p', { text: q.a })].concat(go.length ? [h('div', { class: 'pw-row' }, go.map(function (r) { return h('button', { class: 'pw-chip', type: 'button', 'data-route': r.id, text: r.name }); }))] : []));
+      list.appendChild(h('details', { class: 'pw-q' }, [h('summary', null, [h('span', { text: q.q }), icon('expand_more')]), body]));
+    });
+    view.textContent = '';
+    view.appendChild(h('div', { class: 'pw-intro' }, [h('h2', { text: 'Questions' })]));
+    view.appendChild(f); view.appendChild(list);
+  }
   function kv(k, v) { return h('p', { class: 'pw-empty' }, [h('b', { text: k + ': ' }), v]); }
 
   /* ---- detail sheet ---- */
@@ -190,7 +204,7 @@
   /* ---- routing ---- */
   function draw() {
     drawTabs();
-    if (state.tab === 'abroad') drawAbroad(); else if (state.tab === 'scholarships') drawSch(); else drawStage();
+    if (state.tab === 'abroad') drawAbroad(); else if (state.tab === 'scholarships') drawSch(); else if (state.tab === 'faq') drawFaq(); else drawStage();
   }
   function setTab(t) { state.tab = t; state.group = ''; draw(); if (!/route=/.test(location.hash)) history.replaceState(null, '', '#' + t); window.scrollTo({ top: 0 }); }
   function fromHash(first) {
@@ -220,7 +234,7 @@
   fetch(view.dataset.src, { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (data) {
     D = data; routes = by(D.routes); careers = by(D.careers); providers = by(D.providers); scholarships = by(D.scholarships);
     TABS = D.stages.map(function (s) { return { id: s.id, label: s.label, icon: s.icon }; })
-      .concat([{ id: 'abroad', label: 'Abroad', icon: 'public' }, { id: 'scholarships', label: 'Scholarships', icon: 'payments' }]);
+      .concat([{ id: 'abroad', label: 'Abroad', icon: 'public' }, { id: 'scholarships', label: 'Scholarships', icon: 'payments' }].concat((D.faq || []).length ? [{ id: 'faq', label: 'Questions', icon: 'help' }] : []));
     fromHash(true);
   }).catch(function () {
     view.textContent = '';

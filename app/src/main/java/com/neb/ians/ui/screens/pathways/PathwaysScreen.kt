@@ -26,6 +26,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.MilitaryTech
@@ -67,6 +68,7 @@ import com.neb.ians.ui.theme.nebFloatColor
 
 private const val TAB_ABROAD = "abroad"
 private const val TAB_SCHOLARSHIPS = "scholarships"
+private const val TAB_FAQ = "faq"
 
 private fun stageIcon(name: String): ImageVector = when (name) {
     "menu_book" -> Icons.AutoMirrored.Outlined.MenuBook
@@ -102,10 +104,12 @@ fun PathwaysScreen(onNavigateBack: () -> Unit, viewModel: PathwaysViewModel = hi
                 data.stages.forEach { s -> PwTab(s.label, stageIcon(s.icon), tab == s.id) { tab = s.id; group = "" } }
                 PwTab("Abroad", Icons.Outlined.Public, tab == TAB_ABROAD) { tab = TAB_ABROAD }
                 PwTab("Scholarships", Icons.Outlined.Payments, tab == TAB_SCHOLARSHIPS) { tab = TAB_SCHOLARSHIPS }
+                if (data.faq.isNotEmpty()) PwTab("Questions", Icons.AutoMirrored.Outlined.HelpOutline, tab == TAB_FAQ) { tab = TAB_FAQ }
             }
             when (tab) {
                 TAB_ABROAD -> AbroadList(Modifier.weight(1f), data)
                 TAB_SCHOLARSHIPS -> ScholarshipList(Modifier.weight(1f), data)
+                TAB_FAQ -> FaqList(Modifier.weight(1f), data) { open = it }
                 else -> StageList(Modifier.weight(1f), data, tab, group, { group = it }) { open = it }
             }
             Text(
@@ -147,7 +151,7 @@ private fun Tag(text: String, tertiary: Boolean = false) {
 }
 
 @Composable
-private fun PwCard(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
+internal fun PwCard(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
     val shape = RoundedCornerShape(24.dp)
     Surface(
         modifier = modifier.fillMaxWidth().clip(shape).then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
@@ -156,7 +160,7 @@ private fun PwCard(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null,
 }
 
 @Composable
-private fun Soft(text: String) = Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+internal fun Soft(text: String) = Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
 private val GROUP_LABEL = mapOf(
     "school" to "School", "tech" to "Engineering and IT", "sci" to "Science", "health" to "Health", "biz" to "Business", "arts" to "Arts and media",
@@ -195,7 +199,7 @@ private fun StageList(modifier: Modifier, data: PwData, stageId: String, group: 
 }
 
 @Composable
-private fun FilterPill(label: String, on: Boolean, onClick: () -> Unit) {
+internal fun FilterPill(label: String, on: Boolean, onClick: () -> Unit) {
     val c = MaterialTheme.colorScheme
     Surface(
         onClick = onClick, shape = RoundedCornerShape(18.dp),

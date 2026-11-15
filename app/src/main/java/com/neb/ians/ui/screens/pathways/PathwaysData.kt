@@ -36,9 +36,12 @@ data class PwAbroad(
     val id: String, val country: String, val tuitionMin: Long, val tuitionMax: Long, val livingMin: Long, val livingMax: Long,
     val exams: List<String>, val intakes: String, val fields: List<String>, val work: String, val note: String,
 )
+data class PwTopic(val id: String, val label: String)
+data class PwFaq(val id: String, val topic: String, val q: String, val a: String, val go: List<String>)
 data class PwData(
     val reviewed: String, val stages: List<PwStage>, val routes: List<PwRoute>, val careers: Map<String, PwCareer>,
     val providers: Map<String, PwProvider>, val scholarships: List<PwScholarship>, val abroad: List<PwAbroad>,
+    val topics: List<PwTopic> = emptyList(), val faq: List<PwFaq> = emptyList(),
 ) { val routeById: Map<String, PwRoute> by lazy { routes.associateBy { it.id } } }
 
 private fun JSONArray?.strings(): List<String> = if (this == null) emptyList() else List(length()) { optString(it) }
@@ -73,6 +76,8 @@ internal fun parsePathways(text: String): PwData {
             PwAbroad(it.getString("id"), it.getString("country"), t.getLong(0), t.getLong(1), l.getLong(0), l.getLong(1),
                 it.optJSONArray("exams").strings(), it.optString("intakes"), it.optJSONArray("fields").strings(), it.optString("work"), it.optString("note"))
         },
+        topics = o.optJSONArray("topics")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
+        faq = o.optJSONArray("faq")?.mapObjs { PwFaq(it.getString("id"), it.optString("topic"), it.optString("q"), it.optString("a"), it.optJSONArray("go").strings()) } ?: emptyList(),
     )
 }
 
