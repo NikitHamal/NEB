@@ -460,6 +460,32 @@ fun NoteEditorScreen(
     }
 }
 
+/** The cover and its Change / Remove pills. Own function so no ColumnScope receiver leaks into AnimatedVisibility. */
+@Composable
+private fun NoteCoverArea(cover: Int, photo: java.io.File?, editable: Boolean, onCover: () -> Unit, onClearCover: () -> Unit) {
+    var tools by remember { mutableStateOf(false) }
+    LaunchedEffect(tools) { if (tools) { kotlinx.coroutines.delay(4200); tools = false } }
+    Box(
+        Modifier.fillMaxWidth().heightIn(min = 168.dp, max = 264.dp).aspectRatio(1.9f)
+            .then(if (editable) Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { tools = !tools } else Modifier),
+    ) {
+        NoteCover(cover, photo, Modifier.matchParentSize())
+        if (editable) {
+            AnimatedVisibility(
+                visible = tools,
+                modifier = Modifier.align(Alignment.BottomEnd),
+                enter = fadeIn(tween(140)) + scaleIn(spring(dampingRatio = 0.7f, stiffness = 500f), initialScale = 0.86f),
+                exit = fadeOut(tween(120)) + scaleOut(targetScale = 0.9f),
+            ) {
+                Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    HeaderPill("Change", Icons.Outlined.Image, { tools = false; onCover() })
+                    HeaderPill(null, Icons.Outlined.Close, { tools = false; onClearCover() }, "Remove cover")
+                }
+            }
+        }
+    }
+}
+
 /**
  * The top of the page: the cover runs edge to edge, the icon tile overlaps its lower edge, and a
  * page with neither shows two quiet actions. Changing the cover or icon springs the new one in.
@@ -473,30 +499,7 @@ private fun NotePageHeader(
     val hasIcon = icon.isNotEmpty()
     val hasCover = cover != 0
     Column(Modifier.fillMaxWidth().animateContentSize(spring(dampingRatio = 0.8f, stiffness = 380f))) {
-        if (hasCover) {
-            // The cover grows with the screen width (never a fixed strip) and its two actions appear only after a tap on it.
-            var tools by remember { mutableStateOf(false) }
-            LaunchedEffect(tools) { if (tools) { kotlinx.coroutines.delay(4200); tools = false } }
-            Box(
-                Modifier.fillMaxWidth().heightIn(min = 168.dp, max = 264.dp).aspectRatio(1.9f)
-                    .then(if (editable) Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { tools = !tools } else Modifier),
-            ) {
-                NoteCover(cover, photo, Modifier.matchParentSize())
-                if (editable) {
-                    AnimatedVisibility(
-                        visible = tools,
-                        modifier = Modifier.align(Alignment.BottomEnd),
-                        enter = fadeIn(tween(140)) + scaleIn(spring(dampingRatio = 0.7f, stiffness = 500f), initialScale = 0.86f),
-                        exit = fadeOut(tween(120)) + scaleOut(targetScale = 0.9f),
-                    ) {
-                        Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            HeaderPill("Change", Icons.Outlined.Image, { tools = false; onCover() })
-                            HeaderPill(null, Icons.Outlined.Close, { tools = false; onClearCover() }, "Remove cover")
-                        }
-                    }
-                }
-            }
-        }
+        if (hasCover) NoteCoverArea(cover, photo, editable, onCover, onClearCover)
         if (hasIcon) {
             Box(
                 Modifier.padding(start = 22.dp, top = if (hasCover) 0.dp else 8.dp)
