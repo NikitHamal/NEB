@@ -513,6 +513,7 @@ private fun LibrarySortDropdown(
         Row(
             modifier = Modifier
                 .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                .clip(RoundedCornerShape(14.dp))
                 .clickable { expanded = true }
                 .padding(horizontal = 6.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically

@@ -510,7 +510,7 @@ private fun NotePageHeader(
                             layout(placeable.width, placeable.height - pull) { placeable.place(0, -pull) }
                         } else Modifier
                     )
-                    .let { if (editable) it.clickable(onClick = onIcon) else it },
+                    .let { if (editable) it.clip(RoundedCornerShape(20.dp)).clickable(onClick = onIcon) else it },
             ) {
                 NoteIconTile(icon, 64.dp, container = container, content = fg)
             }
