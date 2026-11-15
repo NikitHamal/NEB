@@ -51,6 +51,20 @@ class PathwaysDataTests(TestCase):
             self.assertIn(rid, {x['id'] for x in d[key]}, rid)
         self.assertIn('ai-engineer', next(r for r in d['routes'] if r['id'] == 'bsc-csit')['careers'])
 
+    def test_wave4_is_merged(self):
+        d = pathways.payload()
+        for key, rid in (
+            ('routes', 'bim'), ('routes', 'pcl-nursing'), ('routes', 'bns'), ('routes', 'bams'),
+            ('routes', 'ba-llb'), ('routes', 'be-geomatics'), ('routes', 'council-license'),
+            ('careers', 'geomatics-engineer'), ('careers', 'optometrist'), ('careers', 'product-manager'),
+            ('providers', 'p-trichandra'), ('providers', 'p-kahs'), ('providers', 'p-butwal'),
+            ('scholarships', 's-mgss'), ('scholarships', 's-gjss'), ('scholarships', 's-eiffel'),
+            ('abroad', 'fr'), ('abroad', 'se'), ('abroad', 'be'), ('abroad', 'th'),
+        ):
+            self.assertIn(rid, {x['id'] for x in d[key]}, rid)
+        self.assertGreaterEqual(len({p['district'] for p in d['providers']}), 24)
+        self.assertGreaterEqual(len(d['faq']), 30)
+
     def test_dynamic_posts_lab_loads_data_before_lab(self):
         r = self.client.get('/app/lab/dynamic-posts/')
         self.assertEqual(r.status_code, 200)
