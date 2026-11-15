@@ -336,3 +336,5 @@ See `docs/M3X_DESIGN_SYSTEM.md` 13.5 (paragraph never ends on a line break, no f
 
 ## Not done / next
 - On-device pass: drag a picture between lines of a wrapped paragraph (the whole paragraph that holds a picture is the taller one, Compose has no per-visual-line height), caret placement on the empty line after a picture, the selection menu next to the top edge and with the glass bottom bar, staggered card heights with many media notes.
+
+CI session 14: `7e078d9` is green on the first push; the Android release build (APK and AAB) compiles. Nothing was run on a device.
