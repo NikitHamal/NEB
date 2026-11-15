@@ -70,7 +70,7 @@
       });
       var data = await response.json().catch(function () { return {}; });
       if (response.status === 401) {
-        window.location.href = '/login/';
+        NebAuth.require();
         return;
       }
       if (!response.ok || !data.url) {

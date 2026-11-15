@@ -52,3 +52,15 @@ class MentionPopupTests(TestCase):
         home = open(os.path.join(os.path.dirname(__file__), 'static', 'web', 'js', 'pages', 'home.js'), encoding='utf-8').read()
         self.assertIn('pressedOnBackdrop', home)
         self.assertIn('swallow', _read('js', 'composer-editor.js'))
+
+
+class DynamicPostsLabAndGateTests(TestCase):
+    def test_lab_is_public_and_not_indexed(self):
+        res = self.client.get('/app/lab/dynamic-posts/')
+        self.assertEqual(res.status_code, 200)
+        self.assertContains(res, 'dp-stage')
+        self.assertContains(res, 'noindex')
+
+    def test_guest_gate_script_is_on_every_page(self):
+        res = self.client.get('/app/pathways/')
+        self.assertContains(res, 'neb-auth-gate.js')

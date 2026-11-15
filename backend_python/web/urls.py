@@ -86,6 +86,7 @@ urlpatterns = [
     path('app/results/', views_news.results_guide, name='results_guide'),
     path('app/results/check/', views_results.result_check_page, name='result_check'),
     path('app/pathways/', views_pathways.pathways_page, name='pathways'),
+    path('app/lab/dynamic-posts/', views_pathways.dynamic_posts_lab, name='dynamic_posts_lab'),
     path('app/schools/', views_institutions.schools_directory, name='schools'),
     path('app/schools/verify/', views_institutions.school_apply, name='school_apply'),
     path('app/schools/<slug:slug>/', views_institutions.school_detail, name='school_detail'),

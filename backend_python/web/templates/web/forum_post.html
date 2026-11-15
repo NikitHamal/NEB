@@ -327,7 +327,7 @@ function renderMentions(text) {
 }
 
 async function togglePostLike(postId) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
   if (result && result.thumbsUpCount !== undefined) {
     document.getElementById('post-like-count-' + postId).textContent = result.thumbsUpCount;
@@ -340,7 +340,7 @@ async function togglePostLike(postId) {
 }
 
 async function toggleReplyLike(replyId) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   const result = await (await fetch('/ajax/like/reply/' + replyId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
   if (result && result.thumbsUpCount !== undefined) {
     const escaped = CSS.escape(replyId);
@@ -371,13 +371,13 @@ function jumpToReplies() {
 }
 
 async function toggleFollowPost() {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   const btn = document.getElementById('followBtn');
   btn.disabled = true;
   try {
     const desired = btn.classList.contains('following') ? 'unfollow' : 'follow';
     const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, credentials:'same-origin', body: JSON.stringify({ action: desired }) });
-    if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+    if (r.status === 401) { NebAuth.require(); return; }
     const d = await r.json();
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
@@ -402,12 +402,12 @@ function updateAllFollowButtons(userId, isFollowing) {
 }
 
 async function toggleFollowBtn(btn, userId) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   btn.disabled = true;
   try {
     const desired = btn.classList.contains('following') ? 'unfollow' : 'follow';
     const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, credentials:'same-origin', body: JSON.stringify({ action: desired }) });
-    if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+    if (r.status === 401) { NebAuth.require(); return; }
     const d = await r.json();
     if (d && d.error) { showSnackbar(d.error); btn.disabled = false; return; }
     if (d) {
@@ -1395,7 +1395,7 @@ async function toggleBookmark(targetType, targetId, btnEl) {
       body: JSON.stringify({ target_type: targetType, target_id: targetId })
     });
     const d = await r.json();
-    if (r.status === 401) { window.location.href = '/login/'; return; }
+    if (r.status === 401) { NebAuth.require(); return; }
     if (d.isBookmarked !== undefined) {
       var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
       var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
@@ -1607,7 +1607,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function votePoll(btn) {
-  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTH) { NebAuth.require(); return; }
   var pollEl = btn.closest('.fp-poll');
   var pollId = pollEl.dataset.pollId;
   var optionId = btn.dataset.optionId;

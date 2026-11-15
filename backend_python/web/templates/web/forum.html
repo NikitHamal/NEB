@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function toggleForumPostLike(postId, btn) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   try {
     const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
     if (result && result.thumbsUpCount !== undefined) {
@@ -126,12 +126,12 @@ async function toggleForumPostLike(postId, btn) {
 }
 
 async function toggleFollowBtn(btn, userId) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   btn.disabled = true;
   try {
     const desired = btn.classList.contains('following') ? 'unfollow' : 'follow';
     const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin', body: JSON.stringify({ action: desired }) });
-    if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+    if (r.status === 401) { NebAuth.require(); return; }
     const d = await r.json();
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
@@ -152,14 +152,14 @@ async function toggleFollowBtn(btn, userId) {
 }
 
 async function toggleBookmark(targetType, targetId, btnEl) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
   try {
     const r = await fetch('/ajax/bookmark/toggle/', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
     });
     const d = await r.json();
-    if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+    if (r.status === 401) { NebAuth.require(); return; }
     if (d.isBookmarked !== undefined) {
       var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
       var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);

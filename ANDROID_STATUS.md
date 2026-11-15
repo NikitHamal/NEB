@@ -389,3 +389,28 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Web: guests already browse the web; sign-in prompts for web interactions are not unified with the Android sheet yet.
 - Pathways: more providers per district (the live list falls back to the 24k institution catalogue), per-course seat and fee tables, Nepali labels, saved pathways for signed-in users.
 - On-device pass: sign-in return from the reply bar, gated create menu, caret scroll with the glass bar.
+
+
+---
+
+# Session 17: CI repair, Pathways data wave 2, web sign-in sheet, web dynamic posts lab
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Session 16 (`c448719`) had failed CI, so that came first. Items 89 to 94 were read against the code and stand; nothing redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 95 | **CI repair.** `c448719` failed: `NebModalSheet` is experimental material3 API and two files called it without the opt-in. Added `@file:OptIn(ExperimentalMaterial3Api::class)`. | `components/AuthGate.kt`, `screens/pathways/PathwaysScreen.kt` |
+| 96 | **Pathways data wave 2** (no UI change, both apps read the same API): routes 45 to 63 (skill training, police and army, A Levels, hotel diploma, BE Electrical and Mechanical, BDS, BMLT, BPT, BPH, BVSc, BTTM, BFA, BSc science, MPH, ACCA, banking, freelance, PhD), careers 24 to 32, providers 17 to 36 (Pokhara, Dharan, Biratnagar, Surkhet, Mahendranagar, Chitwan, Bhaktapur, private colleges), scholarships 14 to 22 (Aga Khan, Rotary, Swiss, Holland, ICCR, Manaaki, Russia, Gates Cambridge), study abroad 10 to 16 (New Zealand, Netherlands, Finland, Malaysia, Turkiye, Russia). `where_add` in `extra_places.json` attaches new providers to existing routes. `problems()` now also reports duplicate ids. | `api/data/pathways/routes_d.json`, `extra_careers.json`, `extra_places.json`, `api/pathways.py` |
+| 97 | **Web sign-in sheet, one door.** `NebAuth.require(reason)` (loaded from `base.html`) opens a bottom sheet on phones and a centred card on desktop: Sign in, Create account, Not now. Both links carry `?next=<this page>` so the person lands back on the same screen (the login page already honours `next`; it now also accepts `panel=signup`). Every guest redirect in home, forum, post, search, profile, subject, resource, news, poll, marketplace and peer-card code calls it instead of `window.location.href = /login/` (which dropped the page). An htmx 401 opens it too. `data-auth-gate="reply"` markup hook exists for new buttons. Styles are injected on first open. | `web/static/web/js/neb-auth-gate.js`, templates, `home.js` |
+| 98 | **Web dynamic posts lab** `/app/lab/dynamic-posts/` (tools hub card "Dynamic posts"): the same six looks as Android plus Default, feed card and reading view, and a live customiser (pattern, type, corners, drop cap, quote bar, accent). Flat colour, SVG patterns, CSS variables only, no gradient or shadow. noindex. | `dynamic_posts_lab.html`, `dynamic-posts-lab.js/css`, `views_pathways.py` |
+
+## Web composer caret
+`composer-editor.js` already keeps the caret inside the viewport (twin-measured caret, scroll on input); Android got the same in item 92. Nothing changed.
+
+## Not done / next
+- Dynamic posts is still a lab. Next: pick the direction, add a `look` JSON field (paper, accent, font, pattern, flags) to forum posts with a null default so old posts keep the default look, a look picker in both composers, and render the look in feed cards and the reader.
+- Pathways: Nepali labels, saved pathways for signed-in users, per-course seat and fee tables, a FAQ tab ("what after SEE" questions), more private colleges per district. Verify every figure against the institution before widening claims.
+- Web: pass a specific reason (like, save, reply) from each call site to `NebAuth.require`.
+- On-device pass: sign-in return from the reply bar, gated create menu.

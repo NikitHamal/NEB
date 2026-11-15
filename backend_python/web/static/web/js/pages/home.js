@@ -59,7 +59,7 @@
   registerActions({
     'toggle-forum-post-like': async function (el, e) {
       if (e) e.stopPropagation();
-      if (!IS_AUTHENTICATED) { window.location.href = (window.NEB_LOGIN_URL || '/login/'); return; }
+      if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
       var postId = el.dataset.postId;
       try {
         const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
@@ -74,13 +74,13 @@
     },
     'toggle-follow': async function (el, e) {
       if (e) e.stopPropagation();
-      if (!IS_AUTHENTICATED) { window.location.href = (window.NEB_LOGIN_URL || '/login/'); return; }
+      if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
       var userId = el.dataset.userId;
       el.disabled = true;
       try {
         const desired = el.classList.contains('following') ? 'unfollow' : 'follow';
         const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin', body: JSON.stringify({ action: desired }) });
-        if (r.status === 401) { window.location.href = (window.NEB_LOGIN_URL || '/login/'); return; }
+        if (r.status === 401) { NebAuth.require(); return; }
         const d = await r.json();
         el.disabled = false;
         if (d && d.error) { showSnackbar(d.error); return; }
@@ -103,7 +103,7 @@
     'toggle-bookmark': async function (el, e) {
       if (e) e.stopPropagation();
       closeAllMenus();
-      if (!IS_AUTHENTICATED) { window.location.href = (window.NEB_LOGIN_URL || '/login/'); return; }
+      if (!IS_AUTHENTICATED) { NebAuth.require(); return; }
       var targetType = el.dataset.targetType;
       var targetId = el.dataset.targetId;
       try {
@@ -112,7 +112,7 @@
           credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
         });
         const d = await r.json();
-        if (r.status === 401) { window.location.href = (window.NEB_LOGIN_URL || '/login/'); return; }
+        if (r.status === 401) { NebAuth.require(); return; }
         if (d.isBookmarked !== undefined) {
           var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
           var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);

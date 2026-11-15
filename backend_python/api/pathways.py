@@ -22,17 +22,21 @@ def _load(name):
 def payload():
     a, b, c = _load('routes_a.json'), _load('routes_b.json'), _load('routes_c.json')
     places = _load('places.json')
-    routes = a['routes'] + b['routes'] + c['routes']
+    extra = _load('extra_places.json')
+    routes = a['routes'] + b['routes'] + c['routes'] + _load('routes_d.json')['routes']
+    by_id = {r['id']: r for r in routes}
+    for rid, more in extra.get('where_add', {}).items():
+        by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
     for r in routes:
         r['where'] = list(dict.fromkeys(r.get('where') or []))
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
         'routes': routes,
-        'careers': _load('careers.json')['careers'],
-        'providers': places['providers'],
-        'scholarships': places['scholarships'],
-        'abroad': places['abroad'],
+        'careers': _load('careers.json')['careers'] + _load('extra_careers.json')['careers'],
+        'providers': places['providers'] + extra['providers'],
+        'scholarships': places['scholarships'] + extra['scholarships'],
+        'abroad': places['abroad'] + extra['abroad'],
     }
     body = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     data['etag'] = hashlib.md5(body.encode('utf-8')).hexdigest()[:16]
@@ -43,6 +47,12 @@ def problems(data=None):
     """Broken references, used by the tests so a typo in the JSON fails CI instead of a screen."""
     d = data or payload()
     out = []
+    for key in ('routes', 'careers', 'providers', 'scholarships', 'abroad'):
+        seen = set()
+        for x in d[key]:
+            if x['id'] in seen:
+                out.append(f"duplicate {key}: {x['id']}")
+            seen.add(x['id'])
     ids = {k: {x['id'] for x in d[k]} for k in ('routes', 'careers', 'providers', 'scholarships')}
     stages = {s['id'] for s in d['stages']}
     for r in d['routes']:
