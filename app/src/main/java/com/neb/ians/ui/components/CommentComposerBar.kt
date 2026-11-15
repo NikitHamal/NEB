@@ -108,6 +108,7 @@ fun NebCommentComposerBar(
     trailingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
+    val rich = rememberRichState(value, value.length) { md, _ -> onValueChange(md) }
     NebCommentComposerBarFrame(
         modifier = modifier,
         enabled = enabled,
@@ -126,8 +127,7 @@ fun NebCommentComposerBar(
         extraContent = extraContent
     ) { fieldModifier: Modifier, minHeight, leadingVisible ->
         ComposerInput(
-            value = value,
-            onValueChange = onValueChange,
+            state = rich,
             enabled = enabled,
             placeholder = placeholder,
             modifier = fieldModifier.then(textFieldModifier).defaultMinSize(minHeight = minHeight),
@@ -159,6 +159,7 @@ fun NebCommentComposerBar(
     trailingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
+    val rich = rememberRichState(value.text, value.selection.end) { md, caret -> onValueChange(TextFieldValue(md, TextRange(caret))) }
     NebCommentComposerBarFrame(
         modifier = modifier,
         enabled = enabled,
@@ -171,18 +172,16 @@ fun NebCommentComposerBar(
         docked = docked,
         kind = kind,
         onKindChange = onKindChange,
-        formatBar = { MarkdownToolbar(value = value, onValueChange = onValueChange) },
+        formatBar = { MarkdownToolbar(state = rich) },
         leadingContent = leadingContent,
         trailingContent = trailingContent,
         extraContent = extraContent
     ) { fieldModifier: Modifier, minHeight, leadingVisible ->
         ComposerInput(
-            value = value,
-            onValueChange = onValueChange,
+            state = rich,
             enabled = enabled,
             placeholder = placeholder,
             modifier = fieldModifier.then(textFieldModifier).defaultMinSize(minHeight = minHeight),
-            visualTransformation = visualTransformation,
             leadingContent = leadingContent,
             leadingVisible = leadingVisible
         )
@@ -469,57 +468,20 @@ private fun ComposerSendButton(
 /** The borderless input inside the composer container: leading tools, then the text. */
 @Composable
 private fun ComposerInput(
-    value: String,
-    onValueChange: (String) -> Unit,
+    state: RichState,
     enabled: Boolean,
     placeholder: String,
     modifier: Modifier,
     leadingContent: (@Composable RowScope.() -> Unit)?,
     leadingVisible: Boolean = true
 ) {
-    val scheme = MaterialTheme.colorScheme
-    // Held as a TextFieldValue so the caret and the keyboard's composing word survive each edit.
-    var held by remember { mutableStateOf(TextFieldValue(value, TextRange(value.length))) }
-    val shown = if (held.text == value) held else TextFieldValue(value, TextRange(value.length))
-    BasicTextField(
-        value = shown,
-        onValueChange = { typed ->
-            val next = LiveReconcile.apply(shown, typed)
-            held = next
-            if (next.text != value) onValueChange(next.text)
-        },
-        enabled = enabled,
-        maxLines = 5,
-        textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
-        cursorBrush = SolidColor(scheme.primary),
-        visualTransformation = LiveMarkdown.rememberTransformation(),
+    RichTextField(
+        state = state,
         modifier = modifier,
-        decorationBox = { inner -> ComposerInputRow(value.isEmpty(), placeholder, leadingContent, leadingVisible, inner) }
-    )
-}
-
-@Composable
-private fun ComposerInput(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
-    enabled: Boolean,
-    placeholder: String,
-    modifier: Modifier,
-    visualTransformation: VisualTransformation,
-    leadingContent: (@Composable RowScope.() -> Unit)?,
-    leadingVisible: Boolean = true
-) {
-    val scheme = MaterialTheme.colorScheme
-    BasicTextField(
-        value = value,
-        onValueChange = { typed -> onValueChange(LiveReconcile.apply(value, typed)) },
         enabled = enabled,
+        textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 5,
-        textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
-        cursorBrush = SolidColor(scheme.primary),
-        visualTransformation = visualTransformation,
-        modifier = modifier,
-        decorationBox = { inner -> ComposerInputRow(value.text.isEmpty(), placeholder, leadingContent, leadingVisible, inner) }
+        decorationBox = { inner -> ComposerInputRow(state.value.text.isEmpty(), placeholder, leadingContent, leadingVisible, inner) }
     )
 }
 

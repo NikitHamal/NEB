@@ -2,6 +2,9 @@
 
 package com.neb.ians.ui.screens.forum
 
+import androidx.compose.runtime.remember
+import com.neb.ians.ui.components.InlineImageTokens
+import com.neb.ians.ui.components.RichTextField
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,8 +59,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.neb.ians.ui.components.ForumAttachmentChip
-import com.neb.ians.ui.components.InlineImageField
-import com.neb.ians.ui.components.InlineImageFieldHandle
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.MarkdownToolbar
 import com.neb.ians.ui.components.MentionSuggestions
@@ -221,11 +222,10 @@ fun ComposerTitleField(
 fun ComposerEditor(
     state: CreatePostUiState,
     viewModel: CreatePostViewModel,
-    handle: InlineImageFieldHandle,
-    onPendingCountChange: (Int) -> Unit,
-    onImageClick: (String) -> Unit,
+    onImageClick: (urls: List<String>, index: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val editor = viewModel.editor
     Column(modifier = modifier.fillMaxWidth()) {
         if (state.showPreview) {
             Box(modifier = Modifier.heightIn(min = 200.dp)) {
@@ -236,23 +236,40 @@ fun ComposerEditor(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 } else {
-                    MarkdownText(markdown = state.content.text, onInlineImageClick = onImageClick)
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        MarkdownText(
+                            markdown = remember(state.content.text) { InlineImageTokens.REGEX.replace(state.content.text) { if (it.groupValues[1].startsWith("u")) "" else it.value } },
+                            onInlineImageClick = { url -> onImageClick(listOf(url), 0) }
+                        )
+                        val pending = editor.pendingKeys().mapNotNull { editor.uris[it] }
+                        if (pending.isNotEmpty()) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                pending.forEachIndexed { i, uri ->
+                                    AsyncImage(
+                                        model = uri,
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .size(72.dp)
+                                            .clip(RoundedCornerShape(14.dp))
+                                            .nebPressable(onClick = { onImageClick(pending.map { it.toString() }, i) })
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         } else {
-            InlineImageField(
-                value = state.content,
-                onValueChange = viewModel::onContentChange,
-                uploader = viewModel::uploadInlineImage,
-                onError = viewModel::reportError,
-                handle = handle,
+            RichTextField(
+                state = editor,
                 placeholder = "Ask a question, share notes, formulas, or exam tips...",
                 textStyle = MaterialTheme.typography.bodyLarge,
                 minLines = 8,
                 maxLines = 60,
                 enabled = !state.isSubmitting,
-                onPendingCountChange = onPendingCountChange,
-                onImageClick = onImageClick
+                onImageClick = { index -> onImageClick(editor.imageUrls(), index) },
+                modifier = Modifier.fillMaxWidth()
             )
             MentionSuggestions(
                 users = state.mentionSuggestions,
