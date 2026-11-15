@@ -310,7 +310,7 @@ fun ShimmerHomeScreen() {
                 .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(3) {
                 ShimmerResourceCard()
             }
@@ -325,7 +325,7 @@ fun ShimmerHomeScreen() {
                 .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(3) {
                 ShimmerResourceCard()
             }

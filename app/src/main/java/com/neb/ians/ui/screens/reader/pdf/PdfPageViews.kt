@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.reader.pdf
 
 import android.graphics.Bitmap
+import com.neb.ians.ui.components.boundedWidth
 import android.graphics.RectF
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -231,7 +232,7 @@ fun PagedReader(
     LaunchedEffect(pagerState.settledPage) { zoom.reset() }
     HorizontalPager(
         state = pagerState,
-        modifier = Modifier.fillMaxSize().background(look.canvas),
+        modifier = Modifier.boundedWidth().fillMaxSize().background(look.canvas),
         beyondViewportPageCount = 1,
         userScrollEnabled = !zoomedIn,
         key = { it }

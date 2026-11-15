@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.forum
 
 import com.neb.ians.ui.components.inlineGallery
+import com.neb.ians.ui.components.boundedWidth
 import com.neb.ians.ui.components.NebToastHost
 import android.content.Intent
 import android.net.Uri
@@ -952,7 +953,7 @@ private fun PostContentSection(
                     ) {
                         HorizontalPager(
                             state = pagerState,
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.boundedWidth().fillMaxSize()
                         ) { page ->
                             AsyncImage(
                                 model = imageUrls[page],

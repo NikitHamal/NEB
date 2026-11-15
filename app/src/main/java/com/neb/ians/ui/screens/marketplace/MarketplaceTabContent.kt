@@ -3,6 +3,7 @@
 package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -190,6 +191,7 @@ private fun MarketplaceShelf(
             }
             item(key = "offerings", span = { GridItemSpan(maxLineSpan) }) {
                 LazyRow(
+                    modifier = Modifier.boundedWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(end = 4.dp)
                 ) {
