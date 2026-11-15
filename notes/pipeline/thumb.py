@@ -15,6 +15,7 @@ Needs weasyprint, pymupdf, pillow and the fonts of fonts/install.sh. Pure functi
 the BCA registry: it never opens a PDF, so it does not drift when a book is rebuilt.
 """
 import html, json, os, re, sys
+import hashlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
@@ -24,6 +25,8 @@ import i18n, m3x, spine  # noqa: E402
 W, H = 1280, 720
 OUT = os.path.join(REPO, "tools", "publish", "covers")
 COURSE_PREFIX = "bca-course-"
+PAPER_OUT = os.path.join(REPO, "tools", "publish", "paper_covers")
+ENG_CONTENT = os.path.join(REPO, "notes", "papers", "engineering", "content")
 TEXT_W = 700            # title column; the art owns everything to the right of it
 FONT_DIRS = [os.path.expanduser("~/.local/share/fonts"), "/usr/share/fonts", os.path.expanduser("~/.fonts")]
 
@@ -42,12 +45,106 @@ def course_slugs():
     return list(course_registry())
 
 
+_ENG_CACHE = {}
+# Discipline to accent, using the same hexes spine.SUBJECTS gives the school books, so an engineering
+# paper sits in the same colour family as the subject chip it belongs to everywhere else.
+ENG_ACCENTS = (
+    ("mathematics", "#8F5507"), ("physics", "#4A42D6"), ("chemistry", "#A8271F"),
+    ("computer", "#2E4057"), ("programming", "#2E4057"), ("data", "#2E4057"),
+    ("electronic", "#0F766E"), ("electrical", "#0F766E"), ("instrumentation", "#0F766E"),
+    ("civil", "#2F6B3A"), ("building", "#2F6B3A"), ("survey", "#2F6B3A"), ("transportation", "#2F6B3A"),
+    ("mechanical", "#475569"), ("workshop", "#475569"), ("thermodynamics", "#475569"),
+    ("fluid", "#0F766E"), ("geology", "#475569"), ("engineering drawing", "#8F5507"),
+    ("english", "#6B3FA0"), ("communication", "#6B3FA0"),
+    ("management", "#C2410C"), ("economics", "#C2410C"), ("account", "#9D174D"),
+)
+GRADE_CHIP = {"8": "Class 8", "9": "Class 9", "10": "Class 10", "11": "Class 11", "12": "Class 12"}
+ENG_FALLBACK = ("#4A42D6", "#0B6A62", "#8F5507", "#9D174D", "#2E4057", "#C2410C")
+NEB_CONTENT = os.path.join(REPO, "notes", "papers", "content")
+NEB_PREFIX = ""
+
+
+def _front_matter(path):
+    meta, inside = {}, False
+    with open(path, encoding="utf-8") as fh:
+        for i, line in enumerate(fh):
+            line = line.rstrip("\n")
+            if i == 0 and line.strip() == "---":
+                inside = True
+                continue
+            if inside and line.strip() == "---":
+                break
+            if inside and ":" in line:
+                k, v = line.split(":", 1)
+                meta[k.strip()] = v.strip()
+    return meta
+
+
+def _slug_meta(directory):
+    out = {}
+    if not os.path.isdir(directory):
+        return out
+    for name in sorted(os.listdir(directory)):
+        if name.endswith(".md"):
+            meta = _front_matter(os.path.join(directory, name))
+            meta["slug"] = name[:-3]
+            out[name[:-3]] = meta
+    return out
+
+
+def _paper_accent(meta):
+    sub = (meta.get("subject") or "").lower()
+    for key, hexcode in ENG_ACCENTS:
+        if key in sub:
+            return hexcode
+    return ENG_FALLBACK[int(hashlib.md5(meta.get("slug", "").encode()).hexdigest(), 16) % len(ENG_FALLBACK)]
+
+
+def engineering_papers():
+    """Every authored engineering paper: paper id -> front matter of its content file.
+
+    The papers live in notes/papers/engineering/content as authored markdown (front matter plus the
+    questions), so the thumbnail is a pure function of that file, never of the built PDF.
+    """
+    if not _ENG_CACHE:
+        _ENG_CACHE.update(_slug_meta(ENG_CONTENT))
+    return _ENG_CACHE
+
+
+_NEB_CACHE = {}
+
+
+def school_papers():
+    """The NEB board papers the same way: id -> front matter of notes/papers/content/<id>.md."""
+    if not _NEB_CACHE:
+        _NEB_CACHE.update(_slug_meta(NEB_CONTENT))
+    return _NEB_CACHE
+
+
+def engineering_accent(meta):
+    return _paper_accent(meta)
+
+
 def all_slugs():
     return list(spine.ALL) + course_slugs()
 
 
 def book_meta(slug):
-    """dict(subject, accent, chips, nepali) for any slug (school, entrance or BCA course)."""
+    """dict(subject, accent, chips, nepali) for any slug (school, entrance, BCA course or paper)."""
+    eng = engineering_papers()
+    neb = school_papers()
+    if slug in neb:
+        m = neb[slug]
+        grade = str(m.get("grade", "")).strip()
+        label = GRADE_CHIP.get(grade, "Class " + grade if grade else "")
+        chips = [label, m.get("year_bs", "")]
+        return dict(subject=m.get("subject", slug), accent=_paper_accent(m),
+                    chips=[c for c in chips if c][:2], nepali=False)
+    if slug in eng:
+        m = eng[slug]
+        chips = [m.get("code", ""), m.get("year_bs", "")]
+        return dict(subject=m.get("subject", slug), accent=engineering_accent(m),
+                    chips=[c for c in chips if c][:2], nepali=False)
     if slug.startswith(COURSE_PREFIX):
         m = course_registry()[slug]
         return dict(subject=m["name"], accent=m["accent"], nepali=False,
@@ -163,11 +260,26 @@ def main(argv):
         i = argv.index("--out")
         out = os.path.abspath(argv[i + 1])
         argv = argv[:i] + argv[i + 2:]
-    slugs = argv or all_slugs()
+    if "--papers" in argv:
+        argv = [a for a in argv if a != "--papers"]
+        out = out if out != OUT else PAPER_OUT
+        slugs = argv or list(school_papers())
+    elif "--engineering" in argv:
+        argv = [a for a in argv if a != "--engineering"]
+        out = out if out != OUT else PAPER_OUT
+        slugs = argv or list(engineering_papers())
+    else:
+        slugs = argv or all_slugs()
+    missing = [s for s in slugs if s not in engineering_papers() and s not in school_papers()
+               and s not in spine.ALL and s not in course_registry()]
+    if missing:
+        print("unknown slugs:", " ".join(missing[:5]), file=sys.stderr)
+        return 1
     for s in slugs:
         path, w, h = render(s, out)
-        print(f"{s:60s} {w}x{h} {os.path.getsize(path) // 1024} KB", flush=True)
+        print(f"{s:52s} {w}x{h} {os.path.getsize(path) // 1024} KB", flush=True)
+    return 0
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    sys.exit(main(sys.argv[1:]))
