@@ -170,6 +170,7 @@ fun NoteEditorScreen(
     val toneIndex by vm.tone.collectAsStateWithLifecycle()
     val iconKey by vm.icon.collectAsStateWithLifecycle()
     val coverIndex by vm.cover.collectAsStateWithLifecycle()
+    val coverPhoto by vm.coverPhoto.collectAsStateWithLifecycle()
     val tags by vm.tags.collectAsStateWithLifecycle()
     val pinned by vm.pinned.collectAsStateWithLifecycle()
     val archived by vm.archived.collectAsStateWithLifecycle()
@@ -288,7 +289,7 @@ fun NoteEditorScreen(
                 .verticalScroll(bodyScroll),
         ) {
             NotePageHeader(
-                icon = iconKey, cover = coverIndex, fg = fg, container = if (toneIndex == 0) c.surfaceContainerHigh else fg.copy(alpha = 0.12f),
+                icon = iconKey, cover = coverIndex, photo = if (coverPhoto.isEmpty()) null else vm.coverFile(coverPhoto), fg = fg, container = if (toneIndex == 0) c.surfaceContainerHigh else fg.copy(alpha = 0.12f),
                 editable = !trashed, onIcon = { iconSheet = true }, onCover = { coverSheet = true },
                 onClearCover = { vm.setCover(0) },
             )
@@ -393,10 +394,13 @@ fun NoteEditorScreen(
         NoteIconSheet(current = iconKey, onPick = { vm.setIcon(it); iconSheet = false }, onDismiss = { iconSheet = false })
     }
     if (coverSheet) {
-        NoteCoverSheet(current = coverIndex, onPick = { vm.setCover(it); coverSheet = false }, onDismiss = { coverSheet = false })
+        NoteCoverSheet(
+            current = coverIndex, onPick = { vm.setCover(it); coverSheet = false },
+            onPhoto = { vm.setCoverPhoto(it); coverSheet = false }, onDismiss = { coverSheet = false },
+        )
     }
     if (toneSheet) {
-        NebModalSheet(onDismiss = { toneSheet = false }, title = "Appearance") {
+        NoteSheet(onDismiss = { toneSheet = false }, title = "Appearance") {
             Column(Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text("Themes", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
                 NoteThemeRow(toneIndex) { th -> vm.setTone(th.tone); vm.setCover(th.cover); vm.setIcon(th.icon) }
@@ -440,16 +444,16 @@ fun NoteEditorScreen(
  */
 @Composable
 private fun NotePageHeader(
-    icon: String, cover: Int, fg: Color, container: Color,
+    icon: String, cover: Int, photo: java.io.File?, fg: Color, container: Color,
     editable: Boolean, onIcon: () -> Unit, onCover: () -> Unit, onClearCover: () -> Unit,
 ) {
     val c = MaterialTheme.colorScheme
     val hasIcon = icon.isNotEmpty()
-    val hasCover = cover > 0
+    val hasCover = cover != 0
     Column(Modifier.fillMaxWidth().animateContentSize(spring(dampingRatio = 0.8f, stiffness = 380f))) {
         if (hasCover) {
             Box(Modifier.fillMaxWidth().height(148.dp)) {
-                NoteCoverBanner(cover, Modifier.matchParentSize())
+                NoteCover(cover, photo, Modifier.matchParentSize())
                 if (editable) {
                     Row(
                         Modifier.align(Alignment.BottomEnd).padding(12.dp),

@@ -358,6 +358,30 @@
     return !ed.textContent.replace(/\u200b/g, '').trim();
   }
 
+  /* Typing a list, heading or quote mark followed by a space at the start of a plain line. */
+  function autoformat(ed) {
+    var r = rangeNow();
+    if (!r || !r.collapsed || r.startContainer.nodeType !== 3 || !ed.contains(r.startContainer)) return false;
+    var blk = r.startContainer;
+    while (blk && blk.parentNode !== ed) blk = blk.parentNode;
+    if (!blk || (blk.nodeName !== 'P' && blk.nodeName !== 'DIV')) return false;
+    var pre = document.createRange();
+    pre.selectNodeContents(blk);
+    pre.setEnd(r.startContainer, r.startOffset);
+    var m = /^(-|\*|\d{1,3}[.)]|#{1,3}|>) $/.exec(pre.toString().replace(/\u00a0/g, ' '));
+    if (!m) return false;
+    pre.deleteContents();
+    if (!blk.firstChild || !blk.textContent) { blk.innerHTML = '<br>'; }
+    var nr = document.createRange(); nr.setStart(blk, 0); nr.collapse(true);
+    var s = sel(); s.removeAllRanges(); s.addRange(nr);
+    var k = m[1];
+    if (k === '-' || k === '*') exec(ed, 'insertUnorderedList');
+    else if (k === '>') exec(ed, 'formatBlock', 'BLOCKQUOTE');
+    else if (k.charAt(0) === '#') exec(ed, 'formatBlock', k.length === 1 ? 'H2' : 'H3');
+    else exec(ed, 'insertOrderedList');
+    return true;
+  }
+
   function exec(ed, cmd, arg) {
     ensureCaret(ed);
     try { document.execCommand('styleWithCSS', false, false); } catch (e) { /* ignore */ }
@@ -688,14 +712,27 @@
     ed.classList.add('neb-live');
     try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (e) { /* ignore */ }
 
-    ed.addEventListener('input', function () {
+    /* One sync per frame: the Markdown copy (and every listener on the hidden textarea) runs once however fast
+       the person types, so a key never waits for a full-document conversion. Reading `value` or leaving the field
+       always flushes first, so nothing reads stale text. */
+    c.pending = false; c.raf = 0;
+    c.flush = function () {
+      if (c.raf) { cancelAnimationFrame(c.raf); c.raf = 0; }
+      if (!c.ta || !c.pending) return;
+      c.pending = false;
+      var md = toMarkdown(ed);
+      c.md = md; c.dirty = false;
+      NATIVE_VALUE.set.call(c.ta, md);
+      c.ta.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    ed.addEventListener('input', function (e) {
+      /* "- ", "1. ", "# ", "> " at the start of a line become a list, heading or quote, no code typed. */
+      if (e && e.inputType === 'insertText' && e.data === ' ' && autoformat(ed)) return;
       c.dirty = true;
       ed.classList.toggle('is-empty', isEmpty(ed));
       if (c.ta) {
-        var md = toMarkdown(ed);
-        c.md = md; c.dirty = false;
-        NATIVE_VALUE.set.call(c.ta, md);
-        c.ta.dispatchEvent(new Event('input', { bubbles: true }));
+        c.pending = true;
+        if (!c.raf) c.raf = requestAnimationFrame(function () { c.raf = 0; c.flush(); });
       }
     });
 
@@ -719,6 +756,7 @@
     ed.addEventListener('focus', function () { ed.classList.add('neb-focus'); if (c.ta) c.ta.dispatchEvent(new FocusEvent('focus')); });
     ed.addEventListener('blur', function () {
       ed.classList.remove('neb-focus');
+      if (c.flush) c.flush();
       var r = rangeNow(); if (r && ed.contains(r.commonAncestorContainer)) ed.__range = r.cloneRange();
       if (c.ta) c.ta.dispatchEvent(new FocusEvent('blur'));
     });
@@ -792,7 +830,14 @@
       configurable: true,
       get: function () { return currentMd(); },
       set: function (v) {
-        NATIVE_VALUE.set.call(ta, v == null ? '' : String(v));
+        var next = v == null ? '' : String(v);
+        /* Writing back the text the editor already holds must not rebuild it: that is what moved the caret and
+           flashed the formatting for a frame. */
+        var same = next === currentMd();
+        NATIVE_VALUE.set.call(ta, next);
+        if (same) return;
+        if (c.raf) { cancelAnimationFrame(c.raf); c.raf = 0; }
+        c.pending = false;
         c.md = NATIVE_VALUE.get.call(ta); c.dirty = false;
         fromMarkdown(ed, c.md);
         ed.classList.toggle('is-empty', isEmpty(ed));
