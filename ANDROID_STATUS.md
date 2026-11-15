@@ -256,3 +256,7 @@ CI session 9: `82ee9dc` failed to compile: `AnimatedVisibility` in the cover hea
 
 CI: `abb8165` (cover area fix plus press pass) is green; the Android release build compiles. Web CSS bundle is in sync (`python3 tools/css/bundle.py --check`).
 
+
+| 71 | **Drag follows the drop caret**: while a picture is dragged in a post, reply or comment field, the page scrolls so the drop caret (with 56dp of room above and below) stays visible (`BringIntoViewRequester`), closing the session 9 note about no auto-scroll. Web: inline pictures in the writing surface use a negative block margin so a picture never raises its line (`12-inline-images.css`, bundled into `app.css`). | `RichTextField.kt`, `css/app/12-inline-images.css` |
+
+Session 10 audit (nothing redone): sessions 9 items 58 to 70 were re-checked against the request. Crash: no nested same-axis scroller is left (script over every `horizontalScroll` caller, `ImageTools` fixed in 58, no scroller inside a `LazyRow` item). CI for `abb8165` is green.

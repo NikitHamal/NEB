@@ -3427,6 +3427,9 @@ button.cp-media-item-icon.cp-audio-play.playing {
   overflow:visible;
 }
 .neb-chip-editor:hover{z-index:5}
+/* A picture in the writing surface never raises its line: the negative block margin keeps the margin box
+   inside the text's own line height, so lines stay as tight as plain text (same rule as the Android field). */
+.neb-live .neb-chip,.neb-chip-editor{margin-block:-.32em}
 .neb-chip-editor img{
   height:1.6em;
   max-width:6em;
