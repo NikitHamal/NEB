@@ -16,11 +16,46 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Assignment
+import androidx.compose.material.icons.outlined.Pets
+import androidx.compose.material.icons.outlined.Eco
+import androidx.compose.material.icons.outlined.WbSunny
+import androidx.compose.material.icons.outlined.NightsStay
+import androidx.compose.material.icons.outlined.Cloud
+import androidx.compose.material.icons.outlined.LocalFireDepartment
+import androidx.compose.material.icons.outlined.RocketLaunch
+import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.SportsEsports
+import androidx.compose.material.icons.outlined.Headphones
+import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.Movie
+import androidx.compose.material.icons.outlined.Restaurant
+import androidx.compose.material.icons.outlined.FitnessCenter
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.outlined.Savings
+import androidx.compose.material.icons.outlined.Flight
+import androidx.compose.material.icons.outlined.DirectionsCar
+import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Extension
+import androidx.compose.material.icons.outlined.Gavel
+import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.Article
+import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.Inbox
+import androidx.compose.material.icons.outlined.Memory
+import androidx.compose.material.icons.outlined.Podcasts
+import androidx.compose.material.icons.outlined.Park
+import androidx.compose.material.icons.outlined.LocalCafe
+import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material.icons.outlined.Biotech
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.Bookmark
@@ -115,6 +150,36 @@ object NoteIcons {
         "music" to Icons.Outlined.MusicNote,
         "lock" to Icons.Outlined.Lock,
         "bookmark" to Icons.Outlined.Bookmark,
+        "pets" to Icons.Outlined.Pets,
+        "eco" to Icons.Outlined.Eco,
+        "sun" to Icons.Outlined.WbSunny,
+        "moon" to Icons.Outlined.NightsStay,
+        "cloud" to Icons.Outlined.Cloud,
+        "fire" to Icons.Outlined.LocalFireDepartment,
+        "rocket" to Icons.Outlined.RocketLaunch,
+        "trophy" to Icons.Outlined.EmojiEvents,
+        "game" to Icons.Outlined.SportsEsports,
+        "headphones" to Icons.Outlined.Headphones,
+        "camera" to Icons.Outlined.CameraAlt,
+        "movie" to Icons.Outlined.Movie,
+        "food" to Icons.Outlined.Restaurant,
+        "fitness" to Icons.Outlined.FitnessCenter,
+        "cart" to Icons.Outlined.ShoppingCart,
+        "savings" to Icons.Outlined.Savings,
+        "flight" to Icons.Outlined.Flight,
+        "car" to Icons.Outlined.DirectionsCar,
+        "build" to Icons.Outlined.Build,
+        "puzzle" to Icons.Outlined.Extension,
+        "gavel" to Icons.Outlined.Gavel,
+        "quiz" to Icons.Outlined.Quiz,
+        "article" to Icons.Outlined.Article,
+        "folder" to Icons.Outlined.Folder,
+        "inbox" to Icons.Outlined.Inbox,
+        "chip" to Icons.Outlined.Memory,
+        "podcast" to Icons.Outlined.Podcasts,
+        "park" to Icons.Outlined.Park,
+        "cafe" to Icons.Outlined.LocalCafe,
+        "verified" to Icons.Outlined.Verified,
     )
 
     fun find(key: String): ImageVector? = all.firstOrNull { it.first == key }?.second
@@ -133,27 +198,104 @@ fun NoteIconTile(key: String, size: Dp, container: Color, content: Color, modifi
 }
 
 @Immutable
+private class Palette(val bgL: Long, val bgD: Long, val deepL: Long, val deepD: Long, val vivid: Color) {
+    fun bg(dark: Boolean) = Color(if (dark) bgD else bgL)
+    fun deep(dark: Boolean) = Color(if (dark) deepD else deepL)
+}
+
+@Immutable
 private class CoverSpec(
-    val tone: NebTone,
+    val pal: Palette?, val tone: NebTone?,
     val a: RoundedPolygon, val ax: Float, val ay: Float, val asz: Float, val ar: Float,
     val b: RoundedPolygon, val bx: Float, val by: Float, val bsz: Float, val br: Float,
+    val pattern: Int = 0,
+) {
+    fun bg(dark: Boolean) = tone?.container(dark) ?: pal!!.bg(dark)
+    fun ink(dark: Boolean) = tone?.deep(dark) ?: pal!!.deep(dark)
+    val vivid: Color get() = tone?.vivid ?: pal!!.vivid
+}
+
+private val extraPalettes = listOf(
+    Palette(0xFFF5EBDD, 0xFF3A3126, 0xFF7A5C2E, 0xFFEBDDC5, Color(0xFFE2B66B)),
+    Palette(0xFFDDF3E4, 0xFF17382A, 0xFF1F7A4D, 0xFFBFEBD0, Color(0xFF6FD39A)),
+    Palette(0xFFFFE3D3, 0xFF442618, 0xFFB5521C, 0xFFFFD0B5, Color(0xFFFFA173)),
+    Palette(0xFFFBF1C4, 0xFF3B3512, 0xFF8A7500, 0xFFF3E8A3, Color(0xFFF2D04B)),
+    Palette(0xFFBFE6F7, 0xFF0C3550, 0xFF0B6DA0, 0xFFB4E2FA, Color(0xFF4FB6E8)),
+    Palette(0xFF2B2E36, 0xFF1A1C22, 0xFFC9CDD8, 0xFFC9CDD8, Color(0xFF59607A)),
+    Palette(0xFF0F1A33, 0xFF0A1226, 0xFFB9CCFF, 0xFFB9CCFF, Color(0xFF2E56C9)),
+    Palette(0xFF163B2A, 0xFF0F2A1E, 0xFFA7E3C0, 0xFFA7E3C0, Color(0xFF2E9A66)),
 )
 
 /** Cover 0 is none. 1..[count] are flat tonal banners with two big shapes, positions fixed per cover. */
 object NoteCovers {
-    const val count = 8
+    const val count = 24
 }
 
-private fun coverSpec(index: Int): CoverSpec? = when (index) {
-    1 -> CoverSpec(NebTone.Azure, NebGlyphShapes.Cookie, 0.82f, 0.30f, 1.9f, 12f, NebGlyphShapes.Pill, 0.18f, 0.95f, 1.0f, -20f)
-    2 -> CoverSpec(NebTone.Sky, NebGlyphShapes.Flower, 0.16f, 0.35f, 1.7f, 0f, NebGlyphShapes.Gem, 0.78f, 0.85f, 1.1f, 15f)
-    3 -> CoverSpec(NebTone.Aqua, NebGlyphShapes.Sunny, 0.70f, 0.40f, 2.0f, 25f, NebGlyphShapes.Clover, 0.10f, 0.90f, 1.0f, 0f)
-    4 -> CoverSpec(NebTone.Peri, NebGlyphShapes.Clover, 0.88f, 0.55f, 1.8f, 0f, NebGlyphShapes.Burst, 0.30f, 0.10f, 1.1f, 30f)
-    5 -> CoverSpec(NebTone.Azure, NebGlyphShapes.Burst, 0.25f, 0.45f, 2.0f, 8f, NebGlyphShapes.Flower, 0.90f, 0.10f, 1.0f, 0f)
-    6 -> CoverSpec(NebTone.Sky, NebGlyphShapes.Pentagon, 0.60f, 0.50f, 1.9f, -10f, NebGlyphShapes.Cookie, 0.05f, 0.15f, 1.1f, 20f)
-    7 -> CoverSpec(NebTone.Aqua, NebGlyphShapes.Gem, 0.85f, 0.45f, 1.8f, 0f, NebGlyphShapes.Sunny, 0.22f, 0.80f, 1.2f, 0f)
-    8 -> CoverSpec(NebTone.Peri, NebGlyphShapes.Cookie, 0.12f, 0.50f, 1.8f, 0f, NebGlyphShapes.Pill, 0.80f, 0.20f, 1.3f, 40f)
+private fun coverSpec(index: Int): CoverSpec? = if (index > 8) generatedCover(index) else when (index) {
+    1 -> CoverSpec(null, NebTone.Azure, NebGlyphShapes.Cookie, 0.82f, 0.30f, 1.9f, 12f, NebGlyphShapes.Pill, 0.18f, 0.95f, 1.0f, -20f)
+    2 -> CoverSpec(null, NebTone.Sky, NebGlyphShapes.Flower, 0.16f, 0.35f, 1.7f, 0f, NebGlyphShapes.Gem, 0.78f, 0.85f, 1.1f, 15f)
+    3 -> CoverSpec(null, NebTone.Aqua, NebGlyphShapes.Sunny, 0.70f, 0.40f, 2.0f, 25f, NebGlyphShapes.Clover, 0.10f, 0.90f, 1.0f, 0f)
+    4 -> CoverSpec(null, NebTone.Peri, NebGlyphShapes.Clover, 0.88f, 0.55f, 1.8f, 0f, NebGlyphShapes.Burst, 0.30f, 0.10f, 1.1f, 30f)
+    5 -> CoverSpec(null, NebTone.Azure, NebGlyphShapes.Burst, 0.25f, 0.45f, 2.0f, 8f, NebGlyphShapes.Flower, 0.90f, 0.10f, 1.0f, 0f)
+    6 -> CoverSpec(null, NebTone.Sky, NebGlyphShapes.Pentagon, 0.60f, 0.50f, 1.9f, -10f, NebGlyphShapes.Cookie, 0.05f, 0.15f, 1.1f, 20f)
+    7 -> CoverSpec(null, NebTone.Aqua, NebGlyphShapes.Gem, 0.85f, 0.45f, 1.8f, 0f, NebGlyphShapes.Sunny, 0.22f, 0.80f, 1.2f, 0f)
+    8 -> CoverSpec(null, NebTone.Peri, NebGlyphShapes.Cookie, 0.12f, 0.50f, 1.8f, 0f, NebGlyphShapes.Pill, 0.80f, 0.20f, 1.3f, 40f)
     else -> null
+}
+
+private fun generatedCover(i: Int): CoverSpec? {
+    if (i !in 9..NoteCovers.count) return null
+    val k = i - 9
+    val bag = listOf(NebGlyphShapes.Cookie, NebGlyphShapes.Sunny, NebGlyphShapes.Flower, NebGlyphShapes.Clover, NebGlyphShapes.Gem, NebGlyphShapes.Burst, NebGlyphShapes.Pentagon, NebGlyphShapes.Pill)
+    val pattern = when (k % 5) { 0 -> 1; 1 -> 2; 2 -> 3; 3 -> 4; else -> 0 }
+    return CoverSpec(
+        extraPalettes[k % extraPalettes.size], null,
+        bag[(k * 3 + 1) % 8], 0.15f + ((k * 37) % 70) / 100f, 0.30f + ((k * 23) % 40) / 100f, 1.6f + (k % 4) * 0.15f, ((k * 17) % 50 - 20).toFloat(),
+        bag[(k * 5 + 4) % 8], 0.10f + ((k * 29) % 80) / 100f, 0.15f + ((k * 41) % 70) / 100f, 0.9f + (k % 3) * 0.15f, ((k * 31) % 90 - 40).toFloat(),
+        pattern,
+    )
+}
+
+private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: Int, color: Color) {
+    val step = 18.dp.toPx()
+    when (kind) {
+        1 -> {
+            var y = step / 2
+            while (y < size.height) {
+                var x = step / 2 + (if (((y / step).toInt() % 2) == 0) 0f else step / 2)
+                while (x < size.width) { drawCircle(color, 2.2.dp.toPx(), Offset(x, y)); x += step }
+                y += step
+            }
+        }
+        2 -> {
+            var x = -size.height
+            while (x < size.width) {
+                drawLine(color, Offset(x, size.height), Offset(x + size.height, 0f), 2.dp.toPx())
+                x += step * 1.2f
+            }
+        }
+        3 -> {
+            var x = 0f
+            while (x < size.width) { drawLine(color, Offset(x, 0f), Offset(x, size.height), 1.dp.toPx()); x += step * 1.6f }
+            var y = 0f
+            while (y < size.height) { drawLine(color, Offset(0f, y), Offset(size.width, y), 1.dp.toPx()); y += step * 1.6f }
+        }
+        4 -> {
+            var y = step
+            while (y < size.height + step) {
+                val path = androidx.compose.ui.graphics.Path()
+                path.moveTo(0f, y)
+                var x = 0f
+                while (x < size.width) {
+                    path.relativeQuadraticBezierTo(step / 2, -step / 2, step, 0f)
+                    path.relativeQuadraticBezierTo(step / 2, step / 2, step, 0f)
+                    x += step * 2
+                }
+                drawPath(path, color, style = androidx.compose.ui.graphics.drawscope.Stroke(1.6.dp.toPx()))
+                y += step * 1.3f
+            }
+        }
+    }
 }
 
 /** The banner itself. Shapes settle in with a spring when the cover appears or changes. */
@@ -167,11 +309,12 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
     LaunchedEffect(cover) {
         if (animate) settle.animateTo(1f, spring(dampingRatio = 0.62f, stiffness = Spring.StiffnessLow))
     }
-    val bg = spec.tone.container(dark)
-    val ink = spec.tone.deep(dark)
-    val vivid = spec.tone.vivid
+    val bg = spec.bg(dark)
+    val ink = spec.ink(dark)
+    val vivid = spec.vivid
     Canvas(modifier.clipToBounds().background(bg)) {
         val t = settle.value
+        if (spec.pattern != 0) drawPattern(spec.pattern, ink.copy(alpha = if (dark) 0.16f else 0.12f))
         val fade = t.coerceIn(0f, 1f)
         val h = size.height
         val w = size.width
@@ -191,7 +334,7 @@ fun NoteIconSheet(current: String, onPick: (String) -> Unit, onDismiss: () -> Un
     val c = MaterialTheme.colorScheme
     NebModalSheet(onDismiss = onDismiss, title = "Icon") {
         FlowRow(
-            Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            Modifier.fillMaxWidth().heightIn(max = 460.dp).verticalScroll(rememberScrollState()).padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Box(
@@ -217,7 +360,7 @@ fun NoteIconSheet(current: String, onPick: (String) -> Unit, onDismiss: () -> Un
 fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onDismiss: () -> Unit) {
     val c = MaterialTheme.colorScheme
     NebModalSheet(onDismiss = onDismiss, title = "Cover") {
-        Column(Modifier.padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState()).padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
                 Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
                     .background(if (current == 0) c.primaryContainer else c.surfaceContainerHigh)
@@ -244,5 +387,29 @@ fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onDismiss: () -> Unit) {
             }
         }
         Box(Modifier.height(16.dp))
+    }
+}
+
+/** One tap sets colour, cover and icon together. */
+@Composable
+fun NoteThemeRow(currentTone: Int, onPick: (NoteTheme) -> Unit) {
+    val c = MaterialTheme.colorScheme
+    Row(
+        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        NoteTones.themes.forEach { th ->
+            val tone = noteTone(th.tone)
+            Column(
+                Modifier.width(112.dp).clip(RoundedCornerShape(22.dp)).background(tone.container)
+                    .clickable { onPick(th) },
+            ) {
+                NoteCoverBanner(th.cover, animate = false, modifier = Modifier.fillMaxWidth().height(52.dp))
+                Row(Modifier.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    NoteIcons.find(th.icon)?.let { Icon(it, null, tint = tone.content, modifier = Modifier.size(16.dp)) }
+                    Text(th.label, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = tone.content, maxLines = 1)
+                }
+            }
+        }
     }
 }

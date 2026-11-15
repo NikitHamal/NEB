@@ -94,3 +94,29 @@ The field still held raw Markdown and a visual transformation hid the markers. E
 - Comment bar has no inline pictures yet (pictures there are attachments).
 
 CI session 3: `cd67248` failed on one missing icon import (`KeyboardArrowDown`, fixed); `f9eb094` showed the same single error; `f0bccd4` is green, the Android release build (modern APK and AAB) compiles. Nothing was run on a device.
+
+---
+
+# Session 4: notes overhaul, picture tools, drop caret, appearance
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picks up session 3 (`RichState` engine, pictures in text, notes blocks on the engine).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 27 | **No handle, no 3-dot on blocks.** The per-block drag handle and menu are gone (the long menu was also clipped off screen). Block actions (turn into, indent, move, duplicate, delete, clear done to-dos) live in one **Block** sheet opened from the last button of the format bar. | `NoteBlockEditor.kt` (`BlockSheet`) |
+| 28 | **Media blocks**: tap (or press and hold) selects; tools open right under the block, nothing floats over it. Press and drag moves it (haptic on pick up, others slide away). | `MediaFrame` |
+| 29 | **Pictures in notes**: pick several at once from the bar (Photos button), each becomes a picture block. Selected picture: pinch with two fingers to size (one finger still scrolls the page), corner handle, S / M / L / Full, align left / centre / right, **text beside** (the next text block is written next to the picture, in one row), crop (original, square, wide, tall), replace, caption. Decoded at 1280 px max. New block fields `align`, `wrap`, `caption`, `ratio` (JSON `a`, `w`, `q`, `ra`; old notes load unchanged). | `NoteBlockMedia.kt`, `NoteBlocks.kt` |
+| 30 | **Toolbar can be hidden**: chevron at the start of the bar folds it to a single Aa button plus the mic; tap to bring it back (state survives rotation). | `NoteEditorScreen.kt` |
+| 31 | **To-dos**: progress bar with "n of m" and Clear (removes ticked items) above the blocks; Clear completed in the Block sheet. | `NoteEditorScreen.kt` (`TodoProgress`), `NoteEditorViewModel.clearDone` |
+| 32 | **Appearance sheet** replaces three menu rows: 9 one-tap themes (colour + cover + icon), 18 note colours (11 new, light and dark pairs), Add / Change icon and cover. | `NoteTones.kt`, `NotePage.kt`, `NotesScreen.kt` (`ToneSwatches`) |
+| 33 | **Covers 8 to 24** (flat tonal, 8 new palettes, dots / stripes / grid / wave patterns drawn flat, no gradients) and **icons 30 to 60**. Sheets scroll. | `NotePage.kt` |
+| 34 | **Post / reply composer**: while a picture is dragged a caret bar shows where it will land (follows the finger, picture lifts 12 percent). Pictures are centred inside their own text line and never above it, so the line the keyboard scrolls into view holds the whole picture (the top clip with the keyboard open). | `RichTextField.kt` |
+| 35 | **Web**: same drop bar for dragged pictures in the post editor, edge auto-scroll while dragging, caret and nearby picture kept inside the visible viewport when the keyboard opens (`visualViewport`). | `backend_python/web/static/web/js/inline-media.js` |
+
+## Not done / next
+- Web composers still write Markdown into a textarea (forum-composer.js). A contenteditable WYSIWYG like the Android `RichState` is the next big item; the drop bar and viewport fix above are the only web changes.
+- Touch drag of inline pictures on the web relies on the browser's own long-press drag.
+- Photo (gallery) covers and page backgrounds need a path column in the notes table.
+- On-device pass: pinch sizing inside the scrolling page, text beside picture while typing, hide / show toolbar with keyboard open.

@@ -354,6 +354,48 @@
       return null;
     }
 
+    // A visible bar that follows the finger while a picture is dragged, so the drop place is never a guess.
+    var dropCaretEl = null;
+    function dropCaretRect(r) {
+      var list = r.getClientRects();
+      var rc = list.length ? list[list.length - 1] : null;
+      if (rc && !rc.height) rc = null;
+      if (!rc) {
+        var b = r.getBoundingClientRect();
+        if (b && b.height) rc = b;
+      }
+      if (!rc) {
+        var node = r.startContainer, off = r.startOffset;
+        var next = node.nodeType === 1 ? node.childNodes[off] : null;
+        var prev = node.nodeType === 1 ? node.childNodes[off - 1] : null;
+        var nb = next || prev;
+        if (nb && nb.getBoundingClientRect) {
+          var nr = nb.getBoundingClientRect();
+          rc = { left: next ? nr.left : nr.right, top: nr.top, height: nr.height };
+        }
+      }
+      return rc;
+    }
+    function showDropCaret(r) {
+      var rc = r && dropCaretRect(r);
+      if (!rc) return hideDropCaret();
+      if (!dropCaretEl) {
+        dropCaretEl = document.createElement('div');
+        dropCaretEl.setAttribute('aria-hidden', 'true');
+        dropCaretEl.style.cssText = 'position:fixed;left:0;top:0;width:3px;border-radius:2px;background:var(--md-primary,#0058df);pointer-events:none;z-index:2147483000;transition:transform .09s cubic-bezier(.2,.8,.2,1),height .09s,opacity .12s;opacity:0;will-change:transform';
+        document.body.appendChild(dropCaretEl);
+      }
+      dropCaretEl.style.height = Math.max(18, rc.height) + 'px';
+      dropCaretEl.style.transform = 'translate(' + Math.round(rc.left - 1.5) + 'px,' + Math.round(rc.top) + 'px)';
+      dropCaretEl.style.opacity = '1';
+    }
+    function hideDropCaret() { if (dropCaretEl) dropCaretEl.style.opacity = '0'; }
+    function edgeScroll(y) {
+      var h = window.innerHeight || 0;
+      if (y < 72) window.scrollBy(0, -Math.ceil((72 - y) / 4));
+      else if (y > h - 72) window.scrollBy(0, Math.ceil((y - (h - 72)) / 4));
+    }
+
     editor.addEventListener('dragstart', function (e) {
       var chip = e.target.closest('.neb-chip');
       if (!chip || !editor.contains(chip)) return;
@@ -367,6 +409,7 @@
       chip.classList.add('neb-chip-editor-dragging');
     });
     editor.addEventListener('dragend', function (e) {
+      hideDropCaret();
       editor.classList.remove('neb-drop-active');
       var chip = e.target.closest && e.target.closest('.neb-chip');
       if (chip) chip.classList.remove('neb-chip-editor-dragging');
@@ -382,6 +425,7 @@
       e.preventDefault();
       e.dataTransfer.dropEffect = hasImageFile ? 'copy' : 'move';
       editor.classList.add('neb-drop-active');
+      edgeScroll(e.clientY);
       if (internal && e.clientX && e.clientY) {
         var r = pointRange(e.clientX, e.clientY);
         if (r) {
@@ -391,15 +435,17 @@
               var sel2 = window.getSelection();
               sel2.removeAllRanges();
               sel2.addRange(r);
+              showDropCaret(r);
             }
           } catch (_) {}
         }
       }
     });
     editor.addEventListener('dragleave', function (e) {
-      if (!editor.contains(e.relatedTarget)) editor.classList.remove('neb-drop-active');
+      if (!editor.contains(e.relatedTarget)) { editor.classList.remove('neb-drop-active'); hideDropCaret(); }
     });
     editor.addEventListener('drop', function (e) {
+      hideDropCaret();
       editor.classList.remove('neb-drop-active');
       var dt = e.dataTransfer;
       if (!dt) return;
@@ -423,6 +469,26 @@
         dragSrcId = null; dragSrcEl = null;
       }
     });
+
+
+    // With the on-screen keyboard open the caret (and a picture next to it) must stay inside the visible part of the page.
+    function keepCaretVisible() {
+      var sel = window.getSelection();
+      if (!sel || !sel.rangeCount || !editor.contains(sel.anchorNode)) return;
+      var rc = dropCaretRect(sel.getRangeAt(0));
+      if (!rc) return;
+      var vv = window.visualViewport;
+      var top = (vv ? vv.offsetTop : 0) + 84;
+      var bottom = (vv ? vv.offsetTop + vv.height : window.innerHeight) - 24;
+      var h = rc.height || 24;
+      if (rc.top < top) window.scrollBy(0, rc.top - top);
+      else if (rc.top + h > bottom) window.scrollBy(0, rc.top + h - bottom);
+    }
+    var keepRaf = 0;
+    function queueKeep() { if (keepRaf) return; keepRaf = requestAnimationFrame(function () { keepRaf = 0; keepCaretVisible(); }); }
+    editor.addEventListener('focus', function () { setTimeout(queueKeep, 260); });
+    editor.addEventListener('input', queueKeep);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { if (document.activeElement === editor) queueKeep(); });
 
     editor.addEventListener('paste', function (e) {
       var dt = e.clipboardData;

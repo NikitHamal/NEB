@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
@@ -109,6 +110,8 @@ fun RichTextField(
         )
     }
     var layout by remember { mutableStateOf<TextLayoutResult?>(null) }
+    // where a dragged picture would land: the caret is drawn there while the finger is down
+    var dropCaret by remember { mutableStateOf<androidx.compose.ui.geometry.Rect?>(null) }
     val value = state.value
 
     Box(modifier = modifier, propagateMinConstraints = true) {
@@ -142,7 +145,11 @@ fun RichTextField(
                 val slot = built.slots.getOrNull(index) ?: return@forEachIndexed
                 val box = runCatching { lr.getBoundingBox(slot) }.getOrNull() ?: return@forEachIndexed
                 val left = box.left + gapPx / 2f
-                val top = box.top + (box.height - chipPx) / 2f
+                val line = runCatching { lr.getLineForOffset(slot) }.getOrDefault(0)
+                val lineTop = lr.getLineTop(line)
+                val lineBottom = lr.getLineBottom(line)
+                // centred in its own line and never above it, so the line the keyboard scrolls into view holds the whole picture
+                val top = (lineTop + (lineBottom - lineTop - chipPx) / 2f).coerceAtLeast(lineTop)
                 key(imageKey) {
                     RichChip(
                         model = imageKey.toIntOrNull()?.let { resolveMediaUrl("/media/content_images/${it}t.webp") } ?: state.uris[imageKey],
@@ -152,13 +159,26 @@ fun RichTextField(
                         enabled = enabled,
                         onOpen = { onImageClick(index) },
                         onRemove = { state.removeImage(state.doc.keys.indexOf(imageKey)) },
+                        onHover = { center ->
+                            dropCaret = center?.let { runCatching { lr.getCursorRect(lr.getOffsetForPosition(it)) }.getOrNull() }
+                        },
                         onDrop = { center ->
                             val at = built.toOriginal(lr.getOffsetForPosition(center))
+                            dropCaret = null
                             state.moveImage(state.doc.keys.indexOf(imageKey), at)
                         }
                     )
                 }
             }
+        }
+        dropCaret?.let { r ->
+            Box(
+                Modifier
+                    .offset { IntOffset((r.left - with(density) { 1.25.dp.toPx() }).roundToInt(), r.top.roundToInt()) }
+                    .size(width = 2.5.dp, height = with(density) { r.height.toDp() })
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(scheme.primary)
+            )
         }
     }
 }
@@ -172,6 +192,7 @@ private fun RichChip(
     enabled: Boolean,
     onOpen: () -> Unit,
     onRemove: () -> Unit,
+    onHover: (Offset?) -> Unit,
     onDrop: (Offset) -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
@@ -182,26 +203,31 @@ private fun RichChip(
     val left by rememberUpdatedState(leftPx)
     val top by rememberUpdatedState(topPx)
     val drop by rememberUpdatedState(onDrop)
+    val hover by rememberUpdatedState(onHover)
     val shape = RoundedCornerShape(10.dp)
 
     Box(
         modifier = Modifier
             .offset { IntOffset((left + drag.x).roundToInt(), (top + drag.y).roundToInt()) }
             .size(sizeDp.dp)
-            .alpha(if (lifted) 0.78f else 1f)
+            .graphicsLayer { val k = if (lifted) 1.12f else 1f; scaleX = k; scaleY = k }
+            .alpha(if (lifted) 0.85f else 1f)
             .clip(shape)
             .background(scheme.surfaceContainerHigh)
             .pointerInput(enabled) {
                 if (!enabled) return@pointerInput
                 detectDragGesturesAfterLongPress(
                     onDragStart = { lifted = true; drag = Offset.Zero },
-                    onDrag = { change, amount -> change.consume(); drag += amount },
+                    onDrag = { change, amount ->
+                        change.consume(); drag += amount
+                        hover(Offset(left + drag.x + sizePx / 2f, top + drag.y + sizePx / 2f))
+                    },
                     onDragEnd = {
                         val center = Offset(left + drag.x + sizePx / 2f, top + drag.y + sizePx / 2f)
                         lifted = false; drag = Offset.Zero
                         drop(center)
                     },
-                    onDragCancel = { lifted = false; drag = Offset.Zero }
+                    onDragCancel = { lifted = false; drag = Offset.Zero; hover(null) }
                 )
             }
     ) {
