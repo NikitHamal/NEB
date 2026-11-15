@@ -28,7 +28,9 @@ class InAppUpdateHelper @Inject constructor(
         const val REQUEST_CODE_UPDATE = 9100
     }
 
-    private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(context)
+    // Built on first use, not during activity injection: creating it binds Play Store's
+    // update service, and a bind that slow or missing Play cannot answer holds the caller.
+    private val appUpdateManager: AppUpdateManager by lazy { AppUpdateManagerFactory.create(context) }
     private var updateInfo: AppUpdateInfo? = null
     private var isChecking = false
 
