@@ -121,10 +121,11 @@ internal object RichVisual {
             if (ch == '\n' || ch == IMG || (mask == 0 && link == 0)) { i++; continue }
             var j = i + 1
             while (j < n && t[j] != '\n' && t[j] != IMG && doc.masks[j] == mask && doc.links[j] == link) j++
-            val key = mask or (if (link != 0) 16 else 0)
+            val key = mask or (if (link != 0) 256 else 0)
             val style = cache.getOrPut(key) {
                 var deco: TextDecoration? = null
                 if (mask and Fmt.STRIKE != 0) deco = TextDecoration.LineThrough
+                if (mask and Fmt.UNDERLINE != 0 && link == 0) deco = if (deco == null) TextDecoration.Underline else TextDecoration.combine(listOf(deco, TextDecoration.Underline))
                 if (link != 0) deco = if (deco == null) TextDecoration.Underline else TextDecoration.combine(listOf(deco, TextDecoration.Underline))
                 SpanStyle(
                     fontWeight = if (mask and Fmt.BOLD != 0) FontWeight.Bold else null,

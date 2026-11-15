@@ -790,7 +790,8 @@ private val inlinePattern = Regex(
         "|(\\[([^\\]]+)\\]\\(([^)]+)\\))" + // 9,10,11 link
         "|(@([A-Za-z0-9_]+))" +          // 12,13 mention
         "|((https?://[^\\s]+|www\\.[^\\s]+))" + // 14 bare url
-        "|(«m:([^»]+)»)"                // 15,16 math formula
+        "|(«m:([^»]+)»)" +              // 15,16 math formula
+        "|(<u>(.+?)</u>)"               // 17,18 underline
 )
 
 internal fun buildInlineAnnotatedString(
@@ -847,6 +848,7 @@ private fun androidx.compose.ui.text.AnnotatedString.Builder.appendStyledSegment
                 g[6]!!.value
             )
             g[8] != null -> withStyleAppend(SpanStyle(textDecoration = TextDecoration.LineThrough), g[8]!!.value)
+            g[18] != null -> withStyleAppend(SpanStyle(textDecoration = TextDecoration.Underline), g[18]!!.value)
             g[10] != null && g[11] != null -> {
                 pushStringAnnotation("url", g[11]!!.value)
                 withStyleAppend(SpanStyle(color = primary, textDecoration = TextDecoration.Underline), g[10]!!.value)

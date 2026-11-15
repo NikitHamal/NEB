@@ -63,6 +63,8 @@ class NoteEditorViewModel @Inject constructor(
     val icon: StateFlow<String> = _icon.asStateFlow()
     private val _cover = MutableStateFlow(0)
     val cover: StateFlow<Int> = _cover.asStateFlow()
+    private val _paper = MutableStateFlow(0)
+    val paper: StateFlow<Int> = _paper.asStateFlow()
     private val _coverPhoto = MutableStateFlow("")
     val coverPhoto: StateFlow<String> = _coverPhoto.asStateFlow()
     private val _pinned = MutableStateFlow(false)
@@ -104,6 +106,7 @@ class NoteEditorViewModel @Inject constructor(
                 _icon.value = existing.icon
                 _cover.value = existing.cover
                 _coverPhoto.value = existing.coverPhoto
+                _paper.value = existing.paper
                 _tags.value = existing.tagList
                 _pinned.value = existing.pinned
                 _archived.value = existing.archived
@@ -249,6 +252,9 @@ class NoteEditorViewModel @Inject constructor(
     }
 
     fun toggleTodo(id: String) = update(id) { it.copy(checked = !it.checked) }
+
+    /** Sets or clears (0) the due day of a to-do. */
+    fun setDue(id: String, day: Long) = update(id) { it.copy(due = day) }
 
     /** Folds or unfolds a toggle block; what sits under it hides with it. */
     /** Removes every ticked to-do. */
@@ -477,6 +483,11 @@ class NoteEditorViewModel @Inject constructor(
         scheduleSave()
     }
 
+    fun setPaper(kind: Int) {
+        _paper.value = kind
+        scheduleSave()
+    }
+
     fun setIcon(key: String) {
         _icon.value = key
         scheduleSave()
@@ -592,11 +603,12 @@ class NoteEditorViewModel @Inject constructor(
             icon = _icon.value,
             cover = _cover.value,
             coverPhoto = _coverPhoto.value,
+            paper = _paper.value,
             tags = _tags.value.joinToString(" "),
             pinned = _pinned.value,
             archived = _archived.value,
         )
-        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover || base.coverPhoto != updated.coverPhoto)
+        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover || base.coverPhoto != updated.coverPhoto || base.paper != updated.paper)
         repo.save(updated, touch = !existsInDb || textChanged)
         note = updated.copy(updatedAt = if (!existsInDb || textChanged) System.currentTimeMillis() else base.updatedAt)
         existsInDb = true

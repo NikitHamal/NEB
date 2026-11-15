@@ -171,6 +171,7 @@ fun NoteEditorScreen(
     val iconKey by vm.icon.collectAsStateWithLifecycle()
     val coverIndex by vm.cover.collectAsStateWithLifecycle()
     val coverPhoto by vm.coverPhoto.collectAsStateWithLifecycle()
+    val paperKind by vm.paper.collectAsStateWithLifecycle()
     val tags by vm.tags.collectAsStateWithLifecycle()
     val pinned by vm.pinned.collectAsStateWithLifecycle()
     val archived by vm.archived.collectAsStateWithLifecycle()
@@ -286,7 +287,8 @@ fun NoteEditorScreen(
                     reorder.viewTop = at
                     reorder.viewBottom = at + it.size.height
                 }
-                .verticalScroll(bodyScroll),
+                .verticalScroll(bodyScroll)
+                .notePaper(paperKind, fg),
         ) {
             NotePageHeader(
                 icon = iconKey, cover = coverIndex, photo = if (coverPhoto.isEmpty()) null else vm.coverFile(coverPhoto), fg = fg, container = if (toneIndex == 0) c.surfaceContainerHigh else fg.copy(alpha = 0.12f),
@@ -406,6 +408,8 @@ fun NoteEditorScreen(
                 NoteThemeRow(toneIndex) { th -> vm.setTone(th.tone); vm.setCover(th.cover); vm.setIcon(th.icon) }
                 Text("Colour", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
                 ToneSwatches(current = toneIndex, onPick = { vm.setTone(it) })
+                Text("Paper", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
+                PaperPicker(paperKind) { vm.setPaper(it) }
                 Row(Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     GhostChip(if (iconKey.isEmpty()) "Add icon" else "Change icon", Icons.Outlined.Category, Modifier.weight(1f)) { toneSheet = false; iconSheet = true }
                     GhostChip(if (coverIndex == 0) "Add cover" else "Change cover", Icons.Outlined.Image, Modifier.weight(1f)) { toneSheet = false; coverSheet = true }

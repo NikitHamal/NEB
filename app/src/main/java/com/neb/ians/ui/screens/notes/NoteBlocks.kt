@@ -86,6 +86,8 @@ data class NoteBlock(
     val caption: String = "",
     /** Image crop: 0 as taken, 1 square, 2 wide, 3 tall. */
     val ratio: Int = 0,
+    /** To-do due date as a day count since 1970 (UTC calendar day); 0 for none. */
+    val due: Long = 0L,
 ) {
     val isBlank: Boolean
         get() = when (type) {
@@ -165,6 +167,7 @@ object NoteDoc {
             if (b.wrap) o.put("w", true)
             if (b.caption.isNotEmpty()) o.put("q", b.caption)
             if (b.ratio != 0) o.put("ra", b.ratio)
+            if (b.due > 0L) o.put("d", b.due)
             arr.put(o)
         }
         return arr.toString()
@@ -216,6 +219,7 @@ object NoteDoc {
                         wrap = o.optBoolean("w", false),
                         caption = o.optString("q", ""),
                         ratio = o.optInt("ra", 0).coerceIn(0, 3),
+                        due = o.optLong("d", 0L).coerceAtLeast(0L),
                     )
                 )
             }

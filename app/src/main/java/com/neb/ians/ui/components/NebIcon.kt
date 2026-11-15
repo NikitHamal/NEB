@@ -36,6 +36,7 @@ object NebIcons {
     @DrawableRes val Bold = R.drawable.ic_neb_bold
     @DrawableRes val Italic = R.drawable.ic_neb_italic
     @DrawableRes val Strike = R.drawable.ic_neb_strike
+    @DrawableRes val Underline = R.drawable.ic_neb_underline
     @DrawableRes val Heading = R.drawable.ic_neb_heading
     @DrawableRes val Code = R.drawable.ic_neb_code
     @DrawableRes val CodeBlock = R.drawable.ic_neb_code_block

@@ -15,7 +15,7 @@ import com.neb.ians.data.local.entity.NoteEntity
         ApiCacheEntity::class,
         NoteEntity::class
     ],
-    version = 6,
+    version = 7,
     exportSchema = true
 )
 abstract class NEBiansDatabase : RoomDatabase() {
