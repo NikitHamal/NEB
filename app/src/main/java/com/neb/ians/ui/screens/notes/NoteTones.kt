@@ -12,7 +12,7 @@ data class NoteTone(val container: Color, val content: Color, val hairline: Bool
 
 /** A ready-made look: colour, cover and icon in one tap. */
 @Immutable
-data class NoteTheme(val label: String, val tone: Int, val cover: Int, val icon: String)
+data class NoteTheme(val label: String, val tone: Int, val cover: Int, val icon: String, val paper: Int = 0)
 
 object NoteTones {
     val labels = listOf(
@@ -22,21 +22,21 @@ object NoteTones {
     val count: Int get() = labels.size
 
     val themes = listOf(
-        NoteTheme("Study", 1, 1, "school"),
-        NoteTheme("Journal", 7, 12, "book"),
+        NoteTheme("Study", 1, 1, "school", 1),
+        NoteTheme("Journal", 7, 12, "book", 1),
         NoteTheme("Garden", 8, 19, "eco"),
         NoteTheme("Sunrise", 10, 14, "sun"),
         NoteTheme("Ocean", 11, 2, "world"),
         NoteTheme("Calm", 14, 4, "mind"),
-        NoteTheme("Focus", 15, 22, "bolt"),
+        NoteTheme("Focus", 15, 22, "bolt", 3),
         NoteTheme("Night", 16, 9, "star"),
         NoteTheme("Forest", 17, 24, "park"),
         NoteTheme("Bloom", 18, 33, "heart"),
         NoteTheme("Lagoon", 19, 34, "world"),
         NoteTheme("Ember", 20, 36, "flag"),
         NoteTheme("Dusk", 21, 38, "mind"),
-        NoteTheme("Plan", 5, 35, "event"),
-        NoteTheme("Lab", 3, 29, "science"),
+        NoteTheme("Plan", 5, 35, "event", 2),
+        NoteTheme("Lab", 3, 29, "science", 2),
     )
 
     private class Pair2(val lc: Long, val lt: Long, val dc: Long, val dt: Long)

@@ -144,3 +144,26 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Not done / next
 - Page background pictures (cover only for now), to-do due dates.
 - On-device pass: photo cover on a list card, pinch sizing inside the scrolling note, Autoformat after Enter on the web.
+
+---
+
+# Session 6: underline, paper, to-do dates, touch drag on the web
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picks up sessions 3 to 5 (`RichState`, notes blocks, `neb-live.js`). Checked first: block handle and 3-dot are already gone on Android (session 4), the Block sheet, sheet insets, formatting-row fold and the web drop bar are in; none of that was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 43 | **Underline** in post, reply and note composers. New style bit `Fmt.UNDERLINE`, stored as `<u>..</u>` (the web sanitiser already allows `u`). Parsed and written by `RichMarkdown`, drawn by `RichVisual`, rendered in `Markdown.kt` and `NoteMarkdownView.kt`. Link key in `RichVisual` moved from 16 to 256 so the new bit does not collide. Ctrl or Cmd + B / I / U on a hardware keyboard. | `RichDoc.kt`, `RichMarkdown.kt`, `RichVisual.kt`, `RichTextField.kt`, `PostExtras.kt`, `NoteBlockEditor.kt`, `ic_neb_underline.xml` |
+| 44 | **Web: underline was lost on save** (the editor wrote nothing for `<u>`). It now writes `<u>..</u>`, and reads it back. | `neb-live.js` |
+| 45 | **Web: list, heading and quote shortcuts on phone keyboards.** Gboard sends composition input, not plain text, so `- ` and `1. ` never fired. Now checked for both. | `neb-live.js` (`autoformat`) |
+| 46 | **Web: touch drag of inline pictures.** Press and hold 360 ms (haptic), the picture follows the finger, the same drop bar shows where it lands, edge auto-scroll, release drops it. Native drag is cancelled while this runs; the mouse path is unchanged. | `inline-media.js` |
+| 47 | **Note paper**: Plain, Lines, Grid, Dots, flat tint of the page ink, drawn once under the scrolling blocks. Room version 7, column `paper` (migration 6 to 7). Picked in Appearance. | `NotePaper.kt`, `NoteEntity`, `DatabaseMigrations`, `NoteEditorViewModel.setPaper` |
+| 48 | **To-do due dates**: block field `due` (JSON `d`, whole UTC days, no time zone drift). Block sheet: Today, Tomorrow, Pick date, No date. The row shows a tonal chip (Today, Tomorrow, weekday, date), red once late and still open; tap it to change. | `NoteDue.kt`, `NoteBlocks.kt`, `NoteBlockEditor.kt`, `NoteEditorViewModel.setDue` |
+
+## Not done / next
+- Web has no notes screen, so note pictures and paper are Android only.
+- Comment bar still has pictures as attachments, not inline.
+- Paper and due dates are not in the plain-text share or the list cards yet.
+- On-device pass: Underline with Gboard autocorrect, DatePicker inside the Block sheet, long-press drag of a picture on a phone browser.
