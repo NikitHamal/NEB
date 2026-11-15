@@ -358,3 +358,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Not done / next
 - On-device pass (nothing here has run on a phone): drag between lines of a wrapped paragraph (the whole paragraph that holds a picture is the taller one; Compose has no per-visual-line height), the selection menu near the top edge, staggered card heights with many media notes. If the line gap still looks wrong on the phone, send a screenshot of the exact text; the cause will be in `RichVisual.build` paragraph ranges.
+
+CI session 15: `66ad86e` is green; the Android release build (APK and AAB) compiles. Nothing was run on a device.
