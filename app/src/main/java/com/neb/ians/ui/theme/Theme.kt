@@ -164,7 +164,8 @@ fun NEBiansTheme(
             // press feedback that always keeps a rounded shape (see NebIndication)
             androidx.compose.runtime.CompositionLocalProvider(
                 androidx.compose.foundation.LocalIndication provides NebIndication,
-                content = content
+                // our own menu for selected text (Cut, Copy, Paste, Select all)
+                content = { com.neb.ians.ui.components.NebTextToolbarProvider(content = content) }
             )
         }
     )

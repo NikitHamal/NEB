@@ -344,43 +344,46 @@ fun AudioBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean)
         val import = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> if (uri != null) vm.fillAudioFromUri(block.id, uri) }
         if (recording) {
             Row(
-                Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(c.errorContainer).padding(start = 18.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
+                Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(c.errorContainer).padding(start = 14.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Box(Modifier.size(12.dp).clip(CircleShape).background(c.error))
-                Text("Recording  ${clock(elapsed)}", style = MaterialTheme.typography.titleSmall, color = c.onErrorContainer, modifier = Modifier.weight(1f))
-                IconButton(onClick = { recorder.cancel(); recording = false }) { Icon(Icons.Outlined.Close, "Discard", tint = c.onErrorContainer) }
+                Box(Modifier.size(8.dp).clip(CircleShape).background(c.error))
+                Text(clock(elapsed), style = MaterialTheme.typography.labelLarge, color = c.onErrorContainer, modifier = Modifier.weight(1f))
                 Box(
-                    Modifier.size(44.dp).clip(RoundedCornerShape(16.dp)).background(c.error).clickable {
+                    Modifier.size(36.dp).clip(RoundedCornerShape(14.dp)).clickable { recorder.cancel(); recording = false },
+                    contentAlignment = Alignment.Center,
+                ) { Icon(Icons.Outlined.Close, "Discard", tint = c.onErrorContainer, modifier = Modifier.size(18.dp)) }
+                Box(
+                    Modifier.size(36.dp).clip(RoundedCornerShape(14.dp)).background(c.error).clickable {
                         val secs = recorder.stop()
                         val f = recorder.file
                         recording = false
                         if (f != null) vm.fillAudio(block.id, f, secs)
                     },
                     contentAlignment = Alignment.Center,
-                ) { Icon(Icons.Outlined.Stop, "Save recording", tint = c.onError) }
+                ) { Icon(Icons.Outlined.Stop, "Save recording", tint = c.onError, modifier = Modifier.size(18.dp)) }
             }
         } else {
             Row(
-                Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(c.surfaceContainerHigh).padding(horizontal = 8.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
+                Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(c.surfaceContainerHigh).padding(4.dp),
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Row(
-                    Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).clickable {
+                    Modifier.weight(1f).height(36.dp).clip(RoundedCornerShape(14.dp)).clickable {
                         if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) begin()
                         else permission.launch(Manifest.permission.RECORD_AUDIO)
-                    }.padding(horizontal = 12.dp, vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    }.padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
                 ) {
-                    Icon(Icons.Outlined.Mic, null, tint = c.primary)
-                    Text("Record", style = MaterialTheme.typography.titleSmall, color = c.onSurface)
+                    Icon(Icons.Outlined.Mic, null, tint = c.primary, modifier = Modifier.size(18.dp))
+                    Text("Record", style = MaterialTheme.typography.labelLarge, color = c.onSurface)
                 }
                 Row(
-                    Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).clickable { import.launch(arrayOf("audio/*")) }.padding(horizontal = 12.dp, vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    Modifier.weight(1f).height(36.dp).clip(RoundedCornerShape(14.dp)).clickable { import.launch(arrayOf("audio/*")) }.padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
                 ) {
-                    Icon(Icons.Outlined.Audiotrack, null, tint = c.primary)
-                    Text("Add a file", style = MaterialTheme.typography.titleSmall, color = c.onSurface)
+                    Icon(Icons.Outlined.Audiotrack, null, tint = c.primary, modifier = Modifier.size(18.dp))
+                    Text("File", style = MaterialTheme.typography.labelLarge, color = c.onSurface)
                 }
             }
         }
@@ -406,11 +409,11 @@ fun AudioBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean)
         if (p.isPlaying) { p.pause(); playing = false } else { p.start(); playing = true }
     }
     Row(
-        Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(c.secondaryContainer).padding(start = 8.dp, end = 16.dp, top = 6.dp, bottom = 6.dp),
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(c.secondaryContainer).padding(start = 4.dp, end = 14.dp, top = 4.dp, bottom = 4.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Box(
-            Modifier.size(48.dp).clip(RoundedCornerShape(if (playing) 16.dp else 24.dp)).background(c.primary).clickable { toggle() },
+            Modifier.size(40.dp).clip(RoundedCornerShape(if (playing) 14.dp else 20.dp)).background(c.primary).clickable { toggle() },
             contentAlignment = Alignment.Center,
         ) { Icon(if (playing) Icons.Outlined.Pause else Icons.Outlined.PlayArrow, if (playing) "Pause" else "Play", tint = c.onPrimary) }
         Slider(

@@ -311,3 +311,28 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device pass for the drag caret and for the bar hiding on Home, Library and Notes.
 
 CI session 13: `3a2eb9a` (lazy list and pager guard, audit script step) is green; the Android release build compiles.
+
+
+---
+
+# Session 14: drop caret is the real caret, picture line gap, notes cards, selection menu, crash screen
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picked up sessions 9 to 13 (drop caret, picture line height, notes list, crash screen); nothing redone, the causes of what still looked wrong were found and fixed.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 81 | **The blue horizontal bar was a layout bug, and is gone.** `RichTextField` has `propagateMinConstraints = true`; the drop bar was a direct child with a fixed 2.5dp width, so the field's minimum width was forced on it and it stretched from the caret to the right edge. No bar is drawn any more. While a picture is dragged the field's own caret (the keyboard's cursor) moves to the landing place: `RichState.moveCaret` sets the real selection when the snapped offset changes, the caret is drawn solid while dragging, and `restoreSelection` hands the old selection back on cancel. After a drop the caret sits after the picture. | `RichTextField.kt`, `RichState.kt` |
+| 82 | **The gap under a picture line was a platform quirk.** A Compose paragraph that ends in a real line break gets one more empty line (StaticLayout adds a line after a trailing break). The picture paragraph included its `\n`. Now the break next to a picture line is a zero width mark (U+200B) in the drawn text (same length, so the offset maps stay simple), a picture line is its own paragraph that ends on the mark, and an empty last line after a picture line gets a mark so it still has a line. Picture 38dp to 32dp, line = picture + 4dp (was + 6). | `RichVisual.kt`, `RichTextField.kt` |
+| 83 | **Notes list cards**: staggered grid kept, cards shorter (cover 44 / 60dp, tighter padding, 22dp radius, one footer line with date, one chip, to-do progress). New previews of everything a note holds: pictures as a 1 / 2 / 3-up mosaic with +N, recordings as a waveform tile with the length, a drawing redrawn from its strokes (pens that would vanish on the note colour use the ink), a table as a mini grid, a code snippet as a mono tile. Media is read off the main thread and cached by id and edit time (`NoteMediaCache`), cards skip recomposition (`NoteEntity`, `NoteBlock`, `Stroke` added to `compose_stability.conf`), grid items have a `contentType`. | `NoteCard.kt`, `NoteCardMedia.kt`, `NoteMedia.kt`, `NotesScreen.kt` |
+| 84 | **Record controls smaller** in notes: the dictation button 52 to 40dp (icon 20), the show-toolbar tile 48 to 40dp, the empty recording block is one 36dp row (Record, File), the live recording bar and the player are 36 to 40dp. | `NoteEditorScreen.kt`, `NoteBlockMedia.kt` |
+| 85 | **Own menu for selected text**: a floating pill (float colour, hairline, no shadow, spring in) with Cut, Copy, Paste, Select all, and Bold, Italic, Underline icons in writing fields. Placed above the selection, below it near the top edge, never takes focus so the keyboard stays. `LocalTextToolbar` is provided once in `NEBiansTheme` (every field) and again in `RichTextField` with the format actions. Dialog and sheet windows keep the system menu (Compose gives them their own toolbar). | `NebTextToolbar.kt`, `Theme.kt`, `RichTextField.kt` |
+| 86 | **Crash screen revamp**: clover tile that springs in, one short title and line, the error in a hairline card with the type as a tonal chip, the log folded in a second card (chevron turns on a spring, mono tile), Copy log and Share tonal, one filled Restart. | `CrashActivity.kt` |
+| 87 | **Web**: the drop caret is 2px, like a text caret (the mouse path already moved the real selection while dragging). | `inline-media.js` |
+
+## Rules
+See `docs/M3X_DESIGN_SYSTEM.md` 13.5 (paragraph never ends on a line break, no fixed-size child under `propagateMinConstraints`), 13.5b (selection menu) and 13.6 (list card preview).
+
+## Not done / next
+- On-device pass: drag a picture between lines of a wrapped paragraph (the whole paragraph that holds a picture is the taller one, Compose has no per-visual-line height), caret placement on the empty line after a picture, the selection menu next to the top edge and with the glass bottom bar, staggered card heights with many media notes.
