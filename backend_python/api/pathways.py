@@ -10,7 +10,7 @@ from functools import lru_cache
 from pathlib import Path
 
 DATA = Path(__file__).resolve().parent / 'data' / 'pathways'
-REVIEWED = '2026-05'
+REVIEWED = '2026-07'
 
 
 def _load(name):
@@ -21,29 +21,32 @@ def _load(name):
 @lru_cache(maxsize=1)
 def payload():
     a, b, c = _load('routes_a.json'), _load('routes_b.json'), _load('routes_c.json')
-    places = _load('places.json')
-    extra = _load('extra_places.json')
-    routes = a['routes'] + b['routes'] + c['routes'] + _load('routes_d.json')['routes']
+    places, extra = _load('places.json'), _load('extra_places.json')
+    wave3, wave4, wave4_places = _load('wave3.json'), _load('wave4.json'), _load('wave4_places.json')
+    routes = a['routes'] + b['routes'] + c['routes'] + _load('routes_d.json')['routes'] + wave3['routes'] + wave4['routes']
     by_id = {r['id']: r for r in routes}
-    for rid, more in extra.get('where_add', {}).items():
-        by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
-    wave = _load('wave3.json')
-    routes += wave['routes']
-    by_id.update({r['id']: r for r in wave['routes']})
-    for rid, more in wave.get('where_add', {}).items():
-        by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
-    for rid, more in wave.get('careers_add', {}).items():
-        by_id[rid]['careers'] = list(dict.fromkeys(list(by_id[rid].get('careers') or []) + more))
+    for src in (extra, wave3, wave4, wave4_places):
+        for rid, more in src.get('where_add', {}).items():
+            by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
+        for rid, more in src.get('careers_add', {}).items():
+            by_id[rid]['careers'] = list(by_id[rid].get('careers') or []) + more
+        for rid, more in src.get('next_add', {}).items():
+            by_id[rid]['next'] = list(by_id[rid].get('next') or []) + more
     for r in routes:
-        r['where'] = list(dict.fromkeys(r.get('where') or []))
+        for k in ('where', 'careers', 'next'):
+            r[k] = list(dict.fromkeys(r.get(k) or []))
+    abroad = places['abroad'] + extra['abroad'] + wave3['abroad'] + wave4_places['abroad']
+    abroad_by_id = {x['id']: x for x in abroad}
+    for aid, more in wave4_places.get('abroad_scholarships_add', {}).items():
+        abroad_by_id[aid]['scholarships'] = list(dict.fromkeys(list(abroad_by_id[aid].get('scholarships') or []) + more))
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
         'routes': routes,
-        'careers': _load('careers.json')['careers'] + _load('extra_careers.json')['careers'] + wave['careers'],
-        'providers': places['providers'] + extra['providers'] + wave['providers'],
-        'scholarships': places['scholarships'] + extra['scholarships'] + wave['scholarships'],
-        'abroad': places['abroad'] + extra['abroad'] + wave['abroad'],
+        'careers': _load('careers.json')['careers'] + _load('extra_careers.json')['careers'] + wave3['careers'] + wave4['careers'],
+        'providers': places['providers'] + extra['providers'] + wave3['providers'] + wave4_places['providers'],
+        'scholarships': places['scholarships'] + extra['scholarships'] + wave3['scholarships'] + wave4_places['scholarships'],
+        'abroad': abroad,
         'topics': _load('faq.json')['topics'],
         'faq': _load('faq.json')['faq'],
     }
@@ -84,6 +87,14 @@ def problems(data=None):
         for ref in f.get('go', []):
             if ref not in ids['routes']:
                 out.append(f"{f['id']}.go: {ref}")
+    try:
+        from .models import NEPAL_DISTRICTS
+        valid_districts = set(NEPAL_DISTRICTS)
+    except Exception:
+        valid_districts = None
+    for p in d['providers']:
+        if not p.get('district') or (valid_districts and p.get('district') not in valid_districts):
+            out.append(f"{p['id']}: district {p.get('district')}")
     for a in d['abroad']:
         for ref in a.get('scholarships', []):
             if ref not in ids['scholarships']:
