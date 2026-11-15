@@ -32,6 +32,9 @@ jobs:
       - name: Check horizontal scrollers (infinite width crash guard)
         run: python3 tools/android/check_scrollers.py
 
+      - name: Check bottom sheets (padding and status bar guard)
+        run: python3 tools/android/check_sheets.py
+
       - name: Set up JDK 17
         uses: actions/setup-java@v6
         with:

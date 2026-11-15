@@ -272,7 +272,8 @@ fun NewsDetailScreen(
                     activeThreadParentId = null
                     activeThreadTargetId = null
                 },
-                sheetState = sheetState
+                sheetState = sheetState,
+                fullBleed = true // bleed: content pads itself or draws edge to edge rows
             ) {
                 Column(
                     modifier = Modifier

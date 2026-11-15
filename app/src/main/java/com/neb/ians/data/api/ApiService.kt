@@ -536,8 +536,8 @@ data class ApiResource(
 @Serializable
 data class ApiPost(
     val id: String,
-    val title: String,
-    val content: String,
+    @Serializable(with = EntityString::class) val title: String,
+    @Serializable(with = EntityString::class) val content: String,
     @SerialName("authorName") val authorName: String,
     @SerialName("authorId") val authorId: String,
     @SerialName("authorPhotoUrl") val authorPhotoUrl: String? = null,
@@ -633,7 +633,7 @@ data class ApiReply(
     @SerialName("postId") val postId: String,
     @SerialName("postTitle") val postTitle: String = "",
     @SerialName("parentReplyId") val parentReplyId: String? = null,
-    val content: String,
+    @Serializable(with = EntityString::class) val content: String,
     @SerialName("authorName") val authorName: String,
     @SerialName("authorId") val authorId: String,
     @SerialName("authorPhotoUrl") val authorPhotoUrl: String? = null,

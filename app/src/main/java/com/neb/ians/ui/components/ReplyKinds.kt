@@ -229,7 +229,7 @@ fun ReplyLabelTag(label: String, modifier: Modifier = Modifier) {
 @Composable
 fun ReplyKindSheet(selected: String, onSelect: (String) -> Unit, onDismiss: () -> Unit) {
     val cs = MaterialTheme.colorScheme
-    NebModalSheet(onDismiss = onDismiss, horizontalPadding = 12.dp) {
+    NebModalSheet(onDismiss = onDismiss, horizontalPadding = 12.dp, fullBleed = true) { // bleed: content pads itself or draws edge to edge rows
         Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             REPLY_KINDS.forEach { spec ->
                 val chosen = spec.key == selected
