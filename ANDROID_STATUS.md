@@ -414,3 +414,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Pathways: Nepali labels, saved pathways for signed-in users, per-course seat and fee tables, a FAQ tab ("what after SEE" questions), more private colleges per district. Verify every figure against the institution before widening claims.
 - Web: pass a specific reason (like, save, reply) from each call site to `NebAuth.require`.
 - On-device pass: sign-in return from the reply bar, gated create menu.
+
+CI session 17: `9579340` (opt-in fix) is green, the Android release build compiles. `bbc1dc4` touched only the Django side; `backend-tests.yml` is green. Nothing was run on a device.
