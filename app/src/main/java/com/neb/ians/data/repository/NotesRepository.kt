@@ -1,6 +1,11 @@
 package com.neb.ians.data.repository
 
+import android.content.Context
 import com.neb.ians.data.local.dao.NoteDao
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
 import com.neb.ians.data.local.entity.NoteEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
@@ -12,6 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class NotesRepository @Inject constructor(
     private val dao: NoteDao,
+    @ApplicationContext private val context: Context,
 ) {
     val notes: Flow<List<NoteEntity>> = dao.observeAll()
 
@@ -74,7 +80,18 @@ class NotesRepository @Inject constructor(
             cover = src.cover,
             coverPhoto = src.coverPhoto,
             paper = src.paper,
+            bgPhoto = src.bgPhoto,
         )
+        // the cover and page picture are files in the note's own folder; the copy needs its own
+        if (src.coverPhoto.isNotEmpty() || src.bgPhoto.isNotEmpty()) withContext(Dispatchers.IO) {
+            runCatching {
+                val from = File(context.filesDir, "notes/${src.id}")
+                val to = File(context.filesDir, "notes/${copy.id}").also { it.mkdirs() }
+                listOf(src.coverPhoto, src.bgPhoto).filter { it.isNotEmpty() }.forEach { n ->
+                    File(from, n).takeIf { it.exists() }?.copyTo(File(to, n), overwrite = true)
+                }
+            }
+        }
         dao.upsert(copy)
         return copy.id
     }
