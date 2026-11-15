@@ -8,6 +8,10 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -190,7 +194,8 @@ fun NoteEditorScreen(
 
     val tone = noteTone(toneIndex)
     val bg = if (toneIndex == 0) c.surface else tone.container
-    val fg = if (toneIndex == 0) c.onSurface else tone.content
+    val fg = readableOn(if (toneIndex == 0) c.onSurface else tone.content, bg, 7f)
+    val pinTint = readableOn(c.primary, bg, 3f)
 
     var setup by remember { mutableStateOf<Setup?>(null) }
     var menu by remember { mutableStateOf(false) }
@@ -242,15 +247,15 @@ fun NoteEditorScreen(
             IconButton(onClick = { leave() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = fg) }
             Spacer(Modifier.weight(1f))
             if (!trashed) {
-                IconButton(onClick = vm::undo, enabled = canUndo) { Icon(Icons.Outlined.Undo, "Undo", tint = fg.copy(alpha = if (canUndo) 1f else 0.35f)) }
-                IconButton(onClick = vm::redo, enabled = canRedo) { Icon(Icons.Outlined.Redo, "Redo", tint = fg.copy(alpha = if (canRedo) 1f else 0.35f)) }
+                IconButton(onClick = vm::undo, enabled = canUndo) { Icon(Icons.Outlined.Undo, "Undo", tint = if (canUndo) fg else softReadable(fg, bg, 0.5f)) }
+                IconButton(onClick = vm::redo, enabled = canRedo) { Icon(Icons.Outlined.Redo, "Redo", tint = if (canRedo) fg else softReadable(fg, bg, 0.5f)) }
             }
             IconButton(onClick = { if (reading) vm.readStop() else beginListening() }) {
                 Icon(if (reading) Icons.Outlined.Stop else Icons.Outlined.VolumeUp, if (reading) "Stop reading" else "Read aloud", tint = fg)
             }
             if (!trashed) {
                 IconButton(onClick = vm::togglePin) {
-                    Icon(Icons.Outlined.PushPin, if (pinned) "Unpin" else "Pin", tint = if (pinned) c.primary else fg)
+                    Icon(Icons.Outlined.PushPin, if (pinned) "Unpin" else "Pin", tint = if (pinned) pinTint else fg)
                 }
             }
             Box {
@@ -310,7 +315,7 @@ fun NoteEditorScreen(
                 keyboardActions = KeyboardActions(onNext = { vm.focusFirst() }),
                 decorationBox = { inner ->
                     Box {
-                        if (title.isEmpty()) Text("Untitled", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, color = fg.copy(alpha = 0.35f))
+                        if (title.isEmpty()) Text("Untitled", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, color = softReadable(fg, bg, 0.5f))
                         inner()
                     }
                 },
@@ -469,15 +474,25 @@ private fun NotePageHeader(
     val hasCover = cover != 0
     Column(Modifier.fillMaxWidth().animateContentSize(spring(dampingRatio = 0.8f, stiffness = 380f))) {
         if (hasCover) {
-            Box(Modifier.fillMaxWidth().height(148.dp)) {
+            // The cover grows with the screen width (never a fixed strip) and its two actions appear only after a tap on it.
+            var tools by remember { mutableStateOf(false) }
+            LaunchedEffect(tools) { if (tools) { kotlinx.coroutines.delay(4200); tools = false } }
+            Box(
+                Modifier.fillMaxWidth().heightIn(min = 168.dp, max = 264.dp).aspectRatio(1.9f)
+                    .then(if (editable) Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { tools = !tools } else Modifier),
+            ) {
                 NoteCover(cover, photo, Modifier.matchParentSize())
                 if (editable) {
-                    Row(
-                        Modifier.align(Alignment.BottomEnd).padding(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    AnimatedVisibility(
+                        visible = tools,
+                        modifier = Modifier.align(Alignment.BottomEnd),
+                        enter = fadeIn(tween(140)) + scaleIn(spring(dampingRatio = 0.7f, stiffness = 500f), initialScale = 0.86f),
+                        exit = fadeOut(tween(120)) + scaleOut(targetScale = 0.9f),
                     ) {
-                        HeaderPill("Change", Icons.Outlined.Image, onCover)
-                        HeaderPill(null, Icons.Outlined.Close, onClearCover, "Remove cover")
+                        Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            HeaderPill("Change", Icons.Outlined.Image, { tools = false; onCover() })
+                            HeaderPill(null, Icons.Outlined.Close, { tools = false; onClearCover() }, "Remove cover")
+                        }
                     }
                 }
             }
