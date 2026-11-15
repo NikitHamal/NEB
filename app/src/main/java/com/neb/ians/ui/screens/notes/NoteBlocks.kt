@@ -88,6 +88,10 @@ data class NoteBlock(
     val ratio: Int = 0,
     /** To-do due date as a day count since 1970 (UTC calendar day); 0 for none. */
     val due: Long = 0L,
+    /** Text colour from `NoteInk` (0 is the page ink). */
+    val tint: Int = 0,
+    /** Highlight behind the block's text from `NoteInk` (0 for none). */
+    val mark: Int = 0,
 ) {
     val isBlank: Boolean
         get() = when (type) {
@@ -168,6 +172,8 @@ object NoteDoc {
             if (b.caption.isNotEmpty()) o.put("q", b.caption)
             if (b.ratio != 0) o.put("ra", b.ratio)
             if (b.due > 0L) o.put("d", b.due)
+            if (b.tint != 0) o.put("tc", b.tint)
+            if (b.mark != 0) o.put("tf", b.mark)
             arr.put(o)
         }
         return arr.toString()
@@ -220,6 +226,8 @@ object NoteDoc {
                         caption = o.optString("q", ""),
                         ratio = o.optInt("ra", 0).coerceIn(0, 3),
                         due = o.optLong("d", 0L).coerceAtLeast(0L),
+                        tint = o.optInt("tc", 0).coerceIn(0, NoteInk.count),
+                        mark = o.optInt("tf", 0).coerceIn(0, NoteInk.count),
                     )
                 )
             }

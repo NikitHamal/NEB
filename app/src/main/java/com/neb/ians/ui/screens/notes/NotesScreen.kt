@@ -530,6 +530,11 @@ private fun NoteCard(
         if (!note.doc.contains("\"Image\"")) emptyList()
         else NoteDoc.fromJson(note.doc).filter { it.type == BlockType.Image && it.path.isNotBlank() }.map { it.path }
     }
+    // the nearest date among the open to-dos, shown as a chip on the card
+    val nextDue = remember(note.doc) {
+        if (!note.doc.contains("\"Todo\"") || !note.doc.contains("\"d\"")) 0L
+        else NoteDoc.fromJson(note.doc).filter { it.type == BlockType.Todo && !it.checked && it.due > 0L }.minOfOrNull { it.due } ?: 0L
+    }
     val border = when {
         selected -> BorderStroke(2.dp, c.primary)
         tone.hairline -> BorderStroke(1.dp, c.outlineVariant)
@@ -606,6 +611,11 @@ private fun NoteCard(
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(dateLabel(note.updatedAt), style = MaterialTheme.typography.labelSmall, color = tone.content.copy(alpha = 0.6f), modifier = Modifier.weight(1f))
+            if (nextDue > 0L) Text(
+                NoteDue.label(nextDue), style = MaterialTheme.typography.labelSmall,
+                color = if (NoteDue.overdue(nextDue)) c.error else tone.content,
+                modifier = Modifier.padding(end = 8.dp).clip(RoundedCornerShape(8.dp)).background(tone.content.copy(alpha = 0.10f)).padding(horizontal = 8.dp, vertical = 3.dp),
+            )
             if (total > 0) Text("$done/$total", style = MaterialTheme.typography.labelSmall, color = tone.content.copy(alpha = 0.6f))
         }
     }

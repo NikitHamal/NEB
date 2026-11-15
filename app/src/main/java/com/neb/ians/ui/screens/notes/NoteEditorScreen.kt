@@ -172,6 +172,11 @@ fun NoteEditorScreen(
     val coverIndex by vm.cover.collectAsStateWithLifecycle()
     val coverPhoto by vm.coverPhoto.collectAsStateWithLifecycle()
     val paperKind by vm.paper.collectAsStateWithLifecycle()
+    val bgName by vm.bgPhoto.collectAsStateWithLifecycle()
+    val backdrop by rememberBackdrop(if (bgName.isEmpty()) null else vm.coverFile(bgName))
+    val bgPicker = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
+    ) { uri -> if (uri != null) vm.setBgPhoto(uri) }
     val tags by vm.tags.collectAsStateWithLifecycle()
     val pinned by vm.pinned.collectAsStateWithLifecycle()
     val archived by vm.archived.collectAsStateWithLifecycle()
@@ -287,6 +292,7 @@ fun NoteEditorScreen(
                     reorder.viewTop = at
                     reorder.viewBottom = at + it.size.height
                 }
+                .noteBackdrop({ backdrop }, bg.copy(alpha = 0.78f))
                 .verticalScroll(bodyScroll)
                 .notePaper(paperKind, fg),
         ) {
@@ -410,6 +416,13 @@ fun NoteEditorScreen(
                 ToneSwatches(current = toneIndex, onPick = { vm.setTone(it) })
                 Text("Paper", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
                 PaperPicker(paperKind) { vm.setPaper(it) }
+                Text("Page picture", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    GhostChip(if (bgName.isEmpty()) "Add picture" else "Change picture", Icons.Outlined.Image, Modifier.weight(1f)) {
+                        bgPicker.launch(androidx.activity.result.PickVisualMediaRequest(androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    }
+                    if (bgName.isNotEmpty()) GhostChip("Remove", Icons.Outlined.Delete, Modifier.weight(1f)) { vm.setBgPhoto(null) }
+                }
                 Row(Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     GhostChip(if (iconKey.isEmpty()) "Add icon" else "Change icon", Icons.Outlined.Category, Modifier.weight(1f)) { toneSheet = false; iconSheet = true }
                     GhostChip(if (coverIndex == 0) "Add cover" else "Change cover", Icons.Outlined.Image, Modifier.weight(1f)) { toneSheet = false; coverSheet = true }

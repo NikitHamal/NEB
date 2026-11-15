@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +28,9 @@ object NotePaper {
     const val LINES = 1
     const val GRID = 2
     const val DOTS = 3
-    val labels = listOf("Plain", "Lines", "Grid", "Dots")
+    const val MARGIN = 4
+    const val WIDE = 5
+    val labels = listOf("Plain", "Lines", "Grid", "Dots", "Margin", "Wide grid")
 }
 
 fun Modifier.notePaper(kind: Int, ink: Color): Modifier = if (kind == NotePaper.NONE) this else drawBehind {
@@ -37,6 +42,18 @@ fun Modifier.notePaper(kind: Int, ink: Color): Modifier = if (kind == NotePaper.
         NotePaper.LINES -> {
             var y = step * 3
             while (y < h) { drawLine(tint, Offset(0f, y), Offset(w, y), strokeWidth = 1.dp.toPx()); y += step }
+        }
+        NotePaper.MARGIN -> {
+            var y = step * 3
+            while (y < h) { drawLine(tint, Offset(0f, y), Offset(w, y), strokeWidth = 1.dp.toPx()); y += step }
+            drawLine(ink.copy(alpha = 0.22f), Offset(16.dp.toPx(), 0f), Offset(16.dp.toPx(), h), strokeWidth = 1.dp.toPx())
+        }
+        NotePaper.WIDE -> {
+            val big = step * 2
+            var y = big
+            while (y < h) { drawLine(tint, Offset(0f, y), Offset(w, y), strokeWidth = 1.dp.toPx()); y += big }
+            var x = big
+            while (x < w) { drawLine(tint, Offset(x, 0f), Offset(x, h), strokeWidth = 1.dp.toPx()); x += big }
         }
         NotePaper.GRID -> {
             var y = step
@@ -60,17 +77,17 @@ fun Modifier.notePaper(kind: Int, ink: Color): Modifier = if (kind == NotePaper.
 @Composable
 fun PaperPicker(current: Int, onPick: (Int) -> Unit) {
     val c = MaterialTheme.colorScheme
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         NotePaper.labels.forEachIndexed { index, label ->
             val on = index == current
             Surface(
-                modifier = Modifier.weight(1f).height(44.dp).clickable { onPick(index) },
+                modifier = Modifier.height(44.dp).clickable { onPick(index) },
                 shape = RoundedCornerShape(22.dp),
                 color = if (on) c.secondaryContainer else c.surfaceContainerLowest,
                 border = if (on) null else BorderStroke(1.dp, c.outlineVariant),
                 tonalElevation = 0.dp, shadowElevation = 0.dp,
             ) {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(Modifier.padding(horizontal = 18.dp), contentAlignment = Alignment.Center) {
                     Text(label, style = MaterialTheme.typography.labelLarge, color = if (on) c.onSecondaryContainer else c.onSurface)
                 }
             }

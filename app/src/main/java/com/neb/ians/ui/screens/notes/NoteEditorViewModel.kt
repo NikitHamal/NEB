@@ -63,6 +63,8 @@ class NoteEditorViewModel @Inject constructor(
     val icon: StateFlow<String> = _icon.asStateFlow()
     private val _cover = MutableStateFlow(0)
     val cover: StateFlow<Int> = _cover.asStateFlow()
+    private val _bgPhoto = MutableStateFlow("")
+    val bgPhoto: StateFlow<String> = _bgPhoto.asStateFlow()
     private val _paper = MutableStateFlow(0)
     val paper: StateFlow<Int> = _paper.asStateFlow()
     private val _coverPhoto = MutableStateFlow("")
@@ -107,6 +109,7 @@ class NoteEditorViewModel @Inject constructor(
                 _cover.value = existing.cover
                 _coverPhoto.value = existing.coverPhoto
                 _paper.value = existing.paper
+                _bgPhoto.value = existing.bgPhoto
                 _tags.value = existing.tagList
                 _pinned.value = existing.pinned
                 _archived.value = existing.archived
@@ -200,7 +203,7 @@ class NoteEditorViewModel @Inject constructor(
         // Enter at the end of an open toggle writes inside it; anywhere else the new line sits level with this one
         val intoToggle = cur.type == BlockType.Toggle && cur.open && nextType == BlockType.Text
         val nextIndent = if (intoToggle) (cur.indent + 1).coerceAtMost(NoteDoc.MAX_INDENT) else cur.indent
-        val created = after.map { NoteBlock(type = nextType, text = it, indent = nextIndent) }
+        val created = after.map { NoteBlock(type = nextType, text = it, indent = nextIndent, align = cur.align, tint = cur.tint, mark = cur.mark) }
         val out = list.toMutableList()
         out[i] = cur.copy(text = before)
         out.addAll(i + 1, created)
@@ -255,6 +258,15 @@ class NoteEditorViewModel @Inject constructor(
 
     /** Sets or clears (0) the due day of a to-do. */
     fun setDue(id: String, day: Long) = update(id) { it.copy(due = day) }
+
+    /** Text alignment (0 start, 1 centre, 2 end), text colour and highlight of a text block; -1 keeps a value. */
+    fun setLook(id: String, align: Int = -1, tint: Int = -1, mark: Int = -1) = update(id) {
+        it.copy(
+            align = if (align >= 0) align.coerceIn(0, 2) else it.align,
+            tint = if (tint >= 0) tint else it.tint,
+            mark = if (mark >= 0) mark else it.mark,
+        )
+    }
 
     /** Folds or unfolds a toggle block; what sits under it hides with it. */
     /** Removes every ticked to-do. */
@@ -517,6 +529,31 @@ class NoteEditorViewModel @Inject constructor(
         }
     }
 
+    /** A gallery picture behind the whole page; empty [uri] clears it. */
+    fun setBgPhoto(uri: Uri?) {
+        if (uri == null) {
+            dropBgFile()
+            _bgPhoto.value = ""
+            scheduleSave()
+            return
+        }
+        viewModelScope.launch {
+            val name = withContext(Dispatchers.IO) { runCatching { copyCover(uri, "bg_") }.getOrNull() }
+            if (name == null) {
+                _notice.value = "That photo could not be added"
+                return@launch
+            }
+            dropBgFile()
+            _bgPhoto.value = name
+            scheduleSave()
+        }
+    }
+
+    private fun dropBgFile() {
+        val n = _bgPhoto.value
+        if (n.isNotEmpty()) runCatching { File(context.filesDir, "notes/$currentId/$n").delete() }
+    }
+
     fun coverFile(name: String): File = File(context.filesDir, "notes/$currentId/$name")
 
     private fun dropCoverFile() {
@@ -524,7 +561,7 @@ class NoteEditorViewModel @Inject constructor(
         if (n.isNotEmpty()) runCatching { File(context.filesDir, "notes/$currentId/$n").delete() }
     }
 
-    private fun copyCover(uri: Uri): String {
+    private fun copyCover(uri: Uri, prefix: String = "cover_"): String {
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
         var sample = 1
@@ -533,7 +570,7 @@ class NoteEditorViewModel @Inject constructor(
         val opts = BitmapFactory.Options().apply { inSampleSize = sample }
         val bmp = context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, opts) }
             ?: error("unreadable")
-        val name = "cover_${System.currentTimeMillis()}.jpg"
+        val name = "${prefix}${System.currentTimeMillis()}.jpg"
         File(mediaDir(), name).outputStream().use { bmp.compress(Bitmap.CompressFormat.JPEG, 86, it) }
         bmp.recycle()
         return name
@@ -604,11 +641,12 @@ class NoteEditorViewModel @Inject constructor(
             cover = _cover.value,
             coverPhoto = _coverPhoto.value,
             paper = _paper.value,
+            bgPhoto = _bgPhoto.value,
             tags = _tags.value.joinToString(" "),
             pinned = _pinned.value,
             archived = _archived.value,
         )
-        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover || base.coverPhoto != updated.coverPhoto || base.paper != updated.paper)
+        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover || base.coverPhoto != updated.coverPhoto || base.paper != updated.paper || base.bgPhoto != updated.bgPhoto)
         repo.save(updated, touch = !existsInDb || textChanged)
         note = updated.copy(updatedAt = if (!existsInDb || textChanged) System.currentTimeMillis() else base.updatedAt)
         existsInDb = true

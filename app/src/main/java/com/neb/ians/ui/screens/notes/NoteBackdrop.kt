@@ -1,0 +1,47 @@
+package com.neb.ians.ui.screens.notes
+
+import android.graphics.BitmapFactory
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.produceState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import kotlin.math.max
+import kotlin.math.roundToInt
+
+/** The page picture, decoded once off the main thread (null while loading or when the note has none). */
+@Composable
+fun rememberBackdrop(file: File?): State<ImageBitmap?> = produceState<ImageBitmap?>(null, file?.path) {
+    value = if (file == null) null else withContext(Dispatchers.IO) {
+        runCatching { BitmapFactory.decodeFile(file.path)?.asImageBitmap() }.getOrNull()
+    }
+}
+
+/**
+ * A picture fixed behind the scrolling page, cropped to fill, with a flat wash of the page colour on top so text stays
+ * readable. Put it before `verticalScroll` so it does not move with the blocks. Drawn in the draw phase only.
+ */
+fun Modifier.noteBackdrop(image: () -> ImageBitmap?, wash: Color): Modifier = drawBehind {
+    val bmp = image() ?: return@drawBehind
+    val scale = max(size.width / bmp.width, size.height / bmp.height)
+    val dw = bmp.width * scale
+    val dh = bmp.height * scale
+    clipRect {
+        drawImage(
+            bmp,
+            srcSize = IntSize(bmp.width, bmp.height),
+            dstOffset = IntOffset(((size.width - dw) / 2f).roundToInt(), ((size.height - dh) / 2f).roundToInt()),
+            dstSize = IntSize(dw.roundToInt(), dh.roundToInt()),
+        )
+        drawRect(wash)
+    }
+}

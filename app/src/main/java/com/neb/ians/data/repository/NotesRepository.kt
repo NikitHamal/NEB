@@ -73,6 +73,7 @@ class NotesRepository @Inject constructor(
             icon = src.icon,
             cover = src.cover,
             coverPhoto = src.coverPhoto,
+            paper = src.paper,
         )
         dao.upsert(copy)
         return copy.id

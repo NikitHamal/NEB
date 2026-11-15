@@ -17,7 +17,7 @@ data class NoteTheme(val label: String, val tone: Int, val cover: Int, val icon:
 object NoteTones {
     val labels = listOf(
         "Paper", "Blue", "Slate", "Teal", "Rose", "Sky", "Stone",
-        "Sand", "Mint", "Lemon", "Peach", "Ocean", "Sage", "Linen", "Periwinkle", "Graphite", "Midnight", "Forest", "Rose", "Teal", "Coral", "Dusk",
+        "Sand", "Mint", "Lemon", "Peach", "Ocean", "Sage", "Linen", "Periwinkle", "Graphite", "Midnight", "Forest", "Rose", "Teal", "Coral", "Dusk", "Lilac", "Apricot", "Olive", "Cocoa", "Charcoal", "Steel",
     )
     val count: Int get() = labels.size
 
@@ -37,6 +37,11 @@ object NoteTones {
         NoteTheme("Dusk", 21, 38, "mind"),
         NoteTheme("Plan", 5, 35, "event", 2),
         NoteTheme("Lab", 3, 29, "science", 2),
+        NoteTheme("Notebook", 22, 12, "book", 4),
+        NoteTheme("Recipe", 23, 14, "heart", 1),
+        NoteTheme("Grove", 24, 19, "eco", 5),
+        NoteTheme("Cocoa", 25, 9, "star", 3),
+        NoteTheme("Studio", 26, 22, "bolt", 5),
     )
 
     private class Pair2(val lc: Long, val lt: Long, val dc: Long, val dt: Long)
@@ -57,6 +62,12 @@ object NoteTones {
         Pair2(0xFFD2F3EF, 0xFF08403B, 0xFF123A37, 0xFFBDEFE9), // 19 Teal
         Pair2(0xFFFFE0DB, 0xFF5A2018, 0xFF4A2823, 0xFFFFD0C8), // 20 Coral
         Pair2(0xFF222B45, 0xFFDDE5FF, 0xFF151B30, 0xFFDDE5FF), // 21 Dusk
+        Pair2(0xFFEADFF7, 0xFF35214F, 0xFF3A2D4D, 0xFFE3D3F6), // 22 Lilac
+        Pair2(0xFFFFE6C2, 0xFF553300, 0xFF45331A, 0xFFFFDBA8), // 23 Apricot
+        Pair2(0xFFE6E8C8, 0xFF3A3D12, 0xFF2D2F17, 0xFFDEE1B4), // 24 Olive
+        Pair2(0xFF4A3426, 0xFFF3E4D8, 0xFF2A1D14, 0xFFF3E4D8), // 25 Cocoa
+        Pair2(0xFF1F2124, 0xFFE8EAED, 0xFF121315, 0xFFE8EAED), // 26 Charcoal
+        Pair2(0xFFD9E1E8, 0xFF1C2B38, 0xFF2A3540, 0xFFCFDAE4), // 27 Steel
     )
 
     internal fun fixedTone(index: Int, dark: Boolean): NoteTone? {
@@ -76,7 +87,7 @@ fun noteTone(index: Int): NoteTone {
         4 -> NoteTone(c.errorContainer, c.onErrorContainer, false)
         5 -> NoteTone(c.surfaceContainerHigh, c.onSurface, false)
         6 -> NoteTone(c.surfaceVariant, c.onSurfaceVariant, false)
-        in 7..21 -> NoteTones.fixedTone(index, dark) ?: NoteTone(c.surfaceContainerLowest, c.onSurface, true)
+        in 7..27 -> NoteTones.fixedTone(index, dark) ?: NoteTone(c.surfaceContainerLowest, c.onSurface, true)
         else -> NoteTone(c.surfaceContainerLowest, c.onSurface, true)
     }
 }
