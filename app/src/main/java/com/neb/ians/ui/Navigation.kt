@@ -393,7 +393,6 @@ fun NEBiansNavHost(
     }
 
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
-    androidx.compose.runtime.SideEffect { glassBackdrop.active = showBottomBar }
     // the page goes soft behind the open create menu (Android 12 and up draws the blur; older systems keep the frosted scrim)
     val menuBlur by androidx.compose.animation.core.animateDpAsState(
         targetValue = if (showCreateMenu && showBottomBar) 16.dp else 0.dp,

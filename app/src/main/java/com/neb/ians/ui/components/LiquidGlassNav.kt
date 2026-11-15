@@ -61,8 +61,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.asComposeRenderEffect
+import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
@@ -467,9 +468,6 @@ private fun Color.luminanceIsDark(): Boolean {
 @Stable
 class GlassBackdrop internal constructor(internal val layer: GraphicsLayer, internal val enabled: Boolean) {
     internal var origin by mutableStateOf(Offset.Zero)
-
-    /** False while no glass is on screen (splash, sign-in, reader): the page is then not recorded at all. */
-    var active by mutableStateOf(true)
 }
 
 /**
@@ -488,27 +486,11 @@ fun rememberGlassBackdrop(): GlassBackdrop {
 fun Modifier.glassSource(backdrop: GlassBackdrop): Modifier = if (!backdrop.enabled) this else this
     .onGloballyPositioned { backdrop.origin = it.positionInRoot() }
     .drawWithContent {
-        if (!backdrop.active) {
-            drawContent()
-        } else {
-            backdrop.layer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
-                this@drawWithContent.drawContent()
-            }
-            drawLayer(backdrop.layer)
+        backdrop.layer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
+            this@drawWithContent.drawContent()
         }
+        drawLayer(backdrop.layer)
     }
-
-/**
- * What glass does to the light behind it: it softens it and lifts its colour, so a page of text turns into soft, vivid
- * washes instead of grey mud. Blur first, then a saturation lift on the blurred result.
- */
-@androidx.annotation.RequiresApi(Build.VERSION_CODES.S)
-private fun glassEffect(blurPx: Float): androidx.compose.ui.graphics.RenderEffect {
-    val blur = android.graphics.RenderEffect.createBlurEffect(blurPx, blurPx, android.graphics.Shader.TileMode.CLAMP)
-    val lift = android.graphics.ColorMatrix().apply { setSaturation(1.6f) }
-    val saturate = android.graphics.RenderEffect.createColorFilterEffect(android.graphics.ColorMatrixColorFilter(lift))
-    return android.graphics.RenderEffect.createChainEffect(saturate, blur).asComposeRenderEffect()
-}
 
 /**
  * A liquid-glass surface: the backdrop blurred (Android 12 and up), a neutral surface tint, a
@@ -522,25 +504,18 @@ fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 26.d
     val blurLayer = rememberGraphicsLayer()
     val blurPx = with(LocalDensity.current) { blur.toPx() }
     val canBlur = backdrop != null && backdrop.enabled
-    val blurEffect = remember(blurPx, canBlur) {
-        if (canBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) glassEffect(blurPx) else null
-    }
+    val blurEffect = remember(blurPx) { BlurEffect(blurPx, blurPx, TileMode.Clamp) }
     var origin by remember { mutableStateOf(Offset.Zero) }
     val tint = if (canBlur) scheme.surface.copy(alpha = if (dark) 0.42f else 0.46f) else scheme.surface.copy(alpha = 0.95f)
     val sheen = Brush.verticalGradient(
-        0f to Color.White.copy(alpha = if (dark) 0.12f else 0.55f),
-        0.5f to Color.White.copy(alpha = if (dark) 0.03f else 0.10f),
-        1f to Color.Transparent
-    )
-    // the rim catches light along its top edge and falls back to the hairline underneath
-    val rim = Brush.verticalGradient(
-        listOf(Color.White.copy(alpha = if (dark) 0.30f else 0.95f), scheme.outlineVariant.copy(alpha = 0.85f))
+        0f to Color.White.copy(alpha = if (dark) 0.10f else 0.60f),
+        0.55f to Color.Transparent
     )
     return this
         .onGloballyPositioned { origin = it.positionInRoot() }
         .clip(shape)
         .drawBehind {
-            if (canBlur && backdrop != null && backdrop.active) {
+            if (canBlur && backdrop != null) {
                 blurLayer.renderEffect = blurEffect
                 blurLayer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
                     val d = origin - backdrop.origin
@@ -551,5 +526,5 @@ fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 26.d
             drawRect(tint)
             drawRect(sheen)
         }
-        .border(1.dp, rim, shape)
+        .border(1.dp, scheme.outlineVariant.copy(alpha = 0.85f), shape)
 }

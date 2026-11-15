@@ -1,71 +1,66 @@
 package com.neb.ians.ui.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import kotlin.math.abs
 
-/**
- * Fullscreen zoomable viewer for a single image.
- * Delegates to the multi-image viewer so every fullscreen viewer in the app
- * behaves exactly the same.
- */
+/** Fullscreen viewer for one picture; same viewer as the gallery. */
 @Composable
-fun ZoomableImageDialog(
-    imageUrl: String,
-    contentDescription: String? = null,
-    onDismiss: () -> Unit
-) {
-    ZoomableImageDialog(
-        imageUrls = listOf(imageUrl),
-        initialIndex = 0,
-        contentDescription = contentDescription,
-        onDismiss = onDismiss
-    )
+fun ZoomableImageDialog(imageUrl: String, contentDescription: String? = null, onDismiss: () -> Unit) {
+    ZoomableImageDialog(imageUrls = listOf(imageUrl), initialIndex = 0, contentDescription = contentDescription, onDismiss = onDismiss)
 }
 
 /**
- * Fullscreen zoomable image viewer with swipe-to-change support.
- *
- * Users can pinch-to-zoom and pan each image. When there are multiple images,
- * swiping horizontally moves between them (swiping is temporarily disabled
- * while an image is zoomed in so the pan gesture doesn't fight the pager).
+ * The pictures of a post or reply, to the one that was tapped. Pictures written into the text come first, in reading
+ * order, then [extra] (attached pictures). Falls back to the tapped picture alone.
  */
-@OptIn(ExperimentalFoundationApi::class)
+fun inlineGallery(clicked: String, content: String, extra: List<String> = emptyList()): Pair<List<String>, Int> {
+    val inline = InlineImageTokens.extractIds(content).mapNotNull { resolveMediaUrl("/media/content_images/$it.webp") }
+    val all = (inline + extra).distinct()
+    val at = all.indexOf(clicked)
+    return if (at >= 0) all to at else listOf(clicked) to 0
+}
+
+/**
+ * Fullscreen viewer: swipe sideways to change picture, pinch or double tap to zoom, drag down to close, tap to hide the
+ * controls. Pages next to the current one are composed ahead so a swipe never waits on a picture.
+ */
 @Composable
 fun ZoomableImageDialog(
     imageUrls: List<String>,
@@ -74,140 +69,79 @@ fun ZoomableImageDialog(
     onDismiss: () -> Unit
 ) {
     if (imageUrls.isEmpty()) return
-    val pagerState = rememberPagerState(
-        initialPage = initialIndex.coerceIn(0, imageUrls.size - 1),
-        pageCount = { imageUrls.size }
-    )
-    val scope = rememberCoroutineScope()
-    // Zoom state kept per page so every image keeps its own pinch/pan.
-    val zoomScales = remember { mutableStateMapOf<Int, Float>() }
-    val zoomOffsets = remember { mutableStateMapOf<Int, Offset>() }
-    val currentPageScale = zoomScales[pagerState.currentPage] ?: 1f
+    val pager = rememberPagerState(initialPage = initialIndex.coerceIn(0, imageUrls.size - 1), pageCount = { imageUrls.size })
+    var zoom by remember { mutableFloatStateOf(1f) }
+    var drag by remember { mutableFloatStateOf(0f) }
+    var chrome by remember { mutableStateOf(true) }
+    val zoomNow by rememberUpdatedState(zoom)
+    val fade = (1f - abs(drag) / 900f).coerceIn(0.25f, 1f)
 
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
-    ) {
+    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.94f))
+                .background(Color.Black.copy(alpha = 0.97f * fade))
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures(
+                        onDragEnd = { if (abs(drag) > 220f) onDismiss() else drag = 0f },
+                        onDragCancel = { drag = 0f }
+                    ) { change, amount ->
+                        if (zoomNow <= 1.02f) { change.consume(); drag += amount }
+                    }
+                }
         ) {
             HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize(),
-                // While zoomed in, horizontal drags belong to the pan gesture.
-                userScrollEnabled = currentPageScale <= 1.05f
+                state = pager,
+                modifier = Modifier.fillMaxSize().graphicsLayer { translationY = drag },
+                beyondViewportPageCount = 1,
+                pageSpacing = 12.dp,
+                userScrollEnabled = zoom <= 1.02f
             ) { page ->
-                val scale = zoomScales[page] ?: 1f
-                val offset = zoomOffsets[page] ?: Offset.Zero
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    AsyncImage(
-                        model = resolveZoomableImageUrl(imageUrls[page]),
-                        contentDescription = contentDescription ?: "Image ${page + 1} of ${imageUrls.size}",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .pointerInput(page) {
-                                detectTransformGestures { _, pan, zoom, _ ->
-                                    val currentScale = zoomScales[page] ?: 1f
-                                    val newScale = (currentScale * zoom).coerceIn(1f, 5f)
-                                    zoomScales[page] = newScale
-                                    if (newScale <= 1.01f) {
-                                        zoomOffsets[page] = Offset.Zero
-                                    } else {
-                                        val currentOffset = zoomOffsets[page] ?: Offset.Zero
-                                        zoomOffsets[page] = currentOffset + pan
-                                    }
-                                }
-                            }
-                            .graphicsLayer(
-                                scaleX = scale,
-                                scaleY = scale,
-                                translationX = offset.x,
-                                translationY = offset.y
-                            ),
-                        contentScale = ContentScale.Fit
-                    )
-                }
+                ZoomableImagePage(
+                    model = resolveZoomableImageUrl(imageUrls[page]),
+                    description = contentDescription ?: "Image ${page + 1} of ${imageUrls.size}",
+                    active = pager.currentPage == page,
+                    onScaleChange = { if (pager.currentPage == page) zoom = it },
+                    onTap = { chrome = !chrome }
+                )
             }
-
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(18.dp)
-                    .size(44.dp),
-                shape = CircleShape,
-                color = Color.White.copy(alpha = 0.92f),
-                contentColor = Color.Black
+            AnimatedVisibility(
+                visible = chrome && drag == 0f,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.align(Alignment.TopStart).statusBarsPadding()
             ) {
-                IconButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = "Close")
-                }
-            }
-
-            if (imageUrls.size > 1) {
-                Row(
+                Box(
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 26.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        .padding(14.dp)
+                        .size(42.dp)
+                        .clip(CircleShape)
+                        .background(Color.Black.copy(alpha = 0.5f))
+                        .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onDismiss)
+                        .semantics { this.contentDescription = "Close" },
+                    contentAlignment = Alignment.Center
+                ) { Icon(Icons.Filled.Close, null, tint = Color.White, modifier = Modifier.size(22.dp)) }
+            }
+            if (imageUrls.size > 1) {
+                AnimatedVisibility(
+                    visible = chrome && drag == 0f,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                    modifier = Modifier.align(Alignment.TopCenter).statusBarsPadding()
                 ) {
-                    if (pagerState.currentPage > 0) {
-                        Surface(
-                            onClick = {
-                                scope.launch {
-                                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                                }
-                            },
-                            shape = CircleShape,
-                            color = Color.White.copy(alpha = 0.88f),
-                            contentColor = Color.Black,
-                            modifier = Modifier.size(36.dp)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Previous Image",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                    }
-
-                    Surface(
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.88f),
-                        contentColor = Color.Black
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 18.dp)
+                            .clip(CircleShape)
+                            .background(Color.Black.copy(alpha = 0.5f))
                     ) {
                         Text(
-                            text = "${pagerState.currentPage + 1} / ${imageUrls.size}",
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
+                            text = "${pager.currentPage + 1} / ${imageUrls.size}",
+                            color = Color.White,
+                            fontWeight = FontWeight.SemiBold,
+                            style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp)
                         )
-                    }
-
-                    if (pagerState.currentPage < imageUrls.size - 1) {
-                        Surface(
-                            onClick = {
-                                scope.launch {
-                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                                }
-                            },
-                            shape = CircleShape,
-                            color = Color.White.copy(alpha = 0.88f),
-                            contentColor = Color.Black,
-                            modifier = Modifier.size(36.dp)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                    contentDescription = "Next Image",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
                     }
                 }
             }
@@ -216,6 +150,7 @@ fun ZoomableImageDialog(
 }
 
 fun resolveZoomableImageUrl(url: String): String {
+    if (url.startsWith("content://") || url.startsWith("file://")) return url
     val cleanUrl = if (url.startsWith("http://") || url.startsWith("https://")) {
         url
     } else {

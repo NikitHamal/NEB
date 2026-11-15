@@ -2,6 +2,10 @@
 
 package com.neb.ians.ui.screens.notes
 
+import androidx.compose.ui.text.AnnotatedString
+import com.neb.ians.ui.components.InlineImageTokens
+import com.neb.ians.ui.components.LiveColors
+import com.neb.ians.ui.components.LiveMarkdown
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.offset
@@ -447,29 +451,28 @@ private fun Modifier.androidBorder(strong: Boolean): Modifier {
 }
 
 private sealed interface PreviewLine {
-    data class Plain(val text: String) : PreviewLine
-    data class Check(val text: String, val done: Boolean) : PreviewLine
+    data class Plain(val text: AnnotatedString) : PreviewLine
+    data class Check(val text: AnnotatedString, val done: Boolean) : PreviewLine
 }
 
-private val previewHeading = Regex("^\\s{0,3}#{1,6}\\s+")
-private val previewBullet = Regex("^\\s*([-*+]|\\d+[.)])\\s+")
 private val previewCheck = Regex("^\\s*[-*+]\\s\\[([ xX])]\\s?(.*)$")
-private val previewMarks = Regex("(\\*\\*|__|~~|`|!\\[[^\\]]*]\\([^)]*\\))")
-private val previewLink = Regex("\\[([^\\]]+)]\\([^)]*\\)")
+private val previewRule = Regex("^\\s*(-{3,}|\\*{3,}|_{3,})\\s*$")
 
-private fun previewLines(body: String, max: Int): List<PreviewLine> {
+/** The first lines of a note as they will look: markers are hidden and their effect drawn, never shown as characters. */
+private fun previewLines(body: String, max: Int, colors: LiveColors): List<PreviewLine> {
     val out = ArrayList<PreviewLine>()
     var inCode = false
-    for (raw in body.lineSequence()) {
-        if (raw.trimStart().startsWith("```")) { inCode = !inCode; continue }
-        if (inCode || raw.isBlank()) continue
+    for (line in body.lineSequence()) {
+        if (line.trimStart().startsWith("```")) { inCode = !inCode; continue }
+        val raw = InlineImageTokens.plainText(line, "").replace(LiveMarkdown.ZWSP, "")
+        if (inCode || raw.isBlank() || previewRule.matches(raw)) continue
         val chk = previewCheck.find(raw)
         if (chk != null) {
-            out += PreviewLine.Check(chk.groupValues[2].replace(previewMarks, ""), chk.groupValues[1].lowercase() == "x")
+            val text = LiveMarkdown.transform(chk.groupValues[2].trim(), colors).styled
+            if (text.isNotEmpty()) out += PreviewLine.Check(text, chk.groupValues[1].lowercase() == "x")
         } else {
-            val t = raw.replaceFirst(previewHeading, "").replaceFirst(Regex("^\\s*>+\\s?"), "")
-                .replaceFirst(previewBullet, "").replace(previewLink, "$1").replace(previewMarks, "").trim()
-            if (t.isNotEmpty()) out += PreviewLine.Plain(t)
+            val text = LiveMarkdown.transform(raw.trim(), colors).styled
+            if (text.isNotEmpty()) out += PreviewLine.Plain(text)
         }
         if (out.size >= max) break
     }
@@ -501,7 +504,8 @@ private fun NoteCard(
     val c = MaterialTheme.colorScheme
     val tone = noteTone(note.tone)
     val shape = RoundedCornerShape(24.dp)
-    val lines = remember(note.body, compact) { previewLines(note.body, if (compact) 6 else 4) }
+    val live = LiveColors(tone.content.copy(alpha = 0.12f), tone.content, tone.content, tone.content.copy(alpha = 0.75f), tone.content.copy(alpha = 0.6f))
+    val lines = remember(note.body, compact, tone) { previewLines(note.body, if (compact) 6 else 4, live) }
     val (done, total) = remember(note.body) { NoteFormatting.checkProgress(note.body) }
     val border = when {
         selected -> BorderStroke(2.dp, c.primary)

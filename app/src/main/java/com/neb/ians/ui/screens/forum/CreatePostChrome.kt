@@ -5,6 +5,10 @@ package com.neb.ians.ui.screens.forum
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.remember
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -202,17 +206,7 @@ fun ComposerFormatRow(
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .background(scheme.surfaceContainerLow)
-                .padding(2.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
-        ) {
-            ModeButton(NebIcons.Pen, "Write", selected = !state.showPreview) { viewModel.togglePreview(false) }
-            ModeButton(NebIcons.Eye, "Preview", selected = state.showPreview) { viewModel.togglePreview(true) }
-        }
+        ModeSwitch(preview = state.showPreview, onChange = viewModel::togglePreview, modifier = Modifier.padding(start = 8.dp))
     }
 }
 
@@ -236,30 +230,59 @@ private fun FormatTool(@DrawableRes icon: Int, description: String, enabled: Boo
     }
 }
 
+/** Write / Preview: one thumb slides between the two; neither icon takes a press or ripple of its own. */
 @Composable
-private fun ModeButton(@DrawableRes icon: Int, description: String, selected: Boolean, onClick: () -> Unit) {
+private fun ModeSwitch(preview: Boolean, onChange: (Boolean) -> Unit, modifier: Modifier = Modifier) {
     val scheme = MaterialTheme.colorScheme
-    val fill by animateColorAsState(
-        targetValue = if (selected) scheme.surface else Color.Transparent,
-        animationSpec = nebEffectsSpec(),
-        label = "modeFill"
+    val slot = 38.dp
+    val thumb by androidx.compose.animation.core.animateDpAsState(
+        targetValue = if (preview) slot else 0.dp,
+        animationSpec = androidx.compose.animation.core.spring(dampingRatio = 0.8f, stiffness = 700f),
+        label = "modeThumb"
     )
     Box(
-        modifier = Modifier
-            .size(width = 38.dp, height = 32.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(fill)
-            .nebPressable(onClick = onClick)
-            .semantics {
-                role = Role.Button
-                contentDescription = description
-            },
-        contentAlignment = Alignment.Center
+        modifier = modifier
+            .clip(RoundedCornerShape(18.dp))
+            .background(scheme.surfaceContainerLow)
+            .padding(2.dp)
     ) {
-        NebIcon(icon, null, size = 18.dp, tint = if (selected) scheme.primary else scheme.onSurfaceVariant)
+        Box(
+            modifier = Modifier
+                .offset(x = thumb)
+                .size(width = slot, height = 32.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(scheme.surface)
+        )
+        Row {
+            ModeIcon(NebIcons.Pen, "Write", selected = !preview, slot = slot) { onChange(false) }
+            ModeIcon(NebIcons.Eye, "Preview", selected = preview, slot = slot) { onChange(true) }
+        }
     }
 }
 
+@Composable
+private fun ModeIcon(@DrawableRes icon: Int, description: String, selected: Boolean, slot: androidx.compose.ui.unit.Dp, onClick: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    val tint by animateColorAsState(
+        targetValue = if (selected) scheme.primary else scheme.onSurfaceVariant,
+        animationSpec = nebEffectsSpec(),
+        label = "modeTint"
+    )
+    Box(
+        modifier = Modifier
+            .size(width = slot, height = 32.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                role = Role.Tab,
+                onClick = { if (!selected) onClick() }
+            )
+            .semantics { contentDescription = description },
+        contentAlignment = Alignment.Center
+    ) {
+        NebIcon(icon, null, size = 18.dp, tint = tint)
+    }
+}
 /** Photos, video and audio, poll, book: the web footer, with the character count at its end. */
 @Composable
 fun ComposerFooter(

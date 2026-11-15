@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.forum
 
+import com.neb.ians.ui.components.inlineGallery
 import com.neb.ians.ui.components.NebToastHost
 import android.content.Intent
 import android.net.Uri
@@ -447,7 +448,7 @@ fun ForumPostDetailScreen(
                             onLinkClick = openLink,
                             children = children,
                             onRepliesBarClick = { activeThreadParentId = reply.id },
-                            onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
+                            onInlineImageClick = { url -> inlineGallery(url, reply.content).let { (list, at) -> zoomImageUrls = list; zoomImageIndex = at } }
                         )
                     }
 
@@ -635,7 +636,7 @@ fun ForumPostDetailScreen(
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = parent.authorName },
                             onLinkClick = openLink,
-                            onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
+                            onInlineImageClick = { url -> inlineGallery(url, parent.content).let { (list, at) -> zoomImageUrls = list; zoomImageIndex = at } }
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
@@ -694,7 +695,7 @@ fun ForumPostDetailScreen(
                                     onLinkClick = openLink,
                                     replyingToUsername = replyingTo,
                                     quotedContent = parentOfChild?.content,
-                                    onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
+                                    onInlineImageClick = { url -> inlineGallery(url, child.content).let { (list, at) -> zoomImageUrls = list; zoomImageIndex = at } }
                                 )
                             }
                         }
@@ -920,7 +921,7 @@ private fun PostContentSection(
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
             onLinkClick = onLinkClick,
-            onInlineImageClick = { url -> onImageClick(listOf(url), 0) }
+            onInlineImageClick = { url -> inlineGallery(url, post.content, post.images.sortedBy { it.order }.mapNotNull { resolveMediaUrl(it.imageUrl) }).let { (list, at) -> onImageClick(list, at) } }
         )
 
         // ----- Attached images: horizontal carousel (swipe), tap opens fullscreen -----
