@@ -92,3 +92,5 @@ The field still held raw Markdown and a visual transformation hid the markers. E
 - Web composer parity (the web editor has its own pipeline in `backend_python/web`); the viewer and no-upload-on-pick rules are Android only for now.
 - On-device pass: chip drag with a long press, caret placement after Enter on an empty list line, Gboard autocorrect on a bold word.
 - Comment bar has no inline pictures yet (pictures there are attachments).
+
+CI session 3: `cd67248` failed on one missing icon import (`KeyboardArrowDown`, fixed); `f9eb094` showed the same single error; `f0bccd4` is green, the Android release build (modern APK and AAB) compiles. Nothing was run on a device.
