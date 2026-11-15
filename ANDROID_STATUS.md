@@ -260,3 +260,20 @@ CI: `abb8165` (cover area fix plus press pass) is green; the Android release bui
 | 71 | **Drag follows the drop caret**: while a picture is dragged in a post, reply or comment field, the page scrolls so the drop caret (with 56dp of room above and below) stays visible (`BringIntoViewRequester`), closing the session 9 note about no auto-scroll. Web: inline pictures in the writing surface use a negative block margin so a picture never raises its line (`12-inline-images.css`, bundled into `app.css`). | `RichTextField.kt`, `css/app/12-inline-images.css` |
 
 Session 10 audit (nothing redone): sessions 9 items 58 to 70 were re-checked against the request. Crash: no nested same-axis scroller is left (script over every `horizontalScroll` caller, `ImageTools` fixed in 58, no scroller inside a `LazyRow` item). CI for `abb8165` is green.
+
+---
+
+# Session 11: audit of sessions 9 and 10, global press shape
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. The request came again (drop caret, line spacing, caret height, tile gaps, press shape, note contrast, notes list, covers, nav bar, crash, crash screen). Everything was audited against the code first; items 58 to 71 stand and nothing was redone.
+
+| # | What | Where |
+| --- | --- | --- |
+| 72 | **Press shape, global**. The audit by script (clip within 9 lines before each `clickable`) only covers `clickable`. 19 more sites (`combinedClickable` on avatars, `tactileClickable`, full-width menu rows) can not all be clipped by hand, so the app now provides `NebIndication` as `LocalIndication` inside `NEBiansTheme`: a state layer in the content colour (press 12%, focus 10%, hover 8%) drawn inside a rounded shape, a circle on small square controls and 16dp elsewhere, one animated alpha read in the draw phase. A clipped control with a larger radius keeps its radius (the clip wins). Explicit `ripple(bounded = true)` sites were already clipped (audited). | `ui/theme/NebIndication.kt`, `Theme.kt` |
+| 73 | **Note body line height** 26sp to 24sp (1.5 times the text, close to Meta); a line holding a picture still grows alone. | `NoteBlockEditor.kt` |
+| 74 | Rule in `docs/M3X_DESIGN_SYSTEM.md` 13.1 and `AGENTS.md` 7b: do not remove or bypass `NebIndication`. | docs |
+
+Crash re-check: every `horizontalScroll` / `LazyRow` caller was read for a scroller below a horizontal scroller. `ImageTools` (item 58) was the one; none left. Comment composer has no inline pictures (attachments), so the caret height fix applies to post, reply and note fields.
+
+## Not done / next
+- On-device pass for `NebIndication` on dark note tones (content colour on tone) and on the glass bottom bar.

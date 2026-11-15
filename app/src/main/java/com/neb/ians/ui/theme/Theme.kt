@@ -160,6 +160,12 @@ fun NEBiansTheme(
         motionScheme = MotionScheme.expressive(),
         typography = NEBiansTypography,
         shapes = NEBiansShapes,
-        content = content
+        content = {
+            // press feedback that always keeps a rounded shape (see NebIndication)
+            androidx.compose.runtime.CompositionLocalProvider(
+                androidx.compose.foundation.LocalIndication provides NebIndication,
+                content = content
+            )
+        }
     )
 }
