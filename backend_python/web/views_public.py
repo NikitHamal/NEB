@@ -739,7 +739,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
 def past_papers(request):
     return library(
         request,
-        seo_title="NEB Past Papers (Class 11 & 12) PDF Download — NEBians",
+        seo_title="NEB Past Papers (Class 11 and 12) PDF Download | NEBians",
         seo_description="Download free NEB Class 11 and Class 12 previous years board exam question papers in PDF. Science, Management, Humanities, and Law past papers.",
         page_h1="NEB Past Papers (Class 11 & 12)",
         canonical_url="https://nebians.consica.com.np/app/past-papers/",
@@ -749,7 +749,7 @@ def past_papers(request):
 def model_questions(request):
     return library(
         request,
-        seo_title="NEB Model Questions (Class 11 & 12) with Solutions PDF — NEBians",
+        seo_title="NEB Model Questions (Class 11 and 12) with Solutions PDF | NEBians",
         seo_description="Download official NEB model questions with answers and blueprints for Class 11 and Class 12 exams. Practice latest syllabus question sets.",
         page_h1="NEB Model Questions & Solutions",
         canonical_url="https://nebians.consica.com.np/app/model-questions/",

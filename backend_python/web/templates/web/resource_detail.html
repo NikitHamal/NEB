@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}{{ resource.title|default:"Resource" }} — {{ resource.subject|default:"Study" }} {{ resource.grade_level|default:"" }} {{ resource.type|default:"Resource" }} | NEBians{% endblock %}
-{% block description %}{{ resource.description|strip_inline|truncatechars:140|default:"Free study resource on NEBians" }} — {{ resource.subject }} {{ resource.grade_level }} {{ resource.type }}. Free Nepal online study: NEB past papers, model questions & notes.{% endblock %}
+{% block title %}{{ resource.title|default:"Resource" }} | {{ resource.subject|default:"Study" }} {{ resource.grade_level|default:"" }} {{ resource.type|default:"Resource" }} Notes and Papers | NEBians{% endblock %}
+{% block description %}{{ resource.description|strip_inline|truncatechars:140|default:"Free study resource on NEBians" }}. {{ resource.subject }} {{ resource.grade_level }} {{ resource.type }}. Free Nepal online study: NEB past papers, model questions and notes.{% endblock %}
 {% block keywords %}NEBians, {{ resource.subject }}, {{ resource.tags|default:"" }}, {{ resource.type }}, {{ resource.grade_level }}, NEB past papers, NEB model questions, Nepal online study{% endblock %}
 {% block og_title %}{{ resource.title|default:"Resource" }} - NEBians{% endblock %}
 {% block og_description %}{{ resource.description|strip_inline|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
@@ -30,6 +30,8 @@
   "teaches": "{{ resource.subject|default:''|escapejs }}",
   "keywords": "{{ resource.tags|default:resource.subject|escapejs }}, NEB past papers, NEB model questions, Nepal online study",
   "provider": {"@type": "Organization", "name": "NEBians", "url": "https://nebians.consica.com.np/"},
+  "isPartOf": {"@type": "CollectionPage", "name": "NEB Past Papers, Model Questions and Notes", "url": "https://nebians.consica.com.np/app/past-papers/"},
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "NPR", "availability": "https://schema.org/InStock"},
   "isAccessibleForFree": true,
   "inLanguage": "en-NP"
 }
@@ -78,7 +80,7 @@
       <div class="rd-paid-head">
         <span class="material-symbols-outlined rd-paid-lock-icon">lock</span>
         <div>
-          <h3 class="rd-paid-title">Paid content — Rs. {{ resource.price|floatformat:"0" }}</h3>
+          <h3 class="rd-paid-title">Paid content, Rs. {{ resource.price|floatformat:"0" }}</h3>
           <p class="rd-paid-sub">
             This is a premium resource uploaded by {{ resource.uploadedByName|default:"the instructor" }}. Pay via QR code below to gain full access.
           </p>
