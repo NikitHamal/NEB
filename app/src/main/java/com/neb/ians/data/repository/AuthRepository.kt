@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.neb.ians.data.api.ApiErrorMapper
@@ -127,7 +128,9 @@ class AuthRepository @Inject constructor(
 
     val currentUserNameFlow: StateFlow<String> = dataStore.data.map { firstName(it) }
         .stateIn(ioScope, SharingStarted.Eagerly,
-            try { runBlocking(Dispatchers.IO) { firstName(dataStore.data.first()) } }
+            // Read while MainActivity is injected, on the main thread: capped, so a slow first read of the
+            // preferences file can never hold the launch (the flow above corrects the name when it lands).
+            try { runBlocking(Dispatchers.IO) { withTimeoutOrNull(120) { firstName(dataStore.data.first()) } } ?: "Student" }
             catch (_: Exception) { "Student" })
     val currentUsernameHandleFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
