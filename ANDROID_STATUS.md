@@ -293,3 +293,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Not done / next
 - On-device pass: drag a picture near the field's bottom edge while the page scrolls; caret on a picture line after the keyboard opens.
+
+CI session 12: `8fc2292` (guarded scroller, drag caret, picture line) is green; the Android release build compiles.
