@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -69,6 +70,9 @@ fun RichTextField(
     maxLines: Int = Int.MAX_VALUE,
     chipDp: Float = 38f,
     onImageClick: (Int) -> Unit = {},
+    onChange: ((androidx.compose.ui.text.input.TextFieldValue) -> Unit)? = null,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
+    readOnly: Boolean = false,
     decorationBox: (@Composable (inner: @Composable () -> Unit) -> Unit)? = null
 ) {
     val scheme = MaterialTheme.colorScheme
@@ -110,14 +114,15 @@ fun RichTextField(
     Box(modifier = modifier, propagateMinConstraints = true) {
         BasicTextField(
             value = value,
-            onValueChange = state::onChange,
+            onValueChange = onChange ?: state::onChange,
             enabled = enabled,
-            textStyle = style.copy(color = scheme.onSurface),
+            readOnly = readOnly,
+            textStyle = style.copy(color = if (style.color.isSpecified) style.color else scheme.onSurface),
             cursorBrush = SolidColor(scheme.primary),
             minLines = minLines,
             maxLines = maxLines,
             visualTransformation = built.transformation,
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+            keyboardOptions = KeyboardOptions(capitalization = keyboardCapitalization),
             onTextLayout = { layout = it },
             modifier = Modifier
                 .fillMaxWidth()
