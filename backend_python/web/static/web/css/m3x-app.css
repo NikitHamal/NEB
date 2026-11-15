@@ -1065,6 +1065,13 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
   .fc-field[data-autoheight], .fc-preview, .fc-loading i, .fc-host.is-open .fc-end .fc-modebtn, .fc-host.is-open .fc-end .fc-growbtn { transition: none; animation: none; }
 }
 
+/* Folding the formatting bar of the full composer: the tools slide shut, the chevron becomes the Aa button. */
+.fc-foldbtn { flex: 0 0 auto; }
+.fc-tools { transition: max-width .35s var(--spring), opacity .2s ease; max-width: 100%; }
+.fc.is-folded .fc-tools { max-width: 0; opacity: 0; pointer-events: none; overflow: hidden; flex: 0 1 0; padding: 0; }
+.fc.is-folded .fc-foldbtn { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+@media (prefers-reduced-motion: reduce) { .fc-tools { transition: none; } }
+
 /* ---- m3x/app-select.css ---- */
 /* NebSelect (js/neb-select.js): the field a <select> is drawn as, and its menu. */
 select.neb-sel-native {
