@@ -23,5 +23,15 @@
   {"name": "St. Xavier's School, Jawalakhel", "kind": "school", "website": "https://sxs.edu.np", "district": "Lalitpur", "place": "Jawalakhel", "est": "1951", "lat": 27.6733, "lon": 85.3143},
   {"name": "Council for Technical Education and Vocational Training", "kind": "institute", "website": "https://ctevt.org.np", "district": "Bhaktapur", "place": "Sanothimi", "est": "1989"},
   {"name": "Nepal Academy of Science and Technology", "kind": "institute", "website": "https://nast.gov.np", "district": "Lalitpur", "place": "Khumaltar", "est": "1982"},
-  {"name": "National Examinations Board", "kind": "institute", "website": "https://neb.gov.np", "district": "Bhaktapur", "place": "Sanothimi", "est": "2016"}
+  {"name": "National Examinations Board", "kind": "institute", "website": "https://neb.gov.np", "district": "Bhaktapur", "place": "Sanothimi", "est": "2016"},
+  {"name": "National Academy of Medical Sciences", "kind": "university", "website": "https://nams.org.np", "district": "Kathmandu", "place": "Mahaboudha", "est": "2002"},
+  {"name": "Karnali Academy of Health Sciences", "kind": "university", "website": "https://kahs.edu.np", "district": "Jumla", "place": "Chandannath", "est": "2011"},
+  {"name": "Rapti Academy of Health Sciences", "kind": "university", "website": "https://rahs.edu.np", "district": "Dang", "place": "Ghorahi", "est": "2017"},
+  {"name": "Madan Bhandari Academy of Health Sciences", "kind": "university", "website": "https://mbahs.edu.np", "district": "Makwanpur", "place": "Hetauda", "est": "2018"},
+  {"name": "Madhesh Institute of Health Sciences", "kind": "university", "website": "https://mihs.edu.np", "district": "Dhanusha", "place": "Janakpur", "est": "2021"},
+  {"name": "Manmohan Technical University", "kind": "university", "website": "https://mtu.edu.np", "district": "Morang", "place": "Budhiganga", "est": "2019"},
+  {"name": "Lumbini Technological University", "kind": "university", "website": "https://ltu.edu.np", "district": "Banke", "place": "Nepalgunj", "est": "2022"},
+  {"name": "Madhesh Agricultural University", "kind": "university", "website": "https://mau.edu.np", "district": "Saptari", "place": "Rajbiraj", "est": "2021"},
+  {"name": "Nepal Mountain Academy", "kind": "institute", "website": "https://nma.gov.np", "district": "Kathmandu", "place": "Thapagaun", "est": "2002"},
+  {"name": "Tilganga Institute of Ophthalmology", "kind": "institute", "website": "https://tilganga.org", "district": "Kathmandu", "place": "Gaushala", "est": "1994"}
 ]

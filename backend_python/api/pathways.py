@@ -23,9 +23,13 @@ def payload():
     a, b, c = _load('routes_a.json'), _load('routes_b.json'), _load('routes_c.json')
     places, extra = _load('places.json'), _load('extra_places.json')
     wave3, wave4, wave4_places = _load('wave3.json'), _load('wave4.json'), _load('wave4_places.json')
-    routes = a['routes'] + b['routes'] + c['routes'] + _load('routes_d.json')['routes'] + wave3['routes'] + wave4['routes']
+    wave5, wave5_places = _load('wave5.json'), _load('wave5_places.json')
+    routes = (
+        a['routes'] + b['routes'] + c['routes'] + _load('routes_d.json')['routes']
+        + wave3['routes'] + wave4['routes'] + wave5['routes']
+    )
     by_id = {r['id']: r for r in routes}
-    for src in (extra, wave3, wave4, wave4_places):
+    for src in (extra, wave3, wave4, wave4_places, wave5, wave5_places):
         for rid, more in src.get('where_add', {}).items():
             by_id[rid]['where'] = list(by_id[rid].get('where') or []) + more
         for rid, more in src.get('careers_add', {}).items():
@@ -35,17 +39,27 @@ def payload():
     for r in routes:
         for k in ('where', 'careers', 'next'):
             r[k] = list(dict.fromkeys(r.get(k) or []))
-    abroad = places['abroad'] + extra['abroad'] + wave3['abroad'] + wave4_places['abroad']
+    abroad = places['abroad'] + extra['abroad'] + wave3['abroad'] + wave4_places['abroad'] + wave5_places['abroad']
     abroad_by_id = {x['id']: x for x in abroad}
-    for aid, more in wave4_places.get('abroad_scholarships_add', {}).items():
-        abroad_by_id[aid]['scholarships'] = list(dict.fromkeys(list(abroad_by_id[aid].get('scholarships') or []) + more))
+    for src in (wave4_places, wave5_places):
+        for aid, more in src.get('abroad_scholarships_add', {}).items():
+            abroad_by_id[aid]['scholarships'] = list(dict.fromkeys(list(abroad_by_id[aid].get('scholarships') or []) + more))
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
         'routes': routes,
-        'careers': _load('careers.json')['careers'] + _load('extra_careers.json')['careers'] + wave3['careers'] + wave4['careers'],
-        'providers': places['providers'] + extra['providers'] + wave3['providers'] + wave4_places['providers'],
-        'scholarships': places['scholarships'] + extra['scholarships'] + wave3['scholarships'] + wave4_places['scholarships'],
+        'careers': (
+            _load('careers.json')['careers'] + _load('extra_careers.json')['careers']
+            + wave3['careers'] + wave4['careers'] + wave5['careers']
+        ),
+        'providers': (
+            places['providers'] + extra['providers'] + wave3['providers']
+            + wave4_places['providers'] + wave5_places['providers']
+        ),
+        'scholarships': (
+            places['scholarships'] + extra['scholarships'] + wave3['scholarships']
+            + wave4_places['scholarships'] + wave5_places['scholarships']
+        ),
         'abroad': abroad,
         'topics': _load('faq.json')['topics'],
         'faq': _load('faq.json')['faq'],
