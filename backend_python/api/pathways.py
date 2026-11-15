@@ -37,6 +37,8 @@ def payload():
         'providers': places['providers'] + extra['providers'],
         'scholarships': places['scholarships'] + extra['scholarships'],
         'abroad': places['abroad'] + extra['abroad'],
+        'topics': _load('faq.json')['topics'],
+        'faq': _load('faq.json')['faq'],
     }
     body = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     data['etag'] = hashlib.md5(body.encode('utf-8')).hexdigest()[:16]
@@ -64,6 +66,17 @@ def problems(data=None):
                     out.append(f"{r['id']}.{key}: {ref}")
         if len(r['fee']) != 2 or r['fee'][0] > r['fee'][1]:
             out.append(f"{r['id']}: fee")
+    topics = {t['id'] for t in d.get('topics', [])}
+    seen_faq = set()
+    for f in d.get('faq', []):
+        if f['id'] in seen_faq:
+            out.append(f"duplicate faq: {f['id']}")
+        seen_faq.add(f['id'])
+        if f['topic'] not in topics:
+            out.append(f"{f['id']}: topic {f['topic']}")
+        for ref in f.get('go', []):
+            if ref not in ids['routes']:
+                out.append(f"{f['id']}.go: {ref}")
     for a in d['abroad']:
         for ref in a.get('scholarships', []):
             if ref not in ids['scholarships']:

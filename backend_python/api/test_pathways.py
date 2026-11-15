@@ -32,3 +32,15 @@ class PathwaysDataTests(TestCase):
         import json
         text = json.dumps(pathways.payload(), ensure_ascii=False)
         self.assertFalse([ch for ch in text if ord(ch) > 0x2fff])
+
+    def test_faq_is_complete_and_clean(self):
+        d = pathways.payload()
+        self.assertGreaterEqual(len(d['faq']), 15)
+        topics = {t['id'] for t in d['topics']}
+        for f in d['faq']:
+            self.assertIn(f['topic'], topics, f['id'])
+            self.assertTrue(f['q'].endswith('?'), f['id'])
+            self.assertNotIn('\u2014', f['a'])
+            self.assertNotIn('\u2013', f['a'])
+            self.assertNotIn('--', f['a'])
+        self.assertEqual(pathways.problems(), [])
