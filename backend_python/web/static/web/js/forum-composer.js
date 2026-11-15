@@ -211,6 +211,30 @@
       kindMenu = wrap.querySelector('.fc-kindmenu');
     }
 
+    /* The full composer (no compact row) folds its formatting bar for a clean page; the choice is kept. */
+    if (!compact) {
+      var foldKey = 'neb.fc.fold';
+      var foldBtn = document.createElement('button');
+      foldBtn.type = 'button';
+      foldBtn.className = 'fc-iconbtn fc-foldbtn';
+      var bar = root.querySelector('.fc-bar');
+      bar.insertBefore(foldBtn, bar.firstChild);
+      var setFold = function (folded, save) {
+        root.classList.toggle('is-folded', folded);
+        foldBtn.innerHTML = icon(folded ? 'text_format' : 'chevron_left');
+        var fl = folded ? 'Show formatting' : 'Hide formatting';
+        foldBtn.setAttribute('aria-label', fl);
+        foldBtn.setAttribute('aria-expanded', String(!folded));
+        foldBtn.title = fl;
+        if (save) { try { localStorage.setItem(foldKey, folded ? '1' : '0'); } catch (e) {} }
+        setTimeout(function () { if (typeof edges === 'function') edges(); }, 330);
+      };
+      var saved = false;
+      try { saved = localStorage.getItem(foldKey) === '1'; } catch (e) {}
+      setFold(saved, false);
+      foldBtn.addEventListener('click', function () { setFold(!root.classList.contains('is-folded'), true); });
+    }
+
     var toolsEl = root.querySelector('.fc-tools');
     function edges() {
       toolsEl.classList.toggle('can-right', toolsEl.scrollLeft + toolsEl.clientWidth < toolsEl.scrollWidth - 2);
