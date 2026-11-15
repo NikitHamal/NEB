@@ -65,6 +65,23 @@ class PathwaysDataTests(TestCase):
         self.assertGreaterEqual(len({p['district'] for p in d['providers']}), 24)
         self.assertGreaterEqual(len(d['faq']), 30)
 
+    def test_wave5_is_merged_and_all_77_districts_covered(self):
+        from api.models import NEPAL_DISTRICTS
+        d = pathways.payload()
+        for key, rid in (
+            ('routes', 'pcl-cmlt'), ('routes', 'pcl-radiography'), ('routes', 'pcl-ophthalmic'),
+            ('routes', 'bmath-actuarial'), ('routes', 'baslp'), ('routes', 'bmid'),
+            ('routes', 'bicte'), ('routes', 'mds-data-science'), ('routes', 'public-enterprise-route'),
+            ('careers', 'actuary-risk-analyst'), ('careers', 'speech-audiologist'), ('careers', 'economist-policy'),
+            ('providers', 'p-sms-tu'), ('providers', 'p-sohs-ctevt'), ('providers', 'p-mbahs'), ('providers', 'p-rahs'),
+            ('scholarships', 's-compex'), ('scholarships', 's-sjss'), ('scholarships', 's-ayush'),
+            ('abroad', 'dk'), ('abroad', 'at'), ('abroad', 'pl'), ('abroad', 'es'),
+        ):
+            self.assertIn(rid, {x['id'] for x in d[key]}, rid)
+        self.assertEqual({p['district'] for p in d['providers']}, set(NEPAL_DISTRICTS))
+        self.assertGreaterEqual(len(d['routes']), 120)
+        self.assertGreaterEqual(len(d['faq']), 40)
+
     def test_dynamic_posts_lab_loads_data_before_lab(self):
         r = self.client.get('/app/lab/dynamic-posts/')
         self.assertEqual(r.status_code, 200)
