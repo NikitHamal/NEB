@@ -30,11 +30,15 @@ data class PwCareer(
     val id: String, val name: String, val about: String, val demand: Int, val competition: Int, val trend: String,
     val abroad: Int, val entryMin: Long, val entryMax: Long, val seniorMin: Long, val seniorMax: Long,
 )
-data class PwProvider(val id: String, val name: String, val kind: String, val sector: String, val district: String, val place: String, val note: String)
-data class PwScholarship(val id: String, val name: String, val scope: String, val levels: List<String>, val by: String, val covers: String, val who: String, val how: String)
+data class PwProvider(val id: String, val name: String, val kind: String, val sector: String, val district: String, val place: String, val note: String, val website: String = "")
+data class PwScholarship(val id: String, val name: String, val scope: String, val levels: List<String>, val by: String, val covers: String, val who: String, val how: String, val link: String = "")
 data class PwAbroad(
     val id: String, val country: String, val tuitionMin: Long, val tuitionMax: Long, val livingMin: Long, val livingMax: Long,
-    val exams: List<String>, val intakes: String, val fields: List<String>, val work: String, val note: String,
+    val exams: List<String>, val intakes: String, val fields: List<String>, val work: String, val note: String, val scholarships: List<String> = emptyList(),
+)
+data class PwGovt(
+    val id: String, val track: String, val name: String, val level: String, val need: String, val age: String, val body: String,
+    val stages: List<Pair<String, String>>, val subjects: List<String>, val prep: List<String>, val note: String,
 )
 data class PwTopic(val id: String, val label: String)
 data class PwFaq(val id: String, val topic: String, val q: String, val a: String, val go: List<String>)
@@ -42,6 +46,7 @@ data class PwData(
     val reviewed: String, val stages: List<PwStage>, val routes: List<PwRoute>, val careers: Map<String, PwCareer>,
     val providers: Map<String, PwProvider>, val scholarships: List<PwScholarship>, val abroad: List<PwAbroad>,
     val topics: List<PwTopic> = emptyList(), val faq: List<PwFaq> = emptyList(),
+    val govtTracks: List<PwTopic> = emptyList(), val govt: List<PwGovt> = emptyList(),
 ) { val routeById: Map<String, PwRoute> by lazy { routes.associateBy { it.id } } }
 
 private fun JSONArray?.strings(): List<String> = if (this == null) emptyList() else List(length()) { optString(it) }
@@ -66,17 +71,23 @@ internal fun parsePathways(text: String): PwData {
                 it.optInt("abroad"), e.getLong(0), e.getLong(1), sr.getLong(0), sr.getLong(1))
         }.associateBy { it.id },
         providers = o.getJSONArray("providers").mapObjs {
-            PwProvider(it.getString("id"), it.getString("name"), it.optString("kind"), it.optString("sector"), it.optString("district"), it.optString("place"), it.optString("note"))
+            PwProvider(it.getString("id"), it.getString("name"), it.optString("kind"), it.optString("sector"), it.optString("district"), it.optString("place"), it.optString("note"), it.optString("website"))
         }.associateBy { it.id },
         scholarships = o.getJSONArray("scholarships").mapObjs {
-            PwScholarship(it.getString("id"), it.getString("name"), it.optString("scope"), it.optJSONArray("levels").strings(), it.optString("by"), it.optString("covers"), it.optString("who"), it.optString("how"))
+            PwScholarship(it.getString("id"), it.getString("name"), it.optString("scope"), it.optJSONArray("levels").strings(), it.optString("by"), it.optString("covers"), it.optString("who"), it.optString("how"), it.optString("link"))
         },
         abroad = o.getJSONArray("abroad").mapObjs {
             val t = it.getJSONArray("tuition"); val l = it.getJSONArray("living")
             PwAbroad(it.getString("id"), it.getString("country"), t.getLong(0), t.getLong(1), l.getLong(0), l.getLong(1),
-                it.optJSONArray("exams").strings(), it.optString("intakes"), it.optJSONArray("fields").strings(), it.optString("work"), it.optString("note"))
+                it.optJSONArray("exams").strings(), it.optString("intakes"), it.optJSONArray("fields").strings(), it.optString("work"), it.optString("note"), it.optJSONArray("scholarships").strings())
         },
         topics = o.optJSONArray("topics")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
+        govtTracks = o.optJSONArray("govt_tracks")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
+        govt = o.optJSONArray("govt")?.mapObjs { g ->
+            PwGovt(g.getString("id"), g.optString("track"), g.optString("name"), g.optString("level"), g.optString("need"), g.optString("age"), g.optString("body"),
+                g.optJSONArray("stages")?.let { arr -> List(arr.length()) { i -> arr.getJSONArray(i).let { Pair(it.optString(0), it.optString(1)) } } } ?: emptyList(),
+                g.optJSONArray("subjects").strings(), g.optJSONArray("prep").strings(), g.optString("note"))
+        } ?: emptyList(),
         faq = o.optJSONArray("faq")?.mapObjs { PwFaq(it.getString("id"), it.optString("topic"), it.optString("q"), it.optString("a"), it.optJSONArray("go").strings()) } ?: emptyList(),
     )
 }
@@ -89,6 +100,7 @@ data class PathwaysUiState(
     val failed: Boolean = false,
     val district: String = "",
     val live: List<PwPlace> = emptyList(),
+    val saved: Set<String> = emptySet(),
 )
 
 @HiltViewModel
@@ -99,7 +111,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     private val prefs get() = context.getSharedPreferences("pathways", Context.MODE_PRIVATE)
 
     init {
-        _state.update { it.copy(district = prefs.getString("district", "") ?: "") }
+        _state.update { it.copy(district = prefs.getString("district", "") ?: "", saved = prefs.getStringSet("saved", emptySet()).orEmpty().toSet()) }
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
             val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText()) }.getOrNull() }
@@ -127,6 +139,12 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
             prefs.edit().putString("etag", conn.getHeaderField("ETag")).apply()
             parsed
         } finally { conn.disconnect() }
+    }
+
+    fun toggleSaved(key: String) {
+        val next = _state.value.saved.let { if (key in it) it - key else it + key }
+        prefs.edit().putStringSet("saved", next).apply()
+        _state.update { it.copy(saved = next) }
     }
 
     fun setDistrict(district: String, kind: String) {

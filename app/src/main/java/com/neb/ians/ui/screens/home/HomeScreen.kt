@@ -187,7 +187,6 @@ fun HomeScreen(
                             bottom = 24.dp
                         )
                     ) {
-                        item(key = "pathways_entry") { PathwaysEntry(onClick = onPathwaysClick) }
                         if (siteTheme.festive && siteTheme.cardOpen) {
                             item(key = "season_card") {
                                 com.neb.ians.ui.theme.SeasonCard(
