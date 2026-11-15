@@ -16,7 +16,13 @@ import androidx.compose.ui.text.input.TextFieldValue
  * (typing, deleting, pasting, autocorrect); the toolbar calls the toggle functions. Markdown is made only by [markdown].
  */
 @Stable
-class RichState(private val maxChars: Int = Int.MAX_VALUE) {
+class RichState(
+    private val maxChars: Int = Int.MAX_VALUE,
+    /** One block of a note: line marks (lists, headings) belong to the block type, so none are made or read here. */
+    private val blockMode: Boolean = false,
+    /** Text with no formatting at all (a code block): the Markdown is the text itself. */
+    private val raw: Boolean = false
+) {
     var value by mutableStateOf(TextFieldValue(""))
         private set
     var doc by mutableStateOf(RichDoc.Empty)
@@ -46,7 +52,7 @@ class RichState(private val maxChars: Int = Int.MAX_VALUE) {
 
     /** Load Markdown from outside (a draft, an edit, a mention picked); [caret] is an offset in [md]. */
     fun setMarkdown(md: String, caret: Int = md.length) {
-        val (d, at) = RichMarkdown.parseWithCaret(md, caret)
+        val (d, at) = if (raw) RichMarkdown.plainDoc(md) to caret.coerceIn(0, md.length) else RichMarkdown.parseWithCaret(md, caret, blockMode)
         doc = d
         value = TextFieldValue(d.text, TextRange(at))
         armed = -1
@@ -65,6 +71,11 @@ class RichState(private val maxChars: Int = Int.MAX_VALUE) {
     }
 
     private fun publish() {
+        if (raw) {
+            lastMarkdown = doc.text
+            lastCaret = value.selection.end.coerceIn(0, doc.text.length)
+            return
+        }
         val (md, c) = RichMarkdown.writeWithCaret(doc, value.selection.end.coerceIn(0, doc.text.length))
         lastMarkdown = md
         lastCaret = c
@@ -102,7 +113,9 @@ class RichState(private val maxChars: Int = Int.MAX_VALUE) {
         val ins = n.substring(p, nEnd).replace(IMG.toString(), "")
         val d = doc
 
-        if (oEnd == p) {
+        if (blockMode || raw) {
+            // no line marks to make or unmake
+        } else if (oEnd == p) {
             if (ins == "\n") {
                 // Enter on an empty list item ends the list
                 val li = d.lineOf(p)
@@ -135,7 +148,7 @@ class RichState(private val maxChars: Int = Int.MAX_VALUE) {
             }
         }
 
-        val mask = when {
+        val mask = if (raw) 0 else when {
             oEnd > p -> if (o[p] != '\n' && o[p] != IMG) d.masks[p] else d.inheritedMask(p)
             armed >= 0 && p == armedAt -> armed
             else -> d.inheritedMask(p)
@@ -145,6 +158,13 @@ class RichState(private val maxChars: Int = Int.MAX_VALUE) {
         armed = -1
         val sameAsKeyboard = next.text == n
         commit(next, if (sameAsKeyboard) nv else TextFieldValue(next.text, TextRange((p + ins.length).coerceIn(0, next.text.length))))
+    }
+
+    /** Apply an edit without telling the host (used when the host is about to rewrite the text itself). */
+    fun onChangeQuiet(nv: TextFieldValue) {
+        val cb = onEdited
+        onEdited = null
+        try { onChange(nv) } finally { onEdited = cb }
     }
 
     private fun shortcut(prefix: String): Int = when {

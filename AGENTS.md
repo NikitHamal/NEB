@@ -46,7 +46,7 @@ and sheets and a comment bar the web does not have, because none of this was wri
 8. **Badges are the web's glyphs.** `NebBadge` draws `ic_sym_*` (Material Symbols, filled) by the `authorBadgeInfo.icon` name in the web's `--bd-ink` colours, no disc. Reply chips and the Solved chip take the web `--fl-*` tones (`ReplyTones`). Marked replies rank first (`replyRank`).
 9. **Glass** (`liquidGlass`, `glassSource`): blur needs Android 12 and a non low-end device (`rememberGlassBackdrop().enabled`); otherwise a solid tint.
 10. **About** (`ui/screens/about/AboutScreen.kt`) mirrors `web/about_data.py` word for word. Edit the team in both places.
-11. **Composers are no-code and never leak a marker.** Posts, comments and note blocks hold Markdown but the writer only sees the result (`LiveMarkdown`). Every editable field passes `onValueChange` through `LiveReconcile.apply(old, new)` so each stored text is valid Markdown (spaces leave the markers, Enter closes and reopens a style per line, Backspace never eats half a hidden marker). Read `ANDROID_STATUS.md` (session 2) before changing `LiveMarkdown.kt`, `LiveReconcile.kt` or `LiveRebuild.kt`.
+11. **Composers are no-code and never leak a marker.** Posts, replies and note blocks edit a `RichState` (`ui/components/RichState.kt`): plain text the keyboard owns, formatting kept beside it per character and per line. Markdown is read by `RichMarkdown.parse` and written by `RichMarkdown.write` at the edges only. Never write a marker into the field and never rewrite the keyboard's text to fix a style. Pictures in text are slots in the text with local `Uri`s and upload when the post is published, not when picked. See `ANDROID_STATUS.md` session 3.
 
 ## Push, autopilot and library reach
 

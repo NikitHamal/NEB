@@ -1,5 +1,6 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -87,7 +88,7 @@ fun NebIdentityPicker(
                 )
             }
             androidx.compose.material3.Icon(
-                imageVector = androidx.compose.material.icons.Icons.Rounded.KeyboardArrowDown,
+                imageVector = androidx.compose.material.icons.Icons.Filled.KeyboardArrowDown,
                 contentDescription = "Choose identity",
                 tint = scheme.onSurface,
                 modifier = Modifier.size(22.dp)

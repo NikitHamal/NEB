@@ -41,8 +41,14 @@ object RichMarkdown {
 
     fun parse(markdown: String): RichDoc = parseWithCaret(markdown, 0).first
 
+    /** Plain text with no formatting at all (code blocks): one kind-less line per newline. */
+    fun plainDoc(text: String): RichDoc {
+        val lines = text.count { it == '\n' } + 1
+        return RichDoc(text, IntArray(text.length), IntArray(text.length), emptyList(), IntArray(lines), emptyList())
+    }
+
     /** The document and where Markdown offset [caret] lands in its plain text. */
-    fun parseWithCaret(markdown: String, caret: Int): Pair<RichDoc, Int> {
+    fun parseWithCaret(markdown: String, caret: Int, blocks: Boolean = false): Pair<RichDoc, Int> {
         val src = markdown.replace("\r\n", "\n").replace("\r", "\n").replace(ZWSP.toString(), "")
         if (src.isEmpty()) return RichDoc.Empty to 0
         val b = Builder()
@@ -55,7 +61,7 @@ object RichMarkdown {
         for (line in src.split('\n')) {
             val lineBase = base
             base += line.length + 1
-            if (line.startsWith("```")) { inFence = !inFence; continue }
+            if (!blocks && line.startsWith("```")) { inFence = !inFence; continue }
             if (emitted) b.add('\n', 0, 0)
             emitted = true
             map[lineBase] = b.text.length
@@ -64,7 +70,7 @@ object RichMarkdown {
             var from = 0
             val heading = headingRe.find(line)
             val todo = todoRe.find(line)
-            when {
+            if (!blocks) when {
                 heading != null -> { kind = heading.groupValues[1].length; from = heading.value.length }
                 line.startsWith("> ") -> { kind = RLine.QUOTE; from = 2 }
                 todo != null -> { kind = if (todo.groupValues[1] == " ") RLine.CHECK else RLine.CHECKED; from = todo.value.length }

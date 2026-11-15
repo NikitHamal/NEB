@@ -57,3 +57,38 @@ Version 1.7.5 (29).
 - Baseline Profile for the splash to first screen path.
 
 CI: `7b3d9a8`, `0b0c977` and `b8a5254` (run merging) all green on the first push; Android release build (APK + AAB) compiles.
+
+
+---
+
+# Session 3: composers rebuilt, pictures in text, viewer, glass
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picks up session 2 item 11 to 14 (the `LiveReconcile` approach) and replaces it for posts, replies and notes.
+
+## Why session 2 was not enough
+The field still held raw Markdown and a visual transformation hid the markers. Every fix had to rewrite the text the keyboard owns, so the keyboard resynced (a flash of `**`, a style reverting on space or backspace). A hidden marker can never be made safe while the text and the formatting are the same string.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 17 | **One editing engine, no markers anywhere in the field.** `RichDoc` = plain text + one style mask per character (bold, italic, strike, code) + link id per character + one kind per line (heading, quote, bullet, number, to-do, code block, rule). `RichState.onChange` diffs the keyboard's text and moves the formatting with the characters (typing inside or at the end of bold continues it, a replaced word keeps the style of the first replaced letter, autocorrect keeps style). The text in the field always equals what the keyboard holds, so nothing resyncs. Toolbar buttons only change masks or line kinds; with nothing selected they arm the next letters (`armed`). Markdown is made only by `RichMarkdown.write` (spaces move outside markers, pairs never cross a line, `\*` `\_` escapes for typed marks, formulas `$..$` untouched) and read by `RichMarkdown.parse`. | `RichDoc.kt`, `RichState.kt`, `RichMarkdown.kt` |
+| 18 | **Word-like line behaviour**: Enter on an empty list line ends the list; Backspace at the start of a list, quote or heading line removes the mark first (also at the very start of the text, through `onPreviewKeyEvent`); typing `- `, `1. `, `# `, `> `, `[] ` at a line start makes the line a list, heading, quote or to-do. | `RichState.onChange`, `RichTextField` |
+| 19 | **`RichTextField`** replaces the three fields (post, reply, note block). Drawing: `RichVisual` builds the styled text, list marks drawn in front of lines, offset mapping. `rememberRichState(markdown, caret) { md, caret -> }` keeps view-model-held Markdown in step; an echo of what was just sent (250 ms) never reloads the field. | `RichTextField.kt`, `RichVisual.kt`, `CommentComposerBar.kt` |
+| 20 | **Pictures in the text**: one object-replacement character per picture in the text (Backspace takes the whole picture, the caret cannot sit inside), 38dp rounded thumbnails drawn over a blank slot of the same width, so they wrap with the words. Several pictures can be picked at once. Tap opens the viewer on all pictures of the text, long press drags one elsewhere, the small cross removes it. | `RichTextField.kt`, `CreatePostScreen.kt` |
+| 21 | **Nothing uploads on pick.** A picked picture is a `[[img:uKEY]]` slot plus a local `Uri` in `RichState.uris`. `CreatePostViewModel.submitPost` uploads each one (`ContentImageRepository.upload`), swaps the key for the server id, then creates or updates the post. Failure keeps the draft and says so. Preview shows pending pictures from the phone. | `CreatePostViewModel.kt`, `CreatePostComposer.kt` |
+| 22 | **Notes blocks** use the same engine in block mode (no line marks, they belong to the block type; a code block is raw text). Enter splits through the engine so each new block carries its own valid Markdown. | `NoteBlockEditor.kt` (`BlockFieldRegistry.stateOf`) |
+| 23 | **Notes list**: previews are drawn from the Markdown (`LiveMarkdown.transform(..).styled`), so `*italic*`, `_x_`, `[[img]]`, escapes and rules never show as characters. | `NotesScreen.kt` |
+| 24 | **Create post chrome**: the identity picker ends in a real down arrow (the name shrinks first, so the arrow is never pushed out and an ellipsis shown in its place); Write / Preview is one control with a single sliding thumb and no press or ripple on either icon. | `NebIdentityPicker.kt`, `CreatePostChrome.kt` |
+| 25 | **Fullscreen picture viewer**: swipe between all pictures (a post's inline and attached pictures, a reply's inline pictures), no arrows, counter at the top, tap hides controls, pinch and double tap zoom to the touched point, one finger at normal size belongs to the pager, drag down closes. Neighbour pages are composed ahead. `inlineGallery(clicked, content, extra)` builds the list from any card. | `ZoomableImageDialog.kt`, `ZoomableImagePage.kt`, `ForumPostDetailScreen.kt` |
+| 26 | **Glass** goes back to the version before 1.7.5 (`LiquidGlassNav.kt`, one line in `Navigation.kt`). | `LiquidGlassNav.kt` |
+
+## Rules for composers (replace session 2 rules)
+- A composer never holds Markdown. It holds a `RichState`. Anything that needs Markdown asks `state.lastMarkdown` (kept current on every edit) and anything handing Markdown in goes through `setMarkdown` or `adopt`.
+- Formatting changes go through `RichState` (`toggleInline`, `toggleLine`, `insertLink`, `insertImage`...). Never write a marker into the text.
+- `LiveMarkdown` / `LiveReconcile` remain only for drawing stored Markdown (`transform`) in places that show, not edit, text.
+
+## Not done / next
+- Web composer parity (the web editor has its own pipeline in `backend_python/web`); the viewer and no-upload-on-pick rules are Android only for now.
+- On-device pass: chip drag with a long press, caret placement after Enter on an empty list line, Gboard autocorrect on a bold word.
+- Comment bar has no inline pictures yet (pictures there are attachments).

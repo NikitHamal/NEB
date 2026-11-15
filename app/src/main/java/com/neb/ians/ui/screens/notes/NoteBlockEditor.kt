@@ -2,6 +2,9 @@
 
 package com.neb.ians.ui.screens.notes
 
+import com.neb.ians.ui.components.Fmt
+import com.neb.ians.ui.components.RichTextField
+import com.neb.ians.ui.components.RichState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -123,30 +126,21 @@ import com.neb.ians.util.rememberTactileFeedback
  */
 @Stable
 class BlockFieldRegistry {
-    val values = mutableStateMapOf<String, TextFieldValue>()
-    private val sent = HashMap<String, String>()
+    private val states = HashMap<String, RichState>()
     var focusedId by mutableStateOf<String?>(null)
 
-    fun valueOf(block: NoteBlock): TextFieldValue = values[block.id] ?: TextFieldValue(block.text, TextRange(block.text.length))
-
-    fun write(vm: NoteEditorViewModel, id: String, nv: TextFieldValue) {
-        values[id] = nv
-        sent[id] = nv.text
-        vm.setText(id, nv.text)
-    }
-
-    fun setLocal(id: String, nv: TextFieldValue) {
-        values[id] = nv
-        sent[id] = nv.text
-    }
-
-    /** The block's text changed from outside the field (undo, merge, dictation): adopt it. */
-    fun external(id: String, text: String) {
-        if (sent[id] != text) {
-            sent[id] = text
-            values[id] = TextFieldValue(text, TextRange(text.length))
+    /** The editor of one block. Plain text and its formatting live in it; the view model gets Markdown on every edit. */
+    fun stateOf(vm: NoteEditorViewModel, block: NoteBlock): RichState {
+        val raw = block.type == BlockType.Code
+        return states.getOrPut(block.id + if (raw) "|c" else "|t") {
+            RichState(blockMode = true, raw = raw).also { st ->
+                st.setMarkdown(block.text)
+                st.onEdited = { r -> vm.setText(block.id, r.lastMarkdown) }
+            }
         }
     }
+
+    fun focusedState(): RichState? = focusedId?.let { id -> states[id + "|t"] }
 }
 
 /**
@@ -407,18 +401,17 @@ private fun TextBlockRow(
     val type = block.type
     val focusRequester = remember { FocusRequester() }
     var focused by remember { mutableStateOf(false) }
-    val live = LiveMarkdown.rememberTransformation()
+    val state = registry.stateOf(vm, block)
 
-    LaunchedEffect(block.text) { registry.external(block.id, block.text) }
+    LaunchedEffect(block.text) { state.adopt(block.text, block.text.length) }
     LaunchedEffect(wantsFocus) {
         if (wantsFocus) {
-            if (vm.caretAtStart) registry.setLocal(block.id, TextFieldValue(block.text, TextRange(0)))
+            if (vm.caretAtStart) state.setMarkdown(block.text, 0)
             runCatching { focusRequester.requestFocus() }
             vm.consumeFocus()
         }
     }
 
-    val value = registry.valueOf(block)
     val typo = MaterialTheme.typography
     val done = type == BlockType.Todo && block.checked
     val textColor = when {
@@ -485,23 +478,21 @@ private fun TextBlockRow(
             else -> {}
         }
         Box(Modifier.weight(1f)) {
-            BasicTextField(
-                value = value,
-                onValueChange = { typed ->
-                    val nv = if (type == BlockType.Code) typed else LiveReconcile.apply(registry.valueOf(block), typed)
-                    if (type != BlockType.Code && nv.text.contains('\n')) {
-                        val parts = nv.text.split('\n')
-                        registry.setLocal(block.id, TextFieldValue(parts.first(), TextRange(parts.first().length)))
+            RichTextField(
+                state = state,
+                onChange = { typed ->
+                    if (type != BlockType.Code && typed.text.contains('\n')) {
+                        state.onChangeQuiet(typed)
+                        val parts = state.markdown().split('\n')
+                        state.setMarkdown(parts.first())
                         vm.split(block.id, parts.first(), parts.drop(1))
                     } else {
-                        registry.write(vm, block.id, nv)
+                        state.onChange(typed)
                     }
                 },
                 readOnly = readOnly,
                 textStyle = style,
-                cursorBrush = SolidColor(c.primary),
-                visualTransformation = if (type == BlockType.Code) VisualTransformation.None else live,
-                keyboardOptions = KeyboardOptions(capitalization = if (type == BlockType.Code) KeyboardCapitalization.None else KeyboardCapitalization.Sentences),
+                keyboardCapitalization = if (type == BlockType.Code) KeyboardCapitalization.None else KeyboardCapitalization.Sentences,
                 decorationBox = { inner ->
                     Box {
                         if (block.text.isEmpty() && hint.isNotEmpty()) Text(hint, style = style.copy(color = fg.copy(alpha = 0.35f), textDecoration = TextDecoration.None))
@@ -511,11 +502,11 @@ private fun TextBlockRow(
                 modifier = Modifier.fillMaxWidth()
                     .focusRequester(focusRequester)
                     .onFocusChanged {
-                        focused = it.isFocused
-                        if (it.isFocused) { registry.focusedId = block.id; vm.setFocused(block.id) }
+                        focused = it.hasFocus
+                        if (it.hasFocus) { registry.focusedId = block.id; vm.setFocused(block.id) }
                     }
                     .onPreviewKeyEvent { ev ->
-                        val sel = registry.valueOf(block).selection
+                        val sel = state.value.selection
                         if (ev.type == KeyEventType.KeyDown && ev.key == Key.Tab && !readOnly) {
                             vm.indent(block.id, if (ev.isShiftPressed) -1 else 1); true
                         } else if (ev.type == KeyEventType.KeyDown && ev.key == Key.Backspace && sel.collapsed && sel.start == 0 && !readOnly) {
@@ -568,15 +559,17 @@ fun BlockFormatBar(
     val c = MaterialTheme.colorScheme
     val focusedId = registry.focusedId
     val block = blocks.firstOrNull { it.id == focusedId }
-    val value = block?.let { registry.valueOf(it) }
+    val rich = block?.let { registry.stateOf(vm, it) }
     val canInline = block != null && block.type.hasText && block.type != BlockType.Code
+    rich?.value
+    rich?.armed
     var insertMenu by remember { mutableStateOf(false) }
     var linkDialog by remember { mutableStateOf(false) }
 
-    fun applyInline(mark: String) {
-        if (block != null && value != null && canInline) registry.write(vm, block.id, LiveMarkdown.toggleInline(value, mark))
+    fun applyInline(flag: Int) {
+        if (rich != null && canInline) rich.toggleInline(flag)
     }
-    fun active(kind: String) = canInline && value != null && LiveMarkdown.isActive(value, kind)
+    fun active(flag: Int) = canInline && rich != null && rich.isActive(flag)
     fun turn(type: BlockType) {
         val id = block?.id ?: vm.focusedId ?: return
         vm.convert(id, type)
@@ -605,11 +598,11 @@ fun BlockFormatBar(
                     }
                 }
             }
-            BarButton(Icons.Outlined.FormatBold, "Bold", fg, active("bold")) { applyInline("**") }
-            BarButton(Icons.Outlined.FormatItalic, "Italic", fg, active("italic")) { applyInline("*") }
-            BarButton(Icons.Outlined.FormatStrikethrough, "Strikethrough", fg, active("strike")) { applyInline("~~") }
-            BarButton(Icons.Outlined.Code, "Inline code", fg, active("code")) { applyInline("`") }
-            BarButton(Icons.Outlined.Link, "Link", fg, active("link")) { if (canInline) linkDialog = true }
+            BarButton(Icons.Outlined.FormatBold, "Bold", fg, active(Fmt.BOLD)) { applyInline(Fmt.BOLD) }
+            BarButton(Icons.Outlined.FormatItalic, "Italic", fg, active(Fmt.ITALIC)) { applyInline(Fmt.ITALIC) }
+            BarButton(Icons.Outlined.FormatStrikethrough, "Strikethrough", fg, active(Fmt.STRIKE)) { applyInline(Fmt.STRIKE) }
+            BarButton(Icons.Outlined.Code, "Inline code", fg, active(Fmt.CODE)) { applyInline(Fmt.CODE) }
+            BarButton(Icons.Outlined.Link, "Link", fg, false) { if (canInline) linkDialog = true }
             BarButton(Icons.Outlined.Title, "Heading", fg, block?.type == BlockType.H2) { turn(BlockType.H2) }
             BarButton(Icons.Outlined.Checklist, "To-do", fg, block?.type == BlockType.Todo) { turn(BlockType.Todo) }
             BarButton(Icons.Outlined.FormatListBulleted, "Bullets", fg, block?.type == BlockType.Bullet) { turn(BlockType.Bullet) }
@@ -621,7 +614,7 @@ fun BlockFormatBar(
         trailing()
     }
 
-    if (linkDialog && block != null && value != null) {
+    if (linkDialog && block != null && rich != null) {
         var url by remember { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = { linkDialog = false },
@@ -630,7 +623,7 @@ fun BlockFormatBar(
             text = { OutlinedTextField(value = url, onValueChange = { url = it }, singleLine = true, shape = RoundedCornerShape(16.dp), placeholder = { Text("Paste a link") }) },
             confirmButton = {
                 TextButton(
-                    onClick = { registry.write(vm, block.id, LiveMarkdown.insertLink(value, url)); linkDialog = false },
+                    onClick = { rich.insertLink(url); linkDialog = false },
                     enabled = url.isNotBlank(),
                 ) { Text("Add") }
             },
