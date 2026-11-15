@@ -215,7 +215,12 @@ class AuthRepository @Inject constructor(
 
     suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
         return try {
-            SecurePrefs.setAuthToken(appContext, token)
+            // Off the main thread on purpose. This runs straight from the browser callback,
+            // and the first EncryptedSharedPreferences write generates its Keystore master
+            // key and keyset there and then. On phones whose Keystore is slow (MIUI is the
+            // loudest about it) that is seconds of the main thread, which is the freeze a
+            // first-time sign-in on a Xiaomi reported.
+            withContext(Dispatchers.IO) { SecurePrefs.setAuthToken(appContext, token) }
             dataStore.edit { prefs ->
                 prefs[AUTH_STATUS] = "authenticated"
                 prefs[PROFILE_COMPLETED] = !isNewUser
@@ -277,7 +282,7 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun continueAsGuest() {
-        SecurePrefs.clearAuthToken(appContext)
+        withContext(Dispatchers.IO) { SecurePrefs.clearAuthToken(appContext) }
         dataStore.edit { prefs ->
             prefs[AUTH_STATUS] = "guest"
             prefs[PROFILE_COMPLETED] = false
@@ -650,7 +655,7 @@ class AuthRepository @Inject constructor(
                 }
             }
         } catch (_: Exception) {}
-        SecurePrefs.clearAuthToken(appContext)
+        withContext(Dispatchers.IO) { SecurePrefs.clearAuthToken(appContext) }
         dataStore.edit { prefs ->
             prefs[AUTH_STATUS] = "unauthenticated"
             prefs[PROFILE_COMPLETED] = false

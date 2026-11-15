@@ -9,11 +9,13 @@ import com.neb.ians.data.api.ApiCreditTransaction
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.SecurePrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 data class CreditUiState(
@@ -42,7 +44,7 @@ class NebyCreditsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val token = SecurePrefs.getAuthToken(getApplication()) ?: ""
+                val token = withContext(Dispatchers.IO) { SecurePrefs.getAuthToken(getApplication()) } ?: ""
                 val bearer = "Bearer $token"
                 val bal = apiService.getCreditBalance(bearer)
                 val hist = apiService.getCreditHistory(bearer)
@@ -57,7 +59,7 @@ class NebyCreditsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isConverting = true) }
             try {
-                val token = SecurePrefs.getAuthToken(getApplication()) ?: ""
+                val token = withContext(Dispatchers.IO) { SecurePrefs.getAuthToken(getApplication()) } ?: ""
                 val resp = apiService.convertPointsToCredits("Bearer $token", ApiConvertPointsRequest(points))
                 if (resp.error != null) {
                     onError(resp.error)

@@ -165,9 +165,24 @@ class MainActivity : ComponentActivity() {
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
+    /** True until the first onStart has been handled. */
+    private var coldStart = true
+
     override fun onStart() {
         super.onStart()
-        inAppUpdateHelper.onResume(this)
+        if (coldStart) {
+            // Play Core answers this by binding Play Store's update service. On a cold start
+            // that bind competes with the splash's first frames, and on a phone whose Play
+            // Store is asleep it is the slowest thing in the launch. It is only a re-prompt
+            // for an update already in flight, so it can wait for the hand-over.
+            coldStart = false
+            lifecycleScope.launch {
+                delay(STARTUP_DEFERRAL_MS)
+                inAppUpdateHelper.onResume(this@MainActivity)
+            }
+        } else {
+            inAppUpdateHelper.onResume(this)
+        }
         realtimeClient.start()
     }
 

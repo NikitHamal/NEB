@@ -11,11 +11,13 @@ import com.neb.ians.data.api.PdfAssistantHistoryItem
 import com.neb.ians.data.api.PdfAssistantRequest
 import com.neb.ians.data.repository.SecurePrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -162,7 +164,7 @@ class PdfAssistantViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            val token = SecurePrefs.getAuthToken(getApplication())?.takeIf { it.isNotBlank() }
+            val token = withContext(Dispatchers.IO) { SecurePrefs.getAuthToken(getApplication()) }?.takeIf { it.isNotBlank() }
             if (token == null) {
                 _uiState.update { it.copy(isThinking = false, error = "Please sign in to use PDF AI") }
                 return@launch
