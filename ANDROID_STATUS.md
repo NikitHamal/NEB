@@ -309,3 +309,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Not done / next
 - On-device pass for the drag caret and for the bar hiding on Home, Library and Notes.
+
+CI session 13: `3a2eb9a` (lazy list and pager guard, audit script step) is green; the Android release build compiles.
