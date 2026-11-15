@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,16 @@ import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Gavel
 import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.LocalHospital
+import androidx.compose.material.icons.outlined.Diamond
+import androidx.compose.material.icons.outlined.SportsSoccer
+import androidx.compose.material.icons.outlined.DirectionsBike
+import androidx.compose.material.icons.outlined.BeachAccess
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
+import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Inbox
@@ -172,6 +183,16 @@ object NoteIcons {
         "puzzle" to Icons.Outlined.Extension,
         "gavel" to Icons.Outlined.Gavel,
         "quiz" to Icons.Outlined.Quiz,
+        "health" to Icons.Outlined.LocalHospital,
+        "diamond" to Icons.Outlined.Diamond,
+        "soccer" to Icons.Outlined.SportsSoccer,
+        "coffee" to Icons.Outlined.LocalCafe,
+        "bike" to Icons.Outlined.DirectionsBike,
+        "beach" to Icons.Outlined.BeachAccess,
+        "wallet" to Icons.Outlined.AccountBalanceWallet,
+        "chart" to Icons.Outlined.BarChart,
+        "shield" to Icons.Outlined.Shield,
+        "gift" to Icons.Outlined.CardGiftcard,
         "article" to Icons.Outlined.Article,
         "folder" to Icons.Outlined.Folder,
         "inbox" to Icons.Outlined.Inbox,
@@ -224,11 +245,17 @@ private val extraPalettes = listOf(
     Palette(0xFF2B2E36, 0xFF1A1C22, 0xFFC9CDD8, 0xFFC9CDD8, Color(0xFF59607A)),
     Palette(0xFF0F1A33, 0xFF0A1226, 0xFFB9CCFF, 0xFFB9CCFF, Color(0xFF2E56C9)),
     Palette(0xFF163B2A, 0xFF0F2A1E, 0xFFA7E3C0, 0xFFA7E3C0, Color(0xFF2E9A66)),
+    Palette(0xFFFFDCE0, 0xFF45202A, 0xFFB3263E, 0xFFFFC2CB, Color(0xFFFF8CA0)),
+    Palette(0xFFD2F3EF, 0xFF0F3A36, 0xFF0B7A70, 0xFFB2EAE3, Color(0xFF3CC4B5)),
+    Palette(0xFFE4E8EF, 0xFF262B36, 0xFF4A5670, 0xFFCDD4E3, Color(0xFF8C9AB8)),
+    Palette(0xFFFFE0DB, 0xFF4A2420, 0xFFC4412F, 0xFFFFC7BE, Color(0xFFFF8C7A)),
+    Palette(0xFFD9E6FF, 0xFF14264F, 0xFF0B4AC2, 0xFFB5CCFF, Color(0xFF5B8DEF)),
+    Palette(0xFF2E2A27, 0xFF1E1B19, 0xFFE0D6CC, 0xFFE0D6CC, Color(0xFF7A6A5A)),
 )
 
 /** Cover 0 is none. 1..[count] are flat tonal banners with two big shapes, positions fixed per cover. */
 object NoteCovers {
-    const val count = 24
+    const val count = 40
 }
 
 private fun coverSpec(index: Int): CoverSpec? = if (index > 8) generatedCover(index) else when (index) {
@@ -329,10 +356,18 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
     }
 }
 
+/** A notes sheet: the same sheet as everywhere, with the content inset to the title's edge so nothing touches the screen sides. */
+@Composable
+fun NoteSheet(onDismiss: () -> Unit, title: String, content: @Composable ColumnScope.() -> Unit) {
+    NebModalSheet(onDismiss = onDismiss, title = title) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 22.dp), content = content)
+    }
+}
+
 @Composable
 fun NoteIconSheet(current: String, onPick: (String) -> Unit, onDismiss: () -> Unit) {
     val c = MaterialTheme.colorScheme
-    NebModalSheet(onDismiss = onDismiss, title = "Icon") {
+    NoteSheet(onDismiss = onDismiss, title = "Icon") {
         FlowRow(
             Modifier.fillMaxWidth().heightIn(max = 460.dp).verticalScroll(rememberScrollState()).padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -357,9 +392,12 @@ fun NoteIconSheet(current: String, onPick: (String) -> Unit, onDismiss: () -> Un
 }
 
 @Composable
-fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onDismiss: () -> Unit) {
+fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onPhoto: (android.net.Uri) -> Unit, onDismiss: () -> Unit) {
     val c = MaterialTheme.colorScheme
-    NebModalSheet(onDismiss = onDismiss, title = "Cover") {
+    val gallery = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
+    ) { uri -> if (uri != null) onPhoto(uri) }
+    NoteSheet(onDismiss = onDismiss, title = "Cover") {
         Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState()).padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
                 Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
@@ -371,6 +409,24 @@ fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onDismiss: () -> Unit) {
                 Text(
                     "No cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold,
                     color = if (current == 0) c.onPrimaryContainer else c.onSurface,
+                )
+            }
+            Row(
+                Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
+                    .background(if (current < 0) c.primaryContainer else c.surfaceContainerHigh)
+                    .clickable {
+                        gallery.launch(
+                            androidx.activity.result.PickVisualMediaRequest(
+                                androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly,
+                            ),
+                        )
+                    }.padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Icon(Icons.Outlined.Image, null, tint = if (current < 0) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                Text(
+                    "From gallery", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold,
+                    color = if (current < 0) c.onPrimaryContainer else c.onSurface,
                 )
             }
             for (row in 1..NoteCovers.count step 2) {

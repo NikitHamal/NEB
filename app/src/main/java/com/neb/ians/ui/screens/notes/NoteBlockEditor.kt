@@ -425,7 +425,7 @@ private fun MediaFrame(
 @Composable
 private fun BlockSheet(block: NoteBlock, vm: NoteEditorViewModel, onDismiss: () -> Unit) {
     val c = MaterialTheme.colorScheme
-    NebModalSheet(onDismiss = onDismiss, title = "Block") {
+    NoteSheet(onDismiss = onDismiss, title = "Block") {
         Column(Modifier.padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             if (block.type.hasText) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

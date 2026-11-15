@@ -17,7 +17,7 @@ data class NoteTheme(val label: String, val tone: Int, val cover: Int, val icon:
 object NoteTones {
     val labels = listOf(
         "Paper", "Blue", "Slate", "Teal", "Rose", "Sky", "Stone",
-        "Sand", "Mint", "Lemon", "Peach", "Ocean", "Sage", "Linen", "Periwinkle", "Graphite", "Midnight", "Forest",
+        "Sand", "Mint", "Lemon", "Peach", "Ocean", "Sage", "Linen", "Periwinkle", "Graphite", "Midnight", "Forest", "Rose", "Teal", "Coral", "Dusk",
     )
     val count: Int get() = labels.size
 
@@ -31,6 +31,12 @@ object NoteTones {
         NoteTheme("Focus", 15, 22, "bolt"),
         NoteTheme("Night", 16, 9, "star"),
         NoteTheme("Forest", 17, 24, "park"),
+        NoteTheme("Bloom", 18, 33, "heart"),
+        NoteTheme("Lagoon", 19, 34, "world"),
+        NoteTheme("Ember", 20, 36, "flag"),
+        NoteTheme("Dusk", 21, 38, "mind"),
+        NoteTheme("Plan", 5, 35, "event"),
+        NoteTheme("Lab", 3, 29, "science"),
     )
 
     private class Pair2(val lc: Long, val lt: Long, val dc: Long, val dt: Long)
@@ -47,6 +53,10 @@ object NoteTones {
         Pair2(0xFF2B2E36, 0xFFE6E8EE, 0xFF1A1C22, 0xFFE6E8EE), // 15 Graphite
         Pair2(0xFF0F1A33, 0xFFDCE6FF, 0xFF0A1226, 0xFFDCE6FF), // 16 Midnight
         Pair2(0xFF163B2A, 0xFFD5F0E0, 0xFF0F2A1E, 0xFFD5F0E0), // 17 Forest
+        Pair2(0xFFFFDCE0, 0xFF4F1A24, 0xFF4A2229, 0xFFFFD0D6), // 18 Rose
+        Pair2(0xFFD2F3EF, 0xFF08403B, 0xFF123A37, 0xFFBDEFE9), // 19 Teal
+        Pair2(0xFFFFE0DB, 0xFF5A2018, 0xFF4A2823, 0xFFFFD0C8), // 20 Coral
+        Pair2(0xFF222B45, 0xFFDDE5FF, 0xFF151B30, 0xFFDDE5FF), // 21 Dusk
     )
 
     internal fun fixedTone(index: Int, dark: Boolean): NoteTone? {
@@ -66,7 +76,7 @@ fun noteTone(index: Int): NoteTone {
         4 -> NoteTone(c.errorContainer, c.onErrorContainer, false)
         5 -> NoteTone(c.surfaceContainerHigh, c.onSurface, false)
         6 -> NoteTone(c.surfaceVariant, c.onSurfaceVariant, false)
-        in 7..17 -> NoteTones.fixedTone(index, dark) ?: NoteTone(c.surfaceContainerLowest, c.onSurface, true)
+        in 7..21 -> NoteTones.fixedTone(index, dark) ?: NoteTone(c.surfaceContainerLowest, c.onSurface, true)
         else -> NoteTone(c.surfaceContainerLowest, c.onSurface, true)
     }
 }

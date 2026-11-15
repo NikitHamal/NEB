@@ -63,6 +63,8 @@ class NoteEditorViewModel @Inject constructor(
     val icon: StateFlow<String> = _icon.asStateFlow()
     private val _cover = MutableStateFlow(0)
     val cover: StateFlow<Int> = _cover.asStateFlow()
+    private val _coverPhoto = MutableStateFlow("")
+    val coverPhoto: StateFlow<String> = _coverPhoto.asStateFlow()
     private val _pinned = MutableStateFlow(false)
     val pinned: StateFlow<Boolean> = _pinned.asStateFlow()
     private val _archived = MutableStateFlow(false)
@@ -101,6 +103,7 @@ class NoteEditorViewModel @Inject constructor(
                 _tone.value = existing.tone
                 _icon.value = existing.icon
                 _cover.value = existing.cover
+                _coverPhoto.value = existing.coverPhoto
                 _tags.value = existing.tagList
                 _pinned.value = existing.pinned
                 _archived.value = existing.archived
@@ -480,8 +483,49 @@ class NoteEditorViewModel @Inject constructor(
     }
 
     fun setCover(index: Int) {
+        if (index != -1) {
+            dropCoverFile()
+            _coverPhoto.value = ""
+        }
         _cover.value = index
         scheduleSave()
+    }
+
+    /** A gallery picture as the cover: scaled down, kept inside the note's own folder. */
+    fun setCoverPhoto(uri: Uri) {
+        viewModelScope.launch {
+            val name = withContext(Dispatchers.IO) { runCatching { copyCover(uri) }.getOrNull() }
+            if (name == null) {
+                _notice.value = "That photo could not be added"
+                return@launch
+            }
+            dropCoverFile()
+            _coverPhoto.value = name
+            _cover.value = -1
+            scheduleSave()
+        }
+    }
+
+    fun coverFile(name: String): File = File(context.filesDir, "notes/$currentId/$name")
+
+    private fun dropCoverFile() {
+        val n = _coverPhoto.value
+        if (n.isNotEmpty()) runCatching { File(context.filesDir, "notes/$currentId/$n").delete() }
+    }
+
+    private fun copyCover(uri: Uri): String {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
+        var sample = 1
+        val longest = maxOf(bounds.outWidth, bounds.outHeight)
+        while (longest / sample > 1600) sample *= 2
+        val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+        val bmp = context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, opts) }
+            ?: error("unreadable")
+        val name = "cover_${System.currentTimeMillis()}.jpg"
+        File(mediaDir(), name).outputStream().use { bmp.compress(Bitmap.CompressFormat.JPEG, 86, it) }
+        bmp.recycle()
+        return name
     }
 
     fun togglePin() {
@@ -547,11 +591,12 @@ class NoteEditorViewModel @Inject constructor(
             tone = _tone.value,
             icon = _icon.value,
             cover = _cover.value,
+            coverPhoto = _coverPhoto.value,
             tags = _tags.value.joinToString(" "),
             pinned = _pinned.value,
             archived = _archived.value,
         )
-        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover)
+        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover || base.coverPhoto != updated.coverPhoto)
         repo.save(updated, touch = !existsInDb || textChanged)
         note = updated.copy(updatedAt = if (!existsInDb || textChanged) System.currentTimeMillis() else base.updatedAt)
         existsInDb = true

@@ -387,7 +387,7 @@ fun VoiceSetupSheet(
     LaunchedEffect(state) {
         if (state is ModelState.Installed) onReady()
     }
-    NebModalSheet(onDismiss = onDismiss, title = if (forDictation) "Dictate your notes" else "Listen to your notes") {
+    NoteSheet(onDismiss = onDismiss, title = if (forDictation) "Dictate your notes" else "Listen to your notes") {
         Column(Modifier.padding(bottom = 24.dp)) {
             if (forDictation) SttModelCard(vm, showLanguages = false) else TtsModelCard(vm, showVoices = false)
         }

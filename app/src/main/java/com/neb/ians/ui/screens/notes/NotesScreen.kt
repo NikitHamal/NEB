@@ -210,7 +210,7 @@ fun NotesScreen(
     }
 
     if (templateSheet) {
-        NebModalSheet(onDismiss = { templateSheet = false }, title = "New note") {
+        NoteSheet(onDismiss = { templateSheet = false }, title = "New note") {
             TemplateGrid(onPick = { t ->
                 NoteTemplate.pending = t
                 templateSheet = false
@@ -220,7 +220,7 @@ fun NotesScreen(
     }
 
     if (toneSheet) {
-        NebModalSheet(onDismiss = { toneSheet = false }, title = "Colour") {
+        NoteSheet(onDismiss = { toneSheet = false }, title = "Colour") {
             ToneSwatches(current = -1, onPick = { vm.toneSelected(it); toneSheet = false })
         }
     }
@@ -520,7 +520,11 @@ private fun NoteCard(
             .then(if (border != null) Modifier.border(border, shape) else Modifier)
             .combinedClickable(onClick = onClick, onLongClick = onLongClick),
     ) {
-    if (note.cover > 0) NoteCoverBanner(note.cover, Modifier.fillMaxWidth().height(if (compact) 56.dp else 72.dp), animate = false)
+    if (note.cover != 0) {
+        val ctx = androidx.compose.ui.platform.LocalContext.current
+        val photo = if (note.cover < 0 && note.coverPhoto.isNotEmpty()) java.io.File(ctx.filesDir, "notes/${note.id}/${note.coverPhoto}") else null
+        NoteCover(note.cover, photo, Modifier.fillMaxWidth().height(if (compact) 56.dp else 72.dp), animate = false, light = true)
+    }
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             if (note.icon.isNotEmpty()) NoteIconTile(note.icon, 32.dp, container = tone.content.copy(alpha = 0.12f), content = tone.content)
