@@ -32,6 +32,8 @@ data class NoteEntity(
     @ColumnInfo(defaultValue = "") val coverPhoto: String = "",
     /** Page paper from `NotePaper`: 0 plain, 1 lines, 2 grid, 3 dots. */
     @ColumnInfo(defaultValue = "0") val paper: Int = 0,
+    /** File name of a full-page background picture inside `notes/<id>/`; empty for none. */
+    @ColumnInfo(defaultValue = "") val bgPhoto: String = "",
 ) {
     val tagList: List<String>
         get() = tags.split(' ').filter { it.isNotBlank() }

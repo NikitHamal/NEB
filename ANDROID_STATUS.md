@@ -188,3 +188,30 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Page background pictures (full page, not cover): needs a column and a migration.
 - Comment bar pictures are attachments, not inline.
 - On-device pass for everything in sessions 4 to 7.
+
+---
+
+# Session 8: page pictures, text colour and highlight, alignment, more looks
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. Picked up sessions 3 to 7. Audited first, nothing redone: `RichState` engine (no markers in the field, so space and backspace cannot leak or revert), block handle and 3-dot gone, Block sheet, hide and show of the format bar, drop caret and keyboard-safe pictures on Android and web, `neb-live.js` (contenteditable, one sync per frame). The two reference images used for ideas: a text format panel (colours, alignment) and a quiet reading page; ideas taken, nothing copied.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 52 | **Page picture** (the open item from sessions 4 to 7). A gallery picture sits fixed behind the scrolling blocks, cropped to fill, with a flat 78 percent wash of the page colour so text stays readable. Scaled to 1600 px, saved as `notes/<id>/bg_<time>.jpg`, decoded once off the main thread, drawn in the draw phase only (no recomposition while scrolling). Appearance sheet: Page picture, Add / Change / Remove. Room version 8, column `bgPhoto` (migration 7 to 8). | `NoteBackdrop.kt`, `NoteEntity`, `DatabaseMigrations`, `NoteEditorViewModel.setBgPhoto`, `NoteEditorScreen` |
+| 53 | **Text colour and highlight per block**: nine inks with light and dark pairs (`NoteInk`), one tap in the Block sheet, no codes. A highlight is a flat rounded tint behind the block. Block fields `tint` and `mark` (JSON `tc`, `tf`; old notes load unchanged). Enter keeps the look on the next block. | `NoteInk.kt`, `NoteInkControls.kt`, `NoteBlocks.kt`, `NoteBlockEditor.kt` |
+| 54 | **Text alignment per block**: left, centre, right (reuses block `align`, JSON `a`; the hint follows it). The Block sheet scrolls now (it was taller than small screens once these were added). | `NoteBlockEditor.kt`, `NoteEditorViewModel.setLook` |
+| 55 | **Paper**: Margin and Wide grid added; the picker scrolls. | `NotePaper.kt` |
+| 56 | **Looks**: six more note colours (Lilac, Apricot, Olive, Cocoa, Charcoal, Steel; 28 in all) and five more one-tap themes (Notebook, Recipe, Grove, Cocoa, Studio; 20 in all). | `NoteTones.kt` |
+| 57 | **List cards** show the nearest due date of the open to-dos as a tonal chip (red once late). Duplicating a note keeps its paper. | `NotesScreen.kt`, `NotesRepository.kt` |
+
+## Rules
+- Block look (`align`, `tint`, `mark`) is block data, never a marker in the text. Change it only through `NoteEditorViewModel.setLook`.
+- The page picture is drawn by `Modifier.noteBackdrop` placed before `verticalScroll`; do not move it inside the scrolled content.
+
+## Not done / next
+- Duplicating a note copies the cover and page picture file names but not the files (the new note has its own folder). Copy `notes/<old>/` on duplicate.
+- Comment bar pictures are still attachments, not inline.
+- Web has no notes screen; the web composers are unchanged this session.
+- On-device pass: wash strength on busy photos, ink contrast on the dark tones, Block sheet height with the keyboard open.

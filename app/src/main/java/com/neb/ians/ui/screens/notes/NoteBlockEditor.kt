@@ -4,6 +4,7 @@ package com.neb.ians.ui.screens.notes
 
 import com.neb.ians.ui.components.Fmt
 import com.neb.ians.ui.components.RichTextField
+import androidx.compose.ui.graphics.luminance
 import com.neb.ians.ui.components.RichState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.AnimatedVisibility
@@ -45,6 +46,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -428,13 +431,17 @@ private fun MediaFrame(
 private fun BlockSheet(block: NoteBlock, vm: NoteEditorViewModel, onDismiss: () -> Unit) {
     val c = MaterialTheme.colorScheme
     NoteSheet(onDismiss = onDismiss, title = "Block") {
-        Column(Modifier.padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+        Column(
+            Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()).padding(vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
             if (block.type.hasText) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf(BlockType.Text, BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Todo, BlockType.Toggle, BlockType.Bullet, BlockType.Number, BlockType.Quote, BlockType.Callout, BlockType.Code).forEach { t ->
                         ToolChip(label = t.label, on = block.type == t, icon = blockIcon(t)) { onDismiss(); vm.convert(block.id, t) }
                     }
                 }
+                if (block.type != BlockType.Code) InkControls(block) { a, t, m -> vm.setLook(block.id, a, t, m) }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     ToolChip("Outdent", false, Icons.Outlined.FormatIndentDecrease) { vm.indent(block.id, -1) }
                     ToolChip("Indent", false, Icons.Outlined.FormatIndentIncrease) { vm.indent(block.id, 1) }
@@ -494,9 +501,13 @@ private fun TextBlockRow(
     var pickDue by remember { mutableStateOf(false) }
     val typo = MaterialTheme.typography
     val done = type == BlockType.Todo && block.checked
+    val darkPage = c.surface.luminance() < 0.5f
+    val inkText = if (type == BlockType.Code) null else NoteInk.text(block.tint, darkPage)
+    val inkFill = if (type == BlockType.Code || type == BlockType.Callout) null else NoteInk.fill(block.mark, darkPage)
     val textColor = when {
+        done -> (inkText ?: fg).copy(alpha = 0.5f)
+        inkText != null -> inkText
         type == BlockType.Callout -> c.onPrimaryContainer
-        done -> fg.copy(alpha = 0.5f)
         else -> fg
     }
     val style: TextStyle = when (type) {
@@ -505,7 +516,7 @@ private fun TextBlockRow(
         BlockType.H3 -> typo.titleMedium.copy(fontWeight = FontWeight.SemiBold)
         BlockType.Code -> typo.bodyMedium.copy(fontFamily = FontFamily.Monospace)
         else -> typo.bodyLarge.copy(lineHeight = 26.sp)
-    }.copy(color = textColor, textDecoration = if (done) TextDecoration.LineThrough else TextDecoration.None)
+    }.copy(color = textColor, textDecoration = if (done) TextDecoration.LineThrough else TextDecoration.None, textAlign = inkAlign(block.align))
     val hint = when (type) {
         BlockType.Text -> if (onlyBlock) "Start writing, or type / for blocks" else if (focused) "Type / for blocks" else ""
         BlockType.H1, BlockType.H2, BlockType.H3 -> "Heading"
@@ -525,7 +536,7 @@ private fun TextBlockRow(
     val container: Modifier = when (type) {
         BlockType.Callout -> Modifier.clip(RoundedCornerShape(16.dp)).background(c.primaryContainer.copy(alpha = 0.6f)).padding(14.dp)
         BlockType.Code -> Modifier.clip(RoundedCornerShape(14.dp)).background(c.surfaceContainerHighest).padding(12.dp)
-        else -> Modifier
+        else -> if (inkFill != null) Modifier.clip(RoundedCornerShape(12.dp)).background(inkFill).padding(horizontal = 10.dp, vertical = 6.dp) else Modifier
     }
     val topPad = when (type) { BlockType.H1 -> 14.dp; BlockType.H2 -> 10.dp; BlockType.H3 -> 6.dp; else -> 0.dp }
 
@@ -575,7 +586,7 @@ private fun TextBlockRow(
                 keyboardCapitalization = if (type == BlockType.Code) KeyboardCapitalization.None else KeyboardCapitalization.Sentences,
                 decorationBox = { inner ->
                     Box {
-                        if (block.text.isEmpty() && hint.isNotEmpty()) Text(hint, style = style.copy(color = fg.copy(alpha = 0.35f), textDecoration = TextDecoration.None))
+                        if (block.text.isEmpty() && hint.isNotEmpty()) Text(hint, modifier = Modifier.fillMaxWidth(), style = style.copy(color = fg.copy(alpha = 0.35f), textDecoration = TextDecoration.None))
                         inner()
                     }
                 },
