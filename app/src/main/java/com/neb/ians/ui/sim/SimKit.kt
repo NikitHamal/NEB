@@ -2,7 +2,7 @@ package com.neb.ians.ui.sim
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,7 +48,7 @@ fun SimSlider(label: String, value: Float, range: ClosedFloatingPointRange<Float
 
 @Composable
 fun <T> SimChips(options: List<Pair<T, String>>, selected: T, onSelect: (T) -> Unit) {
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(Modifier.nebHorizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { (v, label) ->
             val on = v == selected
             val shape = RoundedCornerShape(12.dp)

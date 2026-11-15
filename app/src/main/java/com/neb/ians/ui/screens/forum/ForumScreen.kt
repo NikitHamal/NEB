@@ -4,7 +4,7 @@ import com.neb.ians.ui.components.NebToastHost
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -264,7 +264,7 @@ fun ForumScreen(
                 Row(
                     modifier = Modifier
                         .weight(1f)
-                        .horizontalScroll(rememberScrollState()),
+                        .nebHorizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     SortTab("Hot", "hot", Icons.Filled.Whatshot, uiState.sort, viewModel::selectSort)

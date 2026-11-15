@@ -25,7 +25,7 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -232,7 +232,7 @@ private fun RdZoomTable(b: TableBlock, page: Int, p: ReadingPalette, source: Rea
             .fillMaxSize()
             .pointerInput(Unit) { detectTransformGestures { _, _, z, _ -> zoom = (zoom * z).coerceIn(0.8f, 3f) } }
             .verticalScroll(rememberScrollState())
-            .horizontalScroll(rememberScrollState())
+            .nebHorizontalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         Column(Modifier.clip(RoundedCornerShape(18.dp)).background(p.tonal)) {

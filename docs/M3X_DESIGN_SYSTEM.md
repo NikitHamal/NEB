@@ -511,6 +511,8 @@ These are the flaws that keep appearing in dialogs, popups, sheets, toolbars and
 - The same goes for vertical: no `verticalScroll` or `LazyColumn` inside a vertical scroller without a bounded `heightIn(max = ...)`.
 - The floating bottom bar hides while the user scrolls down and returns on scroll up (`NavBarScroll.kt`): it follows the finger and a spring settles it. Only the layer transform changes, nothing recomposes per frame. The create menu pins the bar.
 
+- **Always `nebHorizontalScroll`, never `horizontalScroll`** (`ui/components/SafeScroll.kt`). It puts a width guard (`boundedWidth`) in front of the scroller, so an ancestor that hands down an infinite width (an intrinsic probe, a wrap-content parent, a scroller above) degrades to a layout that scrolls instead of a crash. A grep for the bare name must return only `SafeScroll.kt`. Do not "fix" a crash by removing the guard.
+
 ### 13.5 Text with pictures inside (post, reply and note composers)
 - The text keeps its normal line height everywhere. Only the paragraph (line) that holds a picture grows (`ParagraphStyle`), so an ordinary line never gets taller because a picture exists elsewhere.
 - The caret is as tall as the text and centred in its line, also on a line that holds a picture. On Android the field draws its own caret when pictures exist (`RichTextField`); on the web the drop bar is capped to the text's line height.
@@ -520,3 +522,4 @@ These are the flaws that keep appearing in dialogs, popups, sheets, toolbars and
 - A cover is as tall as its width asks, not a fixed strip: the editor cover is `aspectRatio(1.9)` between 168 and 264dp. Cover art scales with the banner's proportions, so a short wide banner keeps its shapes bold.
 - Change and Remove appear only after a tap on the cover and fold away after a few seconds.
 - A list card shows a short preview: three lines of text at most, one row of thumbnails. Lists of notes use a staggered grid (adaptive columns) and a header that is one 56dp row followed directly by the filters.
+- The drop caret reads the fingertip from the screen (`localPositionOf` the field's overlay), never from accumulated drag deltas, so a page that scrolls while a picture is dragged cannot make the caret drift away from the finger. A picture's line is the picture plus 6dp; the caret is 1.2 em tall (Meta's), not the line's height. One scroll-follow job at a time (cancel the previous).

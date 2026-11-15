@@ -56,6 +56,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
@@ -101,11 +102,10 @@ fun RichTextField(
     // caret is drawn at the text's own height so it never stretches with the picture.
     val style = textStyle
     val measurer = rememberTextMeasurer()
-    val baseLineH = remember(style, measurer) {
-        runCatching { measurer.measure(AnnotatedString("A"), style).size.height.toFloat() }.getOrDefault(emPx * 1.3f)
-    }
+    // Meta's caret is the font's height (about 1.2 em), not the line's: it never stretches with a picture
+    val baseLineH = emPx * 1.2f
     val imageLine = remember(chipDp, density, style) {
-        val need = with(density) { (chipDp + 10f).dp.toSp() }
+        val need = with(density) { (chipDp + 6f).dp.toSp() }
         val cur = style.lineHeight
         ParagraphStyle(
             lineHeight = if (cur.isSp && cur.value >= need.value) cur else need,
@@ -159,8 +159,16 @@ fun RichTextField(
     val reveal = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
     val revealPx = with(density) { 56.dp.toPx() }
+    var followJob by remember { mutableStateOf<kotlinx.coroutines.Job?>(null) }
     fun follow(r: androidx.compose.ui.geometry.Rect) {
-        scope.launch { runCatching { reveal.bringIntoView(androidx.compose.ui.geometry.Rect(r.left, r.top - revealPx, r.right + 1f, r.bottom + revealPx)) } }
+        followJob?.cancel()
+        followJob = scope.launch { runCatching { reveal.bringIntoView(androidx.compose.ui.geometry.Rect(r.left, r.top - revealPx, r.right + 1f, r.bottom + revealPx)) } }
+    }
+    // the overlay shares the text layout's origin, so a point in a picture converts straight to a text position
+    val overlayRef = remember { arrayOfNulls<androidx.compose.ui.layout.LayoutCoordinates>(1) }
+    fun toField(from: androidx.compose.ui.layout.LayoutCoordinates, at: Offset): Offset? {
+        val o = overlayRef[0] ?: return null
+        return if (o.isAttached && from.isAttached) o.localPositionOf(from, at) else null
     }
 
     Box(modifier = modifier.bringIntoViewRequester(reveal), propagateMinConstraints = true) {
@@ -199,7 +207,7 @@ fun RichTextField(
             }
         )
         val lr = layout
-        if (lr != null && decorationBox == null && hasImages) Box(Modifier.matchParentSize()) {
+        if (lr != null && decorationBox == null && hasImages) Box(Modifier.matchParentSize().onGloballyPositioned { overlayRef[0] = it }) {
             doc.keys.forEachIndexed { index, imageKey ->
                 val slot = built.slots.getOrNull(index) ?: return@forEachIndexed
                 val box = runCatching { lr.getBoundingBox(slot) }.getOrNull() ?: return@forEachIndexed
@@ -218,14 +226,18 @@ fun RichTextField(
                         enabled = enabled,
                         onOpen = { onImageClick(index) },
                         onRemove = { state.removeImage(state.doc.keys.indexOf(imageKey)) },
-                        onHover = { finger ->
+                        onHover = { from, local ->
+                            val finger = if (from == null) null else toField(from, local)
                             dropCaret = finger?.let { runCatching { slim(lr.getCursorRect(snap(lr.getOffsetForPosition(it)))) }.getOrNull() }
                             dropCaret?.let { follow(it) }
                         },
-                        onDrop = { finger ->
-                            val at = built.toOriginal(snap(lr.getOffsetForPosition(finger)))
+                        onDrop = { from, local ->
                             dropCaret = null
-                            state.moveImage(state.doc.keys.indexOf(imageKey), at)
+                            val finger = toField(from, local)
+                            if (finger != null) {
+                                val at = built.toOriginal(snap(lr.getOffsetForPosition(finger)))
+                                state.moveImage(state.doc.keys.indexOf(imageKey), at)
+                            }
                         }
                     )
                 }
@@ -262,8 +274,8 @@ private fun RichChip(
     enabled: Boolean,
     onOpen: () -> Unit,
     onRemove: () -> Unit,
-    onHover: (Offset?) -> Unit,
-    onDrop: (Offset) -> Unit
+    onHover: (androidx.compose.ui.layout.LayoutCoordinates?, Offset) -> Unit,
+    onDrop: (androidx.compose.ui.layout.LayoutCoordinates, Offset) -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
     val density = LocalDensity.current
@@ -277,6 +289,8 @@ private fun RichChip(
     val drop by rememberUpdatedState(onDrop)
     val hover by rememberUpdatedState(onHover)
     val shape = RoundedCornerShape(10.dp)
+    val node = remember { arrayOfNulls<androidx.compose.ui.layout.LayoutCoordinates>(1) }
+    var last by remember { mutableStateOf(Offset.Zero) }
 
     Box(
         modifier = Modifier
@@ -286,22 +300,24 @@ private fun RichChip(
             .alpha(if (lifted) 0.85f else 1f)
             .clip(shape)
             .background(scheme.surfaceContainerHigh)
+            .onGloballyPositioned { node[0] = it }
             .pointerInput(enabled) {
                 if (!enabled) return@pointerInput
                 detectDragGesturesAfterLongPress(
-                    onDragStart = { at -> grab = at; lifted = true; drag = Offset.Zero; hover(Offset(left + at.x, top + at.y)) },
+                    onDragStart = { at -> grab = at; last = at; lifted = true; drag = Offset.Zero; node[0]?.let { hover(it, at) } },
                     onDrag = { change, amount ->
                         change.consume(); drag += amount
-                        // the caret follows the fingertip, the picture rides above it
-                        hover(Offset(left + drag.x + grab.x, top + drag.y + grab.y))
+                        // the caret follows the fingertip (read from the screen, so a scrolling page can not make it drift)
+                        last = change.position
+                        node[0]?.let { hover(it, change.position) }
                     },
                     onDragEnd = {
-                        val finger = Offset(left + drag.x + grab.x, top + drag.y + grab.y)
+                        val n = node[0]
                         lifted = false; drag = Offset.Zero
-                        hover(null)
-                        drop(finger)
+                        hover(null, Offset.Zero)
+                        if (n != null) drop(n, last)
                     },
-                    onDragCancel = { lifted = false; drag = Offset.Zero; hover(null) }
+                    onDragCancel = { lifted = false; drag = Offset.Zero; hover(null, Offset.Zero) }
                 )
             }
     ) {

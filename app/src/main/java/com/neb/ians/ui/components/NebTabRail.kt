@@ -5,7 +5,7 @@ package com.neb.ians.ui.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -130,7 +130,7 @@ fun NebTabRail(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .horizontalScroll(scrollState)
+            .nebHorizontalScroll(scrollState)
             .padding(contentPadding)
     ) {
         Spacer(

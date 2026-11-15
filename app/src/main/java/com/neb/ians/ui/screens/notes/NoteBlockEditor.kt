@@ -32,7 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -415,7 +415,7 @@ private fun MediaFrame(
             }
         } else content(false)
         AnimatedVisibility(selected, enter = expandVertically(spring(stiffness = 500f)) + fadeIn(), exit = shrinkVertically() + fadeOut()) {
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.nebHorizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (tools != null) { tools(); ToolDivider() }
                 ToolIcon(Icons.Outlined.ArrowUpward, "Move up", false) { vm.move(block.id, -1) }
                 ToolIcon(Icons.Outlined.ArrowDownward, "Move down", false) { vm.move(block.id, 1) }
@@ -679,7 +679,7 @@ fun BlockFormatBar(
     }
 
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.weight(1f).nebHorizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
             BarButton(Icons.Outlined.KeyboardArrowDown, "Hide toolbar", fg, false) { onCollapse() }
             Box {
                 BarButton(Icons.Outlined.Add, "Add a block", fg, false) { insertMenu = true }

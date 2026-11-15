@@ -3,7 +3,7 @@ package com.neb.ians.ui.screens.notes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,7 +73,7 @@ private fun AlignChip(icon: ImageVector, label: String, on: Boolean, modifier: M
 @Composable
 private fun InkRow(current: Int, dark: Boolean, fill: Boolean, onPick: (Int) -> Unit) {
     val c = MaterialTheme.colorScheme
-    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+    Row(Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(vertical = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         Box(
             Modifier.size(40.dp).clip(CircleShape).background(c.surfaceContainerHigh).clickable { onPick(0) },
             contentAlignment = Alignment.Center,

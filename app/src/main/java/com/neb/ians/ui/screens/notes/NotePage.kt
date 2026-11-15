@@ -20,7 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -453,7 +453,7 @@ fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onPhoto: (android.net.Ur
 fun NoteThemeRow(currentTone: Int, onPick: (NoteTheme) -> Unit) {
     val c = MaterialTheme.colorScheme
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 8.dp),
+        Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         NoteTones.themes.forEach { th ->

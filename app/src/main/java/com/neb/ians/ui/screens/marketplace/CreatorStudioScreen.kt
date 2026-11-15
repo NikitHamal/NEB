@@ -4,7 +4,7 @@ package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -330,7 +330,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                 NebSectionLabel("Page type")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.horizontalScroll(rememberScrollState())
+                    modifier = Modifier.nebHorizontalScroll(rememberScrollState())
                 ) {
                     uiState.allowedKinds.forEach { kind ->
                         NebChip(
