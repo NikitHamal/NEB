@@ -34,17 +34,17 @@
   <meta name="apple-mobile-web-app-title" content="NEBians">
   <meta name="keywords"
     content="{% block keywords %}NEBians, Nepal learning platform, Nepal learning community, education social network Nepal, teachers, students, explorers, schools, institutions, study resources, discussion forum, AI study tools{% endblock %}">
-  <meta property="og:title" content="{% block og_title %}NEBians — Nepal's Learning Community{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}NEBians, Nepal's Learning Community{% endblock %}">
   <meta property="og:description"
-    content="{% block og_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
+    content="{% block og_description %}Nepal's open learning community. Free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:url" content="https://nebians.consica.com.np{{ request.path }}">
   <meta property="og:site_name" content="NEBians">
   <meta property="og:locale" content="en_NP">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}">
+  <meta name="twitter:title" content="{% block tw_title %}NEBians, Nepal's Learning Community{% endblock %}">
   <meta name="twitter:description"
-    content="{% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
+    content="{% block tw_description %}Nepal's open learning community. Free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
   {% comment %} Every page has a drawn card of its own, served from /og/ -- see web/og_cards.py.
      og_image_url and og_image_alt come from the og_image_context processor, which
      works the card out from the route. A page that has a better image of its own --
@@ -65,10 +65,10 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   {% endblock %}
-  <meta property="og:image:alt" content="{% block og_image_alt %}{% firstof og_image_alt "NEBians — Nepal's Learning Community" %}{% endblock %}">
+  <meta property="og:image:alt" content="{% block og_image_alt %}{% firstof og_image_alt "NEBians, Nepal's Learning Community" %}{% endblock %}">
   <meta name="twitter:image" content="{% block tw_image %}{{ og_img }}{% endblock %}">
-  <meta name="twitter:image:alt" content="{% block tw_image_alt %}{% firstof og_image_alt "NEBians — Nepal's Learning Community" %}{% endblock %}">
-  <title>{% block title %}NEBians — Nepal's Learning Community{% endblock %}</title>
+  <meta name="twitter:image:alt" content="{% block tw_image_alt %}{% firstof og_image_alt "NEBians, Nepal's Learning Community" %}{% endblock %}">
+  <title>{% block title %}NEBians, Nepal's Learning Community{% endblock %}</title>
   {# Sitewide structured data: the canonical Organization entity and WebSite search action. #}
   <script type="application/ld+json" nonce="{{ csp_nonce }}">
   {

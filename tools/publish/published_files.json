@@ -1,0 +1,462 @@
+{
+ "cs8": {
+  "file": "498f31c117c337ada1d28277283d9564",
+  "cover": "b3e668e1118678a7d60948d9e8f02b8b",
+  "fields": "25f823cfc89da85ebf473b98e7522bdd"
+ },
+ "eng8": {
+  "file": "131cada0e1c52ac602c2ce758ea05788",
+  "cover": "50a01f5061023af8cedac54c4d0cafb6",
+  "fields": "633cbb4ce8187d6edaee10aeff386fa3"
+ },
+ "health8": {
+  "file": "2656399abca1d2aa664618c9eebf411f",
+  "cover": "ea29d33d338aa68dc6967127359e64d8",
+  "fields": "f78d21e127fbcc3a4d3d703005c834b7"
+ },
+ "math8": {
+  "file": "5b6453fb8e888ec91e1a1a0f2c50cad9",
+  "cover": "48c9ee80a025057529583abafa235039",
+  "fields": "e6d4023f6847ed9f3083658820018680"
+ },
+ "nep8": {
+  "file": "7fa7dfe757d7319680050275cd389599",
+  "cover": "cb866f14245c9bae4e2bf7cca20ab8ba",
+  "fields": "b47c83b36168e0ac5df977eced0f9d05"
+ },
+ "omath8": {
+  "file": "b2f0f7295d0369917aea94f20993144c",
+  "cover": "d3e9cfcf49c0818a11c5e994a09028a5",
+  "fields": "f4347c3cbbde72bbde86570c1cb51ce9"
+ },
+ "qbank8": {
+  "file": "0760f91dbcebc51e8a44d8f94482b417",
+  "cover": "5d9dbe29c32c5f2eac1dabedd151fb26",
+  "fields": "e1f7a6554daf130175f2827b381bceff"
+ },
+ "sci8": {
+  "file": "c92a5231c3e6c1baa15fe78b71c7f9b4",
+  "cover": "00cdb33a8b5152fd68162e2fd752614d",
+  "fields": "1dfc5f2fa3a568a1e44fe7ddbe1c7187"
+ },
+ "soc8": {
+  "file": "dedd1ad5c80d157923299c1ece570ca7",
+  "cover": "178f2e6798f081ba9ebfb92bfd62d288",
+  "fields": "24d2f84cd748da0af3e30c0bec818905"
+ },
+ "acc10": {
+  "file": "8881a2a7f47f69bf6aacb42800a461d4",
+  "cover": "53191fcafc69c5bb93bc81e50ec189eb",
+  "fields": "423ce75d3387b1dcccbba8f7dc428727"
+ },
+ "cs10": {
+  "file": "4acbf67075ca9e59483e588ca02b8a41",
+  "cover": "c7c642d93be5c7f4163e0fe2658dc1aa",
+  "fields": "969d355422f7aabee4e8163c0352b3a4"
+ },
+ "eco10": {
+  "file": "f01740a7dac15f1548212e7898668313",
+  "cover": "9206f3ff6addda6e135f43e3882b767a",
+  "fields": "175a2e9345902d2be8d93e11ae0cf53e"
+ },
+ "eng10": {
+  "file": "de4c7933e422823e2ae7cb9b3aa2c168",
+  "cover": "c7dad340e0a8eac8a8028fc44f1ae078",
+  "fields": "1ca9382b1dabec4ca5e778ab56e813e5"
+ },
+ "math10": {
+  "file": "66d7837fbeffbc17158dfb206b6d28b9",
+  "cover": "98a1c12cc94cfce716636e6233b8c906",
+  "fields": "20f511bf4301ba5573de5ec443d12da8"
+ },
+ "nep10": {
+  "file": "267f705d2f1bb64d9bedca43068b8f03",
+  "cover": "f1d48434d141ec0719f8d290a753767b",
+  "fields": "a827cf1fc7e3dcaf423655a6778e9bac"
+ },
+ "omath10": {
+  "file": "e6ca954bfa35ff709f4b5d4a84549f10",
+  "cover": "3c4a599fe0e0a46be33fde7d18d97f08",
+  "fields": "40dac8dbc6466b91711c7b6c4dc3d858"
+ },
+ "qbank10": {
+  "file": "cff48dc91388170a0ea3471999f232a7",
+  "cover": "aa42d7ca0e89ac8996c2e66647356ad1",
+  "fields": "0fa4931d7c3df5f569648cea2267e1a9"
+ },
+ "qbankc10": {
+  "file": "2424344b8c818ec3b79a3eb93f1c2946",
+  "cover": "ff58a35620235592d83bdc9623bfd6f7",
+  "fields": "02e9f073578cf6342d17fa0e25424406"
+ },
+ "sci10": {
+  "file": "2816ec0e0cae4e8fa70f24d21846951a",
+  "cover": "0cf1834ad73d20021fe8ab81a70fd12d",
+  "fields": "b9444b2b323705fd585a605fec291846"
+ },
+ "soc10": {
+  "file": "a87c1fba5b81782366fb340c0c6bc9e5",
+  "cover": "26fd000f4a418534613e3f17ce38622d",
+  "fields": "80850e3984a374ef20a8d5aa4b29d279"
+ },
+ "bio11": {
+  "file": "8e40b2ff66387ca1b66143f735342455",
+  "cover": "0a64524250062c13ed25abf65f1d3c08",
+  "fields": "2b4d46aec2d49cbf0091375c793935b2"
+ },
+ "chem11": {
+  "file": "178eff531262a8a27e79b934fdef127e",
+  "cover": "3db807bf4f4d68cfc12d9b97155e8493",
+  "fields": "1e3cd9c77583df9379dd615438cc7218"
+ },
+ "cs11": {
+  "file": "20643423e42bb0eff07ace45cde98b95",
+  "cover": "6a0a4e27e06006c0048f664ed22574ea",
+  "fields": "01c714a71f1294da388db2328cf91528"
+ },
+ "eng11": {
+  "file": "2bd46c32440f02f0fff5f5daff64bc78",
+  "cover": "22296bae5a0e336803f8642982c6b3e9",
+  "fields": "b24a0799d5dcc7896a6e43718ce4137a"
+ },
+ "math11": {
+  "file": "92d0f2f85b515c49668b4ed32b4548a4",
+  "cover": "d1485718a67696ddd049d38e7ab22c87",
+  "fields": "7149c4e07acb93b18f4719665295f62e"
+ },
+ "nep11": {
+  "file": "4ebf4a42dfb619765dd3f8028715fe69",
+  "cover": "97a8e75d3f1d07c8ac9616613c749f1c",
+  "fields": "a968a3be4c967957ea5fb5791da2a929"
+ },
+ "phy11": {
+  "file": "f0c9e49b54853ce3cd13c0f4e8379b42",
+  "cover": "66d3e4418b0e3cb934756560899d3edb",
+  "fields": "bc8275d48d87b94e0732b47ff73f6039"
+ },
+ "qbank11": {
+  "file": "348c7321498f7c284726294cecf2d6a7",
+  "cover": "b6c309eb04d4bf01c5df515fa6924e9a",
+  "fields": "d384c0bd2189f72321e705ebdd80e097"
+ },
+ "bio12": {
+  "file": "4365f5111abc182629a9022e2716cef5",
+  "cover": "1599cc62cce24d4e2efbc1e90e55eccd",
+  "fields": "00d80f75aa4c72e6f56f83cba99b2c34"
+ },
+ "chem12": {
+  "file": "7300af6ac65f5df03fed028edc6c1f2b",
+  "cover": "3f9bf320251647ed4e9c3523de5f74ed",
+  "fields": "4ecfa086ca74ff8ee04ecd0678760e02"
+ },
+ "cs12": {
+  "file": "aefd20b3cf9a67d6493869051eecb06f",
+  "cover": "066d516c47276052ceba2b5eaa71c354",
+  "fields": "39937908e928d4afa614415d8cfe6d77"
+ },
+ "eng12": {
+  "file": "a57b5013f6b3232f0378d10d80c36704",
+  "cover": "a68b6100830495540342d17da0aa43a5",
+  "fields": "7a3f4d16d23b1283c466aee2e93d7e18"
+ },
+ "math12": {
+  "file": "915cb3ff16d499f229d046af87e4454a",
+  "cover": "171d9f37dc04a88a2d0b60c6ae7e949f",
+  "fields": "d97601eb7f3be31a30587961afc15592"
+ },
+ "nep12": {
+  "file": "26db30bd4cf0d23041eb46f08f59ab86",
+  "cover": "daeb2490a89d38af3d0dc55afa2826d3",
+  "fields": "c04ee407244484473eb9ec59dfb16e55"
+ },
+ "phy12": {
+  "file": "65e5ae5f4678232c0b14f45852a87feb",
+  "cover": "5c719e9db5628574684b45048f295fbb",
+  "fields": "a104a9eb5e56e390ce43c1c586bd493a"
+ },
+ "bca-eng": {
+  "file": "f496efb932105c6e20409a3f8acc5a1a",
+  "cover": "00da16dc950cb83e787fbf2fc394fa77",
+  "fields": "949bb28f850de927d283aa12f4a9a727"
+ },
+ "bca-gk": {
+  "file": "5c3fc2cb6d5826679c54269a13899856",
+  "cover": "eff631dd53f28339d62fa0e005a25434",
+  "fields": "48e87ca42c8fbf06aea45a5ebeb2c064"
+ },
+ "bca-math": {
+  "file": "3a380484a77577b546ef40b4e166ac4e",
+  "cover": "a82a8db6eb825cbdf9b2665bef04388b",
+  "fields": "2da216704a8b861e4ac269a0285dc11a"
+ },
+ "bca-mock": {
+  "file": "7f841441f278fa1b54b29b5897fde6d9",
+  "cover": "db58adbebbe65716c64132d796a66387",
+  "fields": "987764907340d9f31060c8e939e99673"
+ },
+ "cee-bot": {
+  "file": "f59ede2ab5b39cb342fff830177b29cd",
+  "cover": "22cb198c0be2c8fe68fc896e859c2924",
+  "fields": "3bfc00fe8719386596e937d66ea47d2e"
+ },
+ "cee-chem": {
+  "file": "90b00accdcad167444bcd56f8f80e1ec",
+  "cover": "3a4184eda58ac68d37e363e3c247eee1",
+  "fields": "f4d99fb19de09d9e460b62d12a710cc1"
+ },
+ "cee-mat": {
+  "file": "64c1c71b397566fa4e87dce9d86129ef",
+  "cover": "3cbd433295bd1571a0604127413b58da",
+  "fields": "a8f6e56038fe95883fe7dad5335649d3"
+ },
+ "cee-mock": {
+  "file": "ef89e5752b923df5c16b6214e3f31940",
+  "cover": "00bd838026e12c2600ca903195f4950f",
+  "fields": "f3fb8fe940a77440a02e52a5150155b0"
+ },
+ "cee-phy": {
+  "file": "da1b71de184b8764697614bb6f4d7334",
+  "cover": "4d952fe87ded43e9ee8b2b65555587d3",
+  "fields": "08c07448905326f76dfd3de4fd02bf3e"
+ },
+ "cee-zoo": {
+  "file": "2e553333e8149e61afce8a8391722318",
+  "cover": "2a808c305901012c40172e9e1d88c46c",
+  "fields": "fc8a41f567cf0ea517298777af47075d"
+ },
+ "ioe-chem": {
+  "file": "73aa5f69e35540f41fc06985a5997d46",
+  "cover": "7a8e325a911b5f0625e12d32ce0a3065",
+  "fields": "0a5b274237c9ca2ec89bf1e92891a175"
+ },
+ "ioe-eng": {
+  "file": "7c612847b1a076080088ee058c8c2f58",
+  "cover": "1e8b25ccc224bddc4719d441286639d4",
+  "fields": "0cc419610914747ffa111b12fbef09ec"
+ },
+ "ioe-math": {
+  "file": "f9ed4b8f69144b1142a9daa05efadecc",
+  "cover": "5afaa4c9e108011649acdc77a284e4ee",
+  "fields": "696b22106a7cf5dcfdee9eaf25d360c2"
+ },
+ "ioe-mock": {
+  "file": "8e7b10277ed2b16230b435544b7389fc",
+  "cover": "8a18f0d2fbc88891246fedc40412ba92",
+  "fields": "4286c016fc232d824b4f3d99d5e3186d"
+ },
+ "ioe-phy": {
+  "file": "32f244a6c4cc144aea2f2ca7b039c12d",
+  "cover": "4b6728090104fdd48c1a9da4886dd5ea",
+  "fields": "d1b71803223771a5c5c797e0c7beaadb"
+ },
+ "bca-course-semester-1-computer-fundamentals": {
+  "file": "2b66633ad14965ed5fa80a50f08d1590",
+  "cover": "a15ac29012011dee82961c1ded505f98",
+  "fields": "eacfc4947d7cdb9b0d74d15a6400e37e"
+ },
+ "bca-course-semester-1-digital-logic": {
+  "file": "0fe2bed2f2130ee0436889bafff0970c",
+  "cover": "61ba581d8cff8bb54cc47cc9852dae15",
+  "fields": "d9b9d08f884086f7b0b44975ccfa58b9"
+ },
+ "bca-course-semester-1-hardware-workshop": {
+  "file": "f3c4665eeb5e825d6339f18d6f32fcf4",
+  "cover": "53cd4582a3be0d8a0df2e7397b74c64e",
+  "fields": "d5568086f07dc3d5d479fcb90002a773"
+ },
+ "bca-course-semester-1-mathematics-1": {
+  "file": "1410f41d1585752e1dea55c86e72bb4e",
+  "cover": "5f89067886fd8eeabf883c2f4e6736df",
+  "fields": "da03acece26617bdc2829233697706f4"
+ },
+ "bca-course-semester-1-professional-communication-ethics": {
+  "file": "e248372f15bcaaa37a8f561a25544c04",
+  "cover": "874d6233689c19c7a5bb226fdd668fcd",
+  "fields": "b4bf45bb665aa865fcf7fbb08581196d"
+ },
+ "bca-course-semester-1-programming-in-c": {
+  "file": "7ac2db28e2d5f92083eec380f39715cf",
+  "cover": "5235bdfe700a6247da3e797848df82fe",
+  "fields": "02c5ab649a8d0069a6307da7ee166e48"
+ },
+ "bca-course-semester-2-discrete-structure": {
+  "file": "9f86ebed0ffe54c80193e072fc0aeaf2",
+  "cover": "9d8442521ddb2aa23ec42f4815bc4ffd",
+  "fields": "fee8f7073a859c2709a586d610d4774a"
+ },
+ "bca-course-semester-2-mathematics-2": {
+  "file": "a03bbb14acc772bf50822d74cfcb62fe",
+  "cover": "7d4f435dfe0134eb2751fbba226e62b9",
+  "fields": "b61bdd7de7eef8d245e19c6e4674691e"
+ },
+ "bca-course-semester-2-microprocessor-computer-architecture": {
+  "file": "7afb4bdcebee9cdde49d1adb62bbd0dd",
+  "cover": "ae1e8511a45d7e87fe08ed64df5d00ce",
+  "fields": "369adb54a269509cefe57f2bf733b808"
+ },
+ "bca-course-semester-2-oop-in-java": {
+  "file": "d6b2262a21eb43a571cf03c0b970cf1b",
+  "cover": "b569d41d9b3027995ba904029aedb8c4",
+  "fields": "8c9176856adbcbf4f5de6cc9b7de8a93"
+ },
+ "bca-course-semester-2-principles-of-management": {
+  "file": "ac7a6e256a1fe34f93c831272e464e02",
+  "cover": "d1c7922037f028b225ff0fc949de3a9d",
+  "fields": "a833128461b9574a0102398e43481cbf"
+ },
+ "bca-course-semester-2-ux-ui-design": {
+  "file": "cc4f75cbad9baa3c60ce8a5cbaf03a62",
+  "cover": "0969879296513ececf129b0995bfb5b0",
+  "fields": "6c592d3828bb3ab89ae4ada6bcfda530"
+ },
+ "bca-course-semester-3-applied-economics": {
+  "file": "59afba5b605d99307946f9a87e0e80f7",
+  "cover": "c89c14808517cf625c6c80532ed10379",
+  "fields": "61ea9e6143b1146170770289a8b58e05"
+ },
+ "bca-course-semester-3-data-structure-and-algorithms": {
+  "file": "1f2e4eabb01656cab36ce50faabbf9e2",
+  "cover": "d415cafa6d5dadfe0c5f56fccd8d8480",
+  "fields": "9ac81e114c98b6c385407990cc9c54b1"
+ },
+ "bca-course-semester-3-dbms": {
+  "file": "d3270f6f9d0e2a59bfc6c321016bd662",
+  "cover": "056aa256dde842783127f985b6ec2c6b",
+  "fields": "a8fb9bcb630ef57d056d45d6fb238f1c"
+ },
+ "bca-course-semester-3-probability-and-statistics": {
+  "file": "991bc9ab9e346a1f4736e9a2f9560ec1",
+  "cover": "2132fd9df5ba818e27c3158c35db889f",
+  "fields": "1ee313c2703ad5ce78132282df07bf36"
+ },
+ "bca-course-semester-3-system-analysis-and-design": {
+  "file": "8084e2ae4e9ca4f2d58fdbf7fbe5d00d",
+  "cover": "c8a9e16d82b73c3e41ab4530ae450cd3",
+  "fields": "b4d5f5e1071408123981f63159abecb1"
+ },
+ "bca-course-semester-3-web-technology-1": {
+  "file": "9d464e0f59c2d2122707d392c1ba75f0",
+  "cover": "b07f42d42d23db18aad91af13df469cc",
+  "fields": "66c7af3dfb05746a71e7c6897ac03ca8"
+ },
+ "bca-course-semester-4-numerical-methods": {
+  "file": "4f33a1dd97cafcffd1caf6052a728780",
+  "cover": "2bc24fc353ded2269e64232f5b6f2a87",
+  "fields": "afcad954c864737f1391e195692e663d"
+ },
+ "bca-course-semester-4-operating-systems": {
+  "file": "086a693da1fa339e4ea8726f09d85d1d",
+  "cover": "7fe34115d77ed70b9b39017011a72bbe",
+  "fields": "a3d03379a1aec709f065af8594464790"
+ },
+ "bca-course-semester-4-project-1": {
+  "file": "c396df8361dcb6f3b54c0dd759e6709f",
+  "cover": "72c0328311a9edcee4c3134956f21c25",
+  "fields": "ba5e28a9a90a51fb382dcfaa3c3e30b8"
+ },
+ "bca-course-semester-4-python-programming": {
+  "file": "87e854acbbb63623f6d9ed00b067e778",
+  "cover": "b4fccb316fde2b10d00c5600e025afe2",
+  "fields": "a885dcc9b9f563ca36a95624fb7c74a5"
+ },
+ "bca-course-semester-4-software-engineering": {
+  "file": "647cd70153731b6826968dbd1db3aaa3",
+  "cover": "97dfd7d39e364fd21a2da2cab363c1c9",
+  "fields": "376259f466a6de4a5dad2ff31a153e2d"
+ },
+ "bca-course-semester-4-web-technology-2": {
+  "file": "17514abeba92772114cafe345b91bc87",
+  "cover": "442e6c1503fdc5938c84d5daf35ded3b",
+  "fields": "656d5baf0faf8a3a6b38cfff6f89e060"
+ },
+ "bca-course-semester-5-advanced-java": {
+  "file": "5fd3d95e79cbfd015570a50bd4a3347b",
+  "cover": "32f4c599bb3d93d25a9d7d589f018cec",
+  "fields": "5bc1b593302fe1109006b750526a2e4b"
+ },
+ "bca-course-semester-5-artificial-intelligence": {
+  "file": "7a3fc15b2cd88e1d86e511ee89ee636b",
+  "cover": "ad1aed83b1f49776687d117cfaa46faa",
+  "fields": "bfb60ea36351636a235d8e2a1a285685"
+ },
+ "bca-course-semester-5-computer-networking": {
+  "file": "d5c50923f826fbac90d7b7f5611f8952",
+  "cover": "76d01aa3bdd6ce2b5a3ac6c991285762",
+  "fields": "33916de8f896239c09be4179b7ebee70"
+ },
+ "bca-course-semester-5-mis-and-e-business": {
+  "file": "dc58fb901234058fdcd4fde54851d3b5",
+  "cover": "48be1c3183e0ec558db3f1bbe3789c67",
+  "fields": "c86a17c3c420a81b6eb7224b7ff66440"
+ },
+ "bca-course-semester-5-project-2": {
+  "file": "444a65d367bc9179a4c87769cbd460c8",
+  "cover": "c9124fed8cef3e6ab3c4e494bf7beab2",
+  "fields": "fd85a3a57c80dda8c357c818d48fa016"
+ },
+ "bca-course-semester-5-society-and-technology": {
+  "file": "1515a30d017e75c7539e0be9058d0eb3",
+  "cover": "142e922a5e5150756fea2592c64da259",
+  "fields": "9f58cdb3838bc21185ff3eaabeca3ebd"
+ },
+ "bca-course-semester-6-computer-graphics": {
+  "file": "a24abcdab4d24fd26a6a46d09c1ab2d0",
+  "cover": "e2bf750e5229dec067c1772cb015851d",
+  "fields": "03aff7a2253d5253219712affb195c26"
+ },
+ "bca-course-semester-6-cryptography-network-security": {
+  "file": "6c5a3fbfe3630a45c0abc1ad0e2134a5",
+  "cover": "7ae4f57cb9c14310b34146350dd639fe",
+  "fields": "eef7b5548011fa10fd221b2f1be34f43"
+ },
+ "bca-course-semester-6-distributed-system": {
+  "file": "619cc25094695614e572bf0c5b538adf",
+  "cover": "53229bba88f1b1e7d3e6ce931b21fe2e",
+  "fields": "c3cd792c5745c7e1e03441cd703da2d4"
+ },
+ "bca-course-semester-6-mobile-programming": {
+  "file": "72171bc155bbabac7bd7aff67441009f",
+  "cover": "84eaa80a3ffb445b5ae4d788a0b78748",
+  "fields": "6c79b0f1c6e7ac0c96f1a3f706ad9d1b"
+ },
+ "bca-course-semester-6-project-3": {
+  "file": "8d55119616ce2e5ec50338f5162f99ed",
+  "cover": "3942e9a5d294d92b46210d2771cbc162",
+  "fields": "5eb9cd955580133a5b6e3f8f2d4273a1"
+ },
+ "bca-course-semester-6-technical-writing": {
+  "file": "cac9b2c848f9da42b643828c3c6078e7",
+  "cover": "f1884c8b83cf7d02f6119ad26bae748d",
+  "fields": "1d3cfda63ac2c92d4f84e8227d0f907d"
+ },
+ "bca-course-semester-7-cyber-security-and-ethical-hacking": {
+  "file": "cd06821dd17ff08787492be287a3c34c",
+  "cover": "96c6f7a15baf2216ba613e3be16dd310",
+  "fields": "f214a50621e11b1bdc2689d8fb513095"
+ },
+ "bca-course-semester-7-financial-accounting": {
+  "file": "c42dde73e0c5becbc5cc16c8f41de579",
+  "cover": "6c3c1c6aecf36466bdd11b12d3b2c806",
+  "fields": "ff84d9c52c684df12fa995ce9eecc4d9"
+ },
+ "bca-course-semester-7-project-4": {
+  "file": "5bac33a35eb50f7808cbadfebfc52ee4",
+  "cover": "2dcc78b79466bc2064669eaf0bc00f04",
+  "fields": "aa4ef31374e411aa9fadc3b7bb3a4648"
+ },
+ "bca-course-semester-8-cloud-computing": {
+  "file": "b5871fa998fa9734bd2cbfc279d37d72",
+  "cover": "b39901a09082cacd469cf9339a46a675",
+  "fields": "775e999d118e1db03eefdce4591a7038"
+ },
+ "bca-course-semester-8-internship": {
+  "file": "79c818d0c6711585887298f4be74a915",
+  "cover": "75fdb470f5e8e38b85fb52048910563b",
+  "fields": "32bc5ab00226ad9b9deed4000a2cfdd5"
+ },
+ "qbank12": {
+  "file": "358c85008480a5de2e0ed798ae792f1e",
+  "cover": "7f41aaadc09dd3b6ea2e8b2fe57e7bb2",
+  "fields": "09d84b6262fe4fdf9527919d7f6f49b2"
+ }
+}
