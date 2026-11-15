@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.foundation.layout.size
 
 private val LEVELS = listOf("" to "All levels", "bachelor" to "Bachelor", "master" to "Master", "phd" to "PhD", "diploma" to "Diploma")
@@ -60,7 +61,7 @@ internal fun PwAbroadTab(d: PwData, nav: PwNav) {
         }
         item("destHead") { PwHeading("Popular destinations") }
         item("dest") {
-            LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            LazyRow(Modifier.boundedWidth(), contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 items(d.abroad.size, key = { d.abroad[it].id }) { i ->
                     val a = d.abroad[i]; val t = pwTone(i + 3)
                     PwSurface(Modifier.width(150.dp), color = t.bg, radius = 28.dp, onClick = { nav.push("country:${a.id}") }) {
