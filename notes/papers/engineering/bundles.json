@@ -1,0 +1,979 @@
+[
+ {
+  "file": "bundles/engineering-advanced-computer-programming-2081-2083.pdf",
+  "subject": "Advanced Computer Programming",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enct153-2083-baishakh",
+   "ioe-enct153-2082-bhadra",
+   "ioe-ct153-2082-baishakh",
+   "ioe-ct153-2081-ashwin"
+  ],
+  "pages": 48,
+  "bytes": 709059,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-basic-electrical-and-electronics-engineering-2081.pdf",
+  "subject": "Basic Electrical and Electronics Engineering",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-enee103-2081-chaitra",
+   "ioe-ee103-2081-kartik",
+   "ioe-ee103-2081-baishakh"
+  ],
+  "pages": 43,
+  "bytes": 1853065,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-civil-engineering-materials-2081.pdf",
+  "subject": "Civil Engineering Materials",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-ence103-2081-chaitra",
+   "ioe-ce103-2081-kartik",
+   "ioe-ce103-2081-baishakh"
+  ],
+  "pages": 27,
+  "bytes": 413722,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-computer-programming-2080-2082.pdf",
+  "subject": "Computer Programming",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2080-2082",
+  "papers": [
+   "ioe-ct401-2082-shrawan",
+   "ioe-ct401-2082-baishakh",
+   "ioe-ct401-2081-bhadra",
+   "ioe-ct401-2081-baishakh",
+   "ioe-ct401-2080-bhadra"
+  ],
+  "pages": 69,
+  "bytes": 1009142,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-digital-logic-2081-2083.pdf",
+  "subject": "Digital Logic",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enex152-2083-baishakh",
+   "ioe-enex152-2082-bhadra",
+   "ioe-ex152-2082-baishakh",
+   "ioe-ex152-2081-ashwin"
+  ],
+  "pages": 64,
+  "bytes": 1606310,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electric-circuits-and-machines-2077-2081.pdf",
+  "subject": "Electric Circuits and Machines",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2077-2081",
+  "papers": [
+   "ioe-ee460-2081-chaitra",
+   "ioe-ee460-2080-chaitra",
+   "ioe-ee460-2079-chaitra",
+   "ioe-ee460-2078-chaitra",
+   "ioe-ee460-2077-chaitra"
+  ],
+  "pages": 72,
+  "bytes": 3272196,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electronic-device-and-circuits-2081-2083.pdf",
+  "subject": "Electronic Device and Circuits",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enex151-2083-baishakh",
+   "ioe-enex151-2082-bhadra",
+   "ioe-ex151-2082-baishakh",
+   "ioe-ex151-2081-ashwin"
+  ],
+  "pages": 58,
+  "bytes": 2762979,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electronics-circuit-2081-2082.pdf",
+  "subject": "Electronics Circuit",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ex154-2082-baishakh",
+   "ioe-ex154-2081-ashwin"
+  ],
+  "pages": 29,
+  "bytes": 1286056,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-chemistry-2081-2083.pdf",
+  "subject": "Engineering Chemistry",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ensh153-2083-baishakh",
+   "ioe-ensh153-2082-bhadra",
+   "ioe-sh403-2082-shrawan",
+   "ioe-sh153-2082-baishakh",
+   "ioe-sh403-2082-baishakh",
+   "ioe-ensh103-2081-chaitra",
+   "ioe-sh103-2081-kartik",
+   "ioe-sh153-2081-ashwin",
+   "ioe-sh403-2081-bhadra",
+   "ioe-sh103-2081-baishakh",
+   "ioe-sh403-2081-baishakh"
+  ],
+  "pages": 143,
+  "bytes": 5624504,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-geology-i-2081.pdf",
+  "subject": "Engineering Geology I",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-ence102-2081-chaitra",
+   "ioe-ce102-2081-kartik",
+   "ioe-ce102-2081-baishakh"
+  ],
+  "pages": 35,
+  "bytes": 792102,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-geology-ii-2081-2083.pdf",
+  "subject": "Engineering Geology II",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ence152-2083-baishakh",
+   "ioe-ence152-2082-bhadra",
+   "ioe-ce152-2081-ashwin"
+  ],
+  "pages": 21,
+  "bytes": 718360,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-mathematics-i-2078-2082.pdf",
+  "subject": "Engineering Mathematics I",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2078-2082",
+  "papers": [
+   "ioe-sh401-2082-shrawan",
+   "ioe-sh401-2082-baishakh",
+   "ioe-ensh101-2081-chaitra",
+   "ioe-sh101-2081-kartik",
+   "ioe-sh401-2081-bhadra",
+   "ioe-sh101-2081-baishakh",
+   "ioe-sh401-2081-baishakh",
+   "ioe-sh401-2080-bhadra",
+   "ioe-sh401-2079-bhadra",
+   "ioe-sh401-2079-baishakh",
+   "ioe-sh401-2078-kartik",
+   "ioe-sh401-2078-bhadra"
+  ],
+  "pages": 177,
+  "bytes": 8442527,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-mathematics-ii-2078-2083.pdf",
+  "subject": "Engineering Mathematics II",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2078-2083",
+  "papers": [
+   "ioe-ensh151-2083-baishakh",
+   "ioe-ensh151-2082-bhadra",
+   "ioe-sh451-2081-chaitra",
+   "ioe-sh151-2081-ashwin",
+   "ioe-sh451-2080-chaitra",
+   "ioe-sh451-2080-ashwin",
+   "ioe-sh451-2079-chaitra",
+   "ioe-sh451-2078-chaitra"
+  ],
+  "pages": 93,
+  "bytes": 4568326,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-mechanics-2081.pdf",
+  "subject": "Engineering Mechanics",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-ence101-2081-chaitra",
+   "ioe-ce101-2081-kartik",
+   "ioe-ce101-2081-baishakh"
+  ],
+  "pages": 46,
+  "bytes": 2425997,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-physics-2081-2083.pdf",
+  "subject": "Engineering Physics",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ensh152-2083-baishakh",
+   "ioe-ensh152-2082-bhadra",
+   "ioe-sh402-2082-shrawan",
+   "ioe-sh152-2082-baishakh",
+   "ioe-sh402-2082-baishakh",
+   "ioe-ensh102-2081-chaitra",
+   "ioe-sh152-2081-ashwin",
+   "ioe-sh402-2081-bhadra",
+   "ioe-sh102-2081-baishakh"
+  ],
+  "pages": 154,
+  "bytes": 6417541,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-survey-i-2081-2083.pdf",
+  "subject": "Engineering Survey I",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ence153-2083-baishakh",
+   "ioe-ence153-2082-bhadra",
+   "ioe-ce153-2082-baishakh",
+   "ioe-ce153-2081-ashwin"
+  ],
+  "pages": 52,
+  "bytes": 1860495,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-fundamental-of-electrical-and-electronics-engineering-2081.pdf",
+  "subject": "Fundamental of Electrical and Electronics Engineering",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-enex101-2081-chaitra",
+   "ioe-ex101-2081-baishakh"
+  ],
+  "pages": 41,
+  "bytes": 1868472,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-object-oriented-programming-2081-2083.pdf",
+  "subject": "Object Oriented Programming",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enct151-2083-baishakh",
+   "ioe-enct151-2082-bhadra",
+   "ioe-ct151-2082-baishakh",
+   "ioe-ct151-2081-ashwin"
+  ],
+  "pages": 62,
+  "bytes": 581580,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-strength-of-materials-2081-2082.pdf",
+  "subject": "Strength of Materials",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence151-2082-bhadra",
+   "ioe-ce151-2081-ashwin"
+  ],
+  "pages": 36,
+  "bytes": 1645019,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-building-technology-2082-2083.pdf",
+  "subject": "Building Technology",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ence255-2083-baishakh",
+   "ioe-ence255-2082-bhadra"
+  ],
+  "pages": 15,
+  "bytes": 242399,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-communication-english-2081-2082.pdf",
+  "subject": "Communication English",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ensh204-2082-kartik",
+   "ioe-ensh204-2081-chaitra"
+  ],
+  "pages": 34,
+  "bytes": 358211,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-communication-english-part-ii-2082-2083.pdf",
+  "subject": "Communication English (Part II)",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ensh251-2083-baishakh",
+   "ioe-ensh251-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 341542,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-computer-aided-civil-drawing-2081-2082.pdf",
+  "subject": "Computer Aided Civil Drawing",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence204-2082-chaitra",
+   "ioe-ence204-2082-kartik",
+   "ioe-ence204-2081-chaitra"
+  ],
+  "pages": 26,
+  "bytes": 629228,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-computer-graphics-and-visualization-2081-2082.pdf",
+  "subject": "Computer Graphics and Visualization",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enct201-2082-kartik",
+   "ioe-enct201-2081-chaitra"
+  ],
+  "pages": 25,
+  "bytes": 942161,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-computer-organization-and-architecture-2082-2083.pdf",
+  "subject": "Computer Organization and Architecture",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enex253-2083-baishakh",
+   "ioe-enex253-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 710382,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-concrete-technology-2081-2082.pdf",
+  "subject": "Concrete Technology",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence205-2082-chaitra",
+   "ioe-ence205-2082-kartik",
+   "ioe-ence205-2081-chaitra"
+  ],
+  "pages": 18,
+  "bytes": 571048,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-control-system-2082-2083.pdf",
+  "subject": "Control System",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee251-2083-baishakh",
+   "ioe-enee251-2082-bhadra"
+  ],
+  "pages": 30,
+  "bytes": 1582018,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-data-communication-2082-2083.pdf",
+  "subject": "Data Communication",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct253-2083-baishakh",
+   "ioe-enct253-2082-bhadra"
+  ],
+  "pages": 31,
+  "bytes": 1081966,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-data-structure-and-algorithm-2082-2083.pdf",
+  "subject": "Data Structure and Algorithm",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct252-2083-baishakh",
+   "ioe-enct252-2082-bhadra"
+  ],
+  "pages": 38,
+  "bytes": 735111,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-discrete-structure-2082-2083.pdf",
+  "subject": "Discrete Structure",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct251-2083-baishakh",
+   "ioe-enct251-2082-bhadra"
+  ],
+  "pages": 31,
+  "bytes": 1095025,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electrical-engineering-material-2081-2082.pdf",
+  "subject": "Electrical Engineering Material",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enee203-2082-kartik",
+   "ioe-enee203-2081-chaitra"
+  ],
+  "pages": 28,
+  "bytes": 1252600,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electrical-machine-i-2081-2082.pdf",
+  "subject": "Electrical Machine I",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enee202-2082-kartik",
+   "ioe-enee202-2081-chaitra"
+  ],
+  "pages": 28,
+  "bytes": 1102254,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electrical-machine-ii-2082-2083.pdf",
+  "subject": "Electrical Machine II",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee253-2083-baishakh",
+   "ioe-enee253-2082-bhadra"
+  ],
+  "pages": 23,
+  "bytes": 1241844,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electromagnetics-2082-2083.pdf",
+  "subject": "Electromagnetics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enex254-2083-baishakh",
+   "ioe-enex254-2082-bhadra"
+  ],
+  "pages": 29,
+  "bytes": 1777020,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-mathematics-iii-2081-2082.pdf",
+  "subject": "Engineering Mathematics III",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ensh201-2082-chaitra",
+   "ioe-ensh201-2082-kartik",
+   "ioe-ensh201-2081-chaitra",
+   "ioe-sh501-2081-bhadra",
+   "ioe-sh501-2081-baishakh"
+  ],
+  "pages": 71,
+  "bytes": 3612770,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-survey-ii-2081-2082.pdf",
+  "subject": "Engineering Survey II",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence203-2082-chaitra",
+   "ioe-ence203-2082-kartik",
+   "ioe-ence203-2081-chaitra"
+  ],
+  "pages": 50,
+  "bytes": 1881543,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-fluid-mechanics-2081-2082.pdf",
+  "subject": "Fluid Mechanics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence201-2082-chaitra",
+   "ioe-ence201-2082-kartik",
+   "ioe-ence201-2081-chaitra"
+  ],
+  "pages": 44,
+  "bytes": 2220293,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-hydraulics-2082-2083.pdf",
+  "subject": "Hydraulics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ence251-2083-baishakh",
+   "ioe-ence251-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 1404694,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-instrumentation-2082-2083.pdf",
+  "subject": "Instrumentation",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee252-2083-baishakh",
+   "ioe-enex252-2082-bhadra"
+  ],
+  "pages": 29,
+  "bytes": 905680,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-instrumentation-and-measurement-2081-2082.pdf",
+  "subject": "Instrumentation and Measurement",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enee201-2082-kartik",
+   "ioe-enee201-2081-chaitra"
+  ],
+  "pages": 25,
+  "bytes": 1102736,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-logic-circuit-2081-2082.pdf",
+  "subject": "Logic Circuit",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enex203-2082-kartik",
+   "ioe-enex203-2081-chaitra"
+  ],
+  "pages": 21,
+  "bytes": 782337,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-microprocessor-2081-2082.pdf",
+  "subject": "Microprocessor",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enex201-2082-chaitra",
+   "ioe-enex201-2082-kartik",
+   "ioe-enex201-2081-chaitra"
+  ],
+  "pages": 38,
+  "bytes": 929275,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-microprocessors-and-microcontrollers-2082-2083.pdf",
+  "subject": "Microprocessors and Microcontrollers",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enex251-2083-baishakh",
+   "ioe-enex251-2082-bhadra"
+  ],
+  "pages": 27,
+  "bytes": 715090,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-numerical-methods-2081-2083.pdf",
+  "subject": "Numerical Methods",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ensh252-2083-baishakh",
+   "ioe-ensh202-2082-chaitra",
+   "ioe-ensh202-2082-kartik",
+   "ioe-ensh252-2082-bhadra",
+   "ioe-ensh202-2081-chaitra"
+  ],
+  "pages": 75,
+  "bytes": 3496160,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-operating-system-2082-2083.pdf",
+  "subject": "Operating System",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct254-2083-baishakh",
+   "ioe-enct254-2082-bhadra"
+  ],
+  "pages": 28,
+  "bytes": 537015,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-power-system-analysis-i-2081-2082.pdf",
+  "subject": "Power System Analysis I",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enee205-2082-kartik",
+   "ioe-enee205-2081-chaitra"
+  ],
+  "pages": 26,
+  "bytes": 1289851,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-power-system-analysis-ii-2082-2083.pdf",
+  "subject": "Power System Analysis II",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee252-2083-baishakh-psa2",
+   "ioe-enee252-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 1277401,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-probability-and-statistics-2082-2083.pdf",
+  "subject": "Probability and Statistics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ensh253-2083-baishakh",
+   "ioe-ensh253-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 1296669,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-signals-and-systems-2082-2083.pdf",
+  "subject": "Signals and Systems",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enex255-2083-baishakh",
+   "ioe-enex255-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 1482741,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-soil-mechanics-2082-2083.pdf",
+  "subject": "Soil Mechanics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ence253-2083-baishakh",
+   "ioe-ence253-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 1304641,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-theory-of-computation-2081-2082.pdf",
+  "subject": "Theory of Computation",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enct203-2082-chaitra",
+   "ioe-enct203-2082-kartik",
+   "ioe-enct203-2081-chaitra"
+  ],
+  "pages": 51,
+  "bytes": 1775478,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-theory-of-structures-i-2081-2082.pdf",
+  "subject": "Theory of Structures I",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence202-2082-chaitra",
+   "ioe-ence202-2081-chaitra"
+  ],
+  "pages": 27,
+  "bytes": 1558213,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-theory-of-structures-ii-2082-2083.pdf",
+  "subject": "Theory of Structures II",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ence252-2083-baishakh",
+   "ioe-ence252-2082-bhadra"
+  ],
+  "pages": 36,
+  "bytes": 1754668,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-water-supply-engineering-2082-2083.pdf",
+  "subject": "Water Supply Engineering",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ence254-2083-baishakh",
+   "ioe-ence254-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 845915,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/NEBians-Engineering-All-In-One-Book-Vol-1-of-2.pdf",
+  "subject": "ALL",
+  "years_bs": "2077-2083",
+  "papers": [
+   "ioe-ct153-2081-ashwin",
+   "ioe-ct153-2082-baishakh",
+   "ioe-enct153-2082-bhadra",
+   "ioe-enct153-2083-baishakh",
+   "ioe-ee103-2081-baishakh",
+   "ioe-ee103-2081-kartik",
+   "ioe-enee103-2081-chaitra",
+   "ioe-ce103-2081-baishakh",
+   "ioe-ce103-2081-kartik",
+   "ioe-ence103-2081-chaitra",
+   "ioe-ct401-2080-bhadra",
+   "ioe-ct401-2081-baishakh",
+   "ioe-ct401-2081-bhadra",
+   "ioe-ct401-2082-baishakh",
+   "ioe-ct401-2082-shrawan",
+   "ioe-enex152-2082-bhadra",
+   "ioe-enex152-2083-baishakh",
+   "ioe-ex152-2081-ashwin",
+   "ioe-ex152-2082-baishakh",
+   "ioe-ee460-2077-chaitra",
+   "ioe-ee460-2078-chaitra",
+   "ioe-ee460-2079-chaitra",
+   "ioe-ee460-2080-chaitra",
+   "ioe-ee460-2081-chaitra",
+   "ioe-enex151-2082-bhadra",
+   "ioe-enex151-2083-baishakh",
+   "ioe-ex151-2081-ashwin",
+   "ioe-ex151-2082-baishakh",
+   "ioe-ex154-2081-ashwin",
+   "ioe-ex154-2082-baishakh",
+   "ioe-ensh103-2081-chaitra",
+   "ioe-ensh153-2082-bhadra",
+   "ioe-ensh153-2083-baishakh",
+   "ioe-sh103-2081-baishakh",
+   "ioe-sh103-2081-kartik",
+   "ioe-sh153-2081-ashwin",
+   "ioe-sh153-2082-baishakh",
+   "ioe-sh403-2081-baishakh",
+   "ioe-sh403-2081-bhadra",
+   "ioe-sh403-2082-baishakh",
+   "ioe-sh403-2082-shrawan",
+   "ioe-ce102-2081-baishakh",
+   "ioe-ce102-2081-kartik",
+   "ioe-ence102-2081-chaitra",
+   "ioe-ce152-2081-ashwin",
+   "ioe-ence152-2082-bhadra",
+   "ioe-ence152-2083-baishakh",
+   "ioe-ensh101-2081-chaitra",
+   "ioe-sh101-2081-baishakh",
+   "ioe-sh101-2081-kartik",
+   "ioe-sh401-2078-bhadra",
+   "ioe-sh401-2078-kartik",
+   "ioe-sh401-2079-baishakh",
+   "ioe-sh401-2079-bhadra",
+   "ioe-sh401-2080-bhadra",
+   "ioe-sh401-2081-baishakh",
+   "ioe-sh401-2081-bhadra",
+   "ioe-sh401-2082-baishakh",
+   "ioe-sh401-2082-shrawan",
+   "ioe-ensh151-2082-bhadra",
+   "ioe-ensh151-2083-baishakh",
+   "ioe-sh151-2081-ashwin",
+   "ioe-sh451-2078-chaitra",
+   "ioe-sh451-2079-chaitra",
+   "ioe-sh451-2080-ashwin",
+   "ioe-sh451-2080-chaitra",
+   "ioe-sh451-2081-chaitra",
+   "ioe-ce101-2081-baishakh",
+   "ioe-ce101-2081-kartik",
+   "ioe-ence101-2081-chaitra",
+   "ioe-ensh102-2081-chaitra",
+   "ioe-ensh152-2082-bhadra",
+   "ioe-ensh152-2083-baishakh",
+   "ioe-sh102-2081-baishakh",
+   "ioe-sh152-2081-ashwin",
+   "ioe-sh152-2082-baishakh",
+   "ioe-sh402-2081-bhadra",
+   "ioe-sh402-2082-baishakh",
+   "ioe-sh402-2082-shrawan",
+   "ioe-ce153-2081-ashwin",
+   "ioe-ce153-2082-baishakh",
+   "ioe-ence153-2082-bhadra",
+   "ioe-ence153-2083-baishakh",
+   "ioe-enex101-2081-chaitra",
+   "ioe-ex101-2081-baishakh",
+   "ioe-ct151-2081-ashwin",
+   "ioe-ct151-2082-baishakh",
+   "ioe-enct151-2082-bhadra",
+   "ioe-enct151-2083-baishakh",
+   "ioe-ce151-2081-ashwin",
+   "ioe-ence151-2082-bhadra",
+   "ioe-ence255-2082-bhadra",
+   "ioe-ence255-2083-baishakh",
+   "ioe-ensh204-2081-chaitra",
+   "ioe-ensh204-2082-kartik",
+   "ioe-ensh251-2082-bhadra",
+   "ioe-ensh251-2083-baishakh",
+   "ioe-ence204-2081-chaitra",
+   "ioe-ence204-2082-chaitra",
+   "ioe-ence204-2082-kartik",
+   "ioe-enct201-2081-chaitra",
+   "ioe-enct201-2082-kartik"
+  ],
+  "pages": 1384,
+  "bytes": 49956001,
+  "kind": "master-book",
+  "volume": 1,
+  "volumes": 2
+ },
+ {
+  "file": "bundles/NEBians-Engineering-All-In-One-Book-Vol-2-of-2.pdf",
+  "subject": "ALL",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enex253-2082-bhadra",
+   "ioe-enex253-2083-baishakh",
+   "ioe-ence205-2081-chaitra",
+   "ioe-ence205-2082-chaitra",
+   "ioe-ence205-2082-kartik",
+   "ioe-enee251-2082-bhadra",
+   "ioe-enee251-2083-baishakh",
+   "ioe-enct253-2082-bhadra",
+   "ioe-enct253-2083-baishakh",
+   "ioe-enct252-2082-bhadra",
+   "ioe-enct252-2083-baishakh",
+   "ioe-enct251-2082-bhadra",
+   "ioe-enct251-2083-baishakh",
+   "ioe-enee203-2081-chaitra",
+   "ioe-enee203-2082-kartik",
+   "ioe-enee202-2081-chaitra",
+   "ioe-enee202-2082-kartik",
+   "ioe-enee253-2082-bhadra",
+   "ioe-enee253-2083-baishakh",
+   "ioe-enex254-2082-bhadra",
+   "ioe-enex254-2083-baishakh",
+   "ioe-ensh201-2081-chaitra",
+   "ioe-ensh201-2082-chaitra",
+   "ioe-ensh201-2082-kartik",
+   "ioe-sh501-2081-baishakh",
+   "ioe-sh501-2081-bhadra",
+   "ioe-ence203-2081-chaitra",
+   "ioe-ence203-2082-chaitra",
+   "ioe-ence203-2082-kartik",
+   "ioe-ence201-2081-chaitra",
+   "ioe-ence201-2082-chaitra",
+   "ioe-ence201-2082-kartik",
+   "ioe-enct202-2081-chaitra",
+   "ioe-ence251-2082-bhadra",
+   "ioe-ence251-2083-baishakh",
+   "ioe-enee252-2083-baishakh",
+   "ioe-enex252-2082-bhadra",
+   "ioe-enee201-2081-chaitra",
+   "ioe-enee201-2082-kartik",
+   "ioe-enex203-2081-chaitra",
+   "ioe-enex203-2082-kartik",
+   "ioe-enex201-2081-chaitra",
+   "ioe-enex201-2082-chaitra",
+   "ioe-enex201-2082-kartik",
+   "ioe-enex251-2082-bhadra",
+   "ioe-enex251-2083-baishakh",
+   "ioe-ensh202-2081-chaitra",
+   "ioe-ensh202-2082-chaitra",
+   "ioe-ensh202-2082-kartik",
+   "ioe-ensh252-2082-bhadra",
+   "ioe-ensh252-2083-baishakh",
+   "ioe-enct254-2082-bhadra",
+   "ioe-enct254-2083-baishakh",
+   "ioe-enee205-2081-chaitra",
+   "ioe-enee205-2082-kartik",
+   "ioe-enee252-2082-bhadra",
+   "ioe-enee252-2083-baishakh-psa2",
+   "ioe-ensh253-2082-bhadra",
+   "ioe-ensh253-2083-baishakh",
+   "ioe-enex255-2082-bhadra",
+   "ioe-enex255-2083-baishakh",
+   "ioe-ence253-2082-bhadra",
+   "ioe-ence253-2083-baishakh",
+   "ioe-enct203-2081-chaitra",
+   "ioe-enct203-2082-chaitra",
+   "ioe-enct203-2082-kartik",
+   "ioe-ence202-2081-chaitra",
+   "ioe-ence202-2082-chaitra",
+   "ioe-ence252-2082-bhadra",
+   "ioe-ence252-2083-baishakh",
+   "ioe-ence254-2082-bhadra",
+   "ioe-ence254-2083-baishakh",
+   "ioe-ence303-2082-chaitra",
+   "ioe-ence301-2082-chaitra",
+   "ioe-enee304-2082-chaitra",
+   "ioe-enex304-2082-chaitra",
+   "ioe-enee306-2082-chaitra",
+   "ioe-ence306-2082-chaitra",
+   "ioe-enme310-2082-chaitra",
+   "ioe-enex301-2082-chaitra",
+   "ioe-ensh304-2082-chaitra",
+   "ioe-enee301-2082-chaitra",
+   "ioe-enex303-2082-chaitra",
+   "ioe-ence305-2082-chaitra"
+  ],
+  "pages": 1187,
+  "bytes": 49845772,
+  "kind": "master-book",
+  "volume": 2,
+  "volumes": 2
+ }
+]

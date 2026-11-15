@@ -1,0 +1,12 @@
+      PROGRAM SIGNCHK
+      REAL X
+      WRITE(*,*) 'ENTER A NUMBER'
+      READ(*,*) X
+      IF (X) 10, 20, 30
+   10 WRITE(*,*) 'THE NUMBER IS NEGATIVE'
+      GO TO 40
+   20 WRITE(*,*) 'THE NUMBER IS ZERO'
+      GO TO 40
+   30 WRITE(*,*) 'THE NUMBER IS POSITIVE'
+   40 STOP
+      END
