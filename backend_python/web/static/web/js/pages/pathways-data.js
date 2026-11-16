@@ -38,6 +38,7 @@
     }).filter(function (s) { return s.streams.length; });
     var stageOf = {}; st.forEach(function (s) { s.streams.forEach(function (g) { g.courses.forEach(function (id) { stageOf[id] = [s.id, g.id]; }); }); });
     var C = {};
+    var needsOf = function (e) { e = e.toLowerCase(); var n = []; if (/pcb|biology/.test(e)) n.push('bio'); if (/pcm|mathematics|maths/.test(e)) n.push('math'); if (/science|pcm|pcb|physics/.test(e)) n.push('sci'); if (/management|commerce|business studies/.test(e)) n.push('mgmt'); return n; };
     P.routes.forEach(function (r) {
       var ks = (r.careers || []).filter(function (id) { return K[id]; }), cs = ks.map(function (id) { return K[id]; }), nx = (r.next || []).filter(function (id) { return stageOf[id]; })[0];
       var tags = r.tags || [], y = years(r.years), sub = (r.kind || '') + (r.years ? ' · ' + r.years : '');
@@ -45,7 +46,7 @@
       C[r.id] = { id: r.id, n: r.name, f: sub, y: y, fee: [r.fee[0] / 1e5, r.fee[1] / 1e5], d: r.demand > 0 ? pct(r.demand) : Math.round(avg(cs.map(function (k) { return k.d; })) || 50),
         c: r.competition > 0 ? pct(r.competition) : Math.round(avg(cs.map(function (k) { return k.c; })) || 50),
         pay: cs.length ? [k1(avg(P.careers.filter(function (k) { return ks.indexOf(k.id) >= 0; }).map(function (k) { return k.salary.entry[0]; }))), k1(avg(P.careers.filter(function (k) { return ks.indexOf(k.id) >= 0; }).map(function (k) { return k.salary.entry[1]; })))] : 0,
-        to: ks, tags: tags, st: strength, ent: r.entry || r.exam || 'See the college', exam: r.exam || '', where: r.where || [],
+        to: ks, tags: tags, st: strength, needs: needsOf(r.entry || ''), ent: r.entry || r.exam || 'See the college', exam: r.exam || '', where: r.where || [],
         plan: (r.plan && r.plan.length ? r.plan : [r.exam || 'Admission', (r.years || 'Study'), 'Graduate']).map(function (p) { return p.replace(/^Year \d+:\s*/, ''); }), ns: nx ? stageOf[nx][1] : '' };
     });
     var CX = {}; P.routes.forEach(function (r) { if (r.exam_id) CX[r.id] = r.exam_id; });
@@ -76,8 +77,12 @@
       return { n: s.name, k: a ? (a.code || a.id.toUpperCase()) : (s.scope === 'nepal' ? 'NP' : ''), t: s.type || 'Government', s: o[0], e: o[1], l: (s.levels || []).map(function (x) { return lv[x] || ''; }).join('') || 'B',
         cov: (/tuition|fee/.test(cv) ? 'T' : '') + (/stipend|allowance|living/.test(cv) ? 'S' : '') + (/flight|airfare|travel/.test(cv) ? 'F' : ''), aw: s.awards || 0, fixed: o[0] === 1 && o[1] === 12, link: s.link || '', who: s.who || '', how: s.how || '' };
     });
+    var FI = { after8: 'cap', after10: 'route', after12: 'flag', afterbach: 'list', abroad: 'pin', general: 'list' }, tl = {}, fi = {};
+    (P.topics || []).forEach(function (t) { tl[t.id] = t.label; fi[t.label] = FI[t.id] || 'list'; });
+    var faq = (P.faq || []).map(function (f) { return { id: f.id, t: tl[f.topic] || f.topic, q: f.q, a: f.a, r: (f.go || []).filter(function (id) { return C[id]; }).slice(0, 4).map(function (id) { return ['goCourse', id, C[id].n]; }) }; });
+    var faqTopics = (P.topics || []).map(function (t) { return t.label; }).filter(function (l) { return faq.some(function (f) { return f.t === l; }); });
     var rank = function (id) { return st.map(function (s) { return s.id; }).indexOf(id); };
     return { STAGES: st, C: C, K: K, X: X, G: G, COL: Object.keys(COL).map(function (k) { return COL[k]; }), CT: abroad, SCH: SCH, CX: CX, tracks: tracks.map(function (t, i) { return [t.id, t.label, TTONE[i % 4]]; }),
-      cats: ['All'].concat(P.guides.map(function (g) { return g.cat; }).filter(function (c, i, a) { return a.indexOf(c) === i; })), CTONE: CTONE, rank: rank, reviewed: P.reviewed };
+      faq: faq, faqTopics: faqTopics, faqIcons: fi, cats: ['All'].concat(P.guides.map(function (g) { return g.cat; }).filter(function (c, i, a) { return a.indexOf(c) === i; })), CTONE: CTONE, rank: rank, reviewed: P.reviewed };
   };
 })();

@@ -1261,11 +1261,13 @@ const KW={build:['build','engineer','construct','machine','civil','mechanic','el
 const KS={math:['math','statist','account','data','physics'],sci:['science','physic','chem','lab','research'],bio:['biolog','anatomy','patient','clinic','agricultur'],lang:['english','writing','communicat','nepali','language','journal'],biz:['business','finance','account','market','sales','manage'],comp:['program','computer','software','coding','data'],art:['design','draw','creative','art']};
 const mtext=c=>c._t||(c._t=(c.n+' '+c.f+' '+c.to.map(k=>K[k].n+' '+(K[k].sk||[]).join(' ')).join(' ')).toLowerCase());
 const mavg=a=>a.length?a.reduce((p,v)=>p+v,0)/a.length:0;
-/* Every answer becomes a 0..1 signal per course: tag = 1, group and keyword = .8, group = .6, keyword = .4. Interests count the best signal and the average, so one strong hit is not drowned by a third pick. */
+/* How rare each keyword is across all courses: a word found in few courses is strong evidence, one found in every course says little. */
+const IDF=(()=>{const T=Object.values(C).map(mtext),n=T.length,o={};[...Object.values(KW),...Object.values(KS)].flat().forEach(w=>{if(o[w]!=null)return;const df=T.filter(t=>t.includes(w)).length;o[w]=Math.max(.2,Math.log((n+1)/(df+1))+.4)});return o})();
+/* Every answer becomes a 0..1 signal per course: tag = 1, group and keyword = .6 to 1 (keywords weighted by rarity), group = .6, keyword alone up to .55; a course whose stream the strengths cannot meet is cut by a fifth. Interests count the best signal and the average, so one strong hit is not drowned by a third pick. */
 function matchOf(pool){
   const mxp=Math.max(1,...pool.map(c=>c.pay?c.pay[1]:0)),mxf=Math.max(1,...pool.map(c=>c.fee[0])),b=S.mb,R=S.mr;
-  return pool.map(c=>{const g=grpOf(c),txt=mtext(c),hit=(m,x)=>(m[x]||[]).some(y=>g.includes(y)),kw=(m,x)=>m[x].some(w=>txt.includes(w)),
-    sig=(set,tag,gm,km)=>[...set].map(x=>tag(x)?1:hit(gm,x)&&kw(km,x)?.8:hit(gm,x)?.6:kw(km,x)?.4:0),
+  return pool.map(c=>{const g=grpOf(c),txt=mtext(c),hit=(m,x)=>(m[x]||[]).some(y=>g.includes(y)),kw=(m,x)=>{const h=m[x].filter(w=>txt.includes(w));if(!h.length)return 0;const all=m[x].reduce((a,w)=>a+(IDF[w]||1),0)||.1;return .45+.55*Math.min(1,h.reduce((a,w)=>a+(IDF[w]||1),0)/all*2.5)},
+    sig=(set,tag,gm,km)=>[...set].map(x=>{if(tag(x))return 1;const k=kw(km,x),g=hit(gm,x);return g&&k?.6+.4*k:g?.6:k?.55*k:0}),
     agg=a=>!a.length?.5:a.some(v=>v>0)?.15+.85*(.5*Math.max(...a)+.5*mavg(a)):0,
     it=agg(sig(S.mi,x=>c.tags.includes(x),IG,KW)),sr0=agg(sig(S.ms,x=>c.st===x,SG,KS)),sr=S.ms.size&&!sr0?.1:sr0,
     [lo,hi]=c.fee,bf=hi<=b?1:lo<=b?.4+.6*(b-lo)/Math.max(.01,hi-lo):Math.max(0,.3*(1-(lo-b)/Math.max(lo,.01))),
@@ -1274,10 +1276,11 @@ function matchOf(pool){
     ch=[...S.mp],ps=ch.length?mavg(ch.map(k=>pr[k])):(pr.demand+pr.pay)/2,
     yf=!S.my||c.y<=S.my?1:Math.max(0,1-(c.y-S.my)/Math.max(1,S.my)),
     base=R==='safe'?.4*c.d/100+.6*ease:R==='bold'?.4*c.d/100+.6*pr.pay:c.d/100,ol=Math.max(0,Math.min(1,base+tr/60)),
-    t=(.32*it+.16*sr+.14*bf+.2*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1),why=[],neg=[];
-    if(S.mi.size&&it>=.6)why.push('Fits your interests');if(S.ms.size&&sr>=.7)why.push('Plays to your strengths');if(bf>=1)why.push('In budget');
+    ld=locate(c.id),nd=ld&&(ld.st.id==='p2'||ld.st.id==='see')?{sci:'sci',mgt:'mgmt'}[ld.sm.id]:null,ok=!nd||!S.ms.size||(nd==='sci'?[...S.ms].some(v=>['math','sci','bio','comp'].includes(v)):S.ms.has('biz')),
+    t=(.32*it+.16*sr+.14*bf+.2*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1)*(ok?1:.8),why=[],neg=[];
+    if(S.mi.size&&it>=.6)why.push('Fits your interests');if(S.ms.size&&sr>=.7)why.push('Plays to your strengths');if(bf>=1)why.push('In budget');if(nd&&S.ms.size&&ok)why.push('Matches the subjects it needs');
     ch.filter(k=>pr[k]>=.7).forEach(k=>why.push(PRI.find(y=>y[0]===k)[1]));if(tr>=3)why.push('Demand is rising');
-    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');if(R==='safe'&&ease<.35)neg.push('Hard to get into');
+    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');if(nd&&!ok)neg.push('Needs '+(nd==='sci'?'Science':'Management'));if(R==='safe'&&ease<.35)neg.push('Hard to get into');
     return{c,s:Math.max(1,Math.min(99,Math.round(100*Math.pow(t,1.8)))),why:why.slice(0,3),neg,p:{Interests:it,Strengths:sr,Budget:bf,Priorities:ps,Outlook:ol}}}).sort((a,b)=>b.s-a.s)}
 const MK='nebm';
 function msave(){try{localStorage.setItem(MK,JSON.stringify({i:[...S.mi],s:[...S.ms],p:[...S.mp],b:S.mb,y:S.my,r:S.mr,g:S.mstg,d:S.mdone}))}catch(e){}}

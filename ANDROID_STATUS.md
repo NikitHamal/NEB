@@ -1010,3 +1010,32 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Android on device: Linked fold animation next to the bottom peek, and the Nepal map label sizes at 360dp wide.
 - Web: browser pass for the map at 390 and 1280 wide.
+
+
+---
+
+# Session 39: Pathways concept v4 (Match wizard, exams revamp, question cards), Android charts, stronger match, web port
+
+Same file, same rule: nothing is built locally, the check is GitHub Actions (`build-release.yml`, `backend-tests.yml`). History read first: session 38 left the concept at v3; `d247c2b` is the uploaded v4 concept (Match wizard, progress bar bug); `4ca03cc` (concept: progress bar fix, exams revamp, Questions cards, linkify) and `5569f81` (Android Match wizard and ranked results, `PwMatch*.kt`, plan screen, progress bar fix, CI green) were done in an earlier pass and are **kept**; they had no status entry, this is it.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 233 | **Career Pay is the concept ladder**: four step rows (number disc, step name, year range, pay, bar), the step for the chosen year lit, "Try a year" slider and the one-line note. The old line chart with scrubber and the rung tiles are gone. Four steps start at year 0, 3, 7, 12 as in the concept, other counts are spread over 12 years. | `PwCareerCharts.kt` (`PwPayLadder`), `PwCareerDetail.kt` |
+| 234 | **Profile is the concept radar**: six fixed scales (Pay, Demand, Entry, Stability, Flexibility, Growth), three rings, soft average polygon, tinted outline, "Average" key. Values are the real career numbers and the real average of all careers; a missing trait uses the average, not a made-up number. About moved here from Pay. | `PwRadar` |
+| 235 | **Market is the concept**: demand history plot (only when the career has real yearly data), verdict card (Great odds / Good odds / Competitive / Tough to enter in good, good, yellow, red), Jobs available and People competing bars, "Easiest careers to get into" five-row window around this career (rank, name, bar, tap to open). Quadrant, trend chip and old charts deleted. | `PwSpark`, `PwMarket` |
+| 236 | **Question cards** (Guides > Questions): search field, topic chips, cards with a topic tile that rounds on open (28 to 34dp card, 16 to 22dp tile on a spring), chevron turn, animated open, linked answer, up to three figures from the first related course (duration, fee, start pay, taken from data, never typed in), course chips, Helpful toggle and Save (saved questions show in My plan and open the card). 20 cards, then "Show more". | `PwQuestions.kt`, `PwGuides.kt`, `PwPlan.kt` |
+| 237 | **Linkify**: web addresses, bare `.np` and common domains, e-mail and Nepali phone numbers (01-xxxxxxx, 1660-xx-xxxxx) open on tap. Used on question answers, route and career About, scholarship covers / who / how, abroad notes and exam notes. Plain text takes the cheap path (no regex match, no allocation). | `PwLinkText.kt` |
+| 238 | **Stronger match** (Android and concept). Keywords are weighted by rarity (a word found in few courses is strong evidence, one in every course says little; `PwData.wordIdf`, once per data load). **Entry subjects**: the stream a course asks for (Science, Biology, Maths, Management, from the entry text) is checked against the strengths the student named; a miss cuts the score a fifth and the card says "Needs Science". **Abroad** is the course rating lifted by how many real destinations that teach the field fit the budget for its length ("Abroad within budget"). All of it is computed once in the route index, scoring still runs off the main thread. | `PwMatchEngine.kt`, `PwMatchScore.kt`, concept `matchOf` |
+| 239 | **Web port of concept v4** by three-way merge (old concept, new concept, web script), conflicts resolved by hand: Match wizard with ranked results, exams revamp (next up, year map, filters, odds and prep bars), Questions with search, linkify, plan order Match then My plan. Web specifics kept: real payload adapter, `pw-*` ids, container-query layout. New concept CSS is appended, scoped under `.pwx`. Questions on the web come from the payload (`faq`, `topics`); entry subjects come from the route entry text. | `pathways.js`, `pathways-data.js`, `pathways.css` |
+
+## Rules
+- Concept first, then web, then Android. The web script is a three-way merge target: keep web-only lines (adapter, `pw-*` ids) small and do not reformat the shared body.
+- Match: a new signal goes into the route index (`PwRouteIdx`) first and into the score second; it must name its reason or its warning on the card.
+- Exams on Android is **not** ported yet on purpose: the concept exams screen waits for the owner's approval.
+
+## Next
+- Android on device: radar label placement at 360dp, Market list rise, question card open animation with long answers.
+- Port the exams revamp to Android after approval.
+- Match: ask the +2 stream directly (a fifth answer) so eligibility stops using strengths as the proxy.
