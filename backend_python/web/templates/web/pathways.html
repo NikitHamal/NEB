@@ -11,44 +11,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="pw-page" id="pw-root" data-reviewed="{{ pathways_data.reviewed }}">
-  <header class="pw-top">
-    <div class="pw-top-l">
-      {% url 'web:tools_hub' as back_href %}
-      {% include "web/partials/_back.html" with back_label="Back to Tools" %}
-      <p class="pw-eyebrow">NEBians &middot; Study and career</p>
-      <h1 class="pw-title">Pathways</h1>
-    </div>
-    <div class="pw-top-r">
-      <div class="pw-search">
-        <span class="material-symbols-outlined" aria-hidden="true">search</span>
-        <input id="pw-q" type="search" placeholder="Search courses, careers, colleges" autocomplete="off" aria-label="Search Pathways">
-        <div class="pw-hits" id="pw-hits" hidden></div>
-      </div>
-      <button class="pw-round" id="pw-saved" type="button" aria-label="Saved"><span class="material-symbols-outlined">bookmark</span></button>
-    </div>
-  </header>
-
-  <nav class="pw-nav" id="pw-nav" aria-label="Pathways sections"></nav>
-
-  <section id="pw-view" class="pw-view" aria-live="polite" data-src="/api/pathways/">
-    <noscript>
-      <ul class="pw-plain">
-        {% for s in pathways_data.stages %}<li>{{ s.label }}: {{ s.blurb }}</li>{% endfor %}
-      </ul>
-    </noscript>
-    <div class="pw-skel" aria-hidden="true"><i></i><i></i><i></i></div>
-  </section>
-
-  <p class="pw-foot">Figures are indicative ranges reviewed {{ pathways_data.reviewed }}. Confirm fees, seats, dates and rules with the institution or the official notice.</p>
+{% url 'web:tools_hub' as back_href %}
+{% include "web/partials/_back.html" with back_label="Back to Tools" %}
+<div class="pw" id="pw-root" data-src="/api/pathways/">
+  <noscript>
+    <ul>{% for s in pathways_data.stages %}<li>{{ s.label }}: {{ s.blurb }}</li>{% endfor %}</ul>
+  </noscript>
 </div>
-{{ districts|json_script:"pw-districts" }}
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-level.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-map.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-more.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-lab.js' %}" defer></script>
 {% endblock %}
