@@ -1823,5 +1823,260 @@
    ],
    "a": "The Philippines follows a US system. You first finish a pre-medical bachelor (often BS Biology), then a four year Doctor of Medicine taught in English. Budget about NPR 30 to 50 lakh in all, plus NPR 2.5 to 4.5 lakh a year for living, and include the pre-med years in the plan. As elsewhere, only a Nepal Medical Council recognised school gives you a path to a licence."
   }
+ ],
+ "careers_new": [
+  {
+   "id": "ui-ux-designer",
+   "name": "UI and UX designer",
+   "about": "Designs how apps and websites look and feel, from research and wireframes to the final Figma screens that developers build.",
+   "demand": 4,
+   "competition": 4,
+   "trend": "rising",
+   "abroad": 4,
+   "salary": {
+    "entry": [
+     25000,
+     40000
+    ],
+    "senior": [
+     90000,
+     150000
+    ]
+   },
+   "skills": [
+    "Figma",
+    "User research",
+    "Design systems",
+    "Prototyping"
+   ],
+   "ladder": [
+    "Intern",
+    "Junior designer",
+    "Product designer",
+    "Design lead"
+   ],
+   "employers": [
+    "Product companies",
+    "Software agencies",
+    "Banks and fintech",
+    "Overseas clients"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "data-scientist",
+   "name": "Data scientist",
+   "about": "Builds models and analyses from large data sets to predict and decide: forecasts, recommendations and language or vision systems.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "rising",
+   "abroad": 5,
+   "salary": {
+    "entry": [
+     25000,
+     60000
+    ],
+    "senior": [
+     120000,
+     250000
+    ]
+   },
+   "skills": [
+    "Python",
+    "Statistics",
+    "SQL",
+    "Machine learning"
+   ],
+   "ladder": [
+    "Analyst",
+    "Data scientist",
+    "Senior scientist",
+    "Head of data"
+   ],
+   "employers": [
+    "Fusemachines",
+    "Leapfrog",
+    "F1Soft",
+    "Deerwalk",
+    "Verisk",
+    "Overseas clients"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "cloud-devops-engineer",
+   "name": "Cloud and DevOps engineer",
+   "about": "Runs the servers, pipelines and cloud accounts that keep software online, secure and fast.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "rising",
+   "abroad": 5,
+   "salary": {
+    "entry": [
+     35000,
+     65000
+    ],
+    "senior": [
+     100000,
+     160000
+    ]
+   },
+   "skills": [
+    "Linux",
+    "AWS or Azure",
+    "Docker and Kubernetes",
+    "CI/CD"
+   ],
+   "ladder": [
+    "Junior engineer",
+    "DevOps engineer",
+    "Senior engineer",
+    "Platform lead"
+   ],
+   "employers": [
+    "Software companies",
+    "Banks and telecom",
+    "Data centres",
+    "Overseas clients"
+   ],
+   "hours": 40
+  }
+ ],
+ "career_links": {
+  "be-computer": [
+   "cloud-devops-engineer",
+   "data-scientist"
+  ],
+  "bsc-csit": [
+   "data-scientist",
+   "cloud-devops-engineer"
+  ],
+  "bca": [
+   "ui-ux-designer"
+  ],
+  "bit": [
+   "cloud-devops-engineer"
+  ],
+  "mds-data-science": [
+   "data-scientist"
+  ],
+  "bfd-design": [
+   "ui-ux-designer"
+  ],
+  "dip-computer-eng": [
+   "cloud-devops-engineer"
+  ]
+ },
+ "guides_more": [
+  {
+   "id": "english-test",
+   "name": "English test for study abroad (IELTS, PTE, TOEFL)",
+   "cat": "Abroad",
+   "steps": [
+    [
+     "Ask your university which test and score it accepts (many take Duolingo, some need UKVI IELTS)",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Book IELTS at British Council or IDP with your original passport, the only accepted ID",
+     1,
+     36000,
+     "online"
+    ],
+    [
+     "Sit the computer delivered test",
+     14,
+     0,
+     "in person"
+    ],
+    [
+     "Send the score to universities; the report is valid for 2 years",
+     3,
+     0,
+     "online"
+    ]
+   ],
+   "docs": [
+    "Original passport",
+    "Passport photo",
+    "University score requirement"
+   ],
+   "link": "guide:noc-study-abroad"
+  }
+ ],
+ "faq_extra": [
+  {
+   "id": "fw12-x1",
+   "topic": "abroad",
+   "q": "How much do IELTS, PTE and TOEFL cost in Nepal in 2026?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "IELTS on computer is NPR 36,000 at both British Council and IDP in October 2026 (UKVI IELTS NPR 36,400, Life Skills NPR 29,000). Earlier in 2026 some pages listed NPR 33,000, so confirm on the booking page. The paper test was being phased out from mid 2026. TOEFL iBT is about USD 195 to 205 (NPR 27,000 to 30,000) and PTE Academic about USD 220, while the Duolingo English Test is about USD 70 and accepted by many universities. You need your original passport as ID, and scores stay valid for 2 years."
+  },
+  {
+   "id": "fw12-x2",
+   "topic": "abroad",
+   "q": "How does an education loan for study abroad work in Nepal?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Under Nepal Rastra Bank rules a bank can finance 80 to 100 percent of fees, hostel and other needed costs, depending on how it values your collateral (it often lends up to about 80 percent of a distress value, not the market price). The family income test is that the instalment must fit within 50 percent of verified monthly income, and a PAN is needed above NPR 50 lakh. Rates are the bank base rate plus a 2 to 5 percent premium, which came to roughly 10 to 14 percent fixed in 2025; floating offers were lower. Ceilings quoted by banks range from NPR 40 to 80 lakh. Loans above about NPR 7.5 lakh normally need collateral such as land or a fixed deposit, so ask each bank for its current sheet."
+  },
+  {
+   "id": "fw12-x3",
+   "topic": "after12",
+   "q": "What does a UI and UX designer earn in Nepal?",
+   "go": [],
+   "a": "Surveys read in 2026 agree closely: interns NPR 8,000 to 15,000, juniors NPR 25,000 to 40,000, mid level (2 to 4 years) NPR 50,000 to 85,000 and seniors NPR 90,000 to 150,000 a month, with leads on overseas projects above NPR 150,000. A Figma portfolio matters more than the degree; BCA, BIT, BSc CSIT and design diplomas all lead here."
+  },
+  {
+   "id": "fw12-x4",
+   "topic": "after12",
+   "q": "What do software, data and cloud jobs pay in Nepal in 2026?",
+   "go": [
+    "bsc-csit",
+    "be-computer"
+   ],
+   "a": "Software developers start at about NPR 25,000 to 50,000, reach NPR 50,000 to 100,000 with 2 to 5 years and NPR 90,000 to 250,000 or more at senior level or on overseas projects. Data scientists are listed at NPR 25,000 to 60,000 as juniors and NPR 120,000 to 250,000 as seniors, and cloud and DevOps engineers at about NPR 65,000 to 160,000 once experienced. Figures vary by company and survey; read them as bands, not offers."
+  },
+  {
+   "id": "fw12-x5",
+   "topic": "after10",
+   "q": "How did SEE 2082 go, and what can a student with NG do?",
+   "go": [
+    "open-school-see",
+    "pre-diploma",
+    "plus2-science"
+   ],
+   "a": "NEB published SEE 2082 on 28 Baishakh 2083 (11 May 2026): 512,421 registered, 430,667 regular students sat, 284,160 passed with a grade (65.98 percent) and 146,507 got Non-Graded (NG). Grades were spread as GPA 3.6 to 4.0: 48,392; 3.2 to 3.6: 80,372; 2.8 to 3.2: 94,222; 2.4 to 2.8: 55,977; 2.0 to 2.4: 5,190; 1.6 to 2.0: 7. A GPA above 1.6 opens higher study. With NG you can sit the grade increment or supplementary exam, and CTEVT pre-diploma programmes also accept students who sat every SEE subject and received NG."
+  }
+ ],
+ "abroad_update": {
+  "au": {
+   "note": "Student visa (subclass 500) charge is AUD 2,500 from 1 July 2026 (AUD 2,050 for English courses and non award study), non refundable. You must show AUD 29,710 a year for living on top of tuition, travel and OSHC health cover, and write a Genuine Student statement (it replaced the Genuine Temporary Entrant test). The post study visa (485) fee also rose on 1 July 2026. Check homeaffairs.gov.au before paying any agent."
+  },
+  "ca": {
+   "note": "Canada plans up to 408,000 study permits for 2026 (155,000 for new students, 253,000 for extensions and returning students). The fast track Student Direct Stream is closed, so every file takes the standard route (about 7 to 12 weeks). Show a GIC of about CAD 22,895 plus first-year tuition. Most undergraduate applicants need a provincial attestation letter; master and doctoral students at public universities are exempt. Verify on canada.ca."
+  },
+  "uk": {
+   "note": "The Student visa fee is GBP 558 from 8 April 2026. The Graduate Route falls from 2 years to 18 months for applications made from 1 January 2027 (PhD graduates keep 3 years), so plan on the rule in force when you graduate. One year master degrees save time and money."
+  },
+  "us": {
+   "note": "From 15 September 2026 F-1 students are admitted for the length of the programme up to 4 years instead of \"duration of status\" and must file for an extension of stay with USCIS to stay longer. OPT (1 year, 3 for STEM) still applies. Assistantships can cover tuition for master and PhD students in science and engineering."
+  }
+ },
+ "faq_visa": [
+  {
+   "id": "fw12-v1",
+   "topic": "abroad",
+   "q": "What changed in student visa rules for 2026?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Australia: visa charge AUD 2,500 from 1 July 2026 and AUD 29,710 living funds, with a Genuine Student statement. Canada: 408,000 study permits in 2026, no Student Direct Stream, GIC about CAD 22,895. UK: Student visa fee GBP 558 from 8 April 2026 and a Graduate Route of 18 months for applications from 1 January 2027 (2 years before that, 3 for PhD). USA: from 15 September 2026 a fixed admission period of up to 4 years replaces duration of status. These rules change several times a year, so read the official immigration page of the country on the day you apply."
+  }
  ]
 }

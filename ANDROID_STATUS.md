@@ -777,3 +777,39 @@ Nepal Police HQ notice 01/083-84 and PSC result notices (collegenp, loksewapaths
 - Show `route_seats` on the college row of the course screen (Android `PwStudy.kt`, web `pathways-level.js`).
 - District for the health colleges still left out (Shree College of Technology, Krishna Medical, NPI Narayani, Sinha Health, CIST, Kathmandu Multiple College, FWU Faculty of Health Sciences).
 - Work rules for Thailand; Holland and NL Scholarship participating list; Fulbright exact deadline.
+
+
+---
+
+# Session 32: Pathways dataset wave 12 (CTEVT 2083/84, new destinations, 2026 visa rules, careers)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Bootstrap re-run and history read first (sessions 16 to 31; INSTITUTIONS_STATUS and `docs/PATHWAYS_SCHEMA.md`). No screen was touched: data only, in the files both apps read (`wave12.json` merged by `pathways.py`). Django is not installed here, so the new tests were mirrored with plain unittest against `pathways.payload()` and `problems()` before pushing (`problems()` is empty).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 172 | **CTEVT Diploma in Computer Engineering 2083/84**: all 45 institutes from the full fee selection notice, 48 seats each (Madhesh 16, Koshi 10, Lumbini 6, Karnali 5, Bagmati 4, Gandaki 3, Sudurpashchim 1), 32 new providers with district. New route `dip-computer-eng`; also listed under `dip-engineering`. | `wave12.json`, `tools/pathways/w12_ctevt.py`, `w12_ctevt_data.py` |
+| 173 | **CTEVT constituent and partnership polytechnics (48)** from the special scholarship notice of 2 Asar 2083, each with its free seats per programme (civil, electrical, IT, agriculture, pharmacy, nursing, general medicine, hotel and more) in the provider note and linked to 14 diploma and PCL routes. New route `dip-civil-eng` (17 institutes). | same |
+| 174 | **CTEVT scholarships**: classified (free) 3,417 seats in 34 programmes with per programme counts, GPA bars (2.0 health, 1.6 others), 50/50 general and target split, one programme in one province, service promise; **special scholarship** 480 seats (457 diploma, 23 pre-diploma, NPR 3,500 a month, 78 local levels). New scholarship `s-ctevt-special`; `s-ctevt` rewritten. | `w12_abroad.py` |
+| 175 | **Six destinations**: Czechia (free in Czech, English CZK 100,000 to 400,000, visa through New Delhi), Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines (MBBS cost bands, NMC recognition and NMCLE rule). Work rules marked "Not checked yet" where no source was read. | `w12_abroad.py`, `w12_more.py` |
+| 176 | **Czech Government scholarship** (Nepal not on the 2027-28 list) and **NAWA Banach** (Nepal not shown on the 2027 list in the source read), both with the call windows. | `w12_abroad.py` |
+| 177 | **2026 visa rules**: Australia subclass 500 AUD 2,500 from 1 July 2026 and AUD 29,710 funds, Canada 408,000 permits and no SDS, UK fee GBP 558 and Graduate Route 18 months from 1 January 2027, USA fixed 4 year admission from 15 September 2026. | `w12_visa.py` |
+| 178 | **Guides**: NOC for study abroad (noc.moest.gov.np, NPR 2,000, 1 to 5 working days), CTEVT apply (ITMS), English test (IELTS NPR 36,000 at British Council and IDP in October 2026). | `w12_faq.py`, `w12_extra.py` |
+| 179 | **TU 2083 entrance round** written into the route `exam` text for BCA, BIT, BSc CSIT and the CMAT programmes (dates, fees). **KU BE fee** NPR 9,60,000 (B.Arch 10,97,000) and the 2026 admission lists on `p-ku-eng`. IOE 2083 dates and 2025 capacity (2,040 + 2,304) in a FAQ. | `w12_more.py`, `w12_faq.py` |
+| 180 | **Careers**: UI and UX designer, data scientist, cloud and DevOps engineer with 2026 salary bands, linked to BCA, BSc CSIT, BE Computer, BIT, MDS Data Science, BFD. | `w12_extra.py` |
+| 181 | **23 FAQs (80 to 103)**: NOC (2), CTEVT seats and scholarships (6), IOE and KU, TU entrance and CMAT eligibility, Czech (2), MBBS costs (3), IELTS fees, education loan rules, IT salaries (2), visa changes, SEE 2082 results (512,421 registered, 284,160 passed, 65.98 percent, GPA table adds up). | `w12_*.py` |
+| 182 | **Merge and checks**: `pathways.py` reads `wave12.json` (new keys in `docs/PATHWAYS_SCHEMA.md`); `Wave12Tests` (45 computer institutes with 48 seats, constituent list, 480 total, destinations, NOC fee, KU fee, careers, visa facts). One older test now reads `guides >= 6`. | `pathways.py`, `test_pathways.py` |
+
+## Sources
+CTEVT notices 2083 via collegenp.com and edusanjal.com (full fee selection, classified and special scholarship, BSET notice); MoEST NOC portal descriptions (four pages agree on NPR 2,000; they differ on a site visit); Study in Czechia and MEYS call 2027/28; NAWA 2027 call; studyabroad.org and edunepal.com (Czech costs and visa route); studyabroadfromnepal.com (MBBS cost bands, approximate); TU FoM CMAT notice and the TU entrance schedule 2083; IOE BE/B.Arch notice 2083/84 (edusanjal); KU fee structure 2082/83 and the School of Engineering notice of 4 August 2026 (icenepal edulibrary); Australia Home Affairs, IRCC, GOV.UK and DHS rule summaries (Prodigy Finance, Career Abroad, Phoenix ED); IELTS fee pages (October 2026); NRB Unified Directives 2081 education loan summaries; NEB SEE 2082 result (myRepublica, collegenp); Nepali IT salary surveys (necojobs, skillshikshya, London College, Texas International).
+
+## Rules (Pathways data)
+- Two sources disagreed on the IELTS fee (NPR 33,000 earlier in 2026, NPR 36,000 in October); the later official page figure is used and the FAQ says to confirm. IOE form fee is NPR 2,500 on four pages and NPR 2,000 on one; the FAQ names both.
+- Places were left at the district name for polytechnics where no source gave the town.
+- Fee range for the two new diploma routes reuses the existing CTEVT band (NPR 60,000 to 380,000); no new per college fee was found.
+
+## Not done / next
+- Per college fees for the CTEVT institutes, websites for the 294 providers that still have none, the other CTEVT programme lists (pharmacy, civil, IT, general medicine full fee institutes) from the same notice.
+- Official NMC list of recognised foreign medical schools (the six MBBS destinations only carry the rule); work rules for Czechia, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines.
+- Show `route_seats` on the college row of the course screen (Android `PwStudy.kt`, web `pathways-level.js`).

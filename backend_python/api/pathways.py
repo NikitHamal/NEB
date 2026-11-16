@@ -210,8 +210,13 @@ def payload():
             cid = sc.get('country')
             if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
                 abroad_by[cid]['scholarships'].append(sc['id'])
-        guides = guides + w12.get('guides_add', [])
-        faq_all = faq_all + w12.get('faq_add', []) + w12.get('faq_more', [])
+        for aid, more in w12.get('abroad_update', {}).items():
+            abroad_by[aid].update(more)
+        guides = guides + w12.get('guides_add', []) + w12.get('guides_more', [])
+        careers = careers + w12.get('careers_new', [])
+        for rid, more in w12.get('career_links', {}).items():
+            route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
+        faq_all = faq_all + w12.get('faq_add', []) + w12.get('faq_more', []) + w12.get('faq_extra', []) + w12.get('faq_visa', [])
         for rid, text in w12.get('route_exam', {}).items():
             route_by[rid]['exam'] = text
     data = {

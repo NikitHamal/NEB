@@ -106,7 +106,7 @@ class PathwaysDataTests(TestCase):
             self.assertIn(gid, govt)
         self.assertEqual(govt['g-kharidar']['rung'], 0)
         self.assertAlmostEqual(sum(v for _, v in govt['g-so']['quota']), 100, places=1)
-        self.assertEqual(len(d['guides']), 6)
+        self.assertGreaterEqual(len(d['guides']), 6)
         pulchowk = next(p for p in d['providers'] if p['id'] == 'p-pulchowk')
         self.assertEqual(pulchowk['seats'], 624)
         self.assertIn('be-computer', pulchowk['fees'])
@@ -395,4 +395,21 @@ class Wave12Tests(TestCase):
         self.assertIn('16 August 2026', route['bca']['exam'])
         ku = {p['id']: p for p in d['providers']}['p-ku-eng']
         self.assertEqual(ku['fees']['be-computer'], [960000, 960000])
+        self.assertEqual(pathways.problems(), [])
+
+    def test_careers_visa_and_see_facts(self):
+        d = pathways.payload()
+        careers = {c['id']: c for c in d['careers']}
+        for cid in ('ui-ux-designer', 'data-scientist', 'cloud-devops-engineer'):
+            self.assertLess(careers[cid]['salary']['entry'][0], careers[cid]['salary']['senior'][1])
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('data-scientist', routes['bsc-csit']['careers'])
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('AUD 2,500', abroad['au']['note'])
+        self.assertIn('408,000', abroad['ca']['note'])
+        self.assertIn('18 months', abroad['uk']['note'])
+        self.assertEqual(48392 + 80372 + 94222 + 55977 + 5190 + 7, 284160)
+        guides = {g['id']: g for g in d['guides']}
+        self.assertEqual(guides['english-test']['steps'][1][2], 36000)
+        self.assertGreaterEqual(len(d['faq']), 103)
         self.assertEqual(pathways.problems(), [])

@@ -95,3 +95,20 @@ New optional provider field `route_seats {"<route id>": seats}`: seats for one c
 Rules: edit the `w10_*.py` tables and re-run `build_wave10.py`; never hand edit `wave10.json`. `govt_update` may carry `note_add` (text appended to the note). `scholarship_drop` removes keys from a scholarship.
 
 `wave11.json` also takes `providers_add` (new colleges) and is extended by `tools/pathways/w11_law_ag.py` (TU LL.B 3,800 seats in 12 campuses, BA LL.B 570 in 6, AFU BSc Ag and BVSc and AH seats for 2083/84, 8 CNRM and law colleges). Run the script, do not hand edit the keys it owns (`providers_add`, the `llb`, `ba-llb`, `bsc-agri`, `bvsc` seats and notes, `fw11-6` to `fw11-8`).
+
+## Wave 12 files (CTEVT 2083/84, destinations, scholarships, 2026 rules)
+
+`api/data/pathways/wave12.json` is written by six small scripts in `tools/pathways/`, each owning its own keys (rerun any of them; they only rewrite what they own): `w12_ctevt.py` (+ `w12_ctevt_data.py`), `w12_abroad.py`, `w12_faq.py`, `w12_more.py`, `w12_extra.py`, `w12_visa.py`.
+
+| key | what it does |
+| --- | --- |
+| `routes_add` | new routes (`dip-civil-eng`, `dip-computer-eng`); `where` is filled from `where_add` |
+| `providers_add`, `where_add`, `route_seats`, `note_add`, `provider_notes`, `provider_fees` | 80 new providers, links to diploma routes, 48 seats per computer engineering institute, free seat notes, KU BE fee |
+| `abroad_add`, `abroad_more`, `abroad_update` | Czechia, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines; 2026 notes for AU, CA, UK, US |
+| `scholarships_add`, `scholarship_extra` | Czech Government, NAWA Poland, CTEVT special (480 seats); CTEVT classified rewrite. A `country` links the scholarship to its abroad entry automatically |
+| `careers_new`, `career_links` | UI and UX designer, data scientist, cloud and DevOps engineer; `career_links {route: [career ids]}` |
+| `guides_add`, `guides_more` | NOC for study abroad, CTEVT apply, English test |
+| `route_exam {route: text}` | replaces a route `exam` string (TU 2083 entrance round) |
+| `faq_add`, `faq_more`, `faq_extra`, `faq_visa` | 22 FAQs |
+
+Rules kept: no number without a named source; unsure fields say "Not checked yet"; places are left at the district name when a source gives no town.
