@@ -65,6 +65,7 @@ def payload():
         'faq': _load('faq.json')['faq'],
         'govt_tracks': _load('govt.json')['tracks'],
         'govt': _load('govt.json')['govt'],
+        'guides': _load('guides.json')['guides'] if (DATA / 'guides.json').exists() else [],
     }
     body = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     data['etag'] = hashlib.md5(body.encode('utf-8')).hexdigest()[:16]
