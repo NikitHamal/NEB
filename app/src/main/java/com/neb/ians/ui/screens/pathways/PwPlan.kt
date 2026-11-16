@@ -23,7 +23,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,70 +43,21 @@ private data class PwDeadline(val key: String, val name: String, val from: Int, 
 @Composable
 internal fun PwPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val s = vm.sel
-    val matchStage = d.stages.firstOrNull { it.id == s.matchStage }?.id ?: d.stages.firstOrNull { it.id == s.stage }?.id ?: d.stages.firstOrNull()?.id.orEmpty()
-    val profile = PwProfile(matchStage, vm.set("interests"), vm.set("strengths"), vm.num("budget"), vm.set("priorities"), ui.district)
-    val matches = remember(d, profile) { pwMatch(d, profile) }
+    val showMatch = s.plan == "match" && vm.num("mdone") == 1
+    val profile = if (showMatch) pwProfile(d, vm, ui.district) else null
+    // ranking a whole stage touches every route and its careers, so it runs off the main thread and only when the answers change
+    val result by produceState<PwMatchResult?>(null, d, profile) {
+        if (profile != null) value = withContext(Dispatchers.Default) { pwMatch(d, profile) }
+    }
     val list = androidx.compose.foundation.lazy.rememberLazyListState()
     Box(Modifier.fillMaxSize()) {
     LazyColumn(Modifier.fillMaxSize(), state = list, contentPadding = PaddingValues(bottom = 24.dp)) {
         item("bar") { PwRootBar { nav.push("search") } }
-        item("seg") { PwSeg(listOf("plan" to "My plan", "match" to "Match"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 8.dp)) }
-        if (s.plan == "match") {
-            item("controls") { MatchControls(d, vm, matchStage) }
-            if (matches.isEmpty()) item("none") { PwEmpty("No courses at this stage") }
-            items(matches, key = { it.route.id }) { m ->
-                Box(Modifier.animateItem().padding(horizontal = 16.dp, vertical = 3.dp)) {
-                    MatchRow(m, m === matches.first()) { nav.push("route:${m.route.id}") }
-                }
-            }
-        } else {
-            item("plan") { MyPlan(d, ui, vm, nav) }
-        }
+        item("seg") { PwSeg(listOf("match" to "Match", "plan" to "My plan"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 8.dp)) }
+        if (s.plan == "match") pwMatchItems(d, ui, vm, nav, result)
+        else item("plan") { MyPlan(d, ui, vm, nav) }
     }
     PwLazyScrim(list)
-    }
-}
-
-@Composable
-private fun MatchControls(d: PwData, vm: PathwaysViewModel, stage: String) {
-    val s = vm.sel
-    Column {
-        PwChipRow(d.stages.map { it.id to it.label }, { it == stage }, { s.matchStage = it }, Modifier.padding(top = 8.dp))
-        Column(Modifier.padding(horizontal = 16.dp)) {
-            listOf(Triple("I enjoy", "interests", INTERESTS), Triple("I am strong in", "strengths", STRENGTHS), Triple("I care about", "priorities", PRIORITIES)).forEach { (title, set, opts) ->
-                PwBigLine(title, modifier = Modifier.padding(top = 12.dp))
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    opts.forEach { (k, label) -> PwChip(label, vm.has(set, k), { vm.toggle(set, k) }) }
-                }
-            }
-            val budget = vm.num("budget")
-            PwBigLine("My budget is", "NPR ${budget}L", Modifier.padding(top = 12.dp))
-            PwSlider(budget.toFloat(), { vm.setNum("budget", it.roundToInt()) }, 1f..60f, 0, "")
-            Spacer(Modifier.height(8.dp))
-        }
-    }
-}
-
-@Composable
-private fun MatchRow(m: PwMatch, top: Boolean, onClick: () -> Unit) {
-    val c = MaterialTheme.colorScheme
-    val bg = if (top) c.primaryContainer else c.surfaceContainerLow
-    val fg = if (top) c.onPrimaryContainer else c.onSurface
-    PwSurface(Modifier.fillMaxWidth(), color = bg, radius = 24.dp, onClick = onClick) {
-        Row(Modifier.padding(12.dp, 10.dp, 16.dp, 10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-            PwRing(m.score, null, 46.dp, fg, fg.copy(alpha = 0.14f), fg)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(m.route.name, color = fg, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                if (m.reasons.isNotEmpty()) Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    m.reasons.forEach { r ->
-                        Box(Modifier.clip(RoundedCornerShape(8.dp)).background(fg.copy(alpha = 0.1f)).padding(horizontal = 8.dp, vertical = 2.dp)) {
-                            Text(r, color = fg, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
-                        }
-                    }
-                }
-            }
-            Icon(Icons.AutoMirrored.Outlined.ArrowForward, null, tint = fg)
-        }
     }
 }
 

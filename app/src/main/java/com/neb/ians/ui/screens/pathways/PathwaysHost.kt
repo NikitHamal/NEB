@@ -154,6 +154,7 @@ private fun PwDispatch(top: String, d: PwData, ui: PathwaysUiState, vm: Pathways
         "exams" -> { PwExams(d, vm, nav); true }
         "guides" -> { PwGuides(d, vm, nav); true }
         "plan" -> { PwPlan(d, ui, vm, nav); true }
+        "match" -> { PwMatchWizard(d, ui, vm, nav); true }
         else -> { PwExplore(d, vm, nav); true }
     }
     // a saved item can point at something the latest data dropped; step back instead of showing a blank page

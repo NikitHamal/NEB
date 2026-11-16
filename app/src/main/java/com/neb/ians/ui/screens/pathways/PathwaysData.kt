@@ -80,6 +80,7 @@ data class PwData(
     val govtById: Map<String, PwGovt> by lazy { govt.associateBy { it.id } }
     val guideById: Map<String, PwGuide> by lazy { guides.associateBy { it.id } }
     val careerRoutes: Map<String, List<PwRoute>> by lazy { routes.flatMap { r -> r.careers.map { it to r } }.groupBy({ it.first }, { it.second }) }
+    internal val matchIdx: Map<String, PwRouteIdx> by lazy { buildMatchIndex(this) }
     internal val metrics: Map<String, PwMetrics> by lazy { routes.associate { it.id to routeMetrics(this, it) } }
     val maxSenior: Long by lazy { careers.values.maxOfOrNull { (it.seniorMin + it.seniorMax) / 2 }?.coerceAtLeast(1L) ?: 1L }
 }
@@ -200,13 +201,16 @@ class PwSel {
     var schCountry by mutableStateOf("")
     var schOpen by mutableStateOf("")
     var track by mutableStateOf("")
-    var plan by mutableStateOf("plan")
+    var plan by mutableStateOf("match")
     var matchStage by mutableStateOf("")
+    var matchOpen by mutableStateOf<String?>(null)
+    var matchWeak by mutableStateOf(false)
+    var matchEdit by mutableStateOf(false)
     var faqOpen by mutableStateOf("")
 }
 
 private val SET_KEYS = listOf("done", "docs", "have", "interests", "strengths", "priorities")
-private val NUM_DEFAULTS = mapOf("age" to 17, "edu" to 2, "woman" to 0, "budget" to 15, "hours" to 3, "abroadBudget" to 60)
+private val NUM_DEFAULTS = mapOf("age" to 17, "edu" to 2, "woman" to 0, "budget" to 15, "hours" to 3, "abroadBudget" to 60, "mstep" to 0, "mdone" to 0, "myears" to 0, "mrisk" to 1)
 
 @HiltViewModel
 class PathwaysViewModel @Inject constructor(@ApplicationContext private val context: Context) : ViewModel() {
@@ -222,6 +226,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     init {
         SET_KEYS.forEach { sets[it] = prefs.getStringSet("set_$it", emptySet()).orEmpty().toSet() }
         NUM_DEFAULTS.forEach { (k, v) -> nums[k] = prefs.getInt("num_$k", v) }
+        sel.matchStage = prefs.getString("matchStage", "").orEmpty()
         _state.update { it.copy(district = prefs.getString("district", "") ?: "", saved = prefs.getStringSet("saved", emptySet()).orEmpty().toSet()) }
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
@@ -271,6 +276,17 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         if (nums[name] == value) return
         nums[name] = value
         prefs.edit().putInt("num_$name", value).apply()
+    }
+
+    fun setMatchStage(id: String) {
+        sel.matchStage = id
+        prefs.edit().putString("matchStage", id).apply()
+    }
+
+    fun clearMatch() {
+        listOf("interests", "strengths", "priorities").forEach { sets[it] = emptySet(); prefs.edit().remove("set_$it").apply() }
+        setNum("myears", 0); setNum("mrisk", 1); setNum("mstep", 0); setNum("mdone", 0); setNum("budget", 15)
+        sel.matchOpen = null; sel.matchWeak = false
     }
 
     fun setDistrict(district: String, kind: String) {
