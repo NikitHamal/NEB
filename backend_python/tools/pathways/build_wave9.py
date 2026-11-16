@@ -70,6 +70,7 @@ NEW = {
     'Asian College for Advance Studies': ('p-asian-adv', 'Asian College for Advance Studies', 'College', 'Private', 'Lalitpur', 'Satdobato'),
     'National Model College for Advance Learning (NIST)': ('p-nist', 'National Model College for Advance Learning (NIST)', 'College', 'Private', 'Kathmandu', 'Kathmandu'),
     'Chakrabarti Habi Education Academy, College of Nursing Science': ('p-chakrabarti', 'Chakrabarti Habi Education Academy, College of Nursing Science', 'College', 'Private', 'Kathmandu', 'Kathmandu'),
+    'Kantipur Academy of Health Science': ('p-kantipur-academy', 'Kantipur Academy of Health Science', 'College', 'Private', 'Kathmandu', 'Tinkune'),
     'Kendriya Ayurveda Bidhyapeeth Dang': ('p-kendriya-ayurveda', 'Kendriya Ayurveda Bidhyapeeth', 'Campus', 'Public', 'Dang', 'Dang'),
 }
 

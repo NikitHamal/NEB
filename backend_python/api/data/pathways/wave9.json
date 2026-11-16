@@ -122,6 +122,17 @@
    "seats": 40
   },
   {
+   "id": "p-kantipur-academy",
+   "name": "Kantipur Academy of Health Science",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Tinkune",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BPharm 30, BNS 20, BPH 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
    "id": "p-kendriya-ayurveda",
    "name": "Kendriya Ayurveda Bidhyapeeth",
    "kind": "Campus",
@@ -374,6 +385,7 @@
    "p-iom",
    "p-janaki-med",
    "p-kahs",
+   "p-kantipur-academy",
    "p-kmc",
    "p-kmh-nursing",
    "p-kusms",
@@ -420,6 +432,7 @@
    "p-hope-intl",
    "p-iom",
    "p-kahs",
+   "p-kantipur-academy",
    "p-kmc",
    "p-kmh-nursing",
    "p-kusms",
@@ -453,6 +466,7 @@
    "p-hope-intl",
    "p-iom",
    "p-kahs",
+   "p-kantipur-academy",
    "p-ku-eng",
    "p-little-buddha",
    "p-mbahs",
@@ -474,6 +488,7 @@
    "p-hope-intl",
    "p-iom",
    "p-kahs",
+   "p-kantipur-academy",
    "p-koshi-health",
    "p-kusms",
    "p-little-buddha",
@@ -685,6 +700,12 @@
    "bns": 20,
    "bpharm": 20,
    "bph": 20
+  },
+  "p-kantipur-academy": {
+   "bsc-nursing": 40,
+   "bns": 20,
+   "bpharm": 30,
+   "bph": 10
   },
   "p-kantipur-dental": {
    "bmlt": 10
@@ -990,6 +1011,16 @@
    ]
   },
   "p-hope-intl": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-kantipur-academy": {
    "bsc-nursing": [
     1036000,
     1036000
