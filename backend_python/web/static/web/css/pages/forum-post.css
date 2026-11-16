@@ -412,3 +412,14 @@
       padding: 14px 16px;
     }
   }
+
+/* To-do lines the reader can tick (post-checklist.js). Flat, no shadow; the box springs. */
+.fp-post-body ul.nb-tasks { list-style: none; padding-left: 0; }
+.fp-post-body li.nb-task { display: flex; align-items: flex-start; gap: 10px; padding: 4px 6px; margin: 2px -6px; border-radius: 12px; cursor: pointer; transition: color .2s ease; -webkit-tap-highlight-color: transparent; }
+.fp-post-body li.nb-task:hover { background: color-mix(in srgb, currentColor 6%, transparent); }
+.fp-post-body li.nb-task.is-done { color: var(--pl-soft, var(--md-sys-color-on-surface-variant, #5f6368)); text-decoration: line-through; }
+.nb-task-box { flex: none; width: 20px; height: 20px; margin-top: 2px; padding: 0; border: 1.5px solid var(--pl-soft, var(--md-sys-color-outline, #79747e)); border-radius: 7px; background: transparent; display: grid; place-items: center; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+.nb-task-box svg { width: 14px; height: 14px; fill: var(--pl-bg, #fff); transform: scale(0); opacity: 0; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .15s ease; }
+.nb-task.is-done .nb-task-box { background: var(--pl-ink, var(--md-sys-color-primary, #0b57d0)); border-color: var(--pl-ink, var(--md-sys-color-primary, #0b57d0)); }
+.nb-task.is-done .nb-task-box svg { transform: scale(1); opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .nb-task-box, .nb-task-box svg { transition: none; } }

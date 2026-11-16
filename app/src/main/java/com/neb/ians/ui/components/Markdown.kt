@@ -27,6 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.ui.semantics.Role
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -80,9 +86,10 @@ fun MarkdownText(
     val inlineContents = rememberInlineImageContents(markdown, onInlineImageClick)
 
     val laidOut = remember(blocks) { layoutMarkdownBlocks(blocks) }
+    val flipped = remember(markdown) { mutableStateMapOf<Int, Boolean>() }
 
     Column(modifier = modifier) {
-        laidOut.forEach { (block, spaceBefore) ->
+        laidOut.forEachIndexed { blockIndex, (block, spaceBefore) ->
             if (spaceBefore > 0) Spacer(modifier = Modifier.height(spaceBefore.dp))
             when (block) {
                 is MdBlock.Heading -> {
@@ -137,6 +144,22 @@ fun MarkdownText(
                             text = block.text,
                             style = style,
                             color = color,
+                            primary = primary,
+                            codeBg = codeBg,
+                            onMentionClick = onMentionClick,
+                            onLinkClick = onLinkClick,
+                            inlineContents = inlineContents,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                is MdBlock.Check -> {
+                    val done = flipped[blockIndex] ?: block.done
+                    MdCheckRow(done = done, onToggle = { flipped[blockIndex] = !done }) {
+                        InlineMdText(
+                            text = block.text,
+                            style = if (done) style.copy(textDecoration = TextDecoration.LineThrough) else style,
+                            color = if (done) onSurfaceVariant else color,
                             primary = primary,
                             codeBg = codeBg,
                             onMentionClick = onMentionClick,
@@ -262,6 +285,7 @@ sealed class MdBlock {
     data object Rule : MdBlock()
     data class Quote(val text: String) : MdBlock()
     data class ListItem(val text: String, val ordered: Boolean, val number: Int) : MdBlock()
+    data class Check(val text: String, val done: Boolean) : MdBlock()
     data class CodeBlock(val language: String, val code: String) : MdBlock()
     data class MathBlock(val formula: String) : MdBlock()
     data class Paragraph(val text: String) : MdBlock()
@@ -386,6 +410,11 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
             line.startsWith("## ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(2, line.removePrefix("## "))) }
             line.startsWith("# ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(1, line.removePrefix("# "))) }
             line.startsWith("> ") -> { orderedIndex = 1; blocks.add(MdBlock.Quote(line.removePrefix("> "))) }
+            TaskLineRegex.matches(line) -> {
+                orderedIndex = 1
+                val m = TaskLineRegex.matchEntire(line)!!
+                blocks.add(MdBlock.Check(m.groupValues[2], m.groupValues[1].isNotBlank()))
+            }
             line.startsWith("- ") || line.startsWith("* ") -> {
                 blocks.add(MdBlock.ListItem(line.substring(2), ordered = false, number = 0))
             }
@@ -448,7 +477,7 @@ private fun gapAfter(block: MdBlock): Int = when (block) {
     MdBlock.Rule -> 14
     is MdBlock.CodeBlock, is MdBlock.MathBlock -> 8
     is MdBlock.Quote -> 8
-    is MdBlock.ListItem -> 2
+    is MdBlock.ListItem, is MdBlock.Check -> 2
     is MdBlock.Paragraph -> 2
 }
 
@@ -458,9 +487,11 @@ private fun gapBefore(block: MdBlock, previous: MdBlock): Int = when (block) {
     is MdBlock.CodeBlock, is MdBlock.MathBlock -> 8
     is MdBlock.Quote -> if (previous is MdBlock.Quote) 2 else 8
     is MdBlock.ListItem -> if (previous is MdBlock.ListItem) 2 else 8
+    is MdBlock.Check -> if (previous is MdBlock.Check) 2 else 8
     is MdBlock.Paragraph -> 2
 }
 
+private val TaskLineRegex = Regex("^[-*]\\s\\[([ xX])]\\s(.*)$")
 private val OrderedListPrefixRegex = Regex("^\\d+\\.\\s")
 private val HorizontalRuleRegex = Regex("^(?:-{3,}|\\*{3,}|_{3,})$")
 private val LatexEnvBeginRegex = Regex("""^\\begin\{([a-zA-Z*]+)\}""")
@@ -1020,6 +1051,7 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
             is MdBlock.Heading -> formatLatexMath(block.text)
             is MdBlock.Quote -> formatLatexMath(block.text)
             is MdBlock.ListItem -> (if (block.ordered) "${block.number}. " else "• ") + formatLatexMath(block.text)
+            is MdBlock.Check -> "\u2022 " + formatLatexMath(block.text)
             is MdBlock.CodeBlock -> block.code
             is MdBlock.MathBlock -> wrapMath(block.formula)
             is MdBlock.Paragraph -> formatLatexMath(block.text)
@@ -1103,4 +1135,41 @@ fun MarkdownInlineText(
             }
         }
     )
+}
+
+
+/**
+ * A to-do line in a post or reply. The reader can tick it; the choice lives on the screen,
+ * the author's text is never changed. The box springs, the finished text is struck and dimmed.
+ */
+@Composable
+private fun MdCheckRow(done: Boolean, onToggle: () -> Unit, text: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit) {
+    val scale by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = if (done) 1f else 0f,
+        animationSpec = androidx.compose.animation.core.spring(dampingRatio = 0.45f, stiffness = 500f),
+        label = "mdCheck"
+    )
+    val primary = MaterialTheme.colorScheme.primary
+    val edge = MaterialTheme.colorScheme.outline
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .toggleable(value = done, role = Role.Checkbox, onValueChange = { onToggle() })
+            .padding(vertical = 3.dp),
+        verticalAlignment = Alignment.Top
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(top = 2.dp, end = 10.dp)
+                .size(20.dp)
+                .clip(RoundedCornerShape(7.dp))
+                .background(if (done) primary else Color.Transparent)
+                .border(1.5.dp, if (done) primary else edge, RoundedCornerShape(7.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(Icons.Filled.Check, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(14.dp).graphicsLayer { scaleX = scale; scaleY = scale; alpha = scale.coerceIn(0f, 1f) })
+        }
+        text()
+    }
 }
