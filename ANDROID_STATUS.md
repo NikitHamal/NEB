@@ -517,3 +517,28 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Dynamic posts (note style composer and reader for posts): not started this session, Pathways came first as asked. Plan: `look` JSON on forum posts, reuse `NoteEditorScreen` blocks and `ui/screens/lab/` looks in `CreatePostScreen`, feed card from `DynamicPostFeed.kt`, reader from `DynamicPostReading.kt`.
 - Web Pathways has not been redesigned to the same concept yet (it still reads the same payload, so new data shows there).
 - Saved levels, per-college fee tables, Nepali labels, Lok Sewa pay tables (verify each figure first).
+
+
+---
+
+# Session 22: dynamic posts (note look on posts), Pathways audit
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`, `backend-tests.yml`). Picked up session 21's "Not done": Pathways was already rebuilt as its own native screen from the concept images (profile popup entry, icon-only five item nav, matching in `PwMatch.kt`), CI green at `c3af6db`, so it was **not redone**. This session is the dynamic posts item.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 120 | **`look` on posts.** One small JSON string per post: `tone` (note page colour index), `cover` (pattern 1..60), `photo` (uploaded content image id, wins over the pattern), `icon` (note icon key), `paper` (0..5), `font` (0 default, 1 serif, 2 mono). Empty = the plain post, so every old post is unchanged. Values are bounded, unknown keys dropped, the icon is held to an `a-z_` slug, the photo must exist and is marked used so cleanup keeps it. API field `look` (object or null) on `PostSerializer`; accepted on `POST /api/posts/`, `PATCH /api/posts/<id>/` (an empty object clears it) and the web `ajax/post/`. Migration `0169_post_look`. | `api/post_look.py`, `models.py`, `serializers.py`, `services.py`, `views_forum.py`, `web/views_ajax.py`, `test_post_look.py` |
+| 121 | **Composer is a page.** Same pieces as a note, reused not copied: cover banner with the icon tile on its edge (both removable by their own chip), Add / Change cover (patterns **or a photo from the gallery**, uploaded on publish), Add / Change icon, Style sheet (15 one tap themes, 27 page colours, 6 papers, type: default / serif / mono, Back to a plain post). The whole composer, top bar and footer included, is drawn in the chosen tone (`PostLookTheme` re-points the colour scheme at the tone, so markdown, chips and polls follow). A palette tool sits first in the footer. Title moved into the scrolling page under the cover; the format row stays pinned. Editing a post loads its look. | `PostLookComposer.kt`, `CreatePostScreen.kt`, `CreatePostChrome.kt`, `CreatePostViewModel.kt` |
+| 122 | **Feed card and reader.** A post with a look is a 28dp tonal card (cover, icon, paper) in the feed; the reading page wears the same tone, cover, icon and paper above the post, and the replies below stay in the app theme. Plain posts keep the flat row and hairline. | `PostLookUi.kt` (`ForumPostCard`, `PostLookPage`), `PostExtras.kt` (`ForumPostCardPlain`), `ForumPostDetailScreen.kt` |
+| 123 | **Web reader.** Feed cards and the post page read `data-look` and draw the same tone, cover (flat shapes or the photo), icon, paper and type; follows light and dark. The web composer does not write a look yet. | `web/static/web/js/post-look.js`, `base.html`, `_forum_post_card.html`, `forum_post.html`, `view_helpers.py` |
+
+## Rules
+- A look is data, never markup. Add a field in `post_look.clean`, `PostLook.kt` and `post-look.js` together.
+- No gradient fill, shadow, emoji or ring is drawn by a look. Paper on the web is a flat tinted line or dot pattern.
+
+## Not done / next
+- Web composer look picker (the API and the reader already take a look).
+- Note blocks (to-do blocks, picture blocks with text beside) inside a post: posts still write Markdown through `RichTextField`.
+- On-device pass: dark tones in the composer top bar, cover photo crop on a tall card, theme switch while a photo cover is pending.

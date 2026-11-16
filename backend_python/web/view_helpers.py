@@ -575,6 +575,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'images': all_images.get(p.id, []),
             'attachments': all_media.get(p.id, []),
             'poll': all_polls.get(p.id),
+            'lookJson': p.look or '',
         })
     return result
 
@@ -624,6 +625,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         'images': _serialize_post_images(p.id),
         'attachments': media,
         'poll': _serialize_post_poll(p.id, user_id),
+        'lookJson': p.look or '',
     }
 
 def _serialize_replies(replies_qs, user_id=None):

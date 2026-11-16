@@ -61,7 +61,7 @@
         </div>
 
         <!-- Post Content -->
-        <article class="fp-post-thread-main">
+        <article class="fp-post-thread-main"{% if post.lookJson %} data-look="{{ post.lookJson }}"{% endif %}>
           <div class="fp-post-header">
             <div class="fp-avatar {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
               {% if post.authorName == 'neby' or post.authorIsBot %}
