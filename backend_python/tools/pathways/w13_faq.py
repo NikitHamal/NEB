@@ -1,0 +1,63 @@
+"""Wave 13 FAQs (appended to the Questions tab). Plain sentences, no dashes."""
+FAQ_ADD = [
+    {'id': 'fw13-3', 'topic': 'after12', 'q': 'What does a seat at Pulchowk really cost for 2083/84?', 'go': ['be-computer', 'be-civil'],
+     'a': 'The Pulchowk admission notice for 2083/84 lists NPR 6,974 per semester for a Regular (scholarship) seat and NPR 52,766 for a Full Fee seat. At admission you also pay '
+          'one time fees (NPR 7,295 Regular, NPR 123,704 Full Fee) and refundable deposits (NPR 3,400 and NPR 40,000). The total payable on the day is NPR 19,269 for a Regular '
+          'seat and NPR 218,070 for a Full Fee seat, including the NPR 1,000 Engineering Council fee. Foreign students pay NPR 147,167 per semester and NPR 537,202 at admission. '
+          'Over eight semesters a Regular seat comes to about NPR 63,000 and a Full Fee seat to about NPR 546,000 before deposits.'},
+    {'id': 'fw13-4', 'topic': 'after12', 'q': 'When is the medical entrance (MECEE-BL) and what is the fee?', 'go': ['mbbs', 'bsc-nursing', 'bpharm'],
+     'a': 'The Medical Education Commission held MECEE-BL 2027 in Kartik 2083: MBBS on 14 Kartik (31 October 2026), BDS on 15 Kartik, then nursing, midwifery, BASLP and perfusion on 16 '
+          'Kartik, and the remaining health courses (BAMS, BNS, MLT, MIT, BPT, BPharm, BOptom) on 17 Kartik, BPH on 18 Kartik. The form fee for Nepali candidates was NPR 4,000 and '
+          'doubled if filed late. It is a 3 hour written paper of 200 marks on an OMR sheet with 0.25 negative marking, and you need the 50th percentile to be ranked. '
+          'You need +2 science (or A Level) with 50 percent or a GPA of 2.4. The next call usually opens in Shrawan and the exam falls in Kartik.'},
+    {'id': 'fw13-6', 'topic': 'abroad', 'q': 'How much money must I show for an Australian student visa?', 'go': ['abroad-ms'],
+     'a': 'Home Affairs asks a single student to show AUD 29,710 for 12 months of living costs, plus the first year of tuition on the Confirmation of Enrolment and return airfare. A partner adds '
+          'AUD 10,394 and each child AUD 4,449. The visa charge rose from AUD 2,000 to AUD 2,500 on 1 July 2026 (AUD 2,050 for English language courses). Health cover (OSHC) is extra. '
+          'Show a clear source of funds, because the Genuine Student statement now decides many cases. Check Home Affairs before paying, since the figures move every year.'},
+    {'id': 'fw13-7', 'topic': 'abroad', 'q': 'What funds does the UK ask for a student visa?', 'go': ['abroad-ms'],
+     'a': 'You show your first year of tuition from the CAS letter plus living money for up to 9 months: GBP 1,529 a month for London (GBP 13,761) or GBP 1,171 a month elsewhere (GBP 10,539). '
+          'The money must stay in your account for 28 days before you apply. The visa costs GBP 558 and the health surcharge GBP 776 a year. A Statement of Changes of September 2026 raises '
+          'the monthly figures to GBP 1,570 and GBP 1,203 from 30 November 2026. The Graduate visa is 2 years if you apply by 31 December 2026 and 18 months from 1 January 2027.'},
+    {'id': 'fw13-8', 'topic': 'abroad', 'q': 'Do I need a PAL for a Canadian study permit?', 'go': ['abroad-ms'],
+     'a': 'Most college and bachelor applicants need a provincial attestation letter (PAL) because Canada caps study permits: 309,670 PAL applications will be accepted in 2026 and about '
+          '408,000 permits are expected in all. From 1 January 2026 master and PhD students at public institutions do not need one. A single applicant outside Quebec must also show CAD 22,895 '
+          'for living costs (since 1 September 2025) on top of first year tuition and travel, for example through a GIC. A PAL is valid only for the year it was issued.'},
+    {'id': 'fw13-9', 'topic': 'abroad', 'q': 'What is the German blocked account and how much is it?', 'go': ['abroad-ms'],
+     'a': 'A blocked account (Sperrkonto) is the standard proof of funds for a German student visa. In 2026 you deposit EUR 11,904 for a 12 month visa, and after you arrive the bank releases EUR 992 '
+          'a month. Add a small buffer for transfer fees. You also need health insurance. Public universities charge little or no tuition, so for most students this deposit and insurance are the main upfront costs. '
+          'Reduced amounts apply if you hold a scholarship that pays your living costs.'},
+    {'id': 'fw13-10', 'topic': 'abroad', 'q': 'What does the US F-1 visa cost, and what changed in 2026?', 'go': ['abroad-ms'],
+     'a': 'You pay the SEVIS fee of USD 350 and the visa application fee of USD 185 before the interview at the US Embassy in Maharajgunj. A visa integrity fee of USD 250, set by the 2025 law, is due when the visa is '
+          'issued once it is implemented. The DS-160 asks for your social media handles for the last five years. A rule that would end duration of status and cut the grace period to 30 days was blocked by a federal court on '
+          '14 September 2026, so the 60 day grace period still applies for now. Health insurance at the university is usually compulsory.'},
+    {'id': 'fw13-11', 'topic': 'abroad', 'q': 'Can I buy foreign currency for tuition and visa funds?', 'go': ['abroad-ms'],
+     'a': 'Nepal Rastra Bank lets banks provide exchange for study abroad against your NOC, offer letter and visa documents. In June 2026 it added two facilities: a student may ask for up to 5 percent extra over '
+          'the total required amount to cover exchange rate moves, and if an embassy wants proof in a currency that is not on the convertible list, the bank can arrange it on supporting documents. Carry the full set of papers '
+          'to the bank and keep the receipts, because the embassy and the university will both ask for them.'},
+    {'id': 'fw13-12', 'topic': 'abroad', 'q': 'Is Nepal eligible for the Manaaki New Zealand Scholarship?', 'go': ['abroad-ms'],
+     'a': 'Yes. Nepal is on the Asian eligible country list for the 2026-27 round, next to Cambodia, Indonesia, Laos, Malaysia, the Philippines, Thailand, Timor-Leste and Viet Nam. The tertiary round ran from 1 March to '
+          'midday on 31 March 2026 (New Zealand time), so plan for the same window in 2027. It is a full scholarship for a student who will return home to use the skills.'},
+    {'id': 'fw13-13', 'topic': 'abroad', 'q': 'Who can win Turkiye Burslari and when do I apply?', 'go': ['abroad-ms'],
+     'a': 'Any non Turkish citizen can apply, under 21 for a bachelor, under 30 for a master and under 35 for a PhD. The call wants about 70 percent in school, 75 in a bachelor for a master and 80 in a master for a PhD. '
+          'The 2026 call ran from 10 January to 20 February 2026 and results came in July or August. Winners get tuition, a monthly stipend, a dormitory place, health insurance, a flight and a year of Turkish.'},
+    {'id': 'fw13-14', 'topic': 'afterbach', 'q': 'What is the Humphrey Fellowship and who can apply from Nepal?', 'go': ['phd-route'],
+     'a': 'It is a 10 to 12 month non degree programme in the USA for mid career professionals, run through USEF-Nepal. You need Nepali citizenship, at least 5 years of progressively responsible work in Nepal and '
+          'a policy level role in government, an NGO or business. The 2027-28 call opened on 5 June 2026 and closed on 31 July 2026, so the next call is likely in mid 2027. Interviews and nominations come in '
+          'August and September, with the final selection in April.'},
+    {'id': 'fw13-15', 'topic': 'abroad', 'q': 'Can I work while studying in Thailand?', 'go': ['abroad-ms'],
+     'a': 'Not freely. The Non Immigrant ED visa is applied for at the Royal Thai Embassy in Kathmandu and it does not give you the right to work. Any job, including an internship, needs a Thai work permit from the '
+          'Department of Employment. Plan your budget without income from work and ask the university which paid roles are allowed.'},
+    {'id': 'fw13-16', 'topic': 'afterbach', 'q': 'Can Nepali students apply to the Rhodes Scholarship?', 'go': ['abroad-ms'],
+     'a': 'Nepal has no named Rhodes constituency, so Nepali citizens apply through the Global constituency when it is open. One Nepali listing says the Global constituency was paused for the 2026 to 2027 cycle, so read the '
+          'Rhodes House site before you invest time. The age limit is normally 18 to 24 on 1 October of the year you apply, and there is no application fee.'},
+]
+
+FAQ_UPDATE = {
+    'fw12-v1': {
+        'a': 'Australia: visa charge AUD 2,500 from 1 July 2026 and AUD 29,710 living funds, with a Genuine Student statement. Canada: 408,000 study permits in 2026, '
+             'no Student Direct Stream, GIC about CAD 22,895. UK: Student visa fee GBP 558 and a Graduate Route of 18 months for applications from 1 January 2027 '
+             '(2 years before that, 3 for PhD). USA: a DHS rule that would replace duration of status with a fixed admission period of up to 4 years was due on '
+             '15 September 2026 but a federal court blocked it on 14 September 2026, so duration of status and the 60 day grace period still apply while the appeal runs. '
+             'These rules change several times a year, so read the official immigration page of the country on the day you apply.',
+    },
+}

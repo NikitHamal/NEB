@@ -813,3 +813,34 @@ CTEVT notices 2083 via collegenp.com and edusanjal.com (full fee selection, clas
 - Per college fees for the CTEVT institutes, websites for the 294 providers that still have none, the other CTEVT programme lists (pharmacy, civil, IT, general medicine full fee institutes) from the same notice.
 - Official NMC list of recognised foreign medical schools (the six MBBS destinations only carry the rule); work rules for Czechia, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines.
 - Show `route_seats` on the college row of the course screen (Android `PwStudy.kt`, web `pathways-level.js`).
+
+
+---
+
+# Session 33: Pathways dataset wave 13 (US rule correction, funds, new scholarships, admission guides)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Bootstrap run, history read (sessions 16 to 32). A parallel session had already pushed wave 12 (CTEVT, destinations, NOC guide, KU BE fee, 2026 visa summary) while this one was researching, so this session's first commit was rebased away and rebuilt as `wave13.json` with only what wave 12 does not hold. No screen was touched: data only. Django is not installed here, so the new tests were mirrored with a stub `TestCase` (all pass except the four that need Django's client).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 183 | **Correction: US duration of status.** Wave 12 said F-1 students are admitted for a fixed period from 15 September 2026. Two later sources (edwisefoundation, 24 Sep; usvisa.com, 28 Oct) say a federal court blocked the DHS rule on 14 September 2026 and the government appealed on 30 September, so duration of status and the 60 day grace period still apply. US note, and the wave 12 visa FAQ (`fw12-v1`) now say so; fees added (SEVIS USD 350, visa USD 185, integrity fee USD 250 at issuance). | `w13_abroad.py`, `w13_faq.py` (`faq_update`) |
+| 184 | **Funds and fees**: UK maintenance GBP 1,529 London and GBP 1,171 elsewhere for up to 9 months, 28 day rule, health surcharge GBP 776, rise to GBP 1,570 and GBP 1,203 from 30 November 2026 (Statement of Changes, September 2026); Germany blocked account EUR 11,904 (EUR 992 a month); Thailand ED visa work needs a permit. | `w13_abroad.py` |
+| 185 | **Scholarship windows**: Manaaki New Zealand (Nepal on the Asian list, 1 to 31 March), Turkiye Burslari 2026 (10 January to 20 February, age and mark bars), Rhodes (Nepal uses the Global constituency, one listing says it was paused for 2026-27). | `w13_abroad.py` |
+| 186 | **Two new scholarships**: Humphrey Fellowship (USEF-Nepal, 2027-28 call 5 June to 31 July 2026, 5 years of work) and South Asian University (fee waiver and living allowance for SAARC citizens, entrance test April 2026). Both linked into their country. | `w13_abroad.py` |
+| 187 | **Three guides**: IOE admission (form NPR 2,500, CBT, 16 priorities at NPR 500 each, lists), MEC entrance (form NPR 4,000, 200 marks, 0.25 negative, 50th percentile), KU School of Engineering (form NPR 2,000, KUCAT centres, NPR 2,21,000 on admission day). | `w13_study.py` |
+| 188 | **Pulchowk 2083/84 fee notice**: NPR 6,974 per semester Regular, 52,766 Full Fee, one time fees 7,295 and 123,704, deposits 3,400 and 40,000, total on admission day 19,269 and 218,070, foreign 147,167 per semester. It reproduces the fee range already on the college (63,087 and 545,832 over eight semesters). KU fees added for BE Electronics and Chemical or Hydropower. `KUEE` is now `KUCAT` in the entry text. | `w13_study.py` |
+| 189 | **Colleges**: Ace Institute of Management and Apex College (both Baneshwor, Pokhara University BBA, BBA-BI, MBA). | `w13_study.py` |
+| 190 | **13 FAQs (103 to 116)**: Pulchowk costs, MEC entrance dates, Australia, UK, Canada PAL, Germany, US, NRB 5 percent buffer (June 2026), Manaaki, Turkiye Burslari, Humphrey, Thailand, Rhodes. | `w13_faq.py` |
+| 191 | **Merge and checks**: `pathways.py` reads `wave13.json` (keys in `docs/PATHWAYS_SCHEMA.md`); `Wave13Tests` (US note, funds arithmetic, scholarship links, guides, fee arithmetic, no dashes). `problems()` is empty. | `pathways.py`, `test_pathways.py` |
+
+## Sources
+Home Affairs fee notices via thisisaustralia.com and racc.net.au; GOV.UK student visa pages via prodigyfinance.com and eecglobal.com; IRCC via ircc.com; study.eu (German blocked account); usvisa.com, edwisefoundation.com, nepcoms.com (F-1); Clickmandu (NRB notice of 9 June 2026); scholars4dev (Manaaki); turkiyeburslari call pages; usefnepal.org and edusanjal (Humphrey); edunepal (Rhodes); collegenp (Pulchowk notice 2083/04/27, IOE dates); prepolic.com (MECEE-BL 2027 notice); edusanjal and icenepal edulibrary (KU).
+
+## Rules (Pathways data)
+- Do not repeat wave 12 keys. New data goes in `wave13.json` through `build_wave13.py`; a parallel session may be editing wave 12 files, so pull before pushing.
+- When two sources disagree on a date, name the later one and say "confirm". The SAU application close date differs (31 March or 10 April), so the text says "in the spring".
+
+## Not done / next
+- The remaining destination rules marked "Not checked yet" in wave 12 (work hours for Czechia, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines), Japan and Korea proof of funds from an official page, per college CTEVT fees, websites for providers that have none.

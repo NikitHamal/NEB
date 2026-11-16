@@ -413,3 +413,56 @@ class Wave12Tests(TestCase):
         self.assertEqual(guides['english-test']['steps'][1][2], 36000)
         self.assertGreaterEqual(len(d['faq']), 103)
         self.assertEqual(pathways.problems(), [])
+
+
+class Wave13Tests(TestCase):
+    """Wave 13: US rule correction, UK and German funds, new scholarships, IOE, MEC and KU guides."""
+
+    def test_us_rule_is_marked_blocked(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('blocked by a federal court', abroad['us']['note'])
+        self.assertIn('USD 350', abroad['us']['note'])
+        faq = {f['id']: f for f in d['faq']}
+        self.assertIn('blocked it on 14 September 2026', faq['fw12-v1']['a'])
+
+    def test_funds_arithmetic(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('EUR 11,904', abroad['de']['note'])
+        self.assertEqual(992 * 12, 11904)
+        self.assertEqual(1529 * 9, 13761)
+        self.assertEqual(1171 * 9, 10539)
+        self.assertIn('18 months', abroad['uk']['note'])
+        self.assertIn('work permit', abroad['th']['work'])
+
+    def test_new_scholarships_are_linked(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-manaaki']['open'], [3, 3])
+        self.assertEqual(sch['s-turkiye']['open'], [1, 2])
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('s-humphrey', abroad['us']['scholarships'])
+        self.assertIn('s-sau', abroad['in']['scholarships'])
+
+    def test_guides_fees_and_colleges(self):
+        d = pathways.payload()
+        guides = {g['id'] for g in d['guides']}
+        for gid in ('ioe-admission', 'mec-entrance', 'ku-engineering'):
+            self.assertIn(gid, guides)
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-ku-eng']['fees']['be-electronics'], [960000, 960000])
+        self.assertEqual(6974 * 8 + 7295, 63087)
+        self.assertEqual(52766 * 8 + 123704, 545832)
+        self.assertEqual(6974 + 7295 + 3400, 17669)
+        self.assertEqual(52766 + 123704 + 40000, 216470)
+        self.assertIn('NPR 19,269', by['p-pulchowk']['note'])
+        self.assertIn('p-ace-mgt', next(r for r in d['routes'] if r['id'] == 'mba')['where'])
+        self.assertGreaterEqual(len(d['faq']), 116)
+        self.assertEqual(pathways.problems(), [])
+
+    def test_wave13_text_has_no_dashes(self):
+        import json
+        text = json.dumps(pathways.payload(), ensure_ascii=False)
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)

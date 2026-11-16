@@ -219,6 +219,37 @@ def payload():
         faq_all = faq_all + w12.get('faq_add', []) + w12.get('faq_more', []) + w12.get('faq_extra', []) + w12.get('faq_visa', [])
         for rid, text in w12.get('route_exam', {}).items():
             route_by[rid]['exam'] = text
+    if (DATA / 'wave13.json').exists():
+        w13 = _load('wave13.json')
+        providers = providers + w13['providers_add']
+        by_provider = {x['id']: x for x in providers}
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w13['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, fees in w13['fees'].items():
+            by_provider[pid]['fees'] = {**(by_provider[pid].get('fees') or {}), **fees}
+        for pid, text in w13['note_add'].items():
+            by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        for old, new in w13['exam_sub']:
+            for r in routes:
+                if old in (r.get('exam') or ''):
+                    r['exam'] = r['exam'].replace(old, new)
+        scholarships = scholarships + w13['scholarships_add']
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w13['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w13['abroad_extra'].items():
+            abroad_by[aid].update(more)
+        for sc in w13['scholarships_add']:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        guides = guides + w13['guides_add']
+        faq_all = faq_all + w13['faq_add']
+        faq_by = {f['id']: f for f in faq_all}
+        for fid, upd in w13['faq_update'].items():
+            faq_by[fid].update(upd)
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
