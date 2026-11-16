@@ -122,7 +122,7 @@ private fun MyPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: P
             val end = ceil(age + years).toInt()
             val tone = pwTone(0)
             Column(Modifier.fillMaxWidth().padding(top = 14.dp).clip(RoundedCornerShape(32.dp)).background(tone.bg).padding(20.dp)) {
-                Text("${career?.name ?: last.name} at $end", color = tone.fg, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-0.9).sp, lineHeight = 29.sp)
+                Text("${career?.name ?: last.name} at $end", color = tone.fg, fontSize = 26.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.9).sp, lineHeight = 29.sp)
                 Row(Modifier.fillMaxWidth().padding(vertical = 14.dp).height(56.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                     route.forEachIndexed { i, r ->
                         PwSurface(
@@ -136,7 +136,7 @@ private fun MyPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: P
                         }
                     }
                     Box(Modifier.height(56.dp).clip(RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp, topEnd = 28.dp, bottomEnd = 28.dp)).background(tone.fg).padding(horizontal = 18.dp), contentAlignment = Alignment.Center) {
-                        Text("$end", color = tone.bg, fontSize = 17.sp, fontWeight = FontWeight.ExtraBold)
+                        Text("$end", color = tone.bg, fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
                     }
                 }
                 PwFacts(

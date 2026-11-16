@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -151,20 +152,23 @@ private fun restoreTrail(d: PwData, vm: PathwaysViewModel, i: Int) {
 @Composable
 private fun PwStages(stages: List<PwStage>, current: String, onPick: (String) -> Unit) {
     val c = MaterialTheme.colorScheme
+    val scroll = rememberScrollState()
     Row(
-        Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 10.dp),
+        Modifier.fillMaxWidth().nebHorizontalScroll(scroll).padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
         stages.forEach { st ->
             val on = st.id == current
-            val r by animateDpAsState(if (on) 16.dp else 24.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "stR")
+            val r by animateDpAsState(if (on) 14.dp else 19.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "stR")
             val bg by animateColorAsState(if (on) c.primary else c.surfaceContainerHigh, label = "stBg")
+            val pop = remember { Animatable(1f) }
+            LaunchedEffect(on) { if (on) { pop.snapTo(0.8f); pop.animateTo(1f, spring(0.5f, Spring.StiffnessMediumLow)) } }
             Surface(
-                onClick = { onPick(st.id) }, modifier = Modifier.height(48.dp),
+                onClick = { onPick(st.id) }, modifier = Modifier.height(38.dp).widthIn(min = 44.dp).graphicsLayer { scaleX = pop.value; scaleY = pop.value },
                 shape = RoundedCornerShape(r), color = bg, contentColor = if (on) c.onPrimary else c.onSurface,
             ) {
-                Box(Modifier.padding(horizontal = 20.dp), contentAlignment = Alignment.Center) {
-                    Text(shortStage(st.label), maxLines = 1, fontSize = 15.sp, fontWeight = if (on) FontWeight.Bold else FontWeight.SemiBold)
+                Box(Modifier.padding(horizontal = if (on) 18.dp else 14.dp), contentAlignment = Alignment.Center) {
+                    Text(if (on) st.label else shortStage(st.label), maxLines = 1, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                 }
             }
         }
@@ -318,7 +322,7 @@ private fun PwNode(
             ) {
                 if (signal != null) PwSignal(signal, fg)
                 Text(label, Modifier.weight(1f), fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 17.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                if (trailing.isNotEmpty()) Text(trailing, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = fg.copy(alpha = 0.75f), maxLines = 1)
+                if (trailing.isNotEmpty()) Text(trailing, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = fg.copy(alpha = 0.75f), maxLines = 1)
             }
         }
     }
@@ -337,7 +341,7 @@ private fun PwPeek(d: PwData, focus: String, onOpen: () -> Unit) {
     PwSurface(Modifier.fillMaxWidth().padding(12.dp, 0.dp, 12.dp, 10.dp), color = tone.bg, radius = 28.dp, onClick = onOpen) {
         Row(Modifier.padding(start = 20.dp, top = 12.dp, end = 12.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Column(Modifier.weight(1f)) {
-                Text(title, color = tone.fg, fontSize = 17.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.3).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(title, color = tone.fg, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.3).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(sub, color = tone.fg.copy(alpha = 0.75f), fontSize = 12.sp, fontWeight = FontWeight.Medium, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             PwRing(demand, null, 46.dp, tone.fg, tone.fg.copy(alpha = 0.14f), tone.fg)

@@ -69,9 +69,9 @@ internal fun PwGuides(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
 private fun GuideCard(d: PwData, g: PwGuide, vm: PathwaysViewModel, modifier: Modifier, onClick: () -> Unit) {
     val tone = pwTone(d.guideTone(g.cat))
     val done = guideDone(vm, g)
-    PwSurface(modifier.heightIn(min = 136.dp), color = tone.bg, radius = 28.dp, onClick = onClick) {
+    PwSurface(modifier.heightIn(min = 136.dp).pwRise(0), color = tone.bg, radius = 28.dp, onClick = onClick) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(g.name, color = tone.fg, fontSize = 15.5.sp, fontWeight = FontWeight.Bold, lineHeight = 19.sp, modifier = Modifier.heightIn(min = 40.dp))
+            Text(g.name, color = tone.fg, fontSize = 15.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 19.sp, modifier = Modifier.heightIn(min = 40.dp))
             PwBar(if (g.steps.isEmpty()) 0f else done / g.steps.size.toFloat(), height = 6.dp, color = tone.fg, track = tone.fg.copy(alpha = 0.14f))
             Row {
                 Text("${g.steps.size} steps", Modifier.weight(1f), color = tone.fg, fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold)
@@ -109,7 +109,7 @@ internal fun PwGuideDetail(d: PwData, g: PwGuide, vm: PathwaysViewModel, ui: Pat
         PwScrollPage(if (g.link.isNotBlank()) 96.dp else 24.dp) {
             PwHero(tone, g.name, g.cat, key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 PwBadge(tone, 6) {
-                    Text("$done", fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)
+                    Text("$done", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
                     Text("of ${g.steps.size}", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
             }

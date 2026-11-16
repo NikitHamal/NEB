@@ -53,7 +53,7 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
             PwHero(tone, r.name, listOf(r.kind, groupLabel(r.group)).filter { it.isNotBlank() }.joinToString(" · "), key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 val (big, small) = yearsBadge(m.years)
                 PwBadge(tone, 8) {
-                    Text(big.ifEmpty { "${r.careers.size}" }, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)
+                    Text(big.ifEmpty { "${r.careers.size}" }, fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
                     Text(small.ifEmpty { "careers" }, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
             }
@@ -141,21 +141,21 @@ private fun RouteEntry(d: PwData, r: PwRoute, m: PwMetrics, nav: PwNav) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         if (r.entry.isNotBlank()) Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(22.dp)).background(c.primaryContainer).padding(16.dp, 14.dp)) {
             Text("Needs", fontSize = 11.sp, fontWeight = FontWeight.Medium, color = c.onPrimaryContainer.copy(alpha = 0.7f))
-            Text(r.entry, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = c.onPrimaryContainer, lineHeight = 21.sp)
+            Text(r.entry, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = c.onPrimaryContainer, lineHeight = 21.sp)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if (r.exam.isNotBlank()) PwSurface(Modifier.weight(1f).fillMaxHeight(), onClick = exam?.let { e -> { nav.push("exam:${e.id}") } }) {
                 Row(Modifier.padding(16.dp, 14.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text("Entrance", fontSize = 11.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant)
-                        Text(r.exam, fontSize = 14.sp, fontWeight = FontWeight.Bold, lineHeight = 18.sp)
+                        Text(r.exam, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
                     }
                     if (exam != null) Icon(Icons.AutoMirrored.Outlined.ArrowForward, null)
                 }
             }
             if (m.years > 0f) Column(Modifier.width(110.dp).clip(RoundedCornerShape(22.dp)).background(c.surfaceContainerLow).padding(16.dp, 14.dp)) {
                 Text("Duration", fontSize = 11.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant)
-                Text(yearsText(m.years), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(yearsText(m.years), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
             }
         }
         if (exam != null && (exam.apply.size == 2 || exam.examMonth > 0)) {
@@ -184,8 +184,8 @@ private fun RouteCompare(d: PwData, r: PwRoute) {
     val mb = d.m(b)
     PwChipRow(sib.map { it.id to it.name }, { it == b.id }, { pick = it }, Modifier.padding(bottom = 14.dp), inset = 0.dp)
     Row(Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
-        Text(r.name, Modifier.weight(1f), fontSize = 15.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Text(b.name, Modifier.weight(1f), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = c.primary, textAlign = TextAlign.End, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(r.name, Modifier.weight(1f), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(b.name, Modifier.weight(1f), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = c.primary, textAlign = TextAlign.End, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
     val rows = listOf(
         Triple("Demand", ma.demand.toFloat(), mb.demand.toFloat()) to "",

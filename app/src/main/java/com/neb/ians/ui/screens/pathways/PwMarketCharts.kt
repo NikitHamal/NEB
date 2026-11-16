@@ -66,13 +66,13 @@ internal fun PwMarketBalance(k: PwCareer) {
     val t = k.trend.lowercase()
     Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp)).background(c.surfaceContainerLow).padding(20.dp, 18.dp, 20.dp, 20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            Text(verdict(d, comp), Modifier.weight(1f), fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-0.4).sp)
+            Text(verdict(d, comp), Modifier.weight(1f), fontSize = 20.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp)
             if (t == "rising" || t == "falling" || t == "stable") Row(
                 Modifier.clip(RoundedCornerShape(16.dp)).background(if (t == "rising") c.primaryContainer else c.surfaceContainerHighest).padding(10.dp, 6.dp),
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Icon(when (t) { "rising" -> Icons.AutoMirrored.Outlined.TrendingUp; "falling" -> Icons.AutoMirrored.Outlined.TrendingDown; else -> Icons.AutoMirrored.Outlined.TrendingFlat }, null, Modifier.size(18.dp), tint = if (t == "rising") c.onPrimaryContainer else c.onSurfaceVariant)
-                Text(t.replaceFirstChar { it.uppercase() }, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = if (t == "rising") c.onPrimaryContainer else c.onSurfaceVariant)
+                Text(t.replaceFirstChar { it.uppercase() }, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (t == "rising") c.onPrimaryContainer else c.onSurfaceVariant)
             }
         }
         Meter("Demand", d, c.primary)
@@ -85,7 +85,7 @@ private fun Meter(label: String, v: Int, color: androidx.compose.ui.graphics.Col
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(label, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-            Text("${level(v)} · $v", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("${level(v)} · $v", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         PwBar(v / 100f, Modifier.fillMaxWidth(), 12.dp, color)
     }
@@ -97,7 +97,7 @@ internal fun PwTrendChart(vals: List<Float>, lastYear: Int) {
     val c = MaterialTheme.colorScheme
     val tm = rememberTextMeasurer()
     val tick = MaterialTheme.typography.labelSmall.copy(color = c.onSurfaceVariant, fontWeight = FontWeight.Medium)
-    val tip = MaterialTheme.typography.labelMedium.copy(color = c.surface, fontWeight = FontWeight.Bold)
+    val tip = MaterialTheme.typography.labelMedium.copy(color = c.surface, fontWeight = FontWeight.SemiBold)
     Canvas(Modifier.fillMaxWidth().height(150.dp).clip(RoundedCornerShape(28.dp)).background(c.surfaceContainerLow)) {
         val l = 24.dp.toPx(); val w = size.width - 2 * l
         val t = 34.dp.toPx(); val b = size.height - 28.dp.toPx()
@@ -132,8 +132,8 @@ internal fun PwQuadrant(d: PwData, k: PwCareer, onOpen: (String) -> Unit) {
     val c = MaterialTheme.colorScheme
     val tm = rememberTextMeasurer()
     val tick = MaterialTheme.typography.labelSmall.copy(color = c.onSurfaceVariant, fontWeight = FontWeight.Medium)
-    val zone = MaterialTheme.typography.labelMedium.copy(color = c.onPrimaryContainer, fontWeight = FontWeight.Bold)
-    val tip = MaterialTheme.typography.labelMedium.copy(color = c.surface, fontWeight = FontWeight.Bold)
+    val zone = MaterialTheme.typography.labelMedium.copy(color = c.onPrimaryContainer, fontWeight = FontWeight.SemiBold)
+    val tip = MaterialTheme.typography.labelMedium.copy(color = c.surface, fontWeight = FontWeight.SemiBold)
     // ratings are whole steps, so a small stable offset per career keeps dots on one step from hiding each other
     val pts = remember(d) { d.careers.values.map { x -> val h = abs(x.id.hashCode()); Triple(x, (pct(x.competition) + (h % 11 - 5)).toFloat(), (pct(x.demand) + (h / 11 % 11 - 5)).toFloat()) } }
     var sel by remember(k.id) { mutableStateOf(k.id) }
@@ -183,7 +183,7 @@ internal fun PwQuadrant(d: PwData, k: PwCareer, onOpen: (String) -> Unit) {
         }
         if (chosen != null && chosen.first.id != k.id) Row(Modifier.fillMaxWidth().padding(16.dp, 4.dp, 8.dp, 4.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text(chosen.first.name, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+                Text(chosen.first.name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
                 Text("Demand ${pct(chosen.first.demand)} · Competition ${pct(chosen.first.competition)}", fontSize = 12.sp, color = c.onSurfaceVariant)
             }
             PwButton("Open", null, false, { onOpen(chosen.first.id) })

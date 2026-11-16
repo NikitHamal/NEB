@@ -69,7 +69,7 @@ internal fun PwPayChart(k: PwCareer, exp: Int, rungYears: List<Int>, onExp: (Int
     val c = MaterialTheme.colorScheme
     val tm = rememberTextMeasurer()
     val tick = MaterialTheme.typography.labelSmall.copy(color = c.onSurfaceVariant, fontWeight = FontWeight.Medium)
-    val tip = MaterialTheme.typography.labelLarge.copy(color = c.surface, fontWeight = FontWeight.Bold)
+    val tip = MaterialTheme.typography.labelLarge.copy(color = c.surface, fontWeight = FontWeight.SemiBold)
     val at by animateFloatAsState(exp.toFloat(), spring(0.8f, Spring.StiffnessMediumLow), label = "payAt")
     val reveal = remember(k.id) { Animatable(0f) }
     LaunchedEffect(k.id) { reveal.animateTo(1f, tween(750, easing = FastOutSlowInEasing)) }

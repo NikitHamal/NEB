@@ -57,13 +57,13 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
             PwSeg(listOf(1 to "Woman", 0 to "Man"), if (woman) 1 else 0, { vm.setNum("woman", it) }, fill = false, height = 40.dp)
         }
         Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            d.govt.filter { it.track == track }.sortedBy { whyNot(it, edu, age, woman).isNotEmpty() }.forEach { g ->
+            d.govt.filter { it.track == track }.sortedBy { whyNot(it, edu, age, woman).isNotEmpty() }.forEachIndexed { gi, g ->
                 val why = whyNot(g, edu, age, woman)
                 val odds = oddsOf(g)
                 PwRow(
                     g.name, why.ifEmpty { g.level.ifBlank { g.body } },
                     odds?.text ?: if (g.fee > 0) npr(g.fee) else "",
-                    onClick = { nav.push("exam:${g.id}") }, dim = why.isNotEmpty(), strong = true,
+                    onClick = { nav.push("exam:${g.id}") }, dim = why.isNotEmpty(), strong = true, rise = gi,
                 )
             }
         }
@@ -92,10 +92,10 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
                 PwBadge(tone, 7) {
                     if (odds != null) {
                         if (odds.pre.isNotEmpty()) Text(odds.pre, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
-                        Text(odds.big, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)
+                        Text(odds.big, fontSize = 26.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
                         if (odds.post.isNotEmpty()) Text(odds.post, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                     } else {
-                        Text("${g.stages.size}", fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)
+                        Text("${g.stages.size}", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
                         Text("stages", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                     }
                 }
@@ -206,7 +206,7 @@ private fun ExamLadder(g: PwGovt) {
             ) {
                 val ink = if (on) c.onPrimary else c.onSurface.copy(alpha = if (g.rung >= 0 && i < g.rung) 0.45f else 1f)
                 Text(p.label, Modifier.weight(1f), color = ink, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
-                if (p.value > 0f) Text(npr(p.value.toLong()), color = ink, fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+                if (p.value > 0f) Text(npr(p.value.toLong()), color = ink, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
             }
         }
     }

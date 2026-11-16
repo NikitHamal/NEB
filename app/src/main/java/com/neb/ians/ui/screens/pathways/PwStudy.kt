@@ -51,7 +51,7 @@ internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav:
         PwRootBar { nav.push("search") }
         PwSeg(listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"), s.study, { s.study = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 14.dp))
         when (s.study) {
-            "abroad" -> PwAbroadBody(d, vm)
+            "abroad" -> PwAbroadBody(d, vm, nav)
             "funding" -> PwFundingBody(d, ui, vm)
             else -> PwCollegesBody(d, "", ui, vm)
         }
@@ -64,166 +64,6 @@ internal fun PwCollegesPage(d: PwData, routeId: String, ui: PathwaysUiState, vm:
         PwBackBar(d.routeById[routeId]?.name ?: "Colleges", nav.pop)
         PwCollegesBody(d, routeId, ui, vm)
     }
-}
-
-private fun kindFor(r: PwRoute): String = when {
-    r.kind == "Diploma" || r.kind == "Technical" -> "institute"
-    r.stage == "afterbach" -> "university"
-    else -> "college"
-}
-
-@Composable
-private fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: PathwaysViewModel) {
-    val s = vm.sel
-    val c = MaterialTheme.colorScheme
-    val uri = LocalUriHandler.current
-    val withWhere = remember(d) { d.routes.filter { it.where.isNotEmpty() } }
-    val rid = listOf(fixed, s.collegeRoute, s.course.orEmpty()).firstOrNull { id -> id.isNotEmpty() && withWhere.any { it.id == id } }
-        ?: withWhere.firstOrNull()?.id
-    val r = rid?.let { d.routeById[it] }
-    if (r == null) { PwEmpty("No colleges yet"); return }
-    if (fixed.isEmpty()) {
-        val near = remember(r.id, withWhere) { (listOf(r) + withWhere.filter { it.stage == r.stage && it.group == r.group && it.id != r.id }).take(20) }
-        PwChipRow(near.map { it.id to it.name }, { it == r.id }, { s.collegeRoute = it }, Modifier.padding(bottom = 14.dp))
-    }
-    val all = remember(r.id) { r.where.mapNotNull { d.providers[it] } }
-    var district by rememberSaveable(r.id) { mutableStateOf("") }
-    var sector by rememberSaveable { mutableStateOf("All") }
-    val counts = remember(all) { all.groupingBy { it.district }.eachCount() }
-    val pickDistrict: (String) -> Unit = { pick ->
-        district = if (pick == district) "" else pick
-        if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r))
-    }
-    Column(Modifier.padding(horizontal = 16.dp)) {
-        PwNepalMapCard(counts, district, pickDistrict)
-        val districts = all.map { it.district }.distinct().sorted()
-        if (districts.size > 1 || district.isNotEmpty()) {
-            Spacer(Modifier.height(12.dp))
-            PwChipRow(districts.map { it to it }, { it == district }, pickDistrict, inset = 0.dp)
-        }
-        Spacer(Modifier.height(12.dp))
-        PwSeg(listOf("All" to "All", "Public" to "Public", "Private" to "Private"), sector, { sector = it })
-        Spacer(Modifier.height(12.dp))
-        val list = all.filter { p ->
-            (district.isEmpty() || p.district == district) && (sector == "All" || p.sector == sector)
-        }.sortedWith(compareBy({ if (it.sector == "Public") 0 else 1 }, { it.name }))
-        val maxFee = all.mapNotNull { it.fees[r.id]?.second }.maxOrNull()?.coerceAtLeast(1L)?.toFloat()
-        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            if (list.isEmpty()) PwEmpty("No colleges")
-            list.forEach { p ->
-                val fee = p.fees[r.id]
-                PwSurface(Modifier.fillMaxWidth(), radius = 22.dp, onClick = if (p.website.isNotBlank()) { { runCatching { uri.openUri(p.website) }; Unit } } else null) {
-                    Column(Modifier.padding(16.dp, 14.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            Column(Modifier.weight(1f)) {
-                                Text(p.name, fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
-                                Text(
-                                    listOf(p.place, p.district, if (p.seats > 0) "${p.seats} seats" else "").filter { it.isNotBlank() }.distinct().joinToString(" · "),
-                                    fontSize = 12.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis,
-                                )
-                            }
-                            if (p.sector.isNotBlank()) PwTag(p.sector, pwTone(if (p.sector == "Public") 4 else 1))
-                        }
-                        if (fee != null && maxFee != null) {
-                            Spacer(Modifier.height(10.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                PwBar(fee.second / maxFee, Modifier.weight(1f))
-                                Text(npr(fee.second), fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (district.isNotEmpty() && ui.district == district && ui.live.isNotEmpty()) {
-            PwH4("Nearby")
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) { ui.live.forEach { PwRow(it.name, it.where) } }
-        }
-    }
-}
-
-@Composable
-private fun PwAbroadBody(d: PwData, vm: PathwaysViewModel) {
-    val s = vm.sel
-    val budget = vm.num("abroadBudget")
-    Column(Modifier.padding(horizontal = 16.dp)) {
-        PwSlider(budget.toFloat(), { vm.setNum("abroadBudget", it.toInt()) }, 5f..100f, 0, "NPR ${budget}L / yr")
-        Spacer(Modifier.height(6.dp))
-        // an opened card takes a full row; the rest pair up two by two
-        val rows = remember(d.abroad, s.abroadOpen) {
-            val out = mutableListOf<List<PwAbroad>>()
-            var pending: PwAbroad? = null
-            d.abroad.forEach { a ->
-                if (a.id == s.abroadOpen) out += listOf(a)
-                else if (pending == null) pending = a
-                else { out += listOfNotNull(pending, a); pending = null }
-            }
-            pending?.let { out += listOf(it) }
-            out
-        }
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            rows.forEach { row ->
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    row.forEach { a ->
-                        val i = d.abroad.indexOf(a)
-                        CountryCard(d, a, i, a.id == s.abroadOpen, (a.tuitionMin + a.livingMin) / 100_000 > budget, vm, Modifier.weight(1f))
-                    }
-                    if (row.size == 1 && row.first().id != s.abroadOpen) Spacer(Modifier.weight(1f))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun CountryCard(d: PwData, a: PwAbroad, i: Int, open: Boolean, over: Boolean, vm: PathwaysViewModel, modifier: Modifier) {
-    val s = vm.sel
-    val tone = pwTone(listOf(0, 1, 2, 4, 5)[i % 5])
-    val alpha by animateFloatAsState(if (over && !open) 0.3f else 1f, label = "ccA")
-    val months = remember(a.intakes) { monthsIn(a.intakes) }
-    PwSurface(
-        modifier.graphicsLayer { this.alpha = alpha }.animateContentSize(spring(0.7f, Spring.StiffnessMediumLow)),
-        color = tone.bg, radius = if (open) 36.dp else 28.dp, onClick = { s.abroadOpen = if (open) "" else a.id },
-    ) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Box(Modifier.size(48.dp).background(tone.fg, ScallopShape(if (i % 2 == 0) 6 else 8)), contentAlignment = Alignment.Center) {
-                    Text(a.code.ifBlank { a.country.take(2) }.uppercase(), color = tone.bg, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                }
-                Column {
-                    Text(money(a.tuitionMin + a.livingMin).replace(" lakh", "L"), color = tone.fg, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-0.6).sp, lineHeight = 24.sp)
-                    Text("per year", color = tone.fg.copy(alpha = 0.75f), fontSize = 10.5.sp, fontWeight = FontWeight.Medium)
-                }
-            }
-            Text(a.country, color = tone.fg, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (months.isNotEmpty()) PwMonths({ it in months }, fill = tone.fg, onFill = tone.bg)
-            if (open) {
-                val facts = buildList {
-                    add("Tuition" to "${money(a.tuitionMin)}–${money(a.tuitionMax)}")
-                    add("Living" to "${money(a.livingMin)}–${money(a.livingMax)}")
-                    if (a.workHours > 0) add("Work" to "${a.workHours} h / week")
-                    if (a.stayBack.isNotBlank()) add("Stay-back" to a.stayBack)
-                    if (a.visaRate >= 0) add("Visa rate" to "${a.visaRate}%")
-                    if (a.intakes.isNotBlank() && months.isEmpty()) add("Intakes" to a.intakes)
-                }
-                PwFacts(facts, container = tone.fg.copy(alpha = 0.08f), ink = tone.fg)
-                val chips = a.exams + a.fields
-                if (chips.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    a.exams.forEach { TonedChip(it, tone, solid = true) }
-                    a.fields.forEach { TonedChip(it, tone, solid = false) }
-                }
-                if (a.scholarships.isNotEmpty()) PwButton("Scholarships", null, true, { s.schCountry = a.id; s.study = "funding" }, Modifier.fillMaxWidth())
-            }
-        }
-    }
-}
-
-@Composable
-private fun TonedChip(text: String, tone: PwTone, solid: Boolean) {
-    Box(
-        Modifier.height(32.dp).clip(RoundedCornerShape(16.dp)).background(if (solid) tone.fg else tone.fg.copy(alpha = 0.1f)).padding(horizontal = 12.dp),
-        contentAlignment = Alignment.Center,
-    ) { Text(text, color = if (solid) tone.bg else tone.fg, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, maxLines = 1) }
 }
 
 private fun levelLabel(l: String): String = when (l.lowercase()) {
@@ -257,15 +97,19 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
             Spacer(Modifier.height(6.dp))
         }
         if (list.isEmpty()) PwEmpty("No match")
-        list.forEach { x ->
+        list.forEachIndexed { i, x ->
             val open = s.schOpen == x.id
             val live = x.open.size == 2 && inWindow(x.open[0], x.open[1], nowMonth())
-            PwSurface(Modifier.fillMaxWidth().animateContentSize(), radius = 22.dp, onClick = { s.schOpen = if (open) "" else x.id }) {
+            PwSurface(Modifier.fillMaxWidth().pwRise(i).animateContentSize(), radius = 22.dp, onClick = { s.schOpen = if (open) "" else x.id }) {
                 Column(Modifier.padding(16.dp, 14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Column(Modifier.weight(1f)) {
                             Text(x.name, fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
                             Text(x.by, fontSize = 12.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                        val code = d.abroad.firstOrNull { it.id == x.country }?.code.orEmpty()
+                        if (code.isNotBlank()) Box(Modifier.height(24.dp).clip(RoundedCornerShape(8.dp)).background(c.surfaceContainerHighest).padding(horizontal = 8.dp), contentAlignment = Alignment.Center) {
+                            Text(code, fontSize = 10.5.sp, fontWeight = FontWeight.SemiBold)
                         }
                         Text(
                             if (x.open.size == 2) windowLabel(x.open[0], x.open[1]) else x.levels.joinToString(", ") { levelLabel(it) },
@@ -274,9 +118,14 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
                     }
                     if (x.open.size == 2) {
                         if (live) PwMonths({ inWindow(x.open[0], x.open[1], it) })
-                        else PwMonths({ inWindow(x.open[0], x.open[1], it) }, fill = c.onPrimaryContainer, onFill = c.primaryContainer)
+                        else PwMonths({ inWindow(x.open[0], x.open[1], it) }, fill = c.onPrimaryContainer, onFill = c.onPrimaryContainer, cellBg = c.primaryContainer)
                     }
                     if (open) {
+                        val cv = x.covers.lowercase()
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            val t = "tuition" in cv; val st = "stipend" in cv || "allowance" in cv; val fl = "flight" in cv || "airfare" in cv || "travel" in cv
+                            PwOutlineChip("Tuition", on = t, off = !t); PwOutlineChip("Stipend", on = st, off = !st); PwOutlineChip("Flights", on = fl, off = !fl)
+                        }
                         listOf("Covers" to x.covers, "Who" to x.who, "How" to x.how).filter { it.second.isNotBlank() }.forEach { (k, v) ->
                             Column {
                                 Text(k, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = c.onSurfaceVariant)

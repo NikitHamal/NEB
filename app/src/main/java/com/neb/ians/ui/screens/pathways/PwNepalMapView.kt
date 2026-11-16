@@ -81,9 +81,9 @@ private fun InfoCard(d: GeoDistrict, n: Int, modifier: Modifier) {
     val c = MaterialTheme.colorScheme
     Surface(modifier, shape = RoundedCornerShape(18.dp), color = c.surface.copy(alpha = 0.92f)) {
         Column(Modifier.padding(14.dp, 9.dp)) {
-            Text(d.name, fontSize = 15.sp, fontWeight = FontWeight.Bold, lineHeight = 18.sp)
+            Text(d.name, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
             Text(listOf(PROVINCES[d.province], d.hq).filter { it.isNotBlank() }.joinToString(" · "), fontSize = 12.sp, color = c.onSurfaceVariant, lineHeight = 15.sp)
-            Text(if (n == 1) "1 college" else "$n colleges", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = c.primary, lineHeight = 16.sp)
+            Text(if (n == 1) "1 college" else "$n colleges", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = c.primary, lineHeight = 16.sp)
         }
     }
 }
@@ -109,7 +109,7 @@ private fun PwNepalMapFull(geo: NepalGeo, counts: Map<String, Int>, selected: St
             Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().padding(16.dp, 12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text("Nepal", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 26.sp)
+                        Text("Nepal", fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 26.sp)
                         Text("${counts.values.sum()} colleges in ${counts.size} districts", fontSize = 13.sp, color = c.onSurfaceVariant)
                     }
                     PwIconButton(Icons.Outlined.Close, "Close map", onClose)

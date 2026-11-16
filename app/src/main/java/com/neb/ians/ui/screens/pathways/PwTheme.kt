@@ -233,7 +233,7 @@ internal fun PwIconButton(
 internal fun PwCount(n: Int, modifier: Modifier = Modifier) {
     val c = MaterialTheme.colorScheme
     Box(modifier.heightIn(min = 18.dp).widthIn(min = 18.dp).clip(RoundedCornerShape(9.dp)).background(c.onSurface).padding(horizontal = 4.dp), contentAlignment = Alignment.Center) {
-        Text("$n", color = c.surface, fontSize = 10.sp, fontWeight = FontWeight.Bold, lineHeight = 12.sp)
+        Text("$n", color = c.surface, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
     }
 }
 
@@ -266,7 +266,7 @@ internal fun PwActions(modifier: Modifier = Modifier, content: @Composable RowSc
 @Composable
 internal fun PwRootBar(onSearch: () -> Unit) {
     Row(Modifier.fillMaxWidth().statusBarsPadding().padding(16.dp, 16.dp, 16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text("Pathways", Modifier.weight(1f), fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-1).sp)
+        Text("Pathways", Modifier.weight(1f), fontSize = 21.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp)
         PwIconButton(Icons.Outlined.Search, "Search", onSearch)
     }
 }
@@ -275,7 +275,7 @@ internal fun PwRootBar(onSearch: () -> Unit) {
 internal fun PwBackBar(title: String, onBack: () -> Unit) {
     Row(Modifier.fillMaxWidth().statusBarsPadding().padding(16.dp, 12.dp, 16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         PwIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
-        Text(title, Modifier.weight(1f), fontSize = 22.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.5).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(title, Modifier.weight(1f), fontSize = 22.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.5).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
 }
 
@@ -307,7 +307,7 @@ internal fun PwHero(tone: PwTone, title: String, sub: String, saved: Boolean?, o
         Spacer(Modifier.height(14.dp))
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Column(Modifier.weight(1f)) {
-                Text(title, color = tone.fg, fontSize = 32.sp, lineHeight = 35.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-1).sp)
+                Text(title, color = tone.fg, fontSize = 25.sp, lineHeight = 26.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.5).sp)
                 if (sub.isNotBlank()) Text(sub, Modifier.padding(top = 4.dp), color = tone.fg.copy(alpha = 0.78f), fontSize = 13.sp, fontWeight = FontWeight.Medium)
             }
             badge()
@@ -334,7 +334,7 @@ internal fun PwRing(
                 drawArc(color, -90f, 360f * a.value, false, o, s, style = Stroke(w, cap = StrokeCap.Round))
             },
             contentAlignment = Alignment.Center,
-        ) { Text("$value", color = ink, fontSize = (size.value * 0.27f).sp, fontWeight = FontWeight.Bold) }
+        ) { Text("$value", color = ink, fontSize = (size.value * 0.27f).sp, fontWeight = FontWeight.SemiBold) }
         if (label != null) Text(label, fontSize = 11.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
@@ -346,7 +346,7 @@ internal fun PwMeters(demand: Int, competition: Int, big: String?, small: String
         PwRing(demand, "Demand")
         PwRing(competition, "Competition", color = c.onSurface)
         if (big != null) Column(Modifier.weight(1f).clip(RoundedCornerShape(22.dp)).background(c.surfaceContainerHigh).padding(16.dp, 12.dp)) {
-            Text(big, fontSize = 20.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.4).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(big, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.3).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
             if (small != null) Text(small, fontSize = 11.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
@@ -396,7 +396,7 @@ internal fun PwSplit(parts: List<PwPart>, fmt: (Float) -> String = { "${it.round
             ) {
                 Box(Modifier.size(12.dp).clip(RoundedCornerShape(4.dp)).background(cols[i % cols.size]))
                 Text(p.label, Modifier.weight(1f).padding(start = 10.dp), fontSize = 13.5.sp, fontWeight = if (sel == i) FontWeight.SemiBold else FontWeight.Medium, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(fmt(p.value), fontSize = 13.5.sp, fontWeight = FontWeight.Bold)
+                Text(fmt(p.value), fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
             }
         }
     }
@@ -404,7 +404,7 @@ internal fun PwSplit(parts: List<PwPart>, fmt: (Float) -> String = { "${it.round
 
 /** Twelve month strip; the current month is outlined. */
 @Composable
-internal fun PwMonths(active: (Int) -> Boolean, modifier: Modifier = Modifier, fill: Color = MaterialTheme.colorScheme.primary, onFill: Color = MaterialTheme.colorScheme.onPrimary) {
+internal fun PwMonths(active: (Int) -> Boolean, modifier: Modifier = Modifier, fill: Color = MaterialTheme.colorScheme.primary, onFill: Color = MaterialTheme.colorScheme.onPrimary, cellBg: Color? = null) {
     val now = remember { nowMonth() }
     val ink = MaterialTheme.colorScheme.onSurface
     Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -413,7 +413,7 @@ internal fun PwMonths(active: (Int) -> Boolean, modifier: Modifier = Modifier, f
             Box(
                 Modifier.weight(1f).height(20.dp)
                     .then(if (m == now) Modifier.border(2.dp, ink, RoundedCornerShape(6.dp)) else Modifier)
-                    .clip(RoundedCornerShape(6.dp)).background(if (on) fill else fill.copy(alpha = 0.1f)),
+                    .clip(RoundedCornerShape(6.dp)).background(if (on) (cellBg ?: fill) else fill.copy(alpha = 0.1f)),
                 contentAlignment = Alignment.Center,
             ) { Text(MONTHS[m - 1].take(1), fontSize = 9.sp, fontWeight = FontWeight.SemiBold, color = if (on) onFill else fill, lineHeight = 10.sp) }
         }
@@ -440,7 +440,7 @@ internal fun PwFacts(items: List<Pair<String, String>>, modifier: Modifier = Mod
                 row.forEach { (k, v) ->
                     Column(Modifier.weight(1f).fillMaxHeight().clip(RoundedCornerShape(18.dp)).background(container).padding(12.dp, 10.dp)) {
                         Text(k, fontSize = 10.5.sp, fontWeight = FontWeight.Medium, color = ink.copy(alpha = 0.7f), maxLines = 1)
-                        Text(v, fontSize = 13.5.sp, fontWeight = FontWeight.Bold, lineHeight = 17.sp, color = ink)
+                        Text(v, fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 17.sp, color = ink)
                     }
                 }
                 repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
@@ -452,7 +452,7 @@ internal fun PwFacts(items: List<Pair<String, String>>, modifier: Modifier = Mod
 @Composable
 internal fun PwBig(big: String, small: String?, tone: PwTone = pwTone(2)) {
     Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp)).background(tone.bg).padding(22.dp, 18.dp)) {
-        Text(big, color = tone.fg, fontSize = 40.sp, lineHeight = 42.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-1.5).sp)
+        Text(big, color = tone.fg, fontSize = 30.sp, lineHeight = 30.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.9).sp)
         if (small != null) Text(small, color = tone.fg, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
     }
 }
@@ -465,8 +465,8 @@ internal fun PwH4(text: String, modifier: Modifier = Modifier) {
 @Composable
 internal fun PwBigLine(text: String, accent: String = "", modifier: Modifier = Modifier) {
     Row(modifier.padding(top = 6.dp, bottom = 10.dp)) {
-        Text(text, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-0.9).sp, lineHeight = 29.sp)
-        if (accent.isNotEmpty()) Text(" $accent", fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = (-0.9).sp, lineHeight = 29.sp, color = MaterialTheme.colorScheme.primary)
+        Text(text, fontSize = 20.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp, lineHeight = 22.sp)
+        if (accent.isNotEmpty()) Text(" $accent", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp, lineHeight = 22.sp, color = MaterialTheme.colorScheme.primary)
     }
 }
 
@@ -501,12 +501,12 @@ internal fun PwEmpty(text: String) {
 @Composable
 internal fun PwRow(
     title: String, sub: String = "", trailing: String = "", onClick: (() -> Unit)? = null,
-    on: Boolean = false, dim: Boolean = false, strong: Boolean = false, below: (@Composable () -> Unit)? = null,
+    on: Boolean = false, dim: Boolean = false, strong: Boolean = false, below: (@Composable () -> Unit)? = null, rise: Int = -1,
 ) {
     val c = MaterialTheme.colorScheme
     PwSurface(
-        Modifier.fillMaxWidth().graphicsLayer { alpha = if (dim) 0.45f else 1f },
-        color = if (on) c.primaryContainer else c.surfaceContainerLow, radius = 22.dp, onClick = onClick,
+        Modifier.fillMaxWidth().pwRise(rise).graphicsLayer { alpha = if (dim) 0.45f else 1f },
+        color = if (on) c.primaryContainer else c.surfaceContainerLow, radius = 24.dp, onClick = onClick,
     ) {
         Column(Modifier.padding(horizontal = 18.dp, vertical = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -516,7 +516,7 @@ internal fun PwRow(
                 }
                 if (trailing.isNotEmpty()) Text(
                     trailing, Modifier.padding(start = 12.dp), maxLines = 1,
-                    fontSize = if (strong) 15.sp else 11.sp, fontWeight = if (strong) FontWeight.Bold else FontWeight.SemiBold,
+                    fontSize = if (strong) 15.sp else 11.sp, fontWeight = if (strong) FontWeight.SemiBold else FontWeight.SemiBold,
                     color = if (strong) c.onSurface else c.onSurfaceVariant,
                 )
             }
@@ -535,7 +535,7 @@ internal fun PwSteps(items: List<Triple<String, String, String>>, done: (Int) ->
             val r by animateDpAsState(if (ok) 20.dp else 14.dp, bouncy, label = "stepR")
             val bg by animateColorAsState(if (ok) c.primary else c.primaryContainer, label = "stepBg")
             Row(
-                Modifier.fillMaxWidth().heightIn(min = 62.dp)
+                Modifier.fillMaxWidth().heightIn(min = 62.dp).pwRise(i)
                     .then(if (onToggle != null) Modifier.clip(RoundedCornerShape(16.dp)).clickable { onToggle(i) } else Modifier)
                     .drawBehind {
                         val x = 20.dp.toPx()
@@ -547,13 +547,13 @@ internal fun PwSteps(items: List<Triple<String, String, String>>, done: (Int) ->
             ) {
                 Box(Modifier.size(40.dp).clip(RoundedCornerShape(r)).background(bg), contentAlignment = Alignment.Center) {
                     if (ok) Icon(Icons.Outlined.Check, null, Modifier.size(18.dp), tint = c.onPrimary)
-                    else Text("${i + 1}", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = c.onPrimaryContainer)
+                    else Text("${i + 1}", fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = c.onPrimaryContainer)
                 }
                 Column(Modifier.weight(1f).padding(vertical = 8.dp).graphicsLayer { alpha = if (ok) 0.5f else 1f }) {
                     Text(title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, lineHeight = 19.sp)
                     if (sub.isNotEmpty()) Text(sub, fontSize = 12.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, lineHeight = 16.sp)
                 }
-                if (trailing.isNotEmpty()) Text(trailing, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                if (trailing.isNotEmpty()) Text(trailing, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
             }
         }
     }
@@ -561,9 +561,32 @@ internal fun PwSteps(items: List<Triple<String, String, String>>, done: (Int) ->
 
 @Composable
 internal fun PwSlider(value: Float, onChange: (Float) -> Unit, range: ClosedFloatingPointRange<Float>, steps: Int, label: String) {
+    val c = MaterialTheme.colorScheme
+    val page = c.surface
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        Slider(value, onChange, Modifier.weight(1f), valueRange = range, steps = steps)
-        Text(label, Modifier.widthIn(min = 64.dp), fontSize = 13.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.End, maxLines = 1)
+        Slider(
+            value, onChange, Modifier.weight(1f).height(44.dp), valueRange = range, steps = steps,
+            thumb = {
+                Box(Modifier.width(14.dp).height(44.dp).border(4.dp, page, RoundedCornerShape(7.dp)).padding(4.dp).clip(RoundedCornerShape(3.dp)).background(c.primary))
+            },
+            track = { Box(Modifier.fillMaxWidth().height(16.dp).clip(RoundedCornerShape(8.dp)).background(c.primaryContainer)) },
+        )
+        if (label.isNotEmpty()) Text(label, Modifier.widthIn(min = 64.dp), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.End, maxLines = 1)
+    }
+}
+
+/** Rise on first show: fade, lift 14dp and settle from 95% on a spring. Only the first rows animate; long lists skip it. */
+@Composable
+internal fun Modifier.pwRise(index: Int, key: Any? = Unit): Modifier {
+    val live = index in 0..14
+    val a = remember(key) { Animatable(if (live) 0f else 1f) }
+    if (live) LaunchedEffect(key) { kotlinx.coroutines.delay(index * 40L); a.animateTo(1f, spring(0.6f, Spring.StiffnessMediumLow)) }
+    return this.graphicsLayer {
+        val v = a.value
+        alpha = v.coerceIn(0f, 1f)
+        translationY = (1f - v) * 14.dp.toPx()
+        val sc = 0.95f + 0.05f * v
+        scaleX = sc; scaleY = sc
     }
 }
 

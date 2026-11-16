@@ -50,7 +50,7 @@ internal fun PwProfileChart(labels: List<String>, values: List<Float>, avg: List
     val c = MaterialTheme.colorScheme
     val tm = rememberTextMeasurer()
     val name = MaterialTheme.typography.labelMedium.copy(color = c.onSurfaceVariant, fontWeight = FontWeight.SemiBold)
-    val num = MaterialTheme.typography.labelLarge.copy(color = c.onSurface, fontWeight = FontWeight.Bold)
+    val num = MaterialTheme.typography.labelLarge.copy(color = c.onSurface, fontWeight = FontWeight.SemiBold)
     val grow = remember(values) { Animatable(0f) }
     LaunchedEffect(values) { grow.animateTo(1f, spring(0.72f, Spring.StiffnessLow)) }
     val n = labels.size
