@@ -48,7 +48,7 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     val woman = vm.num("woman") == 1
     PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
-        if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@Column }
+        if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@PwScrollPage }
         if (tracks.size <= 4) PwSeg(tracks.map { it.id to it.label }, track, { s.track = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 12.dp))
         else PwChipRow(tracks.map { it.id to it.label }, { it == track }, { s.track = it }, Modifier.padding(top = 8.dp, bottom = 12.dp))
         PwChipRow((1..4).map { "$it" to EDU_LABELS[it] }, { it == "$edu" }, { vm.setNum("edu", it.toInt()) })
