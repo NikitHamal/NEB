@@ -938,6 +938,7 @@
         images: imageUrls,
         poll: pollData,
         isAnonymous: document.getElementById('cp-anonymous').checked,
+        look: window.NebCpLook ? window.NebCpLook.value() : null,
         attachments: pendingAttachments.filter(function(a) { return !a.uploading && a.url; }).map(function(a) {
           return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime,
                    thumbnail_url: a.thumbnail_url || '' };
