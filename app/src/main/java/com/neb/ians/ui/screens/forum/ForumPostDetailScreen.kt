@@ -936,6 +936,7 @@ private fun PostContentSection(
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
             onLinkClick = onLinkClick,
+            tickKey = "post:" + post.id,
             onInlineImageClick = { url -> inlineGallery(url, post.content, post.images.sortedBy { it.order }.mapNotNull { resolveMediaUrl(it.imageUrl) }).let { (list, at) -> onImageClick(list, at) } }
         )
 

@@ -605,3 +605,20 @@ A to-do line written in the post composer is stored as `- [ ] text` / `- [x] tex
 ## Not done / next
 - Ticks are not saved on Android between visits (web keeps them per browser).
 - Picture beside text blocks inside a post; Pathways Nepali labels, saved levels, per-college fee tables (verify every figure first).
+
+
+---
+
+# Session 26: Android to-do ticks are remembered
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Bootstrap re-run and history read first. The same Pathways and dynamic posts brief came in again. Both were shipped in sessions 20 to 25 (own native Pathways screen, profile popup entry, icon-only five item nav, concept screens, `PwMatch.kt` matching; post look in composer, card and reader on Android and web), CI green, so neither was **redone**. Only the open gap from session 25 was closed.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 131 | **Ticks on a post survive leaving the page (Android).** `MarkdownText` and `ExpandableMarkdownText` take an optional `tickKey`. With a key, the reader's ticks are saved in the private `md_ticks` preferences (one set per key, `index=0/1`) and read back when the post opens. The post reading page passes `post:<id>`. Replies and previews pass nothing, so they behave as before. The author's text is never changed and nothing is sent to the server. | `components/Markdown.kt`, `ForumPostDetailScreen.kt` |
+
+## Not done / next
+- Picture beside text blocks inside a post.
+- Pathways Nepali labels, saved levels, per-college fee tables (verify every figure first).
