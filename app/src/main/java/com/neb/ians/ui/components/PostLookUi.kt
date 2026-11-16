@@ -160,6 +160,25 @@ fun PostLookCover(
     }
 }
 
+/**
+ * A picture behind the page, cropped to fill, under a flat wash of the page colour so text stays readable.
+ * Draws nothing extra when the look has no page picture. [pending] is a picture picked on this phone and not uploaded yet.
+ */
+@Composable
+fun PostLookBackdrop(look: PostLook, modifier: Modifier = Modifier, pending: Any? = null, wash: Float = 0.84f, content: @Composable () -> Unit) {
+    val model: Any? = pending ?: look.bg.takeIf { it > 0 }?.let { resolveMediaUrl("/media/content_images/$it.webp") }
+    if (model == null) {
+        Box(modifier) { content() }
+        return
+    }
+    val tone = noteTone(look.tone)
+    Box(modifier) {
+        AsyncImage(model = model, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.matchParentSize())
+        Box(Modifier.matchParentSize().background(tone.container.copy(alpha = wash)))
+        content()
+    }
+}
+
 /** The reading page: tone, paper, cover and icon around the post. Plain posts pass straight through. */
 @Composable
 fun PostLookPage(look: PostLook?, content: @Composable () -> Unit) {
@@ -170,8 +189,12 @@ fun PostLookPage(look: PostLook?, content: @Composable () -> Unit) {
     PostLookTheme(look) {
         val tone = noteTone(look.tone)
         Column(Modifier.fillMaxWidth().background(tone.container).notePaper(look.paper, tone.content)) {
-            PostLookCover(look, coverHeight = 148.dp, iconSize = 56.dp)
-            content()
+            PostLookBackdrop(look) {
+                Column(Modifier.fillMaxWidth()) {
+                    PostLookCover(look, coverHeight = 148.dp, iconSize = 56.dp)
+                    content()
+                }
+            }
         }
     }
 }
@@ -217,11 +240,15 @@ fun ForumPostCard(
                 .notePaper(look.paper, tone.content)
                 .then(if (tone.hairline) Modifier.border(1.dp, edge, shape) else Modifier),
         ) {
-            PostLookCover(look, coverHeight = 92.dp, iconSize = 44.dp, animate = false)
-            ForumPostCardPlain(
-                post, isOwnPost, onClick, onLikeClick, onBookmarkClick, onShareClick, onReportClick,
-                Modifier, onEditClick, onArchiveClick, onDeleteClick, onAuthorClick, onAuthorLongPress, false,
-            )
+            PostLookBackdrop(look, wash = 0.88f) {
+                Column(Modifier.fillMaxWidth()) {
+                    PostLookCover(look, coverHeight = 92.dp, iconSize = 44.dp, animate = false)
+                    ForumPostCardPlain(
+                        post, isOwnPost, onClick, onLikeClick, onBookmarkClick, onShareClick, onReportClick,
+                        Modifier, onEditClick, onArchiveClick, onDeleteClick, onAuthorClick, onAuthorLongPress, false,
+                    )
+                }
+            }
         }
     }
 }

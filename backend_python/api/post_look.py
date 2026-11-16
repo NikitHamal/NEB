@@ -48,6 +48,7 @@ def clean(raw):
         'paper': _int(raw.get('paper'), 0, MAX_PAPER),
         'font': _int(raw.get('font'), 0, MAX_FONT),
         'photo': _int(raw.get('photo'), 0, MAX_PHOTO),
+        'bg': _int(raw.get('bg'), 0, MAX_PHOTO),
     }
     look = {k: v for k, v in look.items() if v}
     if not look:
@@ -67,15 +68,21 @@ def parse(stored):
 
 
 def finalize(stored):
-    """Before saving: keep the cover photo only if that picture exists, and keep it from being cleaned up."""
+    """Before saving: keep a cover or page picture only if that picture exists, and keep it from being cleaned up."""
     look = parse(stored)
-    if not look or not look.get('photo'):
+    if not look or not (look.get('photo') or look.get('bg')):
         return stored or ''
     from .models import ContentImage
     from .content_images import mark_used
-    photo = look['photo']
-    if not ContentImage.objects.filter(pk=photo).exists():
-        look.pop('photo', None)
-        return json.dumps(look, separators=(',', ':'), sort_keys=True) if look else ''
-    mark_used([photo])
-    return stored
+    keep = []
+    for key in ('photo', 'bg'):
+        value = look.get(key)
+        if not value:
+            continue
+        if ContentImage.objects.filter(pk=value).exists():
+            keep.append(value)
+        else:
+            look.pop(key, None)
+    if keep:
+        mark_used(keep)
+    return json.dumps(look, separators=(',', ':'), sort_keys=True) if look else ''

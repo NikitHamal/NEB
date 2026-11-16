@@ -142,10 +142,10 @@ fun CreatePostScreen(
                     )
                 }
 
+                com.neb.ians.ui.components.PostLookBackdrop(uiState.look, Modifier.weight(1f).fillMaxWidth(), pending = uiState.bgUri) {
                 Column(
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .notePaper(uiState.look.paper, scheme.onSurface)
                         .verticalScroll(rememberScrollState())
                 ) {
@@ -183,6 +183,7 @@ fun CreatePostScreen(
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
+                }
                 }
                 }
 

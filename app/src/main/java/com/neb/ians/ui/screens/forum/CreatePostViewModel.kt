@@ -80,6 +80,8 @@ data class CreatePostUiState(
     // Dynamic post: page colour, cover, icon, paper, type. A cover picked on the phone uploads on publish.
     val look: com.neb.ians.data.api.PostLook = com.neb.ians.data.api.PostLook(),
     val coverUri: Uri? = null,
+    /** A page picture picked on the phone; uploaded on publish. */
+    val bgUri: Uri? = null,
     // @mention autocomplete
     val mentionSuggestions: List<ApiUserSearchResult> = emptyList()
 ) {
@@ -210,6 +212,7 @@ class CreatePostViewModel @Inject constructor(
                             pollEnabled = false,
                             look = post.look ?: com.neb.ians.data.api.PostLook(),
                             coverUri = null,
+                            bgUri = null,
                             isLoadingPost = false,
                             error = null
                         )
@@ -234,6 +237,13 @@ class CreatePostViewModel @Inject constructor(
     fun setCoverPhoto(uri: Uri) = _uiState.update { it.copy(coverUri = uri, look = it.look.copy(photo = 0, cover = 0)) }
 
     fun clearCover() = _uiState.update { it.copy(coverUri = null, look = it.look.copy(photo = 0, cover = 0)) }
+
+    /** A page picture: shown at once from the phone, uploaded when the post goes out. */
+    fun setBgPhoto(uri: Uri) = _uiState.update { it.copy(bgUri = uri, look = it.look.copy(bg = 0)) }
+
+    fun clearBg() = _uiState.update { it.copy(bgUri = null, look = it.look.copy(bg = 0)) }
+
+    fun clearLookAll() = _uiState.update { it.copy(look = com.neb.ians.data.api.PostLook(), coverUri = null, bgUri = null) }
 
     fun onTitleChange(title: String) {
         if (title.length <= MAX_POST_TITLE) _uiState.update { it.copy(title = title) }
@@ -533,6 +543,15 @@ class CreatePostViewModel @Inject constructor(
                     return@launch
                 }
                 look = look.copy(photo = up.id, cover = 0)
+            }
+            val bgUri = state.bgUri
+            if (bgUri != null) {
+                val up = contentImageRepository.upload(bgUri).getOrNull()
+                if (up == null || up.id <= 0) {
+                    _uiState.update { it.copy(isSubmitting = false, error = "The page picture did not upload. Try again.") }
+                    return@launch
+                }
+                look = look.copy(bg = up.id)
             }
 
             val result = if (state.isEditMode) {

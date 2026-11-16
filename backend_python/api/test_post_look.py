@@ -32,3 +32,9 @@ class PostLookTests(SimpleTestCase):
         out, _ = post_look.clean({'tone': 5, 'cover': 7})
         self.assertEqual(post_look.parse(out), {'tone': 5, 'cover': 7})
         self.assertIsNone(post_look.parse(''))
+
+    def test_page_picture_is_a_number_and_counts_as_a_look(self):
+        out, err = post_look.clean({'bg': '7', 'bogus': 1})
+        self.assertIsNone(err)
+        self.assertEqual(json.loads(out), {'bg': 7})
+        self.assertEqual(post_look.clean({'bg': 'x'}), ('', None))
