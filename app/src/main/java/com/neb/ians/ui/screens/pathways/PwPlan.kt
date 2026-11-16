@@ -122,7 +122,7 @@ private fun MyPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: P
             val end = ceil(age + years).toInt()
             val tone = pwTone(0)
             Column(Modifier.fillMaxWidth().padding(top = 14.dp).clip(RoundedCornerShape(32.dp)).background(tone.bg).padding(20.dp)) {
-                Text("${career?.name ?: last.name} at $end", color = tone.fg, fontSize = 26.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.9).sp, lineHeight = 29.sp)
+                Text("${career?.name ?: last.name} at $end", color = tone.fg, fontSize = 20.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp, lineHeight = 22.sp)
                 Row(Modifier.fillMaxWidth().padding(vertical = 14.dp).height(56.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                     route.forEachIndexed { i, r ->
                         PwSurface(
@@ -170,7 +170,7 @@ private fun MyPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: P
                     PwRow(dl.name, trailing = windowLabel(dl.from, dl.to), onClick = dl.open) {
                         Spacer(Modifier.height(10.dp))
                         if (live) PwMonths({ inWindow(dl.from, dl.to, it) })
-                        else PwMonths({ inWindow(dl.from, dl.to, it) }, fill = c.onPrimaryContainer, onFill = c.primaryContainer)
+                        else PwMonths({ inWindow(dl.from, dl.to, it) }, fill = c.onPrimaryContainer, onFill = c.onPrimaryContainer, cellBg = c.primaryContainer)
                     }
                 }
             }
