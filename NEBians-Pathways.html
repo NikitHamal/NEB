@@ -397,7 +397,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:36px;border-radius:7px;back
 .qz{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;width:100%}
 .qh{display:flex;align-items:center;gap:10px;padding:14px 12px 4px 16px}
 .qp{flex:1;display:flex;gap:4px}.qp i{flex:1;height:6px;border-radius:3px;background:var(--s3);position:relative;overflow:hidden}
-.qp i.f{background:var(--p)}.qp i.c::after{content:"";position:absolute;inset:0;background:var(--p);transform-origin:left;animation:grow .5s var(--e) both}
+.qp i.f{background:var(--p)}.qp i.c.still::after{animation:none}.qp i.c::after{content:"";position:absolute;inset:0;background:var(--p);transform-origin:left;animation:grow .5s var(--e) both}
 .qs{height:44px;min-width:56px;padding:0 12px;border-radius:22px;font-size:13px;font-weight:600;color:var(--onv)}
 .qb{flex:1;min-height:0;overflow:auto;padding:20px 16px 12px}
 .qb.in{animation:qin .45s var(--e) both}.qb.rev{animation:qrev .45s var(--e) both}
@@ -445,7 +445,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:36px;border-radius:7px;back
 .xp{background:var(--s1);border-radius:28px;padding:14px 14px 4px;margin-bottom:12px}
 .xp small{display:block;font-size:11.5px;font-weight:600;color:var(--onv);margin:0 2px 10px}
 .xsum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
-.xsum div{border-radius:20px;padding:10px 14px;background:var(--s2)}.xsum b{font-size:24px;font-weight:700;display:block;letter-spacing:-.02em;line-height:1.1}.xsum small{font-size:11px;font-weight:600}
+.xsum div,.xsum button{border-radius:20px;padding:10px 14px;background:var(--s2)}.xsum b{font-size:24px;font-weight:700;display:block;letter-spacing:-.02em;line-height:1.1}.xsum small{font-size:11px;font-weight:600}
 .xsum .g{background:var(--gc);color:var(--ongc)}.xsum .y{background:var(--yc);color:var(--onyc)}
 .xc{width:100%;text-align:left;display:grid;gap:10px;padding:14px 16px;border-radius:24px;background:var(--s1);margin-bottom:8px;transition:border-radius .35s var(--sp),background .2s}
 .xc:active{border-radius:16px}.xc.on{background:var(--pc);color:var(--onpc)}.xc.no{opacity:.55}
@@ -454,6 +454,35 @@ input[type=range]::-moz-range-thumb{width:6px;height:36px;border-radius:7px;back
 .pill.open{background:var(--gc);color:var(--ongc)}.pill.soon{background:var(--yc);color:var(--onyc)}.pill.no{background:var(--s3);color:var(--onv)}
 .xm{display:flex;gap:6px 14px;font-size:12px;font-weight:600;color:var(--onv);flex-wrap:wrap}.xc.on .xm{color:inherit}
 .xc .mo{--mf:var(--p);--mb:var(--onp)}.xc.on .mo{--mf:var(--onpc);--mb:var(--pc)}
+
+.xnext{width:100%;text-align:left;display:grid;gap:6px;padding:20px 20px 18px;border-radius:32px;background:var(--pc);color:var(--onpc);margin-bottom:12px;transition:border-radius .35s var(--sp),transform .2s}
+.xnext:active{border-radius:22px;transform:scale(.985)}.xnext small{font-size:12px;font-weight:600;opacity:.75}.xnext b{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.08}.xnext>span{font-size:13px;font-weight:500;opacity:.8;margin-bottom:6px}
+.xnext .mo{--mf:var(--p);--mb:var(--onp)}.xnf{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.xnf i{font-style:normal;font-size:12px;font-weight:600;padding:5px 11px;border-radius:12px;background:color-mix(in srgb,var(--onpc) 10%,transparent)}
+.xy{background:var(--s1);border-radius:28px;padding:14px 14px 10px;margin-bottom:12px}.xy small{display:block;font-size:11.5px;font-weight:600;color:var(--onv);margin:0 2px 10px}
+.xyb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;height:92px;align-items:end}.xyb>div{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
+.xyb i{width:100%;border-radius:8px;background:var(--s3);position:relative;display:block;min-height:8px;transform-origin:bottom;animation:xrise .6s var(--e) both}.xyb u{position:absolute;top:-16px;left:0;right:0;text-align:center;text-decoration:none;font-size:10px;font-weight:600;color:var(--onv)}
+.xyb .now i{background:var(--p)}.xyb .now u{color:var(--p)}.xyb span{font-size:10px;font-weight:600;color:var(--onv)}.xyb{padding-top:16px;height:108px}
+@keyframes xrise{from{transform:scaleY(0)}}
+.xsum button{text-align:left;transition:border-radius .35s var(--sp),outline-color .2s;outline:2px solid transparent;outline-offset:-2px}.xsum button.on{outline-color:var(--p);border-radius:14px}
+.xsum button:not(.g):not(.y){background:var(--s2)}.xs{margin-bottom:10px}
+.xbs{display:grid;gap:6px}.xb{display:grid;grid-template-columns:44px minmax(0,1fr) 74px;gap:10px;align-items:center;font-size:11.5px;font-weight:600}
+.xb div{height:6px;border-radius:3px;background:color-mix(in srgb,currentColor 12%,transparent);overflow:hidden}.xb i{display:block;height:100%;border-radius:3px;background:currentColor;opacity:.8;transform-origin:left;animation:grow .6s var(--e) both}.xb b{text-align:right;font-weight:600}
+
+/* ===== questions ===== */
+.fqs{position:relative;margin:10px 0}.fqs input{width:100%;height:48px;border-radius:24px;background:var(--s2);padding:0 48px 0 20px;font-size:14px;font-weight:500;color:var(--on)}.fqs input:focus{outline:2px solid var(--p);outline-offset:-2px}.fqs svg{position:absolute;right:16px;top:13px;color:var(--onv);pointer-events:none}
+.fq{background:var(--s1);border-radius:28px;margin-bottom:8px;overflow:hidden;transition:background .25s,border-radius .45s var(--sp);animation:fqin .5s var(--e) both;animation-delay:calc(var(--i)*35ms)}
+@keyframes fqin{from{opacity:0;transform:translateY(12px) scale(.97)}}
+.fq.open{background:var(--pc);color:var(--onpc);border-radius:34px}
+.fqh{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;text-align:left;padding:14px}
+.fqh u{width:44px;height:44px;border-radius:16px;background:var(--s3);display:grid;place-items:center;text-decoration:none;transition:border-radius .45s var(--sp),background .25s,color .25s}.fq.open .fqh u{background:var(--p);color:var(--onp);border-radius:22px}
+.fqh b{font-size:15px;font-weight:600;line-height:1.25;display:block}.fqh span{font-size:12px;font-weight:500;opacity:.7}
+.fq.open .chv{transform:rotate(90deg)}
+.fqb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--e)}.fq.open .fqb{grid-template-rows:1fr}.fqb>div{overflow:hidden;min-height:0}
+.fqa{padding:2px 18px 16px;display:grid;gap:12px}.fqa p{font-size:14px;font-weight:500;line-height:1.55}
+.nan .fq{animation:none}.fqa a{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+.fqk{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.fqk div{border-radius:16px;padding:8px 10px;background:color-mix(in srgb,var(--onpc) 8%,transparent)}.fqk b{font-size:15px;font-weight:600;display:block;line-height:1.2}.fqk small{font-size:11px;font-weight:600;opacity:.75}
+.fqx{display:flex;gap:8px;align-items:center}.fqx .sp{flex:1}.fq.open .chip{background:color-mix(in srgb,var(--onpc) 10%,transparent);color:inherit}
+.fqx .btn.on{background:var(--p);color:var(--onp)}
 </style>
 </head>
 <body>
@@ -889,7 +918,7 @@ const S={dev:innerWidth<980?'phone':'web',view:'explore',stage:'p2',stream:'sci'
   tabs:{course:'journey',career:'pay',exam:'stages'},cmp:null,path:[],back:[],saved:new Set(),q:'',searching:false,lens:null,
   study:'nepal',cc:'csit',prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
   xg:'gov',exam:'so',edu:2,age:18,woman:'0',gcat:'All',guide:'psc',done:new Set(),docs:new Set(),have:new Set(),
-  plan:'match',mi:new Set(),ms:new Set(),mp:new Set(),mq:false,mstep:0,mdone:false,medit:false,mdir:1,qa:false,mstg:'p2',my:0,mr:'mid',mopen:null,mweak:false,foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
+  xf:'all',xs:'soon',gv:'guides',fqt:'All',fqo:null,fqs:'',fqh:new Set(),plan:'match',mi:new Set(),ms:new Set(),mp:new Set(),mq:false,mstep:0,mdone:false,medit:false,mdir:1,qa:false,mstg:'p2',my:0,mr:'mid',mopen:null,mweak:false,foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
 let lastKey='',freshT=0;
 
 /* ============ HELPERS ============ */
@@ -979,12 +1008,46 @@ const xst=x=>{const w=why(x);
   if(x.win[0]===1&&x.win[1]===12)return{k:'open',t:'Open all year',s:'Book any month',o:0};
   if(inWin(x.win[0],x.win[1],NOW))return{k:'open',t:'Open now',s:'Closes '+MN[x.win[1]-1],o:1};
   const n=(x.win[0]-NOW+12)%12;return{k:'soon',t:n<=2?'Opens soon':'Opens '+MN[x.win[0]-1],s:'In '+n+(n===1?' month':' months'),o:1+n}};
-const xlistHTML=()=>{const l=Object.values(X).filter(x=>x.g===S.xg).map(x=>({x,st:xst(x)})).sort((a,b)=>a.st.o-b.st.o),
-  n=k=>l.filter(e=>e.st.k===k).length;
-  return `<div class="xsum"><div class="g"><b>${n('open')}</b><small>Open now</small></div><div class="y"><b>${n('soon')}</b><small>Coming up</small></div><div><b>${n('no')}</b><small>Not eligible</small></div></div>`+
-  l.map(({x,st})=>`<button class="xc ${wide()&&S.exam===x.id?'on':''} ${st.k==='no'?'no':''}" data-a="exam" data-v="${x.id}"><div class="xh"><div><b>${x.n}</b><span>${x.b}</span></div><span class="pill ${st.k}">${st.t}</span></div>
+const xsc=x=>x.seats?Math.max(.06,Math.min(1,(Math.log10(x.seats/x.apps)+3)/3)):0;
+const xpm=Math.max(...Object.values(X).map(x=>x.prep));
+const xnext=l=>{const ok=l.filter(e=>e.st.k!=='no'),op=ok.filter(e=>e.st.k==='open'&&e.st.o===1).sort((a,b)=>(a.x.win[1]-NOW+12)%12-(b.x.win[1]-NOW+12)%12),e=op[0]||ok.find(o=>o.st.o>=1)||ok[0];
+  if(!e)return '';const {x,st}=e,od=x.seats?oddsOf(x).txt:'';
+  return `<button class="xnext" data-a="exam" data-v="${x.id}"><small>${op[0]?'Closing next':'Opens next'}</small><b>${x.n}</b><span>${x.b}</span>${months(m=>inWin(x.win[0],x.win[1],m))}
+  <div class="xnf"><i>${st.t}</i><i>${npr(x.fee)}</i>${x.em?`<i>Exam ${MN[x.em-1]}</i>`:''}${od?`<i>${od}</i>`:''}</div></button>`};
+const xyear=l=>{const el=l.filter(e=>e.st.k!=='no'),cnt=MN.map((_,i)=>el.filter(e=>inWin(e.x.win[0],e.x.win[1],i+1)).length),mx=Math.max(1,...cnt);
+  return `<div class="xy"><small>Applications open each month</small><div class="xyb">${cnt.map((n,i)=>`<div class="${i+1===NOW?'now':''}"><i style="height:${Math.max(8,n/mx*100)}%"><u>${n}</u></i><span>${MN[i][0]}</span></div>`).join('')}</div></div>`};
+const xb=(t,v,txt)=>`<div class="xb"><span>${t}</span><div><i style="width:${Math.round(v*100)}%"></i></div><b>${txt}</b></div>`;
+const xlistHTML=()=>{const all=Object.values(X).filter(x=>x.g===S.xg).map(x=>({x,st:xst(x)})),
+  n=k=>all.filter(e=>e.st.k===k).length,srt={soon:(a,b)=>a.st.o-b.st.o,odds:(a,b)=>(xsc(b.x)||.5)-(xsc(a.x)||.5),fee:(a,b)=>a.x.fee-b.x.fee}[S.xs],
+  l=all.filter(e=>S.xf==='all'||e.st.k===S.xf).sort(srt),sm=(k,c,t)=>`<button class="${c} ${S.xf===k?'on':''}" data-a="xf" data-v="${k}"><b>${n(k)}</b><small>${t}</small></button>`;
+  return xnext(all.slice().sort((a,b)=>a.st.o-b.st.o))+xyear(all)+
+  `<div class="xsum">${sm('open','g','Open now')}${sm('soon','y','Coming up')}${sm('no','','Not eligible')}</div>`+
+  segHTML([['soon','Soonest'],['odds','Best odds'],['fee','Lowest fee']],S.xs,'xs','xs')+
+  (l.map(({x,st})=>`<button class="xc ${wide()&&S.exam===x.id?'on':''} ${st.k==='no'?'no':''}" data-a="exam" data-v="${x.id}"><div class="xh"><div><b>${x.n}</b><span>${x.b}</span></div><span class="pill ${st.k}">${st.t}</span></div>
   ${st.k==='no'?`<div class="xm"><span>${st.s}</span></div>`:months(m=>inWin(x.win[0],x.win[1],m))}
-  <div class="xm"><span>${st.k==='no'?'Fee':st.s+' ·'} ${npr(x.fee)}</span>${x.em?`<span>Exam ${MN[x.em-1]}</span>`:''}${x.seats?`<span>${oddsOf(x).txt}</span>`:''}<span>${x.prep} h prep</span></div></button>`).join('')};
+  ${st.k==='no'?'':`<div class="xbs">${x.seats?xb('Odds',xsc(x),oddsOf(x).txt):''}${xb('Prep',x.prep/xpm,x.prep+' h')}</div>`}
+  <div class="xm"><span>${st.k==='no'?'Fee':st.s+' ·'} ${npr(x.fee)}</span>${x.em?`<span>Exam ${MN[x.em-1]}</span>`:''}${x.pay?`<span>Starts NPR ${x.pay}k</span>`:''}${x.seats?`<span>${fmt(x.seats)} seats</span>`:''}</div></button>`).join('')||empty('Nothing here'))};
+/* ============ QUESTIONS ============ */
+const FQT=['After SEE','After +2','Government','Abroad','Money'],FQI={'After SEE':'cap','After +2':'route','Government':'flag','Abroad':'pin','Money':'list'};
+const FQ=[
+{id:'q1',t:'After SEE',q:'Which stream should I take after SEE?',a:'Pick by what you can stand studying for two years, not by what sounds big. Science keeps medicine, engineering and IT open. Management leads to BBA, BBS and CA. Humanities leads to law, education and the civil service. More on each stream: https://www.neb.gov.np',k:[['2 yr','Plus two'],['4','Main streams'],['Grade 12','Next exam']],r:[['goCourse','csit','BSc CSIT'],['goCourse','bba','BBA']]},
+{id:'q2',t:'After SEE',q:'Can I join a diploma straight after SEE?',a:'Yes. CTEVT runs 3-year diplomas in engineering, health and agriculture that take SEE graduates. You sit an entrance test, and public colleges are almost free. Application details sit at ctevt.org.np, and the helpline is 01-5521313.',k:[['3 yr','Diploma'],['Free','Public seats'],['SEE','Needed']],r:[['goCourse','dce','Diploma Civil'],['goExam','ctevt','CTEVT entrance']]},
+{id:'q3',t:'After +2',q:'Is IOE or a private engineering college better?',a:'IOE constituent campuses are cheaper and carry the strongest name, but seats are few and the entrance is hard. Private colleges accept more students at ten times the fee. Compare costs on each course screen before you decide. Entrance news: ioe.edu.np',k:[['1 in 8','IOE odds'],['10x','Private cost'],['4 yr','BE length']],r:[['goCourse','becomp','BE Computer'],['goExam','ioe','IOE entrance']]},
+{id:'q4',t:'After +2',q:'When do I apply for MBBS?',a:'MECEE opens around Poush and Magh each year. You need Science with PCB and a minimum aggregate. Prepare at least a year in advance, because about 1 in 20 applicants gets a seat. Email info@mecee.org.np for notices.',k:[['1 yr','Prep time'],['1 in 20','Odds'],['Jan','Window']],r:[['goCourse','mbbs','MBBS'],['goExam','mecee','MECEE']]},
+{id:'q5',t:'Government',q:'What is the youngest age for Lok Sewa?',a:'Kharidar needs 18 and an SEE pass. Nayab Subba needs a +2 pass and Section Officer needs a bachelor. Upper age is 35 for men and 40 for women. Read the full notice at psc.gov.np or call 01-4768000.',k:[['18','Lowest age'],['35 / 40','Upper age'],['3 levels','Entry points']],r:[['goExam','so','Section Officer'],['goGuide','psc','Application steps']]},
+{id:'q6',t:'Government',q:'How long does Lok Sewa preparation take?',a:'Most people who pass study for a year or more. Plan about 3 hours a day, split between general knowledge, governance and the service subject. Use the prep planner inside each exam to see your start month.',k:[['900 h','Section Officer'],['3 h','A day'],['12 mo','Typical']],r:[['goExam','so','Section Officer'],['goExam','ns','Nayab Subba']]},
+{id:'q7',t:'Abroad',q:'Do I need an NOC to study abroad?',a:'Yes. The No Objection Certificate comes from the Ministry of Education and takes about two days online. Apply at https://noc.moest.gov.np once the offer letter is in hand, with your passport and transcripts.',k:[['2 days','Wait'],['NPR 2,000','Fee'],['Online','Mode']],r:[['goGuide','noc','NOC steps'],['goGuide','visa','Student visa']]},
+{id:'q8',t:'Abroad',q:'How much money should I show for a visa?',a:'Most embassies want the first year of tuition and living costs in the bank for at least 28 days. A bank loan letter works too. Figures change each year, so confirm with the embassy before you deposit.',k:[['1 yr','Costs shown'],['28 d','In bank'],['Loan','Accepted']],r:[['goGuide','visa','Student visa'],['goExam','ielts','IELTS']]},
+{id:'q9',t:'Money',q:'Are there scholarships for Nepali students?',a:'Many. The government covers public college seats for Dalit, Janajati, women and remote-area students. Foreign governments fund full degrees too, such as Chevening and MEXT. See the list at https://www.scholarships.gov.np',k:[['35+','Awards listed'],['Full','Some cover all'],['Jan','Many close']],r:[['goGuide','schl','Apply steps']]},
+{id:'q10',t:'Money',q:'Can I take a loan for college?',a:'Yes. Banks lend up to NPR 20 lakh for approved courses, and the Education Loan Programme gives lower rates for public campuses. Bring your admission letter and a guarantor. Ask at your local branch or call 1660-01-80000.',k:[['20 L','Typical cap'],['8-12%','Interest'],['Guarantor','Needed']],r:[['goCourse','bba','BBA'],['goGuide','visa','Student visa']]}
+];
+const lk=t=>t.replace(/(https?:\/\/[^\s<,]+[^\s<,.)]|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:gov|edu|org|com)\.np\b|\b[\w.+-]+@[\w-]+(?:\.[\w-]+)+\b|\b0\d{1,2}-\d{6,7}\b|\b1660-\d{2}-\d{5}\b)/gi,m=>{const h=/^https?:/i.test(m)?m:m.includes('@')?'mailto:'+m:/^[\d-]+$/.test(m)?'tel:'+m.replace(/-/g,''):'https://'+m;return `<a href="${h}" target="_blank" rel="noopener">${m.replace(/^https?:\/\/(www\.)?/,'')}</a>`});
+const fqCard=(f,i)=>`<div class="fq ${S.fqo===f.id?'open':''}" style="--i:${Math.min(i,10)}"><button class="fqh" data-a="fqo" data-v="${f.id}" aria-expanded="${S.fqo===f.id}"><u>${I(FQI[f.t],22)}</u><div><b>${f.q}</b><span>${f.t} · ${Math.max(1,Math.round(f.a.split(' ').length/40))} min read</span></div><i class="chv">${I('arrow',20)}</i></button>
+  <div class="fqb"><div><div class="fqa"><p>${lk(f.a)}</p><div class="fqk">${f.k.map(([v,l])=>`<div><b>${v}</b><small>${l}</small></div>`).join('')}</div>
+  <div class="chips w z">${f.r.map(([a,v,n])=>`<button class="chip" data-a="${a}" data-v="${v}">${n}</button>`).join('')}</div>
+  <div class="fqx"><button class="btn t sm ${S.fqh.has(f.id)?'on':''}" data-a="fqh" data-v="${f.id}">${I('check',18)}<span>Helpful</span></button><span class="sp"></span><button class="ib ${S.saved.has('faq:'+f.id)?'on':''}" data-a="save" data-v="faq:${f.id}" aria-label="Save">${I('bookmark')}</button></div></div></div></div></div>`;
+const faqList=()=>{const q=S.fqs.toLowerCase(),l=FQ.filter(f=>(S.fqt==='All'||f.t===S.fqt)&&(!q||(f.q+' '+f.a).toLowerCase().includes(q)));return l.map(fqCard).join('')||empty('No questions found')};
+const faqView=()=>`<div class="fqs"><input id="fqq" placeholder="Search questions" value="${S.fqs}" autocomplete="off" aria-label="Search questions">${I('search',20)}</div>${chipsHTML(['All',...FQT],S.fqt,'fqt')}<div id="fqlist">${faqList()}</div>`;
 const V={
 explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(id=>C[id].to))];
   return `<div class="wrap">${stagesHTML()}
@@ -999,8 +1062,9 @@ exams(){return `<div class="wrap pad">${segHTML([['gov','Government'],['ent','En
   <div class="xp"><small>Eligibility is checked against your profile</small><div class="chips">${[1,2,3,4].map(i=>`<button class="chip ${S.edu===i?'on':''}" data-a="edu" data-v="${i}">${EDU[i]}</button>`).join('')}</div>
   <div class="ctl"><div class="sl"><input type="range" id="age" min="14" max="45" value="${S.age}" aria-label="Age"><output id="agev">Age ${S.age}</output></div>${S.xg==='gov'?segHTML([['1','Woman'],['0','Man']],S.woman,'woman',''):''}</div></div>
   <div id="xlist">${xlistHTML()}</div></div>`},
-guides(){const l=Object.values(G).filter(g=>S.gcat==='All'||g.cat===S.gcat);
-  return `<div class="wrap pad">${chipsHTML(['All','Study','Abroad','Government','Documents'],S.gcat,'gcat')}
+guides(){const l=Object.values(G).filter(g=>S.gcat==='All'||g.cat===S.gcat),top=segHTML([['guides','Guides'],['faq','Questions']],S.gv,'gv');
+  if(S.gv==='faq')return `<div class="wrap pad">${top}${faqView()}</div>`;
+  return `<div class="wrap pad">${top}${chipsHTML(['All','Study','Abroad','Government','Documents'],S.gcat,'gcat')}
   <div class="ggrid">${l.map(g=>{const n=g.steps.length;return `<button class="gd t-${GT[g.cat]} ${wide()&&S.guide===g.id?'on':''}" data-a="guide" data-v="${g.id}"><b>${g.n}</b><div class="gp"><i style="width:${gdone(g)/n*100}%"></i></div><div class="gm"><span>${n} steps</span><span>${dy(gsum(g,1))}</span></div></button>`}).join('')}</div></div>`},
 plan(){if(S.plan==='match'&&S.mq)return qHTML();
   return `<div class="wrap pad">${segHTML([['match','Match'],['plan','My plan']],S.plan,'plan')}${S.plan==='plan'?
@@ -1137,7 +1201,7 @@ function renderTop(){const tr=[];
   $('#top').innerHTML=`<div class="tbar">${S.searching?`<input id="q" placeholder="Search" autocomplete="off" aria-label="Search">`:`<div class="brand">Pathways</div>`}
     <button class="ib ${S.searching?'on':''}" data-a="search" aria-label="Search">${I(S.searching?'close':'search')}</button></div>
     ${S.view==='explore'&&!S.searching?`<div class="trail">${tr.join('<i class="sep"></i>')}</div>`:''}`}
-function renderMain(){const m=$('#main'),over=S.searching&&S.q,key=[over?S.q&&'q':'',S.mq,S.view,S.stage,S.stream,S.dev,S.study,S.xg,S.plan,S.gcat].join('|');
+function renderMain(){const m=$('#main'),over=S.searching&&S.q,key=[over?S.q&&'q':'',S.mq,S.gv,S.view,S.stage,S.stream,S.dev,S.study,S.xg,S.plan,S.gcat].join('|');
   if(key!==lastKey){m.classList.add('fresh');m.scrollTop=0;clearTimeout(freshT);freshT=setTimeout(()=>m.classList.remove('fresh'),900);lastKey=key}
   m.innerHTML=over?vSearch():V[S.view]();
   if(over)return;
@@ -1193,20 +1257,27 @@ const QI={build:'Making and fixing things',heal:'Helping people get well',num:'D
 const QP={pay:'A bigger salary',demand:'Plenty of jobs open',ease:'Easier to get in',cost:'Lower fees',abroad:'Chances overseas',near:'Colleges close to me'};
 const QT=[0,['Where are you now?','This sets which courses we compare.'],['What do you enjoy?','Pick up to 3. Go with your gut.'],['What are you good at?','Pick up to 3 subjects or skills.'],['What matters most?','Pick up to 3. We weigh these hardest.'],['What can you spend?','Total fees for the whole course.'],['How do you take risks?','Some courses are hard to get into.']];
 const mpool=()=>(STAGES.find(s=>s.id===S.mstg)||stage()).streams.flatMap(x=>x.courses).map(id=>C[id]);
+const KW={build:['build','engineer','construct','machine','civil','mechanic','electric','software','repair'],heal:['health','patient','clinic','nurs','medic','pharma','care','dental'],num:['account','finance','statist','data','audit','bank','math','econom'],ppl:['teach','people','manage','communicat','lead','counsel','social','hospitality'],make:['design','art','media','creative','film','music','architect','journal'],law:['law','legal','court','justice','policy','police'],nature:['agricultur','forest','environment','plant','animal','land','veterin'],serve:['public','govern','service','community','army','police']};
+const KS={math:['math','statist','account','data','physics'],sci:['science','physic','chem','lab','research'],bio:['biolog','anatomy','patient','clinic','agricultur'],lang:['english','writing','communicat','nepali','language','journal'],biz:['business','finance','account','market','sales','manage'],comp:['program','computer','software','coding','data'],art:['design','draw','creative','art']};
+const mtext=c=>c._t||(c._t=(c.n+' '+c.f+' '+c.to.map(k=>K[k].n+' '+(K[k].sk||[]).join(' ')).join(' ')).toLowerCase());
+const mavg=a=>a.length?a.reduce((p,v)=>p+v,0)/a.length:0;
+/* Every answer becomes a 0..1 signal per course: tag = 1, group and keyword = .8, group = .6, keyword = .4. Interests count the best signal and the average, so one strong hit is not drowned by a third pick. */
 function matchOf(pool){
   const mxp=Math.max(1,...pool.map(c=>c.pay?c.pay[1]:0)),mxf=Math.max(1,...pool.map(c=>c.fee[0])),b=S.mb,R=S.mr;
-  return pool.map(c=>{const g=grpOf(c),hit=(m,x)=>(m[x]||[]).some(y=>g.includes(y)),
-    ih=[...S.mi].filter(x=>c.tags.includes(x)||hit(IG,x)).length,sh=[...S.ms].filter(x=>c.st===x||hit(SG,x)).length,
-    it=!S.mi.size?.5:ih?.6+.4*ih/S.mi.size:0,sr=!S.ms.size?.5:sh?.7+.3*sh/S.ms.size:.1,
+  return pool.map(c=>{const g=grpOf(c),txt=mtext(c),hit=(m,x)=>(m[x]||[]).some(y=>g.includes(y)),kw=(m,x)=>m[x].some(w=>txt.includes(w)),
+    sig=(set,tag,gm,km)=>[...set].map(x=>tag(x)?1:hit(gm,x)&&kw(km,x)?.8:hit(gm,x)?.6:kw(km,x)?.4:0),
+    agg=a=>!a.length?.5:a.some(v=>v>0)?.15+.85*(.5*Math.max(...a)+.5*mavg(a)):0,
+    it=agg(sig(S.mi,x=>c.tags.includes(x),IG,KW)),sr0=agg(sig(S.ms,x=>c.st===x,SG,KS)),sr=S.ms.size&&!sr0?.1:sr0,
     [lo,hi]=c.fee,bf=hi<=b?1:lo<=b?.4+.6*(b-lo)/Math.max(.01,hi-lo):Math.max(0,.3*(1-(lo-b)/Math.max(lo,.01))),
-    pr={pay:(c.pay?c.pay[1]:0)/mxp,demand:c.d/100,ease:1-c.c/100,cost:1-lo/mxf,abroad:g.length?Math.max(...g.map(x=>ABR[x]||0)):.3,near:S.dist&&COL.some(x=>x.d===S.dist&&x.c.includes(c.id))?1:0},
-    ch=[...S.mp],ps=ch.length?ch.reduce((a,k)=>a+pr[k],0)/ch.length:(pr.demand+pr.pay)/2,
+    x=X[CX[c.id]],tr=mavg(c.to.map(k=>K[k].f.tr||0)),ez=x&&x.seats?Math.min(1,x.seats/x.apps*1.6):1-c.c/100,ease=.5*(1-c.c/100)+.5*ez,
+    pr={pay:(c.pay?c.pay[1]:0)/mxp,demand:c.d/100,ease,cost:1-lo/mxf,abroad:g.length?Math.max(...g.map(y=>ABR[y]||0)):.3,near:S.dist&&COL.some(y=>y.d===S.dist&&y.c.includes(c.id))?1:0},
+    ch=[...S.mp],ps=ch.length?mavg(ch.map(k=>pr[k])):(pr.demand+pr.pay)/2,
     yf=!S.my||c.y<=S.my?1:Math.max(0,1-(c.y-S.my)/Math.max(1,S.my)),
-    ol=R==='safe'?.5*c.d/100+.5*(1-c.c/100):R==='bold'?.5*c.d/100+.5*pr.pay:c.d/100,
-    t=(.34*it+.16*sr+.14*bf+.18*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1),why=[],neg=[];
+    base=R==='safe'?.4*c.d/100+.6*ease:R==='bold'?.4*c.d/100+.6*pr.pay:c.d/100,ol=Math.max(0,Math.min(1,base+tr/60)),
+    t=(.32*it+.16*sr+.14*bf+.2*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1),why=[],neg=[];
     if(S.mi.size&&it>=.6)why.push('Fits your interests');if(S.ms.size&&sr>=.7)why.push('Plays to your strengths');if(bf>=1)why.push('In budget');
-    ch.filter(k=>pr[k]>=.7).forEach(k=>why.push(PRI.find(p=>p[0]===k)[1]));
-    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');
+    ch.filter(k=>pr[k]>=.7).forEach(k=>why.push(PRI.find(y=>y[0]===k)[1]));if(tr>=3)why.push('Demand is rising');
+    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');if(R==='safe'&&ease<.35)neg.push('Hard to get into');
     return{c,s:Math.max(1,Math.min(99,Math.round(100*Math.pow(t,1.8)))),why:why.slice(0,3),neg,p:{Interests:it,Strengths:sr,Budget:bf,Priorities:ps,Outlook:ol}}}).sort((a,b)=>b.s-a.s)}
 const MK='nebm';
 function msave(){try{localStorage.setItem(MK,JSON.stringify({i:[...S.mi],s:[...S.ms],p:[...S.mp],b:S.mb,y:S.my,r:S.mr,g:S.mstg,d:S.mdone}))}catch(e){}}
@@ -1229,7 +1300,7 @@ function qHTML(){const k=S.mstep;
   if(k===7){return `<div class="qz"><div class="qb"><div class="qld"><div class="qhero">${shape(8,'spin')}<b>${mpool().length}</b></div><p id="qlt">Reading your answers</p></div></div></div>`}
   const ms=qset(k),need=ms&&!ms.size,last=k===6;
   return `<div class="qz"><div class="qh"><button class="ib" data-a="mback" aria-label="Back">${I(k>1&&!S.medit?'back':'close')}</button>
-    <div class="qp">${[1,2,3,4,5,6].map(i=>`<i class="${i<=k?'f':''} ${i===k?'c':''}"></i>`).join('')}</div>
+    <div class="qp">${[1,2,3,4,5,6].map(i=>`<i class="${i<k?'f':''} ${i===k?(S.qa?'c':'c still'):''}"></i>`).join('')}</div>
     <button class="qs" data-a="mskip" ${ms?'':'hidden'}>Skip</button></div>
   <div class="qb ${S.qa?(S.mdir>0?'in':'rev'):''}"><h2 class="qt">${QT[k][0]}</h2><p class="qd">${QT[k][1]}</p>${qBody(k)}</div>
   <div class="qf"><div class="qn" id="qn">${ms?ms.size+' of 3 picked':''}</div><button class="btn f" id="qnext" data-a="mnext" ${need?'disabled':''}>${S.medit?'Update matches':last?'See my matches':'Next'}</button></div></div>`}
@@ -1249,7 +1320,7 @@ function matchPanel(){
     <div class="chips w">${['Interests','Strengths','Budget','Priorities','Competition'].map(t=>`<span class="skill">${t}</span>`).join('')}</div>`}
   const all=matchOf(mpool()),strong=all.filter(m=>m.s>=65),poss=all.filter(m=>m.s>=40&&m.s<65),weak=all.filter(m=>m.s<40),good=strong.length+poss.length;
   if(!S.mopen&&S.mopen!==''&&all[0])S.mopen=all[0].c.id;
-  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).t} · ${strong.length} strong · ${poss.length} possible</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
+  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).t} · ${strong.length} strong · ${poss.length} possible · ${S.mi.size+S.ms.size+S.mp.size+2} answers</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
     <div class="chips">${mans().map(([i,l,v])=>`<button class="chip" data-a="medit" data-v="${i}">${l}: ${v}</button>`).join('')}</div>`;
   if(!good){const mn=Math.min(...mpool().map(c=>c.fee[0])),tips=[];
     if(mn>S.mb)tips.push('Cheapest course here starts at '+lakh(mn)+'. Your budget is NPR '+S.mb+'L.');
@@ -1323,7 +1394,7 @@ skf(v){S.sk=v||null;S.study='funding';S.stype='All';S.slvl='All';renderMain()},
 stype(v){S.stype=v;renderMain()},slvl(v){S.slvl=v;renderMain()},
 sch(v){S.schOpen=S.schOpen===v?null:v;renderMain()},
 xg(v){S.xg=v;const l=Object.values(X).filter(x=>x.g===v);if(!l.some(x=>x.id===S.exam))S.exam=l[0].id;S.tabs.exam='stages';renderMain();renderSheet()},
-edu(v){S.edu=+v;renderMain()},
+edu(v){S.edu=+v;renderMain()},gv(v){S.gv=v;renderMain()},fqt(v){S.fqt=v;renderMain()},fqo(v,t){const e=t.closest('.fq'),o=e.classList.contains('open');$$('.fq.open').forEach(x=>x.classList.remove('open'));if(!o)e.classList.add('open');S.fqo=o?null:v},fqh(v,t){tog(S.fqh,v);t.classList.toggle('on')},xf(v){S.xf=S.xf===v?'all':v;$('#xlist').innerHTML=xlistHTML()},xs(v){S.xs=v;$('#xlist').innerHTML=xlistHTML()},
 woman(v){S.woman=v;renderMain()},
 exam(v){S.exam=v;S.tabs.exam='stages';S.open=true;renderMain();renderSheet()},
 gcat(v){S.gcat=v;renderMain()},
@@ -1352,7 +1423,7 @@ exp(v){S.exp=+v;updExp()},
 cmax(v){S.cmax=+v;$('#cmaxv').textContent=lakh(S.cmax);renderCList()},
 abmax(v){S.abmax=+v;$('#abv').textContent='NPR '+v+'L';$('#ablist').innerHTML=abList()},
 mb(v){S.mb=+v;$('#mbv').textContent='NPR '+v+'L';const n=mpool().filter(c=>c.fee[1]<=S.mb).length;$('#mbn').textContent=n+' of '+mpool().length+' courses fit fully';msave()},
-age(v){S.age=+v;$('#agev').textContent='Age '+v;$('#xlist').innerHTML=xlistHTML()},
+fqq(v){S.fqs=v;const b=$('#fqlist');b.classList.add('nan');b.innerHTML=faqList()},age(v){S.age=+v;$('#agev').textContent='Age '+v;$('#xlist').innerHTML=xlistHTML()},
 page(v){S.age=+v;$('#pagev').textContent=v;$('#pout').innerHTML=planOut()},
 hrs(v){S.hrs=+v;$('#hrv').textContent=v;$('#prepout').innerHTML=prepOut(X[S.exam])},
 aid(v){S.aid=+v;$('#aidv').textContent='Aid '+v+'%';const c=cur();if(c&&c.t==='course')$('#costout').innerHTML=costOut(C[c.id])}
