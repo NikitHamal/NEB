@@ -584,3 +584,24 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Rules
 - A look is data: add a field in `post_look.clean`, `PostLook.kt` and `post-look.js` together (`bg` is now the seventh).
 - With a page picture on the web, the paper pattern is not drawn (one background stack); Android draws both.
+
+
+---
+
+# Session 25: to-dos in posts are tickable when read
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Bootstrap re-run; history read first. Pathways (own native screen, profile popup entry, icon-only five item nav, concept home / level / route / colleges / abroad / Lok Sewa / Course Lab, matching in `PwMatch.kt`) and dynamic posts (look, cover, icon, page picture, paper, type, composer, card, reader, on Android and web) were already shipped in sessions 21 to 24 and were **not redone**.
+
+## Gap found
+A to-do line written in the post composer is stored as `- [ ] text` / `- [x] text`. Both readers drew it as a bullet with the literal `[ ]` in front. The reading page was not interactive for to-do lines.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 129 | **To-do lines read as real to-dos (Android).** `MdBlock.Check` parsed before the bullet case. A 20dp rounded box, the tick springs in, finished text is struck and dimmed, the whole row is one `toggleable` (Checkbox role, 10dp rounded press shape). Ticks live on the screen; the author's text is never changed. Feed previews show a plain bullet. Applies to posts and replies (all `MarkdownText`). | `components/Markdown.kt` |
+| 130 | **Same on the web post page.** `post-checklist.js` finds `[ ]` / `[x]` list items in `.fp-post-body`, draws the same box (flat, springy tick, colours follow the post look through `--pl-ink`, `--pl-bg`, `--pl-soft`), toggles on click and remembers the reader's ticks per post in `localStorage`. | `post-checklist.js`, `pages/forum-post.css`, `forum_post.html` |
+
+## Not done / next
+- Ticks are not saved on Android between visits (web keeps them per browser).
+- Picture beside text blocks inside a post; Pathways Nepali labels, saved levels, per-college fee tables (verify every figure first).

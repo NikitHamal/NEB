@@ -29,7 +29,7 @@
    the document is found after the browser has already painted, so the page
    lays itself out twice on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261105a">
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261105a">
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261106a">
 <link rel="stylesheet" href="{% static 'web/css/skullet.css' %}">
 <script type="module" src="{% static 'web/js/skullet/element.mjs' %}"></script>
 {% endblock %}
@@ -286,6 +286,7 @@
 <script src="{% static 'web/js/forum-labels.js' %}"></script>
 <script src="{% static 'web/js/forum-attach.js' %}"></script>
 <script src="{% static 'web/js/forum-edit.js' %}"></script>
+<script src="{% static 'web/js/post-checklist.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
