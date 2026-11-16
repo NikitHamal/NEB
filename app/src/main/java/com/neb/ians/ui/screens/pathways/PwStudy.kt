@@ -2,10 +2,8 @@
 
 package com.neb.ians.ui.screens.pathways
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,7 +40,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,25 +87,25 @@ private fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: Pa
         PwChipRow(near.map { it.id to it.name }, { it == r.id }, { s.collegeRoute = it }, Modifier.padding(bottom = 14.dp))
     }
     val all = remember(r.id) { r.where.mapNotNull { d.providers[it] } }
-    var prov by rememberSaveable(r.id) { mutableStateOf(-1) }
     var district by rememberSaveable(r.id) { mutableStateOf("") }
     var sector by rememberSaveable { mutableStateOf("All") }
-    val counts = remember(all) { IntArray(7).also { a -> all.forEach { p -> DISTRICT_PROVINCE[p.district]?.let { a[it]++ } } } }
+    val counts = remember(all) { all.groupingBy { it.district }.eachCount() }
+    val pickDistrict: (String) -> Unit = { pick ->
+        district = if (pick == district) "" else pick
+        if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r))
+    }
     Column(Modifier.padding(horizontal = 16.dp)) {
-        PwProvinceMap(counts, prov) { prov = if (prov == it) -1 else it; district = "" }
-        val districts = all.filter { prov < 0 || DISTRICT_PROVINCE[it.district] == prov }.map { it.district }.distinct().sorted()
+        PwNepalMapCard(counts, district, pickDistrict)
+        val districts = all.map { it.district }.distinct().sorted()
         if (districts.size > 1 || district.isNotEmpty()) {
             Spacer(Modifier.height(12.dp))
-            PwChipRow(districts.map { it to it }, { it == district }, { pick ->
-                district = if (district == pick) "" else pick
-                if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r))
-            }, inset = 0.dp)
+            PwChipRow(districts.map { it to it }, { it == district }, pickDistrict, inset = 0.dp)
         }
         Spacer(Modifier.height(12.dp))
         PwSeg(listOf("All" to "All", "Public" to "Public", "Private" to "Private"), sector, { sector = it })
         Spacer(Modifier.height(12.dp))
         val list = all.filter { p ->
-            (prov < 0 || DISTRICT_PROVINCE[p.district] == prov) && (district.isEmpty() || p.district == district) && (sector == "All" || p.sector == sector)
+            (district.isEmpty() || p.district == district) && (sector == "All" || p.sector == sector)
         }.sortedWith(compareBy({ if (it.sector == "Public") 0 else 1 }, { it.name }))
         val maxFee = all.mapNotNull { it.fees[r.id]?.second }.maxOrNull()?.coerceAtLeast(1L)?.toFloat()
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -142,49 +138,6 @@ private fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: Pa
         if (district.isNotEmpty() && ui.district == district && ui.live.isNotEmpty()) {
             PwH4("Nearby")
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) { ui.live.forEach { PwRow(it.name, it.where) } }
-        }
-    }
-}
-
-/** Seven provinces laid out west to east, sized by rough geography. */
-@Composable
-private fun PwProvinceMap(counts: IntArray, sel: Int, onPick: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth().height(136.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        ProvinceTile(6, counts, sel, onPick, Modifier.weight(2f).fillMaxHeight())
-        Column(Modifier.weight(4f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Row(Modifier.weight(1f).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                ProvinceTile(5, counts, sel, onPick, Modifier.weight(1f).fillMaxHeight())
-                ProvinceTile(3, counts, sel, onPick, Modifier.weight(1f).fillMaxHeight())
-            }
-            ProvinceTile(4, counts, sel, onPick, Modifier.weight(1f).fillMaxWidth())
-        }
-        Column(Modifier.weight(2f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            ProvinceTile(2, counts, sel, onPick, Modifier.weight(1f).fillMaxWidth())
-            ProvinceTile(1, counts, sel, onPick, Modifier.weight(1f).fillMaxWidth())
-        }
-        ProvinceTile(0, counts, sel, onPick, Modifier.weight(2f).fillMaxHeight())
-    }
-}
-
-@Composable
-private fun ProvinceTile(i: Int, counts: IntArray, sel: Int, onPick: (Int) -> Unit, modifier: Modifier) {
-    val c = MaterialTheme.colorScheme
-    val on = sel == i
-    val n = counts[i]
-    val r by animateDpAsState(if (on) 28.dp else 18.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "pvR")
-    val scale by animateFloatAsState(if (on) 1.04f else 1f, spring(0.45f, Spring.StiffnessMediumLow), label = "pvS")
-    val bg by animateColorAsState(if (on) c.primary else c.surfaceContainerHigh, label = "pvBg")
-    Surface(
-        onClick = { onPick(i) }, enabled = n > 0 || on,
-        modifier = modifier.graphicsLayer { scaleX = scale; scaleY = scale; alpha = if (n > 0 || on) 1f else 0.4f },
-        shape = RoundedCornerShape(r), color = bg, contentColor = if (on) c.onPrimary else c.onSurface,
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-            Text("$n", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 22.sp)
-            Text(
-                if (i == 6) "Sudur\npashchim" else PROVINCES[i], fontSize = 9.5.sp, fontWeight = FontWeight.SemiBold,
-                lineHeight = 11.sp, textAlign = TextAlign.Center, maxLines = 2,
-            )
         }
     }
 }
