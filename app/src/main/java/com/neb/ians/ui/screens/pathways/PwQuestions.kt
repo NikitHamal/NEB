@@ -116,9 +116,9 @@ private const val LIMIT = 20
 @Composable
 private fun QuestionCard(d: PwData, f: PwFaq, topicLabel: String, open: Boolean, saved: Boolean, index: Int, vm: PathwaysViewModel, nav: PwNav, onToggle: () -> Unit) {
     val c = MaterialTheme.colorScheme
-    val spring = spring<androidx.compose.ui.unit.Dp>(0.6f, Spring.StiffnessMediumLow)
-    val card by animateDpAsState(if (open) 34.dp else 28.dp, spring, label = "fqR")
-    val tile by animateDpAsState(if (open) 22.dp else 16.dp, spring, label = "fqT")
+    val bounce = spring<androidx.compose.ui.unit.Dp>(0.6f, Spring.StiffnessMediumLow)
+    val card by animateDpAsState(if (open) 34.dp else 28.dp, bounce, label = "fqR")
+    val tile by animateDpAsState(if (open) 22.dp else 16.dp, bounce, label = "fqT")
     val bg by animateColorAsState(if (open) c.primaryContainer else c.surfaceContainerLow, tween(250), label = "fqBg")
     val tileBg by animateColorAsState(if (open) c.primary else c.surfaceContainerHighest, tween(250), label = "fqTb")
     val turn by animateFloatAsState(if (open) 90f else 0f, tween(300, easing = FastOutSlowInEasing), label = "fqChv")

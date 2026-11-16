@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.drawText
@@ -179,7 +180,7 @@ internal fun PwSpark(vals: List<Float>, lastYear: Int) {
         fun py(v: Float) = (78f - (v - lo) / (hi - lo) * 60f) * sc
         val line = Path().apply { vals.forEachIndexed { i, v -> if (i == 0) moveTo(px(i), py(v)) else lineTo(px(i), py(v)) } }
         val area = Path().apply { addPath(line); lineTo(304f * sc, 92f * sc); lineTo(16f * sc, 92f * sc); close() }
-        androidx.compose.ui.graphics.drawscope.clipRect(0f, 0f, size.width * reveal.value, size.height) {
+        clipRect(0f, 0f, size.width * reveal.value, size.height) {
             drawPath(area, c.primaryContainer)
             drawPath(line, c.primary, style = Stroke(3.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
         }
