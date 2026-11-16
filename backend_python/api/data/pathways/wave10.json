@@ -1,0 +1,1895 @@
+{
+ "providers_add": [
+  {
+   "id": "p-bhairahawa-mc",
+   "name": "Bhairahawa Multiple Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Rupandehi",
+   "place": "Bhairahawa",
+   "note": "BSc CSIT quota 2083: 108 seats (86 open, 22 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 108
+  },
+  {
+   "id": "p-bhaktapur-mc",
+   "name": "Bhaktapur Multiple Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Bhaktapur",
+   "place": "Doodhpati",
+   "note": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 72
+  },
+  {
+   "id": "p-new-summit",
+   "name": "New Summit College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Old Baneshwor",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-prime",
+   "name": "Prime College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Nayabazar",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-st-lawrence",
+   "name": "St. Lawrence College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Science, Management.",
+   "seats": 36
+  },
+  {
+   "id": "p-cab",
+   "name": "College of Applied Business",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-kbc",
+   "name": "Kathmandu BernHardt College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Bafal",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Management.",
+   "seats": 48
+  },
+  {
+   "id": "p-dwit",
+   "name": "Deerwalk Institute of Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sifal",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-vedas",
+   "name": "Vedas College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Jawalakhel",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-texas",
+   "name": "Texas International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). NEB +2 streams: Science, Management, Humanities, Law.",
+   "seats": 48
+  },
+  {
+   "id": "p-orchid",
+   "name": "Orchid International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Gaushala",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Science, Management.",
+   "seats": 48
+  },
+  {
+   "id": "p-ambition",
+   "name": "Ambition College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-sagarmatha-cst",
+   "name": "Sagarmatha College of Science and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Sanepa",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-nagarjuna-cit",
+   "name": "Nagarjuna College of Information Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Shankhamul",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-academia",
+   "name": "Academia International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Gwarko",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi).",
+   "seats": 48
+  },
+  {
+   "id": "p-hce",
+   "name": "Himalaya College of Engineering",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Chyasal",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-asmt",
+   "name": "Asian School of Management and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Gongabu",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-mbmc",
+   "name": "Madan Bhandari Memorial College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-nepalaya",
+   "name": "Nepalaya College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalanki",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-achs",
+   "name": "Asian College of Higher Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Jawalakhel",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-trinity",
+   "name": "Trinity International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Dillibazar",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Science, Management, Humanities.",
+   "seats": 48
+  },
+  {
+   "id": "p-samriddhi",
+   "name": "Samriddhi College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Lokanthali",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-swastik",
+   "name": "Swastik College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Thimi",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-kct",
+   "name": "Kathmandu College of Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Lokanthali",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-nist-banepa",
+   "name": "NIST College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kavrepalanchok",
+   "place": "Banepa",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-shreeyantra",
+   "name": "Shreeyantra College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Damak",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi).",
+   "seats": 48
+  },
+  {
+   "id": "p-birendra-memorial",
+   "name": "Birendra Memorial College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Dharan",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi).",
+   "seats": 48
+  },
+  {
+   "id": "p-godawari-itahari",
+   "name": "Godawari College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-birat-kshitiz",
+   "name": "Birat Kshitiz College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-nihareeka",
+   "name": "Nihareeka College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-birat-multiple",
+   "name": "Birat Multiple College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-aims-biratnagar",
+   "name": "AIMS College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-himalaya-darshan",
+   "name": "Himalaya Darshan College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-national-infotech",
+   "name": "National Infotech College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-hetauda-city",
+   "name": "Hetauda City College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-chitwan-cot",
+   "name": "Chitwan College of Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-lumbini-ict",
+   "name": "Lumbini ICT Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Nawalparasi East",
+   "place": "Gaindakot",
+   "note": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 48
+  },
+  {
+   "id": "p-mount-annapurna",
+   "name": "Mount Annapurna Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-soch",
+   "name": "Soch College of IT",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+   "seats": 36
+  },
+  {
+   "id": "p-lumbini-city",
+   "name": "Lumbini City College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Tilottama",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-nepathya",
+   "name": "Nepathya College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Tilottama",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-banke-bageshwori",
+   "name": "Banke Bageshwori Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-nepalgunj-campus",
+   "name": "Nepalgunj Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-ambikeshwori",
+   "name": "Ambikeshwari Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Dang",
+   "place": "Ghorahi",
+   "note": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi). Runs the TU BCA (FoHSS entrance exam).",
+   "seats": 36
+  },
+  {
+   "id": "p-saraswati-mc",
+   "name": "Saraswati Multiple Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Lekhnath Marg",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-damak-mc",
+   "name": "Damak Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "Damak",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-model-damak",
+   "name": "Model Campus Damak",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Damak",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-koshi-saint-james",
+   "name": "Koshi Saint James College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-vishwa-adarsha",
+   "name": "Vishwa Adarsha College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-itahari-namuna",
+   "name": "Itahari Namuna College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-model-multiple-janakpur",
+   "name": "Model Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-nava-kshitiz",
+   "name": "Nava Kshitiz Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Mahottari",
+   "place": "Bardibas",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-hetauda-sms",
+   "name": "Hetauda School of Management and Social Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-sungava",
+   "name": "Sungava College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Parsa",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-indreni",
+   "name": "Indreni College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-saptagandaki",
+   "name": "Saptagandaki Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-saheed-smarak-bharatpur",
+   "name": "Saheed Smarak College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-butwal-kalika",
+   "name": "Butwal Kalika Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Butwal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-gyan-deep",
+   "name": "Gyan Deep College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dang",
+   "place": "Tulsipur",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-sahara-surkhet",
+   "name": "Sahara Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Surkhet",
+   "place": "Birendranagar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-janajyoti-kanchanpur",
+   "name": "Janajyoti Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kanchanpur",
+   "place": "Mahendranagar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-araniko-mc",
+   "name": "Araniko Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Lalitpur",
+   "place": "Talchikhel",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-arunima",
+   "name": "Arunima College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Boudha",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-bajra",
+   "name": "Bajra International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Jorpati",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-caribbean",
+   "name": "Caribbean College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Manbhawan",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-dav",
+   "name": "DAV College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Jawalakhel",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-danfe",
+   "name": "Danfe College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sinamangal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-dibya-gyan",
+   "name": "Dibya Gyan College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kamaladi",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-ed-mark",
+   "name": "ED-Mark College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalanki",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-everest-innovative",
+   "name": "Everest Innovative College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Soltimode",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-gsmc",
+   "name": "Ganeshman Singh Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Kalanki",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-gp-koirala",
+   "name": "G.P. Koirala Memorial College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sifal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-goldengate",
+   "name": "GoldenGate International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Baneshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Science, Management, Humanities."
+  },
+  {
+   "id": "p-greenfield",
+   "name": "Greenfield National College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Bafal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-jana-bhawana",
+   "name": "Jana Bhawana Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Godawari",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-janamaitri",
+   "name": "Janamaitri Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Kuleshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-jaya-multiple",
+   "name": "Jaya Multiple College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Gokarneshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-kcmit",
+   "name": "Kantipur College of Management and Information Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Mid Baneshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-kasthamandap",
+   "name": "Kasthamandap College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalanki",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-ktm-business",
+   "name": "Kathmandu Business Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Balaju",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-central-state",
+   "name": "Kathmandu College of Central State",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalimati",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-kavre-mc",
+   "name": "Kavre Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kavrepalanchok",
+   "place": "Banepa",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-lalitpur-eng",
+   "name": "Lalitpur Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Chakupat",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-lumbini-academy",
+   "name": "Lumbini Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-mega-national",
+   "name": "Mega National College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-milton",
+   "name": "Milton International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-morgan",
+   "name": "Morgan International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Basundhara",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-nist-lainchour",
+   "name": "National College (NIST)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Lainchour",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-nims",
+   "name": "NIMS College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kanibahal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-ojaswi",
+   "name": "Ojaswi College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Gwarko",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-padmashree",
+   "name": "Padmashree International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Tinkune",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-pascal",
+   "name": "Pascal National College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Satdobato",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-pashupati-mc",
+   "name": "Pashupati Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-patan-nistha",
+   "name": "Patan Nistha College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Balkumari",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-rainbow",
+   "name": "Rainbow International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Swayambhu",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-reliance",
+   "name": "Reliance College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-sagarmatha-hs",
+   "name": "Sagarmatha College for Higher Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Dillibazar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-sahid-smarak-kirtipur",
+   "name": "Sahid Smarak College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kirtipur",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-samarpan",
+   "name": "Samarpan Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Dhumbarahi",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-shoyambhu",
+   "name": "Shoyambhu International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lagankhel",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-southwestern",
+   "name": "South Western State College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Basundhara",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-texas-mgmt",
+   "name": "Texas College of Management and IT",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sifal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-times",
+   "name": "The Times International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Dillibazar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-thames",
+   "name": "Thames International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Old Baneshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-triton",
+   "name": "Triton International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Koteshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Science, Management, Law."
+  },
+  {
+   "id": "p-united-college",
+   "name": "United College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-vs-intl",
+   "name": "V.S. International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Tinkune",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-whitefield",
+   "name": "Whitefield International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Nayabazar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-universal",
+   "name": "Universal College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Maitidevi",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-kk-intl",
+   "name": "K and K International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-kmc-model",
+   "name": "Kathmandu Model College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Bagbazar",
+   "note": "Runs the TU BCA (FoHSS entrance exam). NEB +2 streams: Science, Management, Humanities, Law."
+  },
+  {
+   "id": "p-nesfield",
+   "name": "Nesfield International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lagankhel",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-aadim",
+   "name": "AADIM National College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-yeti-intl",
+   "name": "Yeti International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Buddhanagar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-advanced-coem",
+   "name": "Advanced College of Engineering and Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalanki",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-aims-intl",
+   "name": "AIMS International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lagankhel",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-vinayak-siddha",
+   "name": "Vinayak Siddha College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-ktm-shiksha",
+   "name": "Kathmandu Shiksha Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Satungal",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-dibyabhumi",
+   "name": "Dibyabhumi Multiple College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kupondole",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-everest-thapathali",
+   "name": "Everest College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Thapathali",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-national-integrated",
+   "name": "National Integrated College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Dillibazar",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-daffodil",
+   "name": "Daffodil College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Putalisadak",
+   "note": "Runs the TU BCA (FoHSS entrance exam)."
+  },
+  {
+   "id": "p-united-academy",
+   "name": "United Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati",
+   "note": "NEB +2 streams: Science, Management, Humanities, Law."
+  },
+  {
+   "id": "p-prasadi",
+   "name": "Prasadi Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Manbhawan",
+   "note": "NEB +2 streams: Science, Management."
+  },
+  {
+   "id": "p-xavier-intl",
+   "name": "Xavier International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalopul",
+   "note": "NEB +2 streams: Science, Management, Humanities."
+  },
+  {
+   "id": "p-xavier-academy",
+   "name": "Xavier Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Lazimpat",
+   "note": "NEB +2 streams: Science, Management."
+  },
+  {
+   "id": "p-kist",
+   "name": "KIST College and Secondary School",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kamalpokhari",
+   "note": "NEB +2 streams: Science, Management."
+  },
+  {
+   "id": "p-gcm",
+   "name": "Global College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Mid Baneshwor",
+   "note": "NEB +2 streams: Management."
+  },
+  {
+   "id": "p-ccrc",
+   "name": "Capital College and Research Center",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Koteshwor",
+   "note": "NEB +2 streams: Science, Management, Law."
+  },
+  {
+   "id": "p-uniglobe",
+   "name": "Uniglobe Secondary School and College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kamaladi",
+   "note": "NEB +2 streams: Science, Management, Law."
+  },
+  {
+   "id": "p-tilottama-campus",
+   "name": "Tilottama Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Yogikuti",
+   "note": "NEB +2 streams: Management."
+  },
+  {
+   "id": "p-new-horizon-butwal",
+   "name": "New Horizon College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Devinagar",
+   "note": "NEB +2 streams: Management."
+  },
+  {
+   "id": "p-hamro-nursing",
+   "name": "Hamro School of Nursing",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University. Private nursing college at Kanchanbari, recognised by the Nepal Nursing Council. MEC seats for 2083/84: BSc Nursing 40.",
+   "seats": 40
+  },
+  {
+   "id": "p-jf-health",
+   "name": "JF Institute of Health Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Hattiban",
+   "note": "Janamaitri Foundation institute (the hospital is at Balaju). Classes run on the Little Angels College campus at Hattiban. MEC seats for 2083/84: BSc Nursing 40, BNS 20, BPharm 50, BSc MLT 20.",
+   "seats": 50
+  },
+  {
+   "id": "p-suvekchya",
+   "name": "Suvekchya School of Health Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sitapaila",
+   "note": "Runs with Suvekchya International Hospital at Sitapaila. MEC seats for 2083/84: BSc Nursing 40.",
+   "seats": 40
+  }
+ ],
+ "where_add": {
+  "bsc-csit": [
+   "p-patan",
+   "p-amrit",
+   "p-bhairahawa-mc",
+   "p-bhaktapur-mc",
+   "p-padmakanya",
+   "p-siddhanath",
+   "p-rrmc",
+   "p-mechi",
+   "p-mmamc",
+   "p-birendra",
+   "p-prithvi",
+   "p-butwal",
+   "p-mmc-nepalgunj",
+   "p-mmc-dang",
+   "p-cct",
+   "p-tribhuvan-palpa",
+   "p-sxc",
+   "p-kathford",
+   "p-new-summit",
+   "p-prime",
+   "p-st-lawrence",
+   "p-cab",
+   "p-kbc",
+   "p-dwit",
+   "p-vedas",
+   "p-texas",
+   "p-ncc",
+   "p-orchid",
+   "p-ambition",
+   "p-sagarmatha-cst",
+   "p-nagarjuna-cit",
+   "p-academia",
+   "p-hce",
+   "p-asmt",
+   "p-mbmc",
+   "p-nepalaya",
+   "p-achs",
+   "p-trinity",
+   "p-samriddhi",
+   "p-swastik",
+   "p-kct",
+   "p-nist-banepa",
+   "p-shreeyantra",
+   "p-birendra-memorial",
+   "p-godawari-itahari",
+   "p-birat-kshitiz",
+   "p-nihareeka",
+   "p-birat-multiple",
+   "p-aims-biratnagar",
+   "p-himalaya-darshan",
+   "p-national-infotech",
+   "p-hetauda-city",
+   "p-chitwan-cot",
+   "p-lumbini-ict",
+   "p-mount-annapurna",
+   "p-soch",
+   "p-lumbini-city",
+   "p-nepathya",
+   "p-banke-bageshwori",
+   "p-nepalgunj-campus",
+   "p-ambikeshwori"
+  ],
+  "bca": [
+   "p-mechi",
+   "p-mmamc",
+   "p-dhankuta",
+   "p-birendra",
+   "p-padmakanya",
+   "p-rr",
+   "p-patan",
+   "p-bhaktapur-mc",
+   "p-prithvi",
+   "p-bhairahawa-mc",
+   "p-tribhuvan-palpa",
+   "p-mmc-nepalgunj",
+   "p-mmc-dang",
+   "p-doti",
+   "p-saraswati-mc",
+   "p-damak-mc",
+   "p-model-damak",
+   "p-koshi-saint-james",
+   "p-vishwa-adarsha",
+   "p-itahari-namuna",
+   "p-nihareeka",
+   "p-himalaya-darshan",
+   "p-birat-kshitiz",
+   "p-model-multiple-janakpur",
+   "p-nava-kshitiz",
+   "p-national-infotech",
+   "p-hetauda-city",
+   "p-hetauda-sms",
+   "p-sungava",
+   "p-indreni",
+   "p-saptagandaki",
+   "p-saheed-smarak-bharatpur",
+   "p-lumbini-ict",
+   "p-butwal-kalika",
+   "p-lumbini-city",
+   "p-nepathya",
+   "p-gyan-deep",
+   "p-ambikeshwori",
+   "p-banke-bageshwori",
+   "p-nepalgunj-campus",
+   "p-sahara-surkhet",
+   "p-janajyoti-kanchanpur",
+   "p-ambition",
+   "p-araniko-mc",
+   "p-arunima",
+   "p-achs",
+   "p-asmt",
+   "p-bajra",
+   "p-caribbean",
+   "p-dav",
+   "p-danfe",
+   "p-dwit",
+   "p-dibya-gyan",
+   "p-ed-mark",
+   "p-everest-innovative",
+   "p-gsmc",
+   "p-gp-koirala",
+   "p-goldengate",
+   "p-greenfield",
+   "p-hce",
+   "p-jana-bhawana",
+   "p-janamaitri",
+   "p-jaya-multiple",
+   "p-kcmit",
+   "p-kasthamandap",
+   "p-kathford",
+   "p-kbc",
+   "p-ktm-business",
+   "p-central-state",
+   "p-kavre-mc",
+   "p-lalitpur-eng",
+   "p-lumbini-academy",
+   "p-mbmc",
+   "p-mega-national",
+   "p-milton",
+   "p-morgan",
+   "p-nagarjuna-cit",
+   "p-nist-lainchour",
+   "p-ncc",
+   "p-new-summit",
+   "p-nims",
+   "p-nist-banepa",
+   "p-ojaswi",
+   "p-orchid",
+   "p-padmashree",
+   "p-pascal",
+   "p-pashupati-mc",
+   "p-patan-nistha",
+   "p-prime",
+   "p-rainbow",
+   "p-reliance",
+   "p-sagarmatha-hs",
+   "p-sagarmatha-cst",
+   "p-sahid-smarak-kirtipur",
+   "p-samarpan",
+   "p-samriddhi",
+   "p-shoyambhu",
+   "p-southwestern",
+   "p-st-lawrence",
+   "p-swastik",
+   "p-texas-mgmt",
+   "p-times",
+   "p-thames",
+   "p-trinity",
+   "p-triton",
+   "p-united-college",
+   "p-vedas",
+   "p-vs-intl",
+   "p-whitefield",
+   "p-universal",
+   "p-kk-intl",
+   "p-kmc-model",
+   "p-nesfield",
+   "p-aadim",
+   "p-yeti-intl",
+   "p-advanced-coem",
+   "p-aims-intl",
+   "p-vinayak-siddha",
+   "p-ktm-shiksha",
+   "p-dibyabhumi",
+   "p-everest-thapathali",
+   "p-national-integrated",
+   "p-daffodil"
+  ],
+  "plus2-science": [
+   "p-united-academy",
+   "p-prasadi",
+   "p-kmc-model",
+   "p-trinity",
+   "p-xavier-intl",
+   "p-xavier-academy",
+   "p-kist",
+   "p-st-lawrence",
+   "p-texas",
+   "p-ccrc",
+   "p-orchid",
+   "p-goldengate",
+   "p-triton",
+   "p-uniglobe"
+  ],
+  "plus2-management": [
+   "p-united-academy",
+   "p-prasadi",
+   "p-kmc-model",
+   "p-trinity",
+   "p-xavier-intl",
+   "p-xavier-academy",
+   "p-kist",
+   "p-gcm",
+   "p-st-lawrence",
+   "p-texas",
+   "p-ccrc",
+   "p-kbc",
+   "p-orchid",
+   "p-goldengate",
+   "p-triton",
+   "p-uniglobe",
+   "p-tilottama-campus",
+   "p-new-horizon-butwal"
+  ],
+  "plus2-humanities": [
+   "p-united-academy",
+   "p-kmc-model",
+   "p-trinity",
+   "p-xavier-intl",
+   "p-texas",
+   "p-goldengate"
+  ],
+  "plus2-law": [
+   "p-united-academy",
+   "p-kmc-model",
+   "p-texas",
+   "p-ccrc",
+   "p-triton",
+   "p-uniglobe"
+  ],
+  "bsc-nursing": [
+   "p-hamro-nursing",
+   "p-jf-health",
+   "p-suvekchya"
+  ],
+  "bns": [
+   "p-jf-health"
+  ],
+  "bpharm": [
+   "p-jf-health"
+  ],
+  "bmlt": [
+   "p-jf-health"
+  ],
+  "bim": [
+   "p-shankerdev"
+  ]
+ },
+ "route_seats": {
+  "p-patan": {
+   "bsc-csit": 144
+  },
+  "p-amrit": {
+   "bsc-csit": 144
+  },
+  "p-bhairahawa-mc": {
+   "bsc-csit": 108
+  },
+  "p-bhaktapur-mc": {
+   "bsc-csit": 72
+  },
+  "p-padmakanya": {
+   "bsc-csit": 72
+  },
+  "p-siddhanath": {
+   "bsc-csit": 72
+  },
+  "p-rrmc": {
+   "bsc-csit": 72
+  },
+  "p-mechi": {
+   "bsc-csit": 72
+  },
+  "p-mmamc": {
+   "bsc-csit": 72
+  },
+  "p-birendra": {
+   "bsc-csit": 72
+  },
+  "p-prithvi": {
+   "bsc-csit": 72
+  },
+  "p-butwal": {
+   "bsc-csit": 72
+  },
+  "p-mmc-nepalgunj": {
+   "bsc-csit": 72
+  },
+  "p-mmc-dang": {
+   "bsc-csit": 36
+  },
+  "p-cct": {
+   "bsc-csit": 36
+  },
+  "p-tribhuvan-palpa": {
+   "bsc-csit": 36
+  },
+  "p-sxc": {
+   "bsc-csit": 48
+  },
+  "p-kathford": {
+   "bsc-csit": 48
+  },
+  "p-new-summit": {
+   "bsc-csit": 48
+  },
+  "p-prime": {
+   "bsc-csit": 48
+  },
+  "p-st-lawrence": {
+   "bsc-csit": 36
+  },
+  "p-cab": {
+   "bsc-csit": 36
+  },
+  "p-kbc": {
+   "bsc-csit": 48
+  },
+  "p-dwit": {
+   "bsc-csit": 48
+  },
+  "p-vedas": {
+   "bsc-csit": 48
+  },
+  "p-texas": {
+   "bsc-csit": 48
+  },
+  "p-ncc": {
+   "bsc-csit": 48
+  },
+  "p-orchid": {
+   "bsc-csit": 48
+  },
+  "p-ambition": {
+   "bsc-csit": 36
+  },
+  "p-sagarmatha-cst": {
+   "bsc-csit": 48
+  },
+  "p-nagarjuna-cit": {
+   "bsc-csit": 36
+  },
+  "p-academia": {
+   "bsc-csit": 48
+  },
+  "p-hce": {
+   "bsc-csit": 48
+  },
+  "p-asmt": {
+   "bsc-csit": 48
+  },
+  "p-mbmc": {
+   "bsc-csit": 48
+  },
+  "p-nepalaya": {
+   "bsc-csit": 36
+  },
+  "p-achs": {
+   "bsc-csit": 48
+  },
+  "p-trinity": {
+   "bsc-csit": 48
+  },
+  "p-samriddhi": {
+   "bsc-csit": 48
+  },
+  "p-swastik": {
+   "bsc-csit": 36
+  },
+  "p-kct": {
+   "bsc-csit": 36
+  },
+  "p-nist-banepa": {
+   "bsc-csit": 36
+  },
+  "p-shreeyantra": {
+   "bsc-csit": 48
+  },
+  "p-birendra-memorial": {
+   "bsc-csit": 48
+  },
+  "p-godawari-itahari": {
+   "bsc-csit": 36
+  },
+  "p-birat-kshitiz": {
+   "bsc-csit": 36
+  },
+  "p-nihareeka": {
+   "bsc-csit": 36
+  },
+  "p-birat-multiple": {
+   "bsc-csit": 36
+  },
+  "p-aims-biratnagar": {
+   "bsc-csit": 36
+  },
+  "p-himalaya-darshan": {
+   "bsc-csit": 36
+  },
+  "p-national-infotech": {
+   "bsc-csit": 48
+  },
+  "p-hetauda-city": {
+   "bsc-csit": 36
+  },
+  "p-chitwan-cot": {
+   "bsc-csit": 36
+  },
+  "p-lumbini-ict": {
+   "bsc-csit": 48
+  },
+  "p-mount-annapurna": {
+   "bsc-csit": 36
+  },
+  "p-soch": {
+   "bsc-csit": 36
+  },
+  "p-lumbini-city": {
+   "bsc-csit": 36
+  },
+  "p-nepathya": {
+   "bsc-csit": 36
+  },
+  "p-banke-bageshwori": {
+   "bsc-csit": 36
+  },
+  "p-nepalgunj-campus": {
+   "bsc-csit": 36
+  },
+  "p-ambikeshwori": {
+   "bsc-csit": 36
+  },
+  "p-hamro-nursing": {
+   "bsc-nursing": 40
+  },
+  "p-jf-health": {
+   "bsc-nursing": 40,
+   "bns": 20,
+   "bpharm": 50,
+   "bmlt": 20
+  },
+  "p-suvekchya": {
+   "bsc-nursing": 40
+  },
+  "p-shankerdev": {
+   "bim": 66
+  }
+ },
+ "note_add": {
+  "p-patan": "BSc CSIT quota 2083: 144 seats (115 open, 29 Samabesi).",
+  "p-amrit": "BSc CSIT quota 2083: 144 seats (115 open, 29 Samabesi).",
+  "p-padmakanya": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-siddhanath": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-rrmc": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-mechi": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-mmamc": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-birendra": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-prithvi": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-butwal": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-mmc-nepalgunj": "BSc CSIT quota 2083: 72 seats (58 open, 14 Samabesi).",
+  "p-mmc-dang": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+  "p-cct": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+  "p-tribhuvan-palpa": "BSc CSIT quota 2083: 36 seats (29 open, 7 Samabesi).",
+  "p-sxc": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi).",
+  "p-kathford": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi).",
+  "p-ncc": "BSc CSIT quota 2083: 48 seats (38 open, 10 Samabesi).",
+  "p-shankerdev": "BITM seats: 66."
+ },
+ "provider_extra": {
+  "p-kathford": {
+   "district": "Lalitpur",
+   "place": "Balkumari"
+  }
+ },
+ "fees": {
+  "p-hamro-nursing": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-jf-health": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ],
+   "bmlt": [
+    777000,
+    777000
+   ]
+  },
+  "p-suvekchya": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  }
+ },
+ "scholarship_extra": {
+  "s-commonwealth": {
+   "who": "Citizens of listed Commonwealth countries. Nepal is not a Commonwealth member and is not on the eligible country list for the Master and PhD rounds, so Nepali citizens cannot apply.",
+   "how": "Nothing to apply for as a Nepali citizen. Look at Chevening, a university scholarship or another route listed for the UK."
+  },
+  "s-holland": {
+   "name": "NL Scholarship (formerly Holland Scholarship)",
+   "covers": "EUR 5,000 one time grant paid in the first year of study. It is not a full tuition award",
+   "who": "Non-EEA students (Nepal qualifies) starting a full time bachelor or master programme at a participating Dutch university, who do not already hold a Dutch degree",
+   "how": "Apply through the university, not a central office. There is no single national deadline: each institution sets its own, usually 1 February or 1 May, and applications open about 1 November. Check that your programme is on the university list.",
+   "open": [
+    11,
+    5
+   ]
+  }
+ },
+ "scholarship_drop": {
+  "s-commonwealth": [
+   "open"
+  ]
+ },
+ "abroad_extra": {
+  "hu": {
+   "work_hours": 24,
+   "work": "A student residence permit lets you work up to 24 hours a week in term and full time in official breaks (up to 90 days or 66 working days a year), with no separate work permit. You need a Hungarian tax number and your employer must register the job. Pay covers daily costs, not tuition."
+  },
+  "cn": {
+   "work_hours": 8,
+   "work": "A study residence permit is not a work permit. Off campus work study or an internship needs your university approval and the employer and period written on your residence permit before you start. In term work study is generally limited to 8 hours a week and 40 hours a month, and in vacations to 16 hours a week and 80 hours a month. Ordinary jobs, freelancing and business are not allowed on a student permit."
+  }
+ },
+ "route_update": {
+  "bim": {
+   "name": "BITM (formerly BIM, Bachelor of Information Technology Management)",
+   "about_add": "TU renamed BIM to BITM from the 2082/83 session. A section takes 33 students (30 regular and 3 scholarship seats). Shanker Dev Campus has 66 seats."
+  },
+  "bsc-csit": {
+   "about_add": "For 2083 TU allotted 3,108 seats in 61 colleges, 80 percent open and 20 percent Samabesi (inclusive)."
+  },
+  "bca": {
+   "about_add": "More than 125 colleges run TU BCA and every one admits through the same FoHSS entrance exam."
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw10-1",
+   "topic": "after12",
+   "q": "How many BSc CSIT seats are there, and which colleges?",
+   "go": [
+    "bsc-csit"
+   ],
+   "a": "TU Institute of Science and Technology allotted 3,108 BSc CSIT seats for 2083 across 61 colleges: 16 TU campuses with 1,224 seats and 45 private colleges with 1,884. In every college 80 percent of seats are open and 20 percent are the Samabesi (inclusive) quota, meant for students who studied Grades 8 to 12 in a government or community school. Patan Multiple Campus and Amrit Campus are the biggest with 144 each, then Bhairahawa Multiple Campus with 108. Most private colleges take 36 or 48. After the entrance result you rank up to 10 colleges on the IoST portal and TU publishes the list. Seats change each year, so check the IoST notice."
+  },
+  {
+   "id": "fw10-2",
+   "topic": "after12",
+   "q": "Which colleges run TU BCA and how do I get in?",
+   "go": [
+    "bca"
+   ],
+   "a": "More than 125 colleges run the TU BCA: 15 TU campuses plus private and community colleges in the Valley and in Biratnagar, Itahari, Damak, Janakpur, Hetauda, Bharatpur, Butwal, Dang, Nepalgunj, Surkhet and Mahendranagar. Students from any stream can apply with at least a D grade in every subject of Grades 11 and 12 and a CGPA of 1.8, or a second division in +2 (2083 notice). Admission is by the TU Faculty of Humanities and Social Sciences entrance exam, which was held on 16 August 2026 with a fee of NPR 1,500, and a re-entrance exam followed on 19 September 2026 because many colleges had empty seats. A college usually admits one batch of about 35."
+  },
+  {
+   "id": "fw10-3",
+   "topic": "after12",
+   "q": "Is BIM now called BITM?",
+   "go": [
+    "bim"
+   ],
+   "a": "Yes. From the 2082/83 session Tribhuvan University renamed the Bachelor of Information Management (BIM) as the Bachelor of Information Technology Management (BITM). A section takes 33 students, 30 regular and 3 scholarship seats (a compulsory 10 percent). Shanker Dev Campus, the TU campus, has 66 seats. Entry is the CMAT exam of the Faculty of Management and at least a D+ (CGPA 1.8) in Grades 11 and 12."
+  },
+  {
+   "id": "fw10-4",
+   "topic": "abroad",
+   "q": "Can Nepali students apply for the Commonwealth Scholarship?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "No. Nepal is not a Commonwealth member and is not on the eligible country list for the Commonwealth Master and PhD scholarships, which list countries such as Bangladesh, India, Pakistan and Sri Lanka. Several websites still say Nepal is eligible, so do not pay any agent for it. For the UK look at Chevening and at scholarships offered by the university itself."
+  },
+  {
+   "id": "fw10-5",
+   "topic": "abroad",
+   "q": "What is the NL (Holland) Scholarship?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "It is a one time grant of EUR 5,000 paid in the first year to non-EEA students, so Nepali students qualify, who start a full time bachelor or master programme at a participating Dutch university. It is not full funding. You apply through the university, each one sets its own deadline (usually 1 February or 1 May) and its own rules, and applications open about 1 November. You cannot have a Dutch degree already."
+  },
+  {
+   "id": "fw10-6",
+   "topic": "abroad",
+   "q": "How many hours can I work while studying in Hungary or China?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Hungary lets a student residence permit holder work up to 24 hours a week in term and full time in official breaks, without a separate work permit, once you hold a Hungarian tax number. China is much stricter: a study permit is not a work permit, off campus work study needs university approval and a note on your residence permit first, and the usual limit is 8 hours a week and 40 hours a month in term. Never start work before the paperwork is done."
+  },
+  {
+   "id": "fw10-7",
+   "topic": "after10",
+   "q": "How do I choose a +2 college?",
+   "go": [
+    "plus2-science",
+    "plus2-management",
+    "plus2-humanities",
+    "plus2-law"
+   ],
+   "a": "Check three things before you look at rankings. First, that the college is approved by the National Examination Board for the stream you want, because not every college runs Science, Management, Humanities and Law. Second, ask for the full fee list in writing: admission, monthly, lab, uniform, exam and bus fees add up beyond the headline figure. Third, look at how many seats the stream has, how many students pass the NEB exam, and how far it is from home. Rankings online are mostly advertising."
+  }
+ ],
+ "faq_update": {
+  "fa-3": {
+   "a": "Government and embassy scholarships such as Chevening, Fulbright, DAAD, MEXT, GKS, Australia Awards, Eiffel, SISGP, VLIR-UOS and ADB-JSP open every year, plus university scholarships. The Commonwealth Scholarship is not open to Nepali citizens because Nepal is not a Commonwealth member. Deadlines are fixed, so note them six to nine months early."
+  }
+ }
+}

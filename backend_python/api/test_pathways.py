@@ -227,3 +227,53 @@ class Wave9Tests(TestCase):
         text = json.dumps(pathways.payload(), ensure_ascii=False)
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+
+
+class Wave10Tests(TestCase):
+    """BSc CSIT quota 2083 by college, TU BCA list, +2 colleges, Commonwealth correction, work rules."""
+
+    def test_csit_quota_matches_the_iost_result(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        listed = [p for p in d['providers'] if (p.get('route_seats') or {}).get('bsc-csit')]
+        self.assertEqual(len(listed), 61)
+        self.assertEqual(sum(p['route_seats']['bsc-csit'] for p in listed), 3108)
+        self.assertEqual(by['p-patan']['route_seats']['bsc-csit'], 144)
+        self.assertEqual(by['p-prime']['route_seats']['bsc-csit'], 48)
+        self.assertEqual(by['p-kathford']['district'], 'Lalitpur')
+        csit = next(r for r in d['routes'] if r['id'] == 'bsc-csit')
+        for p in listed:
+            self.assertIn(p['id'], csit['where'])
+
+    def test_bca_plus2_and_health_lists_grew(self):
+        d = pathways.payload()
+        routes = {r['id']: r for r in d['routes']}
+        self.assertGreaterEqual(len(routes['bca']['where']), 120)
+        self.assertIn('p-hetauda-city', routes['bca']['where'])
+        self.assertIn('p-united-academy', routes['plus2-science']['where'])
+        self.assertIn('p-united-academy', routes['plus2-law']['where'])
+        self.assertIn('p-hamro-nursing', routes['bsc-nursing']['where'])
+        self.assertIn('BITM', routes['bim']['name'])
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-hamro-nursing']['district'], 'Morang')
+        self.assertEqual(by['p-shankerdev']['route_seats']['bim'], 66)
+
+    def test_commonwealth_is_closed_to_nepal_and_rules_are_filled(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertNotIn('open', sch['s-commonwealth'])
+        self.assertIn('Nepal is not a Commonwealth member', sch['s-commonwealth']['who'])
+        self.assertEqual(sch['s-holland']['open'], [11, 5])
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertEqual(abroad['hu']['work_hours'], 24)
+        self.assertEqual(abroad['cn']['work_hours'], 8)
+        faq = {f['id']: f for f in d['faq']}
+        self.assertNotIn('Chevening, Commonwealth', faq['fa-3']['a'])
+        self.assertGreaterEqual(len(d['faq']), 70)
+        self.assertEqual(pathways.problems(), [])
+
+    def test_wave10_text_has_no_dashes(self):
+        import json
+        text = json.dumps(pathways.payload(), ensure_ascii=False)
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)
