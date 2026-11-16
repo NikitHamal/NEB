@@ -123,6 +123,7 @@ fun InstitutionManageScreen(slug: String, onBack: () -> Unit, vm: InstitutionVie
 }
 
 @OptIn(ExperimentalLayoutApi::class)
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 private fun SectionSheet(sec: Sec, schema: com.neb.ians.data.api.ApiInstSchema, current: Map<String, JsonElement>, saving: Boolean, error: String?,
                          onSave: (Map<String, JsonElement>) -> Unit, onDismiss: () -> Unit) {
