@@ -341,7 +341,7 @@ fun ComposerFooter(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            FooterVectorTool(androidx.compose.material.icons.Icons.Outlined.Palette, "Page style: colour, cover, icon, paper", enabled, !state.look.isPlain || state.coverUri != null, onLook)
+            FooterVectorTool(androidx.compose.material.icons.Icons.Outlined.Palette, "Page style: colour, cover, icon, paper", enabled, !state.look.isPlain || state.coverUri != null || state.bgUri != null, onLook)
             FooterTool(NebIcons.Image, "Attach photos", enabled, state.activeImageCount > 0, onPhotos)
             if (!isEditing) {
                 FooterTool(NebIcons.Video, "Add video or audio", enabled, state.mediaAttachments.isNotEmpty(), onMedia)

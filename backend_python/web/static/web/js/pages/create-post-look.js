@@ -8,8 +8,9 @@
   var PL = window.NebPostLook;
   if (!host || !card || !PL) return;
 
-  var look = { tone: 0, cover: 0, photo: 0, icon: '', paper: 0, font: 0 };
+  var look = { tone: 0, cover: 0, photo: 0, bg: 0, icon: '', paper: 0, font: 0 };
   var photoUrl = '';
+  var bgUrl = '';
   var open = '';
   var PRESETS = [
     ['Study', { tone: 7, cover: 1, icon: 'book', paper: 1, font: 1 }],
@@ -36,12 +37,12 @@
     return s;
   }
   function plain() {
-    return !look.tone && !look.cover && !look.photo && !look.icon && !look.paper && !look.font;
+    return !look.tone && !look.cover && !look.photo && !look.bg && !look.icon && !look.paper && !look.font;
   }
   function value() {
     if (plain()) return null;
     var o = {};
-    ['tone', 'cover', 'photo', 'paper', 'font'].forEach(function (k) { if (look[k]) o[k] = look[k]; });
+    ['tone', 'cover', 'photo', 'bg', 'paper', 'font'].forEach(function (k) { if (look[k]) o[k] = look[k]; });
     if (look.icon) o.icon = look.icon;
     return o;
   }
@@ -49,6 +50,7 @@
     if (plain()) { PL.clear(card); card.classList.remove('cpl-on'); return; }
     var l = {};
     for (var k in look) l[k] = look[k];
+    if (look.bg && bgUrl) l._bgUrl = bgUrl;
     card.classList.add('cpl-on');
     PL.render(card, l);
     // the picked photo may not be served yet by its id; show the local copy meanwhile
@@ -159,8 +161,8 @@
       var b = el('button', 'cpl-pill', p[0]);
       b.type = 'button';
       b.addEventListener('click', function () {
-        photoUrl = '';
-        look = { tone: 0, cover: 0, photo: 0, icon: '', paper: 0, font: 0 };
+        photoUrl = ''; bgUrl = '';
+        look = { tone: 0, cover: 0, photo: 0, bg: 0, icon: '', paper: 0, font: 0 };
         for (var k in p[1]) look[k] = p[1][k];
         paint(); draw();
       });
@@ -192,12 +194,21 @@
     var s2 = section('Paper');
     s2.appendChild(seg(PAPERS, 'paper'));
     wrap.appendChild(s2);
+    var sp = section('Page picture');
+    var pick = el('button', 'cpl-pill');
+    pick.type = 'button';
+    pick.appendChild(icon('wallpaper'));
+    pick.appendChild(el('span', '', look.bg ? 'Change picture' : 'Add picture'));
+    pick.addEventListener('click', function () { bgInput.click(); });
+    sp.appendChild(pick);
+    if (look.bg) sp.appendChild(removeBtn('Remove', function () { bgUrl = ''; set({ bg: 0 }); }));
+    wrap.appendChild(sp);
     var s3 = section('Type');
     s3.appendChild(seg(FONTS, 'font'));
     wrap.appendChild(s3);
     if (!plain()) wrap.appendChild(removeBtn('Back to a plain post', function () {
-      photoUrl = '';
-      look = { tone: 0, cover: 0, photo: 0, icon: '', paper: 0, font: 0 };
+      photoUrl = ''; bgUrl = '';
+      look = { tone: 0, cover: 0, photo: 0, bg: 0, icon: '', paper: 0, font: 0 };
       paint(); draw();
     }));
     return wrap;
@@ -207,7 +218,7 @@
     bar.textContent = '';
     bar.appendChild(chip(look.cover || look.photo ? 'Change cover' : 'Add cover', 'image', 'cover', !!(look.cover || look.photo)));
     bar.appendChild(chip(look.icon ? 'Change icon' : 'Add icon', 'add_reaction', 'icon', !!look.icon));
-    bar.appendChild(chip('Style', 'palette', 'style', !!(look.tone || look.paper || look.font)));
+    bar.appendChild(chip('Style', 'palette', 'style', !!(look.tone || look.paper || look.font || look.bg)));
     panel.textContent = '';
     panel.hidden = !open;
     if (open === 'cover') panel.appendChild(coverPanel());
@@ -215,13 +226,9 @@
     if (open === 'style') panel.appendChild(stylePanel());
   }
 
-  var input = document.getElementById('cpl-photo');
-  input.addEventListener('change', function () {
-    var f = input.files && input.files[0];
-    input.value = '';
-    if (!f) return;
+  function upload(file, done) {
     var fd = new FormData();
-    fd.append('image', f);
+    fd.append('image', file);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/ajax/inline-image/upload/');
     xhr.setRequestHeader('X-CSRFToken', typeof CSRF_TOKEN === 'string' ? CSRF_TOKEN : '');
@@ -230,16 +237,30 @@
       host.classList.remove('busy');
       try {
         var d = JSON.parse(xhr.responseText);
-        if (xhr.status === 200 && d.id) {
-          photoUrl = URL.createObjectURL(f);
-          set({ photo: d.id });
-          return;
-        }
+        if (xhr.status === 200 && d.id) { done(d.id); return; }
         window.alert(d.error || 'Could not upload that photo');
       } catch (e) { window.alert('Could not upload that photo'); }
     };
     xhr.onerror = function () { host.classList.remove('busy'); window.alert('Network error. Please try again.'); };
     xhr.send(fd);
+  }
+  var input = document.getElementById('cpl-photo');
+  input.addEventListener('change', function () {
+    var f = input.files && input.files[0];
+    input.value = '';
+    if (!f) return;
+    upload(f, function (id) { photoUrl = URL.createObjectURL(f); set({ photo: id }); });
+  });
+  var bgInput = el('input');
+  bgInput.type = 'file';
+  bgInput.accept = 'image/jpeg,image/png,image/webp';
+  bgInput.style.display = 'none';
+  host.appendChild(bgInput);
+  bgInput.addEventListener('change', function () {
+    var f = bgInput.files && bgInput.files[0];
+    bgInput.value = '';
+    if (!f) return;
+    upload(f, function (id) { bgUrl = URL.createObjectURL(f); set({ bg: id }); });
   });
 
   new MutationObserver(function () { if (open) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

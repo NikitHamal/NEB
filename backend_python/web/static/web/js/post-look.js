@@ -55,6 +55,7 @@
       '.pl[data-paper=lines]{background-image:repeating-linear-gradient(transparent 0 27px,var(--pl-line) 27px 28px)}' +
       '.pl[data-paper=grid]{background-image:linear-gradient(var(--pl-line) 1px,transparent 1px),linear-gradient(90deg,var(--pl-line) 1px,transparent 1px);background-size:28px 28px}' +
       '.pl[data-paper=dots]{background-image:radial-gradient(var(--pl-line2) 1.4px,transparent 1.5px);background-size:28px 28px}' +
+      '.pl[data-bg]{background-image:linear-gradient(color-mix(in srgb,var(--pl-bg) var(--pl-wash,84%),transparent),color-mix(in srgb,var(--pl-bg) var(--pl-wash,84%),transparent)),var(--pl-img);background-size:cover;background-position:center}' +
       '.pl[data-font=serif]{font-family:Georgia,"Times New Roman",serif}.pl[data-font=mono]{font-family:ui-monospace,Menlo,Consolas,monospace}' +
       '@media (prefers-reduced-motion:no-preference){.pl-cover{animation:pl-in .5s cubic-bezier(.2,.9,.3,1.2) both}@keyframes pl-in{from{opacity:0;transform:translateY(8px)}}}';
     return text;
@@ -118,6 +119,11 @@
     }
     var paper = PAPER[look.paper | 0];
     if (paper) el.setAttribute('data-paper', paper); else el.removeAttribute('data-paper');
+    var bgUrl = look._bgUrl || (look.bg > 0 ? '/media/content_images/' + (look.bg | 0) + '.webp' : '');
+    if (bgUrl && /^(\/media\/content_images\/\d+\.webp|blob:[^"\s)]+)$/.test(bgUrl)) {
+      el.setAttribute('data-bg', '1'); el.style.setProperty('--pl-img', 'url("' + bgUrl + '")');
+      el.style.setProperty('--pl-wash', big ? '84%' : '88%');
+    } else { el.removeAttribute('data-bg'); el.style.removeProperty('--pl-img'); }
     var font = ['', 'serif', 'mono'][look.font | 0];
     if (font) el.setAttribute('data-font', font); else el.removeAttribute('data-font');
     var a = art(look, big ? 148 : 92), name = ICON[look.icon] || look.icon;
@@ -171,8 +177,8 @@
     clear: function (el) {
       var old = el.querySelector(':scope > .pl-cover');
       if (old) old.remove();
-      el.removeAttribute('data-look'); el.removeAttribute('data-paper'); el.removeAttribute('data-font');
-      ['--pl-bg', '--pl-ink', '--pl-soft', '--pl-line', '--pl-line2'].forEach(function (k) { el.style.removeProperty(k); });
+      el.removeAttribute('data-look'); el.removeAttribute('data-bg'); el.removeAttribute('data-paper'); el.removeAttribute('data-font');
+      ['--pl-img', '--pl-wash', '--pl-bg', '--pl-ink', '--pl-soft', '--pl-line', '--pl-line2'].forEach(function (k) { el.style.removeProperty(k); });
       el.classList.remove('pl');
     }
   };

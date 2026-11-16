@@ -568,3 +568,19 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Web Pathways: Nepali labels, saved levels, per-college fee tables.
 - Browser pass on the web composer: dark tones on the card, photo cover on a narrow phone.
 
+
+---
+
+# Session 24: page picture on posts
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up session 23 (CI green at `fadbe69`). Read first: Pathways is already its own native screen (profile popup entry, icon-only five item nav, concept home / level / route / colleges / abroad / Lok Sewa / Course Lab) on Android and web, and posts already wear a note look (tone, cover, photo cover, icon, paper, type) in composer, card and reader on both platforms. None of that was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 128 | **Page picture on posts** (the note "Page picture" feature). `look.bg` = content image id. A flat wash of the page colour (84 percent page, 88 percent card) sits over the picture so text stays readable. Composer: Style sheet, Page picture, Add / Change / Remove; the pick shows at once from the phone and uploads on publish (`bgUri`). Card and reader draw it under cover and text. Server bounds `bg` like `photo`, checks the image exists and marks it used. Web composer has the same picker (upload through `/ajax/inline-image/upload/`, local preview meanwhile) and `post-look.js` paints it on cards and the post page. | `PostLook.kt`, `PostLookUi.kt` (`PostLookBackdrop`), `PostLookComposer.kt`, `CreatePostViewModel.kt`, `CreatePostScreen.kt`, `api/post_look.py`, `post-look.js`, `create-post-look.js`, `test_post_look.py` |
+
+## Rules
+- A look is data: add a field in `post_look.clean`, `PostLook.kt` and `post-look.js` together (`bg` is now the seventh).
+- With a page picture on the web, the paper pattern is not drawn (one background stack); Android draws both.

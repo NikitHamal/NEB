@@ -18,8 +18,10 @@ data class PostLook(
     val font: Int = 0,
     /** A picture cover: id of an uploaded content image. Wins over the pattern cover. */
     val photo: Int = 0,
+    /** A picture behind the whole page (content image id), under a flat wash of the page colour. */
+    val bg: Int = 0,
 ) {
-    val isPlain: Boolean get() = tone == 0 && cover <= 0 && photo == 0 && icon.isEmpty() && paper == 0 && font == 0
+    val isPlain: Boolean get() = tone == 0 && cover <= 0 && photo == 0 && icon.isEmpty() && paper == 0 && font == 0 && bg == 0
 
     /** A plain look is sent as null for new posts. */
     fun orNull(): PostLook? = if (isPlain) null else this

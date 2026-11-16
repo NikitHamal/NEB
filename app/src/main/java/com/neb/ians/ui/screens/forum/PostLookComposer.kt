@@ -89,6 +89,20 @@ private fun LookChip(label: String, icon: ImageVector, onClick: () -> Unit) {
     }
 }
 
+/** Add, change or remove the picture behind the page. The pick stays on the phone until the post is published. */
+@Composable
+private fun PagePictureRow(has: Boolean, onPhoto: (android.net.Uri) -> Unit, onRemove: () -> Unit) {
+    val gallery = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
+    ) { uri -> if (uri != null) onPhoto(uri) }
+    Row(Modifier.fillMaxWidth().padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        LookChip(if (has) "Change picture" else "Add picture", Icons.Outlined.Image) {
+            gallery.launch(androidx.activity.result.PickVisualMediaRequest(androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        if (has) LookChip("Remove", Icons.Outlined.Close, onRemove)
+    }
+}
+
 @Composable
 private fun SectionLabel(text: String) {
     Text(
@@ -128,6 +142,8 @@ internal fun PostLookSheets(
                 ToneSwatches(look.tone) { viewModel.setLook(look.copy(tone = it)) }
                 SectionLabel("Paper")
                 PaperPicker(look.paper) { viewModel.setLook(look.copy(paper = it)) }
+                SectionLabel("Page picture")
+                PagePictureRow(has = state.bgUri != null || look.bg > 0, onPhoto = viewModel::setBgPhoto, onRemove = viewModel::clearBg)
                 SectionLabel("Type")
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     PostLook.fontLabels.forEachIndexed { index, label ->
@@ -152,11 +168,11 @@ internal fun PostLookSheets(
                         }
                     }
                 }
-                if (!look.isPlain || state.coverUri != null) {
+                if (!look.isPlain || state.coverUri != null || state.bgUri != null) {
                     Box(
                         Modifier.padding(top = 18.dp).height(48.dp).clip(RoundedCornerShape(24.dp))
                             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                            .clickable { viewModel.setLook(PostLook()); viewModel.clearCover() }
+                            .clickable { viewModel.clearLookAll() }
                             .padding(horizontal = 22.dp),
                         contentAlignment = Alignment.Center,
                     ) { Text("Back to a plain post", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface) }
