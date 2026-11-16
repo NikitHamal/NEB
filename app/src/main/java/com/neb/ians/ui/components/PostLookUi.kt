@@ -1,5 +1,7 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -15,10 +17,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.luminance
@@ -129,6 +133,9 @@ fun PostLookCover(
     if (!hasCover && !hasIcon) return
     val tone = noteTone(look.tone)
     val tile = mixOver(tone.content, tone.container, 0.14f)
+    // the icon tile settles on a spring when the page opens; scale only, so layout never moves
+    val pop = remember(look.icon) { Animatable(if (animate) 0.6f else 1f) }
+    LaunchedEffect(look.icon, animate) { if (animate) pop.animateTo(1f, spring(dampingRatio = 0.5f, stiffness = 380f)) }
     Box(modifier.fillMaxWidth().padding(bottom = if (hasCover && hasIcon) iconSize / 2 else 0.dp)) {
         if (photo != null) {
             AsyncImage(
@@ -146,7 +153,8 @@ fun PostLookCover(
                 modifier = Modifier
                     .align(if (hasCover) Alignment.BottomStart else Alignment.TopStart)
                     .padding(start = 16.dp, top = if (hasCover) 0.dp else 16.dp)
-                    .offset(y = if (hasCover) iconSize / 2 else 0.dp),
+                    .offset(y = if (hasCover) iconSize / 2 else 0.dp)
+                    .graphicsLayer { scaleX = pop.value; scaleY = pop.value },
             )
         }
     }

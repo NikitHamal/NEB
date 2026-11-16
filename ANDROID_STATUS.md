@@ -542,3 +542,29 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Web composer look picker (the API and the reader already take a look).
 - Note blocks (to-do blocks, picture blocks with text beside) inside a post: posts still write Markdown through `RichTextField`.
 - On-device pass: dark tones in the composer top bar, cover photo crop on a tall card, theme switch while a photo cover is pending.
+
+
+---
+
+# Session 23: web composer look picker, web Pathways rebuilt, icon pop
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`, `backend-tests.yml`). Picked up session 22. The Android Pathways screen (own native screen, profile popup entry, icon-only five item nav, matching) and the Android dynamic post composer, card and reader were already done and CI green, so they were **not redone**. This session closes the web side of both.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 124 | **Web composer writes a look.** The composer card becomes the page: cover banner with the icon tile on its edge, tone, paper and type follow live. Chips: Add or Change cover (14 patterns or a photo, uploaded through `/ajax/inline-image/upload/`), Add or Change icon (35 icons), Style (8 one tap themes, 28 page colours, paper none/lines/grid/dots, type default/serif/mono, Back to a plain post). Cover and icon each have their own Remove. `look` is sent with the post and validated by `api/post_look.py`. Drawn by the same `post-look.js` the feed and reader use (`NebPostLook.render`). | `pages/create-post-look.js`, `create-post.css`, `create_post.html`, `post-look.js`, `create-post.js` |
+| 125 | **Web Pathways rebuilt to the concept** (it was a card grid with a sheet). Header with search and Saved; level tabs (After 8, After SEE, After +2, Bachelor's); course list on the left (monogram, years, demand bar, stream filter after +2, field filter elsewhere, Not sure yet card), course page on the right (hero, Demand / Competition / Start pay tiles, Careers / Skills / Cost / Entry tabs with expandable career meters, What comes next, People also explore, Where to study with a district picker and live institutions). Phones show the list, then the course page with a back link, and an icon-only bottom nav. | `pathways.js`, `pathways-level.js`, `pathways.css`, `pathways.html` |
+| 126 | **Web Colleges, Abroad, Lok Sewa, Course Lab, Compare, Questions, Saved, search.** Colleges: search, sector chips, district picker, schematic Nepal map of all 77 districts (`pathways-map.js`, same points as `PwMap.kt`), list public first, per course view. Abroad: destination cards, country page (tuition, living, total, tests, work rules, scholarships), scholarship filters. Lok Sewa from `govt.json`. Course Lab is the same matching as `PwMatch.kt` (level, stream gate, budget and time gates, taste vector, 55% of best, empty result says so). Compare up to three. Search needs every word in the name. Saved stays in this browser. Old `#route=id` links still open. | `pathways-more.js`, `pathways-lab.js`, `pathways-map.js` |
+| 127 | **Icon tile settles on a spring** when a dynamic post page or the composer cover opens (scale only, no layout shift; the feed card stays still). | `PostLookUi.kt` |
+
+## Rules
+- Web Pathways numbers (demand, competition, start pay) are derived from the careers a route links to, exactly like `PwInsight.kt`. Change both together.
+- Web matching and `PwMatch.kt` are one algorithm in two languages. Change both together.
+
+## Not done / next
+- Note blocks (to-do, picture beside text) inside a post; posts still write rich text.
+- Web Pathways: Nepali labels, saved levels, per-college fee tables.
+- Browser pass on the web composer: dark tones on the card, photo cover on a narrow phone.
+
