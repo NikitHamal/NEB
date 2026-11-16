@@ -155,3 +155,21 @@ class NepalMapTests(TestCase):
         self.assertEqual(by['p-gandaki-med']['fees']['mbbs'], [4595720, 4595720])
         self.assertGreaterEqual(len(d['faq']), 51)
         self.assertEqual(pathways.problems(), [])
+
+    def test_wave8_medical_seats_dental_and_work_rules(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-kmc']['seats'], 130)
+        self.assertIn('BDS 45', by['p-kmc']['note'])
+        self.assertEqual(by['p-kantipur-dental']['fees']['bds'], [2092290, 2092290])
+        self.assertEqual(by['p-sdcuhs']['district'], 'Kailali')
+        bds = next(r for r in d['routes'] if r['id'] == 'bds')
+        self.assertIn('p-kantipur-dental', bds['where'])
+        mbbs = next(r for r in d['routes'] if r['id'] == 'mbbs')
+        self.assertIn('p-naihs', mbbs['where'])
+        my = next(a for a in d['abroad'] if a['id'] == 'my')
+        self.assertEqual(my['work_hours'], 20)
+        fb = next(s for s in d['scholarships'] if s['id'] == 's-fulbright')
+        self.assertEqual(fb['open'], [2, 4])
+        self.assertGreaterEqual(len(d['faq']), 55)
+        self.assertEqual(pathways.problems(), [])

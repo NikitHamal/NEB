@@ -1,0 +1,265 @@
+{
+ "providers_add": [
+  {
+   "id": "p-kantipur-dental",
+   "name": "Kantipur Dental College",
+   "kind": "Dental college",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Private dental college affiliated with Kathmandu University. MEC seats: BDS 60 for 2082/83 and 2083/84. Fee is the MEC tuition ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "bds": [
+     2092290,
+     2092290
+    ]
+   },
+   "seats": 60
+  },
+  {
+   "id": "p-peoples-dental",
+   "name": "People's Dental College and Hospital",
+   "kind": "Dental college",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Private dental college affiliated with Tribhuvan University. MEC seats: BDS 60 for 2082/83. Fee is the MEC tuition ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "bds": [
+     2092290,
+     2092290
+    ]
+   },
+   "seats": 60
+  },
+  {
+   "id": "p-bc-med",
+   "name": "B and C Medical College Teaching Hospital and Research Center",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Birtamod",
+   "website": "",
+   "note": "Private medical college in eastern Nepal. MEC seats for 2083/84: MBBS 60. Fee is the MEC ceiling for a paying seat outside the Kathmandu Valley.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   },
+   "seats": 60
+  },
+  {
+   "id": "p-naihs",
+   "name": "Nepalese Army Institute of Health Sciences (NAIHS)",
+   "kind": "Medical college",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Run by the Nepal Army. MEC seats for 2083/84: MBBS 130. Seats are filled through the MEC counselling system.",
+   "seats": 130
+  },
+  {
+   "id": "p-pokhara-ahs",
+   "name": "Pokhara Academy of Health Sciences",
+   "kind": "Medical college",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "Public academy of Gandaki Province. MEC seats for 2083/84: MBBS 50.",
+   "seats": 50
+  },
+  {
+   "id": "p-pu-medicine",
+   "name": "Purbanchal University School of Medicine",
+   "kind": "Medical college",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "Medical school of Purbanchal University. MEC seats for 2083/84: MBBS 50.",
+   "seats": 50
+  },
+  {
+   "id": "p-sdcuhs",
+   "name": "Martyr Dasharath Chand University of Health Sciences",
+   "kind": "University",
+   "sector": "Public",
+   "district": "Kailali",
+   "place": "Geta",
+   "website": "",
+   "note": "Health sciences university of Sudurpashchim Province. MEC authorised 50 MBBS seats for 2083/84, the first intake.",
+   "seats": 50
+  }
+ ],
+ "where_add": {
+  "mbbs": [
+   "p-bc-med",
+   "p-naihs",
+   "p-pokhara-ahs",
+   "p-pu-medicine",
+   "p-sdcuhs"
+  ],
+  "bds": [
+   "p-kantipur-dental",
+   "p-peoples-dental",
+   "p-nmc-jorpati",
+   "p-kist-med",
+   "p-coms-chitwan",
+   "p-gandaki-med",
+   "p-national-med",
+   "p-ucms",
+   "p-nobel-med",
+   "p-nepalgunj-med"
+  ]
+ },
+ "seats": {
+  "p-iom": {
+   "seats": 100,
+   "text": "MEC seats for 2083/84: MBBS 100, BDS 25."
+  },
+  "p-bpkihs": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130, BDS 50."
+  },
+  "p-kmc": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130, BDS 45."
+  },
+  "p-cmc": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130, BDS 45."
+  },
+  "p-kusms": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130, BDS 50."
+  },
+  "p-pahs": {
+   "seats": 65,
+   "text": "MEC seats for 2083/84: MBBS 65."
+  },
+  "p-kahs": {
+   "seats": 50,
+   "text": "MEC seats for 2083/84: MBBS 50."
+  },
+  "p-mihs": {
+   "seats": 50,
+   "text": "MEC seats for 2083/84: MBBS 50."
+  },
+  "p-mbahs": {
+   "seats": 50,
+   "text": "MEC seats for 2083/84: MBBS 50."
+  },
+  "p-rahs": {
+   "seats": 50,
+   "text": "MEC seats for 2083/84: MBBS 50."
+  },
+  "p-coms-chitwan": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130, BDS 50."
+  },
+  "p-manipal-pokhara": {
+   "seats": 120,
+   "text": "MEC seats for 2083/84: MBBS 120."
+  },
+  "p-ucms": {
+   "seats": 120,
+   "text": "MEC seats for 2083/84: MBBS 120. BDS was 50 in 2082/83."
+  },
+  "p-nmc-jorpati": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130, BDS 45."
+  },
+  "p-kist-med": {
+   "seats": 120,
+   "text": "MEC seats for 2083/84: MBBS 120, BDS 40."
+  },
+  "p-gandaki-med": {
+   "seats": 120,
+   "text": "MEC seats for 2083/84: MBBS 120, BDS 30."
+  },
+  "p-nobel-med": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130. BDS was 35 in 2082/83."
+  },
+  "p-birat-med": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130."
+  },
+  "p-national-med": {
+   "seats": 120,
+   "text": "MEC seats for 2083/84: MBBS 120, BDS 25."
+  },
+  "p-devdaha-med": {
+   "seats": 90,
+   "text": "MEC seats for 2083/84: MBBS 90."
+  },
+  "p-lumbini-med": {
+   "seats": 120,
+   "text": "MEC seats for 2083/84: MBBS 120."
+  },
+  "p-nepalgunj-med": {
+   "seats": 130,
+   "text": "MEC seats for 2083/84: MBBS 130. BDS was 15 in 2082/83."
+  },
+  "p-janaki-med": {
+   "seats": 60,
+   "text": "MEC seats for 2083/84: MBBS 60."
+  }
+ },
+ "scholarship_extra": {
+  "s-fulbright": {
+   "open": [
+    2,
+    4
+   ],
+   "awards": "Fully funded master's study in the USA for the 2027-28 cycle; USEF-Nepal runs the call and the GRE and TOEFL are free for selected candidates"
+  }
+ },
+ "abroad_extra": {
+  "my": {
+   "work_hours": 20,
+   "work": "A Student Pass holder may work up to 20 hours a week only in semester breaks or holidays longer than 7 days, in restaurants, mini markets, petrol kiosks and hotels, with prior Immigration approval through the university. No cashier work. Plan to pay for your studies yourself; an internship is the real work experience."
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw8-1",
+   "topic": "after12",
+   "q": "How many MBBS, BDS and nursing seats are there now?",
+   "a": "The Medical Education Commission set 9,691 seats for 2083/84 across 84 institutions, 418 more than last year, with 110 of the extra seats in MBBS. For 2082/83 the totals were MBBS 2,635, BSc Nursing 2,430, BNS 1,062, BPharm 835, BPH 712, BSc MLT 387, BDS 625, BPT 150, BAMS 110, BSc MIT 108 and BOptom 100. About 77,000 applicants registered for the 2083 entrance exams, so more seats do not mean an easier exam. Seats for a college change every year: read the MEC notice before you apply.",
+   "go": [
+    "mbbs",
+    "bds",
+    "bsc-nursing"
+   ]
+  },
+  {
+   "id": "fw8-2",
+   "topic": "after12",
+   "q": "Which colleges offer BDS (dentistry) in Nepal?",
+   "a": "Fourteen: BPKIHS Dharan (50 seats), Maharajgunj Medical Campus (25), Chitwan Medical College (45), College of Medical Sciences Bharatpur (50), Gandaki Medical College (30), Kantipur Dental College (60), Kathmandu Medical College (45), KIST Medical College (40), KU School of Medical Sciences (50), National Medical College (25) and Nepal Medical College (45) in the 2083/84 list, plus Nobel, Nepalgunj, UCMS and People's Dental College in 2082/83. The paying tuition ceiling is NPR 20,92,290, set by the MEC. All seats go through MECEE-BL rank.",
+   "go": [
+    "bds"
+   ]
+  },
+  {
+   "id": "fw8-3",
+   "topic": "abroad",
+   "q": "Can I work while studying in Malaysia?",
+   "a": "Only a little. A Student Pass lets you work up to 20 hours a week, but only in semester breaks or holidays longer than 7 days, and only in restaurants, mini markets, petrol kiosks and hotels. You need Immigration approval first, arranged through your university, and you cannot work as a cashier. Treat part-time work as pocket money and budget the full cost of study and living before you go.",
+   "go": []
+  },
+  {
+   "id": "fw8-4",
+   "topic": "abroad",
+   "q": "When does the Fulbright call for Nepal open?",
+   "a": "For the 2027-28 cycle the USEF-Nepal call opened on 1 February 2026 and closed at 11:59 pm Nepal time on 30 April 2026, with interviews in June and free GRE and TOEFL for those selected. It funds a master's in the USA in any field except medicine and nursing, and you must return to Nepal for two years under the J-1 rule. Dates move a little each year, so check the USEF-Nepal site in January.",
+   "go": []
+  }
+ ]
+}

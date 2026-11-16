@@ -677,3 +677,32 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Other private college fee tables (TU affiliated BBS, BCA, CSIT) need each prospectus.
 - Rhodes, Swiss, Fulbright windows (no stable official source found).
 - Android: on-device pass on the full-view dialog insets and label sizes.
+
+
+---
+
+# Session 29: status bar, map labels, career charts, Pathways wave 8 (medical seats)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`, `backend-tests.yml`). Bootstrap re-run and history read first (sessions 20 to 28). Pathways, the real Nepal map and the career detail screen already existed; they were fixed and rebuilt in place, not redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 146 | **Black status bar, root causes.** (a) `ResourceDetailScreen` and `MediaPlayerScreen` put `setDecorFitsSystemWindows(true)` back on leave, so after a video or a resource the app sat inside the decor and the window colour (black) showed behind the clock. The app is always edge to edge now (`false` everywhere). (b) Each screen restored "what the icons were before" on leave; two screens overlapping in a transition restored in the wrong order and left dark icons on a dark bar. New `NebBars` keeps a stack: the top request wins, the default is set by the theme. (c) Coming back from another app could leave the window with its own bar look. `MainActivity.onResume` and `onWindowFocusChanged` call `NebBars.apply`, which sets edge to edge, transparent bars, no contrast scrim and the icon colour. `NebJourneySurface` uses the same owner. Pre API 30 `SYSTEM_UI_FLAG_VISIBLE` also cleared the light status flag; `apply` runs after it. | `util/NebSystemBars.kt`, `ui/theme/Theme.kt`, `MainActivity.kt`, `MediaPlayerScreen.kt`, `ResourceDetailScreen.kt`, `NebJourneySurface.kt` |
+| 147 | **Pathways pages no longer slide under the status bar.** `PwScrollPage` replaces the bare scrolling column on every Pathways page: a flat strip of the page colour fades in over the bar as the page scrolls (clear at the top so the tinted hero still runs under the bar). Plan (lazy list) uses `PwLazyScrim`. The strip belongs to the page, so it moves with it in a transition. The full map dialog sets its own bar icons for its window. | `PwScrollPage.kt`, all `Pw*` pages, `PwNepalMapView.kt` |
+| 148 | **Map labels.** The black blobs were a Compose behaviour: `drawText(..., drawStyle = Stroke)` leaves the stroke on the cached layout and a second call with `drawStyle = null` keeps it, so the fill pass was a fat stroke too. Both passes now pass `Stroke` / `Fill` explicitly. Labels also shrank (7 to 11 sp in five steps, by zoom), are drawn biggest district first and skipped when they would touch a drawn label or a province name, province names show only when zoomed out. The picked district has white text only if the word fits inside it. | `PwNepalMap.kt` |
+| 149 | **Career charts rebuilt.** Pay: typical line plus shaded range (entry and senior min to max), rupee grid, year axis, rung dots, a scrubber you drag or tap with a value pill; the four ladder steps are tiles that can take two lines (they were truncated as "Mid-le"). Profile: four rings, spokes, dashed average outline, filled outline, dot and number at each corner, labels placed away from the centre, legend. Market: a verdict card (Open field, In demand crowded, Tough market, Small quiet niche, Balanced) with demand and competition meters and the trend; the old 5 year line was drawn from the trend word, not from data, so it is now shown only when a career has 3 or more real `history` points. Demand against competition is a quadrant with a tinted "Best odds" corner, axis names, dots you tap (name pill, Open button). No gradients, no shadows, tonal fills only. | `PwPayChart.kt`, `PwProfileChart.kt`, `PwMarketCharts.kt`, `PwCareerDetail.kt` |
+| 150 | **Wave 8 data** (`wave8.json`, merged in `pathways.py`): MEC seat allotment 2083/84 (notice of 30 Ashwin 2083; 9,691 seats, 84 institutions, +418) set as `seats` on 23 medical providers with BDS counts in the note; 7 new providers (Kantipur Dental, People's Dental, B and C Medical, NAIHS, Pokhara Academy of Health Sciences, Purbanchal University School of Medicine, Martyr Dasharath Chand University of Health Sciences); `mbbs` and `bds` routes list them (BDS now 15 colleges, was 5); Fulbright `open` Feb to Apr (2027-28 call: 1 Feb to 30 Apr 2026); Malaysia work rule (20 h a week, breaks only, four sectors, approval); 4 FAQs (55 total) on seat totals, BDS colleges, Malaysia work, Fulbright dates. | `wave8.json`, `pathways.py`, `test_pathways.py` |
+
+## Rules
+- Never call `drawText` twice on one layout with different styles without passing the style both times.
+- A screen that needs different bar icons uses `NebSystemBars(darkIcons)`; never set `isAppearanceLight*` or `setDecorFitsSystemWindows(true)` directly.
+- A new Pathways page uses `PwScrollPage` (or `PwLazyScrim` over a lazy list).
+- Seat counts are the MEC allotment for the year named in the note; fees are the MEC ceiling for a paying seat.
+
+## Not done / next
+- On device pass: map label sizes at full zoom, scrub feel of the pay chart, status strip on a notched phone.
+- Careers have no real `history` yet (needs a source); until then the Market tab shows the verdict card only.
+- Singapore, China, Turkey, Thailand, India, UAE, Russia work rules (no stable source found this session). Commonwealth, Swiss, Rhodes windows.
+- BSc Nursing, BPharm and allied health college lists with MEC seats per college.

@@ -94,7 +94,19 @@ def payload():
         by = {x['id']: x for x in pool}
         for xid, more in extras.items():
             by[xid].update(more)
-    faq_all = _load('faq.json')['faq'] + _load('wave6_faq.json')['faq'] + w7['faq_add']
+    w8 = _load('wave8.json')
+    providers = providers + w8['providers_add']
+    for rid, more in w8['where_add'].items():
+        route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+    by_provider = {x['id']: x for x in providers}
+    for pid, s8 in w8['seats'].items():
+        by_provider[pid]['seats'] = s8['seats']
+        by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + s8['text']).strip()
+    for pool, extras in ((scholarships, w8['scholarship_extra']), (abroad, w8['abroad_extra'])):
+        by = {x['id']: x for x in pool}
+        for xid, more in extras.items():
+            by[xid].update(more)
+    faq_all = _load('faq.json')['faq'] + _load('wave6_faq.json')['faq'] + w7['faq_add'] + w8['faq_add']
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
