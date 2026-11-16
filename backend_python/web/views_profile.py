@@ -288,7 +288,7 @@ def profile(request, username):
         social_links_data = get_user_links(profile_user.id)
 
     from api import profile_education as _pe
-    from api.education_catalog import ENTRY_KINDS
+    from api.education_catalog import kinds_for
     portfolio = None
     if not profile_private and not profile_user.is_bot:
         portfolio = {
@@ -296,7 +296,8 @@ def profile(request, username):
             'open_to': _pe.open_to_items(profile_user),
             'skills': _pe.skills_list(profile_user),
             'sections': _pe.portfolio_sections(profile_user),
-            'kinds': ENTRY_KINDS,
+            'kinds': kinds_for(profile_user.role),
+            'teacher': _pe.teacher_summary(profile_user),
             'is_own': bool(viewer_user and getattr(viewer_user, 'id', None) == profile_user.id),
         }
     return render(request, 'web/profile.html', _ctx(request,

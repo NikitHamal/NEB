@@ -14,6 +14,20 @@
   </div>
   {% endif %}
 
+  {% if portfolio.teacher.is_set %}
+  <div class="pf-folio-block pf-folio-teach">
+    <h3 class="pf-folio-h"><span class="material-symbols-outlined">co_present</span>Teaching
+      {% if portfolio.is_own %}<a class="pf-folio-add" href="{% url 'web:edit_profile' %}#teaching" aria-label="Edit teaching details"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+    </h3>
+    {% if portfolio.teacher.school %}<div class="pf-folio-edu-text pf-teach-school"><b>{{ portfolio.teacher.school }}</b>{% if portfolio.teacher.employment %}<small>{{ portfolio.teacher.employment }}</small>{% endif %}</div>{% endif %}
+    <div class="pf-folio-chips">
+      {% if portfolio.teacher.years %}<span class="pf-tag pf-tag-open"><span class="material-symbols-outlined">schedule</span>{{ portfolio.teacher.years }} year{{ portfolio.teacher.years|pluralize }} teaching</span>{% endif %}
+      {% for s in portfolio.teacher.subjects %}<span class="pf-tag">{{ s }}</span>{% endfor %}
+      {% for l in portfolio.teacher.levels %}<span class="pf-tag">{{ l }}</span>{% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   {% if portfolio.open_to %}
   <div class="pf-folio-block">
     <h3 class="pf-folio-h">Open to</h3>

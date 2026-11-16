@@ -24,6 +24,8 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.HistoryEdu
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material.icons.outlined.Work
@@ -56,6 +58,7 @@ import com.neb.ians.ui.components.WebPanelShape
 private val KINDS = listOf(
     Triple("education", "Education", Icons.Outlined.School),
     Triple("experience", "Experience", Icons.Outlined.Work),
+    Triple("past_school", "Past schools", Icons.Outlined.HistoryEdu),
     Triple("project", "Projects", Icons.Outlined.Code),
     Triple("achievement", "Achievements", Icons.Outlined.EmojiEvents),
     Triple("certificate", "Certificates", Icons.Outlined.WorkspacePremium),
@@ -65,6 +68,14 @@ private val OPEN = mapOf(
     "study_partner" to "Study partner", "mentoring" to "Mentoring juniors", "get_mentored" to "Finding a mentor",
     "tutoring" to "Tutoring", "collab" to "Project collab", "internship" to "Internships",
     "freelance" to "Freelance work", "hiring" to "Hiring", "scholarship" to "Scholarship info", "notes_swap" to "Swapping notes"
+)
+private val TEACH_LEVELS = mapOf(
+    "preprimary" to "Pre-primary", "basic_1_5" to "Basic 1 to 5", "basic_6_8" to "Basic 6 to 8",
+    "secondary_9_10" to "Secondary 9 to 10", "plus_two" to "+2", "a_level" to "A Level", "diploma" to "Diploma / TSLC",
+    "bachelor" to "Bachelor's", "master" to "Master's", "phd" to "PhD", "coaching" to "Entrance coaching"
+)
+private val EMPLOY = mapOf(
+    "full_time" to "Full time", "part_time" to "Part time", "tutor" to "Home tutor", "freelance" to "Freelance", "visiting" to "Visiting"
 )
 private val STATUS = mapOf(
     "studying" to "Studying", "completed" to "Graduated", "preparing" to "Preparing", "gap_year" to "Taking a break",
@@ -106,12 +117,32 @@ fun ProfilePortfolioCard(profile: UserProfileResponse, isSelf: Boolean, modifier
     val status = STATUS[profile.eduStatus.orEmpty()].orEmpty()
     val open = profile.openTo.orEmpty().split(",").mapNotNull { OPEN[it] }
     val skills = profile.skills.orEmpty().split(",").filter { it.isNotBlank() }
-    val hasAny = edu.isNotBlank() || status.isNotBlank() || open.isNotEmpty() || skills.isNotEmpty() || state.sections.isNotEmpty()
+    val teacher = profile.role == "teacher"
+    val subjects = if (teacher) profile.teachingSubjects.orEmpty().split(",").filter { it.isNotBlank() } else emptyList()
+    val levels = if (teacher) profile.teachLevels.orEmpty().split(",").mapNotNull { TEACH_LEVELS[it] } else emptyList()
+    val years = if (teacher) profile.experienceYears else 0
+    val work = if (teacher) EMPLOY[profile.employment.orEmpty()].orEmpty() else ""
+    val school = if (teacher) profile.school.orEmpty() else ""
+    val teachSet = school.isNotBlank() || subjects.isNotEmpty() || levels.isNotEmpty() || years > 0
+    val hasAny = teachSet || edu.isNotBlank() || status.isNotBlank() || open.isNotEmpty() || skills.isNotEmpty() || state.sections.isNotEmpty()
     if (!hasAny && !isSelf) return
     val line = MaterialTheme.colorScheme.outlineVariant
     Card(modifier.fillMaxWidth().animateContentSize(), shape = WebPanelShape, border = BorderStroke(1.dp, line),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
+            if (teachSet) PfBlock("Teaching", Icons.Outlined.School) {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    if (school.isNotBlank()) Column {
+                        Text(school, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleSmall)
+                        if (work.isNotBlank()) Text(work, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        if (years > 0) Tag(if (years == 1) "1 year teaching" else "$years years teaching", Icons.Outlined.Schedule)
+                        subjects.forEach { Tag(it) }
+                        levels.forEach { Tag(it) }
+                    }
+                }
+            }
             if (edu.isNotBlank() || status.isNotBlank()) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(MaterialTheme.colorScheme.primaryContainer), Alignment.Center) {
                     Icon(Icons.Outlined.School, null, Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onPrimaryContainer)
@@ -129,7 +160,7 @@ fun ProfilePortfolioCard(profile: UserProfileResponse, isSelf: Boolean, modifier
             }
             if (isSelf) PfBlock("Add to your portfolio") {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    KINDS.forEach { (k, l, ic) ->
+                    KINDS.filter { it.first != "past_school" || teacher }.forEach { (k, l, ic) ->
                         Row(Modifier.clip(RoundedCornerShape(10.dp)).clickable { editing = ApiEntry(kind = k) }.background(MaterialTheme.colorScheme.surfaceContainerHigh)
                             .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             Icon(ic, null, Modifier.size(16.dp)); Text(l, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)

@@ -12,6 +12,7 @@
   var KINDS = {
     education: { label: 'education', icon: 'school', where: 'School or college' },
     experience: { label: 'experience', icon: 'work', where: 'Company or team' },
+    past_school: { label: 'past school', icon: 'history_edu', where: 'School' },
     project: { label: 'project', icon: 'deployed_code', where: 'Where it lives' },
     achievement: { label: 'achievement', icon: 'emoji_events', where: 'Who gave it' },
     certificate: { label: 'certificate', icon: 'workspace_premium', where: 'Issued by' },

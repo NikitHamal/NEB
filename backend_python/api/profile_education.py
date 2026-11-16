@@ -213,6 +213,34 @@ def update_entry(entry, data):
     return entry, None
 
 
+TEACH_LEVEL_LABELS = {
+    'preprimary': 'Pre-primary', 'basic_1_5': 'Basic 1 to 5', 'basic_6_8': 'Basic 6 to 8',
+    'secondary_9_10': 'Secondary 9 to 10', 'plus_two': '+2', 'a_level': 'A Level',
+    'diploma': 'Diploma / TSLC', 'bachelor': "Bachelor's", 'master': "Master's", 'phd': 'PhD',
+    'coaching': 'Entrance coaching',
+}
+EMPLOYMENT_LABELS = {
+    'full_time': 'Full time', 'part_time': 'Part time', 'tutor': 'Home tutor',
+    'freelance': 'Freelance', 'visiting': 'Visiting',
+}
+
+
+def teacher_summary(user):
+    """What a teacher's page prints: school, subjects, levels, years. None for anyone else."""
+    if getattr(user, 'role', '') != 'teacher':
+        return None
+    csv = lambda v: [x for x in (v or '').split(',') if x]
+    summary = {
+        'school': user.school or '',
+        'employment': EMPLOYMENT_LABELS.get(user.employment or '', ''),
+        'subjects': csv(user.teaching_subjects),
+        'levels': [TEACH_LEVEL_LABELS[k] for k in csv(user.teach_levels) if k in TEACH_LEVEL_LABELS],
+        'years': int(user.experience_years or 0),
+    }
+    summary['is_set'] = any(summary[k] for k in ('school', 'subjects', 'levels', 'years'))
+    return summary
+
+
 def portfolio_sections(user):
     """Entries grouped by kind, empty kinds left out, in catalog order."""
     rows = list(ProfileEntry.objects.filter(user=user))

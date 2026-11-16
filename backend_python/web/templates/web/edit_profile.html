@@ -185,6 +185,26 @@
             <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
           </button>
         </div>
+        <div id="teaching" class="epf-teaching">
+          <div class="form-group">
+            <span class="md-label">Levels you teach</span>
+            <input type="hidden" id="teach-levels-hidden" name="teach_levels" value="{{ user.teach_levels|default:'' }}">
+            <div class="epf-chips" id="teach-levels" role="group" aria-label="Levels you teach">
+              
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="experience_years">Years of teaching</label>
+            <input type="number" inputmode="numeric" min="0" max="60" id="experience_years" name="experience_years" class="md-input" value="{{ user.experience_years|default:'' }}" placeholder="0">
+          </div>
+          <div class="form-group">
+            <span class="md-label">Type of work</span>
+            <input type="hidden" id="employment-hidden" name="employment" value="{{ user.employment|default:'' }}">
+            <div class="epf-chips" id="employment-chips" role="radiogroup" aria-label="Type of work">
+              
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Institution fields -->
@@ -546,6 +566,7 @@
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-edu.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-dob-field.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/epf-education.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/epf-teaching.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
 var existingSocialLinks = {{ existing_social_links_json|safe }};
 

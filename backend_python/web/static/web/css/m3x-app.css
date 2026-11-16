@@ -3834,3 +3834,8 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 :where(button, [role="button"], [role="tab"], [role="menuitem"]):focus:not(:focus-visible) { outline: 0; }
 .fc-tools { gap: 6px; }
 :where(.fc-tool, .nl-tool, .neb-icon-btn, .icon-btn) { border-radius: 14px; overflow: hidden; }
+
+/* Teacher block: profile card and editor. */
+.pf-teach-school { margin-bottom: 10px; }
+.epf-teaching { display: grid; gap: 16px; margin-top: 16px; }
+.epf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }

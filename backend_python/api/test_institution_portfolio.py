@@ -120,3 +120,29 @@ class PathwaysOnNebTests(TestCase):
         data = Client().get('/api/pathways/on-neb/').json()
         self.assertEqual([i['slug'] for i in data['items']], ['a-col'])
         self.assertIn('matches', data)
+
+
+class TeacherPortfolioTests(TestCase):
+    """Teachers get a past-schools section and a summary; nobody else is offered either."""
+
+    def test_past_school_kind_is_teacher_only(self):
+        from api import education_catalog as cat
+        self.assertIn('past_school', cat.ENTRY_KIND_VALUES)
+        self.assertIn('past_school', [k['value'] for k in cat.kinds_for('teacher')])
+        self.assertNotIn('past_school', [k['value'] for k in cat.kinds_for('student')])
+        self.assertNotIn('past_school', [k['value'] for k in cat.kinds_for('institution')])
+
+    def test_catalog_lists_levels_and_employment(self):
+        from api import education_catalog as cat
+        c = cat.catalog()
+        self.assertEqual(len(c['teachLevels']), 11)
+        self.assertEqual([e['value'] for e in c['employment']][:2], ['full_time', 'part_time'])
+
+    def test_teacher_summary(self):
+        from api.profile_education import teacher_summary
+        t = User(id='t9', username='t9', role='teacher', school='Himalaya School', employment='tutor',
+                 teaching_subjects='Physics,Science', teach_levels='plus_two,zzz', experience_years=9)
+        s = teacher_summary(t)
+        self.assertEqual((s['school'], s['employment'], s['years']), ('Himalaya School', 'Home tutor', 9))
+        self.assertEqual((s['subjects'], s['levels'], s['is_set']), (['Physics', 'Science'], ['+2'], True))
+        self.assertIsNone(teacher_summary(User(id='s9', username='s9', role='student')))

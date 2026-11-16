@@ -1090,3 +1090,28 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Owner review of `profile.html` on GitHub Pages, then port the locked parts (web first, then Android).
 - Android on device: portfolio sheet with the keyboard open, exams counters on a 360dp phone.
 - Teacher portfolio entries: school history uses the generic Experience kind; a dedicated "past schools" kind needs the catalogue `ENTRY_KINDS` change first.
+
+
+---
+
+# Session 42: CI repair, teacher portfolio (past schools, teaching block) on web and Android
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first. The request repeated sessions 37 to 41 (Pathways concept port, profile concept, institution portfolio, 24k catalogue, no DOB or gender for institutions). Audited against the code instead of redoing it: Pathways web and Android port, Android exams, institution signup without DOB and gender (`stepsForRole`), the 24,665 catalogue in signup and edit (`SchoolSearchSheet`), claim and owner editor are all present and **kept**.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 260 | **CI fix**: the two red runs after session 41 were `remember` not imported in `PwExams.kt` and a missing file-level `@OptIn(ExperimentalMaterial3Api)` in `PortfolioEntrySheet.kt` (`NebModalSheet` takes a `SheetState`). | `PwExams.kt`, `PortfolioEntrySheet.kt` |
+| 261 | **Past schools** is a portfolio kind offered to teachers only (`roles: ['teacher']`, `kinds_for(role)`). Title = role held, org = the school, from / to, still going. Concept `NEBians-Profile.html` already showed it. | `education_catalog.py`, `views_profile.py`, `portfolio.js`, `ProfilePortfolio.kt` |
+| 262 | **Teaching block** on the public profile (web and Android): current school and type of work, years teaching, subjects, levels. Empty means nothing is drawn. `teacher_summary(user)` is the one source for the web. | `profile_education.py`, `_portfolio.html`, `ProfilePortfolio.kt` |
+| 263 | **Web profile editor had no teacher fields** (levels, years, type of work existed in the API and Android only). Chips are built from `catalog()` (`teachLevels`, `employment`), nothing required. | `edit_profile.html`, `epf-teaching.js`, `education_catalog.py` |
+| 264 | Tests: past school is teacher-only, catalogue lists levels and employment, `teacher_summary`. | `api/test_institution_portfolio.py` |
+
+## Rules
+- A catalogue kind may carry `roles`; the pickers filter with `kinds_for(role)`; existing entries of a kind always render.
+- Teacher levels and employment values live once in `education_catalog.py`; the web editor reads them from the page's `epf-boot` JSON.
+
+## Next
+- Owner review of `profile.html` (GitHub Pages), then lock and port the rest of the overhaul.
+- Android on device: Teaching block wrap on a 360dp phone.

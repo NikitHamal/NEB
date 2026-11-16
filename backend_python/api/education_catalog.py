@@ -323,15 +323,37 @@ OPEN_TO = [
 ]
 OPEN_TO_VALUES = [o['value'] for o in OPEN_TO]
 
+# What a teacher teaches and how they work. Values match api.profile_education.
+TEACH_LEVELS = [
+    {'value': 'preprimary', 'label': 'Pre-primary'}, {'value': 'basic_1_5', 'label': 'Basic 1 to 5'},
+    {'value': 'basic_6_8', 'label': 'Basic 6 to 8'}, {'value': 'secondary_9_10', 'label': 'Secondary 9 to 10'},
+    {'value': 'plus_two', 'label': '+2'}, {'value': 'a_level', 'label': 'A Level'},
+    {'value': 'diploma', 'label': 'Diploma / TSLC'}, {'value': 'bachelor', 'label': "Bachelor's"},
+    {'value': 'master', 'label': "Master's"}, {'value': 'phd', 'label': 'PhD'},
+    {'value': 'coaching', 'label': 'Entrance coaching'},
+]
+EMPLOYMENT = [
+    {'value': 'full_time', 'label': 'Full time'}, {'value': 'part_time', 'label': 'Part time'},
+    {'value': 'tutor', 'label': 'Home tutor'}, {'value': 'freelance', 'label': 'Freelance'},
+    {'value': 'visiting', 'label': 'Visiting'},
+]
+
 ENTRY_KINDS = [
     {'value': 'education', 'label': 'Education', 'icon': 'school'},
     {'value': 'experience', 'label': 'Experience', 'icon': 'work'},
+    # Past schools: title = the role held, org = the school. Only offered to teachers.
+    {'value': 'past_school', 'label': 'Past schools', 'icon': 'history_edu', 'roles': ['teacher']},
     {'value': 'project', 'label': 'Projects', 'icon': 'deployed_code'},
     {'value': 'achievement', 'label': 'Achievements', 'icon': 'emoji_events'},
     {'value': 'certificate', 'label': 'Certificates', 'icon': 'workspace_premium'},
     {'value': 'volunteering', 'label': 'Volunteering', 'icon': 'volunteer_activism'},
 ]
 ENTRY_KIND_VALUES = [k['value'] for k in ENTRY_KINDS]
+
+
+def kinds_for(role):
+    """The kinds a role is offered. A kind without `roles` is for everyone."""
+    return [k for k in ENTRY_KINDS if not k.get('roles') or role in k['roles']]
 
 COMPLETED_LEVELS = [
     {'value': 'Class 10 / SEE', 'label': 'SEE (Class 10)'},
@@ -356,6 +378,8 @@ def catalog():
         'completed': COMPLETED_LEVELS,
         'openTo': OPEN_TO,
         'entryKinds': ENTRY_KINDS,
+        'teachLevels': TEACH_LEVELS,
+        'employment': EMPLOYMENT,
     }
 
 
