@@ -31,6 +31,7 @@ import threading
 import time
 import urllib.parse
 import urllib.request
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -123,9 +124,10 @@ def build_token(user_id=None, now=None, key=None):
         'iat': now,
         'exp': now + TOKEN_TTL,
         'x-ably-capability': json.dumps(capability, separators=(',', ':')),
+        # Ably refuses an unidentified client with error 40161, on subscribe as
+        # well as publish, so an anonymous reader still gets its own id.
+        'x-ably-clientId': str(user_id) if user_id else ('anon-%s' % uuid.uuid4().hex[:12]),
     }
-    if user_id:
-        claims['x-ably-clientId'] = str(user_id)
     signing = '%s.%s' % (
         _b64(json.dumps(header, separators=(',', ':')).encode()),
         _b64(json.dumps(claims, separators=(',', ':')).encode()),

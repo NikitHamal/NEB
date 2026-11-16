@@ -43,6 +43,16 @@ class AblyTokenTests(SimpleTestCase):
         cap = json.loads(_b64d(realtime_ably.build_token(None).split('.')[1]))['x-ably-capability']
         self.assertFalse([c for c in json.loads(cap) if c.startswith('user.')])
 
+    def test_every_token_names_a_client(self):
+        anon = json.loads(_b64d(realtime_ably.build_token(None, now=1_000).split('.')[1]))
+        self.assertTrue(anon['x-ably-clientId'].startswith('anon-'))
+        self.assertNotEqual(
+            anon['x-ably-clientId'],
+            json.loads(_b64d(realtime_ably.build_token(None, now=1_000).split('.')[1]))['x-ably-clientId'],
+        )
+        signed_in = json.loads(_b64d(realtime_ably.build_token('42', now=1_000).split('.')[1]))
+        self.assertEqual(signed_in['x-ably-clientId'], '42')
+
     def test_disabled_without_key(self):
         with mock.patch.dict(os.environ, {'ABLY_API_KEY': ''}):
             self.assertFalse(realtime_ably.is_enabled())
