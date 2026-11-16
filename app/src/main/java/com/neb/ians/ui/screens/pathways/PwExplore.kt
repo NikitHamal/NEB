@@ -2,7 +2,6 @@ package com.neb.ians.ui.screens.pathways
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -41,25 +40,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.layout.onPlaced
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -160,19 +157,14 @@ private fun PwStages(stages: List<PwStage>, current: String, onPick: (String) ->
     ) {
         stages.forEach { st ->
             val on = st.id == current
-            val h by animateDpAsState(if (on) 64.dp else 52.dp, spring(0.55f, Spring.StiffnessMediumLow), label = "stH")
-            val r by animateDpAsState(if (on) 22.dp else 26.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "stR")
+            val r by animateDpAsState(if (on) 16.dp else 24.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "stR")
             val bg by animateColorAsState(if (on) c.primary else c.surfaceContainerHigh, label = "stBg")
             Surface(
-                onClick = { onPick(st.id) }, modifier = Modifier.height(h).animateContentSize(spring(0.6f, Spring.StiffnessMediumLow)),
+                onClick = { onPick(st.id) }, modifier = Modifier.height(48.dp),
                 shape = RoundedCornerShape(r), color = bg, contentColor = if (on) c.onPrimary else c.onSurface,
             ) {
-                Box(Modifier.padding(horizontal = if (on) 26.dp else 18.dp), contentAlignment = Alignment.Center) {
-                    Text(
-                        if (on) st.label else shortStage(st.label), maxLines = 1,
-                        fontSize = if (on) 22.sp else 14.sp, fontWeight = if (on) FontWeight.ExtraBold else FontWeight.SemiBold,
-                        letterSpacing = if (on) (-0.6).sp else 0.sp,
-                    )
+                Box(Modifier.padding(horizontal = 20.dp), contentAlignment = Alignment.Center) {
+                    Text(shortStage(st.label), maxLines = 1, fontSize = 15.sp, fontWeight = if (on) FontWeight.Bold else FontWeight.SemiBold)
                 }
             }
         }
@@ -209,15 +201,16 @@ private fun PwLens(current: String, onPick: (String) -> Unit) {
     }
 }
 
-/** Two columns, courses and careers, joined by curves. Selecting either side lights the matching other side. */
+/** Two columns, courses and careers. Curves appear only for the current selection, measured relative to the map itself. */
 @Composable
 private fun PwRouteMap(
     d: PwData, courses: List<PwRoute>, careers: List<PwCareer>, course: String?, career: String?, hint: Set<String>, lens: String, key: String,
     onCourse: (String) -> Unit, onCareer: (String) -> Unit,
 ) {
     val c = MaterialTheme.colorScheme
-    val boxes = remember(key) { mutableStateMapOf<String, Rect>() }
-    var origin by remember { mutableStateOf(Offset.Zero) }
+    val nodes = remember(key) { HashMap<String, LayoutCoordinates>() }
+    var mapCoords by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    var placed by remember { mutableIntStateOf(0) }
     val any = course != null || career != null
     val courseCareers = course?.let { d.routeById[it]?.careers }.orEmpty()
     fun cState(r: PwRoute): Int = when {
@@ -236,30 +229,27 @@ private fun PwRouteMap(
     val maxPay = remember(courses, careers) {
         maxOf(courses.maxOfOrNull { d.m(it).payHi } ?: 1L, careers.maxOfOrNull { it.entryMax } ?: 1L).coerceAtLeast(1L).toFloat()
     }
-    val line = c.outlineVariant
     val hot = c.primary
     Row(
-        Modifier.fillMaxWidth().padding(16.dp, 18.dp, 16.dp, 8.dp)
-            .onGloballyPositioned { origin = it.positionInRoot() }
+        Modifier.fillMaxWidth().padding(16.dp, 16.dp, 16.dp, 8.dp)
+            .onGloballyPositioned { mapCoords = it }
             .drawBehind {
+                placed
+                val map = mapCoords ?: return@drawBehind
+                if (!any || !map.isAttached) return@drawBehind
                 val measure = PathMeasure()
                 courses.forEach { r ->
-                    val a = boxes["c:${r.id}"] ?: return@forEach
+                    if (cState(r) == 0) return@forEach
+                    val a = nodes["c:${r.id}"]?.takeIf { it.isAttached }?.let { map.localBoundingBoxOf(it, false) } ?: return@forEach
                     r.careers.forEach inner@{ k ->
-                        val b = boxes["k:$k"] ?: return@inner
-                        val x1 = a.right - origin.x; val y1 = a.center.y - origin.y
-                        val x2 = b.left - origin.x; val y2 = b.center.y - origin.y
-                        val mx = (x1 + x2) / 2
-                        val p = Path().apply { moveTo(x1, y1); cubicTo(mx, y1, mx, y2, x2, y2) }
-                        val on = cState(r) > 0 && kState(k) > 0
-                        if (on) {
-                            measure.setPath(p, false)
-                            val seg = Path()
-                            measure.getSegment(0f, measure.length * draw.value, seg, true)
-                            drawPath(seg, hot, style = Stroke(3.dp.toPx(), cap = StrokeCap.Round))
-                        } else {
-                            drawPath(p, line.copy(alpha = if (any) 0.22f else 1f), style = Stroke(1.5.dp.toPx()))
-                        }
+                        if (kState(k) == 0) return@inner
+                        val b = nodes["k:$k"]?.takeIf { it.isAttached }?.let { map.localBoundingBoxOf(it, false) } ?: return@inner
+                        val mx = (a.right + b.left) / 2
+                        val p = Path().apply { moveTo(a.right, a.center.y); cubicTo(mx, a.center.y, mx, b.center.y, b.left, b.center.y) }
+                        measure.setPath(p, false)
+                        val seg = Path()
+                        measure.getSegment(0f, measure.length * draw.value, seg, true)
+                        drawPath(seg, hot, style = Stroke(2.5.dp.toPx(), cap = StrokeCap.Round))
                     }
                 }
             },
@@ -273,15 +263,15 @@ private fun PwRouteMap(
                     "demand" -> m.demand / 100f to "${m.demand}"
                     "odds" -> (100 - m.competition) / 100f to "${100 - m.competition}"
                     "pay" -> m.payHi / maxPay to if (m.payHi > 0) money(m.payHi) else ""
-                    else -> 0f to yearsText(m.years)
+                    else -> 0f to ""
                 }
                 PwNode(
-                    r.name, tail, st, any && st == 0, fill, i, key, null, { onCourse(r.id) },
-                    Modifier.onGloballyPositioned { boxes["c:${r.id}"] = it.boundsInRoot() },
+                    shortName(r.name), tail, st, any && st == 0, fill, i, key, null, { onCourse(r.id) },
+                    Modifier.onPlaced { nodes["c:${r.id}"] = it; placed++ },
                 )
             }
         }
-        Spacer(Modifier.width(48.dp))
+        Spacer(Modifier.width(28.dp))
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             careers.forEachIndexed { i, k ->
                 val st = kState(k.id)
@@ -293,7 +283,7 @@ private fun PwRouteMap(
                 }
                 PwNode(
                     k.name, tail, st, any && st == 0, fill, i + 3, key, pct(k.demand), { onCareer(k.id) },
-                    Modifier.onGloballyPositioned { boxes["k:${k.id}"] = it.boundsInRoot() },
+                    Modifier.onPlaced { nodes["k:${k.id}"] = it; placed++ },
                 )
             }
         }
@@ -308,30 +298,27 @@ private fun PwNode(
     val c = MaterialTheme.colorScheme
     val bg by animateColorAsState(when (state) { 2 -> c.primary; 1 -> c.primaryContainer; else -> c.surfaceContainerHigh }, label = "nBg")
     val fg by animateColorAsState(when (state) { 2 -> c.onPrimary; 1 -> c.onPrimaryContainer; else -> c.onSurface }, label = "nFg")
-    val r by animateDpAsState(if (state == 2) 14.dp else 24.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "nR")
-    val scale by animateFloatAsState(if (state == 2) 1.05f else 1f, spring(0.45f, Spring.StiffnessMediumLow), label = "nS")
-    val dimA by animateFloatAsState(if (dim) 0.38f else 1f, label = "nA")
+    val r by animateDpAsState(if (state == 2) 14.dp else 22.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "nR")
+    val dimA by animateFloatAsState(if (dim) 0.4f else 1f, label = "nA")
     val fillA by animateFloatAsState(fill, tween(500, easing = FastOutSlowInEasing), label = "nFill")
     val enter = remember(key) { Animatable(0f) }
-    LaunchedEffect(key) { delay(index * 35L); enter.animateTo(1f, spring(0.6f, Spring.StiffnessLow)) }
+    LaunchedEffect(key) { delay(index * 30L); enter.animateTo(1f, tween(320, easing = FastOutSlowInEasing)) }
     Surface(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().heightIn(min = 48.dp).graphicsLayer {
-            val e = enter.value
-            scaleX = scale * (0.95f + 0.05f * e); scaleY = scaleX
-            alpha = dimA * e.coerceIn(0f, 1f)
-            translationY = (1f - e) * 14.dp.toPx()
+        modifier = modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer {
+            alpha = dimA * enter.value
+            translationY = (1f - enter.value) * 10.dp.toPx()
         },
         shape = RoundedCornerShape(r), color = bg, contentColor = fg,
     ) {
         Box(Modifier.drawBehind { if (fillA > 0f) drawRect(fg.copy(alpha = 0.14f), size = Size(size.width * fillA, size.height)) }) {
             Row(
-                Modifier.padding(horizontal = 14.dp, vertical = 6.dp).heightIn(min = 36.dp),
+                Modifier.padding(horizontal = 14.dp, vertical = 8.dp).heightIn(min = 36.dp),
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 if (signal != null) PwSignal(signal, fg)
-                Text(label, Modifier.weight(1f), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, lineHeight = 16.sp)
-                if (trailing.isNotEmpty()) Text(trailing, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = fg.copy(alpha = 0.7f), maxLines = 1)
+                Text(label, Modifier.weight(1f), fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 17.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                if (trailing.isNotEmpty()) Text(trailing, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = fg.copy(alpha = 0.75f), maxLines = 1)
             }
         }
     }

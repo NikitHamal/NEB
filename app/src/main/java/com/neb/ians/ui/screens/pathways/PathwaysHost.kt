@@ -163,25 +163,21 @@ private fun PwDispatch(top: String, d: PwData, ui: PathwaysUiState, vm: Pathways
 @Composable
 private fun PwBottomNav(root: String, saved: Int, onTab: (String) -> Unit) {
     val c = MaterialTheme.colorScheme
-    Row(Modifier.fillMaxWidth().background(c.surfaceContainerLow).navigationBarsPadding().padding(start = 4.dp, end = 4.dp, top = 8.dp, bottom = 10.dp)) {
+    Row(Modifier.fillMaxWidth().background(c.surfaceContainerLow).navigationBarsPadding().padding(horizontal = 8.dp, vertical = 10.dp)) {
         NAV.forEach { item ->
             val on = root == item.key
-            val w by animateDpAsState(if (on) 68.dp else 56.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "navW")
-            Column(
-                Modifier.weight(1f).clip(RoundedCornerShape(16.dp)).clickable { onTab(item.key) },
-                horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp),
+            val w by animateDpAsState(if (on) 64.dp else 48.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "navW")
+            Box(
+                Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).clickable { onTab(item.key) },
+                contentAlignment = Alignment.Center,
             ) {
                 Box {
                     Box(
-                        Modifier.width(w).height(32.dp).clip(RoundedCornerShape(16.dp)).background(if (on) c.primaryContainer else c.surfaceContainerLow),
+                        Modifier.width(w).height(40.dp).clip(RoundedCornerShape(20.dp)).background(if (on) c.primaryContainer else c.surfaceContainerLow),
                         contentAlignment = Alignment.Center,
-                    ) { Icon(item.icon, item.label, Modifier.size(22.dp), tint = if (on) c.onPrimaryContainer else c.onSurfaceVariant) }
+                    ) { Icon(item.icon, item.label, Modifier.size(24.dp), tint = if (on) c.onPrimaryContainer else c.onSurfaceVariant) }
                     if (item.key == "plan" && saved > 0) PwCount(saved, Modifier.align(Alignment.TopEnd).offset(x = 2.dp, y = (-4).dp))
                 }
-                Text(
-                    item.label, fontSize = 11.sp, maxLines = 1,
-                    fontWeight = if (on) FontWeight.Bold else FontWeight.Medium, color = if (on) c.onSurface else c.onSurfaceVariant,
-                )
             }
         }
     }
