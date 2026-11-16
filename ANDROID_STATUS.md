@@ -851,7 +851,7 @@ Home Affairs fee notices via thisisaustralia.com and racc.net.au; GOV.UK student
 
 # Session 34: Pathways dataset wave 14 (four destinations, work rules resolved, attestation and equivalence guides, 2026-27 scholarship windows)
 
-Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`). Bootstrap run, history read (sessions 16 to 33, `docs/PATHWAYS_SCHEMA.md`, wave 12 and 13 scripts). No screen was touched: data only, in the files both apps read (`wave14.json` merged by `pathways.py`). Django is not installed here, so the new tests ran under a stub `TestCase` (all pass except the four that need Django's client or models). `problems()` is empty. Totals now: 124 routes, 58 careers, 443 providers, 55 scholarships, 40 destinations, 131 FAQs, 15 guides.
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`). Bootstrap run, history read (sessions 16 to 33, `docs/PATHWAYS_SCHEMA.md`, wave 12 and 13 scripts). No screen was touched: data only, in the files both apps read (`wave14.json` merged by `pathways.py`). Django is not installed here, so the new tests ran under a stub `TestCase` (all pass except the four that need Django's client or models). `problems()` is empty. Totals now: 124 routes, 58 careers, 443 providers, 55 scholarships, 40 destinations, 135 FAQs, 15 guides.
 
 ## Done
 
@@ -863,6 +863,9 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 | 196 | **2026-27 windows**: MGSS and GJSS (23 October to 15 November 2026, agent applications refused, 31 December continuation), Homi Bhabha (closed 4 June 2026, NPR 400 fee), Stipendium Hungaricum (call not out in early November, expect about 15 January 2027), Pokhara University (Fall 2026 entrance, 4 November vacant seat call, 60/40 split). | same |
 | 197 | **Three guides**: consular attestation at the Department of Consular Services (Nepal E-Attestation System, NPR 500 quoted), TU equivalence (NPR 1,000 or 4,000, HSEB step), study MBBS abroad and practise in Nepal. | `w14_guides.py` |
 | 198 | **14 FAQs (fw14-1 to 14)**: foreign MBBS validity, "NMC approved" meaning, Uzbekistan cost, work rules, Lithuania 40 hours, Portugal cost, Hong Kong work and IANG, HKPFS, attestation, TU equivalence, MGSS and GJSS dates, Pokhara seats, bachelor scholarship abroad, Stipendium Hungaricum. | same |
+| 200 | **Official KUSOM fees** (school site, Fall 2026): BBA (Emphasis) NPR 9,60,000 plus NPR 10,000 deposit (Honours extra), MBA package NPR 6,56,000 in 12 instalments, application NPR 1,500, SAARC 1.5x and international 2x on the MBA, entry marks and tuition waiver. Replaces the NPR 7 to 10 lakh BBA band; website corrected to som.ku.edu.np. | `w14_more.py` |
+| 201 | **Nepal Rastra Bank 2083 call** added to `g-nrb`: 61 posts (Assistant Director 26, Accounts and Audit 3, Commercial Law 2, IT 4, Assistant 26), apply by Mangsir 17 (about 2 December 2026), double fee to Mangsir 24, fees, ages, PSC preliminary certificate rule, probation. Section Officer note: PSC gazetted third class notice of 14 November 2026, promotion applications by Mangsir 25, technical exams from Chaitra 14. | same |
+| 202 | **Korea and Japan visa notes** (funds quoted KRW 9,000,000 versus USD 20,000, the disagreement is stated; JLPT N5 and COE steps) and FAQs fw14-15 to 18. | same |
 | 199 | **Merge and checks**: `pathways.py` reads `wave14.json` (keys in `docs/PATHWAYS_SCHEMA.md`); `Wave14Tests`. | `pathways.py`, `test_pathways.py`, `build_wave14.py` |
 
 ## Sources

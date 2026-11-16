@@ -13,6 +13,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import w14_abroad as A  # noqa: E402
 import w14_guides as G  # noqa: E402
+import w14_more as M  # noqa: E402
 
 DATA = HERE.parent.parent / 'api' / 'data' / 'pathways'
 
@@ -22,9 +23,14 @@ out = {
     'scholarships_add': A.SCHOLARSHIPS_ADD,
     'scholarship_extra': A.SCHOLARSHIP_EXTRA,
     'guides_add': G.GUIDES_ADD,
-    'faq_add': G.FAQ_ADD,
+    'faq_add': G.FAQ_ADD + M.FAQ_ADD,
+    'provider_update': M.PROVIDER_UPDATE,
+    'fees': M.FEES,
+    'note_add': M.NOTE_ADD,
+    'govt_note_add': M.GOVT_NOTE_ADD,
+    'abroad_note_add': M.ABROAD_NOTE_ADD,
 }
 text = json.dumps(out, ensure_ascii=False, indent=1)
 assert '\u2014' not in text and '\u2013' not in text
 (DATA / 'wave14.json').write_text(text + '\n', encoding='utf-8')
-print('wave14.json', len(text), 'bytes', len(G.FAQ_ADD), 'faq', len(G.GUIDES_ADD), 'guides', len(A.ABROAD_ADD), 'abroad')
+print('wave14.json', len(text), 'bytes', len(G.FAQ_ADD) + len(M.FAQ_ADD), 'faq', len(G.GUIDES_ADD), 'guides', len(A.ABROAD_ADD), 'abroad')

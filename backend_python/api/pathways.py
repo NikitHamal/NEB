@@ -256,6 +256,8 @@ def payload():
         abroad_by = {a['id']: a for a in abroad}
         for aid, more in w14['abroad_update'].items():
             abroad_by[aid].update(more)
+        for aid, text in w14.get('abroad_note_add', {}).items():
+            abroad_by[aid]['note'] = ((abroad_by[aid].get('note') or '').rstrip() + ' ' + text).strip()
         scholarships = scholarships + w14['scholarships_add']
         by_sch = {x['id']: x for x in scholarships}
         for sid, more in w14['scholarship_extra'].items():
@@ -264,6 +266,16 @@ def payload():
             cid = sc.get('country')
             if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
                 abroad_by[cid]['scholarships'].append(sc['id'])
+        by_provider = {x['id']: x for x in providers}
+        for pid, more in w14.get('provider_update', {}).items():
+            by_provider[pid].update(more)
+        for pid, fees in w14.get('fees', {}).items():
+            by_provider[pid]['fees'] = {**(by_provider[pid].get('fees') or {}), **fees}
+        for pid, text in w14.get('note_add', {}).items():
+            by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        by_govt = {g['id']: g for g in govt}
+        for gid, text in w14.get('govt_note_add', {}).items():
+            by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
         guides = guides + w14['guides_add']
         faq_all = faq_all + w14['faq_add']
     data = {

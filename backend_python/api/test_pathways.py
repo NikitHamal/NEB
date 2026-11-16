@@ -512,9 +512,9 @@ class Wave14Tests(TestCase):
         for gid in ('mofa-attestation', 'tu-equivalence', 'foreign-mbbs-nepal'):
             self.assertIn(gid, guides)
         faq_ids = {f['id'] for f in d['faq']}
-        for n in range(1, 15):
+        for n in range(1, 19):
             self.assertIn(f'fw14-{n}', faq_ids)
-        self.assertGreaterEqual(len(d['faq']), 131)
+        self.assertGreaterEqual(len(d['faq']), 135)
         self.assertEqual(pathways.problems(), [])
 
     def test_wave14_text_has_no_dashes(self):
@@ -522,3 +522,18 @@ class Wave14Tests(TestCase):
         text = json.dumps(pathways.payload(), ensure_ascii=False)
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+
+    def test_wave14b_kusom_nrb_korea_japan(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-ku-school']['fees']['bba'], [960000, 960000])
+        self.assertEqual(by['p-ku-school']['fees']['mba'], [656000, 656000])
+        self.assertEqual(by['p-ku-school']['website'], 'https://som.ku.edu.np')
+        govt = {g['id']: g for g in d['govt']}
+        self.assertIn('61 vacancies', govt['g-nrb']['note'])
+        self.assertEqual(26 + 3 + 2 + 4 + 26, 61)
+        self.assertIn('Chaitra 14', govt['g-so']['note'])
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('KRW 9,000,000', abroad['kr']['note'])
+        self.assertIn('JLPT N5', abroad['jp']['note'])
+        self.assertEqual(pathways.problems(), [])
