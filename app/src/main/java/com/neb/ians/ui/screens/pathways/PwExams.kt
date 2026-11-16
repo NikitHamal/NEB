@@ -46,7 +46,7 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     val edu = vm.num("edu")
     val age = vm.num("age")
     val woman = vm.num("woman") == 1
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
+    PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
         if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@Column }
         if (tracks.size <= 4) PwSeg(tracks.map { it.id to it.label }, track, { s.track = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 12.dp))
@@ -87,7 +87,7 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
     val key = "exam:${g.id}"
     val career = d.careers[g.career]
     Box(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = if (career != null) 96.dp else 24.dp)) {
+        PwScrollPage(if (career != null) 96.dp else 24.dp) {
             PwHero(tone, g.name, g.body, key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 PwBadge(tone, 7) {
                     if (odds != null) {

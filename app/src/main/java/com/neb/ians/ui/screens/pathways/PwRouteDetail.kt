@@ -48,7 +48,7 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
     val nextRoute = r.next.firstNotNullOfOrNull { d.routeById[it] }
     val nextStage = nextRoute?.let { n -> d.stages.firstOrNull { it.id == n.stage } }
     Box(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 96.dp)) {
+        PwScrollPage(96.dp) {
             val key = "route:${r.id}"
             PwHero(tone, r.name, listOf(r.kind, groupLabel(r.group)).filter { it.isNotBlank() }.joinToString(" · "), key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 val (big, small) = yearsBadge(m.years)

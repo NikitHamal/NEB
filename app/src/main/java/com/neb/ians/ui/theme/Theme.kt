@@ -145,13 +145,8 @@ fun NEBiansTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val activity = view.context.findActivity()
-            activity?.let { act ->
-                val window = act.window
-                WindowCompat.setDecorFitsSystemWindows(window, false)
-                val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-                insetsController.isAppearanceLightStatusBars = !darkTheme
-                insetsController.isAppearanceLightNavigationBars = !darkTheme
-            }
+            com.neb.ians.util.NebBars.defaultDarkIcons = !darkTheme
+            activity?.let { act -> com.neb.ians.util.NebBars.apply(act.window) }
         }
     }
 

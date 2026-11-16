@@ -38,7 +38,7 @@ internal fun PwGuides(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     val s = vm.sel
     var cat by rememberSaveable { mutableStateOf("All") }
     var topic by rememberSaveable { mutableStateOf("") }
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
+    PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
         if (d.guides.isNotEmpty()) {
             val cats = listOf("All") + d.guides.map { it.cat }.distinct()
@@ -106,7 +106,7 @@ internal fun PwGuideDetail(d: PwData, g: PwGuide, vm: PathwaysViewModel, ui: Pat
     val done = guideDone(vm, g)
     val key = "guide:${g.id}"
     Box(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = if (g.link.isNotBlank()) 96.dp else 24.dp)) {
+        PwScrollPage(if (g.link.isNotBlank()) 96.dp else 24.dp) {
             PwHero(tone, g.name, g.cat, key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 PwBadge(tone, 6) {
                     Text("$done", fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)

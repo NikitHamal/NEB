@@ -42,7 +42,9 @@ internal fun PwPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: 
     val matchStage = d.stages.firstOrNull { it.id == s.matchStage }?.id ?: d.stages.firstOrNull { it.id == s.stage }?.id ?: d.stages.firstOrNull()?.id.orEmpty()
     val profile = PwProfile(matchStage, vm.set("interests"), vm.set("strengths"), vm.num("budget"), vm.set("priorities"), ui.district)
     val matches = remember(d, profile) { pwMatch(d, profile) }
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp)) {
+    val list = androidx.compose.foundation.lazy.rememberLazyListState()
+    Box(Modifier.fillMaxSize()) {
+    LazyColumn(Modifier.fillMaxSize(), state = list, contentPadding = PaddingValues(bottom = 24.dp)) {
         item("bar") { PwRootBar { nav.push("search") } }
         item("seg") { PwSeg(listOf("plan" to "My plan", "match" to "Match"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 8.dp)) }
         if (s.plan == "match") {
@@ -56,6 +58,8 @@ internal fun PwPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: 
         } else {
             item("plan") { MyPlan(d, ui, vm, nav) }
         }
+    }
+    PwLazyScrim(list)
     }
 }
 

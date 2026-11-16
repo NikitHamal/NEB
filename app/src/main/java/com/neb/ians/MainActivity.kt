@@ -165,6 +165,18 @@ class MainActivity : ComponentActivity() {
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
+    // Coming back from another app, a share sheet or a full screen player can leave the window with its
+    // own idea of the bars (a black bar, icons of the wrong colour). The app owns that look, so put it back.
+    override fun onResume() {
+        super.onResume()
+        com.neb.ians.util.NebBars.apply(window)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) com.neb.ians.util.NebBars.apply(window)
+    }
+
     /** True until the first onStart has been handled. */
     private var coldStart = true
 

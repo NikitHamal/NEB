@@ -73,20 +73,7 @@ fun NebJourneySurface(
     val palette = rememberNebAuthPalette(dark)
     val context = LocalContext.current
 
-    DisposableEffect(palette.isDark) {
-        val window = (context as? Activity)?.window
-        val controller = window?.let { WindowCompat.getInsetsController(it, it.decorView) }
-        val previousStatus = controller?.isAppearanceLightStatusBars
-        val previousNav = controller?.isAppearanceLightNavigationBars
-        controller?.isAppearanceLightStatusBars = !palette.isDark
-        controller?.isAppearanceLightNavigationBars = !palette.isDark
-        onDispose {
-            if (controller != null) {
-                if (previousStatus != null) controller.isAppearanceLightStatusBars = previousStatus
-                if (previousNav != null) controller.isAppearanceLightNavigationBars = previousNav
-            }
-        }
-    }
+    com.neb.ians.util.NebSystemBars(darkIcons = !palette.isDark)
 
     NebExpressiveScope(palette) {
         Column(

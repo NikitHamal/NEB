@@ -17,10 +17,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.lerp
@@ -103,9 +106,11 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
     val bins = remember(geo, counts) {
         List(5) { Path().apply { fillType = PathFillType.EvenOdd } }.also { ps -> geo.districts.forEach { ps[mapBin(counts[it.name] ?: 0)].addPath(it.path) } }
     }
-    val measurer = rememberTextMeasurer(cacheSize = 120)
-    val dist = remember { TextStyle(fontSize = 10.sp, fontWeight = FontWeight.SemiBold) }
-    val prov = remember { TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp) }
+    val measurer = rememberTextMeasurer(cacheSize = 240)
+    // five fixed sizes so the text cache is reused while zooming; a size grows only when the map has grown
+    val dist = remember { listOf(7, 8, 9, 10, 11).map { TextStyle(fontSize = it.sp, fontWeight = FontWeight.Medium, letterSpacing = 0.1.sp) } }
+    val prov = remember { TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.6.sp) }
+    val byArea = remember(geo) { geo.districts.sortedByDescending { it.width * it.height } }
     val sel = geo.byName[selected]
     val scope = rememberCoroutineScope()
     val interactive by remember(full) { derivedStateOf { full || cam.k > 1.02f } }
@@ -136,22 +141,36 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
         }
         fun sx(x: Float) = cam.ox + cam.base * (cam.tx + cam.k * x)
         fun sy(y: Float) = cam.oy + cam.base * (cam.ty + cam.k * y)
-        val halo = c.surface.copy(alpha = 0.85f)
-        if (cam.k < 2.6f) geo.provinceCentres.forEachIndexed { i, p ->
+        val halo = c.surface.copy(alpha = 0.9f)
+        val taken = ArrayList<Rect>(48)
+        fun free(r: Rect): Boolean = taken.none { it.overlaps(r) }
+        if (cam.k < 1.6f) geo.provinceCentres.forEachIndexed { i, p ->
             val l = measurer.measure(PROVINCES[i].uppercase(), prov)
-            drawText(l, c.onSurface.copy(alpha = 0.55f), Offset(sx(p.x) - l.size.width / 2f, sy(p.y) - l.size.height / 2f))
+            val tl = Offset(sx(p.x) - l.size.width / 2f, sy(p.y) - l.size.height / 2f)
+            drawText(l, c.onSurfaceVariant.copy(alpha = 0.7f), tl, drawStyle = Fill)
+            taken.add(Rect(tl, Size(l.size.width.toFloat(), l.size.height.toFloat())).inflate(2.dp.toPx()))
         }
-        val minW = 22.dp.toPx()
-        for (d in geo.districts) {
+        val style = dist[when { cam.k < 1.6f -> 0; cam.k < 2.6f -> 1; cam.k < 4.2f -> 2; cam.k < 7f -> 3; else -> 4 }]
+        val gap = 2.dp.toPx()
+        val order = if (sel != null) listOf(sel) + byArea else byArea
+        for (d in order) {
             val on = d === sel
-            if (!on && d.width * s < minW) continue
+            if (!on && d.width * s < 20.dp.toPx()) continue
             val x = sx(d.cx); val y = sy(d.cy)
             if (x < -60f || y < -30f || x > size.width + 60f || y > size.height + 30f) continue
-            val l = measurer.measure(d.name, dist)
-            if (!on && d.width * s < l.size.width * 1.1f) continue
+            val l = measurer.measure(d.name, if (on) dist[maxOf(2, dist.indexOf(style))] else style)
+            if (!on && d.width * s < l.size.width * 1.15f) continue
             val tl = Offset(x - l.size.width / 2f, y - l.size.height / 2f)
-            drawText(l, halo, tl, drawStyle = Stroke(3.dp.toPx(), join = StrokeJoin.Round))
-            drawText(l, if (on) c.onPrimary else c.onSurface, tl)
+            val box = Rect(tl, Size(l.size.width.toFloat(), l.size.height.toFloat())).inflate(gap)
+            if (!on && !free(box)) continue
+            taken.add(box)
+            if (on && l.size.width * 1.05f <= d.width * s) {
+                // the picked district reads on its own fill: white text, no halo
+                drawText(l, c.onPrimary, tl, drawStyle = Fill)
+            } else {
+                drawText(l, halo, tl, drawStyle = Stroke(2.5.dp.toPx(), join = StrokeJoin.Round))
+                drawText(l, c.onSurface, tl, drawStyle = Fill)
+            }
         }
     }
 }

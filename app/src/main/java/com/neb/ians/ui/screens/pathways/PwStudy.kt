@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val s = vm.sel
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
+    PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
         PwSeg(listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"), s.study, { s.study = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 14.dp))
         when (s.study) {
@@ -60,7 +60,7 @@ internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav:
 
 @Composable
 internal fun PwCollegesPage(d: PwData, routeId: String, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
+    PwScrollPage(24.dp) {
         PwBackBar(d.routeById[routeId]?.name ?: "Colleges", nav.pop)
         PwCollegesBody(d, routeId, ui, vm)
     }

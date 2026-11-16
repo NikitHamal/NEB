@@ -79,7 +79,7 @@ internal fun PwExplore(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     } ?: s.course?.let { "route:$it" } ?: s.career?.let { "career:$it" }
 
     Box(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 112.dp)) {
+        PwScrollPage(112.dp) {
             PwRootBar { nav.push("search") }
             PwTrail(d, vm, stage)
             PwStages(d.stages, stage.id) { id ->

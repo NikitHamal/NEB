@@ -165,7 +165,7 @@ fun MediaPlayerScreen(
     fun toggleFullscreen(fs: Boolean) {
         isFullscreen = fs
         activity?.let { act ->
-            WindowCompat.setDecorFitsSystemWindows(act.window, !fs)
+            WindowCompat.setDecorFitsSystemWindows(act.window, false)
             act.requestedOrientation = if (fs) {
                 android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             } else {
@@ -186,10 +186,10 @@ fun MediaPlayerScreen(
                     }
                 } else {
                     if (android.os.Build.VERSION.SDK_INT >= 30) {
-                        decor.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                        decor.windowInsetsController?.show(WindowInsets.Type.systemBars()); com.neb.ians.util.NebBars.apply(act.window)
                     } else {
                         @Suppress("DEPRECATION")
-                        decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                        decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE; com.neb.ians.util.NebBars.apply(act.window)
                     }
                 }
             }
@@ -201,13 +201,13 @@ fun MediaPlayerScreen(
     DisposableEffect(activity) {
         onDispose {
             activity?.let { act ->
-                WindowCompat.setDecorFitsSystemWindows(act.window, true)
+                WindowCompat.setDecorFitsSystemWindows(act.window, false)
                 act.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 if (android.os.Build.VERSION.SDK_INT >= 30) {
-                    act.window.decorView.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                    act.window.decorView.windowInsetsController?.show(WindowInsets.Type.systemBars()); com.neb.ians.util.NebBars.apply(act.window)
                 } else {
                     @Suppress("DEPRECATION")
-                    run { act.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE }
+                    run { act.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE; com.neb.ians.util.NebBars.apply(act.window) }
                 }
             }
         }

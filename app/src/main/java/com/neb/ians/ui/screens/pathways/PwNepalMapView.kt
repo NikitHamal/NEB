@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -92,6 +93,18 @@ private fun PwNepalMapFull(geo: NepalGeo, counts: Map<String, Int>, selected: St
     val c = MaterialTheme.colorScheme
     val fills = mapFills()
     Dialog(onDismissRequest = onClose, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
+        // a dialog has its own window: give its bars icons that read on the page colour
+        val win = (androidx.compose.ui.platform.LocalView.current.parent as? androidx.compose.ui.window.DialogWindowProvider)?.window
+        val darkIcons = c.surface.luminance() > 0.5f
+        androidx.compose.runtime.SideEffect {
+            win?.let { w ->
+                w.statusBarColor = android.graphics.Color.TRANSPARENT
+                w.navigationBarColor = android.graphics.Color.TRANSPARENT
+                androidx.core.view.WindowCompat.getInsetsController(w, w.decorView).apply {
+                    isAppearanceLightStatusBars = darkIcons; isAppearanceLightNavigationBars = darkIcons
+                }
+            }
+        }
         Surface(Modifier.fillMaxSize(), color = c.surface) {
             Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().padding(16.dp, 12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
