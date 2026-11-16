@@ -8,9 +8,16 @@
 #   2. Fetch .deploy_manifest.json from the server and diff it.
 #   3. Zip + stream ONLY changed files (plus the new manifest) over the SSH exec
 #      channel (the server kills SCP/SFTP). Removed files are deleted remotely.
-#   4. pip install / collectstatic / migrate / Django check / daphne restart only
-#      run when the relevant part of the tree actually changed.
+#   4. pip install / migrate / collectstatic / Django check / daphne restart only
+#      run when the relevant part of the tree actually changed. Migrations run
+#      BEFORE collectstatic: extraction has already replaced the .py files, so
+#      the schema must not be the thing lagging behind the code.
 #   5. LSAPI workers are recycled whenever anything changed.
+#   6. The whole server-side phase is uploaded as a bash script and run detached
+#      (setsid/nohup) under flock, and this client polls a status file. Losing
+#      the client, or Ctrl-C, cannot half-apply a deploy: it either does not
+#      start or runs to completion, and a second concurrent deploy is refused.
+#      Progress: /tmp/neb_deploy_<stamp>.log, result: .../…<stamp>.status.
 param([string]$TargetHost = "")
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -247,7 +254,24 @@ Remove-Item $uploadScript2 -Force -ErrorAction SilentlyContinue
 
 # --- 6. Build and run the remote deploy script (only the steps that are needed) --
 Write-Host "--- Running Server-Side Deploy & Restart Commands ---"
+
+# The server-side phase runs detached from this client. On 2026-11-16 the client
+# was killed while collectstatic was running, which killed the remote shell too:
+# the payload was extracted but the migration and the worker restarts never ran,
+# leaving new code against an old schema for ~19 minutes. A dropped SSH client
+# must never be able to half-apply a deploy, so the script is uploaded and run
+# under setsid/nohup, and this client only polls a status file.
+$runStamp = (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + ([guid]::NewGuid().ToString('N').Substring(0, 6))
+$statusFile = "/tmp/neb_deploy_$runStamp.status"
+$logFile = "/tmp/neb_deploy_$runStamp.log"
+$runnerPath = "/tmp/neb_deploy_$runStamp.sh"
+
 $remote = New-Object System.Collections.Generic.List[string]
+$remote.Add("echo 'STATUS: RUNNING' > $statusFile")
+# One deploy at a time: a second run (or a retry after a lost client) must not
+# extract over the top of one still in flight. The lock dies with the script.
+$remote.Add("exec 9>/tmp/neb_deploy.lock")
+$remote.Add("flock -n 9 || { echo 'STATUS: FAILED another deploy already holds /tmp/neb_deploy.lock' > $statusFile; exit 9; }")
 $remote.Add("cd $remoteDir")
 
 if ($anyChanged) {
@@ -293,18 +317,24 @@ if ($reqChanged) {
     $remote.Add("pip install -r requirements.txt")
 }
 
+# Migrations BEFORE collectstatic. Extraction has already replaced the .py
+# files, so any worker that reloads mid-deploy is running code that expects the
+# new schema; the schema must never be the thing that is behind. collectstatic
+# is the long step (minutes on this box) and is safe to interrupt, so it goes
+# after. Both fail fast: better to stop with the status file naming the step
+# than to restart workers into a half-applied deploy.
+if ($pyChanged) {
+    $remote.Add("echo 'Running database migrations (before collectstatic, so code never runs ahead of schema)...'")
+    $remote.Add("python manage.py migrate || { echo 'MIGRATE FAILED - stopping before static/restart'; echo 'STATUS: FAILED migrate' > $statusFile; exit 1; }")
+    $remote.Add("echo 'Backfilling video thumbnails...'")
+    $remote.Add("python manage.py backfill_video_thumbnails || true")
+}
+
 if ($staticChanged -or $staticDeleted) {
     $clearFlag = ''
     if ($staticDeleted) { $clearFlag = '--clear' }
     $remote.Add("echo 'Running collectstatic...'")
-    $remote.Add("python manage.py collectstatic --noinput $clearFlag")
-}
-
-if ($pyChanged) {
-    $remote.Add("echo 'Running database migrations...'")
-    $remote.Add("python manage.py migrate")
-    $remote.Add("echo 'Backfilling video thumbnails...'")
-    $remote.Add("python manage.py backfill_video_thumbnails || true")
+    $remote.Add("python manage.py collectstatic --noinput $clearFlag || { echo 'COLLECTSTATIC FAILED - stopping before restart'; echo 'STATUS: FAILED collectstatic' > $statusFile; exit 1; }")
 }
 
 # NOTE: WhiteNoise serves /static/ from staticfiles/ (verified), so the old
@@ -378,18 +408,62 @@ if ($anyChanged) {
     $remote.Add("sleep 2")
 }
 
+$remote.Add("echo 'STATUS: OK' > $statusFile")
 $remote.Add("echo 'DEPLOYMENT SUCCESSFUL'")
 $remoteScript = $remote -join "`n"
 
-& ssh -o ConnectTimeout=30 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" $remoteScript
-$sshExit = $LASTEXITCODE
+# Upload the runner as a plain bash file (avoids PS quoting/escaping entirely)
+# with LF endings: a stray CR would break the `|| { ...; }` continuations.
+$runnerLocal = Join-Path $env:TEMP ("neb_deploy_" + $runStamp + ".sh")
+$tempFiles += $runnerLocal
+[System.IO.File]::WriteAllText($runnerLocal, $remoteScript.Replace("`r`n", "`n"))
+
+$uploadScript3 = Join-Path $env:TEMP ("ssh_upload_" + [guid]::NewGuid().ToString("N") + ".py")
+$tempFiles += $uploadScript3
+@'
+import subprocess, sys
+local_path, key_path, target = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(local_path, 'rb') as fh:
+    data = fh.read()
+r = subprocess.run(
+    ['ssh', '-o', 'ConnectTimeout=15', '-o', 'StrictHostKeyChecking=no',
+     '-i', key_path, '-p', '22', target.split('@')[0] + '@' + target.split('@')[1].split(':')[0],
+     'cat > ' + target.split(':', 1)[1]],
+    input=data, capture_output=True, timeout=60)
+sys.exit(r.returncode)
+'@ | Out-File -FilePath $uploadScript3 -Encoding ascii -NoNewline
+& python $uploadScript3 $runnerLocal $keyPath "${username}@${hostIp}:${runnerPath}"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to upload the remote deploy script to ${runnerPath}"
+    Remove-TempFiles
+    exit 1
+}
+Remove-Item $uploadScript3 -Force -ErrorAction SilentlyContinue
+
+Write-Host "Launching server-side phase detached (log: $logFile)"
+& ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "tr -d '\r' < $runnerPath > $runnerPath.lf && mv -f $runnerPath.lf $runnerPath && chmod +x $runnerPath && setsid nohup bash $runnerPath > $logFile 2>&1 < /dev/null & echo LAUNCHED" | Out-Null
+
+# Poll the status file the far side writes. Losing this client now costs the
+# output, not the deploy.
+$status = ''
+$deadline = (Get-Date).AddMinutes(60)
+while ((Get-Date) -lt $deadline) {
+    Start-Sleep -Seconds 5
+    $status = ((& ssh -o ConnectTimeout=15 -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "cat $statusFile 2>/dev/null" 2>$null) -join ' ').Trim()
+    if ($status -match 'STATUS:\s*(OK|FAILED)') { break }
+    Write-Host "." -NoNewline
+}
+Write-Host ""
+Write-Host "Remote status: $(if ($status) { $status } else { 'UNKNOWN (status file empty - deploy may still be running)' })"
+Write-Host "--- remote log tail ($logFile) ---"
+& ssh -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "tail -n 40 $logFile 2>/dev/null"
 
 Write-Host "Cleaning up temporary SSH key and ZIP files..."
 Remove-TempFiles
 
-if ($sshExit -ne 0) {
-    Write-Error "Remote deploy commands failed (ssh exit=$sshExit). The payload may be partially deployed - re-run deploy.ps1 to converge."
+if ($status -notmatch 'STATUS:\s*OK') {
+    Write-Error "Server-side deploy did not report success (status: '$status'). It is detached and may still be running - check: ssh ... tail -f $logFile. Re-run deploy.ps1 once it settles to converge."
     exit 1
 }
 
-Write-Host "Done!"
+Write-Host "Done! (remote log kept at $logFile)"
