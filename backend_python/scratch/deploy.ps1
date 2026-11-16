@@ -14,10 +14,10 @@
 #      the schema must not be the thing lagging behind the code.
 #   5. LSAPI workers are recycled whenever anything changed.
 #   6. The whole server-side phase is uploaded as a bash script and run detached
-#      (setsid/nohup) under flock, and this client polls a status file. Losing
-#      the client, or Ctrl-C, cannot half-apply a deploy: it either does not
-#      start or runs to completion, and a second concurrent deploy is refused.
-#      Progress: /tmp/neb_deploy_<stamp>.log, result: .../…<stamp>.status.
+#      (setsid/nohup) under a pid-file lock, and this client polls a status file.
+#      Losing the client, or Ctrl-C, cannot half-apply a deploy: it either does
+#      not start or runs to completion, and a second concurrent deploy is
+#      refused. Progress: /tmp/neb_deploy_<stamp>.log, result: …<stamp>.status.
 param([string]$TargetHost = "")
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -269,9 +269,16 @@ $runnerPath = "/tmp/neb_deploy_$runStamp.sh"
 $remote = New-Object System.Collections.Generic.List[string]
 $remote.Add("echo 'STATUS: RUNNING' > $statusFile")
 # One deploy at a time: a second run (or a retry after a lost client) must not
-# extract over the top of one still in flight. The lock dies with the script.
-$remote.Add("exec 9>/tmp/neb_deploy.lock")
-$remote.Add("flock -n 9 || { echo 'STATUS: FAILED another deploy already holds /tmp/neb_deploy.lock' > $statusFile; exit 9; }")
+# extract over the top of one still in flight. This is a pid file rather than
+# flock: restart_workers.sh starts daphne with `setsid nohup ... &`, and a
+# daemon inherits any lock fd the script holds, which would keep the lock for
+# the life of the daemon (found on 2026-11-16: daphne held /tmp/neb_deploy.lock
+# forever and refused the next deploy). A pid file is inherited by nobody, and
+# a stale one is recognised by the pid no longer being alive.
+$remote.Add('LOCK=/tmp/neb_deploy.lock')
+$remote.Add('if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then echo "STATUS: FAILED another deploy (pid $(cat "$LOCK")) is still running" > ' + $statusFile + '; exit 9; fi')
+$remote.Add('echo $$ > "$LOCK"')
+$remote.Add('trap "rm -f $LOCK" EXIT')
 $remote.Add("cd $remoteDir")
 
 if ($anyChanged) {
