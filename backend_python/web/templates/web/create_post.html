@@ -36,6 +36,8 @@
   <h1 class="cp-title">New Discussion</h1>
 
   <div class="cp-card">
+    <div class="cpl" id="cpl" aria-label="Page style"></div>
+    <input type="file" id="cpl-photo" accept="image/jpeg,image/png,image/webp" style="display:none">
     <div class="cp-field">
       <label class="cp-label" for="cp-title">Title</label>
       <input type="text" id="cp-title" class="cp-input" placeholder="What's your discussion about?" maxlength="200" autocomplete="off">
@@ -359,5 +361,6 @@
 <script src="{% static 'web/vendor/katex/katex.min.js' %}" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/vendor/katex/mhchem.min.js' %}" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/vendor/katex/auto-render.min.js' %}" nonce="{{ csp_nonce }}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/create-post-look.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/create-post.js' %}"></script>
 {% endblock %}

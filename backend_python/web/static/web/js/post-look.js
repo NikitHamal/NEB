@@ -159,5 +159,22 @@
       for (var i = 0; i < all.length; i++) apply(all[i]);
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
+  /* The composer draws its own page with the same pieces: render(el, look) sets the look and paints it. */
+  window.NebPostLook = {
+    tones: T, covers: COVER, icons: ICON,
+    isDark: dark,
+    render: function (el, look) {
+      el.setAttribute('data-look', JSON.stringify(look || {}));
+      el.classList.remove('pl');
+      apply(el);
+    },
+    clear: function (el) {
+      var old = el.querySelector(':scope > .pl-cover');
+      if (old) old.remove();
+      el.removeAttribute('data-look'); el.removeAttribute('data-paper'); el.removeAttribute('data-font');
+      ['--pl-bg', '--pl-ink', '--pl-soft', '--pl-line', '--pl-line2'].forEach(function (k) { el.style.removeProperty(k); });
+      el.classList.remove('pl');
+    }
+  };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
