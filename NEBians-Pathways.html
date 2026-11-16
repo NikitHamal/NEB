@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBians Pathways</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#004bd4;--onp:#fff;--pc:#DCE1FF;--onpc:#00164E;--sc:#E0E1F9;--onsc:#191B2C;
+  --tc:#FFD7F5;--ontc:#380038;--yc:#FFE08A;--onyc:#241A00;--gc:#C4EFCB;--ongc:#00210C;--rc:#FFDAD4;--onrc:#3B0907;
+  --s:#FBF8FF;--s1:#F5F2FA;--s2:#EFEDF4;--s3:#E3E1E9;--on:#1B1B21;--onv:#45464F;--ol:#C6C6D0;--board:#F3F1EA;
+  --k0:var(--p);--k1:#C98A00;--k2:#B5479B;--k3:#1E8E4A;--k4:#D9532B;--k5:#6B6D7A;--k6:#A9ABB8;
+  --sx:var(--s1);
+  --e:cubic-bezier(.2,0,0,1);--sp:cubic-bezier(.34,1.56,.64,1);
+}
+[data-theme=dark]{
+  --p:#B6C4FF;--onp:#002780;--pc:#00389F;--onpc:#DCE1FF;--sc:#404659;--onsc:#DCE1F9;
+  --tc:#5B3D57;--ontc:#FFD7F5;--yc:#584400;--onyc:#FFE08A;--gc:#0F5223;--ongc:#C4EFCB;--rc:#73342B;--onrc:#FFDAD4;
+  --s:#121318;--s1:#1B1B21;--s2:#1F1F25;--s3:#2E2F36;--on:#E4E1E9;--onv:#C6C6D0;--ol:#45464F;--board:#08090C;
+  --k1:#FFD166;--k2:#FFACE8;--k3:#8BD99B;--k4:#FFB4A8;--k5:#A9ABB8;--k6:#6B6D7A;
+}
+*{box-sizing:border-box;margin:0;padding:0;scrollbar-width:none;-webkit-tap-highlight-color:transparent}
+*::-webkit-scrollbar{display:none}
+html{font-family:Poppins,sans-serif;font-variant-numeric:tabular-nums}
+body{background:var(--board);color:var(--on);padding:20px 16px 40px;transition:background .3s}
+button,input{font:inherit;color:inherit;border:0;background:none}
+button,[role=button]{cursor:pointer}
+:focus-visible{outline:3px solid var(--p);outline-offset:2px}
+.t-pc{--tb:var(--pc);--tf:var(--onpc)}.t-sc{--tb:var(--sc);--tf:var(--onsc)}.t-tc{--tb:var(--tc);--tf:var(--ontc)}
+.t-yc{--tb:var(--yc);--tf:var(--onyc)}.t-gc{--tb:var(--gc);--tf:var(--ongc)}.t-rc{--tb:var(--rc);--tf:var(--onrc)}
+.g0{--c:var(--k0)}.g1{--c:var(--k1)}.g2{--c:var(--k2)}.g3{--c:var(--k3)}.g4{--c:var(--k4)}.g5{--c:var(--k5)}.g6{--c:var(--k6)}
+.i{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+h4{font-size:12px;font-weight:600;color:var(--onv);margin:18px 0 8px}
+
+/* board chrome */
+.board{display:flex;align-items:center;gap:10px;max-width:1280px;margin:0 auto 18px}
+.board h1{font-size:15px;font-weight:600;flex:1;letter-spacing:-.01em}
+.seg{display:flex;gap:3px}
+.seg button{height:40px;padding:0 18px;font-size:13px;font-weight:600;background:var(--s3);border-radius:8px;white-space:nowrap;transition:border-radius .35s var(--sp),background .2s}
+.seg button:first-child{border-radius:20px 8px 8px 20px}.seg button:last-child{border-radius:8px 20px 20px 8px}
+.seg button.on{background:var(--on);color:var(--s);border-radius:20px}
+.seg.full{margin-bottom:10px}.seg.full button{flex:1;padding:0 6px}
+.ib{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--s2);position:relative;flex:none;transition:border-radius .35s var(--sp),background .2s}
+.ib:active{border-radius:14px}.ib.on{background:var(--p);color:var(--onp);border-radius:14px}
+.cnt{position:absolute;top:-4px;right:6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--on);color:var(--s);font-size:10px;font-weight:600;display:grid;place-items:center}
+
+/* device frame */
+.frame{container-type:inline-size;container-name:app;margin:0 auto;background:var(--s);overflow:hidden}
+.frame[data-dev=phone]{width:min(400px,100%);height:860px;border-radius:48px;border:10px solid var(--on)}
+.frame[data-dev=web]{width:min(1280px,100%);height:820px;border-radius:24px;border:1px solid var(--ol)}
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;background:var(--s);color:var(--on);position:relative;overflow:hidden}
+
+/* top */
+.top{padding:16px 16px 0}
+.tbar{display:flex;align-items:center;gap:8px}
+.brand{font-weight:600;font-size:21px;letter-spacing:-.02em;flex:1}
+#q{flex:1;min-width:0;height:44px;border-radius:22px;background:var(--s2);padding:0 18px;font-size:15px;font-weight:500;outline:0}
+.trail{display:flex;align-items:center;overflow:auto;padding:12px 0 2px}
+.tc{flex:none;height:30px;padding:0 12px;border-radius:15px;font-size:12px;font-weight:600;background:var(--s2);color:var(--onv);white-space:nowrap}
+.tc.on{background:var(--on);color:var(--s)}
+.sep{flex:none;width:10px;height:2px;background:var(--ol)}
+
+/* main */
+#main{overflow:auto;padding:14px 0 20px}
+.wrap{max-width:860px;margin:0 auto}
+.pad{padding:0 16px}
+.stages{display:flex;align-items:center;gap:6px;overflow:auto;padding:0 16px 14px;position:relative}
+.pad .stages{margin:0 -16px}
+.stg{flex:none;height:38px;min-width:44px;padding:0 14px;border-radius:19px;background:var(--s2);font-size:13px;font-weight:600;white-space:nowrap;transition:border-radius .3s var(--sp)}
+.stg:active{border-radius:14px}
+.stg.on{background:var(--p);color:var(--onp);height:38px;padding:0 18px;border-radius:14px;font-size:13px;font-weight:600;letter-spacing:0}
+.fresh .stg.on{animation:pop .55s var(--sp)}
+.grp{display:flex;gap:3px;overflow:auto;padding:0 16px 6px}
+.gb{flex:1 0 auto;height:44px;padding:0 16px;font-size:13px;font-weight:600;background:var(--s2);border-radius:8px;white-space:nowrap;transition:border-radius .35s var(--sp),background .2s}
+.gb:first-child{border-radius:22px 8px 8px 22px}.gb:last-child{border-radius:8px 22px 22px 8px}.gb:only-child{border-radius:22px}
+.gb.on{background:var(--tb,var(--on));color:var(--tf,var(--s));border-radius:22px}
+.lens{display:flex;justify-content:flex-end;gap:6px;padding:8px 16px 0}
+.lz{height:32px;padding:0 14px;border-radius:16px;background:var(--s2);font-size:12px;font-weight:600;transition:border-radius .35s var(--sp),background .2s}
+.lz.on{background:var(--on);color:var(--s);border-radius:10px}
+
+/* route map */
+.flow{position:relative;isolation:isolate;display:grid;grid-template-columns:1fr 1fr;gap:56px;padding:18px 16px 8px;align-items:center;min-height:300px}
+.flow>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+.flow path{fill:none;stroke:var(--ol);stroke-width:1.5;transition:opacity .25s}
+.flow path.on{stroke:var(--p);stroke-width:3;stroke-dasharray:1;animation:draw .6s var(--e) both}
+.flow path.dim{opacity:.22}
+.fresh .flow>svg{animation:fade .5s .3s both}
+.col{display:flex;flex-direction:column;gap:8px;min-width:0}
+.nd{position:relative;overflow:hidden;min-height:48px;border-radius:24px;padding:6px 14px;font-size:13px;font-weight:600;line-height:1.2;text-align:left;background:var(--s2);display:flex;align-items:center;gap:8px;overflow-wrap:anywhere;transition:transform .4s var(--sp),border-radius .4s var(--sp),background .2s,color .2s,opacity .25s}
+.nd span,.nd small,.nd .sig{position:relative}
+.nd span{flex:1}.nd small{font-size:11px;font-weight:600;opacity:.7;white-space:nowrap}.nd small:empty{display:none}
+.fl{position:absolute;left:0;top:0;bottom:0;width:var(--w,0%);background:currentColor;opacity:.14;transition:width .5s var(--e);pointer-events:none}
+.nd.lit{background:var(--pc);color:var(--onpc)}
+.nd.on{background:var(--p);color:var(--onp);border-radius:14px;transform:scale(1.05)}
+.nd.dim{opacity:.38}
+.fresh .nd{animation:rise .5s var(--sp) both;animation-delay:calc(var(--i)*35ms)}
+.sig{width:14px;height:14px;flex:none}.sig rect{fill:currentColor;opacity:.25}.sig .f{opacity:1}
+
+/* peek */
+.peek{padding:0 12px;max-height:0;overflow:hidden;transition:max-height .4s var(--e)}
+.peek.show{max-height:110px;padding-bottom:8px}
+.pk{width:100%;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;text-align:left;background:var(--tb);color:var(--tf);border-radius:28px;padding:12px 12px 12px 20px;animation:rise .45s var(--sp)}
+.pk>div:not(.ring)>b{display:block;font-size:17px;font-weight:600;letter-spacing:-.02em}.pk>div:not(.ring)>span{font-size:12px;font-weight:500;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pk>div:first-child{min-width:0}
+.pk .tr{stroke:color-mix(in srgb,var(--tf) 14%,transparent)}
+.go{width:48px;height:48px;border-radius:16px;background:var(--tf);color:var(--tb);display:grid;place-items:center}
+
+/* nav */
+.nav{display:flex;background:var(--s1);padding:8px 4px 12px}
+.nav button{flex:1;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:500;color:var(--onv)}
+.nav i{position:relative;width:60px;height:32px;border-radius:16px;display:grid;place-items:center;font-style:normal;transition:background .25s,width .4s var(--sp)}
+.nav .on{color:var(--on);font-weight:600}.nav .on i{background:var(--pc);color:var(--onpc);width:68px}
+
+/* sheet */
+.sheet{--sbg:var(--s);position:absolute;inset:0;z-index:5;background:var(--sbg);display:flex;flex-direction:column;overflow:auto;transform:translateY(103%);transition:transform .5s var(--e)}
+.sheet.open{transform:none}.sheet>*{flex-shrink:0}
+.hero{background:var(--tb);color:var(--tf);border-radius:0 0 36px 36px;padding:14px 16px 24px;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:end}
+.hr{grid-column:1/-1;display:flex;justify-content:space-between;margin-bottom:10px}
+.hero .ib{background:color-mix(in srgb,var(--tf) 10%,transparent)}.hero .ib.on{background:var(--tf);color:var(--tb)}
+.hero h2{font-size:25px;font-weight:600;letter-spacing:-.02em;line-height:1.05;align-self:end}
+.hero p{align-self:start;font-size:13px;font-weight:500;opacity:.78;margin-top:4px}
+.badge{grid-column:2;grid-row:2/4;width:92px;height:92px;position:relative;display:grid;place-items:center}
+.badge>svg{position:absolute;inset:0;fill:var(--tf);transform-origin:center}.spin{animation:spin 28s linear infinite}
+.badge div{position:relative;color:var(--tb);text-align:center;line-height:1}
+.badge b{font-size:22px;font-weight:600;display:block}.badge small{font-size:11px;font-weight:600;display:block}
+.badge .sig{width:34px;height:34px}
+.meters{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:16px;padding:18px 20px 16px;align-items:center}
+.ring{display:grid;justify-items:center;gap:2px;position:relative}
+.ring svg{width:64px;height:64px}
+.ring circle{fill:none;stroke-width:5;stroke-linecap:round}
+.ring .tr{stroke:var(--s3)}
+.ring .fg{stroke-dasharray:100;transform:rotate(-90deg);transform-origin:22px 22px;animation:ring 1s var(--e) both;transition:stroke-dashoffset .5s var(--e)}
+.ring.still .fg{animation:none}
+.ring b{position:absolute;top:0;left:0;right:0;height:64px;display:grid;place-items:center;font-size:17px;font-weight:600;line-height:1}.ring svg{flex:none}
+.ring span{font-size:11px;font-weight:500;color:var(--onv)}
+.ring.s svg{width:46px;height:46px}.ring.s b{height:46px;font-size:13px}
+.pay{background:var(--s2);border-radius:22px;padding:12px 16px;min-width:0}
+.pay b{display:block;font-size:17px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}.pay span{font-size:11px;font-weight:500;color:var(--onv)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:16px 16px 14px}
+.fact{background:var(--s2);border-radius:18px;padding:10px 12px;min-width:0}
+.fact small{display:block;font-size:10.5px;font-weight:500;color:var(--onv)}
+.fact b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.01em;line-height:1.25;overflow-wrap:anywhere}
+.tabs{display:flex;gap:6px;overflow:auto;padding:0 16px}
+.tabs button,.chip{flex:none;height:40px;padding:0 16px;border-radius:20px;background:var(--s2);font-size:13px;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;transition:border-radius .35s var(--sp),background .2s}
+.tabs .on,.chip.on{background:var(--on);color:var(--s);border-radius:12px}
+#tabp{padding:18px 16px 20px}
+#tabp>h4:first-child{margin-top:0}
+.steps{display:grid}
+.step{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;min-height:62px;width:100%;text-align:left;position:relative;animation:rise .5s var(--sp) both;animation-delay:calc(var(--i)*50ms)}
+.step>b{width:40px;height:40px;border-radius:14px;background:var(--pc);color:var(--onpc);display:grid;place-items:center;font-size:15px;font-weight:600;position:relative;z-index:1;transition:border-radius .35s var(--sp),background .2s}
+.step:not(:last-child)::before{content:"";position:absolute;left:19px;top:50%;height:100%;width:2px;background:var(--pc)}
+.step span{font-size:15px;font-weight:600;line-height:1.25}
+.step small{display:block;font-size:12px;font-weight:500;color:var(--onv);margin-top:1px}
+.step em{font-style:normal;font-size:14px;font-weight:600}
+.ck>b i{font-style:normal}.ck>b svg{display:none}
+.ck.done>b{background:var(--p);color:var(--onp);border-radius:50%}.ck.done>b svg{display:block}.ck.done>b i{display:none}.ck.done span{opacity:.5}
+.row{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;text-align:left;padding:12px 16px;border-radius:20px;background:var(--s1);margin-bottom:6px;transition:border-radius .35s var(--sp)}
+button.row:active{border-radius:10px}
+.row b{font-size:14px;font-weight:600}.row em{font-style:normal;font-size:12.5px;font-weight:600;color:var(--onv)}
+.rb{grid-column:1/-1;height:8px;border-radius:4px;background:var(--s3);position:relative}
+.rb i{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--p);animation:grow .7s var(--e) both;transform-origin:left}
+.rb.still i{animation:none}
+.big{margin-top:16px;background:var(--yc);color:var(--onyc);border-radius:28px;padding:18px 22px}
+.big b{font-size:30px;font-weight:600;letter-spacing:-.03em;line-height:1;display:block}.big span{font-size:12.5px;font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{display:block;width:100%;text-align:left;background:var(--s1);border-radius:22px;padding:14px 16px}.tile:first-child{grid-column:1/-1;background:var(--pc);color:var(--onpc)}
+.tile.lk{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px}
+.tile small{font-size:11px;font-weight:500;opacity:.7;display:block}.tile b{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.chips{display:flex;gap:6px;overflow:auto;padding-bottom:14px}.chips.w{flex-wrap:wrap}.chips.z{padding:0}
+.bf{display:grid;gap:10px}.bfh{display:flex;justify-content:space-between;font-size:15px;font-weight:600}.bfh b:last-child{color:var(--p)}
+.bfr{display:grid;grid-template-columns:40px 1fr 86px 1fr 40px;gap:6px;align-items:center;font-size:12px;font-weight:600}
+.bfr em{font-style:normal;text-align:center;color:var(--onv);font-weight:500}
+.bfr div{height:14px;display:flex}.bfr .ba{justify-content:flex-end}
+.bfr i{height:100%;min-width:4px;border-radius:7px;animation:grow .6s var(--e) both}
+.ba i{background:var(--on);transform-origin:right}.bb i{background:var(--p);transform-origin:left}.bfr .vb{text-align:right;color:var(--p)}
+.acts{margin-top:auto;position:sticky;bottom:0;display:flex;gap:8px;padding:12px 16px 16px;background:var(--sbg,var(--s))}
+.btn{flex:1;height:56px;border-radius:28px;padding:0 20px;font-size:15px;font-weight:600;display:flex;gap:8px;align-items:center;justify-content:center;white-space:nowrap;transition:border-radius .35s var(--sp)}
+.btn:active{border-radius:16px}.btn.f{background:var(--p);color:var(--onp)}.btn.t{background:var(--pc);color:var(--onpc)}
+.blk{padding:0 16px 18px}.blk h4{margin-top:0}
+.curve,.radar{display:block;width:100%;height:auto}
+.plot{display:block;width:100%;height:auto;border-radius:24px;background:var(--s1)}
+.plot text,.radar text{font-size:10px;font-weight:600;fill:var(--onv)}
+.plot circle{fill:var(--ol);cursor:pointer}.plot circle.me{fill:var(--p)}
+.mk-v{border-radius:24px;padding:16px 18px;background:var(--tb);color:var(--tf);display:grid;gap:2px;margin-bottom:14px}
+.mk-v b{font-size:18px;font-weight:600;letter-spacing:-.02em}.mk-v span{font-size:13px;font-weight:500}.mk-v em{font-style:normal;font-size:12px;font-weight:600;opacity:.75;margin-top:4px}
+.t-gc{--tb:var(--gc);--tf:var(--ongc)}.t-yc{--tb:var(--yc);--tf:var(--onyc)}.t-rc{--tb:var(--rc);--tf:var(--onrc)}
+.mk-b{display:grid;grid-template-columns:128px 1fr 26px;gap:10px;align-items:center;margin:8px 0;font-size:13px;font-weight:600}
+.mk-b b{text-align:right}.mk-t{height:12px;border-radius:6px;background:var(--s3);overflow:hidden}.mk-t i{display:block;height:100%;border-radius:6px}
+.mk-t .a{background:var(--p)}.mk-t .b{background:var(--onv)}
+.mk h5{font-size:12px;font-weight:600;color:var(--onv);margin:18px 0 6px}
+.mk-r{width:100%;display:grid;grid-template-columns:22px 1fr 84px;gap:8px;align-items:center;text-align:left;padding:9px 12px;border-radius:16px;font-size:13px;font-weight:600;background:var(--s1);margin-bottom:4px}
+.mk-r u{text-decoration:none;color:var(--onv);font-size:12px}.mk-r.me{background:var(--pc);color:var(--onpc)}
+.mk-g{height:8px;border-radius:4px;background:var(--s3);overflow:hidden}.mk-g i{display:block;height:100%;background:var(--p);border-radius:4px}
+.mk-n{font-size:11px;color:var(--onv);margin:8px 2px 0}
+
+.skill{height:34px;padding:0 14px;border-radius:17px;border:1.5px solid var(--ol);font-size:12.5px;font-weight:500;display:inline-flex;align-items:center}
+.skill.yes{background:var(--on);color:var(--s);border-color:transparent}.skill.no{opacity:.4;text-decoration:line-through}
+.rgs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.rg{min-height:44px;padding:4px;border-radius:14px;background:var(--s2);font-size:11.5px;font-weight:600;line-height:1.15;transition:border-radius .35s var(--sp),background .2s}
+.rg.on{background:var(--on);color:var(--s);border-radius:22px}
+.rdy{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.rung{display:flex;justify-content:space-between;align-items:center;gap:10px;height:48px;padding:0 18px;border-radius:16px;background:var(--s2);margin-bottom:4px;font-size:14px;font-weight:600;width:var(--w);animation:grow .6s var(--e) both;transform-origin:left}
+.rung b{font-size:13px;font-weight:600;white-space:nowrap}.rung.on{background:var(--p);color:var(--onp);border-radius:24px}.rung.dim{opacity:.45}
+
+/* split bar */
+.sbar{display:flex;gap:3px;height:40px}
+.sbar button{min-width:6px;border-radius:8px;background:var(--c);transition:opacity .2s,border-radius .35s var(--sp)}
+.sbar button:first-child{border-radius:20px 8px 8px 20px}.sbar button:last-child{border-radius:8px 20px 20px 8px}.sbar button:only-child{border-radius:20px}
+.split.has .sbar button:not(.on){opacity:.28}.sbar button.on{border-radius:20px}
+.sleg{display:grid;margin-top:8px}
+.sleg button{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:10px;align-items:center;height:40px;padding:0 12px;border-radius:14px;font-size:13.5px;font-weight:500;text-align:left}
+.sleg button.on{background:var(--s2);font-weight:600}
+.sleg i{width:12px;height:12px;border-radius:4px;background:var(--c)}.sleg b{font-weight:600}
+.waf{display:grid;grid-template-columns:repeat(25,1fr);gap:3px;margin:14px 0 4px}
+.waf i{aspect-ratio:1;border-radius:50%;background:var(--s3)}.waf i.me{background:var(--p)}.waf i.one{transform:scale(1.7)}
+
+/* calendar strip */
+.mo{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:2px;--mf:var(--tf,var(--p));--mb:var(--tb,var(--onp))}
+.mo i{height:20px;border-radius:6px;font-style:normal;font-size:9px;font-weight:600;display:grid;place-items:center;background:color-mix(in srgb,var(--mf) 10%,transparent)}
+.mo i.f{background:var(--mf);color:var(--mb)}.mo i.now{outline:2px solid var(--on);outline-offset:1px}
+.cal{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;align-items:center;font-size:11px;font-weight:600;color:var(--onv)}
+.cal .mo{grid-column:2;color:var(--on)}
+
+/* range */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:none;cursor:pointer;display:block}
+input[type=range]::-webkit-slider-runnable-track{height:16px;border-radius:8px;background:var(--pc)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:44px;border-radius:7px;background:var(--p);border:4px solid var(--sbg,var(--s));margin-top:-14px}
+input[type=range]::-moz-range-track{height:16px;border-radius:8px;background:var(--pc)}
+input[type=range]::-moz-range-thumb{width:6px;height:36px;border-radius:7px;background:var(--p);border:4px solid var(--sbg,var(--s))}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+.sl output{font-size:13px;font-weight:600;white-space:nowrap;min-width:64px;text-align:right}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;margin-bottom:8px}
+
+/* colleges */
+.map{display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:64px 64px;gap:4px;margin-bottom:14px}
+.pv{border-radius:18px;background:var(--s2);display:grid;align-content:center;justify-items:center;line-height:1.1;padding:2px;transition:border-radius .4s var(--sp),background .2s,transform .4s var(--sp)}
+.pv b{font-size:17px;font-weight:600;letter-spacing:-.03em}.pv span{font-size:9.5px;font-weight:600;text-align:center;hyphens:manual}
+.pv.nil{opacity:.4}.pv.on{background:var(--p);color:var(--onp);border-radius:28px;transform:scale(1.04)}
+.p6{grid-column:1/3;grid-row:1/3}.p5{grid-column:3/5;grid-row:1}.p3{grid-column:5/7;grid-row:1}.p2{grid-column:7/9;grid-row:1}
+.p0{grid-column:9/11;grid-row:1/3}.p4{grid-column:3/7;grid-row:2}.p1{grid-column:7/9;grid-row:2}
+.crow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;padding:14px 16px;border-radius:22px;background:var(--s1);margin-bottom:6px}
+.fresh .crow,.fresh .srow,.fresh .lrow,.fresh .gd{animation:rise .4s var(--e) both}
+.crow b{font-size:14.5px;font-weight:600;display:block;line-height:1.25}.crow span{font-size:12px;font-weight:500;color:var(--onv)}
+.tag{height:26px;padding:0 10px;border-radius:9px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;background:var(--tb);color:var(--tf)!important}
+.fee{height:8px;border-radius:4px;background:var(--s3)}.fee i{display:block;height:100%;min-width:8px;border-radius:4px;background:var(--p)}
+.crow .fv{font-size:13px;font-weight:600;text-align:right}
+.empty{display:grid;justify-items:center;gap:10px;padding:40px 0;font-size:14px;font-weight:600;color:var(--onv)}
+.empty svg{width:72px;fill:var(--s3)}
+
+/* pay ladder */
+.lad{display:grid;gap:6px;margin-bottom:14px}
+.lr{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:6px 12px;align-items:center;text-align:left;padding:12px 14px;border-radius:20px;background:var(--s1);transition:background .2s}
+.lr u{grid-row:1/3;width:28px;height:28px;border-radius:50%;background:var(--s3);display:grid;place-items:center;text-decoration:none;font-size:12px;font-weight:600}
+.lr b{font-size:14px;font-weight:600;display:block}.lr small{font-size:12px;color:var(--onv);display:block}
+.lr em{font-style:normal;font-size:14px;font-weight:600;white-space:nowrap}
+.lr .lb{grid-column:2/4;height:6px;border-radius:3px;background:var(--s3);overflow:hidden}.lr .lb i{display:block;height:100%;background:var(--p);border-radius:3px}
+.lr.on{background:var(--pc);color:var(--onpc)}.lr.on u{background:var(--p);color:var(--onp)}.lr.on small{color:inherit;opacity:.75}.lr.on .lb{background:color-mix(in srgb,var(--onpc) 14%,transparent)}
+.exr{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600}.exr input{flex:1;min-width:0}.exr output{min-width:48px;text-align:right}
+/* abroad */
+.abin{display:grid;gap:2px;margin:4px 0 12px}.abin b{font-size:15px;font-weight:600}.abin span{font-size:12px;color:var(--onv)}
+.abkey{display:flex;gap:14px;font-size:11.5px;font-weight:500;color:var(--onv);margin-bottom:10px;flex-wrap:wrap}.abkey span{display:inline-flex;align-items:center;gap:6px}
+.abkey i{width:10px;height:10px;border-radius:3px;display:inline-block}.abkey .a,.abb .a{background:var(--p)}.abkey .b,.abb .b{background:var(--ol)}
+.abkey s,.abb s{display:inline-block;width:2px;height:12px;background:var(--on);border-radius:1px}
+.ab{background:var(--s1);border-radius:22px;padding:14px;margin-bottom:8px;display:grid;gap:10px;cursor:pointer;transition:opacity .25s}
+.ab.over:not(.on){opacity:.6}
+.abh{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.abc{width:40px;height:40px;border-radius:12px;background:var(--pc);color:var(--onpc);display:grid;place-items:center;font-size:13px;font-weight:600}
+.abn b{font-size:15px;font-weight:600;display:block}.abn small,.abt small{font-size:11.5px;color:var(--onv);display:block}
+.abt{text-align:right}.abt b{font-size:15px;font-weight:600;display:block;white-space:nowrap}
+.abb{position:relative;display:flex;height:10px;border-radius:5px;background:var(--s3);overflow:visible}
+.abb i{display:block;height:100%}.abb i.a{border-radius:5px 0 0 5px}.abb i.b{border-radius:0 5px 5px 0}
+.abb s{position:absolute;top:-3px;width:2px;height:16px;transform:translateX(-1px)}
+.abp{display:flex;justify-content:space-between;font-size:12px;color:var(--onv)}
+.abp .pl{font-weight:600;padding:3px 10px;border-radius:10px;background:var(--gc);color:var(--ongc)}.ab.over .pl{background:var(--rc);color:var(--onrc)}
+.abx{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:12px;border-top:1px solid var(--s3)}
+.abx small{font-size:11px;color:var(--onv);display:block;margin-bottom:2px}.abx b{font-size:14px;font-weight:600}.abx .w2{grid-column:1/-1}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.cc{background:var(--tb);color:var(--tf);border-radius:28px;padding:14px;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;align-items:center;transition:opacity .25s,border-radius .4s var(--sp)}
+.fresh .cc{animation:rise .5s var(--sp) both;animation-delay:calc(var(--i)*40ms)}
+.cc.dim{opacity:.3}.cc.on{grid-column:1/-1;border-radius:36px}
+.cb{width:48px;height:48px;position:relative;display:grid;place-items:center}
+.cb svg{position:absolute;inset:0;fill:var(--tf);transform-origin:center;transition:transform .6s var(--sp)}.cc.on .cb svg{transform:rotate(45deg) scale(1.1)}
+.cb b{position:relative;color:var(--tb);font-size:13px;font-weight:600}
+.cco b{font-size:22px;font-weight:600;letter-spacing:-.03em;line-height:1;display:block}.cco small,.more small{font-size:10.5px;font-weight:500;opacity:.75;display:block}
+.cnm{grid-column:1/-1;font-size:14px;font-weight:600}
+.more{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 8px;margin-top:4px}
+.more b{font-size:15px;font-weight:600;line-height:1.2;display:block}
+.more .chips{grid-column:1/-1;padding:4px 0 0}
+.cc .chip{background:var(--tf);color:var(--tb)}
+
+/* funding */
+.srow{padding:14px 16px;border-radius:22px;background:var(--s1);margin-bottom:6px;display:grid;gap:10px}
+.sh{display:flex;align-items:center;gap:8px}.sh b{font-size:14.5px;font-weight:600;flex:1;line-height:1.25}
+.sh em{font-style:normal;font-size:12px;font-weight:600;color:var(--onv);white-space:nowrap}
+.cd{height:24px;padding:0 8px;border-radius:8px;background:var(--s3);font-size:10.5px;font-weight:600;display:inline-flex;align-items:center}
+.srow:not(.open) .mo{--mf:var(--onpc);--mb:var(--onpc)}.srow:not(.open) .mo i.f{background:var(--pc)}
+.sx{display:grid;gap:10px}.sxa{display:flex;align-items:center;gap:8px}.sxa b{flex:1;font-size:13px;font-weight:600}.sxa .btn{flex:none;height:44px}
+
+/* lists */
+.mad{font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.1;margin:6px 0 10px}
+.mad output{color:var(--p)}
+.mrow,.lrow{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;text-align:left;padding:10px 16px 10px 12px;border-radius:24px;background:var(--s1);margin-bottom:6px;transition:border-radius .35s var(--sp),background .2s,opacity .25s}
+.mrow:first-child{background:var(--pc);color:var(--onpc)}.mrow:first-child .tr{stroke:color-mix(in srgb,var(--onpc) 14%,transparent)}
+.mrow>div:not(.ring)>b,.lrow b{font-size:15px;font-weight:600;display:block}.mrow>div:not(.ring)>span,.lrow span{font-size:12px;font-weight:500;opacity:.72;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow{grid-template-columns:minmax(0,1fr) auto;padding:14px 18px}.lrow em{font-style:normal;font-size:11px;font-weight:600;color:var(--onv)}
+.lrow em.v{font-size:15px;font-weight:600;color:inherit;letter-spacing:-.01em;white-space:nowrap}
+.lrow.on{background:var(--pc);color:var(--onpc);border-radius:16px}.lrow.no{opacity:.45}
+
+/* guides */
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gd{background:var(--tb);color:var(--tf);border-radius:28px;padding:16px;text-align:left;display:grid;gap:10px;align-content:space-between;min-height:136px;transition:border-radius .4s var(--sp)}
+.gd:active,.gd.on{border-radius:16px}
+.gd b{font-size:15.5px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.gm{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600}
+.gp{height:6px;border-radius:3px;background:var(--s3)}.gp i{display:block;height:100%;border-radius:3px;background:var(--p);transition:width .4s var(--e)}
+.gp.lg{height:12px;border-radius:6px}.gp.lg i{border-radius:6px}
+.gd .gp{background:color-mix(in srgb,var(--tf) 14%,transparent)}.gd .gp i{background:var(--tf)}
+
+/* plan */
+.hl{background:var(--tb);color:var(--tf);border-radius:32px;padding:20px;margin:14px 0 4px}
+.hl>b{font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.1;display:block}
+.tl{display:flex;gap:3px;height:56px;margin:14px 0 10px}
+.tl div{border-radius:10px;background:color-mix(in srgb,var(--tf) 10%,transparent);display:grid;align-content:center;padding:0 12px;min-width:0;font-size:12px;font-weight:600;overflow:hidden;white-space:nowrap}
+.tl div:first-child{border-radius:28px 10px 10px 28px}
+.tl .end{flex:none;background:var(--tf);color:var(--tb);border-radius:10px 28px 28px 10px;padding:0 16px;font-size:15px;font-weight:600}
+.tl small{font-size:10.5px;font-weight:500;opacity:.75}
+.hl .facts{padding:0}.hl .fact{background:color-mix(in srgb,var(--tf) 8%,transparent)}.hl .fact small{color:inherit;opacity:.7}
+
+@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.95)}}
+@keyframes pop{from{transform:scale(.8)}}
+@keyframes fade{from{opacity:0}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes ring{from{stroke-dashoffset:100}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* web layout: driven by the frame, not the viewport */
+@container app (min-width:900px){
+  .app{grid-template-columns:96px minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr)}
+  .nav{grid-column:1;grid-row:1/-1;flex-direction:column;justify-content:center;gap:18px;padding:0}
+  .nav button{flex:none}
+  .top{grid-column:2;grid-row:1;padding:24px 32px 0}.brand{font-size:32px}
+  #main{grid-column:2;grid-row:2;padding:20px 16px 28px}
+  .peek{display:none}
+  .sheet{--sbg:var(--sx);--s1:var(--s);--s2:var(--s);position:static;transform:none;transition:none;grid-column:3;grid-row:1/-1;width:440px;margin:12px;border-radius:32px;display:none}
+  .sheet.open{display:flex}
+  .sheet .hero{border-radius:32px}.sheet .x{visibility:hidden}
+  .flow{gap:120px;padding-top:28px}.nd{min-height:54px;font-size:14.5px;padding:8px 18px;border-radius:27px}
+  .cgrid{grid-template-columns:repeat(4,1fr)}.cc.on{grid-column:span 2}
+  .ggrid{grid-template-columns:repeat(3,1fr)}
+  .map{grid-template-rows:84px 84px}.pv b{font-size:26px}.pv span{font-size:11.5px}
+  .mad{font-size:32px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="board">
+  <h1>NEBians Pathways</h1>
+  <div class="seg" id="devseg"><button data-a="dev" data-v="phone">Android</button><button data-a="dev" data-v="web">Web</button></div>
+  <button class="ib" data-a="theme" aria-label="Theme"><svg class="i" width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18z" fill="currentColor"/></svg></button>
+</div>
+<div class="frame" id="frame" data-dev="phone">
+  <div class="app">
+    <div class="top" id="top"></div>
+    <div id="main"></div>
+    <div class="peek" id="peek"></div>
+    <nav class="nav" id="nav"></nav>
+    <aside class="sheet" id="sheet"></aside>
+  </div>
+</div>
+
+<script>
+/* ============ DATA: demo values, one schema for web, Android and agents ============ */
+// field: day split, ladder, [flexibility, stability, growth], employers, where the jobs are, demand slope per year, hours per week
+const F0={
+tech:['Build 45,Meetings 20,Review 15,Learning 20','Junior,Mid-level,Senior,Lead',[85,60,90],'Software companies,Startups,Banks,Outsourcing firms','Kathmandu Valley 55,Other cities 10,Remote 25,Abroad 10',3,42],
+health:['Patients 60,Records 15,Rounds 15,Learning 10','Intern,Officer,Senior,Consultant',[5,85,60],'Hospitals,Clinics,Health posts,NGOs','Kathmandu Valley 40,Other cities 30,Rural 20,Abroad 10',2,50],
+eng:['Site 45,Design 25,Meetings 15,Paperwork 15','Trainee,Engineer,Senior,Project head',[15,65,60],'Contractors,Consultancies,Government,Hydropower','Kathmandu Valley 35,Other cities 35,Rural 25,Abroad 5',0,48],
+biz:['Clients 35,Analysis 30,Meetings 20,Reports 15','Trainee,Officer,Manager,Head',[35,70,70],'Banks,Corporates,Audit firms,Startups','Kathmandu Valley 60,Other cities 30,Remote 5,Abroad 5',1,45],
+pub:['Files 40,Meetings 25,Public service 25,Field 10','Officer,Under Secretary,Joint Secretary,Secretary',[5,98,40],'Ministries,Departments,Provinces,Local levels','Kathmandu Valley 45,Other cities 30,Rural 25',0,40],
+edu:['Teaching 50,Preparation 20,Assessment 15,Meetings 15','Assistant,Teacher,Senior,Head',[15,85,45],'Community schools,Private schools,Colleges,Universities','Kathmandu Valley 30,Other cities 35,Rural 35',1,38],
+soc:['Field 35,Writing 30,Meetings 20,Research 15','Associate,Officer,Senior,Director',[40,45,55],'NGOs,INGOs,Media houses,Agencies','Kathmandu Valley 50,Other cities 25,Rural 20,Abroad 5',-1,44],
+law:['Drafting 35,Court 30,Clients 20,Research 15','Intern,Advocate,Senior advocate,Partner',[20,55,65],'Law firms,Courts,Corporates,NGOs','Kathmandu Valley 60,Other cities 35,Rural 5',0,46],
+own:['Client work 50,Sales 20,Admin 15,Learning 15','Starter,Established,Expert,Owner',[95,30,85],'Global clients,Local businesses,Agencies,Own venture','Kathmandu Valley 40,Other cities 15,Remote 45',3,45]
+};
+// career: id -> [name, demand 0-100, competition 0-100, [entry, 5y, 12y] NPR k/month, skills, field, licence|exam]
+const KR={
+swe:['Software engineer',90,60,[35,95,230],'Programming,System design,Git,Cloud','tech',''],
+data:['Data analyst',84,55,[30,80,180],'SQL,Statistics,Python,Dashboards','tech',''],
+sec:['Security analyst',80,40,[35,90,210],'Networks,Linux,Threat analysis','tech',''],
+ux:['UI/UX designer',72,58,[25,65,150],'Figma,User research,Prototyping','tech',''],
+cloud:['Cloud architect',88,35,[80,180,400],'AWS,Networking,Automation','tech',''],
+doc:['Doctor',86,95,[60,140,350],'Diagnosis,Clinical practice,Communication','health','NMC licence'],
+nurse:['Nurse',92,50,[25,45,90],'Patient care,Clinical procedures,Empathy','health','NNC licence'],
+pharm:['Pharmacist',70,48,[25,50,110],'Pharmacology,Dispensing,Regulation','health','NPC registration'],
+ha:['Health assistant',74,58,[22,35,55],'Primary care,First aid,Community health','health','NHPC registration'],
+labt:['Lab technician',66,45,[20,35,60],'Sampling,Instruments,Reporting','health','NHPC registration'],
+civ:['Civil engineer',68,70,[30,70,170],'AutoCAD,Estimation,Site management','eng','NEC registration'],
+sub:['Sub-engineer',70,60,[25,40,65],'Surveying,Drawing,Supervision','eng','NEC registration'],
+elec:['Electrician',76,30,[18,35,60],'Wiring,Safety,Troubleshooting','eng','NSTB skill test'],
+bank:['Banker',66,78,[28,65,180],'Finance,Credit analysis,Customer service','biz',''],
+ca:['Chartered accountant',82,72,[60,150,350],'Audit,Tax,Financial reporting','biz','ICAN membership'],
+mkt:['Marketing manager',70,62,[25,70,170],'Branding,Digital ads,Analytics','biz',''],
+hr:['HR manager',62,55,[28,65,150],'Hiring,Labour law,People skills','biz',''],
+pm:['Project manager',78,58,[60,120,260],'Planning,Leadership,Risk','biz',''],
+ent:['Founder',60,50,[0,80,300],'Sales,Finance,Resilience','own',''],
+hotel:['Hotel manager',68,45,[22,60,160],'Operations,Hospitality,Languages','biz',''],
+law:['Lawyer',62,68,[20,70,220],'Drafting,Litigation,Legal research','law','Bar Council exam'],
+gov:['Civil servant',64,96,[35,55,95],'General knowledge,Policy,Administration','pub','Lok Sewa|so'],
+teach:['Teacher',78,66,[25,45,75],'Pedagogy,Subject mastery,Classroom management','edu','Teaching licence|tsc'],
+lect:['Lecturer',55,80,[40,65,110],'Research,Teaching,Publication','edu','University service|tu'],
+res:['Researcher',50,60,[35,70,150],'Methods,Writing,Data analysis','edu',''],
+soc:['Development officer',58,55,[30,70,150],'Field work,Reporting,Project design','soc',''],
+jour:['Journalist',45,55,[18,40,90],'Writing,Reporting,Media ethics','soc',''],
+free:['Freelancer',74,65,[20,90,300],'Client handling,Portfolio,Niche skill','own','']
+};
+// course: id, short, full, years, [fee lo,hi] NPR lakh, demand, competition, [start pay lo,hi] k | 0, careers, interest tags, strength, entrance, plan, next stream
+const CR=[
+['g910','Class 9–10','Secondary, general',2,[0,4],95,15,0,'teach,gov,bank,swe','ppl,num','lang','Class 8 pass','Class 9|Class 10 and SEE'],
+['t910','Technical 9–12','Secondary, technical stream',4,[0,3],70,30,[18,28],'sub,elec,labt','build','math','Class 8 pass','Trade basics|Workshop|SEE|Class 12'],
+['skl','Skill training','CTEVT short course, NSTB Level 1',.5,[0,.5],72,25,[15,25],'elec,free','build,make','math','Open entry','Training|Skill test'],
+['s11p','+2 Physical','+2 Science, physical group',2,[1,6],88,70,0,'swe,civ,data,cloud','build,num','math','SEE and college entrance','Class 11|Class 12 board','sci'],
+['s11b','+2 Biology','+2 Science, biology group',2,[1,6],86,72,0,'doc,nurse,pharm,labt','heal','bio','SEE and college entrance','Class 11|Class 12 board','sci'],
+['alv','A Levels','Cambridge A Levels',2,[4,12],66,50,0,'swe,doc,ca,res','num,build','math','School entrance','AS Level|A2 Level','sci'],
+['m11','+2 Management','+2 Management',2,[.8,4],80,45,0,'bank,ca,mkt,ent,hotel','num,ppl','biz','SEE','Class 11|Class 12 board','mgt'],
+['h11','+2 Humanities','+2 Humanities',2,[.5,3],60,30,0,'teach,jour,soc,gov','ppl,make','lang','SEE','Class 11|Class 12 board','hum'],
+['l11','+2 Law','+2 Law',2,[.5,3],50,30,0,'law,gov','law','lang','SEE','Class 11|Class 12 board','hum'],
+['dce','Diploma Civil','Diploma in Civil Engineering',3,[1.5,5],74,60,[25,40],'sub,civ','build','math','CTEVT entrance','Basics|Structures|Site project','sci'],
+['dco','Diploma Computer','Diploma in Computer Engineering',3,[1.5,5],70,50,[20,40],'swe,free','build','math','CTEVT entrance','Basics|Programming|Project','sci'],
+['dph','Diploma Pharmacy','Diploma in Pharmacy',3,[2,5],68,55,[20,32],'pharm','heal','bio','CTEVT entrance','Basics|Pharmaceutics|Practice','sci'],
+['dha','General Medicine','PCL General Medicine, HA',3,[2,5],72,65,[22,35],'ha','heal','bio','CTEVT entrance','Basics|Clinical|Field practice','sci'],
+['becomp','BE Computer','Bachelor of Computer Engineering',4,[3,14],86,85,[35,65],'swe,cloud,sec,data','build,num','math','IOE entrance','Foundations|Core computing|Systems|Major project'],
+['csit','BSc CSIT','BSc Computer Science and IT',4,[3.5,12],88,65,[35,60],'swe,data,sec,ux','build,num','math','TU IOST entrance','Programming|Data and systems|AI and networks|Project and internship'],
+['mbbs','MBBS','Bachelor of Medicine and Surgery',5.5,[2,55],86,98,[60,90],'doc,res','heal','bio','MECEE-BL','Basic sciences|Basic sciences|Clinical|Clinical|Clinical|Internship'],
+['bns','BSc Nursing','Bachelor of Science in Nursing',4,[4,12],92,75,[25,40],'nurse,res','heal,ppl','bio','MECEE-BL','Fundamentals|Medical-surgical|Community|Leadership and practicum'],
+['bph','B Pharm','Bachelor of Pharmacy',4,[5,12],70,60,[25,40],'pharm,res','heal','bio','MECEE-BL','Chemistry|Pharmaceutics|Pharmacology|Industry training'],
+['beciv','BE Civil','Bachelor of Civil Engineering',4,[3,13],68,82,[30,50],'civ,pm,gov','build','math','IOE entrance','Foundations|Structures|Design|Project'],
+['bba','BBA','Bachelor of Business Administration',4,[4,14],78,60,[25,45],'mkt,bank,ent,hr','ppl,num','biz','CMAT / KUUMAT','Foundations|Functions|Specialise|Internship'],
+['bbs','BBS','Bachelor of Business Studies',4,[.6,3],62,35,[20,35],'bank,ca,gov','num','biz','Campus merit','Basics|Accounting|Finance|Research'],
+['ca','CA','Chartered Accountancy',4.5,[3,6],82,80,[60,100],'ca,bank','num','biz','ICAN CAP-I','CAP-I|CAP-II|Articleship|CAP-III'],
+['bhm','BHM','Bachelor of Hotel Management',4,[4,10],70,45,[22,40],'hotel,ent','ppl,make','biz','CMAT','Service|Operations|Management|Internship'],
+['bca','BCA','Bachelor of Computer Application',4,[3,7],78,50,[28,50],'swe,ux,free','build,make','math','TU entrance','Programming|Web and data|Applications|Project'],
+['ballb','BA LLB','Bachelor of Arts and Laws',5,[2,8],62,65,[20,40],'law,gov','law,ppl','lang','Law entrance','Foundations|Core law|Procedure|Electives|Clinic and moot'],
+['ba','BA','Bachelor of Arts',4,[.4,2.5],50,20,[18,30],'teach,jour,soc,gov','ppl,make','lang','Open admission','Foundations|Major|Major|Research'],
+['bsw','BSW','Bachelor of Social Work',4,[1.5,5],58,35,[22,38],'soc,hr','ppl','lang','Campus entrance','Theory|Field work|Community|Placement'],
+['bed','BEd','Bachelor of Education',4,[.4,2],66,30,[25,35],'teach,gov','ppl','lang','Open admission','Foundations|Subject|Pedagogy|Teaching practice'],
+['mba','MBA','Master of Business Administration',2,[3,12],76,70,[50,90],'pm,mkt,bank,hr','ppl,num','biz','CMAT / KUUMAT','Core|Specialise and thesis'],
+['msit','MSc CSIT','MSc Computer Science and IT',2,[1.5,5],70,45,[60,110],'cloud,data,lect,res','build,num','math','TU entrance','Advanced core|Thesis'],
+['mph','MPH','Master of Public Health',2,[3,8],64,50,[50,90],'res,soc','heal,ppl','bio','MECEE-PG','Core|Field and thesis'],
+['llm','LLM','Master of Laws',2,[1,5],48,45,[40,80],'law,lect','law','lang','Law entrance','Core|Dissertation'],
+['lok','Lok Sewa','Public Service Commission, Section Officer',1,[.1,.6],64,97,[45,50],'gov','law,ppl','lang','PSC exam','Preliminary|Mains|Interview'],
+['tsc','Teaching licence','Teachers Service Commission',1,[.1,.4],70,90,[35,45],'teach','ppl','lang','TSC exam','Licence|Open competition'],
+['mab',"Master's abroad",'Graduate study overseas',2,[25,90],78,60,0,'res,swe,pm,data','build,num,ppl','math','Language test and offer','Coursework|Thesis or capstone'],
+['mphil','MPhil','Master of Philosophy',1.5,[1.5,4],45,40,[60,90],'lect,res','make,num','lang','University entrance','Coursework|Thesis'],
+['phd','PhD','Doctor of Philosophy',4,[3,10],40,50,[70,130],'lect,res','make,num','lang','Proposal defence','Proposal|Research|Research|Defence'],
+['tusc','University service','TU Service Commission, Lecturer',1,[.1,.3],50,92,[45,60],'lect','ppl','lang','TUSC exam','Written|Interview'],
+['aws','Cloud certification','AWS, Azure or GCP associate',.5,[.3,1],86,40,[80,160],'cloud,swe','build','math','Open','Prep|Exam'],
+['pmp','PMP','Project Management Professional',.5,[.8,1.5],74,45,[90,180],'pm','ppl','biz','35 contact hours','Prep|Exam'],
+['acca','ACCA','Chartered Certified Accountant',3,[6,10],76,55,[60,140],'ca,bank','num','biz','Open','Knowledge|Skills|Professional'],
+['emba','Executive MBA','Weekend MBA for professionals',2,[5,10],66,45,[90,180],'pm,hr,mkt','ppl,num','biz','Work experience','Core|Capstone'],
+['frl','Freelancing','Independent, global clients',.5,[0,.5],74,65,[20,150],'free,ux,swe','make,build','math','Open','Portfolio|First clients']
+];
+// course -> entrance exam
+const CX={becomp:'ioe',beciv:'ioe',csit:'iost',mbbs:'mecee',bns:'mecee',bph:'mecee',bba:'cmat',bhm:'cmat',mba:'cmat',dce:'ctevt',dco:'ctevt',dph:'ctevt',dha:'ctevt',lok:'so',tsc:'tsc',tusc:'tu',mab:'ielts'};
+const STAGES=[
+{id:'c8',n:'8',t:'After 8',need:'Class 8',streams:[{id:'gen',n:'General',tone:'pc',courses:['g910']},{id:'tec',n:'Technical',tone:'yc',courses:['t910','skl']}]},
+{id:'see',n:'SEE',t:'After SEE',need:'SEE',streams:[{id:'sci',n:'Science',tone:'pc',courses:['s11p','s11b','alv']},{id:'mgt',n:'Management',tone:'yc',courses:['m11']},{id:'hum',n:'Humanities',tone:'tc',courses:['h11','l11']},{id:'dip',n:'Diploma',tone:'gc',courses:['dce','dco','dph','dha']}]},
+{id:'p2',n:'+2',t:'After +2',need:'+2',streams:[{id:'sci',n:'Science',tone:'pc',courses:['becomp','csit','mbbs','bns','bph','beciv']},{id:'mgt',n:'Management',tone:'yc',courses:['bba','bbs','ca','bhm','bca']},{id:'hum',n:'Humanities',tone:'tc',courses:['ballb','ba','bsw','bed']}]},
+{id:'ba',n:'Bachelor',t:'After Bachelor',need:"Bachelor's",streams:[{id:'mas',n:"Master's",tone:'pc',courses:['mba','msit','mph','llm']},{id:'pub',n:'Public service',tone:'yc',courses:['lok','tsc']},{id:'abr',n:'Abroad',tone:'gc',courses:['mab']}]},
+{id:'ma',n:'Master',t:'After Master',need:"Master's",streams:[{id:'rsh',n:'Research',tone:'tc',courses:['mphil','phd']},{id:'tch',n:'Teaching',tone:'yc',courses:['tusc']}]},
+{id:'wk',n:'Working',t:'While working',need:'Experience',streams:[{id:'cer',n:'Certify',tone:'pc',courses:['aws','pmp','acca']},{id:'stu',n:'Study',tone:'tc',courses:['emba']},{id:'ind',n:'Independent',tone:'gc',courses:['frl']}]}
+];
+const STAGE_EDU=[0,1,2,3,4,3],STAGE_AGE=[14,16,18,22,24,26],EDU=['Class 8','SEE','+2','Bachelor','Master'];
+// exam: group gov | ent | lang, edu = minimum level index, age [min, max, max for women], win = application months, em = exam month, prep = study hours
+const XR=[
+{id:'so',n:'Section Officer',b:'Public Service Commission',g:'gov',edu:3,age:[21,35,40],apps:38000,seats:230,fee:1200,win:[11,12],em:3,prep:900,st:'Preliminary:100:Objective · 2 h|Mains:300:3 written papers|IT skills:10:Practical|Group test:10:Discussion|Interview:30:Panel',syl:'General knowledge 30,Governance 25,Contemporary issues 20,Service subject 15,Aptitude 10',guide:'psc',rung:2,k:'gov',pay:48,quota:1},
+{id:'ns',n:'Nayab Subba',b:'Public Service Commission',g:'gov',edu:2,age:[18,35,40],apps:120000,seats:600,fee:700,win:[12,1],em:4,prep:700,st:'Preliminary:200:Objective · 2 papers|Mains:300:3 written papers|Computer skills:10:Practical|Interview:30:Panel',syl:'General knowledge 35,Office management 25,Contemporary issues 20,Aptitude 20',guide:'psc',rung:1,k:'gov',pay:38,quota:1},
+{id:'kh',n:'Kharidar',b:'Public Service Commission',g:'gov',edu:1,age:[18,35,40],apps:150000,seats:500,fee:500,win:[1,2],em:5,prep:500,st:'Preliminary:100:Objective · 1 h|Mains:200:2 written papers|Computer skills:10:Practical|Interview:20:Panel',syl:'General knowledge 40,Office procedure 25,Language 20,Aptitude 15',guide:'psc',rung:0,k:'gov',pay:33,quota:1},
+{id:'tsc',n:'Secondary teacher',b:'Teachers Service Commission',g:'gov',edu:3,age:[21,40,40],apps:64000,seats:2500,fee:1000,win:[5,6],em:8,prep:400,st:'Teaching licence:100:Objective|Written:100:Subjective|Interview:25:Panel and class demo',syl:'Subject knowledge 50,Pedagogy 25,Education policy 15,Aptitude 10',k:'teach',pay:45},
+{id:'nrb',n:'Assistant Director',b:'Nepal Rastra Bank',g:'gov',edu:3,age:[21,35,40],apps:9000,seats:60,fee:1500,win:[3,4],em:6,prep:800,st:'Preliminary:100:Objective|Mains:200:2 written papers|Interview:30:Panel',syl:'Economics 30,Banking and finance 30,Management 20,Aptitude 20',k:'bank',pay:62},
+{id:'pol',n:'Police Inspector',b:'Nepal Police',g:'gov',edu:3,age:[20,25,25],apps:12000,seats:150,fee:1000,win:[9,10],em:12,prep:500,st:'Physical test:0:Run, height and chest|Written:300:3 papers|Medical:0:Full check-up|Interview:50:Board',syl:'General knowledge 30,Law 30,Language 20,Aptitude 20',pay:45},
+{id:'tu',n:'Lecturer',b:'TU Service Commission',g:'gov',edu:4,age:[21,45,45],apps:7000,seats:400,fee:1500,win:[6,7],em:9,prep:500,st:'Written:100:Subject paper|Class demo:25:Teaching|Interview:25:Panel',syl:'Subject 70,Research methods 20,Teaching 10',k:'lect',pay:50},
+{id:'ioe',n:'IOE entrance',b:'Institute of Engineering',g:'ent',edu:2,apps:14000,seats:4300,fee:2000,win:[6,7],em:8,prep:500,st:'Computer test:140:100 questions · 2 h',syl:'Mathematics 50,Physics 40,Chemistry 30,English 20'},
+{id:'mecee',n:'MECEE-BL',b:'Medical Education Commission',g:'ent',edu:2,apps:48000,seats:5800,fee:4000,win:[7,8],em:9,prep:900,st:'Written test:200:200 questions · 3 h',syl:'Chemistry 50,Physics 50,Zoology 40,Botany 40,Aptitude 20'},
+{id:'iost',n:'TU IOST entrance',b:'Institute of Science and Technology',g:'ent',edu:2,apps:9000,seats:3500,fee:1200,win:[8,9],em:10,prep:250,st:'Written test:100:100 questions · 2 h',syl:'Mathematics 25,Physics 25,Chemistry 25,English 15,Computer 10'},
+{id:'cmat',n:'CMAT',b:'TU Faculty of Management',g:'ent',edu:2,apps:9000,seats:4000,fee:1000,win:[8,9],em:10,prep:150,st:'Written test:100:100 questions · 90 min|Group discussion:0:College round|Interview:0:College round',syl:'Verbal 25,Quantitative 25,Logical reasoning 25,General awareness 25'},
+{id:'ctevt',n:'CTEVT entrance',b:'CTEVT',g:'ent',edu:1,apps:60000,seats:25000,fee:600,win:[7,8],em:9,prep:150,st:'Written test:100:Objective · 2 h',syl:'Science 40,Mathematics 30,English 30'},
+{id:'ielts',n:'IELTS',b:'British Council · IDP',g:'lang',edu:1,fee:31000,win:[1,12],em:0,prep:120,valid:2,st:'Listening:9:30 min|Reading:9:60 min|Writing:9:60 min|Speaking:9:14 min',syl:'Listening 25,Reading 25,Writing 25,Speaking 25'},
+{id:'pte',n:'PTE Academic',b:'Pearson',g:'lang',edu:1,fee:28000,win:[1,12],em:0,prep:100,valid:2,st:'Speaking and writing:90:54 min|Reading:90:30 min|Listening:90:36 min',syl:'Speaking 25,Writing 25,Reading 25,Listening 25'},
+{id:'toefl',n:'TOEFL iBT',b:'ETS',g:'lang',edu:1,fee:27000,win:[1,12],em:0,prep:120,valid:2,st:'Reading:30:35 min|Listening:30:36 min|Speaking:30:16 min|Writing:30:29 min',syl:'Reading 25,Listening 25,Speaking 25,Writing 25'},
+{id:'jlpt',n:'JLPT N5',b:'Japan Foundation',g:'lang',edu:1,fee:2500,win:[3,4],em:7,prep:350,st:'Vocabulary:60:20 min|Grammar and reading:60:40 min|Listening:60:30 min',syl:'Vocabulary 30,Grammar 25,Listening 25,Reading 20'},
+{id:'topik',n:'TOPIK I',b:'NIIED Korea',g:'lang',edu:1,fee:4000,win:[1,2],em:4,prep:300,valid:2,st:'Listening:100:40 min|Reading:100:60 min',syl:'Listening 50,Reading 50'}
+];
+const RUNG=[['Kharidar',33],['Nayab Subba',38],['Section Officer',48],['Under Secretary',56],['Joint Secretary',64],['Secretary',73]];
+const QUOTA=[['Open',55],['Women',15],['Adivasi Janajati',12],['Madhesi',10],['Dalit',4],['Disability',2],['Remote area',2]];
+// guide: steps "title:days:cost NPR:O online | P in person", link [action, value, label]
+const GR=[
+{id:'psc',n:'Lok Sewa application',cat:'Government',st:'Create a PSC account:1:0:O|Pick the advertisement:1:0:O|Pay the exam fee:1:1200:O|Print the admit card:1:0:O|Preliminary exam:60:0:P|Mains exam:90:0:P|Interview:60:0:P|Appointment:30:0:P',docs:'Citizenship,Academic certificates,Photo,Signature scan,Inclusion certificate',link:['goExam','so','Exam']},
+{id:'noc',n:'No Objection Certificate',cat:'Abroad',st:'Get the offer letter:0:0:O|Fill the MoEST form:1:0:O|Upload documents:1:0:O|Pay the fee:1:2000:O|Download the NOC:2:0:O',docs:'Citizenship,Passport,Offer letter,Academic transcripts',link:['goGuide','visa','Student visa']},
+{id:'visa',n:'Student visa',cat:'Abroad',st:'Accept the offer:7:0:O|Get the NOC:5:2000:O|Arrange funds:21:0:P|Medical check:3:12000:P|Lodge the visa:1:95000:O|Biometrics:2:3500:P|Decision:30:0:O',docs:'Passport,Offer letter,NOC,Bank statement or loan letter,Language test score,Medical report,Statement of purpose',link:['goStudy','abroad','Countries']},
+{id:'adm',n:'+2 admission',cat:'Study',st:'Collect the SEE grade sheet:1:0:P|Shortlist colleges:7:0:O|Sit the entrance:1:1000:P|Check the merit list:3:0:O|Pay and enrol:2:0:P',docs:'SEE grade sheet,Character certificate,Photos,Birth certificate',link:['goStudy','nepal','Colleges']},
+{id:'schl',n:'Government scholarship',cat:'Study',st:'Watch the MoEST notice:0:0:O|Apply online:2:500:O|Sit the exam:1:0:P|Check the merit list:14:0:O|Counselling:2:0:P|Enrol:3:0:P',docs:'Citizenship,Transcripts,Community school certificate,Income certificate',link:['goStudy','funding','Scholarships']},
+{id:'loan',n:'Education loan',cat:'Study',st:'Compare banks:5:0:O|Value the collateral:7:5000:P|Submit the file:2:0:P|Approval:10:0:P|Disbursement:3:0:P',docs:'Offer letter,Collateral papers,Citizenship,Income proof,Fee structure'},
+{id:'cit',n:'Citizenship certificate',cat:'Documents',st:"Get the ward recommendation:1:200:P|Gather parents' documents:1:0:P|Visit the district office:1:0:P|Submit the form with photos:1:10:P|Collect the certificate:1:0:P",docs:"Birth certificate,Parent's citizenship,Ward recommendation,SEE certificate,Photos"},
+{id:'pass',n:'Passport',cat:'Documents',st:'Pre-enrol online:1:0:O|Book an appointment:1:0:O|Pay the fee:1:5000:P|Biometrics:1:0:P|Collect:14:0:P',docs:'Citizenship,National ID,Appointment slip'},
+{id:'equ',n:'Equivalence certificate',cat:'Documents',st:'Collect the transcripts:3:0:P|Apply to the CDC:1:0:O|Pay the fee:1:1500:O|Verification:10:0:O|Collect:1:0:P',docs:'Transcripts,Certificate,Passport,Citizenship,Syllabus copy'},
+{id:'mig',n:'Transcript and migration',cat:'Documents',st:'Fill the NEB form:1:0:O|Pay the fee:1:1000:O|Collect at NEB:3:0:P',docs:'Mark sheet,Registration card,Citizenship'},
+{id:'lic',n:'Professional licence',cat:'Government',st:'Graduate:0:0:P|Register with the council:2:3000:O|Sit the licensing exam:1:0:P|Collect the licence:14:0:P',docs:'Degree certificate,Transcripts,Citizenship,Photos'},
+{id:'pan',n:'PAN for the first job',cat:'Documents',st:'Fill the IRD form:1:0:O|Visit the tax office:1:0:P|Collect the PAN card:1:0:P',docs:'Citizenship,Photo,Appointment letter'}
+];
+const GT={Study:'pc',Abroad:'gc',Government:'yc',Documents:'tc'};
+const PROV=['Koshi','Madhesh','Bagmati','Gandaki','Lumbini','Karnali','Sudur&shy;pashchim'];
+// college: name, district, province, type, affiliation, position in fee range 0-1, seats, courses
+const COLR=[
+['Pulchowk Campus','Lalitpur',2,'Public','TU',0,96,'becomp,beciv'],
+['Thapathali Campus','Kathmandu',2,'Public','TU',.02,48,'becomp,beciv'],
+['Kathmandu University','Kavrepalanchok',2,'Public','KU',.75,60,'becomp,beciv,bph,bba,ballb'],
+['Pashchimanchal Campus','Kaski',3,'Public','TU',.03,48,'becomp,beciv'],
+['Purwanchal Campus','Sunsari',0,'Public','TU',.03,48,'becomp,beciv'],
+['Kathford College','Lalitpur',2,'Private','TU',.6,48,'becomp,beciv,csit'],
+['Maharajgunj Medical Campus','Kathmandu',2,'Public','TU',.03,100,'mbbs,bns,bph'],
+['BPKIHS','Sunsari',0,'Public','BPKIHS',.05,100,'mbbs,bns'],
+['Patan Academy of Health Sciences','Lalitpur',2,'Public','PAHS',.06,65,'mbbs,bns'],
+['Manipal College of Medical Sciences','Kaski',3,'Private','KU',.9,100,'mbbs,bns'],
+['Karnali Academy of Health Sciences','Jumla',5,'Public','KAHS',.02,20,'mbbs,bns'],
+['Chitwan Medical College','Chitwan',2,'Private','TU',.88,100,'mbbs,bns,bph'],
+['Universal College of Medical Sciences','Rupandehi',4,'Private','TU',.88,100,'mbbs,bns'],
+['Amrit Campus','Kathmandu',2,'Public','TU',.04,72,'csit'],
+['Patan Multiple Campus','Lalitpur',2,'Public','TU',.04,72,'csit,ba,bbs,bca'],
+["St. Xavier's College",'Kathmandu',2,'Private','TU',.7,48,'csit,bsw,bbs'],
+['Deerwalk Institute of Technology','Kathmandu',2,'Private','TU',.95,48,'csit,bca'],
+['Bhaktapur Multiple Campus','Bhaktapur',2,'Public','TU',.05,48,'csit,bbs,ba'],
+['Butwal Multiple Campus','Rupandehi',4,'Public','TU',.06,48,'csit,bbs,ba,bed'],
+['Prithvi Narayan Campus','Kaski',3,'Public','TU',.05,48,'csit,bbs,ba,bed'],
+['Mechi Multiple Campus','Jhapa',0,'Public','TU',.06,36,'csit,bbs,ba,bed'],
+['Birendra Multiple Campus','Chitwan',2,'Public','TU',.06,36,'csit,bbs,ba'],
+['Siddhanath Science Campus','Kanchanpur',6,'Public','TU',.06,36,'csit'],
+['Far Western University','Kanchanpur',6,'Public','FWU',.2,48,'beciv,bba,csit,bed'],
+['Mid-West University','Surkhet',5,'Public','MU',.2,48,'beciv,bba,bed,ba'],
+['Shanker Dev Campus','Kathmandu',2,'Public','TU',.1,120,'bbs,bba'],
+['Nepal Commerce Campus','Kathmandu',2,'Public','TU',.1,120,'bbs,bba'],
+['Nepal Law Campus','Kathmandu',2,'Public','TU',.05,105,'ballb'],
+['Kathmandu School of Law','Bhaktapur',2,'Private','PU',.8,70,'ballb'],
+['Tri-Chandra Multiple Campus','Kathmandu',2,'Public','TU',.05,200,'ba,bsw'],
+['NATHM','Kathmandu',2,'Public','TU',.5,80,'bhm'],
+['Thakur Ram Multiple Campus','Parsa',1,'Public','TU',.05,100,'bbs,ba,bed'],
+['R.R. Multiple Campus','Dhanusha',1,'Public','TU',.05,100,'bbs,ba,bed'],
+['Mahendra Multiple Campus','Banke',4,'Public','TU',.05,100,'bbs,ba,bed'],
+['ICAN','Lalitpur',2,'Public','ICAN',.3,0,'ca']
+];
+// country: code, name, tuition NPR lakh/yr, work h/week, stay-back years, entry test, intake months, wage NPR/h, living NPR lakh/yr, visa rate %, test exam
+const CT=[
+['AU','Australia',28,24,'2–4','IELTS 6.5',[2,7,11],2100,18,78,'ielts'],['JP','Japan',14,28,'1','JLPT N5',[4,10],900,10,88,'jlpt'],
+['US','United States',38,20,'1–3','TOEFL 80',[1,8],1600,16,62,'toefl'],['GB','United Kingdom',30,20,'2','IELTS 6.0',[1,9],1700,16,90,'ielts'],
+['DE','Germany',14,20,'1.5','IELTS 6.0',[4,10],1800,12,85,'ielts'],['CA','Canada',27,24,'1–3','IELTS 6.5',[1,5,9],1600,15,55,'ielts'],
+['KR','South Korea',12,25,'2','TOPIK 3',[3,9],900,9,86,'topik'],['IN','India',5,0,'0','Merit',[7,8],0,2,100,'']
+].map(([k,n,cost,work,stay,test,intake,wage,live,visa,tx])=>({k,n,cost,work,stay,test,intake,wage,live,visa,tx}));
+// scholarship: name, country, type, window start month, end month, levels, covers (Tuition Stipend Flights), awards
+const SCH=[
+['MEXT','JP','Embassy',4,5,'BMP','TSF',15],['Chevening','GB','Government',8,11,'M','TSF',10],['Fulbright','US','Government',2,4,'M','TSF',8],
+['Australia Awards','AU','Government',2,4,'M','TSF',20],['DAAD EPOS','DE','Government',8,10,'MP','TSF',6],
+['GKS Undergraduate','KR','Embassy',9,10,'B','TSF',4],['GKS Graduate','KR','Embassy',2,3,'MP','TSF',10],
+['Erasmus Mundus','EU','University',10,1,'M','TSF',40],['Stipendium Hungaricum','HU','Government',11,1,'BMP','TS',25],
+['Chinese Government Scholarship','CN','Embassy',1,3,'BMP','TS',60],['Commonwealth','GB','Government',9,10,'MP','TSF',5],
+['COMPEX','IN','Embassy',1,2,'B','T',120],['Manaaki New Zealand','NZ','Government',2,3,'M','TSF',6],['MoEST Nepal','NP','Government',8,9,'BM','T',300]
+].map(([n,k,t,s,e,l,cov,aw])=>({n,k,t,s,e,l,cov,aw}));
+const INT=[['build','Building'],['heal','Healing'],['num','Numbers'],['ppl','People'],['make','Creating'],['law','Justice']];
+const STR=[['math','Maths'],['bio','Biology'],['lang','Language'],['biz','Business']];
+const TONES=['pc','tc','yc','gc','rc'],MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],NOW=new Date().getMonth()+1,YEAR=new Date().getFullYear();
+
+const pp=s=>s.split(',').map(x=>{const i=x.lastIndexOf(' ');return[x.slice(0,i),+x.slice(i+1)]});
+const F={},K={},C={},X={},G={};
+for(const k in F0){const [day,lad,t,emp,wh,tr,hrs]=F0[k];F[k]={day:pp(day),lad:lad.split(','),t,emp:emp.split(','),wh:pp(wh),tr,hrs}}
+for(const id in KR){const [n,d,c,pay,sk,f,lic]=KR[id],[ln,lx]=lic.split('|');K[id]={id,n,d,c,pay,sk:sk.split(','),f:F[f],lic:ln,lx}}
+CR.forEach(([id,n,f,y,fee,d,c,pay,to,tags,st,ent,plan,ns])=>C[id]={id,n,f,y,fee,d,c,pay,to:to.split(','),tags:tags.split(','),st,ent,plan:plan.split('|'),ns});
+XR.forEach(x=>X[x.id]={...x,st:x.st.split('|').map(s=>s.split(':')),syl:pp(x.syl)});
+GR.forEach(g=>G[g.id]={...g,steps:g.st.split('|').map(s=>{const [t,d,c,w]=s.split(':');return[t,+d,+c,w]}),docs:g.docs.split(',')});
+const COL=COLR.map(([n,d,p,t,u,k,seats,c])=>({n,d,p,t,u,k,seats,c:c.split(',')}));
+const rv=o=>[Math.min(100,o.pay[1]/2),o.d,100-o.c,o.f.t[1],o.f.t[0],o.f.t[2]];
+const AVG=[0,1,2,3,4,5].map(i=>{const a=Object.values(K);return a.reduce((s,o)=>s+rv(o)[i],0)/a.length});
+
+/* ============ STATE ============ */
+const S={dev:innerWidth<980?'phone':'web',view:'explore',stage:'p2',stream:'sci',course:'csit',career:null,sel:{t:'course',id:'csit'},open:false,
+  tabs:{course:'journey',career:'pay',exam:'stages'},cmp:null,path:[],back:[],saved:new Set(),q:'',searching:false,lens:null,
+  study:'nepal',cc:'csit',prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
+  xg:'gov',exam:'so',edu:2,age:18,woman:'0',gcat:'All',guide:'psc',done:new Set(),docs:new Set(),have:new Set(),
+  plan:'plan',mi:new Set(),ms:null,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
+let lastKey='',freshT=0;
+
+/* ============ HELPERS ============ */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const wide=()=>$('#frame').clientWidth>=900;
+const tog=(set,v)=>set.has(v)?set.delete(v):set.add(v);
+const stage=()=>STAGES.find(s=>s.id===S.stage);
+const stream=()=>stage().streams.find(s=>s.id===S.stream)||stage().streams[0];
+const locate=id=>{for(const st of STAGES)for(const sm of st.streams)if(sm.courses.includes(id))return{st,sm}};
+const cur=()=>S.view==='explore'?S.sel:S.view==='exams'?{t:'exam',id:S.exam}:S.view==='guides'?{t:'guide',id:S.guide}:null;
+const fmt=v=>+(+v).toFixed(1);
+const yr=y=>y<1?Math.round(y*12)+' mo':fmt(y)+' yr';
+const dy=d=>d+(d===1?' day':' days');
+const lakh=v=>v<=0?'Free':v<1?'NPR '+Math.round(v*100)+'k':'NPR '+fmt(v)+'L';
+const num=v=>v>=1e5?fmt(v/1e5)+'L':v>=1e3?fmt(v/1e3)+'k':''+v;
+const npr=v=>v?'NPR '+v.toLocaleString('en-IN'):'Free';
+const payTxt=p=>'NPR '+p[0]+'–'+p[p.length-1]+'k / month';
+const payAt=(k,y)=>y<=5?k.pay[0]+(k.pay[1]-k.pay[0])*y/5:k.pay[1]+(k.pay[2]-k.pay[1])*(y-5)/7;
+const hasCol=id=>COL.some(x=>x.c.includes(id));
+const inWin=(s,e,m)=>s<=e?m>=s&&m<=e:m>=s||m<=e;
+const why=x=>S.edu<x.edu?'Needs '+EDU[x.edu]:x.age&&(S.age<x.age[0]||S.age>x.age[+S.woman?2:1])?'Age '+x.age[0]+'–'+x.age[+S.woman?2:1]:'';
+const oddsOf=x=>{const r=x.apps/x.seats;return r>=20?{r,n:Math.round(r),pre:'1 in',post:'',txt:'1 in '+Math.round(r)}:{r,n:Math.round(100/r),pre:'',post:'in 100',txt:Math.round(100/r)+' in 100'}};
+const gdone=g=>g.steps.filter((_,i)=>S.done.has(g.id+':'+i)).length;
+const gsum=(g,i)=>g.steps.reduce((a,s)=>a+s[i],0);
+const ICON={
+route:'<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a4 4 0 004-4V8.2"/>',
+cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+exam:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 12.5l2 2 4-4.5"/>',
+list:'<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+flag:'<path d="M5 21V4M5 4h13l-3 4 3 4H5"/>',
+pin:'<path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+bookmark:'<path d="M7 4h10v16l-5-3.5L7 20z"/>',back:'<path d="M14 6l-6 6 6 6"/>',
+arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',close:'<path d="M6 6l12 12M18 6L6 18"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>'};
+const I=(n,s=22)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24">${ICON[n]}</svg>`;
+// Material 3 Expressive scalloped shape with n lobes
+const shape=(n,cls='')=>{let p='';for(let i=0;i<96;i++){const t=i/96*Math.PI*2,r=50*(.89+.11*Math.cos(n*t));p+=(i?'L':'M')+(50+r*Math.cos(t)).toFixed(1)+' '+(50+r*Math.sin(t)).toFixed(1)}return `<svg class="${cls}" viewBox="0 0 100 100"><path d="${p}Z"/></svg>`};
+const ring=(v,l='',cls='',col='var(--p)')=>`<div class="ring ${cls}"><svg viewBox="0 0 44 44"><circle class="tr" cx="22" cy="22" r="18"/><circle class="fg" cx="22" cy="22" r="18" pathLength="100" style="stroke:${col};stroke-dashoffset:${100-v}"/></svg><b>${v}</b>${l?`<span>${l}</span>`:''}</div>`;
+const sig=v=>{const n=v>=75?3:v>=50?2:1;return `<svg class="sig" viewBox="0 0 14 14">${[0,1,2].map(i=>`<rect x="${i*5}" y="${9-i*4}" width="3.6" height="${5+i*4}" rx="1.2" class="${i<n?'f':''}"/>`).join('')}</svg>`};
+const months=f=>`<div class="mo">${MN.map((m,i)=>`<i class="${f(i+1)?'f':''} ${i+1===NOW?'now':''}">${m[0]}</i>`).join('')}</div>`;
+const cal=rows=>`<div class="cal">${rows.map(([l,f])=>`<span>${l}</span>${months(f)}`).join('')}</div>`;
+const examCal=x=>cal([['Apply',m=>inWin(x.win[0],x.win[1],m)],['Exam',m=>m===x.em]]);
+const empty=t=>`<div class="empty">${shape(6)}${t}</div>`;
+const lrow=(a,v,t,s,kind)=>`<button class="lrow" data-a="${a}" data-v="${v}"><div><b>${t}</b><span>${s}</span></div><em>${kind}</em></button>`;
+const segHTML=(list,v,a,cls='full')=>`<div class="seg ${cls}">${list.map(([k,n])=>`<button class="${k===v?'on':''}" data-a="${a}" data-v="${k}">${n}</button>`).join('')}</div>`;
+const chipsHTML=(list,v,a)=>`<div class="chips">${list.map(k=>`<button class="chip ${k===v?'on':''}" data-a="${a}" data-v="${k}">${k}</button>`).join('')}</div>`;
+const tabsHTML=(list,v)=>`<div class="tabs">${list.map(([k,n])=>`<button class="${k===v?'on':''}" data-a="tab" data-v="${k}">${n}</button>`).join('')}</div>`;
+const facts=l=>`<div class="facts">${l.map(([a,b])=>`<div class="fact"><small>${a}</small><b>${b}</b></div>`).join('')}</div>`;
+// stacked bar with a tappable legend
+function split(parts,f=v=>v+'%'){const ps=parts.filter(p=>p[1]>0);
+  return `<div class="split"><div class="sbar">${ps.map((p,i)=>`<button class="g${i%7}" style="flex:${p[1]}" data-a="seg" data-v="${i}" aria-label="${p[0]}"></button>`).join('')}</div><div class="sleg">${ps.map((p,i)=>`<button class="g${i%7}" data-a="seg" data-v="${i}"><i></i><span>${p[0]}</span><b>${f(p[1])}</b></button>`).join('')}</div></div>`}
+
+/* ============ VIEWS ============ */
+const stagesHTML=()=>`<div class="stages">${STAGES.map(s=>`<button class="stg ${s.id===S.stage?'on':''}" data-a="stage" data-v="${s.id}">${s.id===S.stage?s.t:s.n}</button>`).join('')}</div>`;
+function abList(){const mx=60,tot=c=>c.cost+c.live,bl=S.abmax/mx*100;
+  return [...CT].sort((a,b)=>tot(a)-tot(b)).map(c=>{const T=tot(c),on=S.ab===c.k,ok=T<=S.abmax,pt=c.wage*c.work*4.3/1e5;
+    return `<div role="button" tabindex="0" class="ab ${ok?'ok':'over'} ${on?'on':''}" data-a="ctry" data-v="${c.k}">
+    <div class="abh"><span class="abc">${c.k}</span><div class="abn"><b>${c.n}</b><small>Tuition ${c.cost}L + living ${c.live}L</small></div><div class="abt"><b>NPR ${T}L</b><small>per year</small></div></div>
+    <div class="abb"><i class="a" style="width:${c.cost/mx*100}%"></i><i class="b" style="width:${c.live/mx*100}%"></i><s style="left:${bl}%"></s></div>
+    <div class="abp"><span class="pl">${ok?'Within budget':'NPR '+(T-S.abmax)+'L over budget'}</span><span>Visa approval ${c.visa}%</span></div>
+    ${on?`<div class="abx"><div><small>Part-time pay</small><b>${pt?lakh(pt)+' / month':'Not applicable'}</b></div><div><small>Work allowed</small><b>${c.work?c.work+' h / week':'None'}</b></div><div><small>Stay after study</small><b>${+c.stay?c.stay+' yr':'None'}</b></div>
+      <div><small>Entry test</small><b>${c.test}</b></div><div class="w2"><small>Intake months</small>${months(m=>c.intake.includes(m))}</div>
+      <div class="chips w w2">${c.tx?`<button class="chip" data-a="goExam" data-v="${c.tx}">${X[c.tx].n}</button>`:''}<button class="chip" data-a="goGuide" data-v="visa">Visa steps</button><button class="chip" data-a="skf" data-v="${c.k}">Scholarships</button></div></div>`:''}</div>`}).join('')}
+const STUDY={
+nepal(){const cs=Object.keys(C).filter(hasCol),c=C[S.cc],list=COL.filter(x=>x.c.includes(S.cc)),lo=Math.floor(c.fee[0]),hi=Math.ceil(c.fee[1]);if(S.cmax==null)S.cmax=hi;
+  return `<div class="chips">${cs.map(id=>`<button class="chip ${id===S.cc?'on':''}" data-a="cc" data-v="${id}">${C[id].n}</button>`).join('')}</div>
+  <div class="map">${PROV.map((p,i)=>{const n=list.filter(x=>x.p===i).length;return `<button class="pv p${i} ${S.prov===i?'on':''} ${n?'':'nil'}" data-a="prov" data-v="${i}"><b>${n}</b><span>${p}</span></button>`}).join('')}</div>
+  <div class="ctl"><div class="sl"><input type="range" id="cmax" min="${lo}" max="${hi}" step="${hi-lo>20?1:.5}" value="${S.cmax}" aria-label="Maximum fee"><output id="cmaxv">${lakh(S.cmax)}</output></div>${segHTML([['fee','Fee'],['seats','Seats']],S.csort,'csort','')}</div>
+  <div id="clist"></div>`},
+abroad(){return `<div class="abin"><b>Your budget for one year</b><span>Tuition plus living costs</span>
+    <div class="sl"><input type="range" id="abmax" min="5" max="60" step="5" value="${S.abmax}" aria-label="Yearly budget"><output id="abv">NPR ${S.abmax}L</output></div></div>
+  <div class="abkey"><span><i class="a"></i>Tuition</span><span><i class="b"></i>Living</span><span><s></s>Your budget</span></div>
+  <div id="ablist">${abList()}</div>`},
+funding(){const left=s=>(s.e-NOW+12)%12;
+  const l=SCH.filter(s=>(S.stype==='All'||s.t===S.stype)&&(S.slvl==='All'||s.l.includes(S.slvl[0]))&&(!S.sk||s.k===S.sk)).sort((a,b)=>(inWin(b.s,b.e,NOW)-inWin(a.s,a.e,NOW))||left(a)-left(b));
+  return `<div class="chips">${S.sk?`<button class="chip on" data-a="skf" data-v="">${S.sk}${I('close',14)}</button>`:''}${['All','Embassy','Government','University'].map(t=>`<button class="chip ${S.stype===t?'on':''}" data-a="stype" data-v="${t}">${t}</button>`).join('')}</div>
+  ${segHTML(['All','Bachelor','Master','PhD'].map(t=>[t,t]),S.slvl,'slvl')}
+  ${l.map(s=>{const o=inWin(s.s,s.e,NOW),key='sch:'+s.n;return `<div role="button" tabindex="0" class="srow ${o?'open':''}" data-a="sch" data-v="${s.n}"><div class="sh"><b>${s.n}</b><span class="cd">${s.k}</span><em>${o?'Closes '+MN[s.e-1]:'Opens '+MN[s.s-1]}</em></div>${months(m=>inWin(s.s,s.e,m))}
+    ${S.schOpen===s.n?`<div class="sx"><div class="chips w z">${[['T','Tuition'],['S','Stipend'],['F','Flights']].map(([k,n])=>`<span class="skill ${s.cov.includes(k)?'yes':'no'}">${n}</span>`).join('')}</div>
+    <div class="sxa"><b>${s.aw} awards</b><button class="ib ${S.saved.has(key)?'on':''}" data-a="save" data-v="${key}" aria-label="Save">${I('bookmark')}</button><button class="btn t" data-a="goGuide" data-v="schl">Steps</button></div></div>`:''}</div>`}).join('')||empty('No match')}`}
+};
+const xlistHTML=()=>Object.values(X).filter(x=>x.g===S.xg).map(x=>{const w=why(x);return `<button class="lrow ${wide()&&S.exam===x.id?'on':''} ${w?'no':''}" data-a="exam" data-v="${x.id}"><div><b>${x.n}</b><span>${w||x.b}</span></div><em class="v">${x.seats?oddsOf(x).txt:npr(x.fee)}</em></button>`}).join('');
+const V={
+explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(id=>C[id].to))];
+  return `<div class="wrap">${stagesHTML()}
+  <div class="grp">${st.streams.map(x=>`<button class="gb t-${x.tone} ${x.id===sm.id?'on':''}" data-a="stream" data-v="${x.id}">${x.n}</button>`).join('')}</div>
+  <div class="lens">${[['d','Demand'],['pay','Pay'],['ease','Odds']].map(([k,n])=>`<button class="lz ${S.lens===k?'on':''}" data-a="lens" data-v="${k}">${n}</button>`).join('')}</div>
+  <div class="flow" id="flow"><svg id="links"></svg>
+    <div class="col">${cs.map((id,i)=>`<button class="nd c" style="--i:${i}" data-a="course" data-v="${id}"><i class="fl"></i><span>${C[id].n}</span><small></small></button>`).join('')}</div>
+    <div class="col">${ks.map((id,i)=>`<button class="nd k" style="--i:${i+3}" data-a="career" data-v="${id}"><i class="fl"></i>${sig(K[id].d)}<span>${K[id].n}</span><small></small></button>`).join('')}</div>
+  </div></div>`},
+study(){return `<div class="wrap pad">${segHTML([['nepal','Colleges'],['abroad','Abroad'],['funding','Funding']],S.study,'study')}${STUDY[S.study]()}</div>`},
+exams(){return `<div class="wrap pad">${segHTML([['gov','Government'],['ent','Entrance'],['lang','Language']],S.xg,'xg')}
+  <div class="chips">${[1,2,3,4].map(i=>`<button class="chip ${S.edu===i?'on':''}" data-a="edu" data-v="${i}">${EDU[i]}</button>`).join('')}</div>
+  <div class="ctl"><div class="sl"><input type="range" id="age" min="14" max="45" value="${S.age}" aria-label="Age"><output id="agev">Age ${S.age}</output></div>${S.xg==='gov'?segHTML([['1','Woman'],['0','Man']],S.woman,'woman',''):''}</div>
+  <div id="xlist">${xlistHTML()}</div></div>`},
+guides(){const l=Object.values(G).filter(g=>S.gcat==='All'||g.cat===S.gcat);
+  return `<div class="wrap pad">${chipsHTML(['All','Study','Abroad','Government','Documents'],S.gcat,'gcat')}
+  <div class="ggrid">${l.map(g=>{const n=g.steps.length;return `<button class="gd t-${GT[g.cat]} ${wide()&&S.guide===g.id?'on':''}" data-a="guide" data-v="${g.id}"><b>${g.n}</b><div class="gp"><i style="width:${gdone(g)/n*100}%"></i></div><div class="gm"><span>${n} steps</span><span>${dy(gsum(g,1))}</span></div></button>`}).join('')}</div></div>`},
+plan(){return `<div class="wrap pad">${segHTML([['plan','My plan'],['match','Match']],S.plan,'plan')}${S.plan==='plan'?
+  `<p class="mad">I am <output id="pagev">${S.age}</output></p><input type="range" id="page" min="13" max="40" value="${S.age}" aria-label="Age"><div id="pout">${planOut()}</div>`:
+  `${stagesHTML()}<p class="mad">I enjoy</p><div class="chips w">${INT.map(([k,n])=>`<button class="chip ${S.mi.has(k)?'on':''}" data-a="mi" data-v="${k}">${n}</button>`).join('')}</div>
+  <p class="mad">I am strong in</p><div class="chips w">${STR.map(([k,n])=>`<button class="chip ms ${S.ms===k?'on':''}" data-a="ms" data-v="${k}">${n}</button>`).join('')}</div>
+  <p class="mad">My budget is <output id="mbv">NPR ${S.mb}L</output></p><input type="range" id="mb" min="1" max="60" value="${S.mb}" aria-label="Budget">
+  <div id="mres" style="margin-top:10px;position:relative"></div>`}</div>`}
+};
+// the plan assembles itself from the route chosen in Explore plus everything saved
+const route=()=>{const ids=S.path.map(p=>p.course);if(S.course)ids.push(S.course);return ids.map(id=>C[id])};
+function deadlines(){const m=new Map(),add=(key,n,s,e,a,v)=>{if(!(s===1&&e===12))m.set(key,{n,s,e,a,v})};
+  route().forEach(c=>{const x=X[CX[c.id]];if(x)add('exam:'+x.id,x.n,x.win[0],x.win[1],'goExam',x.id)});
+  S.saved.forEach(k=>{const i=k.indexOf(':'),t=k.slice(0,i),id=k.slice(i+1);
+    if(t==='exam'&&X[id])add(k,X[id].n,X[id].win[0],X[id].win[1],'goExam',id);
+    if(t==='sch'){const s=SCH.find(s=>s.n===id);if(s)add(k,s.n,s.s,s.e,'goSch',s.n)}});
+  const until=d=>inWin(d.s,d.e,NOW)?-1:(d.s-NOW+12)%12;return [...m.values()].sort((a,b)=>until(a)-until(b))}
+function planOut(){const r=route(),h=[];
+  if(r.length){const last=r[r.length-1],k=K[S.career&&last.to.includes(S.career)?S.career:last.to[0]],yrs=r.reduce((a,c)=>a+c.y,0),lo=r.reduce((a,c)=>a+c.fee[0],0),hi=r.reduce((a,c)=>a+c.fee[1],0),end=Math.ceil(S.age+yrs);
+    h.push(`<div class="hl t-pc"><b>${k.n} at ${end}</b><div class="tl">${r.map(c=>`<div style="flex:${c.y}"><span>${c.n}</span><small>${yr(c.y)}</small></div>`).join('')}<div class="end">${end}</div></div>${facts([['Years',fmt(yrs)],['Cost, NPR',fmt(lo)+'–'+fmt(hi)+'L'],['First pay','NPR '+k.pay[0]+'k']])}</div>`)}
+  const dl=deadlines();
+  if(dl.length)h.push('<h4>Deadlines</h4>'+dl.map(d=>{const o=inWin(d.s,d.e,NOW);return `<div role="button" tabindex="0" class="srow ${o?'open':''}" data-a="${d.a}" data-v="${d.v}"><div class="sh"><b>${d.n}</b><em>${o?'Closes '+MN[d.e-1]:'Opens '+MN[d.s-1]}</em></div>${months(m=>inWin(d.s,d.e,m))}</div>`}).join(''));
+  const gs=Object.values(G).filter(g=>S.saved.has('guide:'+g.id)||gdone(g));
+  if(gs.length)h.push('<h4>Guides</h4>'+gs.map(g=>`<button class="row" data-a="goGuide" data-v="${g.id}"><b>${g.n}</b><em>${gdone(g)} of ${g.steps.length}</em><div class="rb still"><i style="left:0;width:${gdone(g)/g.steps.length*100}%"></i></div></button>`).join(''));
+  const sv=[...S.saved].map(k=>{const i=k.indexOf(':'),t=k.slice(0,i),id=k.slice(i+1);return t==='course'&&C[id]?lrow('goCourse',id,C[id].n,C[id].f,'Course'):t==='career'&&K[id]?lrow('goCareer',id,K[id].n,payTxt(K[id].pay),'Career'):''}).join('');
+  if(sv)h.push('<h4>Saved</h4>'+sv);
+  return h.join('')||empty('Nothing planned')+`<button class="btn f" style="width:100%" data-a="nav" data-v="explore">Explore</button>`}
+function vSearch(){const q=S.q.toLowerCase(),r=[],hit=s=>s.toLowerCase().includes(q);
+  for(const id in C)if(hit(C[id].n+' '+C[id].f))r.push(lrow('goCourse',id,C[id].n,C[id].f,'Course'));
+  for(const id in K)if(hit(K[id].n))r.push(lrow('goCareer',id,K[id].n,payTxt(K[id].pay),'Career'));
+  for(const id in X)if(hit(X[id].n+' '+X[id].b))r.push(lrow('goExam',id,X[id].n,X[id].b,'Exam'));
+  for(const id in G)if(hit(G[id].n))r.push(lrow('goGuide',id,G[id].n,G[id].cat,'Guide'));
+  COL.forEach(x=>{if(hit(x.n+' '+x.d))r.push(lrow('find',x.c[0],x.n,x.d,'College'))});
+  SCH.forEach(s=>{if(hit(s.n))r.push(lrow('goSch',s.n,s.n,s.t,'Scholarship'))});
+  return `<div class="wrap pad">${r.slice(0,40).join('')||empty('No results')}</div>`}
+
+/* ============ SHEETS ============ */
+function heroHTML(tone,key,badge,title,sub){return `<header class="hero t-${tone}"><div class="hr"><button class="ib x" data-a="close" aria-label="Back">${I('back')}</button><button class="ib ${S.saved.has(key)?'on':''}" data-a="save" data-v="${key}" aria-label="Save">${I('bookmark')}</button></div>
+  <h2>${title}</h2><div class="badge">${badge}</div><p>${sub}</p></header>`}
+function costOut(c){const t=c.fee[+S.cpriv]*(1-S.aid/100),l=[0,18,12][+S.live]*12*c.y/100,b=.15*c.y,tot=t+l+b,avg=c.pay?(c.pay[0]+c.pay[1])/2:0;
+  return `<div class="big"><b>${lakh(tot)}</b>${avg?`<span>${Math.round(tot*100/avg)} months of starting pay</span>`:''}</div><div style="margin-top:16px">${split([['Tuition',t],['Living',l],['Books',b]],lakh)}</div>`}
+function prepOut(x){const days=Math.ceil(x.prep/S.hrs),mb=Math.ceil(days/30),tot=x.syl.reduce((a,p)=>a+p[1],0),mx=Math.max(...x.syl.map(p=>p[1]));
+  return `<div class="big"><b>${dy(days)}</b>${x.em?`<span>Start by ${MN[((x.em-1-mb)%12+12)%12]}</span>`:''}</div><h4>Hours a week</h4>${x.syl.map(([t,w])=>`<div class="row"><b>${t}</b><em>${fmt(S.hrs*7*w/tot)} h</em><div class="rb still"><i style="left:0;width:${w/mx*100}%"></i></div></div>`).join('')}`}
+function waffle(x){const o=oddsOf(x),one=o.r>=20,n=one?Math.min(o.n,400):100,m=Math.floor(n*.37);
+  return `<div class="waf">${[...Array(n)].map((_,i)=>`<i class="${one?(i===m?'me one':''):(i<o.n?'me':'')}"></i>`).join('')}</div>`}
+function radar(k){const ax=['Pay','Demand','Entry','Stability','Flexibility','Growth'];
+  const pt=(v,i,R=84)=>{const a=(i*60-90)*Math.PI/180,r=R*v/100;return[(160+r*Math.cos(a)).toFixed(1),(118+r*Math.sin(a)).toFixed(1)]};
+  const poly=vs=>vs.map((v,i)=>pt(v,i).join(',')).join(' ');
+  return `<svg class="radar" viewBox="0 0 320 236">${[33,66,100].map(g=>`<polygon points="${poly(Array(6).fill(g))}" fill="none" stroke="var(--ol)"/>`).join('')}
+  <polygon points="${poly(AVG)}" fill="var(--s3)"/><polygon points="${poly(rv(k))}" fill="var(--p)" fill-opacity=".22" stroke="var(--p)" stroke-width="2.5" stroke-linejoin="round"/>
+  ${ax.map((t,i)=>{const [x,y]=pt(100,i,102);return `<text x="${x}" y="${+y+4}" text-anchor="${i%3===0?'middle':i<3?'start':'end'}">${t}</text>`}).join('')}
+  <circle cx="14" cy="12" r="5" fill="var(--s3)"/><text x="24" y="16">Average</text></svg>`}
+function odds(o){return o.d-o.c}
+function market(k,id){
+  const me=K[id]||k,g=odds(me),all=Object.values(K).sort((a,b)=>odds(b)-odds(a)),rank=all.findIndex(o=>o.id===me.id)+1,n=all.length;
+  const v=g>=30?['Great odds','Lots of jobs, few rivals','g']:g>=10?['Good odds','More jobs than rivals','g']:g>=-10?['Competitive','Jobs and rivals are about equal','y']:['Tough to enter','Many more rivals than jobs','r'];
+  const lo=Math.max(0,Math.min(n-5,rank-3)),win=all.slice(lo,lo+5);
+  const bar=(l,s,val,cls)=>`<div class="mk-b"><span>${l}</span><div class="mk-t"><i class="${cls}" style="width:${val}%"></i></div><b>${val}</b></div>`;
+  return `<div class="mk"><div class="mk-v t-${v[2]}c"><b>${v[0]}</b><span>${v[1]}</span><em>#${rank} of ${n} careers</em></div>
+  ${bar('Jobs available','',me.d,'a')}${bar('People competing','',me.c,'b')}
+  <h5>Easiest careers to get into</h5>
+  ${win.map(o=>`<button class="mk-r ${o.id===me.id?'me':''}" data-a="goCareer" data-v="${o.id}"><u>${all.indexOf(o)+1}</u><span>${o.n}</span><div class="mk-g"><i style="width:${Math.max(6,Math.min(100,Math.round((odds(o)+50)/110*100)))}%"></i></div></button>`).join('')}
+  <p class="mk-n">Bar length shows jobs minus competition. Longer means easier to get a job.</p></div>`}
+function spark(k){const v=[0,1,2,3,4,5].map(i=>Math.max(5,Math.min(99,k.d-k.f.tr*(5-i)+(i<5?(k.id.charCodeAt(0)+i*7)%5-2:0))));
+  const lo=Math.min(...v)-8,hi=Math.max(...v)+8,px=i=>16+i*57.6,py=a=>78-(a-lo)/(hi-lo)*60,d=v.map((a,i)=>(i?'L':'M')+px(i).toFixed(0)+' '+py(a).toFixed(1)).join('');
+  return `<svg class="plot" viewBox="0 0 320 104"><path d="${d}L304 92L16 92Z" fill="var(--pc)"/><path d="${d}" fill="none" stroke="var(--p)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle class="me" cx="304" cy="${py(v[5]).toFixed(1)}" r="6"/><text x="16" y="102">${YEAR-5}</text><text x="304" y="102" text-anchor="end">${YEAR}</text></svg>`}
+const PANEL={
+course(id){const c=C[id],{st,sm}=locate(id),t=S.tabs.course;
+  if(t==='journey')return `<div class="steps">${c.plan.map((p,i)=>`<div class="step" style="--i:${i}"><b>${i+1}</b><span>${p}</span></div>`).join('')}</div>`;
+  if(t==='careers')return c.to.map(k=>{const o=K[k];return `<button class="row" data-a="goCareer" data-v="${k}"><b>${o.n}</b><em>${o.pay[0]}–${o.pay[2]}k</em><div class="rb"><i style="left:${o.pay[0]/4}%;width:${(o.pay[2]-o.pay[0])/4}%"></i></div></button>`}).join('');
+  if(t==='cost')return `${segHTML([['0','Public'],['1','Private']],S.cpriv,'cpriv')}${segHTML([['0','Home'],['1','Hostel'],['2','Room']],S.live,'live')}
+    <div class="sl"><input type="range" id="aid" min="0" max="100" step="10" value="${S.aid}" aria-label="Scholarship"><output id="aidv">Aid ${S.aid}%</output></div><div id="costout">${costOut(c)}</div>`;
+  if(t==='entry'){const x=X[CX[id]];return `<div class="tiles">${x?`<button class="tile lk" data-a="goExam" data-v="${x.id}"><div><small>Entrance</small><b>${c.ent}</b></div>${I('arrow',20)}</button>`:`<div class="tile"><small>Entrance</small><b>${c.ent}</b></div>`}
+    <div class="tile"><small>Needs</small><b>${st.need}${st.id==='p2'?' '+sm.n:''}</b></div><div class="tile"><small>Duration</small><b>${yr(c.y)}</b></div></div>${x&&x.em?`<div style="margin-top:18px">${examCal(x)}</div>`:''}`}
+  const sib=st.streams.flatMap(x=>x.courses).filter(x=>x!==id);if(!sib.length)return empty('Nothing to compare');
+  const b=sib.includes(S.cmp)?S.cmp:sib[0],B=C[b],av=a=>a?(a[0]+a[1])/2:0;
+  const rows=[['Demand',c.d,B.d,''],['Competition',c.c,B.c,''],['Start pay',av(c.pay),av(B.pay),'k'],['Fee',av(c.fee),av(B.fee),'L'],['Years',c.y,B.y,'']];
+  return `<div class="chips">${sib.map(x=>`<button class="chip ${x===b?'on':''}" data-a="cmp" data-v="${x}">${C[x].n}</button>`).join('')}</div>
+  <div class="bf"><div class="bfh"><b>${c.n}</b><b>${B.n}</b></div>${rows.map(([l,a,v,u])=>{const m=Math.max(a,v)||1;return `<div class="bfr"><span>${fmt(a)}${u}</span><div class="ba"><i style="width:${a/m*100}%"></i></div><em>${l}</em><div class="bb"><i style="width:${v/m*100}%"></i></div><span class="vb">${fmt(v)}${u}</span></div>`}).join('')}</div>`},
+career(id){const k=K[id],t=S.tabs.career;
+  if(t==='pay'){const max=k.pay[2],st=[0,3,7,12],yrs=['Year 0–2','Year 3–6','Year 7–11','Year 12+'];
+    return `<h4>How your monthly pay grows</h4><div class="lad">${k.f.lad.map((n,i)=>{const v=Math.round(payAt(k,st[i]));return `<button class="lr" data-a="rung" data-v="${st[i]}"><u>${i+1}</u><div><b>${n}</b><small>${yrs[i]}</small></div><em>NPR ${v}k</em><div class="lb"><i style="width:${v/max*100}%"></i></div></button>`}).join('')}</div>
+    <div class="exr"><label for="exp">Try a year</label><input type="range" id="exp" min="0" max="12" value="${S.exp}" aria-label="Years of experience"><output id="expo">Year ${S.exp}</output></div>
+    <p class="mk-n">Monthly salary before tax, in thousands of rupees. Tap a step or drag the slider.</p>`}
+  if(t==='profile')return `${radar(k)}<h4>A ${k.f.hrs}-hour week</h4>${split(k.f.day)}`;
+  if(t==='skills'){const have=k.sk.filter(s=>S.have.has(s)).length,routes=Object.keys(C).filter(c=>C[c].to.includes(id));
+    return `<div class="rdy" id="rdy">${ring(Math.round(have/k.sk.length*100),'Ready','still')}<div class="chips w z">${k.sk.map(s=>`<button class="chip ${S.have.has(s)?'on':''}" data-a="have" data-v="${s}">${s}</button>`).join('')}</div></div>
+    ${k.lic?`<h4>Licence</h4>`+lrow(k.lx?'goExam':'goGuide',k.lx||'lic',k.lic,k.lx?X[k.lx].b:'Council registration',k.lx?'Exam':'Guide'):''}
+    <h4>Routes in</h4><div class="chips w z">${routes.map(c=>`<button class="chip" data-a="goCourse" data-v="${c}">${C[c].n}</button>`).join('')}</div>`}
+  return `<h4>Demand, 5 years</h4>${spark(k)}<h4>Your chances</h4>${market(k,id)}
+  <h4>Where the jobs are</h4>${split(k.f.wh)}<h4>Employers</h4><div class="chips w z">${k.f.emp.map(s=>`<span class="skill">${s}</span>`).join('')}</div>`},
+exam(id){const x=X[id],t=S.tabs.exam;
+  if(t==='stages'){const cs=Object.keys(CX).filter(c=>CX[c]===id);
+    return `<div class="steps">${x.st.map(([n,m,f],i)=>`<div class="step" style="--i:${i}"><b>${i+1}</b><span>${n}<small>${f}</small></span><em>${+m?m:'Pass'}</em></div>`).join('')}</div>${cs.length?`<h4>Leads to</h4><div class="chips w z">${cs.map(c=>`<button class="chip" data-a="goCourse" data-v="${c}">${C[c].n}</button>`).join('')}</div>`:''}`}
+  if(t==='syllabus')return split(x.syl);
+  if(t==='odds')return `<p class="mad">${oddsOf(x).txt}</p>${waffle(x)}${x.quota?`<h4>Seats by category</h4>${split(QUOTA)}`:''}`;
+  if(t==='prepare')return `<p class="mad"><output id="hrv">${S.hrs}</output> h a day</p><input type="range" id="hrs" min="1" max="10" value="${S.hrs}" aria-label="Hours a day"><div id="prepout">${prepOut(x)}</div>`;
+  return RUNG.map((r,i)=>`<div class="rung ${i===x.rung?'on':i<x.rung?'dim':''}" style="--w:${55+i*9}%"><span>${r[0]}</span><b>NPR ${r[1]}k</b></div>`).reverse().join('')}
+};
+const SHEET={
+course(id){const c=C[id],{st,sm}=locate(id),nx=STAGES[STAGES.indexOf(st)+1],[yn,yu]=yr(c.y).split(' ');
+  return heroHTML(sm.tone,'course:'+id,`${shape(8,'spin')}<div><b>${yn}</b><small>${yu}</small></div>`,c.n,c.f)+
+  `<div class="meters">${ring(c.d,'Demand')}${ring(c.c,'Competition','','var(--on)')}${c.pay?`<div class="pay"><b>${c.pay[0]}–${c.pay[1]}k</b><span>NPR / month to start</span></div>`:'<span></span>'}</div>
+  ${tabsHTML([['journey','Journey'],['careers','Careers'],['cost','Cost'],['entry','Entry'],['compare','Compare']],S.tabs.course)}<div id="tabp">${PANEL.course(id)}</div>
+  <div class="acts">${hasCol(id)?`<button class="btn f" data-a="find" data-v="${id}">${I('pin',18)}Colleges</button>`:''}${nx?`<button class="btn t" data-a="next" data-v="${id}">${nx.t}${I('arrow',18)}</button>`:''}</div>`},
+career(id){const k=K[id];
+  return heroHTML('sc','career:'+id,`${shape(5,'spin')}<div>${sig(k.d)}</div>`,k.n,payTxt(k.pay))+
+  `<div class="meters">${ring(k.d,'Demand')}${ring(k.c,'Competition','','var(--on)')}<div class="pay"><b id="expv"></b><span id="expl"></span></div></div>
+  ${tabsHTML([['pay','Pay'],['profile','Profile'],['skills','Skills'],['market','Market']],S.tabs.career)}<div id="tabp">${PANEL.career(id)}</div>`},
+exam(id){const x=X[id],o=x.seats?oddsOf(x):null,tabs=[['stages','Stages'],['syllabus','Syllabus']],f=[];
+  if(o)tabs.push(['odds','Odds']);tabs.push(['prepare','Prepare']);if(x.rung!=null)tabs.push(['ladder','Ladder']);
+  if(!tabs.some(t=>t[0]===S.tabs.exam))S.tabs.exam='stages';
+  if(o)f.push(['Seats',num(x.seats)],['Applicants',num(x.apps)]);f.push(['Fee',npr(x.fee)],['Needs',EDU[x.edu]]);
+  if(x.age)f.push(['Age',x.age[0]+'–'+x.age[1]+(x.age[2]>x.age[1]?', women '+x.age[2]:'')]);if(x.pay)f.push(['Starting pay','NPR '+x.pay+'k']);if(x.valid)f.push(['Valid',x.valid+' yr']);
+  return heroHTML({gov:'yc',ent:'pc',lang:'gc'}[x.g],'exam:'+id,`${shape(7,'spin')}<div>${o?`${o.pre?`<small>${o.pre}</small>`:''}<b>${o.n}</b>${o.post?`<small>${o.post}</small>`:''}`:`<b>${x.st.length}</b><small>parts</small>`}</div>`,x.n,x.b)+
+  facts(f)+(x.em?`<div class="blk">${examCal(x)}</div>`:'')+tabsHTML(tabs,S.tabs.exam)+`<div id="tabp">${PANEL.exam(id)}</div>`+
+  (x.guide||x.k?`<div class="acts">${x.guide?`<button class="btn f" data-a="goGuide" data-v="${x.guide}">${I('list',18)}Steps</button>`:''}${x.k?`<button class="btn t" data-a="goCareer" data-v="${x.k}">${K[x.k].n}${I('arrow',18)}</button>`:''}</div>`:'')},
+guide(id){const g=G[id],n=g.steps.length,d=gdone(g);
+  return heroHTML(GT[g.cat],'guide:'+id,`${shape(6,'spin')}<div><b id="gdone">${d}</b><small>of ${n}</small></div>`,g.n,g.cat)+
+  facts([['Time',dy(gsum(g,1))],['Cost','NPR '+num(gsum(g,2))],['Online',g.steps.filter(s=>s[3]==='O').length+' of '+n]])+
+  `<div class="blk"><div class="gp lg"><i id="gbar" style="width:${d/n*100}%"></i></div></div>
+  <div class="blk"><div class="steps">${g.steps.map(([t,ds,c,w],i)=>`<button class="step ck ${S.done.has(id+':'+i)?'done':''}" style="--i:${i}" data-a="step" data-v="${id}:${i}"><b><i>${i+1}</i>${I('check',18)}</b><span>${t}<small>${[ds?dy(ds):'',c?npr(c):'',w==='O'?'Online':'In person'].filter(Boolean).join(' · ')}</small></span></button>`).join('')}</div></div>
+  <div class="blk"><h4>Documents</h4><div class="chips w z">${g.docs.map(x=>`<button class="chip ${S.docs.has(id+':'+x)?'on':''}" data-a="doc" data-v="${id}:${x}">${x}</button>`).join('')}</div></div>
+  ${g.link?`<div class="acts"><button class="btn t" data-a="${g.link[0]}" data-v="${g.link[1]}">${g.link[2]}${I('arrow',18)}</button></div>`:''}`}
+};
+function updExp(){const c=cur();if(!c||c.t!=='career'||!$('#expv'))return;const k=K[c.id],v=payAt(k,S.exp),ri=S.exp<3?0:S.exp<7?1:S.exp<12?2:3;
+  $('#expv').textContent='NPR '+Math.round(v)+'k';$('#expl').textContent=(S.exp?'Year '+S.exp:'Entry')+' · '+k.f.lad[ri];
+  const r=$('#exp'),o=$('#expo');if(o)o.textContent=S.exp?'Year '+S.exp:'Entry';
+  if(r&&+r.value!==S.exp)r.value=S.exp;$$('.lr').forEach((b,i)=>b.classList.toggle('on',i===ri))}
+
+/* ============ RENDER ============ */
+function renderTop(){const tr=[];
+  S.path.forEach((p,i)=>tr.push(`<button class="tc" data-a="trail" data-v="${i}">${C[p.course].n}</button>`));
+  tr.push(`<button class="tc" data-a="home">${stage().t}</button>`);
+  if(S.course)tr.push(`<button class="tc on" data-a="goCourse" data-v="${S.course}">${C[S.course].n}</button>`);
+  if(S.career)tr.push(`<button class="tc on" data-a="goCareer" data-v="${S.career}">${K[S.career].n}</button>`);
+  $('#top').innerHTML=`<div class="tbar">${S.searching?`<input id="q" placeholder="Search" autocomplete="off" aria-label="Search">`:`<div class="brand">Pathways</div>`}
+    <button class="ib ${S.searching?'on':''}" data-a="search" aria-label="Search">${I(S.searching?'close':'search')}</button></div>
+    ${S.view==='explore'&&!S.searching?`<div class="trail">${tr.join('<i class="sep"></i>')}</div>`:''}`}
+function renderMain(){const m=$('#main'),over=S.searching&&S.q,key=[over?S.q&&'q':'',S.view,S.stage,S.stream,S.dev,S.study,S.xg,S.plan,S.gcat].join('|');
+  if(key!==lastKey){m.classList.add('fresh');m.scrollTop=0;clearTimeout(freshT);freshT=setTimeout(()=>m.classList.remove('fresh'),900);lastKey=key}
+  m.innerHTML=over?vSearch():V[S.view]();
+  if(over)return;
+  const on=$('.stg.on',m);if(on){const r=on.parentNode;r.scrollLeft=on.offsetLeft-(r.clientWidth-on.offsetWidth)/2}
+  if(S.view==='explore')drawLinks();
+  if(S.view==='study'&&S.study==='nepal')renderCList();
+  if(S.view==='plan'&&S.plan==='match')renderMatch()}
+function drawLinks(){const f=$('#flow');if(!f)return;
+  const P=e=>({l:e.offsetLeft,r:e.offsetLeft+e.offsetWidth,y:e.offsetTop+e.offsetHeight/2});let o='';
+  $$('.nd.c',f).forEach(a=>{const A=P(a);C[a.dataset.v].to.forEach(k=>{const b=$(`.nd.k[data-v="${k}"]`,f);if(!b)return;const B=P(b),m=(A.r+B.l)/2;
+    o+=`<path pathLength="1" data-c="${a.dataset.v}" data-k="${k}" d="M${A.r} ${A.y}C${m} ${A.y} ${m} ${B.y} ${B.l} ${B.y}"/>`})});
+  $('#links').innerHTML=o;paint()}
+// course selected: its careers light up. career selected: every course that reaches it lights up.
+function paint(){const c=S.course,k=S.career,any=c||k;
+  const cs=id=>c?(id===c?2:0):k&&C[id].to.includes(k)?1:0,ks=id=>k?(id===k?2:0):c&&C[c].to.includes(id)?1:0;
+  const set=(e,v)=>{e.classList.toggle('on',v===2);e.classList.toggle('lit',v===1);e.classList.toggle('dim',!!any&&!v)};
+  $$('#flow .nd.c').forEach(e=>set(e,cs(e.dataset.v)));$$('#flow .nd.k').forEach(e=>set(e,ks(e.dataset.v)));
+  $$('#links path').forEach(p=>{const on=cs(p.dataset.c)&&ks(p.dataset.k);p.classList.toggle('on',!!on);p.classList.toggle('dim',!!any&&!on)});lensPaint()}
+// lens: fills every node with one metric so a whole stream can be read at a glance
+function lensPaint(){$$('#flow .nd').forEach(e=>{const isC=e.classList.contains('c'),o=isC?C[e.dataset.v]:K[e.dataset.v];let w=0,t=isC?yr(o.y):'';
+  if(S.lens==='d'){w=o.d;t=o.d}
+  else if(S.lens==='ease'){w=100-o.c;t=100-o.c}
+  else if(S.lens==='pay'){const p=isC?(o.pay?(o.pay[0]+o.pay[1])/2:0):o.pay[0];w=Math.min(100,p);t=p?Math.round(p)+'k':''}
+  e.style.setProperty('--w',w+'%');$('small',e).textContent=t})}
+function renderPeek(){const p=$('#peek'),show=!wide()&&S.view==='explore'&&S.sel&&!S.searching;
+  p.classList.toggle('show',!!show);if(!show){p.innerHTML='';return}
+  const {t,id}=S.sel,o=t==='course'?C[id]:K[id];
+  p.innerHTML=`<button class="pk t-${t==='course'?locate(id).sm.tone:'sc'}" data-a="open"><div><b>${o.n}</b><span>${t==='course'?o.f:payTxt(o.pay)}</span></div>${ring(o.d,'','s','currentColor')}<i class="go">${I('arrow')}</i></button>`}
+function renderSheet(){const el=$('#sheet'),c=cur();el.classList.toggle('open',!!(c&&(wide()||S.open)));
+  el.innerHTML=c?SHEET[c.t](c.id):'';el.scrollTop=0;updExp()}
+function repanel(){const c=cur(),p=$('#tabp');if(c&&p&&PANEL[c.t]){p.innerHTML=PANEL[c.t](c.id);updExp()}}
+function renderNav(){$('#nav').innerHTML=[['explore','route','Explore'],['study','cap','Study'],['exams','exam','Exams'],['guides','list','Guides'],['plan','flag','Plan']]
+  .map(([v,ic,n])=>`<button class="${S.view===v?'on':''}" data-a="nav" data-v="${v}"><i>${I(ic)}${v==='plan'&&S.saved.size?`<span class="cnt">${S.saved.size}</span>`:''}</i>${n}</button>`).join('')}
+function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let l=COL.filter(x=>x.c.includes(S.cc)).map(x=>({...x,fee:c.fee[0]+(c.fee[1]-c.fee[0])*x.k}));
+  if(S.prov!=null)l=l.filter(x=>x.p===S.prov);
+  const ds=[...new Set(l.map(x=>x.d))];if(!ds.includes(S.dist))S.dist=null;if(S.dist)l=l.filter(x=>x.d===S.dist);
+  l=l.filter(x=>x.fee<=S.cmax).sort((a,b)=>S.csort==='fee'?a.fee-b.fee:b.seats-a.seats);
+  box.innerHTML=(ds.length>1?`<div class="chips">${ds.map(d=>`<button class="chip ${S.dist===d?'on':''}" data-a="dist" data-v="${d}">${d}</button>`).join('')}</div>`:'')+
+  (l.map(x=>`<div class="crow"><div><b>${x.n}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${x.t==='Public'?'gc':'tc'}">${x.t}</span><div class="fee"><i style="width:${x.fee/c.fee[1]*100}%"></i></div><span class="fv">${lakh(x.fee)}</span></div>`).join('')||empty('No colleges'))}
+function score(c){let s=0;
+  if(S.mi.size)s+=55*[...S.mi].filter(x=>c.tags.includes(x)).length/S.mi.size;else s+=25;
+  s+=S.ms?(c.st===S.ms?25:0):10;s+=c.fee[0]<=S.mb?(c.fee[1]<=S.mb?15:9):0;s+=c.d/20;return Math.min(99,Math.round(s))}
+function renderMatch(){const box=$('#mres');if(!box)return;const old={};$$('.mrow',box).forEach(e=>old[e.dataset.v]=e.offsetTop);
+  const l=stage().streams.flatMap(x=>x.courses).map(id=>({c:C[id],s:score(C[id])})).sort((a,b)=>b.s-a.s).slice(0,6);
+  box.innerHTML=l.map(({c,s})=>`<button class="mrow" data-a="goCourse" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b><span>${c.f}</span></div>${I('arrow',20)}</button>`).join('');
+  $$('.mrow',box).forEach(e=>{const o=old[e.dataset.v];if(!e.animate)return;
+    if(o==null)e.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'none'}],{duration:350,easing:'cubic-bezier(.2,0,0,1)'});
+    else if(o!==e.offsetTop)e.animate([{transform:`translateY(${o-e.offsetTop}px)`},{transform:'none'}],{duration:520,easing:'cubic-bezier(.34,1.56,.64,1)'})})}
+function chrome(){$('#frame').dataset.dev=S.dev;$$('#devseg button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.dev))}
+function render(){chrome();renderTop();renderNav();renderSheet();renderMain();renderPeek()}
+
+/* ============ ACTIONS ============ */
+const clearOver=()=>{S.searching=false;S.q=''};
+const select=()=>{paint();renderTop();renderPeek();renderSheet()};
+// cross-links between sections remember where they came from, so Back returns there
+const jump=()=>{S.back.push({view:S.view,open:S.open});if(S.back.length>8)S.back.shift()};
+const A={
+dev(v){S.dev=v;render()},
+theme(){const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'},
+nav(v){S.view=v;S.open=false;S.back=[];clearOver();render()},
+stage(v){const i=STAGES.findIndex(s=>s.id===v);S.stage=v;S.stream=stage().streams[0].id;S.edu=STAGE_EDU[i];S.age=STAGE_AGE[i];S.course=S.career=S.sel=null;S.path=[];S.open=false;render()},
+stream(v){S.stream=v;S.course=S.career=S.sel=null;render()},
+home(){S.course=S.career=S.sel=null;render()},
+lens(v){S.lens=S.lens===v?null:v;$$('.lz').forEach(b=>b.classList.toggle('on',b.dataset.v===S.lens));lensPaint()},
+course(v){if(S.course===v){S.course=null;S.sel=S.career?{t:'career',id:S.career}:null}else{S.course=v;if(S.career&&!C[v].to.includes(S.career))S.career=null;S.sel={t:'course',id:v};S.tabs.course='journey';S.cmp=null}select()},
+career(v){if(S.career===v){S.career=null;S.sel=S.course?{t:'course',id:S.course}:null}else{S.career=v;if(S.course&&!C[S.course].to.includes(v))S.course=null;S.sel={t:'career',id:v};S.exp=3}select()},
+open(){S.open=true;renderSheet();renderPeek()},
+close(){if(S.back.length){const b=S.back.pop();S.view=b.view;S.open=b.open;render()}else{S.open=false;renderSheet();renderPeek()}},
+tab(v,t){const c=cur();if(!c)return;S.tabs[c.t]=v;$$('.tabs button').forEach(b=>b.classList.toggle('on',b===t));repanel()},
+seg(v,t){const s=t.closest('.split'),was=t.classList.contains('on');$$('button',s).forEach(b=>b.classList.toggle('on',!was&&b.dataset.v===v));s.classList.toggle('has',!was)},
+cmp(v){S.cmp=v;repanel()},
+cpriv(v){S.cpriv=v;repanel()},live(v){S.live=v;repanel()},
+rung(v){S.exp=+v;updExp()},
+have(v,t){tog(S.have,v);t.classList.toggle('on');const c=cur(),box=$('#rdy');if(!c||c.t!=='career'||!box)return;
+  const k=K[c.id],p=Math.round(k.sk.filter(s=>S.have.has(s)).length/k.sk.length*100);$('.fg',box).style.strokeDashoffset=100-p;$('b',box).textContent=p},
+save(v,t){tog(S.saved,v);t.classList.toggle('on');renderNav()},
+next(v){const {st,sm}=locate(v),nx=STAGES[STAGES.indexOf(st)+1];if(!nx)return;S.path.push({stage:st.id,stream:sm.id,course:v});
+  S.stage=nx.id;S.stream=nx.streams.some(x=>x.id===C[v].ns)?C[v].ns:nx.streams[0].id;S.course=S.career=S.sel=null;S.open=false;S.back=[];S.view='explore';render()},
+trail(i){const p=S.path[+i];if(!p)return;S.path=S.path.slice(0,+i);S.stage=p.stage;S.stream=p.stream;S.course=p.course;S.career=null;S.sel={t:'course',id:p.course};S.tabs.course='journey';render()},
+goCourse(v){if(S.view!=='explore')jump();const {st,sm}=locate(v);if(st.id!==S.stage)S.path=[];S.stage=st.id;S.stream=sm.id;S.course=v;if(S.career&&!C[v].to.includes(S.career))S.career=null;
+  S.sel={t:'course',id:v};S.tabs.course='journey';S.cmp=null;S.open=true;S.view='explore';clearOver();render()},
+goCareer(v){if(S.view!=='explore')jump();
+  if(!stream().courses.some(c=>C[c].to.includes(v))){const c=Object.keys(C).find(c=>C[c].to.includes(v)),{st,sm}=locate(c);S.stage=st.id;S.stream=sm.id;S.course=null;S.path=[]}
+  if(S.course&&!C[S.course].to.includes(v))S.course=null;S.career=v;S.sel={t:'career',id:v};S.exp=3;S.open=true;S.view='explore';clearOver();render()},
+goExam(v){jump();S.view='exams';S.xg=X[v].g;S.exam=v;S.tabs.exam='stages';S.open=true;clearOver();render()},
+goGuide(v){jump();S.view='guides';S.gcat='All';S.guide=v;S.open=true;clearOver();render()},
+goStudy(v){S.view='study';S.study=v;S.open=false;S.back=[];clearOver();render()},
+goSch(v){S.view='study';S.study='funding';S.stype='All';S.slvl='All';S.sk=null;S.schOpen=v;S.open=false;S.back=[];clearOver();render()},
+find(v){S.cc=v;S.cmax=null;S.prov=S.dist=null;S.view='study';S.study='nepal';S.open=false;S.back=[];clearOver();render()},
+study(v){S.study=v;renderMain()},
+cc(v){S.cc=v;S.cmax=null;S.prov=S.dist=null;renderMain()},
+prov(v){S.prov=S.prov===+v?null:+v;S.dist=null;renderMain()},
+dist(v){S.dist=S.dist===v?null:v;renderCList()},
+csort(v){S.csort=v;renderMain()},
+ctry(v){S.ab=S.ab===v?null:v;const l=$('#ablist');if(l)l.innerHTML=abList();else renderMain()},
+skf(v){S.sk=v||null;S.study='funding';S.stype='All';S.slvl='All';renderMain()},
+stype(v){S.stype=v;renderMain()},slvl(v){S.slvl=v;renderMain()},
+sch(v){S.schOpen=S.schOpen===v?null:v;renderMain()},
+xg(v){S.xg=v;const l=Object.values(X).filter(x=>x.g===v);if(!l.some(x=>x.id===S.exam))S.exam=l[0].id;S.tabs.exam='stages';renderMain();renderSheet()},
+edu(v){S.edu=+v;renderMain()},
+woman(v){S.woman=v;renderMain()},
+exam(v){S.exam=v;S.tabs.exam='stages';S.open=true;renderMain();renderSheet()},
+gcat(v){S.gcat=v;renderMain()},
+guide(v){S.guide=v;S.open=true;renderMain();renderSheet()},
+step(v,t){tog(S.done,v);t.classList.toggle('done');const g=G[v.split(':')[0]],w=gdone(g)/g.steps.length*100+'%',a=$('#gdone'),b=$('#gbar'),c=$(`.gd[data-v="${g.id}"] .gp i`);
+  if(a)a.textContent=gdone(g);if(b)b.style.width=w;if(c)c.style.width=w},
+doc(v,t){tog(S.docs,v);t.classList.toggle('on')},
+plan(v){S.plan=v;renderMain()},
+mi(v,t){tog(S.mi,v);t.classList.toggle('on');renderMatch()},
+ms(v){S.ms=S.ms===v?null:v;$$('.chip.ms').forEach(b=>b.classList.toggle('on',b.dataset.v===S.ms));renderMatch()},
+search(){S.searching=!S.searching;S.q='';renderTop();renderMain();renderPeek();const q=$('#q');if(q)q.focus()}
+};
+const IN={
+q(v){S.q=v.trim();renderMain();renderPeek()},
+exp(v){S.exp=+v;updExp()},
+cmax(v){S.cmax=+v;$('#cmaxv').textContent=lakh(S.cmax);renderCList()},
+abmax(v){S.abmax=+v;$('#abv').textContent='NPR '+v+'L';$('#ablist').innerHTML=abList()},
+mb(v){S.mb=+v;$('#mbv').textContent='NPR '+v+'L';renderMatch()},
+age(v){S.age=+v;$('#agev').textContent='Age '+v;$('#xlist').innerHTML=xlistHTML()},
+page(v){S.age=+v;$('#pagev').textContent=v;$('#pout').innerHTML=planOut()},
+hrs(v){S.hrs=+v;$('#hrv').textContent=v;$('#prepout').innerHTML=prepOut(X[S.exam])},
+aid(v){S.aid=+v;$('#aidv').textContent='Aid '+v+'%';const c=cur();if(c&&c.t==='course')$('#costout').innerHTML=costOut(C[c.id])}
+};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(t&&A[t.dataset.a])A[t.dataset.a](t.dataset.v,t)});
+document.addEventListener('input',e=>{const f=IN[e.target.id];if(f)f(e.target.value)});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[role=button]')){e.preventDefault();e.target.click()}});
+new ResizeObserver(()=>drawLinks()).observe($('#main'));
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawLinks);
+render();
+</script>
+</body>
+</html>
