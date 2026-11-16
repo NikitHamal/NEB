@@ -899,6 +899,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 | 207 | **2083/84 Lok Sewa dates** on Kharidar and Nayab Subba: pre qualifying tests for organised institutions on 3 and 4 Ashoj 2083, applications to 26 Shrawan 2083, next civil service round expected Baisakh 2084 (calendar summary). | `w15_nepal.py` |
 | 208 | **10 FAQs (fw15-1 to 10)**: NEB Grade 12 exams of 14 to 27 Baisakh 2083, SEE dates and the next SEE registration rule, pre qualifying test, Staff Nurse and Health Assistant, Romania cost and scholarship, Estonia, ETH, Cyprus, cheapest European countries. | `w15_nepal.py` |
 | 210 | **Wave 15b**: four ACCA learning partners (Certified College of Accountancy, NCA, Seed Financial Academy, The British College, each website fetched and naming its Kathmandu locality) linked to the ACCA route; three flying schools (Nepal Aviation Academy, Himalayan Aviation Academy, Orient Flight School Nepal) on the pilot route, which had no provider; MEXT window text (Nepal research deadline 31 May 2026 from a repost); FAQs fw15-11 to 14 (ACCA colleges, becoming a pilot, MEXT, spotting the real college website). Providers 443 to 450. | `w15_more.py` |
+| 211 | **Class 11 and Lok Sewa calendar answers and the Irish scholarship**: FAQ fw15-15 (NEB Class 11 subject registration: SEE GPA 1.6, NPR 400 by 30 Ashoj 2083, late fee sources disagree, Grade 12 planned Baisakh 2084), fw15-16 (2083/84 Lok Sewa notice and exam months), and the Government of Ireland International Education Scholarship (EUR 10,000 stipend plus tuition waiver, 2026 call 29 January to 12 March, next expected March 2027) linked to Ireland, which had no scholarship. Police and APF 2083 notices were already in `g-police`, `g-police-asi` and `g-apf-asi`, so nothing was repeated. | `w15_more.py`, `w15_abroad.py` |
 | 209 | **Merge and checks**: `pathways.py` reads `wave15.json`; `Wave15Tests`. | `pathways.py`, `test_pathways.py` |
 
 ## Sources
@@ -910,5 +911,5 @@ Public Service Commission notices 101 and 102 of 2083/84 (via educatenepal.com),
 - Agency pages were the only readable source for several fees and work rules; each says "agencies say" or "sources disagree".
 
 ## Not done / next
-- Websites for the 215 providers that still have none (most medical colleges returned nothing from simple domain probes; search the name).
+- Websites for the 215 providers that still have none. A second, wider domain probe (nine suffixes, 12 name patterns) found nothing new that passed the checks; medical colleges need a search by name. Countries still without a listed scholarship: Finland, Malaysia (MTCP listing found but its 2026 date was unreliable), UAE, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines, Uzbekistan, Cyprus.
 - Official Nepal Medical Council list of recognised foreign medical schools, per college CTEVT fees, Health Service syllabus marks for Health Assistant from the commission page.

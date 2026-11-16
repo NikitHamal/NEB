@@ -625,3 +625,14 @@ class Wave15bTests(TestCase):
         for i in range(11, 15):
             self.assertIn('fw15-%d' % i, faq)
         self.assertEqual(pathways.problems(d), [])
+
+    def test_irish_scholarship_and_class_11_faq(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('s-goi-ies', abroad['ie']['scholarships'])
+        self.assertEqual(sch['s-goi-ies']['open'], [1, 3])
+        self.assertIn('EUR 10,000', sch['s-goi-ies']['covers'])
+        faq = {f['id']: f for f in d['faq']}
+        self.assertIn('GPA 1.6', faq['fw15-15']['a'])
+        self.assertIn('fw15-16', faq)

@@ -50,6 +50,11 @@ SCHOLARSHIPS_ADD = [
      'who': 'Non EU citizens, for bachelor, master and doctoral study in Romanian universities in all fields except medicine, dental medicine and pharmacy. The call is annual and lists some categories that cannot apply, so read the current call.',
      'how': 'Apply online at scholarships.studyinromania.gov.ro. The 2026/27 call ran from 16 February to 31 March 2026 with results about 15 July, so the next call is expected in the same months of 2027. Documents must be apostilled or attested, scanned as PDFs and translated into English, French, Spanish or Romanian.',
      'link': 'https://scholarships.studyinromania.gov.ro', 'country': 'ro', 'type': 'Government', 'open': [2, 3]},
+    {'id': 's-goi-ies', 'name': 'Government of Ireland International Education Scholarship', 'scope': 'abroad', 'levels': ['master', 'phd'], 'by': 'Government of Ireland, managed by the Higher Education Authority',
+     'covers': 'A stipend of EUR 10,000 for one academic year and a full tuition and registration fee waiver from the host university',
+     'who': 'Citizens of countries outside the EU, EEA, Switzerland and the United Kingdom who hold an offer from a participating Irish university for a master or doctoral programme and show academic merit.',
+     'how': 'Apply through the Irish university that offered you a place, which nominates its candidates. The 2026 call opened on 29 January and closed on 12 March 2026 at 5 pm Irish time, with results in early June, so expect the next call in the same months of 2027 and confirm the date on the Higher Education Authority page. Listings say the award is for one year only.',
+     'link': 'https://hea.ie', 'country': 'ie', 'type': 'Government', 'open': [1, 3]},
 ]
 
 SCHOLARSHIP_EXTRA = {
