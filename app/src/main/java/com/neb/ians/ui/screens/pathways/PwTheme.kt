@@ -501,7 +501,7 @@ internal fun PwEmpty(text: String) {
 @Composable
 internal fun PwRow(
     title: String, sub: String = "", trailing: String = "", onClick: (() -> Unit)? = null,
-    on: Boolean = false, dim: Boolean = false, strong: Boolean = false, below: (@Composable () -> Unit)? = null, rise: Int = -1,
+    on: Boolean = false, dim: Boolean = false, strong: Boolean = false, rise: Int = -1, below: (@Composable () -> Unit)? = null,
 ) {
     val c = MaterialTheme.colorScheme
     PwSurface(
@@ -559,6 +559,7 @@ internal fun PwSteps(items: List<Triple<String, String, String>>, done: (Int) ->
     }
 }
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 internal fun PwSlider(value: Float, onChange: (Float) -> Unit, range: ClosedFloatingPointRange<Float>, steps: Int, label: String) {
     val c = MaterialTheme.colorScheme

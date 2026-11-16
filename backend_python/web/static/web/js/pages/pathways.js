@@ -1,185 +1,395 @@
-/* Pathways (web). One dataset from /api/pathways/, hash routes, no framework.
-   Files: pathways.js (core, search, saved), pathways-level.js (levels and course page),
-   pathways-more.js (colleges, abroad, Lok Sewa, questions, saved), pathways-lab.js (Course Lab match).
-   The matching and the numbers mirror the Android screens (PwMatch.kt, PwInsight.kt). */
-(function () {
-  'use strict';
-  var $ = function (id) { return document.getElementById(id); };
-  var PW = window.PW = { $: $, views: {}, state: { district: '' }, D: null };
-  try { PW.state.district = localStorage.getItem('pw-district') || ''; } catch (e) {}
-  PW.districts = JSON.parse($('pw-districts').textContent);
-  PW.GROUPS = { school: 'School', tech: 'Engineering and IT', sci: 'Science', health: 'Health sciences', biz: 'Business', arts: 'Arts and media', edu: 'Education', law: 'Law', ag: 'Agriculture', gov: 'Government', abroad: 'Abroad' };
-  var view = PW.view = $('pw-view'), nav = $('pw-nav');
+/* Pathways (web). Concept UI from NEBians-Pathways.html on the real /api/pathways/ payload. Generated body: edit the
+   concept first, then port. Data shapes come from pathways-data.js. */
+(function(){
+'use strict';
+const root=document.getElementById('pwx');if(!root)return;
+const fail=t=>{root.innerHTML='<div class="pw-fail">'+t+'</div>'};
+fetch(root.dataset.src,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(P=>{
+root.innerHTML='<div class="app"><div class="top" id="pw-top"></div><div id="pw-main"></div><div class="peek" id="pw-peek"></div><nav class="nav" id="pw-nav"></nav><aside class="sheet" id="pw-sheet"></aside></div>';
+const DATA=pwAdapt(P),{STAGES,C,K,X,G,COL,CT,SCH,CX}=DATA,TR=DATA.tracks,GT=DATA.CTONE;
+const PMAX=Math.max(100,...Object.values(K).map(k=>k.pay[2]));
+const VISA=Object.keys(G).find(k=>/visa/.test(k))||'';
+Object.values(K).forEach(k=>{if(k.lx&&!X[k.lx])k.lx=''});
+const firstStage=STAGES.find(s=>s.id==='after12')||STAGES[0],DEF=(()=>{const sm=firstStage.streams[0],withCol=Object.keys(C).find(id=>COL.some(x=>x.c.includes(id)));
+  return {stage:firstStage.id,stream:sm.id,course:sm.courses[0]||null,cc:withCol||Object.keys(C)[0],xg:TR[0]?TR[0][0]:'',exam:(Object.values(X).find(x=>TR[0]&&x.g===TR[0][0])||Object.values(X)[0]||{}).id,guide:(Object.values(G)[0]||{}).id}})();
+const STAGE_EDU=[0,1,2,3],STAGE_AGE=[14,16,18,22],EDU=['Class 8','SEE','+2','Bachelor','Master'];
+const PROV=['Koshi','Madhesh','Bagmati','Gandaki','Lumbini','Karnali','Sudur&shy;pashchim'];
+const INT=[['build','Building'],['heal','Healing'],['num','Numbers'],['ppl','People'],['make','Creating'],['law','Justice']];
+const STR=[['math','Maths'],['bio','Biology'],['lang','Language'],['biz','Business']];
+const TONES=['pc','tc','yc','gc','rc'],MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],NOW=new Date().getMonth()+1,YEAR=new Date().getFullYear();
+const pp=s=>s.split(',').map(x=>{const i=x.lastIndexOf(' ');return[x.slice(0,i),+x.slice(i+1)]});
+const rv=o=>[Math.min(100,o.pay[1]/2),o.d,100-o.c,o.f.t[1],o.f.t[0],o.f.t[2]];
+const AVG=[0,1,2,3,4,5].map(i=>{const a=Object.values(K);return a.reduce((s,o)=>s+rv(o)[i],0)/a.length});
+/* ============ STATE ============ */
+const S={view:'explore',stage:DEF.stage,stream:DEF.stream,course:DEF.course,career:null,sel:DEF.course?{t:'course',id:DEF.course}:null,open:false,
+  tabs:{course:'journey',career:'pay',exam:'stages'},cmp:null,path:[],back:[],saved:new Set(),q:'',searching:false,lens:null,
+  study:'nepal',cc:DEF.cc,prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
+  xg:DEF.xg,exam:DEF.exam,edu:2,age:18,woman:'0',gcat:'All',guide:DEF.guide,done:new Set(),docs:new Set(),have:new Set(),
+  plan:'plan',mi:new Set(),ms:null,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
+let lastKey='',freshT=0,lastWide=false;
 
-  PW.h = function (tag, attrs, kids) {
-    var el = document.createElement(tag);
-    for (var k in (attrs || {})) {
-      var v = attrs[k];
-      if (v == null || v === false) continue;
-      if (k === 'text') el.textContent = v; else if (k === 'class') el.className = v;
-      else if (k === 'w') el.style.setProperty('--w', v); else if (k === 'i') el.style.setProperty('--i', v);
-      else el.setAttribute(k, v === true ? '' : v);
-    }
-    (kids || []).forEach(function (c) { if (c != null && c !== false) el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
-    return el;
-  };
-  var h = PW.h;
-  PW.icon = function (n) { return h('span', { class: 'material-symbols-outlined', 'aria-hidden': 'true', text: n }); };
-  function trim(x) { return (Math.round(x * 10) / 10).toString().replace(/\.0$/, ''); }
-  PW.money = function (n) {
-    if (n >= 10000000) return trim(n / 10000000) + ' crore';
-    if (n >= 100000) return trim(n / 100000) + ' lakh';
-    if (n >= 1000) return trim(n / 1000) + 'k';
-    return String(n);
-  };
-  PW.npr = function (r) { return r[1] === 0 ? 'Free' : 'NPR ' + PW.money(r[0]) + ' to ' + PW.money(r[1]); };
-  PW.tone = function (i) { return ['b', 'p', 'y', 'l'][i % 4]; };
-  PW.by = function (list) { var m = {}; list.forEach(function (x) { m[x.id] = x; }); return m; };
+/* ============ HELPERS ============ */
+const $=(s,r=root)=>r.querySelector(s),$$=(s,r=root)=>[...r.querySelectorAll(s)];
+const wide=()=>root.clientWidth>=900;
+const tog=(set,v)=>set.has(v)?set.delete(v):set.add(v);
+const stage=()=>STAGES.find(s=>s.id===S.stage);
+const stream=()=>stage().streams.find(s=>s.id===S.stream)||stage().streams[0];
+const locate=id=>{for(const st of STAGES)for(const sm of st.streams)if(sm.courses.includes(id))return{st,sm}};
+const cur=()=>S.view==='explore'?S.sel:S.view==='exams'?{t:'exam',id:S.exam}:S.view==='guides'?{t:'guide',id:S.guide}:null;
+const fmt=v=>+(+v).toFixed(1);
+const yr=y=>y<1?Math.round(y*12)+' mo':fmt(y)+' yr';
+const dy=d=>d+(d===1?' day':' days');
+const lakh=v=>v<=0?'Free':v<1?'NPR '+Math.round(v*100)+'k':'NPR '+fmt(v)+'L';
+const num=v=>v>=1e5?fmt(v/1e5)+'L':v>=1e3?fmt(v/1e3)+'k':''+v;
+const npr=v=>v?'NPR '+v.toLocaleString('en-IN'):'Free';
+const payTxt=p=>'NPR '+p[0]+'–'+p[p.length-1]+'k / month';
+const payAt=(k,y)=>y<=5?k.pay[0]+(k.pay[1]-k.pay[0])*y/5:k.pay[1]+(k.pay[2]-k.pay[1])*(y-5)/7;
+const hasCol=id=>COL.some(x=>x.c.includes(id));
+const inWin=(s,e,m)=>s<=e?m>=s&&m<=e:m>=s||m<=e;
+const why=x=>S.edu<x.edu?'Needs '+EDU[x.edu]:x.age&&(S.age<x.age[0]||S.age>x.age[+S.woman?2:1])?'Age '+x.age[0]+'–'+x.age[+S.woman?2:1]:'';
+const oddsOf=x=>{const r=x.apps/x.seats;return r>=20?{r,n:Math.round(r),pre:'1 in',post:'',txt:'1 in '+Math.round(r)}:{r,n:Math.round(100/r),pre:'',post:'in 100',txt:Math.round(100/r)+' in 100'}};
+const gdone=g=>g.steps.filter((_,i)=>S.done.has(g.id+':'+i)).length;
+const gsum=(g,i)=>g.steps.reduce((a,s)=>a+s[i],0);
+const ICON={
+route:'<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a4 4 0 004-4V8.2"/>',
+cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+exam:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 12.5l2 2 4-4.5"/>',
+list:'<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+flag:'<path d="M5 21V4M5 4h13l-3 4 3 4H5"/>',
+pin:'<path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+bookmark:'<path d="M7 4h10v16l-5-3.5L7 20z"/>',back:'<path d="M14 6l-6 6 6 6"/>',
+arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',close:'<path d="M6 6l12 12M18 6L6 18"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>'};
+const I=(n,s=22)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24">${ICON[n]}</svg>`;
+// Material 3 Expressive scalloped shape with n lobes
+const shape=(n,cls='')=>{let p='';for(let i=0;i<96;i++){const t=i/96*Math.PI*2,r=50*(.89+.11*Math.cos(n*t));p+=(i?'L':'M')+(50+r*Math.cos(t)).toFixed(1)+' '+(50+r*Math.sin(t)).toFixed(1)}return `<svg class="${cls}" viewBox="0 0 100 100"><path d="${p}Z"/></svg>`};
+const ring=(v,l='',cls='',col='var(--p)')=>`<div class="ring ${cls}"><svg viewBox="0 0 44 44"><circle class="tr" cx="22" cy="22" r="18"/><circle class="fg" cx="22" cy="22" r="18" pathLength="100" style="stroke:${col};stroke-dashoffset:${100-v}"/></svg><b>${v}</b>${l?`<span>${l}</span>`:''}</div>`;
+const sig=v=>{const n=v>=75?3:v>=50?2:1;return `<svg class="sig" viewBox="0 0 14 14">${[0,1,2].map(i=>`<rect x="${i*5}" y="${9-i*4}" width="3.6" height="${5+i*4}" rx="1.2" class="${i<n?'f':''}"/>`).join('')}</svg>`};
+const months=f=>`<div class="mo">${MN.map((m,i)=>`<i class="${f(i+1)?'f':''} ${i+1===NOW?'now':''}">${m[0]}</i>`).join('')}</div>`;
+const cal=rows=>`<div class="cal">${rows.map(([l,f])=>`<span>${l}</span>${months(f)}`).join('')}</div>`;
+const examCal=x=>cal([['Apply',m=>inWin(x.win[0],x.win[1],m)],['Exam',m=>m===x.em]]);
+const empty=t=>`<div class="empty">${shape(6)}${t}</div>`;
+const lrow=(a,v,t,s,kind)=>`<button class="lrow" data-a="${a}" data-v="${v}"><div><b>${t}</b><span>${s}</span></div><em>${kind}</em></button>`;
+const segHTML=(list,v,a,cls='full')=>`<div class="seg ${cls}">${list.map(([k,n])=>`<button class="${k===v?'on':''}" data-a="${a}" data-v="${k}">${n}</button>`).join('')}</div>`;
+const chipsHTML=(list,v,a)=>`<div class="chips">${list.map(k=>`<button class="chip ${k===v?'on':''}" data-a="${a}" data-v="${k}">${k}</button>`).join('')}</div>`;
+const tabsHTML=(list,v)=>`<div class="tabs">${list.map(([k,n])=>`<button class="${k===v?'on':''}" data-a="tab" data-v="${k}">${n}</button>`).join('')}</div>`;
+const facts=l=>`<div class="facts">${l.map(([a,b])=>`<div class="fact"><small>${a}</small><b>${b}</b></div>`).join('')}</div>`;
+// stacked bar with a tappable legend
+function split(parts,f=v=>v+'%'){const ps=parts.filter(p=>p[1]>0);
+  return `<div class="split"><div class="sbar">${ps.map((p,i)=>`<button class="g${i%7}" style="flex:${p[1]}" data-a="seg" data-v="${i}" aria-label="${p[0]}"></button>`).join('')}</div><div class="sleg">${ps.map((p,i)=>`<button class="g${i%7}" data-a="seg" data-v="${i}"><i></i><span>${p[0]}</span><b>${f(p[1])}</b></button>`).join('')}</div></div>`}
 
-  /* ---- numbers, all derived from the careers a route links to ---- */
-  function avg(a) { return a.length ? a.reduce(function (s, x) { return s + x; }, 0) / a.length : 0; }
-  PW.careersOf = function (r) { return r.careers.map(function (c) { return PW.careers[c]; }).filter(Boolean); };
-  PW.demand = function (r) { return avg(PW.careersOf(r).map(function (c) { return c.demand; })); };
-  PW.compet = function (r) { return avg(PW.careersOf(r).map(function (c) { return c.competition; })); };
-  PW.word = function (v, low) { return v <= 0 ? 'Open' : v >= 3.7 ? 'High' : v >= 2.7 ? 'Medium' : low; };
-  PW.pay = function (r) {
-    var cs = PW.careersOf(r);
-    if (!cs.length) return null;
-    return [Math.round(avg(cs.map(function (c) { return c.salary.entry[0]; }))), Math.round(avg(cs.map(function (c) { return c.salary.entry[1]; })))];
-  };
-  PW.yearsNum = function (t) {
-    var m = /\d+(\.\d+)?/.exec(t); if (!m) return 4;
-    return /month/i.test(t) ? parseFloat(m[0]) / 12 : parseFloat(m[0]);
-  };
-  PW.code = function (name) {
-    var m = /\(([A-Za-z.]{2,6})\)/.exec(name); if (m) return m[1].toUpperCase();
-    var head = name.split('(')[0].trim(), first = head.split(/[ \/]/)[0];
-    if (first.length >= 2 && first.length <= 5 && /[A-Z]/.test(first)) return first.toUpperCase();
-    var caps = head.split(' ').filter(function (w) { return /^[A-Z]/.test(w); }).slice(0, 3).map(function (w) { return w[0]; }).join('');
-    return caps || head.slice(0, 2).toUpperCase();
-  };
-  PW.stageWord = function (label) { return label.replace(/^After /, 'After ').replace('After Class 8', 'After 8').replace('After Bachelor', "Bachelor's"); };
+/* ============ VIEWS ============ */
+const stagesHTML=()=>`<div class="stages">${STAGES.map(s=>`<button class="stg ${s.id===S.stage?'on':''}" data-a="stage" data-v="${s.id}">${s.id===S.stage?s.t:s.n}</button>`).join('')}</div>`;
+function abList(){const mx=Math.max(60,...CT.map(c=>c.cost+c.live)),tot=c=>c.cost+c.live,bl=S.abmax/mx*100;
+  return [...CT].sort((a,b)=>tot(a)-tot(b)).map(c=>{const T=tot(c),on=S.ab===c.k,ok=T<=S.abmax,pt=c.wage*c.work*4.3/1e5;
+    return `<div role="button" tabindex="0" class="ab ${ok?'ok':'over'} ${on?'on':''}" data-a="ctry" data-v="${c.k}">
+    <div class="abh"><span class="abc">${c.k}</span><div class="abn"><b>${c.n}</b><small>Tuition ${c.cost}L + living ${c.live}L</small></div><div class="abt"><b>NPR ${T}L</b><small>per year</small></div></div>
+    <div class="abb"><i class="a" style="width:${c.cost/mx*100}%"></i><i class="b" style="width:${c.live/mx*100}%"></i><s style="left:${bl}%"></s></div>
+    <div class="abp"><span class="pl">${ok?'Within budget':'NPR '+(T-S.abmax)+'L over budget'}</span><span>${c.visa>=0?'Visa approval '+c.visa+'%':''}</span></div>
+    ${on?`<div class="abx"><div><small>Work allowed</small><b>${c.work>0?c.work+' h / week':c.work===0?'None':'See notes'}</b></div><div><small>Stay after study</small><b>${c.stay||'See notes'}</b></div>
+      <div><small>Entry test</small><b>${c.test}</b></div><div class="w2"><small>Intake months</small>${c.intake.length?months(m=>c.intake.includes(m)):'<b>See the university</b>'}</div>
+      <div class="chips w w2">${c.tx?`<button class="chip" data-a="goExam" data-v="${c.tx}">${X[c.tx].n}</button>`:''}${VISA?`<button class="chip" data-a="goGuide" data-v="${VISA}">Visa steps</button>`:''}<button class="chip" data-a="skf" data-v="${c.k}">Scholarships</button></div></div>`:''}</div>`}).join('')}
+const STUDY={
+nepal(){const cs=Object.keys(C).filter(hasCol),c=C[S.cc],list=COL.filter(x=>x.c.includes(S.cc)),fs=list.map(x=>x.fees[S.cc]).filter(v=>v!=null),lo=fs.length?Math.floor(Math.min(...fs)):0,hi=fs.length?Math.max(lo+1,Math.ceil(Math.max(...fs))):0;if(S.cmax==null)S.cmax=hi;
+  return `<div class="chips">${cs.map(id=>`<button class="chip ${id===S.cc?'on':''}" data-a="cc" data-v="${id}">${C[id].n}</button>`).join('')}</div>
+  <div class="map">${PROV.map((p,i)=>{const n=list.filter(x=>x.p===i).length;return `<button class="pv p${i} ${S.prov===i?'on':''} ${n?'':'nil'}" data-a="prov" data-v="${i}"><b>${n}</b><span>${p}</span></button>`}).join('')}</div>
+  <div class="ctl">${hi?`<div class="sl"><input type="range" id="cmax" min="${lo}" max="${hi}" step="${hi-lo>20?1:.5}" value="${S.cmax}" aria-label="Maximum fee"><output id="cmaxv">${lakh(S.cmax)}</output></div>`:'<span></span>'}${segHTML([['fee','Fee'],['seats','Seats']],S.csort,'csort','')}</div>
+  <div id="clist"></div>`},
+abroad(){return `<div class="abin"><b>Your budget for one year</b><span>Tuition plus living costs</span>
+    <div class="sl"><input type="range" id="abmax" min="5" max="60" step="5" value="${S.abmax}" aria-label="Yearly budget"><output id="abv">NPR ${S.abmax}L</output></div></div>
+  <div class="abkey"><span><i class="a"></i>Tuition</span><span><i class="b"></i>Living</span><span><s></s>Your budget</span></div>
+  <div id="ablist">${abList()}</div>`},
+funding(){const left=s=>(s.e-NOW+12)%12;
+  const l=SCH.filter(s=>(S.stype==='All'||s.t===S.stype)&&(S.slvl==='All'||s.l.includes(S.slvl[0]))&&(!S.sk||s.k===S.sk)).sort((a,b)=>(inWin(b.s,b.e,NOW)-inWin(a.s,a.e,NOW))||left(a)-left(b));
+  return `<div class="chips">${S.sk?`<button class="chip on" data-a="skf" data-v="">${S.sk}${I('close',14)}</button>`:''}${['All',...new Set(SCH.map(s=>s.t))].map(t=>`<button class="chip ${S.stype===t?'on':''}" data-a="stype" data-v="${t}">${t}</button>`).join('')}</div>
+  ${segHTML(['All','Bachelor','Master','PhD'].map(t=>[t,t]),S.slvl,'slvl')}
+  ${l.map(s=>{const o=inWin(s.s,s.e,NOW),key='sch:'+s.n;return `<div role="button" tabindex="0" class="srow ${o?'open':''}" data-a="sch" data-v="${s.n}"><div class="sh"><b>${s.n}</b><span class="cd">${s.k}</span><em>${s.fixed?'Check notice':o?'Closes '+MN[s.e-1]:'Opens '+MN[s.s-1]}</em></div>${s.fixed?'':months(m=>inWin(s.s,s.e,m))}
+    ${S.schOpen===s.n?`<div class="sx"><div class="chips w z">${[['T','Tuition'],['S','Stipend'],['F','Flights']].map(([k,n])=>`<span class="skill ${s.cov.includes(k)?'yes':'no'}">${n}</span>`).join('')}</div>
+    ${s.who?`<p class="mk-n">${s.who}</p>`:''}<div class="sxa"><b>${s.aw?s.aw+' awards':'Open call'}</b><button class="ib ${S.saved.has(key)?'on':''}" data-a="save" data-v="${key}" aria-label="Save">${I('bookmark')}</button>${s.link?`<a class="btn t" href="${s.link}" target="_blank" rel="noopener">Website</a>`:''}</div></div>`:''}</div>`}).join('')||empty('No match')}`}
+};
+const xlistHTML=()=>Object.values(X).filter(x=>x.g===S.xg).map(x=>{const w=why(x);return `<button class="lrow ${wide()&&S.exam===x.id?'on':''} ${w?'no':''}" data-a="exam" data-v="${x.id}"><div><b>${x.n}</b><span>${w||x.b}</span></div><em class="v">${x.seats?oddsOf(x).txt:npr(x.fee)}</em></button>`}).join('');
+const V={
+explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(id=>C[id].to))];
+  return `<div class="wrap">${stagesHTML()}
+  <div class="grp">${st.streams.map(x=>`<button class="gb t-${x.tone} ${x.id===sm.id?'on':''}" data-a="stream" data-v="${x.id}">${x.n}</button>`).join('')}</div>
+  <div class="lens">${[['d','Demand'],['pay','Pay'],['ease','Odds']].map(([k,n])=>`<button class="lz ${S.lens===k?'on':''}" data-a="lens" data-v="${k}">${n}</button>`).join('')}</div>
+  <div class="flow" id="flow"><svg id="links"></svg>
+    <div class="col">${cs.map((id,i)=>`<button class="nd c" style="--i:${i}" data-a="course" data-v="${id}"><i class="fl"></i><span>${C[id].n}</span><small></small></button>`).join('')}</div>
+    <div class="col">${ks.map((id,i)=>`<button class="nd k" style="--i:${i+3}" data-a="career" data-v="${id}"><i class="fl"></i>${sig(K[id].d)}<span>${K[id].n}</span><small></small></button>`).join('')}</div>
+  </div></div>`},
+study(){return `<div class="wrap pad">${segHTML([['nepal','Colleges'],['abroad','Abroad'],['funding','Funding']],S.study,'study')}${STUDY[S.study]()}</div>`},
+exams(){return `<div class="wrap pad">${segHTML(TR.map(t=>[t[0],t[1]]),S.xg,'xg')}
+  <div class="chips">${[1,2,3,4].map(i=>`<button class="chip ${S.edu===i?'on':''}" data-a="edu" data-v="${i}">${EDU[i]}</button>`).join('')}</div>
+  <div class="ctl"><div class="sl"><input type="range" id="age" min="14" max="45" value="${S.age}" aria-label="Age"><output id="agev">Age ${S.age}</output></div>${Object.values(X).some(x=>x.g===S.xg&&x.age&&x.age[2]>x.age[1])?segHTML([['1','Woman'],['0','Man']],S.woman,'woman',''):''}</div>
+  <div id="xlist">${xlistHTML()}</div></div>`},
+guides(){const l=Object.values(G).filter(g=>S.gcat==='All'||g.cat===S.gcat);
+  return `<div class="wrap pad">${chipsHTML(DATA.cats,S.gcat,'gcat')}
+  <div class="ggrid">${l.map(g=>{const n=g.steps.length;return `<button class="gd t-${(GT[g.cat]||'sc')} ${wide()&&S.guide===g.id?'on':''}" data-a="guide" data-v="${g.id}"><b>${g.n}</b><div class="gp"><i style="width:${gdone(g)/n*100}%"></i></div><div class="gm"><span>${n} steps</span><span>${dy(gsum(g,1))}</span></div></button>`}).join('')}</div></div>`},
+plan(){return `<div class="wrap pad">${segHTML([['plan','My plan'],['match','Match']],S.plan,'plan')}${S.plan==='plan'?
+  `<p class="mad">I am <output id="pagev">${S.age}</output></p><input type="range" id="page" min="13" max="40" value="${S.age}" aria-label="Age"><div id="pout">${planOut()}</div>`:
+  `${stagesHTML()}<p class="mad">I enjoy</p><div class="chips w">${INT.map(([k,n])=>`<button class="chip ${S.mi.has(k)?'on':''}" data-a="mi" data-v="${k}">${n}</button>`).join('')}</div>
+  <p class="mad">I am strong in</p><div class="chips w">${STR.map(([k,n])=>`<button class="chip ms ${S.ms===k?'on':''}" data-a="ms" data-v="${k}">${n}</button>`).join('')}</div>
+  <p class="mad">My budget is <output id="mbv">NPR ${S.mb}L</output></p><input type="range" id="mb" min="1" max="60" value="${S.mb}" aria-label="Budget">
+  <div id="mres" style="margin-top:10px;position:relative"></div>`}</div>`}
+};
+// the plan assembles itself from the route chosen in Explore plus everything saved
+const route=()=>{const ids=S.path.map(p=>p.course);if(S.course)ids.push(S.course);return ids.map(id=>C[id])};
+function deadlines(){const m=new Map(),add=(key,n,s,e,a,v)=>{if(!(s===1&&e===12))m.set(key,{n,s,e,a,v})};
+  route().forEach(c=>{const x=X[CX[c.id]];if(x)add('exam:'+x.id,x.n,x.win[0],x.win[1],'goExam',x.id)});
+  S.saved.forEach(k=>{const i=k.indexOf(':'),t=k.slice(0,i),id=k.slice(i+1);
+    if(t==='exam'&&X[id])add(k,X[id].n,X[id].win[0],X[id].win[1],'goExam',id);
+    if(t==='sch'){const s=SCH.find(s=>s.n===id);if(s)add(k,s.n,s.s,s.e,'goSch',s.n)}});
+  const until=d=>inWin(d.s,d.e,NOW)?-1:(d.s-NOW+12)%12;return [...m.values()].sort((a,b)=>until(a)-until(b))}
+function planOut(){const r=route(),h=[];
+  if(r.length&&r[r.length-1].to.length){const last=r[r.length-1],k=K[S.career&&last.to.includes(S.career)?S.career:last.to[0]],yrs=r.reduce((a,c)=>a+c.y,0),lo=r.reduce((a,c)=>a+c.fee[0],0),hi=r.reduce((a,c)=>a+c.fee[1],0),end=Math.ceil(S.age+yrs);
+    h.push(`<div class="hl t-pc"><b>${k.n} at ${end}</b><div class="tl">${r.map(c=>`<div style="flex:${c.y}"><span>${c.n}</span><small>${yr(c.y)}</small></div>`).join('')}<div class="end">${end}</div></div>${facts([['Years',fmt(yrs)],['Cost, NPR',fmt(lo)+'–'+fmt(hi)+'L'],['First pay','NPR '+k.pay[0]+'k']])}</div>`)}
+  const dl=deadlines();
+  if(dl.length)h.push('<h4>Deadlines</h4>'+dl.map(d=>{const o=inWin(d.s,d.e,NOW);return `<div role="button" tabindex="0" class="srow ${o?'open':''}" data-a="${d.a}" data-v="${d.v}"><div class="sh"><b>${d.n}</b><em>${o?'Closes '+MN[d.e-1]:'Opens '+MN[d.s-1]}</em></div>${months(m=>inWin(d.s,d.e,m))}</div>`}).join(''));
+  const gs=Object.values(G).filter(g=>S.saved.has('guide:'+g.id)||gdone(g));
+  if(gs.length)h.push('<h4>Guides</h4>'+gs.map(g=>`<button class="row" data-a="goGuide" data-v="${g.id}"><b>${g.n}</b><em>${gdone(g)} of ${g.steps.length}</em><div class="rb still"><i style="left:0;width:${gdone(g)/g.steps.length*100}%"></i></div></button>`).join(''));
+  const sv=[...S.saved].map(k=>{const i=k.indexOf(':'),t=k.slice(0,i),id=k.slice(i+1);return t==='course'&&C[id]?lrow('goCourse',id,C[id].n,C[id].f,'Course'):t==='career'&&K[id]?lrow('goCareer',id,K[id].n,payTxt(K[id].pay),'Career'):''}).join('');
+  if(sv)h.push('<h4>Saved</h4>'+sv);
+  return h.join('')||empty('Nothing planned')+`<button class="btn f" style="width:100%" data-a="nav" data-v="explore">Explore</button>`}
+function vSearch(){const q=S.q.toLowerCase(),r=[],hit=s=>s.toLowerCase().includes(q);
+  for(const id in C)if(hit(C[id].n+' '+C[id].f))r.push(lrow('goCourse',id,C[id].n,C[id].f,'Course'));
+  for(const id in K)if(hit(K[id].n))r.push(lrow('goCareer',id,K[id].n,payTxt(K[id].pay),'Career'));
+  for(const id in X)if(hit(X[id].n+' '+X[id].b))r.push(lrow('goExam',id,X[id].n,X[id].b,'Exam'));
+  for(const id in G)if(hit(G[id].n))r.push(lrow('goGuide',id,G[id].n,G[id].cat,'Guide'));
+  COL.forEach(x=>{if(x.c.length&&hit(x.n+' '+x.d))r.push(lrow('find',x.c[0],x.n,x.d,'College'))});
+  SCH.forEach(s=>{if(hit(s.n))r.push(lrow('goSch',s.n,s.n,s.t,'Scholarship'))});
+  return `<div class="wrap pad">${r.slice(0,40).join('')||empty('No results')}</div>`}
 
-  /* ---- saved (courses, countries, jobs), kept in this browser ---- */
-  var saved = [];
-  try { saved = JSON.parse(localStorage.getItem('pw-saved') || '[]'); } catch (e) {}
-  PW.saved = {
-    has: function (k) { return saved.indexOf(k) >= 0; },
-    all: function () { return saved.slice(); },
-    toggle: function (k) {
-      var i = saved.indexOf(k);
-      if (i >= 0) saved.splice(i, 1); else saved.push(k);
-      try { localStorage.setItem('pw-saved', JSON.stringify(saved)); } catch (e) {}
-      $('pw-saved').classList.toggle('on', saved.length > 0);
-      return i < 0;
-    }
-  };
-  PW.saveBtn = function (key, label) {
-    var b = h('button', { class: 'pw-round sm', type: 'button', 'aria-label': 'Save ' + label, 'aria-pressed': PW.saved.has(key) }, [PW.icon(PW.saved.has(key) ? 'bookmark_added' : 'bookmark')]);
-    b.addEventListener('click', function () {
-      var on = PW.saved.toggle(key);
-      b.setAttribute('aria-pressed', on); b.firstChild.textContent = on ? 'bookmark_added' : 'bookmark';
-    });
-    return b;
-  };
+/* ============ SHEETS ============ */
+function heroHTML(tone,key,badge,title,sub){return `<header class="hero t-${tone}"><div class="hr"><button class="ib x" data-a="close" aria-label="Back">${I('back')}</button><button class="ib ${S.saved.has(key)?'on':''}" data-a="save" data-v="${key}" aria-label="Save">${I('bookmark')}</button></div>
+  <h2>${title}</h2><div class="badge">${badge}</div><p>${sub}</p></header>`}
+function costOut(c){const t=c.fee[+S.cpriv]*(1-S.aid/100),l=[0,18,12][+S.live]*12*c.y/100,b=.15*c.y,tot=t+l+b,avg=c.pay?(c.pay[0]+c.pay[1])/2:0;
+  return `<div class="big"><b>${lakh(tot)}</b>${avg?`<span>${Math.round(tot*100/avg)} months of starting pay</span>`:''}</div><div style="margin-top:16px">${split([['Tuition',t],['Living',l],['Books',b]],lakh)}</div>`}
+function prepOut(x){const days=Math.ceil(x.prep/S.hrs),mb=Math.ceil(days/30),tot=x.syl.reduce((a,p)=>a+p[1],0),mx=Math.max(...x.syl.map(p=>p[1]));
+  return `<div class="big"><b>${dy(days)}</b>${x.em?`<span>Start by ${MN[((x.em-1-mb)%12+12)%12]}</span>`:''}</div><h4>Hours a week</h4>${x.syl.map(([t,w])=>`<div class="row"><b>${t}</b><em>${fmt(S.hrs*7*w/tot)} h</em><div class="rb still"><i style="left:0;width:${w/mx*100}%"></i></div></div>`).join('')}`}
+function waffle(x){const o=oddsOf(x),one=o.r>=20,n=one?Math.min(o.n,400):100,m=Math.floor(n*.37);
+  return `<div class="waf">${[...Array(n)].map((_,i)=>`<i class="${one?(i===m?'me one':''):(i<o.n?'me':'')}"></i>`).join('')}</div>`}
+function radar(k){const ax=['Pay','Demand','Entry','Stability','Flexibility','Growth'];
+  const pt=(v,i,R=84)=>{const a=(i*60-90)*Math.PI/180,r=R*v/100;return[(160+r*Math.cos(a)).toFixed(1),(118+r*Math.sin(a)).toFixed(1)]};
+  const poly=vs=>vs.map((v,i)=>pt(v,i).join(',')).join(' ');
+  return `<svg class="radar" viewBox="0 0 320 236">${[33,66,100].map(g=>`<polygon points="${poly(Array(6).fill(g))}" fill="none" stroke="var(--ol)"/>`).join('')}
+  <polygon points="${poly(AVG)}" fill="var(--s3)"/><polygon points="${poly(rv(k))}" fill="var(--p)" fill-opacity=".22" stroke="var(--p)" stroke-width="2.5" stroke-linejoin="round"/>
+  ${ax.map((t,i)=>{const [x,y]=pt(100,i,102);return `<text x="${x}" y="${+y+4}" text-anchor="${i%3===0?'middle':i<3?'start':'end'}">${t}</text>`}).join('')}
+  <circle cx="14" cy="12" r="5" fill="var(--s3)"/><text x="24" y="16">Average</text></svg>`}
+function odds(o){return o.d-o.c}
+function market(k,id){
+  const me=K[id]||k,g=odds(me),all=Object.values(K).sort((a,b)=>odds(b)-odds(a)),rank=all.findIndex(o=>o.id===me.id)+1,n=all.length;
+  const v=g>=30?['Great odds','Lots of jobs, few rivals','g']:g>=10?['Good odds','More jobs than rivals','g']:g>=-10?['Competitive','Jobs and rivals are about equal','y']:['Tough to enter','Many more rivals than jobs','r'];
+  const lo=Math.max(0,Math.min(n-5,rank-3)),win=all.slice(lo,lo+5);
+  const bar=(l,s,val,cls)=>`<div class="mk-b"><span>${l}</span><div class="mk-t"><i class="${cls}" style="width:${val}%"></i></div><b>${val}</b></div>`;
+  return `<div class="mk"><div class="mk-v t-${v[2]}c"><b>${v[0]}</b><span>${v[1]}</span><em>#${rank} of ${n} careers</em></div>
+  ${bar('Jobs available','',me.d,'a')}${bar('People competing','',me.c,'b')}
+  <h5>Easiest careers to get into</h5>
+  ${win.map(o=>`<button class="mk-r ${o.id===me.id?'me':''}" data-a="goCareer" data-v="${o.id}"><u>${all.indexOf(o)+1}</u><span>${o.n}</span><div class="mk-g"><i style="width:${Math.max(6,Math.min(100,Math.round((odds(o)+50)/110*100)))}%"></i></div></button>`).join('')}
+  <p class="mk-n">Bar length shows jobs minus competition. Longer means easier to get a job.</p></div>`}
+function spark(k){const v=k.hist&&k.hist.length>=2?k.hist.map(a=>Math.max(5,Math.min(99,a))):[0,1,2,3,4,5].map(i=>Math.max(5,Math.min(99,k.d-k.f.tr*(5-i))));
+  const lo=Math.min(...v)-8,hi=Math.max(...v)+8,px=i=>16+i*288/(v.length-1),py=a=>78-(a-lo)/(hi-lo)*60,d=v.map((a,i)=>(i?'L':'M')+px(i).toFixed(0)+' '+py(a).toFixed(1)).join('');
+  return `<svg class="plot" viewBox="0 0 320 104"><path d="${d}L304 92L16 92Z" fill="var(--pc)"/><path d="${d}" fill="none" stroke="var(--p)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle class="me" cx="304" cy="${py(v[v.length-1]).toFixed(1)}" r="6"/><text x="16" y="102">${YEAR-5}</text><text x="304" y="102" text-anchor="end">${YEAR}</text></svg>`}
+const PANEL={
+course(id){const c=C[id],{st,sm}=locate(id),t=S.tabs.course;
+  if(t==='journey')return `<div class="steps">${c.plan.map((p,i)=>`<div class="step" style="--i:${i}"><b>${i+1}</b><span>${p}</span></div>`).join('')}</div>`;
+  if(t==='careers')return c.to.map(k=>{const o=K[k];return `<button class="row" data-a="goCareer" data-v="${k}"><b>${o.n}</b><em>${o.pay[0]}–${o.pay[2]}k</em><div class="rb"><i style="left:${o.pay[0]*100/PMAX}%;width:${Math.max(2,(o.pay[2]-o.pay[0])*100/PMAX)}%"></i></div></button>`}).join('');
+  if(t==='cost')return `${segHTML([['0','Public'],['1','Private']],S.cpriv,'cpriv')}${segHTML([['0','Home'],['1','Hostel'],['2','Room']],S.live,'live')}
+    <div class="sl"><input type="range" id="aid" min="0" max="100" step="10" value="${S.aid}" aria-label="Scholarship"><output id="aidv">Aid ${S.aid}%</output></div><div id="costout">${costOut(c)}</div>`;
+  if(t==='entry'){const x=X[CX[id]];return `<div class="tiles">${x?`<button class="tile lk" data-a="goExam" data-v="${x.id}"><div><small>Entrance</small><b>${c.ent}</b></div>${I('arrow',20)}</button>`:`<div class="tile"><small>Entrance</small><b>${c.ent}</b></div>`}
+    <div class="tile"><small>Needs</small><b>${st.need}${st.id==='p2'?' '+sm.n:''}</b></div><div class="tile"><small>Duration</small><b>${yr(c.y)}</b></div></div>${x&&x.em?`<div style="margin-top:18px">${examCal(x)}</div>`:''}`}
+  const sib=st.streams.flatMap(x=>x.courses).filter(x=>x!==id);if(!sib.length)return empty('Nothing to compare');
+  const b=sib.includes(S.cmp)?S.cmp:sib[0],B=C[b],av=a=>a?(a[0]+a[1])/2:0;
+  const rows=[['Demand',c.d,B.d,''],['Competition',c.c,B.c,''],['Start pay',av(c.pay),av(B.pay),'k'],['Fee',av(c.fee),av(B.fee),'L'],['Years',c.y,B.y,'']];
+  return `<div class="chips">${sib.map(x=>`<button class="chip ${x===b?'on':''}" data-a="cmp" data-v="${x}">${C[x].n}</button>`).join('')}</div>
+  <div class="bf"><div class="bfh"><b>${c.n}</b><b>${B.n}</b></div>${rows.map(([l,a,v,u])=>{const m=Math.max(a,v)||1;return `<div class="bfr"><span>${fmt(a)}${u}</span><div class="ba"><i style="width:${a/m*100}%"></i></div><em>${l}</em><div class="bb"><i style="width:${v/m*100}%"></i></div><span class="vb">${fmt(v)}${u}</span></div>`}).join('')}</div>`},
+career(id){const k=K[id],t=S.tabs.career;
+  if(t==='pay'){const max=k.pay[2],st=[0,3,7,12],yrs=['Year 0–2','Year 3–6','Year 7–11','Year 12+'];
+    return `<h4>How your monthly pay grows</h4><div class="lad">${k.f.lad.map((n,i)=>{const v=Math.round(payAt(k,st[i]));return `<button class="lr" data-a="rung" data-v="${st[i]}"><u>${i+1}</u><div><b>${n}</b><small>${yrs[i]}</small></div><em>NPR ${v}k</em><div class="lb"><i style="width:${v/max*100}%"></i></div></button>`}).join('')}</div>
+    <div class="exr"><label for="exp">Try a year</label><input type="range" id="exp" min="0" max="12" value="${S.exp}" aria-label="Years of experience"><output id="expo">Year ${S.exp}</output></div>
+    <p class="mk-n">Monthly salary before tax, in thousands of rupees. Tap a step or drag the slider.</p>`}
+  if(t==='profile')return `${k.f.hasT?radar(k):''}${k.f.day.length?`<h4>A ${k.f.hrs||40}-hour week</h4>${split(k.f.day)}`:''}${!k.f.hasT&&!k.f.day.length?empty('Profile details are not ready for this career'):''}`;
+  if(t==='skills'){const have=k.sk.filter(s=>S.have.has(s)).length,routes=Object.keys(C).filter(c=>C[c].to.includes(id));
+    return `<div class="rdy" id="rdy">${ring(Math.round(have/k.sk.length*100),'Ready','still')}<div class="chips w z">${k.sk.map(s=>`<button class="chip ${S.have.has(s)?'on':''}" data-a="have" data-v="${s}">${s}</button>`).join('')}</div></div>
+    ${k.lic&&(k.lx||G.lic)?`<h4>Licence</h4>`+lrow(k.lx?'goExam':'goGuide',k.lx||'lic',k.lic,k.lx?X[k.lx].b:'Council registration',k.lx?'Exam':'Guide'):''}
+    <h4>Routes in</h4><div class="chips w z">${routes.map(c=>`<button class="chip" data-a="goCourse" data-v="${c}">${C[c].n}</button>`).join('')}</div>`}
+  return `<h4>Demand, 5 years</h4>${spark(k)}<h4>Your chances</h4>${market(k,id)}
+  ${k.f.wh.length?'<h4>Where the jobs are</h4>'+split(k.f.wh):''}${k.f.emp.length?`<h4>Employers</h4><div class="chips w z">${k.f.emp.map(s=>`<span class="skill">${s}</span>`).join('')}</div>`:''}`},
+exam(id){const x=X[id],t=S.tabs.exam;
+  if(t==='stages'){const cs=Object.keys(CX).filter(c=>CX[c]===id);
+    return `<div class="steps">${x.st.map(([n,m,f],i)=>`<div class="step" style="--i:${i}"><b>${i+1}</b><span>${n}<small>${f}</small></span><em>${+m?m:'Pass'}</em></div>`).join('')}</div>${cs.length?`<h4>Leads to</h4><div class="chips w z">${cs.map(c=>`<button class="chip" data-a="goCourse" data-v="${c}">${C[c].n}</button>`).join('')}</div>`:''}`}
+  if(t==='syllabus')return split(x.syl);
+  if(t==='odds')return `<p class="mad">${oddsOf(x).txt}</p>${waffle(x)}${x.quota?`<h4>Seats by category</h4>${split(x.quota)}`:''}`;
+  if(t==='prepare')return `<p class="mad"><output id="hrv">${S.hrs}</output> h a day</p><input type="range" id="hrs" min="1" max="10" value="${S.hrs}" aria-label="Hours a day"><div id="prepout">${prepOut(x)}</div>`;
+  return x.ladder.map((r,i)=>`<div class="rung ${i===x.rung?'on':i<x.rung?'dim':''}" style="--w:${Math.min(100,Math.round(55+i*45/Math.max(1,x.ladder.length-1)))}%"><span>${r[0]}</span><b>NPR ${r[1]}k</b></div>`).reverse().join('')}
+};
+const SHEET={
+course(id){const c=C[id],{st,sm}=locate(id),nx=STAGES[STAGES.indexOf(st)+1],[yn,yu]=yr(c.y).split(' ');
+  return heroHTML(sm.tone,'course:'+id,`${shape(8,'spin')}<div><b>${yn}</b><small>${yu}</small></div>`,c.n,c.f)+
+  `<div class="meters">${ring(c.d,'Demand')}${ring(c.c,'Competition','','var(--on)')}${c.pay?`<div class="pay"><b>${c.pay[0]}–${c.pay[1]}k</b><span>NPR / month to start</span></div>`:'<span></span>'}</div>
+  ${tabsHTML([['journey','Journey'],['careers','Careers'],['cost','Cost'],['entry','Entry'],['compare','Compare']],S.tabs.course)}<div id="tabp">${PANEL.course(id)}</div>
+  <div class="acts">${hasCol(id)?`<button class="btn f" data-a="find" data-v="${id}">${I('pin',18)}Colleges</button>`:''}${nx?`<button class="btn t" data-a="next" data-v="${id}">${nx.t}${I('arrow',18)}</button>`:''}</div>`},
+career(id){const k=K[id];
+  return heroHTML('sc','career:'+id,`${shape(5,'spin')}<div>${sig(k.d)}</div>`,k.n,payTxt(k.pay))+
+  `<div class="meters">${ring(k.d,'Demand')}${ring(k.c,'Competition','','var(--on)')}<div class="pay"><b id="expv"></b><span id="expl"></span></div></div>
+  ${tabsHTML([['pay','Pay'],['profile','Profile'],['skills','Skills'],['market','Market']],S.tabs.career)}<div id="tabp">${PANEL.career(id)}</div>`},
+exam(id){const x=X[id],o=x.seats?oddsOf(x):null,tabs=[['stages','Stages'],['syllabus','Syllabus']],f=[];
+  if(o)tabs.push(['odds','Odds']);tabs.push(['prepare','Prepare']);if(x.rung!=null)tabs.push(['ladder','Ladder']);
+  if(!tabs.some(t=>t[0]===S.tabs.exam))S.tabs.exam='stages';
+  if(o)f.push(['Seats',num(x.seats)],['Applicants',num(x.apps)]);f.push(['Fee',npr(x.fee)],['Needs',EDU[x.edu]]);
+  if(x.age)f.push(['Age',x.age[0]+'–'+x.age[1]+(x.age[2]>x.age[1]?', women '+x.age[2]:'')]);if(x.pay)f.push(['Starting pay','NPR '+x.pay+'k']);if(x.valid)f.push(['Valid',x.valid+' yr']);
+  return heroHTML((TR.find(t=>t[0]===x.g)||[0,0,'sc'])[2],'exam:'+id,`${shape(7,'spin')}<div>${o?`${o.pre?`<small>${o.pre}</small>`:''}<b>${o.n}</b>${o.post?`<small>${o.post}</small>`:''}`:`<b>${x.st.length}</b><small>parts</small>`}</div>`,x.n,x.b)+
+  facts(f)+(x.em?`<div class="blk">${examCal(x)}</div>`:'')+tabsHTML(tabs,S.tabs.exam)+`<div id="tabp">${PANEL.exam(id)}</div>`+
+  (x.guide||x.k?`<div class="acts">${x.guide?`<button class="btn f" data-a="goGuide" data-v="${x.guide}">${I('list',18)}Steps</button>`:''}${x.k?`<button class="btn t" data-a="goCareer" data-v="${x.k}">${K[x.k].n}${I('arrow',18)}</button>`:''}</div>`:'')},
+guide(id){const g=G[id],n=g.steps.length,d=gdone(g);
+  return heroHTML((GT[g.cat]||'sc'),'guide:'+id,`${shape(6,'spin')}<div><b id="gdone">${d}</b><small>of ${n}</small></div>`,g.n,g.cat)+
+  facts([['Time',dy(gsum(g,1))],['Cost','NPR '+num(gsum(g,2))],['Online',g.steps.filter(s=>s[3]==='O').length+' of '+n]])+
+  `<div class="blk"><div class="gp lg"><i id="gbar" style="width:${d/n*100}%"></i></div></div>
+  <div class="blk"><div class="steps">${g.steps.map(([t,ds,c,w],i)=>`<button class="step ck ${S.done.has(id+':'+i)?'done':''}" style="--i:${i}" data-a="step" data-v="${id}:${i}"><b><i>${i+1}</i>${I('check',18)}</b><span>${t}<small>${[ds?dy(ds):'',c?npr(c):'',w==='O'?'Online':'In person'].filter(Boolean).join(' · ')}</small></span></button>`).join('')}</div></div>
+  <div class="blk"><h4>Documents</h4><div class="chips w z">${g.docs.map(x=>`<button class="chip ${S.docs.has(id+':'+x)?'on':''}" data-a="doc" data-v="${id}:${x}">${x}</button>`).join('')}</div></div>
+  ${g.link?`<div class="acts"><button class="btn t" data-a="${g.link[0]}" data-v="${g.link[1]}">${g.link[2]}${I('arrow',18)}</button></div>`:''}`}
+};
+function updExp(){const c=cur();if(!c||c.t!=='career'||!$('#expv'))return;const k=K[c.id],v=payAt(k,S.exp),ri=S.exp<3?0:S.exp<7?1:S.exp<12?2:3;
+  $('#expv').textContent='NPR '+Math.round(v)+'k';$('#expl').textContent=(S.exp?'Year '+S.exp:'Entry')+' · '+k.f.lad[ri];
+  const r=$('#exp'),o=$('#expo');if(o)o.textContent=S.exp?'Year '+S.exp:'Entry';
+  if(r&&+r.value!==S.exp)r.value=S.exp;$$('.lr').forEach((b,i)=>b.classList.toggle('on',i===ri))}
 
-  /* ---- shared small pieces ---- */
-  PW.bar = function (v, max, tone) { return h('span', { class: 'pw-bar', 'data-t': tone || 'b' }, [h('i', { w: Math.max(4, Math.min(100, v / max * 100)) + '%' })]); };
-  PW.chip = function (text, on, attrs) { var a = attrs || {}; a.class = 'pw-chip'; a.type = 'button'; a['aria-pressed'] = !!on; a.text = text; return h('button', a); };
-  PW.sectionTitle = function (t, right) { return h('div', { class: 'pw-sh' }, [h('h2', { text: t })].concat(right ? [right] : [])); };
-  PW.empty = function (t) { return h('p', { class: 'pw-empty', text: t }); };
-  PW.head = function (title, sub, back) {
-    var kids = [];
-    if (back) kids.push(h('a', { class: 'pw-round sm', href: back, 'aria-label': 'Back' }, [PW.icon('arrow_back')]));
-    kids.push(h('div', {}, [h('h2', { text: title })].concat(sub ? [h('p', { text: sub })] : [])));
-    return h('div', { class: 'pw-head' }, kids);
-  };
+/* ============ RENDER ============ */
+function renderTop(){const tr=[];
+  S.path.forEach((p,i)=>tr.push(`<button class="tc" data-a="trail" data-v="${i}">${C[p.course].n}</button>`));
+  tr.push(`<button class="tc" data-a="home">${stage().t}</button>`);
+  if(S.course)tr.push(`<button class="tc on" data-a="goCourse" data-v="${S.course}">${C[S.course].n}</button>`);
+  if(S.career)tr.push(`<button class="tc on" data-a="goCareer" data-v="${S.career}">${K[S.career].n}</button>`);
+  $('#pw-top').innerHTML=`<div class="tbar">${S.searching?`<input id="q" placeholder="Search" autocomplete="off" aria-label="Search">`:`<div class="brand">Pathways</div>`}
+    <button class="ib ${S.searching?'on':''}" data-a="search" aria-label="Search">${I(S.searching?'close':'search')}</button></div>
+    ${S.view==='explore'&&!S.searching?`<div class="trail">${tr.join('<i class="sep"></i>')}</div>`:''}`}
+function renderMain(){const m=$('#pw-main'),over=S.searching&&S.q,key=[over?S.q&&'q':'',S.view,S.stage,S.stream,S.dev,S.study,S.xg,S.plan,S.gcat].join('|');
+  if(key!==lastKey){m.classList.add('fresh');m.scrollTop=0;clearTimeout(freshT);freshT=setTimeout(()=>m.classList.remove('fresh'),900);lastKey=key}
+  m.innerHTML=over?vSearch():V[S.view]();
+  if(over)return;
+  const on=$('.stg.on',m);if(on){const r=on.parentNode;r.scrollLeft=on.offsetLeft-(r.clientWidth-on.offsetWidth)/2}
+  if(S.view==='explore')drawLinks();
+  if(S.view==='study'&&S.study==='nepal')renderCList();
+  if(S.view==='plan'&&S.plan==='match')renderMatch()}
+function drawLinks(){const f=$('#flow');if(!f)return;
+  const P=e=>({l:e.offsetLeft,r:e.offsetLeft+e.offsetWidth,y:e.offsetTop+e.offsetHeight/2});let o='';
+  $$('.nd.c',f).forEach(a=>{const A=P(a);C[a.dataset.v].to.forEach(k=>{const b=$(`.nd.k[data-v="${k}"]`,f);if(!b)return;const B=P(b),m=(A.r+B.l)/2;
+    o+=`<path pathLength="1" data-c="${a.dataset.v}" data-k="${k}" d="M${A.r} ${A.y}C${m} ${A.y} ${m} ${B.y} ${B.l} ${B.y}"/>`})});
+  $('#links').innerHTML=o;paint()}
+// course selected: its careers light up. career selected: every course that reaches it lights up.
+function paint(){const c=S.course,k=S.career,any=c||k;
+  const cs=id=>c?(id===c?2:0):k&&C[id].to.includes(k)?1:0,ks=id=>k?(id===k?2:0):c&&C[c].to.includes(id)?1:0;
+  const set=(e,v)=>{e.classList.toggle('on',v===2);e.classList.toggle('lit',v===1);e.classList.toggle('dim',!!any&&!v)};
+  $$('#flow .nd.c').forEach(e=>set(e,cs(e.dataset.v)));$$('#flow .nd.k').forEach(e=>set(e,ks(e.dataset.v)));
+  $$('#links path').forEach(p=>{const on=cs(p.dataset.c)&&ks(p.dataset.k);p.classList.toggle('on',!!on);p.classList.toggle('dim',!!any&&!on)});lensPaint()}
+// lens: fills every node with one metric so a whole stream can be read at a glance
+function lensPaint(){$$('#flow .nd').forEach(e=>{const isC=e.classList.contains('c'),o=isC?C[e.dataset.v]:K[e.dataset.v];let w=0,t=isC?yr(o.y):'';
+  if(S.lens==='d'){w=o.d;t=o.d}
+  else if(S.lens==='ease'){w=100-o.c;t=100-o.c}
+  else if(S.lens==='pay'){const p=isC?(o.pay?(o.pay[0]+o.pay[1])/2:0):o.pay[0];w=Math.min(100,p);t=p?Math.round(p)+'k':''}
+  e.style.setProperty('--w',w+'%');$('small',e).textContent=t})}
+function renderPeek(){const p=$('#pw-peek'),show=!wide()&&S.view==='explore'&&S.sel&&!S.searching;
+  p.classList.toggle('show',!!show);if(!show){p.innerHTML='';return}
+  const {t,id}=S.sel,o=t==='course'?C[id]:K[id];
+  p.innerHTML=`<button class="pk t-${t==='course'?locate(id).sm.tone:'sc'}" data-a="open"><div><b>${o.n}</b><span>${t==='course'?o.f:payTxt(o.pay)}</span></div>${ring(o.d,'','s','currentColor')}<i class="go">${I('arrow')}</i></button>`}
+function renderSheet(){const el=$('#pw-sheet'),c=cur();el.classList.toggle('open',!!(c&&(wide()||S.open)));
+  el.innerHTML=c?SHEET[c.t](c.id):'';el.scrollTop=0;updExp()}
+function repanel(){const c=cur(),p=$('#tabp');if(c&&p&&PANEL[c.t]){p.innerHTML=PANEL[c.t](c.id);updExp()}}
+function renderNav(){$('#pw-nav').innerHTML=[['explore','route','Explore'],['study','cap','Study'],['exams','exam','Exams'],['guides','list','Guides'],['plan','flag','Plan']]
+  .map(([v,ic,n])=>`<button class="${S.view===v?'on':''}" data-a="nav" data-v="${v}"><i>${I(ic)}${v==='plan'&&S.saved.size?`<span class="cnt">${S.saved.size}</span>`:''}</i>${n}</button>`).join('')}
+function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let l=COL.filter(x=>x.c.includes(S.cc)).map(x=>({...x,fee:x.fees[S.cc]}));const MXF=Math.max(.1,...l.map(x=>x.fee||0));
+  if(S.prov!=null)l=l.filter(x=>x.p===S.prov);
+  const ds=[...new Set(l.map(x=>x.d))];if(!ds.includes(S.dist))S.dist=null;if(S.dist)l=l.filter(x=>x.d===S.dist);
+  l=l.filter(x=>x.fee==null||x.fee<=S.cmax).sort((a,b)=>S.csort==='fee'?(a.fee??1e9)-(b.fee??1e9):b.seats-a.seats);const nAll=l.length;l=l.slice(0,60);
+  box.innerHTML=(ds.length>1?`<div class="chips">${ds.map(d=>`<button class="chip ${S.dist===d?'on':''}" data-a="dist" data-v="${d}">${d}</button>`).join('')}</div>`:'')+
+  (l.map(x=>`<div class="crow"><div><b>${x.n}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${x.t==='Public'?'gc':'tc'}">${x.t}</span>${x.fee!=null?`<div class="fee"><i style="width:${x.fee/MXF*100}%"></i></div><span class="fv">${lakh(x.fee)}</span>`:''}</div>`).join('')||empty('No colleges'))+(nAll>60?`<p class="mk-n">Showing 60 of ${nAll}. Narrow by province, district or fee.</p>`:'')}
+function score(c){let s=0;
+  if(S.mi.size)s+=55*[...S.mi].filter(x=>c.tags.includes(x)).length/S.mi.size;else s+=25;
+  s+=S.ms?(c.st===S.ms?25:0):10;s+=c.fee[0]<=S.mb?(c.fee[1]<=S.mb?15:9):0;s+=c.d/20;return Math.min(99,Math.round(s))}
+function renderMatch(){const box=$('#mres');if(!box)return;const old={};$$('.mrow',box).forEach(e=>old[e.dataset.v]=e.offsetTop);
+  const l=stage().streams.flatMap(x=>x.courses).map(id=>({c:C[id],s:score(C[id])})).sort((a,b)=>b.s-a.s).slice(0,6);
+  box.innerHTML=l.map(({c,s})=>`<button class="mrow" data-a="goCourse" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b><span>${c.f}</span></div>${I('arrow',20)}</button>`).join('');
+  $$('.mrow',box).forEach(e=>{const o=old[e.dataset.v];if(!e.animate)return;
+    if(o==null)e.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'none'}],{duration:350,easing:'cubic-bezier(.2,0,0,1)'});
+    else if(o!==e.offsetTop)e.animate([{transform:`translateY(${o-e.offsetTop}px)`},{transform:'none'}],{duration:520,easing:'cubic-bezier(.34,1.56,.64,1)'})})}
+function chrome(){}
+function render(){chrome();renderTop();renderNav();renderSheet();renderMain();renderPeek()}
 
-  /* ---- search: every word must appear in the name, prefix hits first, so nothing unrelated shows ---- */
-  function pick(items, text, words, limit) {
-    var out = [];
-    items.forEach(function (x) {
-      var t = text(x).toLowerCase();
-      if (!words.every(function (w) { return t.indexOf(w) >= 0; })) return;
-      out.push([x, t.indexOf(words[0]) === 0 ? 0 : t.indexOf(' ' + words[0]) >= 0 ? 1 : 2]);
-    });
-    return out.sort(function (a, b) { return a[1] - b[1]; }).slice(0, limit).map(function (p) { return p[0]; });
-  }
-  PW.search = function (q) {
-    var words = q.toLowerCase().split(/[ ,]+/).filter(function (w) { return w.length >= 2; });
-    if (!words.length || !PW.D) return [];
-    var D = PW.D, out = [];
-    pick(D.routes, function (r) { return r.name + ' ' + (PW.GROUPS[r.group] || ''); }, words, 7).forEach(function (r) { out.push({ t: 'Course', n: r.name, s: r.years + ', ' + r.kind, go: '#levels/' + r.stage + '/' + r.id, g: 'school' }); });
-    pick(D.careers, function (c) { return c.name; }, words, 5).forEach(function (c) {
-      var r = D.routes.filter(function (x) { return x.careers.indexOf(c.id) >= 0; })[0];
-      if (r) out.push({ t: 'Career', n: c.name, s: 'Via ' + r.name, go: '#levels/' + r.stage + '/' + r.id, g: 'work' });
-    });
-    pick(D.providers, function (p) { return p.name + ' ' + p.district + ' ' + p.place; }, words, 6).forEach(function (p) { out.push({ t: 'College', n: p.name, s: p.place + ', ' + p.district, go: '#colleges', pv: p.district, g: 'apartment' }); });
-    pick(D.govt || [], function (g) { return g.name + ' ' + g.body; }, words, 3).forEach(function (g) { out.push({ t: 'Lok Sewa', n: g.name, s: g.level, go: '#govt/' + g.id, g: 'account_balance' }); });
-    return out;
-  };
-  var q = $('pw-q'), hits = $('pw-hits'), timer;
-  function drawHits() {
-    var list = PW.search(q.value);
-    hits.textContent = '';
-    if (!q.value.trim()) { hits.hidden = true; return; }
-    if (!list.length) hits.appendChild(h('p', { class: 'pw-empty', text: 'Nothing matches that. Try one word, like nursing or law.' }));
-    list.forEach(function (x) {
-      var b = h('button', { class: 'pw-hit', type: 'button' }, [PW.icon(x.g), h('span', {}, [h('b', { text: x.n }), h('small', { text: x.t + ', ' + x.s })])]);
-      b.addEventListener('click', function () {
-        if (x.pv) { PW.state.district = x.pv; try { localStorage.setItem('pw-district', x.pv); } catch (e) {} }
-        q.value = ''; hits.hidden = true; location.hash = x.go;
-      });
-      hits.appendChild(b);
-    });
-    hits.hidden = false;
-  }
-  q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(drawHits, 110); });
-  q.addEventListener('keydown', function (e) { if (e.key === 'Escape') { q.value = ''; hits.hidden = true; } });
-  document.addEventListener('click', function (e) { if (!e.target.closest('.pw-search')) hits.hidden = true; });
-  $('pw-saved').addEventListener('click', function () { location.hash = '#saved'; });
-
-  /* ---- sections and routing ---- */
-  var SECTIONS = [['levels', 'Pathways', 'alt_route'], ['lab', 'Course Lab', 'science'], ['colleges', 'Colleges', 'apartment'], ['abroad', 'Abroad', 'public'], ['govt', 'Lok Sewa', 'account_balance'], ['faq', 'Questions', 'help']];
-  PW.SECTIONS = SECTIONS;
-  function drawNav(tab) {
-    nav.textContent = '';
-    SECTIONS.forEach(function (s) {
-      var a = h('a', { class: 'pw-nav-i', href: '#' + s[0], 'aria-current': tab === s[0] ? 'page' : null }, [PW.icon(s[2]), h('span', { text: s[1] })]);
-      nav.appendChild(a);
-    });
-  }
-  PW.route = function () {
-    var raw = location.hash.replace(/^#/, ''), parts;
-    var legacy = /^route=(.+)$/.exec(raw);
-    if (legacy) { var lr = PW.routes[legacy[1]]; parts = lr ? ['levels', lr.stage, lr.id] : ['levels']; }
-    else if (/^(after8|after10|after12|afterbach)$/.test(raw)) parts = ['levels', raw];
-    else parts = raw.split('/').filter(Boolean);
-    var tab = parts[0] || 'levels';
-    if (!PW.views[tab]) tab = 'levels';
-    var prev = view.getAttribute('data-tab');
-    view.setAttribute('data-tab', tab);
-    drawNav(tab === 'saved' ? '' : tab);
-    var keep = view.querySelector('.pw-list'); PW.keepScroll = keep ? keep.scrollTop : 0;
-    view.textContent = '';
-    view.classList.remove('in'); void view.offsetWidth; view.classList.add('in');
-    PW.views[tab].apply(null, parts.slice(1));
-    if (prev !== tab || parts.length < 3) window.scrollTo({ top: 0 });
-  };
-  window.addEventListener('hashchange', function () { if (PW.D) PW.route(); });
-  PW.setDistrict = function (d) { PW.state.district = d; try { localStorage.setItem('pw-district', d); } catch (e) {} };
-  $('pw-saved').classList.toggle('on', saved.length > 0);
-
-  // runs once the data is here and the last view file (pathways-lab.js) has registered itself
-  PW.tryStart = function () { if (PW.D && PW.ready) PW.route(); };
-  fetch(view.dataset.src, { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (data) {
-    var D = PW.D = data;
-    PW.routes = PW.by(D.routes); PW.careers = PW.by(D.careers); PW.providers = PW.by(D.providers);
-    PW.schol = PW.by(D.scholarships); PW.abroadBy = PW.by(D.abroad); PW.govtBy = PW.by(D.govt || []);
-    PW.stages = D.stages;
-    PW.tryStart();
-  }).catch(function () {
-    view.textContent = '';
-    view.appendChild(PW.empty('Could not load Pathways. Check your connection and reload.'));
-  });
+/* ============ ACTIONS ============ */
+const clearOver=()=>{S.searching=false;S.q=''};
+const select=()=>{paint();renderTop();renderPeek();renderSheet()};
+// cross-links between sections remember where they came from, so Back returns there
+const jump=()=>{S.back.push({view:S.view,open:S.open});if(S.back.length>8)S.back.shift()};
+const A={
+nav(v){S.view=v;S.open=false;S.back=[];clearOver();render()},
+stage(v){const i=STAGES.findIndex(s=>s.id===v);S.stage=v;S.stream=stage().streams[0].id;S.edu=STAGE_EDU[i];S.age=STAGE_AGE[i];S.course=S.career=S.sel=null;S.path=[];S.open=false;render()},
+stream(v){S.stream=v;S.course=S.career=S.sel=null;render()},
+home(){S.course=S.career=S.sel=null;render()},
+lens(v){S.lens=S.lens===v?null:v;$$('.lz').forEach(b=>b.classList.toggle('on',b.dataset.v===S.lens));lensPaint()},
+course(v){if(S.course===v){S.course=null;S.sel=S.career?{t:'career',id:S.career}:null}else{S.course=v;if(S.career&&!C[v].to.includes(S.career))S.career=null;S.sel={t:'course',id:v};S.tabs.course='journey';S.cmp=null}select()},
+career(v){if(S.career===v){S.career=null;S.sel=S.course?{t:'course',id:S.course}:null}else{S.career=v;if(S.course&&!C[S.course].to.includes(v))S.course=null;S.sel={t:'career',id:v};S.exp=3}select()},
+open(){S.open=true;renderSheet();renderPeek()},
+close(){if(S.back.length){const b=S.back.pop();S.view=b.view;S.open=b.open;render()}else{S.open=false;renderSheet();renderPeek()}},
+tab(v,t){const c=cur();if(!c)return;S.tabs[c.t]=v;$$('.tabs button').forEach(b=>b.classList.toggle('on',b===t));repanel()},
+seg(v,t){const s=t.closest('.split'),was=t.classList.contains('on');$$('button',s).forEach(b=>b.classList.toggle('on',!was&&b.dataset.v===v));s.classList.toggle('has',!was)},
+cmp(v){S.cmp=v;repanel()},
+cpriv(v){S.cpriv=v;repanel()},live(v){S.live=v;repanel()},
+rung(v){S.exp=+v;updExp()},
+have(v,t){tog(S.have,v);t.classList.toggle('on');const c=cur(),box=$('#rdy');if(!c||c.t!=='career'||!box)return;
+  const k=K[c.id],p=Math.round(k.sk.filter(s=>S.have.has(s)).length/k.sk.length*100);$('.fg',box).style.strokeDashoffset=100-p;$('b',box).textContent=p},
+save(v,t){tog(S.saved,v);t.classList.toggle('on');renderNav()},
+next(v){const {st,sm}=locate(v),nx=STAGES[STAGES.indexOf(st)+1];if(!nx)return;S.path.push({stage:st.id,stream:sm.id,course:v});
+  S.stage=nx.id;S.stream=nx.streams.some(x=>x.id===C[v].ns)?C[v].ns:nx.streams[0].id;S.course=S.career=S.sel=null;S.open=false;S.back=[];S.view='explore';render()},
+trail(i){const p=S.path[+i];if(!p)return;S.path=S.path.slice(0,+i);S.stage=p.stage;S.stream=p.stream;S.course=p.course;S.career=null;S.sel={t:'course',id:p.course};S.tabs.course='journey';render()},
+goCourse(v){if(S.view!=='explore')jump();const {st,sm}=locate(v);if(st.id!==S.stage)S.path=[];S.stage=st.id;S.stream=sm.id;S.course=v;if(S.career&&!C[v].to.includes(S.career))S.career=null;
+  S.sel={t:'course',id:v};S.tabs.course='journey';S.cmp=null;S.open=true;S.view='explore';clearOver();render()},
+goCareer(v){if(S.view!=='explore')jump();
+  if(!stream().courses.some(c=>C[c].to.includes(v))){const c=Object.keys(C).find(c=>C[c].to.includes(v)),{st,sm}=locate(c);S.stage=st.id;S.stream=sm.id;S.course=null;S.path=[]}
+  if(S.course&&!C[S.course].to.includes(v))S.course=null;S.career=v;S.sel={t:'career',id:v};S.exp=3;S.open=true;S.view='explore';clearOver();render()},
+goExam(v){jump();S.view='exams';S.xg=X[v].g;S.exam=v;S.tabs.exam='stages';S.open=true;clearOver();render()},
+goGuide(v){jump();S.view='guides';S.gcat='All';S.guide=v;S.open=true;clearOver();render()},
+goStudy(v){S.view='study';S.study=v;S.open=false;S.back=[];clearOver();render()},
+goSch(v){S.view='study';S.study='funding';S.stype='All';S.slvl='All';S.sk=null;S.schOpen=v;S.open=false;S.back=[];clearOver();render()},
+find(v){S.cc=v;S.cmax=null;S.prov=S.dist=null;S.view='study';S.study='nepal';S.open=false;S.back=[];clearOver();render()},
+study(v){S.study=v;renderMain()},
+cc(v){S.cc=v;S.cmax=null;S.prov=S.dist=null;renderMain()},
+prov(v){S.prov=S.prov===+v?null:+v;S.dist=null;renderMain()},
+dist(v){S.dist=S.dist===v?null:v;renderCList()},
+csort(v){S.csort=v;renderMain()},
+ctry(v){S.ab=S.ab===v?null:v;const l=$('#ablist');if(l)l.innerHTML=abList();else renderMain()},
+skf(v){S.sk=v||null;S.study='funding';S.stype='All';S.slvl='All';renderMain()},
+stype(v){S.stype=v;renderMain()},slvl(v){S.slvl=v;renderMain()},
+sch(v){S.schOpen=S.schOpen===v?null:v;renderMain()},
+xg(v){S.xg=v;const l=Object.values(X).filter(x=>x.g===v);if(!l.some(x=>x.id===S.exam))S.exam=l[0].id;S.tabs.exam='stages';renderMain();renderSheet()},
+edu(v){S.edu=+v;renderMain()},
+woman(v){S.woman=v;renderMain()},
+exam(v){S.exam=v;S.tabs.exam='stages';S.open=true;renderMain();renderSheet()},
+gcat(v){S.gcat=v;renderMain()},
+guide(v){S.guide=v;S.open=true;renderMain();renderSheet()},
+step(v,t){tog(S.done,v);t.classList.toggle('done');const g=G[v.split(':')[0]],w=gdone(g)/g.steps.length*100+'%',a=$('#gdone'),b=$('#gbar'),c=$(`.gd[data-v="${g.id}"] .gp i`);
+  if(a)a.textContent=gdone(g);if(b)b.style.width=w;if(c)c.style.width=w},
+doc(v,t){tog(S.docs,v);t.classList.toggle('on')},
+plan(v){S.plan=v;renderMain()},
+mi(v,t){tog(S.mi,v);t.classList.toggle('on');renderMatch()},
+ms(v){S.ms=S.ms===v?null:v;$$('.chip.ms').forEach(b=>b.classList.toggle('on',b.dataset.v===S.ms));renderMatch()},
+search(){S.searching=!S.searching;S.q='';renderTop();renderMain();renderPeek();const q=$('#q');if(q)q.focus()}
+};
+const IN={
+q(v){S.q=v.trim();renderMain();renderPeek()},
+exp(v){S.exp=+v;updExp()},
+cmax(v){S.cmax=+v;$('#cmaxv').textContent=lakh(S.cmax);renderCList()},
+abmax(v){S.abmax=+v;$('#abv').textContent='NPR '+v+'L';$('#ablist').innerHTML=abList()},
+mb(v){S.mb=+v;$('#mbv').textContent='NPR '+v+'L';renderMatch()},
+age(v){S.age=+v;$('#agev').textContent='Age '+v;$('#xlist').innerHTML=xlistHTML()},
+page(v){S.age=+v;$('#pagev').textContent=v;$('#pout').innerHTML=planOut()},
+hrs(v){S.hrs=+v;$('#hrv').textContent=v;$('#prepout').innerHTML=prepOut(X[S.exam])},
+aid(v){S.aid=+v;$('#aidv').textContent='Aid '+v+'%';const c=cur();if(c&&c.t==='course')$('#costout').innerHTML=costOut(C[c.id])}
+};
+root.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(t&&A[t.dataset.a])A[t.dataset.a](t.dataset.v,t)});
+root.addEventListener('input',e=>{const f=IN[e.target.id];if(f)f(e.target.value)});
+root.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[role=button]')){e.preventDefault();e.target.click()}});
+new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}else drawLinks()}).observe($('#pw-main'));
+new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}}).observe(root);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawLinks);
+render();
+}).catch(()=>fail("Pathways could not load. Check your connection and refresh."));
 })();
