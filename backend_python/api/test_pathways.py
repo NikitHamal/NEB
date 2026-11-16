@@ -87,3 +87,37 @@ class PathwaysDataTests(TestCase):
         self.assertEqual(r.status_code, 200)
         html = r.content.decode()
         self.assertLess(html.index('dynamic-posts-data.js'), html.index('dynamic-posts-lab.js'))
+
+    def test_wave6_enrichment_is_merged(self):
+        d = pathways.payload()
+        careers = {c['id']: c for c in d['careers']}
+        self.assertTrue(all(c.get('ladder') and c.get('employers') for c in careers.values()))
+        self.assertEqual(careers['teacher']['licence']['exam'], 'g-tsc')
+        for s in d['scholarships']:
+            self.assertTrue(s.get('type'), s['id'])
+        for rid in ('s-jjwbgsp', 's-clarendon', 's-schwarzman'):
+            self.assertIn(rid, {s['id'] for s in d['scholarships']})
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertEqual(abroad['au']['code'], 'AU')
+        self.assertEqual(abroad['ca']['work_hours'], 24)
+        self.assertIn('s-clarendon', abroad['uk']['scholarships'])
+        govt = {g['id']: g for g in d['govt']}
+        for gid in ('g-police-inspector', 'g-police-asi', 'g-apf-asi', 'g-army-cadet', 'g-nrb'):
+            self.assertIn(gid, govt)
+        self.assertEqual(govt['g-kharidar']['rung'], 0)
+        self.assertAlmostEqual(sum(v for _, v in govt['g-so']['quota']), 100, places=1)
+        self.assertEqual(len(d['guides']), 6)
+        pulchowk = next(p for p in d['providers'] if p['id'] == 'p-pulchowk')
+        self.assertEqual(pulchowk['seats'], 624)
+        self.assertIn('be-computer', pulchowk['fees'])
+        self.assertGreaterEqual(len(d['faq']), 48)
+        self.assertGreaterEqual(len([r for r in d['routes'] if r.get('plan')]), 20)
+        self.assertEqual(pathways.problems(), [])
+
+    def test_wave6_text_has_no_dashes(self):
+        import json
+        d = pathways.payload()
+        for key in ('faq', 'govt', 'guides'):
+            text = json.dumps(d[key], ensure_ascii=False)
+            self.assertNotIn('\u2014', text)
+            self.assertNotIn('\u2013', text)

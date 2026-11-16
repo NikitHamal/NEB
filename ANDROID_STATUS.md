@@ -622,3 +622,29 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Not done / next
 - Picture beside text blocks inside a post.
 - Pathways Nepali labels, saved levels, per-college fee tables (verify every figure first).
+
+
+---
+
+# Session 27: Pathways dataset wave 6 (enrichment layer, research only)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`, `build-release.yml`). Bootstrap re-run and history read first. The brief (Pathways with levels, careers, colleges, abroad, scholarships) was shipped in sessions 16 to 26, so no screen was rebuilt. This session only researches and fills the data fields that the Android and web screens already read but the dataset left empty (coverage check showed 0 of 55 careers with a ladder, 0 scholarships with type or open months, 0 abroad with work hours, 0 guides, 0 routes with a plan, 8 exams without marks or pay).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 132 | **Career depth for all 55 careers**: career ladder (4 steps), Nepali employers, weekly hours and the statutory licence (Nepal Medical, Nursing, Pharmacy, Engineering, Bar, Veterinary, Ayurveda councils, NHPC, ICAN, TSC, CAAN). Teacher links to the TSC exam. Demand history, day split and traits were left out because no source supports them. | `wave6_careers.json` |
+| 133 | **Scholarships**: every scholarship now has a `type` (Embassy, Government, University, Foundation), abroad ones a `country`, and the windows that are published carry `open` months (Chevening Aug to Oct, Australia Awards Feb to Apr, MEXT Apr to May, GKS undergraduate Sept, Turkiye Burslari Jan to Feb, MGSS Oct to Nov, SJSS and Homi Bhabha Feb to Mar, AYUSH May to Jun, Eiffel Oct to Nov, Gates Oct to Dec). Chevening and GKS text now carries the 2027 cycle dates. Added five: JJ/WBGSP, Clarendon, Knight-Hennessy, Schwarzman, Yenching (42 to 47). | `wave6_places.json` |
+| 134 | **Abroad**: country `code` for all 30; `work_hours` and `stay_back` where the rule is stable and sourced (AU 48 per fortnight, CA 24, UK 20, DE 140 days, JP 28, NZ 20, FI 30, FR 964 h per year and others; post study permits AU 2 to 4 years, CA up to 3, UK 2 years then 18 months from Jan 2027, DE 18 months, KR D-10, NL 1 year, FI 2 years, IE 1 to 2, IT 12 months, PL 9 months). Left blank where unsure (CN, IN, MY, TR, RU, SG, TH, AE). | `wave6_places.json` |
+| 135 | **Lok Sewa and uniformed services**: Kharidar stages with marks (100 preliminary with 20 percent negative marking, two papers of 100, computer 10 plus interview 30); civil service seat split (55 open, 45 reserved: women 33, Janajati 27, Madhesi 22, Dalit 9, disability 5, backward region 4 of the reserved part) shown as seat share of 100; pay ladder Kharidar 33k, Nayab Subba 35k, Section Officer 45k (FY 2082/83 starting basic, rounded, allowances extra). New exams: Police Inspector, Police ASI, APF ASI, Army officer cadet (280 seats in the latest notice, +2 age 18 to 21, bachelor 18 to 24) and Nepal Rastra Bank (fee NPR 800 assistant, 1,000 officer). | `wave6_govt.json` |
+| 136 | **Guides** (the tab was empty): citizenship, National ID, e-passport, Lok Sewa application, Indian Embassy scholarship application, check a college before paying. Passport fee is shown as "from NPR 5,000" because sources disagree on urgent and 66 page prices; confirm on the passport department site. | `wave6_govt.json` |
+| 137 | **Route plans and exam links**: journey steps for 22 routes (+2 streams, BE Computer and Civil, MBBS, BSc Nursing, CSIT, BCA, BBS, BBA, MBA, CA, ACCA, Lok Sewa, TSC licence, police and army, diploma engineering, PCL nursing, skill training, study abroad, PhD) and `exam_id` for Lok Sewa, TSC, police, bank and public enterprise routes. | `wave6_routes.json` |
+| 138 | **Providers with real numbers**: 2083 IOE intake per campus (Pulchowk 624, Purwanchal 528, Paschimanchal 432, Thapathali 432; Regular vs Full Fee split in the IOE booklet) with fee range NPR 63k to 5.46 lakh for the engineering routes, and KUSOM BBA (120 seats, NPR 7 to 10 lakh). | `wave6_places.json` |
+| 139 | **Questions tab**: 40 to 48 (Kharidar structure, reservation, Army officer entry, Police vs APF ASI, work hours abroad, post study stay, scholarship windows, documents to prepare). Dataset `reviewed` moved to 2026-11. | `wave6_faq.json`, `pathways.py` |
+| 140 | **Checks**: `problems()` now also covers guide links, licence exams, govt tracks and careers, quota total, scholarship countries and provider fee routes; two new tests in `test_pathways.py`. Schema doc lists the wave 6 files. | `pathways.py`, `test_pathways.py`, `docs/PATHWAYS_SCHEMA.md` |
+
+## Not done / next
+- Per college fee tables beyond IOE and KUSOM (verify each against the college prospectus).
+- Open months for Fulbright, DAAD, Commonwealth, Rotary, Swiss, Rhodes (windows move yearly, no stable source yet).
+- Visa success rates per country, demand history per career, Nepali labels, saved pathways.

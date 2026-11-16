@@ -1,0 +1,526 @@
+{
+ "scholarship_extra": {
+  "s-chevening": {
+   "country": "uk",
+   "type": "Government",
+   "open": [
+    8,
+    10
+   ],
+   "how": "Apply online between early August and early October (the 2027 to 28 round closed on 6 October 2026). You need a bachelor, two years of work experience and three UK course choices; shortlisted candidates are interviewed in March and April."
+  },
+  "s-commonwealth": {
+   "country": "uk",
+   "type": "Government",
+   "open": [
+    9,
+    10
+   ]
+  },
+  "s-fulbright": {
+   "country": "us",
+   "type": "Government"
+  },
+  "s-daad": {
+   "country": "de",
+   "type": "Government"
+  },
+  "s-australia": {
+   "country": "au",
+   "type": "Government",
+   "open": [
+    2,
+    4
+   ]
+  },
+  "s-mext": {
+   "country": "jp",
+   "type": "Embassy",
+   "open": [
+    4,
+    5
+   ]
+  },
+  "s-kgsp": {
+   "country": "kr",
+   "type": "Embassy",
+   "open": [
+    9,
+    9
+   ],
+   "how": "Undergraduate: online on the Study in Korea site in the second half of September (the 2027 round ran 15 to 30 September 2026, then results by 16 October). Graduate: February (the 2026 round ran 12 to 25 February). The university track runs to November on each university's own dates. Apply through one track only."
+  },
+  "s-csc": {
+   "country": "cn",
+   "type": "Government"
+  },
+  "s-sh": {
+   "country": "hu",
+   "type": "Government"
+  },
+  "s-turkiye": {
+   "country": "tr",
+   "type": "Government",
+   "open": [
+    1,
+    2
+   ]
+  },
+  "s-erasmus": {
+   "type": "University"
+  },
+  "s-aga-khan": {
+   "type": "Foundation"
+  },
+  "s-rotary": {
+   "type": "Foundation"
+  },
+  "s-swiss": {
+   "type": "Government"
+  },
+  "s-holland": {
+   "country": "nl",
+   "type": "University"
+  },
+  "s-iccr": {
+   "country": "in",
+   "type": "Embassy"
+  },
+  "s-manaaki": {
+   "country": "nz",
+   "type": "Government"
+  },
+  "s-russia": {
+   "country": "ru",
+   "type": "Government"
+  },
+  "s-gates": {
+   "country": "uk",
+   "type": "Foundation",
+   "open": [
+    10,
+    12
+   ]
+  },
+  "s-taiwan": {
+   "country": "tw",
+   "type": "Government"
+  },
+  "s-italy": {
+   "country": "it",
+   "type": "Government"
+  },
+  "s-rhodes": {
+   "country": "uk",
+   "type": "Foundation"
+  },
+  "s-singa": {
+   "country": "sg",
+   "type": "Government"
+  },
+  "s-mgss": {
+   "type": "Embassy",
+   "open": [
+    10,
+    11
+   ]
+  },
+  "s-gjss": {
+   "type": "Embassy"
+  },
+  "s-eiffel": {
+   "country": "fr",
+   "type": "Government",
+   "open": [
+    10,
+    11
+   ]
+  },
+  "s-sisgp": {
+   "country": "se",
+   "type": "Government"
+  },
+  "s-vliruos": {
+   "country": "be",
+   "type": "Government"
+  },
+  "s-compex": {
+   "country": "in",
+   "type": "Embassy"
+  },
+  "s-sjss": {
+   "country": "in",
+   "type": "Embassy",
+   "open": [
+    2,
+    3
+   ]
+  },
+  "s-ayush": {
+   "country": "in",
+   "type": "Embassy",
+   "open": [
+    5,
+    6
+   ]
+  },
+  "s-homi-bhabha": {
+   "country": "in",
+   "type": "Embassy",
+   "open": [
+    2,
+    3
+   ]
+  },
+  "s-jds-japan": {
+   "country": "jp",
+   "type": "Government"
+  },
+  "s-koica": {
+   "country": "kr",
+   "type": "Government"
+  },
+  "s-ugc": {
+   "type": "Government"
+  },
+  "s-ctevt": {
+   "type": "Government"
+  },
+  "s-quota": {
+   "type": "Government"
+  },
+  "s-ioe-regular": {
+   "type": "University"
+  },
+  "s-pu-scholarship": {
+   "type": "University"
+  },
+  "s-ku-scholarship": {
+   "type": "University"
+  },
+  "s-ugc-qaa-need": {
+   "type": "Government"
+  },
+  "s-adb-jsp": {
+   "type": "University"
+  }
+ },
+ "abroad_extra": {
+  "au": {
+   "code": "AU",
+   "work_hours": 24,
+   "stay_back": "2 to 4 years on the Subclass 485 post study work visa, by degree level"
+  },
+  "us": {
+   "code": "US",
+   "work_hours": 20,
+   "stay_back": "1 year OPT, up to 3 years for STEM degrees"
+  },
+  "uk": {
+   "code": "UK",
+   "work_hours": 20,
+   "stay_back": "2 years Graduate Route, shortening to 18 months for applications from January 2027"
+  },
+  "ca": {
+   "code": "CA",
+   "work_hours": 24,
+   "stay_back": "Up to 3 years PGWP, matched to the programme length"
+  },
+  "de": {
+   "code": "DE",
+   "work_hours": 20,
+   "stay_back": "18 months to find a job that matches your degree",
+   "work": "Up to 140 full days or 280 half days a year; student jobs inside the university are mostly exempt. Most public universities charge little or no tuition, but you must show blocked account funds for the visa."
+  },
+  "jp": {
+   "code": "JP",
+   "work_hours": 28,
+   "stay_back": "6 to 12 months to look for a job after graduating",
+   "work": "Up to 28 hours a week with a work permit, up to 8 hours a day in long holidays"
+  },
+  "kr": {
+   "code": "KR",
+   "work_hours": 20,
+   "stay_back": "D-10 job seeking visa, up to 2 years"
+  },
+  "cn": {
+   "code": "CN"
+  },
+  "in": {
+   "code": "IN"
+  },
+  "hu": {
+   "code": "HU"
+  },
+  "nz": {
+   "code": "NZ",
+   "work_hours": 20,
+   "stay_back": "1 to 3 years on a post study work visa, by degree level"
+  },
+  "nl": {
+   "code": "NL",
+   "work_hours": 16,
+   "stay_back": "1 year orientation year to find work"
+  },
+  "fi": {
+   "code": "FI",
+   "work_hours": 30,
+   "stay_back": "Up to 2 years residence permit to look for work or start a business"
+  },
+  "my": {
+   "code": "MY"
+  },
+  "tr": {
+   "code": "TR"
+  },
+  "ru": {
+   "code": "RU"
+  },
+  "ie": {
+   "code": "IE",
+   "work_hours": 20,
+   "stay_back": "1 to 2 years on the Third Level Graduate Programme, by degree level"
+  },
+  "sg": {
+   "code": "SG"
+  },
+  "it": {
+   "code": "IT",
+   "work_hours": 20,
+   "stay_back": "12 months permit to look for work after study"
+  },
+  "tw": {
+   "code": "TW",
+   "work_hours": 20
+  },
+  "fr": {
+   "code": "FR",
+   "work_hours": 20,
+   "stay_back": "Up to 12 months job search permit after a master"
+  },
+  "se": {
+   "code": "SE",
+   "stay_back": "12 months to look for work or start a business after your degree"
+  },
+  "be": {
+   "code": "BE",
+   "work_hours": 20
+  },
+  "no": {
+   "code": "NO",
+   "work_hours": 20
+  },
+  "th": {
+   "code": "TH"
+  },
+  "ae": {
+   "code": "AE"
+  },
+  "dk": {
+   "code": "DK",
+   "work_hours": 20
+  },
+  "at": {
+   "code": "AT",
+   "work_hours": 20
+  },
+  "pl": {
+   "code": "PL",
+   "stay_back": "9 months permit to look for work after a master"
+  },
+  "es": {
+   "code": "ES",
+   "work_hours": 30
+  }
+ },
+ "scholarships_add": [
+  {
+   "id": "s-jjwbgsp",
+   "name": "Joint Japan/World Bank Graduate Scholarship (JJ/WBGSP)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "World Bank with the Government of Japan",
+   "covers": "Tuition, monthly living allowance, travel and health insurance for a development related master",
+   "who": "Citizens of World Bank member developing countries with a bachelor and about 3 years of development related work experience",
+   "how": "Apply to a participating university first, then send the JJ/WBGSP form by that university's deadline",
+   "link": "https://www.worldbank.org/en/programs/scholarships",
+   "country": "us",
+   "type": "Foundation"
+  },
+  {
+   "id": "s-clarendon",
+   "name": "Clarendon Scholarships (University of Oxford)",
+   "scope": "abroad",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "University of Oxford",
+   "covers": "Full fees and a living grant for graduate study at Oxford",
+   "who": "Graduate applicants of any nationality with outstanding academic records",
+   "how": "Apply to Oxford by the course deadline in December or January; you are considered automatically for the course you pick",
+   "link": "https://www.ox.ac.uk/clarendon",
+   "country": "uk",
+   "type": "University"
+  },
+  {
+   "id": "s-knight-hennessy",
+   "name": "Knight-Hennessy Scholars (Stanford)",
+   "scope": "abroad",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "Stanford University",
+   "covers": "Full funding for any graduate degree at Stanford plus leadership programme",
+   "who": "Applicants with an undergraduate degree within recent years, leadership record and a Stanford graduate admission",
+   "how": "Apply online by the October deadline together with the Stanford department application",
+   "link": "https://knight-hennessy.stanford.edu",
+   "country": "us",
+   "type": "University"
+  },
+  {
+   "id": "s-schwarzman",
+   "name": "Schwarzman Scholars (Tsinghua University)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "Schwarzman Scholars",
+   "covers": "Full cost of a one year master in global affairs in Beijing",
+   "who": "Students aged 18 to 28 with leadership potential from any country",
+   "how": "Apply online by the September deadline for the following August start",
+   "link": "https://www.schwarzmanscholars.org",
+   "country": "cn",
+   "type": "Foundation"
+  },
+  {
+   "id": "s-yenching",
+   "name": "Yenching Academy (Peking University)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "Peking University",
+   "covers": "Tuition, housing and a stipend for a one year to two year master in China studies",
+   "who": "Bachelor graduates of any nationality with strong academics and an interest in China",
+   "how": "Apply online in the autumn round; check the current deadline on the academy site",
+   "link": "https://yenchingacademy.pku.edu.cn",
+   "country": "cn",
+   "type": "University"
+  }
+ ],
+ "provider_extra": {
+  "p-pulchowk": {
+   "seats": 624,
+   "fees": {
+    "be-computer": [
+     63000,
+     546000
+    ],
+    "be-civil": [
+     63000,
+     546000
+    ],
+    "be-electrical": [
+     63000,
+     546000
+    ],
+    "be-mechanical": [
+     63000,
+     546000
+    ],
+    "be-electronics": [
+     63000,
+     546000
+    ]
+   }
+  },
+  "p-purc": {
+   "seats": 528,
+   "fees": {
+    "be-computer": [
+     63000,
+     546000
+    ],
+    "be-civil": [
+     63000,
+     546000
+    ],
+    "be-electrical": [
+     63000,
+     546000
+    ],
+    "be-mechanical": [
+     63000,
+     546000
+    ],
+    "be-electronics": [
+     63000,
+     546000
+    ]
+   }
+  },
+  "p-wrc": {
+   "seats": 432,
+   "fees": {
+    "be-computer": [
+     63000,
+     546000
+    ],
+    "be-civil": [
+     63000,
+     546000
+    ],
+    "be-electrical": [
+     63000,
+     546000
+    ],
+    "be-mechanical": [
+     63000,
+     546000
+    ],
+    "be-electronics": [
+     63000,
+     546000
+    ]
+   }
+  },
+  "p-thapathali": {
+   "seats": 432,
+   "fees": {
+    "be-computer": [
+     63000,
+     546000
+    ],
+    "be-civil": [
+     63000,
+     546000
+    ],
+    "be-electrical": [
+     63000,
+     546000
+    ],
+    "be-mechanical": [
+     63000,
+     546000
+    ],
+    "be-electronics": [
+     63000,
+     546000
+    ]
+   }
+  },
+  "p-ku-school": {
+   "seats": 120,
+   "fees": {
+    "bba": [
+     700000,
+     1000000
+    ]
+   }
+  }
+ }
+}

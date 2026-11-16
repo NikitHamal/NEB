@@ -1,0 +1,135 @@
+{
+  "quota": [["Open", 55], ["Women", 14.85], ["Adibasi Janajati", 12.15], ["Madhesi", 9.9], ["Dalit", 4.05], ["Disability", 2.25], ["Backward region", 1.8]],
+  "pay_note": "Starting basic pay of FY 2082/83, rounded. Dearness, grade and field allowances come on top and change with each budget.",
+  "govt_extra": {
+    "g-kharidar": {
+      "stages": [
+        ["First paper", "Preliminary test: 50 multiple choice questions, 45 minutes, 20 percent negative marking. Pass mark 45. These marks are not added to the final merit.", "100"],
+        ["Second paper", "Contemporary studies and public service management. Short and long answers, 2 hours 30 minutes, pass mark 40.", "100"],
+        ["Third paper", "Service related subject. Short and long answers, 2 hours 30 minutes, pass mark 40.", "100"],
+        ["Computer test and interview", "Computer skill test of 10 marks and an oral interview of 30 marks. Final merit adds written, computer and interview marks.", "40"]
+      ],
+      "ladder": [["Kharidar", 33000], ["Nayab Subba", 35000], ["Section Officer", 45000]], "rung": 0, "career": "civil-servant", "pay": 33000, "quota_on": true
+    },
+    "g-nayab": {"ladder": [["Kharidar", 33000], ["Nayab Subba", 35000], ["Section Officer", 45000]], "rung": 1, "career": "civil-servant", "pay": 35000, "quota_on": true},
+    "g-so": {"ladder": [["Kharidar", 33000], ["Nayab Subba", 35000], ["Section Officer", 45000]], "rung": 2, "career": "civil-servant", "pay": 45000, "quota_on": true},
+    "g-eng": {"career": "civil-engineer", "quota_on": true},
+    "g-police": {
+      "note": "Constable, ASI and Inspector each have their own age, education and test plan. Read the current notice from Nepal Police; seat numbers and age limits change between notices.",
+      "career": "security-officer"
+    },
+    "g-army": {"career": "security-officer", "note": "Soldier, technical and officer cadet entries each have their own notice. Age limits are strict and counted on the last application date."},
+    "g-bank": {"career": "bank-officer"},
+    "g-tsc": {"career": "teacher"}
+  },
+  "govt_add": [
+    {
+      "id": "g-police-inspector", "track": "sec", "name": "Nepal Police Inspector", "level": "Officer, gazetted third class",
+      "need": "Bachelor's degree from a recognised university",
+      "age": "About 20 to 25 years. The exact limit is printed in each notice",
+      "body": "Nepal Police with the Public Service Commission",
+      "stages": [
+        ["Screening and initial medical check", "Application screening and basic health measures. No marks.", ""],
+        ["Physical endurance test", "Timed fitness test followed by a detailed medical check. Qualifying only.", ""],
+        ["General ability and reasoning test", "50 multiple choice questions (25 reasoning, 25 general knowledge), 2 marks each, 0.4 negative marking, 50 minutes. Pass mark 40.", "100"],
+        ["Language proficiency test", "Nepali 50 marks and English 50 marks, 3 hours. At least 20 marks in each part.", "100"],
+        ["Professional aptitude test", "Police work, laws, investigation, security management. Pass mark 40.", "100"],
+        ["Competency test and interview", "Oral presentation and interview.", "50"]
+      ],
+      "subjects": ["General knowledge", "Reasoning", "Nepali and English language", "Criminal law and police work", "Security management"],
+      "prep": ["Build running stamina months before the notice", "Practise reasoning and general knowledge with timed sets", "Write short essays in Nepali and English every week", "Read the police act, criminal code and investigation basics"],
+      "note": "The age limit is strict. A candidate who is even a few days over on the last application date is rejected.",
+      "career": "security-officer"
+    },
+    {
+      "id": "g-police-asi", "track": "sec", "name": "Nepal Police ASI", "level": "Assistant Sub Inspector, non gazetted first class",
+      "need": "+2 or equivalent from a recognised board",
+      "age": "About 18 to 25 years. The exact limit is printed in each notice",
+      "body": "Nepal Police with the Public Service Commission",
+      "stages": [
+        ["Screening and initial medical check", "Application screening and basic health measures. No marks.", ""],
+        ["General ability and reasoning test", "General knowledge 50 and reasoning 50. Pass mark 40.", "100"],
+        ["Language proficiency test", "English 50 and Nepali 50. Pass mark 40.", "100"],
+        ["Professional orientation test", "Police introduction, security management, investigation, laws and complaints. Pass mark 40.", "100"],
+        ["Medical check and interview", "Detailed health check and an oral interview before the merit list.", ""]
+      ],
+      "subjects": ["General knowledge", "Reasoning", "Nepali and English language", "Police work and laws"],
+      "prep": ["Do timed reasoning sets", "Revise Nepal facts, constitution and current affairs", "Practise grammar and short writing in both languages", "Keep up daily running and fitness"],
+      "note": "ASI can be promoted to Sub Inspector and then Inspector through seniority and departmental exams.",
+      "career": "security-officer"
+    },
+    {
+      "id": "g-apf-asi", "track": "sec", "name": "Armed Police Force ASI", "level": "Assistant Sub Inspector",
+      "need": "+2 or equivalent",
+      "age": "About 18 to 23 years. The exact limit is printed in each notice",
+      "body": "Armed Police Force, Nepal",
+      "stages": [
+        ["Pre physical check", "First screening of height, weight and basic standards. No marks.", ""],
+        ["Physical tolerance test", "Fitness and endurance test. Qualifying only.", ""],
+        ["Detailed health check", "Full medical examination.", ""],
+        ["Written exam", "Pass mark is 40 percent, which is 120 of 300.", "300"],
+        ["Special health check", "A second medical check for candidates who passed the written exam.", ""],
+        ["Interview", "Oral interview before the final list.", "40"]
+      ],
+      "subjects": ["General knowledge", "Reasoning", "Nepali and English language", "Security and law basics"],
+      "prep": ["Train for the physical test first, it removes many applicants", "Practise timed mock papers", "Revise Nepal facts and the constitution", "Read the syllabus printed in the notice"],
+      "note": "The Armed Police Force also recruits doctors, nurses, accountants and legal officers through separate notices.",
+      "career": "security-officer"
+    },
+    {
+      "id": "g-army-cadet", "track": "sec", "name": "Nepali Army officer cadet", "level": "Officer cadet, commissioned after training",
+      "need": "+2 with maths in SEE, or a bachelor's degree. Unmarried at the time of application",
+      "age": "18 to 21 years with +2, 18 to 24 years with a bachelor's degree",
+      "body": "Nepali Army",
+      "seats": 280,
+      "stages": [
+        ["Physical test", "Push up, sit up, chin up and a timed run. Qualifying only.", ""],
+        ["Intelligence test", "IQ paper of 30 minutes.", "60"],
+        ["Written papers", "English, mathematics and Nepali of 100 marks each, plus general knowledge of 100 marks.", "400"],
+        ["Psychological and group tasks", "Technical officer test, group tasking, interviewing officer and board interview.", ""],
+        ["Medical and training", "Medical check, then about 18 months of officer cadet training at Kharipati, Bhaktapur.", ""]
+      ],
+      "subjects": ["Mathematics", "English", "Nepali", "General knowledge", "Reasoning"],
+      "prep": ["Work on maths and English, each is a separate full paper", "Build running and bodyweight fitness early", "Practise group discussion and speaking with confidence", "Read the physical standards in the notice before you train"],
+      "note": "The latest notice listed 280 seats. Seat numbers change with each notice.",
+      "career": "security-officer"
+    },
+    {
+      "id": "g-nrb", "track": "fin", "name": "Nepal Rastra Bank Assistant and Assistant Director", "level": "Assistant (level 4) and officer (assistant director)",
+      "need": "+2 for Assistant. Bachelor or master as each group's notice says for Assistant Director",
+      "age": "18 to 35 years for Assistant, 21 to 35 years for Assistant Director. Women get extra years as the notice says",
+      "body": "Nepal Rastra Bank with the Public Service Commission",
+      "fee": 800,
+      "stages": [
+        ["Pre test", "Multiple choice screening paper, used for administration posts when applicants are many.", ""],
+        ["Written exam", "Subjective papers on banking, economics, accounting or technology by group.", ""],
+        ["Practical test", "For information technology groups.", ""],
+        ["Interview", "Final stage supervised by the Public Service Commission.", ""]
+      ],
+      "subjects": ["Economics and banking", "Accounting and audit", "General knowledge", "Aptitude and reasoning", "English"],
+      "prep": ["Read the group syllabus on the NRB site", "Revise monetary policy and banking law", "Solve past questions under time", "Apply before the double fee period ends"],
+      "note": "Application fee is NPR 800 for Assistant and NPR 1,000 for Assistant Director, with a smaller fee for each extra reserved group. Late applications pay double.",
+      "career": "bank-officer"
+    }
+  ],
+  "guides": [
+    {"id": "citizenship", "name": "Citizenship certificate", "cat": "Documents",
+     "steps": [["Ask your ward office for a recommendation", 1, 0, "in person"], ["Take parents' citizenship and birth proof to the District Administration Office", 1, 0, "in person"], ["Wait for verification and collect the certificate", 7, 0, "in person"]],
+     "docs": ["Parents' citizenship certificates", "Birth certificate", "Ward recommendation", "School certificate", "Passport photo"], "link": "guide:nid"},
+    {"id": "nid", "name": "National ID", "cat": "Documents",
+     "steps": [["Fill the pre enrolment form online", 1, 0, "online"], ["Visit an enrolment centre for photo and fingerprints", 1, 0, "in person"], ["Collect the card when it is ready", 30, 0, "in person"]],
+     "docs": ["Citizenship certificate", "Pre enrolment printout", "Mobile number"], "link": "guide:passport"},
+    {"id": "passport", "name": "E-passport", "cat": "Documents",
+     "steps": [["Fill the online form and book a date", 1, 0, "online"], ["Pay the fee: from NPR 5,000 for a 34 page passport, more for 66 pages or urgent service", 1, 5000, "online"], ["Visit the office for fingerprints and photo", 1, 0, "in person"], ["Collect the passport", 15, 0, "in person"]],
+     "docs": ["Citizenship certificate", "National ID number", "Old passport when renewing", "Fee receipt"], "link": "guide:nid"},
+    {"id": "psc-apply", "name": "Apply to a Lok Sewa notice", "cat": "Applications",
+     "steps": [["Read the vacancy notice and check your age and education", 1, 0, "online"], ["Create or open your profile on the commission site", 1, 0, "online"], ["Upload documents and pay the notice fee online", 1, 0, "online"], ["Download the admit card and sit the first paper", 30, 0, "in person"]],
+     "docs": ["Citizenship certificate", "Academic certificates", "Photo and signature", "Equivalence letter for foreign degrees", "Fee receipt"], "link": "exam:g-kharidar"},
+    {"id": "india-scholarship", "name": "Apply for an Indian Embassy scholarship", "cat": "Applications",
+     "steps": [["Watch the embassy notice for the yearly window", 1, 0, "online"], ["Register on the scholarship portal and fill the form", 1, 0, "online"], ["Upload SEE or +2 transcripts and citizenship", 1, 0, "online"], ["Print the submission slip and wait for the merit list", 30, 0, "online"]],
+     "docs": ["SEE and +2 transcripts", "Citizenship certificate", "Passport photo", "Recommendation if the notice asks"], "link": "route:bsc-csit"},
+    {"id": "check-college", "name": "Check a college before paying", "cat": "Colleges",
+     "steps": [["Confirm the programme is listed with its university, council or CTEVT", 1, 0, "online"], ["Ask for the official fee sheet and compare it with the regulator's fee cap", 1, 0, "in person"], ["Pay only against a numbered receipt", 1, 0, "in person"], ["Keep admission and fee records until you graduate", 1, 0, "in person"]],
+     "docs": ["Fee sheet", "Affiliation letter", "Admission receipt", "Prospectus"], "link": "route:mbbs"}
+  ]
+}

@@ -59,3 +59,17 @@ Optional: a third item in each stage for marks, `seats`, `applicants`, `fee`, `a
 ```
 
 Each step is `[title, days, cost, "online" | "in person"]`. `link` is any app target: `route:<id>`, `career:<id>`, `exam:<id>`, `guide:<id>`.
+
+## Wave 6 files (enrichment layer)
+
+`api/pathways.py` merges these on top of the earlier waves. They fill the optional fields above without touching the base files.
+
+| file | key | what it does |
+| --- | --- | --- |
+| `wave6_careers.json` | `career_extra {id: {...}}` | `ladder`, `employers`, `hours`, `licence` for every career. No invented demand `history`, `day` or `traits`. |
+| `wave6_places.json` | `scholarship_extra`, `scholarships_add`, `abroad_extra`, `provider_extra` | scholarship `type`, `country`, `open`; abroad `code`, `work_hours`, `stay_back`; provider `seats` and `fees`. A scholarship with `country` is linked into that country's `scholarships` automatically. |
+| `wave6_govt.json` | `govt_extra`, `govt_add`, `quota`, `guides` | marks per stage, pay ladder, civil service seat split, five new security and bank exams, six document and application guides. |
+| `wave6_routes.json` | `route_extra {id: {plan, exam_id}}` | journey steps and the exam an entry tab links to. |
+| `wave6_faq.json` | `faq` | extra questions, appended to `faq.json`. |
+
+Rules: only add a number that a named source supports; leave the field out when unsure. `problems()` checks guide links, licence exams, provider fee routes, quota totals and scholarship countries.

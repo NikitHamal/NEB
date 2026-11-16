@@ -1,0 +1,193 @@
+{
+ "route_extra": {
+  "plus2-science": {
+   "plan": [
+    "Class 11: physics, chemistry, maths or biology, English and Nepali",
+    "Class 12: the same subjects, ending in the NEB board exam",
+    "Entrance preparation (IOE, CEE, KUUMAT, CSIT) runs beside class work",
+    "Pick a bachelor by board result and entrance score"
+   ]
+  },
+  "plus2-management": {
+   "plan": [
+    "Class 11: accountancy, economics, business studies, English and Nepali",
+    "Class 12: the same subjects, ending in the NEB board exam",
+    "Try CMAT or college entrance tests in the second year",
+    "Pick BBS, BBA, BBM, BIM or a professional course such as CA"
+   ]
+  },
+  "plus2-humanities": {
+   "plan": [
+    "Class 11: Nepali, English and chosen subjects such as sociology, economics or population",
+    "Class 12: the same subjects, ending in the NEB board exam",
+    "Add skills beside school: writing, languages, computers",
+    "Pick BA, BSW, BJMC, law or a Lok Sewa preparation path"
+   ]
+  },
+  "be-computer": {
+   "plan": [
+    "Year 1: programming in C, engineering maths, physics, drawing, basic electrical",
+    "Year 2: data structures, object oriented programming, databases, computer organisation",
+    "Year 3: operating systems, networks, software engineering, artificial intelligence",
+    "Year 4: electives and a final project, then Nepal Engineering Council registration"
+   ]
+  },
+  "be-civil": {
+   "plan": [
+    "Year 1: engineering maths, physics, drawing, mechanics",
+    "Year 2: surveying, fluid mechanics, structures, materials",
+    "Year 3: design of concrete and steel, geotechnics, water resources, roads",
+    "Year 4: electives, final project and Nepal Engineering Council registration"
+   ]
+  },
+  "mbbs": {
+   "plan": [
+    "Years 1 and 2: anatomy, physiology and biochemistry",
+    "Years 2 and 3: pathology, pharmacology, microbiology, community medicine",
+    "Years 3 to 4.5: medicine, surgery, paediatrics, obstetrics and ward postings",
+    "One year paid internship in hospital departments",
+    "Nepal Medical Council registration, then MD, MS or practice"
+   ]
+  },
+  "bsc-nursing": {
+   "plan": [
+    "Year 1: anatomy, physiology, nutrition, fundamentals of nursing",
+    "Year 2: medical and surgical nursing, pharmacology, community health",
+    "Year 3: child health, mental health, midwifery",
+    "Year 4: leadership, research and a clinical internship, then Nepal Nursing Council licence"
+   ]
+  },
+  "bsc-csit": {
+   "plan": [
+    "Year 1: C programming, digital logic, maths and physics basics",
+    "Year 2: data structures, computer architecture, databases, object oriented programming",
+    "Year 3: operating systems, networks, software engineering, artificial intelligence",
+    "Year 4: electives, project work and an internship"
+   ]
+  },
+  "bca": {
+   "plan": [
+    "Year 1: programming in C, digital logic, maths and basic accounting",
+    "Year 2: data structures, databases, Java, networks",
+    "Year 3: web technology, operating systems, software engineering",
+    "Year 4: electives, project work and an internship"
+   ]
+  },
+  "bbs": {
+   "plan": [
+    "Year 1: business English, Nepali, accounting, economics, statistics",
+    "Year 2: business law, management, marketing, finance",
+    "Year 3: specialisation in accounting, marketing, finance or HR",
+    "Year 4: specialised papers, a project report and the final exams"
+   ]
+  },
+  "bba": {
+   "plan": [
+    "Semesters 1 and 2: management, accounting, business maths, communication",
+    "Semesters 3 and 4: marketing, finance, business law, statistics",
+    "Semesters 5 and 6: operations, entrepreneurship, electives",
+    "Semesters 7 and 8: strategy, internship and a project"
+   ]
+  },
+  "mba": {
+   "plan": [
+    "Semester 1: management, accounting for managers, economics",
+    "Semester 2: marketing, finance, operations, organisation behaviour",
+    "Semester 3: specialisation electives such as finance or marketing",
+    "Semester 4: strategy and a thesis or project"
+   ]
+  },
+  "ca-route": {
+   "plan": [
+    "Register with ICAN after +2 and clear the foundation level",
+    "Pass the professional levels (CAP I and CAP II) in stages",
+    "Do articleship (practical training) with a practising firm",
+    "Clear the final CAP III level and become a member of ICAN"
+   ]
+  },
+  "acca-route": {
+   "plan": [
+    "Applied Knowledge: Business and Technology, Management Accounting, Financial Accounting",
+    "Applied Skills: six papers on law, performance, tax, reporting, audit and finance",
+    "Strategic Professional: two essentials and two options",
+    "Three years of approved practical experience, then membership"
+   ]
+  },
+  "lok-sewa": {
+   "plan": [
+    "Read the vacancy notice and check age and education",
+    "Prepare the syllabus: general knowledge, constitution, service subject",
+    "Sit the first paper, which is a screening test",
+    "Written papers, then computer test and interview",
+    "Merit list and appointment"
+   ],
+   "exam_id": "g-so"
+  },
+  "tsc-license": {
+   "plan": [
+    "Choose the level: basic, secondary or higher secondary",
+    "Prepare education, subject knowledge and general awareness",
+    "Sit the licence exam",
+    "Sit the competitive exam for a permanent post when it is announced"
+   ],
+   "exam_id": "g-tsc"
+  },
+  "police-army": {
+   "plan": [
+    "Read the current notice and check age, height and education",
+    "Train for the physical test",
+    "Sit the written test",
+    "Medical check and interview",
+    "Selected recruits go for basic training"
+   ],
+   "exam_id": "g-police"
+  },
+  "dip-engineering": {
+   "plan": [
+    "Year 1: drawing, workshop practice, maths, basic electrical",
+    "Year 2: core subjects of the chosen branch",
+    "Year 3: specialisation, a project and on the job training",
+    "Register with the Nepal Engineering Council as a sub engineer"
+   ]
+  },
+  "pcl-nursing": {
+   "plan": [
+    "Year 1: anatomy, physiology, fundamentals of nursing",
+    "Year 2: medical and surgical nursing, community health, midwifery",
+    "Year 3: clinical practice and internship",
+    "Sit the Nepal Nursing Council licence exam and work as a staff nurse"
+   ]
+  },
+  "skill-training": {
+   "plan": [
+    "Choose a trade: plumbing, electrical, tailoring, cooking, welding or similar",
+    "Learn the basics in class and in a workshop",
+    "Do on the job practice and take the skill test",
+    "Get a certificate and start work or self employment"
+   ]
+  },
+  "abroad-ms": {
+   "plan": [
+    "Pick a country, field and budget",
+    "Take the language test (IELTS, TOEFL, PTE) and prepare documents",
+    "Apply to universities and scholarships, then receive an offer",
+    "Show funds, apply for the student visa and fly out",
+    "Finish the degree and look at post study work options"
+   ]
+  },
+  "phd-route": {
+   "plan": [
+    "Finish a master and write a research proposal",
+    "Find a supervisor and apply to a university or funded programme",
+    "Coursework and literature review in the first years",
+    "Original research, publications and the final thesis defence"
+   ]
+  },
+  "banking-route": {
+   "exam_id": "g-bank"
+  },
+  "public-enterprise-route": {
+   "exam_id": "g-nrb"
+  }
+ }
+}

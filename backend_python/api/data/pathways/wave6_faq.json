@@ -1,0 +1,77 @@
+{
+ "faq": [
+  {
+   "id": "f6-1",
+   "topic": "after10",
+   "q": "What is the Kharidar exam like now?",
+   "a": "After SEE with at least GPA 2.0 you can sit it. It starts with a 100 mark preliminary paper of 50 multiple choice questions with 20 percent negative marking, and 45 is the pass mark. Those marks are not added later. Then come two written papers of 100 marks each (public service management and your service subject), each with a pass mark of 40. The last stage is a 10 mark computer test and a 30 mark interview.",
+   "go": [
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "f6-2",
+   "topic": "afterbach",
+   "q": "What is the reservation quota in Lok Sewa?",
+   "a": "In open competition for permanent civil service posts, 55 percent of seats go to open merit and 45 percent are reserved. The reserved part is split as women 33 percent, Adibasi Janajati 27 percent, Madhesi 22 percent, Dalit 9 percent, persons with disability 5 percent and backward regions 4 percent. A candidate can compete in the open group and in one reserved group, and the notice says how.",
+   "go": [
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "f6-3",
+   "topic": "after12",
+   "q": "How do I join the Nepali Army as an officer?",
+   "a": "Apply as an officer cadet when the Army publishes a notice. With +2 you must be 18 to 21 years old, and with a bachelor's degree up to 24. You must be unmarried and a recent notice also asked for maths as a SEE subject. The tests are physical fitness, an intelligence paper, written papers in English, maths, Nepali and general knowledge, psychological tests and an interview. Selected cadets train for about 18 months at Kharipati, Bhaktapur. The latest notice listed 280 seats.",
+   "go": [
+    "police-army"
+   ]
+  },
+  {
+   "id": "f6-4",
+   "topic": "after12",
+   "q": "Police ASI or Armed Police ASI, what is the difference?",
+   "a": "Both take +2 graduates and both have a physical test, a written test, a medical check and an interview. Nepal Police is under the Home Ministry and handles daily law and order and crime investigation. The Armed Police Force is a paramilitary force for border, disaster, protection and counter terror work. Age limits are strict in both, around 18 to 25 for Nepal Police and about 18 to 23 for the Armed Police, so read the exact limit in the notice.",
+   "go": [
+    "police-army"
+   ]
+  },
+  {
+   "id": "f6-5",
+   "topic": "abroad",
+   "q": "How many hours can I work while studying abroad?",
+   "a": "It depends on the country. About 20 hours a week in the UK, Ireland, Norway, Denmark and France, 24 in Canada, 48 hours a fortnight in Australia, 30 in Finland and Spain, and 140 full days a year in Germany. These limits apply in term time and break time often allows full time work. Rules change, so confirm on the official immigration site before you plan your budget around part time work.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "f6-6",
+   "topic": "abroad",
+   "q": "Can I stay and work after studying abroad?",
+   "a": "Many countries give a post study permit. Australia gives 2 to 4 years, Canada up to 3 years, the UK 2 years (shortening to 18 months for applications from January 2027), Germany 18 months, the Netherlands 1 year and Finland up to 2 years. A permit is a chance to find a job, not a promise of residence, and it depends on your degree level and field.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "f6-7",
+   "topic": "general",
+   "q": "How do I know which scholarship window is open?",
+   "a": "Windows repeat every year. Chevening opens in August and closes in early October, Australia Awards runs February to April, MEXT embassy recommendations are around April and May, the Korean embassy track for undergraduates is in the second half of September, Turkiye Burslari is in January and February, and Indian embassy schemes such as MGSS run in October and November. Always read the current notice, because dates shift by a few weeks.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "f6-8",
+   "topic": "general",
+   "q": "What documents should I prepare early?",
+   "a": "Citizenship certificate, National ID number and, if you plan to travel, an e-passport. Keep SEE and +2 transcripts and character certificates in scanned copies. A foreign degree needs an equivalence letter before you can use it for a government job or a Nepali university.",
+   "go": [
+    "lok-sewa",
+    "abroad-ms"
+   ]
+  }
+ ]
+}
