@@ -81,6 +81,7 @@ data class PwData(
     val guideById: Map<String, PwGuide> by lazy { guides.associateBy { it.id } }
     val careerRoutes: Map<String, List<PwRoute>> by lazy { routes.flatMap { r -> r.careers.map { it to r } }.groupBy({ it.first }, { it.second }) }
     internal val matchIdx: Map<String, PwRouteIdx> by lazy { buildMatchIndex(this) }
+    internal val wordIdf: Map<String, Float> by lazy { buildWordIdf(this) }
     internal val metrics: Map<String, PwMetrics> by lazy { routes.associate { it.id to routeMetrics(this, it) } }
     val maxSenior: Long by lazy { careers.values.maxOfOrNull { (it.seniorMin + it.seniorMax) / 2 }?.coerceAtLeast(1L) ?: 1L }
 }
