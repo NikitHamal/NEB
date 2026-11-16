@@ -255,6 +255,15 @@
    "a": "Both are 100 mark papers with a pass mark of 35. As reported for the 2025/26 cycle, BSc CSIT asks Maths, Physics, Chemistry or Biology and English at 25 marks each, and BIT asks English (50) and Maths or Computer Science (50). Check the IoST notice for your year. BIT is taught only at TU constituent campuses: Patan Multiple Campus and Bhaktapur Multiple Campus take 72 students each (2082 notice), and Amrit, Padma Kanya, Mahendra Morang and Siddhanath Science Campus 36 each."
   },
   {
+   "id": "fw11-9",
+   "topic": "abroad",
+   "q": "Can I work while studying in India or the UAE?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "In India, no: the student visa does not allow off campus jobs, only university approved internships, on campus roles and assistantships, and there is no post study work visa. In the UAE, yes but only with a part time work permit from the Ministry of Human Resources and Emiratisation and a no objection letter from your university; students usually work about 15 to 20 hours a week in term and full time in breaks. A student visa alone never gives the right to work in either country."
+  },
+  {
    "id": "fw11-6",
    "topic": "after12",
    "q": "How many LL.B seats are there and how hard is the entrance?",
@@ -404,5 +413,14 @@
    "note": "BSc Ag 2083/84 seats: 49.",
    "seats": 49
   }
- ]
+ ],
+ "abroad_extra": {
+  "in": {
+   "work": "Off campus work is not allowed on the Indian student visa. Only course related internships approved by your university, on campus roles and research or teaching assistantships that the institution formally recognises are possible. Do not plan to pay your way with part time jobs.",
+   "stay_back": "There is no post study work visa; a student visa can be changed to an employment visa only through a sponsoring employer before it expires"
+  },
+  "ae": {
+   "work": "A student visa alone does not allow work. You need a part time work permit from the Ministry of Human Resources and Emiratisation and a no objection certificate from your university first. The law sets no student specific hour cap, and universities usually allow about 15 to 20 hours a week in term and full time in official breaks. Working without the permit risks fines and visa cancellation."
+  }
+ }
 }

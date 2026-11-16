@@ -180,6 +180,10 @@ def payload():
         for g in govt:
             if g.get('note'):
                 g['note'] = g['note'].replace(w6g['pay_note'], w11['pay_note'])
+        for pool, extras in ((abroad, w11.get('abroad_extra', {})),):
+            by = {x['id']: x for x in pool}
+            for xid, more in extras.items():
+                by[xid].update(more)
         faq_all = faq_all + w11['faq_add']
     data = {
         'reviewed': REVIEWED,

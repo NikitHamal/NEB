@@ -327,3 +327,10 @@ class Wave11Tests(TestCase):
         self.assertEqual(by['p-cnrm-khajura']['district'], 'Banke')
         self.assertGreaterEqual(len(d['faq']), 78)
         self.assertEqual(pathways.problems(), [])
+
+    def test_india_and_uae_work_rules(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('Off campus work is not allowed', abroad['in']['work'])
+        self.assertIn('no objection certificate', abroad['ae']['work'])
+        self.assertGreaterEqual(len(d['faq']), 79)
