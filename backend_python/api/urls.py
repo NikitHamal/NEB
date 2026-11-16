@@ -63,6 +63,7 @@ urlpatterns = [
     path('users/profile/<str:username>/stats/', views_users.user_profile_stats, name='profile-stats'),
     path('users/institutions/', views_users.institutions_list, name='institutions-list'),
     path('pathways/', views_pathways.pathways_data, name='pathways-data'),
+    path('pathways/on-neb/', views_pathways.pathways_on_neb, name='pathways-on-neb'),
     path('institutions/', views_institutions.institutions_search, name='institutions-search'),
     path('institutions/schema/', views_institutions.institutions_schema, name='institutions-schema'),
     path('institutions/mine/', views_institutions.institution_mine, name='institution-mine'),

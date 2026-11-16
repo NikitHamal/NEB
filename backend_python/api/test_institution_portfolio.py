@@ -110,3 +110,13 @@ class AccountRuleTests(TestCase):
         t2 = User(role='teacher')
         apply_education(t2, {'employment': 'pirate'})
         self.assertEqual(t2.employment, '')
+
+
+class PathwaysOnNebTests(TestCase):
+    def test_lists_only_claimed_institutions_with_a_portfolio(self):
+        a = Institution.objects.create(slug='a-col', name='A College', kind='college', verified=True)
+        Institution.objects.create(slug='b-col', name='B College', kind='college', verified=True)
+        prof.save(a, {'about': 'About us', 'levels': ['bachelor']})
+        data = Client().get('/api/pathways/on-neb/').json()
+        self.assertEqual([i['slug'] for i in data['items']], ['a-col'])
+        self.assertIn('matches', data)

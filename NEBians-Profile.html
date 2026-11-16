@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBians Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#004bd4;--onp:#fff;--pc:#DCE1FF;--onpc:#00164E;--sc:#E0E1F9;--onsc:#191B2C;
+  --tc:#FFD7F5;--ontc:#380038;--yc:#FFE08A;--onyc:#241A00;--gc:#C4EFCB;--ongc:#00210C;--rc:#FFDAD4;--onrc:#3B0907;
+  --s:#FBF8FF;--s1:#F5F2FA;--s2:#EFEDF4;--s3:#E3E1E9;--on:#1B1B21;--onv:#45464F;--ol:#C6C6D0;--board:#F3F1EA;--card:#fff;
+  --e:cubic-bezier(.2,0,0,1);--sp:cubic-bezier(.34,1.56,.64,1);
+}
+[data-theme=dark]{
+  --p:#B6C4FF;--onp:#002780;--pc:#00389F;--onpc:#DCE1FF;--sc:#404659;--onsc:#DCE1F9;
+  --tc:#5B3D57;--ontc:#FFD7F5;--yc:#584400;--onyc:#FFE08A;--gc:#0F5223;--ongc:#C4EFCB;--rc:#73342B;--onrc:#FFDAD4;
+  --s:#121318;--s1:#1B1B21;--s2:#1F1F25;--s3:#2E2F36;--on:#E4E1E9;--onv:#C6C6D0;--ol:#45464F;--board:#08090C;--card:#1B1B21;
+}
+*{box-sizing:border-box;margin:0;padding:0;scrollbar-width:none;-webkit-tap-highlight-color:transparent}
+*::-webkit-scrollbar{display:none}
+html{font-family:Poppins,sans-serif;font-variant-numeric:tabular-nums}
+body{background:var(--board);color:var(--on);padding:20px 16px 40px;transition:background .3s}
+button,input,textarea,select{font:inherit;color:inherit;border:0;background:none}
+button,[role=button]{cursor:pointer}
+:focus-visible{outline:3px solid var(--p);outline-offset:2px}
+.i{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.t-pc{--tb:var(--pc);--tf:var(--onpc)}.t-sc{--tb:var(--sc);--tf:var(--onsc)}.t-tc{--tb:var(--tc);--tf:var(--ontc)}
+.t-yc{--tb:var(--yc);--tf:var(--onyc)}.t-gc{--tb:var(--gc);--tf:var(--ongc)}.t-rc{--tb:var(--rc);--tf:var(--onrc)}
+/* board */
+.board{display:flex;align-items:center;gap:10px;max-width:1280px;margin:0 auto 12px;flex-wrap:wrap}
+.board h1{font-size:15px;font-weight:600;flex:1;min-width:140px;letter-spacing:-.01em}
+.seg{display:flex;gap:3px}
+.seg button{height:38px;padding:0 15px;font-size:12.5px;font-weight:600;background:var(--s3);border-radius:8px;white-space:nowrap;transition:border-radius .35s var(--sp),background .2s}
+.seg button:first-child{border-radius:19px 8px 8px 19px}.seg button:last-child{border-radius:8px 19px 19px 8px}
+.seg button.on{background:var(--on);color:var(--s);border-radius:19px}
+.ib{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--s2);flex:none;transition:border-radius .35s var(--sp),background .2s}
+.ib:active{border-radius:14px}
+/* frame */
+.frame{container-type:inline-size;container-name:app;margin:0 auto;background:var(--s);overflow:hidden}
+.frame[data-dev=phone]{width:min(400px,100%);height:860px;border-radius:48px;border:10px solid var(--on)}
+.frame[data-dev=web]{width:min(1280px,100%);height:820px;border-radius:24px;border:1px solid var(--ol)}
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr);background:var(--s);color:var(--on);position:relative;overflow:hidden}
+.bar{display:flex;align-items:center;gap:8px;padding:14px 16px 8px}
+.bar b{flex:1;font-size:19px;font-weight:600;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc{overflow-y:auto;padding:0 16px 40px}
+.pg{max-width:980px;margin:0 auto;animation:fade .35s var(--e)}
+@keyframes fade{from{opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.95)}}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+.rs{animation:rise .5s var(--sp) backwards;animation-delay:calc(var(--n,0)*40ms)}
+/* cover + identity */
+.cover{height:132px;border-radius:28px;background:var(--pc);position:relative;overflow:hidden;color:var(--onpc)}
+.cover svg{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.cover.t-gc{background:var(--gc)}.cover.t-yc{background:var(--yc)}.cover.t-tc{background:var(--tc)}
+.who{display:flex;gap:14px;align-items:flex-end;margin:-38px 14px 0;position:relative}
+.av{width:88px;height:88px;border-radius:50%;background:var(--sc);color:var(--onsc);display:grid;place-items:center;font-size:30px;font-weight:600;flex:none;overflow:hidden}
+.av.sq{border-radius:28px;background:var(--pc);color:var(--onpc)}
+.nm{font-size:22px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:6px;margin-top:10px}
+.bd{color:var(--p);display:inline-grid}
+.hl{font-size:14px;font-weight:500;color:var(--onv);margin-top:2px}
+.ln{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;font-weight:500;color:var(--onv);margin-top:8px}
+.ln span{display:inline-flex;align-items:center;gap:5px}
+.acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{height:44px;padding:0 20px;border-radius:22px;background:var(--p);color:var(--onp);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:border-radius .35s var(--sp),transform .2s var(--sp)}
+.btn:active{transform:scale(.96)}
+.btn.t{background:var(--pc);color:var(--onpc)}.btn.o{background:var(--s2);color:var(--on)}
+.btn.sm{height:36px;padding:0 14px;font-size:12.5px;border-radius:18px}
+.btn[disabled]{opacity:.4;pointer-events:none}
+/* cards */
+.card{background:var(--card);border:1px solid color-mix(in srgb,var(--ol) 55%,transparent);border-radius:24px;padding:16px;margin-top:12px}
+.card h3{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.card h3 .i{color:var(--p)}.card h3 em{margin-left:auto;font-style:normal;font-size:12px;font-weight:600;color:var(--p)}
+.txt{font-size:13.5px;line-height:1.6;color:var(--onv);font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{height:32px;padding:0 13px;border-radius:16px;background:var(--tb,var(--sc));color:var(--tf,var(--onsc));font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:background .2s,transform .3s var(--sp)}
+button.chip:active{transform:scale(.94)}
+.chip.on{background:var(--p);color:var(--onp)}
+.chip.pop{animation:pop .4s var(--sp)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{background:var(--s1);border-radius:20px;padding:14px}
+.stat b{display:block;font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.stat small{font-size:12px;font-weight:500;color:var(--onv)}
+.fac{display:flex;align-items:center;gap:10px;background:var(--s1);border-radius:18px;padding:11px 12px;font-size:12.5px;font-weight:600}
+.fac .i{color:var(--p)}
+.bar2{height:12px;border-radius:6px;background:var(--s3);position:relative;overflow:hidden}
+.bar2 i{position:absolute;inset:0 auto 0 0;border-radius:6px;background:var(--p);transition:width .8s var(--e)}
+.tl{position:relative;padding-left:22px}
+.tl:before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;border-radius:1px;background:var(--s3)}
+.tl>div{position:relative;padding-bottom:14px}
+.tl>div:before{content:"";position:absolute;left:-22px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--s3);border:3px solid var(--card)}
+.tl>div.cur:before{background:var(--p)}
+.tl b{font-size:13.5px;font-weight:600;display:block}.tl small{font-size:12px;color:var(--onv);font-weight:500}
+.row{display:flex;align-items:center;gap:12px;padding:12px;border-radius:20px;background:var(--s1);margin-top:8px;text-align:left;width:100%;transition:transform .3s var(--sp),border-radius .3s var(--sp)}
+.row:active{transform:scale(.98)}
+.tile{width:44px;height:44px;border-radius:14px;background:var(--tb,var(--pc));color:var(--tf,var(--onpc));display:grid;place-items:center;flex:none}
+.row .m{flex:1;min-width:0}.row .m b{font-size:14px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .m small{font-size:12px;font-weight:500;color:var(--onv)}
+.tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px;background:var(--tb,var(--sc));color:var(--tf,var(--onsc));white-space:nowrap}
+.add{border:1.5px dashed var(--ol);border-radius:20px;padding:14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--onv);width:100%;margin-top:8px;transition:background .2s}
+.add:hover{background:var(--s1)}
+@container app (min-width:820px){
+  .pg.two{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0 20px;align-items:start}
+  .pg.two>.side{grid-column:2;grid-row:1/span 2}
+  .cover{height:180px}
+}
+</style>
+<style>
+/* strength ring + steps */
+.ring{width:84px;height:84px;position:relative;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .tr{stroke:var(--s3)}.ring .pr{stroke:var(--p);transition:stroke-dashoffset .9s var(--e)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:19px;font-weight:600;letter-spacing:-.02em}
+.str{display:flex;gap:16px;align-items:center}
+.str h3{margin:0 0 4px}.str p{font-size:12.5px;color:var(--onv);font-weight:500;line-height:1.5}
+.nx{display:flex;gap:6px;overflow-x:auto;margin-top:14px}
+.nx .chip{height:36px;flex:none}
+/* sheet */
+.scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--on) 38%,transparent);opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:88%;background:var(--s);border-radius:32px 32px 0 0;z-index:21;transform:translateY(105%);transition:transform .5s var(--sp);display:flex;flex-direction:column}
+.sheet.on{transform:none}
+@container app (min-width:820px){.sheet{left:50%;right:auto;width:560px;margin-left:-280px;bottom:20px;border-radius:32px}}
+.sh-h{display:flex;align-items:center;gap:10px;padding:18px 20px 8px}
+.sh-h b{flex:1;font-size:18px;font-weight:600;letter-spacing:-.02em}
+.sh-b{overflow-y:auto;padding:4px 20px 12px}
+.sh-f{padding:10px 20px 20px;display:flex;gap:8px}.sh-f .btn{flex:1;justify-content:center}
+/* fields */
+.fl{margin-top:14px}.fl label{display:block;font-size:12px;font-weight:600;color:var(--onv);margin:0 0 6px 4px}
+.fl label u{text-decoration:none;color:var(--p);margin-left:6px}
+.in{width:100%;min-height:50px;border-radius:16px;background:var(--card);border:1.5px solid var(--ol);padding:0 16px;font-size:15px;font-weight:500;outline:0;transition:border-color .2s}
+.in:focus{border-color:var(--p)}
+textarea.in{padding:13px 16px;min-height:104px;resize:none;line-height:1.5}
+.two2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sw{display:flex;align-items:center;gap:12px;background:var(--s1);border-radius:18px;padding:12px 14px;width:100%;font-size:14px;font-weight:600;text-align:left}
+.sw i{margin-left:auto;width:46px;height:28px;border-radius:14px;background:var(--s3);position:relative;transition:background .25s}
+.sw i:after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:var(--card);transition:transform .35s var(--sp)}
+.sw.on i{background:var(--p)}.sw.on i:after{transform:translateX(18px)}
+.hint{font-size:12px;color:var(--onv);font-weight:500;margin:6px 4px 0;line-height:1.5}
+/* stepper, search results */
+.stp{display:flex;gap:5px;margin:4px 0 18px}.stp i{flex:1;height:6px;border-radius:3px;background:var(--s3);transition:background .3s}.stp i.on{background:var(--p)}
+.h1{font-size:25px;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin:6px 0 6px}
+.sub{font-size:13.5px;color:var(--onv);font-weight:500;line-height:1.5}
+.role{display:flex;gap:14px;align-items:center;padding:16px;border-radius:24px;background:var(--s1);margin-top:10px;width:100%;text-align:left;border:2px solid transparent;transition:border-color .2s,background .2s,transform .3s var(--sp)}
+.role.on{border-color:var(--p);background:var(--pc);color:var(--onpc)}
+.role:active{transform:scale(.98)}
+.role b{font-size:15px;font-weight:600;display:block}.role small{font-size:12.5px;font-weight:500;opacity:.8}
+.srch{display:flex;align-items:center;gap:10px;height:50px;border-radius:25px;background:var(--s2);padding:0 18px}
+.srch input{flex:1;min-width:0;outline:0;font-size:15px;font-weight:500}
+.mini{width:56px}.mini .bar2{height:6px}
+.note{display:flex;gap:12px;align-items:flex-start;border-radius:20px;padding:14px;background:var(--tb);color:var(--tf);font-size:13px;font-weight:500;line-height:1.5;margin-top:12px}
+.note b{font-weight:600}
+.stage{display:flex;gap:12px;align-items:center;padding:10px 0}
+.stage .d{width:32px;height:32px;border-radius:50%;background:var(--s3);display:grid;place-items:center;flex:none;transition:background .4s,color .4s}
+.stage.ok .d{background:var(--p);color:var(--onp)}.stage b{font-size:13.5px;font-weight:600;display:block}.stage small{font-size:12px;color:var(--onv)}
+.toast{position:absolute;left:50%;bottom:24px;transform:translate(-50%,40px);background:var(--on);color:var(--s);padding:12px 20px;border-radius:24px;font-size:13px;font-weight:600;opacity:0;transition:all .45s var(--sp);z-index:30;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.tabs{display:flex;gap:6px;margin:16px 0 0;overflow-x:auto}
+.tabs button{height:38px;padding:0 16px;border-radius:19px;background:var(--s2);font-size:13px;font-weight:600;flex:none;transition:background .2s,transform .3s var(--sp)}
+.tabs button.on{background:var(--on);color:var(--s)}
+</style>
+</head>
+<body>
+<div class="board">
+  <h1>NEBians Profile concept</h1>
+  <div class="seg" id="sPer"></div>
+  <div class="seg" id="sScr"></div>
+  <div class="seg" id="sView"></div>
+  <div class="seg" id="sDev"><button data-v="phone" class="on">Phone</button><button data-v="web">Web</button></div>
+  <button class="ib" id="bTheme" aria-label="Theme"></button>
+</div>
+<div class="frame" id="frame" data-dev="phone"><div class="app" id="app"></div></div>
+<script>
+/* ---------- icons (same stroke family as Pathways) ---------- */
+const IC={
+check:'M5 12l5 5 9-10',plus:'M12 5v14M5 12h14',chev:'M9 6l6 6-6 6',back:'M15 6l-6 6 6 6',x:'M6 6l12 12M18 6L6 18',
+edit:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',school:'M3 10l9-5 9 5-9 5zM7 12.5V17c0 1 2.2 2.5 5 2.5s5-1.5 5-2.5v-4.5',
+pin:'M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11zM12 12a2 2 0 100-4 2 2 0 000 4',
+phone:'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2',
+mail:'M4 6h16v12H4zM4 7l8 6 8-6',globe:'M12 3a9 9 0 100 18 9 9 0 000-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18',
+users:'M9 11a3 3 0 100-6 3 3 0 000 6zM3 19c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 100-5M18 14c2 .5 3 2 3 5',
+book:'M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3zM5 17a3 3 0 013-3h11',
+verified:'M12 3l2.4 1.8 3-.2 1 2.8 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-1 2.8-3-.2L12 21l-2.4-1.8-3 .2-1-2.8L3.2 14.8 4 12l-.8-2.9 2.4-1.8 1-2.8 3 .2zM8.5 12l2.5 2.5 4.5-5',
+star:'M12 4l2.4 5 5.4.7-4 3.7 1 5.3-4.8-2.7-4.8 2.7 1-5.3-4-3.7 5.4-.7z',
+shield:'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z',lock:'M6 11h12v9H6zM8 11V8a4 4 0 118 0v3',
+search:'M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-5-5',work:'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
+bed:'M3 18V7M3 14h18v4M21 14v-2a3 3 0 00-3-3h-7v5',bus:'M5 5h14v12H5zM5 12h14M8 20v-3M16 20v-3',
+flask:'M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3',pc:'M4 5h16v11H4zM9 20h6M12 16v4',
+ball:'M12 3a9 9 0 100 18 9 9 0 000-18zM3 12h18M12 3v18',wifi:'M3 9a14 14 0 0118 0M6 12.5a10 10 0 0112 0M9 16a5 5 0 016 0M12 19.5h0',
+heart:'M12 20s-7-4.5-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.500-7 10-7 10z',coin:'M12 3a9 9 0 100 18 9 9 0 000-18zM9 10c0-1 1.3-2 3-2s3 .8 3 2-1.3 1.5-3 2-3 1-3 2.200 1.300 2 3 2 3-1 3-2',
+hall:'M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6',lib:'M4 4h4v16H4zM10 4h4v16h-4zM16 6l4 1-3 13-4-1',cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
+cam:'M4 8h4l2-3h4l2 3h4v11H4zM12 17a3.500 3.500 0 100-7 3.500 3.500 0 000 7',sun:'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.500 1.500M17.500 17.500L19 19M5 19l1.500-1.500M17.500 6.500L19 5',
+moon:'M20 14A8 8 0 019.500 4 8 8 0 1020 14z',send:'M4 12l16-8-6 16-3-7z',branch:'M6 4v10a4 4 0 004 4h8M6 8a2 2 0 100-4 2 2 0 000 4M18 18a2 2 0 100 4 2 2 0 000-4',
+doc:'M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6',clock:'M12 3a9 9 0 100 18 9 9 0 000-18zM12 7v5l3 2',trophy:'M8 4h8v5a4 4 0 01-8 0zM8 6H4v2a3 3 0 003 3M16 6h4v2a3 3 0 01-3 3M12 13v4M8 20h8',
+flag:'M5 21V4M5 5h12l-2 4 2 4H5',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6'};
+const ic=(n,s=22)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24"><path d="${IC[n]||IC.star}"/></svg>`;
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+</script>
+<script>
+/* ---------- the portfolio model: one spec per account type drives the form, the page and the score ---------- */
+const OPT={
+levels:[['preprimary','Pre-primary'],['basic_1_5','Basic 1 to 5'],['basic_6_8','Basic 6 to 8'],['secondary_9_10','Secondary 9 to 10'],['plus_two','+2'],['a_level','A Level'],['diploma','Diploma / TSLC'],['bachelor',"Bachelor's"],['master',"Master's"],['coaching','Entrance coaching']],
+fac:[['library','Library','lib'],['science_lab','Science lab','flask'],['computer_lab','Computer lab','pc'],['hostel','Hostel','bed'],['transport','Transport','bus'],['sports','Sports ground','ball'],['wifi','Wi-Fi','wifi'],['scholarship','Scholarships','coin'],['medical','Medical room','heart'],['auditorium','Auditorium','hall']],
+own:[['community','Community'],['private','Private'],['public','Public']],
+aff:[['neb','NEB'],['tu','Tribhuvan University'],['ku','Kathmandu University'],['pu','Pokhara University'],['ctevt','CTEVT'],['cambridge','Cambridge']],
+emp:[['full_time','Full time'],['part_time','Part time'],['tutor','Home tutor'],['visiting','Visiting']],
+subj:['Physics','Chemistry','Biology','Mathematics','Compulsory English','Compulsory Nepali','Accountancy','Economics','Computer Science','Social Studies','Science'],
+skills:['Python','Public speaking','Design','Writing','Chess','Debate','Guitar','Maths olympiad'],
+open:['Scholarships','Internships','Study groups','Mentoring','Volunteering','Part time work']};
+const lab=(arr,k)=>(arr.find(x=>x[0]===k)||[])[1]||k;
+/* sections group fields; f = [key,label,type,weight,required,opts] */
+const SPEC={
+institution:[
+ {id:'about',t:'About',ic:'doc',f:[['about','About the institution','area',12],['motto','Motto','text',0]]},
+ {id:'basics',t:'Basics',ic:'flag',f:[['est','Established (year)','year',8],['ownership','Ownership','one',2,0,OPT.own],['affiliations','Affiliated with','chips',5,0,OPT.aff],['principal','Principal','text',6]]},
+ {id:'levels',t:'Levels offered',ic:'school',f:[['levels','Levels and courses','chips',10,0,OPT.levels]]},
+ {id:'people',t:'Numbers',ic:'users',f:[['students','Total students','num',8],['teachers','Teachers','num',6],['staff','Other staff','num',3]]},
+ {id:'fac',t:'Facilities',ic:'lib',f:[['facilities','What you offer','chips',10,0,OPT.fac]]},
+ {id:'fees',t:'Fees',ic:'coin',f:[['feeMin','Lowest yearly fee (Rs)','num',10],['feeMax','Highest yearly fee (Rs)','num',0]]},
+ {id:'adm',t:'Admissions',ic:'cal',f:[['admissionOpen','Admissions are open','toggle',3],['admissionNote','Intake note','text',0]]},
+ {id:'contact',t:'Contact and places',ic:'pin',f:[['phone','Phone','text',8],['address','Address','text',5],['branches','Branches','list',4],['socials','Facebook page','text',3]]}],
+teacher:[
+ {id:'school',t:'Where you teach',ic:'school',f:[['school','Current school','school',15,1],['employment','Type of work','one',5,0,OPT.emp]]},
+ {id:'past',t:'Past schools',ic:'work',f:[['past','Schools you taught at','list',12]]},
+ {id:'teach',t:'What you teach',ic:'book',f:[['subjects','Subjects','chips',15,1,OPT.subj],['tlevels','Levels','chips',12,0,OPT.levels]]},
+ {id:'exp',t:'Experience',ic:'clock',f:[['years','Years of teaching','num',10],['qual','Qualification','text',10]]},
+ {id:'me',t:'About you',ic:'doc',f:[['headline','Headline','text',8],['about','About','area',8],['skills','Skills','chips',5,0,OPT.skills]]}],
+student:[
+ {id:'now',t:'Studying now',ic:'school',f:[['level','Class or program','text',12,1],['school','School or college','school',12]]},
+ {id:'me',t:'About you',ic:'doc',f:[['headline','Headline','text',12],['about','About','area',10]]},
+ {id:'skills',t:'Skills and goals',ic:'star',f:[['skills','Skills','chips',12,0,OPT.skills],['open','Open to','chips',10,0,OPT.open]]},
+ {id:'port',t:'Portfolio',ic:'trophy',f:[['achievements','Achievements','list',12],['projects','Projects','list',10]]}],
+explorer:[
+ {id:'me',t:'About you',ic:'doc',f:[['headline','Headline','text',30],['about','About','area',30]]},
+ {id:'skills',t:'Interests',ic:'star',f:[['skills','Skills','chips',20,0,OPT.skills],['open','Open to','chips',20,0,OPT.open]]}]};
+const fieldsOf=p=>SPEC[p].flatMap(s=>s.f.map(f=>({s,f})));
+const filled=v=>Array.isArray(v)?v.length>0:typeof v==='boolean'?v:(v!==undefined&&v!==null&&String(v).trim()!=='');
+function score(p){const tot=fieldsOf(p).reduce((a,x)=>a+x.f[3],0);const got=fieldsOf(p).reduce((a,x)=>a+(filled(V[p][x.f[0]])?x.f[3]:0),0);return Math.round(got/tot*100)}
+function gaps(p){return SPEC[p].map(s=>({s,w:s.f.reduce((a,f)=>a+(filled(V[p][f[0]])?0:f[3]),0)})).filter(x=>x.w>0).sort((a,b)=>b.w-a.w)}
+/* ---------- sample people ---------- */
+const WHO={
+student:{name:'Aarav Sharma',user:'aarav',init:'AS',line:['Class 12, Science','Kathmandu'],cover:'pc',stats:[['Posts',24],['Replies',61],['Followers',128]]},
+teacher:{name:'Sunita Adhikari',user:'sunita_sir',init:'SA',line:['Physics teacher','Pokhara'],cover:'tc',badge:1,stats:[['Posts',58],['Answers',212],['Followers',940]]},
+institution:{name:'Himalaya Secondary School',user:'himalaya_school',init:'H',line:['School','Baneshwor, Kathmandu'],cover:'gc',badge:1,sq:1,stats:[['Students on NEBians',312],['Teachers on NEBians',18],['Followers',1450]]},
+explorer:{name:'Ritu Gurung',user:'ritu',init:'RG',line:['Explorer','Lalitpur'],cover:'yc',stats:[['Posts',3],['Replies',9],['Followers',14]]}};
+const V={
+institution:{about:'A co-ed school in the heart of Kathmandu, known for its science labs and a calm campus.',est:'2041',levels:['basic_1_5','basic_6_8','secondary_9_10','plus_two'],students:1240,teachers:62,feeMin:96000,feeMax:182000,facilities:['library','science_lab','computer_lab','transport','sports','wifi'],phone:'01-4412345',address:'Baneshwor, Kathmandu',admissionOpen:true,affiliations:['neb'],ownership:'private',branches:[{n:'Lalitpur campus',p:'Kupondole'}]},
+teacher:{school:'Himalaya Secondary School',employment:'full_time',subjects:['Physics','Science'],tlevels:['secondary_9_10','plus_two'],years:9,past:[{n:'Sunrise English School',p:'2016 to 2021 · Pokhara'},{n:'Gandaki Boarding School',p:'2014 to 2016 · Pokhara'}],headline:'Physics, made visual.'},
+student:{level:'Class 12, Science (PCM)',school:'Budhanilkantha School',headline:'Aiming for IOE, loves circuits',skills:['Python','Chess'],achievements:[{n:'SEE GPA 3.95',p:'2081'}]},
+explorer:{headline:'Curious about careers'}};
+const NEWSCHOOLS=[['Himalaya Secondary School','School','Kathmandu',86,1],['Gandaki College of Engineering','College','Kaski',72,1],['Mount Everest Higher Secondary','School','Solukhumbu',64,1],['Janaki Multiple Campus','College','Dhanusha',41,1],['Shree Saraswati School','School','Jhapa',0,0],['Triveni Higher Secondary','School','Chitwan',0,0],['Himalayan Whitehouse International College','College','Kathmandu',0,0],['Nepal Mega College','College','Kathmandu',0,0]];
+/* ---------- state ---------- */
+const S={per:'institution',scr:'profile',view:'owner',dev:'phone',tab:'overview',step:0,cl:0,sel:null,role:'institution'};
+</script>
+<script>
+/* ---------- profile screen ---------- */
+const rs=(h,n)=>`<div class="rs" style="--n:${n}">${h}</div>`;
+const chips=(arr,opts,tone='sc')=>`<div class="chips">${arr.map(k=>`<span class="chip t-${tone}">${esc(opts?lab(opts,k):k)}</span>`).join('')}</div>`;
+const card=(ico,t,body,act)=>`<div class="card"><h3>${ic(ico,20)}${t}${act||''}</h3>${body}</div>`;
+const own=()=>S.view==='owner';
+const editBtn=(id,txt='Edit')=>own()?`<em><button data-edit="${id}" style="color:var(--p);font-weight:600;font-size:12px">${txt}</button></em>`:'';
+const ph=(id,txt,ico)=>own()?`<button class="add" data-edit="${id}">${ic('plus',20)}${txt}</button>`:'';
+function ringHtml(p){const v=score(p),C=2*Math.PI*35;return`<div class="ring"><svg viewBox="0 0 84 84"><circle class="tr" cx="42" cy="42" r="35"/><circle class="pr" cx="42" cy="42" r="35" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-v/100)}"/></svg><b>${v}%</b></div>`}
+function strength(p){
+  const g=gaps(p).slice(0,4),v=score(p);
+  const msg=v>=90?'Complete. Students and parents get the full picture.':p==='institution'?'The fuller your page, the higher you appear in Find a college.':'Add what you like, whenever you like. Nothing is forced.';
+  return `<div class="card"><div class="str">${ringHtml(p)}<div><h3>Portfolio strength</h3><p>${msg}</p></div></div>${g.length?`<div class="nx">${g.map(x=>`<button class="chip t-pc" data-edit="${x.s.id}">${ic(x.s.ic,16)}${x.s.t}</button>`).join('')}</div>`:''}</div>`}
+function head(p){
+  const w=WHO[p],v=V[p],bd=w.badge?`<span class="bd" title="Verified">${ic('verified',22)}</span>`:'';
+  const sub=p==='teacher'?(v.headline||''):p==='institution'?(v.motto||''):(v.headline||'');
+  const lines=w.line.map((l,i)=>`<span>${ic(i?'pin':'school',15)}${esc(l)}</span>`).join('');
+  const act=own()?`<button class="btn" data-edit="all">${ic('edit',18)}Edit profile</button>`:`<button class="btn">${p==='institution'?ic('phone',18)+'Contact':ic('plus',18)+'Follow'}</button><button class="btn t">${ic('send',18)}Message</button>`;
+  const deco=`<svg viewBox="0 0 400 130" preserveAspectRatio="xMidYMid slice"><circle cx="340" cy="30" r="70" fill="currentColor" opacity=".16"/><circle cx="60" cy="140" r="90" fill="currentColor" opacity=".12"/><rect x="170" y="-30" width="90" height="90" rx="32" fill="currentColor" opacity=".1" transform="rotate(20 215 15)"/></svg>`;
+  return `<div class="cover t-${w.cover}" style="color:var(--tf)">${deco}</div><div class="who"><div class="av ${w.sq?'sq':''}">${esc(w.init)}</div></div>
+  <div class="nm">${esc(w.name)}${bd}</div>${sub?`<div class="hl">${esc(sub)}</div>`:''}<div class="ln">${lines}</div><div class="acts">${act}</div>`}
+const facts=v=>[['Established',v.est],['Students',v.students&&v.students.toLocaleString()],['Teachers',v.teachers],['Staff',v.staff]].filter(x=>x[1]);
+function instBody(p,v,w){
+  let o=[],n=0;
+  const f=facts(v);
+  o.push(rs(f.length?`<div class="grid" style="margin-top:12px">${f.map(x=>`<div class="stat"><b>${esc(x[1])}</b><small>${x[0]}</small></div>`).join('')}</div>`:ph('people','Add established year and numbers'),n++));
+  if(v.admissionOpen)o.push(rs(`<div class="note t-gc">${ic('cal',22)}<div><b>Admissions are open</b><br>${esc(v.admissionNote||'Call the office to book a visit.')}</div></div>`,n++));
+  o.push(rs(v.about?card('doc','About',`<p class="txt">${esc(v.about)}</p>`,editBtn('about')):ph('about','Write about your institution'),n++));
+  o.push(rs(v.levels&&v.levels.length?card('school','Levels offered',chips(v.levels,OPT.levels,'pc'),editBtn('levels')):ph('levels','Add the levels you offer'),n++));
+  if(v.feeMin){const mx=v.feeMax||v.feeMin,pct=Math.min(100,Math.round(mx/300000*100));o.push(rs(card('coin','Yearly fees',`<div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:26px;font-weight:600;letter-spacing:-.02em">Rs ${v.feeMin.toLocaleString()}</b>${v.feeMax?`<span class="txt">to Rs ${v.feeMax.toLocaleString()}</span>`:''}</div><div class="bar2" style="margin-top:12px"><i style="width:${pct}%"></i></div><p class="hint">Compared with Rs 3,00,000 a year, the top of private schools in Nepal.</p>`,editBtn('fees')),n++))}else o.push(rs(ph('fees','Add your fees'),n++));
+  o.push(rs(v.facilities&&v.facilities.length?card('lib','Facilities',`<div class="grid">${v.facilities.map(k=>{const x=OPT.fac.find(y=>y[0]===k);return`<div class="fac">${ic(x[2],20)}${x[1]}</div>`}).join('')}</div>`,editBtn('fac')):ph('fac','Add your facilities'),n++));
+  if(v.principal)o.push(rs(card('users','Leadership',`<div class="row" style="margin:0"><div class="tile t-tc">${ic('users',22)}</div><div class="m"><b>${esc(v.principal)}</b><small>Principal</small></div></div>`,editBtn('basics')),n++));
+  o.push(rs(v.branches&&v.branches.length?card('branch','Branches',v.branches.map(b=>`<div class="row"><div class="tile t-sc">${ic('pin',22)}</div><div class="m"><b>${esc(b.n)}</b><small>${esc(b.p)}</small></div></div>`).join(''),editBtn('contact')):ph('contact','Add a branch'),n++));
+  const call=v.phone?`<div class="acts" style="margin-top:0"><button class="btn t sm">${ic('phone',16)}${esc(v.phone)}</button><button class="btn o sm">${ic('globe',16)}Website</button><button class="btn o sm">${ic('pin',16)}Directions</button></div>`:'';
+  o.push(rs(v.phone||v.address?card('phone','Contact',`${v.address?`<p class="txt" style="margin-bottom:12px">${esc(v.address)}</p>`:''}${call}`,editBtn('contact')):ph('contact','Add phone and address'),n++));
+  return o.join('')}
+function teacherBody(p,v){
+  let o=[],n=0;
+  o.push(rs(`<div class="grid" style="margin-top:12px"><div class="stat"><b>${v.years||0}</b><small>Years teaching</small></div><div class="stat"><b>${1+(v.past||[]).length}</b><small>Schools</small></div></div>`,n++));
+  o.push(rs(v.subjects&&v.subjects.length?card('book','Teaches',`<div class="chips" style="margin-bottom:10px">${v.subjects.map(s=>`<span class="chip t-pc">${esc(s)}</span>`).join('')}</div>${chips(v.tlevels||[],OPT.levels,'sc')}`,editBtn('teach')):ph('teach','Add subjects and levels'),n++));
+  const cur=v.school?`<div class="cur"><b>${esc(v.school)}</b><small>${esc(lab(OPT.emp,v.employment||''))||'Current school'} · Present</small></div>`:'';
+  const past=(v.past||[]).map(x=>`<div><b>${esc(x.n)}</b><small>${esc(x.p)}</small></div>`).join('');
+  o.push(rs(cur||past?card('school','Schools',`<div class="tl">${cur}${past}</div>`,editBtn('school')):ph('school','Add your school'),n++));
+  if(!(v.past||[]).length)o.push(rs(ph('past','Add a past school'),n++));
+  o.push(rs(v.qual?card('trophy','Qualification',`<p class="txt">${esc(v.qual)}</p>`,editBtn('exp')):ph('exp','Add your qualification'),n++));
+  o.push(rs(v.about?card('doc','About',`<p class="txt">${esc(v.about)}</p>`,editBtn('me')):ph('me','Write about you'),n++));
+  return o.join('')}
+function personBody(p,v){
+  let o=[],n=0;
+  o.push(rs(v.level?card('school','Studying',`<div class="row" style="margin:0"><div class="tile t-pc">${ic('school',22)}</div><div class="m"><b>${esc(v.level)}</b><small>${esc(v.school||'Add your school')}</small></div></div>`,editBtn('now')):ph('now','Where do you study?'),n++));
+  o.push(rs(v.about?card('doc','About',`<p class="txt">${esc(v.about)}</p>`,editBtn('me')):ph('me','Write a short about'),n++));
+  o.push(rs(v.skills&&v.skills.length?card('star','Skills',chips(v.skills,0,'pc'),editBtn('skills')):ph('skills','Add skills'),n++));
+  if(p==='student'){const a=v.achievements||[];o.push(rs(a.length?card('trophy','Achievements',`<div class="tl">${a.map(x=>`<div><b>${esc(x.n)}</b><small>${esc(x.p)}</small></div>`).join('')}</div>`,editBtn('port')):ph('port','Add an achievement or project'),n++))}
+  return o.join('')}
+function profile(){
+  const p=S.per,w=WHO[p],v=V[p],st=w.stats.map(x=>`<div class="stat" style="padding:12px"><b style="font-size:22px">${x[1].toLocaleString()}</b><small>${x[0]}</small></div>`).join('');
+  const side=`${own()?strength(p):''}<div class="grid" style="grid-template-columns:repeat(3,1fr);margin-top:12px">${st}</div>`;
+  const body=p==='institution'?instBody(p,v,w):p==='teacher'?teacherBody(p,v):personBody(p,v);
+  return `<div class="pg two"><div class="hd">${head(p)}</div><div class="side">${side}</div><div>${body}</div></div>`}
+</script>
+<script>
+/* ---------- edit sheet: any section, any time, one at a time ---------- */
+let SHEET=null,DRAFT=null;
+function fieldHtml(f,d){
+  const [k,l,t,w,req,opts]=f,val=d[k],r=req?'<u>Required</u>':'';
+  const lb=`<label>${l}${r}</label>`;
+  if(t==='area')return`<div class="fl">${lb}<textarea class="in" data-k="${k}" maxlength="1200">${esc(val)}</textarea></div>`;
+  if(t==='toggle')return`<div class="fl"><button class="sw ${val?'on':''}" data-tg="${k}">${l}<i></i></button></div>`;
+  if(t==='chips'||t==='one'){const sel=t==='one'?[val]:(val||[]);const ar=opts.map(o=>typeof o==='string'?[o,o]:o);
+    return`<div class="fl">${lb}<div class="chips">${ar.map(o=>`<button class="chip ${sel.includes(o[0])?'on':''}" data-ch="${k}" data-v="${o[0]}" data-one="${t==='one'?1:0}">${esc(o[1])}</button>`).join('')}</div></div>`}
+  if(t==='list')return`<div class="fl">${lb}<div id="ls-${k}">${(val||[]).map((x,i)=>`<div class="row"><div class="m"><b>${esc(x.n)}</b><small>${esc(x.p||'')}</small></div><button data-rm="${k}" data-i="${i}" aria-label="Remove">${ic('x',18)}</button></div>`).join('')}</div>
+    <div class="two2" style="margin-top:8px"><input class="in" id="ln-${k}" placeholder="${k==='branches'?'Branch name':k==='past'?'School name':'Title'}"><input class="in" id="lp-${k}" placeholder="${k==='branches'?'Place':'Years and place'}"></div><button class="btn t sm" style="margin-top:8px" data-ad="${k}">${ic('plus',16)}Add</button></div>`;
+  if(t==='school')return`<div class="fl">${lb}<div class="srch">${ic('search',20)}<input data-k="${k}" value="${esc(val)}" placeholder="Search 24,665 schools and colleges"></div><p class="hint">Pick from the list or type your own. Your school page then shows you.</p></div>`;
+  return`<div class="fl">${lb}<input class="in" data-k="${k}" ${t==='num'||t==='year'?'inputmode="numeric"':''} value="${esc(val)}" ${t==='year'?'maxlength="4"':''}></div>`}
+function openSheet(id){
+  const p=S.per;DRAFT=JSON.parse(JSON.stringify(V[p]));SHEET=id;
+  const secs=id==='all'?SPEC[p]:SPEC[p].filter(s=>s.id===id);
+  const ttl=id==='all'?'Edit profile':secs[0].t;
+  const it=id==='all'&&p==='institution'?'':'';
+  $('#sheet').innerHTML=`<div class="sh-h"><b>${ttl}</b><button class="ib" data-close aria-label="Close">${ic('x',20)}</button></div><div class="sh-b">${secs.map(s=>(id==='all'?`<h4 style="font-size:13px;font-weight:600;color:var(--p);margin:22px 0 0">${s.t}</h4>`:'')+s.f.map(f=>fieldHtml(f,DRAFT)).join('')).join('')}</div><div class="sh-f"><button class="btn o" data-close>Cancel</button><button class="btn" data-save>Save</button></div>`;
+  $('#sheet').classList.add('on');$('#scrim').classList.add('on')}
+function closeSheet(){$('#sheet').classList.remove('on');$('#scrim').classList.remove('on')}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200)}
+/* ---------- sign up: role first, then only what that role needs ---------- */
+const ROLES=[['student','Student','school','Class, school and goals'],['teacher','Teacher','book','Schools, subjects and experience'],['institution','Institution','hall','Claim your school and build its page'],['explorer','Explorer','search','Just looking around']];
+function signup(){
+  const r=S.role,inst=r==='institution',total=3,st=S.step;
+  const bars=`<div class="stp">${[0,1,2].map(i=>`<i class="${i<=st?'on':''}"></i>`).join('')}</div>`;
+  let h;
+  if(st===0)h=`<div class="h1">What brings you here?</div><p class="sub">You can change this later.</p>${ROLES.map(x=>`<button class="role ${r===x[0]?'on':''}" data-role="${x[0]}"><div class="tile ${r===x[0]?'t-pc':'t-sc'}">${ic(x[2],24)}</div><div><b>${x[1]}</b><small>${x[3]}</small></div></button>`).join('')}`;
+  else if(st===1)h=`<div class="h1">${inst?'Who manages this account?':'A little about you'}</div><p class="sub">${inst?'Your name, as the person who runs this page.':'The name people will see.'}</p>
+    <div class="fl"><label>${inst?'Your name':'Display name'}</label><input class="in" placeholder="${inst?'e.g. Rajan Karki':'e.g. Aarav Sharma'}"></div>
+    ${inst?'<div class="note t-pc" style="margin-top:16px">'+ic('shield',22)+'<div><b>No date of birth or gender.</b><br>Those are only asked from people. Your institution gets its own details next.</div></div>':'<div class="fl"><label>Date of birth</label><input class="in" type="date"></div><div class="fl"><label>Gender</label><div class="chips">'+['Male','Female','Other'].map(g=>`<button class="chip">${g}</button>`).join('')+'</div></div>'}`;
+  else h=`<div class="h1">${inst?'Find your institution':r==='teacher'?'Where do you teach?':r==='student'?'Where are you in your education?':'You are in'}</div><p class="sub">${inst?'Search the catalogue of 24,665 schools, colleges and institutes. Claim it after you sign up.':r==='explorer'?'Add details whenever you like from your profile.':'Only the first field is required. The rest can wait.'}</p>
+    ${r==='explorer'?'':`<div class="fl"><div class="srch">${ic('search',20)}<input placeholder="${inst?'Search by name or district':r==='teacher'?'Search your school':'Search your school or college'}" id="sgs"></div></div><div id="sgr"></div>
+    ${r==='teacher'?`<div class="fl"><label>Subjects you teach<u>Required</u></label><div class="chips">${OPT.subj.slice(0,7).map(s=>`<button class="chip">${s}</button>`).join('')}</div></div>`:''}
+    ${r==='student'?`<div class="fl"><label>Class or program<u>Required</u></label><div class="chips">${['Class 9','Class 10','Class 11','Class 12','Bachelors'].map(s=>`<button class="chip">${s}</button>`).join('')}</div></div>`:''}`}
+    <div class="note t-gc" style="margin-top:18px">${ic('check',22)}<div><b>Everything else is optional.</b><br>${inst?'After you are verified, fill in fees, facilities, levels and more whenever you like.':'Add experience, skills and more from your profile at any time.'}</div></div>`;
+  return `<div class="pg" style="padding-top:8px">${bars}${h}<div class="acts" style="margin-top:22px">${st>0?'<button class="btn o" data-sb>Back</button>':''}<button class="btn" data-sn>${st===2?'Finish':'Continue'}</button></div></div>`}
+function wireSignup(){
+  const i=$('#sgs');if(!i)return;
+  const draw=()=>{const q=i.value.toLowerCase();const rows=NEWSCHOOLS.filter(x=>x[0].toLowerCase().includes(q)).slice(0,4);
+    $('#sgr').innerHTML=rows.map(x=>`<button class="row"><div class="tile t-sc">${ic('school',22)}</div><div class="m"><b>${x[0]}</b><small>${x[1]} · ${x[2]}</small></div>${x[4]?'<span class="tag t-gc">On NEBians</span>':''}</button>`).join('')};
+  i.oninput=draw;draw()}
+</script>
+<script>
+/* ---------- claim: find, prove, wait, then fill in ---------- */
+function claim(){
+  const c=S.cl,s=S.sel||NEWSCHOOLS[4];
+  const stages=[['Application sent','Name, registration number and a document'],['Documents checked','We call the contact person if needed'],['Verified','Your page goes live and ranks higher']];
+  if(c===0)return`<div class="pg" style="padding-top:8px"><div class="h1">Claim your institution</div><p class="sub">Verified institutions appear first in Find a college and get a full portfolio page.</p>
+   <div class="fl"><div class="srch">${ic('search',20)}<input id="cs" placeholder="Search 24,665 institutions"></div></div><div id="cr"></div></div>`;
+  if(c===1)return`<div class="pg" style="padding-top:8px"><div class="stp"><i class="on"></i><i class="on"></i><i></i></div><div class="row" style="margin:0 0 6px"><div class="tile t-pc">${ic('school',22)}</div><div class="m"><b>${esc(s[0])}</b><small>${s[1]} · ${s[2]}</small></div></div>
+   <div class="fl"><label>Registration number<u>Required</u></label><input class="in" id="rg" placeholder="e.g. 123456/078"></div>
+   <div class="two2"><div class="fl"><label>Contact person<u>Required</u></label><input class="in" placeholder="Full name"></div><div class="fl"><label>Role<u>Required</u></label><input class="in" placeholder="Principal"></div></div>
+   <div class="two2"><div class="fl"><label>Phone<u>Required</u></label><input class="in" inputmode="tel"></div><div class="fl"><label>Email<u>Required</u></label><input class="in" type="email"></div></div>
+   <div class="fl"><label>Documents<u>Required</u></label><button class="add" data-doc style="margin-top:0">${ic('doc',20)}<span id="dn">Attach registration certificate or authority letter</span></button><p class="hint">PDF, JPG, PNG or WebP, up to 8 MB each. Kept private and only seen by our reviewers.</p></div>
+   <div class="acts"><button class="btn o" data-cb>Back</button><button class="btn" data-cn>Send application</button></div></div>`;
+  return`<div class="pg" style="padding-top:8px"><div class="h1">${c===2?'Under review':'You are verified'}</div><p class="sub">${c===2?'Most applications are checked within two working days.':'Your page is live. Fill in the rest whenever you like.'}</p>
+   <div class="card">${stages.map((x,i)=>`<div class="stage ${(c===3||i===0)?'ok':''}"><div class="d">${ic('check',18)}</div><div><b>${x[0]}</b><small>${x[1]}</small></div></div>`).join('')}</div>
+   ${c===2?`<div class="acts"><button class="btn t" data-cn>Preview: mark as verified</button></div>`:`<div class="card"><div class="str">${ringHtml('institution')}<div><h3>Your portfolio</h3><p>${score('institution')}% filled. Add fees, levels and facilities to rise in Find a college.</p></div></div><div class="acts"><button class="btn" data-go="profile">Open my page</button></div></div>`}</div>`}
+function wireClaim(){
+  const i=$('#cs');if(!i)return;
+  const draw=()=>{const q=i.value.toLowerCase();$('#cr').innerHTML=NEWSCHOOLS.filter(x=>x[0].toLowerCase().includes(q)).slice(0,6).map((x,n)=>`<button class="row rs" style="--n:${n}" data-pick="${NEWSCHOOLS.indexOf(x)}"><div class="tile ${x[4]?'t-gc':'t-sc'}">${ic('school',22)}</div><div class="m"><b>${x[0]}</b><small>${x[1]} · ${x[2]}</small></div>${x[4]?'<span class="tag t-gc">Claimed</span>':`<span class="tag t-pc">Claim</span>`}</button>`).join('')};
+  i.oninput=draw;draw()}
+/* ---------- Find a college: the filled pages come first ---------- */
+function find(){
+  const rows=[...NEWSCHOOLS].filter(x=>x[1]==='College'||S.fk==='all').sort((a,b)=>b[3]-a[3]);
+  return`<div class="pg" style="padding-top:8px"><div class="h1">Find a college</div><div class="seg" style="margin:10px 0 4px"><button class="${S.fk!=='all'?'on':''}" data-fk="col">Colleges</button><button class="${S.fk==='all'?'on':''}" data-fk="all">All institutions</button></div>
+  <p class="hint">Complete profiles are listed first. Tap a row to see fees, levels and how to reach them.</p>
+  ${rows.map((x,n)=>`<button class="row rs" style="--n:${n}" data-open="${NEWSCHOOLS.indexOf(x)}"><div class="tile ${x[4]?'t-gc':'t-sc'}">${ic(x[1]==='College'?'hall':'school',22)}</div><div class="m"><b>${x[0]}</b><small>${x[2]} · ${x[4]?(x[3]>70?'Rs 96k to 1.8L a year':'Fees listed'):'Profile not filled'}</small>${x[4]?`<div class="bar2 mini" style="width:120px;margin-top:6px"><i style="width:${x[3]}%"></i></div>`:''}</div>${x[4]?`<span class="tag t-gc">${x[3]}%</span>`:'<span class="tag t-sc">Invite</span>'}</button>`).join('')}</div>`}
+/* ---------- shell ---------- */
+const SCR=[['profile','Profile'],['signup','Sign up'],['claim','Claim'],['find','Find college']];
+const PER=[['student','Student'],['teacher','Teacher'],['institution','Institution'],['explorer','Explorer']];
+function seg(id,list,key){$(id).innerHTML=list.map(x=>`<button data-k="${x[0]}" class="${S[key]===x[0]?'on':''}">${x[1]}</button>`).join('')}
+function chrome(){seg('#sPer',PER,'per');seg('#sScr',SCR,'scr');seg('#sView',[['owner','Owner'],['visitor','Visitor']],'view');
+  document.querySelectorAll('#sDev button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.dev));
+  $('#frame').dataset.dev=S.dev;$('#bTheme').innerHTML=ic(document.documentElement.dataset.theme==='dark'?'sun':'moon',20)}
+function render(){
+  chrome();
+  const t={profile:WHO[S.per].user,signup:'Create account',claim:'Claim institution',find:'Pathways'}[S.scr];
+  const body={profile,signup,claim,find}[S.scr]();
+  $('#app').innerHTML=`<div class="bar"><b>${esc(t)}</b>${S.scr==='profile'&&own()?`<button class="ib" data-edit="all" aria-label="Edit">${ic('edit',20)}</button>`:''}</div><div class="sc" id="sc">${body}</div><div class="scrim" id="scrim"></div><div class="sheet" id="sheet"></div><div class="toast" id="toast"></div>`;
+  if(S.scr==='signup')wireSignup();if(S.scr==='claim')wireClaim()}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button,[data-edit]');if(!t)return;const d=t.dataset;
+  if(t.closest('#sPer')){S.per=d.k;S.scr='profile';return render()}
+  if(t.closest('#sScr')){S.scr=d.k;S.step=0;S.cl=0;return render()}
+  if(t.closest('#sView')){S.view=d.k;S.scr='profile';return render()}
+  if(t.closest('#sDev')){S.dev=d.v;return render()}
+  if(t.id==='bTheme'){const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark';return chrome()}
+  if(d.edit)return openSheet(d.edit);
+  if('close' in d)return closeSheet();
+  if(d.ch){const a=DRAFT,k=d.ch;if(d.one==='1')a[k]=a[k]===d.v?'':d.v;else{a[k]=a[k]||[];const i=a[k].indexOf(d.v);i<0?a[k].push(d.v):a[k].splice(i,1)}t.parentNode.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',d.one==='1'?a[k]===c.dataset.v:a[k].includes(c.dataset.v)));return}
+  if(d.tg){DRAFT[d.tg]=!DRAFT[d.tg];return t.classList.toggle('on',DRAFT[d.tg])}
+  if(d.ad){const n=$('#ln-'+d.ad).value.trim();if(!n)return;(DRAFT[d.ad]=DRAFT[d.ad]||[]).push({n,p:$('#lp-'+d.ad).value.trim()});const sc=$('.sh-b').scrollTop;openSheet(SHEET);$('.sh-b').scrollTop=sc;return}
+  if(d.rm){DRAFT[d.rm].splice(+d.i,1);const sc=$('.sh-b').scrollTop;openSheet(SHEET);$('.sh-b').scrollTop=sc;return}
+  if('save' in d){document.querySelectorAll('#sheet [data-k]').forEach(el=>{const k=el.dataset.k,f=fieldsOf(S.per).find(x=>x.f[0]===k).f;DRAFT[k]=(f[2]==='num'||f[2]==='year')&&el.value.trim()?+el.value.replace(/\D/g,''):el.value.trim()});V[S.per]=DRAFT;closeSheet();render();toast('Saved. Strength is '+score(S.per)+'%');return}
+  if('sn' in d){if(S.step<2){S.step++;return render()}S.scr='profile';S.per=S.role;S.view='owner';render();return toast('Welcome. Fill the rest whenever you like.')}
+  if('sb' in d){S.step--;return render()}
+  if(d.role){S.role=d.role;return render()}
+  if(d.pick){S.sel=NEWSCHOOLS[+d.pick];if(S.sel[4])return toast('Already claimed. Ask the owner to add you.');S.cl=1;return render()}
+  if('cn' in d){S.cl=Math.min(3,S.cl+1);render();return}
+  if('cb' in d){S.cl=0;return render()}
+  if('doc' in d){$('#dn').textContent='registration-certificate.pdf attached';return t.classList.add('pop')}
+  if(d.go){S.scr=d.go;S.per='institution';return render()}
+  if(d.fk){S.fk=d.fk;return render()}
+  if(d.open){S.per='institution';S.view='visitor';S.scr='profile';return render()}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+render();
+</script>
+</body>
+</html>
