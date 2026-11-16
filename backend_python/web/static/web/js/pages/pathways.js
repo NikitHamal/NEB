@@ -30,7 +30,7 @@ const S={view:'explore',stage:DEF.stage,stream:DEF.stream,course:DEF.course,care
   tabs:{course:'journey',career:'pay',exam:'stages'},cmp:null,path:[],back:[],saved:new Set(),q:'',searching:false,lens:null,
   study:'nepal',cc:DEF.cc,prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
   xg:DEF.xg,exam:DEF.exam,edu:2,age:18,woman:'0',gcat:'All',guide:DEF.guide,done:new Set(),docs:new Set(),have:new Set(),
-  xf:'all',xs:'soon',gv:'guides',fqt:'All',fqo:null,fqs:'',fqh:new Set(),plan:'match',mi:new Set(),ms:new Set(),mp:new Set(),mq:false,mstep:0,mdone:false,medit:false,mdir:1,qa:false,mstg:DEF.stage,my:0,mr:'mid',mopen:null,mweak:false,foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
+  xf:'all',xs:'soon',gv:'guides',fqt:'All',fqo:null,fqs:'',fqh:new Set(),plan:'match',mi:new Set(),ms:new Set(),mp:new Set(),mq:false,mstep:0,mdone:false,medit:false,mdir:1,qa:false,mstg:DEF.stage,mst:'',my:0,mr:'mid',mopen:null,mweak:false,foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
 let lastKey='',freshT=0,lastWide=false;try{const o=JSON.parse(localStorage.getItem('pw-state')||'{}');['saved','done','docs','have'].forEach(k=>(o[k]||[]).forEach(v=>S[k].add(v)))}catch(e){}
 const persist=()=>{try{localStorage.setItem('pw-state',JSON.stringify({saved:[...S.saved],done:[...S.done],docs:[...S.docs],have:[...S.have]}))}catch(e){}};
 
@@ -378,20 +378,23 @@ function matchOf(pool){
     ch=[...S.mp],ps=ch.length?mavg(ch.map(k=>pr[k])):(pr.demand+pr.pay)/2,
     yf=!S.my||c.y<=S.my?1:Math.max(0,1-(c.y-S.my)/Math.max(1,S.my)),
     base=R==='safe'?.4*c.d/100+.6*ease:R==='bold'?.4*c.d/100+.6*pr.pay:c.d/100,ol=Math.max(0,Math.min(1,base+tr/60)),
-    nds=c.needs||[],met=n=>n==='sci'?[...S.ms].some(v=>['math','sci','bio','comp'].includes(v)):n==='bio'?S.ms.has('bio'):n==='math'?S.ms.has('math')||S.ms.has('comp'):S.ms.has('biz'),ok=!nds.length||!S.ms.size||nds.every(met),
-    t=(.32*it+.16*sr+.14*bf+.2*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1)*(ok?1:.8),why=[],neg=[];
-    if(S.mi.size&&it>=.6)why.push('Fits your interests');if(S.ms.size&&sr>=.7)why.push('Plays to your strengths');if(bf>=1)why.push('In budget');if(nds.length&&S.ms.size&&ok)why.push('Matches the subjects it needs');
+    nds=c.needs||[],met=n=>n==='sci'?[...S.ms].some(v=>['math','sci','bio','comp'].includes(v)):n==='bio'?S.ms.has('bio'):n==='math'?S.ms.has('math')||S.ms.has('comp'):S.ms.has('biz'),kn=S.mstg==='after12'&&S.mst,ok=!nds.length||(kn?nds.every(n=>STMET[n].includes(S.mst)):(!S.ms.size||nds.every(met))),
+    t=(.32*it+.16*sr+.14*bf+.2*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1)*(ok?1:kn?.55:.8),why=[],neg=[];
+    if(S.mi.size&&it>=.6)why.push('Fits your interests');if(S.ms.size&&sr>=.7)why.push('Plays to your strengths');if(bf>=1)why.push('In budget');if(nds.length&&ok&&(kn||S.ms.size))why.push(kn?'Open to your stream':'Matches the subjects it needs');if(!nds.length&&kn)why.push('Open to any stream');
     ch.filter(k=>pr[k]>=.7).forEach(k=>why.push(PRI.find(y=>y[0]===k)[1]));if(tr>=3)why.push('Demand is rising');
-    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');if(nds.length&&!ok)neg.push('Needs '+nds.filter(n=>!met(n)).map(n=>({sci:'Science',bio:'Biology',math:'Maths',mgmt:'Management'}[n])).join(' and '));if(R==='safe'&&ease<.35)neg.push('Hard to get into');
+    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');if(nds.length&&!ok)neg.push('Needs '+nds.filter(n=>kn?!STMET[n].includes(S.mst):!met(n)).map(n=>NDL[n]).join(' and ')+(kn?', you studied '+STM.find(y=>y[0]===S.mst)[1]:''));if(R==='safe'&&ease<.35)neg.push('Hard to get into');
     return{c,s:Math.max(1,Math.min(99,Math.round(100*Math.pow(t,1.8)))),why:why.slice(0,3),neg,p:{Interests:it,Strengths:sr,Budget:bf,Priorities:ps,Outlook:ol}}}).sort((a,b)=>b.s-a.s)}
 const MK='nebm';
-function msave(){try{localStorage.setItem(MK,JSON.stringify({i:[...S.mi],s:[...S.ms],p:[...S.mp],b:S.mb,y:S.my,r:S.mr,g:S.mstg,d:S.mdone}))}catch(e){}}
+function msave(){try{localStorage.setItem(MK,JSON.stringify({i:[...S.mi],s:[...S.ms],p:[...S.mp],b:S.mb,y:S.my,r:S.mr,g:S.mstg,m:S.mst,d:S.mdone}))}catch(e){}}
 function mload(){try{const o=JSON.parse(localStorage.getItem(MK)||'null');if(!o||!STAGES.some(x=>x.id===o.g))return;
-  S.mi=new Set(o.i);S.ms=new Set(o.s);S.mp=new Set(o.p);S.mb=+o.b||15;S.my=+o.y||0;S.mr=o.r||'mid';S.mstg=o.g;S.mdone=!!o.d}catch(e){}}
+  S.mi=new Set(o.i);S.ms=new Set(o.s);S.mp=new Set(o.p);S.mb=+o.b||15;S.my=+o.y||0;S.mr=o.r||'mid';S.mstg=o.g;S.mst=STM.some(x=>x[0]===o.m)?o.m:'';S.mdone=!!o.d}catch(e){}}
 const qo=(a,v,on,t,s)=>`<button class="qo ${on?'on':''}" data-a="${a}" data-v="${v}"><b>${t}</b>${s?`<span>${s}</span>`:''}</button>`;
+/* The +2 stream the student finished. It is asked only at the After +2 stage, where it decides which degrees are open. */
+const STM=[['pcm','Science (Maths)'],['pcb','Science (Biology)'],['mgt','Management'],['hum','Humanities']],STMET={sci:['pcm','pcb'],bio:['pcb'],math:['pcm'],mgmt:['mgt']},NDL={sci:'Science',bio:'Biology',math:'Maths',mgmt:'Management'};
+const mstHTML=()=>S.mstg==='after12'?`<h4 style="margin-top:18px">Which stream did you study?</h4><div class="qg">${STM.map(([v,n])=>qo('mst',v,S.mst===v,n)).join('')}</div>`:'';
 const qset=k=>({2:S.mi,3:S.ms,4:S.mp})[k];
 function qBody(k){
-  if(k===1)return `<div class="qg one">${STAGES.map(s=>qo('mstg',s.id,S.mstg===s.id,s.t,s.streams.map(x=>x.n).join(' · '))).join('')}</div>`;
+  if(k===1)return `<div class="qg one">${STAGES.map(s=>qo('mstg',s.id,S.mstg===s.id,s.t,s.streams.map(x=>x.n).join(' · '))).join('')}</div><div id="mstbox">${mstHTML()}</div>`;
   if(k===2)return `<div class="qg">${INT.map(([v,n])=>qo('mi',v,S.mi.has(v),n,QI[v])).join('')}</div>`;
   if(k===3)return `<div class="qg">${STR.map(([v,n])=>qo('ms',v,S.ms.has(v),n)).join('')}</div>`;
   if(k===4)return `<div class="qg">${PRI.filter(p=>p[0]!=='near'||S.dist).map(([v,n])=>qo('mp',v,S.mp.has(v),n,QP[v])).join('')}</div>`;
@@ -410,7 +413,7 @@ function qHTML(){const k=S.mstep;
   <div class="qb ${S.qa?(S.mdir>0?'in':'rev'):''}"><h2 class="qt">${QT[k][0]}</h2><p class="qd">${QT[k][1]}</p>${qBody(k)}</div>
   <div class="qf"><div class="qn" id="qn">${ms?ms.size+' of 3 picked':''}</div><button class="btn f" id="qnext" data-a="mnext" ${need?'disabled':''}>${S.medit?'Update matches':last?'See my matches':'Next'}</button></div></div>`}
 const mans=()=>{const l=(set,L)=>set.size?[...set].map(k=>(L.find(x=>x[0]===k)||[,k])[1]).join(', '):'Any';
-  return [[1,'Stage',stage_of(S.mstg).t],[2,'Enjoy',l(S.mi,INT)],[3,'Good at',l(S.ms,STR)],[4,'Care about',l(S.mp,PRI)],[5,'Budget','NPR '+S.mb+'L'+(S.my?' · '+S.my+' yr':'')],[6,'Style',{safe:'Safe',mid:'Balanced',bold:'Aim high'}[S.mr]]]};
+  return [[1,'Stage',stage_of(S.mstg).t+(S.mstg==='after12'&&S.mst?' · '+STM.find(y=>y[0]===S.mst)[1]:'')],[2,'Enjoy',l(S.mi,INT)],[3,'Good at',l(S.ms,STR)],[4,'Care about',l(S.mp,PRI)],[5,'Budget','NPR '+S.mb+'L'+(S.my?' · '+S.my+' yr':'')],[6,'Style',{safe:'Safe',mid:'Balanced',bold:'Aim high'}[S.mr]]]};
 const stage_of=id=>STAGES.find(s=>s.id===id)||stage();
 function mcard(m,i){const {c,s,why,p}=m,open=S.mopen===c.id,k=C[c.id],pay=c.pay?'NPR '+c.pay[0]+'–'+c.pay[1]+'k':'Varies';
   return `<div class="mc ${i===0?'top':''} ${open?'open':''}"><button class="mt" data-a="mx" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b>${why.length?`<div class="rz">${why.map(w=>`<i>${w}</i>`).join('')}</div>`:`<span>${c.f}</span>`}</div><i class="chv">${I('arrow',20)}</i></button>
@@ -425,7 +428,7 @@ function matchPanel(){
     <div class="chips w">${['Interests','Strengths','Budget','Priorities','Competition'].map(t=>`<span class="skill">${t}</span>`).join('')}</div>`}
   const all=matchOf(mpool()),strong=all.filter(m=>m.s>=65),poss=all.filter(m=>m.s>=40&&m.s<65),weak=all.filter(m=>m.s<40),good=strong.length+poss.length;
   if(!S.mopen&&S.mopen!==''&&all[0])S.mopen=all[0].c.id;
-  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).t} · ${strong.length} strong · ${poss.length} possible · ${S.mi.size+S.ms.size+S.mp.size+2} answers</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
+  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).t} · ${strong.length} strong · ${poss.length} possible · ${S.mi.size+S.ms.size+S.mp.size+2+(S.mstg==='after12'&&S.mst?1:0)} answers</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
     <div class="chips">${mans().map(([i,l,v])=>`<button class="chip" data-a="medit" data-v="${i}">${l}: ${v}</button>`).join('')}</div>`;
   if(!good){const mn=Math.min(...mpool().map(c=>c.fee[0])),tips=[];
     if(mn>S.mb)tips.push('Cheapest course here starts at '+lakh(mn)+'. Your budget is NPR '+S.mb+'L.');
@@ -514,8 +517,8 @@ medit(v){S.mq=true;S.medit=true;S.mstep=+v;S.mdir=1;S.qa=true;qpush();render();S
 mback(){if(history.state&&history.state.q)history.back();else qback()},
 mnext(){if(S.medit)return qdone();if(S.mstep>=6){qpush();return qgo(7,1)}qpush();qgo(S.mstep+1,1)},
 mskip(){const k=qset(S.mstep);if(k)k.clear();A.mnext()},
-mstg(v,t){S.mstg=v;pick1(t);msave();if(!S.medit)setTimeout(()=>{if(S.mq&&S.mstep===1)A.mnext()},280)},
-my(v,t){S.my=+v;pick1(t);msave()},mr(v,t){S.mr=v;pick1(t);msave()},
+mstg(v,t){S.mstg=v;pick1(t);msave();const b=$('#mstbox');if(b)b.innerHTML=mstHTML();if(!S.medit&&v!=='after12')setTimeout(()=>{if(S.mq&&S.mstep===1)A.mnext()},280)},
+mst(v,t){S.mst=S.mst===v?'':v;pick1(t);if(!S.mst)t.classList.remove('on');msave()},my(v,t){S.my=+v;pick1(t);msave()},mr(v,t){S.mr=v;pick1(t);msave()},
 mx(v){S.mopen=S.mopen===v?'':v;renderMatch()},
 mweak(){S.mweak=!S.mweak;renderMatch()},
 search(){S.searching=!S.searching;S.q='';renderTop();renderMain();renderPeek();const q=$('#q');if(q)q.focus()}

@@ -38,7 +38,12 @@
     }).filter(function (s) { return s.streams.length; });
     var stageOf = {}; st.forEach(function (s) { s.streams.forEach(function (g) { g.courses.forEach(function (id) { stageOf[id] = [s.id, g.id]; }); }); });
     var C = {};
-    var needsOf = function (e) { e = e.toLowerCase(); var n = []; if (/pcb|biology/.test(e)) n.push('bio'); if (/pcm|mathematics|maths/.test(e)) n.push('math'); if (/science|pcm|pcb|physics/.test(e)) n.push('sci'); if (/management|commerce|business studies/.test(e)) n.push('mgmt'); return n; };
+    /* Subjects the entry text asks for. A note such as "(Maths helps)" or "(or Biology bridge)" is not a requirement; "PCB or PCM" asks for Science only. */
+    var needsOf = function (e) {
+      e = e.toLowerCase().replace(/\([^)]*(helps|bridge)[^)]*\)/g, ''); var n = [], both = /pcb or pcm|pcm or pcb/.test(e), phys = /\(physical\)/.test(e);
+      if (/pcb|biology/.test(e) && !both) n.push('bio'); if (/pcm|mathematics|maths/.test(e) || phys) n.push('math');
+      if (/science|pcm|pcb|physics/.test(e) || phys) n.push('sci'); if (/management|commerce|business studies/.test(e)) n.push('mgmt'); return n;
+    };
     P.routes.forEach(function (r) {
       var ks = (r.careers || []).filter(function (id) { return K[id]; }), cs = ks.map(function (id) { return K[id]; }), nx = (r.next || []).filter(function (id) { return stageOf[id]; })[0];
       var tags = r.tags || [], y = years(r.years), sub = (r.kind || '') + (r.years ? ' · ' + r.years : '');

@@ -2,6 +2,9 @@ package com.neb.ians.ui.screens.pathways
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -124,7 +127,19 @@ internal fun PwMatchWizard(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel
 @Composable
 private fun QBody(k: Int, d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, stage: String, shakeKey: String, shakeN: Int, onPick: (String, String) -> Unit, advance: (Int) -> Unit) {
     when (k) {
-        1 -> QGrid(d.stages.map { Triple(it.id, it.label, it.blurb.takeIf { b -> b.isNotBlank() }) }, 1, { it == stage }, "", 0) { vm.setMatchStage(it); advance(2) }
+        1 -> Column {
+            QGrid(d.stages.map { Triple(it.id, it.label, it.blurb.takeIf { b -> b.isNotBlank() }) }, 1, { it == stage }, "", 0) { vm.setMatchStage(it); if (it != STREAM_STAGE) advance(2) }
+            // the stream decides which degrees are open, so it is asked here and only at the After +2 stage
+            AnimatedVisibility(stage == STREAM_STAGE, enter = fadeIn(tween(300)) + expandVertically(tween(350, easing = FastOutSlowInEasing)), exit = fadeOut(tween(150)) + shrinkVertically(tween(250))) {
+                Column {
+                    PwH4("Which stream did you study?", Modifier.padding(top = 18.dp))
+                    QGrid(STREAMS.map { Triple(it.first, it.second, null) }, 2, { k -> STREAMS.getOrNull(vm.num("mstream") - 1)?.first == k }, "", 0) { k ->
+                        val i = STREAMS.indexOfFirst { it.first == k } + 1
+                        vm.setNum("mstream", if (vm.num("mstream") == i) 0 else i)
+                    }
+                }
+            }
+        }
         2 -> QGrid(INTERESTS.map { Triple(it.first, it.second, INTEREST_HINT[it.first]) }, 2, { vm.has("interests", it) }, shakeKey, shakeN) { onPick("interests", it) }
         3 -> QGrid(STRENGTHS.map { Triple(it.first, it.second, null) }, 2, { vm.has("strengths", it) }, shakeKey, shakeN) { onPick("strengths", it) }
         4 -> QGrid(PRIORITIES.filter { it.first != "near" || ui.district.isNotBlank() }.map { Triple(it.first, it.second, PRIORITY_HINT[it.first]) }, 2, { vm.has("priorities", it) }, shakeKey, shakeN) { onPick("priorities", it) }

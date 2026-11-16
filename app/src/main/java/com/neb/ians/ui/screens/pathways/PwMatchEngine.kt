@@ -53,12 +53,20 @@ internal val STRENGTH_WORDS = mapOf(
     "art" to listOf("design", "draw", "creative", "art", "media"),
 )
 
+/** The +2 stream a student finished, asked only at the After +2 stage. Index 0 of the saved number means not answered. */
+internal val STREAMS = listOf("pcm" to "Science (Maths)", "pcb" to "Science (Biology)", "mgt" to "Management", "hum" to "Humanities")
+/** Streams that satisfy each subject need read from an entry text. */
+private val STREAM_MEETS = mapOf("sci" to setOf("pcm", "pcb"), "bio" to setOf("pcb"), "math" to setOf("pcm"), "mgmt" to setOf("mgt"))
+internal const val STREAM_STAGE = "after12"
+
 internal data class PwProfile(
     val stage: String, val interests: Set<String>, val strengths: Set<String>, val priorities: Set<String>,
-    val budgetLakh: Int, val maxYears: Int, val risk: String, val district: String,
+    val budgetLakh: Int, val maxYears: Int, val risk: String, val district: String, val stream: String = "",
 ) {
-    /** Questions that carry a real answer, out of the six; the stage and budget always count. */
-    val answers: Int get() = 2 + (if (interests.isEmpty()) 0 else 1) + (if (strengths.isEmpty()) 0 else 1) + (if (priorities.isEmpty()) 0 else 1)
+    /** The stream only counts at the stage that asks for it. */
+    val knownStream: String get() = if (stage == STREAM_STAGE) stream else ""
+    /** Questions that carry a real answer; the stage and budget always count. */
+    val answers: Int get() = 2 + (if (interests.isEmpty()) 0 else 1) + (if (strengths.isEmpty()) 0 else 1) + (if (priorities.isEmpty()) 0 else 1) + (if (knownStream.isEmpty()) 0 else 1)
 }
 
 internal data class PwMatch(val route: PwRoute, val score: Int, val why: List<String>, val neg: List<String>, val parts: List<Pair<String, Float>>)
@@ -75,6 +83,8 @@ internal class PwRouteIdx(
     val needs: Set<String> = emptySet(),
     /** Cheapest yearly cost (tuition plus living, NPR) of each study-abroad destination that teaches this field. */
     val abroadCosts: List<Long> = emptyList(),
+    /** Nepal scholarships open to the level of this course. */
+    val aid: Int = 0,
 )
 
 /** Study-abroad field names (as the dataset spells them) each route group is taught under. */
@@ -89,21 +99,25 @@ private val GROUP_FIELDS = mapOf(
 
 private fun fieldHit(field: String, w: String): Boolean = field == w || field.startsWith("$w ") || (w.length >= 4 && w in field)
 
+/** Subjects the entry text asks for. A note such as "(Maths helps)" or "(or Biology bridge)" is not a requirement; "PCB or PCM" asks for Science only. */
 private fun entryNeeds(entry: String): Set<String> {
-    val e = entry.lowercase()
+    val e = entry.lowercase().replace(Regex("\\([^)]*(helps|bridge)[^)]*\\)"), "")
+    val both = "pcb or pcm" in e || "pcm or pcb" in e
+    val phys = "(physical)" in e
     return buildSet {
-        if ("pcb" in e || "biology" in e) add("bio")
-        if ("pcm" in e || "mathematics" in e || "maths" in e) add("math")
-        if ("science" in e || "pcm" in e || "pcb" in e || "physics" in e) add("sci")
+        if (("pcb" in e || "biology" in e) && !both) add("bio")
+        if ("pcm" in e || "mathematics" in e || "maths" in e || phys) add("math")
+        if ("science" in e || "pcm" in e || "pcb" in e || "physics" in e || phys) add("sci")
         if ("management" in e || "commerce" in e || "business studies" in e) add("mgmt")
     }
 }
 
-/** Subject needs a student's strengths satisfy: science is met by any of maths, science, biology or computers. */
-internal fun needMet(need: String, strengths: Set<String>): Boolean = when (need) {
-    "sci" -> strengths.any { it in setOf("math", "sci", "bio", "comp") }
-    "bio" -> "bio" in strengths
-    "math" -> "math" in strengths || "comp" in strengths
+/** Subject needs a student satisfies. A declared stream is exact; without one the strengths stand in for it (science is met by any of maths, science, biology or computers). */
+internal fun needMet(need: String, strengths: Set<String>, stream: String = ""): Boolean = when {
+    stream.isNotEmpty() -> stream in STREAM_MEETS[need].orEmpty()
+    need == "sci" -> strengths.any { it in setOf("math", "sci", "bio", "comp") }
+    need == "bio" -> "bio" in strengths
+    need == "math" -> "math" in strengths || "comp" in strengths
     else -> "biz" in strengths
 }
 internal val NEED_LABEL = mapOf("sci" to "Science", "bio" to "Biology", "math" to "Maths", "mgmt" to "Management")
@@ -135,10 +149,16 @@ internal fun buildMatchIndex(d: PwData): Map<String, PwRouteIdx> = d.routes.asso
         examOdds = odds, districts = provs.map { it.district }.toSet(), provinces = provs.mapNotNull { DISTRICT_PROVINCE[it.district] }.toSet(),
         entryPay = (m.payLo + m.payHi) / 2, seniorPay = m.senior,
         needs = entryNeeds(r.entry),
+        aid = d.scholarships.count { sc -> sc.scope.equals("nepal", true) && levelKey(r.kind)?.let { it in sc.levels } == true },
         abroadCosts = GROUP_FIELDS[r.group].orEmpty().let { ws ->
             val rn = r.name.lowercase()
             d.abroad.filter { a -> a.fields.any { f -> val fl = f.lowercase(); ws.any { fieldHit(fl, it) } || (fl.length > 3 && fl in rn) } }
                 .map { it.tuitionMin + it.livingMin }.filter { it > 0 }.sorted()
         },
     )
+}
+
+/** The scholarship level word a course kind belongs to. */
+private fun levelKey(kind: String): String? = when (kind.lowercase()) {
+    "bachelor" -> "bachelor"; "master" -> "master"; "diploma", "technical", "professional" -> "diploma"; else -> null
 }

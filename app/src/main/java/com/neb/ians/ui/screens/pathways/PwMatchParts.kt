@@ -149,5 +149,5 @@ internal fun matchStageOf(d: PwData, s: PwSel): String =
 
 internal fun pwProfile(d: PwData, vm: PathwaysViewModel, district: String): PwProfile = PwProfile(
     matchStageOf(d, vm.sel), vm.set("interests"), vm.set("strengths"), vm.set("priorities"), vm.num("budget"),
-    vm.num("myears"), RISKS.getOrNull(vm.num("mrisk"))?.first ?: "mid", district,
+    vm.num("myears"), RISKS.getOrNull(vm.num("mrisk"))?.first ?: "mid", district, STREAMS.getOrNull(vm.num("mstream") - 1)?.first.orEmpty(),
 )

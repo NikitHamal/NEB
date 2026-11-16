@@ -82,6 +82,9 @@ data class PwData(
     val careerRoutes: Map<String, List<PwRoute>> by lazy { routes.flatMap { r -> r.careers.map { it to r } }.groupBy({ it.first }, { it.second }) }
     internal val matchIdx: Map<String, PwRouteIdx> by lazy { buildMatchIndex(this) }
     internal val wordIdf: Map<String, Float> by lazy { buildWordIdf(this) }
+    private val memo = object : LinkedHashMap<PwProfile, PwMatchResult>(8, 0.75f, true) { override fun removeEldestEntry(e: MutableMap.MutableEntry<PwProfile, PwMatchResult>) = size > 6 }
+    /** Ranking is a pure function of the data and the answers: coming back to the Match tab with the same answers costs nothing. */
+    internal fun matchMemo(p: PwProfile, run: () -> PwMatchResult): PwMatchResult = synchronized(memo) { memo[p] } ?: run().also { synchronized(memo) { memo[p] = it } }
     internal val metrics: Map<String, PwMetrics> by lazy { routes.associate { it.id to routeMetrics(this, it) } }
     val maxSenior: Long by lazy { careers.values.maxOfOrNull { (it.seniorMin + it.seniorMax) / 2 }?.coerceAtLeast(1L) ?: 1L }
 }
@@ -211,7 +214,7 @@ class PwSel {
 }
 
 private val SET_KEYS = listOf("done", "docs", "have", "interests", "strengths", "priorities", "helpful")
-private val NUM_DEFAULTS = mapOf("age" to 17, "edu" to 2, "woman" to 0, "budget" to 15, "hours" to 3, "abroadBudget" to 60, "mstep" to 0, "mdone" to 0, "myears" to 0, "mrisk" to 1)
+private val NUM_DEFAULTS = mapOf("age" to 17, "edu" to 2, "woman" to 0, "budget" to 15, "hours" to 3, "abroadBudget" to 60, "mstep" to 0, "mdone" to 0, "myears" to 0, "mrisk" to 1, "mstream" to 0)
 
 @HiltViewModel
 class PathwaysViewModel @Inject constructor(@ApplicationContext private val context: Context) : ViewModel() {

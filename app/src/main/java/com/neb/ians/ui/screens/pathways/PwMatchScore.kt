@@ -36,7 +36,9 @@ private fun budgetFit(lo: Long, hi: Long, b: Long): Float = when {
  * and applicants of the entrance exam; outlook follows the demand history of the linked careers. Nothing is hard filtered: a poor fit
  * only sinks, and the reasons say why.
  */
-internal fun pwMatch(d: PwData, p: PwProfile): PwMatchResult {
+internal fun pwMatch(d: PwData, p: PwProfile): PwMatchResult = d.matchMemo(p) { pwMatchRun(d, p) }
+
+private fun pwMatchRun(d: PwData, p: PwProfile): PwMatchResult {
     val pool = d.routes.filter { it.stage == p.stage }
     if (pool.isEmpty()) return PwMatchResult(emptyList(), emptyList(), emptyList(), 0)
     val idx = d.matchIdx
@@ -51,7 +53,9 @@ internal fun pwMatch(d: PwData, p: PwProfile): PwMatchResult {
         val intr = agg(p.interests.map { signal(it, r, ix, INTEREST_GROUPS, INTEREST_WORDS, d.wordIdf) })
         val strength = agg(p.strengths.map { signal(it, r, ix, STRENGTH_GROUPS, STRENGTH_WORDS, d.wordIdf) }).let { if (p.strengths.isNotEmpty() && it == 0f) 0.1f else it }
         val lo = lowFee(r); val hi = max(r.feeMax, lo)
-        val bf = budgetFit(lo, hi, budget)
+        // a scholarship open to this level softens a budget that is a little short
+        val fit = budgetFit(lo, hi, budget)
+        val bf = if (ix.aid > 0 && fit < 1f && fit >= 0.15f) minOf(1f, fit + 0.1f) else fit
         val demand = m.demand / 100f
         val ease = 0.5f * (1f - m.competition / 100f) + 0.5f * (if (ix.examOdds >= 0f) ix.examOdds else 1f - m.competition / 100f)
         val pay = 0.4f * ix.entryPay / maxEntry + 0.6f * ix.seniorPay / maxSenior
@@ -67,8 +71,16 @@ internal fun pwMatch(d: PwData, p: PwProfile): PwMatchResult {
         val abroad = if (ix.abroadCosts.isEmpty()) m.abroad / 100f * 0.7f else 0.4f * m.abroad / 100f + 0.6f * reach
         val pr = mapOf("pay" to pay, "demand" to demand, "ease" to ease, "cost" to 1f - lowFee(r) / maxFee, "abroad" to abroad, "near" to near)
         // entry subjects: the stream the course asks for against the strengths the student named
-        val missing = if (p.strengths.isEmpty()) emptyList() else ix.needs.filter { !needMet(it, p.strengths) }
-        val elig = when { ix.needs.isEmpty() || p.strengths.isEmpty() -> 1f; missing.isEmpty() -> 1f; missing.size < ix.needs.size -> 0.92f; else -> 0.8f }
+        val stream = p.knownStream
+        val judged = stream.isNotEmpty() || p.strengths.isNotEmpty()
+        val missing = if (!judged) emptyList() else ix.needs.filter { !needMet(it, p.strengths, stream) }
+        // a declared stream is a fact, so a miss costs more than a guess from strengths
+        val elig = when {
+            ix.needs.isEmpty() || !judged || missing.isEmpty() -> 1f
+            stream.isNotEmpty() -> if (missing.size < ix.needs.size) 0.85f else 0.55f
+            missing.size < ix.needs.size -> 0.92f
+            else -> 0.8f
+        }
         val chosen = p.priorities.filter { it in pr }
         val ps = if (chosen.isEmpty()) (demand + pay) / 2f else chosen.map { pr.getValue(it) }.average().toFloat()
         val yf = if (p.maxYears == 0 || m.years <= p.maxYears) 1f else (1f - (m.years - p.maxYears) / p.maxYears.toFloat()).coerceAtLeast(0f)
@@ -78,9 +90,11 @@ internal fun pwMatch(d: PwData, p: PwProfile): PwMatchResult {
         val why = buildList {
             if (p.interests.isNotEmpty() && intr >= 0.6f) add("Fits your interests")
             if (p.strengths.isNotEmpty() && strength >= 0.7f) add("Plays to your strengths")
-            if (bf >= 1f) add("In budget")
+            if (fit >= 1f) add("In budget")
             chosen.filter { pr.getValue(it) >= 0.7f }.forEach { k -> PRIORITIES.firstOrNull { o -> o.first == k }?.let { o -> add(o.second) } }
-            if (ix.needs.isNotEmpty() && p.strengths.isNotEmpty() && missing.isEmpty()) add("Matches the subjects it needs")
+            if (ix.needs.isNotEmpty() && judged && missing.isEmpty()) add(if (stream.isNotEmpty()) "Open to your stream" else "Matches the subjects it needs")
+            else if (ix.needs.isEmpty() && stream.isNotEmpty()) add("Open to any stream")
+            if (ix.aid > 0 && (fit < 1f || "cost" in chosen)) add("Scholarships open to this level")
             if ("abroad" in chosen && reach > 0f) add("Abroad within budget")
             if (ix.trend >= 0.3f) add("Demand is rising")
         }.take(3)
@@ -89,7 +103,7 @@ internal fun pwMatch(d: PwData, p: PwProfile): PwMatchResult {
             if (yf < 1f) add("Takes ${yearsText(m.years)}")
             if (p.interests.isNotEmpty() && intr < 0.6f) add("Not your interests")
             if (p.strengths.isNotEmpty() && strength < 0.7f) add("Outside your strengths")
-            if (missing.isNotEmpty()) add("Needs " + missing.joinToString(" and ") { NEED_LABEL[it] ?: it })
+            if (missing.isNotEmpty()) add("Needs " + missing.joinToString(" and ") { NEED_LABEL[it] ?: it } + (if (stream.isNotEmpty()) ", you studied ${STREAMS.first { st -> st.first == stream }.second}" else ""))
             if (p.risk == "safe" && ease < 0.35f) add("Hard to get into")
         }
         val s = (100f * t.coerceAtLeast(0f).pow(1.8f)).roundToInt().coerceIn(1, 99)

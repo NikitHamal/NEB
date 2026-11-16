@@ -95,7 +95,7 @@ private fun MatchHead(d: PwData, vm: PathwaysViewModel, r: PwMatchResult, distri
     val stageLabel = d.stages.firstOrNull { it.id == p.stage }?.label.orEmpty()
     fun names(set: Set<String>, all: List<Pair<String, String>>) = if (set.isEmpty()) "Any" else set.joinToString(", ") { k -> all.firstOrNull { it.first == k }?.second ?: k }
     val chips = listOf(
-        1 to "Stage: $stageLabel", 2 to "Enjoy: ${names(p.interests, INTERESTS)}", 3 to "Good at: ${names(p.strengths, STRENGTHS)}",
+        1 to "Stage: $stageLabel" + (STREAMS.firstOrNull { it.first == p.knownStream }?.let { " · ${it.second}" } ?: ""), 2 to "Enjoy: ${names(p.interests, INTERESTS)}", 3 to "Good at: ${names(p.strengths, STRENGTHS)}",
         4 to "Care about: ${names(p.priorities, PRIORITIES)}", 5 to "Budget: NPR ${p.budgetLakh}L" + (if (p.maxYears > 0) " · ${p.maxYears} yr" else ""),
         6 to "Style: ${RISK_NAME[p.risk] ?: "Balanced"}",
     )

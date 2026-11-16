@@ -1039,3 +1039,27 @@ Same file, same rule: nothing is built locally, the check is GitHub Actions (`bu
 - Android on device: radar label placement at 360dp, Market list rise, question card open animation with long answers.
 - Port the exams revamp to Android after approval.
 - Match: ask the +2 stream directly (a fifth answer) so eligibility stops using strengths as the proxy.
+
+
+---
+
+# Session 40: Match knows the +2 stream, scholarships, cached ranking
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`). Bootstrap run and history read first. The request repeated session 39 (concept v4, charts, Market, Pay, Questions, linkify, progress bar fix, exams revamp in the concept); all of that was already done and is **not** redone. Exams on Android stays unported until the owner approves the concept screen. This session closes the "Next" item left by session 39.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 240 | **Fifth answer: the +2 stream.** Step 1 of the wizard shows "Which stream did you study?" (Science Maths, Science Biology, Management, Humanities) under the stage list, only for After +2 (the stage no longer auto-advances, Next does). A declared stream is a fact: a course whose entry text needs a subject the stream lacks is cut harder than a guess from strengths (x0.55 all missing, x0.85 some missing, against x0.8 and x0.92). Card says "Open to your stream", "Open to any stream" or "Needs Biology, you studied Management". The Stage chip and the answer count include it. Same in the concept and the web. | `PwMatchEngine.kt` (`STREAMS`, `needMet`), `PwMatchScore.kt`, `PwMatchWizard.kt`, `PwMatchResults.kt`, concept `STM`, web `pathways.js` |
+| 241 | **Entry text read properly.** "(Maths helps)" and "(or Biology bridge)" are notes, not requirements; "PCB or PCM" asks for Science only; "Science (Physical)" means Science and Maths. Fixed on Android and in `pathways-data.js`. | `entryNeeds`, `needsOf` |
+| 242 | **Scholarships in the budget.** A Nepal scholarship open to the course level (bachelor, master, diploma) lifts a budget that is a little short by 0.1 and adds "Scholarships open to this level"; "In budget" still means the real fee fits. Android only (the concept has no per-level scholarship data). | `PwRouteIdx.aid`, `PwMatchScore.kt` |
+| 243 | **Ranking is cached.** `PwData.matchMemo` keeps the last six rankings by answers (LRU); returning to Match with the same answers is free, a change still ranks off the main thread. | `PathwaysData.kt` |
+
+## Rules
+- Concept first, then web, then Android. A new answer goes into `PwProfile` and the saved numbers (`mstream`), then the score, and it must name its reason or warning on the card.
+- The stream is asked only where it matters (After +2). Other stages ignore it.
+
+## Next
+- Android on device: wizard step 1 height with the stream block on a 360dp phone.
+- Port the exams revamp to Android after approval.
