@@ -16,7 +16,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -124,7 +124,7 @@ private fun PwTrail(d: PwData, vm: PathwaysViewModel, stage: PwStage) {
     if (s.trail.isEmpty() && s.course == null && s.career == null) return
     val c = MaterialTheme.colorScheme
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp),
+        Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val items = buildList<Triple<String, Boolean, () -> Unit>> {
@@ -155,7 +155,7 @@ private fun restoreTrail(d: PwData, vm: PathwaysViewModel, i: Int) {
 private fun PwStages(stages: List<PwStage>, current: String, onPick: (String) -> Unit) {
     val c = MaterialTheme.colorScheme
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 10.dp),
+        Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
         stages.forEach { st ->
@@ -182,7 +182,7 @@ private fun PwStages(stages: List<PwStage>, current: String, onPick: (String) ->
 @Composable
 private fun PwGroups(groups: List<String>, current: String, onPick: (String) -> Unit) {
     val c = MaterialTheme.colorScheme
-    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+    Row(Modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
         groups.forEachIndexed { i, g ->
             val on = g == current
             val tone = pwTone(groupToneIndex(g))

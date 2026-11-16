@@ -15,7 +15,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -180,7 +180,7 @@ internal fun PwChip(label: String, selected: Boolean, onClick: () -> Unit, modif
 @Composable
 internal fun PwChipRow(items: List<Pair<String, String>>, selected: (String) -> Boolean, onClick: (String) -> Unit, modifier: Modifier = Modifier, inset: Dp = 16.dp) {
     Row(
-        modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = inset),
+        modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()).padding(horizontal = inset),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) { items.forEach { (k, label) -> PwChip(label, selected(k), { onClick(k) }) } }
 }
