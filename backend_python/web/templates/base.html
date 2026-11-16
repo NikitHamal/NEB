@@ -647,6 +647,8 @@
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/textarea-grow.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/identity-chooser.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/clamp-toggle.js' %}"></script>
+  {% comment %} Dynamic posts: the tone, cover, icon and paper a post was written with. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-look.js' %}"></script>
   {% comment %} The dialog, sheet, picker, menu and choice-control controller.
      One file for all of them; see material3/09-overlays.css. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-overlays.js' %}"></script>
