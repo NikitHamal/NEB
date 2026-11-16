@@ -24,6 +24,10 @@ ABROAD_EXTRA = {
         'note': 'Proof of funds in 2026 is a blocked account holding EUR 11,904 for a year, released at EUR 992 a month. Public universities charge little '
                 'or no tuition, so the blocked account and health insurance are the main upfront costs.',
     },
+    'jp': {
+        'note': 'National universities are low cost. MEXT covers everything for winners. For a language school or diploma route the school applies for your Certificate of Eligibility '
+                'and guides say immigration looks for sponsor funds of about JPY 1.5 to 2 million for the first year. Part time work needs a permission stamp and is capped at 28 hours a week in term.',
+    },
     'th': {
         'work': 'A student visa holder cannot simply take a job: any work needs a Thai work permit from the Department of Employment, and the '
                 'Non Immigrant ED visa is applied for at the Royal Thai Embassy in Kathmandu. Plan your budget without part time income.',
@@ -62,6 +66,16 @@ SCHOLARSHIPS_ADD = [
         'how': 'Apply online through USEF-Nepal. The 2027-28 call opened on 5 June 2026 and closed on 31 July 2026; the 2026-27 call is closed. '
                'Interviews and nominations follow in August and September, with the final selection in April.',
         'link': 'https://usefnepal.org', 'country': 'us', 'type': 'Government', 'open': [6, 7],
+    },
+    {
+        'id': 's-ugc-higher-ed', 'name': 'UGC Nepal Higher Education Scholarship (six target groups)', 'scope': 'nepal', 'levels': ['bachelor', 'master'],
+        'by': 'University Grants Commission Nepal',
+        'covers': 'NPR 24,000 a year for a bachelor student for up to four years (five for technical subjects); the master amount is set in the same directive',
+        'who': 'First year bachelor or master students at a recognised institution in Nepal who belong to one of six groups: children of martyrs and conflict victims, '
+               'people with disabilities, economically disadvantaged students, Dalit students, Mukta Kamlari and Muslim women. Age limits are 25 for a bachelor and 30 for a master, with some exceptions.',
+        'how': 'Apply online on the UGC scholarship portal (ugc.pathway.com.np) inside the window in the yearly notice, with the certificate for your group. '
+               'The 2082/83 cycle closed around April 2026 and the results for the economically disadvantaged, disabled and Dalit groups came out on 14 Asoj 2083.',
+        'link': 'https://ugcnepal.edu.np', 'type': 'Government', 'open': [3, 4],
     },
     {
         'id': 's-sau', 'name': 'South Asian University scholarships (Delhi)', 'scope': 'abroad', 'levels': ['bachelor', 'master', 'phd'],

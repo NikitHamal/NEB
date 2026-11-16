@@ -234,6 +234,25 @@
    ]
   },
   {
+   "id": "s-ugc-higher-ed",
+   "name": "UGC Nepal Higher Education Scholarship (six target groups)",
+   "scope": "nepal",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "University Grants Commission Nepal",
+   "covers": "NPR 24,000 a year for a bachelor student for up to four years (five for technical subjects); the master amount is set in the same directive",
+   "who": "First year bachelor or master students at a recognised institution in Nepal who belong to one of six groups: children of martyrs and conflict victims, people with disabilities, economically disadvantaged students, Dalit students, Mukta Kamlari and Muslim women. Age limits are 25 for a bachelor and 30 for a master, with some exceptions.",
+   "how": "Apply online on the UGC scholarship portal (ugc.pathway.com.np) inside the window in the yearly notice, with the certificate for your group. The 2082/83 cycle closed around April 2026 and the results for the economically disadvantaged, disabled and Dalit groups came out on 14 Asoj 2083.",
+   "link": "https://ugcnepal.edu.np",
+   "type": "Government",
+   "open": [
+    3,
+    4
+   ]
+  },
+  {
    "id": "s-sau",
    "name": "South Asian University scholarships (Delhi)",
    "scope": "abroad",
@@ -264,6 +283,9 @@
   },
   "de": {
    "note": "Proof of funds in 2026 is a blocked account holding EUR 11,904 for a year, released at EUR 992 a month. Public universities charge little or no tuition, so the blocked account and health insurance are the main upfront costs."
+  },
+  "jp": {
+   "note": "National universities are low cost. MEXT covers everything for winners. For a language school or diploma route the school applies for your Certificate of Eligibility and guides say immigration looks for sponsor funds of about JPY 1.5 to 2 million for the first year. Part time work needs a permission stamp and is capped at 28 hours a week in term."
   },
   "th": {
    "work": "A student visa holder cannot simply take a job: any work needs a Thai work permit from the Department of Employment, and the Non Immigrant ED visa is applied for at the Royal Thai Embassy in Kathmandu. Plan your budget without part time income."
@@ -389,6 +411,16 @@
     "abroad-ms"
    ],
    "a": "Nepal has no named Rhodes constituency, so Nepali citizens apply through the Global constituency when it is open. One Nepali listing says the Global constituency was paused for the 2026 to 2027 cycle, so read the Rhodes House site before you invest time. The age limit is normally 18 to 24 on 1 October of the year you apply, and there is no application fee."
+  },
+  {
+   "id": "fw13-17",
+   "topic": "after12",
+   "q": "Is there a government scholarship for bachelor students from poor, Dalit or disabled families?",
+   "go": [
+    "ba",
+    "bbs"
+   ],
+   "a": "Yes. The UGC Nepal Higher Education Scholarship pays NPR 24,000 a year to first year bachelor students in six groups: children of martyrs and conflict victims, people with disabilities, economically disadvantaged students, Dalit students, Mukta Kamlari and Muslim women. It runs up to four years (five for technical subjects), the age limit is 25 for a bachelor and 30 for a master, and you apply online on the UGC portal with the certificate for your group. The 2082/83 cycle closed around April 2026, so watch the notice in the new fiscal year. Reserved scholarship seats at campuses and the CTEVT free seats are separate routes."
   }
  ],
  "faq_update": {

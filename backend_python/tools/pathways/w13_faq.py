@@ -50,6 +50,11 @@ FAQ_ADD = [
     {'id': 'fw13-16', 'topic': 'afterbach', 'q': 'Can Nepali students apply to the Rhodes Scholarship?', 'go': ['abroad-ms'],
      'a': 'Nepal has no named Rhodes constituency, so Nepali citizens apply through the Global constituency when it is open. One Nepali listing says the Global constituency was paused for the 2026 to 2027 cycle, so read the '
           'Rhodes House site before you invest time. The age limit is normally 18 to 24 on 1 October of the year you apply, and there is no application fee.'},
+    {'id': 'fw13-17', 'topic': 'after12', 'q': 'Is there a government scholarship for bachelor students from poor, Dalit or disabled families?', 'go': ['ba', 'bbs'],
+     'a': 'Yes. The UGC Nepal Higher Education Scholarship pays NPR 24,000 a year to first year bachelor students in six groups: children of martyrs and conflict victims, people with disabilities, '
+          'economically disadvantaged students, Dalit students, Mukta Kamlari and Muslim women. It runs up to four years (five for technical subjects), the age limit is 25 for a bachelor and 30 for a master, '
+          'and you apply online on the UGC portal with the certificate for your group. The 2082/83 cycle closed around April 2026, so watch the notice in the new fiscal year. Reserved scholarship seats at campuses '
+          'and the CTEVT free seats are separate routes.'},
 ]
 
 FAQ_UPDATE = {

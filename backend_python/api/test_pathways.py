@@ -458,7 +458,10 @@ class Wave13Tests(TestCase):
         self.assertEqual(52766 + 123704 + 40000, 216470)
         self.assertIn('NPR 19,269', by['p-pulchowk']['note'])
         self.assertIn('p-ace-mgt', next(r for r in d['routes'] if r['id'] == 'mba')['where'])
-        self.assertGreaterEqual(len(d['faq']), 116)
+        self.assertGreaterEqual(len(d['faq']), 117)
+        self.assertEqual(next(x for x in d['scholarships'] if x['id'] == 's-ugc-higher-ed')['scope'], 'nepal')
+        self.assertIn('jp', {a['id'] for a in d['abroad']})
+        self.assertIn('28 hours', next(a for a in d['abroad'] if a['id'] == 'jp')['note'])
         self.assertEqual(pathways.problems(), [])
 
     def test_wave13_text_has_no_dashes(self):
