@@ -103,6 +103,10 @@ data class UserProfileRequest(
     val bio: String? = null,
     @SerialName("school_slug") val schoolSlug: String? = null,
     val headline: String? = null,
+    @SerialName("edu_status") val eduStatus: String? = null,
+    @SerialName("edu_program") val eduProgram: String? = null,
+    @SerialName("edu_term") val eduTerm: String? = null,
+    @SerialName("edu_completed") val eduCompleted: String? = null,
     val skills: String? = null,
     @SerialName("open_to") val openTo: String? = null,
     @SerialName("teach_levels") val teachLevels: String? = null,
@@ -1990,6 +1994,9 @@ interface ApiService {
         @Path("slug") slug: String,
         @Body body: kotlinx.serialization.json.JsonObject
     ): ApiInstSave
+
+    @GET("api/education/catalog/")
+    suspend fun educationCatalog(): ApiEduCatalog
 
     @GET("api/users/profile/{username}/portfolio/")
     suspend fun userPortfolio(

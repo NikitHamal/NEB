@@ -94,6 +94,7 @@ internal fun EditStudiesSection(state: CompleteProfileUiState, viewModel: Comple
                             placeholder = "Select a level",
                             onClick = { showClass = true }
                         )
+                        if (role == "student" && state.classLevel.isNotBlank()) EduSituation(state, viewModel)
                         EditSubjectPicker(state = state, viewModel = viewModel, teaching = role == "teacher")
                     }
                 }

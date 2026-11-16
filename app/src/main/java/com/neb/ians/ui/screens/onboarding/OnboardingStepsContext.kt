@@ -94,6 +94,10 @@ fun LevelStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
                 )
             }
         }
+        if (state.role != "teacher" && state.classLevel.isNotBlank()) {
+            Spacer(modifier = Modifier.height(22.dp))
+            com.neb.ians.ui.screens.profile.edit.EduSituation(state, viewModel)
+        }
     }
 }
 

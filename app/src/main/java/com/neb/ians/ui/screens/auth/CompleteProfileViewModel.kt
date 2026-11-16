@@ -58,6 +58,11 @@ data class CompleteProfileUiState(
     val schoolUsername: String = "",
     val schoolSlug: String = "",
     val headline: String = "",
+    val eduStatus: String = "",
+    val eduProgram: String = "",
+    val eduTerm: String = "",
+    val eduCompleted: String = "",
+    val eduCatalog: com.neb.ians.data.api.ApiEduCatalog? = null,
     val skills: List<String> = emptyList(),
     val openTo: List<String> = emptyList(),
     val teachLevels: List<String> = emptyList(),
@@ -216,7 +221,23 @@ class CompleteProfileViewModel @Inject constructor(
     }
 
     fun onClassChange(classLevel: String) {
-        _uiState.update { it.copy(classLevel = classLevel) }
+        _uiState.update { it.copy(classLevel = classLevel, eduProgram = if (classLevel == it.classLevel) it.eduProgram else "", eduTerm = if (classLevel == it.classLevel) it.eduTerm else "") }
+    }
+
+    fun onEduStatus(v: String) = _uiState.update { it.copy(eduStatus = if (it.eduStatus == v) "" else v) }
+    fun onEduProgram(v: String) = _uiState.update { it.copy(eduProgram = if (it.eduProgram == v) "" else v) }
+    fun onEduTerm(v: String) = _uiState.update { it.copy(eduTerm = if (it.eduTerm == v) "" else v) }
+    fun onEduCompleted(v: String) = _uiState.update { it.copy(eduCompleted = if (it.eduCompleted == v) "" else v) }
+
+    /** Statuses, programs and terms come from the server so the app and the site never disagree. */
+    fun loadEduCatalog() {
+        if (_uiState.value.eduCatalog != null) return
+        eduCatalogCache?.let { c -> _uiState.update { it.copy(eduCatalog = c) }; return }
+        viewModelScope.launch {
+            val c = runCatching { apiService.educationCatalog() }.getOrNull() ?: return@launch
+            eduCatalogCache = c
+            _uiState.update { it.copy(eduCatalog = c) }
+        }
     }
 
     fun onSubjectToggle(subject: String) {
@@ -375,6 +396,10 @@ class CompleteProfileViewModel @Inject constructor(
                 schoolSlug = state.schoolSlug.ifBlank { null },
                 // Only sent once read (or for a new account), so an edit never blanks what it never saw.
                 headline = state.headline.takeIf { !state.isEditing || state.portfolioLoaded },
+                eduStatus = state.eduStatus.takeIf { !state.isEditing || state.portfolioLoaded },
+                eduProgram = state.eduProgram.takeIf { !state.isEditing || state.portfolioLoaded },
+                eduTerm = state.eduTerm.takeIf { !state.isEditing || state.portfolioLoaded },
+                eduCompleted = state.eduCompleted.takeIf { !state.isEditing || state.portfolioLoaded },
                 skills = state.skills.joinToString(",").takeIf { !state.isEditing || state.portfolioLoaded },
                 openTo = state.openTo.joinToString(",").takeIf { !state.isEditing || state.portfolioLoaded },
                 teachLevels = state.teachLevels.joinToString(",").takeIf { !state.isEditing || state.portfolioLoaded },
@@ -478,6 +503,8 @@ class CompleteProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     headline = p.headline.orEmpty(), skills = csv(p.skills), openTo = csv(p.openTo),
+                    eduStatus = p.eduStatus.orEmpty(), eduProgram = p.eduProgram.orEmpty(), eduTerm = p.eduTerm.orEmpty(),
+                    eduCompleted = p.eduCompleted.orEmpty(),
                     teachLevels = csv(p.teachLevels), experienceYears = if (p.experienceYears > 0) p.experienceYears.toString() else "",
                     employment = p.employment.orEmpty(), portfolioLoaded = true,
                     schoolSlug = p.schoolSlug.orEmpty()
@@ -523,3 +550,5 @@ class CompleteProfileViewModel @Inject constructor(
         }
     }
 }
+/** The catalogue does not change while the app runs; one fetch serves every screen. */
+private var eduCatalogCache: com.neb.ians.data.api.ApiEduCatalog? = null
