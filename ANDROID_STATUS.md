@@ -1115,3 +1115,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Owner review of `profile.html` (GitHub Pages), then lock and port the rest of the overhaul.
 - Android on device: Teaching block wrap on a 360dp phone.
+
+CI note: `backend-tests.yml` checks the CSS bundles. `m3x-app.css` is generated; edit a module under `web/css/m3x/` (here `app-portfolio.css`) and run `python3 tools/css/bundle.py`. The first push of session 42 appended to the bundle and failed `--check`; fixed.

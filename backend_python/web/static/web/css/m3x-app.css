@@ -3805,6 +3805,11 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 #pf-entry-sheet .pf-delete[hidden] { display: none !important; }
 #pf-entry-sheet #pf-entry-current[aria-pressed="false"] .neb-chip-tick { display: none !important; }
 
+/* Teacher block: profile card and editor. */
+.pf-teach-school { margin-bottom: 10px; }
+.epf-teaching { display: grid; gap: 16px; margin-top: 16px; }
+.epf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
 /* ---- m3x/app-focus.css ---- */
 /* One stroke on a focused field. A field draws its own border; a ring outside that border read as a
    second line stacked on the first (the post pill, the sign-in fields, the reply box). Text fields
@@ -3834,8 +3839,3 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 :where(button, [role="button"], [role="tab"], [role="menuitem"]):focus:not(:focus-visible) { outline: 0; }
 .fc-tools { gap: 6px; }
 :where(.fc-tool, .nl-tool, .neb-icon-btn, .icon-btn) { border-radius: 14px; overflow: hidden; }
-
-/* Teacher block: profile card and editor. */
-.pf-teach-school { margin-bottom: 10px; }
-.epf-teaching { display: grid; gap: 16px; margin-top: 16px; }
-.epf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }

@@ -65,3 +65,8 @@
 @media (prefers-reduced-motion: reduce) { .pf-error, .pf-when { animation: none; transition: none; } }
 #pf-entry-sheet .pf-delete[hidden] { display: none !important; }
 #pf-entry-sheet #pf-entry-current[aria-pressed="false"] .neb-chip-tick { display: none !important; }
+
+/* Teacher block: profile card and editor. */
+.pf-teach-school { margin-bottom: 10px; }
+.epf-teaching { display: grid; gap: 16px; margin-top: 16px; }
+.epf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
