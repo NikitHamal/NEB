@@ -320,6 +320,9 @@ def payload():
             cid = sc.get('country')
             if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
                 abroad_by[cid]['scholarships'].append(sc['id'])
+        for aid, text in w16['abroad_note_add'].items():
+            abroad_by[aid]['note'] = ((abroad_by[aid].get('note') or '').rstrip() + ' ' + text).strip()
+        guides = guides + w16['guides_add']
         providers = providers + w16['providers_add']
         by_provider = {x['id']: x for x in providers}
         route_by = {r['id']: r for r in routes}

@@ -56,7 +56,110 @@
    "note": "A low cost European Union country with English taught degrees. Guides quote bachelor tuition at EUR 2,400 to 7,100 a year and master tuition at EUR 2,700 to 6,000, medicine and dentistry at EUR 8,000 to 15,000, and Riga Technical University at EUR 3,220 to 7,550 a year with a EUR 150 registration fee. Living is quoted at EUR 450 to 800 a month (Riga EUR 600 to 1,000, dormitory beds from about EUR 70 to 180). The student visa is quoted at EUR 60 and you then apply for a residence permit after arrival. Check the university is accredited in Latvia and, for medicine, ask the Nepal Medical Council before paying. NPR figures are rough, at EUR 1 about NPR 175."
   }
  ],
- "abroad_update": {},
+ "abroad_update": {
+  "nz": {
+   "work_hours": 25,
+   "work": "Guides say most degree level students may work up to 25 hours a week in term (raised from 20 on 3 November 2025) and full time in scheduled breaks, with unlimited hours for some master and PhD students. Check the Immigration New Zealand page for your visa conditions."
+  }
+ },
+ "abroad_note_add": {
+  "nz": "Agency pages for 2026 say you must show about NZD 20,000 a year for living costs on top of tuition (roughly NPR 17 lakh), the student visa fee is quoted at NZD 750 to 850, and a post study work visa is available for level 7 and above degrees. Exact rules change often, so read immigration.govt.nz and use no agent for visa guarantees.",
+  "ie": "Guides quote the funds for the study visa at EUR 7,000, 10,000 or 12,000 a year, so the figure is not settled: ask the Irish Immigration Service (ISD) or the university. A Stamp 2 permission lets you work 20 hours a week in term and 40 hours from 1 June to 30 September and 15 December to 15 January, the entry visa fee is quoted at EUR 60 or EUR 100, and all non EEA students pay a EUR 300 registration fee after arrival. At least EUR 6,000 of tuition is usually paid before the visa. The Third Level Graduate Scheme gives up to 2 years after a master.",
+  "fi": "For a 2026 student residence permit Migri asks for EUR 800 a month, about EUR 9,600 for the first year (EUR 400 a month if the institution gives free housing), on top of any tuition, held in your own account with six months of statements. The state fee is quoted at EUR 600 online and EUR 750 on paper, and private health insurance is required. Tuition waivers at Aalto and the University of Helsinki are in the scholarship list.",
+  "no": "Public universities now charge non EU students tuition (the University of Oslo says so on its own page and offers no scholarship that covers it). For 2026/27 the UDI asks you to show NOK 170,368 a year for living costs on top of tuition, about NPR 24 lakh at NOK 1 = NPR 14. Some other sites still say tuition is free or quote NOK 137,907, which is the older 2025/26 figure.",
+  "se": "Non EU applicants pay a one time application fee of SEK 900 at universityadmissions.se and tuition of roughly SEK 80,000 to 295,000 a year by programme. For 2026 permit applications guides quote funds of SEK 10,656 a month in your own bank assets (an older page says SEK 8,568), and a permit fee of SEK 1,500. As a fee payer you are finally admitted only after the first tuition instalment, which is what unlocks the permit. The autumn deadline is usually mid January.",
+  "dk": "Non EU tuition is quoted at about EUR 6,000 to 17,300 a year (CBS bachelor EUR 13,000, SDU English bachelor EUR 15,000 to 17,300, Roskilde master EUR 5,000 to 8,000 a semester). SIRI asks for DKK 7,426 a month of study, up to DKK 89,112, shown in your own account in a statement no older than 30 days, with a processing fee of DKK 3,060 (a 2026 study site quoting SIRI; older guides show lower earlier figures). The non EU deadline is usually 15 January.",
+  "hu": "Guides say non EU students may work 24 hours a week in term and full time for up to 90 days a year in holidays, and show about EUR 500 to 700 a month for a year as funds for the residence permit, plus tuition. Hungarian wages are low, so treat work as pocket money. Non EU tuition is quoted at EUR 2,500 to 8,000 a year for most degrees, and the Stipendium Hungaricum scholarship (see the scholarship list) is the main way to study free.",
+  "nl": "The 2026 IND study norm is EUR 1,130.77 a month (EUR 13,569.24 for 12 months) on top of tuition. The institution applies for the permit for you, the IND fee is EUR 254 and the target decision time is 2 weeks. Non EU tuition is set by each institution, about EUR 9,000 to 20,000 a year for a bachelor and EUR 12,000 to 30,000 for a master; the statutory fee of EUR 2,694 is for eligible students only. A work permit by the employer lets you work 16 hours a week year round or full time in June to August, and graduates can apply for a one year orientation year within 3 years."
+ },
+ "guides_add": [
+  {
+   "id": "education-loan",
+   "name": "Education loan from a Nepali bank (study abroad)",
+   "cat": "Abroad",
+   "steps": [
+    [
+     "Get the offer or admission letter and a written cost sheet from the university: tuition, living and travel",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Compare banks on the floating rate, fixed rate, processing fee and the moratorium. 2026 comparison pages show floating rates from about 5.4 to 11 percent and fixed rates near 10 percent; the bank's own page is the final word",
+     2,
+     0,
+     "online"
+    ],
+    [
+     "Prepare the collateral: land ownership certificate (Lalpurja) or a fixed deposit, a valuation report, tax clearance and the guarantor's income papers. One guide says loans above NPR 7.5 lakh need collateral",
+     14,
+     0,
+     "in person"
+    ],
+    [
+     "Submit the file with citizenship, passport, transcripts, the cost sheet and the NOC if you have one",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Collect the sanction letter, which most destinations accept as proof of funds, and ask the bank to pay the university or a visa approved account (timing differs by bank)",
+     14,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Offer or admission letter",
+    "Citizenship (you and the collateral owner)",
+    "Passport",
+    "Transcripts from SEE onwards",
+    "Land ownership certificate or fixed deposit receipt",
+    "Valuation report and tax clearance",
+    "Guarantor income proof",
+    "NOC from the Ministry of Education if issued"
+   ],
+   "link": "guide:noc-study-abroad"
+  },
+  {
+   "id": "police-clearance",
+   "name": "Police clearance certificate for a visa",
+   "cat": "Documents",
+   "steps": [
+    [
+     "Create an account at opcr.nepalpolice.gov.np, or open the Nagarik App and choose the police clearance service",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Fill in your details, pick the purpose (student visa), upload your citizenship and a photo, and submit; the application is free",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Wait for the digitally signed PDF with a QR code, quoted at 2 to 3 working days",
+     3,
+     0,
+     "online"
+    ],
+    [
+     "If the embassy asks for the Foreign Ministry stamp, attest it (NPR 500 is quoted by guides; check the portal)",
+     3,
+     500,
+     "online"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate",
+    "Passport copy if you hold one",
+    "Passport size photo",
+    "Mobile number and email for the account"
+   ],
+   "link": "guide:mofa-attestation"
+  }
+ ],
  "scholarships_add": [
   {
    "id": "s-aalto",
@@ -449,6 +552,33 @@
     "abroad-ms"
    ],
    "a": "MBZUAI (AI master and PhD, Abu Dhabi): 15 December 2026. Hong Kong PhD Fellowship Scheme: 1 December 2026. Aalto University Excellence Scholarship in Finland: 7 December 2026 to 5 January 2027. University of Helsinki fee waivers: 5 to 19 January 2027. Stipendium Hungaricum: the 2027 call is expected around 15 January 2027. The Korean Government Scholarship embassy track for graduate study ran 12 to 25 February in 2026, so expect a similar window in February 2027, and the Erasmus Mundus joint master deadlines also fall in January. These dates come from the notices and pages named in each scholarship entry, so confirm each one on the official site before you plan."
+  },
+  {
+   "id": "fw16-16",
+   "topic": "abroad",
+   "q": "How much interest does an education loan cost in Nepal?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "A May 2026 comparison table lists floating education loan rates from about 5.4 to 7.4 percent at Agricultural Development Bank and 5.56 to 6.56 percent at Rastriya Banijya Bank, up to 9 to 11 percent at some commercial and development banks, and fixed rates near 10 percent. Another guide quotes Rastriya Banijya Bank at 5.97 percent floating, up to NPR 80 lakh, a 12 month moratorium after the course and a tenure up to 15 years. Processing fees of 0.75 percent are quoted in an older guide. One guide says collateral is needed above NPR 7.5 lakh. Banks reset rates monthly, so read the bank page and ask for the sanction letter in writing."
+  },
+  {
+   "id": "fw16-17",
+   "topic": "abroad",
+   "q": "Can a bank loan count as proof of funds for my visa?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "A guide from August 2026 says a sanctioned education loan letter is accepted as proof of funds by most destinations, and Nepali A class banks usually ask for land or a fixed deposit as collateral. Each country has its own rule about how the loan, the bank and the holding period are shown (the UK, for example, asks for funds held for 28 days). Ask the embassy or the university, not an agent, and keep the sanction letter and the disbursement receipt together."
+  },
+  {
+   "id": "fw16-18",
+   "topic": "abroad",
+   "q": "How do I get a police clearance certificate for a student visa?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Apply online at opcr.nepalpolice.gov.np or through the Nagarik App. Guides say the application is free and you receive a digitally signed PDF with a QR code in 2 to 3 working days. If the embassy wants it attested, the Department of Consular Services charges about NPR 500 per document according to guides. There is no fixed validity: the embassy or employer usually sets how old it may be, often 3 to 6 months."
   }
  ]
 }

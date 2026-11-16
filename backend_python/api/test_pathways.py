@@ -696,7 +696,7 @@ class Wave16Tests(TestCase):
     def test_calendar_faqs_and_links(self):
         d = pathways.payload()
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 16):
+        for i in range(1, 19):
             self.assertIn('fw16-%d' % i, faq)
         self.assertIn('31 October 2026', faq['fw16-1']['a'])
         self.assertIn('NPR 4,000', faq['fw16-1']['a'])
@@ -705,4 +705,26 @@ class Wave16Tests(TestCase):
         text = ' '.join(f['a'] for f in d['faq'])
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+        self.assertEqual(pathways.problems(d), [])
+
+    def test_older_destinations_get_2026_rules(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertEqual(abroad['nz']['work_hours'], 25)
+        self.assertIn('170,368', abroad['no']['note'])
+        self.assertIn('1,130.77', abroad['nl']['note'])
+        self.assertIn('800 a month', abroad['fi']['note'])
+        self.assertIn('10,656', abroad['se']['note'])
+        self.assertIn('7,426', abroad['dk']['note'])
+        self.assertIn('24 hours', abroad['hu']['note'])
+        self.assertIn('Stamp 2', abroad['ie']['note'])
+
+    def test_new_guides(self):
+        d = pathways.payload()
+        guides = {g['id']: g for g in d['guides']}
+        for gid in ('education-loan', 'police-clearance'):
+            self.assertIn(gid, guides)
+            for step in guides[gid]['steps']:
+                self.assertEqual(len(step), 4)
+        self.assertIn('opcr.nepalpolice.gov.np', guides['police-clearance']['steps'][0][0])
         self.assertEqual(pathways.problems(d), [])
