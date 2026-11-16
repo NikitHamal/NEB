@@ -11,6 +11,8 @@
     var caption = h('div', { class: 'pw-mapcap' }), mapBox = h('div', { class: 'pw-mapbox' }), list = h('div', { class: 'pw-rows' });
     var qIn = h('input', { class: 'pw-input', type: 'search', placeholder: 'Search district, city or college', 'aria-label': 'Search colleges', value: cst.q });
     var sel = PW.districtPicker(function () { fill(); });
+    var map = PW.map({}, PW.state.district, function (x) { PW.setDistrict(x); sel.value = x; fill(); });
+    mapBox.appendChild(map.el);
     var sectors = h('div', { class: 'pw-filters' }, [['', 'All'], ['Public', 'Public'], ['Private', 'Private'], ['Community', 'Community']].map(function (s) {
       var c = PW.chip(s[1], cst.sector === s[0]);
       c.addEventListener('click', function () { cst.sector = s[0]; Array.prototype.forEach.call(sectors.children, function (x) { x.setAttribute('aria-pressed', x === c); }); fill(); });
@@ -25,7 +27,7 @@
       base.forEach(function (p) { counts[p.district] = (counts[p.district] || 0) + 1; });
       var shown = base.filter(function (p) { return !d || p.district === d; });
       shown.sort(function (a, b) { return (a.sector === 'Public' ? 0 : 1) - (b.sector === 'Public' ? 0 : 1) || a.name.localeCompare(b.name); });
-      mapBox.textContent = ''; mapBox.appendChild(PW.map(counts, d, function (x) { PW.setDistrict(x); sel.value = x; fill(); }));
+      map.update(counts, d);
       caption.textContent = '';
       caption.appendChild(h('span', { class: 'pw-pill' }, [icon('location_on'), shown.length + (shown.length === 1 ? ' college' : ' colleges') + (d ? ' in ' + d : ' across Nepal')]));
       list.textContent = '';

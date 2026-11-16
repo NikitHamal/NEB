@@ -48,7 +48,8 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways.js' %}" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-level.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-map.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-map.js' %}" data-geo="{% static 'web/data/nepal_map.json' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-mapview.js' %}" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-more.js' %}" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-lab.js' %}" defer></script>
 {% endblock %}

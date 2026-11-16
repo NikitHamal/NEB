@@ -1,28 +1,150 @@
-/* Pathways: schematic Nepal map. District centres as [lon, lat] and a rough outline; not a survey map.
-   Same points as PwMap.kt on Android. PW.map(counts, selected, onPick) returns an SVG element. */
+/* Pathways: real map of Nepal (official 2020 boundary, 77 districts, 7 provinces).
+   Data: static/web/data/nepal_map.json (see backend_python/tools/pathways/build_nepal_map.js), same file as Android.
+   PW.mapCore({counts, selected, full, onPick}) returns {el, update(counts, selected), reset(), destroy()}.
+   One SVG, one transformed group: pan and zoom only change one transform attribute. */
 (function () {
   'use strict';
-  var PW = window.PW;
-  var P = {"Baglung": [83.60, 28.27], "Banke": [81.62, 28.05], "Bhaktapur": [85.43, 27.67], "Bhojpur": [87.05, 27.17], "Chitwan": [84.43, 27.53], "Dadeldhura": [80.58, 29.30], "Dang": [82.30, 28.10], "Dhankuta": [87.34, 26.98], "Dhanusha": [85.95, 26.85], "Dolakha": [86.07, 27.70], "Doti": [80.98, 29.25], "Gorkha": [84.63, 28.00], "Ilam": [87.93, 26.91], "Jhapa": [87.89, 26.62], "Jumla": [82.18, 29.27], "Kailali": [80.95, 28.75], "Kanchanpur": [80.35, 28.85], "Kaski": [84.00, 28.25], "Kathmandu": [85.32, 27.71], "Kavrepalanchok": [85.55, 27.55], "Lalitpur": [85.32, 27.55], "Lamjung": [84.38, 28.25], "Makwanpur": [85.05, 27.42], "Morang": [87.45, 26.65], "Nawalparasi East": [84.10, 27.55], "Palpa": [83.55, 27.87], "Parsa": [84.85, 27.10], "Rupandehi": [83.45, 27.55], "Saptari": [86.75, 26.62], "Siraha": [86.20, 26.65], "Sunsari": [87.20, 26.67], "Surkhet": [81.62, 28.60], "Tanahu": [84.25, 27.95], "Achham": [81.25, 29.05], "Arghakhanchi": [83.15, 27.95], "Baitadi": [80.45, 29.52], "Bajhang": [81.20, 29.55], "Bajura": [81.50, 29.45], "Bara": [85.05, 27.00], "Bardiya": [81.45, 28.35], "Dailekh": [81.70, 28.85], "Darchula": [80.55, 29.85], "Dhading": [84.90, 27.90], "Dolpa": [82.90, 29.00], "Gulmi": [83.30, 28.05], "Humla": [81.85, 29.97], "Jajarkot": [82.20, 28.70], "Kalikot": [81.85, 29.15], "Kapilvastu": [83.00, 27.55], "Khotang": [86.80, 27.20], "Mahottari": [85.80, 26.95], "Manang": [84.15, 28.65], "Mugu": [82.20, 29.55], "Mustang": [83.85, 28.95], "Myagdi": [83.40, 28.45], "Nawalparasi West": [83.65, 27.60], "Nuwakot": [85.15, 27.90], "Okhaldhunga": [86.50, 27.30], "Panchthar": [87.80, 27.15], "Parbat": [83.70, 28.20], "Pyuthan": [82.85, 28.10], "Ramechhap": [86.10, 27.35], "Rasuwa": [85.30, 28.20], "Rautahat": [85.30, 26.95], "Rolpa": [82.65, 28.35], "Rukum East": [82.65, 28.60], "Rukum West": [82.20, 28.60], "Salyan": [82.15, 28.35], "Sankhuwasabha": [87.25, 27.40], "Sarlahi": [85.55, 27.00], "Sindhuli": [85.95, 27.25], "Sindhupalchok": [85.70, 27.95], "Solukhumbu": [86.65, 27.70], "Syangja": [83.85, 28.00], "Taplejung": [87.65, 27.55], "Terhathum": [87.55, 27.12], "Udayapur": [86.55, 26.95]};
-  var O = [[80.06, 28.83], [80.25, 29.15], [80.55, 29.30], [80.95, 29.70], [81.10, 30.15], [81.60, 30.35], [82.10, 30.35], [82.70, 29.95], [83.35, 29.45], [84.05, 29.25], [84.20, 28.90], [84.65, 28.65], [85.15, 28.30], [85.75, 28.25], [86.00, 27.95], [86.60, 28.10], [87.10, 27.85], [87.80, 27.95], [88.15, 27.90], [88.05, 27.45], [88.15, 26.45], [87.50, 26.40], [86.75, 26.45], [86.00, 26.65], [85.25, 26.75], [84.65, 27.05], [84.20, 27.40], [83.40, 27.45], [82.70, 27.70], [82.00, 28.00], [81.50, 28.30], [80.80, 28.65]];
-  var L0 = 79.9, L1 = 88.3, A0 = 26.3, A1 = 30.5, W = 840, H = 420, PAD = 24;
-  function x(lon) { return PAD + (lon - L0) / (L1 - L0) * (W - 2 * PAD); }
-  function y(lat) { return PAD + (A1 - lat) / (A1 - A0) * (H - 2 * PAD); }
-  var NS = 'http://www.w3.org/2000/svg';
-  function s(tag, a) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); return e; }
-  PW.map = function (counts, selected, onPick) {
-    var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'pw-map', role: 'img', 'aria-label': 'Map of Nepal with colleges by district' });
-    svg.appendChild(s('path', { d: 'M' + O.map(function (p) { return x(p[0]).toFixed(1) + ' ' + y(p[1]).toFixed(1); }).join('L') + 'Z', class: 'pw-land' }));
-    Object.keys(P).forEach(function (d) {
-      var n = counts[d] || 0, on = d === selected;
-      if (!n && !on) { svg.appendChild(s('circle', { cx: x(P[d][0]), cy: y(P[d][1]), r: 2.4, class: 'pw-dot off' })); return; }
-      var g = s('g', { class: 'pw-pin' + (on ? ' on' : ''), tabindex: 0, role: 'button', 'aria-label': d + ', ' + n + ' listed' });
-      g.appendChild(s('circle', { cx: x(P[d][0]), cy: y(P[d][1]), r: on ? 11 : Math.min(9, 4 + n * 0.7), class: 'pw-dot' }));
-      g.addEventListener('click', function () { onPick(on ? '' : d); });
-      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPick(on ? '' : d); } });
-      var t = s('title', {}); t.textContent = d + ' (' + n + ')'; g.appendChild(t);
-      svg.appendChild(g);
+  var PW = window.PW, h = PW.h, icon = PW.icon;
+  var NS = 'http://www.w3.org/2000/svg', KMAX = 16;
+  var PROV = ['Koshi', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim'];
+  var tag = document.querySelector('script[data-geo]'), geo = null, pending = null;
+  function s(t, a) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); return e; }
+
+  function dpath(rs, box) {
+    return rs.map(function (r) {
+      var x = r[0], y = r[1], p = ['M' + x + ' ' + y];
+      for (var i = 2; i < r.length; i += 2) {
+        x += r[i]; y += r[i + 1]; p.push(x + ' ' + y);
+        if (box) { box[0] = Math.min(box[0], x); box[1] = Math.min(box[1], y); box[2] = Math.max(box[2], x); box[3] = Math.max(box[3], y); }
+      }
+      return p[0] + 'L' + p.slice(1).join('L') + 'Z';
+    }).join('');
+  }
+  function load() {
+    if (geo) return Promise.resolve(geo);
+    if (!pending) pending = fetch(tag ? tag.getAttribute('data-geo') : '/static/web/data/nepal_map.json').then(function (r) { return r.json(); }).then(function (j) {
+      var pc = PROV.map(function () { return [0, 0, 0]; });
+      j.d.forEach(function (d) {
+        d.box = [1e9, 1e9, -1e9, -1e9]; d.path = dpath(d.r, d.box); d.bw = d.box[2] - d.box[0];
+        pc[d.p][0] += d.c[0]; pc[d.p][1] += d.c[1]; pc[d.p][2]++;
+      });
+      j.pc = pc.map(function (a) { return [a[0] / a[2], a[1] / a[2]]; });
+      j.pvPath = j.pv.map(function (r) { return dpath(r); }); j.oPath = dpath(j.o);
+      return (geo = j);
     });
-    return svg;
+    return pending;
+  }
+  function bin(n) { return n <= 0 ? 0 : n === 1 ? 1 : n < 4 ? 2 : n < 7 ? 3 : 4; }
+
+  PW.mapCore = function (o) {
+    var full = !!o.full, counts = o.counts || {}, sel = o.selected || '', G, st = { k: 1, x: 0, y: 0 };
+    var paths = {}, labels = [], pvLabels = [], raf = 0, anim = 0, moved = false, ptrs = {}, last = null, hover = '';
+    var svg = s('svg', { class: 'pw-map', preserveAspectRatio: 'xMidYMid meet', 'aria-label': 'Map of Nepal by district' });
+    var vp = s('g'), info = h('div', { class: 'pw-geo-info', hidden: true });
+    var el = h('div', { class: 'pw-geo' + (full ? ' full' : ' skel') }, [svg, info]);
+    var selPath = s('path', { class: 'pw-sel' }), size = null;
+
+    function dims() { var r = svg.getBoundingClientRect(); var sc = Math.min(r.width / G.w, r.height / G.h) || 1; return { r: r, sc: sc, ox: (r.width - G.w * sc) / 2, oy: (r.height - G.h * sc) / 2 }; }
+    function clamp() {
+      st.k = Math.max(1, Math.min(KMAX, st.k));
+      var px = G.w * 0.25, py = G.h * 0.25;
+      st.x = Math.max(G.w - G.w * st.k - px, Math.min(px, st.x)); st.y = Math.max(G.h - G.h * st.k - py, Math.min(py, st.y));
+    }
+    function paint() {
+      raf = 0; clamp(); var d = size || (size = dims());
+      vp.setAttribute('transform', 'translate(' + st.x.toFixed(1) + ' ' + st.y.toFixed(1) + ') scale(' + st.k.toFixed(3) + ')');
+      svg.style.setProperty('--u', (1 / (d.sc * st.k)).toFixed(4));
+      labels.forEach(function (l) { var on = l.d.bw * st.k * d.sc > l.w * 6.2 || l.d.n === sel; if (on !== l.on) { l.on = on; l.t.style.display = on ? '' : 'none'; } });
+      var pOn = st.k < 2.6; pvLabels.forEach(function (t) { t.style.display = pOn ? '' : 'none'; });
+      el.classList.toggle('zoomed', st.k > 1.02);
+    }
+    function draw() { if (!raf) raf = requestAnimationFrame(paint); }
+    function toSvg(cx, cy) { var d = size || (size = dims()); return [(cx - d.r.left - d.ox) / d.sc, (cy - d.r.top - d.oy) / d.sc]; }
+    function zoomAt(px, py, f) { var k2 = Math.max(1, Math.min(KMAX, st.k * f)), r = k2 / st.k; st.x = px - (px - st.x) * r; st.y = py - (py - st.y) * r; st.k = k2; draw(); }
+    function fly(k, x, y) {
+      cancelAnimationFrame(anim); var a = { k: st.k, x: st.x, y: st.y }, t0 = performance.now();
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { st.k = k; st.x = x; st.y = y; draw(); return; }
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / 380), e = 1 - Math.pow(1 - p, 3);
+        st.k = a.k + (k - a.k) * e; st.x = a.x + (x - a.x) * e; st.y = a.y + (y - a.y) * e; paint();
+        if (p < 1) anim = requestAnimationFrame(step);
+      })(t0);
+    }
+    function reset() { fly(1, 0, 0); }
+    function fit(d) {
+      var bw = d.box[2] - d.box[0], bh = d.box[3] - d.box[1], k = Math.max(1.6, Math.min(7, 0.55 * Math.min(G.w / bw, G.h / bh)));
+      fly(k, G.w / 2 - k * (d.box[0] + bw / 2), G.h / 2 - k * (d.box[1] + bh / 2));
+    }
+    function shape() {
+      G.d.forEach(function (d) { var n = counts[d.n] || 0; paths[d.n].setAttribute('class', 'pw-dist pwl' + bin(n)); });
+      var d = sel && G.d.filter(function (x) { return x.n === sel; })[0];
+      selPath.setAttribute('d', d ? d.path : ''); selPath.style.display = d ? '' : 'none';
+      var who = d || (hover && G.d.filter(function (x) { return x.n === hover; })[0]);
+      info.hidden = !who;
+      if (who) {
+        var n = counts[who.n] || 0; info.textContent = '';
+        info.appendChild(h('b', { text: who.n })); info.appendChild(h('small', { text: PROV[who.p] + (who.hq ? ' · ' + who.hq : '') }));
+        info.appendChild(h('span', { class: 'pw-geo-n', text: n + (n === 1 ? ' college' : ' colleges') }));
+      }
+    }
+    function pick(n) { if (o.onPick) o.onPick(n === sel ? '' : n); }
+    function build() {
+      svg.setAttribute('viewBox', '0 0 ' + G.w + ' ' + G.h); el.classList.remove('skel'); el.style.aspectRatio = full ? '' : G.w + ' / ' + G.h;
+      var dg = s('g'); G.d.forEach(function (d) { var p = s('path', { d: d.path, class: 'pw-dist' }); p.dataset.n = d.n; paths[d.n] = p; dg.appendChild(p); });
+      vp.appendChild(dg);
+      G.pvPath.forEach(function (d) { vp.appendChild(s('path', { d: d, class: 'pw-prov' })); });
+      vp.appendChild(s('path', { d: G.oPath, class: 'pw-out' })); vp.appendChild(selPath);
+      var lg = s('g', { class: 'pw-lbls' });
+      G.d.forEach(function (d) { var t = s('text', { x: d.c[0], y: d.c[1], class: 'pw-lbl' }); t.textContent = d.n; t.style.display = 'none'; lg.appendChild(t); labels.push({ d: d, t: t, w: d.n.length, on: false }); });
+      PROV.forEach(function (n, i) { var t = s('text', { x: G.pc[i][0], y: G.pc[i][1], class: 'pw-plbl' }); t.textContent = n; lg.appendChild(t); pvLabels.push(t); });
+      vp.appendChild(lg); svg.appendChild(vp);
+      var ctl = h('div', { class: 'pw-geo-ctl' }, [
+        ctrl('add', 'Zoom in', function () { var c = toSvg(size.r.left + size.r.width / 2, size.r.top + size.r.height / 2); zoomAt(c[0], c[1], 1.7); }),
+        ctrl('remove', 'Zoom out', function () { var c = toSvg(size.r.left + size.r.width / 2, size.r.top + size.r.height / 2); zoomAt(c[0], c[1], 1 / 1.7); }),
+        ctrl('center_focus_strong', 'Reset view', reset),
+      ]);
+      el.appendChild(ctl); if (o.extra) ctl.appendChild(o.extra);
+      shape(); paint(); if (sel) fit(G.d.filter(function (x) { return x.n === sel; })[0]);
+    }
+    function ctrl(g, label, fn) { size = size || dims(); var b = h('button', { class: 'pw-round sm', type: 'button', 'aria-label': label }, [icon(g)]); b.addEventListener('click', function () { size = dims(); fn(); }); return b; }
+
+    /* pointer: one finger or mouse pans, two fingers pinch, tap picks. Inline on touch, the page keeps its scroll. */
+    function touchOk(e) { return full || e.pointerType !== 'touch'; }
+    svg.addEventListener('pointerdown', function (e) {
+      if (!G || !touchOk(e)) return; size = dims(); ptrs[e.pointerId] = [e.clientX, e.clientY]; moved = false; last = null; cancelAnimationFrame(anim);
+    });
+    svg.addEventListener('pointermove', function (e) {
+      if (!G) return; var q = ptrs[e.pointerId];
+      if (!q) { if (e.pointerType === 'mouse') { var t = e.target.dataset && e.target.dataset.n || ''; if (t !== hover) { hover = t; shape(); } } return; }
+      var ids = Object.keys(ptrs), d = size || (size = dims());
+      if (ids.length >= 2) {
+        var o2 = ptrs[ids[0] === String(e.pointerId) ? ids[1] : ids[0]], a = Math.hypot(q[0] - o2[0], q[1] - o2[1]);
+        ptrs[e.pointerId] = [e.clientX, e.clientY];
+        var b = Math.hypot(e.clientX - o2[0], e.clientY - o2[1]), c = toSvg((e.clientX + o2[0]) / 2, (e.clientY + o2[1]) / 2);
+        if (a > 8) zoomAt(c[0], c[1], b / a); moved = true; return;
+      }
+      var dx = e.clientX - q[0], dy = e.clientY - q[1];
+      if (!moved && Math.hypot(dx, dy) < 5) return;
+      if (!moved) { moved = true; try { svg.setPointerCapture(e.pointerId); } catch (x) {} el.classList.add('drag'); }
+      ptrs[e.pointerId] = [e.clientX, e.clientY]; st.x += dx / d.sc; st.y += dy / d.sc; draw();
+    });
+    function up(e) { delete ptrs[e.pointerId]; if (!Object.keys(ptrs).length) { el.classList.remove('drag'); setTimeout(function () { moved = false; }, 0); } }
+    svg.addEventListener('pointerup', up); svg.addEventListener('pointercancel', up);
+    svg.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && hover) { hover = ''; if (G) shape(); } });
+    svg.addEventListener('click', function (e) { if (moved) return; var n = e.target.dataset && e.target.dataset.n; if (n) pick(n); else if (sel && o.onPick) o.onPick(''); });
+    svg.addEventListener('dblclick', function (e) { if (!G) return; size = dims(); var c = toSvg(e.clientX, e.clientY); zoomAt(c[0], c[1], 2); });
+    svg.addEventListener('wheel', function (e) {
+      if (!G || !(full || e.ctrlKey || e.metaKey)) return; e.preventDefault(); size = dims();
+      var c = toSvg(e.clientX, e.clientY); zoomAt(c[0], c[1], Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0022)));
+    }, { passive: false });
+    window.addEventListener('resize', onResize); function onResize() { size = null; if (G) draw(); }
+
+    load().then(function (j) { G = j; build(); }).catch(function () { el.classList.remove('skel'); el.appendChild(PW.empty('The map could not load.')); });
+    return {
+      el: el,
+      update: function (c, d) { counts = c || {}; var ch = d !== sel; sel = d || ''; if (!G) return; shape(); if (ch) { if (sel) fit(G.d.filter(function (x) { return x.n === sel; })[0]); else reset(); } },
+      reset: reset,
+      destroy: function () { window.removeEventListener('resize', onResize); cancelAnimationFrame(anim); cancelAnimationFrame(raf); },
+    };
   };
 })();
