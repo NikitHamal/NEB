@@ -1063,3 +1063,30 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Android on device: wizard step 1 height with the stream block on a 360dp phone.
 - Port the exams revamp to Android after approval.
+
+
+---
+
+# Session 41: portfolio on Android, exams revamp, education situation, institution CI fix
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`, `backend-tests.yml`). History read first: `d2591e5` (institution portfolio API, claim, owner edit, completeness), `de141c5` (`NEBians-Profile.html` concept, published at `https://nikithamal.github.io/NEB/profile.html`, `pathways.html` next to it on `gh-pages`) and `910aaff` (Android institutions: catalogue, page, owner editor) are **kept and not redone**. `910aaff` did not compile (experimental Material API); fixed here.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 250 | **CI fix for `910aaff`**: `@OptIn(ExperimentalMaterial3Api)` on `SchoolSearchSheet` and `SectionSheet` (one merged `@OptIn` there, a second one is "not repeatable"). | `SchoolSearchSheet.kt`, `InstitutionManageScreen.kt` |
+| 251 | **Portfolio on the Android profile** (the web `_portfolio.html`): education line with status tag, Open to, Skills, one timeline per kind (Education, Experience, Projects, Achievements, Certificates, Volunteering). The owner gets an add button per kind, an edit button per entry, "Add to your portfolio" chips and a sheet (title, where, from, to, still going, details, link; delete). Sits first in the About tab. The header line prints the headline first, like the web. | `ProfilePortfolio.kt`, `PortfolioEntrySheet.kt`, `PortfolioViewModel.kt`, `ApiPortfolio.kt`, `ProfileFormatting.kt` |
+| 252 | **Education situation in signup and edit profile** (status, course by level, year or semester, last level finished). Lists come from `/api/education/catalog/` once per run; nothing is required and each part can be filled later. Sent as `edu_status`, `edu_program`, `edu_term`, `edu_completed` (the server already accepts them). | `EduSituation.kt`, `ApiEdu.kt`, `CompleteProfileViewModel.kt`, `OnboardingStepsContext.kt`, `EditProfileStudies.kt` |
+| 253 | **Exams is the concept screen**: eligibility panel with its caption, "Closing next / Opens next" card with month strip and fact chips, applications-per-month bars (grow on enter), Open now / Coming up / Not eligible counters that filter, Soonest / Best odds / Lowest fee, cards with status pill, month strip, Odds and Prep bars and the meta line. Not eligible cards fade to 55% and show the reason. | `PwExams.kt`, `PwExamsList.kt` |
+| 254 | **Web school page shows the claimed institution portfolio** (about, motto, facts grid, levels, programs, facilities, affiliation, branches, contact, socials). Empty portfolios render nothing. | `views_institutions_profile.py` (`folio_context`), `school_detail.html`, `schools.css` |
+
+## Rules
+- Every portfolio field stays optional; the profile never blocks on it. The completeness score only decides who is listed first in Find a college.
+- Lists for pickers come from the server (`/api/education/catalog/`, `/api/institutions/schema/`), never hard-coded twice.
+- The profile overhaul stays in `NEBians-Profile.html` until the owner locks it in; only the missing parity is ported.
+
+## Next
+- Owner review of `profile.html` on GitHub Pages, then port the locked parts (web first, then Android).
+- Android on device: portfolio sheet with the keyboard open, exams counters on a 360dp phone.
+- Teacher portfolio entries: school history uses the generic Experience kind; a dedicated "past schools" kind needs the catalogue `ENTRY_KINDS` change first.

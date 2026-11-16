@@ -39,3 +39,8 @@ Read before touching `schools`, institution verification or the result checker. 
 - Document files are stored through the normal upload path; there is no virus scan.
 - Android parity for schools was not checked this session; the API is `/api/institutions/` and `/api/institutions/<slug>/` (`api/views_institutions.py`).
 - Rotate any personal access token that was pasted into a chat; none is stored in the repo.
+
+## Portfolio on web and Android (session 41)
+
+- Web `/app/schools/<slug>/` prints the claimed portfolio through `folio_context` (`web/views_institutions_profile.py`); an institution with no portfolio data shows the old page.
+- Android: `InstitutionScreen` (read) and `InstitutionManageScreen` (owner edit, any field, any time) use the same schema as the web. Profile concept for the overhaul: `NEBians-Profile.html`, published on GitHub Pages (`gh-pages`, `profile.html`).
