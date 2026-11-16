@@ -334,3 +334,14 @@ class Wave11Tests(TestCase):
         self.assertIn('Off campus work is not allowed', abroad['in']['work'])
         self.assertIn('no objection certificate', abroad['ae']['work'])
         self.assertGreaterEqual(len(d['faq']), 79)
+
+    def test_police_and_apf_numbers(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        self.assertEqual(govt['g-police-asi']['seats'], 211)
+        self.assertEqual(govt['g-police-asi']['fee'], 500)
+        self.assertEqual(govt['g-police-inspector']['seats'], 29)
+        self.assertEqual(16 + 5 + 4 + 2 + 2, 29)
+        self.assertEqual(114 + 29 + 26 + 19 + 14 + 5 + 4, 211)
+        self.assertIn('604 constable posts', govt['g-apf-asi']['note'])
+        self.assertGreaterEqual(len(d['faq']), 80)

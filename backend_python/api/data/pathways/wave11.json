@@ -205,6 +205,27 @@
   },
   "g-tsc": {
    "note_add": "A secondary level notice of 2082/83 advertised 449 posts with a fee of NPR 1,000 (NPR 600 for each inclusive group), a written exam on 5 Baisakh 2083, interview after the written results, age 18 to 40 (no limit for serving permanent teachers) and a bachelor in the subject with at least 10 months of education training."
+  },
+  "g-police-asi": {
+   "seats": 211,
+   "fee": 500,
+   "apply": [
+    9,
+    10
+   ],
+   "age": "18 to 24 years, up to 35 for serving police staff. The exact limit is printed in each notice",
+   "note_add": "Notice 01/083-84 (2 Asoj 2083) asked for 211 General Duty ASI: 114 open, 29 Janajati, 26 Madhesi, 19 women, 14 Dalit, 5 martyr or disabled police families and 4 backward area. Applications ran online on ORMS from 28 September to 27 October 2026, with a fee of NPR 500 (NPR 100 for each extra group). Height is 5 ft 2 in for men and 5 ft for women, weight 50 kg for men and 42 kg for women."
+  },
+  "g-police-inspector": {
+   "seats": 29,
+   "applicants": 1067,
+   "note_add": "In the 2082/83 round 1,067 candidates sat the written exam (22 to 24 Jestha 2083) for 29 posts after the number was raised: 16 open, 5 Janajati, 4 Madhesi, 2 women and 2 Dalit."
+  },
+  "g-police": {
+   "note_add": "The Jawan (constable) notice of 2082/83 grew from 1,553 to 2,928 posts, of which 1,578 were open."
+  },
+  "g-apf-asi": {
+   "note_add": "The Armed Police Force listed 604 constable posts (326 open) in a notice of 26 Bhadra 2083. For the Armed Police Inspector, 257 candidates sat the written exam in Jestha 2083 for 43 posts."
   }
  },
  "faq_add": [
@@ -290,6 +311,15 @@
     "bvsc"
    ],
    "a": "Agriculture and Forestry University set 167 BSc Ag seats at its Rampur campus and 54 at each of its constituent colleges Puranchaur (Kaski), Kapilakot (Sindhuli), Tikapur (Kailali), Pakhribas (Dhankuta) and Bardibas (Mahottari), with 49 each at Khajura (Banke) and Madichaur (Rolpa). BVSc and AH has 100 seats at Rampur. Seats are split into merit (74 at Rampur, 20 at a college), reserved groups and full fee seats, and entrance is a written exam from the Faculty of Agriculture. Tribhuvan University IAAS and other universities run separate entrances."
+  },
+  {
+   "id": "fw11-10",
+   "topic": "after10",
+   "q": "How many posts did Nepal Police advertise for ASI, and who can apply?",
+   "go": [
+    "police-army"
+   ],
+   "a": "Nepal Police notice 01/083-84 of 2 Asoj 2083 asked for 211 General Duty ASI (114 open and 97 for women, Janajati, Madhesi, Dalit, backward areas and martyr or disabled police families). You need +2 or equivalent and an age of 18 to 24 (serving police up to 35). Men must be at least 5 ft 2 in and 50 kg, women 5 ft and 42 kg. Applications ran on the ORMS portal from 28 September to 27 October 2026 with a fee of NPR 500. The physical and health screening comes first, then the written exam, language test and interview. The same notice also advertised 123 office assistant posts (cook, barber, sweeper)."
   }
  ],
  "providers_add": [
