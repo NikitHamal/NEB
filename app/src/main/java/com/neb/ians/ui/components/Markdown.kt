@@ -77,7 +77,8 @@ fun MarkdownText(
     color: Color = MaterialTheme.colorScheme.onSurface,
     onMentionClick: (String) -> Unit = {},
     onLinkClick: (String) -> Unit = {},
-    onInlineImageClick: (String) -> Unit = {}
+    onInlineImageClick: (String) -> Unit = {},
+    tickKey: String? = null
 ) {
     val blocks = remember(markdown) { parseMarkdownBlocks(markdown) }
     val primary = MaterialTheme.colorScheme.primary
@@ -86,7 +87,18 @@ fun MarkdownText(
     val inlineContents = rememberInlineImageContents(markdown, onInlineImageClick)
 
     val laidOut = remember(blocks) { layoutMarkdownBlocks(blocks) }
-    val flipped = remember(markdown) { mutableStateMapOf<Int, Boolean>() }
+    val appContext = androidx.compose.ui.platform.LocalContext.current.applicationContext
+    val flipped = remember(markdown, tickKey) {
+        mutableStateMapOf<Int, Boolean>().also { map ->
+            // A reader's ticks on one post are remembered on this phone (never sent anywhere).
+            if (tickKey != null) {
+                appContext.getSharedPreferences("md_ticks", 0).getStringSet(tickKey, null)?.forEach { entry ->
+                    val at = entry.indexOf('=')
+                    if (at > 0) entry.substring(0, at).toIntOrNull()?.let { map[it] = entry.substring(at + 1) == "1" }
+                }
+            }
+        }
+    }
 
     Column(modifier = modifier) {
         laidOut.forEachIndexed { blockIndex, (block, spaceBefore) ->
@@ -155,7 +167,14 @@ fun MarkdownText(
                 }
                 is MdBlock.Check -> {
                     val done = flipped[blockIndex] ?: block.done
-                    MdCheckRow(done = done, onToggle = { flipped[blockIndex] = !done }) {
+                    MdCheckRow(done = done, onToggle = {
+                        flipped[blockIndex] = !done
+                        if (tickKey != null) {
+                            appContext.getSharedPreferences("md_ticks", 0).edit()
+                                .putStringSet(tickKey, flipped.map { (i, v) -> "$i=" + if (v) "1" else "0" }.toSet())
+                                .apply()
+                        }
+                    }) {
                         InlineMdText(
                             text = block.text,
                             style = if (done) style.copy(textDecoration = TextDecoration.LineThrough) else style,
@@ -952,7 +971,8 @@ fun ExpandableMarkdownText(
     onMentionClick: (String) -> Unit = {},
     onLinkClick: (String) -> Unit = {},
     minimizedMaxLines: Int = 3,
-    onInlineImageClick: (String) -> Unit = {}
+    onInlineImageClick: (String) -> Unit = {},
+    tickKey: String? = null
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var hasOverflow by remember { mutableStateOf(false) }
@@ -965,7 +985,8 @@ fun ExpandableMarkdownText(
                 color = color,
                 onMentionClick = onMentionClick,
                 onLinkClick = onLinkClick,
-                onInlineImageClick = onInlineImageClick
+                onInlineImageClick = onInlineImageClick,
+                tickKey = tickKey
             )
         } else {
             // Collapsed preview stays fully formatted: block structure is
