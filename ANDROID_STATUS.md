@@ -648,3 +648,32 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Per college fee tables beyond IOE and KUSOM (verify each against the college prospectus).
 - Open months for Fulbright, DAAD, Commonwealth, Rotary, Swiss, Rhodes (windows move yearly, no stable source yet).
 - Visa success rates per country, demand history per career, Nepali labels, saved pathways.
+
+
+---
+
+# Session 28: real Nepal map (web and Android), Pathways dataset wave 7
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`, `backend-tests.yml`). Bootstrap re-run and history read first. Colleges already had a schematic map (dots on a rough outline on web, seven province tiles on Android). This session replaces both with the real boundary and adds data.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 141 | **Real map of Nepal**: the official May 2020 (chuche) boundary with Kalapani, Limpiyadhura and Lipulekh, all 77 districts, 7 provinces. Source: MoFAGA district boundaries via `l3lackcurtains/nepali-geo-pro-max` (MIT). Simplified topology-safe (mapshaper Visvalingam 28 percent, 13k points, shared borders stay shared), projected, integer grid, delta encoded: 133 KB. Same file for both apps. Rebuild steps are in the script header. | `backend_python/tools/pathways/build_nepal_map.js`, `web/static/web/data/nepal_map.json`, `app/src/main/res/raw/nepal_map.json` |
+| 142 | **Web map** (`PW.mapCore`): one SVG, one transformed group. Drag, wheel (Ctrl+wheel inline), pinch, double click, +/- and reset, animated fly to a picked district, 5-step count fill, province lines, labels that appear only when they fit, hover and pick card, keyboard through the district select. Inline touch keeps page scrolling; the **full view** dialog (expand button, Esc closes) takes every gesture. Loaded lazily from the static JSON, never re-created on search. | `pathways-map.js`, `pathways-mapview.js`, `pathways-more.js`, `pathways.css`, `pathways.html` |
+| 143 | **Android map**: `NepalGeoLoader` parses once off the main thread; `MapCam` holds zoom and shift in state read only in the draw phase; five fill paths (one per count level) plus one border path, so a frame is about nine path draws; hit test by point in polygon; labels measured only when they fit; tap picks, buttons zoom, **Open full map** dialog adds pinch, drag, double tap and reset. Replaces the province tiles in Colleges. | `PwNepalGeo.kt`, `PwNepalMap.kt`, `PwNepalMapView.kt`, `PwStudy.kt` |
+| 144 | **Wave 7 data**: 13 private medical colleges (Nepal Medical, KIST, CMS Bharatpur, Manipal, Gandaki, Nobel, Birat, National, Universal, Devdaha, Lumbini, Nepalgunj, Janaki) with the MEC tuition ceiling for MBBS (NPR 40,23,250 inside the Valley, 45,95,720 outside; also set on KMC and CMC). DAAD and Rotary open months. FAQs 48 to 51: MEC ceilings (BDS 20,92,290, BSc Nursing 10,36,000, allied health 7,77,000, BAMS 11,31,930), free seats and the MECEE rules, DAAD pay and deadlines. | `wave7.json`, `pathways.py` |
+| 145 | **Tests**: map has 77 districts and 7 provinces, web and app copies are byte equal, every provider district is on the map, wave 7 fees. | `api/test_pathways.py` |
+
+## Rules
+- Change the map only by re-running the build script, then copy the JSON to both places (a test fails if they differ).
+- District names on the map equal the names in providers (`Nawalparasi East` is Nawalpur, `Nawalparasi West` is Parasi).
+- Medical fees are ceilings for a paying seat set by the MEC, shown as such in the provider note.
+
+## Not done / next
+- Manipal and KU School of Medical Sciences charge in USD, left without a NPR figure.
+- BDS, nursing and allied health college lists with the MEC ceilings per college.
+- Other private college fee tables (TU affiliated BBS, BCA, CSIT) need each prospectus.
+- Rhodes, Swiss, Fulbright windows (no stable official source found).
+- Android: on-device pass on the full-view dialog insets and label sizes.

@@ -121,3 +121,37 @@ class PathwaysDataTests(TestCase):
             text = json.dumps(d[key], ensure_ascii=False)
             self.assertNotIn('\u2014', text)
             self.assertNotIn('\u2013', text)
+
+
+class NepalMapTests(TestCase):
+    """The map file read by the web page and the Android app (res/raw/nepal_map.json is the same file)."""
+
+    def _map(self):
+        import json
+        from pathlib import Path
+        root = Path(__file__).resolve().parent.parent
+        web = (root / 'web/static/web/data/nepal_map.json').read_text(encoding='utf-8')
+        app = root.parent / 'app/src/main/res/raw/nepal_map.json'
+        if app.exists():
+            self.assertEqual(web, app.read_text(encoding='utf-8'))
+        return json.loads(web)
+
+    def test_map_has_every_district_and_province(self):
+        m = self._map()
+        self.assertEqual(len(m['d']), 77)
+        self.assertEqual(len(m['pv']), 7)
+        self.assertEqual(len({d['n'] for d in m['d']}), 77)
+        self.assertEqual(sorted({d['p'] for d in m['d']}), list(range(7)))
+
+    def test_provider_districts_exist_on_the_map(self):
+        names = {d['n'] for d in self._map()['d']}
+        for p in pathways.payload()['providers']:
+            self.assertIn(p['district'], names, p['id'])
+
+    def test_wave7_medical_fees_follow_the_mec_ceiling(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-kist-med']['fees']['mbbs'], [4023250, 4023250])
+        self.assertEqual(by['p-gandaki-med']['fees']['mbbs'], [4595720, 4595720])
+        self.assertGreaterEqual(len(d['faq']), 51)
+        self.assertEqual(pathways.problems(), [])

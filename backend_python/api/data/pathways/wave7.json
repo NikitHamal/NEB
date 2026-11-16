@@ -1,0 +1,290 @@
+{
+ "providers_add": [
+  {
+   "id": "p-nmc-jorpati",
+   "name": "Nepal Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Attarkhel, Jorpati",
+   "website": "",
+   "note": "Private medical college and teaching hospital on the Gokarneshwar side of the Valley. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4023250,
+     4023250
+    ]
+   }
+  },
+  {
+   "id": "p-kist-med",
+   "name": "KIST Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Imadol",
+   "website": "https://kistmcth.edu.np",
+   "note": "Private medical college with a teaching hospital at Imadol, Lalitpur. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4023250,
+     4023250
+    ]
+   }
+  },
+  {
+   "id": "p-coms-chitwan",
+   "name": "College of Medical Sciences (CMS-TH)",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "",
+   "note": "Private medical college and teaching hospital in Bharatpur. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-manipal-pokhara",
+   "name": "Manipal College of Medical Sciences",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Fulbari, Pokhara",
+   "website": "",
+   "note": "Foreign-investment medical college in Pokhara; confirm tuition with the college and the MEC notice."
+  },
+  {
+   "id": "p-gandaki-med",
+   "name": "Gandaki Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "Private medical college and teaching hospital in Pokhara. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-nobel-med",
+   "name": "Nobel Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Kanchanbari, Biratnagar",
+   "website": "https://nobelmedicalcollege.com.np",
+   "note": "Private medical college with a teaching hospital in Biratnagar. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-birat-med",
+   "name": "Birat Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Tankisinuwari, Biratnagar",
+   "website": "https://biratmedicalcollege.edu.np",
+   "note": "Private medical college and teaching hospital near Biratnagar. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-national-med",
+   "name": "National Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "website": "",
+   "note": "Private medical college and teaching hospital in Birgunj. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-ucms",
+   "name": "Universal College of Medical Sciences",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Bhairahawa",
+   "website": "https://ucms.edu.np",
+   "note": "Private medical college with a teaching hospital in Bhairahawa. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-devdaha-med",
+   "name": "Devdaha Medical College and Research Institute",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Devdaha",
+   "website": "https://www.devdahamedicalcollege.edu.np",
+   "note": "Private medical college in Devdaha, Rupandehi. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-lumbini-med",
+   "name": "Lumbini Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Palpa",
+   "place": "Prabas, Tansen",
+   "website": "https://lmc.edu.np",
+   "note": "Private medical college and teaching hospital in the hills at Tansen. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-nepalgunj-med",
+   "name": "Nepalgunj Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Kohalpur",
+   "website": "",
+   "note": "Private medical college and teaching hospital at Kohalpur, near Nepalgunj. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  },
+  {
+   "id": "p-janaki-med",
+   "name": "Janaki Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpurdham",
+   "website": "https://janakimedicalcollege.edu.np",
+   "note": "Private medical college and teaching hospital in Janakpurdham. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  }
+ ],
+ "where_add": {
+  "mbbs": [
+   "p-nmc-jorpati",
+   "p-kist-med",
+   "p-coms-chitwan",
+   "p-manipal-pokhara",
+   "p-gandaki-med",
+   "p-nobel-med",
+   "p-birat-med",
+   "p-national-med",
+   "p-ucms",
+   "p-devdaha-med",
+   "p-lumbini-med",
+   "p-nepalgunj-med",
+   "p-janaki-med"
+  ]
+ },
+ "provider_extra": {
+  "p-kmc": {
+   "fees": {
+    "mbbs": [
+     4023250,
+     4023250
+    ]
+   }
+  },
+  "p-cmc": {
+   "fees": {
+    "mbbs": [
+     4595720,
+     4595720
+    ]
+   }
+  }
+ },
+ "scholarship_extra": {
+  "s-daad": {
+   "open": [
+    8,
+    10
+   ],
+   "awards": "EUR 992 a month for most master programmes, EUR 1,400 for doctoral and research grants"
+  },
+  "s-rotary": {
+   "open": [
+    2,
+    5
+   ]
+  }
+ },
+ "faq_add": [
+  {
+   "id": "f7-1",
+   "topic": "after12",
+   "q": "What is the most a private college can charge for MBBS, BDS or nursing?",
+   "a": "The Medical Education Commission caps the tuition of a paying seat. MBBS is NPR 40,23,250 inside the Kathmandu Valley and NPR 45,95,720 outside it. BDS is NPR 20,92,290 and BSc Nursing NPR 10,36,000. Most BPharm and allied health bachelors (BPT, BMLT, optometry) are NPR 7,77,000, and BAMS is NPR 11,31,930. The cap covers tuition: hostel, food, books and exam fees come on top, so an MBBS usually ends near NPR 55 to 65 lakh in total. If a college asks for more than the cap on a paying seat, ask for the MEC notice and report it.",
+   "go": [
+    "mbbs",
+    "bds",
+    "bsc-nursing",
+    "bpharm"
+   ]
+  },
+  {
+   "id": "f7-2",
+   "topic": "after12",
+   "q": "How do I get a free or scholarship seat in medicine?",
+   "a": "Free seats are given on merit through the MEC entrance (MECEE). Private colleges with Nepali investment keep at least 10 percent of seats free, colleges with foreign investment at least 20 percent, and public institutions about three in four seats. The paper is 200 marks in three hours, one mark per correct answer and a quarter mark off for each wrong one, and you must reach the 50th percentile to be on the merit list. The application fee is around NPR 4,000 for Nepali applicants. A free seat can carry a service commitment, so read the terms before accepting.",
+   "go": [
+    "mbbs",
+    "bds",
+    "bsc-nursing"
+   ]
+  },
+  {
+   "id": "f7-3",
+   "topic": "abroad",
+   "q": "What does a DAAD scholarship pay and when do I apply?",
+   "a": "DAAD funds study and research in Germany. Most master level programmes pay EUR 992 a month and doctoral and research grants EUR 1,400, plus insurance and a travel allowance. There is no single deadline: each programme has its own, and many fall between mid August and late October (for example 15 October for the arts scholarships and 21 October for the doctoral programme in the latest round). Dates move every year, so check the DAAD portal for your programme.",
+   "go": [
+    "abroad-ms"
+   ]
+  }
+ ]
+}
