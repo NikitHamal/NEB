@@ -59,7 +59,10 @@ MAX_REPORT_DESCRIPTION_LENGTH = 2_000
 
 def _profile_incomplete(user):
     """Check if user profile is missing mandatory fields."""
-    if not user.display_name or not user.gender:
+    if not user.display_name:
+        return True
+    # Institutions have no gender or date of birth; everyone else gives gender.
+    if user.role != 'institution' and not user.gender:
         return True
     if user.role == 'student' and not user.class_level:
         return True

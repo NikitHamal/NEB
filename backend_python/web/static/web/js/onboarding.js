@@ -83,13 +83,16 @@
           out.appendChild(field('ob-user', 'Username', un));
         }
         /* One above the other: the date field, then the three gender tiles. */
-        if (PARTS.dob) out.appendChild(PARTS.dob);
-        if (PARTS.gender) out.appendChild(PARTS.gender);
+        if (S.role !== 'institution') {  /* an institution has no date of birth or gender */
+          if (PARTS.dob) out.appendChild(PARTS.dob);
+          if (PARTS.gender) out.appendChild(PARTS.gender);
+        }
         return out;
       },
       valid: function () {
         if (!S.displayName.trim()) return 'Add the name people will see.';
         if (I.autoUsername && !/^[A-Za-z0-9_]{3,50}$/.test(S.username)) return 'Username: 3 to 50 letters, numbers or underscores.';
+        if (S.role === 'institution') return '';
         if (!S.dob) return 'Pick your date of birth.';
         if (!S.gender) return 'Pick one of the gender options.';
         return '';

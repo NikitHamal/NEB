@@ -21,7 +21,13 @@ _FIELD_ALIASES = {
     'headline': ('headline',),
     'skills': ('skills',),
     'open_to': ('openTo', 'open_to'),
+    'teach_levels': ('teachLevels', 'teach_levels'),
+    'experience_years': ('experienceYears', 'experience_years'),
+    'employment': ('employment',),
 }
+EMPLOYMENT_VALUES = ('full_time', 'part_time', 'tutor', 'freelance', 'visiting')
+TEACH_LEVEL_VALUES = ('preprimary', 'basic_1_5', 'basic_6_8', 'secondary_9_10', 'plus_two', 'a_level',
+                      'diploma', 'bachelor', 'master', 'phd', 'coaching')
 
 
 def _pick(data, key):
@@ -90,6 +96,19 @@ def apply_education(user, data):
     present, open_to = _pick(data, 'open_to')
     if present:
         user.open_to = cat.clean_csv(open_to, allowed=cat.OPEN_TO_VALUES, limit=10)
+    present, levels = _pick(data, 'teach_levels')
+    if present:
+        user.teach_levels = cat.clean_csv(levels, allowed=list(TEACH_LEVEL_VALUES), limit=11)
+    present, years = _pick(data, 'experience_years')
+    if present:
+        try:
+            user.experience_years = max(0, min(int(years or 0), 60))
+        except (TypeError, ValueError):
+            return 'Years of experience must be a number.'
+    present, employment = _pick(data, 'employment')
+    if present:
+        employment = (employment or '').strip()
+        user.employment = employment if employment in EMPLOYMENT_VALUES else ''
     return None
 
 

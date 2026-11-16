@@ -225,7 +225,7 @@
 
     </section>
 
-    <section class="epf-section">
+    <section class="epf-section" id="epf-personal"{% if user.role == 'institution' %} hidden{% endif %}>
       <h2 class="epf-section-title">Personal</h2>
 
       {% comment %} The same two controls the welcome flow uses, one above the other. {% endcomment %}
@@ -1233,8 +1233,24 @@ registerActions({
     return checked ? checked.value : 'student';
   }
 
+  /* An institution has no date of birth or gender: hide the section and stop it validating or posting. */
+  function syncPersonal() {
+    var sec = document.getElementById('epf-personal');
+    if (!sec) return;
+    var off = role() === 'institution';
+    sec.hidden = off;
+    sec.querySelectorAll('input,select,textarea').forEach(function (el) { el.disabled = off; });
+  }
+  form.addEventListener('change', syncPersonal);
+  form.addEventListener('click', function () { setTimeout(syncPersonal, 0); });
+  syncPersonal();
+
   function score() {
     var r = role();
+    if (r === 'institution') return [
+      val('display_name') !== '', val('username').length >= 3, !!document.getElementById('edit-avatar-preview'),
+      val('bio') !== '', val('district') !== '', val('school') !== '', !!(linksList && linksList.children.length)
+    ].filter(Boolean).length * 10 / 7 | 0;
     return [
       val('display_name') !== '',
       val('username').length >= 3,

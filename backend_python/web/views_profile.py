@@ -720,11 +720,14 @@ def edit_profile(request):
         class_level = canonical_level(request.POST.get('class_level', ''))
         if role not in ('student', 'teacher', 'institution', 'explorer'):
             role = db_user.role or 'student'
-        if not username or not dob:
+        is_inst = role == 'institution'  # no date of birth or gender for an institution
+        if is_inst:
+            dob = gender = ''
+        if not username or (not dob and not is_inst):
             return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Username and Date of Birth are required.'))
         if not display_name:
             return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Display Name is required.'))
-        if not gender:
+        if not gender and not is_inst:
             return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Gender is required.'))
         if role == 'student' and not class_level:
             return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Class is required for students.'))
@@ -759,7 +762,7 @@ def edit_profile(request):
         db_user.display_name = display_name or db_user.display_name or ''
         db_user.role = role
         db_user.dob = dob
-        db_user.gender = gender or db_user.gender or ''
+        db_user.gender = '' if is_inst else (gender or db_user.gender or '')
         db_user.class_level = class_level or db_user.class_level or ''
         db_user.subjects = request.POST.get('subjects', '') or db_user.subjects or ''
         db_user.teaching_subjects = request.POST.get('teaching_subjects', '') or db_user.teaching_subjects or ''

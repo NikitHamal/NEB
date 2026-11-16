@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'username', 'email', 'photo_url', 'banner_url', 'display_name',
             'role', 'dob', 'gender', 'class_level', 'subjects', 'teaching_subjects',
             'institution_type', 'edu_status', 'edu_program', 'edu_term', 'edu_completed',
-            'headline', 'skills', 'open_to',
+            'headline', 'skills', 'open_to', 'teach_levels', 'experience_years', 'employment',
             'pradesh', 'district', 'school', 'school_username', 'school_slug', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',

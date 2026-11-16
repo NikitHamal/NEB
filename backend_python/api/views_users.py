@@ -53,7 +53,8 @@ def user_profile_create_or_update(request):
 
     username = data.get('username', '').strip()
     dob = data.get('dob', '').strip()
-    if not username or not dob:
+    is_institution = (data.get('role', '') or user.role or '').strip().lower() == 'institution'
+    if not username or (not dob and not is_institution):
         logger.warning("user_profile: missing username or dob (username=%s, dob=%s)", repr(username), repr(dob))
         return Response({'error': 'Username and Date of Birth are required'}, status=400)
 
@@ -122,8 +123,8 @@ def user_profile_create_or_update(request):
     user.photo_url = photo_url
     user.banner_url = banner_url
     user.display_name = display_name
-    user.dob = dob
-    user.gender = gender
+    user.dob = '' if is_institution else dob
+    user.gender = '' if is_institution else gender
     user.class_level = class_level
     user.subjects = subjects
     user.pradesh = pradesh

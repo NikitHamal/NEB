@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import transaction
 from django.db.models import Case, Count, IntegerField, Q, Value, When
+from django.db.models.functions import Coalesce
 
 from .models import User
 from .models_institutions import (
@@ -144,17 +145,30 @@ def search(q='', kind='', district='', limit=30, offset=0, verified_only=False, 
         qs = qs.filter(verified=True)
     elif unverified_only:
         qs = qs.filter(verified=False)
+    # Claimed first, then the fuller the portfolio the higher, then the ones with a website.
     qs = qs.annotate(
-        has_site=Case(When(~Q(website=''), then=Value(0)), default=Value(1), output_field=IntegerField())
-    ).order_by('-verified', 'has_site', 'name')
+        has_site=Case(When(~Q(website=''), then=Value(0)), default=Value(1), output_field=IntegerField()),
+        fill=Coalesce('profile__completeness', Value(0)),
+    ).order_by('-verified', '-fill', 'has_site', 'name')
     total = qs.count()
-    rows = list(qs[offset:offset + limit])
+    rows = list(qs.select_related('claimed_by', 'profile')[offset:offset + limit])
     counts = counts_for([r.slug for r in rows])
     return rows, total, counts
 
 
+def _facts(inst):
+    """The few portfolio facts a list row shows (none for an unclaimed institution)."""
+    row = getattr(inst, 'profile', None)
+    if row is None:
+        return {'completeness': 0}
+    d = row.data or {}
+    return {'completeness': row.completeness, 'levels': d.get('levels', []), 'feeMin': d.get('feeMin'),
+            'feeMax': d.get('feeMax'), 'teachers': d.get('teachers'), 'studentsTotal': d.get('students'),
+            'admissionOpen': bool(d.get('admissionOpen')), 'facilities': (d.get('facilities') or [])[:6]}
+
+
 def serialize(inst, count=0):
-    return {
+    return {**_facts(inst),
         'slug': inst.slug, 'name': inst.name, 'nameNe': inst.name_ne, 'kind': inst.kind, 'kindLabel': inst.kind_label,
         'district': inst.district, 'place': inst.place, 'location': inst.location, 'website': inst.website,
         'verified': inst.verified, 'username': inst.claimed_by.username if inst.claimed_by_id else '',

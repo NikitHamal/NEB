@@ -99,6 +99,9 @@ class User(models.Model):
     subjects = models.TextField(blank=True, null=True)  # comma-separated
     teaching_subjects = models.TextField(blank=True, default='')  # teacher-specific: comma-separated
     institution_type = models.CharField(max_length=30, blank=True, default='')  # school/college/academy/other
+    teach_levels = models.CharField(max_length=200, blank=True, default='')  # teacher: comma-separated level keys
+    experience_years = models.PositiveSmallIntegerField(default=0)  # teacher: years of teaching
+    employment = models.CharField(max_length=20, blank=True, default='')  # teacher: full_time/part_time/tutor/freelance
     pradesh = models.CharField(max_length=100, blank=True, null=True)
     district = models.CharField(max_length=100, blank=True, null=True)
     school = models.CharField(max_length=200, blank=True, null=True)
@@ -2741,4 +2744,4 @@ class ResourceImpression(models.Model):
         unique_together = ('resource', 'day', 'source')
         indexes = [models.Index(fields=['day'], name='resimp_day_idx')]
 
-from .models_institutions import Institution, InstitutionVerification, InstitutionDocument  # noqa: E402,F401
+from .models_institutions import Institution, InstitutionVerification, InstitutionDocument, InstitutionProfile  # noqa: E402,F401

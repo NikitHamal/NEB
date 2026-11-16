@@ -178,3 +178,18 @@ class InstitutionDocument(models.Model):
     @property
     def is_image(self):
         return self.content_type.startswith('image/')
+
+
+class InstitutionProfile(models.Model):
+    """The portfolio of a claimed institution. `data` is validated by `api.institution_profile`;
+    `completeness` (0 to 100) is stored so lists can sort by it without reading JSON."""
+    institution = models.OneToOneField(Institution, on_delete=models.CASCADE, related_name='profile')
+    data = models.JSONField(default=dict, blank=True)
+    completeness = models.PositiveSmallIntegerField(default=0, db_index=True)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'institution_profiles'
+
+    def __str__(self):
+        return '%s (%d%%)' % (self.institution_id, self.completeness)

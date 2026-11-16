@@ -160,12 +160,14 @@ def onboarding_save(request):
     display_name = s('displayName', 150)
     if not display_name:
         return _fail('Add the name people will see.', 'displayName')
-    dob = s('dob', 10)
-    if _parse_dob(dob) is None:
-        return _fail('Pick a real date of birth.', 'dob')
-    gender = s('gender', 20)
-    if gender not in GENDERS:
-        return _fail('Pick one of the options.', 'gender')
+    dob, gender = '', ''
+    if role != 'institution':  # an institution has no date of birth or gender
+        dob = s('dob', 10)
+        if _parse_dob(dob) is None:
+            return _fail('Pick a real date of birth.', 'dob')
+        gender = s('gender', 20)
+        if gender not in GENDERS:
+            return _fail('Pick one of the options.', 'gender')
 
     username = s('username', 50)
     if username and username != db_user.username:
