@@ -51,21 +51,40 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
         if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@PwScrollPage }
         if (tracks.size <= 4) PwSeg(tracks.map { it.id to it.label }, track, { s.track = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 12.dp))
         else PwChipRow(tracks.map { it.id to it.label }, { it == track }, { s.track = it }, Modifier.padding(top = 8.dp, bottom = 12.dp))
-        PwChipRow((1..4).map { "$it" to EDU_LABELS[it] }, { it == "$edu" }, { vm.setNum("edu", it.toInt()) })
-        Row(Modifier.padding(16.dp, 4.dp, 16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Box(Modifier.weight(1f)) { PwSlider(age.toFloat(), { vm.setNum("age", it.roundToInt()) }, 14f..45f, 30, "Age $age") }
-            PwSeg(listOf(1 to "Woman", 0 to "Man"), if (woman) 1 else 0, { vm.setNum("woman", it) }, fill = false, height = 40.dp)
+        PwSurface(Modifier.padding(16.dp, 0.dp, 16.dp, 12.dp).fillMaxWidth(), radius = 28.dp) {
+            Column(Modifier.padding(0.dp, 14.dp, 0.dp, 14.dp)) {
+                Text("Eligibility is checked against your profile", Modifier.padding(start = 16.dp, bottom = 10.dp), fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                PwChipRow((1..4).map { "$it" to EDU_LABELS[it] }, { it == "$edu" }, { vm.setNum("edu", it.toInt()) }, inset = 14.dp)
+                Row(Modifier.padding(14.dp, 6.dp, 14.dp, 0.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Box(Modifier.weight(1f)) { PwSlider(age.toFloat(), { vm.setNum("age", it.roundToInt()) }, 14f..45f, 30, "Age $age") }
+                    PwSeg(listOf(1 to "Woman", 0 to "Man"), if (woman) 1 else 0, { vm.setNum("woman", it) }, fill = false, height = 40.dp)
+                }
+            }
         }
-        Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            d.govt.filter { it.track == track }.sortedBy { whyNot(it, edu, age, woman).isNotEmpty() }.forEachIndexed { gi, g ->
-                val why = whyNot(g, edu, age, woman)
-                val odds = oddsOf(g)
-                PwRow(
-                    g.name, why.ifEmpty { g.level.ifBlank { g.body } },
-                    odds?.text ?: if (g.fee > 0) npr(g.fee) else "",
-                    onClick = { nav.push("exam:${g.id}") }, dim = why.isNotEmpty(), strong = true, rise = gi,
+        var filter by rememberSaveable { mutableStateOf("all") }
+        var sort by rememberSaveable { mutableStateOf("soon") }
+        val now = remember { nowMonth() }
+        val all = remember(d, track, edu, age, woman) { d.govt.filter { it.track == track }.map { it to xStatus(it, edu, age, woman, now) } }
+        val prepMax = remember(d) { d.govt.maxOfOrNull { prepHoursOf(it) } ?: 1 }
+        Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            val ok = all.filter { it.second.kind != "no" }
+            val closing = ok.filter { it.second.kind == "open" && it.second.o == 1 && it.first.apply.size == 2 }.minByOrNull { (it.first.apply[1] - now + 12) % 12 }
+            val next = closing ?: ok.filter { it.second.o >= 1 }.minByOrNull { it.second.o } ?: ok.firstOrNull()
+            if (next != null) PwXNext(next.first, next.second, closing != null) { nav.push("exam:${next.first.id}") }
+            PwXYear(MONTHS.indices.map { i -> ok.count { it.first.apply.size == 2 && inWindow(it.first.apply[0], it.first.apply[1], i + 1) } }, now)
+            PwXSummary(all.count { it.second.kind == "open" }, all.count { it.second.kind == "soon" }, all.count { it.second.kind == "no" }, filter) { filter = it }
+            PwSeg(listOf("soon" to "Soonest", "odds" to "Best odds", "fee" to "Lowest fee"), sort, { sort = it })
+            val list = remember(all, filter, sort) {
+                all.filter { filter == "all" || it.second.kind == filter }.sortedWith(
+                    when (sort) {
+                        "odds" -> compareByDescending<Pair<PwGovt, PwXst>> { xOddsScore(it.first).takeIf { s -> s > 0f } ?: 0.5f }
+                        "fee" -> compareBy { it.first.fee }
+                        else -> compareBy { it.second.o }
+                    }
                 )
             }
+            if (list.isEmpty()) PwEmpty("Nothing here")
+            list.forEachIndexed { i, (g, st) -> PwXCard(g, st, prepMax, i) { nav.push("exam:${g.id}") } }
         }
     }
 }
