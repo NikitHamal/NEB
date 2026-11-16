@@ -34,10 +34,8 @@ internal fun PwData.guideTone(cat: String): Int = listOf(0, 4, 2, 1, 3, 5)[guide
 internal fun guideDone(vm: PathwaysViewModel, g: PwGuide): Int = g.steps.indices.count { vm.has("done", "${g.id}:$it") }
 
 @Composable
-internal fun PwGuides(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
-    val s = vm.sel
+internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     var cat by rememberSaveable { mutableStateOf("All") }
-    var topic by rememberSaveable { mutableStateOf("") }
     PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
         if (d.guides.isNotEmpty()) {
@@ -52,15 +50,7 @@ internal fun PwGuides(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
                 }
             }
         }
-        if (d.faq.isNotEmpty()) {
-            val topics = d.topics.filter { t -> d.faq.any { it.topic == t.id } }
-            val current = topics.firstOrNull { it.id == topic }?.id ?: d.faq.firstOrNull { it.id == s.faqOpen }?.topic ?: topics.firstOrNull()?.id.orEmpty()
-            PwH4("Questions", Modifier.padding(horizontal = 16.dp))
-            PwChipRow(topics.map { it.id to it.label }, { it == current }, { topic = it }, Modifier.padding(bottom = 12.dp))
-            Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                d.faq.filter { it.topic == current }.forEach { f -> FaqRow(d, f, vm, nav) }
-            }
-        }
+        if (d.faq.isNotEmpty()) PwQuestions(d, ui, vm, nav)
         if (d.guides.isEmpty() && d.faq.isEmpty()) PwEmpty("Guides are on the way")
     }
 }
@@ -76,25 +66,6 @@ private fun GuideCard(d: PwData, g: PwGuide, vm: PathwaysViewModel, modifier: Mo
             Row {
                 Text("${g.steps.size} steps", Modifier.weight(1f), color = tone.fg, fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold)
                 Text("${g.steps.sumOf { it.days }} days", color = tone.fg, fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold)
-            }
-        }
-    }
-}
-
-@Composable
-private fun FaqRow(d: PwData, f: PwFaq, vm: PathwaysViewModel, nav: PwNav) {
-    val s = vm.sel
-    val open = s.faqOpen == f.id
-    val c = MaterialTheme.colorScheme
-    PwSurface(Modifier.fillMaxWidth().animateContentSize(), color = if (open) c.surfaceContainer else c.surfaceContainerLow, radius = 22.dp, onClick = { s.faqOpen = if (open) "" else f.id }) {
-        Column(Modifier.padding(18.dp, 14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(f.q, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, lineHeight = 20.sp)
-            if (open) {
-                Text(f.a, fontSize = 14.sp, lineHeight = 21.sp, color = c.onSurfaceVariant)
-                val go = f.go.mapNotNull { d.routeById[it] }
-                if (go.isNotEmpty()) Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    go.take(3).forEach { r -> PwChip(r.name, false, { nav.push("route:${r.id}") }, height = 36.dp) }
-                }
             }
         }
     }

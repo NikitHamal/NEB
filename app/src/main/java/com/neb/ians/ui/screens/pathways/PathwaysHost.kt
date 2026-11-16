@@ -152,7 +152,7 @@ private fun PwDispatch(top: String, d: PwData, ui: PathwaysUiState, vm: Pathways
         "search" -> { PwSearch(d, vm, nav); true }
         "study" -> { PwStudy(d, ui, vm, nav); true }
         "exams" -> { PwExams(d, vm, nav); true }
-        "guides" -> { PwGuides(d, vm, nav); true }
+        "guides" -> { PwGuides(d, ui, vm, nav); true }
         "plan" -> { PwPlan(d, ui, vm, nav); true }
         "match" -> { PwMatchWizard(d, ui, vm, nav); true }
         else -> { PwExplore(d, vm, nav); true }

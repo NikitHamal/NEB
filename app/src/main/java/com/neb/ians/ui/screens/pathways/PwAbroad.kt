@@ -113,7 +113,7 @@ private fun VisaSteps(v: PwVisa, id: String) {
                     Text(s.name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
                     val meta = listOfNotNull(if (s.days > 0) "${s.days} ${if (s.days == 1) "day" else "days"}" else null, s.cost.ifBlank { null }, s.mode.ifBlank { null }).joinToString(" · ")
                     if (meta.isNotEmpty()) Text(meta, fontSize = 12.sp, color = c.onSurfaceVariant)
-                    if (s.note.isNotBlank()) Text(s.note, fontSize = 12.sp, color = c.onSurfaceVariant, lineHeight = 16.sp)
+                    if (s.note.isNotBlank()) PwLinkText(s.note, fontSize = 12.sp, lineHeight = 16.sp, color = c.onSurfaceVariant)
                 }
             }
         }

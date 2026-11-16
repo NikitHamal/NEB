@@ -125,7 +125,7 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
                         PwSteps(g.stages.map { Triple(it.name, it.detail, it.marks) })
                         if (g.note.isNotBlank()) {
                             Spacer(Modifier.height(12.dp))
-                            Text(g.note, fontSize = 13.sp, lineHeight = 19.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            PwLinkText(g.note, fontSize = 13.sp, lineHeight = 19.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }

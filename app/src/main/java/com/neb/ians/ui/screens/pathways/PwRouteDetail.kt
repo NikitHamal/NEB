@@ -87,7 +87,7 @@ private fun RouteOverview(r: PwRoute) {
     if (r.plan.isNotEmpty()) PwSteps(r.plan.map { Triple(it, "", "") })
     if (r.about.isNotBlank()) {
         PwH4("About")
-        Text(r.about, fontSize = 14.sp, lineHeight = 21.sp, color = c.onSurface)
+        PwLinkText(r.about, fontSize = 14.sp, lineHeight = 21.sp, color = c.onSurface)
     }
     if (r.skills.isNotEmpty()) {
         PwH4("Skills")

@@ -151,6 +151,7 @@ private fun MyPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: P
                 "route" -> d.routeById[id]?.let { Triple(it.name, "Course") { nav.push(k) } }
                 "career" -> d.careers[id]?.let { Triple(it.name, "Career") { nav.push(k) } }
                 "exam" -> d.govtById[id]?.let { Triple(it.name, "Exam") { nav.push(k) } }
+                "faq" -> d.faq.firstOrNull { it.id == id }?.let { f -> Triple(f.q, "Question") { vm.sel.faqOpen = f.id; nav.tab("guides") } }
                 else -> null
             }
         }

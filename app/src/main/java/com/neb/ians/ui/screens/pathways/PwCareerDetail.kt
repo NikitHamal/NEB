@@ -62,32 +62,21 @@ internal fun PwCareerDetail(d: PwData, k: PwCareer, ui: PathwaysUiState, vm: Pat
     var tab by rememberSaveable { mutableStateOf("pay") }
     var exp by rememberSaveable { mutableStateOf(3) }
     val ladder = k.ladder.ifEmpty { listOf("Entry", "Mid-level", "Senior", "Lead") }
-    val rungYears = ladder.indices.map { if (ladder.size == 1) 0 else it * 12 / (ladder.size - 1) }
-    val rung = rungYears.indexOfLast { it <= exp }.coerceAtLeast(0)
+    val starts = rungStarts(ladder.size)
+    val rung = starts.indexOfLast { it <= exp }.coerceAtLeast(0)
     val key = "career:${k.id}"
     PwScrollPage(32.dp) {
-        PwHero(tone, k.name, "NPR ${money(k.entryMin)}–${money(k.seniorMax)} / month", key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
+        PwHero(tone, k.name, "NPR ${money(k.entryMin)}\u2013${money(k.seniorMax)} / month", key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
             PwBadge(tone, 5) { PwSignal(pct(k.demand), tone.bg, 34.dp) }
         }
-        PwMeters(pct(k.demand), pct(k.competition), "NPR ${money(payAt(k, exp.toFloat()).toLong())}", "${if (exp == 0) "Entry" else "Year $exp"} · ${ladder[rung]}")
-        val tabs = buildList {
-            add("pay" to "Pay"); add("profile" to "Profile"); add("skills" to "Skills"); add("market" to "Market")
-        }
-        PwTabs(tabs, tab) { tab = it }
+        PwMeters(pct(k.demand), pct(k.competition), "NPR ${money(payAt(k, exp.toFloat()).toLong())}", "${if (exp == 0) "Entry" else "Year $exp"} \u00b7 ${ladder[rung]}")
+        PwTabs(listOf("pay" to "Pay", "profile" to "Profile", "skills" to "Skills", "market" to "Market"), tab) { tab = it }
         Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {
             when (tab) {
                 "profile" -> CareerProfile(d, k)
                 "skills" -> CareerSkills(d, k, vm, nav)
                 "market" -> CareerMarket(d, k, nav)
-                else -> {
-                    PwPayChart(k, exp, rungYears) { exp = it }
-                    Spacer(Modifier.height(12.dp))
-                    PwRungs(ladder, rungYears, rung) { exp = rungYears[it] }
-                    if (k.about.isNotBlank()) {
-                        PwH4("About")
-                        Text(k.about, fontSize = 15.sp, lineHeight = 23.sp)
-                    }
-                }
+                else -> PwPayLadder(k, ladder, exp) { exp = it }
             }
         }
     }
@@ -95,27 +84,16 @@ internal fun PwCareerDetail(d: PwData, k: PwCareer, ui: PathwaysUiState, vm: Pat
 
 @Composable
 private fun CareerProfile(d: PwData, k: PwCareer) {
-    val all = d.careers.values
-    fun axes(x: PwCareer): List<Pair<String, Float>> = buildList {
-        add("Pay" to ((x.seniorMin + x.seniorMax) / 2f / d.maxSenior * 100f).coerceIn(0f, 100f))
-        add("Demand" to pct(x.demand).toFloat())
-        add("Entry" to (100 - pct(x.competition)).toFloat())
-        add("Abroad" to pct(x.abroad).toFloat())
-        TRAITS.forEach { (t, label) -> if (t in k.traits) add(label to (x.traits[t] ?: 50).toFloat()) }
-    }
-    val mine = axes(k)
-    val avg = remember(d, k.id) {
-        val rows = all.map { axes(it) }
-        mine.indices.map { i -> rows.map { it[i].second }.average().toFloat() }
-    }
-    PwProfileChart(mine.map { it.first }, mine.map { it.second }, avg)
+    PwRadar(d, k)
     if (k.day.isNotEmpty()) {
         PwH4(if (k.hours > 0) "A ${k.hours}-hour week" else "A week")
         PwSplit(k.day)
     }
+    if (k.about.isNotBlank()) {
+        PwH4("About")
+        PwLinkText(k.about, fontSize = 15.sp, lineHeight = 23.sp)
+    }
 }
-
-private val TRAITS = listOf("stability" to "Stability", "flexibility" to "Flexibility", "growth" to "Growth")
 
 @Composable
 private fun CareerSkills(d: PwData, k: PwCareer, vm: PathwaysViewModel, nav: PwNav) {
@@ -145,14 +123,13 @@ private fun CareerSkills(d: PwData, k: PwCareer, vm: PathwaysViewModel, nav: PwN
 
 @Composable
 private fun CareerMarket(d: PwData, k: PwCareer, nav: PwNav) {
-    PwMarketBalance(k)
     if (k.history.size >= 3) {
         val year = remember { Calendar.getInstance().get(Calendar.YEAR) }
         PwH4("Demand, ${k.history.size} years")
-        PwTrendChart(k.history.map { pct(it).toFloat() }, year)
+        PwSpark(k.history.map { pct(it).toFloat() }, year)
     }
-    PwH4("Against other careers")
-    PwQuadrant(d, k) { nav.push("career:$it") }
+    PwH4("Your chances")
+    PwMarket(d, k, nav)
     if (k.jobs.isNotEmpty()) {
         PwH4("Where the jobs are")
         PwSplit(k.jobs)

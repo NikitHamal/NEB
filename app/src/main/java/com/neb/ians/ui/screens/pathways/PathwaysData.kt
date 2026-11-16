@@ -209,7 +209,7 @@ class PwSel {
     var faqOpen by mutableStateOf("")
 }
 
-private val SET_KEYS = listOf("done", "docs", "have", "interests", "strengths", "priorities")
+private val SET_KEYS = listOf("done", "docs", "have", "interests", "strengths", "priorities", "helpful")
 private val NUM_DEFAULTS = mapOf("age" to 17, "edu" to 2, "woman" to 0, "budget" to 15, "hours" to 3, "abroadBudget" to 60, "mstep" to 0, "mdone" to 0, "myears" to 0, "mrisk" to 1)
 
 @HiltViewModel

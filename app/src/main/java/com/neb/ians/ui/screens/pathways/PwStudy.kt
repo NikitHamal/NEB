@@ -129,7 +129,7 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
                         listOf("Covers" to x.covers, "Who" to x.who, "How" to x.how).filter { it.second.isNotBlank() }.forEach { (k, v) ->
                             Column {
                                 Text(k, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = c.onSurfaceVariant)
-                                Text(v, fontSize = 14.sp, lineHeight = 20.sp)
+                                PwLinkText(v, fontSize = 14.sp, lineHeight = 20.sp)
                             }
                         }
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
