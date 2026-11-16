@@ -292,9 +292,15 @@ def payload():
             cid = sc.get('country')
             if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
                 abroad_by[cid]['scholarships'].append(sc['id'])
+        providers = providers + w15['providers_add']
         by_provider = {x['id']: x for x in providers}
         for pid, more in w15['provider_update'].items():
             by_provider[pid].update(more)
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w15['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for rid, text in w15['route_about_add'].items():
+            route_by[rid]['about'] = ((route_by[rid].get('about') or '').rstrip() + ' ' + text).strip()
         govt = govt + w15['govt_add']
         by_govt = {g['id']: g for g in govt}
         for gid, text in w15['govt_note_add'].items():

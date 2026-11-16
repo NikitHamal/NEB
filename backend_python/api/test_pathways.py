@@ -600,3 +600,28 @@ class Wave15Tests(TestCase):
         text = json.dumps(pathways.payload()['faq'][-10:], ensure_ascii=False)
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+
+
+class Wave15bTests(TestCase):
+    """Wave 15b: ACCA learning partners, flying schools, MEXT window, extra FAQs."""
+
+    def test_acca_and_flying_schools_are_linked(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        route = {r['id']: r for r in d['routes']}
+        for pid in ('p-cca', 'p-nca', 'p-seed', 'p-tbc'):
+            self.assertIn(pid, route['acca-route']['where'])
+            self.assertEqual(by[pid]['district'], 'Kathmandu')
+            self.assertTrue(by[pid]['website'].startswith('https://'))
+        self.assertEqual(route['pilot-route']['where'], ['p-naa', 'p-haa', 'p-ofsn'])
+        self.assertEqual(by['p-ofsn']['district'], 'Morang')
+        self.assertIn('CAAN', route['pilot-route']['about'])
+
+    def test_mext_and_faqs(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertIn('31 May 2026', sch['s-mext']['how'])
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(11, 15):
+            self.assertIn('fw15-%d' % i, faq)
+        self.assertEqual(pathways.problems(d), [])

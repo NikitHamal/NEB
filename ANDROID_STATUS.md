@@ -898,6 +898,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 | 206 | **Two Health Service exams**: Staff Nurse (PCL Nursing and council registration, 100 / 100 / 30 mark stages) and Health Assistant, linked to their careers. | `w15_nepal.py` |
 | 207 | **2083/84 Lok Sewa dates** on Kharidar and Nayab Subba: pre qualifying tests for organised institutions on 3 and 4 Ashoj 2083, applications to 26 Shrawan 2083, next civil service round expected Baisakh 2084 (calendar summary). | `w15_nepal.py` |
 | 208 | **10 FAQs (fw15-1 to 10)**: NEB Grade 12 exams of 14 to 27 Baisakh 2083, SEE dates and the next SEE registration rule, pre qualifying test, Staff Nurse and Health Assistant, Romania cost and scholarship, Estonia, ETH, Cyprus, cheapest European countries. | `w15_nepal.py` |
+| 210 | **Wave 15b**: four ACCA learning partners (Certified College of Accountancy, NCA, Seed Financial Academy, The British College, each website fetched and naming its Kathmandu locality) linked to the ACCA route; three flying schools (Nepal Aviation Academy, Himalayan Aviation Academy, Orient Flight School Nepal) on the pilot route, which had no provider; MEXT window text (Nepal research deadline 31 May 2026 from a repost); FAQs fw15-11 to 14 (ACCA colleges, becoming a pilot, MEXT, spotting the real college website). Providers 443 to 450. | `w15_more.py` |
 | 209 | **Merge and checks**: `pathways.py` reads `wave15.json`; `Wave15Tests`. | `pathways.py`, `test_pathways.py` |
 
 ## Sources
