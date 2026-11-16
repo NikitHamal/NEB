@@ -92,10 +92,10 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
                 PwBadge(tone, 7) {
                     if (odds != null) {
                         if (odds.pre.isNotEmpty()) Text(odds.pre, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
-                        Text(odds.big, fontSize = 26.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
+                        Text(odds.big, fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 24.sp)
                         if (odds.post.isNotEmpty()) Text(odds.post, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                     } else {
-                        Text("${g.stages.size}", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
+                        Text("${g.stages.size}", fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 24.sp)
                         Text("stages", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                     }
                 }

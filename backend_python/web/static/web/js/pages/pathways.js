@@ -26,7 +26,8 @@ const S={view:'explore',stage:DEF.stage,stream:DEF.stream,course:DEF.course,care
   study:'nepal',cc:DEF.cc,prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
   xg:DEF.xg,exam:DEF.exam,edu:2,age:18,woman:'0',gcat:'All',guide:DEF.guide,done:new Set(),docs:new Set(),have:new Set(),
   plan:'plan',mi:new Set(),ms:null,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
-let lastKey='',freshT=0,lastWide=false;
+let lastKey='',freshT=0,lastWide=false;try{const o=JSON.parse(localStorage.getItem('pw-state')||'{}');['saved','done','docs','have'].forEach(k=>(o[k]||[]).forEach(v=>S[k].add(v)))}catch(e){}
+const persist=()=>{try{localStorage.setItem('pw-state',JSON.stringify({saved:[...S.saved],done:[...S.done],docs:[...S.docs],have:[...S.have]}))}catch(e){}};
 
 /* ============ HELPERS ============ */
 const $=(s,r=root)=>r.querySelector(s),$$=(s,r=root)=>[...r.querySelectorAll(s)];
@@ -391,5 +392,6 @@ new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}else draw
 new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}}).observe(root);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawLinks);
 render();
+root.addEventListener("click",()=>setTimeout(persist,0));
 }).catch(()=>fail("Pathways could not load. Check your connection and refresh."));
 })();

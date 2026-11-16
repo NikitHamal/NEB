@@ -109,7 +109,7 @@ internal fun PwGuideDetail(d: PwData, g: PwGuide, vm: PathwaysViewModel, ui: Pat
         PwScrollPage(if (g.link.isNotBlank()) 96.dp else 24.dp) {
             PwHero(tone, g.name, g.cat, key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 PwBadge(tone, 6) {
-                    Text("$done", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
+                    Text("$done", fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 24.sp)
                     Text("of ${g.steps.size}", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
             }

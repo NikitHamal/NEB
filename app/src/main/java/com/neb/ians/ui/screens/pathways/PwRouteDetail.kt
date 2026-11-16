@@ -44,7 +44,7 @@ import kotlin.math.roundToInt
 internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val m = d.m(r)
     val tone = pwTone(groupToneIndex(r.group))
-    var tab by rememberSaveable { mutableStateOf("overview") }
+    var tab by rememberSaveable { mutableStateOf("journey") }
     val nextRoute = r.next.firstNotNullOfOrNull { d.routeById[it] }
     val nextStage = nextRoute?.let { n -> d.stages.firstOrNull { it.id == n.stage } }
     Box(Modifier.fillMaxSize()) {
@@ -53,12 +53,12 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
             PwHero(tone, r.name, listOf(r.kind, groupLabel(r.group)).filter { it.isNotBlank() }.joinToString(" · "), key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
                 val (big, small) = yearsBadge(m.years)
                 PwBadge(tone, 8) {
-                    Text(big.ifEmpty { "${r.careers.size}" }, fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 28.sp)
+                    Text(big.ifEmpty { "${r.careers.size}" }, fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 24.sp)
                     Text(small.ifEmpty { "careers" }, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
             }
             PwMeters(m.demand, m.competition, if (m.payHi > 0) "${money(m.payLo)}–${money(m.payHi)}" else null, "NPR / month to start")
-            PwTabs(listOf("overview" to "Overview", "careers" to "Careers", "cost" to "Cost", "entry" to "Entry", "compare" to "Compare"), tab) { tab = it }
+            PwTabs(listOf("journey" to "Journey", "careers" to "Careers", "cost" to "Cost", "entry" to "Entry", "compare" to "Compare"), tab) { tab = it }
             Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {
                 when (tab) {
                     "careers" -> RouteCareers(d, r, nav)
@@ -84,10 +84,10 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
 @Composable
 private fun RouteOverview(r: PwRoute) {
     val c = MaterialTheme.colorScheme
-    if (r.about.isNotBlank()) Text(r.about, fontSize = 15.sp, lineHeight = 23.sp, color = c.onSurface)
-    if (r.plan.isNotEmpty()) {
-        PwH4("Journey")
-        PwSteps(r.plan.map { Triple(it, "", "") })
+    if (r.plan.isNotEmpty()) PwSteps(r.plan.map { Triple(it, "", "") })
+    if (r.about.isNotBlank()) {
+        PwH4("About")
+        Text(r.about, fontSize = 14.sp, lineHeight = 21.sp, color = c.onSurface)
     }
     if (r.skills.isNotEmpty()) {
         PwH4("Skills")

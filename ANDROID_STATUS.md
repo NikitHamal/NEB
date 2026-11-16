@@ -949,3 +949,34 @@ Listed at the top of each `w16_*.py`: ICAN (official page), University of Oslo (
 - Scholarships for Georgia, Bangladesh, Kyrgyzstan, the Philippines and Cyprus; Uzbekistan official work rules; official Nepal Medical Council list of recognised foreign medical schools.
 - Websites for about 212 providers that still have none; per college CTEVT fees; Lincoln School and The British School websites (the two guessed domains did not load).
 - Remaining thin notes: China, India, Turkey, Russia, Singapore, Italy, Taiwan, France, Belgium, Thailand, UAE, Austria, Poland, Spain.
+
+
+---
+
+# Session 37: Pathways concept v2 (`NEBians-Pathways.html`), web rebuilt, Android aligned
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`build-release.yml`, `backend-tests.yml`). Picked up sessions 21 to 36: the Android Explore / Study / Exams / Guides / Plan structure, the icon-only Pathways nav and the clean "lines only for the selection" map are **kept**. Data is the same `/api/pathways/` payload; `docs/PATHWAYS_SCHEMA.md` is unchanged. The uploaded `NEBians-Pathways.html` is the contract for everything else.
+
+## What the new concept changed (read against the old port)
+Weight 600 everywhere (no bold or extra bold), smaller titles (brand 21, hero 25, big number 30, ring 17), Poppins; a pill thumb slider on a 16dp tonal track; province tile map for colleges with a fee slider and Fee / Seats sort; abroad as budget rows (tuition and living on one bar, a tick for the budget); funding with the month strip and covers chips; everything that lists rises in (fade, lift 14dp, 95% to 100% on a spring, 40ms stagger); stage chip pops when picked.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 220 | **Android typography and motion to the concept.** `ExtraBold` and `Bold` became `SemiBold` across `ui/screens/pathways`; root bar 21sp, hero 25sp, big number 30sp, big line 20sp, pay tile 17sp, badge numbers 22sp. `pwRise(index)` (first 15 rows only, long lists skip it) on exam rows, steps, guide cards, college, country and scholarship rows. Stage chip is 38dp, shows the long label when picked and pops on a spring. | `PwTheme.kt`, `PwExplore.kt`, `PwExams.kt`, `PwGuides.kt`, `PwRouteDetail.kt` |
+| 221 | **M3E slider**: 14x44 pill thumb with a 4dp page-coloured gap on a 16dp `primaryContainer` track (one slider for age, budget, fee, aid, hours). | `PwSlider` in `PwTheme.kt` |
+| 222 | **Colleges**: province tile map (Sudurpashchim, Karnali, Gandaki, Bagmati, Koshi, Lumbini, Madhesh in the concept grid, count over name, picked tile fills and rounds), fee slider from the real fee range of the course, Fee / Seats sort, district chips, rows with sector tag and fee bar, 30 rows then "Show more". The Nepal map files stay in the tree but are no longer used by Study. | `PwColleges.kt` |
+| 223 | **Abroad**: budget slider 5 to 60 lakh, legend, one row per country sorted by yearly cost, bar for tuition and living with the budget tick, "Within budget" or "over budget" pill, visa approval, expand for work hours, stay-back, tests, intake strip, Visa steps and Scholarships chips. Over-budget rows fade to 60%. | `PwAbroad.kt` |
+| 224 | **Funding**: country code tag, month strip colours as in the concept (closed windows use the tonal container), Tuition / Stipend / Flights chips from the `covers` text. | `PwStudy.kt` |
+| 225 | **Course screen** first tab is Journey (steps first, About and Skills under). | `PwRouteDetail.kt` |
+| 226 | **Web Pathways is the concept**, on the real payload. `pathways.css` is the concept CSS scoped under `.pwx` (container query decides phone or web layout, keyframes renamed `pwx-*`), `pathways.js` is the concept engine with the demo data block replaced, `pathways-data.js` turns the payload into the concept shapes (courses, careers, exams, guides, colleges, countries, scholarships). Missing fields hide their block instead of being invented (no day split, jobs, traits, history, ladder or quota means no chart). Saved, done steps, documents and skills are kept in `localStorage` (`pw-state`). The old level, map, lab and more scripts are deleted. | `backend_python/web/static/web/js/pages/pathways*.js`, `css/pages/pathways.css`, `templates/web/pathways.html` |
+
+## Rules
+- Web `pathways.js` body is generated from the concept: change the HTML first, then port, and keep the patches (stage list, exam tracks, guide categories, college fees) in step with `PwDerive.kt`.
+- The web explore map draws a line only for the selected course or career, like Android.
+- Colleges fee is the top of the provider fee range for the course, in lakh, on both apps.
+
+## Next
+- Android: Match screen still has the extra "I care about" row; concept has enjoy, strong in and budget only. Compare on device with the concept at 390 wide.
+- Web: browser pass at 390 and 1280 wide (sheet beside the list, nav rail), dark theme.
