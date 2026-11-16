@@ -14,10 +14,41 @@ a changed file is a new URL. That is what makes `Cache-Control: immutable`
 safe in `nebians.static_headers.static_cache_headers`.
 """
 from django.conf import settings
+import whitenoise.storage as _whitenoise_storage
 from whitenoise.storage import CompressedStaticFilesStorage
 
 from nebians import minify
 from nebians.static_headers import IMMUTABLE_EXT, static_cache_headers  # noqa: F401
+
+# collectstatic's compression pass runs in a ThreadPoolExecutor, and whitenoise
+# 6.12 sizes it with the ThreadPoolExecutor default: min(32, cpu_count + 4),
+# which is 32 threads on the live box's 80 cores. That box is shared cPanel with
+# a tight per-account LVE thread budget, and daphne alone holds ~64 threads, so
+# the pool pushed the account over the cap:
+#
+#   RuntimeError: can't start new thread
+#
+# raised from inside post_process, after part of the static tree had already
+# been rewritten (2026-11-16). Capping the pool keeps collectstatic inside the
+# budget. Compression is a per-file, I/O-shaped job, so a handful of workers is
+# no slower here in practice.
+_MAX_POST_PROCESS_WORKERS = 4
+
+
+def _bounded_executor(*args, **kwargs):
+    """ThreadPoolExecutor with a pool small enough for the LVE thread budget."""
+    kwargs.setdefault(
+        'max_workers',
+        getattr(settings, 'STATIC_POST_PROCESS_WORKERS', _MAX_POST_PROCESS_WORKERS),
+    )
+    from concurrent.futures import ThreadPoolExecutor
+
+    return ThreadPoolExecutor(*args, **kwargs)
+
+
+# whitenoise.storage looks the name up in its own module globals, so replacing
+# the attribute here is enough to bound the pool it builds.
+_whitenoise_storage.ThreadPoolExecutor = _bounded_executor
 
 
 class VersionedStaticFilesStorage(CompressedStaticFilesStorage):
