@@ -196,6 +196,7 @@ fun PlaceStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
 fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val palette = LocalNebAuthPalette.current
     var showRegistered by remember { mutableStateOf(false) }
+    var showCatalogue by remember { mutableStateOf(false) }
     val isInstitution = state.role == "institution"
     val registeredNames = remember(state.institutions) { state.institutions.map { it.displayName } }
 
@@ -240,6 +241,13 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             imeAction = ImeAction.Done
         )
 
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Not typing it out?", style = NebAuthType.Caption, color = palette.inkMuted)
+            Spacer(modifier = Modifier.width(2.dp))
+            NebTextLink(text = "Search 24,000+ institutions", onClick = { showCatalogue = true })
+        }
+
         if (registeredNames.isNotEmpty()) {
             Spacer(modifier = Modifier.height(12.dp))
             Row(
@@ -258,6 +266,14 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
                 )
             }
         }
+    }
+
+    if (showCatalogue) {
+        com.neb.ians.ui.components.SchoolSearchSheet(
+            title = if (isInstitution) "Which institution is this?" else "Find your school",
+            onPick = { row -> viewModel.onSchoolPicked(row); showCatalogue = false },
+            onDismiss = { showCatalogue = false }
+        )
     }
 
     if (showRegistered) {

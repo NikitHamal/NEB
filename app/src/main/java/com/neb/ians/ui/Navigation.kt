@@ -212,6 +212,9 @@ sealed class Screen(val route: String) {
         fun createRoute(url: String) = "web_portal/${java.net.URLEncoder.encode(url, "UTF-8")}"
     }
     data object Pathways : Screen("pathways")
+    data object Schools : Screen("schools")
+    data object Institution : Screen("institution/{slug}") { fun createRoute(slug: String) = "institution/$slug" }
+    data object InstitutionManage : Screen("institution_manage/{slug}") { fun createRoute(slug: String) = "institution_manage/$slug" }
     data object PostLab : Screen("forum/lab")
     data object Legal : Screen("legal/{doc}") {
         fun createRoute(doc: String) = "legal/$doc"
@@ -744,7 +747,34 @@ fun NEBiansNavHost(
                 )
             }
             composable(Screen.Pathways.route) {
-                PathwaysScreen(onNavigateBack = { navController.popBackStack() })
+                androidx.compose.runtime.CompositionLocalProvider(
+                    com.neb.ians.ui.screens.institutions.LocalOpenSchools provides { navController.navigate(Screen.Schools.route) }
+                ) { PathwaysScreen(onNavigateBack = { navController.popBackStack() }) }
+            }
+            composable(Screen.Schools.route) {
+                com.neb.ians.ui.screens.institutions.SchoolsScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpen = { navController.navigate(Screen.Institution.createRoute(it)) }
+                )
+            }
+            composable(
+                route = Screen.Institution.route,
+                arguments = listOf(navArgument("slug") { type = NavType.StringType })
+            ) { entry ->
+                com.neb.ians.ui.screens.institutions.InstitutionScreen(
+                    slug = entry.arguments?.getString("slug").orEmpty(),
+                    onBack = { navController.popBackStack() },
+                    onManage = { navController.navigate(Screen.InstitutionManage.createRoute(it)) }
+                )
+            }
+            composable(
+                route = Screen.InstitutionManage.route,
+                arguments = listOf(navArgument("slug") { type = NavType.StringType })
+            ) { entry ->
+                com.neb.ians.ui.screens.institutions.InstitutionManageScreen(
+                    slug = entry.arguments?.getString("slug").orEmpty(),
+                    onBack = { navController.popBackStack() }
+                )
             }
             composable(Screen.PostLab.route) {
                 DynamicPostsLabScreen(onNavigateBack = { navController.popBackStack() })
@@ -898,9 +928,14 @@ fun NEBiansNavHost(
                 )
             }
             composable(Screen.EditProfile.route) {
-                EditProfileScreen(
-                    onNavigateBack = { navController.popBackStack() }
-                )
+                androidx.compose.runtime.CompositionLocalProvider(
+                    com.neb.ians.ui.screens.institutions.LocalOpenSchools provides { navController.navigate(Screen.Schools.route) },
+                    com.neb.ians.ui.screens.institutions.LocalManageInstitution provides { navController.navigate(Screen.InstitutionManage.createRoute(it)) }
+                ) {
+                    EditProfileScreen(
+                        onNavigateBack = { navController.popBackStack() }
+                    )
+                }
             }
             composable(
                 route = Screen.Legal.route,

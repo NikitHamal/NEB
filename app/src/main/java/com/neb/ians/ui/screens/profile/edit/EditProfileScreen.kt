@@ -127,11 +127,14 @@ fun EditProfileScreen(
                     displayNameServerError = displayNameServerError
                 )
                 EditRoleSection(state = uiState, viewModel = viewModel)
-                EditPersonalSection(
-                    state = uiState,
-                    viewModel = viewModel,
-                    dobServerError = dobServerError
-                )
+                if (uiState.role != "institution") {
+                    EditPersonalSection(
+                        state = uiState,
+                        viewModel = viewModel,
+                        dobServerError = dobServerError
+                    )
+                }
+                EditPortfolioSection(state = uiState, viewModel = viewModel)
                 EditStudiesSection(state = uiState, viewModel = viewModel)
                 EditPlaceSection(state = uiState, viewModel = viewModel)
                 EditLinksSection(state = uiState, viewModel = viewModel)
@@ -181,7 +184,7 @@ private fun isProfileValid(state: CompleteProfileUiState): Boolean =
         state.usernameAvailable != false &&
         state.usernameError == null &&
         state.displayName.isNotBlank() &&
-        state.dob.isNotBlank() &&
+        (state.role == "institution" || state.dob.isNotBlank()) &&
         (state.role != "student" || state.classLevel.isNotBlank()) &&
         (state.role != "teacher" || state.teachingSubjects.isNotEmpty()) &&
         (state.role != "institution" || state.school.isNotBlank())

@@ -56,6 +56,14 @@ data class CompleteProfileUiState(
     val photoBusy: Boolean = false,
     val socialLinks: List<ApiSocialLink> = emptyList(),
     val schoolUsername: String = "",
+    val schoolSlug: String = "",
+    val headline: String = "",
+    val skills: List<String> = emptyList(),
+    val openTo: List<String> = emptyList(),
+    val teachLevels: List<String> = emptyList(),
+    val experienceYears: String = "",
+    val employment: String = "",
+    val portfolioLoaded: Boolean = false,
     val institutions: List<com.neb.ians.data.api.ApiInstitution> = emptyList()
 )
 
@@ -110,6 +118,7 @@ class CompleteProfileViewModel @Inject constructor(
                 fetchInstitutions()
                 if (isCompleted) {
                     fetchSocialLinks()
+                    fetchPortfolioFields(cached.username)
                 }
             }
         }
@@ -352,8 +361,8 @@ class CompleteProfileViewModel @Inject constructor(
                 email = state.email.ifBlank { cachedUser?.email },
                 photoUrl = state.photoUrl.ifBlank { cachedUser?.photoUrl },
                 displayName = state.displayName.ifBlank { cachedUser?.displayName ?: state.email.substringBefore("@") },
-                dob = state.dob,
-                gender = state.gender,
+                dob = if (state.role == "institution") "" else state.dob,
+                gender = if (state.role == "institution") "" else state.gender,
                 role = state.role,
                 classLevel = state.classLevel,
                 subjects = state.subjects.joinToString(","),
@@ -363,6 +372,14 @@ class CompleteProfileViewModel @Inject constructor(
                 district = state.district,
                 school = state.school,
                 schoolUsername = state.schoolUsername,
+                schoolSlug = state.schoolSlug.ifBlank { null },
+                // Only sent once read (or for a new account), so an edit never blanks what it never saw.
+                headline = state.headline.takeIf { !state.isEditing || state.portfolioLoaded },
+                skills = state.skills.joinToString(",").takeIf { !state.isEditing || state.portfolioLoaded },
+                openTo = state.openTo.joinToString(",").takeIf { !state.isEditing || state.portfolioLoaded },
+                teachLevels = state.teachLevels.joinToString(",").takeIf { !state.isEditing || state.portfolioLoaded },
+                experienceYears = state.experienceYears.toIntOrNull(),
+                employment = state.employment.takeIf { !state.isEditing || state.portfolioLoaded },
                 isLocked = state.isLocked,
                 bannerUrl = "",
                 bio = state.bio
@@ -452,8 +469,47 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isEditing = editing) }
     }
 
+    private fun csv(value: String?) = value?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+
+    /** The portfolio header and teacher fields are not in the cached profile; read them once. */
+    private fun fetchPortfolioFields(username: String) {
+        viewModelScope.launch {
+            val p = runCatching { apiService.getProfile(authRepository.getBearerToken(), username) }.getOrNull() ?: return@launch
+            _uiState.update {
+                it.copy(
+                    headline = p.headline.orEmpty(), skills = csv(p.skills), openTo = csv(p.openTo),
+                    teachLevels = csv(p.teachLevels), experienceYears = if (p.experienceYears > 0) p.experienceYears.toString() else "",
+                    employment = p.employment.orEmpty(), portfolioLoaded = true,
+                    schoolSlug = p.schoolSlug.orEmpty()
+                )
+            }
+        }
+    }
+
+    fun onHeadlineChange(v: String) = _uiState.update { it.copy(headline = v.take(120)) }
+    fun onExperienceChange(v: String) = _uiState.update { it.copy(experienceYears = v.filter(Char::isDigit).take(2)) }
+    fun onEmploymentChange(v: String) = _uiState.update { it.copy(employment = if (it.employment == v) "" else v) }
+    fun toggleSkill(v: String) = _uiState.update { it.copy(skills = if (v in it.skills) it.skills - v else (it.skills + v).take(15)) }
+    fun toggleOpenTo(v: String) = _uiState.update { it.copy(openTo = if (v in it.openTo) it.openTo - v else it.openTo + v) }
+    fun toggleTeachLevel(v: String) = _uiState.update { it.copy(teachLevels = if (v in it.teachLevels) it.teachLevels - v else it.teachLevels + v) }
+
     fun onSchoolChange(schoolName: String, username: String = "") {
-        _uiState.update { it.copy(school = schoolName, schoolUsername = username) }
+        _uiState.update { it.copy(school = schoolName, schoolUsername = username, schoolSlug = "") }
+    }
+
+    /** A school picked from the catalogue: its slug is what the school page counts people by. */
+    fun onSchoolPicked(row: com.neb.ians.data.api.ApiInstRow) {
+        _uiState.update {
+            it.copy(
+                school = row.name,
+                schoolSlug = row.slug,
+                schoolUsername = row.username,
+                institutionType = if (it.role == "institution") {
+                    when (row.kind) { "school" -> "school"; "college", "university" -> "college"; else -> "other" }
+                } else it.institutionType,
+                district = if (it.district.isBlank() && row.district.isNotBlank()) row.district else it.district
+            )
+        }
     }
 
     fun fetchInstitutions() {

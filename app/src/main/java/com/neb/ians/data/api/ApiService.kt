@@ -100,7 +100,14 @@ data class UserProfileRequest(
     @SerialName("school_username") val schoolUsername: String? = null,
     @SerialName("is_locked") val isLocked: Boolean? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
-    val bio: String? = null
+    val bio: String? = null,
+    @SerialName("school_slug") val schoolSlug: String? = null,
+    val headline: String? = null,
+    val skills: String? = null,
+    @SerialName("open_to") val openTo: String? = null,
+    @SerialName("teach_levels") val teachLevels: String? = null,
+    @SerialName("experience_years") val experienceYears: Int? = null,
+    val employment: String? = null
 )
 
 @Serializable
@@ -429,6 +436,14 @@ data class UserProfileResponse(
     val district: String? = null,
     val school: String? = null,
     @SerialName("school_username") val schoolUsername: String? = null,
+    @SerialName("school_slug") val schoolSlug: String? = null,
+    val headline: String? = null,
+    val skills: String? = null,
+    @SerialName("open_to") val openTo: String? = null,
+    @SerialName("teach_levels") val teachLevels: String? = null,
+    @SerialName("experience_years") val experienceYears: Int = 0,
+    val employment: String? = null,
+    @SerialName("edu_status") val eduStatus: String? = null,
     val bio: String? = null,
     @SerialName("is_locked") val isLocked: Int = 0,
     @SerialName("created_at") val createdAt: Long = 0,
@@ -1942,6 +1957,39 @@ interface ApiService {
 
     @GET("api/users/institutions/")
     suspend fun getInstitutions(): ApiInstitutionsResponse
+
+    // The 24k school, college and institute catalogue, claimed pages first.
+    @GET("api/institutions/")
+    suspend fun searchInstitutions(
+        @Query("q") q: String = "",
+        @Query("kind") kind: String = "",
+        @Query("district") district: String = "",
+        @Query("verified") verified: String = "",
+        @Query("limit") limit: Int = 30,
+        @Query("offset") offset: Int = 0
+    ): ApiInstSearch
+
+    @GET("api/institutions/schema/")
+    suspend fun institutionSchema(): ApiInstSchema
+
+    @GET("api/institutions/mine/")
+    suspend fun myInstitution(@Header("Authorization") bearerToken: String): ApiMyInstitution
+
+    @GET("api/institutions/{slug}/")
+    suspend fun institutionDetail(
+        @Header("Authorization") bearerToken: String?,
+        @Path("slug") slug: String
+    ): ApiInstDetail
+
+    @PATCH("api/institutions/{slug}/profile/")
+    suspend fun updateInstitutionProfile(
+        @Header("Authorization") bearerToken: String,
+        @Path("slug") slug: String,
+        @Body body: kotlinx.serialization.json.JsonObject
+    ): ApiInstSave
+
+    @GET("api/pathways/on-neb/")
+    suspend fun pathwaysOnNeb(): ApiOnNeb
 
     // --- Marketplace: creator storefronts, courses and the seller dashboard ---
     @GET("api/marketplace/creators/")

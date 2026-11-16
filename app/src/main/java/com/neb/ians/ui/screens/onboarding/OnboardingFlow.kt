@@ -99,8 +99,11 @@ fun stepsForRole(role: String): List<OnboardingStep> = buildList {
     add(OnboardingStep.Role)
     add(OnboardingStep.Name)
     add(OnboardingStep.Handle)
-    add(OnboardingStep.Birthday)
-    add(OnboardingStep.Gender)
+    // An institution is not a person: no date of birth, no gender.
+    if (role != "institution") {
+        add(OnboardingStep.Birthday)
+        add(OnboardingStep.Gender)
+    }
     when (role) {
         "student", "teacher" -> {
             add(OnboardingStep.Level)
