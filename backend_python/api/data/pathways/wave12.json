@@ -1,0 +1,1827 @@
+{
+ "providers_add": [
+  {
+   "id": "p-w12-damak-pi",
+   "name": "Damak Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Jhapa",
+   "place": "Damak",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-rkb-pi",
+   "name": "Ratna Kumar Bantawa Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Ilam",
+   "place": "Ilam",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Animal) 4, Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-uttarpani",
+   "name": "Uttarpani Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Dhankuta",
+   "place": "Dhankuta",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-bp-memorial",
+   "name": "B.P. Memorial Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Dhanusha",
+   "place": "Sapahi",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Electrical 5, Agriculture (Plant) 4, Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-balara",
+   "name": "Balara Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Sarlahi",
+   "place": "Balara",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-jaykisan",
+   "name": "Jaykisan Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Rautahat",
+   "place": "Dharhari",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, IT 5, Agriculture (Plant) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-lahan-ti",
+   "name": "Lahan Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Siraha",
+   "place": "Lahan",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Mechanical 5, Agriculture (Plant) 4, Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-prasauni",
+   "name": "Prasauni Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Bara",
+   "place": "Prasauni",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Electrical 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-alpamai",
+   "name": "Sant Alpamai Ra.Na.Ya. Nursing College",
+   "kind": "Institute",
+   "sector": "Community",
+   "district": "Sarlahi",
+   "place": "Sarlahi",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are General Medicine 4, Pharmacy 4, Nursing 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-bharatpur-pi",
+   "name": "Bharatpur Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Hotel Management 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-dhading-pi",
+   "name": "Dhading Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Dhading",
+   "place": "Dhading",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4, Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-diwakar-pi",
+   "name": "Diwakar Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Chitwan",
+   "place": "Chitwan",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Agriculture (Plant) 4, General Medicine 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-mahalaxmi-pi",
+   "name": "Mahalaxmi Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Lalitpur",
+   "place": "Mahalaxmi",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are IT 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-narayani-pi",
+   "name": "Narayani Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Chitwan",
+   "place": "Chitwan",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Automobile 3, Electrical 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-banepa-pi",
+   "name": "Nepal Banepa Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kavrepalanchok",
+   "place": "Banepa",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are IT 5, Hotel Management 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-nepal-bharat",
+   "name": "Nepal-Bharat Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are IT 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-panauti-ti",
+   "name": "Panauti Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kavrepalanchok",
+   "place": "Panauti",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Automobile 3. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-ramechhap-pi",
+   "name": "Ramechhap Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Ramechhap",
+   "place": "Ramechhap",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4, Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-shankharapur",
+   "name": "Shankharapur Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Sankhu",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-nilkantha-pi",
+   "name": "Nilkantha Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Dhading",
+   "place": "Dhading",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are IT 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-rainas-pi",
+   "name": "Rainas Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Lamjung",
+   "place": "Rainas",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-pokhara-ti",
+   "name": "Pokhara Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Hotel Management 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-kisan-pi",
+   "name": "Kisan Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Syangja",
+   "place": "Chapakot",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, IT 5, Agriculture (Plant) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-kaligandaki-pi",
+   "name": "Kaligandaki Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Tanahu",
+   "place": "Tanahun",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Hotel Management 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-aandhikhola-pi",
+   "name": "Aandhikhola Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Syangja",
+   "place": "Waling",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are IT 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-barpak-pi",
+   "name": "Barpak Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Gorkha",
+   "place": "Barpak",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-annapurna-pi",
+   "name": "Annapurna Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Kaski",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-korea-nepal",
+   "name": "Korea-Nepal Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Rupandehi",
+   "place": "Rupandehi",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Mechanical 5, IT 5, Automobile 5, Electrical and Electronics 5, Refrigeration and AC 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-rapti-ti",
+   "name": "Rapti Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Dang",
+   "place": "Dang",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4, Agriculture (Animal) 4, Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-bheri-ti",
+   "name": "Bheri Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Electrical 5, Mechanical 3, Pharmacy 4, Radiography 3. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-sks-ichhuk",
+   "name": "Shahid Krishna Sen Ichhuk Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Dang",
+   "place": "Dang",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Pharmacy 4, Radiography 3. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-karnali-ti",
+   "name": "Karnali Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Jumla",
+   "place": "Jumla",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Agriculture (Plant) 4, Agriculture (Animal) 4, Pharmacy 4, Forestry 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-netralal-pi",
+   "name": "Shahid Netralal Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Salyan",
+   "place": "Salyan",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-jajarkot-pi",
+   "name": "Jajarkot Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Jajarkot",
+   "place": "Jajarkot",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-gurbhakot-pi",
+   "name": "Gurbhakot Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Surkhet",
+   "place": "Gurbhakot",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Nursing 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-tikapur-pi",
+   "name": "Tikapur Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kailali",
+   "place": "Tikapur",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-seti-ti",
+   "name": "Seti Technical Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Doti",
+   "place": "Doti",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Agriculture (Animal) 4, Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-shuklaphanta-pi",
+   "name": "Shuklaphanta Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Kanchanpur",
+   "place": "Kanchanpur",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-mangalsen-pi",
+   "name": "Mangalsen Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Achham",
+   "place": "Mangalsen",
+   "website": "",
+   "note": "CTEVT constituent or partnership institute. CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are General Medicine 4, Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only."
+  },
+  {
+   "id": "p-w12-ce-puspa-dhirendra-smriti-pratisthan",
+   "name": "Puspa Dhirendra Smriti Pratisthan",
+   "kind": "Institute",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "Damak",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Partnership).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-sahid-smriti-pratisthan",
+   "name": "Sahid Smriti Pratisthan",
+   "kind": "Institute",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "Birtamod",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Partnership).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-adarsha-secondary-school",
+   "name": "Adarsha Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-chautara-secondary-school",
+   "name": "Chautara Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Okhaldhunga",
+   "place": "Dandakharka",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-shree-secondary-school--amsal",
+   "name": "Shree Secondary School, Amsal",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Udayapur",
+   "place": "Amsal",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-golden-park-college",
+   "name": "Golden Park College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-sunsari-technical-college",
+   "name": "Sunsari Technical College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Dharan",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-sushma-koirala-memorial-engineering-college",
+   "name": "Sushma Koirala Memorial Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-hanuman-nagar-polytechnic-institute",
+   "name": "Hanuman Nagar Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Community",
+   "district": "Saptari",
+   "place": "Kankalini",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Partnership).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-durga-secondary-school--manara",
+   "name": "Durga Secondary School, Manara",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Mahottari",
+   "place": "Manara",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-jaldhar-kamaldev-model-secondary-school",
+   "name": "Jaldhar Kamaldev Model Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Sarlahi",
+   "place": "Brahmapuri",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-janata-secondary-school--dandatol",
+   "name": "Janata Secondary School, Dandatol",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Mahottari",
+   "place": "Dandatol",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-janata-secondary-school--madai-ugreepatti",
+   "name": "Janata Secondary School, Madai Ugreepatti",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Mahottari",
+   "place": "Madai",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-janjyoti-secondary-school--lalbandi",
+   "name": "Janjyoti Secondary School, Lalbandi",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Sarlahi",
+   "place": "Lalbandi",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-janta-secondary-school--tinkoni",
+   "name": "Janta Secondary School, Tinkoni",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Siraha",
+   "place": "Tinkoni",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-nepal-rastriya-secondary-school--kawahi-jaggat",
+   "name": "Nepal Rastriya Secondary School, Kawahi Jaggat",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Bara",
+   "place": "Kawahi Jaggat",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-saraswati-secondary-school--sabaila",
+   "name": "Saraswati Secondary School, Sabaila",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Dhanusha",
+   "place": "Sabaila",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-sarwajanik-secondary-school--nijgadh",
+   "name": "Sarwajanik Secondary School, Nijgadh",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Bara",
+   "place": "Nijgadh",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-birgunj-institute-of-technology",
+   "name": "Birgunj Institute of Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-madhyamanchal-regional-engineering-college",
+   "name": "Madhyamanchal Regional Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-national-people-engineering-college",
+   "name": "National People Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Saptari",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-neelarjun-education-consortium",
+   "name": "Neelarjun Education Consortium",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-softech-engineering-college",
+   "name": "Softech Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Rajbiraj",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-the-himal-institute-of-health-and-technical-scie",
+   "name": "The Himal Institute of Health and Technical Science",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-budhanilkantha-secondary-school",
+   "name": "Budhanilkantha Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Budhanilkantha",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-siddhababa-secondary-school",
+   "name": "Siddhababa Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Sindhuli",
+   "place": "Panityanki",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-n-p-i--college-of-technical-science",
+   "name": "N.P.I. College of Technical Science",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-oxford-advance-engineering-college",
+   "name": "Oxford Advance Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sitapaila",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-dhaulagiri-deaf-residential-school",
+   "name": "Dhaulagiri Deaf Residential School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Baglung",
+   "place": "Baglung",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-siddhartha-secondary-school--phedikhola",
+   "name": "Siddhartha Secondary School, Phedikhola",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Syangja",
+   "place": "Phedikhola",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-tribhuvan-secondary-school--kohalpur",
+   "name": "Tribhuvan Secondary School, Kohalpur",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Banke",
+   "place": "Kohalpur",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-rastriya-secondary-school--chandrauta",
+   "name": "Rastriya Secondary School, Chandrauta",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Kapilvastu",
+   "place": "Chandrauta",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-rupandehi-lilaram-neupane-secondary-school",
+   "name": "Rupandehi Lilaram Neupane Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Rupandehi",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-nepalgunj-technical-college",
+   "name": "Nepalgunj Technical College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-rapti-engineering-college",
+   "name": "Rapti Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dang",
+   "place": "Ghorahi",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-lumbini-engineering-college",
+   "name": "Lumbini Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Butwal",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-panchkoshi-polytechnic-institute",
+   "name": "Panchkoshi Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Community",
+   "district": "Dailekh",
+   "place": "Dullu",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Partnership).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-saraswati-secondary-school--pachal",
+   "name": "Saraswati Secondary School, Pachal",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Kalikot",
+   "place": "Pachaljharana",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-nepal-rastriya-secondary-school--birendranagar",
+   "name": "Nepal Rastriya Secondary School, Birendranagar",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Surkhet",
+   "place": "Birendranagar",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-chandannath-prabidhik-shikshalaya",
+   "name": "Chandannath Prabidhik Shikshalaya",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Surkhet",
+   "place": "Birendranagar",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+   "seats": 48
+  },
+  {
+   "id": "p-w12-ce-sharada-secondary-school",
+   "name": "Sharada Secondary School",
+   "kind": "School",
+   "sector": "Community",
+   "district": "Kailali",
+   "place": "Dhangadhi",
+   "website": "",
+   "note": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (TECS).",
+   "seats": 48
+  }
+ ],
+ "where_add": {
+  "dip-civil-eng": [
+   "p-w12-damak-pi",
+   "p-w12-bp-memorial",
+   "p-w12-balara",
+   "p-w12-jaykisan",
+   "p-w12-lahan-ti",
+   "p-bardibas-mahottari",
+   "p-bset",
+   "p-w12-diwakar-pi",
+   "p-jiri-tech",
+   "p-w12-narayani-pi",
+   "p-w12-shankharapur",
+   "p-w12-kisan-pi",
+   "p-w12-bheri-ti",
+   "p-w12-karnali-ti",
+   "p-w12-netralal-pi",
+   "p-w12-seti-ti",
+   "p-jagannath-baitadi"
+  ],
+  "dip-engineering": [
+   "p-w12-damak-pi",
+   "p-w12-bp-memorial",
+   "p-w12-balara",
+   "p-w12-jaykisan",
+   "p-w12-lahan-ti",
+   "p-bardibas-mahottari",
+   "p-w12-prasauni",
+   "p-bset",
+   "p-w12-diwakar-pi",
+   "p-jiri-tech",
+   "p-w12-narayani-pi",
+   "p-w12-panauti-ti",
+   "p-w12-shankharapur",
+   "p-w12-kisan-pi",
+   "p-w12-korea-nepal",
+   "p-w12-bheri-ti",
+   "p-w12-karnali-ti",
+   "p-w12-netralal-pi",
+   "p-w12-seti-ti",
+   "p-jagannath-baitadi",
+   "p-w12-ce-puspa-dhirendra-smriti-pratisthan",
+   "p-w12-ce-sahid-smriti-pratisthan",
+   "p-w12-ce-adarsha-secondary-school",
+   "p-w12-ce-chautara-secondary-school",
+   "p-w12-ce-shree-secondary-school--amsal",
+   "p-pathivara",
+   "p-eastern-coe",
+   "p-w12-ce-golden-park-college",
+   "p-w12-ce-sunsari-technical-college",
+   "p-w12-ce-sushma-koirala-memorial-engineering-college",
+   "p-w12-ce-hanuman-nagar-polytechnic-institute",
+   "p-w12-ce-durga-secondary-school--manara",
+   "p-w12-ce-jaldhar-kamaldev-model-secondary-school",
+   "p-w12-ce-janata-secondary-school--dandatol",
+   "p-w12-ce-janata-secondary-school--madai-ugreepatti",
+   "p-w12-ce-janjyoti-secondary-school--lalbandi",
+   "p-w12-ce-janta-secondary-school--tinkoni",
+   "p-w12-ce-nepal-rastriya-secondary-school--kawahi-jaggat",
+   "p-w12-ce-saraswati-secondary-school--sabaila",
+   "p-w12-ce-sarwajanik-secondary-school--nijgadh",
+   "p-w12-ce-birgunj-institute-of-technology",
+   "p-w12-ce-madhyamanchal-regional-engineering-college",
+   "p-w12-ce-national-people-engineering-college",
+   "p-w12-ce-neelarjun-education-consortium",
+   "p-w12-ce-softech-engineering-college",
+   "p-w12-ce-the-himal-institute-of-health-and-technical-scie",
+   "p-w12-ce-budhanilkantha-secondary-school",
+   "p-w12-ce-siddhababa-secondary-school",
+   "p-w12-ce-n-p-i--college-of-technical-science",
+   "p-w12-ce-oxford-advance-engineering-college",
+   "p-w12-ce-dhaulagiri-deaf-residential-school",
+   "p-w12-ce-siddhartha-secondary-school--phedikhola",
+   "p-pec",
+   "p-w12-ce-tribhuvan-secondary-school--kohalpur",
+   "p-w12-ce-rastriya-secondary-school--chandrauta",
+   "p-w12-ce-rupandehi-lilaram-neupane-secondary-school",
+   "p-w12-ce-nepalgunj-technical-college",
+   "p-w12-ce-rapti-engineering-college",
+   "p-w12-ce-lumbini-engineering-college",
+   "p-musikot-rukum-west",
+   "p-w12-ce-panchkoshi-polytechnic-institute",
+   "p-w12-ce-saraswati-secondary-school--pachal",
+   "p-w12-ce-nepal-rastriya-secondary-school--birendranagar",
+   "p-w12-ce-chandannath-prabidhik-shikshalaya",
+   "p-w12-ce-sharada-secondary-school"
+  ],
+  "dip-agriculture": [
+   "p-w12-rkb-pi",
+   "p-terhathum-poly",
+   "p-w12-uttarpani",
+   "p-w12-bp-memorial",
+   "p-w12-jaykisan",
+   "p-w12-lahan-ti",
+   "p-w12-dhading-pi",
+   "p-w12-diwakar-pi",
+   "p-w12-ramechhap-pi",
+   "p-w12-rainas-pi",
+   "p-w12-kisan-pi",
+   "p-w12-barpak-pi",
+   "p-w12-annapurna-pi",
+   "p-w12-rapti-ti",
+   "p-panini-argha",
+   "p-w12-karnali-ti",
+   "p-w12-netralal-pi",
+   "p-w12-tikapur-pi",
+   "p-w12-seti-ti"
+  ],
+  "dip-pharmacy": [
+   "p-w12-rkb-pi",
+   "p-gaur-rautahat",
+   "p-bardibas-mahottari",
+   "p-w12-alpamai",
+   "p-jiri-tech",
+   "p-sohs-ctevt",
+   "p-w12-rapti-ti",
+   "p-w12-bheri-ti",
+   "p-w12-sks-ichhuk",
+   "p-w12-karnali-ti",
+   "p-w12-jajarkot-pi",
+   "p-w12-seti-ti",
+   "p-jagannath-baitadi",
+   "p-w12-shuklaphanta-pi",
+   "p-w12-mangalsen-pi"
+  ],
+  "dip-mech-auto-arch": [
+   "p-w12-bp-memorial",
+   "p-w12-lahan-ti",
+   "p-bardibas-mahottari",
+   "p-w12-prasauni",
+   "p-bset",
+   "p-w12-narayani-pi",
+   "p-w12-panauti-ti",
+   "p-w12-korea-nepal",
+   "p-w12-bheri-ti"
+  ],
+  "pcl-radiography": [
+   "p-gaur-rautahat",
+   "p-bardibas-mahottari",
+   "p-sohs-ctevt",
+   "p-w12-bheri-ti",
+   "p-w12-sks-ichhuk"
+  ],
+  "pcl-nursing": [
+   "p-gaur-rautahat",
+   "p-w12-alpamai",
+   "p-w12-gurbhakot-pi"
+  ],
+  "dip-it-computer": [
+   "p-w12-jaykisan",
+   "p-w12-mahalaxmi-pi",
+   "p-w12-banepa-pi",
+   "p-w12-nepal-bharat",
+   "p-w12-nilkantha-pi",
+   "p-w12-kisan-pi",
+   "p-w12-aandhikhola-pi",
+   "p-w12-korea-nepal"
+  ],
+  "dip-geomatics": [
+   "p-bardibas-mahottari"
+  ],
+  "dip-forestry": [
+   "p-bardibas-mahottari",
+   "p-w12-karnali-ti"
+  ],
+  "dip-hospitality": [
+   "p-bardibas-mahottari",
+   "p-w12-bharatpur-pi",
+   "p-w12-banepa-pi",
+   "p-w12-pokhara-ti",
+   "p-mustang",
+   "p-w12-kaligandaki-pi"
+  ],
+  "pcl-general-medicine": [
+   "p-w12-alpamai",
+   "p-w12-diwakar-pi",
+   "p-jiri-tech",
+   "p-sohs-ctevt",
+   "p-w12-mangalsen-pi"
+  ],
+  "pcl-dental": [
+   "p-sohs-ctevt"
+  ],
+  "pcl-cmlt": [
+   "p-sohs-ctevt"
+  ],
+  "dip-health": [
+   "p-sohs-ctevt"
+  ],
+  "dip-computer-eng": [
+   "p-w12-ce-puspa-dhirendra-smriti-pratisthan",
+   "p-w12-ce-sahid-smriti-pratisthan",
+   "p-w12-ce-adarsha-secondary-school",
+   "p-w12-ce-chautara-secondary-school",
+   "p-w12-ce-shree-secondary-school--amsal",
+   "p-pathivara",
+   "p-eastern-coe",
+   "p-w12-ce-golden-park-college",
+   "p-w12-ce-sunsari-technical-college",
+   "p-w12-ce-sushma-koirala-memorial-engineering-college",
+   "p-w12-ce-hanuman-nagar-polytechnic-institute",
+   "p-w12-ce-durga-secondary-school--manara",
+   "p-w12-ce-jaldhar-kamaldev-model-secondary-school",
+   "p-w12-ce-janata-secondary-school--dandatol",
+   "p-w12-ce-janata-secondary-school--madai-ugreepatti",
+   "p-w12-ce-janjyoti-secondary-school--lalbandi",
+   "p-w12-ce-janta-secondary-school--tinkoni",
+   "p-w12-ce-nepal-rastriya-secondary-school--kawahi-jaggat",
+   "p-w12-ce-saraswati-secondary-school--sabaila",
+   "p-w12-ce-sarwajanik-secondary-school--nijgadh",
+   "p-w12-ce-birgunj-institute-of-technology",
+   "p-w12-ce-madhyamanchal-regional-engineering-college",
+   "p-w12-ce-national-people-engineering-college",
+   "p-w12-ce-neelarjun-education-consortium",
+   "p-w12-ce-softech-engineering-college",
+   "p-w12-ce-the-himal-institute-of-health-and-technical-scie",
+   "p-w12-ce-budhanilkantha-secondary-school",
+   "p-w12-ce-siddhababa-secondary-school",
+   "p-w12-ce-n-p-i--college-of-technical-science",
+   "p-w12-ce-oxford-advance-engineering-college",
+   "p-w12-ce-dhaulagiri-deaf-residential-school",
+   "p-w12-ce-siddhartha-secondary-school--phedikhola",
+   "p-pec",
+   "p-w12-ce-tribhuvan-secondary-school--kohalpur",
+   "p-w12-ce-rastriya-secondary-school--chandrauta",
+   "p-w12-ce-rupandehi-lilaram-neupane-secondary-school",
+   "p-w12-ce-nepalgunj-technical-college",
+   "p-w12-ce-rapti-engineering-college",
+   "p-w12-ce-lumbini-engineering-college",
+   "p-musikot-rukum-west",
+   "p-w12-ce-panchkoshi-polytechnic-institute",
+   "p-w12-ce-saraswati-secondary-school--pachal",
+   "p-w12-ce-nepal-rastriya-secondary-school--birendranagar",
+   "p-w12-ce-chandannath-prabidhik-shikshalaya",
+   "p-w12-ce-sharada-secondary-school"
+  ]
+ },
+ "note_add": {
+  "p-terhathum-poly": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Animal) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-gaur-rautahat": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Pharmacy 4, Radiography 4, Nursing 3. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-bardibas-mahottari": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Electrical 5, Geomatics 5, Pharmacy 4, Radiography 3, Forestry 4, Hotel Management 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-bset": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Automobile 5, Electrical 5, Mechanical 5. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-jiri-tech": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, General Medicine 4, Pharmacy 3. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-sohs-ctevt": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are General Medicine 4, Pharmacy 4, Dental Science 4, Radiography 3, Medical Laboratory 3, Physiotherapy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-mustang": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Hotel Management 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-panini-argha": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Agriculture (Plant) 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-jagannath-baitadi": "CTEVT special scholarship 2083/84 (notice of 2 Asar 2083): free seats at this institute are Civil 5, Pharmacy 4. Apply on ctevtexam.org.np; Dalit, Muslim, poor, marginalized and 78 remote local level students only.",
+  "p-pathivara": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+  "p-eastern-coe": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+  "p-pec": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Private).",
+  "p-musikot-rukum-west": "CTEVT notice 2083/84 lists Diploma in Computer Engineering here with an approved quota of 48 (Constituent)."
+ },
+ "route_seats": {
+  "p-w12-ce-puspa-dhirendra-smriti-pratisthan": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-sahid-smriti-pratisthan": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-adarsha-secondary-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-chautara-secondary-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-shree-secondary-school--amsal": {
+   "dip-computer-eng": 48
+  },
+  "p-pathivara": {
+   "dip-computer-eng": 48
+  },
+  "p-eastern-coe": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-golden-park-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-sunsari-technical-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-sushma-koirala-memorial-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-hanuman-nagar-polytechnic-institute": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-durga-secondary-school--manara": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-jaldhar-kamaldev-model-secondary-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-janata-secondary-school--dandatol": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-janata-secondary-school--madai-ugreepatti": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-janjyoti-secondary-school--lalbandi": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-janta-secondary-school--tinkoni": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-nepal-rastriya-secondary-school--kawahi-jaggat": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-saraswati-secondary-school--sabaila": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-sarwajanik-secondary-school--nijgadh": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-birgunj-institute-of-technology": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-madhyamanchal-regional-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-national-people-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-neelarjun-education-consortium": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-softech-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-the-himal-institute-of-health-and-technical-scie": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-budhanilkantha-secondary-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-siddhababa-secondary-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-n-p-i--college-of-technical-science": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-oxford-advance-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-dhaulagiri-deaf-residential-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-siddhartha-secondary-school--phedikhola": {
+   "dip-computer-eng": 48
+  },
+  "p-pec": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-tribhuvan-secondary-school--kohalpur": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-rastriya-secondary-school--chandrauta": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-rupandehi-lilaram-neupane-secondary-school": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-nepalgunj-technical-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-rapti-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-lumbini-engineering-college": {
+   "dip-computer-eng": 48
+  },
+  "p-musikot-rukum-west": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-panchkoshi-polytechnic-institute": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-saraswati-secondary-school--pachal": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-nepal-rastriya-secondary-school--birendranagar": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-chandannath-prabidhik-shikshalaya": {
+   "dip-computer-eng": 48
+  },
+  "p-w12-ce-sharada-secondary-school": {
+   "dip-computer-eng": 48
+  }
+ },
+ "routes_add": [
+  {
+   "id": "dip-civil-eng",
+   "stage": "after10",
+   "name": "Diploma in Civil Engineering (CTEVT)",
+   "kind": "Diploma",
+   "group": "tech",
+   "years": "3 years",
+   "fee": [
+    60000,
+    380000
+   ],
+   "entry": "SEE with C in Mathematics and Science and D+ in English (GPA 1.6 overall), or TSLC in civil with 66.68 percent; CTEVT entrance",
+   "about": "The biggest CTEVT programme by free seats: 640 classified scholarship seats in 2083/84 plus 80 in the special programme. Sub-engineer posts at municipalities, road and irrigation offices and contractors, and a lateral route to BE Civil.",
+   "exam": "CTEVT entrance through ITMS; usual quota is 48 seats per institute",
+   "careers": [
+    "civil-engineer",
+    "geomatics-engineer"
+   ],
+   "skills": [
+    "Surveying",
+    "Estimating and costing",
+    "AutoCAD",
+    "Site supervision"
+   ],
+   "next": [
+    "be-civil",
+    "be-geomatics"
+   ],
+   "plan": [
+    "Year 1: Drawing, surveying, mechanics, maths",
+    "Year 2: Structures, hydraulics, materials, estimating",
+    "Year 3: Roads, irrigation, construction management, project and internship"
+   ],
+   "exam_id": "g-eng"
+  },
+  {
+   "id": "dip-computer-eng",
+   "stage": "after10",
+   "name": "Diploma in Computer Engineering (CTEVT)",
+   "kind": "Diploma",
+   "group": "tech",
+   "years": "3 years",
+   "fee": [
+    60000,
+    380000
+   ],
+   "entry": "SEE with at least GPA 1.6 and the CTEVT entrance; one programme at one institute per year on ITMS",
+   "about": "45 institutes run it in 2083/84, each with an approved quota of 48: 16 in Madhesh, 10 in Koshi, 6 in Lumbini, 5 in Karnali, 4 in Bagmati, 3 in Gandaki and 1 in Sudurpashchim. The notice lists it separately from Diploma in Information Technology.",
+   "exam": "CTEVT entrance through ITMS (full fee application closed 2083 Jestha 13)",
+   "careers": [
+    "software-dev",
+    "cyber-security",
+    "data-analyst"
+   ],
+   "skills": [
+    "Programming",
+    "Networking",
+    "Databases",
+    "Web development"
+   ],
+   "next": [
+    "be-computer",
+    "bit",
+    "bca"
+   ],
+   "plan": [
+    "Year 1: Programming, electronics, maths",
+    "Year 2: Data structures, databases, networks, web",
+    "Year 3: Software engineering, security, project and internship"
+   ]
+  }
+ ],
+ "abroad_add": [
+  {
+   "id": "cz",
+   "country": "Czechia",
+   "tuition": [
+    0,
+    2500000
+   ],
+   "living": [
+    1100000,
+    1800000
+   ],
+   "exams": [
+    "IELTS or an equal English test for English programmes",
+    "Czech at about B2 for free Czech taught programmes",
+    "University entrance test"
+   ],
+   "intakes": "Winter semester (September); some programmes take students in February",
+   "fields": [
+    "Engineering",
+    "Computer science",
+    "Medicine",
+    "Business"
+   ],
+   "work": "Not checked yet. Read the Ministry of the Interior (MV CR) rules for your permit before you count on part time work.",
+   "note": "Czech taught programmes at public universities are free for everyone; English taught ones cost CZK 100,000 to 400,000 a year (about NPR 6 to 24 lakh) and medicine about EUR 12,000 to 15,000. Living is CZK 15,000 to 25,000 a month. Visa fee CZK 2,500; the funds figure is about CZK 124,500 a year and changes. Nepali applicants book at the Czech Embassy in New Delhi. Foreign diplomas need recognition (nostrification).",
+   "scholarships": [
+    "s-czech"
+   ],
+   "code": "CZ",
+   "stay_back": "9 months to look for work after graduating on a job seeker permit"
+  },
+  {
+   "id": "ge",
+   "country": "Georgia",
+   "tuition": [
+    450000,
+    1100000
+   ],
+   "living": [
+    350000,
+    650000
+   ],
+   "exams": [
+    "NEB +2 Science with Physics, Chemistry and Biology (about 50 percent) for medicine",
+    "English proficiency shown to the university"
+   ],
+   "intakes": "September and February",
+   "fields": [
+    "Medicine (MD, 6 years)"
+   ],
+   "work": "Not checked yet. Confirm with the university before you plan any paid work.",
+   "note": "Mostly chosen for six year English medium MD programmes at about USD 4,000 to 8,000 a year (NPR 5.5 to 11 lakh), plus hostel NPR 1.5 to 3 lakh and living NPR 2 to 3.5 lakh a year. A Georgian MD counts for a licence in Nepal only if the Nepal Medical Council recognises that exact university, and you must pass the NMC licensing examination (NMCLE) after returning. Ask for recognition in writing first.",
+   "scholarships": [],
+   "code": "GE"
+  },
+  {
+   "id": "bd",
+   "country": "Bangladesh",
+   "tuition": [
+    800000,
+    1400000
+   ],
+   "living": [
+    150000,
+    300000
+   ],
+   "exams": [
+    "NEB +2 Science with Physics, Chemistry and Biology (about 50 percent or 2.4 GPA)",
+    "College admission test or interview"
+   ],
+   "intakes": "Usually once a year; each college sets its own dates",
+   "fields": [
+    "Medicine (MBBS, 5 years and 1 year internship)",
+    "Dentistry"
+   ],
+   "work": "Not checked yet. Confirm with the college before you plan any paid work.",
+   "note": "Close to home, with seats set aside for Nepali students under the SAARC quota; government college seats are few and cheaper. A private MBBS costs about NPR 40 to 70 lakh in all. Bangladesh runs about 5,100 government MBBS seats in 37 colleges for its own students (2025-26). Check that the college is recognised by both BMDC and the Nepal Medical Council, then pass the NMCLE to practise in Nepal.",
+   "scholarships": [],
+   "code": "BD"
+  }
+ ],
+ "scholarships_add": [
+  {
+   "id": "s-czech",
+   "name": "Czech Government Scholarship for developing countries",
+   "scope": "abroad",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "Government of the Czech Republic (Ministry of Education and Ministry of Foreign Affairs)",
+   "covers": "Tuition, a monthly stipend of CZK 16,000 for a master and CZK 24,960 for a PhD, and health insurance; travel is not paid",
+   "who": "Citizens of a fixed list of countries only. The 2027-28 list named Bangladesh, Georgia, Ukraine, Cambodia, Ethiopia and others; Nepal was not on the lists read, so check the call before you spend time on it.",
+   "how": "Online on the Study in Czechia portal with a motivation letter and the entrance tests; one application per person. The 2027-28 call ran from 21 August to 30 September 2026, then embassy checks until January 2027.",
+   "link": "https://www.studyin.cz",
+   "country": "cz",
+   "type": "Government",
+   "open": [
+    8,
+    9
+   ]
+  },
+  {
+   "id": "s-nawa",
+   "name": "NAWA Banach scholarship (Poland)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "Polish National Agency for Academic Exchange (NAWA)",
+   "covers": "Tuition at public universities and a monthly scholarship set by each call (PLN 1,500 to 2,500 in recent calls)",
+   "who": "Citizens of listed countries only. The 2027 list in the source read had India, Indonesia, Vietnam and others and did not show Nepal, so confirm on nawa.gov.pl first.",
+   "how": "You choose the Polish university and apply through the NAWA system. The 2027 call opened on 20 May and closed on 27 June 2026.",
+   "link": "https://nawa.gov.pl",
+   "country": "pl",
+   "type": "Government",
+   "open": [
+    5,
+    6
+   ]
+  },
+  {
+   "id": "s-ctevt-special",
+   "name": "CTEVT special free scholarship (480 seats, 2083/84)",
+   "scope": "nepal",
+   "levels": [
+    "diploma"
+   ],
+   "by": "CTEVT",
+   "covers": "Free study plus NPR 3,500 a month, NPR 1,500 a year for travel and NPR 2,500 a year for uniform; 457 diploma and 23 pre-diploma seats",
+   "who": "Permanent residents who are Dalit, Muslim, poor, from the 22 listed indigenous groups, Haliya or Kamaiya, or from one of 78 local levels without technical education. SEE with GPA 2.0 for health and nursing, 1.6 for other programmes.",
+   "how": "Free online form on ctevtexam.org.np (2083 Ashadh 4 to 18). Merit by SEE GPA, plus one mark for government or community school students, while institutional school marks count at 0.85.",
+   "link": "https://ctevtexam.org.np",
+   "type": "Government",
+   "open": [
+    6,
+    7
+   ]
+  }
+ ],
+ "scholarship_extra": {
+  "s-ctevt": {
+   "covers": "Free (classified) seats in diploma and PCL programmes at constituent, partnership and private institutes: 3,417 seats in 34 programmes for 2083/84, half for the general group and half for target groups",
+   "who": "SEE from a government or community school (or CTEVT pre-diploma) with GPA 2.0 for health programmes and 1.6 for others; women, Dalit, Janajati, Khas Arya, Madhesi, Tharu, Muslim, remote area and disability quotas apply. You may not have held a CTEVT scholarship before.",
+   "how": "One programme in one province, filed on the ITMS online system (the 2083/84 form closed on Jestha 13). Seats per programme: Civil 640, General Medicine 446, Pharmacy 341, Agriculture Plant 261, Medical Laboratory 250. Schools may not charge scholarship students tuition, lab, registration or exam fees; recipients agree to serve where the government posts them.",
+   "open": [
+    5,
+    6
+   ]
+  }
+ },
+ "provider_fees": {
+  "p-ku-eng": {
+   "be-computer": [
+    960000,
+    960000
+   ],
+   "be-civil": [
+    960000,
+    960000
+   ],
+   "be-electrical": [
+    960000,
+    960000
+   ],
+   "be-mechanical": [
+    960000,
+    960000
+   ],
+   "be-geomatics": [
+    960000,
+    960000
+   ],
+   "barch": [
+    1097000,
+    1097000
+   ]
+  }
+ },
+ "provider_notes": {
+  "p-ku-eng": "BE fee for 2082/83 is NPR 9,60,000 for the four years and B.Arch NPR 10,97,000 for five, with NPR 2,21,000 (B.Arch 2,23,000) due on admission day after document verification. Entry is through KUCAT-CBT; in 2026 the offers were the School of Engineering notices of 4, 11 and 14 August, a reservation list on 18 August and an expression of interest list on 19 August (the rank list alone is not an offer)."
+ },
+ "guides_add": [
+  {
+   "id": "noc-study-abroad",
+   "name": "No Objection Certificate (NOC) for study abroad",
+   "cat": "Abroad",
+   "steps": [
+    [
+     "Get the offer or admission letter that shows programme, level and length",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Register on noc.moest.gov.np with your mobile number and email",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Fill the form and upload passport, citizenship, transcripts, offer letter and proof of funds",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Pay the NOC fee online",
+     0,
+     2000,
+     "online"
+    ],
+    [
+     "Wait for checking (1 to 5 working days, longer in peak months) and download the QR coded NOC",
+     5,
+     0,
+     "online"
+    ]
+   ],
+   "docs": [
+    "Passport",
+    "Citizenship certificate",
+    "Offer or admission letter",
+    "Transcripts and certificates",
+    "Bank statement or sponsor letter",
+    "Ward office name letter if names differ"
+   ],
+   "link": "route:abroad-ms"
+  },
+  {
+   "id": "ctevt-apply",
+   "name": "Apply for a CTEVT diploma or PCL seat",
+   "cat": "Colleges",
+   "steps": [
+    [
+     "Read this year notice: full fee, classified scholarship and special scholarship are separate forms",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Open the ITMS online form at ctevtexam.org.np and choose one programme (scholarship forms: one programme in one province)",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Upload citizenship or birth registration, SEE marksheet, character certificate and a 35 by 45 mm photo",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Submit before the last date (2083/84 full fee and classified forms closed on Jestha 13)",
+     0,
+     0,
+     "online"
+    ],
+    [
+     "Sit the entrance, check your merit list, then take the recommendation to the institute",
+     30,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship or birth registration",
+    "SEE marksheet",
+    "Character certificate",
+    "Photo 35 x 45 mm",
+    "Community certificate for quota seats",
+    "Local level letter for remote area seats"
+   ],
+   "link": "route:dip-civil-eng"
+  }
+ ],
+ "faq_add": [
+  {
+   "id": "fw12-1",
+   "topic": "after10",
+   "q": "What is the NOC for study abroad and how do I get it?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "The No Objection Certificate (the Foreign Study Approval Letter) comes from the Ministry of Education (MoEST). Banks will not send tuition abroad and embassies often will not take your visa file without it. Apply online at noc.moest.gov.np once you hold an offer letter: upload passport, citizenship, transcripts, offer letter and proof of funds, pay NPR 2,000 and download the QR coded certificate. Checking usually takes 1 to 5 working days; allow more time in the peak months before September and January intakes. Sources differ on whether you must also visit the Sanothimi office, so read what the portal asks."
+  },
+  {
+   "id": "fw12-2",
+   "topic": "abroad",
+   "q": "Why do NOC applications get rejected?",
+   "go": [],
+   "a": "The usual reasons are a name that differs between citizenship, passport and offer letter (a ward office letter fixes this), blurry scans, an offer letter without programme, level and length, a duplicate application for the same intake, and an institution that is not recognised. A change of university, course or intake needs a new NOC. Check the current status for your country on the portal; South Korea D-2 and D-4 NOCs were paused in May 2025."
+  },
+  {
+   "id": "fw12-3",
+   "topic": "after10",
+   "q": "How many free CTEVT seats are there in 2083/84 and who gets them?",
+   "go": [
+    "dip-civil-eng",
+    "dip-computer-eng"
+   ],
+   "a": "CTEVT opened 3,417 classified (free) seats in 34 programmes, split equally between a general group and target groups (women, Dalit, Janajati, Khas Arya, Madhesi, Tharu, Muslim, remote area and disability). Civil is the largest at 640, then General Medicine 446, Pharmacy 341, Agriculture Plant 261, Medical Laboratory 250, Nursing 189, Computer Engineering 187 and Animal Science 186. You need SEE from a government or community school with GPA 2.0 for health programmes or 1.6 for others, and you may apply for one programme in one province only."
+  },
+  {
+   "id": "fw12-4",
+   "topic": "after10",
+   "q": "What is the CTEVT special scholarship with NPR 3,500 a month?",
+   "go": [],
+   "a": "It is a separate programme of 480 free seats (457 diploma and 23 pre-diploma) for Dalit, Muslim, poor and marginalized students and for 78 local levels with no technical education nearby (17 in Koshi, 17 in Madhesh, 9 in Bagmati, 10 in Gandaki, 5 in Lumbini, 7 in Karnali, 13 in Sudurpashchim). Students get NPR 3,500 a month, NPR 1,500 a year for travel and NPR 2,500 a year for a uniform. The 2083 form was free and ran from Ashadh 4 to 18 on ctevtexam.org.np. Merit is by SEE GPA, with one extra mark for government or community school students and institutional school marks counted at 0.85."
+  },
+  {
+   "id": "fw12-5",
+   "topic": "after10",
+   "q": "Do CTEVT scholarship students pay anything, and is there a catch?",
+   "go": [],
+   "a": "Institutes may not charge scholarship students tuition, lab, registration, exam form, library or practical travel fees. The catch is a service promise: recipients agree to work where the government posts them for a set period. Fake documents mean cancelled registration, legal action and a 5 year ban from CTEVT exams, and a student who already got a CTEVT scholarship cannot apply again."
+  },
+  {
+   "id": "fw12-6",
+   "topic": "after10",
+   "q": "Where can I study Diploma in Computer Engineering in 2083/84?",
+   "go": [
+    "dip-computer-eng"
+   ],
+   "a": "The CTEVT full fee notice lists 45 institutes, each with an approved quota of 48: Madhesh 16, Koshi 10, Lumbini 6, Karnali 5, Bagmati 4, Gandaki 3 and Sudurpashchim 1 (Sharada Secondary School, Dhangadhi). Most are school based (TECS) or private; a few are partnership or constituent. Diploma in Information Technology is listed separately, so do not treat them as one course. The form allowed one programme at one institute and closed on Jestha 13, 2083."
+  },
+  {
+   "id": "fw12-7",
+   "topic": "after10",
+   "q": "Which CTEVT institute near me has free seats for civil, pharmacy or agriculture?",
+   "go": [
+    "dip-civil-eng",
+    "dip-pharmacy",
+    "dip-agriculture"
+   ],
+   "a": "Open the course in Pathways and pick your district: 48 constituent and partnership polytechnics are now listed with the free seats they hold in the special programme, for example Karnali Technical Institute in Jumla (civil 5, plant 4, animal 4, pharmacy 4, forestry 4), Seti Technical Institute in Doti, Bheri Technical Institute in Banke and Korea-Nepal Polytechnic Institute in Rupandehi. Seats can shrink if a full fee programme does not run, so confirm with the CTEVT provincial office."
+  },
+  {
+   "id": "fw12-8",
+   "topic": "after12",
+   "q": "When was the IOE entrance for 2083/84 and how big is it?",
+   "go": [
+    "be-civil",
+    "be-computer"
+   ],
+   "a": "IOE took forms from Ashadh 23 to Shrawan 1, 2083 (7 to 17 July 2026) at entrance.ioe.edu.np with a fee of NPR 2,500 (one page says 2,000, so check the notice). The test is computer based: 2 hours, 100 objective questions, from Shrawan 11 (26 July 2026). In 2025 the five constituent campuses had 2,040 BE and B.Arch seats and ten affiliated colleges 2,304, 4,344 in all."
+  },
+  {
+   "id": "fw12-9",
+   "topic": "after12",
+   "q": "How much does a BE at Kathmandu University cost?",
+   "go": [
+    "be-computer",
+    "barch"
+   ],
+   "a": "KU fixed NPR 9,60,000 for the whole four year BE and NPR 10,97,000 for five year B.Arch for 2082/83. On admission day, after your documents are verified, you pay NPR 2,21,000 (B.Arch 2,23,000). Entry is through KUCAT-CBT; in 2026 the rank list was not an offer, the School of Engineering notices of 4, 11 and 14 August were, followed by a reservation list on 18 August and an expression of interest list on 19 August."
+  },
+  {
+   "id": "fw12-10",
+   "topic": "abroad",
+   "q": "Is studying in the Czech Republic really free?",
+   "go": [],
+   "a": "Only if you study in Czech at a public university: that is free for every nationality, usually after a one year language course. English taught programmes cost CZK 100,000 to 400,000 a year (about NPR 6 to 24 lakh) and medicine about EUR 12,000 to 15,000. Living costs CZK 15,000 to 25,000 a month. The visa fee is CZK 2,500, you must show funds of about CZK 124,500 for the year, and Nepali applicants book at the Czech Embassy in New Delhi."
+  },
+  {
+   "id": "fw12-11",
+   "topic": "abroad",
+   "q": "Can Nepali students use the Czech Government scholarship?",
+   "go": [],
+   "a": "Not in the 2027-28 call as far as the lists read show. The scholarship (CZK 16,000 a month for a master, CZK 24,960 for a PhD) is limited to named countries such as Bangladesh, Georgia, Ukraine and Cambodia, and the call ran from 21 August to 30 September 2026. Nepal can be added in later years, so check the call each August before you prepare."
+  },
+  {
+   "id": "fw12-12",
+   "topic": "abroad",
+   "q": "What do MBBS in Georgia and Bangladesh cost for Nepali students?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "Georgia: about USD 4,000 to 8,000 tuition a year (NPR 5.5 to 11 lakh) for a six year MD, plus hostel and living of roughly NPR 3.5 to 6.5 lakh a year. Bangladesh: about NPR 40 to 70 lakh in all for a private MBBS (five years plus an internship), with fewer, cheaper government seats under the SAARC quota. Both ranges are approximate. In either country the college must be recognised by the Nepal Medical Council, and you must pass the NMC licensing examination (NMCLE) to practise at home, so get recognition in writing first."
+  },
+  {
+   "id": "fw12-13",
+   "topic": "general",
+   "q": "Which free diploma route leads to a bachelor degree?",
+   "go": [
+    "dip-civil-eng",
+    "be-civil"
+   ],
+   "a": "A CTEVT diploma in civil or computer engineering takes 3 years after SEE and can lead to a BE through lateral entry, to a BIT or BCA, or straight to a sub-engineer or technician job. Because 3,417 seats are free in 2083/84, check the scholarship forms first and keep the full fee form as a back up."
+  }
+ ],
+ "abroad_more": [
+  {
+   "id": "kg",
+   "country": "Kyrgyzstan",
+   "tuition": [
+    400000,
+    700000
+   ],
+   "living": [
+    150000,
+    300000
+   ],
+   "exams": [
+    "NEB +2 Science with Physics, Chemistry and Biology",
+    "University admission process"
+   ],
+   "intakes": "Mostly September",
+   "fields": [
+    "Medicine (5 years and 1 year internship)"
+   ],
+   "work": "Not checked yet. Confirm with the university.",
+   "note": "Among the cheapest MBBS countries for Nepali students: about NPR 20 to 35 lakh for the whole course. Quality varies widely between institutions. Check that the exact university is recognised by the Nepal Medical Council before you pay, and plan to pass the NMC licensing examination (NMCLE) after you return. Figures are approximate and the guide says to confirm fees in writing.",
+   "scholarships": [],
+   "code": "KG"
+  },
+  {
+   "id": "kz",
+   "country": "Kazakhstan",
+   "tuition": [
+    500000,
+    900000
+   ],
+   "living": [
+    200000,
+    350000
+   ],
+   "exams": [
+    "NEB +2 Science with Physics, Chemistry and Biology",
+    "University admission process"
+   ],
+   "intakes": "Mostly September",
+   "fields": [
+    "Medicine (5 years and 1 year internship)"
+   ],
+   "work": "Not checked yet. Confirm with the university.",
+   "note": "About NPR 25 to 45 lakh for the whole MBBS course. Quality varies widely between institutions. Check that the exact university is recognised by the Nepal Medical Council before you pay, and plan to pass the NMC licensing examination (NMCLE) after you return. Figures are approximate and the guide says to confirm fees in writing.",
+   "scholarships": [],
+   "code": "KZ"
+  },
+  {
+   "id": "ph",
+   "country": "Philippines",
+   "tuition": [
+    500000,
+    850000
+   ],
+   "living": [
+    250000,
+    450000
+   ],
+   "exams": [
+    "NEB +2 Science",
+    "NMAT or the school test for the MD stage"
+   ],
+   "intakes": "Usually June or August",
+   "fields": [
+    "Medicine (a pre-medical bachelor, then a 4 year Doctor of Medicine)"
+   ],
+   "work": "Not checked yet. Confirm with the university.",
+   "note": "A US style route: a pre-medical bachelor (often BS Biology) first, then four years of MD, taught in English, about NPR 30 to 50 lakh in all. Check that the exact university is recognised by the Nepal Medical Council before you pay, and plan to pass the NMC licensing examination (NMCLE) after you return. Figures are approximate and the guide says to confirm fees in writing.",
+   "scholarships": [],
+   "code": "PH"
+  }
+ ],
+ "route_exam": {
+  "bca": "TU FoHSS BCA entrance. 2083 round: forms from 29 June (Asadh 15) to 5 August 2026 (Rs 1,500), test 16 August 2026",
+  "bit": "TU IoST BIT entrance. 2083 round: forms from 25 July to 7 August 2026 (Rs 1,850), test 15 August 2026",
+  "bsc-csit": "TU IoST BSc CSIT entrance. 2083 round: forms from 22 July to 1 August 2026 (Rs 1,950), test 9 August 2026",
+  "bba": "TU CMAT. 2083 round: forms 15 June to 4 August 2026 (Rs 1,000), test 8 August 2026 at 8:00 AM",
+  "bbm": "TU CMAT. 2083 round: forms 15 June to 4 August 2026 (Rs 1,000), test 8 August 2026 at 8:00 AM",
+  "bhm": "TU CMAT. 2083 round: forms 15 June to 4 August 2026 (Rs 1,000), test 8 August 2026 at 8:00 AM",
+  "bttm": "TU CMAT. 2083 round: forms 15 June to 4 August 2026 (Rs 1,000), test 8 August 2026 at 8:00 AM",
+  "bpa": "TU CMAT. 2083 round: forms 15 June to 4 August 2026 (Rs 1,000), test 8 August 2026 at 8:00 AM",
+  "bim": "TU CMAT (BITM). 2083 round: forms 15 June to 4 August 2026 (Rs 1,000), test 8 August 2026 at 8:00 AM"
+ },
+ "faq_more": [
+  {
+   "id": "fw12-m1",
+   "topic": "after12",
+   "q": "When were the TU entrance exams for 2083/84?",
+   "go": [
+    "bsc-csit",
+    "bca",
+    "bit",
+    "bba"
+   ],
+   "a": "TU ran them close together in 2026. CMAT (BBA, BBM, BITM, BPA, BHM, BTTM, BBA-F, BMS): forms 15 June to 4 August, fee Rs 1,000, test 8 August at 8:00 AM. BSc CSIT: forms 22 July to 1 August (double fee to 5 August), Rs 1,950, test 9 August. BIT: forms 25 July to 7 August, Rs 1,850, test 15 August. BCA: forms 29 June to 5 August, Rs 1,500, test 16 August. All tests start at 8:00 AM and fees are not refunded, so confirm your eligibility first."
+  },
+  {
+   "id": "fw12-m2",
+   "topic": "after12",
+   "q": "Who can sit CMAT and do I need Management in +2?",
+   "go": [
+    "bba",
+    "bbm",
+    "bhm"
+   ],
+   "a": "No. Any stream (Management, Science or Humanities) can apply for BBA, BBM, BITM, BPA, BHM, BTTM and BBA-F. The 2083 notice asked for a pass in Grade 11 and 12 with at least D in theory and C in practical in each subject and CGPA 1.8, or second division. You apply online and the campus you choose must verify the form in person before the deadline (3:00 PM on 5 August 2026 in the 2083 round)."
+  },
+  {
+   "id": "fw12-m3",
+   "topic": "abroad",
+   "q": "Which countries are the cheapest for MBBS and what is the catch?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "Planning ranges for the whole course: Kyrgyzstan NPR 20 to 35 lakh, Kazakhstan 25 to 45 lakh, China 30 to 55 lakh, the Philippines 30 to 50 lakh (pre-med plus 4 year MD), Russia 35 to 60 lakh, Georgia 35 to 65 lakh and Bangladesh 40 to 70 lakh. Living costs add NPR 1.5 to 5 lakh a year. The catch is recognition: only colleges recognised by the Nepal Medical Council lead to a licence, and you still sit the NMCLE at home. Quality differs a lot inside Kyrgyzstan and Kazakhstan."
+  },
+  {
+   "id": "fw12-m4",
+   "topic": "abroad",
+   "q": "What is the Philippines MD route?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "The Philippines follows a US system. You first finish a pre-medical bachelor (often BS Biology), then a four year Doctor of Medicine taught in English. Budget about NPR 30 to 50 lakh in all, plus NPR 2.5 to 4.5 lakh a year for living, and include the pre-med years in the plan. As elsewhere, only a Nepal Medical Council recognised school gives you a path to a licence."
+  }
+ ]
+}

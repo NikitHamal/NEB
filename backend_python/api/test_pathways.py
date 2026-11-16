@@ -345,3 +345,54 @@ class Wave11Tests(TestCase):
         self.assertEqual(114 + 29 + 26 + 19 + 14 + 5 + 4, 211)
         self.assertIn('604 constable posts', govt['g-apf-asi']['note'])
         self.assertGreaterEqual(len(d['faq']), 80)
+
+
+class Wave12Tests(TestCase):
+    def test_ctevt_computer_engineering_list(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        route = {r['id']: r for r in d['routes']}['dip-computer-eng']
+        self.assertEqual(len(route['where']), 45)
+        for pid in route['where']:
+            self.assertEqual(by[pid]['route_seats']['dip-computer-eng'], 48)
+        self.assertEqual(by['p-pec']['district'], 'Kaski')
+        sudur = [pid for pid in route['where'] if by[pid]['district'] == 'Kailali']
+        self.assertEqual(len(sudur), 1)
+        self.assertEqual(len([pid for pid in route['where'] if by[pid]['district'] in ('Dhanusha', 'Mahottari', 'Sarlahi', 'Siraha', 'Bara', 'Parsa', 'Saptari')]), 16)
+
+    def test_ctevt_constituent_institutes(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        civil = {r['id']: r for r in d['routes']}['dip-civil-eng']
+        self.assertGreaterEqual(len(civil['where']), 15)
+        self.assertEqual(by['p-w12-karnali-ti']['district'], 'Jumla')
+        self.assertIn('civil 5'.lower(), by['p-w12-karnali-ti']['note'].lower())
+        self.assertIn('p-bset', civil['where'])
+
+    def test_special_scholarship_total(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertIn('480', sch['s-ctevt-special']['name'])
+        self.assertIn('3,417', sch['s-ctevt']['covers'])
+        self.assertEqual(24 + 12 + 12 + 64 + 6 + 3 + 4 + 12 + 4 + 80 + 30 + 5 + 30 + 5 + 5 + 5 + 21 + 23 + 4 + 36 + 60 + 12 + 7 + 12 + 4, 480)
+
+    def test_new_destinations_and_scholarships(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        for cid in ('cz', 'ge', 'bd', 'kg', 'kz', 'ph'):
+            self.assertIn(cid, abroad)
+            self.assertLess(abroad[cid]['tuition'][0], abroad[cid]['tuition'][1])
+        self.assertIn('s-czech', abroad['cz']['scholarships'])
+        self.assertIn('Nepal was not on', {s['id']: s for s in d['scholarships']}['s-czech']['who'])
+        self.assertIn('NMC', abroad['ge']['note'])
+
+    def test_noc_guide_and_faqs(self):
+        d = pathways.payload()
+        guide = {g['id']: g for g in d['guides']}['noc-study-abroad']
+        self.assertEqual(sum(step[2] for step in guide['steps']), 2000)
+        self.assertGreaterEqual(len(d['faq']), 97)
+        route = {r['id']: r for r in d['routes']}
+        self.assertIn('16 August 2026', route['bca']['exam'])
+        ku = {p['id']: p for p in d['providers']}['p-ku-eng']
+        self.assertEqual(ku['fees']['be-computer'], [960000, 960000])
+        self.assertEqual(pathways.problems(), [])

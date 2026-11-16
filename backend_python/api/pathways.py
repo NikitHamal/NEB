@@ -185,6 +185,35 @@ def payload():
             for xid, more in extras.items():
                 by[xid].update(more)
         faq_all = faq_all + w11['faq_add']
+    if (DATA / 'wave12.json').exists():
+        w12 = _load('wave12.json')
+        routes = routes + [{**r, 'where': []} for r in w12.get('routes_add', [])]
+        route_by = {r['id']: r for r in routes}
+        providers = providers + w12.get('providers_add', [])
+        by_provider = {x['id']: x for x in providers}
+        for rid, more in w12.get('where_add', {}).items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, rs in w12.get('route_seats', {}).items():
+            by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for src_key in ('note_add', 'provider_notes'):
+            for pid, text in w12.get(src_key, {}).items():
+                by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        for pid, fees in w12.get('provider_fees', {}).items():
+            by_provider[pid]['fees'] = {**(by_provider[pid].get('fees') or {}), **fees}
+        scholarships = scholarships + w12.get('scholarships_add', [])
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w12.get('scholarship_extra', {}).items():
+            by_sch[sid].update(more)
+        abroad = abroad + w12.get('abroad_add', []) + w12.get('abroad_more', [])
+        abroad_by = {a['id']: a for a in abroad}
+        for sc in scholarships:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        guides = guides + w12.get('guides_add', [])
+        faq_all = faq_all + w12.get('faq_add', []) + w12.get('faq_more', [])
+        for rid, text in w12.get('route_exam', {}).items():
+            route_by[rid]['exam'] = text
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
