@@ -455,6 +455,9 @@ private fun ProfileBody(
             )
 
             3 -> {
+                item(key = "about_portfolio") {
+                    CardSlot { ProfilePortfolioCard(profile = profile, isSelf = isSelf) }
+                }
                 item(key = "about_stats") {
                     CardSlot { AboutStatsCard(profile = profile, followerCount = uiState.followerCount) }
                 }

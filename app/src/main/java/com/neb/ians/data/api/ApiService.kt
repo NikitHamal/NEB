@@ -444,6 +444,9 @@ data class UserProfileResponse(
     @SerialName("experience_years") val experienceYears: Int = 0,
     val employment: String? = null,
     @SerialName("edu_status") val eduStatus: String? = null,
+    @SerialName("edu_program") val eduProgram: String? = null,
+    @SerialName("edu_term") val eduTerm: String? = null,
+    @SerialName("edu_completed") val eduCompleted: String? = null,
     val bio: String? = null,
     @SerialName("is_locked") val isLocked: Int = 0,
     @SerialName("created_at") val createdAt: Long = 0,
@@ -1987,6 +1990,31 @@ interface ApiService {
         @Path("slug") slug: String,
         @Body body: kotlinx.serialization.json.JsonObject
     ): ApiInstSave
+
+    @GET("api/users/profile/{username}/portfolio/")
+    suspend fun userPortfolio(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String
+    ): ApiPortfolio
+
+    @POST("api/profile/entries/")
+    suspend fun addEntry(
+        @Header("Authorization") bearerToken: String,
+        @Body body: ApiEntryBody
+    ): ApiEntrySaved
+
+    @PATCH("api/profile/entries/{id}/")
+    suspend fun editEntry(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int,
+        @Body body: ApiEntryBody
+    ): ApiEntrySaved
+
+    @DELETE("api/profile/entries/{id}/")
+    suspend fun deleteEntry(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int
+    ): ApiEntrySaved
 
     @GET("api/pathways/on-neb/")
     suspend fun pathwaysOnNeb(): ApiOnNeb
