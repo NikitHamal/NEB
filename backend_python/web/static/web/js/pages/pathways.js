@@ -14,8 +14,13 @@ const firstStage=STAGES.find(s=>s.id==='after12')||STAGES[0],DEF=(()=>{const sm=
   return {stage:firstStage.id,stream:sm.id,course:sm.courses[0]||null,cc:withCol||Object.keys(C)[0],xg:TR[0]?TR[0][0]:'',exam:(Object.values(X).find(x=>TR[0]&&x.g===TR[0][0])||Object.values(X)[0]||{}).id,guide:(Object.values(G)[0]||{}).id}})();
 const STAGE_EDU=[0,1,2,3],STAGE_AGE=[14,16,18,22],EDU=['Class 8','SEE','+2','Bachelor','Master'];
 const PROV=['Koshi','Madhesh','Bagmati','Gandaki','Lumbini','Karnali','Sudur&shy;pashchim'];
-const INT=[['build','Building'],['heal','Healing'],['num','Numbers'],['ppl','People'],['make','Creating'],['law','Justice']];
-const STR=[['math','Maths'],['bio','Biology'],['lang','Language'],['biz','Business']];
+const INT=[['build','Building'],['heal','Healing'],['num','Numbers'],['ppl','People'],['make','Creating'],['law','Justice'],['nature','Nature'],['serve','Serving']];
+const STR=[['math','Maths'],['sci','Science'],['bio','Biology'],['lang','Languages'],['biz','Business'],['comp','Computers'],['art','Art']];
+const PRI=[['pay','Pay'],['demand','Demand'],['ease','Easy entry'],['cost','Low cost'],['abroad','Abroad'],['near','Near me']];
+const IG={build:['tech','sci'],heal:['health'],num:['biz','sci','tech'],ppl:['edu','biz','arts','gov'],make:['arts','tech'],law:['law','gov'],nature:['ag','sci'],serve:['gov','edu','health']};
+const SG={math:['tech','sci','biz'],sci:['sci','tech','health','ag'],bio:['health','ag'],lang:['arts','law','edu','gov'],biz:['biz'],comp:['tech'],art:['arts']};
+const ABR={tech:1,health:.9,biz:.6,sci:.5,edu:.3,law:.2,arts:.3,ag:.3,gov:0};
+const grpOf=c=>{const l=locate(c.id);return l?[l.sm.id]:[]};
 const TONES=['pc','tc','yc','gc','rc'],MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],NOW=new Date().getMonth()+1,YEAR=new Date().getFullYear();
 const pp=s=>s.split(',').map(x=>{const i=x.lastIndexOf(' ');return[x.slice(0,i),+x.slice(i+1)]});
 const rv=o=>[Math.min(100,o.pay[1]/2),o.d,100-o.c,o.f.t[1],o.f.t[0],o.f.t[2]];
@@ -25,7 +30,7 @@ const S={view:'explore',stage:DEF.stage,stream:DEF.stream,course:DEF.course,care
   tabs:{course:'journey',career:'pay',exam:'stages'},cmp:null,path:[],back:[],saved:new Set(),q:'',searching:false,lens:null,
   study:'nepal',cc:DEF.cc,prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
   xg:DEF.xg,exam:DEF.exam,edu:2,age:18,woman:'0',gcat:'All',guide:DEF.guide,done:new Set(),docs:new Set(),have:new Set(),
-  plan:'plan',mi:new Set(),ms:null,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
+  plan:'plan',mi:new Set(),ms:new Set(),mp:new Set(),foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
 let lastKey='',freshT=0,lastWide=false;try{const o=JSON.parse(localStorage.getItem('pw-state')||'{}');['saved','done','docs','have'].forEach(k=>(o[k]||[]).forEach(v=>S[k].add(v)))}catch(e){}
 const persist=()=>{try{localStorage.setItem('pw-state',JSON.stringify({saved:[...S.saved],done:[...S.done],docs:[...S.docs],have:[...S.have]}))}catch(e){}};
 
@@ -54,8 +59,8 @@ const gsum=(g,i)=>g.steps.reduce((a,s)=>a+s[i],0);
 const ICON={
 route:'<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a4 4 0 004-4V8.2"/>',
 cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
-exam:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 12.5l2 2 4-4.5"/>',
-list:'<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+exam:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
+list:'<path d="M3.5 6.5l1.8 1.8 3.2-3.6M3.5 16.5l1.8 1.8 3.2-3.6M12 7h9M12 17h9"/>',
 flag:'<path d="M5 21V4M5 4h13l-3 4 3 4H5"/>',
 pin:'<path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
 search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
@@ -81,6 +86,9 @@ function split(parts,f=v=>v+'%'){const ps=parts.filter(p=>p[1]>0);
 
 /* ============ VIEWS ============ */
 const stagesHTML=()=>`<div class="stages">${STAGES.map(s=>`<button class="stg ${s.id===S.stage?'on':''}" data-a="stage" data-v="${s.id}">${s.id===S.stage?s.t:s.n}</button>`).join('')}</div>`;
+function visaHTML(c){const v=c.vz;if(!v)return'';const st=v[1],dn=st.filter((_,i)=>S.done.has('v'+c.k+':'+i)).length;
+  return `<div class="vsa"><small><span>Visa steps · ${v[0]}</span><span>${dn}/${st.length}</span></small><ol class="vs">${st.map(([n,d,cost,mode,note],i)=>{const on=S.done.has('v'+c.k+':'+i);
+    return `<li class="${on?'d':''}" style="--i:${i}"><button data-a="vstep" data-v="${c.k}:${i}" aria-label="${on?'Undo':'Done'}: ${n}">${on?I('check',16):i+1}</button><div><span>${n}</span><small>${[d?dy(d):'',cost,mode].filter(Boolean).join(' · ')}</small>${note?`<em>${note}</em>`:''}</div></li>`}).join('')}</ol></div>`}
 function abList(){const mx=Math.max(60,...CT.map(c=>c.cost+c.live)),tot=c=>c.cost+c.live,bl=S.abmax/mx*100;
   return [...CT].sort((a,b)=>tot(a)-tot(b)).map(c=>{const T=tot(c),on=S.ab===c.k,ok=T<=S.abmax,pt=c.wage*c.work*4.3/1e5;
     return `<div role="button" tabindex="0" class="ab ${ok?'ok':'over'} ${on?'on':''}" data-a="ctry" data-v="${c.k}">
@@ -89,11 +97,11 @@ function abList(){const mx=Math.max(60,...CT.map(c=>c.cost+c.live)),tot=c=>c.cos
     <div class="abp"><span class="pl">${ok?'Within budget':'NPR '+(T-S.abmax)+'L over budget'}</span><span>${c.visa>=0?'Visa approval '+c.visa+'%':''}</span></div>
     ${on?`<div class="abx"><div><small>Work allowed</small><b>${c.work>0?c.work+' h / week':c.work===0?'None':'See notes'}</b></div><div><small>Stay after study</small><b>${c.stay||'See notes'}</b></div>
       <div><small>Entry test</small><b>${c.test}</b></div><div class="w2"><small>Intake months</small>${c.intake.length?months(m=>c.intake.includes(m)):'<b>See the university</b>'}</div>
-      <div class="chips w w2">${c.tx?`<button class="chip" data-a="goExam" data-v="${c.tx}">${X[c.tx].n}</button>`:''}${VISA?`<button class="chip" data-a="goGuide" data-v="${VISA}">Visa steps</button>`:''}<button class="chip" data-a="skf" data-v="${c.k}">Scholarships</button></div></div>`:''}</div>`}).join('')}
+      ${visaHTML(c)}<div class="chips w w2">${c.tx?`<button class="chip" data-a="goExam" data-v="${c.tx}">${X[c.tx].n}</button>`:''}<button class="chip" data-a="skf" data-v="${c.k}">Scholarships</button></div></div>`:''}</div>`}).join('')}
 const STUDY={
 nepal(){const cs=Object.keys(C).filter(hasCol),c=C[S.cc],list=COL.filter(x=>x.c.includes(S.cc)),fs=list.map(x=>x.fees[S.cc]).filter(v=>v!=null),lo=fs.length?Math.floor(Math.min(...fs)):0,hi=fs.length?Math.max(lo+1,Math.ceil(Math.max(...fs))):0;if(S.cmax==null)S.cmax=hi;
   return `<div class="chips">${cs.map(id=>`<button class="chip ${id===S.cc?'on':''}" data-a="cc" data-v="${id}">${C[id].n}</button>`).join('')}</div>
-  <div class="map">${PROV.map((p,i)=>{const n=list.filter(x=>x.p===i).length;return `<button class="pv p${i} ${S.prov===i?'on':''} ${n?'':'nil'}" data-a="prov" data-v="${i}"><b>${n}</b><span>${p}</span></button>`}).join('')}</div>
+  <div class="nm" id="nmap"></div>
   <div class="ctl">${hi?`<div class="sl"><input type="range" id="cmax" min="${lo}" max="${hi}" step="${hi-lo>20?1:.5}" value="${S.cmax}" aria-label="Maximum fee"><output id="cmaxv">${lakh(S.cmax)}</output></div>`:'<span></span>'}${segHTML([['fee','Fee'],['seats','Seats']],S.csort,'csort','')}</div>
   <div id="clist"></div>`},
 abroad(){return `<div class="abin"><b>Your budget for one year</b><span>Tuition plus living costs</span>
@@ -113,7 +121,7 @@ const V={
 explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(id=>C[id].to))];
   return `<div class="wrap">${stagesHTML()}
   <div class="grp">${st.streams.map(x=>`<button class="gb t-${x.tone} ${x.id===sm.id?'on':''}" data-a="stream" data-v="${x.id}">${x.n}</button>`).join('')}</div>
-  <div class="lens">${[['d','Demand'],['pay','Pay'],['ease','Odds']].map(([k,n])=>`<button class="lz ${S.lens===k?'on':''}" data-a="lens" data-v="${k}">${n}</button>`).join('')}</div>
+  <div class="lens"><button class="lk" id="lk" data-a="foc"></button><span class="lg">${[['d','Demand'],['pay','Pay'],['ease','Odds']].map(([k,n])=>`<button class="lz ${S.lens===k?'on':''}" data-a="lens" data-v="${k}">${n}</button>`).join('')}</span></div>
   <div class="flow" id="flow"><svg id="links"></svg>
     <div class="col">${cs.map((id,i)=>`<button class="nd c" style="--i:${i}" data-a="course" data-v="${id}"><i class="fl"></i><span>${C[id].n}</span><small></small></button>`).join('')}</div>
     <div class="col">${ks.map((id,i)=>`<button class="nd k" style="--i:${i+3}" data-a="career" data-v="${id}"><i class="fl"></i>${sig(K[id].d)}<span>${K[id].n}</span><small></small></button>`).join('')}</div>
@@ -129,7 +137,8 @@ guides(){const l=Object.values(G).filter(g=>S.gcat==='All'||g.cat===S.gcat);
 plan(){return `<div class="wrap pad">${segHTML([['plan','My plan'],['match','Match']],S.plan,'plan')}${S.plan==='plan'?
   `<p class="mad">I am <output id="pagev">${S.age}</output></p><input type="range" id="page" min="13" max="40" value="${S.age}" aria-label="Age"><div id="pout">${planOut()}</div>`:
   `${stagesHTML()}<p class="mad">I enjoy</p><div class="chips w">${INT.map(([k,n])=>`<button class="chip ${S.mi.has(k)?'on':''}" data-a="mi" data-v="${k}">${n}</button>`).join('')}</div>
-  <p class="mad">I am strong in</p><div class="chips w">${STR.map(([k,n])=>`<button class="chip ms ${S.ms===k?'on':''}" data-a="ms" data-v="${k}">${n}</button>`).join('')}</div>
+  <p class="mad">I am strong in</p><div class="chips w">${STR.map(([k,n])=>`<button class="chip ${S.ms.has(k)?'on':''}" data-a="ms" data-v="${k}">${n}</button>`).join('')}</div>
+  <p class="mad">I care about</p><div class="chips w">${PRI.map(([k,n])=>`<button class="chip ${S.mp.has(k)?'on':''}" data-a="mp" data-v="${k}">${n}</button>`).join('')}</div>
   <p class="mad">My budget is <output id="mbv">NPR ${S.mb}L</output></p><input type="range" id="mb" min="1" max="60" value="${S.mb}" aria-label="Budget">
   <div id="mres" style="margin-top:10px;position:relative"></div>`}</div>`}
 };
@@ -268,20 +277,29 @@ function renderMain(){const m=$('#pw-main'),over=S.searching&&S.q,key=[over?S.q&
   m.innerHTML=over?vSearch():V[S.view]();
   if(over)return;
   const on=$('.stg.on',m);if(on){const r=on.parentNode;r.scrollLeft=on.offsetLeft-(r.clientWidth-on.offsetWidth)/2}
-  if(S.view==='explore')drawLinks();
-  if(S.view==='study'&&S.study==='nepal')renderCList();
+  if(S.view==='explore')paint();
+  if(S.view==='study'&&S.study==='nepal'){renderCList();mountMap()}
   if(S.view==='plan'&&S.plan==='match')renderMatch()}
-function drawLinks(){const f=$('#flow');if(!f)return;
-  const P=e=>({l:e.offsetLeft,r:e.offsetLeft+e.offsetWidth,y:e.offsetTop+e.offsetHeight/2});let o='';
-  $$('.nd.c',f).forEach(a=>{const A=P(a);C[a.dataset.v].to.forEach(k=>{const b=$(`.nd.k[data-v="${k}"]`,f);if(!b)return;const B=P(b),m=(A.r+B.l)/2;
-    o+=`<path pathLength="1" data-c="${a.dataset.v}" data-k="${k}" d="M${A.r} ${A.y}C${m} ${A.y} ${m} ${B.y} ${B.l} ${B.y}"/>`})});
-  $('#links').innerHTML=o;paint()}
+// one trunk in the gap: every line runs out to the same x, along it, and in again, so many links read as one bracket
+let linkRaf=0,lastFoc=false;
+function drawLinks(live){const f=$('#flow'),L=$('#links');if(!f||!L)return;
+  const c=S.course,k=S.career;let es=[];
+  if(c)es=(k&&C[c].to.includes(k)?[k]:C[c].to).map(x=>[c,x]);else if(k)es=Object.keys(C).filter(id=>C[id].to.includes(k)).map(id=>[id,k]);
+  const N={};$$('.nd',f).forEach(e=>{N[(e.classList.contains('c')?'c':'k')+e.dataset.v]=e});
+  const ds=[];for(const [a,b] of es){const A=N['c'+a],B=N['k'+b];if(!A||!B||A.classList.contains('gone')||B.classList.contains('gone'))continue;
+    const x1=A.offsetLeft+A.offsetWidth,y1=A.offsetTop+A.offsetHeight/2,x2=B.offsetLeft,y2=B.offsetTop+B.offsetHeight/2,m=(x1+x2)/2,dy=y2-y1,r=Math.min(14,Math.abs(dy)/2,(x2-x1)/2),sg=dy<0?-1:1;
+    ds.push(Math.abs(dy)<1?`M${x1} ${y1}H${x2}`:`M${x1} ${y1}H${m-r}Q${m} ${y1} ${m} ${y1+sg*r}V${y2-sg*r}Q${m} ${y2} ${m+r} ${y2}H${x2}`)}
+  if(live&&L.children.length===ds.length){ds.forEach((d,i)=>L.children[i].setAttribute('d',d));return}
+  L.innerHTML=ds.map((d,i)=>`<path pathLength="1" style="--i:${i}" d="${d}"/>`).join('')}
 // course selected: its careers light up. career selected: every course that reaches it lights up.
-function paint(){const c=S.course,k=S.career,any=c||k;
+function paint(){const c=S.course,k=S.career,any=c||k,foc=!!(S.foc&&any);
   const cs=id=>c?(id===c?2:0):k&&C[id].to.includes(k)?1:0,ks=id=>k?(id===k?2:0):c&&C[c].to.includes(id)?1:0;
-  const set=(e,v)=>{e.classList.toggle('on',v===2);e.classList.toggle('lit',v===1);e.classList.toggle('dim',!!any&&!v)};
+  const set=(e,v)=>{e.classList.toggle('on',v===2);e.classList.toggle('lit',v===1);e.classList.toggle('dim',!!any&&!v&&!foc);e.classList.toggle('gone',foc&&!v)};
   $$('#flow .nd.c').forEach(e=>set(e,cs(e.dataset.v)));$$('#flow .nd.k').forEach(e=>set(e,ks(e.dataset.v)));
-  $$('#links path').forEach(p=>{const on=cs(p.dataset.c)&&ks(p.dataset.k);p.classList.toggle('on',!!on);p.classList.toggle('dim',!!any&&!on)});lensPaint()}
+  const lk=$('#lk');if(lk){const n=$$('#flow .nd.lit').length+(c&&k?1:0);lk.classList.toggle('show',!!any);lk.classList.toggle('on',foc);lk.textContent='Linked '+n}
+  lensPaint();drawLinks();
+  cancelAnimationFrame(linkRaf);if(foc||lastFoc){const t0=performance.now();(function tick(t){drawLinks(true);if(t-t0<520)linkRaf=requestAnimationFrame(tick)})(t0)}
+  lastFoc=foc}
 // lens: fills every node with one metric so a whole stream can be read at a glance
 function lensPaint(){$$('#flow .nd').forEach(e=>{const isC=e.classList.contains('c'),o=isC?C[e.dataset.v]:K[e.dataset.v];let w=0,t=isC?yr(o.y):'';
   if(S.lens==='d'){w=o.d;t=o.d}
@@ -296,19 +314,31 @@ function renderSheet(){const el=$('#pw-sheet'),c=cur();el.classList.toggle('open
   el.innerHTML=c?SHEET[c.t](c.id):'';el.scrollTop=0;updExp()}
 function repanel(){const c=cur(),p=$('#tabp');if(c&&p&&PANEL[c.t]){p.innerHTML=PANEL[c.t](c.id);updExp()}}
 function renderNav(){$('#pw-nav').innerHTML=[['explore','route','Explore'],['study','cap','Study'],['exams','exam','Exams'],['guides','list','Guides'],['plan','flag','Plan']]
-  .map(([v,ic,n])=>`<button class="${S.view===v?'on':''}" data-a="nav" data-v="${v}"><i>${I(ic)}${v==='plan'&&S.saved.size?`<span class="cnt">${S.saved.size}</span>`:''}</i>${n}</button>`).join('')}
+  .map(([v,ic,n])=>`<button class="${S.view===v?'on':''}" data-a="nav" data-v="${v}" aria-label="${n}" title="${n}"><i>${I(ic,24)}${v==='plan'&&S.saved.size?`<span class="cnt">${S.saved.size}</span>`:''}</i></button>`).join('')}
+let NMAP=null;
+const mapCounts=()=>{const m={};COL.filter(x=>x.c.includes(S.cc)).forEach(x=>{m[x.d]=(m[x.d]||0)+1});return m};
+function mountMap(){const el=$('#nmap');NMAP=el&&window.PWMAP?PWMAP.mount(el,{counts:mapCounts(),selected:S.dist||'',onPick:n=>A.dist(n)}):null}
 function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let l=COL.filter(x=>x.c.includes(S.cc)).map(x=>({...x,fee:x.fees[S.cc]}));const MXF=Math.max(.1,...l.map(x=>x.fee||0));
   if(S.prov!=null)l=l.filter(x=>x.p===S.prov);
   const ds=[...new Set(l.map(x=>x.d))];if(!ds.includes(S.dist))S.dist=null;if(S.dist)l=l.filter(x=>x.d===S.dist);
   l=l.filter(x=>x.fee==null||x.fee<=S.cmax).sort((a,b)=>S.csort==='fee'?(a.fee??1e9)-(b.fee??1e9):b.seats-a.seats);const nAll=l.length;l=l.slice(0,60);
   box.innerHTML=(ds.length>1?`<div class="chips">${ds.map(d=>`<button class="chip ${S.dist===d?'on':''}" data-a="dist" data-v="${d}">${d}</button>`).join('')}</div>`:'')+
   (l.map(x=>`<div class="crow"><div><b>${x.n}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${x.t==='Public'?'gc':'tc'}">${x.t}</span>${x.fee!=null?`<div class="fee"><i style="width:${x.fee/MXF*100}%"></i></div><span class="fv">${lakh(x.fee)}</span>`:''}</div>`).join('')||empty('No colleges'))+(nAll>60?`<p class="mk-n">Showing 60 of ${nAll}. Narrow by province, district or fee.</p>`:'')}
-function score(c){let s=0;
-  if(S.mi.size)s+=55*[...S.mi].filter(x=>c.tags.includes(x)).length/S.mi.size;else s+=25;
-  s+=S.ms?(c.st===S.ms?25:0):10;s+=c.fee[0]<=S.mb?(c.fee[1]<=S.mb?15:9):0;s+=c.d/20;return Math.min(99,Math.round(s))}
+function matchOf(pool){
+  const mxp=Math.max(1,...pool.map(c=>c.pay?c.pay[1]:0)),mxf=Math.max(1,...pool.map(c=>c.fee[0])),b=S.mb;
+  return pool.map(c=>{const g=grpOf(c),hit=(m,x)=>(m[x]||[]).some(y=>g.includes(y)),
+    ih=[...S.mi].filter(x=>c.tags.includes(x)||hit(IG,x)).length,sh=[...S.ms].filter(x=>c.st===x||hit(SG,x)).length,
+    it=!S.mi.size?.5:ih?.6+.4*ih/S.mi.size:0,sr=!S.ms.size?.5:sh?.7+.3*sh/S.ms.size:.1,
+    [lo,hi]=c.fee,bf=hi<=b?1:lo<=b?.4+.6*(b-lo)/Math.max(.01,hi-lo):Math.max(0,.3*(1-(lo-b)/Math.max(lo,.01))),
+    pr={pay:(c.pay?c.pay[1]:0)/mxp,demand:c.d/100,ease:1-c.c/100,cost:1-lo/mxf,abroad:g.length?Math.max(...g.map(x=>ABR[x]||0)):.3,near:S.dist&&COL.some(x=>x.d===S.dist&&x.c.includes(c.id))?1:0},
+    ch=[...S.mp],ps=ch.length?ch.reduce((a,k)=>a+pr[k],0)/ch.length:(pr.demand+pr.pay)/2,
+    t=.36*it+.18*sr+.16*bf+.22*ps+.08*c.d/100,why=[];
+    if(S.mi.size&&it>=.6)why.push('Interests');if(S.ms.size&&sr>=.7)why.push('Strengths');if(bf>=1)why.push('In budget');
+    ch.filter(k=>pr[k]>=.7).forEach(k=>why.push(PRI.find(p=>p[0]===k)[1]));
+    return{c,s:Math.max(1,Math.min(99,Math.round(t*100))),why:why.slice(0,3)}}).sort((a,b)=>b.s-a.s)}
 function renderMatch(){const box=$('#mres');if(!box)return;const old={};$$('.mrow',box).forEach(e=>old[e.dataset.v]=e.offsetTop);
-  const l=stage().streams.flatMap(x=>x.courses).map(id=>({c:C[id],s:score(C[id])})).sort((a,b)=>b.s-a.s).slice(0,6);
-  box.innerHTML=l.map(({c,s})=>`<button class="mrow" data-a="goCourse" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b><span>${c.f}</span></div>${I('arrow',20)}</button>`).join('');
+  const l=matchOf(stage().streams.flatMap(x=>x.courses).map(id=>C[id])).slice(0,6);
+  box.innerHTML=l.map(({c,s,why})=>`<button class="mrow" data-a="goCourse" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b>${why.length?`<div class="rz">${why.map(w=>`<i>${w}</i>`).join('')}</div>`:`<span>${c.f}</span>`}</div>${I('arrow',20)}</button>`).join('');
   $$('.mrow',box).forEach(e=>{const o=old[e.dataset.v];if(!e.animate)return;
     if(o==null)e.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'none'}],{duration:350,easing:'cubic-bezier(.2,0,0,1)'});
     else if(o!==e.offsetTop)e.animate([{transform:`translateY(${o-e.offsetTop}px)`},{transform:'none'}],{duration:520,easing:'cubic-bezier(.34,1.56,.64,1)'})})}
@@ -325,6 +355,7 @@ nav(v){S.view=v;S.open=false;S.back=[];clearOver();render()},
 stage(v){const i=STAGES.findIndex(s=>s.id===v);S.stage=v;S.stream=stage().streams[0].id;S.edu=STAGE_EDU[i];S.age=STAGE_AGE[i];S.course=S.career=S.sel=null;S.path=[];S.open=false;render()},
 stream(v){S.stream=v;S.course=S.career=S.sel=null;render()},
 home(){S.course=S.career=S.sel=null;render()},
+foc(){S.foc=!S.foc;paint()},
 lens(v){S.lens=S.lens===v?null:v;$$('.lz').forEach(b=>b.classList.toggle('on',b.dataset.v===S.lens));lensPaint()},
 course(v){if(S.course===v){S.course=null;S.sel=S.career?{t:'career',id:S.career}:null}else{S.course=v;if(S.career&&!C[v].to.includes(S.career))S.career=null;S.sel={t:'course',id:v};S.tabs.course='journey';S.cmp=null}select()},
 career(v){if(S.career===v){S.career=null;S.sel=S.course?{t:'course',id:S.course}:null}else{S.career=v;if(S.course&&!C[S.course].to.includes(v))S.course=null;S.sel={t:'career',id:v};S.exp=3}select()},
@@ -353,9 +384,9 @@ goSch(v){S.view='study';S.study='funding';S.stype='All';S.slvl='All';S.sk=null;S
 find(v){S.cc=v;S.cmax=null;S.prov=S.dist=null;S.view='study';S.study='nepal';S.open=false;S.back=[];clearOver();render()},
 study(v){S.study=v;renderMain()},
 cc(v){S.cc=v;S.cmax=null;S.prov=S.dist=null;renderMain()},
-prov(v){S.prov=S.prov===+v?null:+v;S.dist=null;renderMain()},
-dist(v){S.dist=S.dist===v?null:v;renderCList()},
+dist(v){S.dist=v&&S.dist!==v?v:null;renderCList();if(NMAP)NMAP.update(mapCounts(),S.dist||'')},
 csort(v){S.csort=v;renderMain()},
+vstep(v){const k='v'+v;if(S.done.has(k))S.done.delete(k);else S.done.add(k);const l=$('#ablist');if(l)l.innerHTML=abList()},
 ctry(v){S.ab=S.ab===v?null:v;const l=$('#ablist');if(l)l.innerHTML=abList();else renderMain()},
 skf(v){S.sk=v||null;S.study='funding';S.stype='All';S.slvl='All';renderMain()},
 stype(v){S.stype=v;renderMain()},slvl(v){S.slvl=v;renderMain()},
@@ -371,7 +402,8 @@ step(v,t){tog(S.done,v);t.classList.toggle('done');const g=G[v.split(':')[0]],w=
 doc(v,t){tog(S.docs,v);t.classList.toggle('on')},
 plan(v){S.plan=v;renderMain()},
 mi(v,t){tog(S.mi,v);t.classList.toggle('on');renderMatch()},
-ms(v){S.ms=S.ms===v?null:v;$$('.chip.ms').forEach(b=>b.classList.toggle('on',b.dataset.v===S.ms));renderMatch()},
+ms(v,t){tog(S.ms,v);t.classList.toggle('on');renderMatch()},
+mp(v,t){tog(S.mp,v);t.classList.toggle('on');renderMatch()},
 search(){S.searching=!S.searching;S.q='';renderTop();renderMain();renderPeek();const q=$('#q');if(q)q.focus()}
 };
 const IN={
@@ -388,7 +420,7 @@ aid(v){S.aid=+v;$('#aidv').textContent='Aid '+v+'%';const c=cur();if(c&&c.t==='c
 root.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(t&&A[t.dataset.a])A[t.dataset.a](t.dataset.v,t)});
 root.addEventListener('input',e=>{const f=IN[e.target.id];if(f)f(e.target.value)});
 root.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[role=button]')){e.preventDefault();e.target.click()}});
-new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}else drawLinks()}).observe($('#pw-main'));
+new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}else drawLinks(true)}).observe($('#pw-main'));
 new ResizeObserver(()=>{if(wide()!==lastWide){lastWide=wide();render()}}).observe(root);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawLinks);
 render();

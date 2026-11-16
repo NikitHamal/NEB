@@ -344,6 +344,10 @@ def payload():
             for old, new in pairs:
                 assert old in faq_by[fid]['a'], (fid, old)
                 faq_by[fid]['a'] = faq_by[fid]['a'].replace(old, new)
+    if (DATA / 'visa.json').exists():
+        vj = _load('visa.json')
+        for a_ in abroad:
+            a_['visa'] = vj['visa'].get(a_['id'], vj['default'])
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],

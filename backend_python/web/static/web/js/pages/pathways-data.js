@@ -68,7 +68,7 @@
     P.routes.forEach(function (r) { (r.where || []).forEach(function (id) { var c = COL[id]; if (!c) return; c.c.push(r.id);}); });
     P.providers.forEach(function (p) { var c = COL[p.id]; Object.keys(p.fees || {}).forEach(function (rid) { if (c.c.indexOf(rid) >= 0) c.fees[rid] = p.fees[rid][1] / 1e5; }); });
     var abroad = P.abroad.map(function (a) { return { k: a.code || a.id.toUpperCase(), id: a.id, n: a.country, cost: Math.round((a.tuition[0] + a.tuition[1]) / 2e5), live: Math.round((a.living[0] + a.living[1]) / 2e5),
-      work: a.work_hours != null ? a.work_hours : -1, stay: a.stay_back || '', test: (a.exams || []).slice(0, 2).join(', ') || 'Check the university', intake: monthsOf(a.intakes), wage: 0, visa: a.visa_rate != null ? a.visa_rate : -1, tx: '', schol: a.scholarships || [] }; });
+      work: a.work_hours != null ? a.work_hours : -1, stay: a.stay_back || '', test: (a.exams || []).slice(0, 2).join(', ') || 'Check the university', intake: monthsOf(a.intakes), wage: 0, visa: a.visa_rate != null ? a.visa_rate : -1, tx: '', schol: a.scholarships || [], vz: a.visa && a.visa.steps ? [a.visa.name, a.visa.steps] : null }; });
     var byAb = {}; P.abroad.forEach(function (a) { byAb[a.id] = a; });
     var lv = { bachelor: 'B', master: 'M', phd: 'P' };
     var SCH = P.scholarships.map(function (s) {

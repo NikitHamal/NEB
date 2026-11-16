@@ -25,5 +25,7 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-data.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}">window.NM_SRC="{% static 'web/data/nepal_map.json' %}";</script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways-map.js' %}" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/pathways.js' %}" defer></script>
 {% endblock %}

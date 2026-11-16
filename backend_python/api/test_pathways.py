@@ -728,3 +728,20 @@ class Wave16Tests(TestCase):
                 self.assertEqual(len(step), 4)
         self.assertIn('opcr.nepalpolice.gov.np', guides['police-clearance']['steps'][0][0])
         self.assertEqual(pathways.problems(d), [])
+
+    def test_every_country_has_visa_steps(self):
+        d = pathways.payload()
+        self.assertGreaterEqual(len(d['abroad']), 40)
+        for a in d['abroad']:
+            v = a['visa']
+            self.assertTrue(v['name'])
+            self.assertGreaterEqual(len(v['steps']), 4, a['id'])
+            for s in v['steps']:
+                self.assertEqual(len(s), 5, (a['id'], s))
+                self.assertIsInstance(s[1], int)
+                self.assertIn(s[3], ('online', 'in person', ''))
+                self.assertNotIn('\u2013', ''.join(map(str, s)))
+                self.assertNotIn('\u2014', ''.join(map(str, s)))
+        by = {a['id']: a for a in d['abroad']}
+        self.assertEqual(by['au']['visa']['name'], 'Student visa (subclass 500)')
+        self.assertEqual(by['us']['visa']['steps'][1][2], 'USD 350')
