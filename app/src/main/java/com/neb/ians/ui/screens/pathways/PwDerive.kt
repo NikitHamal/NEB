@@ -62,7 +62,10 @@ internal fun groupToneIndex(g: String): Int = when (g) {
 }
 
 internal fun shortStage(label: String): String =
-    label.removePrefix("After ").removePrefix("a ").removePrefix("Class ").replaceFirstChar { it.uppercase() }
+    label.removePrefix("After ").removePrefix("a ").replaceFirstChar { it.uppercase() }
+
+/** Map label: drops the parenthetical and alternate names, e.g. "BCA (Computer Application)" to "BCA". */
+internal fun shortName(name: String): String = name.substringBefore(" (").substringBefore(" / ").trim().ifEmpty { name }
 
 internal val PROVINCES = listOf("Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim")
 internal val DISTRICT_PROVINCE: Map<String, Int> = buildMap {
