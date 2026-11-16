@@ -278,6 +278,28 @@ def payload():
             by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
         guides = guides + w14['guides_add']
         faq_all = faq_all + w14['faq_add']
+    if (DATA / 'wave15.json').exists():
+        w15 = _load('wave15.json')
+        abroad = abroad + w15['abroad_add']
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w15['abroad_update'].items():
+            abroad_by[aid].update(more)
+        scholarships = scholarships + w15['scholarships_add']
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w15['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        for sc in w15['scholarships_add']:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        by_provider = {x['id']: x for x in providers}
+        for pid, more in w15['provider_update'].items():
+            by_provider[pid].update(more)
+        govt = govt + w15['govt_add']
+        by_govt = {g['id']: g for g in govt}
+        for gid, text in w15['govt_note_add'].items():
+            by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
+        faq_all = faq_all + w15['faq_add']
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],

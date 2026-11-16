@@ -880,3 +880,34 @@ Study in Portugal, studyu.org, studyineurope.eu; EC Study in Europe country prof
 - Official Nepal Medical Council list of recognised foreign medical schools; official Uzbekistan, Portugal and Georgia work rules; Hong Kong tuition per university.
 - Per college CTEVT fees, websites for providers that have none, Health Service (Staff Nurse, Health Assistant) Lok Sewa exam entries from a federal PSC notice.
 
+
+
+---
+
+# Session 35: Pathways dataset wave 15 (verified college websites, four destinations, Health Service exams, 2083/84 dates)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`). Bootstrap run, history read (sessions 16 to 34, `docs/PATHWAYS_SCHEMA.md`, wave 14 scripts). No screen was touched: data only, in the files both apps read (`wave15.json` merged by `pathways.py`, built by `tools/pathways/build_wave15.py`). The new tests ran under a stub `TestCase` (all pass); `problems()` is empty.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 203 | **Websites for 81 colleges that had none** (providers with a website 147 to 228 of 443). Each address was fetched by a script and kept only when the page title carried the college name and the page named its town or district; look-alikes (news site, travel site, consultancy, law firm, parked domain) were thrown out by hand. | `w15_sites.py` |
+| 204 | **Four destinations**: Romania (public fees, MBBS band, 4 hours a day work rule), Estonia (no weekly cap, 9 month job search, funds figure disagrees between sources and the note says so), Switzerland (ETH and EPFL CHF 2,190 a semester from autumn 2025, CHF 21,000 funds, permit through the canton), Cyprus (private university fees, work rule not confirmed). Swiss Government Excellence is now linked to Switzerland. | `w15_abroad.py` |
+| 205 | **Romanian Government Scholarship** (Ministry of Foreign Affairs): all fields except medicine, dental and pharmacy, 2026/27 call 16 February to 31 March 2026, results about 15 July. | `w15_abroad.py` |
+| 206 | **Two Health Service exams**: Staff Nurse (PCL Nursing and council registration, 100 / 100 / 30 mark stages) and Health Assistant, linked to their careers. | `w15_nepal.py` |
+| 207 | **2083/84 Lok Sewa dates** on Kharidar and Nayab Subba: pre qualifying tests for organised institutions on 3 and 4 Ashoj 2083, applications to 26 Shrawan 2083, next civil service round expected Baisakh 2084 (calendar summary). | `w15_nepal.py` |
+| 208 | **10 FAQs (fw15-1 to 10)**: NEB Grade 12 exams of 14 to 27 Baisakh 2083, SEE dates and the next SEE registration rule, pre qualifying test, Staff Nurse and Health Assistant, Romania cost and scholarship, Estonia, ETH, Cyprus, cheapest European countries. | `w15_nepal.py` |
+| 209 | **Merge and checks**: `pathways.py` reads `wave15.json`; `Wave15Tests`. | `pathways.py`, `test_pathways.py` |
+
+## Sources
+Public Service Commission notices 101 and 102 of 2083/84 (via educatenepal.com), loksewaai.com, loksewatayariapp.com, edusanjal.com and nepalipoint.com (NEB routine 2083), nebresult.com (SEE 2082), sanmarina.edu.np, truescho.com, stinwo.ro (Romania), globaladmissions.com and eduatlashub.com (Romanian scholarship), study-abroad.org, karangupta.com (Estonia), college-council.com and falconnovaconsultants.com (ETH), bajwamigration.com and studyu.org (Cyprus).
+
+## Rules (Pathways data)
+- Do not repeat wave 12 to 14 keys. New data goes in `wave15.json` through `build_wave15.py`; pull before pushing.
+- A website is added only after it was fetched and carried the college name and its town. Do not guess domains.
+- Agency pages were the only readable source for several fees and work rules; each says "agencies say" or "sources disagree".
+
+## Not done / next
+- Websites for the 215 providers that still have none (most medical colleges returned nothing from simple domain probes; search the name).
+- Official Nepal Medical Council list of recognised foreign medical schools, per college CTEVT fees, Health Service syllabus marks for Health Assistant from the commission page.

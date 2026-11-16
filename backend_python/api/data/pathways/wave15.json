@@ -1,0 +1,573 @@
+{
+ "abroad_add": [
+  {
+   "id": "ro",
+   "country": "Romania",
+   "tuition": [
+    297500,
+    1575000
+   ],
+   "living": [
+    840000,
+    1470000
+   ],
+   "code": "RO",
+   "exams": [
+    "IELTS, TOEFL or a university English test for English taught programmes",
+    "Romanian language preparatory year for Romanian taught programmes"
+   ],
+   "intakes": "October (the academic year starts then); apply from spring",
+   "fields": [
+    "Medicine",
+    "Dentistry",
+    "Engineering",
+    "Computer science",
+    "Business"
+   ],
+   "work": "Agency pages agree that a student residence permit lets you work up to 4 hours a day (about 20 hours a week) in term without a separate work permit, and generally full time in official holidays. Confirm with the General Inspectorate for Immigration and your university.",
+   "work_hours": 20,
+   "note": "The cheapest tuition in the European Union. Public universities charge non EU students EUR 1,700 to 4,500 a year for most degrees (one list starts at EUR 660, another quotes up to EUR 9,000), English taught medicine EUR 5,000 to 8,500 and sometimes up to 12,000 a year over six years, living EUR 400 to 700 a month (Bucharest and Cluj cost more than smaller cities). The long stay study visa is applied for after your acceptance letter; agencies say Nepali students use the honorary consulate in Kathmandu or the embassy in New Delhi and quote about EUR 3,000 as the funds to show plus a residence permit fee near EUR 120, so ask the Romanian foreign ministry or your university before you pay anyone. Several agencies advertise MBBS as NMC approved, which means India. For Nepal, check that the Nepal Medical Council recognises the college first. NPR figures are rough, at EUR 1 about NPR 175 and CHF 1 about NPR 175."
+  },
+  {
+   "id": "ee",
+   "country": "Estonia",
+   "tuition": [
+    262500,
+    1312500
+   ],
+   "living": [
+    1155000,
+    2100000
+   ],
+   "code": "EE",
+   "exams": [
+    "IELTS, TOEFL or an equal English test",
+    "Entrance test or portfolio for some programmes"
+   ],
+   "intakes": "September, and February for some programmes",
+   "fields": [
+    "IT and computer science",
+    "Engineering",
+    "Business",
+    "Digital society",
+    "Natural sciences"
+   ],
+   "work": "Agency and guide pages say a student residence permit holder can work with no weekly hour cap as long as the job does not harm the studies, so part time work is practical mostly in IT and hospitality. Confirm with the Police and Border Guard Board before counting on income.",
+   "stay_back": "9 months to look for work after graduating",
+   "note": "English taught programmes at public universities cost EUR 1,500 to 7,500 a year (Tartu bachelor about EUR 2,500 to 4,000, TalTech bachelor about EUR 3,200 to 7,500, private universities EUR 7,000 to 12,000, medicine about EUR 12,000); one source says doctoral studies carry no tuition at public universities. Living is about EUR 550 to 850 a month in Tartu and EUR 700 to 1,000 in Tallinn. Funds for the permit are quoted at EUR 350 a month on one page and EUR 438 on another, so the figure moves: ask the Police and Border Guard Board. The state fee for a study residence permit is quoted at EUR 96, and you first need a D visa from an Estonian embassy or VFS centre. NPR figures are rough, at EUR 1 about NPR 175 and CHF 1 about NPR 175.",
+   "scholarships": [
+    "s-erasmus"
+   ]
+  },
+  {
+   "id": "ch",
+   "country": "Switzerland",
+   "tuition": [
+    766500,
+    766500
+   ],
+   "living": [
+    3675000,
+    4200000
+   ],
+   "code": "CH",
+   "exams": [
+    "German or French proof for most bachelor programmes",
+    "IELTS or TOEFL for English taught master programmes at ETH and EPFL"
+   ],
+   "intakes": "September (autumn semester); ETH and EPFL deadlines are months earlier",
+   "fields": [
+    "Engineering",
+    "Computer science",
+    "Natural sciences",
+    "Architecture",
+    "Hospitality"
+   ],
+   "work": "Agency pages say 15 hours a week in term. Swiss rules normally allow student work only after the first six months of study and with the canton's approval, so confirm with your canton's migration office. Pay is high but so are costs.",
+   "work_hours": 15,
+   "stay_back": "6 months to look for work after graduating",
+   "note": "No student visa as such: non EU students apply for a residence permit for education through the canton. Since autumn 2025 most international students at ETH Zurich and EPFL pay CHF 2,190 a semester (about CHF 4,380 a year), against CHF 730 for Swiss residents. ETH asks for proof of CHF 21,000 a year (CHF 24,000 in Basel), in your own name at a Swiss regulated bank, and compulsory Swiss health insurance of about CHF 300 to 400 a month adds to that. The tuition figure here is the two federal institutes only; cantonal universities set their own fees. Admission is strict. The Swiss Government Excellence Scholarship is for researchers and artists at master and doctoral level. NPR figures are rough, at EUR 1 about NPR 175 and CHF 1 about NPR 175.",
+   "scholarships": [
+    "s-swiss"
+   ]
+  },
+  {
+   "id": "cy",
+   "country": "Cyprus",
+   "tuition": [
+    612500,
+    1925000
+   ],
+   "living": [
+    1575000,
+    2100000
+   ],
+   "code": "CY",
+   "exams": [
+    "IELTS or an equal English test, or the university's own test"
+   ],
+   "intakes": "September and February",
+   "fields": [
+    "Business",
+    "Medicine",
+    "Computer science",
+    "Engineering",
+    "Hospitality"
+   ],
+   "work": "Not checked on an official page. Agencies describe tight limits for non EU students and several say work is allowed only after the first months with the university's support. Ask the university and the Civil Registry and Migration Department before you count on any income.",
+   "note": "Mostly private universities. Agencies quote bachelor tuition at EUR 3,500 to 7,000 in public and EUR 5,500 to 9,500 in private universities; one 2026/27 table lists European University Cyprus at EUR 9,240 to 10,980 for a bachelor, EUR 8,910 for a master and EUR 23,000 for medicine. Living is quoted at EUR 9,000 to 12,000 a year. The education system is EU recognised, but the recognition of a degree by Nepal for later study or a licence is separate: ask for the Tribhuvan University equivalence rules and, for medicine, the Nepal Medical Council. Choose your university yourself and keep the fee letter in writing. NPR figures are rough, at EUR 1 about NPR 175 and CHF 1 about NPR 175."
+  }
+ ],
+ "abroad_update": {},
+ "scholarships_add": [
+  {
+   "id": "s-romania-govt",
+   "name": "Romanian Government Scholarship (Ministry of Foreign Affairs)",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master",
+    "phd"
+   ],
+   "by": "Romanian Ministry of Foreign Affairs with the Ministry of Education",
+   "covers": "Exemption from registration and tuition fees, a free Romanian language preparatory year if needed, a dormitory place subject to availability and a small monthly stipend (listings quote EUR 65 bachelor, EUR 75 master, EUR 85 doctoral)",
+   "who": "Non EU citizens, for bachelor, master and doctoral study in Romanian universities in all fields except medicine, dental medicine and pharmacy. The call is annual and lists some categories that cannot apply, so read the current call.",
+   "how": "Apply online at scholarships.studyinromania.gov.ro. The 2026/27 call ran from 16 February to 31 March 2026 with results about 15 July, so the next call is expected in the same months of 2027. Documents must be apostilled or attested, scanned as PDFs and translated into English, French, Spanish or Romanian.",
+   "link": "https://scholarships.studyinromania.gov.ro",
+   "country": "ro",
+   "type": "Government",
+   "open": [
+    2,
+    3
+   ]
+  }
+ ],
+ "scholarship_extra": {
+  "s-swiss": {
+   "country": "ch"
+  }
+ },
+ "govt_add": [
+  {
+   "id": "g-staff-nurse",
+   "track": "psc",
+   "name": "Staff Nurse (Health Service)",
+   "level": "Assistant fifth level, nursing group",
+   "need": "PCL in Nursing and Nepal Nursing Council registration",
+   "age": "18 to 45 years as quoted by prep guides; read the notice",
+   "body": "Public Service Commission (health service posts in ministry, hospital and provincial offices)",
+   "stages": [
+    [
+     "First paper",
+     "Objective test of 100 marks, pass mark 45. It is a screening paper and the marks do not add to the final merit.",
+     "100"
+    ],
+    [
+     "Second paper",
+     "Subjective paper of 100 marks: 12 short answers (60 marks) and 4 long answers (40 marks), 2 hours 15 minutes, pass mark 40.",
+     "100"
+    ],
+    [
+     "Interview",
+     "Oral interview of 30 marks. Final merit adds the written and interview marks.",
+     "30"
+    ]
+   ],
+   "subjects": [
+    "Fundamentals of nursing",
+    "Medical and surgical nursing",
+    "Community health and public health",
+    "Maternal and child health",
+    "Health policy and management"
+   ],
+   "prep": [
+    "Keep the Nepal Nursing Council licence valid before the notice closes",
+    "Practise past papers from the commission site",
+    "Read the current syllabus on psc.gov.np, which was revised in 2080"
+   ],
+   "note": "Notices appear on psc.gov.np and the commission calendar for the year; health posts follow their own dates. Fees, ages and the quota for women, Madhesi, Dalit, Janajati and disabled candidates are listed in each notice. The age and mark pattern here comes from prep guides, so check the notice before you apply.",
+   "career": "nurse"
+  },
+  {
+   "id": "g-health-assistant",
+   "track": "psc",
+   "name": "Health Assistant (Health Service)",
+   "level": "Assistant fifth level, general medicine group",
+   "need": "PCL in General Medicine (Health Assistant) and Nepal Health Professional Council registration",
+   "age": "18 to 45 years as quoted by prep guides; read the notice",
+   "body": "Public Service Commission (health posts, hospitals and provincial offices)",
+   "stages": [
+    [
+     "Written examination",
+     "Objective and subjective papers on general medicine, public health and emergency care, with a first stage screening pass. The exact marks and times are in each notice."
+    ],
+    [
+     "Interview",
+     "Oral interview, then the merit list."
+    ]
+   ],
+   "subjects": [
+    "General medicine",
+    "Public health and community health",
+    "Emergency care and first aid",
+    "Maternal and child health",
+    "Health policy and management"
+   ],
+   "prep": [
+    "Renew the Health Professional Council registration",
+    "Study the syllabus for the group on psc.gov.np",
+    "Practise past papers and follow notices through the year"
+   ],
+   "note": "Same Health Service route as the Staff Nurse. Health Assistants run health posts and primary care, so rural postings are common in the first years. Only the qualification, registration and the broad stages are given here; the commission notice has the dates, fee and marks.",
+   "career": "health-assistant"
+  }
+ ],
+ "govt_note_add": {
+  "g-kharidar": "Dates seen for 2083/84: the commission ran an open pre qualifying test for organised institutions (Sangathit Sanstha), notice 102/083-84 for Assistant second class (Kharidar level), on 4 Ashoj 2083 at 2 pm (about 21 September 2026), with applications to 26 Shrawan 2083 (11 August 2026) and a double fee window to 2 Bhadra 2083 (18 August). Age is counted on the deadline: 18 to 35, up to 40 for women and candidates with disability, and a SEE grade point of at least 2.0. A pass in this test is the entry ticket for the later main written exam of the organised institution. A calendar summary says the civil service Kharidar and Nayab Subba notices come in the first week of Shrawan and again in Baisakh, with the exams in Ashoj and Asar, so the next round is expected around Baisakh 2084. The notice has the fee.",
+  "g-nayab": "Dates seen for 2083/84: notice 101/083-84 for Assistant first class (Nayab Subba level, fifth level) in organised institutions held its open pre qualifying test on 3 Ashoj 2083 at 2 pm (about 20 September 2026); applications closed on 26 Shrawan 2083 (11 August 2026), double fee to 2 Bhadra 2083 (18 August). Age 18 to 35, up to 40 for women and candidates with disability, counted on the deadline; +2 with a grade point of at least 2.0. The calendar summary puts the next civil service round in Baisakh 2084 with exams in Asar."
+ },
+ "faq_add": [
+  {
+   "id": "fw15-1",
+   "topic": "after12",
+   "q": "When were the NEB Grade 12 exams of 2083 held?",
+   "go": [
+    "plus2-science",
+    "plus2-management"
+   ],
+   "a": "The National Examination Board published the Grade 12 routine on 17 February 2026: exams for regular and partial students in the general, technical and traditional streams ran from 14 Baisakh 2083 to 27 Baisakh 2083 (about 27 April to 10 May 2026), starting with Compulsory English and then Compulsory Nepali. Results and the improvement or partial exam dates are posted on neb.gov.np, so read the official notice before you plan your bachelor entrance forms."
+  },
+  {
+   "id": "fw15-2",
+   "topic": "after10",
+   "q": "What are the SEE exam, result and re-exam dates?",
+   "go": [
+    "see-general",
+    "open-school-see"
+   ],
+   "a": "The SEE of the 2082 session was held from 2 to 12 April 2026 and the result came out on 28 Baisakh 2083 (11 May 2026). The supplementary exam ran from 1 to 9 Asar 2083 (about 15 to 23 June 2026) and the grade improvement exam was set for Bhadra 2083. The next SEE is called SEE 2083: Class 9 students of the 2082 session filled the registration form from 19 Kartik to 24 Mangsir 2082, and a student must complete 14 years by the end of Chaitra 2083. Dates move, so check see.gov.np or neb.gov.np."
+  },
+  {
+   "id": "fw15-3",
+   "topic": "afterbach",
+   "q": "What is the Lok Sewa pre qualifying test for organised institutions?",
+   "go": [
+    "lok-sewa"
+   ],
+   "a": "Government owned organisations (Sangathit Sanstha) hold an open pre qualifying test before their main exam. For 2083/84, notice 101 (Nayab Subba level) was held on 3 Ashoj 2083 and notice 102 (Kharidar level) on 4 Ashoj 2083, both at 2 pm; the age bar is 18 to 35 (40 for women and candidates with disability) counted on the application deadline of 26 Shrawan 2083. Passing it lets you apply to the later main exam of the organisation. The next round is expected after Baisakh 2084 and the dates are on psc.gov.np."
+  },
+  {
+   "id": "fw15-4",
+   "topic": "afterbach",
+   "q": "How do I become a government Staff Nurse or Health Assistant?",
+   "go": [
+    "pcl-nursing",
+    "pcl-general-medicine",
+    "bsc-nursing"
+   ],
+   "a": "Both are Health Service posts at the assistant fifth level in the Lok Sewa Aayog. A Staff Nurse needs a PCL in Nursing and a Nepal Nursing Council registration; a Health Assistant needs a PCL in General Medicine and the council registration. Prep guides describe a 100 mark screening paper (pass 45), a 100 mark subjective paper (pass 40) and a 30 mark interview, with an age bar of 18 to 45; read the notice because the age and fee can change. A bachelor in nursing also opens higher posts and strong demand abroad."
+  },
+  {
+   "id": "fw15-5",
+   "topic": "abroad",
+   "q": "How much does it cost to study in Romania?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Agency pages quote EUR 1,700 to 4,500 a year for most degrees at public universities, EUR 5,000 to 8,500 and sometimes up to 12,000 for English taught medicine, and EUR 400 to 700 a month for living, with a student permit that lets you work about 4 hours a day. Funds of about EUR 3,000 and a residence permit fee near EUR 120 are quoted, but these are agency figures. Confirm fees in a written letter from the university and check Nepal Medical Council recognition before paying for medicine."
+  },
+  {
+   "id": "fw15-6",
+   "topic": "abroad",
+   "q": "Can I get a Romanian government scholarship?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Yes for bachelor, master and doctoral study in every field except medicine, dental medicine and pharmacy. It exempts tuition and registration, gives a free Romanian language year if needed, a dormitory place subject to availability and a small stipend (listings quote EUR 65, 75 and 85). The 2026/27 call ran from 16 February to 31 March 2026, so expect the next one at the same time in 2027 on scholarships.studyinromania.gov.ro."
+  },
+  {
+   "id": "fw15-7",
+   "topic": "abroad",
+   "q": "Is Estonia a cheap option for IT?",
+   "go": [
+    "abroad-ms",
+    "bsc-csit"
+   ],
+   "a": "It is cheaper than the UK or Australia: English taught programmes cost EUR 1,500 to 7,500 a year and living is about EUR 550 to 1,000 a month. There is no weekly work cap for students with a study permit, and graduates get 9 months to look for work, but funds for the permit are quoted at EUR 350 to 438 a month, so ask the Police and Border Guard Board. The strongest English choices are in computing and engineering at Tartu and TalTech."
+  },
+  {
+   "id": "fw15-8",
+   "topic": "abroad",
+   "q": "What does ETH Zurich cost an international student?",
+   "go": [
+    "abroad-ms",
+    "be-computer"
+   ],
+   "a": "Since autumn 2025 most international students at ETH and EPFL pay CHF 2,190 a semester (about CHF 4,380 a year, roughly NPR 7.7 lakh), against CHF 730 for Swiss residents. The real cost is living and the funds proof: ETH asks for CHF 21,000 a year (CHF 24,000 in Basel) in your own account, plus Swiss health insurance. Fees and the permit are set by the school and the canton, so read the ETH page before applying."
+  },
+  {
+   "id": "fw15-9",
+   "topic": "abroad",
+   "q": "Is Cyprus worth it for a bachelor?",
+   "go": [
+    "abroad-ms",
+    "bba"
+   ],
+   "a": "It is mostly private universities with bachelor fees of about EUR 5,500 to 11,000 a year and living of EUR 9,000 to 12,000, and agencies describe tight work limits for non EU students. It is not cheap and the degree recognition for later study or a licence in Nepal is a separate step, so ask for the written fee letter, check Tribhuvan University equivalence and compare it with Romania, Portugal or Lithuania."
+  },
+  {
+   "id": "fw15-10",
+   "topic": "abroad",
+   "q": "Which European countries are the cheapest for Nepali students?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "On tuition plus living, agency lists put Romania, Hungary (with the Stipendium Hungaricum), Lithuania, Estonia, Czechia and Portugal ahead of the UK, Netherlands or Switzerland. Compare the whole year: tuition, living, funds proof, work rules and what happens after you graduate. Germany has low tuition but a blocked account of about EUR 11,904. Use this app to open each country and compare the notes."
+  }
+ ],
+ "provider_update": {
+  "p-asian-adv": {
+   "website": "https://www.acas.edu.np"
+  },
+  "p-charak": {
+   "website": "https://charakacademy.edu.np"
+  },
+  "p-crimson": {
+   "website": "https://cct.edu.np"
+  },
+  "p-kmh-nursing": {
+   "website": "https://kathmandumodelhospital.org"
+  },
+  "p-mmihs": {
+   "website": "https://www.mmihs.edu.np"
+  },
+  "p-nist": {
+   "website": "https://www.nationalmodelcollege.edu.np"
+  },
+  "p-nobel-college": {
+   "website": "https://www.nobelcollege.edu.np"
+  },
+  "p-pu-shs": {
+   "website": "http://purbanchaluniversity.edu.np"
+  },
+  "p-scheer-nursing": {
+   "website": "https://scheermemorial.org"
+  },
+  "p-pusoe": {
+   "website": "http://purbanchaluniversity.edu.np"
+  },
+  "p-acme": {
+   "website": "https://www.acme.edu.np"
+  },
+  "p-kantipur-city": {
+   "website": "https://kcc.edu.np"
+  },
+  "p-nepal-polytechnic": {
+   "website": "https://npi.edu.np"
+  },
+  "p-pathivara": {
+   "website": "https://www.pcas.edu.np"
+  },
+  "p-pec": {
+   "website": "https://www.pec.edu.np"
+  },
+  "p-new-summit": {
+   "website": "https://www.newsummit.edu.np"
+  },
+  "p-prime": {
+   "website": "https://prime.edu.np"
+  },
+  "p-cab": {
+   "website": "https://www.cab.edu.np"
+  },
+  "p-kbc": {
+   "website": "https://bernhardt.edu.np"
+  },
+  "p-dwit": {
+   "website": "https://deerwalk.edu.np"
+  },
+  "p-orchid": {
+   "website": "https://www.oic.edu.np"
+  },
+  "p-sagarmatha-cst": {
+   "website": "https://scst.edu.np"
+  },
+  "p-nagarjuna-cit": {
+   "website": "https://www.nagarjunacollege.edu.np"
+  },
+  "p-mbmc": {
+   "website": "https://www.mbmc.edu.np"
+  },
+  "p-nepalaya": {
+   "website": "https://www.nepalaya.edu.np"
+  },
+  "p-samriddhi": {
+   "website": "https://samriddhicollege.edu.np"
+  },
+  "p-kct": {
+   "website": "https://www.kct.edu.np"
+  },
+  "p-nist-banepa": {
+   "website": "https://www.nistcollege.edu.np"
+  },
+  "p-shreeyantra": {
+   "website": "https://shreeyantracollege.edu.np"
+  },
+  "p-godawari-itahari": {
+   "website": "https://www.godawari.edu.np"
+  },
+  "p-birat-kshitiz": {
+   "website": "https://biratkshitiz.edu.np"
+  },
+  "p-national-infotech": {
+   "website": "https://nationalinfotechcollege.edu.np"
+  },
+  "p-hetauda-city": {
+   "website": "https://www.hetaudacitycollege.edu.np"
+  },
+  "p-chitwan-cot": {
+   "website": "https://www.chitwancollege.edu.np"
+  },
+  "p-soch": {
+   "website": "https://www.sochcollege.edu.np"
+  },
+  "p-banke-bageshwori": {
+   "website": "https://www.bbc.edu.np"
+  },
+  "p-model-damak": {
+   "website": "https://www.modelcampusdamak.edu.np"
+  },
+  "p-sungava": {
+   "website": "https://www.sungavacollege.edu.np"
+  },
+  "p-gyan-deep": {
+   "website": "https://gyandeepcollege.edu.np"
+  },
+  "p-bajra": {
+   "website": "https://bajrainternationalcollege.edu.np"
+  },
+  "p-ed-mark": {
+   "website": "https://www.edmark.edu.np"
+  },
+  "p-gsmc": {
+   "website": "https://www.ganeshmansingh.edu.np"
+  },
+  "p-jana-bhawana": {
+   "website": "https://janabhawana.edu.np"
+  },
+  "p-janamaitri": {
+   "website": "https://www.janamaitri.edu.np"
+  },
+  "p-kasthamandap": {
+   "website": "https://www.kasthamandapcollege.edu.np"
+  },
+  "p-central-state": {
+   "website": "https://www.kccs.edu.np"
+  },
+  "p-pashupati-mc": {
+   "website": "https://www.pashupatimultiplecampus.com"
+  },
+  "p-rainbow": {
+   "website": "https://www.ric.edu.np"
+  },
+  "p-southwestern": {
+   "website": "https://www.swsc.edu.np"
+  },
+  "p-texas-mgmt": {
+   "website": "https://texascollege.edu.np"
+  },
+  "p-triton": {
+   "website": "https://www.triton.edu.np"
+  },
+  "p-kk-intl": {
+   "website": "https://www.kandk.edu.np"
+  },
+  "p-aadim": {
+   "website": "https://aadimcollege.edu.np"
+  },
+  "p-yeti-intl": {
+   "website": "https://www.yetiinternationalcollege.edu.np"
+  },
+  "p-advanced-coem": {
+   "website": "https://www.acem.edu.np"
+  },
+  "p-vinayak-siddha": {
+   "website": "https://www.vinayaksiddhacollege.edu.np"
+  },
+  "p-ktm-shiksha": {
+   "website": "https://www.ksc.edu.np"
+  },
+  "p-dibyabhumi": {
+   "website": "https://www.dibyabhumi.edu.np"
+  },
+  "p-everest-thapathali": {
+   "website": "https://www.everestcollege.edu.np"
+  },
+  "p-national-integrated": {
+   "website": "https://www.nationalintegratedcollege.edu.np"
+  },
+  "p-prasadi": {
+   "website": "https://www.prasadi.org"
+  },
+  "p-gcm": {
+   "website": "https://globalcollege.edu.np"
+  },
+  "p-ccrc": {
+   "website": "https://ccrc.edu.np"
+  },
+  "p-uniglobe": {
+   "website": "https://uniglobe.edu.np"
+  },
+  "p-new-horizon-butwal": {
+   "website": "https://www.newhorizon.edu.np"
+  },
+  "p-w12-rkb-pi": {
+   "website": "https://www.rkbpi.edu.np"
+  },
+  "p-w12-uttarpani": {
+   "website": "https://upi.edu.np"
+  },
+  "p-w12-bharatpur-pi": {
+   "website": "https://bpi.edu.np"
+  },
+  "p-w12-annapurna-pi": {
+   "website": "https://www.api.edu.np"
+  },
+  "p-w12-jajarkot-pi": {
+   "website": "https://www.jpi.edu.np"
+  },
+  "p-w12-tikapur-pi": {
+   "website": "https://tpi.edu.np"
+  },
+  "p-w12-ce-sahid-smriti-pratisthan": {
+   "website": "https://sahidsmritipratisthan.edu.np"
+  },
+  "p-w12-ce-adarsha-secondary-school": {
+   "website": "https://www.adarshasecondaryschool.edu.np"
+  },
+  "p-w12-ce-golden-park-college": {
+   "website": "https://goldenparkcollege.edu.np"
+  },
+  "p-w12-ce-national-people-engineering-college": {
+   "website": "https://www.npec.edu.np"
+  },
+  "p-w12-ce-n-p-i--college-of-technical-science": {
+   "website": "https://npi.edu.np"
+  },
+  "p-w12-ce-nepalgunj-technical-college": {
+   "website": "https://www.ntc.edu.np"
+  },
+  "p-w12-ce-rapti-engineering-college": {
+   "website": "https://www.rec.edu.np"
+  },
+  "p-apex-college": {
+   "website": "https://www.apexcollege.edu.np"
+  },
+  "p-nepalgunj-med": {
+   "website": "https://ngmc.edu.np"
+  },
+  "p-kantipur-dental": {
+   "website": "https://kantipurdental.edu.np"
+  }
+ }
+}

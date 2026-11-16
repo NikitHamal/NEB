@@ -537,3 +537,66 @@ class Wave14Tests(TestCase):
         self.assertIn('KRW 9,000,000', abroad['kr']['note'])
         self.assertIn('JLPT N5', abroad['jp']['note'])
         self.assertEqual(pathways.problems(), [])
+
+
+class Wave15Tests(TestCase):
+    """Wave 15: Romania, Estonia, Switzerland, Cyprus, Romanian scholarship, Health Service exams, 2083/84 dates, college websites."""
+
+    def test_new_destinations(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        for cid, code in (('ro', 'RO'), ('ee', 'EE'), ('ch', 'CH'), ('cy', 'CY')):
+            self.assertEqual(abroad[cid]['code'], code)
+            self.assertLessEqual(abroad[cid]['tuition'][0], abroad[cid]['tuition'][1])
+            self.assertLess(abroad[cid]['living'][0], abroad[cid]['living'][1])
+        self.assertEqual(abroad['ro']['work_hours'], 20)
+        self.assertEqual(abroad['ch']['work_hours'], 15)
+        self.assertEqual(2190 * 2 * 175, 766500)
+        self.assertEqual(abroad['ch']['tuition'], [766500, 766500])
+        self.assertIn('s-swiss', abroad['ch']['scholarships'])
+        self.assertIn('s-romania-govt', abroad['ro']['scholarships'])
+
+    def test_romanian_scholarship_window(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        s = sch['s-romania-govt']
+        self.assertEqual(s['country'], 'ro')
+        self.assertEqual(s['open'], [2, 3])
+        self.assertIn('except medicine', s['who'])
+        self.assertEqual(sch['s-swiss']['country'], 'ch')
+
+    def test_health_service_exams(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        for gid, career in (('g-staff-nurse', 'nurse'), ('g-health-assistant', 'health-assistant')):
+            self.assertEqual(govt[gid]['career'], career)
+            self.assertEqual(govt[gid]['track'], 'psc')
+        marks = [int(s[2]) for s in govt['g-staff-nurse']['stages']]
+        self.assertEqual(marks, [100, 100, 30])
+        self.assertIn('2083', govt['g-kharidar']['note'])
+        self.assertIn('Ashoj', govt['g-nayab']['note'])
+
+    def test_calendar_faqs_and_links(self):
+        d = pathways.payload()
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 11):
+            self.assertIn('fw15-%d' % i, faq)
+        self.assertIn('14 Baisakh 2083', faq['fw15-1']['a'])
+        self.assertIn('11 May 2026', faq['fw15-2']['a'])
+        self.assertEqual(pathways.problems(d), [])
+
+    def test_websites_are_https_and_unique_per_provider(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-prime']['website'], 'https://prime.edu.np')
+        self.assertTrue(by['p-nepalgunj-med']['website'].startswith('https://'))
+        for p in d['providers']:
+            if p.get('website'):
+                self.assertTrue(p['website'].startswith(('http://', 'https://')), p['id'])
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 220)
+
+    def test_no_dashes_or_emoji(self):
+        import json
+        text = json.dumps(pathways.payload()['faq'][-10:], ensure_ascii=False)
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)
