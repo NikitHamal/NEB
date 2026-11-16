@@ -1,0 +1,454 @@
+{
+ "abroad_add": [
+  {
+   "id": "mt",
+   "country": "Malta",
+   "tuition": [
+    1155000,
+    4550000
+   ],
+   "living": [
+    1470000,
+    3423000
+   ],
+   "code": "MT",
+   "exams": [
+    "IELTS 6.0 for most bachelor programmes and 6.5 for master programmes at the University of Malta (foundation year 5.5)"
+   ],
+   "intakes": "October at the University of Malta; visa applicants applied by 1 July in the 2026 round",
+   "fields": [
+    "IT and AI",
+    "Business and commerce",
+    "Law",
+    "Health sciences",
+    "Psychology"
+   ],
+   "work": "Agency pages say a student can work up to 20 hours a week in term and full time in holidays, with the work permit arranged through the employer and Jobsplus. The rule was not read on a government page, so confirm it with your institution and Identita before you plan around income.",
+   "work_hours": 20,
+   "note": "English is an official language and the only teaching language, in the European Union. For 2026/27 the University of Malta lists non EU fees of EUR 8,500 or EUR 10,800 a year for most bachelor degrees, EUR 6,600 for a foundation year, about EUR 10,800 to 13,400 for a whole full time master, and EUR 26,000 a year for medicine and dental surgery (one study site page, studyu.org). Other guides quote EUR 2,160 to 8,000 a year or EUR 5,000 to 12,000, so the sources disagree: ask the university for the written fee. Private institutions charge EUR 5,500 to 16,000 a year. Living is quoted at EUR 700 to 1,050 a month in some guides and EUR 1,360 to 1,630 by the university for shared accommodation. The study route is a long stay D visa through the Central Visa Unit (about EUR 100 to 150), insurance of at least EUR 30,000 and then a residence permit after arrival (about EUR 50). NPR figures are rough, at EUR 1 about NPR 175."
+  },
+  {
+   "id": "lv",
+   "country": "Latvia",
+   "tuition": [
+    420000,
+    2625000
+   ],
+   "living": [
+    945000,
+    1680000
+   ],
+   "code": "LV",
+   "exams": [
+    "IELTS 5.5 or TOEFL iBT 72 at Riga Technical University",
+    "Interview or entrance test for some programmes"
+   ],
+   "intakes": "September; Riga Technical University closed its 2026 call on 15 July",
+   "fields": [
+    "Engineering",
+    "Computer systems and IT",
+    "Architecture",
+    "Business",
+    "Medicine"
+   ],
+   "work": "Guides agree that a residence permit for study lets you work up to 20 hours a week in term and up to 40 hours in breaks, and say full time master and doctoral students face no hour cap. Confirm with the Office of Citizenship and Migration Affairs before you count on this.",
+   "work_hours": 20,
+   "note": "A low cost European Union country with English taught degrees. Guides quote bachelor tuition at EUR 2,400 to 7,100 a year and master tuition at EUR 2,700 to 6,000, medicine and dentistry at EUR 8,000 to 15,000, and Riga Technical University at EUR 3,220 to 7,550 a year with a EUR 150 registration fee. Living is quoted at EUR 450 to 800 a month (Riga EUR 600 to 1,000, dormitory beds from about EUR 70 to 180). The student visa is quoted at EUR 60 and you then apply for a residence permit after arrival. Check the university is accredited in Latvia and, for medicine, ask the Nepal Medical Council before paying. NPR figures are rough, at EUR 1 about NPR 175."
+  }
+ ],
+ "abroad_update": {},
+ "scholarships_add": [
+  {
+   "id": "s-aalto",
+   "name": "Aalto University Excellence Scholarship (Finland)",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "Aalto University",
+   "covers": "A waiver of the full tuition fee for the standard length of the degree (two years for a master, three for a bachelor). Living costs are not covered; Aalto advises at least EUR 800 a month.",
+   "who": "Non EU and non EEA applicants who must pay tuition and apply to an English taught Aalto bachelor or master programme. It is decided together with admission on academic merit and not every programme awards one.",
+   "how": "Answer yes to the scholarship question in the admission form. For autumn 2027 master programmes the window runs from 7 December 2026 to 5 January 2027, the application fee is EUR 100 and English test results must arrive by 12 January 2027. Dates are from secondary pages that copy the Aalto notice, so read admissions.aalto.fi before you apply.",
+   "link": "https://www.aalto.fi/en/admissions",
+   "country": "fi",
+   "type": "University",
+   "open": [
+    12,
+    1
+   ]
+  },
+  {
+   "id": "s-helsinki",
+   "name": "University of Helsinki tuition fee waivers (Finland)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "University of Helsinki",
+   "covers": "50 percent or 100 percent of the tuition fee for an English taught master programme (fees are EUR 13,000 to 18,000 a year; most waivers are 50 percent). Living costs are not covered.",
+   "who": "Citizens of countries outside the EU, EEA and Switzerland who pay tuition. Each master programme chooses its own recipients on grades, motivation letter and the scholarship answers. Waivers are given at admission only.",
+   "how": "Tick the waiver in the same Studyinfo.fi application as the programme. The autumn 2027 round runs from 5 to 19 January 2027 (closing times differ by programme) and applicants from outside the EU pay a EUR 100 application fee. The second year depends on study progress.",
+   "link": "https://www.helsinki.fi/en/admissions-and-education/tuition-fees-and-scholarships",
+   "country": "fi",
+   "type": "University",
+   "open": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "s-mis-my",
+   "name": "Malaysia International Scholarship (MIS)",
+   "scope": "abroad",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "Ministry of Higher Education Malaysia",
+   "covers": "Tuition for the whole sponsored period paid to the university and a living allowance of RM 1,500 a month, paid every four months after a progress report. Paid work is not allowed without permission.",
+   "who": "Graduates from eligible countries for full time master or PhD study at one of 20 listed public and 4 private universities. Age up to 40 for a master and 45 for a PhD; CGPA 3.00 or Second Class Upper; a research proposal of at least 1,000 words for research degrees; IELTS 6.0 or TOEFL 550, or proof that the previous degree was taught in English. Check that Nepal is on the eligible country list in the current guidelines.",
+   "how": "Apply online at the MOHE portal (biasiswa.mohe.gov.my). The 2026/27 window ran from 4 March to 3 April 2026, so expect the next call about the same months of 2027. There is no application fee.",
+   "link": "https://biasiswa.mohe.gov.my/INTER/index.php",
+   "country": "my",
+   "type": "Government",
+   "open": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "s-kz-govt",
+   "name": "Kazakhstan Government Scholarship for international students",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master",
+    "phd"
+   ],
+   "by": "Ministry of Science and Higher Education of Kazakhstan, run by the Center for International Programs",
+   "covers": "Reports say the grant covers tuition, a monthly stipend and a hostel place, but one listing calls it partly funded, so read the call. The 2026 call had 550 awards: 490 bachelor, 50 master and 10 PhD.",
+   "who": "Foreign citizens (and ethnic Kazakhs who are not citizens) for full time study at Kazakh universities. Applications may be written in Kazakh, Russian or English.",
+   "how": "Apply at studyin.kz. The 2026 window ran from 30 March to 31 May 2026, so expect a similar call in spring 2027. Use only the official portal.",
+   "link": "https://studyin.kz",
+   "country": "kz",
+   "type": "Government",
+   "open": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "s-mbzuai",
+   "name": "MBZUAI graduate funding (UAE, artificial intelligence)",
+   "scope": "abroad",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "Mohamed bin Zayed University of Artificial Intelligence, Abu Dhabi",
+   "covers": "Funded students get free tuition, health insurance, a return flight each year and a university sponsored residence visa. Published stipends for international students are AED 15,500 a month for the MSc and AED 17,500 for the PhD, and the newer notes say the stipend includes housing support. Older posts quoted far higher figures and free housing.",
+   "who": "Applicants with a relevant STEM degree, English test (IELTS 6.5, TOEFL iBT 90, PTE 60 or Duolingo 120 are quoted) and the programme screening. PhD students are funded centrally in year one while they match an advisor. MSc funding is not automatic with admission.",
+   "how": "Apply on the MBZUAI admissions site. For the autumn 2027 intake the main deadline is 15 December 2026 (5 pm Gulf time), the fee is AED 200, decisions are expected by 31 March 2027 and offers must be answered by 15 April 2027. The Master in Applied AI has its own deadline of 28 February 2027.",
+   "link": "https://mbzuai.ac.ae/admissions",
+   "country": "ae",
+   "type": "University",
+   "open": [
+    9,
+    12
+   ]
+  },
+  {
+   "id": "s-new-uz",
+   "name": "New Uzbekistan Scholarship",
+   "scope": "abroad",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "Ministry of Higher Education, Science and Innovation of Uzbekistan",
+   "covers": "A state grant place at an Uzbek public university. Up to 500 foreign students a year can be funded from unused state grant quotas. The detailed benefits were not published in the sources read.",
+   "who": "Foreign bachelor applicants. A presidential decree reported in April 2026 introduced it from the 2026/27 academic year and moves foreign admissions to the Study in Uzbekistan platform. Students who finished a foreign language programme no longer need a language certificate for the next stage.",
+   "how": "Not announced for Nepal in the sources read. Watch the Study in Uzbekistan platform and the Uzbek embassy before you pay anyone, and note that Uzbek state scholarship quotas for local students are a separate scheme. Do not rely on agents.",
+   "link": "https://studyinuzbekistan.uz",
+   "country": "uz",
+   "type": "Government"
+  }
+ ],
+ "scholarship_extra": {
+  "s-compex": {
+   "open": [
+    8,
+    9
+   ],
+   "how": "The 2026/27 round ran online at indembkathmandu.gov.in from 27 August to 10 September 2026 (fee paid at Nepal SBI by 14 September, full application by 16 September), followed by a computer based test in Kathmandu in the fourth week of September 2026. Expect the next call about August 2027. Candidates need at least 60 percent aggregate and 50 percent in English in Class 12 and 60 percent in each of Physics, Chemistry and Mathematics for BE or BTech (55 percent in Physics, Chemistry and Biology for BPharm, BSc Agriculture, BSc Food Technology and BSc Nursing). An embassy nomination does not guarantee a seat; the Indian university confirms it."
+  }
+ },
+ "providers_add": [
+  {
+   "id": "p-rbs",
+   "name": "Rato Bangala School",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Patandhoka",
+   "website": "https://www.ratobangala.edu.np",
+   "note": "Co educational day school founded in 1992 with a post SEE programme that guides list for Cambridge A Levels; one 2026 guide says IBDP, so ask which diploma the next intake takes. A May 2026 guide quotes about NPR 40,000 a month for the A Level years including lunch, transport and lab; a 2022 list put the two years at NPR 11 to 12 lakh. Entry uses a public entrance test and is competitive."
+  },
+  {
+   "id": "p-ullens",
+   "name": "Ullens School",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Khumaltar",
+   "website": "https://www.ullens.edu.np",
+   "note": "Nepal school from Grade 1 to 12 that runs the IB Diploma Programme for Grades 11 and 12 (its alumni page names IBDP cohorts of 2017, 2020 and 2024). A 2024 guide quoted about NPR 75,000 a month for Grades 10 to 12; confirm the current fee in writing."
+  },
+  {
+   "id": "p-tbs",
+   "name": "The British School Kathmandu",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Sanepa",
+   "note": "English National Curriculum school that reaches IGCSE and A Level with Cambridge International and Edexcel syllabi (October 2026 guide). A 2022 list expected NPR 20 to 25 lakh over two years and said it takes few outside A Level entrants. Ask the school for the written fee."
+  },
+  {
+   "id": "p-malpi",
+   "name": "Malpi International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Baluwatar",
+   "note": "Listed by a 2022 guide for A Levels at about NPR 6 to 7 lakh for two years with merit based scholarships. The guide is old, so confirm that the A Level intake and the fee still stand."
+  },
+  {
+   "id": "p-chelsea",
+   "name": "Chelsea International Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "Listed by a 2022 guide for A Levels at about NPR 6 to 7 lakh for two years, with need and merit scholarships for students who keep a top rank. Confirm the current intake and fee."
+  }
+ ],
+ "where_add": {
+  "a-levels": [
+   "p-rbs",
+   "p-ullens",
+   "p-tbs",
+   "p-malpi",
+   "p-chelsea",
+   "p-trinity"
+  ]
+ },
+ "fees": {
+  "p-sxc": {
+   "a-levels": [
+    500000,
+    500000
+   ]
+  },
+  "p-rbs": {
+   "a-levels": [
+    960000,
+    1200000
+   ]
+  },
+  "p-tbs": {
+   "a-levels": [
+    2000000,
+    2500000
+   ]
+  },
+  "p-malpi": {
+   "a-levels": [
+    600000,
+    700000
+   ]
+  },
+  "p-chelsea": {
+   "a-levels": [
+    600000,
+    700000
+   ]
+  }
+ },
+ "provider_note_add": {
+  "p-trinity": "A 2022 list of Cambridge A Level schools also shows it offering A Level subjects from Grade 11. Ask for the current subject list, exam centre and total fee.",
+  "p-sxc": "A 2022 list quoted about NPR 5 lakh for the two A Level years, the lowest of the Cambridge schools, with no scholarships; confirm the current fee.",
+  "p-ican": "ICAN lists its own registration fees: CAP I NPR 34,500 (NPR 20,000 at registration, the rest within 3 months), CAP II NPR 40,500 (NPR 22,500 then NPR 18,000 within 6 months) and CAP III NPR 50,000 (NPR 25,000 then NPR 25,000 within a year). CAP I is open after +2 in any stream (a +2 pass with grade C or CGPA 2.0, with provisional registration while results wait), CAP II after CAP I or after a degree (50 percent with accounts, audit and tax as a major, 55 percent in other commerce or management degrees, 60 percent in any other degree), and each exam needs an online ICAN pre test passed months ahead. Coaching pages quote lower registration fees (NPR 27,500 to 30,100 for CAP I) and add NPR 3,200 for the exam and NPR 35,000 to 50,000 for classes, so use the ICAN figure and ask for the current exam fee."
+ },
+ "route_about_add": {
+  "a-levels": "Schools that guides list for A Levels in Kathmandu and Lalitpur include Rato Bangala, The British School, St. Xavier's College, Malpi, Chelsea and Trinity. Ullens School teaches the IB Diploma. Lincoln School Kathmandu follows an American diploma with Advanced Placement subjects instead, which is a separate route that US and Canadian universities read directly. Two year totals quoted by guides range from about NPR 5 lakh to 25 lakh, and most guides are from 2022, so ask each school for a written fee and ask whether Tribhuvan University or the Medical Education Commission will accept your result before you enrol.",
+  "ca-route": "ICAN fees on its own page: CAP I NPR 34,500, CAP II NPR 40,500 and CAP III NPR 50,000 at registration, plus exam fees and coaching. No entrance test; each level needs an online pre test."
+ },
+ "text_swap": {
+  "route": {
+   "mbbs": [
+    [
+     "MEC fixes paying tuition at NPR 40.23 lakh inside Kathmandu Valley",
+     "MEC fixes paying tuition at NPR 41.68 lakh inside Kathmandu Valley (an older list had NPR 40.23 lakh)"
+    ]
+   ]
+  },
+  "faq": {
+   "f12-8": [
+    [
+     "MBBS NPR 40.23 lakh inside Kathmandu Valley",
+     "MBBS NPR 41.68 lakh inside Kathmandu Valley (older lists show 40.23 lakh)"
+    ]
+   ],
+   "f7-1": [
+    [
+     "MBBS is NPR 40,23,250 inside the Kathmandu Valley",
+     "MBBS is NPR 41,68,090 inside the Kathmandu Valley (an older list showed NPR 40,23,250)"
+    ]
+   ]
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw16-1",
+   "topic": "after12",
+   "q": "When was the MECEE-BL 2027 medical entrance held and what did it cost?",
+   "go": [
+    "mbbs",
+    "bds",
+    "bsc-nursing"
+   ],
+   "a": "The Medical Education Commission notice of 22 Bhadra 2083 (7 September 2026) set the written exam, 11 am to 2 pm inside Kathmandu Valley: MBBS on 14 Kartik 2083 (31 October 2026), BDS on 15 Kartik, BSc Nursing, Midwifery, BASLP and Perfusion on 16 Kartik, BAMS, BNS, BSc MLT, BSc MIT and Radiotherapy, BPT, BPharm and Optometry on 17 Kartik, and BPH on 18 Kartik (4 November). The form opened on 25 Shrawan, regular fee payment closed on 23 Bhadra and the form on 25 Bhadra, the late window to 31 Bhadra at double fee. The fee is NPR 4,000 for Nepali candidates and NPR 8,000 for foreign candidates. The paper is 200 marks in 3 hours, +1 for a right answer and minus 0.25 for a wrong one, and you need the 50th percentile to enter the merit list. Results and counselling dates are on entrance.mec.gov.np."
+  },
+  {
+   "id": "fw16-2",
+   "topic": "after12",
+   "q": "Why do some pages show MBBS fees of NPR 40.23 lakh and others 41.68 lakh?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "The Medical Education Commission publishes the cap on tuition for a paying seat. An older list had MBBS at NPR 40,23,250 inside Kathmandu Valley. The list republished in August 2026 for academic year 2083 shows NPR 41,68,090 inside the valley and NPR 45,95,720 outside, BDS NPR 20,92,290, BSc Nursing NPR 10,36,000, BAMS NPR 11,31,930, BNS NPR 5,18,300, Pharm D NPR 6,73,400 and NPR 7,77,000 each for BPT, BSc MLT, BSc MIT, BPharm, BPH, Optometry, Perfusion and BASLP. One guide says the fee notice on the Commission site still carries the 2081 date, so the figure may not change in 2083. The cap covers tuition only; hostel, food, books and exams come on top. If a college asks for more, ask for the notice."
+  },
+  {
+   "id": "fw16-3",
+   "topic": "abroad",
+   "q": "What is the COMPEX scholarship for India and when did the 2026 round run?",
+   "go": [
+    "be-computer",
+    "bsc-nursing",
+    "bpharm"
+   ],
+   "a": "The Embassy of India in Kathmandu runs COMPEX for Nepali +2 Science students who want BE or BTech, BPharm, BSc Agriculture, BSc Food Technology or BSc Nursing in India. The 2026/27 form was online from 27 August to 10 September 2026, with the fee paid at Nepal SBI by 14 September and the full application by 16 September, then a computer based test in Kathmandu in the fourth week of September. You need 60 percent aggregate and 50 percent in English, and 60 percent in each of Physics, Chemistry and Mathematics for engineering (55 percent in Physics, Chemistry and Biology for the others). A nomination does not guarantee a seat. Apply only on indembkathmandu.gov.in and never through an agent. Expect the next call about August 2027."
+  },
+  {
+   "id": "fw16-4",
+   "topic": "after10",
+   "q": "When is the next SEE (SEE 2083) and when must I fill the form?",
+   "go": [
+    "see-general",
+    "open-school-see"
+   ],
+   "a": "The National Examination Board academic calendar for the 2083 session (edusanjal, 25 August 2026) plans Class 9 and 10 form submission from 9 Kartik to 15 Mangsir 2083, Grade 10 form entry from 25 Mangsir to the end of Poush, the SEE routine in the first week of Magh, practical and internal marks by the end of Falgun and the SEE itself in the first or second week of Chaitra 2083, about mid to late March 2027. Answer sheet checking is planned to finish by the end of Chaitra. Last year the written exam ran 2 to 12 April 2026. A calendar is a plan, so confirm each date with your school and on see.gov.np."
+  },
+  {
+   "id": "fw16-5",
+   "topic": "after12",
+   "q": "How much does it cost to register for CA (ICAN) in Nepal?",
+   "go": [
+    "ca-route",
+    "acca-route"
+   ],
+   "a": "ICAN's own page lists CAP I at NPR 34,500 (NPR 20,000 when you register and NPR 14,500 within three months), CAP II at NPR 40,500 and CAP III at NPR 50,000, each payable in two instalments. You can join CAP I after +2 in any stream with grade C or CGPA 2.0, and register provisionally while the result is awaited. There is no entrance test, but each level needs an online pre test passed months before the exam. Exams are held twice a year, in June and December. Some coaching pages quote NPR 27,500 to 30,100 for CAP I, an exam fee of NPR 3,200 and NPR 35,000 to 50,000 for classes, so use the ICAN figure and ask the institute for the current exam fee."
+  },
+  {
+   "id": "fw16-6",
+   "topic": "after10",
+   "q": "Where can I do A Levels or the IB in Nepal and what does it cost?",
+   "go": [
+    "a-levels"
+   ],
+   "a": "Guides list Rato Bangala School, The British School Kathmandu, St. Xavier's College, Malpi, Chelsea and Trinity for Cambridge A Levels, and Ullens School for the IB Diploma. Two year totals quoted by guides run from about NPR 5 lakh at St. Xavier's, NPR 6 to 7 lakh at Malpi and Chelsea, NPR 9.6 lakh to 12 lakh at Rato Bangala, to NPR 20 to 25 lakh at The British School. Ullens was quoted at about NPR 75,000 a month in 2024. Most lists are from 2022 to 2024, so ask for a written fee, ask whether your result is accepted by Tribhuvan University and by the Medical Education Commission for MBBS, and ask about scholarships."
+  },
+  {
+   "id": "fw16-7",
+   "topic": "abroad",
+   "q": "How do I get a tuition waiver in Finland?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Finland charges non EU students about EUR 8,000 to 18,000 a year, and two big universities waive it by merit. Aalto University: apply to a master programme between 7 December 2026 and 5 January 2027 for autumn 2027, answer yes to the scholarship question, pay the EUR 100 fee and send English results by 12 January; the Excellence Scholarship waives tuition for the full two years. University of Helsinki: apply between 5 and 19 January 2027 on Studyinfo.fi and tick the waiver; it gives 50 or 100 percent, mostly 50. Neither pays living costs, and Aalto advises at least EUR 800 a month. Dates come from secondary pages, so read the university notices."
+  },
+  {
+   "id": "fw16-8",
+   "topic": "abroad",
+   "q": "Is the Malaysia International Scholarship open to Nepali students?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "It is a Ministry of Higher Education scholarship for full time master or PhD study at 20 public and 4 private universities, with tuition paid and RM 1,500 a month. Age limits are 40 for a master and 45 for a PhD, you need CGPA 3.00 or a Second Class Upper degree, a research proposal of at least 1,000 words for research degrees, and IELTS 6.0 or TOEFL 550 unless your degree was taught in English. The 2026/27 call ran from 4 March to 3 April 2026. Nepal is not named in the pages read, so check the eligible country list on the MOHE portal before you spend time on it."
+  },
+  {
+   "id": "fw16-9",
+   "topic": "abroad",
+   "q": "Can I study in Kazakhstan on a government grant?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Yes in principle. The Kazakh government offers 550 scholarships a year to foreign students (490 bachelor, 50 master, 10 PhD in the 2026 call) at studyin.kz, with the 2026 window open from 30 March to 31 May. Listings differ on what it pays, from tuition only to tuition, stipend and hostel, so read the current call. Use only the official portal and never pay an agent for a grant place. Kazakhstan is also popular for medicine, where you must check Nepal Medical Council recognition before you go."
+  },
+  {
+   "id": "fw16-10",
+   "topic": "abroad",
+   "q": "How does funding work at MBZUAI in the UAE?",
+   "go": [
+    "msc-cs",
+    "abroad-ms"
+   ],
+   "a": "MBZUAI in Abu Dhabi teaches AI master and PhD degrees. Funded students receive free tuition, health insurance, a yearly return flight and a UAE visa; the published stipend for international students is AED 15,500 a month for the MSc and AED 17,500 for the PhD, and it now includes housing support. PhD students are funded by the university in year one while they find an advisor. MSc funding is not automatic with admission. For the autumn 2027 intake the deadline is 15 December 2026, the fee is AED 200, decisions come by 31 March 2027 and you answer by 15 April 2027. The test needs IELTS 6.5 or an equal score."
+  },
+  {
+   "id": "fw16-11",
+   "topic": "abroad",
+   "q": "What is the New Uzbekistan Scholarship?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "A presidential decree reported in April 2026 created a scholarship for up to 500 foreign students a year at Uzbek public universities, funded from unused state grant quotas, with foreign admissions moving to the Study in Uzbekistan platform from 2026/27. No Nepal specific call was found, so watch the platform. Uzbekistan is also sold to Nepali students for MBBS. The Nepal Medical Council, not the agent, decides whether a foreign medical degree can sit its licensing exam, and the Indian NMC approval in an advert does not count for Nepal."
+  },
+  {
+   "id": "fw16-12",
+   "topic": "abroad",
+   "q": "How much does it cost to study in Malta?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "The University of Malta lists non EU fees for 2026/27 of EUR 8,500 or 10,800 a year for most bachelor degrees, EUR 6,600 for a foundation year, EUR 10,800 to 13,400 for a full time master and EUR 26,000 a year for medicine or dental surgery (about NPR 15 to 19 lakh, 11.5 lakh, 19 to 23 lakh and 45 lakh at EUR 175). Other guides quote EUR 2,160 to 8,000 or EUR 5,000 to 12,000, so ask for the fee in writing. Budget EUR 1,360 to 1,630 a month in shared housing by the university's own figure (some guides say EUR 700 to 1,050). The D visa costs about EUR 100 to 150, you need insurance of at least EUR 30,000, and agencies say 20 hours of work a week are allowed in term."
+  },
+  {
+   "id": "fw16-13",
+   "topic": "abroad",
+   "q": "Is Latvia a cheap place to study in Europe?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "It is one of the cheaper options. Guides quote bachelor tuition at EUR 2,400 to 7,100 a year, master tuition at EUR 2,700 to 6,000, and Riga Technical University at EUR 3,220 to 7,550 with a EUR 150 registration fee and IELTS 5.5. Living is quoted at EUR 450 to 800 a month, a student visa at EUR 60, and work at up to 20 hours in term and 40 in breaks. Confirm the programme is accredited in Latvia and, for medicine, check Nepal Medical Council recognition before you pay."
+  },
+  {
+   "id": "fw16-14",
+   "topic": "abroad",
+   "q": "What happens after I apply for Chevening 2027/28?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "The 2027/28 round opened on 4 August 2026 and closed on 6 October 2026 at 11:00 UTC (4:45 pm in Nepal). Eligibility screening starts in October, the reading committee assesses until January 2027, the interview shortlist comes in mid February, interviews run in March and April and results arrive from mid June 2027, with the unconditional offer deadline on 8 July 2027. If you missed it, the next round is expected to open in early August 2027. You need two years of work experience, a bachelor degree and three UK course choices."
+  },
+  {
+   "id": "fw16-15",
+   "topic": "abroad",
+   "q": "Which scholarship deadlines fall between now and March 2027?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "MBZUAI (AI master and PhD, Abu Dhabi): 15 December 2026. Hong Kong PhD Fellowship Scheme: 1 December 2026. Aalto University Excellence Scholarship in Finland: 7 December 2026 to 5 January 2027. University of Helsinki fee waivers: 5 to 19 January 2027. Stipendium Hungaricum: the 2027 call is expected around 15 January 2027. The Korean Government Scholarship embassy track for graduate study ran 12 to 25 February in 2026, so expect a similar window in February 2027, and the Erasmus Mundus joint master deadlines also fall in January. These dates come from the notices and pages named in each scholarship entry, so confirm each one on the official site before you plan."
+  }
+ ]
+}

@@ -636,3 +636,73 @@ class Wave15bTests(TestCase):
         faq = {f['id']: f for f in d['faq']}
         self.assertIn('GPA 1.6', faq['fw15-15']['a'])
         self.assertIn('fw15-16', faq)
+
+
+class Wave16Tests(TestCase):
+    """Wave 16: Malta, Latvia, six scholarships, COMPEX 2026 window, A Level schools, ICAN fees, MEC fee text, 2083 calendars."""
+
+    def test_new_destinations(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        for cid, code in (('mt', 'MT'), ('lv', 'LV')):
+            self.assertEqual(abroad[cid]['code'], code)
+            self.assertLessEqual(abroad[cid]['tuition'][0], abroad[cid]['tuition'][1])
+            self.assertLess(abroad[cid]['living'][0], abroad[cid]['living'][1])
+            self.assertEqual(abroad[cid]['work_hours'], 20)
+        self.assertEqual(6600 * 175, abroad['mt']['tuition'][0])
+        self.assertEqual(26000 * 175, abroad['mt']['tuition'][1])
+        self.assertEqual(2400 * 175, abroad['lv']['tuition'][0])
+
+    def test_scholarships_link_to_countries(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        sch = {s['id']: s for s in d['scholarships']}
+        for sid, cid in (('s-aalto', 'fi'), ('s-helsinki', 'fi'), ('s-mis-my', 'my'), ('s-kz-govt', 'kz'), ('s-mbzuai', 'ae'), ('s-new-uz', 'uz')):
+            self.assertEqual(sch[sid]['country'], cid)
+            self.assertIn(sid, abroad[cid]['scholarships'])
+        self.assertEqual(sch['s-aalto']['open'], [12, 1])
+        self.assertIn('5 January 2027', sch['s-aalto']['how'])
+        self.assertIn('RM 1,500', sch['s-mis-my']['covers'])
+        self.assertIn('550', sch['s-kz-govt']['covers'])
+        self.assertIn('15 December 2026', sch['s-mbzuai']['how'])
+
+    def test_compex_window_replaced(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-compex']['open'], [8, 9])
+        self.assertIn('27 August', sch['s-compex']['how'])
+        self.assertNotIn('April or May', sch['s-compex']['how'])
+
+    def test_a_level_schools_and_fees(self):
+        d = pathways.payload()
+        routes = {r['id']: r for r in d['routes']}
+        prov = {p['id']: p for p in d['providers']}
+        for pid in ('p-rbs', 'p-ullens', 'p-tbs', 'p-malpi', 'p-chelsea', 'p-trinity'):
+            self.assertIn(pid, routes['a-levels']['where'])
+        self.assertTrue(prov['p-rbs']['website'].startswith('https://'))
+        self.assertEqual(prov['p-sxc']['fees']['a-levels'], [500000, 500000])
+        self.assertIn('34,500', prov['p-ican']['note'])
+        self.assertIn('34,500', routes['ca-route']['about'])
+
+    def test_mec_fee_text_swapped_once(self):
+        d = pathways.payload()
+        routes = {r['id']: r for r in d['routes']}
+        faq = {f['id']: f for f in d['faq']}
+        self.assertIn('NPR 41.68 lakh', routes['mbbs']['about'])
+        self.assertIn('41,68,090', faq['f7-1']['a'])
+        self.assertIn('41.68 lakh', faq['f12-8']['a'])
+        self.assertEqual(faq['f7-1']['a'].count('40,23,250'), 1)
+
+    def test_calendar_faqs_and_links(self):
+        d = pathways.payload()
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 16):
+            self.assertIn('fw16-%d' % i, faq)
+        self.assertIn('31 October 2026', faq['fw16-1']['a'])
+        self.assertIn('NPR 4,000', faq['fw16-1']['a'])
+        self.assertIn('Chaitra 2083', faq['fw16-4']['a'])
+        self.assertIn('40,500', faq['fw16-5']['a'])
+        text = ' '.join(f['a'] for f in d['faq'])
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)
+        self.assertEqual(pathways.problems(d), [])

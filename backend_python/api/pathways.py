@@ -306,6 +306,41 @@ def payload():
         for gid, text in w15['govt_note_add'].items():
             by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
         faq_all = faq_all + w15['faq_add']
+    if (DATA / 'wave16.json').exists():
+        w16 = _load('wave16.json')
+        abroad = abroad + w16['abroad_add']
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w16['abroad_update'].items():
+            abroad_by[aid].update(more)
+        scholarships = scholarships + w16['scholarships_add']
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w16['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        for sc in w16['scholarships_add']:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        providers = providers + w16['providers_add']
+        by_provider = {x['id']: x for x in providers}
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w16['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, fees in w16['fees'].items():
+            by_provider[pid]['fees'] = {**(by_provider[pid].get('fees') or {}), **fees}
+        for pid, text in w16['provider_note_add'].items():
+            by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        for rid, text in w16['route_about_add'].items():
+            route_by[rid]['about'] = ((route_by[rid].get('about') or '').rstrip() + ' ' + text).strip()
+        for rid, pairs in w16['text_swap']['route'].items():
+            for old, new in pairs:
+                assert old in route_by[rid]['about'], (rid, old)
+                route_by[rid]['about'] = route_by[rid]['about'].replace(old, new)
+        faq_all = faq_all + w16['faq_add']
+        faq_by = {f['id']: f for f in faq_all}
+        for fid, pairs in w16['text_swap']['faq'].items():
+            for old, new in pairs:
+                assert old in faq_by[fid]['a'], (fid, old)
+                faq_by[fid]['a'] = faq_by[fid]['a'].replace(old, new)
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
