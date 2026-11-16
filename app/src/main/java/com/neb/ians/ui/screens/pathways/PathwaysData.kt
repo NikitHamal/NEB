@@ -53,8 +53,11 @@ data class PwScholarship(
 data class PwAbroad(
     val id: String, val country: String, val tuitionMin: Long, val tuitionMax: Long, val livingMin: Long, val livingMax: Long,
     val exams: List<String>, val intakes: String, val fields: List<String>, val work: String, val note: String, val scholarships: List<String> = emptyList(),
-    val code: String = "", val visaRate: Int = -1, val workHours: Int = -1, val stayBack: String = "",
+    val code: String = "", val visaRate: Int = -1, val workHours: Int = -1, val stayBack: String = "", val visa: PwVisa? = null,
 )
+/** One step of the student visa: [days] is the usual wait, [cost] is text in the embassy currency, [mode] is online, in person or empty. */
+data class PwVisaStep(val name: String, val days: Int, val cost: String, val mode: String, val note: String)
+data class PwVisa(val name: String, val steps: List<PwVisaStep>)
 data class PwExamStage(val name: String, val detail: String, val marks: String)
 data class PwGovt(
     val id: String, val track: String, val name: String, val level: String, val need: String, val age: String, val body: String,
@@ -139,6 +142,9 @@ internal fun parsePathways(text: String): PwData {
                 it.optJSONArray("exams").strings(), it.optString("intakes"), it.optJSONArray("fields").strings(), it.optString("work"), it.optString("note"),
                 it.optJSONArray("scholarships").strings(),
                 code = it.optString("code"), visaRate = it.optInt("visa_rate", -1), workHours = it.optInt("work_hours", -1), stayBack = it.optString("stay_back"),
+                visa = it.optJSONObject("visa")?.let { v ->
+                    PwVisa(v.optString("name"), v.optJSONArray("steps")?.let { a -> List(a.length()) { i -> a.getJSONArray(i).let { r -> PwVisaStep(r.optString(0), r.optInt(1), r.optString(2), r.optString(3), r.optString(4)) } } } ?: emptyList())
+                },
             )
         },
         topics = o.optJSONArray("topics")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
@@ -186,6 +192,7 @@ class PwSel {
     var career by mutableStateOf<String?>(null)
     var focus by mutableStateOf("")
     var lens by mutableStateOf("")
+    var linked by mutableStateOf(false)
     var trail by mutableStateOf(listOf<String>())
     var study by mutableStateOf("colleges")
     var collegeRoute by mutableStateOf("")

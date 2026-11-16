@@ -108,8 +108,8 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
     }
     val measurer = rememberTextMeasurer(cacheSize = 240)
     // five fixed sizes so the text cache is reused while zooming; a size grows only when the map has grown
-    val dist = remember { listOf(7, 8, 9, 10, 11).map { TextStyle(fontSize = it.sp, fontWeight = FontWeight.Medium, letterSpacing = 0.1.sp) } }
-    val prov = remember { TextStyle(fontSize = 10.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 1.6.sp) }
+    val dist = remember { listOf(6f, 6.5f, 7.5f, 8.5f, 9.5f).map { TextStyle(fontSize = it.sp, fontWeight = FontWeight.Normal, letterSpacing = 0.05.sp) } }
+    val prov = remember { TextStyle(fontSize = 8.5.sp, fontWeight = FontWeight.Medium, letterSpacing = 1.2.sp) }
     val byArea = remember(geo) { geo.districts.sortedByDescending { it.width * it.height } }
     val sel = geo.byName[selected]
     val scope = rememberCoroutineScope()
@@ -168,7 +168,7 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
                 // the picked district reads on its own fill: white text, no halo
                 drawText(l, c.onPrimary, tl, drawStyle = Fill)
             } else {
-                drawText(l, halo, tl, drawStyle = Stroke(2.5.dp.toPx(), join = StrokeJoin.Round))
+                drawText(l, halo, tl, drawStyle = Stroke(2.dp.toPx(), join = StrokeJoin.Round))
                 drawText(l, c.onSurface, tl, drawStyle = Fill)
             }
         }

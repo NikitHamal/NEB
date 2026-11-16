@@ -36,45 +36,6 @@ internal fun lakhText(v: Float): String {
     return "NPR ${t}L"
 }
 
-/** The seven provinces as one tile map: count over name, the chosen one fills with the brand colour and rounds out. */
-@Composable
-private fun ProvTile(i: Int, n: Int, on: Boolean, modifier: Modifier, onClick: () -> Unit) {
-    val c = MaterialTheme.colorScheme
-    val src = remember { MutableInteractionSource() }
-    val pressed by src.collectIsPressedAsState()
-    val spec = spring<Float>(0.5f, Spring.StiffnessMediumLow)
-    val r by animateDpAsState(if (on) 28.dp else if (pressed) 10.dp else 18.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "pvR")
-    val bg by animateColorAsState(if (on) c.primary else c.surfaceContainerHigh, label = "pvBg")
-    val sc by animateFloatAsState(if (on) 1.04f else 1f, spec, label = "pvS")
-    Surface(
-        onClick = onClick, interactionSource = src, shape = RoundedCornerShape(r), color = bg,
-        contentColor = if (on) c.onPrimary else c.onSurface,
-        modifier = modifier.graphicsLayer { scaleX = sc; scaleY = sc; alpha = if (n == 0 && !on) 0.4f else 1f },
-    ) {
-        Column(Modifier.padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-            Text("$n", fontSize = 17.sp, lineHeight = 18.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.5).sp)
-            Text(PROVINCES[i], fontSize = 9.5.sp, lineHeight = 10.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, textAlign = TextAlign.Center)
-        }
-    }
-}
-
-@Composable
-private fun ProvinceMap(counts: IntArray, sel: Int, onPick: (Int) -> Unit) {
-    fun t(i: Int, m: Modifier) = @Composable { ProvTile(i, counts[i], sel == i, m) { onPick(i) } }
-    Row(Modifier.fillMaxWidth().height(132.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        t(6, Modifier.weight(2f).fillMaxHeight())()
-        Column(Modifier.weight(6f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Row(Modifier.weight(1f).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                t(5, Modifier.weight(2f).fillMaxHeight())(); t(3, Modifier.weight(2f).fillMaxHeight())(); t(2, Modifier.weight(2f).fillMaxHeight())()
-            }
-            Row(Modifier.weight(1f).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                t(4, Modifier.weight(4f).fillMaxHeight())(); t(1, Modifier.weight(2f).fillMaxHeight())()
-            }
-        }
-        t(0, Modifier.weight(2f).fillMaxHeight())()
-    }
-}
-
 private fun kindFor(r: PwRoute): String = when {
     r.kind == "Diploma" || r.kind == "Technical" -> "institute"
     r.stage == "afterbach" -> "university"
@@ -98,20 +59,22 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     val feesHi = remember(all) { all.mapNotNull { it.fees[r.id]?.second } }
     val lo = if (feesHi.isEmpty()) 0f else floor(feesHi.min() / 100_000f)
     val hi = if (feesHi.isEmpty()) 0f else ceil(feesHi.max() / 100_000f).coerceAtLeast(lo + 1f)
-    var prov by rememberSaveable(r.id) { mutableIntStateOf(-1) }
     var district by rememberSaveable(r.id) { mutableStateOf("") }
     var cmax by rememberSaveable(r.id) { mutableFloatStateOf(hi) }
     var sort by rememberSaveable { mutableStateOf("fee") }
     var shown by rememberSaveable(r.id) { mutableIntStateOf(30) }
-    val counts = remember(all) { IntArray(7).also { a -> all.forEach { p -> DISTRICT_PROVINCE[p.district]?.let { a[it]++ } } } }
+    val counts = remember(all) { all.groupingBy { it.district }.eachCount() }
     Column(Modifier.padding(horizontal = 16.dp)) {
-        ProvinceMap(counts, prov) { prov = if (prov == it) -1 else it; district = ""; shown = 30 }
+        PwNepalMapCard(counts, district, { name ->
+            district = if (name.isEmpty() || name == district) "" else name; shown = 30
+            if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r))
+        })
         Spacer(Modifier.height(14.dp))
         if (hi > lo) Row(Modifier.padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             Box(Modifier.weight(1f)) { PwSlider(cmax.coerceIn(lo, hi), { cmax = it; shown = 30 }, lo..hi, 0, lakhText(cmax)) }
             PwSeg(listOf("fee" to "Fee", "seats" to "Seats"), sort, { sort = it }, fill = false, height = 40.dp)
         }
-        val inProv = all.filter { prov < 0 || DISTRICT_PROVINCE[it.district] == prov }
+        val inProv = all
         val districts = inProv.map { it.district }.distinct().sorted()
         if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) }, inset = 0.dp)
         val list = remember(inProv, district, cmax, sort) {

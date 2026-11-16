@@ -2,7 +2,16 @@
 
 package com.neb.ians.ui.screens.pathways
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -74,6 +83,43 @@ private fun Detail(k: String, v: String, modifier: Modifier = Modifier) {
     }
 }
 
+/** The student visa as a timeline. Tap a step to tick it off; the tick state survives rotation and a restart of the screen. */
+@Composable
+private fun VisaSteps(v: PwVisa, id: String) {
+    val c = MaterialTheme.colorScheme
+    var done by rememberSaveable(id) { mutableIntStateOf(0) }
+    val n = v.steps.size
+    Column {
+        Row(Modifier.fillMaxWidth()) {
+            Text("Visa steps · ${v.name}", Modifier.weight(1f), fontSize = 11.sp, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text("${Integer.bitCount(done)}/$n", fontSize = 11.sp, color = c.onSurfaceVariant)
+        }
+        Spacer(Modifier.height(6.dp))
+        v.steps.forEachIndexed { i, s ->
+            val on = done and (1 shl i) != 0
+            val r by animateDpAsState(if (on) 16.dp else 12.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "vsR")
+            val bg by animateColorAsState(if (on) c.primary else c.primaryContainer, label = "vsBg")
+            Row(
+                Modifier.fillMaxWidth().pwRise(i, id).clip(RoundedCornerShape(12.dp)).clickable { done = done xor (1 shl i) }
+                    .drawBehind { if (i < n - 1) drawRect(c.primaryContainer, Offset(15.dp.toPx(), 32.dp.toPx()), Size(2.dp.toPx(), size.height - 32.dp.toPx())) }
+                    .padding(bottom = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Box(Modifier.size(32.dp).clip(RoundedCornerShape(r)).background(bg), contentAlignment = Alignment.Center) {
+                    if (on) Icon(Icons.Outlined.Check, "Done", Modifier.size(16.dp), tint = c.onPrimary)
+                    else Text("${i + 1}", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = c.onPrimaryContainer)
+                }
+                Column(Modifier.weight(1f).padding(top = 5.dp).graphicsLayer { alpha = if (on) 0.55f else 1f }) {
+                    Text(s.name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
+                    val meta = listOfNotNull(if (s.days > 0) "${s.days} ${if (s.days == 1) "day" else "days"}" else null, s.cost.ifBlank { null }, s.mode.ifBlank { null }).joinToString(" · ")
+                    if (meta.isNotEmpty()) Text(meta, fontSize = 12.sp, color = c.onSurfaceVariant)
+                    if (s.note.isNotBlank()) Text(s.note, fontSize = 12.sp, color = c.onSurfaceVariant, lineHeight = 16.sp)
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, open: Boolean, vm: PathwaysViewModel, nav: PwNav) {
     val c = MaterialTheme.colorScheme
@@ -84,7 +130,6 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
     val fade by animateFloatAsState(if (!ok && !open) 0.6f else 1f, label = "abA")
     val pill = pwTone(if (ok) 4 else 5)
     val months = remember(a.intakes) { monthsIn(a.intakes) }
-    val visa = remember(d) { d.guides.firstOrNull { it.id.contains("visa") }?.id }
     PwSurface(
         Modifier.fillMaxWidth().pwRise(i).graphicsLayer { alpha = fade }.animateContentSize(spring(0.8f, Spring.StiffnessMediumLow)),
         radius = 22.dp, onClick = { vm.sel.abroadOpen = if (open) "" else a.id },
@@ -122,8 +167,8 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
                     Text("Intake months", fontSize = 11.sp, color = c.onSurfaceVariant, modifier = Modifier.padding(bottom = 4.dp))
                     PwMonths({ it in months })
                 } else if (a.intakes.isNotBlank()) Detail("Intakes", a.intakes)
+                a.visa?.takeIf { it.steps.isNotEmpty() }?.let { VisaSteps(it, a.id) }
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    if (visa != null) PwChip("Visa steps", false, { nav.push("guide:$visa") }, height = 40.dp)
                     if (a.scholarships.isNotEmpty()) PwChip("Scholarships", false, { vm.sel.schCountry = a.id; vm.sel.study = "funding" }, height = 40.dp)
                 }
             }

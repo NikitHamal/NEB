@@ -9,7 +9,11 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -63,6 +67,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import kotlin.math.abs
 
 @Composable
 internal fun PwExplore(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
@@ -87,9 +92,14 @@ internal fun PwExplore(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
                 s.stage = id; s.group = ""; s.course = null; s.career = null; s.focus = ""; s.trail = emptyList()
             }
             PwGroups(groups, group) { s.group = it; s.course = null; s.career = null; s.focus = "" }
-            PwLens(s.lens) { s.lens = if (s.lens == it) "" else it }
+            val linkedCount = when {
+                s.course != null -> d.routeById[s.course]?.careers.orEmpty().count { id -> careers.any { it.id == id } }
+                s.career != null -> courses.count { s.career in it.careers }
+                else -> 0
+            }
+            PwLens(s.lens, s.course != null || s.career != null, linkedCount, s.linked, { s.linked = !s.linked }) { s.lens = if (s.lens == it) "" else it }
             PwRouteMap(
-                d, courses, careers, s.course, s.career, hint, s.lens, stage.id + group,
+                d, courses, careers, s.course, s.career, hint, s.lens, s.linked, stage.id + group,
                 onCourse = { id ->
                     if (s.course == id) s.course = null
                     else {
@@ -199,8 +209,12 @@ private fun PwGroups(groups: List<String>, current: String, onPick: (String) -> 
 }
 
 @Composable
-private fun PwLens(current: String, onPick: (String) -> Unit) {
-    Row(Modifier.fillMaxWidth().padding(16.dp, 10.dp, 16.dp, 0.dp), horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.End)) {
+private fun PwLens(current: String, any: Boolean, linked: Int, linkedOn: Boolean, onLinked: () -> Unit, onPick: (String) -> Unit) {
+    Row(Modifier.fillMaxWidth().padding(16.dp, 10.dp, 16.dp, 0.dp), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+        AnimatedVisibility(any, enter = fadeIn() + scaleIn(spring(0.6f, Spring.StiffnessMediumLow), initialScale = 0.85f), exit = fadeOut()) {
+            PwChip("Linked $linked", linkedOn, onLinked, height = 32.dp)
+        }
+        Spacer(Modifier.weight(1f))
         listOf("demand" to "Demand", "pay" to "Pay", "odds" to "Odds").forEach { (k, label) -> PwChip(label, current == k, { onPick(k) }, height = 32.dp) }
     }
 }
@@ -208,7 +222,7 @@ private fun PwLens(current: String, onPick: (String) -> Unit) {
 /** Two columns, courses and careers. Curves appear only for the current selection, measured relative to the map itself. */
 @Composable
 private fun PwRouteMap(
-    d: PwData, courses: List<PwRoute>, careers: List<PwCareer>, course: String?, career: String?, hint: Set<String>, lens: String, key: String,
+    d: PwData, courses: List<PwRoute>, careers: List<PwCareer>, course: String?, career: String?, hint: Set<String>, lens: String, linked: Boolean, key: String,
     onCourse: (String) -> Unit, onCareer: (String) -> Unit,
 ) {
     val c = MaterialTheme.colorScheme
@@ -242,16 +256,31 @@ private fun PwRouteMap(
                 val map = mapCoords ?: return@drawBehind
                 if (!any || !map.isAttached) return@drawBehind
                 val measure = PathMeasure()
+                val seg = Path()
+                val corner = 14.dp.toPx()
                 courses.forEach { r ->
                     if (cState(r) == 0) return@forEach
                     val a = nodes["c:${r.id}"]?.takeIf { it.isAttached }?.let { map.localBoundingBoxOf(it, false) } ?: return@forEach
                     r.careers.forEach inner@{ k ->
                         if (kState(k) == 0) return@inner
                         val b = nodes["k:$k"]?.takeIf { it.isAttached }?.let { map.localBoundingBoxOf(it, false) } ?: return@inner
+                        // one trunk in the gap: every link runs out to the same x, along it and in again, so many links read as one bracket
                         val mx = (a.right + b.left) / 2
-                        val p = Path().apply { moveTo(a.right, a.center.y); cubicTo(mx, a.center.y, mx, b.center.y, b.left, b.center.y) }
+                        val dy = b.center.y - a.center.y
+                        val rr = minOf(corner, abs(dy) / 2f, (b.left - a.right) / 2f)
+                        val sg = if (dy < 0f) -1f else 1f
+                        val p = Path().apply {
+                            moveTo(a.right, a.center.y)
+                            if (abs(dy) < 1f) lineTo(b.left, b.center.y) else {
+                                lineTo(mx - rr, a.center.y)
+                                quadraticTo(mx, a.center.y, mx, a.center.y + sg * rr)
+                                lineTo(mx, b.center.y - sg * rr)
+                                quadraticTo(mx, b.center.y, mx + rr, b.center.y)
+                                lineTo(b.left, b.center.y)
+                            }
+                        }
                         measure.setPath(p, false)
-                        val seg = Path()
+                        seg.reset()
                         measure.getSegment(0f, measure.length * draw.value, seg, true)
                         drawPath(seg, hot, style = Stroke(2.5.dp.toPx(), cap = StrokeCap.Round))
                     }
@@ -259,36 +288,42 @@ private fun PwRouteMap(
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.weight(1f)) {
             courses.forEachIndexed { i, r ->
                 val m = d.m(r)
                 val st = cState(r)
+                val gone = linked && any && st == 0
                 val (fill, tail) = when (lens) {
                     "demand" -> m.demand / 100f to "${m.demand}"
                     "odds" -> (100 - m.competition) / 100f to "${100 - m.competition}"
                     "pay" -> m.payHi / maxPay to if (m.payHi > 0) money(m.payHi) else ""
                     else -> 0f to ""
                 }
-                PwNode(
-                    shortName(r.name), tail, st, any && st == 0, fill, i, key, null, { onCourse(r.id) },
-                    Modifier.onPlaced { nodes["c:${r.id}"] = it; placed++ },
-                )
+                AnimatedVisibility(!gone, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
+                    PwNode(
+                        shortName(r.name), tail, st, any && st == 0, fill, i, key, null, { onCourse(r.id) },
+                        Modifier.padding(bottom = 8.dp).onPlaced { nodes["c:${r.id}"] = it; placed++ },
+                    )
+                }
             }
         }
         Spacer(Modifier.width(28.dp))
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.weight(1f)) {
             careers.forEachIndexed { i, k ->
                 val st = kState(k.id)
+                val gone = linked && any && st == 0
                 val (fill, tail) = when (lens) {
                     "demand" -> pct(k.demand) / 100f to "${pct(k.demand)}"
                     "odds" -> (100 - pct(k.competition)) / 100f to "${100 - pct(k.competition)}"
                     "pay" -> k.entryMax / maxPay to money(k.entryMax)
                     else -> 0f to ""
                 }
-                PwNode(
-                    k.name, tail, st, any && st == 0, fill, i + 3, key, pct(k.demand), { onCareer(k.id) },
-                    Modifier.onPlaced { nodes["k:${k.id}"] = it; placed++ },
-                )
+                AnimatedVisibility(!gone, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
+                    PwNode(
+                        k.name, tail, st, any && st == 0, fill, i + 3, key, pct(k.demand), { onCareer(k.id) },
+                        Modifier.padding(bottom = 8.dp).onPlaced { nodes["k:${k.id}"] = it; placed++ },
+                    )
+                }
             }
         }
     }
