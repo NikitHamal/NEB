@@ -913,3 +913,39 @@ Public Service Commission notices 101 and 102 of 2083/84 (via educatenepal.com),
 ## Not done / next
 - Websites for the 215 providers that still have none. A second, wider domain probe (nine suffixes, 12 name patterns) found nothing new that passed the checks; medical colleges need a search by name. Countries still without a listed scholarship: Finland, Malaysia (MTCP listing found but its 2026 date was unreliable), UAE, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines, Uzbekistan, Cyprus.
 - Official Nepal Medical Council list of recognised foreign medical schools, per college CTEVT fees, Health Service syllabus marks for Health Assistant from the commission page.
+
+
+---
+
+# Session 36: Pathways dataset wave 16 (scholarships, two destinations, 2026 rules for eight older ones, A Level schools, guides)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`). Bootstrap run, history read (sessions 16 to 35, `docs/PATHWAYS_SCHEMA.md`, wave 15 scripts). Data only, in the files both apps read (`wave16.json` merged by `pathways.py`, built by `tools/pathways/build_wave16.py`). Nothing was duplicated: each addition was checked against the merged payload first (Trinity International College already existed, so it only got a note and an A Level link). The new tests ran under a stub `TestCase` (all pass); `problems()` is empty.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 212 | **Two destinations**: Malta (University of Malta 2026/27 fees EUR 8,500 or 10,800 bachelor, EUR 26,000 medicine; other guides disagree and the note says so; D visa, 20 hour work rule from agencies) and Latvia (fees EUR 2,400 to 7,100, RTU EUR 3,220 to 7,550, visa EUR 60, 20 and 40 hour rule). | `w16_abroad.py` |
+| 213 | **Six scholarships for countries that had none**: Aalto Excellence (7 Dec 2026 to 5 Jan 2027), University of Helsinki waivers (5 to 19 Jan 2027), Malaysia International Scholarship (RM 1,500 a month, 4 Mar to 3 Apr 2026), Kazakhstan Government (550 awards, studyin.kz, 30 Mar to 31 May 2026), MBZUAI (15 Dec 2026, stipend figures differ between sources), New Uzbekistan Scholarship (500 a year). | `w16_abroad.py` |
+| 214 | **COMPEX 2026 window replaced** (was "April or May"): online 27 Aug to 10 Sep 2026, fee at Nepal SBI by 14 Sep, CBT in the 4th week of September, marks rules. Also Turkiye stipends (TRY 6,500 / 9,500 / 13,000), CSC Youth of Excellence (29 March 2027), Hungary stipend and 2026/27 timeline. | `w16_abroad.py` |
+| 215 | **A Level and IB schools**: Rato Bangala and Ullens (websites fetched), The British School, Malpi, Chelsea linked to the A Level route; Trinity and St. Xavier's got notes; two year fee ranges (St. Xavier's NPR 5 lakh to The British School NPR 20 to 25 lakh) with the age of each source stated; Lincoln School noted as an American diploma instead. | `w16_nepal.py` |
+| 216 | **ICAN official fees** (CAP I NPR 34,500, CAP II 40,500, CAP III 50,000, eligibility by degree percent, pre test) on the provider and route; coaching pages with lower numbers are named. | `w16_nepal.py` |
+| 217 | **MBBS fee text fixed**: MEC list shows NPR 41,68,090 inside the valley (older text had 40,23,250). Done with `text_swap` on the route and two FAQs. | `w16_nepal.py`, `pathways.py` |
+| 218 | **2026 rules for eight older destinations** that only had a one line note: New Zealand (25 hours from 3 Nov 2025, NZD 20,000), Ireland (Stamp 2, funds figure disagrees), Finland (EUR 800 a month, EUR 600 permit), Norway (tuition now charged, UDI NOK 170,368 for 2026/27 from the University of Oslo page), Sweden, Denmark, Hungary, Netherlands (IND norm EUR 1,130.77). | `w16_more.py` |
+| 219 | **Two guides**: education loan from a Nepali bank, police clearance certificate (free, OPCR or Nagarik App). | `w16_guides.py` |
+| 220 | **18 FAQs (fw16-1 to 18)**: MECEE-BL 2027 dates and fee (MBBS 31 Oct 2026, BPH 4 Nov), MBBS fee disagreement, COMPEX, SEE 2083 calendar (exam first or second week of Chaitra 2083), ICAN cost, A Levels and IB, Finland waivers, MIS, Kazakhstan, MBZUAI, Uzbekistan, Malta, Latvia, Chevening 2027/28 timeline, deadlines to March 2027, education loan rates, loan as proof of funds, police clearance. | `w16_faq.py`, `w16_guides.py` |
+| 221 | **Merge and checks**: `pathways.py` reads `wave16.json` (keys in `docs/PATHWAYS_SCHEMA.md`); `Wave16Tests`. | `pathways.py`, `test_pathways.py`, `build_wave16.py` |
+
+## Sources
+Listed at the top of each `w16_*.py`: ICAN (official page), University of Oslo (official page), Embassy of India notice copy, edusanjal, educatenepal, prepolic (MECEE-BL notice), studyu.org, nordicexpat, study-abroad.org, scholars4dev, MOHE guidance copies, MBZUAI and Kazakhstan listing pages, interestrateinnepal and houseofadmissions (loan rates), Nepal Police PCC guides.
+
+## Rules (Pathways data)
+- Do not repeat wave 12 to 16 keys. New data goes in `wave17.json` through its own builder; pull before pushing.
+- Correct an older sentence with `text_swap` (it fails loudly when the old text is gone).
+- Most rules and fees were read on agency or news pages; the text says "guides say" or "sources disagree" and nothing is presented as official unless the page was official.
+- Do not fetch PDFs with the web tool; use the search snippets or an HTML copy.
+
+## Not done / next
+- Scholarships for Georgia, Bangladesh, Kyrgyzstan, the Philippines and Cyprus; Uzbekistan official work rules; official Nepal Medical Council list of recognised foreign medical schools.
+- Websites for about 212 providers that still have none; per college CTEVT fees; Lincoln School and The British School websites (the two guessed domains did not load).
+- Remaining thin notes: China, India, Turkey, Russia, Singapore, Italy, Taiwan, France, Belgium, Thailand, UAE, Austria, Poland, Spain.
