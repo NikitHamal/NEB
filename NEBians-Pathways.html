@@ -390,6 +390,70 @@ input[type=range]::-moz-range-thumb{width:6px;height:36px;border-radius:7px;back
   .mad{font-size:32px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== match wizard + results ===== */
+.app.quiz{grid-template-rows:minmax(0,1fr)}.app.quiz>#top,.app.quiz>#nav{display:none}
+#main:has(.qz){padding:0;overflow:hidden}
+.qz{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;width:100%}
+.qh{display:flex;align-items:center;gap:10px;padding:14px 12px 4px 16px}
+.qp{flex:1;display:flex;gap:4px}.qp i{flex:1;height:6px;border-radius:3px;background:var(--s3);position:relative;overflow:hidden}
+.qp i.f{background:var(--p)}.qp i.c::after{content:"";position:absolute;inset:0;background:var(--p);transform-origin:left;animation:grow .5s var(--e) both}
+.qs{height:44px;min-width:56px;padding:0 12px;border-radius:22px;font-size:13px;font-weight:600;color:var(--onv)}
+.qb{flex:1;min-height:0;overflow:auto;padding:20px 16px 12px}
+.qb.in{animation:qin .45s var(--e) both}.qb.rev{animation:qrev .45s var(--e) both}
+@keyframes qin{from{opacity:0;transform:translateX(32px)}}@keyframes qrev{from{opacity:0;transform:translateX(-32px)}}
+.qt{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.08}
+.qd{font-size:14px;font-weight:500;color:var(--onv);margin:8px 0 20px;line-height:1.4}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.qg.one{grid-template-columns:1fr}.qg.three{grid-template-columns:repeat(3,1fr)}
+.qo{text-align:left;padding:14px 34px 14px 16px;border-radius:22px;background:var(--s1);min-height:64px;display:grid;align-content:center;gap:2px;position:relative;transition:background .2s,border-radius .35s var(--sp),transform .2s}
+.qo b{font-size:15px;font-weight:600;line-height:1.2}.qo span{font-size:12px;font-weight:500;color:var(--onv);line-height:1.3}
+.qo:active{border-radius:14px;transform:scale(.97)}
+.qo.on{background:var(--p);color:var(--onp);border-radius:14px}.qo.on span{color:inherit;opacity:.8}
+.qo::after{content:"";position:absolute;top:50%;right:14px;width:7px;height:13px;margin-top:-9px;border:solid currentColor;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);transition:transform .3s var(--sp)}
+.qo.on::after{transform:rotate(45deg) scale(1)}
+.qf{padding:10px 16px 18px;display:grid;gap:6px}.qf .btn{width:100%;flex:none}.qf .btn[disabled]{opacity:.38}
+.qn{text-align:center;font-size:12px;font-weight:600;color:var(--onv);min-height:16px}
+.qld{display:grid;justify-items:center;align-content:center;gap:18px;height:100%;text-align:center}
+.qld .qhero{width:150px;height:150px;position:relative;color:var(--onpc);display:grid;place-items:center}
+.qhero svg{position:absolute;inset:0;width:100%;height:100%;fill:var(--pc)}.qhero b{position:relative;font-size:34px;font-weight:700}
+.qld p{font-size:16px;font-weight:600;min-height:24px;animation:fade .4s both}
+.mh{background:var(--pc);color:var(--onpc);border-radius:32px;padding:26px 22px 22px;margin:6px 0 12px;display:grid;gap:14px;overflow:hidden}
+.mh .qhero{width:120px;height:120px;position:relative;display:grid;place-items:center}.mh .qhero svg{fill:var(--p);opacity:.9}.mh .qhero b{color:var(--onp);font-size:26px}
+.mh h3{font-size:27px;font-weight:700;letter-spacing:-.03em;line-height:1.08}.mh p{font-size:14px;font-weight:500;line-height:1.45;opacity:.85}
+.mh .btn{width:100%;flex:none}.mh .btn.t{background:color-mix(in srgb,var(--onpc) 10%,transparent);color:var(--onpc)}
+.mhd{display:flex;align-items:center;gap:10px;margin:6px 0 12px}.mhd div{flex:1;min-width:0}
+.mhd b{font-size:24px;font-weight:700;letter-spacing:-.03em;display:block;line-height:1.1}.mhd span{font-size:12.5px;font-weight:500;color:var(--onv)}
+.btn.sm{flex:none;height:40px;padding:0 16px;font-size:13px}
+.note{background:var(--yc);color:var(--onyc);border-radius:20px;padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:10px;line-height:1.4}
+.mc{background:var(--s1);border-radius:26px;margin-bottom:8px;overflow:hidden}
+.mc.top{background:var(--pc);color:var(--onpc)}.mc.top .tr{stroke:color-mix(in srgb,var(--onpc) 14%,transparent)}
+.mt{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;text-align:left;padding:12px 16px 12px 12px}
+.mt b{font-size:15px;font-weight:600;display:block}.mt>div>span{font-size:12px;font-weight:500;opacity:.72;display:block}
+.chv{display:grid;transition:transform .3s var(--e)}.mc.open .chv{transform:rotate(90deg)}
+.md{padding:2px 16px 16px;display:grid;gap:8px;animation:fade .3s both}
+.fb{display:grid;grid-template-columns:76px minmax(0,1fr) 30px;gap:10px;align-items:center;font-size:12px;font-weight:600}
+.fb div{height:8px;border-radius:4px;background:color-mix(in srgb,currentColor 12%,transparent);overflow:hidden}
+.fb i{display:block;height:100%;border-radius:4px;background:currentColor;transform-origin:left;animation:grow .6s var(--e) both}.fb b{text-align:right}
+.md .facts{padding:6px 0 2px}.mc.top .fact{background:color-mix(in srgb,var(--onpc) 8%,transparent)}.mc.top .fact small{color:inherit;opacity:.7}
+.mx{display:flex;gap:8px;margin-top:2px}.mx .btn{height:46px;font-size:14px}.mx .ib{width:46px;height:46px}
+.mw{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 6px;font-size:13px;font-weight:600;color:var(--onv)}
+.tips{display:grid;gap:6px;text-align:left;width:100%}.tips div{background:var(--s2);border-radius:16px;padding:10px 14px;font-size:13px;font-weight:500;line-height:1.35}
+.nom{display:grid;justify-items:center;gap:12px;padding:30px 18px 22px;background:var(--s1);border-radius:32px;text-align:center}
+.nom h3{font-size:22px;font-weight:700;letter-spacing:-.02em}.nom p{font-size:13.5px;color:var(--onv);font-weight:500;line-height:1.4}
+.nom svg{width:84px;fill:var(--s3)}.nom .btn{width:100%;flex:none}
+/* ===== exams revamp ===== */
+.xp{background:var(--s1);border-radius:28px;padding:14px 14px 4px;margin-bottom:12px}
+.xp small{display:block;font-size:11.5px;font-weight:600;color:var(--onv);margin:0 2px 10px}
+.xsum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.xsum div{border-radius:20px;padding:10px 14px;background:var(--s2)}.xsum b{font-size:24px;font-weight:700;display:block;letter-spacing:-.02em;line-height:1.1}.xsum small{font-size:11px;font-weight:600}
+.xsum .g{background:var(--gc);color:var(--ongc)}.xsum .y{background:var(--yc);color:var(--onyc)}
+.xc{width:100%;text-align:left;display:grid;gap:10px;padding:14px 16px;border-radius:24px;background:var(--s1);margin-bottom:8px;transition:border-radius .35s var(--sp),background .2s}
+.xc:active{border-radius:16px}.xc.on{background:var(--pc);color:var(--onpc)}.xc.no{opacity:.55}
+.xh{display:flex;gap:10px;align-items:flex-start}.xh>div{flex:1;min-width:0}.xh b{font-size:15px;font-weight:600;display:block;line-height:1.25}.xh span{font-size:12px;font-weight:500;opacity:.72}
+.pill{height:26px;padding:0 11px;border-radius:13px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;white-space:nowrap;flex:none}
+.pill.open{background:var(--gc);color:var(--ongc)}.pill.soon{background:var(--yc);color:var(--onyc)}.pill.no{background:var(--s3);color:var(--onv)}
+.xm{display:flex;gap:6px 14px;font-size:12px;font-weight:600;color:var(--onv);flex-wrap:wrap}.xc.on .xm{color:inherit}
+.xc .mo{--mf:var(--p);--mb:var(--onp)}.xc.on .mo{--mf:var(--onpc);--mb:var(--pc)}
 </style>
 </head>
 <body>
@@ -825,7 +889,7 @@ const S={dev:innerWidth<980?'phone':'web',view:'explore',stage:'p2',stream:'sci'
   tabs:{course:'journey',career:'pay',exam:'stages'},cmp:null,path:[],back:[],saved:new Set(),q:'',searching:false,lens:null,
   study:'nepal',cc:'csit',prov:null,dist:null,cmax:null,csort:'fee',ab:null,abmax:30,stype:'All',slvl:'All',sk:null,schOpen:null,
   xg:'gov',exam:'so',edu:2,age:18,woman:'0',gcat:'All',guide:'psc',done:new Set(),docs:new Set(),have:new Set(),
-  plan:'plan',mi:new Set(),ms:new Set(),mp:new Set(),foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
+  plan:'match',mi:new Set(),ms:new Set(),mp:new Set(),mq:false,mstep:0,mdone:false,medit:false,mdir:1,qa:false,mstg:'p2',my:0,mr:'mid',mopen:null,mweak:false,foc:false,mb:15,exp:3,hrs:3,cpriv:'0',live:'0',aid:0};
 let lastKey='',freshT=0;
 
 /* ============ HELPERS ============ */
@@ -910,7 +974,17 @@ funding(){const left=s=>(s.e-NOW+12)%12;
     ${S.schOpen===s.n?`<div class="sx"><div class="chips w z">${[['T','Tuition'],['S','Stipend'],['F','Flights']].map(([k,n])=>`<span class="skill ${s.cov.includes(k)?'yes':'no'}">${n}</span>`).join('')}</div>
     <div class="sxa"><b>${s.aw} awards</b><button class="ib ${S.saved.has(key)?'on':''}" data-a="save" data-v="${key}" aria-label="Save">${I('bookmark')}</button><button class="btn t" data-a="goGuide" data-v="schl">Steps</button></div></div>`:''}</div>`}).join('')||empty('No match')}`}
 };
-const xlistHTML=()=>Object.values(X).filter(x=>x.g===S.xg).map(x=>{const w=why(x);return `<button class="lrow ${wide()&&S.exam===x.id?'on':''} ${w?'no':''}" data-a="exam" data-v="${x.id}"><div><b>${x.n}</b><span>${w||x.b}</span></div><em class="v">${x.seats?oddsOf(x).txt:npr(x.fee)}</em></button>`}).join('');
+const xst=x=>{const w=why(x);
+  if(w)return{k:'no',t:'Not eligible',s:w,o:100};
+  if(x.win[0]===1&&x.win[1]===12)return{k:'open',t:'Open all year',s:'Book any month',o:0};
+  if(inWin(x.win[0],x.win[1],NOW))return{k:'open',t:'Open now',s:'Closes '+MN[x.win[1]-1],o:1};
+  const n=(x.win[0]-NOW+12)%12;return{k:'soon',t:n<=2?'Opens soon':'Opens '+MN[x.win[0]-1],s:'In '+n+(n===1?' month':' months'),o:1+n}};
+const xlistHTML=()=>{const l=Object.values(X).filter(x=>x.g===S.xg).map(x=>({x,st:xst(x)})).sort((a,b)=>a.st.o-b.st.o),
+  n=k=>l.filter(e=>e.st.k===k).length;
+  return `<div class="xsum"><div class="g"><b>${n('open')}</b><small>Open now</small></div><div class="y"><b>${n('soon')}</b><small>Coming up</small></div><div><b>${n('no')}</b><small>Not eligible</small></div></div>`+
+  l.map(({x,st})=>`<button class="xc ${wide()&&S.exam===x.id?'on':''} ${st.k==='no'?'no':''}" data-a="exam" data-v="${x.id}"><div class="xh"><div><b>${x.n}</b><span>${x.b}</span></div><span class="pill ${st.k}">${st.t}</span></div>
+  ${st.k==='no'?`<div class="xm"><span>${st.s}</span></div>`:months(m=>inWin(x.win[0],x.win[1],m))}
+  <div class="xm"><span>${st.k==='no'?'Fee':st.s+' ·'} ${npr(x.fee)}</span>${x.em?`<span>Exam ${MN[x.em-1]}</span>`:''}${x.seats?`<span>${oddsOf(x).txt}</span>`:''}<span>${x.prep} h prep</span></div></button>`).join('')};
 const V={
 explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(id=>C[id].to))];
   return `<div class="wrap">${stagesHTML()}
@@ -922,19 +996,16 @@ explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(i
   </div></div>`},
 study(){return `<div class="wrap pad">${segHTML([['nepal','Colleges'],['abroad','Abroad'],['funding','Funding']],S.study,'study')}${STUDY[S.study]()}</div>`},
 exams(){return `<div class="wrap pad">${segHTML([['gov','Government'],['ent','Entrance'],['lang','Language']],S.xg,'xg')}
-  <div class="chips">${[1,2,3,4].map(i=>`<button class="chip ${S.edu===i?'on':''}" data-a="edu" data-v="${i}">${EDU[i]}</button>`).join('')}</div>
-  <div class="ctl"><div class="sl"><input type="range" id="age" min="14" max="45" value="${S.age}" aria-label="Age"><output id="agev">Age ${S.age}</output></div>${S.xg==='gov'?segHTML([['1','Woman'],['0','Man']],S.woman,'woman',''):''}</div>
+  <div class="xp"><small>Eligibility is checked against your profile</small><div class="chips">${[1,2,3,4].map(i=>`<button class="chip ${S.edu===i?'on':''}" data-a="edu" data-v="${i}">${EDU[i]}</button>`).join('')}</div>
+  <div class="ctl"><div class="sl"><input type="range" id="age" min="14" max="45" value="${S.age}" aria-label="Age"><output id="agev">Age ${S.age}</output></div>${S.xg==='gov'?segHTML([['1','Woman'],['0','Man']],S.woman,'woman',''):''}</div></div>
   <div id="xlist">${xlistHTML()}</div></div>`},
 guides(){const l=Object.values(G).filter(g=>S.gcat==='All'||g.cat===S.gcat);
   return `<div class="wrap pad">${chipsHTML(['All','Study','Abroad','Government','Documents'],S.gcat,'gcat')}
   <div class="ggrid">${l.map(g=>{const n=g.steps.length;return `<button class="gd t-${GT[g.cat]} ${wide()&&S.guide===g.id?'on':''}" data-a="guide" data-v="${g.id}"><b>${g.n}</b><div class="gp"><i style="width:${gdone(g)/n*100}%"></i></div><div class="gm"><span>${n} steps</span><span>${dy(gsum(g,1))}</span></div></button>`}).join('')}</div></div>`},
-plan(){return `<div class="wrap pad">${segHTML([['plan','My plan'],['match','Match']],S.plan,'plan')}${S.plan==='plan'?
+plan(){if(S.plan==='match'&&S.mq)return qHTML();
+  return `<div class="wrap pad">${segHTML([['match','Match'],['plan','My plan']],S.plan,'plan')}${S.plan==='plan'?
   `<p class="mad">I am <output id="pagev">${S.age}</output></p><input type="range" id="page" min="13" max="40" value="${S.age}" aria-label="Age"><div id="pout">${planOut()}</div>`:
-  `${stagesHTML()}<p class="mad">I enjoy</p><div class="chips w">${INT.map(([k,n])=>`<button class="chip ${S.mi.has(k)?'on':''}" data-a="mi" data-v="${k}">${n}</button>`).join('')}</div>
-  <p class="mad">I am strong in</p><div class="chips w">${STR.map(([k,n])=>`<button class="chip ${S.ms.has(k)?'on':''}" data-a="ms" data-v="${k}">${n}</button>`).join('')}</div>
-  <p class="mad">I care about</p><div class="chips w">${PRI.map(([k,n])=>`<button class="chip ${S.mp.has(k)?'on':''}" data-a="mp" data-v="${k}">${n}</button>`).join('')}</div>
-  <p class="mad">My budget is <output id="mbv">NPR ${S.mb}L</output></p><input type="range" id="mb" min="1" max="60" value="${S.mb}" aria-label="Budget">
-  <div id="mres" style="margin-top:10px;position:relative"></div>`}</div>`}
+  `<div id="mres"></div>`}</div>`}
 };
 // the plan assembles itself from the route chosen in Explore plus everything saved
 const route=()=>{const ids=S.path.map(p=>p.course);if(S.course)ids.push(S.course);return ids.map(id=>C[id])};
@@ -1066,7 +1137,7 @@ function renderTop(){const tr=[];
   $('#top').innerHTML=`<div class="tbar">${S.searching?`<input id="q" placeholder="Search" autocomplete="off" aria-label="Search">`:`<div class="brand">Pathways</div>`}
     <button class="ib ${S.searching?'on':''}" data-a="search" aria-label="Search">${I(S.searching?'close':'search')}</button></div>
     ${S.view==='explore'&&!S.searching?`<div class="trail">${tr.join('<i class="sep"></i>')}</div>`:''}`}
-function renderMain(){const m=$('#main'),over=S.searching&&S.q,key=[over?S.q&&'q':'',S.view,S.stage,S.stream,S.dev,S.study,S.xg,S.plan,S.gcat].join('|');
+function renderMain(){const m=$('#main'),over=S.searching&&S.q,key=[over?S.q&&'q':'',S.mq,S.view,S.stage,S.stream,S.dev,S.study,S.xg,S.plan,S.gcat].join('|');
   if(key!==lastKey){m.classList.add('fresh');m.scrollTop=0;clearTimeout(freshT);freshT=setTimeout(()=>m.classList.remove('fresh'),900);lastKey=key}
   m.innerHTML=over?vSearch():V[S.view]();
   if(over)return;
@@ -1118,25 +1189,89 @@ function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let 
   l=l.filter(x=>x.fee<=S.cmax).sort((a,b)=>S.csort==='fee'?a.fee-b.fee:b.seats-a.seats);
   box.innerHTML=(ds.length>1?`<div class="chips">${ds.map(d=>`<button class="chip ${S.dist===d?'on':''}" data-a="dist" data-v="${d}">${d}</button>`).join('')}</div>`:'')+
   (l.map(x=>`<div class="crow"><div><b>${x.n}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${x.t==='Public'?'gc':'tc'}">${x.t}</span><div class="fee"><i style="width:${x.fee/c.fee[1]*100}%"></i></div><span class="fv">${lakh(x.fee)}</span></div>`).join('')||empty('No colleges'))}
+const QI={build:'Making and fixing things',heal:'Helping people get well',num:'Data, money, patterns',ppl:'Teaching, leading, talking',make:'Design, art, media',law:'Rules, fairness, debate',nature:'Land, plants, outdoors',serve:'Public service, community'};
+const QP={pay:'A bigger salary',demand:'Plenty of jobs open',ease:'Easier to get in',cost:'Lower fees',abroad:'Chances overseas',near:'Colleges close to me'};
+const QT=[0,['Where are you now?','This sets which courses we compare.'],['What do you enjoy?','Pick up to 3. Go with your gut.'],['What are you good at?','Pick up to 3 subjects or skills.'],['What matters most?','Pick up to 3. We weigh these hardest.'],['What can you spend?','Total fees for the whole course.'],['How do you take risks?','Some courses are hard to get into.']];
+const mpool=()=>(STAGES.find(s=>s.id===S.mstg)||stage()).streams.flatMap(x=>x.courses).map(id=>C[id]);
 function matchOf(pool){
-  const mxp=Math.max(1,...pool.map(c=>c.pay?c.pay[1]:0)),mxf=Math.max(1,...pool.map(c=>c.fee[0])),b=S.mb;
+  const mxp=Math.max(1,...pool.map(c=>c.pay?c.pay[1]:0)),mxf=Math.max(1,...pool.map(c=>c.fee[0])),b=S.mb,R=S.mr;
   return pool.map(c=>{const g=grpOf(c),hit=(m,x)=>(m[x]||[]).some(y=>g.includes(y)),
     ih=[...S.mi].filter(x=>c.tags.includes(x)||hit(IG,x)).length,sh=[...S.ms].filter(x=>c.st===x||hit(SG,x)).length,
     it=!S.mi.size?.5:ih?.6+.4*ih/S.mi.size:0,sr=!S.ms.size?.5:sh?.7+.3*sh/S.ms.size:.1,
     [lo,hi]=c.fee,bf=hi<=b?1:lo<=b?.4+.6*(b-lo)/Math.max(.01,hi-lo):Math.max(0,.3*(1-(lo-b)/Math.max(lo,.01))),
     pr={pay:(c.pay?c.pay[1]:0)/mxp,demand:c.d/100,ease:1-c.c/100,cost:1-lo/mxf,abroad:g.length?Math.max(...g.map(x=>ABR[x]||0)):.3,near:S.dist&&COL.some(x=>x.d===S.dist&&x.c.includes(c.id))?1:0},
     ch=[...S.mp],ps=ch.length?ch.reduce((a,k)=>a+pr[k],0)/ch.length:(pr.demand+pr.pay)/2,
-    t=.36*it+.18*sr+.16*bf+.22*ps+.08*c.d/100,why=[];
-    if(S.mi.size&&it>=.6)why.push('Interests');if(S.ms.size&&sr>=.7)why.push('Strengths');if(bf>=1)why.push('In budget');
+    yf=!S.my||c.y<=S.my?1:Math.max(0,1-(c.y-S.my)/Math.max(1,S.my)),
+    ol=R==='safe'?.5*c.d/100+.5*(1-c.c/100):R==='bold'?.5*c.d/100+.5*pr.pay:c.d/100,
+    t=(.34*it+.16*sr+.14*bf+.18*ps+.18*ol)*(.7+.3*yf)*(bf<.15?.85:1),why=[],neg=[];
+    if(S.mi.size&&it>=.6)why.push('Fits your interests');if(S.ms.size&&sr>=.7)why.push('Plays to your strengths');if(bf>=1)why.push('In budget');
     ch.filter(k=>pr[k]>=.7).forEach(k=>why.push(PRI.find(p=>p[0]===k)[1]));
-    return{c,s:Math.max(1,Math.min(99,Math.round(t*100))),why:why.slice(0,3)}}).sort((a,b)=>b.s-a.s)}
-function renderMatch(){const box=$('#mres');if(!box)return;const old={};$$('.mrow',box).forEach(e=>old[e.dataset.v]=e.offsetTop);
-  const l=matchOf(stage().streams.flatMap(x=>x.courses).map(id=>C[id])).slice(0,6);
-  box.innerHTML=l.map(({c,s,why})=>`<button class="mrow" data-a="goCourse" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b>${why.length?`<div class="rz">${why.map(w=>`<i>${w}</i>`).join('')}</div>`:`<span>${c.f}</span>`}</div>${I('arrow',20)}</button>`).join('');
-  $$('.mrow',box).forEach(e=>{const o=old[e.dataset.v];if(!e.animate)return;
-    if(o==null)e.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'none'}],{duration:350,easing:'cubic-bezier(.2,0,0,1)'});
-    else if(o!==e.offsetTop)e.animate([{transform:`translateY(${o-e.offsetTop}px)`},{transform:'none'}],{duration:520,easing:'cubic-bezier(.34,1.56,.64,1)'})})}
-function chrome(){$('#frame').dataset.dev=S.dev;$$('#devseg button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.dev))}
+    if(bf<.4)neg.push('Fees start at '+lakh(lo));if(yf<1)neg.push('Takes '+yr(c.y));if(S.mi.size&&it<.6)neg.push('Not your interests');if(S.ms.size&&sr<.7)neg.push('Outside your strengths');
+    return{c,s:Math.max(1,Math.min(99,Math.round(100*Math.pow(t,1.8)))),why:why.slice(0,3),neg,p:{Interests:it,Strengths:sr,Budget:bf,Priorities:ps,Outlook:ol}}}).sort((a,b)=>b.s-a.s)}
+const MK='nebm';
+function msave(){try{localStorage.setItem(MK,JSON.stringify({i:[...S.mi],s:[...S.ms],p:[...S.mp],b:S.mb,y:S.my,r:S.mr,g:S.mstg,d:S.mdone}))}catch(e){}}
+function mload(){try{const o=JSON.parse(localStorage.getItem(MK)||'null');if(!o||!STAGES.some(x=>x.id===o.g))return;
+  S.mi=new Set(o.i);S.ms=new Set(o.s);S.mp=new Set(o.p);S.mb=+o.b||15;S.my=+o.y||0;S.mr=o.r||'mid';S.mstg=o.g;S.mdone=!!o.d}catch(e){}}
+const qo=(a,v,on,t,s)=>`<button class="qo ${on?'on':''}" data-a="${a}" data-v="${v}"><b>${t}</b>${s?`<span>${s}</span>`:''}</button>`;
+const qset=k=>({2:S.mi,3:S.ms,4:S.mp})[k];
+function qBody(k){
+  if(k===1)return `<div class="qg one">${STAGES.map(s=>qo('mstg',s.id,S.mstg===s.id,s.t,s.streams.map(x=>x.n).join(' · '))).join('')}</div>`;
+  if(k===2)return `<div class="qg">${INT.map(([v,n])=>qo('mi',v,S.mi.has(v),n,QI[v])).join('')}</div>`;
+  if(k===3)return `<div class="qg">${STR.map(([v,n])=>qo('ms',v,S.ms.has(v),n)).join('')}</div>`;
+  if(k===4)return `<div class="qg">${PRI.filter(p=>p[0]!=='near'||S.dist).map(([v,n])=>qo('mp',v,S.mp.has(v),n,QP[v])).join('')}</div>`;
+  if(k===5){const n=mpool().filter(c=>c.fee[1]<=S.mb).length;
+    return `<div class="big" style="margin:0 0 4px"><b id="mbv">NPR ${S.mb}L</b><span id="mbn">${n} of ${mpool().length} courses fit fully</span></div>
+    <input type="range" id="mb" min="1" max="60" value="${S.mb}" aria-label="Budget"><h4 style="margin-top:14px">How long can you study?</h4>
+    <div class="qg three">${[[2,'Up to 2 yr'],[4,'Up to 4 yr'],[0,'Any length']].map(([v,n])=>qo('my',v,S.my===v,n)).join('')}</div>`}
+  if(k===6)return `<div class="qg one">${[['safe','Play it safe','Courses where getting in is realistic'],['mid','Balanced','A mix of safe and ambitious'],['bold','Aim high','Tough entry is fine if the payoff is big']].map(([v,n,d])=>qo('mr',v,S.mr===v,n,d)).join('')}</div>`;
+  return ''}
+function qHTML(){const k=S.mstep;
+  if(k===7){return `<div class="qz"><div class="qb"><div class="qld"><div class="qhero">${shape(8,'spin')}<b>${mpool().length}</b></div><p id="qlt">Reading your answers</p></div></div></div>`}
+  const ms=qset(k),need=ms&&!ms.size,last=k===6;
+  return `<div class="qz"><div class="qh"><button class="ib" data-a="mback" aria-label="Back">${I(k>1&&!S.medit?'back':'close')}</button>
+    <div class="qp">${[1,2,3,4,5,6].map(i=>`<i class="${i<=k?'f':''} ${i===k?'c':''}"></i>`).join('')}</div>
+    <button class="qs" data-a="mskip" ${ms?'':'hidden'}>Skip</button></div>
+  <div class="qb ${S.qa?(S.mdir>0?'in':'rev'):''}"><h2 class="qt">${QT[k][0]}</h2><p class="qd">${QT[k][1]}</p>${qBody(k)}</div>
+  <div class="qf"><div class="qn" id="qn">${ms?ms.size+' of 3 picked':''}</div><button class="btn f" id="qnext" data-a="mnext" ${need?'disabled':''}>${S.medit?'Update matches':last?'See my matches':'Next'}</button></div></div>`}
+const mans=()=>{const l=(set,L)=>set.size?[...set].map(k=>(L.find(x=>x[0]===k)||[,k])[1]).join(', '):'Any';
+  return [[1,'Stage',stage_of(S.mstg).t],[2,'Enjoy',l(S.mi,INT)],[3,'Good at',l(S.ms,STR)],[4,'Care about',l(S.mp,PRI)],[5,'Budget','NPR '+S.mb+'L'+(S.my?' · '+S.my+' yr':'')],[6,'Style',{safe:'Safe',mid:'Balanced',bold:'Aim high'}[S.mr]]]};
+const stage_of=id=>STAGES.find(s=>s.id===id)||stage();
+function mcard(m,i){const {c,s,why,p}=m,open=S.mopen===c.id,k=C[c.id],pay=c.pay?'NPR '+c.pay[0]+'–'+c.pay[1]+'k':'Varies';
+  return `<div class="mc ${i===0?'top':''} ${open?'open':''}"><button class="mt" data-a="mx" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b>${why.length?`<div class="rz">${why.map(w=>`<i>${w}</i>`).join('')}</div>`:`<span>${c.f}</span>`}</div><i class="chv">${I('arrow',20)}</i></button>
+  ${open?`<div class="md">${Object.entries(p).map(([l,v])=>`<div class="fb"><span>${l}</span><div><i style="width:${Math.max(4,Math.round(v*100))}%"></i></div><b>${Math.round(v*100)}</b></div>`).join('')}
+  ${facts([['Duration',yr(c.y)],['Fees',lakh(c.fee[0])+'–'+lakh(c.fee[1]).replace('NPR ','')],['Start pay',pay]])}
+  <div class="mx"><button class="btn t" data-a="goCourse" data-v="${c.id}">Open course</button><button class="ib ${S.saved.has('course:'+c.id)?'on':''}" data-a="save" data-v="course:${c.id}" aria-label="Save">${I('bookmark')}</button></div></div>`:''}</div>`}
+function matchPanel(){
+  if(!S.mdone){const prog=S.mstep>1;
+    return `<div class="mh"><div class="qhero">${shape(8,'spin')}<b>Match</b></div><h3>${prog?'Pick up where you left off':'Find the course that fits you'}</h3>
+    <p>${prog?'You are on step '+S.mstep+' of 6. Your answers so far are kept.':'Six quick questions, about a minute. We rank every course for your stage by your interests, strengths, budget and goals.'}</p>
+    <button class="btn f" data-a="${prog?'mresume':'mstart'}">${prog?'Continue':'Start matching'}</button>${prog?`<button class="btn t" data-a="mretake">Start over</button>`:''}</div>
+    <div class="chips w">${['Interests','Strengths','Budget','Priorities','Competition'].map(t=>`<span class="skill">${t}</span>`).join('')}</div>`}
+  const all=matchOf(mpool()),strong=all.filter(m=>m.s>=65),poss=all.filter(m=>m.s>=40&&m.s<65),weak=all.filter(m=>m.s<40),good=strong.length+poss.length;
+  if(!S.mopen&&S.mopen!==''&&all[0])S.mopen=all[0].c.id;
+  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).t} · ${strong.length} strong · ${poss.length} possible</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
+    <div class="chips">${mans().map(([i,l,v])=>`<button class="chip" data-a="medit" data-v="${i}">${l}: ${v}</button>`).join('')}</div>`;
+  if(!good){const mn=Math.min(...mpool().map(c=>c.fee[0])),tips=[];
+    if(mn>S.mb)tips.push('Cheapest course here starts at '+lakh(mn)+'. Your budget is NPR '+S.mb+'L.');
+    if(S.my)tips.push('You limited study to '+S.my+' years. Try any length.');
+    if(S.mi.size&&S.ms.size)tips.push('Your interests and strengths point in different directions. Try fewer picks.');
+    tips.push('Try a different stage, or loosen one answer.');
+    return head+`<div class="nom">${shape(6)}<h3>Nothing fits well</h3><p>None of the ${all.length} courses at this stage scored well on your answers.</p><div class="tips">${tips.slice(0,3).map(t=>`<div>${t}</div>`).join('')}</div>
+    <button class="btn f" data-a="medit" data-v="5">Change budget</button><button class="btn t" data-a="medit" data-v="1">Try another stage</button></div>`}
+  let i=0;const grp=(t,l)=>l.length?`<h4>${t}</h4>`+l.map(m=>mcard(m,i++)).join(''):'';
+  return head+(strong.length?'':`<div class="note">No strong match, but these are the closest. Tap one to see why.</div>`)+grp('Best fit',strong)+grp(strong.length?'Worth a look':'Closest options',poss)+
+    (weak.length?`<button class="mw" data-a="mweak"><span>Not a good fit (${weak.length})</span>${I('arrow',18)}</button>${S.mweak?weak.map(m=>lrow('goCourse',m.c.id,m.c.n,m.neg.join(' · ')||m.c.f,m.s)).join(''):''}`:'')}
+function renderMatch(){const box=$('#mres');if(!box)return;box.innerHTML=matchPanel()}
+function qUpd(){const k=S.mstep,ms=qset(k),b=$('#qnext');if(!ms||!b)return;b.disabled=!ms.size;$('#qn').textContent=ms.size+' of 3 picked'}
+function qgo(n,d){S.mstep=n;S.mdir=d;S.qa=true;msave();renderMain();S.qa=false;
+  if(n===7){const T=['Reading your answers','Weighing '+mpool().length+' courses','Ranking your matches'];T.forEach((t,i)=>setTimeout(()=>{const e=$('#qlt');if(e&&S.mstep===7)e.textContent=t},i*550));setTimeout(()=>{if(S.mq&&S.mstep===7)qdone()},1700)}}
+function qdone(){S.mq=false;S.medit=false;S.mstep=0;S.mdone=true;S.mopen=null;S.mweak=false;msave();render()}
+const qpush=()=>{try{history.pushState({q:S.mstep},'')}catch(e){}};
+function qback(){if(!S.mq)return;if(S.mstep>1&&!S.medit)qgo(S.mstep-1,-1);else{S.mq=false;S.medit=false;if(!S.mdone&&S.mstep===1)S.mstep=0;render()}}
+const pick1=t=>$$('.qo',t.parentNode).forEach(b=>b.classList.toggle('on',b===t));
+const capped=(set,v,t)=>{if(!set.has(v)&&set.size>=3){if(t.animate)t.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:240});return}tog(set,v);t.classList.toggle('on');msave();qUpd()};
+addEventListener('popstate',()=>{if(S.mq)qback()});
+function chrome(){$('.app').classList.toggle('quiz',!!(S.view==='plan'&&S.plan==='match'&&S.mq));$('#frame').dataset.dev=S.dev;$$('#devseg button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.dev))}
 function render(){chrome();renderTop();renderNav();renderSheet();renderMain();renderPeek()}
 
 /* ============ ACTIONS ============ */
@@ -1197,9 +1332,18 @@ step(v,t){tog(S.done,v);t.classList.toggle('done');const g=G[v.split(':')[0]],w=
   if(a)a.textContent=gdone(g);if(b)b.style.width=w;if(c)c.style.width=w},
 doc(v,t){tog(S.docs,v);t.classList.toggle('on')},
 plan(v){S.plan=v;renderMain()},
-mi(v,t){tog(S.mi,v);t.classList.toggle('on');renderMatch()},
-ms(v,t){tog(S.ms,v);t.classList.toggle('on');renderMatch()},
-mp(v,t){tog(S.mp,v);t.classList.toggle('on');renderMatch()},
+mi(v,t){capped(S.mi,v,t)},ms(v,t){capped(S.ms,v,t)},mp(v,t){capped(S.mp,v,t)},
+mstart(){S.mq=true;S.medit=false;S.mstep=1;S.mdir=1;S.qa=true;qpush();render();S.qa=false},
+mresume(){S.mq=true;S.mdir=1;S.qa=true;qpush();render();S.qa=false},
+mretake(){S.mi=new Set();S.ms=new Set();S.mp=new Set();S.mb=15;S.my=0;S.mr='mid';S.mdone=false;S.mopen=null;A.mstart();msave()},
+medit(v){S.mq=true;S.medit=true;S.mstep=+v;S.mdir=1;S.qa=true;qpush();render();S.qa=false},
+mback(){if(history.state&&history.state.q)history.back();else qback()},
+mnext(){if(S.medit)return qdone();if(S.mstep>=6){qpush();return qgo(7,1)}qpush();qgo(S.mstep+1,1)},
+mskip(){const k=qset(S.mstep);if(k)k.clear();A.mnext()},
+mstg(v,t){S.mstg=v;pick1(t);msave();if(!S.medit)setTimeout(()=>{if(S.mq&&S.mstep===1)A.mnext()},280)},
+my(v,t){S.my=+v;pick1(t);msave()},mr(v,t){S.mr=v;pick1(t);msave()},
+mx(v){S.mopen=S.mopen===v?'':v;renderMatch()},
+mweak(){S.mweak=!S.mweak;renderMatch()},
 search(){S.searching=!S.searching;S.q='';renderTop();renderMain();renderPeek();const q=$('#q');if(q)q.focus()}
 };
 const IN={
@@ -1207,7 +1351,7 @@ q(v){S.q=v.trim();renderMain();renderPeek()},
 exp(v){S.exp=+v;updExp()},
 cmax(v){S.cmax=+v;$('#cmaxv').textContent=lakh(S.cmax);renderCList()},
 abmax(v){S.abmax=+v;$('#abv').textContent='NPR '+v+'L';$('#ablist').innerHTML=abList()},
-mb(v){S.mb=+v;$('#mbv').textContent='NPR '+v+'L';renderMatch()},
+mb(v){S.mb=+v;$('#mbv').textContent='NPR '+v+'L';const n=mpool().filter(c=>c.fee[1]<=S.mb).length;$('#mbn').textContent=n+' of '+mpool().length+' courses fit fully';msave()},
 age(v){S.age=+v;$('#agev').textContent='Age '+v;$('#xlist').innerHTML=xlistHTML()},
 page(v){S.age=+v;$('#pagev').textContent=v;$('#pout').innerHTML=planOut()},
 hrs(v){S.hrs=+v;$('#hrv').textContent=v;$('#prepout').innerHTML=prepOut(X[S.exam])},
@@ -1219,6 +1363,7 @@ document.addEventListener('input',e=>{const f=IN[e.target.id];if(f)f(e.target.va
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[role=button]')){e.preventDefault();e.target.click()}});
 new ResizeObserver(()=>drawLinks()).observe($('#main'));
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawLinks);
+mload();
 render();
 </script>
 </body>
