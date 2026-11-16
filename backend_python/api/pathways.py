@@ -250,6 +250,22 @@ def payload():
         faq_by = {f['id']: f for f in faq_all}
         for fid, upd in w13['faq_update'].items():
             faq_by[fid].update(upd)
+    if (DATA / 'wave14.json').exists():
+        w14 = _load('wave14.json')
+        abroad = abroad + w14['abroad_add']
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w14['abroad_update'].items():
+            abroad_by[aid].update(more)
+        scholarships = scholarships + w14['scholarships_add']
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w14['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        for sc in w14['scholarships_add']:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        guides = guides + w14['guides_add']
+        faq_all = faq_all + w14['faq_add']
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],

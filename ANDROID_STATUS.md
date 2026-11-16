@@ -845,3 +845,35 @@ Home Affairs fee notices via thisisaustralia.com and racc.net.au; GOV.UK student
 
 ## Not done / next
 - The remaining destination rules marked "Not checked yet" in wave 12 (work hours for Czechia, Georgia, Bangladesh, Kyrgyzstan, Kazakhstan, Philippines), Japan and Korea proof of funds from an official page, per college CTEVT fees, websites for providers that have none.
+
+
+---
+
+# Session 34: Pathways dataset wave 14 (four destinations, work rules resolved, attestation and equivalence guides, 2026-27 scholarship windows)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`). Bootstrap run, history read (sessions 16 to 33, `docs/PATHWAYS_SCHEMA.md`, wave 12 and 13 scripts). No screen was touched: data only, in the files both apps read (`wave14.json` merged by `pathways.py`). Django is not installed here, so the new tests ran under a stub `TestCase` (all pass except the four that need Django's client or models). `problems()` is empty. Totals now: 124 routes, 58 careers, 443 providers, 55 scholarships, 40 destinations, 131 FAQs, 15 guides.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 193 | **Four new destinations**: Uzbekistan (medicine, fee bands and the Nepal Medical Council versus India NMC warning), Portugal (public fees EUR 1,500 to 7,000, funds EUR 760 a month, D4 and AIMA, Portuguese taught bachelors), Lithuania (EC fee floor, work hours sources disagree, 12 month job search), Hong Kong (non local fees, work rules, IANG 24 months, HKD 330 visa). | `w14_abroad.py` |
+| 194 | **Work rules for the six wave 12 destinations** no longer say "Not checked yet": Bangladesh (prohibited), Philippines (Special Work Permit), Czechia, Georgia, Kyrgyzstan, Kazakhstan (sources disagree, the text says so and tells the student who to ask). | same |
+| 195 | **Two scholarships**: Hong Kong PhD Fellowship Scheme (HKD 344,400 a year, deadline 1 December 2026) and Lester B. Pearson (Toronto, 2027 entry windows all closed). | same |
+| 196 | **2026-27 windows**: MGSS and GJSS (23 October to 15 November 2026, agent applications refused, 31 December continuation), Homi Bhabha (closed 4 June 2026, NPR 400 fee), Stipendium Hungaricum (call not out in early November, expect about 15 January 2027), Pokhara University (Fall 2026 entrance, 4 November vacant seat call, 60/40 split). | same |
+| 197 | **Three guides**: consular attestation at the Department of Consular Services (Nepal E-Attestation System, NPR 500 quoted), TU equivalence (NPR 1,000 or 4,000, HSEB step), study MBBS abroad and practise in Nepal. | `w14_guides.py` |
+| 198 | **14 FAQs (fw14-1 to 14)**: foreign MBBS validity, "NMC approved" meaning, Uzbekistan cost, work rules, Lithuania 40 hours, Portugal cost, Hong Kong work and IANG, HKPFS, attestation, TU equivalence, MGSS and GJSS dates, Pokhara seats, bachelor scholarship abroad, Stipendium Hungaricum. | same |
+| 199 | **Merge and checks**: `pathways.py` reads `wave14.json` (keys in `docs/PATHWAYS_SCHEMA.md`); `Wave14Tests`. | `pathways.py`, `test_pathways.py`, `build_wave14.py` |
+
+## Sources
+Study in Portugal, studyu.org, studyineurope.eu; EC Study in Europe country profile for Lithuania, edunepal, upgrad, moksh16; Hong Kong Immigration Department study FAQ, studyu.org, unipage; bukharasmi.com, futeducation (Uzbekistan); trw.co (Bangladesh Visa Policy 2026); goingto.university, standyou, europestudy.eu, globaladmissions, studyinkz.kz, 3d-universal.com, isageorgia.com (work rules); HKPFS 2027/28 call pages; future.utoronto.ca (Pearson); Embassy of India Kathmandu notices (via educatenepal, edusanjal, cgibirgunj); attorneynepal.com and digitalsolutionnepal.com (attestation); acadbuddy and thenext.edu.np (TU equivalence); studyabroadfromnepal.com (foreign MBBS); edusanjal (Pokhara University).
+
+## Rules (Pathways data)
+- Only agency or secondary sources were readable for work rules, funds and several fees. Each says so ("agencies say", "sources disagree") and nothing was copied as official. The attestation fee of NPR 500 is quoted by law firm guides; the Department's own notice was not reachable.
+- Do not fetch PDFs with the web tool (it returns binary); use the search snippets or an HTML copy.
+- NPR conversions for new destinations are rough (EUR 175, USD 145) and said in the notes.
+
+## Not done / next
+- Official Nepal Medical Council list of recognised foreign medical schools; official Uzbekistan, Portugal and Georgia work rules; Hong Kong tuition per university.
+- Per college CTEVT fees, websites for providers that have none, Health Service (Staff Nurse, Health Assistant) Lok Sewa exam entries from a federal PSC notice.
+

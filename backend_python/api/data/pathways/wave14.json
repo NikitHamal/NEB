@@ -1,0 +1,477 @@
+{
+ "abroad_add": [
+  {
+   "id": "uz",
+   "country": "Uzbekistan",
+   "tuition": [
+    360000,
+    1090000
+   ],
+   "living": [
+    870000,
+    1130000
+   ],
+   "code": "UZ",
+   "exams": [
+    "NEB +2 Science with Physics, Chemistry and Biology (50 percent) for medicine",
+    "English test only if the university asks"
+   ],
+   "intakes": "February and September",
+   "fields": [
+    "Medicine",
+    "Dentistry",
+    "Pharmacy"
+   ],
+   "work": "Not checked yet. Treat part time work as unavailable and budget your whole stay.",
+   "note": "Mostly a medicine destination. State medical institutes in Tashkent, Samarkand, Bukhara, Andijan and Fergana teach in English; quoted tuition is USD 2,500 to 4,000 a year on one list and up to USD 7,500 on another, living about USD 500 to 650 a month, and the course is six years with the internship. One university asks for a bank statement of USD 5,000 to 6,000. Many agency pages say NMC approved, which usually means the National Medical Commission of India. For Nepal what counts is Nepal Medical Council recognition of the college and course before you pay, then the NMCLE after you return. Ask for a written fee letter. NPR figures are rough, at EUR 1 about NPR 175 and USD 1 about NPR 145."
+  },
+  {
+   "id": "pt",
+   "country": "Portugal",
+   "tuition": [
+    260000,
+    1230000
+   ],
+   "living": [
+    1470000,
+    2310000
+   ],
+   "code": "PT",
+   "exams": [
+    "IELTS or TOEFL for English taught programmes",
+    "CAPLE Portuguese test for Portuguese taught programmes"
+   ],
+   "intakes": "September; applications usually March to July",
+   "fields": [
+    "Engineering",
+    "Economics and management",
+    "Computer science",
+    "Medicine"
+   ],
+   "work": "Not checked on an official page. Agency guides say up to 20 hours a week in term and full time in holidays; one guide says there is no weekly cap. Confirm with AIMA and your university.",
+   "note": "Public universities charge non EU students EUR 1,500 to 7,000 a year (most EUR 3,500 to 7,000; medicine EUR 16,500 to 18,000 at Lisbon and Porto in 2026/27). Bachelor degrees are mostly in Portuguese (B1 at Lisbon, B2 at Coimbra); English is realistic at master level and at economics and management schools such as Nova SBE, ISEG and Catolica. Funds are pegged to the minimum wage: about EUR 760 a month, EUR 9,120 for a year, and the figure changes every year. Apply for the D4 study visa, then the residence permit through AIMA. Living is EUR 700 to 1,100 a month. NPR figures are rough, at EUR 1 about NPR 175 and USD 1 about NPR 145.",
+   "scholarships": [
+    "s-erasmus"
+   ]
+  },
+  {
+   "id": "lt",
+   "country": "Lithuania",
+   "tuition": [
+    230000,
+    1490000
+   ],
+   "living": [
+    1050000,
+    1680000
+   ],
+   "code": "LT",
+   "exams": [
+    "IELTS or equal English test",
+    "University admission test for some programmes"
+   ],
+   "intakes": "September (applications from about November)",
+   "fields": [
+    "Engineering",
+    "Computer science",
+    "Business",
+    "Medicine",
+    "Life sciences"
+   ],
+   "work": "Sources disagree. The European Commission country page says non EU students can work up to 40 hours a week once they hold the temporary residence permit; several agencies say 20 hours in term and full time in holidays. Ask the Migration Department and your university before you plan around work.",
+   "note": "More than 500 English taught programmes. The European Commission lists bachelor tuition from EUR 1,300 and master from EUR 2,300 a year; agencies quote EUR 3,950 to 8,500 for non EU students and EUR 12,800 to 14,100 for medicine at Vilnius and Kaunas (LSMU). Living EUR 500 to 800 a month. Proof of funds is quoted from EUR 500 to about EUR 1,200 a month depending on the source, health insurance is compulsory, and one guide says Nepali applicants use the Lithuanian Embassy in New Delhi. Check the current figures with the Migration Department. NPR figures are rough, at EUR 1 about NPR 175 and USD 1 about NPR 145.",
+   "stay_back": "12 months to look for work after graduating",
+   "scholarships": [
+    "s-erasmus"
+   ]
+  },
+  {
+   "id": "hk",
+   "country": "Hong Kong",
+   "tuition": [
+    930000,
+    5240000
+   ],
+   "living": [
+    1260000,
+    2080000
+   ],
+   "code": "HK",
+   "work_hours": 20,
+   "exams": [
+    "IELTS 6.5 at most universities (HKU asks 6.0 in writing and speaking)",
+    "TOEFL iBT accepted"
+   ],
+   "intakes": "September; applications open from September of the year before",
+   "fields": [
+    "Business",
+    "Engineering",
+    "Computer science",
+    "Medicine",
+    "Research PhD"
+   ],
+   "work": "The default rule for full time degree students is on campus work up to 20 hours a week, summer work from 1 June to 31 August with no limit, and study related internships. Since November 2024 degree students on local programmes have been temporarily exempt from the hour limits, but the Immigration Department still calls the exemption temporary. Permission arrives as a No Objection Letter with your visa.",
+   "note": "Non local bachelor tuition for 2027/28 is about USD 27,000 to 36,000 a year; research postgraduate places at the eight public universities cost about USD 6,400. No tuition free route, so scholarships matter (HKPFS for PhD). The university sponsors your student visa (government fee HKD 330, about six weeks). Living including a hall place is about USD 8,700 to 14,300 a year. NPR figures are rough, at EUR 1 about NPR 175 and USD 1 about NPR 145.",
+   "stay_back": "24 months under IANG with no job offer if you apply within 6 months of graduating"
+  }
+ ],
+ "abroad_update": {
+  "cz": {
+   "work": "A long term study permit carries the right to work without a separate work permit and the employer must report the job to the labour office. Agencies say a 20 hour weekly cap applies; a 2026 guide says there is no weekly cap. Read the Ministry of the Interior (MV CR) rules for your permit."
+  },
+  "ge": {
+   "work": "Not clear in law. Two agency guides say a student with a residence permit can work up to 20 hours a week; another says no law covers student work so part time jobs are informal. Do not count on income; ask the Public Service Hall and your university."
+  },
+  "bd": {
+   "work": "Not allowed. The S student visa carries the endorsement employment in Bangladesh prohibited (Visa Policy 2026) and a breach can lead to cancellation. There is no student work allowance and no post study work period."
+  },
+  "kg": {
+   "work": "Agencies disagree. Some say part time work is allowed after you convert to a multiple entry status with a valid permit and the approval of the migration service; others say a student visa does not encourage jobs for medical students. Plan to pay for your studies without wages."
+  },
+  "kz": {
+   "work": "Agencies say students may work part time, usually up to 20 hours a week in term and full time in holidays, only with the university authorisation and within limits set by the labour ministry. No official page was read, so confirm with your university before you accept a job."
+  },
+  "ph": {
+   "work": "A 9(f) student visa does not allow work. Limited short jobs or internships need a Special Work Permit from the Bureau of Immigration (agencies quote 3 to 6 months) with a school endorsement; working without one risks fines, visa cancellation or deportation."
+  }
+ },
+ "scholarships_add": [
+  {
+   "id": "s-hkpfs",
+   "name": "Hong Kong PhD Fellowship Scheme (HKPFS)",
+   "scope": "abroad",
+   "levels": [
+    "phd"
+   ],
+   "by": "Research Grants Council, Hong Kong",
+   "covers": "Annual stipend of HKD 344,400 (HKD 28,700 a month) and HKD 14,400 a year for conference and research travel, for up to three years; 400 fellowships for 2027/28",
+   "who": "Open to every nationality. New full time PhD students at the eight participating Hong Kong universities, judged on academic record, research ability, communication and leadership. You must also meet the admission rules of your university and programme and show English proof (IELTS or a degree taught in English).",
+   "how": "Register on the HKPFS electronic system for a reference number before you apply to a university. The 2027/28 deadline is 1 December 2026 at 12:00 noon Hong Kong time, so for a later start the next call opens in the autumn of 2027.",
+   "link": "https://cerg1.ugc.edu.hk/hkpfs/",
+   "country": "hk",
+   "type": "Government",
+   "open": [
+    9,
+    12
+   ]
+  },
+  {
+   "id": "s-pearson",
+   "name": "Lester B. Pearson International Scholarship (University of Toronto)",
+   "scope": "abroad",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "University of Toronto",
+   "covers": "Tuition, books, incidental fees and residence for four years",
+   "who": "Outstanding international students about to start their first university degree at Toronto. Your school must take part in the programme and nominate you (one student per school each year). You also apply for admission to at least one undergraduate programme.",
+   "how": "For September 2027 entry the school nomination closed on 9 October 2026, the admission application on 16 October 2026 and the scholarship form on 6 November 2026, so all three are shut. Expect the same months in 2027; ask your counsellor to register the school in July.",
+   "link": "https://future.utoronto.ca/pearson-scholarships",
+   "country": "ca",
+   "type": "University",
+   "open": [
+    10,
+    11
+   ]
+  }
+ ],
+ "scholarship_extra": {
+  "s-mgss": {
+   "how": "The 2026-27 window on goischolarship.com.np ran from 23 October to 15 November 2026 (the portal closed at 00.00 on 16 November). Apply directly; the Embassy does not accept applications through consultants or agents. Awardees send the Class 11 mark sheet and a promotion certificate by 31 December to continue in Class 12.",
+   "open": [
+    10,
+    11
+   ]
+  },
+  "s-gjss": {
+   "how": "The 2026-27 window on goischolarship.com.np ran from 23 October to 15 November 2026. You must be a regular first year bachelor student (not diploma) aged 17 to 22 on 1 July 2027 with a Class 12 mark sheet, and not receiving any other scholarship. Continuation each year needs the mark sheet and a promotion certificate by 31 December. Apply directly, not through agents.",
+   "open": [
+    10,
+    11
+   ]
+  },
+  "s-homi-bhabha": {
+   "how": "The 2026-27 notice closed on 4 June 2026: age 25 or less on 1 July 2026, at least 60 percent aggregate in BE and at least 50 percent in English in Class 12, an application fee of NPR 400 paid at Nepal SBI Bank, and the form sent by post or handed in at the Embassy. Only completed bachelor degrees count.",
+   "open": [
+    5,
+    6
+   ]
+  },
+  "s-sh": {
+   "how": "Apply on the Tempus Public Foundation portal (apply.stipendiumhungaricum.hu). The 2026-27 call came out on 28 October 2025 and closed on 15 January 2026 at 2 pm Central European Time. For 2027-28 expect the same pattern (portal in mid November, deadline about 15 January 2027) but the call was not published when this was checked in early November 2026. Nepali applicants also complete the national partner step, then sit the university exam or interview from March to May."
+  },
+  "s-pu-scholarship": {
+   "how": "Pokhara University runs several calls a year. The master scholarship entrance for Fall 2026 took applications from 26 August to 21 September 2026 (60 percent open, 40 percent reserved for disabled, martyr and conflict families, remote, Dalit, Janajati and Madhesi students, half of each for women, bachelor completed within three years). A call for vacant undergraduate scholarship seats was published on 4 November 2026; read the notice for its deadline. One summary lists 1,328 bachelor scholarship seats for 2083 (Science and Technology 501, Management 788, Humanities 39)."
+  }
+ },
+ "guides_add": [
+  {
+   "id": "mofa-attestation",
+   "name": "Get a certificate attested for study abroad (MoFA consular stamp)",
+   "cat": "Documents",
+   "steps": [
+    [
+     "Get the SEE, +2 or university certificate and transcript verified first by the issuing board, university or the Ministry of Education (about 3 to 7 working days)",
+     5,
+     0,
+     "in person"
+    ],
+    [
+     "Apply on the Nepal E-Attestation System or book a slot at demand.nepalconsular.gov.np and wait for online approval",
+     2,
+     0,
+     "online"
+    ],
+    [
+     "Pay the Department fee, quoted at NPR 500 per document by law firm guides (check the portal)",
+     1,
+     500,
+     "online"
+    ],
+    [
+     "Take the originals, a copy and your citizenship copy to the Department of Consular Services at Tripureshwor (1 to 3 working days for the stamp)",
+     3,
+     0,
+     "in person"
+    ],
+    [
+     "If the country asks, legalise the stamped paper at its embassy in Kathmandu (embassy fees start near NPR 2,000)",
+     14,
+     2000,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Original certificate and transcript",
+    "Photocopy of each document",
+    "Citizenship certificate copy",
+    "Passport copy if you hold one",
+    "Authorisation letter if someone submits for you"
+   ],
+   "link": "guide:noc-study-abroad"
+  },
+  {
+   "id": "tu-equivalence",
+   "name": "Equivalence certificate for a foreign or non TU qualification",
+   "cat": "Documents",
+   "steps": [
+    [
+     "Ask at the TU Curriculum Development Centre (Kirtipur) whether your degree already has an equivalence; show the originals at the window",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "For a foreign +2 or A level, first get the HSEB equivalence at Sanothimi (about NPR 500 for HSEB board papers, NPR 1,000 for A level)",
+     7,
+     500,
+     "in person"
+    ],
+    [
+     "Fill the equivalence form and pay NPR 1,000 at Nepal Bank when the university is already recognised by TU, or NPR 4,000 when it is not",
+     1,
+     1000,
+     "in person"
+    ],
+    [
+     "If the university is not recognised, add the syllabus, thesis or project report and a translation when the paper is not in English",
+     2,
+     0,
+     "in person"
+    ],
+    [
+     "Collect the certificate when the Centre calls you; an online registration route exists on tucdc.edu.np",
+     14,
+     0,
+     "online"
+    ]
+   ],
+   "docs": [
+    "Degree certificate and transcript",
+    "Character certificate",
+    "SEE mark sheet and certificate",
+    "Migration certificate where it applies",
+    "Passport and visa copy (not needed for India)",
+    "Syllabus and thesis for a non recognised university"
+   ],
+   "link": "guide:mofa-attestation"
+  },
+  {
+   "id": "foreign-mbbs-nepal",
+   "name": "Study MBBS abroad and practise in Nepal",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Before you pay anything, confirm that the college and the course are recognised by the Nepal Medical Council and listed in the World Directory of Medical Schools",
+     7,
+     0,
+     "online"
+    ],
+    [
+     "Check the minimum: NEB +2 Science with Physics, Chemistry and Biology, around 50 percent or GPA 2.4, and age 17 in the year of admission",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Get the NOC from the Ministry of Education, then the attested documents, before the visa",
+     14,
+     2000,
+     "in person"
+    ],
+    [
+     "Finish the course and the internship the college requires",
+     2190,
+     0,
+     "in person"
+    ],
+    [
+     "Return and pass the Nepal Medical Council licensing exam (NMCLE) to register; it is computer based",
+     120,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "NEB +2 Science certificate",
+    "SEE certificate",
+    "Passport",
+    "NOC from the Ministry of Education",
+    "Attested documents",
+    "Written fee letter from the college"
+   ],
+   "link": "route:council-license"
+  }
+ ],
+ "faq_add": [
+  {
+   "id": "fw14-1",
+   "topic": "abroad",
+   "q": "Is a foreign MBBS valid in Nepal?",
+   "go": [
+    "mbbs",
+    "council-license"
+   ],
+   "a": "Only if the Nepal Medical Council recognises the college and the course, and you then pass the NMCLE licensing exam and register after your internship. Check recognition before you pay a deposit, and keep the college fee letter and the recognition proof together."
+  },
+  {
+   "id": "fw14-2",
+   "topic": "abroad",
+   "q": "An agency says its MBBS college is NMC approved. Does that count for Nepal?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "Not necessarily. Most agency pages mean the National Medical Commission of India, which is a different body. For a Nepali graduate the Nepal Medical Council recognition is the one that matters. Ask the Council, not the agency, and read the college entry on the World Directory of Medical Schools."
+  },
+  {
+   "id": "fw14-3",
+   "topic": "abroad",
+   "q": "What does MBBS in Uzbekistan cost?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "Two agency lists quote tuition of USD 2,500 to 4,000 a year and up to USD 7,500, with living near USD 500 to 650 a month, over six years including the internship. That is roughly NPR 3.6 to 10.9 lakh a year for tuition alone at USD 1 about NPR 145. The work rule is not checked, so assume no income. Ask for a written fee letter and confirm Nepal Medical Council recognition first."
+  },
+  {
+   "id": "fw14-4",
+   "topic": "abroad",
+   "q": "Can I work while studying in Bangladesh, the Philippines, Georgia or Czechia?",
+   "go": [
+    "mbbs"
+   ],
+   "a": "Bangladesh: no, the student visa prohibits employment. Philippines: not on the student visa alone, a Special Work Permit is needed. Georgia: unclear, guides say 20 hours but others say jobs are informal. Czechia: yes without a separate work permit, but sources disagree on a 20 hour cap. Always confirm with the immigration office and your university."
+  },
+  {
+   "id": "fw14-5",
+   "topic": "abroad",
+   "q": "Can I really work 40 hours a week as a student in Lithuania?",
+   "go": [
+    "mba"
+   ],
+   "a": "The European Commission country page says non EU students can work up to 40 hours a week once they hold the temporary residence permit. Several agencies say 20 hours in term. Because sources disagree, ask the Lithuanian Migration Department and your university before you plan your budget around wages."
+  },
+  {
+   "id": "fw14-6",
+   "topic": "abroad",
+   "q": "How much does it cost to study in Portugal?",
+   "go": [
+    "mba"
+   ],
+   "a": "Public universities charge non EU students EUR 1,500 to 7,000 a year, with most programmes at EUR 3,500 to 7,000 and medicine at EUR 16,500 to 18,000 in 2026/27. Living is EUR 700 to 1,100 a month. For the visa, show about EUR 760 a month (EUR 9,120 a year); the figure follows the minimum wage and changes. Bachelor degrees are mostly in Portuguese."
+  },
+  {
+   "id": "fw14-7",
+   "topic": "abroad",
+   "q": "Can I work while studying in Hong Kong and stay after?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Full time degree students may work on campus up to 20 hours a week and take summer jobs and internships; since November 2024 a temporary exemption has lifted the hour limits for local degree programmes, and your No Objection Letter shows what applies. After graduating you can apply within six months for 24 months under IANG without a job offer."
+  },
+  {
+   "id": "fw14-8",
+   "topic": "abroad",
+   "q": "Is there a fully funded PhD in Hong Kong open to Nepalis?",
+   "go": [
+    "phd-route"
+   ],
+   "a": "Yes, the Hong Kong PhD Fellowship Scheme. It pays HKD 344,400 a year plus HKD 14,400 for travel for up to three years and is open to every nationality. For 2027/28 you register for a reference number by 1 December 2026 at noon Hong Kong time, and you still need admission from a participating university."
+  },
+  {
+   "id": "fw14-9",
+   "topic": "general",
+   "q": "How do I get my certificates attested for a visa or a university abroad?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Nepal does not use the apostille. Get the paper verified by the issuing board or university, apply to the Department of Consular Services (Tripureshwor) through the Nepal E-Attestation System or its appointment portal, pay the fee (law firm guides quote NPR 500 a document), collect the stamp and, if the country asks, legalise it at its embassy in Kathmandu. See the guide for the steps."
+  },
+  {
+   "id": "fw14-10",
+   "topic": "general",
+   "q": "What is a TU equivalence certificate and who needs one?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "It states that a foreign or non TU qualification matches a TU one. You need it when a Nepali university, office or employer asks for that proof. The Curriculum Development Centre charges NPR 1,000 when the university is already recognised by TU and NPR 4,000 when it is not; a foreign +2 first needs HSEB equivalence. Check the fee at the window before you pay."
+  },
+  {
+   "id": "fw14-11",
+   "topic": "after12",
+   "q": "When did the Indian Embassy scholarship (MGSS and GJSS) close this year?",
+   "go": [
+    "bbs",
+    "be-civil"
+   ],
+   "a": "The 2026-27 window on goischolarship.com.np ran from 23 October to 15 November 2026 for MGSS (Class 11) and GJSS (first year bachelor). Both need an application made directly, not through an agent, and awardees send mark sheets by 31 December each year. The next call is expected in the same autumn months."
+  },
+  {
+   "id": "fw14-12",
+   "topic": "after12",
+   "q": "How do Pokhara University scholarship seats work?",
+   "go": [
+    "bba",
+    "be-computer"
+   ],
+   "a": "The university runs central scholarship entrance rounds and publishes calls for vacant seats during the year, the latest on 4 November 2026. Seats are split between open merit and reserved groups (disabled, martyr and conflict families, remote, Dalit, Janajati, Madhesi), with half of each for women. Read the notice for the deadline."
+  },
+  {
+   "id": "fw14-13",
+   "topic": "after12",
+   "q": "Can I get a scholarship for a bachelor degree abroad?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "A few exist. The Lester B. Pearson scholarship at the University of Toronto needs school nomination and ran to 6 November 2026 for September 2027 entry. Turkiye Burslari, Stipendium Hungaricum and some university awards also take bachelor students. Start the application a full year ahead."
+  },
+  {
+   "id": "fw14-14",
+   "topic": "abroad",
+   "q": "When does the Stipendium Hungaricum 2027/28 call open?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "The last call was published on 28 October 2025 and closed on 15 January 2026. For 2027/28 the call was not out in early November 2026, but expect the portal in mid November and a deadline about 15 January 2027. Watch stipendiumhungaricum.hu and prepare marks, a motivation letter and the national partner step."
+  }
+ ]
+}

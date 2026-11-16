@@ -469,3 +469,56 @@ class Wave13Tests(TestCase):
         text = json.dumps(pathways.payload(), ensure_ascii=False)
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+
+
+class Wave14Tests(TestCase):
+    """Wave 14: four destinations, work rules, HKPFS and Pearson, 2026-27 windows, attestation, equivalence and foreign MBBS guides."""
+
+    def test_new_destinations(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        for cid, code in (('uz', 'UZ'), ('pt', 'PT'), ('lt', 'LT'), ('hk', 'HK')):
+            self.assertEqual(abroad[cid]['code'], code)
+            self.assertLess(abroad[cid]['tuition'][0], abroad[cid]['tuition'][1])
+        self.assertIn('Nepal Medical Council', abroad['uz']['note'])
+        self.assertIn('EUR 9,120', abroad['pt']['note'])
+        self.assertEqual(760 * 12, 9120)
+        self.assertEqual(abroad['hk']['work_hours'], 20)
+        self.assertIn('IANG', abroad['hk']['stay_back'])
+
+    def test_no_destination_work_rule_is_left_unchecked(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        for cid in ('cz', 'ge', 'bd', 'kg', 'kz', 'ph'):
+            self.assertNotIn('Not checked yet', abroad[cid]['work'])
+        self.assertIn('prohibited', abroad['bd']['work'])
+        self.assertIn('Special Work Permit', abroad['ph']['work'])
+
+    def test_scholarships_and_windows(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('s-hkpfs', abroad['hk']['scholarships'])
+        self.assertIn('s-pearson', abroad['ca']['scholarships'])
+        self.assertIn('344,400', sch['s-hkpfs']['covers'])
+        self.assertEqual(344400 // 12, 28700)
+        self.assertIn('15 November 2026', sch['s-mgss']['how'])
+        self.assertIn('15 November 2026', sch['s-gjss']['how'])
+        self.assertIn('4 June 2026', sch['s-homi-bhabha']['how'])
+
+    def test_guides_and_faqs(self):
+        d = pathways.payload()
+        guides = {g['id'] for g in d['guides']}
+        for gid in ('mofa-attestation', 'tu-equivalence', 'foreign-mbbs-nepal'):
+            self.assertIn(gid, guides)
+        faq_ids = {f['id'] for f in d['faq']}
+        for n in range(1, 15):
+            self.assertIn(f'fw14-{n}', faq_ids)
+        self.assertGreaterEqual(len(d['faq']), 131)
+        self.assertEqual(pathways.problems(), [])
+
+    def test_wave14_text_has_no_dashes(self):
+        import json
+        text = json.dumps(pathways.payload(), ensure_ascii=False)
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)
