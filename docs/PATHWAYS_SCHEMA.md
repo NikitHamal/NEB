@@ -93,3 +93,5 @@ New optional provider field `route_seats {"<route id>": seats}`: seats for one c
 | `wave11.json` (hand written) | `route_seats`, `note_add`, `where_add`, `scholarship_extra`, `govt_update`, `pay_note`, `faq_add` | BIT seats per campus (2082 notice), civil service pay from Shrawan 2083, TSC secondary notice, Fulbright and Australia Awards eligibility, five FAQs. |
 
 Rules: edit the `w10_*.py` tables and re-run `build_wave10.py`; never hand edit `wave10.json`. `govt_update` may carry `note_add` (text appended to the note). `scholarship_drop` removes keys from a scholarship.
+
+`wave11.json` also takes `providers_add` (new colleges) and is extended by `tools/pathways/w11_law_ag.py` (TU LL.B 3,800 seats in 12 campuses, BA LL.B 570 in 6, AFU BSc Ag and BVSc and AH seats for 2083/84, 8 CNRM and law colleges). Run the script, do not hand edit the keys it owns (`providers_add`, the `llb`, `ba-llb`, `bsc-agri`, `bvsc` seats and notes, `fw11-6` to `fw11-8`).

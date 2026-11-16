@@ -1,20 +1,144 @@
 {
- "where_add": {"bit": ["p-padmakanya", "p-bhaktapur-mc"]},
+ "where_add": {
+  "bit": [
+   "p-padmakanya",
+   "p-bhaktapur-mc"
+  ],
+  "llb": [
+   "p-tu-law",
+   "p-prithvi",
+   "p-mmc-dharan",
+   "p-mmc-nepalgunj",
+   "p-mbmc-saptari",
+   "p-butwal",
+   "p-padmakanya",
+   "p-bhaktapur-mc",
+   "p-rrmc",
+   "p-degree-biratnagar",
+   "p-surkhet-mc",
+   "p-harikhetan"
+  ],
+  "ba-llb": [
+   "p-tu-law",
+   "p-prithvi",
+   "p-butwal",
+   "p-mmc-nepalgunj",
+   "p-mmc-dharan",
+   "p-national-law"
+  ],
+  "bsc-agri": [
+   "p-aafu",
+   "p-cnrm-puranchaur",
+   "p-cnrm-kapilakot",
+   "p-cnrm-tikapur",
+   "p-cnrm-pakhribas",
+   "p-cnrm-bardibas",
+   "p-cnrm-khajura",
+   "p-cnrm-madichaur"
+  ],
+  "bvsc": [
+   "p-aafu"
+  ]
+ },
  "route_seats": {
-  "p-patan": {"bit": 72},
-  "p-bhaktapur-mc": {"bit": 72},
-  "p-amrit": {"bit": 36},
-  "p-padmakanya": {"bit": 36},
-  "p-mmamc": {"bit": 36},
-  "p-siddhanath": {"bit": 36}
+  "p-patan": {
+   "bit": 72
+  },
+  "p-bhaktapur-mc": {
+   "bit": 72,
+   "llb": 300
+  },
+  "p-amrit": {
+   "bit": 36
+  },
+  "p-padmakanya": {
+   "bit": 36,
+   "llb": 300
+  },
+  "p-mmamc": {
+   "bit": 36
+  },
+  "p-siddhanath": {
+   "bit": 36
+  },
+  "p-tu-law": {
+   "llb": 600,
+   "ba-llb": 160
+  },
+  "p-prithvi": {
+   "llb": 300,
+   "ba-llb": 80
+  },
+  "p-mmc-dharan": {
+   "llb": 300,
+   "ba-llb": 70
+  },
+  "p-mmc-nepalgunj": {
+   "llb": 300,
+   "ba-llb": 70
+  },
+  "p-mbmc-saptari": {
+   "llb": 300
+  },
+  "p-butwal": {
+   "llb": 300,
+   "ba-llb": 70
+  },
+  "p-rrmc": {
+   "llb": 300
+  },
+  "p-degree-biratnagar": {
+   "llb": 300
+  },
+  "p-surkhet-mc": {
+   "llb": 300
+  },
+  "p-harikhetan": {
+   "llb": 200
+  },
+  "p-national-law": {
+   "ba-llb": 120
+  },
+  "p-aafu": {
+   "bsc-agri": 167,
+   "bvsc": 100
+  },
+  "p-cnrm-puranchaur": {
+   "bsc-agri": 54
+  },
+  "p-cnrm-kapilakot": {
+   "bsc-agri": 54
+  },
+  "p-cnrm-tikapur": {
+   "bsc-agri": 54
+  },
+  "p-cnrm-pakhribas": {
+   "bsc-agri": 54
+  },
+  "p-cnrm-bardibas": {
+   "bsc-agri": 54
+  },
+  "p-cnrm-khajura": {
+   "bsc-agri": 49
+  },
+  "p-cnrm-madichaur": {
+   "bsc-agri": 49
+  }
  },
  "note_add": {
   "p-patan": "BIT seats (2082 notice): 72.",
-  "p-bhaktapur-mc": "BIT seats (2082 notice): 72.",
+  "p-bhaktapur-mc": "BIT seats (2082 notice): 72. TU LL.B 2083: 300 seats.",
   "p-amrit": "BIT seats (2082 notice): 36.",
-  "p-padmakanya": "BIT seats (2082 notice): 36.",
+  "p-padmakanya": "BIT seats (2082 notice): 36. TU LL.B 2083: 300 seats.",
   "p-mmamc": "BIT seats (2082 notice): 36.",
-  "p-siddhanath": "BIT seats (2082 notice): 36."
+  "p-siddhanath": "BIT seats (2082 notice): 36.",
+  "p-tu-law": "TU LL.B 2083: 600 seats. TU BA LL.B 2083/84: 160 seats.",
+  "p-prithvi": "TU LL.B 2083: 300 seats. TU BA LL.B 2083/84: 80 seats.",
+  "p-mmc-nepalgunj": "TU LL.B 2083: 300 seats. TU BA LL.B 2083/84: 70 seats.",
+  "p-mbmc-saptari": "TU LL.B 2083: 300 seats.",
+  "p-butwal": "TU LL.B 2083: 300 seats. TU BA LL.B 2083/84: 70 seats.",
+  "p-rrmc": "TU LL.B 2083: 300 seats.",
+  "p-aafu": "AFU 2083/84 seats: BSc Ag 167, BVSc and AH 100."
  },
  "scholarship_extra": {
   "s-fulbright": {
@@ -28,21 +152,257 @@
  },
  "pay_note": "Monthly pay is the starting figure from Shrawan 2083 (budget 2083/84): basic of NPR 36,192 for a Kharidar, 38,203 for a Nayab Subba and 48,058 for a Section Officer after the 10 percent rise, plus the new 10 percent incentive and the NPR 5,000 dearness allowance, before grade amounts and field allowances.",
  "govt_update": {
-  "g-kharidar": {"ladder": [["Kharidar", 44811], ["Nayab Subba", 47023], ["Section Officer", 57864]], "pay": 44811},
-  "g-nayab": {"ladder": [["Kharidar", 44811], ["Nayab Subba", 47023], ["Section Officer", 57864]], "pay": 47023},
-  "g-so": {"ladder": [["Kharidar", 44811], ["Nayab Subba", 47023], ["Section Officer", 57864]], "pay": 57864},
-  "g-tsc": {"note_add": "A secondary level notice of 2082/83 advertised 449 posts with a fee of NPR 1,000 (NPR 600 for each inclusive group), a written exam on 5 Baisakh 2083, interview after the written results, age 18 to 40 (no limit for serving permanent teachers) and a bachelor in the subject with at least 10 months of education training."}
+  "g-kharidar": {
+   "ladder": [
+    [
+     "Kharidar",
+     44811
+    ],
+    [
+     "Nayab Subba",
+     47023
+    ],
+    [
+     "Section Officer",
+     57864
+    ]
+   ],
+   "pay": 44811
+  },
+  "g-nayab": {
+   "ladder": [
+    [
+     "Kharidar",
+     44811
+    ],
+    [
+     "Nayab Subba",
+     47023
+    ],
+    [
+     "Section Officer",
+     57864
+    ]
+   ],
+   "pay": 47023
+  },
+  "g-so": {
+   "ladder": [
+    [
+     "Kharidar",
+     44811
+    ],
+    [
+     "Nayab Subba",
+     47023
+    ],
+    [
+     "Section Officer",
+     57864
+    ]
+   ],
+   "pay": 57864
+  },
+  "g-tsc": {
+   "note_add": "A secondary level notice of 2082/83 advertised 449 posts with a fee of NPR 1,000 (NPR 600 for each inclusive group), a written exam on 5 Baisakh 2083, interview after the written results, age 18 to 40 (no limit for serving permanent teachers) and a bachelor in the subject with at least 10 months of education training."
+  }
  },
  "faq_add": [
-  {"id": "fw11-1", "topic": "afterbach", "q": "How much does a Kharidar, Nayab Subba or Section Officer earn after the 2083/84 budget?", "go": ["lok-sewa"],
-   "a": "From Shrawan 2083 the starting basic scale rose by 10 percent, to NPR 36,192 for a Kharidar, 38,203 for a Nayab Subba and 48,058 for a Section Officer. A new monthly incentive of 10 percent of the new basic and the NPR 5,000 dearness allowance come on top, so the starting monthly pay before grade amounts is about NPR 44,811, 47,023 and 57,864. The jump to officer level is the big one. Allowances for remote posts and the yearly grade increase come on top."},
-  {"id": "fw11-2", "topic": "afterbach", "q": "How competitive is the Kharidar exam?", "go": ["lok-sewa"],
-   "a": "Very. In the first phase written exam held on 26 Baisakh 2083, 4,119 candidates sat under the Public Service Commission office at Mahendranagar and 959 under the office at Dipayal, each for a handful of posts in that region. Only a small share goes on to the second stage. Divide the candidates by the posts printed in the advertisement of your office to see the real odds, and start with the preliminary paper, which is 50 objective questions with 20 percent negative marking."},
-  {"id": "fw11-3", "topic": "afterbach", "q": "What does a TSC secondary level teacher notice ask for?", "go": ["tsc-license"],
-   "a": "The 2082/83 secondary level notice listed 449 posts across seven exam centres (Morang, Dhanusha, Makwanpur, Kaski, Dang, Surkhet and Kailali). You need a bachelor in the subject and at least 10 months of education training, age 18 to 40 (serving permanent teachers have no limit), and the form fee was NPR 1,000, or NPR 600 for each inclusive group. The written exam has an objective and a subjective part, then an interview. Check tsc.gov.np for the current notice, because levels and dates change every year."},
-  {"id": "fw11-4", "topic": "abroad", "q": "Who can apply for Australia Awards, and when?", "go": ["abroad-ms"],
-   "a": "Australia Awards is a fully funded master scholarship for working Nepali professionals, not for fresh +2 or bachelor graduates. You need a recognised bachelor degree, at least three years of full time relevant work after it, to live in Nepal, and a study plan in a development priority such as climate, education, governance, health or infrastructure. For the 2027 intake the round ran from 1 February to 30 April 2026 on the OASIS portal and the next one opens around February 2027. Apply only on the official portal; it never charges a fee."},
-  {"id": "fw11-5", "topic": "after12", "q": "What is on the BSc CSIT and BIT entrance exams, and where is BIT taught?", "go": ["bsc-csit", "bit"],
-   "a": "Both are 100 mark papers with a pass mark of 35. As reported for the 2025/26 cycle, BSc CSIT asks Maths, Physics, Chemistry or Biology and English at 25 marks each, and BIT asks English (50) and Maths or Computer Science (50). Check the IoST notice for your year. BIT is taught only at TU constituent campuses: Patan Multiple Campus and Bhaktapur Multiple Campus take 72 students each (2082 notice), and Amrit, Padma Kanya, Mahendra Morang and Siddhanath Science Campus 36 each."}
+  {
+   "id": "fw11-1",
+   "topic": "afterbach",
+   "q": "How much does a Kharidar, Nayab Subba or Section Officer earn after the 2083/84 budget?",
+   "go": [
+    "lok-sewa"
+   ],
+   "a": "From Shrawan 2083 the starting basic scale rose by 10 percent, to NPR 36,192 for a Kharidar, 38,203 for a Nayab Subba and 48,058 for a Section Officer. A new monthly incentive of 10 percent of the new basic and the NPR 5,000 dearness allowance come on top, so the starting monthly pay before grade amounts is about NPR 44,811, 47,023 and 57,864. The jump to officer level is the big one. Allowances for remote posts and the yearly grade increase come on top."
+  },
+  {
+   "id": "fw11-2",
+   "topic": "afterbach",
+   "q": "How competitive is the Kharidar exam?",
+   "go": [
+    "lok-sewa"
+   ],
+   "a": "Very. In the first phase written exam held on 26 Baisakh 2083, 4,119 candidates sat under the Public Service Commission office at Mahendranagar and 959 under the office at Dipayal, each for a handful of posts in that region. Only a small share goes on to the second stage. Divide the candidates by the posts printed in the advertisement of your office to see the real odds, and start with the preliminary paper, which is 50 objective questions with 20 percent negative marking."
+  },
+  {
+   "id": "fw11-3",
+   "topic": "afterbach",
+   "q": "What does a TSC secondary level teacher notice ask for?",
+   "go": [
+    "tsc-license"
+   ],
+   "a": "The 2082/83 secondary level notice listed 449 posts across seven exam centres (Morang, Dhanusha, Makwanpur, Kaski, Dang, Surkhet and Kailali). You need a bachelor in the subject and at least 10 months of education training, age 18 to 40 (serving permanent teachers have no limit), and the form fee was NPR 1,000, or NPR 600 for each inclusive group. The written exam has an objective and a subjective part, then an interview. Check tsc.gov.np for the current notice, because levels and dates change every year."
+  },
+  {
+   "id": "fw11-4",
+   "topic": "abroad",
+   "q": "Who can apply for Australia Awards, and when?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Australia Awards is a fully funded master scholarship for working Nepali professionals, not for fresh +2 or bachelor graduates. You need a recognised bachelor degree, at least three years of full time relevant work after it, to live in Nepal, and a study plan in a development priority such as climate, education, governance, health or infrastructure. For the 2027 intake the round ran from 1 February to 30 April 2026 on the OASIS portal and the next one opens around February 2027. Apply only on the official portal; it never charges a fee."
+  },
+  {
+   "id": "fw11-5",
+   "topic": "after12",
+   "q": "What is on the BSc CSIT and BIT entrance exams, and where is BIT taught?",
+   "go": [
+    "bsc-csit",
+    "bit"
+   ],
+   "a": "Both are 100 mark papers with a pass mark of 35. As reported for the 2025/26 cycle, BSc CSIT asks Maths, Physics, Chemistry or Biology and English at 25 marks each, and BIT asks English (50) and Maths or Computer Science (50). Check the IoST notice for your year. BIT is taught only at TU constituent campuses: Patan Multiple Campus and Bhaktapur Multiple Campus take 72 students each (2082 notice), and Amrit, Padma Kanya, Mahendra Morang and Siddhanath Science Campus 36 each."
+  },
+  {
+   "id": "fw11-6",
+   "topic": "after12",
+   "q": "How many LL.B seats are there and how hard is the entrance?",
+   "go": [
+    "llb"
+   ],
+   "a": "Tribhuvan University Faculty of Law allotted 3,800 seats for the three year LL.B in 2083 across 12 campuses: Nepal Law Campus 600, Birgunj (Harikhetan) 200 and 300 each at Pokhara, Dharan, Nepalgunj, Rajbiraj, Butwal, Padma Kanya, Bhaktapur, Janakpur, Biratnagar and Surkhet. For the entrance of 29 Jestha 2083 (12 June 2026), 8,623 candidates applied and 7,538 sat; at Nepal Law Campus 2,312 passed for 600 seats, so the merit list decides. LL.B is a bachelor degree, so you apply after a bachelor in any subject."
+  },
+  {
+   "id": "fw11-7",
+   "topic": "after12",
+   "q": "Which colleges offer TU BA LL.B after +2?",
+   "go": [
+    "ba-llb"
+   ],
+   "a": "For 2083/84 the TU Faculty of Law advertised 570 seats in the five year, ten semester BA LL.B: Nepal Law Campus 160, National Law College (Lalitpur) 120, Prithvi Narayan Campus Pokhara 80, and 70 each at Butwal, Nepalgunj and Dharan. You need at least a D grade in +2 of any stream and must pass the entrance exam (23 Shrawan 2083). 20 percent of seats are reserved for women, Janajati, Madhesi, Dalit, disabled, remote area, Muslim, Tharu and other groups. Kathmandu University and Purbanchal University colleges run their own integrated law degrees with separate entrances."
+  },
+  {
+   "id": "fw11-8",
+   "topic": "after12",
+   "q": "How many BSc Agriculture seats does AFU have for 2083/84?",
+   "go": [
+    "bsc-agri",
+    "bvsc"
+   ],
+   "a": "Agriculture and Forestry University set 167 BSc Ag seats at its Rampur campus and 54 at each of its constituent colleges Puranchaur (Kaski), Kapilakot (Sindhuli), Tikapur (Kailali), Pakhribas (Dhankuta) and Bardibas (Mahottari), with 49 each at Khajura (Banke) and Madichaur (Rolpa). BVSc and AH has 100 seats at Rampur. Seats are split into merit (74 at Rampur, 20 at a college), reserved groups and full fee seats, and entrance is a written exam from the Faculty of Agriculture. Tribhuvan University IAAS and other universities run separate entrances."
+  }
+ ],
+ "providers_add": [
+  {
+   "id": "p-mmc-dharan",
+   "name": "Mahendra Multiple Campus, Dharan (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Sunsari",
+   "place": "Dharan",
+   "note": "TU LL.B 2083: 300 seats. TU BA LL.B 2083/84: 70 seats.",
+   "seats": 300
+  },
+  {
+   "id": "p-degree-biratnagar",
+   "name": "Post Graduate (Degree) Campus, Biratnagar (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "TU LL.B 2083: 300 seats.",
+   "seats": 300
+  },
+  {
+   "id": "p-surkhet-mc",
+   "name": "Surkhet Multiple Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Surkhet",
+   "place": "Birendranagar",
+   "note": "TU LL.B 2083: 300 seats.",
+   "seats": 300
+  },
+  {
+   "id": "p-harikhetan",
+   "name": "Harikhetan Multiple Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "note": "TU LL.B 2083: 200 seats.",
+   "seats": 200
+  },
+  {
+   "id": "p-national-law",
+   "name": "National Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "note": "TU BA LL.B 2083/84: 120 seats.",
+   "seats": 120
+  },
+  {
+   "id": "p-cnrm-puranchaur",
+   "name": "College of Natural Resource Management, Puranchaur (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Puranchaur",
+   "note": "BSc Ag 2083/84 seats: 54.",
+   "seats": 54
+  },
+  {
+   "id": "p-cnrm-kapilakot",
+   "name": "College of Natural Resource Management, Kapilakot (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Sindhuli",
+   "place": "Kapilakot",
+   "note": "BSc Ag 2083/84 seats: 54.",
+   "seats": 54
+  },
+  {
+   "id": "p-cnrm-tikapur",
+   "name": "College of Natural Resource Management, Tikapur (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kailali",
+   "place": "Tikapur",
+   "note": "BSc Ag 2083/84 seats: 54.",
+   "seats": 54
+  },
+  {
+   "id": "p-cnrm-pakhribas",
+   "name": "College of Natural Resource Management, Pakhribas (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Dhankuta",
+   "place": "Pakhribas",
+   "note": "BSc Ag 2083/84 seats: 54.",
+   "seats": 54
+  },
+  {
+   "id": "p-cnrm-bardibas",
+   "name": "College of Natural Resource Management, Bardibas (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Mahottari",
+   "place": "Bardibas",
+   "note": "BSc Ag 2083/84 seats: 54.",
+   "seats": 54
+  },
+  {
+   "id": "p-cnrm-khajura",
+   "name": "College of Natural Resource Management, Khajura (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Banke",
+   "place": "Khajura",
+   "note": "BSc Ag 2083/84 seats: 49.",
+   "seats": 49
+  },
+  {
+   "id": "p-cnrm-madichaur",
+   "name": "College of Natural Resource Management, Madichaur (AFU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Rolpa",
+   "place": "Madichaur",
+   "note": "BSc Ag 2083/84 seats: 49.",
+   "seats": 49
+  }
  ]
 }

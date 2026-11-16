@@ -313,3 +313,17 @@ class Wave11Tests(TestCase):
         text = json.dumps(pathways.payload(), ensure_ascii=False)
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+
+    def test_law_and_agriculture_seats(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        llb = [p for p in d['providers'] if (p.get('route_seats') or {}).get('llb')]
+        self.assertEqual(sum(p['route_seats']['llb'] for p in llb), 3800)
+        self.assertEqual(len(llb), 12)
+        ballb = [p for p in d['providers'] if (p.get('route_seats') or {}).get('ba-llb')]
+        self.assertEqual(sum(p['route_seats']['ba-llb'] for p in ballb), 570)
+        self.assertEqual(by['p-tu-law']['route_seats']['llb'], 600)
+        self.assertEqual(by['p-aafu']['route_seats']['bsc-agri'], 167)
+        self.assertEqual(by['p-cnrm-khajura']['district'], 'Banke')
+        self.assertGreaterEqual(len(d['faq']), 78)
+        self.assertEqual(pathways.problems(), [])

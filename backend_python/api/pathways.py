@@ -160,6 +160,7 @@ def payload():
             faq_by[fid].update(upd)
     if (DATA / 'wave11.json').exists():
         w11 = _load('wave11.json')
+        providers = providers + w11.get('providers_add', [])
         by_provider = {x['id']: x for x in providers}
         for rid, more in w11['where_add'].items():
             route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
