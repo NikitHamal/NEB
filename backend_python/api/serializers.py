@@ -450,11 +450,12 @@ class PostSerializer(ForumContentMixin, serializers.ModelSerializer):
     images = PostImageSerializer(many=True, read_only=True)
     attachments = PostMediaSerializer(source='media', many=True, read_only=True)
     poll = PollSerializer(read_only=True)
+    look = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = [
-            'id', 'title', 'content', 'category',
+            'id', 'title', 'content', 'category', 'look',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'replyCount', 'viewCount', 'createdAt', 'updatedAt',
             'isEdited', 'isArchived', 'isAnonymous', 'isOwner',
@@ -463,6 +464,10 @@ class PostSerializer(ForumContentMixin, serializers.ModelSerializer):
 
     def get_updatedAt(self, obj):
         return obj.edited_at if obj.edited_at else obj.created_at
+
+    def get_look(self, obj):
+        from .post_look import parse
+        return parse(obj.look)
 
 class ReplySerializer(ForumContentMixin, serializers.ModelSerializer):
     content_type = 'reply'

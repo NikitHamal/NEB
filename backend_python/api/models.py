@@ -385,6 +385,8 @@ class Post(models.Model):
     is_anonymous = models.BooleanField(default=False)
     is_resolved = models.BooleanField(default=False)
     accepted_reply_id = models.CharField(max_length=36, blank=True, default='')
+    # Dynamic post look (api/post_look.py): JSON string, '' is the plain post.
+    look = models.CharField(max_length=400, blank=True, default='')
     created_at = models.BigIntegerField()
 
     class Meta:

@@ -227,12 +227,16 @@ def ajax_create_post(request, user):
     if poll_error:
         return JsonResponse({'error': poll_error}, status=400)
     is_anonymous = bool(data.get('isAnonymous') or data.get('is_anonymous'))
+    from api import post_look as _look
+    look, look_error = _look.clean(data.get('look'))
+    if look_error:
+        return JsonResponse({'error': look_error}, status=400)
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
     result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data,
                                   is_anonymous=is_anonymous, attachments=attachments,
-                                  own_tag=bool(data.get('custom_category')))
+                                  own_tag=bool(data.get('custom_category')), look=look)
     if result:
         _clear_page_cache()
         try:

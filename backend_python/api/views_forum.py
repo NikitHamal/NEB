@@ -178,6 +178,12 @@ def post_detail(request, post_id):
             PostMedia.objects.filter(post=post).delete()
             if cleaned_attachments:
                 _attach_forum_media(post, cleaned_attachments, now)
+        if 'look' in data:
+            from . import post_look as _look
+            look, look_error = _look.clean(data.get('look'))
+            if look_error:
+                return Response({'error': look_error}, status=400)
+            post.look = _look.finalize(look)
         post.is_edited = True
         post.edited_at = now
         post.save()
@@ -462,6 +468,11 @@ def posts_endpoint(request):
     if poll_error:
         return Response({'error': poll_error}, status=400)
 
+    from . import post_look as _look
+    look, look_error = _look.clean(request.data.get('look'))
+    if look_error:
+        return Response({'error': look_error}, status=400)
+
     attachments, error_response = _parse_attachments_or_error(request)
     if error_response:
         return error_response
@@ -469,7 +480,7 @@ def posts_endpoint(request):
     result = services.create_post(
         user, title, content, category,
         image_urls=image_urls, poll_data=poll_data,
-        is_anonymous=_client_wants_anonymous(request), attachments=attachments,
+        is_anonymous=_client_wants_anonymous(request), attachments=attachments, look=look,
     )
     if result:
         logger.info("posts_endpoint: created post %s by user %s", result['id'], user.username)

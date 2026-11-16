@@ -111,7 +111,8 @@ data class PostCreateRequest(
     @SerialName("image_urls") val imageUrls: List<String> = emptyList(),
     val poll: ApiPollCreate? = null,
     val isAnonymous: Boolean = false,
-    val attachments: List<ApiMediaAttachmentInput> = emptyList()
+    val attachments: List<ApiMediaAttachmentInput> = emptyList(),
+    val look: PostLook? = null
 )
 
 @Serializable
@@ -141,7 +142,8 @@ data class WebPostCreateRequest(
     val images: List<String> = emptyList(),
     val poll: ApiPollCreate? = null,
     val isAnonymous: Boolean = false,
-    val attachments: List<ApiMediaAttachmentInput> = emptyList()
+    val attachments: List<ApiMediaAttachmentInput> = emptyList(),
+    val look: PostLook? = null
 )
 
 /** Client → server forum media descriptor (echoed back from /api/forum/uploads/). */
@@ -250,7 +252,9 @@ data class PostUpdateRequest(
     val title: String? = null,
     val content: String? = null,
     val category: String? = null,
-    @SerialName("image_urls") val imageUrls: List<String>? = null
+    @SerialName("image_urls") val imageUrls: List<String>? = null,
+    /** Always sent when editing so a look can also be cleared (all defaults). */
+    val look: PostLook? = null
 )
 
 @Serializable
@@ -559,7 +563,8 @@ data class ApiPost(
     @SerialName("updatedAt") val updatedAt: Long? = null,
     val images: List<ApiPostImage> = emptyList(),
     val attachments: List<ApiMediaAttachment> = emptyList(),
-    val poll: ApiPoll? = null
+    val poll: ApiPoll? = null,
+    val look: PostLook? = null
 )
 
 @Serializable
