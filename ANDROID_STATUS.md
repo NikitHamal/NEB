@@ -736,3 +736,40 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - District for the left-out colleges above; BNS/BPharm college fee tables; TU affiliated BBS/BCA/CSIT seat tables per campus.
 - Holland Scholarship and Commonwealth windows (no stable source found), work rules for China, India, Hungary, UAE, Thailand.
 
+
+
+---
+
+# Session 31: Pathways dataset waves 10 and 11 (CSIT quota, BCA list, +2 colleges, corrections, pay)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`, `build-release.yml`). Bootstrap re-run and history read first (sessions 16 to 30). The brief (Pathways with levels, careers, colleges, abroad, scholarships) was shipped, so no screen was rebuilt: data only, in the files both apps read. Python had no Django here, so the new tests were mirrored with plain asserts against `pathways.payload()` and `problems()` before pushing.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 158 | **BSc CSIT 2083 quota for all 61 colleges** (TU IoST result: 3,108 seats; 16 constituent campuses 1,224, 45 private colleges 1,884; 80 percent open and 20 percent Samabesi shown per college in the provider note). 31 colleges are new providers with district and town; Kathford moved to Lalitpur (Balkumari). Builder asserts both subtotals. | `wave10.json`, `tools/pathways/w10_csit.py`, `build_wave10.py` |
+| 159 | **TU BCA college list**: 123 colleges from the FoHSS notice (15 TU campuses, out of Valley colleges in Jhapa, Sunsari, Morang, Dhanusha, Mahottari, Parsa, Makwanpur, Chitwan, Rupandehi, Dang, Banke, Surkhet, Kanchanpur, and Valley colleges). BCA lists 13 colleges before, 128 now. No seat numbers: TU does not publish them per college. | `w10_bca.py` |
+| 160 | **+2 colleges** (18, in 2 or more sources each, with streams): United Academy, Prasadi, Kathmandu Model, Trinity, Xavier International and Academy, KIST, Global, St. Lawrence, Texas, Capital, BernHardt, Orchid, GoldenGate, Triton, Uniglobe, Tilottama and New Horizon (Butwal). Streams attach to the four +2 routes. Rankings were not copied. | `w10_misc.py` |
+| 161 | **Health colleges with a town now**: Hamro School of Nursing (Biratnagar), JF Institute of Health Sciences (Hattiban classes), Suvekchya (Sitapaila), with MEC 2083/84 seats and fee ceilings. | `w10_misc.py` |
+| 162 | **Correction: Commonwealth Scholarship is closed to Nepal** (Nepal is not a member and is not on the eligible list for Master or PhD). Entry text rewritten, the `open` window dropped, `fa-3` fixed, FAQ added. Several agent sites still say Nepal is eligible. | `w10_misc.py`, `w10_faq.py`, `pathways.py` |
+| 163 | **NL (Holland) Scholarship**: EUR 5,000 one time, per university deadline (1 February or 1 May), applications from about 1 November, window [11, 5]. **Work rules**: Hungary 24 hours in term (full time in breaks, 90 days or 66 working days), China 8 hours a week and 40 a month in term with university approval and a residence permit note. | `w10_misc.py` |
+| 164 | **BIM is now BITM** (TU rename from 2082/83, sections of 33 = 30 + 3 scholarship; Shanker Dev 66 seats). **BIT seats** at six TU campuses (2082 notice: Patan 72, Bhaktapur 72, Amrit, Padma Kanya, Mahendra Morang, Siddhanath 36). | `w10_misc.py`, `wave11.json` |
+| 165 | **Civil service pay from Shrawan 2083** (budget 2083/84: basic +10 percent, 10 percent incentive, NPR 5,000 dearness allowance). Starting monthly pay before grade: Kharidar 44,811 (basic 36,192), Nayab Subba 47,023 (38,203), Section Officer 57,864 (48,058); the earlier 33,000, 35,000, 45,000 were FY 2082/83 and the Section Officer one was rounded up. **TSC** secondary notice 2082/83 (449 posts, fee NPR 1,000, age 18 to 40). | `wave11.json` |
+| 166 | **Scholarship eligibility** rewritten for Fulbright (3 years work, not medicine or nursing, IIE portal) and Australia Awards (3 years work, OASIS, next round early February 2027, English bars). | `wave11.json` |
+| 167 | **12 FAQs** (63 to 75): CSIT seats, BCA colleges, BITM rename, Commonwealth, NL Scholarship, work hours (HU, CN), +2 choice, civil service pay, Kharidar competition (4,119 and 959 sat at two offices), TSC notice, Australia Awards, CSIT and BIT entrance. `fa-3` rewritten. | `w10_faq.py`, `wave11.json` |
+| 168 | **Merge and checks**: `pathways.py` reads `wave10.json` and `wave11.json` if present (`provider_extra`, `scholarship_drop`, `route_update`, `faq_update`, `govt_update`). `Wave10Tests` and `Wave11Tests` added (CSIT total 3,108 over 61 providers, BCA at least 120, Commonwealth closed, pay arithmetic, no dashes). Schema doc lists the new files. | `pathways.py`, `test_pathways.py`, `docs/PATHWAYS_SCHEMA.md` |
+
+## Sources
+TU IoST BSc CSIT entrance result 2083 (via edusanjal.com, hamrocsit.com); TU FoHSS BCA campus notice (portal.tu.edu.np) and the 2083 entrance notices; TU BITM rename (edusanjal); IoST BIT 2082 priority notice; CSC Master eligible countries list (Nepal absent); scholars4dev and studyinholland for the NL Scholarship; study-abroad.org and Zhejiang University work-study page (China), study-abroad.org (Hungary); USEF-Nepal Fulbright timeline; Australia Awards Nepal; PSC result notices (Mahendranagar, Dipayal); Budget 2083/84 highlights (ICAN) and the post wise scales (collegenp, examsanjal).
+
+## Rules (Pathways data)
+- A college enters only with a district from a source. Sector for new BCA affiliates is a name based guess: `Community` for names with "Multiple Campus", `Private` otherwise; correct it when a source says otherwise.
+- Pay figures are starting pay before grade. The post wise 2083/84 chart had two different totals online (one added grade amounts); only the figure that reproduces from basic x 1.1 x 1.1 + 5,000 was used.
+- Fulbright closing date differs between USEF pages (30 April and 31 May 2026), so the entry says "spring 2026" and keeps the Feb to Apr window.
+
+## Not done / next
+- Per college fees for BCA and CSIT (each prospectus), BCA seats per college, BIT at the other TU campuses, BITM college list (about 48 colleges, 2,896 seats reported by one site only).
+- Show `route_seats` on the college row of the course screen (Android `PwStudy.kt`, web `pathways-level.js`).
+- District for the health colleges still left out (Shree College of Technology, Krishna Medical, NPI Narayani, Sinha Health, CIST, Kathmandu Multiple College, FWU Faculty of Health Sciences).
+- Work rules for India, UAE, Thailand; Holland and NL Scholarship participating list; Fulbright exact deadline.

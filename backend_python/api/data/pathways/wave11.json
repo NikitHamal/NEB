@@ -1,0 +1,48 @@
+{
+ "where_add": {"bit": ["p-padmakanya", "p-bhaktapur-mc"]},
+ "route_seats": {
+  "p-patan": {"bit": 72},
+  "p-bhaktapur-mc": {"bit": 72},
+  "p-amrit": {"bit": 36},
+  "p-padmakanya": {"bit": 36},
+  "p-mmamc": {"bit": 36},
+  "p-siddhanath": {"bit": 36}
+ },
+ "note_add": {
+  "p-patan": "BIT seats (2082 notice): 72.",
+  "p-bhaktapur-mc": "BIT seats (2082 notice): 72.",
+  "p-amrit": "BIT seats (2082 notice): 36.",
+  "p-padmakanya": "BIT seats (2082 notice): 36.",
+  "p-mmamc": "BIT seats (2082 notice): 36.",
+  "p-siddhanath": "BIT seats (2082 notice): 36."
+ },
+ "scholarship_extra": {
+  "s-fulbright": {
+   "who": "Nepali citizens living in Nepal with a bachelor degree and at least three years of full time professional work in Nepal after it. Medicine and nursing are not funded, and people who already hold a US degree cannot apply.",
+   "how": "Apply online through the IIE portal linked from USEF-Nepal, never on paper. The 2027-28 round opened on 1 February 2026 and closed in spring 2026; shortlisted people are interviewed and take TOEFL and GRE with the commission paying. The next call is expected early in 2027."
+  },
+  "s-australia": {
+   "who": "Nepali citizens living in Nepal with a four year bachelor degree (or a three year bachelor plus a master) and at least three years of full time relevant work after it, aiming at a priority development sector with a commitment to return home",
+   "how": "Apply on the OASIS portal. The round for the 2027 intake ran from 1 February to 30 April 2026 and the next round is due in early February 2027. For 2027 the English bar was PTE Academic 58, IELTS Academic 6.5 or TOEFL iBT 84, valid on 1 January 2027. Australia Awards never charges a fee, so ignore anyone who asks for money."
+  }
+ },
+ "pay_note": "Monthly pay is the starting figure from Shrawan 2083 (budget 2083/84): basic of NPR 36,192 for a Kharidar, 38,203 for a Nayab Subba and 48,058 for a Section Officer after the 10 percent rise, plus the new 10 percent incentive and the NPR 5,000 dearness allowance, before grade amounts and field allowances.",
+ "govt_update": {
+  "g-kharidar": {"ladder": [["Kharidar", 44811], ["Nayab Subba", 47023], ["Section Officer", 57864]], "pay": 44811},
+  "g-nayab": {"ladder": [["Kharidar", 44811], ["Nayab Subba", 47023], ["Section Officer", 57864]], "pay": 47023},
+  "g-so": {"ladder": [["Kharidar", 44811], ["Nayab Subba", 47023], ["Section Officer", 57864]], "pay": 57864},
+  "g-tsc": {"note_add": "A secondary level notice of 2082/83 advertised 449 posts with a fee of NPR 1,000 (NPR 600 for each inclusive group), a written exam on 5 Baisakh 2083, interview after the written results, age 18 to 40 (no limit for serving permanent teachers) and a bachelor in the subject with at least 10 months of education training."}
+ },
+ "faq_add": [
+  {"id": "fw11-1", "topic": "afterbach", "q": "How much does a Kharidar, Nayab Subba or Section Officer earn after the 2083/84 budget?", "go": ["lok-sewa"],
+   "a": "From Shrawan 2083 the starting basic scale rose by 10 percent, to NPR 36,192 for a Kharidar, 38,203 for a Nayab Subba and 48,058 for a Section Officer. A new monthly incentive of 10 percent of the new basic and the NPR 5,000 dearness allowance come on top, so the starting monthly pay before grade amounts is about NPR 44,811, 47,023 and 57,864. The jump to officer level is the big one. Allowances for remote posts and the yearly grade increase come on top."},
+  {"id": "fw11-2", "topic": "afterbach", "q": "How competitive is the Kharidar exam?", "go": ["lok-sewa"],
+   "a": "Very. In the first phase written exam held on 26 Baisakh 2083, 4,119 candidates sat under the Public Service Commission office at Mahendranagar and 959 under the office at Dipayal, each for a handful of posts in that region. Only a small share goes on to the second stage. Divide the candidates by the posts printed in the advertisement of your office to see the real odds, and start with the preliminary paper, which is 50 objective questions with 20 percent negative marking."},
+  {"id": "fw11-3", "topic": "afterbach", "q": "What does a TSC secondary level teacher notice ask for?", "go": ["tsc-license"],
+   "a": "The 2082/83 secondary level notice listed 449 posts across seven exam centres (Morang, Dhanusha, Makwanpur, Kaski, Dang, Surkhet and Kailali). You need a bachelor in the subject and at least 10 months of education training, age 18 to 40 (serving permanent teachers have no limit), and the form fee was NPR 1,000, or NPR 600 for each inclusive group. The written exam has an objective and a subjective part, then an interview. Check tsc.gov.np for the current notice, because levels and dates change every year."},
+  {"id": "fw11-4", "topic": "abroad", "q": "Who can apply for Australia Awards, and when?", "go": ["abroad-ms"],
+   "a": "Australia Awards is a fully funded master scholarship for working Nepali professionals, not for fresh +2 or bachelor graduates. You need a recognised bachelor degree, at least three years of full time relevant work after it, to live in Nepal, and a study plan in a development priority such as climate, education, governance, health or infrastructure. For the 2027 intake the round ran from 1 February to 30 April 2026 on the OASIS portal and the next one opens around February 2027. Apply only on the official portal; it never charges a fee."},
+  {"id": "fw11-5", "topic": "after12", "q": "What is on the BSc CSIT and BIT entrance exams, and where is BIT taught?", "go": ["bsc-csit", "bit"],
+   "a": "Both are 100 mark papers with a pass mark of 35. As reported for the 2025/26 cycle, BSc CSIT asks Maths, Physics, Chemistry or Biology and English at 25 marks each, and BIT asks English (50) and Maths or Computer Science (50). Check the IoST notice for your year. BIT is taught only at TU constituent campuses: Patan Multiple Campus and Bhaktapur Multiple Campus take 72 students each (2082 notice), and Amrit, Padma Kanya, Mahendra Morang and Siddhanath Science Campus 36 each."}
+ ]
+}

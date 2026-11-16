@@ -158,6 +158,28 @@ def payload():
         faq_by = {f['id']: f for f in faq_all}
         for fid, upd in w10['faq_update'].items():
             faq_by[fid].update(upd)
+    if (DATA / 'wave11.json').exists():
+        w11 = _load('wave11.json')
+        by_provider = {x['id']: x for x in providers}
+        for rid, more in w11['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, rs in w11['route_seats'].items():
+            by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for pid, text in w11['note_add'].items():
+            by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w11['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        for gid, upd in w11['govt_update'].items():
+            upd = dict(upd)
+            add = upd.pop('note_add', None)
+            govt_by[gid].update(upd)
+            if add:
+                govt_by[gid]['note'] = ((govt_by[gid].get('note') or '').rstrip() + ' ' + add).strip()
+        for g in govt:
+            if g.get('note'):
+                g['note'] = g['note'].replace(w6g['pay_note'], w11['pay_note'])
+        faq_all = faq_all + w11['faq_add']
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],

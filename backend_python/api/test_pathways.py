@@ -277,3 +277,39 @@ class Wave10Tests(TestCase):
         text = json.dumps(pathways.payload(), ensure_ascii=False)
         self.assertNotIn('\u2014', text)
         self.assertNotIn('\u2013', text)
+
+
+class Wave11Tests(TestCase):
+    """Civil service pay from Shrawan 2083, BIT seats, scholarship eligibility text, new FAQs."""
+
+    def test_civil_service_pay_follows_the_2083_84_budget(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        self.assertEqual(govt['g-kharidar']['pay'], 44811)
+        self.assertEqual(govt['g-nayab']['ladder'][1][1], 47023)
+        self.assertEqual(govt['g-so']['pay'], 57864)
+        # basic 10 percent higher, plus 10 percent incentive and NPR 5,000 dearness allowance
+        for basic, gross in ((36192, 44811), (38203, 47023), (48058, 57864)):
+            self.assertEqual(round(basic * 1.1 + 5000), gross)
+        self.assertIn('Shrawan 2083', govt['g-kharidar']['note'])
+        self.assertNotIn('FY 2082/83, rounded', govt['g-kharidar']['note'])
+        self.assertIn('449 posts', govt['g-tsc']['note'])
+
+    def test_bit_seats_and_eligibility_text(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-patan']['route_seats']['bit'], 72)
+        self.assertEqual(by['p-bhaktapur-mc']['route_seats']['bit'], 72)
+        bit = next(r for r in d['routes'] if r['id'] == 'bit')
+        self.assertIn('p-padmakanya', bit['where'])
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertIn('three years', sch['s-fulbright']['who'])
+        self.assertIn('OASIS', sch['s-australia']['how'])
+        self.assertGreaterEqual(len(d['faq']), 75)
+        self.assertEqual(pathways.problems(), [])
+
+    def test_wave11_text_has_no_dashes(self):
+        import json
+        text = json.dumps(pathways.payload(), ensure_ascii=False)
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)
