@@ -1,0 +1,1154 @@
+{
+ "providers_add": [
+  {
+   "id": "p-asian-adv",
+   "name": "Asian College for Advance Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Satdobato",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 40, BSc Nursing 30, BNS 20, BPH 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 30
+  },
+  {
+   "id": "p-bb-medical",
+   "name": "B and B Medical Institute",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Gwarko",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 30. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-biratnagar-nursing",
+   "name": "Biratnagar Nursing Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 50, BNS 40.",
+   "seats": 50
+  },
+  {
+   "id": "p-birgunj-nursing",
+   "name": "Birgunj Nursing Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 50, BNS 40.",
+   "seats": 50
+  },
+  {
+   "id": "p-bpkmch-nursing",
+   "name": "B. P. Koirala Memorial Cancer Hospital Nursing College",
+   "kind": "College",
+   "sector": "Public",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "",
+   "note": "MEC seats for 2083/84: BNS 40.",
+   "seats": 40
+  },
+  {
+   "id": "p-chakrabarti",
+   "name": "Chakrabarti Habi Education Academy, College of Nursing Science",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-charak",
+   "name": "Charak Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 30, BNS 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 30
+  },
+  {
+   "id": "p-crimson",
+   "name": "Crimson College of Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Devinagar",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 50, BPharm 40, BNS 20, BSc MLT 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 50
+  },
+  {
+   "id": "p-everest-nursing",
+   "name": "Everest College of Nursing",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 30. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-himalaya-eye",
+   "name": "Himalaya Eye Institute (Pokhara University SHAS)",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "MEC seats for 2083/84: BOptom 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 20
+  },
+  {
+   "id": "p-hope-intl",
+   "name": "Hope International College and Hospital",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BPharm 35, BNS 30, BPH 30. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-kendriya-ayurveda",
+   "name": "Kendriya Ayurveda Bidhyapeeth",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Dang",
+   "place": "Dang",
+   "website": "",
+   "note": "MEC seats for 2083/84: BAMS 40.",
+   "seats": 40
+  },
+  {
+   "id": "p-kmh-nursing",
+   "name": "Kathmandu Model Hospital School of Nursing",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 40. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-koshi-health",
+   "name": "Koshi Health and Science Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPH 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 20
+  },
+  {
+   "id": "p-little-buddha",
+   "name": "Little Buddha College of Health Science",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Minbhawan",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 30, BPH 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 30
+  },
+  {
+   "id": "p-mmihs",
+   "name": "Manmohan Memorial Institute of Health Sciences",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Soalteemode",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 50, BPharm 50, BNS 40, BPH 40, BSc MLT 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 50
+  },
+  {
+   "id": "p-modern-tech",
+   "name": "Modern Technical College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 30, BSc MLT 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 30
+  },
+  {
+   "id": "p-nagarik-health",
+   "name": "Nagarik College of Health Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Bhaktapur",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-nepalgunj-nursing",
+   "name": "Nepalgunj Nursing Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 30.",
+   "seats": 40
+  },
+  {
+   "id": "p-nist",
+   "name": "National Model College for Advance Learning (NIST)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 40. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-nobel-college",
+   "name": "Nobel College (Pokhara University)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sinamangal",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 50, BPharm 40, BPH 30, BOptom 30, BNS 20, BSc MLT 20, BPT 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 50
+  },
+  {
+   "id": "p-norvic",
+   "name": "Norvic College of Health Sciences and Technologies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Thapathali",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 50, BNS 40. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 50
+  },
+  {
+   "id": "p-novel",
+   "name": "Novel Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 10
+  },
+  {
+   "id": "p-oasis-med",
+   "name": "Oasis Medical College",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 20, BNS 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 20
+  },
+  {
+   "id": "p-om-health",
+   "name": "Om Health Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Chabahil",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 40. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  },
+  {
+   "id": "p-pokhara-nursing",
+   "name": "Pokhara Nursing Campus (Tribhuvan University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 40.",
+   "seats": 40
+  },
+  {
+   "id": "p-pu-shs",
+   "name": "Purbanchal University School of Health Sciences",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Gothgaun",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 40, BPH 40, BPharm 30, BSc MLT 10.",
+   "seats": 40
+  },
+  {
+   "id": "p-sanjeevani",
+   "name": "Sanjeevani College of Medical Sciences",
+   "kind": "Medical college",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Butwal",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 20, BNS 20, BPH 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 20
+  },
+  {
+   "id": "p-scheer-nursing",
+   "name": "Scheer Memorial Adventist Hospital College of Nursing",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kavrepalanchok",
+   "place": "Banepa",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 60. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 60
+  },
+  {
+   "id": "p-shas-pu",
+   "name": "School of Health and Allied Sciences (Pokhara University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Lekhnath",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 40, BPH 40, BSc Nursing 30, BNS 20, BPT 20, BSc MIT 5.",
+   "seats": 30
+  },
+  {
+   "id": "p-valley-tech",
+   "name": "Valley College of Technical Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "MEC seats for 2083/84: BPharm 10. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 10
+  },
+  {
+   "id": "p-yeti-health",
+   "name": "Yeti Health Science Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "MEC seats for 2083/84: BSc Nursing 40, BNS 20, BPH 20. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40
+  }
+ ],
+ "where_add": {
+  "bsc-nursing": [
+   "p-asian-adv",
+   "p-bb-medical",
+   "p-bc-med",
+   "p-birat-med",
+   "p-biratnagar-nursing",
+   "p-birgunj-nursing",
+   "p-bpkihs",
+   "p-chakrabarti",
+   "p-charak",
+   "p-cmc",
+   "p-coms-chitwan",
+   "p-crimson",
+   "p-devdaha-med",
+   "p-everest-nursing",
+   "p-gandaki-med",
+   "p-hope-intl",
+   "p-iom",
+   "p-janaki-med",
+   "p-kahs",
+   "p-kmc",
+   "p-kmh-nursing",
+   "p-kusms",
+   "p-lumbini-med",
+   "p-manipal-pokhara",
+   "p-mbahs",
+   "p-mihs",
+   "p-mmihs",
+   "p-nagarik-health",
+   "p-naihs",
+   "p-nams",
+   "p-national-med",
+   "p-nepalgunj-med",
+   "p-nepalgunj-nursing",
+   "p-nmc-jorpati",
+   "p-nobel-college",
+   "p-nobel-med",
+   "p-norvic",
+   "p-oasis-med",
+   "p-om-health",
+   "p-pahs",
+   "p-pokhara-ahs",
+   "p-pokhara-nursing",
+   "p-pu-shs",
+   "p-rahs",
+   "p-sanjeevani",
+   "p-scheer-nursing",
+   "p-sdcuhs",
+   "p-shas-pu",
+   "p-ucms",
+   "p-yeti-health"
+  ],
+  "bns": [
+   "p-asian-adv",
+   "p-bb-medical",
+   "p-biratnagar-nursing",
+   "p-birgunj-nursing",
+   "p-bpkmch-nursing",
+   "p-charak",
+   "p-cmc",
+   "p-crimson",
+   "p-everest-nursing",
+   "p-gandaki-med",
+   "p-hope-intl",
+   "p-iom",
+   "p-kahs",
+   "p-kmc",
+   "p-kmh-nursing",
+   "p-kusms",
+   "p-mmihs",
+   "p-nagarik-health",
+   "p-naihs",
+   "p-nams",
+   "p-national-med",
+   "p-nepalgunj-nursing",
+   "p-nobel-college",
+   "p-nobel-med",
+   "p-norvic",
+   "p-oasis-med",
+   "p-om-health",
+   "p-pahs",
+   "p-pokhara-ahs",
+   "p-pokhara-nursing",
+   "p-pu-shs",
+   "p-rahs",
+   "p-sanjeevani",
+   "p-shas-pu",
+   "p-ucms",
+   "p-yeti-health"
+  ],
+  "bpharm": [
+   "p-asian-adv",
+   "p-cmc",
+   "p-crimson",
+   "p-gandaki-med",
+   "p-gu-pokhara",
+   "p-hope-intl",
+   "p-iom",
+   "p-kahs",
+   "p-ku-eng",
+   "p-little-buddha",
+   "p-mbahs",
+   "p-mmihs",
+   "p-modern-tech",
+   "p-mtu-morang",
+   "p-nist",
+   "p-nobel-college",
+   "p-novel",
+   "p-pu-shs",
+   "p-shas-pu",
+   "p-ucms",
+   "p-valley-tech"
+  ],
+  "bph": [
+   "p-asian-adv",
+   "p-cmc",
+   "p-gandaki-med",
+   "p-hope-intl",
+   "p-iom",
+   "p-kahs",
+   "p-koshi-health",
+   "p-kusms",
+   "p-little-buddha",
+   "p-mbahs",
+   "p-mmihs",
+   "p-naihs",
+   "p-nobel-college",
+   "p-peoples-dental",
+   "p-pu-shs",
+   "p-rju",
+   "p-sanjeevani",
+   "p-shas-pu",
+   "p-ucms",
+   "p-yeti-health"
+  ],
+  "bams": [
+   "p-ayurved",
+   "p-kendriya-ayurveda"
+  ],
+  "bmlt": [
+   "p-birat-med",
+   "p-bpkihs",
+   "p-cmc",
+   "p-coms-chitwan",
+   "p-crimson",
+   "p-gandaki-med",
+   "p-iom",
+   "p-kantipur-dental",
+   "p-kist-med",
+   "p-kmc",
+   "p-kusms",
+   "p-manipal-pokhara",
+   "p-mbahs",
+   "p-mihs",
+   "p-mmihs",
+   "p-modern-tech",
+   "p-naihs",
+   "p-nams",
+   "p-national-med",
+   "p-nepalgunj-med",
+   "p-nmc-jorpati",
+   "p-nobel-college",
+   "p-nobel-med",
+   "p-peoples-dental",
+   "p-pu-shs",
+   "p-rju",
+   "p-sdcuhs",
+   "p-ucms"
+  ],
+  "bpt": [
+   "p-birat-med",
+   "p-coms-chitwan",
+   "p-kmc",
+   "p-kusms",
+   "p-nobel-college",
+   "p-nobel-med",
+   "p-shas-pu"
+  ],
+  "bsc-mit": [
+   "p-birat-med",
+   "p-bpkihs",
+   "p-cmc",
+   "p-coms-chitwan",
+   "p-devdaha-med",
+   "p-gandaki-med",
+   "p-iom",
+   "p-kmc",
+   "p-kusms",
+   "p-manipal-pokhara",
+   "p-mihs",
+   "p-nams",
+   "p-national-med",
+   "p-nepalgunj-med",
+   "p-nmc-jorpati",
+   "p-shas-pu",
+   "p-ucms"
+  ],
+  "bmid": [
+   "p-cmc",
+   "p-iom"
+  ],
+  "boptom": [
+   "p-himalaya-eye",
+   "p-iom",
+   "p-nams",
+   "p-nobel-college",
+   "p-sdcuhs"
+  ],
+  "baslp": [
+   "p-iom",
+   "p-nams"
+  ],
+  "bperfusion-anesthesia": [
+   "p-iom"
+  ]
+ },
+ "route_seats": {
+  "p-asian-adv": {
+   "bsc-nursing": 30,
+   "bns": 20,
+   "bpharm": 40,
+   "bph": 20
+  },
+  "p-ayurved": {
+   "bams": 40
+  },
+  "p-bb-medical": {
+   "bsc-nursing": 40,
+   "bns": 30
+  },
+  "p-bc-med": {
+   "bsc-nursing": 40
+  },
+  "p-birat-med": {
+   "bsc-nursing": 60,
+   "bmlt": 20,
+   "bpt": 15,
+   "bsc-mit": 15
+  },
+  "p-biratnagar-nursing": {
+   "bsc-nursing": 50,
+   "bns": 40
+  },
+  "p-birgunj-nursing": {
+   "bsc-nursing": 50,
+   "bns": 40
+  },
+  "p-bpkihs": {
+   "bsc-nursing": 60,
+   "bmlt": 20,
+   "bsc-mit": 10
+  },
+  "p-bpkmch-nursing": {
+   "bns": 40
+  },
+  "p-chakrabarti": {
+   "bsc-nursing": 40
+  },
+  "p-charak": {
+   "bsc-nursing": 30,
+   "bns": 10
+  },
+  "p-cmc": {
+   "bsc-nursing": 60,
+   "bns": 20,
+   "bpharm": 40,
+   "bph": 40,
+   "bmlt": 20,
+   "bsc-mit": 10,
+   "bmid": 20
+  },
+  "p-coms-chitwan": {
+   "bsc-nursing": 60,
+   "bmlt": 20,
+   "bpt": 20,
+   "bsc-mit": 10
+  },
+  "p-crimson": {
+   "bsc-nursing": 50,
+   "bns": 20,
+   "bpharm": 40,
+   "bmlt": 20
+  },
+  "p-devdaha-med": {
+   "bsc-nursing": 50,
+   "bsc-mit": 5
+  },
+  "p-everest-nursing": {
+   "bsc-nursing": 40,
+   "bns": 30
+  },
+  "p-gandaki-med": {
+   "bsc-nursing": 50,
+   "bns": 20,
+   "bpharm": 20,
+   "bph": 20,
+   "bmlt": 10,
+   "bsc-mit": 10
+  },
+  "p-gu-pokhara": {
+   "bpharm": 30
+  },
+  "p-himalaya-eye": {
+   "boptom": 20
+  },
+  "p-hope-intl": {
+   "bsc-nursing": 40,
+   "bns": 30,
+   "bpharm": 35,
+   "bph": 30
+  },
+  "p-iom": {
+   "bsc-nursing": 60,
+   "bns": 50,
+   "bpharm": 20,
+   "bph": 40,
+   "bmlt": 10,
+   "bsc-mit": 10,
+   "boptom": 10,
+   "bmid": 20,
+   "baslp": 10,
+   "bperfusion-anesthesia": 1
+  },
+  "p-janaki-med": {
+   "bsc-nursing": 30
+  },
+  "p-kahs": {
+   "bsc-nursing": 20,
+   "bns": 20,
+   "bpharm": 20,
+   "bph": 20
+  },
+  "p-kantipur-dental": {
+   "bmlt": 10
+  },
+  "p-kendriya-ayurveda": {
+   "bams": 40
+  },
+  "p-kist-med": {
+   "bmlt": 10
+  },
+  "p-kmc": {
+   "bsc-nursing": 50,
+   "bns": 20,
+   "bmlt": 10,
+   "bpt": 20,
+   "bsc-mit": 10
+  },
+  "p-kmh-nursing": {
+   "bsc-nursing": 40,
+   "bns": 40
+  },
+  "p-koshi-health": {
+   "bph": 20
+  },
+  "p-ku-eng": {
+   "bpharm": 60
+  },
+  "p-kusms": {
+   "bsc-nursing": 60,
+   "bns": 30,
+   "bph": 20,
+   "bmlt": 20,
+   "bpt": 40,
+   "bsc-mit": 10
+  },
+  "p-little-buddha": {
+   "bpharm": 30,
+   "bph": 10
+  },
+  "p-lumbini-med": {
+   "bsc-nursing": 60
+  },
+  "p-manipal-pokhara": {
+   "bsc-nursing": 60,
+   "bmlt": 10,
+   "bsc-mit": 10
+  },
+  "p-mbahs": {
+   "bsc-nursing": 40,
+   "bpharm": 30,
+   "bph": 20,
+   "bmlt": 20
+  },
+  "p-mihs": {
+   "bsc-nursing": 20,
+   "bmlt": 12,
+   "bsc-mit": 10
+  },
+  "p-mmihs": {
+   "bsc-nursing": 50,
+   "bns": 40,
+   "bpharm": 50,
+   "bph": 40,
+   "bmlt": 20
+  },
+  "p-modern-tech": {
+   "bpharm": 30,
+   "bmlt": 20
+  },
+  "p-mtu-morang": {
+   "bpharm": 20
+  },
+  "p-nagarik-health": {
+   "bsc-nursing": 40,
+   "bns": 20
+  },
+  "p-naihs": {
+   "bsc-nursing": 50,
+   "bns": 50,
+   "bph": 30,
+   "bmlt": 20
+  },
+  "p-nams": {
+   "bsc-nursing": 140,
+   "bns": 100,
+   "bmlt": 5,
+   "bsc-mit": 10,
+   "boptom": 40,
+   "baslp": 6
+  },
+  "p-national-med": {
+   "bsc-nursing": 40,
+   "bns": 10,
+   "bmlt": 10,
+   "bsc-mit": 6
+  },
+  "p-nepalgunj-med": {
+   "bsc-nursing": 50,
+   "bmlt": 10,
+   "bsc-mit": 5
+  },
+  "p-nepalgunj-nursing": {
+   "bsc-nursing": 40,
+   "bns": 30
+  },
+  "p-nist": {
+   "bpharm": 40
+  },
+  "p-nmc-jorpati": {
+   "bsc-nursing": 50,
+   "bmlt": 10,
+   "bsc-mit": 5
+  },
+  "p-nobel-college": {
+   "bsc-nursing": 50,
+   "bns": 20,
+   "bpharm": 40,
+   "bph": 30,
+   "bmlt": 20,
+   "bpt": 20,
+   "boptom": 30
+  },
+  "p-nobel-med": {
+   "bsc-nursing": 60,
+   "bns": 20,
+   "bmlt": 10,
+   "bpt": 15
+  },
+  "p-norvic": {
+   "bsc-nursing": 50,
+   "bns": 40
+  },
+  "p-novel": {
+   "bpharm": 10
+  },
+  "p-oasis-med": {
+   "bsc-nursing": 20,
+   "bns": 10
+  },
+  "p-om-health": {
+   "bsc-nursing": 40,
+   "bns": 40
+  },
+  "p-pahs": {
+   "bsc-nursing": 60,
+   "bns": 40
+  },
+  "p-peoples-dental": {
+   "bph": 20,
+   "bmlt": 10
+  },
+  "p-pokhara-ahs": {
+   "bsc-nursing": 40,
+   "bns": 20
+  },
+  "p-pokhara-nursing": {
+   "bsc-nursing": 40,
+   "bns": 40
+  },
+  "p-pu-shs": {
+   "bsc-nursing": 40,
+   "bns": 40,
+   "bpharm": 30,
+   "bph": 40,
+   "bmlt": 10
+  },
+  "p-rahs": {
+   "bsc-nursing": 30,
+   "bns": 20
+  },
+  "p-rju": {
+   "bph": 10,
+   "bmlt": 10
+  },
+  "p-sanjeevani": {
+   "bsc-nursing": 20,
+   "bns": 20,
+   "bph": 10
+  },
+  "p-scheer-nursing": {
+   "bsc-nursing": 60
+  },
+  "p-sdcuhs": {
+   "bsc-nursing": 20,
+   "bmlt": 10,
+   "boptom": 10
+  },
+  "p-shas-pu": {
+   "bsc-nursing": 30,
+   "bns": 20,
+   "bpharm": 40,
+   "bph": 40,
+   "bpt": 20,
+   "bsc-mit": 5
+  },
+  "p-ucms": {
+   "bsc-nursing": 50,
+   "bns": 20,
+   "bpharm": 40,
+   "bph": 10,
+   "bmlt": 10,
+   "bsc-mit": 6
+  },
+  "p-valley-tech": {
+   "bpharm": 10
+  },
+  "p-yeti-health": {
+   "bsc-nursing": 40,
+   "bns": 20,
+   "bph": 20
+  }
+ },
+ "note_add": {
+  "p-ayurved": "More MEC seats for 2083/84: BAMS 40.",
+  "p-bc-med": "More MEC seats for 2083/84: BSc Nursing 40.",
+  "p-birat-med": "More MEC seats for 2083/84: BSc Nursing 60, BSc MLT 20, BPT 15, BSc MIT 15.",
+  "p-bpkihs": "More MEC seats for 2083/84: BSc Nursing 60, BSc MLT 20, BSc MIT 10.",
+  "p-cmc": "More MEC seats for 2083/84: BSc Nursing 60, BPharm 40, BPH 40, BNS 20, BSc MLT 20, BSc Midwifery 20, BSc MIT 10.",
+  "p-coms-chitwan": "More MEC seats for 2083/84: BSc Nursing 60, BSc MLT 20, BPT 20, BSc MIT 10.",
+  "p-devdaha-med": "More MEC seats for 2083/84: BSc Nursing 50, BSc MIT 5.",
+  "p-gandaki-med": "More MEC seats for 2083/84: BSc Nursing 50, BNS 20, BPharm 20, BPH 20, BSc MLT 10, BSc MIT 10.",
+  "p-gu-pokhara": "More MEC seats for 2083/84: BPharm 30.",
+  "p-iom": "More MEC seats for 2083/84: BSc Nursing 60, BNS 50, BPH 40, BPharm 20, BSc Midwifery 20, BSc MLT 10, BSc MIT 10, BOptom 10, BASLP 10, B.Perfusion 1.",
+  "p-janaki-med": "More MEC seats for 2083/84: BSc Nursing 30.",
+  "p-kahs": "More MEC seats for 2083/84: BSc Nursing 20, BNS 20, BPharm 20, BPH 20.",
+  "p-kantipur-dental": "More MEC seats for 2083/84: BSc MLT 10.",
+  "p-kist-med": "More MEC seats for 2083/84: BSc MLT 10.",
+  "p-kmc": "More MEC seats for 2083/84: BSc Nursing 50, BNS 20, BPT 20, BSc MLT 10, BSc MIT 10.",
+  "p-ku-eng": "More MEC seats for 2083/84: BPharm 60.",
+  "p-kusms": "More MEC seats for 2083/84: BSc Nursing 60, BPT 40, BNS 30, BPH 20, BSc MLT 20, BSc MIT 10.",
+  "p-lumbini-med": "More MEC seats for 2083/84: BSc Nursing 60.",
+  "p-manipal-pokhara": "More MEC seats for 2083/84: BSc Nursing 60, BSc MLT 10, BSc MIT 10.",
+  "p-mbahs": "More MEC seats for 2083/84: BSc Nursing 40, BPharm 30, BPH 20, BSc MLT 20.",
+  "p-mihs": "More MEC seats for 2083/84: BSc Nursing 20, BSc MLT 12, BSc MIT 10.",
+  "p-mtu-morang": "More MEC seats for 2083/84: BPharm 20.",
+  "p-naihs": "More MEC seats for 2083/84: BSc Nursing 50, BNS 50, BPH 30, BSc MLT 20.",
+  "p-nams": "More MEC seats for 2083/84: BSc Nursing 140, BNS 100, BOptom 40, BSc MIT 10, BASLP 6, BSc MLT 5.",
+  "p-national-med": "More MEC seats for 2083/84: BSc Nursing 40, BNS 10, BSc MLT 10, BSc MIT 6.",
+  "p-nepalgunj-med": "More MEC seats for 2083/84: BSc Nursing 50, BSc MLT 10, BSc MIT 5.",
+  "p-nmc-jorpati": "More MEC seats for 2083/84: BSc Nursing 50, BSc MLT 10, BSc MIT 5.",
+  "p-nobel-med": "More MEC seats for 2083/84: BSc Nursing 60, BNS 20, BPT 15, BSc MLT 10.",
+  "p-pahs": "More MEC seats for 2083/84: BSc Nursing 60, BNS 40.",
+  "p-peoples-dental": "More MEC seats for 2083/84: BPH 20, BSc MLT 10.",
+  "p-pokhara-ahs": "More MEC seats for 2083/84: BSc Nursing 40, BNS 20.",
+  "p-rahs": "More MEC seats for 2083/84: BSc Nursing 30, BNS 20.",
+  "p-rju": "More MEC seats for 2083/84: BPH 10, BSc MLT 10.",
+  "p-sdcuhs": "More MEC seats for 2083/84: BSc Nursing 20, BSc MLT 10, BOptom 10.",
+  "p-ucms": "More MEC seats for 2083/84: BSc Nursing 50, BPharm 40, BNS 20, BPH 10, BSc MLT 10, BSc MIT 6."
+ },
+ "fees": {
+  "p-asian-adv": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-bb-medical": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-chakrabarti": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-charak": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-crimson": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ],
+   "bmlt": [
+    777000,
+    777000
+   ]
+  },
+  "p-everest-nursing": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-himalaya-eye": {
+   "boptom": [
+    777000,
+    777000
+   ]
+  },
+  "p-hope-intl": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-kmh-nursing": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-little-buddha": {
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-mmihs": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ],
+   "bmlt": [
+    777000,
+    777000
+   ]
+  },
+  "p-modern-tech": {
+   "bpharm": [
+    777000,
+    777000
+   ],
+   "bmlt": [
+    777000,
+    777000
+   ]
+  },
+  "p-nagarik-health": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-nist": {
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-nobel-college": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ],
+   "bpharm": [
+    777000,
+    777000
+   ],
+   "bmlt": [
+    777000,
+    777000
+   ],
+   "bpt": [
+    777000,
+    777000
+   ],
+   "boptom": [
+    777000,
+    777000
+   ]
+  },
+  "p-norvic": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-novel": {
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-oasis-med": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-om-health": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-sanjeevani": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-scheer-nursing": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  },
+  "p-valley-tech": {
+   "bpharm": [
+    777000,
+    777000
+   ]
+  },
+  "p-yeti-health": {
+   "bsc-nursing": [
+    1036000,
+    1036000
+   ]
+  }
+ },
+ "seats_if_empty": {
+  "p-ayurved": 40,
+  "p-bc-med": 40,
+  "p-birat-med": 60,
+  "p-bpkihs": 60,
+  "p-cmc": 60,
+  "p-coms-chitwan": 60,
+  "p-devdaha-med": 50,
+  "p-gandaki-med": 50,
+  "p-iom": 60,
+  "p-janaki-med": 30,
+  "p-kahs": 20,
+  "p-kantipur-dental": 10,
+  "p-kist-med": 10,
+  "p-kmc": 50,
+  "p-kusms": 60,
+  "p-lumbini-med": 60,
+  "p-manipal-pokhara": 60,
+  "p-mbahs": 40,
+  "p-mihs": 20,
+  "p-naihs": 50,
+  "p-nams": 140,
+  "p-national-med": 40,
+  "p-nepalgunj-med": 50,
+  "p-nmc-jorpati": 50,
+  "p-nobel-med": 60,
+  "p-pahs": 60,
+  "p-peoples-dental": 20,
+  "p-pokhara-ahs": 40,
+  "p-rahs": 30,
+  "p-sdcuhs": 20,
+  "p-ucms": 50
+ }
+}

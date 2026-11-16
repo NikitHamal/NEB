@@ -706,3 +706,33 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Careers have no real `history` yet (needs a source); until then the Market tab shows the verdict card only.
 - Singapore, China, Turkey, Thailand, India, UAE, Russia work rules (no stable source found this session). Commonwealth, Swiss, Rhodes windows.
 - BSc Nursing, BPharm and allied health college lists with MEC seats per college.
+
+
+---
+
+# Session 30: Pathways dataset wave 9 (health seats by college, Purbanchal engineering, scholarship windows)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run (`backend-tests.yml`, `build-release.yml`). Bootstrap re-run and history read first (sessions 16 to 29). The brief (Pathways: levels, careers, colleges, abroad, scholarships) was shipped, so no screen was rebuilt. Data only, in the same files both apps read.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 151 | **MEC 2083/84 seats per college for the health courses** (notice of 16 Oct 2026). Program totals match the notice exactly (BSc Nursing 2,640, BNS 1,160, BPharm 905, BPH 610, BSc MLT 437, BPT 150, BSc MIT 147, BOptom 110, BAMS 80; 9,691 in all). 32 new health providers with district and town (TU nursing campuses at Biratnagar, Birgunj, Pokhara and Nepalgunj, SHAS Pokhara, Scheer Memorial, Crimson, Nobel College, MMIHS and others), 35 existing ones enriched. BSc Nursing now lists 50 colleges (2,300 of 2,640 seats), BNS 36, BMLT 28, BPharm 21. Private colleges carry the MEC ceiling as `fees` (nursing NPR 10,36,000; BPharm, MLT, BPT, optometry 7,77,000; BAMS 11,31,930). | `wave9.json`, `tools/pathways/build_wave9.py` |
+| 152 | **Purbanchal University engineering list** from the faculty page: 21 colleges, 2,938 BE and B.Arch seats, programme by programme (Biratnagar, Janakpur, Chitwan, Jhapa and the Valley). Nepal Engineering College (480 seats on its 2082 notice) and Pokhara Engineering College for Pokhara University. BE Civil now lists 18 more colleges, BE Computer 17, B.Arch 3, Biomedical and Geomatics one each. | `wave9_eng.json` |
+| 153 | **New field `route_seats`** (seats per course at a college); `seats` stays the headline. `problems()` checks it. Android and web ignore it until a screen reads it. | `pathways.py`, `docs/PATHWAYS_SCHEMA.md` |
+| 154 | **Scholarship windows and text, 11 entries**: Taiwan MOE (1 Feb to 31 Mar), Schwarzman (Apr to Sep), Yenching (autumn, closes end Nov), Knight-Hennessy (Aug to early Oct), JJ/WBGSP (Nepal is on the 2027 list; two windows, second closes 21 May 2027), Stipendium Hungaricum (mid Nov to 15 Jan), Erasmus Mundus (Oct to Jan, per programme), Russia quota (portal opened mid Sep 2026, 15 Jan 2027 close for non-CIS), Chinese Government Scholarship embassy route (Jan to Mar, CSCA score needed for bachelor), Swiss Excellence (call open from 20 Aug 2026, embassy dates Sep to Dec). | `wave9_extra.json` |
+| 155 | **Corrections.** Aga Khan ISP: Nepal is not on the 2026-27 country list, the entry now says so. Manaaki: eligibility is by country list, the entry tells students to confirm Nepal. Poland work rule rewritten (no weekly cap in law for full time degree students, part time permits excluded). | `wave9_extra.json` |
+| 156 | **Work rules**: Singapore 16 hours a week in term (MOM approved institutions), Turkey 24 hours in practice and only after the first undergraduate year. | `wave9_extra.json` |
+| 157 | **8 FAQs** (63 in all): BSc Nursing seats and colleges, BPharm/BPH/MLT seats, Purbanchal engineering colleges, Pokhara University engineering, work abroad (SG, TR, PL), scholarship calendar, Aga Khan for Nepal, private nursing and BPharm fee ceilings. Tests: `Wave9Tests` (seat totals never above the MEC notice, PU total 2,938, windows, rules, no dashes). | `wave9_extra.json`, `test_pathways.py` |
+
+## Rules
+- A college enters the dataset only when its district is known from a source. Left out for now because the MEC notice gives no town: Hamro School of Nursing, JF Institute of Health Science, Kantipur Academy of Health Science, Krishna Medical and Technical Research Centre, N.P.I. Narayani Samudayik Hospital, National Academy For Medical Science, Shree College of Technology, Suvekchya International Hospital, Sinha Health Foundation, CIST College, Kathmandu Multiple College, FWU Faculty of Health Sciences.
+- Seats are the allotment for the year named in the note; the ceilings are tuition only.
+- Regenerate `wave9.json` only through `build_wave9.py`; hand edits go in `wave9_extra.json` and `wave9_eng.json`.
+
+## Not done / next
+- Show `route_seats` on the college row of the course screen (Android `PwStudy.kt`, web `pathways-level.js`).
+- District for the left-out colleges above; BNS/BPharm college fee tables; TU affiliated BBS/BCA/CSIT seat tables per campus.
+- Holland Scholarship and Commonwealth windows (no stable source found), work rules for China, India, Hungary, UAE, Thailand.
+

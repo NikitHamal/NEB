@@ -1,0 +1,412 @@
+{
+ "providers_add": [
+  {
+   "id": "p-pusoe",
+   "name": "Purbanchal University School of Engineering",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 96, BE Computer 96, BE Electronics, Communication and Automation 60, BE Electrical 48. Confirm the current year intake with the college.",
+   "seats": 300
+  },
+  {
+   "id": "p-acme",
+   "name": "Acme Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 144, BE Computer 60, B.Arch 48. Confirm the current year intake with the college.",
+   "seats": 252
+  },
+  {
+   "id": "p-aryan-eng",
+   "name": "Aryan School of Engineering and Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 96, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 144
+  },
+  {
+   "id": "p-central-eng",
+   "name": "Central Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 48, BE Electrical 48. Confirm the current year intake with the college.",
+   "seats": 96
+  },
+  {
+   "id": "p-cite",
+   "name": "College of Information Technology and Engineering",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Computer 40. Confirm the current year intake with the college.",
+   "seats": 40
+  },
+  {
+   "id": "p-eastern-coe",
+   "name": "Eastern College of Engineering",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 96, BE Computer 48, BE Electronics, Communication and Automation 30. Confirm the current year intake with the college.",
+   "seats": 174
+  },
+  {
+   "id": "p-hillside",
+   "name": "Hillside College of Engineering",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Koteshwor",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 96, BE Electrical 48, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 192
+  },
+  {
+   "id": "p-himalayan-geomatic",
+   "name": "Himalayan College of Geomatic Engineering and Land Resources Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Geomatics 48. Confirm the current year intake with the college.",
+   "seats": 48
+  },
+  {
+   "id": "p-hist",
+   "name": "Himalayan Institute of Science and Technology",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 60, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 108
+  },
+  {
+   "id": "p-hwic",
+   "name": "Himalayan WhiteHouse International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 144, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 192
+  },
+  {
+   "id": "p-kantipur-intl",
+   "name": "Kantipur International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 96, B.Arch 96. Confirm the current year intake with the college.",
+   "seats": 192
+  },
+  {
+   "id": "p-kantipur-city",
+   "name": "Kantipur City College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 144, BE Computer 40. Confirm the current year intake with the college.",
+   "seats": 184
+  },
+  {
+   "id": "p-morgan-eng",
+   "name": "Morgan Engineering and Management College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 48. Confirm the current year intake with the college.",
+   "seats": 48
+  },
+  {
+   "id": "p-nepal-polytechnic",
+   "name": "Nepal Polytechnic Institute",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 96, BE Electrical 48, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 192
+  },
+  {
+   "id": "p-pathivara",
+   "name": "Pathivara Center for Advance Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Birtamode",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 48, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 96
+  },
+  {
+   "id": "p-dhulabari",
+   "name": "Dhulabari Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Mechinagar",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 48. Confirm the current year intake with the college.",
+   "seats": 48
+  },
+  {
+   "id": "p-niet",
+   "name": "National Institute of Engineering and Technology",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kupondole",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Biomedical 144, BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 192
+  },
+  {
+   "id": "p-mega-eng",
+   "name": "Mega College of Engineering",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 48
+  },
+  {
+   "id": "p-mansarobar",
+   "name": "Mansarobar Institute of Science and Technology",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Damak",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Civil 48. Confirm the current year intake with the college.",
+   "seats": 48
+  },
+  {
+   "id": "p-sr-eng",
+   "name": "S. R. Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "website": "",
+   "note": "Affiliated to Purbanchal University. Approved seats on the faculty list: BE Computer 48. Confirm the current year intake with the college.",
+   "seats": 48
+  },
+  {
+   "id": "p-nec",
+   "name": "Nepal Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Changunarayan",
+   "website": "https://nec.edu.np",
+   "note": "Not for profit college affiliated to Pokhara University since 1994 with Nepal Engineering Council accreditation. Listed seats: BE Civil 144, BE Computer 96, BE Electrical and Electronics 48. The 2082 admission notice counts 480 seats in all, with B.Arch, civil and rural, civil for diploma holders and electronics and communication as well.",
+   "seats": 480
+  },
+  {
+   "id": "p-pec",
+   "name": "Pokhara Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Phirke",
+   "website": "",
+   "note": "Founded 1999. Pokhara University programmes as listed by the college: BE Civil 96, BE Computer 48, BE IT 48, B.Arch 48. It also runs CTEVT diplomas in civil, electrical and computer engineering.",
+   "seats": 96
+  }
+ ],
+ "where_add": {
+  "be-civil": [
+   "p-pusoe",
+   "p-acme",
+   "p-aryan-eng",
+   "p-central-eng",
+   "p-eastern-coe",
+   "p-hillside",
+   "p-hist",
+   "p-hwic",
+   "p-kantipur-intl",
+   "p-kantipur-city",
+   "p-morgan-eng",
+   "p-nepal-polytechnic",
+   "p-pathivara",
+   "p-dhulabari",
+   "p-mansarobar",
+   "p-khwopa-eng",
+   "p-nec",
+   "p-pec"
+  ],
+  "be-computer": [
+   "p-pusoe",
+   "p-acme",
+   "p-aryan-eng",
+   "p-cite",
+   "p-eastern-coe",
+   "p-hillside",
+   "p-hist",
+   "p-hwic",
+   "p-kantipur-city",
+   "p-nepal-polytechnic",
+   "p-pathivara",
+   "p-niet",
+   "p-mega-eng",
+   "p-sr-eng",
+   "p-khwopa-eng",
+   "p-nec",
+   "p-pec"
+  ],
+  "be-electronics": [
+   "p-pusoe",
+   "p-eastern-coe",
+   "p-khwopa-eng"
+  ],
+  "be-electrical": [
+   "p-pusoe",
+   "p-central-eng",
+   "p-hillside",
+   "p-nepal-polytechnic",
+   "p-nec"
+  ],
+  "barch": [
+   "p-acme",
+   "p-kantipur-intl",
+   "p-khwopa-eng"
+  ],
+  "be-geomatics": [
+   "p-himalayan-geomatic"
+  ],
+  "be-biomedical": [
+   "p-niet"
+  ]
+ },
+ "route_seats": {
+  "p-pusoe": {
+   "be-civil": 96,
+   "be-computer": 96,
+   "be-electronics": 60,
+   "be-electrical": 48
+  },
+  "p-acme": {
+   "be-civil": 144,
+   "be-computer": 60,
+   "barch": 48
+  },
+  "p-aryan-eng": {
+   "be-civil": 96,
+   "be-computer": 48
+  },
+  "p-central-eng": {
+   "be-civil": 48,
+   "be-electrical": 48
+  },
+  "p-cite": {
+   "be-computer": 40
+  },
+  "p-eastern-coe": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 30
+  },
+  "p-hillside": {
+   "be-civil": 96,
+   "be-electrical": 48,
+   "be-computer": 48
+  },
+  "p-himalayan-geomatic": {
+   "be-geomatics": 48
+  },
+  "p-hist": {
+   "be-civil": 60,
+   "be-computer": 48
+  },
+  "p-hwic": {
+   "be-civil": 144,
+   "be-computer": 48
+  },
+  "p-kantipur-intl": {
+   "be-civil": 96,
+   "barch": 96
+  },
+  "p-kantipur-city": {
+   "be-civil": 144,
+   "be-computer": 40
+  },
+  "p-morgan-eng": {
+   "be-civil": 48
+  },
+  "p-nepal-polytechnic": {
+   "be-civil": 96,
+   "be-electrical": 48,
+   "be-computer": 48
+  },
+  "p-pathivara": {
+   "be-civil": 48,
+   "be-computer": 48
+  },
+  "p-dhulabari": {
+   "be-civil": 48
+  },
+  "p-niet": {
+   "be-biomedical": 144,
+   "be-computer": 48
+  },
+  "p-mega-eng": {
+   "be-computer": 48
+  },
+  "p-mansarobar": {
+   "be-civil": 48
+  },
+  "p-sr-eng": {
+   "be-computer": 48
+  },
+  "p-khwopa-eng": {
+   "be-civil": 96,
+   "be-computer": 60,
+   "be-electronics": 80,
+   "barch": 60
+  },
+  "p-nec": {
+   "be-civil": 144,
+   "be-computer": 96,
+   "be-electrical": 48
+  },
+  "p-pec": {
+   "be-civil": 96,
+   "be-computer": 48
+  }
+ },
+ "note_add": {
+  "p-khwopa-eng": "Purbanchal University approved seats: BE Civil 96, BE Computer 60, BE Electronics, Communication and Automation 80, B.Arch 60."
+ },
+ "seats_if_empty": {
+  "p-khwopa-eng": 296
+ }
+}

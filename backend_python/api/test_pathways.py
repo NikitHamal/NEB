@@ -173,3 +173,57 @@ class NepalMapTests(TestCase):
         self.assertEqual(fb['open'], [2, 4])
         self.assertGreaterEqual(len(d['faq']), 55)
         self.assertEqual(pathways.problems(), [])
+
+
+class Wave9Tests(TestCase):
+    """MEC 2083/84 seats for health courses, Purbanchal engineering seats, scholarship windows, work rules."""
+
+    def test_mec_program_seats_follow_the_notice(self):
+        d = pathways.payload()
+        total = {}
+        for p in d['providers']:
+            for rid, n in (p.get('route_seats') or {}).items():
+                total[rid] = total.get(rid, 0) + n
+        # listed colleges can only be a part of the MEC totals (2,640 nursing, 1,160 BNS, 905 BPharm), never more
+        self.assertLessEqual(total['bsc-nursing'], 2640)
+        self.assertLessEqual(total['bns'], 1160)
+        self.assertLessEqual(total['bpharm'], 905)
+        self.assertGreater(total['bsc-nursing'], 2000)
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-nams']['route_seats']['bsc-nursing'], 140)
+        self.assertEqual(by['p-mmihs']['fees']['bsc-nursing'], [1036000, 1036000])
+        self.assertEqual(by['p-pokhara-nursing']['district'], 'Kaski')
+        nursing = next(r for r in d['routes'] if r['id'] == 'bsc-nursing')
+        self.assertIn('p-biratnagar-nursing', nursing['where'])
+        self.assertGreaterEqual(len(nursing['where']), 40)
+
+    def test_purbanchal_engineering_seats(self):
+        d = pathways.payload()
+        by = {p['id']: p for p in d['providers']}
+        self.assertEqual(by['p-pusoe']['seats'], 300)
+        self.assertEqual(by['p-acme']['route_seats']['be-civil'], 144)
+        self.assertEqual(by['p-khwopa-eng']['route_seats']['barch'], 60)
+        self.assertEqual(by['p-nec']['route_seats']['be-computer'], 96)
+        civil = next(r for r in d['routes'] if r['id'] == 'be-civil')
+        self.assertIn('p-dhulabari', civil['where'])
+        pu = [p for p in d['providers'] if 'Purbanchal University. Approved seats' in p.get('note', '')]
+        self.assertEqual(sum(p['seats'] for p in pu) + 296, 2938)
+
+    def test_wave9_windows_and_rules(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-taiwan']['open'], [2, 3])
+        self.assertEqual(sch['s-sh']['open'], [11, 1])
+        self.assertEqual(sch['s-jjwbgsp']['open'], [1, 5])
+        self.assertIn('Nepal was not on', sch['s-aga-khan']['who'])
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertEqual(abroad['sg']['work_hours'], 16)
+        self.assertEqual(abroad['tr']['work_hours'], 24)
+        self.assertGreaterEqual(len(d['faq']), 63)
+        self.assertEqual(pathways.problems(), [])
+
+    def test_wave9_text_has_no_dashes(self):
+        import json
+        text = json.dumps(pathways.payload(), ensure_ascii=False)
+        self.assertNotIn('\u2014', text)
+        self.assertNotIn('\u2013', text)

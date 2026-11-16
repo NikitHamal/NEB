@@ -106,7 +106,26 @@ def payload():
         by = {x['id']: x for x in pool}
         for xid, more in extras.items():
             by[xid].update(more)
-    faq_all = _load('faq.json')['faq'] + _load('wave6_faq.json')['faq'] + w7['faq_add'] + w8['faq_add']
+    w9, w9e, w9g = _load('wave9.json'), _load('wave9_extra.json'), _load('wave9_eng.json')
+    providers = providers + w9['providers_add'] + w9g['providers_add']
+    by_provider = {x['id']: x for x in providers}
+    for src in (w9, w9g):
+        for rid, more in src['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, rs in src['route_seats'].items():
+            by_provider[pid]['route_seats'] = rs
+        for pid, text in src['note_add'].items():
+            by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        for pid, n in src['seats_if_empty'].items():
+            if not by_provider[pid].get('seats'):
+                by_provider[pid]['seats'] = n
+    for pid, fees in w9['fees'].items():
+        by_provider[pid]['fees'] = {**(by_provider[pid].get('fees') or {}), **fees}
+    for pool, extras in ((scholarships, w9e['scholarship_extra']), (abroad, w9e['abroad_extra'])):
+        by = {x['id']: x for x in pool}
+        for xid, more in extras.items():
+            by[xid].update(more)
+    faq_all = _load('faq.json')['faq'] + _load('wave6_faq.json')['faq'] + w7['faq_add'] + w8['faq_add'] + w9e['faq_add']
     data = {
         'reviewed': REVIEWED,
         'stages': a['stages'],
@@ -176,6 +195,10 @@ def problems(data=None):
         for rid, fee in (p.get('fees') or {}).items():
             if rid not in route_where or p['id'] not in route_where[rid] or len(fee) != 2 or fee[0] > fee[1]:
                 out.append(f"{p['id']}: fees {rid}")
+    for p in d['providers']:
+        for rid, n in (p.get('route_seats') or {}).items():
+            if rid not in route_where or p['id'] not in route_where[rid] or not isinstance(n, int) or n <= 0:
+                out.append(f"{p['id']}: route_seats {rid}")
     for r in d['routes']:
         if r.get('exam_id') and r['exam_id'] not in {g['id'] for g in d.get('govt', [])}:
             out.append(f"{r['id']}: exam_id {r['exam_id']}")

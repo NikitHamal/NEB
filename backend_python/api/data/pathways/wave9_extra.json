@@ -1,0 +1,181 @@
+{
+ "scholarship_extra": {
+  "s-taiwan": {
+   "open": [
+    2,
+    3
+   ],
+   "how": "Apply online on the MOE Taiwan Scholarship site (the 2026 round ran from 1 February to 31 March), print the form and send it with the documents to the Taiwan representative office, and apply separately to the Taiwanese universities by their own dates. Results come by email near the end of May.",
+   "covers": "Monthly stipend of NTD 15,000 for a bachelor and NTD 20,000 for a master or doctorate, for up to 4 years (bachelor), 2 years (master) or 4 years (doctorate), five years at most in total"
+  },
+  "s-schwarzman": {
+   "open": [
+    4,
+    9
+   ],
+   "how": "Apply online in the U.S. and Global round: the 2027-28 class applied from 8 April to 9 September 2026 and the next round is expected from April to September 2027. Interviews are in October and November and the programme starts the following August."
+  },
+  "s-yenching": {
+   "open": [
+    9,
+    11
+   ],
+   "how": "Apply online in the autumn round, which closes at the end of November (30 November, 9 am Beijing time in the latest round). Check the academy site for the current year."
+  },
+  "s-knight-hennessy": {
+   "open": [
+    8,
+    10
+   ],
+   "how": "Apply to Knight-Hennessy and, separately, to a Stanford programme; you must be admitted to both. The 2027 cohort closed on 6 October 2026, so prepare in the summer."
+  },
+  "s-jjwbgsp": {
+   "open": [
+    1,
+    5
+   ],
+   "how": "Nepal is on the 2027 eligible country list. Apply to a participating university first, then send the JJ/WBGSP form online. There are two windows a year: the first runs from mid January to late February and the second from late March to the end of May (the 2027 second window closes on 21 May 2027)."
+  },
+  "s-sh": {
+   "open": [
+    11,
+    1
+   ],
+   "how": "Apply on the Tempus Public Foundation portal (apply.stipendiumhungaricum.hu). The portal opens in mid November and closes in mid January (the 2026-27 round closed on 15 January 2026 at 2 pm Central European Time). Nepali applicants also complete the national partner step, then sit the university exam or interview from March to May."
+  },
+  "s-erasmus": {
+   "open": [
+    10,
+    1
+   ],
+   "how": "There is no single deadline: each joint master sets its own, mostly between October and January for a September start. Apply directly to the consortium, with no application fee, and choose programmes that name a scholarship for your intake.",
+   "covers": "Tuition waiver and about EUR 1,400 a month for up to 24 months, with travel and installation costs, and study in at least two countries"
+  },
+  "s-russia": {
+   "open": [
+    9,
+    1
+   ],
+   "how": "Apply on the Education in Russia portal and choose up to 6 universities. For the 2027-28 round the portal opened in mid September 2026 and universities named 15 January 2027 as the close for countries outside the CIS. Earlier rounds ran later, so read the notice from the Russian embassy before relying on a date."
+  },
+  "s-csc": {
+   "open": [
+    1,
+    3
+   ],
+   "how": "Apply online at campuschina.org with a pre-admission document from the university, then through the Chinese embassy for the bilateral route (Type A). Embassy deadlines fall between mid February and March. Bachelor applicants must also hold a CSCA score report from the new national test."
+  },
+  "s-aga-khan": {
+   "who": "Postgraduates under about 30 from the countries the foundation lists. Nepal was not on the 2026-27 list (Bangladesh, India, Pakistan, Afghanistan, Tajikistan, Kyrgyzstan, Syria, Egypt, Kenya, Tanzania, Uganda, Madagascar and Mozambique), so check the foundation site before you spend time on it.",
+   "how": "Collect the form from the foundation office in an eligible country; the deadline is 31 March each year."
+  },
+  "s-manaaki": {
+   "who": "Applicants from the countries the programme names for the year, with a plan to return home. The 2027 round named Pacific and ASEAN countries, so confirm on nzscholarships.govt.nz that Nepal is listed before you apply."
+  },
+  "s-swiss": {
+   "open": [
+    9,
+    12
+   ],
+   "how": "Apply through the Swiss embassy responsible for your country; the 2027-28 call opened on 20 August 2026 and embassy deadlines fall between September and December. Read the country fact sheet first because not every country takes part."
+  }
+ },
+ "abroad_extra": {
+  "sg": {
+   "work_hours": 16,
+   "work": "Student Pass holders at a Ministry of Manpower approved institution may work up to 16 hours a week in term and full time in official vacations, with no separate work pass. Students at schools outside the approved list and exchange students may not work. A course required internship is treated separately."
+  },
+  "tr": {
+   "work_hours": 24,
+   "work": "Undergraduates may work part time only after finishing the first year, and the employer applies for the work permit. In practice the limit is 24 hours a week. Master and PhD students are more flexible. Entertainment and domestic work are barred."
+  },
+  "pl": {
+   "work": "Full time degree students with a valid residence permit may work without a separate work permit and the law sets no weekly hour cap, per the official Study in Poland guidance. A permit for part time or non degree study does not carry this right, so check your permit type."
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw9-1",
+   "topic": "after12",
+   "q": "Where can I study BSc Nursing, and how many seats are there?",
+   "a": "The Medical Education Commission set 2,640 BSc Nursing seats for 2083/84 across 59 institutions, plus 1,160 BNS seats at 43. The largest single intake is NAMS with 140, then 60 each at BPKIHS, Birat, Chitwan, College of Medical Sciences, KUSMS, Lalitpur Nursing Campus, Lumbini, Maharajgunj Nursing Campus, Manipal, Nobel and Scheer Memorial. Public campuses of Tribhuvan University (Maharajgunj, Biratnagar, Birgunj, Pokhara, Nepalgunj) hold many of the scholarship seats. Every course on this app that lists a college shows the seats from that notice. Seats move every year, so check the MEC notice before you apply.",
+   "go": [
+    "bsc-nursing",
+    "bns"
+   ]
+  },
+  {
+   "id": "fw9-2",
+   "topic": "after12",
+   "q": "How many BPharm, public health and lab technology seats are there?",
+   "a": "MEC 2083/84 seats: BPharm 905 across 29 colleges (Kathmandu University School of Sciences 60, JF Institute 50, Manmohan Memorial 50), BPH 610 across 28, BSc MLT 437 across 31, BPT 150 at 7, BSc MIT 147 at 17, BOptom 110 at 5 (NAMS 40, Nobel College 30). Paying seats at private colleges are capped by the MEC at NPR 7,77,000 for most of these courses.",
+   "go": [
+    "bpharm",
+    "bph",
+    "bmlt",
+    "bpt",
+    "boptom"
+   ]
+  },
+  {
+   "id": "fw9-3",
+   "topic": "after12",
+   "q": "Which engineering colleges teach under Purbanchal University?",
+   "a": "The Purbanchal University engineering faculty lists 21 institutions with about 2,938 bachelor seats. The biggest are Purbanchal University School of Engineering in Biratnagar (300), Khwopa (296), Acme (252), Hillside (192), Himalayan WhiteHouse (192), Kantipur International (192), Nepal Polytechnic in Chitwan (192) and National Institute of Engineering and Technology (192, mostly biomedical). Outside the Kathmandu Valley you will find it at Biratnagar, Janakpur, Chitwan, Jhapa (Birtamode, Mechinagar, Damak). The faculty page is the source and a later entrance notice can differ, so confirm each college intake.",
+   "go": [
+    "be-civil",
+    "be-computer",
+    "barch"
+   ]
+  },
+  {
+   "id": "fw9-4",
+   "topic": "after12",
+   "q": "Is there a Pokhara University option for engineering?",
+   "a": "Yes. Nepal Engineering College at Changunarayan, Bhaktapur, is the largest private affiliate: its 2082 admission notice counted 480 seats, with BE Civil 144, Computer 96 and Electrical and Electronics 48 among them. In Pokhara, Pokhara Engineering College lists BE Civil 96 and BE Computer 48, and the Pokhara University School of Engineering is the constituent school. Entrance is through Pokhara University.",
+   "go": [
+    "be-civil",
+    "be-computer",
+    "be-electrical"
+   ]
+  },
+  {
+   "id": "fw9-5",
+   "topic": "abroad",
+   "q": "Can I work while studying in Singapore, Turkey or Poland?",
+   "a": "Singapore: up to 16 hours a week in term at an approved institution, full time in vacations. Turkey: part time only after the first undergraduate year, with a permit the employer applies for, about 24 hours a week in practice. Poland: full time degree students may work without a separate permit and there is no weekly cap in law. Always read the current rule from the immigration authority before you plan to pay your fees from wages.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw9-6",
+   "topic": "abroad",
+   "q": "When should I apply for scholarships abroad?",
+   "a": "Windows repeat every year. Stipendium Hungaricum opens mid November and closes mid January. Erasmus Mundus joint masters close between October and January. The Chinese Government Scholarship embassy route runs January to March. Taiwan MOE runs 1 February to 31 March. JJ/WBGSP has windows from mid January to late February and from late March to May. Schwarzman is April to September, Knight-Hennessy closes in early October and Chevening closes in early October too. Start documents three months before the window.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw9-7",
+   "topic": "abroad",
+   "q": "Is the Aga Khan scholarship open to Nepali students?",
+   "a": "Not in the 2026-27 round. The foundation lists Bangladesh, India, Pakistan, Afghanistan, Tajikistan, Kyrgyzstan, Syria, Egypt, Kenya, Tanzania, Uganda, Madagascar and Mozambique. Nepal is not among them, so do not pay an agent for it. The Joint Japan World Bank scholarship, by contrast, does list Nepal for 2027.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw9-8",
+   "topic": "after12",
+   "q": "How much does a private BSc Nursing or BPharm seat cost?",
+   "a": "For a paying seat the MEC ceiling is NPR 10,36,000 for the whole BSc Nursing course and NPR 7,77,000 for BPharm, BSc MLT, BPT and optometry. Scholarship seats at public campuses cost far less. The ceiling covers tuition only. Ask the college for the hostel, exam and clinical fees in writing, and never pay a seat fee before you have an MEC merit rank.",
+   "go": [
+    "bsc-nursing",
+    "bpharm",
+    "bmlt"
+   ]
+  }
+ ]
+}
