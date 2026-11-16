@@ -11,6 +11,7 @@ from api.models import NEPAL_DISTRICTS
 from api.models_institutions import DOC_TYPES, KIND_CHOICES, PROVINCE_NAMES, Institution, InstitutionVerification
 
 from .view_helpers import _avatar_url, _ctx, _get_user_id, _rate_limit, _request_db_user
+from .views_institutions_profile import folio_context
 
 PAGE = 30
 
@@ -66,6 +67,7 @@ def school_detail(request, slug):
     return render(request, 'web/school_detail.html', _ctx(
         request, inst=inst, counts=counts, people=people, who=role, mine=mine,
         claimable=not inst.verified, province=PROVINCE_NAMES.get(inst.province, ''),
+        folio=folio_context(inst),
         website_host=urlparse(inst.website).netloc.replace('www.', '') if inst.website else '',
     ))
 

@@ -165,3 +165,7 @@
 .admin-docs { display: grid; gap: 10px; }
 .admin-doc { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
 .admin-doc-img { max-width: 100%; max-height: 520px; border-radius: 16px; border: 1px solid var(--md-outline-variant); object-fit: contain; background: var(--md-surface-container-lowest); }
+
+/* institution portfolio on the school page */
+.sch-h3{font-size:13px;font-weight:600;color:var(--md-on-surface-variant);margin:18px 0 8px}
+.sch-about{font-size:14px;line-height:1.6;margin:6px 0 12px;max-width:68ch}

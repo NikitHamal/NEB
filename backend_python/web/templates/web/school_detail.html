@@ -42,6 +42,23 @@
     </div>
   </section>
 
+  {% if folio %}
+  <section class="sch-section" aria-labelledby="sch-about">
+    <h2 class="sch-h2" id="sch-about">About</h2>
+    {% if folio.motto %}<p class="sch-hero-ne">{{ folio.motto }}</p>{% endif %}
+    {% if folio.about %}<p class="sch-about">{{ folio.about|linebreaksbr }}</p>{% endif %}
+    {% if folio.admission_open %}<div class="sch-tags"><span class="sch-tag">Admissions open</span></div>
+    {% if folio.admission_note %}<p class="sch-about">{{ folio.admission_note }}</p>{% endif %}{% endif %}
+    {% if folio.facts %}<div class="sch-stats">{% for f in folio.facts %}<div class="sch-stat"><b>{{ f.value }}</b><span>{{ f.label }}</span></div>{% endfor %}</div>{% endif %}
+    {% if folio.levels %}<h3 class="sch-h3">Levels</h3><div class="sch-tags">{% for x in folio.levels %}<span class="sch-tag">{{ x }}</span>{% endfor %}{% for x in folio.streams %}<span class="sch-tag">{{ x }}</span>{% endfor %}</div>{% endif %}
+    {% if folio.programs %}<h3 class="sch-h3">Programs</h3><ul class="sch-people">{% for p in folio.programs %}<li><span class="sch-person"><span class="sch-person-body"><span class="sch-name">{{ p.name }}</span><span class="sch-meta">{% if p.level %}{{ p.level }}{% endif %}{% if p.seats %} · {{ p.seats }} seats{% endif %}{% if p.fee %} · NPR {{ p.fee }}{% endif %}</span></span></span></li>{% endfor %}</ul>{% endif %}
+    {% if folio.facilities %}<h3 class="sch-h3">Facilities</h3><div class="sch-tags">{% for x in folio.facilities %}<span class="sch-tag">{{ x }}</span>{% endfor %}</div>{% endif %}
+    {% if folio.affiliations %}<h3 class="sch-h3">Affiliation</h3><div class="sch-tags">{% for x in folio.affiliations %}<span class="sch-tag">{{ x }}</span>{% endfor %}</div>{% endif %}
+    {% if folio.branches %}<h3 class="sch-h3">Branches</h3><ul class="sch-people">{% for b in folio.branches %}<li><span class="sch-person"><span class="sch-person-body"><span class="sch-name">{{ b.name }}</span><span class="sch-meta">{{ b.place }}{% if b.phone %} · {{ b.phone }}{% endif %}</span></span></span></li>{% endfor %}</ul>{% endif %}
+    {% if folio.contact or folio.socials %}<h3 class="sch-h3">Contact</h3><div class="sch-tags">{% for c in folio.contact %}<span class="sch-tag">{{ c }}</span>{% endfor %}{% for s in folio.socials %}<a class="sch-tag" href="{{ s.url }}" target="_blank" rel="noopener nofollow">{{ s.name|capfirst }}</a>{% endfor %}</div>{% endif %}
+  </section>
+  {% endif %}
+
   <section class="sch-stats" aria-label="People">
     <div class="sch-stat"><b>{{ counts.total }}</b><span>On NEBians</span></div>
     <div class="sch-stat"><b>{{ counts.students }}</b><span>Students</span></div>
