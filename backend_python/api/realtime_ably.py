@@ -29,11 +29,15 @@ import logging
 import os
 import threading
 import time
+import urllib.parse
 import urllib.request
 
 logger = logging.getLogger(__name__)
 
 REST_HOST = os.environ.get('ABLY_REST_HOST', 'main.realtime.ably.net').strip() or 'main.realtime.ably.net'
+# Ably refuses a key-authenticated publish that names no client (error 40161,
+# "requires an identified client"), so every REST POST carries this id.
+PUBLISH_CLIENT_ID = os.environ.get('ABLY_PUBLISH_CLIENT_ID', 'nebians-server').strip() or 'nebians-server'
 TOKEN_TTL = 3600  # seconds; the client renews at ~80% of this
 MAX_QUEUE = 400
 MAX_BATCH = 80
@@ -235,7 +239,7 @@ class _Publisher:
 
 def post_batch(specs, key=None):
     key = key or _api_key()
-    url = 'https://%s/messages' % REST_HOST
+    url = 'https://%s/messages?clientId=%s' % (REST_HOST, urllib.parse.quote(PUBLISH_CLIENT_ID, safe=''))
     req = urllib.request.Request(
         url,
         data=json.dumps(specs, separators=(',', ':')).encode(),

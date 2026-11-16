@@ -73,6 +73,31 @@ class AblyPublishTests(SimpleTestCase):
         self.assertEqual(specs[0]['channels'], ['forum.public'])
         self.assertEqual([m['name'] for m in specs[0]['messages']], ['post.created', 'post.like_changed'])
 
+    def test_post_batch_names_a_client_so_ably_accepts_a_key_publish(self):
+        captured = {}
+
+        class _Resp:
+            def read(self, _n=None):
+                return b''
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+        def fake_urlopen(req, timeout=None):
+            captured['url'] = req.full_url
+            captured['body'] = json.loads(req.data.decode())
+            return _Resp()
+
+        specs = realtime_ably._Publisher.specs([('forum.public', 'post.created', '{}')])
+        with mock.patch.object(realtime_ably.urllib.request, 'urlopen', fake_urlopen):
+            realtime_ably.post_batch(specs, KEY)
+        self.assertIn('clientId=', captured['url'])
+        self.assertIn(realtime_ably.PUBLISH_CLIENT_ID, captured['url'])
+        self.assertEqual(captured['body'][0]['channels'], ['forum.public'])
+
     def test_oversize_and_open_breaker_drop_events(self):
         pub = realtime_ably._Publisher()
         with mock.patch.object(pub, '_ensure_thread'):
