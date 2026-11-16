@@ -38,6 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.InlineImageTokens
 import com.neb.ians.ui.components.NebChoiceSheet
 import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.screens.notes.notePaper
 import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.ZoomableImageDialog
 
@@ -88,8 +89,11 @@ fun CreatePostScreen(
     }
 
     val blocker = submitBlocker(uiState)
-    val scheme = MaterialTheme.colorScheme
+    var lookSheet by remember { mutableStateOf<LookSheet?>(null) }
 
+    // A dynamic post is written on its own page: the look's colours and type wrap the whole composer.
+    com.neb.ians.ui.components.PostLookTheme(uiState.look) {
+    val scheme = MaterialTheme.colorScheme
     Scaffold(
         containerColor = scheme.surface,
         contentWindowInsets = WindowInsets.statusBars
@@ -128,11 +132,6 @@ fun CreatePostScreen(
                 }
             } else {
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    ComposerTitleField(
-                        value = uiState.title,
-                        onValueChange = viewModel::onTitleChange,
-                        enabled = !uiState.isSubmitting
-                    )
                     ComposerFormatRow(
                         state = uiState,
                         viewModel = viewModel,
@@ -147,10 +146,21 @@ fun CreatePostScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
+                        .notePaper(uiState.look.paper, scheme.onSurface)
                         .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                ) {
+                ComposerLookHeader(state = uiState, onSheet = { lookSheet = it }, viewModel = viewModel)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
+                    ComposerTitleField(
+                        value = uiState.title,
+                        onValueChange = viewModel::onTitleChange,
+                        enabled = !uiState.isSubmitting
+                    )
                     ComposerEditor(
                         state = uiState,
                         viewModel = viewModel,
@@ -174,6 +184,7 @@ fun CreatePostScreen(
                         )
                     }
                 }
+                }
 
                 ComposerFooter(
                     state = uiState,
@@ -184,12 +195,15 @@ fun CreatePostScreen(
                         mediaPicker.launch(arrayOf("application/pdf", "application/*", "text/*"))
                     },
                     onPoll = { viewModel.togglePoll(!uiState.pollEnabled) },
+                    onLook = { lookSheet = LookSheet.Style },
                     modifier = Modifier.background(scheme.surface)
                 )
             }
         }
     }
+    }
 
+    PostLookSheets(sheet = lookSheet, state = uiState, viewModel = viewModel, onDismiss = { lookSheet = null })
     CreatePostSheets(
         sheet = sheet,
         state = uiState,

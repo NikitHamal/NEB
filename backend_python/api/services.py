@@ -146,8 +146,15 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
     return reply_data
 
 
+def _finalize_look(look):
+    if not look:
+        return ''
+    from .post_look import finalize
+    return finalize(look)
+
+
 def create_post(user, title, content, category, image_urls=None, poll_data=None,
-                is_anonymous=False, attachments=None, own_tag=False):
+                is_anonymous=False, attachments=None, own_tag=False, look=''):
     if not getattr(user, 'email_verified', False):
         return None
     from .categories import normalize_category
@@ -168,6 +175,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
         thumbs_up_count=0,
         reply_count=0,
         is_anonymous=bool(is_anonymous),
+        look=_finalize_look(look),
         created_at=now,
     )
     if image_urls:

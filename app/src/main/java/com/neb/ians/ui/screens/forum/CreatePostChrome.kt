@@ -5,6 +5,7 @@ package com.neb.ians.ui.screens.forum
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.offset
@@ -321,7 +322,8 @@ fun ComposerFooter(
     onMedia: () -> Unit,
     onDocument: () -> Unit,
     onPoll: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLook: () -> Unit = {}
 ) {
     val scheme = MaterialTheme.colorScheme
     val enabled = !state.isSubmitting
@@ -339,6 +341,7 @@ fun ComposerFooter(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
+            FooterVectorTool(androidx.compose.material.icons.Icons.Outlined.Palette, "Page style: colour, cover, icon, paper", enabled, !state.look.isPlain || state.coverUri != null, onLook)
             FooterTool(NebIcons.Image, "Attach photos", enabled, state.activeImageCount > 0, onPhotos)
             if (!isEditing) {
                 FooterTool(NebIcons.Video, "Add video or audio", enabled, state.mediaAttachments.isNotEmpty(), onMedia)
@@ -353,6 +356,39 @@ fun ComposerFooter(
                 modifier = Modifier.padding(end = 8.dp)
             )
         }
+    }
+}
+
+@Composable
+private fun FooterVectorTool(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    description: String,
+    enabled: Boolean,
+    active: Boolean,
+    onClick: () -> Unit
+) {
+    val scheme = MaterialTheme.colorScheme
+    val fill by animateColorAsState(
+        targetValue = if (active) scheme.secondaryContainer else Color.Transparent,
+        animationSpec = nebEffectsSpec(),
+        label = "lookToolFill"
+    )
+    Box(
+        modifier = Modifier
+            .size(44.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(fill)
+            .nebPressable(enabled = enabled, onClick = onClick)
+            .semantics {
+                role = Role.Button
+                contentDescription = description
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        androidx.compose.material3.Icon(
+            icon, null, modifier = Modifier.size(22.dp),
+            tint = if (active) scheme.onSecondaryContainer else scheme.onSurfaceVariant
+        )
     }
 }
 

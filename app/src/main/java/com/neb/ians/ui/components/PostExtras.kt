@@ -219,7 +219,7 @@ fun shareText(context: Context, text: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ForumPostCard(
+internal fun ForumPostCardPlain(
     post: ApiPost,
     isOwnPost: Boolean,
     onClick: () -> Unit,
@@ -232,7 +232,8 @@ fun ForumPostCard(
     onArchiveClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
     onAuthorClick: () -> Unit = {},
-    onAuthorLongPress: () -> Unit = {}
+    onAuthorLongPress: () -> Unit = {},
+    showHairline: Boolean = true
 ) {
     val category = post.category.ifBlank { "General" }
     // Card preview carries real markdown formatting (bold/italic/code,
@@ -493,7 +494,7 @@ fun ForumPostCard(
             }
         }
     }
-    NebHairline()
+    if (showHairline) NebHairline()
     }
 }
 

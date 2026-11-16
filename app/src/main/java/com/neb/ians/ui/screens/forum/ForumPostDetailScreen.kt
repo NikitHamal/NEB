@@ -335,6 +335,7 @@ fun ForumPostDetailScreen(
                     contentPadding = PaddingValues(bottom = 24.dp)
                 ) {
                     item(key = "post_header") {
+                        com.neb.ians.ui.components.PostLookPage(post.look) {
                         PostContentSection(
                             post = post,
                             poll = uiState.poll,
@@ -370,6 +371,7 @@ fun ForumPostDetailScreen(
                                 zoomImageIndex = index
                             }
                         )
+                        }
                     }
 
                     if (uiState.currentUserId != null) {

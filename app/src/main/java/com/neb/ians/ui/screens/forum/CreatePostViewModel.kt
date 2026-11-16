@@ -77,6 +77,9 @@ data class CreatePostUiState(
     val pollAllowAddOptions: Boolean = false,
     val pollExplanation: String = "",
     val pollDurationMs: Long = 0L,
+    // Dynamic post: page colour, cover, icon, paper, type. A cover picked on the phone uploads on publish.
+    val look: com.neb.ians.data.api.PostLook = com.neb.ians.data.api.PostLook(),
+    val coverUri: Uri? = null,
     // @mention autocomplete
     val mentionSuggestions: List<ApiUserSearchResult> = emptyList()
 ) {
@@ -205,6 +208,8 @@ class CreatePostViewModel @Inject constructor(
                             },
                             removedExistingImageIds = emptySet(),
                             pollEnabled = false,
+                            look = post.look ?: com.neb.ians.data.api.PostLook(),
+                            coverUri = null,
                             isLoadingPost = false,
                             error = null
                         )
@@ -220,6 +225,15 @@ class CreatePostViewModel @Inject constructor(
                 }
         }
     }
+
+    fun setLook(look: com.neb.ians.data.api.PostLook) = _uiState.update {
+        it.copy(look = look, coverUri = if (look.cover > 0 || look.photo > 0) null else it.coverUri)
+    }
+
+    /** A picture cover: shown at once from the phone, uploaded when the post goes out. */
+    fun setCoverPhoto(uri: Uri) = _uiState.update { it.copy(coverUri = uri, look = it.look.copy(photo = 0, cover = 0)) }
+
+    fun clearCover() = _uiState.update { it.copy(coverUri = null, look = it.look.copy(photo = 0, cover = 0)) }
 
     fun onTitleChange(title: String) {
         if (title.length <= MAX_POST_TITLE) _uiState.update { it.copy(title = title) }
@@ -510,6 +524,17 @@ class CreatePostViewModel @Inject constructor(
                 content = content.replace("[[img:$key]]", "[[img:${up.id}]]")
             }
 
+            var look = state.look
+            val coverUri = state.coverUri
+            if (coverUri != null) {
+                val up = contentImageRepository.upload(coverUri).getOrNull()
+                if (up == null || up.id <= 0) {
+                    _uiState.update { it.copy(isSubmitting = false, error = "The cover picture did not upload. Try again.") }
+                    return@launch
+                }
+                look = look.copy(photo = up.id, cover = 0)
+            }
+
             val result = if (state.isEditMode) {
                 val postId = state.editingPostId
                 if (postId.isNullOrBlank()) {
@@ -520,10 +545,11 @@ class CreatePostViewModel @Inject constructor(
                         title = title,
                         content = content,
                         category = category,
-                        imageUrls = imageUrls
+                        imageUrls = imageUrls,
+                        look = look
                     )
                 }
-            } else if (pollCreate != null || imageUrls.isNotEmpty() || attachments.isNotEmpty() || state.isAnonymous) {
+            } else if (pollCreate != null || imageUrls.isNotEmpty() || attachments.isNotEmpty() || state.isAnonymous || !look.isPlain) {
                 forumRepository.createPostWeb(
                     WebPostCreateRequest(
                         title = title,
@@ -532,7 +558,8 @@ class CreatePostViewModel @Inject constructor(
                         images = imageUrls,
                         poll = pollCreate,
                         isAnonymous = state.isAnonymous,
-                        attachments = attachments
+                        attachments = attachments,
+                        look = look.orNull()
                     )
                 )
             } else {

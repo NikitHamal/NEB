@@ -265,11 +265,12 @@ class ForumRepository @Inject constructor(
         content: String,
         category: String,
         isAnonymous: Boolean = false,
-        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList()
+        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList(),
+        look: com.neb.ians.data.api.PostLook? = null
     ): Result<ApiPost> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val post = apiService.createPost(token, PostCreateRequest(title, content, category, isAnonymous = isAnonymous, attachments = attachments))
+            val post = apiService.createPost(token, PostCreateRequest(title, content, category, isAnonymous = isAnonymous, attachments = attachments, look = look))
             appCache.postDetails[post.id] = post
             offlineCacheStore.write(postCacheKey(post.id), post)
             cacheBus.publish(postCacheKey(post.id))
@@ -326,11 +327,12 @@ class ForumRepository @Inject constructor(
         title: String? = null,
         content: String? = null,
         category: String? = null,
-        imageUrls: List<String>? = null
+        imageUrls: List<String>? = null,
+        look: com.neb.ians.data.api.PostLook? = null
     ): Result<ApiPost> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val post = apiService.updatePost(token, postId, PostUpdateRequest(title, content, category, imageUrls))
+            val post = apiService.updatePost(token, postId, PostUpdateRequest(title, content, category, imageUrls, look))
             appCache.postDetails[post.id] = post
             offlineCacheStore.write(postCacheKey(post.id), post)
             cacheBus.publish(postCacheKey(post.id))
