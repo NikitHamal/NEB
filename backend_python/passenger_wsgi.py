@@ -23,3 +23,12 @@ os.environ.setdefault('QWEN_FORCE_REQUESTS', '1')
 
 from nebians.wsgi import application
 
+
+# Load the lazy parts of the site in the LSAPI parent; forked workers inherit them
+# (see nebians/warmup.py). Skipped for tests/management commands (they never import this file).
+if os.environ.get('NEB_WARMUP', '1') != '0':
+    try:
+        from nebians.warmup import warm
+        warm()
+    except Exception:
+        pass

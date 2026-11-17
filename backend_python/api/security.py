@@ -307,6 +307,23 @@ def validate_resource_file_url(url: str) -> str:
     return validate_external_https_url(url, allow_http=True)
 
 
+AVATAR_MAX_EDGE = 640
+
+
+def optimize_avatar_image(image):
+    """EXIF-upright, at most AVATAR_MAX_EDGE px on the long side, RGB or RGBA (alpha kept)."""
+    try:
+        from PIL import ImageOps
+        image = ImageOps.exif_transpose(image)
+    except Exception:
+        pass
+    if max(image.size) > AVATAR_MAX_EDGE:
+        image.thumbnail((AVATAR_MAX_EDGE, AVATAR_MAX_EDGE), Image.Resampling.LANCZOS)
+    has_alpha = image.mode in ('RGBA', 'LA') or (image.mode == 'P' and 'transparency' in image.info)
+    return image.convert('RGBA' if has_alpha else 'RGB')
+
+
+
 def save_profile_image_upload(request, user, file_obj) -> str:
     """Validate and save an uploaded profile image, returning an absolute URL."""
     if not file_obj:
@@ -337,23 +354,14 @@ def save_profile_image_upload(request, user, file_obj) -> str:
     if image_format not in PROFILE_PHOTO_ALLOWED_FORMATS:
         raise ValidationError('Invalid image format. Only JPG, PNG, and WEBP are allowed.')
 
-    # Strip metadata and normalize the image into a safe format.
+    # Strip metadata and normalize the image into a safe, small format. An avatar is drawn at
+    # most ~200 px wide (3x density), but phones upload 3000 px originals: stored as sent, one
+    # feed row cost 1 to 1.4 MB. Orientation is applied first because dropping the EXIF block
+    # would otherwise turn a portrait photo on its side.
+    image = optimize_avatar_image(image)
     output = BytesIO()
-    if image_format == 'PNG':
-        safe_ext = '.png'
-        if image.mode not in ('RGB', 'RGBA'):
-            image = image.convert('RGBA')
-        image.save(output, format='PNG', optimize=True)
-    elif image_format == 'WEBP':
-        safe_ext = '.webp'
-        if image.mode not in ('RGB', 'RGBA'):
-            image = image.convert('RGBA')
-        image.save(output, format='WEBP', quality=90, method=6)
-    else:
-        safe_ext = '.jpg'
-        if image.mode != 'RGB':
-            image = image.convert('RGB')
-        image.save(output, format='JPEG', quality=88, optimize=True)
+    safe_ext = '.webp'
+    image.save(output, format='WEBP', quality=85, method=4)
 
     filename = f"{user.id}_{secrets.token_urlsafe(16)}{safe_ext}"
     path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(output.getvalue()))
@@ -470,7 +478,7 @@ def save_post_image_upload(request, file_obj, order=0) -> str:
 
     max_dim = 2000
     if image.width > max_dim or image.height > max_dim:
-        image.thumbnail((max_dim, max_dim), Image.LANCZOS)
+        image.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
 
     output = BytesIO()
     if image_format == 'PNG':
@@ -1321,7 +1329,7 @@ def save_resource_thumbnail_upload(request, file_obj):
 
     max_dim = 1280
     if image.width > max_dim or image.height > max_dim:
-        image.thumbnail((max_dim, max_dim), Image.LANCZOS)
+        image.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
 
     output = BytesIO()
     if image_format == 'PNG':

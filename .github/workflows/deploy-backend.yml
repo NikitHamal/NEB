@@ -38,3 +38,20 @@ jobs:
           set -euo pipefail
           echo "Host: $SSH_HOST (key injected from secrets, length ${#SSH_KEY})"
           python3 .github/scripts/deploy_backend.py
+
+      # Public, read-only: proves the site answers after the restart. Retries because
+      # the first request after a restart forks a fresh worker pool on a loaded host.
+      - name: Smoke test
+        run: |
+          fail=0
+          for p in / /api/posts/ /api/realtime/config/ /app/news/ /static/web/css/fonts.css; do
+            ok=0
+            for i in 1 2 3 4 5; do
+              out=$(curl -s -o /dev/null -m 45 -w '%{http_code} %{time_total}s' "https://nebians.consica.com.np$p" || true)
+              echo "$p try $i: $out"
+              case "$out" in 200*) ok=1; break;; esac
+              sleep 6
+            done
+            [ "$ok" = 1 ] || fail=1
+          done
+          exit $fail

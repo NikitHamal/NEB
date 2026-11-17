@@ -262,6 +262,10 @@ def main():
             # in full on every deploy. A few per deploy, never more than two minutes.
             remote.append("echo 'Backfilling video thumbnails (bounded)...'")
             remote.append("timeout 120 python manage.py backfill_video_thumbnails --limit 10 || true")
+            # Avatars were stored as uploaded (1 to 1.4 MB). Writes small WebP copies next to
+            # them and repoints the URL columns; originals are kept. No-op once all are done.
+            remote.append("echo 'Shrinking oversized profile photos (bounded, originals kept)...'")
+            remote.append("timeout 150 python manage.py optimize_profile_photos --limit 40 || true")
 
         if static_changed or static_deleted:
             clear = "--clear" if static_deleted else ""
@@ -331,6 +335,11 @@ def main():
             # match its own cmdline and kill this SSH session.
             remote.append(f"pkill -f 'lswsgi -m {REMOTE_DIR}/passenger_wsg[i].py' 2>/dev/null || true")
             remote.append("sleep 2")
+            # The next request forks a new LSAPI parent (it imports Django and warms the
+            # site, several seconds on this host). Make that request ours, not a visitor's.
+            remote.append("echo 'Warming the new workers...'")
+            remote.append("for i in 1 2 3; do curl -s -m 60 -o /dev/null -w 'warm %{http_code} %{time_total}s\\n' https://nebians.consica.com.np/api/realtime/config/ && break; sleep 3; done || true")
+            remote.append("curl -s -m 60 -o /dev/null -w 'posts %{http_code} %{time_total}s\\n' https://nebians.consica.com.np/api/posts/ || true")
 
         remote.append(f"echo 'STATUS: OK' > {status_file}")
         remote.append("echo 'DEPLOYMENT SUCCESSFUL'")
