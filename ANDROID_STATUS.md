@@ -1814,3 +1814,26 @@ Deploy runs `44182216547` (css resync), `44182511634` (js resync), `44182895856`
 ## Next
 - Owner: rotate the GitHub PAT and the Redis password (both appeared in plain text outside the server).
 - Port `rsi.py diagnose` scripts for slow-query and 5xx-by-hour reports to a weekly scheduled workflow.
+
+# Session 69: M3X Art Library v4 (`NEBians-Art-v4.html`, `concepts/art-v4/`), concept only
+
+Same file, same rule: nothing is built locally for Android, the check is the GitHub Actions run. History read first: v1 (session 64), v2 (65) and v3 (68, `bfbaed36`) are **kept untouched**; v4 is a new library that reuses only the v3 colour and shape core (`v3-core.js`). The owner's bans for this round: no mountains, forests, trees, ships, rows of buildings, moon or sun; better profile pictures, covers, banners and empty states. No backend, app or database file was changed, so nothing was deployed and no data was touched.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 387 | **v4 core**: tonal kit per palette (five tones plus a spark accent), organic blobs, waves, clip helpers; reuses the v3 OKLCH palettes (20 families, no purple). | `v4-core.js` |
+| 388 | **28 abstract scenes and patterns** instead of landscapes: orbits, waveform, flow noodles, nested shapes, tessera tiles, hex lattice, kaleidoscope, rising pills, graph paper, network, cells, molecules, DNA, ink swashes, halftone, arches, terrazzo, memphis, glyph field, weave, bloom field, scallop, ribbon stack. | `v4-scenes-a/b/c.js` |
+| 389 | **36 hero objects** (book, flask, atom, globe, laptop, trophy, rocket, magnifier, cloud, plug, shield, pulse, palette and more) and a **stage engine** (disc, arch, plate, ground, burst, pattern backdrops, chips for secondary objects). | `v4-objects-a/b.js`, `v4-stage.js` |
+| 390 | **Profile pictures, polished**: 240 people (10 hairstyles, 6 skin tones, 7 outfits including daura collar and lab coat, Dhaka topi, glasses, headphones, bindi, grad cap), 60 buddies, 72 critters (cat, bear, bunny, fox, owl, panda), glyph tiles, object avatars. Frameless squares, no ring. | `v4-people.js`, `v4-critters.js` |
+| 391 | **Catalog**: 30 subjects, 15 kinds, **2,464 pieces** (4,928 Light and Dark SVGs). Empty states: 40 states x 4 looks; achievements: 24 x 4 looks. `export-svg.js` fails on NaN, gradients, filters, images, text; 0 bad. SVGs are not committed (62 MB), run with `--svg`. | `v4-catalog.js`, `export-svg.js` |
+| 392 | **Gallery**: Library (lazy, kind rail, subject filter, search, detail dialog with copy, SVG, 2x PNG and the avatar in eight clip shapes), In-app (profiles for four roles, resources, empty states, achievements, picture shapes, books, posts, stories, pathways, heroes), Studio, Light and Dark. | `NEBians-Art-v4.html`, `v4-gallery.js`, `v4-previews.js`, `v4-gallery.css` |
+
+## Notes
+- `docs/M3X_DESIGN_SYSTEM.md` still says no generated avatars. The owner asked for polished profile pictures, so v4 ships them as a concept only; the rule stays until the owner adopts them.
+- Dark mode is a tonal re-map of the same drawing, check on a device before replacing shipped art.
+
+## Next
+- Owner review on GitHub Pages: https://nikithamal.github.io/NEB/art-v4.html. If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
+
