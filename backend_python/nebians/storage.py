@@ -13,7 +13,10 @@ ignored by WhiteNoise when it serves the file, but it changes the cache key, so
 a changed file is a new URL. That is what makes `Cache-Control: immutable`
 safe in `nebians.static_headers.static_cache_headers`.
 """
+import os
+
 from django.conf import settings
+import whitenoise.compress as _whitenoise_compress
 import whitenoise.storage as _whitenoise_storage
 from whitenoise.storage import CompressedStaticFilesStorage
 
@@ -50,17 +53,68 @@ def _bounded_executor(*args, **kwargs):
 # the attribute here is enough to bound the pool it builds.
 _whitenoise_storage.ThreadPoolExecutor = _bounded_executor
 
+# Model weights are already-compressed binary blobs: needle3.cact (34 MB) and
+# whistle.cact (17 MB) shrink about 6 percent (34 -> 32 MB) but cost minutes
+# of gzip level 9 plus brotli quality 11 CPU on every collectstatic, because
+# WhiteNoise re-compresses the whole tree each run. They also never change in
+# place, and every visitor caches them forever, so compression buys nothing.
+# Skip them here (merged with WhiteNoise's own defaults, never replacing, so
+# a WhiteNoise upgrade that skips a new extension still works). The compressed
+# copies already on disk keep being served until they go stale.
+_SKIP_COMPRESS_EXTENSIONS = ("cact",)
+
 
 class VersionedStaticFilesStorage(CompressedStaticFilesStorage):
+    def create_compressor(self, **kwargs):
+        extensions = set(_whitenoise_compress.Compressor.SKIP_COMPRESS_EXTENSIONS)
+        extensions.update(getattr(settings, "WHITENOISE_SKIP_COMPRESS_EXTENSIONS", None) or ())
+        extensions.update(_SKIP_COMPRESS_EXTENSIONS)
+        kwargs["extensions"] = extensions
+        return super().create_compressor(**kwargs)
+
+    def _compressed_form_is_current(self, name):
+        # A compressed copy is current when at least one compressed form exists
+        # and no existing copy is older than the file. WhiteNoise copies the
+        # source modification time onto the .gz/.br, so equality means the
+        # file was already compressed from these bytes.
+        full = self.path(name)
+        try:
+            source_mtime = os.path.getmtime(full)
+        except OSError:
+            return False
+        found = False
+        for suffix in (".br", ".gz"):
+            try:
+                compressed_mtime = os.path.getmtime(full + suffix)
+            except OSError:
+                continue
+            found = True
+            if compressed_mtime < source_mtime:
+                return False
+        return found
+
     def post_process(self, paths, dry_run=False, **options):
+        if dry_run:
+            return
+            yield  # pragma: no cover (keeps this a generator)
         # Minify first so the .gz/.br copies WhiteNoise writes are of the small bytes.
-        if not dry_run and minify.enabled():
+        if minify.enabled():
             saved = 0
             for name in paths:
                 saved += minify.minify_file(self.path(name), name)
             if saved:
                 print('Minified static files: -%d KB' % (saved // 1024))
-        yield from super().post_process(paths, dry_run, **options)
+        # Collectstatic hands post_process every collected file, not only the
+        # ones it copied, and WhiteNoise then re-compresses all of them (6745
+        # post-processed on 2026-11-17 for a 156-file delta). Keep only the
+        # files whose compressed forms are missing or stale. A file just copied
+        # or minified is newer than its compressed forms, so it is kept.
+        if isinstance(paths, dict):
+            stale = {name: paths[name] for name in paths if not self._compressed_form_is_current(name)}
+        else:
+            stale = [name for name in paths if not self._compressed_form_is_current(name)]
+        if stale:
+            yield from super().post_process(stale, dry_run, **options)
 
     def url(self, name):
         url = super().url(name)
