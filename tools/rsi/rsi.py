@@ -94,6 +94,7 @@ def cmd_checkpoint(msg: str) -> int:
         return 0
     subprocess.run(["git", "commit", "-m", msg], cwd=ROOT, check=True)
     env = {**os.environ, "GIT_ASKPASS": "/tmp/gitenv.sh", "GIT_TERMINAL_PROMPT": "0"}
+    subprocess.run(["git", "pull", "--rebase", "--autostash", "origin", "main"], cwd=ROOT, env=env, check=True)
     subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, env=env, check=True)
     print(f"RSI CHECKPOINT PUSHED: {msg}")
     return 0
