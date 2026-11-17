@@ -199,6 +199,7 @@ def build(post: Post, days: int = 30, staff: bool = False) -> dict:
         },
         'ctr': round(views * 100.0 / imp, 1) if imp else None,
         'engagementRate': round(reactions * 100.0 / views, 1) if views else None,
+        'bookmarkRate': round(bookmarks * 100.0 / views, 1) if views else None,
         'series': series,
         'hourly': hourly,
         'peakHour': peak_hour,
@@ -207,6 +208,8 @@ def build(post: Post, days: int = 30, staff: bool = False) -> dict:
             'members': members, 'guests': max(0, len(uniq) - members), 'followers': followers,
             'nonFollowers': max(0, len(uniq) - followers), 'returning': returning,
             'newViewers': max(0, len(uniq) - returning),
+            'memberPct': round(members * 100.0 / len(uniq), 1) if uniq else 0.0,
+            'followerPct': round(followers * 100.0 / len(uniq), 1) if uniq else 0.0,
         },
         'surfaces': _split(surface, SURFACE_LABEL),
         'channels': _split(channel, CHANNEL_LABEL),
@@ -281,6 +284,13 @@ def _insights(d: dict, staff: bool) -> list[dict]:
         pct = round(a['returning'] * 100.0 / k['uniqueViewers']['value'])
         if pct >= 15:
             add('up', f'{pct}% came back more than once', 'Repeat readers usually mean a post worth bookmarking.')
+    if a.get('nonFollowers', 0) and k['uniqueViewers']['value'] >= 5:
+        nf_pct = round(a['nonFollowers'] * 100.0 / k['uniqueViewers']['value'])
+        if nf_pct >= 60:
+            add('up', f'{nf_pct}% of readers are outside your followers', 'Feed and search discovery are carrying this post to new people.')
+    if d.get('lifetime', {}).get('bookmarks', 0) >= 2:
+        bm_n = d['lifetime']['bookmarks']
+        add('up', f'Saved by {bm_n} readers', 'Bookmarks signal reference value that keeps bringing repeat views.')
     st = d['standing']
     if st['of'] > 3 and st['vsMedian'] is not None:
         add('up' if st['vsMedian'] >= 0 else 'info', f"#{st['rank']} of your {st['of']} posts by views",

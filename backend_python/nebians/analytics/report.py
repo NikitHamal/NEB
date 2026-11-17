@@ -310,8 +310,11 @@ def _totals(qs, start: int, end: int) -> dict:
         members=Count('user_identifier', filter=~Q(user_identifier=''), distinct=True),
     )
     t = _session_stats(qs)
+    engaged = max(0, t['sessions'] - t['bounces'])
     t.update(
         pageviews=agg['pv'], visitors=agg['visitors'], members=agg['members'],
+        engaged_sessions=engaged,
+        engagement_rate=round(engaged / t['sessions'] * 100, 1) if t['sessions'] else 0.0,
         pages_per_visit=round(agg['pv'] / t['sessions'], 2) if t['sessions'] else 0.0,
         new_accounts=User.objects.filter(created_at__gte=start, created_at__lt=end).count(),
     )
@@ -569,12 +572,89 @@ def _donut(rows: list[dict]) -> str:
     return 'conic-gradient(' + ', '.join(stops) + ')'
 
 
+def _executive_insights(cur: dict, prev: dict, channels: list[dict], sources: list[dict],
+                        audience: dict, retention: dict, heatmap: dict, library: dict, devices: dict) -> list[dict]:
+    """Actionable executive intelligence cards synthesized from the live report."""
+    out: list[dict] = []
+
+    def add(key: str, tone: str, icon: str, title: str, body: str, metric: str = ''):
+        out.append({'id': key, 'tone': tone, 'icon': icon, 'title': title, 'body': body, 'metric': metric})
+
+    vis_d = delta(cur['visitors'], prev['visitors'])
+    if cur['visitors'] > 0:
+        if prev['visitors'] > 0 and vis_d['dir'] in ('up', 'down'):
+            tone = 'good' if vis_d['dir'] == 'up' else 'action'
+            icon = 'trending_up' if vis_d['dir'] == 'up' else 'trending_down'
+            add('traffic_velocity', tone, icon,
+                f"Visitors {vis_d['text']} vs previous period",
+                f"{fmt_num(cur['visitors'])} unique visitors across {fmt_num(cur['sessions'])} visits ({cur['pages_per_visit']} pages per visit).",
+                vis_d['text'])
+        else:
+            add('traffic_velocity', 'info', 'insights',
+                f"{fmt_num(cur['visitors'])} active visitors in window",
+                f"{fmt_num(cur['pageviews'])} pageviews across {fmt_num(cur['sessions'])} sessions ({cur['pages_per_visit']} pages per visit).",
+                fmt_num(cur['visitors']))
+
+    if cur['sessions'] >= 2:
+        eng = cur['engagement_rate']
+        if eng >= 55.0:
+            add('engagement_quality', 'good', 'verified',
+                f"{eng:g}% engaged sessions",
+                f"Multi-page visits average {fmt_duration(cur['avg_duration'])} with {cur['pages_per_visit']} pages per visit.",
+                f"{eng:g}%")
+        elif cur['bounce_rate'] >= 65.0:
+            add('engagement_quality', 'action', 'bolt',
+                f"Bounce rate is {cur['bounce_rate']:g}%",
+                "Surface top study resources and forum threads higher on entry pages to lift second-page clicks.",
+                f"{cur['bounce_rate']:g}%")
+
+    ext_channels = [c for c in channels if c['key'] != 'direct' and c['count'] > 0]
+    if ext_channels:
+        top_ch = ext_channels[0]
+        top_src = sources[0]['name'] if sources else top_ch['name']
+        ai_ch = next((c for c in ext_channels if c['key'] == 'ai'), None)
+        if ai_ch and ai_ch['count'] > 0:
+            add('acquisition_ai', 'good', 'auto_awesome',
+                f"AI assistants drove {ai_ch['display']} visits ({ai_ch['pct']}%)",
+                f"Top external source is {top_src} ({top_ch['name']} accounts for {top_ch['pct']}% of visits).",
+                f"{ai_ch['pct']}%")
+        else:
+            add('acquisition_lead', 'info', 'travel_explore',
+                f"{top_ch['name']} is the top external channel ({top_ch['pct']}%)",
+                f"Led by {top_src} with {top_ch['display']} entry visits in this period.",
+                f"{top_ch['pct']}%")
+
+    if retention['mau'] > 0:
+        st = retention['stickiness']
+        add('retention_pulse', 'good' if st >= 20 else 'info', 'group',
+            f"{st:g}% member stickiness (DAU / MAU)",
+            f"{retention['dau']} daily active of {retention['mau']} monthly active members; {retention['returning_pct']:g}% returning.",
+            f"{st:g}%")
+
+    if library.get('views', 0) > 0:
+        rr = library.get('read_rate') or 0
+        dr = library.get('download_rate') or 0
+        add('library_funnel', 'good' if rr >= 45 else 'info', 'menu_book',
+            f"{fmt_num(library['views'])} library opens ({rr:g}% read rate)",
+            f"{fmt_num(library['reads'])} reads and {fmt_num(library['downloads'])} downloads ({dr:g}% download conversion).",
+            f"{rr:g}%")
+
+    if heatmap.get('peak'):
+        pk = heatmap['peak']
+        add('peak_window', 'info', 'schedule',
+            f"Peak activity on {pk['label']}",
+            f"Schedule announcements and resource push alerts 30 minutes before {pk['day']} {pk['hour']:02d}:00 for highest reach.",
+            pk['day'])
+
+    return out[:6]
+
+
 # --------------------------------------------------------------------------
 # Entry point
 # --------------------------------------------------------------------------
 
 def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> dict:
-    ck = f'an:report:v4:{rng["start"]}:{rng["end"]}:{source}'
+    ck = f'an:report:v5:{rng["start"]}:{rng["end"]}:{source}'
     if use_cache:
         hit = cache.get(ck)
         if hit is not None:
@@ -614,8 +694,12 @@ def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> d
 
     total_visits = cur['sessions']
     channels = _channels(entry_qs, total_visits)
+    sources = _sources(entry_qs, total_visits)
     audience = _audience(entry_qs, total_visits)
     retention = _retention(qs, rng, cur)
+    heatmap = _heatmap(qs, rng['off'])
+    devices_data = report_devices.build(rng, source)
+    library_data = report_library.build(rng, source)
 
     legacy = PageView.objects.filter(
         created_at__gte=rng['prev_start'], created_at__lt=rng['end'], visitor_id='', is_bot=False
@@ -628,16 +712,24 @@ def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> d
         'needs_backfill': legacy,
         'kpis': _kpis(cur, prev, series, growth_series),
         'totals': cur,
+        'velocity': {
+            'engaged_sessions': fmt_num(cur['engaged_sessions']),
+            'engagement_rate': cur['engagement_rate'],
+            'pages_per_visit': cur['pages_per_visit'],
+            'pages_per_visit_delta': delta(cur['pages_per_visit'], prev['pages_per_visit']),
+            'engagement_delta': delta(cur['engagement_rate'], prev['engagement_rate'], rate=True),
+        },
+        'insights': _executive_insights(cur, prev, channels, sources, audience, retention, heatmap, library_data, devices_data),
         'trend': {
             'unit': unit, 'labels': short, 'fulls': full, **series,
             'prev': {k: v for k, v in prev_series.items()},
             'prev_label': 'Previous period',
         },
         'growth': growth_cards,
-        'heatmap': _heatmap(qs, rng['off']),
+        'heatmap': heatmap,
         'channels': channels,
         'channels_donut': _donut(channels),
-        'sources': _sources(entry_qs, total_visits),
+        'sources': sources,
         'landing': _landing(entry_qs, total_visits),
         'campaigns': _campaigns(entry_qs, total_visits),
         'funnel': _funnel(qs, cur),
@@ -646,8 +738,8 @@ def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> d
         'demographics': _demographics(qs),
         'retention': retention,
         'content': _content(qs),
-        'devices': report_devices.build(rng, source),
-        'library': report_library.build(rng, source),
+        'devices': devices_data,
+        'library': library_data,
         'generated_at': int(time.time() * 1000),
     }
     report['chart_json'] = {

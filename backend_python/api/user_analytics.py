@@ -126,6 +126,7 @@ def standing(user):
         'levelFloor': floor,
         'nextLevelAt': nxt[0] if nxt else None,
         'nextLevelName': nxt[1] if nxt else '',
+        'pointsToNextLevel': max(0, nxt[0] - score) if nxt else 0,
         'progress': max(0, min(100, progress)),
         'topPercent': top_percent,
         'memberSince': user.created_at or 0,
@@ -254,6 +255,20 @@ def insights(ctx):
     if best and best['viewCount'] >= 10:
         out.append({'id': 'best_post', 'tone': 'good', 'title': 'Your best post',
                     'body': f'"{best["title"][:60]}" has {best["viewCount"]} views and {best["replyCount"]} replies.'})
+    readers_kpi = kpis.get('readers')
+    if readers_kpi and readers_kpi['previous'] and readers_kpi['change'] is not None and readers_kpi['change'] >= 25:
+        out.append({'id': 'readers_up', 'tone': 'good', 'title': f'Readers up {readers_kpi["change"]}%',
+                    'body': f'{readers_kpi["value"]} unique members read your posts in the last {days} days.'})
+    good_labels = ctx.get('goodLabels') or 0
+    if good_labels >= 1:
+        out.append({'id': 'helpful_impact', 'tone': 'good',
+                    'title': f'{good_labels} helpful or accepted answer{"" if good_labels == 1 else "s"}',
+                    'body': 'Marked solutions rank first in threads and boost your standing.'})
+    st = ctx.get('standing') or {}
+    if st.get('nextLevelAt') and st.get('progress', 0) >= 75 and st.get('pointsToNextLevel', 0) > 0:
+        out.append({'id': 'level_close', 'tone': 'action',
+                    'title': f'{st["pointsToNextLevel"]} pts to {st["nextLevelName"]}',
+                    'body': f'You are {st["progress"]}% of the way to level {st["level"] + 1}.'})
     if not ctx['stats']['resources']:
         out.append({'id': 'share_resource', 'tone': 'action', 'title': 'Share a resource',
                     'body': 'Notes and papers you upload reach every student in the library.'})
@@ -456,8 +471,10 @@ def build(user, days=DEFAULT_RANGE):
         p = top_posts[0]
         best_post = {'id': p['id'], 'title': p['title'], 'viewCount': p['view_count'], 'replyCount': p['reply_count']}
 
+    user_standing = standing(user)
     ctx = {'streak': streak, 'kpis': kpis, 'days': days, 'rhythm': rhy, 'unanswered': post_agg['silent'],
-           'bestPost': best_post, 'stats': stats}
+           'bestPost': best_post, 'stats': stats, 'goodLabels': good, 'standing': user_standing}
+    built_insights = insights(ctx)
 
     return {
         'version': 2,
@@ -465,7 +482,7 @@ def build(user, days=DEFAULT_RANGE):
         'generatedAt': now,
         'range': {'days': days, 'from': date_of(first).isoformat(), 'to': date_of(today).isoformat(),
                   'options': list(RANGES), 'timezone': 'Asia/Kathmandu'},
-        'standing': standing(user),
+        'standing': user_standing,
         'stats': stats,
         'overview': [kpis[k] for k in ('contributions', 'likes', 'responses', 'followers', 'readers', 'activeDays')],
         'trend': trend,
@@ -487,11 +504,11 @@ def build(user, days=DEFAULT_RANGE):
             'resourceLikesGiven': ResourceLike.objects.filter(user=user).count(),
         },
         'milestones': milestones(stats, good, streak),
-        'insights': insights(ctx),
+        'insights': built_insights,
         'activityDays': legacy_days,
         'topCategories': _counter_rows(categories),
         'topSubjects': _counter_rows(subjects),
         'topPosts': top_posts,
         'topResources': top_resources,
-        'suggestions': [i['title'] + '. ' + i['body'] for i in insights(ctx) if i['tone'] == 'action'][:5],
+        'suggestions': [i['title'] + '. ' + i['body'] for i in built_insights if i['tone'] == 'action'][:5],
     }

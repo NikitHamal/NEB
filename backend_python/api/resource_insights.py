@@ -140,6 +140,8 @@ def _core(ids: list[str], days: int) -> dict:
         'ctr': round(views * 100.0 / imp, 1) if imp else None,
         'readRate': round(reads * 100.0 / views, 1) if views else None,
         'downloadRate': round(downs * 100.0 / views, 1) if views else None,
+        'saveRate': round(saves_cur * 100.0 / views, 1) if views else None,
+        'shareRate': round(shares * 100.0 / views, 1) if views else None,
         'funnel': [
             {'key': 'impressions', 'label': 'Saw it in a list', 'count': imp},
             {'key': 'views', 'label': 'Opened it', 'count': views},
@@ -301,6 +303,9 @@ def _tips(d: dict, single: bool) -> list[dict]:
     dr = d.get('downloadRate')
     if dr and k['views']['value'] >= 10:
         add('up', f'{round(dr)}% downloaded it', 'Downloads mean students want it offline for exams.')
+    sr = d.get('saveRate')
+    if sr and k['saves']['value'] >= 2:
+        add('up', f'{k["saves"]["value"]} students saved it ({round(sr)}%)', 'Saved resources get revisited before exams.')
     dw = d['dwell']
     if dw['samples'] >= 5:
         quick = next((b['pct'] for b in dw['buckets'] if b['key'] == 'under5'), 0)
