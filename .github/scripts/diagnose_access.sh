@@ -38,6 +38,20 @@ print('top dynamic talkers (anonymised) hits:', [n for _, n in top], 'distinct i
 print('top dyn paths:'); 
 for p, n in collections.Counter(norm(r[5]) for r in dyn).most_common(18): print('  %5d %s' % (n, p))
 print('status of dynamic', dict(collections.Counter(r[6] for r in dyn).most_common(8)))
+
+print('--- bot analysis')
+bots = [r for r in dyn if r[5].split('?')[0] in ('/login/', '/app/schools/verify/', '/auth/google/login/', '/auth/github/login/')]
+uas = collections.Counter(re.sub(r'\d+', 'N', r[9])[:140] for r in bots); print('UA variants', len(uas))
+for u, n in uas.most_common(4): print('  %4d %s' % (n, u))
+print('bot hit first/last', bots[0][1], bots[0][2] + ':' + bots[0][3], bots[-1][2] + ':' + bots[-1][3])
+perh = collections.Counter(r[2] for r in bots); print('bot hits per hour', sorted(perh.items()))
+perm = collections.Counter((r[2], r[3]) for r in rows if r[6] == '503'); print('503 per minute (top)', perm.most_common(8))
+allm = collections.Counter((r[2], r[3]) for r in dyn); print('dynamic req/min peak', allm.most_common(6))
+bm = collections.Counter((r[2], r[3]) for r in bots); print('bot req/min peak', bm.most_common(6))
+sch = [r for r in dyn if r[5].startswith('/app/schools/')]
+print('school pages dyn hits', len(sch), 'distinct ips', len({r[0] for r in sch}), 'cls', dict(collections.Counter(cls(r[9]) for r in sch)))
+print('referer on bot hits', collections.Counter('none' if r[8] == '-' else 'self' if 'nebians' in r[8] else 'other' for r in bots))
+print('ips hitting bot paths also hitting other pages:', len({r[0] for r in bots} & {r[0] for r in dyn if r not in bots}))
 PY
 echo "== stderr.log: child kills by signal"; grep -o 'killed by signal: [0-9]*' ~/nebians_api/stderr.log 2>/dev/null | sort | uniq -c
 echo "== stderr.log: other lines than max-children (last 12, truncated)"

@@ -69,7 +69,8 @@ from django.test.utils import CaptureQueriesContext
 from django.test import Client
 cl = Client(HTTP_HOST='nebians.consica.com.np')
 paths = ['/api/realtime/config/', '/api/posts/', '/api/posts/?page=2', '/app/', '/app/library/', '/app/news/', '/app/search/',
-         '/app/syllabus/8/nepali/unit-11/', '/app/forum/', '/api/news/', '/api/notifications/unread-count/', '/api/search/?q=math']
+         '/app/syllabus/8/nepali/unit-11/', '/app/forum/', '/api/news/', '/api/notifications/unread-count/', '/api/search/?q=math',
+         '/login/', '/auth/google/login/', '/app/schools/verify/', '/app/schools/', '/app/library/?page=8&tab=digital&sort=relevant']
 for p in paths:
     try:
         cl.get(p, secure=True)
