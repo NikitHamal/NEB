@@ -1,0 +1,24 @@
+/* v4 in-app previews: profiles for four roles, resources, empty states, achievements, books, posts, stories. Real catalog pieces, same ids. */
+(function (g) {
+  'use strict';
+  var A = g.NebArtV4, ren = function (it) { return A.render(it, A.mode()); };
+  var ROLES = [['Aarav Sharma', 'Student', 'Grade 12 Science', 'cookie'], ['Anisha Thapa', 'Teacher', 'Physics, Kathmandu', 'squircle'], ['Bibek Rai', 'Admin', 'NEBians team', 'flower'], ['Himal Secondary', 'School', 'Pokhara', 'clover']];
+  function panel(icon, title, body) { return '<section class="panel"><h2><span class="ms">' + icon + '</span>' + title + '</h2>' + body + '</section>'; }
+  function profile(r, i) {
+    var cover = A.of('cover', i * 4 + 1), av = r[1] === 'School' ? A.of('avatar', 600 + i) : A.of('avatar', i * 9 + 2);
+    return '<div class="phone"><div class="pf-cover">' + ren(cover) + '</div><div class="pf-body"><div class="pf-av">' + A.pp(av, r[3], 88) + '</div><h3>' + r[0] + (r[1] !== 'Student' ? '<span class="ms vf" style="font-variation-settings:\'FILL\' 1">verified</span>' : '') + '</h3><p>' + r[1] + ' - ' + r[2] + '</p><div class="stats"><span class="stat"><b>128</b> notes</span><span class="stat"><b>2.4k</b> followers</span><span class="stat"><b>56</b> answers</span></div><div class="tabs"><span>Posts</span><span>Notes</span><span>About</span></div></div></div>';
+  }
+  function resource(i) { var t = A.of('thumb', i * 3), ch = ['Notes', 'Past paper', 'Solution', 'Video'][i % 4]; return '<article class="res"><div class="res-art">' + ren(t) + '</div><div class="res-b"><b>' + A.esc(t.name.replace(' / ', ' - ')) + '</b><div><span class="tag">' + ch + '</span><span class="tag">Grade ' + (11 + i % 2) + '</span></div></div></article>'; }
+  g.NebArtV4.inapp = function (stage, st) {
+    var h = '<div class="phones">' + ROLES.map(profile).join('') + '</div>';
+    h += panel('library_books', 'Resources', '<div class="resgrid">' + [0, 1, 2, 3, 4, 5].map(resource).join('') + '</div>');
+    h += panel('inbox', 'Empty states', '<div class="rowx">' + [0, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45].map(function (i) { var s = A.of('spot', i * 2); return '<div class="spot">' + ren(s) + '<b>' + A.esc(s.name.replace(/ \d$/, '')) + '</b></div>'; }).join('') + '</div>');
+    h += panel('workspace_premium', 'Achievements', '<div class="rowx">' + [0, 1, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44].map(function (i) { var s = A.of('sticker', i * 2); return '<div class="medal">' + ren(s) + A.esc(s.name.replace(/ \d$/, '')) + '</div>'; }).join('') + '</div>');
+    h += panel('face', 'Profile pictures, clipped to expressive shapes (no ring)', '<div class="rowx pps">' + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].map(function (i) { return A.pp(A.of('avatar', i * 5 + 1), ['circle', 'squircle', 'cookie', 'flower', 'clover', 'burst', 'pebble', 'sunny'][i % 8], 84); }).join('') + '</div><div class="rowx pps">' + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(function (i) { return A.pp(A.of('avatar', 250 + i * 5), ['cookie', 'circle', 'flower', 'squircle'][i % 4], 84); }).join('') + [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return A.pp(A.of('avatar', 320 + i * 9), ['circle', 'squircle', 'sunny', 'pebble'][i % 4], 84); }).join('') + '</div>');
+    h += panel('menu_book', 'Books and collections', '<div class="rowx">' + [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return '<div class="book">' + ren(A.of('book', i * 7)) + '</div>'; }).join('') + [0, 1, 2, 3].map(function (i) { return '<div class="book sq">' + ren(A.of('tile', i * 11)) + '</div>'; }).join('') + '</div>');
+    h += panel('article', 'Posts and share cards', '<div class="resgrid">' + [0, 1, 2].map(function (i) { var p = A.of('post', i * 9 + 1); return '<article class="res"><div class="res-art">' + ren(p) + '</div><div class="res-b"><b>' + A.esc(p.name.replace(' / ', ' - ')) + '</b><div><span class="tag">Post</span></div></div></article>'; }).join('') + '</div>');
+    h += panel('auto_stories', 'Onboarding stories and pathways', '<div class="rowx">' + [0, 1, 2, 3, 4].map(function (i) { return '<div class="story">' + ren(A.of('story', i * 7)) + '</div>'; }).join('') + '</div><div class="resgrid" style="margin-top:14px">' + [0, 1, 2].map(function (i) { return '<article class="res"><div class="res-art">' + ren(A.of('pathway', i * 6 + 1)) + '</div></article>'; }).join('') + '</div>');
+    h += panel('wallpaper', 'Backgrounds and hero', '<div class="resgrid">' + [0, 1].map(function (i) { return '<article class="res"><div class="res-art">' + ren(A.of('wide', i * 9 + 1)) + '</div></article>'; }).join('') + '</div><div class="resgrid" style="margin-top:14px">' + [0, 1, 2].map(function (i) { return '<article class="res"><div class="res-art">' + ren(A.of('bg', i * 21 + 4)) + '</div></article>'; }).join('') + '</div>');
+    stage.innerHTML = h;
+  };
+})(window);
