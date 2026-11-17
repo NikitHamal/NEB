@@ -1175,3 +1175,30 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - **Redeploy the backend** (`deploy.ps1`): wave17 (exam groups), claim and portfolio endpoints, and the web dark tokens live there.
 - Owner review of `profile.html` on GitHub Pages; port the locked parts after.
 - Android on device: dark graphite pass on cards and sheets, comment rows on a 360dp phone.
+
+
+---
+
+# Session 45: audit of sessions 37 to 44, real gaps closed
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first. Everything in the task brief that sessions 37 to 44 already shipped was **verified in the code and not redone**: Pathways port, exam groups (Government, Entrance, Language) with the bundled wave17 fallback, 24,665 school catalogue in signup and edit, institution signup without gender and date of birth, claim and owner editor, teacher portfolio, neutral graphite dark mode, `NebTopBar` on Schools and Institution screens, aligned comment rows. GitHub Pages (`pathways.html`, `profile.html`, `search.html`) is byte-identical to the three concept files on `main`.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 279 | **Schools and colleges could only show 50 of 24,665 rows.** "Show more" grew `limit` by 25 but the server caps one page at 50, so the button vanished at 50. Now paged by `offset` (30 per page), infinite scroll when the last six rows come into view, the old rows stay while a new query loads, a small spinner at the end. Count reads "24,675 results", the sentence "Complete profiles are listed first." is gone (no taglines). | `SchoolSearchSheet.kt` (`SchoolSearchViewModel.loadMore`), `SchoolsScreen.kt` |
+| 280 | **Institution owner editor had a third of the server schema.** Added: Programs (name, level, seats, yearly fee), Branches (name, place, phone) as add and remove rows, Social links (six), Classes and medium (streams, mediums, who studies here), principal title, registration number, classrooms. Every section still saves alone and nothing is required. | `InstitutionManageScreen.kt` (`RowsEditor`) |
+| 281 | **Institution page shows them**: programs with level, seats and fee, branches with place and phone, streams, mediums, social buttons, registration, classrooms fact, principal title as the section name. | `InstitutionScreen.kt` |
+| 282 | **Post detail action row** sat 12dp inside the text above it. It uses `nebGhostRowStart()` like the feed card and comments. | `ForumPostDetailScreen.kt` |
+| 283 | **Web search has a Schools tab** (tab rail, All preview, full list of 30 with the verified glyph, link to the full directory). Claimed and fuller portfolios first, same ordering as the app. | `views_public.py` (`search`), `_search_results.html` |
+| 284 | **Guards got teeth** (`check_insets.py`): the like-row rule now covers every file that draws a `LikePill`, not three named files; a Scaffold with a back arrow and no `topBar` fails; a helper sentence under list controls fails. Opt out with `// align-ok:` / `// inset-ok:`. | `tools/android/check_insets.py` |
+
+## Rules
+- A list that pages uses `offset` and the server page size. Never a growing `limit`.
+- The owner editor mirrors `api/institution_profile.py` key for key. A new profile key is added to the server schema and to `SECTIONS` in the same change.
+
+## Next
+- Owner review of `profile.html`; port the locked parts after.
+- Teacher past schools still use the generic Experience kind.
+- Redeploy the backend (`deploy.ps1`) for wave17, claim and portfolio endpoints, graphite tokens and the web Schools tab.

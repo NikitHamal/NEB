@@ -947,6 +947,13 @@ def search(request):
                 ).filter(is_locked=False, email_verified=True).order_by('-follower_count', 'username')[:30]
                 user_results = _serialize_users_search(user_qs, user_id)
 
+    # Schools: the 24k institution catalogue, claimed and fuller portfolios first.
+    school_results, school_total = [], 0
+    if query and tab in ('all', 'schools'):
+        from api import institutions as _inst
+        rows, school_total, _counts = _inst.search(query, '', '', limit=30 if tab == 'schools' else 6)
+        school_results = [_inst.serialize(r, _counts.get(r.slug, 0)) for r in rows]
+
     filter_options = _get_library_filter_options()
     all_subjects = filter_options['subjects']
     all_grades = filter_options['grades']
@@ -956,6 +963,8 @@ def search(request):
         tab=tab,
         resource_results=resource_results,
         post_results=post_results,
+        school_results=school_results,
+        school_total=school_total,
         user_results=user_results,
         all_subjects=all_subjects,
         all_grades=all_grades,

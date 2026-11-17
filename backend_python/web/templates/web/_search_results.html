@@ -24,6 +24,10 @@
       <span class="material-symbols-outlined">group</span>
       <span class="neb-rail-label">Users</span>
     </a>
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=schools" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'schools' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=schools" hx-target="#search-results" hx-push-url="true">
+      <span class="material-symbols-outlined">account_balance</span>
+      <span class="neb-rail-label">Schools</span>
+    </a>
   </nav>
 
   {% if tab == 'resources' %}
@@ -129,6 +133,26 @@
       </div>
       {% endif %}
 
+  {% elif tab == 'schools' %}
+    {% if school_results %}
+    <div class="section">
+      <h3 class="md-title-medium" style="margin-bottom:16px;">{{ school_total }} school{{ school_total|pluralize }} and college{{ school_total|pluralize }}</h3>
+      <div class="user-search-list">
+        {% for sc in school_results %}
+        <a href="{% url 'web:school_detail' slug=sc.slug %}" class="user-search-card" style="text-decoration:none;color:inherit;">
+          <div class="user-search-avatar"><span class="material-symbols-outlined">{% if sc.kind == 'school' %}school{% else %}account_balance{% endif %}</span></div>
+          <div class="user-search-info">
+            <div class="user-search-line1"><strong class="user-search-name">{{ sc.name }}</strong>{% if sc.verified %}<span class="role-badge role-badge-verified" title="On NEBians"><span class="material-symbols-outlined">verified</span></span>{% endif %}</div>
+            <div class="user-search-handle">{{ sc.kindLabel }}{% if sc.location %} · {{ sc.location }}{% endif %}</div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      <a href="{% url 'web:schools' %}?q={{ query }}" class="md-btn md-btn-text">Browse the full list</a>
+    </div>
+    {% else %}
+    <div class="section"><p class="md-body-medium">No school matched "{{ query }}".</p></div>
+    {% endif %}
   {% elif tab == 'users' %}
     {% if user_results %}
     <div class="section">
@@ -191,7 +215,7 @@
 
   {% else %}
   {# tab == 'all' #}
-    {% if resource_results or post_results or user_results %}
+    {% if resource_results or post_results or user_results or school_results %}
       {% if resource_results %}
       <div class="section">
         <div class="section-header">
@@ -200,6 +224,26 @@
         </div>
         <div class="x-grid">
           {% for r in resource_results|slice:":6" %}{% include "components/_resource_card.html" with r=r stats=True hl=True from="search" %}{% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if school_results %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Schools</h2>
+          <a href="{% url 'web:search' %}?q={{ query }}&tab=schools" class="md-btn md-btn-text">View all</a>
+        </div>
+        <div class="user-search-list">
+        {% for sc in school_results %}
+        <a href="{% url 'web:school_detail' slug=sc.slug %}" class="user-search-card" style="text-decoration:none;color:inherit;">
+          <div class="user-search-avatar"><span class="material-symbols-outlined">{% if sc.kind == 'school' %}school{% else %}account_balance{% endif %}</span></div>
+          <div class="user-search-info">
+            <div class="user-search-line1"><strong class="user-search-name">{{ sc.name }}</strong>{% if sc.verified %}<span class="role-badge role-badge-verified" title="On NEBians"><span class="material-symbols-outlined">verified</span></span>{% endif %}</div>
+            <div class="user-search-handle">{{ sc.kindLabel }}{% if sc.location %} · {{ sc.location }}{% endif %}</div>
+          </div>
+        </a>
+        {% endfor %}
         </div>
       </div>
       {% endif %}

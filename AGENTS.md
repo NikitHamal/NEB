@@ -54,6 +54,7 @@ and sheets and a comment bar the web does not have, because none of this was wri
 - Dark mode is the neutral graphite ramp in `docs/M3X_DESIGN_SYSTEM.md` section 14. Never a navy or blue-cast dark. Edit `tokens.css`, run `tools/css/bundle.py` and `tools/design/sync_android_palette.py`.
 - Android: every full screen starts with `NebTopBar` (or `statusBarsPadding()`); a bare back-arrow row clashes with the status bar. `tools/android/check_insets.py` enforces it in CI.
 - Post and comment rows: header line, 2dp, body, action row; the first action icon sits under the left edge of the body text (`nebGhostRowStart()` / `--act-inset`). See section 14 rule list.
+- Lists that page use `offset` plus the server page size (institutions cap at 50); a growing `limit` silently stops. The owner editor (`InstitutionManageScreen.kt` `SECTIONS`) mirrors `api/institution_profile.py` key for key. Every file that draws a `LikePill` uses `nebGhostRowStart()`. No helper sentence under list controls.
 - Run the three guards before pushing: `python3 tools/android/check_insets.py`, `check_scrollers.py`, `check_sheets.py`.
 
 ## Push, autopilot and library reach
