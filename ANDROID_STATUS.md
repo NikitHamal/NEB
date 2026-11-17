@@ -1904,3 +1904,29 @@ Same file, same rule: nothing is built locally for Android, the check is the Git
 ## Next
 - Owner: rotate the PAT and any key that ever sat in a transcript; GitHub Support sensitive-data request for old SHAs.
 - Backend perf and security items from sessions 62, 66 and 68 are already live (L1 cache, query pruning, redaction, gated deploy); nothing was redone.
+
+
+---
+# Session 72: M3X Art Library v7 from v1 (`NEBians-Art-v7.html`, `concepts/art-v7/`) and Android note covers
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions Android run. History read first: v1 (64) is the owner's favourite, v2 to v6 are **kept untouched**. The owner asked for "v6 only from v1, expanded, Light and Dark" while a v3/v4-based v6 (session 71) already existed at `art-v6.html`, so this one is **v7** and nothing was overwritten. It reuses v1 files in place (`concepts/art/`: core, layouts A and B, make for the subject table, glyphs) and adds its own files; no v2 to v6 code.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 407 | **v7 core**: 18 colour families (v1's 12 + 6), 8 tones, Dark ramp re-tuned so big shapes are not bright slabs, helpers (ring, arc, curve, pill, rotate, clip silhouettes). | `v7-core.js` |
+| 408 | **17 new compositions** in the v1 flat language; v1 `hills`, `sunset`, `rays` removed (mountain and sun reads); v1 `waves` redrawn without the round accent that looked like a sun. | `v7-lay-c.js`, `v7-lay-d.js` |
+| 409 | **Book covers**: the text card with three lines (the chat-bubble look) is removed. Spine, medallion, bookmark ribbon. | `v7-make.js` |
+| 410 | **New kinds**: note cover, empty state (44 states x 4 layouts), profile picture (8 looks, frameless), phone wallpaper, story, divider strip, subject icon; plus v1's cover, school, thumb, post, bg, tile, achievement. 15 kinds, 34 subjects, **2,340 pieces, 4,680 Light and Dark renders, 0 bad**. | `v7-make.js`, `v7-scenes.js`, `v7-catalog.js` |
+| 411 | **Gallery**: Library (kind tabs, filters, search, shuffle, dialog with copy, SVG, 2x PNG and the picture in eight clip shapes) and In the app (profiles, resources, books, notes, empty states, achievements, wallpapers, dividers), Light and Dark. Checked in headless Chromium: no script errors. | `NEBians-Art-v7.html`, `v7-gallery.*` |
+| 412 | **Android note covers**: 72 v7 covers as WebP, Light and Dark (1.3 MB). Picker and editor read them as covers 41 to 112; the 40 drawn banners are untouched. Decoded off the main thread, halved for cards, 24 MB LRU. | `NoteArtCover.kt`, `NotePage.kt` (`NoteCovers.drawn`, `count`), `assets/note_covers/` |
+
+## Notes
+- Nothing in the backend, database or workflows changed, so nothing was deployed and no data was touched. The Pages publish only copies static files to `gh-pages`.
+- SVGs are not committed; run `node concepts/art-v7/export-svg.js --svg`. Android assets: `NODE_PATH=<dir with sharp> node export-svg.js --android <dir>`.
+- `docs/M3X_DESIGN_SYSTEM.md` still says no generated avatars; v7 profile pictures are a concept until the owner adopts them.
+- The GitHub token used to clone and push was pasted into the chat again. Rotate it.
+
+## Next
+- Owner review: https://nikithamal.github.io/NEB/art-v7.html . If liked, port covers, empty states and book art to `neb-art.js` and the Kotlin art files (seeded, ids stable).

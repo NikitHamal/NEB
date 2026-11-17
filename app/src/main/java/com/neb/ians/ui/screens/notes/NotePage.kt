@@ -255,7 +255,10 @@ private val extraPalettes = listOf(
 
 /** Cover 0 is none. 1..[count] are flat tonal banners with two big shapes, positions fixed per cover. */
 object NoteCovers {
-    const val count = 40
+    /** Drawn banners, 1 to 40. */
+    const val drawn = 40
+    /** 41 to 112 are the v7 picture covers (`NoteArtCovers`). */
+    const val count = drawn + NoteArtCovers.count
 }
 
 private fun coverSpec(index: Int): CoverSpec? = if (index > 8) generatedCover(index) else when (index) {
@@ -271,7 +274,7 @@ private fun coverSpec(index: Int): CoverSpec? = if (index > 8) generatedCover(in
 }
 
 private fun generatedCover(i: Int): CoverSpec? {
-    if (i !in 9..NoteCovers.count) return null
+    if (i !in 9..NoteCovers.drawn) return null
     val k = i - 9
     val bag = listOf(NebGlyphShapes.Cookie, NebGlyphShapes.Sunny, NebGlyphShapes.Flower, NebGlyphShapes.Clover, NebGlyphShapes.Gem, NebGlyphShapes.Burst, NebGlyphShapes.Pentagon, NebGlyphShapes.Pill)
     val pattern = when (k % 5) { 0 -> 1; 1 -> 2; 2 -> 3; 3 -> 4; else -> 0 }
@@ -328,6 +331,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
 /** The banner itself. Shapes settle in with a spring when the cover appears or changes. */
 @Composable
 fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean = true) {
+    if (NoteArtCovers.has(cover)) { NoteArtCover(cover, modifier, small = !animate); return }
     val spec = remember(cover) { coverSpec(cover) } ?: return
     val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val pa = rememberGlyphPath(spec.a)
