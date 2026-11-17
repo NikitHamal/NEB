@@ -37,3 +37,30 @@ class CrawlerShieldTests(TestCase):
 
     def test_robots_disallows_claim_form(self):
         self.assertIn('Disallow: /app/schools/verify/', self.get('/robots.txt', CHROME).content.decode())
+
+    def test_attack_scanners_and_open_proxy_probes_get_403_immediately(self):
+        for scanner_ua in ('sqlmap/1.8', 'Mozilla/5.0 (compatible; Nuclei - Open-source project)', 'Nikto/2.1.6'):
+            self.assertEqual(self.get('/login/', scanner_ua).status_code, 403, scanner_ua)
+        resp = self.client.get('/login/', HTTP_USER_AGENT=CHROME, HTTP_PROXY_CONNECTION='keep-alive', secure=True)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_security_headers_and_proxy_override_stripping(self):
+        resp = self.client.get(
+            '/robots.txt',
+            HTTP_USER_AGENT=CHROME,
+            HTTP_X_ORIGINAL_URL='/admin/',
+            HTTP_X_REWRITE_URL='/admin/',
+            secure=True,
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp['Cross-Origin-Resource-Policy'], 'same-site')
+        self.assertEqual(resp['X-DNS-Prefetch-Control'], 'off')
+        self.assertEqual(resp['X-Download-Options'], 'noopen')
+
+    def test_safe_next_url_blocks_open_redirects(self):
+        from web.views_auth import _safe_next_url
+        self.assertEqual(_safe_next_url('/app/library/'), '/app/library/')
+        self.assertIsNone(_safe_next_url('https://evil.example/phish'))
+        self.assertIsNone(_safe_next_url('//evil.example/phish'))
+        self.assertIsNone(_safe_next_url('/\\evil.example'))
+        self.assertIsNone(_safe_next_url('javascript:alert(1)'))

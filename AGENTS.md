@@ -1,6 +1,6 @@
 # NEBians - Project Knowledge Base
 
-## RSI (Recursive Self-Improvement) Pipeline — MANDATORY FOR EVERY SESSION
+## RSI (Recursive Self-Improvement) Pipeline: MANDATORY FOR EVERY SESSION
 
 To maximize output under the 75-tool-call limit and guarantee zero lost work if a session times out, use `tools/rsi/rsi.py` (see `docs/RSI_PIPELINE.md`):
 - **Turn 1/2 Orientation**: Run `python3 tools/rsi/rsi.py pickup` (1 call replaces `git log`, reading `ANDROID_STATUS.md`, and checking CI runs).

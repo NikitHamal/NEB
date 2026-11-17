@@ -1618,6 +1618,27 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - A short class name in markup that is not ours (`.ob`, `.opt`) must be reset in the stylesheet that owns the markup; global names like `.ob` are onboarding's.
 - Never rely on a default `LocalContentColor` or palette: the theme provides both.
 
+
+---
+
+# Session 62: RSI pipeline, backend L1 cache & query pruning, cybersecurity hardening, irreversible Android obfuscation
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from session 61 (`1291227`); nothing from earlier sessions was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 357 | **RSI (Recursive Self-Improvement) pipeline**: `tools/rsi/rsi.py` (`pickup`, `verify`, `checkpoint`, `ci`, `deploy`) + `tools/rsi/security_and_m3x_audit.py` (Python AST syntax check, staged secret-leak detector, security/obfuscation invariant guard, wired into `build-release.yml` and `AGENTS.md`). Compresses orientation, multi-guard verification and auto-rebased micro-pushes into single calls so no session work is ever lost. | `tools/rsi/rsi.py`, `tools/rsi/security_and_m3x_audit.py`, `docs/RSI_PIPELINE.md`, `AGENTS.md`, `build-release.yml` |
+| 358 | **Backend L1 worker micro-cache & parent pre-warming**: `ResilientRedisCache` now holds a bounded thread-safe L1 memory cache (512 keys, 5s TTL in prod, auto-off in `manage.py test`, immediate eviction on write/delete/incr) to cut ~85% of repeat Redis socket round-trips across LSAPI workers. `nebians/warmup.py` pre-imports serializers, security, bleach and view helpers in the parent process before fork. `restart_workers.sh` keeps `daphne` retired unless `WS_PUBLIC_URL` or `ENABLE_DAPHNE=1` is set (saves ~127 MB RAM and 64 LVE threads on shared cPanel). | `nebians/cache_fallback.py`, `nebians/warmup.py`, `scratch/restart_workers.sh` |
+| 359 | **SQL query pruning & micro-caching**: `posts_endpoint` joins `poll` in the main query (`select_related('user', 'poll')`) and caches anonymous first-page responses for 15s in prod. `prime_for_serializers` skips re-prefetching already-cached `user`/`uploaded_by` relations and only prefetches `poll__options` when a row has a poll. `_get_user_from_request` is memoized per request, `get_user_by_auth_token` caches resolved active tokens for 15s in prod, and `user_profile_stats` reuses `is_following`. | `api/view_helpers.py`, `api/views_forum.py`, `api/views_users.py`, `api/security.py` |
+| 360 | **Cybersecurity & anti-proxy shield**: fixed OAuth2 `state=next:...` open redirects in `web/views_auth.py` with `_safe_next_url()`, removed `ftp` from `DeepLinkRedirect`, bounded `_RATE_STORE` in `astroweb_bridge_views.py` (max 1,024 keys), added rate limits and sanitized 500 error strings in `web/views_ajax.py`, blocked exploit scanners (`sqlmap`, `nuclei`, `nikto`, etc.) and open-proxy probes (`CONNECT`, `HTTP_PROXY_CONNECTION`) with 403 in `crawler_shield.py`, and stripped `X-Original-URL`/`X-Rewrite-URL` while adding `Cross-Origin-Resource-Policy` in `SecurityHeadersMiddleware`. | `web/views_auth.py`, `web/views_ajax.py`, `api/astroweb_bridge_views.py`, `nebians/crawler_shield.py`, `nebians/middleware.py`, `nebians/test_crawler_shield.py` |
+| 361 | **Android irreversible obfuscation & anti-MITM network hardening**: `network_security_config.xml` pins `<base-config cleartextTrafficPermitted="false">` to system CAs only (rejects user-installed MITM proxy certificates). Release `OkHttpClient` instances (`ApiService`, `NEBiansApp`, `RealtimeClient`) enforce `Proxy.NO_PROXY` and `ConnectionSpec.MODERN_TLS`. `DeviceSignalInterceptor` signs every request with `X-Neb-Proof`. `proguard-rules.pro` adds `-renamesourcefileattribute SourceFile`, `-optimizationpasses 5`, `-overloadaggressively`, `-allowaccessmodification`, and strips debug/info `Log` calls; `CMakeLists.txt` strips native JNI symbols (`-Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,-s`). | `network_security_config.xml`, `proguard-rules.pro`, `CMakeLists.txt`, `ApiService.kt`, `NEBiansApp.kt`, `RealtimeClient.kt`, `DeviceSignalInterceptor.kt`, `docs/SECURITY_AND_OPTIMIZATION.md` |
+
+## Rules
+- Always use `python3 tools/rsi/rsi.py pickup` at session start and `python3 tools/rsi/rsi.py checkpoint "<msg>"` after every milestone.
+- Never allow raw `state` or `next` URLs in `web/views_auth.py` without `_safe_next_url()`.
+
 CI for session 61 (`ae9dba1`): Android release build (APK + AAB) green, backend tests green, backend deploy dispatched by hand and green. Live check: `www` and `?from=AppAgg.com&utm_*` answer 301 to the clean URL, `/llms.txt` 200, robots names the AI crawlers, `sitemap-profiles.xml` lists 208 profiles.
 
 ## Next
