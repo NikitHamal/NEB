@@ -122,3 +122,30 @@ dispatched without checking that tests were green for the same code.
   a failing test run). The undefined-name scan plus the budget suite now cover that class.
 - Turn plan that fits 75 calls: 1 `pickup`; 1 `map`+read in one bash call; edits batched 2 to 4 per turn;
   `checkpoint` every 3 to 5 edits; `deploy` (gated) once; `diagnose` once; docs in the same turn as the last push.
+
+
+## Session 3 (history purge, concurrency, partial-clone traps)
+
+**Token purge (done).** The first 34 characters of the live GitHub PAT sat in two historic blobs of
+`tools/rsi/sessions.txt`, and a hard-coded legacy admin token (`ADMIN_TOKEN` in old `api/admin_views.py` and
+`web/views.py`) in 31 more. All 33 blobs were redacted across the whole history of `main` and
+`claude/bsc-nursing` (`gh-pages` had none) and the refs were replaced on origin; tip trees are byte-identical to
+before, so no file, feature or deploy changed. A scan of 23,000 text blobs (all of history) now finds nothing
+except public vendor sample keys inside the Excalidraw bundle (ignored on purpose).
+
+**What a purge cannot do (owner action).** GitHub keeps old commits reachable by SHA until its GC and keeps
+`refs/pull/*` (2,004 commits of closed PRs) read-only. Rotate the PAT and ask GitHub Support to run a sensitive
+data removal for the old SHAs if the repo stays public. Old clones must `git fetch && git reset --hard origin/main`.
+Never `git pull` an old clone (it would merge the leaking history back). A concurrent session did rebase correctly.
+
+**Tool.** `python3 tools/rsi/history_scrub.py scan|scrub|push` (see its docstring). Run `scan` after any session that
+pasted a transcript or an env dump. It reads only text blobs, so it works on the blobless sparse clone.
+
+**Traps learnt (each cost real time).**
+- `git push` of rewritten history from a blobless clone lazy-fetches every missing blob (0.6 GB to 4.5 GB, then the
+  server dropped the connection). `history_scrub.py push` sends a 1 MB pack instead.
+- `--not` flips later `^x` entries on stdin; list exclusions as `^x` without `--not`.
+- Another agent was pushing to `main` during the purge (Art v5, v6). Always `git fetch` and rebuild the rewrite on the
+  newest tip right before pushing; the lease then fails safely instead of overwriting their work.
+- The bootstrap line puts the PAT in the prompt. Prefer a repo/env secret and write `/tmp/gitenv.sh` from `$GH_PAT`;
+  a prompt is also a transcript, and transcripts end up in `sessions.txt`.

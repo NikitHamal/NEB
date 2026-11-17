@@ -9,6 +9,10 @@ To maximize output under the 75-tool-call limit and guarantee zero lost work if 
 - **Incremental Micro-Checkpoints**: Run `python3 tools/rsi/rsi.py checkpoint "summary"` after every completed logical milestone (every 3 to 5 file edits). Never accumulate unpushed work across a whole session.
 - **Zero-Idle-Poll Rule**: Never poll `python3 tools/rsi/rsi.py ci` in a tight loop while other tasks remain. Push code milestones first, then complete tests, docs, and `ANDROID_STATUS.md` while GitHub Actions runs in the background.
 
+## History was rewritten on 2026-11-17 (token purge)
+
+Old clones: `git fetch origin && git reset --hard origin/main`. Never merge the old history back. Secret scan of all history: `python3 tools/rsi/history_scrub.py scan`. Never paste a transcript or env dump into the repo (`sessions.txt` leaked a token twice).
+
 ## Sandbox tooling workaround (file tool is rooted at /app only)
 
 The file-edit tool cannot see paths outside its workspace root (`/app`); bash can. Clone the repo to `/tmp/NEB` and symlink it:

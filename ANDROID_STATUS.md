@@ -1890,3 +1890,17 @@ Same file, same rule: nothing is built locally for Android, the check is the Git
 
 ## Next
 - Owner review on GitHub Pages: https://nikithamal.github.io/NEB/art-v6.html (v5 is at art-v5.html). If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
+
+
+---
+
+# Session 70: git history purge of exposed tokens (no app, backend or database change)
+
+| # | What | Where |
+| --- | --- | --- |
+| 393 | **Exposed tokens removed from all of git history.** 33 blobs redacted (34 chars of the live PAT in `sessions.txt` x2, legacy `ADMIN_TOKEN` x31) in `main` and `claude/bsc-nursing`; refs replaced on origin; tip tree identical, nothing deployed, no data touched. 2,004 closed-PR refs and GitHub's SHA cache are outside our control: **rotate the PAT**. | `docs/RSI_PIPELINE.md` |
+| 394 | **`history_scrub.py`**: scan history of a blobless clone for secrets, rewrite offline, push a 1 MB pack (a normal push would download 4+ GB). | `tools/rsi/history_scrub.py` |
+
+## Next
+- Owner: rotate the PAT and any key that ever sat in a transcript; GitHub Support sensitive-data request for old SHAs.
+- Backend perf and security items from sessions 62, 66 and 68 are already live (L1 cache, query pruning, redaction, gated deploy); nothing was redone.
