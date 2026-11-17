@@ -497,7 +497,7 @@ private fun ProfileBody(
                         CardSlot { ProfileStrengthCard(profile = profile, onEditProfile = onEditProfile) }
                     }
                     item(key = "about_portfolio") {
-                        CardSlot { ProfilePortfolioCard(profile = profile, isSelf = isSelf) }
+                        CardSlot { ProfilePortfolioCard(profile = profile, isSelf = isSelf, onEditProfile = onEditProfile) }
                     }
                 }
                 item(key = "about_stats") {

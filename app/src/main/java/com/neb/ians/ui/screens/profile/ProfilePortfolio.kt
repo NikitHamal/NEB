@@ -53,7 +53,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiEntry
 import com.neb.ians.data.api.UserProfileResponse
-import com.neb.ians.ui.components.WebPanelShape
+import com.neb.ians.ui.screens.institutions.AddSlot
+import com.neb.ians.ui.screens.institutions.PCard
+import com.neb.ians.ui.screens.institutions.StatGrid
+import androidx.compose.material.icons.outlined.Star
 
 private val KINDS = listOf(
     Triple("education", "Education", Icons.Outlined.School),
@@ -96,20 +99,30 @@ internal fun eduLine(p: UserProfileResponse): String {
 }
 
 @Composable
-private fun Tag(text: String, icon: ImageVector? = null) {
+private fun Tag(text: String, icon: ImageVector? = null, primary: Boolean = false) {
+    val bg = if (primary) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer
+    val fg = if (primary) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
     Row(
-        Modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.secondaryContainer)
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+        Modifier.clip(RoundedCornerShape(12.dp)).background(bg)
+            .padding(horizontal = 12.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        if (icon != null) Icon(icon, null, Modifier.size(14.dp), tint = MaterialTheme.colorScheme.onSecondaryContainer)
-        Text(text, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+        if (icon != null) Icon(icon, null, Modifier.size(14.dp), tint = fg)
+        Text(text, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = fg)
     }
 }
 
+/**
+ * The profile body from the locked Profile concept: one calm card per section (a stat pair, what a teacher teaches,
+ * a schools timeline, studying, skills, portfolio entries) with a dashed prompt where the owner has not filled one yet.
+ * Nothing is required; every card is optional and the owner adds them whenever they like.
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProfilePortfolioCard(profile: UserProfileResponse, isSelf: Boolean, modifier: Modifier = Modifier, vm: PortfolioViewModel = hiltViewModel(key = "pf_" + profile.username)) {
+fun ProfilePortfolioCard(
+    profile: UserProfileResponse, isSelf: Boolean, modifier: Modifier = Modifier, onEditProfile: () -> Unit = {},
+    vm: PortfolioViewModel = hiltViewModel(key = "pf_" + profile.username)
+) {
     val state by vm.state.collectAsStateWithLifecycle()
     LaunchedEffect(profile.username) { vm.load(profile.username) }
     var editing by remember { mutableStateOf<ApiEntry?>(null) }
@@ -123,48 +136,65 @@ fun ProfilePortfolioCard(profile: UserProfileResponse, isSelf: Boolean, modifier
     val years = if (teacher) profile.experienceYears else 0
     val work = if (teacher) EMPLOY[profile.employment.orEmpty()].orEmpty() else ""
     val school = if (teacher) profile.school.orEmpty() else ""
-    val teachSet = school.isNotBlank() || subjects.isNotEmpty() || levels.isNotEmpty() || years > 0
-    val hasAny = teachSet || edu.isNotBlank() || status.isNotBlank() || open.isNotEmpty() || skills.isNotEmpty() || state.sections.isNotEmpty()
+    val past = if (teacher) state.sections.firstOrNull { it.value == "past_school" }?.items.orEmpty() else emptyList()
+    val sections = state.sections.filter { !teacher || it.value != "past_school" }
+    val hasAny = school.isNotBlank() || subjects.isNotEmpty() || levels.isNotEmpty() || years > 0 || past.isNotEmpty() ||
+        edu.isNotBlank() || status.isNotBlank() || open.isNotEmpty() || skills.isNotEmpty() || sections.isNotEmpty()
     if (!hasAny && !isSelf) return
-    val line = MaterialTheme.colorScheme.outlineVariant
-    Card(modifier.fillMaxWidth().animateContentSize(), shape = WebPanelShape, border = BorderStroke(1.dp, line),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
-            if (teachSet) PfBlock("Teaching", Icons.Outlined.School) {
+    val edit = if (isSelf) "edit" else null
+    Column(modifier.fillMaxWidth().animateContentSize(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        if (teacher) {
+            val count = (if (school.isNotBlank()) 1 else 0) + past.size
+            if (years > 0 || count > 0) StatGrid(listOf("Years teaching" to years.toString(), "Schools" to count.toString()))
+            if (subjects.isNotEmpty() || levels.isNotEmpty()) PCard("Teaches", Icons.Outlined.Star, edit, { onEditProfile() }) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    if (school.isNotBlank()) Column {
+                    if (subjects.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) { subjects.forEach { Tag(it, primary = true) } }
+                    if (levels.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) { levels.forEach { Tag(it) } }
+                }
+            } else if (isSelf) AddSlot("Add subjects and levels you teach", onEditProfile)
+            if (school.isNotBlank() || past.isNotEmpty()) PCard("Schools", Icons.Outlined.School, edit, { onEditProfile() }) {
+                Column {
+                    if (school.isNotBlank()) Column(Modifier.padding(bottom = if (past.isEmpty()) 0.dp else 14.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         Text(school, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleSmall)
-                        if (work.isNotBlank()) Text(work, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(listOf(work.ifBlank { "Current school" }, "Present").joinToString(" \u00B7 "), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        if (years > 0) Tag(if (years == 1) "1 year teaching" else "$years years teaching", Icons.Outlined.Schedule)
-                        subjects.forEach { Tag(it) }
-                        levels.forEach { Tag(it) }
-                    }
+                    past.forEachIndexed { i, e -> TimelineRow(e, last = i == past.lastIndex, own = isSelf) { editing = e } }
                 }
-            }
-            if (edu.isNotBlank() || status.isNotBlank()) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(MaterialTheme.colorScheme.primaryContainer), Alignment.Center) {
-                    Icon(Icons.Outlined.School, null, Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onPrimaryContainer)
+            } else if (isSelf) AddSlot("Add your school", onEditProfile)
+            if (isSelf) AddSlot("Add a past school") { editing = ApiEntry(kind = "past_school") }
+        }
+        if (!teacher && (edu.isNotBlank() || status.isNotBlank())) PCard("Studying", Icons.Outlined.School, edit, { onEditProfile() }) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Box(Modifier.size(44.dp).clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.primaryContainer), Alignment.Center) {
+                    Icon(Icons.Outlined.School, null, Modifier.size(22.dp), tint = MaterialTheme.colorScheme.onPrimaryContainer)
                 }
-                Column(Modifier.weight(1f)) { Text(edu.ifBlank { status }, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleSmall) }
+                Column(Modifier.weight(1f)) {
+                    Text(edu.ifBlank { status }, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleSmall)
+                    if (!profile.school.isNullOrBlank()) Text(profile.school.orEmpty(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
                 if (status.isNotBlank() && edu.isNotBlank()) Tag(status)
             }
-            if (open.isNotEmpty()) PfBlock("Open to") { FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) { open.forEach { Tag(it) } } }
-            if (skills.isNotEmpty()) PfBlock("Skills") { FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) { skills.forEach { Tag(it) } } }
-            state.sections.forEach { sec ->
-                val icon = KINDS.firstOrNull { it.first == sec.value }?.third ?: Icons.Outlined.Work
-                PfBlock(sec.label, icon, if (isSelf) ({ editing = ApiEntry(kind = sec.value) }) else null) {
+        } else if (!teacher && isSelf) AddSlot("Add your class and school", onEditProfile)
+        if (skills.isNotEmpty()) PCard("Skills", Icons.Outlined.Star, edit, { onEditProfile() }) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) { skills.forEach { Tag(it, primary = true) } }
+        } else if (isSelf) AddSlot("Add skills", onEditProfile)
+        if (open.isNotEmpty()) PCard("Open to", Icons.Outlined.VolunteerActivism, edit, { onEditProfile() }) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) { open.forEach { Tag(it) } }
+        }
+        sections.forEach { sec ->
+            val icon = KINDS.firstOrNull { it.first == sec.value }?.third ?: Icons.Outlined.Work
+            PCard(sec.label, icon, null, {}) {
+                Column {
                     sec.items.forEachIndexed { i, e -> TimelineRow(e, last = i == sec.items.lastIndex, own = isSelf) { editing = e } }
                 }
             }
-            if (isSelf) PfBlock("Add to your portfolio") {
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    KINDS.filter { it.first != "past_school" || teacher }.forEach { (k, l, ic) ->
-                        Row(Modifier.clip(RoundedCornerShape(10.dp)).clickable { editing = ApiEntry(kind = k) }.background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                            .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Icon(ic, null, Modifier.size(16.dp)); Text(l, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
-                        }
+        }
+        if (isSelf) PCard("Add to your portfolio", Icons.Outlined.Add, null, {}) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                KINDS.filter { it.first != "past_school" }.forEach { (k, l, ic) ->
+                    Row(Modifier.clip(RoundedCornerShape(12.dp)).clickable { editing = ApiEntry(kind = k) }.background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                        .padding(horizontal = 12.dp, vertical = 9.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Icon(ic, null, Modifier.size(16.dp)); Text(l, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
@@ -175,18 +205,6 @@ fun ProfilePortfolioCard(profile: UserProfileResponse, isSelf: Boolean, modifier
             onSave = { vm.save(it) { editing = null } },
             onDelete = if (e.id != 0) ({ vm.delete(e.id) { editing = null } }) else null,
             onDismiss = { editing = null; vm.clearError() })
-    }
-}
-
-@Composable
-private fun PfBlock(title: String, icon: ImageVector? = null, onAdd: (() -> Unit)? = null, content: @Composable () -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (icon != null) Icon(icon, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
-            Text(title, Modifier.weight(1f), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-            if (onAdd != null) IconButton(onAdd, Modifier.size(36.dp)) { Icon(Icons.Outlined.Add, "Add to $title", Modifier.size(20.dp)) }
-        }
-        content()
     }
 }
 
