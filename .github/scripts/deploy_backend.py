@@ -247,9 +247,8 @@ def main():
         remote.append("export OMP_NUM_THREADS=1")
         remote.append("export MKL_NUM_THREADS=1")
 
-        if py_changed:
-            remote.append("echo 'Sanity: Django check (catches missing/broken modules early)...'")
-            remote.append("python manage.py check 2>&1 | tail -2 || echo 'WARNING: manage.py check reported issues'")
+        # No separate `manage.py check`: migrate runs the same system checks, and
+        # every extra Django boot costs 10-30 s on the loaded shared host.
 
         if req_changed:
             remote.append("echo 'Installing dependencies...'")
@@ -259,8 +258,10 @@ def main():
         if py_changed:
             remote.append("echo 'Running database migrations (before collectstatic, so code never runs ahead of schema)...'")
             remote.append(f"python manage.py migrate || {{ echo 'MIGRATE FAILED - stopping before static/restart'; echo 'STATUS: FAILED migrate' > {status_file}; exit 1; }}")
-            remote.append("echo 'Backfilling video thumbnails...'")
-            remote.append("python manage.py backfill_video_thumbnails || true")
+            # Bounded: videos ffmpeg cannot read stay "without cover" and were retried
+            # in full on every deploy. A few per deploy, never more than two minutes.
+            remote.append("echo 'Backfilling video thumbnails (bounded)...'")
+            remote.append("timeout 120 python manage.py backfill_video_thumbnails --limit 10 || true")
 
         if static_changed or static_deleted:
             clear = "--clear" if static_deleted else ""
@@ -334,6 +335,13 @@ def main():
         remote.append(f"echo 'STATUS: OK' > {status_file}")
         remote.append("echo 'DEPLOYMENT SUCCESSFUL'")
 
+        # Time-stamp each step so a slow deploy shows where it spent the time.
+        remote = [
+            ("echo \"[$(date +%T)] " + r[len("echo '"):-1] + "\"")
+            if r.startswith("echo '") and r.endswith("'") and "\"" not in r and "$" not in r and "`" not in r
+            else r
+            for r in remote
+        ]
         script_text = "\n".join(remote) + "\n"
         ssh.upload(script_text.encode(), runner_path, "deploy runner", timeout=60)
 

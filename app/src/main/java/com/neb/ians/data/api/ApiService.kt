@@ -2189,7 +2189,15 @@ interface ApiService {
                 level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }
 
+            // Default is 5 in-flight calls per host, and every call goes to one host,
+            // so Home, notifications and counters queued behind each other on launch.
+            // HTTP/2 multiplexes them on one connection; 5 was the only bottleneck.
+            val dispatcher = okhttp3.Dispatcher().apply {
+                maxRequests = 32
+                maxRequestsPerHost = 10
+            }
             val client = OkHttpClient.Builder()
+                .dispatcher(dispatcher)
                 .addInterceptor(logger)
                 .addInterceptor(WafChallengeInterceptor(context))
                 .addInterceptor(DeviceSignalInterceptor(context))

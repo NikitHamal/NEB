@@ -1405,3 +1405,37 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Next
 - Dispatch `deploy-backend.yml` for the web CSS; Android on device: tab rows on a 360dp phone.
+
+
+---
+
+# Session 55: backend speed audit, deploy pipeline time, Android dispatcher
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 54, `PERF_REALTIME_STATUS.md`, commit `81c19ef` which had the collectstatic delta fix but was never deployed). Nothing from earlier sessions was redone.
+
+## Findings (read-only server snapshots through `diagnose-backend.yml`)
+
+| What | Value | Meaning |
+| --- | --- | --- |
+| `posts_endpoint` in-process | 40 to 97 ms, 6 queries | The app code is not the slow part. |
+| MySQL | `max_user_connections = 10`, host-wide 135 connections | This is why `DB_CONN_MAX_AGE=0` is in the server `.env`. **Do not raise it**: 6 workers plus daphne would hit the cap. |
+| Host | load average 45, swap 19.9 of 20 GB | Shared box under pressure. Cold LSAPI workers (every deploy kills all of them) take seconds to boot. Live TTFB of `/api/posts/` swung 1.5 to 8 s. |
+| Deploy run `44101614801` (17 min) | 3.5 min `git fetch` of the whole repo, 13 min `collectstatic` (6747 files re-minified and re-compressed for a 3-file change) | That was the "stuck" deploy. |
+| `watchdog.sh` (cron, server only) | restarts daphne every 5 min if missing | Retiring daphne needs that file edited on the server first; `WS_PUBLIC_URL` is unset so nothing uses it. |
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 319 | **Deploy checkout is sparse** (`backend_python`, `.github/scripts`, `blob:none`): removes the 3.5 min fetch of notes and PDFs. Job timeout 70 to 40 min, status poll 60 to 35 min. | `deploy-backend.yml`, `deploy_backend.py` |
+| 320 | **Deploy server phase**: no separate `manage.py check` (migrate runs it), video thumbnail backfill bounded (`--limit 10`, `timeout 120`; unreadable videos were retried in full every deploy), every remote step prints a time stamp. Combined with `81c19ef` (only stale files are re-compressed) the static step is seconds. | `deploy_backend.py` |
+| 321 | **`diagnose-backend.yml`**: read-only, manual, output passed through a redactor, prints no env or `.htaccess` content. | `.github/workflows`, `.github/scripts/diagnose_remote.sh` |
+| 322 | **Android**: OkHttp dispatcher allows 10 parallel calls per host (default 5; one host serves everything, so launch calls queued). | `ApiService.kt` |
+
+## Rules
+- Never print `.env` or `.htaccess` in a workflow: the repository is public and so are its Actions logs. A first diagnose run printed `.htaccess` SetEnv lines and its logs were deleted within minutes; **the values in it must be rotated** (SECRET_KEY, DB password, bridge key).
+- `DB_CONN_MAX_AGE` stays 0 on the server while `max_user_connections` is 10.
+
+## Next
+- Rotate the secrets above; ask the host about the load; edit `watchdog.sh` then retire daphne (about 127 MB).
+- Dispatch `deploy-backend.yml` and read the stamped log.
