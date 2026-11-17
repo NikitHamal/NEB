@@ -1649,3 +1649,21 @@ CI for session 61 (`ae9dba1`): Android release build (APK + AAB) green, backend 
 ## Next
 - Build the profile in Kotlin from concept v2 (see session 60 Next).
 - In Search Console: validate the fix on "Alternate page" and request a sitemap re-read; profile rich results should grow as Google recrawls.
+
+
+---
+
+# Session 63: profile concept v2 published, Canvas removed from the site
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first. The profile concept the brief asks for already exists from session 60 (`NEBians-Profile-v2.html`, `concepts/profile-v2/`: four profile types, About removed, a peer tab for every kind of content, visitor and owner views). It was never published, which is why it looked missing. Not redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 358 | **Profile concept v2 published to GitHub Pages**: https://nikithamal.github.io/NEB/profile-v2.html (assets in `concepts/profile-v2/`), linked first on the index. Old `profile.html` stays below it. Concept only, the app is untouched. | `gh-pages` |
+| 359 | **Canvas removed from the website's options**: left nav link, mobile bottom-nav tab, "New canvas" create-menu pill, and the settings Tools group. Routes, views and board data are untouched (no migration, no deletion), so old links and saved boards keep working. | `_home_left_nav.html`, `partials/bottomnav.html`, `settings.html` |
+
+## Next
+- Owner review of profile v2, then port to Kotlin as listed under session 60 Next.
+- Android: the bottom bar still offers Canvas if the owner wants it gone there too (not asked, not touched).
