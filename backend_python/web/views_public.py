@@ -1913,30 +1913,71 @@ def sitemap_part(request, name):
     return HttpResponse(xml_content, content_type='application/xml')
 
 
+AI_CRAWLERS = (
+    'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'Claude-User',
+    'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended', 'CCBot',
+    'Bingbot', 'DuckAssistBot', 'MistralAI-User', 'cohere-ai',
+)
+
+# Paths no crawler should fetch: private, per-user, or an action endpoint.
+ROBOTS_DISALLOW = (
+    '/app/profile/edit/', '/admin/', '/admin-django/', '/api/', '/ajax/', '/auth/',
+    '/login/', '/logout/', '/app/settings/', '/app/schools/verify/',
+    '/*?next=*', '/*?*next=*',
+)
+
+
 def robots_txt(request):
-    lines = [
-        'User-agent: *',
-        'Allow: /',
-        'Allow: /app/profile/',
-        'Disallow: /app/profile/edit/',
-        'Disallow: /admin/',
-        'Disallow: /admin-django/',
-        'Disallow: /api/',
-        'Disallow: /ajax/',
-        'Disallow: /auth/',
-        'Disallow: /login/',
-        'Disallow: /logout/',
-        'Disallow: /app/settings/',
-        'Disallow: /app/schools/verify/',
-        # /og/ is deliberately not disallowed: social scrapers must be able to
-        # fetch the cards. They are kept out of image search with an
-        # X-Robots-Tag header on the PNG instead (views_og).
-        'Disallow: /*?next=*',
-        'Disallow: /*?*next=*',
-        '',
-        'Sitemap: https://nebians.consica.com.np/sitemap.xml',
-    ]
-    return HttpResponse('\n'.join(lines), content_type='text/plain')
+    lines = ['User-agent: *', 'Allow: /']
+    lines += ['Disallow: %s' % path for path in ROBOTS_DISALLOW]
+    # /og/ is deliberately not disallowed: social scrapers must be able to
+    # fetch the cards. They are kept out of image search with an
+    # X-Robots-Tag header on the PNG instead (views_og).
+    lines.append('')
+    lines.append('# AI search and answer engines are welcome on public pages. The private')
+    lines.append('# paths above stay closed to them as well.')
+    for bot in AI_CRAWLERS:
+        lines.append('User-agent: %s' % bot)
+        lines.append('Allow: /')
+        lines += ['Disallow: %s' % path for path in ROBOTS_DISALLOW]
+        lines.append('')
+    lines.append('Sitemap: https://nebians.consica.com.np/sitemap.xml')
+    lines.append('')
+    return HttpResponse('\n'.join(lines), content_type='text/plain; charset=utf-8')
+
+
+LLMS_TXT = """# NEBians
+
+> NEBians is Nepal's open learning community: free NEB past papers, model questions, notes and textbooks for Class 1 to 12, an illustrated syllabus reader with practice questions, interactive labs, a student and teacher forum, and verified school and institution pages. Content is written for students in Nepal and follows the Curriculum Development Centre syllabus and NEB exam formats.
+
+## Study material
+- [Syllabus and chapter notes](https://nebians.consica.com.np/app/syllabus/): every class and subject, chapter by chapter, with summaries and practice questions.
+- [Past papers](https://nebians.consica.com.np/app/past-papers/): NEB and board exam papers by year and subject.
+- [Model questions](https://nebians.consica.com.np/app/model-questions/): model papers and question banks.
+- [Library](https://nebians.consica.com.np/app/library/): notes, textbooks and guides, searchable by class and subject.
+- [Interactive lessons](https://nebians.consica.com.np/app/library/?tab=interactive): 3D models, virtual labs and coding games.
+
+## Community
+- [Home feed and forum](https://nebians.consica.com.np/): questions and answers from students and teachers; solved threads are marked.
+- [Profiles](https://nebians.consica.com.np/app/profile/): public profiles of students, teachers, institutions and contributors, each with posts, answers, resources and schools.
+- [Schools and institutions](https://nebians.consica.com.np/app/schools/): schools, colleges and universities in Nepal.
+- [News and results](https://nebians.consica.com.np/app/news/): exam notices and results.
+
+## About
+- [About NEBians](https://nebians.consica.com.np/about/)
+- [FAQ](https://nebians.consica.com.np/app/faq/)
+- [Sitemap](https://nebians.consica.com.np/sitemap.xml)
+
+## Notes for assistants
+- Cite the page you used and link to it. Past papers and textbooks belong to their publishers; link to the NEBians page rather than quoting whole documents.
+- Sign-in, settings, API and ajax paths are private and listed as disallowed in robots.txt.
+- Languages: English and Nepali.
+"""
+
+
+def llms_txt(request):
+    return HttpResponse(LLMS_TXT, content_type='text/plain; charset=utf-8')
+
 
 def _no_store(response):
     response['Cache-Control'] = 'no-store'

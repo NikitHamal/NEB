@@ -54,6 +54,7 @@ urlpatterns = [
     path('sitemap.xml', views_public.sitemap_xml, name='sitemap_xml'),
     path('sitemap-<str:name>.xml', views_public.sitemap_part, name='sitemap_part'),
     path('robots.txt', views_public.robots_txt, name='robots_txt'),
+    path('llms.txt', views_public.llms_txt, name='llms_txt'),
     path('app/past-papers/', views_public.past_papers, name='past_papers'),
     path('app/model-questions/', views_public.model_questions, name='model_questions'),
     path('app/online-learning/', views_public.online_learning, name='online_learning'),

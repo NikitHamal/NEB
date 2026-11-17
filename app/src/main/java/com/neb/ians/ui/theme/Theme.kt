@@ -157,7 +157,13 @@ fun NEBiansTheme(
         shapes = NEBiansShapes,
         content = {
             // press feedback that always keeps a rounded shape (see NebIndication)
+            // Two defaults used to be light everywhere outside the sign-in journey:
+            // LocalContentColor (a bare Text on a bare Box drew black on graphite)
+            // and the auth palette (chips and fields drew white in dark). Both now
+            // follow the theme, so a screen that forgets to pick a colour is still legible.
             androidx.compose.runtime.CompositionLocalProvider(
+                androidx.compose.material3.LocalContentColor provides colorScheme.onBackground,
+                LocalNebAuthPalette provides nebAuthPalette(darkTheme),
                 androidx.compose.foundation.LocalIndication provides NebIndication,
                 // our own menu for selected text (Cut, Copy, Paste, Select all)
                 content = { com.neb.ians.ui.components.NebTextToolbarProvider(content = content) }

@@ -77,6 +77,8 @@ fun NebModalSheet(
      * Pass true only when the content draws its own edge to edge rows (menu rows, lazy lists) or pads itself.
      */
     fullBleed: Boolean = false,
+    /** Space under the content. A sheet that ends in a composer passes 0.dp so the field sits on the bottom edge. */
+    bottomGap: Dp = 16.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
     // A sheet never grows under the status bar: keep a visible scrim band above it.
@@ -147,7 +149,7 @@ fun NebModalSheet(
             } else {
                 Column(modifier = Modifier.fillMaxWidth().weight(1f, fill = false).padding(horizontal = horizontalPadding)) { content() }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            if (bottomGap > 0.dp) Spacer(modifier = Modifier.height(bottomGap))
         }
     }
 }

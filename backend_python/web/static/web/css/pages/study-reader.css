@@ -201,6 +201,9 @@ body.rd-mode .site-main { animation: none; }
 .rd-body .opts.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .rd-body .opts.c1 { grid-template-columns: 1fr; }
 .rd-body .opt { min-height: 0; height: auto; display: flex; align-items: baseline; gap: .55em; padding: .45em .7em; border-radius: 10px; border: 1px solid var(--md-outline-variant); background: var(--md-surface); line-height: 1.45; }
+/* The option text is <span class="ob">. The onboarding page owns a global `.ob` rule (min-height: 100dvh, flex column), which turned every
+   option into a full-screen-tall column. Reset it here so the two never meet again. */
+.rd-body .opt > .ob { display: block; min-height: 0; height: auto; flex: 1 1 auto; min-width: 0; color: inherit; }
 .rd-body .opt > i { flex: none; font-style: normal; font-weight: 700; font-size: .85em; color: var(--md-on-surface-variant); }
 .rd-body .opt > i::after { content: "."; }
 .rd-body .mcq-p { margin: 0 0 1.2em; }

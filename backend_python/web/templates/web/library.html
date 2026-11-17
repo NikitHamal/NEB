@@ -36,10 +36,10 @@
 
   <div class="x-toolbar">
     <nav class="m3-pill x-seg" data-m3-nav aria-label="Library sections">
-      <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"{% if current_tab == 'digital' or current_tab == 'community' %} aria-current="true"{% endif %}>Library</a>
-      {% if marketplace_enabled %}<a href="?tab=marketplace"{% if current_tab == 'marketplace' %} aria-current="true"{% endif %}>Marketplace</a>{% endif %}
-      <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"{% if current_tab == 'categories' %} aria-current="true"{% endif %}>Syllabus</a>
-      <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"{% if current_tab == 'interactive' %} aria-current="true"{% endif %}>Interactive</a>
+      <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"{% if current_tab == 'digital' or current_tab == 'community' %} aria-current="true"{% endif %}>Library</a>
+      {% if marketplace_enabled %}<a href="?tab=marketplace" rel="nofollow"{% if current_tab == 'marketplace' %} aria-current="true"{% endif %}>Marketplace</a>{% endif %}
+      <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"{% if current_tab == 'categories' %} aria-current="true"{% endif %}>Syllabus</a>
+      <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"{% if current_tab == 'interactive' %} aria-current="true"{% endif %}>Interactive</a>
     </nav>
     {% if current_tab == 'digital' or current_tab == 'community' %}
     <button type="button" class="x-btn x-btn-tonal" data-neb-open="library-filter-modal" aria-haspopup="dialog">
@@ -61,7 +61,7 @@
     {% if current_subjects or current_grades or current_types %}
     <div class="x-filters">
       {% for s in current_subjects %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"
         class="search-filter-chip"
         hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
@@ -69,7 +69,7 @@
       </a>
       {% endfor %}
       {% for g in current_grades %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"
         class="search-filter-chip"
         hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
@@ -77,14 +77,14 @@
       </a>
       {% endfor %}
       {% for t in current_types %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"
         class="search-filter-chip"
         hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
         {{ t }} <span class="material-symbols-outlined">close</span>
       </a>
       {% endfor %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" rel="nofollow"
         class="x-clear"
         hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Clear all</a>

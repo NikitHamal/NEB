@@ -1589,3 +1589,31 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Backend: add `portfolio`, `answers` and `impact` counts to the profile API where missing.
 
 CI for session 60: the first two pushes failed to compile (`SchoolsScreen.kt` was missing the `TextButton` and `Spacer` imports); fixed in `6b57d35`, Android release build (APK + AAB) green. Backend tests green on dispatch (the earlier red was the sqlite "table is locked" race). Backend deploy dispatched by hand from `6b57d35`: delta deploy, no migrations, smoke test passed. Live check: `/api/posts/` answers 200.
+
+
+---
+
+# Session 61: dark mode defaults, thread composer, reader options, SEO hygiene
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Profile concept v2 (session 60, `NEBians-Profile-v2.html`) already covers every type and tab, so it was not redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 349 | **Dark mode, root cause**: two defaults were light everywhere outside the sign-in journey. `LocalContentColor` (a `Text` or `Icon` with no colour drew black on graphite: offline saving screen, institution title, claim section labels, reader title) and `LocalNebAuthPalette` (select chips and fields drew white in dark). `NEBiansTheme` now provides both from the colour scheme. | `Theme.kt` |
+| 350 | **Dialog fields**: `NebDialogTextField` is a filled field with a drawn focus ring. The outlined version let half of the floating label sit on the page colour (dark patch behind "Address", "Email"). | `NebDialog.kt` |
+| 351 | **Thread composer on the bottom edge** (resource, forum, news): the thread column filled 85 percent of the sheet with 16dp under it plus the sheet's own 16dp spacer. Column now fills the sheet, `NebModalSheet(bottomGap = 0.dp)`. | `NebSheet.kt`, three detail screens |
+| 352 | **Syllabus reader options were screen-tall columns**: option text is `<span class="ob">` and onboarding owns a global `.ob { min-height: 100dvh; display: flex; flex-direction: column }`. Reset in the reader stylesheet, cache version bumped. | `study-reader.css`, `reader.html` |
+| 353 | **SEO: one address per page.** `CanonicalUrlMiddleware`: `www.` host and tracking parameters (`utm_*`, `fbclid`, `gclid`, `from=<domain>`) answer 301 to the clean URL. Sort and library filter links carry `rel="nofollow"`. These variants were the 500+ "Alternate page with proper canonical tag" rows. | `canonical_url.py`, `settings.py`, templates |
+| 354 | **SEO: profiles.** The profile sitemap required `email_verified`, so most public profiles were never offered to Google. Dropped; locked, bot and empty-shell accounts stay out. ProfilePage JSON-LD now uses the fixed https host (it printed `request.get_host`, which can be the `www` host) and adds `inLanguage`, `isPartOf`, `identifier`, affiliation. | `seo.py`, `profile.html` |
+| 355 | **AI and LLM search**: `robots.txt` names the AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, OAI-SearchBot ...) with the same private paths closed; `/llms.txt` describes the site and lists the entry points. | `views_public.py`, `urls.py` |
+| 356 | Tests for the cleaner, the redirects, robots and llms. | `test_canonical_url.py` |
+
+## Notes
+- "Blocked by robots.txt" for `/login/?next=`, `/ajax/...`, `/app/settings/` is correct and intended: those are private or action URLs, they must stay disallowed. Google finds them from "Sign in" links (already `rel="nofollow"`) and from script strings. The count only falls as old crawls expire. Nothing to fix in robots.
+- "Alternate page with proper canonical tag" is informational, not an error; the redirects and nofollow stop new ones.
+
+## Rules
+- A short class name in markup that is not ours (`.ob`, `.opt`) must be reset in the stylesheet that owns the markup; global names like `.ob` are onboarding's.
+- Never rely on a default `LocalContentColor` or palette: the theme provides both.

@@ -114,7 +114,7 @@
           <p class="mkt-quiet">You own this offering. Manage it in your <a href="{% url 'web:marketplace_studio' %}">studio</a>.</p>
         {% elif course.enroll_mode == 'contact' %}
           {% if course.contact_url %}
-            <a class="md-btn md-btn-filled mkt-buy-submit" href="{{ course.contact_url }}" {% if course.contact_url|slice:":4" == 'http' %}target="_blank" rel="noopener noreferrer"{% endif %}>
+            <a class="md-btn md-btn-filled mkt-buy-submit" rel="nofollow" href="{{ course.contact_url }}" {% if course.contact_url|slice:":4" == 'http' %}target="_blank" rel="noopener noreferrer"{% endif %}>
               <span class="material-symbols-outlined" aria-hidden="true">call</span>{{ course.contact_label|default:"Contact the teacher" }}
             </a>
           {% else %}
@@ -177,7 +177,7 @@
               </p>
             </form>
           {% else %}
-            <a class="md-btn md-btn-filled mkt-buy-submit" href="{% url 'web:login' %}?next={{ request.path|urlencode }}">Sign in to buy</a>
+            <a class="md-btn md-btn-filled mkt-buy-submit" rel="nofollow" href="{% url 'web:login' %}?next={{ request.path|urlencode }}">Sign in to buy</a>
           {% endif %}
         {% endif %}
 

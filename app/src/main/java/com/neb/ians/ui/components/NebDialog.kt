@@ -34,8 +34,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,6 +47,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.foundation.border
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -243,10 +245,19 @@ fun NebDialogTextField(
     trailingIcon: (@Composable () -> Unit)? = null,
     keyboardOptions: androidx.compose.foundation.text.KeyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
 ) {
-    OutlinedTextField(
+    // A filled field, not an outlined one: the floating label of an outlined field
+    // straddles the border, and on a tonal container half of it sat on the page
+    // colour as a dark patch. The focus ring is drawn here, finite radius.
+    var focused by remember { mutableStateOf(false) }
+    val ring = MaterialTheme.colorScheme.onSurface
+    val fieldShape = RoundedCornerShape(18.dp)
+    TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged { focused = it.isFocused }
+            .then(if (focused) Modifier.border(1.5.dp, ring, fieldShape) else Modifier),
         keyboardOptions = keyboardOptions,
         enabled = enabled,
         isError = isError,
@@ -278,12 +289,19 @@ fun NebDialogTextField(
         singleLine = singleLine,
         minLines = minLines,
         textStyle = MaterialTheme.typography.bodyLarge,
-        shape = RoundedCornerShape(18.dp),
-        colors = OutlinedTextFieldDefaults.colors(
+        shape = fieldShape,
+        colors = TextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-            focusedBorderColor = MaterialTheme.colorScheme.onSurface,
-            unfocusedBorderColor = Color.Transparent,
+            errorContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            cursorColor = MaterialTheme.colorScheme.onSurface,
             focusedLabelColor = MaterialTheme.colorScheme.onSurface,
             unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
         )

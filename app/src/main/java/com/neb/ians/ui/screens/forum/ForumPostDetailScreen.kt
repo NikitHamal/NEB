@@ -563,13 +563,13 @@ fun ForumPostDetailScreen(
                 activeThreadTargetReply = null
             },
             sheetState = sheetState,
-                fullBleed = true // bleed: content pads itself or draws edge to edge rows
+                fullBleed = true, // bleed: content pads itself or draws edge to edge rows
+                bottomGap = 0.dp
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.85f)
-                    .padding(bottom = 16.dp)
+                    .fillMaxHeight()
             ) {
                 Row(
                     modifier = Modifier

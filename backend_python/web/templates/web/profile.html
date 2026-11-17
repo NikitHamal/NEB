@@ -30,19 +30,23 @@
 {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#profilepage",
-  "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
+  "@id": "https://nebians.consica.com.np{{ request.path }}#profilepage",
+  "url": "https://nebians.consica.com.np{{ request.path }}",
   "dateCreated": "{{ profile_user.created_at|timestamp_to_iso }}",
   "dateModified": "{{ profile_user.created_at|timestamp_to_iso }}",
+  "inLanguage": "en",
+  "isPartOf": { "@type": "WebSite", "name": "NEBians", "url": "https://nebians.consica.com.np/" },
   "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
   "mainEntity": {
     "@type": "{% if profile_user.role == 'institution' %}Organization{% else %}Person{% endif %}",
-    "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#creator",
+    "@id": "https://nebians.consica.com.np{{ request.path }}#creator",
     "name": "{{ profile_user.display_name|default:profile_user.username|escapejs }}",
     "alternateName": "{{ profile_user.username|escapejs }}",
+    "identifier": "{{ profile_user.username|escapejs }}",{% if profile_user.school %}
+    "{% if profile_user.role == 'institution' %}location{% else %}affiliation{% endif %}": "{{ profile_user.school|escapejs }}",{% endif %}
     "description": "{% if profile_user.bio %}{{ profile_user.bio|truncatechars:240|escapejs }}{% else %}NEBians learning community member{% endif %}",
-    "image": "{{ request.scheme }}://{{ request.get_host }}{% url 'web:profile_card_image' username=profile_user.username %}",
-    "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
+    "image": "https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}",
+    "url": "https://nebians.consica.com.np{{ request.path }}",
     "interactionStatistic": [
       { "@type": "InteractionCounter", "interactionType": "https://schema.org/FollowAction", "userInteractionCount": {{ stats.follower_count|default:0 }} },
       { "@type": "InteractionCounter", "interactionType": "https://schema.org/LikeAction", "userInteractionCount": {{ stats.likes_received|default:0 }} },

@@ -371,7 +371,7 @@ def _post_entries() -> Iterator[Dict[str, str]]:
 def _profile_entries() -> Iterator[Dict[str, str]]:
     try:
         users = (User.objects
-                 .filter(is_locked=False, is_bot=False, email_verified=True)
+                 .filter(is_locked=False, is_bot=False)
                  .order_by('-contribution_score', '-follower_count', '-created_at')[:_MAX_PROFILES])
     except Exception:
         return
