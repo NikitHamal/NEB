@@ -236,7 +236,7 @@ def _serialize_resource(r, _uploaded_by_map=None):
             ub = r.uploaded_by
         if ub:
             uploaded_by_name = ub.display_name or ub.username
-            uploaded_by_photo = _avatar_url(ub)
+            uploaded_by_photo = _avatar_thumb(ub)
             uploaded_by_username = ub.username
     file_url = r.file_url or ''
     if r.file:
@@ -555,7 +555,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
             'authorName': anon_tag if anon else (author.username if author else DELETED_AUTHOR_NAME),
             'authorDisplayName': anon_tag if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
-            'authorPhotoUrl': '' if anon else _avatar_url(author),
+            'authorPhotoUrl': '' if anon else _avatar_thumb(author),
             'authorBadgeInfo': None if anon else _user_badge_info(author),
             'authorAchievements': [] if anon else _user_achievement_badges(author),
             'authorIsBot': False if anon else (author.is_bot if author else False),
@@ -605,7 +605,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': anon_tag if anon else (author.username if author else DELETED_AUTHOR_NAME),
         'authorDisplayName': anon_tag if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
-        'authorPhotoUrl': '' if anon else _avatar_url(author),
+        'authorPhotoUrl': '' if anon else _avatar_thumb(author),
         'authorBadgeInfo': None if anon else _user_badge_info(author),
         'authorAchievements': [] if anon else _user_achievement_badges(author),
         'authorIsBot': False if anon else (author.is_bot if author else False),
@@ -689,7 +689,7 @@ def _serialize_replies(replies_qs, user_id=None):
                 child_authors.append({
                     'id': '' if c_anon or not c.user_id else c.user_id,
                     'username': 'Anonymous Nebian' if c_anon else (c.user.username if c.user else ''),
-                    'photoUrl': '' if c_anon else _avatar_url(c.user),
+                    'photoUrl': '' if c_anon else _avatar_thumb(c.user),
                 })
         anon = bool(getattr(r, 'is_anonymous', False))
         author = None if anon else r.user
@@ -700,7 +700,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'content': r.content,
             'authorName': anon_tag if anon else (author.username if author else DELETED_AUTHOR_NAME),
             'authorDisplayName': anon_tag if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
-            'authorPhotoUrl': '' if anon else _avatar_url(author),
+            'authorPhotoUrl': '' if anon else _avatar_thumb(author),
             'authorId': '' if anon or not r.user_id else r.user_id,
             'authorUsername': '' if anon else (author.username if author else ''),
             'authorBadgeInfo': None if anon else _user_badge_info(author),
@@ -747,7 +747,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'content': r.content,
         'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
         'authorDisplayName': 'Anonymous Nebian' if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
-        'authorPhotoUrl': '' if anon else _avatar_url(author),
+        'authorPhotoUrl': '' if anon else _avatar_thumb(author),
         'authorId': '' if anon or not r.user_id else r.user_id,
         'authorBadgeInfo': None if anon else _user_badge_info(author),
         'authorAchievements': [] if anon else _user_achievement_badges(author),
@@ -1206,7 +1206,7 @@ def _comment_author(user, is_anonymous):
     return {
         'authorId': user.id if user else '',
         'authorName': user.username if user else DELETED_AUTHOR_NAME,
-        'authorPhotoUrl': _avatar_url(user) if user else '',
+        'authorPhotoUrl': _avatar_thumb(user) if user else '',
         'authorBadgeInfo': _user_badge_info(user) if user else None,
         'isAnonymous': False,
     }
@@ -1223,6 +1223,14 @@ def _avatar_url(u):
     if isinstance(u, dict):
         photo = u.get('photo_url') or u.get('photoUrl') or ''
     return avatar_or_photo_url(type('P', (), {'photo_url': photo})())
+
+def _avatar_thumb(u):
+    """_avatar_url, but the small list copy when one exists (cards, comments, rails)."""
+    photo = _avatar_url(u)
+    if not photo:
+        return photo
+    from api.image_variants import variant_url
+    return variant_url(photo)
 
 def _clear_page_cache():
     cache.delete_many([

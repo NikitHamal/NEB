@@ -3,7 +3,7 @@
 <a href="{% url 'web:reader' resource_id=r.id %}{% if from %}?from={{ from }}{% endif %}" class="rcard" data-resource-id="{{ r.id }}" style="--sc: {{ subj|subject_color }}">
   <div class="rcard-art">
     <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ subj }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
-    {% if r.thumbnail_url %}<img src="{{ r.thumbnail_url }}" alt="" loading="lazy">{% endif %}
+    {% if r.thumbnail_url %}<img src="{{ r.thumbnail_url|listcopy }}" alt="" loading="lazy" decoding="async">{% endif %}
     <span class="rcard-badge"><span class="material-symbols-outlined" aria-hidden="true">{{ r.type|resource_type_icon }}</span>{{ r.type }}</span>
     {% if r.is_paid or r.isPaid %}<span class="rcard-badge is-paid"><span class="material-symbols-outlined" aria-hidden="true">payments</span>Rs. {{ r.price|floatformat:"0" }}</span>{% endif %}
   </div>

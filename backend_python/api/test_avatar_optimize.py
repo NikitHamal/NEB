@@ -40,8 +40,12 @@ class SaveProfileUploadTests(SimpleTestCase):
         saved = {}
 
         def fake_save(path, content):
-            saved['path'] = path
-            saved['data'] = content.read()
+            # the list copy is saved after the upload itself; keep the first (the upload)
+            if 'path' not in saved:
+                saved['path'] = path
+                saved['data'] = content.read()
+            else:
+                saved['copy'] = path
             return path
 
         with mock.patch('api.security.default_storage.save', side_effect=fake_save):
@@ -52,3 +56,4 @@ class SaveProfileUploadTests(SimpleTestCase):
         self.assertEqual(img.format, 'WEBP')
         self.assertLessEqual(max(img.size), AVATAR_MAX_EDGE)
         self.assertLess(len(saved['data']), len(buf.getvalue()))
+        self.assertTrue(saved['copy'].endswith('_s.webp'))

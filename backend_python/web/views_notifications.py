@@ -10,7 +10,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from api import counters as _counters
-from .view_helpers import _avatar_url, _ctx, _get_user_id, _user_badge_info
+from .view_helpers import _avatar_thumb as _avatar_url, _ctx, _get_user_id, _user_badge_info
 from api.models import Notification, User
 from api.notifications import get_notification_url
 

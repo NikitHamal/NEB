@@ -266,6 +266,10 @@ def main():
             # them and repoints the URL columns; originals are kept. No-op once all are done.
             remote.append("echo 'Shrinking oversized profile photos (bounded, originals kept)...'")
             remote.append("timeout 150 python manage.py optimize_profile_photos --limit 40 || true")
+            # Small list copies (192 px avatars, 480 px covers) that feeds and cards prefer.
+            # Time-boxed, newest first, originals untouched; the rest finishes on later deploys.
+            remote.append("echo 'Writing small list copies of avatars and covers (bounded)...'")
+            remote.append("timeout 100 python manage.py make_list_copies --seconds 70 || true")
 
         if static_changed or static_deleted:
             clear = "--clear" if static_deleted else ""

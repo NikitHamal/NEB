@@ -16,7 +16,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
 from api.models import Post
-from api.services import AVATAR_FIELDS, avatar_or_photo_url
+from api.services import AVATAR_FIELDS, avatar_thumb_url
 
 from .view_helpers import _get_user_id
 
@@ -89,7 +89,7 @@ def _live_discussions():
                 'replies': p.reply_count or 0, 'likes': p.thumbs_up_count or 0, 'views': p.view_count or 0,
                 'ago': timesince(when, now).split(',')[0],
                 'name': name, 'initial': (name[:1] or 'N').upper(),
-                'avatar': avatar_or_photo_url(p.user) if p.user else '',
+                'avatar': avatar_thumb_url(p.user) if p.user else '',
             })
         cache.set('landing_posts_v3', data, 600)
     return data

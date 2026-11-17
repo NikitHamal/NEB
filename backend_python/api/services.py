@@ -392,6 +392,15 @@ def avatar_or_photo_url(user):
     return photo
 
 
+def avatar_thumb_url(user):
+    """Like avatar_or_photo_url, but the small list copy when one exists (feeds, comments, cards)."""
+    photo = avatar_or_photo_url(user)
+    if not photo:
+        return photo
+    from .image_variants import variant_url
+    return variant_url(photo)
+
+
 def get_user_anon_tag(user_or_id):
     """Deterministic anonymous handle derived from user ID (e.g. Anon#8f2c)."""
     if not user_or_id:

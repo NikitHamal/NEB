@@ -309,6 +309,19 @@ def validate_resource_file_url(url: str) -> str:
 
 AVATAR_MAX_EDGE = 640
 
+from .image_variants import AVATAR as AVATAR_VARIANT, COVER as COVER_VARIANT  # noqa: E402
+
+
+def _save_list_copy(image, saved_path, folder, kind):
+    """Write the small list copy next to a just-saved upload. Never fails the upload."""
+    try:
+        from .image_variants import variant_bytes, variant_name
+        name = variant_name(os.path.basename(saved_path), kind)
+        if name:
+            default_storage.save(os.path.join(folder, name), ContentFile(variant_bytes(image, kind)))
+    except Exception:
+        pass
+
 
 def optimize_avatar_image(image):
     """EXIF-upright, at most AVATAR_MAX_EDGE px on the long side, RGB or RGBA (alpha kept)."""
@@ -365,6 +378,7 @@ def save_profile_image_upload(request, user, file_obj) -> str:
 
     filename = f"{user.id}_{secrets.token_urlsafe(16)}{safe_ext}"
     path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(output.getvalue()))
+    _save_list_copy(image, path, 'profile_photos', AVATAR_VARIANT)
     return request.build_absolute_uri(settings.MEDIA_URL + path)
 
 
@@ -1353,6 +1367,8 @@ def save_resource_thumbnail_upload(request, file_obj):
 
     filename = f"res_{secrets.token_urlsafe(12)}{safe_ext}"
     path = default_storage.save(os.path.join('resource_thumbnails', filename), ContentFile(output.getvalue()))
+    if safe_ext != '.gif':
+        _save_list_copy(image, path, 'resource_thumbnails', COVER_VARIANT)
     return request.build_absolute_uri(settings.MEDIA_URL + path)
 
 

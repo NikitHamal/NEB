@@ -424,8 +424,8 @@ class ForumContentMixin:
         if obj.is_anonymous or not obj.user_id:
             return ''
         try:
-            from .services import avatar_or_photo_url
-            return avatar_or_photo_url(obj.user)
+            from .services import avatar_thumb_url
+            return avatar_thumb_url(obj.user)
         except Exception:
             return ''
 
@@ -560,12 +560,12 @@ class FollowSerializer(serializers.ModelSerializer):
         ]
 
     def get_follower_photo_url(self, obj):
-        from api.services import avatar_or_photo_url
-        return avatar_or_photo_url(obj.follower)
+        from api.services import avatar_thumb_url
+        return avatar_thumb_url(obj.follower)
 
     def get_following_photo_url(self, obj):
-        from api.services import avatar_or_photo_url
-        return avatar_or_photo_url(obj.following)
+        from api.services import avatar_thumb_url
+        return avatar_thumb_url(obj.following)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -742,5 +742,5 @@ class NotificationSerializer(serializers.ModelSerializer):
     def get_actorPhotoUrl(self, obj):
         if obj.actor_anonymous:
             return None
-        from .services import avatar_or_photo_url
-        return avatar_or_photo_url(obj.actor) if obj.actor else None
+        from .services import avatar_thumb_url
+        return avatar_thumb_url(obj.actor) if obj.actor else None

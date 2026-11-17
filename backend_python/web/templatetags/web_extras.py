@@ -719,3 +719,13 @@ def level_label(value):
     from api.education_catalog import LEVEL_LABELS, canonical_level
     canon = canonical_level(value)
     return LEVEL_LABELS.get(canon, canon or value)
+
+
+@register.filter
+def listcopy(url):
+    """The small list copy of a stored avatar or cover when one exists, else the URL unchanged."""
+    try:
+        from api.image_variants import variant_url
+        return variant_url(url)
+    except Exception:
+        return url
