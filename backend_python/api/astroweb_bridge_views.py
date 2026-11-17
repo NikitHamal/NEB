@@ -37,6 +37,7 @@ logger = logging.getLogger("api.astroweb_bridge")
 _RATE_STORE: Dict[str, List[float]] = {}
 _RATE_LIMIT = 10
 _RATE_WINDOW = 60
+_RATE_STORE_MAX_KEYS = 1024
 
 
 def _client_ip(request) -> str:
@@ -49,6 +50,12 @@ def _client_ip(request) -> str:
 def _is_rate_limited(ip: str) -> bool:
     now = time.time()
     win = now - _RATE_WINDOW
+    if len(_RATE_STORE) >= _RATE_STORE_MAX_KEYS and ip not in _RATE_STORE:
+        stale = [k for k, ts in list(_RATE_STORE.items()) if not ts or ts[-1] <= win]
+        for k in stale:
+            _RATE_STORE.pop(k, None)
+        if len(_RATE_STORE) >= _RATE_STORE_MAX_KEYS:
+            _RATE_STORE.pop(next(iter(_RATE_STORE)), None)
     b = [t for t in _RATE_STORE.get(ip, []) if t > win]
     if len(b) >= _RATE_LIMIT:
         _RATE_STORE[ip] = b

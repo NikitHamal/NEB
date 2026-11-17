@@ -29,6 +29,12 @@ _HEAVY = re.compile(
     r'serpstatbot|seekportbot|omgilibot|diffbot|timpibot|friendlycrawler|zoominfobot|perplexitybot)',
     re.I,
 )
+# Automated vulnerability / exploit / proxy scanners: zero budget, immediate 403.
+_ATTACK_SCANNERS = re.compile(
+    r'(sqlmap|nikto|nuclei|masscan|zgrab|gobuster|dirbuster|ffuf|feroxbuster|wpscan|'
+    r'acunetix|nessus|openvas|jaeles|xray|havij|commix)',
+    re.I,
+)
 _ALWAYS = ('/robots.txt', '/sitemap', '/static/', '/media/', '/favicon', '/.well-known/')
 
 try:
@@ -43,14 +49,20 @@ class CrawlerShieldMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Block open-proxy abuse (CONNECT verb or absolute foreign URI in request line).
+        if request.method == 'CONNECT' or request.path.startswith(('http://', 'https://')) or 'HTTP_PROXY_CONNECTION' in request.META:
+            return HttpResponse('Forbidden', status=403, content_type='text/plain')
         ua = request.META.get('HTTP_USER_AGENT', '')
-        if ua and len(ua) > 12:
-            m = _HEAVY.search(ua)
-            if m and not request.path.startswith(_ALWAYS) and self._over_budget(m.group(1).lower()):
-                resp = HttpResponse('Too many requests. Please slow down.', status=429, content_type='text/plain')
-                resp['Retry-After'] = _RETRY_AFTER
-                resp['Cache-Control'] = 'no-store'
-                return resp
+        if ua:
+            if _ATTACK_SCANNERS.search(ua):
+                return HttpResponse('Forbidden', status=403, content_type='text/plain')
+            if len(ua) > 12:
+                m = _HEAVY.search(ua)
+                if m and not request.path.startswith(_ALWAYS) and self._over_budget(m.group(1).lower()):
+                    resp = HttpResponse('Too many requests. Please slow down.', status=429, content_type='text/plain')
+                    resp['Retry-After'] = _RETRY_AFTER
+                    resp['Cache-Control'] = 'no-store'
+                    return resp
         return self.get_response(request)
 
     @staticmethod

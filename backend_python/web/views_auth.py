@@ -17,17 +17,39 @@ from .view_helpers import _ctx, _https_redirect_uri, _link_oauth_user, _normaliz
 from django.http import HttpResponseRedirect
 
 
+from django.utils.http import url_has_allowed_host_and_scheme
+
+
 class DeepLinkRedirect(HttpResponseRedirect):
-    allowed_schemes = ["http", "https", "ftp", "nebians"]
+    allowed_schemes = ["http", "https", "nebians"]
 
 
 def deep_link(url):
     return DeepLinkRedirect(url)
 
+
+def _safe_next_url(raw):
+    """Return a validated same-origin relative path, or None (blocks OAuth/login open redirects)."""
+    if not raw or not isinstance(raw, str):
+        return None
+    candidate = raw.strip()
+    if (
+        not candidate.startswith('/')
+        or candidate.startswith('//')
+        or candidate.startswith('/\\')
+        or '\r' in candidate
+        or '\n' in candidate
+    ):
+        return None
+    if not url_has_allowed_host_and_scheme(candidate, allowed_hosts=None, require_https=False):
+        return None
+    return candidate
+
+
 def login_page(request):
     if api.get_session_token(request):
-        next_url = request.GET.get('next') or request.POST.get('next')
-        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+        next_url = _safe_next_url(request.GET.get('next') or request.POST.get('next'))
+        if next_url:
             return redirect(next_url)
         return redirect('web:home')
     stats = cache.get('login_stats')
@@ -136,10 +158,11 @@ def google_login(request):
     if not client_id:
         return HttpResponse('Google OAuth is not configured.', status=501)
     redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
-    state = request.GET.get('state', '')
+    raw_state = request.GET.get('state', '')
+    state = 'mobile_google' if raw_state == 'mobile_google' else ''
     if not state:
-        next_url = request.GET.get('next')
-        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+        next_url = _safe_next_url(request.GET.get('next'))
+        if next_url:
             state = f"next:{next_url}"
     authorize_url = (
         f'https://accounts.google.com/o/oauth2/v2/auth'
@@ -158,9 +181,7 @@ def google_oauth_callback(request):
     """Handle Google OAuth2 code → exchange for tokens → verify id_token → login/signup."""
     state = request.GET.get('state', '')
     is_mobile = state == 'mobile_google'
-    next_url = None
-    if state and state.startswith('next:'):
-        next_url = state[5:]
+    next_url = _safe_next_url(state[5:]) if (state and state.startswith('next:')) else None
     code = request.GET.get('code')
     if not code:
         if is_mobile:
@@ -266,11 +287,8 @@ def github_login(request):
     if state == '1':
         state = 'mobile_github'
     else:
-        next_url = request.GET.get('next')
-        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
-            state = f"next:{next_url}"
-        else:
-            state = ''
+        next_url = _safe_next_url(request.GET.get('next'))
+        state = f"next:{next_url}" if next_url else ''
     authorize_url = (
         f'https://github.com/login/oauth/authorize'
         f'?client_id={client_id}'
@@ -286,9 +304,7 @@ def github_callback(request):
     """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
     state = request.GET.get('state', '')
     is_mobile = state == 'mobile_github'
-    next_url = None
-    if state and state.startswith('next:'):
-        next_url = state[5:]
+    next_url = _safe_next_url(state[5:]) if (state and state.startswith('next:')) else None
     code = request.GET.get('code')
     if not code:
         if is_mobile:

@@ -146,6 +146,8 @@ def ajax_like_resource_comment(request, comment_id, user):
 
 @require_POST
 def ajax_resource_comment(request, resource_id):
+    if _rate_limit(request, 'resource_comment', 20, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     user_id = _get_user_id(request)
     user = None
     if user_id:
@@ -153,6 +155,8 @@ def ajax_resource_comment(request, resource_id):
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
             user = None
+        if user and getattr(user, 'is_banned', False):
+            return JsonResponse({'error': 'This account has been banned.'}, status=403)
     try:
         data = json.loads(request.body)
         content = data.get('content', '').strip()
@@ -160,6 +164,8 @@ def ajax_resource_comment(request, resource_id):
         is_anonymous = bool(data.get('isAnonymous'))
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
+    if len(content) > 10000:
+        return JsonResponse({'error': 'Content must be 10000 characters or fewer'}, status=400)
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
@@ -731,6 +737,8 @@ def ajax_user_search(request):
     return JsonResponse(results, safe=False)
 
 def ajax_check_username(request):
+    if _rate_limit(request, 'check_username', 60, 60, by_ip=True):
+        return JsonResponse({'available': False, 'error': 'Too many requests.'}, status=429)
     username = request.GET.get('username', '').strip()
     if not username:
         return JsonResponse({'available': False})
@@ -796,7 +804,7 @@ def ajax_user_photos(request):
             return JsonResponse({'photos': photos_data})
         except Exception as e:
             logger.error("Failed to retrieve user photos: %s", e)
-            return JsonResponse({'error': f"Failed to retrieve photos: {str(e)}"}, status=500)
+            return JsonResponse({'error': 'Failed to retrieve photos.'}, status=500)
 
     elif request.method == 'POST':
         from django.db import transaction
@@ -840,7 +848,7 @@ def ajax_user_photos(request):
                 current_user.save(update_fields=['photo_url'])
         except Exception as e:
             logger.error("Failed to save user photo database record: %s", e)
-            return JsonResponse({'error': f"Database error (run migrations on live server): {str(e)}"}, status=500)
+            return JsonResponse({'error': 'Failed to save photo. Please try again.'}, status=500)
 
         # Update user in session
         try:
@@ -864,6 +872,8 @@ def ajax_user_photos(request):
 @require_POST
 @signed_in_member
 def ajax_set_password(request, user):
+    if _rate_limit(request, 'password_change', 10, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -883,6 +893,8 @@ def ajax_set_password(request, user):
 @require_POST
 @signed_in_member
 def ajax_change_password(request, user):
+    if _rate_limit(request, 'password_change', 10, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:

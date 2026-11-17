@@ -37,9 +37,18 @@ SENSITIVE_PATHS_404 = (
     '/.env.production',
     '/.env.development',
     '/.DS_Store',
+    '/.aws',
+    '/.ssh',
+    '/.docker',
+    '/.vscode',
+    '/.idea',
     '/wp-admin',
     '/wp-login',
+    '/wp-content',
+    '/wp-includes',
     '/phpmyadmin',
+    '/pma',
+    '/adminer',
     '/xmlrpc.php',
     '/web.config',
     '/.htaccess',
@@ -51,6 +60,13 @@ SENSITIVE_PATHS_404 = (
     '/debug/',
     '/server-status',
     '/server-info',
+    '/actuator',
+    '/vendor/phpunit',
+    '/cgi-bin',
+    '/_profiler',
+    '/telescope',
+    '/proc/self',
+    '/etc/passwd',
 )
 
 
@@ -185,6 +201,10 @@ class SecurityHeadersMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Strip untrusted reverse-proxy URL override headers to block path-bypass attacks.
+        request.META.pop('HTTP_X_ORIGINAL_URL', None)
+        request.META.pop('HTTP_X_REWRITE_URL', None)
+
         path = request.path.lower().rstrip('/')
         for sensitive in SENSITIVE_PATHS_404:
             if path == sensitive.lower().rstrip('/') or path.startswith(sensitive.lower()):
@@ -194,12 +214,20 @@ class SecurityHeadersMiddleware:
         response = self.get_response(request)
         response.setdefault('Permissions-Policy', 'geolocation=(), microphone=(self), camera=(), payment=()')
         response.setdefault('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
+        if request.path.startswith(('/api/', '/ajax/')) and not request.path.startswith('/api/astroweb-bridge/'):
+            response.setdefault('Cross-Origin-Resource-Policy', 'same-origin')
+        else:
+            response.setdefault('Cross-Origin-Resource-Policy', 'same-site')
         response.setdefault('X-Permitted-Cross-Domain-Policies', 'none')
         response.setdefault('X-Content-Type-Options', 'nosniff')
+        response.setdefault('X-DNS-Prefetch-Control', 'off')
+        response.setdefault('X-Download-Options', 'noopen')
         response.setdefault('Referrer-Policy', 'strict-origin-when-cross-origin')
 
         if 'Server' in response:
             del response['Server']
+        if 'X-Powered-By' in response:
+            del response['X-Powered-By']
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
