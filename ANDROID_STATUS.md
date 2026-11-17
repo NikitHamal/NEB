@@ -1563,3 +1563,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Next
 - On-device look at the search indicator on a narrow phone.
+
+CI for `c41ce0d5`: Android release build (APK + AAB) green on the first push. Backend tests failed twice on `AdminLibraryReportTests` with sqlite "database table is locked" (parallel 2, a timing race, unrelated to a CSS-only change) and passed on the third run. Deploy workflow dispatched by hand, success (web rail CSS back to the pill).
