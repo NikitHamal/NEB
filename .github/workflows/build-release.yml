@@ -28,6 +28,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          # Skip the multi-GB study material the Android build never reads.
+          sparse-checkout: |
+            /*
+            !/notes/
+            !/bca/
+            !/nursing/
+            !/ioe/
+          sparse-checkout-cone-mode: false
+          filter: blob:none
 
       - name: Check horizontal scrollers (infinite width crash guard)
         run: python3 tools/android/check_scrollers.py
