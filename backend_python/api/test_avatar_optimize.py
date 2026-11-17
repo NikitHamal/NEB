@@ -35,7 +35,7 @@ class OptimizeAvatarImageTests(SimpleTestCase):
 class SaveProfileUploadTests(SimpleTestCase):
     def test_upload_is_stored_as_small_webp(self):
         buf = BytesIO()
-        Image.effect_noise((2400, 1800), 60).convert('RGB').save(buf, format='PNG')
+        Image.effect_noise((1500, 1100), 40).save(buf, format='PNG')
         upload = SimpleUploadedFile('me.png', buf.getvalue(), content_type='image/png')
         saved = {}
 
