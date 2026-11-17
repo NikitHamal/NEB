@@ -13,6 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.async
 import javax.inject.Inject
@@ -216,20 +218,28 @@ class SearchViewModel @Inject constructor(
             val token = authRepository.getBearerToken()
             val state = _uiState.value
             // The 24k school catalogue is searched next to the library, not after it.
-            val schoolsCall = viewModelScope.async {
-                runCatching { apiService.searchInstitutions(q = query, limit = 30) }.getOrNull()
+            val (response, schoolHits) = coroutineScope {
+                val schoolsCall = async {
+                    try {
+                        apiService.searchInstitutions(q = query, limit = 30)
+                    } catch (c: CancellationException) {
+                        throw c
+                    } catch (_: Exception) {
+                        null
+                    }
+                }
+                val main = apiService.search(
+                    bearerToken = token,
+                    query = query,
+                    subject = state.selectedSubject,
+                    grade = state.selectedGradeLevel,
+                    type = state.selectedType,
+                    pageSize = 30
+                )
+                main to schoolsCall.await()
             }
-            val response = apiService.search(
-                bearerToken = token,
-                query = query,
-                subject = state.selectedSubject,
-                grade = state.selectedGradeLevel,
-                type = state.selectedType,
-                pageSize = 30
-            )
-            val schoolHits = schoolsCall.await()
             val users = response.users.ifEmpty {
-                runCatching { apiService.searchUsers(token, query) }.getOrDefault(emptyList())
+                try { apiService.searchUsers(token, query) } catch (c: CancellationException) { throw c } catch (_: Exception) { emptyList() }
             }
             if (lastRequest != key) return
             _uiState.update {
@@ -243,6 +253,9 @@ class SearchViewModel @Inject constructor(
                     hasSearched = true
                 )
             }
+        } catch (c: CancellationException) {
+            // A newer keystroke replaced this request. Not an error, never shown.
+            throw c
         } catch (e: Exception) {
             if (lastRequest != key) return
             _uiState.update {

@@ -461,13 +461,6 @@ fun NEBiansNavHost(
     }
 
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
-    // the page goes soft behind the open create menu (Android 12 and up draws the blur; older systems keep the frosted scrim)
-    val menuBlur by androidx.compose.animation.core.animateDpAsState(
-        targetValue = if (showCreateMenu && showBottomBar) 16.dp else 0.dp,
-        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
-        label = "create_menu_blur"
-    )
-
     val navScroll = com.neb.ians.ui.components.rememberNavBarScroll()
     LaunchedEffect(currentRoute) { navScroll.show() }
     CompositionLocalProvider(LocalAuthGate provides gate) {
@@ -477,7 +470,6 @@ fun NEBiansNavHost(
             startDestination = Screen.Splash.route,
             modifier = Modifier
                 .fillMaxSize()
-                .then(if (menuBlur > 0.5.dp) Modifier.blur(menuBlur) else Modifier)
                 .glassSource(glassBackdrop),
             // Shared-axis motion on springs: the next screen travels a short, decisive distance and
             // settles with a little life, the one behind drifts the other way and fades.

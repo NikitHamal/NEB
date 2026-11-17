@@ -49,6 +49,7 @@ object NebGlyphShapes {
     val Burst: RoundedPolygon get() = MaterialShapes.SoftBurst
     val Pill: RoundedPolygon get() = MaterialShapes.Pill
     val Pentagon: RoundedPolygon get() = MaterialShapes.Pentagon
+    val Square: RoundedPolygon get() = MaterialShapes.Square
 }
 
 /**

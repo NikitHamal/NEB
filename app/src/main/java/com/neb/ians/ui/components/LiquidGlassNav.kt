@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.neb.ians.ui.components
 
 import androidx.compose.animation.animateColorAsState
@@ -23,6 +25,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.toPath
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -262,23 +266,21 @@ fun LiquidGlassBottomNav(
                     )
                     val morph by animateFloatAsState(
                         targetValue = if (menuExpanded) 1f else 0f,
-                        animationSpec = nebFastSpatialSpec(),
+                        animationSpec = spring(dampingRatio = 0.7f, stiffness = 520f),
                         label = "createMorph"
                     )
 
-                    // The create button is the one control on the bar that is not
-                    // a circle or a rounded rectangle. It is Expressive's
-                    // four-lobed clover — a scalloped polygon, so it reads as a
-                    // deliberate object next to the pill-shaped nav rail rather
-                    // than as one more round button.
-                    //
-                    // Opening the menu spins it 40 degrees. Because the
-                    // lobes are not rotationally symmetric at that angle, the
-                    // silhouette visibly reshapes itself on the way round: the
-                    // shape does the morphing, and the glyph underneath only has
-                    // to cross-fade from plus to close.
+                    // Closed: the glass clover on the bar. Open: it morphs into a dark rounded
+                    // square with a close glyph (the reference create menu). The morph is one
+                    // path drawn in the draw phase from `morph`; nothing recomposes per frame.
+                    // Clover and square both repeat every 90 degrees, so the quarter turn is
+                    // seamless.
                     val createShape = nebShape(NebShapes.Create)
-                    val shapeSpin = morph * 40f
+                    val cloverToSquare = remember {
+                        androidx.graphics.shapes.Morph(NebShapes.Create, NebGlyphShapes.Square)
+                    }
+                    val darkFill = scheme.inverseSurface
+                    val closeInk = scheme.inverseOnSurface
 
                     Box(
                         modifier = Modifier
@@ -286,21 +288,9 @@ fun LiquidGlassBottomNav(
                             .graphicsLayer {
                                 scaleX = createScale
                                 scaleY = createScale
-                                rotationZ = shapeSpin
+                                rotationZ = morph * 90f
                             }
-                            .liquidGlass(backdrop, createShape)
-                            // The same surface the rail is, down to the brush
-                            // and the hairline. A saturated blue slab sitting
-                            // against a neutral bar reads as two materials that
-                            // happen to be adjacent; sharing the bar's fill
-                            // makes them one object with a piece pushed out of
-                            // it, and lets the shape carry the emphasis instead
-                            // of the colour. The glyph keeps the brand blue, so
-                            // the create action is still the accent on the bar
-                            // -- the same trick the expanded menu uses, where
-                            // every pill is the light surface and only the icon
-                            // differs.
-                            .clip(createShape)
+                            .clip(RoundedCornerShape(22.dp))
                             .clickable(
                                 interactionSource = createInteractionSource,
                                 indication = ripple(bounded = true, color = primaryColor),
@@ -313,11 +303,33 @@ fun LiquidGlassBottomNav(
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
+                            Modifier
+                                .matchParentSize()
+                                .graphicsLayer { alpha = 1f - morph.coerceIn(0f, 1f) }
+                                .liquidGlass(backdrop, createShape)
+                                .clip(createShape)
+                        )
+                        Spacer(
+                            Modifier
+                                .matchParentSize()
+                                .drawBehind {
+                                    val m = morph.coerceIn(0f, 1f)
+                                    if (m <= 0.01f) return@drawBehind
+                                    val path = cloverToSquare.toPath(m)
+                                    drawGlyph(
+                                        path = path,
+                                        center = androidx.compose.ui.geometry.Offset(size.width / 2f, size.height / 2f),
+                                        side = size.minDimension,
+                                        color = darkFill,
+                                        alpha = m
+                                    )
+                                }
+                        )
+                        Box(
                             modifier = Modifier
                                 .size(26.dp)
-                                // Cancel the container's spin so the glyph stays
-                                // upright while the silhouette turns under it.
-                                .graphicsLayer { rotationZ = -shapeSpin },
+                                // keep the glyph upright while the container turns
+                                .graphicsLayer { rotationZ = -morph * 90f },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
@@ -326,21 +338,15 @@ fun LiquidGlassBottomNav(
                                 tint = primaryColor,
                                 modifier = Modifier
                                     .size(24.dp)
-                                    .graphicsLayer {
-                                        rotationZ = morph * 135f
-                                        alpha = 1f - morph
-                                    }
+                                    .graphicsLayer { alpha = 1f - morph.coerceIn(0f, 1f) }
                             )
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = if (menuExpanded) "Close create menu" else null,
-                                tint = primaryColor,
+                                tint = closeInk,
                                 modifier = Modifier
                                     .size(26.dp)
-                                    .graphicsLayer {
-                                        rotationZ = (1f - morph) * -135f
-                                        alpha = morph
-                                    }
+                                    .graphicsLayer { alpha = morph.coerceIn(0f, 1f) }
                             )
                         }
                     }

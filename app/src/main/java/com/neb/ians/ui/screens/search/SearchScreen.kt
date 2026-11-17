@@ -18,6 +18,8 @@ import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -420,75 +422,15 @@ private fun SearchScopeBank(
     onScopeChange: (SearchScope) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val c = MaterialTheme.colorScheme
     val scopes = remember { SearchScope.entries.toList() }
-    // Search concept tabs: label, count pill, a 3dp primary line under the open one, hairline under the row.
-    Box(modifier.fillMaxWidth()) {
-        Box(
-            Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(c.outlineVariant.copy(alpha = 0.6f))
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .nebHorizontalScroll(rememberScrollState())
-                .padding(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
-        ) {
-            scopes.forEach { scope ->
-                val on = state.scope == scope
-                val ink by animateColorAsState(if (on) c.onSurface else c.onSurfaceVariant, label = "tabInk")
-                val pillBg by animateColorAsState(if (on) c.primaryContainer else c.surfaceContainer, label = "tabPill")
-                val pillInk by animateColorAsState(if (on) c.onPrimaryContainer else c.onSurfaceVariant, label = "tabPillInk")
-                val line by animateColorAsState(if (on) c.primary else Color.Transparent, label = "tabLine")
-                Box(
-                    Modifier
-                        .height(44.dp)
-                        .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-                        .clickable { onScopeChange(scope) }
-                        .padding(horizontal = 14.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(
-                            text = scope.label,
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
-                            color = ink,
-                            maxLines = 1,
-                            softWrap = false
-                        )
-                        Box(
-                            Modifier
-                                .clip(RoundedCornerShape(9.dp))
-                                .background(pillBg)
-                                .padding(horizontal = 7.dp, vertical = 1.dp)
-                        ) {
-                            Text(
-                                text = state.countFor(scope).toString(),
-                                color = pillInk,
-                                fontSize = androidx.compose.ui.unit.TextUnit(11f, androidx.compose.ui.unit.TextUnitType.Sp),
-                                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
-                                maxLines = 1
-                            )
-                        }
-                    }
-                    Box(
-                        Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .padding(horizontal = 14.dp)
-                            .height(3.dp)
-                            .clip(RoundedCornerShape(topStart = 3.dp, topEnd = 3.dp))
-                            .background(line)
-                    )
-                }
-            }
-        }
-    }
+    // Same rail as every other tab row: sliding 3dp primary line, count pills, hairline.
+    val tabs = scopes.map { NebRailTab(label = it.label, count = state.countFor(it), showZero = true) }
+    NebTabRail(
+        tabs = tabs,
+        selectedIndex = scopes.indexOf(state.scope).coerceAtLeast(0),
+        onSelect = { onScopeChange(scopes[it]) },
+        modifier = modifier
+    )
 }
 
 @Composable
