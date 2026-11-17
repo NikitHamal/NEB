@@ -1270,3 +1270,22 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Web: render past schools inside the Current school card, and give the teacher a section editor sheet.
 - Redeploy the backend (`deploy.ps1`) for web changes since session 44.
+
+
+---
+
+# Session 49: web teacher profile finished (one Schools card, section editor)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 48). The brief repeated the Pathways port, the 24,665 catalogue, institution and teacher portfolios, no DOB or gender for institutions, graphite dark and the locked profile and search concepts. Audited and **kept, not redone**: Android profile, strength card, institution page and owner editor, onboarding by role, search Schools scope, dark tokens (`Palette.kt` equals the concept `[data-theme=dark]` block value for value), Find a college ordering by `completeness`. Qualification needs no new field: teachers add it as an Education entry (already on web and Android).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 299 | **Web teacher "Schools" card**: current school and past schools are one timeline card with an add button, as in the concept (past schools no longer repeat as a second section). | `profile/_portfolio.html`, `views_profile.py` |
+| 300 | **Web teacher section editor sheet**: School (current school, type of work), Teaches (subjects, levels), Experience (years tile is tappable), Headline. Each saves alone, nothing is required, prompts appear only where a section is empty. Write path `POST /ajax/teacher/profile/save/` (teacher session only, same validation as `apply_education`). | `static/web/js/teacher-folio.js`, `views_inst_folio.ajax_teacher_profile_save`, `app-portfolio.css` (bundle rebuilt) |
+| 301 | Tests: merged card, owner saves a section, guest 401, non-teacher 403, hooks only for the owner. | `web/test_inst_folio.py` |
+
+## Next
+- **Redeploy the backend** (`deploy.ps1`): everything on the web side since session 44.
+- Android on device: dark graphite pass, 360dp phone for the five search tabs.
