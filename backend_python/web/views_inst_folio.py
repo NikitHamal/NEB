@@ -48,14 +48,14 @@ def _sentence(percent):
     return 'The fuller your page, the higher you appear in Find a college.'
 
 
-def profile_extras(profile_user, is_self):
+def profile_extras(profile_user, is_self, has_entries=None):
     """{'strength': ..., 'inst': ...}: what the profile adds on top of the portfolio card."""
     out = {'strength': None, 'inst': None}
     if profile_user.is_bot:
         return out
     if profile_user.role != 'institution':
         if is_self:
-            out['strength'] = person_strength(profile_user)
+            out['strength'] = person_strength(profile_user, has_entries)
         return out
     inst = Institution.objects.filter(claimed_by=profile_user).first()
     if inst is None:

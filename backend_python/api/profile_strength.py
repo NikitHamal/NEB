@@ -32,9 +32,12 @@ def _gaps(u, has_entries):
     ]
 
 
-def person_strength(u):
-    """{'percent', 'steps': [labels], 'sentence'} for the owner's card."""
-    gaps = _gaps(u, ProfileEntry.objects.filter(user=u).exists())
+def person_strength(u, has_entries=None):
+    """{'percent', 'steps': [labels], 'sentence'} for the owner's card. Pass `has_entries` when the caller
+    already loaded the portfolio, so the page spends no extra query."""
+    if has_entries is None:
+        has_entries = ProfileEntry.objects.filter(user=u).exists()
+    gaps = _gaps(u, has_entries)
     total = sum(g[1] for g in gaps) or 1
     percent = sum(g[1] for g in gaps if g[2]) * 100 // total
     steps = [g[0] for g in sorted(gaps, key=lambda g: -g[1]) if not g[2] and g[3]][:4]

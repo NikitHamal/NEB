@@ -301,7 +301,7 @@ def profile(request, username):
             'is_own': bool(viewer_user and getattr(viewer_user, 'id', None) == profile_user.id),
         }
     from .views_inst_folio import profile_extras
-    extras = profile_extras(profile_user, is_self) if not profile_private else {'strength': None, 'inst': None}
+    extras = profile_extras(profile_user, is_self, bool(portfolio and portfolio['sections'])) if not profile_private else {'strength': None, 'inst': None}
     return render(request, 'web/profile.html', _ctx(request,
         portfolio=portfolio, strength=extras['strength'], inst_folio=extras['inst'],
         profile_user=profile_data,
