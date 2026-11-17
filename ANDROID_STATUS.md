@@ -1439,3 +1439,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Rotate the secrets above; ask the host about the load; edit `watchdog.sh` then retire daphne (about 127 MB).
 - Dispatch `deploy-backend.yml` and read the stamped log.
+
+## Result
+- Deploy run `44117933804` on `f8e3cdd`: **17 min down to 77 s** (checkout 3.5 min down to 15 s, collectstatic 13 min down to 10 s, 2 files post-processed instead of 6747). Live `/api/posts/` TTFB is steady at about 1.1 to 1.5 s from the test box (was 1.5 to 8 s).
+- Android release build run `44117923575`: green.
