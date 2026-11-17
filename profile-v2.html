@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBians Profiles v2 concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="concepts/profile-v2/tokens.css">
+<link rel="stylesheet" href="concepts/profile-v2/phone.css">
+<link rel="stylesheet" href="concepts/profile-v2/modules.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <h1>NEBians profiles v2<small>Concept only. The app is not changed yet.</small></h1>
+  <span class="grow"></span>
+  <div class="seg" role="group" aria-label="Profile type">
+    <button data-type="all">All four</button><button data-type="student">Student</button><button data-type="teacher">Teacher</button><button data-type="institution">Institution</button><button data-type="contributor">Contributor</button>
+  </div>
+  <div class="seg" role="group" aria-label="Viewer">
+    <button data-self="0">Visitor</button><button data-self="1">My own</button>
+  </div>
+  <button class="iconbtn" id="theme" aria-label="Toggle theme"><svg class="ic"><use href="#i-moon"/></svg></button>
+</div></header>
+<main>
+<div id="stage" class="stage"></div>
+<div class="notes">
+  <section>
+    <h2>What changed, and why</h2>
+    <p class="lead">Every phone above scrolls and every tab works. Tap See all on any Overview module to jump to its tab, then try My own to see the private tabs and the profile strength card.</p>
+    <div class="pairs">
+      <div class="pair"><b>Tabs</b><p><span class="was">Posts, Replies, Resources, About for every account.</span><br>Each profile type gets its own peer tabs: Teaches, Programs, Collections, Impact. Nothing important lives behind a single catch-all.</p></div>
+      <div class="pair"><b>About</b><p><span class="was">Stats, achievements, details, progress and portfolio stacked in one long tab.</span><br>About is gone. Overview is a summary of every tab with a See all link, and each module opens the full tab.</p></div>
+      <div class="pair"><b>Header</b><p><span class="was">Name, badge, bio and counts only.</span><br>Header answers who, where and what they offer: role, school, headline, meta line, counts and one strip (Open to, Teaches, Now, Publishes).</p></div>
+      <div class="pair"><b>Actions</b><p><span class="was">Follow only, edit buried in a menu.</span><br>Visitor: Follow and Message (Call on a school). Owner: Edit profile and Share, plus a strength checklist that sends you to the missing tab.</p></div>
+      <div class="pair"><b>Scroll</b><p><span class="was">Header scrolls away, tabs jump.</span><br>The header collapses into a top bar with the avatar and name. The tab rail stays pinned and its pill slides on a spring.</p></div>
+      <div class="pair"><b>Resources</b><p><span class="was">Cards without a way to open them.</span><br>Every resource row and card carries a Read button, so opening a file never needs a second screen.</p></div>
+    </div>
+  </section>
+  <section>
+    <h2>Tab map by profile type</h2>
+    <p class="lead">Yellow tabs are private to the owner and show a lock. Blue tabs are new compared with the current app.</p>
+    <table class="matrix"><thead><tr><th>Type</th><th>Overview holds</th><th>Tabs</th></tr></thead><tbody>
+      <tr><td><b>Student</b></td><td>Strength, stats, studying now, pinned post, resources, achievements, education, skills</td><td><div class="tabdots"><span>Overview</span><span>Posts</span><span>Resources</span><span>Replies</span><span class="new">Portfolio</span><span class="new">Progress</span><span class="priv">Saved</span></div></td></tr>
+      <tr><td><b>Teacher</b></td><td>Stats, teaches, current school, most read resources, top answer, pinned post, open to</td><td><div class="tabdots"><span>Overview</span><span class="new">Teaches</span><span>Resources</span><span>Posts</span><span class="new">Answers</span><span class="new">Schools</span><span class="priv">Insights</span></div></td></tr>
+      <tr><td><b>Institution</b></td><td>Admissions banner, stats, about, programs, notice, campus mosaic, teachers, facilities</td><td><div class="tabdots"><span>Overview</span><span>Notices</span><span class="new">Programs</span><span class="new">Teachers</span><span class="new">Gallery</span><span>Resources</span><span class="new">Contact</span><span class="priv">Manage</span></div></td></tr>
+      <tr><td><b>Contributor</b></td><td>Stats, collections, latest resources, book shelf, pinned post, reads chart</td><td><div class="tabdots"><span>Overview</span><span>Resources</span><span class="new">Books</span><span class="new">Collections</span><span>Posts</span><span class="new">Impact</span><span class="priv">Drafts</span></div></td></tr>
+    </tbody></table>
+  </section>
+  <section>
+    <h2>Rules kept</h2>
+    <div class="tok">
+      <div><b>No shadows</b>Depth comes from surface containers and a one pixel outline variant.</div>
+      <div><b>No rings on pictures</b>Avatars are clipped to one expressive shape per account: cookie, sunny, squircle, burst.</div>
+      <div><b>Badges vs chips</b>Verified and role text have no fill. Chips, counts and status labels keep tonal fills.</div>
+      <div><b>No gradients, no emoji</b>Covers are flat tonal containers with a quiet shape motif. Icons are strokes.</div>
+      <div><b>Semantic colour</b>Every colour is a role: primary, secondary, tertiary and the surface ladder. Dark theme swaps the roles only.</div>
+      <div><b>Compose mapping</b>Header becomes one LazyColumn item, the rail stays NebTabRail (scrollable), each type supplies a tab spec and a list of module items.</div>
+    </div>
+  </section>
+</div>
+</main>
+<script>window.PROFILES = {};</script>
+<script src="concepts/profile-v2/icons.js"></script>
+<script src="concepts/profile-v2/ui.js"></script>
+<script src="concepts/profile-v2/p-student.js"></script>
+<script src="concepts/profile-v2/p-teacher.js"></script>
+<script src="concepts/profile-v2/p-institution.js"></script>
+<script src="concepts/profile-v2/p-contributor.js"></script>
+<script src="concepts/profile-v2/app.js"></script>
+</body>
+</html>
