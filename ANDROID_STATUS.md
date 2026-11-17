@@ -1957,3 +1957,17 @@ Same file, same rule: nothing is built locally for Android, the check is the Git
 ## Next
 - On-device pass: cover picker scroll, Dark covers, thumbnail contrast on cards.
 - Glance tiles and Studying now once the profile API returns reads, answers and streak.
+
+
+---
+# Session 74: pickup of session 73, CI fix, deploy
+
+History read first: session 73 (`994e6ed8`) already built everything asked (Profile v3 polish, v7 profile covers on web and app, v1 thumbnails for resources). Nothing was redone.
+
+| # | What | Where |
+| --- | --- | --- |
+| 418 | **CI fix**: the session 73 Android build failed on `CoverPickerSheet.kt:48` (`NebModalSheet` takes an experimental `SheetState`). File-level `OptIn(ExperimentalMaterial3Api)` added, same as the other callers. | `CoverPickerSheet.kt` |
+| 419 | **Backend deploy** of `994e6ed8` through the manual `deploy-backend.yml` (secrets from GitHub, none in the repo). Migration 0173 is one additive `ADD COLUMN`; the deploy only removes tracked files, never data or media. | workflow run |
+
+## Notes
+- The GitHub token used to clone and push was pasted into the chat again. Rotate it.
