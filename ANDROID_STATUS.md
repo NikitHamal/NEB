@@ -1837,3 +1837,32 @@ Same file, same rule: nothing is built locally for Android, the check is the Git
 ## Next
 - Owner review on GitHub Pages: https://nikithamal.github.io/NEB/art-v4.html. If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
 
+
+
+---
+
+# Session 70: M3X Art Library v5 (`NEBians-Art-v5.html`, `concepts/art-v5/`), concept only
+
+Same file, same rule: nothing is built locally for Android, the check is the GitHub Actions run. History read first: v1 (64), v2 (65), v3 (68) and v4 (69, `f6572c8c`) are **kept untouched**; v5 is self-contained, no v3/v4 code is reused. No backend, app, workflow or database file was changed, so nothing was deployed and no data was touched (a concept page has nothing to deploy; the disabled backend workflow was left as is).
+
+Owner feedback on v4 that drove this round: no cluttered stacked icons, no scattered dots or points, better human faces, achievement badges and empty states clean and pro instead of multi rainbow. Bans still apply: mountains, forests, trees, ships, many buildings, moon, sun.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 393 | **v5 core**: OKLCH tonal ramp per hue (bg, s1, s2, hi, m, d, ink, paper), Light and Dark from the same roles, 20 hues, no purple band, analogous second hue only where asked. | `v5-core.js` |
+| 394 | **Faces rebuilt**: almond eyes with iris, pupil, highlight and lid line (no googly dots), tapered brows, nose hook, ears, chin shadow, soft blush, 4 mouths, 8 skin tones. 12 hair styles with highlight band, 9 outfits, accessories, beard. 480 people. | `v5-face.js`, `v5-hair.js`, `v5-people.js` |
+| 395 | **43 hero objects** in tone roles only, no sparkles or secondary icons. | `v5-objects-a.js`, `v5-objects-b.js` |
+| 396 | **14 calm scenes** made of a few large shapes (ribbons, rings, pills, arches, blobs, petals, quarters, capsules, scallop, fold, graph, halves, sweep, swirl). | `v5-scenes.js` |
+| 397 | **Empty states**: one object on one plate plus at most one small status mark (check, plus, dash, cross), one hue, 45 states x 4 looks. **Achievements**: single hue seal, shield, hex, round or bloom, 28 x 5 tiers. | `v5-stage.js`, `v5-data.js` |
+| 398 | **Catalog**: 15 kinds, 2,484 pieces (4,968 SVGs), validated by `export-svg.js`: 0 bad, 0 duplicate ids. | `v5-catalog.js`, `export-svg.js` |
+| 399 | **Gallery**: Library, In-app (profiles for four roles, resources, empty states, badges, picture shapes, books, pathways, heroes, stories), Studio (avatar builder, banner builder), Light and Dark. | `NEBians-Art-v5.html`, `v5-gallery.*`, `v5-inapp.js`, `v5-studio.js` |
+
+## Notes
+- `docs/M3X_DESIGN_SYSTEM.md` still says no generated avatars; v5 ships them as a concept only until the owner adopts them.
+- Dark mode is a tonal re-map of the same drawing; check on a device before replacing shipped art.
+- Security: a GitHub token was pasted into the task prompt. It lives only in `/tmp` for the session and in no tracked file. Rotate it.
+
+## Next
+- Owner review on GitHub Pages: https://nikithamal.github.io/NEB/art-v5.html. If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
