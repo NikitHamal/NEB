@@ -1866,3 +1866,27 @@ Owner feedback on v4 that drove this round: no cluttered stacked icons, no scatt
 
 ## Next
 - Owner review on GitHub Pages: https://nikithamal.github.io/NEB/art-v5.html. If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
+
+# Session 71: M3X Art Library v6 (`NEBians-Art-v6.html`, `concepts/art-v6/`), concept only
+
+Same file, same rule: nothing is built locally for Android, the check is the GitHub Actions run. History read first: v1 to v5 are **kept untouched**. A parallel session pushed its own v5 (`e4b10298`, one-hue tonal system, rebuilt faces) while this one was being built, so this library is shipped as **v6** instead of overwriting it. v6 reads the v3 palettes and the v4 flat helpers, hero objects and subject table; the v5 code is not used. The v5 rules about clutter are kept: no scattered dots, sparkles or stacked icon chips (all removed from v6 after a first visual pass). Owner bans kept: no mountains, forests, trees, ships, rows of buildings, moon or sun (v3 landscapes are what the owner rejected). No backend, app or database file was changed, nothing was deployed and no data was touched.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 400 | **v6 core**: every palette gets a partner family (one warm or cool accent), an ordered tonal ramp and a calm or deep scheme; Voronoi, calm paper-edge panel, value-noise field. `sun` family dropped from the list. | `v6-core.js` |
+| 401 | **11 new scene engines** that are not landscapes: Truchet loops, Bauhaus blocks, stained-glass Voronoi, low-poly facets, silk ribbons, vortex of twisted echoes, M3 shape bento with glyphs, dot wave, bubble packing, morphing grid, study doodles. Three weaker tries (lissajous, phyllotaxis dots, blob collage) were cut after a visual check. | `v6-scenes-a.js`, `v6-scenes-b.js` |
+| 402 | **Compositions**: `show` (scene, hero object on card, shape or ring plate, chips), `scenic` (scene with a calm panel for profile covers), `empty` (pal plus prop, four layouts: backdrop, scene-in-shape, held prop, UI card). | `v6-stage.js`, `v6-avatars.js` |
+| 403 | **Pals**: expressive-shape characters (cookie, flower, clover, burst ...) with eyes, mouths, blush, arms, sprout, bow, glasses, phones, cap. Mascot of the empty states and a profile picture family. | `v6-pals.js` |
+| 404 | **Polished people**: ears, neck shade, brows, nose, blush, ten hair styles with back and front layers, eight outfits, glasses, headphones, topi, grad cap, hijab, bindi. Frameless, no ring. | `v6-people.js` |
+| 405 | **Catalog**: 17 kinds, 3,442 pieces (6,884 Light and Dark SVGs); new kinds `strip`, `wall`, `icon`; 44 empty states x 4 layouts, 24 achievements x 4 looks. `export-svg.js`: 0 bad. SVGs are not committed (106 MB), run with `--svg`. | `v6-catalog.js`, `export-svg.js` |
+| 406 | **Gallery**: Library (kind rail, subject filter, search, detail dialog with copy, SVG, 2x PNG and the avatar in eight clip shapes), In-app (profiles for four roles, resources, empty states, achievements, pals and marks, strips and wallpapers), Studio (scene, palette, object, plate, size, seed), Light and Dark. Smoke-tested in jsdom: no script errors. | `NEBians-Art-v6.html`, `v6-gallery.js`, `v6-previews.js` |
+
+## Notes
+- `docs/M3X_DESIGN_SYSTEM.md` still says no generated avatars. v6 people and pals are a concept only; the rule stays until the owner adopts them.
+- Dark mode is a tonal re-map of the same drawing (empty states are low contrast in Dark); check on a device before replacing shipped art.
+- The GitHub token used to push was pasted into the chat. Rotate it.
+
+## Next
+- Owner review on GitHub Pages: https://nikithamal.github.io/NEB/art-v6.html (v5 is at art-v5.html). If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
