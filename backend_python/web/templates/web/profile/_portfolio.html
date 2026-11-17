@@ -32,13 +32,33 @@
     </div>
   </div>
   {% endif %}
-  {% if portfolio.teacher.school %}
-  <div class="pf-folio-block">
-    <h3 class="pf-folio-h"><span class="material-symbols-outlined">school</span>Current school
-      {% if portfolio.is_own %}<a class="pf-folio-add" href="{% url 'web:edit_profile' %}#teaching" aria-label="Edit current school"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+  {% if portfolio.teacher.school or portfolio.teacher.past %}
+  <div class="pf-folio-block pf-folio-schools">
+    <h3 class="pf-folio-h"><span class="material-symbols-outlined">school</span>Schools
+      {% if portfolio.is_own %}<button type="button" class="pf-folio-add" data-folio-add="past_school" aria-label="Add a past school"><span class="material-symbols-outlined">add</span></button>{% endif %}
     </h3>
-    <div class="pf-folio-edu-text pf-teach-school"><b>{{ portfolio.teacher.school }}</b><small>{% if portfolio.teacher.employment %}{{ portfolio.teacher.employment }} &middot; {% endif %}Present</small></div>
+    <ol class="pf-timeline">
+      {% if portfolio.teacher.school %}
+      <li class="pf-tl-item">
+        <span class="pf-tl-dot"></span>
+        <div class="pf-tl-main"><b>{{ portfolio.teacher.school }}</b><span class="pf-tl-when">{% if portfolio.teacher.employment %}{{ portfolio.teacher.employment }} &middot; {% endif %}Present</span></div>
+        {% if portfolio.is_own %}<a class="pf-tl-edit" href="{% url 'web:edit_profile' %}#teaching" aria-label="Edit current school"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+      </li>
+      {% endif %}
+      {% for e in portfolio.teacher.past %}
+      <li class="pf-tl-item pf-tl-past" data-entry='{{ e|json_entry }}'>
+        <span class="pf-tl-dot"></span>
+        <div class="pf-tl-main">
+          <b>{{ e.title }}</b>
+          {% if e.org %}<span class="pf-tl-org">{{ e.org }}</span>{% endif %}
+          {% if e.start or e.isCurrent %}<span class="pf-tl-when">{{ e.start }}{% if e.isCurrent %} to now{% elif e.end %} to {{ e.end }}{% endif %}</span>{% endif %}
+        </div>
+        {% if portfolio.is_own %}<button type="button" class="pf-tl-edit" data-folio-edit aria-label="Edit {{ e.title }}"><span class="material-symbols-outlined">edit</span></button>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
   </div>
+  {% endif %}
   {% endif %}
   {% endif %}
 

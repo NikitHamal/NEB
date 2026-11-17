@@ -302,10 +302,12 @@ def profile(request, username):
         }
         if portfolio['teacher']:
             past = sum(len(x['items']) for x in portfolio['sections'] if x['value'] == 'past_school')
+            portfolio['teacher']['past'] = [i for x in portfolio['sections'] if x['value'] == 'past_school' for i in x['items']]
+            portfolio['sections'] = [x for x in portfolio['sections'] if x['value'] != 'past_school']
             portfolio['teacher']['schools'] = past + (1 if portfolio['teacher']['school'] else 0)
             portfolio['teacher']['is_set'] = portfolio['teacher']['is_set'] or bool(past)
     from .views_inst_folio import profile_extras
-    extras = profile_extras(profile_user, is_self, bool(portfolio and portfolio['sections'])) if not profile_private else {'strength': None, 'inst': None}
+    extras = profile_extras(profile_user, is_self, bool(portfolio and (portfolio['sections'] or (portfolio['teacher'] or {}).get('past')))) if not profile_private else {'strength': None, 'inst': None}
     return render(request, 'web/profile.html', _ctx(request,
         portfolio=portfolio, strength=extras['strength'], inst_folio=extras['inst'],
         profile_user=profile_data,

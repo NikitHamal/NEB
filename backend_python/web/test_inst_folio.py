@@ -65,3 +65,17 @@ class InstitutionFolioTests(TestCase):
         self.assertNotIn('Portfolio strength', visitor)
         self.assertIn('Levels offered', visitor)
         self.assertNotIn('data-inst-edit', visitor)
+
+
+class TeacherSchoolsCardTests(TestCase):
+    def test_current_and_past_schools_share_one_card(self):
+        from django.test import Client
+        from api.models import ProfileEntry
+        t = _make(role='teacher', school='Himalaya Secondary School', teaching_subjects='Physics', experience_years=9)
+        ProfileEntry.objects.create(user=t, kind='past_school', title='Teacher', org='Sunrise English School', start='2016-01', end='2021-01')
+        html = Client().get(f'/app/profile/{t.username}/').content.decode()
+        self.assertIn('pf-folio-schools', html)
+        self.assertIn('Himalaya Secondary School', html)
+        self.assertIn('Sunrise English School', html)
+        self.assertNotIn('data-kind="past_school"', html)
+        self.assertNotIn('Current school', html)
