@@ -192,6 +192,11 @@ class ResourceSerializer(serializers.ModelSerializer):
 
     def to_representation(self, obj):
         data = super().to_representation(obj)
+        # An uploaded file wins over the link column, as on the website. The raw `file_url`
+        # column is blank for those rows, which left the apps with no Read button.
+        stored = data.get('fileUrl') or ''
+        if stored and (obj.file or not data.get('file_url')):
+            data['file_url'] = stored
         user = getattr(obj, 'uploaded_by', None)
         if obj.source_type == 'user' and user is not None and not data.get('author_name'):
             data['author_name'] = user.username

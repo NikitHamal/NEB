@@ -95,7 +95,7 @@ fun NebFabMenuItems(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    itemSpacing: Dp = 12.dp,
+    itemSpacing: Dp = 10.dp,
     bottomGap: Dp = 0.dp
 ) {
     if (actions.isEmpty()) return
@@ -138,7 +138,7 @@ fun NebFabMenuItems(
 
     if (!shown) return
     Column(
-        modifier = modifier.padding(bottom = bottomGap),
+        modifier = modifier.padding(bottom = bottomGap, end = 4.dp),
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.spacedBy(itemSpacing)
     ) {
@@ -177,19 +177,19 @@ private fun NebFabMenuRow(
                 action.onClick()
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Box(
             modifier = Modifier
-                .heightIn(min = 52.dp)
-                .clip(RoundedCornerShape(26.dp))
+                .heightIn(min = 40.dp)
+                .clip(RoundedCornerShape(20.dp))
                 .background(container)
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 16.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = action.label,
-                style = MaterialTheme.typography.labelLargeEmphasized.copy(fontSize = 16.sp),
+                style = MaterialTheme.typography.labelLargeEmphasized.copy(fontSize = 13.sp),
                 color = ink,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -197,7 +197,7 @@ private fun NebFabMenuRow(
         }
         Box(
             modifier = Modifier
-                .size(52.dp)
+                .size(44.dp)
                 .graphicsLayer { rotationZ = (1f - progress.value) * -70f }
                 .clip(tile)
                 .background(container),
@@ -208,7 +208,7 @@ private fun NebFabMenuRow(
                 contentDescription = null,
                 tint = ink,
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(22.dp)
                     .graphicsLayer { rotationZ = (1f - progress.value) * 70f }
             )
         }

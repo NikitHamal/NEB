@@ -270,17 +270,10 @@ fun LiquidGlassBottomNav(
                         label = "createMorph"
                     )
 
-                    // Closed: the glass clover on the bar. Open: it morphs into a dark rounded
-                    // square with a close glyph (the reference create menu). The morph is one
-                    // path drawn in the draw phase from `morph`; nothing recomposes per frame.
-                    // Clover and square both repeat every 90 degrees, so the quarter turn is
-                    // seamless.
+                    // Same clover, same glass, same ink open and closed. Opening only turns the
+                    // button a quarter (the clover repeats every 90 degrees, so the silhouette
+                    // lands on itself) while the plus tips 45 degrees into a cross.
                     val createShape = nebShape(NebShapes.Create)
-                    val cloverToSquare = remember {
-                        androidx.graphics.shapes.Morph(NebShapes.Create, NebGlyphShapes.Square)
-                    }
-                    val darkFill = scheme.inverseSurface
-                    val closeInk = scheme.inverseOnSurface
 
                     Box(
                         modifier = Modifier
@@ -305,50 +298,17 @@ fun LiquidGlassBottomNav(
                         Box(
                             Modifier
                                 .matchParentSize()
-                                .graphicsLayer { alpha = 1f - morph.coerceIn(0f, 1f) }
                                 .liquidGlass(backdrop, createShape)
                                 .clip(createShape)
                         )
-                        Spacer(
-                            Modifier
-                                .matchParentSize()
-                                .drawBehind {
-                                    val m = morph.coerceIn(0f, 1f)
-                                    if (m <= 0.01f) return@drawBehind
-                                    val path = cloverToSquare.toPath(m)
-                                    drawGlyph(
-                                        path = path,
-                                        center = androidx.compose.ui.geometry.Offset(size.width / 2f, size.height / 2f),
-                                        side = size.minDimension,
-                                        color = darkFill,
-                                        alpha = m
-                                    )
-                                }
-                        )
-                        Box(
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_rune_plus),
+                            contentDescription = if (menuExpanded) "Close create menu" else "Create",
+                            tint = primaryColor,
                             modifier = Modifier
-                                .size(26.dp)
-                                // keep the glyph upright while the container turns
-                                .graphicsLayer { rotationZ = -morph * 90f },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_rune_plus),
-                                contentDescription = if (menuExpanded) null else "Create",
-                                tint = primaryColor,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .graphicsLayer { alpha = 1f - morph.coerceIn(0f, 1f) }
-                            )
-                            Icon(
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = if (menuExpanded) "Close create menu" else null,
-                                tint = closeInk,
-                                modifier = Modifier
-                                    .size(26.dp)
-                                    .graphicsLayer { alpha = morph.coerceIn(0f, 1f) }
-                            )
-                        }
+                                .size(24.dp)
+                                .graphicsLayer { rotationZ = -morph * 45f }
+                        )
                     }
                 } else if (onProfileClick != null) {
                     val tactile = rememberTactileFeedback()

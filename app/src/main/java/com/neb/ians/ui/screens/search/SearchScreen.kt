@@ -263,6 +263,8 @@ private fun SearchHeader(
             )
         }
 
+        AppliedFilters(state = state, onClear = onClearFilter, modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 8.dp))
+
         AnimatedVisibility(
             visible = state.hasSearched && state.totalCount > 0,
             enter = expandVertically(nebSpatialSpec()) + fadeIn(nebEffectsSpec()),
@@ -272,10 +274,9 @@ private fun SearchHeader(
                 scope = state.scope,
                 counts = scopeCounts,
                 onScopeChange = onScopeChange,
-                modifier = Modifier.padding(top = 4.dp)
+                modifier = Modifier.padding(top = 0.dp)
             )
         }
-        AppliedFilters(state = state, onClear = onClearFilter, modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 10.dp))
     }
 }
 
