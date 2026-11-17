@@ -1252,3 +1252,21 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - **Redeploy the backend** (`deploy.ps1`): everything on the web side above, wave17, claim and portfolio endpoints.
 - Teacher web profile: a dedicated editor sheet for the teaching block (today it lives in Edit profile).
 - Android on device: Schools scope on a 360dp phone (five tabs scroll sideways).
+
+
+---
+
+# Session 48: profile body in the locked concept (Android and web, teacher first)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first. The brief repeated sessions 37 to 47 (Pathways port, 24,665 catalogue, institution and teacher portfolio, no DOB or gender for institutions, graphite dark, profile and search concepts). Audited and **kept, not redone**; the real gap was the person profile body: Android and web still drew teaching, studying and skills as one block, where the concept draws one card per section.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 297 | **Android profile body as concept cards**: stat pair (Years teaching, Schools), Teaches (subjects primary tint, levels secondary), Schools timeline (current school with type and Present, then past schools), Studying tile, Skills, Open to, portfolio entries, each its own 24dp hairline card (`PCard`), dashed `AddSlot` prompts for the owner where a section is empty, Edit opens Edit profile. Past schools leave the generic section list for teachers. | `ProfilePortfolio.kt`, `ProfileScreen.kt` |
+| 298 | **Web teacher block** split the same way: stat pair, Teaches, Current school (past schools stay a timeline section right below). The Schools count includes past schools. | `profile/_portfolio.html`, `views_profile.py`, `app-portfolio.css` (bundle rebuilt) |
+
+## Next
+- Web: render past schools inside the Current school card, and give the teacher a section editor sheet.
+- Redeploy the backend (`deploy.ps1`) for web changes since session 44.
