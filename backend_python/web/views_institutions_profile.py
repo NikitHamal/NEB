@@ -42,8 +42,14 @@ def _money(n):
 def folio_context(inst):
     """The claimed institution's portfolio as display rows for the school page, or None while it is empty."""
     from api import institution_profile as ip
-    d = ip.get(inst)
-    if not d:
+    return folio_data(inst, ip.get(inst), only_filled=True)
+
+
+def folio_data(inst, d, only_filled=False):
+    """The display dict for a portfolio. `only_filled` returns None while there is nothing to show."""
+    from api import institution_profile as ip
+    d = d or {}
+    if only_filled and not d:
         return None
 
     def names(key, rows):
@@ -76,4 +82,10 @@ def folio_context(inst):
         'contact': contact, 'email': d.get('email', ''),
         'socials': [{'name': k, 'url': v} for k, v in (d.get('socials') or {}).items()],
     }
-    return out if (facts or any(out[k] for k in ('about', 'levels', 'facilities', 'branches', 'programs', 'contact'))) else None
+    out.update(fee_min=lo or 0, fee_max=hi or 0, fee_note=d.get('feeNote', ''), principal=d.get('principal', ''),
+               principal_title=d.get('principalTitle', ''), phone=d.get('phone', ''), address=d.get('address', ''),
+               est=inst.est, students=d.get('students') or 0, teachers=d.get('teachers') or 0, staff=d.get('staff') or 0,
+               fee_pct=min(100, round((hi or lo or 0) / 3000) if (hi or lo) else 0))
+    if only_filled and not (facts or any(out[k] for k in ('about', 'levels', 'facilities', 'branches', 'programs', 'contact'))):
+        return None
+    return out

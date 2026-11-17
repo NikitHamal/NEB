@@ -1,0 +1,75 @@
+{% load static %}{% comment %} The institution portfolio on its own profile (the Profile concept's institution page).
+   Every block is optional. A visitor sees only what was filled; the verified owner also sees dashed prompts and Edit. {% endcomment %}
+{% with f=inst_folio.folio own=inst_folio.own %}
+{% if not inst_folio.claimed %}
+  {% if inst_folio.own %}
+  <section class="pf-card if-card">
+    <h3 class="if-h"><span class="material-symbols-outlined">verified</span>Claim your school</h3>
+    <p class="if-txt">Find your institution in the directory, verify it, and build its page: levels, fees, facilities, branches and more.</p>
+    <a class="md-btn md-btn-filled if-cta" href="{% url 'web:school_apply' %}">Claim and verify</a>
+  </section>
+  {% endif %}
+{% elif f %}
+<div class="if-wrap" id="if-wrap">
+  {% if f.admission_open %}
+  <div class="if-note"><span class="material-symbols-outlined">event_available</span>
+    <div><b>Admissions are open</b><br>{% if f.admission_note %}{{ f.admission_note }}{% else %}Call the office to book a visit.{% endif %}</div></div>
+  {% endif %}
+
+  {% if f.facts %}
+  <div class="if-grid">{% for x in f.facts %}<div class="if-stat"><b>{{ x.value }}</b><small>{{ x.label }}</small></div>{% endfor %}</div>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="numbers"><span class="material-symbols-outlined">add</span>Add established year and numbers</button>{% endif %}
+
+  {% if f.about %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">description</span>About{% if own %}<button type="button" class="if-edit" data-inst-edit="about">Edit</button>{% endif %}</h3>
+    {% if f.motto %}<p class="if-motto">{{ f.motto }}</p>{% endif %}<p class="if-txt">{{ f.about|linebreaksbr }}</p></section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="about"><span class="material-symbols-outlined">add</span>Write about your institution</button>{% endif %}
+
+  {% if f.levels or f.streams %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">school</span>Levels offered{% if own %}<button type="button" class="if-edit" data-inst-edit="levels">Edit</button>{% endif %}</h3>
+    <div class="pf-folio-tags">{% for x in f.levels %}<span class="pf-tag if-pc">{{ x }}</span>{% endfor %}{% for x in f.streams %}<span class="pf-tag">{{ x }}</span>{% endfor %}</div></section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="levels"><span class="material-symbols-outlined">add</span>Add the levels you offer</button>{% endif %}
+
+  {% if f.programs %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">menu_book</span>Programs{% if own %}<button type="button" class="if-edit" data-inst-edit="programs">Edit</button>{% endif %}</h3>
+    {% for p in f.programs %}<div class="if-row"><span class="if-tile"><span class="material-symbols-outlined">school</span></span>
+      <div class="if-rm"><b>{{ p.name }}</b><small>{{ p.level }}{% if p.seats %} · {{ p.seats }} seats{% endif %}{% if p.fee %} · Rs {{ p.fee|floatformat:"0g" }}{% endif %}</small></div></div>{% endfor %}</section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="programs"><span class="material-symbols-outlined">add</span>Add a program</button>{% endif %}
+
+  {% if f.fee_min %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">payments</span>Yearly fees{% if own %}<button type="button" class="if-edit" data-inst-edit="fees">Edit</button>{% endif %}</h3>
+    <div class="if-fee"><b>Rs {{ f.fee_min|floatformat:"0g" }}</b>{% if f.fee_max and f.fee_max != f.fee_min %}<span>to Rs {{ f.fee_max|floatformat:"0g" }}</span>{% endif %}</div>
+    <div class="if-meter"><i style="width: {{ f.fee_pct }}%"></i></div>
+    {% if f.fee_note %}<p class="if-hint">{{ f.fee_note }}</p>{% endif %}</section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="fees"><span class="material-symbols-outlined">add</span>Add your fees</button>{% endif %}
+
+  {% if inst_folio.facility_rows %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">local_library</span>Facilities{% if own %}<button type="button" class="if-edit" data-inst-edit="facilities">Edit</button>{% endif %}</h3>
+    <div class="if-fgrid">{% for x in inst_folio.facility_rows %}<div class="if-fac"><span class="material-symbols-outlined">{{ x.icon }}</span>{{ x.label }}</div>{% endfor %}</div></section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="facilities"><span class="material-symbols-outlined">add</span>Add your facilities</button>{% endif %}
+
+  {% if f.principal %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">groups</span>Leadership{% if own %}<button type="button" class="if-edit" data-inst-edit="basics">Edit</button>{% endif %}</h3>
+    <div class="if-row"><span class="if-tile if-tc"><span class="material-symbols-outlined">person</span></span><div class="if-rm"><b>{{ f.principal }}</b><small>{{ f.principal_title|default:"Principal" }}</small></div></div></section>
+  {% endif %}
+
+  {% if f.branches %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">account_tree</span>Branches{% if own %}<button type="button" class="if-edit" data-inst-edit="branches">Edit</button>{% endif %}</h3>
+    {% for b in f.branches %}<div class="if-row"><span class="if-tile"><span class="material-symbols-outlined">location_on</span></span><div class="if-rm"><b>{{ b.name }}</b><small>{{ b.place }}{% if b.phone %} · {{ b.phone }}{% endif %}</small></div></div>{% endfor %}</section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="branches"><span class="material-symbols-outlined">add</span>Add a branch</button>{% endif %}
+
+  {% if f.contact or f.socials or f.affiliations %}
+  <section class="pf-card if-card"><h3 class="if-h"><span class="material-symbols-outlined">call</span>Contact{% if own %}<button type="button" class="if-edit" data-inst-edit="contact">Edit</button>{% endif %}</h3>
+    {% if f.address %}<p class="if-txt">{{ f.address }}</p>{% endif %}
+    <div class="pf-folio-tags">{% if f.phone %}<a class="pf-tag if-pc" href="tel:{{ f.phone }}"><span class="material-symbols-outlined">call</span>{{ f.phone }}</a>{% endif %}
+      {% if f.email %}<a class="pf-tag" href="mailto:{{ f.email }}"><span class="material-symbols-outlined">mail</span>{{ f.email }}</a>{% endif %}
+      {% for s in f.socials %}<a class="pf-tag" href="{{ s.url }}" target="_blank" rel="noopener nofollow">{{ s.name|capfirst }}</a>{% endfor %}
+      {% for x in f.affiliations %}<span class="pf-tag">{{ x }}</span>{% endfor %}</div></section>
+  {% elif own %}<button type="button" class="if-add" data-inst-edit="contact"><span class="material-symbols-outlined">add</span>Add phone and address</button>{% endif %}
+</div>
+{% if own %}
+{{ inst_folio.boot|json_script:"if-boot" }}
+<script src="{% static 'web/js/inst-folio.js' %}?v=1" defer></script>
+{% endif %}
+{% endif %}
+{% endwith %}

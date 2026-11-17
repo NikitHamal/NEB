@@ -36,6 +36,7 @@ from . import views_tools
 from . import views_landing
 from . import views_admin_themes
 from . import views_institutions
+from . import views_inst_folio
 from . import views_pathways
 from . import views_admin_institutions
 
@@ -124,6 +125,7 @@ urlpatterns = [
 
     path('welcome/', views_onboarding.onboarding_page, name='onboarding'),
     path('welcome/save/', views_onboarding.onboarding_save, name='onboarding_save'),
+    path('ajax/institution/portfolio/save/', views_inst_folio.ajax_inst_portfolio_save, name='inst_portfolio_save'),
     path('ajax/portfolio/save/', views_onboarding.portfolio_entry_save, name='portfolio_entry_save'),
     path('ajax/portfolio/delete/', views_onboarding.portfolio_entry_delete, name='portfolio_entry_delete'),
     path('app/profile/edit/', views_profile.edit_profile, name='edit_profile'),

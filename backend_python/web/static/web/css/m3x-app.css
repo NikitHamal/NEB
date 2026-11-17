@@ -3813,6 +3813,66 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .epf-teaching { display: grid; gap: 16px; margin-top: 16px; }
 .epf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 
+/* ---- m3x/app-inst-folio.css ---- */
+/* Portfolio strength card and the institution portfolio on a profile (web/profile/_strength.html, _inst_folio.html,
+   js/inst-folio.js). Cards are surfaces with a hairline, no shadow. Tags are UI chips, not user badges. */
+.pfs-row { display: flex; align-items: center; gap: 16px; }
+.pfs-ring { position: relative; flex: none; width: 84px; height: 84px; }
+.pfs-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.pfs-ring circle { fill: none; stroke-width: 9; stroke-linecap: round; }
+.pfs-track { stroke: var(--md-surface-container-highest); }
+.pfs-prog { stroke: var(--md-primary); stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--pct, 0)); transition: stroke-dashoffset .9s cubic-bezier(.2, 0, 0, 1); }
+@starting-style { .pfs-prog { stroke-dashoffset: 100; } }
+.pfs-ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em; }
+.pfs-text h3 { margin: 0 0 4px; font-size: .95rem; font-weight: 600; }
+.pfs-text p { margin: 0; font-size: .82rem; line-height: 1.5; color: var(--md-on-surface-variant); }
+.pfs-steps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.pfs-step { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+.if-wrap { display: grid; gap: 12px; margin-bottom: 12px; }
+.if-card { display: block; }
+.if-h { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: .95rem; font-weight: 600; }
+.if-h .material-symbols-outlined { font-size: 20px; color: var(--md-primary); }
+.if-edit { margin-left: auto; border: 0; background: none; cursor: pointer; font: 600 .78rem var(--md-font); color: var(--md-primary); padding: 6px 8px; border-radius: 12px; }
+.if-edit:hover { background: var(--md-surface-container-high); }
+.if-txt { margin: 0 0 12px; font-size: .88rem; line-height: 1.6; color: var(--md-on-surface-variant); overflow-wrap: anywhere; }
+.if-motto { margin: 0 0 8px; font-weight: 600; font-size: .95rem; }
+.if-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.if-stat { background: var(--md-surface-container-low); border-radius: 20px; padding: 14px; }
+.if-stat b { display: block; font-size: 1.6rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.if-stat small { font-size: .78rem; font-weight: 500; color: var(--md-on-surface-variant); }
+.if-note { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 20px; font-size: .85rem; line-height: 1.5;
+  background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.if-note b { font-weight: 600; }
+.if-pc { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.if-fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.if-fac { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 18px; background: var(--md-surface-container-low); font-size: .8rem; font-weight: 600; }
+.if-fac .material-symbols-outlined { font-size: 20px; color: var(--md-primary); }
+.if-row { display: flex; align-items: center; gap: 12px; padding: 12px; margin-top: 8px; border-radius: 20px; background: var(--md-surface-container-low); }
+.if-row:first-of-type { margin-top: 0; }
+.if-tile { flex: none; width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.if-tile.if-tc { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.if-rm { min-width: 0; display: grid; }
+.if-rm b { font-size: .88rem; font-weight: 600; overflow-wrap: anywhere; }
+.if-rm small { font-size: .78rem; color: var(--md-on-surface-variant); }
+.if-fee { display: flex; align-items: baseline; gap: 8px; }
+.if-fee b { font-size: 1.6rem; font-weight: 600; letter-spacing: -.02em; }
+.if-fee span { font-size: .85rem; color: var(--md-on-surface-variant); }
+.if-meter { height: 12px; margin-top: 12px; border-radius: 6px; background: var(--md-surface-container-highest); overflow: hidden; }
+.if-meter i { display: block; height: 100%; border-radius: 6px; background: var(--md-primary); }
+.if-hint { margin: 8px 4px 0; font-size: .78rem; color: var(--md-on-surface-variant); }
+.if-add { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; border-radius: 20px; cursor: pointer; background: none;
+  border: 1.5px dashed var(--md-outline-variant); color: var(--md-on-surface-variant); font: 600 .84rem var(--md-font); transition: background .2s; }
+.if-add:hover { background: var(--md-surface-container-low); }
+.if-add .material-symbols-outlined { font-size: 20px; }
+.if-cta { display: inline-flex; margin-top: 4px; }
+.if-rows { display: grid; gap: 10px; margin-bottom: 8px; }
+.if-rowform { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; padding: 10px; border-radius: 18px; background: var(--md-surface-container-low); }
+.if-rowform .md-input:first-child { grid-column: 1 / 3; }
+.if-x { grid-row: 1; grid-column: 3; width: 36px; height: 36px; border: 0; border-radius: 18px; background: none; cursor: pointer; color: var(--md-on-surface-variant); display: grid; place-items: center; }
+.if-x:hover { background: var(--md-surface-container-high); }
+@media (prefers-reduced-motion: reduce) { .pfs-prog { transition: none; } }
+
 /* ---- m3x/app-focus.css ---- */
 /* One stroke on a focused field. A field draws its own border; a ring outside that border read as a
    second line stacked on the first (the post pill, the sign-in fields, the reply box). Text fields

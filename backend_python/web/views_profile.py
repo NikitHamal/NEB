@@ -300,8 +300,10 @@ def profile(request, username):
             'teacher': _pe.teacher_summary(profile_user),
             'is_own': bool(viewer_user and getattr(viewer_user, 'id', None) == profile_user.id),
         }
+    from .views_inst_folio import profile_extras
+    extras = profile_extras(profile_user, is_self) if not profile_private else {'strength': None, 'inst': None}
     return render(request, 'web/profile.html', _ctx(request,
-        portfolio=portfolio,
+        portfolio=portfolio, strength=extras['strength'], inst_folio=extras['inst'],
         profile_user=profile_data,
         username=username,
         stats=stats,

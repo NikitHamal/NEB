@@ -930,6 +930,8 @@
             </div>
           {% endif %}
 
+          {% if strength %}{% include "web/profile/_strength.html" %}{% endif %}
+          {% if inst_folio %}{% include "web/profile/_inst_folio.html" %}{% endif %}
           {% if portfolio %}{% include "web/profile/_portfolio.html" %}{% endif %}
           <!-- Progress -->
           {% if profile_user.subjects and not profile_user.is_bot %}

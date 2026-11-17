@@ -1,0 +1,26 @@
+{% comment %} Owner-only portfolio strength: ring, one honest sentence, and the sections worth filling next.
+   Same card as the app's ProfileStrengthCard and the Profile concept. Institutions open the section editor;
+   people go to Edit profile. {% endcomment %}
+<section class="pf-card pf-strength" aria-label="Portfolio strength">
+  <div class="pfs-row">
+    <div class="pfs-ring" style="--pct: {{ strength.percent }}" role="img" aria-label="{{ strength.percent }} percent">
+      <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="pfs-track" cx="42" cy="42" r="35"/><circle class="pfs-prog" cx="42" cy="42" r="35" pathLength="100"/></svg>
+      <b>{{ strength.percent }}%</b>
+    </div>
+    <div class="pfs-text">
+      <h3>Portfolio strength</h3>
+      <p>{{ strength.sentence }}</p>
+    </div>
+  </div>
+  {% if strength.steps %}
+  <div class="pfs-steps">
+    {% for step in strength.steps %}
+      {% if inst_folio and inst_folio.own %}
+        <button type="button" class="pf-tag pf-tag-btn pfs-step" data-inst-edit="{{ step.id }}">{{ step.label }}</button>
+      {% else %}
+        <a class="pf-tag pf-tag-btn pfs-step" href="{% url 'web:edit_profile' %}">{{ step }}</a>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
