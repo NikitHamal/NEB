@@ -1380,3 +1380,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Next
 - Android on device: dark Home, post cards and Pathways on a 360dp phone; migrate the text-fit baseline file by file.
+
+## Result
+- Deploy run `44096583010` (dispatched on `89cc3a1`): **DEPLOYMENT SUCCESSFUL** (migrate before collectstatic, workers recycled). Live check: `GET /api/posts/` without a token returns 200 with 15 posts and `authorDisplayName`.
+- Android release build green on `7411997`, `89cc3a1` and `ddf9a5c`; backend tests and desktop green.
