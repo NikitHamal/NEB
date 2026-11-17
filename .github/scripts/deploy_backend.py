@@ -347,7 +347,10 @@ def main():
             remote.append("echo 'Restarting background agent worker (autofix watcher removed Sep 2026)...'")
             remote.append("tr -d '\\r' < /tmp/restart_workers.sh | bash")
 
-        if any_changed:
+        if any_changed or static_changed:
+            # WhiteNoise indexes static files (size, mtime) at worker start. A worker that outlives a
+            # collectstatic sends the old Content-Length with the new bytes: HTTP/2 PROTOCOL_ERROR and
+            # an unstyled page. So recycle workers whenever static was re-copied, even with no delta.
             remote.append("echo 'Restarting LSAPI workers (touch restart.txt alone does NOT recycle healthy workers)...'")
             # Bracket trick so the remote shell running this script does not
             # match its own cmdline and kill this SSH session.
