@@ -1202,3 +1202,25 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Owner review of `profile.html`; port the locked parts after.
 - Teacher past schools still use the generic Experience kind.
 - Redeploy the backend (`deploy.ps1`) for wave17, claim and portfolio endpoints, graphite tokens and the web Schools tab.
+
+---
+
+# Session 46: segmented control, theme-true dark, guards, profile concept republished
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first. The brief repeated sessions 37 to 45 (Pathways port, exam groups, 24,665 catalogue, institution and teacher portfolio, graphite dark, `NebTopBar`, aligned rows). The three CI runs on `27f01b6` were green. The screenshots in the brief predate sessions 44 and 45 (status bar clash, "Complete profiles are listed first", indented comment row); the code was checked and those are fixed (`check_insets.py` passes, comment action row sits in the 48dp content column). Nothing was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 285 | **Government / Entrance / Language tabs looked uneven** (one square-cornered block beside round ones, 3dp gaps). One tonal pill track, equal segments, selected = full pill, in the Pathways and Profile concepts, the web (`.pwx .seg`) and Android (`PwSeg`, used by Exams, Guides, Match/Plan, Colleges, route costs). Same look as the Search concept. | `NEBians-Pathways.html`, `NEBians-Profile.html`, `pages/pathways.css`, `PwTheme.kt` |
+| 286 | **Upload screens ignored the in-app theme** (`isSystemInDarkTheme()` in four places; forcing Dark in Settings left them light). Now read from the theme surface luminance. | `UploadChrome.kt`, `UploadSource.kt`, `UploadDetails.kt` |
+| 287 | **Web dark leftovers**: the desktop sign-in page used GitHub blue-black (`#0d1117`) and a blue primary; the logo gradient in dark was blue to navy. Both are graphite now. | `desktop_auth.html`, `material3/03-layout-topbar-dropdown.css` (bundle rebuilt) |
+| 288 | **Baseline profile** now covers Pathways and institutions (they were interpreted until the idle compiler ran). | `baseline-prof.txt` |
+| 289 | **Guards**: back-arrow rule matches every `Icons.*.ArrowBack` (it only knew `AutoMirrored.Outlined`); new rule fails `isSystemInDarkTheme()` outside `ui/theme`. Rules in design system section 14 and `AGENTS.md`. | `check_insets.py` |
+| 290 | **Concepts republished** to GitHub Pages: https://nikithamal.github.io/NEB/pathways.html and profile.html (search.html unchanged). | `gh-pages` |
+
+## Next
+- Owner review of `profile.html` and `search.html`; lock, then port the profile overhaul (web first, then Android).
+- **Redeploy the backend** (`deploy.ps1`): wave17 exam groups, claim and portfolio endpoints, graphite tokens, Schools tab. The app already bundles wave17, the site does not until the deploy.
+- Android on device: segmented control on a 360dp phone, Exams groups.
