@@ -1384,3 +1384,24 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Result
 - Deploy run `44096583010` (dispatched on `89cc3a1`): **DEPLOYMENT SUCCESSFUL** (migrate before collectstatic, workers recycled). Live check: `GET /api/posts/` without a token returns 200 with 15 posts and `authorDisplayName`.
 - Android release build green on `7411997`, `89cc3a1` and `ddf9a5c`; backend tests and desktop green.
+
+
+---
+
+# Session 54: underline tabs everywhere, text-fit fixes
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 53). The brief repeated again. Verified and **kept, not redone**: Pathways port, profile overhaul, 24,665 catalogue, institution and teacher portfolios, no DOB or gender for institutions, graphite dark, guest posts, sign-in retry, post card byline, scrolling chips, display names, share icon.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 316 | **Page tabs have the underline**. Only the search tabs had it (session 51); the other tab rows (profile posts and replies, library, bookmarks, news, notifications, creator studio, syllabus) still drew a sliding pill. `NebTabRail` is now the concept tab: label, tonal count pill (primary container when open), a 3dp primary line that slides under the open tab, hairline under the row, scrolls sideways. API unchanged. | `NebTabRail.kt`, `SyllabusSubject.kt` |
+| 317 | **Web `.neb-rail`** gets the same look: `neb-rail.js` still positions `.neb-rail-ind`, now drawn as the line. Bundle rebuilt. | `m3x/app-tabs.css`, `m3x-app.css` |
+| 318 | Text fit: institution note column and the Abroad budget pill and visa text are bounded. Baseline 166 to 162. | `InstitutionPortfolio.kt`, `PwAbroad.kt` |
+
+## Rules
+- Page tabs are underline tabs (`docs/M3X_DESIGN_SYSTEM.md` navigation section). The Pathways `PwSeg` connected group and form segmented switches stay as they are.
+
+## Next
+- Dispatch `deploy-backend.yml` for the web CSS; Android on device: tab rows on a 360dp phone.

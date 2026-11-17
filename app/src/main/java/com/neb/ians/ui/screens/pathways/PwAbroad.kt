@@ -150,11 +150,11 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
             }
             CostBar(t, l, mx, budget.toFloat())
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.clip(RoundedCornerShape(10.dp)).background(pill.bg).padding(horizontal = 10.dp, vertical = 3.dp)) {
-                    Text(if (ok) "Within budget" else "NPR ${lakhs(total - budget)}L over budget", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = pill.fg)
+                Box(Modifier.weight(1f, false).clip(RoundedCornerShape(10.dp)).background(pill.bg).padding(horizontal = 10.dp, vertical = 3.dp)) {
+                    Text(if (ok) "Within budget" else "NPR ${lakhs(total - budget)}L over budget", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = pill.fg, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
                 }
                 Spacer(Modifier.weight(1f))
-                if (a.visaRate >= 0) Text("Visa approval ${a.visaRate}%", fontSize = 12.sp, color = c.onSurfaceVariant)
+                if (a.visaRate >= 0) Text("Visa approval ${a.visaRate}%", fontSize = 12.sp, color = c.onSurfaceVariant, maxLines = 1)
             }
             if (open) {
                 Box(Modifier.fillMaxWidth().height(1.dp).background(c.surfaceContainerHighest))

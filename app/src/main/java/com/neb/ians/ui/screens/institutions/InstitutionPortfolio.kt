@@ -110,7 +110,7 @@ internal fun Note(title: String, text: String) {
         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Outlined.CalendarMonth, null, Modifier.size(22.dp), tint = MaterialTheme.colorScheme.onTertiaryContainer)
             Spacer(Modifier.width(12.dp))
-            Column {
+            Column(Modifier.weight(1f)) {
                 Text(title, fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = MaterialTheme.colorScheme.onTertiaryContainer)
                 Text(text, fontSize = 13.sp, color = MaterialTheme.colorScheme.onTertiaryContainer)
             }
