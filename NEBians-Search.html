@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBians Search and Filter concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#004bd4;--onp:#fff;--pc:#DCE1FF;--onpc:#00164E;--sc:#E0E1F9;--onsc:#191B2C;--tc:#FFD7F5;--ontc:#380038;--yc:#FFE08A;--onyc:#241A00;--gc:#C4EFCB;--ongc:#00210C;
+--s:#FBF8FF;--s1:#F5F2FA;--s2:#EFEDF4;--s3:#E3E1E9;--on:#1B1B21;--onv:#45464F;--ol:#C6C6D0;--board:#F3F1EA;--card:#fff;--e:cubic-bezier(.2,0,0,1);--sp:cubic-bezier(.34,1.56,.64,1)}
+[data-theme=dark]{--p:#B6C4FF;--onp:#002780;--pc:#00389F;--onpc:#DCE1FF;--sc:#404659;--onsc:#DCE1F9;--tc:#5B3D57;--ontc:#FFD7F5;--yc:#584400;--onyc:#FFE08A;--gc:#0F5223;--ongc:#C4EFCB;
+--s:#121318;--s1:#1B1B21;--s2:#1F1F25;--s3:#2E2F36;--on:#E4E1E9;--onv:#C6C6D0;--ol:#45464F;--board:#08090C;--card:#1B1B21}
+*{box-sizing:border-box;margin:0;padding:0;scrollbar-width:none;-webkit-tap-highlight-color:transparent}*::-webkit-scrollbar{display:none}
+html{font-family:Poppins,sans-serif}body{background:var(--board);color:var(--on);padding:20px 16px 40px}
+button,input{font:inherit;color:inherit;border:0;background:none}button{cursor:pointer}:focus-visible{outline:3px solid var(--p);outline-offset:2px}
+.i{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.top{max-width:1100px;margin:0 auto 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}.top h1{font-size:20px;font-weight:600;margin-right:auto}
+.seg{display:flex;gap:4px;background:var(--s3);padding:4px;border-radius:22px}.seg button{height:34px;padding:0 14px;font-size:12.5px;font-weight:600;border-radius:18px}.seg button.on{background:var(--on);color:var(--s)}
+.stage{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+.dev{width:390px;height:780px;border-radius:44px;background:var(--s);border:10px solid #1b1b21;position:relative;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr)}
+.dev.web{width:min(980px,100%);height:720px;border-radius:24px;border-width:6px}
+.app{position:relative;overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr)}
+.sb{display:flex;align-items:center;gap:6px;padding:12px 12px 6px}
+.ib{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;flex:none;transition:border-radius .3s var(--sp),background .2s}.ib:active{transform:scale(.94)}.ib:hover{background:var(--s2)}
+.field{flex:1;min-width:0;height:48px;border-radius:24px;background:var(--s2);display:flex;align-items:center;gap:10px;padding:0 6px 0 16px;color:var(--onv)}
+.field input{flex:1;min-width:0;height:100%;font-size:15px;font-weight:500;color:var(--on);outline:0}.field input::placeholder{color:var(--onv)}
+.field .x{width:32px;height:32px;border-radius:12px;display:grid;place-items:center}
+.fbtn{position:relative;width:38px;height:38px;border-radius:14px;background:var(--s);display:grid;place-items:center;color:var(--on)}
+.fbtn.on{background:var(--p);color:var(--onp)}.fbtn b{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--on);color:var(--s);font-size:10.5px;font-weight:600;display:grid;place-items:center;padding:0 4px}
+.sc{overflow-y:auto;padding:4px 0 28px}
+.h5{font-size:12px;font-weight:600;color:var(--onv);letter-spacing:.04em;text-transform:uppercase;padding:14px 16px 6px;display:flex;align-items:center}.h5 button{margin-left:auto;font-size:12.5px;color:var(--p);text-transform:none;letter-spacing:0;font-weight:600;padding:6px 8px;border-radius:12px}
+.rec{display:flex;align-items:center;gap:14px;width:100%;padding:0 8px 0 16px;height:52px;text-align:left;font-size:15px;font-weight:500;border-radius:16px}.rec:hover{background:var(--s1)}.rec .ic{color:var(--onv)}.rec span{flex:1}.rec .rm{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:var(--onv)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px}.chips.row{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.chip{height:36px;padding:0 14px;border-radius:12px;background:var(--s2);font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:border-radius .3s var(--sp),background .2s,color .2s}
+.chip:hover{background:var(--s3)}.chip.on{background:var(--pc);color:var(--onpc);border-radius:18px}.chip.rmv{background:var(--pc);color:var(--onpc);border-radius:18px;height:32px;padding:0 8px 0 12px;font-size:12.5px}
+.tabs{display:flex;gap:2px;padding:4px 12px 0;border-bottom:1px solid color-mix(in srgb,var(--ol) 60%,transparent);overflow-x:auto}
+.tab{position:relative;height:44px;padding:0 14px;font-size:13.5px;font-weight:600;color:var(--onv);white-space:nowrap;display:inline-flex;align-items:center;gap:6px;border-radius:14px 14px 0 0}
+.tab small{font-size:11px;font-weight:600;background:var(--s2);border-radius:9px;padding:1px 7px}.tab.on{color:var(--on)}.tab.on small{background:var(--pc);color:var(--onpc)}
+.tab.on:after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--p)}
+.sumrow{display:flex;align-items:center;gap:8px;padding:10px 16px 2px;font-size:12.5px;font-weight:600;color:var(--onv)}.sumrow button{margin-left:auto;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:12px;background:var(--s2);color:var(--on);font-size:12.5px}
+.card{margin:8px 16px 0;padding:14px;border-radius:24px;background:var(--card);border:1px solid color-mix(in srgb,var(--ol) 55%,transparent);display:flex;gap:12px;align-items:flex-start;text-align:left;width:calc(100% - 32px)}
+.tile{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none;background:var(--tb,var(--pc));color:var(--tf,var(--onpc))}
+.t-pc{--tb:var(--pc);--tf:var(--onpc)}.t-tc{--tb:var(--tc);--tf:var(--ontc)}.t-yc{--tb:var(--yc);--tf:var(--onyc)}.t-gc{--tb:var(--gc);--tf:var(--ongc)}.t-sc{--tb:var(--sc);--tf:var(--onsc)}
+.card .m{flex:1;min-width:0}.card b{font-size:14.5px;font-weight:600;line-height:1.3;display:block}.card small{font-size:12px;color:var(--onv);font-weight:500;display:block;margin-top:2px}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:9px;background:var(--tb,var(--sc));color:var(--tf,var(--onsc));margin:6px 6px 0 0}
+mark{background:var(--yc);color:var(--onyc);border-radius:4px;padding:0 2px}
+.empty{padding:48px 24px;text-align:center;color:var(--onv);font-size:14px;font-weight:500}.empty b{display:block;color:var(--on);font-size:17px;font-weight:600;margin-bottom:6px}
+.scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--on) 38%,transparent);opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:90%;background:var(--card);border-radius:32px 32px 0 0;z-index:21;transform:translateY(105%);transition:transform .45s var(--sp);display:flex;flex-direction:column}.sheet.on{transform:none}
+.dev.web .sheet{left:50%;right:auto;width:520px;margin-left:-260px;bottom:20px;border-radius:32px}
+.grab{width:36px;height:4px;border-radius:2px;background:var(--ol);margin:10px auto 0}
+.sh-h{display:flex;align-items:center;padding:8px 12px 4px 22px}.sh-h h2{flex:1;font-size:20px;font-weight:600}
+.sh-b{overflow-y:auto;padding:0 22px 10px;flex:1}.sh-b .h5{padding-left:0;padding-right:0}.sh-b .chips{padding:0}
+.sh-f{display:flex;gap:10px;padding:12px 22px 18px;border-top:1px solid color-mix(in srgb,var(--ol) 45%,transparent)}
+.btn{height:50px;border-radius:25px;font-size:15px;font-weight:600;padding:0 22px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:border-radius .3s var(--sp)}
+.btn.f{flex:1;background:var(--p);color:var(--onp)}.btn.t{background:var(--s2)}.btn:disabled{opacity:.45}
+.sub{height:44px;border-radius:22px;background:var(--s2);display:flex;align-items:center;gap:8px;padding:0 14px;margin-top:2px;color:var(--onv)}.sub input{flex:1;outline:0;font-size:14px;font-weight:500;color:var(--on);min-width:0}
+.opt{display:flex;align-items:center;gap:12px;width:100%;height:48px;padding:0 14px;border-radius:16px;font-size:14px;font-weight:600;text-align:left}.opt:hover{background:var(--s1)}.opt.on{background:var(--pc);color:var(--onpc)}.opt i{margin-left:auto;display:grid}
+.rise{animation:rise .45s var(--sp) backwards;animation-delay:calc(var(--n,0)*35ms)}@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+.note{max-width:1100px;margin:22px auto 0;font-size:13px;font-weight:500;color:var(--onv);line-height:1.6}.note b{color:var(--on);font-weight:600}
+</style>
+</head>
+<body>
+<div class="top"><h1>Search and Filter concept</h1>
+<div class="seg" id="sScr"></div><div class="seg" id="sDev"><button data-v="phone" class="on">Phone</button><button data-v="web">Web</button></div><button class="ib" id="bTheme" aria-label="Theme"></button></div>
+<div class="stage"><div class="dev" id="dev"><div class="app" id="app"></div></div></div>
+<div class="note"><b>What changed.</b> The old sheet put eleven subjects in one wall of grey pills under a tagline. Now: sort is one tap on a single row, each group collapses, subjects can be searched, and the main button counts the results live. Search keeps recents and popular words, and adds scopes (Resources, Posts, People, Schools) as a tab bar with counts that never truncate. Applied filters sit under the tabs as removable chips.</div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const IC={search:'M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-5-5',back:'M15 6l-6 6 6 6M9 12h11',x:'M6 6l12 12M18 6L6 18',tune:'M4 7h9M17 7h3M4 17h3M11 17h9M15 4v6M9 14v6',hist:'M3 12a9 9 0 109-9 9 9 0 00-7 3.500M3 4v4h4M12 8v4l3 2',
+doc:'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',post:'M4 5h16v11H9l-5 4zM8 9h8M8 12h5',user:'M12 4a4 4 0 100 8 4 4 0 000-8zM4 20c1-4 4-6 8-6s7 2 8 6',school:'M3 9l9-5 9 5-9 5zM7 11.500V16c2 2 8 2 10 0v-4.500',check:'M5 12l5 5 9-10',chev:'M6 9l6 6 6-6',sort:'M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4',moon:'M20 14A8 8 0 1110 4a7 7 0 0010 10z'};
+const ic=(n,s=22)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24"><path d="${IC[n]}"/></svg>`;
+const SUBJ=['Accountancy','Biology','Chemistry','Computer Science','Economics','English','Exam Tips','Mathematics','Microbiology','Nepali','Physics','Physics, Technical Stream','Science','Social Studies','Software Engineering'];
+const TYPES=['Notes','Past paper','Textbook','Syllabus','Question bank'],CLS=['SEE','Class 11','Class 12','Bachelor'];
+const SORT=[['rel','Most relevant'],['trend','Trending'],['new','Newest'],['like','Most liked'],['old','Oldest']];
+const R=[['Physics Class 12 complete notes','Notes','Physics','Class 12',2080,412,'pc'],['Physics board paper 2079','Past paper','Physics','Class 12',2079,388,'yc'],['Chemistry organic reactions sheet','Notes','Chemistry','Class 12',2080,301,'tc'],['Mathematics Class 11 textbook','Textbook','Mathematics','Class 11',2078,640,'gc'],['Mathematics board paper 2079','Past paper','Mathematics','Class 12',2079,355,'yc'],['English Class 12 grammar guide','Notes','English','Class 12',2080,210,'sc'],['Computer Science Class 11 syllabus','Syllabus','Computer Science','Class 11',2081,190,'pc'],['Accountancy 2079 model questions','Question bank','Accountancy','Class 12',2079,166,'tc'],['Biology Class 12 diagrams','Notes','Biology','Class 12',2081,277,'gc'],['SEE Science 2079 question set','Past paper','Science','SEE',2079,520,'yc'],['SEE Nepali 2078 guide','Notes','Nepali','SEE',2078,144,'sc'],['Economics Class 11 chapter notes','Notes','Economics','Class 11',2080,132,'pc']].map((x,i)=>({id:i,t:x[0],k:x[1],s:x[2],c:x[3],y:x[4],l:x[5],tone:x[6]}));
+const POSTS=[['How to finish the 2079 physics paper in time','Asked in Physics','Aarav Sharma','61 replies'],['Is the 2078 chemistry paper harder than 2079?','Discussion','Ritu Gurung','24 replies'],['Best way to revise 2079 mathematics','Exam Tips','Sunita Adhikari','38 replies']];
+const PEOPLE=[['Sunita Adhikari','Physics teacher, Pokhara','tc'],['Aarav Sharma','Class 12 Science, Kathmandu','pc'],['Ritu Gurung','Explorer, Lalitpur','yc']];
+const SCH=[['Himalaya Secondary School','School, Baneshwor'],['Pokhara Science College','College, Pokhara'],['Kathmandu Model Campus','College, Kathmandu']];
+const S={scr:'empty',q:'',scope:'all',sub:new Set(),type:new Set(),cls:new Set(),sort:'rel',sheet:false,dev:'phone',recent:['2079','2078','nebians'],open:{sort:1,subject:1,type:1,class:1},subq:''};
+const SCOPES=[['all','All'],['res','Resources'],['post','Posts'],['ppl','People'],['sch','Schools']];
+const nF=()=>S.sub.size+S.type.size+S.cls.size+(S.sort!=='rel'?1:0);
+const hit=(t,q)=>!q||t.toLowerCase().includes(q.toLowerCase());
+function res(){let l=R.filter(r=>(hit(r.t+' '+r.s+' '+r.y+' '+r.k,S.q))&&(!S.sub.size||S.sub.has(r.s))&&(!S.type.size||S.type.has(r.k))&&(!S.cls.size||S.cls.has(r.c)));
+  const o={rel:0,trend:(a,b)=>b.l-a.l,new:(a,b)=>b.y-a.y,like:(a,b)=>b.l-a.l,old:(a,b)=>a.y-b.y}[S.sort];return o?l.sort(o):l}
+const filtered=()=>nF()-(S.sort!=='rel'?1:0)>0;
+const posts=()=>filtered()?[]:POSTS.filter(p=>hit(p[0]+' '+p[1],S.q)),ppl=()=>filtered()?[]:PEOPLE.filter(p=>hit(p[0]+' '+p[1],S.q)),sch=()=>filtered()?[]:SCH.filter(p=>hit(p[0]+' '+p[1],S.q));
+const counts=()=>({all:res().length+posts().length+ppl().length+sch().length,res:res().length,post:posts().length,ppl:ppl().length,sch:sch().length});
+const hl=t=>{const q=S.q.trim();if(!q)return esc(t);const i=t.toLowerCase().indexOf(q.toLowerCase());return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length))};
+const rCard=(r,n)=>`<button class="card rise" style="--n:${n}"><div class="tile t-${r.tone}">${ic('doc')}</div><div class="m"><b>${hl(r.t)}</b><small>${r.s} · ${r.c} · ${r.y}</small><span class="tag t-${r.tone}">${r.k}</span></div><small style="white-space:nowrap">${r.l} likes</small></button>`;
+const pCard=(p,n)=>`<button class="card rise" style="--n:${n}"><div class="tile t-sc">${ic('post')}</div><div class="m"><b>${hl(p[0])}</b><small>${p[2]} · ${p[3]}</small><span class="tag t-sc">${p[1]}</span></div></button>`;
+const uCard=(p,n)=>`<button class="card rise" style="--n:${n}"><div class="tile t-${p[2]}" style="border-radius:32%">${ic('user')}</div><div class="m"><b>${hl(p[0])}</b><small>${p[1]}</small></div></button>`;
+const sCard=(p,n)=>`<button class="card rise" style="--n:${n}"><div class="tile t-gc">${ic('school')}</div><div class="m"><b>${hl(p[0])}</b><small>${p[1]}</small></div></button>`;
+const sec=(t,k,n,html)=>n?`<div class="h5">${t}${S.scope==='all'&&n>2?`<button data-scope="${k}">See all ${n}</button>`:''}</div>${html}`:'';
+function empty(){return `${S.recent.length?`<div class="h5">Recent<button data-clr>Clear</button></div>${S.recent.map(r=>`<button class="rec" data-q="${esc(r)}"><span class="ic">${ic('hist',22)}</span><span>${esc(r)}</span><i class="rm" data-rm="${esc(r)}" aria-label="Remove">${ic('x',18)}</i></button>`).join('')}`:''}
+ <div class="h5">Popular right now</div><div class="chips">${['Physics','Chemistry','Mathematics','Biology','English','Past papers','Textbook','Notes'].map(x=>`<button class="chip" data-q="${x}">${x}</button>`).join('')}</div>
+ <div class="h5">Look in</div><div class="chips">${SCOPES.slice(1).map(x=>`<button class="chip" data-pre="${x[0]}">${x[1]}</button>`).join('')}</div>`}
+function results(){const c=counts(),L=res(),n=SCOPES.find(x=>x[0]===S.scope);
+ const tabs=`<div class="tabs">${SCOPES.map(([k,l])=>`<button class="tab ${S.scope===k?'on':''}" data-scope="${k}">${l}<small>${c[k]}</small></button>`).join('')}</div>`;
+ const chips=[...S.sub].map(x=>[x,'sub']).concat([...S.type].map(x=>[x,'type']),[...S.cls].map(x=>[x,'cls']));
+ const ap=chips.length||S.sort!=='rel'?`<div class="chips row" style="padding-top:10px">${S.sort!=='rel'?`<button class="chip rmv" data-un="sort|">${SORT.find(x=>x[0]===S.sort)[1]}${ic('x',16)}</button>`:''}${chips.map(([v,k])=>`<button class="chip rmv" data-un="${k}|${esc(v)}">${esc(v)}${ic('x',16)}</button>`).join('')}</div>`:'';
+ const sc=S.scope;let body='';
+ if(!c[sc])body=`<div class="empty"><b>Nothing for "${esc(S.q)}"</b>${nF()?'Try removing a filter.':'Check the spelling or try a subject name.'}${nF()?`<div style="margin-top:14px"><button class="btn t" data-clearall style="height:44px">Clear filters</button></div>`:''}</div>`;
+ else{const rs=(k,l)=>l.slice(0,sc==='all'?2:99);
+  body=(sc==='all'||sc==='res'?sec('Resources','res',L.length,rs('res',L).map(rCard).join('')):'')+(sc==='all'||sc==='post'?sec('Posts','post',posts().length,rs('p',posts()).map(pCard).join('')):'')+(sc==='all'||sc==='ppl'?sec('People','ppl',ppl().length,rs('u',ppl()).map(uCard).join('')):'')+(sc==='all'||sc==='sch'?sec('Schools','sch',sch().length,rs('s',sch()).map(sCard).join('')):'')}
+ return tabs+ap+`<div class="sumrow">${c[sc]} result${c[sc]===1?'':'s'}<button data-sheet="sort">${ic('sort',16)}${SORT.find(x=>x[0]===S.sort)[1]}</button></div>`+body}
+const grp=(id,t,n,inner)=>`<div class="h5" style="cursor:pointer" data-open="${id}">${t}${n?` <span style="margin-left:8px;color:var(--p)">${n}</span>`:''}<i style="margin-left:auto;display:grid;transform:rotate(${S.open[id]?180:0}deg);transition:transform .3s var(--sp)">${ic('chev',20)}</i></div>${S.open[id]?inner:''}`;
+const cp=(k,v,on)=>`<button class="chip ${on?'on':''}" data-t="${k}|${esc(v)}">${on?ic('check',16):''}${esc(v)}</button>`;
+function sheet(){const sl=SUBJ.filter(x=>hit(x,S.subq)).sort((a,b)=>S.sub.has(b)-S.sub.has(a)),n=counts().all;
+ return `<div class="grab"></div><div class="sh-h"><h2>Filter</h2><button class="ib" data-close aria-label="Close">${ic('x',22)}</button></div><div class="sh-b">
+ <div class="h5" style="padding-top:6px">Sort by</div><div class="chips">${SORT.map(([k,l])=>`<button class="chip ${S.sort===k?'on':''}" data-sort="${k}">${l}</button>`).join('')}</div>
+ ${grp('subject','Subject',S.sub.size,`<div class="sub">${ic('search',18)}<input id="subq" placeholder="Search subjects" value="${esc(S.subq)}" autocomplete="off"></div><div class="chips" style="margin-top:10px">${sl.map(x=>cp('sub',x,S.sub.has(x))).join('')||'<span class="empty" style="padding:8px 0">No subject</span>'}</div>`)}
+ ${grp('type','Type',S.type.size,`<div class="chips">${TYPES.map(x=>cp('type',x,S.type.has(x))).join('')}</div>`)}
+ ${grp('class','Class',S.cls.size,`<div class="chips">${CLS.map(x=>cp('cls',x,S.cls.has(x))).join('')}</div>`)}<div style="height:10px"></div></div>
+ <div class="sh-f"><button class="btn t" data-clearall ${nF()?'':'disabled'}>Clear</button><button class="btn f" data-close>${n?`Show ${n} result${n===1?'':'s'}`:'No results'}</button></div>`}
+function bar(){const n=nF();return `<div class="sb"><button class="ib" data-back aria-label="Back">${ic('back',24)}</button><div class="field">${ic('search',20)}<input id="q" placeholder="Search notes, posts, people" value="${esc(S.q)}" autocomplete="off" aria-label="Search">${S.q?`<button class="x" data-xq aria-label="Clear">${ic('x',18)}</button>`:''}<button class="fbtn ${n?'on':''}" data-sheet aria-label="Filter">${ic('tune',20)}${n?`<b>${n}</b>`:''}</button></div></div>`}
+function paint(){$('#sc').innerHTML=S.q.trim()||nF()||S.scr==='results'?results():empty()}
+function render(){const a=$('#app');a.innerHTML=bar()+'<div class="sc" id="sc"></div><div class="scrim" id="scrim"></div><div class="sheet" id="sheet"></div>';paint();chrome();if(S.sheet)openSheet()}
+function openSheet(){$('#sheet').innerHTML=sheet();requestAnimationFrame(()=>{$('#sheet').classList.add('on');$('#scrim').classList.add('on')});S.sheet=true}
+function closeSheet(){S.sheet=false;$('#sheet').classList.remove('on');$('#scrim').classList.remove('on');paint();$('#app .sb').outerHTML=bar()}
+function chrome(){$('#sScr').innerHTML=[['empty','Search'],['results','Results'],['sheet','Filter']].map(([k,l])=>`<button data-scr="${k}" class="${(S.sheet?'sheet':S.q.trim()||nF()?'results':'empty')===k?'on':''}">${l}</button>`).join('');$('#bTheme').innerHTML=ic('moon',20);$('#dev').className='dev '+(S.dev==='web'?'web':'')}
+function toggle(set,v){set.has(v)?set.delete(v):set.add(v)}
+document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;if(!S.q.trim()&&!nF())S.scope='all';paint();chrome();const x=$('.field .x');const has=!!S.q;if(has&&!x)$('#app .sb').outerHTML=bar(),$('#q').focus(),$('#q').setSelectionRange(S.q.length,S.q.length);if(!has&&x)$('#app .sb').outerHTML=bar(),$('#q').focus()}
+ if(e.target.id==='subq'){S.subq=e.target.value;const p=$('.sh-b').scrollTop;$('#sheet').innerHTML=sheet();$('#sheet').classList.add('on');$('.sh-b').scrollTop=p;const i=$('#subq');i.focus();i.setSelectionRange(S.subq.length,S.subq.length)}});
+document.addEventListener('keydown',e=>{if(e.target.id==='q'&&e.key==='Enter'&&S.q.trim()){S.recent=[S.q.trim(),...S.recent.filter(x=>x!==S.q.trim())].slice(0,5);e.target.blur()}if(e.key==='Escape'&&S.sheet)closeSheet()});
+document.addEventListener('click',e=>{const t=e.target.closest('button,.h5[data-open],[data-rm],#scrim');if(!t)return;const d=t.dataset;
+ if(t.closest('#sScr')){const k=d.scr;if(k==='sheet'){if(!S.q&&!nF())S.q='2079';render();return openSheet()}if(S.sheet)S.sheet=false;S.q=k==='results'?(S.q||'2079'):'';if(k==='empty'){S.sub.clear();S.type.clear();S.cls.clear();S.sort='rel'}return render()}
+ if(t.closest('#sDev')){S.dev=d.v;document.querySelectorAll('#sDev button').forEach(b=>b.classList.toggle('on',b.dataset.v===d.v));return render()}
+ if(t.id==='bTheme'){const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark';return}
+ if(t.id==='scrim'||'close' in d)return closeSheet();
+ if('rm' in d){S.recent=S.recent.filter(x=>x!==d.rm);return paint()}
+ if('clr' in d){S.recent=[];return paint()}
+ if(d.q){S.q=d.q;S.scope='all';render();return}
+ if(d.pre){S.q='';S.scope=d.pre;render();return $('#q').focus()}
+ if('back' in d){if(S.q||nF()){S.q='';S.sub.clear();S.type.clear();S.cls.clear();S.sort='rel';S.scope='all';return render()}return}
+ if('xq' in d){S.q='';S.scope='all';render();return $('#q').focus()}
+ if('sheet' in d)return openSheet();
+ if(d.scope){S.scope=d.scope;return paint()}
+ if(d.un){const[k,v]=d.un.split('|');k==='sort'?S.sort='rel':S[k].delete(v);return render()}
+ if('clearall' in d){S.sub.clear();S.type.clear();S.cls.clear();S.sort='rel';return S.sheet?($('#sheet').innerHTML=sheet(),paint(),$('#app .sb').outerHTML=bar()):render()}
+ if(d.open){S.open[d.open]=!S.open[d.open];const p=$('.sh-b').scrollTop;$('#sheet').innerHTML=sheet();$('.sh-b').scrollTop=p;return}
+ if(d.sort){S.sort=d.sort;$('#sheet').innerHTML=sheet();return}
+ if(d.t){const[k,v]=d.t.split('|');toggle(S[k],v);const p=$('.sh-b').scrollTop;$('#sheet').innerHTML=sheet();$('.sh-b').scrollTop=p;return}
+});
+render();
+</script>
+</body>
+</html>

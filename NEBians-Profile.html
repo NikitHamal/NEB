@@ -64,6 +64,18 @@ button,[role=button]{cursor:pointer}
 .ln{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;font-weight:500;color:var(--onv);margin-top:8px}
 .ln span{display:inline-flex;align-items:center;gap:5px}
 .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+/* head grounded in the real profile: cover to both edges, back and utilities on the cover, avatar across its edge, one action opposite */
+.sc.pf{padding-top:0}
+.cover{height:150px;border-radius:0 0 28px 28px;margin:0 -16px}
+.cb{position:absolute;top:14px;width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--s) 72%,transparent);color:var(--on);z-index:2;transition:border-radius .3s var(--sp),transform .2s}
+.cb:active{transform:scale(.94)}.cb.l{left:16px}.cb.r1{right:16px}.cb.r2{right:64px}
+.who{justify-content:space-between;margin:-40px 0 0}
+.av{border-radius:32%;width:92px;height:92px;box-shadow:none}
+.av.sq{border-radius:30px}
+.who .btn{height:40px;padding:0 18px}
+.stl{display:flex;gap:18px;margin-top:12px;font-size:13px;font-weight:500;color:var(--onv)}
+.stl b{font-weight:600;color:var(--on);margin-right:4px}
+
 .btn{height:44px;padding:0 20px;border-radius:22px;background:var(--p);color:var(--onp);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:border-radius .35s var(--sp),transform .2s var(--sp)}
 .btn:active{transform:scale(.96)}
 .btn.t{background:var(--pc);color:var(--onpc)}.btn.o{background:var(--s2);color:var(--on)}
@@ -176,7 +188,7 @@ textarea.in{padding:13px 16px;min-height:104px;resize:none;line-height:1.5}
 <script>
 /* ---------- icons (same stroke family as Pathways) ---------- */
 const IC={
-check:'M5 12l5 5 9-10',plus:'M12 5v14M5 12h14',chev:'M9 6l6 6-6 6',back:'M15 6l-6 6 6 6',x:'M6 6l12 12M18 6L6 18',
+check:'M5 12l5 5 9-10',link:'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1',settings:'M12 9a3 3 0 100 6 3 3 0 000-6zM19 12l2-1.5-2-3.5-2.3.8a7 7 0 00-1.7-1L14.5 4h-5L9 6.8a7 7 0 00-1.7 1L5 7 3 10.500 5 12l-2 1.500 2 3.500 2.300-.8a7 7 0 001.700 1L9.500 20h5l.5-2.800a7 7 0 001.700-1l2.300.8 2-3.500z',more:'M5 12h.01M12 12h.01M19 12h.01',plus:'M12 5v14M5 12h14',chev:'M9 6l6 6-6 6',back:'M15 6l-6 6 6 6',x:'M6 6l12 12M18 6L6 18',
 edit:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',school:'M3 10l9-5 9 5-9 5zM7 12.5V17c0 1 2.2 2.5 5 2.5s5-1.5 5-2.5v-4.5',
 pin:'M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11zM12 12a2 2 0 100-4 2 2 0 000 4',
 phone:'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2',
@@ -272,10 +284,12 @@ function head(p){
   const w=WHO[p],v=V[p],bd=w.badge?`<span class="bd" title="Verified">${ic('verified',22)}</span>`:'';
   const sub=p==='teacher'?(v.headline||''):p==='institution'?(v.motto||''):(v.headline||'');
   const lines=w.line.map((l,i)=>`<span>${ic(i?'pin':'school',15)}${esc(l)}</span>`).join('');
-  const act=own()?`<button class="btn" data-edit="all">${ic('edit',18)}Edit profile</button>`:`<button class="btn">${p==='institution'?ic('phone',18)+'Contact':ic('plus',18)+'Follow'}</button><button class="btn t">${ic('send',18)}Message</button>`;
+  const act=own()?`<button class="btn o" data-edit="all">${ic('edit',18)}Edit profile</button>`:`<button class="btn" data-fol>${ic('plus',18)}Follow</button>`;
   const deco=`<svg viewBox="0 0 400 130" preserveAspectRatio="xMidYMid slice"><circle cx="340" cy="30" r="70" fill="currentColor" opacity=".16"/><circle cx="60" cy="140" r="90" fill="currentColor" opacity=".12"/><rect x="170" y="-30" width="90" height="90" rx="32" fill="currentColor" opacity=".1" transform="rotate(20 215 15)"/></svg>`;
-  return `<div class="cover t-${w.cover}" style="color:var(--tf)">${deco}</div><div class="who"><div class="av ${w.sq?'sq':''}">${esc(w.init)}</div></div>
-  <div class="nm">${esc(w.name)}${bd}</div>${sub?`<div class="hl">${esc(sub)}</div>`:''}<div class="ln">${lines}</div><div class="acts">${act}</div>`}
+  const util=`<button class="cb r2" data-copy aria-label="Copy profile link">${ic('link',20)}</button><button class="cb r1" ${own()?'data-edit="all" aria-label="Edit profile details"':'data-more aria-label="More options"'}>${ic(own()?'settings':'more',20)}</button>`;
+  const stl=w.stats.map(x=>`<span><b>${x[1].toLocaleString()}</b>${x[0]}</span>`).join('');
+  return `<div class="cover t-${w.cover}" style="color:var(--tf)">${deco}<button class="cb l" data-back aria-label="Go back">${ic('back',22)}</button>${util}</div><div class="who"><div class="av ${w.sq?'sq':''}">${esc(w.init)}</div>${act}</div>
+  <div class="nm">${esc(w.name)}${bd}</div><div class="hl" style="margin-top:0">@${esc(w.user)}</div>${sub?`<div class="hl">${esc(sub)}</div>`:''}<div class="ln">${lines}</div><div class="stl">${stl}</div>`}
 const facts=v=>[['Established',v.est],['Students',v.students&&v.students.toLocaleString()],['Teachers',v.teachers],['Staff',v.staff]].filter(x=>x[1]);
 function instBody(p,v,w){
   let o=[],n=0;
@@ -311,7 +325,7 @@ function personBody(p,v){
   return o.join('')}
 function profile(){
   const p=S.per,w=WHO[p],v=V[p],st=w.stats.map(x=>`<div class="stat" style="padding:12px"><b style="font-size:22px">${x[1].toLocaleString()}</b><small>${x[0]}</small></div>`).join('');
-  const side=`${own()?strength(p):''}<div class="grid" style="grid-template-columns:repeat(3,1fr);margin-top:12px">${st}</div>`;
+  const side=`${own()?strength(p):''}`;
   const body=p==='institution'?instBody(p,v,w):p==='teacher'?teacherBody(p,v):personBody(p,v);
   return `<div class="pg two"><div class="hd">${head(p)}</div><div class="side">${side}</div><div>${body}</div></div>`}
 </script>
@@ -397,7 +411,7 @@ function render(){
   chrome();
   const t={profile:WHO[S.per].user,signup:'Create account',claim:'Claim institution',find:'Pathways'}[S.scr];
   const body={profile,signup,claim,find}[S.scr]();
-  $('#app').innerHTML=`<div class="bar"><b>${esc(t)}</b>${S.scr==='profile'&&own()?`<button class="ib" data-edit="all" aria-label="Edit">${ic('edit',20)}</button>`:''}</div><div class="sc" id="sc">${body}</div><div class="scrim" id="scrim"></div><div class="sheet" id="sheet"></div><div class="toast" id="toast"></div>`;
+  $('#app').innerHTML=`${S.scr==='profile'?'<div></div>':`<div class="bar"><b>${esc(t)}</b></div>`}<div class="sc ${S.scr==='profile'?'pf':''}" id="sc">${body}</div><div class="scrim" id="scrim"></div><div class="sheet" id="sheet"></div><div class="toast" id="toast"></div>`;
   if(S.scr==='signup')wireSignup();if(S.scr==='claim')wireClaim()}
 document.addEventListener('click',e=>{
   const t=e.target.closest('button,[data-edit]');if(!t)return;const d=t.dataset;
@@ -406,6 +420,10 @@ document.addEventListener('click',e=>{
   if(t.closest('#sView')){S.view=d.k;S.scr='profile';return render()}
   if(t.closest('#sDev')){S.dev=d.v;return render()}
   if(t.id==='bTheme'){const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark';return chrome()}
+  if('back' in d){if(S.from){S.scr=S.from;S.from='';S.view='owner';return render()}return toast('Back to the feed')}
+  if('copy' in d)return toast('Profile link copied');
+  if('more' in d)return toast('More options');
+  if('fol' in d){t.classList.toggle('t');t.lastChild.textContent=t.classList.contains('t')?'Following':'Follow';return}
   if(d.edit)return openSheet(d.edit);
   if('close' in d)return closeSheet();
   if(d.ch){const a=DRAFT,k=d.ch;if(d.one==='1')a[k]=a[k]===d.v?'':d.v;else{a[k]=a[k]||[];const i=a[k].indexOf(d.v);i<0?a[k].push(d.v):a[k].splice(i,1)}t.parentNode.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',d.one==='1'?a[k]===c.dataset.v:a[k].includes(c.dataset.v)));return}
@@ -422,7 +440,7 @@ document.addEventListener('click',e=>{
   if('doc' in d){$('#dn').textContent='registration-certificate.pdf attached';return t.classList.add('pop')}
   if(d.go){S.scr=d.go;S.per='institution';return render()}
   if(d.fk){S.fk=d.fk;return render()}
-  if(d.open){S.per='institution';S.view='visitor';S.scr='profile';return render()}
+  if(d.open){S.from=S.scr;S.per='institution';S.view='visitor';S.scr='profile';return render()}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
 render();

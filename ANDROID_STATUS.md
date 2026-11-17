@@ -1117,3 +1117,32 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Android on device: Teaching block wrap on a 360dp phone.
 
 CI note: `backend-tests.yml` checks the CSS bundles. `m3x-app.css` is generated; edit a module under `web/css/m3x/` (here `app-portfolio.css`) and run `python3 tools/css/bundle.py`. The first push of session 42 appended to the bundle and failed `--check`; fixed.
+
+
+---
+
+# Session 43: exam groups (Government, Entrance, Language), Guides and Questions, +2 facts, grounded profile and search concepts
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first: sessions 37 to 42 already hold the Pathways port, Android exams, portfolio, 24,665 school catalogue in signup and edit, institution signup without gender and date of birth (`stepsForRole`), claim and owner editor, teacher portfolio. Those are **kept and not redone**. This session adds only what the audit found missing.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 265 | **Exams have three groups like the concept**: Government, Entrance, Language. Groups come from the server (`govt_groups`), every track carries a `group` (default `gov`). Android shows a segment for the groups and chips for the tracks inside one group; the Woman / Man switch only shows for Government. | `api/pathways.py`, `wave17.json`, `PathwaysData.kt` (`PwTopic.group`, `govtGroups`), `PwExams.kt`, web `pathways-data.js`, `pathways.js` (`xgr`) |
+| 266 | **13 new exams**: IOE (BE, B.Arch), BSc CSIT, MECEE-BL, CMAT, CTEVT diploma entrance; IELTS, PTE, TOEFL, Duolingo; JLPT, TOPIK, German certificates, HSK. Patterns checked against the exam bodies (IOE 100 questions, 140 marks, 2 h, 10 percent negative; MECEE-BL 200 marks, 3 h, 0.25 negative; CSIT 100 marks, 2 h, no negative). 2083 dates for CSIT and CMAT come from the route text. Unknown fees and dates are left empty and the card says "Dates vary, check the notice". | `wave17.json` |
+| 267 | **53 routes link to their entrance** (`exam_id`): IOE for engineering, MECEE-BL for health, CMAT for management, CSIT, CTEVT. The course screen entrance tile now opens the exam. | `wave17.json` (`route_exam`), `pathways.py` |
+| 268 | **Guides and Questions are two sections** (segment on top, category chips under Guides only). A saved question opens the Questions side. The "Questions" heading is gone. | `PwGuides.kt`, `PwQuestions.kt` |
+| 269 | **Match asks what you have finished**, not "After SEE": Class 8, Class 10 / SEE, +2 / Class 12, Bachelor, Master (`finishedLabel`). Results line uses the same words. | `PwMatchEngine.kt`, `PwMatchWizard.kt`, `PwMatchResults.kt`, web `pathways-data.js` (`l`), concept |
+| 270 | **+2 streams are right**: Science Physical group (Maths compulsory, Physics, Chemistry, Computer optional), Science Biology group (Physics, Chemistry, Biology), Management, Humanities, Education, Law, Technical. Each tile lists its subjects. NEB rule: Nepali and English plus Social Studies and Life Skills **or Mathematics** are the compulsory block; Computer Science is optional group IV. | `STREAMS`, `STREAM_HINT`, web `STM`, concept |
+| 271 | **Profile concept grounded** (`NEBians-Profile.html`): no top bar, cover to both edges with back, copy link and settings (more for a visitor) on the cover as in `profile.html`, avatar across the cover edge with one action opposite (Edit profile or Follow), name, @username, headline, facts, inline counts. **No Message button** (the app and site have none). Avatar is a squircle, no ring. | concept |
+| 272 | **New concept `NEBians-Search.html`** (phone and web, light and dark): recents with remove, popular words, scope shortcuts; tab bar with live counts that never truncate (All, Resources, Posts, People, Schools); applied filters as removable chips; sort in one place; filter sheet with sort row, collapsible groups, subject search, selected first, live "Show N results" button, no tagline. | concept |
+
+## Rules
+- Exam group and track lists are server data. A new exam goes in a wave file with a `track` that has a `group`; no list is hard-coded in the apps.
+- Stage questions read the level finished, never "After ...". The explore chips keep the stage names.
+- Language and entrance exams never invent fees or dates; empty means "check the notice".
+
+## Next
+- Owner review: https://nikithamal.github.io/NEB/search.html and profile.html. When locked, port the search and filter sheet to Android (`SearchScreen`, filter sheet) and the web header, then the portfolio overhaul.
+- Android on device: Exams segment plus track chips on a 360dp phone.
