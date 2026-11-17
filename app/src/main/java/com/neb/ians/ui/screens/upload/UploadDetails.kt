@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.upload
 
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -11,7 +12,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
@@ -269,7 +269,7 @@ fun UploadLinkField(state: UploadFormState, viewModel: UploadViewModel, modifier
 
 @Composable
 fun UploadSuccessScreen(onUploadAnother: () -> Unit, onBrowseLibrary: () -> Unit) {
-    val dark = isSystemInDarkTheme()
+    val dark = androidx.compose.material3.MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val transition = rememberInfiniteTransition(label = "upload_done")
     val position by transition.animateFloat(
         initialValue = 0f,

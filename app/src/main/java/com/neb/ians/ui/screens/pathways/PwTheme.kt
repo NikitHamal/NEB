@@ -185,25 +185,31 @@ internal fun PwChipRow(items: List<Pair<String, String>>, selected: (String) -> 
     ) { items.forEach { (k, label) -> PwChip(label, selected(k), { onClick(k) }) } }
 }
 
-/** Connected button group: neighbours share tight corners, the selected one rounds fully. */
+/**
+ * Segmented control: one tonal pill track, equal segments, the selected one is a
+ * full pill inside it. Every segment has the same shape, so no corner is ever
+ * square next to a round one (the old connected group looked uneven).
+ */
 @Composable
 internal fun <T> PwSeg(items: List<Pair<T, String>>, selected: T, onSelect: (T) -> Unit, modifier: Modifier = Modifier, fill: Boolean = true, height: Dp = 44.dp) {
     val c = MaterialTheme.colorScheme
-    Row(if (fill) modifier.fillMaxWidth() else modifier, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-        items.forEachIndexed { i, (key, label) ->
+    val inner = height - 8.dp
+    Row(
+        (if (fill) modifier.fillMaxWidth() else modifier.width(IntrinsicSize.Max))
+            .height(height).clip(RoundedCornerShape(height / 2)).background(c.surfaceContainerHigh).padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+    ) {
+        items.forEach { (key, label) ->
             val on = key == selected
-            val l by animateDpAsState(if (on || i == 0) height / 2 else 8.dp, bouncy, label = "segL")
-            val r by animateDpAsState(if (on || i == items.lastIndex) height / 2 else 8.dp, bouncy, label = "segR")
-            val bg by animateColorAsState(if (on) c.onSurface else c.surfaceContainerHigh, label = "segBg")
-            Surface(
-                onClick = { onSelect(key) },
-                modifier = (if (fill) Modifier.weight(1f) else Modifier).height(height),
-                shape = RoundedCornerShape(topStart = l, bottomStart = l, topEnd = r, bottomEnd = r),
-                color = bg, contentColor = if (on) c.surface else c.onSurface,
+            val bg by animateColorAsState(if (on) c.onSurface else Color.Transparent, label = "segBg")
+            val fg by animateColorAsState(if (on) c.surface else c.onSurfaceVariant, label = "segFg")
+            Box(
+                Modifier.weight(1f).fillMaxHeight().clip(RoundedCornerShape(inner / 2)).background(bg)
+                    .clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = { onSelect(key) })
+                    .padding(horizontal = if (fill) 6.dp else 16.dp),
+                contentAlignment = Alignment.Center,
             ) {
-                Box(Modifier.padding(horizontal = if (fill) 6.dp else 16.dp), contentAlignment = Alignment.Center) {
-                    Text(label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
+                Text(label, color = fg, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
     }

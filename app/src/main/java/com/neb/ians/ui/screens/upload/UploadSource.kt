@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.upload
 
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.animation.AnimatedVisibility
 import com.neb.ians.ui.components.boundedWidth
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -11,7 +12,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.runtime.getValue
@@ -206,7 +206,7 @@ private fun SourceHero(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val dark = isSystemInDarkTheme()
+    val dark = androidx.compose.material3.MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val tone = NebTone.Azure
     val transition = rememberInfiniteTransition(label = "source_hero")
     val position by transition.animateFloat(
@@ -286,7 +286,7 @@ private fun SourceTile(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val dark = isSystemInDarkTheme()
+    val dark = androidx.compose.material3.MaterialTheme.colorScheme.surface.luminance() < 0.5f
     Row(
         modifier = modifier
             .height(84.dp)

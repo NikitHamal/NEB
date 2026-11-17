@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.upload
 
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -19,7 +20,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -176,7 +176,7 @@ internal fun UploadPublishingOverlay(
         exit = fadeOut(nebEffectsSpec()),
         modifier = modifier
     ) {
-        val dark = isSystemInDarkTheme()
+        val dark = androidx.compose.material3.MaterialTheme.colorScheme.surface.luminance() < 0.5f
         val transition = rememberInfiniteTransition(label = "upload_publish")
         val position by transition.animateFloat(
             initialValue = 0f,

@@ -32,10 +32,9 @@ button,[role=button]{cursor:pointer}
 /* board */
 .board{display:flex;align-items:center;gap:10px;max-width:1280px;margin:0 auto 12px;flex-wrap:wrap}
 .board h1{font-size:15px;font-weight:600;flex:1;min-width:140px;letter-spacing:-.01em}
-.seg{display:flex;gap:3px}
-.seg button{height:38px;padding:0 15px;font-size:12.5px;font-weight:600;background:var(--s3);border-radius:8px;white-space:nowrap;transition:border-radius .35s var(--sp),background .2s}
-.seg button:first-child{border-radius:19px 8px 8px 19px}.seg button:last-child{border-radius:8px 19px 19px 8px}
-.seg button.on{background:var(--on);color:var(--s);border-radius:19px}
+.seg{display:flex;gap:2px;background:var(--s3);padding:4px;border-radius:23px;width:max-content;max-width:100%}
+.seg button{height:38px;padding:0 18px;font-size:13px;font-weight:600;color:var(--onv);background:transparent;border-radius:19px;white-space:nowrap;transition:background .2s,color .2s}
+.seg button.on{background:var(--on);color:var(--s)}
 .ib{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--s2);flex:none;transition:border-radius .35s var(--sp),background .2s}
 .ib:active{border-radius:14px}
 /* frame */
