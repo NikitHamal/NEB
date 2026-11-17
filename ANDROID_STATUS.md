@@ -1334,3 +1334,25 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - **Redeploy the backend** (`deploy.ps1`) for the web changes since session 44.
 - Android on device: search tabs on a 360dp phone.
+
+
+---
+
+# Session 52: audit, search tab polish, concepts republished
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 51). The brief repeated the Pathways port, profile overhaul, 24,665 catalogue, institution and teacher portfolios, no DOB or gender for institutions, graphite dark, the segmented-control revert and the search tabs. Verified in code and **kept, not redone**: onboarding by role (institution sends no dob or gender), Android profile and strength card, teacher fields in editor and profile, institution page and owner editor, Find a college "On NEBians" first, in-app claim, dark palette (`Palette.kt` and `tokens.css` equal the concept `[data-theme=dark]` block; no dynamic colour). Guards pass: `sync_android_palette.py --check`, `check_insets.py`, `check_scrollers.py`, `check_sheets.py`.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 308 | **Concepts on GitHub Pages were stale**: `pathways.html` and `profile.html` still carried the session 46 single-track segmented control that the owner rejected (session 47 lock is the connected button group with a 3dp gap). Republished from main (`1ca5d09` on `gh-pages`); `search.html` was already equal. | `gh-pages` |
+| 309 | **Search tab line** is inset 14dp each side like the concept (`left:14px; right:14px`), it was full tab width. | `SearchScreen.kt` (`SearchScopeBank`) |
+| 310 | **Web search tabs have no icons** (Resources, Posts, People and Schools had one, All did not); label plus count pill only, as in the concept and the owner's screenshot. | `_search_results.html` |
+
+## Rules
+- Do not touch the segmented control again (`docs/M3X_DESIGN_SYSTEM.md` "Segmented controls (LOCKED)"). A first attempt this session reverted to the single track by mistake and was undone before commit. The concept files on `gh-pages` must be copied from main after any concept change.
+
+## Next
+- **Redeploy the backend** (`deploy.ps1`) for the web changes since session 44.
+- Android on device: search tabs on a 360dp phone, dark graphite pass.

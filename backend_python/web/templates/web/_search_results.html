@@ -13,19 +13,15 @@
       <span class="neb-rail-label">All</span>{% if tab_counts.all is not None %}<span class="neb-rail-count">{{ tab_counts.all }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'resources' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
-      <span class="material-symbols-outlined">auto_stories</span>
       <span class="neb-rail-label">Resources</span>{% if tab_counts.resources is not None %}<span class="neb-rail-count">{{ tab_counts.resources }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'posts' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
-      <span class="material-symbols-outlined">forum</span>
       <span class="neb-rail-label">Posts</span>{% if tab_counts.posts is not None %}<span class="neb-rail-count">{{ tab_counts.posts }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'users' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
-      <span class="material-symbols-outlined">group</span>
       <span class="neb-rail-label">People</span>{% if tab_counts.users is not None %}<span class="neb-rail-count">{{ tab_counts.users }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=schools" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'schools' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=schools" hx-target="#search-results" hx-push-url="true">
-      <span class="material-symbols-outlined">account_balance</span>
       <span class="neb-rail-label">Schools</span>{% if tab_counts.schools is not None %}<span class="neb-rail-count">{{ tab_counts.schools }}</span>{% endif %}
     </a>
   </nav>

@@ -480,6 +480,7 @@ private fun SearchScopeBank(
                         Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(horizontal = 14.dp)
                             .height(3.dp)
                             .clip(RoundedCornerShape(topStart = 3.dp, topEnd = 3.dp))
                             .background(line)
