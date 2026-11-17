@@ -1,9 +1,14 @@
 {% load static %}
 <div class="ix-hub">
-
+  {% if interactive_categories|length > 1 %}
+  <nav class="ix-filter" aria-label="Categories" data-ix-filter>
+    <button type="button" class="ix-fchip is-on" data-k="all">All</button>
+    {% for cat in interactive_categories %}<button type="button" class="ix-fchip" data-k="{{ cat.key }}">{{ cat.label }}</button>{% endfor %}
+  </nav>
+  {% endif %}
 
   {% for cat in interactive_categories %}
-  <section class="ix-category" id="ix-{{ cat.key }}">
+  <section class="ix-category" id="ix-{{ cat.key }}" data-k="{{ cat.key }}">
     <div class="ix-cat-header">
       {% comment %} A silhouette per section, in the app's order --
       NebShapes.option(index) does this by position in Kotlin, and the
@@ -13,7 +18,6 @@
       </span>
       <div>
         <h3 class="ix-cat-title">{{ cat.label }}</h3>
-        <p class="ix-cat-blurb">{{ cat.blurb }}</p>
       </div>
     </div>
     <div class="ix-course-grid neb-opt-bank">
@@ -54,6 +58,16 @@
 </div>
 
 <script nonce="{{ csp_nonce }}">
+(function () {
+  var bar = document.querySelector('[data-ix-filter]');
+  if (bar) bar.addEventListener('click', function (e) {
+    var b = e.target.closest('.ix-fchip'); if (!b) return;
+    bar.querySelectorAll('.ix-fchip').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+    document.querySelectorAll('.ix-category').forEach(function (s) {
+      s.hidden = b.dataset.k !== 'all' && s.dataset.k !== b.dataset.k;
+    });
+  });
+})();
 (function () {
   var store = {};
   try { store = JSON.parse(localStorage.getItem('nebians_interactive_progress') || '{}'); } catch (e) {}

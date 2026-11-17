@@ -4,7 +4,6 @@ import com.neb.ians.ui.components.LinkifyText
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -37,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -78,6 +77,8 @@ class InteractiveCourseViewModel @Inject constructor(
             try {
                 val response = apiService.getInteractiveCourseDetail(courseSlug)
                 _uiState.update { it.copy(course = response, isLoading = false) }
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load course") }
             }
@@ -207,16 +208,6 @@ private fun CourseDetailContent(
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (course.tagline.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = course.tagline,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -240,29 +231,6 @@ private fun CourseDetailContent(
                         maxLines = 5,
                         overflow = TextOverflow.Ellipsis
                     )
-                }
-                if (course.skills.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    val scrollState = rememberScrollState()
-                    Row(
-                        modifier = Modifier.nebHorizontalScroll(scrollState),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        course.skills.forEach { skill ->
-                            Surface(
-                                shape = WebPillShape,
-                                color = MaterialTheme.colorScheme.surfaceContainer,
-                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                            ) {
-                                Text(
-                                    text = skill,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                                )
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -309,10 +277,11 @@ private fun LessonRow(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(22.dp))
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(22.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.7f))
     ) {
         Row(
             modifier = Modifier
@@ -321,9 +290,9 @@ private fun LessonRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Surface(
-                shape = WebPillShape,
+                shape = RoundedCornerShape(14.dp),
                 color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(40.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
