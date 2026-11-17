@@ -450,7 +450,7 @@ internal fun ForumPostCardPlain(
 
             // ----- Action row: ghost buttons, like turns tonal -----
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().nebGhostRowStart(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {

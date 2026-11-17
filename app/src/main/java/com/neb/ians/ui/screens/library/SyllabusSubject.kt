@@ -77,6 +77,7 @@ private val ApiSyllabusDoc.unitWord: String get() = if (isTrack) "Chapter" else 
 private fun ApiSyllabusUnit.weightLabel(): String? =
     questions?.let { if (it == 1) "1 question" else "$it questions" } ?: hours?.let { "$it hrs" }
 
+// inset-ok: embedded under the Library host, which already clears the status bar
 @Composable
 internal fun SyllabusSubject(state: SyllabusUiState, viewModel: SyllabusViewModel, onOpenDoc: OpenDoc) {
     BackHandler(onBack = viewModel::closeSubject)

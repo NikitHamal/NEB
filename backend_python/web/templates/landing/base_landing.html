@@ -9,7 +9,7 @@ may add `{% block jsonld %}`. Each page keeps its own copy in the view, so a pag
 <meta name="description" content="{{ seo.description }}">
 <link rel="canonical" href="https://nebians.consica.com.np{{ seo.path }}">
 <meta name="theme-color" content="#f6f8ff">
-<script nonce="{{ csp_nonce }}">(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='dark'&&t!=='light'){t={% if dark_mode %}'dark'{% else %}(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'){% endif %}}d.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#090f1f'})()</script>
+<script nonce="{{ csp_nonce }}">(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='dark'&&t!=='light'){t={% if dark_mode %}'dark'{% else %}(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'){% endif %}}d.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#121318'})()</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NEBians">
 <meta property="og:title" content="{{ seo.title }}">

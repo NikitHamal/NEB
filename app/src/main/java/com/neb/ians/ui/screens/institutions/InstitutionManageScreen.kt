@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.institutions
 
+import com.neb.ians.ui.components.NebTopBar
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -79,10 +80,7 @@ fun InstitutionManageScreen(slug: String, onBack: () -> Unit, vm: InstitutionVie
     var open by remember { mutableStateOf<Sec?>(null) }
     val score by animateFloatAsState((d?.portfolio?.completeness ?: 0) / 100f, label = "score")
     Column(Modifier.fillMaxSize()) {
-        Row(Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Back") }
-            Text("Your portfolio", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-        }
+        NebTopBar(showBrand = false, title = "Your portfolio", onBack = onBack)
         if (d == null) return@Column
         LazyColumn(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item {

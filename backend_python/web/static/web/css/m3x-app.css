@@ -3160,14 +3160,17 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .post-card-actions.post-card-actions {
   container: pca / inline-size;
   display: flex; flex-wrap: nowrap; align-items: center; gap: 2px;
-  width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box;
+  --act-inset: 10px;
+  /* RULE: the first glyph sits exactly under the left edge of the text above it. The ghost buttons keep
+     --act-inset of inner padding for the touch target, the row is pulled left and widened by the same amount. */
+  margin-inline-start: calc(-1 * var(--act-inset));
+  width: calc(100% + var(--act-inset)); max-width: calc(100% + var(--act-inset)); min-width: 0; box-sizing: border-box;
 }
-.post-card-actions.post-card-actions > :is(button, a, .act-btn-stat) { flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+.post-card-actions.post-card-actions > :is(button, a, .act-btn-stat) { padding-inline: var(--act-inset); flex: 0 1 auto; min-width: 0; white-space: nowrap; }
 .post-card-actions.post-card-actions > .fp-action-spacer { flex: 1 1 0; min-width: 0; }
 
 @container pca (max-width: 400px) {
   .post-card-actions .post-action-label { display: none; }
-  .post-card-actions > :is(button, a, .act-btn-stat) { padding-inline: 8px; }
 }
 
 /* ---- m3x/app-sizing.css ---- */

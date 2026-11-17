@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.resource
 
+import com.neb.ians.ui.components.nebGhostRowStart
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -273,10 +274,10 @@ fun ResourceCommentItem(
                 color = MaterialTheme.colorScheme.onSurface,
                 lineHeight = 20.sp
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(2.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().nebGhostRowStart()
             ) {
                 LikePill(
                     count = comment.likeCount,

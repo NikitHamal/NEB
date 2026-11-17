@@ -23,7 +23,7 @@ You are building UI in the "M3X" design system: Material 3 Expressive in the NEB
 
 LOOK
 - Calm, tonal, confident. Separation comes from tone, a 1px hairline and shape. Never from shadow.
-- One brand blue (#0058df) and its tonal family. The page is blue-tinted off-white (#f6f8ff) in light and deep navy (#090f1f) in dark. Cards are white (light) or near-black navy (dark) with a 1px outline-variant hairline.
+- One brand blue (#0058df) and its tonal family. The page is blue-tinted off-white (#f6f8ff) in light and neutral graphite (#121318) in dark. Cards are white (light) or graphite #1b1b21 (dark) with a 1px outline-variant hairline.
 - Everything is rounded with a FINITE radius: 12, 16, 20, 24, 28, 32, 44. A pill is 28px radius on anything up to 56px tall. Never 9999px, never 50% on a rectangle that will animate, never 0 on a button.
 - Expressive means shape and motion: cookie, sunny, flower, clover, burst, squircle, pebble silhouettes (clip-path polygons with identical point counts so they morph) for avatars, glyph tiles, hero art and the loader; springy overshoot on press, hover and enter.
 - Typography: Poppins inside the app (weights 400, 500, 600, 700; headings 600 with -0.02em tracking). Marketing pages may use Bricolage Grotesque (display) + Figtree (body). Never Inter, Roboto, system-only, or a second family in the same screen.
@@ -35,7 +35,7 @@ TOKENS (never hard-code a colour; a fill and its label are always a role pair)
 
 SURFACES AND FIELDS
 - Page: --md-surface. Card: --md-surface-container-lowest + 1px --md-outline-variant + radius 24 to 28. Inset tile inside a card: --md-surface-container-low + radius 20, no border.
-- Floating things (menu, dialog, bottom sheet, popover): --x-float (white in light, #172036 in dark) + 1px --x-float-line. No shadow, no blur backdrop.
+- Floating things (menu, dialog, bottom sheet, popover): --x-float (white in light, #25262c in dark) + 1px --x-float-line. No shadow, no blur backdrop.
 - Text fields, selects, option cards: white (--x-field) with ONE 1.5px stroke (--x-field-line). Hover, focus and selected change only the stroke colour (to primary). Never an outline stacked on a border, never fill a field with a surface-container tone, never a floating-label animation.
 
 BUTTONS
@@ -147,27 +147,27 @@ Brand colour comes from the NEBians N: front face `#0058df`, dark faces `#052566
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --md-primary: #b2c5ff;                --md-on-primary: #002a78;
-  --md-primary-container: #003fa6;      --md-on-primary-container: #dbe4ff;
-  --md-secondary: #b4c3e6;              --md-on-secondary: #1a2a4d;
-  --md-secondary-container: #2a3858;    --md-on-secondary-container: #dfe7fa;
-  --md-tertiary: #7fd2f2;               --md-on-tertiary: #003546;
-  --md-tertiary-container: #004d63;     --md-on-tertiary-container: #c6ecff;
+  --md-primary: #b6c4ff;                --md-on-primary: #002780;
+  --md-primary-container: #00389f;      --md-on-primary-container: #dce1ff;
+  --md-secondary: #c0c6dc;              --md-on-secondary: #2a3042;
+  --md-secondary-container: #404659;    --md-on-secondary-container: #dce1f9;
+  --md-tertiary: #e2bbdb;               --md-on-tertiary: #422740;
+  --md-tertiary-container: #5b3d57;     --md-on-tertiary-container: #ffd7f5;
   --md-error: #ffb4ab;                  --md-on-error: #690005;
   --md-error-container: #93000a;        --md-on-error-container: #ffdad6;
-  --md-background: #090f1f;             --md-on-background: #e3e8f7;
-  --md-surface: #090f1f;                --md-on-surface: #e3e8f7;
-  --md-surface-variant: #252f48;        --md-on-surface-variant: #aab4ce;
-  --md-on-surface-tertiary: #8590ac;
-  --md-outline: #79839f;                --md-outline-variant: #2f3a55;
-  --md-surface-dim: #060b17;            --md-surface-bright: #2a3550;
-  --md-surface-container-lowest: #060b17;
-  --md-surface-container-low: #0e1528;
-  --md-surface-container: #121a2f;
-  --md-surface-container-high: #1a243c;
-  --md-surface-container-highest: #232e48;
-  --x-float: #172036;  --x-float-line: #2f3a55;
-  --md-inverse-surface: #e3e8f7;  --md-inverse-on-surface: #1f2840;  --md-inverse-primary: #0058df;
+  --md-background: #121318;             --md-on-background: #e4e1e9;
+  --md-surface: #121318;                --md-on-surface: #e4e1e9;
+  --md-surface-variant: #45464f;        --md-on-surface-variant: #c6c6d0;
+  --md-on-surface-tertiary: #909099;
+  --md-outline: #8f909a;                --md-outline-variant: #45464f;
+  --md-surface-dim: #121318;            --md-surface-bright: #38393f;
+  --md-surface-container-lowest: #0d0e13;
+  --md-surface-container-low: #1b1b21;
+  --md-surface-container: #1f1f25;
+  --md-surface-container-high: #292a2f;
+  --md-surface-container-highest: #2e2f36;
+  --x-float: #25262c;  --x-float-line: #45464f;
+  --md-inverse-surface: #e4e1e9;  --md-inverse-on-surface: #303036;  --md-inverse-primary: #004bd4;
   --azure-c: #1c3470;  --azure-d: #9db8ff;
   --sky-c: #0b3a52;    --sky-d: #8fdcff;
   --aqua-c: #0b3b37;   --aqua-d: #8ae9da;
@@ -542,3 +542,16 @@ The rule now lives in the component, not in the caller:
 - Never call `ModalBottomSheet(` directly in a new file. `tools/android/check_sheets.py` (first CI step) fails on it, and on `fullBleed = true` without the comment. The legacy raw sheets are in the script's list; migrate them, do not extend it.
 - Same check by eye before saying done: open the sheet at 390 px wide, the text must have 22dp from both edges and the buttons must not touch the screen sides.
 
+
+
+## 14. Dark mode, status bar, post and comment rows (session 44; written after these flaws came back again)
+
+**Dark is neutral graphite, never navy.** Page `#121318`, cards `#1b1b21` / `#1f1f25`, raised `#292a2f` / `#2e2f36`, hairline `#45464f`, text `#e4e1e9` / `#c6c6d0`, primary `#b6c4ff`. It is the dark of `NEBians-Pathways.html` and is the same on web (`tokens.css`), Android (`Palette.kt`, generated), the splash (`values-night`), the auth screens and desktop. A new dark colour is taken from this ramp; no hex with a blue cast (`#0b1020`, `#172036` and friends) is written by hand. Brand blue lives in primary and the tonal containers only.
+
+**Status bar (Android).** The app is edge to edge. Every full screen starts with `NebTopBar(...)`, which applies `statusBarsPadding()`. Never write a bare `Row { IconButton(ArrowBack) Text(title) }` at the top of a screen. `tools/android/check_insets.py` runs in CI and fails on it (opt out with `// inset-ok: reason` only when a host already pads, such as a tab body).
+
+**Post and comment rows (web and Android).**
+1. Layout is one grid: avatar column, then a content column. Header line (name, badge, dot, time, chips), body 2dp under it, media, then the action row. The body starts at the same x as the name. No extra gap between header and body: header height 20dp, gap 2dp.
+2. The first icon of the action row sits exactly under the left edge of the body text, not inset by the pill padding. Ghost pills keep 12dp (10px web) of inner padding for the touch target; the row is shifted left by the same amount with `Modifier.nebGhostRowStart()` (Android) or `--act-inset` on `.post-card-actions` (web). The last action sits on the right edge of the content, not past it.
+3. Actions are ghost (no fill) with icon 18dp, count `labelLarge`, 6dp icon to label gap, 2dp between pills. Liked turns primary. Filled tonal pills are for the post detail bar, which starts at the page margin, so no shift there.
+4. Reply, like and mark all use the same pill metrics; never hand-pick `padding(horizontal = 8.dp, vertical = 5.dp)` for one of them.

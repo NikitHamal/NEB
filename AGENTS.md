@@ -50,6 +50,12 @@ and sheets and a comment bar the web does not have, because none of this was wri
 10. **About** (`ui/screens/about/AboutScreen.kt`) mirrors `web/about_data.py` word for word. Edit the team in both places.
 11. **Composers are no-code and never leak a marker.** Posts, replies and note blocks edit a `RichState` (`ui/components/RichState.kt`): plain text the keyboard owns, formatting kept beside it per character and per line. Markdown is read by `RichMarkdown.parse` and written by `RichMarkdown.write` at the edges only. Never write a marker into the field and never rewrite the keyboard's text to fix a style. Pictures in text are slots in the text with local `Uri`s and upload when the post is published, not when picked. See `ANDROID_STATUS.md` session 3.
 
+## Non-negotiable UI rules (session 44, read before any screen, card or colour change)
+- Dark mode is the neutral graphite ramp in `docs/M3X_DESIGN_SYSTEM.md` section 14. Never a navy or blue-cast dark. Edit `tokens.css`, run `tools/css/bundle.py` and `tools/design/sync_android_palette.py`.
+- Android: every full screen starts with `NebTopBar` (or `statusBarsPadding()`); a bare back-arrow row clashes with the status bar. `tools/android/check_insets.py` enforces it in CI.
+- Post and comment rows: header line, 2dp, body, action row; the first action icon sits under the left edge of the body text (`nebGhostRowStart()` / `--act-inset`). See section 14 rule list.
+- Run the three guards before pushing: `python3 tools/android/check_insets.py`, `check_scrollers.py`, `check_sheets.py`.
+
 ## Push, autopilot and library reach
 
 Read `PUSH_AUTOPILOT_STATUS.md` before touching `api/push_engine.py`, `api/resource_alerts.py`, `api/resource_reach.py`,

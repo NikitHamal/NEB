@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.institutions
 
+import com.neb.ians.ui.components.NebTopBar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -57,10 +58,7 @@ fun SchoolsScreen(
     LaunchedEffect(query, kind, onlyClaimed, limit) { vm.search(query, kind, if (onlyClaimed) "1" else "", limit) }
     LaunchedEffect(query, kind, onlyClaimed) { limit = 25 }
     Column(Modifier.fillMaxSize()) {
-        Row(Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Back") }
-            Text("Schools and colleges", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-        }
+        NebTopBar(showBrand = false, title = "Schools and colleges", onBack = onBack)
         Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             NebDialogTextField(value = query, onValueChange = { query = it }, placeholder = "Search by name or district", modifier = Modifier.fillMaxWidth())
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

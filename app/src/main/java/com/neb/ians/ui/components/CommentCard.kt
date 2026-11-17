@@ -138,7 +138,7 @@ fun CommentCard(
                         verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         Row(
-                            modifier = Modifier.height(24.dp),
+                            modifier = Modifier.height(20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
@@ -205,7 +205,7 @@ fun CommentCard(
             }
 
             Column(modifier = Modifier.padding(start = 48.dp)) {
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
             if (!quotedContent.isNullOrBlank()) {
                 Surface(
@@ -283,11 +283,11 @@ fun CommentCard(
                 pollContent(replyPoll)
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().nebGhostRowStart()
             ) {
                 LikePill(
                     count = reply.thumbsUpCount,
@@ -295,7 +295,7 @@ fun CommentCard(
                     onClick = onThumbsUpClick
                 )
                 if (reply.canLabel && onLabelClick != null) {
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(2.dp))
                     Row(
                         modifier = Modifier
                             .clip(WebPillShape)
@@ -303,7 +303,7 @@ fun CommentCard(
                                 tactile.perform(TactileType.LightTap)
                                 onLabelClick()
                             })
-                            .padding(horizontal = 8.dp, vertical = 5.dp),
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
@@ -315,14 +315,14 @@ fun CommentCard(
                         )
                         Text(
                             text = if (reply.label.isNotBlank()) "Marked" else "Mark",
-                            style = MaterialTheme.typography.labelSmall,
+                            style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
                 if (onReplyClick != null) {
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(2.dp))
                     Row(
                         modifier = Modifier
                             .clip(WebPillShape)
@@ -330,9 +330,9 @@ fun CommentCard(
                                 tactile.perform(TactileType.LightTap)
                                 onReplyClick()
                             })
-                            .padding(horizontal = 8.dp, vertical = 5.dp),
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Outlined.Reply,
@@ -342,7 +342,8 @@ fun CommentCard(
                         )
                         Text(
                             text = "Reply",
-                            style = MaterialTheme.typography.labelSmall,
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }

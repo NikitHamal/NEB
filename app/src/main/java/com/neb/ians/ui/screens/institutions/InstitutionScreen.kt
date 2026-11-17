@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.institutions
 
+import com.neb.ians.ui.components.NebIconButton
+import com.neb.ians.ui.components.NebTopBar
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -67,11 +69,9 @@ fun InstitutionScreen(
     val d = st.detail
     val uri = LocalUriHandler.current
     Column(Modifier.fillMaxSize()) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Back") }
-            Text(d?.name ?: "", fontSize = 18.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, modifier = Modifier.weight(1f))
-            if (d?.canEdit == true) IconButton(onClick = { onManage(slug) }) { Icon(Icons.Outlined.Edit, "Edit portfolio") }
-        }
+        NebTopBar(showBrand = false, title = d?.name ?: "", onBack = onBack, actions = {
+            if (d?.canEdit == true) NebIconButton(Icons.Outlined.Edit, "Edit portfolio", onClick = { onManage(slug) })
+        })
         if (d == null) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(if (st.loading) "Loading" else st.error.orEmpty(), color = MaterialTheme.colorScheme.onSurfaceVariant)
