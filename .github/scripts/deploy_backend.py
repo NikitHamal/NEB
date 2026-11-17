@@ -283,7 +283,7 @@ def main():
         if resync and re.fullmatch(r"web/static/[A-Za-z0-9_./-]*", resync) and ".." not in resync:
             # One-time repair for static files an earlier deploy dropped (see the unzip note above).
             remote.append(f"echo 'Re-stamping {resync} so collectstatic re-copies it...'")
-            remote.append(f"find {resync} -type f -exec touch {{}} +")
+            remote.append(f"find {resync} -type f -size -1M -exec touch {{}} +")
             static_changed = True
         if static_changed or static_deleted:
             clear = "--clear" if static_deleted else ""
