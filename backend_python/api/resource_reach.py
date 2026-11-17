@@ -151,19 +151,22 @@ def record_impressions(request, resource_ids) -> int:
         if not ids:
             return 0
         known = set(Resource.objects.filter(pk__in=ids).values_list('pk', flat=True))
+        valid = [rid for rid in ids if rid in known]
+        if not valid:
+            return 0
         day = local_day()
-        n = 0
-        for rid in ids:
-            if rid not in known:
-                continue
-            try:
-                with transaction.atomic():
-                    row, _ = ResourceImpression.objects.get_or_create(resource_id=rid, day=day, source=info['source'])
-            except IntegrityError:
-                row = ResourceImpression.objects.get(resource_id=rid, day=day, source=info['source'])
-            ResourceImpression.objects.filter(pk=row.pk).update(count=F('count') + 1)
-            n += 1
-        return n
+        source = info['source']
+        # One read, one bulk insert (conflicts ignored) and one update for the whole batch;
+        # it used to be get_or_create + update per card, 3 queries each, on every scroll.
+        have = set(ResourceImpression.objects.filter(
+            resource_id__in=valid, day=day, source=source).values_list('resource_id', flat=True))
+        fresh = [rid for rid in valid if rid not in have]
+        if fresh:
+            ResourceImpression.objects.bulk_create(
+                [ResourceImpression(resource_id=rid, day=day, source=source, count=0) for rid in fresh],
+                ignore_conflicts=True)
+        ResourceImpression.objects.filter(resource_id__in=valid, day=day, source=source).update(count=F('count') + 1)
+        return len(valid)
     except Exception:  # noqa: BLE001
         logger.exception('resource impression tracking failed')
         return 0
