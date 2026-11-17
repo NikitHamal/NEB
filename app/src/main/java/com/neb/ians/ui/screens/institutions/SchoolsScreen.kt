@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -76,7 +77,7 @@ fun SchoolsScreen(
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 if (st.total > 0) Text("%,d results".format(st.total), Modifier.weight(1f), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 else Spacer(Modifier.weight(1f))
-                TextButton(onClick = onAdd) { Text("Not listed? Add it", fontSize = 13.sp, fontWeight = FontWeight.SemiBold) }
+                TextButton(onClick = onAdd) { Text("Not listed? Add it", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis) }
             }
         }
         LazyColumn(

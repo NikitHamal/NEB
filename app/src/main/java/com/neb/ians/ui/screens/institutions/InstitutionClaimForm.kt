@@ -104,7 +104,7 @@ fun ClaimForm(
             onClick = { pick.launch(arrayOf("application/pdf", "image/jpeg", "image/png", "image/webp")) },
             enabled = st.docs.size < 6, shape = RoundedCornerShape(24.dp), border = BorderStroke(1.5.dp, c.outlineVariant),
             modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)
-        ) { Icon(Icons.Outlined.AttachFile, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(if (st.docs.isEmpty()) "Attach documents" else "Add another", fontSize = 14.sp) }
+        ) { Icon(Icons.Outlined.AttachFile, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(if (st.docs.isEmpty()) "Attach documents" else "Add another", fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
         Text("PDF, JPG, PNG or WebP. Up to 6 files, 8 MB each.", fontSize = 12.sp, color = c.onSurfaceVariant)
     }
     Section("Note to the reviewer") {
