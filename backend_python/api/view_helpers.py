@@ -33,7 +33,7 @@ from rest_framework.response import Response
 from .security import (
     hash_verification_code, verify_verification_code,
 )
-from .models import User, ResourceLike, Post, PostLike, PollVote, ReplyLike, Follow, Bookmark
+from .models import User, ResourceLike, Post, PostLike, PollVote, Reply, ReplyLike, Follow, Bookmark
 from .utils import now_ms
 _now_ms = now_ms
 from .serializers import (

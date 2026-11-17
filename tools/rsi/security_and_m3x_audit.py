@@ -125,10 +125,50 @@ def check_security_invariants() -> list[str]:
     return errors
 
 
+def check_undefined_names() -> list[str]:
+    """NameError guard: every tracked backend .py file is scanned with pyflakes.
+
+    Session 68: `Reply` was used in api/view_helpers.py without an import, every
+    GET /api/posts/<id>/replies/ with at least one reply returned 500, and nothing
+    flagged it because the scan only parsed syntax. Only *undefined name* findings
+    fail the audit (unused imports and style are ignored)."""
+    try:
+        from pyflakes.api import check as _check  # noqa: F401
+        from pyflakes import checker as _pf, messages as _pm
+    except ImportError:
+        subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "--user",
+                        "--break-system-packages", "pyflakes"], check=False,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        try:
+            from pyflakes import checker as _pf, messages as _pm
+        except ImportError:
+            print("RSI AUDIT: pyflakes unavailable, undefined-name scan skipped", file=sys.stderr)
+            return []
+    try:
+        files = subprocess.check_output(["git", "ls-files", "backend_python/*.py"], cwd=ROOT,
+                                        text=True).split()
+    except Exception:
+        return []
+    errors: list[str] = []
+    for rel in files:
+        if "/migrations/" in rel or "/scratch/" in rel:
+            continue
+        path = ROOT / rel
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"), filename=rel)
+        except (SyntaxError, OSError):
+            continue
+        for m in _pf.Checker(tree, rel).messages:
+            if isinstance(m, _pm.UndefinedName):
+                errors.append(f"undefined name {m.message_args[0]!r} at {rel}:{m.lineno}")
+    return errors
+
+
 def main() -> int:
     errors = (
         check_staged_secrets()
         + check_python_ast()
+        + check_undefined_names()
         + check_admin_m3x_invariants()
         + check_security_invariants()
     )
