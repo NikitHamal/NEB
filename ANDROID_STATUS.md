@@ -1541,3 +1541,25 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Reader (`ReadingMode`, `PdfReaderChrome`): concept in `NEBians-Learn.html` (slim bar, hiding glass dock, Aa sheet, next chapter button). Not built yet in Kotlin.
 - Interactive tab: lessons list with the chapter each lab belongs to (concept shows it on the subject page).
+
+
+---
+
+# Session 59: tabs put back, search gets a proper underline
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Undoes the global part of `dfd38f27` and the search change in item 336.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 340 | **Tab selectors back as they were.** `dfd38f27` turned the shared `NebTabRail` (and web `neb-rail`) into an underline row for every screen (library, profile, notifications, bookmarks, news, studio, syllabus). Restored from `dfd38f27^`: sliding tonal pill, no hairline. Web `app-tabs.css` removed with its import. | `NebTabRail.kt`, `SyllabusSubject.kt`, `m3x-app.css`, `m3x-app.src.css`, `docs/M3X_DESIGN_SYSTEM.md` |
+| 341 | **Search tabs: real Material 3 indicator.** Item 336 reused the rail, whose line was a 6dp round-cornered bar floating above the hairline. New `NebUnderlineTabs` (search only): 3dp tall, top corners rounded, flush on the hairline, exactly as wide as label and count, slides with the open tab. Position and width are Animatables read in the draw phase. | `NebUnderlineTabs.kt`, `SearchScreen.kt` |
+| 342 | **Search typing cost**: the tab list is built once per set of counts and the row gets only the scope and the counts, so a keystroke no longer re-lays the tabs. | `SearchScreen.kt` |
+
+## Rules
+- Do not globalize a tab style. `NebTabRail` stays the pill rail; `NebUnderlineTabs` is for search scopes only.
+- An indicator is drawn at the bottom edge with its own height. Never add a corner radius to the height.
+
+## Next
+- On-device look at the search indicator on a narrow phone.

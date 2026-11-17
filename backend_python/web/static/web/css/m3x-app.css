@@ -3934,20 +3934,3 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 :where(button, [role="button"], [role="tab"], [role="menuitem"]):focus:not(:focus-visible) { outline: 0; }
 .fc-tools { gap: 6px; }
 :where(.fc-tool, .nl-tool, .neb-icon-btn, .icon-btn) { border-radius: 14px; overflow: hidden; }
-
-/* ---- m3x/app-tabs.css ---- */
-/* Page tabs: label, count pill, one 3dp primary line under the open tab, hairline under the row (NEBians-Search.html .tab).
-   neb-rail.js still slides .neb-rail-ind; it is the line now, not a container. */
-.neb-rail { padding: 0 12px; gap: 2px; align-items: stretch; }
-.neb-rail-item { height: 44px; padding: 0 14px; border-radius: 14px 14px 0 0; font-size: .84375rem; font-weight: 600; letter-spacing: 0; }
-.neb-rail-item:active { transform: scale(.97); }
-.neb-rail-ind { background: none !important; box-shadow: none !important; border-radius: 0; }
-.neb-rail-ind::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--neb-rail-accent, var(--md-primary)); }
-.neb-rail:not([data-rail-ready]) .neb-rail-item[aria-selected="true"] { background: none; box-shadow: none; }
-.neb-rail:not([data-rail-ready]) .neb-rail-item[aria-selected="true"]::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--neb-rail-accent, var(--md-primary)); }
-.neb-rail[style*="--neb-rail-accent"] .neb-rail-item[aria-selected="true"] { color: var(--md-on-surface); }
-.neb-rail-count { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); padding: 1px 7px; border-radius: 9px; font-size: .6875rem; font-weight: 600; }
-.neb-rail-item[aria-selected="true"] .neb-rail-count { background: var(--md-primary-container); color: var(--md-on-primary-container); }
-.neb-rail-label { overflow: visible; white-space: nowrap; }
-.neb-rail { border-bottom: 1px solid color-mix(in srgb, var(--md-outline-variant) 60%, transparent); }
-@media (max-width: 600px) { .neb-rail { padding: 0 8px; gap: 0; } .neb-rail-item { padding: 0 12px; font-size: .8125rem; } .neb-rail-ind::after { left: 12px; right: 12px; } }

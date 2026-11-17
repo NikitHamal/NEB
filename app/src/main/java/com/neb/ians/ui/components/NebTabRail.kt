@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,15 +33,15 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.layout.height
 import androidx.compose.ui.unit.toSize
 import com.neb.ians.ui.theme.NebAccent
 import com.neb.ians.ui.theme.nebEffectsSpec
@@ -52,12 +53,18 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 // ---------------------------------------------------------------------------
-// Switching between sets of the same thing: a library's shelves, a profile's
+// Switching between sets of the same thing: the library's shelves, a profile's
 // posts and replies, a notification filter.
 //
-// Concept tabs (NEBians-Search.html): bare label, a tonal count pill, one 3dp
-// primary line under the open tab that slides, and a hairline under the row.
-// No container around a tab, nothing to squeeze: the row scrolls sideways.
+// Not a bar of connected buttons — that reads as one control the user is
+// operating, and it squeezes four labels into a width that fits two. Not an
+// underline either, which is the platform's tab and not ours. Here the resting
+// state is bare text with nothing drawn around it, and only the answer carries
+// a container.
+//
+// There is exactly one container and it slides. A tab never grows its own pill
+// while another is still fading out, so the answer is only ever in one place,
+// and the labels hold still while the selection travels between them.
 // ---------------------------------------------------------------------------
 
 @Immutable
@@ -75,13 +82,19 @@ fun NebTabRail(
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
     accent: NebAccent? = null,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp)
+    contentPadding: PaddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.dp)
 ) {
     if (tabs.isEmpty()) return
 
     val scheme = MaterialTheme.colorScheme
-    val lineColor = accent?.resolve() ?: scheme.primary
-    val hairline = scheme.outlineVariant.copy(alpha = 0.6f)
+    val isDark = scheme.surface.luminance() < 0.5f
+    val accentColor = accent?.resolve()
+    val indicatorFill = accentColor
+        ?.copy(alpha = if (isDark) 0.17f else 0.10f)
+        ?.compositeOver(scheme.surfaceContainerLow)
+        ?: scheme.surfaceContainerHighest
+    val indicatorEdge = accentColor?.copy(alpha = 0.34f) ?: scheme.outlineVariant
+
     val scrollState = rememberScrollState()
     val slots = remember(tabs.size) { mutableStateMapOf<Int, Rect>() }
     val slot = slots[selectedIndex]
@@ -117,52 +130,52 @@ fun NebTabRail(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .drawBehind {
-                val h = 1.dp.toPx()
-                drawRect(hairline, topLeft = Offset(0f, size.height - h), size = Size(size.width, h))
-            }
+            .nebHorizontalScroll(scrollState)
+            .padding(contentPadding)
     ) {
-        Box(
+        Spacer(
             modifier = Modifier
-                .fillMaxWidth()
-                .nebHorizontalScroll(scrollState)
-                .padding(contentPadding)
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .matchParentSize()
-                    .drawBehind {
-                        val inset = 14.dp.toPx()
-                        val width = span.value - inset * 2
-                        if (width <= 0f) return@drawBehind
-                        val thick = 3.dp.toPx()
-                        val r = CornerRadius(thick)
-                        drawRoundRect(
-                            color = lineColor,
-                            topLeft = Offset(travel.value + inset, size.height - thick),
-                            size = Size(width, thick + r.y),
-                            cornerRadius = r
-                        )
-                    }
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(2.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                tabs.forEachIndexed { index, tab ->
-                    NebRailItem(
-                        tab = tab,
-                        selected = index == selectedIndex,
-                        onClick = { onSelect(index) },
-                        modifier = Modifier.onGloballyPositioned { coordinates ->
-                            val bounds = Rect(
-                                offset = coordinates.positionInParent(),
-                                size = coordinates.size.toSize()
-                            )
-                            if (slots[index] != bounds) slots[index] = bounds
-                        }
+                .matchParentSize()
+                .drawBehind {
+                    val width = span.value
+                    val height = slot?.height ?: 0f
+                    if (width <= 0f || height <= 0f) return@drawBehind
+                    val top = slot?.top ?: 0f
+                    val corner = CornerRadius(height / 2f)
+                    drawRoundRect(
+                        color = indicatorFill,
+                        topLeft = Offset(travel.value, top),
+                        size = Size(width, height),
+                        cornerRadius = corner
+                    )
+                    drawRoundRect(
+                        color = indicatorEdge,
+                        topLeft = Offset(travel.value, top),
+                        size = Size(width, height),
+                        cornerRadius = corner,
+                        style = Stroke(width = 1.dp.toPx())
                     )
                 }
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            tabs.forEachIndexed { index, tab ->
+                NebRailItem(
+                    tab = tab,
+                    selected = index == selectedIndex,
+                    accentColor = accentColor,
+                    onClick = { onSelect(index) },
+                    modifier = Modifier.onGloballyPositioned { coordinates ->
+                        val bounds = Rect(
+                            offset = coordinates.positionInParent(),
+                            size = coordinates.size.toSize()
+                        )
+                        if (slots[index] != bounds) slots[index] = bounds
+                    }
+                )
             }
         }
     }
@@ -172,59 +185,50 @@ fun NebTabRail(
 private fun NebRailItem(
     tab: NebRailTab,
     selected: Boolean,
+    accentColor: Color?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scheme = MaterialTheme.colorScheme
-    val ink by animateColorAsState(
-        targetValue = if (selected) scheme.onSurface else scheme.onSurfaceVariant,
+    val content by animateColorAsState(
+        targetValue = if (selected) accentColor ?: scheme.onSurface else scheme.onSurfaceVariant,
         animationSpec = nebEffectsSpec(),
         label = "rail_content"
-    )
-    val pillBg by animateColorAsState(
-        targetValue = if (selected) scheme.primaryContainer else scheme.surfaceContainerHigh,
-        animationSpec = nebEffectsSpec(),
-        label = "rail_pill"
-    )
-    val pillInk by animateColorAsState(
-        targetValue = if (selected) scheme.onPrimaryContainer else scheme.onSurfaceVariant,
-        animationSpec = nebEffectsSpec(),
-        label = "rail_pill_ink"
     )
 
     Row(
         modifier = modifier
-            .height(44.dp)
-            .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-            .nebPressable(scale = 0.97f, tactile = TactileType.SelectionChange, onClick = onClick)
-            .padding(horizontal = 14.dp),
+            .nebPressable(scale = 0.94f, tactile = TactileType.SelectionChange, onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(7.dp)
     ) {
         if (tab.icon != null) {
-            Icon(imageVector = tab.icon, contentDescription = null, tint = ink, modifier = Modifier.size(18.dp))
+            Icon(
+                imageVector = tab.icon,
+                contentDescription = null,
+                tint = content,
+                modifier = Modifier.size(18.dp)
+            )
         }
         Text(
             text = tab.label,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold,
-            color = ink,
+            style = MaterialTheme.typography.labelLargeEmphasized,
+            color = content,
             maxLines = 1,
-            softWrap = false
+            overflow = TextOverflow.Ellipsis
         )
         if (tab.count > 0 || tab.showZero) {
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(9.dp))
-                    .background(pillBg)
-                    .padding(horizontal = 7.dp, vertical = 1.dp)
+                    .clip(CircleShape)
+                    .background(content.copy(alpha = if (selected) 0.14f else 0.10f))
+                    .padding(horizontal = 7.dp, vertical = 2.dp)
             ) {
                 Text(
                     text = tab.count.toString(),
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = pillInk,
-                    maxLines = 1
+                    style = MaterialTheme.typography.labelSmall,
+                    color = content
                 )
             }
         }

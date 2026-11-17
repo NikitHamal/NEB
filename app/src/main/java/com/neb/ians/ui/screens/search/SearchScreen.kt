@@ -19,7 +19,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import com.neb.ians.ui.components.NebRailTab
-import com.neb.ians.ui.components.NebTabRail
+import com.neb.ians.ui.components.NebUnderlineTabs
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -231,6 +231,7 @@ private fun SearchHeader(
     onFilterClick: () -> Unit,
     onClearFilter: (String) -> Unit
 ) {
+    val scopeCounts = SearchScope.entries.map { state.countFor(it) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -268,7 +269,8 @@ private fun SearchHeader(
             exit = shrinkVertically(nebSpatialSpec()) + fadeOut(nebEffectsSpec())
         ) {
             SearchScopeBank(
-                state = state,
+                scope = state.scope,
+                counts = scopeCounts,
                 onScopeChange = onScopeChange,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -418,16 +420,19 @@ private fun FilterAction(count: Int, onClick: () -> Unit) {
 
 @Composable
 private fun SearchScopeBank(
-    state: SearchUiState,
+    scope: SearchScope,
+    counts: List<Int>,
     onScopeChange: (SearchScope) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scopes = remember { SearchScope.entries.toList() }
-    // Same rail as every other tab row: sliding 3dp primary line, count pills, hairline.
-    val tabs = scopes.map { NebRailTab(label = it.label, count = state.countFor(it), showZero = true) }
-    NebTabRail(
+    // Rebuilt only when a count changes, so typing never re-lays the tab row.
+    val tabs = remember(counts) {
+        scopes.mapIndexed { i, it -> NebRailTab(label = it.label, count = counts[i], showZero = true) }
+    }
+    NebUnderlineTabs(
         tabs = tabs,
-        selectedIndex = scopes.indexOf(state.scope).coerceAtLeast(0),
+        selectedIndex = scopes.indexOf(scope).coerceAtLeast(0),
         onSelect = { onScopeChange(scopes[it]) },
         modifier = modifier
     )

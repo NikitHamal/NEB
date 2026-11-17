@@ -148,7 +148,7 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
                 tabs = tabs.map { it.second },
                 selectedIndex = tabs.indexOfFirst { it.first == tab }.coerceAtLeast(0),
                 onSelect = { viewModel.setTab(tabs[it].first) },
-                contentPadding = PaddingValues(horizontal = 0.dp)
+                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp)
             )
         }
         when (tab) {
