@@ -47,6 +47,7 @@ data class ApiAnalyticsStanding(
     val levelFloor: Int = 0,
     val nextLevelAt: Int? = null,
     val nextLevelName: String = "",
+    val pointsToNextLevel: Int = 0,
     val progress: Int = 0,
     val topPercent: Int? = null,
     val memberSince: Long = 0

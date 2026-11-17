@@ -69,9 +69,13 @@ growth comes from database counts and is shown even when there are no page views
 The CSV export (`/admin/analytics/export/csv/`) uses the same daily series as the
 page, so the two cannot disagree.
 
-The report is one dict from `report.build_report()`. To add a metric: compute it
-there, render it with `_rank.html` / `_kpi.html`, add a test in `ReportTests`.
-The cache key is versioned (`an:report:v2`); bump it when the report shape changes.
+The report is one dict from `report.build_report()`. It includes `kpis`, `velocity`
+(`engaged_sessions`, `engagement_rate`, `pages_per_visit` + deltas), and `insights`
+(automated executive intelligence cards synthesized from traffic velocity, engagement
+quality, search/AI acquisition, DAU/MAU stickiness, library conversion and peak activity
+windows). To add a metric: compute it there, render it with `_rank.html` / `_kpi.html`,
+add a test in `ReportTests`. The cache key is versioned (`an:report:v5`); bump it when
+the report shape changes.
 
 ## Deploying
 

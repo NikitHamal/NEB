@@ -19,6 +19,8 @@ data class ApiResourceInsights(
     val ctr: Double? = null,
     val readRate: Double? = null,
     val downloadRate: Double? = null,
+    val saveRate: Double? = null,
+    val shareRate: Double? = null,
     val funnel: List<InsSplit> = emptyList(),
     val series: List<ResDay> = emptyList(),
     val hourly: List<Int> = emptyList(),

@@ -111,12 +111,14 @@ class MemberAnalyticsApiTests(TestCase):
         self.assertEqual((d['streak']['current'], d['streak']['longest']), (1, 2))  # today; then 2 and 3 days ago
         self.assertTrue(d['streak']['activeToday'])
         self.assertEqual(d['standing']['level'], 3)
+        self.assertEqual(d['standing']['pointsToNextLevel'], 80)
         self.assertEqual(d['standing']['topPercent'], 100)  # one of two scored members is above
         self.assertEqual(d['topPosts'][0]['id'], 'ua-p1')
         self.assertEqual([c['label'] for c in d['topSubjects']], ['Physics', 'Maths'])
         self.assertEqual(len(d['heatmap']['cells']), 17 * 7)
         self.assertEqual(len(d['rhythm']['hours']), 24)
         self.assertTrue(any(i['id'] == 'unanswered' for i in d['insights']))
+        self.assertTrue(any(i['id'] == 'helpful_impact' for i in d['insights']))
 
     def test_legacy_keys_remain(self):
         d = self.get()

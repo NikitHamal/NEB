@@ -1671,6 +1671,27 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ---
 
+# Session 64: RSI pipeline v2, Intelligence Analytics & Insights Engine v3, Admin Dashboard & cPanel query pruning
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from session 63 (`227d14c`) and analyzed `tools/rsi/sessions.txt` (Session 1); nothing from earlier sessions was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 362 | **RSI Pipeline v2 (from `tools/rsi/sessions.txt` analysis)**: added `rsi.py map <query>` (instant `git ls-files` regex mapper with line counts to eliminate empty sparse-checkout globs), auto-CSS bundling inside `verify`/`checkpoint` when source CSS changes, automatic failed-job log tail extraction in `rsi.py ci`, Admin M3X shadow/radius/dialog invariants in `security_and_m3x_audit.py`, and the Zero-Idle-Poll workflow rule. | `tools/rsi/rsi.py`, `tools/rsi/security_and_m3x_audit.py`, `docs/RSI_PIPELINE.md`, `AGENTS.md` |
+| 363 | **Analytics writer cPanel connection release & SQLite test-lock fix**: `nebians/analytics/writer.py` now debounces `User.last_active` updates to once per 60s per user (`an:touch:<uid>`), calls `connections.close_all()` after draining each page-view queue burst so background threads never hold idle MariaDB connections against `max_user_connections = 10`, and skips spawning background threads during `manage.py test` (fixing the flaky `AdminLibraryReportTests` SQLite `"database table is locked"` race). | `nebians/analytics/writer.py` |
+| 364 | **Bulk post impressions & N+1 query pruning (290+ queries eliminated)**: `post_reach.record_impressions` now uses a 3-query bulk pattern (`SELECT`, `bulk_create(ignore_conflicts=True)`, `UPDATE`) instead of up to 81 queries per scroll batch. `report_library.py` and `report_devices.py` replace 56+ N+1 queries with single-pass conditional `.aggregate()` and bulk lookups. `views_admin.py` (`admin_dashboard`, `admin_reports`, `admin_posts`, `admin_study_spaces`) and `views_study_lab.py` (`analytics`) replace 230+ loop `.count()` queries with single-pass aggregates and in-memory timestamp bucketing. | `api/post_reach.py`, `nebians/analytics/report_library.py`, `nebians/analytics/report_devices.py`, `web/views_admin.py`, `web/views_study_lab.py` |
+| 365 | **Intelligence Analytics & Insights Engine v3 (Admin, Member, Post & Resource)**: `report.build_report` (`an:report:v5`) adds `velocity` (`engaged_sessions`, `engagement_rate`, `pages_per_visit` with period deltas) and `insights` (`_executive_insights`: automated cards for traffic velocity, session quality, AI/search acquisition, DAU/MAU stickiness, library conversion and peak activity window). `user_analytics.py` adds `pointsToNextLevel`, `readers_up`, `helpful_impact` and `level_close` insights with 0 extra SQL queries. `post_insights.py` and `resource_insights.py` add `bookmarkRate`, `saveRate`, `shareRate`, `memberPct`, `followerPct`, discovery reach and bookmark velocity tips. | `nebians/analytics/report.py`, `api/user_analytics.py`, `api/post_insights.py`, `api/resource_insights.py` |
+| 366 | **Admin Dashboard, Admin Analytics UI & Android Insights models**: `admin_panel/dashboard.html` adds the Executive Intelligence Pulse grid (weekly sign-up velocity, forum resolution rate, library reach & downloads, action queues needing review) and quick-action buttons. `admin_panel/analytics.html`, `_library.html` and `03-analytics.css` render the M3X executive insights grid, session velocity strip and avg study time KPI. Android `AnalyticsModels.kt`, `PostInsightsModels.kt`, `ResourceInsightsModels.kt` and `PostInsightsScreen.kt` expose and display the new metrics. | `admin_panel/dashboard.html`, `admin_panel/analytics.html`, `admin_panel/analytics/_library.html`, `admin/03-analytics.css`, `AnalyticsModels.kt`, `PostInsightsModels.kt`, `ResourceInsightsModels.kt`, `PostInsightsScreen.kt` |
+
+## Rules
+- Never poll `rsi.py ci` in a tight loop while other work remains (Zero-Idle-Poll Rule).
+- Keep `writer._IN_TESTS` enabled so full-page test requests never spawn background SQLite writer threads during parallel test runs.
+
+
+---
+
 # Session 64: profile concept v3 and the M3X art library (concept only)
 
 Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first: v2 (sessions 60 and 63) already had four profile types, so v3 builds on it instead of repeating it. No app, backend or database change in this session, so no deploy was run and nothing can be deleted or broken there.

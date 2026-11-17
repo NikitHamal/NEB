@@ -244,11 +244,16 @@ class ReportTests(TestCase):
         self.assertEqual(t['visitors'], 3)
         self.assertEqual(t['sessions'], 3)
         self.assertEqual(t['bounces'], 2)
+        self.assertEqual(t['engaged_sessions'], 1)
+        self.assertEqual(t['engagement_rate'], 33.3)
         self.assertEqual(t['bounce_rate'], 66.7)
         self.assertEqual(t['avg_duration'], 90.0)
         self.assertEqual(t['members'], 1)
         self.assertEqual(t['new_accounts'], 1)
         self.assertTrue(r['needs_backfill'])
+        self.assertTrue(r['insights'])
+        self.assertIn('velocity', r)
+        self.assertEqual(r['velocity']['engagement_rate'], 33.3)
 
     def test_channels_ignore_internal_navigation(self):
         r = report.build_report(self.rng, use_cache=False)

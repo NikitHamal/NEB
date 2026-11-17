@@ -275,6 +275,9 @@ private fun KpiRows(data: ApiPostInsights) {
         ) {
             StatBlock(percent(data.ctr), "Opened from feed", Modifier.weight(1f))
             StatBlock(percent(data.engagementRate), "Engagement", Modifier.weight(1f))
+            if (data.bookmarkRate != null) {
+                StatBlock(percent(data.bookmarkRate), "Save rate", Modifier.weight(1f))
+            }
         }
     }
 }
