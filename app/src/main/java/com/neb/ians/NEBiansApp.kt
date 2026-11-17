@@ -58,6 +58,8 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
             .allowHardware(!isLowEnd)
             .okHttpClient {
                 OkHttpClient.Builder()
+                    .connectionPool(com.neb.ians.data.api.ApiService.sharedPool)
+                    .dispatcher(okhttp3.Dispatcher().apply { maxRequestsPerHost = 12 })
                     .addInterceptor(WafChallengeInterceptor(this))
                     .addInterceptor { chain ->
                         val request = chain.request().newBuilder()
@@ -94,6 +96,7 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         scope.launch { runCatching { dataStore.data.first() } }
         scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
+        scope.launch { com.neb.ians.data.api.ApiService.preconnect() }
     }
 
     private fun createNotificationChannels() {

@@ -2184,6 +2184,36 @@ interface ApiService {
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
+        /**
+         * One connection pool for the API, the image loader and the launch pre-connect. They all
+         * talk to one host over HTTP/2, so a connection opened by any of them (TCP + TLS cost
+         * 300 to 700 ms on a loaded host) is reused by the others instead of three handshakes.
+         */
+        val sharedPool: okhttp3.ConnectionPool =
+            okhttp3.ConnectionPool(8, 10, java.util.concurrent.TimeUnit.MINUTES)
+
+        /** Opens the TLS connection while the app starts; a static file, so no app code runs. */
+        fun preconnect() {
+            runCatching {
+                OkHttpClient.Builder()
+                    .connectionPool(sharedPool)
+                    .callTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
+                    .build()
+                    .newCall(
+                        okhttp3.Request.Builder()
+                            .url(BASE_URL + "static/web/css/fonts.css")
+                            .head()
+                            .build()
+                    )
+                    .enqueue(object : okhttp3.Callback {
+                        override fun onFailure(call: okhttp3.Call, e: java.io.IOException) = Unit
+                        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                            response.close()
+                        }
+                    })
+            }
+        }
+
         fun create(context: Context, tokenProvider: (() -> String?)? = null): ApiService {
             val logger = HttpLoggingInterceptor().apply {
                 level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
@@ -2198,6 +2228,7 @@ interface ApiService {
             }
             val client = OkHttpClient.Builder()
                 .dispatcher(dispatcher)
+                .connectionPool(sharedPool)
                 .addInterceptor(logger)
                 .addInterceptor(WafChallengeInterceptor(context))
                 .addInterceptor(DeviceSignalInterceptor(context))
