@@ -25,4 +25,5 @@ jobs:
           KEY=$(mktemp); trap 'rm -f "$KEY"' EXIT
           printf '%s\n' "$SSH_KEY" > "$KEY"; chmod 600 "$KEY"
           ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -o ServerAliveInterval=15 \
-            -i "$KEY" consicac@"$SSH_HOST" 'bash -s' < .github/scripts/diagnose_remote.sh 2>&1 | timeout 300 cat
+            -i "$KEY" consicac@"$SSH_HOST" 'bash -s' < .github/scripts/diagnose_remote.sh 2>&1 \
+            | sed -E 's/((PASS(WORD)?|SECRET|TOKEN|KEY|PWD)[A-Za-z_]*[ =:]+)[^ ]+/\1***/Ig' | timeout 300 cat
