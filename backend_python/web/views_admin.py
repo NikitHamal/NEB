@@ -902,7 +902,7 @@ def admin_posts(request):
     page_obj = paginator.get_page(page_number)
     from api.view_helpers import prime_for_serializers
     page_items = list(page_obj)
-    prime_for_serializers(page_items, None)
+    prime_for_serializers(None, posts=page_items)
     posts_data = [PostSerializer(p, context={}).data for p in page_items]
     return render(request, 'admin_panel/posts.html', {
         'is_admin': True,

@@ -149,8 +149,13 @@ def cmd_ci() -> int:
                             print(f"    -> FAILED STEP in {j.get('name')}: {s.get('name')}")
                     if j.get("conclusion") == "failure" and j.get("id"):
                         try:
-                            log_txt = _gh_api(f"actions/jobs/{j['id']}/logs", raw_text=True)
-                            tail = [ln for ln in log_txt.splitlines() if "error" in ln.lower() or "fail" in ln.lower() or "exception" in ln.lower()][-15:]
+                            tok = _token()
+                            log_txt = subprocess.check_output(
+                                ["curl", "-sL", "-H", f"Authorization: token {tok}",
+                                 f"https://api.github.com/repos/{REPO}/actions/jobs/{j['id']}/logs"],
+                                text=True, timeout=15,
+                            )
+                            tail = [ln for ln in log_txt.splitlines() if any(w in ln.lower() for w in ("error", "fail", "exception", "traceback", "line "))][-15:]
                             for ln in tail:
                                 print(f"       {ln[:160]}")
                         except Exception:
