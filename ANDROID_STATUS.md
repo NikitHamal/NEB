@@ -216,7 +216,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Web has no notes screen; the web composers are unchanged this session.
 - On-device pass: wash strength on busy photos, ink contrast on the dark tones, Block sheet height with the keyboard open.
 
-CI session 7: `0daff0f` (templates, photo cards, cover controls) is green. `5720dff` (a parallel push: page picture, ink, paper) failed on one wrong `ImageVector` import in `NoteInkControls.kt`; fixed in the next commit.
+CI session 7: `0daff0f` (templates, photo cards, cover controls) is green. `5720dff` (a parallel push: page picture, ink, paper) failed on one wrong `ImageVector` import in `NoteInkControls.kt`; fixed in `3c186589`; the Android release build (APK + AAB) is green.
 
 CI session 8: `5720dff` failed on one wrong `ImageVector` import (fixed in `d809ef8`); the duplicate-files change is the next commit.
 
@@ -1927,6 +1927,7 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - SVGs are not committed; run `node concepts/art-v7/export-svg.js --svg`. Android assets: `NODE_PATH=<dir with sharp> node export-svg.js --android <dir>`.
 - `docs/M3X_DESIGN_SYSTEM.md` still says no generated avatars; v7 profile pictures are a concept until the owner adopts them.
 - The GitHub token used to clone and push was pasted into the chat again. Rotate it.
+- CI: first push failed to compile (`matchParentSize` imported, it is a `BoxScope` member); fixed in `3c186589`; the Android release build (APK + AAB) is green.
 
 ## Next
 - Owner review: https://nikithamal.github.io/NEB/art-v7.html . If liked, port covers, empty states and book art to `neb-art.js` and the Kotlin art files (seeded, ids stable).
