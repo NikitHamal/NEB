@@ -2,42 +2,30 @@
 # READ-ONLY server snapshot. Output goes through a redactor in the workflow, and
 # nothing here prints env files, .htaccess or credentials (names or safe numbers only).
 cd /home/consicac/nebians_api || exit 1
-echo "== load / memory"
-cat /proc/loadavg; free -m | sed -n 1,3p; nproc
-echo "== our processes (rss kB, etime, command name)"
-ps -u consicac -o rss=,etime=,comm= --sort=-rss 2>/dev/null | head -14
-echo "== process counts by name"
-ps -u consicac -o comm= | sort | uniq -c | sort -rn | head -8
-echo "== redis?"
-(pgrep -x redis-server >/dev/null && echo "redis-server running") || echo "no redis-server for this user"
-echo "== env var names set in .env (names only)"
-grep -oE '^[A-Z_]+=' .env 2>/dev/null | tr -d '=' | tr '\n' ' '; echo
-echo "== safe env values"
-grep -E '^(CACHE_BACKEND|DB_CONN_MAX_AGE|SESSION_ENGINE|PAGE_CACHE_TTL|DEBUG)=' .env 2>/dev/null | sed -E 's/(REDIS|LOCATION).*/\1=***/'
-echo "== lsapi tuning names in htaccess (names + numbers)"
-grep -oE 'LSAPI_[A-Z_]+[ =]+[0-9]+' ../nebians.consica.com.np/.htaccess 2>/dev/null | head
-echo "== django view"
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
-timeout 150 python manage.py shell -c "
-import time
-t0=time.time()
-from django.conf import settings
-print('cache', settings.CACHES['default']['BACKEND'])
-db=settings.DATABASES['default']; print('db', db['ENGINE'].split('.')[-1], 'CONN_MAX_AGE', db.get('CONN_MAX_AGE'))
-from django.db import connection
-t=time.time(); c=connection.cursor(); c.execute('select 1'); print('db connect+select1 ms', round((time.time()-t)*1000))
-t=time.time(); c.execute('select 1'); print('select1 again ms', round((time.time()-t)*1000))
-c.execute('select table_name, round((data_length+index_length)/1048576,1) mb, table_rows from information_schema.tables where table_schema=database() order by (data_length+index_length) desc limit 12')
-for r in c.fetchall(): print('tbl', r)
-c.execute('select count(*) from django_session'); print('sessions rows', c.fetchone()[0])
-c.execute('select count(*) from django_session where expire_date < now()'); print('expired sessions', c.fetchone()[0])
+echo "== load"; cat /proc/loadavg
+echo "== lswsgi tree (pid ppid etime rss args)"
+ps -u consicac -o pid=,ppid=,etime=,rss=,args= 2>/dev/null | grep -E 'lswsgi|daphne' | grep -v grep | cut -c1-150 | head -20
+echo "== lswsgi script"
+LS=$(command -v lswsgi || ls /usr/local/lsws/fcgi-bin/lswsgi* 2>/dev/null | head -1); echo "$LS"
+grep -nE 'preload|load_source|import_module|spec_from|exec\(|LSAPI_|fork|-m |--' "$LS" 2>/dev/null | cut -c1-150 | head -25
+echo "== lsapi / litespeed env names visible to our workers"
+ls /usr/local/lsws/conf 2>/dev/null | head -3
+echo "== cold-process timing (fresh interpreter, like a new worker)"
+timeout 170 python - <<'PY' 2>&1 | cut -c1-200 | tail -30
+import os, sys, time
+sys.path.insert(0, '/home/consicac/nebians_api')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nebians.settings')
+t0 = time.time()
+from nebians.wsgi import application
+t1 = time.time(); print('wsgi import ms', round((t1 - t0) * 1000))
+from django.urls import get_resolver
+get_resolver()._populate(); t2 = time.time(); print('urlconf populate ms', round((t2 - t1) * 1000))
 from django.test import Client
-from django.test.utils import CaptureQueriesContext
-cl=Client(HTTP_HOST='nebians.consica.com.np', HTTP_X_FORWARDED_PROTO='https')
-for p in ['/', '/api/posts/', '/api/realtime/config/', '/app/forum/', '/app/library/', '/app/news/']:
-    for i in range(2):
-        with CaptureQueriesContext(connection) as q:
-            t=time.time(); r=cl.get(p, secure=True); ms=round((time.time()-t)*1000)
-        print('GET', p, i, r.status_code, ms, 'ms', len(q), 'queries', len(r.content), 'bytes')
-" 2>&1 | cut -c1-220 | tail -50
+cl = Client(HTTP_HOST='nebians.consica.com.np')
+for p in ['/api/posts/', '/api/posts/', '/app/news/', '/api/realtime/config/']:
+    t = time.time(); r = cl.get(p, secure=True); print('GET', p, r.status_code, round((time.time() - t) * 1000), 'ms')
+import sys
+mods = sorted(sys.modules); print('modules loaded', len(mods))
+PY
 echo "== done"
