@@ -70,3 +70,10 @@ python3 tools/rsi/rsi.py deploy
 - `ci` prints the status, active step of any `in_progress` workflow run, and automatically fetches the error log tail from the GitHub REST API if any job failed.
 - `deploy` triggers `deploy-backend.yml` (`workflow_dispatch`) on `main` using the repository's `SSH_HOST` and `SSH_KEY` secrets.
 - **Zero-Idle-Poll Rule (from Session 1 Post-Mortem)**: Never poll `rsi.py ci` in a tight loop while other tasks remain. Push code milestones first, then write tests, documentation, and `ANDROID_STATUS.md` updates while CI compiles in the background.
+
+## Session 66 lessons (added)
+
+- **Root cause before restyling.** "UI is a mess" on a page whose CSS module already had the rules was a stale-cache bug (`@import`-only entry file never changed its content hash). Check the shipped file, not the source, first. `web/test_css_entrypoints.py` now guards it.
+- **One-turn cadence that worked:** pickup -> read the status tail + grep the failing template/CSS in one bash call -> fix -> `checkpoint` -> docs while CI runs. Four checkpoints before the first CI poll.
+- **No local Django** in the sandbox: test pure modules directly (`cd backend_python/nebians/analytics && python3 -c "import rules"`); leave the Django suite to the Backend tests workflow.
+- Budget rule: at most one `rsi.py ci` poll per 4 edits; deploy (`rsi.py deploy`) only after Backend tests are green on the same sha.
