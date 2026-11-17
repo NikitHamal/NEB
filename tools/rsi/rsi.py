@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""RSI (Recursive Self-Improvement) Pipeline & Anti-Session-Loss Engine.
+"""RSI (Recursive Self-Improvement) Pipeline v2 & Anti-Session-Loss Engine.
 
 Commands:
   python3 tools/rsi/rsi.py pickup              # 1-call session orientation & CI digest
-  python3 tools/rsi/rsi.py verify              # Run all Android/CSS/AST/Security guards
-  python3 tools/rsi/rsi.py checkpoint "msg"    # Verify + stage + commit + push to origin/main
-  python3 tools/rsi/rsi.py ci                  # Poll GitHub Actions runs & failure logs
+  python3 tools/rsi/rsi.py map <query>         # Instant git ls-files path & line-count mapper
+  python3 tools/rsi/rsi.py bundle              # Rebuild all CSS bundles (tools/css/bundle.py)
+  python3 tools/rsi/rsi.py verify              # Auto-bundle CSS + run all Android/CSS/AST/Security guards
+  python3 tools/rsi/rsi.py checkpoint "msg"    # Verify + stage + secret-scan + commit + push to origin/main
+  python3 tools/rsi/rsi.py ci                  # Poll GitHub Actions runs + auto-fetch failure log tails
   python3 tools/rsi/rsi.py deploy              # Dispatch deploy-backend.yml via GitHub API
 """
 from __future__ import annotations
@@ -13,6 +15,7 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import urllib.request
@@ -39,7 +42,7 @@ def _token() -> str:
     return os.environ.get("GH_PAT", "").strip()
 
 
-def _gh_api(path: str, method: str = "GET", payload: dict | None = None):
+def _gh_api(path: str, method: str = "GET", payload: dict | None = None, raw_text: bool = False):
     tok = _token()
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "neb-rsi"}
     if tok:
@@ -50,11 +53,13 @@ def _gh_api(path: str, method: str = "GET", payload: dict | None = None):
     req = urllib.request.Request(f"https://api.github.com/repos/{REPO}/{path}", data=data, headers=headers, method=method)
     with urllib.request.urlopen(req, timeout=20) as resp:
         raw = resp.read()
+        if raw_text:
+            return raw.decode("utf-8", errors="replace")
         return json.loads(raw.decode()) if raw else {}
 
 
 def cmd_pickup() -> int:
-    print("=== RSI PICKUP: GIT & WORKSPACE ===")
+    print("=== RSI v2 PICKUP: GIT & WORKSPACE ===")
     subprocess.run(["git", "status", "-sb"], cwd=ROOT, check=False)
     subprocess.run(["git", "log", "-n", "6", "--oneline"], cwd=ROOT, check=False)
     status_md = ROOT / "ANDROID_STATUS.md"
@@ -68,7 +73,32 @@ def cmd_pickup() -> int:
     return cmd_ci()
 
 
+def cmd_map(query: str) -> int:
+    out = subprocess.check_output(["git", "ls-files"], cwd=ROOT, text=True)
+    rx = re.compile(query or ".", re.I)
+    matches = [p for p in out.splitlines() if rx.search(p)]
+    print(f"=== RSI MAP ({len(matches)} matches for '{query}') ===")
+    for rel in matches[:60]:
+        fp = ROOT / rel
+        try:
+            n = sum(1 for _ in fp.open("rb")) if fp.is_file() else 0
+            print(f"  {rel} ({n} lines)")
+        except Exception:
+            print(f"  {rel}")
+    if len(matches) > 60:
+        print(f"  ... and {len(matches) - 60} more")
+    return 0
+
+
+def cmd_bundle() -> int:
+    return subprocess.run(["python3", "tools/css/bundle.py"], cwd=ROOT).returncode
+
+
 def cmd_verify() -> int:
+    # Auto-rebuild CSS bundles if source CSS changed so checkpoints never fail on stale bundles.
+    if subprocess.run(["python3", "tools/css/bundle.py", "--check"], cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode != 0:
+        print("RSI VERIFY: auto-rebuilding CSS bundles via tools/css/bundle.py...")
+        subprocess.run(["python3", "tools/css/bundle.py"], cwd=ROOT, check=False)
     for cmd in GUARDS:
         r = subprocess.run(cmd, cwd=ROOT)
         if r.returncode != 0:
@@ -84,7 +114,6 @@ def cmd_checkpoint(msg: str) -> int:
     if cmd_verify() != 0:
         return 1
     subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
-    # Never stage sandbox-only package.json if excluded
     subprocess.run(["git", "reset", "-q", "HEAD", "--", "package.json"], cwd=ROOT, check=False)
     if subprocess.run(["python3", "tools/rsi/security_and_m3x_audit.py"], cwd=ROOT).returncode != 0:
         return 1
@@ -109,17 +138,23 @@ def cmd_ci() -> int:
             conc = r.get("conclusion")
             print(f"  [{r.get('name')}] id={rid} status={status} conclusion={conc} sha={r.get('head_sha', '')[:7]}")
             if status == "in_progress" and rid:
-                jobs = _gh_api(f"actions/runs/{rid}/jobs").get("jobs", [])
-                for j in jobs:
+                for j in _gh_api(f"actions/runs/{rid}/jobs").get("jobs", []):
                     for s in j.get("steps", []):
                         if s.get("status") == "in_progress":
                             print(f"    -> active step: {s.get('name')}")
             elif status == "completed" and conc == "failure" and rid:
-                jobs = _gh_api(f"actions/runs/{rid}/jobs").get("jobs", [])
-                for j in jobs:
+                for j in _gh_api(f"actions/runs/{rid}/jobs").get("jobs", []):
                     for s in j.get("steps", []):
                         if s.get("conclusion") == "failure":
                             print(f"    -> FAILED STEP in {j.get('name')}: {s.get('name')}")
+                    if j.get("conclusion") == "failure" and j.get("id"):
+                        try:
+                            log_txt = _gh_api(f"actions/jobs/{j['id']}/logs", raw_text=True)
+                            tail = [ln for ln in log_txt.splitlines() if "error" in ln.lower() or "fail" in ln.lower() or "exception" in ln.lower()][-15:]
+                            for ln in tail:
+                                print(f"       {ln[:160]}")
+                        except Exception:
+                            pass
     except Exception as exc:
         print(f"CI query warning: {exc}", file=sys.stderr)
     return 0
@@ -135,7 +170,11 @@ def main() -> int:
     arg = sys.argv[1] if len(sys.argv) > 1 else "pickup"
     if arg == "pickup":
         return cmd_pickup()
-    if arg == "verify":
+    if arg == "map":
+        return cmd_map(" ".join(sys.argv[2:]))
+    if arg == "bundle":
+        return cmd_bundle()
+    if arg in ("verify", "audit"):
         return cmd_verify()
     if arg == "checkpoint":
         return cmd_checkpoint(" ".join(sys.argv[2:]))

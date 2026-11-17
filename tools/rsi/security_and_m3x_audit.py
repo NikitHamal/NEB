@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static AST, secret-leak, security & M3X compliance guard for RSI pipeline."""
+"""Static AST, secret-leak, security & M3X compliance guard for RSI pipeline v2."""
 from __future__ import annotations
 
 import ast
@@ -62,6 +62,30 @@ def check_python_ast() -> list[str]:
     return errors
 
 
+def check_admin_m3x_invariants() -> list[str]:
+    errors: list[str] = []
+    admin_css_dir = ROOT / "backend_python" / "web" / "static" / "web" / "css" / "admin"
+    if admin_css_dir.is_dir():
+        for path in admin_css_dir.glob("*.css"):
+            txt = path.read_text(encoding="utf-8")
+            for decl in re.findall(r"box-shadow\s*:\s*([^;}]+)", txt):
+                val = decl.strip().replace("!important", "").strip()
+                if val != "none":
+                    errors.append(f"{path.name}: forbidden box-shadow: {decl.strip()}")
+            for decl in re.findall(r"border-radius\s*:\s*([^;}]+)", txt):
+                parts = decl.split("/")[0].split()
+                if parts and all(p in ("0", "0px") for p in parts):
+                    errors.append(f"{path.name}: forbidden square border-radius: {decl.strip()}")
+
+    admin_tpl_dir = ROOT / "backend_python" / "web" / "templates" / "admin_panel"
+    if admin_tpl_dir.is_dir():
+        for path in admin_tpl_dir.rglob("*.html"):
+            src = path.read_text(encoding="utf-8")
+            if re.search(r"(?<![\w.])(confirm|alert)\(", src):
+                errors.append(f"{path.name}: forbidden native confirm()/alert() dialog")
+    return errors
+
+
 def check_security_invariants() -> list[str]:
     errors: list[str] = []
     mw = ROOT / "backend_python" / "nebians" / "middleware.py"
@@ -99,12 +123,17 @@ def check_security_invariants() -> list[str]:
 
 
 def main() -> int:
-    errors = check_staged_secrets() + check_python_ast() + check_security_invariants()
+    errors = (
+        check_staged_secrets()
+        + check_python_ast()
+        + check_admin_m3x_invariants()
+        + check_security_invariants()
+    )
     if errors:
         for err in errors:
             print(f"RSI AUDIT FAIL: {err}", file=sys.stderr)
         return 1
-    print("rsi security + ast audit ok")
+    print("rsi v2 security + m3x + ast audit ok")
     return 0
 
 
