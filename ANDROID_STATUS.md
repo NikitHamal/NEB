@@ -1756,3 +1756,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Split `pages/profile.css` and `pages/web-home.css` into `.src.css` + modules, then drop them from the allow-list.
 - Run `python3 tools/rsi/rsi.py deploy` once Backend tests are green (migration 0172 is data-only and reversible as a no-op).
+
+CI: Backend tests green on `dd05414`, `f3ecd4e`, `8edc1c0`; `Deploy Backend to cPanel` run `44180846196` (sha `3ffffe7`) green, so migration `0172` and the flattened CSS bundles are live. Hard-refresh the admin analytics page once to see the new styles.
