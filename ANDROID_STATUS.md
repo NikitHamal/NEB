@@ -1738,6 +1738,9 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 # Session 66: admin analytics UI fix (stale CSS root cause), source classification, insight copy
 
 Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from session 65 via `rsi.py pickup`. Owner screenshots showed the admin analytics insight list and velocity row unstyled (raw icons, bold text, no cards) while KPI cards were fine.
+# Session 68: M3X Art Library v3 (`NEBians-Art-v3.html`, `concepts/art-v3/`), concept only
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first: v1 (`NEBians-Art.html`, session 64) and v2 (`NEBians-Art-v2.html`, session 65) are **kept untouched**; v3 is a separate library, no v1 or v2 code is reused. No backend, app or database file was changed, so nothing was deployed.
 
 ## Done
 
@@ -1782,3 +1785,14 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Add more `LIVE_ASSETS` markers when a page is rebuilt.
 - Split `pages/profile.css` and `pages/web-home.css` (session 66 list).
+| 380 | **OKLCH tonal engine** (`v3-core.js`): 20 palette families (nothing between hue 285 and 335, so no purple), perceptual ramps, a depth ramp so far layers are pale and near layers deep (graphite dark flips it into dusk silhouettes), expressive shapes, seeded value noise and ridges. Flat fills only. | `concepts/art-v3/v3-core.js` |
+| 381 | **14 layered scenes**: Himalaya with snow caps and prayer flags, rice terraces, Kathmandu valley (pagoda, stupa, rooftops), lake with reflection and boat, meadow, forest, monsoon, twilight, campus, skyline, river, contour, dunes, orchard. | `v3-scenes-a.js`, `v3-scenes-b.js` |
+| 382 | **15 pattern engines**: truchet, Dhaka weave, jali lattice, shape field, stacked shapes, scallop, pills, mandala, bubbles, waves, bauhaus, ribbons, arches, confetti, bars. | `v3-patterns.js` |
+| 383 | **36 study objects and a still engine** (books, atom, flask, microscope, globe, laptop, DNA, rocket, stupa, pagoda, scales and more) on five backdrops (disc, arch, plate, ground, pattern). | `v3-objects-a.js`, `v3-objects-b.js`, `v3-still.js` |
+| 384 | **Avatars, frameless**: buddies, people (6 skin and 6 hair tones, glasses, Dhaka topi, graduation cap), critters (owl, cat, bear, bunny, fox) and glyph tiles. No ring, no border. | `v3-avatars.js` |
+| 385 | **Catalog**: 34 subjects, 14 kinds (cover, school, thumb, book, post, bg, tile, spot, sticker, avatar, pathway, lab, story 9:16, pattern), **1,530 named pieces**, 3,060 Light and Dark SVGs, `catalog.json`. Export fails on NaN, undefined, gradients, filters, images or text. | `v3-catalog.js`, `export-svg.js`, `svg/` |
+| 386 | **Gallery**: Library (lazy, search, subject filter, shuffle, detail dialog with copy, SVG and 2x PNG), In-app (profiles for four roles, resource cards, posts, collections, books, empty states, achievements, stories, pathways, labs), Studio (engine, palette, size, object, backdrop, seed, export), V2 vs V3 side by side. | `NEBians-Art-v3.html`, `v3-gallery.js`, `v3-previews.js`, `v3-gallery.css` |
+
+## Next
+- Owner review on GitHub Pages (`https://nikithamal.github.io/NEB/art-v3.html`). If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
+- Dark mode is a tonal re-map, check it on a device before replacing any shipped art.
