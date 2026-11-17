@@ -1,13 +1,21 @@
 /* Building blocks shared by every profile type. Icons are Material Symbols Outlined, never drawn by hand. */
-window.S = { theme: 'light', self: false };
+window.S = { theme: 'light', self: false, art: 'v2' };
 window.U = (function () {
-  var N = window.NebArt;
+  var N = window.NebArt, V2 = window.NebArtV2;
+  var ROLE_MAP = { graph: 'roleStudent', orbit: 'roleTeacher', arches: 'roleInstitution', stack: 'roleContributor' };
   var U = {
     ms: function (n, c) { return '<span class="ms ' + (c || '') + '">' + n + '</span>'; },
     av: function (letter, shape, tone, c) {
       return '<svg class="av ' + (c || '') + ' ' + tone + '" viewBox="0 0 100 100" aria-hidden="true"><path d="' + N.shapeD(shape, 50, 50, 43, 0) + '"/><text x="50" y="52" text-anchor="middle" dominant-baseline="central" font-size="40">' + letter + '</text></svg>';
     },
-    art: function (kind, seed, o) { o = o || {}; return N.make({ kind: kind, seed: seed, subject: o.subject, palette: o.palette, layout: o.layout, glyph: o.glyph, mode: S.theme, motif: o.motif || 'none' }); },
+    art: function (kind, seed, o) {
+      o = o || {};
+      if (S.art === 'v2' && V2) {
+        var lay = (kind === 'cover' || kind === 'school') && ROLE_MAP[o.layout] ? ROLE_MAP[o.layout] : (V2.scenes[o.layout] || V2.layouts[o.layout] ? o.layout : undefined);
+        return V2.make({ kind: kind, seed: seed, subject: o.subject, palette: o.palette, layout: lay, glyph: o.glyph, mode: S.theme });
+      }
+      return N.make({ kind: kind, seed: seed, subject: o.subject, palette: o.palette, layout: o.layout, glyph: o.glyph, mode: S.theme, motif: o.motif || 'none' });
+    },
     glyph: function (icon, c) { return '<span class="glyph ' + c + '">' + U.ms(icon) + '</span>'; },
     head: function (title, count, tab) {
       return '<div class="mh"><h3>' + title + (count != null ? '<i>' + count + '</i>' : '') + '</h3>' + (tab ? '<button class="see" data-act="tab" data-tab="' + tab + '">See all' + U.ms('chevron_right', 's') + '</button>' : '') + '</div>';

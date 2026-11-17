@@ -38,6 +38,7 @@
     stage.querySelectorAll('.scr').forEach(bindScroll);
     document.querySelectorAll('[data-type]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.type === st.type); });
     document.querySelectorAll('[data-self]').forEach(function (b) { b.setAttribute('aria-pressed', (b.dataset.self === '1') === S.self); });
+    document.querySelectorAll('[data-art]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.art === S.art); });
     document.getElementById('theme').firstChild.textContent = S.theme === 'light' ? 'dark_mode' : 'light_mode';
   }
   function bindScroll(scr) { scr.addEventListener('scroll', function () { scr.parentNode.dataset.stuck = scr.scrollTop > 120 ? '1' : '0'; }); }
@@ -64,6 +65,7 @@
   });
   document.querySelectorAll('[data-type]').forEach(function (b) { b.onclick = function () { st.type = b.dataset.type; render(); }; });
   document.querySelectorAll('[data-self]').forEach(function (b) { b.onclick = function () { S.self = b.dataset.self === '1'; render(); }; });
+  document.querySelectorAll('[data-art]').forEach(function (b) { b.onclick = function () { S.art = b.dataset.art; render(); }; });
   document.getElementById('theme').onclick = function () { S.theme = S.theme === 'light' ? 'dark' : 'light'; render(); };
   render();
 })();

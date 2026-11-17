@@ -1712,3 +1712,22 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Owner review. If liked: port the resource card art and profile covers to `neb-art.js` and `ResourceBannerArt.kt` (seeded, so web and Android match), then the Kotlin profile from v3.
 - The icon tile for Open to needs the offers stored per profile type (backend field not added yet).
+
+
+---
+
+# Session 65: M3X Art Library v2 (`NEBians-Art-v2.html`, `concepts/art-v2/`) & GitHub Pages publication
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from session 64 (`65ab566` and `f164264`); kept M3X Art Library v1 (`NEBians-Art.html`, `concepts/art/`) intact for side-by-side comparison and built **M3X Art Library v2** on top of it.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 367 | **M3X Art Library v2 core & 8-tone harmonic palette engine** (`v2-core.js`): 16 M3X palette families anchored in brand blue `#0058df` and subject tokens (zero purple, zero gradients, zero shadows, zero emojis, zero pixel art), 8 flat tonal stops per palette (`ground`, `soft`, `mid`, `high`, `strong`, `ink`, `accent`, `paper/rim`) tuned for Light (`#f6f8ff`) and Dark neutral graphite (`#121318`), 12 M3X expressive silhouettes (`cookie`, `sunny`, `flower`, `clover`, `burst`, `squircle`, `gem`, `pebble`, `lotus`, `shield`, `starburst`, `circle`), and 30-degree isometric book-N solid primitives (`isoBox`). | `concepts/art-v2/v2-core.js` |
+| 368 | **49 procedural composition engines (30 bespoke domain scenes + 14 M3X architectural layouts + 5 role covers)**: added `physicsOptics`, `physicsFields`, `quantumWave`, `chemistryLab`, `organicSynthesis`, `biologyHelix`, `botanyCell`, `mathFibonacci`, `mathHarmonic`, `calculusSurface`, `csArchitecture`, `neuralNetwork`, `roboticsMechatronics`, `astronomyCosmos`, `engineeringIso`, `medicineVital`, `nepalHimalaya`, `himalayanPagoda`, `kathmanduValley`, `campusCourtyard`, `economicsLedger`, `accountancyBalance`, `macroFinance`, `literatureEditorial`, `historyMonument`, `lawCivic`, `geographyAtlas`, `musicAcoustics`, `agricultureBotany`, `hospitalityCulinary`, plus 14 M3X architectural/isometric layouts and 5 role-aware cover generators. | `concepts/art-v2/v2-scenes-sci.js`, `v2-scenes-hum.js`, `v2-scenes-extra.js`, `v2-layouts-m3x.js`, `v2-layouts-ui.js` |
+| 369 | **1,108 deterministic named pieces (2,216 Light + Dark SVGs) across 12 UI categories & 30 subjects**: covers (`cover`), school banners (`school`), resource thumbnails (`thumb`), Swiss/MIT-Press book covers (`book`), 3D interactive labs (`lab`), career pathways (`pathway`), post/OG headers (`post`), note/page backgrounds (`bg`), collection tiles (`tile`), empty-state spot illustrations (`spot`), achievement medallions (`sticker`), and frameless expressive glyph tiles (`glyph`), exported to `concepts/art-v2/svg/{light,dark}/`. | `concepts/art-v2/v2-catalog.js`, `export-svg.js`, `concepts/art-v2/svg/` |
+| 370 | **Interactive 4-mode gallery & live Profile v3 Art v2/v1 switch** (`NEBians-Art-v2.html`, `NEBians-Profile-v3.html`): Library browser, Live In-App Preview (Profiles v3, Resource cards, 3D Lab cards), Custom Studio (real-time scene/palette/seed builder with SVG & 2x PNG export), and Side-by-Side V1 vs V2 comparison; plus a live `Art v2 / Art v1` toggle in `NEBians-Profile-v3.html`. Published to GitHub Pages (`art-v2.html`, `profile-v3.html`, `art.html`, `index.html`). | `NEBians-Art-v2.html`, `concepts/art-v2/v2-gallery.js`, `v2-previews.js`, `v2-gallery.css`, `NEBians-Profile-v3.html`, `gh-pages` |
+
+## Next
+- Owner review on GitHub Pages (`https://nikithamal.github.io/NEB/art-v2.html` and `https://nikithamal.github.io/NEB/profile-v3.html`). Once approved, wire selected V2 scenes into `neb-art.js` and `ResourceBannerArt.kt` / `ProfileCoverArt.kt`.
