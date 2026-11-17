@@ -16,13 +16,20 @@ from django.urls import get_resolver
 get_resolver()._populate()
 from django.test import Client
 cl = Client(HTTP_HOST='nebians.consica.com.np')
+t = time.time(); cl.get('/api/realtime/config/', secure=True); print('middleware load + cfg ms', round((time.time() - t) * 1000))
 pr = cProfile.Profile(); pr.enable()
 t = time.time(); r = cl.get('/api/posts/', secure=True); ms = round((time.time() - t) * 1000)
 pr.disable()
 print('first GET /api/posts/', r.status_code, ms, 'ms (profiled)')
 st = pstats.Stats(pr); st.sort_stats('cumulative')
-buf = io.StringIO(); st.stream = buf; st.print_stats(45)
+buf = io.StringIO(); st.stream = buf; st.print_stats(400)
+n = 0
 for line in buf.getvalue().splitlines():
+    if not any(k in line for k in ('nebians', 'api/', 'web/', 'importlib', 'redis', 'MySQLdb', 'pymysql', 'mysql', 'template', 'loader')) or 'whitenoise' in line:
+        continue
+    n += 1
+    if n > 60:
+        break
     if 'site-packages' in line:
         line = line.replace('/home/consicac/virtualenv/nebians_api/3.13/lib/python3.13/site-packages/', 'sp/')
     print(line.replace('/home/consicac/nebians_api/', ''))
