@@ -1565,3 +1565,25 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - On-device look at the search indicator on a narrow phone.
 
 CI for `c41ce0d5`: Android release build (APK + AAB) green on the first push. Backend tests failed twice on `AdminLibraryReportTests` with sqlite "database table is locked" (parallel 2, a timing race, unrelated to a CSS-only change) and passed on the third run. Deploy workflow dispatched by hand, success (web rail CSS back to the pill).
+
+
+---
+
+# Session 60: compact create menu, search gap, Read buttons, in-app claim, profile concept v2
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from `bccaa87` and `e7fe203` (both already in `main`); nothing was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 343 | **Create menu compact**: labels 13sp, pill 40dp high, glyph tile 44dp, 10dp spacing. The create button keeps its clover shape and colour open and closed (it only turns a quarter). | `NebFabMenu.kt`, `LiquidGlassNav.kt` (`bccaa87`) |
+| 344 | **Search gap**: applied filter chips sit above the scope tabs, tabs have no top padding. | `SearchScreen.kt` (`bccaa87`) |
+| 345 | **Read buttons are back**: uploaded files left the raw `file_url` column blank, so the apps showed no Read. The serializer now returns the stored file URL in `file_url` when an upload exists. Test added. | `serializers.py`, `test_resource_file_url.py` (`bccaa87`) |
+| 346 | **Institution claim fully in the app**: unlisted institutions, document upload (PDF, JPG, PNG, WebP, up to 6), note to the reviewer, role gate, claim reachable from the school list and the institution page. No web redirect. | `InstitutionClaimForm.kt`, `InstitutionClaimScreen.kt`, `InstitutionClaimViewModel.kt`, `SchoolsScreen.kt`, `views_institutions.py` (`e7fe203`) |
+| 347 | **CI fix for 346**: text-fit ratchet failed on two Texts in Rows; both now `maxLines = 1` with ellipsis. | `InstitutionClaimForm.kt`, `SchoolsScreen.kt` |
+| 348 | **Profile concept v2 (concept only, app untouched)**: `NEBians-Profile-v2.html` with `concepts/profile-v2/`. Four types (Student, Teacher, Institution, Contributor), visitor and owner views, working tabs. About is removed; Overview summarises every tab with See all. New tabs: Portfolio, Progress, Teaches, Answers, Schools, Programs, Teachers, Gallery, Contact, Books, Collections, Impact; private tabs (Saved, Insights, Manage, Drafts) show a lock. Collapsing header, pinned pill rail, Read on every resource. Built on the `material-design-3-ui-skill` rules plus `docs/M3X_DESIGN_SYSTEM.md`. | `NEBians-Profile-v2.html`, `concepts/profile-v2/*` |
+
+## Next
+- Build the profile in Kotlin from concept v2: one header item, scrollable `NebTabRail`, a tab spec per profile type, module items per Overview.
+- Backend: add `portfolio`, `answers` and `impact` counts to the profile API where missing.
