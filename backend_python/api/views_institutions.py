@@ -76,7 +76,8 @@ def institution_mine(request):
     inst = Institution.objects.select_related('profile').filter(claimed_by=user, verified=True).first()
     app = (InstitutionVerification.objects.filter(applicant=user).select_related('institution')
            .order_by('-created_at').first())
-    out = {'institution': None, 'application': _application(app) if app else None}
+    out = {'institution': None, 'application': _application(app) if app else None,
+           'role': user.role or '', 'email': user.email or ''}
     if inst:
         out['institution'] = {**svc.serialize(inst, svc.people_counts(inst)['total']),
                               'portfolio': prof.payload(inst)}
@@ -98,18 +99,13 @@ def institution_profile_update(request, slug):
     return Response({'status': 'success', 'portfolio': payload})
 
 
-@api_view(['POST'])
-@parser_classes([MultiPartParser, FormParser])
-def institution_claim(request, slug):
+def _claim(request, inst):
     user, err = _require_verified_user(request)
     if err:
         return err
-    inst = Institution.objects.filter(slug=slug).first()
-    if not inst:
-        return Response({'error': 'Not found'}, status=404)
     if user.role != 'institution':
         return Response({'error': 'Only institution accounts can claim a school.'}, status=403)
-    if inst.verified and inst.claimed_by_id != user.pk:
+    if inst is not None and inst.verified and inst.claimed_by_id != user.pk:
         return Response({'error': 'This institution is already claimed.'}, status=409)
     if svc.open_application(user):
         return Response({'error': 'You already have an application under review.'}, status=409)
@@ -118,3 +114,19 @@ def institution_claim(request, slug):
         return Response({'error': next(iter(errors.values())), 'errors': errors}, status=400)
     app = svc.create_application(user, data, uploads, inst)
     return Response({'status': 'success', 'application': _application(app)}, status=201)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def institution_claim(request, slug):
+    inst = Institution.objects.filter(slug=slug).first()
+    if not inst:
+        return Response({'error': 'Not found'}, status=404)
+    return _claim(request, inst)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def institution_claim_new(request):
+    """POST /api/institutions/claim/ - apply for an institution that is not in the catalogue."""
+    return _claim(request, None)

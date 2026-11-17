@@ -100,7 +100,9 @@ data class ApiInstApplication(
 @Serializable
 data class ApiMyInstitution(
     val institution: ApiMyInst? = null,
-    val application: ApiInstApplication? = null
+    val application: ApiInstApplication? = null,
+    val role: String = "",
+    val email: String = ""
 )
 
 @Serializable

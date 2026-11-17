@@ -66,6 +66,7 @@ urlpatterns = [
     path('pathways/on-neb/', views_pathways.pathways_on_neb, name='pathways-on-neb'),
     path('institutions/', views_institutions.institutions_search, name='institutions-search'),
     path('institutions/schema/', views_institutions.institutions_schema, name='institutions-schema'),
+    path('institutions/claim/', views_institutions.institution_claim_new, name='institution-claim-new'),
     path('institutions/mine/', views_institutions.institution_mine, name='institution-mine'),
     path('institutions/<slug:slug>/', views_institutions.institution_detail, name='institution-detail'),
     path('institutions/<slug:slug>/profile/', views_institutions.institution_profile_update, name='institution-profile'),

@@ -1992,6 +1992,15 @@ interface ApiService {
         @Part documents: List<okhttp3.MultipartBody.Part>
     ): ApiInstClaimResult
 
+    // An institution that is not in the catalogue yet.
+    @Multipart
+    @POST("api/institutions/claim/")
+    suspend fun claimNewInstitution(
+        @Header("Authorization") bearerToken: String,
+        @PartMap fields: Map<String, @JvmSuppressWildcards okhttp3.RequestBody>,
+        @Part documents: List<okhttp3.MultipartBody.Part>
+    ): ApiInstClaimResult
+
     @GET("api/institutions/mine/")
     suspend fun myInstitution(@Header("Authorization") bearerToken: String): ApiMyInstitution
 

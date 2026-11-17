@@ -32,7 +32,7 @@ class InstitutionClaimViewModel @Inject constructor(
     private val api: ApiService,
     private val auth: AuthRepository
 ) : ViewModel() {
-    data class Doc(val uri: Uri, val name: String)
+    data class Doc(val uri: Uri, val name: String, val type: String = "registration", val size: Long = 0)
     data class State(
         val detail: ApiInstDetail? = null,
         val application: ApiInstApplication? = null,
@@ -40,26 +40,53 @@ class InstitutionClaimViewModel @Inject constructor(
         val loading: Boolean = true,
         val sending: Boolean = false,
         val error: String? = null,
-        val canClaim: Boolean = true
+        val canClaim: Boolean = true,
+        val role: String = "",
+        val email: String = "",
+        val signedIn: Boolean = true
     )
 
     private val _state = MutableStateFlow(State())
     val state: StateFlow<State> = _state.asStateFlow()
 
+    /** [slug] is [NEW] for an institution that is not in the catalogue: there is no page to read, only the form. */
     fun load(slug: String) = viewModelScope.launch {
         val token = runCatching { auth.getBearerToken() }.getOrNull()
-        val detail = runCatching { api.institutionDetail(token, slug) }.getOrNull()
+        val detail = if (slug == NEW) null else runCatching { api.institutionDetail(token, slug) }.getOrNull()
         val mine = token?.let { runCatching { api.myInstitution(it) }.getOrNull() }
-        _state.update { it.copy(detail = detail, application = mine?.application?.takeIf { a -> a.status != "rejected" },
-            loading = false, canClaim = token != null) }
+        _state.update {
+            it.copy(detail = detail, application = mine?.application?.takeIf { a -> a.status != "rejected" },
+                loading = false, signedIn = token != null, role = mine?.role.orEmpty(), email = mine?.email.orEmpty(),
+                canClaim = token != null && (mine == null || mine.role == "institution"))
+        }
     }
+
+    fun setDocType(d: Doc, type: String) = _state.update { st -> st.copy(docs = st.docs.map { if (it == d) it.copy(type = type) else it }) }
 
     fun addDocs(uris: List<Uri>) {
-        val add = uris.map { u -> Doc(u, nameOf(u)) }
-        _state.update { it.copy(docs = (it.docs + add).distinctBy { d -> d.uri }.take(4), error = null) }
+        _state.update { st ->
+            val seen = st.docs.map { it.uri }.toSet()
+            val fresh = uris.filter { it !in seen }.mapIndexed { i, u ->
+                Doc(u, nameOf(u), type = if (st.docs.isEmpty() && i == 0) "registration" else "other", size = sizeOf(u))
+            }
+            val big = fresh.any { it.size > MAX_BYTES }
+            st.copy(
+                docs = (st.docs + fresh.filter { it.size <= MAX_BYTES }).take(6),
+                error = if (big) "Each document must be under 8 MB" else null
+            )
+        }
     }
 
+    fun fail(message: String) = _state.update { it.copy(error = message) }
+
     fun removeDoc(d: Doc) = _state.update { it.copy(docs = it.docs - d) }
+
+    private fun sizeOf(u: Uri): Long = runCatching {
+        context.contentResolver.query(u, null, null, null, null)?.use { c ->
+            val i = c.getColumnIndex(OpenableColumns.SIZE)
+            if (c.moveToFirst() && i >= 0) c.getLong(i) else 0L
+        }
+    }.getOrNull() ?: 0L
 
     private fun nameOf(u: Uri): String = runCatching {
         context.contentResolver.query(u, null, null, null, null)?.use { c ->
@@ -78,16 +105,23 @@ class InstitutionClaimViewModel @Inject constructor(
             if (token == null) { _state.update { it.copy(sending = false, error = "Sign in first") }; return@launch }
             val text = "text/plain".toMediaTypeOrNull()
             val parts = withContext(Dispatchers.IO) {
-                s.docs.mapNotNull { d ->
+                // doc_type repeats once per document, in file order, so each pair goes in together
+                s.docs.flatMap { d ->
                     runCatching {
                         val mime = context.contentResolver.getType(d.uri) ?: "application/octet-stream"
                         val bytes = context.contentResolver.openInputStream(d.uri)!!.use { it.readBytes() }
-                        MultipartBody.Part.createFormData("documents", d.name, bytes.toRequestBody(mime.toMediaTypeOrNull()))
-                    }.getOrNull()
+                        listOf(
+                            MultipartBody.Part.createFormData("doc_type", d.type),
+                            MultipartBody.Part.createFormData("documents", d.name, bytes.toRequestBody(mime.toMediaTypeOrNull()))
+                        )
+                    }.getOrDefault(emptyList())
                 }
             }
+            val body = fields.mapValues { it.value.toRequestBody(text) }
+            val withTypes = LinkedHashMap<String, okhttp3.RequestBody>(body)
             val res = runCatching {
-                api.claimInstitution(token, slug, fields.mapValues { it.value.toRequestBody(text) }, parts)
+                if (slug == NEW) api.claimNewInstitution(token, withTypes, parts)
+                else api.claimInstitution(token, slug, withTypes, parts)
             }
             val ok = res.getOrNull()
             _state.update {
@@ -97,6 +131,11 @@ class InstitutionClaimViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        const val NEW = "new"
+        const val MAX_BYTES = 8L * 1024 * 1024
     }
 
     private fun errorOf(e: Throwable?): String {

@@ -90,7 +90,7 @@ fun InstitutionPortfolioHost(slug: String, vm: InstitutionViewModel, load: Boole
     var open by remember { mutableStateOf<Sec?>(null) }
     InstitutionPortfolio(
         d, st.schema, d.canEdit, onEdit = { t -> open = SECTIONS.firstOrNull { it.title == t } },
-        onWeb = { uri.openUri(it) }, onClaim = { claim?.invoke(d.slug) ?: uri.openUri("$WEB/app/schools/verify/?school=${d.slug}") }
+        onWeb = { uri.openUri(it) }, onClaim = { claim?.invoke(d.slug) }
     )
     open?.let { sec ->
         SectionSheet(sec, st.schema, d.portfolio.details, st.saving, st.error, onSave = { vm.save(slug, it) }, onDismiss = { open = null })

@@ -463,7 +463,13 @@ fun NEBiansNavHost(
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
     val navScroll = com.neb.ians.ui.components.rememberNavBarScroll()
     LaunchedEffect(currentRoute) { navScroll.show() }
-    CompositionLocalProvider(LocalAuthGate provides gate) {
+    CompositionLocalProvider(
+        LocalAuthGate provides gate,
+        // Claiming, managing and browsing institutions work from every screen, so none of them falls back to the website.
+        com.neb.ians.ui.screens.institutions.LocalClaimInstitution provides { navController.navigate(Screen.InstitutionClaim.createRoute(it)) },
+        com.neb.ians.ui.screens.institutions.LocalManageInstitution provides { navController.navigate(Screen.InstitutionManage.createRoute(it)) },
+        com.neb.ians.ui.screens.institutions.LocalOpenInstitution provides { navController.navigate(Screen.Institution.createRoute(it)) }
+    ) {
     Box(modifier = Modifier.fillMaxSize().navBarScrollSource(navScroll)) {
         NavHost(
             navController = navController,
@@ -748,7 +754,8 @@ fun NEBiansNavHost(
             composable(Screen.Schools.route) {
                 com.neb.ians.ui.screens.institutions.SchoolsScreen(
                     onBack = { navController.popBackStack() },
-                    onOpen = { navController.navigate(Screen.Institution.createRoute(it)) }
+                    onOpen = { navController.navigate(Screen.Institution.createRoute(it)) },
+                    onAdd = { navController.navigate(Screen.InstitutionClaim.createRoute("new")) }
                 )
             }
             composable(

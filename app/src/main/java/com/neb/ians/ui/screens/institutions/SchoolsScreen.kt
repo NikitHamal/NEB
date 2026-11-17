@@ -53,6 +53,7 @@ fun SchoolsScreen(
     initialKind: String = "",
     onBack: () -> Unit,
     onOpen: (String) -> Unit,
+    onAdd: () -> Unit = {},
     vm: SchoolSearchViewModel = hiltViewModel()
 ) {
     val st by vm.state.collectAsState()
@@ -72,7 +73,11 @@ fun SchoolsScreen(
                 NebSelectChip("On NEBians", onlyClaimed, { onlyClaimed = !onlyClaimed })
                 KINDS.forEach { (k, l) -> NebSelectChip(l, kind == k, { kind = k }) }
             }
-            if (st.total > 0) Text("%,d results".format(st.total), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                if (st.total > 0) Text("%,d results".format(st.total), Modifier.weight(1f), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                else Spacer(Modifier.weight(1f))
+                TextButton(onClick = onAdd) { Text("Not listed? Add it", fontSize = 13.sp, fontWeight = FontWeight.SemiBold) }
+            }
         }
         LazyColumn(
             state = listState,
