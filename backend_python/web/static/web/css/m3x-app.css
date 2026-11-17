@@ -3813,6 +3813,12 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .epf-teaching { display: grid; gap: 16px; margin-top: 16px; }
 .epf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 
+/* Teacher stat pair: the concept `.stat` tiles */
+.pf-stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pf-stat { background: var(--md-surface-container-low); border-radius: 20px; padding: 14px; display: grid; gap: 2px; }
+.pf-stat b { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -.5px; color: var(--md-on-surface); }
+.pf-stat small { font-size: 12px; font-weight: 500; color: var(--md-on-surface-variant); }
+
 /* ---- m3x/app-inst-folio.css ---- */
 /* Portfolio strength card and the institution portfolio on a profile (web/profile/_strength.html, _inst_folio.html,
    js/inst-folio.js). Cards are surfaces with a hairline, no shadow. Tags are UI chips, not user badges. */
