@@ -665,6 +665,93 @@ html[data-theme="dark"] .an {
   .an-line.is-drawing { stroke-dasharray: none; stroke-dashoffset: 0; }
 }
 
+/* ───────── executive intelligence insights & velocity ───────── */
+.an-insights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+@container an (max-width: 960px) {
+  .an-insights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container an (max-width: 600px) {
+  .an-insights { grid-template-columns: 1fr; }
+}
+.an-insight {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  background: var(--an-card);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 24px;
+}
+.an-insight-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.an-insight-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+.an-insight--good .an-insight-icon {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+.an-insight--action .an-insight-icon {
+  background: var(--md-tertiary-container);
+  color: var(--md-on-tertiary-container);
+}
+.an-insight-icon .material-symbols-outlined { font-size: 18px; }
+.an-insight-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.an-insight-body {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--md-on-surface-variant);
+}
+.an-velocity {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+@container an (max-width: 640px) {
+  .an-velocity { grid-template-columns: 1fr; gap: 8px; }
+}
+.an-vel-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--an-card);
+  border-radius: 20px;
+}
+.an-vel-label {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  margin-right: auto;
+}
+.an-vel-val {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
 /* Device and post tables */
 .an .an-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
 .an .an-tbl th { text-align: left; font-weight: 600; color: var(--md-on-surface-variant); padding: 8px 10px; border-bottom: 1px solid var(--md-outline-variant); }

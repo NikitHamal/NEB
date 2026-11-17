@@ -83,6 +83,40 @@
       {% for k in r.kpis %}{% include "admin_panel/analytics/_kpi.html" %}{% endfor %}
     </div>
 
+    {% if r.insights %}
+    <div class="an-insights" role="region" aria-label="Executive intelligence insights">
+      {% for ins in r.insights %}
+      <article class="an-insight an-insight--{{ ins.tone }}">
+        <div class="an-insight-head">
+          <span class="an-insight-icon"><span class="material-symbols-outlined" aria-hidden="true">{{ ins.icon }}</span></span>
+          <strong class="an-insight-title">{{ ins.title }}</strong>
+          {% if ins.metric %}<span class="an-chip">{{ ins.metric }}</span>{% endif %}
+        </div>
+        <p class="an-insight-body">{{ ins.body }}</p>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if r.velocity %}
+    <div class="an-velocity" role="region" aria-label="Session engagement velocity">
+      <div class="an-vel-item">
+        <span class="an-vel-label">Engaged visits</span>
+        <strong class="an-vel-val">{{ r.velocity.engaged_sessions }}</strong>
+      </div>
+      <div class="an-vel-item">
+        <span class="an-vel-label">Engagement rate</span>
+        <strong class="an-vel-val">{{ r.velocity.engagement_rate }}%</strong>
+        {% include "admin_panel/analytics/_delta.html" with d=r.velocity.engagement_delta %}
+      </div>
+      <div class="an-vel-item">
+        <span class="an-vel-label">Pages per visit</span>
+        <strong class="an-vel-val">{{ r.velocity.pages_per_visit }}</strong>
+        {% include "admin_panel/analytics/_delta.html" with d=r.velocity.pages_per_visit_delta %}
+      </div>
+    </div>
+    {% endif %}
+
     <div class="an-card an-trend" id="an-trend-card">
       <div class="an-card-head">
         <h3>Traffic</h3>

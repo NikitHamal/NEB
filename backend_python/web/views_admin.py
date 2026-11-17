@@ -228,29 +228,101 @@ def admin_dashboard(request):
     if redirect_response:
         return redirect_response
     stats = cache.get('admin_stats')
-    if stats is None:
+    if stats is None or 'pulse_insights' not in stats:
         from django.db.models import Sum, Count
         _now = now_ms()
+        one_day_ago = _now - 86400000
         seven_days_ago = _now - 7 * 86400000
+        fourteen_days_ago = _now - 14 * 86400000
         thirty_days_ago = _now - 30 * 86400000
 
-        total_users = User.objects.count()
-        total_resources = Resource.objects.count()
-        total_posts = Post.objects.count()
-        total_replies = Reply.objects.count()
-        total_likes = Post.objects.aggregate(total=Sum('thumbs_up_count'))['total'] or 0
-        total_reply_likes = Reply.objects.aggregate(total=Sum('thumbs_up_count'))['total'] or 0
-        total_resource_views = Resource.objects.aggregate(total=Sum('view_count'))['total'] or 0
-        total_post_views = Post.objects.aggregate(total=Sum('view_count'))['total'] or 0
-        pending_resources = Resource.objects.filter(approval_status='pending').count()
-        new_users_week = User.objects.filter(created_at__gte=seven_days_ago).count()
-        new_users_month = User.objects.filter(created_at__gte=thirty_days_ago).count()
-        new_posts_week = Post.objects.filter(created_at__gte=seven_days_ago).count()
-        new_posts_month = Post.objects.filter(created_at__gte=thirty_days_ago).count()
-        new_replies_week = Reply.objects.filter(created_at__gte=seven_days_ago).count()
-        new_replies_month = Reply.objects.filter(created_at__gte=thirty_days_ago).count()
-        new_resources_week = Resource.objects.filter(added_at__gte=seven_days_ago).count()
-        new_resources_month = Resource.objects.filter(added_at__gte=thirty_days_ago).count()
+        user_agg = User.objects.aggregate(
+            total=Count('pk'),
+            active_24h=Count('pk', filter=Q(last_active__gte=one_day_ago)),
+            week=Count('pk', filter=Q(created_at__gte=seven_days_ago)),
+            prev_week=Count('pk', filter=Q(created_at__gte=fourteen_days_ago, created_at__lt=seven_days_ago)),
+            month=Count('pk', filter=Q(created_at__gte=thirty_days_ago)),
+        )
+        res_agg = Resource.objects.aggregate(
+            total=Count('pk'),
+            views=Sum('view_count'),
+            downloads=Sum('download_count'),
+            pending=Count('pk', filter=Q(approval_status='pending')),
+            week=Count('pk', filter=Q(added_at__gte=seven_days_ago)),
+            month=Count('pk', filter=Q(added_at__gte=thirty_days_ago)),
+        )
+        post_agg = Post.objects.aggregate(
+            total=Count('pk'),
+            likes=Sum('thumbs_up_count'),
+            views=Sum('view_count'),
+            solved=Count('pk', filter=Q(is_resolved=True, is_archived=False)),
+            week=Count('pk', filter=Q(created_at__gte=seven_days_ago)),
+            month=Count('pk', filter=Q(created_at__gte=thirty_days_ago)),
+        )
+        reply_agg = Reply.objects.aggregate(
+            total=Count('pk'),
+            likes=Sum('thumbs_up_count'),
+            week=Count('pk', filter=Q(created_at__gte=seven_days_ago)),
+            month=Count('pk', filter=Q(created_at__gte=thirty_days_ago)),
+        )
+
+        total_users = user_agg['total'] or 0
+        active_users_24h = user_agg['active_24h'] or 0
+        total_resources = res_agg['total'] or 0
+        total_posts = post_agg['total'] or 0
+        total_replies = reply_agg['total'] or 0
+        total_likes = post_agg['likes'] or 0
+        total_reply_likes = reply_agg['likes'] or 0
+        total_resource_views = res_agg['views'] or 0
+        total_resource_downloads = res_agg['downloads'] or 0
+        total_post_views = post_agg['views'] or 0
+        solved_posts = post_agg['solved'] or 0
+        solution_rate = round(solved_posts * 100.0 / total_posts, 1) if total_posts else 0.0
+        pending_resources = res_agg['pending'] or 0
+        new_users_week = user_agg['week'] or 0
+        prev_users_week = user_agg['prev_week'] or 0
+        new_users_month = user_agg['month'] or 0
+        new_posts_week = post_agg['week'] or 0
+        new_posts_month = post_agg['month'] or 0
+        new_replies_week = reply_agg['week'] or 0
+        new_replies_month = reply_agg['month'] or 0
+        new_resources_week = res_agg['week'] or 0
+        new_resources_month = res_agg['month'] or 0
+
+        open_reports = Report.objects.filter(status='open').count()
+        pending_payments = PaymentVerification.objects.filter(status='pending').count()
+        pending_withdrawals = WithdrawalRequest.objects.filter(status='pending').count()
+
+        pulse_insights = [
+            {
+                'icon': 'trending_up',
+                'label': 'Weekly sign-up velocity',
+                'value': f'+{new_users_week}',
+                'sub': f'{prev_users_week} in the prior 7 days · {active_users_24h} active in 24h',
+                'url_name': 'web:admin_analytics',
+            },
+            {
+                'icon': 'check_circle',
+                'label': 'Forum resolution rate',
+                'value': f'{solution_rate:g}%',
+                'sub': f'{solved_posts} solved threads · {total_replies} total replies',
+                'url_name': 'web:admin_posts',
+            },
+            {
+                'icon': 'download',
+                'label': 'Library reach & downloads',
+                'value': f'{total_resource_downloads}',
+                'sub': f'{total_resource_views} total resource opens across {total_resources} items',
+                'url_name': 'web:admin_resources',
+            },
+            {
+                'icon': 'fact_check',
+                'label': 'Action queues needing review',
+                'value': f'{pending_resources + open_reports + pending_payments + pending_withdrawals}',
+                'sub': f'{pending_resources} uploads · {open_reports} reports · {pending_payments} payments · {pending_withdrawals} payouts',
+                'url_name': 'web:admin_pending_resources',
+            },
+        ]
 
         recent_users = list(User.objects.order_by('-created_at')[:10])
         top_posts = list(Post.objects.select_related('user').filter(is_archived=False).order_by('-thumbs_up_count')[:10])
@@ -269,14 +341,21 @@ def admin_dashboard(request):
 
         stats = {
             'total_users': total_users,
+            'active_users_24h': active_users_24h,
             'total_resources': total_resources,
             'total_posts': total_posts,
             'total_replies': total_replies,
             'total_likes': total_likes,
             'total_reply_likes': total_reply_likes,
             'total_resource_views': total_resource_views,
+            'total_resource_downloads': total_resource_downloads,
             'total_post_views': total_post_views,
+            'solved_posts': solved_posts,
+            'solution_rate': solution_rate,
             'pending_resources': pending_resources,
+            'open_reports': open_reports,
+            'pending_payments': pending_payments,
+            'pending_withdrawals': pending_withdrawals,
             'new_users_week': new_users_week,
             'new_users_month': new_users_month,
             'new_posts_week': new_posts_week,
@@ -285,6 +364,7 @@ def admin_dashboard(request):
             'new_replies_month': new_replies_month,
             'new_resources_week': new_resources_week,
             'new_resources_month': new_resources_month,
+            'pulse_insights': pulse_insights,
             'recent_users': recent_users,
             'top_posts': top_posts,
             'top_viewed_posts': top_viewed_posts,
@@ -748,13 +828,15 @@ def admin_reports(request):
             Q(description__icontains=search) |
             Q(reporter__username__icontains=search)
         )
-    counts = {
-        'open': Report.objects.filter(status='open').count(),
-        'reviewing': Report.objects.filter(status='reviewing').count(),
-        'resolved': Report.objects.filter(status='resolved').count(),
-        'dismissed': Report.objects.filter(status='dismissed').count(),
-        'total': Report.objects.count(),
-    }
+    from django.db.models import Count
+    raw_counts = Report.objects.aggregate(
+        open=Count('pk', filter=Q(status='open')),
+        reviewing=Count('pk', filter=Q(status='reviewing')),
+        resolved=Count('pk', filter=Q(status='resolved')),
+        dismissed=Count('pk', filter=Q(status='dismissed')),
+        total=Count('pk'),
+    )
+    counts = {k: (v or 0) for k, v in raw_counts.items()}
     paginator = Paginator(qs, 30)
     page_obj = paginator.get_page(request.GET.get('page'))
     reports = []
@@ -811,14 +893,17 @@ def admin_posts(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    posts_qs = Post.objects.select_related('user').all().order_by('-created_at')
+    posts_qs = Post.objects.select_related('user', 'poll').all().order_by('-created_at')
     search = request.GET.get('q', '').strip()
     if search:
         posts_qs = posts_qs.filter(Q(title__icontains=search) | Q(content__icontains=search))
     paginator = Paginator(posts_qs, 20)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    posts_data = [PostSerializer(p, context={}).data for p in page_obj]
+    from api.view_helpers import prime_for_serializers
+    page_items = list(page_obj)
+    prime_for_serializers(page_items, None)
+    posts_data = [PostSerializer(p, context={}).data for p in page_items]
     return render(request, 'admin_panel/posts.html', {
         'is_admin': True,
         'posts': posts_data,
@@ -1510,23 +1595,31 @@ def admin_study_spaces(request):
             Q(user__username__icontains=search)
         )
 
-    total_spaces = StudySpace.objects.count()
+    from django.db.models import Count
+    space_agg = StudySpace.objects.aggregate(
+        total=Count('pk'),
+        public=Count('pk', filter=Q(visibility='public')),
+    )
+    total_spaces = space_agg['total'] or 0
     total_documents = StudyDocument.objects.count()
-    public_spaces = StudySpace.objects.filter(visibility='public').count()
+    public_spaces = space_agg['public'] or 0
 
-    spaces = []
-    for sp in spaces_qs[:100]:
-        doc_count = sp.documents.count()
-        member_count = sp.members.count()
-        spaces.append({
+    spaces_annotated = spaces_qs.annotate(
+        _doc_count=Count('documents', distinct=True),
+        _member_count=Count('members', distinct=True),
+    )[:100]
+    spaces = [
+        {
             'id': sp.id,
             'name': sp.title,
             'owner': sp.user,
             'visibility': sp.visibility,
-            'doc_count': doc_count,
-            'member_count': member_count,
+            'doc_count': sp._doc_count,
+            'member_count': sp._member_count,
             'created_at': sp.created_at,
-        })
+        }
+        for sp in spaces_annotated
+    ]
 
     return render(request, 'admin_panel/study_spaces.html', {
         'is_admin': True,

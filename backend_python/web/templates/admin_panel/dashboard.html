@@ -12,7 +12,11 @@
     <div class="admin-page-actions">
       <a href="{% url 'web:admin_pending_resources' %}" class="md-btn md-btn-tonal">
         <span class="material-symbols-outlined">pending_actions</span>
-        Review queue{% if stats.pending_resources %} ({{ stats.pending_resources }}){% endif %}
+        Uploads{% if stats.pending_resources %} ({{ stats.pending_resources }}){% endif %}
+      </a>
+      <a href="{% url 'web:admin_reports' %}" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined">flag</span>
+        Reports{% if stats.open_reports %} ({{ stats.open_reports }}){% endif %}
       </a>
       <a href="{% url 'web:admin_analytics' %}" class="md-btn md-btn-outlined">
         <span class="material-symbols-outlined">insights</span>
@@ -21,6 +25,21 @@
     </div>
   </div>
 </div>
+
+{% if stats.pulse_insights %}
+<div class="admin-kpi-grid" style="margin-bottom: 16px;" aria-label="Executive intelligence pulse">
+  {% for p in stats.pulse_insights %}
+  <a href="{% url p.url_name %}" class="admin-kpi" style="text-decoration: none; color: inherit;">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">{{ p.icon }}</span></span>
+      <span class="admin-kpi-label">{{ p.label }}</span>
+    </div>
+    <div class="admin-kpi-value">{{ p.value }}</div>
+    <div class="admin-kpi-sub">{{ p.sub }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
 
 <div class="admin-kpi-grid">
   <div class="admin-kpi">

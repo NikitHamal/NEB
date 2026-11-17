@@ -1746,36 +1746,73 @@ def analytics(request):
     flashcards = StudyFlashcard.objects.filter(user=user)
     flash_reviews = StudyFlashcardReview.objects.filter(user=user)
 
-    post_views = posts.aggregate(total=Sum('view_count')).get('total') or 0
-    post_likes_received = posts.aggregate(total=Sum('thumbs_up_count')).get('total') or 0
-    post_replies_received = posts.aggregate(total=Sum('reply_count')).get('total') or 0
-    resource_views = resources.aggregate(total=Sum('view_count')).get('total') or 0
-    resource_likes_received = resources.aggregate(total=Sum('like_count')).get('total') or 0
-    resource_comments_received = resources.aggregate(total=Sum('comment_count')).get('total') or 0
+    post_agg = posts.aggregate(
+        total=Count('pk'),
+        views=Sum('view_count'),
+        likes=Sum('thumbs_up_count'),
+        replies=Sum('reply_count'),
+        recent=Count('pk', filter=Q(created_at__gte=cutoff_30)),
+    )
+    res_agg = resources.aggregate(
+        total=Count('pk'),
+        views=Sum('view_count'),
+        likes=Sum('like_count'),
+        comments=Sum('comment_count'),
+    )
+    post_views = post_agg.get('views') or 0
+    post_likes_received = post_agg.get('likes') or 0
+    post_replies_received = post_agg.get('replies') or 0
+    resource_views = res_agg.get('views') or 0
+    resource_likes_received = res_agg.get('likes') or 0
+    resource_comments_received = res_agg.get('comments') or 0
 
     latest_attempt = quiz_attempts.order_by('-completed_at').first()
-    quiz_stats = quiz_attempts.aggregate(avg=Avg('score'), best=Max('score'), xp=Sum('xp_earned'))
-    total_attempt_questions = quiz_attempts.aggregate(total=Sum('total_questions')).get('total') or 0
-    total_attempt_score = quiz_attempts.aggregate(total=Sum('score')).get('total') or 0
+    quiz_stats = quiz_attempts.aggregate(
+        avg=Avg('score'), best=Max('score'), xp=Sum('xp_earned'),
+        total_q=Sum('total_questions'), total_s=Sum('score'),
+        count=Count('pk'), recent=Count('pk', filter=Q(completed_at__gte=cutoff_30)),
+    )
+    total_attempt_questions = quiz_stats.get('total_q') or 0
+    total_attempt_score = quiz_stats.get('total_s') or 0
     quiz_accuracy = round((total_attempt_score / total_attempt_questions) * 100) if total_attempt_questions else 0
 
-    easy_reviews = flash_reviews.filter(confidence='easy').count()
-    medium_reviews = flash_reviews.filter(confidence='medium').count()
-    hard_reviews = flash_reviews.filter(confidence='hard').count()
+    rev_agg = flash_reviews.aggregate(
+        easy=Count('pk', filter=Q(confidence='easy')),
+        medium=Count('pk', filter=Q(confidence='medium')),
+        hard=Count('pk', filter=Q(confidence='hard')),
+        recent=Count('pk', filter=Q(last_reviewed_at__gte=cutoff_30)),
+    )
+    easy_reviews = rev_agg.get('easy') or 0
+    medium_reviews = rev_agg.get('medium') or 0
+    hard_reviews = rev_agg.get('hard') or 0
     reviewed_total = easy_reviews + medium_reviews + hard_reviews
 
     today_start = now - (now % day_ms)
+    window_14_start = today_start - 13 * day_ms
+    window_14_end = today_start + day_ms
+
+    def _bucket_14(qs, field):
+        b = Counter()
+        for ts in qs.filter(**{f'{field}__gte': window_14_start, f'{field}__lt': window_14_end}).values_list(field, flat=True):
+            if ts:
+                b[(ts - window_14_start) // day_ms] += 1
+        return b
+
+    b_posts = _bucket_14(posts, 'created_at')
+    b_replies = _bucket_14(replies, 'created_at')
+    b_resources = _bucket_14(resources, 'added_at')
+    b_quiz = _bucket_14(quiz_attempts, 'completed_at')
+    b_flash = _bucket_14(flash_reviews, 'last_reviewed_at')
+
     activity_days = []
     max_activity = 1
-    for i in range(13, -1, -1):
-        start = today_start - i * day_ms
-        end = start + day_ms
+    for idx in range(14):
+        i = 13 - idx
         counts = {
-            'posts': posts.filter(created_at__gte=start, created_at__lt=end).count(),
-            'replies': replies.filter(created_at__gte=start, created_at__lt=end).count(),
-            'resources': resources.filter(added_at__gte=start, added_at__lt=end).count(),
-            'study': quiz_attempts.filter(completed_at__gte=start, completed_at__lt=end).count()
-                + StudyFlashcardReview.objects.filter(user=user, last_reviewed_at__gte=start, last_reviewed_at__lt=end).count(),
+            'posts': b_posts.get(idx, 0),
+            'replies': b_replies.get(idx, 0),
+            'resources': b_resources.get(idx, 0),
+            'study': b_quiz.get(idx, 0) + b_flash.get(idx, 0),
         }
         total = sum(counts.values())
         max_activity = max(max_activity, total)
@@ -1868,23 +1905,29 @@ def analytics(request):
         suggestions=suggestions[:5],
     )
 
-    # Social link click analytics
+    # Social link click analytics (single-pass aggregates instead of 20 loop queries)
     link_clicks = SocialLinkClick.objects.filter(user=user)
-    total_link_clicks = link_clicks.count()
-    link_clicks_30d = link_clicks.filter(created_at__gte=cutoff_30).count()
-    link_clicks_unique = link_clicks.exclude(clicker_id__isnull=True).values('clicker_id').distinct().count()
+    lc_agg = link_clicks.aggregate(
+        total=Count('id'),
+        d30=Count('id', filter=Q(created_at__gte=cutoff_30)),
+        uniq=Count('clicker_id', filter=Q(clicker_id__isnull=False), distinct=True),
+        age_lt13=Count('id', filter=Q(clicker_age__lt=13, clicker_age__isnull=False)),
+        age_13_17=Count('id', filter=Q(clicker_age__gte=13, clicker_age__lte=17)),
+        age_18_24=Count('id', filter=Q(clicker_age__gte=18, clicker_age__lte=24)),
+        age_25_34=Count('id', filter=Q(clicker_age__gte=25, clicker_age__lte=34)),
+        age_35_44=Count('id', filter=Q(clicker_age__gte=35, clicker_age__lte=44)),
+        age_45_plus=Count('id', filter=Q(clicker_age__gte=45, clicker_age__lte=200)),
+    )
+    total_link_clicks = lc_agg.get('total') or 0
+    link_clicks_30d = lc_agg.get('d30') or 0
+    link_clicks_unique = lc_agg.get('uniq') or 0
     link_clicks_by_platform = list(
         link_clicks.values('platform')
         .annotate(total=Count('id'))
         .order_by('-total')[:10]
     )
-    link_clicks_by_day_14 = []
-    for i in range(13, -1, -1):
-        start = today_start - i * day_ms
-        end = start + day_ms
-        link_clicks_by_day_14.append(
-            link_clicks.filter(created_at__gte=start, created_at__lt=end).count()
-        )
+    b_clicks = _bucket_14(link_clicks, 'created_at')
+    link_clicks_by_day_14 = [b_clicks.get(idx, 0) for idx in range(14)]
     max_link_clicks_day = max(link_clicks_by_day_14) if link_clicks_by_day_14 else 1
 
     link_clicks_by_follower = list(
@@ -1905,14 +1948,11 @@ def analytics(request):
         .order_by('-total')
     )
     link_clicks_by_age_group = []
-    age_groups = [('13-17', 13, 17), ('18-24', 18, 24), ('25-34', 25, 34), ('35-44', 35, 44), ('45+', 45, 200)]
-    for label, lo, hi in age_groups:
-        cnt = link_clicks.filter(clicker_age__gte=lo, clicker_age__lte=hi).count()
+    for label, key in (('<13', 'age_lt13'), ('13-17', 'age_13_17'), ('18-24', 'age_18_24'),
+                       ('25-34', 'age_25_34'), ('35-44', 'age_35_44'), ('45+', 'age_45_plus')):
+        cnt = lc_agg.get(key) or 0
         if cnt:
             link_clicks_by_age_group.append({'group': label, 'total': cnt})
-    lt13 = link_clicks.filter(clicker_age__lt=13, clicker_age__isnull=False).count()
-    if lt13:
-        link_clicks_by_age_group.insert(0, {'group': '<13', 'total': lt13})
 
     ctx.update({
         'link_clicks_total': total_link_clicks,
