@@ -372,7 +372,7 @@ Track 8px tall, `--md-surface-container-high`, bar `--md-primary`, both radius 8
 
 ### Navigation
 
-Top bar on desktop: brand tile (42px), nav pills, actions. Bottom nav on phones: five destinations max, selected item gets a primary-container pill behind the icon and a 600 label. Back affordance is one round 44px button with `arrow_back`, never a text link. Tabs are the segmented switch or chips, never underlined tabs.
+Top bar on desktop: brand tile (42px), nav pills, actions. Bottom nav on phones: five destinations max, selected item gets a primary-container pill behind the icon and a 600 label. Back affordance is one round 44px button with `arrow_back`, never a text link. Tabs that switch a page of content (posts and replies, shelves, search scopes, notification filters) are underline tabs: label, tonal count pill, a 3dp primary line under the open one, hairline under the row, scrolls sideways (Android `NebTabRail`, web `.nb-tabs`). A choice inside a form or a filter bar is the segmented switch or chips.
 
 ### Verified and role badges (no fill)
 
@@ -426,7 +426,7 @@ Teacher, Admin, Moderator: text or icon in a role ink colour, no pill, no tint. 
 | Hard-coded hex in components | Use roles. A fill and its label are a pair. |
 | Stacked outline plus border on fields | One 1.5px stroke whose colour changes. |
 | Fields filled with surface-container tones | Fields are white (`--x-field`). |
-| Underlined tabs, floating-label inputs, ripple rectangles | Segmented switch, labels above, state layers. |
+| Floating-label inputs, ripple rectangles | Labels above, state layers. |
 | Taglines, helper copy, secondary labels that exist to explain a confusing layout | Fix the layout. |
 | Purple, neon, glass blur, decorative blobs and orbs | Azure, sky, aqua, periwinkle tonal tiles and expressive shapes. |
 | Inter, Roboto, system-only type, mixed families | Poppins in app. |
