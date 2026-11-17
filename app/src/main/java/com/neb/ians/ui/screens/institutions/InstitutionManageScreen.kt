@@ -56,12 +56,12 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 
-private enum class Kind { Text, Area, Num, Year, Many, One, Toggle, Rows, Socials }
-private data class F(val key: String, val label: String, val kind: Kind, val cols: List<Pair<String, String>> = emptyList(), val opts: (com.neb.ians.data.api.ApiInstSchema) -> List<ApiInstOption> = { emptyList() })
-private data class Sec(val title: String, val fields: List<F>)
+internal enum class Kind { Text, Area, Num, Year, Many, One, Toggle, Rows, Socials }
+internal data class F(val key: String, val label: String, val kind: Kind, val cols: List<Pair<String, String>> = emptyList(), val opts: (com.neb.ians.data.api.ApiInstSchema) -> List<ApiInstOption> = { emptyList() })
+internal data class Sec(val title: String, val fields: List<F>)
 
 // Same keys as `api/institution_profile.py`; every section saves on its own, nothing is required.
-private val SECTIONS = listOf(
+internal val SECTIONS = listOf(
     Sec("About", listOf(F("about", "About the institution", Kind.Area), F("motto", "Motto", Kind.Text))),
     Sec("Basics", listOf(F("est", "Established (year)", Kind.Year), F("principal", "Principal", Kind.Text), F("principalTitle", "Principal title", Kind.Text), F("regNo", "Registration number", Kind.Text),
         F("ownership", "Ownership", Kind.One) { it.ownership }, F("affiliations", "Affiliated with", Kind.Many) { it.affiliations })),
@@ -129,7 +129,7 @@ fun InstitutionManageScreen(slug: String, onBack: () -> Unit, vm: InstitutionVie
 
 @OptIn(ExperimentalLayoutApi::class, androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-private fun SectionSheet(sec: Sec, schema: com.neb.ians.data.api.ApiInstSchema, current: Map<String, JsonElement>, saving: Boolean, error: String?,
+internal fun SectionSheet(sec: Sec, schema: com.neb.ians.data.api.ApiInstSchema, current: Map<String, JsonElement>, saving: Boolean, error: String?,
                          onSave: (Map<String, JsonElement>) -> Unit, onDismiss: () -> Unit) {
     val draft = remember(sec) { mutableStateOf(current.filterKeys { k -> sec.fields.any { it.key == k } }) }
     fun text(k: String) = (draft.value[k] as? JsonPrimitive)?.content.orEmpty()

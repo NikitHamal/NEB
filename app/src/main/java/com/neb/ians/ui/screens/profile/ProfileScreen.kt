@@ -11,6 +11,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -125,14 +126,24 @@ fun ProfileScreen(
     val isSelf = profile?.isSelf == true
 
     Scaffold(
-        topBar = {
+        contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
+        containerColor = MaterialTheme.colorScheme.surface
+    ) { padding ->
+        Column(Modifier.fillMaxSize()) {
+        // The cover carries back and utilities; this slim bar only appears once the cover has scrolled away.
+        if (profile == null) {
+            IconButton(onClick = onNavigateBack, modifier = Modifier.statusBarsPadding().padding(4.dp)) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            }
+        }
+        AnimatedVisibility(
+            visible = showBarTitle && profile != null,
+            enter = fadeIn() + androidx.compose.animation.expandVertically(),
+            exit = fadeOut() + androidx.compose.animation.shrinkVertically()
+        ) {
             TopAppBar(
                 title = {
-                    AnimatedVisibility(
-                        visible = showBarTitle && profile != null,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
+                    run {
                         Column {
                             Text(
                                 text = profile?.displayName?.takeIf { it.isNotBlank() }
@@ -176,9 +187,7 @@ fun ProfileScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
-        },
-        containerColor = MaterialTheme.colorScheme.surface
-    ) { padding ->
+        }
         com.neb.ians.ui.components.NebRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = {
@@ -189,7 +198,8 @@ fun ProfileScreen(
                 }
             },
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
+                .fillMaxWidth()
                 .padding(padding)
         ) {
             when {
@@ -214,7 +224,13 @@ fun ProfileScreen(
                     onFollowingClick = viewModel::openFollowing,
                     onFollowRequestsClick = viewModel::openFollowRequests,
                     onProfileClick = onProfileClick,
-                    onSocialLinkClick = { link -> viewModel.trackSocialClick(link, profile.id) }
+                    onSocialLinkClick = { link -> viewModel.trackSocialClick(link, profile.id) },
+                    onBack = onNavigateBack,
+                    onCopyLink = {
+                        clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE${profile.username}/"))
+                        context.nebToast("Profile link copied")
+                    },
+                    onAnalytics = if (isSelf) onAnalyticsClick else null
                 )
 
                 uiState.error != null -> Box(
@@ -238,6 +254,7 @@ fun ProfileScreen(
 
                 else -> ProfileHeaderSkeleton(modifier = Modifier.fillMaxWidth())
             }
+        }
         }
     }
 
@@ -315,12 +332,19 @@ private fun ProfileBody(
     onFollowingClick: () -> Unit,
     onFollowRequestsClick: () -> Unit,
     onProfileClick: (String) -> Unit,
-    onSocialLinkClick: (com.neb.ians.data.api.ApiSocialLink) -> Unit
+    onSocialLinkClick: (com.neb.ians.data.api.ApiSocialLink) -> Unit,
+    onBack: () -> Unit,
+    onCopyLink: () -> Unit,
+    onAnalytics: (() -> Unit)?
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
     val isPrivate = profile.isLocked == 1 && !isSelf && !uiState.isFollowing
     val handle = "@${profile.username}"
+    // An institution's page is its portfolio: open on About the first time.
+    androidx.compose.runtime.LaunchedEffect(profile.id) {
+        if (profile.role == "institution" && !profile.schoolSlug.isNullOrBlank() && uiState.selectedTab == 0) onTabSelected(3)
+    }
 
     LazyColumn(
         state = listState,
@@ -342,7 +366,10 @@ private fun ProfileBody(
                 onFollowingClick = onFollowingClick,
                 onFollowRequestsClick = onFollowRequestsClick,
                 onProfileClick = onProfileClick,
-                onSocialLinkClick = onSocialLinkClick
+                onSocialLinkClick = onSocialLinkClick,
+                onBack = onBack,
+                onCopyLink = onCopyLink,
+                onAnalytics = onAnalytics
             )
         }
 
@@ -455,8 +482,23 @@ private fun ProfileBody(
             )
 
             3 -> {
-                item(key = "about_portfolio") {
-                    CardSlot { ProfilePortfolioCard(profile = profile, isSelf = isSelf) }
+                val instSlug = profile.schoolSlug.orEmpty()
+                if (profile.role == "institution" && instSlug.isNotBlank()) {
+                    item(key = "about_institution") {
+                        CardSlot {
+                            com.neb.ians.ui.screens.institutions.InstitutionPortfolioHost(
+                                slug = instSlug, load = true,
+                                vm = androidx.hilt.navigation.compose.hiltViewModel(key = "inst_$instSlug")
+                            )
+                        }
+                    }
+                } else {
+                    if (isSelf) item(key = "about_strength") {
+                        CardSlot { ProfileStrengthCard(profile = profile, onEditProfile = onEditProfile) }
+                    }
+                    item(key = "about_portfolio") {
+                        CardSlot { ProfilePortfolioCard(profile = profile, isSelf = isSelf) }
+                    }
                 }
                 item(key = "about_stats") {
                     CardSlot { AboutStatsCard(profile = profile, followerCount = uiState.followerCount) }

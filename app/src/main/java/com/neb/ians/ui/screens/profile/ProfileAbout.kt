@@ -230,7 +230,7 @@ fun AboutDetailsCard(
             if (joinedText.isNotBlank()) {
                 AboutDetailRow(icon = Icons.Outlined.CalendarMonth, label = "Joined", value = joinedText)
             }
-            if (!profile.gender.isNullOrBlank()) {
+            if (!profile.gender.isNullOrBlank() && profile.role != "institution") {
                 AboutDetailRow(icon = Icons.Outlined.Person, label = "Gender", value = profile.gender)
             }
         }

@@ -97,7 +97,7 @@ impl Palette {
         Self {
             page: rgb(0x121318),
             card: rgb(0x1F1F25),
-            field: rgb(0x292A2F),
+            field: rgb(0x2E2F36),
             ink: rgb(0xE3E8F7),
             ink_muted: rgb(0xAAB4CE),
             ink_faint: rgb(0x8590AC),
@@ -120,7 +120,7 @@ impl Palette {
             secondary_container: rgb(0x2A3858),
             on_secondary_container: rgb(0xDFE7FA),
             surface_low: rgb(0x1B1B21),
-            surface_high: rgb(0x292A2F),
+            surface_high: rgb(0x2E2F36),
             surface_highest: rgb(0x2E2F36),
             inverse: rgb(0xE3E8F7),
             on_inverse: rgb(0x1F2840),

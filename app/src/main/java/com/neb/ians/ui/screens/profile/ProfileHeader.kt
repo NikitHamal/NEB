@@ -5,6 +5,11 @@ import com.neb.ians.ui.components.rememberAvatarShape
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -94,6 +99,9 @@ fun ProfileHeader(
     onFollowRequestsClick: () -> Unit,
     onProfileClick: (String) -> Unit,
     onSocialLinkClick: (ApiSocialLink) -> Unit,
+    onBack: () -> Unit = {},
+    onCopyLink: () -> Unit = {},
+    onAnalytics: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     val scheme = MaterialTheme.colorScheme
@@ -116,6 +124,17 @@ fun ProfileHeader(
                 seedKey = profile.username,
                 modifier = Modifier.fillMaxWidth()
             )
+            // Back and utilities sit on the cover, the app bar only returns once the page is scrolled.
+            Row(
+                modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 14.dp, vertical = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CoverButton(androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack, "Back", onBack)
+                Spacer(Modifier.weight(1f))
+                if (onAnalytics != null) CoverButton(Icons.Outlined.BarChart, "Analytics", onAnalytics)
+                CoverButton(Icons.Outlined.Link, "Copy profile link", onCopyLink)
+            }
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -124,29 +143,20 @@ fun ProfileHeader(
                     .offset(y = 40.dp),
                 verticalAlignment = Alignment.Bottom
             ) {
-                Box(
-                    modifier = Modifier
-                        .background(
-                            scheme.surface,
-                            if (profile.isBot) CircleShape else rememberAvatarShape(profile.displayName ?: profile.username)
-                        )
-                        .padding(4.dp)
-                ) {
-                    if (profile.isBot) {
-                        com.neb.ians.ui.pixel.NebyPixel(
-                            size = 84.dp,
-                            interactive = true,
-                            intro = com.neb.ians.ui.pixel.NebyState.Wave
-                        )
-                    } else {
-                        Avatar(
-                            name = profile.displayName ?: profile.username,
-                            imageUrl = profile.photoUrl,
-                            size = 84.dp,
-                            modifier = Modifier
-                                .nebPressable(scale = 0.94f, onClick = onAvatarClick)
-                        )
-                    }
+                if (profile.isBot) {
+                    com.neb.ians.ui.pixel.NebyPixel(
+                        size = 92.dp,
+                        interactive = true,
+                        intro = com.neb.ians.ui.pixel.NebyState.Wave
+                    )
+                } else {
+                    // Frameless squircle across the cover edge, as in the concept: no ring, no border.
+                    Avatar(
+                        name = profile.displayName ?: profile.username,
+                        imageUrl = profile.photoUrl,
+                        size = 92.dp,
+                        modifier = Modifier.nebPressable(scale = 0.94f, onClick = onAvatarClick)
+                    )
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -570,4 +580,16 @@ fun ProfileHeaderSkeleton(modifier: Modifier = Modifier) {
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
     }
+}
+
+/** 40dp round-rect button on the cover, tinted by the page so it reads on any art. */
+@Composable
+private fun CoverButton(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    Box(
+        modifier = Modifier.size(40.dp).clip(RoundedCornerShape(14.dp))
+            .background(scheme.surface.copy(alpha = 0.72f))
+            .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) { Icon(icon, contentDescription = label, tint = scheme.onSurface, modifier = Modifier.size(20.dp)) }
 }
