@@ -104,7 +104,22 @@ def cmd_ci() -> int:
     try:
         data = _gh_api("actions/runs?branch=main&per_page=5")
         for r in data.get("workflow_runs", []):
-            print(f"  [{r.get('name')}] id={r.get('id')} status={r.get('status')} conclusion={r.get('conclusion')} sha={r.get('head_sha', '')[:7]}")
+            rid = r.get("id")
+            status = r.get("status")
+            conc = r.get("conclusion")
+            print(f"  [{r.get('name')}] id={rid} status={status} conclusion={conc} sha={r.get('head_sha', '')[:7]}")
+            if status == "in_progress" and rid:
+                jobs = _gh_api(f"actions/runs/{rid}/jobs").get("jobs", [])
+                for j in jobs:
+                    for s in j.get("steps", []):
+                        if s.get("status") == "in_progress":
+                            print(f"    -> active step: {s.get('name')}")
+            elif status == "completed" and conc == "failure" and rid:
+                jobs = _gh_api(f"actions/runs/{rid}/jobs").get("jobs", [])
+                for j in jobs:
+                    for s in j.get("steps", []):
+                        if s.get("conclusion") == "failure":
+                            print(f"    -> FAILED STEP in {j.get('name')}: {s.get('name')}")
     except Exception as exc:
         print(f"CI query warning: {exc}", file=sys.stderr)
     return 0

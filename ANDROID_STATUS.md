@@ -1639,6 +1639,11 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Always use `python3 tools/rsi/rsi.py pickup` at session start and `python3 tools/rsi/rsi.py checkpoint "<msg>"` after every milestone.
 - Never allow raw `state` or `next` URLs in `web/views_auth.py` without `_safe_next_url()`.
 
+## Result
+- Android release build (`Build Student Release APKs & AAB` run `44169372065` on `830e83f`): **green** on first push (Modern Release APK + Play Store AAB with R8 5-pass obfuscation, JNI symbol stripping, `Proxy.NO_PROXY`, system-CA pinning and `X-Neb-Proof`).
+- Backend tests (`Backend tests` run `44169566343` on `bcd8dc0`): **green**.
+- Backend deploy (`Deploy Backend to cPanel` run `44169656764` on `bcd8dc0`): **DEPLOYMENT SUCCESSFUL**; smoke test passed; live check verified `Cross-Origin-Resource-Policy: same-origin`, `X-DNS-Prefetch-Control: off`, `X-Download-Options: noopen`, 403 block on `sqlmap/1.8`, and 269 ms HTTP/2 reused-connection response on `GET /api/posts/`.
+
 CI for session 61 (`ae9dba1`): Android release build (APK + AAB) green, backend tests green, backend deploy dispatched by hand and green. Live check: `www` and `?from=AppAgg.com&utm_*` answer 301 to the clean URL, `/llms.txt` 200, robots names the AI crawlers, `sitemap-profiles.xml` lists 208 profiles.
 
 ## Next
