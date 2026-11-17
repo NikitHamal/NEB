@@ -9,7 +9,7 @@ I'm thoroughly reviewing the prompt and associated rules to ensure a precise und
 I will now run the universal sparse-checkout bootstrap command to clone NikitHamal/NEB (main) and inspect the repository status.
 
 
-Ran W=$(pwd) && PAT=[REDACTED_GITHUB_TOKEN]…
+Ran W=$(pwd) && PAT=ghp_REDACTED…
 I will now read ANDROID_STATUS.md, docs/M3X_DESIGN_SYSTEM.md, and inspect the recent git commits and workflows to understand the current progress and avoid duplicating work.
 
 
@@ -2083,7 +2083,7 @@ Session 2:
 I will run the universal bootstrap command to back up the starter files and sparse-clone NikitHamal/NEB (main).
 
 
-Ran W=$(pwd) && PAT=[REDACTED_GITHUB_TOKEN]…
+Ran W=$(pwd) && PAT=ghp_REDACTED…
 I will read ANDROID_STATUS.md, docs/M3X_DESIGN_SYSTEM.md, and list files in rsi/ and backend/ to inspect the current state and rsi/sessions.txt.
 
 

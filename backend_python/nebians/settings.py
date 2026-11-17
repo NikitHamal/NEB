@@ -400,6 +400,8 @@ class SensitiveDataFilter(logging.Filter):
         record.args = ()
         return True
 
+DEFAULT_EXCEPTION_REPORTER_FILTER = 'nebians.log_filters.RedactingExceptionReporterFilter'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

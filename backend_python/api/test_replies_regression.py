@@ -47,3 +47,12 @@ class RepliesEndpointRegression(TestCase):
     def test_post_without_replies(self):
         r = self.client.get(f'/api/posts/{self.empty_post.id}/replies/')
         self.assertEqual(r.status_code, 200)
+
+
+class ErrorEmailRedactionTests(TestCase):
+    def test_cache_and_redis_settings_are_masked_in_error_reports(self):
+        from django.views.debug import get_default_exception_reporter_filter
+        f = get_default_exception_reporter_filter()
+        safe = f.get_safe_settings()
+        for name in ('REDIS_URL', 'CACHE_LOCATION', 'CACHES', 'CHANNEL_LAYERS', 'DATABASES'):
+            self.assertEqual(safe[name], f.cleansed_substitute, name)

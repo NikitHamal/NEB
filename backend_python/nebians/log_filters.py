@@ -31,3 +31,19 @@ class SkipRedisNoiseFilter(logging.Filter):
         except Exception:
             pass
         return True
+
+
+try:
+    import re as _re
+    from django.views.debug import SafeExceptionReporterFilter as _SafeFilter
+
+    class RedactingExceptionReporterFilter(_SafeFilter):
+        """Admin error emails dump every setting. Django masks names holding KEY, SECRET, PASS,
+        TOKEN, API and AUTH, which let the Redis URL (password inside), the cache and channel
+        layer dicts and the DB account through in the Nov 2026 report. Mask those as well."""
+        hidden_settings = _re.compile(
+            _SafeFilter.hidden_settings.pattern + r'|REDIS|CACHE|CHANNEL|DATABASE|DB_|BRIDGE|SALT|_URL$|DSN',
+            flags=_re.I,
+        )
+except Exception:  # Django not importable (tooling that imports this module alone)
+    RedactingExceptionReporterFilter = None
