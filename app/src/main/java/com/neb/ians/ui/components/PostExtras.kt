@@ -1,5 +1,6 @@
 package com.neb.ians.ui.components
 
+import com.neb.ians.data.api.shownName
 import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.animateColorAsState
@@ -284,12 +285,12 @@ internal fun ForumPostCardPlain(
                             }
                         } else 0
                     }
-                    Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 38.dp, verificationLevel = level)
+                    Avatar(name = post.shownName, imageUrl = post.authorPhotoUrl, size = 38.dp, verificationLevel = level)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = post.authorName,
+                            text = post.shownName,
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,

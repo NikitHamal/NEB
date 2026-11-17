@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -134,12 +136,15 @@ fun ResourceHeroCard(
 @Composable
 private fun ResourceTagRow(resource: ApiResource) {
     val subjects = resource.subject.split(",").map { it.trim() }.filter { it.isNotBlank() }
-    FlowRow(
-        modifier = Modifier.fillMaxWidth(),
+    // One scrolling line, no scrollbar: more chips never stack the header taller.
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .nebHorizontalScroll(androidx.compose.foundation.rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        subjects.take(3).forEach { ResourceTag(text = it) }
+        subjects.take(6).forEach { ResourceTag(text = it) }
         if (resource.gradeLevel.isNotBlank()) ResourceTag(text = resource.gradeLevel)
         if (resource.isPaid) {
             ResourceTag(
@@ -178,7 +183,7 @@ private fun ResourceTag(text: String, icon: ImageVector? = null, accent: NebAcce
             style = MaterialTheme.typography.labelMedium,
             color = content,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            softWrap = false
         )
     }
 }
@@ -196,11 +201,12 @@ private fun ResourceByline(resource: ApiResource, onUserProfileClick: (String) -
 
     Row(
         modifier = Modifier
+            .clip(RoundedCornerShape(18.dp))
             .then(
                 if (openable) Modifier.nebPressable(onClick = { onUserProfileClick(username) })
                 else Modifier
             )
-            .clip(RoundedCornerShape(18.dp)),
+            .padding(end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
@@ -215,7 +221,8 @@ private fun ResourceByline(resource: ApiResource, onUserProfileClick: (String) -
                     style = MaterialTheme.typography.titleSmallEmphasized,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false)
                 )
                 if (isOfficial) {
                     Icon(
@@ -385,8 +392,8 @@ private fun ResourceActionBar(
     onShare: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth().offset(x = (-10).dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResourceAction(
@@ -405,9 +412,9 @@ private fun ResourceActionBar(
             accent = NebAccents.Amber,
             onClick = onBookmark
         )
-        Spacer(modifier = Modifier.weight(1f))
         ResourceAction(
             icon = Icons.Rounded.Share,
+            iconRes = com.neb.ians.ui.components.NebIcons.Share,
             label = "Share",
             selected = false,
             enabled = true,
@@ -420,6 +427,7 @@ private fun ResourceActionBar(
 @Composable
 private fun ResourceAction(
     icon: ImageVector,
+    iconRes: Int? = null,
     label: String,
     selected: Boolean,
     enabled: Boolean,
@@ -427,7 +435,6 @@ private fun ResourceAction(
     onClick: () -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
-    val isDark = scheme.surface.luminance() < 0.5f
     val accentColor = accent?.resolve()
 
     val content by animateColorAsState(
@@ -439,26 +446,19 @@ private fun ResourceAction(
         animationSpec = nebEffectsSpec(),
         label = "resource_action_content"
     )
-    val fill by animateColorAsState(
-        targetValue = if (selected && accentColor != null) {
-            accentColor.copy(alpha = if (isDark) 0.17f else 0.10f).compositeOver(scheme.surface)
-        } else {
-            scheme.surfaceContainerHigh
-        },
-        animationSpec = nebEffectsSpec(),
-        label = "resource_action_fill"
-    )
-
     Row(
         modifier = Modifier
             .nebPressable(enabled = enabled, onClick = onClick)
             .clip(CircleShape)
-            .background(if (enabled) fill else scheme.surfaceContainerHigh.copy(alpha = 0.6f))
-            .padding(horizontal = 14.dp, vertical = 10.dp),
+            .padding(horizontal = 10.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(7.dp)
     ) {
-        Icon(icon, contentDescription = label, tint = content, modifier = Modifier.size(17.dp))
-        Text(text = label, style = MaterialTheme.typography.labelLarge, color = content, maxLines = 1)
+        if (iconRes != null) {
+            com.neb.ians.ui.components.NebIcon(id = iconRes, contentDescription = label, size = 20.dp, tint = content)
+        } else {
+            Icon(icon, contentDescription = label, tint = content, modifier = Modifier.size(20.dp))
+        }
+        Text(text = label, style = MaterialTheme.typography.labelLarge, color = content, maxLines = 1, softWrap = false)
     }
 }

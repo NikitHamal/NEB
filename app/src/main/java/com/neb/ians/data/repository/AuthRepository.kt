@@ -141,10 +141,12 @@ class AuthRepository @Inject constructor(
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
         val userId = preferences[USER_ID]
         val status = preferences[AUTH_STATUS] ?: "unauthenticated"
-        if (userId.isNullOrBlank() || userId == "guest_user" || status != "authenticated") return@map null
+        val handle = preferences[USER_NAME] ?: ""
+        // A fresh sign-in can hold a token and a username before the first profile call lands: still signed in.
+        if (status != "authenticated" || userId == "guest_user" || (userId.isNullOrBlank() && (handle.isBlank() || handle == "Guest"))) return@map null
         UserProfileCache(
-            id = userId,
-            username = preferences[USER_NAME] ?: "",
+            id = userId ?: "",
+            username = handle,
             email = preferences[USER_EMAIL],
             photoUrl = preferences[USER_PHOTO_URL],
             bannerUrl = preferences[USER_BANNER_URL],
@@ -227,12 +229,12 @@ class AuthRepository @Inject constructor(
             dataStore.edit { prefs ->
                 prefs[AUTH_STATUS] = "authenticated"
                 prefs[PROFILE_COMPLETED] = !isNewUser
-                prefs[USER_NAME] = username ?: ""
+                if (!username.isNullOrEmpty()) prefs[USER_NAME] = username
+                else if (prefs[USER_NAME] == "Guest") prefs[USER_NAME] = ""
                 prefs.remove(USER_ID)
             }
-            if (!username.isNullOrEmpty()) {
-                refreshProfile()
-            }
+            // The profile is what turns the UI from guest to signed in; one failed call must not leave it stale.
+            ensureProfile()
             syncFcmToken()
             true
         } catch (e: Exception) {
@@ -241,7 +243,7 @@ class AuthRepository @Inject constructor(
     }
 
     private fun needsOnboarding(user: com.neb.ians.data.api.UserProfileResponse, isNewUser: Boolean): Boolean =
-        isNewUser || user.username.isBlank() || user.dob.isBlank()
+        isNewUser || user.username.isBlank() || (user.role != "institution" && user.dob.isBlank())
 
     private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
         SecurePrefs.setAuthToken(appContext, authToken)
@@ -585,6 +587,19 @@ class AuthRepository @Inject constructor(
             response.url
         } catch (e: Exception) {
             null
+        }
+    }
+
+    /** Refreshes the cached profile, retrying a few times so a slow network never leaves a signed-in user looking like a guest. */
+    suspend fun ensureProfile(attempts: Int = 4) {
+        repeat(attempts) { i ->
+            if (getBearerToken() == null) return
+            val prefs = dataStore.data.first()
+            if (!prefs[USER_ID].isNullOrBlank() && prefs[USER_ID] != "guest_user" && i > 0) return
+            refreshProfile()
+            val after = dataStore.data.first()[USER_ID]
+            if (!after.isNullOrBlank() && after != "guest_user") return
+            kotlinx.coroutines.delay(1200L * (i + 1))
         }
     }
 

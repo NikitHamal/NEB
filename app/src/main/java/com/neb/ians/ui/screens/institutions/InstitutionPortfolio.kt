@@ -57,10 +57,10 @@ internal fun InstitutionPortfolio(
             )
         }
         val phone = p.str("phone").ifBlank { d.phone }
-        if (showActions && (phone.isNotBlank() || d.website.isNotBlank() || d.claimable)) Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (phone.isNotBlank()) FilledTonalButton(onClick = { onWeb("tel:" + phone.filter { it.isDigit() || it == '+' }) }) { Icon(Icons.Outlined.Phone, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text("Call") }
-            if (d.website.isNotBlank()) FilledTonalButton(onClick = { onWeb(d.website) }) { Icon(Icons.Outlined.Language, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text("Website") }
-            if (d.claimable) FilledTonalButton(onClick = onClaim) { Icon(Icons.Outlined.Verified, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text("Claim") }
+        if (showActions && (phone.isNotBlank() || d.website.isNotBlank() || d.claimable)) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (phone.isNotBlank()) FilledTonalButton(onClick = { onWeb("tel:" + phone.filter { it.isDigit() || it == '+' }) }) { Icon(Icons.Outlined.Phone, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text("Call", maxLines = 1, softWrap = false) }
+            if (d.website.isNotBlank()) FilledTonalButton(onClick = { onWeb(d.website) }) { Icon(Icons.Outlined.Language, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text("Website", maxLines = 1, softWrap = false) }
+            if (d.claimable) FilledTonalButton(onClick = onClaim) { Icon(Icons.Outlined.Verified, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text("Claim", maxLines = 1, softWrap = false) }
         }
         val facts = listOf(
             "Established" to d.est, "Students" to (p.num("students")?.let { "%,d".format(it) } ?: ""), "Teachers" to (p.num("teachers")?.toString() ?: ""),

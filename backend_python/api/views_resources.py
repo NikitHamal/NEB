@@ -578,6 +578,7 @@ def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
             from api.models import ResourceCommentLike
             is_liked = ResourceCommentLike.objects.filter(comment_id=comment.id, user_id=viewer.id).exists()
     author_name = user.username if user else 'Deleted user'
+    author_display = ((user.display_name or user.username) if user else 'Deleted user')
     if user:
         from .services import avatar_or_photo_url
         author_photo = avatar_or_photo_url(user) or ''
@@ -595,6 +596,7 @@ def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
         'authorId': comment.user_id or '',
         'user_name': author_name,
         'authorName': author_name,
+        'authorDisplayName': author_display,
         'user_photo_url': author_photo,
         'authorPhoto': author_photo,
         'parent_comment_id': comment.parent_comment_id,

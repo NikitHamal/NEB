@@ -411,6 +411,15 @@ class ForumContentMixin:
         except Exception:
             return 'Deleted user'
 
+    def get_authorDisplayName(self, obj):
+        """The name people chose to show; falls back to the username. Anonymous keeps the tag."""
+        if obj.is_anonymous or not obj.user_id:
+            return self.get_authorName(obj)
+        try:
+            return (obj.user.display_name or obj.user.username or '').strip() or obj.user.username
+        except Exception:
+            return 'Deleted user'
+
     def get_authorPhotoUrl(self, obj):
         if obj.is_anonymous or not obj.user_id:
             return ''
@@ -432,6 +441,7 @@ class ForumContentMixin:
 class PostSerializer(ForumContentMixin, serializers.ModelSerializer):
     content_type = 'post'
     authorName = serializers.SerializerMethodField()
+    authorDisplayName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
     authorId = serializers.SerializerMethodField()
     authorIsBot = serializers.SerializerMethodField()
@@ -456,7 +466,7 @@ class PostSerializer(ForumContentMixin, serializers.ModelSerializer):
         model = Post
         fields = [
             'id', 'title', 'content', 'category', 'look',
-            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
+            'authorName', 'authorDisplayName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'replyCount', 'viewCount', 'createdAt', 'updatedAt',
             'isEdited', 'isArchived', 'isAnonymous', 'isOwner',
             'isThumbedUp', 'isBookmarked', 'images', 'attachments', 'poll'
@@ -472,6 +482,7 @@ class PostSerializer(ForumContentMixin, serializers.ModelSerializer):
 class ReplySerializer(ForumContentMixin, serializers.ModelSerializer):
     content_type = 'reply'
     authorName = serializers.SerializerMethodField()
+    authorDisplayName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
     authorId = serializers.SerializerMethodField()
     authorIsBot = serializers.SerializerMethodField()
@@ -499,7 +510,7 @@ class ReplySerializer(ForumContentMixin, serializers.ModelSerializer):
         model = Reply
         fields = [
             'id', 'postId', 'parentReplyId', 'content', 'kind', 'label', 'canLabel',
-            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
+            'authorName', 'authorDisplayName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt',
             'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments', 'poll'
         ]

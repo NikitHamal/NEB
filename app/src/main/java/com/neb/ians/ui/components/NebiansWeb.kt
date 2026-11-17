@@ -1,5 +1,6 @@
 package com.neb.ians.ui.components
 
+import com.neb.ians.data.api.shownName
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -902,13 +903,13 @@ fun WebPostCard(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Avatar(
-                    name = post.authorName,
+                    name = post.shownName,
                     imageUrl = post.authorPhotoUrl,
                     size = 38.dp
                 )
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = post.authorName,
+                        text = post.shownName,
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,

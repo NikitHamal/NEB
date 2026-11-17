@@ -383,6 +383,7 @@ def edit_history(request, target_type, target_id):
     return Response(EditHistorySerializer(entries, many=True).data)
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])  # guests read; POST checks the user itself via _require_user
 def posts_endpoint(request):
     """
     GET  /api/posts  → list posts (with optional filtering/pagination)
@@ -489,6 +490,7 @@ def posts_endpoint(request):
     return Response({'error': 'Failed to create post'}, status=400)
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])  # guests read; POST checks the user itself via _require_user
 def replies_endpoint(request, post_id):
     """
     GET  /api/posts/<postId>/replies  → list replies

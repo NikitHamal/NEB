@@ -60,6 +60,11 @@ class SettingsViewModel @Inject constructor(
     val authState = authRepository.authState
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), com.neb.ians.data.repository.AuthState.Loading)
 
+    /** Signed in but no cached profile yet (fresh sign-in, slow network): fetch it so the UI never stays a guest. */
+    fun ensureProfile() {
+        viewModelScope.launch { runCatching { authRepository.ensureProfile() } }
+    }
+
     fun setDarkMode(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setDarkMode(enabled) }
     }

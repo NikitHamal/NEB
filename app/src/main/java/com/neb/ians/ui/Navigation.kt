@@ -323,6 +323,7 @@ fun NEBiansNavHost(
                 }
             }
             is AuthState.Authenticated -> {
+                settingsViewModel.ensureProfile()
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                 if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
                     if (state.isProfileComplete) leaveAuth()

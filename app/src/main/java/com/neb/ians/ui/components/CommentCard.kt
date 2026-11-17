@@ -1,5 +1,7 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.ui.layout.layout
+import com.neb.ians.data.api.shownName
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -103,7 +105,8 @@ fun CommentCard(
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(
-                verticalAlignment = Alignment.Top,
+                modifier = Modifier.trimSingleLineTail(6.dp),
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Box(
@@ -125,7 +128,7 @@ fun CommentCard(
                         } else 0
                     }
                     Avatar(
-                        name = reply.authorName,
+                        name = reply.shownName,
                         imageUrl = reply.authorPhotoUrl,
                         size = 36.dp,
                         verificationLevel = replyLevel
@@ -142,7 +145,7 @@ fun CommentCard(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = reply.authorName,
+                                text = reply.shownName,
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface,
@@ -379,7 +382,7 @@ fun CommentCard(
                         } else 0
                     }
                     Avatar(
-                        name = firstChild.authorName,
+                        name = firstChild.shownName,
                         imageUrl = firstChild.authorPhotoUrl,
                         size = 20.dp,
                         verificationLevel = childLevel
@@ -410,4 +413,16 @@ private fun Modifier.bottomHairline(color: androidx.compose.ui.graphics.Color): 
     this.drawBehind {
         val h = 1.dp.toPx()
         drawRect(color, topLeft = androidx.compose.ui.geometry.Offset(0f, size.height - h), size = androidx.compose.ui.geometry.Size(size.width, h))
+    }
+
+/**
+ * A one-line comment header is as tall as its avatar, which left a dead band between the name and the text.
+ * When the header is that single line, report [tail] less height so the body sits right under the name.
+ */
+private fun Modifier.trimSingleLineTail(tail: androidx.compose.ui.unit.Dp): Modifier =
+    this.layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        val oneLine = placeable.height <= 40.dp.roundToPx()
+        val trim = if (oneLine) tail.roundToPx() else 0
+        layout(placeable.width, placeable.height - trim) { placeable.place(0, 0) }
     }
