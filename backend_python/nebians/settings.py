@@ -92,6 +92,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # First: a crawler over its budget gets a 429 before anything else runs.
+    'nebians.crawler_shield.CrawlerShieldMiddleware',
     'django.middleware.security.SecurityMiddleware',
     # HTML was going out uncompressed. Our pages are template-heavy and
     # compress 5-8x; on a mobile connection in Nepal that is most of the

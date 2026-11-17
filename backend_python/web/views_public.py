@@ -1927,6 +1927,7 @@ def robots_txt(request):
         'Disallow: /login/',
         'Disallow: /logout/',
         'Disallow: /app/settings/',
+        'Disallow: /app/schools/verify/',
         # /og/ is deliberately not disallowed: social scrapers must be able to
         # fetch the cards. They are kept out of image search with an
         # X-Robots-Tag header on the PNG instead (views_og).

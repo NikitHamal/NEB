@@ -1479,3 +1479,39 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Read the deploy log for `Shrinking oversized profile photos` and the `warm` / `posts` timings; compare `/api/posts/` TTFB.
 - Ask the host about load 43 / swap 18 GB; retire daphne (127 MB, `WS_PUBLIC_URL` unset) after editing `watchdog.sh`.
+
+
+---
+
+# Session 57: crawler flood behind the 503s, lazy Qwen pool, school pages cached, safe app retries
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from sessions 55 and 56 (deploy 17 min to 77 s, warm parent, avatars); none of it was redone. Deploy history checked: nothing is stuck, the last runs took 94 s and 98 s. The deploy secrets work.
+
+## Findings (read-only `diagnose-backend.yml`, new `script` input: `diagnose_perf.sh`, `diagnose_access.sh`; no IPs, env or `.htaccess` printed)
+
+| What | Value | Meaning |
+| --- | --- | --- |
+| Workers | `LSAPI_CHILDREN=6` (+2 extra), `stderr.log` holds 186,647 "Reached max children process limit" lines, 356 of 8,962 dynamic requests in 4 h were 503 (332 in one hour) | Real people got 503 whenever 8 workers were busy at once. DB `max_user_connections=10`, so more workers is not an option. |
+| Cause | UA `meta-externalagent` from about 100 rotating IPs: 3,423 hits on `/app/schools/*`, 829 `/app/schools/verify/`, 800 `/login/`, 739 + 734 OAuth entry points = 35% of all dynamic traffic. 8,075 of 14,225 requests in 4 h were bots. Ignores `Disallow: /login/`. | The site was slow because a crawler used the few workers, not because of a heavy app. |
+| `/app/schools/` | 342 ms warm, 304 ms of it SQL (sorts 25k rows) | Heaviest anonymous page, and the crawler walked it. |
+| Qwen proxy | 5,000+ warnings in 3 weeks: every worker warmed 3 browser sessions every 5 min from import time, holding the pool lock during the network handshake, against a host that fails | Wasted connections and threads on a loaded box, and real calls could wait behind the lock. |
+| Warm app | `/api/posts/` 40 to 56 ms, home 90 ms, library 3 ms | Nothing slow left in the common paths. |
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 329 | **Crawler shield**: first middleware. Known heavy crawlers (meta-externalagent, GPTBot, ClaudeBot, Bytespider, Amazonbot, AhrefsBot, SemrushBot, MJ12, PetalBot ...) get 6 requests per minute each, shared by all workers (cache counter, fails open). Over that: 429 + `Retry-After: 300` before sessions, CSRF, DB or templates. Googlebot, Bingbot, link previews (facebookexternalhit, Twitterbot ...), browsers and the Android app are never matched. robots.txt, sitemaps, static and media always answer. `CRAWLER_BUDGET_PER_MIN` tunes it. | `nebians/crawler_shield.py`, `settings.py`, `nebians/test_crawler_shield.py` |
+| 330 | `robots.txt` also disallows `/app/schools/verify/`. | `web/views_public.py` |
+| 331 | **Anonymous school pages** join the page cache (300 s, directory and detail; `verify/` and `go/` redirect so nothing is stored). | `nebians/page_cache.py` |
+| 332 | **Qwen pool is lazy**: no thread at import, started by the first real call, handshake outside the lock, failures back off 5 min to 1 h, stops after 30 idle minutes. | `api/qwen_proxy.py` |
+| 333 | **Android retries**: 500 is not retried (deterministic, doubled load), timeouts and gateway errors are retried for GET/HEAD only (a timed-out POST used to be sent twice), 408/429/503 for any method (the server did not run it), plus jitter. | `RetryInterceptor.kt` |
+| 334 | Deploy workflow: 20 min job cap, smoke test bounded to 4 tries of 30 s per path. | `deploy-backend.yml` |
+
+## Rules
+- Never raise a crawler's budget to "fix" indexing: first read `diagnose_access.sh`.
+- Anything that sorts the whole institutions table must go through the page cache.
+
+## Next
+- Read `diagnose_access.sh` again after the deploy: 429 per hour for the crawler, 503 per hour should be 0.
+- Ask the host to raise `LSAPI_CHILDREN` only together with `max_user_connections`.

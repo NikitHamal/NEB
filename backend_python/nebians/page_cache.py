@@ -24,7 +24,15 @@ _MOBILE_UA = re.compile(r'android|iphone|ipad|ipod|mobile|phone', re.I)
 def _whitelisted(path):
     if path == '/':
         return True
+    if path.startswith('/app/schools/'):
+        # The directory and school pages are the heaviest anonymous pages (the list
+        # sorts 25k rows, ~300 ms of SQL). verify/ and go/ redirect, so nothing is stored.
+        return not path.startswith('/app/schools/verify/')
     return path.startswith(('/app/faq/', '/app/library/', '/app/forum/', '/app/news/'))
+
+
+def _ttl(path):
+    return 300 if path.startswith('/app/schools/') else _TTL
 
 
 def _device(request):
@@ -124,7 +132,7 @@ class AnonPageCacheMiddleware:
             nonce = getattr(request, 'csp_nonce', '') or ''
             masked = _mask(body, nonce)
             from django.core.cache import cache
-            cache.set(key, bytes(masked), _TTL)
+            cache.set(key, bytes(masked), _ttl(request.path))
         except Exception:
             pass
 

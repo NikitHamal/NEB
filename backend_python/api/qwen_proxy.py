@@ -714,25 +714,44 @@ def _prune_pool():
     ]
 
 
+_pool_last_use = 0.0        # monotonic time of the last real request for a session
+_pool_fail_streak = 0       # consecutive failed refills (drives the backoff)
+_POOL_IDLE_STOP = 1800      # nobody asked for Qwen for 30 min: stop warming
+
+
 def _pool_refill_loop():
-    """Background thread: keep the pool at target size."""
+    """Background thread: keep the pool warm, only while Qwen is actually used.
+
+    Before: every worker warmed 3 browser sessions every 5 minutes forever, even
+    when nobody used Qwen, and held the pool lock for the whole network
+    handshake (so a real request waited behind it). Now the handshake runs
+    outside the lock, failures back off (5 min -> 1 h) and the loop ends after
+    30 idle minutes; the next real request restarts it.
+    """
+    global _pool_refill_thread_started, _pool_fail_streak
     while True:
-        # Jitter the sleep so multiple lswsgi workers don't all refill at
-        # the exact same second (which floods the log with warmup lines).
-        time.sleep(_POOL_REFILL_INTERVAL + random.uniform(0, 45))
+        delay = min(_POOL_REFILL_INTERVAL * (2 ** _pool_fail_streak), 3600)
+        time.sleep(delay + random.uniform(0, 45))
+        if time.monotonic() - _pool_last_use > _POOL_IDLE_STOP:
+            _pool_refill_thread_started = False
+            return
         try:
             with _pool_lock:
                 _prune_pool()
                 need = POOL_TARGET_SIZE - len(_session_pool)
             for _ in range(need):
                 try:
-                    with _pool_lock:
-                        _add_pool_entry()
+                    session, cookies = _create_fresh_session()   # network, no lock held
                 except Exception as e:
-                    logger.error(f"Pool refill failed: {e}")
+                    _pool_fail_streak = min(_pool_fail_streak + 1, 4)
+                    logger.warning(f"Pool refill failed (retry in {min(_POOL_REFILL_INTERVAL * 2 ** _pool_fail_streak, 3600)}s): {str(e)[:160]}")
                     break
+                _pool_fail_streak = 0
+                with _pool_lock:
+                    _session_pool.append({'session': session, 'cookies': cookies,
+                                          'created_at': time.time(), 'msg_count': 0})
             if need > 0:
-                logger.debug(f"Pool refill: added {need} sessions (pool={len(_session_pool)})")
+                logger.debug(f"Pool refill: added up to {need} sessions (pool={len(_session_pool)})")
         except Exception as e:
             logger.error(f"Pool refill loop error: {e}")
 
@@ -749,10 +768,18 @@ def _start_refill_thread():
 
 def _get_session():
     """Return the least-used session from the pool (creates one if empty)."""
+    global _pool_last_use
+    _pool_last_use = time.monotonic()
+    _start_refill_thread()
     with _pool_lock:
         _prune_pool()
-        if not _session_pool:
-            _add_pool_entry()
+        have = bool(_session_pool)
+    if not have:
+        session, cookies = _create_fresh_session()   # network, no lock held
+        with _pool_lock:
+            _session_pool.append({'session': session, 'cookies': cookies,
+                                  'created_at': time.time(), 'msg_count': 0})
+    with _pool_lock:
         # sort by msg_count ascending so least-used session is returned
         _session_pool.sort(key=lambda e: e['msg_count'])
         winner = _session_pool[0]
@@ -778,8 +805,7 @@ def _mark_used(session):
                 break
 
 
-# Kick off the refill thread at import time (safe because it's a daemon thread)
-_start_refill_thread()
+# The refill thread starts on the first real request (_get_session), not at import.
 
 
 # ========================= Chat API =========================

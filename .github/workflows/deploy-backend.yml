@@ -15,7 +15,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -46,8 +46,8 @@ jobs:
           fail=0
           for p in / /api/posts/ /api/realtime/config/ /app/news/ /static/web/css/fonts.css; do
             ok=0
-            for i in 1 2 3 4 5; do
-              out=$(curl -s -o /dev/null -m 45 -w '%{http_code} %{time_total}s' "https://nebians.consica.com.np$p" || true)
+            for i in 1 2 3 4; do
+              out=$(curl -s -o /dev/null -m 30 -w '%{http_code} %{time_total}s' "https://nebians.consica.com.np$p" || true)
               echo "$p try $i: $out"
               case "$out" in 200*) ok=1; break;; esac
               sleep 6
