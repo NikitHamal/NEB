@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -213,8 +214,13 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     val closeZoom = { web?.evaluateJavascript("window.nebZoomClose && nebZoomClose()", null); zoomOpen = false }
     BackHandler(enabled = zoomOpen) { closeZoom() }
 
+    val readFraction by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = (state.mark.read / 100f).coerceIn(0f, 1f),
+        label = "reader_progress"
+    )
     Scaffold(
         topBar = {
+            Column {
             TopAppBar(
                 title = {
                     Column {
@@ -251,6 +257,22 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
             )
+            // reading progress: a 3dp line under the bar, drawn from the animated fraction
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(3.dp)
+                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxWidth(readFraction)
+                        .height(3.dp)
+                        .clip(RoundedCornerShape(topEnd = 3.dp, bottomEnd = 3.dp))
+                        .background(MaterialTheme.colorScheme.primary)
+                )
+            }
+            }
         },
         bottomBar = {
             if (doc != null) ReaderBottomBar(state, onPrev = { doc.prev?.let(viewModel::go) }, onNext = { doc.next?.let(viewModel::go) }, onDone = viewModel::toggleDone)
@@ -292,47 +314,72 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
 @Composable
 private fun ReaderBottomBar(state: StudyReaderState, onPrev: () -> Unit, onNext: () -> Unit, onDone: () -> Unit) {
     val doc = state.doc ?: return
-    Surface(color = MaterialTheme.colorScheme.surface) {
-        Column {
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+    val c = MaterialTheme.colorScheme
+    val done = state.mark.markedDone
+    // Previous (round), mark done (tonal pill, fills the row), Next chapter (the one filled button).
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(c.surface)
+            .navigationBarsPadding()
+            .padding(horizontal = 14.dp, vertical = 10.dp)
+    ) {
+        if (doc.prev != null) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(c.surfaceContainerHigh)
+                    .nebPressable(onClick = onPrev),
+                contentAlignment = Alignment.Center
+            ) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Previous chapter", tint = c.onSurface) }
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .weight(1f)
+                .height(48.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .background(if (done) c.secondaryContainer else c.surfaceContainerHigh)
+                .nebPressable(onClick = onDone)
+                .padding(horizontal = 14.dp)
+        ) {
+            Icon(
+                Icons.Outlined.CheckCircle,
+                contentDescription = null,
+                tint = if (done) c.onSecondaryContainer else c.onSurfaceVariant,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                when {
+                    done -> "Done"
+                    state.mark.tried > 0 -> "Mark done · ${state.mark.right}/${state.mark.tried}"
+                    else -> "Mark as done"
+                },
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = if (done) c.onSecondaryContainer else c.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        if (doc.next != null) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier
+                    .height(48.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(c.primary)
+                    .nebPressable(onClick = onNext)
+                    .padding(start = 18.dp, end = 14.dp)
             ) {
-                IconButton(onClick = onPrev, enabled = doc.prev != null) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Previous") }
-                val done = state.mark.markedDone
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clip(RoundedCornerShape(999.dp))
-                        .nebPressable(onClick = onDone)
-                        .then(Modifier)
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(999.dp),
-                        color = if (done) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surfaceContainerHigh,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(vertical = 11.dp)) {
-                            Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = if (done) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(20.dp))
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                when {
-                                    done -> "Done"
-                                    state.mark.tried > 0 -> "Mark as done · ${state.mark.right}/${state.mark.tried} right"
-                                    else -> "Mark as done"
-                                },
-                                style = MaterialTheme.typography.labelLarge,
-                                fontWeight = FontWeight.SemiBold,
-                                color = if (done) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                }
-                IconButton(onClick = onNext, enabled = doc.next != null) { Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = "Next") }
+                Text("Next", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = c.onPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = "Next chapter", tint = c.onPrimary, modifier = Modifier.size(18.dp))
             }
         }
     }
