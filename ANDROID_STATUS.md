@@ -1971,3 +1971,9 @@ History read first: session 73 (`994e6ed8`) already built everything asked (Prof
 
 ## Notes
 - The GitHub token used to clone and push was pasted into the chat again. Rotate it.
+
+CI: `2819fd11` Android release build (APK + AAB) green. Deploy run on `994e6ed8` green; live site answers 200 on `/`, `/api/posts/` and serves `img/m3x/covers.json`.
+
+## Next
+- On-device pass: cover picker scroll, Dark covers, thumbnail contrast on cards.
+- Glance tiles and Studying now once the profile API returns reads, answers and streak.
