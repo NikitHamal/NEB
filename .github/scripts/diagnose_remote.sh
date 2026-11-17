@@ -6,6 +6,16 @@ source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
 echo "== load"; cat /proc/loadavg
 echo "== lswsgi tree (pid ppid etime rss args)"
 ps -u consicac -o pid=,ppid=,etime=,rss=,args= 2>/dev/null | grep -E 'lswsgi|daphne' | grep -v grep | cut -c1-150 | head -20
+echo "== limits and memory (account shared with other apps)"
+ulimit -u 2>/dev/null | sed 's/^/ulimit -u /'; echo "procs of this user: $(ps -u consicac -o pid= 2>/dev/null | wc -l), threads: $(ps -u consicac -L -o tid= 2>/dev/null | wc -l)"
+free -m 2>/dev/null | head -3
+cat /proc/self/cgroup 2>/dev/null | head -3
+for f in memory.max memory.current pids.max pids.current cpu.max; do for d in /sys/fs/cgroup /sys/fs/cgroup/$(cut -d: -f3 /proc/self/cgroup | head -1); do [ -r "$d/$f" ] && echo "$f=$(cat $d/$f 2>/dev/null)" && break; done; done
+echo "== cron (names only, secrets masked) and watchdog"
+crontab -l 2>/dev/null | sed -E 's/(KEY|TOKEN|SECRET|PASS)[A-Za-z_]*=[^ ]*/\1=***/Ig' | cut -c1-170 | head -20
+[ -f watchdog.sh ] && sed -E 's/(KEY|TOKEN|SECRET|PASS)[A-Za-z_]*=[^ ]*/\1=***/Ig' watchdog.sh | cut -c1-170 | head -30
+echo "== app logs (sizes only)"; ls -la logs 2>/dev/null | cut -c1-120 | head -15
+echo "== recent 503 or limit hints in app stderr (last 8 lines)"; tail -n 8 stderr.log 2>/dev/null | cut -c1-200
 echo "== cold first request profile (fresh interpreter)"
 timeout 170 python - <<'PY' 2>&1 | cut -c1-190 | tail -60
 import os, sys, time, cProfile, pstats, io
