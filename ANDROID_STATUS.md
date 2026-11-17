@@ -1617,3 +1617,9 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Rules
 - A short class name in markup that is not ours (`.ob`, `.opt`) must be reset in the stylesheet that owns the markup; global names like `.ob` are onboarding's.
 - Never rely on a default `LocalContentColor` or palette: the theme provides both.
+
+CI for session 61 (`ae9dba1`): Android release build (APK + AAB) green, backend tests green, backend deploy dispatched by hand and green. Live check: `www` and `?from=AppAgg.com&utm_*` answer 301 to the clean URL, `/llms.txt` 200, robots names the AI crawlers, `sitemap-profiles.xml` lists 208 profiles.
+
+## Next
+- Build the profile in Kotlin from concept v2 (see session 60 Next).
+- In Search Console: validate the fix on "Alternate page" and request a sitemap re-read; profile rich results should grow as Google recrawls.
