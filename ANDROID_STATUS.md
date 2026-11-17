@@ -1778,6 +1778,11 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 | 378 | **`rsi.py live`**: fetches the shipped static files and fails when a repo selector (`.an-insight`) is missing from the live copy, so a green deploy that dropped files is caught in one call. `rsi.py deploy [static_dir]` passes the resync dir. | `tools/rsi/rsi.py` |
 | 379 | **Audit invariant**: `security_and_m3x_audit.py` fails when `deploy_backend.py` stops stamping extracted files. | `tools/rsi/security_and_m3x_audit.py` |
 
+| 380 | **Second cause: workers kept a stale static index.** WhiteNoise records each file's size and mtime when a worker starts. After `collectstatic` re-copied files without a restart (the restart only ran when files were in the delta), old workers sent the old `Content-Length` with new bytes: HTTP/2 `PROTOCOL_ERROR` (curl exit 92) and a half-loaded page on some requests. The deploy now recycles LSAPI workers whenever static was re-copied. `rsi.py live` uses curl (HTTP/2) and reports exit 92 as BROKEN. | `deploy_backend.py`, `rsi.py` |
+
+## Verified live
+Deploy runs `44182216547` (css resync), `44182511634` (js resync), `44182895856` (css resync plus worker restart), all green. Five `rsi.py live` calls in a row return the new `admin.css` (74 KB minified, `.an-insight` present); `/` and `/api/posts/` answer 200. Nothing deleted, no migration in this session.
+
 ## Rules (do not break)
 - A green deploy is not proof the site changed. After any static edit run `python3 tools/rsi/rsi.py live`.
 - Never rely on file mtimes surviving a zip to the cPanel box; stamp after extraction.

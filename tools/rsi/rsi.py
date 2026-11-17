@@ -187,18 +187,20 @@ LIVE_ASSETS = {
 
 def cmd_live() -> int:
     """Compare the shipped static files with the repo (catches a deploy that went green but dropped files)."""
-    import urllib.request
     bad = 0
     for rel, marker in LIVE_ASSETS.items():
         local = os.path.join("backend_python", rel)
         if not os.path.exists(local):
             continue
         url = "https://nebians.consica.com.np/static/" + rel[len("web/static/"):]
-        try:
-            req = urllib.request.Request(url + "?rsi=1", headers={"User-Agent": "rsi-live"})
-            live = urllib.request.urlopen(req, timeout=25).read()
-        except Exception as exc:  # noqa: BLE001
-            print(f"  ?? {rel}: {exc}")
+        import subprocess
+        # curl over HTTP/2 like browsers: a worker with a stale static index sends a wrong
+        # Content-Length and the transfer dies with PROTOCOL_ERROR (curl exit 92).
+        res = subprocess.run(["curl", "-s", "-m", "40", url + f"?rsi={os.getpid()}"], capture_output=True)
+        live = res.stdout
+        if res.returncode != 0:
+            print(f"  BROKEN {rel}: curl exit {res.returncode} (stale worker index? redeploy with a static dir)")
+            bad += 1
             continue
         same = marker.encode() in live or marker.encode() not in open(local, "rb").read()
         print(f"  {'OK   ' if same else 'STALE'} {rel} live={len(live)}B repo={os.path.getsize(local)}B")
