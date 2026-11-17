@@ -1224,3 +1224,31 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Owner review of `profile.html` and `search.html`; lock, then port the profile overhaul (web first, then Android).
 - **Redeploy the backend** (`deploy.ps1`): wave17 exam groups, claim and portfolio endpoints, graphite tokens, Schools tab. The app already bundles wave17, the site does not until the deploy.
 - Android on device: segmented control on a 360dp phone, Exams groups.
+
+
+---
+
+# Session 47: web profile strength and institution portfolio, search parity (web and Android)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first. The brief repeated sessions 37 to 46 (Pathways port, 24,665 catalogue, institution and teacher portfolio, no DOB or gender for institutions, graphite dark, profile and search concepts). Audited against the code and **kept, not redone**: Android profile header, strength card, portfolio, teacher block, institution page and owner editor (`6cf34be`), onboarding `stepsForRole`, web onboarding and edit profile without DOB or gender for institutions, graphite tokens. The profile and search concepts are treated as locked; the gaps were on the web side and in Android search.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 291 | **Web profile had no strength card and no way for an institution to edit its portfolio.** Owner card: ring, one sentence, next steps (same weights as Android `gapsFor`). People go to Edit profile; a verified institution opens the section editor. | `api/profile_strength.py`, `web/views_inst_folio.py` (`profile_extras`), `profile/_strength.html` |
+| 292 | **Institution portfolio on its own web profile** (concept look): admissions note, facts grid, about and motto, levels and streams, programs, yearly fee bar, facilities grid with icons, leadership, branches, contact and socials. A visitor sees only what is filled; the verified owner also gets dashed prompts and Edit per card. An unclaimed institution account sees a "Claim and verify" card. | `profile/_inst_folio.html`, `views_institutions_profile.folio_data`, `css/m3x/app-inst-folio.css` |
+| 293 | **Web section editor**, one section at a time, nothing required, saves alone: About, Basics, Levels, Numbers, Programs, Branches, Facilities, Fees, Admissions, Contact, Social links. Same keys as `institution_profile.py` and the app's `SECTIONS`. Write path: `POST /ajax/institution/portfolio/save/` (session owner, verified claim only, same validation as the API). | `js/inst-folio.js`, `views_inst_folio.ajax_inst_portfolio_save` |
+| 294 | **Web search**: result tabs show counts (All knows every group, another tab its own, no extra query), "People" replaces "Users", recents kept on this device with remove and clear, "Popular right now", filter sheet without the "N filters active" tagline and with subject search. | `views_public.search`, `search.html`, `_search_results.html`, `css/m3x/app-search-recents.css` |
+| 295 | **Android search had no Schools.** New scope with count, preview of three in All with "See all", full list, one row per school (kind and place, "Verified" or "Verified, full page"); a claimed school opens its profile, an unclaimed one the school page. The catalogue call runs in parallel with the library call. | `SearchViewModel.kt`, `SearchResults.kt`, `SearchScreen.kt`, `Navigation.kt` |
+| 296 | Tests: person strength weights, owner saves a section, stranger gets 403 and a guest 401, strength card only for the owner, visitor sees filled blocks with no edit hooks. | `web/test_inst_folio.py` |
+
+## Rules
+- Strength weights live in two places that must stay equal: `api/profile_strength.py` and `ProfileStrength.kt` (`gapsFor`). Institutions use `institution_profile.WEIGHTS` on both.
+- A new institution profile key goes into `institution_profile.py`, `SECTIONS` in `InstitutionManageScreen.kt` **and** `SECTIONS` in `js/inst-folio.js`.
+- Tab counts on the web come only from lists the request already loaded.
+
+## Next
+- **Redeploy the backend** (`deploy.ps1`): everything on the web side above, wave17, claim and portfolio endpoints.
+- Teacher web profile: a dedicated editor sheet for the teaching block (today it lives in Edit profile).
+- Android on device: Schools scope on a 360dp phone (five tabs scroll sideways).
