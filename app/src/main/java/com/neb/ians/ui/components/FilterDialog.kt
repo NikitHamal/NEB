@@ -22,6 +22,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.components.NebButton
@@ -53,7 +57,8 @@ fun FilterDialog(
     onGradeLevelSelected: (String?) -> Unit,
     onTypeSelected: (String?) -> Unit,
     onClearAll: () -> Unit,
-    onApply: () -> Unit
+    onApply: () -> Unit,
+    resultCount: Int? = null
 ) {
     val activeCount = listOfNotNull(selectedSubject, selectedGradeLevel, selectedType).size +
         (if (selectedSort != "relevant") 1 else 0)
@@ -61,11 +66,7 @@ fun FilterDialog(
     NebModalSheet(
         onDismiss = onDismissRequest,
         title = "Filter",
-        subtitle = if (activeCount == 0) {
-            "Narrow the library down to what you need"
-        } else {
-            "$activeCount filter${if (activeCount == 1) "" else "s"} active"
-        },
+        subtitle = if (activeCount == 0) null else "$activeCount active",
         showClose = true,
         fullBleed = true // bleed: content pads itself or draws edge to edge rows
     ) {
@@ -86,9 +87,24 @@ fun FilterDialog(
                 },
                 clearable = false
             )
+            var subjectQuery by remember { mutableStateOf("") }
+            // Selected first, then the rest; a search box once the list is long enough to scan slowly.
+            val shownSubjects = remember(subjects, selectedSubject, subjectQuery) {
+                subjects.filter { subjectQuery.isBlank() || it.contains(subjectQuery.trim(), ignoreCase = true) }
+                    .sortedByDescending { it == selectedSubject }
+            }
+            if (subjects.size > 8) {
+                NebDialogTextField(
+                    value = subjectQuery,
+                    onValueChange = { subjectQuery = it },
+                    placeholder = "Search subjects",
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(0.dp))
+            }
             FilterGroup(
                 label = "Subject",
-                options = subjects,
+                options = shownSubjects,
                 selected = selectedSubject,
                 onSelect = onSubjectSelected
             )
@@ -123,7 +139,12 @@ fun FilterDialog(
                 modifier = Modifier.weight(1f)
             )
             NebButton(
-                text = "Show results",
+                text = when (resultCount) {
+                    null -> "Show results"
+                    0 -> "No results"
+                    1 -> "Show 1 result"
+                    else -> "Show $resultCount results"
+                },
                 onClick = onApply,
                 size = NebButtonSize.Hero,
                 modifier = Modifier.weight(1.4f)

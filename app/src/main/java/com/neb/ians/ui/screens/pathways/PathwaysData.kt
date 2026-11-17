@@ -97,8 +97,32 @@ private fun JSONArray?.parts(): List<PwPart> = if (this == null) emptyList() els
 private inline fun <T> JSONArray.mapObjs(f: (JSONObject) -> T): List<T> = List(length()) { f(getJSONObject(it)) }
 private fun JSONObject?.intMap(): Map<String, Int> = if (this == null) emptyMap() else keys().asSequence().associateWith { optInt(it) }
 
-internal fun parsePathways(text: String): PwData {
+/**
+ * A server that has not been redeployed yet answers without the exam groups, the entrance and language exams or the
+ * route to exam links. The app ships that wave (`assets/pathways_wave17.json`) and fills the gap, so the Government,
+ * Entrance and Language segments never depend on the deploy. A newer server already carries `govt_groups`, so nothing is merged.
+ */
+private fun mergeWave17(o: JSONObject, wave: JSONObject) {
+    if (o.has("govt_groups")) return
+    o.put("govt_groups", wave.getJSONArray("govt_groups"))
+    fun append(key: String, more: JSONArray) {
+        val base = o.optJSONArray(key) ?: JSONArray().also { o.put(key, it) }
+        val have = HashSet<String>().also { set -> for (i in 0 until base.length()) set.add(base.getJSONObject(i).optString("id")) }
+        for (i in 0 until more.length()) more.getJSONObject(i).let { if (have.add(it.optString("id"))) base.put(it) }
+    }
+    append("govt_tracks", wave.getJSONArray("govt_tracks_add"))
+    append("govt", wave.getJSONArray("govt_add"))
+    val links = wave.optJSONObject("route_exam")
+    val routes = o.optJSONArray("routes")
+    if (links != null && routes != null) for (i in 0 until routes.length()) {
+        val r = routes.getJSONObject(i)
+        if (r.optString("exam_id").isEmpty() && links.has(r.optString("id"))) r.put("exam_id", links.getString(r.optString("id")))
+    }
+}
+
+internal fun parsePathways(text: String, wave17: JSONObject? = null): PwData {
     val o = JSONObject(text)
+    if (wave17 != null) runCatching { mergeWave17(o, wave17) }
     return PwData(
         reviewed = o.optString("reviewed"),
         stages = o.getJSONArray("stages").mapObjs { PwStage(it.getString("id"), it.getString("label"), it.optString("icon"), it.optString("blurb"), it.optString("tip")) },
@@ -228,6 +252,10 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     private val sets = mutableStateMapOf<String, Set<String>>()
     private val nums = mutableStateMapOf<String, Int>()
 
+    private val wave17: JSONObject? by lazy {
+        runCatching { JSONObject(context.assets.open("pathways_wave17.json").bufferedReader().use { it.readText() }) }.getOrNull()
+    }
+
     init {
         SET_KEYS.forEach { sets[it] = prefs.getStringSet("set_$it", emptySet()).orEmpty().toSet() }
         NUM_DEFAULTS.forEach { (k, v) -> nums[k] = prefs.getInt("num_$k", v) }
@@ -235,7 +263,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         _state.update { it.copy(district = prefs.getString("district", "") ?: "", saved = prefs.getStringSet("saved", emptySet()).orEmpty().toSet()) }
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
-            val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText()) }.getOrNull() }
+            val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText(), wave17) }.getOrNull() }
             if (cached != null) _state.update { it.copy(data = cached, loading = false) }
             val fresh = withContext(Dispatchers.IO) { runCatching { fetch() }.getOrNull() }
             _state.update {
@@ -255,7 +283,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         return try {
             if (conn.responseCode == 304) return null
             val text = conn.inputStream.bufferedReader().use { it.readText() }
-            val parsed = parsePathways(text)
+            val parsed = parsePathways(text, wave17)
             cacheFile.writeText(text)
             prefs.edit().putString("etag", conn.getHeaderField("ETag")).apply()
             parsed

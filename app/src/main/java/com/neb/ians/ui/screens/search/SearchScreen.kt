@@ -13,6 +13,8 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
+import com.neb.ians.ui.components.nebHorizontalScroll
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -132,7 +134,14 @@ fun SearchScreen(
                 onClear = viewModel::clearSearch,
                 onScopeChange = viewModel::onScopeChange,
                 onNavigateBack = onNavigateBack,
-                onFilterClick = { showFilters = true }
+                onFilterClick = { showFilters = true },
+                onClearFilter = { which ->
+                    when (which) {
+                        "subject" -> viewModel.selectSubject(uiState.selectedSubject)
+                        "grade" -> viewModel.selectGradeLevel(uiState.selectedGradeLevel)
+                        else -> viewModel.selectType(uiState.selectedType)
+                    }
+                }
             )
         }
     ) { padding ->
@@ -197,6 +206,7 @@ fun SearchScreen(
             onGradeLevelSelected = viewModel::selectGradeLevel,
             onTypeSelected = viewModel::selectType,
             onClearAll = viewModel::clearFilters,
+            resultCount = if (uiState.hasSearched && !uiState.isSearching) uiState.totalCount else null,
             onApply = { showFilters = false }
         )
     }
@@ -211,7 +221,8 @@ private fun SearchHeader(
     onClear: () -> Unit,
     onScopeChange: (SearchScope) -> Unit,
     onNavigateBack: () -> Unit,
-    onFilterClick: () -> Unit
+    onFilterClick: () -> Unit,
+    onClearFilter: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -255,6 +266,7 @@ private fun SearchHeader(
                 modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 10.dp)
             )
         }
+        AppliedFilters(state = state, onClear = onClearFilter, modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 10.dp))
     }
 }
 
@@ -412,34 +424,36 @@ private fun SearchScopeBank(
         checkedContentColor = MaterialTheme.colorScheme.surface
     )
 
-    ButtonGroup(
+    // Counts never truncate: buttons wrap their label and the bank scrolls sideways when the words do not fit.
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(50))
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .padding(3.dp),
-        horizontalArrangement = Arrangement.spacedBy(0.dp)
+            .padding(3.dp)
     ) {
-        scopes.forEachIndexed { index, scope ->
-            val count = state.countFor(scope)
-            ToggleButton(
-                checked = state.scope == scope,
-                onCheckedChange = { onScopeChange(scope) },
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(min = 40.dp)
-                    .animateWidth(interactions[index]),
-                shapes = ToggleButtonDefaults.shapes(),
-                colors = colors,
-                interactionSource = interactions[index],
-                contentPadding = PaddingValues(horizontal = 6.dp, vertical = 8.dp)
-            ) {
-                Text(
-                    text = if (count > 0) "${scope.label} $count" else scope.label,
-                    style = MaterialTheme.typography.labelMediumEmphasized,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+        Row(
+            modifier = Modifier.nebHorizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            scopes.forEachIndexed { index, scope ->
+                val count = state.countFor(scope)
+                ToggleButton(
+                    checked = state.scope == scope,
+                    onCheckedChange = { onScopeChange(scope) },
+                    modifier = Modifier.heightIn(min = 40.dp),
+                    shapes = ToggleButtonDefaults.shapes(),
+                    colors = colors,
+                    interactionSource = interactions[index],
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
+                ) {
+                    Text(
+                        text = if (count > 0) "${scope.label} $count" else scope.label,
+                        style = MaterialTheme.typography.labelMediumEmphasized,
+                        maxLines = 1,
+                        softWrap = false
+                    )
+                }
             }
         }
     }
@@ -536,6 +550,37 @@ private fun RecentQueryRow(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(16.dp)
             )
+        }
+    }
+}
+
+
+/** The filters in force, each one removable with a tap, so nobody hunts through the sheet to undo one. */
+@Composable
+private fun AppliedFilters(state: SearchUiState, onClear: (String) -> Unit, modifier: Modifier = Modifier) {
+    val items = listOfNotNull(
+        state.selectedSubject?.let { "subject" to it },
+        state.selectedGradeLevel?.let { "grade" to it },
+        state.selectedType?.let { "type" to it }
+    )
+    if (items.isEmpty()) return
+    Row(
+        modifier = modifier.fillMaxWidth().nebHorizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items.forEach { (key, label) ->
+            Row(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .clickable { onClear(key) }
+                    .padding(start = 14.dp, end = 8.dp, top = 6.dp, bottom = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(label, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSecondaryContainer, maxLines = 1)
+                Icon(Icons.Rounded.Close, "Remove $label", Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSecondaryContainer)
+            }
         }
     }
 }
