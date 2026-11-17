@@ -159,6 +159,56 @@
     else reveal(hub.querySelector('[data-syl-grade][aria-selected="true"]'));
     edges();
 
+    /* Chapters / Question banks / Model papers: one switch over the subject cards. Banks and
+       papers hide the subjects that have none and send the tap straight to the Practice tab. */
+    var modeBtns = hub.querySelectorAll('[data-syl-mode]');
+    var modeEmpty = hub.querySelector('[data-syl-mode-empty]');
+    var mode = 'chapters';
+    function currentPanel() { return hub.querySelector('[data-syl-panel]:not([hidden])'); }
+    function paintMode() {
+      var panel = currentPanel(), shown = 0;
+      var counts = { banks: 0, models: 0 };
+      hub.querySelectorAll('[data-syl-panel]').forEach(function (pn) {
+        var inPanel = pn === panel;
+        pn.querySelectorAll('[data-syl-card]').forEach(function (card) {
+          var n = parseInt(card.getAttribute('data-' + (mode === 'chapters' ? 'units' : mode)), 10) || 0;
+          if (inPanel) {
+            counts.banks += parseInt(card.getAttribute('data-banks'), 10) || 0;
+            counts.models += parseInt(card.getAttribute('data-models'), 10) || 0;
+          }
+          var keep = mode === 'chapters' || n > 0;
+          card.hidden = !keep;
+          if (keep && inPanel) shown++;
+          var h0 = card.getAttribute('data-href0') || card.getAttribute('href');
+          card.setAttribute('data-href0', h0);
+          card.setAttribute('href', mode === 'chapters' ? h0 : h0 + '#bank');
+        });
+        pn.querySelectorAll('.syl-group-title').forEach(function (t) {
+          var grid = t.nextElementSibling;
+          t.hidden = !!grid && !grid.querySelector('[data-syl-card]:not([hidden])');
+        });
+      });
+      Object.keys(counts).forEach(function (k) {
+        var el = hub.querySelector('[data-syl-mode-n="' + k + '"]');
+        if (el) el.textContent = counts[k] || '';
+      });
+      if (modeEmpty) modeEmpty.hidden = mode === 'chapters' || shown > 0;
+    }
+    modeBtns.forEach(function (b, i) {
+      b.addEventListener('click', function () {
+        mode = b.getAttribute('data-syl-mode');
+        modeBtns.forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); });
+        paintMode();
+      });
+      b.addEventListener('keydown', function (e) {
+        var n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : null;
+        if (n === null) return;
+        var t = modeBtns[(n + modeBtns.length) % modeBtns.length]; t.focus(); t.click();
+      });
+    });
+    buttons.forEach(function (b) { b.addEventListener('click', function () { paintMode(); }); });
+    paintMode();
+
     hub.querySelectorAll('[data-syl-card]').forEach(function (card) {
       var st = subjectStats(card.getAttribute('data-syl-card'), parseInt(card.getAttribute('data-units'), 10) || 0);
       var bar = card.querySelector('[data-syl-bar]');

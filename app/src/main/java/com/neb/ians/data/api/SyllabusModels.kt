@@ -54,7 +54,11 @@ data class ApiSyllabusSubjectCard(
     /** Entrance tracks: how many questions of the paper the subject carries. */
     val questions: Int? = null,
     @SerialName("unit_count") val unitCount: Int = 0,
-    @SerialName("topic_count") val topicCount: Int = 0
+    @SerialName("topic_count") val topicCount: Int = 0,
+    /** Objective and subjective question sets of the subject (model papers are counted apart). */
+    @SerialName("bank_count") val bankCount: Int = 0,
+    @SerialName("model_count") val modelCount: Int = 0,
+    @SerialName("has_guide") val hasGuide: Boolean = false
 )
 
 @Serializable

@@ -494,3 +494,18 @@
   .ix-knowledge, .ix-quiz, .ix-objectives { padding: 15px 14px; }
   .ix-sim-hint { font-size: 0.6875rem; }
 }
+
+/* Fullscreen: position:fixed is relative to an ancestor with a transform, filter or containment.
+   While the stage is fullscreen those ancestors drop them (class set by lesson.js). */
+html.ix-fs-open .ix-fs-ancestor {
+  transform: none !important; filter: none !important; backdrop-filter: none !important;
+  contain: none !important; perspective: none !important; will-change: auto !important;
+  animation: none !important; overflow: visible !important;
+}
+.ix-fake-fullscreen { height: 100vh; height: 100dvh; }
+.ix-sim-retry {
+  margin-top: 4px; min-height: 44px; padding: 0 22px; border: 0; border-radius: 22px;
+  background: #d7e3ff; color: #001a41; font: 600 14px var(--md-font, system-ui);
+  cursor: pointer; transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.ix-sim-retry:active { transform: scale(.95); }

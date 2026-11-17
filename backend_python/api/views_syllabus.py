@@ -15,8 +15,8 @@ def syllabus_index(request):
     "Class N"); the entrance tracks (CEE, IOE, ...) under "tracks", in the same shape plus
     "short" ("CEE") and "kind" ("entrance")."""
     data = dict(syllabus_data.index())
-    data['grades'] = syllabus_data.school_entries()
-    data['tracks'] = syllabus_data.track_entries()
+    data['grades'] = syllabus_data.with_practice(syllabus_data.school_entries())
+    data['tracks'] = syllabus_data.with_practice(syllabus_data.track_entries())
     data['totals'] = syllabus_data.summary()
     return Response(data)
 

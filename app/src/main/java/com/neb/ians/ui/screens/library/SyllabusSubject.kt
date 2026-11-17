@@ -130,7 +130,7 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
     }
     val tabs = buildList {
         add(SyllabusTab.Chapters to NebRailTab("Chapters"))
-        if (doc.banks.isNotEmpty() || doc.guide != null) add(SyllabusTab.Bank to NebRailTab("Question bank", count = doc.banks.size))
+        if (doc.banks.isNotEmpty() || doc.guide != null) add(SyllabusTab.Bank to NebRailTab("Practice", count = doc.banks.size))
         add(SyllabusTab.Exam to NebRailTab("Exam"))
     }
     val tab = tabs.firstOrNull { it.first == state.tab }?.first ?: SyllabusTab.Chapters

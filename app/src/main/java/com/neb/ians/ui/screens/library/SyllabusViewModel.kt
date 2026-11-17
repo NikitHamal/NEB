@@ -143,7 +143,7 @@ class SyllabusViewModel @Inject constructor(
         }
     }
 
-    fun openSubject(grade: String, subject: String, unit: Int? = null) {
+    fun openSubject(grade: String, subject: String, unit: Int? = null, tab: SyllabusTab = SyllabusTab.Chapters) {
         val key = "$grade/$subject"
         prefs.edit().putString(KEY_LAST, key).apply()
         _uiState.update {
@@ -158,7 +158,7 @@ class SyllabusViewModel @Inject constructor(
                 area = null,
                 filter = "",
                 lastKey = key,
-                tab = SyllabusTab.Chapters
+                tab = tab
             )
         }
         fetchDoc(grade, subject, keepView = false)

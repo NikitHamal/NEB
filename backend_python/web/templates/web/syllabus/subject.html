@@ -10,7 +10,7 @@
 <script type="application/ld+json" nonce="{{ csp_nonce }}">{{ syllabus_breadcrumb_json }}</script>
 <script type="application/ld+json" nonce="{{ csp_nonce }}">{{ syllabus_course_json }}</script>
 {% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261102m">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261105a">{% endblock %}
 {% block content %}
 <div class="md-container st-page" style="--syl-c: {{ syl.color }};" data-st-subject="{{ syl.grade }}/{{ syl.subject }}" data-st-units="{{ syl.unit_count }}" data-st-word="{{ syl_unit_word }}">
   {% include "web/syllabus/_crumbs.html" %}
@@ -171,4 +171,4 @@
   </nav>
 </div>
 {% endblock %}
-{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261102j" defer></script>{% endblock %}
+{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261105a" defer></script>{% endblock %}

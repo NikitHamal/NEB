@@ -50,9 +50,51 @@ fun InteractiveLessonScreen(
     var isFullscreen by remember { mutableStateOf(false) }
     val lessonUrl = "$BASE_URL/interactive/$courseSlug/$lessonSlug/"
     var webView: WebView? by remember { mutableStateOf(null) }
+    var loadFailed by remember { mutableStateOf(false) }
+    val view = androidx.compose.ui.platform.LocalView.current
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+
+    // The lab is a page of its own: while it is fullscreen the system bars step aside.
+    androidx.compose.runtime.DisposableEffect(isFullscreen) {
+        val window = (view.context as? android.app.Activity)?.window
+        val controller = window?.let { androidx.core.view.WindowCompat.getInsetsController(it, view) }
+        if (isFullscreen) {
+            controller?.systemBarsBehavior = androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller?.hide(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+        }
+        onDispose { controller?.show(androidx.core.view.WindowInsetsCompat.Type.systemBars()) }
+    }
+
+    // WebGL lives in the WebView's GPU process: pause it with the screen, free it with the page.
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            when (event) {
+                androidx.lifecycle.Lifecycle.Event.ON_PAUSE -> webView?.onPause()
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> webView?.onResume()
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            webView?.let { w ->
+                (w.parent as? android.view.ViewGroup)?.removeView(w)
+                w.stopLoading()
+                w.destroy()
+            }
+            webView = null
+        }
+    }
+
+    fun leaveFullscreen() {
+        isFullscreen = false
+        webView?.evaluateJavascript("window.dispatchEvent(new Event('nebfullscreenexit'))", null)
+    }
 
     BackHandler(enabled = true) {
-        if (webView?.canGoBack() == true) {
+        if (isFullscreen) {
+            leaveFullscreen()
+        } else if (webView?.canGoBack() == true) {
             webView?.goBack()
         } else {
             onNavigateBack()
@@ -96,11 +138,38 @@ fun InteractiveLessonScreen(
                             cacheMode = WebSettings.LOAD_DEFAULT
                             mixedContentMode = 0
                             userAgentString = userAgentString + " NEBiansAndroid"
+                            mediaPlaybackRequiresUserGesture = false
+                            useWideViewPort = true
+                            loadWithOverviewMode = true
                         }
+                        setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null)
                         webViewClient = object : WebViewClient() {
+                            override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                                super.onPageStarted(view, url, favicon)
+                                loadFailed = false
+                            }
+
                             override fun onPageFinished(view: WebView?, url: String?) {
                                 super.onPageFinished(view, url)
                                 view?.evaluateJavascript(ANDROID_INJECT_JS, null)
+                            }
+
+                            override fun onReceivedError(
+                                view: WebView?,
+                                request: android.webkit.WebResourceRequest?,
+                                error: android.webkit.WebResourceError?
+                            ) {
+                                super.onReceivedError(view, request, error)
+                                if (request?.isForMainFrame == true) loadFailed = true
+                            }
+
+                            override fun onRenderProcessGone(
+                                view: WebView?,
+                                detail: android.webkit.RenderProcessGoneDetail?
+                            ): Boolean {
+                                // The GPU/render process was killed (memory pressure): offer a clean retry.
+                                loadFailed = true
+                                return true
                             }
                         }
                         webChromeClient = object : WebChromeClient() {
@@ -128,6 +197,26 @@ fun InteractiveLessonScreen(
             )
         }
 
+        if (loadFailed) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                androidx.compose.material3.Text(
+                    text = "This lesson could not load",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 12.dp))
+                androidx.compose.material3.FilledTonalButton(onClick = {
+                    loadFailed = false
+                    webView?.reload() ?: Unit
+                }) { androidx.compose.material3.Text("Try again") }
+            }
+        }
+
         AnimatedVisibility(
             visible = isFullscreen,
             enter = fadeIn(),
@@ -137,9 +226,7 @@ fun InteractiveLessonScreen(
                 .padding(start = 4.dp, top = 8.dp)
         ) {
             IconButton(
-                onClick = {
-                    isFullscreen = false
-                },
+                onClick = { leaveFullscreen() },
                 modifier = Modifier
                     .background(
                         MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
@@ -179,62 +266,34 @@ private const val ANDROID_INJECT_JS = """
         }
         .ix-sim-column { width: 100% !important; max-width: 100% !important; }
         .ix-learn-column { width: 100% !important; max-width: 100% !important; }
-        .ix-sim-shell { position: relative !important; top: auto !important; }
-        .ix-sim-stage {
+        .ix-sim-shell:not(.ix-fake-fullscreen) { position: relative !important; top: auto !important; }
+        .ix-sim-shell:not(.ix-fake-fullscreen) .ix-sim-stage {
             aspect-ratio: 4 / 3 !important;
             max-height: 55vh !important;
             min-height: 200px !important;
         }
         body { overflow-x: hidden !important; }
 
-        .ix-android-fullscreen .site-main,
-        .ix-android-fullscreen .ix-lesson-page { padding: 0 !important; margin: 0 !important; }
-        .ix-android-fullscreen .ix-lesson-layout { gap: 0 !important; }
-        .ix-android-fullscreen .ix-sim-shell {
+        body.ix-no-scroll .site-main,
+        body.ix-no-scroll .ix-lesson-page { padding: 0 !important; margin: 0 !important; }
+        body.ix-no-scroll .ix-lesson-layout { gap: 0 !important; }
+        .ix-sim-shell.ix-fake-fullscreen {
             position: fixed !important;
             inset: 0 !important;
             z-index: 9999 !important;
             border-radius: 0 !important;
             border: none !important;
         }
-        .ix-android-fullscreen .ix-sim-stage {
+        .ix-sim-shell.ix-fake-fullscreen .ix-sim-stage {
             aspect-ratio: auto !important;
             max-height: none !important;
             min-height: 0 !important;
             height: 100% !important;
         }
-        .ix-android-fullscreen .ix-learn-column,
-        .ix-android-fullscreen .ix-lesson-nav,
-        .ix-android-fullscreen .ix-objectives,
-        .ix-android-fullscreen .ix-knowledge,
-        .ix-android-fullscreen .ix-fun-fact,
-        .ix-android-fullscreen .ix-quiz { display: none !important; }
+        body.ix-no-scroll .ix-learn-column,
+        body.ix-no-scroll .ix-lesson-nav { display: none !important; }
     `;
     document.head.appendChild(style);
-
-    var fsBtn = document.getElementById('ix-fullscreen-btn');
-    if (fsBtn) {
-        fsBtn.addEventListener('click', function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            var shell = document.getElementById('ix-sim-shell');
-            if (shell && shell.classList.contains('ix-android-fullscreen-active')) {
-                shell.classList.remove('ix-android-fullscreen-active');
-                document.body.classList.remove('ix-android-fullscreen');
-                shell.classList.remove('ix-fake-fullscreen');
-                document.body.classList.remove('ix-no-scroll');
-                alert('NEBY_FULLSCREEN_EXIT');
-            } else {
-                if (shell) {
-                    shell.classList.add('ix-android-fullscreen-active');
-                    shell.classList.add('ix-fake-fullscreen');
-                }
-                document.body.classList.add('ix-android-fullscreen');
-                document.body.classList.add('ix-no-scroll');
-                alert('NEBY_FULLSCREEN_ENTER');
-            }
-        }, true);
-    }
 
     window.scrollTo(0, 0);
 })();

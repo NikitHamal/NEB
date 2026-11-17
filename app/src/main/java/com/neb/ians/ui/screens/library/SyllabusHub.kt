@@ -58,6 +58,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -79,6 +81,8 @@ import com.neb.ians.data.api.isSchoolGrade
 import com.neb.ians.data.api.syllabusShort
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebEmptyState
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
 import com.neb.ians.ui.components.NebIconButton
 import com.neb.ians.ui.components.NebLoader
 import com.neb.ians.ui.components.NebLoaderSize
@@ -119,6 +123,7 @@ private fun SyllabusHub(
         )
         else -> {
             val grade = index.all.firstOrNull { it.grade == state.grade } ?: index.grades.lastOrNull() ?: index.tracks.firstOrNull()
+            var mode by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(HubMode.Chapters) }
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 110.dp),
@@ -146,6 +151,30 @@ private fun SyllabusHub(
                     }
                     item(key = "grades") { GradeSwitch(index.grades, index.tracks, grade?.grade ?: state.grade, viewModel::selectGrade) }
                     if (grade != null) {
+                        item(key = "modes") { PracticeModes(grade, mode, onMode = { mode = it }) }
+                    }
+                    if (grade != null && mode != HubMode.Chapters) {
+                        val pick = grade.subjects.filter { if (mode == HubMode.Banks) it.bankCount > 0 else it.modelCount > 0 }
+                        if (pick.isEmpty()) {
+                            item(key = "practice_empty") {
+                                NebEmptyState(
+                                    icon = Icons.AutoMirrored.Outlined.MenuBook,
+                                    title = if (mode == HubMode.Banks) "No question banks here yet" else "No model papers here yet",
+                                    subtitle = "Chapters are ready to read."
+                                )
+                            }
+                        } else {
+                            items(pick, key = { "p_${mode.name}_${grade.grade}_${it.subject}" }) { card ->
+                                val n = if (mode == HubMode.Banks) card.bankCount else card.modelCount
+                                SubjectCard(
+                                    card = card,
+                                    progress = 0f,
+                                    meta = if (mode == HubMode.Banks) "$n question ${if (n == 1) "set" else "sets"}" else "$n model ${if (n == 1) "paper" else "papers"}",
+                                    onClick = { viewModel.openSubject(grade.grade, card.subject, tab = SyllabusTab.Bank) }
+                                )
+                            }
+                        }
+                    } else if (grade != null) {
                         val groups = grade.subjects.groupBy { it.group }
                         groups.forEach { (group, cards) ->
                             item(key = "g_$group") {
@@ -354,7 +383,7 @@ private fun GradeButton(g: ApiSyllabusGrade, isSelected: Boolean, minWidth: Dp, 
 }
 
 @Composable
-private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: () -> Unit) {
+private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, meta: String? = null, onClick: () -> Unit) {
     Surface(
         shape = WebPanelShape,
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -381,7 +410,7 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: 
                 // entrance subjects count the paper's questions; school subjects their teaching hours
                 val paperWeight = card.questions?.let { "$it questions" } ?: card.hours?.let { "$it hrs" }
                 Text(
-                    text = listOfNotNull("${card.unitCount} chapters", paperWeight).joinToString(" · "),
+                    text = meta ?: listOfNotNull("${card.unitCount} chapters", paperWeight, card.bankCount.takeIf { it > 0 }?.let { "$it banks" }, card.modelCount.takeIf { it > 0 }?.let { "$it models" }).joinToString(" · "),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -509,4 +538,26 @@ internal fun syllabusIcon(name: String): ImageVector = when (name) {
     "travel_explore" -> Icons.Outlined.TravelExplore
     "quiz" -> Icons.Outlined.Quiz
     else -> Icons.Outlined.AutoStories
+}
+
+/** What the syllabus hub lists: the books' chapters, or the subjects that carry question banks or model papers. */
+private enum class HubMode { Chapters, Banks, Models }
+
+@Composable
+private fun PracticeModes(grade: ApiSyllabusGrade, mode: HubMode, onMode: (HubMode) -> Unit) {
+    val banks = grade.subjects.sumOf { it.bankCount }
+    val models = grade.subjects.sumOf { it.modelCount }
+    val tabs = remember(grade.grade, banks, models) {
+        listOf(
+            NebRailTab("Chapters", count = grade.subjects.size, showZero = true),
+            NebRailTab("Question banks", count = banks, showZero = true),
+            NebRailTab("Model papers", count = models, showZero = true)
+        )
+    }
+    NebTabRail(
+        tabs = tabs,
+        selectedIndex = mode.ordinal,
+        onSelect = { onMode(HubMode.entries[it]) },
+        contentPadding = PaddingValues(horizontal = 0.dp)
+    )
 }

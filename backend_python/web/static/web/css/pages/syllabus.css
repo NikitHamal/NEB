@@ -291,3 +291,22 @@ a.st-unit-title::after { content: ""; position: absolute; inset: 0; }
   .syl-search, .st-tools, .st-tabs, .st-next, .st-pager, .st-unit-more { display: none !important; }
   .st-unit-detail { display: block !important; }
 }
+
+/* Chapters / Question banks / Model papers over the subject cards. Tabs: bare label, count pill,
+   a 3px primary line under the open one, hairline under the row (same as the apps). */
+.syl-modes { display: flex; gap: 2px; margin: 4px 0 14px; border-bottom: 1px solid color-mix(in srgb, var(--md-outline-variant) 60%, transparent); overflow-x: auto; scrollbar-width: none; }
+.syl-modes::-webkit-scrollbar { display: none; }
+.syl-mode { position: relative; flex: none; display: inline-flex; align-items: center; gap: 7px; height: 46px; padding: 0 16px; border: 0; background: transparent; color: var(--md-on-surface-variant); font: 600 14px var(--md-font); border-radius: 14px 14px 0 0; cursor: pointer; white-space: nowrap; transition: color .2s, background-color .2s, transform .35s var(--spring, cubic-bezier(.34,1.56,.64,1)); }
+.syl-mode .material-symbols-outlined { font-size: 20px; }
+.syl-mode:hover { background: color-mix(in srgb, var(--md-on-surface) 6%, transparent); }
+.syl-mode:active { transform: scale(.97); }
+.syl-mode[aria-selected="true"] { color: var(--md-on-surface); }
+.syl-mode::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--md-primary); transform: scaleX(0); transition: transform .35s var(--spring, cubic-bezier(.34,1.56,.64,1)); }
+.syl-mode[aria-selected="true"]::after { transform: scaleX(1); }
+.syl-mode-n { min-width: 22px; padding: 1px 7px; border-radius: 10px; background: var(--md-surface-container); color: var(--md-on-surface-variant); font-size: 11px; font-weight: 600; text-align: center; }
+.syl-mode-n:empty { display: none; }
+.syl-mode[aria-selected="true"] .syl-mode-n { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.syl-mode-empty { margin: 8px 0 18px; color: var(--md-on-surface-variant); font-size: 14px; }
+.syl-subject-card[hidden], .syl-group-title[hidden] { display: none; }
+.syl-card-practice { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.syl-pchip { padding: 3px 10px; border-radius: 12px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); font: 600 12px var(--md-font); }

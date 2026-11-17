@@ -13,7 +13,7 @@ from .view_helpers import _ctx
 
 def syllabus_hub_context(grade=None):
     data = syllabus_data.index()
-    grades = data.get("grades", [])            # school grades first, then the entrance tracks
+    grades = syllabus_data.with_practice(data.get("grades", []))   # school grades first, then the entrance tracks
     school = syllabus_data.school_entries()
     tracks = syllabus_data.track_entries()
     fallback = (school or grades)[-1]["grade"] if grades else None

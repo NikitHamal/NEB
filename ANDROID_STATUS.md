@@ -1515,3 +1515,29 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Read `diagnose_access.sh` again after the deploy: 429 per hour for the crawler, 503 per hour should be 0.
 - Ask the host to raise `LSAPI_CHILDREN` only together with `max_user_connections`.
+
+
+---
+
+# Session 58: search error and tabs, create menu, Learn overhaul, labs that load
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Concept: `NEBians-Learn.html` (create menu and search, Learn hub, reader, 3D labs, web). Nothing from session 57 was redone.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 335 | **"vw6 was cancelled" in search**: typing a letter cancelled the running request and the `catch (e: Exception)` showed the cancellation as an error while the next one was still debouncing. Cancellation is rethrown, the school call runs in a `coroutineScope` (no leaked child), users fallback too. | `SearchViewModel.kt` |
+| 336 | **Search tabs had no underline**: the line was `fillMaxWidth` inside a Row of unbounded width, so it measured 0 px. The bar now is `NebTabRail` (the rail every other screen uses: sliding 3dp line, count pills, hairline). | `SearchScreen.kt` |
+| 337 | **Create menu rebuilt**: label pill plus a shaped glyph tile (sunny, clover, cookie), neutral dim scrim, create button morphs clover to a dark rounded square with a close glyph (draw-phase `Morph`). Lag removed: the animated full-page `blur` (re-rendered every frame) is gone, no animated gap, no `AnimatedVisibility` per row; each row has one `Animatable` read only in `graphicsLayer`. | `NebFabMenu.kt`, `LiquidGlassNav.kt`, `Navigation.kt` |
+| 338 | **Question banks and model papers are findable**: API subject cards carry `bank_count`, `model_count`, `has_guide` (`syllabus_data.with_practice`, cached per worker). App hub: Chapters / Question banks / Model papers rail with live counts, a tap opens the subject on the Practice tab. Web hub: same switch, deep link `#bank`. Subject tab renamed Practice. | `syllabus_data.py`, `views_syllabus.py`, `SyllabusHub.kt`, `SyllabusModels.kt`, `_hub.html`, `syllabus.js`, `syllabus.css` |
+| 339 | **3D labs that load and open fullscreen**: sim import retried twice, wait explained after 8 s, Try again button, no-WebGL message (`lesson.js`). Fullscreen strips transformed ancestors (the cause of "opens as a small box"), resizes the canvas twice after toggling, tells the app through `NEBY_FULLSCREEN_*`. Android: injected CSS no longer forces `position: relative` over the fullscreen shell, the old click hijack is removed, system bars hide, Back and the arrow leave fullscreen in sync with the page, WebView paused/resumed with the screen and destroyed on exit (it leaked), error and render-process-gone show Try again. | `lesson.js`, `03-lesson.css`, `InteractiveLessonScreen.kt` |
+
+## Rules
+- A line, bar or fill that must span a row inside a `horizontalScroll` is drawn with `drawBehind` or `matchParentSize`, never `fillMaxWidth` (width is infinite there, the result is 0 px).
+- Never animate `Modifier.blur` radius on a whole screen. Dim with a scrim.
+- A `catch (e: Exception)` around a suspend call must rethrow `CancellationException` first.
+
+## Next
+- Reader (`ReadingMode`, `PdfReaderChrome`): concept in `NEBians-Learn.html` (slim bar, hiding glass dock, Aa sheet, next chapter button). Not built yet in Kotlin.
+- Interactive tab: lessons list with the chapter each lab belongs to (concept shows it on the subject page).

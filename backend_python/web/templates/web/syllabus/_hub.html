@@ -38,6 +38,13 @@
     <span class="material-symbols-outlined syl-continue-go" aria-hidden="true">arrow_forward</span>
   </a>
 
+  <div class="syl-modes" role="tablist" aria-label="What to study" data-syl-modes>
+    <button type="button" role="tab" class="syl-mode" data-syl-mode="chapters" aria-selected="true"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Chapters</button>
+    <button type="button" role="tab" class="syl-mode" data-syl-mode="banks" aria-selected="false"><span class="material-symbols-outlined" aria-hidden="true">quiz</span>Question banks<span class="syl-mode-n" data-syl-mode-n="banks"></span></button>
+    <button type="button" role="tab" class="syl-mode" data-syl-mode="models" aria-selected="false"><span class="material-symbols-outlined" aria-hidden="true">assignment</span>Model papers<span class="syl-mode-n" data-syl-mode-n="models"></span></button>
+  </div>
+  <p class="syl-mode-empty" data-syl-mode-empty hidden>Nothing here for this class yet. The chapters are ready to read.</p>
+
   {% for g in syllabus_grades %}
   <div class="syl-grade-panel" id="syl-grade-{{ g.grade }}" role="tabpanel" data-syl-panel="{{ g.grade }}" {% if g.grade != syllabus_current_grade %}hidden{% endif %}>
     {% regroup g.subjects by group as groups %}
@@ -45,7 +52,7 @@
     <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% elif grp.grouper == 'entrance' %}Exam subjects{% elif grp.grouper == 'practice' %}Model papers and mock tests{% elif grp.list.0.group_label %}{{ grp.list.0.group_label }}{% else %}Science stream{% endif %}</h3>
     <div class="syl-card-grid">
       {% for s in grp.list %}
-      <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-units="{{ s.unit_count }}">
+      <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-units="{{ s.unit_count }}" data-banks="{{ s.bank_count|default:0 }}" data-models="{{ s.model_count|default:0 }}">
         <div class="syl-card-icon-wrap">
           <span class="syl-card-icon material-symbols-outlined" aria-hidden="true">{{ s.icon }}</span>
         </div>
@@ -56,6 +63,7 @@
           </div>
           <div class="syl-card-meta">{% if s.notes_ready is not None and s.notes_ready < s.unit_count %}{{ s.notes_ready }} of {{ s.unit_count }} chapters written{% else %}{{ s.unit_count }} {% if s.credits %}units{% else %}chapters{% endif %}{% endif %}{% if s.questions %} · {{ s.questions }} questions in the paper{% elif s.credits %} · {{ s.code }} · {{ s.credits }} cr{% elif s.hours %} · {{ s.hours }} hrs{% endif %}</div>
         </div>
+        {% if s.bank_count or s.model_count %}<div class="syl-card-practice">{% if s.bank_count %}<span class="syl-pchip">{{ s.bank_count }} question set{{ s.bank_count|pluralize }}</span>{% endif %}{% if s.model_count %}<span class="syl-pchip">{{ s.model_count }} model paper{{ s.model_count|pluralize }}</span>{% endif %}</div>{% endif %}
         <div class="syl-card-action">
           <span class="syl-card-pct" data-syl-pct></span>
           <span class="material-symbols-outlined syl-card-arrow" aria-hidden="true">arrow_forward</span>

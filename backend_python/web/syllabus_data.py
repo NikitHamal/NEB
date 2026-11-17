@@ -116,3 +116,40 @@ def neighbours(grade, subject_key):
     prev_s = entry["subjects"][i - 1] if i > 0 else None
     next_s = entry["subjects"][i + 1] if i + 1 < len(keys) else None
     return prev_s, next_s
+
+
+@lru_cache(maxsize=1)
+def practice_counts():
+    """(grade, subject) -> question banks, model papers and whether an exam guide exists.
+
+    Read from the exported books once per worker; they only change with a deploy. The hub and
+    the apps use it to say where the practice material is instead of burying it in each subject."""
+    from . import study_data
+    out = {}
+    for entry in index().get("grades", []):
+        grade = str(entry.get("grade", ""))
+        for card in entry.get("subjects", []):
+            try:
+                info = study_data.subject_index(grade, card.get("subject"))
+            except Exception:
+                continue
+            banks = info.get("banks") or []
+            out[(grade, card.get("subject"))] = {
+                "bank_count": sum(1 for b in banks if b.get("kind") != "model"),
+                "model_count": sum(1 for b in banks if b.get("kind") == "model"),
+                "has_guide": bool(info.get("guide")),
+            }
+    return out
+
+
+def with_practice(entries):
+    """Copies of grade entries whose subject cards carry the counts above."""
+    counts = practice_counts()
+    out = []
+    for entry in entries:
+        entry = dict(entry)
+        grade = str(entry.get("grade", ""))
+        entry["subjects"] = [dict(c, **counts.get((grade, c.get("subject")), {"bank_count": 0, "model_count": 0, "has_guide": False}))
+                             for c in entry.get("subjects", [])]
+        out.append(entry)
+    return out

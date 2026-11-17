@@ -22,7 +22,7 @@
 {% if current_tab == 'marketplace' %}
 <link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">{% endif %}
 {% if current_tab == 'categories' %}
-<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261102m">{% endif %}
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261105a">{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -219,7 +219,7 @@
 
 {% block extra_js %}
 {% if current_tab == 'categories' %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261102j" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261105a" defer></script>
 {% endif %}
 {% if current_tab == 'marketplace' %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>

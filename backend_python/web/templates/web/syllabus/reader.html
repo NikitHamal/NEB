@@ -10,7 +10,7 @@
 {% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261102m">
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261105a">
 <link rel="stylesheet" href="{% static 'web/css/pages/study-reader.css' %}?v=20261104b">
 {% endblock %}
 {% block content %}
@@ -150,7 +150,7 @@
 {% endblock %}
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261102j" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261105a" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-reader.js' %}?v=20261103b" defer></script>
 {% if doc.exam %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-exam.js' %}" defer></script>{% endif %}
 {% endblock %}
