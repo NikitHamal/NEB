@@ -1758,3 +1758,27 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Run `python3 tools/rsi/rsi.py deploy` once Backend tests are green (migration 0172 is data-only and reversible as a no-op).
 
 CI: Backend tests green on `dd05414`, `f3ecd4e`, `8edc1c0`; `Deploy Backend to cPanel` run `44180846196` (sha `3ffffe7`) green, so migration `0172` and the flattened CSS bundles are live. Hard-refresh the admin analytics page once to see the new styles.
+
+
+---
+
+# Session 67: "green deploy, stale site" root cause (unzip timezone skew)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from session 66 via `rsi.py pickup`. The owner re-sent the admin analytics screenshots: insights still unstyled even though session 66 fixed the CSS and the deploy was green.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 376 | **Real root cause: the deploy silently dropped static files.** `curl` of the live `admin.css` returned the old 352 byte `@import` file and `03-analytics.css` had no `.an-insight`, after a green deploy. The CI runner zips files with its UTC wall clock (no zone in the zip); `unzip` on the cPanel box (UTC+5:45) read them as local time, so every extracted file looked about 6 h old. `collectstatic` skips a file whose copy is newer than the source, so any static edit shipped within ~6 h of the previous deploy never reached `staticfiles`. The log said `4 static files copied, 7545 unmodified` while 9 static files had changed. Fix: after extraction the changed files are listed (`unzip -Z1`) and `touch`ed. | `.github/scripts/deploy_backend.py` |
+| 377 | **One-time repair input**: `deploy-backend.yml` takes `static_resync_dir` (e.g. `web/static/web/css`); the script re-stamps files under 1 MB in that dir (path is validated, `..` refused) so `collectstatic` re-copies them. Dispatched for `css` and `js`. | `deploy-backend.yml`, `deploy_backend.py` |
+| 378 | **`rsi.py live`**: fetches the shipped static files and fails when a repo selector (`.an-insight`) is missing from the live copy, so a green deploy that dropped files is caught in one call. `rsi.py deploy [static_dir]` passes the resync dir. | `tools/rsi/rsi.py` |
+| 379 | **Audit invariant**: `security_and_m3x_audit.py` fails when `deploy_backend.py` stops stamping extracted files. | `tools/rsi/security_and_m3x_audit.py` |
+
+## Rules (do not break)
+- A green deploy is not proof the site changed. After any static edit run `python3 tools/rsi/rsi.py live`.
+- Never rely on file mtimes surviving a zip to the cPanel box; stamp after extraction.
+
+## Next
+- Add more `LIVE_ASSETS` markers when a page is rebuilt.
+- Split `pages/profile.css` and `pages/web-home.css` (session 66 list).

@@ -77,3 +77,10 @@ python3 tools/rsi/rsi.py deploy
 - **One-turn cadence that worked:** pickup -> read the status tail + grep the failing template/CSS in one bash call -> fix -> `checkpoint` -> docs while CI runs. Four checkpoints before the first CI poll.
 - **No local Django** in the sandbox: test pure modules directly (`cd backend_python/nebians/analytics && python3 -c "import rules"`); leave the Django suite to the Backend tests workflow.
 - Budget rule: at most one `rsi.py ci` poll per 4 edits; deploy (`rsi.py deploy`) only after Backend tests are green on the same sha.
+
+## Session 67 lessons (added)
+
+- **Verify the live bytes, not the green tick.** `python3 tools/rsi/rsi.py live` fetches the shipped CSS and checks a marker selector. Session 66 shipped "green" twice while the server kept the old CSS (zip/unzip timezone skew made `collectstatic` skip the files, see `ANDROID_STATUS.md` 376).
+- **Repair command:** `python3 tools/rsi/rsi.py deploy web/static/web/css` re-copies that dir on the server (files under 1 MB only).
+- **If the same bug is reported twice, stop restyling and diff production against the repo** (curl the asset, grep a selector). That took 6 tool calls and found the cause that a full session of CSS work had not.
+- Pull the deploy log with the API and filter it (`grep -v "Updating files"`): the unfiltered checkout progress is 9,000 lines.

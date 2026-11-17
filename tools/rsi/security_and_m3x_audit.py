@@ -119,6 +119,9 @@ def check_security_invariants() -> list[str]:
         text = proguard.read_text(encoding="utf-8")
         if "-renamesourcefileattribute" not in text or "-overloadaggressively" not in text:
             errors.append("proguard-rules.pro missing irreversible R8 obfuscation directives")
+    dep = ROOT / ".github" / "scripts" / "deploy_backend.py"
+    if dep.is_file() and "deploy_changed.txt" not in dep.read_text(encoding="utf-8"):
+        errors.append("deploy_backend.py must touch extracted files (unzip TZ skew makes collectstatic skip fresh static)")
     return errors
 
 
