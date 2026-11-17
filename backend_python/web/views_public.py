@@ -958,7 +958,18 @@ def search(request):
     all_subjects = filter_options['subjects']
     all_grades = filter_options['grades']
     all_types = filter_options['types']
+    # Counts shown on the tab rail. Only what this request already loaded: the All tab knows every group, another
+    # tab knows its own, so no extra query is spent on a number.
+    tab_counts = {}
+    if query:
+        known = {'resources': len(resource_results), 'posts': len(post_results), 'users': len(user_results),
+                 'schools': school_total}
+        if tab == 'all':
+            tab_counts = dict(known, all=sum(known.values()))
+        elif tab in known:
+            tab_counts = {tab: known[tab]}
     ctx = _ctx(request,
+        tab_counts=tab_counts,
         query=query,
         tab=tab,
         resource_results=resource_results,

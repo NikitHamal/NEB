@@ -72,9 +72,6 @@
       <div class="neb-sheet-head">
         <div class="neb-sheet-head-text">
           <h2 class="neb-sheet-title" id="filter-dialog-title">Filter</h2>
-          {% if current_subject or current_grade or current_type %}<p class="neb-sheet-sub">
-              {{ active_filter_count|default:1 }} filter{{ active_filter_count|default:1|pluralize }} active
-            </p>{% endif %}
         </div>
         <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
           <span class="material-symbols-outlined">close</span>
@@ -87,6 +84,7 @@
         {% if all_subjects %}
         <div class="filter-section">
           <div class="neb-section-label">Subject</div>
+          {% if all_subjects|length > 8 %}<label class="x-subq"><span class="material-symbols-outlined" aria-hidden="true">search</span><input type="search" id="filter-subq" placeholder="Search subjects" autocomplete="off" aria-label="Search subjects"></label>{% endif %}
           <div class="neb-chip-row" id="filter-subjects">
             {% for v in all_subjects %}
             <button type="button" class="neb-choice-chip filter-chip-select{% if v == current_subject %} is-selected{% endif %}"
@@ -246,6 +244,41 @@
       } catch (e) { showSnackbar('Failed to like post'); }
     }
   });
+
+
+  /* Recent searches live on this device only. */
+  (function () {
+    var KEY = 'neb_recent_q', box = document.getElementById('search-recents');
+    function read() { try { return JSON.parse(localStorage.getItem(KEY) || '[]').filter(Boolean).slice(0, 6); } catch (e) { return []; } }
+    function write(a) { try { localStorage.setItem(KEY, JSON.stringify(a.slice(0, 6))); } catch (e) { /* private mode */ } }
+    var q0 = "{{ query|escapejs }}";
+    if (q0) write([q0].concat(read().filter(function (x) { return x.toLowerCase() !== q0.toLowerCase(); })));
+    function paint() {
+      var list = document.getElementById('search-recents-list'); box = document.getElementById('search-recents');
+      if (!box || !list) return;
+      var a = read(); box.hidden = !a.length;
+      list.innerHTML = '';
+      a.forEach(function (t) {
+        var row = document.createElement('div'); row.className = 'x-recent';
+        var go = document.createElement('a'); go.href = '{% url "web:search" %}?q=' + encodeURIComponent(t);
+        go.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">history</span>'; go.appendChild(document.createTextNode(t));
+        var rm = document.createElement('button'); rm.type = 'button'; rm.setAttribute('aria-label', 'Remove ' + t);
+        rm.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">close</span>';
+        rm.addEventListener('click', function () { write(read().filter(function (x) { return x !== t; })); paint(); });
+        row.appendChild(go); row.appendChild(rm); list.appendChild(row);
+      });
+    }
+    document.addEventListener('click', function (e) { if (e.target.closest('[data-recent-clear]')) { write([]); paint(); } });
+    document.body.addEventListener('htmx:afterSwap', paint);
+    paint();
+    var sq = document.getElementById('filter-subq');
+    if (sq) sq.addEventListener('input', function () {
+      var t = sq.value.trim().toLowerCase();
+      document.querySelectorAll('#filter-subjects .neb-choice-chip').forEach(function (c) {
+        c.hidden = !!t && c.textContent.toLowerCase().indexOf(t) < 0;
+      });
+    });
+  })();
 
   function applySearchFilters() {
     var params = new URLSearchParams();

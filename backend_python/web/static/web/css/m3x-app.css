@@ -3873,6 +3873,26 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .if-x:hover { background: var(--md-surface-container-high); }
 @media (prefers-reduced-motion: reduce) { .pfs-prog { transition: none; } }
 
+/* ---- m3x/app-search-recents.css ---- */
+/* Search: recents, rail counts, subject search in the filter sheet (web/search.html, _search_results.html). */
+.neb-rail-count { margin-left: 6px; font-size: .72rem; font-weight: 600; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }
+.neb-rail-item[aria-selected="true"] .neb-rail-count { color: var(--md-primary); }
+.x-pop-head { display: flex; align-items: center; }
+.x-pop-head .x-sub { flex: 1; }
+.x-pop-clear { border: 0; background: none; cursor: pointer; font: 600 .8rem var(--md-font); color: var(--md-primary); padding: 6px 10px; border-radius: 12px; }
+.x-pop-clear:hover { background: var(--md-surface-container-high); }
+.x-recents { display: grid; gap: 2px; margin-bottom: 20px; }
+.x-recent { display: flex; align-items: center; border-radius: 16px; }
+.x-recent:hover { background: var(--md-surface-container-low); }
+.x-recent a { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 12px; color: inherit; text-decoration: none; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.x-recent a .material-symbols-outlined { color: var(--md-on-surface-variant); }
+.x-recent button { flex: none; width: 40px; height: 40px; margin-right: 4px; display: grid; place-items: center; border: 0; background: none; cursor: pointer; border-radius: 20px; color: var(--md-on-surface-variant); }
+.x-recent button:hover { background: var(--md-surface-container-high); }
+.x-subq { display: flex; align-items: center; gap: 10px; height: 44px; margin: 0 0 10px; padding: 0 14px; border-radius: 22px; background: var(--md-surface-container-high); }
+.x-subq input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: 500 .9rem var(--md-font); color: inherit; }
+.x-subq .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
+.neb-chip-row [hidden] { display: none !important; }
+
 /* ---- m3x/app-focus.css ---- */
 /* One stroke on a focused field. A field draws its own border; a ring outside that border read as a
    second line stacked on the first (the post pill, the sign-in fields, the reply box). Text fields

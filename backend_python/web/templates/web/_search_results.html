@@ -10,23 +10,23 @@
   {% endcomment %}
   <nav class="neb-rail neb-rail-divided" role="tablist" aria-label="Search results" style="margin:16px 0;">
     <a href="{% url 'web:search' %}?q={{ query }}" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'all' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=all" hx-target="#search-results" hx-push-url="true">
-      <span class="neb-rail-label">All</span>
+      <span class="neb-rail-label">All</span>{% if tab_counts.all is not None %}<span class="neb-rail-count">{{ tab_counts.all }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'resources' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">auto_stories</span>
-      <span class="neb-rail-label">Resources</span>
+      <span class="neb-rail-label">Resources</span>{% if tab_counts.resources is not None %}<span class="neb-rail-count">{{ tab_counts.resources }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'posts' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">forum</span>
-      <span class="neb-rail-label">Posts</span>
+      <span class="neb-rail-label">Posts</span>{% if tab_counts.posts is not None %}<span class="neb-rail-count">{{ tab_counts.posts }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'users' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">group</span>
-      <span class="neb-rail-label">Users</span>
+      <span class="neb-rail-label">People</span>{% if tab_counts.users is not None %}<span class="neb-rail-count">{{ tab_counts.users }}</span>{% endif %}
     </a>
     <a href="{% url 'web:search' %}?q={{ query }}&tab=schools" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'schools' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=schools" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">account_balance</span>
-      <span class="neb-rail-label">Schools</span>
+      <span class="neb-rail-label">Schools</span>{% if tab_counts.schools is not None %}<span class="neb-rail-count">{{ tab_counts.schools }}</span>{% endif %}
     </a>
   </nav>
 
@@ -399,7 +399,11 @@
   {% else %}
   {# No query #}
   <div class="x-pop">
-    <h2 class="x-sub">Try searching</h2>
+    <div id="search-recents" hidden>
+      <div class="x-pop-head"><h2 class="x-sub">Recent</h2><button type="button" class="x-pop-clear" data-recent-clear>Clear</button></div>
+      <div id="search-recents-list" class="x-recents"></div>
+    </div>
+    <h2 class="x-sub">Popular right now</h2>
     <div class="x-pop-grid">
       {% for q, icon in popular_searches %}<a href="{% url 'web:search' %}?q={{ q|urlencode }}" class="x-pop-tile"><span class="material-symbols-outlined" aria-hidden="true">{{ icon }}</span>{{ q }}</a>{% endfor %}
     </div>
