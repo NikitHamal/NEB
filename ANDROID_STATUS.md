@@ -1587,3 +1587,5 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Build the profile in Kotlin from concept v2: one header item, scrollable `NebTabRail`, a tab spec per profile type, module items per Overview.
 - Backend: add `portfolio`, `answers` and `impact` counts to the profile API where missing.
+
+CI for session 60: the first two pushes failed to compile (`SchoolsScreen.kt` was missing the `TextButton` and `Spacer` imports); fixed in `6b57d35`, Android release build (APK + AAB) green. Backend tests green on dispatch (the earlier red was the sqlite "table is locked" race). Backend deploy dispatched by hand from `6b57d35`: delta deploy, no migrations, smoke test passed. Live check: `/api/posts/` answers 200.
