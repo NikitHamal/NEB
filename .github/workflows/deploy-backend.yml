@@ -1,13 +1,37 @@
-name: Deploy Backend to cPanel (Disabled)
+name: Deploy Backend to cPanel
 
-# Disabled completely — backend deployments are handled manually / by agent via deploy.ps1
-# to ensure local .env configuration, real-time logging, and verification checks.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend_python/**'
+
+# One deploy at a time on the server (pid file lock there plus this
+# workflow queue here): a second run queues, it never races the first.
+concurrency:
+  group: deploy-cpanel
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
-  disabled_notice:
+  deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 70
     steps:
-      - name: Notice
-        run: echo "GitHub CD deployment is disabled. Use local deploy.ps1 for verified deployments."
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Delta deploy (same protocol as backend_python/scratch/deploy.ps1)
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_USER: consicac
+          REMOTE_DIR: /home/consicac/nebians_api
+        run: |
+          set -euo pipefail
+          echo "Host: $SSH_HOST (key injected from secrets, length ${#SSH_KEY})"
+          python3 .github/scripts/deploy_backend.py
