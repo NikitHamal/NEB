@@ -1443,3 +1443,39 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Result
 - Deploy run `44117933804` on `f8e3cdd`: **17 min down to 77 s** (checkout 3.5 min down to 15 s, collectstatic 13 min down to 10 s, 2 files post-processed instead of 6747). Live `/api/posts/` TTFB is steady at about 1.1 to 1.5 s from the test box (was 1.5 to 8 s).
 - Android release build run `44117923575`: green.
+
+
+---
+
+# Session 56: cold workers, 1 MB avatars, deploy smoke test
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. Picked up from session 55 (deploy 17 min to 77 s, sparse checkout, bounded steps); none of it was redone. The deploy secrets (`SSH_HOST`, `SSH_KEY`, updated 2026-11-17) work: run `44117933804` ran after the update and passed.
+
+## Findings (read-only `diagnose-backend.yml`, redacted, no env or `.htaccess` printed)
+
+| What | Value | Meaning |
+| --- | --- | --- |
+| Host | 80 cores, load 43, swap 18 of 20 GB, shared with `consicalabs`, `academy`, `nexora1` | A TLS handshake alone took 0.5 s from outside. Not fixable from code. |
+| Our app, warm | `/api/posts/` 47 to 88 ms, `/api/realtime/config/` 2 ms, cached pages 3 ms | The app is not the slow part once a worker is hot. |
+| LSAPI | `lswsgi` parent (imports `passenger_wsgi` once) forks the workers; they appear on every burst after idle | Each fresh worker paid 1 to 3 s on its first request (redis client import 0.5 s, every view module, templates). |
+| Profile photos | stored exactly as uploaded: 633 KB, 1.17 MB, 1.39 MB PNGs on the landing page and in feeds | The biggest bytes on the wire for mobile users in Nepal. |
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 323 | **Warm parent**: `warm()` runs in `passenger_wsgi` (imports redis, pymysql, DRF throttling, Pillow, populates the URLconf, compiles every non-admin template, builds cache and db wrapper objects). No socket, no thread, no db connection (they do not survive a fork), 12 s budget, each step isolated. Forked workers inherit it copy-on-write. `NEB_WARMUP=0` turns it off. | `nebians/warmup.py`, `passenger_wsgi.py` |
+| 324 | **Avatars**: new uploads are EXIF-upright (the old code dropped the orientation), at most 640 px, WebP q85, alpha kept. | `api/security.py` |
+| 325 | **`optimize_profile_photos`**: writes `<name>_o.webp` next to each oversized original and repoints `users.photo_url` / `user_photos.url`. Originals are never deleted or changed, a row moves only if the copy is 15% smaller, re-running skips done files. Deploy runs it bounded (`--limit 40`, 150 s). | `api/management/commands/optimize_profile_photos.py`, `deploy_backend.py` |
+| 326 | **Deploy warms the new workers** (one request each to `/api/realtime/config/` and `/api/posts/`, timed in the log) and the workflow ends with a public **smoke test** (`/`, posts, realtime config, news, a static file, retried). | `deploy_backend.py`, `deploy-backend.yml` |
+| 327 | **Android**: one shared `ConnectionPool` for the API, Coil and a launch pre-connect (HEAD on a static file while the app starts), so the TLS handshake overlaps startup and images reuse the API's HTTP/2 connection; Coil allows 12 calls per host (was 5). | `ApiService.kt`, `NEBiansApp.kt` |
+| 328 | `diagnose_remote.sh` now prints load, the lswsgi tree, cache and db facts and a cold first-request profile (all numbers, no secrets). Tests for avatars and warm-up in the Backend tests list. | `.github/scripts`, `api/test_avatar_optimize.py`, `nebians/test_warmup.py` |
+
+## Rules
+- Anything slow and lazy belongs in `nebians/warmup.py` (parent), never a socket, thread or db connection there.
+- The repository is public: no env or `.htaccess` in any workflow output.
+- `DB_CONN_MAX_AGE` stays 0 while `max_user_connections` is 10.
+
+## Next
+- Read the deploy log for `Shrinking oversized profile photos` and the `warm` / `posts` timings; compare `/api/posts/` TTFB.
+- Ask the host about load 43 / swap 18 GB; retire daphne (127 MB, `WS_PUBLIC_URL` unset) after editing `watchdog.sh`.

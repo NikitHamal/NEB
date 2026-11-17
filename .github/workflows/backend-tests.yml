@@ -20,6 +20,13 @@ jobs:
       SECRET_KEY: ci-only
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The repo carries multi-GB notes and PDFs; the tests read only these paths.
+          sparse-checkout: |
+            backend_python
+            tools/css
+          filter: blob:none
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
