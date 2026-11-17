@@ -7,6 +7,9 @@ const fail=t=>{root.innerHTML='<div class="pw-fail">'+t+'</div>'};
 fetch(root.dataset.src,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(P=>{
 root.innerHTML='<div class="app"><div class="top" id="pw-top"></div><div id="pw-main"></div><div class="peek" id="pw-peek"></div><nav class="nav" id="pw-nav"></nav><aside class="sheet" id="pw-sheet"></aside></div>';
 const DATA=pwAdapt(P),{STAGES,C,K,X,G,COL,CT,SCH,CX}=DATA,TR=DATA.tracks,XGR=DATA.groups,GT=DATA.CTONE,grOf=t=>(TR.find(r=>r[0]===t)||[0,0,0,'gov'])[3];
+const ONEB={items:[],matches:{}};
+fetch('/api/pathways/on-neb/',{headers:{Accept:'application/json'}}).then(r=>r.ok?r.json():null).then(d=>{if(!d)return;ONEB.items=d.items||[];ONEB.matches=d.matches||{};if(typeof renderCList==='function')renderCList()}).catch(()=>{});
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const PMAX=Math.max(100,...Object.values(K).map(k=>k.pay[2]));
 const VISA=Object.keys(G).find(k=>/visa/.test(k))||'';
 Object.values(K).forEach(k=>{if(k.lx&&!X[k.lx])k.lx=''});
@@ -57,6 +60,8 @@ const oddsOf=x=>{const r=x.apps/x.seats;return r>=20?{r,n:Math.round(r),pre:'1 i
 const gdone=g=>g.steps.filter((_,i)=>S.done.has(g.id+':'+i)).length;
 const gsum=(g,i)=>g.steps.reduce((a,s)=>a+s[i],0);
 const ICON={
+verified:'<path d="M12 3l2.4 1.7 3-.2 1 2.8 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-1 2.8-3-.2L12 21l-2.4-1.7-3 .2-1-2.8-2.4-1.8.9-2.9-.9-2.9 2.4-1.8 1-2.8 3 .2z"/><path d="M8.6 12.2l2.4 2.4 4.4-4.8"/>',
+chev:'<path d="M9 6l6 6-6 6"/>',
 route:'<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a4 4 0 004-4V8.2"/>',
 cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
 exam:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
@@ -349,12 +354,17 @@ function renderNav(){$('#pw-nav').innerHTML=[['explore','route','Explore'],['stu
 let NMAP=null;
 const mapCounts=()=>{const m={};COL.filter(x=>x.c.includes(S.cc)).forEach(x=>{m[x.d]=(m[x.d]||0)+1});return m};
 function mountMap(){const el=$('#nmap');NMAP=el&&window.PWMAP?PWMAP.mount(el,{counts:mapCounts(),selected:S.dist||'',onPick:n=>A.dist(n)}):null}
+function onebHTML(){const slugs=new Set(COL.filter(x=>x.c.includes(S.cc)&&ONEB.matches[x.id]).map(x=>ONEB.matches[x.id]));
+  const items=ONEB.items.slice().sort((a,b)=>(slugs.has(b.slug)-slugs.has(a.slug))||((S.dist&&b.district===S.dist)-(S.dist&&a.district===S.dist))||b.completeness-a.completeness).slice(0,6);
+  if(!items.length)return '';
+  return `<div class="onb-h">On NEBians</div>`+items.map(p=>{const fee=p.feeMin>0?lakh(p.feeMin/1e5):'';
+  return `<a class="crow onb" href="/app/schools/${esc(p.slug)}/"><div><b>${esc(p.name)}${I('verified',16)}</b><span>${esc([p.kind&&p.kind[0].toUpperCase()+p.kind.slice(1),p.place,p.district].filter(Boolean).join(' · '))}</span></div><span class="chev">${I('chev',18)}</span><div class="onb-t">${p.admissionOpen?'<span class="tag t-gc">Admissions open</span>':''}${slugs.has(p.slug)?'<span class="tag t-pc">Offers this course</span>':''}${fee?`<span class="tag t-tc">From ${fee}</span>`:''}${(p.levels||[]).slice(0,3).map(v=>`<span class="tag t-sc">${esc(v)}</span>`).join('')}</div><div class="fee"><i style="width:${p.completeness}%"></i></div></a>`}).join('')+'<div class="onb-h">All colleges</div>'}
 function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let l=COL.filter(x=>x.c.includes(S.cc)).map(x=>({...x,fee:x.fees[S.cc]}));const MXF=Math.max(.1,...l.map(x=>x.fee||0));
   if(S.prov!=null)l=l.filter(x=>x.p===S.prov);
   const ds=[...new Set(l.map(x=>x.d))];if(!ds.includes(S.dist))S.dist=null;if(S.dist)l=l.filter(x=>x.d===S.dist);
-  l=l.filter(x=>x.fee==null||x.fee<=S.cmax).sort((a,b)=>S.csort==='fee'?(a.fee??1e9)-(b.fee??1e9):b.seats-a.seats);const nAll=l.length;l=l.slice(0,60);
+  const onb=x=>ONEB.matches[x.id]?0:1;l=l.filter(x=>x.fee==null||x.fee<=S.cmax).sort((a,b)=>onb(a)-onb(b)||(S.csort==='fee'?(a.fee??1e9)-(b.fee??1e9):b.seats-a.seats));const nAll=l.length;l=l.slice(0,60);
   box.innerHTML=(ds.length>1?`<div class="chips">${ds.map(d=>`<button class="chip ${S.dist===d?'on':''}" data-a="dist" data-v="${d}">${d}</button>`).join('')}</div>`:'')+
-  (l.map(x=>`<div class="crow"><div><b>${x.n}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${x.t==='Public'?'gc':'tc'}">${x.t}</span>${x.fee!=null?`<div class="fee"><i style="width:${x.fee/MXF*100}%"></i></div><span class="fv">${lakh(x.fee)}</span>`:''}</div>`).join('')||empty('No colleges'))+(nAll>60?`<p class="mk-n">Showing 60 of ${nAll}. Narrow by province, district or fee.</p>`:'')}
+  onebHTML()+(l.map(x=>{const sl=ONEB.matches[x.id];return `<${sl?'a href="/app/schools/'+esc(sl)+'/"':'div'} class="crow ${sl?'onb':''}"><div><b>${x.n}${sl?I('verified',16):''}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${sl?'pc':x.t==='Public'?'gc':'tc'}">${sl?'On NEBians':x.t}</span>${x.fee!=null?`<div class="fee"><i style="width:${x.fee/MXF*100}%"></i></div><span class="fv">${lakh(x.fee)}</span>`:''}</${sl?'a':'div'}>`}).join('')||empty('No colleges'))+(nAll>60?`<p class="mk-n">Showing 60 of ${nAll}. Narrow by province, district or fee.</p>`:'')}
 const QI={build:'Making and fixing things',heal:'Helping people get well',num:'Data, money, patterns',ppl:'Teaching, leading, talking',make:'Design, art, media',law:'Rules, fairness, debate',nature:'Land, plants, outdoors',serve:'Public service, community'};
 const QP={pay:'A bigger salary',demand:'Plenty of jobs open',ease:'Easier to get in',cost:'Lower fees',abroad:'Chances overseas',near:'Colleges close to me'};
 const QT=[0,['What have you finished?','This sets which courses we compare.'],['What do you enjoy?','Pick up to 3. Go with your gut.'],['What are you good at?','Pick up to 3 subjects or skills.'],['What matters most?','Pick up to 3. We weigh these hardest.'],['What can you spend?','Total fees for the whole course.'],['How do you take risks?','Some courses are hard to get into.']];

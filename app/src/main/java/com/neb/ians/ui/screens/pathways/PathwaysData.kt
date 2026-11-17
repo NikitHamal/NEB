@@ -211,6 +211,7 @@ data class PathwaysUiState(
     val district: String = "",
     val live: List<PwPlace> = emptyList(),
     val saved: Set<String> = emptySet(),
+    val onNeb: PwOnNebData? = null,
 )
 
 /** Where the student is inside Pathways. Lives in the ViewModel so Explore, details and Plan share one picture. */
@@ -261,6 +262,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         NUM_DEFAULTS.forEach { (k, v) -> nums[k] = prefs.getInt("num_$k", v) }
         sel.matchStage = prefs.getString("matchStage", "").orEmpty()
         _state.update { it.copy(district = prefs.getString("district", "") ?: "", saved = prefs.getStringSet("saved", emptySet()).orEmpty().toSet()) }
+        loadOnNeb()
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
             val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText(), wave17) }.getOrNull() }
@@ -274,6 +276,18 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
                 }
             }
         }
+    }
+
+    private val onNebFile get() = File(context.filesDir, "pathways_on_neb.json")
+
+    /** Claimed institutions that filled their page: saved copy first, then the small live call. */
+    private fun loadOnNeb() = viewModelScope.launch {
+        val cached = withContext(Dispatchers.IO) { runCatching { parseOnNeb(onNebFile.readText()) }.getOrNull() }
+        if (cached != null) _state.update { it.copy(onNeb = cached) }
+        val fresh = withContext(Dispatchers.IO) {
+            runCatching { fetchOnNebText()?.also { onNebFile.writeText(it) }?.let(::parseOnNeb) }.getOrNull()
+        }
+        if (fresh != null) _state.update { it.copy(onNeb = fresh) }
     }
 
     private fun fetch(): PwData? {

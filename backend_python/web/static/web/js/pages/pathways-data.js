@@ -71,7 +71,7 @@
       G[g.id] = { id: g.id, n: g.name, cat: g.cat, steps: g.steps.map(function (s) { return [s[0], +s[1] || 0, +s[2] || 0, s[3] === 'online' ? 'O' : 'P']; }), docs: g.docs || [], link: guideLink(g.link) }; gl.push(g.id);
     });
     var COL = {};
-    P.providers.forEach(function (p) { COL[p.id] = { n: p.name, d: p.district, p: DP[p.district] != null ? DP[p.district] : -1, t: p.sector || 'Private', u: p.place || p.kind || '', seats: p.seats || 0, site: p.website || '', c: [], fees: {} }; });
+    P.providers.forEach(function (p) { COL[p.id] = { id: p.id, n: p.name, d: p.district, p: DP[p.district] != null ? DP[p.district] : -1, t: p.sector || 'Private', u: p.place || p.kind || '', seats: p.seats || 0, site: p.website || '', c: [], fees: {} }; });
     P.routes.forEach(function (r) { (r.where || []).forEach(function (id) { var c = COL[id]; if (!c) return; c.c.push(r.id);}); });
     P.providers.forEach(function (p) { var c = COL[p.id]; Object.keys(p.fees || {}).forEach(function (rid) { if (c.c.indexOf(rid) >= 0) c.fees[rid] = p.fees[rid][1] / 1e5; }); });
     var abroad = P.abroad.map(function (a) { return { k: a.code || a.id.toUpperCase(), id: a.id, n: a.country, cost: Math.round((a.tuition[0] + a.tuition[1]) / 2e5), live: Math.round((a.living[0] + a.living[1]) / 2e5),

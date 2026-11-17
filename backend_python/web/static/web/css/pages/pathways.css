@@ -593,3 +593,11 @@
 .pwx .fqx .sp{flex:1}
 .pwx .fq.open .chip{background:color-mix(in srgb,var(--onpc) 10%,transparent);color:inherit}
 .pwx .fqx .btn.on{background:var(--p);color:var(--onp)}
+/* Find a college: colleges that filled their page come first */
+.pwx a.crow{text-decoration:none;color:inherit;transition:transform .3s var(--sp),border-radius .3s var(--sp)}
+.pwx a.crow:active{transform:scale(.98);border-radius:14px}
+.pwx .crow.onb{background:var(--s2)}
+.pwx .crow b .i{color:var(--p);margin-left:5px;vertical-align:-3px}
+.pwx .crow .chev{display:grid;place-items:center;color:var(--onv)}
+.pwx .onb-t{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
+.pwx .onb-h{font-size:12px;font-weight:600;color:var(--onv);margin:16px 2px 8px}
