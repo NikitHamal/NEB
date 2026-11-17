@@ -125,6 +125,7 @@ urlpatterns = [
 
     path('welcome/', views_onboarding.onboarding_page, name='onboarding'),
     path('welcome/save/', views_onboarding.onboarding_save, name='onboarding_save'),
+    path('ajax/teacher/profile/save/', views_inst_folio.ajax_teacher_profile_save, name='teacher_profile_save'),
     path('ajax/institution/portfolio/save/', views_inst_folio.ajax_inst_portfolio_save, name='inst_portfolio_save'),
     path('ajax/portfolio/save/', views_onboarding.portfolio_entry_save, name='portfolio_entry_save'),
     path('ajax/portfolio/delete/', views_onboarding.portfolio_entry_delete, name='portfolio_entry_delete'),

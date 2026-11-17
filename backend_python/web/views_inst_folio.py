@@ -98,3 +98,40 @@ def ajax_inst_portfolio_save(request):
         return JsonResponse({'ok': False, 'error': error}, status=400)
     _clear_page_cache()
     return JsonResponse({'ok': True, 'completeness': payload['completeness']})
+
+
+@require_POST
+def ajax_teacher_profile_save(request):
+    """POST /ajax/teacher/profile/save/ {school?, teaching_subjects?, teach_levels?, employment?, experience_years?, headline?}.
+    One section at a time, any field optional, for the signed-in teacher."""
+    from api.profile_education import apply_education
+    from .views_onboarding import _owner
+    owner = _owner(request)
+    if owner is None:
+        return JsonResponse({'ok': False, 'error': 'Please sign in again.'}, status=401)
+    if getattr(owner, 'role', '') != 'teacher':
+        return JsonResponse({'ok': False, 'error': 'This editor is for teacher profiles.'}, status=403)
+    try:
+        data = json.loads(request.body or b'{}')
+    except ValueError:
+        data = {}
+    if not isinstance(data, dict):
+        return JsonResponse({'ok': False, 'error': 'That did not come through.'}, status=400)
+    error = apply_education(owner, data)
+    if error:
+        return JsonResponse({'ok': False, 'error': error}, status=400)
+    if 'school' in data:
+        owner.school = ' '.join(str(data.get('school') or '').split())[:150]
+    if 'teaching_subjects' in data:
+        raw = data.get('teaching_subjects')
+        parts = raw if isinstance(raw, (list, tuple)) else str(raw or '').split(',')
+        seen, clean = set(), []
+        for p in parts:
+            p = ' '.join(str(p).split())[:40]
+            if p and p.lower() not in seen:
+                seen.add(p.lower())
+                clean.append(p)
+        owner.teaching_subjects = ','.join(clean[:20])
+    owner.save()
+    _clear_page_cache()
+    return JsonResponse({'ok': True})

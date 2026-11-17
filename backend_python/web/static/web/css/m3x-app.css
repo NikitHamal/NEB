@@ -3819,6 +3819,12 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .pf-stat b { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -.5px; color: var(--md-on-surface); }
 .pf-stat small { font-size: 12px; font-weight: 500; color: var(--md-on-surface-variant); }
 
+/* Teacher editor: tappable years tile, prompts, one-field-per-line subject input */
+.pf-stat-btn { border: 0; text-align: left; cursor: pointer; font: inherit; transition: background .2s; }
+.pf-stat-btn:hover { background: var(--md-surface-container); }
+.pf-tf-prompts { display: grid; gap: 8px; }
+.pf-tf-prompts:empty { display: none; }
+
 /* ---- m3x/app-inst-folio.css ---- */
 /* Portfolio strength card and the institution portfolio on a profile (web/profile/_strength.html, _inst_folio.html,
    js/inst-folio.js). Cards are surfaces with a hairline, no shadow. Tags are UI chips, not user badges. */

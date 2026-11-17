@@ -17,14 +17,14 @@
   {% if portfolio.teacher.is_set %}
   <div class="pf-folio-block pf-folio-teach">
     <div class="pf-stat-pair">
-      <div class="pf-stat"><b>{{ portfolio.teacher.years }}</b><small>Years teaching</small></div>
+      {% if portfolio.is_own %}<button type="button" class="pf-stat pf-stat-btn" data-tf-edit="exp"><b>{{ portfolio.teacher.years }}</b><small>Years teaching</small></button>{% else %}<div class="pf-stat"><b>{{ portfolio.teacher.years }}</b><small>Years teaching</small></div>{% endif %}
       <div class="pf-stat"><b>{{ portfolio.teacher.schools }}</b><small>School{{ portfolio.teacher.schools|pluralize }}</small></div>
     </div>
   </div>
   {% if portfolio.teacher.subjects or portfolio.teacher.levels %}
   <div class="pf-folio-block">
     <h3 class="pf-folio-h"><span class="material-symbols-outlined">star</span>Teaches
-      {% if portfolio.is_own %}<a class="pf-folio-add" href="{% url 'web:edit_profile' %}#teaching" aria-label="Edit teaching details"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+      {% if portfolio.is_own %}<button type="button" class="pf-folio-add" data-tf-edit="teach" aria-label="Edit what you teach"><span class="material-symbols-outlined">edit</span></button>{% endif %}
     </h3>
     <div class="pf-folio-chips">
       {% for s in portfolio.teacher.subjects %}<span class="pf-tag pf-tag-open">{{ s }}</span>{% endfor %}
@@ -42,7 +42,7 @@
       <li class="pf-tl-item">
         <span class="pf-tl-dot"></span>
         <div class="pf-tl-main"><b>{{ portfolio.teacher.school }}</b><span class="pf-tl-when">{% if portfolio.teacher.employment %}{{ portfolio.teacher.employment }} &middot; {% endif %}Present</span></div>
-        {% if portfolio.is_own %}<a class="pf-tl-edit" href="{% url 'web:edit_profile' %}#teaching" aria-label="Edit current school"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+        {% if portfolio.is_own %}<button type="button" class="pf-tl-edit" data-tf-edit="school" aria-label="Edit current school"><span class="material-symbols-outlined">edit</span></button>{% endif %}
       </li>
       {% endif %}
       {% for e in portfolio.teacher.past %}
@@ -60,6 +60,15 @@
   </div>
   {% endif %}
   {% endif %}
+  {% endif %}
+  {% if portfolio.teacher_boot %}
+  <div class="pf-folio-block pf-tf-prompts">
+    {% if not portfolio.teacher.subjects and not portfolio.teacher.levels %}<button type="button" class="if-add" data-tf-edit="teach"><span class="material-symbols-outlined">add</span>Add subjects and levels</button>{% endif %}
+    {% if not portfolio.teacher.school %}<button type="button" class="if-add" data-tf-edit="school"><span class="material-symbols-outlined">add</span>Add your school</button>{% endif %}
+    <button type="button" class="if-add" data-tf-edit="me"><span class="material-symbols-outlined">add</span>Headline</button>
+  </div>
+  {{ portfolio.teacher_boot|json_script:"tf-boot" }}
+  <script src="{% static 'web/js/teacher-folio.js' %}" defer></script>
   {% endif %}
 
   {% if portfolio.open_to %}

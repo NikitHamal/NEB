@@ -79,3 +79,41 @@ class TeacherSchoolsCardTests(TestCase):
         self.assertIn('Sunrise English School', html)
         self.assertNotIn('data-kind="past_school"', html)
         self.assertNotIn('Current school', html)
+
+
+class TeacherEditorTests(TestCase):
+    def setUp(self):
+        self.t = _make(role='teacher', school='Old School', teaching_subjects='Physics')
+
+    def _post(self, client, **data):
+        return client.post('/ajax/teacher/profile/save/', json.dumps(data), content_type='application/json')
+
+    def test_teacher_saves_one_section_at_a_time(self):
+        c = Client()
+        _sign_in(c, self.t)
+        r = self._post(c, teaching_subjects='Physics, Maths, physics', teach_levels=['plus_two', 'bogus'])
+        self.assertTrue(r.json()['ok'])
+        self.t.refresh_from_db()
+        self.assertEqual(self.t.teaching_subjects, 'Physics,Maths')
+        self.assertEqual(self.t.teach_levels, 'plus_two')
+        self.assertEqual(self.t.school, 'Old School')
+        r = self._post(c, school='Himalaya Secondary School', employment='full_time', experience_years='9')
+        self.assertTrue(r.json()['ok'])
+        self.t.refresh_from_db()
+        self.assertEqual((self.t.school, self.t.employment, self.t.experience_years), ('Himalaya Secondary School', 'full_time', 9))
+
+    def test_guest_and_non_teacher_are_refused(self):
+        self.assertEqual(self._post(Client(), school='X').status_code, 401)
+        s = _make(role='student')
+        c = Client()
+        _sign_in(c, s)
+        self.assertEqual(self._post(c, school='X').status_code, 403)
+
+    def test_owner_sees_edit_hooks_visitor_does_not(self):
+        c = Client()
+        _sign_in(c, self.t)
+        own = c.get(f'/app/profile/{self.t.username}/').content.decode()
+        self.assertIn('data-tf-edit="teach"', own)
+        self.assertIn('tf-boot', own)
+        other = Client().get(f'/app/profile/{self.t.username}/').content.decode()
+        self.assertNotIn('data-tf-edit', other)

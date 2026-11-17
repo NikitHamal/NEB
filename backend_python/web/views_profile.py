@@ -306,6 +306,15 @@ def profile(request, username):
             portfolio['sections'] = [x for x in portfolio['sections'] if x['value'] != 'past_school']
             portfolio['teacher']['schools'] = past + (1 if portfolio['teacher']['school'] else 0)
             portfolio['teacher']['is_set'] = portfolio['teacher']['is_set'] or bool(past)
+        if portfolio['teacher'] and portfolio['is_own']:
+            from api.education_catalog import EMPLOYMENT, TEACH_LEVELS
+            csv = lambda x: [i for i in (x or '').split(',') if i]
+            portfolio['teacher_boot'] = {
+                'school': profile_user.school or '', 'employment': profile_user.employment or '',
+                'subjects': csv(profile_user.teaching_subjects), 'levels': csv(profile_user.teach_levels),
+                'years': int(profile_user.experience_years or 0), 'headline': profile_user.headline or '',
+                'optLevels': TEACH_LEVELS, 'optEmployment': EMPLOYMENT,
+            }
     from .views_inst_folio import profile_extras
     extras = profile_extras(profile_user, is_self, bool(portfolio and (portfolio['sections'] or (portfolio['teacher'] or {}).get('past')))) if not profile_private else {'strength': None, 'inst': None}
     return render(request, 'web/profile.html', _ctx(request,
