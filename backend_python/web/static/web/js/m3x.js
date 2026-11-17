@@ -169,7 +169,7 @@
       b.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     });
     var m = document.querySelector('meta[name=theme-color]');
-    if (m) m.content = t === 'dark' ? '#121318' : '#f6f8ff';
+    if (m) m.content = t === 'dark' ? '#17181d' : '#f6f8ff';
     document.dispatchEvent(new CustomEvent('neb:theme-change'));
   }
   function setTheme(next, origin) {

@@ -95,7 +95,7 @@ impl Palette {
 
     pub fn dark() -> Self {
         Self {
-            page: rgb(0x121318),
+            page: rgb(0x17181d),
             card: rgb(0x1F1F25),
             field: rgb(0x2E2F36),
             ink: rgb(0xE3E8F7),

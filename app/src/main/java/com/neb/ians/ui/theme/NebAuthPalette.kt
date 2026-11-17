@@ -103,8 +103,8 @@ private val LightAuthPalette = NebAuthPalette(
 
 private val DarkAuthPalette = NebAuthPalette(
     isDark = true,
-    page = Color(0xFF121318),
-    card = Color(0xFF1B1B21),
+    page = Color(0xFF17181D),
+    card = Color(0xFF202128),
     field = Color(0xFF1F1F25),
     ink = Color(0xFFE4E1E9),
     inkMuted = Color(0xFFA1A1A8),

@@ -81,8 +81,8 @@
 [data-theme="dark"] #darkGrad stop:nth-child(2) { stop-color: #2e2f36; }
 [data-theme="dark"] #darkGrad stop:nth-child(3) { stop-color: #1f1f25; }
 
-[data-theme="dark"] #frontShadowGrad stop:nth-child(1) { stop-color: #121318; stop-opacity: 0.6; }
-[data-theme="dark"] #frontShadowGrad stop:nth-child(2) { stop-color: #121318; stop-opacity: 0; }
+[data-theme="dark"] #frontShadowGrad stop:nth-child(1) { stop-color: #17181d; stop-opacity: 0.6; }
+[data-theme="dark"] #frontShadowGrad stop:nth-child(2) { stop-color: #17181d; stop-opacity: 0; }
 
 [data-theme="dark"] .topbar-logo g[stroke="#ffffff"],
 [data-theme="dark"] .topbar-logo g[stroke-opacity="0.78"] {
