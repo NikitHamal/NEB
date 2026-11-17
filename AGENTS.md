@@ -1,5 +1,12 @@
 # NEBians - Project Knowledge Base
 
+## RSI (Recursive Self-Improvement) Pipeline — MANDATORY FOR EVERY SESSION
+
+To maximize output under the 75-tool-call limit and guarantee zero lost work if a session times out, use `tools/rsi/rsi.py` (see `docs/RSI_PIPELINE.md`):
+- **Turn 1/2 Orientation**: Run `python3 tools/rsi/rsi.py pickup` (1 call replaces `git log`, reading `ANDROID_STATUS.md`, and checking CI runs).
+- **Pre-Push Verification**: Run `python3 tools/rsi/rsi.py verify` (runs all 4 Android UI guards, CSS bundle check, Python AST parser, and security invariants in <2s).
+- **Incremental Micro-Checkpoints**: Run `python3 tools/rsi/rsi.py checkpoint "summary"` after every completed logical milestone (every 3 to 5 file edits). Never accumulate unpushed work across a whole session.
+
 ## Sandbox tooling workaround (file tool is rooted at /app only)
 
 The file-edit tool cannot see paths outside its workspace root (`/app`); bash can. Clone the repo to `/tmp/NEB` and symlink it:

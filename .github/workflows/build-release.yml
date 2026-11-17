@@ -51,6 +51,9 @@ jobs:
       - name: Check text fit (wrap, overflow and overlap ratchet)
         run: python3 tools/android/check_text_fit.py
 
+      - name: Check RSI security and AST invariants
+        run: python3 tools/rsi/security_and_m3x_audit.py
+
       - name: Set up JDK 17
         uses: actions/setup-java@v6
         with:
