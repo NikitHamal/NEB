@@ -338,8 +338,17 @@ def main():
         ssh.upload(script_text.encode(), runner_path, "deploy runner", timeout=60)
 
         print("Launching server-side phase detached (log: %s)" % log_file)
+        # Two SSH calls on purpose: chaining with && into one command makes
+        # the trailing "&" background the WHOLE chain (&& binds tighter than
+        # &), so the SSH channel stays open for the entire deploy and the
+        # client blocks until collectstatic finishes instead of returning.
+        # The first call only normalises the script; the second only launches.
         ssh.run(
-            f"tr -d '\\r' < {runner_path} > {runner_path}.lf && mv -f {runner_path}.lf {runner_path} && chmod +x {runner_path} && setsid nohup bash {runner_path} > {log_file} 2>&1 < /dev/null & echo LAUNCHED",
+            f"tr -d '\\r' < {runner_path} > {runner_path}.lf && mv -f {runner_path}.lf {runner_path} && chmod +x {runner_path} && echo PREPARED",
+            timeout=30, check=True,
+        )
+        ssh.run(
+            f"setsid nohup bash {runner_path} > {log_file} 2>&1 < /dev/null & echo LAUNCHED",
             timeout=30, check=True,
         )
 
