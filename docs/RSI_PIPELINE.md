@@ -84,3 +84,41 @@ python3 tools/rsi/rsi.py deploy
 - **Repair command:** `python3 tools/rsi/rsi.py deploy web/static/web/css` re-copies that dir on the server (files under 1 MB only).
 - **If the same bug is reported twice, stop restyling and diff production against the repo** (curl the asset, grep a selector). That took 6 tool calls and found the cause that a full session of CSS work had not.
 - Pull the deploy log with the API and filter it (`grep -v "Updating files"`): the unfiltered checkout progress is 9,000 lines.
+
+## Session 68 lessons (incident: replies endpoint 500)
+
+**What happened.** `983bada1` (backend perf pass) added `_reply_may_have_poll` using `Reply` without importing it. Every
+`GET /api/posts/<id>/replies/` for a post with at least one reply returned 500 from the first deploy after that commit
+(about 20:28 UTC, 02:13 NPT on 18 Nov) until the fix deploy (`3df858d`, 22:0x UTC). Measured with
+`rsi.py diagnose`: exactly one failing request in that window (one IP, one post, the account `nebians`, app 1.7.5
+build 29), because the site was quiet at night. The 6 other replies 500s in the log are from 5 Nov, unrelated.
+
+**Why nothing caught it.** (1) the audit only parsed syntax, so a missing name passed; (2) the query-budget suite
+already requests that endpoint with 30 replies, but it was not in the Backend tests command; (3) `deploy` was
+dispatched without checking that tests were green for the same code.
+
+**What now stops it.**
+- `rsi.py verify` and the Backend tests workflow run a pyflakes undefined-name scan over all of `backend_python`.
+- `api.test_api_query_budget` and `api.test_replies_regression` are in the Backend tests command.
+- `rsi.py deploy` refuses unless a green Backend tests run covers the same `backend_python` tree. `--force` is for a
+  proven hotfix only. `deploy <static_dir>` (static repair) is not gated.
+- `rsi.py diagnose [script]` runs a read-only `.github/scripts/*.sh` on the server and prints the filtered log in
+  one call (it replaces: dispatch, poll, find job, fetch log, trim). Scripts print aggregates only: the repo is public.
+
+**Rules.**
+- Any perf or refactor commit touching `api/` needs `rsi.py verify` before the checkpoint, no exceptions.
+- A new test module that matters must be added to the workflow command in the same commit.
+- Never commit a transcript. `sessions.txt` held the live GitHub token twice (public repo). It is redacted in the tree,
+  the token must be rotated because git history keeps it. `check_staged_secrets` catches `ghp_` in staged diffs, so
+  paste transcripts only after redacting.
+- Admin error emails used to dump the Redis URL with its password. `RedactingExceptionReporterFilter`
+  (`nebians/log_filters.py`) now masks REDIS, CACHE, CHANNEL, DATABASE, DB_, BRIDGE, SALT and `_URL` settings.
+
+## Session 2 post-mortem (from `sessions.txt`) and cadence for session 4 onward
+
+- Session 2 spent about 36 `rsi.py ci` calls and 23 sleeps. Cadence now: push, do docs and tests, then poll at most
+  twice; never `sleep` as the only action in a turn.
+- Two failures in session 2 came from signature drift after a perf refactor (`prime_for_serializers` argument order,
+  a failing test run). The undefined-name scan plus the budget suite now cover that class.
+- Turn plan that fits 75 calls: 1 `pickup`; 1 `map`+read in one bash call; edits batched 2 to 4 per turn;
+  `checkpoint` every 3 to 5 edits; `deploy` (gated) once; `diagnose` once; docs in the same turn as the last push.

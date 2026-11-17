@@ -1801,3 +1801,16 @@ Deploy runs `44182216547` (css resync), `44182511634` (js resync), `44182895856`
 ## Next
 - Owner review on GitHub Pages (`https://nikithamal.github.io/NEB/art-v3.html`). If liked, port chosen kinds to `neb-art.js` and the Kotlin art files (ids are deterministic).
 - Dark mode is a tonal re-map, check it on a device before replacing any shipped art.
+
+## Session 68: replies endpoint 500 (backend), incident and hardening
+
+| # | What | Where |
+| --- | --- | --- |
+| 1 | **Fix**: `Reply` was not imported in `view_helpers.py`; `GET /api/posts/<id>/replies/` returned 500 for any post with replies. Deployed in `3df858d`, probe returns 200. | `backend_python/api/view_helpers.py` |
+| 2 | **Impact (measured on the server)**: one failing request in the window, one account (`nebians`, app 1.7.5 build 29, itel A662LM). Nobody else was active; no data touched, no migration. | `.github/scripts/diagnose_replies_impact.sh` |
+| 3 | **Guards**: pyflakes undefined-name scan in `rsi.py verify` and the Backend tests workflow; budget and regression tests added to the CI command; `rsi.py deploy` refuses without green tests for the same backend tree. | `tools/rsi/`, `backend-tests.yml`, `api/test_replies_regression.py` |
+| 4 | **Secrets**: live GitHub token was in `tools/rsi/sessions.txt` in a public repo (redacted, rotate it). Error emails showed the Redis URL with password (now masked). | `nebians/log_filters.py`, `settings.py` |
+
+## Next
+- Owner: rotate the GitHub PAT and the Redis password (both appeared in plain text outside the server).
+- Port `rsi.py diagnose` scripts for slow-query and 5xx-by-hour reports to a weekly scheduled workflow.

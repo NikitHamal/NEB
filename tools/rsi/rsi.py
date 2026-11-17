@@ -8,7 +8,8 @@ Commands:
   python3 tools/rsi/rsi.py verify              # Auto-bundle CSS + run all Android/CSS/AST/Security guards
   python3 tools/rsi/rsi.py checkpoint "msg"    # Verify + stage + secret-scan + commit + push to origin/main
   python3 tools/rsi/rsi.py ci                  # Poll GitHub Actions runs + auto-fetch failure log tails
-  python3 tools/rsi/rsi.py deploy              # Dispatch deploy-backend.yml via GitHub API
+  python3 tools/rsi/rsi.py deploy [--force]    # Dispatch deploy-backend.yml; refuses unless Backend tests are green for this backend_python tree
+  python3 tools/rsi/rsi.py diagnose [script]   # Run a read-only .github/scripts/*.sh on the server, print the filtered log (1 call)
 """
 from __future__ import annotations
 
@@ -169,12 +170,68 @@ def cmd_ci() -> int:
     return 0
 
 
-def cmd_deploy(static_dir: str = "") -> int:
+def _backend_tests_green() -> tuple[bool, str]:
+    """True when a green Backend tests run covers exactly the current backend_python tree."""
+    head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    runs = _gh_api("actions/workflows/backend-tests.yml/runs?branch=main&per_page=10").get("workflow_runs", [])
+    for r in runs:
+        if r.get("conclusion") != "success":
+            continue
+        sha = r["head_sha"]
+        same = subprocess.run(["git", "diff", "--quiet", sha, head, "--", "backend_python"], cwd=ROOT,
+                              stderr=subprocess.DEVNULL).returncode
+        if same == 0:
+            return True, sha[:8]
+    pend = [r["head_sha"][:8] for r in runs if r.get("status") != "completed"]
+    return False, ("tests still running on " + ",".join(pend)) if pend else "no green Backend tests run covers HEAD"
+
+
+def cmd_deploy(args: list[str]) -> int:
+    """Session 68 rule, now enforced: deploy only code the Backend tests have passed.
+    --force is for a hotfix whose cause is proven (say why in the commit message)."""
+    force = "--force" in args
+    rest = [a for a in args if a != "--force"]
+    static_dir = rest[0] if rest else ""
+    if not force and not static_dir:
+        ok, why = _backend_tests_green()
+        if not ok:
+            print(f"RSI DEPLOY REFUSED: {why}. Wait for green or pass --force for a proven hotfix.", file=sys.stderr)
+            return 3
+        print(f"RSI DEPLOY: backend_python identical to green tests run {why}")
     payload = {"ref": "main"}
     if static_dir:
         payload["inputs"] = {"static_resync_dir": static_dir}
     _gh_api("actions/workflows/deploy-backend.yml/dispatches", method="POST", payload=payload)
-    print(f"RSI DEPLOY: dispatched deploy-backend.yml on main (static resync: {static_dir or 'none'})")
+    print(f"RSI DEPLOY: dispatched deploy-backend.yml on main (static resync: {static_dir or 'none'}, force={force})")
+    return 0
+
+
+def cmd_diagnose(script: str) -> int:
+    """One call: run a read-only .github/scripts/<script> on the server and print the filtered log."""
+    import time
+    script = script or "diagnose_replies_impact.sh"
+    _gh_api("actions/workflows/diagnose-backend.yml/dispatches", method="POST",
+            payload={"ref": "main", "inputs": {"script": script}})
+    time.sleep(8)
+    run = _gh_api("actions/workflows/diagnose-backend.yml/runs?per_page=1")["workflow_runs"][0]
+    for _ in range(14):
+        run = _gh_api(f"actions/runs/{run['id']}")
+        if run["status"] == "completed":
+            break
+        time.sleep(10)
+    jobs = _gh_api(f"actions/runs/{run['id']}/jobs").get("jobs", [])
+    if not jobs:
+        print("no job yet, run id", run["id"])
+        return 1
+    log = subprocess.run(["curl", "-sL", "-H", f"Authorization: token {_token()}",
+                          f"https://api.github.com/repos/{REPO}/actions/jobs/{jobs[0]['id']}/logs"],
+                         capture_output=True, text=True).stdout
+    keep = [re.sub(r"^\S+Z ", "", l) for l in log.splitlines() if re.match(r"^\S+Z ", l)]
+    start = next((i for i, l in enumerate(keep) if l.startswith("== ")), 0)
+    body = keep[start:start + 90]
+    end = next((i for i, l in enumerate(body) if l.startswith("Post job cleanup")), len(body))
+    print("\n".join(body[:end])[:6000])
+    print(f"\nrun {run['id']} {run['status']} {run.get('conclusion')}")
     return 0
 
 
@@ -225,7 +282,9 @@ def main() -> int:
     if arg == "ci":
         return cmd_ci()
     if arg == "deploy":
-        return cmd_deploy(sys.argv[2] if len(sys.argv) > 2 else "")
+        return cmd_deploy(sys.argv[2:])
+    if arg == "diagnose":
+        return cmd_diagnose(sys.argv[2] if len(sys.argv) > 2 else "")
     if arg == "live":
         return cmd_live()
     print(f"Unknown command: {arg}", file=sys.stderr)
