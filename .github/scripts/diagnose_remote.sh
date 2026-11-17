@@ -16,6 +16,24 @@ crontab -l 2>/dev/null | sed -E 's/(KEY|TOKEN|SECRET|PASS)[A-Za-z_]*=[^ ]*/\1=**
 [ -f watchdog.sh ] && sed -E 's/(KEY|TOKEN|SECRET|PASS)[A-Za-z_]*=[^ ]*/\1=***/Ig' watchdog.sh | cut -c1-170 | head -30
 echo "== app logs (sizes only)"; ls -la logs 2>/dev/null | cut -c1-120 | head -15
 echo "== recent 503 or limit hints in app stderr (last 8 lines)"; tail -n 8 stderr.log 2>/dev/null | cut -c1-200
+echo "== traffic (page views, last 3 h, 30 min buckets) and log warnings"
+timeout 100 python - <<'PY' 2>&1 | cut -c1-200 | tail -50
+import os, sys, time, collections
+sys.path.insert(0, '/home/consicac/nebians_api')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nebians.settings')
+import django; django.setup()
+from api.models import PageView
+now = int(time.time() * 1000); since = now - 3 * 3600 * 1000
+rows = list(PageView.objects.filter(created_at__gte=since).values_list('created_at', 'is_bot', 'path', 'source', 'referrer_type', 'device_class'))
+print('rows', len(rows), 'bots', sum(1 for r in rows if r[1]))
+b = collections.Counter(((now - r[0]) // 1800000, r[1]) for r in rows)
+for k in sorted({k[0] for k in b}): print('  bucket -%d0 min: humans %d bots %d' % (k * 3, b[(k, False)], b[(k, True)]))
+print('top human paths:', collections.Counter(r[2][:50] for r in rows if not r[1]).most_common(8))
+print('top bot paths:', collections.Counter(r[2][:50] for r in rows if r[1]).most_common(8))
+print('sources:', collections.Counter(r[3] for r in rows).most_common(4), 'devices:', collections.Counter(r[5] for r in rows).most_common(4))
+PY
+for pat in 'Too many connections' 'OperationalError' 'Timeout' 'slow' 'WARNING' 'ERROR'; do echo "nebians.log last 20000 lines '$pat': $(tail -n 20000 logs/nebians.log 2>/dev/null | grep -c "$pat")"; done
+tail -n 6 logs/server_errors.log 2>/dev/null | cut -c1-220
 echo "== cold first request profile (fresh interpreter)"
 timeout 170 python - <<'PY' 2>&1 | cut -c1-190 | tail -60
 import os, sys, time, cProfile, pstats, io
