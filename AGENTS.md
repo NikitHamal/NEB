@@ -2597,4 +2597,4 @@ Write maths in `bca/course/**/unit-*.md` as `$...$` / `$$...$$` (never plain `xÂ
 
 
 ## Guards (session 46)
-`tools/android/check_insets.py` runs in CI and fails on: a back arrow (any `Icons.*.ArrowBack`) without `NebTopBar` / `statusBarsPadding`, a `LikePill` row without `nebGhostRowStart()`, a tagline under list controls, and `isSystemInDarkTheme()` outside `ui/theme`. Segmented controls are one tonal pill track (`PwSeg`), see `docs/M3X_DESIGN_SYSTEM.md` section 14.
+`tools/android/check_insets.py` runs in CI and fails on: a back arrow (any `Icons.*.ArrowBack`) without `NebTopBar` / `statusBarsPadding`, a `LikePill` row without `nebGhostRowStart()`, a tagline under list controls, and `isSystemInDarkTheme()` outside `ui/theme`. The segmented control is the original connected button group (`PwSeg`), LOCKED by the owner, never restyle it: `docs/M3X_DESIGN_SYSTEM.md` section 14.

@@ -26,10 +26,12 @@
 .pwx .g6{--c:var(--k6)}
 .pwx .i{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .pwx h4{font-size:12px;font-weight:600;color:var(--onv);margin:18px 0 8px}
-.pwx .seg{display:flex;gap:2px;background:var(--s3);padding:4px;border-radius:24px;width:max-content;max-width:100%}
-.pwx .seg button{height:40px;padding:0 18px;font-size:13px;font-weight:600;color:var(--onv);background:transparent;border-radius:20px;white-space:nowrap;transition:background .2s,color .2s}
-.pwx .seg button.on{background:var(--on);color:var(--s)}
-.pwx .seg.full{margin-bottom:10px;width:100%}
+.pwx .seg{display:flex;gap:3px}
+.pwx .seg button{height:40px;padding:0 18px;font-size:13px;font-weight:600;background:var(--s3);border-radius:8px;white-space:nowrap;transition:border-radius .35s var(--sp),background .2s}
+.pwx .seg button:first-child{border-radius:20px 8px 8px 20px}
+.pwx .seg button:last-child{border-radius:8px 20px 20px 8px}
+.pwx .seg button.on{background:var(--on);color:var(--s);border-radius:20px}
+.pwx .seg.full{margin-bottom:10px}
 .pwx .seg.full button{flex:1;padding:0 6px}
 .pwx .ib{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--s2);position:relative;flex:none;transition:border-radius .35s var(--sp),background .2s}
 .pwx .ib:active{border-radius:14px}

@@ -38,10 +38,11 @@ h4{font-size:12px;font-weight:600;color:var(--onv);margin:18px 0 8px}
 /* board chrome */
 .board{display:flex;align-items:center;gap:10px;max-width:1280px;margin:0 auto 18px}
 .board h1{font-size:15px;font-weight:600;flex:1;letter-spacing:-.01em}
-.seg{display:flex;gap:2px;background:var(--s3);padding:4px;border-radius:24px;width:max-content;max-width:100%}
-.seg button{height:40px;padding:0 18px;font-size:13px;font-weight:600;color:var(--onv);background:transparent;border-radius:20px;white-space:nowrap;transition:background .2s,color .2s}
-.seg button.on{background:var(--on);color:var(--s)}
-.seg.full{margin-bottom:10px;width:100%}.seg.full button{flex:1;padding:0 6px}
+.seg{display:flex;gap:3px}
+.seg button{height:40px;padding:0 18px;font-size:13px;font-weight:600;background:var(--s3);border-radius:8px;white-space:nowrap;transition:border-radius .35s var(--sp),background .2s}
+.seg button:first-child{border-radius:20px 8px 8px 20px}.seg button:last-child{border-radius:8px 20px 20px 8px}
+.seg button.on{background:var(--on);color:var(--s);border-radius:20px}
+.seg.full{margin-bottom:10px}.seg.full button{flex:1;padding:0 6px}
 .ib{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--s2);position:relative;flex:none;transition:border-radius .35s var(--sp),background .2s}
 .ib:active{border-radius:14px}.ib.on{background:var(--p);color:var(--onp);border-radius:14px}
 .cnt{position:absolute;top:-4px;right:6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--on);color:var(--s);font-size:10px;font-weight:600;display:grid;place-items:center}
