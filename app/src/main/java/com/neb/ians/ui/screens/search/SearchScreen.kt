@@ -168,7 +168,12 @@ fun SearchScreen(
                         keyboard?.hide()
                     },
                     onRemoveRecent = viewModel::removeRecent,
-                    onClearRecents = viewModel::clearRecents
+                    onClearRecents = viewModel::clearRecents,
+                    scope = uiState.scope,
+                    onScope = { s ->
+                        viewModel.onScopeChange(s)
+                        runCatching { focusRequester.requestFocus() }
+                    }
                 )
 
                 uiState.isEmptyResult -> NebEmptyState(
@@ -466,7 +471,9 @@ private fun SearchIdleState(
     recents: List<String>,
     onQueryPick: (String) -> Unit,
     onRemoveRecent: (String) -> Unit,
-    onClearRecents: () -> Unit
+    onClearRecents: () -> Unit,
+    scope: SearchScope = SearchScope.All,
+    onScope: (SearchScope) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -509,6 +516,17 @@ private fun SearchIdleState(
                     label = suggestion,
                     selected = false,
                     onClick = { onQueryPick(suggestion) }
+                )
+            }
+        }
+
+        NebSectionLabel(text = "Look in")
+        NebChipRow {
+            SearchScope.entries.filter { it != SearchScope.All }.forEach { s ->
+                NebFilterChip(
+                    label = s.label,
+                    selected = scope == s,
+                    onClick = { onScope(if (scope == s) SearchScope.All else s) }
                 )
             }
         }

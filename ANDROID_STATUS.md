@@ -1289,3 +1289,27 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - **Redeploy the backend** (`deploy.ps1`): everything on the web side since session 44.
 - Android on device: dark graphite pass, 360dp phone for the five search tabs.
+
+
+---
+
+# Session 50: Find a college puts filled institution pages first, in-app claim, search "Look in"
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 49). The brief repeated the Pathways port, profile and search concepts, 24,665 catalogue, teacher and institution portfolios, no DOB or gender for institutions, graphite dark. Audited against the code: all of that is present and **kept, not redone**. Dark palette: `Palette.kt` dark block equals the concept `[data-theme=dark]` value for value, and the web `m3x/tokens.css` dark block overrides the legacy `material3` palette for every colour role. The real gaps found:
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 302 | **Find a college never used `/api/pathways/on-neb/`** (server and `ApiService` had it, neither client read it). Android: an "On NEBians" section on top of Find a college (claimed institutions that filled their page, ones that offer the chosen course first, then the chosen district, then fullest): verified glyph, kind and place, completeness bar, tags (Admissions open, Offers this course, From NPR, levels), tap to call, tap to open the profile, "All colleges on NEBians". Provider rows that match a claimed page are pinned first, carry the "On NEBians" tag and open that profile. Saved copy in `filesDir` shows at once, the live call refreshes it. | `PwOnNeb.kt`, `PwColleges.kt`, `PathwaysData.kt` (`loadOnNeb`) |
+| 303 | **Same on the web Pathways**: on-NEB cards above the list, matched providers pinned and linked to `/app/schools/<slug>/`. `COL` rows now carry `id`. | `pathways.js` (`onebHTML`, `renderCList`), `pathways-data.js`, `pages/pathways.css` |
+| 304 | **Claim inside the app** (it used to open the browser): registration number, contact person, role, phone, email, address and up to four documents (PDF, JPG, PNG, WebP) sent as multipart to `POST /api/institutions/<slug>/claim/`; after sending the screen shows the three stages (Application sent, Documents checked, Verified) from `/api/institutions/mine/`. The server message is shown on a 4xx. Falls back to the web form when no host provides `LocalClaimInstitution`. | `InstitutionClaimScreen.kt`, `InstitutionClaimViewModel.kt`, `ApiService.claimInstitution`, `Navigation.kt` (`institution_claim/{slug}`) |
+| 305 | **Search "Look in" shortcuts** from the Search concept: Resources, Posts, People, Schools chips on the empty state set the scope and focus the field. | `SearchScreen.kt` |
+
+## Rules
+- The big Pathways payload stays static and cached; claimed pages come from the small live `on-neb` call (300 s cache).
+- A college that is on NEBians always sorts before one that is not, whatever the fee or seat sort.
+
+## Next
+- **Redeploy the backend** (`deploy.ps1`) so the web changes since session 44 go live.
+- Android on device: claim form with the keyboard open, On NEBians cards on a 360dp phone.
