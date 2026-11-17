@@ -1,7 +1,8 @@
 #!/bin/bash
 # READ-ONLY. Counts only. IPs are never printed (hashed to a count of distinct values).
+source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
 f=~/access-logs/nebians.consica.com.np-ssl_log
-timeout 90 python3 - "$f" <<'PY' 2>&1 | cut -c1-220 | tail -90
+timeout 90 python - "$f" <<'PY' 2>&1 | cut -c1-220 | tail -90
 import sys, re, collections, os
 f = sys.argv[1]
 size = os.path.getsize(f)
@@ -38,6 +39,7 @@ print('top dyn paths:');
 for p, n in collections.Counter(norm(r[5]) for r in dyn).most_common(18): print('  %5d %s' % (n, p))
 print('status of dynamic', dict(collections.Counter(r[6] for r in dyn).most_common(8)))
 PY
+echo "== stderr.log: child kills by signal"; grep -o 'killed by signal: [0-9]*' ~/nebians_api/stderr.log 2>/dev/null | sort | uniq -c
 echo "== stderr.log: other lines than max-children (last 12, truncated)"
 grep -v 'max children' ~/nebians_api/stderr.log 2>/dev/null | tail -n 12 | cut -c1-200
 echo "== done"
