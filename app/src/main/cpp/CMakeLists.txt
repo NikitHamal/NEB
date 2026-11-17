@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(neb_speech SHARED speech_jni.cpp)
 
-# 16 KB page alignment (Google Play, Android 15+).
-target_link_options(neb_speech PRIVATE -Wl,-z,max-page-size=16384)
-target_compile_options(neb_speech PRIVATE -O2 -fvisibility=hidden)
+# 16 KB page alignment (Google Play, Android 15+) + symbol stripping & dead-section GC.
+target_link_options(neb_speech PRIVATE -Wl,-z,max-page-size=16384 -Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,-s)
+target_compile_options(neb_speech PRIVATE -O2 -fvisibility=hidden -fvisibility-inlines-hidden -ffunction-sections -fdata-sections)
 
 find_library(log-lib log)
 target_link_libraries(neb_speech PRIVATE ${log-lib} dl)

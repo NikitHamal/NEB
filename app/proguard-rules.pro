@@ -11,6 +11,18 @@
 -keepattributes Signature
 -keepattributes InnerClasses,EnclosingMethod
 -keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+-optimizationpasses 5
+-overloadaggressively
+-allowaccessmodification
+
+# Strip verbose/debug/info logs from release DEX so internal log strings and tags are not exposed
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+}
 
 # Keep the application class.
 # AGP 9 turns on android.r8.strictFullModeForKeepRules, so a bare -keep no

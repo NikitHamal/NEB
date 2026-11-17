@@ -2206,6 +2206,12 @@ interface ApiService {
             runCatching {
                 OkHttpClient.Builder()
                     .connectionPool(sharedPool)
+                    .apply {
+                        if (!BuildConfig.DEBUG) {
+                            proxy(java.net.Proxy.NO_PROXY)
+                            connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
+                        }
+                    }
                     .callTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
                     .build()
                     .newCall(
@@ -2238,6 +2244,12 @@ interface ApiService {
             val client = OkHttpClient.Builder()
                 .dispatcher(dispatcher)
                 .connectionPool(sharedPool)
+                .apply {
+                    if (!BuildConfig.DEBUG) {
+                        proxy(java.net.Proxy.NO_PROXY)
+                        connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
+                    }
+                }
                 .addInterceptor(logger)
                 .addInterceptor(WafChallengeInterceptor(context))
                 .addInterceptor(DeviceSignalInterceptor(context))

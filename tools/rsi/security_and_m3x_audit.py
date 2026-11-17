@@ -77,6 +77,24 @@ def check_security_invariants() -> list[str]:
         text = sec.read_text(encoding="utf-8")
         if "_is_private_or_local_host" not in text:
             errors.append("api/security.py missing SSRF _is_private_or_local_host guard")
+
+    auth = ROOT / "backend_python" / "web" / "views_auth.py"
+    if auth.is_file():
+        text = auth.read_text(encoding="utf-8")
+        if "def _safe_next_url" not in text:
+            errors.append("web/views_auth.py missing _safe_next_url open-redirect guard")
+
+    net_cfg = ROOT / "app" / "src" / "main" / "res" / "xml" / "network_security_config.xml"
+    if net_cfg.is_file():
+        text = net_cfg.read_text(encoding="utf-8")
+        if 'cleartextTrafficPermitted="false"' not in text:
+            errors.append("network_security_config.xml missing base cleartextTrafficPermitted=false")
+
+    proguard = ROOT / "app" / "proguard-rules.pro"
+    if proguard.is_file():
+        text = proguard.read_text(encoding="utf-8")
+        if "-renamesourcefileattribute" not in text or "-overloadaggressively" not in text:
+            errors.append("proguard-rules.pro missing irreversible R8 obfuscation directives")
     return errors
 
 

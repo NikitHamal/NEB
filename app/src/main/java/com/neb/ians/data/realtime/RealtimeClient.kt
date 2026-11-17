@@ -67,12 +67,22 @@ class RealtimeClient @Inject constructor(
     private val json = Json { ignoreUnknownKeys = true }
 
     private val wsClient = OkHttpClient.Builder()
+        .apply {
+            if (!com.neb.ians.BuildConfig.DEBUG) {
+                proxy(java.net.Proxy.NO_PROXY)
+            }
+        }
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(0, TimeUnit.MILLISECONDS) // streaming
         .pingInterval(25, TimeUnit.SECONDS)
         .build()
 
     private val sseClient = OkHttpClient.Builder()
+        .apply {
+            if (!com.neb.ians.BuildConfig.DEBUG) {
+                proxy(java.net.Proxy.NO_PROXY)
+            }
+        }
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(0, TimeUnit.MILLISECONDS) // streaming
         .build()

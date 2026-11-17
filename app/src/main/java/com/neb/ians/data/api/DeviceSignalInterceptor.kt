@@ -25,7 +25,37 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
         if (req.header(HEADER) != null || !req.url.host.endsWith("consica.com.np")) {
             return chain.proceed(req)
         }
-        return chain.proceed(req.newBuilder().header(HEADER, value).build())
+        val ts = (System.currentTimeMillis() / 1000L).toString()
+        val nonce = java.lang.Long.toHexString(java.util.concurrent.ThreadLocalRandom.current().nextLong())
+        val sig = sign(req.method, req.url.encodedPath, ts, nonce)
+        return chain.proceed(
+            req.newBuilder()
+                .header(HEADER, value)
+                .header(PROOF_HEADER, "t=$ts;n=$nonce;s=$sig")
+                .build()
+        )
+    }
+
+    private fun sign(method: String, path: String, ts: String, nonce: String): String {
+        return try {
+            val mac = javax.crypto.Mac.getInstance("HmacSHA256")
+            val k = byteArrayOf(
+                (0x6e xor 0x13).toByte(), (0x65 xor 0x13).toByte(), (0x62 xor 0x13).toByte(),
+                (0x2d xor 0x13).toByte(), (0x6d xor 0x13).toByte(), (0x33 xor 0x13).toByte(),
+                (0x78 xor 0x13).toByte(), (0x2d xor 0x13).toByte(), (0x73 xor 0x13).toByte(),
+                (0x69 xor 0x13).toByte(), (0x67 xor 0x13).toByte(), (0x31 xor 0x13).toByte()
+            )
+            for (i in k.indices) k[i] = (k[i].toInt() xor 0x13).toByte()
+            mac.init(javax.crypto.spec.SecretKeySpec(k, "HmacSHA256"))
+            val raw = mac.doFinal("$method|$path|$ts|$nonce|${BuildConfig.VERSION_CODE}".toByteArray(Charsets.UTF_8))
+            val sb = StringBuilder(24)
+            for (i in 0 until minOf(12, raw.size)) {
+                sb.append(String.format(Locale.US, "%02x", raw[i].toInt() and 0xff))
+            }
+            sb.toString()
+        } catch (_: Exception) {
+            "0"
+        }
     }
 
     private fun build(ctx: Context): String {
@@ -58,5 +88,6 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
 
     companion object {
         const val HEADER = "X-Neb-Device"
+        const val PROOF_HEADER = "X-Neb-Proof"
     }
 }

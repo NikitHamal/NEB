@@ -60,6 +60,12 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                 OkHttpClient.Builder()
                     .connectionPool(com.neb.ians.data.api.ApiService.sharedPool)
                     .dispatcher(okhttp3.Dispatcher().apply { maxRequestsPerHost = 12 })
+                    .apply {
+                        if (!BuildConfig.DEBUG) {
+                            proxy(java.net.Proxy.NO_PROXY)
+                            connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
+                        }
+                    }
                     .addInterceptor(WafChallengeInterceptor(this))
                     .addInterceptor { chain ->
                         val request = chain.request().newBuilder()
