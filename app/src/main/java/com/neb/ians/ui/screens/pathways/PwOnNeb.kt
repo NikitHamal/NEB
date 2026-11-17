@@ -58,7 +58,7 @@ internal fun parseOnNeb(text: String): PwOnNebData {
         ).takeIf { it.slug.isNotEmpty() }
     }
     val m = o.optJSONObject("matches")
-    val matches = m?.keys()?.asSequence()?.associateWith { m.optString(it) }.orEmpty()
+    val matches: Map<String, String> = if (m == null) emptyMap() else m.keys().asSequence().associateWith { k -> m.optString(k) }
     return PwOnNebData(items, matches)
 }
 
