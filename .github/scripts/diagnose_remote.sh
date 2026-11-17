@@ -34,6 +34,29 @@ print('sources:', collections.Counter(r[3] for r in rows).most_common(4), 'devic
 PY
 for pat in 'Too many connections' 'OperationalError' 'Timeout' 'slow' 'WARNING' 'ERROR'; do echo "nebians.log last 20000 lines '$pat': $(tail -n 20000 logs/nebians.log 2>/dev/null | grep -c "$pat")"; done
 tail -n 6 logs/server_errors.log 2>/dev/null | cut -c1-220
+echo "== log message census (last 20000 lines of nebians.log)"
+timeout 60 python - <<'PY' 2>&1 | cut -c1-230 | tail -40
+import re, collections
+lines = open('/home/consicac/nebians_api/logs/nebians.log', errors='replace').read().splitlines()[-20000:]
+c = collections.Counter(); first = {}; last = {}
+for l in lines:
+    m = re.match(r'\[?(\d{4}-\d\d-\d\d[ T]\d\d:\d\d)[^\]]*\]?\s+(WARNING|ERROR|CRITICAL)\s+(\S+)\s+(.*)', l)
+    if not m: continue
+    key = (m.group(2), m.group(3), re.sub(r'[0-9a-f]{8,}|\d+', 'N', m.group(4))[:110])
+    c[key] += 1; first.setdefault(key, m.group(1)); last[key] = m.group(1)
+for k, n in c.most_common(18): print(n, k[0], k[1], '|', k[2], '|', first[k], '->', last[k])
+PY
+echo "== users.employment column"
+timeout 40 python - <<'PY' 2>&1 | tail -5
+import os, sys
+sys.path.insert(0, '/home/consicac/nebians_api')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nebians.settings')
+import django; django.setup()
+from django.db import connection
+with connection.cursor() as c:
+    c.execute("SHOW COLUMNS FROM users WHERE Field IN ('employment','experience_years')"); print(c.fetchall())
+    c.execute("SELECT name FROM django_migrations WHERE app='api' ORDER BY id DESC LIMIT 3"); print(c.fetchall())
+PY
 echo "== cold first request profile (fresh interpreter)"
 timeout 170 python - <<'PY' 2>&1 | cut -c1-190 | tail -60
 import os, sys, time, cProfile, pstats, io
