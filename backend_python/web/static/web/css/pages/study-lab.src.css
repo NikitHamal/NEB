@@ -1,0 +1,6 @@
+/* Study Lab styles are split by concern. Keep page modules small and focused. */
+@import url("pages/study-lab/01-shell-documents.css");
+@import url("pages/study-lab/02-quiz-flashcards.css");
+@import url("pages/study-lab/03-enhancements-mindmap.css");
+@import url("pages/study-lab/04-shared-share.css");
+@import url("pages/study-lab/05-space.css");

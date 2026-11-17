@@ -1357,6 +1357,15 @@ html[data-theme="dark"] .an {
 .an .an-span-12 { grid-column: 1 / -1; }
 @media (max-width: 900px) { .an .an-span-3 { grid-column: span 6; } .an .an-tbl { display: block; overflow-x: auto; } }
 
+/* ───────── insight polish (tone chips, wrapping, velocity deltas) ───────── */
+.an-insight-head .an-chip { flex-shrink: 0; height: 24px; padding: 0 10px; }
+.an-insight--good .an-insight-head .an-chip { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.an-insight--action .an-insight-head .an-chip { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.an-insight { transition: background-color 160ms ease, border-color 160ms ease; }
+.an-insight:hover { border-color: var(--md-outline); }
+.an-insight-title { overflow-wrap: anywhere; }
+.an-vel-item { flex-wrap: wrap; row-gap: 4px; border: 1px solid var(--md-outline-variant); }
+
 /* ---- admin/04-polish.css ---- */
 /* Admin polish — flat calm surfaces over shared M3 components.
    Scoped to admin surfaces only; never touches the public site.
