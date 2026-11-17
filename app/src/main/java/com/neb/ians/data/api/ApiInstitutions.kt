@@ -135,3 +135,10 @@ data class ApiOnNeb(
     val items: List<ApiOnNebItem> = emptyList(),
     val matches: Map<String, String> = emptyMap()
 )
+
+@Serializable
+data class ApiInstClaimResult(
+    val status: String = "",
+    val application: ApiInstApplication? = null,
+    val error: String? = null
+)

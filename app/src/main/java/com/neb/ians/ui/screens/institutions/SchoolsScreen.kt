@@ -90,6 +90,7 @@ fun SchoolsScreen(
 /** Hosts provide these so deep screens (Pathways, Edit profile) can open schools without plumbing. */
 val LocalOpenSchools = androidx.compose.runtime.staticCompositionLocalOf<() -> Unit> { {} }
 val LocalOpenInstitution = androidx.compose.runtime.staticCompositionLocalOf<(String) -> Unit> { {} }
+val LocalClaimInstitution = androidx.compose.runtime.staticCompositionLocalOf<((String) -> Unit)?> { null }
 val LocalManageInstitution = androidx.compose.runtime.staticCompositionLocalOf<(String) -> Unit> { {} }
 
 /** A row at the top of Find a college: the colleges that filled their page, shown first. */

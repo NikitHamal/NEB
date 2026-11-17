@@ -1979,6 +1979,15 @@ interface ApiService {
     @GET("api/institutions/schema/")
     suspend fun institutionSchema(): ApiInstSchema
 
+    @Multipart
+    @POST("api/institutions/{slug}/claim/")
+    suspend fun claimInstitution(
+        @Header("Authorization") bearerToken: String,
+        @Path("slug") slug: String,
+        @PartMap fields: Map<String, @JvmSuppressWildcards okhttp3.RequestBody>,
+        @Part documents: List<okhttp3.MultipartBody.Part>
+    ): ApiInstClaimResult
+
     @GET("api/institutions/mine/")
     suspend fun myInstitution(@Header("Authorization") bearerToken: String): ApiMyInstitution
 

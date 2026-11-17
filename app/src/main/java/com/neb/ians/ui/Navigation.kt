@@ -214,6 +214,7 @@ sealed class Screen(val route: String) {
     data object Pathways : Screen("pathways")
     data object Schools : Screen("schools")
     data object Institution : Screen("institution/{slug}") { fun createRoute(slug: String) = "institution/$slug" }
+    data object InstitutionClaim : Screen("institution_claim/{slug}") { fun createRoute(slug: String) = "institution_claim/$slug" }
     data object InstitutionManage : Screen("institution_manage/{slug}") { fun createRoute(slug: String) = "institution_manage/$slug" }
     data object PostLab : Screen("forum/lab")
     data object Legal : Screen("legal/{doc}") {
@@ -768,6 +769,17 @@ fun NEBiansNavHost(
                 )
             }
             composable(
+                route = Screen.InstitutionClaim.route,
+                arguments = listOf(navArgument("slug") { type = NavType.StringType })
+            ) { entry ->
+                val claimSlug = entry.arguments?.getString("slug").orEmpty()
+                com.neb.ians.ui.screens.institutions.InstitutionClaimScreen(
+                    slug = claimSlug,
+                    onBack = { navController.popBackStack() },
+                    onDone = { navController.popBackStack() }
+                )
+            }
+            composable(
                 route = Screen.InstitutionManage.route,
                 arguments = listOf(navArgument("slug") { type = NavType.StringType })
             ) { entry ->
@@ -936,6 +948,7 @@ fun NEBiansNavHost(
             composable(Screen.EditProfile.route) {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.neb.ians.ui.screens.institutions.LocalOpenSchools provides { navController.navigate(Screen.Schools.route) },
+                    com.neb.ians.ui.screens.institutions.LocalClaimInstitution provides { navController.navigate(Screen.InstitutionClaim.createRoute(it)) },
                     com.neb.ians.ui.screens.institutions.LocalManageInstitution provides { navController.navigate(Screen.InstitutionManage.createRoute(it)) }
                 ) {
                     EditProfileScreen(
