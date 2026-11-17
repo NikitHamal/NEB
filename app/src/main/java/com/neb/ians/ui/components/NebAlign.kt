@@ -4,6 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 
 /** Inner start padding of every ghost action pill (like, reply, comments). */
