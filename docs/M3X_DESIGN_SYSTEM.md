@@ -555,3 +555,7 @@ The rule now lives in the component, not in the caller:
 2. The first icon of the action row sits exactly under the left edge of the body text, not inset by the pill padding. Ghost pills keep 12dp (10px web) of inner padding for the touch target; the row is shifted left by the same amount with `Modifier.nebGhostRowStart()` (Android) or `--act-inset` on `.post-card-actions` (web). The last action sits on the right edge of the content, not past it.
 3. Actions are ghost (no fill) with icon 18dp, count `labelLarge`, 6dp icon to label gap, 2dp between pills. Liked turns primary. Filled tonal pills are for the post detail bar, which starts at the page margin, so no shift there.
 4. Reply, like and mark all use the same pill metrics; never hand-pick `padding(horizontal = 8.dp, vertical = 5.dp)` for one of them.
+
+**Segmented controls (concept, web, Android; session 46).** One tonal pill track (`surfaceContainerHigh`, 4dp padding), equal segments, the selected segment a full pill in `onSurface` with `surface` text, the others transparent with `onSurfaceVariant` text. Every segment has the same shape: never a square corner beside a round one, never a gap between separate blocks. Android: `PwSeg`; concepts and web: `.seg` in `NEBians-*.html` and `pages/pathways.css`.
+
+**Dark flag (Android).** Use `MaterialTheme.colorScheme.surface.luminance() < 0.5f`. `isSystemInDarkTheme()` is allowed only in `ui/theme` (the guard `tools/android/check_insets.py` fails the CI otherwise), because the app theme can be forced Dark or Light in Settings.

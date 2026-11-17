@@ -2594,3 +2594,7 @@ Write maths in `bca/course/**/unit-*.md` as `$...$` / `$$...$$` (never plain `xÂ
 
 - **Done:** Android `ResourceInsightsScreen` (per resource and all uploads, reads `/api/resources/<id>/insights/` and `/api/uploads/insights/`), entry points in the owner's resource menu and on Analytics; resource detail reports surface, dwell on leave and share taps. Backend untouched (44 push/reach tests pass). Details and open items: `PUSH_AUTOPILOT_STATUS.md`.
 - **Setup:** `pip3 install --user --break-system-packages -r backend_python/requirements.txt` makes the Django tests run; out-of-repo `/tmp/gitenv.sh` GIT_ASKPASS (PAT never in the repo; the owner should rotate the PAT pasted in the prompt).
+
+
+## Guards (session 46)
+`tools/android/check_insets.py` runs in CI and fails on: a back arrow (any `Icons.*.ArrowBack`) without `NebTopBar` / `statusBarsPadding`, a `LikePill` row without `nebGhostRowStart()`, a tagline under list controls, and `isSystemInDarkTheme()` outside `ui/theme`. Segmented controls are one tonal pill track (`PwSeg`), see `docs/M3X_DESIGN_SYSTEM.md` section 14.
