@@ -572,6 +572,10 @@ def _donut(rows: list[dict]) -> str:
     return 'conic-gradient(' + ', '.join(stops) + ')'
 
 
+def _plural(n, word: str) -> str:
+    return word if int(n or 0) == 1 else word + 's'
+
+
 def _executive_insights(cur: dict, prev: dict, channels: list[dict], sources: list[dict],
                         audience: dict, retention: dict, heatmap: dict, library: dict, devices: dict) -> list[dict]:
     """Actionable executive intelligence cards synthesized from the live report."""
@@ -614,15 +618,17 @@ def _executive_insights(cur: dict, prev: dict, channels: list[dict], sources: li
         top_src = sources[0]['name'] if sources else top_ch['name']
         ai_ch = next((c for c in ext_channels if c['key'] == 'ai'), None)
         if ai_ch and ai_ch['count'] > 0:
+            ai_src = next((x for x in sources if x['channel'] == 'ai'), None)
             add('acquisition_ai', 'good', 'auto_awesome',
-                f"AI assistants drove {ai_ch['display']} visits ({ai_ch['pct']}%)",
-                f"Top external source is {top_src} ({top_ch['name']} accounts for {top_ch['pct']}% of visits).",
-                f"{ai_ch['pct']}%")
+                f"AI assistants sent {ai_ch['display']} {_plural(ai_ch['count'], 'visit')} ({ai_ch['pct']:g}%)",
+                f"{ai_src['name'] if ai_src else 'ChatGPT'} leads AI referrals. "
+                f"Keep resource and syllabus pages concise and well titled so assistants cite them.",
+                f"{ai_ch['pct']:g}%")
         else:
             add('acquisition_lead', 'info', 'travel_explore',
-                f"{top_ch['name']} is the top external channel ({top_ch['pct']}%)",
-                f"Led by {top_src} with {top_ch['display']} entry visits in this period.",
-                f"{top_ch['pct']}%")
+                f"{top_ch['name']} is the top external channel ({top_ch['pct']:g}%)",
+                f"Led by {top_src} with {top_ch['display']} entry {_plural(top_ch['count'], 'visit')} in this period.",
+                f"{top_ch['pct']:g}%")
 
     if retention['mau'] > 0:
         st = retention['stickiness']
@@ -635,8 +641,8 @@ def _executive_insights(cur: dict, prev: dict, channels: list[dict], sources: li
         rr = library.get('read_rate') or 0
         dr = library.get('download_rate') or 0
         add('library_funnel', 'good' if rr >= 45 else 'info', 'menu_book',
-            f"{fmt_num(library['views'])} library opens ({rr:g}% read rate)",
-            f"{fmt_num(library['reads'])} reads and {fmt_num(library['downloads'])} downloads ({dr:g}% download conversion).",
+            f"{fmt_num(library['views'])} library {_plural(library['views'], 'open')} ({rr:g}% read rate)",
+            f"{fmt_num(library['reads'])} {_plural(library['reads'], 'read')} and {fmt_num(library['downloads'])} {_plural(library['downloads'], 'download')} ({dr:g}% download conversion).",
             f"{rr:g}%")
 
     if heatmap.get('peak'):
@@ -654,7 +660,7 @@ def _executive_insights(cur: dict, prev: dict, channels: list[dict], sources: li
 # --------------------------------------------------------------------------
 
 def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> dict:
-    ck = f'an:report:v5:{rng["start"]}:{rng["end"]}:{source}'
+    ck = f'an:report:v6:{rng["start"]}:{rng["end"]}:{source}'
     if use_cache:
         hit = cache.get(ck)
         if hit is not None:

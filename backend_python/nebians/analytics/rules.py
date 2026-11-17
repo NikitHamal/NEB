@@ -191,6 +191,36 @@ _UTM_MEDIUM_CHANNEL = {
 }
 
 
+_UTM_SOURCE_ALIASES = {
+    'chatgpt': 'chatgpt.com', 'openai': 'chatgpt.com', 'gemini': 'gemini.google.com',
+    'claude': 'claude.ai', 'perplexity': 'perplexity.ai', 'copilot': 'copilot.microsoft.com',
+    'deepseek': 'deepseek.com', 'grok': 'grok.com', 'google': 'google.com', 'bing': 'bing.com',
+    'duckduckgo': 'duckduckgo.com', 'yahoo': 'yahoo.com', 'facebook': 'facebook.com',
+    'fb': 'facebook.com', 'ig': 'instagram.com', 'instagram': 'instagram.com',
+    'whatsapp': 'whatsapp.com', 'telegram': 'telegram.org', 'twitter': 'x.com', 'x': 'x.com',
+    'linkedin': 'linkedin.com', 'reddit': 'reddit.com', 'youtube': 'youtube.com',
+    'tiktok': 'tiktok.com', 'gmail': 'mail.google.com',
+}
+
+
+def classify_utm_source(utm_source: str):
+    """Map a utm_source like `chatgpt.com` or `ig` onto the known referrer rules.
+
+    Returns a Referrer or None. Only well-known sources match, so a custom
+    campaign name stays a campaign.
+    """
+    raw = (utm_source or '').strip().lower()
+    if not raw or len(raw) > 80:
+        return None
+    host = normalize_host(_UTM_SOURCE_ALIASES.get(raw, raw))
+    if '.' not in host:
+        return None
+    for rx, name, channel in _RULES:
+        if rx.match(host):
+            return None if channel == INTERNAL else Referrer(host, channel, name)
+    return None
+
+
 def classify_referrer(referrer_url: str, own_hosts, utm_source: str = '', utm_medium: str = '') -> Referrer:
     """Return (host, channel, name) for a hit.
 
@@ -227,6 +257,11 @@ def classify_referrer(referrer_url: str, own_hosts, utm_source: str = '', utm_me
         # Unknown external site. A utm_medium can still say what kind it is.
         channel = _UTM_MEDIUM_CHANNEL.get(utm_medium, 'referral')
         return Referrer(host, channel, host)
+    known = classify_utm_source(utm_source)
+    if known:
+        # ChatGPT, Gemini and friends strip the Referer header but tag the link
+        # with utm_source=chatgpt.com: that is an AI assistant, not a campaign.
+        return known
     if utm_source or utm_medium:
         channel = _UTM_MEDIUM_CHANNEL.get(utm_medium, 'campaign')
         return Referrer('', channel, utm_source or 'Campaign')
