@@ -182,7 +182,7 @@ def user_profile_stats(request, username):
         from .models import FollowRequest
         is_requested = FollowRequest.objects.filter(sender=requesting_user, receiver=user).exists()
 
-    if not _can_view_locked_profile(requesting_user, user):
+    if not _can_view_locked_profile(requesting_user, user, is_following=is_following):
         return Response({
             'post_count': 0,
             'reply_count': 0,

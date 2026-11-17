@@ -50,7 +50,14 @@ def warm():
         import nebians.cache_fallback  # noqa: F401
         import pymysql  # noqa: F401
         import rest_framework.throttling  # noqa: F401
+        import rest_framework.serializers  # noqa: F401
         import PIL.Image  # noqa: F401
+        import bleach  # noqa: F401
+        import api.security  # noqa: F401
+        import api.serializers  # noqa: F401
+        import api.view_helpers  # noqa: F401
+        import web.view_helpers  # noqa: F401
+        import web.syllabus_data  # noqa: F401
 
     def backends():
         # Builds the wrapper objects only: no socket is opened until first use.

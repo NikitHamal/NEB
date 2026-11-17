@@ -130,13 +130,21 @@ def get_user_by_auth_token(raw_token: str, *, migrate_legacy: bool = True):
     if not raw_token:
         raise ValueError('auth token is required')
 
+    import sys as _sys
     from .models import User, UserAuthToken
 
     token_hash = hash_auth_token(raw_token)
+    use_token_cache = 'test' not in _sys.argv
+    if use_token_cache:
+        cached_user = cache.get(f'auth_user:{token_hash}')
+        if cached_user is not None and not getattr(cached_user, 'is_banned', False) and not getattr(cached_user, 'is_bot', False):
+            return cached_user
     try:
         token_row = UserAuthToken.objects.select_related('user').get(token_hash=token_hash, revoked_at=0)
         if not _token_usable(token_row.user, token_row.expires_at):
             raise UserAuthToken.DoesNotExist
+        if use_token_cache:
+            cache.set(f'auth_user:{token_hash}', token_row.user, 15)
         return token_row.user
     except UserAuthToken.DoesNotExist:
         pass

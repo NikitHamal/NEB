@@ -73,7 +73,7 @@ def _profile_incomplete(user):
     # Explorers have no role-specific required fields.
     return False
 
-def _can_view_locked_profile(viewer, target_user):
+def _can_view_locked_profile(viewer, target_user, *, is_following=None):
     """Owner and followers can view a locked profile. Unverified accounts are treated as locked."""
     if not target_user:
         return False
@@ -85,27 +85,37 @@ def _can_view_locked_profile(viewer, target_user):
         return True
     if not viewer:
         return False
+    if is_following is not None:
+        return bool(is_following)
     return Follow.objects.filter(follower_id=viewer.pk, following_id=target_user.pk).exists()
 
 
 def _get_user_from_request(request):
     """
     Returns the authenticated User object if the request is authenticated,
-    otherwise None. Does NOT raise.
+    otherwise None. Does NOT raise. Memoized on request to avoid repeat session/DB lookups.
     """
+    if request is None:
+        return None
     user = getattr(request, 'user', None)
     if isinstance(user, User):
         return user
-    
+    if hasattr(request, '_nebians_resolved_api_user'):
+        return request._nebians_resolved_api_user
+    resolved = None
     # Fallback to session auth token for web browser API requests
     token = request.session.get('auth_token') if hasattr(request, 'session') else None
     if token:
         try:
             from .security import get_user_by_auth_token
-            return get_user_by_auth_token(token)
+            resolved = get_user_by_auth_token(token)
         except Exception:
-            pass
-    return None
+            resolved = None
+    try:
+        request._nebians_resolved_api_user = resolved
+    except Exception:
+        pass
+    return resolved
 
 def _require_user(request):
     """
@@ -202,6 +212,12 @@ def _clear_verification_code(user):
     user.verification_code_attempts = 0
     user.verification_code_last_sent_at = 0
 
+def _reply_may_have_poll(reply):
+    """False only when the reply's (prefetched) poll relation is cached as empty. Never queries."""
+    rel = Reply._meta.get_field('poll')
+    return not rel.is_cached(reply) or rel.get_cached_value(reply) is not None
+
+
 def prime_for_serializers(user, posts=(), resources=(), replies=()):
     """Batch everything PostSerializer / ResourceSerializer / ReplySerializer read per row.
 
@@ -212,11 +228,24 @@ def prime_for_serializers(user, posts=(), resources=(), replies=()):
     ctx = {}
     posts, resources, replies = list(posts), list(resources), list(replies)
     if posts:
-        prefetch_related_objects(posts, 'user', 'images', 'media', 'poll__options')
+        post_rels = ['images', 'media']
+        if any('user' not in p._state.fields_cache for p in posts):
+            post_rels.insert(0, 'user')
+        prefetch_related_objects(posts, *post_rels)
+        poll_posts = [p for p in posts if _may_have_poll(p)]
+        if poll_posts:
+            prefetch_related_objects(poll_posts, 'poll__options')
     if replies:
-        prefetch_related_objects(replies, 'user', 'media')
+        reply_rels = ['media']
+        if any('user' not in r._state.fields_cache for r in replies):
+            reply_rels.insert(0, 'user')
+        prefetch_related_objects(replies, *reply_rels)
+        poll_replies = [r for r in replies if _reply_may_have_poll(r)]
+        if poll_replies:
+            prefetch_related_objects(poll_replies, 'poll__options')
     if resources:
-        prefetch_related_objects(resources, 'uploaded_by')
+        if any('uploaded_by' not in r._state.fields_cache for r in resources if r.uploaded_by_id):
+            prefetch_related_objects(resources, 'uploaded_by')
     if not user:
         return ctx
     if posts:

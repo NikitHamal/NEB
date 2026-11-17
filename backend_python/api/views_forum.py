@@ -396,14 +396,25 @@ def posts_endpoint(request):
       page     — page number for pagination (endpoint is always paginated)
     """
     if request.method == 'GET':
-        posts = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True)
-
+        import sys as _sys
+        from django.core.cache import cache as _cache
         username = request.query_params.get('username')
         category = request.query_params.get('category')
         search = request.query_params.get('search')
         sort = (request.query_params.get('sort') or 'new').strip().lower()
         if sort not in ('hot', 'new', 'top', 'discussed'):
             sort = 'new'
+        page_num = (request.query_params.get('page') or '1').strip()
+        page_sz = (request.query_params.get('page_size') or '50').strip()
+        viewer = _get_user_from_request(request)
+        anon_cache_key = None
+        if 'test' not in _sys.argv and viewer is None and not username and not search and page_num == '1':
+            anon_cache_key = f'anon_api_posts_v1:{sort}:{(category or "").lower()}:{page_sz}'
+            cached_payload = _cache.get(anon_cache_key)
+            if cached_payload is not None:
+                return Response(cached_payload)
+
+        posts = Post.objects.select_related('user', 'poll').filter(is_archived=False, user__email_verified=True)
 
         if username:
             posts = posts.filter(user__username__iexact=username)
@@ -440,6 +451,8 @@ def posts_endpoint(request):
                     return math.log2(max(engagement, 1)) - age_hours / 168.0
 
                 response.data['results'] = sorted(results, key=_hot_score, reverse=True)
+        if anon_cache_key and response.status_code == 200 and isinstance(response.data, dict):
+            _cache.set(anon_cache_key, response.data, 15)
         return response
 
     # POST — create

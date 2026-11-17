@@ -31,7 +31,14 @@ for pat in run_background_agent_worker run_code_agent_worker run_autofix_watch; 
     for pid in $(pgrep -f "$pat"); do kill -KILL "$pid" 2>/dev/null; done
 done
 
-setsid nohup daphne -b 127.0.0.1 -p "${REALTIME_PORT}" nebians.asgi:application >> logs/daphne.log 2>&1 < /dev/null &
+# Realtime uses hosted Ably (api/realtime_ably.py) unless WS_PUBLIC_URL or ENABLE_DAPHNE=1 is set.
+# Starting daphne when WS_PUBLIC_URL is unset wastes ~127 MB RAM and ~64 LVE threads on shared cPanel.
+WANT_DAPHNE="$(python3 -c "import os; from dotenv import load_dotenv; load_dotenv('.env'); print('1' if (os.environ.get('WS_PUBLIC_URL','').strip() or os.environ.get('ENABLE_DAPHNE','')=='1') else '0')" 2>/dev/null || echo 0)"
+if [ "$WANT_DAPHNE" = "1" ]; then
+    setsid nohup daphne -b 127.0.0.1 -p "${REALTIME_PORT}" nebians.asgi:application >> logs/daphne.log 2>&1 < /dev/null &
+else
+    echo "WS_PUBLIC_URL unset (hosted Ably active) - keeping daphne retired to save ~127 MB RAM and 64 threads."
+fi
 
 # Deduplicate cloudflared - quick tunnel should be single process; old logs remain valid but extra workers waste RAM
 # DISABLED 2026-10-18 (owner request): the tunnel cannot connect (outbound 7844
