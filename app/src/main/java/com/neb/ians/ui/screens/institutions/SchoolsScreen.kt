@@ -2,6 +2,11 @@ package com.neb.ians.ui.screens.institutions
 
 import com.neb.ians.ui.components.NebTopBar
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -54,9 +59,11 @@ fun SchoolsScreen(
     var query by remember { mutableStateOf("") }
     var kind by remember { mutableStateOf(initialKind) }
     var onlyClaimed by remember { mutableStateOf(false) }
-    var limit by remember { mutableIntStateOf(25) }
-    LaunchedEffect(query, kind, onlyClaimed, limit) { vm.search(query, kind, if (onlyClaimed) "1" else "", limit) }
-    LaunchedEffect(query, kind, onlyClaimed) { limit = 25 }
+    val listState = rememberLazyListState()
+    LaunchedEffect(query, kind, onlyClaimed) { vm.search(query, kind, if (onlyClaimed) "1" else "") }
+    // Infinite scroll by offset: ask for the next page when the last rows come into view.
+    val nearEnd by remember { derivedStateOf { val last = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0; last >= listState.layoutInfo.totalItemsCount - 6 } }
+    LaunchedEffect(nearEnd, st.rows.size) { if (nearEnd) vm.loadMore() }
     Column(Modifier.fillMaxSize()) {
         NebTopBar(showBrand = false, title = "Schools and colleges", onBack = onBack)
         Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -65,15 +72,16 @@ fun SchoolsScreen(
                 NebSelectChip("On NEBians", onlyClaimed, { onlyClaimed = !onlyClaimed })
                 KINDS.forEach { (k, l) -> NebSelectChip(l, kind == k, { kind = k }) }
             }
-            Text("${st.total} institutions. Complete profiles are listed first.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (st.total > 0) Text("%,d results".format(st.total), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         LazyColumn(
+            state = listState,
             contentPadding = PaddingValues(16.dp, 8.dp, 16.dp, 40.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            items(st.rows, key = { it.slug }) { row -> SchoolRow(row) { onOpen(row.slug) } }
-            if (st.rows.size >= limit && st.rows.size < st.total) {
-                item { FilledTonalButton(onClick = { limit += 25 }, modifier = Modifier.fillMaxWidth()) { Text("Show more") } }
+            items(st.rows, key = { it.slug }, contentType = { "row" }) { row -> SchoolRow(row) { onOpen(row.slug) } }
+            if (st.more) item(key = "more", contentType = "more") {
+                Box(Modifier.fillMaxWidth().padding(12.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(Modifier.size(24.dp), strokeWidth = 2.5.dp) }
             }
         }
     }
@@ -97,7 +105,6 @@ fun PwOnNebRow(modifier: Modifier = Modifier) {
         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
                 Text("Colleges on NEBians", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-                Text("Full profiles with fees, levels and contact", fontSize = 12.sp)
             }
             Icon(androidx.compose.material.icons.Icons.Outlined.ChevronRight, null)
         }

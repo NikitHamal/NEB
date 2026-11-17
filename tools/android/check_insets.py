@@ -21,9 +21,21 @@ for f in list(UI.glob("screens/**/*.kt")) + list(UI.glob("sim/**/*.kt")):
     t = f.read_text()
     if "ArrowBack" in t and "Icons.AutoMirrored.Outlined.ArrowBack" in re.sub(r"^import .*$", "", t, flags=re.M) and not OK.search(t):
         bad.append(f"{f.relative_to(ROOT)}: back arrow row without NebTopBar/statusBarsPadding (clashes with the status bar)")
-for f in [UI / "components/CommentCard.kt", UI / "components/PostExtras.kt", UI / "screens/resource/ResourceDetailComponents.kt"]:
-    if "LikePill(" in f.read_text() and "nebGhostRowStart" not in f.read_text():
+# Rule 1b: a Scaffold with a back arrow needs a real topBar (an empty Scaffold content starts under the bar).
+for f in list(UI.glob("screens/**/*.kt")):
+    t = re.sub(r"^import .*$", "", f.read_text(), flags=re.M)
+    if "Icons.AutoMirrored.Outlined.ArrowBack" in t and "Scaffold(" in t and "topBar" not in t and not re.search(r"NebTopBar|statusBarsPadding|inset-ok:", t):
+        bad.append(f"{f.relative_to(ROOT)}: Scaffold with a back arrow but no topBar")
+# Rule 2 applies to every file that draws a like pill, not a fixed list. Opt out with `// align-ok: reason`.
+for f in UI.rglob("*.kt"):
+    t = f.read_text()
+    if "LikePill(" in t and "fun LikePill" not in t and "nebGhostRowStart" not in t and "align-ok:" not in t:
         bad.append(f"{f.relative_to(ROOT)}: LikePill row without nebGhostRowStart()")
+# Rule 3: a screen never draws its own helper sentence under the list controls ("... Complete profiles are listed first.").
+for f in UI.glob("screens/**/*.kt"):
+    for n, line in enumerate(f.read_text().splitlines(), 1):
+        if re.search(r"Text\(\"[^\"]*(are listed first|Fill what you like|whenever you like)", line):
+            bad.append(f"{f.relative_to(ROOT)}:{n}: tagline or helper sentence (see section 14, no taglines)")
 if bad:
     print("\n".join(bad))
     sys.exit(1)

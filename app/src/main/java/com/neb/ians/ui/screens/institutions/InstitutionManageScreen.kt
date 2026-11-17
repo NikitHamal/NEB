@@ -52,25 +52,33 @@ import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.NebSelectChip
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 
-private enum class Kind { Text, Area, Num, Year, Many, One, Toggle }
-private data class F(val key: String, val label: String, val kind: Kind, val opts: (com.neb.ians.data.api.ApiInstSchema) -> List<ApiInstOption> = { emptyList() })
+private enum class Kind { Text, Area, Num, Year, Many, One, Toggle, Rows, Socials }
+private data class F(val key: String, val label: String, val kind: Kind, val cols: List<Pair<String, String>> = emptyList(), val opts: (com.neb.ians.data.api.ApiInstSchema) -> List<ApiInstOption> = { emptyList() })
 private data class Sec(val title: String, val fields: List<F>)
 
 // Same keys as `api/institution_profile.py`; every section saves on its own, nothing is required.
 private val SECTIONS = listOf(
     Sec("About", listOf(F("about", "About the institution", Kind.Area), F("motto", "Motto", Kind.Text))),
-    Sec("Basics", listOf(F("est", "Established (year)", Kind.Year), F("principal", "Principal", Kind.Text),
+    Sec("Basics", listOf(F("est", "Established (year)", Kind.Year), F("principal", "Principal", Kind.Text), F("principalTitle", "Principal title", Kind.Text), F("regNo", "Registration number", Kind.Text),
         F("ownership", "Ownership", Kind.One) { it.ownership }, F("affiliations", "Affiliated with", Kind.Many) { it.affiliations })),
+    Sec("Classes and medium", listOf(F("streams", "Streams", Kind.Many) { it.streams }, F("mediums", "Medium of teaching", Kind.Many) { it.mediums },
+        F("genderMix", "Who studies here", Kind.One) { it.genderMix })),
     Sec("Levels offered", listOf(F("levels", "Levels and courses", Kind.Many) { it.levels })),
-    Sec("Numbers", listOf(F("students", "Total students", Kind.Num), F("teachers", "Teachers", Kind.Num), F("staff", "Other staff", Kind.Num))),
+    Sec("Numbers", listOf(F("students", "Total students", Kind.Num), F("teachers", "Teachers", Kind.Num), F("staff", "Other staff", Kind.Num), F("classrooms", "Classrooms", Kind.Num))),
+    Sec("Programs", listOf(F("programs", "Program", Kind.Rows, listOf("name" to "Program name", "level" to "Level", "seats" to "Seats", "fee" to "Yearly fee (Rs)")))),
+    Sec("Branches", listOf(F("branches", "Branch", Kind.Rows, listOf("name" to "Branch name", "place" to "Place", "phone" to "Phone")))),
     Sec("Facilities", listOf(F("facilities", "What you offer", Kind.Many) { it.facilities })),
     Sec("Fees", listOf(F("feeMin", "Lowest yearly fee (Rs)", Kind.Num), F("feeMax", "Highest yearly fee (Rs)", Kind.Num), F("feeNote", "Fee note", Kind.Text))),
     Sec("Admissions", listOf(F("admissionOpen", "Admissions are open", Kind.Toggle), F("admissionNote", "Intake note", Kind.Text))),
-    Sec("Contact", listOf(F("phone", "Phone", Kind.Text), F("email", "Email", Kind.Text), F("address", "Address", Kind.Text)))
+    Sec("Contact", listOf(F("phone", "Phone", Kind.Text), F("email", "Email", Kind.Text), F("address", "Address", Kind.Text))),
+    Sec("Social links", listOf(F("socials", "Links", Kind.Socials)))
 )
+
+private val SOCIALS = listOf("facebook" to "Facebook", "instagram" to "Instagram", "youtube" to "YouTube", "tiktok" to "TikTok", "x" to "X", "linkedin" to "LinkedIn")
 
 @Composable
 fun InstitutionManageScreen(slug: String, onBack: () -> Unit, vm: InstitutionViewModel = hiltViewModel()) {
@@ -92,13 +100,12 @@ fun InstitutionManageScreen(slug: String, onBack: () -> Unit, vm: InstitutionVie
                             Text("${d.portfolio.completeness}%", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                         }
                         Spacer(Modifier.width(16.dp))
-                        Text("The fuller your page, the higher you appear in Find a college. Fill what you like, whenever you like.",
-                            fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Portfolio", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
             items(SECTIONS) { sec ->
-                val done = sec.fields.any { f -> d.portfolio.details[f.key]?.let { it !is JsonNull && it.toString() != "\"\"" && it.toString() != "[]" } == true }
+                val done = sec.fields.any { f -> d.portfolio.details[f.key]?.let { it !is JsonNull && it.toString() != "\"\"" && it.toString() != "[]" && it.toString() != "{}" } == true }
                 Surface(color = MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(20.dp),
                     border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).clickable { open = sec }) {
@@ -136,6 +143,14 @@ private fun SectionSheet(sec: Sec, schema: com.neb.ians.data.api.ApiInstSchema, 
                         Text(f.label, Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
                         Switch((draft.value[f.key] as? JsonPrimitive)?.content == "true", { put(f.key, JsonPrimitive(it)) })
                     }
+                    Kind.Rows -> RowsEditor(f, draft.value[f.key], onChange = { put(f.key, it) })
+                    Kind.Socials -> Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        val cur = draft.value[f.key] as? JsonObject
+                        SOCIALS.forEach { (k, label) ->
+                            NebDialogTextField(value = (cur?.get(k) as? JsonPrimitive)?.content.orEmpty(), label = label, singleLine = true, modifier = Modifier.fillMaxWidth(),
+                                onValueChange = { v -> put(f.key, JsonObject((cur ?: JsonObject(emptyMap())) + (k to JsonPrimitive(v)))) })
+                        }
+                    }
                     Kind.Many, Kind.One -> Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(f.label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -159,5 +174,28 @@ private fun SectionSheet(sec: Sec, schema: com.neb.ians.data.api.ApiInstSchema, 
             Button(onClick = { onSave(draft.value) }, enabled = !saving, modifier = Modifier.fillMaxWidth()) { Text(if (saving) "Saving" else "Save") }
             Spacer(Modifier.size(12.dp))
         }
+    }
+}
+
+/** A short list of rows (programs, branches). Each row has the columns of the field; empty rows are dropped by the server. */
+@Composable
+private fun RowsEditor(f: F, current: JsonElement?, onChange: (JsonElement) -> Unit) {
+    val rows = (current as? JsonArray)?.mapNotNull { (it as? JsonObject)?.mapValues { e -> (e.value as? JsonPrimitive)?.content.orEmpty() } } ?: emptyList()
+    fun emit(next: List<Map<String, String>>) = onChange(JsonArray(next.map { r -> JsonObject(r.mapValues { JsonPrimitive(it.value) }) }))
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        rows.forEachIndexed { i, row ->
+            Surface(color = MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(20.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    f.cols.forEach { (k, label) ->
+                        val num = k == "seats" || k == "fee"
+                        NebDialogTextField(value = row[k].orEmpty(), label = label, singleLine = true, modifier = Modifier.fillMaxWidth(),
+                            onValueChange = { v -> emit(rows.toMutableList().also { it[i] = row + (k to (if (num) v.filter(Char::isDigit) else v)) }) })
+                    }
+                    androidx.compose.material3.TextButton(onClick = { emit(rows.filterIndexed { j, _ -> j != i }) }) { Text("Remove") }
+                }
+            }
+        }
+        androidx.compose.material3.FilledTonalButton(onClick = { emit(rows + mapOf(f.cols.first().first to "")) }, modifier = Modifier.fillMaxWidth()) { Text("Add ${f.label.lowercase()}") }
     }
 }

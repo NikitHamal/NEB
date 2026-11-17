@@ -51,19 +51,36 @@ import javax.inject.Inject
 /** Search over the whole catalogue (24k schools, colleges, institutes); claimed pages come first. */
 @HiltViewModel
 class SchoolSearchViewModel @Inject constructor(private val api: ApiService) : ViewModel() {
-    data class State(val rows: List<ApiInstRow> = emptyList(), val total: Int = 0, val loading: Boolean = false)
+    data class State(val rows: List<ApiInstRow> = emptyList(), val total: Int = 0, val loading: Boolean = false, val more: Boolean = false)
 
     private val _state = MutableStateFlow(State())
     val state: StateFlow<State> = _state.asStateFlow()
     private var job: Job? = null
+    private var args = Triple("", "", "")
+    private val page = 30
 
-    fun search(query: String, kind: String = "", verified: String = "", limit: Int = 25) {
+    /** First page of a new query. The old rows stay on screen until the new ones arrive, so the list never blinks empty. */
+    fun search(query: String, kind: String = "", verified: String = "", limit: Int = page) {
         job?.cancel()
+        args = Triple(query.trim(), kind, verified)
         job = viewModelScope.launch {
             delay(220)
             _state.value = _state.value.copy(loading = true)
-            val res = runCatching { api.searchInstitutions(q = query.trim(), kind = kind, verified = verified, limit = limit) }.getOrNull()
+            val res = runCatching { api.searchInstitutions(q = args.first, kind = args.second, verified = args.third, limit = limit.coerceAtMost(50)) }.getOrNull()
             _state.value = State(res?.items ?: emptyList(), res?.total ?: 0, false)
+        }
+    }
+
+    /** Next page by offset (the server caps one page at 50, so a growing limit stopped at 50 rows). */
+    fun loadMore() {
+        val st = _state.value
+        if (st.loading || st.more || st.rows.size >= st.total || job?.isActive == true) return
+        _state.value = st.copy(more = true)
+        job = viewModelScope.launch {
+            val res = runCatching { api.searchInstitutions(q = args.first, kind = args.second, verified = args.third, limit = page, offset = st.rows.size) }.getOrNull()
+            val have = _state.value.rows.map { it.slug }.toHashSet()
+            val add = res?.items?.filter { it.slug !in have } ?: emptyList()
+            _state.value = _state.value.copy(rows = _state.value.rows + add, total = res?.total ?: _state.value.total, more = false)
         }
     }
 }

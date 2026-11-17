@@ -46,6 +46,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
+import kotlinx.serialization.json.JsonPrimitive
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalUriHandler
@@ -57,6 +58,7 @@ import com.neb.ians.data.api.ApiInstDetail
 
 private const val WEB = "https://nebians.consica.com.np"
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun InstitutionScreen(
     slug: String,
@@ -85,7 +87,8 @@ fun InstitutionScreen(
                 add { Hero(d) }
                 add { Actions(d, p.str("phone").ifBlank { d.phone }, onWeb = { uri.openUri(it) }, onClaim = { uri.openUri("$WEB/app/schools/verify/?school=${d.slug}") }) }
                 val facts = listOf("Established" to (d.est), "Students" to (p.num("students")?.let { "%,d".format(it) } ?: ""),
-                    "Teachers" to (p.num("teachers")?.toString() ?: ""), "Staff" to (p.num("staff")?.toString() ?: "")).filter { it.second.isNotBlank() }
+                    "Teachers" to (p.num("teachers")?.toString() ?: ""), "Staff" to (p.num("staff")?.toString() ?: ""),
+                    "Classrooms" to (p.num("classrooms")?.toString() ?: "")).filter { it.second.isNotBlank() }
                 if (facts.isNotEmpty()) add { Facts(facts) }
                 if (p.flag("admissionOpen")) add { Note("Admissions are open", p.str("admissionNote").ifBlank { "Call the office to book a visit." }) }
                 if (p.str("about").isNotBlank()) add { Section("About") { Body(p.str("about")) } }
@@ -94,9 +97,31 @@ fun InstitutionScreen(
                     Text(money(p.num("feeMin")) + (p.num("feeMax")?.let { " to " + money(it) } ?: ""), fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
                     if (p.str("feeNote").isNotBlank()) Body(p.str("feeNote")) } }
                 if (p.list("facilities").isNotEmpty()) add { Section("Facilities") { Chips(p.list("facilities").map { k -> schema.facilities.firstOrNull { it.value == k }?.label ?: k }) } }
-                if (p.str("principal").isNotBlank()) add { Section("Principal") { Body(p.str("principal")) } }
-                if (p.rows("branches").isNotEmpty()) add { Section("Branches") { p.rows("branches").forEach { Body(listOf(it["name"], it["place"]).filter { s -> !s.isNullOrBlank() }.joinToString(", ")) } } }
+                if (p.str("principal").isNotBlank()) add { Section(p.str("principalTitle").ifBlank { "Principal" }) { Body(p.str("principal")) } }
+                if (p.list("streams").isNotEmpty()) add { Section("Streams") { Chips(p.list("streams").map { k -> schema.streams.firstOrNull { it.value == k }?.label ?: k }) } }
+                if (p.list("mediums").isNotEmpty() || p.str("genderMix").isNotBlank()) add { Section("Classes") {
+                    Chips(p.list("mediums").map { k -> schema.mediums.firstOrNull { it.value == k }?.label ?: k } +
+                        listOfNotNull(schema.genderMix.firstOrNull { it.value == p.str("genderMix") }?.label)) } }
+                if (p.rows("programs").isNotEmpty()) add { Section("Programs") { p.rows("programs").forEach { r ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(r["name"].orEmpty(), fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                            Text(listOf(r["level"].orEmpty(), r["seats"]?.takeIf { it.isNotBlank() }?.let { "$it seats" }.orEmpty()).filter { it.isNotBlank() }.joinToString(" · "),
+                                fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        r["fee"]?.toLongOrNull()?.let { Text(money(it), fontSize = 13.sp, fontWeight = FontWeight.SemiBold) }
+                    } } } }
+                if (p.rows("branches").isNotEmpty()) add { Section("Branches") { p.rows("branches").forEach { r ->
+                    Column {
+                        Text(r["name"].orEmpty(), fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                        Text(listOf(r["place"].orEmpty(), r["phone"].orEmpty()).filter { it.isNotBlank() }.joinToString(" · "), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    } } } }
                 if (p.str("address").isNotBlank()) add { Section("Address") { Body(p.str("address")) } }
+                (p["socials"] as? kotlinx.serialization.json.JsonObject)?.entries?.filter { (it.value as? JsonPrimitive)?.content?.isNotBlank() == true }?.takeIf { it.isNotEmpty() }?.let { links ->
+                    add { Section("Follow") { FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        links.forEach { (k, v) -> FilledTonalButton(onClick = { uri.openUri((v as JsonPrimitive).content) }) { Text(k.replaceFirstChar { c -> c.uppercase() }) } } } } }
+                }
+                if (p.str("regNo").isNotBlank()) add { Section("Registration") { Body(p.str("regNo")) } }
                 if (d.people.isNotEmpty()) add { Section("On NEBians (${d.counts.total})") { Chips(d.people.take(12).map { it.displayName }) } }
             }
             itemsIndexed(blocks) { i, block -> Rise(i) { block() } }

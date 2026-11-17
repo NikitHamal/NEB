@@ -102,6 +102,7 @@ import com.neb.ians.ui.components.KaTeXText
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.ExpandableMarkdownText
 import com.neb.ians.ui.components.NebBadge
+import com.neb.ians.ui.components.nebGhostRowStart
 import com.neb.ians.ui.components.NebPollCard
 import com.neb.ians.ui.components.toPollUi
 import com.neb.ians.ui.components.PostMoreMenu
@@ -1046,7 +1047,7 @@ private fun PostContentSection(
         // ----- Action row: like, comments, bookmark, share (ghost, like the web) -----
         val muted = MaterialTheme.colorScheme.onSurfaceVariant
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().nebGhostRowStart(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
