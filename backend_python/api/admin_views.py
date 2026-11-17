@@ -68,15 +68,19 @@ def _paginate(request, queryset, serializer_class, *, context=None, default_page
 def admin_stats(request):
     if not _check_admin(request):
         return _admin_error()
-    total_users = User.objects.count()
-    total_resources = Resource.objects.count()
-    total_posts = Post.objects.count()
-    total_replies = Reply.objects.count()
-    total_likes = Post.objects.aggregate(total=Sum('thumbs_up_count'))['total'] or 0
     seven_days_ago = int((time.time() - 7 * 86400) * 1000)
-    new_users_week = User.objects.filter(created_at__gte=seven_days_ago).count()
-    new_posts_week = Post.objects.filter(created_at__gte=seven_days_ago).count()
-    top_posts = Post.objects.select_related('user').order_by('-thumbs_up_count')[:5]
+    u_agg = User.objects.aggregate(total=Count('pk'), week=Count('pk', filter=Q(created_at__gte=seven_days_ago)))
+    p_agg = Post.objects.aggregate(total=Count('pk'), likes=Sum('thumbs_up_count'), week=Count('pk', filter=Q(created_at__gte=seven_days_ago)))
+    total_users = u_agg['total'] or 0
+    new_users_week = u_agg['week'] or 0
+    total_posts = p_agg['total'] or 0
+    total_likes = p_agg['likes'] or 0
+    new_posts_week = p_agg['week'] or 0
+    total_resources = Resource.objects.count()
+    total_replies = Reply.objects.count()
+    top_posts = list(Post.objects.select_related('user', 'poll').order_by('-thumbs_up_count')[:5])
+    from .view_helpers import prime_for_serializers
+    prime_for_serializers(None, posts=top_posts)
     top_posts_data = PostSerializer(top_posts, many=True, context={'request': request}).data
     recent_users = User.objects.order_by('-created_at')[:5]
     recent_users_data = UserSerializer(recent_users, many=True).data
@@ -377,14 +381,16 @@ def admin_resource_request_update(request, request_id):
 def admin_posts_list(request):
     if not _check_admin(request):
         return _admin_error()
-    posts = Post.objects.select_related('user').all().order_by('-created_at')
+    posts = Post.objects.select_related('user', 'poll').all().order_by('-created_at')
     search = request.query_params.get('search', '').strip()
     if search:
-        from django.db.models import Q
         posts = posts.filter(Q(title__icontains=search) | Q(content__icontains=search))
     if request.query_params.get('page'):
         return _paginate(request, posts, PostSerializer, context={'request': request})
-    return Response(PostSerializer(posts[:100], many=True, context={'request': request}).data)
+    items = list(posts[:100])
+    from .view_helpers import prime_for_serializers
+    prime_for_serializers(None, posts=items)
+    return Response(PostSerializer(items, many=True, context={'request': request}).data)
 
 
 @api_view(['GET', 'DELETE'])

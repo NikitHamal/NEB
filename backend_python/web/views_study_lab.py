@@ -1860,16 +1860,18 @@ def analytics(request):
     if not suggestions:
         suggestions.append('Keep using Study Lab regularly; your recent learning loop looks healthy.')
 
+    from api import user_analytics as _ua
     ctx = _ctx(
         request,
         page='analytics',
+        standing=_ua.standing(user),
         stats={
-            'posts': posts.count(),
+            'posts': post_agg.get('total') or 0,
             'replies': replies.count(),
             'postViews': post_views,
             'postLikesReceived': post_likes_received,
             'postRepliesReceived': post_replies_received,
-            'resources': resources.count(),
+            'resources': res_agg.get('total') or 0,
             'resourceViews': resource_views,
             'resourceLikesReceived': resource_likes_received,
             'resourceCommentsReceived': resource_comments_received,
@@ -1882,7 +1884,7 @@ def analytics(request):
             'summaries': summaries_count,
             'mindmaps': mindmaps_count,
             'quizzes': quizzes.count(),
-            'quizAttempts': quiz_attempts.count(),
+            'quizAttempts': quiz_stats.get('count') or 0,
             'quizAccuracy': quiz_accuracy,
             'quizXp': quiz_stats.get('xp') or 0,
             'flashcards': flashcards.count(),
@@ -1890,9 +1892,9 @@ def analytics(request):
             'easyReviews': easy_reviews,
             'mediumReviews': medium_reviews,
             'hardReviews': hard_reviews,
-            'recentPosts': posts.filter(created_at__gte=cutoff_30).count(),
+            'recentPosts': post_agg.get('recent') or 0,
             'recentReplies': replies.filter(created_at__gte=cutoff_30).count(),
-            'recentStudyActions': quiz_attempts.filter(completed_at__gte=cutoff_30).count() + flash_reviews.filter(last_reviewed_at__gte=cutoff_30).count(),
+            'recentStudyActions': (quiz_stats.get('recent') or 0) + (rev_agg.get('recent') or 0),
         },
         activity_days=activity_days,
         top_categories=top_categories,

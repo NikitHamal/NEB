@@ -23,6 +23,16 @@
   </header>
 
   <section class="an-kpi-grid" aria-label="Analytics overview">
+    {% if standing %}
+    <article class="an-kpi-card">
+      <span class="material-symbols-outlined">workspace_premium</span>
+      <div>
+        <strong>{{ standing.levelName }}</strong>
+        <span>Level {{ standing.level }} · {{ standing.score|short_number }} pts</span>
+      </div>
+      <small>{% if standing.nextLevelName %}{{ standing.pointsToNextLevel }} pts to {{ standing.nextLevelName }} ({{ standing.progress }}%){% else %}Top level reached{% endif %}</small>
+    </article>
+    {% endif %}
     <article class="an-kpi-card">
       <span class="material-symbols-outlined">forum</span>
       <div>

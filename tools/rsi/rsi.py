@@ -132,17 +132,21 @@ def cmd_checkpoint(msg: str) -> int:
 def cmd_ci() -> int:
     try:
         data = _gh_api("actions/runs?branch=main&per_page=5")
+        seen_names: set[str] = set()
         for r in data.get("workflow_runs", []):
             rid = r.get("id")
+            name = r.get("name") or ""
+            is_latest_for_workflow = name not in seen_names
+            seen_names.add(name)
             status = r.get("status")
             conc = r.get("conclusion")
-            print(f"  [{r.get('name')}] id={rid} status={status} conclusion={conc} sha={r.get('head_sha', '')[:7]}")
+            print(f"  [{name}] id={rid} status={status} conclusion={conc} sha={r.get('head_sha', '')[:7]}")
             if status == "in_progress" and rid:
                 for j in _gh_api(f"actions/runs/{rid}/jobs").get("jobs", []):
                     for s in j.get("steps", []):
                         if s.get("status") == "in_progress":
                             print(f"    -> active step: {s.get('name')}")
-            elif status == "completed" and conc == "failure" and rid:
+            elif status == "completed" and conc == "failure" and rid and is_latest_for_workflow:
                 for j in _gh_api(f"actions/runs/{rid}/jobs").get("jobs", []):
                     for s in j.get("steps", []):
                         if s.get("conclusion") == "failure":
@@ -155,7 +159,7 @@ def cmd_ci() -> int:
                                  f"https://api.github.com/repos/{REPO}/actions/jobs/{j['id']}/logs"],
                                 text=True, timeout=15,
                             )
-                            tail = [ln for ln in log_txt.splitlines() if any(w in ln.lower() for w in ("error", "fail", "exception", "traceback", "line "))][-15:]
+                            tail = [ln for ln in log_txt.splitlines() if any(w in ln.lower() for w in ("error", "fail", "exception", "traceback", "line "))][-12:]
                             for ln in tail:
                                 print(f"       {ln[:160]}")
                         except Exception:
