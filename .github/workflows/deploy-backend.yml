@@ -2,6 +2,11 @@ name: Deploy Backend to cPanel
 
 on:
   workflow_dispatch:
+    inputs:
+      static_resync_dir:
+        description: 'Optional one-time repair: re-copy this static dir (e.g. web/static/web/css)'
+        required: false
+        default: ''
 
 # One deploy at a time on the server (pid file lock there plus this
 # workflow queue here): a second run queues, it never races the first.
@@ -33,6 +38,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_USER: consicac
+          STATIC_RESYNC_DIR: ${{ inputs.static_resync_dir }}
           REMOTE_DIR: /home/consicac/nebians_api
         run: |
           set -euo pipefail

@@ -36,6 +36,7 @@ import collections
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -219,7 +220,14 @@ def main():
         ]
         if any_changed:
             remote.append("echo 'Extracting changed file(s)...'")
+            # Zip entries carry the runner's UTC wall clock with no zone; unzip reads them as the
+            # box's local time (UTC+5:45), so extracted files looked ~6 h OLD. collectstatic skips a
+            # file whose copy is newer than its source, so any static edit shipped within 6 h of the
+            # previous deploy was silently dropped (admin analytics CSS stayed stale for days).
+            # Stamp every extracted file with the real time right after extraction.
+            remote.append("unzip -Z1 deploy.zip | grep -v '^[.]deploy_' > .deploy_changed.txt || true")
             remote.append("unzip -o deploy.zip >/dev/null && mv -f .deploy_manifest.json.tmp .deploy_manifest.json || { echo 'UNZIP FAILED'; exit 1; }")
+            remote.append("xargs -d '\\n' -r touch < .deploy_changed.txt; rm -f .deploy_changed.txt")
             remote.append("rm -f deploy.zip")
             if deleted:
                 remote.append("echo 'Removing retired file(s)...'")
@@ -271,6 +279,12 @@ def main():
             remote.append("echo 'Writing small list copies of avatars and covers (bounded)...'")
             remote.append("timeout 100 python manage.py make_list_copies --seconds 70 || true")
 
+        resync = os.environ.get("STATIC_RESYNC_DIR", "").strip()
+        if resync and re.fullmatch(r"web/static/[A-Za-z0-9_./-]*", resync) and ".." not in resync:
+            # One-time repair for static files an earlier deploy dropped (see the unzip note above).
+            remote.append(f"echo 'Re-stamping {resync} so collectstatic re-copies it...'")
+            remote.append(f"find {resync} -type f -exec touch {{}} +")
+            static_changed = True
         if static_changed or static_deleted:
             clear = "--clear" if static_deleted else ""
             remote.append("echo 'Running collectstatic...'")

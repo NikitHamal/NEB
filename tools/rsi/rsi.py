@@ -169,10 +169,43 @@ def cmd_ci() -> int:
     return 0
 
 
-def cmd_deploy() -> int:
-    _gh_api("actions/workflows/deploy-backend.yml/dispatches", method="POST", payload={"ref": "main"})
-    print("RSI DEPLOY: dispatched deploy-backend.yml on main")
+def cmd_deploy(static_dir: str = "") -> int:
+    payload = {"ref": "main"}
+    if static_dir:
+        payload["inputs"] = {"static_resync_dir": static_dir}
+    _gh_api("actions/workflows/deploy-backend.yml/dispatches", method="POST", payload=payload)
+    print(f"RSI DEPLOY: dispatched deploy-backend.yml on main (static resync: {static_dir or 'none'})")
     return 0
+
+
+# asset -> a selector the repo copy has and an old copy lacks (live files are minified, so no byte compare)
+LIVE_ASSETS = {
+    "web/static/web/css/admin.css": ".an-insight",
+    "web/static/web/css/admin/03-analytics.css": ".an-insight",
+}
+
+
+def cmd_live() -> int:
+    """Compare the shipped static files with the repo (catches a deploy that went green but dropped files)."""
+    import urllib.request
+    bad = 0
+    for rel, marker in LIVE_ASSETS.items():
+        local = os.path.join("backend_python", rel)
+        if not os.path.exists(local):
+            continue
+        url = "https://nebians.consica.com.np/static/" + rel[len("web/static/"):]
+        try:
+            req = urllib.request.Request(url + "?rsi=1", headers={"User-Agent": "rsi-live"})
+            live = urllib.request.urlopen(req, timeout=25).read()
+        except Exception as exc:  # noqa: BLE001
+            print(f"  ?? {rel}: {exc}")
+            continue
+        same = marker.encode() in live or marker.encode() not in open(local, "rb").read()
+        print(f"  {'OK   ' if same else 'STALE'} {rel} live={len(live)}B repo={os.path.getsize(local)}B")
+        bad += 0 if same else 1
+    if bad:
+        print("STALE static on live: run `python3 tools/rsi/rsi.py deploy web/static/web/css`")
+    return 1 if bad else 0
 
 
 def main() -> int:
@@ -190,7 +223,9 @@ def main() -> int:
     if arg == "ci":
         return cmd_ci()
     if arg == "deploy":
-        return cmd_deploy()
+        return cmd_deploy(sys.argv[2] if len(sys.argv) > 2 else "")
+    if arg == "live":
+        return cmd_live()
     print(f"Unknown command: {arg}", file=sys.stderr)
     return 2
 
