@@ -1356,3 +1356,27 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - **Redeploy the backend** (`deploy.ps1`) for the web changes since session 44.
 - Android on device: search tabs on a 360dp phone, dark graphite pass.
+
+
+---
+
+# Session 53: dark ramp root cause, text fit ratchet, CI deploy by hand, concepts republished
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 52 and commit `7411997`, which had no status entry). The brief repeated the Pathways port, profile overhaul, 24,665 catalogue, institution and teacher portfolios, no DOB or gender for institutions, search tabs, guest posts, sign-in that stays guest, post card byline, scrolling chips, share icon, display names. Verified in code and **kept, not redone**: all of it (`7411997` holds the last block: `ensureProfile` retry, `AllowAny` on post and reply lists with POST still checked by `_require_user`, `authorDisplayName`, scrolling chips, unclipped byline, ghost actions). `7411997` built green (APK + AAB) and its backend tests passed.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 311 | **Dark mode root cause**: `surfaceContainerLowest` is the card colour on Android and web, and in dark it was `#0d0e13`, DARKER than the page `#121318`. Cards sank into the page and every hairline and tonal tile lost contrast. New graphite ramp, cards above the page: page `#17181d`, card (lowest) `#202128`, low `#26272e`, container `#2b2c33`, high `#33343c`, highest `#3b3c45`, float `#2b2c33`, hairline `#50515b`, outline `#9d9ea8`, tertiary text `#a4a4ae` (contrast up). Splash (`values-night`), auth palette, desktop, theme-color meta, concepts and `pathways.css` follow. | `tokens.css` (bundled), `Palette.kt` (generated), `NebAuthPalette.kt`, `values-night/colors.xml`, `desktop/src/theme/colors.rs`, `m3x.js`, `NEBians-*.html` |
+| 312 | **Text fit rules and a guard**: `docs/M3X_DESIGN_SYSTEM.md` 13.8 (bounded Text in a Row, header line order, chips scroll, claim rows wrap). `tools/android/check_text_fit.py` is a ratchet in CI: a file may not gain unbounded `Text` in a `Row` over `text_fit_baseline.json` (166 old, being migrated). | `tools/android/`, `build-release.yml` |
+| 313 | Two real fits fixed: Pathways match bar labels (one line, ellipsis), reply mention chip. | `PwMatchCard.kt`, `CommentCard.kt` |
+| 314 | **Backend deploy from CI, by hand only**: `deploy-backend.yml` (`workflow_dispatch`, no push trigger, one at a time) runs `.github/scripts/deploy_backend.py`, the delta protocol of `deploy.ps1` with `SSH_HOST` and `SSH_KEY` from GitHub secrets. Ships only `api nebians web services public manage.py requirements.txt passenger_wsgi.py`; never the database, `.env` or media; migrations run before collectstatic; a failed migrate stops before restart. Dispatch it from the Actions tab or the API after a backend change. | `.github/` |
+| 315 | Concepts republished with the new dark (`pathways.html`, `profile.html`, `search.html` on `gh-pages`). | `gh-pages` |
+
+## Rules
+- Never put `surfaceContainerLowest` darker than the page. In dark the ramp only goes up: page, lowest (card), low, container, high, highest. Edit `tokens.css`, then `bundle.py` and `sync_android_palette.py`.
+- Text beside a neighbour in a Row is bounded (13.8). New files must not raise `text_fit_baseline.json`.
+
+## Next
+- Android on device: dark Home, post cards and Pathways on a 360dp phone; migrate the text-fit baseline file by file.

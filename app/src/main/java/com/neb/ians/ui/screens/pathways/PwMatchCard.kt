@@ -63,7 +63,7 @@ internal fun PwMatchCard(d: PwData, m: PwMatch, top: Boolean, open: Boolean, sav
                 Column(Modifier.padding(16.dp, 2.dp, 16.dp, 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     m.parts.forEach { (label, v) ->
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Text(label, Modifier.width(76.dp), color = fg, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                            Text(label, Modifier.width(76.dp), color = fg, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             PwBar(v.coerceAtLeast(0.04f), Modifier.weight(1f), 8.dp, fg, fg.copy(alpha = 0.12f))
                             Text("${(v * 100).roundToInt()}", Modifier.width(30.dp), color = fg, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.End)
                         }

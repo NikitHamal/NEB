@@ -559,3 +559,17 @@ The rule now lives in the component, not in the caller:
 **Segmented controls (LOCKED, session 47).** The original Pathways connected button group is the real one and is final. Separate tonal blocks with a 3dp gap (`surfaceContainerHigh`); outer corners of the group are full pills, inner corners 8dp; the selected block is a full pill in `onSurface` with `surface` text and the corner morph animates on the spring. Session 46 replaced it with a single pill track and the owner rejected that. Do not change it again without an explicit ask. Android: `PwSeg`; concepts and web: `.seg` in `NEBians-*.html` and `pages/pathways.css`.
 
 **Dark flag (Android).** Use `MaterialTheme.colorScheme.surface.luminance() < 0.5f`. `isSystemInDarkTheme()` is allowed only in `ui/theme` (the guard `tools/android/check_insets.py` fails the CI otherwise), because the app theme can be forced Dark or Light in Settings.
+
+### 13.8 Text fit: wraps, overflows and overlaps (session 53; written so it stops coming back)
+
+Awkward wraps (one word per line, a name pushed under its badge), clipped names and a label lapping onto its neighbour all come from one cause: a `Text` in a `Row` that is allowed to take any width.
+- **A Text beside something else in a Row is bounded.** Give it `Modifier.weight(1f, fill = false)` (hugs short text, shrinks when long) or `weight(1f)`, plus `maxLines` and `overflow = TextOverflow.Ellipsis`. Fixed siblings (badge, time, count, chevron) never carry weight and are never shrunk.
+- **The header line of a post, comment or search row** is: name (weight 1 false, one line, ellipsis), badge, dot, time, chips. The name gives way first, the badge is never clipped.
+- **Titles** take `maxLines = 2` and ellipsis in a list; body text in a list takes 3 to 4 lines. Buttons and chips are one line with ellipsis. Never let a button label wrap.
+- **A row of things that can be many** (chips, tags, filters, subject and class pills) scrolls sideways with `nebHorizontalScroll`, hidden scrollbar. It never stacks into a second line and never uses `FlowRow` in a feed card.
+- **A claim, status or notice row that holds a sentence and a button** wraps: text takes `weight(1f)`, the button keeps its width, and below 340dp the button drops under the text.
+- Numbers, times and counts: `maxLines = 1`, never `softWrap`. A long unbroken word (URL, email) gets `overflow = Ellipsis`, not a wrap.
+- Web: the same row gets `min-width: 0`, `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` on the name and `flex: none` on the badge; chip rows use `overflow-x: auto; scrollbar-width: none`.
+- Guard: `python3 tools/android/check_text_fit.py` (CI, first steps) is a ratchet: a file may not get more unbounded `Text` in a `Row` than `tools/android/text_fit_baseline.json` holds. Fix a few, then run `--update`. Opt out one call with `// fit-ok: reason`.
+- Check by eye before saying done: a 360dp screen, font scale 1.3, a 30 character display name and every badge on. Nothing clipped, nothing under a neighbour.
+
