@@ -1689,6 +1689,11 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 - Never poll `rsi.py ci` in a tight loop while other work remains (Zero-Idle-Poll Rule).
 - Keep `writer._IN_TESTS` enabled so full-page test requests never spawn background SQLite writer threads during parallel test runs.
 
+## Result
+- Android release build (`Build Student Release APKs & AAB` run `44176788158` on `bc25594`): **green** on first push (Modern Release APK + Play Store AAB).
+- Backend tests (`Backend tests` run `44177360905` on `d5937d9`): **green** (zero SQLite lock contention).
+- Backend deploy (`Deploy Backend to cPanel` run `44177437227` on `d5937d9`): **green** (smoke test passed, 318 ms live HTTP/2 response on `GET /api/posts/`).
+
 
 ---
 
