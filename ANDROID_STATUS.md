@@ -1667,3 +1667,22 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - Owner review of profile v2, then port to Kotlin as listed under session 60 Next.
 - Android: the bottom bar still offers Canvas if the owner wants it gone there too (not asked, not touched).
+
+
+---
+
+# Session 64: profile concept v3 and the M3X art library (concept only)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first: v2 (sessions 60 and 63) already had four profile types, so v3 builds on it instead of repeating it. No app, backend or database change in this session, so no deploy was run and nothing can be deleted or broken there.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 360 | **Profile concept v3** (`NEBians-Profile-v3.html`, `concepts/profile-v3/`). Real Material Symbols icons. No Message (the platform has none): teachers and schools who add a number get Call in the header plus a Contact card. Resource card is now the site card (art, type pill, subject icon, subject chip, title, grade and size, author, time, views). Post card keeps thumb_up (no heart) and the pin. Open to is four icon tiles with specifics (it replaces the pill row). Studying now has subject art, chapter segments, today, streak, week bars and the resource. Overview opens with glance tiles and summarises every tab with See all. Tabs per type, visitor and owner, light and dark. | `NEBians-Profile-v3.html` |
+| 361 | **M3X art library** (`NEBians-Art.html`, `concepts/art/`): seeded generator, 18 compositions, 12 colour families (no purple), 8 art types (profile cover, school banner, resource thumbnail, book cover, post header, background, collection tile, achievement), 26 subjects, 725 named pieces with stable ids, light and dark, exported SVGs in `concepts/art/svg/`. Flat fills only. | `concepts/art/` |
+| 362 | Published to GitHub Pages: `profile-v3.html`, `art.html`, linked first on the index. | `gh-pages` |
+
+## Next
+- Owner review. If liked: port the resource card art and profile covers to `neb-art.js` and `ResourceBannerArt.kt` (seeded, so web and Android match), then the Kotlin profile from v3.
+- The icon tile for Open to needs the offers stored per profile type (backend field not added yet).
