@@ -14,13 +14,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 import javax.inject.Inject
 
 enum class SearchScope(val label: String) {
     All("All"),
     Resources("Resources"),
     Posts("Posts"),
-    People("People")
+    People("People"),
+    Schools("Schools")
 }
 
 data class SearchUiState(
@@ -28,6 +30,8 @@ data class SearchUiState(
     val resources: List<ApiResource> = emptyList(),
     val posts: List<ApiPost> = emptyList(),
     val users: List<ApiUserSearchResult> = emptyList(),
+    val schools: List<com.neb.ians.data.api.ApiInstRow> = emptyList(),
+    val schoolTotal: Int = 0,
     val recentQueries: List<String> = emptyList(),
     val scope: SearchScope = SearchScope.All,
     val isSearching: Boolean = false,
@@ -40,7 +44,7 @@ data class SearchUiState(
     val activeFilterCount: Int
         get() = listOfNotNull(selectedSubject, selectedGradeLevel, selectedType).size
 
-    val totalCount: Int get() = resources.size + posts.size + users.size
+    val totalCount: Int get() = resources.size + posts.size + users.size + schools.size
 
     val isEmptyResult: Boolean
         get() = hasSearched && !isSearching && error == null && totalCount == 0
@@ -50,6 +54,7 @@ data class SearchUiState(
         SearchScope.Resources -> resources.size
         SearchScope.Posts -> posts.size
         SearchScope.People -> users.size
+        SearchScope.Schools -> schoolTotal
     }
 
     companion object {
@@ -210,6 +215,10 @@ class SearchViewModel @Inject constructor(
         try {
             val token = authRepository.getBearerToken()
             val state = _uiState.value
+            // The 24k school catalogue is searched next to the library, not after it.
+            val schoolsCall = viewModelScope.async {
+                runCatching { apiService.searchInstitutions(q = query, limit = 30) }.getOrNull()
+            }
             val response = apiService.search(
                 bearerToken = token,
                 query = query,
@@ -218,6 +227,7 @@ class SearchViewModel @Inject constructor(
                 type = state.selectedType,
                 pageSize = 30
             )
+            val schoolHits = schoolsCall.await()
             val users = response.users.ifEmpty {
                 runCatching { apiService.searchUsers(token, query) }.getOrDefault(emptyList())
             }
@@ -227,6 +237,8 @@ class SearchViewModel @Inject constructor(
                     resources = response.resources,
                     posts = response.posts,
                     users = users,
+                    schools = schoolHits?.items.orEmpty(),
+                    schoolTotal = schoolHits?.total ?: 0,
                     isSearching = false,
                     hasSearched = true
                 )

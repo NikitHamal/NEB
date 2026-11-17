@@ -794,6 +794,12 @@ fun NEBiansNavHost(
                     onProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
                     },
+                    onSchoolClick = { row ->
+                        navController.navigate(
+                            if (row.verified && row.username.isNotBlank()) Screen.Profile.createRoute(row.username)
+                            else Screen.Institution.createRoute(row.slug)
+                        )
+                    },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

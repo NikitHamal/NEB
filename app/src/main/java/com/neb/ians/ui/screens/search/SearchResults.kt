@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.School
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -54,6 +55,7 @@ fun SearchResultsList(
     onResourceClick: (String) -> Unit,
     onPostClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
+    onSchoolClick: (com.neb.ians.data.api.ApiInstRow) -> Unit,
     onScopeChange: (SearchScope) -> Unit
 ) {
     LazyColumn(
@@ -116,6 +118,20 @@ fun SearchResultsList(
                         UserResultRow(user = user, onClick = { onProfileClick(user.username) })
                     }
                 }
+                if (state.schools.isNotEmpty()) {
+                    item(key = "h_schools") {
+                        SearchSectionHeader(
+                            title = "Schools",
+                            count = state.schoolTotal,
+                            onSeeAll = if (state.schoolTotal > PREVIEW_PER_SECTION) {
+                                { onScopeChange(SearchScope.Schools) }
+                            } else null
+                        )
+                    }
+                    items(state.schools.take(PREVIEW_PER_SECTION), key = { "s_${it.slug}" }, contentType = { "school" }) { row ->
+                        SchoolResultRow(row = row, onClick = { onSchoolClick(row) })
+                    }
+                }
             }
 
             SearchScope.Resources -> {
@@ -155,6 +171,16 @@ fun SearchResultsList(
                 } else {
                     items(state.users, key = { it.id }, contentType = { "user" }) { user ->
                         UserResultRow(user = user, onClick = { onProfileClick(user.username) })
+                    }
+                }
+            }
+
+            SearchScope.Schools -> {
+                if (state.schools.isEmpty()) {
+                    item(key = "empty_schools") { ScopeEmptyMessage("No school or college matches this search.") }
+                } else {
+                    items(state.schools, key = { it.slug }, contentType = { "school" }) { row ->
+                        SchoolResultRow(row = row, onClick = { onSchoolClick(row) })
                     }
                 }
             }
@@ -311,4 +337,59 @@ private fun UserStateTag(user: ApiUserSearchResult) {
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(horizontal = 12.dp, vertical = 6.dp)
     )
+}
+
+/** One school, college or institute from the 24k catalogue. A claimed page with more filled in says so. */
+@Composable
+private fun SchoolResultRow(row: com.neb.ians.data.api.ApiInstRow, onClick: () -> Unit) {
+    val place = listOf(row.kindLabel, row.place.ifBlank { row.district }).filter { it.isNotBlank() }.joinToString(", ")
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 2.dp)
+            .heightIn(min = 64.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(22.dp))
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Box(
+            modifier = Modifier.size(46.dp).clip(RoundedCornerShape(15.dp)).background(MaterialTheme.colorScheme.tertiaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.School,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = row.name,
+                style = MaterialTheme.typography.titleSmallEmphasized,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            if (place.isNotBlank()) {
+                Text(
+                    text = place,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+        if (row.verified) {
+            Text(
+                text = if (row.completeness >= 60) "Verified, full page" else "Verified",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                maxLines = 1
+            )
+        }
+    }
 }

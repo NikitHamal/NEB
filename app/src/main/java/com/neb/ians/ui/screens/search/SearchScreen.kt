@@ -102,6 +102,7 @@ fun SearchScreen(
     onResourceClick: (String) -> Unit,
     onPostClick: (String) -> Unit = {},
     onProfileClick: (String) -> Unit = {},
+    onSchoolClick: (com.neb.ians.data.api.ApiInstRow) -> Unit = {},
     onNavigateBack: () -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
@@ -187,6 +188,7 @@ fun SearchScreen(
                     onResourceClick = onResourceClick,
                     onPostClick = onPostClick,
                     onProfileClick = onProfileClick,
+                    onSchoolClick = onSchoolClick,
                     onScopeChange = viewModel::onScopeChange
                 )
             }
