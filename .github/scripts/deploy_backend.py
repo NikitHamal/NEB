@@ -353,7 +353,7 @@ def main():
         )
 
         status = ""
-        deadline = time.time() + 60 * 60
+        deadline = time.time() + 35 * 60
         while time.time() < deadline:
             time.sleep(5)
             status = ssh.cat(status_file, timeout=15).strip()

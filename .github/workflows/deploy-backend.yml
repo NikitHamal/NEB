@@ -15,10 +15,18 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 70
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          # The repo carries multi-GB notes/PDFs. The full fetch took 3.5 min of
+          # every deploy; the deploy only reads these two paths.
+          sparse-checkout: |
+            backend_python
+            .github/scripts
+          filter: blob:none
+          fetch-depth: 1
 
       - name: Delta deploy (same protocol as backend_python/scratch/deploy.ps1)
         env:

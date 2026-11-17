@@ -1,0 +1,28 @@
+name: Diagnose Backend (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: .github/scripts
+          filter: blob:none
+          fetch-depth: 1
+      - name: Server snapshot
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          set -euo pipefail
+          KEY=$(mktemp); trap 'rm -f "$KEY"' EXIT
+          printf '%s\n' "$SSH_KEY" > "$KEY"; chmod 600 "$KEY"
+          ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -o ServerAliveInterval=15 \
+            -i "$KEY" consicac@"$SSH_HOST" 'bash -s' < .github/scripts/diagnose_remote.sh 2>&1 | timeout 300 cat
