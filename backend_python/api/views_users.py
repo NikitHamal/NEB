@@ -41,6 +41,22 @@ def check_username(request):
     exists = User.objects.filter(username__iexact=username).exists()
     return Response({'available': not exists})
 
+
+@api_view(['POST'])
+def user_cover_art(request):
+    """POST /api/users/me/cover-art/ {"coverArt": "cover-019"} sets the profile cover; "" goes back to the default."""
+    from .cover_art import is_valid_cover
+    user, err = _require_user(request)
+    if err:
+        return err
+    cover = str((request.data or {}).get('coverArt', '')).strip()[:16]
+    if not is_valid_cover(cover):
+        return Response({'error': 'Unknown cover'}, status=400)
+    user.cover_art = cover
+    user.save(update_fields=['cover_art'])
+    return Response({'coverArt': cover})
+
+
 @api_view(['POST'])
 def user_profile_create_or_update(request):
     """POST /api/users/profile — create or update the authenticated user's profile."""

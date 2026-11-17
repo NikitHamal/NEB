@@ -131,6 +131,7 @@ urlpatterns = [
     path('ajax/portfolio/save/', views_onboarding.portfolio_entry_save, name='portfolio_entry_save'),
     path('ajax/portfolio/delete/', views_onboarding.portfolio_entry_delete, name='portfolio_entry_delete'),
     path('app/profile/edit/', views_profile.edit_profile, name='edit_profile'),
+    path('ajax/profile/cover/', views_profile.ajax_set_cover_art, name='set_cover_art'),
     path('app/credits/', views_profile.credits_page, name='credits'),
     path('app/settings/', views_profile.settings_page, name='settings'),
     path('app/settings/delete-account/', views_profile.delete_account_page, name='delete_account'),

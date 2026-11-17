@@ -1,0 +1,57 @@
+/* Profile v3 (concept NEBians-Profile-v3.html). Loads after app-profile.css, so it only changes what v3 changes:
+   frameless avatar, verified mark without a disc, stats as one open row, count pills on the tabs, and the cover
+   picker (M3X art library, v7 covers). Flat, no shadow, finite radii. */
+
+.profile-page .pf-avatar-overlap-wrap::before { display: none; }
+.profile-page .pf-avatar-cam { border: 0; }
+.profile-page .pf-card-banner .neb-art, .profile-page .pf-card-banner .pf-banner-art { position: absolute; inset: 0; }
+.profile-page .pf-card-banner { position: relative; }
+
+.profile-page .pf-verified { width: auto; height: auto; background: none; color: var(--badge-bg, var(--md-primary)); border-radius: 0; }
+.profile-page .pf-verified .material-symbols-outlined { font-size: 22px; color: var(--badge-bg, var(--md-primary)); }
+
+.profile-page .pf-stats-row {
+  display: flex; flex-wrap: wrap; gap: 8px 28px; border: 0; border-radius: 0; background: none; margin-top: 18px; overflow: visible;
+}
+.profile-page .pf-stat-col { flex-direction: column-reverse; align-items: flex-start; padding: 6px 0; text-align: left; border-radius: 12px; }
+.profile-page .pf-stat-col + .pf-stat-col { border-left: 0; }
+.profile-page .pf-stat-col[data-action]:hover { background: none; }
+.profile-page .pf-stat-col[data-action]:hover .pf-stat-num { color: var(--md-primary); }
+.profile-page .pf-stat-num { font-size: 1.25rem; transition: color .2s ease; }
+.profile-page .pf-stat-label { font-weight: 500; letter-spacing: 0; }
+
+.profile-page .pf-meta-item .material-symbols-outlined { font-size: 18px; }
+.profile-page .pf-card-headline { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Cover picker */
+.cv-dialog {
+  width: min(720px, calc(100vw - 24px)); max-height: min(86vh, 760px); padding: 0; border: 1px solid var(--x-float-line, var(--md-outline-variant));
+  border-radius: 28px; background: var(--x-float, var(--md-surface-container-lowest)); color: var(--md-on-surface); overflow: hidden; flex-direction: column;
+}
+.cv-dialog[open] { display: flex; }
+.cv-dialog::backdrop { background: color-mix(in srgb, #000 42%, transparent); }
+.cv-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 8px 24px; }
+.cv-head h2 { margin: 0; font-family: var(--display); font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em; }
+.cv-close { width: 44px; height: 44px; border: 0; border-radius: 22px; background: none; color: var(--md-on-surface-variant); display: grid; place-items: center; cursor: pointer; transition: background-color .15s, transform .3s var(--spring); }
+.cv-close:hover { background: var(--md-surface-container-high); }
+.cv-close:active { transform: scale(.92); }
+.cv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; padding: 8px 20px 12px; overflow-y: auto; overscroll-behavior: contain; }
+.cv-pick {
+  position: relative; display: block; padding: 0; border: 1.5px solid var(--md-outline-variant); border-radius: 18px; overflow: hidden; cursor: pointer;
+  background: var(--md-surface-container-low); aspect-ratio: 3 / 1; transition: border-color .15s, transform .3s var(--spring);
+}
+.cv-pick:hover { border-color: var(--md-primary); }
+.cv-pick:active { transform: scale(.97); }
+.cv-pick img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cv-pick img.d { display: none; }
+[data-theme="dark"] .cv-pick img.l { display: none; }
+[data-theme="dark"] .cv-pick img.d { display: block; }
+.cv-pick.is-on { border-color: var(--md-primary); border-width: 2.5px; }
+.cv-tick { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 13px; display: none; place-items: center; background: var(--md-primary); color: var(--md-on-primary); font-size: 18px !important; }
+.cv-pick.is-on .cv-tick { display: grid; }
+.cv-foot { display: flex; justify-content: flex-end; padding: 8px 20px 18px; }
+@media (max-width: 600px) {
+  .cv-dialog { width: 100vw; max-height: 88vh; margin: auto 0 0; border-radius: 28px 28px 0 0; }
+  .cv-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .cv-pick, .cv-close { transition: none; } }

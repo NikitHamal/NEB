@@ -41,7 +41,7 @@
 .notif-empty-icon:has(>.px-sprite),.bookmarks-empty-icon:has(>.px-sprite){background:none;width:auto;height:auto;border-radius:0;box-shadow:none}
 .request-empty>.px-sprite,.empty-leaderboard>.px-sprite,.follow-list-empty>.px-sprite,.credits-empty>.px-sprite{display:block;margin:0 auto 8px}
 /* Pixel art pictures (see js/pixel-art.js): fill the box, crop like cover, keep every pixel square. */
-.neb-art > img.neb-pixel-art { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; image-rendering:pixelated; display:block; pointer-events:none; }
+.neb-art > img.neb-pixel-art { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; pointer-events:none; }
 .neb-art > img.neb-pixel-night { display:none; }
 [data-theme="dark"] .neb-art > img.neb-pixel-night { display:block; }
 [data-theme="dark"] .neb-art > img.neb-pixel-day { display:none; }
@@ -63,6 +63,6 @@
 .st-kite-3.st-motif-px{width:32px;height:32px;filter:hue-rotate(210deg) saturate(1.2);animation-duration:var(--d,1s),13s}
 .st-decor.is-compact .st-kite.st-motif-px{width:32px;height:32px}
 @media (prefers-reduced-motion:reduce){.px-sprite,.st-motif-px{animation:none}}
-/* profile covers are 3:1 but the card is narrower: keep the right of the scene (where Neby sits on the bot cover) in frame */
-.neb-art > img.neb-pixel-cover { object-position: 74% 50%; }
+/* M3X art covers are 3:1; the card is a little narrower, so crop evenly from the middle */
+.neb-art > img.neb-pixel-art { image-rendering:auto; }
 .pf-banner-deco-text { display: none; }

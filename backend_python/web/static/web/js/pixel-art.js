@@ -1,20 +1,17 @@
-/* Pixel art for resource banners and profile covers -- the web half.
+/* M3X art for resource thumbnails and profile covers (file name kept for the templates that load it).
 
-   The pictures are drawn once, in Kotlin (app/.../ui/pixel/art), and exported as
-   tiny palette PNGs to img/pixel-art/: banner/<family>-<variant>-<day|night>.png
-   (128 x 64) and cover/<role>-<variant>.png (192 x 64). Any element with
-   data-neb-art gets an <img> of the same picture the Android app draws: the
-   same subject family, the same hash, the same variant. Banners switch to their
-   night version in dark mode. neb-art.js (the older vector art, generated from
-   the same Kotlin) stays in the repo but is no longer loaded. */
+   Thumbnails are the v1 M3X art library's `thumb` pieces, 6 per subject family, and covers are the v7
+   `cover` pieces (concepts/art, concepts/art-v7; tools/art/export_m3x_assets.js writes img/m3x/). Both
+   ship as small WebP files in Light and Dark. A thumbnail is picked by subject family and a stable
+   hash, the same as the Android app (M3xArt.kt). A cover is the id in data-neb-cover. */
 (function (global) {
   'use strict';
 
   var BASE = (function () {
     var s = document.currentScript && document.currentScript.src;
-    return s ? s.replace(/js\/pixel-art\.js.*$/, 'img/pixel-art/') : '/static/web/img/pixel-art/';
+    return s ? s.replace(/js\/pixel-art\.js.*$/, 'img/m3x/') : '/static/web/img/m3x/';
   })();
-  var BANNER_VARIANTS = 12, COVER_VARIANTS = 3;
+  var BANNER_VARIANTS = 6;
   var ROLES = ['MEMBER', 'VERIFIED', 'TUTOR', 'INSTITUTION', 'MODERATOR', 'ADMIN', 'BOT'];
   // [accent, deep] for type laid over each role's cover; ink is always white
   var COVER_INK = {
@@ -75,21 +72,17 @@
     el.__nebPixelArt = true;
     var kind = el.getAttribute('data-neb-art');
     if (kind === 'cover') {
-      var role = (el.getAttribute('data-neb-role') || 'MEMBER').toUpperCase();
-      if (ROLES.indexOf(role) < 0) role = 'MEMBER';
-      var v = variant(stableSeed('cover|' + (el.getAttribute('data-neb-seed') || '') + '|' + role), COVER_VARIANTS);
-      el.insertBefore(img(BASE + 'cover/' + role.toLowerCase() + '-' + v + '.png', 'neb-pixel-cover', true), el.firstChild);
-      el.style.setProperty('--neb-cover-ink', '#fff');
-      el.style.setProperty('--neb-cover-accent', COVER_INK[role][0]);
-      el.style.setProperty('--neb-cover-deep', COVER_INK[role][1]);
+      var cid = el.getAttribute('data-neb-cover') || 'cover-001';
+      el.insertBefore(img(BASE + 'cover/dark/' + cid + '.webp', 'neb-pixel-art neb-pixel-night', false), el.firstChild);
+      el.insertBefore(img(BASE + 'cover/light/' + cid + '.webp', 'neb-pixel-art neb-pixel-day', true), el.firstChild);
     } else {
       var subject = el.getAttribute('data-neb-subject') || '';
       var fam = subjectFamily(subject).toLowerCase();
       var bv = variant(stableSeed(el.getAttribute('data-neb-seed') || subject), BANNER_VARIANTS);
-      var stem = BASE + 'banner/' + fam + '-' + bv + '-';
+      var stem = BASE + 'thumb/';
       // both are in the markup; CSS shows the one that matches the theme, and a hidden lazy image is never fetched
-      el.insertBefore(img(stem + 'night.png', 'neb-pixel-night'), el.firstChild);
-      el.insertBefore(img(stem + 'day.png', 'neb-pixel-day'), el.firstChild);
+      el.insertBefore(img(stem + 'dark/' + fam + '-' + bv + '.webp', 'neb-pixel-night'), el.firstChild);
+      el.insertBefore(img(stem + 'light/' + fam + '-' + bv + '.webp', 'neb-pixel-day'), el.firstChild);
     }
   }
 

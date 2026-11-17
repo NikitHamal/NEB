@@ -519,6 +519,21 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    /** Picks a profile cover from the M3X art library; "" goes back to the default. Shown at once, undone if the server refuses. */
+    fun setCoverArt(id: String) {
+        val before = _uiState.value.profile ?: return
+        _uiState.update { it.copy(profile = before.copy(coverArt = id)) }
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken() ?: throw IllegalStateException("no token")
+                apiService.setCoverArt(token, mapOf("coverArt" to id))
+                saveToCache()
+            } catch (_: Exception) {
+                _uiState.update { it.copy(profile = before) }
+            }
+        }
+    }
+
     fun activatePhoto(photoId: Int) {
         if (_uiState.value.photoBusy) return
         viewModelScope.launch {

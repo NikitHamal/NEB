@@ -1931,3 +1931,29 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 
 ## Next
 - Owner review: https://nikithamal.github.io/NEB/art-v7.html . If liked, port covers, empty states and book art to `neb-art.js` and the Kotlin art files (seeded, ids stable).
+
+
+---
+# Session 73: profile v3 polish, profile covers from the M3X art library, v1 thumbnails for resources
+
+Same file, same rule: nothing is built locally for Android, the check is the GitHub Actions run. History read first: Profile v3 is the concept from session 64 (`NEBians-Profile-v3.html`); the app header (frameless squircle avatar across the cover, action opposite) and the web m3x profile card already followed it, so they were polished, not redone. Art: v7 (session 72) supplies covers, v1 supplies resource thumbnails; nothing in `concepts/` changed.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 413 | **Asset pipeline**: one script writes the WebP the app and the site both ship. Covers = v7 `cover` pieces (stable ids `cover-NNN`) without ribbons, arches, graph, net, stacks, bars, capsules, cascades, bands: 23 compositions x 8 colours = 184 covers. Thumbnails = v1 `thumb` pieces, 6 per subject family (12 families), hills, sunset and rays skipped. Light and Dark each, 640x214 / 448x179, 508 files, 2.6 MB. `covers.json` is the manifest. | `tools/art/export_m3x_assets.js`, `backend_python/web/static/web/img/m3x/`, `app/src/main/assets/m3x/` |
+| 414 | **Backend**: `User.cover_art` (CharField 16, default empty, migration 0173, additive, no data touched), exposed by `UserSerializer` and `UserPublicSerializer` as `cover_art`; `POST /api/users/me/cover-art/ {coverArt}` validates against `covers.json` (`api/cover_art.py`), `""` resets. Web: `POST /ajax/profile/cover/` (`ajax_set_cover_art`). A member with no pick gets a stable cover: FNV-1a(`cover|username`) over the manifest order, same function in Python and Kotlin. | `api/models.py`, `api/cover_art.py`, `api/views_users.py`, `web/views_profile.py` |
+| 415 | **Web profile**: cover is the library piece (Light and Dark `<img>`, lazy for the hidden one), owner gets a palette button on the cover that opens a picker dialog (bottom sheet under 600 px, tick on the current one, Default cover). v3 polish: no ring cut around the avatar, verified mark without a disc, stats as one open row, finite radii, no shadow. | `profile.html`, `profile-cover.js`, `css/m3x/app-profile-v3.css` |
+| 416 | **Web resource cards** now draw the v1 thumbnail (same family + hash as the app); the 1.3 MB pixel PNG folder is deleted. `pixel-art.js` keeps its name (templates load it) and reads `img/m3x/`. | `js/pixel-art.js`, `css/pixel.css` |
+| 417 | **Android**: `M3xArt.kt` (manifest, default cover, `M3xCover`, `M3xThumb`, `M3xCoverTile`; Coil reads the asset at the size it is drawn). `ResourceBannerArt` calls `M3xThumb`. `ProfileBanner` draws `M3xCover`; the 11 s sheen loop is gone (no animation on this screen). `CoverPickerSheet` (own profile, palette button on the cover, optimistic, undone if the server refuses). `PixelBannerArt`, `PixelCoverArt` and their bitmap cache removed (R8 drops `PixelBanners`/`PixelCovers`). Onboarding pixel scenes untouched. | `ui/components/M3xArt.kt`, `ui/screens/profile/CoverPickerSheet.kt`, `ProfileHeader.kt`, `ProfileScreen.kt`, `ProfileViewModel.kt`, `ApiService.kt` |
+
+## Notes
+- Not built from the concept yet (needs data the API does not have): Overview glance tiles, Studying now, Open to tiles, per-type tab sets. They are listed in session 60 and 64 Next and still open.
+- Re-export after changing the library: `NODE_PATH=<dir with sharp> node tools/art/export_m3x_assets.js backend_python/web/static/web/img/m3x` then copy the folder to `app/src/main/assets/m3x`. Never reorder `covers.json`; the default cover depends on its order.
+- The GitHub token used to clone and push was pasted into the chat again. Rotate it.
+- Deploy: the backend workflow is manual (`deploy-backend.yml`); the migration is one `ADD COLUMN`, the deploy only removes tracked files, never data or media.
+
+## Next
+- On-device pass: cover picker scroll, Dark covers, thumbnail contrast on cards.
+- Glance tiles and Studying now once the profile API returns reads, answers and streak.

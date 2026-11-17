@@ -73,6 +73,7 @@ urlpatterns = [
     path('institutions/<slug:slug>/claim/', views_institutions.institution_claim, name='institution-claim'),
 
     # Users — photo history (auth required)
+    path('users/me/cover-art/', views_users.user_cover_art, name='user-cover-art'),
     path('users/me/photos/', views_users.user_photos, name='user-photos'),
     path('users/me/analytics/', views_users.user_private_analytics, name='user-private-analytics'),
     path('users/me/photos/<int:photo_id>/activate/', views_users.user_photo_activate, name='user-photo-activate'),

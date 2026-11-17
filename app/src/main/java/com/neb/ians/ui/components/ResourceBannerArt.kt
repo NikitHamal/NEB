@@ -70,9 +70,9 @@ fun ResourceBannerArt(
     subject: String,
     modifier: Modifier = Modifier
 ) {
-    // Banners are pixel art now (ui/pixel/art). The vector drawings below are kept, and stay the
-    // source the web's neb-art.js is generated from, but no screen shows them.
-    com.neb.ians.ui.pixel.art.PixelBannerArt(seed = seed, subject = subject, modifier = modifier)
+    // The v1 M3X art library thumbnail for the subject family (M3xArt.kt). The vector drawings below are
+    // kept for tools/art, no screen shows them.
+    M3xThumb(seed = seed, subject = subject, modifier = modifier)
 }
 
 /** The vector banner art this app shipped before pixel art; kept for reference and for tools/art. */

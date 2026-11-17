@@ -34,12 +34,15 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.GroupAdd
 import androidx.compose.material.icons.outlined.HourglassTop
 import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -102,8 +105,10 @@ fun ProfileHeader(
     onBack: () -> Unit = {},
     onCopyLink: () -> Unit = {},
     onAnalytics: (() -> Unit)? = null,
+    onCoverPicked: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
+    var showCovers by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
     val scheme = MaterialTheme.colorScheme
     val badge = remember(profile) { buildBadgeInfo(profile) }
     val preset = remember(profile) { bannerPresetFor(profile) }
@@ -113,6 +118,14 @@ fun ProfileHeader(
     val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
 
     Column(modifier = modifier.fillMaxWidth()) {
+        if (showCovers && onCoverPicked != null) {
+            CoverPickerSheet(
+                currentId = profile.coverArt,
+                onPick = { onCoverPicked(it); showCovers = false },
+                onDefault = { onCoverPicked(""); showCovers = false },
+                onDismiss = { showCovers = false }
+            )
+        }
 
         // Banner, with the avatar and the primary action straddling its
         // bottom edge. Nothing clips here, so the avatar can hang below.
@@ -122,7 +135,8 @@ fun ProfileHeader(
                 role = preset.first,
                 decoText = preset.second,
                 seedKey = profile.username,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                coverArt = profile.coverArt
             )
             // Back and utilities sit on the cover, the app bar only returns once the page is scrolled.
             Row(
@@ -132,6 +146,7 @@ fun ProfileHeader(
             ) {
                 CoverButton(androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack, "Back", onBack)
                 Spacer(Modifier.weight(1f))
+                if (isSelf && onCoverPicked != null) CoverButton(Icons.Outlined.Palette, "Change cover") { showCovers = true }
                 if (onAnalytics != null) CoverButton(Icons.Outlined.BarChart, "Analytics", onAnalytics)
                 CoverButton(Icons.Outlined.Link, "Copy profile link", onCopyLink)
             }

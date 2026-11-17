@@ -230,7 +230,8 @@ fun ProfileScreen(
                         clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE${profile.username}/"))
                         context.nebToast("Profile link copied")
                     },
-                    onAnalytics = if (isSelf) onAnalyticsClick else null
+                    onAnalytics = if (isSelf) onAnalyticsClick else null,
+                    onCoverPicked = viewModel::setCoverArt
                 )
 
                 uiState.error != null -> Box(
@@ -335,7 +336,8 @@ private fun ProfileBody(
     onSocialLinkClick: (com.neb.ians.data.api.ApiSocialLink) -> Unit,
     onBack: () -> Unit,
     onCopyLink: () -> Unit,
-    onAnalytics: (() -> Unit)?
+    onAnalytics: (() -> Unit)?,
+    onCoverPicked: (String) -> Unit
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
@@ -369,7 +371,8 @@ private fun ProfileBody(
                 onSocialLinkClick = onSocialLinkClick,
                 onBack = onBack,
                 onCopyLink = onCopyLink,
-                onAnalytics = onAnalytics
+                onAnalytics = onAnalytics,
+                onCoverPicked = if (isSelf) onCoverPicked else null
             )
         }
 

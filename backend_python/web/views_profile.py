@@ -118,6 +118,38 @@ def bookmarks(request):
         bookmark_counts=counts,
     ))
 
+def _cover_art_for(user):
+    from api.cover_art import default_cover, is_valid_cover
+    chosen = (getattr(user, 'cover_art', '') or '').strip()
+    return chosen if chosen and is_valid_cover(chosen) else default_cover(user.username)
+
+
+def _cover_choices():
+    from api.cover_art import cover_rows
+    return [{'id': r[0], 'layout': r[1], 'palette': r[2]} for r in cover_rows()]
+
+
+@require_POST
+def ajax_set_cover_art(request):
+    """POST /ajax/profile/cover/ {cover: "cover-019" | ""}: the signed-in member picks a cover from the M3X art library."""
+    from api.cover_art import is_valid_cover
+    from .views_onboarding import _owner
+    owner = _owner(request)
+    if owner is None:
+        return JsonResponse({'ok': False, 'error': 'Please sign in again.'}, status=401)
+    try:
+        data = json.loads(request.body or b'{}')
+    except ValueError:
+        data = {}
+    cover = str(data.get('cover', '') if isinstance(data, dict) else '').strip()[:16]
+    if not is_valid_cover(cover):
+        return JsonResponse({'ok': False, 'error': 'That cover is not available.'}, status=400)
+    owner.cover_art = cover
+    owner.save(update_fields=['cover_art'])
+    _clear_page_cache()
+    return JsonResponse({'ok': True, 'cover': _cover_art_for(owner)})
+
+
 def profile(request, username):
     user_id = _get_user_id(request)
     try:
@@ -161,6 +193,7 @@ def profile(request, username):
         'email': profile_user.email,
         'photo_url': _avatar_url(profile_user),
         'banner_url': profile_user.banner_url,
+        'cover_art': _cover_art_for(profile_user),
         'banner_role': banner_role,
         'banner_deco_text': banner_deco_text,
         'display_name': profile_user.display_name,
@@ -320,6 +353,7 @@ def profile(request, username):
     return render(request, 'web/profile.html', _ctx(request,
         portfolio=portfolio, strength=extras['strength'], inst_folio=extras['inst'],
         profile_user=profile_data,
+        cover_choices=_cover_choices() if is_self else [],
         username=username,
         stats=stats,
         user_photos=user_photos,

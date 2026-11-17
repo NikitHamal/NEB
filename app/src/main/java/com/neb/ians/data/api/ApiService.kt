@@ -100,6 +100,7 @@ data class UserProfileRequest(
     @SerialName("school_username") val schoolUsername: String? = null,
     @SerialName("is_locked") val isLocked: Boolean? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
+    @SerialName("cover_art") val coverArt: String? = null,
     val bio: String? = null,
     @SerialName("school_slug") val schoolSlug: String? = null,
     val headline: String? = null,
@@ -428,6 +429,7 @@ data class UserProfileResponse(
     val email: String? = null,
     @SerialName("photo_url") val photoUrl: String? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
+    @SerialName("cover_art") val coverArt: String? = null,
     @SerialName("display_name") val displayName: String? = null,
     val role: String? = null,
     @SerialName("teaching_subjects") val teachingSubjects: String? = null,
@@ -1299,6 +1301,12 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("requestId") requestId: String
     ): GenericMessageResponse
+
+    @POST("api/users/me/cover-art/")
+    suspend fun setCoverArt(
+        @Header("Authorization") bearerToken: String,
+        @Body body: Map<String, String>
+    ): Map<String, String>
 
     @GET("api/users/me/photos/")
     suspend fun getUserPhotos(

@@ -81,6 +81,8 @@ class User(models.Model):
     pending_email = models.EmailField(blank=True, null=True)
     photo_url = models.TextField(blank=True, null=True)
     banner_url = models.TextField(blank=True, null=True)
+    # Id of a cover from the M3X art library (cover-NNN). Empty = the default role cover.
+    cover_art = models.CharField(max_length=16, blank=True, default='')
     display_name = models.CharField(max_length=150, blank=True, null=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_STUDENT, db_index=True)
     dob = models.CharField(max_length=20, default='')

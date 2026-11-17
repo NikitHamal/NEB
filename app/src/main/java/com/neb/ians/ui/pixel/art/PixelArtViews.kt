@@ -24,22 +24,6 @@ import com.neb.ians.ui.pixel.PixelCanvas
 import com.neb.ians.ui.theme.subjectFamily
 import kotlin.math.roundToInt
 
-/**
- * Rendered pictures, shared across the app. A banner is 32 KB and there are 144 per theme; a
- * miss redraws one on the main thread as its card scrolls in, so the cache holds as many as a
- * fortieth of the heap allows: about 100 on a small heap, a whole theme's on most phones.
- */
-private val pictures = object : LruCache<String, ImageBitmap>((Runtime.getRuntime().maxMemory() / 40).toInt().coerceIn(2 shl 20, 10 shl 20)) {
-    override fun sizeOf(key: String, value: ImageBitmap) = value.width * value.height * 4
-}
-
-private fun picture(key: String, render: () -> PixelCanvas): ImageBitmap = pictures.get(key) ?: run {
-    val cv = render()
-    val bmp = Bitmap.createBitmap(cv.width, cv.height, Bitmap.Config.ARGB_8888)
-    bmp.setPixels(cv.pixels, 0, cv.width, 0, 0, cv.width, cv.height)
-    bmp.asImageBitmap().also { pictures.put(key, it) }
-}
-
 /** Draws a pixel picture to fill the box (cropping like ContentScale.Crop), every pixel square and crisp. */
 @Composable
 private fun PixelPicture(image: ImageBitmap, modifier: Modifier) {
@@ -53,24 +37,6 @@ private fun PixelPicture(image: ImageBitmap, modifier: Modifier) {
             filterQuality = FilterQuality.None,
         )
     }
-}
-
-/** A resource's banner: its subject's prop in one of four Nepali settings, by night in dark mode. */
-@Composable
-fun PixelBannerArt(seed: String, subject: String, modifier: Modifier = Modifier) {
-    val night = MaterialTheme.colorScheme.surface.luminance() < 0.5f
-    val family = remember(subject) { subjectFamily(subject).name }
-    val variant = remember(seed) { PixelBanners.variantFor(stableSeed(seed)) }
-    val image = remember(family, variant, night) { picture("b|$family|$variant|$night") { PixelBanners.render(family, variant, night) } }
-    PixelPicture(image, modifier)
-}
-
-/** A profile cover: the role's panorama at dawn, dusk or night. */
-@Composable
-fun PixelCoverArt(role: String, seedKey: String, modifier: Modifier = Modifier) {
-    val variant = remember(role, seedKey) { PixelCovers.variantFor(stableSeed("cover|$seedKey|$role")) }
-    val image = remember(role, variant) { picture("c|$role|$variant") { PixelCovers.render(role, variant) } }
-    PixelPicture(image, modifier)
 }
 
 /**
