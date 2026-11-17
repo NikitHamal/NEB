@@ -34,7 +34,8 @@
     var st = P.stages.map(function (s) {
       var groups = [], seen = {};
       P.routes.filter(function (r) { return r.stage === s.id; }).forEach(function (r) { if (!seen[r.group]) { seen[r.group] = { id: r.group, n: GL[r.group] || cap(r.group), tone: GTONE[r.group] || 'sc', courses: [] }; groups.push(seen[r.group]); } seen[r.group].courses.push(r.id); });
-      return { id: s.id, n: s.label.replace(/^After (a )?/i, ''), t: s.label, need: s.label.replace(/^After (a )?/i, ''), streams: groups };
+      var FIN = { after8: 'Class 8', after10: 'Class 10 / SEE', after12: '+2 / Class 12', afterbach: 'Bachelor', aftermaster: 'Master' };
+      return { id: s.id, n: s.label.replace(/^After (a )?/i, ''), t: s.label, l: FIN[s.id] || s.label.replace(/^After (a )?/i, ''), need: s.label.replace(/^After (a )?/i, ''), streams: groups };
     }).filter(function (s) { return s.streams.length; });
     var stageOf = {}; st.forEach(function (s) { s.streams.forEach(function (g) { g.courses.forEach(function (id) { stageOf[id] = [s.id, g.id]; }); }); });
     var C = {};
@@ -87,7 +88,8 @@
     var faq = (P.faq || []).map(function (f) { return { id: f.id, t: tl[f.topic] || f.topic, q: f.q, a: f.a, r: (f.go || []).filter(function (id) { return C[id]; }).slice(0, 4).map(function (id) { return ['goCourse', id, C[id].n]; }) }; });
     var faqTopics = (P.topics || []).map(function (t) { return t.label; }).filter(function (l) { return faq.some(function (f) { return f.t === l; }); });
     var rank = function (id) { return st.map(function (s) { return s.id; }).indexOf(id); };
-    return { STAGES: st, C: C, K: K, X: X, G: G, COL: Object.keys(COL).map(function (k) { return COL[k]; }), CT: abroad, SCH: SCH, CX: CX, tracks: tracks.map(function (t, i) { return [t.id, t.label, TTONE[i % 4]]; }),
+    return { STAGES: st, C: C, K: K, X: X, G: G, COL: Object.keys(COL).map(function (k) { return COL[k]; }), CT: abroad, SCH: SCH, CX: CX, tracks: tracks.map(function (t, i) { return [t.id, t.label, TTONE[i % 4], t.group || 'gov']; }),
+      groups: (P.govt_groups || [{ id: 'gov', label: 'Government' }]).filter(function (g) { return tracks.some(function (t) { return (t.group || 'gov') === g.id; }); }).map(function (g) { return [g.id, g.label]; }),
       faq: faq, faqTopics: faqTopics, faqIcons: fi, cats: ['All'].concat(P.guides.map(function (g) { return g.cat; }).filter(function (c, i, a) { return a.indexOf(c) === i; })), CTONE: CTONE, rank: rank, reviewed: P.reviewed };
   };
 })();

@@ -58,6 +58,8 @@ def payload():
     )
     govt_file = _load('govt.json')
     govt = govt_file['govt']
+    govt_tracks = [dict(t, group=t.get('group', 'gov')) for t in govt_file['tracks']]
+    govt_groups = [{'id': 'gov', 'label': 'Government'}]
     guides = _load('guides.json')['guides'] if (DATA / 'guides.json').exists() else []
     w6c, w6p, w6g = _load('wave6_careers.json'), _load('wave6_places.json'), _load('wave6_govt.json')
     scholarships = scholarships + w6p['scholarships_add']
@@ -306,6 +308,15 @@ def payload():
         for gid, text in w15['govt_note_add'].items():
             by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
         faq_all = faq_all + w15['faq_add']
+    if (DATA / 'wave17.json').exists():
+        w17 = _load('wave17.json')
+        govt_groups = w17['govt_groups']
+        govt_tracks = govt_tracks + w17['govt_tracks_add']
+        govt = govt + w17['govt_add']
+        for rid, eid in w17['route_exam'].items():
+            for r in routes:
+                if r['id'] == rid and not r.get('exam_id'):
+                    r['exam_id'] = eid
     if (DATA / 'wave16.json').exists():
         w16 = _load('wave16.json')
         abroad = abroad + w16['abroad_add']
@@ -358,7 +369,8 @@ def payload():
         'abroad': abroad,
         'topics': _load('faq.json')['topics'],
         'faq': faq_all,
-        'govt_tracks': govt_file['tracks'],
+        'govt_tracks': govt_tracks,
+        'govt_groups': govt_groups,
         'govt': govt,
         'guides': guides,
     }

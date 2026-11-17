@@ -91,7 +91,6 @@ internal fun PwQuestions(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, 
     }
     val openAt = list.indexOfFirst { it.id == s.faqOpen }
     val shown = if (all || openAt >= LIMIT) list else list.take(LIMIT)
-    PwH4("Questions", Modifier.padding(horizontal = 16.dp))
     Box(Modifier.padding(horizontal = 16.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh), contentAlignment = Alignment.CenterStart) {
         BasicTextField(
             q, { q = it; all = false }, Modifier.fillMaxWidth().padding(start = 20.dp, end = 52.dp), singleLine = true,

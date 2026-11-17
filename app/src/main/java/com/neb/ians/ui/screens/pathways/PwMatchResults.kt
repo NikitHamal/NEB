@@ -92,7 +92,7 @@ private fun MatchIntro(step: Int, onGo: () -> Unit) {
 private fun MatchHead(d: PwData, vm: PathwaysViewModel, r: PwMatchResult, district: String, retake: () -> Unit, edit: (Int) -> Unit) {
     val c = MaterialTheme.colorScheme
     val p = pwProfile(d, vm, district)
-    val stageLabel = d.stages.firstOrNull { it.id == p.stage }?.label.orEmpty()
+    val stageLabel = d.stages.firstOrNull { it.id == p.stage }?.let { finishedLabel(it) }.orEmpty()
     fun names(set: Set<String>, all: List<Pair<String, String>>) = if (set.isEmpty()) "Any" else set.joinToString(", ") { k -> all.firstOrNull { it.first == k }?.second ?: k }
     val chips = listOf(
         1 to "Stage: $stageLabel" + (STREAMS.firstOrNull { it.first == p.knownStream }?.let { " · ${it.second}" } ?: ""), 2 to "Enjoy: ${names(p.interests, INTERESTS)}", 3 to "Good at: ${names(p.strengths, STRENGTHS)}",

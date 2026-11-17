@@ -50,15 +50,18 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
         if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@PwScrollPage }
-        if (tracks.size <= 4) PwSeg(tracks.map { it.id to it.label }, track, { s.track = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 12.dp))
-        else PwChipRow(tracks.map { it.id to it.label }, { it == track }, { s.track = it }, Modifier.padding(top = 8.dp, bottom = 12.dp))
+        val groups = d.govtGroups.filter { g -> tracks.any { it.group == g.id } }.ifEmpty { listOf(PwTopic("gov", "Government")) }
+        val group = tracks.firstOrNull { it.id == track }?.group ?: groups.first().id
+        val inGroup = tracks.filter { it.group == group }
+        if (groups.size > 1) PwSeg(groups.map { it.id to it.label }, group, { g -> tracks.firstOrNull { it.group == g }?.let { t -> s.track = t.id } }, Modifier.padding(16.dp, 8.dp, 16.dp, if (inGroup.size > 1) 4.dp else 12.dp))
+        if (inGroup.size > 1) PwChipRow(inGroup.map { it.id to it.label }, { it == track }, { s.track = it }, Modifier.padding(top = if (groups.size > 1) 4.dp else 8.dp, bottom = 12.dp))
         PwSurface(Modifier.padding(16.dp, 0.dp, 16.dp, 12.dp).fillMaxWidth(), radius = 28.dp) {
             Column(Modifier.padding(0.dp, 14.dp, 0.dp, 14.dp)) {
                 Text("Eligibility is checked against your profile", Modifier.padding(start = 16.dp, bottom = 10.dp), fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 PwChipRow((1..4).map { "$it" to EDU_LABELS[it] }, { it == "$edu" }, { vm.setNum("edu", it.toInt()) }, inset = 14.dp)
                 Row(Modifier.padding(14.dp, 6.dp, 14.dp, 0.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Box(Modifier.weight(1f)) { PwSlider(age.toFloat(), { vm.setNum("age", it.roundToInt()) }, 14f..45f, 30, "Age $age") }
-                    PwSeg(listOf(1 to "Woman", 0 to "Man"), if (woman) 1 else 0, { vm.setNum("woman", it) }, fill = false, height = 40.dp)
+                    if (group == "gov") PwSeg(listOf(1 to "Woman", 0 to "Man"), if (woman) 1 else 0, { vm.setNum("woman", it) }, fill = false, height = 40.dp)
                 }
             }
         }

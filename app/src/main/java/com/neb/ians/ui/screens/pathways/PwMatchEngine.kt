@@ -54,7 +54,25 @@ internal val STRENGTH_WORDS = mapOf(
 )
 
 /** The +2 stream a student finished, asked only at the After +2 stage. Index 0 of the saved number means not answered. */
-internal val STREAMS = listOf("pcm" to "Science (Maths)", "pcb" to "Science (Biology)", "mgt" to "Management", "hum" to "Humanities")
+internal val STREAMS = listOf(
+    "pcm" to "Science, Physical group", "pcb" to "Science, Biology group", "mgt" to "Management", "hum" to "Humanities",
+    "edu" to "Education", "law" to "Law", "tec" to "Technical",
+)
+/** Subjects each stream studies, shown under the stream name. Maths is compulsory in the Physical group; Computer Science is an optional subject. */
+internal val STREAM_HINT = mapOf(
+    "pcm" to "Maths compulsory, Physics, Chemistry, Computer optional", "pcb" to "Physics, Chemistry, Biology",
+    "mgt" to "Accountancy, Economics, Business Studies", "hum" to "Sociology, Economics, Media, Population",
+    "edu" to "Education and Development", "law" to "Constitutional and Procedural Law", "tec" to "CTEVT or technical stream",
+)
+/** What the student has finished, in plain words. The stage label itself reads "After ...", which is the wrong way round for a question about now. */
+internal fun finishedLabel(s: PwStage): String = when (s.id) {
+    "after8" -> "Class 8"
+    "after10" -> "Class 10 / SEE"
+    "after12" -> "+2 / Class 12"
+    "afterbach" -> "Bachelor"
+    "aftermaster" -> "Master"
+    else -> s.label.removePrefix("After ").removePrefix("a ").replaceFirstChar { it.uppercase() }
+}
 /** Streams that satisfy each subject need read from an entry text. */
 private val STREAM_MEETS = mapOf("sci" to setOf("pcm", "pcb"), "bio" to setOf("pcb"), "math" to setOf("pcm"), "mgmt" to setOf("mgt"))
 internal const val STREAM_STAGE = "after12"

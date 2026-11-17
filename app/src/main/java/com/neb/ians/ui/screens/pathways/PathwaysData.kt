@@ -68,13 +68,13 @@ data class PwGovt(
 )
 data class PwStep(val title: String, val days: Int, val cost: Long, val online: Boolean)
 data class PwGuide(val id: String, val name: String, val cat: String, val steps: List<PwStep>, val docs: List<String>, val link: String)
-data class PwTopic(val id: String, val label: String)
+data class PwTopic(val id: String, val label: String, val group: String = "gov")
 data class PwFaq(val id: String, val topic: String, val q: String, val a: String, val go: List<String>)
 data class PwData(
     val reviewed: String, val stages: List<PwStage>, val routes: List<PwRoute>, val careers: Map<String, PwCareer>,
     val providers: Map<String, PwProvider>, val scholarships: List<PwScholarship>, val abroad: List<PwAbroad>,
     val topics: List<PwTopic> = emptyList(), val faq: List<PwFaq> = emptyList(),
-    val govtTracks: List<PwTopic> = emptyList(), val govt: List<PwGovt> = emptyList(), val guides: List<PwGuide> = emptyList(),
+    val govtTracks: List<PwTopic> = emptyList(), val govtGroups: List<PwTopic> = emptyList(), val govt: List<PwGovt> = emptyList(), val guides: List<PwGuide> = emptyList(),
 ) {
     val routeById: Map<String, PwRoute> by lazy { routes.associateBy { it.id } }
     val govtById: Map<String, PwGovt> by lazy { govt.associateBy { it.id } }
@@ -153,7 +153,8 @@ internal fun parsePathways(text: String): PwData {
             )
         },
         topics = o.optJSONArray("topics")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
-        govtTracks = o.optJSONArray("govt_tracks")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
+        govtTracks = o.optJSONArray("govt_tracks")?.mapObjs { PwTopic(it.getString("id"), it.optString("label"), it.optString("group").ifEmpty { "gov" }) } ?: emptyList(),
+        govtGroups = o.optJSONArray("govt_groups")?.mapObjs { PwTopic(it.getString("id"), it.optString("label")) } ?: emptyList(),
         govt = o.optJSONArray("govt")?.mapObjs { g ->
             PwGovt(
                 g.getString("id"), g.optString("track"), g.optString("name"), g.optString("level"), g.optString("need"), g.optString("age"), g.optString("body"),

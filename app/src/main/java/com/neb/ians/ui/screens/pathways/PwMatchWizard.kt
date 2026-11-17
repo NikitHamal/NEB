@@ -56,7 +56,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private val QTITLE = listOf(
-    "" to "", "Where are you now?" to "This sets which courses we compare.", "What do you enjoy?" to "Pick up to 3. Go with your gut.",
+    "" to "", "What have you finished?" to "This sets which courses we compare.", "What do you enjoy?" to "Pick up to 3. Go with your gut.",
     "What are you good at?" to "Pick up to 3 subjects or skills.", "What matters most?" to "Pick up to 3. We weigh these hardest.",
     "What can you spend?" to "Total fees for the whole course.", "How do you take risks?" to "Some courses are hard to get into.",
 )
@@ -128,12 +128,12 @@ internal fun PwMatchWizard(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel
 private fun QBody(k: Int, d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, stage: String, shakeKey: String, shakeN: Int, onPick: (String, String) -> Unit, advance: (Int) -> Unit) {
     when (k) {
         1 -> Column {
-            QGrid(d.stages.map { Triple(it.id, it.label, it.blurb.takeIf { b -> b.isNotBlank() }) }, 1, { it == stage }, "", 0) { vm.setMatchStage(it); if (it != STREAM_STAGE) advance(2) }
+            QGrid(d.stages.map { Triple(it.id, finishedLabel(it), it.blurb.takeIf { b -> b.isNotBlank() }) }, 1, { it == stage }, "", 0) { vm.setMatchStage(it); if (it != STREAM_STAGE) advance(2) }
             // the stream decides which degrees are open, so it is asked here and only at the After +2 stage
             AnimatedVisibility(stage == STREAM_STAGE, enter = fadeIn(tween(300)) + expandVertically(tween(350, easing = FastOutSlowInEasing)), exit = fadeOut(tween(150)) + shrinkVertically(tween(250))) {
                 Column {
                     PwH4("Which stream did you study?", Modifier.padding(top = 18.dp))
-                    QGrid(STREAMS.map { Triple(it.first, it.second, null) }, 2, { k -> STREAMS.getOrNull(vm.num("mstream") - 1)?.first == k }, "", 0) { k ->
+                    QGrid(STREAMS.map { Triple(it.first, it.second, STREAM_HINT[it.first]) }, 2, { k -> STREAMS.getOrNull(vm.num("mstream") - 1)?.first == k }, "", 0) { k ->
                         val i = STREAMS.indexOfFirst { it.first == k } + 1
                         vm.setNum("mstream", if (vm.num("mstream") == i) 0 else i)
                     }

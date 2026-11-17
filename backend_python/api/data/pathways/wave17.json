@@ -1,0 +1,628 @@
+{
+ "govt_groups": [
+  {
+   "id": "gov",
+   "label": "Government"
+  },
+  {
+   "id": "ent",
+   "label": "Entrance"
+  },
+  {
+   "id": "lang",
+   "label": "Language"
+  }
+ ],
+ "govt_tracks_add": [
+  {
+   "id": "ent_sci",
+   "label": "Engineering and IT",
+   "group": "ent"
+  },
+  {
+   "id": "ent_med",
+   "label": "Medical and health",
+   "group": "ent"
+  },
+  {
+   "id": "ent_biz",
+   "label": "Management",
+   "group": "ent"
+  },
+  {
+   "id": "ent_dip",
+   "label": "Diploma",
+   "group": "ent"
+  },
+  {
+   "id": "lang_eng",
+   "label": "English",
+   "group": "lang"
+  },
+  {
+   "id": "lang_oth",
+   "label": "Other languages",
+   "group": "lang"
+  }
+ ],
+ "govt_add": [
+  {
+   "id": "e-ioe",
+   "track": "ent_sci",
+   "name": "IOE entrance (BE and B.Arch)",
+   "level": "Engineering bachelor entrance, computer based",
+   "need": "+2 Science with Physics, Chemistry and Mathematics, at least 45 percent or grade C in each",
+   "age": "",
+   "body": "Institute of Engineering, Tribhuvan University",
+   "stages": [
+    [
+     "Computer based test",
+     "100 objective questions, 140 marks, 2 hours. Wrong answers lose 10 percent of the question marks.",
+     "140"
+    ],
+    [
+     "Merit list and counselling",
+     "Seats go by entrance rank. Pick a campus and subject at counselling."
+    ]
+   ],
+   "subjects": [
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "English"
+   ],
+   "prep": [
+    "Revise the +2 Physics, Chemistry and Mathematics syllabus chapter by chapter",
+    "Practise computer based mock tests, the real exam is on a screen",
+    "Mathematics carries the most marks, so give it the most hours"
+   ],
+   "note": "Check the notice of the exam body for dates, fees and seats. They change every year. Students waiting for the +2 result may apply.",
+   "prep_hours": 500,
+   "fee": 0,
+   "seats": 0
+  },
+  {
+   "id": "e-csit",
+   "track": "ent_sci",
+   "name": "BSc CSIT entrance",
+   "level": "Computer science bachelor entrance",
+   "need": "+2 Science, or +2 with Mathematics and Computer",
+   "age": "",
+   "body": "Institute of Science and Technology, Tribhuvan University",
+   "stages": [
+    [
+     "Written test",
+     "100 multiple choice questions, 100 marks, 2 hours. No negative marking. Pass mark 35 percent; good colleges expect much more.",
+     "100"
+    ],
+    [
+     "College selection",
+     "Colleges fill seats in merit order."
+    ]
+   ],
+   "subjects": [
+    "Mathematics 25",
+    "Physics 25",
+    "Chemistry 25",
+    "English 15",
+    "Computer related general knowledge 10"
+   ],
+   "prep": [
+    "Mathematics, Physics and Chemistry carry 75 of the 100 marks",
+    "Do timed 2 hour model papers from the IOST notice page",
+    "Leave nothing blank, there is no negative marking"
+   ],
+   "note": "Check the notice of the exam body for dates, fees and seats. They change every year. The 2083 round took forms from 22 July to 1 August 2026 and held the test on 9 August 2026.",
+   "syllabus": [
+    [
+     "Mathematics",
+     25
+    ],
+    [
+     "Physics",
+     25
+    ],
+    [
+     "Chemistry",
+     25
+    ],
+    [
+     "English",
+     15
+    ],
+    [
+     "Computer related GK",
+     10
+    ]
+   ],
+   "prep_hours": 250,
+   "apply": [
+    7,
+    8
+   ],
+   "exam_month": 8,
+   "fee": 1950
+  },
+  {
+   "id": "e-mecee",
+   "track": "ent_med",
+   "name": "MECEE-BL (MBBS, BDS, nursing, pharmacy)",
+   "level": "Common medical entrance, bachelor level",
+   "need": "+2 Science with Physics, Chemistry and Biology, at least 50 percent and the minimum grade in each",
+   "age": "",
+   "body": "Medical Education Commission",
+   "stages": [
+    [
+     "Written test",
+     "200 single best answer questions, 200 marks, 3 hours. 0.25 marks off for each wrong answer. Pass mark is the 50th percentile.",
+     "200"
+    ],
+    [
+     "Merit list and counselling",
+     "Seats for MBBS and BDS are listed by merit, with scholarship and quota rules in the notice."
+    ]
+   ],
+   "subjects": [
+    "Chemistry 50",
+    "Physics 50",
+    "Zoology 40",
+    "Botany 40",
+    "Mental agility 20"
+   ],
+   "prep": [
+    "Biology is 80 marks, keep it first",
+    "Practise negative marking, guess only when you can drop two options",
+    "Take at least 10 full length papers before the exam"
+   ],
+   "note": "Check the notice of the exam body for dates, fees and seats. They change every year.",
+   "syllabus": [
+    [
+     "Chemistry",
+     50
+    ],
+    [
+     "Physics",
+     50
+    ],
+    [
+     "Zoology",
+     40
+    ],
+    [
+     "Botany",
+     40
+    ],
+    [
+     "Mental agility",
+     20
+    ]
+   ],
+   "prep_hours": 900
+  },
+  {
+   "id": "e-cmat",
+   "track": "ent_biz",
+   "name": "CMAT (BBA, BBS, BHM and related)",
+   "level": "Management common entrance",
+   "need": "+2 in any stream, grade C or above in English",
+   "age": "",
+   "body": "Faculty of Management, Tribhuvan University",
+   "stages": [
+    [
+     "Written test",
+     "100 objective questions on verbal ability, quantitative ability, logical reasoning and general awareness.",
+     "100"
+    ],
+    [
+     "Group discussion and interview",
+     "Many colleges add these rounds before the final merit list."
+    ]
+   ],
+   "subjects": [
+    "Verbal ability",
+    "Quantitative ability",
+    "Logical reasoning",
+    "General awareness"
+   ],
+   "prep": [
+    "Practise reasoning and basic maths daily",
+    "Read one English newspaper article a day",
+    "Do timed model papers"
+   ],
+   "note": "Check the notice of the exam body for dates, fees and seats. They change every year. Colleges set their own extra rounds. The 2083 round took forms from 15 June to 4 August 2026 and held the test on 8 August 2026.",
+   "prep_hours": 150,
+   "apply": [
+    6,
+    8
+   ],
+   "exam_month": 8,
+   "fee": 1000
+  },
+  {
+   "id": "e-ctevt",
+   "track": "ent_dip",
+   "name": "CTEVT diploma entrance",
+   "level": "Diploma entrance for health, engineering and agriculture",
+   "need": "SEE pass, with the subject grades the programme asks for",
+   "age": "",
+   "body": "CTEVT",
+   "stages": [
+    [
+     "Written entrance test",
+     "Objective test on science, mathematics and English at SEE level.",
+     "100"
+    ],
+    [
+     "Merit list and admission",
+     "Seats include scholarship quotas for public colleges."
+    ]
+   ],
+   "subjects": [
+    "Science",
+    "Mathematics",
+    "English"
+   ],
+   "prep": [
+    "Go through the SEE science and maths books again",
+    "Practise past questions from the CTEVT site"
+   ],
+   "note": "Check the notice of the exam body for dates, fees and seats. They change every year. Programmes such as Health Assistant, Civil engineering and Computer engineering each publish their own notice.",
+   "prep_hours": 150
+  },
+  {
+   "id": "l-ielts",
+   "track": "lang_eng",
+   "name": "IELTS",
+   "level": "English test for study, work and migration",
+   "need": "No fixed minimum. Universities set the band they need",
+   "age": "",
+   "body": "British Council and IDP",
+   "stages": [
+    [
+     "Listening",
+     "About 30 minutes, 40 questions."
+    ],
+    [
+     "Reading",
+     "60 minutes, 40 questions."
+    ],
+    [
+     "Writing",
+     "60 minutes, two tasks."
+    ],
+    [
+     "Speaking",
+     "11 to 14 minutes with an examiner."
+    ]
+   ],
+   "subjects": [
+    "Listening",
+    "Reading",
+    "Writing",
+    "Speaking"
+   ],
+   "prep": [
+    "Take one full practice test first to see your band",
+    "Write two essays a week and get them marked",
+    "Record yourself for the speaking round"
+   ],
+   "note": "Scored in bands from 0 to 9. Results are valid for 2 years. Tests run through the year in Kathmandu and other cities.",
+   "syllabus": [
+    [
+     "Listening",
+     25
+    ],
+    [
+     "Reading",
+     25
+    ],
+    [
+     "Writing",
+     25
+    ],
+    [
+     "Speaking",
+     25
+    ]
+   ],
+   "apply": [
+    1,
+    12
+   ],
+   "prep_hours": 120
+  },
+  {
+   "id": "l-pte",
+   "track": "lang_eng",
+   "name": "PTE Academic",
+   "level": "Computer based English test",
+   "need": "No fixed minimum. Universities set the score they need",
+   "age": "",
+   "body": "Pearson",
+   "stages": [
+    [
+     "Speaking and writing",
+     "Combined section, about 54 to 67 minutes."
+    ],
+    [
+     "Reading",
+     "29 to 30 minutes."
+    ],
+    [
+     "Listening",
+     "30 to 43 minutes."
+    ]
+   ],
+   "subjects": [
+    "Speaking",
+    "Writing",
+    "Reading",
+    "Listening"
+   ],
+   "prep": [
+    "Learn the template for each task type",
+    "Practise on a computer with a headset",
+    "Time yourself, the screen moves on"
+   ],
+   "note": "Scored from 10 to 90, results usually come within days. Valid for 2 years.",
+   "apply": [
+    1,
+    12
+   ],
+   "prep_hours": 100
+  },
+  {
+   "id": "l-toefl",
+   "track": "lang_eng",
+   "name": "TOEFL iBT",
+   "level": "Computer based English test",
+   "need": "No fixed minimum. Universities set the score they need",
+   "age": "",
+   "body": "ETS",
+   "stages": [
+    [
+     "Reading",
+     "Academic passages."
+    ],
+    [
+     "Listening",
+     "Lectures and conversations."
+    ],
+    [
+     "Speaking",
+     "Spoken answers recorded on screen."
+    ],
+    [
+     "Writing",
+     "Written tasks typed on screen."
+    ]
+   ],
+   "subjects": [
+    "Reading",
+    "Listening",
+    "Speaking",
+    "Writing"
+   ],
+   "prep": [
+    "Check ets.org for the current format and score scale, it changed recently",
+    "Practise with the official ETS tests",
+    "Read academic articles daily"
+   ],
+   "note": "Taken at a test centre or at home. Valid for 2 years. Mostly asked by universities in the USA and Canada.",
+   "apply": [
+    1,
+    12
+   ],
+   "prep_hours": 120
+  },
+  {
+   "id": "l-det",
+   "track": "lang_eng",
+   "name": "Duolingo English Test",
+   "level": "Online English test",
+   "need": "No fixed minimum. Check that your university accepts it",
+   "age": "",
+   "body": "Duolingo",
+   "stages": [
+    [
+     "Adaptive test",
+     "About one hour taken online at home, with a short video interview and writing sample."
+    ]
+   ],
+   "subjects": [
+    "Reading",
+    "Listening",
+    "Speaking",
+    "Writing"
+   ],
+   "prep": [
+    "Practise on a quiet computer with a good webcam",
+    "Do the free practice test first"
+   ],
+   "note": "Scored from 10 to 160. Valid for 2 years. Cheapest of the main English tests, but not accepted everywhere.",
+   "apply": [
+    1,
+    12
+   ],
+   "prep_hours": 60
+  },
+  {
+   "id": "l-jlpt",
+   "track": "lang_oth",
+   "name": "JLPT (Japanese)",
+   "level": "Japanese language proficiency test",
+   "need": "No fixed minimum. N5 is the easiest, N1 the hardest",
+   "age": "",
+   "body": "Japan Foundation and Japan Educational Exchanges and Services",
+   "stages": [
+    [
+     "Vocabulary and grammar",
+     "Language knowledge section."
+    ],
+    [
+     "Reading",
+     "Short and long passages."
+    ],
+    [
+     "Listening",
+     "Audio questions."
+    ]
+   ],
+   "subjects": [
+    "Vocabulary",
+    "Grammar",
+    "Reading",
+    "Listening"
+   ],
+   "prep": [
+    "Learn hiragana and katakana first",
+    "Finish a level book per level",
+    "N4 is the usual minimum for a Japanese language school visa"
+   ],
+   "note": "Held once or twice a year in Kathmandu, so register early. Nepal workers and students also use JFT-Basic and NAT-TEST.",
+   "exam_month": 12,
+   "prep_hours": 350
+  },
+  {
+   "id": "l-topik",
+   "track": "lang_oth",
+   "name": "TOPIK (Korean)",
+   "level": "Korean language proficiency test",
+   "need": "No fixed minimum. TOPIK I is level 1 to 2, TOPIK II is level 3 to 6",
+   "age": "",
+   "body": "NIIED Korea",
+   "stages": [
+    [
+     "TOPIK I",
+     "Listening and reading."
+    ],
+    [
+     "TOPIK II",
+     "Listening, writing and reading."
+    ]
+   ],
+   "subjects": [
+    "Listening",
+    "Reading",
+    "Writing"
+   ],
+   "prep": [
+    "Level 3 is the usual minimum for most universities",
+    "Learn Hangul in the first week",
+    "Practise listening every day"
+   ],
+   "note": "Dates in Nepal are published each year by the exam centre. Workers going through the government route sit a separate EPS-TOPIK.",
+   "prep_hours": 300
+  },
+  {
+   "id": "l-goethe",
+   "track": "lang_oth",
+   "name": "German (Goethe, telc, TestDaF)",
+   "level": "German language certificates",
+   "need": "No fixed minimum. Study visas usually ask for B1 or B2",
+   "age": "",
+   "body": "Goethe Institut and partners",
+   "stages": [
+    [
+     "Listening and reading",
+     "Written modules."
+    ],
+    [
+     "Writing and speaking",
+     "Written and oral modules."
+    ]
+   ],
+   "subjects": [
+    "Listening",
+    "Reading",
+    "Writing",
+    "Speaking"
+   ],
+   "prep": [
+    "Take the course level by level, A1 to B2 takes around a year",
+    "Book the exam before you finish the course, seats fill early"
+   ],
+   "note": "Certificate level is on a scale from A1 to C2. Check the university and embassy page for the level you need.",
+   "prep_hours": 400
+  },
+  {
+   "id": "l-hsk",
+   "track": "lang_oth",
+   "name": "HSK (Chinese)",
+   "level": "Chinese language proficiency test",
+   "need": "No fixed minimum. Level 1 is the easiest",
+   "age": "",
+   "body": "Hanban and Confucius Institutes",
+   "stages": [
+    [
+     "Listening and reading",
+     "Written test."
+    ],
+    [
+     "Writing",
+     "From level 3 upward."
+    ]
+   ],
+   "subjects": [
+    "Listening",
+    "Reading",
+    "Writing"
+   ],
+   "prep": [
+    "Learn pinyin and tones early",
+    "HSK 4 is often asked for degree study in China"
+   ],
+   "note": "Chinese government scholarships usually ask for HSK 4 or HSK 5, depending on the programme.",
+   "prep_hours": 300
+  }
+ ],
+ "route_exam": {
+  "be-computer": "e-ioe",
+  "be-civil": "e-ioe",
+  "be-electrical": "e-ioe",
+  "be-mechanical": "e-ioe",
+  "be-geomatics": "e-ioe",
+  "be-electronics": "e-ioe",
+  "be-aerospace-auto": "e-ioe",
+  "be-agri": "e-ioe",
+  "be-chemical-hydro": "e-ioe",
+  "barch": "e-ioe",
+  "bsc-csit": "e-csit",
+  "mbbs": "e-mecee",
+  "bds": "e-mecee",
+  "bns": "e-mecee",
+  "bsc-nursing": "e-mecee",
+  "bpharm": "e-mecee",
+  "bmlt": "e-mecee",
+  "bpt": "e-mecee",
+  "bph": "e-mecee",
+  "bams": "e-mecee",
+  "boptom": "e-mecee",
+  "bsc-mit": "e-mecee",
+  "baslp": "e-mecee",
+  "bmid": "e-mecee",
+  "bperfusion-anesthesia": "e-mecee",
+  "bba": "e-cmat",
+  "bhm": "e-cmat",
+  "bbm": "e-cmat",
+  "bttm": "e-cmat",
+  "bim": "e-cmat",
+  "bpa": "e-cmat",
+  "dip-engineering": "e-ctevt",
+  "dip-health": "e-ctevt",
+  "dip-agriculture": "e-ctevt",
+  "pcl-nursing": "e-ctevt",
+  "pcl-general-medicine": "e-ctevt",
+  "dip-pharmacy": "e-ctevt",
+  "dip-geomatics": "e-ctevt",
+  "dip-forestry": "e-ctevt",
+  "dip-it-computer": "e-ctevt",
+  "dip-mech-auto-arch": "e-ctevt",
+  "pcl-cmlt": "e-ctevt",
+  "pcl-radiography": "e-ctevt",
+  "pcl-ophthalmic": "e-ctevt",
+  "pcl-dental": "e-ctevt",
+  "pcl-ayurveda-physio": "e-ctevt",
+  "dip-computer-eng": "e-ctevt"
+ }
+}

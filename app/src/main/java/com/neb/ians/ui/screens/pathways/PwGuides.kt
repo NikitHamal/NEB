@@ -36,11 +36,15 @@ internal fun guideDone(vm: PathwaysViewModel, g: PwGuide): Int = g.steps.indices
 @Composable
 internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     var cat by rememberSaveable { mutableStateOf("All") }
+    var view by rememberSaveable { mutableStateOf(if (vm.sel.faqOpen.isNotEmpty()) "faq" else "guides") }
+    val hasBoth = d.guides.isNotEmpty() && d.faq.isNotEmpty()
+    val shown = if (!hasBoth) (if (d.guides.isNotEmpty()) "guides" else "faq") else view
     PwScrollPage(24.dp) {
         PwRootBar { nav.push("search") }
-        if (d.guides.isNotEmpty()) {
+        if (hasBoth) PwSeg(listOf("guides" to "Guides", "faq" to "Questions"), shown, { view = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 12.dp))
+        if (shown == "guides" && d.guides.isNotEmpty()) {
             val cats = listOf("All") + d.guides.map { it.cat }.distinct()
-            PwChipRow(cats.map { it to it }, { it == cat }, { cat = it }, Modifier.padding(top = 8.dp, bottom = 12.dp))
+            PwChipRow(cats.map { it to it }, { it == cat }, { cat = it }, Modifier.padding(top = if (hasBoth) 0.dp else 8.dp, bottom = 12.dp))
             Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 d.guides.filter { cat == "All" || it.cat == cat }.chunked(2).forEach { row ->
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -50,7 +54,7 @@ internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav
                 }
             }
         }
-        if (d.faq.isNotEmpty()) PwQuestions(d, ui, vm, nav)
+        if (shown == "faq" && d.faq.isNotEmpty()) PwQuestions(d, ui, vm, nav)
         if (d.guides.isEmpty() && d.faq.isEmpty()) PwEmpty("Guides are on the way")
     }
 }

@@ -6,7 +6,7 @@ const root=document.getElementById('pwx');if(!root)return;
 const fail=t=>{root.innerHTML='<div class="pw-fail">'+t+'</div>'};
 fetch(root.dataset.src,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(P=>{
 root.innerHTML='<div class="app"><div class="top" id="pw-top"></div><div id="pw-main"></div><div class="peek" id="pw-peek"></div><nav class="nav" id="pw-nav"></nav><aside class="sheet" id="pw-sheet"></aside></div>';
-const DATA=pwAdapt(P),{STAGES,C,K,X,G,COL,CT,SCH,CX}=DATA,TR=DATA.tracks,GT=DATA.CTONE;
+const DATA=pwAdapt(P),{STAGES,C,K,X,G,COL,CT,SCH,CX}=DATA,TR=DATA.tracks,XGR=DATA.groups,GT=DATA.CTONE,grOf=t=>(TR.find(r=>r[0]===t)||[0,0,0,'gov'])[3];
 const PMAX=Math.max(100,...Object.values(K).map(k=>k.pay[2]));
 const VISA=Object.keys(G).find(k=>/visa/.test(k))||'';
 Object.values(K).forEach(k=>{if(k.lx&&!X[k.lx])k.lx=''});
@@ -160,7 +160,7 @@ explore(){const st=stage(),sm=stream(),cs=sm.courses,ks=[...new Set(cs.flatMap(i
     <div class="col">${ks.map((id,i)=>`<button class="nd k" style="--i:${i+3}" data-a="career" data-v="${id}"><i class="fl"></i>${sig(K[id].d)}<span>${K[id].n}</span><small></small></button>`).join('')}</div>
   </div></div>`},
 study(){return `<div class="wrap pad">${segHTML([['nepal','Colleges'],['abroad','Abroad'],['funding','Funding']],S.study,'study')}${STUDY[S.study]()}</div>`},
-exams(){return `<div class="wrap pad">${segHTML(TR.map(t=>[t[0],t[1]]),S.xg,'xg')}
+exams(){const gt=TR.filter(t=>t[3]===grOf(S.xg));return `<div class="wrap pad">${XGR.length>1?segHTML(XGR,grOf(S.xg),'xgr'):''}${gt.length>1?`<div class="chips">${gt.map(t=>`<button class="chip ${t[0]===S.xg?'on':''}" data-a="xg" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`:''}
   <div class="xp"><small>Eligibility is checked against your profile</small><div class="chips">${[1,2,3,4].map(i=>`<button class="chip ${S.edu===i?'on':''}" data-a="edu" data-v="${i}">${EDU[i]}</button>`).join('')}</div>
   <div class="ctl"><div class="sl"><input type="range" id="age" min="14" max="45" value="${S.age}" aria-label="Age"><output id="agev">Age ${S.age}</output></div>${Object.values(X).some(x=>x.g===S.xg&&x.age&&x.age[2]>x.age[1])?segHTML([['1','Woman'],['0','Man']],S.woman,'woman',''):''}</div></div>
   <div id="xlist">${xlistHTML()}</div></div>`},
@@ -357,7 +357,7 @@ function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let 
   (l.map(x=>`<div class="crow"><div><b>${x.n}</b><span>${x.d} · ${x.u}${x.seats?' · '+x.seats+' seats':''}</span></div><span class="tag t-${x.t==='Public'?'gc':'tc'}">${x.t}</span>${x.fee!=null?`<div class="fee"><i style="width:${x.fee/MXF*100}%"></i></div><span class="fv">${lakh(x.fee)}</span>`:''}</div>`).join('')||empty('No colleges'))+(nAll>60?`<p class="mk-n">Showing 60 of ${nAll}. Narrow by province, district or fee.</p>`:'')}
 const QI={build:'Making and fixing things',heal:'Helping people get well',num:'Data, money, patterns',ppl:'Teaching, leading, talking',make:'Design, art, media',law:'Rules, fairness, debate',nature:'Land, plants, outdoors',serve:'Public service, community'};
 const QP={pay:'A bigger salary',demand:'Plenty of jobs open',ease:'Easier to get in',cost:'Lower fees',abroad:'Chances overseas',near:'Colleges close to me'};
-const QT=[0,['Where are you now?','This sets which courses we compare.'],['What do you enjoy?','Pick up to 3. Go with your gut.'],['What are you good at?','Pick up to 3 subjects or skills.'],['What matters most?','Pick up to 3. We weigh these hardest.'],['What can you spend?','Total fees for the whole course.'],['How do you take risks?','Some courses are hard to get into.']];
+const QT=[0,['What have you finished?','This sets which courses we compare.'],['What do you enjoy?','Pick up to 3. Go with your gut.'],['What are you good at?','Pick up to 3 subjects or skills.'],['What matters most?','Pick up to 3. We weigh these hardest.'],['What can you spend?','Total fees for the whole course.'],['How do you take risks?','Some courses are hard to get into.']];
 const mpool=()=>(STAGES.find(s=>s.id===S.mstg)||stage()).streams.flatMap(x=>x.courses).map(id=>C[id]);
 const KW={build:['build','engineer','construct','machine','civil','mechanic','electric','software','repair'],heal:['health','patient','clinic','nurs','medic','pharma','care','dental'],num:['account','finance','statist','data','audit','bank','math','econom'],ppl:['teach','people','manage','communicat','lead','counsel','social','hospitality'],make:['design','art','media','creative','film','music','architect','journal'],law:['law','legal','court','justice','policy','police'],nature:['agricultur','forest','environment','plant','animal','land','veterin'],serve:['public','govern','service','community','army','police']};
 const KS={math:['math','statist','account','data','physics'],sci:['science','physic','chem','lab','research'],bio:['biolog','anatomy','patient','clinic','agricultur'],lang:['english','writing','communicat','nepali','language','journal'],biz:['business','finance','account','market','sales','manage'],comp:['program','computer','software','coding','data'],art:['design','draw','creative','art']};
@@ -390,11 +390,11 @@ function mload(){try{const o=JSON.parse(localStorage.getItem(MK)||'null');if(!o|
   S.mi=new Set(o.i);S.ms=new Set(o.s);S.mp=new Set(o.p);S.mb=+o.b||15;S.my=+o.y||0;S.mr=o.r||'mid';S.mstg=o.g;S.mst=STM.some(x=>x[0]===o.m)?o.m:'';S.mdone=!!o.d}catch(e){}}
 const qo=(a,v,on,t,s)=>`<button class="qo ${on?'on':''}" data-a="${a}" data-v="${v}"><b>${t}</b>${s?`<span>${s}</span>`:''}</button>`;
 /* The +2 stream the student finished. It is asked only at the After +2 stage, where it decides which degrees are open. */
-const STM=[['pcm','Science (Maths)'],['pcb','Science (Biology)'],['mgt','Management'],['hum','Humanities']],STMET={sci:['pcm','pcb'],bio:['pcb'],math:['pcm'],mgmt:['mgt']},NDL={sci:'Science',bio:'Biology',math:'Maths',mgmt:'Management'};
-const mstHTML=()=>S.mstg==='after12'?`<h4 style="margin-top:18px">Which stream did you study?</h4><div class="qg">${STM.map(([v,n])=>qo('mst',v,S.mst===v,n)).join('')}</div>`:'';
+const STM=[['pcm','Science, Physical group','Maths compulsory, Physics, Chemistry, Computer optional'],['pcb','Science, Biology group','Physics, Chemistry, Biology'],['mgt','Management','Accountancy, Economics, Business Studies'],['hum','Humanities','Sociology, Economics, Media, Population'],['edu','Education','Education and Development'],['law','Law','Constitutional and Procedural Law'],['tec','Technical','CTEVT or technical stream']],STMET={sci:['pcm','pcb'],bio:['pcb'],math:['pcm'],mgmt:['mgt']},NDL={sci:'Science',bio:'Biology',math:'Maths',mgmt:'Management'};
+const mstHTML=()=>S.mstg==='after12'?`<h4 style="margin-top:18px">Which stream did you study?</h4><div class="qg">${STM.map(([v,n,d])=>qo('mst',v,S.mst===v,n,d)).join('')}</div>`:'';
 const qset=k=>({2:S.mi,3:S.ms,4:S.mp})[k];
 function qBody(k){
-  if(k===1)return `<div class="qg one">${STAGES.map(s=>qo('mstg',s.id,S.mstg===s.id,s.t,s.streams.map(x=>x.n).join(' · '))).join('')}</div><div id="mstbox">${mstHTML()}</div>`;
+  if(k===1)return `<div class="qg one">${STAGES.map(s=>qo('mstg',s.id,S.mstg===s.id,s.l,s.streams.map(x=>x.n).join(' · '))).join('')}</div><div id="mstbox">${mstHTML()}</div>`;
   if(k===2)return `<div class="qg">${INT.map(([v,n])=>qo('mi',v,S.mi.has(v),n,QI[v])).join('')}</div>`;
   if(k===3)return `<div class="qg">${STR.map(([v,n])=>qo('ms',v,S.ms.has(v),n)).join('')}</div>`;
   if(k===4)return `<div class="qg">${PRI.filter(p=>p[0]!=='near'||S.dist).map(([v,n])=>qo('mp',v,S.mp.has(v),n,QP[v])).join('')}</div>`;
@@ -413,7 +413,7 @@ function qHTML(){const k=S.mstep;
   <div class="qb ${S.qa?(S.mdir>0?'in':'rev'):''}"><h2 class="qt">${QT[k][0]}</h2><p class="qd">${QT[k][1]}</p>${qBody(k)}</div>
   <div class="qf"><div class="qn" id="qn">${ms?ms.size+' of 3 picked':''}</div><button class="btn f" id="qnext" data-a="mnext" ${need?'disabled':''}>${S.medit?'Update matches':last?'See my matches':'Next'}</button></div></div>`}
 const mans=()=>{const l=(set,L)=>set.size?[...set].map(k=>(L.find(x=>x[0]===k)||[,k])[1]).join(', '):'Any';
-  return [[1,'Stage',stage_of(S.mstg).t+(S.mstg==='after12'&&S.mst?' · '+STM.find(y=>y[0]===S.mst)[1]:'')],[2,'Enjoy',l(S.mi,INT)],[3,'Good at',l(S.ms,STR)],[4,'Care about',l(S.mp,PRI)],[5,'Budget','NPR '+S.mb+'L'+(S.my?' · '+S.my+' yr':'')],[6,'Style',{safe:'Safe',mid:'Balanced',bold:'Aim high'}[S.mr]]]};
+  return [[1,'Stage',stage_of(S.mstg).l+(S.mstg==='after12'&&S.mst?' · '+STM.find(y=>y[0]===S.mst)[1]:'')],[2,'Enjoy',l(S.mi,INT)],[3,'Good at',l(S.ms,STR)],[4,'Care about',l(S.mp,PRI)],[5,'Budget','NPR '+S.mb+'L'+(S.my?' · '+S.my+' yr':'')],[6,'Style',{safe:'Safe',mid:'Balanced',bold:'Aim high'}[S.mr]]]};
 const stage_of=id=>STAGES.find(s=>s.id===id)||stage();
 function mcard(m,i){const {c,s,why,p}=m,open=S.mopen===c.id,k=C[c.id],pay=c.pay?'NPR '+c.pay[0]+'–'+c.pay[1]+'k':'Varies';
   return `<div class="mc ${i===0?'top':''} ${open?'open':''}"><button class="mt" data-a="mx" data-v="${c.id}">${ring(s,'','s still','currentColor')}<div><b>${c.n}</b>${why.length?`<div class="rz">${why.map(w=>`<i>${w}</i>`).join('')}</div>`:`<span>${c.f}</span>`}</div><i class="chv">${I('arrow',20)}</i></button>
@@ -428,7 +428,7 @@ function matchPanel(){
     <div class="chips w">${['Interests','Strengths','Budget','Priorities','Competition'].map(t=>`<span class="skill">${t}</span>`).join('')}</div>`}
   const all=matchOf(mpool()),strong=all.filter(m=>m.s>=65),poss=all.filter(m=>m.s>=40&&m.s<65),weak=all.filter(m=>m.s<40),good=strong.length+poss.length;
   if(!S.mopen&&S.mopen!==''&&all[0])S.mopen=all[0].c.id;
-  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).t} · ${strong.length} strong · ${poss.length} possible · ${S.mi.size+S.ms.size+S.mp.size+2+(S.mstg==='after12'&&S.mst?1:0)} answers</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
+  const head=`<div class="mhd"><div><b>${good?'Your matches':'No matches yet'}</b><span>${stage_of(S.mstg).l} · ${strong.length} strong · ${poss.length} possible · ${S.mi.size+S.ms.size+S.mp.size+2+(S.mstg==='after12'&&S.mst?1:0)} answers</span></div><button class="btn t sm" data-a="mretake">Retake</button></div>
     <div class="chips">${mans().map(([i,l,v])=>`<button class="chip" data-a="medit" data-v="${i}">${l}: ${v}</button>`).join('')}</div>`;
   if(!good){const mn=Math.min(...mpool().map(c=>c.fee[0])),tips=[];
     if(mn>S.mb)tips.push('Cheapest course here starts at '+lakh(mn)+'. Your budget is NPR '+S.mb+'L.');
@@ -499,6 +499,7 @@ ctry(v){S.ab=S.ab===v?null:v;const l=$('#ablist');if(l)l.innerHTML=abList();else
 skf(v){S.sk=v||null;S.study='funding';S.stype='All';S.slvl='All';renderMain()},
 stype(v){S.stype=v;renderMain()},slvl(v){S.slvl=v;renderMain()},
 sch(v){S.schOpen=S.schOpen===v?null:v;renderMain()},
+xgr(v){const t=TR.find(r=>r[3]===v);if(t)A.xg(t[0])},
 xg(v){S.xg=v;const l=Object.values(X).filter(x=>x.g===v);if(!l.some(x=>x.id===S.exam))S.exam=l[0].id;S.tabs.exam='stages';renderMain();renderSheet()},
 edu(v){S.edu=+v;renderMain()},gv(v){S.gv=v;renderMain()},fqt(v){S.fqt=v;renderMain()},fqo(v,t){const e=t.closest('.fq'),o=e.classList.contains('open');$$('.fq.open').forEach(x=>x.classList.remove('open'));if(!o)e.classList.add('open');S.fqo=o?null:v},fqh(v,t){tog(S.fqh,v);t.classList.toggle('on')},xf(v){S.xf=S.xf===v?'all':v;$('#xlist').innerHTML=xlistHTML()},xs(v){S.xs=v;$('#xlist').innerHTML=xlistHTML()},
 woman(v){S.woman=v;renderMain()},
