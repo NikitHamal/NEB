@@ -16,7 +16,8 @@
   <h1>NEBians profiles v3<small>Concept only. The app is not changed.</small></h1><span class="grow"></span>
   <div class="seg" role="group" aria-label="Profile type"><button data-type="all">All four</button><button data-type="student">Student</button><button data-type="teacher">Teacher</button><button data-type="institution">Institution</button><button data-type="contributor">Contributor</button></div>
   <div class="seg" role="group" aria-label="Viewer"><button data-self="0">Visitor</button><button data-self="1">My own</button></div>
-  <a class="iconbtn" href="art.html" aria-label="Art library" title="Art library"><span class="ms">palette</span></a>
+  <div class="seg" role="group" aria-label="Art engine"><button data-art="v2">Art v2</button><button data-art="v1">Art v1</button></div>
+  <a class="iconbtn" href="art-v2.html" aria-label="Art library v2" title="M3X Art Library v2"><span class="ms">palette</span></a>
   <button class="iconbtn" id="theme" aria-label="Toggle theme"><span class="ms">dark_mode</span></button>
 </div></header>
 <main>
@@ -31,7 +32,7 @@
       <div class="pair"><b>Open to</b><p><span class="was">A row of coloured pills that cut off at the edge.</span><br>Four tiles, each with an icon shape, the offer and the specific (subject, time, place). Visitors tap to reach out, owners tap to edit. Every type has its own offers.</p></div>
       <div class="pair"><b>Studying now</b><p><span class="was">A line of text.</span><br>Subject art, chapter, one segment per chapter, today's time, streak, the week as bars, and the resource being read.</p></div>
       <div class="pair"><b>Overview</b><p><span class="was">A flat stack of lists.</span><br>It opens with three glance tiles, then the modules that matter for that profile. Every module has See all that opens its tab, and nothing lives only in Overview.</p></div>
-      <div class="pair"><b>Art</b><p><span class="was">2D pixel pictures.</span><br>Covers, thumbnails, books, collections and achievements come from the new M3X art library of 725 pieces. <a href="art.html">Open the library</a>.</p></div>
+      <div class="pair"><b>Art</b><p><span class="was">2D pixel pictures &amp; V1 abstract shapes.</span><br>Covers, thumbnails, books, collections and achievements now support <b>M3X Art Library v2</b> (1,108 pieces, 20 domain scenes, 8-tone M3X palettes) with a live Art v2 / v1 switch in the top bar. <a href="art-v2.html">Open Art Library v2</a> or <a href="art.html">Art v1</a>.</p></div>
     </div>
   </section>
   <section><h2>Tabs by profile type</h2>
@@ -49,6 +50,13 @@
 <script src="concepts/art/art-layouts-a.js"></script>
 <script src="concepts/art/art-layouts-b.js"></script>
 <script src="concepts/art/art-make.js"></script>
+<script src="concepts/art-v2/v2-core.js"></script>
+<script src="concepts/art-v2/v2-scenes-sci.js"></script>
+<script src="concepts/art-v2/v2-scenes-hum.js"></script>
+<script src="concepts/art-v2/v2-scenes-extra.js"></script>
+<script src="concepts/art-v2/v2-layouts-m3x.js"></script>
+<script src="concepts/art-v2/v2-layouts-ui.js"></script>
+<script src="concepts/art-v2/v2-catalog.js"></script>
 <script src="concepts/profile-v3/ui.js"></script>
 <script src="concepts/profile-v3/data.js"></script>
 <script src="concepts/profile-v3/tabs.js"></script>
