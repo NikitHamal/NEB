@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBians Profiles v3 concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="concepts/profile-v3/base.css">
+<link rel="stylesheet" href="concepts/profile-v3/modules.css">
+<link rel="stylesheet" href="concepts/profile-v3/notes.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <h1>NEBians profiles v3<small>Concept only. The app is not changed.</small></h1><span class="grow"></span>
+  <div class="seg" role="group" aria-label="Profile type"><button data-type="all">All four</button><button data-type="student">Student</button><button data-type="teacher">Teacher</button><button data-type="institution">Institution</button><button data-type="contributor">Contributor</button></div>
+  <div class="seg" role="group" aria-label="Viewer"><button data-self="0">Visitor</button><button data-self="1">My own</button></div>
+  <a class="iconbtn" href="art.html" aria-label="Art library" title="Art library"><span class="ms">palette</span></a>
+  <button class="iconbtn" id="theme" aria-label="Toggle theme"><span class="ms">dark_mode</span></button>
+</div></header>
+<main>
+<div id="stage" class="stage"></div>
+<div class="notes">
+  <section><h2>What changed since v2</h2>
+    <div class="pairs">
+      <div class="pair"><b>Icons</b><p><span class="was">Hand drawn strokes.</span><br>Material Symbols Outlined everywhere, the same font the site and the app use. Filled only for verified, pinned and selected states.</p></div>
+      <div class="pair"><b>Message</b><p><span class="was">Follow and Message.</span><br>There is no messaging on the platform, so it is gone. Teachers and schools who add a number get a Call button in the header and a Contact card in Overview. Nobody else sees a call option.</p></div>
+      <div class="pair"><b>Resources</b><p><span class="was">Concept cards of our own invention.</span><br>The exact site card: art, type pill, subject icon, subject chip, title, grade and size, author, time and views. Rail size in Overview, two columns in the tab.</p></div>
+      <div class="pair"><b>Posts</b><p><span class="was">Heart to like.</span><br>The site post card with thumb_up, comments, views for the owner and Share. Pinned post keeps the new pin label and a primary border.</p></div>
+      <div class="pair"><b>Open to</b><p><span class="was">A row of coloured pills that cut off at the edge.</span><br>Four tiles, each with an icon shape, the offer and the specific (subject, time, place). Visitors tap to reach out, owners tap to edit. Every type has its own offers.</p></div>
+      <div class="pair"><b>Studying now</b><p><span class="was">A line of text.</span><br>Subject art, chapter, one segment per chapter, today's time, streak, the week as bars, and the resource being read.</p></div>
+      <div class="pair"><b>Overview</b><p><span class="was">A flat stack of lists.</span><br>It opens with three glance tiles, then the modules that matter for that profile. Every module has See all that opens its tab, and nothing lives only in Overview.</p></div>
+      <div class="pair"><b>Art</b><p><span class="was">2D pixel pictures.</span><br>Covers, thumbnails, books, collections and achievements come from the new M3X art library of 725 pieces. <a href="art.html">Open the library</a>.</p></div>
+    </div>
+  </section>
+  <section><h2>Tabs by profile type</h2>
+    <table class="matrix"><thead><tr><th>Type</th><th>Tabs</th><th>Overview opens with</th></tr></thead><tbody>
+      <tr><td><b>Student</b></td><td>Overview, Posts, Resources, Replies, Portfolio, Progress, Saved (private)</td><td>Glance, Studying now, Open to, pinned post, resources, achievements, portfolio, skills</td></tr>
+      <tr><td><b>Teacher</b></td><td>Overview, Teaches, Resources, Posts, Answers, Schools, Earnings (private)</td><td>Glance, Contact, Teaches, Open to, pinned post, most read, top answer, school</td></tr>
+      <tr><td><b>Institution</b></td><td>Overview, Notices, Programs, Teachers, Gallery, Resources, Posts</td><td>Admissions, glance, Contact, Open to, pinned post, programs, notices, teachers, campus, facilities</td></tr>
+      <tr><td><b>Contributor</b></td><td>Overview, Resources, Books, Collections, Posts, Impact, Studio (private)</td><td>Glance, Open to, pinned post, book shelf, latest resources, collections, reads chart</td></tr>
+    </tbody></table>
+  </section>
+</div>
+</main>
+<script src="concepts/art/glyphs.js"></script>
+<script src="concepts/art/art-core.js"></script>
+<script src="concepts/art/art-layouts-a.js"></script>
+<script src="concepts/art/art-layouts-b.js"></script>
+<script src="concepts/art/art-make.js"></script>
+<script src="concepts/profile-v3/ui.js"></script>
+<script src="concepts/profile-v3/data.js"></script>
+<script src="concepts/profile-v3/tabs.js"></script>
+<script src="concepts/profile-v3/app.js"></script>
+</body>
+</html>

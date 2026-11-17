@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEBians M3X art library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="concepts/art/gallery.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="ttl"><h1>M3X art library</h1><span id="count"></span></div>
+  <div class="grow"></div>
+  <label class="find"><span class="material-symbols-outlined">search</span><input id="q" type="search" placeholder="Search subject, shape or colour" autocomplete="off"></label>
+  <button class="tb" id="mode" aria-label="Toggle theme"><span class="material-symbols-outlined">dark_mode</span></button>
+  <button class="tb" id="shuf" aria-label="Shuffle"><span class="material-symbols-outlined">shuffle</span></button>
+</div>
+<nav class="tabs" id="tabs" aria-label="Art type"></nav></header>
+<main>
+  <section class="intro">
+    <h2>Every banner, cover and thumbnail, redrawn</h2>
+    <p>Flat tonal shapes in the NEBians palette families. No pixels, no gradients, no purple, no emoji. Each piece is a stable seed, so a resource keeps its picture everywhere. Pick any card to copy or download the SVG.</p>
+    <div class="facts" id="facts"></div>
+  </section>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<div class="dlg" id="dlg" hidden><div class="sheet">
+  <div class="sheet-art" id="dart"></div>
+  <div class="sheet-bar"><div><b id="dtitle"></b><small id="dmeta"></small></div><span class="grow"></span>
+    <button class="btn t" id="dcopy"><span class="material-symbols-outlined">content_copy</span>Copy SVG</button>
+    <button class="btn f" id="ddl"><span class="material-symbols-outlined">download</span>Download</button>
+    <button class="tb" id="dx" aria-label="Close"><span class="material-symbols-outlined">close</span></button></div>
+</div></div>
+<script src="concepts/art/glyphs.js"></script>
+<script src="concepts/art/art-core.js"></script>
+<script src="concepts/art/art-layouts-a.js"></script>
+<script src="concepts/art/art-layouts-b.js"></script>
+<script src="concepts/art/art-make.js"></script>
+<script src="concepts/art/art-catalog.js"></script>
+<script src="concepts/art/gallery.js"></script>
+</body>
+</html>
