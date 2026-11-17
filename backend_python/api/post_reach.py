@@ -108,12 +108,17 @@ def record_impressions(request, post_ids) -> int:
     if not ids:
         return 0
     known = set(Post.objects.filter(pk__in=ids).values_list('pk', flat=True))
+    valid = [pid for pid in ids if pid in known]
+    if not valid:
+        return 0
     day = local_day()
-    n = 0
-    for pid in ids:
-        if pid not in known:
-            continue
-        row, _ = PostImpression.objects.get_or_create(post_id=pid, day=day, source=info['source'])
-        PostImpression.objects.filter(pk=row.pk).update(count=F('count') + 1)
-        n += 1
-    return n
+    source = info['source']
+    have = set(PostImpression.objects.filter(
+        post_id__in=valid, day=day, source=source).values_list('post_id', flat=True))
+    fresh = [pid for pid in valid if pid not in have]
+    if fresh:
+        PostImpression.objects.bulk_create(
+            [PostImpression(post_id=pid, day=day, source=source, count=0) for pid in fresh],
+            ignore_conflicts=True)
+    PostImpression.objects.filter(post_id__in=valid, day=day, source=source).update(count=F('count') + 1)
+    return len(valid)

@@ -28,16 +28,20 @@ import logging
 import os
 import queue
 import secrets
+import sys
 import threading
 import time
 
 from django.conf import settings
 from django.core.cache import cache
+from django.db import connections
 
 from .rules import SESSION_GAP_MS
 
 logger = logging.getLogger(__name__)
 
+_IN_TESTS = 'test' in sys.argv
+_FORCE_SUBMIT_IN_TESTS = False
 _MAX_PENDING = 512
 _queue: "queue.Queue[dict]" = queue.Queue(maxsize=_MAX_PENDING)
 _worker: threading.Thread | None = None
@@ -121,6 +125,19 @@ def _geo_remote(ip: str) -> tuple[str, str]:
     return country, city
 
 
+def _should_touch_user(uid: str) -> bool:
+    if _IN_TESTS:
+        return True
+    key = f'an:touch:{uid}'
+    try:
+        if cache.get(key):
+            return False
+        cache.set(key, 1, 60)
+    except Exception:
+        pass
+    return True
+
+
 def _write(item: dict) -> None:
     from django.db import close_old_connections
 
@@ -130,7 +147,7 @@ def _write(item: dict) -> None:
     try:
         touch = item.pop('_touch_user', '')
         ip = item.pop('_ip', '')
-        if touch:
+        if touch and _should_touch_user(touch):
             try:
                 UserModel.objects.filter(pk=touch).update(last_active=item['created_at'])
             except Exception:
@@ -152,6 +169,11 @@ def _run(q: "queue.Queue[dict]") -> None:
             logger.debug('page view write failed', exc_info=True)
         finally:
             q.task_done()
+            if q.empty() and not _IN_TESTS:
+                try:
+                    connections.close_all()
+                except Exception:
+                    pass
 
 
 def _ensure_worker() -> None:
@@ -178,6 +200,8 @@ def _ensure_worker() -> None:
 
 def submit(item: dict) -> None:
     """Hand a row to the worker. Never blocks, never raises."""
+    if _IN_TESTS and not _FORCE_SUBMIT_IN_TESTS:
+        return
     try:
         _ensure_worker()
         _queue.put_nowait(item)

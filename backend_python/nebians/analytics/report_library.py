@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from collections import Counter
 
-from django.db.models import Count, Sum
+from django.db.models import Count, Q, Sum
 
 from .report_devices import DEVICE_LABEL, _rank
 
@@ -27,12 +27,24 @@ def build(rng: dict, source: str = 'all') -> dict:
     reach = ResourceReach.objects.filter(first_at__gte=start, first_at__lt=end, is_owner=False)
     if source in ('web', 'app'):
         reach = reach.filter(source=source)
-    views = reach.count()
-    people = reach.values('viewer').distinct().count()
-    reads = reach.filter(read=True).count()
-    downloads = reach.filter(downloaded=True).count()
-    shares = reach.filter(shared=True).count()
-    from_push = reach.filter(surface='notification').count()
+    agg = reach.aggregate(
+        views=Count('id'),
+        people=Count('viewer', distinct=True),
+        reads=Count('id', filter=Q(read=True)),
+        downloads=Count('id', filter=Q(downloaded=True)),
+        shares=Count('id', filter=Q(shared=True)),
+        from_push=Count('id', filter=Q(surface='notification')),
+        dwell_total=Sum('dwell_ms', filter=Q(dwell_ms__gt=0)),
+        dwell_samples=Count('id', filter=Q(dwell_ms__gt=0)),
+    )
+    views = agg['views'] or 0
+    people = agg['people'] or 0
+    reads = agg['reads'] or 0
+    downloads = agg['downloads'] or 0
+    shares = agg['shares'] or 0
+    from_push = agg['from_push'] or 0
+    avg_dwell = round((agg['dwell_total'] or 0) / agg['dwell_samples'] / 1000.0, 1) if agg['dwell_samples'] else 0.0
+
     days = {r['day'] for r in reach.values('day').distinct()}
     imp = 0
     if days:
@@ -41,17 +53,33 @@ def build(rng: dict, source: str = 'all') -> dict:
             qs = qs.filter(source=source)
         imp = qs.aggregate(n=Sum('count'))['n'] or 0
 
+    top_rows = list(
+        reach.values('resource_id')
+        .annotate(
+            views=Count('id'),
+            people=Count('viewer', distinct=True),
+            dwell=Sum('dwell_ms'),
+            reads=Count('id', filter=Q(read=True)),
+            downloads=Count('id', filter=Q(downloaded=True)),
+            push=Count('id', filter=Q(surface='notification')),
+        )
+        .order_by('-views')[:10]
+    )
+    top_ids = [row['resource_id'] for row in top_rows]
+    resources_by_id = {
+        r.pk: r
+        for r in Resource.objects.filter(pk__in=top_ids).select_related('uploaded_by')
+    } if top_ids else {}
+
     top = []
-    for row in reach.values('resource_id').annotate(views=Count('id'), people=Count('viewer', distinct=True),
-                                                     dwell=Sum('dwell_ms')).order_by('-views')[:10]:
-        r = Resource.objects.filter(pk=row['resource_id']).select_related('uploaded_by').first()
+    for row in top_rows:
+        r = resources_by_id.get(row['resource_id'])
         if not r:
             continue
-        rr = reach.filter(resource_id=r.pk)
         top.append({
             'id': r.pk, 'title': r.title[:80], 'subject': r.subject[:40], 'level': r.grade_level,
-            'views': row['views'], 'people': row['people'], 'reads': rr.filter(read=True).count(),
-            'downloads': rr.filter(downloaded=True).count(), 'push': rr.filter(surface='notification').count(),
+            'views': row['views'], 'people': row['people'], 'reads': row['reads'],
+            'downloads': row['downloads'], 'push': row['push'],
             'by': (r.uploaded_by.username if r.uploaded_by_id else (r.author_name or 'Admin'))[:30],
         })
 
@@ -65,7 +93,8 @@ def build(rng: dict, source: str = 'all') -> dict:
     return {
         'views': views, 'people': people, 'reads': reads, 'downloads': downloads, 'shares': shares,
         'impressions': imp, 'ctr': _pct(views, imp), 'read_rate': _pct(reads, views),
-        'download_rate': _pct(downloads, views), 'from_push': from_push, 'push_share': _pct(from_push, views),
+        'download_rate': _pct(downloads, views), 'share_rate': _pct(shares, views),
+        'avg_dwell_sec': avg_dwell, 'from_push': from_push, 'push_share': _pct(from_push, views),
         'top': top,
         'surfaces': _rank(Counter(reach.values_list('surface', flat=True)), SURFACE_LABEL),
         'devices': _rank(Counter(reach.values_list('device_class', flat=True)), DEVICE_LABEL),

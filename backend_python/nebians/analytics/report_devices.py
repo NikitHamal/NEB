@@ -119,14 +119,25 @@ def build(rng: dict, source: str = 'all') -> dict:
         })
     recent_signups.sort(key=lambda r: -r['at'])
 
-    # Post performance from reach rows
+    # Post performance from reach rows (batched in 2 queries instead of 2 per post)
     reach = PostReach.objects.filter(first_at__gte=start, first_at__lt=end, is_owner=False)
+    if source in ('web', 'app'):
+        reach = reach.filter(source=source)
+    top_rows = list(reach.values('post_id').annotate(views=Count('id'), dwell=Sum('dwell_ms')).order_by('-views')[:8])
+    top_ids = [r['post_id'] for r in top_rows]
+    posts_by_id = {
+        p['id']: p
+        for p in Post.objects.filter(pk__in=top_ids).values('id', 'title', 'reply_count', 'thumbs_up_count')
+    } if top_ids else {}
+    imp_by_id = dict(
+        PostImpression.objects.filter(post_id__in=top_ids).values_list('post_id').annotate(n=Sum('count'))
+    ) if top_ids else {}
     top_posts = []
-    for row in (reach.values('post_id').annotate(views=Count('id'), dwell=Sum('dwell_ms')).order_by('-views')[:8]):
-        post = Post.objects.filter(pk=row['post_id']).values('id', 'title', 'reply_count', 'thumbs_up_count').first()
+    for row in top_rows:
+        post = posts_by_id.get(row['post_id'])
         if not post:
             continue
-        imp = PostImpression.objects.filter(post_id=post['id']).aggregate(n=Sum('count'))['n'] or 0
+        imp = imp_by_id.get(post['id']) or 0
         top_posts.append({
             'id': post['id'], 'title': post['title'][:80], 'views': row['views'],
             'reactions': post['reply_count'] + post['thumbs_up_count'],
