@@ -3887,8 +3887,8 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 
 /* ---- m3x/app-search-recents.css ---- */
 /* Search: recents, rail counts, subject search in the filter sheet (web/search.html, _search_results.html). */
-.neb-rail-count { margin-left: 6px; font-size: .72rem; font-weight: 600; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }
-.neb-rail-item[aria-selected="true"] .neb-rail-count { color: var(--md-primary); }
+.neb-rail-count { margin-left: 0; padding: 1px 7px; border-radius: 9px; background: var(--md-surface-container); color: var(--md-on-surface-variant); font-size: .6875rem; font-weight: 600; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.neb-rail-item[aria-selected="true"] .neb-rail-count { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .x-pop-head { display: flex; align-items: center; }
 .x-pop-head .x-sub { flex: 1; }
 .x-pop-clear { border: 0; background: none; cursor: pointer; font: 600 .8rem var(--md-font); color: var(--md-primary); padding: 6px 10px; border-radius: 12px; }

@@ -1313,3 +1313,24 @@ Same file, same rule: nothing is built locally, the check is the GitHub Actions 
 ## Next
 - **Redeploy the backend** (`deploy.ps1`) so the web changes since session 44 go live.
 - Android on device: claim form with the keyboard open, On NEBians cards on a 360dp phone.
+
+
+---
+
+# Session 51: search tabs in the locked concept (Android and web)
+
+Same file, same rule: nothing is built locally, the check is the GitHub Actions run. History read first (sessions 37 to 50). The brief repeated the Pathways port, profile overhaul, 24,665 catalogue, institution and teacher portfolios, no DOB or gender for institutions and graphite dark. All present and **kept, not redone**. The segmented-control revert was already pushed in `a142cce` (concept, web `.pwx .seg`, Android `PwSeg` are the connected group again). The real gap was the search result tabs.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 306 | **Android search tabs**: the pill bank of toggle buttons is gone. Concept tabs: label, count pill (tonal, primary container when open), 3dp primary line under the open tab, hairline under the row, scrolls sideways, count shown for every scope. | `SearchScreen.kt` (`SearchScopeBank`) |
+| 307 | **Web search tabs**: the count is a tonal pill (primary container when open) instead of plain text. Bundle rebuilt. | `m3x/app-search-recents.css`, `m3x-app.css` |
+
+## Rules
+- Segmented control (`.seg`, `PwSeg`) stays the connected group; search result tabs are underline tabs with count pills. Do not swap them.
+
+## Next
+- **Redeploy the backend** (`deploy.ps1`) for the web changes since session 44.
+- Android on device: search tabs on a 360dp phone.

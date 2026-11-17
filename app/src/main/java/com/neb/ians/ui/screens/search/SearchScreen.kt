@@ -53,8 +53,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.ToggleButton
-import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -270,7 +268,7 @@ private fun SearchHeader(
             SearchScopeBank(
                 state = state,
                 onScopeChange = onScopeChange,
-                modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 10.dp)
+                modifier = Modifier.padding(top = 4.dp)
             )
         }
         AppliedFilters(state = state, onClear = onClearFilter, modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 10.dp))
@@ -422,43 +420,69 @@ private fun SearchScopeBank(
     onScopeChange: (SearchScope) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val c = MaterialTheme.colorScheme
     val scopes = remember { SearchScope.entries.toList() }
-    val interactions = remember { scopes.map { MutableInteractionSource() } }
-    val colors = ToggleButtonDefaults.toggleButtonColors(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        checkedContainerColor = MaterialTheme.colorScheme.onSurface,
-        checkedContentColor = MaterialTheme.colorScheme.surface
-    )
-
-    // Counts never truncate: buttons wrap their label and the bank scrolls sideways when the words do not fit.
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(50))
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .padding(3.dp)
-    ) {
+    // Search concept tabs: label, count pill, a 3dp primary line under the open one, hairline under the row.
+    Box(modifier.fillMaxWidth()) {
+        Box(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(c.outlineVariant.copy(alpha = 0.6f))
+        )
         Row(
-            modifier = Modifier.nebHorizontalScroll(rememberScrollState()),
+            modifier = Modifier
+                .fillMaxWidth()
+                .nebHorizontalScroll(rememberScrollState())
+                .padding(horizontal = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            scopes.forEachIndexed { index, scope ->
-                val count = state.countFor(scope)
-                ToggleButton(
-                    checked = state.scope == scope,
-                    onCheckedChange = { onScopeChange(scope) },
-                    modifier = Modifier.heightIn(min = 40.dp),
-                    shapes = ToggleButtonDefaults.shapes(),
-                    colors = colors,
-                    interactionSource = interactions[index],
-                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
+            scopes.forEach { scope ->
+                val on = state.scope == scope
+                val ink by animateColorAsState(if (on) c.onSurface else c.onSurfaceVariant, label = "tabInk")
+                val pillBg by animateColorAsState(if (on) c.primaryContainer else c.surfaceContainer, label = "tabPill")
+                val pillInk by animateColorAsState(if (on) c.onPrimaryContainer else c.onSurfaceVariant, label = "tabPillInk")
+                val line by animateColorAsState(if (on) c.primary else Color.Transparent, label = "tabLine")
+                Box(
+                    Modifier
+                        .height(44.dp)
+                        .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
+                        .clickable { onScopeChange(scope) }
+                        .padding(horizontal = 14.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = if (count > 0) "${scope.label} $count" else scope.label,
-                        style = MaterialTheme.typography.labelMediumEmphasized,
-                        maxLines = 1,
-                        softWrap = false
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(
+                            text = scope.label,
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+                            color = ink,
+                            maxLines = 1,
+                            softWrap = false
+                        )
+                        Box(
+                            Modifier
+                                .clip(RoundedCornerShape(9.dp))
+                                .background(pillBg)
+                                .padding(horizontal = 7.dp, vertical = 1.dp)
+                        ) {
+                            Text(
+                                text = state.countFor(scope).toString(),
+                                color = pillInk,
+                                fontSize = androidx.compose.ui.unit.TextUnit(11f, androidx.compose.ui.unit.TextUnitType.Sp),
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+                                maxLines = 1
+                            )
+                        }
+                    }
+                    Box(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .height(3.dp)
+                            .clip(RoundedCornerShape(topStart = 3.dp, topEnd = 3.dp))
+                            .background(line)
                     )
                 }
             }
