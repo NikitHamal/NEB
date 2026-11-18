@@ -1,0 +1,23 @@
+/* Pathways v5 roadmap and home extras */
+#roadBody{scroll-margin-top:72px}
+.opt{display:flex;align-items:center;gap:12px;padding:14px}
+.opt .btn.g{padding:0 8px}
+.road-path{padding:18px}
+@media(min-width:960px){.side{align-self:start}}
+.rl{list-style:none;margin:14px 0 0;position:relative;display:flex;flex-direction:column;gap:2px}
+.rs{display:flex;align-items:center;gap:12px;padding:8px 0;position:relative;animation:rise .45s var(--e) both;animation-delay:calc(var(--i,0)*40ms)}
+.rs:not(:last-child)::before{content:'';position:absolute;left:17px;top:34px;bottom:-12px;width:2px;background:var(--ov);border-radius:1px;animation:grow2 .5s var(--e) both}
+@keyframes grow2{from{transform:scaleY(0);transform-origin:top}}
+.rn{width:36px;height:36px;border-radius:18px;background:var(--pc);color:var(--onpc);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none;position:relative;z-index:1}
+.rn.p{background:var(--p);color:var(--onp)}.rn.g{background:var(--gc);color:var(--ongc)}
+.lnk{cursor:pointer;font-weight:600}.lnk:hover{color:var(--p)}
+.rk{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rk .kpi{background:var(--s2);padding:10px}.rk .kpi b{font-size:13px}
+.mini-top{display:flex;gap:8px;align-items:center}
+.opt .info{width:36px;height:36px;border-radius:18px;display:grid;place-items:center;color:var(--onv)}.opt .info:hover{background:var(--s3);color:var(--p)}
+.rail{gap:2px;padding:10px 0}.rail .mk{flex:none;margin-bottom:6px}.rail button{padding:0}.rail button .pill{height:30px}
+@media(max-height:820px) and (min-width:900px){.rail button{font-size:10px}.rail button .pill{height:26px}}
+#roadBody{scroll-margin-top:88px}
+@media(max-width:959px){#roadBody .cols>aside{order:-1}}
+.chip.pay{height:40px;gap:8px}.chip.pay b{font-weight:500}
+.chip .xs{margin-left:2px}
