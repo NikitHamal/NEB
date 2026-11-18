@@ -19,7 +19,7 @@
     return '<article class="card click cc cv2" style="--i:' + (i || 0) + '" data-go="course/' + r.id + '" tabindex="0"><div class="row" style="align-items:flex-start"><span class="ic ' + g[2] + '">' + M(g[1]) + '</span><div class="grow"><h3>' + E(r.name) + '</h3><div class="xs mut">' + E(r.kind) + ' &middot; ' + E(r.years) + '</div></div>' + V.saveBtn('course', r.id) + '</div>' +
       (note ? '<span class="tag note">' + M('auto_awesome') + E(note) + '</span>' : '') +
       '<p class="sm mut cl2">' + E(r.about) + '</p>' +
-      '<div class="cstat"><div><b>' + E(fee) + '</b><span>Fee, NPR</span></div><div><b>' + (pro || '-') + '</b><span>Colleges</span></div><div><b>' + (has ? V.npr(r._pay).replace('NPR ', '') : '-') + '</b><span>Starting pay</span></div></div>' +
+      '<div class="cstat"><div><b>' + E(fee) + '</b><span>Fee, NPR</span></div><div><b>' + (pro || '-') + '</b><span>Colleges</span></div><div><b>' + (has ? V.npr(r._pay).replace('NPR ', '') : '-') + '</b><span>Pay a month</span></div></div>' +
       (has ? '<div class="olk"><span class="xs mut">Demand</span><div class="mt" style="--v:' + Math.round(r._dem * 20) + ';--c:var(--good)"><i></i></div><b class="xs">' + ch.level(r._dem) + '</b></div>' : '') + '</article>';
   };
   ui.college = function (p, i) {

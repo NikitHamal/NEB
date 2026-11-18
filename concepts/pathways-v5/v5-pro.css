@@ -55,3 +55,15 @@ details.more-f li::before{content:"";position:absolute;left:0;top:7px;width:5px;
 .chip.rc{height:40px;padding:0 14px 0 12px;max-width:260px}
 .chip.rc .rt{overflow:hidden;text-overflow:ellipsis;max-width:150px}
 @media(max-width:899px){.brand{display:none}.top{gap:4px;padding:8px 10px}.find{margin:0}}
+
+.hero.alt{margin-top:34px}
+.fy+.hero,.fy~.hero{margin-top:34px}
+.cstat{grid-template-columns:1.6fr 1fr 1fr}
+
+.fyt>div{display:flex;flex-direction:column;gap:2px}
+.fysum .tag{flex:none;max-width:none}
+.hs>.cv2{align-self:flex-start}
+.fy{margin-top:8px}
+@media(max-width:899px){.fyt{flex-direction:row;align-items:center;gap:14px;padding:14px 16px}.fyt .ms.lg{font-size:28px}}
+
+@media print{.rail,.top,.bnav,.tray,.toast,.save,.btn,.chip,.cmpb,[data-act=printPlan]{display:none!important}body{background:#fff;color:#000}main{padding:0;max-width:none}.card,.stat{border:1px solid #bbb!important;background:#fff!important;color:#000!important;break-inside:avoid}.view{animation:none}.stag>*{animation:none}.grid{grid-template-columns:repeat(2,1fr)}}
