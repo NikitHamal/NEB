@@ -11,6 +11,7 @@
     return out.join('\n') + '\n\nBuilt on NEBians Pathways';
   }
   V.acts.copyPlan = function () { var t = text(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { V.toast('Plan copied', 'content_copy'); }, function () { V.toast('Copy is not available here', 'info'); }); };
+  V.acts.printPlan = function () { window.print(); };
   V.acts.clearPlan = function () { V.store.saved = {}; V.persist(); V.badge(); V.render(); };
   V.views.plan = function () {
     var sv = V.store.saved, n = V.savedCount();
@@ -19,7 +20,7 @@
     var dl = (sv.schol || []).map(function (i) { return V.S[i]; }).filter(function (s) { return s && s.open; }).map(function (s) { return { n: s.name, w: s.open, c: 'var(--good)', a: 'data-act="schol" data-id="' + s.id + '"' }; })
       .concat((sv.exam || []).map(function (i) { return V.G[i]; }).filter(function (g) { return g && g.apply; }).map(function (g) { return { n: g.name, w: g.apply, c: 'var(--p)', a: 'data-go="exam/' + g.id + '"' }; }));
     var pay = V.avg(courses.reduce(function (a, r) { return a.concat(r._c); }, []), function (c) { return V.mid(c.salary.entry); });
-    return { title: 'My plan', html: ui.head('My plan', n + ' saved. Kept on this device.', '<div class="row"><button class="btn t sm" data-act="copyPlan">' + M('content_copy', 'sm') + 'Copy</button><button class="btn g sm" data-act="clearPlan">Clear</button></div>') +
+    return { title: 'My plan', html: ui.head('My plan', n + ' saved. Kept on this device.', '<div class="row"><button class="btn t sm" data-act="printPlan">' + M('print', 'sm') + 'Print</button><button class="btn t sm" data-act="copyPlan">' + M('content_copy', 'sm') + 'Copy</button><button class="btn g sm" data-act="clearPlan">Clear</button></div>') +
       (courses.length ? '<div class="grid g3"><div class="stat t-pc"><b>' + V.npr(cost) + '</b><span>Typical cost of ' + courses.length + ' saved course' + (courses.length > 1 ? 's' : '') + '</span></div><div class="stat t-gc"><b>' + (pay ? V.npr(pay) : 'n/a') + '</b><span>Average starting pay of linked careers</span></div><div class="stat t-yc"><b>' + (sv.college || []).length + '</b><span>Colleges shortlisted</span></div></div>' : '') +
       (dl.length ? ui.sec('Your deadlines', '<div class="card" style="padding:6px 16px">' + dl.map(function (i) { return '<button class="lane" style="width:100%;text-align:left" ' + i.a + '><span class="nm2">' + E(i.n) + '<span class="xs mut" style="display:block">' + V.MONTHS[i.w[0] - 1] + ' to ' + V.MONTHS[i.w[1] - 1] + '</span></span>' + ch.months(i.w[0], i.w[1], i.c) + '</button>'; }).join('') + '</div>') : '') +
       KINDS.map(function (k) { var a = (sv[k[0]] || []).map(k[3]).filter(Boolean); return a.length ? ui.sec(k[1] + ' (' + a.length + ')', '<div class="grid g3 stag">' + a.join('') + '</div>') : ''; }).join('') };

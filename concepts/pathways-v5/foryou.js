@@ -38,9 +38,9 @@
       '<div class="chips fysum">' + summary.map(function (x) { return '<span class="tag">' + E(x) + '</span>'; }).join('') + '</div>' +
       '<div class="hs stag" style="margin-top:12px">' + top.map(function (r, i) { return ui.course(r, i, reason(r, m)); }).join('') + '</div>' +
       '<div class="grid g3 stag" style="margin-top:12px">' +
-      '<button class="card click flat fyt" style="--i:0" data-act="meColleges">' + M('apartment', 'lg') + '<b>' + (m.district ? dn + ' places in ' + E(m.district) : 'Colleges near you') + '</b><span class="xs mut">' + (m.district ? 'Open the list' : 'Pick a district in your profile') + '</span></button>' +
-      '<button class="card click flat fyt" style="--i:1" data-go="schol">' + M('workspace_premium', 'lg') + '<b>' + n + ' grants open this month</b><span class="xs mut">See deadlines</span></button>' +
-      '<button class="card click flat fyt" style="--i:2" data-act="meRoad">' + M('route', 'lg') + '<b>Roadmap from ' + E(st.label.replace('After ', '')) + '</b><span class="xs mut">Time, fees and starting pay</span></button></div></section>';
+      '<button class="card click flat fyt" style="--i:0" data-act="meColleges">' + M('apartment', 'lg') + '<div><b>' + (m.district ? dn + ' places in ' + E(m.district) : 'Colleges near you') + '</b><span class="xs mut">' + (m.district ? 'Open the list' : 'Pick a district in your profile') + '</span></div></button>' +
+      '<button class="card click flat fyt" style="--i:1" data-go="schol">' + M('workspace_premium', 'lg') + '<div><b>' + n + ' grants open this month</b><span class="xs mut">See deadlines</span></div></button>' +
+      '<button class="card click flat fyt" style="--i:2" data-act="meRoad">' + M('route', 'lg') + '<div><b>Roadmap from ' + E(st.label.replace('After ', '')) + '</b><span class="xs mut">Time, fees and starting pay</span></div></button></div></section>';
   };
   function chips(id, items, on, multi) {
     return '<div class="chips wrap" id="' + id + '">' + items.map(function (x) { return '<button class="chip" data-act="meSet" data-k="' + id + '" data-v="' + E(x[0]) + '" aria-pressed="' + (multi ? on.indexOf(x[0]) >= 0 : on === x[0]) + '">' + (x[2] ? M(x[2]) : '') + E(x[1]) + '</button>'; }).join('') + '</div>';

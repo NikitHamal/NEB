@@ -8,4 +8,5 @@
   V.$('#themeIc').textContent = document.documentElement.dataset.theme === 'dark' ? 'light_mode' : 'dark_mode';
   V.badge();
   V.render();
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('pathways-v5-sw.js').catch(function () {});
 })();
