@@ -46,3 +46,16 @@ class DialogCenteringTests(SimpleTestCase):
         self.assertIn('.cv-grid', css)
         self.assertRegex(css, r'\.cv-grid\s*\{[^}]*align-content:\s*start')
         self.assertRegex(css, r'\.cv-grid\s*\{[^}]*min-height:\s*0')
+
+
+class CoverSpriteTests(SimpleTestCase):
+    """The picker draws from one sprite per theme (one request, not 175). It must hold every cover in covers.json."""
+
+    def test_sprites_hold_every_cover(self):
+        import json
+        base = os.path.join(CSS, '..', 'img', 'm3x')
+        ids = [r[0] for r in json.load(open(os.path.join(base, 'covers.json')))['covers']]
+        for theme in ('light', 'dark'):
+            text = open(os.path.join(base, 'cover', theme + '-sprite.svg'), encoding='utf-8').read()
+            missing = [i for i in ids if 'id="%s"' % i not in text]
+            self.assertEqual(missing, [], theme)

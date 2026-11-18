@@ -2765,7 +2765,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 }
 .cv-pick:hover { border-color: var(--md-primary); }
 .cv-pick:active { transform: scale(.97); }
-.cv-pick img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.cv-pick img, .cv-pick svg.cv-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .cv-pick img.d { display: none; }
 [data-theme="dark"] .cv-pick img.l { display: none; }
 [data-theme="dark"] .cv-pick img.d { display: block; }
@@ -2813,6 +2813,16 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   .pv3-gt div span { white-space: normal; }
   .pv3-sa { flex-basis: 34%; }
 }
+
+/* Overview tab sections */
+.pv3-sec { margin-bottom: 18px; }
+.pv3-sec[hidden], .pv3-none[hidden] { display: none; }
+.pv3-sh { display: flex; align-items: center; justify-content: space-between; margin: 0 0 8px 4px; min-height: 44px; }
+.pv3-sh .pv3-head { margin: 0; }
+.pv3-all { min-height: 44px; padding: 0 14px; border: 0; border-radius: 16px; background: none; color: var(--md-primary); font: 600 .8125rem var(--body, inherit); cursor: pointer; transition: background-color .15s, transform .3s var(--spring, ease); }
+.pv3-all:hover { background: var(--md-primary-container); }
+.pv3-all:active { transform: scale(.95); }
+.pv3-none { padding: 40px 16px; text-align: center; color: var(--md-on-surface-variant); }
 
 /* ---- m3x/app-profile-feed.css ---- */
 /* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the

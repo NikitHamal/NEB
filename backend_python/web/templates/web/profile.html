@@ -67,10 +67,10 @@
 
 {% block content %}
 {% if cover_choices %}
-<dialog class="cv-dialog" id="coverPicker" aria-label="Choose a cover" data-url="{% url 'web:set_cover_art' %}" data-base="{% static 'web/img/m3x/cover/' %}">
+<dialog class="cv-dialog" id="coverPicker" aria-label="Choose a cover" data-url="{% url 'web:set_cover_art' %}" data-base="{% static 'web/img/m3x/cover/' %}" data-sprite-light="{% static 'web/img/m3x/cover/light-sprite.svg' %}" data-sprite-dark="{% static 'web/img/m3x/cover/dark-sprite.svg' %}">
   <div class="cv-head"><h2>Choose a cover</h2><button type="button" class="cv-close" data-cv-close aria-label="Close"><span class="material-symbols-outlined">close</span></button></div>
   <div class="cv-grid" role="listbox">
-    {% for c in cover_choices %}<button type="button" class="cv-pick{% if c.id == cover_art %} is-on{% endif %}" role="option" aria-selected="{% if c.id == cover_art %}true{% else %}false{% endif %}" data-cover="{{ c.id }}" aria-label="{{ c.layout|capfirst }}, {{ c.palette }}"><img class="l" loading="lazy" decoding="async" fetchpriority="low" width="300" height="100" alt="" src="{% static 'web/img/m3x/cover/light/' %}{{ c.id }}.svg"><img class="d" loading="lazy" decoding="async" fetchpriority="low" width="300" height="100" alt="" src="{% static 'web/img/m3x/cover/dark/' %}{{ c.id }}.svg"><span class="material-symbols-outlined cv-tick">check</span></button>{% endfor %}
+    {% for c in cover_choices %}<button type="button" class="cv-pick{% if c.id == cover_art %} is-on{% endif %}" role="option" aria-selected="{% if c.id == cover_art %}true{% else %}false{% endif %}" data-cover="{{ c.id }}" aria-label="{{ c.layout|capfirst }}, {{ c.palette }}"><span class="material-symbols-outlined cv-tick">check</span></button>{% endfor %}
   </div>
   <div class="cv-foot"><button type="button" class="pf-btn pf-btn-outlined" data-cv-reset>Default cover</button></div>
 </dialog>
@@ -360,15 +360,18 @@
           </div>
         {% endif %}
 
-        {% if not profile_user.is_bot %}{% include 'web/profile/_overview.html' %}{% endif %}
-
         {% comment %}
           ProfileScreen.kt's sticky tab rail: the same four labels with the same
           counts, the same divider underneath, and the same travelling container
           instead of the 3px --md-primary underline the web drew on its own.
         {% endcomment %}
         <div class="neb-rail neb-rail-divided" role="tablist" aria-label="Profile sections" style="margin-top: 0;">
-          <button type="button" class="neb-rail-item" role="tab" aria-selected="true" aria-controls="tabPosts" data-tab="posts" data-action="switch-profile-tab">
+          {% if not profile_user.is_bot %}
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="true" aria-controls="tabOverview" data-tab="overview" data-action="switch-profile-tab">
+            <span class="neb-rail-label">Overview</span>
+          </button>
+          {% endif %}
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="{% if profile_user.is_bot %}true{% else %}false{% endif %}" aria-controls="tabPosts" data-tab="posts" data-action="switch-profile-tab">
             <span class="neb-rail-label">{% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}</span>
             <span class="neb-rail-count">{{ stats.post_count|default:0 }}</span>
           </button>
@@ -391,8 +394,24 @@
           {% endif %}
         </div>
 
+        {% if not profile_user.is_bot %}
+        <!-- Tab: Overview (Profile v3): tiles, studying now, then a taste of posts and resources -->
+        <div class="profile-tab-content active" id="tabOverview">
+          {% include 'web/profile/_overview.html' %}
+          <section class="pv3-sec" id="ovPost" hidden>
+            <div class="pv3-sh"><h3 class="pv3-head">Latest post</h3><button type="button" class="pv3-all" data-action="switch-profile-tab" data-tab="posts">See all</button></div>
+            <div class="activity-list" id="ovPostBody"></div>
+          </section>
+          <section class="pv3-sec" id="ovRes" hidden>
+            <div class="pv3-sh"><h3 class="pv3-head">Resources</h3><button type="button" class="pv3-all" data-action="switch-profile-tab" data-tab="resources">See all</button></div>
+            <div class="activity-list" id="ovResBody"></div>
+          </section>
+          <div class="pv3-none" id="ovNone" hidden>Nothing to show yet</div>
+        </div>
+        {% endif %}
+
         <!-- Tab: Posts -->
-        <div class="profile-tab-content active" id="tabPosts">
+        <div class="profile-tab-content{% if profile_user.is_bot %} active{% endif %}" id="tabPosts">
           <div class="activity-list" id="activityFeed">
               {% for post in user_posts %}
               <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
@@ -1818,4 +1837,5 @@ registerActions({
 </script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/profile-photo-upload.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/profile-cover.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/profile-overview.js' %}" defer></script>
 {% endblock %}
