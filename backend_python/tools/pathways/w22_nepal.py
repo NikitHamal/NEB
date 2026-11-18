@@ -77,7 +77,7 @@ WHERE_ADD = {
     'mhm-mttm': ['p-ist-college', 'p-gate-college', 'p-silver-mountain'],
     'bfa': ['p-purbanchal-uni'],
     'mca': ['p-ku-eng', 'p-nou'],
-    'sports-cadet-school': ['p-kanti', 'p-rbs'],
+    'sports-cadet-school': ['p-rbs', 'p-ullens'],
 }
 
 ROUTE_SEATS = {
