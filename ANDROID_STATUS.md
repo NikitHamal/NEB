@@ -2167,3 +2167,19 @@ History read first (sessions 73 to 81): Profile v3, v7 covers, v1 thumbnails, gl
 ## Next
 - On-device pass: cover breathing cost on low-end phones, bar hand-off at 360dp.
 - Move the note covers to the same engine.
+
+---
+# Session 84: pickup of session 83, Android compile fix
+
+History read first (73 to 83, `RSI_PIPELINE.md` pickup). Everything in the request (Profile v3 polish, v7 covers on app and site, v1 thumbnails for resources, covers drawn by code with animation, taller cover, scroll-revealed bar with badges, copy link only, no cover icon in the bar, no download counts) was built in session 83 (`3508e99e`). Nothing was redone.
+
+| # | What | Where |
+| --- | --- | --- |
+| 448 | **CI fix**: the session 83 Android build failed with `Unresolved reference 'statusBars'` at `ProfileBanner.kt:93`. The `WindowInsets.statusBars` extension was used fully qualified without its import. Imported `WindowInsets` and `statusBars`. | `ui/components/ProfileBanner.kt` |
+
+## Notes
+- No schema change, nothing deleted from the database. The token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device pass: cover breathing cost on low-end phones, bar hand-off at 360dp.
+- Move the note covers to the same engine.
