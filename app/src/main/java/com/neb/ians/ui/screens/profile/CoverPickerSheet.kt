@@ -52,6 +52,8 @@ fun CoverPickerSheet(
         title = "Choose a cover",
         fullBleed = true // bleed: the grid pads itself
     ) {
+        // a tile is the cover frame itself (same width over height as the profile), so the preview is the result
+        val tileAspect = com.neb.ians.ui.components.profileCoverAspect(androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp.dp)
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxWidth().weight(1f, fill = false),
@@ -78,7 +80,7 @@ fun CoverPickerSheet(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(3f)
+                        .aspectRatio(tileAspect)
                         .nebPressable(scale = 0.97f, onClick = { onPick(cover.id) })
                         .clip(shape)
                         .border(

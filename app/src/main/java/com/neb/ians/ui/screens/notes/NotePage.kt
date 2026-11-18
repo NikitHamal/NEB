@@ -328,6 +328,9 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
     }
 }
 
+/** Width over height of the note editor's cover frame, the frame the 40 drawn banners are composed on. */
+const val NoteCoverFrameAspect = 1.9f
+
 /** The banner itself. Shapes settle in with a spring when the cover appears or changes. */
 @Composable
 fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean = true) {
@@ -349,8 +352,10 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
         val fade = t.coerceIn(0f, 1f)
         val h = size.height
         val w = size.width
-        // shapes scale with the banner's own proportions: a wide, short banner (a card) keeps them as bold as a tall one
-        val u = h * (w / (h * 2.2f)).coerceIn(0.9f, 1.55f)
+        // The 40 banners are composed on the editor's frame (1.9 : 1). In any other frame the shapes keep the same share of the
+        // frame's AREA (u = sqrt(w * h / 1.9)), and their centres keep the same share of its width and height, so a card, a
+        // picker tile and the editor header all show the same composition at true proportion, never stretched or cropped.
+        val u = kotlin.math.sqrt(w * h / NoteCoverFrameAspect)
         drawGlyph(
             pa, Offset(w * spec.ax, h * spec.ay), u * spec.asz * (0.55f + 0.45f * t), vivid,
             rotation = spec.ar - 40f * (1f - t), alpha = (if (dark) 0.5f else 0.85f) * fade,

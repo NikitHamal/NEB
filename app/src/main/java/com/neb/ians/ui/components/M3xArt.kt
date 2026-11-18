@@ -3,12 +3,10 @@ package com.neb.ians.ui.components
 import android.content.Context
 import android.provider.Settings
 import android.util.LruCache
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +42,7 @@ import kotlin.math.sin
  * The M3X art library drawn by code, like the note banners: no pictures in the APK, no network, sharp at any size, the same
  * (layout, palette, seed) as the site's js/m3x-art.js. The APK carries only `assets/m3x/covers.json` (about 9 KB): the 175 v7 covers as
  * [id, layout, palette, seed] and six v1 thumbnail recipes per subject family. A drawing is built once (an LRU keeps the last ones),
- * off the main thread, and the profile header breathes slowly while it is on screen.
+ * off the main thread, and a pick or first show settles once on a spring (no looping motion).
  */
 object M3xArt {
     const val THUMB_VARIANTS = 6
@@ -120,24 +118,25 @@ private object M3xPieces {
 @Composable
 private fun isDarkSurface() = MaterialTheme.colorScheme.surface.luminance() < 0.5f
 
-private fun DrawScope.drawM3x(piece: M3xPiece, tones: Array<Color>, phase: Float, live: Boolean) {
+/**
+ * One drawing. [settle] runs 0 to 1 once, when the cover is picked or first appears (the same spring the first 40 note covers use):
+ * the picture grows into its frame and fades in. There is no looping motion, so nothing redraws while the screen is idle.
+ */
+private fun DrawScope.drawM3x(piece: M3xPiece, tones: Array<Color>, settle: Float) {
     val fit = max(size.width / piece.w, size.height / piece.h)
-    val breathe = if (live) 1f + 0.05f * (0.5f - 0.5f * cos(2f * PI.toFloat() * phase)) else 1f
-    val float = live && piece.ops.size <= 160
-    val amp = piece.h * 0.03f
+    val grow = fit * (0.88f + 0.12f * settle)
+    val fade = settle.coerceIn(0f, 1f)
     clipRect {
         withTransform({
             translate(size.width / 2f, size.height / 2f)
-            scale(fit * breathe, fit * breathe, Offset.Zero)
+            scale(grow, grow, Offset.Zero)
             translate(-piece.w / 2f, -piece.h / 2f)
         }) {
             for (i in piece.ops.indices) {
                 val op = piece.ops[i]
-                val color = if (op.alpha < 1f) tones[op.tone].copy(alpha = op.alpha) else tones[op.tone]
-                if (float && op.tone == 5) {
-                    val ang = 2f * PI.toFloat() * (phase * (1 + i % 2) + i * 0.37f)
-                    withTransform({ translate(sin(ang) * amp, cos(ang) * amp) }) { drawPath(op.path, color, style = op.style) }
-                } else drawPath(op.path, color, style = op.style)
+                val a = op.alpha * fade
+                val color = if (a < 1f) tones[op.tone].copy(alpha = a) else tones[op.tone]
+                drawPath(op.path, color, style = op.style)
             }
         }
     }
@@ -159,19 +158,20 @@ private fun M3xArtView(layout: String, palette: String, key: String, h: Double, 
         value = withContext(Dispatchers.Default) { M3xPieces.get(layout, "$key@${w.toInt()}", key, w, h) }
     }
     val context = LocalContext.current
+    // [live] = play the settle once for this drawing (a pick, or the first time it shows). Off when animations are off system-wide.
     val motion = remember(live) { live && Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) > 0f }
-    val phase = if (motion) rememberInfiniteTransition(label = "m3x").animateFloat(
-        0f, 1f, infiniteRepeatable(tween(26000, easing = LinearEasing), RepeatMode.Restart), label = "m3xPhase",
-    ) else null
+    val settle = remember(key, motion) { Animatable(if (motion) 0f else 1f) }
+    LaunchedEffect(piece, settle) {
+        if (piece != null && settle.value < 1f) settle.animateTo(1f, spring(dampingRatio = 0.62f, stiffness = Spring.StiffnessLow))
+    }
     // the page tone shows at once; the drawing lands as soon as it is built for this box
     Canvas(modifier.onSizeChanged { box = it }.background(tones[0])) {
         val p = piece ?: return@Canvas
-        val animated = phase != null && p.ops.size <= 400
-        drawM3x(p, tones, if (animated) phase!!.value else 0f, animated)
+        drawM3x(p, tones, settle.value)
     }
 }
 
-/** A profile cover from the library. [coverId] blank or unknown falls back to the username's stable pick. [live] lets it breathe. */
+/** A profile cover from the library. [coverId] blank or unknown falls back to the username's stable pick. [live] settles it once when picked. */
 @Composable
 fun M3xCover(coverId: String?, username: String, modifier: Modifier = Modifier, live: Boolean = false) {
     val context = LocalContext.current
@@ -197,7 +197,7 @@ fun M3xThumb(seed: String, subject: String, modifier: Modifier = Modifier) {
 @Composable
 fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xCover(id, id, modifier)
 
-/** A note cover from the library (cover index 41 and up), 720 x 320 like the site's `note` kind. Drawn by code; [live] lets it breathe. */
+/** A note cover from the library (cover index 41 and up), 720 x 320 like the site's `note` kind. Drawn by code; [live] settles it once when it appears or changes. */
 @Composable
 fun M3xNoteCover(position: Int, modifier: Modifier = Modifier, live: Boolean = false) {
     val context = LocalContext.current

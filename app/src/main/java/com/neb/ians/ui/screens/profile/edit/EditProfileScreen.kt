@@ -5,7 +5,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -83,19 +87,16 @@ fun EditProfileScreen(
                 .navigationBarsPadding()
                 .imePadding()
         ) {
+            Box(Modifier.fillMaxWidth().weight(1f)) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+                    .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
                 EditProfileHero(
                     state = uiState,
                     viewModel = viewModel,
-                    strength = strength,
-                    canSave = canSave,
-                    onBack = onNavigateBack,
-                    onSave = viewModel::submitProfile
+                    strength = strength
                 )
                 Column(
                     modifier = Modifier
@@ -126,6 +127,20 @@ fun EditProfileScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 }
+            }
+            // sticky: Back and Save stay on screen however far the page is scrolled
+            val density = androidx.compose.ui.platform.LocalDensity.current
+            val screenW = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp.dp
+            val barPx = with(density) { (WindowInsets.statusBars.getTop(density) + 60.dp.toPx()) }
+            val coverPx = with(density) { com.neb.ians.ui.components.profileCoverHeight(screenW, 0.dp).toPx() }
+            val range = editBarRange(coverPx, barPx)
+            EditProfileTopBar(
+                progress = { ((scrollState.value - range * 0.55f) / (range * 0.45f)).coerceIn(0f, 1f) },
+                canSave = canSave,
+                onBack = onNavigateBack,
+                onSave = viewModel::submitProfile,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
             }
 
             Column(

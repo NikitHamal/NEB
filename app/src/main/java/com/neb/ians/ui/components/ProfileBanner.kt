@@ -60,12 +60,20 @@ import com.neb.ians.util.rememberIsLowEndDevice
 
 /** Cover aspect. Wide enough to be a cover, short enough not to eat the fold. */
 private const val CoverAspect = 0.5f
-private val CoverMin = 172.dp
-private val CoverMax = 260.dp
+private val CoverMin = 196.dp
+private val CoverMax = 284.dp
 
-/** The profile cover: half the screen width (172 to 260dp) of art below the status bar, and the cover runs up behind the bar. */
+/**
+ * The profile cover frame: half the screen width (196 to 284dp) including the strip behind the status bar, so the frame is the
+ * same rectangle on the profile, in Edit profile and in the picker. [statusTop] is kept for callers; the art runs under the bar.
+ */
+@Suppress("UNUSED_PARAMETER")
 fun profileCoverHeight(width: androidx.compose.ui.unit.Dp, statusTop: androidx.compose.ui.unit.Dp): androidx.compose.ui.unit.Dp =
-    (width * CoverAspect).coerceIn(CoverMin, CoverMax) + statusTop
+    (width * CoverAspect).coerceIn(CoverMin, CoverMax)
+
+/** Width over height of the cover frame at [width]. Picker tiles use it so a tile is the cover as it will look. */
+fun profileCoverAspect(width: androidx.compose.ui.unit.Dp): Float =
+    width.value / profileCoverHeight(width, androidx.compose.ui.unit.Dp.Zero).value
 
 /**
  * Picks the cover role + deco text for a profile, mirroring the web's

@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -54,16 +56,13 @@ private val AvatarSize = 104.dp
 /**
  * The top of the editor, built like the profile it edits: the cover runs edge to edge (behind the status bar, at the same
  * proportions as the profile so what you see is what they see), the photo hangs across its bottom edge in the middle, and
- * the name, handle and strength sit under it. Back and Save float on the cover. Nothing here has a shadow or a ring.
+ * the name, handle and strength sit under it. Back and Save live in [EditProfileTopBar], which stays on screen while the page scrolls. Nothing here has a shadow or a ring.
  */
 @Composable
 internal fun EditProfileHero(
     state: CompleteProfileUiState,
     viewModel: CompleteProfileViewModel,
     strength: Float,
-    canSave: Boolean,
-    onBack: () -> Unit,
-    onSave: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scheme = MaterialTheme.colorScheme
@@ -77,22 +76,9 @@ internal fun EditProfileHero(
             Box(Modifier.fillMaxWidth().height(coverHeight)) {
                 M3xCover(
                     coverId = state.coverArt, username = state.username.ifBlank { state.displayName },
-                    modifier = Modifier.fillMaxSize().clickable(role = Role.Button) { picking = true }
+                    modifier = Modifier.fillMaxSize().clickable(role = Role.Button) { picking = true },
+                    live = true
                 )
-                HeroButton(
-                    modifier = Modifier.align(Alignment.TopStart).padding(top = statusTop + 8.dp, start = 12.dp),
-                    onClick = onBack
-                ) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = scheme.onSurface, modifier = Modifier.size(22.dp)) }
-                Box(
-                    Modifier.align(Alignment.TopEnd).padding(top = statusTop + 8.dp, end = 12.dp).height(44.dp)
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(scheme.surface.copy(alpha = if (canSave) 0.92f else 0.6f))
-                        .clickable(enabled = canSave, role = Role.Button, onClick = onSave)
-                        .padding(horizontal = 20.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("Save", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = if (canSave) scheme.primary else scheme.onSurfaceVariant)
-                }
                 Row(
                     Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 12.dp)
                         .clip(RoundedCornerShape(20.dp)).background(scheme.surface.copy(alpha = 0.92f))
@@ -153,6 +139,53 @@ internal fun EditProfileHero(
         )
     }
 }
+
+/**
+ * Back and Save, pinned to the top of the screen. Over the cover they float on it; as the page scrolls the bar's own surface
+ * fades in (progress 0 to 1, read only while drawing) so the buttons never sit on text.
+ */
+@Composable
+internal fun EditProfileTopBar(
+    progress: () -> Float,
+    canSave: Boolean,
+    onBack: () -> Unit,
+    onSave: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val scheme = MaterialTheme.colorScheme
+    val line = scheme.outlineVariant
+    Row(
+        modifier.fillMaxWidth()
+            .drawBehind {
+                val p = progress()
+                if (p > 0f) {
+                    drawRect(scheme.surface.copy(alpha = p))
+                    drawRect(line.copy(alpha = p), topLeft = androidx.compose.ui.geometry.Offset(0f, size.height - 1.dp.toPx()), size = androidx.compose.ui.geometry.Size(size.width, 1.dp.toPx()))
+                }
+            }
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        HeroButton(modifier = Modifier, onClick = onBack) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = scheme.onSurface, modifier = Modifier.size(22.dp))
+        }
+        Spacer(Modifier.weight(1f))
+        Box(
+            Modifier.height(44.dp)
+                .clip(RoundedCornerShape(22.dp))
+                .background(scheme.surface.copy(alpha = if (canSave) 0.92f else 0.6f))
+                .clickable(enabled = canSave, role = Role.Button, onClick = onSave)
+                .padding(horizontal = 20.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Save", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = if (canSave) scheme.primary else scheme.onSurfaceVariant)
+        }
+    }
+}
+
+/** Scroll distance (px) after which the top bar is fully solid: the cover's lower edge has slid under it. */
+internal fun editBarRange(coverPx: Float, barPx: Float): Float = (coverPx - barPx).coerceAtLeast(1f)
 
 @Composable
 private fun HeroButton(modifier: Modifier, onClick: () -> Unit, content: @Composable () -> Unit) {
