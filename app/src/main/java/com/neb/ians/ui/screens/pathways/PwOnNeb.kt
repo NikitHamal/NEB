@@ -44,6 +44,15 @@ internal fun fetchOnNebText(): String? {
     return try { conn.inputStream.bufferedReader().use { it.readText() } } finally { conn.disconnect() }
 }
 
+/** The server sends readable level names; an older payload sent the stored keys, so both read well. */
+internal fun levelLabel(key: String): String = when (key) {
+    "preprimary" -> "Pre-primary"; "basic_1_5" -> "Basic 1 to 5"; "basic_6_8" -> "Basic 6 to 8"
+    "secondary_9_10" -> "Secondary 9 to 10"; "plus_two" -> "+2"; "a_level" -> "A Level"
+    "diploma" -> "Diploma / TSLC"; "bachelor" -> "Bachelor's"; "master" -> "Master's"
+    "phd" -> "PhD"; "coaching" -> "Entrance coaching"
+    else -> if ('_' in key) key.replace('_', ' ').replaceFirstChar { it.uppercase() } else key
+}
+
 internal fun parseOnNeb(text: String): PwOnNebData {
     val o = JSONObject(text)
     val arr = o.optJSONArray("items")
@@ -76,7 +85,10 @@ internal fun PwOnNebSection(data: PwOnNebData?, courseSlugs: Set<String>, distri
     PwH4("On NEBians", Modifier.padding(horizontal = 16.dp))
     Column(Modifier.padding(horizontal = 16.dp).padding(bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         shown.forEachIndexed { i, p ->
-            PwSurface(Modifier.fillMaxWidth().pwRise(i, "onneb"), radius = 22.dp, onClick = { open(p.slug) }) {
+            PwSurface(Modifier.fillMaxWidth().pwRise(i, "onneb"), radius = 22.dp, onClick = {
+                com.neb.ians.ui.screens.institutions.InstitutionPeek.put(p.slug, p.name, listOf(p.kind.replaceFirstChar { it.uppercase() }, p.place, p.district).filter { it.isNotBlank() }.distinct().joinToString(" · "))
+                open(p.slug)
+            }) {
                 Column(Modifier.padding(16.dp, 14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         Column(Modifier.weight(1f)) {
@@ -89,12 +101,11 @@ internal fun PwOnNebSection(data: PwOnNebData?, courseSlugs: Set<String>, distri
                         }
                         Icon(Icons.Outlined.ChevronRight, null, tint = c.onSurfaceVariant)
                     }
-                    PwBar(p.completeness / 100f, Modifier.fillMaxWidth(), height = 6.dp)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         if (p.admissionOpen) PwTag("Admissions open", pwTone(4))
                         if (p.slug in courseSlugs) PwTag("Offers this course", pwTone(0))
                         p.feeMin?.takeIf { it > 0 }?.let { PwTag("From ${lakhText(it / 100_000f)}", pwTone(1)) }
-                        p.levels.take(3).forEach { PwTag(it, pwTone(2)) }
+                        p.levels.take(3).forEach { PwTag(levelLabel(it), pwTone(2)) }
                     }
                     if (p.phone.isNotBlank()) Row(
                         Modifier.heightIn(min = 36.dp).clickable { runCatching { ctx.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + p.phone.filter { it.isDigit() || it == '+' }))) } },

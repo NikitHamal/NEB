@@ -54,13 +54,14 @@ fun PixelOnboardingArt(
     handle: PixelOnboarding.Handle = PixelOnboarding.Handle.Idle,
     height: androidx.compose.ui.unit.Dp = 160.dp,
 ) {
-    val scene = remember(kind, a, b, flag, handle) { PixelOnboarding.render(kind, a, b, flag, handle) }
+    val night = com.neb.ians.ui.theme.LocalNebAuthPalette.current.isDark
+    val scene = remember(kind, a, b, flag, handle, night) { PixelOnboarding.render(kind, a, b, flag, handle, night) }
     val image = remember(scene) {
         val cv = scene.canvas
         Bitmap.createBitmap(cv.width, cv.height, Bitmap.Config.ARGB_8888).apply { setPixels(cv.pixels, 0, cv.width, 0, 0, cv.width, cv.height) }.asImageBitmap()
     }
     androidx.compose.foundation.layout.BoxWithConstraints(
-        modifier.fillMaxWidth().height(height).clip(androidx.compose.foundation.shape.RoundedCornerShape(20.dp))
+        modifier.fillMaxWidth().height(height).clip(androidx.compose.foundation.shape.RoundedCornerShape(28.dp))
     ) {
         val density = androidx.compose.ui.platform.LocalDensity.current
         val w = with(density) { maxWidth.toPx() }; val h = with(density) { maxHeight.toPx() }

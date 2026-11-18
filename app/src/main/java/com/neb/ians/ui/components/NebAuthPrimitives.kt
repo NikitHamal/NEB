@@ -115,7 +115,8 @@ object NebAuthType {
         fontWeight = FontWeight.SemiBold,
         fontSize = 27.sp,
         lineHeight = 35.sp,
-        letterSpacing = (-0.5).sp
+        letterSpacing = (-0.5).sp,
+        lineBreak = androidx.compose.ui.text.style.LineBreak.Heading
     )
     val Title = TextStyle(
         fontFamily = Poppins,
@@ -128,7 +129,8 @@ object NebAuthType {
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
         fontSize = 14.5.sp,
-        lineHeight = 22.sp
+        lineHeight = 22.sp,
+        lineBreak = androidx.compose.ui.text.style.LineBreak.Paragraph
     )
     val Label = TextStyle(
         fontFamily = Poppins,
@@ -141,7 +143,8 @@ object NebAuthType {
         fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
         fontSize = 12.5.sp,
-        lineHeight = 18.sp
+        lineHeight = 18.sp,
+        lineBreak = androidx.compose.ui.text.style.LineBreak.Paragraph
     )
     val Button = TextStyle(
         fontFamily = Poppins,
@@ -178,7 +181,9 @@ fun NebAuthTopBar(
         when {
             onBack != null -> NebIconAction(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
             onClose != null -> NebIconAction(Icons.Outlined.Close, "Close", onClose)
-            else -> Spacer(modifier = Modifier.width(4.dp))
+            // A step rail keeps the slot even without a control, so the rail does not
+            // jump sideways when the back arrow appears on step two.
+            else -> Spacer(modifier = Modifier.width(if (progress != null) 44.dp else 4.dp))
         }
 
         if (progress != null) {
@@ -195,7 +200,7 @@ fun NebAuthTopBar(
         if (trailing != null) {
             trailing()
         } else {
-            Spacer(modifier = Modifier.width(44.dp))
+            Spacer(modifier = Modifier.width(if (progress != null) 12.dp else 44.dp))
         }
     }
 }
@@ -243,9 +248,9 @@ fun NebProgressRail(
     )
     Box(
         modifier = modifier
-            .height(4.dp)
+            .height(6.dp)
             .clip(CircleShape)
-            .background(palette.hairline)
+            .background(palette.accentSoft)
     ) {
         Box(
             modifier = Modifier

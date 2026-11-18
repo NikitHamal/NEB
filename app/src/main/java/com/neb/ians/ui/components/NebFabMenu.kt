@@ -12,6 +12,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -75,17 +77,19 @@ fun NebFabMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    spacing: Dp = 14.dp,
+    spacing: Dp = 10.dp,
     anchor: @Composable () -> Unit
 ) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.End) {
+    // The rows hug the right edge of the screen gutter, not the right edge of the nav pill, and the
+    // nav itself stays centred.
+    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
         NebFabMenuItems(
             actions = actions,
             expanded = expanded,
             onDismissRequest = onDismissRequest,
             bottomGap = spacing
         )
-        anchor()
+        Box(modifier = Modifier.align(Alignment.CenterHorizontally)) { anchor() }
     }
 }
 
@@ -95,7 +99,7 @@ fun NebFabMenuItems(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    itemSpacing: Dp = 10.dp,
+    itemSpacing: Dp = 6.dp,
     bottomGap: Dp = 0.dp
 ) {
     if (actions.isEmpty()) return
@@ -138,7 +142,7 @@ fun NebFabMenuItems(
 
     if (!shown) return
     Column(
-        modifier = modifier.padding(bottom = bottomGap, end = 4.dp),
+        modifier = modifier.padding(bottom = bottomGap).offset(x = 10.dp),
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.spacedBy(itemSpacing)
     ) {
@@ -177,7 +181,7 @@ private fun NebFabMenuRow(
                 action.onClick()
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Box(
             modifier = Modifier

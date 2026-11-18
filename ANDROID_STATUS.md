@@ -2480,3 +2480,30 @@ History read first (`ANDROID_STATUS.md` 83 to 97). Sessions 83 to 97 wired code-
 - On-device look at Library and Home with 1.7.7; compare a card against `art-v3.html` thumbs.
 
 CI (session 98): `435c6f26` Android release build (APK + AAB) green. Backend tests green on `8ae85551` (includes `web.test_v3_thumb`). Deploy Backend to cPanel (run `44355464486`) green; static only (`v3-thumb.js`, `pixel-art.js`, CSS), no migration, nothing deleted.
+
+---
+# Session 99: sign-in and onboarding follow the app theme, polished steps, no percent, readable levels, quicker institution page, tighter create menu
+
+History read first (`ANDROID_STATUS.md` 1 to 98, `TASK_AUTH_ONBOARDING_STATUS.md`, `docs/M3X_DESIGN_SYSTEM.md`). Nothing here repeats an earlier session; the journey art (pixel scenes with Neby) and its motion are kept.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 497 | **Theme**: the journey (sign-in, email, verify, forgot, every onboarding step) was light-locked (`rememberNebAuthPalette(dark = false)`, `isDark = false`, white page). `NebJourneySurface` and `rememberNebAuthPalette` now default to the palette `NEBiansTheme` provides, so they obey the app preference. Login page, headline and close icon use the palette; provider buttons get dark pairs. | `NebJourneySurface.kt`, `NebAuthPalette.kt`, `LoginScreen.kt`, `AuthActionButtons.kt` |
+| 498 | **Pixel scenes in dark**: `PixelOnboarding.render(..., night)` draws the night backdrop when the app is dark; frame radius 28dp. | `PixelOnboarding.kt`, `PixelArtViews.kt` |
+| 499 | **Awkward wraps**: headings use `LineBreak.Heading`, body and captions `LineBreak.Paragraph` (balanced lines, no one-word orphans). Step copy cut to one short line each ("Your school or college", "Joins you to your campus board."). The inline "Not typing it out? Search 24,000+ institutions" sentence is gone: two tonal action rows (glyph, one-line title, count chip, chevron). | `NebAuthPrimitives.kt`, `OnboardingStepsContext.kt`, `OnboardingStepsIdentity.kt` |
+| 500 | **Onboarding chrome**: the step rail keeps the back-arrow slot so it no longer jumps on step two; rail 6dp on a soft track. Welcome step: headline, one line, three tonal rows with shaped glyph tiles that rise in one after another. | `NebAuthPrimitives.kt`, `OnboardingStepsIdentity.kt` |
+| 501 | **No percentage**: the campus picker row says "On NEBians" (never `20%`), count reads "24,675 results"; the Pathways card and the web card no longer draw the completeness bar. | `SchoolSearchSheet.kt`, `PwOnNeb.kt`, `pages/pathways.js` |
+| 502 | **Keys vs values**: `/api/pathways/on-neb/` now returns `levels` as labels (`Secondary 9 to 10`) plus `levelKeys`; the app also maps keys (older payloads). Test `api.test_pathways_on_neb`. | `views_pathways.py`, `PwOnNeb.kt` |
+| 503 | **Institution page load**: no plain "Loading". Page and schema are fetched side by side, last copy and schema are kept in memory (instant on reopen, refreshed behind), the skeleton is the page's own shape and names itself from the card tapped (`InstitutionPeek`). Failure shows Try again. | `InstitutionsViewModel.kt`, `InstitutionScreen.kt` |
+| 504 | **Create menu**: rows hug the right gutter (10dp from the edge), the nav stays centred; row gap 10 to 6, menu to button gap 14 to 10, pill to glyph 10 to 8. | `NebFabMenu.kt` |
+| 505 | Version 1.7.8 (32). | `app/build.gradle.kts` |
+
+## Notes
+- No schema change, no migration, nothing deleted. The only backend change is an additive field in one read-only JSON endpoint.
+- Never built locally: Android check is the GitHub Actions run; backend ships with `deploy-backend.yml` (secrets from GH only).
+- Token is in `/tmp/gitenv.sh` only; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device look at dark sign-in, the Campus step and the create menu with 1.7.8.

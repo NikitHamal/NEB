@@ -60,14 +60,14 @@ fun nebKeyboardOpen(): Boolean = WindowInsets.isImeVisible
 
 /**
  * A full-screen journey surface: the page colour, the system bar appearance that
- * goes with it, and insets handled once. The journey is light-locked — it runs
- * out of a splash and an auth landing that are both built on light artwork, so
- * nothing in between may follow the device into dark mode.
+ * goes with it, and insets handled once. It follows the app's theme preference
+ * (the palette `NEBiansTheme` provides), so sign-in and onboarding are as dark
+ * or light as the rest of the app. Pass [dark] only to force a side.
  */
 @Composable
 fun NebJourneySurface(
     modifier: Modifier = Modifier,
-    dark: Boolean = false,
+    dark: Boolean = LocalNebAuthPalette.current.isDark,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val palette = rememberNebAuthPalette(dark)

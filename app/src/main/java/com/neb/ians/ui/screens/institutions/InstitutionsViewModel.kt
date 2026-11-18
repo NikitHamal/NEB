@@ -7,6 +7,7 @@ import com.neb.ians.data.api.ApiInstSchema
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,14 +43,41 @@ class InstitutionViewModel @Inject constructor(
     private val _state = MutableStateFlow(State())
     val state: StateFlow<State> = _state.asStateFlow()
 
+    private companion object {
+        val detailCache = java.util.concurrent.ConcurrentHashMap<String, ApiInstDetail>()
+        @Volatile var schemaCache: ApiInstSchema? = null
+    }
+
+    /**
+     * Shows what is already known the moment the screen opens (the last copy of this page, the
+     * schema from any earlier visit), then refreshes. The schema and the page are fetched side
+     * by side, so the wait is the slower of the two rather than their sum.
+     */
     fun load(slug: String) {
         viewModelScope.launch {
-            _state.update { it.copy(loading = true, error = null) }
+            val cached = detailCache[slug]
+            _state.update { st ->
+                st.copy(
+                    detail = cached ?: st.detail?.takeIf { it.slug == slug },
+                    schema = schemaCache ?: st.schema,
+                    loading = cached == null,
+                    error = null
+                )
+            }
+            val schemaJob = if (schemaCache == null) async { runCatching { api.institutionSchema() }.getOrNull() } else null
             val token = runCatching { auth.getBearerToken() }.getOrNull()
-            val schema = runCatching { api.institutionSchema() }.getOrNull()
             val detail = runCatching { api.institutionDetail(token, slug) }.getOrNull()
-            _state.update { it.copy(detail = detail, schema = schema ?: it.schema, loading = false,
-                error = if (detail == null) "Could not load this page." else null) }
+            val schema = schemaJob?.await()?.also { schemaCache = it }
+            if (detail != null) detailCache[slug] = detail
+            _state.update { st ->
+                val keep = detail ?: st.detail?.takeIf { it.slug == slug }
+                st.copy(
+                    detail = keep,
+                    schema = schema ?: st.schema,
+                    loading = false,
+                    error = if (keep == null) "Could not load this page." else null
+                )
+            }
         }
     }
 
@@ -62,7 +90,9 @@ class InstitutionViewModel @Inject constructor(
             val body = res.getOrNull()
             _state.update { st ->
                 if (body != null) {
-                    st.copy(saving = false, saved = true, detail = st.detail?.copy(portfolio = body.portfolio))
+                    val next = st.detail?.copy(portfolio = body.portfolio)
+                    if (next != null) detailCache[slug] = next
+                    st.copy(saving = false, saved = true, detail = next)
                 } else st.copy(saving = false, error = "Could not save. Check the values and try again.")
             }
         }
@@ -83,3 +113,11 @@ fun Map<String, JsonElement>.rows(key: String): List<Map<String, String>> =
     } ?: emptyList()
 
 fun money(v: Long?): String = if (v == null) "" else "Rs " + "%,d".format(v)
+
+/** What the list a user tapped from already knew about a page, so the page can name itself while it loads. */
+object InstitutionPeek {
+    data class Peek(val name: String, val kindLabel: String)
+    private val rows = java.util.concurrent.ConcurrentHashMap<String, Peek>()
+    fun put(slug: String, name: String, kindLabel: String) { rows[slug] = Peek(name, kindLabel) }
+    fun get(slug: String): Peek? = rows[slug]
+}

@@ -21,6 +21,10 @@ import androidx.compose.material.icons.outlined.AddAPhoto
 import androidx.compose.material.icons.outlined.Domain
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Verified
+import androidx.compose.material.icons.outlined.ChevronRight
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -73,11 +77,11 @@ fun LevelStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
         NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Level, a = index, b = levels.size, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
-            title = if (state.role == "teacher") "Which levels do you teach?" else "Where are you right now?",
+            title = if (state.role == "teacher") "Which levels do you teach?" else "Your level right now",
             subtitle = if (state.role == "teacher") {
-                "Pick the level you spend most of your time on."
+                "The level you teach most."
             } else {
-                "Your level decides which syllabus, notes and past papers surface first."
+                "Sets the notes and papers you see first."
             }
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -112,7 +116,7 @@ fun SubjectsStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = if (isTeacher) "What do you teach?" else "What are you studying?",
-            subtitle = "Pick as many as apply. These drive your feed, your notes shelf and who you get matched with."
+            subtitle = "Pick as many as apply."
         )
         Spacer(modifier = Modifier.height(20.dp))
         FlowRow(
@@ -150,8 +154,8 @@ fun PlaceStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
         NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Province, a = provinceIndex, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
-            title = "Where do you study from?",
-            subtitle = "Local results, notices and study groups are found by district."
+            title = "Your district",
+            subtitle = "Local results and groups find you by district."
         )
         Spacer(modifier = Modifier.height(20.dp))
         NebFieldGroupLabel("Province")
@@ -211,9 +215,9 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             title = when (state.role) {
                 "teacher" -> "Where do you teach?"
                 "institution" -> "Which institution is this?"
-                else -> "Which school or college?"
+                else -> "Your school or college"
             },
-            subtitle = "Naming it puts you on your campus board and its shared resource shelf."
+            subtitle = "Joins you to your campus board."
         )
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -245,27 +249,19 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             imeAction = ImeAction.Done
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Not typing it out?", style = NebAuthType.Caption, color = palette.inkMuted)
-            Spacer(modifier = Modifier.width(2.dp))
-            NebTextLink(text = "Search 24,000+ institutions", onClick = { showCatalogue = true })
-        }
-
-        if (registeredNames.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Already on NEBians?",
-                    style = NebAuthType.Caption,
-                    color = palette.inkMuted
-                )
-                Spacer(modifier = Modifier.width(2.dp))
-                NebTextLink(
-                    text = "Pick from ${registeredNames.size}",
+        Spacer(modifier = Modifier.height(16.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            CampusAction(
+                icon = Icons.Outlined.Search,
+                title = "Search all institutions",
+                count = "24,000+",
+                onClick = { showCatalogue = true }
+            )
+            if (registeredNames.isNotEmpty()) {
+                CampusAction(
+                    icon = Icons.Outlined.Verified,
+                    title = "Already on NEBians",
+                    count = registeredNames.size.toString(),
                     onClick = { showRegistered = true }
                 )
             }
@@ -341,8 +337,8 @@ fun PortraitStep(state: CompleteProfileUiState, onPickPhoto: () -> Unit) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         NebStepHeader(
-            title = "Put a face to the name",
-            subtitle = "Profiles with a photo get more replies. You can skip this and add one later.",
+            title = "Add a photo",
+            subtitle = "Profiles with a photo get more replies.",
             align = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(22.dp))
@@ -362,8 +358,8 @@ fun BioStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) 
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(NebAuthTokens.ArtClearance))
         NebStepHeader(
-            title = "Say something about you",
-            subtitle = "One or two lines. What you are working towards, what you like helping with."
+            title = "A line about you",
+            subtitle = "What you are working towards."
         )
         Spacer(modifier = Modifier.height(22.dp))
         NebAuthField(
@@ -406,8 +402,8 @@ fun FinishStep(state: CompleteProfileUiState) {
         NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Arrival, height = 172.dp) }
         Spacer(modifier = Modifier.height(12.dp))
         NebStepHeader(
-            title = "That's your profile",
-            subtitle = "Check it over. Everything here can be edited from your profile later.",
+            title = "You are all set",
+            subtitle = "You can edit all of this later.",
             align = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(22.dp))
@@ -453,5 +449,47 @@ fun FinishStep(state: CompleteProfileUiState) {
                 }
             }
         }
+    }
+}
+
+/** A tonal row that opens a picker: glyph, one line of title, a count chip, a chevron. */
+@Composable
+private fun CampusAction(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    count: String,
+    onClick: () -> Unit
+) {
+    val palette = LocalNebAuthPalette.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(if (palette.isDark) palette.card else palette.field)
+            .nebPressable(scale = 0.985f, onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier.size(40.dp).clip(RoundedCornerShape(16.dp)).background(palette.accentSoft),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(icon, contentDescription = null, tint = palette.accent, modifier = Modifier.size(20.dp))
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            text = title,
+            style = NebAuthType.Body.copy(fontWeight = FontWeight.SemiBold),
+            color = palette.ink,
+            maxLines = 1,
+            modifier = Modifier.weight(1f)
+        )
+        Box(
+            modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(palette.accentSoft).padding(horizontal = 10.dp, vertical = 4.dp)
+        ) {
+            Text(text = count, style = NebAuthType.Caption.copy(fontWeight = FontWeight.SemiBold), color = palette.accent, maxLines = 1)
+        }
+        Spacer(modifier = Modifier.width(6.dp))
+        Icon(Icons.Outlined.ChevronRight, contentDescription = null, tint = palette.inkFaint, modifier = Modifier.size(20.dp))
     }
 }

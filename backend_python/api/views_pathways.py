@@ -29,6 +29,8 @@ def pathways_on_neb(request):
     Pathways college each one is (`matches`: provider id -> slug). Small and live, so the big
     cached payload stays static; Find a college shows these first."""
     from .models_institutions import InstitutionProfile, search_key
+    from .institution_profile import LEVELS
+    level_label = dict(LEVELS)
     rows = list(InstitutionProfile.objects.filter(institution__verified=True, completeness__gt=0)
                 .select_related('institution').order_by('-completeness', 'institution__name')[:200])
     items = []
@@ -36,7 +38,8 @@ def pathways_on_neb(request):
         i, d = row.institution, row.data or {}
         items.append({
             'slug': i.slug, 'name': i.name, 'kind': i.kind, 'district': i.district, 'place': i.place,
-            'completeness': row.completeness, 'levels': d.get('levels', []), 'feeMin': d.get('feeMin'),
+            'completeness': row.completeness,
+            'levels': [level_label.get(k, k) for k in d.get('levels', [])], 'levelKeys': d.get('levels', []), 'feeMin': d.get('feeMin'),
             'feeMax': d.get('feeMax'), 'admissionOpen': bool(d.get('admissionOpen')),
             'phone': d.get('phone') or i.phone, 'website': i.website, 'est': i.est,
             'facilities': (d.get('facilities') or [])[:6], 'students': d.get('students'),

@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.screens.onboarding.Reveal
 import androidx.compose.material.icons.outlined.Close
 import com.neb.ians.ui.theme.Poppins
+import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.nebAuthPalette
 
 /**
@@ -55,7 +56,7 @@ fun LoginScreen(
     onClose: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val isDark = false
+    val isDark = LocalNebAuthPalette.current.isDark
 
     var isLoading by remember { mutableStateOf(false) }
     var loadingProvider by remember { mutableStateOf<String?>(null) }
@@ -85,7 +86,7 @@ fun LoginScreen(
     }
 
     val palette = nebAuthPalette(isDark)
-    val screenBg = Color(0xFFFFFFFF)
+    val screenBg = palette.page
 
     BoxWithConstraints(
         modifier = Modifier
@@ -126,7 +127,7 @@ fun LoginScreen(
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 28.sp,
                     letterSpacing = (-0.5).sp,
-                    color = Color(0xFF0A0A0B),
+                    color = palette.ink,
                     textAlign = TextAlign.Center
                 )
             }
@@ -175,7 +176,7 @@ fun LoginScreen(
                 androidx.compose.material3.Icon(
                     androidx.compose.material.icons.Icons.Outlined.Close,
                     contentDescription = "Close",
-                    tint = Color(0xFF0A0A0B)
+                    tint = palette.ink
                 )
             }
         }

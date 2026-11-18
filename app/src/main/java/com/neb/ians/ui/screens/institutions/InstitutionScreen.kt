@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.institutions
 
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -66,8 +67,13 @@ fun InstitutionScreen(slug: String, onBack: () -> Unit, onManage: (String) -> Un
     val context = LocalContext.current
     Box(Modifier.fillMaxSize()) {
         if (d == null) {
-            Text(if (st.loading) "Loading" else st.error.orEmpty(), Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack, Modifier.statusBarsPadding().padding(14.dp))
+            if (st.loading) HeadSkeleton(slug, onBack) else {
+                Column(Modifier.align(Alignment.Center).padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    Text(st.error.orEmpty(), color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                    androidx.compose.material3.FilledTonalButton(onClick = { vm.load(slug) }) { Text("Try again") }
+                }
+                CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack, Modifier.statusBarsPadding().padding(14.dp))
+            }
         } else LazyColumn(contentPadding = PaddingValues(bottom = 40.dp)) {
             item(key = "head") {
                 Head(d, onBack, onCopy = { clipboard.setText(AnnotatedString("$WEB/app/schools/${d.slug}/")); context.nebToast("Link copied") },
@@ -142,6 +148,47 @@ private fun Head(d: ApiInstDetail, onBack: () -> Unit, onCopy: () -> Unit, onEdi
             }
             Text(listOf(d.kindLabel, d.location).filter { it.isNotBlank() }.joinToString(" · "), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant)
             if (d.counts.total > 0) Text("${d.counts.students} students and ${d.counts.teachers} teachers on NEBians", fontSize = 12.5.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant)
+        }
+    }
+}
+
+/**
+ * The page's own shape while it loads: tonal cover, mark, name bars and card blocks that breathe,
+ * with the name filled in when the list the user came from already knew it.
+ */
+@Composable
+private fun HeadSkeleton(slug: String, onBack: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    val peek = remember(slug) { InstitutionPeek.get(slug) }
+    val pulse = androidx.compose.animation.core.rememberInfiniteTransition(label = "inst_skel")
+    val alpha by pulse.animateFloat(
+        initialValue = 0.55f, targetValue = 1f,
+        animationSpec = androidx.compose.animation.core.infiniteRepeatable(
+            androidx.compose.animation.core.tween(800, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+            androidx.compose.animation.core.RepeatMode.Reverse
+        ),
+        label = "inst_skel_a"
+    )
+    val block = c.surfaceContainerHigh
+    Column(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxWidth()) {
+            Box(Modifier.fillMaxWidth().height(190.dp).clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)).background(c.primaryContainer.copy(alpha = 0.5f * alpha)))
+            CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack, Modifier.statusBarsPadding().padding(14.dp, 10.dp))
+            Box(Modifier.align(Alignment.BottomStart).padding(start = 16.dp).offset(y = 40.dp).size(92.dp).clip(RoundedCornerShape(30.dp)).background(block.copy(alpha = alpha)))
+        }
+        Spacer(Modifier.height(48.dp))
+        Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (peek != null) {
+                Text(peek.name, fontSize = 22.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp)
+                Text(peek.kindLabel, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant)
+            } else {
+                Box(Modifier.fillMaxWidth(0.6f).height(24.dp).clip(RoundedCornerShape(12.dp)).background(block.copy(alpha = alpha)))
+                Box(Modifier.fillMaxWidth(0.35f).height(14.dp).clip(RoundedCornerShape(8.dp)).background(block.copy(alpha = alpha)))
+            }
+            Spacer(Modifier.height(10.dp))
+            repeat(3) {
+                Box(Modifier.fillMaxWidth().height(if (it == 0) 72.dp else 120.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerLow.copy(alpha = alpha)))
+            }
         }
     }
 }

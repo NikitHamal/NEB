@@ -105,7 +105,7 @@ fun SchoolSearchSheet(
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = if (state.total > 0) "${state.total} found" else if (state.loading) "Searching" else "Nothing yet",
+            text = if (state.total > 0) "%,d results".format(state.total) else if (state.loading) "Searching" else "No results",
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
@@ -146,7 +146,8 @@ fun SchoolRow(row: ApiInstRow, onClick: () -> Unit) {
             if (row.verified) {
                 Surface(color = MaterialTheme.colorScheme.tertiaryContainer, shape = RoundedCornerShape(10.dp)) {
                     Text(
-                        if (row.completeness > 0) "${row.completeness}%" else "On NEBians",
+                        "On NEBians",
+                        maxLines = 1, softWrap = false,
                         fontSize = 11.sp, fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp)
                     )

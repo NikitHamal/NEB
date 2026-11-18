@@ -67,8 +67,8 @@ fun AuthActionButtons(
             label = "Continue with Google",
             enabled = !isLoading,
             loading = isLoading && loadingProvider == "google",
-            container = Color(0xFFF1F1F3),
-            content = Color(0xFF1F1F21),
+            container = if (isDark) Color(0xFF2A2B33) else Color(0xFFF1F1F3),
+            content = if (isDark) Color(0xFFE4E1E9) else Color(0xFF1F1F21),
             tag = "google_login_button",
             onClick = onGoogleClick
         ) {
@@ -86,15 +86,15 @@ fun AuthActionButtons(
             label = "Continue with GitHub",
             enabled = !isLoading,
             loading = isLoading && loadingProvider == "github",
-            container = Color(0xFF101012),
-            content = Color.White,
+            container = if (isDark) Color(0xFFE4E1E9) else Color(0xFF101012),
+            content = if (isDark) Color(0xFF101012) else Color.White,
             tag = "github_login_button",
             onClick = onGitHubClick
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_github),
                 contentDescription = null,
-                tint = Color.White,
+                tint = if (isDark) Color(0xFF101012) else Color.White,
                 modifier = Modifier.size(22.dp)
             )
         }

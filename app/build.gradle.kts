@@ -16,8 +16,8 @@ android {
         applicationId = "com.neb.ians"
         minSdk = 24
         targetSdk = 36
-        versionCode = 31
-        versionName = "1.7.7"
+        versionCode = 32
+        versionName = "1.7.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

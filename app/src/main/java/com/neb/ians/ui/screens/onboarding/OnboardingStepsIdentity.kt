@@ -1,6 +1,12 @@
 package com.neb.ians.ui.screens.onboarding
 
 import androidx.compose.foundation.background
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +20,8 @@ import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.PersonOutline
+import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,32 +62,41 @@ import java.util.Calendar
 @Composable
 fun WelcomeStep() {
     val palette = LocalNebAuthPalette.current
+    val rowFill = if (palette.isDark) palette.card else palette.field
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Welcome, height = 196.dp) }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(18.dp))
         NebStepHeader(
-            title = "Welcome to NEBians",
-            subtitle = "Let's build the profile Nepal's learning community will see. A few short questions — one at a time, nothing crammed."
+            title = "Set up your profile",
+            subtitle = "Three short parts, one question at a time."
         )
         Spacer(modifier = Modifier.height(NebAuthTokens.SectionGap))
         val ahead = listOf(
-            "Your handle" to "How classmates find and mention you",
-            "Your level and subjects" to "So the feed carries the right notes and papers",
-            "Your district and campus" to "So local resources and results reach you first"
+            Triple(Icons.Outlined.AlternateEmail, "Your handle", "How classmates find you"),
+            Triple(Icons.Outlined.School, "Level and subjects", "Notes and papers that fit"),
+            Triple(Icons.Outlined.LocationOn, "District and campus", "Local resources first")
         )
-        ahead.forEachIndexed { index, (title, detail) ->
-            if (index > 0) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(NebAuthTokens.Hairline)
-                        .background(palette.hairline)
-                )
-            }
-            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 14.dp)) {
-                Text(text = title, style = NebAuthType.Body, color = palette.ink)
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(text = detail, style = NebAuthType.Caption, color = palette.inkMuted)
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            ahead.forEachIndexed { index, (icon, title, detail) ->
+                Reveal(active = true, index = index, rise = 22.dp, modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(24.dp))
+                            .background(rowFill)
+                            .padding(horizontal = 14.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        NebGlyphTile(selected = true, polygon = NebShapes.option(index), size = 44.dp) {
+                            Icon(imageVector = icon, contentDescription = null, tint = palette.accent, modifier = Modifier.size(22.dp))
+                        }
+                        Spacer(modifier = Modifier.width(14.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(text = title, style = NebAuthType.Body.copy(fontWeight = FontWeight.SemiBold), color = palette.ink)
+                            Text(text = detail, style = NebAuthType.Caption, color = palette.inkMuted)
+                        }
+                    }
+                }
             }
         }
     }
@@ -94,7 +111,7 @@ fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
         Spacer(modifier = Modifier.height(14.dp))
         NebStepHeader(
             title = "Which path is yours?",
-            subtitle = "This shapes the rest of the questions and what your feed leads with."
+            subtitle = "Shapes the questions that follow."
         )
         Spacer(modifier = Modifier.height(22.dp))
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -130,8 +147,8 @@ fun NameStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
         }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
-            title = "What should we call you?",
-            subtitle = "Your display name appears on everything you post. You can change it later."
+            title = "Your name",
+            subtitle = "Shown on everything you post."
         )
         Spacer(modifier = Modifier.height(22.dp))
         NebAuthField(
@@ -159,7 +176,7 @@ fun HandleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "Claim your handle",
-            subtitle = "Letters, numbers and underscores. This is how people mention you in threads."
+            subtitle = "Letters, numbers and underscores."
         )
         Spacer(modifier = Modifier.height(22.dp))
         NebAuthField(
@@ -215,8 +232,8 @@ fun BirthdayStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
         NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Birthday, a = parsed?.third ?: -1, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
-            title = "When were you born?",
-            subtitle = "We use this for age-appropriate content and nothing else. Only your age band is ever shown."
+            title = "Your birthday",
+            subtitle = "Only your age band is ever shown."
         )
         Spacer(modifier = Modifier.height(18.dp))
         NebDateWheel(
@@ -235,8 +252,8 @@ fun GenderStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
         NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Facets, a = selectedIndex, b = NEB_GENDERS.size, height = 130.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
-            title = "How do you identify?",
-            subtitle = "Optional detail for your profile. Pick whichever fits."
+            title = "Your gender",
+            subtitle = "Pick whichever fits."
         )
         Spacer(modifier = Modifier.height(22.dp))
         NebChoiceTiles(

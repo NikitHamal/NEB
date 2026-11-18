@@ -134,14 +134,13 @@ fun nebAuthPalette(isDark: Boolean): NebAuthPalette =
     if (isDark) DarkAuthPalette else LightAuthPalette
 
 /**
- * The palette for a journey screen. The journey is light by default and stays
- * light whatever the device is set to, because it runs straight out of the
- * splash and the auth landing, and both of those are locked to the light
- * artwork they are built around. Nothing between them may flip.
+ * The palette for a journey screen. It follows the app theme preference by
+ * default (the palette `NEBiansTheme` provides); pass [dark] to force a side.
  */
 @Composable
 @ReadOnlyComposable
-fun rememberNebAuthPalette(dark: Boolean = false): NebAuthPalette = nebAuthPalette(dark)
+fun rememberNebAuthPalette(dark: Boolean = LocalNebAuthPalette.current.isDark): NebAuthPalette =
+    nebAuthPalette(dark)
 
 /**
  * The same palette for journey components reused inside the app proper, where

@@ -35,66 +35,66 @@ object PixelOnboarding {
      * [a] and [b] carry the step's answer: a selected index and a count, a progress in
      * thousandths, a day of the month. [flag] is a yes/no (a school named, a photo chosen).
      */
-    fun render(kind: Kind, a: Int = -1, b: Int = 0, flag: Boolean = false, handle: Handle = Handle.Idle): Scene {
+    fun render(kind: Kind, a: Int = -1, b: Int = 0, flag: Boolean = false, handle: Handle = Handle.Idle, night: Boolean = false): Scene {
         val cv = PixelCanvas(WIDTH, HEIGHT)
         val seed = kind.ordinal * 7 + 3
         return when (kind) {
             Kind.Welcome -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Himalaya, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Himalaya, night, seed)
                 PixelPropsHumanities.paperPlane(cv, 98, st.groundY - 4)
                 Scene(cv, NebyMark(54, st.groundY, NebyState.Wave))
             }
             Kind.Paths -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Terraces, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Terraces, night, seed)
                 cv.contactShadow(84, st.groundY, 10, st.shadow)
                 signpost(cv, 84, st.groundY - 1, b.coerceIn(1, 5), a)
                 Scene(cv, NebyMark(46, st.groundY, if (a >= 0) NebyState.Hop else NebyState.LookAround))
             }
             Kind.Name -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Desk, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Desk, night, seed)
                 nameCard(cv, 88, st.groundY - 1, a / 1000f)
                 Scene(cv, NebyMark(46, st.groundY, if (a > 0) NebyState.Talk else NebyState.Wave))
             }
             Kind.Handle -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, night, seed)
                 atSign(cv, 88, st.groundY - 1, handle)
                 val mood = when (handle) { Handle.Idle -> NebyState.Idle; Handle.Checking -> NebyState.Think; Handle.Available -> NebyState.Success; Handle.Taken -> NebyState.Oops }
                 Scene(cv, NebyMark(44, st.groundY, mood))
             }
             Kind.Birthday -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Desk, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Desk, night, seed)
                 calendar(cv, 76, 6, if (a in 1..31) a else null)
                 if (a in 1..31) cake(cv, 100, st.groundY - 1)
                 Scene(cv, NebyMark(42, st.groundY, if (a in 1..31) NebyState.Celebrate else NebyState.Think))
             }
             Kind.Facets -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, night, seed)
                 gems(cv, 86, st.groundY - 6, b.coerceIn(1, 5), a)
                 Scene(cv, NebyMark(40, st.groundY, if (a >= 0) NebyState.Love else NebyState.LookAround))
             }
             Kind.Level -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Himalaya, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Himalaya, night, seed)
                 val n = b.coerceIn(2, 12)
                 val pos = stairs(cv, st.groundY, n, a.coerceIn(0, n - 1))
                 Scene(cv, NebyMark(pos.first, pos.second, NebyState.Hop))
             }
             Kind.Subjects -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Desk, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Desk, night, seed)
                 bookPile(cv, 90, st.groundY - 1, a.coerceIn(0, 8))
                 Scene(cv, NebyMark(44, st.groundY, if (a > 0) NebyState.Read else NebyState.Idle))
             }
             Kind.Province -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, night, seed)
                 nepal(cv, 58, 16, if (a in 0..6) 6 - a else -1)
                 Scene(cv, NebyMark(22, st.groundY, if (a >= 0) NebyState.Wave else NebyState.LookAround))
             }
             Kind.School -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Terraces, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Terraces, night, seed)
                 school(cv, 88, st.groundY - 1, flag)
                 Scene(cv, NebyMark(42, st.groundY, if (flag) NebyState.Success else NebyState.Idle))
             }
             Kind.Photo -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Desk, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Desk, night, seed)
                 camera(cv, 90, st.groundY - 1, flag)
                 Scene(cv, NebyMark(44, st.groundY, NebyState.Cool))
             }
@@ -105,7 +105,7 @@ object PixelOnboarding {
                 Scene(cv, NebyMark(64, st.groundY, NebyState.Celebrate))
             }
             Kind.Code -> {
-                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, false, seed)
+                val st = PixelBackdrops.draw(cv, Backdrop.Clouds, night, seed)
                 envelope(cv, 90, 30)
                 codeDots(cv, 64, 6, a.coerceAtLeast(0), b.coerceIn(1, 8))
                 Scene(cv, NebyMark(40, st.groundY, if (a >= b && b > 0) NebyState.Success else if (a > 0) NebyState.Listen else NebyState.Idle))
