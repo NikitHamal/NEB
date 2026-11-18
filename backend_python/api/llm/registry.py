@@ -58,6 +58,8 @@ class ProviderPreset:
     scraper_module: str = ''
     # Keyless official presets: key sent when the caller has none, '' = none.
     default_key: str = ''
+    # Retired: upstream no longer answers without credentials. Kept for saved configs only.
+    hidden: bool = False
     # Extra HTTP headers merged into every call (e.g. a fixed User-Agent).
     extra_headers: dict = field(default_factory=dict)
 
@@ -159,19 +161,8 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
         format=FORMAT_OPENAI, base_url='https://api.llm7.io/v1',
         default_model='default',
         models=[
-            ModelSpec('default', 'Default (auto)', 'Rotating capable model'),
-            ModelSpec('fast', 'Fast', 'Low-latency tier'),
-            ModelSpec('pro', 'Pro', 'Strongest tier'),
-            ModelSpec('DeepSeek-V4-Flash-0731', 'DeepSeek V4 Flash', '400K ctx · reasoning + tools'),
-            ModelSpec('glm-5.3-flash', 'GLM 5.3 Flash', 'Z.ai fast reasoning'),
-            ModelSpec('mimo-v2.6-flash', 'MiMo V2.6 Flash', 'Xiaomi fast reasoning'),
-            ModelSpec('minimax-m3', 'MiniMax M3', 'Pro tier · 427B'),
-            ModelSpec('minimax-m2.7', 'MiniMax M2.7', 'Fast tier'),
-            ModelSpec('kimi-k2.7-code', 'Kimi K2.7 Code', 'Moonshot coding specialist'),
-            ModelSpec('gemma4:31b', 'Gemma 4 31B', 'Google open model'),
-            ModelSpec('gpt-oss:120b', 'GPT-OSS 120B', 'OpenAI 120B open weights'),
-            ModelSpec('gpt-oss:20b', 'GPT-OSS 20B', 'OpenAI 20B open weights'),
-            ModelSpec('codestral-latest', 'Codestral Latest', 'Mistral code model'),
+            ModelSpec('default', 'Default', 'Anonymous alias'),
+            ModelSpec('fast', 'Fast', 'Anonymous alias'),
         ],
         context_window=400000, max_output_tokens=4000,
         key_required=False, default_key='unused',
@@ -201,12 +192,11 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
         free_note='Anonymous: 200/hr per IP — no key needed',
     ),
     ProviderPreset(
-        slug='zen', label='OpenCode Zen (opencode.ai — free -free models, anonymous)',
+        slug='zen', label='OpenCode Zen (retired)',
         format=FORMAT_OPENAI, base_url='https://opencode.ai/zen/v1',
         default_model='deepseek-v4.1-flash-free',
         models=[
             ModelSpec('deepseek-v4.1-flash-free', 'DeepSeek V4.1 Flash', 'Fast coding & reasoning'),
-            ModelSpec('glm-5.3-flash-free', 'GLM 5.3 Flash', 'Z.ai 320B MoE'),
             ModelSpec('mimo-v2.6-flash-free', 'MiMo V2.6 Flash', 'Xiaomi fast reasoning'),
             ModelSpec('longcat-2.5-free', 'LongCat 2.5', 'Meituan 1.6T MoE'),
             ModelSpec('inkling-2-small-free', 'Inkling 2 Small', 'Thinking Machines'),
@@ -219,24 +209,18 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
             ModelSpec('big-pickle', 'Big Pickle', '200K context · reasoning'),
         ],
         context_window=200000, max_output_tokens=4000,
-        key_required=False, default_key='public',
+        key_required=False, hidden=True, default_key='public',
         extra_headers={'User-Agent': 'opencode/1.0'},
-        free_note='Anonymous shared pool (Bearer public) — automatic keyless fallback',
+        free_note='Free tier now answers OpenCode clients only',
     ),
 ]
 
 SCRAPER_PRESETS: List[ProviderPreset] = [
     ProviderPreset(
-        slug='qwencloud', label='Qwen Cloud (qwencloud.com — Qwen 4 & 3.8, free)', format=FORMAT_SCRAPER,
-        base_url='https://www.qwencloud.com/try-ai', default_model='qwen4-max',
+        slug='qwencloud', label='Qwen Cloud (retired)', format=FORMAT_SCRAPER,
+        base_url='https://www.qwencloud.com/try-ai', default_model='qwen3.8-max',
         models=[
-            ModelSpec('qwen4-max', 'Qwen4 Max', 'Newest 2.4T flagship · 1M context · vision + reasoning'),
-            ModelSpec('qwen4-max-preview', 'Qwen4 Max (Preview)', '1M context · reasoning'),
-            ModelSpec('qwen4-plus', 'Qwen4 Plus', 'Balanced Qwen4 tier'),
-            ModelSpec('qwen4-flash', 'Qwen4 Flash', 'Fast Qwen4 tier'),
-            ModelSpec('qwen4-27b', 'Qwen4 27B', 'Open-weight 27B · 262K context'),
             ModelSpec('qwen3.8-max', 'Qwen3.8 Max', 'Flagship · reasoning + budget control'),
-            ModelSpec('qwen3.8-flash', 'Qwen3.8 Flash', 'Fast multimodal · Qwen4 architecture'),
             ModelSpec('qwen3.7-max', 'Qwen3.7 Max'),
             ModelSpec('qwen3.6-plus', 'Qwen3.6 Plus'),
             ModelSpec('qwen3.6-plus-2026-04-02', 'Qwen3.6 Plus (2026-04-02)'),
@@ -249,24 +233,14 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
             ModelSpec('qwen3-coder-flash', 'Qwen3 Coder Flash', 'Fast coding'),
         ],
         context_window=1000000, max_output_tokens=8000,
-        key_required=False, official=False, scraper_module='qwencloud_proxy',
+        key_required=False, official=False, hidden=True, scraper_module='qwencloud_proxy',
     ),
     ProviderPreset(
-        slug='qwen', label='Qwen (chat.qwen.ai — Qwen 4 & 3.8)', format=FORMAT_SCRAPER,
-        base_url='https://chat.qwen.ai/api/v2', default_model='qwen4-max',
+        slug='qwen', label='Qwen (chat.qwen.ai)', format=FORMAT_SCRAPER,
+        base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.8-max',
         models=[
-            ModelSpec('qwen4-max', 'Qwen 4 Max', 'Newest 2.4T flagship · 1M context'),
-            ModelSpec('qwen4-max-preview', 'Qwen 4 Max (Preview)', '1M context · vision + thinking'),
-            ModelSpec('qwen4-plus', 'Qwen 4 Plus', 'Balanced next-gen Qwen 4'),
-            ModelSpec('qwen4-flash', 'Qwen 4 Flash', 'Fast next-gen Qwen 4'),
-            ModelSpec('qwen4-27b', 'Qwen 4 27B', '27B dense · 262K context'),
-            ModelSpec('qwen3.8-max', 'Qwen 3.8 Max', 'GA flagship · 1M context'),
-            ModelSpec('qwen3.8-max-preview', 'Qwen 3.8 Max (Preview)'),
-            ModelSpec('qwen3.8-flash', 'Qwen 3.8 Flash', 'Fast multimodal'),
-            ModelSpec('qwen3.7-plus', 'Qwen 3.7 Plus', 'Stable'),
-            ModelSpec('qwen3.7-max', 'Qwen 3.7 Max'),
-            ModelSpec('qwen3.6-plus', 'Qwen 3.6 Plus'),
-            ModelSpec('qwen3.5-plus', 'Qwen 3.5 Plus'),
+            ModelSpec('qwen3.8-max', 'Qwen3.8 Max', '1M context · thinking'),
+            ModelSpec('qwen3.7-plus', 'Qwen3.7 Plus', '1M context'),
         ],
         context_window=1000000,
         key_required=False, official=False, scraper_module='qwen_proxy',
@@ -302,12 +276,12 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='k2think_proxy',
     ),
     ProviderPreset(
-        slug='poolside', label='Poolside (chat.poolside.ai)', format=FORMAT_SCRAPER,
+        slug='poolside', label='Poolside (retired)', format=FORMAT_SCRAPER,
         base_url='https://chat.poolside.ai', default_model='laguna-s-2.1',
         models=[ModelSpec('laguna-s-2.1', 'Laguna S 2.1', '128K context · agent coding'),
                 ModelSpec('laguna-xs-2.1', 'Laguna XS 2.1', '128K context · fast')],
         context_window=128000, max_output_tokens=8192,
-        key_required=False, official=False, scraper_module='poolside_proxy',
+        key_required=False, official=False, hidden=True, scraper_module='poolside_proxy',
     ),
     ProviderPreset(
         slug='motiftech', label='Motif (chat.motiftech.io)', format=FORMAT_SCRAPER,
@@ -331,11 +305,9 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='metaai_proxy',
     ),
     ProviderPreset(
-        slug='tryingopen', label='TryingOpen (tryingopen.com — 30+ open models, free)', format=FORMAT_SCRAPER,
+        slug='tryingopen', label='TryingOpen (retired)', format=FORMAT_SCRAPER,
         base_url='https://www.tryingopen.com/api/open', default_model='qwen/qwen3.8-27b',
         models=[
-            ModelSpec('qwen/qwen4-max', 'Qwen4 Max', 'Alibaba · 2.4T · vision + reasoning · 1M'),
-            ModelSpec('qwen/qwen4-27b', 'Qwen4 27B', 'Alibaba · 27B · vision + tools · 262k'),
             ModelSpec('qwen/qwen3.8-27b', 'Qwen3.8 27B', 'Default · vision + tools · 262k'),
             ModelSpec('qwen/qwen3.8-flash', 'Qwen3.8 Flash', 'Alibaba · fast multimodal · 1M'),
             ModelSpec('qwen/qwen3.8-2.4t-a95b', 'Qwen3.8 2.4T', 'Largest Qwen 3.8 · 95B active · 1M'),
@@ -370,7 +342,7 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
             ModelSpec('liquid/lfm-2.5-24b-a2b', 'Liquid LFM2.5 24B', 'Liquid AI · 24B MoE · 128k'),
         ],
         context_window=1000000, max_output_tokens=8000,
-        key_required=False, official=False, scraper_module='tryingopen_proxy',
+        key_required=False, official=False, hidden=True, scraper_module='tryingopen_proxy',
     ),
     ProviderPreset(
         slug='longcat', label='LongCat (longcat.chat — free, no login)', format=FORMAT_SCRAPER,
@@ -567,6 +539,6 @@ def admin_catalog() -> dict:
         }
 
     return {
-        'scrapers': [_entry(p) for p in SCRAPER_PRESETS if p.max_output_tokens > 0],
-        'official': [_entry(p) for p in OFFICIAL_PRESETS],
+        'scrapers': [_entry(p) for p in SCRAPER_PRESETS if p.max_output_tokens > 0 and not p.hidden],
+        'official': [_entry(p) for p in OFFICIAL_PRESETS if not p.hidden],
     }

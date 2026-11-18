@@ -855,17 +855,14 @@ def create_chat(session, model=None, _pool_session=None):
 def _normalize_qwen_web_model(model_id):
     if not model_id:
         return "qwen3.8-max"
-    m = str(model_id).strip()
-    if m.startswith("qwen4") or m in ("qwen3.8-flash", "qwen3.8-flash-next"):
-        return "qwen3.8-max"
-    return m
+    return str(model_id).strip()
 
 
 def _model_thinking_required(model_id):
     if not model_id:
         return False
-    if model_id.startswith(('qwen4', 'qwen3.8')):
-        # qwen4-max / qwen3.8-max require thinking — the strict JSON
+    if model_id.startswith('qwen3.8'):
+        # qwen3.8-max requires thinking — the strict JSON
         # protocol for the background agent depends on auto-thinking being on.
         return True
     try:
@@ -1179,20 +1176,5 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             time.sleep(1)
             continue
 
-    logger.warning("Qwen: all direct attempts failed, trying qwencloud gateway as qwen backup")
-    try:
-        from .qwencloud_proxy import MODEL_MAP as _QC_MAP, simple_chat as _qwencloud_simple
-        qc_model = model if model in _QC_MAP else "qwen4-max"
-        fb = _qwencloud_simple(
-            user_message=user_message,
-            system_prompt=system_prompt or "",
-            model=qc_model,
-        )
-        if fb and fb.strip() and not fb.startswith("[Error]"):
-            logger.info(f"Qwen via qwencloud backup succeeded ({len(fb)} chars)")
-            return fb.strip()
-        logger.warning("Qwen qwencloud backup empty")
-    except Exception as e:
-        logger.warning(f"Qwen qwencloud backup failed: {e}")
     logger.warning("Qwen: all attempts failed, returning empty")
     return None

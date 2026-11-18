@@ -42,27 +42,16 @@ if not settings.configured:
     )
     django.setup()
 
-# The native path only: a provider that needs another provider's help is not
-# working. Neutralise the substitution mesh if this checkout still has it.
-try:
-    import api.keyless_fallback as _kf
-    _kf.stream_keyless_fallback = lambda *a, **k: iter(())
-    _kf.simple_keyless_fallback = lambda *a, **k: ''
-except ImportError:
-    pass
-
 PROMPT = 'Reply with one short sentence: which model are you and who made you?'
 
 # slug -> proxy module, default model
 TARGETS = {
     'deepai': ('deepai_proxy', 'standard'),
-    'qwencloud': ('qwencloud_proxy', None),
     'inception': ('inception_proxy', None),
     'k2think': ('k2think_proxy', None),
     'poolside': ('poolside_proxy', None),
     'motiftech': ('motiftech_proxy', None),
-    'tryingopen': ('tryingopen_proxy', None),
-    'longcat': ('longcat_proxy', None),
+        'longcat': ('longcat_proxy', None),
     'geminiweb': ('geminiweb_proxy', None),
     'yqcloud': ('yqcloud_proxy', None),
     'chatjimmy': ('chatjimmy_proxy', None),

@@ -443,7 +443,7 @@ def _call_single_provider(system_prompt, user_message, config):
         from . import qwencloud_proxy
         return qwencloud_proxy.simple_chat(
             user_message=user_message,
-            model=config.model or 'qwen4-max',
+            model=config.model or 'qwen3.8-max',
             system_prompt=system_prompt or '',
             thinking=False,
         )
@@ -581,9 +581,7 @@ def call_ai_api(system_prompt, user_message, config=None):
             {'provider': 'deepai', 'model': 'qwen3.8-flash'},
             {'provider': 'motiftech', 'model': 'motif-102b'},
             {'provider': 'k2think', 'model': 'IFM/K2-Horizon-375B-A23B'},
-            {'provider': 'qwencloud', 'model': 'qwen4-max'},
             {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
-            {'provider': 'tryingopen', 'model': 'qwen/qwen4-max'},
             {'provider': 'ptero', 'model': 'deepseek-v4-flash:runware'},
             {'provider': 'poolside', 'model': 'laguna-s-2.1'},
         ]

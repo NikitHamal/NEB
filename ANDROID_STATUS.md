@@ -2093,3 +2093,30 @@ History read first. Profile v3, v7 covers (web and app), v1 thumbnails, glance t
 
 
 Session 79 CI: Android release build (APK + AAB) green on `a8a66c7d` after the compile fix. Deploy Backend green on the same commit (the sprite it shipped was replaced by lazy previews in session 80). Nothing deleted, no migration.
+
+---
+# Session 81: admin chat providers, native path only, honest model lists, new test screen
+
+Same file, same rule: nothing is built locally for Android. History read first: session 75 (items 420 to 423) added invented Qwen 4 ids and a cross-provider "failover mesh". That is why a message to Qwen 4 was answered by "Qwen 3.8 Flash": the mesh and a silent model remap sent the turn somewhere else. This session removes the cause. No schema change, nothing deleted from the database.
+
+| # | What | Where |
+| --- | --- | --- |
+| 434 | **Fallbacks gone**: `api/keyless_fallback.py` deleted; every proxy, `llm/client.py` and the admin view report their own upstream error. `_normalize_qwen_web_model` no longer remaps `qwen4*` and `qwen3.8-flash` to `qwen3.8-max`; the qwencloud "backup" inside `call_qwen` is gone. | `api/*_proxy.py`, `api/llm/client.py`, `api/qwen_proxy.py` |
+| 435 | **Only ids an upstream serves**: Qwen = `qwen3.8-max`, `qwen3.7-plus` (the live guest list of `chat.qwen.ai/api/v2/models`); all `qwen4-*`, `qwen3.8-flash` (outside DeepAI, where it answers), `qwen3.6/3.5` and the invented llm7/zen ids removed from the registry, study lab, Neby chain and the Qwen fallback list. llm7 keeps `default` and `fast` (the anonymous aliases; `pro` answers 402, named models 401). | `api/llm/registry.py`, `qwen_utils/models.py`, `web/views_study_lab.py`, `api/neby.py` |
+| 436 | **Dead providers retired** (`hidden=True`, kept only so saved bot configs still load): qwencloud (login required upstream), tryingopen (403, own chat page only), poolside (upstream answers "model failed to respond" from two networks), zen (free tier is OpenCode clients only, 429). Hidden presets are left out of `admin_catalog()`. | `registry.py` |
+| 437 | **Cooldown**: `web/admin_chat_engine.py` retries a transient failure (429, rate limit, cooldown, 5xx, timeout, empty) up to 3 times with a wait read from "retry after N s" and capped at 2.5 s, and tells the screen. Ptero publishes `disabled_models` and `cooldown_models`; the model picker greys them and a turn on one fails at once instead of after minutes. | `admin_chat_engine.py` |
+| 438 | **Live model lists** for Qwen, Kilo (`:free` only), llm7 (aliases) in the picker, cached 10 min; registry list is the fallback. The `start` event carries provider and the model actually called, shown on each reply. | `views_admin_chat.py`, `admin-chat.js` |
+| 439 | **Chat test screen rebuilt** (`/admin/chat/`): provider rail with search, keyless first, a status dot and latency per provider from "Check keyless" (parallel native pings, `/admin/chat/health/`); model picker, Thinking, Web search, Voice chips only where the provider supports them; streaming replies with Markdown, code blocks, collapsible Thinking, retry notices, time and size, Copy and Retry, Stop; custom endpoint fields. M3X: tonal surfaces, hairlines, finite radii, springs, no shadow, no emoji, no gradient. | `chat.html`, `admin-chat.css`, `admin-chat.js` |
+| 440 | **Tests**: catalog has no invented ids, retired providers hidden, mesh gone, retry behaviour. `probe_keyless_chat.py` is the live check (also `diagnose_chat_providers.sh` through Diagnose Backend on the production host). | `api/test_keyless_providers.py` |
+
+## Verified live (production host, native path)
+Working: DeepAI (10 models), Inception Mercury 3, Motif (4), Meta AI, K2 Horizon, LongCat, Gemini Web, ChatJimmy, Unikey (3 trial turns per fingerprint), Ptero, Kilo free, llm7 `default` and `fast`. YQCloud answered 502 once on the production host and works from other networks (retried by the engine).
+
+## Not working, needs you
+- **Qwen (chat.qwen.ai)**: the list endpoint works, but `/chat/completions` returns the Aliyun captcha (`RGV587`, punish) for guests from both the dev VM and production. Needs `QWEN_PROXY_URL` (residential proxy) in the server env. The screen shows that message instead of an empty reply.
+
+## Notes
+- The file attachment control of the old screen was dropped: it never sent real files. Rotate the GitHub token pasted in chat; it lives only in `/tmp/gitenv.sh`.
+
+## Next
+- Find a Qwen guest path that passes the captcha, or set `QWEN_PROXY_URL`.

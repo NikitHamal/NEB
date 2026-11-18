@@ -863,17 +863,9 @@ def ajax_llm_models(request):
         qwen_models = [
             {"id": "qwen:qwen3.8-max", "name": "Qwen 3.8 Max", "provider": "Qwen (chat.qwen.ai)"},
             {"id": "qwen:qwen3.7-plus", "name": "Qwen 3.7 Plus", "provider": "Qwen (chat.qwen.ai)"},
-            {"id": "qwen:qwen3.7-max", "name": "Qwen 3.7 Max", "provider": "Qwen (chat.qwen.ai)"},
-            {"id": "qwen:qwen3.6-plus", "name": "Qwen 3.6 Plus", "provider": "Qwen (chat.qwen.ai)"},
-            {"id": "qwen:qwen3.5-plus", "name": "Qwen 3.5 Plus", "provider": "Qwen (chat.qwen.ai)"},
-            {"id": "qwen:qwen3.5-flash", "name": "Qwen 3.5 Flash", "provider": "Qwen (chat.qwen.ai)"},
         ]
 
-    qwencloud_models = [
-        {"id": "qwencloud:qwen4-max", "name": "Qwen4 Max", "provider": "Qwen Cloud (qwencloud.com)"},
-        {"id": "qwencloud:qwen3.8-max", "name": "Qwen3.8 Max", "provider": "Qwen Cloud (qwencloud.com)"},
-        {"id": "qwencloud:qwen3-coder-plus", "name": "Qwen3 Coder Plus", "provider": "Qwen Cloud (qwencloud.com)"},
-    ]
+    qwencloud_models = []
 
     deepai_models = [
         {"id": "deepai:standard", "name": "DeepAI Standard", "provider": "DeepAI (deepai.org)"},
