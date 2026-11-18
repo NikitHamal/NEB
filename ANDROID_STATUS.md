@@ -2011,3 +2011,24 @@ History read first. The request (Profile v3 on app and web, profile cover from t
 ## Next
 - On-device pass: cover picker scroll, Dark covers, thumbnail contrast on cards.
 - Glance tiles and Studying now once the profile API returns reads, answers and streak.
+
+
+---
+# Session 77: pickup, Profile v3 overview (glance tiles, Studying now)
+
+History read first (sessions 73 to 76). Profile v3 polish, v7 profile covers (web + app) and the v1 thumbnails replacing the pixel resource art were already built, fixed and deployed in 73 and 74, and checked in 76. Nothing from those was redone. This session closes the open item they listed: the overview modules that needed API data.
+
+| # | What | Where |
+| --- | --- | --- |
+| 424 | **`api/profile_glance.py`**: one builder for the glance tiles and Studying now. Public data only (published counts; never reading history, saves or anonymous posts). Members with approved resources get Total reads, Downloads, Likes; everyone else gets Reads on my posts, Accepted answers (or Answers), Day streak. Streak = consecutive active days over 120 days from posts, replies, resource comments and uploads. Studying now = the latest public post within 30 days (subject, title link, actions today, streak, Monday-first week), students only (not shown to uploaders). Four queries, cached 120 s. Covered by `api/test_profile_glance.py`. | `api/profile_glance.py`, `api/views_users.py` (`glance`, `studying` on `/api/users/profile/<u>/stats/`) |
+| 425 | **Web**: `_overview.html` above the tab rail: three tonal tiles (primary, secondary, tertiary container), Studying now card (v1 subject art, subject chip, post link, week bars). Flat, finite radii, no shadow, no emoji. | `web/profile/_overview.html`, `profile.html`, `css/m3x/app-profile-v3.css`, `views_profile.py` |
+| 426 | **Android**: `ApiProfileStats.glance/studying`, `ProfileUiState`, `ProfileGlance` and `ProfileStudyingNow` (`M3xThumb` art, same week bars) as one list item between the header and the sticky tabs. | `ProfileOverview.kt`, `ProfileScreen.kt`, `ProfileViewModel.kt`, `ApiService.kt` |
+
+## Notes
+- Chapter progress and exam countdown from the concept have no data source (the platform stores no study progress), so the card does not draw them. Nothing is invented.
+- No schema change in this session; nothing deleted.
+- The GitHub token was pasted into the chat again. Rotate it.
+
+## Next
+- Open to tiles with icons and per-profile-type tab sets (concept) still need the offers stored per profile type.
+- On-device pass: cover picker scroll, Dark covers, thumbnail contrast, glance tiles at 360dp.
