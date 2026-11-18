@@ -1,0 +1,1740 @@
+{
+ "providers_add": [
+  {
+   "id": "p-cist",
+   "name": "Central Institute of Science and Technology (CIST College)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "website": "https://www.cist.edu.np",
+   "note": "Pokhara University affiliated health science college at Sangamchowk, New Baneshwor. MEC seats for 2083/84: BPharm 40, BPH 40. Fee is the MEC ceiling for a paying seat; confirm the college notice for the year.",
+   "seats": 40,
+   "fees": {
+    "bpharm": [
+     777000,
+     777000
+    ]
+   }
+  },
+  {
+   "id": "p-fwu-health",
+   "name": "Faculty of Health Sciences (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Dadeldhura",
+   "place": "Amargadhi",
+   "website": "https://fwu.edu.np",
+   "note": "Public health sciences faculty of Far-Western University running at Dadeldhura Hospital / Mahendranagar. MEC seats for 2083/84: BSc Nursing 20, BPH 10, BSc MLT 10.",
+   "seats": 20
+  },
+  {
+   "id": "p-kmc-health",
+   "name": "Kathmandu Multiple College (Health Sciences)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Bagbazar",
+   "website": "",
+   "note": "Purbanchal University affiliated health sciences wing. MEC seats for 2083/84: BPharm 30, BPH 10. Fee is the MEC ceiling for a paying seat.",
+   "seats": 30,
+   "fees": {
+    "bpharm": [
+     777000,
+     777000
+    ]
+   }
+  },
+  {
+   "id": "p-krishna-medical",
+   "name": "Krishna Medical and Technical Research Centre",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpurdham",
+   "website": "",
+   "note": "Purbanchal University affiliated health college in Janakpurdham. MEC seats for 2083/84: BSc Nursing 40, BNS 10, BPharm 10, BPH 10. Fee is the MEC ceiling for a paying seat.",
+   "seats": 40,
+   "fees": {
+    "bsc-nursing": [
+     1036000,
+     1036000
+    ],
+    "bpharm": [
+     777000,
+     777000
+    ]
+   }
+  },
+  {
+   "id": "p-npi-narayani",
+   "name": "NPI Narayani Samudayik Hospital College of Nursing",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "https://npinarayani.edu.np",
+   "note": "Purbanchal University nursing college run by Nepal Polytechnic Institute and Narayani Samudayik Hospital in Bharatpur. MEC seats for 2083/84: BSc Nursing 40.",
+   "seats": 40,
+   "fees": {
+    "bsc-nursing": [
+     1036000,
+     1036000
+    ]
+   }
+  },
+  {
+   "id": "p-nams-pu",
+   "name": "National Academy for Medical Sciences (Purbanchal University)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Old Baneshwor",
+   "website": "",
+   "note": "Private Purbanchal University affiliated health college at Old Baneshwor (distinct from the public NAMS at Bir Hospital). MEC seats for 2083/84: BSc Nursing 40, BPharm 20, BPH 10.",
+   "seats": 40,
+   "fees": {
+    "bsc-nursing": [
+     1036000,
+     1036000
+    ],
+    "bpharm": [
+     777000,
+     777000
+    ]
+   }
+  },
+  {
+   "id": "p-shree-medical",
+   "name": "Shree Medical and Technical College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "https://smtc.edu.np",
+   "note": "Purbanchal University health college in Bharatpur (listed as Shree College of Technology on the MEC notice). MEC seats for 2083/84: BSc Nursing 40, BPharm 40, BNS 30, BPH 20, BSc MLT 20.",
+   "seats": 40,
+   "fees": {
+    "bsc-nursing": [
+     1036000,
+     1036000
+    ],
+    "bpharm": [
+     777000,
+     777000
+    ],
+    "bmlt": [
+     777000,
+     777000
+    ]
+   }
+  },
+  {
+   "id": "p-sinha-health",
+   "name": "Sinha Health Foundation",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpurdham",
+   "website": "",
+   "note": "Purbanchal University affiliated health institute in Janakpurdham. MEC seats for 2083/84: BPharm 10.",
+   "seats": 10,
+   "fees": {
+    "bpharm": [
+     777000,
+     777000
+    ]
+   }
+  },
+  {
+   "id": "p-unique-med",
+   "name": "Unique Medical College and Teaching Hospital",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Rajbiraj",
+   "website": "",
+   "note": "Purbanchal University affiliated health institute in Rajbiraj, Saptari. MEC seats for 2083/84: BPH 10.",
+   "seats": 10
+  },
+  {
+   "id": "p-acem",
+   "name": "Advanced College of Engineering and Management (ACEM)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Balkhu",
+   "website": "https://acem.edu.np",
+   "note": "TU IOE affiliated private engineering college at Balkhu. IOE seats (336 total): BE Civil 96, BE Computer 96, BE Electronics, Communication and Information 96, BE Electrical 48.",
+   "seats": 336
+  },
+  {
+   "id": "p-kantipur-eng",
+   "name": "Kantipur Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Dhapakhel",
+   "website": "https://kec.edu.np",
+   "note": "TU IOE affiliated engineering college at Dhapakhel, Lalitpur. IOE seats (288 total): BE Civil 96, BE Computer 96, BE Electronics, Communication and Information 96.",
+   "seats": 288
+  },
+  {
+   "id": "p-nce",
+   "name": "National College of Engineering (NCE)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Talchikhel",
+   "website": "https://nce.edu.np",
+   "note": "TU IOE affiliated engineering college at Talchikhel, Lalitpur. IOE seats (240 total): BE Civil 96, BE Computer 48, BE Electronics, Communication and Information 48, BE Electrical 48.",
+   "seats": 240
+  },
+  {
+   "id": "p-jec",
+   "name": "Janakpur Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Tathali",
+   "website": "https://jec.edu.np",
+   "note": "TU IOE affiliated engineering college operating at Tathali, Bhaktapur. IOE seats (192 total): BE Civil 96, BE Computer 48, BE Electronics, Communication and Information 48.",
+   "seats": 192
+  },
+  {
+   "id": "p-sagarmatha-eng",
+   "name": "Sagarmatha Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Sanepa",
+   "website": "https://sagarmatha.edu.np",
+   "note": "TU IOE affiliated engineering college at Sanepa, Lalitpur. IOE seats (144 total): BE Civil 48, BE Computer 48, BE Electronics, Communication and Information 48.",
+   "seats": 144
+  },
+  {
+   "id": "p-khwopa-tu",
+   "name": "Khwopa College of Engineering (TU IOE)",
+   "kind": "College",
+   "sector": "Community",
+   "district": "Bhaktapur",
+   "place": "Libali",
+   "website": "https://khwopa.edu.np",
+   "note": "Community engineering college run by Bhaktapur Municipality, affiliated with TU IOE (sister institution to PU-affiliated Khwopa Engineering College). IOE seats (192 total): BE Civil 96, BE Computer 48, BE Electrical 48.",
+   "seats": 192
+  },
+  {
+   "id": "p-pu-soe",
+   "name": "School of Engineering (Pokhara University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "website": "https://pu.edu.np",
+   "note": "Constituent engineering school of Pokhara University at Pokhara-30, Khudi, Dhungepatan. Runs BE Civil, BE Civil and Rural, BE Computer, BE Electrical and Electronics, BE Software and B.Arch with 20 percent central scholarship seats.",
+   "seats": 336
+  },
+  {
+   "id": "p-cosmos",
+   "name": "Cosmos College of Management and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Tutepani, Satdobato",
+   "website": "https://cosmoscollege.edu.np",
+   "note": "Pokhara University affiliated college in Lalitpur. Approved BE seats: BE Civil 96, BE Computer 48, BE Electronics and Communication 48, BE IT 48, B.Arch 48, plus BBA.",
+   "seats": 288
+  },
+  {
+   "id": "p-everest-eng",
+   "name": "Everest Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Sanepa",
+   "website": "https://eemc.edu.np",
+   "note": "Pokhara University affiliated college at Sanepa, Lalitpur. Approved BE seats: BE Civil 96, BE Computer 48, BE Electronics and Communication 48, BE IT 48.",
+   "seats": 240
+  },
+  {
+   "id": "p-uesc",
+   "name": "Universal Engineering and Science College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Chakupat",
+   "website": "https://uesc.edu.np",
+   "note": "Pokhara University affiliated college at Chakupat, Lalitpur. Approved BE seats: BE Civil 96, BE Computer 48.",
+   "seats": 144
+  },
+  {
+   "id": "p-gces",
+   "name": "Gandaki College of Engineering and Science",
+   "kind": "College",
+   "sector": "Community",
+   "district": "Kaski",
+   "place": "Lamachaur, Pokhara",
+   "website": "https://gces.edu.np",
+   "note": "Not-for-profit trust college in Lamachaur, Pokhara affiliated with Pokhara University. Runs BE Computer (48 seats) and BE Software Engineering (48 seats).",
+   "seats": 96
+  },
+  {
+   "id": "p-utec",
+   "name": "United Technical College (U-TEC)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "website": "https://unitedtechnicalcollege.edu.np",
+   "note": "Pokhara University affiliated engineering college at Bharatpur-11, Bhojad, Chitwan. Approved BE seats: BE Civil 96, BE Computer 48, BE Electrical and Electronics 48.",
+   "seats": 192
+  }
+ ],
+ "where_add": {
+  "be-civil": [
+   "p-acem",
+   "p-cosmos",
+   "p-everest-eng",
+   "p-hce",
+   "p-jec",
+   "p-kantipur-eng",
+   "p-kathford",
+   "p-kec",
+   "p-khwopa-tu",
+   "p-ku-eng",
+   "p-lalitpur-eng",
+   "p-nce",
+   "p-ncit",
+   "p-oxford-nawalparasi",
+   "p-pu-soe",
+   "p-pulchowk",
+   "p-purc",
+   "p-sagarmatha-eng",
+   "p-thapathali",
+   "p-uesc",
+   "p-utec",
+   "p-w12-ce-lumbini-engineering-college",
+   "p-wrc"
+  ],
+  "be-computer": [
+   "p-acem",
+   "p-cosmos",
+   "p-everest-eng",
+   "p-gces",
+   "p-hce",
+   "p-jec",
+   "p-kantipur-eng",
+   "p-kathford",
+   "p-kec",
+   "p-khwopa-tu",
+   "p-ku-eng",
+   "p-lalitpur-eng",
+   "p-nce",
+   "p-ncit",
+   "p-oxford-nawalparasi",
+   "p-pu-soe",
+   "p-pulchowk",
+   "p-purc",
+   "p-sagarmatha-eng",
+   "p-thapathali",
+   "p-uesc",
+   "p-utec",
+   "p-w12-ce-lumbini-engineering-college",
+   "p-wrc"
+  ],
+  "be-electronics": [
+   "p-acem",
+   "p-cosmos",
+   "p-everest-eng",
+   "p-hce",
+   "p-jec",
+   "p-kantipur-eng",
+   "p-kathford",
+   "p-kec",
+   "p-nce",
+   "p-ncit",
+   "p-pulchowk",
+   "p-purc",
+   "p-sagarmatha-eng",
+   "p-thapathali",
+   "p-wrc"
+  ],
+  "be-electrical": [
+   "p-acem",
+   "p-kec",
+   "p-khwopa-tu",
+   "p-ku-eng",
+   "p-nce",
+   "p-oxford-nawalparasi",
+   "p-pu-soe",
+   "p-pulchowk",
+   "p-purc",
+   "p-utec",
+   "p-w12-ce-lumbini-engineering-college",
+   "p-wrc"
+  ],
+  "mbbs": [
+   "p-bc-med",
+   "p-birat-med",
+   "p-bpkihs",
+   "p-cmc",
+   "p-coms-chitwan",
+   "p-devdaha-med",
+   "p-gandaki-med",
+   "p-iom",
+   "p-janaki-med",
+   "p-kahs",
+   "p-kist-med",
+   "p-kmc",
+   "p-kusms",
+   "p-lumbini-med",
+   "p-manipal-pokhara",
+   "p-mbahs",
+   "p-mihs",
+   "p-naihs",
+   "p-national-med",
+   "p-nepalgunj-med",
+   "p-nmc-jorpati",
+   "p-nobel-med",
+   "p-pahs",
+   "p-pokhara-ahs",
+   "p-pu-medicine",
+   "p-rahs",
+   "p-sdcuhs",
+   "p-ucms"
+  ],
+  "bds": [
+   "p-bpkihs",
+   "p-cmc",
+   "p-coms-chitwan",
+   "p-gandaki-med",
+   "p-iom",
+   "p-kantipur-dental",
+   "p-kist-med",
+   "p-kmc",
+   "p-kusms",
+   "p-national-med",
+   "p-nepalgunj-med",
+   "p-nmc-jorpati",
+   "p-nobel-med",
+   "p-peoples-dental",
+   "p-ucms"
+  ],
+  "barch": [
+   "p-cec-rampur",
+   "p-cosmos",
+   "p-hce",
+   "p-kec",
+   "p-ku-eng",
+   "p-pu-soe",
+   "p-pulchowk",
+   "p-purc",
+   "p-thapathali"
+  ],
+  "bpharm": [
+   "p-cist",
+   "p-kmc-health",
+   "p-krishna-medical",
+   "p-nams-pu",
+   "p-shree-medical",
+   "p-sinha-health"
+  ],
+  "bph": [
+   "p-cist",
+   "p-fwu-health",
+   "p-kmc-health",
+   "p-krishna-medical",
+   "p-nams-pu",
+   "p-shree-medical",
+   "p-unique-med"
+  ],
+  "bsc-nursing": [
+   "p-fwu-health",
+   "p-krishna-medical",
+   "p-nams-pu",
+   "p-npi-narayani",
+   "p-shree-medical"
+  ],
+  "bmlt": [
+   "p-fwu-health",
+   "p-shree-medical"
+  ],
+  "bns": [
+   "p-krishna-medical",
+   "p-shree-medical"
+  ],
+  "be-mechanical": [
+   "p-ku-eng",
+   "p-pulchowk",
+   "p-purc",
+   "p-thapathali",
+   "p-wrc"
+  ],
+  "be-geomatics": [
+   "p-ku-eng",
+   "p-wrc"
+  ],
+  "bit": [
+   "p-ku-eng"
+  ]
+ },
+ "route_seats": {
+  "p-cist": {
+   "bpharm": 40,
+   "bph": 40
+  },
+  "p-fwu-health": {
+   "bsc-nursing": 20,
+   "bph": 10,
+   "bmlt": 10
+  },
+  "p-kmc-health": {
+   "bpharm": 30,
+   "bph": 10
+  },
+  "p-krishna-medical": {
+   "bsc-nursing": 40,
+   "bns": 10,
+   "bpharm": 10,
+   "bph": 10
+  },
+  "p-npi-narayani": {
+   "bsc-nursing": 40
+  },
+  "p-nams-pu": {
+   "bsc-nursing": 40,
+   "bpharm": 20,
+   "bph": 10
+  },
+  "p-shree-medical": {
+   "bsc-nursing": 40,
+   "bns": 30,
+   "bpharm": 40,
+   "bph": 20,
+   "bmlt": 20
+  },
+  "p-sinha-health": {
+   "bpharm": 10
+  },
+  "p-unique-med": {
+   "bph": 10
+  },
+  "p-iom": {
+   "mbbs": 100,
+   "bds": 25
+  },
+  "p-kusms": {
+   "mbbs": 130,
+   "bds": 50
+  },
+  "p-bpkihs": {
+   "mbbs": 130,
+   "bds": 50
+  },
+  "p-pahs": {
+   "mbbs": 65
+  },
+  "p-kmc": {
+   "mbbs": 130,
+   "bds": 45
+  },
+  "p-kahs": {
+   "mbbs": 50
+  },
+  "p-mihs": {
+   "mbbs": 50
+  },
+  "p-cmc": {
+   "mbbs": 130,
+   "bds": 45
+  },
+  "p-rahs": {
+   "mbbs": 50
+  },
+  "p-mbahs": {
+   "mbbs": 50
+  },
+  "p-nmc-jorpati": {
+   "mbbs": 130,
+   "bds": 45
+  },
+  "p-kist-med": {
+   "mbbs": 120,
+   "bds": 40
+  },
+  "p-coms-chitwan": {
+   "mbbs": 130,
+   "bds": 50
+  },
+  "p-manipal-pokhara": {
+   "mbbs": 120
+  },
+  "p-gandaki-med": {
+   "mbbs": 120,
+   "bds": 30
+  },
+  "p-nobel-med": {
+   "mbbs": 130,
+   "bds": 35
+  },
+  "p-birat-med": {
+   "mbbs": 130
+  },
+  "p-national-med": {
+   "mbbs": 120,
+   "bds": 25
+  },
+  "p-ucms": {
+   "mbbs": 120,
+   "bds": 50
+  },
+  "p-devdaha-med": {
+   "mbbs": 90
+  },
+  "p-lumbini-med": {
+   "mbbs": 120
+  },
+  "p-nepalgunj-med": {
+   "mbbs": 130,
+   "bds": 15
+  },
+  "p-janaki-med": {
+   "mbbs": 60
+  },
+  "p-bc-med": {
+   "mbbs": 60
+  },
+  "p-naihs": {
+   "mbbs": 130
+  },
+  "p-pokhara-ahs": {
+   "mbbs": 50
+  },
+  "p-pu-medicine": {
+   "mbbs": 50
+  },
+  "p-sdcuhs": {
+   "mbbs": 50
+  },
+  "p-kantipur-dental": {
+   "bds": 60
+  },
+  "p-peoples-dental": {
+   "bds": 60
+  },
+  "p-pulchowk": {
+   "be-civil": 192,
+   "be-computer": 96,
+   "be-electrical": 48,
+   "be-electronics": 48,
+   "be-mechanical": 48,
+   "barch": 48
+  },
+  "p-thapathali": {
+   "be-civil": 144,
+   "be-computer": 48,
+   "be-electronics": 48,
+   "be-mechanical": 48,
+   "barch": 48
+  },
+  "p-wrc": {
+   "be-civil": 144,
+   "be-computer": 48,
+   "be-electrical": 48,
+   "be-electronics": 48,
+   "be-mechanical": 48,
+   "be-geomatics": 48
+  },
+  "p-purc": {
+   "be-civil": 144,
+   "be-computer": 96,
+   "be-mechanical": 96,
+   "be-electrical": 48,
+   "be-electronics": 48,
+   "barch": 48
+  },
+  "p-cec-rampur": {
+   "barch": 24
+  },
+  "p-kec": {
+   "be-civil": 96,
+   "be-computer": 96,
+   "be-electronics": 96,
+   "be-electrical": 48,
+   "barch": 48
+  },
+  "p-acem": {
+   "be-civil": 96,
+   "be-computer": 96,
+   "be-electronics": 96,
+   "be-electrical": 48
+  },
+  "p-kantipur-eng": {
+   "be-civil": 96,
+   "be-computer": 96,
+   "be-electronics": 96
+  },
+  "p-hce": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 48,
+   "barch": 48
+  },
+  "p-nce": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 48,
+   "be-electrical": 48
+  },
+  "p-kathford": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 48
+  },
+  "p-jec": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 48
+  },
+  "p-khwopa-tu": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electrical": 48
+  },
+  "p-sagarmatha-eng": {
+   "be-civil": 48,
+   "be-computer": 48,
+   "be-electronics": 48
+  },
+  "p-lalitpur-eng": {
+   "be-civil": 48,
+   "be-computer": 48
+  },
+  "p-ku-eng": {
+   "be-computer": 120,
+   "be-mechanical": 120,
+   "be-civil": 60,
+   "be-electrical": 60,
+   "be-geomatics": 60,
+   "barch": 30,
+   "bit": 30
+  },
+  "p-pu-soe": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electrical": 48,
+   "barch": 48
+  },
+  "p-ncit": {
+   "be-civil": 48,
+   "be-computer": 96,
+   "be-electronics": 48
+  },
+  "p-cosmos": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 48,
+   "barch": 48
+  },
+  "p-everest-eng": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electronics": 48
+  },
+  "p-uesc": {
+   "be-civil": 96,
+   "be-computer": 48
+  },
+  "p-gces": {
+   "be-computer": 48
+  },
+  "p-utec": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electrical": 48
+  },
+  "p-oxford-nawalparasi": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electrical": 48
+  },
+  "p-w12-ce-lumbini-engineering-college": {
+   "be-civil": 96,
+   "be-computer": 48,
+   "be-electrical": 48
+  }
+ },
+ "provider_note_add": {
+  "p-pulchowk": "IOE constituent seat breakdown: BE Civil 192 (108 regular, 84 full fee), BE Computer 96 (36 regular, 60 full fee), BE Electrical 48 to 96, BE Electronics, Communication and Information 48, BE Mechanical 48, B.Arch 48, BE Aerospace 48 and BE Chemical 48.",
+  "p-thapathali": "IOE constituent seat breakdown (432 total): BE Civil 144 (36 regular, 108 full fee), BE Computer 48, BE Electronics, Communication and Information 48, BE Mechanical 48, B.Arch 48, BE Industrial 48 and BE Automobile 48.",
+  "p-wrc": "IOE constituent seat breakdown (432 total): BE Civil 144 (36 regular, 108 full fee), BE Computer 48, BE Electrical 48, BE Electronics 48, BE Mechanical 48, BE Geomatics 48 and BE Automobile 48.",
+  "p-purc": "IOE constituent seat breakdown (528 total): BE Civil 144 (36 regular, 108 full fee), BE Computer 96 (24 regular, 72 full fee), BE Mechanical 96, BE Electrical 48, BE Electronics 48, B.Arch 48 and BE Agricultural 48.",
+  "p-cec-rampur": "Newest IOE constituent campus at Rampur, Chitwan. Admits 24 B.Arch students (6 regular, 18 full fee) through the IOE entrance.",
+  "p-ku-eng": "KU School of Engineering 2025/26 admission call capacities: BE Computer 120, BE Mechanical 120 (4 tracks), BE Civil (Hydropower) 60, BE Electrical and Electronics 60 (Communication 30, Power and Control 30), BE Geomatics 60, BTech AI 60, BE Chemical 30, BE Mining 30, B.Arch 30 and BIT 30.",
+  "p-ncit": "Pokhara University engineering seats: BE Computer 96, BE Software 96, BE IT 96, BE Civil 48 and BE Electronics and Communication 48, plus BCA, BBA and ME/MSc."
+ },
+ "govt_add": [
+  {
+   "id": "e-bca",
+   "track": "ent_sci",
+   "name": "TU BCA entrance (FoHSS)",
+   "level": "Bachelor admission (4 years, 8 semesters)",
+   "need": "+2 or equivalent in any stream with at least D+ in each subject and CGPA 1.8 (or second division)",
+   "age": "No upper age bar",
+   "body": "Faculty of Humanities and Social Sciences (FoHSS), Tribhuvan University",
+   "stages": [
+    [
+     "Written MCQ test",
+     "100 objective questions in 2 hours (Mathematics 50, English grammar and comprehension 40, General knowledge and IT 10), pass mark 35, no negative marking.",
+     "100"
+    ],
+    [
+     "Campus merit admission",
+     "Colleges publish merit lists combining entrance score and +2 grades; constituent campuses allot 35 or 70 seats."
+    ]
+   ],
+   "subjects": [
+    "Mathematics (50 marks)",
+    "English grammar and comprehension (40 marks)",
+    "General knowledge and IT (10 marks)"
+   ],
+   "prep": [
+    "Apply online at entrance.tufohss.edu.np (one form covers all colleges)",
+    "Practise 10+2 basic algebra, sets, arithmetic and English grammar",
+    "Apply separately to your target constituent or affiliated college after the result"
+   ],
+   "fee": 1500,
+   "apply": [
+    6,
+    8
+   ],
+   "exam_month": 8,
+   "seats": 4400,
+   "note": "Open to Science, Management, Humanities and Education +2 graduates alike. More than 125 TU constituent and affiliated colleges run BCA (typically 35 seats per single shift). For 2083, forms ran from 29 June to 14 August 2026 with the exam in mid August; fee NPR 1,500 (double fee NPR 3,000)."
+  },
+  {
+   "id": "e-bit",
+   "track": "ent_sci",
+   "name": "TU BIT entrance (IOST)",
+   "level": "Bachelor admission (4 years, 8 semesters)",
+   "need": "+2 in any stream with a 100-mark Mathematics or 100-mark Computer Science subject (at least Grade C / GPA 1.6 in English and Math/CS, overall CGPA 1.8)",
+   "age": "No upper age bar",
+   "body": "Institute of Science and Technology (IOST), Tribhuvan University",
+   "stages": [
+    [
+     "Written MCQ test",
+     "100 objective questions in 2 hours (Compulsory English 50 marks + candidate choice of Mathematics 50 marks OR Computer Science 50 marks), pass mark 35, no negative marking.",
+     "100"
+    ],
+    [
+     "IOST central priority matching",
+     "Qualified candidates rank up to 10 constituent campuses online on iost.tu.edu.np."
+    ]
+   ],
+   "subjects": [
+    "Compulsory English (50 marks)",
+    "Mathematics OR Computer Science (50 marks, candidate choice)"
+   ],
+   "prep": [
+    "Verify you have 100-mark Math or Computer on your +2 transcript",
+    "Pick either the Math 50-mark section or Computer 50-mark section on exam day",
+    "Fill campus priority on iost.tu.edu.np as soon as the merit list comes out"
+   ],
+   "fee": 1750,
+   "apply": [
+    7,
+    8
+   ],
+   "exam_month": 8,
+   "seats": 612,
+   "note": "Runs only at TU constituent campuses (Patan 72, Bhaktapur 72, Amrit 36, Padma Kanya 36, Mahendra Morang 36, Siddhanath 36 and others, around 612 seats total). Notice fees quoted at NPR 1,750 to 1,850; 2083 exam held in late Shrawan / Bhadra."
+  },
+  {
+   "id": "e-kucat",
+   "track": "ent_sci",
+   "name": "KUCAT-CBT (KU Engineering and Science)",
+   "level": "Bachelor admission (BE, B.Arch, BTech AI, BSc CS, BPharm)",
+   "need": "+2 Science with minimum 50% aggregate or CGPA 2.0 (2.4 for some tracks) and at least Grade C in Physics, Chemistry and Mathematics (or Computer Science in place of Chemistry for Computer, Geomatics, B.Arch and AI)",
+   "age": "No upper age bar",
+   "body": "Kathmandu University School of Engineering and School of Science, Dhulikhel",
+   "stages": [
+    [
+     "Computer-Based Test (KUCAT-CBT)",
+     "2-hour adaptive/computer test in PCM (Physics, Chemistry, Math) or PMCs (Physics, Math, Computer Science); minimum qualifying CBT score is 528.",
+     "100"
+    ],
+    [
+     "Architecture aptitude / merit counselling",
+     "B.Arch applicants sit an additional drawing and aptitude test; seats are allotted by program merit and provincial/LMTC quotas for Geomatics."
+    ]
+   ],
+   "subjects": [
+    "Physics",
+    "Mathematics",
+    "Chemistry (PCM group) or Computer Science (PMCs group)"
+   ],
+   "prep": [
+    "Register at apply.ku.edu.np and choose PCM or PMCs group carefully",
+    "Practise computer-based timed questions from Grade 11 and 12 Physics, Math and Chemistry/CS",
+    "Check provincial and LMTC scholarship quotas if applying for BE Geomatics (60 seats)"
+   ],
+   "fee": 2000,
+   "apply": [
+    6,
+    8
+   ],
+   "exam_month": 8,
+   "seats": 900,
+   "note": "Main gateway to Kathmandu University Dhulikhel engineering and science degrees (BE Computer 120, BE Mechanical 120, BE Civil 60, BE Electrical and Electronics 60, BE Geomatics 60, BTech AI 60, BPharm 60, B.Arch 30, BE Chemical 30, BE Mining 30, BIT 30)."
+  },
+  {
+   "id": "e-pu-bachelor",
+   "track": "ent_sci",
+   "name": "Pokhara University Bachelor and Scholarship Entrance",
+   "level": "Bachelor admission (BE, BBA, BCA, BHM, BPH, BPharm, BSc Nursing)",
+   "need": "+2 Science (45% or CGPA 2.0 in PCM) for BE; +2 any stream for BBA/BCA/BHM; community school SEE (GPA 2.0) required for priority central scholarship quota",
+   "age": "No upper age bar",
+   "body": "Pokhara University Central Office and Faculty Deans (SOE, FMS, SHAS)",
+   "stages": [
+    [
+     "Central Scholarship / Dean Entrance",
+     "2 to 3 hour objective paper of 100 to 150 marks (Physics, Chemistry, Math and English for engineering; Verbal, Quantitative, Logical and GK for management).",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Physics, Chemistry and Mathematics (Engineering)",
+    "English, Quantitative, Logical Reasoning and GK (Management/IT)"
+   ],
+   "prep": [
+    "Apply on scholarship.pu.edu.np for the 20% constituent / 10% affiliated free scholarship round",
+    "Keep your community school SEE verification letter ready if claiming the public school quota",
+    "For paying seats, apply directly to the constituent school or affiliated college entrance round"
+   ],
+   "fee": 1600,
+   "apply": [
+    7,
+    9
+   ],
+   "exam_month": 9,
+   "seats": 4500,
+   "note": "Pokhara University reserves 20 percent of seats in its constituent schools and 10 percent in affiliated colleges (5 percent where total intake is under 40) as full tuition scholarships through its central scholarship exam on scholarship.pu.edu.np."
+  },
+  {
+   "id": "e-mecee-pg",
+   "track": "ent_med",
+   "name": "MECEE-PG (MD/MS, MDS, MPH, MSc Nursing, MPharm)",
+   "level": "Postgraduate medical and health sciences admission",
+   "need": "Relevant bachelor degree (MBBS + 1-yr internship for MD/MS, BDS for MDS, BSc Nursing/BNS + 1-yr experience for MN/MSc Nursing, BPharm for MPharm, health bachelor for MPH) and Nepal council registration",
+   "age": "No upper age bar (in-service government quota follows ministry rules)",
+   "body": "Medical Education Commission (MEC), Sanothimi, Bhaktapur",
+   "stages": [
+    [
+     "Single Best Response MCQ exam",
+     "200 MCQs (4 options, Type A) in 3 hours with 0.25 negative marking and a 50:30:20 Recall-Understanding-Application blueprint. Minimum 50th percentile rank required to qualify.",
+     "200"
+    ],
+    [
+     "Open House Matching",
+     "Online priority matching across government scholarship, open merit and foreign seats on entrance.mec.gov.np."
+    ]
+   ],
+   "subjects": [
+    "Clinical and basic medical sciences (MD/MS, 200 marks)",
+    "Dental clinical and basic sciences (MDS, 200 marks)",
+    "Program-specific blueprint (MPharm, MPH, MSc Nursing, MSc MIT, MOptom, MPhil Clinical Psychology)"
+   ],
+   "prep": [
+    "Renew NMC, NNC, NPC, NHPC or NAMC council registration before applying",
+    "Practise 200-question 3-hour clinical vignette papers with 0.25 negative marking discipline",
+    "Upload experience certificates for nursing/government tracks before the December/January deadline"
+   ],
+   "fee": 5000,
+   "apply": [
+    12,
+    1
+   ],
+   "exam_month": 2,
+   "note": "Single national postgraduate health entrance under the National Medical Education Act 2075. Application fee is NPR 5,000 for Nepali candidates and NPR 8,000 for foreign candidates via Himalayan Bank / ConnectIPS / eSewa / Khalti on entrance.mec.gov.np."
+  },
+  {
+   "id": "e-ioe-msc",
+   "track": "ent_sci",
+   "name": "IOE MSc Engineering Entrance",
+   "level": "Master of Science in Engineering (Pulchowk, Thapathali, WRC, ERC)",
+   "need": "BE or B.Arch in the relevant discipline from TU or an equivalent recognised university and Nepal Engineering Council registration",
+   "age": "No upper age bar",
+   "body": "Institute of Engineering (IOE) Entrance Examination Board, Chakupat, Lalitpur",
+   "stages": [
+    [
+     "Computer-Based Test (CBT)",
+     "2-hour CBT of 100 marks in two sections (40 questions x 1 mark + 30 questions x 2 marks) with 10% negative marking; pass mark 40%.",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Core undergraduate engineering stream syllabus (Civil, Computer, Electrical, Mechanical, Architecture, Geomatics, Energy)",
+    "Engineering mathematics and analytical aptitude"
+   ],
+   "prep": [
+    "Check stream eligibility and seat breakdown (regular vs full fee) at entrance.ioe.edu.np",
+    "Revise core BE subjects and past IOE MSc CBT papers"
+   ],
+   "fee": 2500,
+   "apply": [
+    9,
+    10
+   ],
+   "exam_month": 11,
+   "seats": 600,
+   "note": "Gateway to MSc Structural, Geotechnical, Hydropower, Urban Planning, Computer Systems and Knowledge Engineering, Info and Comm, Power Systems, Renewable Energy and Climate Change at IOE constituent campuses."
+  },
+  {
+   "id": "e-ican",
+   "track": "lic",
+   "name": "ICAN Chartered Accountancy (CAP-I, CAP-II, CAP-III and Membership)",
+   "level": "Professional Chartered Accountant qualification and statutory audit licence",
+   "need": "+2 with CGPA 2.0 (Grade C) for CAP-I; Bachelor degree (50% commerce with audit/tax, 55% other commerce, 60% other stream) or CAP-I pass for CAP-II; CAP-II pass + 3-year articleship for CAP-III",
+   "age": "No age limit",
+   "body": "The Institute of Chartered Accountants of Nepal (ICAN), Satdobato, Lalitpur",
+   "stages": [
+    [
+     "CAP-I (Foundation)",
+     "3 papers (300 marks: Accounting, Mercantile Law, Economics and Fundamentals of Math/Stats). Registration fee NPR 34,500.",
+     "300"
+    ],
+    [
+     "CAP-II (Intermediate)",
+     "7 papers across 2 groups (700 marks: Advanced Accounting, Audit, Corporate Law, Financial Management, Cost Accounting, Business Comm/IT, Income Tax and VAT). Registration fee NPR 40,500.",
+     "700"
+    ],
+    [
+     "CAP-III (Final) and 3-year Articleship",
+     "8 papers across 2 groups (800 marks) alongside 3 years of practical articleship under a practising CA. Registration fee NPR 50,000.",
+     "800"
+    ]
+   ],
+   "subjects": [
+    "Financial reporting and advanced accounting",
+    "Auditing and assurance",
+    "Corporate and securities laws",
+    "Direct and indirect taxation (Nepal Income Tax and VAT)",
+    "Strategic financial management and costing"
+   ],
+   "prep": [
+    "Pass the mandatory ICAN online pre-test before sitting the June or December board exam",
+    "Score at least 40% in each individual paper and 50% aggregate across the group to pass",
+    "Complete 3-year articleship and GMCS training to receive ICAN CA membership and COP"
+   ],
+   "fee": 34500,
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 6,
+   "career": "accountant",
+   "note": "Statutory body under the Nepal Chartered Accountants Act 2053. Exams run twice a year in June and December. Indian ICAI / ACCA graduates must pass designated Nepal Tax and Corporate Law papers and internship requirements for ICAN membership."
+  },
+  {
+   "id": "e-nvc",
+   "track": "lic",
+   "name": "NLEV (Nepal Veterinary Council Licensing Exam)",
+   "level": "Professional veterinary doctor registration",
+   "need": "5-year B.V.Sc. and A.H. (Bachelor of Veterinary Science and Animal Husbandry), B.V.Sc. or D.V.M. from AFU, TU IAAS, Purbanchal (HICAST/NPI) or a recognised foreign university",
+   "age": "No age limit",
+   "body": "Nepal Veterinary Council (NVC), Tripureshwor, Kathmandu",
+   "stages": [
+    [
+     "Computer-Based Licensure Exam (NLEV)",
+     "100 objective MCQs (4 options) in 90 minutes. 1 mark per correct answer and 0.25 negative marking per wrong answer; pass mark is 40% aggregate. Result published the same day.",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Veterinary clinical medicine, surgery and radiology",
+    "Veterinary pathology, microbiology and parasitology",
+    "Animal nutrition, breeding, genetics and livestock production",
+    "Veterinary pharmacology, gynaecology and public health",
+    "Nepal Veterinary Council Act 2055 and professional ethics"
+   ],
+   "prep": [
+    "Apply on vcn.gov.np with provisional B.V.Sc. and A.H. transcript, internship completion and citizenship",
+    "Avoid wild guessing because NLEV deducts 0.25 marks for every wrong answer",
+    "Review the NLEV Guidelines and Nepal Veterinary Council Act 2055"
+   ],
+   "fee": 3000,
+   "apply": [
+    3,
+    11
+   ],
+   "exam_month": 7,
+   "career": "veterinarian",
+   "note": "Mandatory under the Nepal Veterinary Council Act 2055 before practising veterinary medicine or sitting Public Service Commission Veterinary Officer exams in Nepal."
+  },
+  {
+   "id": "e-namc",
+   "track": "lic",
+   "name": "NAMC (Nepal Ayurveda Medical Council BAMS Licensing Exam)",
+   "level": "Professional Ayurveda doctor registration",
+   "need": "5.5-year BAMS (Bachelor of Ayurvedic Medicine and Surgery) including 1-year compulsory rotatory internship from TU, NSU or a recognised foreign university",
+   "age": "No age limit",
+   "body": "Nepal Ayurveda Medical Council (NAMC), Naradevi, Kathmandu",
+   "stages": [
+    [
+     "Written Licensing Examination",
+     "Objective MCQ licensing test covering classical Ashtanga Ayurveda and modern clinical subjects; pass mark 50%. Held twice a year (around Ashoj/Kartik and Chaitra).",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Kayachikitsa (Internal Medicine) and Panchakarma",
+    "Shalya Tantra (Surgery) and Shalakya Tantra (ENT/Ophthalmology)",
+    "Prasuti Tantra, Stri Roga and Kaumarbhritya (Obstetrics, Gynaecology and Paediatrics)",
+    "Dravyaguna, Rasa Shastra and Bhaishajya Kalpana (Pharmacology)",
+    "Swasthavritta, Agada Tantra and Ayurveda Medical Council Act 2045"
+   ],
+   "prep": [
+    "Complete the 1-year BAMS rotatory internship and obtain temporary internship registration first",
+    "Follow exam notices on namc.org.np (usually published in Bhadra/Ashoj and Falgun/Chaitra)"
+   ],
+   "fee": 3500,
+   "apply": [
+    3,
+    10
+   ],
+   "exam_month": 4,
+   "career": "ayurveda-doctor",
+   "note": "Mandatory statutory registration under the Ayurveda Medical Council Act 2045 to practise as an Ayurvedic Physician (Kaviraj / Vaidya / Doctor) or apply for Lok Sewa Ayurveda Officer posts."
+  }
+ ],
+ "route_exam": {
+  "bca": "e-bca",
+  "bit": "e-bit",
+  "md-ms": "e-mecee-pg",
+  "mds": "e-mecee-pg",
+  "mph": "e-mecee-pg",
+  "msc-nursing": "e-mecee-pg",
+  "mpharm": "e-mecee-pg",
+  "mtech": "e-ioe-msc",
+  "msc-urban-struct": "e-ioe-msc",
+  "ca-route": "e-ican",
+  "bams": "e-namc",
+  "bba-bi": "e-cmat",
+  "bms-mountaineering": "e-cmat",
+  "mhm-mttm": "e-cmat",
+  "mba": "e-cmat",
+  "pre-diploma": "e-ctevt",
+  "dip-hospitality": "e-ctevt",
+  "foreign-lang-work": "l-topik",
+  "abroad-ms": "l-ielts"
+ },
+ "career_licence": {
+  "veterinarian": {
+   "name": "Nepal Veterinary Council (NLEV) registration",
+   "exam": "e-nvc"
+  },
+  "ayurveda-doctor": {
+   "name": "Nepal Ayurveda Medical Council registration",
+   "exam": "e-namc"
+  },
+  "chartered-accountant": {
+   "name": "ICAN Chartered Accountant membership",
+   "exam": "e-ican"
+  },
+  "accountant": {
+   "name": "ICAN Chartered Accountant / Auditor membership",
+   "exam": "e-ican"
+  },
+  "audit-tax-advisor": {
+   "name": "ICAN Chartered Accountant / Registered Auditor licence",
+   "exam": "e-ican"
+  },
+  "public-health-officer": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  }
+ },
+ "guides_add": [
+  {
+   "id": "bca-admission",
+   "name": "Apply for TU BCA entrance and college seat",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Submit the online form at entrance.tufohss.edu.np with +2 transcripts and NPR 1,500 fee",
+     1,
+     1500,
+     "online"
+    ],
+    [
+     "Download the admit card and sit the 2-hour 100-mark MCQ exam (Math 50, English 40, GK 10; pass 35)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Apply to your chosen constituent (35 or 70 seats) or affiliated BCA college with your entrance score sheet",
+     7,
+     0,
+     "in person"
+    ],
+    [
+     "Complete merit verification and pay first semester admission fees at the college",
+     3,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "SEE and +2 transcripts and character certificates",
+    "Citizenship certificate",
+    "Passport-size photo and digital signature",
+    "TU FoHSS BCA entrance score card"
+   ],
+   "link": "exam:e-bca"
+  },
+  {
+   "id": "bit-admission",
+   "name": "Apply for TU IOST BIT entrance and campus priority",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Apply online at iost.tu.edu.np confirming 100-mark Math or Computer in +2 and pay NPR 1,750",
+     1,
+     1750,
+     "online"
+    ],
+    [
+     "Sit the 2-hour 100-mark BIT entrance (English 50 + Math 50 or Computer 50; pass 35)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Fill the online priority form ranking up to 10 TU constituent campuses on iost.tu.edu.np",
+     5,
+     0,
+     "online"
+    ],
+    [
+     "Enrol at the constituent campus allotted on the IOST admission list",
+     5,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "SEE and +2 transcripts showing 100-mark Math or Computer Science",
+    "Citizenship certificate",
+    "IOST BIT admit card and rank sheet",
+    "Inclusion quota letter if claiming Samabesi seats"
+   ],
+   "link": "exam:e-bit"
+  },
+  {
+   "id": "mecee-pg-apply",
+   "name": "Apply for MECEE-PG (MD/MS, MDS, MPH, MSc Nursing, MPharm)",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Create a profile on entrance.mec.gov.np and pay NPR 5,000 (NPR 8,000 foreign) via ConnectIPS, eSewa, Khalti or Himalayan Bank",
+     2,
+     5000,
+     "online"
+    ],
+    [
+     "Upload bachelor degree, internship completion and valid Nepal professional council registration (NMC, NNC, NPC, NHPC or NAMC)",
+     2,
+     0,
+     "online"
+    ],
+    [
+     "Sit the 3-hour 200-MCQ Single Best Response exam (0.25 negative marking; 50th percentile pass)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Join online Open House Matching to lock your postgraduate specialty and medical college",
+     7,
+     0,
+     "online"
+    ]
+   ],
+   "docs": [
+    "MBBS/BDS/BSc Nursing/BPharm degree and transcript",
+    "One-year internship or clinical work experience certificate",
+    "Active Nepal council registration certificate",
+    "Citizenship or passport and bank voucher"
+   ],
+   "link": "exam:e-mecee-pg"
+  },
+  {
+   "id": "pu-scholarship",
+   "name": "Apply for Pokhara University 20% / 10% central scholarship",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Obtain the community school SEE verification letter from your school and Rural/Municipal Education Section if claiming the 80% public-school quota",
+     3,
+     0,
+     "in person"
+    ],
+    [
+     "Submit the online scholarship application on scholarship.pu.edu.np within the Bhadra deadline",
+     1,
+     1600,
+     "online"
+    ],
+    [
+     "Sit the Pokhara University central scholarship exam for your faculty (SOE, FMS or SHAS)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Confirm college placement from the central merit list to receive a 100% tuition fee waiver",
+     7,
+     0,
+     "online"
+    ]
+   ],
+   "docs": [
+    "SEE and +2 transcripts and character certificates",
+    "Annex community school verification signed by local level education office",
+    "Citizenship certificate",
+    "Online payment receipt"
+   ],
+   "link": "exam:e-pu-bachelor"
+  },
+  {
+   "id": "ican-ca-register",
+   "name": "Register for ICAN Chartered Accountancy (CAP-I or CAP-II)",
+   "cat": "Study",
+   "steps": [
+    [
+     "Register online at en.ican.org.np for CAP-I (after +2, NPR 34,500; minimum NPR 20,000 first instalment) or CAP-II (after Bachelor, NPR 40,500)",
+     2,
+     34500,
+     "online"
+    ],
+    [
+     "Collect study materials from ICAN Satdobato or branch office and complete the required study period",
+     180,
+     0,
+     "in person"
+    ],
+    [
+     "Pass the mandatory online ICAN pre-test before the June or December board exam window",
+     2,
+     0,
+     "online"
+    ],
+    [
+     "Submit the board examination form and sit the CAP-I or CAP-II paper exam (40% per paper, 50% aggregate to pass)",
+     7,
+     3200,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "SEE and +2 transcripts (plus Bachelor transcript for CAP-II direct entry)",
+    "Citizenship certificate",
+    "Passport photos",
+    "ICAN registration payment voucher"
+   ],
+   "link": "exam:e-ican"
+  }
+ ],
+ "scholarships_add": [
+  {
+   "id": "s-danish-govt",
+   "name": "Danish Government Scholarships for Non-EU/EEA Students (UCPH, DTU, Aarhus, ITU, CBS)",
+   "by": "Ministry of Higher Education and Science of Denmark (via universities)",
+   "country": "dk",
+   "type": "Government",
+   "open": [
+    10,
+    3
+   ],
+   "covers": "Full or partial tuition waiver (worth DKK 70,000 to 120,000 or EUR 8,000 to 17,000 a year) plus, for top awardees, a monthly living grant (University of Copenhagen quotes DKK 11,225/month for 22 months in 2026; DTU quotes DKK 8,500/month; general listings quote DKK 6,090 to 6,397/month before tax)",
+   "who": "Non-EU/EEA citizens (including Nepal) admitted to an English-taught Master degree at a participating Danish public university (Copenhagen, DTU, Aarhus, CBS, ITU, SDU, Aalborg)",
+   "how": "No separate scholarship form at most universities: apply for Master admission by the non-EU deadline (typically 15 January at UCPH, DTU, Aarhus and ITU, or 1 February to 1 March at CBS, SDU and Aalborg) for automatic merit consideration."
+  },
+  {
+   "id": "s-ernst-mach-at",
+   "name": "OeAD Ernst Mach Grant (Worldwide and Austrian Universities of Applied Sciences)",
+   "by": "OeAD and Austrian Federal Ministry of Education, Science and Research",
+   "country": "at",
+   "type": "Government",
+   "open": [
+    10,
+    2
+   ],
+   "covers": "EUR 1,300 monthly stipend plus host tuition waiver and an international travel subsidy of up to EUR 1,200 (accommodation and health insurance are paid out of the monthly grant)",
+   "who": "Ernst Mach Worldwide funds 1 to 9 month research stays in Austria for PhD students, postgraduates and postdocs outside Austria aged 35 or under; the FH track funds 4 to 10 month exchange stays at Austrian Universities of Applied Sciences for non-European Bachelor (4+ semesters) or Master students. Neither track funds an entire degree",
+   "how": "Secure a host acceptance letter from an Austrian university professor or FH coordinator and submit online at scholarships.at / grants.at by 1 February. For full degrees in Austria, combine public university tuition (EUR 726.72/semester or LDC waiver) with university Leistungsstipendium merit grants (EUR 750 to 1,500/year)."
+  },
+  {
+   "id": "s-bi-norway",
+   "name": "BI Presidential Scholarship (BI Norwegian Business School)",
+   "by": "BI Norwegian Business School, Oslo and Bergen",
+   "country": "no",
+   "type": "University",
+   "open": [
+    11,
+    3
+   ],
+   "covers": "100% MSc tuition fee waiver for up to 2 years (worth about NOK 318,390 a year) plus a living stipend of NOK 50,000 per semester (NOK 100,000 a year) for international awardees",
+   "who": "International applicants from any country with a top undergraduate grade equivalent to an A on the ECTS scale admitted to a full-time Master of Science (Finance, Business Analytics, Applied Economics, Data Science, Strategic Marketing) at BI Oslo or Bergen (up to 20 international awards a year)",
+   "how": "Upload a one-page scholarship application letter and CV inside the BI MSc online admission portal by the 1 March priority deadline. Renewal each semester requires completing 30 ECTS with at least a B cumulative GPA."
+  },
+  {
+   "id": "s-rtp-au",
+   "name": "Australian Government Research Training Program (RTP) International Scholarship",
+   "by": "Australian Government Department of Education (via participating universities)",
+   "country": "au",
+   "type": "Government",
+   "open": [
+    4,
+    10
+   ],
+   "covers": "100% tuition fee offset (up to 4 years for PhD, 2 years for Master by Research) plus a tax-free living stipend (2026 national base AUD 36,061 to 37,010/year; Melbourne/UQ quote AUD 32,192 to 39,220, ANU AUD 39,069, and University of Sydney AUD 42,754/year), single OSHC health cover, relocation allowance (about AUD 1,485 to 2,000) and thesis allowance (AUD 420 to 840)",
+   "who": "International students of any nationality with a first-class honours or research master equivalent applying for a Higher Degree by Research (MPhil / Master by Research or PhD) at an Australian university",
+   "how": "Apply directly to the target Australian university HDR admission portal (most assess RTP automatically with your PhD/MPhil application; key international deadlines fall between April and August/October such as ANU 15 April and 31 August)."
+  },
+  {
+   "id": "s-vanier-ca",
+   "name": "Vanier Canada Graduate Scholarships / Canada Graduate Research Scholarship (Doctoral)",
+   "by": "Government of Canada (CIHR, NSERC and SSHRC)",
+   "country": "ca",
+   "type": "Government",
+   "open": [
+    7,
+    11
+   ],
+   "covers": "CAD 50,000 per year for up to 3 years toward doctoral tuition, research and living expenses (up to 166 awards annually across health, natural sciences/engineering and social sciences/humanities)",
+   "who": "International and Canadian PhD (or combined MA/PhD, MD/PhD) candidates with a first-class average in their last two years of study, strong research output and leadership, nominated by a Canadian university with a quota",
+   "how": "Secure PhD admission/supervision support and apply for your Canadian university internal nomination (deadlines usually August to October) before the federal ResearchNet submission in late October/November. Note that Canada is transitioning Vanier CGS into the harmonized Canada Graduate Research Scholarship - Doctoral framework."
+  },
+  {
+   "id": "s-tipp-th",
+   "name": "Thailand International Postgraduate Programme (TIPP) and Royal Thai Government AIT Scholarships",
+   "by": "Thailand International Cooperation Agency (TICA), Ministry of Foreign Affairs of Thailand",
+   "country": "th",
+   "type": "Government",
+   "open": [
+    11,
+    2
+   ],
+   "covers": "Full tuition, monthly living allowance of THB 7,000, accommodation allowance of THB 7,000 to 9,000/month, one-time settlement allowance of THB 6,000, books allowance of THB 10,000/year, thesis fieldwork up to THB 20,000 and printing THB 8,000 to 12,000, round-trip economy flights, visa fee and medical insurance",
+   "who": "Graduates from eligible developing countries including Nepal, aged under 45 with a bachelor degree, English proficiency and work experience (often nominated through government or development agencies) for Master degrees in public health, climate change, agriculture and sufficiency economy",
+   "how": "Complete the online TICA form and submit hard copies through the Royal Thai Embassy in Kathmandu and Nepal government nodal channel by the February deadline (23 February 2026 for the 2026 intake). Separate non-bonded Royal Thai Government (King and Queen) scholarships are also awarded directly through AIT near Bangkok."
+  },
+  {
+   "id": "s-ktu-vmu-lt",
+   "name": "Lithuanian University Merit Waivers (KTU, VMU, Vilnius University) and State Scholarship Rule",
+   "by": "Kaunas University of Technology, Vytautas Magnus University, Vilnius University and Study in Lithuania",
+   "country": "lt",
+   "type": "University",
+   "open": [
+    1,
+    6
+   ],
+   "covers": "25% to 100% tuition fee waivers at KTU, VMU and Vilnius University (plus EUR 250/month talent stipends for top students). Note: the government Lithuanian State Scholarship for Full-Time Master Studies (8 BSAs = EUR 592/month in 2026, 70 grants) is restricted to 17 listed countries (such as Ukraine, Georgia, Uzbekistan, Kazakhstan, China, Japan, USA) and Nepal is NOT on the eligible country list",
+   "who": "International Bachelor and Master applicants from any country (including Nepal) with a strong GPA (typically 80% / CGPA 3.2+ for KTU and VMU tuition waivers)",
+   "how": "Apply for university tuition waivers inside your KTU, VMU or Vilnius University admission portal between January and May/June; do not rely on the Lithuanian State Master call on studyin.lt unless Nepal is added to the country list."
+  },
+  {
+   "id": "s-taltech-harno-ee",
+   "name": "Estonia Harno Degree Scholarship and TalTech International Tuition Waivers (2026/27 Rules)",
+   "by": "Education and Youth Board of Estonia (Harno) and Tallinn University of Technology (TalTech)",
+   "country": "ee",
+   "type": "Government",
+   "open": [
+    1,
+    4
+   ],
+   "covers": "Harno degree and exchange scholarship pays EUR 350/month for Master and EUR 660/month for PhD; TalTech International Degree Scholarships waive tuition worth EUR 3,000 to 6,000/year for top non-EU engineering/IT/cybersecurity admits plus optional EUR 100/month performance stipends",
+   "who": "Non-EU international students admitted to TalTech or Estonian Master/PhD programmes. Important 2026/27 update: the University of Tartu ended tuition waivers for newly admitted non-EU students from the 2026/27 intake (announced March 2026), and the older Dora Plus scheme ended on 31 May 2023",
+   "how": "Apply to TalTech before the non-EU deadline (around 1 February to 1 March) for automatic tuition waiver and TalTech Development Fund consideration, and check harno.ee for the spring Harno scholarship window."
+  },
+  {
+   "id": "s-spain-uc3m-bse",
+   "name": "Spanish University International Merit Scholarships (UC3M, BSE, UB, Navarra, ICFO)",
+   "by": "Spanish Public and Research Universities (UC3M, Barcelona School of Economics, ICFO, Navarra)",
+   "country": "es",
+   "type": "University",
+   "open": [
+    11,
+    4
+   ],
+   "covers": "25% to 100% Master tuition waivers at Barcelona School of Economics (BSE), 10% to 50% tuition reductions at UC3M (Madrid), University of Barcelona and University of Navarra (plus up to EUR 400/month), and 100% funded PhD contracts (EUR 2,100 to 2,200/month) at ICFO Institute of Photonic Sciences",
+   "who": "International Master and PhD applicants of all nationalities including Nepal. Note that Spain national Fundación Carolina awards target Latin America and MAEC-AECID bilateral calls primarily cover Latin America, Africa, the Middle East and the Philippines, so Nepali students should target university merit awards, La Caixa/ICFO fellowships or Erasmus Mundus",
+   "how": "Submit your Master or PhD application by the university priority scholarship deadline (mid-January for BSE, January to April for UC3M, UB and Navarra)."
+  },
+  {
+   "id": "s-fct-aveiro-pt",
+   "name": "Portugal FCT Doctoral Studentships and Aveiro / Coimbra / Porto Merit Scholarships",
+   "by": "Fundacao para a Ciencia e a Tecnologia (FCT) and Portuguese Public Universities",
+   "country": "pt",
+   "type": "Government",
+   "open": [
+    1,
+    6
+   ],
+   "covers": "FCT PhD studentships pay EUR 1,144 to 1,259/month plus full tuition and research/travel allowances; for 2026/27 Master students, University of Aveiro reduces international tuition to EUR 1,000/year, University of Coimbra awards a EUR 2,000 Master incentive reduction, and University of Porto awards merit grants equal to 5x the national minimum monthly wage",
+   "who": "International PhD candidates (any nationality) for FCT doctoral calls, and high-achieving non-EU Bachelor/Master students at Aveiro, Coimbra, Porto, Lisbon (IST) and NOVA (note: SASUP social grants are closed to non-EU international student status)",
+   "how": "Apply to the annual FCT doctoral call in March/April on myfct.fct.pt with a Portuguese host research centre, or apply directly during Master admission at Aveiro, Coimbra or Porto between January and June."
+  }
+ ],
+ "abroad_note_add": {
+  "ee": "March 2026 update: the University of Tartu ended tuition waivers for newly admitted non-EU students starting from the 2026/27 intake (English fees EUR 3,800 to 13,200/year), and Dora Plus ended in May 2023. Non-EU students can still win TalTech tuition waivers (worth EUR 3,000 to 6,000/year) and Harno stipends (EUR 350/month Master, EUR 660/month PhD).",
+  "lt": "The Lithuanian State Scholarship for Full-Time Master Studies (EUR 592/month in 2026 plus tuition up to the national standard cost) is open only to 17 listed countries and does not include Nepal; Nepali students apply instead for KTU, VMU or Vilnius University tuition waivers (25% to 100%) or Erasmus Mundus.",
+  "pt": "For 2026/27, University of Porto international bachelor/integrated master fees are EUR 3,500 to 16,500/year, while University of Aveiro reduces qualifying international Master tuition to EUR 1,000/year and University of Coimbra grants a EUR 2,000 Master incentive reduction. FCT PhD studentships pay about EUR 1,144/month."
+ },
+ "provider_websites": {
+  "p-peoples-dental": "https://pdch.com.np",
+  "p-bc-med": "https://bncmedicalcollege.edu.np",
+  "p-yeti-health": "https://yhsa.edu.np",
+  "p-little-buddha": "https://littlebuddhacollege.edu.np",
+  "p-kantipur-academy": "https://www.kahs.edu.np",
+  "p-nagarik-health": "https://nagarikhealthsciences.edu.np",
+  "p-cite": "https://cit.edu.np",
+  "p-kantipur-intl": "https://kantipurinternational.edu.np",
+  "p-niet": "https://niet.edu.np",
+  "p-vishwa-adarsha": "https://vac.edu.np",
+  "p-itahari-namuna": "https://namunacollege.edu.np",
+  "p-hetauda-sms": "https://hsm.edu.np",
+  "p-arunima": "https://arunima.edu.np",
+  "p-caribbean": "https://caribbean.edu.np",
+  "p-dav": "https://davcollege.edu.np",
+  "p-goldengate": "https://goldengate.edu.np",
+  "p-kcmit": "https://kcmit.edu.np",
+  "p-ktm-business": "https://kbcampus.edu.np",
+  "p-nims": "https://nimscollege.edu.np",
+  "p-padmashree": "https://www.padmashreecollege.edu.np",
+  "p-pascal": "https://pascalcollege.edu.np",
+  "p-times": "https://timescollege.edu.np",
+  "p-thames": "https://thamescollege.edu.np",
+  "p-united-college": "https://united.edu.np",
+  "p-universal": "https://uc.edu.np",
+  "p-kmc-model": "https://kmcen.edu.np",
+  "p-daffodil": "https://daffodil.edu.np",
+  "p-xavier-intl": "https://xavier.edu.np",
+  "p-kist": "https://kist.edu.np",
+  "p-degree-biratnagar": "https://pgc.tu.edu.np",
+  "p-national-law": "https://nalc.edu.np",
+  "p-w12-ce-lumbini-engineering-college": "https://lumbini.edu.np",
+  "p-malpi": "https://malpi.edu.np"
+ },
+ "faq_add": [
+  {
+   "id": "fw19-1",
+   "topic": "after12",
+   "q": "How many seats are in IOE constituent campuses vs IOE affiliated engineering colleges?",
+   "go": [
+    "be-civil",
+    "be-computer",
+    "barch"
+   ],
+   "a": "Tribhuvan University Institute of Engineering (IOE) runs 5 public constituent campuses (Pulchowk 624 seats, Purwanchal Dharan 528, Thapathali 432, Paschimanchal Pokhara 432 and Chitwan Rampur 24 B.Arch seats) and 10 private or community affiliated colleges in the Kathmandu Valley that together offer 2,304 seats (Kathmandu Engineering College 384, Advanced 336, Kantipur 288, Himalaya 240, National 240, Kathford 192, Janakpur 192, Khwopa TU 192, Sagarmatha 144 and Lalitpur 96). Every seat is filled from the same IOE CBT rank list."
+  },
+  {
+   "id": "fw19-2",
+   "topic": "after12",
+   "q": "Which engineering branches are only taught at IOE constituent campuses and not at private IOE colleges?",
+   "go": [
+    "be-mechanical",
+    "be-geomatics",
+    "be-civil"
+   ],
+   "a": "Private IOE affiliated colleges only run Civil, Computer, Electronics/Communication, Electrical and Architecture. Mechanical Engineering (240 seats across Pulchowk, Thapathali, WRC and ERC), Aerospace (48 at Pulchowk), Chemical (48 at Pulchowk), Geomatics (48 at WRC Pokhara), Agricultural (48 at ERC Dharan), Industrial (48 at Thapathali) and Automobile (96 across Thapathali and WRC) are taught exclusively at IOE constituent campuses."
+  },
+  {
+   "id": "fw19-3",
+   "topic": "after12",
+   "q": "How many engineering seats does Kathmandu University (KUCAT) have at Dhulikhel?",
+   "go": [
+    "be-computer",
+    "be-mechanical",
+    "be-geomatics"
+   ],
+   "a": "According to the Kathmandu University School of Engineering 2025/26 admission call, Dhulikhel intake capacities are BE Computer 120, BE Mechanical 120 (across four tracks), BE Civil (Hydropower) 60, BE Electrical and Electronics 60 (30 Communication, 30 Power and Control), BE Geomatics 60, BTech in AI 60, BE Chemical 30, BE Mining 30, B.Arch 30 and BIT 30, plus 60 BPharm seats in the School of Science. Admission uses KUCAT-CBT (minimum qualifying score 528)."
+  },
+  {
+   "id": "fw19-4",
+   "topic": "after12",
+   "q": "How does the Pokhara University 20% and 10% central scholarship work?",
+   "go": [
+    "be-computer",
+    "be-civil",
+    "bba"
+   ],
+   "a": "Under the Pokhara University Scholarship Regulation, constituent schools (such as the School of Engineering and School of Health and Allied Sciences in Pokhara) reserve 20 percent of seats as full tuition scholarships, while affiliated colleges with 40 or more seats reserve 10 percent (5 percent if intake is under 40). Eighty percent of those scholarship seats are reserved for students who passed SEE from a government or community school, and 20 percent for institutional (private) school graduates, selected through the central exam on scholarship.pu.edu.np."
+  },
+  {
+   "id": "fw19-5",
+   "topic": "after12",
+   "q": "What is the difference between TU BSc CSIT, TU BIT and TU BCA eligibility and entrance exams?",
+   "go": [
+    "bsc-csit",
+    "bit",
+    "bca"
+   ],
+   "a": "BSc CSIT (IOST, 3,108 seats in 61 colleges) is open only to +2 Science students with Physics and Mathematics and uses a 100-mark PCM/English/CS entrance. TU BIT (IOST, about 612 seats across constituent campuses like Patan 72 and Bhaktapur 72) is open to any +2 stream provided you took 100-mark Mathematics or 100-mark Computer Science, and its 100-mark entrance tests English (50) plus your choice of Math (50) or Computer (50). TU BCA (FoHSS, over 125 colleges with 35 seats per shift) accepts any +2 stream with D+ / CGPA 1.8 without a +2 Math requirement, and its 100-mark entrance tests Math (50), English (40) and GK/IT (10)."
+  },
+  {
+   "id": "fw19-6",
+   "topic": "after12",
+   "q": "What are the exact MEC 2083/84 seat totals for MBBS, BDS, BSc Nursing and BPharm in Nepal?",
+   "go": [
+    "mbbs",
+    "bds",
+    "bsc-nursing",
+    "bpharm"
+   ],
+   "a": "In the Medical Education Commission (MEC) seat notice of 30 Ashwin 2083 across 84 institutions, BSc Nursing has 2,640 seats across 59 colleges, BNS has 1,160 seats across 43 colleges, BPharm has 905 seats across 30 colleges, BDS has 625 seats across 15 dental/medical colleges, BPH has 610 seats across 39 colleges, BSc MLT has 437 seats across 32 colleges, BPT has 150 seats, BSc MIT has 147 seats, BOptom has 110 seats, BAMS has 80 seats, BSc Midwifery has 40 seats and BASLP has 16 seats, alongside 2,745 MBBS seats across 28 medical colleges and academies."
+  },
+  {
+   "id": "fw19-7",
+   "topic": "afterbach",
+   "q": "What is the exam pattern and passing rule for MECEE-PG (MD/MS, MDS, MPH, MSc Nursing, MPharm)?",
+   "go": [
+    "md-ms",
+    "mds",
+    "mph",
+    "msc-nursing",
+    "mpharm"
+   ],
+   "a": "Under the revised Medical Education Commission syllabus, MECEE-PG is a 3-hour Single Best Response MCQ paper of 200 questions (200 marks) with 0.25 negative marking for each wrong answer and a 50:30:20 Recall-Understanding-Application blueprint. Qualification for the merit list and Open House Matching requires scoring in the upper 50th percentile rank. The application fee on entrance.mec.gov.np is NPR 5,000 for Nepali citizens and NPR 8,000 for foreign applicants."
+  },
+  {
+   "id": "fw19-8",
+   "topic": "afterbach",
+   "q": "How do I get a veterinary doctor licence from the Nepal Veterinary Council (NLEV)?",
+   "go": [
+    "bvsc",
+    "council-license"
+   ],
+   "a": "Graduates holding a 5-year B.V.Sc. and A.H. (or B.V.Sc. / D.V.M.) must pass the National Licensure Examination for Veterinarians (NLEV) conducted by the Nepal Veterinary Council under the Nepal Veterinary Council Act 2055. NLEV is a 90-minute computer-based test of 100 MCQs with 1 mark per correct answer, 0.25 negative marking per wrong answer and a 40 percent pass mark; results are published on vcn.gov.np on the same day."
+  },
+  {
+   "id": "fw19-9",
+   "topic": "afterbach",
+   "q": "How do I get an Ayurveda doctor licence after BAMS in Nepal?",
+   "go": [
+    "bams",
+    "council-license"
+   ],
+   "a": "After completing the 5.5-year BAMS degree including the 1-year compulsory rotatory internship, graduates must pass the Nepal Ayurveda Medical Council (NAMC) licensing examination held twice a year (around Ashoj/Kartik and Chaitra) under the Ayurveda Medical Council Act 2045. Passing with 50 percent registers you as an Ayurvedic Doctor eligible for clinical practice and Lok Sewa Ayurveda Officer exams."
+  },
+  {
+   "id": "fw19-10",
+   "topic": "after12",
+   "q": "What are the three levels, fees and passing marks of ICAN Chartered Accountancy in Nepal?",
+   "go": [
+    "ca-route",
+    "acca-route"
+   ],
+   "a": "The Institute of Chartered Accountants of Nepal (ICAN) runs three levels: CAP-I (after +2 with CGPA 2.0, 3 papers / 300 marks, registration fee NPR 34,500), CAP-II (after CAP-I or a qualifying Bachelor degree, 7 papers in 2 groups / 700 marks, registration fee NPR 40,500) and CAP-III (8 papers in 2 groups / 800 marks alongside 3 years of articleship, registration fee NPR 50,000). Candidates must pass an online pre-test first and then score at least 40 percent in each paper and 50 percent aggregate in the group in the June or December exam."
+  },
+  {
+   "id": "fw19-11",
+   "topic": "afterbach",
+   "q": "How does the IOE MSc Engineering entrance exam work?",
+   "go": [
+    "mtech",
+    "msc-urban-struct"
+   ],
+   "a": "The IOE Entrance Examination Board holds a 2-hour Computer-Based Test (CBT) of 100 marks (Section A has 40 one-mark MCQs and Section B has 30 two-mark MCQs, with 10 percent negative marking and a 40 percent pass mark) for admission to MSc programmes at Pulchowk, Thapathali, WRC Pokhara and ERC Dharan. Applicants need a relevant BE/B.Arch degree and Nepal Engineering Council registration."
+  },
+  {
+   "id": "fw19-12",
+   "topic": "abroad",
+   "q": "How do Danish Government Scholarships work for Nepali Master students?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "Public universities in Denmark (such as the University of Copenhagen, DTU, Aarhus, ITU, CBS and SDU) award Danish Government Scholarships to top non-EU/EEA Master applicants as full or partial tuition waivers (worth DKK 70,000 to 120,000 a year) and monthly living grants (UCPH quotes DKK 11,225 a month for 22 months in 2026; DTU quotes DKK 8,500 a month). At most universities you are considered automatically when you apply for Master admission by the 15 January (or 1 February / 1 March) non-EU deadline."
+  },
+  {
+   "id": "fw19-13",
+   "topic": "abroad",
+   "q": "Does the Austrian OeAD Ernst Mach Grant fund a full degree or a research stay?",
+   "go": [
+    "abroad-ms",
+    "phd-route"
+   ],
+   "a": "The OeAD Ernst Mach Grant pays EUR 1,300 a month plus up to EUR 1,200 in travel support, but it funds a 1 to 9 month research stay (Worldwide track for PhD students and postgraduates under 35) or a 4 to 10 month exchange stay at an Austrian University of Applied Sciences (FH track), not an entire degree. The annual deadline on scholarships.at is 1 February. For a full degree in Austria, students rely on low public tuition (EUR 726.72 a semester or LDC waiver) and university Leistungsstipendium merit grants (EUR 750 to 1,500)."
+  },
+  {
+   "id": "fw19-14",
+   "topic": "abroad",
+   "q": "What does the BI Presidential Scholarship in Norway cover for international students?",
+   "go": [
+    "abroad-ms",
+    "mba"
+   ],
+   "a": "BI Norwegian Business School awards up to 20 BI Presidential Scholarships each autumn to international Master of Science applicants holding an ECTS A-equivalent undergraduate grade. It covers 100 percent of MSc tuition for 2 years (worth about NOK 318,390 a year) plus a living stipend of NOK 50,000 per semester (NOK 100,000 a year), applied for by uploading a scholarship letter with your MSc application by 1 March."
+  },
+  {
+   "id": "fw19-15",
+   "topic": "abroad",
+   "q": "How much does the Australian Government RTP scholarship pay for a PhD or Master by Research in 2026?",
+   "go": [
+    "phd-route",
+    "abroad-ms"
+   ],
+   "a": "The Australian Government Research Training Program (RTP) covers 100 percent of tuition fees (worth AUD 35,000 to 50,000 a year), Overseas Student Health Cover and a tax-free living stipend. For 2026 the national base stipend is about AUD 36,061 to 37,010 a year, while several universities pay higher topped-up rates such as ANU (AUD 39,069), University of Queensland (AUD 39,220) and University of Sydney (AUD 42,754 a year). You apply directly through each university HDR admission portal."
+  },
+  {
+   "id": "fw19-16",
+   "topic": "abroad",
+   "q": "What is the Vanier / Canada Graduate Research Scholarship for PhD students in Canada?",
+   "go": [
+    "phd-route"
+   ],
+   "a": "Canada flagship federal doctoral award (Vanier Canada Graduate Scholarships, transitioning into the harmonized Canada Graduate Research Scholarship - Doctoral programme across CIHR, NSERC and SSHRC) pays CAD 50,000 a year for 3 years and is open to international and Canadian PhD candidates. You cannot apply directly on your own: a Canadian university with a quota must nominate you between August and October before the November federal deadline."
+  },
+  {
+   "id": "fw19-17",
+   "topic": "abroad",
+   "q": "How do I apply for the Thailand TIPP government scholarship from Nepal?",
+   "go": [
+    "abroad-ms",
+    "mph"
+   ],
+   "a": "The Thailand International Postgraduate Programme (TIPP), run by TICA under the Thai Ministry of Foreign Affairs, funds Master degrees for developing-country candidates (including Nepal, aged under 45) with full tuition, round-trip flights, THB 7,000 a month living allowance, THB 7,000 to 9,000 a month housing allowance, THB 6,000 settlement and THB 10,000 a year for books. Applications go through the online TICA form and hard-copy submission via the Royal Thai Embassy in Kathmandu by February (23 February 2026 for the 2026 cycle)."
+  },
+  {
+   "id": "fw19-18",
+   "topic": "abroad",
+   "q": "Can Nepali citizens apply for the Lithuanian State Scholarship for Master studies?",
+   "go": [
+    "abroad-ms"
+   ],
+   "a": "No. Although the Lithuanian State Scholarship for Full-Time Master Studies pays EUR 592 a month (8 Basic Social Amounts in 2026) plus tuition up to the national standard cost, eligibility is restricted to citizens of 17 listed countries (such as Ukraine, Georgia, Uzbekistan, Kazakhstan, China, Japan and the USA) and Nepal is not on the list. Nepali students applying to Lithuania should instead apply for KTU, VMU or Vilnius University merit tuition waivers (25 to 100 percent) or Erasmus Mundus."
+  },
+  {
+   "id": "fw19-19",
+   "topic": "abroad",
+   "q": "Did the University of Tartu in Estonia end tuition waivers for non-EU students in 2026/27?",
+   "go": [
+    "abroad-ms",
+    "bsc-csit"
+   ],
+   "a": "Yes. In March 2026 the University of Tartu announced that starting from the 2026/27 intake it no longer offers tuition waivers to newly admitted non-EU/EEA students, and Estonia older Dora Plus scholarship ended in May 2023. Non-EU students looking for funding in Estonia should target Tallinn University of Technology (TalTech) tuition waivers (worth EUR 3,000 to 6,000 a year) and Harno degree scholarships (EUR 350 a month for Master, EUR 660 a month for PhD)."
+  },
+  {
+   "id": "fw19-20",
+   "topic": "abroad",
+   "q": "Which scholarships in Spain and Portugal are actually open to Nepali students?",
+   "go": [
+    "abroad-ms",
+    "phd-route"
+   ],
+   "a": "In Spain, Fundación Carolina targets Latin America and MAEC-AECID bilateral calls focus on Latin America, Africa, the Middle East and the Philippines, so Nepali students should apply to university merit awards such as Barcelona School of Economics (25 to 100 percent tuition waiver), UC3M Madrid (10 to 50 percent), University of Navarra (10 to 50 percent), ICFO PhD fellowships (EUR 2,100 to 2,200 a month) or Erasmus Mundus. In Portugal, FCT doctoral studentships pay EUR 1,144 a month plus tuition for PhD candidates of any nationality, while Aveiro (tuition reduced to EUR 1,000 a year) and Coimbra (EUR 2,000 reduction) offer Master fee incentives."
+  }
+ ]
+}

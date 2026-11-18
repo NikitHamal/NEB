@@ -1,0 +1,87 @@
+"""Wave 19 part 1b: route_seats, where_add and provider note additions for MEC 2083/84 (MBBS, BDS, 9 health colleges) and IOE/KU/PU engineering.
+
+Kept in its own module so every file stays compact and easy to audit.
+"""
+
+ROUTE_SEATS = {
+    # 9 remaining MEC 2083/84 health colleges
+    'p-cist': {'bpharm': 40, 'bph': 40},
+    'p-fwu-health': {'bsc-nursing': 20, 'bph': 10, 'bmlt': 10},
+    'p-kmc-health': {'bpharm': 30, 'bph': 10},
+    'p-krishna-medical': {'bsc-nursing': 40, 'bns': 10, 'bpharm': 10, 'bph': 10},
+    'p-npi-narayani': {'bsc-nursing': 40},
+    'p-nams-pu': {'bsc-nursing': 40, 'bpharm': 20, 'bph': 10},
+    'p-shree-medical': {'bsc-nursing': 40, 'bns': 30, 'bpharm': 40, 'bph': 20, 'bmlt': 20},
+    'p-sinha-health': {'bpharm': 10},
+    'p-unique-med': {'bph': 10},
+    # All 28 MBBS providers & 15 BDS providers (MEC 2083/84 seats from wave8.json & mec2083_seats.json)
+    'p-iom': {'mbbs': 100, 'bds': 25},
+    'p-kusms': {'mbbs': 130, 'bds': 50},
+    'p-bpkihs': {'mbbs': 130, 'bds': 50},
+    'p-pahs': {'mbbs': 65},
+    'p-kmc': {'mbbs': 130, 'bds': 45},
+    'p-kahs': {'mbbs': 50},
+    'p-mihs': {'mbbs': 50},
+    'p-cmc': {'mbbs': 130, 'bds': 45},
+    'p-rahs': {'mbbs': 50},
+    'p-mbahs': {'mbbs': 50},
+    'p-nmc-jorpati': {'mbbs': 130, 'bds': 45},
+    'p-kist-med': {'mbbs': 120, 'bds': 40},
+    'p-coms-chitwan': {'mbbs': 130, 'bds': 50},
+    'p-manipal-pokhara': {'mbbs': 120},
+    'p-gandaki-med': {'mbbs': 120, 'bds': 30},
+    'p-nobel-med': {'mbbs': 130, 'bds': 35},
+    'p-birat-med': {'mbbs': 130},
+    'p-national-med': {'mbbs': 120, 'bds': 25},
+    'p-ucms': {'mbbs': 120, 'bds': 50},
+    'p-devdaha-med': {'mbbs': 90},
+    'p-lumbini-med': {'mbbs': 120},
+    'p-nepalgunj-med': {'mbbs': 130, 'bds': 15},
+    'p-janaki-med': {'mbbs': 60},
+    'p-bc-med': {'mbbs': 60},
+    'p-naihs': {'mbbs': 130},
+    'p-pokhara-ahs': {'mbbs': 50},
+    'p-pu-medicine': {'mbbs': 50},
+    'p-sdcuhs': {'mbbs': 50},
+    'p-kantipur-dental': {'bds': 60},
+    'p-peoples-dental': {'bds': 60},
+    # 5 IOE Constituent Campuses (official admission.ioe.edu.np seats)
+    'p-pulchowk': {'be-civil': 192, 'be-computer': 96, 'be-electrical': 48, 'be-electronics': 48, 'be-mechanical': 48, 'barch': 48},
+    'p-thapathali': {'be-civil': 144, 'be-computer': 48, 'be-electronics': 48, 'be-mechanical': 48, 'barch': 48},
+    'p-wrc': {'be-civil': 144, 'be-computer': 48, 'be-electrical': 48, 'be-electronics': 48, 'be-mechanical': 48, 'be-geomatics': 48},
+    'p-purc': {'be-civil': 144, 'be-computer': 96, 'be-mechanical': 96, 'be-electrical': 48, 'be-electronics': 48, 'barch': 48},
+    'p-cec-rampur': {'barch': 24},
+    # 10 IOE Affiliated Engineering Colleges (total 2,304 seats)
+    'p-kec': {'be-civil': 96, 'be-computer': 96, 'be-electronics': 96, 'be-electrical': 48, 'barch': 48},
+    'p-acem': {'be-civil': 96, 'be-computer': 96, 'be-electronics': 96, 'be-electrical': 48},
+    'p-kantipur-eng': {'be-civil': 96, 'be-computer': 96, 'be-electronics': 96},
+    'p-hce': {'be-civil': 96, 'be-computer': 48, 'be-electronics': 48, 'barch': 48},
+    'p-nce': {'be-civil': 96, 'be-computer': 48, 'be-electronics': 48, 'be-electrical': 48},
+    'p-kathford': {'be-civil': 96, 'be-computer': 48, 'be-electronics': 48},
+    'p-jec': {'be-civil': 96, 'be-computer': 48, 'be-electronics': 48},
+    'p-khwopa-tu': {'be-civil': 96, 'be-computer': 48, 'be-electrical': 48},
+    'p-sagarmatha-eng': {'be-civil': 48, 'be-computer': 48, 'be-electronics': 48},
+    'p-lalitpur-eng': {'be-civil': 48, 'be-computer': 48},
+    # Kathmandu University School of Engineering (Admission Call 2025/2026)
+    'p-ku-eng': {'be-computer': 120, 'be-mechanical': 120, 'be-civil': 60, 'be-electrical': 60, 'be-geomatics': 60, 'barch': 30, 'bit': 30},
+    # Pokhara University Constituent & Affiliated Engineering Colleges
+    'p-pu-soe': {'be-civil': 96, 'be-computer': 48, 'be-electrical': 48, 'barch': 48},
+    'p-ncit': {'be-civil': 48, 'be-computer': 96, 'be-electronics': 48},
+    'p-cosmos': {'be-civil': 96, 'be-computer': 48, 'be-electronics': 48, 'barch': 48},
+    'p-everest-eng': {'be-civil': 96, 'be-computer': 48, 'be-electronics': 48},
+    'p-uesc': {'be-civil': 96, 'be-computer': 48},
+    'p-gces': {'be-computer': 48},
+    'p-utec': {'be-civil': 96, 'be-computer': 48, 'be-electrical': 48},
+    'p-oxford-nawalparasi': {'be-civil': 96, 'be-computer': 48, 'be-electrical': 48},
+    'p-w12-ce-lumbini-engineering-college': {'be-civil': 96, 'be-computer': 48, 'be-electrical': 48},
+}
+
+PROVIDER_NOTE_ADD = {
+    'p-pulchowk': 'IOE constituent seat breakdown: BE Civil 192 (108 regular, 84 full fee), BE Computer 96 (36 regular, 60 full fee), BE Electrical 48 to 96, BE Electronics, Communication and Information 48, BE Mechanical 48, B.Arch 48, BE Aerospace 48 and BE Chemical 48.',
+    'p-thapathali': 'IOE constituent seat breakdown (432 total): BE Civil 144 (36 regular, 108 full fee), BE Computer 48, BE Electronics, Communication and Information 48, BE Mechanical 48, B.Arch 48, BE Industrial 48 and BE Automobile 48.',
+    'p-wrc': 'IOE constituent seat breakdown (432 total): BE Civil 144 (36 regular, 108 full fee), BE Computer 48, BE Electrical 48, BE Electronics 48, BE Mechanical 48, BE Geomatics 48 and BE Automobile 48.',
+    'p-purc': 'IOE constituent seat breakdown (528 total): BE Civil 144 (36 regular, 108 full fee), BE Computer 96 (24 regular, 72 full fee), BE Mechanical 96, BE Electrical 48, BE Electronics 48, B.Arch 48 and BE Agricultural 48.',
+    'p-cec-rampur': 'Newest IOE constituent campus at Rampur, Chitwan. Admits 24 B.Arch students (6 regular, 18 full fee) through the IOE entrance.',
+    'p-ku-eng': 'KU School of Engineering 2025/26 admission call capacities: BE Computer 120, BE Mechanical 120 (4 tracks), BE Civil (Hydropower) 60, BE Electrical and Electronics 60 (Communication 30, Power and Control 30), BE Geomatics 60, BTech AI 60, BE Chemical 30, BE Mining 30, B.Arch 30 and BIT 30.',
+    'p-ncit': 'Pokhara University engineering seats: BE Computer 96, BE Software 96, BE IT 96, BE Civil 48 and BE Electronics and Communication 48, plus BCA, BBA and ME/MSc.',
+}
