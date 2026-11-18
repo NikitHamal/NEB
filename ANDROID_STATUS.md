@@ -2409,3 +2409,5 @@ History read first (`ANDROID_STATUS.md` 93 and 94, `INSTITUTIONS_STATUS.md`). No
 
 ## Next
 - On-device pass: Edit profile as a verified institution owner (button label appears after a moment, never "claim").
+
+CI: `d43ab187` Android release build (APK + AAB) green, Backend tests green (also run locally on sqlite: `web.test_inst_logo_claim`, `web.test_institutions`, `api.test_institution_portfolio`, migrations in sync). Deploy Backend to cPanel (run `44343820432`) green; migration `0174` ran and linked 0 accounts (none were missing a row), 2 verified institutions both return `photoUrl`, `/app/schools/` no longer carries "Get verified" for guests, nothing deleted.
