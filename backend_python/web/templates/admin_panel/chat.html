@@ -9,33 +9,42 @@
 <div class="ac" id="ac">
   <aside class="ac-side">
     <div class="ac-side-top">
-      <input class="ac-search" id="ac-search" type="search" placeholder="Search providers" autocomplete="off">
-      <button class="ac-btn tonal" id="ac-health" type="button"><span class="material-symbols-outlined">monitor_heart</span>Check keyless</button>
+      <div class="ac-searchbox"><span class="material-symbols-outlined">search</span>
+        <input class="ac-search" id="ac-search" type="search" placeholder="Search providers" autocomplete="off" aria-label="Search providers"></div>
+      <button class="ac-btn tonal" id="ac-health" type="button"><span class="material-symbols-outlined">monitor_heart</span><span id="ac-health-label">Check keyless</span></button>
     </div>
     <div class="ac-list" id="ac-list"></div>
   </aside>
   <section class="ac-main">
-    <div class="ac-bar">
+    <header class="ac-bar">
       <div class="ac-title"><b id="ac-name">Provider</b><span id="ac-sub"></span></div>
-      <select class="ac-field" id="ac-model" aria-label="Model"></select>
-      <button class="ac-chip" id="ac-think" type="button" aria-pressed="false"><span class="material-symbols-outlined">psychology</span>Thinking</button>
-      <button class="ac-chip" id="ac-web" type="button" aria-pressed="false"><span class="material-symbols-outlined">travel_explore</span>Web search</button>
-      <button class="ac-chip" id="ac-voice" type="button" aria-pressed="false" hidden><span class="material-symbols-outlined">graphic_eq</span>Voice</button>
-      <button class="ac-btn text" id="ac-clear" type="button"><span class="material-symbols-outlined">delete_sweep</span>Clear</button>
-    </div>
+      <label class="ac-select"><span class="material-symbols-outlined">deployed_code</span>
+        <select id="ac-model" aria-label="Model"></select></label>
+      <div class="ac-chips">
+        <button class="ac-chip" id="ac-think" type="button" aria-pressed="false"><span class="material-symbols-outlined">psychology</span>Thinking</button>
+        <button class="ac-chip" id="ac-web" type="button" aria-pressed="false"><span class="material-symbols-outlined">travel_explore</span>Web search</button>
+        <button class="ac-chip" id="ac-voice" type="button" aria-pressed="false" hidden><span class="material-symbols-outlined">graphic_eq</span>Voice</button>
+      </div>
+      <div class="ac-tools">
+        <button class="ac-icon" id="ac-export" type="button" title="Copy chat as Markdown" aria-label="Copy chat as Markdown"><span class="material-symbols-outlined">ios_share</span></button>
+        <button class="ac-icon" id="ac-clear" type="button" title="New chat" aria-label="New chat"><span class="material-symbols-outlined">edit_square</span></button>
+      </div>
+    </header>
+    <div class="ac-note" id="ac-note" hidden></div>
     <div class="ac-custom" id="ac-custom" hidden>
       <input class="ac-field" id="ac-url" placeholder="https://host/v1/chat/completions" autocomplete="off">
       <input class="ac-field" id="ac-key" type="password" placeholder="API key" autocomplete="off">
     </div>
     <div class="ac-feed" id="ac-feed" aria-live="polite"></div>
     <form class="ac-comp" id="ac-form">
-      <textarea class="ac-input" id="ac-input" rows="1" placeholder="Message"></textarea>
-      <button class="ac-btn ac-send" id="ac-send" type="submit" aria-label="Send"><span class="material-symbols-outlined">arrow_upward</span></button>
+      <textarea class="ac-input" id="ac-input" rows="1" placeholder="Message" aria-label="Message"></textarea>
+      <button class="ac-send" id="ac-send" type="submit" aria-label="Send"><span class="material-symbols-outlined">arrow_upward</span></button>
     </form>
   </section>
 </div>
 <script type="application/json" id="ac-data">{"providers": {{ providers_json|safe }}, "models": {{ model_options|safe }}}</script>
 {% endblock %}
 {% block extra_js %}
+<script src="{% static 'web/js/admin-chat-md.js' %}" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/js/admin-chat.js' %}" nonce="{{ csp_nonce }}"></script>
 {% endblock %}
