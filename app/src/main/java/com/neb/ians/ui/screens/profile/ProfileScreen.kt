@@ -30,7 +30,8 @@ import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.InsertDriveFile
-import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.IosShare
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -114,80 +115,30 @@ fun ProfileScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     val listState = rememberLazyListState()
-    // The header's identity block is roughly 260dp in; past that the top bar
-    // is the only thing still saying whose profile this is.
-    val showBarTitle by remember {
-        derivedStateOf {
-            listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 260
-        }
-    }
-
     val profile = uiState.profile
     val isSelf = profile?.isSelf == true
+
+    var showCovers by remember { mutableStateOf(false) }
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    val screenWidth = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp.dp
+    val statusPx = androidx.compose.foundation.layout.WindowInsets.statusBars.getTop(density)
+    // The bar turns solid as the cover's lower edge slides under it. Read only while drawing the bar.
+    val barProgress: () -> Float = remember(density, screenWidth, statusPx) {
+        val coverPx = with(density) { (screenWidth * 0.42f).coerceIn(148.dp, 232.dp).toPx() }
+        val barBottom = statusPx + with(density) { 56.dp.toPx() }
+        val range = with(density) { 72.dp.toPx() }
+        val read: () -> Float = {
+            if (listState.firstVisibleItemIndex > 0) 1f
+            else ((listState.firstVisibleItemScrollOffset - (coverPx - barBottom - range)) / range).coerceIn(0f, 1f)
+        }
+        read
+    }
 
     Scaffold(
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
         containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
-        Column(Modifier.fillMaxSize()) {
-        // The cover carries back and utilities; this slim bar only appears once the cover has scrolled away.
-        if (profile == null) {
-            IconButton(onClick = onNavigateBack, modifier = Modifier.statusBarsPadding().padding(4.dp)) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-            }
-        }
-        AnimatedVisibility(
-            visible = showBarTitle && profile != null,
-            enter = fadeIn() + androidx.compose.animation.expandVertically(),
-            exit = fadeOut() + androidx.compose.animation.shrinkVertically()
-        ) {
-            TopAppBar(
-                title = {
-                    run {
-                        Column {
-                            Text(
-                                text = profile?.displayName?.takeIf { it.isNotBlank() }
-                                    ?: profile?.username.orEmpty(),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Text(
-                                text = postsLabel(profile?.postCount ?: 0),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 1
-                            )
-                        }
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    if (isSelf) {
-                        IconButton(onClick = onAnalyticsClick) {
-                            Icon(Icons.Outlined.BarChart, contentDescription = "Analytics")
-                        }
-                    }
-                    IconButton(
-                        onClick = {
-                            val handle = profile?.username ?: username
-                            clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE$handle/"))
-                            context.nebToast("Profile link copied")
-                        }
-                    ) {
-                        Icon(Icons.Outlined.Link, contentDescription = "Copy link")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
-            )
-        }
+        Box(Modifier.fillMaxSize()) {
         com.neb.ians.ui.components.NebRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = {
@@ -198,9 +149,9 @@ fun ProfileScreen(
                 }
             },
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(padding)
+                .then(if (profile == null) Modifier.statusBarsPadding().padding(top = 48.dp) else Modifier)
         ) {
             when {
                 profile != null -> ProfileBody(
@@ -256,7 +207,43 @@ fun ProfileScreen(
                 else -> ProfileHeaderSkeleton(modifier = Modifier.fillMaxWidth())
             }
         }
+        if (profile == null) {
+            IconButton(onClick = onNavigateBack, modifier = Modifier.statusBarsPadding().padding(4.dp)) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            }
+        } else {
+            val actions = remember(isSelf, profile.username) {
+                buildList {
+                    if (isSelf) add(ProfileBarAction(Icons.Outlined.Palette, "Change cover") { showCovers = true })
+                    if (isSelf) add(ProfileBarAction(Icons.Outlined.BarChart, "Analytics", onAnalyticsClick))
+                    add(ProfileBarAction(Icons.Outlined.IosShare, "Share profile") {
+                        val send = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(android.content.Intent.EXTRA_TEXT, "$PROFILE_LINK_BASE${profile.username}/")
+                        }
+                        context.startActivity(android.content.Intent.createChooser(send, null))
+                    })
+                }
+            }
+            ProfileTopBar(
+                progress = barProgress,
+                name = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username,
+                photoUrl = profile.photoUrl,
+                onBack = onNavigateBack,
+                actions = actions,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
         }
+        }
+    }
+
+    if (showCovers && profile != null && isSelf) {
+        CoverPickerSheet(
+            currentId = profile.coverArt,
+            onPick = { viewModel.setCoverArt(it); showCovers = false },
+            onDefault = { viewModel.setCoverArt(""); showCovers = false },
+            onDismiss = { showCovers = false }
+        )
     }
 
     if (uiState.showPhotoGallery) {
@@ -345,7 +332,7 @@ private fun ProfileBody(
     val handle = "@${profile.username}"
     // An institution's page is its portfolio: open on About the first time.
     androidx.compose.runtime.LaunchedEffect(profile.id) {
-        if (profile.role == "institution" && !profile.schoolSlug.isNullOrBlank() && uiState.selectedTab == 0) onTabSelected(3)
+        if (profile.role == "institution" && !profile.schoolSlug.isNullOrBlank() && uiState.selectedTab == ProfileTab.OVERVIEW) onTabSelected(ProfileTab.ABOUT)
     }
 
     LazyColumn(
@@ -387,19 +374,11 @@ private fun ProfileBody(
             return@LazyColumn
         }
 
-        if (uiState.glance.isNotEmpty() || uiState.studying != null) {
-            item(key = "overview") {
-                Column(Modifier.padding(top = 4.dp, bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    ProfileGlance(uiState.glance)
-                    uiState.studying?.let { ProfileStudyingNow(it, onOpenPost = onPostClick) }
-                }
-            }
-        }
-
         stickyHeader(key = "tabs") { _: Int ->
             Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
                 NebTabRail(
                     tabs = listOf(
+                        NebRailTab("Overview"),
                         NebRailTab("Posts", count = profile.postCount),
                         NebRailTab("Replies", count = uiState.repliesCount),
                         NebRailTab("Resources", count = uiState.resourcesCount),
@@ -414,7 +393,12 @@ private fun ProfileBody(
         }
 
         when (uiState.selectedTab) {
-            0 -> feedSection(
+            ProfileTab.OVERVIEW -> overviewTab(
+                profile = profile, isSelf = isSelf, uiState = uiState,
+                onEditProfile = onEditProfile, onPostClick = onPostClick, onResourceClick = onResourceClick,
+                onProfileClick = onProfileClick, onTabSelected = onTabSelected
+            )
+            ProfileTab.POSTS -> feedSection(
                 prefix = "post",
                 count = uiState.posts.size,
                 isLoading = uiState.postsLoading,
@@ -439,7 +423,7 @@ private fun ProfileBody(
                 }
             )
 
-            1 -> feedSection(
+            ProfileTab.REPLIES -> feedSection(
                 prefix = "reply",
                 count = uiState.replies.size,
                 isLoading = uiState.repliesLoading,
@@ -464,7 +448,7 @@ private fun ProfileBody(
                 }
             )
 
-            2 -> feedSection(
+            ProfileTab.RESOURCES -> feedSection(
                 prefix = "res",
                 count = uiState.resources.size,
                 isLoading = uiState.resourcesLoading,
@@ -493,7 +477,7 @@ private fun ProfileBody(
                 }
             )
 
-            3 -> {
+            ProfileTab.ABOUT -> {
                 val instSlug = profile.schoolSlug.orEmpty()
                 if (profile.role == "institution" && instSlug.isNotBlank()) {
                     item(key = "about_institution") {

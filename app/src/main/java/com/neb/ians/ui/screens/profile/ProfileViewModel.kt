@@ -214,6 +214,7 @@ class ProfileViewModel @Inject constructor(
                 val isPrivate = profile.isLocked == 1 && profile.isSelf != true && !_uiState.value.isFollowing
                 if (!isPrivate) {
                     loadPosts(reset = true)
+                    if (!_uiState.value.resourcesLoaded) loadResources(reset = true)
                 }
             } catch (e: Exception) {
                 if (_uiState.value.profile == null) {
@@ -263,20 +264,18 @@ class ProfileViewModel @Inject constructor(
         val isPrivate = _uiState.value.profile?.isLocked == 1 && _uiState.value.profile?.isSelf != true && !_uiState.value.isFollowing
         if (!isPrivate) {
             when (index) {
-                0 -> {
-                    if (!_uiState.value.postsLoaded) {
-                        loadPosts(reset = true)
-                    }
+                ProfileTab.OVERVIEW -> {
+                    if (!_uiState.value.postsLoaded) loadPosts(reset = true)
+                    if (!_uiState.value.resourcesLoaded) loadResources(reset = true)
                 }
-                1 -> {
-                    if (!_uiState.value.repliesLoaded) {
-                        loadReplies(reset = true)
-                    }
+                ProfileTab.POSTS -> {
+                    if (!_uiState.value.postsLoaded) loadPosts(reset = true)
                 }
-                2 -> {
-                    if (!_uiState.value.resourcesLoaded) {
-                        loadResources(reset = true)
-                    }
+                ProfileTab.REPLIES -> {
+                    if (!_uiState.value.repliesLoaded) loadReplies(reset = true)
+                }
+                ProfileTab.RESOURCES -> {
+                    if (!_uiState.value.resourcesLoaded) loadResources(reset = true)
                 }
             }
         }

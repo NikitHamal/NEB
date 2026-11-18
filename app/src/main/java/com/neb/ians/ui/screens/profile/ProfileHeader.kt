@@ -108,7 +108,6 @@ fun ProfileHeader(
     onCoverPicked: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
-    var showCovers by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
     val scheme = MaterialTheme.colorScheme
     val badge = remember(profile) { buildBadgeInfo(profile) }
     val preset = remember(profile) { bannerPresetFor(profile) }
@@ -118,15 +117,6 @@ fun ProfileHeader(
     val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
 
     Column(modifier = modifier.fillMaxWidth()) {
-        if (showCovers && onCoverPicked != null) {
-            CoverPickerSheet(
-                currentId = profile.coverArt,
-                onPick = { onCoverPicked(it); showCovers = false },
-                onDefault = { onCoverPicked(""); showCovers = false },
-                onDismiss = { showCovers = false }
-            )
-        }
-
         // Banner, with the avatar and the primary action straddling its
         // bottom edge. Nothing clips here, so the avatar can hang below.
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -138,18 +128,6 @@ fun ProfileHeader(
                 modifier = Modifier.fillMaxWidth(),
                 coverArt = profile.coverArt
             )
-            // Back and utilities sit on the cover, the app bar only returns once the page is scrolled.
-            Row(
-                modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 14.dp, vertical = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                CoverButton(androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack, "Back", onBack)
-                Spacer(Modifier.weight(1f))
-                if (isSelf && onCoverPicked != null) CoverButton(Icons.Outlined.Palette, "Change cover") { showCovers = true }
-                if (onAnalytics != null) CoverButton(Icons.Outlined.BarChart, "Analytics", onAnalytics)
-                CoverButton(Icons.Outlined.Link, "Copy profile link", onCopyLink)
-            }
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -595,16 +573,4 @@ fun ProfileHeaderSkeleton(modifier: Modifier = Modifier) {
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
     }
-}
-
-/** 40dp round-rect button on the cover, tinted by the page so it reads on any art. */
-@Composable
-private fun CoverButton(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
-    val scheme = MaterialTheme.colorScheme
-    Box(
-        modifier = Modifier.size(40.dp).clip(RoundedCornerShape(14.dp))
-            .background(scheme.surface.copy(alpha = 0.72f))
-            .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) { Icon(icon, contentDescription = label, tint = scheme.onSurface, modifier = Modifier.size(20.dp)) }
 }
