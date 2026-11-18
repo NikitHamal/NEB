@@ -2263,3 +2263,24 @@ History read first (`ANDROID_STATUS.md` 73 to 87). Resource thumbnails (v1 famil
 
 ## Next
 - On-device pass: settle on slow phones, Edit profile bar at 360dp, desktop profile at 900 to 1100px.
+
+---
+# Session 89: pickup of 88, note banners on one frame rule, backend deploy of 88
+
+History read first (`ANDROID_STATUS.md` 73 to 88). The request repeats 83 to 88. Audited in the code, nothing redone:
+
+- Resource thumbnails: `ResourceBannerArt` delegates to `M3xThumb` (v1 family pieces), the library card, the profile Resources rail and tab (`WebResourceCard`) and the web (`data-neb-art="banner"`, `js/pixel-art.js`) all draw the same piece from `id|type`. No profile cover is drawn for a resource.
+- Covers settle once (spring) on first show or pick, no loop, on app (`M3xArtView`, `NoteCoverBanner`) and web (`.m3a-settle`, resize redraws are `m3a-still`). Cover frame is a rectangle everywhere: app `profileCoverHeight` / `profileCoverAspect`, web 3:1 desktop and 2.2:1 phone.
+- Edit profile Back / Save bar is sticky on both. Desktop profile follows the concept (cover, photo on its edge, About left, tabs right).
+- Session 88's web and template changes were never deployed (the last deploy was `e4826f93`). Deployed this session through `deploy-backend.yml`; no schema change, nothing deleted from the database.
+
+| # | What | Where |
+| --- | --- | --- |
+| 462 | **Note banners 1 to 40: one rule for every frame.** Reference frame 1.9 : 1 (the editor). Shape size = 0.9 x min(width / 1.9, height): the reference frame shows exactly the drawn composition, a wider frame (card, strip) keeps the size it has at that height and spreads the centres, a taller one keeps the size it has at that width. The earlier area rule (`sqrt(w * h / 1.9)`) made card and strip shapes larger than the drawn size. Motion is skipped when system animations are off, like the library covers. Unit test `NoteCoverUnitTest`. | `NotePage.kt` (`noteCoverUnit`), `NoteCoverUnitTest.kt` |
+
+## Notes
+- Token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+- Never built locally: Android check is the GitHub Actions run.
+
+## Next
+- On-device pass: note banners in the card (60dp), picker (84dp) and editor (1.9 : 1) side by side.

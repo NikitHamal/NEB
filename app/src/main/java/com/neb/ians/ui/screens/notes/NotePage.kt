@@ -331,7 +331,18 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
 /** Width over height of the note editor's cover frame, the frame the 40 drawn banners are composed on. */
 const val NoteCoverFrameAspect = 1.9f
 
-/** The banner itself. Shapes settle in with a spring when the cover appears or changes. */
+/** Shape size at the reference frame, as a share of its height (the size the banners were drawn with). */
+private const val NoteCoverUnit = 0.9f
+
+/**
+ * The 40 drawn banners, one composition, any frame. The reference frame is the editor's (1.9 : 1). A frame of that shape shows
+ * it exactly; a wider one (a card, a strip) keeps the shapes the size they have at the same height and spreads their centres
+ * across the width; a taller one keeps them the size they have at the same width. So the size follows the frame's limiting side
+ * and a circle stays a circle, a cookie stays a cookie, at every size. Nothing is stretched, nothing is cropped away.
+ */
+internal fun noteCoverUnit(w: Float, h: Float): Float = NoteCoverUnit * minOf(w / NoteCoverFrameAspect, h)
+
+/** The banner itself. Shapes settle in with a spring when the cover appears or changes, once, never in a loop. */
 @Composable
 fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean = true) {
     if (NoteArtCovers.has(cover)) { NoteArtCover(cover, modifier, live = animate); return }
@@ -339,9 +350,10 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
     val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val pa = rememberGlyphPath(spec.a)
     val pb = rememberGlyphPath(spec.b)
-    val settle = remember(cover) { Animatable(if (animate) 0f else 1f) }
-    LaunchedEffect(cover) {
-        if (animate) settle.animateTo(1f, spring(dampingRatio = 0.62f, stiffness = Spring.StiffnessLow))
+    val motion = animate && !com.neb.ians.ui.theme.nebAnimationsReduced()
+    val settle = remember(cover, motion) { Animatable(if (motion) 0f else 1f) }
+    LaunchedEffect(cover, motion) {
+        if (motion) settle.animateTo(1f, spring(dampingRatio = 0.62f, stiffness = Spring.StiffnessLow))
     }
     val bg = spec.bg(dark)
     val ink = spec.ink(dark)
@@ -352,10 +364,7 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
         val fade = t.coerceIn(0f, 1f)
         val h = size.height
         val w = size.width
-        // The 40 banners are composed on the editor's frame (1.9 : 1). In any other frame the shapes keep the same share of the
-        // frame's AREA (u = sqrt(w * h / 1.9)), and their centres keep the same share of its width and height, so a card, a
-        // picker tile and the editor header all show the same composition at true proportion, never stretched or cropped.
-        val u = kotlin.math.sqrt(w * h / NoteCoverFrameAspect)
+        val u = noteCoverUnit(w, h)
         drawGlyph(
             pa, Offset(w * spec.ax, h * spec.ay), u * spec.asz * (0.55f + 0.45f * t), vivid,
             rotation = spec.ar - 40f * (1f - t), alpha = (if (dark) 0.5f else 0.85f) * fade,
