@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -90,7 +92,7 @@ fun ProfileBanner(
     coverArt: String? = null
 ) {
     BoxWithConstraints(modifier = modifier) {
-        val coverHeight = profileCoverHeight(maxWidth, androidx.compose.foundation.layout.WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
+        val coverHeight = profileCoverHeight(maxWidth, WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
 
         Box(
             modifier = Modifier
