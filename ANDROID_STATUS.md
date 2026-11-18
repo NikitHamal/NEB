@@ -2507,3 +2507,29 @@ History read first (`ANDROID_STATUS.md` 1 to 98, `TASK_AUTH_ONBOARDING_STATUS.md
 
 ## Next
 - On-device look at dark sign-in, the Campus step and the create menu with 1.7.8.
+
+---
+# Session 100: pickup audit of session 99 (same request sent again)
+
+History read first (`ANDROID_STATUS.md` 97 to 99). The request repeats session 99 point for point, so no code was redone.
+
+## Audited in the code
+
+| Request | Where it already lives |
+| --- | --- |
+| Sign-in and onboarding follow the app theme | `LoginScreen` and `NebJourneySurface` read `LocalNebAuthPalette`, which `NEBiansTheme` provides (`Theme.kt`) |
+| Awkward wraps | `LineBreak.Heading` / `LineBreak.Paragraph`, one-line step copy, tonal action rows (`NebAuthPrimitives.kt`) |
+| No 20% | campus picker says "On NEBians"; Pathways card and web card drop the bar |
+| Key names on the card | `views_pathways.py` returns labels plus `levelKeys`; app maps keys with `institutionLevelLabel` |
+| Institution page load | side-by-side fetch, in-memory last copy, own skeleton (`InstitutionsViewModel`, `InstitutionScreen`) |
+| Create menu near the right edge | `NebFabMenu.kt` offset and tighter gaps |
+
+## CI (latest on `main`)
+- `a9698441` Android release build (APK + AAB) green.
+- `a1963a4a` Backend tests green; Deploy Backend to cPanel green (additive read-only field, no migration, nothing deleted).
+
+## Notes
+- Never built locally. Token lives in `/tmp/gitenv.sh` only; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device look at dark sign-in, the Campus step, the create menu and the institution page with 1.7.8.
