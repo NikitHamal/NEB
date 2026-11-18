@@ -54,7 +54,7 @@ internal fun EditCoverSection(state: CompleteProfileUiState, viewModel: Complete
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Icon(Icons.Outlined.Palette, contentDescription = null, tint = scheme.onSurface, modifier = Modifier.size(18.dp))
-                Text("Change cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = scheme.onSurface)
+                Text("Change cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = scheme.onSurface, maxLines = 1)
             }
         }
     }
