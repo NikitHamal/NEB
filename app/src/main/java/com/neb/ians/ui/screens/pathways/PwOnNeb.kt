@@ -45,7 +45,7 @@ internal fun fetchOnNebText(): String? {
 }
 
 /** The server sends readable level names; an older payload sent the stored keys, so both read well. */
-internal fun levelLabel(key: String): String = when (key) {
+internal fun institutionLevelLabel(key: String): String = when (key) {
     "preprimary" -> "Pre-primary"; "basic_1_5" -> "Basic 1 to 5"; "basic_6_8" -> "Basic 6 to 8"
     "secondary_9_10" -> "Secondary 9 to 10"; "plus_two" -> "+2"; "a_level" -> "A Level"
     "diploma" -> "Diploma / TSLC"; "bachelor" -> "Bachelor's"; "master" -> "Master's"
@@ -105,7 +105,7 @@ internal fun PwOnNebSection(data: PwOnNebData?, courseSlugs: Set<String>, distri
                         if (p.admissionOpen) PwTag("Admissions open", pwTone(4))
                         if (p.slug in courseSlugs) PwTag("Offers this course", pwTone(0))
                         p.feeMin?.takeIf { it > 0 }?.let { PwTag("From ${lakhText(it / 100_000f)}", pwTone(1)) }
-                        p.levels.take(3).forEach { PwTag(levelLabel(it), pwTone(2)) }
+                        p.levels.take(3).forEach { PwTag(institutionLevelLabel(it), pwTone(2)) }
                     }
                     if (p.phone.isNotBlank()) Row(
                         Modifier.heightIn(min = 36.dp).clickable { runCatching { ctx.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + p.phone.filter { it.isDigit() || it == '+' }))) } },
