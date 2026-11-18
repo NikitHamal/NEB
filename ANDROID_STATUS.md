@@ -2324,3 +2324,5 @@ History read first (`ANDROID_STATUS.md` 83 to 90). Covers settle once (no loop) 
 
 ## Next
 - On-device pass: note banners at card (60dp), picker (84dp) and editor (1.9 : 1); profile cover at 360dp and 600dp.
+
+CI: `d03d2f65` Android release build (APK + AAB) green, Backend tests green; Deploy Backend to cPanel (run `44315256153`) green, no migration, no data touched.
