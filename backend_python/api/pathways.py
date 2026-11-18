@@ -519,6 +519,19 @@ def payload():
         for sid, more in w22['scholarship_extra'].items():
             by_sch[sid].update(more)
         faq_all = faq_all + w22['faq_add']
+    if (DATA / 'wave23.json').exists():
+        w23 = _load('wave23.json')
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, url in w23['scholarship_links'].items():
+            if not by_sch[sid].get('link'):
+                by_sch[sid]['link'] = url
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w23['abroad_update'].items():
+            abroad_by[aid].update(more)
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w23['route_next'].items():
+            route_by[rid]['next'] = list(dict.fromkeys(list(route_by[rid].get('next') or []) + more))
+        faq_all = faq_all + w23['faq_add']
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:

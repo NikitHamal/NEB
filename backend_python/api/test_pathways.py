@@ -1070,3 +1070,28 @@ class Wave22Tests(TestCase):
         for i in range(1, 41):
             self.assertIn(f'fw22-{i}', faq)
         self.assertEqual(pathways.problems(d), [])
+
+
+class Wave23Tests(TestCase):
+    """Wave 23: 35 live-verified scholarship links, EC portal student work and stay rules for Europe, PhD next steps, 14 FAQs."""
+
+    def test_wave23_links_abroad_next_and_faq(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertGreaterEqual(sum(1 for s in sch.values() if s.get('link')), 105)
+        for sid in ('s-eth-esop-ch', 's-vanier-ca', 's-nazarbayev-kz', 's-nus-ntu-sg'):
+            self.assertTrue(sch[sid]['link'].startswith('https://'), sid)
+        ab = {a['id']: a for a in d['abroad']}
+        self.assertEqual(ab['lt']['work_hours'], 20)
+        self.assertEqual(ab['cy']['work_hours'], 20)
+        self.assertIn('12 months', ab['lt']['stay_back'])
+        self.assertIn('9 months', ab['cz']['stay_back'])
+        self.assertIn('9 months', ab['lv']['stay_back'])
+        self.assertNotIn('40 hours a week once', ab['lt']['work'])
+        routes = {r['id']: r for r in d['routes']}
+        for rid in ('mbs', 'med', 'mtech', 'mca', 'msc-nursing', 'mpharm', 'msc-agri', 'msw', 'llm'):
+            self.assertIn('phd-route', routes[rid]['next'], rid)
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 15):
+            self.assertEqual(faq[f'fw23-{i}']['topic'], 'abroad')

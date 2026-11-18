@@ -1,0 +1,237 @@
+{
+ "scholarship_links": {
+  "s-danish-govt": "https://ufm.dk/en",
+  "s-ernst-mach-at": "https://oead.at/en",
+  "s-bi-norway": "https://www.bi.edu/",
+  "s-vanier-ca": "https://vanier.gc.ca/en/home-accueil.html",
+  "s-tipp-th": "https://tica-thaigov.mfa.go.th/en/",
+  "s-ktu-vmu-lt": "https://en.ktu.edu/",
+  "s-taltech-harno-ee": "https://harno.ee/en",
+  "s-spain-uc3m-bse": "https://www.uc3m.es/",
+  "s-fct-aveiro-pt": "https://www.fct.pt/en/",
+  "s-nl-maastricht-delft": "https://www.maastrichtuniversity.nl/",
+  "s-polimi-unibo-it": "https://www.unibo.it/en",
+  "s-taiwan-icdf": "https://www.icdf.org.tw/wSite/mp?mp=2",
+  "s-eth-esop-ch": "https://ethz.ch/students/en/studies/financial/scholarships/excellencescholarship.html",
+  "s-auckland-otago-nz": "https://www.auckland.ac.nz/en/study/scholarships-and-awards.html",
+  "s-ucd-tcd-ie": "https://www.tcd.ie/study/international/",
+  "s-hk-belt-road": "https://www.studyinhongkong.edu.hk/",
+  "s-kaist-ust-kr": "https://admission.kaist.ac.kr/intl-graduate/",
+  "s-ceu-debrecen-hu": "https://www.ceu.edu/admissions/financial-aid",
+  "s-koc-sabanci-tr": "https://www.sabanciuniv.edu/en",
+  "s-skoltech-hse-ru": "https://www.skoltech.ru/en",
+  "s-khalifa-nyuad-ae": "https://www.ku.ac.ae/",
+  "s-charles-masaryk-cz": "https://cuni.cz/UKEN-1.html",
+  "s-transilvania-ro": "https://www.unitbv.ro/en/",
+  "s-auw-iut-bd": "https://www.iutoic-dhaka.edu/",
+  "s-rtu-lu-latvia": "https://www.lu.lv/en/",
+  "s-tsmu-ug-georgia": "https://ug.edu.ge/en",
+  "s-auca-kg": "https://www.auca.kg/en/",
+  "s-nazarbayev-kz": "https://nu.edu.kz/",
+  "s-ateneo-dlsu-ph": "https://www.ateneo.edu/",
+  "s-ciu-emu-cyprus": "https://www.ciu.edu.tr/",
+  "s-mcast-gbs-malta": "https://www.mcast.edu.mt/",
+  "s-melbourne-sydney-au": "https://www.sydney.edu.au/scholarships/",
+  "s-ubc-mcgill-ca": "https://www.mccallmacbain.org/",
+  "s-deutschlandstipendium-de": "https://www.deutschlandstipendium.de/",
+  "s-nus-ntu-sg": "https://www.ntu.edu.sg/admissions/undergraduate/scholarships"
+ },
+ "abroad_update": {
+  "lt": {
+   "work": "Up to 20 hours a week in term time, not counted in the university summer holiday and not applied to doctoral students (European Commission EU Immigration Portal, Lithuania page). You need the temporary residence permit before you work: with only a national D visa you may not work during studies.",
+   "work_hours": 20,
+   "stay_back": "12 months on a temporary residence permit for job search or self-employment after graduation"
+  },
+  "lv": {
+   "work": "Up to 20 hours a week in term and up to 40 hours a week in study holidays; graduate and postgraduate students may work up to 40 hours a week (European Commission EU Immigration Portal, Latvia page).",
+   "stay_back": "Up to 9 months on a temporary residence permit to seek employment or start a business, applied for inside Latvia"
+  },
+  "mt": {
+   "work": "Students on courses at MQRIC level 5 and above may work up to 20 hours a week outside study time with an employment licence issued by Jobsplus; short courses at levels 1 to 4 also have a 20 hour cap (European Commission EU Immigration Portal, Malta page).",
+   "stay_back": "A residence permit of at least 9 months to seek employment or set up a business, plus an employment licence to work"
+  },
+  "cz": {
+   "work": "A long term study visa or permit lets you work without an Employee Card, Blue Card or work permit, with free access to the labour market while the permit is valid (European Commission EU Immigration Portal, Czechia page). Studies must stay the main purpose of your stay.",
+   "stay_back": "9 months on a residence permit to seek employment or start a business; it cannot be renewed (Ministry of the Interior rule on the EC page)"
+  },
+  "pl": {
+   "stay_back": "Up to 9 months on a temporary residence permit to look for work or start a business, only for graduates of Polish full time higher education (Study in Poland and EC Poland page)"
+  },
+  "at": {
+   "stay_back": "12 more months of legal stay to seek employment after graduation, applied for before the student permit ends (European Commission EU Immigration Portal, Austria page)"
+  },
+  "be": {
+   "stay_back": "Up to 12 months extension after studies to look for work or set up a company (European Commission EU Immigration Portal, Belgium page)"
+  },
+  "se": {
+   "stay_back": "Up to 12 months on a residence permit to look for work or start a business after a completed bachelor or master programme (Migrationsverket rule, as quoted by EnglishJobsSweden in September 2026); it cannot be extended"
+  },
+  "cy": {
+   "work": "Up to 20 hours a week, only in listed sectors such as restaurants, cleaning, health and social care, agriculture and manufacturing, and the employment contract must be certified by the Department of Labour (European Commission EU Immigration Portal, Cyprus page).",
+   "work_hours": 20
+  },
+  "ro": {
+   "work": "Part time work without a separate work authorisation for up to 4 hours a day (European Commission EU Immigration Portal, Romania page). After graduation you can extend your stay only with a full time work contract related to your field of study."
+  }
+ },
+ "route_next": {
+  "mbs": [
+   "mphil",
+   "phd-route"
+  ],
+  "med": [
+   "mphil",
+   "phd-route"
+  ],
+  "mtech": [
+   "phd-route"
+  ],
+  "mca": [
+   "phd-route"
+  ],
+  "msc-nursing": [
+   "phd-route"
+  ],
+  "mpharm": [
+   "phd-route"
+  ],
+  "msc-agri": [
+   "phd-route"
+  ],
+  "msw": [
+   "mphil",
+   "phd-route"
+  ],
+  "llm": [
+   "phd-route"
+  ]
+ },
+ "faq_add": [
+  {
+   "id": "fw23-1",
+   "topic": "abroad",
+   "q": "How many hours can a Nepali student work in Lithuania, and how long can I stay after graduating?",
+   "a": "Up to 20 hours a week in term time, not counted in the summer holiday set by the university and not applied to doctoral students. After graduating you can apply for a 12 month temporary residence permit for job search or self-employment. If you only hold a national D visa you may not work until you get the temporary residence permit (source: the European Commission EU Immigration Portal, Lithuania page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-2",
+   "topic": "abroad",
+   "q": "What are the student work limits in Latvia?",
+   "a": "Students may work up to 20 hours a week in term and up to 40 hours a week in study holidays. Graduate and postgraduate students may work up to 40 hours a week. After graduation you can apply for a temporary residence permit of up to 9 months to seek employment or start a business, from inside Latvia (source: the European Commission EU Immigration Portal, Latvia page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-3",
+   "topic": "abroad",
+   "q": "Can I work without a permit as a student in Czechia, and how long is the job search permit?",
+   "a": "Yes. A third country national with a valid residence permit or long term visa for studies may work without an Employee Card, Blue Card or work permit and has free access to the labour market while the permit is valid. After a successful graduation you can apply for a residence permit to seek employment or start a business, valid for 9 months and not renewable (source: the European Commission EU Immigration Portal, Czechia page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-4",
+   "topic": "abroad",
+   "q": "Is there a weekly work limit for international students in Malta?",
+   "a": "Yes. A student on a course at MQRIC level 5 or higher may work up to 20 hours a week outside study time with an employment licence issued by Jobsplus, and students on courses of 90 days or more at levels 1 to 4 also face a 20 hour weekly cap. After studies you may apply for a residence permit of at least 9 months to seek employment or set up a business (source: the European Commission EU Immigration Portal, Malta page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-5",
+   "topic": "abroad",
+   "q": "How long can I stay in Poland after finishing my degree to find a job?",
+   "a": "Graduates of full time higher education in Poland can apply for a temporary residence permit of up to 9 months to look for work or start a business. Students who only came to Poland on a mobility programme cannot use this route. Holders of a student visa or study permit may work without a separate work permit during studies (sources: Study in Poland portal and the EC Poland page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-6",
+   "topic": "abroad",
+   "q": "Can I stay in Sweden after my studies?",
+   "a": "Yes. After completing a bachelor or master programme you can apply, before your study permit expires, for a residence permit of up to 12 months to look for work or start a business. It cannot be extended, but if you find qualifying employment you can apply for a work permit (source: Migrationsverket rule as quoted by EnglishJobsSweden in September 2026).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-7",
+   "topic": "abroad",
+   "q": "How much can a student work in France, Italy and the Netherlands?",
+   "a": "France: up to 964 hours a year (60 percent of full time) without a work permit on a long stay student visa. Italy: 20 hours a week with a limit of 1,040 working hours in 52 weeks. Netherlands: paid work needs an employer TWV and is capped at 16 hours a week, or full time in June, July and August; self employed work needs no TWV (source: the European Commission EU Immigration Portal, each country page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-8",
+   "topic": "abroad",
+   "q": "What are the student work rules in Ireland, Finland and Hungary?",
+   "a": "Ireland: full time non EEA students on a listed course with Stamp 2 may work 40 hours a week in June, July, August, September and from 15 December to 15 January, and 20 hours a week at other times. Finland: an average of 25 hours a week during term, with no limit for work related to your degree. Hungary: up to 30 hours a week during the study period (source: the European Commission EU Immigration Portal, each country page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-9",
+   "topic": "abroad",
+   "q": "How many months do I get to look for a job after studying in Austria or Belgium?",
+   "a": "Austria: after completing your studies you can get written confirmation of legal stay for 12 more months to seek employment, applied for before the student permit expires. Belgium: you may ask to extend your stay by a maximum of 12 months to look for work or set up a company. During studies Belgium allows 20 hours a week (unlimited in school holidays) and Austria allows work with an employment permit, with no labour market test for 20 hours a week (source: the European Commission EU Immigration Portal, each country page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-10",
+   "topic": "abroad",
+   "q": "Can students work in Cyprus?",
+   "a": "Students may work up to 20 hours a week, but only in listed sectors such as domestic activities, restaurants, cleaning, health and social care, agriculture and manufacturing, and the employment contract must be certified by the Department of Labour (source: the European Commission EU Immigration Portal, Cyprus page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-11",
+   "topic": "abroad",
+   "q": "How many hours can I work in Romania as a student, and can I stay after graduating?",
+   "a": "You may work part time without a separate work authorisation for up to 4 hours a day. After graduating from a Romanian institution you can extend your stay for work only if you prove a full time work contract related to your field of study (source: the European Commission EU Immigration Portal, Romania page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-12",
+   "topic": "abroad",
+   "q": "How long can I stay in Germany after graduating?",
+   "a": "After graduation your residence permit may be extended for a maximum of one and a half years to look for a job open to non EU citizens that matches your qualification. During studies employed work of up to 120 full days (or 240 half days) a year is allowed by law, and more needs the consent of the Foreigners Authority (source: the European Commission EU Immigration Portal, Germany page).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-13",
+   "topic": "abroad",
+   "q": "Which European countries let students work without any weekly hour cap?",
+   "a": "Official pages say Czechia gives free access to the labour market and Poland (per the Study in Poland portal) sets no weekly hour cap for eligible full time students. Estonia lets student permit holders work without a work permit if the job does not interfere with studies. In all of them, studies must stay your main purpose or your permit can be at risk (source: the European Commission EU Immigration Portal and the Study in Poland portal).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw23-14",
+   "topic": "abroad",
+   "q": "Where do I check student work rules before paying an agent?",
+   "a": "Open the European Commission EU Immigration Portal (home-affairs.ec.europa.eu, student page of the country) and the country immigration authority, such as Migrationsverket in Sweden, the Ministry of the Interior in Czechia or the Migration Department in Lithuania. Rules change, so read the date on the page and ask your university international office the same question in writing.",
+   "go": [
+    "abroad-ms"
+   ]
+  }
+ ]
+}

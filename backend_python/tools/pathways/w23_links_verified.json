@@ -1,0 +1,142 @@
+{
+ "s-danish-govt": {
+  "url": "https://ufm.dk/en",
+  "title": "English — Forsknings-, Uddannelses- og Digitaliseringsministeriet"
+ },
+ "s-ernst-mach-at": {
+  "url": "https://oead.at/en",
+  "title": "OeAD, Agency for Education and Internationalisation"
+ },
+ "s-bi-norway": {
+  "url": "https://www.bi.edu/",
+  "title": "BI Norwegian Business School | BI"
+ },
+ "s-vanier-ca": {
+  "url": "https://vanier.gc.ca/en/home-accueil.html",
+  "title": "Vanier Canada Graduate Scholarships"
+ },
+ "s-tipp-th": {
+  "url": "https://tica-thaigov.mfa.go.th/en/",
+  "title": "Thailand International Cooperation Agency (TICA)"
+ },
+ "s-ktu-vmu-lt": {
+  "url": "https://en.ktu.edu/",
+  "title": "Home - Kaunas University of Technology | KTU"
+ },
+ "s-taltech-harno-ee": {
+  "url": "https://harno.ee/en",
+  "title": "Avaleht | Haridus- ja Noorteamet"
+ },
+ "s-spain-uc3m-bse": {
+  "url": "https://www.uc3m.es/",
+  "title": "UC3M"
+ },
+ "s-fct-aveiro-pt": {
+  "url": "https://www.fct.pt/en/",
+  "title": "Foundation for Science and Technology - FCT"
+ },
+ "s-nl-maastricht-delft": {
+  "url": "https://www.maastrichtuniversity.nl/",
+  "title": "The European university of the Netherlands | Maastricht University"
+ },
+ "s-polimi-unibo-it": {
+  "url": "https://www.unibo.it/en",
+  "title": "University of Bologna"
+ },
+ "s-taiwan-icdf": {
+  "url": "https://www.icdf.org.tw/wSite/mp?mp=2",
+  "title": "TaiwanICDF"
+ },
+ "s-eth-esop-ch": {
+  "url": "https://ethz.ch/students/en/studies/financial/scholarships/excellencescholarship.html",
+  "title": "Excellence Scholarship & Opportunity Programme – Student portal | ETH Zurich"
+ },
+ "s-auckland-otago-nz": {
+  "url": "https://www.auckland.ac.nz/en/study/scholarships-and-awards.html",
+  "title": "Scholarships and awards – University of Auckland"
+ },
+ "s-ucd-tcd-ie": {
+  "url": "https://www.tcd.ie/study/international/",
+  "title": "International Applicants - Study - Trinity College Dublin"
+ },
+ "s-hk-belt-road": {
+  "url": "https://www.studyinhongkong.edu.hk/",
+  "title": "Study in Hong Kong"
+ },
+ "s-kaist-ust-kr": {
+  "url": "https://admission.kaist.ac.kr/intl-graduate/",
+  "title": "(28)KAIST admissions"
+ },
+ "s-ceu-debrecen-hu": {
+  "url": "https://www.ceu.edu/admissions/financial-aid",
+  "title": "Funding Your Studies at CEU | Finanical Aid | Central European University"
+ },
+ "s-koc-sabanci-tr": {
+  "url": "https://www.sabanciuniv.edu/en",
+  "title": "Home Page | Sabancı Üniversitesi"
+ },
+ "s-skoltech-hse-ru": {
+  "url": "https://www.skoltech.ru/en",
+  "title": "Main | Skoltech"
+ },
+ "s-khalifa-nyuad-ae": {
+  "url": "https://www.ku.ac.ae/",
+  "title": "Top Ranked, Research-Intensive University in UAE - Khalifa University"
+ },
+ "s-charles-masaryk-cz": {
+  "url": "https://cuni.cz/UKEN-1.html",
+  "title": "Charles University"
+ },
+ "s-transilvania-ro": {
+  "url": "https://www.unitbv.ro/en/",
+  "title": "UNITBV"
+ },
+ "s-auw-iut-bd": {
+  "url": "https://www.iutoic-dhaka.edu/",
+  "title": "Islamic University of Technology"
+ },
+ "s-rtu-lu-latvia": {
+  "url": "https://www.lu.lv/en/",
+  "title": "University of Latvia"
+ },
+ "s-tsmu-ug-georgia": {
+  "url": "https://ug.edu.ge/en",
+  "title": "The University of Georgia"
+ },
+ "s-auca-kg": {
+  "url": "https://www.auca.kg/en/",
+  "title": "American University of Central Asia"
+ },
+ "s-nazarbayev-kz": {
+  "url": "https://nu.edu.kz/",
+  "title": "Nazarbayev University - Leading University in Central Asia & Kazakhstan"
+ },
+ "s-ateneo-dlsu-ph": {
+  "url": "https://www.ateneo.edu/",
+  "title": "Ateneo de Manila University | Pamantasang Ateneo de Manila"
+ },
+ "s-ciu-emu-cyprus": {
+  "url": "https://www.ciu.edu.tr/",
+  "title": "Open for open minds | Cyprus International University"
+ },
+ "s-mcast-gbs-malta": {
+  "url": "https://www.mcast.edu.mt/",
+  "title": "MCAST – The Malta College of Arts, Science & Technology"
+ },
+ "s-melbourne-sydney-au": {
+  "url": "https://www.sydney.edu.au/scholarships/",
+  "title": "University Scholarships - The University of Sydney"
+ },
+ "s-ubc-mcgill-ca": {
+  "url": "https://www.mccallmacbain.org/",
+  "title": "Homepage - McCall MacBain Foundation"
+ },
+ "s-deutschlandstipendium-de": {
+  "url": "https://www.deutschlandstipendium.de/",
+  "title": "Startseite - BMFTR Deutschlandstipendium"
+ },
+ "s-nus-ntu-sg": {
+  "url": "https://www.ntu.edu.sg/admissions/undergraduate/scholarships",
+  "title": "Scholarships and Awards | Undergraduate Admissions | NTU Singapore"
+ }
+}
