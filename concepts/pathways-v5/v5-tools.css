@@ -50,3 +50,4 @@
 @media(max-width:640px){.lane{grid-template-columns:96px 1fr}}
 .cmpx th{white-space:nowrap}.cmpx td{min-width:150px}
 .verdict{display:flex;gap:10px;align-items:center;padding:14px;border-radius:var(--r2);background:var(--tb);color:var(--tf)}
+.nmc svg.i{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}

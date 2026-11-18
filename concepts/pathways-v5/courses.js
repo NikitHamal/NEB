@@ -15,8 +15,10 @@
     rs = rs.filter(function (r) { return r._c.length; }).slice(0, 14);
     if (!rs.length) return ui.empty('No linked careers for these filters.');
     var cs = {}; rs.forEach(function (r) { r._c.forEach(function (c) { cs[c.id] = c; }); });
-    var carr = Object.keys(cs).map(function (k) { return cs[k]; }).sort(function (a, b) { return V.opp(b) - V.opp(a); }).slice(0, 16);
+    var carr = Object.keys(cs).map(function (k) { return cs[k]; }).sort(function (a, b) { return V.opp(b) - V.opp(a); });
     var sel = S.flow && V.R[S.flow] && rs.indexOf(V.R[S.flow]) >= 0 ? V.R[S.flow] : null, ok = sel ? sel.careers : null;
+    if (ok) carr.sort(function (a, b) { return (ok.indexOf(b.id) >= 0 ? 1 : 0) - (ok.indexOf(a.id) >= 0 ? 1 : 0); });
+    carr = carr.slice(0, Math.max(rs.length + 2, 16));
     return '<p class="sm mut" style="margin:4px 0 14px">Tap a course to see the careers it opens.</p><div class="flow" id="flow"><svg id="flowSvg" aria-hidden="true"></svg><div class="col"><h4>Courses</h4>' +
       rs.map(function (r) { var g = V.grp(r.group); return '<button data-act="flowPick" data-id="' + r.id + '" class="' + (sel ? (sel === r ? 'on' : 'dim') : '') + '" id="fr-' + r.id + '">' + M(g[1], 'sm') + '<span>' + E(r.name) + '</span></button>'; }).join('') + '</div><div class="col"><h4>Careers</h4>' +
       carr.map(function (c) { return '<button data-go="career/' + c.id + '" class="' + (ok ? (ok.indexOf(c.id) >= 0 ? 'on' : 'dim') : '') + '" id="fc-' + c.id + '"><span>' + E(c.name) + '</span></button>'; }).join('') + '</div></div>' +

@@ -82,3 +82,21 @@ History read first (`ANDROID_STATUS.md` 1 to 100, `docs/PATHWAYS_SCHEMA.md`). Co
 | 510 | **100 route journey plans (`route_plan`)**: populated curriculum-grounded 4-step `plan` lists for all 100 routes that had none, raising route Journey tab coverage from 24/124 to 124/124 (100%). | `w18_routes_a.py`, `w18_routes_b.py` |
 | 511 | **Five university & global entrance exams (`w18_more.py`)**: KUUMAT (`e-kuumat`, 100 MCQs, 0.25 negative marking, 50th percentile + interview, fee NPR 1,500), TU BA LL.B (`e-ballb`, 30 MCQ + 50 subjective + 20 creative writing = 100 marks, 570 seats, fee NPR 1,800, 23 Shrawan 2083), AFU Bachelor (`e-afu`, 120 MCQs in 90m, pass 60, fee NPR 3,000, 20 Bhadra 2083, linked to `bsc-agri`, `bvsc`, `bsc-forestry`, `bsc-horticulture-fisheries`), Digital SAT (`l-sat`, USD 111 = USD 68 + 43 in Nepal, 7 rounds/yr) and GRE General Test (`l-gre`, 1h 58m, USD 220 in Nepal). | `w18_more.py` |
 | 512 | **25 FAQs (`fw18-1` to `fw18-25`), merge and `Wave18Tests`**: covers NEC, NMCLE, NNC, NPC, Bar Council, NHPC, Bangladesh SAARC quota, Latvia VIAA, OSCE Academy Bishkek, Malta Get Qualified, France, Austria, Belgium, Spain, Italy, Malaysia EMGS, Singapore Tuition Grant bond, Taiwan, Poland, Kathmandu international schools, KUUMAT vs CMAT, TU BA LL.B, AFU 2083, Digital SAT and GRE. | `w18_faq.py`, `w18_more.py`, `build_wave18.py`, `pathways.py`, `test_pathways.py`, `docs/PATHWAYS_SCHEMA.md` |
+
+---
+
+# Session 102: Pathways v5 concept (web, GitHub Pages only, no Android change)
+
+History read first (`ANDROID_STATUS.md` 1 to 101, `NEBians-Pathways.html` v4, `docs/PATHWAYS_SCHEMA.md`). v4 and the shared `/api/pathways/` dataset were kept as is. v5 is a new standalone concept that borrows the best patterns of Shiksha, Collegedunia, Careers360, Edusanjal and CollegesNepal and runs on the same merged payload (no new figures, no duplicated data). Published at `gh-pages` as `pathways-v5.html` (featured on `index.html`).
+
+| # | What | Where |
+| --- | --- | --- |
+| 512 | **Shell**: icon rail on desktop, 4 tab bottom bar plus More on phones, one search box (Ctrl K or `/`) across courses, colleges, careers, exams, countries, grants, guides and answers, Light and Dark, flat tonal surfaces, no shadows, no gradients, no emojis. | `NEBians-Pathways-v5.html`, `v5-base.css`, `v5-ui.css`, `core.js`, `search.js` |
+| 513 | **Home**: stage picker (After 8, SEE, +2, Bachelor) with live panel, counters, open-this-month grants and exams, tools, best-outlook careers, fields, district jump. | `home.js` |
+| 514 | **Courses**: filter list (stage, field, fee cap, sort) and a **Flow** view that draws curves from a course to the careers it opens. Course page: journey, colleges (district, sector, map), careers, entry and exam, next steps, outlook ring. | `courses.js`, `course.js` |
+| 515 | **Colleges**: 456 places, 77 district map (reuses `pathways-map.js`), filters, show more, compare up to 3 (green marks the better row), college page with courses, fees, seats, similar places. | `colleges.js`, `college.js` |
+| 516 | **Careers**: ranked list and page with pay-by-experience slider, ladder, radar, licence link, exams, routes in. **Exams**: eligibility check by level and age, apply window strip, stages, quota. | `careers.js`, `exams.js` |
+| 517 | **Abroad and grants**: budget slider, test filter, country page with budget planner, visa timeline and "start paperwork by" month, intakes, grants; grant finder plus **year planner** of deadlines. | `abroad.js`, `schol.js` |
+| 518 | **Match** (5 steps, ranked with reasons), **Is it worth it** (cost, scholarship, loan, savings, break-even month and cash line), **My plan** (saved items, cost, deadlines, copy), **Guides and answers** (steps, days, fees, document checklist). | `match.js`, `roi.js`, `plan.js`, `help.js` |
+
+Data refresh: `python3 concepts/pathways-v5/build.py` rewrites `data.js` and `map-data.js` from `backend_python/api/pathways.py`. Checked with jsdom (every route and action) and a real headless browser on desktop and phone sizes. Publish: copy `NEBians-Pathways-v5.html` to `pathways-v5.html` and `concepts/pathways-v5/*` (not `build.py`) onto `gh-pages`.
