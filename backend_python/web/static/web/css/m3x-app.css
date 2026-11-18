@@ -2777,6 +2777,41 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 }
 @media (prefers-reduced-motion: reduce) { .cv-pick, .cv-close { transition: none; } }
 
+/* Overview: glance tiles and Studying now (api/profile_glance.py). Tonal fills, no shadow, finite radii. */
+.pv3-glance { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.pv3-gt { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 14px 16px; border-radius: 24px; transition: transform .35s var(--spring, ease); }
+.pv3-gt:active { transform: scale(.97); }
+.pv3-gt .material-symbols-outlined { font-size: 26px; flex: none; }
+.pv3-gt b { display: block; font-family: var(--display); font-size: 1.375rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.pv3-gt div span { display: block; font-size: .75rem; font-weight: 500; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv3-gt.c1 { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.pv3-gt.c2 { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.pv3-gt.c3 { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.pv3-study { margin-bottom: 16px; }
+.pv3-head { margin: 0 0 8px 4px; font-family: var(--display); font-size: 1rem; font-weight: 600; letter-spacing: -.02em; }
+.pv3-card { display: flex; overflow: hidden; border: 1px solid var(--md-outline-variant); border-radius: 24px; background: var(--md-surface-container-lowest); }
+.pv3-sa { position: relative; flex: 0 0 38%; min-height: 150px; }
+.pv3-sa .neb-art { position: absolute; inset: 0; }
+.pv3-chip { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); padding: 0 12px; height: 28px; line-height: 28px; border-radius: 14px; font-size: .75rem; font-weight: 600; background: var(--md-primary-container); color: var(--md-on-primary-container); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv3-sb { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+.pv3-title { color: var(--md-on-surface); font-weight: 600; font-size: .9375rem; line-height: 1.3; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pv3-title:hover { color: var(--md-primary); }
+.pv3-facts { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .8125rem; color: var(--md-on-surface-variant); }
+.pv3-facts span { display: inline-flex; align-items: center; gap: 4px; }
+.pv3-facts .material-symbols-outlined { font-size: 18px; }
+.pv3-week { display: flex; gap: 6px; align-items: flex-end; height: 56px; margin-top: auto; }
+.pv3-day { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; }
+.pv3-day i { display: block; width: 100%; max-width: 22px; height: calc(var(--h) * .6); min-height: 4px; border-radius: 8px; background: var(--md-surface-container-highest); }
+.pv3-day.now i { background: var(--md-primary); }
+.pv3-day span { font-size: .6875rem; font-weight: 500; color: var(--md-on-surface-variant); }
+@media (max-width: 600px) {
+  .pv3-glance { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .pv3-gt { flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px; border-radius: 20px; }
+  .pv3-gt b { font-size: 1.125rem; }
+  .pv3-gt div span { white-space: normal; }
+  .pv3-sa { flex-basis: 34%; }
+}
+
 /* ---- m3x/app-profile-feed.css ---- */
 /* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the
    name with its badge on one line, then category and time beneath. No Follow button here (the

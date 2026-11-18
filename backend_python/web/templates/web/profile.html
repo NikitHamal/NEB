@@ -360,6 +360,8 @@
           </div>
         {% endif %}
 
+        {% if not profile_user.is_bot %}{% include 'web/profile/_overview.html' %}{% endif %}
+
         {% comment %}
           ProfileScreen.kt's sticky tab rail: the same four labels with the same
           counts, the same divider underneath, and the same travelling container

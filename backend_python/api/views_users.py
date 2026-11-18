@@ -227,6 +227,8 @@ def user_profile_stats(request, username):
     stats['is_requested'] = is_requested
     stats['is_self'] = is_owner
     stats['is_private'] = False
+    from .profile_glance import build as build_glance
+    stats.update(build_glance(user))
     if is_owner and user.is_locked:
         from .models import FollowRequest
         stats['follow_requests_count'] = FollowRequest.objects.filter(receiver=user).count()

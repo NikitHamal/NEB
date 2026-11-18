@@ -350,7 +350,10 @@ def profile(request, username):
             }
     from .views_inst_folio import profile_extras
     extras = profile_extras(profile_user, is_self, bool(portfolio and (portfolio['sections'] or (portfolio['teacher'] or {}).get('past')))) if not profile_private else {'strength': None, 'inst': None}
+    from api.profile_glance import build as build_glance
+    overview = build_glance(profile_user) if not profile_private else {'glance': [], 'studying': None}
     return render(request, 'web/profile.html', _ctx(request,
+        overview=overview,
         portfolio=portfolio, strength=extras['strength'], inst_folio=extras['inst'],
         profile_user=profile_data,
         cover_choices=_cover_choices() if is_self else [],

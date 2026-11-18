@@ -1,0 +1,39 @@
+{% comment %}Profile v3 overview: three glance tiles, then Studying now. Data: api/profile_glance.py (public counts only).{% endcomment %}
+{% if overview.glance %}
+<section class="pv3-glance" aria-label="Overview">
+  {% for g in overview.glance %}
+  <div class="pv3-gt c{{ g.tone }}">
+    <span class="material-symbols-outlined" aria-hidden="true">{{ g.icon }}</span>
+    <div><b>{{ g.value }}</b><span>{{ g.label }}</span></div>
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
+{% if overview.studying %}
+{% with s=overview.studying %}
+<section class="pv3-study">
+  <h3 class="pv3-head">Studying now</h3>
+  <div class="pv3-card">
+    <div class="pv3-sa">
+      <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ s.subject }}" data-neb-seed="{{ s.postId }}|study"></div>
+      <span class="pv3-chip">{{ s.subject }}</span>
+    </div>
+    <div class="pv3-sb">
+      <a class="pv3-title" href="{% url 'web:forum_post' post_id=s.postId %}">{{ s.title }}</a>
+      <div class="pv3-facts">
+        <span><span class="material-symbols-outlined" aria-hidden="true">edit_note</span>{{ s.today }} today</span>
+        <span><span class="material-symbols-outlined" aria-hidden="true">local_fire_department</span>{{ s.streak }} day streak</span>
+      </div>
+      <div class="pv3-week" role="img" aria-label="Activity this week">
+        {% for n in s.week %}
+        <div class="pv3-day{% if forloop.counter0 == s.todayIndex %} now{% endif %}">
+          <i style="--h:{% if n > 6 %}100{% elif n > 0 %}{% widthratio n 6 100 %}{% else %}8{% endif %}%"></i>
+          <span>{% cycle 'M' 'T' 'W' 'T' 'F' 'S' 'S' %}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endwith %}
+{% endif %}
