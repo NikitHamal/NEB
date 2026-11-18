@@ -2346,3 +2346,5 @@ History read first (`ANDROID_STATUS.md` 83 to 91). Not redone: covers settle onc
 
 ## Next
 - On-device pass: note banners at card (54dp), picker (76dp) and editor (2.3 : 1).
+
+CI: `4196465b` Android release build (APK + AAB) green, Backend tests green; Deploy Backend to cPanel (run `44318061456`) green, smoke test passed, no migration, no data touched.
