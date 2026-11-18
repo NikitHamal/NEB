@@ -182,15 +182,10 @@ fun M3xCover(coverId: String?, username: String, modifier: Modifier = Modifier, 
     else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }
 
-/** A resource's thumbnail when it has no picture of its own: the v1 recipe for its subject family, drawn at 640 x 256. */
+/** A resource's thumbnail: the art library v3 `thumb` piece (study object on a calm backdrop), built by code for its box (v3art/V3Thumb.kt). */
 @Composable
 fun M3xThumb(seed: String, subject: String, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    val family = remember(subject) { subjectFamily(subject).name }
-    val variant = remember(seed) { ((stableSeed(seed) ushr 3) and 0x7FFFFFFF) % M3xArt.THUMB_VARIANTS }
-    val recipe = remember(family, variant) { M3xArt.thumbRecipe(context, family, variant) }
-    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 256.0, modifier, false)
-    else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
+    com.neb.ians.ui.components.v3art.V3Thumb(seed = seed, subject = subject, modifier = modifier)
 }
 
 /** One cover tile in the picker, drawn at its own size. */

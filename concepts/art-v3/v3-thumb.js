@@ -70,6 +70,8 @@
 
   function pal(base, k) { var P = A.palettes; return k % 3 === 0 ? base : P[(P.indexOf(base) + (k % 3) * 7 + k) % P.length]; }
 
+  A.thumbTables = { SUB: SUB, KW: KW, GENERIC: GENERIC, FILL: FILL, STYLES: STYLES, NO_OBJ: NO_OBJ };
+
   A.thumbPick = function (seed, subject) {
     var h = A.hash('v3thumb|' + seed + '|' + subject), s = (subject || '').toLowerCase(), name = null, i, j, pool;
     for (i = 0; i < KW.length && !name; i++) for (j = 0; j < KW[i][1].length; j++) if (s.indexOf(KW[i][1][j]) >= 0) { pool = KW[i][0]; name = typeof pool === 'string' ? pool : pool[(h >>> 12) % pool.length]; break; }

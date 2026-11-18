@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 
 /**
  * The library thumbnail of one resource as a small square, for list rows (downloads, saved, top resources).
- * Drawn by code from the M3X v1 art library, never a stored picture: the same piece the site and the library
- * card draw for this resource (seed = id and type, recipe = its subject family).
+ * Drawn by code from the M3X v3 art library (V3Thumb), never a stored picture: the same piece the site and the library
+ * card draw for this resource (seed = id and type, objects = its subject).
  */
 @Composable
 fun ResourceArtTile(
