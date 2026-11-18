@@ -444,6 +444,36 @@ def payload():
         for sid, more in w20['scholarship_extra'].items():
             by_sch[sid].update(more)
         faq_all = faq_all + w20['faq_add']
+    if (DATA / 'wave21.json').exists():
+        w21 = _load('wave21.json')
+        govt = govt + w21['govt_add']
+        route_by = {r['id']: r for r in routes}
+        for rid, eid in w21['route_exam'].items():
+            if not route_by[rid].get('exam_id'):
+                route_by[rid]['exam_id'] = eid
+        career_by = {c['id']: c for c in careers}
+        for cid, lic in w21.get('career_licence', {}).items():
+            career_by[cid]['licence'] = lic
+        guides = guides + w21['guides_add']
+        providers = providers + w21['providers_add']
+        by_provider = {x['id']: x for x in providers}
+        for rid, more in w21['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, rs in w21['route_seats'].items():
+            by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for pid, url in w21['provider_websites'].items():
+            if not by_provider[pid].get('website'):
+                by_provider[pid]['website'] = url
+        scholarships = scholarships + w21['scholarships_add']
+        abroad_by = {a['id']: a for a in abroad}
+        for sc in w21['scholarships_add']:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w21['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        faq_all = faq_all + w21['faq_add']
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
