@@ -2104,7 +2104,17 @@
   "p-bpkmch-nursing": "https://www.bpkmch.org.np",
   "p-w12-narayani-pi": "https://www.npictevt.edu.np",
   "p-nepalgunj-campus": "https://www.nepalgunjcollege.edu.np",
-  "p-samarpan": "https://www.tuicms.edu.np"
+  "p-samarpan": "https://www.tuicms.edu.np",
+  "p-cnrm-puranchaur": "https://afu.edu.np",
+  "p-cnrm-kapilakot": "https://afu.edu.np",
+  "p-cnrm-tikapur": "https://afu.edu.np",
+  "p-cnrm-pakhribas": "https://afu.edu.np",
+  "p-cnrm-bardibas": "https://afu.edu.np",
+  "p-cnrm-khajura": "https://afu.edu.np",
+  "p-cnrm-madichaur": "https://afu.edu.np",
+  "p-mmc-dharan": "https://tu.edu.np",
+  "p-harikhetan": "https://tu.edu.np",
+  "p-pu-medicine": "https://puexam.edu.np"
  },
  "websites_replace": {
   "p-doti": "https://domc.tu.edu.np",
