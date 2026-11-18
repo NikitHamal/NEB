@@ -889,3 +889,41 @@ class Wave19Tests(TestCase):
         for i in range(1, 26):
             self.assertIn(f'fw19-{i}', faq)
         self.assertEqual(pathways.problems(d), [])
+
+
+class Wave20Tests(TestCase):
+    """Wave 20: 5 new exams (NEA, NTC, RBB, EPS-TOPIK, Japan SSW), 5 new colleges, BTech Food quotas, 13 websites, 16 scholarship windows, 4 guides, 18 FAQs."""
+
+    def test_wave20_exams_and_guides(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        for eid, fee in (('g-nea', 1200), ('g-ntc', 700), ('g-rbb', 800), ('l-eps', 3850), ('l-ssw', 5000)):
+            self.assertEqual(govt[eid]['fee'], fee)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertEqual(routes['foreign-lang-work']['exam_id'], 'l-eps')
+        self.assertEqual(routes['abroad-ms']['exam_id'], 'l-gre')
+        self.assertEqual(routes['msc-cs']['exam_id'], 'e-ioe-msc')
+        guides = {g['id'] for g in d['guides']}
+        for gid in ('eps-korea-apply', 'ssw-japan-apply', 'somat-mba-apply', 'caan-cpl-licence'):
+            self.assertIn(gid, guides)
+
+    def test_wave20_providers_websites_scholarships_and_faqs(self):
+        d = pathways.payload()
+        by_p = {p['id']: p for p in d['providers']}
+        self.assertEqual(by_p['p-cafodat']['route_seats']['btech-food'], 48)
+        self.assertEqual(by_p['p-cct']['route_seats']['btech-food'], 48)
+        self.assertEqual(by_p['p-goldengate']['route_seats']['btech-food'], 24)
+        self.assertEqual(by_p['p-dibya-gyan']['website'], 'https://www.divyagyan.edu.np')
+        self.assertEqual(by_p['p-nist-lainchour']['website'], 'https://nist.edu.np')
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 350)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertGreaterEqual(len(routes['btech-food']['where']), 10)
+        self.assertIn('p-sirjana-arts', routes['bfa']['where'])
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-singa']['open'], [6, 12])
+        self.assertEqual(sch['s-jds-japan']['awards'], 22)
+        self.assertEqual(sch['s-clarendon']['awards'], 200)
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 19):
+            self.assertIn(f'fw20-{i}', faq)
+        self.assertEqual(pathways.problems(d), [])

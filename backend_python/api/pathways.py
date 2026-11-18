@@ -420,6 +420,26 @@ def payload():
         for aid, text in w19['abroad_note_add'].items():
             abroad_by[aid]['note'] = ((abroad_by[aid].get('note') or '').rstrip() + ' ' + text).strip()
         faq_all = faq_all + w19['faq_add']
+    if (DATA / 'wave20.json').exists():
+        w20 = _load('wave20.json')
+        govt = govt + w20['govt_add']
+        route_by = {r['id']: r for r in routes}
+        for rid, eid in w20['route_exam'].items():
+            route_by[rid]['exam_id'] = eid
+        guides = guides + w20['guides_add']
+        providers = providers + w20['providers_add']
+        by_provider = {x['id']: x for x in providers}
+        for rid, more in w20['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, rs in w20['route_seats'].items():
+            by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for pid, url in w20['provider_websites'].items():
+            if not by_provider[pid].get('website'):
+                by_provider[pid]['website'] = url
+        by_sch = {x['id']: x for x in scholarships}
+        for sid, more in w20['scholarship_extra'].items():
+            by_sch[sid].update(more)
+        faq_all = faq_all + w20['faq_add']
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
