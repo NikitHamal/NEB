@@ -997,3 +997,63 @@ class Wave21Tests(TestCase):
         for i in range(1, 31):
             self.assertIn(f'fw21-{i}', faq)
         self.assertEqual(pathways.problems(d), [])
+
+
+class Wave22Tests(TestCase):
+    """Wave 22: 12 new exams, 52 exams updated with fee/apply/exam_month (100% exam fee & apply coverage),
+    17 route exam links (123/124 routes), 6 guides, 12 new institutions, 24 websites, 12 new scholarships
+    (100% destinations have >= 2 scholarships), 30 scholarships enriched with numerical awards (100% coverage), 30 FAQs."""
+
+    def test_wave22_exams_100pct_fee_apply_and_route_links(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        for eid, fee in (
+            ('e-see', 500), ('e-neb-plus2', 1000), ('e-cambridge-ib', 75000), ('e-tu-fom-bbs', 800),
+            ('e-tu-foe-bed', 1200), ('e-nstb-skill', 1000), ('e-sainik-police-school', 1000), ('g-nac', 1000),
+            ('g-beema-sebon', 1000), ('g-foreign-service', 1000), ('g-revenue-service', 1000), ('l-cfa', 143550),
+        ):
+            self.assertEqual(govt[eid]['fee'], fee)
+        for g in d['govt']:
+            self.assertIsNotNone(g.get('fee'), g['id'])
+            self.assertGreater(g['fee'], 0, g['id'])
+            self.assertEqual(len(g.get('apply') or []), 2, g['id'])
+        self.assertEqual(govt['e-ioe']['fee'], 2000)
+        self.assertEqual(govt['e-ioe']['seats'], 4344)
+        self.assertEqual(govt['e-mecee']['fee'], 4000)
+        self.assertEqual(govt['e-mecee']['seats'], 8855)
+        self.assertEqual(govt['l-ielts']['fee'], 36200)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertEqual(routes['see-general']['exam_id'], 'e-see')
+        self.assertEqual(routes['plus2-science']['exam_id'], 'e-neb-plus2')
+        self.assertEqual(routes['a-levels']['exam_id'], 'e-cambridge-ib')
+        self.assertEqual(routes['bbs']['exam_id'], 'e-tu-fom-bbs')
+        self.assertEqual(routes['bed']['exam_id'], 'e-tu-foe-bed')
+        self.assertEqual(routes['skill-training']['exam_id'], 'e-nstb-skill')
+        self.assertEqual(routes['sports-cadet-school']['exam_id'], 'e-sainik-police-school')
+        self.assertEqual(routes['aviation-cabin-crew']['exam_id'], 'g-nac')
+        self.assertGreaterEqual(sum(1 for r in d['routes'] if r.get('exam_id')), 123)
+        guides = {g['id'] for g in d['guides']}
+        for gid in ('nstb-skill-test', 'cfa-nepal-register', 'camb-alevel-nepal', 'sainik-school-apply', 'nea-ntc-apply', 'foreign-revenue-psc'):
+            self.assertIn(gid, guides)
+
+    def test_wave22_providers_websites_scholarships_and_faqs(self):
+        d = pathways.payload()
+        by_p = {p['id']: p for p in d['providers']}
+        self.assertEqual(by_p['p-mrc-tahachal']['route_seats']['bicte'], 72)
+        self.assertEqual(by_p['p-sanothimi-campus']['route_seats']['bicte'], 72)
+        self.assertEqual(by_p['p-dhaulagiri-pi']['route_seats']['dip-geomatics'], 48)
+        self.assertEqual(by_p['p-mahuregadhi-pi']['route_seats']['dip-forestry'], 40)
+        self.assertEqual(by_p['p-himalayan-geomatic']['website'], 'https://www.surveycollegenepal.edu.np')
+        self.assertEqual(by_p['p-eastern-coe']['website'], 'https://eascoll.edu.np')
+        self.assertEqual(by_p['p-ncft']['website'], 'https://namuna.edu.np')
+        self.assertEqual(by_p['p-surkhet-mc']['website'], 'https://sc.tu.edu.np')
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 410)
+        for a in d['abroad']:
+            self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
+        for s in d['scholarships']:
+            self.assertIsInstance(s.get('awards'), int, s['id'])
+            self.assertGreater(s['awards'], 0, s['id'])
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 31):
+            self.assertIn(f'fw22-{i}', faq)
+        self.assertEqual(pathways.problems(d), [])

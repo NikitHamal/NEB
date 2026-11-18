@@ -1,0 +1,2024 @@
+{
+ "govt_add": [
+  {
+   "id": "e-see",
+   "track": "ent_dip",
+   "name": "SEE (Secondary Education Examination, National Examinations Board Grade 10)",
+   "level": "National Grade 10 board examination for transition to +2, A Levels, IB or 3 year CTEVT Diploma/PCL",
+   "need": "Completion of Class 9 registration and Class 10 regular or open-school attendance with at least 75 percent attendance",
+   "age": "No statutory age bar (Previously 14 years minimum; lifted by NEB)",
+   "body": "National Examinations Board (NEB), Sanothimi, Bhaktapur",
+   "stages": [
+    [
+     "Written Board Examination (75 marks theory per subject, 3 hours)",
+     "National written papers across Compulsory English, Compulsory Nepali, Compulsory Mathematics, Science and Technology, Social Studies and two Optional papers; minimum 35 percent (27 out of 75 = Grade D) required in each theory paper under Letter Grading Directive 2078.",
+     "75"
+    ],
+    [
+     "Internal / Practical Assessment (25 marks per subject) and Grade Upgrade (Chance) Exam",
+     "School practical and continuous assessment (minimum 40 percent = Grade C required); students scoring NG (Non-Graded) in any subject sit the NEB Grade Increment (Supplementary) exam in Shrawan/Bhadra.",
+     "25"
+    ]
+   ],
+   "subjects": [
+    "Compulsory English, Compulsory Nepali, Compulsory Mathematics (100 marks full written)",
+    "Science and Technology, and Social Studies",
+    "Optional I (Additional Mathematics, Economics, Population, History, Geography or Computer) and Optional II (Computer Science, Accountancy, Education, Health or Technical stream papers)"
+   ],
+   "prep": [
+    "Secure at least 27 out of 75 (35 percent) in every theory paper; scoring below 35 percent in even one subject results in NG (Non-Graded) on the SEE gradesheet",
+    "Practise NEB CDC model question sets for Compulsory Mathematics and Science, where the highest NG rates occur",
+    "Aim for GPA 2.0+ with C in Science and Mathematics if you plan to enter +2 Science or CTEVT Health/Engineering diplomas"
+   ],
+   "note": "Over 500,000 students sit SEE annually in Chaitra (March/April); the NEB registration and exam revenue stamp fee is NPR 500 (schools may charge small processing/practical fees).",
+   "prep_hours": 400,
+   "fee": 500,
+   "seats": 500000,
+   "apply": [
+    11,
+    1
+   ],
+   "exam_month": 3
+  },
+  {
+   "id": "e-neb-plus2",
+   "track": "ent_sci",
+   "name": "NEB Class 11 Enrollment and Class 12 National Board Examination (+2)",
+   "level": "Higher Secondary (+2 Science, Management, Humanities, Education, Law and Sanskrit) college entrance and Grade 12 national board exam",
+   "need": "SEE pass (minimum GPA 1.6 overall; selective +2 Science colleges require GPA 2.8 to 3.6 with C+ in Science and Mathematics)",
+   "age": "No age limit",
+   "body": "National Examinations Board (NEB), Sanothimi and Metropolitan / Municipal Scholarship Committees (such as KMC Entrance)",
+   "stages": [
+    [
+     "College / Municipal Scholarship Entrance Test (100 marks)",
+     "After SEE results in Ashadh, selective +2 colleges (St. Xavier, SOS, Budhanilkantha, Sainik, Prasadi, Trinity, KMC) and metropolitan scholarship portals (such as Kathmandu Metropolitan City 10 percent scholarship exam) hold a 100 MCQ entrance test.",
+     "100"
+    ],
+    [
+     "NEB Grade 11 (School Evaluated) and Grade 12 National Board Examination",
+     "3 hour written theory papers (75 marks, minimum 35 percent = Grade D pass) plus 25 marks practical/internal (minimum 40 percent = Grade C pass) held in Baisakh (April/May).",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Compulsory English (Grade 11 and 12), Compulsory Nepali and Social Studies / Life Skill Education (or Mathematics)",
+    "Science stream: Physics, Chemistry, Mathematics and Biology or Computer Science",
+    "Management, Humanities, Education and Law stream electives (Accountancy, Economics, Business Studies, Finance, Computer, Pedagogy, Constitutional Law, Jurisprudence)"
+   ],
+   "prep": [
+    "Apply for the municipal 10 percent institutional school scholarship test (such as KMC metro.kathmandu.gov.np) within 15 days of SEE results for a 100 percent free +2 seat",
+    "In Grade 12 boards, ensure at least C grade (50 percent aggregate) in Physics, Chemistry and Biology/Maths to remain eligible for MECEE-BL and IOE BE entrances"
+   ],
+   "note": "NEB registration fee is NPR 400 in Class 11 and board exam fee is NPR 600 in Class 12 (total NPR 1,000 official NEB fee; Grade Increment chance exam is NPR 600 per paper).",
+   "prep_hours": 500,
+   "fee": 1000,
+   "seats": 490000,
+   "apply": [
+    6,
+    7
+   ],
+   "exam_month": 4
+  },
+  {
+   "id": "e-cambridge-ib",
+   "track": "ent_sci",
+   "name": "Cambridge International AS and A Level and IB Diploma Examinations (Nepal)",
+   "level": "Two year international pre-university qualification (equivalent to NEB +2 upon TU / CDC equivalence)",
+   "need": "SEE, GCSE / IGCSE or CBSE Grade 10 with strong English and subject grades (GPA 2.8 to 3.6+ at selective A Level schools)",
+   "age": "15 to 20 years (Private candidates of any age may sit Cambridge exams through British Council Nepal)",
+   "body": "Cambridge Assessment International Education (via British Council Nepal) and International Baccalaureate Organization (IB)",
+   "stages": [
+    [
+     "School Entrance Test and Interview (St. Xavier, Rato Bangala, Budhanilkantha, Chelsea, Trinity, Malpi, Ullens)",
+     "Written aptitude test in English, Mathematics and Science/Reasoning followed by student and parent interview in June/July.",
+     "100"
+    ],
+    [
+     "Cambridge AS & A Level Series (May/June and Oct/Nov) or IB Diploma Final Assessment",
+     "Minimum 3 full A Level subjects plus AS English General Paper (3.5 credits) required for Tribhuvan University / CDC Class 12 equivalence; IB Diploma requires 6 subjects (3 HL + 3 SL) plus TOK, CAS and Extended Essay (minimum 24 of 45 points).",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "AS Level English General Paper (8021) plus 3 or 4 A Level subjects (Physics 9702, Chemistry 9701, Biology 9700, Mathematics 9709, Further Maths, Computer Science, Economics, Accounting, Business, Psychology, Sociology)",
+    "IB Diploma: Studies in Language and Literature, Language Acquisition, Individuals and Societies, Sciences, Mathematics and the Arts"
+   ],
+   "prep": [
+    "Always take AS English General Paper alongside at least 3 full A Level subjects so CDC / TU grants smooth +2 equivalence in Nepal",
+    "Science students targeting MECEE-BL (MBBS) or IOE BE must take Physics, Chemistry and Biology/Mathematics at full A Level and obtain CDC equivalence before entrance counselling",
+    "Private candidates can register directly at britishcouncil.org.np without paying private college tuition"
+   ],
+   "note": "British Council Nepal standard exam registration costs about NPR 18,000 to 25,000 per AS/A Level subject (about NPR 75,000 across 3 A Levels + GP).",
+   "prep_hours": 600,
+   "fee": 75000,
+   "apply": [
+    1,
+    8
+   ],
+   "exam_month": 5
+  },
+  {
+   "id": "e-tu-fom-bbs",
+   "track": "ent_biz",
+   "name": "TU Faculty of Management (FoM) BBS Campus Admission and Annual Board Exam",
+   "level": "Four year annual system Bachelor of Business Studies (BBS) across TU constituent and community/private campuses",
+   "need": "+2 or equivalent in any stream with at least D+ grade in each subject (minimum CGPA 1.8 or Second Division 45 percent)",
+   "age": "No upper age limit",
+   "body": "Tribhuvan University, Faculty of Management (FoM) and Office of the Controller of Examinations (Balkhu)",
+   "stages": [
+    [
+     "Campus Admission Form and Screening Test / Interview",
+     "Constituent campuses (Shanker Dev, Nepal Commerce Campus, Patan, Prithvi Narayan, Mahendra Morang) and community campuses screen applicants on +2 GPA and a campus aptitude test/interview in Bhadra/Ashwin.",
+     "100"
+    ],
+    [
+     "Four Annual TU Controller of Examinations (OCE) Board Assessments (Year 1 to Year 4)",
+     "100 mark annual written board exams per subject plus 50 mark Fourth Year Final Project Report and viva.",
+     "500"
+    ]
+   ],
+   "subjects": [
+    "Business English, Business Economics, Business Statistics, Principles of Management and Financial Accounting (Year 1)",
+    "Cost and Management Accounting, Business Law, Fundamentals of Financial Management, Taxation and Auditing (Years 2 and 3)",
+    "Entrepreneurship, Business Research Methods, Final Project Report and 3 Concentration Papers (Finance, Account, Marketing or Management in Year 4)"
+   ],
+   "prep": [
+    "Apply to Shanker Dev, Nepal Commerce Campus or your district QAA community campus immediately after Grade 12 results",
+    "Unlike BBA/BIM, BBS does not require central CMAT, making it the most affordable recognized 4 year management degree for Lok Sewa, banking and CA/ACCA parallel study"
+   ],
+   "note": "Campus admission form fee is NPR 500 to 1,000; total 4 year BBS tuition at TU constituent campuses is NPR 35,000 to 60,000.",
+   "prep_hours": 40,
+   "fee": 800,
+   "apply": [
+    7,
+    9
+   ],
+   "exam_month": 9
+  },
+  {
+   "id": "e-tu-foe-bed",
+   "track": "ent_biz",
+   "name": "TU Faculty of Education (FoE) BEd, 1-Year BEd and MEd Entrance Exam",
+   "level": "Four year BEd, 1-Year BEd (for non-education Bachelor graduates) and 2 year semester MEd",
+   "need": "+2 or equivalent with CGPA 1.8 / D+ for 4 year BEd; any 3 or 4 year Bachelor degree for 1-Year BEd; BEd with minimum pass division/CGPA for 2 year MEd",
+   "age": "No upper age limit",
+   "body": "Tribhuvan University, Faculty of Education (FoE), Balkhu",
+   "stages": [
+    [
+     "Campus Admission (4 year / 1 year BEd) or Central FoE MEd Entrance Test (100 marks)",
+     "4 year BEd and 1-year BEd admit via campus screening at Mahendra Ratna Campus Tahachal, Sanothimi Campus and regional campuses; 2 year MEd requires a 100 MCQ FoE entrance exam (minimum 40 percent pass).",
+     "100"
+    ],
+    [
+     "Teaching Practice (Practicum) and Semester / Annual Board Examinations",
+     "Compulsory school teaching internship, lesson plan portfolio and written examinations.",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Foundations of Education, Educational Psychology, Curriculum and Evaluation, and Teaching Pedagogy",
+    "Major and Minor specialization subjects (English, Nepali, Mathematics, Science, Health and Physical Education, ICT Education, Economics, Geography, History, Special Needs)",
+    "Classroom practicum, action research and instructional supervision"
+   ],
+   "prep": [
+    "Graduates of BSc, BBS, BCA or BA who want to sit the Teacher Service Commission (TSC) secondary teaching licence exam must complete the 1-Year BEd (or 2 year MEd) to fulfill the education training requirement",
+    "Apply at Mahendra Ratna Campus Tahachal (mrc.tu.edu.np) or Sanothimi Campus (sac.tu.edu.np) during the Bhadra/Mangsir admission call"
+   ],
+   "note": "Entrance/application fee is NPR 500 to 1,500; completing BEd or 1-Year BEd unlocks eligibility for the TSC teaching licence exam (g-tsc).",
+   "prep_hours": 60,
+   "fee": 1200,
+   "apply": [
+    7,
+    9
+   ],
+   "exam_month": 9
+  },
+  {
+   "id": "e-nstb-skill",
+   "track": "lic",
+   "name": "NSTB / NVQS National Skill Testing Board Competency Exam (Level 1, 2, 3 and 4)",
+   "level": "National Vocational Qualification System (NVQS) occupational skill certificate across 300+ trades",
+   "need": "390 hour training (or 1 year work experience) for Level 1; 1,692 hour training (or 1 year after Level 1 / Pre-Diploma) for Level 2; 3 year Diploma (or 2 years after Level 2) for Level 3",
+   "age": "16+ years",
+   "body": "National Skill Testing Board (NSTB / CTEVT), Sanothimi, Bhaktapur",
+   "stages": [
+    [
+     "Written / Oral Occupational Knowledge Test (20 percent weight)",
+     "Short objective and oral safety/theory check in Nepali or English covering trade tools, occupational safety and measurements.",
+     "20"
+    ],
+    [
+     "Practical Trade Performance Test (80 percent weight)",
+     "Hands-on demonstration of real occupational tasks (electrical wiring, plumbing, welding, culinary, caregiving, auto-mechanics, network cabling, tailoring) before certified NSTB assessors.",
+     "80"
+    ]
+   ],
+   "subjects": [
+    "Occupational health, workplace safety and tool handling",
+    "Practical trade execution against the NSTB National Occupational Skill Standard (NOSS)",
+    "Quality inspection, troubleshooting and time-bound task completion"
+   ],
+   "prep": [
+    "Download the free National Occupational Skill Standard (NOSS) for your trade from nstb.org.np to see the exact practical tasks graded by assessors",
+    "Candidates trained under CTEVT, ENSSURE, Event or municipal free skill quotas sit the Level 1 or Level 2 skill test free of charge"
+   ],
+   "note": "Per the NSTB tariff, self-financed Nepali citizens pay NPR 500 to 2,200 (Level 1 to Level 3), while donor/CTEVT quota trainees are tested free of cost. NSTB certificates are recognized by foreign employers and Lok Sewa technical posts.",
+   "prep_hours": 80,
+   "fee": 1000,
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 6,
+   "career": "electrician"
+  },
+  {
+   "id": "e-sainik-police-school",
+   "track": "ent_dip",
+   "name": "Sainik Awasiya Mahavidyalaya, Nepal Police School and Budhanilkantha School Entrance",
+   "level": "Residential scholarship and full-fee entry at Class 5/6, Class 9 and Class 11 (+2 Science / Management)",
+   "need": "Age and previous class pass certificate (Class 4/5 pass for junior entry; SEE pass with GPA 2.8 to 3.6+ for Class 11 +2 Science/Management)",
+   "age": "9 to 12 years for Class 5/6 entry; 15 to 18 years for Class 11 entry",
+   "body": "Nepali Army Welfare Directorate, Nepal Police Welfare Fund and Ministry of Education SEBS (Budhanilkantha School Scholarship)",
+   "stages": [
+    [
+     "Written Entrance Examination (100 marks)",
+     "Objective and short-answer papers in English, Nepali, Mathematics, Science and IQ/General Knowledge held in Chaitra/Baisakh (Class 5/6) and Ashadh (Class 11).",
+     "100"
+    ],
+    [
+     "Medical Fitness Check, Sports/Physical Screening and Interview",
+     "Physical height/weight/vision check and oral interview with parents.",
+     "25"
+    ]
+   ],
+   "subjects": [
+    "English, Nepali, Mathematics and Science from the preceding grade curriculum",
+    "Analytical IQ, general knowledge and sports/co-curricular aptitude"
+   ],
+   "prep": [
+    "For the 100 percent free Ministry of Education scholarship at Budhanilkantha School (Class 5 entry), apply through your District Education Development and Coordination Unit (EDCU) in Falgun/Chaitra",
+    "For Sainik Awasiya Mahavidyalaya (Bhaktapur, Pokhara, Surkhet, Dharan, Chitwan, Kailali, Bardibas, Sallaghari) and Nepal Police School (Sanga), check army/police quota vs civilian open merit seats"
+   ],
+   "note": "Application form fee is NPR 500 to 1,000; Budhanilkantha SEBS scholarship covers up to 100 percent of boarding and tuition for selected rural community school students.",
+   "prep_hours": 120,
+   "fee": 1000,
+   "apply": [
+    3,
+    6
+   ],
+   "exam_month": 4
+  },
+  {
+   "id": "g-nac",
+   "track": "psc",
+   "name": "Nepal Airlines Corporation (NAC) Cabin Crew, Officer and Ground Handling Lok Sewa Exam",
+   "level": "Cabin Crew (Air Hostess / Steward, Level 5), Senior Assistant (Level 5) and Officer (Level 6 / 7)",
+   "need": "+2 or equivalent in any stream with fluent English and Nepali, minimum height (158 cm female / 170 cm male), proportional BMI and clear vision for Cabin Crew; +2 for Level 5 Assistant; Bachelor degree for Level 6 Officer",
+   "age": "18 to 25 years for initial Cabin Crew contract/permanent entry; 18 to 35 years (up to 40 for women) for Level 4/5/6 administrative and technical posts",
+   "body": "Nepal Airlines Corporation (NAC) and Public Service Commission (Lok Sewa Aayog)",
+   "stages": [
+    [
+     "Physical Measurement, BMI, Vision and Preliminary Personality/Swimming Screening (Cabin Crew)",
+     "Height, weight, reach, eyesight, grooming and English communication screening at NAC Kantipath.",
+     "0"
+    ],
+    [
+     "Lok Sewa Written Examination (Paper 1 and Paper 2, 200 marks)",
+     "Objective MCQ and subjective papers on Aviation GK, NAC Act 2019, ICAO/CAAN safety regulations, customer service, English and management.",
+     "200"
+    ],
+    [
+     "Computer Test, Group Discussion and Final Interview",
+     "Practical/oral evaluation and medical fitness clearance under CAAN norms.",
+     "50"
+    ]
+   ],
+   "subjects": [
+    "Nepal Airlines Corporation Act 2019, CAAN civil aviation regulations, ICAO standards and aviation safety",
+    "Tourism geography of Nepal, international airport codes, ticketing, cargo and passenger hospitality",
+    "English comprehension, business correspondence, GK and reasoning"
+   ],
+   "prep": [
+    "Maintain CAAN Class II medical fitness, swimming ability and strong spoken English before the NAC notice opens",
+    "Study the Nepal Airlines Corporation Act 2019 and CAAN passenger/cabin safety manuals for the Lok Sewa written papers"
+   ],
+   "note": "Application fee at nepalairlines.com.np is NPR 800 for Level 4/5 and NPR 1,000 to 1,200 for Level 6/7 Officer.",
+   "prep_hours": 180,
+   "fee": 1000,
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 12,
+   "career": "hotelier"
+  },
+  {
+   "id": "g-beema-sebon",
+   "track": "fin",
+   "name": "Nepal Insurance Authority (Beema Pradhikaran), SEBON and Rastriya Beema Lok Sewa Exam",
+   "level": "Assistant (Level 4/5) and Assistant Director / Officer (Level 6) in Insurance and Capital Market Regulation",
+   "need": "+2 in Management/Economics for Assistant; Master degree in Economics, Management, Finance, Actuarial Science, Statistics or Chartered Accountancy / Bachelor in Law for Assistant Director (Officer Level 6)",
+   "age": "18 to 35 years for Assistant, 21 to 35 years for Officer (up to 40 years for women and persons with disabilities)",
+   "body": "Nepal Insurance Authority (NIA), Securities Board of Nepal (SEBON) and Lok Sewa Aayog",
+   "stages": [
+    [
+     "Written Examination: Paper 1 and Paper 2 (200 marks)",
+     "Lok Sewa written papers covering insurance law, actuarial/risk management, capital markets, securities regulation, economics, accounting and financial analysis.",
+     "200"
+    ],
+    [
+     "Computer Skill Test and Oral Interview",
+     "IT practical test (10 marks) and board interview (30 marks).",
+     "40"
+    ]
+   ],
+   "subjects": [
+    "Insurance Act 2079, Securities Act 2063, Nepal Rastra Bank Act, Company Act and AML/CFT directives",
+    "Risk management, reinsurance, underwriting, claim settlement, actuarial valuation and NEPSE capital market operations",
+    "Macroeconomics, financial statement analysis, NFRS and public enterprise management"
+   ],
+   "prep": [
+    "Memorize the Insurance Act 2079 (which replaced Beema Samiti with the Nepal Insurance Authority) and SEBON mutual fund/issue directives",
+    "Graduates of TU SMSTU Actuarial Science (BMathSc), MBA, MBS and CA have a strong edge in the quantitative and regulatory papers"
+   ],
+   "note": "Application fee at nia.gov.np and sebon.gov.np is NPR 800 for Assistant and NPR 1,000 for Assistant Director (+ NPR 200 to 400 per inclusive group).",
+   "prep_hours": 260,
+   "fee": 1000,
+   "apply": [
+    9,
+    11
+   ],
+   "exam_month": 1,
+   "career": "actuary-risk-analyst"
+  },
+  {
+   "id": "g-foreign-service",
+   "track": "psc",
+   "name": "Lok Sewa Foreign Affairs Service (Pararastra Sewa Section Officer and Nayab Subba)",
+   "level": "Gazetted Third Class (Section Officer / Diplomatic Attache) and Non-Gazetted First Class (Nayab Subba) in the Ministry of Foreign Affairs",
+   "need": "Bachelor degree in any discipline for Section Officer; +2 in any discipline for Nayab Subba",
+   "age": "21 to 35 years for Section Officer; 18 to 35 years for Nayab Subba (up to 40 years for women and persons with disabilities)",
+   "body": "Public Service Commission (Lok Sewa Aayog) and Ministry of Foreign Affairs (MoFA)",
+   "stages": [
+    [
+     "First Phase: Administrative Aptitude Test (100 marks MCQ Prelim)",
+     "Common 100 mark GK, IQ and English MCQ screening paper (45 pass mark, 20 percent negative marking).",
+     "100"
+    ],
+    [
+     "Second Phase: Common Papers (Governance + Contemporary Issues) and Foreign Service Specialized Paper (300 marks)",
+     "Two common 100 mark papers plus the 100 mark Foreign Service paper conducted in English on diplomacy, international law, geopolitical affairs and diplomatic drafting.",
+     "300"
+    ],
+    [
+     "In-Basket Exercise, Group Discussion, IT Skill Test and Interview",
+     "Assessment center tasks, foreign policy presentation and board interview.",
+     "60"
+    ]
+   ],
+   "subjects": [
+    "Foreign Policy of Nepal, UN Charter, Vienna Conventions on Diplomatic and Consular Relations, SAARC, BIMSTEC and WTO",
+    "International law, economic diplomacy, labour diplomacy, treaties, border management and LDC graduation of Nepal",
+    "English diplomatic note verbale, aide-memoire, press release drafting and speechwriting"
+   ],
+   "prep": [
+    "Unlike general Administration, the Foreign Service specialized paper must be answered in English; practise writing concise diplomatic notes and policy briefs",
+    "Tick Foreign Service alongside General Administration in the Mangsir Section Officer form (+ NPR 400 group fee)"
+   ],
+   "note": "Advertised annually on the last Wednesday of Mangsir (Section Officer, fee NPR 1,000 + NPR 400) and Poush (Nayab Subba, fee NPR 700 + NPR 300). Selected officers serve at MoFA Singha Durbar and Nepal embassies/missions abroad.",
+   "prep_hours": 420,
+   "fee": 1000,
+   "apply": [
+    11,
+    12
+   ],
+   "exam_month": 3,
+   "career": "civil-servant",
+   "quota_on": true
+  },
+  {
+   "id": "g-revenue-service",
+   "track": "psc",
+   "name": "Lok Sewa Revenue Service (Rajaswa Sewa Section Officer and Nayab Subba)",
+   "level": "Gazetted Third Class (Revenue Officer) and Non-Gazetted First Class (Nayab Subba) under Ministry of Finance (IRD and Customs)",
+   "need": "Bachelor degree in Management, Commerce, Business Administration, Economics, Law or Statistics (or CA) for Revenue Section Officer; +2 in Management, Commerce, Economics, Maths or Public Administration for Revenue Nayab Subba",
+   "age": "21 to 35 years for Section Officer; 18 to 35 years for Nayab Subba (up to 40 years for women and persons with disabilities)",
+   "body": "Public Service Commission (Lok Sewa Aayog) and Ministry of Finance (Inland Revenue Department & Department of Customs)",
+   "stages": [
+    [
+     "First Phase: Administrative Aptitude Test (100 marks MCQ Prelim)",
+     "Common 100 mark GK, IQ and English screening test.",
+     "100"
+    ],
+    [
+     "Second Phase: Common Papers and 100 mark Revenue Administration Specialized Paper (300 marks)",
+     "Two common 100 mark papers plus the 100 mark Revenue Service paper covering public finance, taxation, customs, auditing and fiscal policy.",
+     "300"
+    ],
+    [
+     "IT Skill Test, Group Discussion and Interview",
+     "Practical computer test and oral interview.",
+     "60"
+    ]
+   ],
+   "subjects": [
+    "Income Tax Act 2058, Value Added Tax (VAT) Act 2052, Excise Duty Act 2058 and Customs Act 2064",
+    "Public finance, fiscal policy, annual federal budget of Nepal, revenue leakage control and tax auditing",
+    "Financial accounting, NFRS, double taxation avoidance agreements (DTAA) and WTO customs valuation"
+   ],
+   "prep": [
+    "Study the latest Finance Act changes announced in the federal budget on 15 Jestha, as tax slabs and customs rates are tested directly",
+    "Management, Economics, CA and Law graduates can apply for both General Administration and Revenue Service in the same Mangsir form"
+   ],
+   "note": "Advertised annually in Mangsir (Section Officer, fee NPR 1,000 + NPR 400) and Poush (Nayab Subba, fee NPR 700 + NPR 300). Officers are posted to Inland Revenue Offices, Large Taxpayer Office and Customs offices nationwide.",
+   "prep_hours": 380,
+   "fee": 1000,
+   "apply": [
+    11,
+    12
+   ],
+   "exam_month": 3,
+   "career": "audit-tax-advisor",
+   "quota_on": true
+  },
+  {
+   "id": "l-cfa",
+   "track": "lic",
+   "name": "CFA (Chartered Financial Analyst) Level I, II and III Examinations",
+   "level": "Global investment management, equity research and portfolio management charter (3 exam levels + 4,000 hours work experience)",
+   "need": "Bachelor degree (or within 23 months of graduation from a 4 year Bachelor degree for Level I entry; must hold a Bachelor degree before sitting Level II) plus a valid international passport",
+   "age": "18+ years",
+   "body": "CFA Institute (USA) via Prometric Computer-Based Test Centers in Kathmandu",
+   "stages": [
+    [
+     "CFA Level I CBT (4.5 hours, 180 multiple choice questions)",
+     "Two 135 minute sessions (90 standalone MCQs each) covering Ethical and Professional Standards, Quantitative Methods, Economics, Financial Statement Analysis, Corporate Issuers, Equity, Fixed Income, Derivatives, Alternative Investments and Portfolio Management.",
+     "180"
+    ],
+    [
+     "CFA Level II Vignette CBT and Level III Portfolio Management / Essay CBT",
+     "Level II tests 88 item-set (vignette) MCQs on asset valuation; Level III combines item-set vignettes with constructed-response (essay) portfolio management cases plus a Practical Skills Module (Python/Financial Modeling).",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Ethical and Professional Standards (15 to 20 percent weight across all levels)",
+    "Financial Statement Analysis, Corporate Issuers, Equity Investments, Fixed Income, Derivatives and Alternative Investments",
+    "Quantitative Methods, Economics, Portfolio Management and Wealth Planning (plus Python or Financial Modeling Practical Skills Module)"
+   ],
+   "prep": [
+    "Register before the Early Bird deadline (6 to 7 months before the exam window) to save USD 300 per level",
+    "Apply for the CFA Institute Access Scholarship (open twice a year), which reduces the exam registration fee to USD 400 for selected Nepali candidates",
+    "Final year BBA, BBS, BMathSc and Economics students can sit Level I up to 23 months before graduation"
+   ],
+   "note": "Per the 2026 CFA Institute fee schedule (effective February 2026): the one-time enrollment fee is eliminated, Level I and II cost USD 990 (early) / USD 1,290 (standard), Level III costs USD 1,090 (early) / USD 1,390 (standard), and Access Scholarship recipients pay USD 400 (USD 990 is about NPR 1,43,550). Held in Feb, May, Aug and Nov in Kathmandu.",
+   "prep_hours": 900,
+   "fee": 143550,
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 5,
+   "career": "bank-officer"
+  }
+ ],
+ "govt_update": {
+  "g-kharidar": {
+   "fee": 500,
+   "apply": [
+    2,
+    3
+   ],
+   "exam_month": 5
+  },
+  "g-nayab": {
+   "fee": 700,
+   "apply": [
+    12,
+    1
+   ],
+   "exam_month": 2
+  },
+  "g-so": {
+   "fee": 1000,
+   "apply": [
+    11,
+    12
+   ],
+   "exam_month": 1
+  },
+  "g-eng": {
+   "fee": 1000,
+   "apply": [
+    10,
+    11
+   ],
+   "exam_month": 1
+  },
+  "g-police": {
+   "fee": 300,
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-army": {
+   "fee": 300,
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 11
+  },
+  "g-tsc": {
+   "fee": 1000,
+   "apply": [
+    12,
+    2
+   ],
+   "exam_month": 4
+  },
+  "g-bank": {
+   "fee": 800,
+   "apply": [
+    9,
+    12
+   ],
+   "exam_month": 2
+  },
+  "g-police-inspector": {
+   "fee": 1200,
+   "apply": [
+    9,
+    10
+   ],
+   "exam_month": 1
+  },
+  "g-police-asi": {
+   "exam_month": 12
+  },
+  "g-apf-asi": {
+   "fee": 500,
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-army-cadet": {
+   "fee": 1000,
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-nrb": {
+   "apply": [
+    11,
+    12
+   ],
+   "exam_month": 2
+  },
+  "g-staff-nurse": {
+   "fee": 700,
+   "apply": [
+    10,
+    12
+   ],
+   "exam_month": 2
+  },
+  "g-health-assistant": {
+   "fee": 700,
+   "apply": [
+    10,
+    12
+   ],
+   "exam_month": 2
+  },
+  "e-ioe": {
+   "fee": 2000,
+   "seats": 4344,
+   "apply": [
+    7,
+    8
+   ],
+   "exam_month": 8
+  },
+  "e-mecee": {
+   "fee": 4000,
+   "seats": 8855,
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 11
+  },
+  "e-ctevt": {
+   "fee": 1500,
+   "apply": [
+    7,
+    8
+   ],
+   "exam_month": 8
+  },
+  "l-ielts": {
+   "fee": 36200,
+   "exam_month": 6
+  },
+  "l-pte": {
+   "fee": 29700,
+   "exam_month": 6
+  },
+  "l-toefl": {
+   "fee": 29000,
+   "exam_month": 6
+  },
+  "l-det": {
+   "fee": 10150,
+   "exam_month": 6
+  },
+  "l-jlpt": {
+   "fee": 4000,
+   "apply": [
+    3,
+    9
+   ]
+  },
+  "l-topik": {
+   "fee": 4000,
+   "apply": [
+    1,
+    8
+   ],
+   "exam_month": 10
+  },
+  "l-goethe": {
+   "fee": 18000,
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 6
+  },
+  "l-hsk": {
+   "fee": 5000,
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 5
+  },
+  "e-nec": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 3
+  },
+  "e-nmcle": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 3
+  },
+  "e-nlen": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 3
+  },
+  "e-npc": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 4
+  },
+  "e-bar": {
+   "exam_month": 11
+  },
+  "e-nhpc": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 4
+  },
+  "l-sat": {
+   "exam_month": 10
+  },
+  "l-gre": {
+   "exam_month": 10
+  },
+  "l-gmat": {
+   "exam_month": 10
+  },
+  "g-nea": {
+   "apply": [
+    9,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-ntc": {
+   "exam_month": 1
+  },
+  "g-rbb": {
+   "apply": [
+    6,
+    8
+   ],
+   "exam_month": 10
+  },
+  "l-eps": {
+   "exam_month": 9
+  },
+  "l-ssw": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 10
+  },
+  "g-adbl": {
+   "apply": [
+    6,
+    8
+   ],
+   "exam_month": 10
+  },
+  "g-nbl": {
+   "apply": [
+    6,
+    8
+   ],
+   "exam_month": 10
+  },
+  "e-smstu": {
+   "apply": [
+    7,
+    8
+   ],
+   "exam_month": 9
+  },
+  "g-cit": {
+   "apply": [
+    9,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-ssf": {
+   "apply": [
+    9,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-epf": {
+   "apply": [
+    9,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-caan": {
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 12
+  },
+  "g-judicial": {
+   "exam_month": 2
+  },
+  "g-parliament-audit": {
+   "exam_month": 2
+  },
+  "e-acca": {
+   "exam_month": 6
+  },
+  "g-nid": {
+   "apply": [
+    8,
+    10
+   ],
+   "exam_month": 12
+  },
+  "l-delf-tcf": {
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 5
+  }
+ },
+ "route_exam": {
+  "see-general": "e-see",
+  "tvet-school": "e-see",
+  "open-school-see": "e-see",
+  "plus2-science": "e-neb-plus2",
+  "plus2-management": "e-neb-plus2",
+  "plus2-humanities": "e-neb-plus2",
+  "plus2-education": "e-neb-plus2",
+  "plus2-law": "e-neb-plus2",
+  "sanskrit-gurukul": "e-neb-plus2",
+  "a-levels": "e-cambridge-ib",
+  "bbs": "e-tu-fom-bbs",
+  "ba": "e-fohss-bachelor",
+  "bed": "e-tu-foe-bed",
+  "skill-training": "e-nstb-skill",
+  "sports-cadet-school": "e-sainik-police-school",
+  "aviation-cabin-crew": "g-nac",
+  "ingo-fellowship-route": "e-fohss-master"
+ },
+ "career_licence": {
+  "electrician": {
+   "name": "NSTB / NVQS National Skill Certificate (Level 1 to 3)",
+   "exam": "e-nstb-skill"
+  },
+  "bank-officer": {
+   "name": "NRB / Public Bank Officer Exam or CFA Charter",
+   "exam": "l-cfa"
+  }
+ },
+ "guides_add": [
+  {
+   "id": "nstb-skill-test",
+   "name": "Take the NSTB / CTEVT National Skill Test (Level 1, 2 or 3)",
+   "cat": "Study",
+   "steps": [
+    [
+     "Complete a 390 hour Level 1 or 1,692 hour Level 2 vocational course (or gather 1 to 2 years of documented trade work experience) and download the NOSS standard for your occupation from nstb.org.np",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Submit the skill test application form at an NSTB accredited testing center or CTEVT provincial office with citizenship, photos and training/experience letters",
+     2,
+     0,
+     "in person"
+    ],
+    [
+     "Pay the NSTB assessment fee of NPR 500 to 2,200 (waived for CTEVT/ENSSURE/municipal free quota trainees)",
+     1,
+     1000,
+     "in person"
+    ],
+    [
+     "Pass the 20 mark safety/theory check and 80 mark hands-on practical trade demonstration to receive your NVQS / NSTB National Skill Certificate",
+     14,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate and 3 passport size photos",
+    "390 hour / 1,692 hour training certificate or employer experience verification letter",
+    "Fee receipt (unless covered by free government/project quota)"
+   ],
+   "link": "exam:e-nstb-skill"
+  },
+  {
+   "id": "cfa-nepal-register",
+   "name": "Register for the CFA Level I Exam and Access Scholarship in Nepal",
+   "cat": "Study",
+   "steps": [
+    [
+     "Ensure you hold an international passport and either a Bachelor degree or are within 23 months of completing your 4 year Bachelor degree",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Create a CFA Institute account at cfainstitute.org and apply for the CFA Access Scholarship during the scholarship window to reduce the exam fee to USD 400",
+     14,
+     0,
+     "online"
+    ],
+    [
+     "Register for your chosen exam window (February, May, August or November) before the Early Bird deadline (USD 990 regular or USD 400 with Access Scholarship) using an international USD card or bank swift transfer",
+     2,
+     143550,
+     "online"
+    ],
+    [
+     "Schedule your Prometric computer-based test appointment in Kathmandu and complete the mandatory Practical Skills Module (Python or Financial Modeling) before results release",
+     30,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Valid international passport (name must match CFA profile character for character)",
+    "University enrollment verification or Bachelor transcript",
+    "International USD payment card or bank draft"
+   ],
+   "link": "exam:l-cfa"
+  },
+  {
+   "id": "camb-alevel-nepal",
+   "name": "Register for Cambridge A Levels and Obtain CDC / TU +2 Equivalence",
+   "cat": "Study",
+   "steps": [
+    [
+     "Select at least 3 full A Level subjects plus AS Level English General Paper (8021) so your subject combination meets the 3.5 credit CDC / Tribhuvan University equivalence rule",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Enroll at an approved Cambridge A Level school or register as a Private Candidate on britishcouncil.org.np for the May/June or October/November exam series",
+     3,
+     75000,
+     "online"
+    ],
+    [
+     "Sit your written and practical lab papers at the British Council Kathmandu examination venue and collect your official Statement of Results and Cambridge certificate",
+     60,
+     0,
+     "in person"
+    ],
+    [
+     "Submit your SEE and Cambridge A Level certificates at the Curriculum Development Centre (CDC, Sanothimi, Bhaktapur) to receive your Class 12 (+2) equivalence letter",
+     3,
+     1000,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Valid passport or citizenship certificate",
+    "SEE gradesheet and character certificate",
+    "Official Cambridge Statement of Results and A Level certificate"
+   ],
+   "link": "exam:e-cambridge-ib"
+  },
+  {
+   "id": "sainik-school-apply",
+   "name": "Apply for Sainik Awasiya Mahavidyalaya, Police School or Budhanilkantha Scholarship",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Watch for the annual Chaitra/Baisakh notice (Class 5/6 entry) or Ashadh post-SEE notice (Class 11 +2 Science/Management entry) on bsamv.edu.np, nps.edu.np and bnks.edu.np",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "For the 100 percent free Budhanilkantha SEBS Ministry scholarship, submit the community school verification and parental income/remote-district form at your District EDCU",
+     3,
+     0,
+     "in person"
+    ],
+    [
+     "Fill the online entrance form and pay the NPR 500 to 1,000 entrance fee via ConnectIPS, eSewa or bank voucher",
+     1,
+     1000,
+     "online"
+    ],
+    [
+     "Sit the 100 mark written test (English, Nepali, Maths, Science, IQ) followed by medical fitness screening and interview",
+     14,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Birth registration certificate and parents citizenship certificates",
+    "Previous class gradesheet / SEE gradesheet and school character certificate",
+    "Service verification letter (for Army/Police personnel quota) or community school verification (for SEBS scholarship)"
+   ],
+   "link": "exam:e-sainik-police-school"
+  },
+  {
+   "id": "nea-ntc-apply",
+   "name": "Apply for NEA (Electricity Authority) and Nepal Telecom Lok Sewa Exams",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Check the annual Bhadra/Ashwin (NEA) and Kartik (Nepal Telecom) vacancy notices on career.nea.org.np and recruit.ntc.net.np for your qualification (Level 3/4/5 Assistant/Technician or Level 6/7 Officer/Engineer)",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "For Level 7 Engineering posts, ensure your NEC Engineering Registration Certificate (e-nec) is issued before the application closing date",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Complete your online recruitment profile, upload citizenship, transcripts and inclusive quota certificates, and pay the NPR 700 to 1,200 exam fee via ConnectIPS, eSewa or Khalti",
+     1,
+     1000,
+     "online"
+    ],
+    [
+     "Download your admit card when Lok Sewa Aayog publishes the exam schedule and sit Paper 1 and Paper 2 followed by the interview",
+     45,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate and digital photo/signature",
+    "Academic transcripts, character certificates and NEC registration certificate (for Engineers)",
+    "Inclusive group certificate if applying under Samabesi quotas"
+   ],
+   "link": "exam:g-nea"
+  },
+  {
+   "id": "foreign-revenue-psc",
+   "name": "Apply for Lok Sewa Foreign Affairs (Pararastra) and Revenue Service (Rajaswa)",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Log in to psconline1.psc.gov.np on the last Wednesday of Mangsir (Section Officer) or Poush (Nayab Subba) when the unified Lok Sewa notice opens",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Tick Foreign Affairs Service (open to any Bachelor) and/or Revenue Service (open to Management, Economics, Law, Statistics or CA graduates) alongside General Administration",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Pay NPR 1,000 for the base Section Officer group plus NPR 400 for each additional service or inclusive cluster via ConnectIPS or eSewa",
+     1,
+     1400,
+     "online"
+    ],
+    [
+     "Pass the 100 mark Stage I MCQ Prelim, then sit the two common 100 mark papers plus the 100 mark specialized Foreign Service (in English) or Revenue Service paper",
+     60,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate",
+    "Bachelor (or +2 for Nayab Subba) transcript and character certificate",
+    "Inclusive quota certificate if claiming reserved seats"
+   ],
+   "link": "exam:g-foreign-service"
+  }
+ ],
+ "providers_add": [
+  {
+   "id": "p-mrc-tahachal",
+   "name": "Mahendra Ratna Campus, Tahachal (Tribhuvan University)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Kathmandu",
+   "place": "Tahachal, Kathmandu",
+   "website": "https://mrc.tu.edu.np",
+   "note": "Premier Tribhuvan University Faculty of Education constituent campus in Tahachal, Kathmandu offering 4 year BEd, 1-Year BEd, Bachelor in Information and Communication Technology Education (BICTE, 72 seats) and 2 year semester MEd across 12 subject specializations."
+  },
+  {
+   "id": "p-sanothimi-campus",
+   "name": "Sanothimi Campus (Tribhuvan University)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Bhaktapur",
+   "place": "Sanothimi, Bhaktapur",
+   "website": "https://sac.tu.edu.np",
+   "note": "Constituent campus of Tribhuvan University Faculty of Education in Sanothimi, Bhaktapur offering 4 year BEd, 1-Year BEd, BICTE (72 seats), Special Needs Education and MEd programmes."
+  },
+  {
+   "id": "p-cde-tu",
+   "name": "Central Department of Education, Tribhuvan University (Kirtipur)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Kathmandu",
+   "place": "Kirtipur, Kathmandu",
+   "website": "https://cded.tu.edu.np",
+   "note": "Apex postgraduate department of the TU Faculty of Education at Kirtipur offering 2 year MEd across 15 specializations, MPhil in Education and PhD in Education."
+  },
+  {
+   "id": "p-dhawalagiri-mc",
+   "name": "Dhawalagiri Multiple Campus (Tribhuvan University)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Baglung",
+   "place": "Baglung Bazaar, Baglung",
+   "website": "https://dmc.tu.edu.np",
+   "note": "Main Tribhuvan University constituent campus in Dhaulagiri zone (established 2019 BS in Baglung) offering BSc, BBA, BBS, BA, BEd, MBS, MA and MEd."
+  },
+  {
+   "id": "p-dadeldhura-mc",
+   "name": "Dadeldhura Multiple Campus (Tribhuvan University)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Dadeldhura",
+   "place": "Amargadhi, Dadeldhura",
+   "website": "https://dc.tu.edu.np",
+   "note": "Tribhuvan University constituent campus in Amargadhi, Dadeldhura serving hill districts of Sudurpashchim Province with 4 year BEd, BBS and 2 year MEd programmes."
+  },
+  {
+   "id": "p-jumla-mc",
+   "name": "Jumla Multiple Campus (Tribhuvan University)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Jumla",
+   "place": "Chandannath, Jumla",
+   "website": "https://jc.tu.edu.np",
+   "note": "Tribhuvan University constituent campus in Chandannath, Jumla offering 4 year BBS, BA and BEd programmes for students of upper Karnali Province."
+  },
+  {
+   "id": "p-myagdi-mc",
+   "name": "Myagdi Multiple Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Myagdi",
+   "place": "Beni, Myagdi",
+   "website": "https://myagdicampus.edu.np",
+   "note": "UGC QAA certified community campus in Beni, Myagdi affiliated with Tribhuvan University and NEB; offers +2, 4 year BBS, BA, BEd, BICTE and 2 year MBS."
+  },
+  {
+   "id": "p-dhaulagiri-pi",
+   "name": "Dhaulagiri Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Baglung",
+   "place": "Balewa, Baglung",
+   "website": "https://dpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Balewa, Baglung offering 3 year Diploma in Civil Engineering (48 seats), Diploma in Geomatics Engineering (48 seats) and Diploma in Agriculture."
+  },
+  {
+   "id": "p-mahuregadhi-pi",
+   "name": "Mahuregadhi Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Khotang",
+   "place": "Diktel Rupakot Majhuwagadhi, Khotang",
+   "website": "https://mpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Khotang offering 3 year Diploma in Civil Engineering (48 seats), Diploma in Forestry (40 seats) and short-term NSTB vocational training."
+  },
+  {
+   "id": "p-rolpa-pi",
+   "name": "Rolpa Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Rolpa",
+   "place": "Mewang, Rolpa Municipality, Rolpa",
+   "website": "https://rpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Mewang, Rolpa offering 3 year Diploma in Civil Engineering (48 seats), Diploma in Agriculture (Plant Science, 40 seats) and Animal Science (40 seats)."
+  },
+  {
+   "id": "p-bharatpur-pi",
+   "name": "Bharatpur Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Chitwan",
+   "place": "Prembasti, Bharatpur, Chitwan",
+   "website": "https://bpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Bharatpur, Chitwan offering 3 year Diploma in Civil Engineering (48 seats) and Diploma in Automobile Engineering (48 seats)."
+  },
+  {
+   "id": "p-annapurna-pi",
+   "name": "Annapurna Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Kaski",
+   "place": "Dhampus, Machhapuchchhre, Kaski",
+   "website": "https://api.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Dhampus, Kaski offering 3 year Diploma in Civil Engineering (48 seats), Diploma in Agriculture (Plant and Animal Science) and Hotel Management."
+  }
+ ],
+ "where_add": {
+  "bed": [
+   "p-mrc-tahachal",
+   "p-sanothimi-campus",
+   "p-dhawalagiri-mc",
+   "p-dadeldhura-mc",
+   "p-jumla-mc",
+   "p-myagdi-mc",
+   "p-surkhet-mc",
+   "p-mmc-dharan"
+  ],
+  "med": [
+   "p-cde-tu",
+   "p-mrc-tahachal",
+   "p-sanothimi-campus",
+   "p-dhawalagiri-mc",
+   "p-dadeldhura-mc",
+   "p-surkhet-mc"
+  ],
+  "bicte": [
+   "p-mrc-tahachal",
+   "p-sanothimi-campus",
+   "p-myagdi-mc",
+   "p-surkhet-mc"
+  ],
+  "mphil": [
+   "p-cde-tu",
+   "p-pu"
+  ],
+  "phd-route": [
+   "p-cde-tu",
+   "p-aafu"
+  ],
+  "bbs": [
+   "p-dhawalagiri-mc",
+   "p-dadeldhura-mc",
+   "p-jumla-mc",
+   "p-myagdi-mc",
+   "p-surkhet-mc",
+   "p-mmc-dharan"
+  ],
+  "ba": [
+   "p-dhawalagiri-mc",
+   "p-jumla-mc",
+   "p-myagdi-mc",
+   "p-surkhet-mc",
+   "p-mmc-dharan"
+  ],
+  "mbs": [
+   "p-dhawalagiri-mc",
+   "p-myagdi-mc",
+   "p-surkhet-mc",
+   "p-mmc-dharan"
+  ],
+  "bba": [
+   "p-dhawalagiri-mc"
+  ],
+  "bsc-science": [
+   "p-dhawalagiri-mc",
+   "p-mmc-dharan",
+   "p-surkhet-mc"
+  ],
+  "dip-civil-eng": [
+   "p-dhaulagiri-pi",
+   "p-mahuregadhi-pi",
+   "p-rolpa-pi",
+   "p-bharatpur-pi",
+   "p-annapurna-pi"
+  ],
+  "dip-geomatics": [
+   "p-dhaulagiri-pi"
+  ],
+  "dip-forestry": [
+   "p-mahuregadhi-pi",
+   "p-w12-karnali-ti",
+   "p-w12-rapti-ti"
+  ],
+  "dip-agriculture": [
+   "p-dhaulagiri-pi",
+   "p-rolpa-pi",
+   "p-annapurna-pi",
+   "p-w12-karnali-ti",
+   "p-w12-rapti-ti",
+   "p-w12-lahan-ti"
+  ],
+  "dip-mech-auto-arch": [
+   "p-bharatpur-pi",
+   "p-w12-bheri-ti",
+   "p-w12-pokhara-ti",
+   "p-w12-panauti-ti"
+  ],
+  "dip-hospitality": [
+   "p-annapurna-pi",
+   "p-w12-pokhara-ti"
+  ],
+  "be-geomatics": [
+   "p-khwopa-eng"
+  ],
+  "be-agri": [
+   "p-aafu"
+  ],
+  "be-aerospace-auto": [
+   "p-purc"
+  ],
+  "be-mechanical": [
+   "p-khwopa-eng"
+  ],
+  "be-chemical-hydro": [
+   "p-wrc",
+   "p-purc"
+  ],
+  "bsc-forestry": [
+   "p-mu",
+   "p-fwu"
+  ],
+  "bsc-horticulture-fisheries": [
+   "p-cnrm-puranchaur",
+   "p-cnrm-tikapur",
+   "p-cnrm-pakhribas"
+  ],
+  "mds-data-science": [
+   "p-tu-kirtipur",
+   "p-ncit"
+  ],
+  "mhm-mttm": [
+   "p-ist-college",
+   "p-gate-college",
+   "p-silver-mountain"
+  ],
+  "bfa": [
+   "p-purbanchal-uni"
+  ],
+  "mca": [
+   "p-ku-eng",
+   "p-nou"
+  ],
+  "sports-cadet-school": [
+   "p-kanti",
+   "p-rbs"
+  ]
+ },
+ "route_seats": {
+  "p-mrc-tahachal": {
+   "bicte": 72
+  },
+  "p-sanothimi-campus": {
+   "bicte": 72
+  },
+  "p-dhaulagiri-pi": {
+   "dip-civil-eng": 48,
+   "dip-geomatics": 48,
+   "dip-agriculture": 40
+  },
+  "p-mahuregadhi-pi": {
+   "dip-civil-eng": 48,
+   "dip-forestry": 40
+  },
+  "p-rolpa-pi": {
+   "dip-civil-eng": 48,
+   "dip-agriculture": 80
+  },
+  "p-bharatpur-pi": {
+   "dip-civil-eng": 48,
+   "dip-mech-auto-arch": 48
+  },
+  "p-annapurna-pi": {
+   "dip-civil-eng": 48,
+   "dip-agriculture": 80,
+   "dip-hospitality": 40
+  },
+  "p-himalayan-geomatic": {
+   "be-geomatics": 30
+  },
+  "p-eastern-coe": {
+   "dip-geomatics": 48
+  }
+ },
+ "fees": {
+  "p-mrc-tahachal": {
+   "bed": [
+    45000,
+    65000
+   ],
+   "bicte": [
+    180000,
+    220000
+   ],
+   "med": [
+    55000,
+    75000
+   ]
+  },
+  "p-sanothimi-campus": {
+   "bed": [
+    45000,
+    65000
+   ],
+   "bicte": [
+    180000,
+    220000
+   ],
+   "med": [
+    55000,
+    75000
+   ]
+  },
+  "p-cde-tu": {
+   "med": [
+    55000,
+    75000
+   ],
+   "mphil": [
+    120000,
+    160000
+   ]
+  }
+ },
+ "provider_websites": {
+  "p-shas-pu": "https://shas.pu.edu.np",
+  "p-ncft": "https://namuna.edu.np",
+  "p-modern-tech": "https://www.mtc.edu.np",
+  "p-sanjeevani": "https://sanjeevani.edu.np",
+  "p-valley-tech": "https://www.valleycollege.edu.np",
+  "p-eastern-coe": "https://eascoll.edu.np",
+  "p-central-eng": "https://www.cecnti.com",
+  "p-himalayan-geomatic": "https://www.surveycollegenepal.edu.np",
+  "p-hist": "https://hist.com.np",
+  "p-sr-eng": "https://www.srengineering.edu.np",
+  "p-koshi-saint-james": "https://koshicollege.edu.np",
+  "p-model-multiple-janakpur": "https://mmcjnk.edu.np",
+  "p-surkhet-mc": "https://sc.tu.edu.np",
+  "p-w12-ce-budhanilkantha-secondary-school": "https://bnks.edu.np",
+  "p-w12-pokhara-ti": "https://ptspokhara.edu.np",
+  "p-w12-bheri-ti": "https://bts.edu.np",
+  "p-w12-rapti-ti": "https://rts.org.np",
+  "p-w12-karnali-ti": "https://kts.edu.np",
+  "p-w12-lahan-ti": "https://lts.edu.np",
+  "p-w12-netralal-pi": "https://snpi.edu.np",
+  "p-nams-pu": "https://nams.edu.np",
+  "p-valmiki": "https://nsu.edu.np",
+  "p-kendriya-ayurveda": "https://nsu.edu.np",
+  "p-bpkmch-nursing": "https://www.bpkmch.org.np"
+ },
+ "scholarships_add": [
+  {
+   "id": "s-rtu-lu-latvia",
+   "name": "Riga Technical University (RTU) Foundation and University of Latvia Merit Waivers",
+   "by": "Riga Technical University Development Fund and University of Latvia (Riga)",
+   "type": "University",
+   "country": "lv",
+   "open": [
+    2,
+    6
+   ],
+   "awards": 50,
+   "who": "International Bachelor and Master students enrolled at Riga Technical University or the University of Latvia with strong GPA and English proficiency",
+   "covers": "25 percent to 50 percent tuition fee reductions and monthly merit stipends of EUR 200 to EUR 400 from the RTU Development Fund after the first semester or at admission",
+   "how": "Apply for degree admission at international.rtu.lv or lu.lv before the June non-EU deadline and submit the RTU Development Fund merit form."
+  },
+  {
+   "id": "s-tsmu-ug-georgia",
+   "name": "University of Georgia (UG) and Tbilisi State Medical University (TSMU) Merit Waivers",
+   "by": "University of Georgia and Tbilisi State Medical University (Tbilisi, Georgia)",
+   "type": "University",
+   "country": "ge",
+   "open": [
+    2,
+    9
+   ],
+   "awards": 60,
+   "who": "International students enrolling in English taught Engineering, IT, Business or MD/MBBS programmes in Tbilisi with top semester GPAs",
+   "covers": "20 percent to 50 percent semester tuition fee waivers and dean merit stipends (USD 500 to USD 1,500 per year) for top-ranking international students",
+   "how": "Apply during the Spring (February) or Fall (September) intake at ug.edu.ge or tsmu.edu and maintain a 3.5+ GPA for semester merit waivers."
+  },
+  {
+   "id": "s-auca-kg",
+   "name": "American University of Central Asia (AUCA Bishkek) Need and Merit Financial Aid",
+   "by": "American University of Central Asia and Bard College Network (Bishkek, Kyrgyzstan)",
+   "type": "University",
+   "country": "kg",
+   "open": [
+    12,
+    4
+   ],
+   "awards": 80,
+   "who": "International Bachelor and Master applicants from Asia (including Nepal) admitted to US-accredited liberal arts, software engineering, economics or business degrees at AUCA Bishkek",
+   "covers": "40 percent to 90 percent tuition fee reduction based on family financial need and entrance exam/SAT + TOEFL/IELTS merit scores",
+   "how": "Submit the AUCA admission and financial aid dossier (family income documents + essays) online at auca.kg between December and April."
+  },
+  {
+   "id": "s-nazarbayev-kz",
+   "name": "Nazarbayev University (NU Astana) Abay Kunanbayev International Scholarship",
+   "by": "Nazarbayev University (Astana, Kazakhstan)",
+   "type": "University",
+   "country": "kz",
+   "open": [
+    10,
+    4
+   ],
+   "awards": 100,
+   "who": "International applicants admitted to English taught Bachelor, Master or PhD programmes at Nazarbayev University (Astana)",
+   "covers": "100 percent full tuition fee waiver, monthly living stipend (KZT 100,000 to KZT 240,000/month by degree level), primary medical insurance and subsidized on-campus dormitory",
+   "how": "Submit an online admission application at admissions.nu.edu.kz with SAT/ACT (undergraduate) or GRE/IELTS (graduate) before the March/April international deadline; all top admits are considered automatically."
+  },
+  {
+   "id": "s-ateneo-dlsu-ph",
+   "name": "IRRI Graduate Fellowship and De La Salle / Ateneo de Manila University Grants (Philippines)",
+   "by": "International Rice Research Institute (IRRI Los Banos), De La Salle University (DLSU) and Ateneo de Manila University",
+   "type": "University",
+   "country": "ph",
+   "open": [
+    1,
+    7
+   ],
+   "awards": 45,
+   "who": "Nepali agriculture, plant breeding, climate and engineering/management students applying to IRRI thesis fellowships (paired with UP Los Banos) or DLSU Star/Archer Graduate Scholarships in Manila",
+   "covers": "Full tuition, monthly research/living stipend, accommodation and fieldwork funding under IRRI Graduate Fellowships; 50 percent to 100 percent tuition waivers at De La Salle University",
+   "how": "Apply for open MSc/PhD research scholar calls on irri.org/jobs or submit the DLSU graduate scholarship form at dlsu.edu.ph one term before enrollment."
+  },
+  {
+   "id": "s-silk-road-uz",
+   "name": "Silk Road International University of Tourism and Cultural Heritage Full State Scholarship (Samarkand)",
+   "by": "Government of Uzbekistan and Silk Road International University (Samarkand)",
+   "type": "Government",
+   "country": "uz",
+   "open": [
+    4,
+    8
+   ],
+   "awards": 85,
+   "who": "Citizens of Shanghai Cooperation Organization (SCO) member, observer and dialogue partner countries (including Nepal) applying for English taught Master programmes in Tourism, Heritage and Management in Samarkand",
+   "covers": "100 percent tuition waiver, monthly living stipend (around USD 500/month equivalent in UZS), USD 100/month hostel allowance, two cultural study trips per year and return economy airfare",
+   "how": "Apply online at admissions.univ-silkroad.uz between April and August with Bachelor transcripts, IELTS 6.0 / TOEFL 72 and a 1,000 word essay on sustainable tourism."
+  },
+  {
+   "id": "s-ciu-emu-cyprus",
+   "name": "Cyprus International University (CIU) and Eastern Mediterranean University (EMU) Merit Scholarships",
+   "by": "Cyprus International University and Eastern Mediterranean University",
+   "type": "University",
+   "country": "cy",
+   "open": [
+    1,
+    9
+   ],
+   "awards": 200,
+   "who": "International Bachelor, Master and PhD students applying with strong +2 or Bachelor GPAs",
+   "covers": "50 percent, 75 percent or 100 percent tuition fee waivers for undergraduate and graduate international students (all new international admits automatically receive at least a 50 percent tuition bursary at CIU)",
+   "how": "Submit transcripts, passport and English proficiency scores on the CIU or EMU international admissions portal prior to the September (Fall) or February (Spring) intake."
+  },
+  {
+   "id": "s-mcast-gbs-malta",
+   "name": "MCAST Malta and Global College / GBS Malta International Merit Bursaries",
+   "by": "Malta College of Arts, Science and Technology (MCAST) and GBS Malta",
+   "type": "University",
+   "country": "mt",
+   "open": [
+    2,
+    8
+   ],
+   "awards": 50,
+   "who": "Non-EU international students enrolling in applied engineering, IT, maritime, aviation maintenance or business Bachelor and Master programmes in Malta",
+   "covers": "EUR 1,000 to EUR 3,000 annual tuition fee discounts plus eligibility for Malta Get Qualified 70 percent post-graduation income tax rebates on tuition fees if employed in Malta after graduation",
+   "how": "Apply directly to MCAST International Office (mcast.edu.mt) between February and July for the October intake."
+  },
+  {
+   "id": "s-melbourne-sydney-au",
+   "name": "University of Melbourne Graduate Research and University of Sydney Vice-Chancellor Scholarships",
+   "by": "University of Melbourne and University of Sydney (Australia)",
+   "type": "University",
+   "country": "au",
+   "open": [
+    8,
+    10
+   ],
+   "awards": 600,
+   "who": "High-achieving international students applying to Master by Research / PhD at the University of Melbourne (600+ MRS awards/yr) or coursework Bachelor/Master at the University of Sydney",
+   "covers": "100 percent tuition fee offset, AUD 38,500 per year living allowance (2026 rate), AUD 3,000 relocation grant and Overseas Student Health Cover (OSHC) under Melbourne Research Scholarships; AUD 5,000 to AUD 40,000 tuition awards under Sydney Vice-Chancellor International Scholarships",
+   "how": "Submit a graduate research admission application at unimelb.edu.au by 31 October (automatic scholarship consideration) or hold an unconditional offer at sydney.edu.au."
+  },
+  {
+   "id": "s-ubc-mcgill-ca",
+   "name": "UBC International Leader of Tomorrow (ILOT) and McGill McCall MacBain Scholarships (Canada)",
+   "by": "University of British Columbia (Vancouver) and McGill University (Montreal, Canada)",
+   "type": "University",
+   "country": "ca",
+   "open": [
+    6,
+    11
+   ],
+   "awards": 80,
+   "who": "Nepali +2/A Level graduates with exceptional academics and financial need applying to UBC (ILOT), or Bachelor graduates applying to Master/professional degrees at McGill University (McCall MacBain)",
+   "covers": "Full financial need coverage (tuition, housing and living costs for 4 years) under UBC International Major Entrance and ILOT awards (~50 awards/yr); 100 percent tuition and fees plus CAD 2,300/month living stipend and relocation grant for 30 McCall MacBain Scholars at McGill",
+   "how": "Apply for McCall MacBain at mccallmacbainscholars.org between June and August (international deadline late August), or submit the UBC International Scholars nomination by 15 November."
+  },
+  {
+   "id": "s-deutschlandstipendium-de",
+   "name": "Deutschlandstipendium and German Political Foundation Scholarships (KAS, Heinrich Boll, FES)",
+   "by": "Federal Ministry of Education and Research (BMBF), German Universities and Heinrich Boll / Konrad Adenauer / Friedrich Ebert Foundations",
+   "type": "Government",
+   "country": "de",
+   "open": [
+    2,
+    9
+   ],
+   "awards": 1500,
+   "who": "International students admitted to or enrolled at German public universities across Bachelor, Master and PhD levels",
+   "covers": "EUR 300 per month (EUR 3,600/year, co-funded by the Federal Government and industry sponsors regardless of parent income) under Deutschlandstipendium; EUR 992/month (Master) to EUR 1,400/month (PhD) plus health insurance under KAS, Heinrich Boll and FES foundation scholarships",
+   "how": "Apply for Deutschlandstipendium directly through your German university portal at enrollment, or apply to Heinrich Boll (1 March / 1 September) or KAS with German B2 / English proficiency."
+  },
+  {
+   "id": "s-nus-ntu-sg",
+   "name": "NUS Science and Technology Undergraduate and NTU Nanyang International Scholarships (Singapore)",
+   "by": "National University of Singapore (NUS) and Nanyang Technological University (NTU Singapore)",
+   "type": "University",
+   "country": "sg",
+   "open": [
+    11,
+    3
+   ],
+   "awards": 150,
+   "who": "International students from Asian countries (including Nepal) with outstanding +2 / A Level / IB results applying to full-time undergraduate STEM, Computing, Engineering or Business degrees at NUS or NTU",
+   "covers": "100 percent subsidized tuition fees (on top of the MOE Tuition Grant), SGD 6,000 to SGD 6,500 annual living allowance, SGD 1,750 to SGD 2,000 computer allowance, SGD 5,000 settling-in/accommodation allowance and return airfare",
+   "how": "Submit your international undergraduate admission and scholarship application on nus.edu.sg or ntu.edu.sg between November and March; NUS Science & Technology carries a 6 year Singapore work commitment (3 year MOE Tuition Grant bond at NTU)."
+  }
+ ],
+ "scholarship_extra": {
+  "s-fulbright": {
+   "awards": 12
+  },
+  "s-daad": {
+   "awards": 1200
+  },
+  "s-ugc": {
+   "awards": 450
+  },
+  "s-commonwealth": {
+   "awards": 800
+  },
+  "s-csc": {
+   "awards": 100
+  },
+  "s-aga-khan": {
+   "awards": 45
+  },
+  "s-holland": {
+   "awards": 500
+  },
+  "s-iccr": {
+   "awards": 1000
+  },
+  "s-russia": {
+   "awards": 150
+  },
+  "s-italy": {
+   "awards": 300
+  },
+  "s-pu-scholarship": {
+   "awards": 750
+  },
+  "s-ku-scholarship": {
+   "awards": 250
+  },
+  "s-ugc-qaa-need": {
+   "awards": 3500
+  },
+  "s-ugc-higher-ed": {
+   "awards": 1000
+  },
+  "s-aalto": {
+   "awards": 60
+  },
+  "s-helsinki": {
+   "awards": 50
+  },
+  "s-mis-my": {
+   "awards": 60
+  },
+  "s-new-uz": {
+   "awards": 100
+  },
+  "s-ilia-georgia": {
+   "awards": 40
+  },
+  "s-adb-uplb-ph": {
+   "awards": 30
+  },
+  "s-unic-cyprus": {
+   "awards": 150
+  },
+  "s-um-malta": {
+   "awards": 100
+  },
+  "s-danish-govt": {
+   "awards": 75
+  },
+  "s-bi-norway": {
+   "awards": 35
+  },
+  "s-rtp-au": {
+   "awards": 1000
+  },
+  "s-tipp-th": {
+   "awards": 80
+  },
+  "s-ktu-vmu-lt": {
+   "awards": 90
+  },
+  "s-taltech-harno-ee": {
+   "awards": 60
+  },
+  "s-spain-uc3m-bse": {
+   "awards": 90
+  },
+  "s-fct-aveiro-pt": {
+   "awards": 120
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw22-1",
+   "topic": "after10",
+   "q": "What is the minimum pass mark in SEE and Grade 12 under the NEB Letter Grading Directive 2078?",
+   "a": "Under the National Examinations Board (NEB) Letter Grading Directive 2078, a student must score at least 35 percent in the written theory paper (27 out of 75 marks = Grade D, 1.6 GPA) and at least 40 percent in the internal/practical assessment (10 out of 25 marks = Grade C, 2.0 GPA) in every single subject. Scoring below 35 percent theory in any subject results in NG (Non-Graded), requiring the student to sit the NEB Grade Increment (Supplementary) exam.",
+   "go": [
+    "see-general",
+    "plus2-science",
+    "plus2-management"
+   ]
+  },
+  {
+   "id": "fw22-2",
+   "topic": "after10",
+   "q": "How do I apply for the 100 percent free Class 11 (+2) scholarship at Kathmandu Metropolitan City (KMC) and municipalities?",
+   "a": "Within two weeks of the SEE result publication, Kathmandu Metropolitan City (metro.kathmandu.gov.np) and other municipalities open online applications for the mandatory 10 percent institutional school scholarship quota. Students sit a 100 mark MCQ entrance exam based on the Class 10 curriculum; selected students study Class 11 and 12 with 100 percent tuition waiver at private +2 colleges (with 85 percent of seats reserved for community school SEE graduates).",
+   "go": [
+    "plus2-science",
+    "plus2-management",
+    "plus2-humanities"
+   ]
+  },
+  {
+   "id": "fw22-3",
+   "topic": "after10",
+   "q": "How many Cambridge A Level subjects are required for Class 12 (+2) equivalence in Nepal?",
+   "a": "To obtain Class 12 (+2) equivalence from the Curriculum Development Centre (CDC, Sanothimi) and Tribhuvan University, a student must pass at least 3 full A Level (Advanced Level) subjects plus AS Level English General Paper (totalling 3.5 credits). Students aiming for MECEE-BL (MBBS/BDS) or IOE BE must take Physics, Chemistry and Biology or Mathematics at full A Level.",
+   "go": [
+    "a-levels"
+   ]
+  },
+  {
+   "id": "fw22-4",
+   "topic": "after12",
+   "q": "Does TU BBS require the CMAT entrance exam and how much does the 4 year BBS cost?",
+   "a": "No. Unlike semester-based BBA, BIM/BITM, BBM and BHM, the 4 year annual Bachelor of Business Studies (BBS) under Tribhuvan University Faculty of Management does not require the central CMAT exam. Admission is processed directly by constituent campuses (such as Shanker Dev, Nepal Commerce Campus, Patan, Prithvi Narayan and Mahendra Morang) and community campuses with a total 4 year tuition of about NPR 35,000 to 60,000.",
+   "go": [
+    "bbs",
+    "ca-route",
+    "acca-route"
+   ]
+  },
+  {
+   "id": "fw22-5",
+   "topic": "afterbach",
+   "q": "How can BSc, BBS, BCA or BA graduates qualify for the Teacher Service Commission (TSC) teaching licence exam?",
+   "a": "Graduates holding a non-education Bachelor degree (BSc, BBS, BCA, BA) must complete the 1-Year Bachelor of Education (1-Year BEd) or a 2 year MEd from Tribhuvan University Faculty of Education (offered at Mahendra Ratna Campus Tahachal mrc.tu.edu.np, Sanothimi Campus sac.tu.edu.np and regional constituent campuses) to satisfy the mandatory education training requirement for the lower secondary and secondary TSC teaching licence exam (although Science, Mathematics, English, Computer, Civil/Electrical Engineering, Agriculture and Animal Science graduates can sit the secondary licence exam directly under the Science/Technical exemption).",
+   "go": [
+    "bed",
+    "med",
+    "tsc-license"
+   ]
+  },
+  {
+   "id": "fw22-6",
+   "topic": "after10",
+   "q": "What is the NSTB / NVQS National Skill Certificate and how much does the skill test cost?",
+   "a": "The National Skill Testing Board (NSTB under CTEVT, nstb.org.np) conducts competency tests (20 percent theory/oral + 80 percent practical trade demonstration) across 300+ occupations at Level 1 (390 hours), Level 2 (1,692 hours) and Level 3 (Diploma level). Self-financed Nepali candidates pay NPR 500 to 2,200, while trainees under CTEVT, ENSSURE or municipal skill quotas are tested free of cost.",
+   "go": [
+    "skill-training",
+    "pre-diploma"
+   ]
+  },
+  {
+   "id": "fw22-7",
+   "topic": "after8",
+   "q": "How does the Budhanilkantha School (SEBS) Ministry of Education free scholarship work?",
+   "a": "The Ministry of Education, Science and Technology (via the Society for the Enhancement of Budhanilkantha School, SEBS) awards 100 percent and partial boarding scholarships at Budhanilkantha School (bnks.edu.np) starting from Class 5 for children from community schools across all 77 districts based on a written entrance exam in Nepali, English, Mathematics and General Knowledge plus parental income and geographic remoteness verification.",
+   "go": [
+    "sports-cadet-school",
+    "see-general"
+   ]
+  },
+  {
+   "id": "fw22-8",
+   "topic": "after12",
+   "q": "How does Nepal Airlines Corporation (NAC) recruit Cabin Crew (Air Hostess / Steward) and Officers?",
+   "a": "Nepal Airlines Corporation (nepalairlines.com.np) recruits Level 5 Cabin Crew (+2 pass, age 18 to 25, minimum height 158 cm female / 170 cm male, fluent English and Nepali) and Level 4/5/6 Assistants and Officers through physical/medical/grooming screening followed by a 200 mark written examination conducted by Lok Sewa Aayog and a final interview (fee NPR 800 to 1,200).",
+   "go": [
+    "aviation-cabin-crew",
+    "public-enterprise-route"
+   ]
+  },
+  {
+   "id": "fw22-9",
+   "topic": "afterbach",
+   "q": "What is the eligibility for Nepal Insurance Authority (Beema Pradhikaran) and SEBON Officer exams?",
+   "a": "For Assistant Director (Officer Level 6) at the Nepal Insurance Authority (nia.gov.np) and Securities Board of Nepal (sebon.gov.np), candidates need a Master degree in Economics, Management, Finance, Actuarial Science or Statistics, or Chartered Accountancy (CA) / LL.B as specified in the group notice (age 21 to 35, up to 40 for women; fee NPR 1,000). Assistant Level 4/5 posts require +2.",
+   "go": [
+    "public-enterprise-route",
+    "bmath-actuarial",
+    "mba"
+   ]
+  },
+  {
+   "id": "fw22-10",
+   "topic": "afterbach",
+   "q": "What is the difference between Lok Sewa General Administration, Foreign Affairs (Pararastra) and Revenue Service (Rajaswa)?",
+   "a": "All three are advertised together in the annual Mangsir Section Officer (and Poush Nayab Subba) Lok Sewa notice and share the 100 mark MCQ prelim and common Governance/Contemporary Issues papers. Foreign Affairs Service (open to any Bachelor) adds a 100 mark paper answered entirely in English on diplomacy, international law and diplomatic drafting, while Revenue Service (open to Management, Economics, Law, Statistics or CA graduates) adds a 100 mark paper on Income Tax, VAT, Excise, Customs and fiscal policy.",
+   "go": [
+    "lok-sewa",
+    "bbs",
+    "ba-economics"
+   ]
+  },
+  {
+   "id": "fw22-11",
+   "topic": "afterbach",
+   "q": "How much does the CFA (Chartered Financial Analyst) exam cost in 2026 and can Nepali students get a scholarship?",
+   "a": "Starting February 2026, CFA Institute eliminated the one-time enrollment fee; Level I and II registration costs USD 990 (early bird) or USD 1,290 (standard), and Level III costs USD 1,090 (early) or USD 1,390 (standard). Nepali students can apply twice a year for the CFA Institute Access Scholarship (cfainstitute.org), which lowers the registration fee to USD 400 per level. Computer-based exams are held in Kathmandu in February, May, August and November.",
+   "go": [
+    "acca-route",
+    "bba",
+    "bmath-actuarial"
+   ]
+  },
+  {
+   "id": "fw22-12",
+   "topic": "after12",
+   "q": "Where is BICTE (Bachelor in Information and Communication Technology Education) offered under TU?",
+   "a": "The 4 year (8 semester) BICTE programme under Tribhuvan University Faculty of Education is offered at Mahendra Ratna Campus Tahachal (mrc.tu.edu.np, 72 seats), Sanothimi Campus Bhaktapur (sac.tu.edu.np, 72 seats), Surkhet Multiple Campus (sc.tu.edu.np), Myagdi Multiple Campus (myagdicampus.edu.np) and 28 constituent and community campuses nationwide via the FoE entrance exam.",
+   "go": [
+    "bicte",
+    "bed"
+   ]
+  },
+  {
+   "id": "fw22-13",
+   "topic": "after10",
+   "q": "Which CTEVT constituent polytechnics offer 3 year Engineering, Geomatics, Agriculture and Forestry diplomas in Baglung, Khotang, Rolpa and Kaski?",
+   "a": "Dhaulagiri Polytechnic Institute (Balewa, Baglung, dpi.edu.np) offers Civil, Geomatics and Agriculture diplomas; Mahuregadhi Polytechnic Institute (Diktel, Khotang, mpi.edu.np) offers Civil Engineering and Forestry; Rolpa Polytechnic Institute (Mewang, Rolpa, rpi.edu.np) offers Civil Engineering, Plant Science and Animal Science; and Annapurna Polytechnic Institute (Dhampus, Kaski, api.edu.np) and Pokhara Technical School (ptspokhara.edu.np) offer Civil, Agriculture and Hotel Management diplomas.",
+   "go": [
+    "dip-civil-eng",
+    "dip-geomatics",
+    "dip-agriculture",
+    "dip-forestry"
+   ]
+  },
+  {
+   "id": "fw22-14",
+   "topic": "after12",
+   "q": "Where can I study BE Geomatics Engineering in Nepal?",
+   "a": "The 4 year BE in Geomatics Engineering is offered at Kathmandu University School of Engineering (Dhulikhel, 60 seats), TU IOE Paschimanchal Campus (WRC Pokhara, 48 seats), Purbanchal University affiliated Himalayan College of Geomatic Engineering / Geomatic Institute of Technology (Thapathali, Kathmandu, surveycollegenepal.edu.np, 30 seats) and Khwopa Engineering College (Bhaktapur).",
+   "go": [
+    "be-geomatics",
+    "dip-geomatics"
+   ]
+  },
+  {
+   "id": "fw22-15",
+   "topic": "abroad",
+   "q": "What scholarships are available at Nazarbayev University in Kazakhstan and AUCA in Kyrgyzstan?",
+   "a": "Nazarbayev University (Astana, admissions.nu.edu.kz) awards the Abay Kunanbayev International Scholarship covering 100 percent tuition, medical insurance and a monthly stipend of KZT 100,000 to 240,000 for English taught Bachelor, Master and PhD programmes. In Bishkek, the American University of Central Asia (auca.kg) provides 40 percent to 90 percent need and merit tuition aid for US-accredited Bard College degrees alongside the full-ride OSCE Academy Master Scholarship.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-16",
+   "topic": "abroad",
+   "q": "Can Nepali students apply for the Silk Road International University full scholarship in Samarkand, Uzbekistan?",
+   "a": "Yes. As Nepal is a Shanghai Cooperation Organization (SCO) dialogue partner, Nepali Bachelor graduates are eligible for the Silk Road International University of Tourism and Cultural Heritage full state grant in Samarkand (admissions.univ-silkroad.uz, April to August window), which covers 100 percent Master tuition, about USD 500/month stipend, USD 100/month hostel allowance and return flights.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-17",
+   "topic": "abroad",
+   "q": "How do University of Melbourne Graduate Research Scholarships and University of Sydney Vice-Chancellor awards work?",
+   "a": "The University of Melbourne awards 600+ Melbourne Research Scholarships (MRS) annually to international Master by Research and PhD students covering a 100 percent fee offset, AUD 38,500/year living stipend (2026 rate), AUD 3,000 relocation grant and OSHC (automatic consideration when applying by 31 October at unimelb.edu.au). The University of Sydney offers AUD 5,000 to AUD 40,000 Vice-Chancellor International Scholarships for coursework degrees.",
+   "go": [
+    "abroad-ms",
+    "phd-route"
+   ]
+  },
+  {
+   "id": "fw22-18",
+   "topic": "abroad",
+   "q": "What full scholarships exist in Canada beyond Lester B. Pearson and Vanier?",
+   "a": "The University of British Columbia (UBC) offers need-plus-merit International Leader of Tomorrow (ILOT) and International Major Entrance Scholarships covering up to full 4 year undergraduate tuition and living costs (deadline 15 November at you.ubc.ca), while McGill University awards 30 McCall MacBain Scholarships annually (mccallmacbainscholars.org, August deadline) covering 100 percent Master/professional tuition plus a CAD 2,300/month stipend.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-19",
+   "topic": "abroad",
+   "q": "How does the Deutschlandstipendium and political foundation funding (KAS, Heinrich Boll, FES) work in Germany?",
+   "a": "Enrolled international students at German public universities can apply through their university for the Deutschlandstipendium (EUR 300/month = EUR 3,600/year regardless of income), while German political foundations (Heinrich Boll, Konrad Adenauer KAS and Friedrich Ebert FES) award Master stipends of EUR 992/month and PhD stipends of EUR 1,400/month plus health insurance to international students with strong academic and civic records.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-20",
+   "topic": "abroad",
+   "q": "What undergraduate scholarships are available at NUS and NTU in Singapore for Nepali +2 or A Level students?",
+   "a": "The National University of Singapore (NUS Science and Technology Undergraduate Scholarship, nus.edu.sg) and Nanyang Technological University (NTU Nanyang International Scholarship, ntu.edu.sg) award 100 percent tuition coverage, SGD 6,000 to 6,500/year living allowance, SGD 1,750 to 2,000 computer grant and accommodation/flight allowances (November to March application window; NUS S&T carries a 6 year Singapore work bond).",
+   "go": [
+    "abroad-ms",
+    "plus2-science",
+    "a-levels"
+   ]
+  },
+  {
+   "id": "fw22-21",
+   "topic": "abroad",
+   "q": "What university merit scholarships exist in Latvia, Georgia, Cyprus, Malta and the Philippines?",
+   "a": "Alongside government quotas, Riga Technical University (international.rtu.lv) and University of Georgia / TSMU (ug.edu.ge) award 20 to 50 percent semester merit waivers; Cyprus International University and Eastern Mediterranean University grant 50 to 100 percent international tuition scholarships; MCAST Malta offers EUR 1,000 to 3,000 bursaries plus 70 percent Get Qualified tax rebates; and IRRI / De La Salle University (irri.org, dlsu.edu.ph) fund graduate agriculture and STEM scholars in the Philippines.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-22",
+   "topic": "after12",
+   "q": "What are the 2026 exam fees in Nepal for IELTS, PTE Academic, TOEFL iBT and Duolingo English Test?",
+   "a": "In Nepal (2026 schedule), IELTS Academic (paper or computer via British Council and IDP) costs NPR 36,200 (UKVI NPR 39,000), PTE Academic costs USD 205 (about NPR 29,700), TOEFL iBT costs USD 200 (about NPR 29,000), and the Duolingo English Test (DET) costs USD 70 (about NPR 10,150, or USD 110 for a 2-test bundle). All four scores are valid for 2 years.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-23",
+   "topic": "after12",
+   "q": "What are the 2026 exam fees in Nepal for JLPT (Japanese), TOPIK (Korean), Goethe (German) and HSK (Chinese)?",
+   "a": "In Kathmandu, JLPT (N5 to N1 held in July and December by JALTAN) and TOPIK (I and II) cost about NPR 3,500 to 4,000; JFT-Basic at Prometric costs USD 36 (about NPR 5,000); EPS-TOPIK costs USD 28 (about NPR 3,850); Goethe-Zentrum Kathmandu German exams range from about NPR 14,000 (A1) to NPR 24,000 (B2); and HSK at Confucius Institute KU ranges from NPR 3,000 (HSK 1) to NPR 9,000 (HSK 6) plus HSKK.",
+   "go": [
+    "foreign-lang-work",
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-24",
+   "topic": "afterbach",
+   "q": "Where can I study MPhil and PhD in Education in Nepal?",
+   "a": "The Central Department of Education at Tribhuvan University Kirtipur (cded.tu.edu.np), Kathmandu University School of Education (Hattiban, Lalitpur, kusoed.edu.np) and Nepal Open University (nou.edu.np) offer MPhil and PhD programmes in Education, Educational Leadership, STEAM Education and English/Mathematics Education.",
+   "go": [
+    "mphil",
+    "phd-route",
+    "med"
+   ]
+  },
+  {
+   "id": "fw22-25",
+   "topic": "after12",
+   "q": "Which TU constituent campuses in Baglung, Dadeldhura and Jumla offer low-fee BEd, BBS, BA and MEd degrees?",
+   "a": "Dhawalagiri Multiple Campus in Baglung (dmc.tu.edu.np) offers BSc, BBA, BBS, BA, BEd, MBS, MA and MEd; Dadeldhura Multiple Campus in Amargadhi (dc.tu.edu.np) offers 4 year BEd, BBS and 2 year MEd; and Jumla Multiple Campus in Chandannath (jc.tu.edu.np) offers 4 year BBS, BA and BEd at public constituent tuition rates.",
+   "go": [
+    "bed",
+    "bbs",
+    "ba",
+    "med"
+   ]
+  },
+  {
+   "id": "fw22-26",
+   "topic": "after12",
+   "q": "What is the total seat count and entrance fee for IOE BE/B.Arch and MECEE-BL in 2083/84?",
+   "a": "The TU IOE BE and B.Arch computer-based entrance exam charges NPR 2,000 and allocates 4,344 seats across 5 constituent campuses (2,040 seats at Pulchowk, Thapathali, WRC Pokhara, ERC Dharan and Chitwan Rampur) and 10 affiliated colleges (2,304 seats). The Medical Education Commission MECEE-BL exam charges NPR 4,000 and allocates 8,855 bachelor health seats across MBBS (2,745), BSc Nursing (2,640), BNS (1,160), BPharm (905), BDS (625), BPH (610) and allied health programmes.",
+   "go": [
+    "be-civil",
+    "be-computer",
+    "mbbs",
+    "bsc-nursing"
+   ]
+  },
+  {
+   "id": "fw22-27",
+   "topic": "after12",
+   "q": "Which colleges in Lalitpur, Kathmandu and Rupandehi offer BPharm, BPH and BSc MLT under Pokhara and Purbanchal Universities?",
+   "a": "Modern Technical College (Sanepa, Lalitpur, mtc.edu.np) offers BPharm, BPH and BSc MLT under Pokhara University; Valley College of Technical Sciences (Maharajgunj, Kathmandu, valleycollege.edu.np) and CIST College (New Baneshwor, cist.edu.np) offer BPharm and BPH; and Sanjeevani College of Medical Sciences (Butwal, Rupandehi, sanjeevani.edu.np) offers BSc Nursing, PBBN and BPH under Purbanchal University via MECEE-BL.",
+   "go": [
+    "bpharm",
+    "bph",
+    "bmlt",
+    "bsc-nursing"
+   ]
+  },
+  {
+   "id": "fw22-28",
+   "topic": "after12",
+   "q": "Which Purbanchal University engineering colleges operate in Biratnagar and Janakpur?",
+   "a": "In Biratnagar (Morang), Purbanchal University School of Engineering (PUSOE), Eastern College of Engineering (eascoll.edu.np, offering BE Civil 96 seats, BE Computer 48 seats, BE Electronics 30 seats and CTEVT Geomatics/Civil diplomas) and S. R. Engineering College (srengineering.edu.np) run NEC-recognized BE programmes. In Janakpur (Dhanusha), Central Engineering College (cecnti.com, 48 BE Civil seats) and Janakpur Engineering College (TU IOE affiliated) operate.",
+   "go": [
+    "be-civil",
+    "be-computer",
+    "be-electronics"
+   ]
+  },
+  {
+   "id": "fw22-29",
+   "topic": "afterbach",
+   "q": "When are Lok Sewa Section Officer, Nayab Subba and Kharidar notices published each year?",
+   "a": "Under the annual Public Service Commission (psc.gov.np) calendar, Gazetted Third Class Section Officer (non-technical/Judicial/Foreign/Revenue/Audit, fee NPR 1,000) is advertised on the last Wednesday of Mangsir (Nov/Dec), Non-Gazetted First Class Nayab Subba (fee NPR 700) on the last Wednesday of Poush (Dec/Jan), and Non-Gazetted Second Class Kharidar (fee NPR 500) on the last Wednesday of Falgun (Feb/Mar).",
+   "go": [
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "fw22-30",
+   "topic": "afterbach",
+   "q": "How many scholarships and awards are tracked across the NEBians Pathways dataset?",
+   "a": "NEBians Pathways tracks 108 verified domestic and international scholarship programmes across all 46 study-abroad destinations and Nepal regulators (MEC, IOE, PU, KU, CTEVT, UGC, Indian Embassy, US Fulbright, UK Chevening/Commonwealth, DAAD, Australia Awards, MEXT, GKS, CSC, Stipendium Hungaricum, Erasmus Mundus and university excellence awards), with 100 percent of active scholarships carrying open-month windows and annual award counts.",
+   "go": [
+    "abroad-ms"
+   ]
+  }
+ ]
+}

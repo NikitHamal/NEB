@@ -1,0 +1,83 @@
+"""Wave 22 exams (part A): SEE (Grade 10), NEB Class 11/12 (+2), Cambridge AS & A Level / IB Diploma,
+TU FoM BBS/MPA, TU FoE BEd/MEd, and NSTB / NVQS National Skill Testing Board competency exams.
+
+Sources (read 19 November 2026): National Examinations Board (neb.gov.np) SEE and Grade 12 examination notices and Letter Grading
+Directive 2078; British Council Nepal Cambridge International examination fee schedule (britishcouncil.org.np); Tribhuvan University
+Faculty of Management (fomcd.tu.edu.np) and Faculty of Education (tufoe.edu.np); National Skill Testing Board CTEVT (nstb.org.np).
+"""
+
+GOVT_ADD_A = [
+    {'id': 'e-see', 'track': 'ent_dip', 'name': 'SEE (Secondary Education Examination, National Examinations Board Grade 10)',
+     'level': 'National Grade 10 board examination for transition to +2, A Levels, IB or 3 year CTEVT Diploma/PCL',
+     'need': 'Completion of Class 9 registration and Class 10 regular or open-school attendance with at least 75 percent attendance',
+     'age': 'No statutory age bar (Previously 14 years minimum; lifted by NEB)', 'body': 'National Examinations Board (NEB), Sanothimi, Bhaktapur',
+     'stages': [
+         ['Written Board Examination (75 marks theory per subject, 3 hours)', 'National written papers across Compulsory English, Compulsory Nepali, Compulsory Mathematics, Science and Technology, Social Studies and two Optional papers; minimum 35 percent (27 out of 75 = Grade D) required in each theory paper under Letter Grading Directive 2078.', '75'],
+         ['Internal / Practical Assessment (25 marks per subject) and Grade Upgrade (Chance) Exam', 'School practical and continuous assessment (minimum 40 percent = Grade C required); students scoring NG (Non-Graded) in any subject sit the NEB Grade Increment (Supplementary) exam in Shrawan/Bhadra.', '25'],
+     ],
+     'subjects': ['Compulsory English, Compulsory Nepali, Compulsory Mathematics (100 marks full written)', 'Science and Technology, and Social Studies', 'Optional I (Additional Mathematics, Economics, Population, History, Geography or Computer) and Optional II (Computer Science, Accountancy, Education, Health or Technical stream papers)'],
+     'prep': ['Secure at least 27 out of 75 (35 percent) in every theory paper; scoring below 35 percent in even one subject results in NG (Non-Graded) on the SEE gradesheet', 'Practise NEB CDC model question sets for Compulsory Mathematics and Science, where the highest NG rates occur', 'Aim for GPA 2.0+ with C in Science and Mathematics if you plan to enter +2 Science or CTEVT Health/Engineering diplomas'],
+     'note': 'Over 500,000 students sit SEE annually in Chaitra (March/April); the NEB registration and exam revenue stamp fee is NPR 500 (schools may charge small processing/practical fees).',
+     'prep_hours': 400, 'fee': 500, 'seats': 500000, 'apply': [11, 1], 'exam_month': 3},
+    {'id': 'e-neb-plus2', 'track': 'ent_sci', 'name': 'NEB Class 11 Enrollment and Class 12 National Board Examination (+2)',
+     'level': 'Higher Secondary (+2 Science, Management, Humanities, Education, Law and Sanskrit) college entrance and Grade 12 national board exam',
+     'need': 'SEE pass (minimum GPA 1.6 overall; selective +2 Science colleges require GPA 2.8 to 3.6 with C+ in Science and Mathematics)',
+     'age': 'No age limit', 'body': 'National Examinations Board (NEB), Sanothimi and Metropolitan / Municipal Scholarship Committees (such as KMC Entrance)',
+     'stages': [
+         ['College / Municipal Scholarship Entrance Test (100 marks)', 'After SEE results in Ashadh, selective +2 colleges (St. Xavier, SOS, Budhanilkantha, Sainik, Prasadi, Trinity, KMC) and metropolitan scholarship portals (such as Kathmandu Metropolitan City 10 percent scholarship exam) hold a 100 MCQ entrance test.', '100'],
+         ['NEB Grade 11 (School Evaluated) and Grade 12 National Board Examination', '3 hour written theory papers (75 marks, minimum 35 percent = Grade D pass) plus 25 marks practical/internal (minimum 40 percent = Grade C pass) held in Baisakh (April/May).', '100'],
+     ],
+     'subjects': ['Compulsory English (Grade 11 and 12), Compulsory Nepali and Social Studies / Life Skill Education (or Mathematics)', 'Science stream: Physics, Chemistry, Mathematics and Biology or Computer Science', 'Management, Humanities, Education and Law stream electives (Accountancy, Economics, Business Studies, Finance, Computer, Pedagogy, Constitutional Law, Jurisprudence)'],
+     'prep': ['Apply for the municipal 10 percent institutional school scholarship test (such as KMC metro.kathmandu.gov.np) within 15 days of SEE results for a 100 percent free +2 seat', 'In Grade 12 boards, ensure at least C grade (50 percent aggregate) in Physics, Chemistry and Biology/Maths to remain eligible for MECEE-BL and IOE BE entrances'],
+     'note': 'NEB registration fee is NPR 400 in Class 11 and board exam fee is NPR 600 in Class 12 (total NPR 1,000 official NEB fee; Grade Increment chance exam is NPR 600 per paper).',
+     'prep_hours': 500, 'fee': 1000, 'seats': 490000, 'apply': [6, 7], 'exam_month': 4},
+    {'id': 'e-cambridge-ib', 'track': 'ent_sci', 'name': 'Cambridge International AS and A Level and IB Diploma Examinations (Nepal)',
+     'level': 'Two year international pre-university qualification (equivalent to NEB +2 upon TU / CDC equivalence)',
+     'need': 'SEE, GCSE / IGCSE or CBSE Grade 10 with strong English and subject grades (GPA 2.8 to 3.6+ at selective A Level schools)',
+     'age': '15 to 20 years (Private candidates of any age may sit Cambridge exams through British Council Nepal)',
+     'body': 'Cambridge Assessment International Education (via British Council Nepal) and International Baccalaureate Organization (IB)',
+     'stages': [
+         ['School Entrance Test and Interview (St. Xavier, Rato Bangala, Budhanilkantha, Chelsea, Trinity, Malpi, Ullens)', 'Written aptitude test in English, Mathematics and Science/Reasoning followed by student and parent interview in June/July.', '100'],
+         ['Cambridge AS & A Level Series (May/June and Oct/Nov) or IB Diploma Final Assessment', 'Minimum 3 full A Level subjects plus AS English General Paper (3.5 credits) required for Tribhuvan University / CDC Class 12 equivalence; IB Diploma requires 6 subjects (3 HL + 3 SL) plus TOK, CAS and Extended Essay (minimum 24 of 45 points).', '100'],
+     ],
+     'subjects': ['AS Level English General Paper (8021) plus 3 or 4 A Level subjects (Physics 9702, Chemistry 9701, Biology 9700, Mathematics 9709, Further Maths, Computer Science, Economics, Accounting, Business, Psychology, Sociology)', 'IB Diploma: Studies in Language and Literature, Language Acquisition, Individuals and Societies, Sciences, Mathematics and the Arts'],
+     'prep': ['Always take AS English General Paper alongside at least 3 full A Level subjects so CDC / TU grants smooth +2 equivalence in Nepal', 'Science students targeting MECEE-BL (MBBS) or IOE BE must take Physics, Chemistry and Biology/Mathematics at full A Level and obtain CDC equivalence before entrance counselling', 'Private candidates can register directly at britishcouncil.org.np without paying private college tuition'],
+     'note': 'British Council Nepal standard exam registration costs about NPR 18,000 to 25,000 per AS/A Level subject (about NPR 75,000 across 3 A Levels + GP).',
+     'prep_hours': 600, 'fee': 75000, 'apply': [1, 8], 'exam_month': 5},
+    {'id': 'e-tu-fom-bbs', 'track': 'ent_biz', 'name': 'TU Faculty of Management (FoM) BBS Campus Admission and Annual Board Exam',
+     'level': 'Four year annual system Bachelor of Business Studies (BBS) across TU constituent and community/private campuses',
+     'need': '+2 or equivalent in any stream with at least D+ grade in each subject (minimum CGPA 1.8 or Second Division 45 percent)',
+     'age': 'No upper age limit', 'body': 'Tribhuvan University, Faculty of Management (FoM) and Office of the Controller of Examinations (Balkhu)',
+     'stages': [
+         ['Campus Admission Form and Screening Test / Interview', 'Constituent campuses (Shanker Dev, Nepal Commerce Campus, Patan, Prithvi Narayan, Mahendra Morang) and community campuses screen applicants on +2 GPA and a campus aptitude test/interview in Bhadra/Ashwin.', '100'],
+         ['Four Annual TU Controller of Examinations (OCE) Board Assessments (Year 1 to Year 4)', '100 mark annual written board exams per subject plus 50 mark Fourth Year Final Project Report and viva.', '500'],
+     ],
+     'subjects': ['Business English, Business Economics, Business Statistics, Principles of Management and Financial Accounting (Year 1)', 'Cost and Management Accounting, Business Law, Fundamentals of Financial Management, Taxation and Auditing (Years 2 and 3)', 'Entrepreneurship, Business Research Methods, Final Project Report and 3 Concentration Papers (Finance, Account, Marketing or Management in Year 4)'],
+     'prep': ['Apply to Shanker Dev, Nepal Commerce Campus or your district QAA community campus immediately after Grade 12 results', 'Unlike BBA/BIM, BBS does not require central CMAT, making it the most affordable recognized 4 year management degree for Lok Sewa, banking and CA/ACCA parallel study'],
+     'note': 'Campus admission form fee is NPR 500 to 1,000; total 4 year BBS tuition at TU constituent campuses is NPR 35,000 to 60,000.',
+     'prep_hours': 40, 'fee': 800, 'apply': [7, 9], 'exam_month': 9},
+    {'id': 'e-tu-foe-bed', 'track': 'ent_biz', 'name': 'TU Faculty of Education (FoE) BEd, 1-Year BEd and MEd Entrance Exam',
+     'level': 'Four year BEd, 1-Year BEd (for non-education Bachelor graduates) and 2 year semester MEd',
+     'need': '+2 or equivalent with CGPA 1.8 / D+ for 4 year BEd; any 3 or 4 year Bachelor degree for 1-Year BEd; BEd with minimum pass division/CGPA for 2 year MEd',
+     'age': 'No upper age limit', 'body': 'Tribhuvan University, Faculty of Education (FoE), Balkhu',
+     'stages': [
+         ['Campus Admission (4 year / 1 year BEd) or Central FoE MEd Entrance Test (100 marks)', '4 year BEd and 1-year BEd admit via campus screening at Mahendra Ratna Campus Tahachal, Sanothimi Campus and regional campuses; 2 year MEd requires a 100 MCQ FoE entrance exam (minimum 40 percent pass).', '100'],
+         ['Teaching Practice (Practicum) and Semester / Annual Board Examinations', 'Compulsory school teaching internship, lesson plan portfolio and written examinations.', '100'],
+     ],
+     'subjects': ['Foundations of Education, Educational Psychology, Curriculum and Evaluation, and Teaching Pedagogy', 'Major and Minor specialization subjects (English, Nepali, Mathematics, Science, Health and Physical Education, ICT Education, Economics, Geography, History, Special Needs)', 'Classroom practicum, action research and instructional supervision'],
+     'prep': ['Graduates of BSc, BBS, BCA or BA who want to sit the Teacher Service Commission (TSC) secondary teaching licence exam must complete the 1-Year BEd (or 2 year MEd) to fulfill the education training requirement', 'Apply at Mahendra Ratna Campus Tahachal (mrc.tu.edu.np) or Sanothimi Campus (sac.tu.edu.np) during the Bhadra/Mangsir admission call'],
+     'note': 'Entrance/application fee is NPR 500 to 1,500; completing BEd or 1-Year BEd unlocks eligibility for the TSC teaching licence exam (g-tsc).',
+     'prep_hours': 60, 'fee': 1200, 'apply': [7, 9], 'exam_month': 9},
+    {'id': 'e-nstb-skill', 'track': 'lic', 'name': 'NSTB / NVQS National Skill Testing Board Competency Exam (Level 1, 2, 3 and 4)',
+     'level': 'National Vocational Qualification System (NVQS) occupational skill certificate across 300+ trades',
+     'need': '390 hour training (or 1 year work experience) for Level 1; 1,692 hour training (or 1 year after Level 1 / Pre-Diploma) for Level 2; 3 year Diploma (or 2 years after Level 2) for Level 3',
+     'age': '16+ years', 'body': 'National Skill Testing Board (NSTB / CTEVT), Sanothimi, Bhaktapur',
+     'stages': [
+         ['Written / Oral Occupational Knowledge Test (20 percent weight)', 'Short objective and oral safety/theory check in Nepali or English covering trade tools, occupational safety and measurements.', '20'],
+         ['Practical Trade Performance Test (80 percent weight)', 'Hands-on demonstration of real occupational tasks (electrical wiring, plumbing, welding, culinary, caregiving, auto-mechanics, network cabling, tailoring) before certified NSTB assessors.', '80'],
+     ],
+     'subjects': ['Occupational health, workplace safety and tool handling', 'Practical trade execution against the NSTB National Occupational Skill Standard (NOSS)', 'Quality inspection, troubleshooting and time-bound task completion'],
+     'prep': ['Download the free National Occupational Skill Standard (NOSS) for your trade from nstb.org.np to see the exact practical tasks graded by assessors', 'Candidates trained under CTEVT, ENSSURE, Event or municipal free skill quotas sit the Level 1 or Level 2 skill test free of charge'],
+     'note': 'Per the NSTB tariff, self-financed Nepali citizens pay NPR 500 to 2,200 (Level 1 to Level 3), while donor/CTEVT quota trainees are tested free of cost. NSTB certificates are recognized by foreign employers and Lok Sewa technical posts.',
+     'prep_hours': 80, 'fee': 1000, 'apply': [1, 12], 'exam_month': 6, 'career': 'electrician'},
+]
