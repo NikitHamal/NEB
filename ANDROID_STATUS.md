@@ -2455,3 +2455,26 @@ History read first (`ANDROID_STATUS.md` 83 to 96). Not redone: v1 thumbnails by 
 
 ## Next
 - On-device pass of Downloads and Saved with the 1.7.6 build.
+
+---
+# Session 98: pickup of 83 to 97, resource thumbnails are now the art v3 `thumb` pieces (app + web)
+
+History read first (`ANDROID_STATUS.md` 83 to 97). Sessions 83 to 97 wired code-drawn thumbnails everywhere, but always the **v1** recipes (`covers.json` thumbs, `m3x-art.js`), which look like profile covers. The request is the **v3** library (`NEBians-Art-v3.html`, `concepts/art-v3`, kind `thumb`): study objects (atom, flask, DNA, laptop, books...) on calm backdrops. That is what this session ports.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 493 | **Shared recipe**: `A.thumbPick(seed, subject)` picks the v3 subject from words in the resource's subject (table in `v3-thumb.js`), then objects, palette and style from `hash("v3thumb|seed|subject")`. Engine is the v3 `still` engine; styles are disc, plate, arch, pattern only. The sunny `ground` style, every landscape scene (twilight, lake, himal, forest, skyline, terraces, valley, orchard, river, dunes) and the pagoda, stupa and summit objects are left out: no sun, moon, hills, buildings, forests, trees, mountains. Built for the box aspect (256 high, steps of 0.05). | `concepts/art-v3/v3-thumb.js` |
+| 494 | **Web**: `tools/art/build_v3_thumb_web.js` bundles v3 core, patterns, objects, still and the picker into `js/v3-thumb.js`. `pixel-art.js` draws banners from it (seed `id\|type`, same `data-neb-*` attributes, all existing cards, rows and tiles). Light and Dark are both drawn and CSS shows the one for `data-theme`. Covers still use `m3x-art.js`. | `v3-thumb.js`, `pixel-art.js`, `base.html`, `app-profile-v3.css`, `m3x-app.css` |
+| 495 | **App**: line-for-line Kotlin port, no asset: `V3Core` (hash, rng, OKLCH palettes), `V3Shapes`, `V3ObjectsA/B`, `V3PatternsA/B`, `V3Still`, `V3Subjects` (generated from the JS tables), `V3Svg` (reads the engine's SVG subset into Compose paths with plain affine math), `V3Thumb` (cached, built off the main thread, drawn for the box, Light and Dark). `M3xThumb` delegates to it, so Library, Search, Home, Profile, Downloads, Saved and Analytics rows all change. | `ui/components/v3art/*`, `M3xArt.kt` |
+| 496 | Version 1.7.7 (31). Test `web/test_v3_thumb.py`. | `app/build.gradle.kts` |
+
+## Notes
+- No picture or SVG is bundled or stored for resources. No schema change, nothing deleted from the database.
+- v3 art files stay concept-side (`NEBians-Art-v3.html`); the app and site run the ported engine.
+- Never built locally: Android check is the GitHub Actions run; web ships with `deploy-backend.yml` (secrets from GH only).
+- Token is in `/tmp/gitenv.sh` only; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device look at Library and Home with 1.7.7; compare a card against `art-v3.html` thumbs.
