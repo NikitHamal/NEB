@@ -7,6 +7,7 @@ from django.test import Client, TestCase
 
 from api.models import Post, Reply, Resource, User
 from api.profile_glance import build, short
+from api.security import issue_auth_token
 
 
 def _user(**kw):
@@ -73,8 +74,25 @@ class GlanceTests(TestCase):
 
     def test_stats_endpoint_returns_glance(self):
         u = _user()
-        r = Client().get(f'/api/users/profile/{u.username}/stats/')
+        r = Client().get(f'/api/users/profile/{u.username}/stats/',
+                         HTTP_AUTHORIZATION=f'Bearer {issue_auth_token(u)}')
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertEqual(len(body['glance']), 3)
         self.assertIn('studying', body)
+
+
+class ProfilePageTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def test_profile_page_draws_glance_and_studying_now(self):
+        u = _user()
+        post = _post(u, title='Ohm law drill')
+        r = Client().get(f'/app/profile/{u.username}/')
+        self.assertEqual(r.status_code, 200)
+        html = r.content.decode()
+        self.assertIn('pv3-glance', html)
+        self.assertIn('Studying now', html)
+        self.assertIn('Ohm law drill', html)
+        self.assertIn(post.id, html)

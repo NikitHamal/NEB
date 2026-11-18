@@ -122,7 +122,7 @@ class ApiQueryBudgetTests(TestCase):
 
     def test_profile_popup_and_stats(self):
         self.get(f'/ajax/user-popup/{self.star.username}/', 5)
-        self.get(f'/api/users/profile/{self.star.username}/stats/', 7)
+        self.get(f'/api/users/profile/{self.star.username}/stats/', 13)  # 7 before the profile overview (api/profile_glance.py: 6 cold, cached 120 s)
 
     def test_news_detail_joins_related_authors(self):
         self.get('/app/news/notice-0/', 11, signed_in=False)  # 15 when the 4 related authors were fetched one by one

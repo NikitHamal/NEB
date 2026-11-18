@@ -12,7 +12,7 @@ Cost: four aggregate/timestamp queries, cached for two minutes per member.
 from collections import Counter
 
 from django.core.cache import cache
-from django.db.models import Count, Sum
+from django.db.models import Count, Q, Sum
 
 from .models import Post, Reply, Resource, ResourceComment
 from .user_analytics import DAY_MS, NPT_MS, STAMP_CAP, WEEKDAYS, day_of, streaks, weekday_of
@@ -38,24 +38,6 @@ def _stamps(qs, field, since):
     return list(qs.filter(**{f'{field}__gte': since}).order_by().values_list(field, flat=True)[:STAMP_CAP])
 
 
-def _activity(user, now):
-    """Active-day counter over the streak window (public actions only)."""
-    since = (day_of(now) - STREAK_WINDOW_DAYS + 1) * DAY_MS - NPT_MS
-    stamps = []
-    stamps += _stamps(Post.objects.filter(user=user, is_archived=False, is_anonymous=False), 'created_at', since)
-    stamps += _stamps(Reply.objects.filter(user=user, is_archived=False, is_anonymous=False), 'created_at', since)
-    stamps += _stamps(ResourceComment.objects.filter(user=user), 'created_at', since)
-    stamps += _stamps(Resource.objects.filter(uploaded_by=user, is_lead=True, approval_status='approved'), 'added_at', since)
-    return Counter(day_of(s) for s in stamps)
-
-
-def _tiles(user):
-    res = Resource.objects.filter(uploaded_by=user, is_lead=True, approval_status='approved').aggregate(
-        n=Count('pk'), views=Sum('view_count'), downloads=Sum('download_count'), likes=Sum('like_count'))
-    posts = Post.objects.filter(user=user, is_archived=False, is_anonymous=False).aggregate(views=Sum('view_count'))
-    return res, posts
-
-
 def build(user, now=None):
     """Return {'glance': [...], 'studying': {...} | None} for one member."""
     key = f'pg:{user.pk}'
@@ -64,16 +46,30 @@ def build(user, now=None):
         return hit
     now = now or now_ms()
     today = day_of(now)
-    per_day = _activity(user, now)
+    since = (today - STREAK_WINDOW_DAYS + 1) * DAY_MS - NPT_MS
+
+    # Six queries on a cold cache (seven for an uploader): two aggregates, three timestamp pulls, one count.
+    res = Resource.objects.filter(uploaded_by=user, is_lead=True, approval_status='approved').aggregate(
+        n=Count('pk'), views=Sum('view_count'), downloads=Sum('download_count'), likes=Sum('like_count'))
+    contributor = (res['n'] or 0) > 0
+    public_posts = Post.objects.filter(user=user, is_archived=False, is_anonymous=False)
+    post_views = public_posts.aggregate(views=Sum('view_count'))['views']
+    recent_posts = list(public_posts.filter(created_at__gte=since).order_by()
+                        .values('id', 'title', 'category', 'created_at')[:STAMP_CAP])
+    replies = Reply.objects.filter(user=user, is_archived=False, is_anonymous=False)
+    reply_agg = replies.aggregate(answers=Count('pk', filter=Q(kind__in=('answer', 'solution'))),
+                                  accepted=Count('pk', filter=Q(label__in=('accepted', 'correct'))))
+    stamps = [p['created_at'] for p in recent_posts]
+    stamps += _stamps(replies, 'created_at', since)
+    stamps += _stamps(ResourceComment.objects.filter(user=user), 'created_at', since)
+    if contributor:
+        stamps += _stamps(Resource.objects.filter(uploaded_by=user, is_lead=True, approval_status='approved'),
+                          'added_at', since)
+    per_day = Counter(day_of(t) for t in stamps)
     streak = streaks(set(per_day), today)['current']
+    answers, accepted = reply_agg['answers'], reply_agg['accepted']
 
-    res, posts = _tiles(user)
-    answers = Reply.objects.filter(user=user, is_archived=False, is_anonymous=False,
-                                   kind__in=('answer', 'solution')).count()
-    accepted = Reply.objects.filter(user=user, is_archived=False, is_anonymous=False,
-                                    label__in=('accepted', 'correct')).count()
-
-    if (res['n'] or 0) > 0:
+    if contributor:
         glance = [
             {'icon': 'visibility', 'value': short(res['views']), 'label': 'Total reads', 'tone': 3},
             {'icon': 'download', 'value': short(res['downloads']), 'label': 'Downloads', 'tone': 1},
@@ -81,16 +77,15 @@ def build(user, now=None):
         ]
     else:
         glance = [
-            {'icon': 'visibility', 'value': short(posts['views']), 'label': 'Reads on my posts', 'tone': 1},
+            {'icon': 'visibility', 'value': short(post_views), 'label': 'Reads on my posts', 'tone': 1},
             {'icon': 'verified' if accepted else 'check_circle', 'value': short(accepted or answers),
              'label': 'Accepted answers' if accepted else 'Answers', 'tone': 2},
             {'icon': 'local_fire_department', 'value': short(streak), 'label': 'Day streak', 'tone': 3},
         ]
 
-    latest = (Post.objects.filter(user=user, is_archived=False, is_anonymous=False)
-              .order_by('-created_at').values('id', 'title', 'category', 'created_at').first())
+    latest = max(recent_posts, key=lambda p: p['created_at'], default=None)
     studying = None
-    if latest and now - latest['created_at'] <= 30 * DAY_MS and not (res['n'] or 0) > 0:
+    if latest and now - latest['created_at'] <= 30 * DAY_MS and not contributor:
         monday = today - weekday_of(today)
         studying = {
             'subject': latest['category'], 'title': latest['title'], 'postId': latest['id'],
