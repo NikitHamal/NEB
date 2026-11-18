@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var V = window.V, ui = V.ui, M = V.ms, E = V.esc, PW = V.PW, mapH = null;
-  var S = V.st.colleges = V.st.colleges || { q: '', district: '', sector: '', kind: '', route: '', web: false, sort: 'name', map: true, n: 24 };
+  var S = V.st.colleges = V.st.colleges || { q: '', district: '', sector: '', kind: '', route: '', web: false, sort: 'name', map: window.innerWidth > 700, n: 24 };
   var KINDS = ['College', 'Campus', 'Institute', 'School', 'University', 'Medical college'];
   function match(p, skipDistrict) {
     if (!skipDistrict && S.district && p.district !== S.district) return false;
@@ -40,7 +40,7 @@
       '<label class="fld">' + M('location_on') + '<select id="dsel" data-in="kd"><option value="">All districts</option>' + ds.map(function (d) { return '<option' + (S.district === d ? ' selected' : '') + '>' + E(d) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fld">' + M('school') + '<select data-in="kr"><option value="">Any course</option>' + rs.map(function (r) { return '<option value="' + r.id + '"' + (S.route === r.id ? ' selected' : '') + '>' + E(r.name) + '</option>'; }).join('') + '</select></label></div>' +
       chips('sector', [['', 'Any sector'], ['public', 'Public'], ['private', 'Private'], ['community', 'Community']], S.sector) + chips('kind', [['', 'All types']].concat(KINDS.map(function (k) { return [k, k]; })), S.kind) +
-      '<div class="rowf"><button class="chip" data-act="kweb" aria-pressed="' + S.web + '">' + M('language') + 'Has website</button><button class="chip" data-act="kmap" aria-pressed="' + S.map + '">' + M('map') + 'Map</button><button class="chip" data-act="kclear">' + M('filter_alt_off') + 'Clear</button>' +
+      '<div class="rowf"><button class="chip" data-act="locate">' + M('my_location') + 'Near me</button><button class="chip" data-act="kweb" aria-pressed="' + S.web + '">' + M('language') + 'Has website</button><button class="chip" data-act="kmap" aria-pressed="' + S.map + '">' + M('map') + 'Map</button><button class="chip" data-act="kclear">' + M('filter_alt_off') + 'Clear</button>' +
       '<label class="fld" style="margin-left:auto">' + M('sort') + '<select data-in="ks">' + [['name', 'A to Z'], ['seats', 'Most seats'], ['courses', 'Most courses']].map(function (o) { return '<option value="' + o[0] + '"' + (S.sort === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label></div></div>' +
       '<div id="kmap"></div><div class="legend" id="kleg"><i style="background:var(--s4)"></i>none<i style="background:color-mix(in srgb,var(--p) 40%,var(--s4))"></i>a few<i style="background:var(--p)"></i>many</div><div id="res" style="margin-top:14px">' + list() + '</div>', after: drawMap };
   };

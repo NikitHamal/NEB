@@ -19,3 +19,5 @@
 @media(max-height:820px) and (min-width:900px){.rail button{font-size:10px}.rail button .pill{height:26px}}
 #roadBody{scroll-margin-top:88px}
 @media(max-width:959px){#roadBody .cols>aside{order:-1}}
+.chip.pay{height:40px;gap:8px}.chip.pay b{font-weight:500}
+.chip .xs{margin-left:2px}
