@@ -2204,3 +2204,24 @@ History read first (`rsi.py pickup`, sessions 73 to 84). Every item in the reque
 
 
 CI: `36cf16d` Android release build (APK + AAB) green on the first push. No backend change this session, so no deploy ran.
+
+---
+# Session 86: cover fits any box, cover survives refresh, link icon, Edit profile rebuilt (app + web)
+
+History read first (`rsi.py pickup`, sessions 73 to 85). Profile v3, v7 covers, v1 thumbnails and code-drawn art existed; sessions 84 and 85 called the request done. The request screenshots show real defects that were still there, so this session fixed those and did not rebuild anything else.
+
+| # | What | Where |
+| --- | --- | --- |
+| 450 | **Refresh changed the cover (web)**: `profile.html` reads `{{ cover_art }}` but the view only put it inside `profile_data`, so the attribute was empty on every load and the username default was drawn. The view now passes `cover_art`. The save endpoint was always right. | `web/views_profile.py` |
+| 451 | **Cover fits its box (web)**: the art was always drawn at 1200 x 400 and cropped (`slice`) to the box. It is now built for the box's own aspect (steps of 0.05, 0.6 to 4), re-drawn when a resize changes the step. Same seed, same composition language; nothing is cut off. Resource thumbnails use the same path. | `tools/art/build_m3x_web.js` (`NebM3x.fit`, `cover(id, live, aspect)`), `js/m3x-art.js`, `js/pixel-art.js`, `js/profile-cover.js` |
+| 452 | **Cover fits its box (app)**: `M3xArtView` measures its size, builds the piece for that aspect (height 400 / 256 / 320 base) and caches by `key@width`. Profile header, Edit profile, picker tiles, note covers and resource thumbnails all fit. | `ui/components/M3xArt.kt` |
+| 453 | **Link icon** (not copy) in the profile top bar, as before the copy icon. | `ProfileScreen.kt` |
+| 454 | **Edit profile (app)**: cover first, edge to edge behind the status bar at the profile's proportions, back and Save float on it, photo (the profile's own shape, no ring) hangs on the cover's bottom edge in the middle, then name, handle, strength, then the sections. Title and tagline removed. Change cover opens the same picker. | `EditProfileHero.kt`, `EditProfileScreen.kt` (`EditProfileCover.kt` removed) |
+| 455 | **Edit profile (web)**: same structure: cover hero, photo centred across its edge, borderless identity block, Change cover opens the picker in place (partial shared with the profile page). Edit page gets `cover_art` and `cover_choices`. | `edit_profile.html`, `partials/_cover_picker.html`, `web-edit-profile.css`, `views_profile.py` |
+
+## Notes
+- No schema change, nothing deleted from the database. The token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+- Tests: `CoverFitAndPersistTests` in `web/test_dialog_centering.py`.
+
+## Next
+- On-device pass: Edit profile hero at 360dp, cover redraw while rotating.
