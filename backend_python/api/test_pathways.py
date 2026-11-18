@@ -854,17 +854,20 @@ class Wave19Tests(TestCase):
         d = pathways.payload()
         govt = {g['id']: g for g in d['govt']}
         for eid, fee in (('e-bca', 1500), ('e-bit', 1750), ('e-kucat', 2000), ('e-pu-bachelor', 1600),
-                         ('e-mecee-pg', 5000), ('e-ioe-msc', 2500), ('e-ican', 34500), ('e-nvc', 3000), ('e-namc', 3500)):
+                         ('e-mecee-pg', 5000), ('e-ioe-msc', 2500), ('e-ican', 34500), ('e-nvc', 3000), ('e-namc', 3500),
+                         ('e-somat', 2000), ('e-caan-cpl', 150000), ('l-gmat', 39875)):
             self.assertEqual(govt[eid]['fee'], fee)
         routes = {r['id']: r for r in d['routes']}
         self.assertEqual(routes['bca']['exam_id'], 'e-bca')
         self.assertEqual(routes['bit']['exam_id'], 'e-bit')
         self.assertEqual(routes['md-ms']['exam_id'], 'e-mecee-pg')
         self.assertEqual(routes['ca-route']['exam_id'], 'e-ican')
+        self.assertEqual(routes['pilot-route']['exam_id'], 'e-caan-cpl')
         careers = {c['id']: c for c in d['careers']}
         self.assertEqual(careers['veterinarian']['licence']['exam'], 'e-nvc')
         self.assertEqual(careers['ayurveda-doctor']['licence']['exam'], 'e-namc')
         self.assertEqual(careers['chartered-accountant']['licence']['exam'], 'e-ican')
+        self.assertEqual(careers['pilot']['licence']['exam'], 'e-caan-cpl')
         guides = {g['id'] for g in d['guides']}
         for gid in ('bca-admission', 'bit-admission', 'mecee-pg-apply', 'pu-scholarship', 'ican-ca-register'):
             self.assertIn(gid, guides)
@@ -876,8 +879,13 @@ class Wave19Tests(TestCase):
         by_p = {p['id']: p for p in d['providers']}
         self.assertEqual(by_p['p-peoples-dental']['website'], 'https://pdch.com.np')
         self.assertEqual(by_p['p-bc-med']['website'], 'https://bncmedicalcollege.edu.np')
-        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 315)
+        self.assertEqual(by_p['p-nathm']['route_seats']['bhm'], 264)
+        self.assertEqual(by_p['p-nathm']['fees']['bhm'], [575000, 575000])
+        self.assertEqual(by_p['p-somtu']['route_seats']['mba'], 135)
+        self.assertEqual(by_p['p-shankerdev']['route_seats']['bba'], 99)
+        self.assertEqual(by_p['p-tilottama-campus']['route_seats']['bba'], 96)
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 335)
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 21):
+        for i in range(1, 26):
             self.assertIn(f'fw19-{i}', faq)
         self.assertEqual(pathways.problems(d), [])

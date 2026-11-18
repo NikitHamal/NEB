@@ -396,6 +396,8 @@ def payload():
             route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
         for pid, rs in w19['route_seats'].items():
             by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for pid, fees in w19.get('fees', {}).items():
+            by_provider[pid]['fees'] = {**(by_provider[pid].get('fees') or {}), **fees}
         for pid, text in w19['provider_note_add'].items():
             by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
         for pid, url in w19['provider_websites'].items():

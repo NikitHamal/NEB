@@ -20,27 +20,30 @@ import w19_exams_links as EL  # noqa: E402
 import w19_faq as F  # noqa: E402
 import w19_health_eng as HE  # noqa: E402
 import w19_health_eng_seats as HES  # noqa: E402
+import w19_more as M  # noqa: E402
 
 DATA = HERE.parent.parent / 'api' / 'data' / 'pathways'
 
+route_seats_all = {**HES.ROUTE_SEATS, **M.ROUTE_SEATS_MORE}
 where_add = {}
-for pid, rs in sorted(HES.ROUTE_SEATS.items()):
+for pid, rs in sorted(route_seats_all.items()):
     for rid in rs:
         where_add.setdefault(rid, []).append(pid)
 
 out = {
-    'providers_add': HE.PROVIDERS_ADD,
+    'providers_add': HE.PROVIDERS_ADD + M.PROVIDERS_MORE,
     'where_add': where_add,
-    'route_seats': HES.ROUTE_SEATS,
-    'provider_note_add': HES.PROVIDER_NOTE_ADD,
-    'govt_add': EG.GOVT_ADD,
-    'route_exam': EL.ROUTE_EXAM,
-    'career_licence': EL.CAREER_LICENCE,
+    'route_seats': route_seats_all,
+    'fees': M.FEES_MORE,
+    'provider_note_add': {**HES.PROVIDER_NOTE_ADD, **M.PROVIDER_NOTE_MORE},
+    'govt_add': EG.GOVT_ADD + M.GOVT_MORE,
+    'route_exam': {**EL.ROUTE_EXAM, **M.ROUTE_EXAM_MORE},
+    'career_licence': {**EL.CAREER_LICENCE, **M.CAREER_LICENCE_MORE},
     'guides_add': EL.GUIDES_ADD,
     'scholarships_add': AW.SCHOLARSHIPS_ADD,
     'abroad_note_add': AW.ABROAD_NOTE_ADD,
-    'provider_websites': AW.PROVIDER_WEBSITES,
-    'faq_add': F.FAQ_ADD,
+    'provider_websites': {**AW.PROVIDER_WEBSITES, **M.WEBSITES_MORE},
+    'faq_add': F.FAQ_ADD + M.FAQ_MORE,
 }
 text = json.dumps(out, ensure_ascii=False, indent=1)
 assert '\u2014' not in text and '\u2013' not in text and '--' not in text
