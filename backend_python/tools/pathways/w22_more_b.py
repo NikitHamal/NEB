@@ -94,12 +94,13 @@ WHERE_MORE = {
     'be-computer': ['p-ltu-banke'],
     'bit': ['p-ltu-banke'],
     'bsc-agri': ['p-mau-saptari'],
-    'bsw': ['p-kadambari'],
+    'bsw': ['p-kadambari', 'p-bagiswori-bhaktapur'],
     'mphil': ['p-iacer'],
-    'ma': ['p-iacer'],
+    'ma': ['p-iacer', 'p-bagiswori-bhaktapur', 'p-makawanpur-mc'],
     'bhm': ['p-nthmc-pokhara'],
     'bba': ['p-nthmc-pokhara'],
     'bba-bi': ['p-nthmc-pokhara'],
+    'bsc-science': ['p-makawanpur-mc'],
 }
 
 ROUTE_SEATS_MORE = {

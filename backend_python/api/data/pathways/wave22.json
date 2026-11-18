@@ -1655,24 +1655,24 @@
    "note": "Community campus in Marma, Darchula offering 4 year BEd and BBS plus technical secondary agriculture education."
   },
   {
-   "id": "p-ltu-banke",
-   "name": "Lumbini Technological University (LTU)",
-   "kind": "public",
-   "sector": "public",
-   "district": "Banke",
-   "place": "Nepalgunj / Khajura, Banke",
-   "website": "https://ltu.edu.np",
-   "note": "Provincial technical university established by Lumbini Province in Banke offering 4 year BTech in Computer Science and AI (48 seats), BTech in IT (48 seats), BTech in Civil Engineering and MTech."
+   "id": "p-bagiswori-bhaktapur",
+   "name": "Bagiswori College (Bhaktapur)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Bhaktapur",
+   "place": "Kamalbinayak, Bhaktapur",
+   "website": "https://www.bagisworicollege.edu.np",
+   "note": "UGC QAA certified community college in Kamalbinayak, Bhaktapur affiliated with Tribhuvan University offering +2, 4 year BBS, BA, BSW, BEd and 2 year MBS and MA."
   },
   {
-   "id": "p-mau-saptari",
-   "name": "Madhesh Agriculture University (MAU)",
-   "kind": "public",
-   "sector": "public",
-   "district": "Saptari",
-   "place": "Rajbiraj, Saptari",
-   "website": "https://mau.edu.np",
-   "note": "Provincial agricultural university established by Madhesh Province in Rajbiraj, Saptari offering 4 year BSc (Hons) Agriculture (50 seats) with merit and provincial scholarships."
+   "id": "p-makawanpur-mc",
+   "name": "Makawanpur Multiple Campus (Hetauda)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Makwanpur",
+   "place": "Hetauda, Makwanpur",
+   "website": "https://mmchetauda.edu.np",
+   "note": "UGC QAA certified community campus in Hetauda, Makwanpur affiliated with Tribhuvan University offering +2, 4 year BBS, BA, BEd, BSc and 2 year MBS, MA and MEd."
   },
   {
    "id": "p-mmp-morang",
@@ -1848,7 +1848,8 @@
   "bsc-science": [
    "p-dhawalagiri-mc",
    "p-mmc-dharan",
-   "p-surkhet-mc"
+   "p-surkhet-mc",
+   "p-makawanpur-mc"
   ],
   "dip-civil-eng": [
    "p-dhaulagiri-pi",
@@ -1966,10 +1967,13 @@
    "p-mau-saptari"
   ],
   "bsw": [
-   "p-kadambari"
+   "p-kadambari",
+   "p-bagiswori-bhaktapur"
   ],
   "ma": [
-   "p-iacer"
+   "p-iacer",
+   "p-bagiswori-bhaktapur",
+   "p-makawanpur-mc"
   ],
   "bhm": [
    "p-nthmc-pokhara"
