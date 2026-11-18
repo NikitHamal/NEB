@@ -1129,3 +1129,33 @@ class Wave24Tests(TestCase):
         for i in range(1, 12):
             self.assertEqual(faq[f'fw24-{i}']['topic'], 'after12')
 
+
+
+class Wave25Tests(TestCase):
+    """Wave 25: FWU and Mid-West University campuses, EC portal work and stay rules, 8 FAQs."""
+
+    def test_wave25_campuses_abroad_and_faq(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        routes = {r['id']: r for r in d['routes']}
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertGreaterEqual(len(prov), 616)
+        self.assertEqual(sum(1 for p in prov if p.startswith('p-w25-')), 8)
+        for pid in ('p-w25-tikapur', 'p-w25-triveni', 'p-w25-sitaram', 'p-w25-patan-baitadi', 'p-w25-durgalaxmi', 'p-w25-bageshwari'):
+            self.assertIn(pid, routes['bed']['where'])
+        self.assertIn('p-w25-tikapur', routes['bba']['where'])
+        self.assertIn('p-w25-durgalaxmi', routes['med']['where'])
+        self.assertIn('p-kailali', routes['med']['where'])
+        self.assertEqual(prov['p-w24-iost-manilek']['sector'], 'Public')
+        for aid in ('es', 'pt', 'hu', 'ro', 'cy'):
+            self.assertTrue(abroad[aid]['stay_back'], aid)
+        self.assertIn('30 hours', abroad['hu']['work'])
+        self.assertIn('24 hours', abroad['hu']['work'])
+        self.assertEqual(abroad['ro']['work_hours'], 20)
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 9):
+            self.assertIn(f'fw25-{i}', faq)
+        for p in prov.values():
+            if p['id'].startswith('p-w25-'):
+                self.assertNotIn('\u2014', p['note'])

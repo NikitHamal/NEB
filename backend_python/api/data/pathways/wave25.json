@@ -1,0 +1,227 @@
+{
+ "providers_add": [
+  {
+   "id": "p-w25-tikapur",
+   "name": "Tikapur Multiple Campus (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kailali",
+   "place": "Tikapur",
+   "note": "Constituent campus of Far-Western University. Established 2001. The FWU Faculty of Education list gives B.Ed., M.Ed. and PBEd, and the campus homepage announces BBA and B.Ed orientation programmes. Phone 091-560088.",
+   "website": "https://tikapur.fwu.edu.np"
+  },
+  {
+   "id": "p-w25-triveni",
+   "name": "Triveni Multiple Campus (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Dadeldhura",
+   "place": "Jogbuda, Parshuram-12",
+   "note": "Constituent campus of Far-Western University. Undergraduate campus in Parshuram Municipality-12. The FWU Education list gives B.Ed. and the campus site posts a scholarship notice for BBS and B.Ed. semesters.",
+   "website": "https://treveni.fwu.edu.np"
+  },
+  {
+   "id": "p-w25-ghanteshwar",
+   "name": "Ghanteshwar Seti Mahakali Multiple Campus (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Doti",
+   "place": "Jorayal",
+   "note": "Constituent campus of Far-Western University. The FWU Faculty of Education list gives B.Ed. at this Doti campus. Ask the campus about other programmes before applying.",
+   "website": "https://ghanteshwar.fwu.edu.np"
+  },
+  {
+   "id": "p-w25-sitaram",
+   "name": "Sitaram Multiple Campus (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Doti",
+   "place": "Jijomandu",
+   "note": "Constituent campus of Far-Western University. The FWU Faculty of Education list gives B.Ed. at this Doti campus. Phone 094-524000.",
+   "website": "https://sitaram.fwu.edu.np"
+  },
+  {
+   "id": "p-w25-patan-baitadi",
+   "name": "Patan Multiple Campus, Baitadi (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Baitadi",
+   "place": "Patan",
+   "note": "Constituent campus of Far-Western University. Not the Patan Campus of Lalitpur. The FWU Faculty of Education list gives B.Ed. here. Phone 095-400034.",
+   "website": "https://patan.fwu.edu.np"
+  },
+  {
+   "id": "p-w25-durgalaxmi",
+   "name": "Durgalaxmi Multiple Campus (Far-Western University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kailali",
+   "place": "Attariya",
+   "note": "Constituent campus of Far-Western University. Sixteenth FWU campus on the Faculty of Education list (the main FWU campus page shows 15). Programmes: B.Ed., M.Ed. and CSIT in Education.",
+   "website": "https://durgalaxmi.fwu.edu.np"
+  },
+  {
+   "id": "p-w25-bageshwari",
+   "name": "Bageshwari Multiple Campus (Mid-West University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Banke",
+   "place": "Kohalpur",
+   "note": "Constituent campus of Mid-West University, established 1992. Edusanjal lists B.Ed., BBS, BA, M.Ed., MA and MBS, and the MU 2083/84 bachelor admission notice lists BSc, BBS, BBA, B.Ed. and BA. Also runs +2 Management and Education under NEB. Phone 081-540076."
+  },
+  {
+   "id": "p-w25-vidhyapur",
+   "name": "Vidhyapur Janata Multiple Campus (Mid-West University)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Surkhet",
+   "place": "Bidhyapur-4",
+   "note": "Constituent campus of Mid-West University listed on its LMS (mulms.edu.np). College portals show BBS and B.Ed. here; confirm the intake with the campus."
+  }
+ ],
+ "where_add": {
+  "bed": [
+   "p-w25-tikapur",
+   "p-w25-triveni",
+   "p-w25-ghanteshwar",
+   "p-w25-sitaram",
+   "p-w25-patan-baitadi",
+   "p-w25-durgalaxmi",
+   "p-w25-bageshwari",
+   "p-w25-vidhyapur",
+   "p-w24-iost-manilek",
+   "p-fwu"
+  ],
+  "med": [
+   "p-w25-tikapur",
+   "p-w25-durgalaxmi",
+   "p-w25-bageshwari",
+   "p-badimalika-bajura",
+   "p-fwu",
+   "p-gokuleshwor-darchula",
+   "p-jagannath-baitadi",
+   "p-achham",
+   "p-jayaprithvi-bajhang",
+   "p-kailali"
+  ],
+  "bba": [
+   "p-w25-tikapur",
+   "p-w25-bageshwari"
+  ],
+  "bbs": [
+   "p-w25-triveni",
+   "p-w25-bageshwari",
+   "p-w25-vidhyapur"
+  ],
+  "ba": [
+   "p-w25-bageshwari"
+  ],
+  "mbs": [
+   "p-w25-bageshwari"
+  ]
+ },
+ "provider_update": {
+  "p-w24-iost-manilek": {
+   "name": "Manilek Multiple Campus (FWU and TU IoST)",
+   "sector": "Public",
+   "place": "Melauli-04, Kanda",
+   "website": "https://manilek.fwu.edu.np",
+   "note": "Far-Western University constituent campus (FWU Faculty of Education list: B.Ed.) that the TU Institute of Science and Technology table also lists for B.Sc. General. Confirm the intake and fee with the campus."
+  }
+ },
+ "abroad_update": {
+  "es": {
+   "stay_back": "12 month job searching residence permit after you complete your studies (European Commission EU Immigration Portal, Spain page); working after that needs a job offer and a work permit, or a highly qualified or start-up route"
+  },
+  "pt": {
+   "work": "The European Commission EU Immigration Portal Portugal page says only secondary education students, unremunerated trainees and volunteers are not allowed to work on a student residence permit, so a higher education student may take a job. It gives no weekly hour cap, so confirm hours and registration with AIMA and your university.",
+   "stay_back": "You can work as an employee or self employed after your studies once you apply for and obtain the temporary residence permit for that purpose (European Commission EU Immigration Portal, Portugal page); the page gives no job search period"
+  },
+  "ee": {
+   "work": "Students at Estonian higher education institutions may take a job without prior authorisation and without a limit on working hours, as long as the work does not interfere with studies (European Commission EU Immigration Portal, Estonia page). Part time work is practical mostly in IT and hospitality."
+  },
+  "hu": {
+   "work": "Two official pages differ. The European Commission EU Immigration Portal Hungary page says up to 30 hours a week during the study period and full time for up to 90 days a year outside it; the Study in Hungary FAQ says 24 hours a week in term and up to 90 days or 66 working days outside term. Plan with 24 hours and ask your university career office. You need a Hungarian tax number and the employer must register the job.",
+   "stay_back": "After successfully completing studies you can apply for a residence permit to look for a job or start a business (European Commission EU Immigration Portal, Hungary page); the page gives no duration"
+  },
+  "ro": {
+   "stay_back": "Residence for studies can be extended by 9 months after graduation to look for a job or open a business, and by up to 6 months to finalise the studies and authenticate documents (European Commission EU Immigration Portal, Romania page)"
+  },
+  "cy": {
+   "stay_back": "One year after completing a master or PhD course to look for a job or start a business, by permit; bachelor graduates are not covered (European Commission EU Immigration Portal, Cyprus page)"
+  },
+  "no": {
+   "work": "A study permit includes permission to work part time up to 20 hours a week, including remote work, and full time during holidays, with no separate work permit (UDI study permit page). You cannot start working before the permit is granted, and you cannot be self employed. PhD posts are salaried jobs with no tuition."
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw25-1",
+   "topic": "after12",
+   "q": "How many constituent campuses does Far-Western University have, and where are they?",
+   "a": "FWU lists 15 constituent campuses on its campus page and the Faculty of Education table adds Durgalaxmi Multiple Campus (Attariya, Kailali). They are Central (Mahendranagar), Tikapur and Kailali Multiple (Kailali), Durgalaxmi (Kailali), Triveni (Dadeldhura), Ghanteshwar Seti Mahakali and Sitaram (Doti), Darchula and Gokuleshwor (Darchula), Bajura and Badimalika (Bajura), Jayaprithivi (Bajhang), Janata (Achham), and Manilek, Patan and Jagannath (Baitadi) (source: the FWU Faculty of Education campus table (facultyeducation.fwu.edu.np) and the FWU campus pages).",
+   "go": [
+    "bed",
+    "bbs"
+   ]
+  },
+  {
+   "id": "fw25-2",
+   "topic": "after12",
+   "q": "Where can I study B.Ed. in the far west of Nepal?",
+   "a": "FWU lists B.Ed. at its central department in Mahendranagar and at Badimalika, Bajura, Darchula, Durgalaxmi, Ghanteshwar Seti Mahakali, Gokuleshwor, Jagannath, Janata, Jayaprithivi, Kailali, Manilek, Patan, Sitaram, Tikapur and Triveni campuses (source: the FWU Faculty of Education campus table (facultyeducation.fwu.edu.np) and the FWU campus pages). Ask each campus for current fees and intake.",
+   "go": [
+    "bed"
+   ]
+  },
+  {
+   "id": "fw25-3",
+   "topic": "afterbach",
+   "q": "Which Far-Western University campuses offer M.Ed.?",
+   "a": "The FWU Faculty of Education table gives M.Ed. at the central department, Bajura, Darchula, Durgalaxmi, Gokuleshwor, Jagannath, Janata, Jayaprithivi, Kailali and Tikapur campuses. Kailali and Tikapur also list PBEd, and the central department lists PBEd too (source: the FWU Faculty of Education campus table (facultyeducation.fwu.edu.np) and the FWU campus pages).",
+   "go": [
+    "med"
+   ]
+  },
+  {
+   "id": "fw25-4",
+   "topic": "after12",
+   "q": "Is Patan Multiple Campus in Baitadi the same as Patan Campus in Lalitpur?",
+   "a": "No. Patan Multiple Campus in Baitadi is a Far-Western University constituent campus that the FWU Education table lists for B.Ed. Patan Campus in Lalitpur is a Tribhuvan University campus in Kathmandu valley (source: the FWU Faculty of Education campus table (facultyeducation.fwu.edu.np) and the FWU campus pages).",
+   "go": [
+    "bed"
+   ]
+  },
+  {
+   "id": "fw25-5",
+   "topic": "after12",
+   "q": "Which Mid-West University campuses are in Surkhet and Banke?",
+   "a": "Mid-West University has its central schools at Birendranagar, Surkhet, plus constituent campuses including Bheri Multiple (Gumi) and Vidhyapur Janata (Bidhyapur-4) in Surkhet, and Bageshwari Multiple Campus in Kohalpur, Banke. Others are Narayan (Dailekh), Tila Karnali (Kalikot), Rara (Mugu), Musikot Khalanga (West Rukum), Bheri Gyanodaya (Jajarkot), Babai (Bardiya) and Jaljala (Rolpa) (source: the Mid-West University LMS and the MU 2083/84 bachelor admission notice).",
+   "go": [
+    "bbs",
+    "bed"
+   ]
+  },
+  {
+   "id": "fw25-6",
+   "topic": "abroad",
+   "q": "Can I work after studies in Spain, Hungary, Romania and Cyprus?",
+   "a": "Spain gives a 12 month job searching residence permit after you complete studies. Romania extends residence by 9 months after graduation to look for a job. Cyprus gives one year, but only to master or PhD graduates. Hungary lets graduates apply for a permit to look for a job or start a business without stating the duration on the page (source: the European Commission EU Immigration Portal, student page of each country).",
+   "go": []
+  },
+  {
+   "id": "fw25-7",
+   "topic": "abroad",
+   "q": "How many hours can a student work in Hungary?",
+   "a": "Two official sources differ. the European Commission EU Immigration Portal says up to 30 hours a week in the study period and full time for up to 90 days a year outside it. The Study in Hungary FAQ says 24 hours a week in term and up to 90 days or 66 working days outside term. Plan with 24 hours and confirm with your university career office.",
+   "go": []
+  },
+  {
+   "id": "fw25-8",
+   "topic": "abroad",
+   "q": "Do students in Estonia and Norway have a working hour limit?",
+   "a": "Estonia has no weekly hour limit for students at higher education institutions as long as work does not interfere with studies (the European Commission EU Immigration Portal, Estonia page). Norway lets a study permit holder work up to 20 hours a week, including remote work, and full time during holidays (UDI study permit page).",
+   "go": []
+  }
+ ]
+}
