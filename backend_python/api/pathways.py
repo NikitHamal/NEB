@@ -507,6 +507,8 @@ def payload():
         for pid, url in w22['provider_websites'].items():
             if not by_provider[pid].get('website'):
                 by_provider[pid]['website'] = url
+        for pid, url in w22.get('websites_replace', {}).items():
+            by_provider[pid]['website'] = url
         scholarships = scholarships + w22['scholarships_add']
         abroad_by = {a['id']: a for a in abroad}
         for sc in w22['scholarships_add']:

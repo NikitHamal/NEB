@@ -1011,6 +1011,7 @@ class Wave22Tests(TestCase):
             ('e-see', 500), ('e-neb-plus2', 1000), ('e-cambridge-ib', 75000), ('e-tu-fom-bbs', 800),
             ('e-tu-foe-bed', 1200), ('e-nstb-skill', 1000), ('e-sainik-police-school', 1000), ('g-nac', 1000),
             ('g-beema-sebon', 1000), ('g-foreign-service', 1000), ('g-revenue-service', 1000), ('l-cfa', 143550),
+            ('g-sub-engineer', 700), ('g-jt-jta', 500), ('g-forest-ranger', 500), ('e-provincial-uni', 1200), ('l-nat', 4500),
         ):
             self.assertEqual(govt[eid]['fee'], fee)
         for g in d['govt']:
@@ -1047,13 +1048,25 @@ class Wave22Tests(TestCase):
         self.assertEqual(by_p['p-eastern-coe']['website'], 'https://eascoll.edu.np')
         self.assertEqual(by_p['p-ncft']['website'], 'https://namuna.edu.np')
         self.assertEqual(by_p['p-surkhet-mc']['website'], 'https://sc.tu.edu.np')
-        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 410)
+        self.assertEqual(by_p['p-ltu-banke']['route_seats']['be-computer'], 48)
+        self.assertEqual(by_p['p-mau-saptari']['route_seats']['bsc-agri'], 50)
+        self.assertEqual(by_p['p-afpi-argha']['route_seats']['dip-forestry'], 40)
+        self.assertEqual(by_p['p-bhimdatta-pi-baitadi']['route_seats']['dip-civil-eng'], 48)
+        self.assertEqual(by_p['p-w12-narayani-pi']['website'], 'https://www.npictevt.edu.np')
+        self.assertEqual(by_p['p-samarpan']['website'], 'https://www.tuicms.edu.np')
+        self.assertEqual(by_p['p-doti']['website'], 'https://domc.tu.edu.np')
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 450)
+        from collections import Counter
+        dc = Counter(p['district'] for p in d['providers'])
+        self.assertEqual(len(dc), 77)
+        for dist, cnt in dc.items():
+            self.assertGreaterEqual(cnt, 2, dist)
         for a in d['abroad']:
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 31):
+        for i in range(1, 41):
             self.assertIn(f'fw22-{i}', faq)
         self.assertEqual(pathways.problems(d), [])

@@ -481,6 +481,198 @@
    ],
    "exam_month": 5,
    "career": "bank-officer"
+  },
+  {
+   "id": "g-sub-engineer",
+   "track": "psc",
+   "name": "Lok Sewa Sub-Engineer (Level 5 Technical) and Assistant Sub-Engineer Exam",
+   "level": "Non-Gazetted First Class Technical (Level 5 Sub-Engineer) and Level 4 Assistant Sub-Engineer (Federal, Provincial and Local Levels)",
+   "need": "3 year CTEVT Diploma in Civil, Electrical, Mechanical, Geomatics or Sanitary Engineering (or I.E.) for Level 5 Sub-Engineer; Pre-Diploma / TSLC in Engineering for Level 4 Assistant Sub-Engineer",
+   "age": "18 to 35 years (up to 40 years for women and persons with disabilities)",
+   "body": "Federal Public Service Commission (Lok Sewa Aayog) and all 7 Provincial Public Service Commissions (PPSC)",
+   "stages": [
+    [
+     "Written Examination: Paper 1 (Objective MCQ) and Paper 2 (Technical Subjective)",
+     "Paper 1 tests 50 multiple choice questions on engineering fundamentals and public management (100 marks, 45 minutes); Paper 2 tests descriptive technical calculations, estimating, surveying and construction supervision (100 marks).",
+     "200"
+    ],
+    [
+     "Oral Interview",
+     "30 mark technical and competency interview before final merit recommendation to federal ministries, provincial infrastructure offices or municipalities.",
+     "30"
+    ]
+   ],
+   "subjects": [
+    "Surveying, levelling, building construction, estimating and costing, irrigation, highway, water supply and sanitary engineering (for Civil Sub-Engineer)",
+    "Structural mechanics, concrete technology, AutoCAD drawing interpretation and public procurement rules",
+    "General knowledge, Constitution of Nepal and Local Government Operation Act 2074"
+   ],
+   "prep": [
+    "Practise 45 minute 50 MCQ past papers from both Federal PSC and Provincial PSCs (Bagmati, Koshi, Gandaki, Lumbini, Madhesh, Karnali, Sudurpashchim)",
+    "Sub-Engineer is the single largest government technical vacancy every year across all 753 local municipalities and provincial infrastructure offices"
+   ],
+   "note": "Application fee is NPR 400 to 500 for Level 4 and NPR 500 to 700 for Level 5 across Federal and Provincial Lok Sewa portals.",
+   "prep_hours": 220,
+   "fee": 700,
+   "apply": [
+    10,
+    12
+   ],
+   "exam_month": 2,
+   "career": "civil-engineer",
+   "quota_on": true
+  },
+  {
+   "id": "g-jt-jta",
+   "track": "psc",
+   "name": "Lok Sewa Agriculture and Livestock Technician (JT / JTA, Level 4 and Level 5)",
+   "level": "Non-Gazetted First Class Technical (Level 5 Junior Technician / JT) and Level 4 Junior Technical Assistant (JTA) in Agriculture and Veterinary",
+   "need": "3 year CTEVT Diploma in Agriculture (Plant Science or Animal Science / ISc Ag) for Level 5 JT; 18 month Pre-Diploma (TSLC JTA) or SEE Technical Stream in Agriculture for Level 4 JTA",
+   "age": "18 to 35 years (up to 40 years for women and persons with disabilities)",
+   "body": "Federal Public Service Commission and Provincial Public Service Commissions (for 753 Municipal Krishi & Pashu Sakha posts)",
+   "stages": [
+    [
+     "Written Examination (Objective MCQ + Subjective Technical Paper)",
+     "100 mark objective MCQ paper and 100 mark technical paper on agronomy, horticulture, plant protection, extension or animal husbandry, veterinary primary care and dairy.",
+     "200"
+    ],
+    [
+     "Interview",
+     "30 mark oral interview.",
+     "30"
+    ]
+   ],
+   "subjects": [
+    "Agronomy, horticulture, soil science, entomology, plant pathology, seed technology and agricultural extension (Plant Science group)",
+    "Animal nutrition, breeding, livestock management, poultry, veterinary pharmacology and infectious disease control (Animal Science group)",
+    "National Agriculture Policy, Prime Minister Agriculture Modernization Project (PMAMP) and local government agriculture service delivery"
+   ],
+   "prep": [
+    "Every rural and urban municipality in Nepal recruits Level 4 JTA and Level 5 JT staff for its Agriculture (Krishi) and Livestock (Pashu) sections via Provincial Lok Sewa",
+    "Revise Krishi Diary data published annually by the Agriculture Information and Training Centre (AITC)"
+   ],
+   "note": "Application fee is NPR 400 to 700 across Federal and Provincial Public Service Commission portals.",
+   "prep_hours": 200,
+   "fee": 500,
+   "apply": [
+    10,
+    12
+   ],
+   "exam_month": 2,
+   "career": "agri-tech",
+   "quota_on": true
+  },
+  {
+   "id": "g-forest-ranger",
+   "track": "psc",
+   "name": "Lok Sewa Ranger (Level 5 Forestry) and Forest Guard (Ban Rakshak) Exam",
+   "level": "Non-Gazetted First Class Technical (Ranger, Level 5), Forester (Level 4) and Armed Forest Guard (Ban Rakshak)",
+   "need": "3 year Diploma in Forestry (CTEVT / IOF) for Ranger; Pre-Diploma / TSLC in Forestry for Forester; Class 8 or SEE pass with strict physical fitness for Ban Rakshak (Forest Guard)",
+   "age": "18 to 35 years for Ranger/Forester (up to 40 for women); 18 to 30 years for Ban Rakshak",
+   "body": "Federal Public Service Commission, Provincial Public Service Commissions and Department of Forests / National Parks",
+   "stages": [
+    [
+     "Physical Fitness and Endurance Test (Ban Rakshak and Armed Forest Service)",
+     "200m sprint, 3 km endurance run, tree climbing, swimming and eyesight/chest/height measurement (qualifying + scored marks for Ban Rakshak).",
+     "50"
+    ],
+    [
+     "Written Technical Examination and Interview",
+     "200 mark written examination on silviculture, forest mensuration, community forestry, wildlife conservation and Forest Act 2076 (for Ranger) or 50 mark MCQ (for Ban Rakshak) plus interview.",
+     "200"
+    ]
+   ],
+   "subjects": [
+    "Silviculture, forest management, forest mensuration, GIS/remote sensing, soil conservation and watershed management",
+    "Forest Act 2076, National Parks and Wildlife Conservation Act 2029, community forestry guidelines and biodiversity conservation"
+   ],
+   "prep": [
+    "For Ban Rakshak, train early for the 3 km endurance run, tree climbing and swimming tests, which carry direct marks before the written MCQ paper",
+    "For Ranger, focus on Forest Act 2076, Forest Regulation 2079 and community forest inventory calculations"
+   ],
+   "note": "Application fee is NPR 200 to 300 for Ban Rakshak and NPR 500 to 700 for Forester and Ranger.",
+   "prep_hours": 180,
+   "fee": 500,
+   "apply": [
+    9,
+    11
+   ],
+   "exam_month": 1,
+   "career": "forester",
+   "quota_on": true
+  },
+  {
+   "id": "e-provincial-uni",
+   "track": "ent_sci",
+   "name": "Rajarshi Janak, Manmohan Technical, Gandaki, Lumbini Tech and Madhesh Ag University Entrance",
+   "level": "Bachelor and Master entrance across Federal (RJU) and Provincial Universities (MTU, GU, LTU, MAU)",
+   "need": "+2 Science with 45 percent or C grade in Physics, Chemistry and Maths/Biology for BE, BTech CS/AI, BSc Ag, BPharm, BPH and BSc MLT; +2 in any stream for BCA, BIT, BBA, BSM and LL.B",
+   "age": "No upper age limit",
+   "body": "Rajarshi Janak University (Janakpur), Manmohan Technical University (Morang), Gandaki University (Pokhara), Lumbini Technological University (Banke) and Madhesh Agriculture University (Saptari)",
+   "stages": [
+    [
+     "University Objective Entrance Examination (2 hours, 100 marks)",
+     "100 multiple choice questions covering Grade 11/12 Physics, Chemistry, Mathematics/Biology and English (for STEM/Health/Ag) or Verbal, Quantitative, Logical and IT/Legal Aptitude (for IT/Management/Law); pass mark 40.",
+     "100"
+    ],
+    [
+     "Provincial scholarship and constituent merit admission",
+     "Allocates 10 to 20 percent provincial merit and inclusive scholarships alongside subsidized public constituent seats.",
+     "0"
+    ]
+   ],
+   "subjects": [
+    "Grade 11 and 12 Physics, Chemistry and Mathematics (for BE Civil/Electrical at MTU, BTech CS & AI / IT at LTU, BIT at GU and BSc CSIT at RJU)",
+    "Biology, Chemistry and Agriculture fundamentals (for BSc Hons Agriculture at MAU Rajbiraj, BPharm/BPH at MTU/GU/RJU)"
+   ],
+   "prep": [
+    "Check rju.edu.np, mtu.edu.np, gandakiuniversity.edu.np, ltu.edu.np and mau.edu.np in Shrawan/Bhadra for constituent engineering, IT, pharmacy and agriculture seats at public tuition rates"
+   ],
+   "note": "Application fee is NPR 1,000 to 1,500 across RJU, MTU, Gandaki University, LTU and MAU.",
+   "prep_hours": 100,
+   "fee": 1200,
+   "apply": [
+    8,
+    9
+   ],
+   "exam_month": 9
+  },
+  {
+   "id": "l-nat",
+   "track": "lang_oth",
+   "name": "Japanese Language NAT-TEST (Levels 5Q to 1Q, Kathmandu and Pokhara)",
+   "level": "Japanese language proficiency exam (5Q = JLPT N5 up to 1Q = JLPT N1) held 6 times a year in Nepal",
+   "need": "Open to all candidates with a valid passport or citizenship certificate",
+   "age": "No age limit",
+   "body": "Senmon Kyouiku Publishing Co. (Tokyo, Japan) via Kathmandu and Pokhara NAT-TEST Centers",
+   "stages": [
+    [
+     "Language Knowledge (Vocabulary, Kanji and Grammar) and Reading Comprehension",
+     "Timed objective paper testing kanji, vocabulary and reading comprehension.",
+     "100"
+    ],
+    [
+     "Listening Comprehension",
+     "Audio listening test (for 5Q and 4Q, total score is 180 marks with a 90 mark pass threshold and at least 25 percent in each section).",
+     "80"
+    ]
+   ],
+   "subjects": [
+    "Hiragana, Katakana, N5/N4 Kanji and vocabulary",
+    "Japanese grammar patterns, particle usage and reading passages",
+    "Daily conversation and workplace listening comprehension"
+   ],
+   "prep": [
+    "Because JLPT runs only in July and December in Nepal, students applying for Japanese language school COE/visas frequently sit NAT-TEST 5Q or 4Q (held every even month: Feb, Apr, Jun, Aug, Oct, Dec) for faster results within 3 weeks"
+   ],
+   "note": "Held six times a year in Kathmandu and Pokhara; the 2026 registration fee in Nepal is about NPR 4,500 (USD 35). Recognized by the Immigration Services Agency of Japan for student visa COE applications.",
+   "prep_hours": 150,
+   "fee": 4500,
+   "apply": [
+    1,
+    12
+   ],
+   "exam_month": 4
   }
  ],
  "govt_update": {
@@ -1191,6 +1383,356 @@
    "place": "Dhampus, Machhapuchchhre, Kaski",
    "website": "https://api.edu.np",
    "note": "CTEVT constituent polytechnic institute in Dhampus, Kaski offering 3 year Diploma in Civil Engineering (48 seats), Diploma in Agriculture (Plant and Animal Science) and Hotel Management."
+  },
+  {
+   "id": "p-shadananda-bhojpur",
+   "name": "Shree Shadananda Multiple Campus (Dingla)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Bhojpur",
+   "place": "Shadananda, Dingla, Bhojpur",
+   "website": "https://shadanandacampus.edu.np",
+   "note": "UGC QAA certified community campus in historic Dingla, Bhojpur affiliated with Tribhuvan University offering 4 year BBS and BEd."
+  },
+  {
+   "id": "p-gaurishankar-dolakha",
+   "name": "Gaurishankar Multiple Campus (Charikot)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Dolakha",
+   "place": "Bhimeshwor, Charikot, Dolakha",
+   "website": "https://gsmultiplecampus.edu.np",
+   "note": "UGC QAA certified community campus in Charikot, Dolakha affiliated with Tribhuvan University offering BBS, BA, BEd and MBS."
+  },
+  {
+   "id": "p-terhathum-mc",
+   "name": "Terhathum Multiple Campus (Chuhandanda, TU)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Terhathum",
+   "place": "Aatharai, Chuhandanda, Terhathum",
+   "website": "https://tu.edu.np",
+   "note": "Constituent campus of Tribhuvan University established in 2017 BS at Chuhandanda, Aatharai, Terhathum offering BA, BBS and BEd."
+  },
+  {
+   "id": "p-rabi-panchthar",
+   "name": "Rabi Multiple Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Panchthar",
+   "place": "Miklajung, Rabi, Panchthar",
+   "website": "https://rabicampus.edu.np",
+   "note": "Community campus in Rabi, Miklajung, Panchthar affiliated with Tribhuvan University offering 4 year BBS and BEd programmes."
+  },
+  {
+   "id": "p-sinam-taplejung",
+   "name": "Sinam Multiple Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Taplejung",
+   "place": "Sirijangha, Sinam, Taplejung",
+   "website": "https://sinamcampus.edu.np",
+   "note": "Tribhuvan University affiliated community campus in Sinam, Taplejung offering 4 year BEd and BBS programmes."
+  },
+  {
+   "id": "p-madi-sankhuwasabha",
+   "name": "Madi Multiple Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Sankhuwasabha",
+   "place": "Madi Municipality, Sankhuwasabha",
+   "website": "https://madicampus.edu.np",
+   "note": "Community campus in Madi, Sankhuwasabha affiliated with Tribhuvan University offering 4 year BBS and BEd."
+  },
+  {
+   "id": "p-dudh-koshi-solu",
+   "name": "Dudh Koshi Multiple Campus and Sotang Public Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Solukhumbu",
+   "place": "Thulung Dudhkoshi / Sotang, Solukhumbu",
+   "website": "https://tu.edu.np",
+   "note": "Community campuses in Solukhumbu affiliated with Tribhuvan University offering 4 year BEd and BBS for Khumbu region students."
+  },
+  {
+   "id": "p-melamchi-sindhu",
+   "name": "Indrawati Multiple Campus and Melamchi Ghyang Secondary School",
+   "kind": "community",
+   "sector": "community",
+   "district": "Sindhupalchok",
+   "place": "Melamchi / Helambu, Sindhupalchok",
+   "website": "https://tu.edu.np",
+   "note": "Community campus in Melamchi and high-performing residential secondary school in Helambu, Sindhupalchok offering SEE, +2, BBS and BEd."
+  },
+  {
+   "id": "p-nuwakot-adarsha",
+   "name": "Nuwakot Adarsha Multiple Campus (Battar)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Nuwakot",
+   "place": "Battar, Bidur, Nuwakot",
+   "website": "https://tu.edu.np",
+   "note": "Leading community campus in Bidur, Nuwakot affiliated with Tribhuvan University offering 4 year BBS, BEd, BA and 2 year MEd."
+  },
+  {
+   "id": "p-kalika-rasuwa",
+   "name": "Kalika Himalaya Multiple Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Rasuwa",
+   "place": "Kalika Rural Municipality, Rasuwa",
+   "website": "https://kalikacampus.edu.np",
+   "note": "Tribhuvan University affiliated community campus in Kalika, Rasuwa offering 4 year BEd and BBS programmes."
+  },
+  {
+   "id": "p-parbat-mc",
+   "name": "Parbat Multiple Campus and Shivapuri Polytechnic (Kushma)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Parbat",
+   "place": "Kushma, Parbat",
+   "website": "https://tu.edu.np",
+   "note": "Community campus and CTEVT technical institute in Kushma, Parbat offering 4 year BBS, BA, BEd and 3 year Civil/Agriculture diplomas."
+  },
+  {
+   "id": "p-mustang-poly",
+   "name": "Mustang Technical School and Lo-Manthang Sowa Rigpa School",
+   "kind": "public",
+   "sector": "public",
+   "district": "Mustang",
+   "place": "Thasang / Lo-Manthang, Mustang",
+   "website": "https://ctevt.org.np",
+   "note": "CTEVT technical school and traditional Himalayan Sowa Rigpa (Amchi) and high-altitude agriculture training center in Mustang."
+  },
+  {
+   "id": "p-manang-agro",
+   "name": "Manang High-Altitude Agriculture and Tourism Training Hub",
+   "kind": "public",
+   "sector": "public",
+   "district": "Manang",
+   "place": "Ngisyang / Chame, Manang",
+   "website": "https://ctevt.org.np",
+   "note": "Public vocational and CEHRD/CTEVT skill training hub in Manang offering apple horticulture, hospitality and mountain trekking training."
+  },
+  {
+   "id": "p-palhi-nawalparasi",
+   "name": "Palhi Multiple Campus (Ramgram)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Nawalparasi West",
+   "place": "Ramgram, Parasi, Nawalparasi West",
+   "website": "https://tu.edu.np",
+   "note": "Community campus in Parasi, Nawalparasi West affiliated with Tribhuvan University offering 4 year BBS, BA and BEd."
+  },
+  {
+   "id": "p-ruru-gulmi",
+   "name": "Ruru Sanskrit Vidyapeeth (NSU) and Rudrawati Multiple Campus",
+   "kind": "public",
+   "sector": "public",
+   "district": "Gulmi",
+   "place": "Ruru Kshetra (Ridi) / Musikot, Gulmi",
+   "website": "https://nsu.edu.np",
+   "note": "Constituent campus of Nepal Sanskrit University at Ridi (Ruru Kshetra) offering Uttarmadhyama and Shastri alongside TU community BEd/BBS in Gulmi."
+  },
+  {
+   "id": "p-afpi-argha",
+   "name": "Agro-Forestry Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Arghakhanchi",
+   "place": "Chhatradev, Arghakhanchi",
+   "website": "https://afpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Chhatradev, Arghakhanchi offering 3 year Diploma in Agriculture (Plant Science, 40 seats) and Forestry (40 seats)."
+  },
+  {
+   "id": "p-gaumukhi-pyuthan",
+   "name": "Gaumukhi Multiple Campus and Pyuthan Technical School",
+   "kind": "community",
+   "sector": "community",
+   "district": "Pyuthan",
+   "place": "Machchhi / Khalanga, Pyuthan",
+   "website": "https://tu.edu.np",
+   "note": "Tribhuvan University affiliated community campus and CTEVT technical school in Pyuthan offering BBS, BEd and agriculture/civil diplomas."
+  },
+  {
+   "id": "p-putha-rukum-east",
+   "name": "Putha Uttarganga Community Campus and Technical School",
+   "kind": "community",
+   "sector": "community",
+   "district": "Rukum East",
+   "place": "Putha Uttarganga / Rukumkot, Rukum East",
+   "website": "https://cehrd.gov.np",
+   "note": "Community higher education and CEHRD technical secondary stream in Rukum East offering +2, BEd and agriculture/engineering TVET."
+  },
+  {
+   "id": "p-syarpu-rukum-west",
+   "name": "Sahid Yagyashwor Polytechnic Institute and Sheetal Campus (Chaurjahari)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Rukum West",
+   "place": "Bafikot / Chaurjahari, Rukum West",
+   "website": "https://mwu.edu.np",
+   "note": "CTEVT constituent polytechnic in Bafikot and Mid-West University constituent campus in Chaurjahari, Rukum West offering BEd, BBS and 3 year diplomas."
+  },
+  {
+   "id": "p-amar-shahid-bardiya",
+   "name": "Amar Shahid Multiple Campus (Rajapur)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Bardiya",
+   "place": "Rajapur, Bardiya",
+   "website": "https://asmc.edu.np",
+   "note": "Tribhuvan University affiliated community campus in Rajapur, Bardiya offering 4 year BBS, BA and BEd programmes."
+  },
+  {
+   "id": "p-khatyad-mugu",
+   "name": "Chaturdev Campus and Karnali Community Technical Institute (Mugu)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Mugu",
+   "place": "Khatyad / Chhayanath Rara, Mugu",
+   "website": "https://ctevt.org.np",
+   "note": "Community campus in Khatyad and CTEVT technical stream in Mugu offering BEd, BBS and 3 year agriculture/civil diplomas."
+  },
+  {
+   "id": "p-lankuri-dolpa",
+   "name": "Tripurasundari Technical School and Saraswati Technical Stream (Dolpa)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Dolpa",
+   "place": "Tripurasundari / Dunai, Dolpa",
+   "website": "https://ctevt.org.np",
+   "note": "Public CTEVT and CEHRD technical stream in Dolpa offering 3 year agriculture and civil engineering diplomas and +2."
+  },
+  {
+   "id": "p-galwa-humla",
+   "name": "Galwa Multiple Campus and Simkot Technical School",
+   "kind": "community",
+   "sector": "community",
+   "district": "Humla",
+   "place": "Adanchuli / Simkot, Humla",
+   "website": "https://mwu.edu.np",
+   "note": "Mid-West University affiliated campus in Adanchuli and technical school in Simkot, Humla offering BEd, BBS and agriculture diplomas."
+  },
+  {
+   "id": "p-budhinanda-bajura",
+   "name": "Budhinanda Multiple Campus (Kolti)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Bajura",
+   "place": "Kolti, Budhinanda, Bajura",
+   "website": "https://budhinandacampus.edu.np",
+   "note": "Community campus in Kolti, northern Bajura offering 4 year BEd and BBS programmes."
+  },
+  {
+   "id": "p-sunkuda-bajhang",
+   "name": "Sunkuda Multiple Campus",
+   "kind": "community",
+   "sector": "community",
+   "district": "Bajhang",
+   "place": "Bitthadchir, Bajhang",
+   "website": "https://sunkudacampus.edu.np",
+   "note": "Community campus in Bitthadchir, Bajhang affiliated with Tribhuvan University offering 4 year BBS, BA and BEd."
+  },
+  {
+   "id": "p-bhimdatta-pi-baitadi",
+   "name": "Bhimdatta Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Baitadi",
+   "place": "Patan, Baitadi",
+   "website": "https://bdpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Patan, Baitadi offering 3 year Diploma in Civil Engineering (48 seats) and Agriculture (Plant Science, 40 seats)."
+  },
+  {
+   "id": "p-latinath-darchula",
+   "name": "Latinath Multiple Campus (Marma)",
+   "kind": "community",
+   "sector": "community",
+   "district": "Darchula",
+   "place": "Marma, Darchula",
+   "website": "https://latinathcampus.edu.np",
+   "note": "Community campus in Marma, Darchula offering 4 year BEd and BBS plus technical secondary agriculture education."
+  },
+  {
+   "id": "p-ltu-banke",
+   "name": "Lumbini Technological University (LTU)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Banke",
+   "place": "Nepalgunj / Khajura, Banke",
+   "website": "https://ltu.edu.np",
+   "note": "Provincial technical university established by Lumbini Province in Banke offering 4 year BTech in Computer Science and AI (48 seats), BTech in IT (48 seats), BTech in Civil Engineering and MTech."
+  },
+  {
+   "id": "p-mau-saptari",
+   "name": "Madhesh Agriculture University (MAU)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Saptari",
+   "place": "Rajbiraj, Saptari",
+   "website": "https://mau.edu.np",
+   "note": "Provincial agricultural university established by Madhesh Province in Rajbiraj, Saptari offering 4 year BSc (Hons) Agriculture (50 seats) with merit and provincial scholarships."
+  },
+  {
+   "id": "p-mmp-morang",
+   "name": "Manmohan Memorial Polytechnic (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Morang",
+   "place": "Budhiganga, Hattimuda, Morang",
+   "website": "https://mmp.edu.np",
+   "note": "Premier CTEVT partner polytechnic in Hattimuda, Morang (built with Government of India support) offering 3 year Diploma in Mechanical, Electrical, Electronics, Civil and Architecture Engineering."
+  },
+  {
+   "id": "p-tikapur-pi",
+   "name": "Tikapur Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Kailali",
+   "place": "Tikapur, Kailali",
+   "website": "https://tpi.edu.np",
+   "note": "CTEVT constituent polytechnic institute in Tikapur, Kailali offering 3 year Diploma in Civil Engineering (48 seats), Agriculture Plant Science (40 seats) and Animal Science (40 seats)."
+  },
+  {
+   "id": "p-uttarpani-pi",
+   "name": "Uttarpani Polytechnic Institute (CTEVT)",
+   "kind": "public",
+   "sector": "public",
+   "district": "Dhankuta",
+   "place": "Pakhribas / Dhankuta Municipality, Dhankuta",
+   "website": "https://upi.edu.np",
+   "note": "Pioneer CTEVT constituent agricultural technical school in Dhankuta offering 3 year Diploma in Agriculture (Plant Science and Animal Science) and TSLC JTA."
+  },
+  {
+   "id": "p-kadambari",
+   "name": "Kadambari Memorial College of Science and Management",
+   "kind": "private",
+   "sector": "private",
+   "district": "Kathmandu",
+   "place": "Buddhanagar, Kathmandu",
+   "website": "https://kadambari.edu.np",
+   "note": "Specialized Purbanchal University affiliated college in Buddhanagar, Kathmandu offering the 4 year Bachelor of Social Work (BSW)."
+  },
+  {
+   "id": "p-iacer",
+   "name": "Institute of Advanced Communication, Education and Research (IACER)",
+   "kind": "private",
+   "sector": "private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor, Kathmandu",
+   "website": "https://iacer.edu.np",
+   "note": "Pokhara University affiliated postgraduate research institute in New Baneshwor, Kathmandu offering MPhil in English and MA in English."
+  },
+  {
+   "id": "p-nthmc-pokhara",
+   "name": "Nepal Tourism and Hotel Management College (NTHMC)",
+   "kind": "private",
+   "sector": "private",
+   "district": "Kaski",
+   "place": "Chinnedanda, Pokhara, Kaski",
+   "website": "https://www.nthmc.edu.np",
+   "note": "Pokhara University affiliated college in Pokhara, Kaski offering 4 year BHM (Bachelor of Hotel Management), BBA and BBA-BI."
   }
  ],
  "where_add": {
@@ -1202,7 +1744,29 @@
    "p-jumla-mc",
    "p-myagdi-mc",
    "p-surkhet-mc",
-   "p-mmc-dharan"
+   "p-mmc-dharan",
+   "p-shadananda-bhojpur",
+   "p-gaurishankar-dolakha",
+   "p-terhathum-mc",
+   "p-rabi-panchthar",
+   "p-sinam-taplejung",
+   "p-madi-sankhuwasabha",
+   "p-dudh-koshi-solu",
+   "p-melamchi-sindhu",
+   "p-nuwakot-adarsha",
+   "p-kalika-rasuwa",
+   "p-parbat-mc",
+   "p-palhi-nawalparasi",
+   "p-ruru-gulmi",
+   "p-gaumukhi-pyuthan",
+   "p-putha-rukum-east",
+   "p-syarpu-rukum-west",
+   "p-amar-shahid-bardiya",
+   "p-khatyad-mugu",
+   "p-galwa-humla",
+   "p-budhinanda-bajura",
+   "p-sunkuda-bajhang",
+   "p-latinath-darchula"
   ],
   "med": [
    "p-cde-tu",
@@ -1210,7 +1774,8 @@
    "p-sanothimi-campus",
    "p-dhawalagiri-mc",
    "p-dadeldhura-mc",
-   "p-surkhet-mc"
+   "p-surkhet-mc",
+   "p-nuwakot-adarsha"
   ],
   "bicte": [
    "p-mrc-tahachal",
@@ -1220,7 +1785,8 @@
   ],
   "mphil": [
    "p-cde-tu",
-   "p-pu"
+   "p-pu",
+   "p-iacer"
   ],
   "phd-route": [
    "p-cde-tu",
@@ -1232,23 +1798,52 @@
    "p-jumla-mc",
    "p-myagdi-mc",
    "p-surkhet-mc",
-   "p-mmc-dharan"
+   "p-mmc-dharan",
+   "p-shadananda-bhojpur",
+   "p-gaurishankar-dolakha",
+   "p-terhathum-mc",
+   "p-rabi-panchthar",
+   "p-sinam-taplejung",
+   "p-madi-sankhuwasabha",
+   "p-dudh-koshi-solu",
+   "p-melamchi-sindhu",
+   "p-nuwakot-adarsha",
+   "p-kalika-rasuwa",
+   "p-parbat-mc",
+   "p-palhi-nawalparasi",
+   "p-gaumukhi-pyuthan",
+   "p-syarpu-rukum-west",
+   "p-amar-shahid-bardiya",
+   "p-khatyad-mugu",
+   "p-galwa-humla",
+   "p-budhinanda-bajura",
+   "p-sunkuda-bajhang",
+   "p-latinath-darchula"
   ],
   "ba": [
    "p-dhawalagiri-mc",
    "p-jumla-mc",
    "p-myagdi-mc",
    "p-surkhet-mc",
-   "p-mmc-dharan"
+   "p-mmc-dharan",
+   "p-gaurishankar-dolakha",
+   "p-terhathum-mc",
+   "p-nuwakot-adarsha",
+   "p-parbat-mc",
+   "p-palhi-nawalparasi",
+   "p-amar-shahid-bardiya",
+   "p-sunkuda-bajhang"
   ],
   "mbs": [
    "p-dhawalagiri-mc",
    "p-myagdi-mc",
    "p-surkhet-mc",
-   "p-mmc-dharan"
+   "p-mmc-dharan",
+   "p-gaurishankar-dolakha"
   ],
   "bba": [
-   "p-dhawalagiri-mc"
+   "p-dhawalagiri-mc",
+   "p-nthmc-pokhara"
   ],
   "bsc-science": [
    "p-dhawalagiri-mc",
@@ -1260,7 +1855,11 @@
    "p-mahuregadhi-pi",
    "p-rolpa-pi",
    "p-bharatpur-pi",
-   "p-annapurna-pi"
+   "p-annapurna-pi",
+   "p-bhimdatta-pi-baitadi",
+   "p-tikapur-pi",
+   "p-mmp-morang",
+   "p-syarpu-rukum-west"
   ],
   "dip-geomatics": [
    "p-dhaulagiri-pi"
@@ -1268,7 +1867,8 @@
   "dip-forestry": [
    "p-mahuregadhi-pi",
    "p-w12-karnali-ti",
-   "p-w12-rapti-ti"
+   "p-w12-rapti-ti",
+   "p-afpi-argha"
   ],
   "dip-agriculture": [
    "p-dhaulagiri-pi",
@@ -1276,13 +1876,20 @@
    "p-annapurna-pi",
    "p-w12-karnali-ti",
    "p-w12-rapti-ti",
-   "p-w12-lahan-ti"
+   "p-w12-lahan-ti",
+   "p-afpi-argha",
+   "p-bhimdatta-pi-baitadi",
+   "p-tikapur-pi",
+   "p-uttarpani-pi",
+   "p-mustang-poly",
+   "p-lankuri-dolpa"
   ],
   "dip-mech-auto-arch": [
    "p-bharatpur-pi",
    "p-w12-bheri-ti",
    "p-w12-pokhara-ti",
-   "p-w12-panauti-ti"
+   "p-w12-panauti-ti",
+   "p-mmp-morang"
   ],
   "dip-hospitality": [
    "p-annapurna-pi",
@@ -1332,6 +1939,43 @@
   "sports-cadet-school": [
    "p-rbs",
    "p-ullens"
+  ],
+  "sanskrit-gurukul": [
+   "p-ruru-gulmi",
+   "p-mustang-poly"
+  ],
+  "skill-training": [
+   "p-manang-agro",
+   "p-mustang-poly",
+   "p-mmp-morang",
+   "p-tikapur-pi",
+   "p-uttarpani-pi"
+  ],
+  "tvet-school": [
+   "p-putha-rukum-east",
+   "p-lankuri-dolpa",
+   "p-melamchi-sindhu"
+  ],
+  "be-computer": [
+   "p-ltu-banke"
+  ],
+  "bit": [
+   "p-ltu-banke"
+  ],
+  "bsc-agri": [
+   "p-mau-saptari"
+  ],
+  "bsw": [
+   "p-kadambari"
+  ],
+  "ma": [
+   "p-iacer"
+  ],
+  "bhm": [
+   "p-nthmc-pokhara"
+  ],
+  "bba-bi": [
+   "p-nthmc-pokhara"
   ]
  },
  "route_seats": {
@@ -1368,6 +2012,25 @@
   },
   "p-eastern-coe": {
    "dip-geomatics": 48
+  },
+  "p-afpi-argha": {
+   "dip-agriculture": 40,
+   "dip-forestry": 40
+  },
+  "p-bhimdatta-pi-baitadi": {
+   "dip-civil-eng": 48,
+   "dip-agriculture": 40
+  },
+  "p-tikapur-pi": {
+   "dip-civil-eng": 48,
+   "dip-agriculture": 80
+  },
+  "p-ltu-banke": {
+   "be-computer": 48,
+   "bit": 48
+  },
+  "p-mau-saptari": {
+   "bsc-agri": 50
   }
  },
  "fees": {
@@ -1434,7 +2097,15 @@
   "p-nams-pu": "https://nams.edu.np",
   "p-valmiki": "https://nsu.edu.np",
   "p-kendriya-ayurveda": "https://nsu.edu.np",
-  "p-bpkmch-nursing": "https://www.bpkmch.org.np"
+  "p-bpkmch-nursing": "https://www.bpkmch.org.np",
+  "p-w12-narayani-pi": "https://www.npictevt.edu.np",
+  "p-nepalgunj-campus": "https://www.nepalgunjcollege.edu.np",
+  "p-samarpan": "https://www.tuicms.edu.np"
+ },
+ "websites_replace": {
+  "p-doti": "https://domc.tu.edu.np",
+  "p-bhojpur": "https://bhmc.tu.edu.np",
+  "p-lalitkala": "https://lc.tu.edu.np"
  },
  "scholarships_add": [
   {
@@ -2018,6 +2689,120 @@
    "a": "NEBians Pathways tracks 108 verified domestic and international scholarship programmes across all 46 study-abroad destinations and Nepal regulators (MEC, IOE, PU, KU, CTEVT, UGC, Indian Embassy, US Fulbright, UK Chevening/Commonwealth, DAAD, Australia Awards, MEXT, GKS, CSC, Stipendium Hungaricum, Erasmus Mundus and university excellence awards), with 100 percent of active scholarships carrying open-month windows and annual award counts.",
    "go": [
     "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-31",
+   "topic": "after10",
+   "q": "How do 3 year CTEVT Engineering Diploma graduates join government service as a Sub-Engineer (Level 5)?",
+   "a": "Graduates with a 3 year CTEVT Diploma in Civil, Electrical, Mechanical, Geomatics or Architecture Engineering apply for Non-Gazetted First Class Technical (Level 5 Sub-Engineer) vacancies advertised by the Federal Public Service Commission (psc.gov.np) and all 7 Provincial Public Service Commissions (fee NPR 500 to 700). The exam comprises a 100 mark objective MCQ paper, a 100 mark technical subjective paper and a 30 mark interview.",
+   "go": [
+    "dip-civil-eng",
+    "dip-engineering",
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "fw22-32",
+   "topic": "after10",
+   "q": "How does the Lok Sewa JT / JTA (Agriculture and Livestock Technician) exam work for municipal Krishi and Pashu posts?",
+   "a": "Candidates with an 18 month Pre-Diploma (TSLC JTA) or SEE Technical Stream apply for Level 4 JTA, while 3 year CTEVT Diploma in Agriculture (Plant Science or Animal Science) graduates apply for Level 5 Junior Technician (JT) through Federal and Provincial Lok Sewa Aayog (fee NPR 400 to 700) for placement in the 753 municipal Agriculture and Livestock sections.",
+   "go": [
+    "dip-agriculture",
+    "pre-diploma",
+    "tvet-school"
+   ]
+  },
+  {
+   "id": "fw22-33",
+   "topic": "after10",
+   "q": "What is the selection process for Forest Guard (Ban Rakshak) and Ranger in Nepal?",
+   "a": "For Ban Rakshak (Armed Forest Guard, minimum Class 8/SEE pass, age 18 to 30, fee NPR 200 to 300), Provincial and Federal PSCs conduct a scored physical endurance test (200m sprint, 3 km run, tree climbing and swimming) followed by a written MCQ paper and interview. For Level 5 Ranger (requiring a 3 year Diploma in Forestry from IOF or CTEVT), candidates sit a 200 mark technical written exam on silviculture, forest mensuration and Forest Act 2076.",
+   "go": [
+    "dip-forestry",
+    "bsc-forestry",
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "fw22-34",
+   "topic": "after12",
+   "q": "What programmes are offered by Nepal new provincial universities (Manmohan Technical, Lumbini Tech, Madhesh Ag, Gandaki) and Rajarshi Janak University?",
+   "a": "Manmohan Technical University in Morang (mtu.edu.np) offers BE Civil, BE Electrical and Electronics, BPharm, BPH and LL.B; Lumbini Technological University in Banke (ltu.edu.np) offers BTech in CS and AI (48 seats) and BTech in IT (48 seats); Madhesh Agriculture University in Rajbiraj (mau.edu.np) offers BSc (Hons) Agriculture (50 seats); Gandaki University in Pokhara offers BIT, BPharm and BSM; and Rajarshi Janak University in Janakpur (rju.edu.np) offers BSc CSIT, BCA, BBA, BPH and BSc MLT.",
+   "go": [
+    "be-civil",
+    "be-computer",
+    "bit",
+    "bsc-agri",
+    "bpharm"
+   ]
+  },
+  {
+   "id": "fw22-35",
+   "topic": "after12",
+   "q": "What is the difference between JLPT and the Japanese NAT-TEST in Nepal?",
+   "a": "Both measure Japanese proficiency across 5 levels (JLPT N5 to N1 corresponds to NAT-TEST 5Q to 1Q) and both are accepted by the Immigration Services Agency of Japan for student visa Certificate of Eligibility (COE) applications. While JLPT is held only twice a year in Kathmandu (July and December, fee NPR 4,000), the NAT-TEST runs six times a year in Kathmandu and Pokhara (Feb, Apr, Jun, Aug, Oct, Dec, fee about NPR 4,500) with results issued within 3 weeks.",
+   "go": [
+    "foreign-lang-work",
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw22-36",
+   "topic": "after12",
+   "q": "Which CTEVT polytechnics in Arghakhanchi, Baitadi, Kailali, Dhankuta and Morang offer 3 year Engineering, Agriculture and Forestry diplomas?",
+   "a": "Agro-Forestry Polytechnic Institute in Chhatradev, Arghakhanchi (afpi.edu.np) offers 3 year Agriculture and Forestry diplomas; Bhimdatta Polytechnic Institute in Patan, Baitadi (bdpi.edu.np) and Tikapur Polytechnic Institute in Kailali (tpi.edu.np) offer Civil Engineering and Agriculture diplomas; Uttarpani Polytechnic Institute in Dhankuta (upi.edu.np) offers Plant and Animal Science; and Manmohan Memorial Polytechnic in Morang (mmp.edu.np) offers Mechanical, Electrical, Electronics, Civil and Architecture diplomas.",
+   "go": [
+    "dip-civil-eng",
+    "dip-agriculture",
+    "dip-forestry",
+    "dip-mech-auto-arch"
+   ]
+  },
+  {
+   "id": "fw22-37",
+   "topic": "after12",
+   "q": "Where can I study Bachelor of Social Work (BSW) and MPhil in English in Kathmandu under Purbanchal and Pokhara Universities?",
+   "a": "Kadambari Memorial College of Science and Management in Buddhanagar, Kathmandu (kadambari.edu.np) is the pioneer Purbanchal University college dedicated to the 4 year Bachelor of Social Work (BSW), while the Institute of Advanced Communication, Education and Research (IACER, New Baneshwor, iacer.edu.np) offers Pokhara University MA and MPhil programmes in English.",
+   "go": [
+    "bsw",
+    "msw",
+    "mphil",
+    "ma"
+   ]
+  },
+  {
+   "id": "fw22-38",
+   "topic": "after12",
+   "q": "Which community campuses in eastern hill districts (Taplejung, Panchthar, Ilam, Terhathum, Sankhuwasabha, Bhojpur, Solukhumbu) offer TU BBS and BEd degrees?",
+   "a": "Students in Koshi Province hill districts can study low-fee TU BBS, BA and BEd degrees at Pathibhara Multiple Campus and Sinam Multiple Campus (sinamcampus.edu.np) in Taplejung, Panchthar Multiple Campus and Rabi Campus (rabicampus.edu.np) in Panchthar, Mahendra Ratna Multiple Campus in Ilam (mrmcilam.tu.edu.np), Terhathum Multiple Campus in Chuhandanda, Barun and Madi Multiple Campus (madicampus.edu.np) in Sankhuwasabha, Bhojpur Multiple Campus (bhmc.tu.edu.np) and Shadananda Campus (shadanandacampus.edu.np) in Bhojpur, and Solukhumbu and Dudh Koshi Campuses in Solukhumbu.",
+   "go": [
+    "bbs",
+    "bed",
+    "ba"
+   ]
+  },
+  {
+   "id": "fw22-39",
+   "topic": "after12",
+   "q": "Which campuses and polytechnics serve students in Karnali and Sudurpashchim mountain districts (Dolpa, Mugu, Humla, Jumla, Bajura, Bajhang, Darchula, Baitadi)?",
+   "a": "Every mountain district in Karnali and Sudurpashchim has at least two public or community institutions in NEBians Pathways, including Karnali Technical School (kts.edu.np) and Jumla Multiple Campus (jc.tu.edu.np) in Jumla, Badimalika and Budhinanda Multiple Campus (budhinandacampus.edu.np) in Bajura, Jaya Prithvi and Sunkuda Campus (sunkudacampus.edu.np) in Bajhang, Gokuleshwor and Latinath Campus (latinathcampus.edu.np) in Darchula, Jagannath Campus and Bhimdatta Polytechnic (bdpi.edu.np) in Baitadi, plus campuses and CTEVT technical schools in Dolpa, Mugu and Humla.",
+   "go": [
+    "bbs",
+    "bed",
+    "dip-agriculture",
+    "dip-civil-eng"
+   ]
+  },
+  {
+   "id": "fw22-40",
+   "topic": "after12",
+   "q": "Does every single one of the 77 districts of Nepal have multiple colleges or polytechnics listed in NEBians Pathways?",
+   "a": "Yes. All 77 districts of Nepal across all 7 provinces have at least 2 verified public, community or private institutions (543 providers in total, with 450+ carrying verified official websites) mapped to the exact courses, entrance exams and seat quotas they run.",
+   "go": [
+    "bbs",
+    "bed",
+    "dip-civil-eng"
    ]
   }
  ]

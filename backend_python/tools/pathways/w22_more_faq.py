@@ -1,0 +1,37 @@
+"""Wave 22 part 2C (w22_more_faq.py): 10 additional FAQs (fw22-31 to fw22-40) covering Sub-Engineer Lok Sewa, JT/JTA Agriculture Lok Sewa,
+Ranger and Ban Rakshak Forestry Lok Sewa, Provincial Universities (MTU, LTU, MAU, Gandaki, RJU), Japanese NAT-TEST vs JLPT, and regional
+campus coverage across all 77 districts.
+"""
+
+FAQ_MORE = [
+    {'id': 'fw22-31', 'topic': 'after10', 'q': 'How do 3 year CTEVT Engineering Diploma graduates join government service as a Sub-Engineer (Level 5)?',
+     'a': 'Graduates with a 3 year CTEVT Diploma in Civil, Electrical, Mechanical, Geomatics or Architecture Engineering apply for Non-Gazetted First Class Technical (Level 5 Sub-Engineer) vacancies advertised by the Federal Public Service Commission (psc.gov.np) and all 7 Provincial Public Service Commissions (fee NPR 500 to 700). The exam comprises a 100 mark objective MCQ paper, a 100 mark technical subjective paper and a 30 mark interview.',
+     'go': ['dip-civil-eng', 'dip-engineering', 'lok-sewa']},
+    {'id': 'fw22-32', 'topic': 'after10', 'q': 'How does the Lok Sewa JT / JTA (Agriculture and Livestock Technician) exam work for municipal Krishi and Pashu posts?',
+     'a': 'Candidates with an 18 month Pre-Diploma (TSLC JTA) or SEE Technical Stream apply for Level 4 JTA, while 3 year CTEVT Diploma in Agriculture (Plant Science or Animal Science) graduates apply for Level 5 Junior Technician (JT) through Federal and Provincial Lok Sewa Aayog (fee NPR 400 to 700) for placement in the 753 municipal Agriculture and Livestock sections.',
+     'go': ['dip-agriculture', 'pre-diploma', 'tvet-school']},
+    {'id': 'fw22-33', 'topic': 'after10', 'q': 'What is the selection process for Forest Guard (Ban Rakshak) and Ranger in Nepal?',
+     'a': 'For Ban Rakshak (Armed Forest Guard, minimum Class 8/SEE pass, age 18 to 30, fee NPR 200 to 300), Provincial and Federal PSCs conduct a scored physical endurance test (200m sprint, 3 km run, tree climbing and swimming) followed by a written MCQ paper and interview. For Level 5 Ranger (requiring a 3 year Diploma in Forestry from IOF or CTEVT), candidates sit a 200 mark technical written exam on silviculture, forest mensuration and Forest Act 2076.',
+     'go': ['dip-forestry', 'bsc-forestry', 'lok-sewa']},
+    {'id': 'fw22-34', 'topic': 'after12', 'q': 'What programmes are offered by Nepal new provincial universities (Manmohan Technical, Lumbini Tech, Madhesh Ag, Gandaki) and Rajarshi Janak University?',
+     'a': 'Manmohan Technical University in Morang (mtu.edu.np) offers BE Civil, BE Electrical and Electronics, BPharm, BPH and LL.B; Lumbini Technological University in Banke (ltu.edu.np) offers BTech in CS and AI (48 seats) and BTech in IT (48 seats); Madhesh Agriculture University in Rajbiraj (mau.edu.np) offers BSc (Hons) Agriculture (50 seats); Gandaki University in Pokhara offers BIT, BPharm and BSM; and Rajarshi Janak University in Janakpur (rju.edu.np) offers BSc CSIT, BCA, BBA, BPH and BSc MLT.',
+     'go': ['be-civil', 'be-computer', 'bit', 'bsc-agri', 'bpharm']},
+    {'id': 'fw22-35', 'topic': 'after12', 'q': 'What is the difference between JLPT and the Japanese NAT-TEST in Nepal?',
+     'a': 'Both measure Japanese proficiency across 5 levels (JLPT N5 to N1 corresponds to NAT-TEST 5Q to 1Q) and both are accepted by the Immigration Services Agency of Japan for student visa Certificate of Eligibility (COE) applications. While JLPT is held only twice a year in Kathmandu (July and December, fee NPR 4,000), the NAT-TEST runs six times a year in Kathmandu and Pokhara (Feb, Apr, Jun, Aug, Oct, Dec, fee about NPR 4,500) with results issued within 3 weeks.',
+     'go': ['foreign-lang-work', 'abroad-ms']},
+    {'id': 'fw22-36', 'topic': 'after12', 'q': 'Which CTEVT polytechnics in Arghakhanchi, Baitadi, Kailali, Dhankuta and Morang offer 3 year Engineering, Agriculture and Forestry diplomas?',
+     'a': 'Agro-Forestry Polytechnic Institute in Chhatradev, Arghakhanchi (afpi.edu.np) offers 3 year Agriculture and Forestry diplomas; Bhimdatta Polytechnic Institute in Patan, Baitadi (bdpi.edu.np) and Tikapur Polytechnic Institute in Kailali (tpi.edu.np) offer Civil Engineering and Agriculture diplomas; Uttarpani Polytechnic Institute in Dhankuta (upi.edu.np) offers Plant and Animal Science; and Manmohan Memorial Polytechnic in Morang (mmp.edu.np) offers Mechanical, Electrical, Electronics, Civil and Architecture diplomas.',
+     'go': ['dip-civil-eng', 'dip-agriculture', 'dip-forestry', 'dip-mech-auto-arch']},
+    {'id': 'fw22-37', 'topic': 'after12', 'q': 'Where can I study Bachelor of Social Work (BSW) and MPhil in English in Kathmandu under Purbanchal and Pokhara Universities?',
+     'a': 'Kadambari Memorial College of Science and Management in Buddhanagar, Kathmandu (kadambari.edu.np) is the pioneer Purbanchal University college dedicated to the 4 year Bachelor of Social Work (BSW), while the Institute of Advanced Communication, Education and Research (IACER, New Baneshwor, iacer.edu.np) offers Pokhara University MA and MPhil programmes in English.',
+     'go': ['bsw', 'msw', 'mphil', 'ma']},
+    {'id': 'fw22-38', 'topic': 'after12', 'q': 'Which community campuses in eastern hill districts (Taplejung, Panchthar, Ilam, Terhathum, Sankhuwasabha, Bhojpur, Solukhumbu) offer TU BBS and BEd degrees?',
+     'a': 'Students in Koshi Province hill districts can study low-fee TU BBS, BA and BEd degrees at Pathibhara Multiple Campus and Sinam Multiple Campus (sinamcampus.edu.np) in Taplejung, Panchthar Multiple Campus and Rabi Campus (rabicampus.edu.np) in Panchthar, Mahendra Ratna Multiple Campus in Ilam (mrmcilam.tu.edu.np), Terhathum Multiple Campus in Chuhandanda, Barun and Madi Multiple Campus (madicampus.edu.np) in Sankhuwasabha, Bhojpur Multiple Campus (bhmc.tu.edu.np) and Shadananda Campus (shadanandacampus.edu.np) in Bhojpur, and Solukhumbu and Dudh Koshi Campuses in Solukhumbu.',
+     'go': ['bbs', 'bed', 'ba']},
+    {'id': 'fw22-39', 'topic': 'after12', 'q': 'Which campuses and polytechnics serve students in Karnali and Sudurpashchim mountain districts (Dolpa, Mugu, Humla, Jumla, Bajura, Bajhang, Darchula, Baitadi)?',
+     'a': 'Every mountain district in Karnali and Sudurpashchim has at least two public or community institutions in NEBians Pathways, including Karnali Technical School (kts.edu.np) and Jumla Multiple Campus (jc.tu.edu.np) in Jumla, Badimalika and Budhinanda Multiple Campus (budhinandacampus.edu.np) in Bajura, Jaya Prithvi and Sunkuda Campus (sunkudacampus.edu.np) in Bajhang, Gokuleshwor and Latinath Campus (latinathcampus.edu.np) in Darchula, Jagannath Campus and Bhimdatta Polytechnic (bdpi.edu.np) in Baitadi, plus campuses and CTEVT technical schools in Dolpa, Mugu and Humla.',
+     'go': ['bbs', 'bed', 'dip-agriculture', 'dip-civil-eng']},
+    {'id': 'fw22-40', 'topic': 'after12', 'q': 'Does every single one of the 77 districts of Nepal have multiple colleges or polytechnics listed in NEBians Pathways?',
+     'a': 'Yes. All 77 districts of Nepal across all 7 provinces have at least 2 verified public, community or private institutions (543 providers in total, with 450+ carrying verified official websites) mapped to the exact courses, entrance exams and seat quotas they run.',
+     'go': ['bbs', 'bed', 'dip-civil-eng']},
+]
