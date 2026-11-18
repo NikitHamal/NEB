@@ -72,7 +72,7 @@ internal object V3 {
     }
 
     /** name, hue, chroma, spark hue. 20 families, nothing between 285 and 335 (no purple). */
-    private class Fam(val name: String, val h: Double, val c: Double, val sh: Double)
+    internal class Fam(val name: String, val h: Double, val c: Double, val sh: Double)
     private val FAM = listOf(
         Fam("brand", 262.0, 0.20, 75.0), Fam("cobalt", 255.0, 0.19, 55.0), Fam("sky", 232.0, 0.15, 40.0), Fam("aqua", 205.0, 0.13, 30.0),
         Fam("teal", 188.0, 0.12, 40.0), Fam("emerald", 160.0, 0.14, 70.0), Fam("mint", 150.0, 0.12, 20.0), Fam("moss", 128.0, 0.13, 55.0),
