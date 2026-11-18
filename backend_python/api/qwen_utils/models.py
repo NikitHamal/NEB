@@ -128,3 +128,38 @@ def _fallback_models():
         {"id": mid, "name": name, "capabilities": dict(caps), "max_context_length": 1000000, "is_active": True}
         for mid, name in (("qwen3.8-max", "Qwen3.8-Max"), ("qwen3.7-plus", "Qwen3.7-Plus"))
     ]
+
+_DEFAULT_MODEL = None
+
+
+def get_default_model(force_refresh=False):
+    """Return the best default Qwen model ID.
+
+    Uses Django cache (default model key) so the first call triggers a
+    `fetch_models()` but subsequent calls are instant.  The default-model
+    cache is tied to the same 5-min TTL as the full model list.
+
+    Prefers ``qwen3.8-max`` — the current final flagship. With the quota
+    fix in the proxy (streams interrupted by upstream "high demand" are no
+    longer accepted as valid output) it reliably keeps the background-agent
+    JSON protocol intact with thinking on.
+    """
+    global _DEFAULT_MODEL
+
+    cached_default = cache.get("qwen:default_model")
+    if cached_default and not force_refresh:
+        return cached_default
+
+    default = "qwen3.8-max"
+    try:
+        models = fetch_models(force_refresh=force_refresh)
+        for m in models:
+            if m["id"] == "qwen3.8-max" and m["is_active"]:
+                default = m["id"]
+                break
+    except Exception:
+        pass
+
+    cache.set("qwen:default_model", default, _CACHE_TTL)
+    _DEFAULT_MODEL = default
+    return default
