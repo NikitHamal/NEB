@@ -1,0 +1,1499 @@
+{
+ "scholarships_add": [
+  {
+   "id": "s-latvia-state",
+   "name": "Latvian State Scholarships for Studies (VIAA)",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master",
+    "phd"
+   ],
+   "by": "State Education Development Agency (VIAA), Ministry of Education and Science of Latvia",
+   "covers": "A monthly living stipend for up to 10 months (11 months for PhD): Study in Latvia lists EUR 500 a month for bachelor and master students and EUR 700 for PhD candidates, while several scholarship guides list EUR 500 for bachelor, EUR 600 for master and EUR 700 for PhD. Tuition, travel and insurance are not covered unless waived by the host university.",
+   "who": "Citizens of the 39 countries that hold a bilateral education agreement with Latvia or offer reciprocal grants to Latvian citizens. Bachelor applicants must have already completed at least one academic year of higher education. Check that Nepal is on the active VIAA country list before you apply.",
+   "how": "Apply online at scholarships.viaa.gov.lv with a confirmation letter from a Latvian university, transcripts, CV and motivation letter. The annual call runs from 1 February to 1 April.",
+   "link": "https://www.viaa.gov.lv/en/latvian-state-scholarships",
+   "country": "lv",
+   "type": "Government",
+   "open": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "s-bangladesh-saarc",
+   "name": "Bangladesh Government SAARC Quota (MBBS and BDS)",
+   "scope": "abroad",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "Directorate General of Medical Education (DGME), Bangladesh, nominated through MEC and MOEST Nepal",
+   "covers": "A government medical or dental college seat where SAARC students pay tuition at the domestic Bangladeshi government rate instead of the private foreign package, with subsidised hostel access.",
+   "who": "Nepali citizens on the latest MECEE-BL merit list with a combined SEE and Class 12 GPA of at least 8.0 on the 10 point Bangladesh scale. In the 2025/26 MEC notice Nepal had 19 MBBS seats (9 Open, 2 Woman, 1 Dalit Woman, 1 Dalit, 1 Aadibasi Janajati, 2 Khas Arya, 1 Madhesi, 1 Tharu, 1 Underprivileged) and 3 BDS seats (2 Open, 1 Madhesi) out of 224 foreign seats.",
+   "how": "Apply first on the DGME Bangladesh portal and then submit the MEC Nepal online application when the Examination Directorate opens the window (the 2082 call ran from 11 to 13 December 2025).",
+   "link": "https://mec.gov.np",
+   "country": "bd",
+   "type": "Government",
+   "open": [
+    11,
+    12
+   ]
+  },
+  {
+   "id": "s-osce-bishkek",
+   "name": "OSCE Academy in Bishkek Master Scholarship (Kyrgyzstan)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "OSCE Academy in Bishkek, Kyrgyz Government and OSCE",
+   "covers": "Full tuition waiver for the 18 month MA (Politics and Security, Economic Governance and Development, or Human Rights and Sustainability), a monthly stipend of EUR 450, economy return airfare to Bishkek, basic medical insurance and competitive funded internships in Europe or Central Asia.",
+   "who": "Graduates with a four year bachelor degree (or 240 ECTS) and strong English (IELTS 6.5 or TOEFL iBT 90 are quoted). Open to citizens of Central Asia, Afghanistan, Mongolia and OSCE participating or partner states; check that your nationality is eligible on the specific programme call before applying.",
+   "how": "Register and submit the online form on the OSCE Academy admissions portal. For the 2027 to 2029 cohort the deadline is 31 January 2027 at 11 pm Bishkek time.",
+   "link": "https://osce-academy.net",
+   "country": "kg",
+   "type": "University",
+   "open": [
+    10,
+    1
+   ]
+  },
+  {
+   "id": "s-ilia-georgia",
+   "name": "Ilia State University and Georgian University Merit Waivers",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "Ilia State University, Tbilisi State University and the University of Georgia",
+   "covers": "Partial tuition fee waivers on a competitive basis: Ilia State University publishes up to 50 percent tuition reduction for selected international programmes (medicine MD is not guaranteed), and the University of Georgia Tbilisi lists up to 20 to 30 percent merit discounts.",
+   "who": "International applicants with strong Class 12 marks or high semester GPAs after enrolment. Medicine applicants should budget for the full fee and treat any waiver as a bonus.",
+   "how": "Tick the scholarship or waiver request inside the university admission application and ask for written confirmation of the net tuition fee before paying.",
+   "link": "https://iliauni.edu.ge/en/international-students",
+   "country": "ge",
+   "type": "University",
+   "open": [
+    3,
+    7
+   ]
+  },
+  {
+   "id": "s-adb-uplb-ph",
+   "name": "ADB-JSP at UP Los Banos, IRRI and AIM (Philippines)",
+   "scope": "abroad",
+   "levels": [
+    "master"
+   ],
+   "by": "Asian Development Bank and the Government of Japan at designated Philippine institutions",
+   "covers": "Full tuition, a monthly subsistence and housing allowance, medical insurance, books and thesis grant, and economy return airfare.",
+   "who": "Citizens of ADB developing member countries, including Nepal, aged 35 or under with a bachelor degree and at least two years of full time work experience, admitted to an approved master programme at the University of the Philippines Los Banos (with IRRI) or the Asian Institute of Management. Note that SEARCA own scholarships at UPLB are restricted to the 11 SEAMEO Southeast Asian countries and do not cover Nepal.",
+   "how": "Apply for admission to UPLB or AIM and submit the ADB-JSP sheet at least six months before the intake.",
+   "link": "https://www.adb.org/work-with-us/careers/japan-scholarship-program",
+   "country": "ph",
+   "type": "Government",
+   "open": [
+    5,
+    9
+   ]
+  },
+  {
+   "id": "s-unic-cyprus",
+   "name": "University of Nicosia and Open University of Cyprus Waivers",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "University of Nicosia (UNIC) and Open University of Cyprus",
+   "covers": "Partial tuition reductions of 10 to 50 percent on bachelor marks at UNIC, or 20 to 30 percent on selected master degrees such as the Master of Public Health (cutting EUR 13,950 to EUR 11,160). Living costs are not covered.",
+   "who": "International applicants meeting the grade bar or financial need rules. Note that the full CyprusAid scholarship at UNIC is restricted to 10 African nations and Cyprus EU Presidency scholarships are for Cypriot and European citizens, so Nepali students only qualify for university fee reductions.",
+   "how": "Apply with your admission file (EUR 60 application fee at UNIC). Open University of Cyprus closed its 2026/27 scholarship call on 3 June 2026.",
+   "link": "https://www.unic.ac.cy",
+   "country": "cy",
+   "type": "University",
+   "open": [
+    3,
+    7
+   ]
+  },
+  {
+   "id": "s-um-malta",
+   "name": "University of Malta Tuition Waivers and Get Qualified Rebate",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "University of Malta, MCAST and the Government of Malta",
+   "covers": "University of Malta waives 40 to 100 percent of non EU tuition for top applicants on academic merit and interview. Separately, Malta Get Qualified scheme refunds up to 70 percent of tuition (capped at EUR 12,500) only as a future income tax credit if you stay, work and pay tax in Malta after graduation.",
+   "who": "Non EU applicants with strong Class 12 or bachelor marks. Never let an agent count the Get Qualified tax credit as a discount on your first year tuition.",
+   "how": "Apply in one of the three University of Malta scholarship rounds (deadlines quoted on 31 January, 31 May and 31 October) alongside admission.",
+   "link": "https://www.um.edu.mt",
+   "country": "mt",
+   "type": "University",
+   "open": [
+    1,
+    10
+   ]
+  }
+ ],
+ "abroad_update": {
+  "es": {
+   "work_hours": 30,
+   "work": "Since the Spanish immigration reform (RD 1155/2024 Article 190), higher education students on a Type D study permit can work up to 30 hours a week without a separate work permit, provided the hours do not clash with classes, and full time during academic holidays."
+  },
+  "tw": {
+   "work_hours": 20,
+   "work": "International degree students who obtain a work permit from the Workforce Development Agency (fee NTD 100) may work up to 20 hours a week during the semester and without an weekly hour cap during winter and summer vacations."
+  }
+ },
+ "abroad_note_add": {
+  "fr": "For a 2026 long stay student visa (VLS-TS, fee EUR 50 to 99 plus EUR 50 to 75 OFII validation and EUR 103 to 105 CVEC fee) you must prove at least EUR 615 a month in living funds (EUR 6,150 for 10 months or EUR 7,380 for 12 months), though Paris living costs are closer to EUR 1,000 to 1,400 a month. The visa includes the right to work up to 964 hours a year (about 20 hours a week at the EUR 11.88 gross minimum wage), and master graduates can apply for a two year post study job search permit (RECE / APS).",
+  "at": "Non EU students at public universities pay EUR 726.72 a semester in tuition plus the OH union fee of EUR 25.20 to 26.20, while citizens of countries on Austria Least Developed Countries list have tuition waived at public universities such as the University of Vienna and TU Wien and pay only the union fee. For the 2026 Residence Permit Student (fee EUR 218) OeAD requires 12 months of funds in advance: EUR 722.58 a month if under 24 (EUR 8,670.96 a year) or EUR 1,308.39 a month from age 24 (EUR 15,700.68 a year), plus any rent above EUR 386.43 a month, OeGK student insurance (EUR 78.84 a month) and at least 16 ECTS a year to renew.",
+  "be": "For the 2026/27 intake the published minimum financial proof for a Belgian Type D student visa is EUR 1,062 net a month (about EUR 12,744 a year, often placed in a university blocked account or guaranteed on an Annex 32 sponsor form; one older guide still quotes EUR 759 a month), and the long stay visa fee rose to EUR 250 in July 2026. Priority English master deadlines fall on 1 March at KU Leuven and Ghent University, and graduates can apply for a 12 month search year permit.",
+  "es": "For a 2026 Spanish Type D student visa you must prove 100 percent of IPREM for each month of stay, which is EUR 600 a month (EUR 7,200 for a 12 month year), plus private health insurance with zero co payments and repatriation, and a police clearance and medical certificate for stays over 180 days.",
+  "it": "Before applying for the visa you must complete pre enrolment on the Universitaly portal. Guides for the 2026/27 cycle report that the required student visa proof of funds has risen to EUR 10,179.85 a year (older pages still quote about EUR 6,079), and students may work up to 20 hours a week (capped at 1,040 hours a year). Regional DSU scholarships waive tuition and pay a stipend based on family income documents (ISEE Parificato).",
+  "pl": "For a Polish D type student visa (fee EUR 60 to 80) authorities require living funds for the stay (older rules cite PLN 701 a month while newer 2025/26 guides cite PLN 1,086 a month or about EUR 6,400 for a year) plus PLN 2,500 for a return ticket to a non EU country and EUR 30,000 health insurance. The Polish minimum wage in 2025/26 is PLN 4,666 a month (PLN 30.50 an hour gross).",
+  "sg": "At Singapore six publicly funded universities the Ministry of Education Tuition Grant cuts international tuition sharply, but requires you to sign a legally binding three year service bond to work for a Singapore registered employer after graduation. Only full time students at approved public institutions may work up to 16 hours a week in term; private institute students cannot work.",
+  "tw": "Degree students get an Alien Resident Certificate (ARC, NTD 500 a year) after arrival and medical check, can work up to 20 hours a week in term with a WDA permit (NTD 100), and since 2024 can extend the ARC for up to two years after graduation to look for work.",
+  "my": "All applications go through Education Malaysia Global Services (EMGS) for an electronic Visa Approval Letter (eVAL, about 14 working days); first year mandatory EMGS, eVAL, medical screening, insurance and pass charges total about USD 680 to 740 (RM 2,770 to 3,020). Student Pass holders may work up to 20 hours a week ONLY during semester breaks or holidays longer than seven days, never during term, and only in restaurants, hotels, petrol stations and mini markets.",
+  "cn": "International bachelor applicants to Chinese universities now sit the China Scholastic Competency Assessment (CSCA) alongside university screening, and apply for an X1 visa (for study over 180 days, converted to a residence permit within 30 days of arrival) using the JW201 or JW202 form.",
+  "in": "Nepali citizens do not need a passport visa to enter India, but medical and dental candidates must pass Nepal MECEE-BL for foreign study eligibility and Indian universities require AIU equivalence when your board is not already on their list.",
+  "tr": "Public university tuition in Turkiye is far lower than private foundation universities, and all international students must register for a student residence permit (ikamet) with provincial migration authorities after arrival.",
+  "ru": "Russian government quota applications go through education-in-russia.com and Russian House in Kathmandu; medical students must verify that the university and language track meet both Russian Roszdravnadzor and Nepal Medical Council rules.",
+  "th": "Holders of a Thai Non Immigrant ED student visa must file 90 day address reports with Thai Immigration and renew their extension of stay before expiry; off campus work is prohibited without a work permit.",
+  "ae": "Student visas in Dubai and Abu Dhabi are sponsored by the university (usually renewed yearly for AED 2,500 to 4,000 including Emirates ID and medical test) or granted as a 5 year Green / Golden student residence visa for high GPA graduates."
+ },
+ "govt_tracks_add": [
+  {
+   "id": "lic",
+   "label": "Council licence",
+   "group": "ent"
+  }
+ ],
+ "govt_add": [
+  {
+   "id": "e-nec",
+   "track": "lic",
+   "name": "NEC Engineering Registration Exam",
+   "level": "Mandatory licensing exam for BE and B.Arch graduates",
+   "need": "Bachelor degree in Engineering or Architecture (BE, BTech, B.Arch) from a university recognised by the Nepal Engineering Council",
+   "age": "",
+   "body": "Nepal Engineering Council (NEC)",
+   "stages": [
+    [
+     "Computer based test",
+     "2 hour computer based test worth 100 marks across 10 syllabus chapters (10 marks per chapter; guides describe 100 one mark MCQs or 60 one mark and 20 two mark MCQs). Minimum 50 marks (50 percent) to pass, no negative marking.",
+     "100"
+    ],
+    [
+     "Council registration and ID card",
+     "After passing, pay NPR 5,000 registration fee and NPR 200 ID card charge (total NPR 5,200) on the AMIS portal to receive your NEC certificate.",
+     "0"
+    ]
+   ],
+   "subjects": [
+    "Core fundamentals of your engineering discipline (chapters 1 to 4)",
+    "Applied engineering and design (chapters 5 to 9)",
+    "Project planning, professional ethics and NEC regulations (chapter 10)"
+   ],
+   "prep": [
+    "Download the exact 10 chapter syllabus for your discipline from nec.gov.np",
+    "Give equal study time to all 10 chapters because each chapter carries 10 marks",
+    "Practise 2 hour CBT mock tests and attempt every question since there is no negative marking"
+   ],
+   "note": "Mandatory since the 2023 amendment to the Nepal Engineering Council Act. The NEC AMIS portal (register.nec.gov.np) lists an examination fee of NPR 2,500 (one older guide quotes NPR 3,400 for Nepali degrees and NPR 4,400 for foreign degrees at Rastriya Banijya Bank), plus NPR 5,200 for registration and ID card after passing.",
+   "prep_hours": 240,
+   "fee": 2500
+  },
+  {
+   "id": "e-nmcle",
+   "track": "lic",
+   "name": "NMCLE (MBBS and BDS medical licensing exam)",
+   "level": "National medical and dental registration exam",
+   "need": "MBBS or BDS degree from an NMC recognised institution plus at least 6 months of compulsory rotatory internship to sit (full 1 year internship required before the certificate is issued)",
+   "age": "",
+   "body": "Nepal Medical Council (NMC)",
+   "stages": [
+    [
+     "Computer based test",
+     "3 hour CBT with 140 questions (130 one mark MCQs and 10 five mark Clinical Scenario Questions) for 180 total marks. Minimum 90 out of 180 (50 percent) to pass, no negative marking.",
+     "180"
+    ],
+    [
+     "Council registration",
+     "Submit the completed 1 year rotatory internship certificate and original credentials to receive permanent NMC registration.",
+     "0"
+    ]
+   ],
+   "subjects": [
+    "Medicine, surgery, paediatrics, obstetrics and gynaecology",
+    "Basic medical sciences (anatomy, physiology, pathology, pharmacology, microbiology)",
+    "Community medicine, medical ethics and clinical vignettes (for BDS: prosthodontics, oral surgery, conservative dentistry, orthodontics and community dentistry)"
+   ],
+   "prep": [
+    "Focus on clinical vignettes and diseases common in Nepal",
+    "Attempt all 130 MCQs and 10 five mark CSQs because there is no negative marking",
+    "Practise timed 3 hour CBT blocks as MCQs and CSQs appear in mixed order"
+   ],
+   "note": "Conducted three times a year (every four months) by the Nepal Medical Council. NMC notices list NPR 3,500 for the undergraduate NMCLE and NPR 7,000 for the postgraduate Special Examination (MD, MS, MDS). Check nmc.org.np for the current notice.",
+   "prep_hours": 400,
+   "fee": 3500
+  },
+  {
+   "id": "e-nlen",
+   "track": "lic",
+   "name": "NLEN and NLEM (Nursing and Midwifery licence exam)",
+   "level": "National licensure exam for PCL Nursing, BSc Nursing, BMS and MN/MSc",
+   "need": "Passed PCL Nursing, BSc Nursing, BNS, Bachelor in Midwifery Sciences (BMS) or Master in Nursing from a recognised institution",
+   "age": "",
+   "body": "Nepal Nursing Council (NNC)",
+   "stages": [
+    [
+     "Written MCQ exam (CBT / paper)",
+     "2 hours 30 minutes, 150 multiple choice questions (150 marks), no negative marking. Pass mark is 50 percent aggregate for PCL and BSc NLEN and 60 percent for Specialist Nursing NSREN (results are issued as pass or fail).",
+     "150"
+    ],
+    [
+     "OSPE / viva (Midwifery NLEM only)",
+     "Midwifery (BMS) candidates also complete a practical OSPE / viva requiring at least 80 percent.",
+     "100"
+    ]
+   ],
+   "subjects": [
+    "Integrated health sciences, anatomy and physiology",
+    "Medical surgical nursing and fundamentals of nursing",
+    "Community health, child health, mental health and midwifery"
+   ],
+   "prep": [
+    "Cover all nursing specialties according to the NNC test guideline weightings",
+    "Leave no question blank because there is no minus marking",
+    "Keep all original transcripts and citizenship ready for verification when collecting the certificate"
+   ],
+   "note": "Held three times a year via application.nnc.org.np. The 2025/2082 NNC guidelines list exam fees of NPR 3,500 for PCL and BSc Nursing NLEN, NPR 4,100 for BMS Midwifery NLEM and NPR 5,100 for Specialist Nursing NSREN (double in the late window), plus NPR 2,000 registration certificate fee after passing (an older 2021 page quotes NPR 1,600 and NPR 800). From Magh 1, 2082 license renewal requires 60 CPD credit hours over six years.",
+   "prep_hours": 220,
+   "fee": 3500
+  },
+  {
+   "id": "e-npc",
+   "track": "lic",
+   "name": "NPC Pharmacy Licensure Exam (BPharm and Diploma)",
+   "level": "Pharmacist and Pharmacy Assistant registration exam",
+   "need": "Diploma in Pharmacy (for Pharmacy Assistant) or Bachelor in Pharmacy (BPharm, for Pharmacist) from an NPC recognised institution with curriculum internship completed",
+   "age": "",
+   "body": "Nepal Pharmacy Council (NPC)",
+   "stages": [
+    [
+     "Licensure examination",
+     "100 multiple choice questions (100 marks). Minimum 50 marks (50 percent) required to pass.",
+     "100"
+    ],
+    [
+     "Name registration certificate",
+     "Pay the NPR 3,000 registration certificate fee after passing and verify certified documents.",
+     "0"
+    ]
+   ],
+   "subjects": [
+    "Pharmaceutics, pharmacology and clinical pharmacy",
+    "Pharmaceutical chemistry, pharmacognosy and quality analysis",
+    "Forensic pharmacy, drug act, hospital pharmacy and dispensing ethics"
+   ],
+   "prep": [
+    "Study the Nepal Drug Act, hospital pharmacy standards and dosage calculations carefully",
+    "Practise 100 question MCQ sets from past NPC exam cycles",
+    "Prepare certified copies of all academic, internship and equivalence certificates before the portal opens"
+   ],
+   "note": "Held three times a year via onlinenameregistration.nepalpharmacycouncil.org.np. The 30th NPC notice lists an exam fee of NPR 3,000 (deposited at Nabil Bank) and NPR 3,000 for the registration certificate after passing.",
+   "prep_hours": 200,
+   "fee": 3000
+  },
+  {
+   "id": "e-bar",
+   "track": "lic",
+   "name": "Nepal Bar Council Advocate (Adhibakta) License Exam",
+   "level": "National legal practice licensing exam",
+   "need": "Bachelor degree in Law (BA LLB, BBA LLB or 3 year LLB) from a recognised university, or 7 years continuous practice as a Pleader (Abhibakta)",
+   "age": "",
+   "body": "Nepal Bar Council",
+   "stages": [
+    [
+     "Paper 1: Constitution and Law (MCQs)",
+     "100 marks, 1 hour 30 minutes. Pass mark is 50 out of 100.",
+     "100"
+    ],
+    [
+     "Paper 2: Legal Translation and Drafting (Masyouda)",
+     "Part A Legal Translation (English and Nepali, 10 marks, 30 minutes) and Part B Legal Drafting of civil, criminal and writ petitions (90 marks, 3 hours 30 minutes). Combined pass mark is 50 out of 100.",
+     "100"
+    ],
+    [
+     "Oral interview and Bar Oath",
+     "Candidates who pass both written papers attend the viva and take the Bar Oath to receive the Advocate licence.",
+     "0"
+    ]
+   ],
+   "subjects": [
+    "Constitution of Nepal, Muluki Civil and Criminal Codes and Evidence Act",
+    "Procedural law, court rules, corporate law and professional ethics",
+    "Bilingual legal translation and drafting of plaints, written statements, appeals and writ petitions"
+   ],
+   "prep": [
+    "Practise handwriting complete civil, criminal and writ drafts (Masyouda) within the 3.5 hour time limit",
+    "Read the Muluki Codes, Evidence Act and landmark Supreme Court precedents for Paper 1 MCQs",
+    "Keep your email and password on exam.nepalbarcouncil.com safe as the same account is used across cycles"
+   ],
+   "note": "The 35th Advocate Level Exam notice (Shrawan to Bhadra 2083 / August to September 2026) lists a total form and exam fee of NPR 4,500 at Siddhartha Bank (double fee in the 7 day late window). Apply at exam.nepalbarcouncil.com.",
+   "prep_hours": 300,
+   "fee": 4500,
+   "apply": [
+    8,
+    9
+   ]
+  },
+  {
+   "id": "e-nhpc",
+   "track": "lic",
+   "name": "NHPC Health Professional Licensing Exam",
+   "level": "Certificate, bachelor and master health professional registration exam",
+   "need": "Approved PCL (HA, CMLT, Radiography, Ophthalmic, Dental, Physio), Bachelor (BPH, BMLT, BPT, BSc MIT, BOptom, BASLP, Perfusion) or Master / MPhil Clinical Psychology qualification",
+   "age": "",
+   "body": "Nepal Health Professional Council (NHPC)",
+   "stages": [
+    [
+     "Computer based test",
+     "2 hour CBT tailored to your specific health qualification level and faculty syllabus. Minimum 50 percent required to pass.",
+     "100"
+    ],
+    [
+     "Council registration",
+     "Pay the level registration fee (higher for foreign qualifications) and submit verified credentials.",
+     "0"
+    ]
+   ],
+   "subjects": [
+    "Qualification specific clinical and diagnostic subjects from the NHPC syllabus",
+    "Primary health care, community health and infection control",
+    "NHPC Act, code of ethics and patient safety"
+   ],
+   "prep": [
+    "Download the exact PCL, bachelor or master syllabus for your subject from nhpc.gov.np",
+    "Practise 2 hour computer based mock tests in your discipline",
+    "Foreign graduates must obtain TU equivalence and submit their course curriculum with the form"
+   ],
+   "note": "NHPC notices list a standard examination fee of NPR 3,000 across certificate, bachelor and master levels (doubled to NPR 6,000 in the late registration window).",
+   "prep_hours": 180,
+   "fee": 3000
+  }
+ ],
+ "career_licence": {
+  "civil-engineer": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "architect": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "electrical-engineer": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "mechanical-engineer": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "geomatics-engineer": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "electronics-engineer": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "biomedical-engineer": {
+   "name": "Nepal Engineering Council registration",
+   "exam": "e-nec"
+  },
+  "doctor": {
+   "name": "Nepal Medical Council registration",
+   "exam": "e-nmcle"
+  },
+  "dentist": {
+   "name": "Nepal Medical Council registration",
+   "exam": "e-nmcle"
+  },
+  "nurse": {
+   "name": "Nepal Nursing Council licence",
+   "exam": "e-nlen"
+  },
+  "midwife-specialist": {
+   "name": "Nepal Nursing Council licence",
+   "exam": "e-nlen"
+  },
+  "pharmacist": {
+   "name": "Nepal Pharmacy Council registration",
+   "exam": "e-npc"
+  },
+  "lawyer": {
+   "name": "Nepal Bar Council licence",
+   "exam": "e-bar"
+  },
+  "lab-tech": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  },
+  "health-assistant": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  },
+  "physiotherapist": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  },
+  "optometrist": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  },
+  "radiographer": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  },
+  "speech-audiologist": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  },
+  "perfusionist-anesthesia": {
+   "name": "Nepal Health Professional Council registration",
+   "exam": "e-nhpc"
+  }
+ },
+ "route_exam": {
+  "council-license": "e-nec",
+  "llb": "e-bar",
+  "ba-llb": "e-bar"
+ },
+ "guides_add": [
+  {
+   "id": "nec-licence",
+   "name": "NEC engineering licence exam and registration",
+   "cat": "Study",
+   "steps": [
+    [
+     "Check that your university and BE or B.Arch course are on the NEC recognised list at nec.gov.np (get TU equivalence first if you studied abroad)",
+     2,
+     0,
+     "online"
+    ],
+    [
+     "Create an account on register.nec.gov.np, upload notarised transcripts, citizenship and photos, and pay the NPR 2,500 exam fee via Khalti or ConnectIPS",
+     1,
+     2500,
+     "online"
+    ],
+    [
+     "Download your admit card and sit the 2 hour 100 mark computer based test (pass mark 50)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "After passing, pay NPR 5,000 registration and NPR 200 ID card fee on the portal and collect your NEC certificate",
+     7,
+     5200,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate (notarised)",
+    "SEE and +2 transcripts and character certificates",
+    "Bachelor transcript, provisional or degree certificate and character certificate",
+    "TU equivalence certificate (if foreign degree)",
+    "Passport size photos"
+   ],
+   "link": "exam:e-nec"
+  },
+  {
+   "id": "nmcle-licence",
+   "name": "Nepal Medical Council (NMCLE) licence application",
+   "cat": "Study",
+   "steps": [
+    [
+     "Complete your MBBS or BDS degree and at least 6 months of compulsory rotatory internship",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Apply online at nmc.org.np when the NMCLE window opens (held every 4 months) and pay the NPR 3,500 exam fee",
+     1,
+     3500,
+     "online"
+    ],
+    [
+     "Sit the 3 hour 180 mark CBT (130 MCQs and 10 Clinical Scenario Questions; pass mark 90)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Submit your full 1 year internship completion certificate and original documents at NMC Bansbari for registration",
+     7,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate",
+    "SEE, +2 and MBBS or BDS transcripts and certificates",
+    "Internship completion certificate (minimum 6 months to sit, 12 months to register)",
+    "MEC eligibility / equivalence letter (for foreign graduates)"
+   ],
+   "link": "exam:e-nmcle"
+  },
+  {
+   "id": "nnc-licence",
+   "name": "Nepal Nursing Council (NLEN) licence registration",
+   "cat": "Study",
+   "steps": [
+    [
+     "Open an applicant profile at application.nnc.org.np and upload white background photo, citizenship and nursing transcripts",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Pay the exam fee online (NPR 3,500 for PCL or BSc Nursing NLEN, NPR 4,100 for BMS NLEM, NPR 5,100 for Specialist NSREN)",
+     1,
+     3500,
+     "online"
+    ],
+    [
+     "Sit the 2.5 hour 150 MCQ examination (pass mark 50 percent aggregate; BMS also has OSPE / viva)",
+     1,
+     0,
+     "in person"
+    ],
+    [
+     "Pay the NPR 2,000 registration fee online and bring original certificates and admit card to NNC Bansbari to collect your licence",
+     5,
+     2000,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Citizenship certificate (original and copy)",
+    "SLC / SEE and nursing transcripts and character certificates",
+    "Equivalence certificate (for foreign nursing degrees)",
+    "Admit card and white background passport photos"
+   ],
+   "link": "exam:e-nlen"
+  },
+  {
+   "id": "bar-licence",
+   "name": "Nepal Bar Council Advocate licence application",
+   "cat": "Study",
+   "steps": [
+    [
+     "Deposit the NPR 4,500 form and exam fee at Siddhartha Bank (Nepal Bar Council Aamdani Khata) with your full name and mobile number on the voucher",
+     1,
+     4500,
+     "in person"
+    ],
+    [
+     "Log in at exam.nepalbarcouncil.com, upload your law transcripts, citizenship and bank voucher within the regular window",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Download the admit card a week before the test and sit Paper 1 (100 mark MCQs) and Paper 2 (10 mark translation + 90 mark Masyouda drafting)",
+     2,
+     0,
+     "in person"
+    ],
+    [
+     "Pass the oral viva and take the Bar Oath to receive your Advocate certificate",
+     14,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Nepali citizenship certificate",
+    "BA LLB or LLB transcript and character certificate",
+    "TU equivalence certificate (if studied abroad)",
+    "Siddhartha Bank fee voucher"
+   ],
+   "link": "exam:e-bar"
+  }
+ ],
+ "providers_add": [
+  {
+   "id": "p-lincoln",
+   "name": "Lincoln School",
+   "kind": "school",
+   "sector": "private",
+   "district": "Kathmandu",
+   "place": "Rabi Bhawan, Kathmandu",
+   "website": "https://www.lsnepal.com",
+   "note": "International school in Rabi Bhawan, Kathmandu teaching an accredited American high school diploma curriculum from preschool through Grade 12."
+  }
+ ],
+ "where_add": {
+  "a-levels": [
+   "p-lincoln"
+  ]
+ },
+ "provider_websites": {
+  "p-nmc-jorpati": "https://www.nmcth.edu",
+  "p-coms-chitwan": "https://www.cmsnepal.edu.np",
+  "p-manipal-pokhara": "https://www.manipal.edu.np",
+  "p-gandaki-med": "https://www.gmc.edu.np",
+  "p-national-med": "https://www.nmcbir.edu.np",
+  "p-naihs": "https://www.naihs.edu.np",
+  "p-pokhara-ahs": "https://pahs.gov.np",
+  "p-sdcuhs": "https://www.sdcuhs.edu.np",
+  "p-himalaya-eye": "https://www.hei.org.np",
+  "p-hope-intl": "https://hopecollege.edu.np",
+  "p-hwic": "https://whitehouse.edu.np",
+  "p-trinity": "https://www.trinity.edu.np",
+  "p-vedas": "https://vedascollege.edu.np",
+  "p-academia": "https://www.academiacollege.edu.np",
+  "p-saraswati-mc": "https://saraswaticampus.edu.np",
+  "p-tbs": "https://www.tbskathmandu.org",
+  "p-st-lawrence": "https://stlawrence.edu.np",
+  "p-texas": "https://texasintl.edu.np",
+  "p-ambition": "https://ambition.edu.np",
+  "p-hce": "https://hcoe.edu.np",
+  "p-asmt": "https://asm.edu.np",
+  "p-achs": "https://achsnepal.edu.np",
+  "p-swastik": "https://swastikcollege.edu.np",
+  "p-hillside": "https://hillside.edu.np",
+  "p-aryan-eng": "https://aryanschool.edu.np",
+  "p-bhaktapur-mc": "https://bhaktapurcampus.edu.np",
+  "p-damak-mc": "https://damakmultiplecampus.edu.np",
+  "p-lumbini-city": "https://lumbinicity.edu.np",
+  "p-nepathya": "https://nepathyacollege.edu.np",
+  "p-nihareeka": "https://nihareekacollege.edu.np",
+  "p-birendra-memorial": "https://bmcdharan.edu.np",
+  "p-lumbini-ict": "https://lict.edu.np",
+  "p-mount-annapurna": "https://macpokhara.edu.np",
+  "p-ambikeshwori": "https://ambikeshwari.edu.np"
+ },
+ "route_plan": {
+  "see-general": [
+   "Class 9: compulsory Nepali, English, Mathematics, Science and Technology, Social Studies and two optional subjects",
+   "Class 10: complete the secondary syllabus, school internal practicals and model board papers",
+   "Sit the national Secondary Education Examination (SEE) in Chaitra (minimum 35 percent theory and 40 percent practical)",
+   "Choose +2 Science, Management, Humanities, Law, Education or a 3 year CTEVT diploma by your GPA and interest"
+  ],
+  "tvet-school": [
+   "Classes 9 and 10: school subjects plus technical trade papers (civil, computer, electrical, agriculture or animal science) leading to SEE",
+   "Classes 11 and 12: advanced technical modules, workshop labs and NEB technical board exams",
+   "On the job training (OJT) internship in a municipality, farm, workshop or firm",
+   "Enter bachelor study or register for technical assistant posts and industry jobs"
+  ],
+  "plus2-education": [
+   "Class 11: compulsory Nepali, English and Social Studies plus education pedagogy, child development and a teaching subject",
+   "Class 12: instructional evaluation, curriculum studies, teaching subject papers and the NEB Grade 12 exam",
+   "Practise classroom lesson planning and prepare for the Teacher Service Commission primary licence",
+   "Move into a 4 year BEd or BICTE bachelor degree"
+  ],
+  "plus2-law": [
+   "Class 11: compulsory Nepali, English and Social Studies plus jurisprudence, constitutional law and general principles of law",
+   "Class 12: procedural law, civil and criminal law basics, human rights, legal drafting and the NEB board exam",
+   "Practise bilingual legal writing and moot court arguments alongside entrance prep",
+   "Sit the 5 year BA LLB entrance exam or enter a bachelor degree before a 3 year LLB"
+  ],
+  "dip-health": [
+   "Year 1: basic sciences (physics, chemistry, biology, English, Nepali) and anatomy and physiology",
+   "Year 2: clinical, diagnostic or ward subjects with hospital laboratory and outpatient postings",
+   "Year 3: specialty clinical rotations, community health field camp and hospital internship",
+   "Pass the NHPC, NNC or NPC council licensing exam and apply for 5th level Health Service or hospital posts"
+  ],
+  "dip-agriculture": [
+   "Year 1: basic sciences, soil science, agronomy or introductory animal husbandry",
+   "Year 2: crop production, horticulture, plant protection or veterinary pharmacology and disease management",
+   "Year 3: farm enterprise management, extension work and field practicum (JTA / JT training)",
+   "Sit Local Level 5th technical Lok Sewa exams or start commercial farming or BSc Agriculture"
+  ],
+  "bpharm": [
+   "Year 1: human anatomy, physiology, pharmaceutical inorganic and organic chemistry, basic pharmaceutics",
+   "Year 2: physical pharmaceutics, pharmacology, pharmacognosy and pharmaceutical microbiology",
+   "Year 3: medicinal chemistry, biopharmaceutics, dosage form design and hospital pharmacy",
+   "Year 4: clinical pharmacy, quality assurance, industrial/hospital internship and the NPC licensing exam"
+  ],
+  "bhm": [
+   "Year 1: food production foundation, food and beverage service, front office and housekeeping operations",
+   "Year 2: culinary arts, hospitality accounting, hotel law, nutrition and property management systems",
+   "Year 3: hospitality marketing, event management, revenue management and research project",
+   "Year 4: six month industrial exposure internship in a star hotel in Nepal or abroad"
+  ],
+  "ba": [
+   "Year 1: compulsory English and Nepali plus foundation papers in your two major humanities or social science subjects",
+   "Year 2: core theory, social research methods and Nepal studies across your chosen majors",
+   "Year 3: specialised electives, data collection and field or literature analysis",
+   "Year 4: academic writing, research report and preparation for MA, LLB or Section Officer Lok Sewa"
+  ],
+  "bjmc": [
+   "Year 1: introduction to mass communication, print journalism, reporting and media history",
+   "Year 2: radio and television broadcasting, photojournalism, media law and ethics",
+   "Year 3: digital and online media, public relations, advertising and documentary production",
+   "Year 4: newsroom internship, multimedia capstone project and specialisation"
+  ],
+  "bsw": [
+   "Year 1: introduction to social work, sociology, psychology and first weekly agency field placement",
+   "Year 2: social casework, group work, community organisation and NGO field practicum",
+   "Year 3: social welfare administration, rights based development, project cycle management and field block",
+   "Year 4: social research dissertation, block internship with an NGO, municipality or hospital, and graduate entry"
+  ],
+  "bed": [
+   "Year 1: general English/Nepali, philosophical and psychological foundations of education, and first major subject papers",
+   "Year 2: curriculum and evaluation, major and minor teaching subject papers",
+   "Year 3: instructional technology, subject pedagogy and micro teaching workshops",
+   "Year 4: school teaching practicum, research report and Teacher Service Commission licence exam"
+  ],
+  "llb": [
+   "Year 1: jurisprudence, constitutional law, contract law, family law and criminal law",
+   "Year 2: evidence law, property law, company law, public international law and interpretation of statutes",
+   "Year 3: civil and criminal procedure codes, moot court, chamber internship and legal drafting",
+   "Sit the Nepal Bar Council Advocate License Exam (Paper 1 MCQs and Paper 2 Masyouda drafting)"
+  ],
+  "bsc-agri": [
+   "Year 1: agronomy, soil science, biochemistry, agricultural economics and genetics",
+   "Year 2: horticulture, entomology, plant pathology, livestock production and farm power",
+   "Year 3: plant breeding, seed technology, extension education, agribusiness and biostatistics",
+   "Year 4: Undergraduate Practicum Assessment (UPA) field stay, research thesis and PSC or MSc Ag prep"
+  ],
+  "barch": [
+   "Year 1: architectural design studio I, building materials, freehand drawing, descriptive geometry and structures",
+   "Year 2: design studio II, history of Nepalese and world architecture, surveying, climatology and building services",
+   "Year 3: complex design studio III, working drawings, landscape design, estimation and urban settlements",
+   "Year 4: semester practicum internship in an architecture firm plus urban planning and conservation studios",
+   "Year 5: full year architectural design thesis and Nepal Engineering Council registration exam"
+  ],
+  "mbs": [
+   "Semester 1: marketing management, managerial economics, statistical methods and organisational behaviour",
+   "Semester 2: financial management, human resource management, production/operations and management accounting",
+   "Semester 3: business environment, strategic management, research methodology and specialisation papers",
+   "Semester 4: concentration courses (finance, accountancy, marketing or management) and master dissertation"
+  ],
+  "ma": [
+   "Semester 1: advanced disciplinary theory and historiography or foundational models in your subject",
+   "Semester 2: qualitative and quantitative research methodology plus thematic core seminars",
+   "Semester 3: specialised electives, policy or literary criticism and thesis proposal defence",
+   "Semester 4: fieldwork, master thesis defence and preparation for university teaching or policy research"
+  ],
+  "med": [
+   "Semester 1: advanced philosophy of education, learning theories and subject specialisation core",
+   "Semester 2: educational research methodology, curriculum theory and assessment design",
+   "Semester 3: specialised pedagogy electives, school leadership and teaching practicum",
+   "Semester 4: master thesis and preparation for secondary TSC or college lecturing"
+  ],
+  "mtech": [
+   "Semester 1: advanced engineering mathematics, numerical methods and core discipline theory",
+   "Semester 2: specialised design, simulation labs, seminar and thesis topic selection",
+   "Semester 3: elective paper, experimental or modelling work and mid thesis defence",
+   "Semester 4: full master dissertation defence and publication for senior consulting or academic roles"
+  ],
+  "msc-cs": [
+   "Semester 1: advanced algorithms, mathematical foundations, distributed systems and machine learning",
+   "Semester 2: deep learning, cloud computing, data mining and research methodology",
+   "Semester 3: domain electives (NLP, computer vision, cybersecurity) and thesis seminar",
+   "Semester 4: master research thesis and defence"
+  ],
+  "mca": [
+   "Semester 1: advanced programming, software engineering, database systems and discrete mathematics",
+   "Semester 2: enterprise web architecture, cloud platforms, mobile computing and data analytics",
+   "Semester 3: artificial intelligence, information security, electives and major software project",
+   "Semester 4: industry internship and final dissertation"
+  ],
+  "md-ms": [
+   "Year 1: rotational residency duties, basic sciences correlation, protocol writing and thesis registration",
+   "Year 2: intensive specialty ward, ICU or operating theatre postings, peripheral hospital posting and thesis data collection",
+   "Year 3: senior residency responsibility, thesis submission, university final theory and clinical exams",
+   "Pass the Nepal Medical Council Special Examination to register as a specialist consultant"
+  ],
+  "msc-nursing": [
+   "Year 1: advanced nursing practice, nursing research, biostatistics, education and clinical specialty core",
+   "Year 2: specialty clinical residency (medical surgical, community, paediatric, psychiatric or maternal nursing) and thesis",
+   "Pass the Nepal Nursing Council Specialist Nursing (NSREN) exam (60 percent pass mark)",
+   "Move into nursing faculty, hospital matron or public health leadership roles"
+  ],
+  "mpharm": [
+   "Semester 1: modern analytical techniques, advanced biopharmaceutics, drug delivery and biostatistics",
+   "Semester 2: specialization papers in pharmaceutics, pharmacology, clinical pharmacy or pharmaceutical care",
+   "Semester 3: laboratory or hospital clinical research thesis protocol and experimental work",
+   "Semester 4: thesis defense, scientific publication and Nepal Pharmacy Council specialist registration"
+  ],
+  "msc-agri": [
+   "Semester 1: major discipline core courses (agronomy, plant breeding, soil science, pathology or economics) and experimental design",
+   "Semester 2: advanced seminars, minor field electives and research proposal defence",
+   "Semester 3: field trial or laboratory thesis research across cropping seasons",
+   "Semester 4: thesis writing, viva defence and entry into NARC scientist, AFU/TU faculty or INGO roles"
+  ],
+  "msw": [
+   "Semester 1: advanced social work theory, social policy, development perspectives and concurrent fieldwork",
+   "Semester 2: social research methods, project management, human rights and agency practicum",
+   "Semester 3: specialisation (clinical, community development or child/family welfare) and block placement",
+   "Semester 4: empirical dissertation and transition to INGO, UN or social policy leadership"
+  ],
+  "llm": [
+   "Semester 1: comparative constitutional law, advanced jurisprudence and legal research methodology",
+   "Semester 2: specialisation core papers (commercial law, criminal law and justice, or international law)",
+   "Semester 3: seminar papers, legislative drafting, judicial review and thesis proposal",
+   "Semester 4: LLM dissertation defence for senior advocacy, judiciary or law faculty roles"
+  ],
+  "a-levels": [
+   "Year 1 (AS Level): select 3 or 4 Cambridge subjects plus English General Paper and sit AS exams",
+   "Year 2 (A2 Level): complete advanced A2 modules, lab practicals and final Cambridge exams in May/June or Oct/Nov",
+   "Obtain Equivalence Certificate from the Curriculum Development Centre (CDC) / NEB for Nepal admission",
+   "Apply to Nepali universities (IOE, MEC, KU, TU) or directly to international universities with SAT/IELTS"
+  ],
+  "dip-hospitality": [
+   "Phase 1: kitchen safety, culinary foundations, bakery, food and beverage service and housekeeping",
+   "Phase 2: front office operations, barista and bartending skills, hospitality English and costing",
+   "Phase 3: 6 to 12 month paid industrial trainee placement in a hotel or resort in Nepal or abroad",
+   "Enter hotel supervisor roles, cruise/Gulf/Malaysia hospitality jobs or bridge into BHM"
+  ],
+  "be-electrical": [
+   "Year 1: engineering mathematics, physics, C programming, engineering drawing and basic electrical circuits",
+   "Year 2: electrical machines, electromagnetic fields, electronics, instrumentation and numerical methods",
+   "Year 3: power systems analysis, control systems, power electronics, hydropower generation and switchgear",
+   "Year 4: high voltage engineering, transmission line design, final project and NEC licensing exam"
+  ],
+  "be-mechanical": [
+   "Year 1: engineering mathematics, mechanics, thermodynamics, workshop technology and engineering drawing",
+   "Year 2: fluid mechanics, strength of materials, manufacturing processes, material science and CAD",
+   "Year 3: heat transfer, design of machine elements, hydraulic turbines, internal combustion engines and mechatronics",
+   "Year 4: industrial engineering, hydropower/automotive electives, final capstone project and NEC licensing exam"
+  ],
+  "bds": [
+   "Years 1 and 2: human anatomy, physiology, biochemistry, pathology, pharmacology, microbiology and dental anatomy/materials",
+   "Year 3: general medicine, general surgery, oral pathology and preclinical prosthodontics and conservative dentistry",
+   "Year 4: clinical oral and maxillofacial surgery, orthodontics, periodontics, pedodontics, prosthodontics and community dentistry",
+   "Year 5: one year compulsory rotatory dental internship, then the 180 mark NMCLE Dental licensing exam"
+  ],
+  "bmlt": [
+   "Year 1: anatomy, physiology, general biochemistry, basic pathology, microbiology and lab instrumentation",
+   "Year 2: clinical biochemistry, medical microbiology, haematology, histopathology and immunology",
+   "Year 3: molecular diagnostics, cytopathology, blood banking, parasitology and quality control",
+   "Year 4: six to twelve month hospital diagnostic laboratory internship and NHPC licensing exam"
+  ],
+  "bpt": [
+   "Year 1: human anatomy, physiology, biochemistry, sociology and biomechanics/kinesiology",
+   "Year 2: pathology, pharmacology, microbiology, exercise therapy and electrotherapy",
+   "Years 3 and 4: orthopaedics, neurology, cardiopulmonary and sports physiotherapy with clinical postings",
+   "Final 6 months: compulsory rotatory physiotherapy internship and NHPC licensing exam"
+  ],
+  "bph": [
+   "Year 1: basic medical sciences, introduction to public health, medical sociology and environmental health",
+   "Year 2: epidemiology, biostatistics, health promotion, nutrition and communicable/non communicable diseases",
+   "Year 3: health economics, health system management, reproductive/child health and district health practicum",
+   "Year 4: six month community and health office practicum, research thesis and NHPC licensing exam"
+  ],
+  "bvsc": [
+   "Years 1 and 2: veterinary anatomy, physiology, biochemistry, livestock production, animal nutrition and genetics",
+   "Years 3 and 4: veterinary pathology, microbiology, parasitology, pharmacology, medicine, surgery and gynaecology",
+   "Year 5: six month clinical and livestock farm internship plus veterinary research project",
+   "Pass the Nepal Veterinary Council registration exam and enter Veterinary Officer or private practice roles"
+  ],
+  "bttm": [
+   "Year 1: tourism principles, geography of Nepal, tourism economics, communication and hospitality basics",
+   "Year 2: travel agency and tour operations, ticketing (GDS), trekking/mountaineering management and cultural heritage",
+   "Year 3: sustainable ecotourism, aviation management, destination marketing and field camp",
+   "Year 4: tourism research project and internship with an airline, tourism board or tour operator"
+  ],
+  "bfa": [
+   "Year 1: drawing fundamentals, colour theory, Nepalese art history, clay modelling and design foundation",
+   "Year 2: studio specialisation in painting, sculpture, graphic communication or traditional Paubha art",
+   "Year 3: advanced studio composition, printmaking, digital illustration, aesthetics and gallery curation",
+   "Year 4: solo degree exhibition, thesis documentation and entry into studios, agencies or MFA"
+  ],
+  "bsc-science": [
+   "Year 1: core foundation papers and laboratory practicals in your chosen science combination (PCM, PCB or stats/comp)",
+   "Year 2: intermediate theoretical and experimental courses plus scientific communication",
+   "Year 3: major subject specialisation (physics, chemistry, mathematics, statistics, botany or zoology)",
+   "Year 4: advanced major papers, project work or field study, leading to MSc, teaching or research"
+  ],
+  "mph": [
+   "Semester 1: advanced epidemiology, biostatistics, public health principles and social determinants of health",
+   "Semester 2: health policy and planning, health economics, environmental/occupational health and research methods",
+   "Semester 3: programme monitoring and evaluation, outbreak investigation, track electives and field residency",
+   "Semester 4: master thesis defence and NHPC specialist registration"
+  ],
+  "banking-route": [
+   "Check vacancy notices of NRB, RBB, NBL, ADBL or private commercial banks for Assistant (Level 4) or Officer (Level 6)",
+   "Prepare the written syllabus: banking acts, NRB directives, accounting, economics, maths, GK and IT",
+   "Clear the pre test (where applicable), Paper 1 objective/subjective test and Paper 2 technical paper",
+   "Complete the interview and start probation at a branch or central department"
+  ],
+  "freelance-digital": [
+   "Months 1 to 3: master one demonstrable skill (web/app dev, UI/UX, video, SEO, copywriting or data) and build 3 real projects",
+   "Months 4 to 6: publish a clean portfolio on GitHub, Behance or your own domain and take local or internship gigs",
+   "Months 6 to 12: win repeat international clients via direct outreach, LinkedIn or Upwork and register a PAN card for 5 percent foreign income tax",
+   "Scale into remote full time contracts or a registered digital agency"
+  ],
+  "bit": [
+   "Year 1: C programming, digital logic, discrete mathematics, object oriented programming and data structures",
+   "Year 2: operating systems, database management, computer networks, web technology and numerical methods",
+   "Year 3: software engineering, artificial intelligence, system administration, cloud/mobile computing and minor project",
+   "Year 4: advanced IT electives, major software project and industry internship"
+  ],
+  "bsc-forestry": [
+   "Year 1: silviculture basics, forest botany, dendrology, geology, soil science and forest surveying",
+   "Year 2: forest mensuration, wildlife management, forest engineering, ecology and watershed management",
+   "Year 3: community forestry, forest economics, GIS and remote sensing, forest protection and policy/law",
+   "Year 4: field camp, research thesis and preparation for PSC Forest Officer (8th/Gazetted Class III) exams"
+  ],
+  "btech-food": [
+   "Year 1: chemistry, biochemistry, microbiology, physics, engineering drawing and food engineering principles",
+   "Year 2: food chemistry, unit operations, food microbiology, human nutrition and thermodynamic processes",
+   "Year 3: technology of cereals, dairy, meat, fruits/vegetables, fermentation and food quality control",
+   "Year 4: food packaging, plant layout, industrial in plant training, thesis and DFTQC / industry entry"
+  ],
+  "bsc-environment": [
+   "Year 1: environmental biology, earth sciences, environmental chemistry, ecology and physics/mathematics",
+   "Year 2: hydrology, meteorology, biodiversity conservation, pollution monitoring and GIS basics",
+   "Year 3: environmental impact assessment (EIA/IEE), solid waste, water treatment and climate change adaptation",
+   "Year 4: field research thesis, internship with a hydropower/EIA consultancy or ministry, and MSc entry"
+  ],
+  "pilot-route": [
+   "Pass the CAAN Class 1 aviation medical exam and get the Ministry of Education NOC for an approved flying school abroad",
+   "Complete 18 to 24 months of ground school (air law, meteorology, navigation, aircraft technical) and 200+ flight hours for CPL with IR and ME ratings",
+   "Return to Nepal and clear the CAAN air law conversion exam and flight check",
+   "Complete aircraft type rating (such as ATR 72 or Beechcraft) after airline selection as a Junior First Officer"
+  ],
+  "pre-diploma": [
+   "Months 1 to 12: 80 percent practical workshop or field training in your trade (civil sub overseer, electrical, computer, JTA or culinary)",
+   "Months 13 to 18: mandatory 6 month On the Job Training (OJT) placement in a municipality, farm or enterprise",
+   "Pass the CTEVT final skill and theory assessment and NSTB skill test",
+   "Work as a 4th level technician or enter a 3 year CTEVT Diploma through the TSLC quota"
+  ],
+  "sanskrit-gurukul": [
+   "Secondary stage (Classes 9 to 12): study Vyakarana, Sahitya, Jyotish, Veda or Buddhist/Islamic philosophy alongside compulsory Nepali, English and Maths",
+   "Bachelor stage (Shastri / BA, 3 to 4 years): advanced classical texts, comparative philosophy, linguistics or karmakanda",
+   "Master stage (Acharya / MA, 2 years): specialised research and textual commentary at NSU or LBU",
+   "Enter teaching, cultural/archaeological research, translation or civil service"
+  ],
+  "pcl-general-medicine": [
+   "Year 1: basic sciences (physics, chemistry, botany, zoology, English, Nepali) and anatomy and physiology",
+   "Year 2: internal medicine, surgery, pharmacology, pathology, community medicine and nursing procedures",
+   "Year 3: paediatrics, obstetrics/gynaecology, health management and comprehensive hospital and health post internship",
+   "Pass the NHPC Health Assistant licensing exam and sit 5th level Health Service Lok Sewa exams"
+  ],
+  "dip-pharmacy": [
+   "Year 1: basic sciences (physics, chemistry, biology, English, Nepali) and human anatomy and physiology",
+   "Year 2: pharmaceutics I, pharmacology I, pharmacognosy, pharmaceutical chemistry and biochemistry",
+   "Year 3: hospital and clinical pharmacy, forensic pharmacy, community pharmacy management and hospital/retail internship",
+   "Pass the 100 mark Nepal Pharmacy Council (NPC) Pharmacy Assistant licensing exam"
+  ],
+  "dip-geomatics": [
+   "Year 1: engineering mathematics, physics, chemistry, engineering drawing and basic chain/compass surveying",
+   "Year 2: theodolite, total station, levelling, photogrammetry, cartography and cadastral surveying",
+   "Year 3: GIS, GNSS/GPS, remote sensing, land administration law and survey camp project",
+   "Enter Survey Department (Amin / Surveyor) Lok Sewa exams or BE Geomatics Engineering"
+  ],
+  "dip-forestry": [
+   "Year 1: basic sciences, forest botany, soil conservation, surveying and nursery techniques",
+   "Year 2: silviculture, forest mensuration, wildlife management, community forestry and forest engineering",
+   "Year 3: watershed management, GIS basics, forest law, field tours and practical project",
+   "Sit Ranger (5th level) Lok Sewa exams or apply for BSc Forestry"
+  ],
+  "dip-it-computer": [
+   "Year 1: engineering mathematics, physics, C programming, computer fundamentals and digital logic",
+   "Year 2: object oriented programming, data structures, database management, microprocessors and computer networks",
+   "Year 3: web and mobile development, system administration, software engineering and final capstone project",
+   "Enter BE Computer/IT, BSc CSIT or 5th level Computer Operator government and private tech roles"
+  ],
+  "bim": [
+   "Semesters 1 and 2: C programming, digital logic, foundational mathematics, English and principles of management",
+   "Semesters 3 and 4: Java, data structures, database management, web technology, financial accounting and economics",
+   "Semesters 5 and 6: software engineering, Python/AI, information security, marketing, finance and operations management",
+   "Semesters 7 and 8: IT entrepreneurship, MIS, electives, software capstone project and corporate internship"
+  ],
+  "bbm": [
+   "Semesters 1 and 2: micro and macroeconomics, financial accounting, business mathematics and English communication",
+   "Semesters 3 and 4: cost accounting, business finance, marketing, business law, statistics and psychology/sociology",
+   "Semesters 5 and 6: operations management, human resource management, entrepreneurship, taxation and focus area courses",
+   "Semesters 7 and 8: strategic management, focus electives (banking, sales, entrepreneurship) and internship report"
+  ],
+  "bba-bi": [
+   "Semesters 1 and 2: principles of management, microeconomics, financial accounting, business maths and IT",
+   "Semesters 3 and 4: macroeconomics, corporate finance, commercial banking operations, risk and insurance principles",
+   "Semesters 5 and 6: central banking, treasury management, life and non life insurance underwriting and credit analysis",
+   "Semesters 7 and 8: financial derivatives, banking law, specialized electives and bank or insurance internship"
+  ],
+  "bns": [
+   "Year 1: applied basic sciences, behavioural sciences, nursing concepts, adult health nursing and community health",
+   "Year 2: maternal/midwifery nursing, child health nursing, mental health nursing and nursing education/management",
+   "Year 3: nursing research, leadership practicum, clinical specialty rotations and hospital management",
+   "Register upgraded Bachelor Nursing qualification with NNC and compete for 7th level Nursing Officer posts"
+  ],
+  "bams": [
+   "Years 1 to 2: Sanskrit, Padartha Vigyan, Rachana Sharir (anatomy), Kriya Sharir (physiology), Dravyaguna and Rasashastra",
+   "Years 3 to 4.5: Rog Nidan, Swasthavritta, Agadtantra, Kayachikitsa (internal medicine), Shalya (surgery), Shalakya and Panchakarma",
+   "Final 1 year: compulsory rotatory internship across Ayurveda and modern hospital departments",
+   "Pass the Nepal Ayurveda Medical Council licensing exam and practice or sit Ayurveda Officer Lok Sewa"
+  ],
+  "boptom": [
+   "Year 1: general anatomy, ocular anatomy and physiology, physical and geometrical optics and biochemistry",
+   "Year 2: visual optics, optometric instruments, ocular pathology/microbiology, pharmacology and clinical refraction",
+   "Year 3: contact lenses, binocular vision, low vision care, paediatric/geriatric optometry and public eye health",
+   "Year 4: full year clinical eye hospital internship and NHPC Optometrist licensing exam"
+  ],
+  "bsc-mit": [
+   "Year 1: human anatomy, physiology, radiation physics, pathology and Darkroom/CR/DR radiographic techniques",
+   "Year 2: conventional and contrast radiography, patient care, radiographic positioning and ultrasound physics",
+   "Year 3: computed tomography (CT), magnetic resonance imaging (MRI), interventional radiology and nuclear medicine basics",
+   "Year 4: one year hospital radiology department internship and NHPC Medical Imaging Technologist licensing exam"
+  ],
+  "be-geomatics": [
+   "Year 1: engineering mathematics, physics, C programming, engineering drawing and fundamental surveying",
+   "Year 2: geodesy, adjustment computations, photogrammetry, cartography and database systems",
+   "Year 3: remote sensing, spatial analysis (GIS), GNSS positioning, hydrographic surveying and cadastre/land law",
+   "Year 4: web GIS, deformation monitoring, survey camp, final capstone project and NEC licensing exam"
+  ],
+  "be-electronics": [
+   "Year 1: engineering mathematics, physics, C programming, basic electrical engineering and electronic devices",
+   "Year 2: digital logic, microprocessors, signals and systems, electromagnetics and instrumentation",
+   "Year 3: analog and digital communication, computer networks, embedded systems, VLSI/control systems and minor project",
+   "Year 4: wireless/optical communication, RF engineering, AI/IoT electives, major project and NEC licensing exam"
+  ],
+  "be-aerospace-auto": [
+   "Year 1: engineering mathematics, mechanics, thermodynamics, engineering drawing, workshop and C programming",
+   "Year 2: fluid mechanics, solid mechanics, material science, electrical machines and CAD/CAM",
+   "Year 3: aerodynamics/avionics or automotive engines/chassis/powertrain, heat transfer and control systems",
+   "Year 4: aircraft maintenance/propulsion or electric vehicle/industrial systems, capstone project and NEC licensing exam"
+  ],
+  "be-biomedical": [
+   "Year 1: engineering mathematics, human anatomy and physiology, circuit theory, C programming and electronic devices",
+   "Year 2: biomedical sensors and transducers, digital electronics, biomechanics, biochemistry and signals/systems",
+   "Year 3: medical instrumentation, diagnostic imaging systems (X ray, CT, MRI, ultrasound), biomaterials and microprocessors",
+   "Year 4: therapeutic/ICU equipment, hospital engineering management, clinical internship, major project and NEC licensing exam"
+  ],
+  "bsc-microbiology": [
+   "Year 1: general microbiology, cell biology, biochemistry, chemistry and laboratory safety/microscopy",
+   "Year 2: microbial physiology, genetics, molecular biology, immunology and biostatistics",
+   "Year 3: medical bacteriology, virology, mycology, parasitology plus food and agricultural microbiology",
+   "Year 4: industrial/pharmaceutical biotechnology, lab internship or research project, leading to MSc and NHPC registration"
+  ],
+  "bsc-geology": [
+   "Year 1: physical geology, crystallography, mineralogy, general chemistry, physics and mathematics",
+   "Year 2: igneous, sedimentary and metamorphic petrology, structural geology, palaeontology and stratigraphy",
+   "Year 3: economic geology, hydrogeology, geophysics, Himalayan geology of Nepal and geological field mapping camp",
+   "Year 4: engineering geology (tunnels, dams, landslides), GIS/remote sensing, field report and MSc Geology entry"
+  ],
+  "ba-llb": [
+   "Years 1 and 2: political science, sociology, economics or management alongside jurisprudence, constitutional law and contract law",
+   "Years 3 and 4: criminal law, civil code, property law, company law, evidence, public international law and human rights",
+   "Year 5: procedural codes, clinical legal education, moot courts, chamber/court internship and dissertation",
+   "Sit the Nepal Bar Council Advocate License Exam (Paper 1 MCQs and Paper 2 Masyouda drafting)"
+  ],
+  "bpa": [
+   "Year 1: principles of public administration, political science, micro/macroeconomics, sociology and Nepali governance",
+   "Year 2: administrative law, public finance, human resource management, development administration and statistics",
+   "Year 3: public policy analysis, local governance and federalism, project management and research methods",
+   "Year 4: e governance, contemporary public issues, internship/research report and Section Officer Lok Sewa preparation"
+  ],
+  "foreign-lang-work": [
+   "Months 1 to 6: intensive language classes (Korean for EPS TOPIK or Japanese JLPT N4 / JFT Basic plus SSW skill module)",
+   "Pass the official computer based language and skill tests announced by EPS Korea / HRD Korea or Prometric Japan",
+   "Complete roster selection, employer contract matching, medical screening and police clearance",
+   "Obtain the labour permit from the Department of Foreign Employment (DoFE) and complete pre departure orientation"
+  ],
+  "mpa": [
+   "Semester 1: public administration theory, governance, public policy analysis and administrative law",
+   "Semester 2: public financial management, human resource management, development planning and research methodology",
+   "Semester 3: federalism and local government management, specialised electives and policy seminar",
+   "Semester 4: master thesis defence for civil service, municipal or policy careers"
+  ],
+  "mds": [
+   "Year 1: applied basic medical/dental sciences, biostatistics, preclinical specialty exercises and thesis protocol",
+   "Year 2: intensive clinical specialty procedures, ward/OT rotations, journal clubs and thesis data collection",
+   "Year 3: complex clinical management, thesis submission and final university MDS theory and clinical exams",
+   "Pass the Nepal Medical Council Special Examination to register as a specialist dental surgeon"
+  ],
+  "mphil": [
+   "Semester 1: advanced philosophical/theoretical foundations and qualitative/quantitative research methodology",
+   "Semester 2: advanced academic writing, statistical/analytical seminars and dissertation proposal defence",
+   "Semesters 3 to 4: original empirical or clinical research (for MPhil Clinical Psychology: hospital residency + NHPC exam) and thesis defence",
+   "Progress directly into PhD research or university faculty and specialist posts"
+  ],
+  "council-license": [
+   "Confirm your degree and university are on your statutory council approved list (obtain TU equivalence first if studied abroad)",
+   "Create an online account on the council portal (NEC, NMC, NNC, NPC, NHPC or Nepal Bar Council) and upload notarised documents",
+   "Pay the exam fee (NPR 2,500 to 4,500) and sit the computer based or written licensing examination (50 percent pass mark)",
+   "Pay the registration certificate fee and collect your permanent professional practice licence"
+  ],
+  "open-school-see": [
+   "Enrol at a CEHRD approved Open School centre with your Grade 8 certificate or literacy test",
+   "Attend flexible contact classes, self study modules and practical assessments over 1 to 2 years",
+   "Register for and pass the national Secondary Education Examination (SEE) in Chaitra",
+   "Enter +2, CTEVT diploma or government service with the same SEE certificate as regular school students"
+  ],
+  "sports-cadet-school": [
+   "Pass the physical fitness, sports trial or written entrance test for Class 9 (or earlier feeder grade)",
+   "Classes 9 and 10: residential academic schooling paired with daily structured sports or cadet discipline, ending in SEE",
+   "Classes 11 and 12: +2 Science, Management or Humanities alongside national/youth tournaments or leadership training",
+   "Progress to university, national sports squads or Nepal Army/Police officer cadet selection"
+  ],
+  "pcl-cmlt": [
+   "Year 1: basic sciences (physics, chemistry, biology, English, Nepali) and anatomy and physiology",
+   "Year 2: clinical biochemistry, haematology, blood banking, microbiology and parasitology",
+   "Year 3: histopathology, cytopathology, lab quality management and hospital laboratory internship",
+   "Pass the NHPC licensing exam (Grade B Lab Technician) and sit 5th level Health Service Lok Sewa"
+  ],
+  "pcl-radiography": [
+   "Year 1: basic sciences (physics, chemistry, biology, English, Nepali) and human anatomy and physiology",
+   "Year 2: radiation physics, radiographic photography, darkroom/digital CR/DR processing and skeletal radiography",
+   "Year 3: special contrast procedures, CT/ultrasound basics, radiation safety and hospital radiology internship",
+   "Pass the NHPC licensing exam (Radiographer) and enter hospital or 5th level government radiology service"
+  ],
+  "pcl-ophthalmic": [
+   "Year 1: basic sciences (physics, chemistry, biology, English, Nepali) and general/ocular anatomy and physiology",
+   "Year 2: ocular pharmacology, pathology, optics, clinical refraction and common eye diseases",
+   "Year 3: community ophthalmology, minor eye surgery assistance, vision screening camps and eye hospital internship",
+   "Pass the NHPC Ophthalmic Assistant licensing exam and work at eye hospitals or community eye centres"
+  ],
+  "pcl-dental": [
+   "Year 1: basic sciences (physics, chemistry, biology, English, Nepali) and general/oral anatomy and physiology",
+   "Year 2: dental materials, oral pathology, pharmacology, periodontal scaling and preventive dentistry",
+   "Year 3: dental radiography, chairside assistance, community dental camps and dental hospital internship",
+   "Pass the NHPC Dental Hygienist licensing exam and work in dental hospitals or clinics"
+  ],
+  "pcl-ayurveda-physio": [
+   "Year 1: basic sciences, anatomy and physiology plus foundational Ayurveda (Sanskrit/Padartha) or biomechanics",
+   "Year 2: Dravyaguna, Kayachikitsa and Panchakarma (for Ayurveda) or exercise therapy and electrotherapy (for Physiotherapy)",
+   "Year 3: clinical postings, community health and hospital/rehab centre internship",
+   "Pass the Nepal Ayurveda Medical Council or NHPC licensing exam and enter 5th level clinical service"
+  ],
+  "dip-mech-auto-arch": [
+   "Year 1: engineering mathematics, physics, chemistry, engineering drawing and workshop technology",
+   "Year 2: core trade engineering (machine design/thermal, vehicle engines/chassis, electrical machines or architectural studio)",
+   "Year 3: industrial automation/CAD, estimation, major practical project and industrial internship",
+   "Work as a 5th level Sub Engineer in NEA, roads, factories or municipalities, or enter BE Engineering"
+  ],
+  "bmath-actuarial": [
+   "Year 1: calculus, linear algebra, probability theory, financial accounting, microeconomics and R/Python programming",
+   "Year 2: mathematical statistics, financial mathematics (interest theory), macroeconomics and stochastic processes",
+   "Year 3: life contingencies, survival models, loss models, credibility theory and statistical learning",
+   "Year 4: risk management, pension/insurance pricing, industry internship and IFoA/SOA actuarial exam papers"
+  ],
+  "baslp": [
+   "Year 1: anatomy and physiology of speech and hearing, acoustics, linguistics, psychology and electronics",
+   "Year 2: childhood communication disorders, articulation/phonology, diagnostic audiology and amplification/hearing aids",
+   "Year 3: adult neurogenic speech/language disorders, voice/fluency, dysphagia and paediatric audiology",
+   "Year 4: full year clinical audiology and speech therapy internship and NHPC licensing exam"
+  ],
+  "bmid": [
+   "Year 1: foundational health sciences, reproductive anatomy/physiology, normal pregnancy and antenatal care",
+   "Year 2: intrapartum midwifery, evidence based normal birth, postpartum care and newborn resuscitation",
+   "Year 3: management of obstetric/neonatal complications, family planning, community midwifery and clinical residency",
+   "Pass the NNC Midwifery Licensing Exam (NLEM: 150 MCQs at 50 percent plus OSPE/viva at 80 percent)"
+  ],
+  "bperfusion-anesthesia": [
+   "Year 1: human anatomy, physiology, biochemistry, pathology, pharmacology and biomedical equipment physics",
+   "Year 2: cardiopulmonary bypass / anaesthesia workstations, airway management, patient monitoring and sterile OT protocols",
+   "Year 3: cardiac surgery perfusion / specialty anaesthesia technology, ICU ventilator management and emergency life support",
+   "Year 4: one year operating theatre and cardiac/critical care internship and NHPC licensing exam"
+  ],
+  "bicte": [
+   "Semesters 1 and 2: C programming, digital logic, computer architecture, mathematics and educational psychology",
+   "Semesters 3 and 4: object oriented programming (Java), data structures, databases, operating systems and curriculum pedagogy",
+   "Semesters 5 and 6: computer networks, web/multimedia technology, software engineering, AI and ICT teaching methods",
+   "Semesters 7 and 8: school teaching internship, major software project and Teacher Service Commission licence exam"
+  ],
+  "be-agri": [
+   "Year 1: engineering mathematics, physics, thermodynamics, surveying, engineering drawing and basic soil/crop science",
+   "Year 2: fluid mechanics, hydrology, soil mechanics, farm machinery and agricultural process engineering",
+   "Year 3: irrigation and drainage engineering, soil and water conservation, post harvest technology and renewable energy",
+   "Year 4: greenhouse/dairy engineering, GIS, final design project and Nepal Engineering Council licensing exam"
+  ],
+  "be-chemical-hydro": [
+   "Year 1: engineering mathematics, physics, chemistry, thermodynamics, fluid mechanics and computer programming",
+   "Year 2: heat and mass transfer, chemical reaction engineering or open channel hydraulics and geology/surveying",
+   "Year 3: process control and plant design (Chemical) or dam, tunnel, headworks and powerhouse design (Hydropower)",
+   "Year 4: safety/environmental engineering, industrial internship, capstone design project and NEC licensing exam"
+  ],
+  "bms-mountaineering": [
+   "Semesters 1 and 2: mountain geography, geology, meteorology, tourism principles and introductory rock climbing",
+   "Semesters 3 and 4: alpine flora/fauna, high altitude physiology, wilderness first aid and snow/ice craft field camps",
+   "Semesters 5 and 6: expedition planning, mountain rescue, crisis management, sustainable tourism and peak climbing camp",
+   "Semesters 7 and 8: adventure tourism entrepreneurship, dissertation and expedition industry internship"
+  ],
+  "bfd-design": [
+   "Year 1: drawing, colour theory, design elements, textile science or spatial drafting and CAD basics",
+   "Year 2: pattern making, draping and garment construction (Fashion) or residential/commercial interior studio and materials",
+   "Year 3: surface ornamentation, digital 3D rendering, brand merchandising and industry internship",
+   "Year 4: graduating runway collection or full interior design thesis portfolio"
+  ],
+  "ba-economics": [
+   "Year 1: microeconomics I, macroeconomics I, mathematics for economists, statistics and academic writing",
+   "Year 2: intermediate micro/macroeconomics, econometrics, public finance and Nepalese economy",
+   "Year 3: development economics, monetary and international trade economics, project appraisal and field survey",
+   "Year 4: policy econometrics, research thesis and preparation for NRB Officer, think tanks or MA Economics"
+  ],
+  "ba-psychology": [
+   "Year 1: general psychology, biological bases of behaviour, developmental psychology and social sciences foundation",
+   "Year 2: social psychology, cognitive psychology, theories of personality and psychological statistics/research",
+   "Year 3: abnormal psychology, psychological testing and assessment, counselling skills and organizational behaviour",
+   "Year 4: counselling practicum, field research report and progression to MA Psychology and MPhil Clinical Psychology"
+  ],
+  "bsc-horticulture-fisheries": [
+   "Year 1: botany, biochemistry, soil/water chemistry, genetics, introductory horticulture or ichthyology/aquaculture",
+   "Year 2: fruit, vegetable and floriculture production or fish nutrition, breeding, pathology and pond engineering",
+   "Year 3: post harvest technology, protected cultivation, tea/coffee processing or hatchery and coldwater fisheries management",
+   "Year 4: commercial farm/hatchery practicum, research thesis and PSC Technical Officer or agribusiness entry"
+  ],
+  "aviation-cabin-crew": [
+   "Months 1 to 4: aviation safety, emergency procedures, aircraft cabin service, grooming and passenger communication",
+   "Months 4 to 8: first aid, dangerous goods regulations (DGR), Amadeus/Galileo ticketing and airport ground handling",
+   "Months 8 to 12: airline mock interviews, swimming/survival drills and airport internship",
+   "Apply for domestic or international airline cabin crew and airport customer service assessments"
+  ],
+  "mds-data-science": [
+   "Semester 1: statistical inference, linear algebra, Python/R for data science, SQL and distributed data systems",
+   "Semester 2: machine learning, deep learning, time series forecasting, big data engineering and visualization",
+   "Semester 3: natural language processing, computer vision, MLOps and domain analytics electives",
+   "Semester 4: industry data science capstone or master thesis"
+  ],
+  "msc-urban-struct": [
+   "Semester 1: advanced structural mechanics, finite element analysis, soil dynamics, river hydraulics or urban theory",
+   "Semester 2: seismic design of bridges/high rises, tunnel/slope engineering, hydropower structures or regional planning studio",
+   "Semester 3: specialised electives, hazard modelling, design seminar and thesis field/lab work",
+   "Semester 4: master dissertation defence for senior design consulting and infrastructure leadership"
+  ],
+  "mhm-mttm": [
+   "Semester 1: global hospitality and tourism systems, strategic marketing, financial analysis and organizational behaviour",
+   "Semester 2: destination development, hotel asset/revenue management, sustainable tourism policy and research methods",
+   "Semester 3: MICE and aviation management, hospitality entrepreneurship and industry consultancy project",
+   "Semester 4: master dissertation and transition into hospitality general management or college faculty"
+  ],
+  "public-enterprise-route": [
+   "Track the annual PSC calendar and vacancy notices of NRB, RBB, NBL, ADBL, NEA, NTC, CAAN and Citizen Investment Trust",
+   "Prepare the level 6/7 Officer or Engineer syllabus: constitution, institutional acts, service papers and GK/IQ",
+   "Pass the pre test (for NRB/banks) and the multi paper competitive written examination conducted by the Public Service Commission",
+   "Clear the computer skill test and interview to join as a permanent officer or engineer"
+  ],
+  "ingo-fellowship-route": [
+   "Build field experience through a 1 to 2 year fellowship (Teach For Nepal, Daayitwa, UNV or municipal youth fellowship)",
+   "Gain hands on skills in logframes, MEAL (Monitoring, Evaluation, Accountability and Learning), Kobo/SPSS and grant writing",
+   "Complete a master degree or targeted development assignments across provinces",
+   "Compete for Programme Officer, Specialist or Coordinator roles at UN agencies, bilateral missions and INGOs"
+  ]
+ },
+ "faq_add": [
+  {
+   "id": "fw18-1",
+   "topic": "afterbach",
+   "q": "What is the pattern and fee of the Nepal Engineering Council (NEC) licence exam?",
+   "a": "Since the 2023 amendment to the Nepal Engineering Council Act, every BE and B.Arch graduate must pass a 2 hour, 100 mark computer based test (10 chapters of 10 marks each, pass mark 50, no negative marking) at register.nec.gov.np. The AMIS portal lists an exam fee of NPR 2,500 (an older notice quotes NPR 3,400 for Nepali degrees and NPR 4,400 for foreign degrees at Rastriya Banijya Bank), plus NPR 5,000 for registration and NPR 200 for the ID card (NPR 5,200 total) after passing.",
+   "go": [
+    "council-license",
+    "be-civil",
+    "be-computer"
+   ]
+  },
+  {
+   "id": "fw18-2",
+   "topic": "afterbach",
+   "q": "How does the Nepal Medical Council Licensing Exam (NMCLE) work for MBBS and BDS graduates?",
+   "a": "The NMCLE is a 3 hour computer based test held every four months (three times a year) with 130 one mark MCQs and 10 five mark Clinical Scenario Questions for a total of 180 marks. The pass mark is 90 out of 180 (50 percent) with no negative marking. You can sit the exam after completing MBBS or BDS and at least 6 months of compulsory rotatory internship, and the certificate is issued after you finish the full 1 year internship. NMC notices list NPR 3,500 for the undergraduate NMCLE and NPR 7,000 for the specialist MD/MS/MDS exam.",
+   "go": [
+    "council-license",
+    "mbbs",
+    "bds"
+   ]
+  },
+  {
+   "id": "fw18-3",
+   "topic": "afterbach",
+   "q": "What are the pass marks, fees and CPD renewal rules for the Nepal Nursing Council (NNC) exam?",
+   "a": "The National Licensure Examination for Nurses (NLEN) is a 2.5 hour, 150 MCQ paper held three times a year with no negative marking and a 50 percent aggregate pass mark (results are pass or fail; Specialist Nursing NSREN requires 60 percent, and Midwifery NLEM requires 50 percent theory plus 80 percent OSPE/viva). The 2025/2082 NNC guidelines list exam fees of NPR 3,500 for PCL and BSc Nursing, NPR 4,100 for BMS Midwifery and NPR 5,100 for MN/MSc Specialist Nursing, plus NPR 2,000 for the registration certificate after passing. From Magh 1, 2082 (mid January 2026), renewing your nursing licence requires 60 Continuing Professional Development (CPD) hours every six years (at least 10 hours a year).",
+   "go": [
+    "council-license",
+    "pcl-nursing",
+    "bsc-nursing",
+    "bmid"
+   ]
+  },
+  {
+   "id": "fw18-4",
+   "topic": "afterbach",
+   "q": "How do I get a Pharmacist or Pharmacy Assistant licence from the Nepal Pharmacy Council (NPC)?",
+   "a": "Diploma in Pharmacy and BPharm graduates apply online at onlinenameregistration.nepalpharmacycouncil.org.np when the NPC opens one of its three annual exam cycles. The exam has 100 MCQs (100 marks) and requires 50 marks (50 percent) to pass. The 30th NPC notice lists an examination fee of NPR 3,000 at Nabil Bank and another NPR 3,000 for the registration certificate after passing.",
+   "go": [
+    "council-license",
+    "dip-pharmacy",
+    "bpharm"
+   ]
+  },
+  {
+   "id": "fw18-5",
+   "topic": "afterbach",
+   "q": "What are the papers and fees in the Nepal Bar Council Advocate License Exam?",
+   "a": "Law graduates (BA LLB or 3 year LLB) apply at exam.nepalbarcouncil.com and pay NPR 4,500 at Siddhartha Bank (double fee in the 7 day late window; the 35th exam window ran from 4 August to 3 September 2026 / Shrawan 19 to Bhadra 17, 2083). Paper 1 is Constitution and Law MCQs (100 marks, pass mark 50, 1 hour 30 minutes). Paper 2 has Part A Legal Translation (10 marks, 30 minutes) and Part B Legal Drafting / Masyouda of civil, criminal and writ petitions (90 marks, 3 hours 30 minutes), requiring a combined 50 out of 100 to pass, followed by an oral viva and the Bar Oath.",
+   "go": [
+    "council-license",
+    "ba-llb",
+    "llb"
+   ]
+  },
+  {
+   "id": "fw18-6",
+   "topic": "afterbach",
+   "q": "Who needs to pass the Nepal Health Professional Council (NHPC) licensing exam?",
+   "a": "Graduates in Health Assistant (PCL General Medicine), BPH, Medical Lab Technology (CMLT/BMLT), Physiotherapy (BPT), Medical Imaging/Radiography (PCL/BSc MIT), Optometry (BOptom), BASLP, Perfusion/Anaesthesia Technology and MPhil Clinical Psychology must pass the 2 hour NHPC Name Registration Certificate CBT (50 percent pass mark) before practising. NHPC notices list a standard exam fee of NPR 3,000 across all levels (NPR 6,000 in the late window). Note that a general MA in Psychology has no statutory council register in Nepal; only MPhil Clinical Psychology opens the NHPC clinical psychologist register.",
+   "go": [
+    "council-license",
+    "pcl-general-medicine",
+    "bph",
+    "bmlt",
+    "bpt"
+   ]
+  },
+  {
+   "id": "fw18-7",
+   "topic": "abroad",
+   "q": "How many MBBS and BDS scholarship seats does Bangladesh give Nepal under the SAARC quota?",
+   "a": "In the 2025/26 cycle Bangladesh allocated 224 foreign seats in its government medical and dental colleges (125 for SAARC countries), and Nepal received 19 MBBS seats (9 Open, 2 Woman, 1 Dalit Woman, 1 Dalit, 1 Aadibasi Janajati, 2 Khas Arya, 1 Madhesi, 1 Tharu, 1 Underprivileged) and 3 BDS seats (2 Open, 1 Madhesi). Selected candidates pay tuition at the domestic Bangladeshi government rate instead of the private foreign package. You must be on the latest MECEE-BL merit list, have a combined SEE and Class 12 GPA of at least 8.0 on the 10 point Bangladesh scale, and apply on both the DGME Bangladesh portal and the MEC Nepal portal in November or December.",
+   "go": [
+    "mbbs",
+    "bds"
+   ]
+  },
+  {
+   "id": "fw18-8",
+   "topic": "abroad",
+   "q": "Does Latvia offer a government scholarship for international students?",
+   "a": "Yes, the Latvian State Scholarships for Studies run by VIAA (viaa.gov.lv) pay a monthly stipend for up to 10 months a year (11 months for PhD): Study in Latvia lists EUR 500 a month for bachelor and master students and EUR 700 for PhD candidates, while several scholarship guides list EUR 600 for master students. The call runs from 1 February to 1 April each year, bachelor applicants must have completed at least one year of higher education, and only citizens of 39 eligible bilateral or reciprocal countries qualify, so check that Nepal is on the active VIAA list before you apply.",
+   "go": [
+    "be-computer",
+    "mba"
+   ]
+  },
+  {
+   "id": "fw18-9",
+   "topic": "abroad",
+   "q": "What does the OSCE Academy in Bishkek scholarship cover for master students?",
+   "a": "The OSCE Academy in Bishkek (Kyrgyzstan) offers a fully funded 18 month Master of Arts in Politics and Security, Economic Governance and Development, or Human Rights and Sustainability (MAHRS). It covers full tuition, a EUR 450 monthly stipend, economy return flights to Bishkek, basic health insurance and competitive funded internships in Europe or Central Asia. The deadline for the 2027 to 2029 cohort is 31 January 2027 at 11 pm Bishkek time; check the nationality list on your chosen track before applying.",
+   "go": [
+    "ma",
+    "mpa"
+   ]
+  },
+  {
+   "id": "fw18-10",
+   "topic": "abroad",
+   "q": "Is the Malta Get Qualified scheme a real upfront scholarship for Nepali students?",
+   "a": "No. Malta Get Qualified scheme is a post graduation income tax credit (up to 70 percent of tuition capped at EUR 12,500), not an upfront tuition discount or cash grant. You only recover money over later tax years if you stay, find a job and pay income tax in Malta after graduating, and some guides note eligibility disputes for non EU nationals. For real upfront fee relief in Malta, look at the University of Malta merit tuition waivers (40 to 100 percent across the 31 January, 31 May and 31 October rounds).",
+   "go": [
+    "bsc-csit",
+    "bba"
+   ]
+  },
+  {
+   "id": "fw18-11",
+   "topic": "abroad",
+   "q": "How much bank balance and work hours apply to a France student visa in 2026?",
+   "a": "For a French long stay student visa (VLS-TS, fee EUR 50 to 99 plus EUR 50 to 75 OFII validation and EUR 103 to 105 CVEC fee) you must show at least EUR 615 a month in living funds (EUR 6,150 for 10 months or EUR 7,380 for 12 months), though real living costs in Paris are EUR 1,000 to 1,400 a month. The visa lets you work up to 964 hours a year (about 20 hours a week at the EUR 11.88 gross minimum wage) without a separate work permit, and master graduates can apply for a two year job search permit (RECE / APS).",
+   "go": [
+    "mba",
+    "msc-cs"
+   ]
+  },
+  {
+   "id": "fw18-12",
+   "topic": "abroad",
+   "q": "What are the 2026 tuition and proof of funds rules for studying in Austria?",
+   "a": "Public universities in Austria charge non EU students EUR 726.72 a semester plus the OH student union fee of EUR 25.20 to 26.20, and public universities such as the University of Vienna and TU Wien waive the tuition fee for citizens of countries on Austria Least Developed Countries list so they pay only the union fee. For the 2026 Residence Permit Student (fee EUR 218), OeAD requires 12 months of funds in advance: EUR 722.58 a month if you are under 24 (EUR 8,670.96 a year) or EUR 1,308.39 a month if you are 24 or older (EUR 15,700.68 a year), plus any rent above EUR 386.43 a month and OeGK health insurance (EUR 78.84 a month).",
+   "go": [
+    "mtech",
+    "msc-cs"
+   ]
+  },
+  {
+   "id": "fw18-13",
+   "topic": "abroad",
+   "q": "How much blocked account money is needed for a Belgium student visa in 2026/27?",
+   "a": "For the 2026/27 academic year the published minimum financial reference for a Belgian Type D student visa is EUR 1,062 net a month (about EUR 12,744 for a 12 month year, usually deposited into a university blocked account or backed by an Annex 32 sponsor form; one older guide still quotes EUR 759 a month). The long stay visa fee rose to EUR 250 in July 2026, priority English master deadlines at KU Leuven and Ghent fall on 1 March, and graduates can apply for a 12 month search year permit.",
+   "go": [
+    "mtech",
+    "mba"
+   ]
+  },
+  {
+   "id": "fw18-14",
+   "topic": "abroad",
+   "q": "How much proof of funds is required for Spain in 2026 and can students work 30 hours a week?",
+   "a": "Spain requires 100 percent of its IPREM index for each month of stay, which in 2026 is EUR 600 a month (EUR 5,400 for 9 months or EUR 7,200 for 12 months), plus private health insurance with zero co payments and repatriation. Under the Spanish immigration reform (RD 1155/2024 Article 190), higher education students on a Type D study permit can work up to 30 hours a week without a separate work permit as long as the work does not conflict with classes.",
+   "go": [
+    "mba",
+    "bhm"
+   ]
+  },
+  {
+   "id": "fw18-15",
+   "topic": "abroad",
+   "q": "What changed in Italy student visa proof of funds for 2026/27?",
+   "a": "Guides for the 2026/27 and 2027/28 intakes report that Italy minimum student visa proof of funds has risen to EUR 10,179.85 a year (older pages still quote around EUR 6,079 a year), and you must complete pre enrolment on the Universitaly portal before your visa appointment. International students can apply for regional need based DSU scholarships (tuition waiver, accommodation and stipend using family income documents) and work up to 20 hours a week (1,040 hours a year).",
+   "go": [
+    "barch",
+    "mtech"
+   ]
+  },
+  {
+   "id": "fw18-16",
+   "topic": "abroad",
+   "q": "Can international students work during the semester in Malaysia, and what does EMGS cost?",
+   "a": "No, Malaysia does not allow part time work during regular term time. Student Pass holders may work up to 20 hours a week ONLY during semester breaks or holidays longer than seven days, and only in restaurants, hotels, petrol stations and mini markets with Immigration approval through their university. First year mandatory EMGS, eVAL, arrival medical, insurance and pass charges in 2026 total about USD 680 to 740 (RM 2,770 to 3,020; USD 696 on the standard EMGS calculator).",
+   "go": [
+    "bba",
+    "bsc-csit"
+   ]
+  },
+  {
+   "id": "fw18-17",
+   "topic": "abroad",
+   "q": "What is the three year bond attached to the Singapore MOE Tuition Grant?",
+   "a": "At Singapore publicly funded universities, international students who accept the Ministry of Education (MOE) Tuition Grant pay sharply reduced tuition, but must sign a legally binding agreement to work for a Singapore registered company for three years after graduation. Leaving early or declining to work in Singapore requires repaying the full grant with interest. During term, only full time students at approved public institutions may work up to 16 hours a week; private institute students cannot work.",
+   "go": [
+    "be-computer",
+    "mba"
+   ]
+  },
+  {
+   "id": "fw18-18",
+   "topic": "abroad",
+   "q": "How many hours can international students work in Taiwan and how long is post study stay?",
+   "a": "Degree students in Taiwan who obtain a work permit from the Workforce Development Agency (fee NTD 100) alongside their Alien Resident Certificate (ARC, NTD 500 a year) can work up to 20 hours a week during the semester and without a weekly hour limit during winter and summer breaks. Since 2024, international graduates can extend their ARC for up to two years after graduation to look for work.",
+   "go": [
+    "be-electronics",
+    "msc-cs"
+   ]
+  },
+  {
+   "id": "fw18-19",
+   "topic": "abroad",
+   "q": "How much bank balance is required for a Poland student visa in 2026?",
+   "a": "For a Polish D type national student visa (fee EUR 60 to 80) you must show funds for accommodation and living for each month of stay (older rules cite the PLN 701 monthly social threshold while 2025/26 visa guides cite PLN 1,086 a month or about EUR 6,400 for a full year), plus PLN 2,500 for a return ticket to a non EU country and EUR 30,000 health insurance. The Polish minimum wage in 2025/26 is PLN 4,666 a month (PLN 30.50 an hour gross).",
+   "go": [
+    "be-mechanical",
+    "msc-cs"
+   ]
+  },
+  {
+   "id": "fw18-20",
+   "topic": "after10",
+   "q": "Which Kathmandu schools offer an American diploma or Cambridge A Levels?",
+   "a": "Lincoln School in Rabi Bhawan (lsnepal.com) teaches an American high school diploma curriculum through Grade 12, Ullens School in Khumaltar offers the IB Diploma Programme, and Cambridge A Levels are taught at schools and colleges including Rato Bangala, The British School Kathmandu (tbskathmandu.org), St. Xavier College Maitighar, Budhanilkantha School, Trinity International College, Malpi Institute and Chelsea International Academy.",
+   "go": [
+    "a-levels"
+   ]
+  }
+ ]
+}

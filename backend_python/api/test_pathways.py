@@ -745,3 +745,59 @@ class Wave16Tests(TestCase):
         by = {a['id']: a for a in d['abroad']}
         self.assertEqual(by['au']['visa']['name'], 'Student visa (subclass 500)')
         self.assertEqual(by['us']['visa']['steps'][1][2], 'USD 350')
+
+
+class Wave18Tests(TestCase):
+    """Wave 18: every destination has a scholarship, every route has a journey plan, six council licensing exams, 35 websites, 20 FAQs."""
+
+    def test_every_destination_has_a_scholarship(self):
+        d = pathways.payload()
+        for a in d['abroad']:
+            self.assertTrue(a.get('scholarships'), a['id'])
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-latvia-state']['open'], [2, 4])
+        self.assertIn('19 MBBS seats', sch['s-bangladesh-saarc']['who'])
+        self.assertIn('EUR 450', sch['s-osce-bishkek']['covers'])
+        self.assertIn('Get Qualified', sch['s-um-malta']['covers'])
+
+    def test_every_route_has_a_journey_plan(self):
+        d = pathways.payload()
+        self.assertEqual(len(d['routes']), 124)
+        for r in d['routes']:
+            self.assertGreaterEqual(len(r.get('plan') or []), 3, r['id'])
+
+    def test_council_licensing_exams_and_career_links(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        for eid, fee in (('e-nec', 2500), ('e-nmcle', 3500), ('e-nlen', 3500), ('e-npc', 3000), ('e-bar', 4500), ('e-nhpc', 3000)):
+            self.assertEqual(govt[eid]['fee'], fee)
+            self.assertEqual(govt[eid]['track'], 'lic')
+        careers = {c['id']: c for c in d['careers']}
+        self.assertEqual(careers['civil-engineer']['licence']['exam'], 'e-nec')
+        self.assertEqual(careers['doctor']['licence']['exam'], 'e-nmcle')
+        self.assertEqual(careers['nurse']['licence']['exam'], 'e-nlen')
+        self.assertEqual(careers['pharmacist']['licence']['exam'], 'e-npc')
+        self.assertEqual(careers['lawyer']['licence']['exam'], 'e-bar')
+        self.assertEqual(careers['lab-tech']['licence']['exam'], 'e-nhpc')
+        guides = {g['id'] for g in d['guides']}
+        for gid in ('nec-licence', 'nmcle-licence', 'nnc-licence', 'bar-licence'):
+            self.assertIn(gid, guides)
+
+    def test_abroad_2026_rules_websites_and_faqs(self):
+        d = pathways.payload()
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertEqual(abroad['es']['work_hours'], 30)
+        self.assertEqual(abroad['tw']['work_hours'], 20)
+        self.assertIn('EUR 615', abroad['fr']['note'])
+        self.assertIn('722.58', abroad['at']['note'])
+        self.assertIn('1,062', abroad['be']['note'])
+        self.assertIn('10,179.85', abroad['it']['note'])
+        by_p = {p['id']: p for p in d['providers']}
+        self.assertEqual(by_p['p-lincoln']['website'], 'https://www.lsnepal.com')
+        self.assertEqual(by_p['p-nmc-jorpati']['website'], 'https://www.nmcth.edu')
+        self.assertEqual(by_p['p-trinity']['website'], 'https://www.trinity.edu.np')
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 268)
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 21):
+            self.assertIn(f'fw18-{i}', faq)
+        self.assertEqual(pathways.problems(d), [])

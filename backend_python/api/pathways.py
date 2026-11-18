@@ -355,6 +355,38 @@ def payload():
             for old, new in pairs:
                 assert old in faq_by[fid]['a'], (fid, old)
                 faq_by[fid]['a'] = faq_by[fid]['a'].replace(old, new)
+    if (DATA / 'wave18.json').exists():
+        w18 = _load('wave18.json')
+        scholarships = scholarships + w18['scholarships_add']
+        abroad_by = {a['id']: a for a in abroad}
+        for sc in w18['scholarships_add']:
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        for aid, more in w18['abroad_update'].items():
+            abroad_by[aid].update(more)
+        for aid, text in w18['abroad_note_add'].items():
+            abroad_by[aid]['note'] = ((abroad_by[aid].get('note') or '').rstrip() + ' ' + text).strip()
+        govt_tracks = govt_tracks + w18['govt_tracks_add']
+        govt = govt + w18['govt_add']
+        career_by = {c['id']: c for c in careers}
+        for cid, lic in w18['career_licence'].items():
+            career_by[cid]['licence'] = lic
+        route_by = {r['id']: r for r in routes}
+        for rid, eid in w18['route_exam'].items():
+            route_by[rid]['exam_id'] = eid
+        for rid, plan in w18['route_plan'].items():
+            if not route_by[rid].get('plan'):
+                route_by[rid]['plan'] = plan
+        guides = guides + w18['guides_add']
+        providers = providers + w18['providers_add']
+        by_provider = {x['id']: x for x in providers}
+        for rid, more in w18['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        for pid, url in w18['provider_websites'].items():
+            if not by_provider[pid].get('website'):
+                by_provider[pid]['website'] = url
+        faq_all = faq_all + w18['faq_add']
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
