@@ -2411,3 +2411,19 @@ History read first (`ANDROID_STATUS.md` 93 and 94, `INSTITUTIONS_STATUS.md`). No
 - On-device pass: Edit profile as a verified institution owner (button label appears after a moment, never "claim").
 
 CI: `d43ab187` Android release build (APK + AAB) green, Backend tests green (also run locally on sqlite: `web.test_inst_logo_claim`, `web.test_institutions`, `api.test_institution_portfolio`, migrations in sync). Deploy Backend to cPanel (run `44343820432`) green; migration `0174` ran and linked 0 accounts (none were missing a row), 2 verified institutions both return `photoUrl`, `/app/schools/` no longer carries "Get verified" for guests, nothing deleted.
+
+---
+# Session 96: pickup of 83 to 95, resource thumbnails audited again (no code change)
+
+History read first (`ANDROID_STATUS.md` 83 to 95). Not redone: v1 thumbnails drawn by code on web and app (`M3xThumb`, `ResourceBannerArt`, `m3x-art.js`, `pixel-art.js`).
+
+## Checked, not changed
+- Live web, headless Chromium, 1500 px: `/app/library/` draws a code-made v1 thumbnail on every card (24 `data-neb-art="banner"` nodes, seed `id|type`, no `<img>` of a stored picture). The reader page opens its side card with the same piece. The screenshot in the request shows exactly this.
+- App code: Library, Search, Home, Profile, Overview, creator page and resource detail all go through `WebResourceCard` / `CompactResourceCard` / `ResourceBannerArt` / `M3xThumb`. The only `AsyncImage` left is the payment proof. `assets/m3x/covers.json` carries 12 families x 6 recipes, the same keys as `SubjectFamily`; unknown families fall back to `GENERAL`.
+- Nothing is bundled as SVG or bitmap for resources.
+
+## Open
+- Not verifiable in the VM: Compose rendering on a phone. If an install still shows no art, check that its build is from `7a2da204` or later (version is still 1.7.5 (29) so the number does not tell).
+- Token is in `/tmp/gitenv.sh` only; it was pasted into the chat again, rotate it.
+
+No backend change, no deploy, nothing deleted.
