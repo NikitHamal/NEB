@@ -110,13 +110,7 @@ def stream_chat(
     if saw_any:
         yield {"type": "done", "finish_reason": "stop"}
         return
-    from .keyless_fallback import stream_keyless_fallback
-    fell_back = False
-    for ch in stream_keyless_fallback("yqcloud", model, messages, system_prompt=system_prompt):
-        fell_back = True
-        yield ch
-    if not fell_back:
-        yield {"type": "error", "error": err_msg or "yqcloud: stream ended without content"}
+    yield {"type": "error", "error": err_msg or "yqcloud: stream ended without content"}
 
 
 def simple_chat(

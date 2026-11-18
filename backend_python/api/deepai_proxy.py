@@ -392,16 +392,7 @@ def stream_chat(
         if r is not None:
             body = r.text[:300] if hasattr(r, "text") else ""
             err_msg = f"HTTP {r.status_code}: {body}"
-        from .keyless_fallback import stream_keyless_fallback
-        fell_back = False
-        for ch in stream_keyless_fallback("deepai", model_id, chat_history, system_prompt=system_prompt):
-            if ch.get("type") == "text":
-                fell_back = True
-                yield {"type": "content", "text": ch.get("content", "")}
-            elif ch.get("type") == "done":
-                yield {"type": "done", "finishReason": "stop"}
-        if not fell_back:
-            yield {"type": "error", "message": err_msg or "DeepAI upstream error"}
+        yield {"type": "error", "message": err_msg or "DeepAI upstream error"}
         return
 
     content_type = r.headers.get("content-type", "")
@@ -644,5 +635,4 @@ def simple_chat(user_message, model="standard", system_prompt="", timeout=60):
             return res
     except DeepAIError as exc:
         logger.warning("deepai: simple_chat error: %s", exc)
-    from .keyless_fallback import simple_keyless_fallback
-    return simple_keyless_fallback("deepai", model, user_message, system_prompt=system_prompt) or ""
+    return ""

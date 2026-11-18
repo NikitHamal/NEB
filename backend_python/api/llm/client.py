@@ -298,15 +298,6 @@ def chat(*, format: str, base_url: str, api_key: str, model: str,
             return _openai_chat(base_url=base_url, api_key=api_key, model=model, messages=messages,
                                 max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
     except Exception as e:
-        if _is_keyless_official(provider):
-            from api.keyless_fallback import stream_keyless_fallback
-            parts = [ch.get('content', '') for ch in stream_keyless_fallback(provider, model, messages) if ch.get('type') == 'text']
-            fb_text = ''.join(parts).strip()
-            if fb_text:
-                return ChatResult(
-                    text=fb_text, model=model, provider=provider,
-                    duration_ms=int((time.time() - t0) * 1000),
-                )
         if isinstance(e, LLMError):
             raise
         raise LLMError(f'{provider}: {e}', provider=provider)
@@ -588,19 +579,6 @@ def chat_stream(*, format: str, base_url: str, api_key: str, model: str,
                 saw_text = True
             yield ch
     except Exception as e:
-        if not saw_text and _is_keyless_official(provider):
-            from api.keyless_fallback import stream_keyless_fallback
-            fell_back = False
-            for ch in stream_keyless_fallback(provider, model, messages):
-                if ch.get('type') == 'thought':
-                    yield {'type': 'reasoning', 'content': ch.get('content', '')}
-                elif ch.get('type') == 'text':
-                    fell_back = True
-                    yield {'type': 'text', 'content': ch.get('content', '')}
-                elif ch.get('type') == 'done':
-                    yield {'type': 'done', 'model': model, 'input_tokens': 0, 'output_tokens': 0, 'reasoning': ''}
-            if fell_back:
-                return
         if isinstance(e, LLMError):
             raise
         raise LLMError(f'{provider}: {e}', provider=provider)

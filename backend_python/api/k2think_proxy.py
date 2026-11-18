@@ -130,13 +130,7 @@ def stream_chat(
             err_body = str(exc)
         if resp is None or resp.status_code != 200:
             body = resp.text[:300] if resp is not None else err_body
-            from .keyless_fallback import stream_keyless_fallback
-            fell_back = False
-            for ch in stream_keyless_fallback("k2think", model, messages, reasoning=(reasoning_effort == "high")):
-                fell_back = True
-                yield ch
-            if not fell_back:
-                yield {"type": "error", "error": f"K2Think error: {body}"}
+            yield {"type": "error", "error": f"K2Think error: {body}"}
             return
 
         prev_reasoning = ""

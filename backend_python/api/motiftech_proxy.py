@@ -151,13 +151,7 @@ def stream_chat(
             yield {"type": "done", "finish_reason": "stop", "conversation_id": conv_id}
             return
 
-        from .keyless_fallback import stream_keyless_fallback
-        fell_back = False
-        for ch in stream_keyless_fallback("motiftech", model, messages, reasoning=(effort == "high")):
-            fell_back = True
-            yield ch
-        if not fell_back:
-            yield {"type": "error", "error": err_msg or "stream ended without content"}
+        yield {"type": "error", "error": err_msg or "stream ended without content"}
     finally:
         try:
             session.close()

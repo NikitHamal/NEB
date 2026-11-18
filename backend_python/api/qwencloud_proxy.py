@@ -445,13 +445,7 @@ def stream_chat(
     except Exception as exc:
         last_err = f"qwencloud: {exc}"
 
-    from .keyless_fallback import stream_keyless_fallback
-    fell_back = False
-    for ch in stream_keyless_fallback("qwencloud", model, messages, system_prompt=system_prompt, reasoning=thinking):
-        fell_back = True
-        yield ch
-    if not fell_back:
-        yield {"type": "error", "error": last_err or "qwencloud: stream ended without content"}
+    yield {"type": "error", "error": last_err or "qwencloud: stream ended without content"}
 
 
 def simple_chat(

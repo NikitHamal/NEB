@@ -956,19 +956,7 @@ def stream_chat(
         if attempt < max_attempts:
             time.sleep(1.0 * attempt)
 
-    from .keyless_fallback import stream_keyless_fallback
-    fell_back = False
-    for ch in stream_keyless_fallback(
-        "tryingopen", model, messages,
-        system_prompt=system_prompt, reasoning=(effort == "deep"),
-    ):
-        fell_back = True
-        if ch.get("type") == "thought":
-            yield {"type": "reasoning", "content": ch.get("content", "")}
-        else:
-            yield ch
-    if not fell_back:
-        yield {"type": "error", "error": last_error or "TryingOpen stream ended without content"}
+    yield {"type": "error", "error": last_error or "TryingOpen stream ended without content"}
 
 
 def simple_chat(

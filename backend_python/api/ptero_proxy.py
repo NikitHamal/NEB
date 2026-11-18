@@ -192,13 +192,7 @@ def stream_chat(
             detail = str(data.get("message") or data.get("code"))[:200]
         err = f"ptero: empty reply{(' — ' + detail) if detail else ''}"
 
-    from .keyless_fallback import stream_keyless_fallback
-    fell_back = False
-    for ch in stream_keyless_fallback("ptero", resolved_model, messages, system_prompt=system_prompt):
-        fell_back = True
-        yield ch
-    if not fell_back:
-        yield {"type": "error", "error": err or "ptero: empty reply"}
+    yield {"type": "error", "error": err or "ptero: empty reply"}
 
 
 def simple_chat(

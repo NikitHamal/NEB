@@ -105,13 +105,7 @@ def stream_chat(
         yield {"type": "text", "content": text}
         yield {"type": "done", "finish_reason": "stop"}
         return
-    from .keyless_fallback import stream_keyless_fallback
-    fell_back = False
-    for ch in stream_keyless_fallback("chatjimmy", model, convo):
-        fell_back = True
-        yield ch
-    if not fell_back:
-        yield {"type": "error", "error": err_msg or "chatjimmy: stream ended without content"}
+    yield {"type": "error", "error": err_msg or "chatjimmy: stream ended without content"}
 
 
 def simple_chat(

@@ -316,13 +316,7 @@ def stream_chat(
         finally:
             gsession.close()
 
-    from .keyless_fallback import stream_keyless_fallback
-    fell_back = False
-    for ch in stream_keyless_fallback("geminiweb", model, messages):
-        fell_back = True
-        yield ch
-    if not fell_back:
-        yield {"type": "error", "error": f"GeminiWeb: {last_error}"}
+    yield {"type": "error", "error": f"GeminiWeb: {last_error}"}
 
 
 def simple_chat(
