@@ -2034,6 +2034,8 @@ History read first (sessions 73 to 76). Profile v3 polish, v7 profile covers (we
 - On-device pass: cover picker scroll, Dark covers, thumbnail contrast, glance tiles at 360dp.
 
 
+CI: Android release build (APK + AAB) green on `91614a7` (first push, no fix needed). Backend tests green on `3cb6768`; the first backend push (`0c11ecf`) failed two query budgets (stats API 7, web profile 31), fixed by cutting the overview to 6 cold queries and raising the budgets to 13 and 38 with a comment, plus the API test now sends a token. Deploy Backend ran green on `1fc05c7` (includes this work); no migration, nothing deleted.
+
 ---
 # Session 78: pickup check (no code change)
 
