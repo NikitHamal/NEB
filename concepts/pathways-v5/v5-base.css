@@ -26,13 +26,14 @@ a{color:inherit}
 .t-yc{--tb:var(--yc);--tf:var(--onyc)}.t-gc{--tb:var(--gc);--tf:var(--ongc)}.t-rc{--tb:var(--rc);--tf:var(--onrc)}
 
 /* shell */
-.app{display:grid;grid-template-columns:1fr;min-height:100dvh}
+.app{display:grid;grid-template-columns:minmax(0,1fr);min-height:100dvh}.app>div{min-width:0}
 .rail{display:none}
 .top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--s);border-bottom:1px solid var(--ov);transition:transform .3s var(--e)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;text-decoration:none;margin-right:4px}
 .brand .mk{width:36px;height:36px;border-radius:12px;background:var(--p);color:var(--onp);display:grid;place-items:center}
+.brand>span:last-child{display:none}
 .brand small{display:none;font-weight:500;font-size:11px;color:var(--onv);letter-spacing:.4px}
-.find{flex:1;max-width:560px;margin:0 auto;height:44px;border-radius:22px;background:var(--s2);border:1px solid transparent;display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--onv);text-align:left;transition:border-color .2s,background .2s}
+.find{flex:1;min-width:0;max-width:560px;margin:0 auto;height:44px;border-radius:22px;background:var(--s2);border:1px solid transparent;display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--onv);text-align:left;transition:border-color .2s,background .2s}
 .find:hover{background:var(--s3)}.find span.tx{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
 .find kbd{display:none;font:500 11px Poppins;border:1px solid var(--ov);border-radius:8px;padding:1px 7px}
 .ib{width:44px;height:44px;border-radius:22px;display:grid;place-items:center;position:relative;transition:background .2s,transform .2s var(--sp)}
@@ -48,7 +49,7 @@ main{padding:16px 14px 120px;max-width:1240px;width:100%;margin:0 auto}
 .bnav button:active .pill,.rail button:active .pill{transform:scale(.92)}
 body.hide .bnav{transform:translateY(110%)}
 @media(min-width:900px){
-  .app{grid-template-columns:96px 1fr}
+  .app{grid-template-columns:96px minmax(0,1fr)}
   .rail{display:flex;flex-direction:column;align-items:center;gap:6px;position:sticky;top:0;height:100dvh;padding:14px 0;border-right:1px solid var(--ov);background:var(--s);overflow-y:auto}
   .rail .mk{width:44px;height:44px;border-radius:14px;background:var(--p);color:var(--onp);display:grid;place-items:center;margin-bottom:10px}
   .rail .sp{flex:1}.bnav,.brand,.top .ib.menu{display:none}

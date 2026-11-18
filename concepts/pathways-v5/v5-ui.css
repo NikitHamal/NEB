@@ -16,7 +16,7 @@
 .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0;scrollbar-width:none;margin:0 -14px;padding:2px 14px}.chips::-webkit-scrollbar{display:none}
 @media(min-width:900px){.chips{margin:0;padding:2px 0}}
 .chips.wrap{flex-wrap:wrap;overflow:visible;margin:0;padding:2px 0}
-.tag{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:12px;background:var(--tb,var(--s3));color:var(--tf,var(--onv));font-size:11px;font-weight:500;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:12px;background:var(--tb,var(--s3));color:var(--tf,var(--onv));font-size:11px;font-weight:500;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .tag .ms{font-size:14px}
 .btn{height:44px;padding:0 22px;border-radius:22px;background:var(--p);color:var(--onp);font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .25s var(--sp),background .2s,opacity .2s;text-decoration:none;white-space:nowrap}
 .btn:active{transform:scale(.95)}.btn.t{background:var(--pc);color:var(--onpc)}.btn.o{background:none;color:var(--p);border:1px solid var(--ov)}.btn.g{background:none;color:var(--p);padding:0 14px}
@@ -34,7 +34,7 @@
 .mt{height:6px;border-radius:3px;background:var(--s4);overflow:hidden}
 .mt i{display:block;height:100%;border-radius:3px;background:var(--c,var(--p));width:calc(var(--v)*1%);transform-origin:left;animation:grow .9s var(--e) both}
 @keyframes grow{from{transform:scaleX(0)}}
-.met{display:grid;grid-template-columns:92px 1fr 32px;align-items:center;gap:10px;font-size:12px}.met b{font-weight:600;text-align:right}
+.met{display:grid;grid-template-columns:92px 1fr 66px;align-items:center;gap:10px;font-size:12px}.met b{font-weight:600;text-align:right;white-space:nowrap}
 .dots{display:inline-flex;gap:3px}.dots i{width:8px;height:8px;border-radius:4px;background:var(--s4)}.dots i.on{background:var(--c,var(--p))}
 .fld{display:flex;align-items:center;gap:8px;height:46px;border-radius:23px;background:var(--s2);padding:0 16px;border:1px solid transparent;transition:border-color .2s}
 .fld:focus-within{border-color:var(--p)}.fld input,.fld select{flex:1;min-width:0;height:100%;appearance:none}.fld select option{background:var(--s);color:var(--on)}
