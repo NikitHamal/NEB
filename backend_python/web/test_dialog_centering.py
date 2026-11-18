@@ -48,23 +48,24 @@ class DialogCenteringTests(SimpleTestCase):
         self.assertRegex(css, r'\.cv-grid\s*\{[^}]*min-height:\s*0')
 
 
-class CoverPreviewTests(SimpleTestCase):
-    """The picker shows small lazy WebP previews (a few KB each), never 175 vector files or a megabyte sprite."""
+class CoverArtByCodeTests(SimpleTestCase):
+    """Covers and thumbnails are drawn by code (js/m3x-art.js, M3xEngine in the app). No image files, no per-tile requests."""
 
-    def test_every_cover_has_a_light_and_dark_preview(self):
-        import json
+    def test_no_cover_image_files_are_shipped(self):
         base = os.path.join(CSS, '..', 'img', 'm3x')
-        ids = [r[0] for r in json.load(open(os.path.join(base, 'covers.json')))['covers']]
-        for theme in ('light', 'dark'):
-            missing = [i for i in ids if not os.path.isfile(os.path.join(base, 'cover', 'prev', theme, i + '.webp'))]
-            self.assertEqual(missing, [], theme)
+        self.assertEqual(sorted(os.listdir(base)), ['covers.json'])
 
-    def test_previews_stay_small(self):
-        base = os.path.join(CSS, '..', 'img', 'm3x', 'cover', 'prev', 'light')
-        big = [f for f in os.listdir(base) if os.path.getsize(os.path.join(base, f)) > 40000]
-        self.assertEqual(big, [])
+    def test_every_cover_row_has_a_seed_and_the_engine_ships(self):
+        import json
+        base = os.path.join(CSS, '..')
+        rows = json.load(open(os.path.join(base, 'img', 'm3x', 'covers.json')))['covers']
+        self.assertTrue(rows and all(len(r) == 4 and isinstance(r[3], int) for r in rows))
+        engine = open(os.path.join(base, 'js', 'm3x-art.js'), encoding='utf-8').read()
+        self.assertIn('NebM3x', engine)
+        self.assertLess(len(engine), 60000)
 
-    def test_picker_tiles_are_lazy_and_sprite_is_gone(self):
+    def test_picker_tiles_are_drawn_lazily(self):
         tpl = open(os.path.join(settings.BASE_DIR, 'web', 'templates', 'web', 'profile.html'), encoding='utf-8').read()
-        self.assertIn('loading="lazy"', tpl)
-        self.assertNotIn('sprite', tpl)
+        self.assertIn('data-m3x-tile', tpl)
+        self.assertNotIn('.webp', tpl)
+        self.assertNotIn('Downloads', tpl)

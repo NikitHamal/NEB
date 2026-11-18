@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,9 +57,13 @@ import com.neb.ians.util.rememberIsLowEndDevice
  */
 
 /** Cover aspect. Wide enough to be a cover, short enough not to eat the fold. */
-private const val CoverAspect = 0.42f
-private val CoverMin = 148.dp
-private val CoverMax = 232.dp
+private const val CoverAspect = 0.5f
+private val CoverMin = 172.dp
+private val CoverMax = 260.dp
+
+/** The profile cover: half the screen width (172 to 260dp) of art below the status bar, and the cover runs up behind the bar. */
+fun profileCoverHeight(width: androidx.compose.ui.unit.Dp, statusTop: androidx.compose.ui.unit.Dp): androidx.compose.ui.unit.Dp =
+    (width * CoverAspect).coerceIn(CoverMin, CoverMax) + statusTop
 
 /**
  * Picks the cover role + deco text for a profile, mirroring the web's
@@ -85,7 +90,7 @@ fun ProfileBanner(
     coverArt: String? = null
 ) {
     BoxWithConstraints(modifier = modifier) {
-        val coverHeight = (maxWidth * CoverAspect).coerceAtLeast(CoverMin).coerceAtMost(CoverMax)
+        val coverHeight = profileCoverHeight(maxWidth, androidx.compose.foundation.layout.WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
 
         Box(
             modifier = Modifier
@@ -128,8 +133,8 @@ fun ProfileBanner(
                 )
             } else {
                 // The member's pick from the M3X art library (v7 covers), else a stable one from the
-                // username. A still picture: nothing animates or redraws on this screen.
-                M3xCover(coverId = coverArt, username = seedKey, modifier = Modifier.fillMaxSize())
+                // username. Drawn by code (M3xArt.kt); it breathes slowly while the header is on screen.
+                M3xCover(coverId = coverArt, username = seedKey, modifier = Modifier.fillMaxSize(), live = true)
             }
         }
     }

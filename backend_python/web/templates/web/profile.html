@@ -67,11 +67,10 @@
 
 {% block content %}
 {% if cover_choices %}
-{% static 'web/img/m3x/cover/prev/light/' as cv_prev_light %}{% static 'web/img/m3x/cover/prev/dark/' as cv_prev_dark %}
-<dialog class="cv-dialog" id="coverPicker" aria-label="Choose a cover" data-url="{% url 'web:set_cover_art' %}" data-base="{% static 'web/img/m3x/cover/' %}">
+<dialog class="cv-dialog" id="coverPicker" aria-label="Choose a cover" data-url="{% url 'web:set_cover_art' %}">
   <div class="cv-head"><h2>Choose a cover</h2><button type="button" class="cv-close" data-cv-close aria-label="Close"><span class="material-symbols-outlined">close</span></button></div>
   <div class="cv-grid" role="listbox">
-    {% for c in cover_choices %}<button type="button" class="cv-pick{% if c.id == cover_art %} is-on{% endif %}" role="option" aria-selected="{% if c.id == cover_art %}true{% else %}false{% endif %}" data-cover="{{ c.id }}" aria-label="{{ c.layout|capfirst }}, {{ c.palette }}"><img class="l" src="{{ cv_prev_light }}{{ c.id }}.webp" width="480" height="160" loading="lazy" decoding="async" alt=""><img class="d" src="{{ cv_prev_dark }}{{ c.id }}.webp" width="480" height="160" loading="lazy" decoding="async" alt=""><span class="material-symbols-outlined cv-tick">check</span></button>{% endfor %}
+    {% for c in cover_choices %}<button type="button" class="cv-pick{% if c.id == cover_art %} is-on{% endif %}" role="option" aria-selected="{% if c.id == cover_art %}true{% else %}false{% endif %}" data-cover="{{ c.id }}" aria-label="{{ c.layout|capfirst }}, {{ c.palette }}"><span class="cv-art" data-m3x-tile="{{ c.id }}"></span><span class="material-symbols-outlined cv-tick">check</span></button>{% endfor %}
   </div>
   <div class="cv-foot"><button type="button" class="pf-btn pf-btn-outlined" data-cv-reset>Default cover</button></div>
 </dialog>
@@ -94,7 +93,8 @@
               <div class="pf-banner-photo-scrim"></div>
             {% else %}
               {% comment %} M3X art library cover (v7). The member's pick, else a stable one from the username. Same as the app. {% endcomment %}
-              <div class="neb-art pf-banner-art" data-neb-art="cover" data-neb-cover="{{ cover_art }}"><img class="neb-pixel-art neb-pixel-day" alt="" aria-hidden="true" decoding="async" fetchpriority="high" src="{% static 'web/img/m3x/cover/light/' %}{{ cover_art }}.svg"><img class="neb-pixel-art neb-pixel-night" alt="" aria-hidden="true" decoding="async" loading="lazy" src="{% static 'web/img/m3x/cover/dark/' %}{{ cover_art }}.svg"></div>
+              <div class="neb-art pf-banner-art" data-neb-art="cover" data-neb-cover="{{ cover_art }}" data-neb-user="{{ profile_user.username }}" data-neb-live></div>
+              {% if user and user.username == profile_user.username and cover_choices %}<button type="button" class="pf-cover-edit" data-action="open-cover-picker" title="Change cover" aria-label="Change cover"><span class="material-symbols-outlined">palette</span></button>{% endif %}
             {% endif %}
             {% url 'web:home' as back_href %}
             {% include "web/partials/_back.html" with back_label="Go back" back_class="neb-back-on-art" %}
@@ -106,7 +106,6 @@
                 <span class="material-symbols-outlined">link</span>
               </button>
               {% if user and user.username == profile_user.username %}
-                {% if cover_choices %}<button type="button" class="pf-banner-action" data-action="open-cover-picker" title="Change cover" aria-label="Change cover"><span class="material-symbols-outlined">palette</span></button>{% endif %}
                 <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-banner-action" title="Edit profile details" aria-label="Edit profile details">
                   <span class="material-symbols-outlined">settings</span>
                 </a>
@@ -467,8 +466,8 @@
                   </button>
                   {% if post.is_resource %}
                   <a href="/app/reader/{{ post.resource_id }}/" class="act-btn-stat">
-                    <span class="material-symbols-outlined">download</span>
-                    <span>{{ post.downloadCount|default:89 }} Downloads</span>
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span>Read</span>
                   </a>
                   <span class="fp-action-spacer" style="flex: 1;"></span>
                   <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="bookmark-resource" data-resource-id="{{ post.resource_id }}" id="bookmark-icon-resource-{{ post.resource_id }}" aria-label="Bookmark">
@@ -1319,8 +1318,8 @@ async function loadMoreActivity() {
         if (post.is_resource) {
           footerSecondStat = `
             <a href="/app/reader/${resourceIdUrl}/" class="act-btn-stat">
-              <span class="material-symbols-outlined">download</span>
-              <span>${Number(post.downloadCount || 0)} Downloads</span>
+              <span class="material-symbols-outlined">menu_book</span>
+              <span>Read</span>
             </a>
           `;
         } else {

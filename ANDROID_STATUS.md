@@ -2143,3 +2143,27 @@ No migration, no table touched, no row deleted. The pool file is the only new st
 ## Risks
 - `app_waf` is baked into the Qwen app (v2.5.1). If Alibaba rotates it, set `QWEN_APP_WAF` in the server env.
 - 0mail.tech is the one third party in the sign-up chain; its domain list is read live each time.
+
+---
+# Session 83: M3X art drawn by code (profile covers, thumbnails), profile screen fixed, downloads gone from profile
+
+History read first (sessions 73 to 81): Profile v3, v7 covers, v1 thumbnails, glance tiles, scroll-driven bar and cover picker were already built; the covers were SVG and WebP files served by the site. That is what made the site slow to paint covers and added weight. Nothing was redone; the delivery changed.
+
+| # | What | Where |
+| --- | --- | --- |
+| 441 | **Covers and thumbnails are code, like the note banners.** The v7 engine (seeded RNG, expressive shapes, 22 layouts; ribbons, arches, graph, net, stacks, bars, capsules, cascades, bands and halftone left out) is ported to Kotlin and bundled for the site. Same `(layout, palette, seed)` = same picture on both. Nothing is fetched, nothing is decoded, sharp at any size. Light and Dark share one drawing (site: CSS variables; app: tones per mode). | `ui/components/m3x/M3xCore.kt`, `M3xLayoutsA.kt`, `M3xLayoutsB.kt`, `M3xArt.kt`, `js/m3x-art.js` |
+| 442 | **Animation**: the profile cover breathes slowly (scale 1 to 1.05, 26 s) and its accent shapes drift; skipped for pieces over 400 shapes, for the picker, for reduced motion and when animations are off in system settings. | `M3xArt.kt`, `app-profile-v3.css` |
+| 443 | **Size**: 5.7 MB of cover SVG + WebP and 2.3 MB of thumbnails left the server, `coil-svg` and `SvgDecoder` left the APK. The app carries a 9 KB manifest, the site one 31 KB cached script (175 covers checked identical to the reference engine). | `build.gradle.kts`, `img/m3x/` |
+| 444 | **Manifest** is now `[id, layout, palette, seed]` plus six thumbnail recipes per family. Ids and the default-cover hash did not change. | `tools/art/export_m3x_manifest.js`, `tools/art/build_m3x_web.js` |
+| 445 | **Profile screen (app)**: cover is half the screen width (172 to 260dp) of art plus the status bar, instead of 148 to 232dp under the bar. The bar appears only after the name in the header has slid under it. Bar actions: copy link (no iOS share icon) and analytics for the owner; no cover icon. Avatar, name and the badges (verified mark, role glyph) show in the bar. Change cover is a button on the cover art itself. | `ProfileBanner.kt`, `ProfileScreen.kt`, `ProfileTopBar.kt`, `ProfileHeader.kt` |
+| 446 | **Downloads removed from the profile**: the contributor glance tile is now Resources (count of approved uploads); the feed card link on the web reads Read instead of the dummy 89 Downloads. | `api/profile_glance.py`, `ProfileOverview.kt`, `profile.html` |
+| 447 | **Web profile**: taller cover (176 to 280px), cover change button on the art, picker tiles drawn lazily by code as they scroll into view (IntersectionObserver). | `profile.html`, `profile-cover.js`, `pixel-art.js` |
+
+## Notes
+- Note covers (`assets/note_covers`, 1.3 MB of WebP) still use pictures; moving them needs ports of ribbons, arches, stack, bands, capsules and cascade. Not done here.
+- The GitHub token was pasted into the chat again. Rotate it. It lives only in `/tmp/gitenv.sh`.
+- No schema change, nothing deleted from the database.
+
+## Next
+- On-device pass: cover breathing cost on low-end phones, bar hand-off at 360dp.
+- Move the note covers to the same engine.

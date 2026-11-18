@@ -68,7 +68,7 @@ class GlanceTests(TestCase):
             Resource.objects.create(id=str(uuid.uuid4()), title='N', uploaded_by=u, added_at=now, approval_status=status,
                                     view_count=views, download_count=10, like_count=3)
         out = build(u)
-        self.assertEqual([g['label'] for g in out['glance']], ['Total reads', 'Downloads', 'Likes'])
+        self.assertEqual([g['label'] for g in out['glance']], ['Total reads', 'Resources', 'Likes'])
         self.assertEqual(out['glance'][0]['value'], '2.4k')
         self.assertIsNone(out['studying'])
 

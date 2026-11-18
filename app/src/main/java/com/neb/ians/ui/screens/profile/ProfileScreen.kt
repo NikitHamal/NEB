@@ -32,8 +32,7 @@ import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.InsertDriveFile
-import androidx.compose.material.icons.outlined.IosShare
-import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -126,12 +125,14 @@ fun ProfileScreen(
     val statusPx = WindowInsets.statusBars.getTop(density)
     // The bar turns solid as the cover's lower edge slides under it. Read only while drawing the bar.
     val barProgress: () -> Float = remember(density, screenWidth, statusPx) {
-        val coverPx = with(density) { (screenWidth * 0.42f).coerceIn(148.dp, 232.dp).toPx() }
+        val coverPx = with(density) { com.neb.ians.ui.components.profileCoverHeight(screenWidth, statusPx.toDp()).toPx() }
         val barBottom = statusPx + with(density) { 56.dp.toPx() }
-        val range = with(density) { 72.dp.toPx() }
+        // The bar stays away until the name in the header has slid under it (cover, avatar overhang and the name row), then fades in.
+        val start = coverPx + with(density) { 72.dp.toPx() } - barBottom
+        val range = with(density) { 56.dp.toPx() }
         val read: () -> Float = {
             if (listState.firstVisibleItemIndex > 0) 1f
-            else ((listState.firstVisibleItemScrollOffset - (coverPx - barBottom - range)) / range).coerceIn(0f, 1f)
+            else ((listState.firstVisibleItemScrollOffset - start) / range).coerceIn(0f, 1f)
         }
         read
     }
@@ -184,7 +185,7 @@ fun ProfileScreen(
                         context.nebToast("Profile link copied")
                     },
                     onAnalytics = if (isSelf) onAnalyticsClick else null,
-                    onCoverPicked = viewModel::setCoverArt
+                    onChangeCover = { showCovers = true }
                 )
 
                 uiState.error != null -> Box(
@@ -216,14 +217,10 @@ fun ProfileScreen(
         } else {
             val actions = remember(isSelf, profile.username) {
                 buildList {
-                    if (isSelf) add(ProfileBarAction(Icons.Outlined.Palette, "Change cover") { showCovers = true })
                     if (isSelf) add(ProfileBarAction(Icons.Outlined.BarChart, "Analytics", onAnalyticsClick))
-                    add(ProfileBarAction(Icons.Outlined.IosShare, "Share profile") {
-                        val send = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                            type = "text/plain"
-                            putExtra(android.content.Intent.EXTRA_TEXT, "$PROFILE_LINK_BASE${profile.username}/")
-                        }
-                        context.startActivity(android.content.Intent.createChooser(send, null))
+                    add(ProfileBarAction(Icons.Outlined.ContentCopy, "Copy profile link") {
+                        clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE${profile.username}/"))
+                        context.nebToast("Profile link copied")
                     })
                 }
             }
@@ -231,6 +228,8 @@ fun ProfileScreen(
                 progress = barProgress,
                 name = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username,
                 photoUrl = profile.photoUrl,
+                badge = remember(profile) { buildBadgeInfo(profile) },
+                verified = profile.verificationLevel > 0,
                 onBack = onNavigateBack,
                 actions = actions,
                 modifier = Modifier.align(Alignment.TopCenter)
@@ -326,7 +325,7 @@ private fun ProfileBody(
     onBack: () -> Unit,
     onCopyLink: () -> Unit,
     onAnalytics: (() -> Unit)?,
-    onCoverPicked: (String) -> Unit
+    onChangeCover: () -> Unit
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
@@ -361,7 +360,7 @@ private fun ProfileBody(
                 onBack = onBack,
                 onCopyLink = onCopyLink,
                 onAnalytics = onAnalytics,
-                onCoverPicked = if (isSelf) onCoverPicked else null
+                onChangeCover = if (isSelf) onChangeCover else null
             )
         }
 

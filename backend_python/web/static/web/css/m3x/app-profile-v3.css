@@ -102,3 +102,30 @@
 .pv3-all:hover { background: var(--md-primary-container); }
 .pv3-all:active { transform: scale(.95); }
 .pv3-none { padding: 40px 16px; text-align: center; color: var(--md-on-surface-variant); }
+
+/* ---- Code-drawn M3X art (js/m3x-art.js): inline SVG, tones are CSS variables so Light and Dark share one drawing ---- */
+.m3a { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.cv-art { position: absolute; inset: 0; display: block; }
+.m3a { --t0: var(--l0); --t1: var(--l1); --t2: var(--l2); --t3: var(--l3); --t4: var(--l4); --t5: var(--l5); --t6: var(--l6); --t7: var(--l7); }
+[data-theme="dark"] .m3a { --t0: var(--d0); --t1: var(--d1); --t2: var(--d2); --t3: var(--d3); --t4: var(--d4); --t5: var(--d5); --t6: var(--d6); --t7: var(--d7); }
+.m3a .f0 { fill: var(--t0); } .m3a .f1 { fill: var(--t1); } .m3a .f2 { fill: var(--t2); } .m3a .f3 { fill: var(--t3); }
+.m3a .f4 { fill: var(--t4); } .m3a .f5 { fill: var(--t5); } .m3a .f6 { fill: var(--t6); } .m3a .f7 { fill: var(--t7); }
+.m3a .s0 { stroke: var(--t0); } .m3a .s1 { stroke: var(--t1); } .m3a .s2 { stroke: var(--t2); } .m3a .s3 { stroke: var(--t3); }
+.m3a .s4 { stroke: var(--t4); } .m3a .s5 { stroke: var(--t5); } .m3a .s6 { stroke: var(--t6); } .m3a .s7 { stroke: var(--t7); }
+.m3a-live .m3a-art { transform-box: view-box; transform-origin: 50% 50%; animation: m3a-breathe 26s ease-in-out infinite alternate; }
+.m3a-live .f5, .m3a-live .s5 { transform-box: fill-box; transform-origin: center; animation: m3a-float 9s ease-in-out infinite alternate; }
+.m3a-live .f5:nth-child(2n), .m3a-live .s5:nth-child(2n) { animation-name: m3a-float-b; animation-duration: 12s; }
+@keyframes m3a-breathe { to { transform: scale(1.05); } }
+@keyframes m3a-float { to { transform: translate(14px, -10px); } }
+@keyframes m3a-float-b { to { transform: translate(-12px, 12px); } }
+@media (prefers-reduced-motion: reduce) { .m3a-live .m3a-art, .m3a-live .f5, .m3a-live .s5 { animation: none; } }
+/* a taller cover, and the change-cover button sits on the art (not in the action row) */
+.profile-page .pf-card-banner { height: clamp(176px, 36vw, 280px); }
+.profile-page .pf-cover-edit {
+  position: absolute; right: 12px; bottom: 12px; z-index: 2; width: 40px; height: 40px; display: grid; place-items: center;
+  border: 0; border-radius: 14px; cursor: pointer; color: var(--md-on-surface);
+  background: color-mix(in srgb, var(--md-surface) 82%, transparent); transition: transform .18s cubic-bezier(.3, 1.4, .5, 1), background .18s;
+}
+.profile-page .pf-cover-edit:hover { background: var(--md-surface-container-high); }
+.profile-page .pf-cover-edit:active { transform: scale(.92); }
+.profile-page .pf-cover-edit .material-symbols-outlined { font-size: 21px; }

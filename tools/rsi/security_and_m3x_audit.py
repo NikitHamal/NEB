@@ -95,8 +95,8 @@ def check_dialog_invariants() -> list[str]:
         if path.is_file() and not re.search(r"(?m)^dialog\s*\{\s*margin:\s*auto", path.read_text(encoding="utf-8")):
             errors.append(f"{rel}: lost `dialog {{ margin: auto }}` (every native dialog would stick to the top-left corner)")
     prof = ROOT / "backend_python" / "web" / "templates" / "web" / "profile.html"
-    if prof.is_file() and "sprite" in prof.read_text(encoding="utf-8"):
-        errors.append("profile.html: the cover picker uses lazy WebP previews, not a sprite or 175 vector requests")
+    if prof.is_file() and re.search(r"sprite|\.webp|\.svg\"", prof.read_text(encoding="utf-8")):
+        errors.append("profile.html: cover art is drawn by code (js/m3x-art.js), never a sprite, WebP or SVG file")
     return errors
 
 

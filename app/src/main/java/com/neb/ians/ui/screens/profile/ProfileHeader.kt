@@ -105,7 +105,7 @@ fun ProfileHeader(
     onBack: () -> Unit = {},
     onCopyLink: () -> Unit = {},
     onAnalytics: (() -> Unit)? = null,
-    onCoverPicked: ((String) -> Unit)? = null,
+    onChangeCover: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     val scheme = MaterialTheme.colorScheme
@@ -128,6 +128,18 @@ fun ProfileHeader(
                 modifier = Modifier.fillMaxWidth(),
                 coverArt = profile.coverArt
             )
+            if (onChangeCover != null) {
+                // lives on the art, scrolls away with it; the top bar never carries it
+                Box(
+                    Modifier.align(Alignment.BottomEnd).padding(end = 14.dp, bottom = 12.dp).size(40.dp)
+                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(14.dp))
+                        .background(scheme.surface.copy(alpha = 0.82f))
+                        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onChangeCover),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(Icons.Outlined.Palette, contentDescription = "Change cover", tint = scheme.onSurface, modifier = Modifier.size(20.dp))
+                }
+            }
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomStart)

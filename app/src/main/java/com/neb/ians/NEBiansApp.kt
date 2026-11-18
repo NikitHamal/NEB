@@ -12,7 +12,6 @@ import javax.inject.Inject
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
-import coil.decode.SvgDecoder
 import coil.memory.MemoryCache
 import okhttp3.OkHttpClient
 import com.neb.ians.data.api.WafChallengeInterceptor
@@ -55,7 +54,6 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                     .maxSizeBytes(if (isLowEnd) 50L * 1024 * 1024 else 120L * 1024 * 1024)
                     .build()
             }
-            .components { add(SvgDecoder.Factory()) }
             .allowRgb565(isLowEnd)
             .allowHardware(!isLowEnd)
             .okHttpClient {

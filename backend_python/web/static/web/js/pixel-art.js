@@ -1,16 +1,11 @@
 /* M3X art for resource thumbnails and profile covers (file name kept for the templates that load it).
 
    Thumbnails are the v1 M3X art library's `thumb` pieces, 6 per subject family, and covers are the v7
-   `cover` pieces (concepts/art, concepts/art-v7; tools/art/export_m3x_assets.js writes img/m3x/). Both
-   ship as small WebP files in Light and Dark. A thumbnail is picked by subject family and a stable
+   `cover` pieces (concepts/art, concepts/art-v7). Both are drawn by code from js/m3x-art.js (inline SVG). A thumbnail is picked by subject family and a stable
    hash, the same as the Android app (M3xArt.kt). A cover is the id in data-neb-cover. */
 (function (global) {
   'use strict';
 
-  var BASE = (function () {
-    var s = document.currentScript && document.currentScript.src;
-    return s ? s.replace(/js\/pixel-art\.js.*$/, 'img/m3x/') : '/static/web/img/m3x/';
-  })();
   var BANNER_VARIANTS = 6;
   var ROLES = ['MEMBER', 'VERIFIED', 'TUTOR', 'INSTITUTION', 'MODERATOR', 'ADMIN', 'BOT'];
   // [accent, deep] for type laid over each role's cover; ink is always white
@@ -70,20 +65,19 @@
   function paint(el) {
     if (el.__nebPixelArt) return;
     el.__nebPixelArt = true;
-    if (el.querySelector('img')) return; // the page already drew it (profile cover): no second request
+    if (el.querySelector('svg')) return;
+    var M = global.NebM3x;
+    if (!M) return;
     var kind = el.getAttribute('data-neb-art');
+    // drawn by code (js/m3x-art.js): inline SVG, no request, Light and Dark share one drawing
     if (kind === 'cover') {
-      var cid = el.getAttribute('data-neb-cover') || 'cover-001';
-      el.insertBefore(img(BASE + 'cover/dark/' + cid + '.svg', 'neb-pixel-art neb-pixel-night', false), el.firstChild);
-      el.insertBefore(img(BASE + 'cover/light/' + cid + '.svg', 'neb-pixel-art neb-pixel-day', true), el.firstChild);
+      var cid = el.getAttribute('data-neb-cover');
+      if (!cid || !M.has(cid)) cid = M.defaultCover(el.getAttribute('data-neb-user'));
+      el.insertAdjacentHTML('afterbegin', M.cover(cid, el.hasAttribute('data-neb-live')));
     } else {
       var subject = el.getAttribute('data-neb-subject') || '';
-      var fam = subjectFamily(subject).toLowerCase();
       var bv = variant(stableSeed(el.getAttribute('data-neb-seed') || subject), BANNER_VARIANTS);
-      var stem = BASE + 'thumb/';
-      // both are in the markup; CSS shows the one that matches the theme, and a hidden lazy image is never fetched
-      el.insertBefore(img(stem + 'dark/' + fam + '-' + bv + '.svg', 'neb-pixel-night'), el.firstChild);
-      el.insertBefore(img(stem + 'light/' + fam + '-' + bv + '.svg', 'neb-pixel-day'), el.firstChild);
+      el.insertAdjacentHTML('afterbegin', M.thumb(subjectFamily(subject), bv));
     }
   }
 

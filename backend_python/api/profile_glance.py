@@ -50,7 +50,7 @@ def build(user, now=None):
 
     # Six queries on a cold cache (seven for an uploader): two aggregates, three timestamp pulls, one count.
     res = Resource.objects.filter(uploaded_by=user, is_lead=True, approval_status='approved').aggregate(
-        n=Count('pk'), views=Sum('view_count'), downloads=Sum('download_count'), likes=Sum('like_count'))
+        n=Count('pk'), views=Sum('view_count'), likes=Sum('like_count'))
     contributor = (res['n'] or 0) > 0
     public_posts = Post.objects.filter(user=user, is_archived=False, is_anonymous=False)
     post_views = public_posts.aggregate(views=Sum('view_count'))['views']
@@ -72,7 +72,7 @@ def build(user, now=None):
     if contributor:
         glance = [
             {'icon': 'visibility', 'value': short(res['views']), 'label': 'Total reads', 'tone': 3},
-            {'icon': 'download', 'value': short(res['downloads']), 'label': 'Downloads', 'tone': 1},
+            {'icon': 'description', 'value': short(res['n']), 'label': 'Resources', 'tone': 1},
             {'icon': 'thumb_up', 'value': short(res['likes']), 'label': 'Likes', 'tone': 2},
         ]
     else:

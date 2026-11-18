@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.ThumbUp
@@ -42,7 +42,7 @@ import com.neb.ians.data.api.ApiStudying
 import com.neb.ians.ui.components.M3xThumb
 
 private fun glanceIcon(name: String): ImageVector = when (name) {
-    "download" -> Icons.Filled.Download
+    "description" -> Icons.Filled.Description
     "thumb_up" -> Icons.Filled.ThumbUp
     "verified" -> Icons.Filled.Verified
     "check_circle" -> Icons.Filled.CheckCircle

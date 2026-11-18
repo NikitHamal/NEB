@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.components.Avatar
+import com.neb.ians.ui.components.NebBadge
 
 /** One icon on the profile bar. */
 class ProfileBarAction(val icon: ImageVector, val label: String, val onClick: () -> Unit)
@@ -45,6 +47,8 @@ fun ProfileTopBar(
     progress: () -> Float,
     name: String,
     photoUrl: String?,
+    badge: com.neb.ians.data.api.ApiBadgeInfo?,
+    verified: Boolean,
     onBack: () -> Unit,
     actions: List<ProfileBarAction>,
     modifier: Modifier = Modifier
@@ -53,7 +57,7 @@ fun ProfileTopBar(
     Box(modifier.fillMaxWidth()) {
         Box(
             Modifier.matchParentSize().graphicsLayer { alpha = 1f - progress() }
-                .background(Brush.verticalGradient(listOf(scheme.surface.copy(alpha = 0.78f), Color.Transparent)))
+                .background(Brush.verticalGradient(listOf(scheme.surface.copy(alpha = 0.55f), Color.Transparent)))
         )
         Box(Modifier.matchParentSize().graphicsLayer { alpha = progress() }.background(scheme.surface))
         Box(
@@ -79,8 +83,17 @@ fun ProfileTopBar(
                 Text(
                     name, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
-                    color = scheme.onSurface
+                    color = scheme.onSurface, modifier = Modifier.weight(1f, fill = false)
                 )
+                // the same unfilled badges as the header: verified mark, then the role glyph
+                if (verified && badge?.type != "verified") {
+                    Box(Modifier.width(6.dp))
+                    Icon(Icons.Filled.Verified, contentDescription = "Verified", tint = scheme.onSurfaceVariant, modifier = Modifier.size(16.dp))
+                }
+                if (badge != null) {
+                    Box(Modifier.width(6.dp))
+                    NebBadge(badge, size = 17.dp)
+                }
             }
             actions.forEach { BarButton(it.icon, it.label, progress, it.onClick) }
         }

@@ -1,41 +1,77 @@
 package com.neb.ians.ui.components
 
 import android.content.Context
+import android.provider.Settings
+import android.util.LruCache
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.neb.ians.ui.components.m3x.M3xLayouts
+import com.neb.ians.ui.components.m3x.M3xPalette
+import com.neb.ians.ui.components.m3x.M3xPiece
 import com.neb.ians.ui.theme.subjectFamily
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.sin
 
 /**
- * The M3X art library as vector pieces the site serves (tools/art/export_m3x_assets.js writes them, `img/m3x/`).
- *
- * Nothing is bundled in the APK except the 7 KB manifest `assets/m3x/covers.json`. Covers are the v7 `cover` pieces
- * (ids `cover-NNN`): the profile draws the vector SVG (2 to 60 KB, rasterised by Coil at the size it is drawn), the
- * picker grid draws the 5 KB WebP preview. Resource thumbnails are the v1 `thumb` pieces (6 per subject family) as
- * WebP previews. Everything is fetched lazily, cached on disk by Coil, and tiles off screen are never requested.
+ * The M3X art library drawn by code, like the note banners: no pictures in the APK, no network, sharp at any size, the same
+ * (layout, palette, seed) as the site's js/m3x-art.js. The APK carries only `assets/m3x/covers.json` (about 9 KB): the 175 v7 covers as
+ * [id, layout, palette, seed] and six v1 thumbnail recipes per subject family. A drawing is built once (an LRU keeps the last ones),
+ * off the main thread, and the profile header breathes slowly while it is on screen.
  */
 object M3xArt {
     const val THUMB_VARIANTS = 6
 
-    class Cover(val id: String, val layout: String, val palette: String)
+    class Cover(val id: String, val layout: String, val palette: String, val seed: Int)
+    class Recipe(val layout: String, val palette: String, val key: String)
 
     @Volatile private var cached: List<Cover>? = null
+    @Volatile private var thumbs: Map<String, List<Recipe>>? = null
 
-    fun covers(context: Context): List<Cover> = cached ?: synchronized(this) {
-        cached ?: runCatching {
+    private fun load(context: Context) = synchronized(this) {
+        if (cached != null) return@synchronized
+        runCatching {
             val text = context.applicationContext.assets.open("m3x/covers.json").bufferedReader().use { it.readText() }
-            val rows = JSONObject(text).getJSONArray("covers")
-            List(rows.length()) { i -> rows.getJSONArray(i).let { Cover(it.getString(0), it.getString(1), it.getString(2)) } }
-        }.getOrDefault(emptyList()).also { cached = it }
+            val root = JSONObject(text)
+            val rows = root.getJSONArray("covers")
+            val list = List(rows.length()) { i -> rows.getJSONArray(i).let { Cover(it.getString(0), it.getString(1), it.getString(2), it.getInt(3)) } }
+            val t = root.getJSONObject("thumbs")
+            thumbs = t.keys().asSequence().associateWith { k ->
+                val a = t.getJSONArray(k); List(a.length()) { i -> a.getJSONArray(i).let { Recipe(it.getString(0), it.getString(1), it.getString(2)) } }
+            }
+            cached = list
+        }.onFailure { cached = emptyList(); thumbs = emptyMap() }
+    }
+
+    fun covers(context: Context): List<Cover> { cached ?: load(context); return cached ?: emptyList() }
+    fun cover(context: Context, id: String?): Cover? = id?.takeIf { it.isNotBlank() }?.let { want -> covers(context).firstOrNull { it.id == want } }
+    fun thumbRecipe(context: Context, family: String, variant: Int): Recipe? {
+        covers(context)
+        val l = thumbs?.get(family) ?: thumbs?.get("GENERAL") ?: return null
+        return l.getOrNull(variant % l.size.coerceAtLeast(1))
     }
 
     /** FNV-1a over the UTF-8 bytes, unsigned 32 bit. Same as api/cover_art.py `default_cover`. */
@@ -51,53 +87,88 @@ object M3xArt {
         return if (list.isEmpty()) "cover-001" else list[(fnv("cover|$username") % list.size).toInt()].id
     }
 
-    private const val BASE = "https://nebians.consica.com.np/static/web/img/m3x/"
+    fun coverKey(c: Cover) = "cover|${c.seed}||${c.layout}|"
+}
 
-    /** Full vector cover for the profile header, sharp at any size. */
-    fun coverUri(id: String, dark: Boolean) = "${BASE}cover/${if (dark) "dark" else "light"}/$id.svg"
-
-    /** Resource thumbnail: a small WebP preview of the v1 piece (480 x 192). */
-    fun thumbUri(family: String, variant: Int, dark: Boolean) =
-        "${BASE}thumb/prev/${if (dark) "dark" else "light"}/${family.lowercase()}-$variant.webp"
-
-    /** Small WebP preview (480 px wide, about 5 KB) for the picker grid; decoding it is far cheaper than rasterising the SVG. */
-    fun coverPreviewUri(id: String, dark: Boolean) = "${BASE}cover/prev/${if (dark) "dark" else "light"}/$id.webp"
+private object M3xPieces {
+    private val lru = LruCache<String, M3xPiece>(40)
+    fun peek(key: String): M3xPiece? = synchronized(this) { lru.get(key) }
+    fun get(layout: String, key: String, w: Double, h: Double): M3xPiece {
+        peek(key)?.let { return it }
+        val built = M3xLayouts.build(layout, key, w, h)
+        synchronized(this) { lru.put(key, built) }
+        return built
+    }
 }
 
 @Composable
 private fun isDarkSurface() = MaterialTheme.colorScheme.surface.luminance() < 0.5f
 
-@Composable
-private fun M3xImage(uri: String, modifier: Modifier) {
-    val context = LocalContext.current
-    val request = remember(uri) { ImageRequest.Builder(context).data(uri).crossfade(false).allowHardware(true).build() }
-    // a tonal well shows until the vector arrives, and stays if the phone is offline
-    Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)) {
-        AsyncImage(model = request, contentDescription = null, modifier = Modifier.matchParentSize(), contentScale = ContentScale.Crop)
+private fun DrawScope.drawM3x(piece: M3xPiece, tones: Array<Color>, phase: Float, live: Boolean) {
+    val fit = max(size.width / piece.w, size.height / piece.h)
+    val breathe = if (live) 1f + 0.05f * (0.5f - 0.5f * cos(2f * PI.toFloat() * phase)) else 1f
+    val float = live && piece.ops.size <= 160
+    val amp = piece.h * 0.03f
+    clipRect {
+        withTransform({
+            translate(size.width / 2f, size.height / 2f)
+            scale(fit * breathe, fit * breathe, Offset.Zero)
+            translate(-piece.w / 2f, -piece.h / 2f)
+        }) {
+            for (i in piece.ops.indices) {
+                val op = piece.ops[i]
+                val color = if (op.alpha < 1f) tones[op.tone].copy(alpha = op.alpha) else tones[op.tone]
+                if (float && op.tone == 5) {
+                    val ang = 2f * PI.toFloat() * (phase * (1 + i % 2) + i * 0.37f)
+                    withTransform({ translate(sin(ang) * amp, cos(ang) * amp) }) { drawPath(op.path, color, style = op.style) }
+                } else drawPath(op.path, color, style = op.style)
+            }
+        }
     }
 }
 
-/** A profile cover from the library. [coverId] blank or unknown falls back to the username's stable pick. */
 @Composable
-fun M3xCover(coverId: String?, username: String, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
+private fun M3xArtView(layout: String, palette: String, key: String, w: Double, h: Double, modifier: Modifier, live: Boolean) {
     val dark = isDarkSurface()
-    val id = remember(coverId, username) {
-        val known = coverId?.takeIf { c -> c.isNotBlank() && M3xArt.covers(context).any { it.id == c } }
-        known ?: M3xArt.defaultCover(context, username)
+    val tones = remember(palette, dark) { M3xPalette.tones(palette, dark) }
+    val piece by produceState<M3xPiece?>(null, key) {
+        value = withContext(Dispatchers.Default) { M3xPieces.get(layout, key, w, h) }
     }
-    M3xImage(M3xArt.coverUri(id, dark), modifier)
+    val context = LocalContext.current
+    val motion = remember(live) { live && Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) > 0f }
+    val phase = if (motion) rememberInfiniteTransition(label = "m3x").animateFloat(
+        0f, 1f, infiniteRepeatable(tween(26000, easing = LinearEasing), RepeatMode.Restart), label = "m3xPhase",
+    ) else null
+    // the page tone shows at once; the drawing lands as soon as it is built
+    Canvas(modifier.background(tones[0])) {
+        val p = piece ?: return@Canvas
+        val animated = phase != null && p.ops.size <= 400
+        drawM3x(p, tones, if (animated) phase!!.value else 0f, animated)
+    }
 }
 
-/** A resource's thumbnail when it has no picture of its own: the v1 piece for its subject family. */
+/** A profile cover from the library. [coverId] blank or unknown falls back to the username's stable pick. [live] lets it breathe. */
+@Composable
+fun M3xCover(coverId: String?, username: String, modifier: Modifier = Modifier, live: Boolean = false) {
+    val context = LocalContext.current
+    val cover = remember(coverId, username) {
+        M3xArt.cover(context, coverId) ?: M3xArt.cover(context, M3xArt.defaultCover(context, username)) ?: M3xArt.covers(context).firstOrNull()
+    }
+    if (cover != null) M3xArtView(cover.layout, cover.palette, M3xArt.coverKey(cover), 1200.0, 400.0, modifier, live)
+    else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
+}
+
+/** A resource's thumbnail when it has no picture of its own: the v1 recipe for its subject family, drawn at 640 x 256. */
 @Composable
 fun M3xThumb(seed: String, subject: String, modifier: Modifier = Modifier) {
-    val dark = isDarkSurface()
+    val context = LocalContext.current
     val family = remember(subject) { subjectFamily(subject).name }
     val variant = remember(seed) { ((stableSeed(seed) ushr 3) and 0x7FFFFFFF) % M3xArt.THUMB_VARIANTS }
-    Box(modifier) { M3xImage(M3xArt.thumbUri(family, variant, dark), Modifier.matchParentSize()) }
+    val recipe = remember(family, variant) { M3xArt.thumbRecipe(context, family, variant) }
+    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 640.0, 256.0, modifier, false)
+    else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }
 
 /** One cover tile in the picker, drawn at its own size. */
 @Composable
-fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xImage(M3xArt.coverPreviewUri(id, isDarkSurface()), modifier)
+fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xCover(id, id, modifier)
