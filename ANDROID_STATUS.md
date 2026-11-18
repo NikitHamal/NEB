@@ -2286,3 +2286,21 @@ History read first (`ANDROID_STATUS.md` 73 to 88). The request repeats 83 to 88.
 - On-device pass: note banners in the card (60dp), picker (84dp) and editor (1.9 : 1) side by side.
 
 CI: `e7fe1063` and `dcc395df` Android release builds (APK + AAB) green; Deploy Backend to cPanel (run `44310141463`) green, no migration, no data touched.
+
+---
+# Session 90: pickup of 88 and 89, note banners zoomed out, profile cover below the status bar and shorter, "Change"
+
+History read first (`ANDROID_STATUS.md` 73 to 89). Motion (one spring settle on pick or first show, no loop, covers 1 to 40 and 41+ alike) and the note banner frame rule were done in 88 and 89 and are not touched. This session changes the three things the screenshots still showed.
+
+| # | What | Where |
+| --- | --- | --- |
+| 463 | **Note banners 1 to 40 zoomed out.** Shapes were drawn too large and cropped in. One factor `NoteCoverZoom` (0.62) now scales the shape size and the distance of every centre from the middle of the frame (`noteCoverPos`), so it is the same picture seen from further away, same proportion of width and height, in the card, the picker tile and the editor header. | `NotePage.kt`, `NoteCoverUnitTest.kt` |
+| 464 | **Profile cover is shorter and clear of the status bar.** Height is 0.42 of the width (140 to 220dp, about 2.4 : 1, the shape the art is built for) and counts the art only. The frame starts below the status bar, which keeps the page colour. Top bar fade and Edit profile scroll maths add the status inset. | `ProfileBanner.kt`, `ProfileScreen.kt`, `EditProfileScreen.kt` |
+| 465 | **Edit profile**: the cover frame starts below the status bar too (same rectangle as the profile); the pill reads **Change** (app and web). | `EditProfileHero.kt`, `edit_profile.html` |
+
+## Notes
+- No schema change, nothing deleted from the database. Token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+- Never built locally: Android check is the GitHub Actions run; the web template change ships with `deploy-backend.yml`.
+
+## Next
+- On-device pass: note banners at card (60dp), picker (84dp) and editor (1.9 : 1); profile cover at 360dp.

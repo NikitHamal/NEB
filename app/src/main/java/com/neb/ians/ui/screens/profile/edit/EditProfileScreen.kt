@@ -132,7 +132,7 @@ fun EditProfileScreen(
             val density = androidx.compose.ui.platform.LocalDensity.current
             val screenW = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp.dp
             val barPx = with(density) { (WindowInsets.statusBars.getTop(density) + 60.dp.toPx()) }
-            val coverPx = with(density) { com.neb.ians.ui.components.profileCoverHeight(screenW, 0.dp).toPx() }
+            val coverPx = WindowInsets.statusBars.getTop(density) + with(density) { com.neb.ians.ui.components.profileCoverHeight(screenW, 0.dp).toPx() }
             val range = editBarRange(coverPx, barPx)
             EditProfileTopBar(
                 progress = { ((scrollState.value - range * 0.55f) / (range * 0.45f)).coerceIn(0f, 1f) },

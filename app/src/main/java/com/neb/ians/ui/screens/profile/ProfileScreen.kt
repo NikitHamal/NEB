@@ -125,7 +125,7 @@ fun ProfileScreen(
     val statusPx = WindowInsets.statusBars.getTop(density)
     // The bar turns solid as the cover's lower edge slides under it. Read only while drawing the bar.
     val barProgress: () -> Float = remember(density, screenWidth, statusPx) {
-        val coverPx = with(density) { com.neb.ians.ui.components.profileCoverHeight(screenWidth, statusPx.toDp()).toPx() }
+        val coverPx = statusPx + with(density) { com.neb.ians.ui.components.profileCoverHeight(screenWidth, statusPx.toDp()).toPx() }
         val barBottom = statusPx + with(density) { 56.dp.toPx() }
         // The bar stays away until the name in the header has slid under it (cover, avatar overhang and the name row), then fades in.
         val start = coverPx + with(density) { 72.dp.toPx() } - barBottom

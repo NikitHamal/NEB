@@ -335,12 +335,22 @@ const val NoteCoverFrameAspect = 1.9f
 private const val NoteCoverUnit = 0.9f
 
 /**
+ * Zoom of the drawn banners: 1 would be the old, cropped-in look. Size and the distance of every centre from the middle of
+ * the frame shrink by the same factor, so the picture is the same one seen from further away (height and width keep their
+ * proportion, only the view is zoomed out).
+ */
+internal const val NoteCoverZoom = 0.62f
+
+/** A centre's place across (or down) the frame, [frac] of the frame, pulled toward the middle by [NoteCoverZoom]. */
+internal fun noteCoverPos(frac: Float): Float = 0.5f + (frac - 0.5f) * NoteCoverZoom
+
+/**
  * The 40 drawn banners, one composition, any frame. The reference frame is the editor's (1.9 : 1). A frame of that shape shows
  * it exactly; a wider one (a card, a strip) keeps the shapes the size they have at the same height and spreads their centres
  * across the width; a taller one keeps them the size they have at the same width. So the size follows the frame's limiting side
  * and a circle stays a circle, a cookie stays a cookie, at every size. Nothing is stretched, nothing is cropped away.
  */
-internal fun noteCoverUnit(w: Float, h: Float): Float = NoteCoverUnit * minOf(w / NoteCoverFrameAspect, h)
+internal fun noteCoverUnit(w: Float, h: Float): Float = NoteCoverUnit * NoteCoverZoom * minOf(w / NoteCoverFrameAspect, h)
 
 /** The banner itself. Shapes settle in with a spring when the cover appears or changes, once, never in a loop. */
 @Composable
@@ -366,11 +376,11 @@ fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean 
         val w = size.width
         val u = noteCoverUnit(w, h)
         drawGlyph(
-            pa, Offset(w * spec.ax, h * spec.ay), u * spec.asz * (0.55f + 0.45f * t), vivid,
+            pa, Offset(w * noteCoverPos(spec.ax), h * noteCoverPos(spec.ay)), u * spec.asz * (0.55f + 0.45f * t), vivid,
             rotation = spec.ar - 40f * (1f - t), alpha = (if (dark) 0.5f else 0.85f) * fade,
         )
         drawGlyph(
-            pb, Offset(w * spec.bx, h * spec.by), u * spec.bsz * (0.4f + 0.6f * t), ink,
+            pb, Offset(w * noteCoverPos(spec.bx), h * noteCoverPos(spec.by)), u * spec.bsz * (0.4f + 0.6f * t), ink,
             rotation = spec.br + 60f * (1f - t), alpha = 0.26f * fade,
         )
     }

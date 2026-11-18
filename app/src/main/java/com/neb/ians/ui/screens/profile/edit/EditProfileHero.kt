@@ -73,7 +73,7 @@ internal fun EditProfileHero(
     Column(modifier.fillMaxWidth()) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val coverHeight = profileCoverHeight(maxWidth, statusTop)
-            Box(Modifier.fillMaxWidth().height(coverHeight)) {
+            Box(Modifier.fillMaxWidth().padding(top = statusTop).height(coverHeight)) {
                 M3xCover(
                     coverId = state.coverArt, username = state.username.ifBlank { state.displayName },
                     modifier = Modifier.fillMaxSize().clickable(role = Role.Button) { picking = true },
@@ -88,7 +88,7 @@ internal fun EditProfileHero(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Icon(Icons.Outlined.Palette, contentDescription = null, tint = scheme.onSurface, modifier = Modifier.size(18.dp))
-                    Text("Change cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = scheme.onSurface, maxLines = 1)
+                    Text("Change", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = scheme.onSurface, maxLines = 1)
                 }
             }
             Box(
