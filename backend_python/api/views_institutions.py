@@ -55,12 +55,13 @@ def institution_detail(request, slug):
                'photoUrl': avatar_or_photo_url(u) or ''} for u in svc.people_list(inst, 36)]
     viewer = _get_user_from_request(request)
     mine = bool(viewer and inst.claimed_by_id == viewer.pk and inst.verified)
+    claimable = svc.is_claimable(inst, viewer)
     portfolio = prof.payload(inst)
     if not mine:
         portfolio.pop('missing', None)
     return Response({**svc.serialize(inst, counts['total']), 'phone': inst.phone, 'email': inst.email,
                      'counts': counts, 'people': people, 'portfolio': portfolio,
-                     'canEdit': mine, 'claimable': not inst.verified})
+                     'canEdit': mine, 'claimable': claimable})
 
 
 def _application(app):

@@ -172,8 +172,25 @@ def serialize(inst, count=0):
         'slug': inst.slug, 'name': inst.name, 'nameNe': inst.name_ne, 'kind': inst.kind, 'kindLabel': inst.kind_label,
         'district': inst.district, 'place': inst.place, 'location': inst.location, 'website': inst.website,
         'verified': inst.verified, 'username': inst.claimed_by.username if inst.claimed_by_id else '',
-        'students': count, 'est': inst.est,
+        'students': count, 'est': inst.est, 'photoUrl': inst.logo_url,
+        'claimable': is_claimable(inst),
     }
+
+
+def is_claimable(inst, viewer=None):
+    """True only while nobody holds the institution. A claimed one, or one the viewer already owns, is not."""
+    if inst.verified or inst.claimed_by_id:
+        return False
+    if viewer is not None and getattr(viewer, 'role', '') == 'institution':
+        return not Institution.objects.filter(claimed_by=viewer, verified=True).exists()
+    return True
+
+
+def owned_slug(user):
+    """Slug of the verified institution this account owns, or ''."""
+    if user is None or getattr(user, 'role', '') != 'institution':
+        return ''
+    return Institution.objects.filter(claimed_by=user, verified=True).values_list('slug', flat=True).first() or ''
 
 
 def select_school(user, slug='', custom_name=''):

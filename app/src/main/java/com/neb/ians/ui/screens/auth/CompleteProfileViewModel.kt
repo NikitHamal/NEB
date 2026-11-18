@@ -515,6 +515,11 @@ class CompleteProfileViewModel @Inject constructor(
     private fun fetchPortfolioFields(username: String) {
         viewModelScope.launch {
             val p = runCatching { apiService.getProfile(authRepository.getBearerToken(), username) }.getOrNull() ?: return@launch
+            // A verified owner keeps no school of their own, so the slug can come back blank; the institution they own is the answer.
+            val ownerToken = authRepository.getBearerToken()
+            val ownedSlug = if (ownerToken != null && p.schoolSlug.isNullOrBlank() && p.role == "institution") {
+                runCatching { apiService.myInstitution(ownerToken).institution?.slug }.getOrNull().orEmpty()
+            } else ""
             _uiState.update {
                 it.copy(
                     headline = p.headline.orEmpty(), skills = csv(p.skills), openTo = csv(p.openTo),
@@ -522,7 +527,7 @@ class CompleteProfileViewModel @Inject constructor(
                     eduCompleted = p.eduCompleted.orEmpty(),
                     teachLevels = csv(p.teachLevels), experienceYears = if (p.experienceYears > 0) p.experienceYears.toString() else "",
                     employment = p.employment.orEmpty(), portfolioLoaded = true,
-                    schoolSlug = p.schoolSlug.orEmpty(), coverArt = p.coverArt.orEmpty()
+                    schoolSlug = p.schoolSlug.orEmpty().ifBlank { ownedSlug }, coverArt = p.coverArt.orEmpty()
                 )
             }
         }

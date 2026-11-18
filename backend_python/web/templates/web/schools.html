@@ -48,7 +48,7 @@
     <div class="sch-featured">
       {% for c in verified %}
       <a class="sch-feature" href="{% url 'web:school_detail' slug=c.inst.slug %}">
-        <span class="sch-glyph sch-glyph-lg"><span class="material-symbols-outlined">{{ c.inst.kind_icon }}</span></span>
+        <span class="sch-glyph sch-glyph-lg"><span class="material-symbols-outlined">{{ c.inst.kind_icon }}</span>{% if c.inst.logo_url %}<img src="{{ c.inst.logo_url }}" alt="" loading="lazy" decoding="async">{% endif %}</span>
         <span class="sch-feature-body">
           <span class="sch-name">{{ c.inst.name }}<span class="material-symbols-outlined sch-tick" title="Verified">verified</span></span>
           <span class="sch-meta">{{ c.inst.kind_label }}{% if c.inst.district %} in {{ c.inst.district }}{% endif %}</span>
@@ -67,7 +67,7 @@
       {% for c in schools %}
       <li>
         <a class="sch-row" href="{% url 'web:school_detail' slug=c.inst.slug %}">
-          <span class="sch-glyph"><span class="material-symbols-outlined">{{ c.inst.kind_icon }}</span></span>
+          <span class="sch-glyph"><span class="material-symbols-outlined">{{ c.inst.kind_icon }}</span>{% if c.inst.logo_url %}<img src="{{ c.inst.logo_url }}" alt="" loading="lazy" decoding="async">{% endif %}</span>
           <span class="sch-row-body">
             <span class="sch-name">{{ c.inst.name }}</span>
             <span class="sch-meta">{{ c.inst.kind_label }}{% if c.inst.location %} in {{ c.inst.location }}{% endif %}</span>

@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Bookmark
@@ -95,6 +96,18 @@ fun ResourceHeroCard(
             .padding(top = 6.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
+        if (!resource.type.equals("video", ignoreCase = true) && !resource.type.equals("audio", ignoreCase = true)) {
+            // the library thumbnail, drawn by code: the same piece the card and the site show for this resource
+            com.neb.ians.ui.components.ResourceBannerArt(
+                seed = "${resource.id}|${resource.type}",
+                subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(2.5f)
+                    .clip(RoundedCornerShape(20.dp))
+            )
+        }
+
         ResourceTagRow(resource)
 
         Text(

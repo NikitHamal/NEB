@@ -354,17 +354,10 @@ private fun SchoolResultRow(row: com.neb.ians.data.api.ApiInstRow, onClick: () -
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Box(
-            modifier = Modifier.size(46.dp).clip(RoundedCornerShape(15.dp)).background(MaterialTheme.colorScheme.tertiaryContainer),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.School,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                modifier = Modifier.size(24.dp)
-            )
-        }
+        com.neb.ians.ui.components.InstitutionLogo(
+            photoUrl = row.photoUrl, kind = row.kind, size = 46.dp, corner = 15.dp,
+            container = MaterialTheme.colorScheme.tertiaryContainer, content = MaterialTheme.colorScheme.onTertiaryContainer
+        )
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = row.name,

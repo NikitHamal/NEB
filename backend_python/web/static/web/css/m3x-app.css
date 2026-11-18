@@ -1802,6 +1802,8 @@ html.neb-has-overlay .vw-iframe, html.neb-has-overlay .vw-media { visibility: hi
 .vw-side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .vw-card { padding: 22px; border-radius: 28px; background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface); }
 .vw-card { display: flex; flex-direction: column; min-width: 0; }
+.vw-thumb { position: relative; aspect-ratio: 5 / 2; overflow: hidden; border-radius: 20px; margin-bottom: 14px; background: var(--md-surface-container); }
+.vw-thumb .neb-art { position: absolute; inset: 0; width: 100%; height: 100%; }
 .vw-title { margin: 14px 0 0; font: 700 clamp(1.2rem, 1.7vw, 1.45rem)/1.25 var(--md-font); letter-spacing: -.015em; word-break: break-word; text-wrap: balance; }
 .vw-desc { margin: 12px 0 0; color: var(--md-on-surface-variant); line-height: 1.65; font-size: .9375rem; word-break: break-word; }
 .vw-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }

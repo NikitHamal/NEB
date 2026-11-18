@@ -5,6 +5,14 @@ from rest_framework import serializers
 from .models import User, Resource, ResourceLike, ResourceRequest, Post, PostImage, PostMedia, Poll, Reply, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
+def _owner_slug(user, ret):
+    """A verified institution owner keeps no school of their own; their school_slug is the institution they own,
+    so a client never offers to claim what is already claimed."""
+    if getattr(user, 'role', '') == 'institution' and 'school_slug' in ret and not ret['school_slug']:
+        from .institutions import owned_slug
+        ret['school_slug'] = owned_slug(user)
+
+
 class UserSerializer(serializers.ModelSerializer):
     hasPassword = serializers.SerializerMethodField()
     social_links = serializers.SerializerMethodField()
@@ -45,6 +53,7 @@ class UserSerializer(serializers.ModelSerializer):
             if request:
                 avatar = request.build_absolute_uri(avatar)
         ret['photo_url'] = avatar
+        _owner_slug(instance, ret)
         return ret
 
 
@@ -67,6 +76,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
             if request:
                 avatar = request.build_absolute_uri(avatar)
         ret['photo_url'] = avatar
+        _owner_slug(instance, ret)
         return ret
 
 

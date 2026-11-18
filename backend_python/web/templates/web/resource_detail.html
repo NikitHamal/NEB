@@ -168,6 +168,7 @@
 
     <aside class="vw-side">
       <div class="vw-card" style="--sc: {{ resource.subject|split:','|first|subject_color }}">
+        <div class="vw-thumb" aria-hidden="true"><div class="neb-art" data-neb-art="banner" data-neb-subject="{{ resource.subject|split:','|first }}" data-neb-seed="{{ resource.id }}|{{ resource.type }}"></div></div>
         <div class="rcard-tags">
           {% with subjects=resource.subject|split:"," %}
           {% for subj in subjects %}<span class="rcard-tag is-subject{% if forloop.counter > 2 %} is-extra{% endif %}" style="--sc: {{ subj|subject_color }}"{% if forloop.counter > 2 %} hidden{% endif %}>{{ subj }}</span>{% endfor %}

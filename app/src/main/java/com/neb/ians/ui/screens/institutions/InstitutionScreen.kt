@@ -128,11 +128,11 @@ private fun Head(d: ApiInstDetail, onBack: () -> Unit, onCopy: () -> Unit, onEdi
                 if (onEdit != null) CoverBtn(Icons.Outlined.Edit, "Edit portfolio", onEdit)
                 CoverBtn(Icons.Outlined.Link, "Copy link", onCopy)
             }
-            Box(
-                Modifier.align(Alignment.BottomStart).padding(start = 16.dp).offset(y = 40.dp).size(92.dp)
-                    .clip(RoundedCornerShape(30.dp)).background(c.primaryContainer),
-                contentAlignment = Alignment.Center
-            ) { Icon(if (d.kind == "school") Icons.Outlined.School else Icons.Outlined.AccountBalance, null, Modifier.size(40.dp), tint = c.onPrimaryContainer) }
+            com.neb.ians.ui.components.InstitutionLogo(
+                photoUrl = d.photoUrl, kind = d.kind, size = 92.dp, corner = 30.dp,
+                modifier = Modifier.align(Alignment.BottomStart).padding(start = 16.dp).offset(y = 40.dp),
+                container = c.primaryContainer, content = c.onPrimaryContainer
+            )
         }
         Spacer(Modifier.height(48.dp))
         Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {

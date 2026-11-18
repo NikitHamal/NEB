@@ -2348,3 +2348,25 @@ History read first (`ANDROID_STATUS.md` 83 to 91). Not redone: covers settle onc
 - On-device pass: note banners at card (54dp), picker (76dp) and editor (2.3 : 1).
 
 CI: `4196465b` Android release build (APK + AAB) green, Backend tests green; Deploy Backend to cPanel (run `44318061456`) green, smoke test passed, no migration, no data touched.
+
+---
+# Session 93: pickup of 86 to 92, institution logos, claim shown to owners, resource thumbnails on every card (app + web)
+
+History read first (`ANDROID_STATUS.md` 85 to 92, `INSTITUTIONS_STATUS.md`). Not redone: covers settle once, cover rectangle, Edit profile bar, desktop profile grid, `WebResourceCard` / `CompactResourceCard` drawing `M3xThumb` only. Live API checked before changing anything: `nebians` and `shreesagarmathaschool` are verified, have profile photos, and their profile returns `school_slug: ""`.
+
+| # | What | Where |
+| --- | --- | --- |
+| 475 | **Why Claim kept showing in the app**: `approve()` (and `apply_school`) blank `school_slug` for an institution owner on purpose, and Edit profile read that slug to choose between "Edit institution portfolio" and "Find and claim your institution". `UserSerializer` / `UserPublicSerializer` now answer with the slug of the verified institution the account owns (`owned_slug`); the app also asks `institutions/mine` when the slug is blank. Saving never stores it (`apply_school` still clears it for owners, so the owner does not become one of their own students). | `serializers.py`, `institutions.py`, `CompleteProfileViewModel.kt` |
+| 476 | **Claim button logic**: `claimable` was `not verified`. It is now `is_claimable(inst, viewer)`: false when anyone holds the institution, false when the viewer already owns a verified one. Web school page, `/api/institutions/<slug>/` and list rows use it. | `institutions.py`, `views_institutions.py` (web + api) |
+| 477 | **Logos**: nothing drew the institution's picture, only a glyph. `Institution.logo_url` is the owner's profile photo while claimed and verified; list rows and detail return `photoUrl`. Web: school page hero, "On NEBians" cards and the directory rows show the photo over the glyph (frameless, a missing file leaves the glyph). App: new `InstitutionLogo` (frameless rounded tile, glyph fallback) in the school picker, search results and the institution page. | `models_institutions.py`, `schools.html`, `school_detail.html`, `schools.css`, `InstitutionLogo.kt`, `SchoolSearchSheet.kt`, `SearchResults.kt`, `InstitutionScreen.kt` |
+| 478 | **Institution page spacing (the screenshot)**: motto touched the stat cards, the last row of Levels chips touched the next stat row, headings and blocks had three different gaps. One rhythm: 16 under a heading, 24 before a sub heading, 28 between sections. | `schools.css` |
+| 479 | **Resource thumbnails by code, everywhere**: the shared web card (`_resource_card.html`: library, search, related, profile) still laid the stored `thumbnail_url` picture over the art; removed. The resource page (web side card, app hero card) now opens with the same drawn thumbnail (`id|type` seed, subject family) the card shows. Videos and audio keep their player. | `_resource_card.html`, `resource_detail.html`, `app-viewer.css` (+ bundle), `ResourceDetailHeader.kt` |
+| 480 | Tests: logo only while verified, claimable rules, owner slug in the profile payload, school page logo and claim button. | `web/test_inst_logo_claim.py` |
+
+## Notes
+- No schema change, nothing deleted from the database. Token lives only in `/tmp/gitenv.sh` (it was pasted into the chat again, rotate it).
+- Never built locally: Android check is the GitHub Actions run; web ships with `deploy-backend.yml`.
+- Marketplace course covers and creator page covers are the creator's own pictures and stay.
+
+## Next
+- On-device pass: institution page hero logo (92dp), school picker rows, resource detail thumbnail.

@@ -130,15 +130,11 @@ fun SchoolRow(row: ApiInstRow, onClick: () -> Unit) {
         modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).clickable(onClick = onClick)
     ) {
         Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Surface(
-                color = if (row.verified) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(14.dp),
-                modifier = Modifier.size(42.dp)
-            ) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Icon(if (row.kind == "school") Icons.Outlined.School else Icons.Outlined.AccountBalance, null, Modifier.size(22.dp))
-                }
-            }
+            InstitutionLogo(
+                photoUrl = row.photoUrl, kind = row.kind, size = 42.dp, corner = 14.dp,
+                container = if (row.verified) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer,
+                content = if (row.verified) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
+            )
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(row.name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 2)

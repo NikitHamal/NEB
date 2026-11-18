@@ -66,7 +66,7 @@ def school_detail(request, slug):
     mine = bool(viewer and inst.claimed_by_id == viewer.pk)
     return render(request, 'web/school_detail.html', _ctx(
         request, inst=inst, counts=counts, people=people, who=role, mine=mine,
-        claimable=not inst.verified, province=PROVINCE_NAMES.get(inst.province, ''),
+        claimable=svc.is_claimable(inst, viewer), province=PROVINCE_NAMES.get(inst.province, ''),
         folio=folio_context(inst),
         website_host=urlparse(inst.website).netloc.replace('www.', '') if inst.website else '',
     ))

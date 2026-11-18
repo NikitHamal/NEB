@@ -38,7 +38,10 @@
 .sch-glyph {
   flex: none; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px;
   background: var(--md-primary-container); color: var(--md-on-primary-container);
+  position: relative; overflow: hidden;
 }
+/* the institution's own picture sits over the glyph; a missing file leaves the glyph showing */
+.sch-glyph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit; background: var(--md-surface-container-lowest); }
 .sch-glyph-lg { width: 56px; height: 56px; border-radius: 20px; }
 .sch-glyph-xl { width: 84px; height: 84px; border-radius: 28px; }
 .sch-glyph .material-symbols-outlined { font-size: 26px; }
@@ -169,3 +172,15 @@
 /* institution portfolio on the school page */
 .sch-h3{font-size:13px;font-weight:600;color:var(--md-on-surface-variant);margin:18px 0 8px}
 .sch-about{font-size:14px;line-height:1.6;margin:6px 0 12px;max-width:68ch}
+
+/* page rhythm: every block under a heading is spaced the same, nothing touches the next card */
+.sch-section > .sch-h2 + .sch-hero-ne { margin: 2px 0 16px; }
+.sch-section > .sch-stats { margin: 16px 0 0; }
+.sch-section > .sch-tags { margin-top: 0; }
+.sch-section > .sch-stats + .sch-h3 { margin-top: 24px; }
+.sch-section .sch-h3 + .sch-tags, .sch-section .sch-h3 + .sch-people { margin-top: 0; }
+.sch-section .sch-tags + .sch-h3, .sch-section .sch-people + .sch-h3 { margin-top: 24px; }
+.sch-section > .sch-tags + .sch-about, .sch-section > .sch-about { margin: 12px 0 0; }
+.sch-section + .sch-stats { margin: 28px 0 0; }
+.sch-section + .sch-section { margin-top: 32px; }
+.sch-stats + .sch-section { margin-top: 32px; }

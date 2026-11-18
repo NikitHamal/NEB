@@ -93,6 +93,14 @@ class Institution(models.Model):
         return KIND_ICONS.get(self.kind, 'school')
 
     @property
+    def logo_url(self):
+        """The owner's profile picture while the institution is claimed and verified, else ''."""
+        if not (self.verified and self.claimed_by_id):
+            return ''
+        from .services import avatar_or_photo_url
+        return avatar_or_photo_url(self.claimed_by)
+
+    @property
     def province_name(self):
         return PROVINCE_NAMES.get(self.province, '')
 
