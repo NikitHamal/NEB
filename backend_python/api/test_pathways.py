@@ -1095,3 +1095,34 @@ class Wave23Tests(TestCase):
         faq = {f['id']: f for f in d['faq']}
         for i in range(1, 15):
             self.assertEqual(faq[f'fw23-{i}']['topic'], 'abroad')
+
+
+class Wave24Tests(TestCase):
+    """Wave 24: Pokhara University and TU IoST official college lists (36 + 23 new colleges, route links, 11 FAQs)."""
+
+    def test_wave24_colleges_links_and_faq(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        routes = {r['id']: r for r in d['routes']}
+        self.assertGreaterEqual(len(prov), 602)
+        self.assertEqual(sum(1 for p in prov if p.startswith('p-w24-pu-')), 36)
+        self.assertEqual(sum(1 for p in prov if p.startswith('p-w24-iost-')), 23)
+        for pid in ('p-w24-pu-quest', 'p-w24-pu-liberty', 'p-w24-pu-medhavi'):
+            self.assertIn(pid, routes['bba']['where'])
+            self.assertTrue(prov[pid]['website'].startswith('https://'), pid)
+        self.assertIn('p-w24-pu-quest', routes['bhm']['where'])
+        self.assertIn('p-w24-pu-atlantic', routes['mba']['where'])
+        self.assertIn('p-w24-iost-pokhara-cst', routes['btech-food']['where'])
+        self.assertIn('p-w24-iost-balkumari', routes['bsc-environment']['where'])
+        self.assertIn('p-sxc', routes['bsc-microbiology']['where'])
+        self.assertGreaterEqual(len(routes['bsc-science']['where']), 40)
+        self.assertGreaterEqual(len(routes['bsc-microbiology']['where']), 25)
+        for p in prov.values():
+            if p['id'].startswith('p-w24-'):
+                self.assertIn(p['district'], {x['district'] for x in d['providers'] if not x['id'].startswith('p-w24-')}, p['id'])
+                self.assertNotIn('\u2014', p['note'])
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 12):
+            self.assertEqual(faq[f'fw24-{i}']['topic'], 'after12')
+

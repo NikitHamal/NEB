@@ -1,0 +1,792 @@
+{
+ "providers_add": [
+  {
+   "id": "p-w24-pu-schems",
+   "name": "School of Environmental Science and Management (SchEMS)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Devkota Sadak, Mid Baneshwor",
+   "note": "Pokhara University affiliated college at Devkota Sadak, Mid Baneshwor, listed by pu.edu.np under its Faculty of Management Studies and Faculty of Science and Technology (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-brihaspati",
+   "name": "Brihaspati College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Goligadh-9, Siddharthanagar, Bhairahawa",
+   "note": "Pokhara University affiliated college at Goligadh-9, Siddharthanagar, Bhairahawa, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-pokhara-mgmt",
+   "name": "Pokhara College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Gyanmarg, Nadipur, Pokhara-3",
+   "note": "Pokhara University affiliated college at Gyanmarg, Nadipur, Pokhara-3, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-vs-niketan",
+   "name": "V.S. Niketan College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Minbhawan",
+   "note": "Pokhara University affiliated college at Minbhawan, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA. Confirm the current intake and fee with the college.",
+   "website": "https://vsniketan.edu.np"
+  },
+  {
+   "id": "p-w24-pu-la-grandee",
+   "name": "LA Grandee International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Simalchour-8, Pokhara",
+   "note": "Pokhara University affiliated college at Simalchour-8, Pokhara, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA and BPH. Confirm the current intake and fee with the college.",
+   "website": "https://lagrandee.edu.np"
+  },
+  {
+   "id": "p-w24-pu-brixton",
+   "name": "Brixton College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kanchanpur",
+   "place": "BDN 6, Aithpur",
+   "note": "Pokhara University affiliated college at BDN 6, Aithpur, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-excel-business",
+   "name": "Excel Business College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Lakhechaur Marg, Thapagaun, New Baneshwor",
+   "note": "Pokhara University affiliated college at Lakhechaur Marg, Thapagaun, New Baneshwor, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-atlantic",
+   "name": "Atlantic International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Galkopakha, Thamel",
+   "note": "Pokhara University affiliated college at Galkopakha, Thamel, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA, BBA-BI, BBA-Finance and MBA. Confirm the current intake and fee with the college.",
+   "website": "https://atlantic.edu.np"
+  },
+  {
+   "id": "p-w24-pu-axis",
+   "name": "Axis College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Tilottama-3, Janakinagar",
+   "note": "Pokhara University affiliated college at Tilottama-3, Janakinagar, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-liberty",
+   "name": "Liberty College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Anamnagar",
+   "note": "Pokhara University affiliated college at Anamnagar, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA, BBA-F, BCSIT and BHM. Confirm the current intake and fee with the college.",
+   "website": "https://libertycollege.edu.np"
+  },
+  {
+   "id": "p-w24-pu-siddhartha-intl",
+   "name": "Siddhartha International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Kalika Path, Butwal-9",
+   "note": "Pokhara University affiliated college at Kalika Path, Butwal-9, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-camad",
+   "name": "Camad College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sukedhara",
+   "note": "Pokhara University affiliated college at Sukedhara (Ring Road), listed by pu.edu.np under its Faculty of Management Studies and Faculty of Humanities and Social Sciences (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-citizen",
+   "name": "Citizen College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Satdobato, next to the swimming pool",
+   "note": "Pokhara University affiliated college at Satdobato, next to the swimming pool, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-saim",
+   "name": "SAIM College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Devkota Sadak, Old Baneshwor",
+   "note": "Pokhara University affiliated college at Devkota Sadak, Old Baneshwor, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA, BCSIT and MBA. Confirm the current intake and fee with the college.",
+   "website": "https://saim.edu.np"
+  },
+  {
+   "id": "p-w24-pu-kshitiz-intl",
+   "name": "Kshitiz International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Kalikanagar, Butwal-10",
+   "note": "Pokhara University affiliated college at Kalikanagar, Butwal-10, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-quest",
+   "name": "Quest International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Gwarko Chowk",
+   "note": "Pokhara University affiliated college at Gwarko Chowk, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA, BHM, BCSIT and MBA. Confirm the current intake and fee with the college.",
+   "website": "https://quest.edu.np"
+  },
+  {
+   "id": "p-w24-pu-alpine",
+   "name": "Alpine Management College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj-13, Surkhet Road",
+   "note": "Pokhara University affiliated college at Nepalgunj-13, Surkhet Road, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-platinum",
+   "name": "Platinum Management College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalikasthan, Dillibazar",
+   "note": "Pokhara University affiliated college at Kalikasthan, Dillibazar, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-amity",
+   "name": "Amity College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kanchanpur",
+   "place": "Mahendranagar-6",
+   "note": "Pokhara University affiliated college at Mahendranagar-6, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA. Confirm the current intake and fee with the college.",
+   "website": "https://www.amitycollege.edu.np"
+  },
+  {
+   "id": "p-w24-pu-victoria",
+   "name": "Victoria International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dang",
+   "place": "Ghorahi Sub-Metropolitan-15",
+   "note": "Pokhara University affiliated college at Ghorahi Sub-Metropolitan-15, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-nwmec",
+   "name": "Nepal Western Management and Engineering College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kailali",
+   "place": "Dhangadhi Municipality, Ward 2",
+   "note": "Pokhara University affiliated college at Dhangadhi Municipality, Ward 2, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-ritz",
+   "name": "Ritz College of Engineering and Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Balkumari-9",
+   "note": "Pokhara University affiliated college at Balkumari-9, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying.",
+   "website": "https://ritzcollege.edu.np"
+  },
+  {
+   "id": "p-w24-pu-srds",
+   "name": "Sahid Ramnath Dahal Smriti College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Balaju Chowk",
+   "note": "Pokhara University affiliated college at Balaju Chowk, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-boston",
+   "name": "Boston International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Hakim Chowk, Bharatpur-10",
+   "note": "Pokhara University affiliated college at Hakim Chowk, Bharatpur-10, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-butwal-model",
+   "name": "Butwal Model College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Padsari-8, Kataiya",
+   "note": "Pokhara University affiliated college at Padsari-8, Kataiya, listed by pu.edu.np under its Faculty of Management Studies and Faculty of Humanities and Social Sciences (checked 18 Nov 2026). The college website names BBA, BHM and MBA. Confirm the current intake and fee with the college.",
+   "website": "https://butwalmodel.edu.np"
+  },
+  {
+   "id": "p-w24-pu-apollo",
+   "name": "Apollo International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Lakhechaur Marga, Mid Baneshwor",
+   "note": "Pokhara University affiliated college at Lakhechaur Marga, Mid Baneshwor, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-rajdhani",
+   "name": "Rajdhani Model College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Devkota Sadak, Pipalbot, Old Baneshwor",
+   "note": "Pokhara University affiliated college at Devkota Sadak, Pipalbot, Old Baneshwor, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-atharva",
+   "name": "Atharva Business College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Bansbari",
+   "note": "Pokhara University affiliated college at Bansbari, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying.",
+   "website": "https://atharvacollege.edu.np"
+  },
+  {
+   "id": "p-w24-pu-shubhashree",
+   "name": "Shubhashree College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kanti Marga, New Baneshwor",
+   "note": "Pokhara University affiliated college at Kanti Marga, New Baneshwor, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA, BCSIT and BHM. Confirm the current intake and fee with the college.",
+   "website": "https://shubhashreecollege.edu.np"
+  },
+  {
+   "id": "p-w24-pu-medhavi",
+   "name": "Medhavi College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Shankhamul",
+   "note": "Pokhara University affiliated college at Shankhamul, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The college website names BBA, BCSIT, BHM, MBA and MCSIT. Confirm the current intake and fee with the college.",
+   "website": "https://medhavicollege.edu.np"
+  },
+  {
+   "id": "p-w24-pu-valley-state",
+   "name": "Valley State College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur-9, Basanta Chowk",
+   "note": "Pokhara University affiliated college at Bharatpur-9, Basanta Chowk, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-imperial",
+   "name": "Imperial Business College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Hattisar, Kamaladi",
+   "note": "Pokhara University affiliated college at Hattisar, Kamaladi (the all-college list says Thapagaun, New Baneshwor), listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-central-college",
+   "name": "Central College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sinamangal-9",
+   "note": "Pokhara University affiliated college at Sinamangal-9, listed by pu.edu.np under its Faculty of Management Studies (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-cem-nepalgunj",
+   "name": "College of Engineering and Management, Nepalgunj",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj-13, Sheetalnagar",
+   "note": "Pokhara University affiliated college at Nepalgunj-13, Sheetalnagar, listed by pu.edu.np under its Faculty of Science and Technology (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-mbman",
+   "name": "Madan Bhandari Memorial Academy Nepal",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Urlabari-3, Mangalbare",
+   "note": "Pokhara University affiliated college at Urlabari-3, Mangalbare, listed by pu.edu.np under its Faculty of Science and Technology (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-pu-iacer",
+   "name": "Institute of Advance Communication Education and Research Center",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Baneshwor Heights, Tanka Prasad Marg",
+   "note": "Pokhara University affiliated college at Baneshwor Heights, Tanka Prasad Marg, listed by pu.edu.np under its Faculty of Humanities and Social Sciences (checked 18 Nov 2026). The programme list differs by college, so confirm the intake and fee with the college before applying."
+  },
+  {
+   "id": "p-w24-iost-aishwarya",
+   "name": "Aishwarya Multiple Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kailali",
+   "place": "Dhangadhi",
+   "note": "Tribhuvan University affiliated campus in Dhangadhi. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-balkumari",
+   "name": "Balkumari College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Narayangadh",
+   "note": "Tribhuvan University affiliated college in Narayangadh. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. Microbiology and Environmental Science. Confirm the intake and fee with the college.",
+   "website": "https://www.balkumaricollege.edu.np"
+  },
+  {
+   "id": "p-w24-iost-bharawi",
+   "name": "Bharawi Science College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "Tribhuvan University affiliated college in Itahari. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-canvas",
+   "name": "Canvas International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Basundhara",
+   "note": "Tribhuvan University affiliated college in Basundhara. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-college-applied-sciences",
+   "name": "College of Applied Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Anamnagar",
+   "note": "Tribhuvan University affiliated college in Anamnagar. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. Environmental Science and M.Sc. Environmental Science. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-dav-mgmt",
+   "name": "D.A.V. College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Jawalakhel",
+   "note": "Tribhuvan University affiliated college in Jawalakhel. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General and Microbiology. Confirm the intake and fee with the college.",
+   "website": "https://davcollege.edu.np"
+  },
+  {
+   "id": "p-w24-iost-gyandeep",
+   "name": "Gyandeep College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dang",
+   "place": "Tulsipur",
+   "note": "Tribhuvan University affiliated college in Tulsipur. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-jsm-lahan",
+   "name": "J.S. Murarka Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Siraha",
+   "place": "Lahan",
+   "note": "Tribhuvan University affiliated campus in Lahan. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-janapriya-mc",
+   "name": "Janapriya Multiple College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "note": "Tribhuvan University affiliated college in Pokhara. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. Microbiology and Environmental Science. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-kamala-science",
+   "name": "Kamala Science Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Sindhuli",
+   "place": "Sindhuli",
+   "note": "Tribhuvan University affiliated campus in Sindhuli. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-kantipur-cms",
+   "name": "Kantipur College of Medical Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sitapaila",
+   "note": "Tribhuvan University affiliated college in Sitapaila. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. Microbiology and M.Sc. Microbiology. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-karnali-prabidhi",
+   "name": "Karnali Prabidhi Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kalikot",
+   "place": "Sipkhana",
+   "note": "Tribhuvan University affiliated campus in Sipkhana. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-kcst",
+   "name": "Kathmandu College of Science and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Naxal",
+   "note": "Tribhuvan University affiliated college in Naxal. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. Microbiology and M.Sc. Microbiology. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-khwopa-college",
+   "name": "Khwopa College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Bhaktapur",
+   "note": "Tribhuvan University affiliated college in Bhaktapur. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists General B.Sc. including Environmental Science, and M.Sc. Environmental Science. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-manilek",
+   "name": "Manilek Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Baitadi",
+   "place": "Baitadi",
+   "note": "Tribhuvan University affiliated campus in Baitadi. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-nagarik-nawalparasi",
+   "name": "Nagarik College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Nawalparasi East",
+   "place": "Gaidakot",
+   "note": "Tribhuvan University affiliated college in Gaidakot. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Tech Food Technology. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-national-multiple",
+   "name": "National Multiple College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Bakhundole",
+   "note": "Tribhuvan University affiliated college in Bakhundole. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists General B.Sc.. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-padmodaya",
+   "name": "Padmodaya Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Dang",
+   "place": "Ghorahi",
+   "note": "Tribhuvan University affiliated campus in Ghorahi. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-pinnacle",
+   "name": "Pinnacle College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lagankhel",
+   "note": "Tribhuvan University affiliated college in Lagankhel. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. Microbiology. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-pokhara-cst",
+   "name": "Pokhara College of Science and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara",
+   "note": "Tribhuvan University affiliated college in Pokhara. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists General B.Sc. including Microbiology, B.Tech Food Technology and M.Sc. Microbiology. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-sahid-smriti-chitwan",
+   "name": "Sahid Smriti Multiple Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Chitwan",
+   "note": "Tribhuvan University affiliated campus in Chitwan. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-softech-lahan",
+   "name": "Softech College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Siraha",
+   "place": "Lahan",
+   "note": "Tribhuvan University affiliated college in Lahan. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General including Microbiology. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-iost-sukuna",
+   "name": "Sukuna Multiple Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Morang",
+   "note": "Tribhuvan University affiliated campus in Morang. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  }
+ ],
+ "where_add": {
+  "bba": [
+   "p-w24-pu-brihaspati",
+   "p-w24-pu-pokhara-mgmt",
+   "p-w24-pu-vs-niketan",
+   "p-w24-pu-la-grandee",
+   "p-w24-pu-brixton",
+   "p-w24-pu-excel-business",
+   "p-w24-pu-atlantic",
+   "p-w24-pu-axis",
+   "p-w24-pu-liberty",
+   "p-w24-pu-siddhartha-intl",
+   "p-w24-pu-camad",
+   "p-w24-pu-citizen",
+   "p-w24-pu-saim",
+   "p-w24-pu-kshitiz-intl",
+   "p-w24-pu-quest",
+   "p-w24-pu-alpine",
+   "p-w24-pu-platinum",
+   "p-w24-pu-amity",
+   "p-w24-pu-victoria",
+   "p-w24-pu-nwmec",
+   "p-w24-pu-ritz",
+   "p-w24-pu-srds",
+   "p-w24-pu-boston",
+   "p-w24-pu-butwal-model",
+   "p-w24-pu-apollo",
+   "p-w24-pu-rajdhani",
+   "p-w24-pu-atharva",
+   "p-w24-pu-shubhashree",
+   "p-w24-pu-medhavi",
+   "p-w24-pu-valley-state",
+   "p-w24-pu-imperial",
+   "p-w24-pu-central-college",
+   "p-uniglobe"
+  ],
+  "bph": [
+   "p-w24-pu-la-grandee"
+  ],
+  "bba-bi": [
+   "p-w24-pu-atlantic"
+  ],
+  "mba": [
+   "p-w24-pu-atlantic",
+   "p-w24-pu-saim",
+   "p-w24-pu-quest",
+   "p-w24-pu-butwal-model",
+   "p-w24-pu-medhavi",
+   "p-uniglobe"
+  ],
+  "bhm": [
+   "p-w24-pu-liberty",
+   "p-w24-pu-quest",
+   "p-w24-pu-butwal-model",
+   "p-w24-pu-shubhashree",
+   "p-w24-pu-medhavi"
+  ],
+  "bsc-science": [
+   "p-w24-iost-aishwarya",
+   "p-w24-iost-bharawi",
+   "p-w24-iost-canvas",
+   "p-w24-iost-dav-mgmt",
+   "p-w24-iost-gyandeep",
+   "p-w24-iost-jsm-lahan",
+   "p-w24-iost-kamala-science",
+   "p-w24-iost-karnali-prabidhi",
+   "p-w24-iost-khwopa-college",
+   "p-w24-iost-manilek",
+   "p-w24-iost-national-multiple",
+   "p-w24-iost-padmodaya",
+   "p-w24-iost-pokhara-cst",
+   "p-w24-iost-sahid-smriti-chitwan",
+   "p-w24-iost-softech-lahan",
+   "p-w24-iost-sukuna",
+   "p-sunkoshi-sindhu",
+   "p-damak-mc",
+   "p-gokuleshwor-darchula",
+   "p-goldengate",
+   "p-kailali",
+   "p-mmc-hetauda",
+   "p-model-multiple-janakpur",
+   "p-new-horizon-butwal",
+   "p-nist-banepa",
+   "p-samv-bhaktapur",
+   "p-sxc"
+  ],
+  "bsc-microbiology": [
+   "p-w24-iost-balkumari",
+   "p-w24-iost-dav-mgmt",
+   "p-w24-iost-janapriya-mc",
+   "p-w24-iost-kantipur-cms",
+   "p-w24-iost-kcst",
+   "p-w24-iost-pinnacle",
+   "p-w24-iost-pokhara-cst",
+   "p-w24-iost-softech-lahan",
+   "p-birat-multiple",
+   "p-birendra-memorial",
+   "p-goldengate",
+   "p-harikhetan",
+   "p-lvc",
+   "p-model-multiple-janakpur",
+   "p-mount-annapurna",
+   "p-nist-lainchour",
+   "p-samv-bhaktapur",
+   "p-sxc",
+   "p-w12-ce-sunsari-technical-college",
+   "p-xavier-intl"
+  ],
+  "bsc-environment": [
+   "p-w24-iost-balkumari",
+   "p-w24-iost-college-applied-sciences",
+   "p-w24-iost-janapriya-mc",
+   "p-w24-iost-khwopa-college",
+   "p-damak-mc",
+   "p-harikhetan",
+   "p-saptagandaki",
+   "p-xavier-intl"
+  ],
+  "btech-food": [
+   "p-w24-iost-nagarik-nawalparasi",
+   "p-w24-iost-pokhara-cst",
+   "p-birat-multiple",
+   "p-goldengate",
+   "p-lvc",
+   "p-nist-lainchour",
+   "p-ncfst",
+   "p-nilgiri",
+   "p-padmashree",
+   "p-w12-ce-sunsari-technical-college"
+  ]
+ },
+ "faq_add": [
+  {
+   "id": "fw24-1",
+   "topic": "after12",
+   "q": "How many colleges does Pokhara University have, and what is the difference between constituent and affiliated?",
+   "a": "Pokhara University says it has 5 constituent colleges, 3 joint constituent colleges and 58 affiliated colleges. Affiliated colleges are independent private institutions that run PU programmes and follow PU curriculum and exams; a degree from them is awarded by PU (source: the Pokhara University college lists on pu.edu.np). Always check the college admission notice for the programmes it really runs.",
+   "go": [
+    "bba",
+    "mba"
+   ]
+  },
+  {
+   "id": "fw24-2",
+   "topic": "after12",
+   "q": "Which four faculties does Pokhara University run?",
+   "a": "Science and Technology and Management Studies (both set up in 1997 under the Pokhara University Act), Humanities and Social Sciences (2004) and Health Sciences (2016). Each faculty has its own list of schools and colleges (source: the Pokhara University college lists on pu.edu.np).",
+   "go": [
+    "bba",
+    "bph",
+    "be-computer"
+   ]
+  },
+  {
+   "id": "fw24-3",
+   "topic": "after12",
+   "q": "Which Pokhara University affiliated colleges are in Butwal and the rest of Rupandehi?",
+   "a": "The PU list names Brihaspati College (Bhairahawa), Tilottama Campus (Yogikuti), Crimson College of Technology (Devinagar, Butwal), Lumbini Engineering, Management and Science College (Bhalwari), Axis College (Janakinagar), Siddhartha International College (Butwal-9), Kshitiz International College (Butwal-10) and Butwal Model College (Kataiya) (source: the Pokhara University college lists on pu.edu.np). Programmes differ by college, so confirm the intake first.",
+   "go": [
+    "bba",
+    "bsc-nursing"
+   ]
+  },
+  {
+   "id": "fw24-4",
+   "topic": "after12",
+   "q": "Which Pokhara University colleges are in Pokhara itself?",
+   "a": "LA Grandee International College (Simalchour), Pokhara College of Management (Nadipur), Nepal Tourism and Hotel Management College (Chhinedanda), Gandaki College of Engineering and Science (Lamachaur), Pokhara Engineering College (Phirke) and Himalaya Eye Institute (Gharipatan), plus the PU schools at Dhungepatan (source: the Pokhara University college lists on pu.edu.np).",
+   "go": [
+    "bba",
+    "be-civil",
+    "boptom"
+   ]
+  },
+  {
+   "id": "fw24-5",
+   "topic": "after12",
+   "q": "Which colleges run Pokhara University health science programmes?",
+   "a": "The Faculty of Health Sciences list names the PU School of Health and Allied Sciences, Tilganga Institute of Ophthalmology (Kathmandu), B.P. Koirala Memorial Cancer Hospital Nursing College (Bharatpur), Himalaya Eye Institute (Pokhara), Modern Technical College, CiST College, Universal Engineering and Science College, National Open College, LA Grandee International College, Crimson College of Technology and Nobel College (source: the Pokhara University college lists on pu.edu.np).",
+   "go": [
+    "bsc-nursing",
+    "bph",
+    "boptom"
+   ]
+  },
+  {
+   "id": "fw24-6",
+   "topic": "after12",
+   "q": "Where can I study engineering under Pokhara University outside the valley?",
+   "a": "The Faculty of Science and Technology list includes Madan Bhandari Memorial Academy Nepal (Urlabari, Morang), Gandaki College of Engineering and Science and Pokhara Engineering College (Pokhara), Lumbini Engineering, Management and Science College (Rupandehi), Rapti Engineering College (Ghorahi, Dang), United Technical College (Bharatpur), College of Engineering and Management (Nepalgunj), Oxford College of Engineering and Management (Gaidakot) and National Academy of Science and Technology (Dhangadhi) (source: the Pokhara University college lists on pu.edu.np).",
+   "go": [
+    "be-computer",
+    "be-civil"
+   ]
+  },
+  {
+   "id": "fw24-7",
+   "topic": "after12",
+   "q": "How many colleges are affiliated with the TU Institute of Science and Technology?",
+   "a": "The IoST affiliated college table lists 90 campuses (serial numbers run to 91). Most run B.Sc. CSIT, and the others run the general B.Sc., B.Sc. Microbiology, B.Sc. Environmental Science and B.Tech Food Technology, with some M.Sc. programmes (source: the TU Institute of Science and Technology affiliated college table on iost.tu.edu.np, checked 18 Nov 2026).",
+   "go": [
+    "bsc-csit",
+    "bsc-science",
+    "bsc-microbiology"
+   ]
+  },
+  {
+   "id": "fw24-8",
+   "topic": "after12",
+   "q": "Where can I study B.Sc. Microbiology outside Kathmandu?",
+   "a": "TU IoST lists Birat Multiple College (Biratnagar), Birendra Memorial College and Sunsari Technical College (Dharan), Balkumari College (Narayangadh), Harikhetan Multiple Campus (Birgunj), Model Multiple College (Janakpur), Softech College (Lahan), and in Pokhara Mt. Annapurna Campus, Janapriya Multiple College and Pokhara College of Science and Technology (source: the TU Institute of Science and Technology affiliated college table on iost.tu.edu.np).",
+   "go": [
+    "bsc-microbiology"
+   ]
+  },
+  {
+   "id": "fw24-9",
+   "topic": "after12",
+   "q": "Which colleges offer B.Tech Food Technology outside the valley?",
+   "a": "TU IoST lists Birat Multiple College (Biratnagar), Dharan Multiple Campus and Sunsari Technical College (Dharan), Nilgiri College (Itahari), Nagarik College (Gaidakot) and Pokhara College of Science and Technology (source: the TU Institute of Science and Technology affiliated college table on iost.tu.edu.np). In the valley the list names National College (NIST), National College of Food Technology, Padmashree International College, Lalitpur Valley College and GoldenGate International College.",
+   "go": [
+    "btech-food"
+   ]
+  },
+  {
+   "id": "fw24-10",
+   "topic": "after12",
+   "q": "Where can I study B.Sc. Environmental Science in Nepal?",
+   "a": "TU IoST lists Damak Multiple Campus (Jhapa), Balkumari College and Saptagandaki Multiple Campus (Chitwan), Harikhetan Multiple Campus (Birgunj), Janapriya Multiple College (Pokhara), and in Kathmandu valley College of Applied Sciences (Anamnagar), Khwopa College (Bhaktapur) and Xavier International College (Kalopul). College of Applied Sciences and GoldenGate also list M.Sc. Environmental Science (source: the TU Institute of Science and Technology affiliated college table on iost.tu.edu.np).",
+   "go": [
+    "bsc-environment"
+   ]
+  },
+  {
+   "id": "fw24-11",
+   "topic": "after12",
+   "q": "Where can I study the general B.Sc. in Sudurpashchim and Karnali?",
+   "a": "TU IoST lists Kailali Multiple Campus and Aishwarya Multiple Campus (Dhangadhi), Gokuleshwor Multiple Campus (Darchula), Manilek Campus (Baitadi) and Karnali Prabidhi Campus (Sipkhana, Kalikot) for the general B.Sc. (source: the TU Institute of Science and Technology affiliated college table on iost.tu.edu.np). Confirm the current intake with the campus because a listing is not a guarantee of an open seat.",
+   "go": [
+    "bsc-science"
+   ]
+  }
+ ]
+}

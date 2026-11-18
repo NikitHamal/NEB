@@ -532,6 +532,13 @@ def payload():
         for rid, more in w23['route_next'].items():
             route_by[rid]['next'] = list(dict.fromkeys(list(route_by[rid].get('next') or []) + more))
         faq_all = faq_all + w23['faq_add']
+    if (DATA / 'wave24.json').exists():
+        w24 = _load('wave24.json')
+        providers = providers + w24['providers_add']
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w24['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        faq_all = faq_all + w24['faq_add']
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
