@@ -1140,8 +1140,15 @@ class Wave25Tests(TestCase):
         prov = {p['id']: p for p in d['providers']}
         routes = {r['id']: r for r in d['routes']}
         abroad = {a['id']: a for a in d['abroad']}
-        self.assertGreaterEqual(len(prov), 616)
-        self.assertEqual(sum(1 for p in prov if p.startswith('p-w25-')), 8)
+        self.assertGreaterEqual(len(prov), 636)
+        self.assertEqual(sum(1 for p in prov if p.startswith('p-w25-')), 28)
+        self.assertEqual(sum(1 for p in prov if p.startswith('p-w25-ku-')), 20)
+        for pid in ('p-w25-ku-ashoka', 'p-w25-ku-prativa', 'p-w25-ku-nwa', 'p-w25-ku-whitehouse-bt'):
+            self.assertIn(pid, routes['bit']['where'])
+        self.assertIn('p-w25-ku-ncm', routes['bba']['where'])
+        self.assertIn('p-w25-ku-janakpur-cc', routes['bsw']['where'])
+        self.assertIn('p-w25-ku-nathm-bardibas', routes['bhm']['where'])
+        self.assertTrue(prov['p-w25-ku-prativa']['website'].startswith('https://'))
         for pid in ('p-w25-tikapur', 'p-w25-triveni', 'p-w25-sitaram', 'p-w25-patan-baitadi', 'p-w25-durgalaxmi', 'p-w25-bageshwari'):
             self.assertIn(pid, routes['bed']['where'])
         self.assertIn('p-w25-tikapur', routes['bba']['where'])
@@ -1154,7 +1161,7 @@ class Wave25Tests(TestCase):
         self.assertIn('24 hours', abroad['hu']['work'])
         self.assertEqual(abroad['ro']['work_hours'], 20)
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 9):
+        for i in range(1, 15):
             self.assertIn(f'fw25-{i}', faq)
         for p in prov.values():
             if p['id'].startswith('p-w25-'):

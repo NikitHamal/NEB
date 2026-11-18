@@ -77,6 +77,188 @@
    "district": "Surkhet",
    "place": "Bidhyapur-4",
    "note": "Constituent campus of Mid-West University listed on its LMS (mulms.edu.np). College portals show BBS and B.Ed. here; confirm the intake with the campus."
+  },
+  {
+   "id": "p-w25-ku-aspire",
+   "name": "Aspire College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BPH (Professional Hospitality) from 2022, BIT from 2024, B.Tech.Ed. IT and BHI from 2026. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-ashoka",
+   "name": "Ashoka College of Engineering and Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara-8, Srijanachowk",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT from 2026 (its own site says it offers the KU Bachelor of Information Technology; phone 9856081540). Confirm the intake, seats and fee with the college.",
+   "website": "https://ashoka.edu.np"
+  },
+  {
+   "id": "p-w25-ku-bti",
+   "name": "Butwal Technical Institute (BTI)",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Butwal",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: B.Tech.Ed. from 2022. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-glacier",
+   "name": "Glacier College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kavrepalanchok",
+   "place": "Banepa",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BPH (Professional Hospitality) from 2022. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-janaki",
+   "name": "Janaki College for Professional Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Dhanusha",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: B.Tech.Ed. from 2022. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-janakpur-cc",
+   "name": "Janakpur Community College",
+   "kind": "College",
+   "sector": "Community",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BSW (Social Work) from 2026. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-little-angels",
+   "name": "Little Angel's College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BBA from 1999, BBIS from 2003 and BHTM (Hotel and Tourism Management) from 2010. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-naya-aayam",
+   "name": "Naya Aayam Multidisciplinary Institute",
+   "kind": "Institute",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BES from 2026 (KU code, not spelled out in the table). Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-nwa",
+   "name": "Nepal Western Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kailali",
+   "place": "Dhangadhi",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT and BSW from 2026. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-national-ku",
+   "name": "National College (Kathmandu University programmes)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BDevS (Development Studies) from 1999, BDFin from 2006 and BoSS from 2013. Not the same as the NCCS computer college.. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-ncm",
+   "name": "Nepal College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BBA from 1999 and BHTM (Hotel and Tourism Management) from 2010. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-new-everest",
+   "name": "New Everest College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT from 2026. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-prativa",
+   "name": "Prativa Business School",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara-4, Gairapatan",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT, first intake in 2026 (its site: entrance is the KUCAT-CBT, phone 061-570025). Confirm the intake, seats and fee with the college.",
+   "website": "https://prativa.edu.np"
+  },
+  {
+   "id": "p-w25-ku-radiant-ku",
+   "name": "Radiant College (Rupandehi)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Rupandehi",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: B.Tech.Ed. from 2024 and BIT from 2026. Not the Radiant Readers Academy of Lalitpur.. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-scti",
+   "name": "Sindhuli Community Technical Institute (SCTI)",
+   "kind": "Institute",
+   "sector": "Community",
+   "district": "Sindhuli",
+   "place": "Sindhuli",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: B.Tech.Ed. from 2022. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-south-city",
+   "name": "South City College of Science and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT and B.Tech.Ed. IT from 2026. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-nathm-bardibas",
+   "name": "Nepal Academy of Tourism and Hotel Management (NATHM), Bardibas",
+   "kind": "College",
+   "sector": "Public",
+   "district": "Mahottari",
+   "place": "Bardibas",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BHM from 2022 under KU, listed as a separate site from the NATHM campus in Kathmandu. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-titi",
+   "name": "Training Institute for Technical Instruction (TITI)",
+   "kind": "Institute",
+   "sector": "Public",
+   "district": "Bhaktapur",
+   "place": "Sanothimi",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: B.Tech.Ed. since 2001, the oldest programme on the KU affiliated table. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-whitehouse-bt",
+   "name": "WhiteHouse College of Business and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Jhapa",
+   "place": "Birtamod",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT and B.Tech.Ed. IT from 2026 (WhiteHouse Education Foundation). Not Himalayan WhiteHouse International College.. Confirm the intake, seats and fee with the college."
+  },
+  {
+   "id": "p-w25-ku-nit-gaidakot",
+   "name": "Nagarik Institute of Technology (NIT) College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Nawalparasi East",
+   "place": "Gaidakot",
+   "note": "Kathmandu University affiliated institution. Kathmandu University affiliated and extended programs table (ku.edu.np/affiliated-colleges) lists: BIT from 2026. The TU IoST table lists Nagarik College in Gaidakot; confirm with the college whether it is the same campus.. Confirm the intake, seats and fee with the college."
   }
  ],
  "where_add": {
@@ -106,7 +288,9 @@
   ],
   "bba": [
    "p-w25-tikapur",
-   "p-w25-bageshwari"
+   "p-w25-bageshwari",
+   "p-w25-ku-little-angels",
+   "p-w25-ku-ncm"
   ],
   "bbs": [
    "p-w25-triveni",
@@ -118,6 +302,31 @@
   ],
   "mbs": [
    "p-w25-bageshwari"
+  ],
+  "bit": [
+   "p-w25-ku-aspire",
+   "p-w25-ku-ashoka",
+   "p-w25-ku-nwa",
+   "p-w25-ku-new-everest",
+   "p-w25-ku-prativa",
+   "p-w25-ku-radiant-ku",
+   "p-w25-ku-south-city",
+   "p-w25-ku-whitehouse-bt",
+   "p-w25-ku-nit-gaidakot"
+  ],
+  "bhm": [
+   "p-w25-ku-aspire",
+   "p-w25-ku-glacier",
+   "p-w25-ku-little-angels",
+   "p-w25-ku-ncm",
+   "p-w25-ku-nathm-bardibas"
+  ],
+  "bsw": [
+   "p-w25-ku-janakpur-cc",
+   "p-w25-ku-nwa"
+  ],
+  "ba-economics": [
+   "p-w25-ku-national-ku"
   ]
  },
  "provider_update": {
@@ -127,6 +336,9 @@
    "place": "Melauli-04, Kanda",
    "website": "https://manilek.fwu.edu.np",
    "note": "Far-Western University constituent campus (FWU Faculty of Education list: B.Ed.) that the TU Institute of Science and Technology table also lists for B.Sc. General. Confirm the intake and fee with the campus."
+  },
+  "p-gate-college": {
+   "note": "Swiss-affiliated (HotellerieSuisse) hospitality academy in Mandikatar, Kathmandu offering the 4 year Bachelor in International Hospitality Management (BIHM / BHM) and professional culinary/barista diplomas. The KU affiliated table also lists it for BPH (Bachelor in Professional Hospitality) since 2020."
   }
  },
  "abroad_update": {
@@ -222,6 +434,62 @@
    "q": "Do students in Estonia and Norway have a working hour limit?",
    "a": "Estonia has no weekly hour limit for students at higher education institutions as long as work does not interfere with studies (the European Commission EU Immigration Portal, Estonia page). Norway lets a study permit holder work up to 20 hours a week, including remote work, and full time during holidays (UDI study permit page).",
    "go": []
+  },
+  {
+   "id": "fw25-9",
+   "topic": "after12",
+   "q": "How many colleges are affiliated with Kathmandu University and what do they teach?",
+   "a": "The KU table lists 32 institutions. Ten are medical, dental or nursing colleges (MBBS, BDS, BSc Nursing), the rest run business, hospitality, social work, education and IT programmes such as BBA, BHTM, BPH, BSW, BIT and B.Tech.Ed. (source: the Kathmandu University affiliated and extended programs table on ku.edu.np). Each row shows the year KU started the programme there.",
+   "go": [
+    "mbbs",
+    "bit"
+   ]
+  },
+  {
+   "id": "fw25-10",
+   "topic": "after12",
+   "q": "Which colleges offer the KU Bachelor of Information Technology (BIT)?",
+   "a": "KU lists BIT at Aspire College (since 2024) and, from 2026, at Ashoka College (Pokhara), Nagarik Institute of Technology (Gaidakot), Nepal Western Academy (Dhangadhi), New Everest College (Biratnagar), Prativa Business School (Pokhara), Radiant College (Rupandehi), South City College (Birgunj) and WhiteHouse College (Birtamod) (source: the Kathmandu University affiliated and extended programs table on ku.edu.np). Entry is by the KUCAT-CBT as shown on the Prativa and Ashoka college sites.",
+   "go": [
+    "bit"
+   ]
+  },
+  {
+   "id": "fw25-11",
+   "topic": "after12",
+   "q": "Does BPH at Kathmandu University mean Public Health?",
+   "a": "No. On the KU programme list BPH is Bachelor in Professional Hospitality, run by Aspire College (Biratnagar), Glacier College (Banepa) and GATE College (Kathmandu). Public health programmes are on the separate Public Health route (source: the Kathmandu University affiliated and extended programs table on ku.edu.np and ku.edu.np/programs).",
+   "go": [
+    "bhm",
+    "bph"
+   ]
+  },
+  {
+   "id": "fw25-12",
+   "topic": "after12",
+   "q": "Where can I study hotel and tourism management under Kathmandu University?",
+   "a": "KU lists BHTM (Hotel and Tourism Management) at Nepal College of Management and Little Angel's College of Management, and BHM at the NATHM campus in Bardibas since 2022 (source: the Kathmandu University affiliated and extended programs table on ku.edu.np). GATE College in Kathmandu also runs the Swiss affiliated BIHM.",
+   "go": [
+    "bhm"
+   ]
+  },
+  {
+   "id": "fw25-13",
+   "topic": "after12",
+   "q": "Where can I study social work under Kathmandu University?",
+   "a": "KU lists BSW at Janakpur Community College (Dhanusha) and Nepal Western Academy (Dhangadhi), both from 2026 (source: the Kathmandu University affiliated and extended programs table on ku.edu.np). Other BSW colleges under TU are on the BSW route.",
+   "go": [
+    "bsw"
+   ]
+  },
+  {
+   "id": "fw25-14",
+   "topic": "after12",
+   "q": "Which colleges run B.Tech.Ed. programmes under Kathmandu University?",
+   "a": "KU lists B.Tech.Ed. at the Training Institute for Technical Instruction in Sanothimi (since 2001), Butwal Technical Institute, Janaki College for Professional Studies, Sindhuli Community Technical Institute (all from 2022), Radiant College (2024) and, as B.Tech.Ed. IT from 2026, South City College (Birgunj) and WhiteHouse College (Birtamod) (source: the Kathmandu University affiliated and extended programs table on ku.edu.np).",
+   "go": [
+    "bed"
+   ]
   }
  ]
 }
