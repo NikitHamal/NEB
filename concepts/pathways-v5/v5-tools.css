@@ -1,0 +1,52 @@
+/* Pathways v5: map, flow, wizard, calculator, planner */
+.nm{position:relative;aspect-ratio:4000/2299;border-radius:28px;background:var(--s1);border:1px solid color-mix(in srgb,var(--ov) 65%,transparent);overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.nm svg.nmw,.nm svg.nml{position:absolute;inset:0;width:100%;height:100%}.nm .nml{pointer-events:none}
+.nm .nmw path{vector-effect:non-scaling-stroke}
+.nm .nb0{fill:var(--s4)}.nm .nb1{fill:color-mix(in srgb,var(--p) 22%,var(--s4))}.nm .nb2{fill:color-mix(in srgb,var(--p) 40%,var(--s4))}
+.nm .nb3{fill:color-mix(in srgb,var(--p) 60%,var(--s4))}.nm .nb4{fill:color-mix(in srgb,var(--p) 82%,var(--s4))}.nm .nsel{fill:var(--p)}
+.nm .nbd{fill:none;stroke:color-mix(in srgb,var(--on) 26%,transparent);stroke-width:.8;stroke-linejoin:round}
+.nm .npv{fill:none;stroke:color-mix(in srgb,var(--on) 50%,transparent);stroke-width:1.5;stroke-linejoin:round}
+.nm .nol{fill:none;stroke:var(--on);stroke-width:2;stroke-linejoin:round}.nm .nso{fill:none;stroke:var(--on);stroke-width:2.4;stroke-linejoin:round}
+.nm text{font-family:inherit;text-anchor:middle;dominant-baseline:central;paint-order:stroke;stroke:color-mix(in srgb,var(--s) 88%,transparent);stroke-width:2.2px;stroke-linejoin:round;fill:var(--on);font-weight:400}
+.nm text.lp{font-weight:500;letter-spacing:1.3px;fill:var(--onv);stroke:none;opacity:.7}.nm text.on{fill:var(--onp);stroke:none;font-weight:500}
+.nmi{position:absolute;left:12px;top:12px;max-width:60%;background:var(--s);border:1px solid var(--ov);border-radius:18px;padding:8px 14px;pointer-events:none;animation:pop .35s var(--sp) both}
+.nmi[hidden]{display:none}.nmi b{display:block;font-size:13px;font-weight:600;line-height:1.2}.nmi span{font-size:11px;font-weight:500;color:var(--onv)}
+.nmc{position:absolute;right:12px;top:12px;display:grid;gap:8px}.nmc .ib{width:40px;height:40px;background:var(--s);border:1px solid var(--ov)}
+.legend{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--onv);margin:8px 4px 0}.legend i{width:22px;height:8px;border-radius:4px}
+/* course to career flow */
+.flow{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.flow svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.flow path{fill:none;stroke:var(--p);stroke-width:2;stroke-linecap:round;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);animation:draw .7s var(--e) forwards;opacity:.7}
+@keyframes draw{to{stroke-dashoffset:0}}
+.flow .col>button{padding:10px 12px;border-radius:var(--r2);background:var(--s1);border:1px solid var(--ov);text-align:left;font-size:12.5px;font-weight:500;display:flex;gap:8px;align-items:center;transition:background .2s,opacity .25s,transform .25s var(--sp)}
+.flow .col>button.on{background:var(--pc);color:var(--onpc);border-color:transparent;transform:scale(1.02)}
+.flow .col>button.dim{opacity:.35}.flow h4{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--onv);font-weight:500}
+@media(max-width:640px){.flow{gap:34px}.flow .col>button{padding:9px 9px;font-size:11.5px}}
+/* wizard */
+.wiz{max-width:720px;margin:0 auto}.wbar{display:flex;gap:6px;margin-bottom:18px}.wbar i{flex:1;height:6px;border-radius:3px;background:var(--s4);transition:background .3s}.wbar i.on{background:var(--p)}
+.opts{display:grid;gap:10px;grid-template-columns:1fr}@media(min-width:640px){.opts.c2{grid-template-columns:1fr 1fr}}
+.opt{display:flex;gap:12px;align-items:center;padding:14px;border-radius:var(--r2);border:1px solid var(--ov);text-align:left;transition:background .2s,border-color .2s,transform .25s var(--sp)}
+.opt:hover{background:var(--s2)}.opt:active{transform:scale(.98)}.opt[aria-pressed=true]{background:var(--pc);color:var(--onpc);border-color:transparent}
+.opt small{display:block;font-size:11.5px;opacity:.75;font-weight:400}
+.why{display:flex;gap:6px;flex-wrap:wrap}
+.score{display:grid;place-items:center;width:56px;height:56px;color:var(--p)}
+/* calculator */
+.calc{display:grid;gap:16px}@media(min-width:900px){.calc{grid-template-columns:360px 1fr;align-items:start}}
+.sl{display:grid;gap:6px}.sl .row{justify-content:space-between;font-size:13px}.sl b{font-weight:600}
+.big{font-size:34px;font-weight:600;line-height:1.1;letter-spacing:-.5px}
+.cash{width:100%;height:auto;display:block}.cash .ax{stroke:var(--ov);stroke-dasharray:3 4}.cash .ln{fill:none;stroke:var(--p);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);animation:draw 1.2s var(--e) forwards}
+.cash .ar{fill:color-mix(in srgb,var(--p) 14%,transparent)}.cash text{font-size:10px;fill:var(--onv);font-family:inherit}.cash .be{fill:var(--good)}
+/* planner */
+.chk{display:flex;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid color-mix(in srgb,var(--ov) 50%,transparent);width:100%;text-align:left}
+.chk .bx{width:24px;height:24px;border-radius:8px;border:2px solid var(--ov);display:grid;place-items:center;flex:none;transition:background .2s,border-color .2s}
+.chk[aria-pressed=true] .bx{background:var(--good);border-color:var(--good);color:var(--s)}.chk[aria-pressed=true] span.tx{text-decoration:line-through;opacity:.6}
+.chk .bx .ms{font-size:16px;opacity:0}.chk[aria-pressed=true] .bx .ms{opacity:1}
+.yr{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:6px}.yr>div{display:flex;flex-direction:column;gap:3px}
+.yr .m{font:500 10px Poppins;text-align:center;color:var(--onv)}.yr .m.now{color:var(--on);font-weight:600}
+.yr .b{height:12px;border-radius:6px;background:var(--s3)}
+.yr .b.on{background:var(--c)}
+.lane{display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid color-mix(in srgb,var(--ov) 40%,transparent)}
+.lane .nm2{font-size:12px;font-weight:500;line-height:1.3}
+@media(max-width:640px){.lane{grid-template-columns:96px 1fr}}
+.cmpx th{white-space:nowrap}.cmpx td{min-width:150px}
+.verdict{display:flex;gap:10px;align-items:center;padding:14px;border-radius:var(--r2);background:var(--tb);color:var(--tf)}
