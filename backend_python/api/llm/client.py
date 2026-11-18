@@ -113,11 +113,23 @@ def _preset_auth(provider: str):
     return '', {}
 
 
+def _is_keyless_official(provider: str) -> bool:
+    try:
+        from .registry import preset
+        p = preset((provider or '').strip().lower())
+        return bool(p is not None and not p.key_required)
+    except Exception:
+        return False
+
+
 def _openai_headers(api_key: str, provider: str, accept: str) -> dict:
     default_key, extra = _preset_auth(provider)
     headers = {'Content-Type': 'application/json', 'Accept': accept}
     headers.update(extra)
-    effective_key = (api_key or '').strip() or default_key
+    clean_key = (api_key or '').strip()
+    if clean_key == 'free' and _is_keyless_official(provider):
+        clean_key = ''
+    effective_key = clean_key or default_key
     if effective_key:
         headers['Authorization'] = f'Bearer {effective_key}'
     return headers
@@ -274,6 +286,7 @@ def chat(*, format: str, base_url: str, api_key: str, model: str,
     messages = _emotionless_messages(messages)
     if not messages:
         raise LLMError(f'{provider}: no messages supplied', retryable=False, provider=provider)
+    t0 = time.time()
     try:
         if fmt == FORMAT_ANTHROPIC:
             return _anthropic_chat(base_url=base_url, api_key=api_key, model=model, messages=messages,
@@ -284,9 +297,18 @@ def chat(*, format: str, base_url: str, api_key: str, model: str,
         if fmt == FORMAT_OPENAI:
             return _openai_chat(base_url=base_url, api_key=api_key, model=model, messages=messages,
                                 max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
-    except LLMError:
-        raise
-    except Exception as e:  # safety net — never leak tracebacks to callers
+    except Exception as e:
+        if _is_keyless_official(provider):
+            from api.keyless_fallback import stream_keyless_fallback
+            parts = [ch.get('content', '') for ch in stream_keyless_fallback(provider, model, messages) if ch.get('type') == 'text']
+            fb_text = ''.join(parts).strip()
+            if fb_text:
+                return ChatResult(
+                    text=fb_text, model=model, provider=provider,
+                    duration_ms=int((time.time() - t0) * 1000),
+                )
+        if isinstance(e, LLMError):
+            raise
         raise LLMError(f'{provider}: {e}', provider=provider)
     raise LLMError(f'unsupported API format: {fmt}', retryable=False, provider=provider)
 
@@ -548,19 +570,37 @@ def chat_stream(*, format: str, base_url: str, api_key: str, model: str,
     messages = _emotionless_messages(messages)
     if not messages:
         raise LLMError(f'{provider}: no messages supplied', retryable=False, provider=provider)
+    saw_text = False
     try:
         if fmt == FORMAT_ANTHROPIC:
-            yield from _anthropic_stream(base_url=base_url, api_key=api_key, model=model, messages=messages,
-                                         max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
+            gen = _anthropic_stream(base_url=base_url, api_key=api_key, model=model, messages=messages,
+                                    max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
         elif fmt == FORMAT_GEMINI:
-            yield from _gemini_stream(base_url=base_url, api_key=api_key, model=model, messages=messages,
-                                      max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
+            gen = _gemini_stream(base_url=base_url, api_key=api_key, model=model, messages=messages,
+                                 max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
         elif fmt == FORMAT_OPENAI:
-            yield from _openai_stream(base_url=base_url, api_key=api_key, model=model, messages=messages,
-                                      max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
+            gen = _openai_stream(base_url=base_url, api_key=api_key, model=model, messages=messages,
+                                 max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=provider)
         else:
             raise LLMError(f'unsupported API format: {fmt}', retryable=False, provider=provider)
-    except LLMError:
-        raise
-    except Exception as e:  # safety net — never leak tracebacks to callers
+        for ch in gen:
+            if ch.get('type') == 'text' and ch.get('content'):
+                saw_text = True
+            yield ch
+    except Exception as e:
+        if not saw_text and _is_keyless_official(provider):
+            from api.keyless_fallback import stream_keyless_fallback
+            fell_back = False
+            for ch in stream_keyless_fallback(provider, model, messages):
+                if ch.get('type') == 'thought':
+                    yield {'type': 'reasoning', 'content': ch.get('content', '')}
+                elif ch.get('type') == 'text':
+                    fell_back = True
+                    yield {'type': 'text', 'content': ch.get('content', '')}
+                elif ch.get('type') == 'done':
+                    yield {'type': 'done', 'model': model, 'input_tokens': 0, 'output_tokens': 0, 'reasoning': ''}
+            if fell_back:
+                return
+        if isinstance(e, LLMError):
+            raise
         raise LLMError(f'{provider}: {e}', provider=provider)

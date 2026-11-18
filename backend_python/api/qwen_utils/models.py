@@ -124,6 +124,20 @@ def _fallback_models():
     """Hardcoded fallback when the upstream is unreachable."""
     return [
         {
+            "id": "qwen4-max",
+            "name": "Qwen4-Max",
+            "capabilities": {"vision": True, "document": True, "video": True, "audio": True, "thinking": True, "reasoning_levels": ["low", "medium", "high"], "search": True, "citations": False},
+            "max_context_length": 1000000,
+            "is_active": True,
+        },
+        {
+            "id": "qwen4-max-preview",
+            "name": "Qwen4-Max-Preview",
+            "capabilities": {"vision": True, "document": True, "video": True, "audio": True, "thinking": True, "reasoning_levels": ["low", "medium", "high"], "search": True, "citations": False},
+            "max_context_length": 1000000,
+            "is_active": True,
+        },
+        {
             "id": "qwen3.8-max",
             "name": "Qwen3.8-Max",
             "capabilities": {"vision": True, "document": True, "video": True, "audio": True, "thinking": True, "reasoning_levels": ["low", "medium", "high"], "search": True, "citations": False},

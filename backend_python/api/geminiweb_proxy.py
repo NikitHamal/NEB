@@ -66,7 +66,7 @@ class _GeminiSession:
         self.proxy = proxy
         self.session = new_session(impersonate="chrome", timeout=REQUEST_TIMEOUT)
         self.fsid = ""
-        self.bl = "boq_assistant-bard-web-server_20260827.05_p0"
+        self.bl = "boq_gemini-web-uiserver_20261117.01_p0"
         self.conversation_id = ""
         self.response_id = ""
         self.reqid = random.randint(100000, 999999)
@@ -88,7 +88,10 @@ class _GeminiSession:
             m = re.search(r'"FdrFJe":"([0-9\-]+)"', html)
             if m:
                 self.fsid = m.group(1)
-            m = re.search(r"(boq_assistant-bard-web-server_[0-9._p]+)", html)
+            m = (
+                re.search(r'"cfb2h":"([^"]+)"', html)
+                or re.search(r"(boq_(?:gemini-web-uiserver|assistant-bard-web-server)_[0-9._p]+)", html)
+            )
             if m:
                 self.bl = m.group(1)
             m = re.search(r'"SNlM0e":"([^"]+)"', html)
@@ -305,8 +308,7 @@ def stream_chat(
             if "400" in got_error and attempt == 0:
                 time.sleep(1 + random.random())
                 continue
-            yield {"type": "error", "error": got_error}
-            return
+            break
         except Exception as exc:
             last_error = f"request failed: {exc}"
             logger.warning("GeminiWeb attempt %d failed: %s", attempt + 1, exc)
@@ -314,7 +316,13 @@ def stream_chat(
         finally:
             gsession.close()
 
-    yield {"type": "error", "error": f"GeminiWeb: {last_error}"}
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("geminiweb", model, messages):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        yield {"type": "error", "error": f"GeminiWeb: {last_error}"}
 
 
 def simple_chat(

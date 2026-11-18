@@ -1,17 +1,9 @@
-"""Proxy for chat.motiftech.io guest chat (Motif 102B / Motif 12.7B).
+"""Proxy for chat.motiftech.io guest chat (Motif 102B / 12.7B / Tiny).
 
 Guest mode needs no login, no cookies and no API key: a plain JSON POST to
 ``/api/v1/enterprise/chat`` returns an SSE stream. The backend tracks
 conversation context server-side via ``conversation_id`` (returned in the
-``shared.data.conversation_id`` event), so for multi-turn arena chats we pass
-the previously stored id and persist the new one on completion.
-
-SSE events:
-    shared.data.conversation_id -> {"conversation_id": "..."}
-    chat.text                   -> answer text delta
-    chat.step                   -> {"role": "answer"} marks the answer phase
-    shared.data.message         -> server message id
-    shared.sign                 -> "[[HUB_STOP_SIGN]]" marks end of stream
+``shared.data.conversation_id`` event).
 """
 import json
 import logging
@@ -27,7 +19,10 @@ CHAT_ENDPOINT = f"{MOTIF_URL}/api/v1/enterprise/chat"
 REQUEST_TIMEOUT = 300
 
 MODELS = [
-    {"id": "motif-102b", "name": "Motif 3", "reasoning": True, "vision": False, "web_search": False},
+    {"id": "motif-102b", "name": "Motif 3 (102B)", "reasoning": True, "vision": False, "web_search": False},
+    {"id": "motif-12-7b-reasoning", "name": "Motif 12.7B Reasoning", "reasoning": True, "vision": False, "web_search": False},
+    {"id": "motif-12-7b", "name": "Motif 12.7B", "reasoning": True, "vision": False, "web_search": False},
+    {"id": "motif-tiny", "name": "Motif Tiny", "reasoning": False, "vision": False, "web_search": False},
 ]
 
 
@@ -49,6 +44,13 @@ _BROWSER_HEADERS = {
     "sec-ch-ua-platform": '"Windows"',
 }
 
+_EFFORT_MAP = {
+    "low": "small",
+    "small": "small",
+    "medium": "medium",
+    "high": "high",
+}
+
 
 def stream_chat(
     messages: List[Dict[str, str]],
@@ -56,32 +58,29 @@ def stream_chat(
     conversation_id: Optional[str] = None,
     reasoning_effort: str = "high",
 ) -> Generator[Dict, None, None]:
-    """Stream a chat turn. Yields dicts: text / done / error.
-
-    ``messages`` replay the arena history; only the last user message is sent
-    (the upstream tracks context via ``conversation_id``). The ``done`` chunk
-    carries the new ``conversation_id`` for the caller to persist.
-    """
     if model not in MODEL_MAP:
         yield {"type": "error", "error": f"Unknown model '{model}'"}
         return
 
+    effort = _EFFORT_MAP.get((reasoning_effort or "high").lower(), "high")
     last_user = next(
-        (m.get('content', '') for m in reversed(messages) if m.get('role') == 'user'),
-        '',
+        (m.get("content", "") for m in reversed(messages) if m.get("role") == "user"),
+        "",
     )
     if not last_user:
         yield {"type": "error", "error": "no user message to send"}
         return
     if conversation_id is None:
-        prior = [m for m in (messages or [])
-                 if isinstance(m, dict) and (m.get('content') or '').strip()
-                 and (m.get('role') or '').lower() in ('user', 'assistant')]
-        prior = prior[:-1] if prior and (prior[-1].get('role') or '').lower() == 'user' else prior
+        prior = [
+            m for m in (messages or [])
+            if isinstance(m, dict) and (m.get("content") or "").strip()
+            and (m.get("role") or "").lower() in ("user", "assistant", "system")
+        ]
+        prior = prior[:-1] if prior and (prior[-1].get("role") or "").lower() == "user" else prior
         if prior:
             transcript = "\n\n".join(
-                f"{'User' if (m.get('role') or '').lower() == 'user' else 'Assistant'}: "
-                f"{m['content'].strip()}" for m in prior)
+                f"{m.get('role', 'user').capitalize()}: {m['content'].strip()}" for m in prior
+            )
             last_user = f"Previous conversation:\n{transcript}\n\nCurrent message: {last_user}"
 
     payload = {
@@ -94,62 +93,71 @@ def stream_chat(
         "language": "en",
         "timezone": "Asia/Katmandu",
         "mode": "chat",
-        "reasoning_effort": reasoning_effort,
+        "reasoning_effort": effort,
         "model": model,
     }
 
     session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
     conv_id = conversation_id
     saw_text = False
+    err_msg = ""
     try:
-        resp, session = resilient_post(session, CHAT_ENDPOINT, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
-        if resp.status_code != 200:
-            body = resp.text[:300]
-            yield {"type": "error", "error": f"Motif HTTP {resp.status_code}: {body}"}
-            return
-
-        buffer = ""
         try:
-            for chunk_bytes in resp.iter_content():
-                if chunk_bytes is None:
-                    continue
-                buffer += chunk_bytes.decode("utf-8", errors="replace")
-                while "\n" in buffer:
-                    line, buffer = buffer.split("\n", 1)
-                    line = line.strip("\r")
-                    if not line.startswith("data:"):
-                        continue
-                    raw = line[5:].strip()
-                    if not raw:
-                        continue
-                    try:
-                        ev = json.loads(raw)
-                    except (json.JSONDecodeError, ValueError):
-                        continue
-                    etype = ev.get("type") or ""
-                    edata = ev.get("data")
-                    if etype == "chat.text" and isinstance(edata, str) and edata:
-                        saw_text = True
-                        yield {"type": "text", "content": edata}
-                    elif etype == "shared.data.conversation_id" and isinstance(edata, str) and edata:
-                        conv_id = edata
-                    elif etype == "shared.sign":
-                        break
-                    elif "error" in etype:
-                        yield {"type": "error", "error": str(edata or ev)[:300]}
-                        return
+            resp, session = resilient_post(session, CHAT_ENDPOINT, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
         except Exception as exc:
-            if saw_text:
-                logger.warning("Motif stream ended after content: %s", exc)
-                yield {"type": "done", "finish_reason": "stop", "conversation_id": conv_id}
-                return
-            yield {"type": "error", "error": f"stream failed: {exc}"}
+            resp = None
+            err_msg = f"Motif request failed: {exc}"
+        if resp is not None and resp.status_code != 200:
+            err_msg = f"Motif HTTP {resp.status_code}: {resp.text[:300]}"
+        elif resp is not None:
+            buffer = ""
+            try:
+                for chunk_bytes in resp.iter_content():
+                    if chunk_bytes is None:
+                        continue
+                    buffer += chunk_bytes.decode("utf-8", errors="replace")
+                    while "\n" in buffer:
+                        line, buffer = buffer.split("\n", 1)
+                        line = line.strip("\r")
+                        if not line.startswith("data:"):
+                            continue
+                        raw = line[5:].strip()
+                        if not raw:
+                            continue
+                        try:
+                            ev = json.loads(raw)
+                        except (json.JSONDecodeError, ValueError):
+                            continue
+                        etype = ev.get("type") or ""
+                        edata = ev.get("data")
+                        if etype == "chat.text" and isinstance(edata, str) and edata:
+                            saw_text = True
+                            yield {"type": "text", "content": edata}
+                        elif etype == "shared.data.conversation_id" and isinstance(edata, str) and edata:
+                            conv_id = edata
+                        elif etype == "shared.sign":
+                            break
+                        elif "error" in etype:
+                            err_msg = str(edata or ev)[:300]
+                            break
+            except Exception as exc:
+                if saw_text:
+                    logger.warning("Motif stream ended after content: %s", exc)
+                    yield {"type": "done", "finish_reason": "stop", "conversation_id": conv_id}
+                    return
+                err_msg = f"stream failed: {exc}"
+
+        if saw_text:
+            yield {"type": "done", "finish_reason": "stop", "conversation_id": conv_id}
             return
 
-        if not saw_text:
-            yield {"type": "error", "error": "stream ended without content"}
-            return
-        yield {"type": "done", "finish_reason": "stop", "conversation_id": conv_id}
+        from .keyless_fallback import stream_keyless_fallback
+        fell_back = False
+        for ch in stream_keyless_fallback("motiftech", model, messages, reasoning=(effort == "high")):
+            fell_back = True
+            yield ch
+        if not fell_back:
+            yield {"type": "error", "error": err_msg or "stream ended without content"}
     finally:
         try:
             session.close()
@@ -171,7 +179,7 @@ def simple_chat(
     messages.append({"role": "user", "content": user_message})
 
     collected = []
-    for chunk in stream_chat(messages=messages, model="motif-102b", reasoning_effort=reasoning_effort):
+    for chunk in stream_chat(messages=messages, model=model, reasoning_effort=reasoning_effort):
         t = chunk.get("type")
         if t == "text":
             collected.append(chunk.get("content", ""))

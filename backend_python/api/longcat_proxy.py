@@ -266,22 +266,19 @@ def stream_chat(
                 if resp.status_code >= 500:
                     time.sleep(1 + random.random())
                     continue
-                yield {"type": "error", "error": last_error}
-                return
+                break
 
             content_type = (resp.headers.get("content-type") or "").lower()
             if "application/json" in content_type:
                 payload = _read_json(resp)
                 code = payload.get("code") if isinstance(payload, dict) else None
                 message = (payload.get("message") if isinstance(payload, dict) else "") or ""
+                last_error = f"LongCat: {message or 'unexpected JSON response (code %s)' % code}"
                 if code == 429:
-                    last_error = f"LongCat: {message or 'rate limited'}"
                     logger.warning("%s (attempt %d)", last_error, attempt + 1)
                     time.sleep(2 ** attempt + random.random())
                     continue
-                yield {"type": "error",
-                       "error": f"LongCat: {message or 'unexpected JSON response (code %s)' % code}"}
-                return
+                break
 
             saw_any = False
             buffer = ""
@@ -349,10 +346,16 @@ def stream_chat(
             except Exception:
                 pass
 
-    if last_error.startswith("LongCat"):
-        yield {"type": "error", "error": last_error}
-    else:
-        yield {"type": "error", "error": f"LongCat: {last_error}"}
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("longcat", model, messages, reasoning=reasoning):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        if last_error.startswith("LongCat"):
+            yield {"type": "error", "error": last_error}
+        else:
+            yield {"type": "error", "error": f"LongCat: {last_error}"}
 
 
 def simple_chat(

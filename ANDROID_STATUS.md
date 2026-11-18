@@ -1977,3 +1977,18 @@ CI: `2819fd11` Android release build (APK + AAB) green. Deploy run on `994e6ed8`
 ## Next
 - On-device pass: cover picker scroll, Dark covers, thumbnail contrast on cards.
 - Glance tiles and Studying now once the profile API returns reads, answers and streak.
+
+
+---
+# Session 75: Admin panel chat providers, Qwen 4 & late-2026 model catalog, seamless keyless failover
+
+Same file, same rule: nothing is built locally for Android, the check is the GitHub Actions run. History read first (sessions 1 to 74); nothing from prior sessions was redone. No database schema or destructive change was made.
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 420 | **New model releases (Qwen 4 + late-2026 frontier & open models)**: added `qwen4-max` (new default on `qwen` and `qwencloud`), `qwen4-max-preview`, `qwen4-plus`, `qwen4-flash`, `qwen4-27b`, and `qwen3.8-flash` across `registry.py`, `qwencloud_proxy.py`, `qwen_proxy.py`, `qwen_utils/models.py`, `tryingopen_proxy.py`, `views_study_lab.py`, and `neby.py`. Updated `deepai` with its 10 live free models (`standard`, `gpt-6-luna`, `claude-haiku-5-5`, `qwen3.8-flash`, `deepseek-v4.1-flash`, `glm-5.3-flash`, `tencent-hy3`, `gemma-4`, `llama-3.3-70b-instruct`, `llama-3.1-8b-instant`) plus new Pro models and legacy aliases. Updated `tryingopen` (30+ open models), `ptero` (`deepseek-v4-flash:runware`, `minimax-m3.1-flash:runware`, `qwen3.7-flash:minirouter`, `glm-5.3-flash`, `kimi-k3:apinex` + legacy aliases), `motiftech` (all 4 models in `MODEL_MAP`), `kilo`, `zen`, `llm7`, and official presets (`openai` GPT-6 family, `anthropic` Claude 5.5 family, `gemini` Gemini 4 / 3.8 family, `deepseek` V4.1 family). | `api/llm/registry.py`, `api/*_proxy.py`, `web/views_study_lab.py`, `api/neby.py` |
+| 421 | **Native protocol fixes for keyless providers**: `ptero_proxy` now warms `https://ptero.pro/` to extract and cache `X-WP-Nonce` (fixing HTTP 403); `motiftech_proxy` maps `"low"` reasoning effort to `"small"` (matching upstream Zod schema) and passes `model` through `simple_chat`; `geminiweb_proxy` extracts `"cfb2h"` (`boq_gemini-web-uiserver_...`) build IDs; `views_admin_chat` and `llm/client.py` pass each keyless official preset's `default_key` (`public` for `zen`, empty for `kilo`, `unused` for `llm7`) instead of `'free'`. | `ptero_proxy.py`, `motiftech_proxy.py`, `geminiweb_proxy.py`, `views_admin_chat.py`, `api/llm/client.py` |
+| 422 | **Universal keyless failover mesh (`api/keyless_fallback.py`)**: when any keyless or community provider hits an upstream WAF challenge, missing risk token (`QWENCLOUD_UMIDTOKEN`), BotID 403, rate limit (429), or transient outage, it transparently routes the turn through model-family-matched live keyless upstreams (DeepAI free models, Motiftech 102B, K2Think 375B reasoning, LLM7, Kilo Gateway, Unikey, Ptero, Yqcloud, ChatJimmy). Wired into all chat proxies, `api/llm/client.py`, and `views_admin_chat.py`. All 17 keyless chat providers verified live. | `api/keyless_fallback.py`, `api/test_keyless_providers.py`, `web/views_admin_chat.py` |
+| 423 | **Admin bot editor cleanup**: `admin_catalog()` filters out TTS-only scrapers (`max_output_tokens == 0`) from the chat provider list; removed `#7C4DFF` purple and `50%` avatar radius in `bot_edit.html`. | `api/llm/registry.py`, `templates/admin_panel/bot_edit.html` |

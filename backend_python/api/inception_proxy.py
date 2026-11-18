@@ -80,7 +80,9 @@ def _ensure_session() -> str:
                     raise RuntimeError(f"Inception session failed: {exc}")
 
                 if resp.status_code == 429 and attempt < max_retries - 1:
-                    retry_after = int(resp.headers.get("retry-after", 2 ** attempt))
+                    if "text/html" in (resp.headers.get("content-type") or "").lower():
+                        break
+                    retry_after = min(int(resp.headers.get("retry-after", 2 ** attempt)), 2)
                     logger.warning("Inception rate-limited (429), retrying in %ds", retry_after)
                     time.sleep(retry_after)
                     continue
@@ -129,79 +131,80 @@ def stream_chat(
         yield {"type": "error", "error": f"Unknown model '{model}'"}
         return
 
+    saw_text = False
+    err_msg = ""
+    resp = None
     try:
         token = _ensure_session()
-    except RuntimeError as e:
-        yield {"type": "error", "error": str(e)}
-        return
-
-    inception_msgs = _messages_to_inception(messages)
-
-    payload = {
-        "reasoningEffort": "high",
-        "webSearchEnabled": web_search,
-        "voiceMode": False,
-        "timezone": "UTC",
-        "id": _make_id(),
-        "messages": inception_msgs,
-        "trigger": "submit-message",
-    }
-
-    headers = dict(_BROWSER_HEADERS)
-    headers["x-session-token"] = token
-    headers["cookie"] = f"session={token}"
-
-    try:
+        inception_msgs = _messages_to_inception(messages)
+        payload = {
+            "reasoningEffort": "high",
+            "webSearchEnabled": web_search,
+            "voiceMode": False,
+            "timezone": "UTC",
+            "id": _make_id(),
+            "messages": inception_msgs,
+            "trigger": "submit-message",
+        }
+        headers = dict(_BROWSER_HEADERS)
+        headers["x-session-token"] = token
+        headers["cookie"] = f"session={token}"
         session = new_session(impersonate="chrome", headers=headers)
         resp, session = resilient_post(
-            session,
-            CHAT_URL,
-            json=payload,
-            stream=True,
-            timeout=REQUEST_TIMEOUT,
+            session, CHAT_URL, json=payload, stream=True, timeout=REQUEST_TIMEOUT,
         )
     except Exception as exc:
-        yield {"type": "error", "error": f"request failed: {exc}"}
-        return
+        err_msg = str(exc)
 
-    if resp.status_code == 403:
-        with _SESSION_LOCK:
-            global _SESSION_TOKEN
-            _SESSION_TOKEN = None
-        yield {"type": "error", "error": "Session expired (403). Retrying will refresh."}
-        return
-
-    if resp.status_code != 200:
-        body = resp.text[:300]
-        yield {"type": "error", "error": f"Inception HTTP {resp.status_code}: {body}"}
-        return
-
-    buffer = ""
-    for chunk_bytes in resp.iter_content():
-        if chunk_bytes is None:
-            continue
-        buffer += chunk_bytes.decode("utf-8", errors="ignore")
-        while "\n\n" in buffer:
-            event_str, buffer = buffer.split("\n\n", 1)
-            event_str = event_str.strip()
-            if not event_str:
-                continue
-            if event_str == "data: [DONE]":
-                yield {"type": "done", "finish_reason": "stop"}
-                return
-            if not event_str.startswith("data: "):
-                continue
+    if resp is not None:
+        if resp.status_code == 403:
+            with _SESSION_LOCK:
+                global _SESSION_TOKEN
+                _SESSION_TOKEN = None
+            err_msg = "Session expired (403)."
+        elif resp.status_code != 200:
+            err_msg = f"Inception HTTP {resp.status_code}: {resp.text[:300]}"
+        else:
+            buffer = ""
             try:
-                data = json.loads(event_str[6:])
-            except (json.JSONDecodeError, ValueError):
-                continue
-            etype = data.get("type", "")
-            if etype == "text-delta":
-                delta = data.get("delta", "")
-                if delta:
-                    yield {"type": "text", "content": delta}
+                for chunk_bytes in resp.iter_content():
+                    if chunk_bytes is None:
+                        continue
+                    buffer += chunk_bytes.decode("utf-8", errors="ignore")
+                    while "\n\n" in buffer:
+                        event_str, buffer = buffer.split("\n\n", 1)
+                        event_str = event_str.strip()
+                        if not event_str:
+                            continue
+                        if event_str == "data: [DONE]":
+                            break
+                        if not event_str.startswith("data: "):
+                            continue
+                        try:
+                            data = json.loads(event_str[6:])
+                        except (json.JSONDecodeError, ValueError):
+                            continue
+                        etype = data.get("type", "")
+                        if etype == "text-delta":
+                            delta = data.get("delta", "")
+                            if delta:
+                                saw_text = True
+                                yield {"type": "text", "content": delta}
+            except Exception as exc:
+                if not saw_text:
+                    err_msg = f"stream failed: {exc}"
 
-    yield {"type": "done", "finish_reason": "stop"}
+    if saw_text:
+        yield {"type": "done", "finish_reason": "stop"}
+        return
+
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("inception", model, messages, reasoning=(reasoning_effort == "high")):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        yield {"type": "error", "error": err_msg or "Inception stream ended without content"}
 
 
 def simple_chat(

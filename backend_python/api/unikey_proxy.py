@@ -94,6 +94,8 @@ def stream_chat(
         "Referer": "https://www.getunikey.ai/anonymous-chat",
         "X-Anonymous-Fingerprint": _fresh_fingerprint(),
     }
+    err_msg = ""
+    text = ""
     try:
         resp, session = resilient_post(
             session,
@@ -102,39 +104,46 @@ def stream_chat(
             headers=headers,
             timeout=REQUEST_TIMEOUT,
         )
+        if resp.status_code != 200:
+            err_msg = f"unikey HTTP {resp.status_code}: {resp.text[:200]}"
+        else:
+            texts: List[str] = []
+            for line in resp.text.split("\n"):
+                line = line.strip()
+                if not line.startswith("data:"):
+                    continue
+                data = line[5:].strip()
+                if data == "[DONE]":
+                    break
+                try:
+                    payload = json.loads(data)
+                except ValueError:
+                    continue
+                err = (payload.get("error") or {}).get("message") if isinstance(payload.get("error"), dict) else None
+                if err:
+                    err_msg = f"unikey: {err[:200]}"
+                    break
+                delta = ((payload.get("choices") or [{}])[0].get("delta") or {}).get("content", "")
+                if not delta:
+                    delta = ((payload.get("choices") or [{}])[0].get("message") or {}).get("content", "")
+                if delta:
+                    texts.append(delta)
+            text = "".join(texts).strip()
     except Exception as exc:
-        yield {"type": "error", "error": f"unikey: cannot reach upstream ({exc})"}
+        err_msg = f"unikey: cannot reach upstream ({exc})"
+
+    if text:
+        yield {"type": "text", "content": text}
+        yield {"type": "done", "finish_reason": "stop"}
         return
-    if resp.status_code != 200:
-        yield {"type": "error", "error": f"unikey HTTP {resp.status_code}: {resp.text[:200]}"}
-        return
-    texts: List[str] = []
-    for line in resp.text.split("\n"):
-        line = line.strip()
-        if not line.startswith("data:"):
-            continue
-        data = line[5:].strip()
-        if data == "[DONE]":
-            break
-        try:
-            payload = json.loads(data)
-        except ValueError:
-            continue
-        err = (payload.get("error") or {}).get("message") if isinstance(payload.get("error"), dict) else None
-        if err:
-            yield {"type": "error", "error": f"unikey: {err[:200]}"}
-            return
-        delta = ((payload.get("choices") or [{}])[0].get("delta") or {}).get("content", "")
-        if not delta:
-            delta = ((payload.get("choices") or [{}])[0].get("message") or {}).get("content", "")
-        if delta:
-            texts.append(delta)
-    text = "".join(texts).strip()
-    if not text:
-        yield {"type": "error", "error": "unikey: stream ended without content"}
-        return
-    yield {"type": "text", "content": text}
-    yield {"type": "done", "finish_reason": "stop"}
+
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("unikey", model, convo):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        yield {"type": "error", "error": err_msg or "unikey: stream ended without content"}
 
 
 def simple_chat(

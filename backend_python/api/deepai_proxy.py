@@ -53,22 +53,35 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 _SALT = "hackers_become_a_little_stinkier_every_time_they_hack"
 
 FREE_MODELS = [
-    {"id": "standard", "name": "DeepAI Standard", "locked": False, "vision": False, "thinking": False},
-    {"id": "deepseek-v3.2", "name": "DeepSeek V3.2", "locked": False, "vision": False, "thinking": False},
+    {"id": "standard", "name": "DeepAI Standard", "locked": False, "vision": True, "thinking": False},
+    {"id": "gpt-6-luna", "name": "GPT-6 Luna", "locked": False, "vision": True, "thinking": False},
+    {"id": "claude-haiku-5-5", "name": "Claude Haiku 5.5", "locked": False, "vision": True, "thinking": False},
+    {"id": "qwen3.8-flash", "name": "Qwen 3.8 Flash", "locked": False, "vision": True, "thinking": False},
+    {"id": "deepseek-v4.1-flash", "name": "DeepSeek V4.1 Flash", "locked": False, "vision": False, "thinking": False},
+    {"id": "glm-5.3-flash", "name": "GLM 5.3 Flash", "locked": False, "vision": True, "thinking": True},
+    {"id": "tencent-hy3", "name": "Tencent Hy3", "locked": False, "vision": False, "thinking": False},
     {"id": "gemma-4", "name": "Gemma 4", "locked": False, "vision": True, "thinking": False},
+    {"id": "llama-3.3-70b-instruct", "name": "Llama 3.3 70B", "locked": False, "vision": False, "thinking": False},
+    {"id": "llama-3.1-8b-instant", "name": "Llama 3.1 8B", "locked": False, "vision": False, "thinking": False},
+    # Legacy free aliases kept so existing sessions/callers continue to resolve
+    {"id": "deepseek-v3.2", "name": "DeepSeek V3.2", "locked": False, "vision": False, "thinking": False},
     {"id": "gpt-4.1-nano", "name": "GPT-4.1 Nano", "locked": False, "vision": False, "thinking": False},
     {"id": "gpt-5-nano", "name": "GPT-5 Nano", "locked": False, "vision": True, "thinking": False},
     {"id": "gpt-oss-120b", "name": "GPT OSS 120B", "locked": False, "vision": False, "thinking": True},
     {"id": "gemini-2.5-flash-lite", "name": "Gemini 2.5 Flash Lite", "locked": False, "vision": True, "thinking": False},
-    {"id": "llama-3.3-70b-instruct", "name": "Llama 3.3 70B", "locked": False, "vision": False, "thinking": False},
-    {"id": "llama-3.1-8b-instant", "name": "Llama 3.1 8B", "locked": False, "vision": False, "thinking": False},
     {"id": "llama-4-scout", "name": "Llama 4 Scout", "locked": False, "vision": True, "thinking": False},
     {"id": "qwen3-30b-a3b", "name": "Qwen3 30B", "locked": False, "vision": True, "thinking": True},
 ]
 
 PRO_MODELS = [
-    {"id": "genius", "name": "DeepAI Genius", "locked": True, "vision": False, "thinking": False},
-    {"id": "supergenius", "name": "DeepAI Super Genius", "locked": True, "vision": False, "thinking": True},
+    {"id": "genius", "name": "DeepAI Genius", "locked": True, "vision": True, "thinking": False},
+    {"id": "supergenius", "name": "DeepAI Super Genius", "locked": True, "vision": True, "thinking": True},
+    {"id": "gpt-6-astra", "name": "GPT-6 Astra", "locked": True, "vision": True, "thinking": True},
+    {"id": "gpt-6.1-sol", "name": "GPT-6.1 Sol", "locked": True, "vision": True, "thinking": True},
+    {"id": "claude-opus-5-5", "name": "Claude Opus 5.5", "locked": True, "vision": True, "thinking": True},
+    {"id": "claude-fable-5", "name": "Claude Fable 5", "locked": True, "vision": True, "thinking": True},
+    {"id": "gemini-4-argon", "name": "Gemini 4 Argon", "locked": True, "vision": True, "thinking": True},
+    {"id": "gemini-3.8-flash", "name": "Gemini 3.8 Flash", "locked": True, "vision": True, "thinking": False},
     {"id": "gpt-4o-mini", "name": "GPT-4o Mini", "locked": True, "vision": True, "thinking": False},
     {"id": "gpt-4.1", "name": "GPT-4.1", "locked": True, "vision": True, "thinking": False},
     {"id": "o4-mini", "name": "o4 Mini", "locked": True, "vision": False, "thinking": True},
@@ -77,9 +90,19 @@ PRO_MODELS = [
     {"id": "claude-4.7-opus", "name": "Claude Opus 4.7", "locked": True, "vision": True, "thinking": False},
     {"id": "grok-4.3", "name": "Grok 4.3", "locked": True, "vision": False, "thinking": True},
     {"id": "gpt-5.3-chat-latest", "name": "GPT-5.3 Chat", "locked": True, "vision": False, "thinking": False},
-    {"id": "gpt-5.2", "name": "GPT-5.2", "locked": True, "vision": True, "thinking": False},
+    {"id": "gpt-5.2", "name": "GPT-5.2", "locked": True, "vision": True, "thinking": True},
     {"id": "chatgpt-4o-latest", "name": "ChatGPT 4o Latest", "locked": True, "vision": True, "thinking": False},
 ]
+
+LEGACY_MODEL_MAP = {
+    "deepseek-v3.2": "deepseek-v4.1-flash",
+    "gpt-4.1-nano": "gpt-6-luna",
+    "gpt-5-nano": "gpt-6-luna",
+    "gpt-4o-mini": "gpt-6-luna",
+    "gemini-2.5-flash-lite": "claude-haiku-5-5",
+    "qwen3-30b-a3b": "qwen3.8-flash",
+    "gpt-oss-120b": "standard",
+}
 
 ALL_MODELS = FREE_MODELS + PRO_MODELS
 
@@ -165,7 +188,8 @@ def resolve_model(model_id):
     info = _model_info(model_id)
     if info is None:
         raise DeepAIError(f"Unknown DeepAI model: {model_id}")
-    return model_id, info
+    effective_id = LEGACY_MODEL_MAP.get(model_id, model_id)
+    return effective_id, _model_info(effective_id) or info
 
 
 # ========================= Chat API =========================
@@ -309,19 +333,18 @@ def stream_chat(
     history=None,
     system_prompt="",
     timeout=REQUEST_TIMEOUT,
+    attachment_uuids=None,
+    **kwargs,
 ):
     """
     Stream chat from DeepAI, yielding dicts with type 'content', 'done', or 'error'.
-
-    Yields:
-        {"type": "content", "text": "..."} - incremental text chunk
-        {"type": "done", "finishReason": "stop"} - stream complete
-        {"type": "error", "message": "..."} - error occurred
     """
     if history is None:
         history = []
 
     model_id, info = resolve_model(model)
+    # If a locked Pro model was picked without a Pro account, map to free equivalent for tryit key
+    send_model = "standard" if info.get("locked") else model_id
     api_key = _generate_tryit_key()
 
     chat_history = _build_chat_history(history)
@@ -332,14 +355,16 @@ def stream_chat(
 
     form_fields = {
         "chatHistory": json.dumps(chat_history),
-        "model": model_id,
+        "model": send_model,
         "session_uuid": str(uuid.uuid4()),
         "chat_style": "chat",
         "sensitivity_request_id": str(uuid.uuid4()),
         "hacker_is_stinky": "very_stinky",
     }
+    if attachment_uuids:
+        form_fields["attachments"] = json.dumps(list(attachment_uuids))
 
-    if _is_thinking_model(model_id):
+    if _is_thinking_model(send_model):
         form_fields["thinking_support"] = "1"
 
     headers = {
@@ -349,6 +374,8 @@ def stream_chat(
         "Referer": f"{DEEPAI_SITE_URL}/chat/",
     }
 
+    r = None
+    err_msg = ""
     try:
         r = requests.post(
             f"{DEEPAI_API_BASE}{CHAT_ENDPOINT}",
@@ -358,19 +385,23 @@ def stream_chat(
             stream=True,
         )
     except requests.RequestException as exc:
-        logger.exception("deepai: stream request failed: %s", exc)
-        yield {"type": "error", "message": f"Request failed: {exc}"}
-        return
+        logger.warning("deepai: stream request failed: %s", exc)
+        err_msg = f"Request failed: {exc}"
 
-    if r.status_code == 401:
-        yield {"type": "error", "message": "Unauthorized (401)"}
-        return
-    if r.status_code == 402:
-        yield {"type": "error", "message": "Quota exceeded (402)"}
-        return
-    if r.status_code != 200:
-        body = r.text[:500] if hasattr(r, 'text') else ''
-        yield {"type": "error", "message": f"HTTP {r.status_code}: {body}"}
+    if r is None or r.status_code != 200:
+        if r is not None:
+            body = r.text[:300] if hasattr(r, "text") else ""
+            err_msg = f"HTTP {r.status_code}: {body}"
+        from .keyless_fallback import stream_keyless_fallback
+        fell_back = False
+        for ch in stream_keyless_fallback("deepai", model_id, chat_history, system_prompt=system_prompt):
+            if ch.get("type") == "text":
+                fell_back = True
+                yield {"type": "content", "text": ch.get("content", "")}
+            elif ch.get("type") == "done":
+                yield {"type": "done", "finishReason": "stop"}
+        if not fell_back:
+            yield {"type": "error", "message": err_msg or "DeepAI upstream error"}
         return
 
     content_type = r.headers.get("content-type", "")
@@ -600,24 +631,18 @@ def upload_file_from_bytes(filename, file_data, content_type=None, model="standa
 def simple_chat(user_message, model="standard", system_prompt="", timeout=60):
     """
     Simple one-shot chat for the Neby bot. Returns just the response text string.
-
-    Args:
-        user_message: The user's message text.
-        model: Model identifier.
-        system_prompt: Optional system instructions.
-        timeout: Request timeout in seconds.
-
-    Returns:
-        Response text string, or empty string on failure.
     """
     try:
-        return chat(
+        res = chat(
             user_message=user_message,
             model=model,
             history=[],
             system_prompt=system_prompt,
             timeout=timeout,
         )
+        if res:
+            return res
     except DeepAIError as exc:
         logger.warning("deepai: simple_chat error: %s", exc)
-        return ""
+    from .keyless_fallback import simple_keyless_fallback
+    return simple_keyless_fallback("deepai", model, user_message, system_prompt=system_prompt) or ""

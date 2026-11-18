@@ -73,10 +73,16 @@ UMID_API = "zeldaEasy.cornerstoneStreamGateway.streamGatewayConsoleService.getXU
 REQUEST_TIMEOUT = 300
 RESPONSE_TIMEOUT = 180
 
-DEFAULT_MODEL = "qwen3.8-max"
+DEFAULT_MODEL = "qwen4-max"
 
 MODELS = [
+    {"id": "qwen4-max", "name": "Qwen4 Max", "reasoning": True},
+    {"id": "qwen4-max-preview", "name": "Qwen4 Max (Preview)", "reasoning": True},
+    {"id": "qwen4-plus", "name": "Qwen4 Plus", "reasoning": True},
+    {"id": "qwen4-flash", "name": "Qwen4 Flash", "reasoning": False},
+    {"id": "qwen4-27b", "name": "Qwen4 27B", "reasoning": True},
     {"id": "qwen3.8-max", "name": "Qwen3.8 Max", "reasoning": True},
+    {"id": "qwen3.8-flash", "name": "Qwen3.8 Flash", "reasoning": False},
     {"id": "qwen3.7-max", "name": "Qwen3.7 Max", "reasoning": True},
     {"id": "qwen3.6-plus", "name": "Qwen3.6 Plus", "reasoning": True},
     {"id": "qwen3.6-plus-2026-04-02", "name": "Qwen3.6 Plus (2026-04-02)", "reasoning": True},
@@ -187,7 +193,7 @@ def _predict_request(model: str, session_id: str, tab_code: str, text: str,
                    "thinking_budget": thinking_budget, "result_format": "message"}
     if system_prompt:
         model_param["systemMessage"] = system_prompt[:8000]
-    type_ids = ["Reasoning", "VU", "TG"] if model == "qwen3.8-max" else ((["Reasoning"] if thinking else []) + ["TG"])
+    type_ids = ["Reasoning", "VU", "TG"] if model in ("qwen4-max", "qwen4-max-preview", "qwen3.8-max") else ((["Reasoning"] if thinking else []) + ["TG"])
     return {"modelId": model, "sessionId": session_id, "tabCode": tab_code,
             "contentList": [{"type": "text", "content": text}],
             "predictConfig": {"modelParam": model_param, "chatType": "t2t"},
@@ -393,13 +399,16 @@ def stream_chat(
     thinking_budget = max(1, min(32768, int(thinking_budget or 4000)))
     sys_from_history = _extract_system(messages)
     system_prompt = system_prompt or sys_from_history
+    prompt = _flatten_transcript(messages)
+    if not prompt.strip():
+        yield {"type": "error", "error": "qwencloud: no user content to send"}
+        return
+
+    saw_text = False
+    last_err = ""
     try:
         session = _new_session()
-    except Exception as exc:
-        yield {"type": "error", "error": f"qwencloud: cannot reach upstream ({exc})"}
-        return
-    anon = _anon_id()
-    try:
+        anon = _anon_id()
         if session_id and tab_code:
             yield {"type": "session", "session_id": session_id, "tab_code": tab_code}
             turns = [(messages[-1].get("content", "") if messages else "")]
@@ -409,23 +418,40 @@ def stream_chat(
                                              temperature, top_p, enable_search):
                     if chunk.get("type") == "done":
                         continue
+                    if chunk.get("type") == "error":
+                        last_err = chunk.get("error", "")
+                        break
+                    if chunk.get("type") in ("text", "thought"):
+                        saw_text = True
                     yield chunk
-            yield {"type": "done", "finish_reason": "stop"}
-            return
-        prompt = _flatten_transcript(messages)
-        if not prompt.strip():
-            yield {"type": "error", "error": "qwencloud: no user content to send"}
-            return
-        label = (messages[-1].get("content", "") if messages else "")[:256]
-        session_id, tab_code = _open_tab(session, anon, model, label or "chat")
-        yield {"type": "session", "session_id": session_id, "tab_code": tab_code}
-        for chunk in _stream_predict(session, anon, model, session_id, tab_code, prompt,
-                                     system_prompt, thinking, thinking_budget,
-                                     temperature, top_p, enable_search):
-            yield chunk
+            if saw_text:
+                yield {"type": "done", "finish_reason": "stop"}
+                return
+        else:
+            label = (messages[-1].get("content", "") if messages else "")[:256]
+            session_id, tab_code = _open_tab(session, anon, model, label or "chat")
+            yield {"type": "session", "session_id": session_id, "tab_code": tab_code}
+            for chunk in _stream_predict(session, anon, model, session_id, tab_code, prompt,
+                                         system_prompt, thinking, thinking_budget,
+                                         temperature, top_p, enable_search):
+                if chunk.get("type") == "error":
+                    last_err = chunk.get("error", "")
+                    break
+                if chunk.get("type") in ("text", "thought"):
+                    saw_text = True
+                yield chunk
+            if saw_text:
+                return
     except Exception as exc:
-        yield {"type": "error", "error": f"qwencloud: {exc}"}
-        return
+        last_err = f"qwencloud: {exc}"
+
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("qwencloud", model, messages, system_prompt=system_prompt, reasoning=thinking):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        yield {"type": "error", "error": last_err or "qwencloud: stream ended without content"}
 
 
 def simple_chat(

@@ -81,6 +81,8 @@ def stream_chat(
         yield {"type": "error", "error": "chatjimmy: no user content to send"}
         return
     session = new_session(impersonate="chrome")
+    err_msg = ""
+    text = ""
     try:
         resp, session = resilient_post(
             session,
@@ -93,18 +95,23 @@ def stream_chat(
                      "X-Real-IP": _fake_ip()},
             timeout=REQUEST_TIMEOUT,
         )
+        if resp.status_code != 200:
+            err_msg = f"chatjimmy HTTP {resp.status_code}: {resp.text[:200]}"
+        else:
+            text = _clean(resp.text)
     except Exception as exc:
-        yield {"type": "error", "error": f"chatjimmy: cannot reach upstream ({exc})"}
+        err_msg = f"chatjimmy: cannot reach upstream ({exc})"
+    if text:
+        yield {"type": "text", "content": text}
+        yield {"type": "done", "finish_reason": "stop"}
         return
-    if resp.status_code != 200:
-        yield {"type": "error", "error": f"chatjimmy HTTP {resp.status_code}: {resp.text[:200]}"}
-        return
-    text = _clean(resp.text)
-    if not text:
-        yield {"type": "error", "error": "chatjimmy: stream ended without content"}
-        return
-    yield {"type": "text", "content": text}
-    yield {"type": "done", "finish_reason": "stop"}
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("chatjimmy", model, convo):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        yield {"type": "error", "error": err_msg or "chatjimmy: stream ended without content"}
 
 
 def simple_chat(

@@ -77,6 +77,9 @@ def stream_chat(
 
     upstream_model = f"poolside/{model}"
     session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
+    saw_any = False
+    finish_reason = "stop"
+    err_msg = ""
     try:
         try:
             resp, session = resilient_post(session, CHATS_ENDPOINT, json={
@@ -85,119 +88,102 @@ def stream_chat(
                 "inferenceMode": "platform",
                 "incognito": False,
             }, timeout=30)
-        except Exception as exc:
-            yield {"type": "error", "error": f"create-chat failed: {exc}"}
-            return
-        if resp.status_code != 200:
-            yield {"type": "error", "error": f"Poolside create-chat HTTP {resp.status_code}: {resp.text[:300]}"}
-            return
-        chat_id = resp.json().get("id")
-        if not chat_id:
-            yield {"type": "error", "error": f"Poolside create-chat missing id: {resp.text[:300]}"}
-            return
-
-        message_id = str(uuid.uuid4())
-        generation_id = str(uuid.uuid4())
-        payload = {
-            "chatId": chat_id,
-            "model": upstream_model,
-            "inferenceMode": "platform",
-            "options": {"webSearch": True, "slack": False, "slackWrite": False, "thinking": True},
-            "id": chat_id,
-            "trigger": "submit-message",
-            "messageId": message_id,
-            "baseMessageId": None,
-            "message": {
-                "messageId": message_id,
-                "parts": [{"type": "text", "text": _flatten_history(messages)}],
-                "id": message_id,
-                "role": "user",
-            },
-            "generationId": generation_id,
-        }
-        try:
-            resp, session = resilient_post(
-                session,
-                CHAT_ENDPOINT,
-                json=payload,
-                headers={"x-poolside-stream-protocol": "resumable-v1"},
-                timeout=60,
-            )
-        except Exception as exc:
-            yield {"type": "error", "error": f"send failed: {exc}"}
-            return
-        if resp.status_code != 202:
-            body = resp.text[:300]
-            try:
-                body = resp.json().get("error") or body
-            except Exception:
-                pass
-            yield {"type": "error", "error": f"Poolside send HTTP {resp.status_code}: {body}"}
-            return
-        try:
-            stream_url = resp.json().get("streamUrl") or ""
-        except Exception:
-            stream_url = ""
-        if not stream_url:
-            yield {"type": "error", "error": f"Poolside send missing streamUrl: {resp.text[:300]}"}
-            return
-
-        try:
-            stream_resp, session = resilient_get(
-                session,
-                f"{BASE_URL}{stream_url}",
-                headers={"Accept": "text/event-stream"},
-                stream=True,
-                timeout=REQUEST_TIMEOUT,
-            )
-        except Exception as exc:
-            yield {"type": "error", "error": f"stream failed: {exc}"}
-            return
-        if stream_resp.status_code != 200:
-            yield {"type": "error", "error": f"Poolside stream HTTP {stream_resp.status_code}: {stream_resp.text[:300]}"}
-            return
-
-        saw_any = False
-        finish_reason = "stop"
-        buffer = ""
-        try:
-            for chunk_bytes in stream_resp.iter_content():
-                if chunk_bytes is None:
-                    continue
-                buffer += chunk_bytes.decode("utf-8", errors="replace")
-                while "\n" in buffer:
-                    line, buffer = buffer.split("\n", 1)
-                    line = line.strip("\r")
-                    if not line.startswith("data:"):
-                        continue
-                    raw = line[5:].strip()
-                    if not raw:
-                        continue
-                    try:
-                        ev = json.loads(raw)
-                    except (json.JSONDecodeError, ValueError):
-                        continue
-                    ev_type = ev.get("type")
-                    if ev_type == "text-delta":
-                        saw_any = True
-                        delta = ev.get("delta")
-                        if delta:
-                            yield {"type": "text", "content": delta}
-                    elif ev_type == "finish":
-                        saw_any = True
-                        finish_reason = ev.get("finishReason") or "stop"
+            if resp.status_code != 200:
+                err_msg = f"Poolside create-chat HTTP {resp.status_code}: {resp.text[:300]}"
+            else:
+                chat_id = resp.json().get("id")
+                if not chat_id:
+                    err_msg = f"Poolside create-chat missing id: {resp.text[:300]}"
+                else:
+                    message_id = str(uuid.uuid4())
+                    generation_id = str(uuid.uuid4())
+                    payload = {
+                        "chatId": chat_id,
+                        "model": upstream_model,
+                        "inferenceMode": "platform",
+                        "options": {"webSearch": True, "slack": False, "slackWrite": False, "thinking": True},
+                        "id": chat_id,
+                        "trigger": "submit-message",
+                        "messageId": message_id,
+                        "baseMessageId": None,
+                        "message": {
+                            "messageId": message_id,
+                            "parts": [{"type": "text", "text": _flatten_history(messages)}],
+                            "id": message_id,
+                            "role": "user",
+                        },
+                        "generationId": generation_id,
+                    }
+                    resp, session = resilient_post(
+                        session,
+                        CHAT_ENDPOINT,
+                        json=payload,
+                        headers={"x-poolside-stream-protocol": "resumable-v1"},
+                        timeout=60,
+                    )
+                    if resp.status_code != 202:
+                        err_msg = f"Poolside send HTTP {resp.status_code}: {resp.text[:300]}"
+                    else:
+                        stream_url = (resp.json() or {}).get("streamUrl") or ""
+                        if not stream_url:
+                            err_msg = "Poolside send missing streamUrl"
+                        else:
+                            stream_resp, session = resilient_get(
+                                session,
+                                f"{BASE_URL}{stream_url}",
+                                headers={"Accept": "text/event-stream"},
+                                stream=True,
+                                timeout=REQUEST_TIMEOUT,
+                            )
+                            if stream_resp.status_code != 200:
+                                err_msg = f"Poolside stream HTTP {stream_resp.status_code}"
+                            else:
+                                buffer = ""
+                                for chunk_bytes in stream_resp.iter_content():
+                                    if chunk_bytes is None:
+                                        continue
+                                    buffer += chunk_bytes.decode("utf-8", errors="replace")
+                                    while "\n" in buffer:
+                                        line, buffer = buffer.split("\n", 1)
+                                        line = line.strip("\r")
+                                        if not line.startswith("data:"):
+                                            continue
+                                        raw = line[5:].strip()
+                                        if not raw:
+                                            continue
+                                        try:
+                                            ev = json.loads(raw)
+                                        except (json.JSONDecodeError, ValueError):
+                                            continue
+                                        ev_type = ev.get("type")
+                                        if ev_type == "text-delta":
+                                            delta = ev.get("delta")
+                                            if delta:
+                                                saw_any = True
+                                                yield {"type": "text", "content": delta}
+                                        elif ev_type == "finish":
+                                            finish_reason = ev.get("finishReason") or "stop"
+                                        elif ev_type == "error":
+                                            err_msg = ev.get("errorText") or ev.get("error") or "Poolside upstream error"
+                                            break
         except Exception as exc:
             if saw_any:
                 logger.warning("Poolside stream ended after content: %s", exc)
                 yield {"type": "done", "finish_reason": finish_reason}
                 return
-            yield {"type": "error", "error": f"stream failed: {exc}"}
+            err_msg = f"stream failed: {exc}"
+
+        if saw_any:
+            yield {"type": "done", "finish_reason": finish_reason}
             return
 
-        if not saw_any:
-            yield {"type": "error", "error": "stream ended without content"}
-            return
-        yield {"type": "done", "finish_reason": finish_reason}
+        from .keyless_fallback import stream_keyless_fallback
+        fell_back = False
+        for ch in stream_keyless_fallback("poolside", model, messages):
+            fell_back = True
+            yield ch
+        if not fell_back:
+            yield {"type": "error", "error": err_msg or "stream ended without content"}
     finally:
         try:
             session.close()

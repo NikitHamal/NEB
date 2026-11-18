@@ -870,12 +870,18 @@ def ajax_llm_models(request):
         ]
 
     qwencloud_models = [
+        {"id": "qwencloud:qwen4-max", "name": "Qwen4 Max", "provider": "Qwen Cloud (qwencloud.com)"},
         {"id": "qwencloud:qwen3.8-max", "name": "Qwen3.8 Max", "provider": "Qwen Cloud (qwencloud.com)"},
         {"id": "qwencloud:qwen3-coder-plus", "name": "Qwen3 Coder Plus", "provider": "Qwen Cloud (qwencloud.com)"},
     ]
 
     deepai_models = [
-        {"id": "deepai:standard", "name": "DeepAI Chat", "provider": "DeepAI (deepai.org)"},
+        {"id": "deepai:standard", "name": "DeepAI Standard", "provider": "DeepAI (deepai.org)"},
+        {"id": "deepai:gpt-6-luna", "name": "GPT-6 Luna", "provider": "DeepAI (deepai.org)"},
+        {"id": "deepai:claude-haiku-5-5", "name": "Claude Haiku 5.5", "provider": "DeepAI (deepai.org)"},
+        {"id": "deepai:qwen3.8-flash", "name": "Qwen 3.8 Flash", "provider": "DeepAI (deepai.org)"},
+        {"id": "deepai:deepseek-v4.1-flash", "name": "DeepSeek V4.1 Flash", "provider": "DeepAI (deepai.org)"},
+        {"id": "deepai:glm-5.3-flash", "name": "GLM 5.3 Flash", "provider": "DeepAI (deepai.org)"},
     ]
 
     inception_models = [

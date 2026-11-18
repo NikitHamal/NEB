@@ -468,8 +468,8 @@ def _call_scraper_stream(preset, real_model: str, messages: List[Dict], tools, m
 def _call_official_once(preset, real_model: str, messages: List[Dict], tools, max_tokens: int, temperature: float):
     from api.llm import client as llm_client
 
-    api_key = _official_api_key(preset.slug)
-    if not api_key:
+    api_key = _official_api_key(preset.slug) or (preset.default_key if not preset.key_required else "")
+    if not api_key and preset.key_required:
         logger.warning("AstroWeb bridge: no key for official %s (model %s)", preset.slug, real_model)
         return None, None, {}
     kwargs = {}
@@ -501,8 +501,8 @@ def _call_official_once(preset, real_model: str, messages: List[Dict], tools, ma
 def _call_official_stream(preset, real_model: str, messages: List[Dict], tools, max_tokens: int, temperature: float):
     from api.llm import client as llm_client
 
-    api_key = _official_api_key(preset.slug)
-    if not api_key:
+    api_key = _official_api_key(preset.slug) or (preset.default_key if not preset.key_required else "")
+    if not api_key and preset.key_required:
         yield {"type": "error", "error": f"No API key configured for {preset.slug}"}
         return
     kwargs = {}
@@ -551,4 +551,11 @@ def _official_api_key(slug: str) -> str:
         k = (_os.environ.get(env_name) or "").strip()
         if k:
             return k
+    try:
+        from api.models import BotConfig
+        bot = BotConfig.objects.filter(provider=slug).exclude(api_key="").order_by("-enabled", "id").first()
+        if bot and bot.api_key.strip():
+            return bot.api_key.strip()
+    except Exception:
+        pass
     return ""

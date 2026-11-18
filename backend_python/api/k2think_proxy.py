@@ -123,10 +123,20 @@ def stream_chat(
 
     session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
     try:
-        resp, session = resilient_post(session, CHAT_ENDPOINT, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
-        if resp.status_code != 200:
-            body = resp.text[:300]
-            yield {"type": "error", "error": f"K2Think HTTP {resp.status_code}: {body}"}
+        try:
+            resp, session = resilient_post(session, CHAT_ENDPOINT, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
+        except Exception as exc:
+            resp = None
+            err_body = str(exc)
+        if resp is None or resp.status_code != 200:
+            body = resp.text[:300] if resp is not None else err_body
+            from .keyless_fallback import stream_keyless_fallback
+            fell_back = False
+            for ch in stream_keyless_fallback("k2think", model, messages, reasoning=(reasoning_effort == "high")):
+                fell_back = True
+                yield ch
+            if not fell_back:
+                yield {"type": "error", "error": f"K2Think error: {body}"}
             return
 
         prev_reasoning = ""

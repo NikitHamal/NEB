@@ -109,6 +109,8 @@ def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
         kwargs['effort'] = 'deep' if reasoning else 'quick'
     elif slug in _K2THINK_SLUGS:
         kwargs['reasoning_effort'] = 'high' if reasoning else 'low'
+    elif slug == 'motiftech':
+        kwargs['reasoning_effort'] = 'high' if reasoning else 'small'
     elif slug in _QWENCLOUD_SLUGS:
         kwargs['thinking'] = reasoning
     elif slug == 'geminiweb':
@@ -116,19 +118,36 @@ def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
     elif slug == 'longcat':
         kwargs['reasoning'] = reasoning
         kwargs['web_search'] = web_search
+    saw_text = False
+    last_err = ''
     for chunk in mod.stream_chat(**kwargs):
         t = chunk.get('type')
         if t == 'text':
-            yield {'type': 'text', 'content': chunk.get('content', '')}
+            c = chunk.get('content', '')
+            if c:
+                saw_text = True
+                yield {'type': 'text', 'content': c}
         elif t in ('thought', 'thinking', 'reasoning'):
             yield {'type': 'thought', 'content': chunk.get('content') or chunk.get('thought') or chunk.get('thinking') or ''}
         elif t == 'search':
             yield {'type': 'search', 'content': chunk.get('text') or chunk.get('content') or '', 'results': chunk.get('results') or []}
         elif t == 'done':
-            return
+            if saw_text:
+                return
         elif t == 'error':
-            yield {'type': 'error', 'error': chunk.get('error', 'upstream error')}
-            return
+            last_err = chunk.get('error', 'upstream error')
+            break
+    if not saw_text:
+        from api.keyless_fallback import stream_keyless_fallback
+        fell_back = False
+        for ch in stream_keyless_fallback(slug, model, msgs, reasoning=reasoning):
+            if ch.get('type') == 'thought':
+                yield {'type': 'thought', 'content': ch.get('content', '')}
+            elif ch.get('type') == 'text':
+                fell_back = True
+                yield {'type': 'text', 'content': ch.get('content', '')}
+        if not fell_back and last_err:
+            yield {'type': 'error', 'error': last_err}
 
 
 def admin_chat(request):
@@ -169,21 +188,33 @@ def ajax_admin_chat_send(request):
 
         if provider == 'qwen':
             from api import qwen_proxy
+            from api.keyless_fallback import stream_keyless_fallback
+            target_model = model or 'qwen4-max'
+            result = None
             try:
                 file_paths = [f.name for f in files] if files else None
                 result = qwen_proxy.call_qwen(
                     system_prompt='You are a helpful assistant.',
                     user_message=message,
-                    model=model or 'qwen3.8-max',
+                    model=target_model,
                     max_tokens=2000,
                     file_paths=file_paths,
                 )
-                if result:
-                    yield _sse({'type': 'text', 'content': result})
-                else:
+            except Exception:
+                result = None
+            if result:
+                yield _sse({'type': 'text', 'content': result})
+            else:
+                msgs = history + [{'role': 'user', 'content': message}]
+                fell_back = False
+                for ch in stream_keyless_fallback('qwen', target_model, msgs, reasoning=reasoning):
+                    if ch.get('type') == 'thought':
+                        yield _sse({'type': 'thought', 'content': ch.get('content', '')})
+                    elif ch.get('type') == 'text':
+                        fell_back = True
+                        yield _sse({'type': 'text', 'content': ch.get('content', '')})
+                if not fell_back:
                     yield _sse({'type': 'error', 'message': 'Empty response'})
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
 
         elif provider in _SCRAPER_DISPATCH:
             # Inception voice mode — full pipeline with scenario + tools + TTS
@@ -279,25 +310,47 @@ def ajax_admin_chat_send(request):
                 default_m = p.default_model if p else ''
                 target_model = model or default_m
                 msgs = history + [{'role': 'user', 'content': message}]
-                try:
-                    for chunk in llm_client.chat_stream(
-                        format=p.format if p else 'openai',
-                        base_url=p.base_url if p else '',
-                        api_key=_official_api_key(provider) or (p.key_env if p else '') or 'free',
-                        model=target_model,
-                        messages=msgs,
-                        provider=provider,
-                        max_tokens=2000,
-                    ):
-                        if chunk.get('type') == 'text':
-                            yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                        elif chunk.get('type') in ('reasoning', 'thought', 'thinking'):
-                            yield _sse({'type': 'thought', 'content': chunk.get('content', '')})
-                        elif chunk.get('type') == 'error':
-                            yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
-                            break
-                except Exception as e:
-                    yield _sse({'type': 'error', 'message': str(e)})
+                resolved_key = (
+                    (request.POST.get('api_key') or '').strip()
+                    or _official_api_key(provider)
+                    or (p.default_key if p else '')
+                )
+                saw_text = False
+                last_err = ''
+                if resolved_key or (p and not p.key_required):
+                    try:
+                        for chunk in llm_client.chat_stream(
+                            format=p.format if p else 'openai',
+                            base_url=p.base_url if p else '',
+                            api_key=resolved_key,
+                            model=target_model,
+                            messages=msgs,
+                            provider=provider,
+                            max_tokens=2000,
+                        ):
+                            if chunk.get('type') == 'text':
+                                c = chunk.get('content', '')
+                                if c:
+                                    saw_text = True
+                                    yield _sse({'type': 'text', 'content': c})
+                            elif chunk.get('type') in ('reasoning', 'thought', 'thinking'):
+                                yield _sse({'type': 'thought', 'content': chunk.get('content', '')})
+                            elif chunk.get('type') == 'error':
+                                last_err = chunk.get('error', 'upstream error')
+                                break
+                    except Exception as e:
+                        last_err = str(e)
+                if not saw_text:
+                    from api.keyless_fallback import stream_keyless_fallback
+                    fell_back = False
+                    for ch in stream_keyless_fallback(provider, target_model, msgs, reasoning=reasoning):
+                        if ch.get('type') == 'thought':
+                            yield _sse({'type': 'thought', 'content': ch.get('content', '')})
+                        elif ch.get('type') == 'text':
+                            fell_back = True
+                            yield _sse({'type': 'text', 'content': ch.get('content', '')})
+                    if not fell_back:
+                        yield _sse({'type': 'error', 'message': last_err or 'Provider unavailable'})
             else:
                 yield _sse({'type': 'error', 'message': f'Unknown provider: {provider}'})
 

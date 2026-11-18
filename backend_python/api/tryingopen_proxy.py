@@ -43,6 +43,34 @@ TIMEOUT = (15, 300)
 
 MODELS = [
     {
+        "id": "qwen/qwen4-max",
+        "name": "Qwen4 Max",
+        "maker": "Alibaba",
+        "logo": "/models/qwen.svg",
+        "params": "2.4T",
+        "context": "1M",
+        "blurb": "Alibaba's flagship Qwen 4: 2.4T MoE with 1M context, native vision and reasoning.",
+        "goodAt": "Complex coding, research and multimodal reasoning",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 1000000,
+        "pricePerMTok": 4.275,
+    },
+    {
+        "id": "qwen/qwen4-27b",
+        "name": "Qwen4 27B",
+        "maker": "Alibaba",
+        "logo": "/models/qwen.svg",
+        "params": "27B",
+        "context": "262k",
+        "blurb": "Open-weight Qwen 4 27B dense model with native vision and reasoning.",
+        "goodAt": "Coding and careful multimodal answers",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 262000,
+        "pricePerMTok": 2.5,
+    },
+    {
         "id": "qwen/qwen3.8-27b",
         "name": "Qwen3.8 27B",
         "maker": "Alibaba",
@@ -55,6 +83,230 @@ MODELS = [
         "supportsImages": True,
         "context_window": 262000,
         "pricePerMTok": 3.2,
+    },
+    {
+        "id": "qwen/qwen3.8-flash",
+        "name": "Qwen3.8 Flash",
+        "maker": "Alibaba",
+        "logo": "/models/qwen.svg",
+        "params": "125B",
+        "context": "1M",
+        "blurb": "Alibaba's fast multimodal model on the Qwen4 architecture.",
+        "goodAt": "Fast multimodal and agent work",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 1000000,
+        "pricePerMTok": 0.47,
+    },
+    {
+        "id": "deepseek/deepseek-v4.1-flash",
+        "name": "DeepSeek V4.1 Flash",
+        "maker": "DeepSeek",
+        "logo": "/models/deepseek.svg",
+        "params": "284B",
+        "context": "1M",
+        "blurb": "Latest V4.1 Flash for fast coding and agentic tool use.",
+        "goodAt": "Coding and agents",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 1000000,
+        "pricePerMTok": 0.18,
+    },
+    {
+        "id": "deepseek/deepseek-v4.1-flash-1017",
+        "name": "DeepSeek V4.1 Flash 1017",
+        "maker": "DeepSeek",
+        "logo": "/models/deepseek.svg",
+        "params": "284B",
+        "context": "1M",
+        "blurb": "October 17 checkpoint of DeepSeek V4.1 Flash.",
+        "goodAt": "Coding and agents",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 1000000,
+        "pricePerMTok": 0.18,
+    },
+    {
+        "id": "z-ai/glm-5.3-flash",
+        "name": "GLM 5.3 Flash",
+        "maker": "Z.ai",
+        "logo": "/models/zai.svg",
+        "params": "320B",
+        "context": "1M",
+        "blurb": "320B MoE (18B active) with text, image and video support and 1M context.",
+        "goodAt": "Everyday questions, code and pictures",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 1000000,
+        "pricePerMTok": 0.5,
+    },
+    {
+        "id": "nvidia/nemotron-3.5-super-vl",
+        "name": "Nemotron 3.5 Super VL",
+        "maker": "NVIDIA",
+        "logo": "/models/nvidia.svg",
+        "params": "120B",
+        "context": "1M",
+        "blurb": "120B MoE (12B active) vision-language model.",
+        "goodAt": "Fast answers, reading pictures and documents",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 1000000,
+        "pricePerMTok": 0.5,
+    },
+    {
+        "id": "nvidia/nemotron-3-ultra-550b-a55b",
+        "name": "Nemotron 3 Ultra 550B",
+        "maker": "NVIDIA",
+        "logo": "/models/nvidia.svg",
+        "params": "550B",
+        "context": "1M",
+        "blurb": "550B MoE (55B active) frontier NVIDIA model.",
+        "goodAt": "Deep reasoning and engineering",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 1000000,
+        "pricePerMTok": 1.2,
+    },
+    {
+        "id": "xiaomi/mimo-v2.6-pro",
+        "name": "MiMo V2.6 Pro",
+        "maker": "Xiaomi",
+        "logo": "/models/xiaomi.svg",
+        "params": "",
+        "context": "262k",
+        "blurb": "Xiaomi flagship reasoning model.",
+        "goodAt": "Reasoning and coding",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 262000,
+        "pricePerMTok": 0.8,
+    },
+    {
+        "id": "xiaomi/mimo-v2.6-flash",
+        "name": "MiMo V2.6 Flash",
+        "maker": "Xiaomi",
+        "logo": "/models/xiaomi.svg",
+        "params": "",
+        "context": "262k",
+        "blurb": "Xiaomi fast reasoning model.",
+        "goodAt": "Fast reasoning",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 262000,
+        "pricePerMTok": 0.2,
+    },
+    {
+        "id": "reflection/beam-1.0-501b-a23b",
+        "name": "Beam 1.0",
+        "maker": "Reflection",
+        "logo": "/models/reflection.svg",
+        "params": "501B",
+        "context": "262k",
+        "blurb": "501B MoE (23B active) open reasoning model.",
+        "goodAt": "Software engineering and reasoning",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 262000,
+        "pricePerMTok": 0.9,
+    },
+    {
+        "id": "mistralai/mistral-large-4-0",
+        "name": "Mistral Large 4",
+        "maker": "Mistral",
+        "logo": "/models/mistral.svg",
+        "params": "",
+        "context": "262k",
+        "blurb": "Mistral flagship open model.",
+        "goodAt": "Multilingual reasoning and coding",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 262000,
+        "pricePerMTok": 2.0,
+    },
+    {
+        "id": "tencent/hy4-preview",
+        "name": "Hy4 Preview",
+        "maker": "Tencent",
+        "logo": "/models/tencent.svg",
+        "params": "",
+        "context": "262k",
+        "blurb": "Tencent Hunyuan 4 preview.",
+        "goodAt": "Reasoning and synthesis",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 262000,
+        "pricePerMTok": 0.8,
+    },
+    {
+        "id": "meta/muse-spark-open",
+        "name": "Muse Spark Open",
+        "maker": "Meta",
+        "logo": "/models/meta.svg",
+        "params": "",
+        "context": "262k",
+        "blurb": "Meta Superintelligence Labs open flagship.",
+        "goodAt": "Reasoning and agentic tasks",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 262000,
+        "pricePerMTok": 1.5,
+    },
+    {
+        "id": "openai/gpt-oss-120b",
+        "name": "GPT-OSS 120B",
+        "maker": "OpenAI",
+        "logo": "/models/openai.svg",
+        "params": "120B",
+        "context": "128k",
+        "blurb": "OpenAI 120B open-weights reasoning model.",
+        "goodAt": "General reasoning and coding",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 128000,
+        "pricePerMTok": 0.5,
+    },
+    {
+        "id": "google/gemma-4-e2b-it",
+        "name": "Gemma 4 E2B",
+        "maker": "Google",
+        "logo": "/models/google.svg",
+        "params": "2B",
+        "context": "128k",
+        "blurb": "Compact Gemma 4 edge multimodal model.",
+        "goodAt": "Quick light answers",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 128000,
+        "pricePerMTok": 0.08,
+    },
+    {
+        "id": "inclusionai/ling-3.0-flash-vl",
+        "name": "Ling 3.0 Flash VL",
+        "maker": "InclusionAI",
+        "logo": "/models/inclusion.svg",
+        "params": "",
+        "context": "128k",
+        "blurb": "Fast vision-language model.",
+        "goodAt": "Multimodal tasks",
+        "supportsTools": True,
+        "supportsImages": True,
+        "context_window": 128000,
+        "pricePerMTok": 0.2,
+    },
+    {
+        "id": "liquid/lfm-2.5-24b-a2b",
+        "name": "LFM2.5 24B",
+        "maker": "Liquid AI",
+        "logo": "/models/liquid.png",
+        "params": "24B",
+        "context": "128k",
+        "blurb": "Liquid Foundation Model 2.5 MoE (2B active).",
+        "goodAt": "Fast efficient answers",
+        "supportsTools": True,
+        "supportsImages": False,
+        "context_window": 128000,
+        "pricePerMTok": 0.15,
     },
     {
         "id": "qwen/qwen3.6-27b",
@@ -682,36 +934,41 @@ def stream_chat(
         yield {"type": "error", "error": "No messages to send to TryingOpen"}
         return
 
-    # Retry on transient errors / empty response (the frontend retries automatically)
-    max_attempts = 3
+    max_attempts = 2
+    saw_content = False
+    last_error = None
     for attempt in range(1, max_attempts + 1):
-        saw_content = False
         saw_error = None
         for chunk in _stream_request(model, effort, api_messages, timeout=(15, timeout)):
             ctype = chunk.get("type")
             if ctype in ("text", "reasoning", "tool_call", "tool_result", "source"):
                 saw_content = True
-            if ctype == "error":
+                yield chunk
+            elif ctype == "error":
                 saw_error = chunk.get("error")
-            yield chunk
-            # Stop retrying after we got a terminal error that is not retryable
-            if ctype == "error" and "That model didn't respond" in str(saw_error):
-                # For vision-mismatch, try stripping files and retrying once
-                if file_paths and attempt == 1 and _supports_images(model) is False:
-                    # Should have been filtered, but just in case
-                    pass
-        # If we saw a proper finish, don't retry
-        # Heuristic: if we yielded at least one text/reasoning and last chunk was done, consider success
-        # For now, if we saw any content, break; otherwise retry on empty
+                last_error = saw_error
+            else:
+                yield chunk
         if saw_content:
+            return
+        if saw_error and "403" in str(saw_error):
             break
-        if saw_error and "rate limited" in str(saw_error).lower() and attempt < max_attempts:
-            time.sleep(2 * attempt)
-            continue
-        if not saw_content and attempt < max_attempts:
-            time.sleep(1.5 * attempt)
-            continue
-        break
+        if attempt < max_attempts:
+            time.sleep(1.0 * attempt)
+
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback(
+        "tryingopen", model, messages,
+        system_prompt=system_prompt, reasoning=(effort == "deep"),
+    ):
+        fell_back = True
+        if ch.get("type") == "thought":
+            yield {"type": "reasoning", "content": ch.get("content", "")}
+        else:
+            yield ch
+    if not fell_back:
+        yield {"type": "error", "error": last_error or "TryingOpen stream ended without content"}
 
 
 def simple_chat(

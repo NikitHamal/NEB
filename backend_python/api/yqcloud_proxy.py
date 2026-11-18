@@ -88,33 +88,35 @@ def stream_chat(
         "stream": True,
     }
     session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
+    saw_any = False
+    err_msg = ""
     try:
         resp, session = resilient_post(session, API_ENDPOINT, json=body, stream=True, timeout=REQUEST_TIMEOUT)
-    except Exception as exc:
-        yield {"type": "error", "error": f"yqcloud: cannot reach upstream ({exc})"}
-        return
-    if resp.status_code != 200:
-        yield {"type": "error", "error": f"yqcloud HTTP {resp.status_code}: {resp.text[:200]}"}
-        return
-    saw_any = False
-    try:
-        for chunk in resp.iter_content():
-            if chunk is None:
-                continue
-            text = chunk.decode("utf-8", errors="replace")
-            if text:
-                saw_any = True
-                yield {"type": "text", "content": text}
+        if resp.status_code != 200:
+            err_msg = f"yqcloud HTTP {resp.status_code}: {resp.text[:200]}"
+        else:
+            for chunk in resp.iter_content():
+                if chunk is None:
+                    continue
+                text = chunk.decode("utf-8", errors="replace")
+                if text:
+                    saw_any = True
+                    yield {"type": "text", "content": text}
     except Exception as exc:
         if saw_any:
             logger.warning("yqcloud stream ended after content: %s", exc)
         else:
-            yield {"type": "error", "error": f"yqcloud stream failed: {exc}"}
-            return
-    if not saw_any:
-        yield {"type": "error", "error": "yqcloud: stream ended without content"}
+            err_msg = f"yqcloud stream failed: {exc}"
+    if saw_any:
+        yield {"type": "done", "finish_reason": "stop"}
         return
-    yield {"type": "done", "finish_reason": "stop"}
+    from .keyless_fallback import stream_keyless_fallback
+    fell_back = False
+    for ch in stream_keyless_fallback("yqcloud", model, messages, system_prompt=system_prompt):
+        fell_back = True
+        yield ch
+    if not fell_back:
+        yield {"type": "error", "error": err_msg or "yqcloud: stream ended without content"}
 
 
 def simple_chat(
