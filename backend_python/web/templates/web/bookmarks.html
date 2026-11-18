@@ -58,6 +58,10 @@
       </div>
       {% endifchanged %}
       <article class="bookmark-card" data-bookmark-type="{{ item.type }}">
+        {% if item.type == 'resource' %}
+        {# the library thumbnail, drawn by code (js/pixel-art.js): same piece as the library card and the app #}
+        <div class="neb-art-tile bookmark-art" data-neb-art="banner" data-neb-subject="{{ item.subject }}" data-neb-seed="{{ item.id }}|{{ item.rtype }}"></div>
+        {% else %}
         <div class="bookmark-type-icon type-{{ item.type }}">
           {% if item.type == 'post' %}
           <span class="material-symbols-outlined">forum</span>
@@ -67,6 +71,7 @@
           <span class="material-symbols-outlined">menu_book</span>
           {% endif %}
         </div>
+        {% endif %}
         <div class="bookmark-card-content">
           <div class="bookmark-card-topline">
             <span class="bookmark-type-badge type-{{ item.type }}">{{ item.type|title }}</span>

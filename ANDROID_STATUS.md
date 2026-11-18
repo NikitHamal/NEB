@@ -2427,3 +2427,31 @@ History read first (`ANDROID_STATUS.md` 83 to 95). Not redone: v1 thumbnails dra
 - Token is in `/tmp/gitenv.sh` only; it was pasted into the chat again, rotate it.
 
 No backend change, no deploy, nothing deleted.
+
+---
+# Session 97: pickup of 83 to 96, thumbnails on the rows that still had none (app + web), version bump
+
+History read first (`ANDROID_STATUS.md` 83 to 96). Not redone: v1 thumbnails by code on the library card, search, home rail, profile, creator page, resource hero (`M3xThumb`, `ResourceBannerArt`, `m3x-art.js`, `pixel-art.js`). Session 96 audited only those; this session audited the list rows and found the gaps.
+
+## Why it still looked missing
+- Rows that showed a plain icon tile instead of the thumbnail: app **Downloads**, app **Saved** (resource bookmarks), app **Top resources** (analytics); web **Saved** (`bookmarks.html`), web **Analytics** top resources, web **subject page** resource rows (`s-res-card`).
+- The build number never changed (1.7.5 (29)) across many sessions, so a phone or the in-app updater could not tell a newer build from the one installed. Now 1.7.6 (30).
+
+## Done
+
+| # | What | Where |
+| --- | --- | --- |
+| 487 | **`ResourceArtTile`**: one small square that draws the library thumbnail by code (seed `id|type`, recipe by subject family). | `ui/components/ResourceArtTile.kt` |
+| 488 | **Downloads rows** wear the thumbnail (56dp). `DownloadedResource` keeps `subject` (optional in the JSON index, old entries fall back to the General family). | `DownloadsScreen.kt`, `ResourceDownloadManager.kt` |
+| 489 | **Saved rows** for resources wear the thumbnail; posts and replies keep their glyph. | `BookmarksContent.kt`, `BookmarksViewModel.kt` |
+| 490 | **Top resources (analytics)** show the thumbnail beside the tags and title. | `AnalyticsStanding.kt` |
+| 491 | **Web**: `.neb-art-tile` (drawn by `pixel-art.js`, same seed `id|type`) on Saved, Analytics top resources and the subject page rows. The bookmark view passes `subject` and `rtype`. CSS in `m3x/app-profile-v3.css`, bundle rebuilt. | `bookmarks.html`, `analytics.html`, `subject_page.html`, `views_profile.py` |
+| 492 | **Version 1.7.6 (30).** | `app/build.gradle.kts` |
+
+## Notes
+- No picture or SVG is bundled for these; nothing is stored or uploaded. No schema change, nothing deleted from the database.
+- Never built locally: Android check is the GitHub Actions run; web ships with `deploy-backend.yml` (secrets from GH only).
+- Token is in `/tmp/gitenv.sh` only; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device pass of Downloads and Saved with the 1.7.6 build.

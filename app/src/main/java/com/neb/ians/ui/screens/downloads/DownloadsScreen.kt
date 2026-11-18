@@ -145,24 +145,13 @@ private fun DownloadRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(RoundedCornerShape(13.dp))
-                    .background(scheme.surfaceContainerHigh),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = when {
-                        item.isPdf() -> Icons.Outlined.PictureAsPdf
-                        item.isAudio() -> Icons.Outlined.AudioFile
-                        else -> Icons.Outlined.PlayCircleOutline
-                    },
-                    contentDescription = null,
-                    tint = scheme.onSurfaceVariant,
-                    modifier = Modifier.size(19.dp)
-                )
-            }
+            // the library thumbnail, drawn by code like the site's card (id and type seed it)
+            com.neb.ians.ui.components.ResourceArtTile(
+                resourceId = item.resourceId,
+                type = item.type,
+                subject = item.subject,
+                size = 56.dp
+            )
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -195,7 +184,7 @@ private fun DownloadRow(
         if (showDivider) {
             HorizontalDivider(
                 color = scheme.outlineVariant.copy(alpha = 0.5f),
-                modifier = Modifier.padding(start = 74.dp)
+                modifier = Modifier.padding(start = 88.dp)
             )
         }
     }

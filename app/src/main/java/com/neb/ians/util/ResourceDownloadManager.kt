@@ -42,7 +42,8 @@ data class DownloadedResource(
     val mimeType: String,
     val sizeBytes: Long,
     val downloadedAt: Long,
-    val thumbnailUrl: String
+    val thumbnailUrl: String,
+    val subject: String = ""
 )
 
 @Singleton
@@ -118,7 +119,8 @@ class ResourceDownloadManager @Inject constructor(
                         mimeType = mime,
                         sizeBytes = target.length(),
                         downloadedAt = System.currentTimeMillis(),
-                        thumbnailUrl = resource.thumbnailUrl
+                        thumbnailUrl = resource.thumbnailUrl,
+                        subject = resource.subject
                     )
                     synchronized(indexLock) {
                         _downloads.value = (_downloads.value.filterNot { it.resourceId == resource.id } + item)
@@ -223,7 +225,8 @@ class ResourceDownloadManager @Inject constructor(
                         mimeType = o.optString("mimeType"),
                         sizeBytes = o.optLong("sizeBytes"),
                         downloadedAt = o.optLong("downloadedAt"),
-                        thumbnailUrl = o.optString("thumbnailUrl")
+                        thumbnailUrl = o.optString("thumbnailUrl"),
+                        subject = o.optString("subject")
                     )
                     if (File(item.localPath).exists()) add(item)
                 }
@@ -281,6 +284,7 @@ class ResourceDownloadManager @Inject constructor(
                 put("sizeBytes", item.sizeBytes)
                 put("downloadedAt", item.downloadedAt)
                 put("thumbnailUrl", item.thumbnailUrl)
+                put("subject", item.subject)
             })
         }
         indexFile.writeText(array.toString())

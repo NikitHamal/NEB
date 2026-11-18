@@ -379,7 +379,7 @@
           {% if top_resources %}
             {% for resource in top_resources %}
               <a class="an-content-row" href="{% url 'web:reader' resource_id=resource.id %}">
-                <span class="material-symbols-outlined">picture_as_pdf</span>
+                <span class="neb-art-tile an-art" data-neb-art="banner" data-neb-subject="{{ resource.subject|split:','|first }}" data-neb-seed="{{ resource.id }}|{{ resource.type }}"></span>
                 <div>
                   <strong>{{ resource.title|truncate_chars:58 }}</strong>
                   <small>{{ resource.view_count|short_number }} views · {{ resource.like_count|short_number }} likes</small>

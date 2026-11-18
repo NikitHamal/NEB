@@ -253,7 +253,7 @@
                     <div class="s-resource-grid">
                       {% for r in ch.notes %}
                       <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
                           <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -271,7 +271,7 @@
                     <div class="s-resource-grid">
                       {% for r in ch.solutions %}
                       <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
                           <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -289,7 +289,7 @@
                     <div class="s-resource-grid">
                       {% for r in ch.papers %}
                       <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
                           <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -307,7 +307,7 @@
                     <div class="s-resource-grid">
                       {% for r in ch.textbooks %}
                       <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
                           <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -325,7 +325,7 @@
                     <div class="s-resource-grid">
                       {% for r in ch.other %}
                       <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
                           <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -363,7 +363,7 @@
                 <div class="s-resource-grid">
                   {% for r in general_resources.notes %}
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
                       <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -380,7 +380,7 @@
                 <div class="s-resource-grid">
                   {% for r in general_resources.solutions %}
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
                       <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -397,7 +397,7 @@
                 <div class="s-resource-grid">
                   {% for r in general_resources.papers %}
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
                       <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -414,7 +414,7 @@
                 <div class="s-resource-grid">
                   {% for r in general_resources.textbooks %}
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
                       <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
@@ -431,7 +431,7 @@
                 <div class="s-resource-grid">
                   {% for r in general_resources.other %}
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
-                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="neb-art-tile s-res-art" data-neb-art="banner" data-neb-subject="{{ r.subject|default:subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
                       <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>

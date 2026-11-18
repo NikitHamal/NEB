@@ -78,6 +78,8 @@ def bookmarks(request):
         url = '#'
         excerpt = ''
         meta = ''
+        subject = ''
+        rtype = ''
         if bm.target_type == 'post' and bm.target_id in posts:
             obj = posts[bm.target_id]
             title = obj.title or 'Untitled discussion'
@@ -97,6 +99,8 @@ def bookmarks(request):
             title = obj.title or 'Untitled resource'
             url = reverse('web:reader', kwargs={'resource_id': obj.id})
             excerpt = obj.description or ''
+            subject = (obj.subject or '').split(',')[0].strip()
+            rtype = obj.type or ''
             meta = f"{obj.subject or 'Resource'} Â· {obj.grade_level or 'All levels'}"
         else:
             continue
@@ -110,6 +114,8 @@ def bookmarks(request):
             'excerpt': excerpt,
             'meta': meta,
             'id': bm.target_id,
+            'subject': subject,
+            'rtype': rtype,
         })
 
     return render(request, 'web/bookmarks.html', _ctx(request,

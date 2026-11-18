@@ -72,19 +72,29 @@ fun BookmarkRow(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(RoundedCornerShape(13.dp))
-                    .background(scheme.surfaceContainerHigh),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = glyphFor(item.bookmark.targetType),
-                    contentDescription = null,
-                    tint = scheme.onSurfaceVariant,
-                    modifier = Modifier.size(19.dp)
+            if (item.bookmark.targetType == "resource") {
+                // a saved resource wears its library thumbnail, drawn by code (id and type seed it)
+                com.neb.ians.ui.components.ResourceArtTile(
+                    resourceId = item.bookmark.targetId,
+                    type = item.resourceType,
+                    subject = item.resourceSubject,
+                    size = 56.dp
                 )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(42.dp)
+                        .clip(RoundedCornerShape(13.dp))
+                        .background(scheme.surfaceContainerHigh),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = glyphFor(item.bookmark.targetType),
+                        contentDescription = null,
+                        tint = scheme.onSurfaceVariant,
+                        modifier = Modifier.size(19.dp)
+                    )
+                }
             }
 
             Column(modifier = Modifier.weight(1f)) {
@@ -127,7 +137,7 @@ fun BookmarkRow(
         if (showDivider) {
             HorizontalDivider(
                 color = scheme.outlineVariant.copy(alpha = 0.5f),
-                modifier = Modifier.padding(start = 54.dp)
+                modifier = Modifier.padding(start = if (item.bookmark.targetType == "resource") 68.dp else 54.dp)
             )
         }
     }

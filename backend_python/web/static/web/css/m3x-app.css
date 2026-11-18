@@ -2904,6 +2904,13 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 /* Subject and grade chips on a resource show their whole name (the base rule cut them at 140px). */
 .profile-page .pf-res-chip { max-width: min(260px, 100%); }
 
+/* A resource thumbnail as a small tile in a list row (bookmarks, analytics, subject page). The art is drawn by
+   js/pixel-art.js from code (inline SVG, no picture file); the tile only gives it a rounded box to fill. */
+.neb-art-tile { position: relative; display: block; flex: 0 0 auto; width: 56px; height: 56px; border-radius: 16px; overflow: hidden; background: var(--md-surface-container); }
+.bookmark-card .bookmark-art { margin-top: 2px; }
+.an-content-row > .neb-art-tile, .s-res-card > .neb-art-tile { width: 52px; height: 52px; border-radius: 14px; }
+@media (max-width: 600px) { .bookmark-card .bookmark-art { width: 48px; height: 48px; border-radius: 14px; } }
+
 /* ---- m3x/app-profile-feed.css ---- */
 /* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the
    name with its badge on one line, then category and time beneath. No Follow button here (the

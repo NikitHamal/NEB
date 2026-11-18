@@ -37,7 +37,9 @@ data class BookmarkListItem(
     val bookmark: ApiBookmark,
     val title: String,
     val excerpt: String,
-    val meta: String
+    val meta: String,
+    val resourceType: String = "",
+    val resourceSubject: String = ""
 )
 
 data class BookmarksUiState(
@@ -170,7 +172,9 @@ class BookmarksViewModel @Inject constructor(
                         excerpt = resource.description,
                         meta = listOf(resource.subject, resource.gradeLevel, resource.type)
                             .filter { it.isNotBlank() }
-                            .joinToString(" · ")
+                            .joinToString(" · "),
+                        resourceType = resource.type,
+                        resourceSubject = resource.subject
                     )
                 }
                 "post" -> {

@@ -180,13 +180,17 @@ internal fun TopResourcesCard(items: List<ApiAnalyticsResource>, onOpen: (String
             SectionTitle("Top resources", Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 8.dp))
             items.forEachIndexed { i, item ->
                 if (i > 0) NebHairline(Modifier.padding(horizontal = 20.dp))
-                Column(
+                Row(
                     Modifier
                         .fillMaxWidth()
                         .clickable { onOpen(item.id) }
                         .padding(horizontal = 20.dp, vertical = 14.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(14.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // the library thumbnail, drawn by code (id and type seed it)
+                    com.neb.ians.ui.components.ResourceArtTile(item.id, item.type, item.subject, size = 64.dp)
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         if (item.type.isNotBlank()) TonalTag(item.type)
                         val subject = item.subject.substringBefore(',').trim()
@@ -207,6 +211,7 @@ internal fun TopResourcesCard(items: List<ApiAnalyticsResource>, onOpen: (String
                         style = MaterialTheme.typography.labelMedium,
                         color = cs.onSurfaceVariant
                     )
+                }
                 }
             }
             Box(Modifier.height(8.dp))
