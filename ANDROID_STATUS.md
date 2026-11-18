@@ -2185,3 +2185,20 @@ History read first (73 to 83, `RSI_PIPELINE.md` pickup). Everything in the reque
 - Move the note covers to the same engine.
 
 CI: `feeb6bc` Android release build (APK + AAB) green. Backend deployed through `deploy-backend.yml` (run `44285485466`, green; backend identical to the green tests run on `3508e99e`, no migration, no data touched).
+
+---
+# Session 85: pickup of 83 and 84, note covers drawn by code
+
+History read first (`rsi.py pickup`, sessions 73 to 84). Every item in the request (Profile v3 polish, v7 profile covers on app and site, v1 thumbnails for resources, covers drawn by code with animation, taller cover, scroll-revealed bar with badges, copy link only, no cover icon in the bar, no download counts) was built in 83 and fixed in 84 (`3508e99e`, `feeb6bc`); the screenshot in the request is an older install. Verified in the code: bar alpha follows scroll, actions are Analytics (owner) and Copy link, no download tile, site loads one cached 31 KB script. Not redone.
+
+| # | What | Where |
+| --- | --- | --- |
+| 449 | **Note covers 41 to 112 are code too** (the one open "Next" of 83). 1.3 MB of WebP (72 x Light and Dark) left the APK. Ports of stack, arches, ribbons, capsules, cascade and bands join the Kotlin engine (the profile manifest never names them). Recipes: `assets/m3x/notes.json`, 1.7 KB. The editor header breathes, list cards and the picker stay still. Cover indexes did not change. | `M3xLayoutsC.kt`, `M3xArt.kt` (`M3xNoteCover`), `NoteArtCover.kt`, `tools/art/export_note_manifest.js` |
+
+## Notes
+- The six ports follow the JS call order line by line; there is no local Kotlin build, so the check is the Android CI run and an on-device look at covers 41 to 112 (stack, ribbons, arches, capsules, cascade, bands especially).
+- No schema change, nothing deleted from the database. The token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device pass: note covers 41 to 112 against the site's `note` kind, cover breathing cost on low-end phones, bar hand-off at 360dp.
+

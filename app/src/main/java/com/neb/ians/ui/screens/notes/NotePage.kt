@@ -257,7 +257,7 @@ private val extraPalettes = listOf(
 object NoteCovers {
     /** Drawn banners, 1 to 40. */
     const val drawn = 40
-    /** 41 to 112 are the v7 picture covers (`NoteArtCovers`). */
+    /** 41 to 112 are the v7 covers drawn by code (`NoteArtCovers`). */
     const val count = drawn + NoteArtCovers.count
 }
 
@@ -331,7 +331,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
 /** The banner itself. Shapes settle in with a spring when the cover appears or changes. */
 @Composable
 fun NoteCoverBanner(cover: Int, modifier: Modifier = Modifier, animate: Boolean = true) {
-    if (NoteArtCovers.has(cover)) { NoteArtCover(cover, modifier, small = !animate); return }
+    if (NoteArtCovers.has(cover)) { NoteArtCover(cover, modifier, live = animate); return }
     val spec = remember(cover) { coverSpec(cover) } ?: return
     val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val pa = rememberGlyphPath(spec.a)

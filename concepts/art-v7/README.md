@@ -12,5 +12,5 @@ Live gallery: `NEBians-Art-v7.html` (GitHub Pages: `art-v7.html`).
 - `export-svg.js` check (`node export-svg.js`), `--svg` writes Light and Dark SVGs (not committed), `--android DIR` writes the Android note covers
 - `build-glyphs.js` rebuilds `v7-glyphs.js` (188 Material Symbols paths; no tree, sun, moon, mountain or ship icons)
 
-Android: 72 note covers ship as WebP in `app/src/main/assets/note_covers/{light,dark}` (cover index 41 to 112, `NoteArtCover.kt`).
+Android: the 72 note covers are drawn by code (no pictures in the APK): `app/src/main/assets/m3x/notes.json` holds `[layout, palette, seed]` per cover (cover index 41 to 112, written by `node tools/art/export_note_manifest.js`), `M3xNoteCover` in `M3xArt.kt` draws them with the Kotlin port in `ui/components/m3x/`. `export-svg.js --android` (WebP) is no longer used.
 Never change the order inside a kind: ids and note cover indexes depend on it. Append only.

@@ -130,6 +130,9 @@ object M3xLayouts {
             "mondrian" -> b.mondrian(); "swirl" -> b.swirl(); "ripple" -> b.ripple(); "venn" -> b.venn(); "truchet" -> b.truchet()
             "contour" -> b.contour(); "blobs" -> b.blobs(); "rings" -> b.rings(); "bento" -> b.bento(); "diamonds" -> b.diamonds()
             "segments" -> b.segments(); "petalfield" -> b.petalfield()
+            // used by note covers only (the profile manifest never names them)
+            "stack" -> b.stack(); "arches" -> b.arches(); "ribbons" -> b.ribbons()
+            "capsules" -> b.capsules(); "cascade" -> b.cascade(); "bands" -> b.bands()
             else -> b.orbit()
         }
         return M3xPiece(w.toFloat(), h.toFloat(), b.ops)

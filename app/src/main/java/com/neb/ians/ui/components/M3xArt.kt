@@ -50,6 +50,7 @@ object M3xArt {
 
     @Volatile private var cached: List<Cover>? = null
     @Volatile private var thumbs: Map<String, List<Recipe>>? = null
+    @Volatile private var notes: List<Recipe>? = null
 
     private fun load(context: Context) = synchronized(this) {
         if (cached != null) return@synchronized
@@ -85,6 +86,17 @@ object M3xArt {
     fun defaultCover(context: Context, username: String): String {
         val list = covers(context)
         return if (list.isEmpty()) "cover-001" else list[(fnv("cover|$username") % list.size).toInt()].id
+    }
+
+    /** The 72 note covers (`assets/m3x/notes.json`, about 2 KB) as recipes; position 0 is note cover 41. */
+    fun noteRecipe(context: Context, position: Int): Recipe? {
+        val list = notes ?: synchronized(this) {
+            notes ?: runCatching {
+                val rows = org.json.JSONArray(context.applicationContext.assets.open("m3x/notes.json").bufferedReader().use { it.readText() })
+                List(rows.length()) { i -> rows.getJSONArray(i).let { Recipe(it.getString(0), it.getString(1), "note|${it.getInt(2)}||${it.getString(0)}|") } }
+            }.getOrDefault(emptyList()).also { notes = it }
+        }
+        return list.getOrNull(position)
     }
 
     fun coverKey(c: Cover) = "cover|${c.seed}||${c.layout}|"
@@ -172,3 +184,12 @@ fun M3xThumb(seed: String, subject: String, modifier: Modifier = Modifier) {
 /** One cover tile in the picker, drawn at its own size. */
 @Composable
 fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xCover(id, id, modifier)
+
+/** A note cover from the library (cover index 41 and up), 720 x 320 like the site's `note` kind. Drawn by code; [live] lets it breathe. */
+@Composable
+fun M3xNoteCover(position: Int, modifier: Modifier = Modifier, live: Boolean = false) {
+    val context = LocalContext.current
+    val recipe = remember(position) { M3xArt.noteRecipe(context, position) }
+    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 720.0, 320.0, modifier, live)
+    else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
+}
