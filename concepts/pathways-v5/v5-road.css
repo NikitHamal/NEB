@@ -21,3 +21,4 @@
 @media(max-width:959px){#roadBody .cols>aside{order:-1}}
 .chip.pay{height:40px;gap:8px}.chip.pay b{font-weight:500}
 .chip .xs{margin-left:2px}
+#roadBody .tbl th:first-child{width:92px}

@@ -31,3 +31,6 @@ body.scrolled .top{border-bottom-color:var(--ov)}
 details.mf>summary{list-style:none;width:max-content}details.mf>summary::-webkit-details-marker{display:none}
 details.mf[open]>summary{background:var(--sc);color:var(--onsc);border-color:transparent}
 .card.flat .fld{background:var(--s0)}
+input[type=search]::-webkit-search-cancel-button{display:none}
+.fld input:focus-visible,.fld select:focus-visible{outline:none}
+.tbl th b{font-weight:600;color:var(--on)}
