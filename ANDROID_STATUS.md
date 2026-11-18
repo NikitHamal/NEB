@@ -2202,3 +2202,5 @@ History read first (`rsi.py pickup`, sessions 73 to 84). Every item in the reque
 ## Next
 - On-device pass: note covers 41 to 112 against the site's `note` kind, cover breathing cost on low-end phones, bar hand-off at 360dp.
 
+
+CI: `36cf16d` Android release build (APK + AAB) green on the first push. No backend change this session, so no deploy ran.
