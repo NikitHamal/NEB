@@ -32,7 +32,7 @@ import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.InsertDriveFile
-import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -218,7 +218,7 @@ fun ProfileScreen(
             val actions = remember(isSelf, profile.username) {
                 buildList {
                     if (isSelf) add(ProfileBarAction(Icons.Outlined.BarChart, "Analytics", onAnalyticsClick))
-                    add(ProfileBarAction(Icons.Outlined.ContentCopy, "Copy profile link") {
+                    add(ProfileBarAction(Icons.Outlined.Link, "Copy profile link") {
                         clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE${profile.username}/"))
                         context.nebToast("Profile link copied")
                     })

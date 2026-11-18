@@ -62,23 +62,52 @@
     return i;
   }
 
-  function paint(el) {
-    if (el.__nebPixelArt) return;
-    el.__nebPixelArt = true;
-    if (el.querySelector('svg')) return;
+  // The art is drawn for the box it sits in (aspect read from the element, steps of 0.05), so the whole composition is
+  // always visible: nothing is cropped on a phone, a tablet or a wide column. A resize that changes the aspect redraws it.
+  function aspectOf(el) {
+    var w = el.clientWidth, h = el.clientHeight;
+    return w > 0 && h > 0 ? w / h : 0;
+  }
+
+  var ro = global.ResizeObserver ? new ResizeObserver(function (entries) {
+    entries.forEach(function (e) {
+      var el = e.target, M = global.NebM3x;
+      if (!M || el.__nebRaf) return;
+      el.__nebRaf = requestAnimationFrame(function () {
+        el.__nebRaf = 0;
+        var a = M.fit(aspectOf(el), 0);
+        if (a && a !== el.__nebFit) draw(el);
+      });
+    });
+  }) : null;
+
+  function draw(el) {
     var M = global.NebM3x;
     if (!M) return;
-    var kind = el.getAttribute('data-neb-art');
+    var old = el.querySelector(':scope > svg.m3a');
+    var a = M.fit(aspectOf(el), 0);
+    el.__nebFit = a;
+    var kind = el.getAttribute('data-neb-art'), html;
     // drawn by code (js/m3x-art.js): inline SVG, no request, Light and Dark share one drawing
     if (kind === 'cover') {
       var cid = el.getAttribute('data-neb-cover');
       if (!cid || !M.has(cid)) cid = M.defaultCover(el.getAttribute('data-neb-user'));
-      el.insertAdjacentHTML('afterbegin', M.cover(cid, el.hasAttribute('data-neb-live')));
+      html = M.cover(cid, el.hasAttribute('data-neb-live'), a);
     } else {
       var subject = el.getAttribute('data-neb-subject') || '';
       var bv = variant(stableSeed(el.getAttribute('data-neb-seed') || subject), BANNER_VARIANTS);
-      el.insertAdjacentHTML('afterbegin', M.thumb(subjectFamily(subject), bv));
+      html = M.thumb(subjectFamily(subject), bv, a);
     }
+    el.insertAdjacentHTML('afterbegin', html);
+    if (old) old.remove();
+  }
+
+  function paint(el) {
+    if (el.__nebPixelArt) return;
+    el.__nebPixelArt = true;
+    if (el.querySelector('svg')) return;
+    draw(el);
+    if (ro) ro.observe(el);
   }
 
   function scan(root) {
@@ -90,5 +119,5 @@
   else scan();
   document.addEventListener('htmx:afterSwap', function (e) { scan(e.target); });
 
-  global.NebArt = { scan: scan, repaint: function () {}, subjectFamily: subjectFamily, stableSeed: stableSeed, roles: ROLES.slice() };
+  global.NebArt = { scan: scan, repaint: function (el) { if (el) draw(el); }, subjectFamily: subjectFamily, stableSeed: stableSeed, roles: ROLES.slice() };
 })(window);

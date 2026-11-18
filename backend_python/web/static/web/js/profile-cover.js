@@ -9,8 +9,7 @@
     var art = document.querySelector('.pf-banner-art');
     if (!art || !window.NebM3x) return;
     art.setAttribute('data-neb-cover', id);
-    var old = art.querySelector('svg'); if (old) old.remove();
-    art.insertAdjacentHTML('afterbegin', window.NebM3x.cover(id || window.NebM3x.defaultCover(art.getAttribute('data-neb-user')), true));
+    window.NebArt.repaint(art);
   }
   // tiles are drawn by code as they scroll into view, so opening the picker never builds 175 drawings at once
   var io = null;

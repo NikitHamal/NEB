@@ -357,6 +357,7 @@ def profile(request, username):
         portfolio=portfolio, strength=extras['strength'], inst_folio=extras['inst'],
         profile_user=profile_data,
         cover_choices=_cover_choices() if is_self else [],
+        cover_art=profile_data['cover_art'],
         username=username,
         stats=stats,
         user_photos=user_photos,

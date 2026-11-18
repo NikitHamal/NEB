@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -24,13 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.ui.components.NebAuthTopBar
 import com.neb.ians.ui.components.NebComponentScope
 import com.neb.ians.ui.components.NebInlineNote
 import com.neb.ians.ui.components.NebNoteTone
 import com.neb.ians.ui.components.NebPillButton
-import com.neb.ians.ui.components.NebStepHeader
-import com.neb.ians.ui.components.NebTextLink
 import com.neb.ians.ui.components.nebKeyboardOpen
 import com.neb.ians.ui.screens.auth.CompleteProfileUiState
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
@@ -84,43 +80,30 @@ fun EditProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(palette.page)
-                .statusBarsPadding()
                 .navigationBarsPadding()
                 .imePadding()
         ) {
-            NebAuthTopBar(
-                onBack = onNavigateBack,
-                trailing = {
-                    NebTextLink(
-                        text = "Save",
-                        onClick = viewModel::submitProfile,
-                        enabled = canSave
-                    )
-                }
-            )
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
                     .verticalScroll(scrollState)
-                    .padding(horizontal = NebAuthTokens.PageGutter),
-                verticalArrangement = Arrangement.spacedBy(NebAuthTokens.SectionGap)
             ) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    NebStepHeader(
-                        title = "Your profile",
-                        subtitle = "This is what other NEBians see when they land on you."
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    EditIdentityHeader(
-                        state = uiState,
-                        strength = strength,
-                        onManagePhotos = viewModel::openPhotoGallery
-                    )
-                }
-
-                EditCoverSection(state = uiState, viewModel = viewModel)
+                EditProfileHero(
+                    state = uiState,
+                    viewModel = viewModel,
+                    strength = strength,
+                    canSave = canSave,
+                    onBack = onNavigateBack,
+                    onSave = viewModel::submitProfile
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = NebAuthTokens.PageGutter)
+                        .padding(top = NebAuthTokens.SectionGap),
+                    verticalArrangement = Arrangement.spacedBy(NebAuthTokens.SectionGap)
+                ) {
                 EditBasicsSection(
                     state = uiState,
                     viewModel = viewModel,
@@ -142,6 +125,7 @@ fun EditProfileScreen(
                 EditPrivacySection(state = uiState, viewModel = viewModel)
 
                 Spacer(modifier = Modifier.height(8.dp))
+                }
             }
 
             Column(

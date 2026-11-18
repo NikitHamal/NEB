@@ -14,6 +14,10 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -105,10 +109,10 @@ object M3xArt {
 private object M3xPieces {
     private val lru = LruCache<String, M3xPiece>(40)
     fun peek(key: String): M3xPiece? = synchronized(this) { lru.get(key) }
-    fun get(layout: String, key: String, w: Double, h: Double): M3xPiece {
-        peek(key)?.let { return it }
-        val built = M3xLayouts.build(layout, key, w, h)
-        synchronized(this) { lru.put(key, built) }
+    fun get(layout: String, cacheKey: String, seedKey: String, w: Double, h: Double): M3xPiece {
+        peek(cacheKey)?.let { return it }
+        val built = M3xLayouts.build(layout, seedKey, w, h)
+        synchronized(this) { lru.put(cacheKey, built) }
         return built
     }
 }
@@ -139,20 +143,28 @@ private fun DrawScope.drawM3x(piece: M3xPiece, tones: Array<Color>, phase: Float
     }
 }
 
+/** The aspect the drawing is built for: the box's own, in steps of 0.05, so a cover is never cropped and the cache stays small. */
+internal fun m3xFit(widthPx: Int, heightPx: Int): Float =
+    (Math.round(widthPx.toFloat() / heightPx.toFloat() * 20f) / 20f).coerceIn(0.6f, 4f)
+
 @Composable
-private fun M3xArtView(layout: String, palette: String, key: String, w: Double, h: Double, modifier: Modifier, live: Boolean) {
+private fun M3xArtView(layout: String, palette: String, key: String, h: Double, modifier: Modifier, live: Boolean) {
     val dark = isDarkSurface()
     val tones = remember(palette, dark) { M3xPalette.tones(palette, dark) }
-    val piece by produceState<M3xPiece?>(null, key) {
-        value = withContext(Dispatchers.Default) { M3xPieces.get(layout, key, w, h) }
+    var box by remember { mutableStateOf(IntSize.Zero) }
+    val aspect = if (box.width > 0 && box.height > 0) m3xFit(box.width, box.height) else 0f
+    val piece by produceState<M3xPiece?>(null, key, aspect) {
+        if (aspect <= 0f) return@produceState
+        val w = Math.round(h * aspect).toDouble()
+        value = withContext(Dispatchers.Default) { M3xPieces.get(layout, "$key@${w.toInt()}", key, w, h) }
     }
     val context = LocalContext.current
     val motion = remember(live) { live && Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) > 0f }
     val phase = if (motion) rememberInfiniteTransition(label = "m3x").animateFloat(
         0f, 1f, infiniteRepeatable(tween(26000, easing = LinearEasing), RepeatMode.Restart), label = "m3xPhase",
     ) else null
-    // the page tone shows at once; the drawing lands as soon as it is built
-    Canvas(modifier.background(tones[0])) {
+    // the page tone shows at once; the drawing lands as soon as it is built for this box
+    Canvas(modifier.onSizeChanged { box = it }.background(tones[0])) {
         val p = piece ?: return@Canvas
         val animated = phase != null && p.ops.size <= 400
         drawM3x(p, tones, if (animated) phase!!.value else 0f, animated)
@@ -166,7 +178,7 @@ fun M3xCover(coverId: String?, username: String, modifier: Modifier = Modifier, 
     val cover = remember(coverId, username) {
         M3xArt.cover(context, coverId) ?: M3xArt.cover(context, M3xArt.defaultCover(context, username)) ?: M3xArt.covers(context).firstOrNull()
     }
-    if (cover != null) M3xArtView(cover.layout, cover.palette, M3xArt.coverKey(cover), 1200.0, 400.0, modifier, live)
+    if (cover != null) M3xArtView(cover.layout, cover.palette, M3xArt.coverKey(cover), 400.0, modifier, live)
     else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }
 
@@ -177,7 +189,7 @@ fun M3xThumb(seed: String, subject: String, modifier: Modifier = Modifier) {
     val family = remember(subject) { subjectFamily(subject).name }
     val variant = remember(seed) { ((stableSeed(seed) ushr 3) and 0x7FFFFFFF) % M3xArt.THUMB_VARIANTS }
     val recipe = remember(family, variant) { M3xArt.thumbRecipe(context, family, variant) }
-    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 640.0, 256.0, modifier, false)
+    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 256.0, modifier, false)
     else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }
 
@@ -190,6 +202,6 @@ fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xCover(id, id, m
 fun M3xNoteCover(position: Int, modifier: Modifier = Modifier, live: Boolean = false) {
     val context = LocalContext.current
     val recipe = remember(position) { M3xArt.noteRecipe(context, position) }
-    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 720.0, 320.0, modifier, live)
+    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 320.0, modifier, live)
     else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }

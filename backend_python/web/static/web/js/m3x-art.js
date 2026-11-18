@@ -292,7 +292,8 @@ g.NebM3x = {
   ids: M.covers.map(function (r) { return r[0]; }),
   has: function (id) { return !!byId[id]; },
   defaultCover: function (user) { return M.covers[fnv('cover|' + (user || '')) % M.covers.length][0]; },
-  cover: function (id, live) { var r = byId[id] || M.covers[0]; return draw(r[1], r[2], 'cover|' + r[3] + '||' + r[1] + '|', 1200, 400, live); },
-  thumb: function (family, v) { var l = M.thumbs[family] || M.thumbs.GENERAL, t = l[v % l.length]; return draw(t[0], t[1], t[2], 640, 256, false); }
+  fit: function (a, d) { a = +a; return a > 0 ? Math.min(4, Math.max(0.6, Math.round(a * 20) / 20)) : d; },
+  cover: function (id, live, aspect) { var r = byId[id] || M.covers[0], a = g.NebM3x.fit(aspect, 3); return draw(r[1], r[2], 'cover|' + r[3] + '||' + r[1] + '|', Math.round(400 * a), 400, live); },
+  thumb: function (family, v, aspect) { var l = M.thumbs[family] || M.thumbs.GENERAL, t = l[v % l.length], a = g.NebM3x.fit(aspect, 2.5); return draw(t[0], t[1], t[2], Math.round(256 * a), 256, false); }
 };
 })(window);
