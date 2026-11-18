@@ -43,6 +43,17 @@ def fetch_models(force_refresh=False):
             return cached
 
     try:
+        from .. import qwen_app
+
+        models = [_extract_model_info(m) for m in qwen_app.raw_models(force_refresh)]
+        models = [m for m in models if m is not None]
+        if models:
+            cache.set(_CACHE_KEY, models, _CACHE_TTL)
+            return models
+    except Exception as e:
+        logger.warning("Qwen app gateway model list failed: %s", e)
+
+    try:
         from ..qwen_proxy import _get_session
 
         session, _ = _get_session()
@@ -121,12 +132,14 @@ def _extract_model_info(raw):
 
 
 def _fallback_models():
-    """Used only when the upstream list is unreachable: the two ids chat.qwen.ai serves to guests."""
+    """Used only when the upstream list is unreachable: the ids the app gateway served last (checked live)."""
     caps = {"vision": True, "document": True, "video": True, "audio": True, "thinking": True,
             "reasoning_levels": ["low", "medium", "high"], "search": True, "citations": False}
     return [
         {"id": mid, "name": name, "capabilities": dict(caps), "max_context_length": 1000000, "is_active": True}
-        for mid, name in (("qwen3.8-max", "Qwen3.8-Max"), ("qwen3.7-plus", "Qwen3.7-Plus"))
+        for mid, name in (("qwen4-max", "Qwen4-Max"), ("qwen3.8-max", "Qwen3.8-Max"), ("qwen3.7-max", "Qwen3.7-Max"),
+                          ("qwen3.7-plus", "Qwen3.7-Plus"), ("qwen3.8-omni-flash", "Qwen3.8-Omni-Flash"),
+                          ("qwen3.5-omni-plus", "Qwen3.5-Omni-Plus"))
     ]
 
 _DEFAULT_MODEL = None

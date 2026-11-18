@@ -861,6 +861,7 @@ def ajax_llm_models(request):
 
     if not qwen_models:
         qwen_models = [
+            {"id": "qwen:qwen4-max", "name": "Qwen 4 Max", "provider": "Qwen (chat.qwen.ai)"},
             {"id": "qwen:qwen3.8-max", "name": "Qwen 3.8 Max", "provider": "Qwen (chat.qwen.ai)"},
             {"id": "qwen:qwen3.7-plus", "name": "Qwen 3.7 Plus", "provider": "Qwen (chat.qwen.ai)"},
         ]

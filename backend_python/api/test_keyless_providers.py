@@ -10,15 +10,16 @@ from api.llm import registry
 
 
 class CatalogTests(SimpleTestCase):
-    def test_no_invented_qwen4_ids_anywhere_in_the_catalog(self):
+    def test_qwen4_is_only_the_id_the_gateway_serves(self):
         cat = registry.admin_catalog()
         ids = [m['id'] for e in cat['scrapers'] + cat['official'] for m in e['models']]
-        self.assertFalse([i for i in ids if 'qwen4' in i])
+        self.assertEqual([i for i in ids if 'qwen4' in i], ['qwen4-max'])
 
-    def test_qwen_lists_what_chat_qwen_serves_to_guests(self):
+    def test_qwen_lists_what_the_app_gateway_serves(self):
         p = registry.preset('qwen')
-        self.assertEqual([m.id for m in p.models], ['qwen3.8-max', 'qwen3.7-plus'])
-        self.assertEqual(p.default_model, 'qwen3.8-max')
+        self.assertEqual([m.id for m in p.models], ['qwen4-max', 'qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus',
+                                                    'qwen3.8-omni-flash', 'qwen3.5-omni-plus'])
+        self.assertEqual(p.default_model, 'qwen4-max')
 
     def test_dead_providers_are_hidden_from_the_admin_catalog(self):
         slugs = {e['slug'] for e in registry.admin_catalog()['scrapers']}
@@ -66,3 +67,43 @@ class CooldownTests(SimpleTestCase):
         out, _ = self._run([[{'type': 'error', 'message': 'HTTP 429'}]] * 3)
         self.assertEqual(out[-1]['type'], 'error')
         self.assertEqual(len([e for e in out if e['type'] == 'retry']), 2)
+
+
+class QwenAppGatewayTests(SimpleTestCase):
+    def test_rate_limit_beats_the_word_token_in_the_body(self):
+        from api import qwen_app
+        self.assertEqual(qwen_app._classify(429, '{"detail":"too many tokens"}'), 'rate')
+        self.assertEqual(qwen_app._classify(401, 'bad token'), 'auth')
+        self.assertEqual(qwen_app._classify(200, '<script>..._____tmd_____/punish'), 'waf')
+
+    def test_history_is_folded_into_one_prompt_with_the_last_turn_last(self):
+        from api import qwen_app
+        text = qwen_app._prompt([{'role': 'user', 'content': 'a'}, {'role': 'assistant', 'content': 'b'},
+                                 {'role': 'user', 'content': 'c'}], '')
+        self.assertTrue(text.endswith('[User]\nc'))
+        self.assertIn('Assistant: b', text)
+
+    def test_cooling_account_is_skipped_and_expired_token_is_not_usable(self):
+        import base64, json, time
+        from api import qwen_app_pool as pool
+        def tok(exp):
+            b = base64.urlsafe_b64encode(json.dumps({'exp': exp}).encode()).decode().rstrip('=')
+            return 'h.%s.s' % b
+        ok = {'email': 'a', 'token': tok(time.time() + 9 * 86400), 'cool_until': 0}
+        self.assertTrue(pool.usable(ok))
+        self.assertFalse(pool.usable(dict(ok, cool_until=time.time() + 60)))
+        self.assertFalse(pool.usable(dict(ok, token=tok(time.time() + 60))))
+        self.assertFalse(pool.usable(ok, exclude=('a',)))
+
+    def test_rate_limited_account_rotates_to_the_next_one(self):
+        from api import qwen_app
+        accts = iter([{'email': 'a', 'token': 't', 'device': 'd'}, {'email': 'b', 'token': 't', 'device': 'd'}])
+        def one(acct, *a):
+            if acct['email'] == 'a':
+                raise RuntimeError('rate|quota')
+            yield {'type': 'text', 'content': 'hi'}
+        with patch.object(qwen_app.pool, 'acquire', side_effect=lambda ex=(): next(accts)), \
+                patch.object(qwen_app.pool, 'cool') as cool, patch.object(qwen_app, '_one', side_effect=one):
+            out = list(qwen_app.stream_chat([{'role': 'user', 'content': 'x'}], 'qwen4-max'))
+        self.assertEqual(out, [{'type': 'text', 'content': 'hi'}])
+        cool.assert_called_once()

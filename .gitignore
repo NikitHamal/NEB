@@ -108,3 +108,4 @@ __pycache__/
 *.egg-info/
 /scratch/
 backend_python/private_media/
+.qwen_pool.json*

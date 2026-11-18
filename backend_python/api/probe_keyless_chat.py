@@ -86,7 +86,7 @@ def _openai_style(slug, model):
 
 def _qwen(slug, model):
     from api.qwen_proxy import call_qwen
-    model = model or 'qwen3.8-max'
+    model = model or 'qwen4-max'
     t0 = time.time()
     out = call_qwen('', PROMPT, model=model, max_tokens=200)
     return slug, model, bool(out), time.time() - t0, out or ''

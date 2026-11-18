@@ -11,7 +11,7 @@ from django.core.cache import cache
 from api.llm.registry import admin_catalog
 
 _CAPS = {
-    'qwen': (True, True, True, True), 'deepai': (True, True, False, True),
+    'qwen': (True, True, True, False), 'deepai': (True, True, False, True),
     'inception': (True, True, True, False), 'k2think': (True, True, False, False),
     'poolside': (True, False, True, False), 'motiftech': (True, True, False, False),
     'metaai': (True, True, False, False), 'longcat': (True, True, True, False),
@@ -164,18 +164,14 @@ def _official(slug, model, message, history, api_key):
         yield {'type': 'error', 'message': str(exc)}
 
 
-def _qwen(model, message, history):
-    from api import qwen_proxy
-    convo = ''.join(f"{m.get('role', 'user')}: {m.get('content', '')}\n" for m in history)
-    text = qwen_proxy.call_qwen(system_prompt='You are a helpful assistant.',
-                                user_message=(convo + 'user: ' + message) if convo else message,
-                                model=model, max_tokens=2000)
-    yield {'type': 'text', 'content': text} if text else {'type': 'error', 'message': 'chat.qwen.ai answered with an Aliyun captcha. Anonymous servers are blocked; set QWEN_PROXY_URL to a residential proxy.'}
+def _qwen(model, message, history, reasoning, web_search):
+    from api import qwen_app
+    yield from qwen_app.stream_chat(history + [{'role': 'user', 'content': message}], model, reasoning, web_search)
 
 
 def _attempt(slug, model, message, history, reasoning, web_search, api_key, api_url):
     if slug == 'qwen':
-        return _qwen(model, message, history)
+        return _qwen(model, message, history, reasoning, web_search)
     if slug == 'custom':
         from api.custom_provider import call_custom
         text = call_custom(api_url=api_url, api_key=api_key, model=model, user_message=message,

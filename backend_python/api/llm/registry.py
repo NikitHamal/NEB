@@ -237,10 +237,14 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
     ),
     ProviderPreset(
         slug='qwen', label='Qwen (chat.qwen.ai)', format=FORMAT_SCRAPER,
-        base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.8-max',
-        models=[
+        base_url='https://chat.qwen.ai/api/v2', default_model='qwen4-max',
+        models=[  # exactly what the app gateway lists for a free account (checked live)
+            ModelSpec('qwen4-max', 'Qwen4 Max', '1M context · thinking'),
             ModelSpec('qwen3.8-max', 'Qwen3.8 Max', '1M context · thinking'),
+            ModelSpec('qwen3.7-max', 'Qwen3.7 Max', '1M context'),
             ModelSpec('qwen3.7-plus', 'Qwen3.7 Plus', '1M context'),
+            ModelSpec('qwen3.8-omni-flash', 'Qwen3.8 Omni Flash', 'Fast · multimodal'),
+            ModelSpec('qwen3.5-omni-plus', 'Qwen3.5 Omni Plus', 'Multimodal'),
         ],
         context_window=1000000,
         key_required=False, official=False, scraper_module='qwen_proxy',

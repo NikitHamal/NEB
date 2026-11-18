@@ -1108,6 +1108,16 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
     else:
         full_message = user_message
 
+    if not file_paths:   # text turns use the keyless app gateway (the web door is captcha-blocked)
+        try:
+            from . import qwen_app
+            think = thinking_mode not in ("off", "none", False, None, "auto")
+            text = qwen_app.ask([{"role": "user", "content": full_message}], _normalize_qwen_web_model(model), think)
+            if text:
+                return text
+        except Exception as e:
+            logger.warning(f"Qwen app gateway failed, trying the web door: {e}")
+
     from .qwen_utils.file_upload import upload_file, MAX_FILES_PER_MESSAGE
 
     max_attempts = 3
