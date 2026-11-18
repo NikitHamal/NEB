@@ -100,3 +100,21 @@ History read first (`ANDROID_STATUS.md` 1 to 101, `NEBians-Pathways.html` v4, `d
 | 518 | **Match** (5 steps, ranked with reasons), **Is it worth it** (cost, scholarship, loan, savings, break-even month and cash line), **My plan** (saved items, cost, deadlines, copy), **Guides and answers** (steps, days, fees, document checklist). | `match.js`, `roi.js`, `plan.js`, `help.js` |
 
 Data refresh: `python3 concepts/pathways-v5/build.py` rewrites `data.js` and `map-data.js` from `backend_python/api/pathways.py`. Checked with jsdom (every route and action) and a real headless browser on desktop and phone sizes. Publish: copy `NEBians-Pathways-v5.html` to `pathways-v5.html` and `concepts/pathways-v5/*` (not `build.py`) onto `gh-pages`.
+
+---
+
+# Session 103: Pathways v5 polish and Roadmap (web concept, GitHub Pages only, no Android change)
+
+History read first (`ANDROID_STATUS.md` 1 to 102, `concepts/pathways-v5`). Picked up v5 as is (no duplicate screens, same merged dataset). Checked every route on a 390 px phone and a 1280 px desktop in a real headless browser, Light and Dark, with an automated horizontal overflow scan over 60 routes.
+
+| # | What | Where |
+| --- | --- | --- |
+| 513 | **Overflow fixes**: career, course, colleges and Is it worth it pages no longer scroll sideways on phones (`min-width:0` on grid, column and row children, selects truncate). | `v5-polish.css` |
+| 514 | **Roadmap (new tool)**: pick a start (Class 8, SEE, +2, Bachelor), then choose each next step from the course graph. Live path card with study time, total fees, starting pay and the careers that open. Field chips, careers and where to study for the last step, undo, start over, save to My plan, share link (`#/roadmap/a,b,c`), continue card on Home. Course page has an Open roadmap button. | `roadmap.js`, `v5-road.css`, `course.js`, `home.js` |
+| 515 | **Compare paths**: pin up to 3 paths, table of time, fees, starting pay, demand and payback year with the better value in green. | `roadmap.js` |
+| 516 | **Home**: stage panel now has field chips, a Build my roadmap button and a Careers these lead to row with starting pay; Browse by field removed (it duplicated the chips); tool tiles are six. | `home.js` |
+| 517 | **Near me**: browser location mapped onto the district map centroids picks the nearest district with listed places (Home and Colleges). | `extra.js`, `colleges.js` |
+| 518 | **Phone controls**: Colleges and Grants fold secondary chip rows into one More filters row; map starts closed on phones; bottom bar shows 5 tabs plus More (Roadmap added); toast no longer wraps; search field loses the double clear button and focus box; Can I apply card no longer collapses. | `colleges.js`, `schol.js`, `v5-polish.css` |
+| 519 | **Input**: Enter and Space activate card buttons; header divider appears on scroll; "NPR 0 to X" now reads "Up to NPR X". | `extra.js`, `core.js` |
+
+Publish: `NEBians-Pathways-v5.html` becomes `pathways-v5.html` and `concepts/pathways-v5/*` (not `build.py`) go onto `gh-pages`. Live at `https://nikithamal.github.io/NEB/pathways-v5.html`. No Gradle build was run; no Android files changed, so CI is unaffected.

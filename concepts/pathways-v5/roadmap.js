@@ -29,7 +29,7 @@
     return '<div class="card road-path"><div class="row"><h3 class="grow">Your path</h3>' + (S.path.length ? '<button class="btn g sm" data-act="roadReset">Start over</button>' : '') + '</div>' +
       '<ol class="rl"><li class="rs">' + node(M('flag', 'sm'), 'p') + '<div class="grow"><b>' + START[S.stage] + '</b><div class="xs mut">You are here</div></div></li>' + steps + end + '</ol>' +
       (S.path.length ? '<div class="kpis rk"><div class="kpi"><b>' + +t.y.toFixed(1) + ' yrs</b><span>Study time</span></div><div class="kpi"><b>' + V.npr(t.lo) + ' to ' + V.npr(t.hi).replace('NPR ', '') + '</b><span>Total fees</span></div><div class="kpi"><b>' + (pay ? V.npr(Math.round(pay / 500) * 500) : 'n/a') + '</b><span>Starting pay a month</span></div></div>' +
-        '<div class="row wrap" style="margin-top:12px;gap:8px"><button class="btn sm" data-act="roadSave">' + M('bookmark_add', 'sm') + 'Save path</button><button class="btn t sm" data-act="roadCopy">' + M('share', 'sm') + 'Share</button></div>' : '') + '</div>';
+        '<div class="row wrap" style="margin-top:12px;gap:8px"><button class="btn sm" data-act="roadSave">' + M('bookmark_add', 'sm') + 'Save path</button><button class="btn t sm" data-act="roadPin">' + M('compare_arrows', 'sm') + 'Compare</button><button class="btn t sm" data-act="roadCopy">' + M('share', 'sm') + 'Share</button></div>' : '') + '</div>';
   }
   function opt(r, i) {
     var g = V.grp(r.group);
@@ -49,8 +49,30 @@
     var extra = '';
     if (l && l._c.length) extra += ui.sec('Careers this opens', '<div class="hs stag">' + l._c.map(function (c, i) { return ui.career(c, i); }).join('') + '</div>');
     if (l && l._pro.length) extra += ui.sec('Where to study ' + E(l.name), '<div class="hs stag">' + l._pro.slice().sort(function (a, b) { return (b.seats || 0) - (a.seats || 0); }).slice(0, 8).map(function (p, i) { return ui.college(p, i); }).join('') + '</div>', ['course/' + l.id, 'Full course page']);
-    return '<div class="cols"><div>' + main + extra + '</div><aside class="side">' + pathCard() + '</aside></div>';
+    return '<div class="cols"><div>' + main + extra + '</div><aside class="side">' + pathCard() + '</aside></div>' + pinned();
   }
+  function stats(ids) {
+    var t = { y: 0, lo: 0, hi: 0 }, l = V.R[ids[ids.length - 1]];
+    ids.forEach(function (id) { var r = V.R[id]; t.y += yrs(r); t.lo += r.fee ? r.fee[0] : 0; t.hi += r.fee ? r.fee[1] : 0; });
+    t.pay = l._pay ? Math.round(l._pay / 500) * 500 : 0; t.dem = l._dem; t.back = t.pay ? (t.lo + t.hi) / 2 / (t.pay * 12 * 0.3) : 0; return t;
+  }
+  function pinned() {
+    var P = V.store.paths || []; if (!P.length) return '';
+    var st = P.map(function (x) { return stats(x.path); });
+    function best(f, hi) { var v = st.map(f).filter(function (n) { return n > 0; }); return v.length > 1 ? (hi ? Math.max.apply(0, v) : Math.min.apply(0, v)) : null; }
+    var rows = [['Time', function (t) { return +t.y.toFixed(1); }, function (v) { return v + ' yrs'; }, 0], ['Total fees', function (t) { return (t.lo + t.hi) / 2; }, function (v) { return V.npr(Math.round(v)); }, 0], ['Starting pay', function (t) { return t.pay; }, function (v) { return v ? V.npr(v) : 'n/a'; }, 1], ['Demand', function (t) { return t.dem; }, function (v) { return ch.level(v); }, 1], ['Pays back in', function (t) { return t.back; }, function (v) { return v ? +v.toFixed(1) + ' yrs' : 'n/a'; }, 0]];
+    var head = '<tr><th></th>' + P.map(function (x, i) { return '<th style="width:auto"><div class="row" style="gap:4px"><b>' + START[x.stage] + '</b><button class="ib sm" data-act="roadOpen" data-i="' + i + '" aria-label="Open path">' + M('open_in_new', 'sm') + '</button><button class="ib sm" data-act="roadUnpin" data-i="' + i + '" aria-label="Remove path">' + M('close', 'sm') + '</button></div><div class="xs" style="font-weight:400;color:var(--on)">' + E(x.path.map(function (id) { return V.R[id].name; }).join(' > ')) + '</div></th>'; }).join('') + '</tr>';
+    var body = rows.map(function (r) { var b = best(r[1], r[3]); return '<tr><th>' + r[0] + '</th>' + st.map(function (t) { var v = r[1](t); return '<td' + (b !== null && v === b ? ' class="win"' : '') + '>' + r[2](v) + '</td>'; }).join('') + '</tr>'; }).join('');
+    return ui.sec('Compare paths', '<div class="scroll-x"><table class="tbl" style="min-width:' + (120 + P.length * 190) + 'px">' + head + body + '</table></div><p class="xs mut" style="margin-top:8px">Green is the better value in each row. Payback assumes you save 30% of your starting pay.</p>');
+  }
+  V.acts.roadPin = function () {
+    var P = V.store.paths = V.store.paths || [], k = S.stage + ':' + S.path.join(',');
+    if (P.some(function (x) { return x.stage + ':' + x.path.join(',') === k; })) return V.toast('Already in the comparison', 'info');
+    if (P.length >= 3) return V.toast('Compare up to 3 paths. Remove one first', 'info');
+    P.push({ stage: S.stage, path: S.path.slice() }); V.persist(); refresh(); V.toast('Path added to compare', 'compare_arrows');
+  };
+  V.acts.roadUnpin = function (el) { V.store.paths.splice(+el.dataset.i, 1); V.persist(); refresh(); };
+  V.acts.roadOpen = function (el) { var x = V.store.paths[+el.dataset.i]; S.stage = x.stage; S.path = x.path.slice(); S.field = ''; V.$$('#roadStart .chip').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.id === S.stage); }); refresh(true); };
   function sync() { V.store.road = { stage: S.stage, path: S.path.slice() }; V.persist(); try { history.replaceState(null, '', '#/roadmap' + (S.path.length ? '/' + S.path.join(',') : '')); } catch (e) {} }
   function refresh(scroll) { sync(); V.$('#roadBody').innerHTML = body(); if (scroll) V.$('#roadBody').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   V.acts.roadStart = function (el) { S.stage = el.dataset.id; S.path = []; S.field = ''; V.$$('#roadStart .chip').forEach(function (b) { b.setAttribute('aria-pressed', b === el); }); refresh(); };
