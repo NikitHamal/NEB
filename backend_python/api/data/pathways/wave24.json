@@ -544,6 +544,66 @@
    "district": "Morang",
    "place": "Morang",
    "note": "Tribhuvan University affiliated campus in Morang. The TU Institute of Science and Technology affiliated college table (iost.tu.edu.np, checked 18 Nov 2026) lists B.Sc. General. Confirm the intake and fee with the college."
+  },
+  {
+   "id": "p-w24-plus2-ria",
+   "name": "Reliance International Academy (RIA +2)",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Saraswatinagar, Chabahil",
+   "website": "https://ria.edu.np",
+   "note": "English medium +2 school affiliated to NEB since 2060 BS (school established 2050 BS). Science and Management streams are on the website; confirm seats and fees with the school."
+  },
+  {
+   "id": "p-w24-plus2-nss",
+   "name": "National School of Sciences",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Lainchour",
+   "website": "https://nss.edu.np",
+   "note": "NEB +2 school at Lainchour that is part of the NIST Foundation. The website names Science and Management streams; confirm seats and fees with the school."
+  },
+  {
+   "id": "p-w24-plus2-hillpoint",
+   "name": "Hill Point Secondary School",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Pokhara-12",
+   "website": "https://hillpoint.edu.np",
+   "note": "Pokhara school with +2 Science, Management, Hotel Management and Fine Art programmes named on its website; confirm the current intake with the school."
+  },
+  {
+   "id": "p-w24-plus2-motherland",
+   "name": "Motherland Secondary School",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Kaski",
+   "place": "Masbar, Pokhara-7",
+   "website": "https://motherland.edu.np",
+   "note": "Pokhara school with +2 Science and Management streams named on its website; confirm seats and fees with the school."
+  },
+  {
+   "id": "p-w24-plus2-radiant",
+   "name": "Radiant Readers' Academy",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Sanepa-2",
+   "website": "https://radiant.edu.np",
+   "note": "Lalitpur school (established 2056 BS) whose website lists +2 courses including Science and Management; confirm seats and fees with the school."
+  },
+  {
+   "id": "p-w24-plus2-skyrider",
+   "name": "Skyrider Higher Secondary Boarding English School",
+   "kind": "School",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Ratnanagar",
+   "website": "https://skyrider.edu.np",
+   "note": "Chitwan boarding school that runs a +2 programme with online pre-registration on its website. Ask the school which streams are open this year."
   }
  ],
  "where_add": {
@@ -675,6 +735,22 @@
    "p-nilgiri",
    "p-padmashree",
    "p-w12-ce-sunsari-technical-college"
+  ],
+  "plus2-science": [
+   "p-w24-plus2-ria",
+   "p-w24-plus2-nss",
+   "p-w24-plus2-hillpoint",
+   "p-w24-plus2-motherland",
+   "p-w24-plus2-radiant",
+   "p-caribbean"
+  ],
+  "plus2-management": [
+   "p-w24-plus2-ria",
+   "p-w24-plus2-nss",
+   "p-w24-plus2-hillpoint",
+   "p-w24-plus2-motherland",
+   "p-w24-plus2-radiant",
+   "p-caribbean"
   ]
  },
  "faq_add": [

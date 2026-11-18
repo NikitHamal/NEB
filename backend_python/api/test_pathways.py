@@ -1105,7 +1105,10 @@ class Wave24Tests(TestCase):
         self.assertEqual(pathways.problems(d), [])
         prov = {p['id']: p for p in d['providers']}
         routes = {r['id']: r for r in d['routes']}
-        self.assertGreaterEqual(len(prov), 602)
+        self.assertGreaterEqual(len(prov), 608)
+        for pid in ('p-w24-plus2-ria', 'p-w24-plus2-hillpoint', 'p-caribbean'):
+            self.assertIn(pid, routes['plus2-science']['where'])
+            self.assertIn(pid, routes['plus2-management']['where'])
         self.assertEqual(sum(1 for p in prov if p.startswith('p-w24-pu-')), 36)
         self.assertEqual(sum(1 for p in prov if p.startswith('p-w24-iost-')), 23)
         for pid in ('p-w24-pu-quest', 'p-w24-pu-liberty', 'p-w24-pu-medhavi'):
