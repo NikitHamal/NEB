@@ -3,6 +3,7 @@
   'use strict';
   var V = window.V, ui = V.ui, M = V.ms, E = V.esc, PW = V.PW, ch = V.ch;
   var S = V.st.road = { stage: 'after10', path: [], field: '' };
+  if (V.store.road && V.store.road.path) { S.stage = V.store.road.stage; S.path = V.store.road.path.filter(function (i) { return V.R[i]; }); }
   var START = { after8: 'After Class 8', after10: 'After SEE', after12: 'After +2', afterbach: 'After Bachelor' };
   function yrs(r) { var m = /(\d+(?:\.\d+)?)/.exec(r.years || ''); if (!m) return 0; return /month/i.test(r.years) ? +m[1] / 12 : +m[1]; }
   function lastR() { return S.path.length ? V.R[S.path[S.path.length - 1]] : null; }
@@ -50,7 +51,7 @@
     if (l && l._pro.length) extra += ui.sec('Where to study ' + E(l.name), '<div class="hs stag">' + l._pro.slice().sort(function (a, b) { return (b.seats || 0) - (a.seats || 0); }).slice(0, 8).map(function (p, i) { return ui.college(p, i); }).join('') + '</div>', ['course/' + l.id, 'Full course page']);
     return '<div class="cols"><div>' + main + extra + '</div><aside class="side">' + pathCard() + '</aside></div>';
   }
-  function sync() { try { history.replaceState(null, '', '#/roadmap' + (S.path.length ? '/' + S.path.join(',') : '')); } catch (e) {} }
+  function sync() { V.store.road = { stage: S.stage, path: S.path.slice() }; V.persist(); try { history.replaceState(null, '', '#/roadmap' + (S.path.length ? '/' + S.path.join(',') : '')); } catch (e) {} }
   function refresh(scroll) { sync(); V.$('#roadBody').innerHTML = body(); if (scroll) V.$('#roadBody').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   V.acts.roadStart = function (el) { S.stage = el.dataset.id; S.path = []; S.field = ''; V.$$('#roadStart .chip').forEach(function (b) { b.setAttribute('aria-pressed', b === el); }); refresh(); };
   V.acts.roadPick = function (el) { S.path.push(el.dataset.id); S.field = ''; refresh(true); };

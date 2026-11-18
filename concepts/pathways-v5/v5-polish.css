@@ -27,3 +27,7 @@ body.scrolled .top{border-bottom-color:var(--ov)}
 .chip{border-radius:17px}
 .bnav button{min-width:0;flex:1}
 .toast{width:max-content;max-width:calc(100vw - 32px)}
+.row.wrap>.grow{flex:1 1 200px}
+details.mf>summary{list-style:none;width:max-content}details.mf>summary::-webkit-details-marker{display:none}
+details.mf[open]>summary{background:var(--sc);color:var(--onsc);border-color:transparent}
+.card.flat .fld{background:var(--s0)}
