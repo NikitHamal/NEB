@@ -20,10 +20,14 @@
   {% url 'web:profile' user.username as back_href %}
   {% comment %} The cover first, drawn for its own box so the whole piece always shows; the photo hangs across its bottom
      edge in the middle, like the profile it edits. Change cover opens the same picker as the profile. {% endcomment %}
+  {# Back and Save: one bar that stays on screen while the form scrolls (the app's top bar). It floats on the cover and turns solid once the cover has gone. #}
+  <div class="epf-topbar" id="epfTopbar">
+    {% include "web/partials/_back.html" with back_label="Back to profile" back_class="neb-back-on-art epf-back" %}
+    <button type="submit" form="epfForm" class="md-btn md-btn-filled epf-save">Save</button>
+  </div>
   <div class="epf-hero">
     <div class="epf-cover">
       <div class="neb-art pf-banner-art epf-cover-art" data-neb-art="cover" data-neb-cover="{{ cover_art }}" data-neb-user="{{ user.username }}" data-neb-live></div>
-      {% include "web/partials/_back.html" with back_label="Back to profile" back_class="neb-back-on-art epf-back" %}
       {% if cover_choices %}<button type="button" class="epf-cover-btn" data-action="open-cover-picker"><span class="material-symbols-outlined" aria-hidden="true">palette</span>Change cover</button>{% endif %}
     </div>
     <button type="button" class="epf-identity-avatar av-inset" data-avatar-seed="{{ user.username }}" data-action="trigger-photo-upload"
@@ -66,7 +70,7 @@
   </div>
   {% endif %}
 
-  <form method="post" class="epf-form">
+  <form method="post" class="epf-form" id="epfForm">
     {% csrf_token %}
 
     <section class="epf-section">
@@ -364,11 +368,6 @@
       </label>
     </section>
 
-    {# The save does not wait out the bottom of a seven-section form. #}
-    <div class="epf-dock">
-      <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Cancel</a>
-      <button type="submit" class="md-btn md-btn-filled epf-save">Save changes</button>
-    </div>
   </form>
 </div>
 
@@ -567,6 +566,7 @@
 {% block extra_js %}
 {% include "web/partials/_cover_picker.html" %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/profile-cover.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/epf-topbar.js' %}" defer></script>
 {{ edu_boot|json_script:"epf-boot" }}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-edu.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-dob-field.js' %}"></script>

@@ -2833,13 +2833,11 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .m3a .f4 { fill: var(--t4); } .m3a .f5 { fill: var(--t5); } .m3a .f6 { fill: var(--t6); } .m3a .f7 { fill: var(--t7); }
 .m3a .s0 { stroke: var(--t0); } .m3a .s1 { stroke: var(--t1); } .m3a .s2 { stroke: var(--t2); } .m3a .s3 { stroke: var(--t3); }
 .m3a .s4 { stroke: var(--t4); } .m3a .s5 { stroke: var(--t5); } .m3a .s6 { stroke: var(--t6); } .m3a .s7 { stroke: var(--t7); }
-.m3a-live .m3a-art { transform-box: view-box; transform-origin: 50% 50%; animation: m3a-breathe 26s ease-in-out infinite alternate; }
-.m3a-live .f5, .m3a-live .s5 { transform-box: fill-box; transform-origin: center; animation: m3a-float 9s ease-in-out infinite alternate; }
-.m3a-live .f5:nth-child(2n), .m3a-live .s5:nth-child(2n) { animation-name: m3a-float-b; animation-duration: 12s; }
-@keyframes m3a-breathe { to { transform: scale(1.05); } }
-@keyframes m3a-float { to { transform: translate(14px, -10px); } }
-@keyframes m3a-float-b { to { transform: translate(-12px, 12px); } }
-@media (prefers-reduced-motion: reduce) { .m3a-live .m3a-art, .m3a-live .f5, .m3a-live .s5 { animation: none; } }
+/* One settle, no loop: the picture grows into its frame and fades in when a cover first shows or is picked (the same spring as the
+   app's note covers). Nothing animates while the page is idle, so scrolling and typing never compete with it. */
+.m3a-live:not(.m3a-still) .m3a-art { transform-box: view-box; transform-origin: 50% 50%; animation: m3a-settle .85s cubic-bezier(.3, 1.35, .5, 1) both; }
+@keyframes m3a-settle { from { transform: scale(.88); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .m3a-live .m3a-art { animation: none; } }
 /* a taller cover, and the change-cover button sits on the art (not in the action row) */
 .profile-page .pf-card-banner { height: clamp(176px, 36vw, 280px); }
 .profile-page .pf-cover-edit {
@@ -2858,6 +2856,33 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 }
 .cv-foot button:hover { background: var(--md-surface-container-high); }
 .cv-foot button:active { transform: scale(.96); }
+
+
+/* ── Profile, desktop ─────────────────────────────────────────────────────────
+   Cover across the whole column in its true proportion (3 : 1, the same rectangle Edit profile and the picker use), the photo on
+   its bottom edge with the name beside it and the actions opposite, then About on the left and the tabs on the right.
+   .profile-left-col and .pf-compact-card dissolve (display: contents) so cover, identity and About are grid items of the page. */
+.pf-identity-name { order: 3; flex: 1 0 100%; min-width: 0; padding: 10px 0 0; }
+.pf-identity-name .pf-card-name-row { margin-top: 0; }
+.profile-page .pf-identity-row { flex-wrap: wrap; }
+.profile-page .pf-card-banner { height: auto; aspect-ratio: 2.2 / 1; }
+@media (min-width: 901px) {
+  .profile-page .profile-grid-container { max-width: 1040px; grid-template-columns: 304px minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 24px; row-gap: 0; padding: 16px 16px 56px; }
+  .profile-page .profile-left-col, .profile-page .pf-compact-card { display: contents; }
+  .profile-page .pf-card-banner { grid-column: 1 / -1; grid-row: 1; aspect-ratio: 3 / 1; border-radius: 28px; overflow: hidden; }
+  .profile-page .pf-identity-row { grid-column: 1 / -1; grid-row: 2; padding: 0 28px; flex-wrap: nowrap; align-items: flex-start; gap: 16px; }
+  .profile-page .pf-avatar-overlap-wrap { --av: 112px; width: 112px; height: 112px; margin-top: -56px; }
+  .profile-page .pf-identity-name { order: 0; flex: 1 1 auto; padding: 14px 0 0; }
+  .profile-page .pf-identity-action { margin-top: 16px; }
+  .profile-page .pf-card-body { grid-column: 1; grid-row: 3; align-self: start; position: sticky; top: 80px; margin-top: 20px; padding: 18px 18px 20px; background: var(--md-surface); border: 1px solid var(--md-outline-variant); border-radius: 24px; }
+  .profile-page .profile-right-col { grid-column: 2; grid-row: 3; margin-top: 20px; }
+}
+@media (max-width: 900px) { .profile-page .pf-card-banner { aspect-ratio: 2.2 / 1; border-radius: 22px; } }
+
+/* A resource in the profile wears the library's thumbnail (js/m3x-art.js, subject family), never a profile cover. */
+.act-resource-thumb { position: relative; flex: none; width: 128px; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: var(--md-surface-container-high); }
+.act-resource-thumb .neb-art { position: absolute; inset: 0; }
+@media (max-width: 480px) { .act-resource-thumb { width: 96px; border-radius: 14px; } }
 
 /* ---- m3x/app-profile-feed.css ---- */
 /* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the

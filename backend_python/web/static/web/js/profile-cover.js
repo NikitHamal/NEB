@@ -11,18 +11,20 @@
     art.setAttribute('data-neb-cover', id);
     window.NebArt.repaint(art);
   }
+  // a tile is the cover frame itself (same width over height as the profile cover), so the preview is the result
+  function tileAspect(t) { var w = t.clientWidth, h = t.clientHeight; return w > 0 && h > 0 ? w / h : 3; }
   // tiles are drawn by code as they scroll into view, so opening the picker never builds 175 drawings at once
   var io = null;
   function tiles() {
     if (!window.NebM3x || !('IntersectionObserver' in window)) {
-      dlg.querySelectorAll('[data-m3x-tile]').forEach(function (t) { t.innerHTML = window.NebM3x ? window.NebM3x.cover(t.getAttribute('data-m3x-tile'), false) : ''; });
+      dlg.querySelectorAll('[data-m3x-tile]').forEach(function (t) { t.innerHTML = window.NebM3x ? window.NebM3x.cover(t.getAttribute('data-m3x-tile'), false, tileAspect(t)) : ''; });
       return;
     }
     if (!io) io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         var t = e.target; io.unobserve(t);
-        t.innerHTML = window.NebM3x.cover(t.getAttribute('data-m3x-tile'), false);
+        t.innerHTML = window.NebM3x.cover(t.getAttribute('data-m3x-tile'), false, tileAspect(t));
       });
     }, { root: dlg.querySelector('.cv-grid'), rootMargin: '120px' });
     dlg.querySelectorAll('[data-m3x-tile]').forEach(function (t) { if (!t.firstChild) io.observe(t); });

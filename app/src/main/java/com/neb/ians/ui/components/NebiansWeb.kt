@@ -727,7 +727,7 @@ fun WebResourceCard(
                 )
             } else {
                 ResourceBannerArt(
-                    seed = "${resource.id}|${resource.title}",
+                    seed = "${resource.id}|${resource.type}", // the site draws the same thumbnail: id and type
                     subject = primarySubject,
                     modifier = Modifier.fillMaxSize()
                 )

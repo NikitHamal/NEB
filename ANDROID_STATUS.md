@@ -2242,3 +2242,24 @@ History read first (sessions 73 to 86). This request repeats 83 to 86 and its sc
 
 ## Next
 - Install the latest build (the screenshots predate it) and check Edit profile at 360dp and cover redraw on rotation.
+
+---
+# Session 88: covers settle once (no loop), 40 note banners keep one composition, one cover frame, Edit profile bar sticky, desktop profile (app + web)
+
+History read first (`ANDROID_STATUS.md` 73 to 87). Resource thumbnails (v1 family pieces), profile covers (v7), note covers 1 to 40 (drawn banners with a spring settle) and 41 to 112 (code art) all existed. This session changes behaviour, not assets.
+
+| # | What | Where |
+| --- | --- | --- |
+| 456 | **Motion = the note banners' settle, once.** Covers 41+, profile and Edit profile covers no longer breathe or drift forever (that was the lag). A cover grows into its frame on a spring and fades in once when it first shows or is picked; the picker, cards and lists are still. App: `Animatable` per drawing, read in the draw phase. Web: `.m3a-settle` css runs once per inserted SVG, resize redraws are marked `m3a-still`. | `M3xArt.kt`, `m3x/app-profile-v3.css`, `js/pixel-art.js` |
+| 457 | **Note banners 1 to 40, one composition in every frame.** The shapes' size came from a clamped width ratio, so card, picker tile and header showed different crops. They are composed on the editor frame (1.9 : 1); in any frame the shapes keep the same share of the frame's area and their centres the same share of its width and height. | `NotePage.kt` (`NoteCoverFrameAspect`) |
+| 458 | **One cover rectangle.** App: `profileCoverHeight` is half the width (196 to 284dp) including the status strip, and the picker tile uses `profileCoverAspect` (it was a fixed 3:1). Web: profile, Edit profile and picker tiles are 3:1 on desktop and 2.2:1 on phones; tiles are drawn for their own box. | `ProfileBanner.kt`, `CoverPickerSheet.kt`, `app-profile-v3.css`, `web-edit-profile.css`, `js/profile-cover.js` |
+| 459 | **Edit profile top bar is sticky** (Back, Save) on app and web; its surface fades in once the cover has scrolled under it. The web bottom dock is gone, Save is the bar's. | `EditProfileHero.kt` (`EditProfileTopBar`), `EditProfileScreen.kt`, `edit_profile.html`, `js/epf-topbar.js` |
+| 460 | **Desktop profile like the concept**: cover across the column, photo on its edge with the name beside it and Edit profile / Share opposite, About card left, tabs and content right. One markup, grid areas; phones keep the single column. | `profile.html`, `app-profile-v3.css` |
+| 461 | **Resources show the library thumbnail** on the web profile (Resources tab) and use the same seed as the library card (`id|type`) in the app, so both draw the same piece. A profile cover is never used for a resource. | `profile.html`, `NebiansWeb.kt` |
+
+## Notes
+- No schema change, nothing deleted from the database. Token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+- Never built locally: Android check is the GitHub Actions run, backend deploys through `deploy-backend.yml` (workflow_dispatch).
+
+## Next
+- On-device pass: settle on slow phones, Edit profile bar at 360dp, desktop profile at 900 to 1100px.

@@ -98,7 +98,10 @@
       var bv = variant(stableSeed(el.getAttribute('data-neb-seed') || subject), BANNER_VARIANTS);
       html = M.thumb(subjectFamily(subject), bv, a);
     }
+    // The settle (css .m3a-live) plays when the art first shows or a cover is picked, never on a resize redraw.
+    var play = !old || el.__nebPlay; el.__nebPlay = false;
     el.insertAdjacentHTML('afterbegin', html);
+    if (!play) { var fresh = el.querySelector(':scope > svg.m3a'); if (fresh) fresh.classList.add('m3a-still'); }
     if (old) old.remove();
   }
 
@@ -119,5 +122,5 @@
   else scan();
   document.addEventListener('htmx:afterSwap', function (e) { scan(e.target); });
 
-  global.NebArt = { scan: scan, repaint: function (el) { if (el) draw(el); }, subjectFamily: subjectFamily, stableSeed: stableSeed, roles: ROLES.slice() };
+  global.NebArt = { scan: scan, repaint: function (el) { if (el) { el.__nebPlay = true; draw(el); } }, subjectFamily: subjectFamily, stableSeed: stableSeed, roles: ROLES.slice() };
 })(window);

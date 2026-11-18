@@ -129,6 +129,24 @@
               {% endif %}
             </div>
 
+            <div class="pf-identity-name">
+            <div class="pf-card-name-row">
+              <h1 class="pf-card-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
+              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
+                <span class="pf-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified"><span class="material-symbols-outlined">check</span></span>
+              {% endif %}
+              {% if badge_info and badge_info.type != 'verified' %}
+                <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
+                  <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
+                </span>
+              {% endif %}
+            </div>
+
+            {% if profile_user.display_name %}
+              <div class="pf-card-username">@{{ profile_user.username }}</div>
+            {% endif %}
+            </div>
+
             <div class="pf-identity-action">
               {% if user and user.username == profile_user.username %}
                 <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-btn pf-btn-outlined">
@@ -151,22 +169,6 @@
           </div>
 
           <div class="pf-card-body">
-
-            <div class="pf-card-name-row">
-              <h1 class="pf-card-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
-              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
-                <span class="pf-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified"><span class="material-symbols-outlined">check</span></span>
-              {% endif %}
-              {% if badge_info and badge_info.type != 'verified' %}
-                <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
-                  <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
-                </span>
-              {% endif %}
-            </div>
-
-            {% if profile_user.display_name %}
-              <div class="pf-card-username">@{{ profile_user.username }}</div>
-            {% endif %}
 
             <!-- Student Subtitle / Role Headline -->
             {% if not profile_user.is_bot and profile_user.username != 'neby' %}
@@ -627,8 +629,8 @@
                 </div>
                 {% else %}
                 <div class="act-resource-card">
-                  <div class="act-resource-icon" style="background: color-mix(in srgb, {{ r.subject|split:','|first|subject_color }} 10%, var(--md-surface-container-high));">
-                    <span class="material-symbols-outlined" style="color: {{ r.subject|split:','|first|subject_color }};">{{ r.type|resource_type_icon }}</span>
+                  <div class="act-resource-thumb" aria-hidden="true">
+                    <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ r.subject|split:','|first }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
                   </div>
                   <div class="act-resource-info">
                     <div class="act-resource-name">

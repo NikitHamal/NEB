@@ -283,7 +283,7 @@
    shadow, finite radii. The photo is the profile's own squircle, centred on the cover's bottom edge. */
 .epf-page { padding-top: 12px; }
 .epf-hero { position: relative; margin-bottom: 64px; }
-.epf-cover { position: relative; width: 100%; height: clamp(168px, 34vw, 248px); border-radius: 28px; overflow: hidden; background: var(--md-surface-container-low); }
+.epf-cover { position: relative; width: 100%; height: auto; aspect-ratio: 3 / 1; border-radius: 28px; overflow: hidden; background: var(--md-surface-container-low); }
 .epf-cover .epf-cover-art { position: absolute; inset: 0; }
 .epf-cover .neb-back {
   position: absolute; top: 10px; left: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; z-index: 1;
@@ -309,7 +309,17 @@
 @media (max-width: 700px) {
   .epf-page { padding-top: 0; }
   .epf-hero { margin: 0 -12px 64px; }
-  .epf-cover { border-radius: 0 0 28px 28px; }
+  .epf-cover { aspect-ratio: 2.2 / 1; border-radius: 0 0 28px 28px; }
   .epf-identity { padding: 0; }
   .epf-hero .epf-identity-avatar { width: 104px; height: 104px; }
 }
+
+
+/* ── Sticky top bar: Back and Save stay on screen while the form scrolls. Floats on the cover, solid once the cover is gone. ── */
+.epf-topbar { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 12px; margin: 0 0 -60px; border-bottom: 1px solid transparent; transition: background-color .2s, border-color .2s; }
+.epf-topbar.is-stuck { background: var(--md-surface); border-bottom-color: var(--md-outline-variant); }
+.epf-topbar .neb-back { position: static; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--md-surface-container-lowest); color: var(--md-on-surface); display: inline-flex; align-items: center; justify-content: center; transition: background-color .15s, transform .3s var(--spring, ease); }
+.epf-topbar .neb-back:hover { background: var(--md-surface-container-high); }
+.epf-topbar .neb-back:active { transform: scale(.92); }
+.epf-topbar .epf-save { min-width: 88px; height: 40px; }
+@media (max-width: 700px) { .epf-topbar { margin-left: -12px; margin-right: -12px; } }
