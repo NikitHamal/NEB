@@ -951,8 +951,9 @@ class Wave21Tests(TestCase):
         d = pathways.payload()
         govt = {g['id']: g for g in d['govt']}
         for eid, fee in (('g-cit', 1000), ('g-ssf', 1000), ('g-epf', 1000), ('g-caan', 1000), ('g-judicial', 1000),
-                         ('g-parliament-audit', 1000), ('e-tu-bachelor-sci', 1650), ('e-tu-msc-iost', 2000),
-                         ('e-fohss-bachelor', 1500), ('e-fohss-master', 1500), ('e-purbanchal', 1500), ('e-acca', 15500)):
+                         ('g-parliament-audit', 1000), ('g-nid', 1000), ('e-tu-bachelor-sci', 1650), ('e-tu-msc-iost', 2000),
+                         ('e-fohss-bachelor', 1500), ('e-fohss-master', 1500), ('e-purbanchal', 1500), ('e-mwu-fwu', 1200),
+                         ('e-acca', 15500), ('l-delf-tcf', 8085)):
             self.assertEqual(govt[eid]['fee'], fee)
         routes = {r['id']: r for r in d['routes']}
         self.assertEqual(routes['btech-food']['exam_id'], 'e-tu-bachelor-sci')
@@ -971,6 +972,8 @@ class Wave21Tests(TestCase):
         self.assertEqual(by_p['p-cobeas']['route_seats']['be-biomedical'], 60)
         self.assertEqual(by_p['p-sasthm']['route_seats']['bhm'], 80)
         self.assertEqual(by_p['p-kafcol']['route_seats']['dip-forestry'], 40)
+        self.assertEqual(by_p['p-nma']['route_seats']['bms-mountaineering'], 30)
+        self.assertEqual(by_p['p-nma']['fees']['bms-mountaineering'], [600000, 600000])
         self.assertEqual(by_p['p-biratnagar-nursing']['website'], 'https://brnc.tu.edu.np')
         self.assertEqual(by_p['p-pokhara-nursing']['website'], 'https://ponc.tu.edu.np')
         self.assertEqual(by_p['p-om-health']['website'], 'https://www.omcampus.edu.np')
@@ -979,13 +982,18 @@ class Wave21Tests(TestCase):
         abroad = {a['id']: a for a in d['abroad']}
         for sid, cid in (('s-nl-maastricht-delft', 'nl'), ('s-polimi-unibo-it', 'it'), ('s-taiwan-icdf', 'tw'),
                          ('s-eth-esop-ch', 'ch'), ('s-auckland-otago-nz', 'nz'), ('s-ucd-tcd-ie', 'ie'),
-                         ('s-hk-belt-road', 'hk'), ('s-kaist-ust-kr', 'kr')):
+                         ('s-hk-belt-road', 'hk'), ('s-kaist-ust-kr', 'kr'), ('s-ceu-debrecen-hu', 'hu'),
+                         ('s-mtcp-taylors-my', 'my'), ('s-koc-sabanci-tr', 'tr'), ('s-skoltech-hse-ru', 'ru'),
+                         ('s-khalifa-nyuad-ae', 'ae'), ('s-charles-masaryk-cz', 'cz'), ('s-transilvania-ro', 'ro'),
+                         ('s-auw-iut-bd', 'bd')):
             self.assertIn(sid, abroad[cid]['scholarships'])
         sch = {s['id']: s for s in d['scholarships']}
         self.assertEqual(sch['s-eth-esop-ch']['awards'], 60)
         self.assertEqual(sch['s-hk-belt-road']['awards'], 150)
         self.assertEqual(sch['s-ctevt-special']['awards'], 480)
+        self.assertEqual(sch['s-chevening']['awards'], 1500)
+        self.assertEqual(sch['s-sh']['awards'], 4500)
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 23):
+        for i in range(1, 31):
             self.assertIn(f'fw21-{i}', faq)
         self.assertEqual(pathways.problems(d), [])

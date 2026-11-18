@@ -22,29 +22,38 @@ sys.path.insert(0, str(HERE))
 import w21_exams_more as E  # noqa: E402
 import w21_faq as F  # noqa: E402
 import w21_guides_links as G  # noqa: E402
+import w21_more as M  # noqa: E402
 import w21_nepal as N  # noqa: E402
 import w21_scholarships as S  # noqa: E402
 
 DATA = HERE.parent.parent / 'api' / 'data' / 'pathways'
 
-assert len(E.GOVT_ADD) == 12, len(E.GOVT_ADD)
+govt_add = E.GOVT_ADD + M.GOVT_MORE
+scholarships_add = S.SCHOLARSHIPS_ADD + M.SCHOLARSHIPS_MORE
+scholarship_extra = {**S.SCHOLARSHIP_EXTRA, **M.SCHOLARSHIP_EXTRA_MORE}
+route_seats = {**N.ROUTE_SEATS, **M.ROUTE_SEATS_MORE}
+faq_add = F.FAQ_ADD + M.FAQ_MORE
+
+assert len(govt_add) == 15, len(govt_add)
 assert len(G.GUIDES_ADD) == 6, len(G.GUIDES_ADD)
 assert len(N.PROVIDERS_ADD) == 9, len(N.PROVIDERS_ADD)
-assert len(S.SCHOLARSHIPS_ADD) == 8, len(S.SCHOLARSHIPS_ADD)
-assert len(F.FAQ_ADD) == 22, len(F.FAQ_ADD)
+assert len(scholarships_add) == 16, len(scholarships_add)
+assert len(faq_add) == 30, len(faq_add)
 
 out = {
-    'govt_add': E.GOVT_ADD,
+    'govt_add': govt_add,
     'route_exam': G.ROUTE_EXAM,
     'career_licence': G.CAREER_LICENCE,
     'guides_add': G.GUIDES_ADD,
     'providers_add': N.PROVIDERS_ADD,
     'where_add': N.WHERE_ADD,
-    'route_seats': N.ROUTE_SEATS,
+    'route_seats': route_seats,
+    'fees': M.FEES_MORE,
+    'provider_note_add': M.PROVIDER_NOTE_MORE,
     'provider_websites': N.PROVIDER_WEBSITES,
-    'scholarships_add': S.SCHOLARSHIPS_ADD,
-    'scholarship_extra': S.SCHOLARSHIP_EXTRA,
-    'faq_add': F.FAQ_ADD,
+    'scholarships_add': scholarships_add,
+    'scholarship_extra': scholarship_extra,
+    'faq_add': faq_add,
 }
 text = json.dumps(out, ensure_ascii=False, indent=1)
 assert '\u2014' not in text and '\u2013' not in text and '--' not in text
@@ -52,11 +61,11 @@ assert not [ch for ch in text if ord(ch) > 0x2fff]
 (DATA / 'wave21.json').write_text(text + '\n', encoding='utf-8')
 print(
     'wave21.json', len(text), 'bytes;',
-    len(E.GOVT_ADD), 'exams;',
+    len(govt_add), 'exams;',
     len(G.GUIDES_ADD), 'guides;',
     len(N.PROVIDERS_ADD), 'new providers;',
     len(N.PROVIDER_WEBSITES), 'websites;',
-    len(S.SCHOLARSHIPS_ADD), 'new scholarships;',
-    len(S.SCHOLARSHIP_EXTRA), 'scholarships enriched;',
-    len(F.FAQ_ADD), 'faqs',
+    len(scholarships_add), 'new scholarships;',
+    len(scholarship_extra), 'scholarships enriched;',
+    len(faq_add), 'faqs',
 )
