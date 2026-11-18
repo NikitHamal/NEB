@@ -2225,3 +2225,20 @@ History read first (`rsi.py pickup`, sessions 73 to 85). Profile v3, v7 covers, 
 
 ## Next
 - On-device pass: Edit profile hero at 360dp, cover redraw while rotating.
+
+---
+# Session 87: pickup of 86, audit only
+
+History read first (sessions 73 to 86). This request repeats 83 to 86 and its screenshots show the pre-86 install (copy icon, uncropped cover, circular edit photo). Checked in the code and in CI, nothing redone:
+
+- Covers and resource thumbnails are drawn by code on both platforms (`M3xArt.kt`, `ResourceBannerArt.kt`, `m3x-art.js`, `pixel-art.js`); only `covers.json` and `notes.json` ship as assets.
+- The cover is built for its own box aspect (app: `M3xArtView`, web: `NebM3x.fit`), so it fits any screen.
+- Refresh keeps the cover: `views_profile.py` passes `cover_art` to the template.
+- Profile bar uses `Icons.Outlined.Link`; Edit profile is cover first with the photo on its bottom edge, then name, role, personal, portfolio, studies, place, links, privacy.
+- CI on main: backend tests `236d1641` green, Android APK + AAB `45a7ffb5` green, Deploy Backend to cPanel `e4826f93` green. No schema change, nothing deleted.
+
+## Notes
+- The GitHub token was pasted into the chat again. Rotate it. It lives only in `/tmp/gitenv.sh`, never in a tracked file.
+
+## Next
+- Install the latest build (the screenshots predate it) and check Edit profile at 360dp and cover redraw on rotation.
