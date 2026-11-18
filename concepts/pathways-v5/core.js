@@ -14,7 +14,7 @@
     var a = Math.abs(n), f = function (x) { return String(+x.toFixed(x < 10 ? 2 : x < 100 ? 1 : 0)); };
     return 'NPR ' + (a >= 1e7 ? f(n / 1e7) + ' Cr' : a >= 1e5 ? f(n / 1e5) + ' L' : a >= 1e3 ? f(n / 1e3) + 'k' : Math.round(n));
   };
-  V.range = function (a) { return !a ? '' : a[0] === a[1] ? V.npr(a[0]) : V.npr(a[0]) + ' to ' + V.npr(a[1]).replace('NPR ', ''); };
+  V.range = function (a) { return !a ? '' : a[0] === a[1] ? V.npr(a[0]) : a[0] === 0 ? 'Up to ' + V.npr(a[1]) : V.npr(a[0]) + ' to ' + V.npr(a[1]).replace('NPR ', ''); };
   V.mid = function (a) { return a ? (a[0] + a[1]) / 2 : 0; };
   V.avg = function (a, f) { return a.length ? a.reduce(function (s, x) { return s + f(x); }, 0) / a.length : 0; };
   V.by = function (arr) { return arr.reduce(function (m, x) { m[x.id] = x; return m; }, {}); };
@@ -67,7 +67,7 @@
   V.closeSheet = function () { var s = V.$('#scrim'); if (s) s.remove(); D.body.style.overflow = ''; };
 
   // router
-  V.NAV = [['home', 'Home', 'home'], ['courses', 'Courses', 'school'], ['colleges', 'Colleges', 'apartment'], ['careers', 'Careers', 'work'], ['exams', 'Exams', 'quiz'], ['abroad', 'Abroad', 'public'], ['schol', 'Grants', 'workspace_premium'], ['match', 'Match', 'auto_awesome'], ['roi', 'Worth it', 'savings'], ['plan', 'My plan', 'bookmark'], ['help', 'Guides', 'menu_book']];
+  V.NAV = [['home', 'Home', 'home'], ['roadmap', 'Roadmap', 'route'], ['courses', 'Courses', 'school'], ['colleges', 'Colleges', 'apartment'], ['careers', 'Careers', 'work'], ['exams', 'Exams', 'quiz'], ['abroad', 'Abroad', 'public'], ['schol', 'Grants', 'workspace_premium'], ['match', 'Match', 'auto_awesome'], ['roi', 'Worth it', 'savings'], ['plan', 'My plan', 'bookmark'], ['help', 'Guides', 'menu_book']];
   V.go = function (p) { location.hash = '#/' + p; };
   V.parse = function () { var h = location.hash.replace(/^#\/?/, '').split('/'); return { name: h[0] || 'home', arg: decodeURIComponent(h.slice(1).join('/')) }; };
   V.render = function () {

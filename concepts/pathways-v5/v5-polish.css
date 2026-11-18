@@ -25,3 +25,4 @@ body.scrolled .top{border-bottom-color:var(--ov)}
 /* buttons never go square on press */
 .btn,.chip,.seg button{border-radius:22px}
 .chip{border-radius:17px}
+.bnav button{min-width:0;flex:1}
