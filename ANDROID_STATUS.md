@@ -2032,3 +2032,22 @@ History read first (sessions 73 to 76). Profile v3 polish, v7 profile covers (we
 ## Next
 - Open to tiles with icons and per-profile-type tab sets (concept) still need the offers stored per profile type.
 - On-device pass: cover picker scroll, Dark covers, thumbnail contrast, glance tiles at 360dp.
+
+
+---
+# Session 78: pickup check (no code change)
+
+History read first (sessions 73 to 77). The request (Profile v3 on app and web, v7 profile covers with the banned families excluded, v1 thumbnails replacing the pixel resource art) is built, deployed and verified; nothing was redone.
+
+## Checked
+- `app/src/main/assets/m3x` and `img/m3x` hold the same cover, thumb and `covers.json` set (184 covers, 12 thumb families); no pixel resource PNGs remain.
+- CI on `main`: Backend tests and Deploy Backend green on `1fc05c73`. Live `/`, `/api/posts/`, `/static/web/img/m3x/covers.json` answer 200.
+- Android release build for `91614a71` (glance tiles) was still running at the time of writing; the previous one, `2819fd11`, is green.
+- No schema change, nothing deleted.
+
+## Notes
+- The GitHub token was pasted into the chat again. Rotate it. It lives only in `/tmp/gitenv.sh`, never in the repo.
+
+## Next
+- On-device pass: cover picker scroll, Dark covers, thumbnail contrast, glance tiles at 360dp.
+- Open to tiles and per-type tab sets need offers stored per profile type.
