@@ -28,7 +28,7 @@
     return '<div class="card road-path"><div class="row"><h3 class="grow">Your path</h3>' + (S.path.length ? '<button class="btn g sm" data-act="roadReset">Start over</button>' : '') + '</div>' +
       '<ol class="rl"><li class="rs">' + node(M('flag', 'sm'), 'p') + '<div class="grow"><b>' + START[S.stage] + '</b><div class="xs mut">You are here</div></div></li>' + steps + end + '</ol>' +
       (S.path.length ? '<div class="kpis rk"><div class="kpi"><b>' + +t.y.toFixed(1) + ' yrs</b><span>Study time</span></div><div class="kpi"><b>' + V.npr(t.lo) + ' to ' + V.npr(t.hi).replace('NPR ', '') + '</b><span>Total fees</span></div><div class="kpi"><b>' + (pay ? V.npr(Math.round(pay / 500) * 500) : 'n/a') + '</b><span>Starting pay a month</span></div></div>' +
-        '<div class="row wrap" style="margin-top:12px;gap:8px"><button class="btn sm" data-act="roadSave">' + M('bookmark_add', 'sm') + 'Save path</button><button class="btn t sm" data-act="roadCopy">' + M('content_copy', 'sm') + 'Copy</button></div>' : '') + '</div>';
+        '<div class="row wrap" style="margin-top:12px;gap:8px"><button class="btn sm" data-act="roadSave">' + M('bookmark_add', 'sm') + 'Save path</button><button class="btn t sm" data-act="roadCopy">' + M('share', 'sm') + 'Share</button></div>' : '') + '</div>';
   }
   function opt(r, i) {
     var g = V.grp(r.group);
@@ -50,7 +50,8 @@
     if (l && l._pro.length) extra += ui.sec('Where to study ' + E(l.name), '<div class="hs stag">' + l._pro.slice().sort(function (a, b) { return (b.seats || 0) - (a.seats || 0); }).slice(0, 8).map(function (p, i) { return ui.college(p, i); }).join('') + '</div>', ['course/' + l.id, 'Full course page']);
     return '<div class="cols"><div>' + main + extra + '</div><aside class="side">' + pathCard() + '</aside></div>';
   }
-  function refresh(scroll) { V.$('#roadBody').innerHTML = body(); if (scroll) V.$('#roadBody').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  function sync() { try { history.replaceState(null, '', '#/roadmap' + (S.path.length ? '/' + S.path.join(',') : '')); } catch (e) {} }
+  function refresh(scroll) { sync(); V.$('#roadBody').innerHTML = body(); if (scroll) V.$('#roadBody').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   V.acts.roadStart = function (el) { S.stage = el.dataset.id; S.path = []; S.field = ''; V.$$('#roadStart .chip').forEach(function (b) { b.setAttribute('aria-pressed', b === el); }); refresh(); };
   V.acts.roadPick = function (el) { S.path.push(el.dataset.id); S.field = ''; refresh(true); };
   V.acts.roadInfo = function (el, e) { e.stopPropagation(); V.go('course/' + el.dataset.id); };
@@ -59,11 +60,12 @@
   V.acts.roadField = function (el) { S.field = el.dataset.id; refresh(); };
   V.acts.roadSave = function () { var a = V.store.saved.course = V.store.saved.course || []; S.path.forEach(function (id) { if (a.indexOf(id) < 0) a.push(id); }); V.persist(); V.badge(); V.toast('Path saved to My plan', 'bookmark_added'); };
   V.acts.roadCopy = function () {
-    var t = totals(), txt = START[S.stage] + ' > ' + S.path.map(function (id) { return V.R[id].name; }).join(' > ') + ' (' + +t.y.toFixed(1) + ' years, ' + V.range([t.lo, t.hi]) + ')';
-    if (navigator.clipboard) navigator.clipboard.writeText(txt); V.toast('Path copied', 'content_copy');
+    var t = totals(), txt = START[S.stage] + ' > ' + S.path.map(function (id) { return V.R[id].name; }).join(' > ') + ' (' + +t.y.toFixed(1) + ' years, ' + V.range([t.lo, t.hi]) + ')\n' + location.href;
+    if (navigator.clipboard) navigator.clipboard.writeText(txt); V.toast('Path and link copied', 'content_copy');
   };
   V.views.roadmap = function (arg) {
-    if (arg && V.R[arg]) { S.stage = V.R[arg].stage; S.path = [arg]; S.field = ''; }
+    var ids = (arg || '').split(',').filter(function (i) { return V.R[i]; });
+    if (ids.length) { S.stage = V.R[ids[0]].stage; S.path = ids; S.field = ''; }
     return { title: 'Roadmap', html: ui.head('Roadmap', 'Pick a start, then choose each next step. See time, cost and careers add up.') +
       '<div class="chips" id="roadStart" style="margin-bottom:16px">' + Object.keys(START).map(function (k) { return '<button class="chip" data-act="roadStart" data-id="' + k + '" aria-pressed="' + (S.stage === k) + '">' + M(V.ST[k].icon) + START[k] + '</button>'; }).join('') + '</div><div id="roadBody">' + body() + '</div>' };
   };
