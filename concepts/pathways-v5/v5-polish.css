@@ -1,0 +1,27 @@
+/* Pathways v5 polish: overflow guards, tighter mobile controls, softer motion. Loaded last. */
+.view,main{min-width:0}
+.view{overflow-x:clip}
+.grid>*,.cols>*,.col>*,.row>.grow,.hs>*,.rowf>*{min-width:0}
+.cols{grid-template-columns:minmax(0,1fr)}
+@media(min-width:960px){.cols{grid-template-columns:minmax(0,1fr) 340px}}
+.fld{min-width:0;max-width:100%}
+.fld select{width:100%;text-overflow:ellipsis}
+.rowf{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rowf>.fld{flex:1 1 150px}
+.card h3,.card h2{overflow-wrap:anywhere}
+.kpi b{font-size:15px;overflow-wrap:anywhere}
+@media(min-width:640px){.kpi b{font-size:17px}}
+.dh h1,.ph h1{overflow-wrap:anywhere;text-wrap:balance}
+/* chips and rails: edge fade so users see there is more */
+.chips,.hs{scroll-padding:0 14px}
+.card.click{will-change:transform}
+.card.click:focus-visible{outline-offset:3px;border-radius:var(--r3)}
+/* section rhythm */
+.sec>.hd h2{font-size:19px;letter-spacing:-.2px}
+.sec+.sec{margin-top:32px}
+/* top bar: quiet blur-free divider that appears on scroll */
+.top{border-bottom-color:transparent;transition:border-color .2s,transform .3s var(--e)}
+body.scrolled .top{border-bottom-color:var(--ov)}
+/* buttons never go square on press */
+.btn,.chip,.seg button{border-radius:22px}
+.chip{border-radius:17px}
