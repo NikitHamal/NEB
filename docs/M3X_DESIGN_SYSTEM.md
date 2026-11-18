@@ -544,6 +544,14 @@ The rule now lives in the component, not in the caller:
 
 
 
+### 13.9 Native dialogs, art and covers (session 79; written after the cover dialog pinned itself to the top left)
+
+- **Why the web dialogs broke.** The site reset `* { margin: 0 }` also zeroed the browser's `margin: auto` on `<dialog>`, which is what centres a modal in the top layer. Every native dialog (cover picker, composer, admin) stuck to the top-left corner. The fix is one rule in `material3/01-tokens-typography.css`: `dialog { margin: auto }`.
+- **Never** write `margin: 0` on a dialog or a `*-dialog` class. A bottom sheet is `margin: auto 0 0` inside the 600px media query. A new dialog needs no centring code at all.
+- **Rows inside a dialog body size themselves.** A grid in a scrolling dialog sets `align-content: start` and `min-height: 0`; a tile never takes its height from an image that has not loaded (use `aspect-ratio` and a tonal well).
+- `web/test_dialog_centering.py` (Backend tests in CI) fails on all of these. Run it when you touch any dialog CSS.
+- **Art is never bundled as images.** The M3X art library is vector SVG served by the site (`static/web/img/m3x/`). The APK keeps only the 7 KB `assets/m3x/covers.json`; Coil rasterises the SVG at the drawn size and caches it. The web picker reads one sprite per theme, not one request per cover. Do not add WebP/PNG art to `app/src/main/assets` or the repo again.
+
 ## 14. Dark mode, status bar, post and comment rows (session 44; written after these flaws came back again)
 
 **Dark is neutral graphite, never navy.** Page `#121318`, cards `#1b1b21` / `#1f1f25`, raised `#292a2f` / `#2e2f36`, hairline `#45464f`, text `#e4e1e9` / `#c6c6d0`, primary `#b6c4ff`. It is the dark of `NEBians-Pathways.html` and is the same on web (`tokens.css`), Android (`Palette.kt`, generated), the splash (`values-night`), the auth screens and desktop. A new dark colour is taken from this ramp; no hex with a blue cast (`#0b1020`, `#172036` and friends) is written by hand. Brand blue lives in primary and the tonal containers only.

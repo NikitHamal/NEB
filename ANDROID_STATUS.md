@@ -2053,3 +2053,23 @@ History read first (sessions 73 to 77). The request (Profile v3 on app and web, 
 ## Next
 - On-device pass: cover picker scroll, Dark covers, thumbnail contrast, glance tiles at 360dp.
 - Open to tiles and per-type tab sets need offers stored per profile type.
+
+
+---
+# Session 79: pickup of the undocumented commits `b228ed0a` to `e1e4637e`, CI fix, deploy
+
+History read first (sessions 72 to 78 plus five commits that had no status entry). Nothing was redone.
+
+| # | What | Where |
+| --- | --- | --- |
+| 427 | **Pickup**: `b228ed0a` moved the M3X art to vector SVG served by the site (APK keeps only `assets/m3x/covers.json`, Coil `SvgDecoder` rasterises at the drawn size), fixed native dialog centring (`dialog { margin: auto }`) and the cover picker grid; `3e5ecb35` gave the Android profile a fixed scroll-driven top bar (avatar and name appear as the cover leaves, status bar scrim) and an Overview tab; `b4e06a53` and `e1e4637e` added the web Overview tab, one sprite file per theme for the cover picker, and `nebHorizontalScroll` on the overview. | see commits |
+| 428 | **CI fix**: both Android builds failed to compile: `WindowInsets.statusBars` needs the `statusBars` import (`ProfileScreen.kt`), `matchParentSize` is a `BoxScope` member and must not be imported (`ProfileTopBar.kt`). | `ProfileScreen.kt`, `ProfileTopBar.kt` |
+| 429 | **Never again rule** for dialogs and art written into the design system (section 13.9) and `AGENTS.md`; `web/test_dialog_centering.py` already guards it in Backend tests. | `docs/M3X_DESIGN_SYSTEM.md`, `AGENTS.md` |
+| 430 | **Deploy**: manual `deploy-backend.yml` dispatched (secrets from GitHub). No migration in this batch; the deploy only removes tracked files, never data or media. Ships the cover sprite and the web Overview tab. | workflow run |
+
+## Notes
+- The GitHub token was pasted into the chat again. Rotate it. It lives only in `/tmp/gitenv.sh`.
+
+## Next
+- On-device pass: profile bar hand-off at 360dp, cover picker scroll, Dark covers.
+- Profile edit: new fields for Open to and per-type tabs need offers stored per profile type.
