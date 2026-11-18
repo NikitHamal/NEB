@@ -1992,3 +1992,22 @@ Same file, same rule: nothing is built locally for Android, the check is the Git
 | 421 | **Native protocol fixes for keyless providers**: `ptero_proxy` now warms `https://ptero.pro/` to extract and cache `X-WP-Nonce` (fixing HTTP 403); `motiftech_proxy` maps `"low"` reasoning effort to `"small"` (matching upstream Zod schema) and passes `model` through `simple_chat`; `geminiweb_proxy` extracts `"cfb2h"` (`boq_gemini-web-uiserver_...`) build IDs; `views_admin_chat` and `llm/client.py` pass each keyless official preset's `default_key` (`public` for `zen`, empty for `kilo`, `unused` for `llm7`) instead of `'free'`. | `ptero_proxy.py`, `motiftech_proxy.py`, `geminiweb_proxy.py`, `views_admin_chat.py`, `api/llm/client.py` |
 | 422 | **Universal keyless failover mesh (`api/keyless_fallback.py`)**: when any keyless or community provider hits an upstream WAF challenge, missing risk token (`QWENCLOUD_UMIDTOKEN`), BotID 403, rate limit (429), or transient outage, it transparently routes the turn through model-family-matched live keyless upstreams (DeepAI free models, Motiftech 102B, K2Think 375B reasoning, LLM7, Kilo Gateway, Unikey, Ptero, Yqcloud, ChatJimmy). Wired into all chat proxies, `api/llm/client.py`, and `views_admin_chat.py`. All 17 keyless chat providers verified live. | `api/keyless_fallback.py`, `api/test_keyless_providers.py`, `web/views_admin_chat.py` |
 | 423 | **Admin bot editor cleanup**: `admin_catalog()` filters out TTS-only scrapers (`max_output_tokens == 0`) from the chat provider list; removed `#7C4DFF` purple and `50%` avatar radius in `bot_edit.html`. | `api/llm/registry.py`, `templates/admin_panel/bot_edit.html` |
+
+
+---
+# Session 76: pickup check of sessions 73 and 74 (no code change)
+
+History read first. The request (Profile v3 on app and web, profile cover from the M3X art library with v7 only, v1 thumbnails replacing the 2D pixel resource art) was built in session 73 (`994e6ed8`) and its CI fix and deploy landed in session 74. Nothing was redone.
+
+## Checked
+- `covers.json`: 184 covers, 23 compositions x 8 colours; no ribbons, arches, graph, net, stacks, bars, capsules, cascades or bands. 12 thumbnail families from v1.
+- Assets are identical for app (`app/src/main/assets/m3x`) and site (`img/m3x`), 2.6 MB of WebP; the 1.3 MB resource pixel PNGs are gone. `img/pixel` keeps only 104 KB of icons and motifs, not resource art.
+- CI on `main`: Android release build green on `2819fd11`; Backend tests and Deploy Backend green on `bf47f2ce`.
+- Live: `/`, `/api/posts/` and `/static/web/img/m3x/covers.json` answer 200 on `nebians.consica.com.np`. Migration 0173 is one additive `ADD COLUMN`; no data deleted.
+
+## Notes
+- The GitHub token was pasted into the chat again. Rotate it. It is only written to `/tmp/gitenv.sh`, never to the repo.
+
+## Next
+- On-device pass: cover picker scroll, Dark covers, thumbnail contrast on cards.
+- Glance tiles and Studying now once the profile API returns reads, answers and streak.
