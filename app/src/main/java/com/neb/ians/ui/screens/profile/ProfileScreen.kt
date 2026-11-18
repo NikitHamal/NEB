@@ -12,6 +12,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -121,7 +123,7 @@ fun ProfileScreen(
     var showCovers by remember { mutableStateOf(false) }
     val density = androidx.compose.ui.platform.LocalDensity.current
     val screenWidth = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp.dp
-    val statusPx = androidx.compose.foundation.layout.WindowInsets.statusBars.getTop(density)
+    val statusPx = WindowInsets.statusBars.getTop(density)
     // The bar turns solid as the cover's lower edge slides under it. Read only while drawing the bar.
     val barProgress: () -> Float = remember(density, screenWidth, statusPx) {
         val coverPx = with(density) { (screenWidth * 0.42f).coerceIn(148.dp, 232.dp).toPx() }
