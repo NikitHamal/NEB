@@ -2478,3 +2478,5 @@ History read first (`ANDROID_STATUS.md` 83 to 97). Sessions 83 to 97 wired code-
 
 ## Next
 - On-device look at Library and Home with 1.7.7; compare a card against `art-v3.html` thumbs.
+
+CI (session 98): `435c6f26` Android release build (APK + AAB) green. Backend tests green on `8ae85551` (includes `web.test_v3_thumb`). Deploy Backend to cPanel (run `44355464486`) green; static only (`v3-thumb.js`, `pixel-art.js`, CSS), no migration, nothing deleted.
