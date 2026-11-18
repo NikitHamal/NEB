@@ -226,7 +226,9 @@ def main():
             # previous deploy was silently dropped (admin analytics CSS stayed stale for days).
             # Stamp every extracted file with the real time right after extraction.
             remote.append("unzip -Z1 deploy.zip | grep -v '^[.]deploy_' > .deploy_changed.txt || true")
-            remote.append("unzip -o deploy.zip >/dev/null && mv -f .deploy_manifest.json.tmp .deploy_manifest.json || { echo 'UNZIP FAILED'; exit 1; }")
+            # The manifest is committed only after migrate and collectstatic passed (see STATUS: OK below). Moving it
+            # here left it ahead of the server when a later step failed, so the next delta skipped the files.
+            remote.append("unzip -o deploy.zip >/dev/null || { echo 'UNZIP FAILED'; exit 1; }")
             remote.append("xargs -d '\\n' -r touch < .deploy_changed.txt; rm -f .deploy_changed.txt")
             remote.append("rm -f deploy.zip")
             if deleted:
@@ -362,6 +364,7 @@ def main():
             remote.append("for i in 1 2 3; do curl -s -m 60 -o /dev/null -w 'warm %{http_code} %{time_total}s\\n' https://nebians.consica.com.np/api/realtime/config/ && break; sleep 3; done || true")
             remote.append("curl -s -m 60 -o /dev/null -w 'posts %{http_code} %{time_total}s\\n' https://nebians.consica.com.np/api/posts/ || true")
 
+        remote.append("[ -f .deploy_manifest.json.tmp ] && mv -f .deploy_manifest.json.tmp .deploy_manifest.json || true")
         remote.append(f"echo 'STATUS: OK' > {status_file}")
         remote.append("echo 'DEPLOYMENT SUCCESSFUL'")
 
