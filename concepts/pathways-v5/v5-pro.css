@@ -1,0 +1,45 @@
+/* Pathways v5 pro layer: course card v2, folded filters, For you feed, profile sheet. Flat, tonal, no shadows. */
+.cv2{gap:12px}
+.cv2 h3{font-size:15px;line-height:1.3}
+.cstat{display:grid;grid-template-columns:1.5fr 1fr 1.2fr;gap:2px;background:var(--s2);border-radius:var(--r2);padding:10px 4px}
+.cstat>div{padding:0 10px;min-width:0;border-left:1px solid color-mix(in srgb,var(--ov) 70%,transparent)}
+.cstat>div:first-child{border-left:0}
+.cstat b{display:block;font-size:14px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cstat span{display:block;font-size:10.5px;color:var(--onv);line-height:1.3;margin-top:2px}
+.olk{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.tag.note{background:var(--tc);color:var(--ontc);align-self:flex-start}
+.cv2:hover .mt i{filter:brightness(1.1)}
+.fyt{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left}
+.fyt .ms{color:var(--p)}
+.fysum{margin-top:-4px}
+.fyo .btn{flex:none}
+/* folded filters */
+.cnt-b{min-width:18px;height:18px;border-radius:9px;background:var(--p);color:var(--onp);font:600 11px/18px Poppins;text-align:center;padding:0 5px;margin-left:2px}
+.fb .fx{display:flex;flex-direction:column;gap:10px}
+.fb .fx.inl{flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap;display:contents}
+.fb .fbt{display:none}
+.fsum .cx{background:var(--sc);color:var(--onsc);border-color:transparent;height:30px;padding:0 10px 0 12px;font-size:12px}
+.fsum .cx .ms{font-size:16px}
+.fb .sl{max-width:420px}
+@media(max-width:899px){
+  .fb .fbt{display:inline-flex}
+  .fb:not(.open) .fx{display:none}
+  .fb.open .fx.inl{display:flex;flex-direction:column;align-items:stretch}
+  .fb.open .fx.inl .seg{align-self:flex-start}
+  .fb .fbt[aria-expanded=true]{background:var(--p);color:var(--onp)}
+  .fb:not(.open) .rowf{flex-wrap:nowrap}
+  .fb .rowf>.fld{flex:1 1 auto}
+  .fb .fsum{margin-top:2px}
+}
+/* profile sheet */
+.mesh h2{font-size:20px}
+.mf{margin-top:20px}
+.mf h4{font-size:13px;font-weight:600;margin-bottom:10px}
+.mf h4 .xs{font-weight:400;margin-left:6px}
+.cv2 .olk{margin-top:auto}
+@media(max-width:899px){
+  .fb .rowf{flex-wrap:wrap}
+  .fb .rowf>.fld.grow{flex:1 1 0;min-width:0}
+  .fb.open .fx.inl{flex:1 1 100%}
+  .fb.open .fx.inl .fld{width:100%}
+}
