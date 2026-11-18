@@ -2370,3 +2370,21 @@ History read first (`ANDROID_STATUS.md` 85 to 92, `INSTITUTIONS_STATUS.md`). Not
 
 ## Next
 - On-device pass: institution page hero logo (92dp), school picker rows, resource detail thumbnail.
+
+---
+# Session 94: pickup of 88 to 92, note banners zoomed in again, frame a bit shorter
+
+History read first (`ANDROID_STATUS.md` 83 to 92). Not redone: covers settle once, the cover rectangle (2.4 : 1 phone, 3 : 1 wide), Edit profile bar, desktop profile grid (fixed in `32505384`, deployed in 92; the screenshot is the build before that), profile and home rail thumbnails drawn by code (471).
+
+| # | What | Where |
+| --- | --- | --- |
+| 481 | **Note banners zoomed in a bit more**: `NoteCoverZoom` 0.80 to 0.90. Size and the distance of every centre from the middle scale by the same factor, so width to height proportion is unchanged. | `NotePage.kt` |
+| 482 | **Notes cover frame a bit shorter**: 2.3 : 1 to 2.5 : 1 (editor 128 to 200dp). Covers 41+ and library art are redrawn for the box, so they still fill it. Unit test updated. | `NotePage.kt`, `NoteEditorScreen.kt`, `NoteCoverUnitTest.kt` |
+
+## Notes
+- App resource surfaces already draw `ResourceBannerArt` / `M3xThumb` only (audited: no `AsyncImage` of a resource thumbnail remains outside video posters and Image resources).
+- Visual check: headless Chromium works in the VM with libs unpacked to `/tmp/debs` (`LD_LIBRARY_PATH`), used on `NEBians-Art.html`. The Compose banners 1 to 40 cannot be rendered here; their change is arithmetic only.
+- No schema change, nothing deleted from the database. Token only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+
+## Next
+- On-device pass: note banners at card (54dp), picker (76dp) and editor (2.5 : 1).

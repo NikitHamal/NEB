@@ -329,23 +329,23 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
 }
 
 /** Width over height of the note editor's cover frame (a little shorter than before), the frame the 40 drawn banners are composed on. */
-const val NoteCoverFrameAspect = 2.3f
+const val NoteCoverFrameAspect = 2.5f
 
 /** Shape size at the reference frame, as a share of its height (the size the banners were drawn with). */
 private const val NoteCoverUnit = 0.9f
 
 /**
- * Zoom of the drawn banners: 1 is the fully cropped-in look, 0.62 was too far out. Size and the distance of every centre
+ * Zoom of the drawn banners: 1 is the fully cropped-in look, 0.62 was too far out and 0.80 still a little far. Size and the distance of every centre
  * from the middle of the frame scale by the same factor, so the picture keeps its width and height proportion and only the
  * view moves a little closer (0.80).
  */
-internal const val NoteCoverZoom = 0.80f
+internal const val NoteCoverZoom = 0.90f
 
 /** A centre's place across (or down) the frame, [frac] of the frame, pulled toward the middle by [NoteCoverZoom]. */
 internal fun noteCoverPos(frac: Float): Float = 0.5f + (frac - 0.5f) * NoteCoverZoom
 
 /**
- * The 40 drawn banners, one composition, any frame. The reference frame is the editor's (2.3 : 1). A frame of that shape shows
+ * The 40 drawn banners, one composition, any frame. The reference frame is the editor's (2.5 : 1). A frame of that shape shows
  * it exactly; a wider one (a card, a strip) keeps the shapes the size they have at the same height and spreads their centres
  * across the width; a taller one keeps them the size they have at the same width. So the size follows the frame's limiting side
  * and a circle stays a circle, a cookie stays a cookie, at every size. Nothing is stretched, nothing is cropped away.

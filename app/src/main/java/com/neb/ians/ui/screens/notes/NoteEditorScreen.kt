@@ -466,7 +466,7 @@ private fun NoteCoverArea(cover: Int, photo: java.io.File?, editable: Boolean, o
     var tools by remember { mutableStateOf(false) }
     LaunchedEffect(tools) { if (tools) { kotlinx.coroutines.delay(4200); tools = false } }
     Box(
-        Modifier.fillMaxWidth().heightIn(min = 140.dp, max = 216.dp).aspectRatio(NoteCoverFrameAspect)
+        Modifier.fillMaxWidth().heightIn(min = 128.dp, max = 200.dp).aspectRatio(NoteCoverFrameAspect)
             .then(if (editable) Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { tools = !tools } else Modifier),
     ) {
         NoteCover(cover, photo, Modifier.matchParentSize())
