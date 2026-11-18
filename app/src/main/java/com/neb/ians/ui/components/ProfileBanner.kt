@@ -73,7 +73,7 @@ fun profileCoverHeight(width: androidx.compose.ui.unit.Dp, statusTop: androidx.c
 
 /** Width over height of the cover frame at [width]. Picker tiles use it so a tile is the cover as it will look. */
 fun profileCoverAspect(width: androidx.compose.ui.unit.Dp): Float =
-    width.value / profileCoverHeight(width, androidx.compose.ui.unit.Dp.Zero).value
+    width.value / profileCoverHeight(width, androidx.compose.ui.unit.Dp(0f)).value
 
 /**
  * Picks the cover role + deco text for a profile, mirroring the web's
