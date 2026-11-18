@@ -797,7 +797,16 @@ class Wave18Tests(TestCase):
         self.assertEqual(by_p['p-nmc-jorpati']['website'], 'https://www.nmcth.edu')
         self.assertEqual(by_p['p-trinity']['website'], 'https://www.trinity.edu.np')
         self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 268)
+        govt = {g['id']: g for g in d['govt']}
+        self.assertEqual(govt['e-kuumat']['fee'], 1500)
+        self.assertEqual(govt['e-ballb']['seats'], 570)
+        self.assertEqual(govt['e-afu']['fee'], 3000)
+        self.assertEqual(govt['l-sat']['fee'], 15200)
+        self.assertEqual(govt['l-gre']['fee'], 30000)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertEqual(routes['bsc-agri']['exam_id'], 'e-afu')
+        self.assertEqual(routes['ba-llb']['exam_id'], 'e-ballb')
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 21):
+        for i in range(1, 26):
             self.assertIn(f'fw18-{i}', faq)
         self.assertEqual(pathways.problems(d), [])
