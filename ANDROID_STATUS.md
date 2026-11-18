@@ -2390,3 +2390,22 @@ History read first (`ANDROID_STATUS.md` 83 to 92). Not redone: covers settle onc
 - On-device pass: note banners at card (54dp), picker (76dp) and editor (2.5 : 1).
 
 CI: `e0dc05d6` Android release build (APK + AAB) green. Web side unchanged by this session (the shared card was already fixed and deployed in `7a2da204`), so no deploy was needed.
+
+---
+# Session 95: pickup of 93 and 94, verified accounts without an institution row, claim entry points, edit profile race
+
+History read first (`ANDROID_STATUS.md` 93 and 94, `INSTITUTIONS_STATUS.md`). Not redone: owner picture as logo, `owned_slug`, `is_claimable`, spacing rhythm of the school page, resource thumbnails drawn by code (web card, home rail, profile, detail; app `M3xThumb` on every resource surface). Checked against the live site with headless Chromium first: `/app/schools/nebians/` shows the logo, the 16/24/28 rhythm and no claim button; `/app/library/` draws the v1 art on every card; `/api/institutions/` returns `photoUrl` and `claimable: false` for the two verified rows. The screenshot is the build before the deploy of `7a2da204`.
+
+| # | What | Where |
+| --- | --- | --- |
+| 483 | **Why some owners still saw Claim and no logo**: an admin can tick `institution_verified` on an account (admin panel or admin API) without an application, which left a verified institution with no `Institution` row. No page, no `photoUrl`, no owned slug, so Edit profile and the profile page offered "Claim". New `heal_owner(user)` links the row the account points at (`school_slug`, or the one unclaimed row with exactly its name) or creates one, marks it verified, links people. It adds or links only. Runs when an admin saves the flag, lazily from `owned_slug`, `institutions/mine` and the web profile, and once for existing accounts in migration `0174` (wrapped, never blocks a deploy). | `institutions.py`, `views_admin.py`, `admin_views.py`, `views_institutions.py`, `views_inst_folio.py`, `0174_heal_verified_institution_owners.py` |
+| 484 | **"Get verified" on the schools directory** was shown to everybody, owners included. Now only an institution account with no verified institution sees it. | `schools.html`, `views_institutions.py` |
+| 485 | **Edit profile (app)**: the claim button waited for nothing, so it showed "Find and claim" until the owner lookup returned, and stayed that way if the lookup failed. It now appears only after the server has answered (`ownedKnown`). | `CompleteProfileViewModel.kt`, `EditProfilePortfolio.kt` |
+| 486 | Tests: heal creates and links once, idempotent, directory hides the CTA. | `web/test_inst_logo_claim.py` |
+
+## Notes
+- No schema change, nothing deleted from the database. Token only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+- Never built locally: Android check is the GitHub Actions run; web ships with `deploy-backend.yml`.
+
+## Next
+- On-device pass: Edit profile as a verified institution owner (button label appears after a moment, never "claim").

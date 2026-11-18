@@ -472,6 +472,11 @@ def admin_user_detail(request, user_id):
         user_obj.institution_verified = request.POST.get('institution_verified') == 'on'
         user_obj.achievement_badges = request.POST.get('achievement_badges', '')
         user_obj.save()
+        try:
+            from api.institutions import heal_owner
+            heal_owner(user_obj)
+        except Exception:
+            pass
     user_data = UserSerializer(user_obj).data
     achievement_badges_list = _user_achievement_badges(user_obj)
     from api.models import NEPAL_DISTRICTS

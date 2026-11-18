@@ -45,8 +45,13 @@ def schools_directory(request):
     if page == 1 and not district:
         verified_rows, verified_total, vcounts = svc.search(q, kind, district, limit=24, verified_only=True)
     rows, total, counts = svc.search(q, kind, district, limit=PAGE, offset=(page - 1) * PAGE, unverified_only=True)
+    user_id = _get_user_id(request)
+    viewer = _request_db_user(request, user_id) if user_id else None
+    # "Get verified" is for an institution account that has no verified institution yet; never for the owner of one.
+    can_apply = bool(viewer and viewer.role == 'institution' and not viewer.institution_verified
+                     and not Institution.objects.filter(claimed_by=viewer, verified=True).exists())
     return render(request, 'web/schools.html', _ctx(
-        request, q=q, kind=kind, district=district, page=page, kinds=KIND_CHOICES, districts=NEPAL_DISTRICTS,
+        request, can_apply=can_apply, q=q, kind=kind, district=district, page=page, kinds=KIND_CHOICES, districts=NEPAL_DISTRICTS,
         verified=_cards(verified_rows, vcounts), verified_total=verified_total,
         schools=_cards(rows, counts), total=total, has_next=page * PAGE < total, next_page=page + 1,
         catalog_total=Institution.objects.count(),

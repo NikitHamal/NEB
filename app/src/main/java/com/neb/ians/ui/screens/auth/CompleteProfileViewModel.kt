@@ -70,6 +70,8 @@ data class CompleteProfileUiState(
     val experienceYears: String = "",
     val employment: String = "",
     val portfolioLoaded: Boolean = false,
+    /** True once the server has said whether this account owns an institution; the claim button waits for it. */
+    val ownedKnown: Boolean = false,
     val institutions: List<com.neb.ians.data.api.ApiInstitution> = emptyList()
 )
 
@@ -517,8 +519,9 @@ class CompleteProfileViewModel @Inject constructor(
             val p = runCatching { apiService.getProfile(authRepository.getBearerToken(), username) }.getOrNull() ?: return@launch
             // A verified owner keeps no school of their own, so the slug can come back blank; the institution they own is the answer.
             val ownerToken = authRepository.getBearerToken()
+            var ownedKnown = p.role != "institution" || !p.schoolSlug.isNullOrBlank()
             val ownedSlug = if (ownerToken != null && p.schoolSlug.isNullOrBlank() && p.role == "institution") {
-                runCatching { apiService.myInstitution(ownerToken).institution?.slug }.getOrNull().orEmpty()
+                runCatching { apiService.myInstitution(ownerToken).institution?.slug.also { ownedKnown = true } }.getOrNull().orEmpty()
             } else ""
             _uiState.update {
                 it.copy(
@@ -526,7 +529,7 @@ class CompleteProfileViewModel @Inject constructor(
                     eduStatus = p.eduStatus.orEmpty(), eduProgram = p.eduProgram.orEmpty(), eduTerm = p.eduTerm.orEmpty(),
                     eduCompleted = p.eduCompleted.orEmpty(),
                     teachLevels = csv(p.teachLevels), experienceYears = if (p.experienceYears > 0) p.experienceYears.toString() else "",
-                    employment = p.employment.orEmpty(), portfolioLoaded = true,
+                    employment = p.employment.orEmpty(), portfolioLoaded = true, ownedKnown = ownedKnown,
                     schoolSlug = p.schoolSlug.orEmpty().ifBlank { ownedSlug }, coverArt = p.coverArt.orEmpty()
                 )
             }

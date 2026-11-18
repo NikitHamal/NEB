@@ -47,7 +47,7 @@ internal fun EditPortfolioSection(state: CompleteProfileUiState, viewModel: Comp
                 placeholder = if (state.role == "teacher") "Physics, made visual" else "One line about you",
                 leadingIcon = Icons.Outlined.Badge
             )
-            if (state.role == "institution") {
+            if (state.role == "institution" && state.ownedKnown) {
                 val manage = com.neb.ians.ui.screens.institutions.LocalManageInstitution.current
                 val find = com.neb.ians.ui.screens.institutions.LocalOpenSchools.current
                 androidx.compose.material3.FilledTonalButton(

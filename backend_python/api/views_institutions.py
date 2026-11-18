@@ -75,6 +75,11 @@ def institution_mine(request):
     if err:
         return err
     inst = Institution.objects.select_related('profile').filter(claimed_by=user, verified=True).first()
+    if inst is None and user.institution_verified:
+        try:
+            inst = svc.heal_owner(user)
+        except Exception:
+            inst = None
     app = (InstitutionVerification.objects.filter(applicant=user).select_related('institution')
            .order_by('-created_at').first())
     out = {'institution': None, 'application': _application(app) if app else None,

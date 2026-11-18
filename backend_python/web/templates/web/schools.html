@@ -14,10 +14,12 @@
     {% url 'web:home' as back_href %}
     {% include "web/partials/_back.html" with back_label="Back to Home" %}
     <h1 class="sch-title">Schools</h1>
+    {% if can_apply %}
     <a class="md-btn md-btn-tonal sch-head-cta" href="{% url 'web:school_apply' %}">
       <span class="material-symbols-outlined">verified</span>
       Get verified
     </a>
+    {% endif %}
   </header>
 
   <form class="sch-search" method="get" action="{% url 'web:schools' %}" role="search">

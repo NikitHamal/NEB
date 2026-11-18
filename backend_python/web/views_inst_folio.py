@@ -58,6 +58,12 @@ def profile_extras(profile_user, is_self, has_entries=None):
             out['strength'] = person_strength(profile_user, has_entries)
         return out
     inst = Institution.objects.filter(claimed_by=profile_user).first()
+    if inst is None and profile_user.institution_verified:
+        from api.institutions import heal_owner
+        try:
+            inst = heal_owner(profile_user)
+        except Exception:
+            inst = None
     if inst is None:
         out['inst'] = {'claimed': False, 'own': is_self}
         return out

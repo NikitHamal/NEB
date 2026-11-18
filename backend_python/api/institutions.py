@@ -186,11 +186,54 @@ def is_claimable(inst, viewer=None):
     return True
 
 
+def heal_owner(user):
+    """Give a verified institution account the institution it stands for.
+
+    An admin can tick `institution_verified` on an account without going through an application, which left a
+    verified institution with no `Institution` row: no page, no logo, and "claim" shown to its owner. This links
+    the row the account already points at (its `school_slug`, or one unclaimed row with exactly its name), else
+    creates one. It only adds or links, never deletes or moves a row that somebody else holds.
+    """
+    if user is None or getattr(user, 'role', '') != 'institution' or not user.institution_verified:
+        return None
+    inst = Institution.objects.filter(claimed_by=user).order_by('-verified', 'id').first()
+    if inst is None:
+        free = Institution.objects.filter(claimed_by__isnull=True)
+        if user.school_slug:
+            inst = free.filter(slug=user.school_slug).first()
+        if inst is None and user.school:
+            same = list(free.filter(name__iexact=user.school.strip())[:2])
+            inst = same[0] if len(same) == 1 else None
+        if inst is not None:
+            inst.claimed_by = user
+        else:
+            name = (user.school or user.display_name or user.username or '').strip()
+            inst = Institution(
+                slug=unique_slug(name or user.username), name=name or user.username,
+                kind=kind_for_type(user.institution_type), district=user.district or '',
+                province=user.pradesh or '', source='account', claimed_by=user, created_at=now_ms())
+    if not inst.verified:
+        inst.verified = True
+        inst.verified_at = inst.verified_at or now_ms()
+    inst.save()
+    link_people(inst)
+    return inst
+
+
 def owned_slug(user):
     """Slug of the verified institution this account owns, or ''."""
     if user is None or getattr(user, 'role', '') != 'institution':
         return ''
-    return Institution.objects.filter(claimed_by=user, verified=True).values_list('slug', flat=True).first() or ''
+    slug = Institution.objects.filter(claimed_by=user, verified=True).values_list('slug', flat=True).first()
+    if slug:
+        return slug
+    if user.institution_verified:
+        try:
+            inst = heal_owner(user)
+        except Exception:
+            inst = None
+        return inst.slug if inst else ''
+    return ''
 
 
 def select_school(user, slug='', custom_name=''):

@@ -189,6 +189,11 @@ def admin_user_detail(request, user_id):
         if 'achievement_badges' in data:
             user.achievement_badges = str(data['achievement_badges'])
         user.save()
+        try:
+            from .institutions import heal_owner
+            heal_owner(user)
+        except Exception:
+            pass
         return Response(UserSerializer(user).data)
 
 
