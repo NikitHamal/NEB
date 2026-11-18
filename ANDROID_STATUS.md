@@ -2183,3 +2183,5 @@ History read first (73 to 83, `RSI_PIPELINE.md` pickup). Everything in the reque
 ## Next
 - On-device pass: cover breathing cost on low-end phones, bar hand-off at 360dp.
 - Move the note covers to the same engine.
+
+CI: `feeb6bc` Android release build (APK + AAB) green. Backend deployed through `deploy-backend.yml` (run `44285485466`, green; backend identical to the green tests run on `3508e99e`, no migration, no data touched).
