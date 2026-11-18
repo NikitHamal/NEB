@@ -48,11 +48,11 @@
   function sheet() {
     var d = draft;
     return '<div class="mesh"><div class="row"><h2 class="grow">Make Pathways yours</h2><button class="save" data-act="meClose" aria-label="Close">' + M('close') + '</button></div>' +
-      '<div class="mf"><h4>I am</h4>' + chips('mp-stage', PW.stages.map(function (s) { return [s.id, s.label, s.icon]; }), d.stage) + '</div>' +
-      '<div class="mf" id="mp-fw"><h4>I like <span class="xs mut">pick up to 3</span></h4>' + chips('mp-groups', fields(d.stage).map(function (k) { return [k, V.grp(k)[0], V.grp(k)[1]]; }), d.groups, true) + '</div>' +
-      '<div class="mf"><h4>I want</h4>' + chips('mp-goal', GOALS, d.goal) + '</div>' +
-      '<div class="mf"><div class="row"><h4 class="grow">Budget for the whole course</h4><b id="mp-capl">' + V.CAPL[d.cap] + '</b></div><input class="rng" type="range" min="0" max="6" value="' + d.cap + '" data-in="mecap"></div>' +
-      '<div class="mf"><h4>My district</h4><label class="fld">' + M('location_on') + '<select data-in="medist"><option value="">Anywhere in Nepal</option>' + dists().map(function (x) { return '<option' + (x === d.district ? ' selected' : '') + '>' + E(x) + '</option>'; }).join('') + '</select></label></div>' +
+      '<div class="pf"><h4>I am</h4>' + chips('mp-stage', PW.stages.map(function (s) { return [s.id, s.label, s.icon]; }), d.stage) + '</div>' +
+      '<div class="pf" id="mp-fw"><h4>I like <span class="xs mut">pick up to 3</span></h4>' + chips('mp-groups', fields(d.stage).map(function (k) { return [k, V.grp(k)[0], V.grp(k)[1]]; }), d.groups, true) + '</div>' +
+      '<div class="pf"><h4>I want</h4>' + chips('mp-goal', GOALS, d.goal) + '</div>' +
+      '<div class="pf"><div class="row"><h4 class="grow">Budget for the whole course</h4><b id="mp-capl">' + V.CAPL[d.cap] + '</b></div><input class="rng" type="range" min="0" max="6" value="' + d.cap + '" data-in="mecap"></div>' +
+      '<div class="pf"><h4>My district</h4><label class="fld">' + M('location_on') + '<select data-in="medist"><option value="">Anywhere in Nepal</option>' + dists().map(function (x) { return '<option' + (x === d.district ? ' selected' : '') + '>' + E(x) + '</option>'; }).join('') + '</select></label></div>' +
       '<div class="row" style="margin-top:20px;gap:8px"><button class="btn grow" data-act="meSave">Show my feed</button>' + (me() ? '<button class="btn o" data-act="meReset">Reset</button>' : '') + '</div></div>';
   }
   V.acts.me = function () { var m = me(); draft = m ? { stage: m.stage, groups: m.groups.slice(), cap: m.cap, district: m.district, goal: m.goal } : { stage: V.st.home.stage || 'after12', groups: [], cap: 6, district: '', goal: 'unsure' }; V.sheet(sheet()); };
