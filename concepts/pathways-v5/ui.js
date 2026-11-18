@@ -14,11 +14,13 @@
   ui.chipRow = function (id, items, cur, multi) {
     return '<div class="chips ' + (multi ? 'wrap' : '') + '" id="' + id + '">' + items.map(function (x) { return '<button class="chip" data-act="chip" data-k="' + id + '" data-v="' + E(x[0]) + '" aria-pressed="' + (cur === x[0]) + '">' + (x[2] ? M(x[2]) : '') + E(x[1]) + '</button>'; }).join('') + '</div>';
   };
-  ui.course = function (r, i) {
-    var g = V.grp(r.group), pro = r._pro.length;
-    return '<article class="card click cc" style="--i:' + (i || 0) + '" data-go="course/' + r.id + '" tabindex="0"><div class="row"><span class="ic ' + g[2] + '">' + M(g[1]) + '</span><div class="grow"><h3>' + E(r.name) + '</h3><div class="xs mut">' + E(r.kind) + ' &middot; ' + E(r.years) + '</div></div>' + V.saveBtn('course', r.id) + '</div>' +
-      '<p class="sm mut cl2">' + E(r.about) + '</p><div class="row wrap" style="gap:6px"><span class="tag">' + M('payments') + V.range(r.fee) + '</span>' + (pro ? '<span class="tag">' + M('apartment') + pro + ' colleges</span>' : '') + '<span class="tag">' + M('login') + E(r.entry) + '</span></div>' +
-      (r._c.length ? '<div class="row" style="gap:16px"><span class="xs mut row" style="gap:6px">Demand ' + ch.dots(r._dem, 'var(--good)') + '</span><span class="xs mut row" style="gap:6px">Competition ' + ch.dots(r._comp, 'var(--warn)') + '</span></div>' : '') + '</article>';
+  ui.course = function (r, i, note) {
+    var g = V.grp(r.group), pro = r._pro.length, has = r._c.length, fee = V.range(r.fee).replace(/NPR /g, '');
+    return '<article class="card click cc cv2" style="--i:' + (i || 0) + '" data-go="course/' + r.id + '" tabindex="0"><div class="row" style="align-items:flex-start"><span class="ic ' + g[2] + '">' + M(g[1]) + '</span><div class="grow"><h3>' + E(r.name) + '</h3><div class="xs mut">' + E(r.kind) + ' &middot; ' + E(r.years) + '</div></div>' + V.saveBtn('course', r.id) + '</div>' +
+      (note ? '<span class="tag note">' + M('auto_awesome') + E(note) + '</span>' : '') +
+      '<p class="sm mut cl2">' + E(r.about) + '</p>' +
+      '<div class="cstat"><div><b>' + E(fee) + '</b><span>Fee, NPR</span></div><div><b>' + (pro || '-') + '</b><span>Colleges</span></div><div><b>' + (has ? V.npr(r._pay).replace('NPR ', '') : '-') + '</b><span>Starting pay</span></div></div>' +
+      (has ? '<div class="olk"><span class="xs mut">Demand</span><div class="mt" style="--v:' + Math.round(r._dem * 20) + ';--c:var(--good)"><i></i></div><b class="xs">' + ch.level(r._dem) + '</b></div>' : '') + '</article>';
   };
   ui.college = function (p, i) {
     var rs = Object.keys(p._r).filter(function (x) { return V.R[x]; }).slice(0, 3).map(function (x) { return '<span class="tag">' + E(V.R[x].name) + '</span>'; }).join('');
