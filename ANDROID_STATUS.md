@@ -2092,4 +2092,4 @@ History read first. Profile v3, v7 covers (web and app), v1 thumbnails, glance t
 - On-device pass: profile top bar at 360dp, cover picker scroll, Dark covers.
 
 
-CI: Android release build (APK + AAB) green on `a8a66c7d` after the compile fix. Deploy Backend green on the same commit; live `/`, `/api/posts/`, `covers.json` and the cover sprite (450 KB gzipped, cached) answer 200. Nothing deleted, no migration.
+Session 79 CI: Android release build (APK + AAB) green on `a8a66c7d` after the compile fix. Deploy Backend green on the same commit (the sprite it shipped was replaced by lazy previews in session 80). Nothing deleted, no migration.
