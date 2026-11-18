@@ -2,7 +2,9 @@ package com.neb.ians.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiGlanceTile
 import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiStudying
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiService
@@ -49,6 +51,8 @@ data class ProfileSnapshot(
 
 data class ProfileUiState(
     val profile: UserProfileResponse? = null,
+    val glance: List<ApiGlanceTile> = emptyList(),
+    val studying: ApiStudying? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
     val isFollowing: Boolean = false,
@@ -195,6 +199,8 @@ class ProfileViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         profile = profileWithStats,
+                        glance = stats.glance,
+                        studying = stats.studying,
                         isLoading = false,
                         isFollowing = statsIsFollowing,
                         isRequested = statsIsRequested,

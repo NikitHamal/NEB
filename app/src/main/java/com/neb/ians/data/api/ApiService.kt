@@ -2330,7 +2330,25 @@ data class ApiProfileStats(
     @SerialName("is_requested") val isRequested: Boolean = false,
     @SerialName("follow_requests_count") val followRequestsCount: Int = 0,
     @SerialName("is_self") val isSelf: Boolean = false,
-    @SerialName("is_private") val isPrivate: Boolean = false
+    @SerialName("is_private") val isPrivate: Boolean = false,
+    val glance: List<ApiGlanceTile> = emptyList(),
+    val studying: ApiStudying? = null
+)
+
+/** One of the three overview tiles on a profile (api/profile_glance.py). `icon` is a Material Symbols name. */
+@Serializable
+data class ApiGlanceTile(val icon: String = "", val value: String = "", val label: String = "", val tone: Int = 1)
+
+/** "Studying now" on a student profile: latest public post's subject, today's actions, streak, Monday-first week. */
+@Serializable
+data class ApiStudying(
+    val subject: String = "",
+    val title: String = "",
+    val postId: String = "",
+    val today: Int = 0,
+    val streak: Int = 0,
+    val week: List<Int> = emptyList(),
+    val todayIndex: Int = 0
 )
 
 // -------------------------------------------------------------

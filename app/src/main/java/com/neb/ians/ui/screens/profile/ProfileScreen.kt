@@ -387,6 +387,15 @@ private fun ProfileBody(
             return@LazyColumn
         }
 
+        if (uiState.glance.isNotEmpty() || uiState.studying != null) {
+            item(key = "overview") {
+                Column(Modifier.padding(top = 4.dp, bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    ProfileGlance(uiState.glance)
+                    uiState.studying?.let { ProfileStudyingNow(it, onOpenPost = onPostClick) }
+                }
+            }
+        }
+
         stickyHeader(key = "tabs") { _: Int ->
             Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
                 NebTabRail(
