@@ -129,3 +129,11 @@
 .profile-page .pf-cover-edit:hover { background: var(--md-surface-container-high); }
 .profile-page .pf-cover-edit:active { transform: scale(.92); }
 .profile-page .pf-cover-edit .material-symbols-outlined { font-size: 21px; }
+
+/* Picker footer button (the dialog sits outside .profile-page, so it styles itself) */
+.cv-foot button {
+  height: 40px; padding: 0 20px; border-radius: 20px; border: 1.5px solid var(--md-outline-variant); background: var(--md-surface-container-lowest);
+  color: var(--md-primary); font: 600 .875rem/1 inherit; cursor: pointer; transition: background-color .15s, transform .3s var(--spring, ease);
+}
+.cv-foot button:hover { background: var(--md-surface-container-high); }
+.cv-foot button:active { transform: scale(.96); }

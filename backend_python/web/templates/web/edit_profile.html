@@ -17,9 +17,42 @@
    scrolling it told you neither how much was left nor what any field had to do
    with the one above it. {% endcomment %}
 <div class="epf-page">
-  <header class="epf-head">
-    <h1 class="epf-title">{% if profile_incomplete %}Complete your profile{% else %}Edit profile{% endif %}</h1>
-  </header>
+  {% url 'web:profile' user.username as back_href %}
+  {% comment %} The cover first, drawn for its own box so the whole piece always shows; the photo hangs across its bottom
+     edge in the middle, like the profile it edits. Change cover opens the same picker as the profile. {% endcomment %}
+  <div class="epf-hero">
+    <div class="epf-cover">
+      <div class="neb-art pf-banner-art epf-cover-art" data-neb-art="cover" data-neb-cover="{{ cover_art }}" data-neb-user="{{ user.username }}" data-neb-live></div>
+      {% include "web/partials/_back.html" with back_label="Back to profile" back_class="neb-back-on-art epf-back" %}
+      {% if cover_choices %}<button type="button" class="epf-cover-btn" data-action="open-cover-picker"><span class="material-symbols-outlined" aria-hidden="true">palette</span>Change cover</button>{% endif %}
+    </div>
+    <button type="button" class="epf-identity-avatar av-inset" data-avatar-seed="{{ user.username }}" data-action="trigger-photo-upload"
+            aria-label="Change your profile photo">
+      {% if user.photo_url %}
+        <img loading="eager" decoding="async" id="edit-avatar-preview" src="{{ user.photo_url }}" alt="">
+      {% else %}
+        <div id="edit-avatar-preview-initial" class="epf-identity-initial">{{ user.display_name|default:user.username|slice:":1"|upper }}</div>
+      {% endif %}
+      <span class="epf-identity-camera" aria-hidden="true">
+        <span class="material-symbols-outlined">add_a_photo</span>
+      </span>
+    </button>
+    <input type="file" id="photo_file" accept="image/*" class="epf-file-input" data-change-action="edit-photo-upload">
+  </div>
+
+  <div class="epf-identity">
+    <h1 class="epf-identity-name">{{ user.display_name|default:"Your name" }}</h1>
+    <div class="epf-identity-handle">@{{ user.username|default:"username" }}</div>
+    <div class="epf-strength" id="epf-strength">
+      <div class="epf-strength-top">
+        <span class="epf-strength-word" id="epf-strength-word">Profile strength</span>
+        <span class="epf-strength-count" id="epf-strength-count">0/10</span>
+      </div>
+      <div class="epf-strength-track">
+        <div class="epf-strength-fill" id="epf-strength-fill"></div>
+      </div>
+    </div>
+  </div>
 
   {% if profile_incomplete %}
   <div class="epf-note epf-note-info">
@@ -35,43 +68,6 @@
 
   <form method="post" class="epf-form">
     {% csrf_token %}
-
-    {% comment %} Who you are right now, and how much of you is filled in. The meter
-       counts the same ten things the app's profileStrength() counts. {% endcomment %}
-    <div class="epf-identity">
-      <button type="button" class="epf-identity-avatar av-inset" data-avatar-seed="{{ user.username }}" data-action="trigger-photo-upload"
-              aria-label="Change your profile photo">
-        {% if user.photo_url %}
-          <img loading="lazy" decoding="async" id="edit-avatar-preview" src="{{ user.photo_url }}" alt="">
-        {% else %}
-          <div id="edit-avatar-preview-initial" class="epf-identity-initial">{{ user.display_name|default:user.username|slice:":1"|upper }}</div>
-        {% endif %}
-        <span class="epf-identity-camera" aria-hidden="true">
-          <span class="material-symbols-outlined">add_a_photo</span>
-        </span>
-      </button>
-      <input type="file" id="photo_file" accept="image/*" class="epf-file-input" data-change-action="edit-photo-upload">
-
-      <div class="epf-identity-name">{{ user.display_name|default:"Your name" }}</div>
-      <div class="epf-identity-handle">@{{ user.username|default:"username" }}</div>
-
-      <div class="epf-strength" id="epf-strength">
-        <div class="epf-strength-top">
-          <span class="epf-strength-word" id="epf-strength-word">Profile strength</span>
-          <span class="epf-strength-count" id="epf-strength-count">0/10</span>
-        </div>
-        <div class="epf-strength-track">
-          <div class="epf-strength-fill" id="epf-strength-fill"></div>
-        </div>
-      </div>
-    </div>
-
-    <section class="epf-section">
-      <h2 class="epf-section-title">Cover</h2>
-      <a href="{% url 'web:profile' user.username %}?cover=1" class="md-btn md-btn-tonal">
-        <span class="material-symbols-outlined" aria-hidden="true">palette</span>Choose a cover
-      </a>
-    </section>
 
     <section class="epf-section">
       <h2 class="epf-section-title">Basics</h2>
@@ -569,6 +565,8 @@
 {% endblock %}
 
 {% block extra_js %}
+{% include "web/partials/_cover_picker.html" %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/profile-cover.js' %}" defer></script>
 {{ edu_boot|json_script:"epf-boot" }}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-edu.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-dob-field.js' %}"></script>

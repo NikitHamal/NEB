@@ -66,6 +66,34 @@ class CoverArtByCodeTests(SimpleTestCase):
 
     def test_picker_tiles_are_drawn_lazily(self):
         tpl = open(os.path.join(settings.BASE_DIR, 'web', 'templates', 'web', 'profile.html'), encoding='utf-8').read()
+        tpl += open(os.path.join(settings.BASE_DIR, 'web', 'templates', 'web', 'partials', '_cover_picker.html'), encoding='utf-8').read()
         self.assertIn('data-m3x-tile', tpl)
         self.assertNotIn('.webp', tpl)
         self.assertNotIn('Downloads', tpl)
+
+
+class CoverFitAndPersistTests(SimpleTestCase):
+    """The cover is drawn for the box it sits in, and the saved pick reaches the template (a refresh used to fall back to the default)."""
+
+    def _read(self, *parts):
+        return open(os.path.join(settings.BASE_DIR, *parts), encoding='utf-8').read()
+
+    def test_profile_view_passes_cover_art_to_the_template(self):
+        src = self._read('web', 'views_profile.py')
+        self.assertIn("cover_art=profile_data['cover_art']", src)
+        self.assertIn("**cov", src)
+
+    def test_engine_takes_the_box_aspect(self):
+        base = os.path.join('web', 'static', 'web', 'js')
+        engine = self._read(base, 'm3x-art.js')
+        self.assertIn('cover: function (id, live, aspect)', engine)
+        self.assertIn('thumb: function (family, v, aspect)', engine)
+        paint = self._read(base, 'pixel-art.js')
+        self.assertIn('ResizeObserver', paint)
+        self.assertIn('aspectOf', paint)
+
+    def test_edit_profile_has_the_cover_hero_and_picker(self):
+        tpl = self._read('web', 'templates', 'web', 'edit_profile.html')
+        self.assertIn('epf-cover', tpl)
+        self.assertIn('open-cover-picker', tpl)
+        self.assertIn('_cover_picker.html', tpl)

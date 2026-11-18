@@ -277,3 +277,39 @@
   .epf-dock .md-btn { flex: 1; justify-content: center; }
   .epf-save { min-width: 0; }
 }
+
+/* ── Hero (cover, photo across its edge, name) ──────────────────────────────
+   The cover is drawn by code for the box it sits in (js/pixel-art.js), so the whole piece shows at any width. Flat, no
+   shadow, finite radii. The photo is the profile's own squircle, centred on the cover's bottom edge. */
+.epf-page { padding-top: 12px; }
+.epf-hero { position: relative; margin-bottom: 64px; }
+.epf-cover { position: relative; width: 100%; height: clamp(168px, 34vw, 248px); border-radius: 28px; overflow: hidden; background: var(--md-surface-container-low); }
+.epf-cover .epf-cover-art { position: absolute; inset: 0; }
+.epf-cover .neb-back {
+  position: absolute; top: 10px; left: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; z-index: 1;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface); display: inline-flex; align-items: center; justify-content: center;
+  transition: background-color .15s, transform .3s var(--spring, ease);
+}
+.epf-cover .neb-back:hover { background: var(--md-surface-container-high); }
+.epf-cover .neb-back:active { transform: scale(.92); }
+.epf-cover-btn {
+  position: absolute; right: 12px; bottom: 12px; z-index: 1; height: 40px; padding: 0 16px 0 12px; gap: 8px; border: 0; border-radius: 20px;
+  display: inline-flex; align-items: center; background: var(--md-surface-container-lowest); color: var(--md-on-surface);
+  font: 600 .875rem/1 var(--font-sans, inherit); cursor: pointer; transition: background-color .15s, transform .3s var(--spring, ease);
+}
+.epf-cover-btn .material-symbols-outlined { font-size: 20px; }
+.epf-cover-btn:hover { background: var(--md-surface-container-high); }
+.epf-cover-btn:active { transform: scale(.96); }
+.epf-hero .epf-identity-avatar { position: absolute; left: 50%; bottom: 0; width: 112px; height: 112px; transform: translate(-50%, 50%); }
+.epf-hero .epf-identity-avatar:active { transform: translate(-50%, 50%) scale(.96); }
+.epf-identity-camera { border-color: var(--md-surface); }
+.epf-identity { padding: 0; margin-bottom: 24px; border: 0; border-radius: 0; background: none; }
+.epf-identity-name { margin: 0; font-size: 1.5rem; letter-spacing: -.02em; }
+.epf-identity-handle { margin-top: 2px; color: var(--md-primary); font-weight: 500; }
+@media (max-width: 700px) {
+  .epf-page { padding-top: 0; }
+  .epf-hero { margin: 0 -12px 64px; }
+  .epf-cover { border-radius: 0 0 28px 28px; }
+  .epf-identity { padding: 0; }
+  .epf-hero .epf-identity-avatar { width: 104px; height: 104px; }
+}
