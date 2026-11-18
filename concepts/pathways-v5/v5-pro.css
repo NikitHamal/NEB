@@ -33,9 +33,9 @@
 }
 /* profile sheet */
 .mesh h2{font-size:20px}
-.mf{margin-top:20px}
-.mf h4{font-size:13px;font-weight:600;margin-bottom:10px}
-.mf h4 .xs{font-weight:400;margin-left:6px}
+.pf{margin-top:20px}
+.pf h4{font-size:13px;font-weight:600;margin-bottom:10px}
+.pf h4 .xs{font-weight:400;margin-left:6px}
 .cv2 .olk{margin-top:auto}
 @media(max-width:899px){
   .fb .rowf{flex-wrap:wrap}
@@ -43,3 +43,15 @@
   .fb.open .fx.inl{flex:1 1 100%}
   .fb.open .fx.inl .fld{width:100%}
 }
+
+details.more-f{margin-top:10px}
+details.more-f>summary{list-style:none;display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 12px 0 8px;border-radius:16px;background:var(--sc);color:var(--onsc);font-size:12px;font-weight:500;cursor:pointer}
+details.more-f>summary::-webkit-details-marker{display:none}
+details.more-f[open]>summary .ms{transform:rotate(180deg)}
+details.more-f ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--onv)}
+details.more-f li{padding-left:14px;position:relative;line-height:1.5}
+details.more-f li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:3px;background:var(--p)}
+
+.chip.rc{height:40px;padding:0 14px 0 12px;max-width:260px}
+.chip.rc .rt{overflow:hidden;text-overflow:ellipsis;max-width:150px}
+@media(max-width:899px){.brand{display:none}.top{gap:4px;padding:8px 10px}.find{margin:0}}
