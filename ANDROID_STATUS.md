@@ -2284,3 +2284,5 @@ History read first (`ANDROID_STATUS.md` 73 to 88). The request repeats 83 to 88.
 
 ## Next
 - On-device pass: note banners in the card (60dp), picker (84dp) and editor (1.9 : 1) side by side.
+
+CI: `e7fe1063` and `dcc395df` Android release builds (APK + AAB) green; Deploy Backend to cPanel (run `44310141463`) green, no migration, no data touched.
