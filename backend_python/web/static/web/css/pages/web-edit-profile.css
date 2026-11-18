@@ -283,7 +283,7 @@
    shadow, finite radii. The photo is the profile's own squircle, centred on the cover's bottom edge. */
 .epf-page { padding-top: 12px; }
 .epf-hero { position: relative; margin-bottom: 64px; }
-.epf-cover { position: relative; width: 100%; height: auto; aspect-ratio: 3 / 1; border-radius: 28px; overflow: hidden; background: var(--md-surface-container-low); }
+.epf-cover { position: relative; width: 100%; height: auto; aspect-ratio: var(--cover-ratio, 12 / 5); border-radius: 28px; overflow: hidden; background: var(--md-surface-container-low); }
 .epf-cover .epf-cover-art { position: absolute; inset: 0; }
 .epf-cover .neb-back {
   position: absolute; top: 10px; left: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; z-index: 1;
@@ -309,7 +309,7 @@
 @media (max-width: 700px) {
   .epf-page { padding-top: 0; }
   .epf-hero { margin: 0 -12px 64px; }
-  .epf-cover { aspect-ratio: 2.2 / 1; border-radius: 0 0 28px 28px; }
+  .epf-cover { border-radius: 0 0 28px 28px; }
   .epf-identity { padding: 0; }
   .epf-hero .epf-identity-avatar { width: 104px; height: 104px; }
 }

@@ -436,8 +436,8 @@
 
                 {% if post.is_resource %}
                 <div class="act-resource-card">
-                  <div class="act-resource-icon">
-                    <span class="material-symbols-outlined">description</span>
+                  <div class="act-resource-thumb" aria-hidden="true">
+                    <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ post.category|default:'General' }}" data-neb-seed="{{ post.resource_id }}|{{ post.resource_type }}"></div>
                   </div>
                   <div class="act-resource-info">
                     <div class="act-resource-name">
@@ -1286,8 +1286,8 @@ async function loadMoreActivity() {
           const typeStr = post.resource_type || 'PDF Document';
           contentHtml = `
             <div class="act-resource-card">
-              <div class="act-resource-icon">
-                <span class="material-symbols-outlined">description</span>
+              <div class="act-resource-thumb" aria-hidden="true">
+                <div class="neb-art" data-neb-art="banner" data-neb-subject="${escapeHtml(post.category || 'General')}" data-neb-seed="${escapeHtml(String(post.resource_id || ''))}|${escapeHtml(String(post.resource_type || ''))}"></div>
               </div>
               <div class="act-resource-info">
                 <div class="act-resource-name">

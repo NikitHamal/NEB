@@ -2304,3 +2304,23 @@ History read first (`ANDROID_STATUS.md` 73 to 89). Motion (one spring settle on 
 
 ## Next
 - On-device pass: note banners at card (60dp), picker (84dp) and editor (1.9 : 1); profile cover at 360dp.
+
+---
+# Session 91: pickup of 88 to 90, one exact cover rectangle (app + web), resource thumbnails everywhere
+
+History read first (`ANDROID_STATUS.md` 83 to 90). Covers settle once (no loop) on pick or first show, covers 41+ and the first 40 note banners share that spring, the Edit profile Back / Save bar is sticky, the desktop profile follows the concept. None of that was redone. Audited what was still off:
+
+| # | What | Where |
+| --- | --- | --- |
+| 466 | **One exact cover rectangle.** The app clamped the frame to 140 to 220dp, so its ratio drifted with the screen; the web used 2.2 : 1 on phones but 3 : 1 in the picker and Edit profile on desktop. Now one ratio everywhere: 2.4 : 1 on phones, 3 : 1 from 600dp / 600px, never clamped. Web: `--cover-ratio` drives the profile cover, the Edit profile cover and the picker tiles. App: `profileCoverRatio` drives the profile, Edit profile and the picker tile. The art is drawn for that box, so nothing is cropped or stretched. | `ProfileBanner.kt`, `app-profile-v3.css`, `web-edit-profile.css`, `m3x-app.css` (bundle rebuilt) |
+| 467 | **Resource thumbnails, no stray icon.** The web profile feed drew a grey document icon for a resource attached to a post (server render and the script that renders more); it wears the library thumbnail now (subject family + `id|type` seed, same as the app and the library card). The unused app `CompactResourceCard` drew a book icon; it draws the same thumbnail. A profile cover is never used for a resource. | `profile.html`, `NebCompactCards.kt` |
+| 468 | **Cloned cards redraw for their own box.** The profile overview copies cards from the hidden tabs; the copy kept art drawn for a box of 0 width and was never observed. `pixel-art.js` now observes a copied card and redraws it for its own aspect, without replaying the settle. | `js/pixel-art.js` |
+| 469 | Tests: `ProfileCoverFrameTest` (ratio and height at 320 to 1280dp), web test that profile, Edit profile and picker share `--cover-ratio`. | `ProfileCoverFrameTest.kt`, `test_dialog_centering.py` |
+
+## Notes
+- Note banners 1 to 40 were not touched this session: the frame rule from 89 and the zoom from 90 stand (reference frame 1.9 : 1, size from the limiting side, `NoteCoverUnitTest`).
+- No schema change, nothing deleted from the database. Token lives only in `/tmp/gitenv.sh`; it was pasted into the chat again, rotate it.
+- Never built locally: Android check is the GitHub Actions run; web changes ship with `deploy-backend.yml` (workflow_dispatch).
+
+## Next
+- On-device pass: note banners at card (60dp), picker (84dp) and editor (1.9 : 1); profile cover at 360dp and 600dp.

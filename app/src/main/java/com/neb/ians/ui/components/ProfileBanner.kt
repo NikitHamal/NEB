@@ -58,23 +58,20 @@ import com.neb.ians.util.rememberIsLowEndDevice
  * an override.
  */
 
-/** Cover height over width, about 2.4 : 1: the shape the cover art is drawn for, so nothing is cut off and the fold stays near. */
-private const val CoverAspect = 0.42f
-private val CoverMin = 140.dp
-private val CoverMax = 220.dp
+/** Width over height of the cover frame: 2.4 : 1 on phones, 3 : 1 from 600dp (the site's `--cover-ratio`). One rectangle, never clamped. */
+fun profileCoverRatio(width: androidx.compose.ui.unit.Dp): Float = if (width.value >= 600f) 3f else 2.4f
 
 /**
- * The profile cover frame: 0.42 of the screen width (140 to 220dp), the art only. The status bar is not part of it: the frame
+ * The profile cover frame: an exact rectangle of [profileCoverRatio], the art only. The status bar is not part of it: the frame
  * starts below the bar, so it is the same rectangle on the profile, in Edit profile and in the picker. [statusTop] is kept for
  * callers that still pass it; it no longer changes the height.
  */
 @Suppress("UNUSED_PARAMETER")
 fun profileCoverHeight(width: androidx.compose.ui.unit.Dp, statusTop: androidx.compose.ui.unit.Dp): androidx.compose.ui.unit.Dp =
-    (width * CoverAspect).coerceIn(CoverMin, CoverMax)
+    width / profileCoverRatio(width)
 
 /** Width over height of the cover frame at [width]. Picker tiles use it so a tile is the cover as it will look. */
-fun profileCoverAspect(width: androidx.compose.ui.unit.Dp): Float =
-    width.value / profileCoverHeight(width, androidx.compose.ui.unit.Dp(0f)).value
+fun profileCoverAspect(width: androidx.compose.ui.unit.Dp): Float = profileCoverRatio(width)
 
 /**
  * Picks the cover role + deco text for a profile, mirroring the web's

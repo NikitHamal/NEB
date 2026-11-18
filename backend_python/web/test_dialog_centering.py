@@ -92,6 +92,16 @@ class CoverFitAndPersistTests(SimpleTestCase):
         self.assertIn('ResizeObserver', paint)
         self.assertIn('aspectOf', paint)
 
+    def test_one_cover_ratio_for_profile_edit_and_picker(self):
+        base = os.path.join('web', 'static', 'web', 'css')
+        v3 = self._read(base, 'm3x', 'app-profile-v3.css')
+        edit = self._read(base, 'pages', 'web-edit-profile.css')
+        self.assertIn('--cover-ratio: 12 / 5', v3)
+        self.assertIn('--cover-ratio: 3 / 1', v3)
+        self.assertNotIn('aspect-ratio: 2.2 / 1', v3)
+        self.assertIn('aspect-ratio: var(--cover-ratio', edit)
+        self.assertEqual(v3.count('aspect-ratio: var(--cover-ratio'), 3)
+
     def test_edit_profile_has_the_cover_hero_and_picker(self):
         tpl = self._read('web', 'templates', 'web', 'edit_profile.html')
         self.assertIn('epf-cover', tpl)

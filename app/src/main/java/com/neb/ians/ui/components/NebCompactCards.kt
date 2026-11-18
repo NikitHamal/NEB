@@ -231,20 +231,12 @@ fun CompactResourceCard(
                     contentScale = ContentScale.Crop
                 )
             } else {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.MenuBook,
-                        contentDescription = null,
-                        tint = color.copy(alpha = 0.7f),
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+                // the library thumbnail, same piece as the site's card (id and type seed it)
+                ResourceBannerArt(
+                    seed = "${resource.id}|${resource.type}",
+                    subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty(),
+                    modifier = Modifier.fillMaxSize()
+                )
             }
 
             // Subject badge top-left

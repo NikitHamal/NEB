@@ -108,6 +108,8 @@
   function paint(el) {
     if (el.__nebPixelArt) return;
     el.__nebPixelArt = true;
+    // a copy of a drawn card (the profile overview) has its art already: watch its box so it is redrawn for its own aspect
+    if (el.querySelector(':scope > svg.m3a')) { if (ro) ro.observe(el); return; }
     if (el.querySelector('svg')) return;
     draw(el);
     if (ro) ro.observe(el);
