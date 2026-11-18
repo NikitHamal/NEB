@@ -123,6 +123,14 @@
   box-sizing: border-box;
 }
 
+/* The reset above also zeroes the browser's `margin: auto` on <dialog>, which is what centres a modal in
+   the top layer. Without this line every native dialog (cover picker, composer, admin) pins to the top
+   left corner. Never remove it, and never write `margin: 0` on a dialog; a bottom sheet is
+   `margin: auto 0 0`. web/test_dialog_centering.py guards both. */
+dialog { margin: auto; color: inherit; }
+dialog:modal { max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+dialog::backdrop { overscroll-behavior: contain; }
+
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;

@@ -173,6 +173,7 @@ dependencies {
 
 // Coil Compose
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("io.coil-kt:coil-svg:2.7.0")
 
 // Installs the baseline profile (src/main/baseline-prof.txt) on sideloaded installs too
     implementation("androidx.profileinstaller:profileinstaller:1.4.1")

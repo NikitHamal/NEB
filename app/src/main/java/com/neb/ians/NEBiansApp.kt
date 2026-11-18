@@ -12,6 +12,7 @@ import javax.inject.Inject
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
+import coil.decode.SvgDecoder
 import coil.memory.MemoryCache
 import okhttp3.OkHttpClient
 import com.neb.ians.data.api.WafChallengeInterceptor
@@ -54,6 +55,7 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                     .maxSizeBytes(if (isLowEnd) 50L * 1024 * 1024 else 120L * 1024 * 1024)
                     .build()
             }
+            .components { add(SvgDecoder.Factory()) }
             .allowRgb565(isLowEnd)
             .allowHardware(!isLowEnd)
             .okHttpClient {
@@ -67,6 +69,13 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                         }
                     }
                     .addInterceptor(WafChallengeInterceptor(this))
+                    .addNetworkInterceptor { chain ->
+                        // M3X art files never change under one name: keep them on disk for a year, no revalidation
+                        val response = chain.proceed(chain.request())
+                        if (chain.request().url.encodedPath.contains("/img/m3x/")) {
+                            response.newBuilder().header("Cache-Control", "public, max-age=31536000, immutable").removeHeader("Pragma").build()
+                        } else response
+                    }
                     .addInterceptor { chain ->
                         val request = chain.request().newBuilder()
                             .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")

@@ -70,19 +70,20 @@
   function paint(el) {
     if (el.__nebPixelArt) return;
     el.__nebPixelArt = true;
+    if (el.querySelector('img')) return; // the page already drew it (profile cover): no second request
     var kind = el.getAttribute('data-neb-art');
     if (kind === 'cover') {
       var cid = el.getAttribute('data-neb-cover') || 'cover-001';
-      el.insertBefore(img(BASE + 'cover/dark/' + cid + '.webp', 'neb-pixel-art neb-pixel-night', false), el.firstChild);
-      el.insertBefore(img(BASE + 'cover/light/' + cid + '.webp', 'neb-pixel-art neb-pixel-day', true), el.firstChild);
+      el.insertBefore(img(BASE + 'cover/dark/' + cid + '.svg', 'neb-pixel-art neb-pixel-night', false), el.firstChild);
+      el.insertBefore(img(BASE + 'cover/light/' + cid + '.svg', 'neb-pixel-art neb-pixel-day', true), el.firstChild);
     } else {
       var subject = el.getAttribute('data-neb-subject') || '';
       var fam = subjectFamily(subject).toLowerCase();
       var bv = variant(stableSeed(el.getAttribute('data-neb-seed') || subject), BANNER_VARIANTS);
       var stem = BASE + 'thumb/';
       // both are in the markup; CSS shows the one that matches the theme, and a hidden lazy image is never fetched
-      el.insertBefore(img(stem + 'dark/' + fam + '-' + bv + '.webp', 'neb-pixel-night'), el.firstChild);
-      el.insertBefore(img(stem + 'light/' + fam + '-' + bv + '.webp', 'neb-pixel-day'), el.firstChild);
+      el.insertBefore(img(stem + 'dark/' + fam + '-' + bv + '.svg', 'neb-pixel-night'), el.firstChild);
+      el.insertBefore(img(stem + 'light/' + fam + '-' + bv + '.svg', 'neb-pixel-day'), el.firstChild);
     }
   }
 

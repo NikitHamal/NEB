@@ -11,7 +11,7 @@
     var imgs = art.querySelectorAll('img');
     for (var i = 0; i < imgs.length; i++) {
       var dark = imgs[i].classList.contains('neb-pixel-night');
-      imgs[i].src = imgs[i].src.replace(/cover\/(light|dark)\/[^/]+$/, 'cover/' + (dark ? 'dark' : 'light') + '/' + id + '.webp');
+      imgs[i].src = imgs[i].src.replace(/cover\/(light|dark)\/[^/?]+$/, 'cover/' + (dark ? 'dark' : 'light') + '/' + id + '.svg');
     }
   }
   function save(id, btn) {

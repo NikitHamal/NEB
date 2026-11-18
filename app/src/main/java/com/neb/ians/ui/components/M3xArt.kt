@@ -1,6 +1,7 @@
 package com.neb.ians.ui.components
 
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,11 +16,11 @@ import com.neb.ians.ui.theme.subjectFamily
 import org.json.JSONObject
 
 /**
- * The M3X art library as shipped files (tools/art/export_m3x_assets.js writes them, the site serves the same ones).
+ * The M3X art library as vector pieces the site serves (tools/art/export_m3x_assets.js writes them, `img/m3x/`).
  *
- * Covers are the v7 `cover` pieces, ids `cover-NNN`, kept as small WebP in assets/m3x/cover/{light,dark}.
- * Resource thumbnails are the v1 `thumb` pieces, 6 per subject family, in assets/m3x/thumb/{light,dark}.
- * Coil decodes each at the size it is drawn, so a 640 px file never becomes a full-size bitmap in a grid.
+ * Nothing is bundled in the APK except the 7 KB manifest `assets/m3x/covers.json`. Covers are the v7 `cover` pieces
+ * (ids `cover-NNN`), resource thumbnails the v1 `thumb` pieces (6 per subject family). Each is a 2 to 60 KB SVG that
+ * Coil fetches once, rasterises at the size it is drawn (sharp on any screen) and keeps on disk for a year.
  */
 object M3xArt {
     const val THUMB_VARIANTS = 6
@@ -49,10 +50,12 @@ object M3xArt {
         return if (list.isEmpty()) "cover-001" else list[(fnv("cover|$username") % list.size).toInt()].id
     }
 
-    fun coverUri(id: String, dark: Boolean) = "file:///android_asset/m3x/cover/${if (dark) "dark" else "light"}/$id.webp"
+    private const val BASE = "https://nebians.consica.com.np/static/web/img/m3x/"
+
+    fun coverUri(id: String, dark: Boolean) = "${BASE}cover/${if (dark) "dark" else "light"}/$id.svg"
 
     fun thumbUri(family: String, variant: Int, dark: Boolean) =
-        "file:///android_asset/m3x/thumb/${if (dark) "dark" else "light"}/${family.lowercase()}-$variant.webp"
+        "${BASE}thumb/${if (dark) "dark" else "light"}/${family.lowercase()}-$variant.svg"
 }
 
 @Composable
@@ -61,8 +64,11 @@ private fun isDarkSurface() = MaterialTheme.colorScheme.surface.luminance() < 0.
 @Composable
 private fun M3xImage(uri: String, modifier: Modifier) {
     val context = LocalContext.current
-    val request = remember(uri) { ImageRequest.Builder(context).data(uri).crossfade(false).build() }
-    AsyncImage(model = request, contentDescription = null, modifier = modifier, contentScale = ContentScale.Crop)
+    val request = remember(uri) { ImageRequest.Builder(context).data(uri).crossfade(false).allowHardware(true).build() }
+    // a tonal well shows until the vector arrives, and stays if the phone is offline
+    Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)) {
+        AsyncImage(model = request, contentDescription = null, modifier = Modifier.matchParentSize(), contentScale = ContentScale.Crop)
+    }
 }
 
 /** A profile cover from the library. [coverId] blank or unknown falls back to the username's stable pick. */
