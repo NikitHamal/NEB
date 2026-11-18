@@ -2388,3 +2388,5 @@ History read first (`ANDROID_STATUS.md` 83 to 92). Not redone: covers settle onc
 
 ## Next
 - On-device pass: note banners at card (54dp), picker (76dp) and editor (2.5 : 1).
+
+CI: `e0dc05d6` Android release build (APK + AAB) green. Web side unchanged by this session (the shared card was already fixed and deployed in `7a2da204`), so no deploy was needed.
