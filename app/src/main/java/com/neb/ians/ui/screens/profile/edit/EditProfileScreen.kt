@@ -120,6 +120,7 @@ fun EditProfileScreen(
                     )
                 }
 
+                EditCoverSection(state = uiState, viewModel = viewModel)
                 EditBasicsSection(
                     state = uiState,
                     viewModel = viewModel,

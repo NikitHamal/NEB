@@ -2613,3 +2613,5 @@ Write maths in `bca/course/**/unit-*.md` as `$...$` / `$$...$$` (never plain `xÂ
 `tools/android/check_insets.py` runs in CI and fails on: a back arrow (any `Icons.*.ArrowBack`) without `NebTopBar` / `statusBarsPadding`, a `LikePill` row without `nebGhostRowStart()`, a tagline under list controls, and `isSystemInDarkTheme()` outside `ui/theme`. The segmented control is the original connected button group (`PwSeg`), LOCKED by the owner, never restyle it: `docs/M3X_DESIGN_SYSTEM.md` section 14.
 
 - **Dialogs and art (session 79)**: read `docs/M3X_DESIGN_SYSTEM.md` section 13.9 before touching a `<dialog>`, a cover picker or any art. `dialog { margin: auto }` stays; M3X art is vector SVG served on demand, never bundled as images in the APK.
+## Dialogs and art (session 79)
+Read `docs/M3X_DESIGN_SYSTEM.md` 13.6 before touching a `<dialog>`, a sheet or the M3X art. Native dialogs keep `margin: auto` (guarded by `web/test_dialog_centering.py` and `tools/rsi/security_and_m3x_audit.py`); pickers and lists load lazy WebP previews (`img/m3x/*/prev/`), never a sprite, never 100+ requests, never art bundled in the APK.

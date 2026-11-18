@@ -86,6 +86,20 @@ def check_admin_m3x_invariants() -> list[str]:
     return errors
 
 
+def check_dialog_invariants() -> list[str]:
+    """A native <dialog> pins to the top-left corner when the site reset zeroes its margin: keep `margin: auto`."""
+    errors: list[str] = []
+    css = ROOT / "backend_python" / "web" / "static" / "web" / "css"
+    for rel in ("material3.css", "material3/01-tokens-typography.css"):
+        path = css / rel
+        if path.is_file() and not re.search(r"(?m)^dialog\s*\{\s*margin:\s*auto", path.read_text(encoding="utf-8")):
+            errors.append(f"{rel}: lost `dialog {{ margin: auto }}` (every native dialog would stick to the top-left corner)")
+    prof = ROOT / "backend_python" / "web" / "templates" / "web" / "profile.html"
+    if prof.is_file() and "sprite" in prof.read_text(encoding="utf-8"):
+        errors.append("profile.html: the cover picker uses lazy WebP previews, not a sprite or 175 vector requests")
+    return errors
+
+
 def check_security_invariants() -> list[str]:
     errors: list[str] = []
     mw = ROOT / "backend_python" / "nebians" / "middleware.py"
@@ -170,6 +184,7 @@ def main() -> int:
         + check_python_ast()
         + check_undefined_names()
         + check_admin_m3x_invariants()
+        + check_dialog_invariants()
         + check_security_invariants()
     )
     if errors:

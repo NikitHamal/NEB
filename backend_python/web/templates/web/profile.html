@@ -67,10 +67,11 @@
 
 {% block content %}
 {% if cover_choices %}
-<dialog class="cv-dialog" id="coverPicker" aria-label="Choose a cover" data-url="{% url 'web:set_cover_art' %}" data-base="{% static 'web/img/m3x/cover/' %}" data-sprite-light="{% static 'web/img/m3x/cover/light-sprite.svg' %}" data-sprite-dark="{% static 'web/img/m3x/cover/dark-sprite.svg' %}">
+{% static 'web/img/m3x/cover/prev/light/' as cv_prev_light %}{% static 'web/img/m3x/cover/prev/dark/' as cv_prev_dark %}
+<dialog class="cv-dialog" id="coverPicker" aria-label="Choose a cover" data-url="{% url 'web:set_cover_art' %}" data-base="{% static 'web/img/m3x/cover/' %}">
   <div class="cv-head"><h2>Choose a cover</h2><button type="button" class="cv-close" data-cv-close aria-label="Close"><span class="material-symbols-outlined">close</span></button></div>
   <div class="cv-grid" role="listbox">
-    {% for c in cover_choices %}<button type="button" class="cv-pick{% if c.id == cover_art %} is-on{% endif %}" role="option" aria-selected="{% if c.id == cover_art %}true{% else %}false{% endif %}" data-cover="{{ c.id }}" aria-label="{{ c.layout|capfirst }}, {{ c.palette }}"><span class="material-symbols-outlined cv-tick">check</span></button>{% endfor %}
+    {% for c in cover_choices %}<button type="button" class="cv-pick{% if c.id == cover_art %} is-on{% endif %}" role="option" aria-selected="{% if c.id == cover_art %}true{% else %}false{% endif %}" data-cover="{{ c.id }}" aria-label="{{ c.layout|capfirst }}, {{ c.palette }}"><img class="l" src="{{ cv_prev_light }}{{ c.id }}.webp" width="480" height="160" loading="lazy" decoding="async" alt=""><img class="d" src="{{ cv_prev_dark }}{{ c.id }}.webp" width="480" height="160" loading="lazy" decoding="async" alt=""><span class="material-symbols-outlined cv-tick">check</span></button>{% endfor %}
   </div>
   <div class="cv-foot"><button type="button" class="pf-btn pf-btn-outlined" data-cv-reset>Default cover</button></div>
 </dialog>

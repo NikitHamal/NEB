@@ -40,6 +40,7 @@ data class CompleteProfileUiState(
     val isLocked: Boolean = false,
     val photoUrl: String = "",
     val bannerUrl: String = "",
+    val coverArt: String = "",
     val isPhotoUploading: Boolean = false,
     val isCheckingUsername: Boolean = false,
     val usernameAvailable: Boolean? = null,
@@ -494,6 +495,20 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isEditing = editing) }
     }
 
+    /** Picks a profile cover from the M3X art library; "" goes back to the default. Shown at once, undone if the server refuses. */
+    fun setCoverArt(id: String) {
+        val before = _uiState.value.coverArt
+        _uiState.update { it.copy(coverArt = id) }
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken() ?: throw IllegalStateException("no token")
+                apiService.setCoverArt(token, mapOf("coverArt" to id))
+            } catch (_: Exception) {
+                _uiState.update { it.copy(coverArt = before) }
+            }
+        }
+    }
+
     private fun csv(value: String?) = value?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
 
     /** The portfolio header and teacher fields are not in the cached profile; read them once. */
@@ -507,7 +522,7 @@ class CompleteProfileViewModel @Inject constructor(
                     eduCompleted = p.eduCompleted.orEmpty(),
                     teachLevels = csv(p.teachLevels), experienceYears = if (p.experienceYears > 0) p.experienceYears.toString() else "",
                     employment = p.employment.orEmpty(), portfolioLoaded = true,
-                    schoolSlug = p.schoolSlug.orEmpty()
+                    schoolSlug = p.schoolSlug.orEmpty(), coverArt = p.coverArt.orEmpty()
                 )
             }
         }

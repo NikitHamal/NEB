@@ -2073,3 +2073,20 @@ History read first (sessions 72 to 78 plus five commits that had no status entry
 ## Next
 - On-device pass: profile bar hand-off at 360dp, cover picker scroll, Dark covers.
 - Profile edit: new fields for Open to and per-type tabs need offers stored per profile type.
+---
+# Session 80: follow-up to session 79. Pickup of 73 to 78 and the commits `3e5ecb35`..`a8a66c7d`, cover previews, cover in Edit profile, dialog guard
+
+History read first. Profile v3, v7 covers (web and app), v1 thumbnails, glance tiles, the scroll-driven top bar with the status bar scrim, the Overview tab and the global `dialog { margin: auto }` fix were already built. Nothing was redone. The covers are vectors on the server (nothing in the APK but the 7 KB manifest).
+
+| # | What | Where |
+| --- | --- | --- |
+| 427 | **Cover previews**: 175 covers and 72 thumbs, Light and Dark, as 480 px WebP (about 5 KB each, 3.4 MB on the server, 0 in the APK). The web picker draws lazy `<img>` tiles (only those on screen load) instead of a 1.4 MB sprite per theme (about 450 KB compressed); the sprites and `build_cover_sprite.py` are gone. The app picker and every resource thumbnail read the WebP (cheap decode, no SVG raster per list row); the profile header still draws the full vector. | `tools/art/export_m3x_previews.js`, `img/m3x/*/prev/`, `profile.html`, `profile-cover.js`, `M3xArt.kt` |
+| 428 | **Cover in Edit profile**: web has a Cover section (opens the picker on the profile page with `?cover=1`); the app has a Cover section with the live cover and a Change cover button that opens the same picker sheet and saves through `POST api/users/me/cover-art/`. | `edit_profile.html`, `EditProfileCover.kt`, `CompleteProfileViewModel.kt` |
+| 429 | **Dialog rule for every agent**: `docs/M3X_DESIGN_SYSTEM.md` 13.6 and `AGENTS.md`; audit fails if `dialog { margin: auto }` goes or the picker returns to a sprite; Django tests check previews exist, stay under 40 KB and are lazy. | `security_and_m3x_audit.py`, `test_dialog_centering.py` |
+
+## Notes
+- No schema change, nothing deleted. The GitHub token was pasted into the chat again. Rotate it.
+- Re-export after a library change: `export_m3x_assets.js`, then `NODE_PATH=<dir with sharp> node tools/art/export_m3x_previews.js`.
+
+## Next
+- On-device pass: profile top bar at 360dp, cover picker scroll, Dark covers.

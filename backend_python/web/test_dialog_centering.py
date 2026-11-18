@@ -48,14 +48,23 @@ class DialogCenteringTests(SimpleTestCase):
         self.assertRegex(css, r'\.cv-grid\s*\{[^}]*min-height:\s*0')
 
 
-class CoverSpriteTests(SimpleTestCase):
-    """The picker draws from one sprite per theme (one request, not 175). It must hold every cover in covers.json."""
+class CoverPreviewTests(SimpleTestCase):
+    """The picker shows small lazy WebP previews (a few KB each), never 175 vector files or a megabyte sprite."""
 
-    def test_sprites_hold_every_cover(self):
+    def test_every_cover_has_a_light_and_dark_preview(self):
         import json
         base = os.path.join(CSS, '..', 'img', 'm3x')
         ids = [r[0] for r in json.load(open(os.path.join(base, 'covers.json')))['covers']]
         for theme in ('light', 'dark'):
-            text = open(os.path.join(base, 'cover', theme + '-sprite.svg'), encoding='utf-8').read()
-            missing = [i for i in ids if 'id="%s"' % i not in text]
+            missing = [i for i in ids if not os.path.isfile(os.path.join(base, 'cover', 'prev', theme, i + '.webp'))]
             self.assertEqual(missing, [], theme)
+
+    def test_previews_stay_small(self):
+        base = os.path.join(CSS, '..', 'img', 'm3x', 'cover', 'prev', 'light')
+        big = [f for f in os.listdir(base) if os.path.getsize(os.path.join(base, f)) > 40000]
+        self.assertEqual(big, [])
+
+    def test_picker_tiles_are_lazy_and_sprite_is_gone(self):
+        tpl = open(os.path.join(settings.BASE_DIR, 'web', 'templates', 'web', 'profile.html'), encoding='utf-8').read()
+        self.assertIn('loading="lazy"', tpl)
+        self.assertNotIn('sprite', tpl)

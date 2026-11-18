@@ -19,8 +19,9 @@ import org.json.JSONObject
  * The M3X art library as vector pieces the site serves (tools/art/export_m3x_assets.js writes them, `img/m3x/`).
  *
  * Nothing is bundled in the APK except the 7 KB manifest `assets/m3x/covers.json`. Covers are the v7 `cover` pieces
- * (ids `cover-NNN`), resource thumbnails the v1 `thumb` pieces (6 per subject family). Each is a 2 to 60 KB SVG that
- * Coil fetches once, rasterises at the size it is drawn (sharp on any screen) and keeps on disk for a year.
+ * (ids `cover-NNN`): the profile draws the vector SVG (2 to 60 KB, rasterised by Coil at the size it is drawn), the
+ * picker grid draws the 5 KB WebP preview. Resource thumbnails are the v1 `thumb` pieces (6 per subject family) as
+ * WebP previews. Everything is fetched lazily, cached on disk by Coil, and tiles off screen are never requested.
  */
 object M3xArt {
     const val THUMB_VARIANTS = 6
@@ -52,10 +53,15 @@ object M3xArt {
 
     private const val BASE = "https://nebians.consica.com.np/static/web/img/m3x/"
 
+    /** Full vector cover for the profile header, sharp at any size. */
     fun coverUri(id: String, dark: Boolean) = "${BASE}cover/${if (dark) "dark" else "light"}/$id.svg"
 
+    /** Resource thumbnail: a small WebP preview of the v1 piece (480 x 192). */
     fun thumbUri(family: String, variant: Int, dark: Boolean) =
-        "${BASE}thumb/${if (dark) "dark" else "light"}/${family.lowercase()}-$variant.svg"
+        "${BASE}thumb/prev/${if (dark) "dark" else "light"}/${family.lowercase()}-$variant.webp"
+
+    /** Small WebP preview (480 px wide, about 5 KB) for the picker grid; decoding it is far cheaper than rasterising the SVG. */
+    fun coverPreviewUri(id: String, dark: Boolean) = "${BASE}cover/prev/${if (dark) "dark" else "light"}/$id.webp"
 }
 
 @Composable
@@ -94,4 +100,4 @@ fun M3xThumb(seed: String, subject: String, modifier: Modifier = Modifier) {
 
 /** One cover tile in the picker, drawn at its own size. */
 @Composable
-fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xImage(M3xArt.coverUri(id, isDarkSurface()), modifier)
+fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xImage(M3xArt.coverPreviewUri(id, isDarkSurface()), modifier)

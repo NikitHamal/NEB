@@ -67,6 +67,13 @@
     </div>
 
     <section class="epf-section">
+      <h2 class="epf-section-title">Cover</h2>
+      <a href="{% url 'web:profile' user.username %}?cover=1" class="md-btn md-btn-tonal">
+        <span class="material-symbols-outlined" aria-hidden="true">palette</span>Choose a cover
+      </a>
+    </section>
+
+    <section class="epf-section">
       <h2 class="epf-section-title">Basics</h2>
 
       <div class="form-group">
