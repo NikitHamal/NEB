@@ -328,24 +328,24 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
     }
 }
 
-/** Width over height of the note editor's cover frame, the frame the 40 drawn banners are composed on. */
-const val NoteCoverFrameAspect = 1.9f
+/** Width over height of the note editor's cover frame (a little shorter than before), the frame the 40 drawn banners are composed on. */
+const val NoteCoverFrameAspect = 2.3f
 
 /** Shape size at the reference frame, as a share of its height (the size the banners were drawn with). */
 private const val NoteCoverUnit = 0.9f
 
 /**
- * Zoom of the drawn banners: 1 would be the old, cropped-in look. Size and the distance of every centre from the middle of
- * the frame shrink by the same factor, so the picture is the same one seen from further away (height and width keep their
- * proportion, only the view is zoomed out).
+ * Zoom of the drawn banners: 1 is the fully cropped-in look, 0.62 was too far out. Size and the distance of every centre
+ * from the middle of the frame scale by the same factor, so the picture keeps its width and height proportion and only the
+ * view moves a little closer (0.80).
  */
-internal const val NoteCoverZoom = 0.62f
+internal const val NoteCoverZoom = 0.80f
 
 /** A centre's place across (or down) the frame, [frac] of the frame, pulled toward the middle by [NoteCoverZoom]. */
 internal fun noteCoverPos(frac: Float): Float = 0.5f + (frac - 0.5f) * NoteCoverZoom
 
 /**
- * The 40 drawn banners, one composition, any frame. The reference frame is the editor's (1.9 : 1). A frame of that shape shows
+ * The 40 drawn banners, one composition, any frame. The reference frame is the editor's (2.3 : 1). A frame of that shape shows
  * it exactly; a wider one (a card, a strip) keeps the shapes the size they have at the same height and spreads their centres
  * across the width; a taller one keeps them the size they have at the same width. So the size follows the frame's limiting side
  * and a circle stays a circle, a cookie stays a cookie, at every size. Nothing is stretched, nothing is cropped away.
@@ -464,7 +464,7 @@ fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onPhoto: (android.net.Ur
                     for (i in row..minOf(row + 1, NoteCovers.count)) {
                         NoteCoverBanner(
                             i, animate = false,
-                            modifier = Modifier.weight(1f).height(84.dp)
+                            modifier = Modifier.weight(1f).height(76.dp)
                                 .clip(RoundedCornerShape(if (i == current) 32.dp else 20.dp))
                                 .clickable { onPick(i) },
                         )

@@ -718,20 +718,12 @@ fun WebResourceCard(
                 .clip(RoundedCornerShape(20.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
-            if (resource.thumbnailUrl.isNotBlank()) {
-                AsyncImage(
-                    model = resource.thumbnailUrl,
-                    contentDescription = resource.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                ResourceBannerArt(
-                    seed = "${resource.id}|${resource.type}", // the site draws the same thumbnail: id and type
-                    subject = primarySubject,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+            // the thumbnail is always drawn by code (v1 art, same piece as the site): a stored picture is never shown
+            ResourceBannerArt(
+                seed = "${resource.id}|${resource.type}", // the site draws the same thumbnail: id and type
+                subject = primarySubject,
+                modifier = Modifier.fillMaxSize()
+            )
 
             if (isVideo) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

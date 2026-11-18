@@ -2326,3 +2326,23 @@ History read first (`ANDROID_STATUS.md` 83 to 90). Covers settle once (no loop) 
 - On-device pass: note banners at card (60dp), picker (84dp) and editor (1.9 : 1); profile cover at 360dp and 600dp.
 
 CI: `d03d2f65` Android release build (APK + AAB) green, Backend tests green; Deploy Backend to cPanel (run `44315256153`) green, no migration, no data touched.
+
+---
+# Session 92: pickup of 88 to 91, note banners zoomed in a little, shorter notes cover frame, web profile deploy, resource thumbnails are code only
+
+History read first (`ANDROID_STATUS.md` 83 to 91). Not redone: covers settle once, the cover rectangle (2.4 : 1 phone, 3 : 1 wide), Edit profile bar, desktop profile grid. Checked with a real browser this time: the profile page was rendered locally (Django on sqlite, headless Chromium, owner view, 1920, 1440 and 390 wide).
+
+| # | What | Where |
+| --- | --- | --- |
+| 470 | **Web profile of the screenshot**: that was the deployed build from before `32505384` (only the tests ran for it, the deploy of `d03d2f65` was the last one). The squeezed About column and the missing cover are fixed in the code; rendered locally the cover, identity row, About card on the left and tabs on the right are in place. Deployed this session. | `deploy-backend.yml` |
+| 471 | **Resource thumbnails are code only.** The profile feed showed the stored `thumbnail_url` (the PDF first page) in a box it did not fill, with a white strip. Now only a resource of type Image previews its own file; everything else wears the library thumbnail drawn for the box. The home rail no longer lays a stored picture over the art. App: `WebResourceCard` and `CompactResourceCard` always draw `ResourceBannerArt` (no `AsyncImage`). Video posters on the video screens stay. | `profile.html`, `_home_rail_resource.html`, `NebiansWeb.kt`, `NebCompactCards.kt` |
+| 472 | **Profile resource card**: the thumbnail is the card picture, full width at 2.5 : 1 (2.4 : 1 on phones), name and open button under it; subject and grade chips show their whole name (was cut at 140px). | `app-profile-v3.css` (+ bundle) |
+| 473 | **Note banners zoomed in a little**: `NoteCoverZoom` 0.62 to 0.80, same width to height proportion (size and centre offsets share the factor). | `NotePage.kt` |
+| 474 | **Notes cover frame shorter**: editor frame 1.9 : 1 (168 to 264dp) to 2.3 : 1 (140 to 216dp), which is also the shape of the library covers (720 x 320), so those fill it without cropping; card cover 60/44 to 54/40dp, picker tile 84 to 76dp. `NoteCoverFrameAspect` is the one constant. | `NotePage.kt`, `NoteEditorScreen.kt`, `NoteCard.kt`, `NoteCoverUnitTest.kt` |
+
+## Notes
+- The cover drawings of 1 to 40 were tuned by arithmetic only (Compose cannot be rendered here, nothing is built locally); the web side was checked by screenshot.
+- No schema change, nothing deleted from the database. Token lives only in `/tmp/gitenv.sh` (it was pasted into the chat again, rotate it).
+
+## Next
+- On-device pass: note banners at card (54dp), picker (76dp) and editor (2.3 : 1).

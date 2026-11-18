@@ -620,10 +620,10 @@
                 {% endif %}
 
                 <!-- Preview or Attachment Box -->
-                {% if r.thumbnail_url or r.type == 'Image' %}
+                {% if r.type == 'Image' and r.file_url %}
                 <div class="pf-res-image-preview">
                   <a href="{% url 'web:reader' resource_id=r.id %}">
-                    <img loading="lazy" decoding="async" src="{{ r.thumbnail_url|default:r.file_url }}" alt="" data-fallback="none">
+                    <img loading="lazy" decoding="async" src="{{ r.file_url }}" alt="" data-fallback="none">
                     <span class="pf-res-preview-badge">Preview</span>
                   </a>
                 </div>

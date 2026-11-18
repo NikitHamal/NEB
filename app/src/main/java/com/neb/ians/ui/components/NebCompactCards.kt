@@ -34,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.toSafeColor
@@ -223,21 +221,13 @@ fun CompactResourceCard(
                 .clip(RoundedCornerShape(18.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
-            if (resource.thumbnailUrl.isNotBlank()) {
-                AsyncImage(
-                    model = resource.thumbnailUrl,
-                    contentDescription = resource.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                // the library thumbnail, same piece as the site's card (id and type seed it)
-                ResourceBannerArt(
-                    seed = "${resource.id}|${resource.type}",
-                    subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty(),
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+            // the thumbnail is always drawn by code (v1 art, same piece as the site): a stored picture is never shown
+            // the library thumbnail, same piece as the site's card (id and type seed it)
+            ResourceBannerArt(
+                seed = "${resource.id}|${resource.type}",
+                subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty(),
+                modifier = Modifier.fillMaxSize()
+            )
 
             // Subject badge top-left
             Surface(

@@ -165,3 +165,18 @@
 .act-resource-thumb { position: relative; flex: none; width: 128px; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: var(--md-surface-container-high); }
 .act-resource-thumb .neb-art { position: absolute; inset: 0; }
 @media (max-width: 480px) { .act-resource-thumb { width: 96px; border-radius: 14px; } }
+
+/* The profile's resource card: the library thumbnail is the card's picture, full width on top, the name and the open button below it.
+   The art is drawn by code for this exact box (2.5 : 1), so nothing is cropped, stretched or left blank. */
+.profile-page .act-resource-card { flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 8px 8px 10px; border-radius: 24px; background: var(--md-surface-container-lowest); }
+.profile-page .act-resource-card:hover { background: var(--md-surface-container-lowest); }
+.profile-page .act-resource-card .act-resource-thumb { order: -1; flex: 1 0 100%; width: 100%; aspect-ratio: 2.5 / 1; border-radius: 18px; }
+.profile-page .act-resource-card .act-resource-info { padding-left: 8px; }
+.profile-page .act-resource-card .act-resource-name { margin-bottom: 2px; }
+.profile-page .act-resource-card .act-resource-download-btn { margin-right: 4px; }
+@media (max-width: 480px) {
+  .profile-page .act-resource-card .act-resource-thumb { width: 100%; aspect-ratio: 2.4 / 1; border-radius: 16px; }
+}
+
+/* Subject and grade chips on a resource show their whole name (the base rule cut them at 140px). */
+.profile-page .pf-res-chip { max-width: min(260px, 100%); }

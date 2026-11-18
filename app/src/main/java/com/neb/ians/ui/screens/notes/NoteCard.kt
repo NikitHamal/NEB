@@ -134,7 +134,7 @@ internal fun NoteCard(
         if (note.cover != 0) {
             val ctx = LocalContext.current
             val photo = if (note.cover < 0 && note.coverPhoto.isNotEmpty()) File(ctx.filesDir, "notes/${note.id}/${note.coverPhoto}") else null
-            NoteCover(note.cover, photo, Modifier.fillMaxWidth().height(if (compact) 44.dp else 60.dp), animate = false, light = true)
+            NoteCover(note.cover, photo, Modifier.fillMaxWidth().height(if (compact) 40.dp else 54.dp), animate = false, light = true)
         }
         val pad = if (compact) 11.dp else 14.dp
         Column(Modifier.fillMaxWidth().padding(horizontal = pad, vertical = if (compact) 9.dp else 11.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
