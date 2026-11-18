@@ -6,4 +6,4 @@ cd /home/consicac/nebians_api || exit 1
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
 :
 echo "== chat providers (native path, one call each)"
-timeout 280 python scripts/probe_keyless_chat.py ${PROBE_ARGS:-} 2>&1 | cut -c1-260 | tail -60
+timeout 280 python api/probe_keyless_chat.py ${PROBE_ARGS:-} 2>&1 | cut -c1-260 | tail -60

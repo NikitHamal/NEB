@@ -1,6 +1,6 @@
 """Live probe of every keyless chat provider, native path only.
 
-    cd backend_python && python scripts/probe_keyless_chat.py [slug[:model] ...]
+    cd backend_python && python api/probe_keyless_chat.py [slug[:model] ...]
 
 Each provider is called through its own proxy with a one-line identity
 question. Prints ok/FAIL, latency, the model the upstream says it is, and the
