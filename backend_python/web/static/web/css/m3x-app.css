@@ -2832,6 +2832,10 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 /* ---- Code-drawn M3X art (js/m3x-art.js): inline SVG, tones are CSS variables so Light and Dark share one drawing ---- */
 .m3a { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
 .cv-art { position: absolute; inset: 0; display: block; }
+/* v3 resource thumbnails (js/v3-thumb.js): Light and Dark are both drawn, the theme shows one */
+.m3a.v3t-dark { display: none; }
+[data-theme="dark"] .m3a.v3t-light { display: none; }
+[data-theme="dark"] .m3a.v3t-dark { display: block; }
 .m3a { --t0: var(--l0); --t1: var(--l1); --t2: var(--l2); --t3: var(--l3); --t4: var(--l4); --t5: var(--l5); --t6: var(--l6); --t7: var(--l7); }
 [data-theme="dark"] .m3a { --t0: var(--d0); --t1: var(--d1); --t2: var(--d2); --t3: var(--d3); --t4: var(--d4); --t5: var(--d5); --t6: var(--d6); --t7: var(--d7); }
 .m3a .f0 { fill: var(--t0); } .m3a .f1 { fill: var(--t1); } .m3a .f2 { fill: var(--t2); } .m3a .f3 { fill: var(--t3); }

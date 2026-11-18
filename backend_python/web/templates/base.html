@@ -628,6 +628,7 @@
      consumer of them runs on DOMContentLoaded or later, so nothing changes
      except that the page can paint before they arrive. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/m3x-art.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/v3-thumb.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pixel-art.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>

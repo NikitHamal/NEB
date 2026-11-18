@@ -1,6 +1,6 @@
 /* M3X art for resource thumbnails and profile covers (file name kept for the templates that load it).
 
-   Thumbnails are the v1 M3X art library's `thumb` pieces, 6 per subject family, and covers are the v7
+   Thumbnails are the v3 M3X art library's `thumb` pieces (still-life study objects, no scenes), and covers are the v7
    `cover` pieces (concepts/art, concepts/art-v7). Both are drawn by code from js/m3x-art.js (inline SVG). A thumbnail is picked by subject family and a stable
    hash, the same as the Android app (M3xArt.kt). A cover is the id in data-neb-cover. */
 (function (global) {
@@ -71,38 +71,47 @@
 
   var ro = global.ResizeObserver ? new ResizeObserver(function (entries) {
     entries.forEach(function (e) {
-      var el = e.target, M = global.NebM3x;
-      if (!M || el.__nebRaf) return;
+      var el = e.target, M = global.NebM3x, V = global.NebArtV3, cover = el.getAttribute('data-neb-art') === 'cover';
+      if (!(cover ? M : V) || el.__nebRaf) return;
       el.__nebRaf = requestAnimationFrame(function () {
         el.__nebRaf = 0;
-        var a = M.fit(aspectOf(el), 0);
+        var a = cover ? M.fit(aspectOf(el), 0) : V.thumbFit(aspectOf(el));
         if (a && a !== el.__nebFit) draw(el);
       });
     });
   }) : null;
 
+  // Resource thumbnails are the v3 art library's `thumb` pieces (js/v3-thumb.js): study objects on calm backdrops, built for the
+  // box's own aspect. Light and Dark are both drawn; css shows the one that matches the theme.
+  function v3Thumb(el, a) {
+    var V = global.NebArtV3, seed = el.getAttribute('data-neb-seed') || '', subject = el.getAttribute('data-neb-subject') || '';
+    var key = seed + '|' + subject + '|' + V.thumbFit(a);
+    if (v3memo[key]) return v3memo[key];
+    var cls = function (m) { return V.thumb(seed, subject, a, m).replace('<svg ', '<svg class="m3a v3t v3t-' + m + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" '); };
+    return (v3memo[key] = cls('light') + cls('dark'));
+  }
+  var v3memo = {};
+
   function draw(el) {
-    var M = global.NebM3x;
-    if (!M) return;
-    var old = el.querySelector(':scope > svg.m3a');
-    var a = M.fit(aspectOf(el), 0);
-    el.__nebFit = a;
-    var kind = el.getAttribute('data-neb-art'), html;
-    // drawn by code (js/m3x-art.js): inline SVG, no request, Light and Dark share one drawing
+    var M = global.NebM3x, V = global.NebArtV3;
+    var kind = el.getAttribute('data-neb-art'), html, a;
     if (kind === 'cover') {
+      if (!M) return;
+      a = M.fit(aspectOf(el), 0);
       var cid = el.getAttribute('data-neb-cover');
       if (!cid || !M.has(cid)) cid = M.defaultCover(el.getAttribute('data-neb-user'));
       html = M.cover(cid, el.hasAttribute('data-neb-live'), a);
     } else {
-      var subject = el.getAttribute('data-neb-subject') || '';
-      var bv = variant(stableSeed(el.getAttribute('data-neb-seed') || subject), BANNER_VARIANTS);
-      html = M.thumb(subjectFamily(subject), bv, a);
+      if (!V || !V.thumb) return;
+      a = V.thumbFit(aspectOf(el));
+      html = v3Thumb(el, a);
     }
-    // The settle (css .m3a-live) plays when the art first shows or a cover is picked, never on a resize redraw.
-    var play = !old || el.__nebPlay; el.__nebPlay = false;
+    el.__nebFit = a;
+    var old = el.querySelectorAll(':scope > svg.m3a');
+    var play = !old.length || el.__nebPlay; el.__nebPlay = false;
     el.insertAdjacentHTML('afterbegin', html);
-    if (!play) { var fresh = el.querySelector(':scope > svg.m3a'); if (fresh) fresh.classList.add('m3a-still'); }
-    if (old) old.remove();
+    if (!play) { var fresh = el.querySelector(':scope > svg.m3a'); if (fresh && kind === 'cover') fresh.classList.add('m3a-still'); }
+    for (var i = 0; i < old.length; i++) old[i].remove();
   }
 
   function paint(el) {
