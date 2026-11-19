@@ -1,0 +1,40 @@
+"""Builds api/data/pathways/wave36.json from the w36_*.py tables (never hand edit wave36.json).
+
+Run: python3 backend_python/tools/pathways/build_wave36.py
+Each w36_* module may define any of the upper case keys listed in KEYS.
+"""
+import json
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(HERE.parent.parent))
+DATA = HERE.parent.parent / 'api' / 'data' / 'pathways'
+if (DATA / 'wave36.json').exists():
+    (DATA / 'wave36.json').unlink()
+KEYS = ('providers_add', 'where_add', 'route_seats', 'note_add', 'provider_update', 'faq_add', 'abroad_add', 'abroad_update',
+        'abroad_note_add', 'abroad_text_swap', 'faq_text_swap', 'scholarships_add', 'scholarship_extra', 'scholarship_note_add', 'careers_new',
+        'career_links', 'govt_add', 'govt_note_add', 'guides_add', 'scholarship_text_swap')
+out = {}
+for name in ('w36_nepal', 'w36_abroad', 'w36_faq'):
+    try:
+        mod = __import__(name)
+    except ImportError:
+        continue
+    for key in KEYS:
+        val = getattr(mod, key.upper(), None)
+        if val:
+            if isinstance(val, list):
+                out[key] = out.get(key, []) + val
+            else:
+                out[key] = {**out.get(key, {}), **val}
+text = json.dumps(out, ensure_ascii=False, indent=1)
+for _bad in ('--', '\u2014', '\u2013'):
+    if _bad in text:
+        _i = text.index(_bad)
+        print('BAD', repr(text[_i - 80:_i + 40]))
+assert '\u2014' not in text and '\u2013' not in text and '--' not in text
+assert not [ch for ch in text if ord(ch) > 0x2fff]
+(DATA / 'wave36.json').write_text(text + '\n', encoding='utf-8')
+print('wave36.json', len(text), 'bytes;', {k: len(v) for k, v in out.items()})

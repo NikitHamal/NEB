@@ -1580,3 +1580,28 @@ class Wave35Tests(TestCase):
         self.assertEqual(pv['p-norvic']['website'], 'https://norviceducations.edu.np')
         self.assertEqual(pv['p-oasis-med']['website'], 'https://www.omc.edu.np')
         self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 669)
+
+
+class Wave36Tests(TestCase):
+    def test_wave36_provincial_psc_and_rules(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        govt = {g['id']: g for g in d['govt']}
+        for gid in ('g-gandaki-psc-l7', 'g-lumbini-psc-l9', 'g-karnali-psc-l5'):
+            self.assertIn(gid, govt)
+            self.assertTrue(govt[gid]['fee'] and govt[gid]['apply'], gid)
+        self.assertIn('75 competitive seats', govt['g-gandaki-psc-l7']['note'])
+        self.assertIn('Notice 14/2083-84', govt['g-karnali-psc-l5']['note'])
+        self.assertIn('169/2083-84', govt['g-provincial-psc']['note'])
+        abroad = {a['id']: a for a in d['abroad']}
+        self.assertIn('925', abroad['uk']['note'])
+        self.assertIn('high compliance', abroad['uk']['stay_back'])
+        self.assertIn('103,265', abroad['us']['note'])
+        self.assertIn('Opportunity Card', abroad['de']['note'])
+        guides = {g['id']: g for g in d['guides']}
+        self.assertEqual(guides['nrb-forex-study']['link'], 'guide:noc-study-abroad')
+        sites = {p['id']: p.get('website') for p in d['providers']}
+        self.assertEqual(sites['p-jf-health'], 'https://www.lajf.edu.np')
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 10):
+            self.assertIn(f'fw36-{i}', faq)
