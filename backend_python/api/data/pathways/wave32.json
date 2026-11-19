@@ -57,7 +57,7 @@
    "id": "fw32-4",
    "topic": "abroad",
    "q": "Can I stay and work in Greece after studying there?",
-   "a": "Not directly. The European Commission EU Immigration Portal says that in Greece you can work part time during studies, you cannot change your status to a residence permit for another purpose, and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing.",
+   "a": "Not directly. The European Commission EU Immigration Portal says that in Greece you can work part time during studies, you cannot change your status to a residence permit for another purpose, and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing. Two 2026 guides (unipage.net, eecglobal.com) say a newer Greek law (5275/2026) gives a one year post study permit to look for work, which the Commission page does not show, so confirm with the Ministry of Migration and Asylum before you rely on either. Greek taught public bachelor programmes are free for non EU students too, but need Greek at B2.",
    "go": [
     "abroad-ms"
    ]
@@ -371,6 +371,36 @@
    "work_hours": 15,
    "stay_back": "After finishing, a third country national may stay to look for a job or start a business and must apply for the residence permit for that purpose before the student permit ends, at least 30 days beforehand (European Commission). The page read gives no length in months.",
    "note": "The University of Luxembourg is the only public university. It lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 from the third to the sixth and generally EUR 200 a semester for a master (studyeagles.com citing the university), so a bachelor starts at about EUR 800 in year one; one 2024 guide prints EUR 400 to 800 a semester for non EU students, and some specialised or private programmes cost more, so read the programme page. Living is the real cost: the university is quoted at about EUR 1,500 a month, and guides print proof of funds of EUR 950 a month excluding rent or EUR 1,100 to 1,500 a month. Public transport is free. The figure here runs from EUR 950 to EUR 1,500 a month. NPR figures are rough, at EUR 1 about NPR 175.",
+   "scholarships": []
+  },
+  {
+   "id": "gr",
+   "country": "Greece",
+   "tuition": [
+    0,
+    2975000
+   ],
+   "living": [
+    1050000,
+    1890000
+   ],
+   "code": "GR",
+   "exams": [
+    "Greek language B2 for the free Greek taught route (most international students take a one year preparatory Greek course first)",
+    "IELTS 6.0 or TOEFL iBT 79 for English taught programmes (Aristotle University medicine, one guide)",
+    "Panhellenic style admission or document review set by each university"
+   ],
+   "intakes": "Autumn semester; dates and application windows differ by university and by Greek or English route",
+   "fields": [
+    "Medicine (English, 6 years, Aristotle University 60 places)",
+    "Engineering",
+    "Business and economics",
+    "Humanities and arts",
+    "Master programmes in English (200 or more in one guide)"
+   ],
+   "work": "You can work part time during studies (European Commission EU Immigration Portal, Greece page); two 2026 guides print at least 15 hours a week, and one says a 2026 law raised the cap to 20 hours, which the Commission page does not show, so ask the university.",
+   "stay_back": "Sources disagree. The Commission page read says you must return to your home country after your studies and apply afresh from there, while two 2026 guides (unipage.net, eecglobal.com) describe a one year post study permit to look for work (a Type H.11 permit under Law 5275/2026); confirm with the Ministry of Migration and Asylum before you rely on either.",
+   "note": "Greek taught first cycle study at public universities is free of tuition for EU and non EU students alike, with free textbooks (unipage.net, college-council.com), but you need Greek at B2 and usually a preparatory year. English taught bachelor programmes cost about EUR 4,000 to 6,000 a year for most subjects and EUR 12,000 to 17,000 for English medicine (QS figures quoted by college-council.com; study-abroad.org prints EUR 1,500 to 7,000 and up to EUR 9,000; Aristotle University medicine is about USD 13,560), and English master programmes about EUR 1,500 to 7,000. Living is quoted at EUR 500 to 900 a month; a study visa needs proof of about USD 452 a month in one guide (about EUR 400 or more in another), and the residence permit costs about EUR 150 to 169 a year. Private universities opened under a 2024 law at about EUR 6,000 to 15,000 a year, so check Ministry accreditation. NPR figures are rough, at EUR 1 about NPR 175.",
    "scholarships": []
   }
  ],

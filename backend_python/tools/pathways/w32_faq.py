@@ -19,7 +19,8 @@ FAQ_ADD = [
      'go': ['abroad-ms']},
     {'id': 'fw32-4', 'topic': 'abroad', 'q': 'Can I stay and work in Greece after studying there?',
      'a': ('Not directly. The European Commission EU Immigration Portal says that in Greece you can work part time during studies, you cannot change your status to a residence permit for another purpose, '
-           'and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing.'),
+           'and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing. Two 2026 guides (unipage.net, eecglobal.com) say a newer Greek law (5275/2026) gives a one year post study permit to look for work, which the Commission page does not show, so confirm with the Ministry of Migration and Asylum before you rely on either. '
+           'Greek taught public bachelor programmes are free for non EU students too, but need Greek at B2.'),
      'go': ['abroad-ms']},
     {'id': 'fw32-5', 'topic': 'abroad', 'q': 'What does Slovenia cost for a student from outside the EU?',
      'a': ('For 2026/27 a bachelor year at a public university mostly costs EUR 2,100 to 5,880 and a master year EUR 2,505 to 6,800 (studyu.org), for example EUR 3,400 and EUR 4,700 at the University of Ljubljana School of Economics and Business. '

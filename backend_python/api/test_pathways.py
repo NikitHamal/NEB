@@ -754,7 +754,7 @@ class Wave18Tests(TestCase):
     def test_every_destination_has_a_scholarship(self):
         d = pathways.payload()
         for a in d['abroad']:
-            if a['id'] in ('is', 'bg', 'hr', 'si', 'lu'):
+            if a['id'] in ('is', 'bg', 'hr', 'si', 'lu', 'gr'):
                 continue  # wave 32: no verified Nepal scholarship route (Iceland's excludes Nepal)
             self.assertTrue(a.get('scholarships'), a['id'])
         sch = {s['id']: s for s in d['scholarships']}
@@ -1065,7 +1065,7 @@ class Wave22Tests(TestCase):
         for dist, cnt in dc.items():
             self.assertGreaterEqual(cnt, 2, dist)
         for a in d['abroad']:
-            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu'):
+            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu', 'gr'):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
@@ -1404,12 +1404,13 @@ class Wave32Tests(TestCase):
     def test_wave32_eu_destinations_and_faqs(self):
         d = pathways.payload()
         ab = {a['id']: a for a in d['abroad']}
-        for cid in ('bg', 'hr', 'si', 'lu'):
+        for cid in ('bg', 'hr', 'si', 'lu', 'gr'):
             self.assertIn(cid, ab)
             a = ab[cid]
             self.assertLess(a['tuition'][0], a['tuition'][1])
             self.assertLess(a['living'][0], a['living'][1])
             self.assertIn('European Commission', a['work'] + a['stay_back'])
+        self.assertIn('Sources disagree', ab['gr']['stay_back'])
         self.assertEqual(ab['bg']['work_hours'], 20)
         self.assertEqual(ab['lu']['work_hours'], 15)
         self.assertIn('9 months', ab['bg']['stay_back'])
