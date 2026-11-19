@@ -1692,5 +1692,9 @@ class Wave39Tests(TestCase):
         self.assertIn('Gurkha routes', routes['police-army']['about'])
         self.assertIn('s-assured-future', {s['id'] for s in d['scholarships']})
         faq = {f['id'] for f in d['faq']}
-        for i in range(1, 9):
+        for i in range(1, 11):
             self.assertIn(f'fw39-{i}', faq)
+        self.assertIn('ausbildung-germany', {g['id'] for g in d['guides']})
+        self.assertIn('Ausbildung', {a['id']: a for a in d['abroad']}['de']['note'])
+        self.assertIn('https://dpsp.edu.np', {x.get('website') for x in d['providers']})
+        self.assertIn('13 November 2026', govt['g-army-cadet']['note'])

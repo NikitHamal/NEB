@@ -192,11 +192,70 @@
     "Insurance receipt"
    ],
    "link": "route:foreign-lang-work"
+  },
+  {
+   "id": "ausbildung-germany",
+   "name": "Ausbildung in Germany after +2",
+   "cat": "Applications",
+   "steps": [
+    [
+     "Pick a trade that has a shortage (nursing and care, mechatronics, hospitality, logistics, retail) and read the allowance for it on the IHK or the Federal Employment Agency site",
+     7,
+     0,
+     "online"
+    ],
+    [
+     "Study German to B1 at Goethe-Institut Kathmandu or another centre, and pass an exam with all four skills (B2 for nursing and care)",
+     270,
+     0,
+     "in person"
+    ],
+    [
+     "Authenticate your SEE, +2 and other certificates in Nepal and have them translated for the visa file",
+     30,
+     0,
+     "in person"
+    ],
+    [
+     "Apply to companies and vocational schools directly, interview in German, and sign the training contract (the company usually arranges the Federal Employment Agency approval)",
+     90,
+     0,
+     "online"
+    ],
+    [
+     "Apply for the national visa (section 16a) at the German Embassy in Kathmandu; the fee is EUR 75, so no NPR amount is shown here, and the contract pay must reach EUR 1,048 gross a month or you need a blocked account",
+     30,
+     0,
+     "in person"
+    ],
+    [
+     "Fly out, register your address, take statutory health insurance through the employer and start work and vocational school; after qualifying you may stay up to 18 months to find a job",
+     1,
+     0,
+     "in person"
+    ]
+   ],
+   "docs": [
+    "Passport",
+    "Signed training contract",
+    "German B1 certificate",
+    "SEE and +2 certificates with translations",
+    "CV in tabular form",
+    "Health insurance for the days before training",
+    "Proof of funds if the pay is below the limit",
+    "Biometric photos"
+   ],
+   "link": "route:foreign-lang-work"
   }
  ],
  "route_note_add": {
   "police-army": "Gurkha routes (checked 19 November 2026): the British Army and the Singapore Police take Nepali men aged 18 to 21 with a C in SEE English and Maths through one free selection at Pokhara and Dharan (323 places for more than 14,000 applicants in 2026). Indian Army Gorkha recruitment from Nepal has been paused since 2022, so any seat offered by an agent is a scam.",
   "foreign-lang-work": "Every Nepali worker going abroad except to India needs a labour permit (Shram Swikriti) from the Department of Foreign Employment, applied for online in FEIMS. See the guide for the steps and the fees."
+ },
+ "govt_note_add": {
+  "g-apf-asi": "Armed Police Force notice of 26 Bhadra 2083 as transcribed by jibiko.com: 666 posts, 604 constables and 62 attendants (cook 38, sweeper 8, tailor 6, barber 7, cobbler 2, gardener 1). The constable groups are open 356, martyr and disabled staff children 12, women 53, Adivasi Janajati 55, Madhesi 74, Dalit 40 and backward area 14, which add up to 604 only if 356 are open, so the earlier figure of 326 open in this entry is probably a typing slip. Class 8 pass, age 18 to under 22, men at least 5 ft 2 in and 50 kg, women 5 ft and 42 kg. Online window 2083/05/30 to 2083/06/28, then papers by hand on 2083/06/30; both are closed.",
+  "g-police": "The Nepal Police notice of 2083 Asoj lists 335 posts, 212 ASI plus 123 office helpers (cook 83, barber 15, sweeper 25). ASI apply on careers.nepalpolice.gov.np from 2083/06/12 to 2083/07/10 (age 18 to under 24), and helpers apply in person at provincial police training centres or district police offices (age 18 to 25, basic reading and writing). Source: jibiko.com, 18 September 2026. Both windows are closed, so the next round will be in the 2084/85 calendar.",
+  "g-army-cadet": "Separate from the cadet intake: the Nepali Army published its 2083/84 officer vacancies for Prad (legal), Technical, Aviation and Miscellaneous services on 2083/07/27 (13 November 2026), 50 open seats in 20 entries (28 open, 20 inclusive, 2 special) and 24 internal seats for serving personnel only. The open deadline is 2083/08/17 (3 December 2026), double fee to 2083/08/24, and the fee is NPR 1,000 a post plus 20 percent for each extra group. Apply online, print the form and submit it at the Central Recruitment Selection Center, Swoyambhu (unionnepal.com, 13 November 2026)."
  },
  "careers_new": [
   {
@@ -357,24 +416,25 @@
    "insurance-officer"
   ]
  },
- "scholarships_add": [
-  {
-   "id": "s-assured-future",
-   "name": "Sunishchit Bhabishya (Assured Future) Scholarship for flood affected children",
-   "scope": "nepal",
-   "levels": [
-    "diploma"
-   ],
-   "by": "Ministry of Education, Science and Sports with private school associations",
-   "type": "Government",
-   "covers": "Full, partial or residential scholarships, school fee waivers, textbooks, uniforms, learning materials, lodging and food, from early childhood education to Class 12. Worth about NPR 1 billion in total.",
-   "who": "Children in Class 12 or below who were hit by the Bhotekoshi flood of 10 Bhadra 2083 (26 August 2026) in 15 local levels of Rasuwa, Nuwakot, Dhading, Gorkha and Tanahun, declared disaster hit areas. First priority goes to children who could not attend school, come from poor families, lost a parent or family member or are out of contact, and children needing special support.",
-   "how": "There is no open form. Children are identified through a field survey and the recommendation of the school, ward office and local level, then the Ministry recommends them to a private school or partner that gives the seat. Ask your school principal or ward office. The scheme was announced on Monday 7 September 2026, and about 1,000 students are planned.",
-   "link": "https://moest.gov.np",
-   "awards": 1000
-  }
- ],
  "faq_add": [
+  {
+   "id": "fw39-9",
+   "topic": "abroad",
+   "q": "Can I go to Germany for an Ausbildung (paid vocational training) after +2?",
+   "a": "Yes. A company or vocational school gives you a training contract, you hold German at B1 (B2 for nursing and care) and you get a section 16a national visa from the German Embassy in Kathmandu. The legal minimum training pay in 2026 is EUR 724 a month in year 1, EUR 854 in year 2 and EUR 977 in year 3, and employers often pay more. The funds test is training pay of at least EUR 1,048 gross a month, or else a blocked account of about EUR 11,904 a year. Three sources say there is no upper age limit for this visa, one says under 35, and the separate search visa needs under 35. Plan about 18 months for German, certificates, interviews and the visa, and never pay anyone for a contract.",
+   "go": [
+    "foreign-lang-work"
+   ]
+  },
+  {
+   "id": "fw39-10",
+   "topic": "abroad",
+   "q": "How many hours can I work during an Ausbildung in Germany, and what happens after it?",
+   "a": "The training itself is paid work at your company plus vocational school. Most 2026 pages say you may work 20 hours a week outside the training, and one says 10, so check the visa conditions on your permit. After you qualify you may stay up to 18 months to look for a skilled job, and can then switch to a skilled worker residence permit.",
+   "go": [
+    "foreign-lang-work"
+   ]
+  },
   {
    "id": "fw39-1",
    "topic": "after10",
@@ -450,5 +510,39 @@
     "bba"
    ]
   }
- ]
+ ],
+ "abroad_note_add": {
+  "de": "Ausbildung (paid dual vocational training, 2 to 3.5 years) is the cheapest way into Germany after +2. You need a signed training contract or school place, German at B1 (B2 for nursing and care, and many firms ask for it) and a national visa under section 16a of the Residence Act from the German Embassy in Kathmandu (fee EUR 75). Pages cited for 2026 show a legal minimum training allowance of EUR 724 in year 1, 854 in year 2 and 977 in year 3, and a living funds test of EUR 1,048 gross (822 net) a month from the allowance or else a blocked account of about EUR 11,904 a year. Three pages say there is no upper age limit for the training visa and one says under 35; the visa to search for a place (section 17) needs under 35. Side work is 20 hours a week on most pages and 10 on one. After qualifying you may stay up to 18 months to look for work."
+ },
+ "scholarships_add": [
+  {
+   "id": "s-assured-future",
+   "name": "Sunishchit Bhabishya (Assured Future) Scholarship for flood affected children",
+   "scope": "nepal",
+   "levels": [
+    "diploma"
+   ],
+   "by": "Ministry of Education, Science and Sports with private school associations",
+   "type": "Government",
+   "covers": "Full, partial or residential scholarships, school fee waivers, textbooks, uniforms, learning materials, lodging and food, from early childhood education to Class 12. Worth about NPR 1 billion in total.",
+   "who": "Children in Class 12 or below who were hit by the Bhotekoshi flood of 10 Bhadra 2083 (26 August 2026) in 15 local levels of Rasuwa, Nuwakot, Dhading, Gorkha and Tanahun, declared disaster hit areas. First priority goes to children who could not attend school, come from poor families, lost a parent or family member or are out of contact, and children needing special support.",
+   "how": "There is no open form. Children are identified through a field survey and the recommendation of the school, ward office and local level, then the Ministry recommends them to a private school or partner that gives the seat. Ask your school principal or ward office. The scheme was announced on Monday 7 September 2026, and about 1,000 students are planned.",
+   "link": "https://moest.gov.np",
+   "awards": 1000
+  }
+ ],
+ "provider_update": {
+  "p-w24-pu-apollo": {
+   "website": "https://apollocollege.edu.np"
+  },
+  "p-w28-pu-g-p-koirala-college-of-agriculture-and-research-morang": {
+   "website": "https://gpcar.edu.np"
+  },
+  "p-ct37-176": {
+   "website": "https://dpsp.edu.np"
+  },
+  "p-ct37-1094": {
+   "website": "https://www.ynsra.edu.np"
+  }
+ }
 }
