@@ -1197,8 +1197,8 @@ class Wave26Tests(TestCase):
         for pid, host in (('p-patan', 'pmc.tu.edu.np'), ('p-mmc-dang', 'mamc.tu.edu.np'), ('p-mmc-nepalgunj', 'mahemc.tu.edu.np'),
                           ('p-damak-mc', 'damakcampus.edu.np')):
             self.assertIn(host, prov[pid]['website'])
-        for pid in ('p-solukhumbu',):
-            self.assertNotIn('website', prov[pid])
+        # the guessed domain stays gone; wave 35 later linked the real page listed on collegenp.com
+        self.assertEqual(prov['p-solukhumbu'].get('website'), 'https://solucampus.edu.np')
         for p in prov.values():
             self.assertNotIn(p.get('website'), ('https://rrcampus.edu.np', 'https://mmcn.tu.edu.np', 'https://tmcpalpa.tu.edu.np'))
 
@@ -1572,3 +1572,10 @@ class Wave35Tests(TestCase):
         faq = {f['id'] for f in d['faq']}
         for i in range(1, 11):
             self.assertIn(f'fw35-{i}', faq)
+
+    def test_wave35_websites(self):
+        d = pathways.payload()
+        pv = {p['id']: p for p in d['providers']}
+        self.assertEqual(pv['p-norvic']['website'], 'https://norviceducations.edu.np')
+        self.assertEqual(pv['p-oasis-med']['website'], 'https://www.omc.edu.np')
+        self.assertGreaterEqual(sum(1 for p in d['providers'] if p.get('website')), 669)

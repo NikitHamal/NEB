@@ -84,6 +84,152 @@
    "link": "exam:e-neet-ug-india"
   }
  ],
+ "provider_update": {
+  "p-solukhumbu": {
+   "website": "https://solucampus.edu.np"
+  },
+  "p-everest-nursing": {
+   "website": "https://econ.edu.np"
+  },
+  "p-norvic": {
+   "website": "https://norviceducations.edu.np"
+  },
+  "p-oasis-med": {
+   "website": "https://www.omc.edu.np"
+  },
+  "p-morgan-eng": {
+   "website": "https://morganem.edu.np"
+  },
+  "p-mega-eng": {
+   "website": "https://megacoe.com"
+  },
+  "p-hamro-nursing": {
+   "website": "https://hamroschoolofnursing.edu.np"
+  },
+  "p-w12-ramechhap-pi": {
+   "website": "https://rpimctevt.edu.np"
+  },
+  "p-w12-shankharapur": {
+   "website": "https://spictevt.edu.np"
+  },
+  "p-w12-kisan-pi": {
+   "website": "https://kpictevt.edu.np"
+  },
+  "p-w12-aandhikhola-pi": {
+   "website": "https://abps.edu.np"
+  },
+  "p-w12-ce-birgunj-institute-of-technology": {
+   "website": "https://bit.edu.np"
+  },
+  "p-w24-pu-excel-business": {
+   "website": "https://excelcollege.edu.np"
+  },
+  "p-w24-pu-siddhartha-intl": {
+   "website": "https://sicbutwal.edu.np"
+  },
+  "p-w24-pu-kshitiz-intl": {
+   "website": "https://kshitizcollege.edu.np"
+  },
+  "p-w24-pu-boston": {
+   "website": "https://bostoncollege.edu.np"
+  },
+  "p-w24-pu-imperial": {
+   "website": "https://imperialcollege.edu.np"
+  },
+  "p-w24-pu-mbman": {
+   "website": "https://mbman.edu.np"
+  },
+  "p-w24-iost-khwopa-college": {
+   "website": "https://khwopacollege.edu.np"
+  },
+  "p-w24-iost-pinnacle": {
+   "website": "https://pinnacleacademy.edu.np"
+  },
+  "p-w25-ku-national-ku": {
+   "website": "https://www.nationalcollege.edu.np"
+  },
+  "p-w25-ku-scti": {
+   "website": "https://www.scti.edu.np"
+  },
+  "p-w25-ku-south-city": {
+   "website": "https://sccst.edu.np"
+  },
+  "p-w25-ku-whitehouse-bt": {
+   "website": "https://whitehouseeducation.edu.np"
+  },
+  "p-w25-ku-nit-gaidakot": {
+   "website": "https://nitgaindakot.edu.np"
+  },
+  "p-w26-npca-142": {
+   "website": "https://ghodaghodicampus.edu.np"
+  },
+  "p-w26-npca-199": {
+   "website": "https://parrohamc.edu.np"
+  },
+  "p-w26-npca-225": {
+   "website": "https://banshagopal.edu.np"
+  },
+  "p-w27-npca-191": {
+   "website": "https://janashikhacampus.edu.np"
+  },
+  "p-w27-npca-591": {
+   "website": "https://rauleshwar.edu.np"
+  },
+  "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam": {
+   "website": "https://karfokmultiplecampus.edu.np"
+  },
+  "p-w28-pu-dharan-college-of-management-sunsari": {
+   "website": "https://dcm.edu.np"
+  },
+  "p-w28-pu-birgunj-public-college-parsa": {
+   "website": "https://bpcbirgunj.edu.np"
+  },
+  "p-w28-pu-gateway-college-of-professional-studies-kathmandu": {
+   "website": "https://gatewaycollege.edu.np"
+  },
+  "p-w28-pu-kasthamandap-school-of-public-affair-management-kathmandu": {
+   "website": "https://kaspam.edu.np"
+  },
+  "p-w28-pu-sagarmatha-multiple-college-kathmandu": {
+   "website": "https://smcollege.edu.np"
+  },
+  "p-w28-pu-orchid-college-of-management-and-technology-kathmandu": {
+   "website": "https://ocmt.edu.np"
+  },
+  "p-w28-pu-lumbini-integrated-academy-rupandehi": {
+   "website": "https://lia.edu.np"
+  },
+  "p-w28-pu-hope-international-college-lalitpur": {
+   "website": "https://hopecollege.edu.np"
+  },
+  "p-w28-pu-institute-of-open-learning-kathmandu-kathmandu": {
+   "website": "https://iol.edu.np"
+  },
+  "p-w28-pu-sagarmatha-college-of-law-kathmandu": {
+   "website": "https://sagarmathacollegeoflaw.edu.np"
+  },
+  "p-w28-pu-global-school-of-law-kathmandu": {
+   "website": "https://gsl.edu.np"
+  },
+  "p-w28-pu-kantipur-international-college-of-law-kathmandu": {
+   "website": "https://kantipurintlcollegeoflaw.edu.np"
+  },
+  "p-w28-rju-ambition-guru-college-kathmandu": {
+   "website": "https://ambitiongurucollege.edu.np"
+  },
+  "p-w28-rju-mega-law-college-lalitpur": {
+   "website": "https://mega-lawcollege.com"
+  },
+  "p-w30-gci": {
+   "website": "https://gci.edu.np"
+  },
+  "p-w28-pu-model-purbanchal-college-dhanusha": {
+   "website": "https://modelcollege.edu.np"
+  },
+  "p-w28-rju-creative-international-college-butwal-rupandehi": {
+   "website": "https://cicbutwal.edu.np"
+  }
+ },
  "govt_add": [
   {
    "id": "e-neet-ug-india",
