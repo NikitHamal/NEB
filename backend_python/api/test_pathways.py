@@ -1630,3 +1630,43 @@ class Wave37Tests(TestCase):
         faq = {f['id'] for f in d['faq']}
         for i in range(1, 5):
             self.assertIn(f'fw37-{i}', faq)
+
+
+class Wave38Tests(TestCase):
+    def test_wave38_neb_plus2_schools(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        s = pathways.plus2_summary()
+        self.assertGreaterEqual(s['total'], 5300)
+        self.assertEqual(len(s['districts']), 77)
+        names = {x['district'] for x in d['providers']}
+        for x in s['districts']:
+            self.assertIn(x['district'], names, x['district'])  # same spelling as the providers
+        counts = {x['district']: x['count'] for x in s['districts']}
+        self.assertGreaterEqual(counts['Kathmandu'], 400)
+        kaski = pathways.plus2_schools('Kaski', q='gandaki boarding')
+        self.assertEqual(kaski['items'][0]['code'], '40001')
+        self.assertEqual(kaski['items'][0]['name_ne'], 'गण्डकी बोर्डिङ्ग मा.वि.')
+        self.assertEqual(pathways.plus2_schools('Rukum East')['items'][0]['code'][:2], '54')
+        self.assertEqual(pathways.plus2_schools('Nawalparasi East')['items'][0]['code'][:2], '76')
+        codes = [r['code'] for r in pathways._plus2()['rows']]
+        self.assertEqual(len(codes), len(set(codes)))
+        for r in pathways._plus2()['rows']:
+            self.assertRegex(r['name'], r'^[\x20-\x7e]+$', r['code'])
+        routes = {r['id']: r for r in d['routes']}
+        for rid in ('plus2-science', 'plus2-law'):
+            self.assertIn('exam centre notice for 2083', routes[rid]['about'], rid)
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 4):
+            self.assertIn(f'fw38-{i}', faq)
+
+    def test_wave38_plus2_endpoint(self):
+        r = self.client.get('/api/pathways/plus2/')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.json()['districts']), 77)
+        r = self.client.get('/api/pathways/plus2/', {'district': 'Dang', 'limit': 5})
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(len(body['items']), 5)
+        self.assertGreaterEqual(body['total'], 100)
+        self.assertEqual(self.client.get('/api/pathways/plus2/', {'district': 'Dang', 'limit': 'x'}).status_code, 400)

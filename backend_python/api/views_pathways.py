@@ -53,3 +53,22 @@ def pathways_on_neb(request):
     resp = JsonResponse({'items': items, 'matches': matches})
     resp['Cache-Control'] = 'public, max-age=300'
     return resp
+
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def pathways_plus2(request):
+    """GET /api/pathways/plus2/ : per district counts of NEB +2 schools. With `?district=Kaski` (optional `q`, `limit`, `offset`)
+    it returns that district's schools (code, name, name_ne, address) from the NEB Class 12 exam centre notice 2083."""
+    district = request.GET.get('district')
+    if not district:
+        out = pathways.plus2_summary()
+    else:
+        try:
+            out = pathways.plus2_schools(district, request.GET.get('q'), request.GET.get('limit', 200), request.GET.get('offset', 0))
+        except ValueError:
+            return JsonResponse({'detail': 'limit and offset must be numbers'}, status=400)
+    resp = JsonResponse(out, json_dumps_params={'ensure_ascii': False, 'separators': (',', ':')})
+    resp['Cache-Control'] = 'public, max-age=3600'
+    return resp

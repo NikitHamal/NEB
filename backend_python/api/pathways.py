@@ -661,7 +661,7 @@ def payload():
         for rid, more in w31.get('career_links', {}).items():
             route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
         faq_all = faq_all + w31.get('faq_add', [])
-    for _wave_file in ('wave32.json', 'wave33.json', 'wave34.json', 'wave35.json', 'wave36.json', 'wave37.json'):
+    for _wave_file in ('wave32.json', 'wave33.json', 'wave34.json', 'wave35.json', 'wave36.json', 'wave37.json', 'wave38.json'):
         if not (DATA / _wave_file).exists():
             continue
         w32 = _load(_wave_file)
@@ -827,3 +827,33 @@ def problems(data=None):
             if len(step) != 4 or step[3] not in ('online', 'in person'):
                 out.append(f"guide {gd['id']}: step {step[0]}")
     return out
+
+
+@lru_cache(maxsize=1)
+def _plus2():
+    data = _load('neb_plus2.json')
+    names = data['districts']
+    rows = [dict(zip(data['fields'], r), district=names[r[0][:2]]) for r in data['schools']]
+    by_district = {}
+    for r in rows:
+        by_district.setdefault(r['district'], []).append(r)
+    return {'source': data['source'], 'rows': rows, 'by_district': by_district}
+
+
+def plus2_summary():
+    """Schools with Class 12 candidates per district, from the NEB Class 12 exam centre notice 2083 (`neb_plus2.json`)."""
+    d = _plus2()
+    counts = sorted(((k, len(v)) for k, v in d['by_district'].items()), key=lambda x: (-x[1], x[0]))
+    return {'source': d['source'], 'total': len(d['rows']), 'districts': [{'district': k, 'count': n} for k, n in counts]}
+
+
+def plus2_schools(district=None, q=None, limit=200, offset=0):
+    """NEB +2 schools of one district (exact English district name as in providers), optionally filtered by a name or address word."""
+    d = _plus2()
+    rows = d['by_district'].get(district, []) if district else d['rows']
+    if q:
+        needle = q.strip().lower()
+        rows = [r for r in rows if needle in r['name'].lower() or needle in r['address'].lower() or needle in r['name_ne'] or needle in r['code']]
+    limit = max(1, min(int(limit), 500))
+    offset = max(0, int(offset))
+    return {'source': d['source'], 'total': len(rows), 'items': rows[offset:offset + limit]}
