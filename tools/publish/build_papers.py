@@ -38,7 +38,11 @@ FACULTY = {
     "Finance": "Management",
     "Hotel Management": "Management",
     "Social Studies": "Humanities",
+    "Visual Programming": "Computer Engineering",
+    "Web Development and Database": "Computer Engineering",
+    "Software Engineering and Project Management": "Computer Engineering",
 }
+CE_SUBJECTS = {k for k, v in FACULTY.items() if v == "Computer Engineering"}
 
 GRADE_LABEL = {"8": "Class 8", "9": "Class 9", "10": "Class 10 / SEE", "11": "Class 11", "12": "Class 12"}
 
@@ -124,6 +128,8 @@ def title_for(paper, dupe):
         label = stream_label(paper)
         if label:
             base += " " + label
+    if paper["subject"] in CE_SUBJECTS:
+        base += " Computer Engineering Technical Stream"
     return base + " with Solutions"
 
 
@@ -179,6 +185,8 @@ def listing_for(paper, dupe):
             paper.get("year_bs", ""), paper.get("year_ad", ""), "solved paper", "with solutions", "Nepal"]
     if "Technical" in (paper.get("stream") or ""):
         tags.append("technical stream")
+    if subject in CE_SUBJECTS:
+        tags += ["Computer Engineering", "NEB technical stream", "Class 12 computer engineering"]
     return {
         "slug": paper["id"],
         "title": title_for(paper, dupe),
@@ -203,6 +211,7 @@ def main():
     ap.add_argument("--grade", default="12")
     ap.add_argument("--only", nargs="*", default=[])
     ap.add_argument("--no-covers", action="store_true")
+    ap.add_argument("--merge", action="store_true", help="keep listings of other slugs already in papers_listing.json")
     args = ap.parse_args()
 
     papers = json.load(io.open(os.path.join(PAPERS, "manifest.json"), encoding="utf-8"))
@@ -228,6 +237,10 @@ def main():
             cover(p, os.path.join(REPO, item["cover"]))
         listings.append(item)
 
+    if args.merge and os.path.exists(OUT):
+        old = json.load(io.open(OUT, encoding="utf-8"))
+        keep = [x for x in old if x["slug"] not in {y["slug"] for y in listings}]
+        listings = keep + listings
     json.dump(listings, io.open(OUT, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     print("%d listings written to %s" % (len(listings), os.path.relpath(OUT, REPO)))
     if missing:

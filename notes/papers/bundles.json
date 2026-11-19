@@ -231,5 +231,20 @@
   "pages": 22,
   "bytes": 271737,
   "category": "Board Exam Bundle"
+ },
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-12-ce-technical-2080-Bundle.pdf",
+  "subject": "Computer Engineering Technical Stream",
+  "grade": "12",
+  "years_bs": "2080",
+  "papers": [
+   "12-vp-2080-9341",
+   "12-wdd-2080-656",
+   "12-sepm-2080-9371"
+  ],
+  "pages": 23,
+  "bytes": 409184,
+  "category": "Board Exam Bundle",
+  "slug": "12-ce-technical-2080"
  }
 ]

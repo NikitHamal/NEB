@@ -1,0 +1,100 @@
+name: Publish Past Papers to Library
+
+# Uploads built past-paper PDFs + covers to the live library through
+# `manage.py import_past_papers`. That command only creates or refreshes
+# Resource rows (it never deletes anything, and keeps ids, views and download
+# counts of papers that already exist). Secrets stay in GitHub Secrets.
+# Always run with dry_run=true first, read the log, then run again with false.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: 'Space separated slugs to publish (empty = every slug in tools/publish/papers_listing.json)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'true = only list what would be created or refreshed'
+        required: true
+        default: 'true'
+      refresh_metadata:
+        description: 'true = also rewrite title/description/tags of papers that already exist'
+        required: false
+        default: 'false'
+
+concurrency:
+  group: publish-papers
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            tools/publish/papers_listing.json
+            tools/publish/paper_covers
+            notes/papers/pdf
+            backend_python/api/management/commands/import_past_papers.py
+          filter: blob:none
+          fetch-depth: 1
+
+      - name: Stage the files (only the requested slugs)
+        env:
+          SLUGS: ${{ inputs.slugs }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, shutil
+          want = os.environ.get("SLUGS", "").split()
+          listing = json.load(open("tools/publish/papers_listing.json", encoding="utf-8"))
+          if want:
+              listing = [x for x in listing if x["slug"] in want]
+              missing = set(want) - {x["slug"] for x in listing}
+              assert not missing, "unknown slugs: %s" % sorted(missing)
+          os.makedirs("stage", exist_ok=True)
+          out = []
+          for x in listing:
+              pdf = x["pdf"].replace("\\", "/")
+              cov = x["cover"].replace("\\", "/")
+              assert os.path.exists(pdf), "missing pdf " + pdf
+              shutil.copy(pdf, "stage/%s.pdf" % x["slug"])
+              if os.path.exists(cov):
+                  shutil.copy(cov, "stage/%s.jpg" % x["slug"])
+              y = {k: v for k, v in x.items() if k not in ("pdf", "cover")}
+              out.append(y)
+          json.dump(out, open("stage/listing.json", "w", encoding="utf-8"), ensure_ascii=False)
+          print("staged", len(out), "papers")
+          PY
+          du -sh stage
+
+      - name: Upload and import (dry run unless dry_run=false)
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          DRY: ${{ inputs.dry_run }}
+          REFRESH: ${{ inputs.refresh_metadata }}
+        run: |
+          set -euo pipefail
+          KEY=$(mktemp); trap 'rm -f "$KEY"' EXIT
+          printf '%s\n' "$SSH_KEY" > "$KEY"; chmod 600 "$KEY"
+          SSH="ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 -o ServerAliveInterval=15 -i $KEY consicac@$SSH_HOST"
+          REMOTE=/home/consicac/nebians_api/tmp/papers
+          $SSH "mkdir -p $REMOTE"
+          tar -C stage -cf - . | $SSH "tar -C $REMOTE -xf -"
+          FLAGS=""
+          [ "$DRY" = "true" ] && FLAGS="$FLAGS --dry-run"
+          [ "$REFRESH" = "true" ] && FLAGS="$FLAGS --refresh-metadata"
+          $SSH "cd /home/consicac/nebians_api && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py import_past_papers $REMOTE --owner nebians $FLAGS" 2>&1 | tail -60
+
+      - name: Verify the live library answers
+        if: ${{ inputs.dry_run == 'false' }}
+        run: |
+          for p in / /api/posts/; do
+            curl -s -o /dev/null -m 30 -w "$p %{http_code}\n" "https://nebians.consica.com.np$p"
+          done
