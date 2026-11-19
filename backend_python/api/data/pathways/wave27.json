@@ -19,15 +19,6 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2065-09-11 BS. QAA status on NPCA: In Process. Phone 076412032. District placed from the MoFAGA local level list (Buddhabhumi, Kapilvastu is a local level of Kapilvastu)."
   },
   {
-   "id": "p-w27-npca-46",
-   "name": "Panini Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Arghakhanchi",
-   "place": "Sandhikharka",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA. Established 2045-06-06 BS. QAA status on NPCA: In Process. Phone 077-420582. District placed from the MoFAGA local level list (Panini, Sandhikharka is a local level of Arghakhanchi)."
-  },
-  {
    "id": "p-w27-npca-51",
    "name": "Mahunyal Multiple Campus",
    "kind": "Campus",
@@ -76,15 +67,6 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA. Established 2062-05-13 BS. QAA status on NPCA: In Process. Phone 9857847016. District placed from the MoFAGA local level list (Lamahi is a local level of Dang)."
   },
   {
-   "id": "p-w27-npca-86",
-   "name": "Kapilvastu Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Kapilvastu",
-   "place": "Campustole",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA. Established 2037-05-31 BS. QAA status on NPCA: Accredited. District placed from the MoFAGA local level list (Kapilvastu is a local level of Kapilvastu)."
-  },
-  {
    "id": "p-w27-npca-98",
    "name": "Nawa Nepal Campus",
    "kind": "Campus",
@@ -130,15 +112,6 @@
    "place": "Devdaha-7, Shitalnagar",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2065-08-15 BS. QAA status on NPCA: Accredited. Phone 9857070484. District placed from the MoFAGA local level list (Devdaha is a local level of Rupandehi).",
    "website": "https://www.damc.edu.np"
-  },
-  {
-   "id": "p-w27-npca-141",
-   "name": "Janapriya Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Kaski",
-   "place": "Pokhara (Janapriya Marg)",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, MBS, BBA, MBA, BIM, BA. Established 2048-08-25 BS. QAA status on NPCA: Accredited. District placed from the MoFAGA local level list (Pokhara is a local level of Kaski)."
   },
   {
    "id": "p-w27-npca-171",
@@ -223,15 +196,6 @@
    "place": "Shantinagar",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA, MA. Established 2047-03-01 BS. QAA status on NPCA: Accredited. Phone 01-4620310. District placed from the MoFAGA local level list (Shantinagar is a local level of Dang).",
    "website": "https://baneshworcampus.edu.np"
-  },
-  {
-   "id": "p-w27-npca-288",
-   "name": "Sotang Public Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Solukhumbu",
-   "place": "Sibatar",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069/10/21 BS. QAA status on NPCA: Not Applied. Phone 9841461388. District placed from the MoFAGA local level list (Sotang is a local level of Solukhumbu)."
   },
   {
    "id": "p-w27-npca-290",
@@ -338,16 +302,6 @@
    "website": "https://pmcpokhara.edu.np"
   },
   {
-   "id": "p-w27-npca-370",
-   "name": "Rampratap Ramprasad Tamang Janta Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Siraha",
-   "place": "Golbazar",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA, MA. Established 2059-03-05 BS. QAA status on NPCA: In Process. Phone 9852832765. District placed from the MoFAGA local level list (Golbazar is a local level of Siraha).",
-   "website": "https://rrtjmcampus.com"
-  },
-  {
    "id": "p-w27-npca-371",
    "name": "Amar Jyoti Multiple Campus",
    "kind": "Campus",
@@ -383,15 +337,6 @@
    "district": "Morang",
    "place": "Bargachhi, Biratnagar",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed.. Established 2057/04/17 BS. QAA status on NPCA: Not Applied. Phone 9842030223. District placed from the MoFAGA local level list (Biratnagar is a local level of Morang)."
-  },
-  {
-   "id": "p-w27-npca-410",
-   "name": "Bardibas Janata Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Mahottari",
-   "place": "Bardibas",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed.. Established 2064-06-11 BS. QAA status on NPCA: In Process. District placed from the MoFAGA local level list (Bardibas is a local level of Mahottari)."
   },
   {
    "id": "p-w27-npca-414",
@@ -467,15 +412,6 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2069-11-14 BS. QAA status on NPCA: Not Applied. Phone 9847124124. District placed from the MoFAGA local level list (Rambha is a local level of Palpa)."
   },
   {
-   "id": "p-w27-npca-475",
-   "name": "Indrawati Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Sindhupalchok",
-   "place": "Melamchitar",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064/07/13 BS. QAA status on NPCA: Not Applied. Phone 9851152996. District placed from the MoFAGA local level list (Indrawati is a local level of Sindhupalchok)."
-  },
-  {
    "id": "p-w27-npca-478",
    "name": "Galkot Multiple Campus",
    "kind": "Campus",
@@ -543,15 +479,6 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069-06-23 BS. Phone 9851123876. District placed from the MoFAGA local level list (Bareng is a local level of Baglung)."
   },
   {
-   "id": "p-w27-npca-519",
-   "name": "Banganga Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Kapilvastu",
-   "place": "Lougain",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2066 BS. Phone 9857050259. District placed from the MoFAGA local level list (Banganga is a local level of Kapilvastu)."
-  },
-  {
    "id": "p-w27-npca-522",
    "name": "Gyanodaya Multiple Public Campus",
    "kind": "Campus",
@@ -580,15 +507,6 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2065 BS. QAA status on NPCA: Not Applied. Phone 24410028. District placed from the MoFAGA local level list (Yangwarak is a local level of Panchthar)."
   },
   {
-   "id": "p-w27-npca-542",
-   "name": "Sworgadwari Multiple Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Pyuthan",
-   "place": "Punyakhola",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, BA. Established 2037-05-31 BS. Phone 086460089. District placed from the MoFAGA local level list (Sworgadwari is a local level of Pyuthan)."
-  },
-  {
    "id": "p-w27-npca-547",
    "name": "Melamchi Valley Campus",
    "kind": "Campus",
@@ -614,25 +532,6 @@
    "district": "Bajhang",
    "place": "Kholi",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2064-08-14 BS. QAA status on NPCA: Applied. Phone 9841053877. District placed from the MoFAGA local level list (Thalara is a local level of Bajhang)."
-  },
-  {
-   "id": "p-w27-npca-569",
-   "name": "Gaumukhi Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Pyuthan",
-   "place": "Machchhi",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2063-06-26 BS. Phone 9847917927. District placed from the MoFAGA local level list (Gaumukhi is a local level of Pyuthan)."
-  },
-  {
-   "id": "p-w27-npca-585",
-   "name": "Madhyabindu M. Campus",
-   "kind": "Campus",
-   "sector": "Community",
-   "district": "Nawalparasi East",
-   "place": "Madhyabindu",
-   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BICTE, BBS, MBS, BBA. Established 2062/11/23 BS. QAA status on NPCA: Re-accredited. Phone 078/540351. District placed from the MoFAGA local level list (Madhyabindu is a local level of Nawalparasi East).",
-   "website": "https://www.madhyabindu.edu.np"
   },
   {
    "id": "p-w27-npca-591",
@@ -666,18 +565,15 @@
   "bed": [
    "p-w27-npca-19",
    "p-w27-npca-30",
-   "p-w27-npca-46",
    "p-w27-npca-51",
    "p-w27-npca-55",
    "p-w27-npca-58",
    "p-w27-npca-63",
    "p-w27-npca-72",
-   "p-w27-npca-86",
    "p-w27-npca-98",
    "p-w27-npca-99",
    "p-w27-npca-100",
    "p-w27-npca-140",
-   "p-w27-npca-141",
    "p-w27-npca-171",
    "p-w27-npca-173",
    "p-w27-npca-177",
@@ -686,7 +582,6 @@
    "p-w27-npca-203",
    "p-w27-npca-243",
    "p-w27-npca-251",
-   "p-w27-npca-288",
    "p-w27-npca-290",
    "p-w27-npca-300",
    "p-w27-npca-308",
@@ -695,12 +590,10 @@
    "p-w27-npca-343",
    "p-w27-npca-358",
    "p-w27-npca-359",
-   "p-w27-npca-370",
    "p-w27-npca-371",
    "p-w27-npca-374",
    "p-w27-npca-379",
    "p-w27-npca-406",
-   "p-w27-npca-410",
    "p-w27-npca-414",
    "p-w27-npca-421",
    "p-w27-npca-457",
@@ -709,39 +602,31 @@
    "p-w27-npca-460",
    "p-w27-npca-465",
    "p-w27-npca-473",
-   "p-w27-npca-475",
    "p-w27-npca-478",
    "p-w27-npca-487",
    "p-w27-npca-489",
    "p-w27-npca-491",
    "p-w27-npca-510",
    "p-w27-npca-516",
-   "p-w27-npca-519",
    "p-w27-npca-522",
    "p-w27-npca-538",
    "p-w27-npca-541",
-   "p-w27-npca-542",
    "p-w27-npca-547",
    "p-w27-npca-550",
    "p-w27-npca-560",
-   "p-w27-npca-569",
-   "p-w27-npca-585",
    "p-w27-npca-591",
    "p-w27-npca-624"
   ],
   "bbs": [
    "p-w27-npca-19",
    "p-w27-npca-30",
-   "p-w27-npca-46",
    "p-w27-npca-55",
    "p-w27-npca-58",
    "p-w27-npca-72",
-   "p-w27-npca-86",
    "p-w27-npca-99",
    "p-w27-npca-100",
    "p-w27-npca-106",
    "p-w27-npca-140",
-   "p-w27-npca-141",
    "p-w27-npca-177",
    "p-w27-npca-184",
    "p-w27-npca-191",
@@ -757,7 +642,6 @@
    "p-w27-npca-343",
    "p-w27-npca-358",
    "p-w27-npca-369",
-   "p-w27-npca-370",
    "p-w27-npca-371",
    "p-w27-npca-379",
    "p-w27-npca-421",
@@ -767,29 +651,21 @@
    "p-w27-npca-460",
    "p-w27-npca-465",
    "p-w27-npca-473",
-   "p-w27-npca-475",
    "p-w27-npca-478",
    "p-w27-npca-487",
    "p-w27-npca-489",
    "p-w27-npca-504",
    "p-w27-npca-510",
-   "p-w27-npca-519",
    "p-w27-npca-522",
    "p-w27-npca-538",
-   "p-w27-npca-542",
-   "p-w27-npca-569",
-   "p-w27-npca-585",
    "p-w27-npca-591",
    "p-w27-npca-602",
    "p-w27-npca-624"
   ],
   "ba": [
    "p-w27-npca-19",
-   "p-w27-npca-46",
    "p-w27-npca-51",
    "p-w27-npca-72",
-   "p-w27-npca-86",
-   "p-w27-npca-141",
    "p-w27-npca-177",
    "p-w27-npca-184",
    "p-w27-npca-203",
@@ -800,7 +676,6 @@
    "p-w27-npca-343",
    "p-w27-npca-358",
    "p-w27-npca-369",
-   "p-w27-npca-370",
    "p-w27-npca-379",
    "p-w27-npca-414",
    "p-w27-npca-421",
@@ -808,58 +683,36 @@
    "p-w27-npca-458",
    "p-w27-npca-489",
    "p-w27-npca-510",
-   "p-w27-npca-542",
    "p-w27-npca-550",
    "p-w27-npca-591"
   ],
   "med": [
    "p-w27-npca-30",
-   "p-w27-npca-46",
    "p-w27-npca-58",
    "p-w27-npca-72",
-   "p-w27-npca-86",
    "p-w27-npca-171",
    "p-w27-npca-184",
    "p-w27-npca-203",
    "p-w27-npca-243",
    "p-w27-npca-251",
    "p-w27-npca-290",
-   "p-w27-npca-370",
    "p-w27-npca-406",
-   "p-w27-npca-410",
    "p-w27-npca-414",
    "p-w27-npca-458",
-   "p-w27-npca-522",
-   "p-w27-npca-542"
+   "p-w27-npca-522"
   ],
   "mbs": [
    "p-w27-npca-30",
-   "p-w27-npca-46",
    "p-w27-npca-72",
-   "p-w27-npca-86",
-   "p-w27-npca-141",
    "p-w27-npca-177",
    "p-w27-npca-184",
    "p-w27-npca-251",
    "p-w27-npca-290",
    "p-w27-npca-343",
-   "p-w27-npca-370",
    "p-w27-npca-379",
    "p-w27-npca-457",
    "p-w27-npca-458",
    "p-w27-npca-487",
-   "p-w27-npca-489",
-   "p-w27-npca-585"
-  ],
-  "bba": [
-   "p-w27-npca-141",
-   "p-w27-npca-585"
-  ],
-  "mba": [
-   "p-w27-npca-141"
-  ],
-  "bim": [
-   "p-w27-npca-141",
    "p-w27-npca-489"
   ],
   "ma": [
@@ -867,11 +720,43 @@
    "p-w27-npca-251",
    "p-w27-npca-290",
    "p-w27-npca-343",
-   "p-w27-npca-370",
    "p-w27-npca-458"
   ],
-  "bicte": [
-   "p-w27-npca-585"
+  "bim": [
+   "p-w27-npca-489"
   ]
- }
+ },
+ "provider_update": {
+  "p-kailali": {
+   "website": "https://kailali.fwu.edu.np"
+  },
+  "p-sdcuhs": {
+   "website": "https://www.dcuhs.edu.np"
+  },
+  "p-himalaya-eye": {
+   "website": "https://heh.org.np"
+  },
+  "p-aryan-eng": {
+   "website": "https://thearyanschool.edu.np"
+  },
+  "p-birat-multiple": {
+   "website": "https://biratmultiplecollege.edu.np"
+  },
+  "p-lumbini-city": {
+   "website": "https://lcc.edu.np"
+  },
+  "p-ambikeshwori": {
+   "website": "https://amc.edu.np"
+  },
+  "p-npi-narayani": {
+   "website": "https://www.npihospital.com"
+  },
+  "p-shree-medical": {
+   "website": "https://shreemedical.edu.np"
+  },
+  "p-gupteshwor-parbat": {
+   "website": "https://gmckusma.edu.np"
+  }
+ },
+ "website_drop": []
 }

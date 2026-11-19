@@ -58,7 +58,7 @@ for r, name in C.npca_rows(by_d):
             place = place.title()
     row = {'id': f"p-w27-npca-{r['npca_id']}", 'name': name, 'kind': 'Campus', 'sector': 'Community', 'district': r['district'],
            'place': place, 'note': note}
-    if r.get('web') and isinstance(r.get('live'), int) and 0 < r['live'] < 400:
+    if r['npca_id'] not in C.NO_WEB and r.get('web') and isinstance(r.get('live'), int) and 0 < r['live'] < 400:
         row['website'] = r['web']
     add(row, r['routes'])
 

@@ -36,7 +36,11 @@ PLACE = {
 }
 
 # campuses already in the dataset under another name (checked by name and district) or not a campus
-SKIP = {122, 503}
+# 542 is p-swargadwari-pyuthan (spelled Sworgadwari by NPCA); 46, 86, 519, 288, 410, 475, 569 are halves of an existing combined
+# entry (Panini, Kapilvastu and Banganga, Sotang, Bardibas Janata, Indrawati, Gaumukhi); 370, 585, 141 are the same campus as
+# p-w26-npca-9, p-w26-npca-145 and p-w24-iost-janapriya-mc
+SKIP = {122, 503, 542, 46, 86, 519, 288, 410, 475, 569, 370, 585, 141}
+NO_WEB = {370}  # page opens but never names the campus (audit_sites.py), so the link is left out
 
 
 def npca_rows(by_district):
