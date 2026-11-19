@@ -126,6 +126,7 @@
   letter-spacing: -0.02em;
   color: var(--md-on-surface);
   margin: 0 0 14px;
+  text-wrap: balance;
 }
 
 .news-detail-summary {
@@ -133,6 +134,7 @@
   line-height: 1.65;
   color: var(--md-on-surface-variant);
   margin: 0 0 22px;
+  text-wrap: pretty;
   max-width: 66ch;
 }
 
@@ -202,6 +204,7 @@
   line-height: 1.7;
   color: var(--md-on-surface);
   overflow-wrap: break-word;
+  text-wrap: pretty;
 }
 
 /* Keep a comfortable measure even if the card ever grows wider. */

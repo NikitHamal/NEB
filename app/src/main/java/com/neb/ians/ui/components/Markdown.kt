@@ -113,7 +113,7 @@ fun MarkdownText(
                     }
                     InlineMdText(
                         text = block.text,
-                        style = headingStyle.copy(fontWeight = FontWeight.Bold),
+                        style = headingStyle.copy(fontWeight = FontWeight.Bold, lineBreak = androidx.compose.ui.text.style.LineBreak.Heading),
                         color = color,
                         primary = primary,
                         codeBg = codeBg,

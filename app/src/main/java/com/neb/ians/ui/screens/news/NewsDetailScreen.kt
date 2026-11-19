@@ -37,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -192,7 +193,7 @@ fun NewsDetailScreen(
                     MarkdownText(
                         markdown = detail.content.ifBlank { detail.announcement.summary.ifBlank { detail.announcement.title } },
                         modifier = Modifier.padding(horizontal = 20.dp),
-                        style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 30.sp),
+                        style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 30.sp, lineBreak = LineBreak.Paragraph),
                         onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
                     )
 
@@ -583,7 +584,7 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = item.title,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium.copy(lineBreak = LineBreak.Heading),
             fontWeight = FontWeight.SemiBold,
             color = scheme.onSurface
         )
@@ -591,7 +592,7 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = item.summary,
-                style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 27.sp),
+                style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 27.sp, lineBreak = LineBreak.Paragraph),
                 color = scheme.onSurfaceVariant
             )
         }
