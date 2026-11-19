@@ -13,6 +13,11 @@
   "in": "Entrance routes for a Nepali student (2026 cycle, see the exam entries for details): NEET UG for medicine, JEE Main then DASA for NIT and IIIT engineering (SAARC applicants pay USD 300 plus half the tuition, USD 2,300 first semester enrolment fee), CUET UG for central university arts, science and commerce. All three run a Kathmandu centre, so you sit the test at home; the foreign centre fee is much higher than the Indian fee (Rs 9,500 against Rs 1,700 for NEET). Medical and dental students also need the Nepal NOC and must pass the Nepal Medical Council licensing exam to practise in Nepal."
  },
  "scholarship_extra": {
+  "s-daad": {
+   "covers": "Monthly stipend of EUR 992 for master students (the older text said EUR 934) and EUR 1,400 for doctoral scholars from February 2026 (one site still prints EUR 1,300), plus health, accident and liability insurance and a travel allowance unless another funder pays it; some EPOS scholars also get a monthly rent subsidy and a family allowance. EPOS funds 12 to 42 months depending on the course.",
+   "who": "For a master, EPOS (Development-Related Postgraduate Courses) needs a bachelor in a relevant field with results in the upper third, at least 2 years of relevant work after the bachelor, a degree not older than 6 years, and no more than 15 months of earlier residence in Germany. A fresh graduate has few DAAD master options: the Helmut-Schmidt programme counts internships and volunteering but only for politics, law, economics and public administration, and the arts and architecture scholarships do not list work experience.",
+   "how": "For EPOS there is no single deadline: apply directly to the course (up to 3, in priority order), and each course sets its own date, mostly between August and March (for example 30 November 2026 for TU Darmstadt TropHEE, and a listing that gives 15 March 2027 for another course). Master programmes with a DAAD country call use the Nepal date on the DAAD portal. For a PhD, the Doctoral Programmes in Germany call showed 21 October 2026 as the Nepal deadline with selection around February 2027 and funding from October 2027, so that call has closed. Sources: gradgermany.com, scholarshipunion.com, globaladmissions.com, scholarshipspace.org (October and November 2026), so confirm each date on daad.de."
+  },
   "s-mgss": {
    "covers": "NPR 24,000 per year (NPR 2,000 a month) for two years across Class 11 and 12, so NPR 48,000 at most, paid into a bank account the Embassy opens in your name. Applicants who get another scholarship are not eligible.",
    "how": "The 2026-27 window on goischolarship.com.np opened on 23 October 2026. The first Embassy notice closed it on 15 November 2026 (portal shut at 00.00 on 16 November), but the portal now says the last date was extended to 29 November 2026 at 23.59 hrs (checked on 19 November 2026), so you still have days left. You need a regular Class 11 place (not a diploma), at least 60 percent in SEE, and family income below NPR 200,000 a year; upload the SEE mark sheet and an income proof. Apply directly; the Embassy does not take applications through consultants or agents. Awardees send the Class 11 mark sheet and a promotion certificate by 31 December to continue in Class 12.",
@@ -454,6 +459,12 @@
    "topic": "abroad",
    "q": "Can an Indian student study MBBS in Nepal through NEET?",
    "a": "Yes, in the other direction. For 2026/27 the Medical Education Commission of Nepal took foreign applications from 10 August 2026 with two sub categories: sub category I through the MECEE-BL entrance (closing on 31 August, late fee until 7 September) and sub category II through a NEET score at the 50th percentile or above (closing on 2 October 2026, fee INR 5,000). Nepali students use the MECEE-BL, not NEET, for Nepali seats; a Nepali who wants an Indian seat sits NEET UG itself."
+  },
+  {
+   "id": "fw35-11",
+   "topic": "abroad",
+   "q": "How much does a DAAD scholarship pay in 2026 and can a fresh bachelor graduate from Nepal get one?",
+   "a": "DAAD pays EUR 992 a month to master students and EUR 1,400 a month to doctoral scholars from February 2026 (one site still prints EUR 1,300), plus insurance and a travel allowance. The main master route for Nepal, EPOS, needs 2 years of relevant work after the bachelor, results in the upper third and a degree not older than 6 years, so a fresh graduate rarely qualifies. The Helmut-Schmidt programme counts internships and volunteering but only for politics, law, economics and public administration, and the arts and architecture scholarships ask for no work experience. For EPOS you apply directly to the course, up to 3 courses, each with its own deadline (TU Darmstadt TropHEE closes on 30 November 2026). The Doctoral Programmes in Germany call for Nepal closed on 21 October 2026."
   }
  ]
 }

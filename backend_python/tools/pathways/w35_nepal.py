@@ -4,8 +4,21 @@ when read on 2026-11-19 (it replaces the 15 November date of the first Embassy n
 The amounts come from the Embassy notice text on Edusanjal: MGSS NPR 24,000 a year for 2 years for Class 11 students with 60 percent in Class 10 (SEE) and family income below NPR 2,00,000;
 GJSS NPR 48,000 a year for MBBS, BDS, BE, BTech, BArch and BAMS (5 years for MBBS and BDS, 4 for the others) and NPR 36,000 a year for 3 years for other courses, age 17 to 22 on 1 July 2027.
 India study route: NEET UG, JEE Main, DASA and CUET figures are in w35_exams.py. Kathmandu centre codes: NEET 9907, JEE Main and CUET ZZ05.
+DAAD EPOS: gradgermany.com (Oct 2026), opportunitynest.org, scholarshipunion.com, globaladmissions.com and scholarshipspace.org (Oct and Nov 2026): EUR 992 master, doctoral EUR 1,400 from February 2026 (one page says 1,300), two years of work, apply to the course.
 """
 SCHOLARSHIP_EXTRA = {
+    's-daad': {
+        'covers': ('Monthly stipend of EUR 992 for master students (the older text said EUR 934) and EUR 1,400 for doctoral scholars from February 2026 (one site still prints EUR 1,300), '
+                   'plus health, accident and liability insurance and a travel allowance unless another funder pays it; some EPOS scholars also get a monthly rent subsidy and a family allowance. '
+                   'EPOS funds 12 to 42 months depending on the course.'),
+        'who': ('For a master, EPOS (Development-Related Postgraduate Courses) needs a bachelor in a relevant field with results in the upper third, at least 2 years of relevant work after the bachelor, '
+                'a degree not older than 6 years, and no more than 15 months of earlier residence in Germany. A fresh graduate has few DAAD master options: the Helmut-Schmidt programme counts internships and volunteering '
+                'but only for politics, law, economics and public administration, and the arts and architecture scholarships do not list work experience.'),
+        'how': ('For EPOS there is no single deadline: apply directly to the course (up to 3, in priority order), and each course sets its own date, mostly between August and March '
+                '(for example 30 November 2026 for TU Darmstadt TropHEE, and a listing that gives 15 March 2027 for another course). Master programmes with a DAAD country call use the Nepal date on the DAAD portal. '
+                'For a PhD, the Doctoral Programmes in Germany call showed 21 October 2026 as the Nepal deadline with selection around February 2027 and funding from October 2027, so that call has closed. '
+                'Sources: gradgermany.com, scholarshipunion.com, globaladmissions.com, scholarshipspace.org (October and November 2026), so confirm each date on daad.de.'),
+    },
     's-mgss': {
         'covers': ('NPR 24,000 per year (NPR 2,000 a month) for two years across Class 11 and 12, so NPR 48,000 at most, paid into a bank account the Embassy opens in your name. '
                    'Applicants who get another scholarship are not eligible.'),

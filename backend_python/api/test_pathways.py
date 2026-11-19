@@ -1570,8 +1570,9 @@ class Wave35Tests(TestCase):
             self.assertIn('29 November 2026', sch[sid]['how'])
             self.assertNotIn('ran from 23 October', sch[sid]['how'])
         faq = {f['id'] for f in d['faq']}
-        for i in range(1, 11):
+        for i in range(1, 12):
             self.assertIn(f'fw35-{i}', faq)
+        self.assertIn('EUR 992', sch['s-daad']['covers'])
 
     def test_wave35_websites(self):
         d = pathways.payload()
