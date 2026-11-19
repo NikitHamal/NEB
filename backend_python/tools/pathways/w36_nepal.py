@@ -46,19 +46,26 @@ GOVT_ADD = [
      'name': 'Karnali Province Level 5 assistant posts (Notice 14/2083-84): 64 seats',
      'level': 'Fifth level (assistant) technical and non technical posts of the local service in Karnali, run by the Karnali Province Public Service Commission in Birendranagar, Surkhet',
      'need': 'Set by each advertisement (technical posts name a certificate or diploma in agriculture, veterinary, education or health); read the notice text for your post',
-     'age': 'As the notice states for the post (the age cut off date is the regular deadline, 2083/07/16)',
+     'age': 'Upper limit 35 years, 40 for women and persons with disabilities and 45 for health service applicants (unionnepal.com reading of the notice)',
      'body': 'Province Public Service Commission, Karnali Province, Birendranagar (ppsc.karnali.gov.np)',
      'stages': [
          ['Written examination', 'Held at Birendranagar, Surkhet in earlier Karnali calls; the centre and dates of this call are announced later.', ''],
          ['Computer skill test and interview', 'Where the syllabus says so, after the written result.', '']],
      'subjects': ['General knowledge, province and local government law', 'Post specific paper', 'Computer skill test'],
      'prep': PSC_COMMON_PREP,
-     'note': ('Notice 14/2083-84 (published 2083/06/27) lists 64 local service posts, 32 non technical and 32 technical (agriculture, veterinary, education, health), online only. Fee NPR 500 per advertisement, NPR 250 for each extra inclusive group and NPR 200 for each extra examination type; '
+     'note': ('Notice 14/2083-84 (published 2083/06/27) lists 64 local service posts, 32 non technical and 32 technical (Health Assistant 12, Technical Assistant Education Administration 9, Public Health Nurse 5, Animal Service Technician 1 and more), online only. Fee NPR 500 per advertisement, NPR 250 for each extra inclusive group and NPR 200 for each extra examination type; '
               'regular deadline 2083/07/16 and double fee to 2083/07/23 (unionnepal.com, 24 October 2026).'),
      'prep_hours': 300, 'fee': 500, 'apply': [10, 11]},
 ]
 
 GOVT_NOTE_ADD = {
+    'g-nea': ('Open notice of 2083/07/20 (6 November 2026): 408 posts, 84 officer level and 324 assistant level across the provinces, apply at career.nea.org.np by 2083/08/10 midnight (26 November 2026), double fee to 2083/08/17. '
+              'Officer posts include Engineer Electrical 42, Administrative Officer 7, Accounts Officer 6, Engineer Civil 5, Engineer Mechanical 4, Engineer Computer 4, Engineer Electronics 3, Assistant Manager Electrical 3 and Chartered Accountant 2; assistant posts are Supervisor Electrical 246, Accountant 36, Meter Reading Supervisor 31, Supervisor Mechanical 8 and Supervisor Civil 3. '
+              'Base fee NPR 500 (Level 5), 1,200 (Level 7), 1,400 (Level 8) and 2,000 (Level 10). Ages 21 to 40 for Level 7 and above and 18 to 35 for assistant Level 5, 40 for women and persons with disabilities, no limit for serving NEA staff. '
+              'A separate notice has 337 internal competitive promotion posts (HRIS, closing 2083/08/10) and seniority or competency promotion closing 2083/08/19; those are for serving employees only (unionnepal.com, 6 November 2026).'),
+    'g-army': ('Latest notices seen: Sainya and trade follower notice published 2083/01/18 with fee payment to 2083/02/16 (30 May 2026) and late fee to 2083/02/23, ages 18 to 22 for open Sainya (born 2061/02/16 to 2065/02/16), up to 26 for serving soldiers and 18 to 26 for trade followers, minimum Class 8 pass (sarkarijagir.com and loksewatayariapp.com). '
+               'The 2082/83 technical Subedar, Jamdar and Amaldar notice needed +2 for Prad Jamdar, age 18 to 25 and a last date of 2083/01/26 (collegenp.com). On 16 Kartik 2083 (2 November 2026) the army also posted contract service notices and a notice inviting applications for MBBS at the Armed Forces Medical College, Pune; read the notice for who may apply.'),
+    'g-police': ('Technical Police Constable (Jawan) notice of 2083: applications 2082/12/26 to 2083/01/31 at NPR 300, Inspector through the online ORMS from 2082/12/25 to 2083/01/24, hospital constable needs SEE plus 3 months of health training; the notice also fills inclusive seats lost in 2079/80 under a Supreme Court order of 2079/10/24 (unionnepal.com).'),
     'g-provincial-psc': ('Other provinces, 2083/84 notices seen on 19 November 2026: Gandaki 169/2083-84 with 75 Level 7 seats (apply by 2083/08/01), Lumbini 84/083-084 with 25 Level 9 seats (closed 2083/07/19), Karnali 14/2083-84 with 64 Level 5 posts (closed 2083/07/16), '
                          'Madhesh 107/2083-84 for Level 9 officers (regular deadline 2083/06/14, double fee 2083/06/21; the seat count was not read) and Sudurpashchim 103/082-083 with 44 non technical Level 4 assistant posts (closed 2083/01/17 and 2083/01/24). Bagmati published its 2083/84 yearly calendar (1 Shrawan 2083 to 32 Ashad 2084). '
                          'Fees differ: Gandaki NPR 1,200 plus 400 per group, Lumbini NPR 1,200 plus 500, Karnali NPR 500 plus 250. Each has its own entry in this list.'),

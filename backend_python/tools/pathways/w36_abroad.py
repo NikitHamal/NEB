@@ -4,12 +4,17 @@ US: lawfirm4immigrants.com (11 Nov 2026), colorado.edu/isss (7 Oct 2026), ahluwa
 Germany Opportunity Card: germany-visa.org, forsawork.com, sprachschule.org, getwherenext.com, workbeyond.com (2026). Points for partial recognition are 4 on four pages and 2 on one page; 4 is used.
 NRB foreign exchange: kharchapatra.com (9 June 2026, quoting the October 2024 circular reported by New Business Age), merokalam.com (13 Aug 2026); older pages quote USD 12,000 a year.
 Hungary: stipendiumhungaricum.hu home page, read 2026-11-19.
+Australia: scape.com.au (18 Sep 2026), nepalesevoice.com (3 Jul 2026), Times of India and Gulf News (17 Sep 2026), mavenconsultingservices.com (5 Oct 2026). Canada: indianexpress.com (14 Nov 2026), applyboard.com and radsam.co (5 and 6 Nov 2026), schoolscanada.ca (4 Nov 2026).
 """
 ABROAD_UPDATE = {
     'uk': {'stay_back': '2 years Graduate Route for applications up to 31 December 2026; 18 months from 1 January 2027, with a two year grant announced in the 28 October 2026 Budget for graduates of high compliance universities (list, tests and start date not yet published); PhD graduates 3 years'},
 }
 
 ABROAD_NOTE_ADD = {
+    'au': ('Planning level: the number of new overseas student commencements stays at 295,000 for 2027 (unchanged from 2026) and no active provider gets a lower allocation than in 2026. On 17 September 2026 the Home Affairs Minister announced that most student and Temporary Graduate (485) visa holders will no longer be able to bring a partner or children; PhD students and students from Pacific and ASEAN countries are exempt (Nepal is not named), and families already in Australia are not separated. '
+           'As of 30 September 2026 there was no start date or legal instrument, so the current rules still apply until one is published. The 485 charge is reported at AUD 5,750 after the 1 July 2026 rise.'),
+    'ca': ('The 2027 to 2029 Levels Plan (November 2026) keeps new international student arrivals at 150,000 a year for 2027, 2028 and 2029, down from 155,000 in 2026; the target counts new arrivals only, not extensions or in Canada permits, and is not a personal permit guarantee. '
+           'Provincial attestation letter shares and the 2027 post graduation work permit field list had not been published when checked on 4 November 2026, so confirm them on canada.ca before paying a deposit.'),
     'uk': ('Budget of 28 October 2026: the government said the Graduate visa will be set at two years for graduates of "high compliance universities where there are strong labour market outcomes". It is a policy statement, not yet in the Immigration Rules: no university list, test or start date has been published, '
            'so the 18 month rule still applies to applications from 1 January 2027 until a Statement of Changes says otherwise. Plan with 18 months and treat two years as a possible bonus. The High Potential Individual route is to widen to graduates of the top 150 universities in the world. '
            'The international student levy of GBP 925 per student a year is confirmed for English providers from 1 August 2028 (first 220 students a year exempt); the university pays it, not the student, but fee rises are likely, and it does not apply in Scotland, Wales or Northern Ireland.'),

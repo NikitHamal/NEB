@@ -1598,10 +1598,13 @@ class Wave36Tests(TestCase):
         self.assertIn('high compliance', abroad['uk']['stay_back'])
         self.assertIn('103,265', abroad['us']['note'])
         self.assertIn('Opportunity Card', abroad['de']['note'])
+        self.assertIn('295,000', abroad['au']['note'])
+        self.assertIn('150,000', abroad['ca']['note'])
         guides = {g['id']: g for g in d['guides']}
         self.assertEqual(guides['nrb-forex-study']['link'], 'guide:noc-study-abroad')
         sites = {p['id']: p.get('website') for p in d['providers']}
         self.assertEqual(sites['p-jf-health'], 'https://www.lajf.edu.np')
         faq = {f['id'] for f in d['faq']}
-        for i in range(1, 10):
+        for i in range(1, 13):
             self.assertIn(f'fw36-{i}', faq)
+        self.assertIn('408 posts', next(g for g in d['govt'] if g['id'] == 'g-nea')['note'])

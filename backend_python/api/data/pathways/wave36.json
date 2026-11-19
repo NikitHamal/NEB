@@ -100,7 +100,7 @@
    "name": "Karnali Province Level 5 assistant posts (Notice 14/2083-84): 64 seats",
    "level": "Fifth level (assistant) technical and non technical posts of the local service in Karnali, run by the Karnali Province Public Service Commission in Birendranagar, Surkhet",
    "need": "Set by each advertisement (technical posts name a certificate or diploma in agriculture, veterinary, education or health); read the notice text for your post",
-   "age": "As the notice states for the post (the age cut off date is the regular deadline, 2083/07/16)",
+   "age": "Upper limit 35 years, 40 for women and persons with disabilities and 45 for health service applicants (unionnepal.com reading of the notice)",
    "body": "Province Public Service Commission, Karnali Province, Birendranagar (ppsc.karnali.gov.np)",
    "stages": [
     [
@@ -124,7 +124,7 @@
     "Open, inclusive and inter level groups are separate advertisements, and each extra group costs extra, so list your groups before you pay",
     "Qualification, age and council registration must be complete on the regular deadline; the double fee date does not extend them"
    ],
-   "note": "Notice 14/2083-84 (published 2083/06/27) lists 64 local service posts, 32 non technical and 32 technical (agriculture, veterinary, education, health), online only. Fee NPR 500 per advertisement, NPR 250 for each extra inclusive group and NPR 200 for each extra examination type; regular deadline 2083/07/16 and double fee to 2083/07/23 (unionnepal.com, 24 October 2026).",
+   "note": "Notice 14/2083-84 (published 2083/06/27) lists 64 local service posts, 32 non technical and 32 technical (Health Assistant 12, Technical Assistant Education Administration 9, Public Health Nurse 5, Animal Service Technician 1 and more), online only. Fee NPR 500 per advertisement, NPR 250 for each extra inclusive group and NPR 200 for each extra examination type; regular deadline 2083/07/16 and double fee to 2083/07/23 (unionnepal.com, 24 October 2026).",
    "prep_hours": 300,
    "fee": 500,
    "apply": [
@@ -134,6 +134,9 @@
   }
  ],
  "govt_note_add": {
+  "g-nea": "Open notice of 2083/07/20 (6 November 2026): 408 posts, 84 officer level and 324 assistant level across the provinces, apply at career.nea.org.np by 2083/08/10 midnight (26 November 2026), double fee to 2083/08/17. Officer posts include Engineer Electrical 42, Administrative Officer 7, Accounts Officer 6, Engineer Civil 5, Engineer Mechanical 4, Engineer Computer 4, Engineer Electronics 3, Assistant Manager Electrical 3 and Chartered Accountant 2; assistant posts are Supervisor Electrical 246, Accountant 36, Meter Reading Supervisor 31, Supervisor Mechanical 8 and Supervisor Civil 3. Base fee NPR 500 (Level 5), 1,200 (Level 7), 1,400 (Level 8) and 2,000 (Level 10). Ages 21 to 40 for Level 7 and above and 18 to 35 for assistant Level 5, 40 for women and persons with disabilities, no limit for serving NEA staff. A separate notice has 337 internal competitive promotion posts (HRIS, closing 2083/08/10) and seniority or competency promotion closing 2083/08/19; those are for serving employees only (unionnepal.com, 6 November 2026).",
+  "g-army": "Latest notices seen: Sainya and trade follower notice published 2083/01/18 with fee payment to 2083/02/16 (30 May 2026) and late fee to 2083/02/23, ages 18 to 22 for open Sainya (born 2061/02/16 to 2065/02/16), up to 26 for serving soldiers and 18 to 26 for trade followers, minimum Class 8 pass (sarkarijagir.com and loksewatayariapp.com). The 2082/83 technical Subedar, Jamdar and Amaldar notice needed +2 for Prad Jamdar, age 18 to 25 and a last date of 2083/01/26 (collegenp.com). On 16 Kartik 2083 (2 November 2026) the army also posted contract service notices and a notice inviting applications for MBBS at the Armed Forces Medical College, Pune; read the notice for who may apply.",
+  "g-police": "Technical Police Constable (Jawan) notice of 2083: applications 2082/12/26 to 2083/01/31 at NPR 300, Inspector through the online ORMS from 2082/12/25 to 2083/01/24, hospital constable needs SEE plus 3 months of health training; the notice also fills inclusive seats lost in 2079/80 under a Supreme Court order of 2079/10/24 (unionnepal.com).",
   "g-provincial-psc": "Other provinces, 2083/84 notices seen on 19 November 2026: Gandaki 169/2083-84 with 75 Level 7 seats (apply by 2083/08/01), Lumbini 84/083-084 with 25 Level 9 seats (closed 2083/07/19), Karnali 14/2083-84 with 64 Level 5 posts (closed 2083/07/16), Madhesh 107/2083-84 for Level 9 officers (regular deadline 2083/06/14, double fee 2083/06/21; the seat count was not read) and Sudurpashchim 103/082-083 with 44 non technical Level 4 assistant posts (closed 2083/01/17 and 2083/01/24). Bagmati published its 2083/84 yearly calendar (1 Shrawan 2083 to 32 Ashad 2084). Fees differ: Gandaki NPR 1,200 plus 400 per group, Lumbini NPR 1,200 plus 500, Karnali NPR 500 plus 250. Each has its own entry in this list.",
   "g-so": "Promotion notices of 2083/84 are not open vacancies: federal Notice 787 has 176 positions (173 civil service, 3 human rights service) and 788 has 6 health service posts, both closing 2083/08/29 with fee NPR 1,200; Notices 580 (62 positions) and 581 (120 positions) closed 2083/08/01 with fee NPR 2,000 (unionnepal.com, 13 November 2026)."
  },
@@ -143,6 +146,8 @@
   }
  },
  "abroad_note_add": {
+  "au": "Planning level: the number of new overseas student commencements stays at 295,000 for 2027 (unchanged from 2026) and no active provider gets a lower allocation than in 2026. On 17 September 2026 the Home Affairs Minister announced that most student and Temporary Graduate (485) visa holders will no longer be able to bring a partner or children; PhD students and students from Pacific and ASEAN countries are exempt (Nepal is not named), and families already in Australia are not separated. As of 30 September 2026 there was no start date or legal instrument, so the current rules still apply until one is published. The 485 charge is reported at AUD 5,750 after the 1 July 2026 rise.",
+  "ca": "The 2027 to 2029 Levels Plan (November 2026) keeps new international student arrivals at 150,000 a year for 2027, 2028 and 2029, down from 155,000 in 2026; the target counts new arrivals only, not extensions or in Canada permits, and is not a personal permit guarantee. Provincial attestation letter shares and the 2027 post graduation work permit field list had not been published when checked on 4 November 2026, so confirm them on canada.ca before paying a deposit.",
   "uk": "Budget of 28 October 2026: the government said the Graduate visa will be set at two years for graduates of \"high compliance universities where there are strong labour market outcomes\". It is a policy statement, not yet in the Immigration Rules: no university list, test or start date has been published, so the 18 month rule still applies to applications from 1 January 2027 until a Statement of Changes says otherwise. Plan with 18 months and treat two years as a possible bonus. The High Potential Individual route is to widen to graduates of the top 150 universities in the world. The international student levy of GBP 925 per student a year is confirmed for English providers from 1 August 2028 (first 220 students a year exempt); the university pays it, not the student, but fee rises are likely, and it does not apply in Scotland, Wales or Northern Ireland.",
   "us": "Status on 11 November 2026: the USD 100,000 H-1B payment (Proclamation 10973, extended to 21 September 2027) is blocked by court orders in Massachusetts (8 June 2026, appeal pending in the First Circuit) and California (30 September 2026) and is not collected; DHS has separately proposed a USD 103,265 fee for cap subject H-1B petitions (comment period closed 24 September 2026). DHS has also proposed OPT fees paid by the school (reported as USD 70,000 for first OPT and USD 30,000 for later or STEM OPT; an earlier report said USD 100,000); none of these is in force. OPT today costs the I-765 filing fee, about USD 470. Rules can change within weeks, so check uscis.gov and your school international office before you pay a deposit.",
   "de": "Opportunity Card (Chancenkarte, section 20a): up to 12 months in Germany to look for skilled work without a job offer, for a recognised degree or at least 2 years of vocational training plus 6 points or full recognition. Points: partial recognition 4, shortage occupation 1, 2 to 4 years of experience in the last 5 years 2 and 5 years 3, German A2 1, B1 2, B2 3, English C1 1, age up to 35 2 and 36 to 40 1, 6 months legal stay in Germany in the last 5 years 1, partner 1 (one page lists 2 points for partial recognition, four list 4). Entry minimum A1 German or B2 English; funds EUR 1,091 a month (EUR 13,092 for 12 months, higher than the EUR 992 a month for a student visa), shown by a blocked account, a declaration of commitment or a part time contract; application fee EUR 75; work up to 20 hours a week plus trial jobs of up to 2 weeks."
@@ -244,6 +249,24 @@
    "topic": "abroad",
    "q": "Has the Stipendium Hungaricum 2027/28 call opened for Nepali students?",
    "a": "Not on 19 November 2026: the official stipendiumhungaricum.hu page still read that applications were closed for 2026/27. Secondary sites expect the portal to open about 17 November and close on 15 January 2027 at 14:00 Central European Time, but that is unconfirmed. Nepali applicants must also finish the national partner step before the national deadline, and need at least 56 points out of 100 at the university stage."
+  },
+  {
+   "id": "fw36-10",
+   "topic": "abroad",
+   "q": "Can I take my spouse and children to Australia on a student visa?",
+   "a": "Today yes, under the current rules with the usual evidence and funds. On 17 September 2026 the Home Affairs Minister announced that most future student and Temporary Graduate visa holders will no longer be able to attach partners or children. PhD students and students from Pacific and ASEAN countries are exempt, Nepal is not named, and families already in Australia are not separated. No start date or legal instrument had been published by 30 September 2026, so watch homeaffairs.gov.au before you apply."
+  },
+  {
+   "id": "fw36-11",
+   "topic": "abroad",
+   "q": "How many study permits will Canada issue for 2027 and does it affect Nepali students?",
+   "a": "The 2027 to 2029 Immigration Levels Plan keeps the target for new international student arrivals at 150,000 a year for 2027, 2028 and 2029 (155,000 in 2026), so the tight cap continues. Most undergraduate and college applicants still need a provincial attestation letter, while master and PhD students at public universities do not. The target counts new arrivals only and is not a quota for you, so check your province allocation and proof of funds (about CAD 22,895 plus tuition in 2026) on canada.ca."
+  },
+  {
+   "id": "fw36-12",
+   "topic": "afterbach",
+   "q": "How many jobs did the Nepal Electricity Authority advertise in November 2026 and who can apply?",
+   "a": "The open notice of 2083/07/20 lists 408 posts: 84 officer level (Engineer Electrical 42 is the largest group) and 324 assistant level (Supervisor Electrical 246). Apply at career.nea.org.np by 2083/08/10 midnight, or by 2083/08/17 with double fee. Base fees are NPR 500 for Level 5, 1,200 for Level 7, 1,400 for Level 8 and 2,000 for Level 10, and ages are 21 to 40 for Level 7 and above and 18 to 35 for assistant Level 5 (40 for women and persons with disabilities). The 337 promotion posts are only for serving NEA staff."
   }
  ]
 }
