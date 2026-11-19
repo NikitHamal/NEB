@@ -1,5 +1,22 @@
 [
  {
+  "file": "NEBians-Mid-Term-Paper-Grade-11-Physics-2083.pdf",
+  "subject": "Physics",
+  "grade": "11",
+  "year_bs": "2083",
+  "year_ad": "2026",
+  "stream": "Science, Mid-Term (units 1 to 6)",
+  "code": "",
+  "kind": "Mid-Term Paper",
+  "time": "2 hrs",
+  "marks": "50",
+  "students": "NEBians practice paper for Class 11 Science students of the new course (Physical Quantities, Vectors, Kinematics, Dynamics, Work Energy and Power, Circular Motion). Mid-term exams are set by each school, so this is an original paper in the NEB pattern, not a copy of any school's paper",
+  "category": "Mid Term",
+  "pages": 9,
+  "bytes": 340805,
+  "id": "11-phy-mid-2083"
+ },
+ {
   "file": "NEBians-Past-Paper-Grade-10-Science-2081-RE-1041-BP.pdf",
   "subject": "Science and Technology",
   "grade": "10",

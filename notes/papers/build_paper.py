@@ -153,14 +153,14 @@ def render(pid):
     lvl = meta.get("level") or f'Grade {meta["grade"]}'
     title = f'{meta["subject"]}{(" · " + stream) if stream else ""}'
     who = meta.get("students", "")
-    head = f"""<div class="pp-head"><div class="pp-brand"><span>NEBians</span><span>{e(lvl)} · Sub. Code {e(meta.get("code",""))}</span></div>
+    head = f"""<div class="pp-head"><div class="pp-brand"><span>NEBians</span><span>{e(lvl)}{(" · Sub. Code " + e(meta["code"])) if meta.get("code") else ""}</span></div>
 <h1>{e(meta["subject"])}</h1><div class="yr">{e(lvl)} · {meta["year_bs"]} {meta.get("cal", "BS")} ({meta["year_ad"]} AD){(" · " + e(stream)) if stream else ""}</div>
 {f'<p class="who">{e(who)}</p>' if who else ''}</div>
 <div class="pp-meta"><span>Time: {e(meta["time"])}</span><span>Full Marks: {e(meta["marks"])}</span></div>
 <p class="pp-note">{NOTE_NE if DEVA else "Candidates are required to give their answers in their own words as far as practicable. The figures in the margin indicate full marks. Attempt all the questions."}</p>"""
     running = f'{meta["subject"]} · {lvl} · {meta["year_bs"]}'
     doc = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>{e(title)} {meta["year_bs"]} | NEBians</title>
-<style>html{{string-set:booktitle "{e(running)}"; }} .pp-head{{string-set:chaptitle "Past Paper"}} .sol{{string-set:chaptitle "Solutions"}}</style></head>
+<style>html{{string-set:booktitle "{e(running)}"; }} .pp-head{{string-set:chaptitle "{e(meta.get("kind","Past Paper"))}"}} .sol{{string-set:chaptitle "Solutions"}}</style></head>
 <body><section class="pp{secdeva}">{head}{qhtml}<div class="pp-end">End of paper</div></section>
 <section class="pp sol{secdeva}"><h2>Solutions<small>{e(meta["subject"])} · {meta["year_bs"]} BS · {e(stream or "all students")}</small></h2>{shtml}</section></body></html>"""
     os.makedirs(OUT, exist_ok=True)
