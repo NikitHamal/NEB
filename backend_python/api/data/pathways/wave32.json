@@ -85,5 +85,207 @@
     1
    ]
   }
+ ],
+ "abroad_add": [
+  {
+   "id": "bg",
+   "country": "Bulgaria",
+   "tuition": [
+    577500,
+    1750000
+   ],
+   "living": [
+    1050000,
+    1890000
+   ],
+   "code": "BG",
+   "exams": [
+    "Medicine, dentistry and pharmacy in English: an entrance exam in biology and chemistry (Medical University of Sofia holds one remote exam for non EU applicants in September; Plovdiv runs online tests from April to August plus a September resit)",
+    "English proof or an interview for English taught programmes",
+    "A Bulgarian language preparatory year (about EUR 3,500 at Sofia University) if you study in Bulgarian"
+   ],
+   "intakes": "October (the academic year starts on 1 October; non EU applications at Sofia University ran 27 July to 11 September for 2026/27)",
+   "fields": [
+    "Medicine (English, 6 years)",
+    "Dentistry",
+    "Pharmacy",
+    "Veterinary medicine",
+    "Informatics and engineering",
+    "Business and humanities"
+   ],
+   "work": "You can work without a work permit for 20 hours a week during the academic year and during official holidays (European Commission EU Immigration Portal, Bulgaria page).",
+   "work_hours": 20,
+   "stay_back": "Within 9 months after finishing you may look for and start work if you register with the Employment Agency within 7 business days; you then need a work permit on the same terms as other non EU citizens (European Commission EU Immigration Portal).",
+   "note": "Mostly chosen for English medium medicine: 2026/27 non EU fees are EUR 8,000 a year at Sofia University Faculty of Medicine, EUR 9,950 at the Medical University of Sofia and EUR 10,000 at Plovdiv (studyu.org), while two older guides print EUR 7,000 to 8,000 and a Pleven fee of about EUR 9,000, so read the university's own 2026/27 page; six years cost about EUR 48,000 to 60,000 at those rates. Non medical bachelor programmes at public universities start near EUR 3,300 a year (Sofia University, 2026/27). Living is quoted at EUR 500 to 900 a month by the European Commission and EUR 500 to 850 at Sofia; a dormitory is about EUR 100 a month and the residence permit is for one year and renewable, tied to your programme. A foreign MD counts for a licence in Nepal only if the Nepal Medical Council recognises that exact university, and you must pass the NMC licensing examination after returning, so ask the council before you pay a deposit. NEET is an Indian test and does not apply to Nepali applicants. NPR figures are rough, at EUR 1 about NPR 175.",
+   "scholarships": []
+  },
+  {
+   "id": "hr",
+   "country": "Croatia",
+   "tuition": [
+    192500,
+    2100000
+   ],
+   "living": [
+    840000,
+    2100000
+   ],
+   "code": "HR",
+   "exams": [
+    "Program specific entrance test (Biology and Chemistry for medicine)",
+    "English proof for English taught programmes, usually IELTS 6.0 or TOEFL iBT 80 and above (one guide)",
+    "Croatian language year for Croatian taught programmes"
+   ],
+   "intakes": "October (winter semester); non EU applications run roughly February or March to May, June or July depending on the faculty (one guide: University of Zagreb 1 February to 31 May)",
+   "fields": [
+    "Medicine (English, 6 years)",
+    "Dentistry",
+    "Veterinary medicine",
+    "Computer science",
+    "Architecture",
+    "Economics and management"
+   ],
+   "work": "Outside study time you may be employed or run a self employed activity for up to 20 hours a week (European Commission EU Immigration Portal, Croatia page).",
+   "work_hours": 20,
+   "stay_back": "After completing studies you can stay for one year, renewable for one more year, to look for work or set up a business (European Commission EU Immigration Portal).",
+   "note": "English taught general programmes at public universities cost about EUR 1,100 to 4,500 a year (Europe Study, CounsellorMaster, another guide EUR 4,500 to 10,000), while the University of Zagreb School of Medicine in English lists EUR 12,000 a year for 2026/27 with 60 places (medschool-experts.com; a second guide prints EUR 9,000 to 11,000, so read the faculty page), dentistry EUR 5,100 a semester and veterinary EUR 5,500 a semester. Croatian taught programmes are free after a Croatian language year (one guide). Living is quoted at EUR 400 to 800 a month, EUR 700 to 1,000 for medicine in Zagreb. The temporary stay permit is for one year or the length of the programme if shorter and you ask for the extension at least 60 days before it expires (European Commission). A foreign MD counts for a licence in Nepal only if the Nepal Medical Council recognises that exact university, and you must pass the NMC licensing examination after returning, so ask the council before you pay a deposit. NEET is an Indian test and does not apply to Nepali applicants. NPR figures are rough, at EUR 1 about NPR 175.",
+   "scholarships": []
+  },
+  {
+   "id": "si",
+   "country": "Slovenia",
+   "tuition": [
+    367500,
+    1190000
+   ],
+   "living": [
+    1065000,
+    1470000
+   ],
+   "code": "SI",
+   "exams": [
+    "B2 English (TOEFL, IELTS, PTE or the faculty's own test) for English taught programmes",
+    "Slovenian B2 for programmes in Slovenian (the Ljubljana medicine faculty sets its own exam)",
+    "Entrance test or document review set by each faculty"
+   ],
+   "intakes": "October (academic year starts 1 October; winter semester October to January, summer semester February to mid July)",
+   "fields": [
+    "Engineering",
+    "Computer science",
+    "Economics and business",
+    "Natural science",
+    "Humanities and social science (English mostly at master and doctoral level)"
+   ],
+   "work": "A holder of a temporary residence permit for study may take up employment or work in Slovenia during the permit under the Acts on employment relationships and student work (European Commission EU Immigration Portal, Slovenia page).",
+   "stay_back": "If you want to work after studying, your future employer starts an application for an employment permit and you apply for a further temporary residence permit; applying from inside Slovenia is possible (European Commission).",
+   "note": "For a non EU citizen a bachelor year at a public university in 2026/27 mostly costs EUR 2,100 to 5,880 and a master year EUR 2,505 to 6,800 (studyu.org), for example EUR 3,400 and EUR 4,700 at the University of Ljubljana School of Economics and Business plus a EUR 61.60 annual contribution; free places go to EU citizens and a few other groups. Most bachelor programmes are taught in Slovenian and English concentrates at master and doctoral level. The University of Ljubljana recommends at least EUR 700 a month on top of tuition, the residence permit needs proof of at least EUR 507.43 a month of study, and a dormitory bed averages about EUR 197 a month in Ljubljana. The temporary residence permit for study covers a full degree. NPR figures are rough, at EUR 1 about NPR 175.",
+   "scholarships": []
+  },
+  {
+   "id": "lu",
+   "country": "Luxembourg",
+   "tuition": [
+    70000,
+    140000
+   ],
+   "living": [
+    1995000,
+    3150000
+   ],
+   "code": "LU",
+   "exams": [
+    "English proof for English taught programmes (one guide: IELTS 6.5; the programme page decides)",
+    "Programme specific selection by the University of Luxembourg, which teaches in English, French and German"
+   ],
+   "intakes": "September (autumn semester); non EU applications for the University of Luxembourg carry a EUR 100 fee, deducted from the first invoice if you enrol",
+   "fields": [
+    "Finance and banking",
+    "Computer science and security",
+    "Law and European studies",
+    "Engineering",
+    "Data science",
+    "Education and social science"
+   ],
+   "work": "Master and PhD students, and bachelor students after the first two semesters, may work up to 15 hours a week in term time and up to 40 hours a week in holidays; bachelor and BTS students cannot work in the first two semesters; doctoral researchers and contracted assistants are exempt (European Commission EU Immigration Portal, Luxembourg page).",
+   "work_hours": 15,
+   "stay_back": "After finishing, a third country national may stay to look for a job or start a business and must apply for the residence permit for that purpose before the student permit ends, at least 30 days beforehand (European Commission). The page read gives no length in months.",
+   "note": "The University of Luxembourg is the only public university. It lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 from the third to the sixth and generally EUR 200 a semester for a master (studyeagles.com citing the university), so a bachelor starts at about EUR 800 in year one; one 2024 guide prints EUR 400 to 800 a semester for non EU students, and some specialised or private programmes cost more, so read the programme page. Living is the real cost: the university is quoted at about EUR 1,500 a month, and guides print proof of funds of EUR 950 a month excluding rent or EUR 1,100 to 1,500 a month. Public transport is free. The figure here runs from EUR 950 to EUR 1,500 a month. NPR figures are rough, at EUR 1 about NPR 175.",
+   "scholarships": []
+  }
+ ],
+ "faq_add": [
+  {
+   "id": "fw32-1",
+   "topic": "abroad",
+   "q": "Can I study medicine in English in Bulgaria, and what does it cost?",
+   "a": "Yes, in Sofia, Plovdiv, Varna and Pleven. A 2026/27 guide (studyu.org) lists EUR 8,000 a year at Sofia University Faculty of Medicine, EUR 9,950 at the Medical University of Sofia and EUR 10,000 at Plovdiv, so six years cost about EUR 48,000 to 60,000 (roughly NPR 84 lakh to 1.05 crore at EUR 1 about NPR 175). Two older guides print EUR 7,000 to 8,000, so read each university's own page. Selection is an entrance exam in biology and chemistry (Sofia holds one remote exam for non EU applicants in September). The European Commission says a student may work 20 hours a week without a work permit. Before you pay, ask the Nepal Medical Council whether it recognises that exact university, because you must pass the NMC licensing examination after returning; NEET is an Indian test and does not apply to you.",
+   "go": [
+    "mbbs",
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-2",
+   "topic": "abroad",
+   "q": "How long can I stay in Bulgaria or Croatia after graduating to look for a job?",
+   "a": "The European Commission EU Immigration Portal says that in Bulgaria you can look for and start work within 9 months after finishing if you register with the Employment Agency within 7 business days, and then you need a work permit on the same terms as other non EU citizens. For Croatia it says you can stay for one year, renewable for one more year, to look for work or set up a business. During study both countries allow 20 hours of work a week (Croatia outside study time; Bulgaria also in holidays). Rules change, so check the Ministry of Interior before you plan.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-3",
+   "topic": "abroad",
+   "q": "Is Luxembourg really almost free for a Nepali student?",
+   "a": "Tuition is, living is not. The University of Luxembourg is the only public university and lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 a semester afterwards and generally EUR 200 a semester for a master (about NPR 70,000 to 1.4 lakh a year at EUR 1 about NPR 175). One 2024 guide prints EUR 400 to 800 a semester for non EU students, so read the programme page. Guides quote proof of funds of EUR 950 a month excluding rent, up to EUR 1,100 to 1,500 a month, and the university is quoted at about EUR 1,500 a month, which is NPR 20 to 31 lakh a year. The European Commission says master and PhD students may work 15 hours a week in term time (bachelor students only after two semesters) and 40 hours a week in holidays, and that graduates may stay to look for a job or start a business.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-4",
+   "topic": "abroad",
+   "q": "Can I stay and work in Greece after studying there?",
+   "a": "Not directly. The European Commission EU Immigration Portal says that in Greece you can work part time during studies, you cannot change your status to a residence permit for another purpose, and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-5",
+   "topic": "abroad",
+   "q": "What does Slovenia cost for a student from outside the EU?",
+   "a": "For 2026/27 a bachelor year at a public university mostly costs EUR 2,100 to 5,880 and a master year EUR 2,505 to 6,800 (studyu.org), for example EUR 3,400 and EUR 4,700 at the University of Ljubljana School of Economics and Business. The University of Ljubljana recommends at least EUR 700 a month for living and the residence permit needs proof of at least EUR 507.43 for each month of study; a dormitory bed averages about EUR 197 a month in Ljubljana. Most bachelor programmes are taught in Slovenian, with English mainly at master and doctoral level. On the European Commission page, a student permit holder may work under the Acts on employment relationships and student work, and to stay after studying your employer starts the employment permit application.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-6",
+   "topic": "abroad",
+   "q": "Is the Darmasiswa scholarship a degree, and can a Nepali student apply?",
+   "a": "Darmasiswa is a one year non degree programme of Indonesia's Ministry of Primary and Secondary Education to study Bahasa Indonesia, arts, music, dance or crafts at about 60 universities. The official site says it is for students from countries that have diplomatic relations with Indonesia and that more than 111 countries have taken part since 1976. The host university UNY lists the rules as unmarried, aged 18 to 32, with a high school diploma or equivalent, and says it returned in 2026 after pausing in 2024. One third party listing prints a monthly allowance of IDR 4,700,000 and a 15 May to 15 June 2026 window; the 2026 amounts were still to be announced on the UNY page, so confirm on darmasiswa.kemendikdasmen.go.id. It will not give you a bachelor or master; for a degree look at the KNB scholarship instead.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-7",
+   "topic": "abroad",
+   "q": "Is the Vietnam Government Scholarship open to Nepal, and the Iceland one?",
+   "a": "Vietnam: the official application portal studyinvietnam.edu.vn lists Nepal in its country menu, so a Nepali applicant can open an application for a bachelor, master or doctorate. Quotas, subjects and any nomination step follow the agreement and change every year, so no seat count is given here, and many places are for programmes taught in Vietnamese. Iceland: the Icelandic Government scholarship for the BA in Icelandic as a Second Language names the citizens it is open to (Austria, Canada, China, Germany, Norway, Poland, Slovakia, the United Kingdom, the United States through Fulbright and others) and Nepal was not among them in the 2026 call text, so it is not a route for a Nepali student.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-8",
+   "topic": "abroad",
+   "q": "Which scholarships fund a Nepali student for a master or PhD in Saudi Arabia or Armenia?",
+   "a": "KAUST in Saudi Arabia gives its fellowship to every admitted MS and PhD student of any nationality: tuition and bench fees, a stipend of about USD 20,000 a year for MS and USD 25,000 to 30,000 for PhD, housing and insurance (guides value it at USD 70,000 to 80,000 a year). Listings want a STEM degree, a GPA of about 3.0 of 4 and TOEFL iBT 81 or IELTS 6.5; one guide prints a 3 January 2027 deadline for Fall 2027, so read the KAUST portal. In Armenia the American University of Armenia says international students are eligible for merit scholarships of up to 50 percent of tuition through a separate International Scholarship application to its Office of Financial Aid; need based aid up to 90 percent is for Armenian citizens only.",
+   "go": [
+    "abroad-ms"
+   ]
+  }
  ]
 }

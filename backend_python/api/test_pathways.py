@@ -754,8 +754,8 @@ class Wave18Tests(TestCase):
     def test_every_destination_has_a_scholarship(self):
         d = pathways.payload()
         for a in d['abroad']:
-            if a['id'] == 'is':
-                continue  # wave 32: Iceland's government scholarship excludes Nepal, so no route is listed
+            if a['id'] in ('is', 'bg', 'hr', 'si', 'lu'):
+                continue  # wave 32: no verified Nepal scholarship route (Iceland's excludes Nepal)
             self.assertTrue(a.get('scholarships'), a['id'])
         sch = {s['id']: s for s in d['scholarships']}
         self.assertEqual(sch['s-latvia-state']['open'], [2, 4])
@@ -1065,7 +1065,7 @@ class Wave22Tests(TestCase):
         for dist, cnt in dc.items():
             self.assertGreaterEqual(cnt, 2, dist)
         for a in d['abroad']:
-            if a['id'] in ('sk', 'is', 'am', 'vn'):
+            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu'):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
@@ -1400,3 +1400,19 @@ class Wave32Tests(TestCase):
             self.assertEqual(sch[sid]['country'], cid)
         self.assertIn('lists Nepal in its country menu', ab['vn']['note'])
         self.assertIn('Nepal is not among them', ab['is']['note'])
+
+    def test_wave32_eu_destinations_and_faqs(self):
+        d = pathways.payload()
+        ab = {a['id']: a for a in d['abroad']}
+        for cid in ('bg', 'hr', 'si', 'lu'):
+            self.assertIn(cid, ab)
+            a = ab[cid]
+            self.assertLess(a['tuition'][0], a['tuition'][1])
+            self.assertLess(a['living'][0], a['living'][1])
+            self.assertIn('European Commission', a['work'] + a['stay_back'])
+        self.assertEqual(ab['bg']['work_hours'], 20)
+        self.assertEqual(ab['lu']['work_hours'], 15)
+        self.assertIn('9 months', ab['bg']['stay_back'])
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 9):
+            self.assertIn(f'fw32-{i}', faq)

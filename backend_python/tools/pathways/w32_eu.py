@@ -1,0 +1,48 @@
+"""Wave 32: four new EU destinations (Bulgaria, Croatia, Slovenia, Luxembourg). Read on 2026-11-20.
+Student work and stay rules: European Commission EU Immigration Portal student pages (home-affairs.ec.europa.eu, student-bulgaria, student-croatia,
+student-slovenia, student-luxembourg, read in this session). Costs: studyu.org (Bulgaria medicine 2026/27 EUR 8,000 to 10,000 and Sofia University
+EUR 3,300 bachelor, Slovenia 2026/27 EUR 2,100 to 5,880 bachelor and EUR 2,505 to 6,800 master, University of Ljubljana EUR 700 a month and proof of
+EUR 507.43 a month), dzireabroad.com and igeneration.agency (Bulgarian medicine fees, Sofia exam date), medschool-experts.com (Zagreb medicine EUR 12,000,
+dentistry EUR 5,100 a semester, veterinary EUR 5,500 a semester), kadamboverseas.com and europestudy.eu (Croatian fees, EUR 9,000 to 11,000 for medicine
+in one guide), counsellormaster.com (Croatia intake), studyeagles.com (University of Luxembourg enrolment fee EUR 400 a semester in semesters 1 and 2,
+EUR 200 after, master EUR 200, EUR 100 application fee), shunstudent.com (proof EUR 950 a month), leapscholar.com (about EUR 1,500 a month).
+Rates: EUR 1 = NPR 175. Where sources disagree the text says so.
+"""
+FX = ' NPR figures are rough, at EUR 1 about NPR 175.'
+NMC = ('A foreign MD counts for a licence in Nepal only if the Nepal Medical Council recognises that exact university, and you must pass the NMC licensing '
+       'examination after returning, so ask the council before you pay a deposit. NEET is an Indian test and does not apply to Nepali applicants.')
+
+ABROAD_ADD = [
+    {'id': 'bg', 'country': 'Bulgaria', 'tuition': [577500, 1750000], 'living': [1050000, 1890000], 'code': 'BG',
+     'exams': ['Medicine, dentistry and pharmacy in English: an entrance exam in biology and chemistry (Medical University of Sofia holds one remote exam for non EU applicants in September; Plovdiv runs online tests from April to August plus a September resit)', 'English proof or an interview for English taught programmes', 'A Bulgarian language preparatory year (about EUR 3,500 at Sofia University) if you study in Bulgarian'],
+     'intakes': 'October (the academic year starts on 1 October; non EU applications at Sofia University ran 27 July to 11 September for 2026/27)', 'fields': ['Medicine (English, 6 years)', 'Dentistry', 'Pharmacy', 'Veterinary medicine', 'Informatics and engineering', 'Business and humanities'],
+     'work': 'You can work without a work permit for 20 hours a week during the academic year and during official holidays (European Commission EU Immigration Portal, Bulgaria page).',
+     'work_hours': 20, 'stay_back': 'Within 9 months after finishing you may look for and start work if you register with the Employment Agency within 7 business days; you then need a work permit on the same terms as other non EU citizens (European Commission EU Immigration Portal).',
+     'note': 'Mostly chosen for English medium medicine: 2026/27 non EU fees are EUR 8,000 a year at Sofia University Faculty of Medicine, EUR 9,950 at the Medical University of Sofia and EUR 10,000 at Plovdiv (studyu.org), while two older guides print EUR 7,000 to 8,000 and a Pleven fee of about EUR 9,000, so read the university\'s own 2026/27 page; six years cost about EUR 48,000 to 60,000 at those rates. Non medical bachelor programmes at public universities start near EUR 3,300 a year (Sofia University, 2026/27).'
+             ' Living is quoted at EUR 500 to 900 a month by the European Commission and EUR 500 to 850 at Sofia; a dormitory is about EUR 100 a month and the residence permit is for one year and renewable, tied to your programme. ' + NMC + FX,
+     'scholarships': []},
+    {'id': 'hr', 'country': 'Croatia', 'tuition': [192500, 2100000], 'living': [840000, 2100000], 'code': 'HR',
+     'exams': ['Program specific entrance test (Biology and Chemistry for medicine)', 'English proof for English taught programmes, usually IELTS 6.0 or TOEFL iBT 80 and above (one guide)', 'Croatian language year for Croatian taught programmes'],
+     'intakes': 'October (winter semester); non EU applications run roughly February or March to May, June or July depending on the faculty (one guide: University of Zagreb 1 February to 31 May)', 'fields': ['Medicine (English, 6 years)', 'Dentistry', 'Veterinary medicine', 'Computer science', 'Architecture', 'Economics and management'],
+     'work': 'Outside study time you may be employed or run a self employed activity for up to 20 hours a week (European Commission EU Immigration Portal, Croatia page).',
+     'work_hours': 20, 'stay_back': 'After completing studies you can stay for one year, renewable for one more year, to look for work or set up a business (European Commission EU Immigration Portal).',
+     'note': 'English taught general programmes at public universities cost about EUR 1,100 to 4,500 a year (Europe Study, CounsellorMaster, another guide EUR 4,500 to 10,000), while the University of Zagreb School of Medicine in English lists EUR 12,000 a year for 2026/27 with 60 places (medschool-experts.com; a second guide prints EUR 9,000 to 11,000, so read the faculty page), dentistry EUR 5,100 a semester and veterinary EUR 5,500 a semester. Croatian taught programmes are free after a Croatian language year (one guide).'
+             ' Living is quoted at EUR 400 to 800 a month, EUR 700 to 1,000 for medicine in Zagreb. The temporary stay permit is for one year or the length of the programme if shorter and you ask for the extension at least 60 days before it expires (European Commission). ' + NMC + FX,
+     'scholarships': []},
+    {'id': 'si', 'country': 'Slovenia', 'tuition': [367500, 1190000], 'living': [1065000, 1470000], 'code': 'SI',
+     'exams': ['B2 English (TOEFL, IELTS, PTE or the faculty\'s own test) for English taught programmes', 'Slovenian B2 for programmes in Slovenian (the Ljubljana medicine faculty sets its own exam)', 'Entrance test or document review set by each faculty'],
+     'intakes': 'October (academic year starts 1 October; winter semester October to January, summer semester February to mid July)', 'fields': ['Engineering', 'Computer science', 'Economics and business', 'Natural science', 'Humanities and social science (English mostly at master and doctoral level)'],
+     'work': 'A holder of a temporary residence permit for study may take up employment or work in Slovenia during the permit under the Acts on employment relationships and student work (European Commission EU Immigration Portal, Slovenia page).',
+     'stay_back': 'If you want to work after studying, your future employer starts an application for an employment permit and you apply for a further temporary residence permit; applying from inside Slovenia is possible (European Commission).',
+     'note': 'For a non EU citizen a bachelor year at a public university in 2026/27 mostly costs EUR 2,100 to 5,880 and a master year EUR 2,505 to 6,800 (studyu.org), for example EUR 3,400 and EUR 4,700 at the University of Ljubljana School of Economics and Business plus a EUR 61.60 annual contribution; free places go to EU citizens and a few other groups. Most bachelor programmes are taught in Slovenian and English concentrates at master and doctoral level.'
+             ' The University of Ljubljana recommends at least EUR 700 a month on top of tuition, the residence permit needs proof of at least EUR 507.43 a month of study, and a dormitory bed averages about EUR 197 a month in Ljubljana. The temporary residence permit for study covers a full degree.' + FX,
+     'scholarships': []},
+    {'id': 'lu', 'country': 'Luxembourg', 'tuition': [70000, 140000], 'living': [1995000, 3150000], 'code': 'LU',
+     'exams': ['English proof for English taught programmes (one guide: IELTS 6.5; the programme page decides)', 'Programme specific selection by the University of Luxembourg, which teaches in English, French and German'],
+     'intakes': 'September (autumn semester); non EU applications for the University of Luxembourg carry a EUR 100 fee, deducted from the first invoice if you enrol', 'fields': ['Finance and banking', 'Computer science and security', 'Law and European studies', 'Engineering', 'Data science', 'Education and social science'],
+     'work': 'Master and PhD students, and bachelor students after the first two semesters, may work up to 15 hours a week in term time and up to 40 hours a week in holidays; bachelor and BTS students cannot work in the first two semesters; doctoral researchers and contracted assistants are exempt (European Commission EU Immigration Portal, Luxembourg page).',
+     'work_hours': 15, 'stay_back': 'After finishing, a third country national may stay to look for a job or start a business and must apply for the residence permit for that purpose before the student permit ends, at least 30 days beforehand (European Commission). The page read gives no length in months.',
+     'note': 'The University of Luxembourg is the only public university. It lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 from the third to the sixth and generally EUR 200 a semester for a master (studyeagles.com citing the university), so a bachelor starts at about EUR 800 in year one; one 2024 guide prints EUR 400 to 800 a semester for non EU students, and some specialised or private programmes cost more, so read the programme page.'
+             ' Living is the real cost: the university is quoted at about EUR 1,500 a month, and guides print proof of funds of EUR 950 a month excluding rent or EUR 1,100 to 1,500 a month. Public transport is free. The figure here runs from EUR 950 to EUR 1,500 a month.' + FX,
+     'scholarships': []},
+]
