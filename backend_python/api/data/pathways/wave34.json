@@ -1,0 +1,378 @@
+{
+ "note_add": {
+  "p-sdcuhs": "Edusanjal (8 April 2026) reported a proposal of MBBS 50, BSc Nursing 30, BSc MLT 20 and B Optometry 20 with NPR 2.58 billion secured, but the Medical Education Commission list used above gives BSc Nursing 20, BSc MLT 10 and B Optometry 10, so use the list. The Kathmandu Post (26 October 2026) confirmed the first ever 50 MBBS seats and reported that campaigner Dr Govinda KC says the 300 bed teaching hospital the Medical Education Act needs is not ready; the Commission says seats follow expert inspection reports."
+ },
+ "scholarships_add": [
+  {
+   "id": "s-ctevt-prediploma",
+   "name": "CTEVT classified (free) scholarship for pre-diploma programmes, 2083/84 (1,065 seats)",
+   "scope": "nepal",
+   "levels": [
+    "diploma"
+   ],
+   "by": "Council for Technical Education and Vocational Training (CTEVT), Office of the Controller of Examinations, Sanothimi",
+   "covers": "Free study in a pre-diploma (TSLC) programme. 1,065 seats in 16 programmes: Civil Engineering 267, Agriculture (Plant Science) 240, Livestock Production or Animal Health 165, Electrical 105, Computer 93, Survey (Amin) 78, Veterinary Science 60, Automobile 18, Mechanical 14, Hotel Management 5, Social Mobilization 6, Culinary Arts 2, Computer Application and Secretarial Management 3, Entrepreneurship Development 3, Electronics 3, Refrigeration and AC 3. Seats by province as printed: Lumbini 197, Madhesh 149, Koshi 132, Bagmati 130, Gandaki 109, Sudurpashchim 123, Karnali 117, but those seven add up to 957 while the 16 programme rows add up to 1,065, so read the Council notice for the real split (edusanjal.com, educatenepal.com).",
+   "who": "Nepali citizens who passed SEE, or appeared in all SEE subjects (a Non-Graded result is accepted for pre-diploma), from government or community schools or CTEVT constituent institutions. One programme and one province only.",
+   "how": "Free choice of province and institutions on the ITMS online form at ctevtexam.org.np (the 2083/84 form cost NPR 500, opened 2083 Baisakh 28 or 29 and closed on 2083 Jestha 13 at 11:59 pm). The merit list and admission recommendations are made by each provincial CTEVT office and the printed acceptance card is mandatory for admission.",
+   "link": "https://ctevtexam.org.np",
+   "type": "Government",
+   "open": [
+    5,
+    5
+   ],
+   "awards": 1065
+  },
+  {
+   "id": "s-ku-laxmi-stem",
+   "name": "Laxmi Bank (Laxmi Sunrise) scholarship for Women in STEM at Kathmandu University",
+   "scope": "nepal",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "Kathmandu University (KU) with Laxmi Sunrise Bank, through an endowment fund",
+   "covers": "Support for talented and economically disadvantaged women studying a Master or PhD in any STEM field at KU. The endowment is NPR 10,000,000 (KU available endowment funds list, item 33); Laxmi Bank said 50 percent of the yearly interest is added to the principal and 50 percent funds students, while another site says the bank pays NPR 1 crore over five years. The amount per student is not printed on the pages read.",
+   "who": "Nepali women in full time Master or PhD STEM study at KU (the KU School of Engineering call also names economic need). KU runs the selection; the bank funds and promotes it.",
+   "how": "Watch the scholarship notices on ku.edu.np: the 2026 cycle had a call on 6 August 2026 with a form, then interview and result notices on 15 September 2026 under the name Laxmi Sunrise Shikshit Laxmi Scholarship for Woman in STEM (a collegenp.com summary gives a November deadline for the KU School of Engineering call, so the dates differ by school).",
+   "link": "https://ku.edu.np/available-endowment-funds",
+   "type": "University",
+   "open": [
+    8,
+    9
+   ]
+  }
+ ],
+ "scholarship_extra": {
+  "s-ctevt": {
+   "awards": 3417,
+   "how": "One programme in one province, filed on the ITMS online system (the 2083/84 form cost NPR 1,000 and closed on 2083/04/13, 11:59 pm, with printed acceptance card needed for admission). Seats per programme in the notice text (collegenp.com): Agriculture (Animal Science) 186, Agriculture (Plant Science) 259, Architecture Engineering 30, Agricultural Engineering 4, Civil Engineering 640, Automobile Engineering 38, Civil (Hydropower) 20, Computer Engineering 187, Electrical and Electronics 30, Electrical Engineering 112, Electronics 2, Food and Dairy Technology 12, Forestry 60, Acupuncture 3, Diagnostic Radiography 100, General Ayurved Medicine 42, General Medicine 448, Geomatics 140, Information Technology 80, Mechanical 36, Mechatronics 2, Biomedical 8, Refrigeration and AC 6, Hotel Management 45, Medical Laboratory Technology 251, Nursing 189, Midwifery 6, Ophthalmic Science 27, Pharmacy 341, Dental Hygiene 30, Yog and Naturopathy 3, Physiotherapy 71, Beauty and Cosmetology 3, Fashion Designing 3. These 34 rows add up to 3,414 against a printed grand total of 3,417, so one row may be misprinted. An older read of this page gave General Medicine 446, Agriculture Plant 261 and Medical Laboratory 250, which differ by one or two seats. Merit is the SEE GPA (with grade points from the percentage table) plus one extra mark for government, community or CTEVT constituent school applicants; ties go to Mathematics, Science and English grades in that order, then backward remote area, then the older candidate. Schools may not charge scholarship students tuition, practical, registration, exam, library or transport fees; recipients agree to serve where the government posts them, and nobody gets a second CTEVT scholarship."
+  }
+ },
+ "govt_note_add": {
+  "g-so": "Notice 789/083-84 (on the PSC site 2083/07/25) lists 509 competitive seats, 504 open and inclusive plus 5 internal Health Service seats, for gazetted third class civil, federal parliament and national human rights service posts and Health Service 8th and 7th level posts (unionnepal.com, 13 November 2026). Apply online only at psconline1.psc.gov.np: regular deadline 2083/08/15, double fee until 2083/08/22, payment by 2083/08/23, fee NPR 1,200 per advertisement plus NPR 400 for each extra inclusive group. Age 21 to 35 (40 for women and persons with disabilities) for civil and human rights posts and 21 to 45 for Health Service. Written exams run in two phases at PSC offices (second phase at Dhankuta, Jaleshwar, Kathmandu, Pokhara, Butwal, Surkhet and Dipayal), with ICT, practical, group tests and interview where the syllabus says so. Promotion is separate: notices 787 (176 positions) and 788 (6) close on 2083/08/29 and notices 580 and 581 (182 positions in all) closed on 2083/08/01 with a fee of NPR 1,200 or 2,000; the note above gives Mangsir 25 for promotion, so read the PSC notice itself. Health Service Level 9 notice 582/083-84 had 89 specialist and consultant posts, fee NPR 2,000, age 21 to 45, applications 14 October to 3 November 2026 (loksewapathsala.com).",
+  "e-mecee": "For 2083/84 the Medical Education Commission allocated 9,691 seats and 77,359 students applied for the integrated entrance examinations, against 9,273 seats and 8,548 enrolled last year; 418 seats were added, all in government institutions (110 MBBS, 120 BSc Nursing, 98 BMS, 30 each at BPKIHS and the Nepalese Army Institute) and seats were given to 84 of the 90 institutions that applied. Government colleges reserve 75 percent of seats for scholarship students while private colleges give 10 to 20 percent, and MBBS tuition is set between NPR 4 million and 4.4 million. The exams were held about a month late (31 October to 4 November 2026) because the commission posts were vacant (Kathmandu Post, 26 October 2026).",
+  "e-ioe": "The 2083/84 cycle ran like this (clamphook.com, icenepal.com quoting the IOE booklet and Pulchowk Campus notices): applications Ashadh 23 to Shrawan 1, exam Shrawan 11 to 18, result on Shrawan 19 2083 (4 August 2026) with 13,000 or more candidates and 7,179 names on the pass list (a rank each, no marks), the B.E./B.Arch booklet on 7 August 2026, then admission lists up to a seventh list on 5 October and a third and final phase for remaining seats on 6 and 7 October 2026. One calculator page prints a July exam instead, so trust the IOE portal entrance.ioe.edu.np. Women get 10 percent of seats as a printed count (56 Regular and 145 Full Fee seats across the five constituent campuses) and 20 percent of Regular seats go to inclusive groups, 119 seats in all (Pulchowk 55, Purwanchal 25, Paschimanchal 19, Thapathali 19, Chitwan 1).",
+  "e-tu-fom-bbs": "The TU first year bachelor calendar for 2083/84 (Rector notice of 2083/02/19, collegenp.com): admission from the second week of Asar 2083 to the end of Bhadra, classes from the first week of Ashoj 2083, exam forms in Chaitra 2083, exams in the last week of Jestha 2084 and results in Bhadra 2084. You file a separate form at each campus, faculty and subject you want.",
+  "e-tu-bachelor-sci": "The TU first year bachelor calendar for 2083/84 (Rector notice of 2083/02/19, collegenp.com): admission from the second week of Asar 2083 to the end of Bhadra, classes from the first week of Ashoj 2083, exam forms in Chaitra 2083, exams in the last week of Jestha 2084 and results in Bhadra 2084. Science entrance dates are set by IOST separately."
+ },
+ "provider_update": {
+  "p-kmc-health": {
+   "website": "https://kathmandumultiplecollege.edu.np"
+  },
+  "p-w24-pu-camad": {
+   "website": "https://camadcollege.edu.np"
+  },
+  "p-w24-pu-citizen": {
+   "website": "https://citizencollege.edu.np"
+  },
+  "p-w24-pu-valley-state": {
+   "website": "https://valleystatecollege.edu.np"
+  },
+  "p-w24-iost-gyandeep": {
+   "website": "https://gyandeepcollege.edu.np"
+  },
+  "p-w24-iost-nagarik-nawalparasi": {
+   "website": "https://nagarikcollege.edu.np"
+  },
+  "p-w26-npca-292": {
+   "website": "https://udayashreemultiplecampus.edu.np"
+  },
+  "p-w27-npca-491": {
+   "website": "https://janajyoticampus.edu.np"
+  },
+  "p-w28-pu-d-a-v-business-school-kathmandu": {
+   "website": "https://davbusinessschool.edu.np"
+  },
+  "p-w28-pu-sann-international-college-for-higher-studies-kathmandu": {
+   "website": "https://sann.edu.np"
+  },
+  "p-w28-pu-lumbini-adarsha-degree-college-nawalparasieast": {
+   "website": "https://lumbiniadarsha.edu.np"
+  },
+  "p-w28-rju-nepalaya-education-foundation-kathmandu": {
+   "website": "https://nepalayaeducationfoundation.edu.np"
+  }
+ },
+ "careers_new": [
+  {
+   "id": "video-editor",
+   "name": "Video editor and videographer",
+   "about": "Cuts, colours and sounds video for YouTube channels, TV and news, ads, weddings, NGOs and brands, and often shoots it too. Many work as freelancers for clients abroad.",
+   "demand": 4,
+   "competition": 4,
+   "trend": "rising",
+   "abroad": 4,
+   "salary": {
+    "entry": [
+     15000,
+     30000
+    ],
+    "senior": [
+     60000,
+     120000
+    ]
+   },
+   "skills": [
+    "Premiere Pro or DaVinci Resolve",
+    "Motion graphics and colour",
+    "Storytelling and scripting",
+    "Camera and audio basics"
+   ],
+   "ladder": [
+    "Intern or junior editor",
+    "Video editor",
+    "Senior editor or motion designer",
+    "Creative or video lead"
+   ],
+   "employers": [
+    "Production houses and media",
+    "Marketing and advertising agencies",
+    "YouTube and brand teams",
+    "Overseas freelance clients"
+   ],
+   "hours": 45
+  },
+  {
+   "id": "nutritionist",
+   "name": "Nutritionist and dietitian",
+   "about": "Plans diets for patients and communities in hospitals, clinics, NGOs, schools and fitness centres, from diabetes and kidney care to child nutrition programmes.",
+   "demand": 3,
+   "competition": 2,
+   "trend": "rising",
+   "abroad": 3,
+   "salary": {
+    "entry": [
+     25000,
+     40000
+    ],
+    "senior": [
+     60000,
+     80000
+    ]
+   },
+   "skills": [
+    "Medical nutrition therapy",
+    "Diet and growth assessment",
+    "Counselling",
+    "Community programme design"
+   ],
+   "ladder": [
+    "Nutrition assistant",
+    "Nutritionist or dietitian",
+    "Senior or clinical dietitian",
+    "Nutrition programme manager"
+   ],
+   "employers": [
+    "Government and private hospitals",
+    "NGOs and INGOs",
+    "Wellness centres",
+    "Food and health companies"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "game-developer",
+   "name": "Game developer",
+   "about": "Builds mobile, PC and web games with engines such as Unity, covering gameplay code, art pipelines and testing, often for outsourcing studios or foreign remote clients.",
+   "demand": 3,
+   "competition": 3,
+   "trend": "rising",
+   "abroad": 4,
+   "salary": {
+    "entry": [
+     20000,
+     40000
+    ],
+    "senior": [
+     80000,
+     120000
+    ]
+   },
+   "skills": [
+    "C# and Unity or Unreal",
+    "Game design basics",
+    "2D and 3D asset pipelines",
+    "Version control and testing"
+   ],
+   "ladder": [
+    "Junior game developer",
+    "Game developer",
+    "Senior or lead developer",
+    "Technical director or studio founder"
+   ],
+   "employers": [
+    "Local game and animation studios",
+    "Software outsourcing companies",
+    "Remote foreign studios",
+    "Own indie games"
+   ],
+   "hours": 42
+  }
+ ],
+ "career_links": {
+  "bjmc": [
+   "video-editor"
+  ],
+  "bfd-design": [
+   "video-editor"
+  ],
+  "freelance-digital": [
+   "video-editor",
+   "game-developer"
+  ],
+  "bph": [
+   "nutritionist"
+  ],
+  "btech-food": [
+   "nutritionist"
+  ],
+  "bicte": [
+   "game-developer"
+  ],
+  "bsc-csit": [
+   "game-developer"
+  ],
+  "bca": [
+   "game-developer"
+  ],
+  "bit": [
+   "game-developer"
+  ]
+ },
+ "faq_add": [
+  {
+   "id": "fw34-1",
+   "topic": "after10",
+   "q": "How many free CTEVT pre-diploma seats are there for 2083/84 and how do I get one?",
+   "a": "The Council opened 1,065 classified (free) pre-diploma seats in 16 programmes: Civil Engineering 267, Agriculture (Plant Science) 240, Livestock Production or Animal Health 165, Electrical 105, Computer 93, Survey (Amin) 78 and Veterinary Science 60 are the big ones. The form cost NPR 500 and closed on Jestha 13 2083. You need to have passed SEE or appeared in all subjects (a Non-Graded result is accepted), and you choose one programme in one province. The provincial figures printed next to the total add up to 957, not 1,065, while the programme rows do add up to 1,065, so read the Council notice for the split (edusanjal.com, educatenepal.com).",
+   "go": [
+    "pre-diploma"
+   ]
+  },
+  {
+   "id": "fw34-2",
+   "topic": "after10",
+   "q": "Which CTEVT diploma programmes have the most free seats?",
+   "a": "In the 2083/84 notice (3,417 seats printed) Civil Engineering has 640, General Medicine 448, Pharmacy 341, Agriculture (Plant Science) 259, Medical Laboratory Technology 251, Nursing 189, Computer Engineering 187 and Agriculture (Animal Science) 186, then Geomatics 140, Electrical 112 and Diagnostic Radiography 100. The 34 rows add up to 3,414, so one row may be misprinted. By province Bagmati has 838, Madhesh 670, Koshi 609, Lumbini 604, Gandaki 264, Sudurpashchim 222 and Karnali 210 (collegenp.com, 2083/01/29 notice).",
+   "go": [
+    "dip-health",
+    "dip-engineering"
+   ]
+  },
+  {
+   "id": "fw34-3",
+   "topic": "after10",
+   "q": "How does CTEVT choose students for the free scholarship seats?",
+   "a": "By SEE GPA, with one extra mark for students from government or community schools or CTEVT constituent institutions. Ties are broken by your grades in Mathematics, Science and English in that order, then backward remote area schooling (Achham, Kalikot, Jajarkot, Jumla, Dolpa, Bajhang, Bajura, Mugu, Humla), then the older candidate. Half of each programme goes to the general group and half to target groups (women 25 percent, Dalit 9, Janajati 15, Khas Arya 17, Madhesi 9, Tharu 4 and others). Health programmes need GPA 2.0 and others GPA 1.6, and you must also sign a promise to serve where the government posts you if asked.",
+   "go": [
+    "dip-health"
+   ]
+  },
+  {
+   "id": "fw34-4",
+   "topic": "afterbach",
+   "q": "How many people applied for medical entrance in 2026 and how many seats were there?",
+   "a": "The Medical Education Commission allocated 9,691 seats for 2083/84 and 77,359 students applied for the integrated entrance tests. That is 418 seats more than last year (9,273 seats, of which only 8,548 were filled), all added at government institutions: 110 MBBS, 120 BSc Nursing, 98 BMS and 30 each at BPKIHS and the Nepalese Army Institute. The exams ran from 31 October to 4 November 2026, about a month late (Kathmandu Post, 26 October 2026).",
+   "go": [
+    "mbbs",
+    "bsc-nursing"
+   ]
+  },
+  {
+   "id": "fw34-5",
+   "topic": "afterbach",
+   "q": "What does MBBS cost in a government and a private college in Nepal now?",
+   "a": "Private college MBBS tuition is set at NPR 4 million to 4.4 million. In government colleges 75 percent of seats go to scholarship students, while private colleges give scholarships to only 10 to 20 percent, so the merit rank decides whether you pay little or the full fee (Kathmandu Post, 26 October 2026). The new university at Geta, Kailali has 50 MBBS seats for the first time and its readiness has been questioned by campaigner Dr Govinda KC, so ask the Commission before you list it.",
+   "go": [
+    "mbbs"
+   ]
+  },
+  {
+   "id": "fw34-6",
+   "topic": "general",
+   "q": "What did the 2083/84 budget change for students?",
+   "a": "It gave NPR 218.3 billion to education, NPR 8.6 billion for scholarships for targeted students from school to higher education, and promised to review and \"significantly increase\" quotas in medicine, nursing and IT within the year. It also set a target to raise the share of higher education students in technical subjects from 22 to 26 percent, and said MBBS would run at Shahid Dasharath Chand University of Health Sciences in Geta from 2083/84 (collegenp.com budget summaries, May 2026).",
+   "go": [
+    "bit",
+    "mbbs"
+   ]
+  },
+  {
+   "id": "fw34-7",
+   "topic": "afterbach",
+   "q": "Is there a scholarship for women doing a Master or PhD in science or engineering at KU?",
+   "a": "Yes, the Laxmi Bank (Laxmi Sunrise) scholarship for Women in STEM at Kathmandu University, funded from an NPR 10 million endowment set up in January 2023. It supports talented and economically disadvantaged women in full time Master or PhD STEM study; KU runs the selection. In 2026 the call was on 6 August with interview and result notices on 15 September. The amount per student is not published on the pages read, so ask KU.",
+   "go": [
+    "mtech",
+    "msc-cs"
+   ]
+  },
+  {
+   "id": "fw34-8",
+   "topic": "after12",
+   "q": "When does a TU bachelor first year start for 2083/84?",
+   "a": "Admission ran from the second week of Asar 2083 to the end of Bhadra, classes started in the first week of Ashoj 2083, exam forms are due in Chaitra 2083, the annual exams come in the last week of Jestha 2084 and results in Bhadra 2084. You must file a separate form at each campus, faculty and subject (TU Rector notice of 2083/02/19, collegenp.com). Entrance based programmes such as BSc, BIT and BCA have their own entrance dates.",
+   "go": [
+    "bbs",
+    "bed"
+   ]
+  },
+  {
+   "id": "fw34-9",
+   "topic": "after12",
+   "q": "How did IOE admission go in 2026 and when was the result?",
+   "a": "The IOE entrance result for B.E. and B.Arch came out on Shrawan 19 2083 (4 August 2026) with 7,179 names on the pass list, a rank each and no marks, out of 13,000 or more candidates. The booklet followed on 7 August and campuses ran admission lists up to a seventh list on 5 October, then a third and final phase for remaining seats on 6 and 7 October. Women get 10 percent as seats (56 Regular and 145 Full Fee) and inclusive groups 119 seats. One calculator site prints different exam dates, so use entrance.ioe.edu.np.",
+   "go": [
+    "be-computer",
+    "be-civil"
+   ]
+  },
+  {
+   "id": "fw34-10",
+   "topic": "general",
+   "q": "How many Lok Sewa posts are open right now, and when do they close?",
+   "a": "PSC notice 789/083-84 (website date 2083/07/25) lists 509 competitive seats: 504 open and inclusive plus 5 internal Health Service seats, for third class gazetted posts and Health Service 8th and 7th level posts. Apply online only at psconline1.psc.gov.np by 2083/08/15 (double fee until 2083/08/22). The fee is NPR 1,200 per advertisement plus NPR 400 for each extra inclusive group, and the age limit is 21 to 35 (40 for women and persons with disabilities; 21 to 45 for Health Service). Promotion notices 787 and 788 (182 positions) are for serving staff only (unionnepal.com, 13 November 2026).",
+   "go": [
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "fw34-11",
+   "topic": "general",
+   "q": "Do the provinces hire through their own Lok Sewa Aayog?",
+   "a": "Yes. In October 2026 the Koshi Provincial Public Service Commission (notice 106/2083-84) advertised 69 competitive seats, 49 technical and 20 non-technical, plus 29 promotion posts. Karnali (notice 14/2083-84, published 2083/06/27) advertised 64 fifth level local service posts, 32 non-technical and 32 technical, with online application only and a regular deadline of 2083/07/16. Each province has its own portal, so watch your own province as well as psc.gov.np (unionnepal.com, collegenp.com).",
+   "go": [
+    "lok-sewa"
+   ]
+  },
+  {
+   "id": "fw34-12",
+   "topic": "afterbach",
+   "q": "Can I earn a living as a video editor in Nepal and what does it pay?",
+   "a": "Yes, but the pages disagree. Two 2026 guides give freshers NPR 15,000 to 30,000 a month, mid level 30,000 to 60,000 and senior editors 60,000 to 120,000 or more (kumarijob.com, necojobs.com.np); another page prints 30,000 to 60,000 to start and one salary site averages NPR 54,733. Freelancers working for foreign clients can earn NPR 30,000 to 200,000 a month. A portfolio matters more than the degree; journalism, design and digital freelance routes all lead here.",
+   "go": [
+    "bjmc",
+    "freelance-digital"
+   ]
+  },
+  {
+   "id": "fw34-13",
+   "topic": "afterbach",
+   "q": "What does a dietitian or nutritionist earn in Nepal?",
+   "a": "A 2026 guide on kumarijob.com gives fresh nutritionists NPR 25,000 to 40,000 a month and about NPR 30,000 to 70,000 overall; government hospitals pay 35,000 to 70,000 and private hospitals 30,000 to 80,000 or more. An older listing on collegesnepal.com printed 16,000 to 27,000, which is lower and undated. Employers are hospitals, clinics, NGOs, schools and wellness centres, and a BSc or Master in nutrition and dietetics is the usual qualification.",
+   "go": [
+    "bph"
+   ]
+  },
+  {
+   "id": "fw34-14",
+   "topic": "afterbach",
+   "q": "Is game development a real career from Nepal?",
+   "a": "A May 2026 salary guide gives entry level developers NPR 20,000 to 40,000 a month and senior or lead developers NPR 80,000 to 120,000 or more, higher for remote work with foreign studios (kumarijob.com). The local industry is still small, so most paid work is outsourcing or remote. A computing degree such as BCA, BSc CSIT or BIT plus Unity or Unreal projects is the usual start; Glassdoor has only three 3D animator pay entries for Nepal, too few to quote.",
+   "go": [
+    "bca",
+    "bsc-csit"
+   ]
+  }
+ ]
+}

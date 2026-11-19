@@ -661,7 +661,7 @@ def payload():
         for rid, more in w31.get('career_links', {}).items():
             route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
         faq_all = faq_all + w31.get('faq_add', [])
-    for _wave_file in ('wave32.json', 'wave33.json'):
+    for _wave_file in ('wave32.json', 'wave33.json', 'wave34.json'):
         if not (DATA / _wave_file).exists():
             continue
         w32 = _load(_wave_file)

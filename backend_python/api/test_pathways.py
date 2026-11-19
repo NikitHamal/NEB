@@ -1069,7 +1069,7 @@ class Wave22Tests(TestCase):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
-            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt', 's-moest-poor', 's-moest-tech', 's-moest-higher', 's-uii-fgls', 's-tianjin-moest'):
+            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt', 's-moest-poor', 's-moest-tech', 's-moest-higher', 's-uii-fgls', 's-tianjin-moest', 's-ku-laxmi-stem'):
                 continue  # waves 30 and 32 open calls: the notices print no seat count
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
@@ -1504,3 +1504,41 @@ class Wave33Tests(TestCase):
         faq = {f['id'] for f in d['faq']}
         for i in range(9, 12):
             self.assertIn(f'fw33-{i}', faq)
+
+
+class Wave34Tests(TestCase):
+    """Wave 34: CTEVT free seat tables, KU Laxmi STEM scholarship, Lok Sewa and medical entrance notes, 3 careers, 12 websites, 14 FAQs."""
+
+    def test_wave34_ctevt_and_ku_scholarships(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-ctevt']['awards'], 3417)
+        self.assertIn('General Medicine 448', sch['s-ctevt']['how'])
+        self.assertIn('3,414', sch['s-ctevt']['how'])
+        self.assertIn('Bagmati 838', sch['s-ctevt']['covers'])
+        self.assertEqual(sch['s-ctevt-prediploma']['awards'], 1065)
+        self.assertIn('957', sch['s-ctevt-prediploma']['covers'])
+        self.assertIn('10,000,000', sch['s-ku-laxmi-stem']['covers'])
+
+    def test_wave34_notes_careers_and_sites(self):
+        d = pathways.payload()
+        govt = {g['id']: g for g in d['govt']}
+        self.assertIn('509 competitive seats', govt['g-so']['note'])
+        self.assertIn('9,691', govt['e-mecee']['note'])
+        self.assertIn('7,179', govt['e-ioe']['note'])
+        self.assertIn('Jestha 2084', govt['e-tu-fom-bbs']['note'])
+        careers = {c['id']: c for c in d['careers']}
+        for cid in ('video-editor', 'nutritionist', 'game-developer'):
+            self.assertIn(cid, careers)
+            self.assertLess(careers[cid]['salary']['entry'][1], careers[cid]['salary']['senior'][1])
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('video-editor', routes['bjmc']['careers'])
+        self.assertIn('nutritionist', routes['bph']['careers'])
+        pv = {p['id']: p for p in d['providers']}
+        self.assertEqual(pv['p-w24-pu-camad']['website'], 'https://camadcollege.edu.np')
+        self.assertEqual(pv['p-w28-pu-d-a-v-business-school-kathmandu']['website'], 'https://davbusinessschool.edu.np')
+        self.assertIn('300 bed', pv['p-sdcuhs']['note'])
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 15):
+            self.assertIn(f'fw34-{i}', faq)
