@@ -42,6 +42,12 @@ SCHOLARSHIPS_ADD = [
      'who': 'Eligible Nepali students for postgraduate and doctoral study in the subjects listed on the Ministry notice (the listing is in the PDF, not in the pages read).',
      'how': 'By a decision of 2082/09/16 the Ministry asked for applications on paper at its Scholarship Section, Sanothimi, Bhaktapur, within office hours until Poush 29 2082 (mid January 2026). Watch the Ministry for the 2027/28 call.',
      'link': 'https://www.tju.edu.cn', 'country': 'cn', 'type': 'University', 'open': [1, 1]},
+    {'id': 's-ku-geomatics', 'name': 'Government of Nepal scholarship for BE Geomatics Engineering at Kathmandu University (21 seats)', 'scope': 'nepal', 'levels': ['bachelor'],
+     'by': 'Department of Civil and Geomatics Engineering, Kathmandu University, with the Land Management Training Centre (LMTC) of the Ministry of Agriculture, Land Management and Cooperatives',
+     'covers': '33 percent of the total fee for twenty one candidates, three from each province (KU announcement on Collegenp). Awardees can also get other KU scholarships under the admission call.',
+     'who': 'Candidates who take the KUCAT, choose Geomatics Engineering and rank among the top three in their province; the province is read from the citizenship certificate.',
+     'how': 'No separate form was found: you apply for BE Geomatics Engineering through the normal KU admission call and the ranking by province decides the awards (collegesinnepal.com, 2026-27 cycle).',
+     'link': 'https://ku.edu.np', 'type': 'University', 'awards': 21},
 ]
 
 SCHOLARSHIP_NOTE_ADD = {

@@ -278,6 +278,21 @@
     1,
     1
    ]
+  },
+  {
+   "id": "s-ku-geomatics",
+   "name": "Government of Nepal scholarship for BE Geomatics Engineering at Kathmandu University (21 seats)",
+   "scope": "nepal",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "Department of Civil and Geomatics Engineering, Kathmandu University, with the Land Management Training Centre (LMTC) of the Ministry of Agriculture, Land Management and Cooperatives",
+   "covers": "33 percent of the total fee for twenty one candidates, three from each province (KU announcement on Collegenp). Awardees can also get other KU scholarships under the admission call.",
+   "who": "Candidates who take the KUCAT, choose Geomatics Engineering and rank among the top three in their province; the province is read from the citizenship certificate.",
+   "how": "No separate form was found: you apply for BE Geomatics Engineering through the normal KU admission call and the ranking by province decides the awards (collegesinnepal.com, 2026-27 cycle).",
+   "link": "https://ku.edu.np",
+   "type": "University",
+   "awards": 21
   }
  ],
  "scholarship_note_add": {
@@ -290,6 +305,10 @@
   "p-w28-pu-birat-health-college-morang": {
    "website": "https://birathealthcollege.edu.np"
   }
+ },
+ "govt_note_add": {
+  "e-see": "Result of SEE 2082 (published 11 or 12 May 2026, about a month after the exams ended on 12 April): 430,667 students appeared, 284,160 were graded (65.98 percent) and 146,507 were non graded; 48,392 scored GPA 3.6 to 4.0, 80,372 scored 3.2 to 3.6 and 94,222 scored 2.8 to 3.2 (The Himalayan Times). A student with up to two non graded subjects can sit the immediate re-examination; more than two means sitting the regular examination next year.",
+  "e-neb-plus2": "Result of Class 12 for 2083 (published Asar 5 2083, 19 June 2026): 418,170 candidates appeared (332,241 regular and 85,929 partial) and 268,190 were graded in all subjects, an overall 64.13 percent; regular candidates passed at 69.75 percent (231,770) and partial candidates at 42.38 percent (36,420). Among regular candidates 17,786 scored GPA 3.61 to 4.00 (5.35 percent), 64,821 scored 3.21 to 3.60, 94,249 scored 2.81 to 3.20 and 50,557 scored 2.41 to 2.80 (padandas.com, nepaliupdates.com). One calculator site prints last year's regular pass rate as 61.17 percent."
  },
  "faq_add": [
   {
@@ -365,6 +384,35 @@
    "go": [
     "be-civil",
     "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw33-9",
+   "topic": "after10",
+   "q": "How many students passed SEE 2082 and what happens if I got NG?",
+   "a": "The Himalayan Times reported on 12 May 2026 that 430,667 students appeared in SEE 2082 and 284,160 were graded (65.98 percent), while 146,507 were non graded. A total of 48,392 scored GPA 3.6 to 4.0, 80,372 scored 3.2 to 3.6 and 94,222 scored 2.8 to 3.2. If you have up to two NG subjects you can sit the immediate re-examination; with more than two you must appear in the regular examination next year. CTEVT pre-diploma programmes also accept NG results, so a non graded SEE does not close every door.",
+   "go": [
+    "plus2-science",
+    "plus2-management"
+   ]
+  },
+  {
+   "id": "fw33-10",
+   "topic": "after12",
+   "q": "How did students do in the Class 12 result of 2083?",
+   "a": "NEB published it on Asar 5 2083 (19 June 2026). 418,170 candidates appeared and 268,190 were graded in all subjects, an overall 64.13 percent. Regular candidates passed at 69.75 percent (231,770 of 332,241) and partial candidates at 42.38 percent (36,420 of 85,929). Only 17,786 regular candidates (5.35 percent) scored GPA 3.61 to 4.00 and 94,249 scored 2.81 to 3.20, so a university entrance score matters more than the GPA alone (padandas.com, nepaliupdates.com).",
+   "go": [
+    "mbbs",
+    "be-civil"
+   ]
+  },
+  {
+   "id": "fw33-11",
+   "topic": "after12",
+   "q": "Is there a government scholarship for Geomatics Engineering at Kathmandu University?",
+   "a": "Yes. The Department of Civil and Geomatics Engineering with the Land Management Training Centre of the Ministry of Agriculture, Land Management and Cooperatives covers 33 percent of the total fee for 21 candidates, three from each province, chosen by KUCAT ranking within the province on your citizenship certificate (KU announcement on Collegenp). You can also get other KU scholarships under the admission call.",
+   "go": [
+    "be-civil"
    ]
   }
  ]

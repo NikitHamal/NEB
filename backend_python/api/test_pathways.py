@@ -1491,3 +1491,16 @@ class Wave33Tests(TestCase):
         faq = {f['id'] for f in d['faq']}
         for i in range(6, 9):
             self.assertIn(f'fw33-{i}', faq)
+
+    def test_wave33_part3_results_and_geomatics(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        govt = {g['id']: g for g in d['govt']}
+        self.assertIn('284,160', govt['e-see']['note'])
+        self.assertIn('268,190', govt['e-neb-plus2']['note'])
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-ku-geomatics']['awards'], 21)
+        self.assertEqual(sch['s-ku-geomatics']['scope'], 'nepal')
+        faq = {f['id'] for f in d['faq']}
+        for i in range(9, 12):
+            self.assertIn(f'fw33-{i}', faq)

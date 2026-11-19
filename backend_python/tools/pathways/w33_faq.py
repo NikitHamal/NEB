@@ -40,4 +40,17 @@ FAQ_ADD = [
      'a': ('The guides read disagree. One prints MAD 1,000 to 5,000 a year at public universities (university.im), another USD 500 to 2,000 (qogentglobal.com) and a third USD 200 to 500 with engineering schools at USD 1,000 to 4,000 (edunepal.com). '
            'Private universities are about MAD 40,000 to 120,000 and Al Akhawayn about USD 8,000 to 12,000. Living is USD 300 to 700 a month depending on the guide and city. Read the university\'s own fee page and ask the Nepal Engineering Council or Nepal Medical Council about recognition before you pay.'),
      'go': ['be-civil', 'abroad-ms']},
+    {'id': 'fw33-9', 'topic': 'after10', 'q': 'How many students passed SEE 2082 and what happens if I got NG?',
+     'a': ('The Himalayan Times reported on 12 May 2026 that 430,667 students appeared in SEE 2082 and 284,160 were graded (65.98 percent), while 146,507 were non graded. '
+           'A total of 48,392 scored GPA 3.6 to 4.0, 80,372 scored 3.2 to 3.6 and 94,222 scored 2.8 to 3.2. If you have up to two NG subjects you can sit the immediate re-examination; with more than two you must appear in the regular examination next year. '
+           'CTEVT pre-diploma programmes also accept NG results, so a non graded SEE does not close every door.'),
+     'go': ['plus2-science', 'plus2-management']},
+    {'id': 'fw33-10', 'topic': 'after12', 'q': 'How did students do in the Class 12 result of 2083?',
+     'a': ('NEB published it on Asar 5 2083 (19 June 2026). 418,170 candidates appeared and 268,190 were graded in all subjects, an overall 64.13 percent. Regular candidates passed at 69.75 percent (231,770 of 332,241) and partial candidates at 42.38 percent (36,420 of 85,929). '
+           'Only 17,786 regular candidates (5.35 percent) scored GPA 3.61 to 4.00 and 94,249 scored 2.81 to 3.20, so a university entrance score matters more than the GPA alone (padandas.com, nepaliupdates.com).'),
+     'go': ['mbbs', 'be-civil']},
+    {'id': 'fw33-11', 'topic': 'after12', 'q': 'Is there a government scholarship for Geomatics Engineering at Kathmandu University?',
+     'a': ('Yes. The Department of Civil and Geomatics Engineering with the Land Management Training Centre of the Ministry of Agriculture, Land Management and Cooperatives covers 33 percent of the total fee for 21 candidates, three from each province, '
+           'chosen by KUCAT ranking within the province on your citizenship certificate (KU announcement on Collegenp). You can also get other KU scholarships under the admission call.'),
+     'go': ['be-civil']},
 ]
