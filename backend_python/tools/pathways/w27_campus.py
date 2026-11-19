@@ -13,6 +13,9 @@ import w26_campus as C
 
 HERE = Path(__file__).resolve().parent
 MAP = {int(k): v for k, v in json.loads((HERE / 'npca_district_map.json').read_text(encoding='utf-8')).items()}
+MAP2 = {int(k): v for k, v in json.loads((HERE / 'npca_district_map2.json').read_text(encoding='utf-8')).items()}
+for _k, _v in MAP2.items():
+    MAP.setdefault(_k, {'district': _v['district'], 'palika': [], 'from': ['geonames']})
 NOTE = ('Community campus on the Nepal Public Campuses Association (NPCA) member list. ')
 
 # clean names (the NPCA field often holds the district, a ward or a town after the name) and places, read from the NPCA row

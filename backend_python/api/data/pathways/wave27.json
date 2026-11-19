@@ -152,6 +152,16 @@
    "website": "https://www.kanakaicampus.edu.np"
   },
   {
+   "id": "p-w27-npca-187",
+   "name": "Diktel Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Khotang",
+   "place": "Diktel",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, BA, MA. Established 2037-06-16 BS. QAA status on NPCA: Accredited. District placed from the GeoNames place list and confirmed by the campus website, which names Khotang.",
+   "website": "https://diktelcampus.edu.np"
+  },
+  {
    "id": "p-w27-npca-191",
    "name": "Janashikha Campus",
    "kind": "Campus",
@@ -179,6 +189,26 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS, BA. Established 2069-07-03 BS. QAA status on NPCA: Not Applied. Phone 9765684222. District placed from the MoFAGA local level list (Manahari is a local level of Makwanpur)."
   },
   {
+   "id": "p-w27-npca-212",
+   "name": "Adarsha Samudayik Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "Ghailadubba",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2070-08-11 BS. QAA status on NPCA: Not Applied. Phone 9815991399. District placed from the GeoNames place list and confirmed by the campus website, which names Jhapa.",
+   "website": "https://aadarshasamudyaikcampus.edu.np"
+  },
+  {
+   "id": "p-w27-npca-214",
+   "name": "Janta Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sunsari",
+   "place": "Pachrukhi",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BICTE, BBS, MBS, BA. Established 2045-03-31 BS. QAA status on NPCA: In Process. Phone 025581300. District placed from the GeoNames place list and confirmed by the campus website, which names Sunsari.",
+   "website": "https://jantacampusith.edu.np"
+  },
+  {
    "id": "p-w27-npca-243",
    "name": "Shital Campus",
    "kind": "Campus",
@@ -196,6 +226,16 @@
    "place": "Shantinagar",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA, MA. Established 2047-03-01 BS. QAA status on NPCA: Accredited. Phone 01-4620310. District placed from the MoFAGA local level list (Shantinagar is a local level of Dang).",
    "website": "https://baneshworcampus.edu.np"
+  },
+  {
+   "id": "p-w27-npca-268",
+   "name": "Yerawati Aadarsha Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dang",
+   "place": "Lalmatiya",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2065-11-06 BS. QAA status on NPCA: In Process. District placed from the GeoNames place list and confirmed by the campus website, which names Dang.",
+   "website": "https://www.yamcdang.edu.np"
   },
   {
    "id": "p-w27-npca-290",
@@ -245,6 +285,16 @@
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BA. Established 2067-3-28 BS. QAA status on NPCA: In Process. District placed from the MoFAGA local level list (Bihadi is a local level of Parbat)."
   },
   {
+   "id": "p-w27-npca-325",
+   "name": "Namuna Machhindra campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Lalitpur",
+   "place": "Lagankhel",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS, BA. Established 2037 BS. QAA status on NPCA: Not Applied. Phone 9851120224. District placed from the GeoNames place list and confirmed by the campus website, which names Lalitpur.",
+   "website": "https://namunamachhindra.edu.np"
+  },
+  {
    "id": "p-w27-npca-330",
    "name": "Mangal Multiple Campus",
    "kind": "Campus",
@@ -272,6 +322,16 @@
    "place": "Kajipokhari, Pokhara",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, MBS, BA, MA. Established 2048-09-12 BS. QAA status on NPCA: Accredited. Phone 9856080385. District placed from the MoFAGA local level list (Pokhara is a local level of Kaski).",
    "website": "https://www.kmcpokhara.edu.np"
+  },
+  {
+   "id": "p-w27-npca-347",
+   "name": "Tribhuwan Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Tanahu",
+   "place": "Manechauka",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2056/09/18 BS. QAA status on NPCA: Not Applied. Phone 9856061282. District placed from the GeoNames place list and confirmed by the campus website, which names Tanahu.",
+   "website": "https://tribhuwancampus.edu.np"
   },
   {
    "id": "p-w27-npca-358",
@@ -328,6 +388,16 @@
    "place": "Panauti-07",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, MBS, BA. Established 2058 BS. QAA status on NPCA: Peer Reviewed. Phone 011441399. District placed from the MoFAGA local level list (Panauti is a local level of Kavrepalanchok).",
    "website": "https://www.indreshworcampus.edu.np"
+  },
+  {
+   "id": "p-w27-npca-388",
+   "name": "Bhanubhakta Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Tanahu",
+   "place": "Belchautara",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, BA. Established 2044-07-23 BS. Phone 9856062470. District placed from the GeoNames place list and confirmed by the campus website, which names Tanahu.",
+   "website": "https://www.bhanubhaktacampus.edu.np"
   },
   {
    "id": "p-w27-npca-406",
@@ -401,6 +471,16 @@
    "district": "Syangja",
    "place": "Phedikhola",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064/09/22 BS. QAA status on NPCA: Not Applied. Phone 9856033376. District placed from the MoFAGA local level list (Phedikhola is a local level of Syangja)."
+  },
+  {
+   "id": "p-w27-npca-468",
+   "name": "Pashupati College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Kotihawa-Bohiya",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2062/04/31 BS. QAA status on NPCA: In Process. District placed from the GeoNames place list and confirmed by the campus website, which names Rupandehi.",
+   "website": "https://pashupaticollege.edu.np"
   },
   {
    "id": "p-w27-npca-473",
@@ -487,6 +567,16 @@
    "place": "Khajura Bajar",
    "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2065-10-13 BS. QAA status on NPCA: Not Applied. Phone 081590485. District placed from the MoFAGA local level list (Khajura is a local level of Banke).",
    "website": "https://gyanodayampc.edu.np"
+  },
+  {
+   "id": "p-w27-npca-525",
+   "name": "Navaprabhat Samyukta Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Baitadi",
+   "place": "Kulau",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069-06-29 BS. Phone 9865662405. District placed from the GeoNames place list and confirmed by the campus website, which names Baitadi.",
+   "website": "https://www.npscbaitadi.edu.np"
   },
   {
    "id": "p-w27-npca-538",
@@ -578,21 +668,26 @@
    "p-w27-npca-173",
    "p-w27-npca-177",
    "p-w27-npca-184",
+   "p-w27-npca-187",
    "p-w27-npca-191",
    "p-w27-npca-203",
+   "p-w27-npca-214",
    "p-w27-npca-243",
    "p-w27-npca-251",
+   "p-w27-npca-268",
    "p-w27-npca-290",
    "p-w27-npca-300",
    "p-w27-npca-308",
    "p-w27-npca-330",
    "p-w27-npca-339",
    "p-w27-npca-343",
+   "p-w27-npca-347",
    "p-w27-npca-358",
    "p-w27-npca-359",
    "p-w27-npca-371",
    "p-w27-npca-374",
    "p-w27-npca-379",
+   "p-w27-npca-388",
    "p-w27-npca-406",
    "p-w27-npca-414",
    "p-w27-npca-421",
@@ -601,6 +696,7 @@
    "p-w27-npca-459",
    "p-w27-npca-460",
    "p-w27-npca-465",
+   "p-w27-npca-468",
    "p-w27-npca-473",
    "p-w27-npca-478",
    "p-w27-npca-487",
@@ -609,6 +705,7 @@
    "p-w27-npca-510",
    "p-w27-npca-516",
    "p-w27-npca-522",
+   "p-w27-npca-525",
    "p-w27-npca-538",
    "p-w27-npca-541",
    "p-w27-npca-547",
@@ -629,27 +726,35 @@
    "p-w27-npca-140",
    "p-w27-npca-177",
    "p-w27-npca-184",
+   "p-w27-npca-187",
    "p-w27-npca-191",
    "p-w27-npca-203",
    "p-w27-npca-211",
+   "p-w27-npca-212",
+   "p-w27-npca-214",
    "p-w27-npca-243",
    "p-w27-npca-251",
+   "p-w27-npca-268",
    "p-w27-npca-290",
    "p-w27-npca-295",
    "p-w27-npca-300",
    "p-w27-npca-307",
+   "p-w27-npca-325",
    "p-w27-npca-330",
    "p-w27-npca-343",
+   "p-w27-npca-347",
    "p-w27-npca-358",
    "p-w27-npca-369",
    "p-w27-npca-371",
    "p-w27-npca-379",
+   "p-w27-npca-388",
    "p-w27-npca-421",
    "p-w27-npca-457",
    "p-w27-npca-458",
    "p-w27-npca-459",
    "p-w27-npca-460",
    "p-w27-npca-465",
+   "p-w27-npca-468",
    "p-w27-npca-473",
    "p-w27-npca-478",
    "p-w27-npca-487",
@@ -668,15 +773,19 @@
    "p-w27-npca-72",
    "p-w27-npca-177",
    "p-w27-npca-184",
+   "p-w27-npca-187",
    "p-w27-npca-203",
    "p-w27-npca-211",
+   "p-w27-npca-214",
    "p-w27-npca-251",
    "p-w27-npca-290",
    "p-w27-npca-308",
+   "p-w27-npca-325",
    "p-w27-npca-343",
    "p-w27-npca-358",
    "p-w27-npca-369",
    "p-w27-npca-379",
+   "p-w27-npca-388",
    "p-w27-npca-414",
    "p-w27-npca-421",
    "p-w27-npca-457",
@@ -692,10 +801,14 @@
    "p-w27-npca-72",
    "p-w27-npca-171",
    "p-w27-npca-184",
+   "p-w27-npca-187",
    "p-w27-npca-203",
+   "p-w27-npca-214",
    "p-w27-npca-243",
    "p-w27-npca-251",
+   "p-w27-npca-268",
    "p-w27-npca-290",
+   "p-w27-npca-347",
    "p-w27-npca-406",
    "p-w27-npca-414",
    "p-w27-npca-458",
@@ -706,6 +819,7 @@
    "p-w27-npca-72",
    "p-w27-npca-177",
    "p-w27-npca-184",
+   "p-w27-npca-214",
    "p-w27-npca-251",
    "p-w27-npca-290",
    "p-w27-npca-343",
@@ -717,10 +831,14 @@
   ],
   "ma": [
    "p-w27-npca-177",
+   "p-w27-npca-187",
    "p-w27-npca-251",
    "p-w27-npca-290",
    "p-w27-npca-343",
    "p-w27-npca-458"
+  ],
+  "bicte": [
+   "p-w27-npca-214"
   ],
   "bim": [
    "p-w27-npca-489"

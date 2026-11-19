@@ -1209,12 +1209,12 @@ class Wave27Tests(TestCase):
         d = pathways.payload()
         self.assertEqual(pathways.problems(d), [])
         prov = {p['id']: p for p in d['providers']}
-        self.assertGreaterEqual(len(prov), 788)
+        self.assertGreaterEqual(len(prov), 797)
         new = [p for p in prov.values() if p['id'].startswith('p-w27-npca-')]
-        self.assertGreaterEqual(len(new), 60)
+        self.assertGreaterEqual(len(new), 69)
         for p in new:
             self.assertEqual(p['sector'], 'Community')
-            self.assertIn('MoFAGA local level list', p['note'])
+            self.assertTrue('MoFAGA local level list' in p['note'] or 'GeoNames place list' in p['note'])
             self.assertNotIn('npca.edu.np', p.get('website', ''))
         # the district comes from the local level, not a guess
         self.assertEqual(prov['p-w27-npca-72']['district'], 'Dang')

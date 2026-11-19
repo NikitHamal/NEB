@@ -50,7 +50,10 @@ for r, name in C.npca_rows(by_d):
     ph = re.sub(r'\D', '', r.get('phone') or '')
     if 7 <= len(ph) <= 10:
         note += f" Phone {r['phone']}."
-    note += f" District placed from the MoFAGA local level list ({', '.join(r['palika'])} is a local level of {r['district']})."
+    if r['palika']:
+        note += f" District placed from the MoFAGA local level list ({', '.join(r['palika'])} is a local level of {r['district']})."
+    else:
+        note += f" District placed from the GeoNames place list and confirmed by the campus website, which names {r['district']}."
     place = C.PLACE.get(r['npca_id'])
     if not place:
         place = C26._tidy(r['addr'], r['district'])
