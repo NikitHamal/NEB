@@ -53,7 +53,9 @@
   "e-mecee": "For 2083/84 the Medical Education Commission allocated 9,691 seats and 77,359 students applied for the integrated entrance examinations, against 9,273 seats and 8,548 enrolled last year; 418 seats were added, all in government institutions (110 MBBS, 120 BSc Nursing, 98 BMS, 30 each at BPKIHS and the Nepalese Army Institute) and seats were given to 84 of the 90 institutions that applied. Government colleges reserve 75 percent of seats for scholarship students while private colleges give 10 to 20 percent, and MBBS tuition is set between NPR 4 million and 4.4 million. The exams were held about a month late (31 October to 4 November 2026) because the commission posts were vacant (Kathmandu Post, 26 October 2026).",
   "e-ioe": "The 2083/84 cycle ran like this (clamphook.com, icenepal.com quoting the IOE booklet and Pulchowk Campus notices): applications Ashadh 23 to Shrawan 1, exam Shrawan 11 to 18, result on Shrawan 19 2083 (4 August 2026) with 13,000 or more candidates and 7,179 names on the pass list (a rank each, no marks), the B.E./B.Arch booklet on 7 August 2026, then admission lists up to a seventh list on 5 October and a third and final phase for remaining seats on 6 and 7 October 2026. One calculator page prints a July exam instead, so trust the IOE portal entrance.ioe.edu.np. Women get 10 percent of seats as a printed count (56 Regular and 145 Full Fee seats across the five constituent campuses) and 20 percent of Regular seats go to inclusive groups, 119 seats in all (Pulchowk 55, Purwanchal 25, Paschimanchal 19, Thapathali 19, Chitwan 1).",
   "e-tu-fom-bbs": "The TU first year bachelor calendar for 2083/84 (Rector notice of 2083/02/19, collegenp.com): admission from the second week of Asar 2083 to the end of Bhadra, classes from the first week of Ashoj 2083, exam forms in Chaitra 2083, exams in the last week of Jestha 2084 and results in Bhadra 2084. You file a separate form at each campus, faculty and subject you want.",
-  "e-tu-bachelor-sci": "The TU first year bachelor calendar for 2083/84 (Rector notice of 2083/02/19, collegenp.com): admission from the second week of Asar 2083 to the end of Bhadra, classes from the first week of Ashoj 2083, exam forms in Chaitra 2083, exams in the last week of Jestha 2084 and results in Bhadra 2084. Science entrance dates are set by IOST separately."
+  "e-tu-bachelor-sci": "The TU first year bachelor calendar for 2083/84 (Rector notice of 2083/02/19, collegenp.com): admission from the second week of Asar 2083 to the end of Bhadra, classes from the first week of Ashoj 2083, exam forms in Chaitra 2083, exams in the last week of Jestha 2084 and results in Bhadra 2084. Science entrance dates are set by IOST separately.",
+  "e-see": "For the SEE of 2083 (held in Chaitra 2083) the NEB examination form period was Kartik 9 to Mangsir 8 2083, fee NPR 500 per examinee, and schools must pass forms and fee proof to the Education Development and Coordination Unit by Mangsir 14; regular, open, alternative and non formal school students all apply through the school where they are enrolled and never through two schools (educatenepal.com, 28 October 2026). Registration for this batch cost NPR 300 and needed age 14 by the end of Chaitra 2083 (collegenp.com). The supplementary exam for SEE 2082 took forms from Jestha 1 to 15 2083 at NPR 500 and began on Asar 1 2083 (unionnepal.com).",
+  "e-neb-plus2": "Class 11 subject registration for 2083/84 (NEB notice of Bhadra 17 2083) needs SEE GPA 1.6 or more and a principal verified copy of the grade sheet; the regular fee is NPR 400 per student by Ashoj 30 2083. One page prints a late fee of NPR 100 (NPR 500 in all) until Kartik 6, while two other pages print a late fee of NPR 800 by Mangsir 1 with schools submitting to the NEB office by Mangsir 7, so confirm on neb.gov.np. The Class 12 calendar for 2083/84 says: exam forms by Poush 30 2083 (late until Magh 15), exam centres by Falgun 21, admit cards by Chaitra 21, the board exam from the first week of Baisakh 2084 with Class 11 exams after it by the end of Baisakh, results by the first week of Asar 2084, retotaling applications in the second week of Asar with results in the second week of Shrawan, and the Class 12 grade increment exam from the first week of Shrawan 2084. Last year the Class 12 form fee was NPR 800 (NPR 1,600 late) plus NPR 100 a subject for externally examined practicals (NEB notice of 2082/09/08); this year's fee was not read."
  },
  "provider_update": {
   "p-kmc-health": {
@@ -372,6 +374,34 @@
    "go": [
     "bca",
     "bsc-csit"
+   ]
+  },
+  {
+   "id": "fw34-15",
+   "topic": "after8",
+   "q": "When must Class 10 students fill the SEE form this year and what does it cost?",
+   "a": "For the SEE held in Chaitra 2083 the NEB form period ran from Kartik 9 to Mangsir 8 2083 at NPR 500 per examinee, and schools must send the forms and fee proof to the Education Development and Coordination Unit by Mangsir 14. You apply only through your own school, never through two. Registration earlier cost NPR 300 and you needed to be 14 by the end of Chaitra 2083. If you miss the form window ask your school and the NEB office at once (educatenepal.com, collegenp.com).",
+   "go": [
+    "see-general"
+   ]
+  },
+  {
+   "id": "fw34-16",
+   "topic": "after10",
+   "q": "What do I need to register for Class 11 in 2083/84?",
+   "a": "An SEE GPA of at least 1.6 and a principal verified copy of your grade sheet attached to the NEB subject registration form, which is filed through your school. The regular fee was NPR 400 by Ashoj 30 2083. The late fee is printed differently: NPR 100 more until Kartik 6 on one page, but NPR 800 by Mangsir 1 (with schools submitting by Mangsir 7) on two others, so ask your school and check neb.gov.np.",
+   "go": [
+    "plus2-science",
+    "plus2-management"
+   ]
+  },
+  {
+   "id": "fw34-17",
+   "topic": "after12",
+   "q": "When are the Class 12 exams and results for 2083/84?",
+   "a": "NEB calendar for 2083/84: exam forms by Poush 30 2083 (late until Magh 15), admit cards by Chaitra 21, board exam from the first week of Baisakh 2084 with Class 11 papers after it by the end of Baisakh, results by the first week of Asar 2084, retotaling applications in the second week of Asar and its results in the second week of Shrawan. The grade increment (supplementary) exam starts in the first week of Shrawan 2084. This year the Class 12 result came out about 40 days after the exam (Ministry of Education, via Kathmandu Post).",
+   "go": [
+    "plus2-science"
    ]
   }
  ]

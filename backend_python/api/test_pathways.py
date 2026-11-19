@@ -1507,7 +1507,7 @@ class Wave33Tests(TestCase):
 
 
 class Wave34Tests(TestCase):
-    """Wave 34: CTEVT free seat tables, KU Laxmi STEM scholarship, Lok Sewa and medical entrance notes, 3 careers, 12 websites, 14 FAQs."""
+    """Wave 34: CTEVT free seat tables, KU Laxmi STEM scholarship, Lok Sewa and medical entrance notes, 3 careers, 12 websites, 17 FAQs."""
 
     def test_wave34_ctevt_and_ku_scholarships(self):
         d = pathways.payload()
@@ -1540,5 +1540,7 @@ class Wave34Tests(TestCase):
         self.assertEqual(pv['p-w28-pu-d-a-v-business-school-kathmandu']['website'], 'https://davbusinessschool.edu.np')
         self.assertIn('300 bed', pv['p-sdcuhs']['note'])
         faq = {f['id'] for f in d['faq']}
-        for i in range(1, 15):
+        for i in range(1, 18):
             self.assertIn(f'fw34-{i}', faq)
+        self.assertIn('Kartik 9 to Mangsir 8', govt['e-see']['note'])
+        self.assertIn('Poush 30 2083', govt['e-neb-plus2']['note'])
