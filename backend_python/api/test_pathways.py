@@ -1270,7 +1270,16 @@ class Wave28Tests(TestCase):
         self.assertIn('p-w28-pu-gomendra-multiple-college-jhapa', routes['bca']['where'])
         self.assertNotIn('p-w28-pu-royal-softech-college-siraha', prov)
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 9):
+        rju = [p for p in prov.values() if p['id'].startswith('p-w28-rju-')]
+        self.assertGreaterEqual(len(rju), 40)
+        for p in rju:
+            self.assertIn('rju.edu.np', p['note'])
+        self.assertIn('Gaushala Engineering Campus', prov['p-rju']['note'])
+        for r in ('llb', 'bjmc', 'bsc-agri', 'bit'):
+            self.assertIn('p-rju', routes[r]['where'])
+        self.assertIn('Rajarshi Janak University lists it', prov['p-reliance']['note'])
+        self.assertIn('Rajarshi Janak University also lists it', prov['p-w28-pu-annapurna-multiple-campus-saptari']['note'])
+        for i in range(1, 11):
             self.assertIn(f'fw28-{i}', faq)
         text = open(pathways.DATA / 'wave28.json', encoding='utf-8').read()
         for bad in ('\u2014', '\u2013', '--'):

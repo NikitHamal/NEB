@@ -16,6 +16,7 @@ if (DATA / 'wave28.json').exists():
     (DATA / 'wave28.json').unlink()
 from api import pathways as P  # noqa: E402
 import w28_pu as W  # noqa: E402
+import w28_rju as R  # noqa: E402
 
 base = P.payload()
 by_id = {p['id']: p for p in base['providers']}
@@ -79,6 +80,36 @@ for (k, dist), e in W.rows().items():
         where_add.setdefault(r, [])
         if pid not in where_add[r]:
             where_add[r].append(pid)
+
+# Rajarshi Janak University: its own row gets the campus programmes, the 47 affiliated colleges are added without course links
+note_add['p-rju'] = R.RJU_NOTE
+for r in R.RJU_ROUTES:
+    where_add.setdefault(r, [])
+    if 'p-rju' not in where_add[r]:
+        where_add[r].append('p-rju')
+rju_new = rju_old = 0
+for e in R.affiliated():
+    k = W.key(e['name'])
+    pid = R.MATCH.get((k, e['district'])) or existing.get((k, e['district']))
+    if pid:
+        rju_old += 1
+        note_add[pid] = (note_add.get(pid, '') + ' ' if pid in note_add else '') + (
+            f"Rajarshi Janak University lists it as an affiliated college ({e['address']}; rju.edu.np, checked 19 Nov 2026).")
+        continue
+    if (k, e['district']) in R.MERGE_NEW:
+        row = next(x for x in providers_add if x['id'] == R.MERGE_NEW[(k, e['district'])])
+        row['note'] += f" Rajarshi Janak University also lists it as an affiliated college ({e['address']}; rju.edu.np, checked 19 Nov 2026)."
+        rju_old += 1
+        continue
+    rju_new += 1
+    pid = 'p-w28-rju-' + R.slug(e['name']) + '-' + e['district'].lower().replace(' ', '')
+    assert pid not in by_id and pid not in {x['id'] for x in providers_add}, pid
+    sector = 'Community' if (k, e['district']) in npca else W.sector_of(e['name'], set()) or 'Not stated'
+    providers_add.append({'id': pid, 'name': e['name'], 'kind': 'Campus' if 'campus' in e['name'].lower() else 'College', 'sector': sector,
+                          'district': e['district'], 'place': e['place'],
+                          'note': (f"Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address {e['address']}. "
+                                   "The list does not name the programmes, so ask the college which RJU courses and seats it runs this year.")})
+stats['rju_new'], stats['rju_matched'] = rju_new, rju_old
 
 # the new rows hold route_seats inline; matched rows get theirs through route_seats
 out = {'providers_add': providers_add, 'where_add': where_add, 'route_seats': route_seats, 'note_add': note_add}

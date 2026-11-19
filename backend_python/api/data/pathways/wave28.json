@@ -208,7 +208,7 @@
    "sector": "Not stated",
    "district": "Saptari",
    "place": "Kanchanrup",
-   "note": "Purbanchal University affiliated college at Kanchanrup, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-300; B. Ed.-200; One Year B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "note": "Purbanchal University affiliated college at Kanchanrup, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-300; B. Ed.-200; One Year B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college. Rajarshi Janak University also lists it as an affiliated college (Kanchanrup-8, Saptari, Nepal; rju.edu.np, checked 19 Nov 2026).",
    "seats": 500,
    "route_seats": {
     "bbs": 300,
@@ -1491,6 +1491,393 @@
    "route_seats": {
     "ba-llb": 60
    }
+  },
+  {
+   "id": "p-w28-rju-adarsha-college-sunsari",
+   "name": "Adarsha College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Sunsari",
+   "place": "Itahari-6",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Itahari-6, Sunsari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-alba-college-siraha",
+   "name": "Alba College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Siraha",
+   "place": "Golbazar-4",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Golbazar-4, Siraha, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-ambition-guru-college-kathmandu",
+   "name": "Ambition Guru College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Putalisadak-28",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Putalisadak-28, Kathmandu, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-ankur-institute-of-engineering-and-management-st-mahottari",
+   "name": "Ankur Institute of Engineering and Management Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Mahottari",
+   "place": "Gauridada, Bardibas-3",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Gauridada, Bardibas-3, Mahottari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-banepa-college-of-management-technology-kavrepalanchok",
+   "name": "Banepa College of Management & Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kavrepalanchok",
+   "place": "Banepa-6",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Banepa-6, Kavrepalanchok, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-birgunj-multiple-college-parsa",
+   "name": "Birgunj Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Parsa",
+   "place": "Shreepur-11, Birgunj",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Shreepur-11, Birgunj, Parsa, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-brooklyn-national-college-kathmandu",
+   "name": "Brooklyn National College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Sukedhara",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Sukedhara, Kathmandu-4, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-caspian-college-for-management-and-information-t-lalitpur",
+   "name": "Caspian College for Management and Information Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati-20",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kumaripati-20, Lalitpur, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-college-of-law-and-management-morang",
+   "name": "College of Law and Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Bargachhi, Biratnagar-4",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Bargachhi, Biratnagar-4, Morang, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-creative-international-college-butwal-rupandehi",
+   "name": "Creative International College Butwal Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Butwal-8",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Butwal-8, Rupandehi, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-deurali-buddha-jyoti-college-of-management-kapilvastu",
+   "name": "Deurali Buddha Jyoti College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kapilvastu",
+   "place": "Taulihawa",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Taulihawa, Kapilvastu-3, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-dhanusha-engineering-management-law-college-dhanusha",
+   "name": "Dhanusha Engineering Management & Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpurdham-7",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Janakpurdham-7, Dhanusha, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-dream-international-college-saptari",
+   "name": "Dream International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Rajbiraj-7",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Rajbiraj-7, Saptari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-global-multiple-college-siraha",
+   "name": "Global Multiple College Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Siraha",
+   "place": "Lahan-8",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Lahan-8, Siraha, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-greenfield-college-of-information-technology-kathmandu",
+   "name": "Greenfield College of Information Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Bafal",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Bafal, Kathmandu-13, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-gyandev-technical-academy-dhanusha",
+   "name": "Gyandev Technical Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Kataiya Chauri, Janakpur-4",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kataiya Chauri, Janakpur-4, Dhanusha, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-happy-land-education-foundation-saptari",
+   "name": "Happy Land Education Foundation",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Sarvodaya Tole, Rajbiraj-3",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Sarvodaya Tole, Rajbiraj-3, Saptari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-hulaki-multiple-campus-siraha",
+   "name": "Hulaki Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Siraha",
+   "place": "Bariyarpatti-3",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Bariyarpatti-3, Siraha, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-luminous-college-of-advanced-studies-kathmandu",
+   "name": "Luminous College of Advanced Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor-31",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address New Baneshwor-31, Kathmandu, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-mamta-vidya-mandir-college-parsa",
+   "name": "Mamta Vidya Mandir College Pvt Ltd",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Brahma Chowk, Birgunj-12",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Brahma Chowk, Birgunj-12, Parsa, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-mega-college-of-management-kathmandu",
+   "name": "Mega College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Babarmahal-11",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Babarmahal-11, Kathmandu, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-mega-it-college-lalitpur",
+   "name": "Mega IT College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Lalitpur",
+   "place": "Kumaripati-20",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kumaripati-20, Lalitpur, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-mega-law-college-lalitpur",
+   "name": "Mega Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati-20",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kumaripati-20, Lalitpur, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-mega-management-college-lalitpur",
+   "name": "Mega Management College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati-20",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kumaripati-20, Lalitpur, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-metropolitan-college-kathmandu",
+   "name": "Metropolitan College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Koteshwor",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Koteshwor, Kathmandu-32, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-nandani-multiple-international-college-mahottari",
+   "name": "Nandani Multiple International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Mahottari",
+   "place": "Bardibas-1",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Bardibas-1, Mahottari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-national-college-of-integrated-studies-sunsari",
+   "name": "National College of Integrated Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari-9",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Itahari-9, Sunsari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-nepalaya-education-foundation-kathmandu",
+   "name": "Nepalaya Education Foundation",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kalanki",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kalanki, Kathmandu-14, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-nepathya-college-of-management-and-technology-rupandehi",
+   "name": "Nepathya College of Management and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Manigram, Tilottama-5",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Manigram, Tilottama-5, Rupandehi, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-prithvi-management-and-law-college-makwanpur",
+   "name": "Prithvi Management and Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Makwanpur",
+   "place": "Gardoi, Hetauda-4",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Gardoi, Hetauda-4, Makwanpur, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-queens-college-of-law-and-management-lalitpur",
+   "name": "Queens College of Law and Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Bhanimandal",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Bhanimandal, Lalitpur-4, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-sann-college-kathmandu",
+   "name": "SANN College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Naya Naikap, Chandragiri-14",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Naya Naikap, Chandragiri-14, Kathmandu, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-shuvarambha-bahumukhi-campus-bara",
+   "name": "Shuvarambha Bahumukhi Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Bara",
+   "place": "Jeetpursimara-2",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Jeetpursimara-2, Bara, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-siddhartha-international-college-janakpurdham-dhanusha",
+   "name": "Siddhartha International College, Janakpurdham",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Bhanu Chowk, Janakpurdham-1",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Bhanu Chowk, Janakpurdham-1, Dhanusha, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-sky-international-college-and-research-center-rupandehi",
+   "name": "Sky International College and Research Center",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Manigram, Tilottama-5",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Manigram, Tilottama-5, Rupandehi, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-sun-light-college-parsa",
+   "name": "Sun Light College Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Parsa",
+   "place": "Birgunj-16",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Birgunj-16, Parsa, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-takshashila-college-udayapur",
+   "name": "Takshashila College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Udayapur",
+   "place": "Gaighat, Triyuga-11",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Gaighat, Triyuga-11, Udayapur, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-tech-ai-college-of-management-law-kathmandu",
+   "name": "Tech AI College of Management & Law Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor-31",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address New Baneshwor-31, Kathmandu, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-tech-law-college-kathmandu",
+   "name": "Tech Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Subidhanagar, Tinkune",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Subidhanagar, Tinkune, Kathmandu-32, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-universal-college-saptari",
+   "name": "Universal College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Rajbiraj-8",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Rajbiraj-8, Saptari, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-vaidehi-gyankunj-college-morang",
+   "name": "Vaidehi Gyankunj College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Janapath Tole, Biratnagar-11",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Janapath Tole, Biratnagar-11, Morang, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-vibrant-college-kathmandu",
+   "name": "Vibrant College (Lord Buddha HRD Academy)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor-10",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address New Baneshwor-10, Kathmandu, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
+  },
+  {
+   "id": "p-w28-rju-xavier-college-of-interdisciplinary-studies-kathmandu",
+   "name": "Xavier College of Interdisciplinary Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kanti Marg, Basundhara",
+   "note": "Affiliated to Rajarshi Janak University (official list at rju.edu.np/affiliated-colleges, checked 19 Nov 2026), address Kanti Marg, Basundhara, Kathmandu-3, Nepal. The list does not name the programmes, so ask the college which RJU courses and seats it runs this year."
   }
  ],
  "where_add": {
@@ -1701,7 +2088,8 @@
    "p-acme",
    "p-khwopa-eng",
    "p-hillside",
-   "p-w28-pu-shepherd-college-kathmandu"
+   "p-w28-pu-shepherd-college-kathmandu",
+   "p-rju"
   ],
   "med": [
    "p-w28-pu-saptarishi-multiple-college-saptari",
@@ -1778,7 +2166,8 @@
    "p-w25-ku-janakpur-cc",
    "p-w28-pu-ilam-community-agriculture-campus-ilam",
    "p-w24-pu-mbman",
-   "p-w28-pu-hetauda-janapriya-campus-makwanpur"
+   "p-w28-pu-hetauda-janapriya-campus-makwanpur",
+   "p-rju"
   ],
   "bsc-forestry": [
    "p-w28-pu-p-u-college-of-environment-and-forestry-morang",
@@ -1865,11 +2254,13 @@
    "p-kadambari"
   ],
   "bjmc": [
-   "p-w28-pu-college-of-journalism-and-mass-communication-kathmandu"
+   "p-w28-pu-college-of-journalism-and-mass-communication-kathmandu",
+   "p-rju"
   ],
   "llb": [
    "p-w28-pu-p-u-college-of-law-morang",
-   "p-w28-pu-solukhumbu-law-campus-solukhumbu"
+   "p-w28-pu-solukhumbu-law-campus-solukhumbu",
+   "p-rju"
   ]
  },
  "route_seats": {
@@ -2010,7 +2401,11 @@
   "p-pu-medicine": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: Bachelor of Medicine and Bachelor of Surgery (MBBS).",
   "p-kadambari": "Purbanchal University official college list (Faculty of Arts, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSW-48; MSW-33.",
   "p-w27-npca-406": "Purbanchal University official college list (Faculty of Education, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Ed.-80; One Year B. Ed.-40; M. Ed.-50.",
-  "p-ksl": "Purbanchal University official college list (Faculty of Law, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B.A. LL.B.-250; LL. M.-100."
+  "p-ksl": "Purbanchal University official college list (Faculty of Law, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B.A. LL.B.-250; LL. M.-100.",
+  "p-rju": "Rajarshi Janak University (rju.edu.np, checked 19 Nov 2026) lists on its course search: M.Phil. in Management, M.Phil. in Eastern Philosophy, MBA, BBA, BDBM (Digital Business Management), BCA, B.Sc. CSIT, BIT, BPH, B.Sc. MLT, BJMC, LL.B., LL.M. and B.A. LL.B. at the University Campus. Gaushala Engineering Campus (the second constituent campus) runs the Bachelor in Civil Engineering, Mahagadhi Mai Campus runs BIT and Pandit Mangal Kumar Upadhyay Multiple Campus runs B.Sc. Agriculture; the site does not give a district for those campuses. The university also lists 47 affiliated colleges.",
+  "p-w24-iost-jsm-lahan": "Rajarshi Janak University lists it as an affiliated college (Lahan-10, Siraha, Nepal; rju.edu.np, checked 19 Nov 2026).",
+  "p-reliance": "Rajarshi Janak University lists it as an affiliated college (Saraswatinagar, Chabahil, Kathmandu-7, Nepal; rju.edu.np, checked 19 Nov 2026).",
+  "p-sahara-surkhet": "Rajarshi Janak University lists it as an affiliated college (Birendranagar-8, Surkhet, Nepal; rju.edu.np, checked 19 Nov 2026)."
  },
  "faq_add": [
   {
@@ -2086,6 +2481,26 @@
    "a": "The PU faculty tables give a name, a town, a district and the approved programmes, but not whether the college is private, community or public. Pathways labels a college Community only when it is also on the NPCA member list (npca.edu.np), Public when it is a constituent unit of the university itself, and Private only when the name says so (Pvt. Ltd., International, College of Management and similar). Everything else says Not stated rather than guessing (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)).",
    "go": [
     "bbs"
+   ]
+  },
+  {
+   "id": "fw28-9",
+   "topic": "after12",
+   "q": "What can I study at Rajarshi Janak University in Janakpur?",
+   "a": "The RJU course search (rju.edu.np, checked 19 Nov 2026) lists 16 programmes. At the University Campus: BBA, BDBM (Digital Business Management), BCA, B.Sc. CSIT, BIT, BPH, B.Sc. MLT, BJMC, LL.B., B.A. LL.B., B.Sc. Agriculture, MBA, LL.M. and two M.Phil. courses (Management, Eastern Philosophy). Gaushala Engineering Campus, the second constituent campus, runs the Bachelor in Civil Engineering; Mahagadhi Mai Campus also lists BIT and Pandit Mangal Kumar Upadhyay Multiple Campus lists B.Sc. Agriculture. Seats and fees are not on the course search, so read the admission notice.",
+   "go": [
+    "bca",
+    "bba",
+    "bsc-csit"
+   ]
+  },
+  {
+   "id": "fw28-10",
+   "topic": "after12",
+   "q": "Which colleges are affiliated with Rajarshi Janak University, and where are they?",
+   "a": "The official RJU affiliated colleges page (rju.edu.np/affiliated-colleges, checked 19 Nov 2026) lists 47 colleges in 16 districts: Kathmandu 13, Lalitpur 5, Siraha 4, Saptari 4, Parsa 3, Rupandehi 3, Dhanusha 3, Sunsari 2, Mahottari 2, Morang 2 and one each in Kavrepalanchok, Kapilvastu, Makwanpur, Surkhet, Bara and Udayapur. The page gives name, ward address and contact only, not the programmes, so ask each college which RJU course it runs and how many seats it has.",
+   "go": [
+    "bba"
    ]
   }
  ]
