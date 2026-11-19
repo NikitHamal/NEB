@@ -661,7 +661,7 @@ def payload():
         for rid, more in w31.get('career_links', {}).items():
             route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
         faq_all = faq_all + w31.get('faq_add', [])
-    for _wave_file in ('wave32.json', 'wave33.json', 'wave34.json', 'wave35.json', 'wave36.json'):
+    for _wave_file in ('wave32.json', 'wave33.json', 'wave34.json', 'wave35.json', 'wave36.json', 'wave37.json'):
         if not (DATA / _wave_file).exists():
             continue
         w32 = _load(_wave_file)
@@ -686,6 +686,8 @@ def payload():
         abroad_by = {a['id']: a for a in abroad}
         for aid, more in w32.get('abroad_update', {}).items():
             abroad_by[aid].update(more)
+        for rid, text in w32.get('route_note_add', {}).items():
+            route_by[rid]['about'] = ((route_by[rid].get('about') or '').rstrip() + ' ' + text).strip()
         for aid, text in w32.get('abroad_note_add', {}).items():
             abroad_by[aid]['note'] = ((abroad_by[aid].get('note') or '').rstrip() + ' ' + text).strip()
         for aid, pairs in w32.get('abroad_text_swap', {}).items():

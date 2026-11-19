@@ -353,11 +353,11 @@ class Wave12Tests(TestCase):
         d = pathways.payload()
         by = {p['id']: p for p in d['providers']}
         route = {r['id']: r for r in d['routes']}['dip-computer-eng']
-        self.assertEqual(len(route['where']), 45)
-        for pid in route['where']:
-            self.assertEqual(by[pid]['route_seats']['dip-computer-eng'], 48)
+        # 45 institutes from the CTEVT free seat table plus 4 more from the live mapping portal (wave 37, 48 institutes there)
+        self.assertEqual(len(route['where']), 49)
+        self.assertGreaterEqual(len([pid for pid in route['where'] if by[pid]['route_seats']['dip-computer-eng'] == 48]), 45)
         self.assertEqual(by['p-pec']['district'], 'Kaski')
-        sudur = [pid for pid in route['where'] if by[pid]['district'] == 'Kailali']
+        sudur = [pid for pid in route['where'] if by[pid]['district'] == 'Kailali' and not pid.startswith('p-ct37-')]
         self.assertEqual(len(sudur), 1)
         self.assertEqual(len([pid for pid in route['where'] if by[pid]['district'] in ('Dhanusha', 'Mahottari', 'Sarlahi', 'Siraha', 'Bara', 'Parsa', 'Saptari')]), 16)
 
@@ -1610,3 +1610,23 @@ class Wave36Tests(TestCase):
         self.assertIn('14th', next(g for g in d['govt'] if g['id'] == 'e-nec')['note'])
         self.assertIn('76th', next(g for g in d['govt'] if g['id'] == 'e-nmcle')['note'])
         self.assertIn('408 posts', next(g for g in d['govt'] if g['id'] == 'g-nea')['note'])
+
+
+class Wave37Tests(TestCase):
+    def test_wave37_ctevt_portal(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        ct = [p for p in d['providers'] if p['id'].startswith('p-ct37-')]
+        self.assertGreaterEqual(len(ct), 560)
+        self.assertGreaterEqual(len(d['providers']), 1540)
+        for p in ct:
+            self.assertTrue(p['route_seats'] and p['seats'] > 0, p['id'])
+            self.assertIn('CTEVT institute mapping portal', p['note'])
+            self.assertNotRegex(p['note'], r'9[78]\d{8}')  # personal mobile numbers are never published
+        routes = {r['id']: r for r in d['routes']}
+        for rid in ('dip-civil-eng', 'dip-computer-eng', 'pcl-nursing', 'pre-diploma', 'dip-health'):
+            self.assertIn('CTEVT mapping portal, fiscal year 2083/84', routes[rid]['about'], rid)
+            self.assertGreaterEqual(len(routes[rid]['where']), 49, rid)
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 5):
+            self.assertIn(f'fw37-{i}', faq)
