@@ -204,11 +204,12 @@ class NewsRepository @Inject constructor(
         val content = articleHtml(html).cleanArticleContent()
         val external = html.firstGroup("<a[^>]*class=\"[^\"]*nd-source-btn[^\"]*\"[^>]*href=\"([^\"]+)\"").cleanHtml()
             .ifBlank { html.firstGroup("<a\\s+href=\"([^\"]+)\"[^>]*class=\"[^\"]*news-detail-cta[^\"]*\"").cleanHtml() }
-        val authorBlock = html.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
-        val authorPhoto = authorBlock.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(verifiedMark, "").replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
-        val publishedAgo = html.findTimeAgo()
-        val views = html.findViews()
+        val headerClean = header.replace(verifiedMark, "")
+        val authorBlock = headerClean.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
+        val authorPhoto = authorBlock.firstGroup("<img[^>]*\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
+        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
+        val publishedAgo = header.findTimeAgo().ifBlank { html.findTimeAgo() }
+        val views = header.findViews().ifBlank { html.findViews() }
         val announcement = NewsAnnouncement(
             id = slug,
             slug = slug,
@@ -267,10 +268,11 @@ class NewsRepository @Inject constructor(
             .ifBlank { body.firstGroup("--accent-color:\\s*([^;\"]+)") }
             .ifBlank { categoryLabel.toCategoryColor() }
         val cover = body.firstGroup("<img[^>]*?\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorBlock = body.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
-            .ifBlank { body.firstGroup("<(?:b|strong)>(.*?)</(?:b|strong)>") }
-        val authorPhoto = authorBlock.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(verifiedMark, "").replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "")
+        val bodyClean = body.replace(verifiedMark, "")
+        val authorBlock = bodyClean.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
+            .ifBlank { bodyClean.firstGroup("<(?:b|strong)>(.*?)</(?:b|strong)>") }
+        val authorPhoto = authorBlock.firstGroup("<img[^>]*\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
+        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "")
             .cleanHtml().ifBlank { "NEBians Team" }
         val publishedAgo = body.findTimeAgo()
         val views = body.findViews()

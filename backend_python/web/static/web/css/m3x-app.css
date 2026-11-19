@@ -2282,8 +2282,8 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 }
 :root .news-pin-badge { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 :root .news-category-badge .material-symbols-outlined, :root .news-pin-badge .material-symbols-outlined { font-size: 16px; }
-:root .news-detail-title { margin: 0 0 14px; font: 700 clamp(2rem, 4.6vw, 3.1rem)/1.1 var(--md-font); letter-spacing: -.03em; color: var(--md-on-surface); }
-:root .news-detail-summary { margin: 0 0 20px; font-size: 1.1875rem; line-height: 1.55; color: var(--md-on-surface-variant); }
+:root .news-detail-title { margin: 0 0 14px; font: 700 clamp(2rem, 4.6vw, 3.1rem)/1.1 var(--md-font); letter-spacing: -.03em; color: var(--md-on-surface); text-wrap: balance; }
+:root .news-detail-summary { margin: 0 0 20px; font-size: 1.1875rem; line-height: 1.55; color: var(--md-on-surface-variant); text-wrap: pretty; }
 :root .news-detail-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 0; border-block: 1px solid var(--md-outline-variant); color: var(--md-on-surface-variant); font-size: .875rem; }
 :root .news-detail-meta .news-card-author { color: var(--md-on-surface); font-weight: 600; }
 :root .news-detail-meta .news-card-dot { opacity: .5; }
@@ -2292,8 +2292,8 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 :root .news-detail-cover { margin: 24px 0; border-radius: 32px; overflow: hidden; background: var(--md-surface-container); transition: border-radius .7s var(--spring); }
 :root .news-detail-cover:hover { border-radius: 44px; }
 :root .news-detail-cover img { display: block; width: 100%; height: auto; }
-:root .news-detail-content { font-size: 1.125rem; line-height: 1.85; color: var(--md-on-surface); }
-:root .news-detail-content :is(h2, h3, h4) { font-family: var(--md-font); font-weight: 700; letter-spacing: -.02em; line-height: 1.25; margin: 2em 0 .6em; color: var(--md-on-surface); }
+:root .news-detail-content { font-size: 1.125rem; line-height: 1.85; color: var(--md-on-surface); text-wrap: pretty; overflow-wrap: break-word; }
+:root .news-detail-content :is(h2, h3, h4) { font-family: var(--md-font); font-weight: 700; letter-spacing: -.02em; line-height: 1.25; margin: 2em 0 .6em; color: var(--md-on-surface); text-wrap: balance; }
 :root .news-detail-content h2 { font-size: 1.75rem; }
 :root .news-detail-content h3 { font-size: 1.375rem; }
 :root .news-detail-content a { color: var(--md-primary); text-underline-offset: 3px; }

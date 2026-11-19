@@ -67,7 +67,7 @@ fun NewsLeadStory(
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = item.title,
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.headlineSmall.copy(lineBreak = androidx.compose.ui.text.style.LineBreak.Heading),
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis
@@ -76,7 +76,7 @@ fun NewsLeadStory(
             Spacer(modifier = Modifier.height(7.dp))
             Text(
                 text = item.summary,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium.copy(lineBreak = androidx.compose.ui.text.style.LineBreak.Paragraph),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
@@ -105,7 +105,7 @@ fun NewsIndexRow(
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = item.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleMedium.copy(lineBreak = androidx.compose.ui.text.style.LineBreak.Heading),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
@@ -114,7 +114,7 @@ fun NewsIndexRow(
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = item.summary,
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodySmall.copy(lineBreak = androidx.compose.ui.text.style.LineBreak.Paragraph),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis

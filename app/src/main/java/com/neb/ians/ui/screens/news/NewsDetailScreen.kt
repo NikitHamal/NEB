@@ -174,7 +174,11 @@ fun NewsDetailScreen(
                         .padding(innerPadding)
                         .verticalScroll(rememberScrollState())
                 ) {
-                    NewsArticleHeader(item = detail.announcement)
+                    val bodyMarkdown = detail.content.trim().ifBlank { detail.announcement.summary.trim() }
+                    val showStandfirst = detail.announcement.summary.isNotBlank() &&
+                        detail.content.isNotBlank() &&
+                        detail.content.trim() != detail.announcement.summary.trim()
+                    NewsArticleHeader(item = detail.announcement, showSummary = showStandfirst)
 
                     if (detail.announcement.coverImageUrl.isNotBlank()) {
                         AsyncImage(
@@ -190,12 +194,14 @@ fun NewsDetailScreen(
                         Spacer(modifier = Modifier.height(24.dp))
                     }
 
-                    MarkdownText(
-                        markdown = detail.content.ifBlank { detail.announcement.summary.ifBlank { detail.announcement.title } },
-                        modifier = Modifier.padding(horizontal = 20.dp),
-                        style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 30.sp, lineBreak = LineBreak.Paragraph),
-                        onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
-                    )
+                    if (bodyMarkdown.isNotBlank()) {
+                        MarkdownText(
+                            markdown = bodyMarkdown,
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 30.sp, lineBreak = LineBreak.Paragraph),
+                            onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
+                        )
+                    }
 
                     if (detail.externalUrl.isNotBlank()) {
                         Spacer(modifier = Modifier.height(24.dp))
@@ -560,7 +566,7 @@ private fun shareArticle(context: android.content.Context, item: NewsAnnouncemen
  * the order a reader expects from a page of prose.
  */
 @Composable
-private fun NewsArticleHeader(item: NewsAnnouncement) {
+private fun NewsArticleHeader(item: NewsAnnouncement, showSummary: Boolean = true) {
     val scheme = MaterialTheme.colorScheme
     Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 22.dp)) {
         Row(
@@ -578,7 +584,9 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
             Text(
                 text = item.categoryLabel.uppercase(),
                 style = MaterialTheme.typography.labelSmall,
-                color = scheme.onSurfaceVariant
+                color = scheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
@@ -588,7 +596,7 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
             fontWeight = FontWeight.SemiBold,
             color = scheme.onSurface
         )
-        if (item.summary.isNotBlank()) {
+        if (showSummary && item.summary.isNotBlank()) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = item.summary,
@@ -602,12 +610,17 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
                 text = item.authorName,
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Medium,
-                color = scheme.onSurface
+                color = scheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f, fill = false)
             )
             Text(
                 text = bylineTail(item),
                 style = MaterialTheme.typography.labelMedium,
-                color = scheme.onSurfaceVariant
+                color = scheme.onSurfaceVariant,
+                maxLines = 1,
+                softWrap = false
             )
         }
         Spacer(modifier = Modifier.height(18.dp))
