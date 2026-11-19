@@ -151,7 +151,7 @@ class NepalMapTests(TestCase):
     def test_wave7_medical_fees_follow_the_mec_ceiling(self):
         d = pathways.payload()
         by = {p['id']: p for p in d['providers']}
-        self.assertEqual(by['p-kist-med']['fees']['mbbs'], [4023250, 4023250])
+        self.assertEqual(by['p-kist-med']['fees']['mbbs'], [4168090, 4168090])
         self.assertEqual(by['p-gandaki-med']['fees']['mbbs'], [4595720, 4595720])
         self.assertGreaterEqual(len(d['faq']), 51)
         self.assertEqual(pathways.problems(), [])
@@ -1284,3 +1284,40 @@ class Wave28Tests(TestCase):
         text = open(pathways.DATA / 'wave28.json', encoding='utf-8').read()
         for bad in ('\u2014', '\u2013', '--'):
             self.assertNotIn(bad, text)
+
+
+class Wave29Tests(TestCase):
+    """Wave 29: LBU campuses, NOU, Nepal Sanskrit University, MEC tuition ceilings, Sweden work cap, abroad stay notes."""
+
+    def test_wave29(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        routes = {r['id']: r for r in d['routes']}
+        lbu = [p for p in prov.values() if p['id'].startswith('p-w29-lbu-')]
+        self.assertEqual(len(lbu), 10)
+        for p in lbu:
+            self.assertIn('lbu.edu.np', p['note'])
+        self.assertIn('p-w29-lbu-city-butwal', routes['ba-llb']['where'])
+        self.assertIn('p-w29-lbu-tulsipur-metro', routes['bba']['where'])
+        self.assertEqual(prov['p-w29-lbu-tulsipur-metro']['district'], 'Dang')
+        self.assertIn('Rs 3,360', prov['p-nou']['note'])
+        self.assertIn('p-nou', routes['bbs']['where'])
+        nsu = [p for p in prov.values() if p['id'].startswith('p-w29-nsu-')]
+        self.assertEqual(len(nsu), 11)
+        self.assertEqual(prov['p-w29-nsu-pindeshwor']['district'], 'Sunsari')
+        # MEC ceilings: valley MBBS corrected, private nursing rows carry the ceiling
+        for pid in ('p-kmc', 'p-kist-med', 'p-nmc-jorpati'):
+            self.assertEqual(prov[pid]['fees']['mbbs'], [4168090, 4168090])
+        self.assertEqual(prov['p-cmc']['fees']['mbbs'], [4595720, 4595720])
+        self.assertEqual(prov['p-cmc']['fees']['bds'], [2092290, 2092290])
+        self.assertIn('2081/03/13', prov['p-cmc']['note'])
+        ab = {a['id']: a for a in d['abroad']}
+        self.assertEqual(ab['se']['work_hours'], 15)
+        self.assertIn('11 June 2026', ab['se']['work'])
+        for k in ('ge', 'kg', 'kz', 'ph', 'uz'):
+            self.assertTrue(ab[k].get('stay_back'), k)
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 8):
+            self.assertIn(f'fw29-{i}', faq)
+

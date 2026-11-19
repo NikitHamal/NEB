@@ -1211,6 +1211,17 @@
    "go": [
     "abroad-ms"
    ]
+  },
+  {
+   "id": "fw29-7",
+   "topic": "after12",
+   "q": "What is the official MBBS, BDS and nursing tuition ceiling set by the Medical Education Commission?",
+   "a": "The current MEC notice (dated 2081/03/13, published 30 June 2024 and still the notice on mec.gov.np in Sept 2026) caps tuition for a paying seat at NPR 41,68,090 for MBBS inside Kathmandu Valley and NPR 45,95,720 outside, NPR 20,92,290 for BDS, NPR 10,36,000 for B.Sc. Nursing, NPR 5,18,000 for BNS and PBN, NPR 11,31,930 for BAMS and NPR 7,77,000 for BPT, B.Sc. MIT, B.Sc. MLT, B.Pharm, BPH and B.Optom (Pharm D is NPR 6,73,400). It is tuition only: hostel, exam and registration fees are extra, and a college can charge less. Older lists that show MBBS at NPR 40,23,250 in the valley are out of date.",
+   "go": [
+    "mbbs",
+    "bds",
+    "bsc-nursing"
+   ]
   }
  ]
 }
