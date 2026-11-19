@@ -758,5 +758,142 @@
    "website": "https://gmckusma.edu.np"
   }
  },
- "website_drop": []
+ "website_drop": [],
+ "abroad_update": {
+  "sg": {
+   "stay_back": "Up to 1 year on a Long-Term Visit Pass to look for work, for graduates of institutes of higher learning on the ICA list (the six autonomous universities, the polytechnics and listed overseas campuses). Private institutions are not covered. After that your employer applies for a work pass (ICA rule as quoted by ApplyBoard and StudyU, 2026)."
+  },
+  "tw": {
+   "stay_back": "Your Alien Resident Certificate is extended 6 months from the month the diploma is issued, and once more if needed, 1 year in all, to look for a job. Work is not allowed during it; a work permit for a full time job must be issued first (National Immigration Agency rule as published by NTUNHS; the Ministry of Education Taiwan office says 6 months to one year)."
+  },
+  "my": {
+   "stay_back": "Graduate Pass: a Long-Term Visit Pass of up to 1 year for bachelor and higher graduates of a Malaysian institution, with permission for part time work in approved sectors (Education Malaysia Global Services FAQ). It is open by nationality, so check on EMGS that Nepal is covered before you count on it."
+  },
+  "tr": {
+   "stay_back": "One short-term residence permit of up to 1 year to look for work, if you apply within 6 months of graduating (Law No. 6458 Article 31(1)(i) and 31(4), Presidency of Migration Management, as summarised by SP Law Istanbul and METU). It does not authorise work: your employer must apply for a work permit. One law firm reports a second year from August 2026; not confirmed on an official page. study-abroad.org says Turkiye has no automatic post-study work visa, which is true for work, not for the stay."
+  },
+  "th": {
+   "stay_back": "Only for degree students (bachelor or above at a Thai university) on the ED Plus visa: the university can file a 1 year extension after graduation to look for work or travel, and you change visa type inside Thailand if hired (Cabinet resolution of 28 May 2024, as described by Thai Law Online and Bachelorsportal). Language school and non-degree students are not covered."
+  },
+  "ae": {
+   "stay_back": "No stay-back on the student visa. After graduating you move to a 60, 90 or 120 day job seeker visa, an employer sponsored visa, the 5 year Green Visa (AED 15,000 a month) or, for top graduates, a Golden Visa (Craydel and Study-abroad.org guides, 2026). The UAE does not grant permanent residence."
+  },
+  "cn": {
+   "stay_back": "No national post-study stay or job search permit. Hainan guidance (as reported by TropicalHainan, May 2026) lets graduates of Chinese universities apply for a 2 year private-affairs residence permit for innovation or entrepreneurship, and a work type permit once an employer hires you. Bachelor graduates otherwise need an employer, and a work visa asks for a degree and experience."
+  },
+  "ru": {
+   "work": "Rules differ by university. A Saint Petersburg university guide says full time students with a temporary residence permit linked to study can work without a work permit, but not in public service or security posts or as accountants; ask your university before taking a job.",
+   "stay_back": "No job search period found: after graduation you need a work visa or work permit arranged by an employer (TopEdu Academy guide; the Russian Ministry of Internal Affairs migration page is the place to confirm)."
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw27-1",
+   "topic": "abroad",
+   "q": "Can I stay in Singapore to look for a job after I graduate?",
+   "a": "Yes, if you graduated from an institute of higher learning on the ICA list (NUS, NTU, SMU, SIT, SUSS, SUTD, the five polytechnics and listed overseas campuses). You can apply for a Long-Term Visit Pass of up to 1 year to look for work. Students of private institutions are not covered. When you get a job offer, your employer applies for a work pass such as the Employment Pass (ICA rule as quoted by ApplyBoard and StudyU, 2026).",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-2",
+   "topic": "abroad",
+   "q": "How long can I stay in Taiwan after graduation to find a job?",
+   "a": "Your Alien Resident Certificate is extended 6 months from the month your diploma is issued, and you can apply for one more extension, so 1 year in total. You may not work during that time; a work permit for a full time job must be issued first (National Immigration Agency rule as published by NTUNHS). The Ministry of Education Taiwan office describes it as 6 months to one year. During your studies, the work permit limit is 20 hours a week in term.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-3",
+   "topic": "abroad",
+   "q": "What is the Malaysian Graduate Pass and can a Nepali student get it?",
+   "a": "The Graduate Pass is a Long-Term Visit Pass of up to 1 year for graduates with a bachelor degree or higher from a Malaysian institution, with permission to do part time work in approved sectors (Education Malaysia Global Services FAQ). It is open by nationality, so check the EMGS list for Nepal before counting on it. During study, work is limited to 20 hours a week in breaks longer than 7 days, with Immigration approval.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-4",
+   "topic": "abroad",
+   "q": "Does Turkiye let international graduates stay to look for work?",
+   "a": "Yes, for a limited time. Law No. 6458 Article 31(1)(i) and 31(4) allows one short-term residence permit of up to 1 year if you apply within 6 months of graduating (Presidency of Migration Management, as summarised by SP Law Istanbul and METU International Students Office). This permit does not let you work: your employer must apply for a work permit. Some guides say Turkiye has no post-study work visa; that is true for work, not for the stay.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-5",
+   "topic": "abroad",
+   "q": "What is the Thai ED Plus visa and does it allow a stay after graduation?",
+   "a": "ED Plus is a student visa created by a Cabinet resolution of 28 May 2024 for bachelor level or higher students at a Thai university. The university files the extensions, and after graduation the holder can extend for 1 year to look for work, then change visa type in Thailand if hired (Thai Law Online and Bachelorsportal, 2026). Language school students are not covered, and no student visa lets you take a job without a work permit.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-6",
+   "topic": "abroad",
+   "q": "Is there a post-study job search visa in the UAE?",
+   "a": "Not on the student visa. After graduating, students move to a 60, 90 or 120 day job seeker visa, an employer sponsored employment visa, the 5 year Green Visa (monthly salary of AED 15,000) or, for top graduates, a Golden Visa (Craydel and Study-abroad.org guides, 2026). The UAE does not grant permanent residence. Part time work in study needs a no objection certificate from your university and a MoHRE permit.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-7",
+   "topic": "abroad",
+   "q": "Can I stay in China after graduating from a Chinese university?",
+   "a": "There is no national post-study stay or job search permit. Hainan guidance (TropicalHainan, May 2026) lets graduates of Chinese universities apply for a 2 year private-affairs residence permit for innovation or entrepreneurship, which can become a work type permit once an employer hires you. Otherwise you need an employer, and a bachelor graduate has to meet the work visa degree and experience rules.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-8",
+   "topic": "abroad",
+   "q": "Can I work in Russia while studying, and stay after graduation?",
+   "a": "A Saint Petersburg university guide says full time students with a temporary residence permit linked to study can work without a work permit (not in public service or security posts, or as accountants). After graduation you need a work visa or work permit arranged by an employer; TopEdu Academy found no job search period. Ask your university and confirm on the Ministry of Internal Affairs migration page.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw27-9",
+   "topic": "after12",
+   "q": "How did Pathways place community campuses that list only a town?",
+   "a": "The NPCA member pages (npca.edu.np) often give only a place such as Lamahi or Gulariya. Pathways matched the words of the address and name to the official list of 753 local levels (MoFAGA, sthaniya.gov.np) and gave a district only when the name belongs to one district; confusing names (Rampur, Mohariya) were left out. About 20 campus websites also name the district or local level.",
+   "go": [
+    "bed"
+   ]
+  },
+  {
+   "id": "fw27-10",
+   "topic": "after12",
+   "q": "Is Kailali Multiple Campus in Dhangadhi a TU or a Far-Western University campus?",
+   "a": "It is a constituent campus of Far-Western University (page title \"FWU | Kailali Multiple Campus\", kailali.fwu.edu.np). Its page says it earned a UGC quality assurance certificate and got permission from TU to run BSW, BBA and MBA. The FWU Faculty of Education lists it for B.Ed. and M.Ed. Phone 0915221223.",
+   "go": [
+    "bed"
+   ]
+  },
+  {
+   "id": "fw27-11",
+   "topic": "afterbach",
+   "q": "Where is the Martyr Dasharath Chand University of Health Sciences?",
+   "a": "Godawari-05, Geta, Kailali in Sudurpashchim Province. Its website (dcuhs.edu.np) calls it the first health science university of Nepal and gives 091575038 and 091575058 as the main phone numbers. For courses and seat counts, read the notices on that site, not agent lists.",
+   "go": [
+    "mbbs"
+   ]
+  },
+  {
+   "id": "fw27-12",
+   "topic": "general",
+   "q": "How can I check that a college website is the real one?",
+   "a": "Open the page and look for the full college name, its address and an e-mail on the same domain. Pathways checks each link: it must open and its text must name the college. Links that never resolved (38 of them) were removed in wave 26. Several college links hide behind a bot check (Cloudflare or Vercel) and show a short wait page to scripts; open them in a browser.",
+   "go": [
+    "bbs"
+   ]
+  }
+ ]
 }

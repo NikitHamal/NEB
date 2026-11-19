@@ -3,7 +3,7 @@
 Wave 26 added the 128 NPCA campuses whose address or name carried a district. This wave places more of the 367 others with the
 official list of 753 local levels (palika_district.json): resolve_npca_districts.py gives a district only when a local-level
 name from the campus address or name belongs to exactly one district (see that script for the stop words and the hand-checked
-blocklist). 25 of the campuses also have a live website that names the district or the local level (checked on 2026-11-19).
+blocklist). About 20 of the campuses also have a live website that names the district or the local level (checked on 2026-11-19; five more are script-rendered shells that cannot be read).
 """
 import json
 import re

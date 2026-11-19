@@ -1190,7 +1190,7 @@ class Wave26Tests(TestCase):
         for pid, host in (('p-patan', 'pmc.tu.edu.np'), ('p-mmc-dang', 'mamc.tu.edu.np'), ('p-mmc-nepalgunj', 'mahemc.tu.edu.np'),
                           ('p-damak-mc', 'damakcampus.edu.np')):
             self.assertIn(host, prov[pid]['website'])
-        for pid in ('p-kailali', 'p-himalaya-eye', 'p-solukhumbu'):
+        for pid in ('p-solukhumbu',):
             self.assertNotIn('website', prov[pid])
         for p in prov.values():
             self.assertNotIn(p.get('website'), ('https://rrcampus.edu.np', 'https://mmcn.tu.edu.np', 'https://tmcpalpa.tu.edu.np'))
@@ -1200,3 +1200,43 @@ class Wave26Tests(TestCase):
         for aid in ('in', 'no', 'dk'):
             self.assertTrue(abroad[aid]['stay_back'], aid)
         self.assertIn('1950', abroad['in']['work'])
+
+
+class Wave27Tests(TestCase):
+    """Wave 27: NPCA campuses placed with the local level list, restored websites, post-study stay rules, FAQs."""
+
+    def test_wave27_campuses_sites_and_rules(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        self.assertGreaterEqual(len(prov), 788)
+        new = [p for p in prov.values() if p['id'].startswith('p-w27-npca-')]
+        self.assertGreaterEqual(len(new), 60)
+        for p in new:
+            self.assertEqual(p['sector'], 'Community')
+            self.assertIn('MoFAGA local level list', p['note'])
+            self.assertNotIn('npca.edu.np', p.get('website', ''))
+        # the district comes from the local level, not a guess
+        self.assertEqual(prov['p-w27-npca-72']['district'], 'Dang')
+        self.assertEqual(prov['p-w27-npca-538']['district'], 'Nawalparasi West')
+        # halves of an existing combined entry and name twins are not added again
+        for k in (46, 86, 288, 410, 475, 569, 585, 141, 370, 542):
+            self.assertNotIn(f'p-w27-npca-{k}', prov)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('p-w27-npca-72', routes['bed']['where'])
+        for pid, host in (('p-kailali', 'kailali.fwu.edu.np'), ('p-sdcuhs', 'dcuhs.edu.np'), ('p-ambikeshwori', 'amc.edu.np'),
+                          ('p-gupteshwor-parbat', 'gmckusma.edu.np'), ('p-lumbini-city', 'lcc.edu.np')):
+            self.assertIn(host, prov[pid]['website'])
+        abroad = {a['id']: a for a in d['abroad']}
+        for aid in ('sg', 'tw', 'my', 'tr', 'th', 'ae', 'cn', 'ru'):
+            self.assertTrue(abroad[aid]['stay_back'], aid)
+        self.assertIn('1 year', abroad['tw']['stay_back'])
+        self.assertIn('6458', abroad['tr']['stay_back'])
+        self.assertIn('ED Plus', abroad['th']['stay_back'])
+        faq = {f['id']: f for f in d['faq']}
+        self.assertGreaterEqual(len(faq), 376)
+        for i in range(1, 13):
+            self.assertIn(f'fw27-{i}', faq)
+        text = open(pathways.DATA / 'wave27.json', encoding='utf-8').read()
+        for bad in ('\u2014', '\u2013', '--'):
+            self.assertNotIn(bad, text)
