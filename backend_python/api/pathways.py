@@ -661,8 +661,10 @@ def payload():
         for rid, more in w31.get('career_links', {}).items():
             route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
         faq_all = faq_all + w31.get('faq_add', [])
-    if (DATA / 'wave32.json').exists():
-        w32 = _load('wave32.json')
+    for _wave_file in ('wave32.json', 'wave33.json'):
+        if not (DATA / _wave_file).exists():
+            continue
+        w32 = _load(_wave_file)
         providers = providers + w32.get('providers_add', [])
         by_provider = {x['id']: x for x in providers}
         for pid, rs in w32.get('route_seats', {}).items():

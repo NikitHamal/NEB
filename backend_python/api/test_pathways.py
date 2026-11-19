@@ -754,7 +754,7 @@ class Wave18Tests(TestCase):
     def test_every_destination_has_a_scholarship(self):
         d = pathways.payload()
         for a in d['abroad']:
-            if a['id'] in ('is', 'bg', 'hr', 'si', 'lu', 'gr'):
+            if a['id'] in ('is', 'bg', 'hr', 'si', 'lu', 'gr', 'rs', 'qa'):  # wave 33: Serbia and Qatar have no verified Nepal route
                 continue  # wave 32: no verified Nepal scholarship route (Iceland's excludes Nepal)
             self.assertTrue(a.get('scholarships'), a['id'])
         sch = {s['id']: s for s in d['scholarships']}
@@ -1065,7 +1065,7 @@ class Wave22Tests(TestCase):
         for dist, cnt in dc.items():
             self.assertGreaterEqual(cnt, 2, dist)
         for a in d['abroad']:
-            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu', 'gr'):
+            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu', 'gr', 'pk', 'eg', 'rs', 'qa'):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
@@ -1441,3 +1441,37 @@ class Wave32Tests(TestCase):
         self.assertIn('fw32-11', {f['id'] for f in d['faq']})
         fq = {f['id']: f for f in d['faq']}
         self.assertIn('separate right to work since 1 March 2026', fq['fw14-4']['a'])
+
+
+class Wave33Tests(TestCase):
+    """Wave 33: Pakistan, Egypt, Serbia and Qatar destinations, PTAP and Egypt MD/MS scholarships, two websites."""
+
+    def test_wave33_destinations(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        ab = {a['id']: a for a in d['abroad']}
+        for cid in ('pk', 'eg', 'rs', 'qa'):
+            self.assertIn(cid, ab)
+            self.assertLess(ab[cid]['tuition'][0], ab[cid]['tuition'][1])
+            self.assertLess(ab[cid]['living'][0], ab[cid]['living'][1])
+            self.assertEqual(len(ab[cid]['visa']['steps']) >= 4, True)
+        self.assertIn('Qualifications Agency', ab['rs']['exams'][0])
+        self.assertIn('1,700', ab['qa']['note'])
+
+    def test_wave33_scholarships(self):
+        d = pathways.payload()
+        ab = {a['id']: a for a in d['abroad']}
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertEqual(sch['s-ptap-pk']['awards'], 14)
+        self.assertIn('s-ptap-pk', ab['pk']['scholarships'])
+        self.assertIn('s-mec-egypt-pg', ab['eg']['scholarships'])
+        self.assertIn('10 July 2026', sch['s-ptap-pk']['how'])
+
+    def test_wave33_sites_and_faqs(self):
+        d = pathways.payload()
+        pv = {p['id']: p for p in d['providers']}
+        self.assertEqual(pv['p-w24-iost-janapriya-mc']['website'], 'https://janapriya.edu.np')
+        self.assertEqual(pv['p-w28-pu-birat-health-college-morang']['website'], 'https://birathealthcollege.edu.np')
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 6):
+            self.assertIn(f'fw33-{i}', faq)
