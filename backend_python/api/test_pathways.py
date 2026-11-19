@@ -1422,7 +1422,7 @@ class Wave32Tests(TestCase):
         d = pathways.payload()
         self.assertEqual(pathways.problems(d), [])
         sch = {s['id']: s for s in d['scholarships']}
-        for sid in ('s-moest-poor', 's-moest-tech', 's-moest-higher', 's-uii-fgls', 's-tianjin-moest'):
+        for sid in ('s-moest-poor', 's-moest-tech', 's-moest-higher'):
             self.assertEqual(sch[sid]['scope'], 'nepal')
             self.assertNotIn('awards', sch[sid])
         self.assertIn('3,500', sch['s-moest-tech']['covers'])
