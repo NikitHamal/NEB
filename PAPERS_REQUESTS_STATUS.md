@@ -2,6 +2,10 @@
 
 Read `notes/papers/PAPERS_TRACKER.md` for the paper pipeline itself. This file tracks the three open student requests so the next session does not repeat research.
 
+## Live check (session 125, after the first publish)
+
+`Publish Past Papers to Library` ran for real (run 44628389901, `4 created, 0 refreshed, 0 failed`; dry run before it, run 44628242579). Verified on the live API (`/api/resources/?type=Past%20Paper&search=Computer%20Engineering`): the three papers and the bundle are listed, the PDF (`/media/papers/12-vp-2080-9341.pdf`, 200) and the cover (200) load. The library already holds an upload `NEB Grade 12 Computer Engineering Board Question Papers (All Subjects) 2083 (2026)` (not ours, raw papers): do not duplicate 2083, only add solved papers.
+
 ## Request 1: Class 12 technical stream, Computer Engineering, board papers 2078/79
 
 **Research result (do not repeat).**
@@ -33,7 +37,7 @@ Nothing built yet. Mid-terms are set by each school, so there is no official sou
 
 ## Request 3: Class 8 set solutions
 
-Nothing built yet and no earlier work exists in the repo (searched `notes/` handoffs, tracker, git log). Class 8 has provincial and local-level exams, and the tracker says each province sets its own paper. dhanraj.com.np and nepalieducate.com have no Class 8 posts. Pickup: ask the requester which province and which subject set, search local-level (Bagmati, Gandaki, Lumbini) Class 8 sets, then solve with the Class 8 books in `notes/content` as the answer base.
+Nothing built by us yet and no earlier work exists in the repo (searched `notes/` handoffs, tracker, git log). **Found on the live library:** the requester almost certainly means the BLE (Basic Level Examination) SET solutions. The library already has uploaded `BLE | SET Solutions` PDFs for Class 8 Computer Science, Science and Technology and Health and Physical Education (Health is listed twice, once without a grade, a cleanup for the admin). Missing and the likely ask: Mathematics, English, Nepali, Social Studies and Human Values, Creative Arts. Check them with `GET /api/resources/?search=SET%20Solutions` before building so nothing is duplicated, then build NEBians-solved SET papers (`8-<subject>-set-<n>` ids, `--grade 8` listing, exam_type "BLE SET"). Class 8 has provincial and local-level exams, and the tracker says each province sets its own paper. dhanraj.com.np and nepalieducate.com have no Class 8 posts. Pickup: ask the requester which province and which subject set, search local-level (Bagmati, Gandaki, Lumbini) Class 8 sets, then solve with the Class 8 books in `notes/content` as the answer base.
 
 ## How to publish (backend upload, no local build, no deletions)
 
