@@ -20,6 +20,12 @@ PAPERS = [
      "topics": "sets, number systems, ratio, simple interest, direct and indirect variation, area of a trapezium, indices, "
                "quadratic expressions, algebraic tiles, coordinates and reflection, tessellation and the square pyramid, "
                "construction of a rectangle, and mean"},
+    {"id": "8-eng-ble-2082-kathmandu", "file": "NEBians-BLE-Past-Paper-Grade-8-English-2082-Kathmandu.pdf",
+     "subject": "English", "year_bs": "2082", "year_ad": "2026", "muni": "Kathmandu Metropolitan City",
+     "district": "Kathmandu", "pradesh": "Bagmati", "marks": "50", "time": "2 hours",
+     "topics": "reading comprehension (formal request letter, natural habitat passage, vacancy advertisement, and unseen passage on friendship), "
+               "punctuation and error correction, pie-chart interpretation (crop production of Dang), essay writing (advantages and disadvantages "
+               "of using mobile phones), sentence transformation (question tag, negative, passive voice, tense, indirect speech), and grammar cloze"},
 ]
 COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026"
 

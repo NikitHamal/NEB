@@ -1,5 +1,22 @@
 [
  {
+  "file": "NEBians-BLE-Past-Paper-Grade-8-English-2082-Kathmandu.pdf",
+  "subject": "Compulsory English",
+  "grade": "8",
+  "year_bs": "2082",
+  "year_ad": "2026",
+  "stream": "Basic Level Examination, Kathmandu Metropolitan City",
+  "code": "",
+  "kind": "BLE Past Paper",
+  "time": "2 hrs",
+  "marks": "50",
+  "students": "Class 8 Basic Level Examination (BLE) Compulsory English paper set by Kathmandu Metropolitan City for the year 2082. Questions are re-typeset from the published paper; the layout and every solution are NEBians.",
+  "category": "Basic Level Exam",
+  "pages": 9,
+  "bytes": 210014,
+  "id": "8-eng-ble-2082-kathmandu"
+ },
+ {
   "file": "NEBians-Mid-Term-Paper-Grade-11-Biology-2083.pdf",
   "subject": "Biology",
   "grade": "11",

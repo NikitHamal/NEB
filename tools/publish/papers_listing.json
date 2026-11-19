@@ -1361,5 +1361,25 @@
   "tags": "NEB, BLE, Class 8, Mathematics, BLE Mathematics 2082, Kathmandu Metropolitan City, Kathmandu past paper, BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026",
   "pdf": "notes/papers/pdf/NEBians-BLE-Past-Paper-Grade-8-Mathematics-2082-Kathmandu.pdf",
   "cover": "tools/publish/paper_covers/8-math-ble-2082-kathmandu.jpg"
+ },
+ {
+  "slug": "8-eng-ble-2082-kathmandu",
+  "title": "NEB Class 8 English BLE Past Paper 2082 (2026) Kathmandu Metropolitan City with Solutions",
+  "description": "The Class 8 Basic Level Examination (BLE) English paper of Kathmandu Metropolitan City for 2082 BS (2026 AD), 50 marks and 2 hours, re-typeset in English with a full worked solution for every question and sub-part, marks shown beside each step and diagrams where the question needs one. It covers reading comprehension (formal request letter, natural habitat passage, vacancy advertisement, and unseen passage on friendship), punctuation and error correction, pie-chart interpretation (crop production of Dang), essay writing (advantages and disadvantages of using mobile phones), sentence transformation (question tag, negative, passive voice, tense, indirect speech), and grammar cloze. Use it as a timed mock for your BLE and then check each answer against the solutions. Free to read in the browser.",
+  "subject": "English",
+  "grade_level": "Class 8",
+  "year": "2082",
+  "exam_type": "Final",
+  "type": "Past Paper",
+  "faculty": "",
+  "program": "",
+  "pradesh": "Bagmati",
+  "district": "Kathmandu",
+  "school": "",
+  "author_name": "NEBians",
+  "source_label": "BLE paper of Kathmandu Metropolitan City, re-typeset with NEBians solutions",
+  "tags": "NEB, BLE, Class 8, English, BLE English 2082, Kathmandu Metropolitan City, Kathmandu past paper, BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026",
+  "pdf": "notes/papers/pdf/NEBians-BLE-Past-Paper-Grade-8-English-2082-Kathmandu.pdf",
+  "cover": "tools/publish/paper_covers/8-eng-ble-2082-kathmandu.jpg"
  }
 ]
