@@ -1,0 +1,1784 @@
+{
+ "management": {
+  "programs": [
+   [
+    "Bachelor of Business Administration (BBA)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Business Studies (BBS)",
+    "4 Years"
+   ],
+   [
+    "Bachelor of Fashion Design Management (BFDM)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Hospitality & Catering Management (BHCM)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Travel and Tourism Studies (BTTS)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Hotel Management (BHM)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Executive Master of Business Administration",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Business Administration (MBA)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Hotel And Hospitality Management (MHHM)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Public Administration (MPA)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Tourism Studies (MTS)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "M.Phil. In Management",
+    "1.5 Years/3 Semesters"
+   ],
+   [
+    "Ph.D. In Management",
+    "SN"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "P. U. School of Management (PUSOM)",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BBA-105, MBA (Spring/Fall)-33/33, M.Phil.-16, Ph.D."
+   },
+   {
+    "name": "Karfok Bidya Mandir Multiple Campus",
+    "address": "Suryodaya",
+    "district": "Ilam",
+    "programs": "BBS-60, BBA-48"
+   },
+   {
+    "name": "Gomendra Multiple College",
+    "address": "Birtamode",
+    "district": "Jhapa",
+    "programs": "BBA-96, BBS-60, MBA (Fall)-33"
+   },
+   {
+    "name": "South Asian School of Tourism & Hotel Management",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BBA-144, BHM-144, MBA (Fall)-33, MHHM (Fall)-33"
+   },
+   {
+    "name": "Zenith International College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BBA-144, MBA(Spring/Fall)-33/33"
+   },
+   {
+    "name": "Edenburgh International College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BBA-96"
+   },
+   {
+    "name": "Public Campus",
+    "address": "Dhanibanigaun",
+    "district": "Morang",
+    "programs": "BBS-180"
+   },
+   {
+    "name": "Saraswati Public Campus",
+    "address": "Dadarbairiya",
+    "district": "Morang",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Harinagara Multiple College",
+    "address": "Harinagar",
+    "district": "Sunsari",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Dharan College of Management",
+    "address": "Dharan",
+    "district": "Sunsari",
+    "programs": "BBA-48, MBA (Fall)-33"
+   },
+   {
+    "name": "National Multiple College",
+    "address": "Dharan",
+    "district": "Sunsari",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Kasturi College",
+    "address": "Itahari",
+    "district": "Sunsari",
+    "programs": "BBA-96"
+   },
+   {
+    "name": "Kshitiz Educational Foundation",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "BBA-96"
+   },
+   {
+    "name": "Caliber International College",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Saptarishi Multiple College",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "BBA-96, MBA (Fall)-33"
+   },
+   {
+    "name": "Annapurna Multiple Campus",
+    "address": "Kanchanrup",
+    "district": "Saptari",
+    "programs": "BBS-300"
+   },
+   {
+    "name": "Sungava Multiple College",
+    "address": "Kanchanrup",
+    "district": "Saptari",
+    "programs": "BBS-120"
+   },
+   {
+    "name": "Mother Memorial College",
+    "address": "Phattepur",
+    "district": "Saptari",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Devaki College of Management & Sciences",
+    "address": "Mirchaiya",
+    "district": "Siraha",
+    "programs": "BBA-96"
+   },
+   {
+    "name": "Royal Softech College",
+    "address": "Lahan",
+    "district": "Siraha",
+    "programs": "BBS-240"
+   },
+   {
+    "name": "Janaki College of Management Pvt.Ltd.",
+    "address": "Janakpur",
+    "district": "Dhanusha",
+    "programs": "BBA-144"
+   },
+   {
+    "name": "Model Purbanchal College",
+    "address": "Janakpur",
+    "district": "Dhanusha",
+    "programs": "BBA-144, MBA (Spring)-33"
+   },
+   {
+    "name": "Central Management College",
+    "address": "Janakpur",
+    "district": "Dhanusha",
+    "programs": "BBA-96, MBA (Spring)-33"
+   },
+   {
+    "name": "Birgunj Public College",
+    "address": "Birgunj",
+    "district": "Parsa",
+    "programs": "BBA-144, MBA (Spring/Fall)-33/33"
+   },
+   {
+    "name": "Presidency College of Management Sciences",
+    "address": "Bharatpur",
+    "district": "Chitwan",
+    "programs": "BBA-144, MBA (Spring/Fall)-33/33"
+   },
+   {
+    "name": "Balkumari Campus",
+    "address": "Narayangarh",
+    "district": "Chitwan",
+    "programs": "BBA-96"
+   },
+   {
+    "name": "Lumbini Adarsh Degree College",
+    "address": "Kawasoti",
+    "district": "Nawalparasi",
+    "programs": "BBS-120, BBA-48"
+   },
+   {
+    "name": "Shreenagar Integrated College",
+    "address": "Kapilbastu",
+    "district": "Kapilbastu",
+    "programs": "BBA-96"
+   },
+   {
+    "name": "Mangal Prasad Women's College",
+    "address": "Nepalgunj",
+    "district": "Banke",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Tribhuvan Campus",
+    "address": "Manechauka",
+    "district": "Tanahu",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Novel Academy",
+    "address": "Pokhara",
+    "district": "Kaski",
+    "programs": "BBA-48, MBA (Spring/Fall)-33"
+   },
+   {
+    "name": "Aryan College of Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Asian College of Management & Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-96, MBA (Fall/Spring)-33/33"
+   },
+   {
+    "name": "College of Information Technology and Engineering",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-40"
+   },
+   {
+    "name": "Gateway College of Professional Studies",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BHM-96, MHHM-33"
+   },
+   {
+    "name": "D.A.V. Business School",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "MBA (Spring/Fall)-33/33"
+   },
+   {
+    "name": "Himalayan Whitehouse Int'l College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-144, BHM-144, MBA (Spring/Fall)-33/33, EMBA-30"
+   },
+   {
+    "name": "Kantipur City College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-80"
+   },
+   {
+    "name": "Kathmandu Don Bosco College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-144, MBA (Spring/Fall)-33/33, EMBA (Spring/Fall)-30/30"
+   },
+   {
+    "name": "Kantipur International College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-96, BHM-192, BHCM-192, MHHM-33, MBA (Fall/Spring)-33/33"
+   },
+   {
+    "name": "Kantipur Valley College",
+    "address": "Kumaripati",
+    "district": "Lalitpur",
+    "programs": "BBA-96, MBA(Fall/Spring)-33/33, EMBA (Fall/Spring)-30/30"
+   },
+   {
+    "name": "Kasthamandap School of Public Affair Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "MPA (Spring/Fall)-30/30"
+   },
+   {
+    "name": "Kasthamandap College of Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-144, MBA (Fall/Spring)-33/33"
+   },
+   {
+    "name": "Kathmandu Academy of Tourism and Hospitality",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BTTS-40, MTS-30"
+   },
+   {
+    "name": "MAN, Management Development Campus",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "EMBA-30"
+   },
+   {
+    "name": "Morgan Engineering and Management College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-48, BHM-48, MBA (Fall)-33"
+   },
+   {
+    "name": "Namuna College of Fashion Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BFDM-96"
+   },
+   {
+    "name": "SANN International College for Higher Studies",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-144, MBA (Fall)-33"
+   },
+   {
+    "name": "Sagarmatha Multiple College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-96, MBA(Fall)-33"
+   },
+   {
+    "name": "Orchid College of Management and Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-96, MBA (Fall/Spring)-33/33"
+   },
+   {
+    "name": "Southwestern School of Management and Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BBA-192, BHM-96, MBA(Fall)-33"
+   },
+   {
+    "name": "Bageswori College of Management",
+    "address": "Kamalbinayak",
+    "district": "Bhaktapur",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Sushma Koirala Memorial Trust",
+    "address": "Nepalgunj",
+    "district": "Banke",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Sushma Koirala Memorial Trust",
+    "address": "Sankhu",
+    "district": "Kathmandu",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Mega Valley College",
+    "address": "Lalitpur",
+    "district": "Lalitpur",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Sahid Aakash Memorial Campus",
+    "address": "Hetauda",
+    "district": "Makawanpur",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Lamahi Samudayik Bigyantatha Prabidhi Sansthan",
+    "address": "Lamahi",
+    "district": "Dang",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Himalayan Kiran Public Campus",
+    "address": "Khandabari",
+    "district": "Sankhuwasabha",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Arun Multiple Campus",
+    "address": "Arun-3",
+    "district": "Bhojpur",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Amardaha Campus",
+    "address": "Sunbarsi-2, Amardaha",
+    "district": "Morang",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "St. Paul's College Sunsary Pvt.Ltd.",
+    "address": "Duhabi-3, Sunsary",
+    "district": "Sunsary",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Nobel Multiple College Bardibas",
+    "address": "Bardibas-14",
+    "district": "Mahottari",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Lions International College Pvt.Ltd.",
+    "address": "Hetauda",
+    "district": "Makawanpur",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Sacred Heart Academy",
+    "address": "Itahari",
+    "district": "Sunsari",
+    "programs": "BBA-48"
+   },
+   {
+    "name": "Libju Community Campus",
+    "address": "Manebhanjyang",
+    "district": "Okhaldhunga",
+    "programs": "BBS-60"
+   },
+   {
+    "name": "Gyan Deep Academy",
+    "address": "Tulsipur",
+    "district": "Dang",
+    "programs": "BBA-48"
+   }
+  ]
+ },
+ "science": {
+  "programs": [
+   [
+    "Bachelor of Computer Application (BCA)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Dairy Technology",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Food Technology",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Information Technology (BIT)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Science (Honours) in Agriculture",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Science in Biotechnology",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Science in Forestry",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Technology in Biotechnology",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Veterinary Science & Animal Husbandry",
+    "5 Years/10 Semesters"
+   ],
+   [
+    "Post Graduate Diploma in Computer Application (PGDCA)",
+    "1 Year/2 Semesters"
+   ],
+   [
+    "Master of Science in Nutrition and Dietetics",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Computer Application (M.C.A.)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Agriculture (Agri-Business Management)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Meat Technology",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Bachelor of Science in Food, Nutrition & Dietetics",
+    "4 Years/8 Semesters"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "P.U. School of Science and Technology (PUSAT)",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BCA-60, BIT-60, B. Tech. in AI-48, PGDCA-20, MCA-33, MIT-33"
+   },
+   {
+    "name": "G.P. Koirala College of Agriculture & Research Centre (GPCAR)",
+    "address": "Gothgaun",
+    "district": "Morang",
+    "programs": "B. Sc. (Hons.) Ag.-96, B. Sc. Food, Nutrition & Dietetics-33"
+   },
+   {
+    "name": "P.U. College of Environment and Forestry",
+    "address": "Gothgaun",
+    "district": "Morang",
+    "programs": "B. Sc. Forestry-48"
+   },
+   {
+    "name": "Nepal Polytechnic Institute",
+    "address": "Bharatpur",
+    "district": "Chitwan",
+    "programs": "B. Sc. (Hons.) Ag.-96, B.V.Sc. & A.H.-48"
+   },
+   {
+    "name": "Gomendra Multiple College",
+    "address": "Birtamode",
+    "district": "Jhapa",
+    "programs": "BCA-96, M.C.A-33, B. Tech. in AI-48"
+   },
+   {
+    "name": "Himalayan Whitehouse Int'l College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-96, B. Tech. (Biotech.)-48"
+   },
+   {
+    "name": "College of Information Technology and Engineering",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BCA-80, BIT-40, MIT-33"
+   },
+   {
+    "name": "Aryan School of Engineering and Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BCA-48, BIT-96, B. Tech. in AI-48"
+   },
+   {
+    "name": "Kantipur City College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BCA-80, BIT-48, MCA-40, PGDCA-30, B. Tech. in AI-48"
+   },
+   {
+    "name": "College of Applied Food & Dairy Technology (CAFODAT)",
+    "address": "Lalitpur",
+    "district": "Lalitpur",
+    "programs": "B. Tech. (Food)-48, B. Tech. (Dairy)-33, M. Sc. in Nutrition & Dietetics-33, BIT-48"
+   },
+   {
+    "name": "Kist College of Information Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48, MIT-33"
+   },
+   {
+    "name": "Himalayan College of Agricultural Sciences and Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "B. Sc. (Hons.) Ag.-96, B.V.Sc. & A.H.-48, M. Sc. (Meat/Dairy)-20/20, M.Sc. in Agri-Business Mgmt.-30"
+   },
+   {
+    "name": "SANN International College for Higher Studies",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "B. Sc. (Biotech.)-40"
+   },
+   {
+    "name": "Kantipur Valley College",
+    "address": "Lalitpur",
+    "district": "Lalitpur",
+    "programs": "B. Tech. (Biotech.)-48, BIT-48"
+   },
+   {
+    "name": "Durga Devi Community Development Center",
+    "address": "Kamal",
+    "district": "Jhapa",
+    "programs": "B. Sc. Forestry-48"
+   },
+   {
+    "name": "Janakpur Community College",
+    "address": "Janakpur",
+    "district": "Dhanusha",
+    "programs": "BIT-48, B.Sc.( Hons.) Ag.-48"
+   },
+   {
+    "name": "Ilam Community Agriculture Campus",
+    "address": "Ilam",
+    "district": "Ilam",
+    "programs": "B. Sc. (Hons.) Ag.-48"
+   },
+   {
+    "name": "Lumbini Adarsha Degree College",
+    "address": "Kawasoti",
+    "district": "Nawalparasi",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Madan Bhandari Memorial Academy",
+    "address": "Urlabari",
+    "district": "Morang",
+    "programs": "B. Sc. (Hons.) Ag., BIT"
+   },
+   {
+    "name": "Sushma Koirala Memorial Trust",
+    "address": "Nepalgunj",
+    "district": "Banke",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Lamahi Community Institute of Science & Technology",
+    "address": "Gadhawa",
+    "district": "Dang",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Kuleshwor Awas Campus",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Mangal Prasad Women's College",
+    "address": "Nepalgunj",
+    "district": "Banke",
+    "programs": "BCA-48"
+   },
+   {
+    "name": "Lumbini Integrated Academy",
+    "address": "Tilottama",
+    "district": "Rupandehi",
+    "programs": "B.Sc. Forestry-48"
+   },
+   {
+    "name": "Sahid Aakash Memorial Campus (SAMC)",
+    "address": "Hetauda",
+    "district": "Makawanpur",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Global College of Social Science and Technology",
+    "address": "Baneshwor",
+    "district": "Kathmandu",
+    "programs": "B. Tech. in AI- 48"
+   },
+   {
+    "name": "National Institute of Engineering and Technology",
+    "address": "Kupondole",
+    "district": "Lalitpur",
+    "programs": "B. Tech. in AI- 48"
+   },
+   {
+    "name": "Gateway College of Professional Studies",
+    "address": "Basundhara",
+    "district": "Kathmandu",
+    "programs": "B. Tech. in AI-48"
+   },
+   {
+    "name": "Orchid College of Management and Technology",
+    "address": "Gaushala",
+    "district": "Kathmandu",
+    "programs": "B. Tech. in AI-48, BIT-48"
+   },
+   {
+    "name": "Central Engineering College",
+    "address": "Janakpurdham",
+    "district": "Dhanusha",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Saraswati Public Campus",
+    "address": "Dadarbairiya",
+    "district": "Morang",
+    "programs": "BCA-48"
+   },
+   {
+    "name": "Kasturi College",
+    "address": "Itahari",
+    "district": "Sunsari",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Hetauda Janapriya Campus",
+    "address": "Hetauda",
+    "district": "Makawanpur",
+    "programs": "B.Sc. (Hons.) Ag.-48"
+   },
+   {
+    "name": "Kathmandu Don Bosco College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Acme Engineering College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Model Purbanchal College",
+    "address": "Janakpur",
+    "district": "Dhanusha",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Kantipur International College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "B. Tech. in AI-48"
+   },
+   {
+    "name": "Khwopa Engineering College",
+    "address": "Bhaktapur",
+    "district": "Bhaktapur",
+    "programs": "BIT-48, BCA-48"
+   },
+   {
+    "name": "Southwestern School of Management and Technology",
+    "address": "Basundhara",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Devaki College of Management & Sciences",
+    "address": "Mirchaiya",
+    "district": "Siraha",
+    "programs": "BCA IT-48"
+   },
+   {
+    "name": "Birgunj Public College",
+    "address": "Birgunj",
+    "district": "Parsa",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Kathmandu Academy of Tourism and Hospitality",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Asian College of Management & Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Hillside College of Engineering",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Shepherd College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   },
+   {
+    "name": "Kasthamandap College of Management",
+    "address": "Kalanki",
+    "district": "Kathmandu",
+    "programs": "BIT-48"
+   }
+  ]
+ },
+ "health": {
+  "programs": [
+   [
+    "Post Basic Bachelor of Nursing Science (PBNS)",
+    "3 Years"
+   ],
+   [
+    "Bachelor in Pharmacy",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Public Health (BPH)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Science in Medical Laboratory Technology (B.Sc. MLT)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Science in Nursing",
+    "4 Years"
+   ],
+   [
+    "Master of Public Health (MPH)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master in Pharmacy (M. Pharm.)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Bachelor of Medicine and Bachelor of Surgery (MBBS)",
+    "5 Years"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "Purbanchal University School of Health Sciences",
+    "address": "Gothgaun",
+    "district": "Morang",
+    "programs": "BSc. Nursing, PBNS, BPH, B. Pharm, BSc. MLT, M.Pharm, MPH"
+   },
+   {
+    "name": "Alka Hospital Pvt. Ltd.",
+    "address": "Jawalakhel",
+    "district": "Lalitpur",
+    "programs": "PBNS"
+   },
+   {
+    "name": "Asian college for Advance Studies Pvt. Ltd.",
+    "address": "Satdobato",
+    "district": "Lalitpur",
+    "programs": "BSc. Nursing, PBNS, BPH, B. Pharm"
+   },
+   {
+    "name": "B & B Medical Institute",
+    "address": "Gwarko",
+    "district": "Lalitpur",
+    "programs": "PBNS, BSc. Nursing"
+   },
+   {
+    "name": "Bheri Nursing College",
+    "address": "Nepalgunj",
+    "district": "Banke",
+    "programs": "PBNS, BSc. Nursing"
+   },
+   {
+    "name": "Birat Health College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "PBNS, BSc. Nursing, BPH"
+   },
+   {
+    "name": "Chakrabarti Habi Education Academy College of Nursing Science",
+    "address": "Bhaktapur",
+    "district": "Bhaktapur",
+    "programs": "PBNS, BSc. Nursing, BPH"
+   },
+   {
+    "name": "Charak Academy Pvt. Ltd.",
+    "address": "Pokhara",
+    "district": "Kaski",
+    "programs": "PBNS, BSc. Nursing"
+   },
+   {
+    "name": "Devdaha College of Science & Technology Pvt. Ltd.",
+    "address": "Butwal",
+    "district": "Rupandehi",
+    "programs": "BSc. Nursing"
+   },
+   {
+    "name": "Edenburgh International College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BPH"
+   },
+   {
+    "name": "Everest College of Nursing",
+    "address": "Sinamangal",
+    "district": "Kathmandu",
+    "programs": "PBNS, BSc. Nursing"
+   },
+   {
+    "name": "Hamro School of Nursing Pvt. Ltd.",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BSN"
+   },
+   {
+    "name": "HOPE International College",
+    "address": "Satdobato",
+    "district": "Lalitpur",
+    "programs": "BSc. Nursing, PBNS, BPH, B. Pharm"
+   },
+   {
+    "name": "Innovative College of Health Science Pvt. Ltd.",
+    "address": "Sifal",
+    "district": "Kathmandu",
+    "programs": "PBNS"
+   },
+   {
+    "name": "Kantipur Academy of Health Science",
+    "address": "Tinkune",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing, PBNS, BPH, B.Pharm"
+   },
+   {
+    "name": "Kathmandu Model Hospital School of Nursing",
+    "address": "Swoyambhu",
+    "district": "Kathmandu",
+    "programs": "PBNS, BSc. Nursing"
+   },
+   {
+    "name": "Kathmandu Multiple College",
+    "address": "Gaushala",
+    "district": "Kathmandu",
+    "programs": "BPH, B. Pharm"
+   },
+   {
+    "name": "Koshi Health & Science Campus",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BPH, PBNS"
+   },
+   {
+    "name": "Krishna Medical & Technical Research Centre Pvt. Ltd.",
+    "address": "Janakpurdham",
+    "district": "Dhanusha",
+    "programs": "PBNS, BSc. Nursing, B. Pharm., BPH"
+   },
+   {
+    "name": "Little Buddha College of Health Science",
+    "address": "Minbhaban",
+    "district": "Kathmandu",
+    "programs": "BPH, B. Pharm"
+   },
+   {
+    "name": "Mayadevi Technical College",
+    "address": "Butwal",
+    "district": "Rupandehi",
+    "programs": "PBNS"
+   },
+   {
+    "name": "N.P.I. Narayani Samudayik Hospital Ltd.",
+    "address": "Chitwan",
+    "district": "Chitwan",
+    "programs": "BSc. Nursing, PBNS"
+   },
+   {
+    "name": "Nagarik College of Health Sciences",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "PBNS, BSc. Nursing"
+   },
+   {
+    "name": "National Academy for Medical Science",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing, BPH, B.Pharmacy-20"
+   },
+   {
+    "name": "Nepal Institute of Health Science",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing, PBNS, BPH"
+   },
+   {
+    "name": "Nepal Polytechnic Institute",
+    "address": "Bharatpur",
+    "district": "Chitwan",
+    "programs": "PBNS"
+   },
+   {
+    "name": "Norvic College of Health Sciences and Technologies",
+    "address": "Maharajgunj",
+    "district": "Kathmandu",
+    "programs": "PBNS, BSc. Nursing, B. Pharm., BPH"
+   },
+   {
+    "name": "Novel Academy",
+    "address": "Pokhara",
+    "district": "Kaski",
+    "programs": "BSc. Nursing, B. Pharm"
+   },
+   {
+    "name": "Oasis Medical College Teaching Hospital & Research Center (P) Ltd.",
+    "address": "Bharatpur",
+    "district": "Chitwan",
+    "programs": "BSc. Nursing, PBNS, BPH"
+   },
+   {
+    "name": "Om Health Campus Pvt. Ltd.",
+    "address": "Chabahil",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing, PBNS, BPH"
+   },
+   {
+    "name": "Sanjeevani College of Medical Science",
+    "address": "Butwal",
+    "district": "Rupandehi",
+    "programs": "BSc. Nursing, PBNS, BPH"
+   },
+   {
+    "name": "SANN Institute of Nursing Pvt. Ltd.",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing"
+   },
+   {
+    "name": "Saptarishi Multiple College",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "BPH"
+   },
+   {
+    "name": "Shree Medical & Technical College",
+    "address": "Chitwan",
+    "district": "Chitwan",
+    "programs": "BSc. Nursing, PBNS, BPH, B. Pharm, M.Pharm, MPH"
+   },
+   {
+    "name": "Sinha Health Foundation",
+    "address": "Janakpurdham",
+    "district": "Dhanusha",
+    "programs": "BSc. Nursing, PBNS, B. Pharm., BPH"
+   },
+   {
+    "name": "Susma Koirala Memorial Nursing Campus",
+    "address": "Sankhu",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing"
+   },
+   {
+    "name": "Unique Medical College & Teaching Hospital Pvt. Ltd.",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "PBNS, BPH"
+   },
+   {
+    "name": "Valley College of Technical Science",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BPH, B. Pharm"
+   },
+   {
+    "name": "Yeti Health Science Academy",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BSc. Nursing, BPH, PBNS"
+   },
+   {
+    "name": "Purbanchal University School of Medicine",
+    "address": "Gothgaun",
+    "district": "Morang",
+    "programs": "Bachelor of Medicine and Bachelor of Surgery (MBBS)"
+   }
+  ]
+ },
+ "arts": {
+  "programs": [
+   [
+    "Bachelor of Arts (BA)",
+    "4 Years"
+   ],
+   [
+    "Bachelor of Arts (BA Honours)",
+    "4 Years"
+   ],
+   [
+    "Bachelor of Social Work (BSW)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Mass Communication & Journalism (BAMCJ)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Media Technology (BMT)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Liberal Arts & Science (BLAS)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor of Interior Design (BID)",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Master of Journalism & Mass Communication (MAMCJ)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Media Technology (MMT)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Development Studies (MDEVS)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Development Communication (MDC)",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Population & Rural Development",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Sociology/Anthropology",
+    "2 Years"
+   ],
+   [
+    "Master of Social Work (MSW)",
+    "2 Years/4 Semesters"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "Janta Adarsha Multiple Campus",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BSW-48, PGDCP-33, MSW-33"
+   },
+   {
+    "name": "Chakrabarti Habi Educational Academy",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BA (Hon.)-100, MA (Eng.)-100"
+   },
+   {
+    "name": "College of Journalism & Mass Communication",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BAMCJ-25, MAMCJ-25, MDC-25"
+   },
+   {
+    "name": "Kadambari Memorial College of Science & Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BSW-48, MSW-33"
+   },
+   {
+    "name": "Kantipur International College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BID-96"
+   },
+   {
+    "name": "Karfok Bidya Mandir Multiple Campus",
+    "address": "Karfok",
+    "district": "Ilam",
+    "programs": "B.A.-40"
+   },
+   {
+    "name": "Shepherd College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BMT-48, MMT-33"
+   },
+   {
+    "name": "Himalayan Whitehouse Int'l College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BLAS-25"
+   },
+   {
+    "name": "Centre of Population and Development (CPAD)",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "M. Sc. PRD-33"
+   },
+   {
+    "name": "Kantipur City College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "MAMCJ-33"
+   },
+   {
+    "name": "Polygon College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "MAMCJ-40"
+   },
+   {
+    "name": "Global College of Social Science & Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "MDS-33"
+   },
+   {
+    "name": "Sagarmatha Multiple College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "MA (Sociology/Anthropology)-50"
+   }
+  ]
+ },
+ "education": {
+  "programs": [
+   [
+    "Bachelor of Education (B.Ed.)",
+    "4 Years"
+   ],
+   [
+    "One Year Bachelor of Education",
+    "1 Year"
+   ],
+   [
+    "One Year Bachelor of Education (Distance Mode)",
+    "1 Year"
+   ],
+   [
+    "Master of Education (M. Ed.)",
+    "2 Years"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "Janta Adarsha Multiple Campus",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "B. Ed.-60, One Year B. Ed.-40, M. Ed.-50"
+   },
+   {
+    "name": "Annapurna Multiple College",
+    "address": "Kanchanrup",
+    "district": "Saptari",
+    "programs": "B. Ed.-200, One Year B.Ed.-60"
+   },
+   {
+    "name": "Caliber International College",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "B. Ed.-100"
+   },
+   {
+    "name": "Chisankhugadi Campus",
+    "address": "Khanibhanjyang",
+    "district": "Okhaldunga",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Damauli College",
+    "address": "Damauli",
+    "district": "Tanahu",
+    "programs": "B. Ed.-120"
+   },
+   {
+    "name": "Everest Multiple College",
+    "address": "Salleri",
+    "district": "Solukhumbu",
+    "programs": "B. Ed.-180"
+   },
+   {
+    "name": "Gograha College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "B. Ed.-80, One Year B. Ed.-40, M. Ed.-50"
+   },
+   {
+    "name": "Harinagara Multiple College",
+    "address": "Harinagar",
+    "district": "Sunsari",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Himalayan Kiran Public Campus",
+    "address": "Khandabari",
+    "district": "Sankhuwasabha",
+    "programs": "B. Ed.-80, One Year B. Ed.-40, M. Ed.-180"
+   },
+   {
+    "name": "Institute of Open Learning, Kathmandu",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "One Year B. Ed. (Distance Mode)-60"
+   },
+   {
+    "name": "Karfok Bidya Mandir Multiple Campus",
+    "address": "Karfok",
+    "district": "Illam",
+    "programs": "B. Ed.-60, One Year B. Ed.-50"
+   },
+   {
+    "name": "Laxmiballav Narsing Multiple College",
+    "address": "Babhangamakatti",
+    "district": "Saptari",
+    "programs": "B. Ed.-200"
+   },
+   {
+    "name": "Lumbini Adarsha Degree College",
+    "address": "Kawashoti",
+    "district": "Nawalparasi",
+    "programs": "B. Ed.-180, One Year B. Ed.-50, M. Ed.-150"
+   },
+   {
+    "name": "Madan Aashrit Smriti Multiple College",
+    "address": "Kerkha",
+    "district": "Jhapa",
+    "programs": "B. Ed.-80, One Year B. Ed.-40, M. Ed.-180"
+   },
+   {
+    "name": "Mangal Prasad Women's College",
+    "address": "Nepalgunj",
+    "district": "Banke",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Mother Memorial College",
+    "address": "Phattepur",
+    "district": "Saptari",
+    "programs": "B. Ed.-50"
+   },
+   {
+    "name": "National Multiple College",
+    "address": "Dharan",
+    "district": "Sunsari",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Public Campus",
+    "address": "Dhanibanigaun",
+    "district": "Morang",
+    "programs": "B. Ed.-200"
+   },
+   {
+    "name": "Royal Softech College",
+    "address": "Lahan",
+    "district": "Siraha",
+    "programs": "B. Ed.-120"
+   },
+   {
+    "name": "Saraswati Public Campus",
+    "address": "Dadarbairiya",
+    "district": "Morang",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Sungava Multiple College",
+    "address": "Kanchanpur",
+    "district": "Saptari",
+    "programs": "B. Ed.-100"
+   },
+   {
+    "name": "Tribhuvan Campus",
+    "address": "Manechauka",
+    "district": "Tanahu",
+    "programs": "B. Ed.-80, One Year B. Ed.-30"
+   },
+   {
+    "name": "Triveni Public Campus",
+    "address": "Bahrabise",
+    "district": "Sankhuwasabha",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Wana Campus",
+    "address": "Panchapakhan",
+    "district": "Sankhuwasabha",
+    "programs": "B. Ed.-60"
+   },
+   {
+    "name": "Annapurna College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "M. Ed.-180"
+   },
+   {
+    "name": "Edenburg International College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "M. Ed.-180"
+   },
+   {
+    "name": "Saptarishi Multiple College",
+    "address": "Rajbiraj",
+    "district": "Saptari",
+    "programs": "M. Ed.-100"
+   },
+   {
+    "name": "Libju Community Campus",
+    "address": "Manebhanjyang",
+    "district": "Okhaldhunga",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Khadak Multiple Campus",
+    "address": "Kalyanpur",
+    "district": "Saptari",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Gurans Multiple Campus",
+    "address": "Gurans",
+    "district": "Dailekh",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Jagadamba Campus",
+    "address": "Sunkoshi",
+    "district": "Okhaldhunga",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Siddanath Campus",
+    "address": "Bhangaha",
+    "district": "Mahottari",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Arun Multiple Campus",
+    "address": "Arun-3",
+    "district": "Bhojpur",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Narayani Multiple Campus",
+    "address": "Mauwakhola",
+    "district": "Taplejung",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Saraswati Multiple Campus",
+    "address": "Gadhi-3, Aurabani",
+    "district": "Sunsari",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Adarsha Campus",
+    "address": "Barahakshetra",
+    "district": "Sunsari",
+    "programs": "B.Ed.-60"
+   },
+   {
+    "name": "Amardaha Campus",
+    "address": "Sunbarsi-2, Amardaha",
+    "district": "Morang",
+    "programs": "B.Ed.-60"
+   }
+  ]
+ },
+ "law": {
+  "programs": [
+   [
+    "LL. B.",
+    "3 Years"
+   ],
+   [
+    "B.A. LL.B.",
+    "5 Years"
+   ],
+   [
+    "LL. M. in Business & International Trade Law",
+    "2 Years"
+   ],
+   [
+    "LL.M in Human Rights & Gender Justice",
+    "2 Years"
+   ],
+   [
+    "LL.M. in Criminal Law & Justice",
+    "2 Years"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "P.U. College of Law",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "LL. B.-120, B.A. LL.B.-60"
+   },
+   {
+    "name": "Bright Vision Law College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "B.A. LL.B.-180, LL. M.-100"
+   },
+   {
+    "name": "Chakrabarti Habi Education Academy",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "B.A. LL.B.-100, LL. M.-100"
+   },
+   {
+    "name": "Kathmandu School of Law",
+    "address": "Dadhikot",
+    "district": "Bhaktapur",
+    "programs": "B.A. LL.B.-250, LL. M.-100"
+   },
+   {
+    "name": "Khwopa College of Law",
+    "address": "Dakocha",
+    "district": "Bhaktapur",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Lumbini Integrated Academy",
+    "address": "Tilottama",
+    "district": "Rupandehi",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Mega College of Law",
+    "address": "Lalitipur",
+    "district": "Lalitipur",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Sagarmatha College of Law",
+    "address": "Dillibazar",
+    "district": "Kathmandu",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Solukhumbu Law Campus",
+    "address": "Salleri",
+    "district": "Solukhumbu",
+    "programs": "LL.B.-60"
+   },
+   {
+    "name": "Global School of Law",
+    "address": "New Baneshwor",
+    "district": "Kathmandu",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Siddhartha Law Campus",
+    "address": "Hetauda",
+    "district": "Makawanpur",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Model College of Law",
+    "address": "Janakpurdham",
+    "district": "Dhanusha",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Asian College of Law",
+    "address": "Nagarjun",
+    "district": "Kathmandu",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Kantipur International College of Law",
+    "address": "New Baneshwor",
+    "district": "Kathmandu",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Himalayan Whitehouse College of Law",
+    "address": "Putalisadak",
+    "district": "Kathmandu",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Maharshi Law College",
+    "address": "Kupondole",
+    "district": "Lalitpur",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Annapurna Law College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "B.A. LL.B.-60"
+   },
+   {
+    "name": "Imperial Law College",
+    "address": "Thapagaun",
+    "district": "Kathmandu",
+    "programs": "B.A. L.L.B.-60"
+   },
+   {
+    "name": "Shree College of Law",
+    "address": "Bharatpur",
+    "district": "Chitwan",
+    "programs": "B.A. L.L.B.-60"
+   }
+  ]
+ },
+ "engineering": {
+  "programs": [
+   [
+    "Bachelor in Biomedical Engineering",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor in Civil Engineering",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor in Computer Engineering",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor in Electrical Engineering",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor in Electronics Communication & Automation Engineering",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Bachelor in Architecture (B. Arch.)",
+    "5 Years/10 Semesters"
+   ],
+   [
+    "Bachelor in Geomatic Engineering",
+    "4 Years/8 Semesters"
+   ],
+   [
+    "Master of Engineering in Earthquake",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Engineering Management",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Information System Engineering",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Urban Design & Conservation",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Construction Management",
+    "2 Years/4 Semesters"
+   ],
+   [
+    "Master of Science in Electrical Power Engineering",
+    "2 Years/4 Semesters"
+   ]
+  ],
+  "colleges": [
+   {
+    "name": "P. U. School of Engineering (PUSOE)",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BE Civil-96, BE Computer-96, BE Elx., Comm. & Automation-60, BE Electrical-48, M.Sc. EM-30, M.Sc. ISE-30, M.Sc. CM-20, M.Sc. EPE-20, M.E. in Earthquake-20"
+   },
+   {
+    "name": "Acme Engineering College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-144, BE Computer-60, B. Arch.-48, M.Sc. ISE-30, M.Sc. EM-30"
+   },
+   {
+    "name": "Aryan School of Engineering and Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-96, B.E. (Computer)-48"
+   },
+   {
+    "name": "Central Engineering College",
+    "address": "Janakpurdham",
+    "district": "Dhanusha",
+    "programs": "BE Civil-48, BE Electrical-48"
+   },
+   {
+    "name": "College of Information Technology and Engineering",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Computer-40"
+   },
+   {
+    "name": "Eastern College of Engineering",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BE Civil-96, BE Computer-48, BE EC & Automation-30"
+   },
+   {
+    "name": "Hillside College of Engineering",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-96, BE Electrical-48, M.Sc. CM-20, M.Sc. EPE-20, BE Computer-48"
+   },
+   {
+    "name": "Himalayan college of Geomatic Engineering and Land Resources Management",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Geomatic-48"
+   },
+   {
+    "name": "Himalayan Institute of Science & Technology",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-60, M.Sc. ISE-30, M.Sc. EM-40, BE Computer-48"
+   },
+   {
+    "name": "Himalayan Whitehouse Int'l College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-144, BE Computer-48"
+   },
+   {
+    "name": "Kantipur International College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-96, B. Arch.-96, M.Sc. CM-20, M.E. in Earthquake-20"
+   },
+   {
+    "name": "Kantipur City College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-144, BE Computer-40"
+   },
+   {
+    "name": "Khwopa Engineering College",
+    "address": "Bhaktapur",
+    "district": "Bhaktapur",
+    "programs": "BE Civil-96, BE Computer-60, BE EC & Automation-80, B. Arch.-60, M.E. in Earthquake-20, M. Sc. UDC-20"
+   },
+   {
+    "name": "Morgan Engineering and Management College",
+    "address": "Kathmandu",
+    "district": "Kathmandu",
+    "programs": "BE Civil-48"
+   },
+   {
+    "name": "Nepal Polytechnic Institute",
+    "address": "Bharatpur",
+    "district": "Chitwan",
+    "programs": "BE Civil-96, BE Electrical-48, BE Computer-48"
+   },
+   {
+    "name": "Pathivara Center for Advance Studies",
+    "address": "Birtamode",
+    "district": "Jhapa",
+    "programs": "BE Civil-48, BE Computer-48"
+   },
+   {
+    "name": "Dhulabari Campus",
+    "address": "Mechinagar",
+    "district": "Jhapa",
+    "programs": "BE Civil-48"
+   },
+   {
+    "name": "National Institute of Engineering and Technology",
+    "address": "Kupondole",
+    "district": "Lalitpur",
+    "programs": "BE Biomedical-144, BE (Computer)-48"
+   },
+   {
+    "name": "Mega College of Engineering",
+    "address": "Lalitpur",
+    "district": "Lalitpur",
+    "programs": "BE (Computer)-48"
+   },
+   {
+    "name": "Mansarobar Institute of Science and Technology",
+    "address": "Damak",
+    "district": "Jhapa",
+    "programs": "BE-Civil-48"
+   },
+   {
+    "name": "S.R. Engineering College",
+    "address": "Biratnagar",
+    "district": "Morang",
+    "programs": "BE Computer-48"
+   }
+  ]
+ }
+}

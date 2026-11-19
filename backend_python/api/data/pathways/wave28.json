@@ -1,0 +1,2092 @@
+{
+ "providers_add": [
+  {
+   "id": "p-w28-pu-p-u-school-of-management-morang",
+   "name": "P. U. School of Management (PUSOM)",
+   "kind": "College",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-105; MBA (Spring/Fall)-33/33; M.Phil.-16; Ph.D. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 105,
+   "route_seats": {
+    "bba": 105,
+    "mba": 66
+   }
+  },
+  {
+   "id": "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam",
+   "name": "Karfok Bidya Mandir Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Ilam",
+   "place": "Suryodaya",
+   "note": "Purbanchal University affiliated college at Suryodaya, listed on the PU Faculty of Management and Faculty of Arts and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; BBA-48; B.A.-40; B. Ed.-60; One Year B. Ed.-50. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 208,
+   "route_seats": {
+    "bbs": 60,
+    "bba": 48,
+    "ba": 40,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-gomendra-multiple-college-jhapa",
+   "name": "Gomendra Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Jhapa",
+   "place": "Birtamode",
+   "note": "Purbanchal University affiliated college at Birtamode, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; BBS-60; MBA (Fall)-33; BCA-96; M.C.A-33; B. Tech. in AI-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 252,
+   "route_seats": {
+    "bba": 96,
+    "bbs": 60,
+    "mba": 33,
+    "bca": 96,
+    "mca": 33
+   }
+  },
+  {
+   "id": "p-w28-pu-zenith-international-college-morang",
+   "name": "Zenith International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144; MBA(Spring/Fall)-33/33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 144,
+    "mba": 66
+   }
+  },
+  {
+   "id": "p-w28-pu-edenburgh-international-college-morang",
+   "name": "Edenburgh International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Management and Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; BPH. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 96
+   }
+  },
+  {
+   "id": "p-w28-pu-public-campus-morang",
+   "name": "Public Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Dhanibanigaun",
+   "note": "Purbanchal University affiliated college at Dhanibanigaun, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-180; B. Ed.-200. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 380,
+   "route_seats": {
+    "bbs": 180,
+    "bed": 200
+   }
+  },
+  {
+   "id": "p-w28-pu-saraswati-public-campus-morang",
+   "name": "Saraswati Public Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Dadarbairiya",
+   "note": "Purbanchal University affiliated college at Dadarbairiya, listed on the PU Faculty of Management and Faculty of Science and Technology and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; BCA-48; B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 168,
+   "route_seats": {
+    "bbs": 60,
+    "bca": 48,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-harinagara-multiple-college-sunsari",
+   "name": "Harinagara Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Sunsari",
+   "place": "Harinagar",
+   "note": "Purbanchal University affiliated college at Harinagar, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-dharan-college-of-management-sunsari",
+   "name": "Dharan College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Dharan",
+   "note": "Purbanchal University affiliated college at Dharan, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48; MBA (Fall)-33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48,
+    "mba": 33
+   }
+  },
+  {
+   "id": "p-w28-pu-national-multiple-college-sunsari",
+   "name": "National Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Sunsari",
+   "place": "Dharan",
+   "note": "Purbanchal University affiliated college at Dharan, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-kasturi-college-sunsari",
+   "name": "Kasturi College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "Purbanchal University affiliated college at Itahari, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; BIT-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 96,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-kshitiz-educational-foundation-saptari",
+   "name": "Kshitiz Educational Foundation",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Rajbiraj",
+   "note": "Purbanchal University affiliated college at Rajbiraj, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 96
+   }
+  },
+  {
+   "id": "p-w28-pu-caliber-international-college-saptari",
+   "name": "Caliber International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Saptari",
+   "place": "Rajbiraj",
+   "note": "Purbanchal University affiliated college at Rajbiraj, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48; B. Ed.-100. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 148,
+   "route_seats": {
+    "bba": 48,
+    "bed": 100
+   }
+  },
+  {
+   "id": "p-w28-pu-saptarishi-multiple-college-saptari",
+   "name": "Saptarishi Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Rajbiraj",
+   "note": "Purbanchal University affiliated college at Rajbiraj, listed on the PU Faculty of Management and Faculty of Medical and Allied Sciences and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; MBA (Fall)-33; BPH; M. Ed.-100. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 96,
+    "mba": 33,
+    "med": 100
+   }
+  },
+  {
+   "id": "p-w28-pu-annapurna-multiple-campus-saptari",
+   "name": "Annapurna Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Kanchanrup",
+   "note": "Purbanchal University affiliated college at Kanchanrup, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-300; B. Ed.-200; One Year B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 500,
+   "route_seats": {
+    "bbs": 300,
+    "bed": 200
+   }
+  },
+  {
+   "id": "p-w28-pu-sungava-multiple-college-saptari",
+   "name": "Sungava Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Kanchanrup",
+   "note": "Purbanchal University affiliated college at Kanchanrup, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-120; B. Ed.-100. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 220,
+   "route_seats": {
+    "bbs": 120,
+    "bed": 100
+   }
+  },
+  {
+   "id": "p-w28-pu-mother-memorial-college-saptari",
+   "name": "Mother Memorial College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Phattepur",
+   "note": "Purbanchal University affiliated college at Phattepur, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B. Ed.-50. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 110,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 50
+   }
+  },
+  {
+   "id": "p-w28-pu-devaki-college-of-management-and-sciences-siraha",
+   "name": "Devaki College of Management & Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Siraha",
+   "place": "Mirchaiya",
+   "note": "Purbanchal University affiliated college at Mirchaiya, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; BCA IT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 96,
+    "bca": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-janaki-college-of-management-dhanusha",
+   "name": "Janaki College of Management Pvt.Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "note": "Purbanchal University affiliated college at Janakpur, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 144
+   }
+  },
+  {
+   "id": "p-w28-pu-model-purbanchal-college-dhanusha",
+   "name": "Model Purbanchal College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "note": "Purbanchal University affiliated college at Janakpur, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144; MBA (Spring)-33; BIT-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 192,
+   "route_seats": {
+    "bba": 144,
+    "mba": 33,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-central-management-college-dhanusha",
+   "name": "Central Management College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpur",
+   "note": "Purbanchal University affiliated college at Janakpur, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; MBA (Spring)-33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 96,
+    "mba": 33
+   }
+  },
+  {
+   "id": "p-w28-pu-birgunj-public-college-parsa",
+   "name": "Birgunj Public College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Parsa",
+   "place": "Birgunj",
+   "note": "Purbanchal University affiliated college at Birgunj, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144; MBA (Spring/Fall)-33/33; BIT-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 192,
+   "route_seats": {
+    "bba": 144,
+    "mba": 66,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-presidency-college-of-management-sciences-chitwan",
+   "name": "Presidency College of Management Sciences",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "Purbanchal University affiliated college at Bharatpur, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144; MBA (Spring/Fall)-33/33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 144,
+    "mba": 66
+   }
+  },
+  {
+   "id": "p-w28-pu-lumbini-adarsh-degree-college-nawalparasieast",
+   "name": "Lumbini Adarsh Degree College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Nawalparasi East",
+   "place": "Kawasoti",
+   "note": "Purbanchal University affiliated college at Kawasoti, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-120; BBA-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 168,
+   "route_seats": {
+    "bbs": 120,
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-shreenagar-integrated-college-kapilvastu",
+   "name": "Shreenagar Integrated College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kapilvastu",
+   "place": "Kapilbastu",
+   "note": "Purbanchal University affiliated college at Kapilbastu, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 96
+   }
+  },
+  {
+   "id": "p-w28-pu-mangal-prasad-women-s-college-banke",
+   "name": "Mangal Prasad Women's College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "note": "Purbanchal University affiliated college at Nepalgunj, listed on the PU Faculty of Management and Faculty of Science and Technology and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; BCA-48; B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 168,
+   "route_seats": {
+    "bbs": 60,
+    "bca": 48,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-tribhuvan-campus-tanahu",
+   "name": "Tribhuvan Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Tanahu",
+   "place": "Manechauka",
+   "note": "Purbanchal University affiliated college at Manechauka, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B. Ed.-80; One Year B. Ed.-30. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 140,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 80
+   }
+  },
+  {
+   "id": "p-w28-pu-aryan-college-of-management-kathmandu",
+   "name": "Aryan College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-asian-college-of-management-and-technology-kathmandu",
+   "name": "Asian College of Management & Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; MBA (Fall/Spring)-33/33; BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 96,
+    "mba": 66,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-gateway-college-of-professional-studies-kathmandu",
+   "name": "Gateway College of Professional Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BHM-96; MHHM-33; B. Tech. in AI-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bhm": 96
+   }
+  },
+  {
+   "id": "p-w28-pu-d-a-v-business-school-kathmandu",
+   "name": "D.A.V. Business School",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: MBA (Spring/Fall)-33/33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "route_seats": {
+    "mba": 66
+   }
+  },
+  {
+   "id": "p-w28-pu-kathmandu-don-bosco-college-kathmandu",
+   "name": "Kathmandu Don Bosco College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144; MBA (Spring/Fall)-33/33; EMBA (Spring/Fall)-30/30; BIT-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 192,
+   "route_seats": {
+    "bba": 144,
+    "mba": 66,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-kantipur-valley-college-lalitpur",
+   "name": "Kantipur Valley College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kumaripati",
+   "note": "Purbanchal University affiliated college at Kumaripati, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; MBA(Fall/Spring)-33/33; EMBA (Fall/Spring)-30/30; B. Tech. (Biotech.)-48; BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 96,
+    "mba": 66,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-kasthamandap-school-of-public-affair-management-kathmandu",
+   "name": "Kasthamandap School of Public Affair Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: MPA (Spring/Fall)-30/30. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "route_seats": {
+    "mpa": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-kathmandu-academy-of-tourism-and-hospitality-kathmandu",
+   "name": "Kathmandu Academy of Tourism and Hospitality",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BTTS-40; MTS-30; BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 88,
+   "route_seats": {
+    "bttm": 40,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-man-management-development-campus-kathmandu",
+   "name": "MAN, Management Development Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: EMBA-30. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-sann-international-college-for-higher-studies-kathmandu",
+   "name": "SANN International College for Higher Studies",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-144; MBA (Fall)-33; B. Sc. (Biotech.)-40. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 144,
+    "mba": 33
+   }
+  },
+  {
+   "id": "p-w28-pu-sagarmatha-multiple-college-kathmandu",
+   "name": "Sagarmatha Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Arts page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; MBA(Fall)-33; MA (Sociology/Anthropology)-50. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 96,
+    "mba": 33,
+    "ma": 50
+   }
+  },
+  {
+   "id": "p-w28-pu-orchid-college-of-management-and-technology-kathmandu",
+   "name": "Orchid College of Management and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-96; MBA (Fall/Spring)-33/33; B. Tech. in AI-48; BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 144,
+   "route_seats": {
+    "bba": 96,
+    "mba": 66,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu",
+   "name": "Southwestern School of Management and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-192; BHM-96; MBA(Fall)-33; BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 336,
+   "route_seats": {
+    "bba": 192,
+    "bhm": 96,
+    "mba": 33,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-bageswori-college-of-management-bhaktapur",
+   "name": "Bageswori College of Management",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Kamalbinayak",
+   "note": "Purbanchal University affiliated college at Kamalbinayak, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-sushma-koirala-memorial-trust-banke",
+   "name": "Sushma Koirala Memorial Trust",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "note": "Purbanchal University affiliated college at Nepalgunj, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48; BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 48,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-sushma-koirala-memorial-trust-kathmandu",
+   "name": "Sushma Koirala Memorial Trust",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sankhu",
+   "note": "Purbanchal University affiliated college at Sankhu, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-mega-valley-college-lalitpur",
+   "name": "Mega Valley College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "note": "Purbanchal University affiliated college at Lalitpur, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-sahid-aakash-memorial-campus-makwanpur",
+   "name": "Sahid Aakash Memorial Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "note": "Purbanchal University affiliated college at Hetauda, listed on the PU Faculty of Management and Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48; BIT-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bba": 48,
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-lamahi-samudayik-bigyantatha-prabidhi-sansthan-dang",
+   "name": "Lamahi Samudayik Bigyantatha Prabidhi Sansthan",
+   "kind": "College",
+   "sector": "Community",
+   "district": "Dang",
+   "place": "Lamahi",
+   "note": "Purbanchal University affiliated college at Lamahi, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-himalayan-kiran-public-campus-sankhuwasabha",
+   "name": "Himalayan Kiran Public Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Sankhuwasabha",
+   "place": "Khandabari",
+   "note": "Purbanchal University affiliated college at Khandabari, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B. Ed.-80; One Year B. Ed.-40; M. Ed.-180. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 140,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 80,
+    "med": 180
+   }
+  },
+  {
+   "id": "p-w28-pu-arun-multiple-campus-bhojpur",
+   "name": "Arun Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Bhojpur",
+   "place": "Arun-3",
+   "note": "Purbanchal University affiliated college at Arun-3, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-amardaha-campus-morang",
+   "name": "Amardaha Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Sunbarsi-2, Amardaha",
+   "note": "Purbanchal University affiliated college at Sunbarsi-2, Amardaha, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-st-paul-s-college-sunsary-sunsari",
+   "name": "St. Paul's College Sunsary Pvt.Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Duhabi-3, Sunsary",
+   "note": "Purbanchal University affiliated college at Duhabi-3, Sunsary, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bbs": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-nobel-multiple-college-bardibas-mahottari",
+   "name": "Nobel Multiple College Bardibas",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Mahottari",
+   "place": "Bardibas-14",
+   "note": "Purbanchal University affiliated college at Bardibas-14, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-lions-international-college-makwanpur",
+   "name": "Lions International College Pvt.Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "note": "Purbanchal University affiliated college at Hetauda, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-sacred-heart-academy-sunsari",
+   "name": "Sacred Heart Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Sunsari",
+   "place": "Itahari",
+   "note": "Purbanchal University affiliated college at Itahari, listed on the PU Faculty of Management page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBA-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bba": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-libju-community-campus-okhaldhunga",
+   "name": "Libju Community Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Okhaldhunga",
+   "place": "Manebhanjyang",
+   "note": "Purbanchal University affiliated college at Manebhanjyang, listed on the PU Faculty of Management and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BBS-60; B.Ed.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bbs": 60,
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-p-u-school-of-science-and-technology-morang",
+   "name": "P.U. School of Science and Technology (PUSAT)",
+   "kind": "College",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BCA-60; BIT-60; B. Tech. in AI-48; PGDCA-20; MCA-33; MIT-33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bca": 60,
+    "bit": 60,
+    "mca": 33
+   }
+  },
+  {
+   "id": "p-w28-pu-g-p-koirala-college-of-agriculture-and-research-morang",
+   "name": "G.P. Koirala College of Agriculture & Research Centre (GPCAR)",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Gothgaun",
+   "note": "Purbanchal University affiliated college at Gothgaun, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Sc. (Hons.) Ag.-96; B. Sc. Food; Nutrition & Dietetics-33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 96,
+   "route_seats": {
+    "bsc-agri": 96
+   }
+  },
+  {
+   "id": "p-w28-pu-p-u-college-of-environment-and-forestry-morang",
+   "name": "P.U. College of Environment and Forestry",
+   "kind": "College",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Gothgaun",
+   "note": "Purbanchal University affiliated college at Gothgaun, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Sc. Forestry-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bsc-forestry": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-kist-college-of-information-technology-kathmandu",
+   "name": "Kist College of Information Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BIT-48; MIT-33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-durga-devi-community-development-center-jhapa",
+   "name": "Durga Devi Community Development Center",
+   "kind": "College",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "Kamal",
+   "note": "Purbanchal University affiliated college at Kamal, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Sc. Forestry-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bsc-forestry": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-ilam-community-agriculture-campus-ilam",
+   "name": "Ilam Community Agriculture Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Ilam",
+   "place": "Ilam",
+   "note": "Purbanchal University affiliated college at Ilam, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Sc. (Hons.) Ag.-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bsc-agri": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-lumbini-adarsha-degree-college-nawalparasieast",
+   "name": "Lumbini Adarsha Degree College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Nawalparasi East",
+   "place": "Kawasoti",
+   "note": "Purbanchal University affiliated college at Kawasoti, listed on the PU Faculty of Science and Technology and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BIT-48; B. Ed.-180; One Year B. Ed.-50; M. Ed.-150. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 228,
+   "route_seats": {
+    "bit": 48,
+    "bed": 180,
+    "med": 150
+   }
+  },
+  {
+   "id": "p-w28-pu-lamahi-community-institute-of-science-and-techno-dang",
+   "name": "Lamahi Community Institute of Science & Technology",
+   "kind": "College",
+   "sector": "Community",
+   "district": "Dang",
+   "place": "Gadhawa",
+   "note": "Purbanchal University affiliated college at Gadhawa, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BIT-48. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-kuleshwor-awas-campus-kathmandu",
+   "name": "Kuleshwor Awas Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BIT-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-lumbini-integrated-academy-rupandehi",
+   "name": "Lumbini Integrated Academy",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Tilottama",
+   "note": "Purbanchal University affiliated college at Tilottama, listed on the PU Faculty of Science and Technology and Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Sc. Forestry-48; B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 108,
+   "route_seats": {
+    "bsc-forestry": 48,
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-global-college-of-social-science-and-technology-kathmandu",
+   "name": "Global College of Social Science and Technology",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Baneshwor",
+   "note": "Purbanchal University affiliated college at Baneshwor, listed on the PU Faculty of Science and Technology and Faculty of Arts page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Tech. in AI- 48; MDS-33. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-hetauda-janapriya-campus-makwanpur",
+   "name": "Hetauda Janapriya Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "note": "Purbanchal University affiliated college at Hetauda, listed on the PU Faculty of Science and Technology page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Sc. (Hons.) Ag.-48. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bsc-agri": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-shepherd-college-kathmandu",
+   "name": "Shepherd College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Science and Technology and Faculty of Arts page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BIT-48; BMT-48; MMT-33. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 48,
+   "route_seats": {
+    "bit": 48
+   }
+  },
+  {
+   "id": "p-w28-pu-alka-hospital-lalitpur",
+   "name": "Alka Hospital Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Jawalakhel",
+   "note": "Purbanchal University affiliated college at Jawalakhel, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: PBNS. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-bheri-nursing-college-banke",
+   "name": "Bheri Nursing College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Banke",
+   "place": "Nepalgunj",
+   "note": "Purbanchal University affiliated college at Nepalgunj, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: PBNS; BSc. Nursing. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-birat-health-college-morang",
+   "name": "Birat Health College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: PBNS; BSc. Nursing; BPH. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-devdaha-college-of-science-and-technology-rupandehi",
+   "name": "Devdaha College of Science & Technology Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Rupandehi",
+   "place": "Butwal",
+   "note": "Purbanchal University affiliated college at Butwal, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSc. Nursing. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-hope-international-college-lalitpur",
+   "name": "HOPE International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Satdobato",
+   "note": "Purbanchal University affiliated college at Satdobato, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSc. Nursing; PBNS; BPH; B. Pharm. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-innovative-college-of-health-science-kathmandu",
+   "name": "Innovative College of Health Science Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sifal",
+   "note": "Purbanchal University affiliated college at Sifal, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: PBNS. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-mayadevi-technical-college-rupandehi",
+   "name": "Mayadevi Technical College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Rupandehi",
+   "place": "Butwal",
+   "note": "Purbanchal University affiliated college at Butwal, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: PBNS. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-nepal-institute-of-health-science-kathmandu",
+   "name": "Nepal Institute of Health Science",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSc. Nursing; PBNS; BPH. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-oasis-medical-college-teaching-hospital-and-rese-chitwan",
+   "name": "Oasis Medical College Teaching Hospital & Research Center (P) Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "Purbanchal University affiliated college at Bharatpur, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSc. Nursing; PBNS; BPH. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-sann-institute-of-nursing-kathmandu",
+   "name": "SANN Institute of Nursing Pvt. Ltd.",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSc. Nursing. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-susma-koirala-memorial-nursing-campus-kathmandu",
+   "name": "Susma Koirala Memorial Nursing Campus",
+   "kind": "Campus",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Sankhu",
+   "note": "Purbanchal University affiliated college at Sankhu, listed on the PU Faculty of Medical and Allied Sciences page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSc. Nursing. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-janta-adarsha-multiple-campus-morang",
+   "name": "Janta Adarsha Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Arts and Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BSW-48; PGDCP-33; MSW-33; B. Ed.-60; One Year B. Ed.-40; M. Ed.-50. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 108,
+   "route_seats": {
+    "bsw": 48,
+    "msw": 33,
+    "bed": 60,
+    "med": 50
+   }
+  },
+  {
+   "id": "p-w28-pu-college-of-journalism-and-mass-communication-kathmandu",
+   "name": "College of Journalism & Mass Communication",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Arts page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: BAMCJ-25; MAMCJ-25; MDC-25. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 25,
+   "route_seats": {
+    "bjmc": 25
+   }
+  },
+  {
+   "id": "p-w28-pu-centre-of-population-and-development-morang",
+   "name": "Centre of Population and Development (CPAD)",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Arts page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: M. Sc. PRD-33. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-polygon-college-kathmandu",
+   "name": "Polygon College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Arts page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: MAMCJ-40. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-chisankhugadi-campus-okhaldhunga",
+   "name": "Chisankhugadi Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Okhaldhunga",
+   "place": "Khanibhanjyang",
+   "note": "Purbanchal University affiliated college at Khanibhanjyang, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-damauli-college-tanahu",
+   "name": "Damauli College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Tanahu",
+   "place": "Damauli",
+   "note": "Purbanchal University affiliated college at Damauli, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-120. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 120,
+   "route_seats": {
+    "bed": 120
+   }
+  },
+  {
+   "id": "p-w28-pu-everest-multiple-college-solukhumbu",
+   "name": "Everest Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Solukhumbu",
+   "place": "Salleri",
+   "note": "Purbanchal University affiliated college at Salleri, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-180. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 180,
+   "route_seats": {
+    "bed": 180
+   }
+  },
+  {
+   "id": "p-w28-pu-institute-of-open-learning-kathmandu-kathmandu",
+   "name": "Institute of Open Learning, Kathmandu",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Kathmandu",
+   "note": "Purbanchal University affiliated college at Kathmandu, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: One Year B. Ed. (Distance Mode)-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college."
+  },
+  {
+   "id": "p-w28-pu-laxmiballav-narsing-multiple-college-saptari",
+   "name": "Laxmiballav Narsing Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Babhangamakatti",
+   "note": "Purbanchal University affiliated college at Babhangamakatti, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-200. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 200,
+   "route_seats": {
+    "bed": 200
+   }
+  },
+  {
+   "id": "p-w28-pu-madan-aashrit-smriti-multiple-college-jhapa",
+   "name": "Madan Aashrit Smriti Multiple College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Jhapa",
+   "place": "Kerkha",
+   "note": "Purbanchal University affiliated college at Kerkha, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-80; One Year B. Ed.-40; M. Ed.-180. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 80,
+   "route_seats": {
+    "bed": 80,
+    "med": 180
+   }
+  },
+  {
+   "id": "p-w28-pu-triveni-public-campus-sankhuwasabha",
+   "name": "Triveni Public Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Sankhuwasabha",
+   "place": "Bahrabise",
+   "note": "Purbanchal University affiliated college at Bahrabise, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-wana-campus-sankhuwasabha",
+   "name": "Wana Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Sankhuwasabha",
+   "place": "Panchapakhan",
+   "note": "Purbanchal University affiliated college at Panchapakhan, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B. Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-annapurna-college-morang",
+   "name": "Annapurna College",
+   "kind": "College",
+   "sector": "Not stated",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: M. Ed.-180. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "route_seats": {
+    "med": 180
+   }
+  },
+  {
+   "id": "p-w28-pu-edenburg-international-college-morang",
+   "name": "Edenburg International College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: M. Ed.-180. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "route_seats": {
+    "med": 180
+   }
+  },
+  {
+   "id": "p-w28-pu-khadak-multiple-campus-saptari",
+   "name": "Khadak Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Saptari",
+   "place": "Kalyanpur",
+   "note": "Purbanchal University affiliated college at Kalyanpur, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-gurans-multiple-campus-dailekh",
+   "name": "Gurans Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Dailekh",
+   "place": "Gurans",
+   "note": "Purbanchal University affiliated college at Gurans, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-jagadamba-campus-okhaldhunga",
+   "name": "Jagadamba Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Okhaldhunga",
+   "place": "Sunkoshi",
+   "note": "Purbanchal University affiliated college at Sunkoshi, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-siddanath-campus-mahottari",
+   "name": "Siddanath Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Mahottari",
+   "place": "Bhangaha",
+   "note": "Purbanchal University affiliated college at Bhangaha, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-narayani-multiple-campus-taplejung",
+   "name": "Narayani Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Taplejung",
+   "place": "Mauwakhola",
+   "note": "Purbanchal University affiliated college at Mauwakhola, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-saraswati-multiple-campus-sunsari",
+   "name": "Saraswati Multiple Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Sunsari",
+   "place": "Gadhi-3, Aurabani",
+   "note": "Purbanchal University affiliated college at Gadhi-3, Aurabani, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-adarsha-campus-sunsari",
+   "name": "Adarsha Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Sunsari",
+   "place": "Barahakshetra",
+   "note": "Purbanchal University affiliated college at Barahakshetra, listed on the PU Faculty of Education page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.Ed.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "bed": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-p-u-college-of-law-morang",
+   "name": "P.U. College of Law",
+   "kind": "College",
+   "sector": "Public",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: LL. B.-120; B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 180,
+   "route_seats": {
+    "llb": 120,
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-bright-vision-law-college-morang",
+   "name": "Bright Vision Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-180; LL. M.-100. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 180,
+   "route_seats": {
+    "ba-llb": 180
+   }
+  },
+  {
+   "id": "p-w28-pu-khwopa-college-of-law-bhaktapur",
+   "name": "Khwopa College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Bhaktapur",
+   "place": "Dakocha",
+   "note": "Purbanchal University affiliated college at Dakocha, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-mega-college-of-law-lalitpur",
+   "name": "Mega College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Lalitipur",
+   "note": "Purbanchal University affiliated college at Lalitipur, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-sagarmatha-college-of-law-kathmandu",
+   "name": "Sagarmatha College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Dillibazar",
+   "note": "Purbanchal University affiliated college at Dillibazar, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-solukhumbu-law-campus-solukhumbu",
+   "name": "Solukhumbu Law Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Solukhumbu",
+   "place": "Salleri",
+   "note": "Purbanchal University affiliated college at Salleri, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: LL.B.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-global-school-of-law-kathmandu",
+   "name": "Global School of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "Purbanchal University affiliated college at New Baneshwor, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-siddhartha-law-campus-makwanpur",
+   "name": "Siddhartha Law Campus",
+   "kind": "Campus",
+   "sector": "Not stated",
+   "district": "Makwanpur",
+   "place": "Hetauda",
+   "note": "Purbanchal University affiliated college at Hetauda, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. The PU list does not give the sector. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-model-college-of-law-dhanusha",
+   "name": "Model College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Dhanusha",
+   "place": "Janakpurdham",
+   "note": "Purbanchal University affiliated college at Janakpurdham, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-asian-college-of-law-kathmandu",
+   "name": "Asian College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Nagarjun",
+   "note": "Purbanchal University affiliated college at Nagarjun, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-kantipur-international-college-of-law-kathmandu",
+   "name": "Kantipur International College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "New Baneshwor",
+   "note": "Purbanchal University affiliated college at New Baneshwor, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-himalayan-whitehouse-college-of-law-kathmandu",
+   "name": "Himalayan Whitehouse College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Putalisadak",
+   "note": "Purbanchal University affiliated college at Putalisadak, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-maharshi-law-college-lalitpur",
+   "name": "Maharshi Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Lalitpur",
+   "place": "Kupondole",
+   "note": "Purbanchal University affiliated college at Kupondole, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-annapurna-law-college-morang",
+   "name": "Annapurna Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Morang",
+   "place": "Biratnagar",
+   "note": "Purbanchal University affiliated college at Biratnagar, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. LL.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-imperial-law-college-kathmandu",
+   "name": "Imperial Law College",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Thapagaun",
+   "note": "Purbanchal University affiliated college at Thapagaun, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. L.L.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  },
+  {
+   "id": "p-w28-pu-shree-college-of-law-chitwan",
+   "name": "Shree College of Law",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Chitwan",
+   "place": "Bharatpur",
+   "note": "Purbanchal University affiliated college at Bharatpur, listed on the PU Faculty of Law page (purbanchaluniversity.edu.np, checked 19 Nov 2026) with approved programmes and quotas: B.A. L.L.B.-60. Quotas are the university approval, not a fee or admission guarantee; confirm the current intake with the college.",
+   "seats": 60,
+   "route_seats": {
+    "ba-llb": 60
+   }
+  }
+ ],
+ "where_add": {
+  "bba": [
+   "p-w28-pu-p-u-school-of-management-morang",
+   "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam",
+   "p-w28-pu-gomendra-multiple-college-jhapa",
+   "p-sasthm",
+   "p-w28-pu-zenith-international-college-morang",
+   "p-w28-pu-edenburgh-international-college-morang",
+   "p-w28-pu-dharan-college-of-management-sunsari",
+   "p-w28-pu-kasturi-college-sunsari",
+   "p-w28-pu-kshitiz-educational-foundation-saptari",
+   "p-w28-pu-caliber-international-college-saptari",
+   "p-w28-pu-saptarishi-multiple-college-saptari",
+   "p-w28-pu-devaki-college-of-management-and-sciences-siraha",
+   "p-w28-pu-janaki-college-of-management-dhanusha",
+   "p-w28-pu-model-purbanchal-college-dhanusha",
+   "p-w28-pu-central-management-college-dhanusha",
+   "p-w28-pu-birgunj-public-college-parsa",
+   "p-w28-pu-presidency-college-of-management-sciences-chitwan",
+   "p-w24-iost-balkumari",
+   "p-w28-pu-lumbini-adarsh-degree-college-nawalparasieast",
+   "p-w28-pu-shreenagar-integrated-college-kapilvastu",
+   "p-novel",
+   "p-w28-pu-aryan-college-of-management-kathmandu",
+   "p-w28-pu-asian-college-of-management-and-technology-kathmandu",
+   "p-cite",
+   "p-hwic",
+   "p-kantipur-city",
+   "p-w28-pu-kathmandu-don-bosco-college-kathmandu",
+   "p-kantipur-intl",
+   "p-w28-pu-kantipur-valley-college-lalitpur",
+   "p-kasthamandap",
+   "p-morgan-eng",
+   "p-w28-pu-sann-international-college-for-higher-studies-kathmandu",
+   "p-w28-pu-sagarmatha-multiple-college-kathmandu",
+   "p-w28-pu-orchid-college-of-management-and-technology-kathmandu",
+   "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu",
+   "p-w28-pu-bageswori-college-of-management-bhaktapur",
+   "p-w28-pu-sushma-koirala-memorial-trust-banke",
+   "p-w28-pu-sushma-koirala-memorial-trust-kathmandu",
+   "p-w28-pu-mega-valley-college-lalitpur",
+   "p-w28-pu-sahid-aakash-memorial-campus-makwanpur",
+   "p-w28-pu-lamahi-samudayik-bigyantatha-prabidhi-sansthan-dang",
+   "p-w28-pu-nobel-multiple-college-bardibas-mahottari",
+   "p-w28-pu-lions-international-college-makwanpur",
+   "p-w28-pu-sacred-heart-academy-sunsari",
+   "p-gyan-deep"
+  ],
+  "mba": [
+   "p-w28-pu-p-u-school-of-management-morang",
+   "p-w28-pu-gomendra-multiple-college-jhapa",
+   "p-sasthm",
+   "p-w28-pu-zenith-international-college-morang",
+   "p-w28-pu-dharan-college-of-management-sunsari",
+   "p-w28-pu-saptarishi-multiple-college-saptari",
+   "p-w28-pu-model-purbanchal-college-dhanusha",
+   "p-w28-pu-central-management-college-dhanusha",
+   "p-w28-pu-birgunj-public-college-parsa",
+   "p-w28-pu-presidency-college-of-management-sciences-chitwan",
+   "p-novel",
+   "p-w28-pu-asian-college-of-management-and-technology-kathmandu",
+   "p-w28-pu-d-a-v-business-school-kathmandu",
+   "p-hwic",
+   "p-w28-pu-kathmandu-don-bosco-college-kathmandu",
+   "p-kantipur-intl",
+   "p-w28-pu-kantipur-valley-college-lalitpur",
+   "p-kasthamandap",
+   "p-morgan-eng",
+   "p-w28-pu-sann-international-college-for-higher-studies-kathmandu",
+   "p-w28-pu-sagarmatha-multiple-college-kathmandu",
+   "p-w28-pu-orchid-college-of-management-and-technology-kathmandu",
+   "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu"
+  ],
+  "bbs": [
+   "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam",
+   "p-w28-pu-gomendra-multiple-college-jhapa",
+   "p-w28-pu-public-campus-morang",
+   "p-w28-pu-saraswati-public-campus-morang",
+   "p-w28-pu-harinagara-multiple-college-sunsari",
+   "p-w28-pu-national-multiple-college-sunsari",
+   "p-w28-pu-annapurna-multiple-campus-saptari",
+   "p-w28-pu-sungava-multiple-college-saptari",
+   "p-w28-pu-mother-memorial-college-saptari",
+   "p-w28-pu-lumbini-adarsh-degree-college-nawalparasieast",
+   "p-w28-pu-mangal-prasad-women-s-college-banke",
+   "p-w28-pu-tribhuvan-campus-tanahu",
+   "p-w28-pu-himalayan-kiran-public-campus-sankhuwasabha",
+   "p-w28-pu-arun-multiple-campus-bhojpur",
+   "p-w28-pu-amardaha-campus-morang",
+   "p-w28-pu-st-paul-s-college-sunsary-sunsari",
+   "p-w28-pu-libju-community-campus-okhaldhunga"
+  ],
+  "ba": [
+   "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam",
+   "p-chakrabarti"
+  ],
+  "bed": [
+   "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam",
+   "p-w28-pu-public-campus-morang",
+   "p-w28-pu-saraswati-public-campus-morang",
+   "p-w28-pu-harinagara-multiple-college-sunsari",
+   "p-w28-pu-national-multiple-college-sunsari",
+   "p-w28-pu-caliber-international-college-saptari",
+   "p-w28-pu-annapurna-multiple-campus-saptari",
+   "p-w28-pu-sungava-multiple-college-saptari",
+   "p-w28-pu-mother-memorial-college-saptari",
+   "p-w28-pu-mangal-prasad-women-s-college-banke",
+   "p-w28-pu-tribhuvan-campus-tanahu",
+   "p-w28-pu-himalayan-kiran-public-campus-sankhuwasabha",
+   "p-w28-pu-arun-multiple-campus-bhojpur",
+   "p-w28-pu-amardaha-campus-morang",
+   "p-w28-pu-libju-community-campus-okhaldhunga",
+   "p-w28-pu-lumbini-adarsha-degree-college-nawalparasieast",
+   "p-w28-pu-janta-adarsha-multiple-campus-morang",
+   "p-w28-pu-chisankhugadi-campus-okhaldhunga",
+   "p-w28-pu-damauli-college-tanahu",
+   "p-w28-pu-everest-multiple-college-solukhumbu",
+   "p-w27-npca-406",
+   "p-w28-pu-laxmiballav-narsing-multiple-college-saptari",
+   "p-w28-pu-madan-aashrit-smriti-multiple-college-jhapa",
+   "p-w28-pu-triveni-public-campus-sankhuwasabha",
+   "p-w28-pu-wana-campus-sankhuwasabha",
+   "p-w28-pu-khadak-multiple-campus-saptari",
+   "p-w28-pu-gurans-multiple-campus-dailekh",
+   "p-w28-pu-jagadamba-campus-okhaldhunga",
+   "p-w28-pu-siddanath-campus-mahottari",
+   "p-w28-pu-narayani-multiple-campus-taplejung",
+   "p-w28-pu-saraswati-multiple-campus-sunsari",
+   "p-w28-pu-adarsha-campus-sunsari"
+  ],
+  "bca": [
+   "p-w28-pu-gomendra-multiple-college-jhapa",
+   "p-w28-pu-saraswati-public-campus-morang",
+   "p-w28-pu-devaki-college-of-management-and-sciences-siraha",
+   "p-w28-pu-mangal-prasad-women-s-college-banke",
+   "p-cite",
+   "p-kantipur-city",
+   "p-w28-pu-p-u-school-of-science-and-technology-morang",
+   "p-aryan-eng",
+   "p-khwopa-eng"
+  ],
+  "mca": [
+   "p-w28-pu-gomendra-multiple-college-jhapa",
+   "p-kantipur-city",
+   "p-w28-pu-p-u-school-of-science-and-technology-morang"
+  ],
+  "bhm": [
+   "p-sasthm",
+   "p-w28-pu-gateway-college-of-professional-studies-kathmandu",
+   "p-hwic",
+   "p-kantipur-intl",
+   "p-morgan-eng",
+   "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu"
+  ],
+  "bph": [
+   "p-w28-pu-edenburgh-international-college-morang",
+   "p-w28-pu-saptarishi-multiple-college-saptari",
+   "p-pu-shs",
+   "p-asian-adv",
+   "p-w28-pu-birat-health-college-morang",
+   "p-chakrabarti",
+   "p-w28-pu-hope-international-college-lalitpur",
+   "p-kantipur-academy",
+   "p-kmc-health",
+   "p-koshi-health",
+   "p-krishna-medical",
+   "p-little-buddha",
+   "p-nams-pu",
+   "p-w28-pu-nepal-institute-of-health-science-kathmandu",
+   "p-norvic",
+   "p-w28-pu-oasis-medical-college-teaching-hospital-and-rese-chitwan",
+   "p-om-health",
+   "p-sanjeevani",
+   "p-shree-medical",
+   "p-sinha-health",
+   "p-unique-med",
+   "p-valley-tech",
+   "p-yeti-health"
+  ],
+  "bit": [
+   "p-w28-pu-kasturi-college-sunsari",
+   "p-w28-pu-model-purbanchal-college-dhanusha",
+   "p-w28-pu-birgunj-public-college-parsa",
+   "p-w28-pu-asian-college-of-management-and-technology-kathmandu",
+   "p-cite",
+   "p-hwic",
+   "p-kantipur-city",
+   "p-w28-pu-kathmandu-don-bosco-college-kathmandu",
+   "p-w28-pu-kantipur-valley-college-lalitpur",
+   "p-kasthamandap",
+   "p-w28-pu-kathmandu-academy-of-tourism-and-hospitality-kathmandu",
+   "p-w28-pu-orchid-college-of-management-and-technology-kathmandu",
+   "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu",
+   "p-w28-pu-sushma-koirala-memorial-trust-banke",
+   "p-w28-pu-sahid-aakash-memorial-campus-makwanpur",
+   "p-w28-pu-p-u-school-of-science-and-technology-morang",
+   "p-aryan-eng",
+   "p-cafodat",
+   "p-w28-pu-kist-college-of-information-technology-kathmandu",
+   "p-w25-ku-janakpur-cc",
+   "p-w28-pu-lumbini-adarsha-degree-college-nawalparasieast",
+   "p-w24-pu-mbman",
+   "p-w28-pu-lamahi-community-institute-of-science-and-techno-dang",
+   "p-w28-pu-kuleshwor-awas-campus-kathmandu",
+   "p-central-eng",
+   "p-acme",
+   "p-khwopa-eng",
+   "p-hillside",
+   "p-w28-pu-shepherd-college-kathmandu"
+  ],
+  "med": [
+   "p-w28-pu-saptarishi-multiple-college-saptari",
+   "p-w28-pu-himalayan-kiran-public-campus-sankhuwasabha",
+   "p-w28-pu-lumbini-adarsha-degree-college-nawalparasieast",
+   "p-w28-pu-janta-adarsha-multiple-campus-morang",
+   "p-w27-npca-406",
+   "p-w28-pu-madan-aashrit-smriti-multiple-college-jhapa",
+   "p-w28-pu-annapurna-college-morang",
+   "p-w28-pu-edenburg-international-college-morang"
+  ],
+  "bsc-nursing": [
+   "p-novel",
+   "p-pu-shs",
+   "p-asian-adv",
+   "p-bb-medical",
+   "p-w28-pu-bheri-nursing-college-banke",
+   "p-w28-pu-birat-health-college-morang",
+   "p-chakrabarti",
+   "p-charak",
+   "p-w28-pu-devdaha-college-of-science-and-technology-rupandehi",
+   "p-everest-nursing",
+   "p-hamro-nursing",
+   "p-w28-pu-hope-international-college-lalitpur",
+   "p-kantipur-academy",
+   "p-kmh-nursing",
+   "p-krishna-medical",
+   "p-npi-narayani",
+   "p-nagarik-health",
+   "p-nams-pu",
+   "p-w28-pu-nepal-institute-of-health-science-kathmandu",
+   "p-norvic",
+   "p-w28-pu-oasis-medical-college-teaching-hospital-and-rese-chitwan",
+   "p-om-health",
+   "p-sanjeevani",
+   "p-w28-pu-sann-institute-of-nursing-kathmandu",
+   "p-shree-medical",
+   "p-sinha-health",
+   "p-w28-pu-susma-koirala-memorial-nursing-campus-kathmandu",
+   "p-yeti-health"
+  ],
+  "bpharm": [
+   "p-novel",
+   "p-pu-shs",
+   "p-asian-adv",
+   "p-w28-pu-hope-international-college-lalitpur",
+   "p-kantipur-academy",
+   "p-kmc-health",
+   "p-krishna-medical",
+   "p-little-buddha",
+   "p-nams-pu",
+   "p-norvic",
+   "p-shree-medical",
+   "p-sinha-health",
+   "p-valley-tech"
+  ],
+  "mpa": [
+   "p-w28-pu-kasthamandap-school-of-public-affair-management-kathmandu"
+  ],
+  "bttm": [
+   "p-w28-pu-kathmandu-academy-of-tourism-and-hospitality-kathmandu"
+  ],
+  "bfd-design": [
+   "p-ncft"
+  ],
+  "ma": [
+   "p-w28-pu-sagarmatha-multiple-college-kathmandu",
+   "p-chakrabarti"
+  ],
+  "bsc-agri": [
+   "p-w28-pu-g-p-koirala-college-of-agriculture-and-research-morang",
+   "p-nepal-polytechnic",
+   "p-hicast",
+   "p-w25-ku-janakpur-cc",
+   "p-w28-pu-ilam-community-agriculture-campus-ilam",
+   "p-w24-pu-mbman",
+   "p-w28-pu-hetauda-janapriya-campus-makwanpur"
+  ],
+  "bsc-forestry": [
+   "p-w28-pu-p-u-college-of-environment-and-forestry-morang",
+   "p-w28-pu-durga-devi-community-development-center-jhapa",
+   "p-w28-pu-lumbini-integrated-academy-rupandehi"
+  ],
+  "bvsc": [
+   "p-nepal-polytechnic",
+   "p-hicast"
+  ],
+  "bns": [
+   "p-nepal-polytechnic",
+   "p-pu-shs",
+   "p-w28-pu-alka-hospital-lalitpur",
+   "p-asian-adv",
+   "p-bb-medical",
+   "p-w28-pu-bheri-nursing-college-banke",
+   "p-w28-pu-birat-health-college-morang",
+   "p-chakrabarti",
+   "p-charak",
+   "p-everest-nursing",
+   "p-w28-pu-hope-international-college-lalitpur",
+   "p-w28-pu-innovative-college-of-health-science-kathmandu",
+   "p-kantipur-academy",
+   "p-kmh-nursing",
+   "p-koshi-health",
+   "p-krishna-medical",
+   "p-w28-pu-mayadevi-technical-college-rupandehi",
+   "p-npi-narayani",
+   "p-nagarik-health",
+   "p-w28-pu-nepal-institute-of-health-science-kathmandu",
+   "p-norvic",
+   "p-w28-pu-oasis-medical-college-teaching-hospital-and-rese-chitwan",
+   "p-om-health",
+   "p-sanjeevani",
+   "p-shree-medical",
+   "p-sinha-health",
+   "p-unique-med",
+   "p-yeti-health"
+  ],
+  "btech-food": [
+   "p-cafodat"
+  ],
+  "ba-llb": [
+   "p-w28-pu-lumbini-integrated-academy-rupandehi",
+   "p-w28-pu-p-u-college-of-law-morang",
+   "p-w28-pu-bright-vision-law-college-morang",
+   "p-chakrabarti",
+   "p-ksl",
+   "p-w28-pu-khwopa-college-of-law-bhaktapur",
+   "p-w28-pu-mega-college-of-law-lalitpur",
+   "p-w28-pu-sagarmatha-college-of-law-kathmandu",
+   "p-w28-pu-global-school-of-law-kathmandu",
+   "p-w28-pu-siddhartha-law-campus-makwanpur",
+   "p-w28-pu-model-college-of-law-dhanusha",
+   "p-w28-pu-asian-college-of-law-kathmandu",
+   "p-w28-pu-kantipur-international-college-of-law-kathmandu",
+   "p-w28-pu-himalayan-whitehouse-college-of-law-kathmandu",
+   "p-w28-pu-maharshi-law-college-lalitpur",
+   "p-w28-pu-annapurna-law-college-morang",
+   "p-w28-pu-imperial-law-college-kathmandu",
+   "p-w28-pu-shree-college-of-law-chitwan"
+  ],
+  "bmlt": [
+   "p-pu-shs"
+  ],
+  "mpharm": [
+   "p-pu-shs",
+   "p-shree-medical"
+  ],
+  "mph": [
+   "p-pu-shs",
+   "p-shree-medical"
+  ],
+  "mbbs": [
+   "p-pu-medicine"
+  ],
+  "bsw": [
+   "p-w28-pu-janta-adarsha-multiple-campus-morang",
+   "p-kadambari"
+  ],
+  "msw": [
+   "p-w28-pu-janta-adarsha-multiple-campus-morang",
+   "p-kadambari"
+  ],
+  "bjmc": [
+   "p-w28-pu-college-of-journalism-and-mass-communication-kathmandu"
+  ],
+  "llb": [
+   "p-w28-pu-p-u-college-of-law-morang",
+   "p-w28-pu-solukhumbu-law-campus-solukhumbu"
+  ]
+ },
+ "route_seats": {
+  "p-sasthm": {
+   "bba": 144,
+   "mba": 33
+  },
+  "p-w24-iost-balkumari": {
+   "bba": 96
+  },
+  "p-novel": {
+   "bba": 48,
+   "mba": 33
+  },
+  "p-cite": {
+   "bba": 40,
+   "bca": 80,
+   "bit": 40
+  },
+  "p-hwic": {
+   "bba": 144,
+   "bhm": 144,
+   "mba": 66,
+   "bit": 96
+  },
+  "p-kantipur-city": {
+   "bba": 80,
+   "bca": 80,
+   "bit": 48,
+   "mca": 40
+  },
+  "p-kantipur-intl": {
+   "bba": 96,
+   "mba": 66
+  },
+  "p-kasthamandap": {
+   "bba": 144,
+   "mba": 66,
+   "bit": 48
+  },
+  "p-morgan-eng": {
+   "bba": 48,
+   "bhm": 48,
+   "mba": 33
+  },
+  "p-gyan-deep": {
+   "bba": 48
+  },
+  "p-nepal-polytechnic": {
+   "bsc-agri": 96
+  },
+  "p-aryan-eng": {
+   "bca": 48,
+   "bit": 96
+  },
+  "p-cafodat": {
+   "bit": 48
+  },
+  "p-w25-ku-janakpur-cc": {
+   "bit": 48,
+   "bsc-agri": 48
+  },
+  "p-central-eng": {
+   "bit": 48
+  },
+  "p-acme": {
+   "bit": 48
+  },
+  "p-khwopa-eng": {
+   "bit": 48,
+   "bca": 48
+  },
+  "p-hillside": {
+   "bit": 48
+  },
+  "p-chakrabarti": {
+   "ba-llb": 100
+  },
+  "p-kadambari": {
+   "bsw": 48,
+   "msw": 33
+  },
+  "p-w27-npca-406": {
+   "bed": 80,
+   "med": 50
+  },
+  "p-ksl": {
+   "ba-llb": 250
+  }
+ },
+ "note_add": {
+  "p-sasthm": "Purbanchal University official college list (Faculty of Management, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-144; BHM-144; MBA (Fall)-33; MHHM (Fall)-33.",
+  "p-w24-iost-balkumari": "Purbanchal University official college list (Faculty of Management, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-96.",
+  "p-novel": "Purbanchal University official college list (Faculty of Management and Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-48; MBA (Spring/Fall)-33; BSc. Nursing; B. Pharm.",
+  "p-cite": "Purbanchal University official college list (Faculty of Management and Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-40; BCA-80; BIT-40; MIT-33.",
+  "p-hwic": "Purbanchal University official college list (Faculty of Management and Faculty of Science and Technology and Faculty of Arts, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-144; BHM-144; MBA (Spring/Fall)-33/33; EMBA-30; BIT-96; B. Tech. (Biotech.)-48; BLAS-25.",
+  "p-kantipur-city": "Purbanchal University official college list (Faculty of Management and Faculty of Science and Technology and Faculty of Arts, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-80; BCA-80; BIT-48; MCA-40; PGDCA-30; B. Tech. in AI-48; MAMCJ-33.",
+  "p-kantipur-intl": "Purbanchal University official college list (Faculty of Management and Faculty of Science and Technology and Faculty of Arts, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-96; BHM-192; BHCM-192; MHHM-33; MBA (Fall/Spring)-33/33; B. Tech. in AI-48; BID-96.",
+  "p-kasthamandap": "Purbanchal University official college list (Faculty of Management and Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-144; MBA (Fall/Spring)-33/33; BIT-48.",
+  "p-morgan-eng": "Purbanchal University official college list (Faculty of Management, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-48; BHM-48; MBA (Fall)-33.",
+  "p-ncft": "Purbanchal University official college list (Faculty of Management, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BFDM-96.",
+  "p-gyan-deep": "Purbanchal University official college list (Faculty of Management, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BBA-48.",
+  "p-nepal-polytechnic": "Purbanchal University official college list (Faculty of Science and Technology and Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Sc. (Hons.) Ag.-96; B.V.Sc. & A.H.-48; PBNS.",
+  "p-aryan-eng": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BCA-48; BIT-96; B. Tech. in AI-48.",
+  "p-cafodat": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Tech. (Food)-48; B. Tech. (Dairy)-33; M. Sc. in Nutrition & Dietetics-33; BIT-48.",
+  "p-hicast": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Sc. (Hons.) Ag.-96; B.V.Sc. & A.H.-48; M. Sc. (Meat/Dairy)-20/20; M.Sc. in Agri-Business Mgmt.-30.",
+  "p-w25-ku-janakpur-cc": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BIT-48; B.Sc.( Hons.) Ag.-48.",
+  "p-w24-pu-mbman": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Sc. (Hons.) Ag.; BIT.",
+  "p-niet": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Tech. in AI- 48.",
+  "p-central-eng": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BIT-48.",
+  "p-acme": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BIT-48.",
+  "p-khwopa-eng": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BIT-48; BCA-48.",
+  "p-hillside": "Purbanchal University official college list (Faculty of Science and Technology, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BIT-48.",
+  "p-pu-shs": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; BPH; B. Pharm; BSc. MLT; M.Pharm; MPH.",
+  "p-asian-adv": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; BPH; B. Pharm.",
+  "p-bb-medical": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing.",
+  "p-chakrabarti": "Purbanchal University official college list (Faculty of Law, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B.A. LL.B.-100; LL. M.-100.",
+  "p-charak": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing.",
+  "p-everest-nursing": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing.",
+  "p-hamro-nursing": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSN.",
+  "p-kantipur-academy": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; BPH; B.Pharm.",
+  "p-kmh-nursing": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing.",
+  "p-kmc-health": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BPH; B. Pharm.",
+  "p-koshi-health": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BPH; PBNS.",
+  "p-krishna-medical": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing; B. Pharm.; BPH.",
+  "p-little-buddha": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BPH; B. Pharm.",
+  "p-npi-narayani": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS.",
+  "p-nagarik-health": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing.",
+  "p-nams-pu": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; BPH; B.Pharmacy-20.",
+  "p-norvic": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BSc. Nursing; B. Pharm.; BPH.",
+  "p-om-health": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; BPH.",
+  "p-sanjeevani": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; BPH.",
+  "p-shree-medical": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; BPH; B. Pharm; M.Pharm; MPH.",
+  "p-sinha-health": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; PBNS; B. Pharm.; BPH.",
+  "p-unique-med": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: PBNS; BPH.",
+  "p-valley-tech": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BPH; B. Pharm.",
+  "p-yeti-health": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSc. Nursing; BPH; PBNS.",
+  "p-pu-medicine": "Purbanchal University official college list (Faculty of Medical and Allied Sciences, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: Bachelor of Medicine and Bachelor of Surgery (MBBS).",
+  "p-kadambari": "Purbanchal University official college list (Faculty of Arts, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: BSW-48; MSW-33.",
+  "p-w27-npca-406": "Purbanchal University official college list (Faculty of Education, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B. Ed.-80; One Year B. Ed.-40; M. Ed.-50.",
+  "p-ksl": "Purbanchal University official college list (Faculty of Law, purbanchaluniversity.edu.np, checked 19 Nov 2026) approves these programmes and yearly quotas here: B.A. LL.B.-250; LL. M.-100."
+ },
+ "faq_add": [
+  {
+   "id": "fw28-1",
+   "topic": "after12",
+   "q": "How many colleges can I join for a Purbanchal University BBA, and which district has the most?",
+   "a": "The PU Faculty of Management table lists 45 colleges with an approved BBA quota, 4,017 seats in total where a number is given (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)). Kathmandu has 14 of them, then Morang with 4 and Sunsari, Saptari and Dhanusha with 3 each. The biggest quotas are 192 at Southwestern School of Management and Technology, and 144 each at ten colleges, among them Zenith International College (Biratnagar), Presidency College of Management Sciences (Bharatpur), Janaki College of Management (Janakpur) and Birgunj Public College. A quota is the university approval, not a promise of a seat.",
+   "go": [
+    "bba"
+   ]
+  },
+  {
+   "id": "fw28-2",
+   "topic": "after12",
+   "q": "Which Purbanchal University colleges run BBS, and how large is the biggest one?",
+   "a": "The PU Faculty of Management lists 18 colleges with a BBS quota, 1,740 seats in total where a number is given (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)). The largest quota is 300 at Annapurna Multiple Campus, Kanchanrup (Saptari), then 240 at Royal Softech College, Lahan (Siraha) and 180 at Public Campus, Dhanibanigaun (Morang). Compare this with the TU BBS list under the same route before you decide.",
+   "go": [
+    "bbs"
+   ]
+  },
+  {
+   "id": "fw28-3",
+   "topic": "after12",
+   "q": "Where can I study BCA or BIT under Purbanchal University?",
+   "a": "The PU Faculty of Science and Technology lists 9 colleges with a BCA quota (556 seats, the biggest are Gomendra Multiple College, Birtamode with 96 and Kantipur City College with 80) and 29 with a BIT quota (1,444 seats where a number is given, 96 each at Himalayan WhiteHouse International College and Aryan School of Engineering and Management) (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)). Several community campuses outside Kathmandu also run BIT, among them Lamahi (Dang), Nepalgunj (Banke), Janakpur and Hetauda.",
+   "go": [
+    "bca",
+    "bit"
+   ]
+  },
+  {
+   "id": "fw28-4",
+   "topic": "after12",
+   "q": "Which Purbanchal University colleges offer B.Ed. outside Kathmandu?",
+   "a": "The PU Faculty of Education table has 37 rows and lists 33 colleges with a B.Ed. quota, 2,910 seats in total where a number is given (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)). The biggest are Public Campus, Dhanibanigaun (Morang), Laxmiballav Narsing Multiple College, Babhangamakatti (Saptari) and Annapurna Multiple Campus, Kanchanrup (Saptari) with 200 each. Remote campuses are also listed, for example Everest Multiple College in Salleri (Solukhumbu), Gurans Multiple Campus (Dailekh) and Narayani Multiple Campus (Taplejung). A one year B.Ed. quota is listed separately for some colleges.",
+   "go": [
+    "bed"
+   ]
+  },
+  {
+   "id": "fw28-5",
+   "topic": "afterbach",
+   "q": "Which law colleges does Purbanchal University approve for BA LL.B?",
+   "a": "The PU Faculty of Law table lists 19 law colleges, 18 of them with a B.A. LL.B. quota, 1,430 seats in total where a number is given (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)). The largest are Kathmandu School of Law (250) and Bright Vision Law College, Biratnagar (180). Colleges outside Kathmandu include Siddhartha Law Campus (Hetauda), Shree College of Law (Bharatpur) and Solukhumbu Law Campus (Salleri). The 5 year B.A. LL.B. and the 3 year LL.B. are different entries, so check which one a college runs.",
+   "go": [
+    "ba-llb",
+    "llb"
+   ]
+  },
+  {
+   "id": "fw28-6",
+   "topic": "after12",
+   "q": "Where can I study agriculture or forestry under Purbanchal University?",
+   "a": "The PU Faculty of Science and Technology lists 7 colleges for B.Sc. (Hons.) Agriculture, 6 of them with a number, 432 seats in total: 96 each at Nepal Polytechnic Institute (Bharatpur), Himalayan College of Agricultural Sciences and Technology (Kathmandu) and G.P. Koirala College of Agriculture, Gothgaun (Morang), and 48 each at Janakpur Community College, Ilam Community Agriculture Campus and Hetauda Janapriya Campus. Madan Bhandari Memorial Academy, Urlabari is listed without a number. B.Sc. Forestry has a quota of 48 each at P.U. College of Environment and Forestry (Gothgaun), Durga Devi Community Development Center (Kamal, Jhapa) and Lumbini Integrated Academy (Tilottama, Rupandehi), 144 seats in all (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)).",
+   "go": [
+    "bsc-agri",
+    "bsc-forestry"
+   ]
+  },
+  {
+   "id": "fw28-7",
+   "topic": "general",
+   "q": "How does Pathways read the seat numbers for Purbanchal University colleges?",
+   "a": "Each college row on the PU faculty pages ends with \"Approved Programs/Quotas\", for example BBA-96 or MBA (Spring/Fall)-33/33. Pathways keeps the number as the yearly approved quota for that course (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)); when a course has two intakes, the two numbers are added (MBA 33/33 shows 66) and the original text stays in the college note. The quota is not the number of students admitted and it says nothing about fees, so ask the college for the current notice.",
+   "go": [
+    "mba"
+   ]
+  },
+  {
+   "id": "fw28-8",
+   "topic": "general",
+   "q": "Why does a Pathways college say \"Not stated\" for its sector?",
+   "a": "The PU faculty tables give a name, a town, a district and the approved programmes, but not whether the college is private, community or public. Pathways labels a college Community only when it is also on the NPCA member list (npca.edu.np), Public when it is a constituent unit of the university itself, and Private only when the name says so (Pvt. Ltd., International, College of Management and similar). Everything else says Not stated rather than guessing (Purbanchal University faculty pages (purbanchaluniversity.edu.np, checked 19 Nov 2026)).",
+   "go": [
+    "bbs"
+   ]
+  }
+ ]
+}

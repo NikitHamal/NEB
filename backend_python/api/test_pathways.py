@@ -317,11 +317,12 @@ class Wave11Tests(TestCase):
     def test_law_and_agriculture_seats(self):
         d = pathways.payload()
         by = {p['id']: p for p in d['providers']}
-        llb = [p for p in d['providers'] if (p.get('route_seats') or {}).get('llb')]
+        llb = [p for p in d['providers'] if not p['id'].startswith('p-w28-pu-') and (p.get('route_seats') or {}).get('llb')]
         self.assertEqual(sum(p['route_seats']['llb'] for p in llb), 3800)
         self.assertEqual(len(llb), 12)
-        ballb = [p for p in d['providers'] if (p.get('route_seats') or {}).get('ba-llb')]
-        self.assertEqual(sum(p['route_seats']['ba-llb'] for p in ballb), 570)
+        ballb = [p for p in d['providers'] if not p['id'].startswith('p-w28-pu-') and (p.get('route_seats') or {}).get('ba-llb')]
+        # wave 28 adds the Purbanchal University quotas to colleges that already existed (Kathmandu School of Law 250, Chakrabarti 100)
+        self.assertEqual(sum(p['route_seats']['ba-llb'] for p in ballb), 570 + 250 + 100)
         self.assertEqual(by['p-tu-law']['route_seats']['llb'], 600)
         self.assertEqual(by['p-aafu']['route_seats']['bsc-agri'], 167)
         self.assertEqual(by['p-cnrm-khajura']['district'], 'Banke')
@@ -1238,5 +1239,39 @@ class Wave27Tests(TestCase):
         for i in range(1, 13):
             self.assertIn(f'fw27-{i}', faq)
         text = open(pathways.DATA / 'wave27.json', encoding='utf-8').read()
+        for bad in ('\u2014', '\u2013', '--'):
+            self.assertNotIn(bad, text)
+
+
+class Wave28Tests(TestCase):
+    """Wave 28: Purbanchal University official college lists with approved programmes and quotas."""
+
+    def test_wave28_pu_colleges(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        new = [p for p in prov.values() if p['id'].startswith('p-w28-pu-')]
+        self.assertGreaterEqual(len(new), 100)
+        for p in new:
+            self.assertIn('purbanchaluniversity.edu.np', p['note'])
+            self.assertIn(p['sector'], ('Private', 'Community', 'Public', 'Not stated'))
+            self.assertNotIn('--', p['id'])
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('p-w28-pu-annapurna-multiple-campus-saptari', routes['bbs']['where'])
+        self.assertEqual(prov['p-w28-pu-annapurna-multiple-campus-saptari']['route_seats']['bbs'], 300)
+        self.assertEqual(prov['p-w28-pu-southwestern-school-of-management-and-technology-kathmandu']['route_seats']['bba'], 192)
+        # MBA with Spring and Fall intakes adds both quotas
+        self.assertEqual(prov['p-w28-pu-zenith-international-college-morang']['route_seats']['mba'], 66)
+        # misspelt districts in the PU table are mapped to the real district
+        self.assertEqual(prov['p-w28-pu-st-paul-s-college-sunsary-sunsari']['district'], 'Sunsari')
+        self.assertEqual(prov['p-w28-pu-mega-college-of-law-lalitpur']['district'], 'Lalitpur')
+        # an existing college keeps its row and gets the PU quota note
+        self.assertIn('Purbanchal University official college list', prov['p-sasthm']['note'])
+        self.assertIn('p-w28-pu-gomendra-multiple-college-jhapa', routes['bca']['where'])
+        self.assertNotIn('p-w28-pu-royal-softech-college-siraha', prov)
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 9):
+            self.assertIn(f'fw28-{i}', faq)
+        text = open(pathways.DATA / 'wave28.json', encoding='utf-8').read()
         for bad in ('\u2014', '\u2013', '--'):
             self.assertNotIn(bad, text)

@@ -582,6 +582,23 @@ def payload():
         for aid, more in w27.get('abroad_update', {}).items():
             abroad_by[aid].update(more)
         faq_all = faq_all + w27.get('faq_add', [])
+    if (DATA / 'wave28.json').exists():
+        w28 = _load('wave28.json')
+        providers = providers + w28.get('providers_add', [])
+        by_provider = {x['id']: x for x in providers}
+        for pid, rs in w28.get('route_seats', {}).items():
+            by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for pid, text in w28.get('note_add', {}).items():
+            by_provider[pid]['note'] = (by_provider[pid].get('note', '') + ' ' + text).strip()
+        for pid, more in w28.get('provider_update', {}).items():
+            by_provider[pid].update(more)
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w28.get('where_add', {}).items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w28.get('abroad_update', {}).items():
+            abroad_by[aid].update(more)
+        faq_all = faq_all + w28.get('faq_add', [])
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
