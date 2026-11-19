@@ -1321,3 +1321,35 @@ class Wave29Tests(TestCase):
         for i in range(1, 8):
             self.assertIn(f'fw29-{i}', faq)
 
+
+
+class Wave30Tests(TestCase):
+    """Wave 30: Mid-West University 2083/84 notice, 43 checked websites, domestic scholarships, FAQs."""
+
+    def test_wave30(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('p-w30-bheri-gumi', routes['bed']['where'])
+        self.assertIn('p-w30-gci', routes['bhm']['where'])
+        self.assertEqual(prov['p-w30-gci']['district'], 'Kathmandu')
+        self.assertIn('BE Hydropower', prov['p-mu']['note'])
+        self.assertIn('p-mu', routes['bsc-csit']['where'])
+        self.assertIn('B.Ed. in Nepali, English, Health and Population', prov['p-rara-mugu']['note'])
+        sites = [p for p in prov.values() if 'Website checked 19 Nov 2026' in p.get('note', '')]
+        self.assertEqual(len(sites), 43)
+        for p in sites:
+            self.assertTrue(p['website'].startswith('https://'), p['id'])
+        new_hosts = [p['website'].rstrip('/').split('//')[-1].replace('www.', '') for p in sites]
+        self.assertEqual(len(new_hosts), len(set(new_hosts)))
+        sch = {s['id']: s for s in d['scholarships']}
+        for sid in ('s-kmc-class11', 's-ku-provincial', 's-ncell-see', 's-fwu-bbacsit', 's-nou-scholarship', 's-help-bachelor'):
+            self.assertEqual(sch[sid]['scope'], 'nepal')
+            self.assertIsInstance(sch[sid]['awards'], int)
+            self.assertTrue(sch[sid]['open'])
+        self.assertEqual(sch['s-pu-scholarship']['awards'], 1381)
+        self.assertIn('Bagmati 838', sch['s-ctevt']['covers'])
+        faq = {f['id']: f for f in d['faq']}
+        for i in range(1, 9):
+            self.assertIn(f'fw30-{i}', faq)

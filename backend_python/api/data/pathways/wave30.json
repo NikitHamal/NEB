@@ -1,0 +1,505 @@
+{
+ "providers_add": [
+  {
+   "id": "p-w30-bheri-gumi",
+   "name": "Bheri Multiple Campus (Mid-West University)",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Surkhet",
+   "place": "Gumi",
+   "note": "Listed on the Mid-West University 2083/84 bachelor admission notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026) with: BBS; B.Ed. in Nepali, English, Mathematics and Population. Phone 9868296547. Collegenp lists it as a community campus with the 4 year BBS and B.Ed. under Mid-West University. Bheri Gyanodaya (Jajarkot) is a different campus."
+  },
+  {
+   "id": "p-w30-gci",
+   "name": "Global College International",
+   "kind": "College",
+   "sector": "Private",
+   "district": "Kathmandu",
+   "place": "Mid-Baneshwor",
+   "note": "Listed on the Mid-West University 2083/84 bachelor admission notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026) with: BBA; BHM; BTTM. Phones 01-5970319, 9801258882. It is the only college on the official Mid-West University affiliated list (college code 1010, muexam.edu.np/colleges/affiliated). Global College of Management is a different college."
+  }
+ ],
+ "where_add": {
+  "bbs": [
+   "p-w30-bheri-gumi",
+   "p-mu",
+   "p-babai-bardiya",
+   "p-w25-bageshwari",
+   "p-bheri-jajarkot",
+   "p-jaljala-rolpa",
+   "p-musikot-rukum-west",
+   "p-narayan-dailekh",
+   "p-w25-vidhyapur"
+  ],
+  "bed": [
+   "p-w30-bheri-gumi",
+   "p-mu",
+   "p-babai-bardiya",
+   "p-w25-bageshwari",
+   "p-bheri-jajarkot",
+   "p-jaljala-rolpa",
+   "p-musikot-rukum-west",
+   "p-narayan-dailekh",
+   "p-rara-mugu",
+   "p-tila-kalikot",
+   "p-w25-vidhyapur"
+  ],
+  "bba": [
+   "p-w30-gci",
+   "p-w25-bageshwari"
+  ],
+  "bhm": [
+   "p-w30-gci"
+  ],
+  "bttm": [
+   "p-w30-gci"
+  ],
+  "bsc-csit": [
+   "p-mu"
+  ],
+  "bit": [
+   "p-mu"
+  ],
+  "bsc-environment": [
+   "p-mu"
+  ],
+  "bsc-science": [
+   "p-mu",
+   "p-w25-bageshwari"
+  ],
+  "bsw": [
+   "p-mu",
+   "p-babai-bardiya"
+  ],
+  "bjmc": [
+   "p-mu"
+  ],
+  "be-computer": [
+   "p-mu"
+  ],
+  "be-civil": [
+   "p-mu"
+  ],
+  "ba-llb": [
+   "p-mu"
+  ],
+  "bsc-agri": [
+   "p-mu"
+  ],
+  "ba": [
+   "p-mu",
+   "p-babai-bardiya",
+   "p-w25-bageshwari",
+   "p-bheri-jajarkot",
+   "p-jaljala-rolpa",
+   "p-musikot-rukum-west",
+   "p-narayan-dailekh"
+  ]
+ },
+ "note_add": {
+  "p-mu": "Bachelor programmes open for admission in 2083/84 (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Graduate School of Humanities and Social Sciences, Birendranagar: BA in English, International Relations, Journalism and Mass Communication, Mathematics, Nepali, Sociology, Social Work, Economics and Rural Development. Graduate School of Management: BBS. Graduate School of Education: B.Ed. in Nepali, English, Health, Population, Mathematics, Educational Planning and Management and Special Needs Education. Graduate School of Science and Technology: BSc CSIT, BIT, BSc Environment, BSc Biology group and BSc Physical group. Graduate School of Engineering at Sano Surkhet: BE Computer, BE Civil and BE Hydropower. Graduate School of Agriculture and Forestry Science at Ramghat: BSc Agriculture. School of Law: BA LL.B. The same notice lists ten constituent campuses and one affiliated college. The Examinations Management Office also lists the Central Departments of Physical and Mathematical Sciences, Biological and Chemical Sciences, Computer and Information Technology, Civil Engineering, Computer Engineering, Hydropower Engineering and Management. The university site mwu.edu.np answers, while mu.edu.np and muexam.edu.np answer 403 to scripts. Seats and fees are not printed in the notice, so confirm them with the school.",
+  "p-babai-bardiya": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Gulariya, Bardiya; programmes open: BBS; B.Ed. in Nepali, English, Population, Science Education, Mathematics and Health; BA in Nepali, English, Rural Development, Social Work and Sociology. Phone 9858031710, 9858024651, 9848026088.",
+  "p-w25-bageshwari": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Kohalpur, Banke; programmes open: BSc; BBS; BBA; B.Ed. in Nepali, English, Population and Health; BA in Nepali, English, Rural Development and Sociology. Phone 9858033488.",
+  "p-bheri-jajarkot": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Khalanga, Jajarkot; programmes open: BBS; B.Ed. in Nepali, English, Health, Mathematics and Population; BA in International Relations and Economics. Phone 9748008777, 9868019440.",
+  "p-jaljala-rolpa": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Liwang, Rolpa; programmes open: BBS; B.Ed. in Nepali, English and Population; BA in Sociology. Phone 9860819020.",
+  "p-musikot-rukum-west": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Musikot, Rukum; programmes open: BBS; B.Ed. in Nepali, English, Health, Population and Mathematics; BA in Sociology. Phone 984345179, 9815152071.",
+  "p-narayan-dailekh": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Dailekh Bazar, Dailekh; programmes open: BBS; B.Ed. in Nepali, English, Health, Population and Mathematics; BA in Rural Development and Sociology. Phone 9848064474.",
+  "p-rara-mugu": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Gamgadhi, Mugu; programmes open: B.Ed. in Nepali, English, Health and Population (the notice lists no BBS or BA here). Phone 9858087988.",
+  "p-tila-kalikot": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Manma, Kalikot; programmes open: B.Ed. in Nepali, English, Health and Population (the notice lists no BBS or BA here). Phone 9848169453.",
+  "p-w25-vidhyapur": "Mid-West University 2083/84 notice (MU Registrar notice for 2083/84 bachelor admission as printed on collegenp.com, read 19 Nov 2026): Vidhyapur, Surkhet; programmes open: BBS; B.Ed. in Nepali, English and Health. Phone 9848278390.",
+  "p-sahara-surkhet": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-patan-nistha": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-lvc": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-pu-brixton": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-pu-platinum": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-pu-victoria": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-pu-central-college": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-iost-kamala-science": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-iost-padmodaya": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w24-iost-sukuna": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w25-ku-aspire": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w25-ku-radiant-ku": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w26-npca-14": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w26-npca-94": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w26-npca-110": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w26-npca-186": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w26-npca-213": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w27-npca-72": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w27-npca-171": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w27-npca-173": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-gomendra-multiple-college-jhapa": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-edenburgh-international-college-morang": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-kasturi-college-sunsari": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-kantipur-valley-college-lalitpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-mega-valley-college-lalitpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-kuleshwor-awas-campus-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-shepherd-college-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-alka-hospital-lalitpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-mayadevi-technical-college-rupandehi": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-polygon-college-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-khadak-multiple-campus-saptari": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-bright-vision-law-college-morang": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-khwopa-college-of-law-bhaktapur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-mega-college-of-law-lalitpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-siddhartha-law-campus-makwanpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-pu-maharshi-law-college-lalitpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-rju-alba-college-siraha": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-rju-brooklyn-national-college-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-rju-mega-it-college-lalitpur": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-rju-metropolitan-college-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w28-rju-tech-law-college-kathmandu": "Website checked 19 Nov 2026: the page names the college and its town or district.",
+  "p-w29-nsu-janak-hajari": "Website checked 19 Nov 2026: the page names the college and its town or district."
+ },
+ "provider_update": {
+  "p-mu": {
+   "website": "https://mwu.edu.np"
+  },
+  "p-sahara-surkhet": {
+   "website": "https://www.saharacampus.edu.np"
+  },
+  "p-patan-nistha": {
+   "website": "https://patannistha.edu.np"
+  },
+  "p-lvc": {
+   "website": "https://www.lvc.edu.np"
+  },
+  "p-w24-pu-brixton": {
+   "website": "https://brixtoncollege.edu.np"
+  },
+  "p-w24-pu-platinum": {
+   "website": "https://platinumcollege.edu.np"
+  },
+  "p-w24-pu-victoria": {
+   "website": "https://victoriacollege.edu.np"
+  },
+  "p-w24-pu-central-college": {
+   "website": "https://centralcollege.edu.np"
+  },
+  "p-w24-iost-kamala-science": {
+   "website": "https://kamalasciencecampus.edu.np"
+  },
+  "p-w24-iost-padmodaya": {
+   "website": "https://www.padmodayacampus.edu.np"
+  },
+  "p-w24-iost-sukuna": {
+   "website": "https://sukuna.edu.np"
+  },
+  "p-w25-ku-aspire": {
+   "website": "https://aspirecollege.edu.np"
+  },
+  "p-w25-ku-radiant-ku": {
+   "website": "https://radiantcollege.edu.np"
+  },
+  "p-w26-npca-14": {
+   "website": "https://mahadevmultiplecampus.edu.np"
+  },
+  "p-w26-npca-94": {
+   "website": "https://janajyoticampus.edu.np"
+  },
+  "p-w26-npca-110": {
+   "website": "https://www.kailashmultiplecampus.edu.np"
+  },
+  "p-w26-npca-186": {
+   "website": "https://seticampus.edu.np"
+  },
+  "p-w26-npca-213": {
+   "website": "https://snprc.edu.np"
+  },
+  "p-w27-npca-72": {
+   "website": "https://deukhuricampus.edu.np"
+  },
+  "p-w27-npca-171": {
+   "website": "https://syarpumultiplecampus.edu.np"
+  },
+  "p-w27-npca-173": {
+   "website": "https://chandrashatrughnacampus.edu.np"
+  },
+  "p-w28-pu-gomendra-multiple-college-jhapa": {
+   "website": "https://gomendracollege.edu.np"
+  },
+  "p-w28-pu-edenburgh-international-college-morang": {
+   "website": "https://edenburgh.edu.np"
+  },
+  "p-w28-pu-kasturi-college-sunsari": {
+   "website": "https://www.kasturicollege.com"
+  },
+  "p-w28-pu-kantipur-valley-college-lalitpur": {
+   "website": "https://kvc.com.np"
+  },
+  "p-w28-pu-southwestern-school-of-management-and-technology-kathmandu": {
+   "website": "https://southwesternschool.edu.np"
+  },
+  "p-w28-pu-mega-valley-college-lalitpur": {
+   "website": "https://megavalleycollege.edu.np"
+  },
+  "p-w28-pu-kuleshwor-awas-campus-kathmandu": {
+   "website": "https://kac.edu.np"
+  },
+  "p-w28-pu-shepherd-college-kathmandu": {
+   "website": "https://shepherd.edu.np"
+  },
+  "p-w28-pu-alka-hospital-lalitpur": {
+   "website": "https://alkahospital.com"
+  },
+  "p-w28-pu-mayadevi-technical-college-rupandehi": {
+   "website": "https://mayadevi.edu.np"
+  },
+  "p-w28-pu-polygon-college-kathmandu": {
+   "website": "https://www.polygon.edu.np"
+  },
+  "p-w28-pu-khadak-multiple-campus-saptari": {
+   "website": "https://khadakmultiplecampus.edu.np"
+  },
+  "p-w28-pu-bright-vision-law-college-morang": {
+   "website": "https://bvlc.edu.np"
+  },
+  "p-w28-pu-khwopa-college-of-law-bhaktapur": {
+   "website": "https://khwopalaw.edu.np"
+  },
+  "p-w28-pu-mega-college-of-law-lalitpur": {
+   "website": "https://megacollegelaw.com"
+  },
+  "p-w28-pu-siddhartha-law-campus-makwanpur": {
+   "website": "https://slc.edu.np"
+  },
+  "p-w28-pu-maharshi-law-college-lalitpur": {
+   "website": "https://maharshilawcollege.edu.np"
+  },
+  "p-w28-rju-alba-college-siraha": {
+   "website": "https://albacollege.edu.np"
+  },
+  "p-w28-rju-brooklyn-national-college-kathmandu": {
+   "website": "https://brooklyn.edu.np"
+  },
+  "p-w28-rju-mega-it-college-lalitpur": {
+   "website": "https://megaitcollege.com"
+  },
+  "p-w28-rju-metropolitan-college-kathmandu": {
+   "website": "https://metropolitancollege.edu.np"
+  },
+  "p-w28-rju-tech-law-college-kathmandu": {
+   "website": "https://techlawcollege.edu.np"
+  },
+  "p-w29-nsu-janak-hajari": {
+   "website": "https://janakhajari.edu.np"
+  }
+ },
+ "scholarships_add": [
+  {
+   "id": "s-kmc-class11",
+   "name": "Kathmandu Metropolitan City Class 11 and 12 Scholarship",
+   "scope": "nepal",
+   "levels": [
+    "diploma",
+    "bachelor"
+   ],
+   "by": "Kathmandu Metropolitan City, Education Department",
+   "covers": "Free Class 11 and 12 seats in the institutional schools of Kathmandu Metropolitan City, in Science, Management, Humanities, Education or Law. Each school must give 5 percent of seats (up to 500 students), 12 percent (500 to 800) or 15 percent (over 800).",
+   "who": "SEE graduates of 2082 who studied in a community school anywhere in Nepal, live permanently in Kathmandu Metropolitan City, live in the landfill affected wards (Kakani 1 to 3 in Nuwakot, Dhunibesi 1, 3 and 4 in Dhading) or finished Class 10 in an institutional school. Seats split 35 percent community school, 10 percent institutional school, 19 percent city residents and 1 percent landfill area, and the remaining 35 percent is reserved (women 33, Janajati 15, Khas Arya 17, Madhesi 12, Dalit 9, Tharu 4, backward districts 4, disability 2, Muslim 2, martyr and conflict families 2).",
+   "how": "Free online form on entrance.kathmandu.gov.np (2083: Jestha 1 to 10). One subject and a priority list of schools. A 100 question OMR exam on the Class 10 syllabus (maths 30, science 30, social 20, English 10, Nepali 10, two hours, pass mark 40 percent, no negative marking) was held on Jestha 17, then merit lists place you subject and school wise. Take admission only after the result; a school need not refund a fee you already paid. Helpline 16600105511 or 1180. A wrap-up round reopened in June 2026 for 1,576 vacant seats (collegenp headline).",
+   "link": "https://entrance.kathmandu.gov.np",
+   "type": "Government",
+   "open": [
+    5,
+    6
+   ],
+   "awards": 1576
+  },
+  {
+   "id": "s-ku-provincial",
+   "name": "KU Provincial Government Scholarships (one seat per programme)",
+   "scope": "nepal",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "Provincial ministries and Kathmandu University",
+   "covers": "Full tuition (nothing else) for a bachelor programme at Kathmandu University, one student per listed programme and province (the Madhesh 2083 list has 6 seats, so awards counts one province). Bagmati also ran a technical scholarship for 2082/83 (MBBS, BAMS, veterinary, agriculture, civil and IT engineering, nursing; closed Ashadh 10, 2083, nebgpacalculator.com). The Madhesh 2083 list: BE Mining, BE Chemical, BE Environmental, Bachelor in Health Informatics, BSc Environmental Science and BSc Agriculture.",
+   "who": "Permanent residents of the province who passed Class 12 (Madhesh: Science only). Marks out of 100 in Madhesh: GPA up to 60, local level recommendation for hardship 10, community school 3 against institutional 2 each for SEE and Class 12 (up to 10 in all), and an interview worth 20 marks from a three member committee.",
+   "how": "Each province publishes its own notice in July (2083: Madhesh 2 to 22 July, Bagmati 2 to 16 July, Gandaki 10 to 30 July, Koshi 13 to 23 July, Lumbini 15 to 28 July; Karnali and Sudurpaschim also appear on Edusanjal). Apply on paper to the provincial Ministry of Education or Social Development with self attested copies of citizenship, marksheets, a local recommendation and a school type declaration.",
+   "link": "https://edusanjal.com/scholarship/ku-madhesh-provincial-scholarship/",
+   "type": "Government",
+   "open": [
+    7,
+    7
+   ],
+   "awards": 6
+  },
+  {
+   "id": "s-ncell-see",
+   "name": "Ncell SEE Scholarship (Ncell Foundation with Project Shikshya)",
+   "scope": "nepal",
+   "levels": [
+    "diploma",
+    "bachelor"
+   ],
+   "by": "Ncell Foundation, Project Shikshya (Hundred Group)",
+   "covers": "Support for Class 11 and 12 for 100 SEE graduates (Project Shikshya adds 50 more), plus 12 months of free data and voice from Ncell.",
+   "who": "SEE graduates of 2082 who need financial support, picked for talent and need in all seven provinces.",
+   "how": "Announced on 19 May 2026 (Techpana, Nepali Telecom). Written exams and interviews in all seven provinces. The foundation gave 50 scholarships the year before.",
+   "link": "https://www.ncell.axiata.com",
+   "type": "Foundation",
+   "open": [
+    5,
+    6
+   ],
+   "awards": 100
+  },
+  {
+   "id": "s-fwu-bbacsit",
+   "name": "Far Western University BSc CSIT and BBA scholarship seats",
+   "scope": "nepal",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "Far Western University, Mahendranagar",
+   "covers": "Scholarship seats equal to 10 percent of the approved seats of BSc CSIT and BBA at its affiliated campuses.",
+   "who": "Eligible Nepali students applying for those programmes at FWU affiliated campuses.",
+   "how": "Apply on fwu.edu.np/scholarship. In 2083 the exam moved from 2083/05/03 to 2083/05/14 and the form deadline to 2083/05/13 because few students had applied against the quota (notice of 2083/05/02, collegenp).",
+   "link": "https://www.fwu.edu.np/scholarship/",
+   "type": "University",
+   "open": [
+    7,
+    8
+   ],
+   "awards": 10
+  },
+  {
+   "id": "s-nou-scholarship",
+   "name": "Nepal Open University scholarships (Management and Law)",
+   "scope": "nepal",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "Nepal Open University",
+   "covers": "Scholarships for students in MBA, MS in Development Management and Governance, BBS and LL.B.",
+   "who": "Students enrolled in those programmes across the university batches.",
+   "how": "The 2083 form ran from Asar 12 to Asar 32 (26 June to 16 July 2026) on the NOU Student Panel (Educatenepal, 26 June 2026).",
+   "link": "https://nou.edu.np",
+   "type": "University",
+   "open": [
+    6,
+    7
+   ],
+   "awards": 4
+  },
+  {
+   "id": "s-help-bachelor",
+   "name": "HELP Bachelor Scholarship (Helambu Education and Livelihood Partnership)",
+   "scope": "nepal",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "Helambu Education and Livelihood Partnership (HELP)",
+   "covers": "NPR 550,000 over 4 to 5 years of bachelor study in Nepal (nebgpacalculator figure; HELP prints no total).",
+   "who": "Past HELP SEE scholars who finished +2 with at least GPA 2.8 in the major subjects (maths, physics and chemistry for engineering), with leadership and a promise to serve Nepal. Two students a year, preferably one boy and one girl.",
+   "how": "Online form on help.org.np, usually from October, then a written test and an interview. HELP also funds SEE scholarships for government school graduates with GPA 2.8 (science) or 2.4 (management), has helped over 600 students and gave 72 in its latest round.",
+   "link": "https://www.help.org.np/scholarships/bachelors-level-scholarship",
+   "type": "Foundation",
+   "open": [
+    10,
+    11
+   ],
+   "awards": 2
+  }
+ ],
+ "scholarship_extra": {
+  "s-pu-scholarship": {
+   "awards": 1381,
+   "open": [
+    6,
+    6
+   ],
+   "how": "Apply online at scholarship.pu.edu.np. The 2083 notice ran from 2083/02/26 to 2083/03/14 (9 to 28 June 2026) with a 3 hour written exam on the central campus at Dhungepatan, Pokhara, held on 2083/03/20 and 21. The notice lists 1,381 quotas: Science and Technology 558 (BE Civil 183, BE Computer 107, BCA 65, BE IT 53, B.Arch 39, BE Software 29, BICE 15 and others), Management 777 (BBA 419, BBA Finance 104, BCSIT 94, BHM 115, BHCM 40, BTTM 5) and Humanities 46. A different guide, nebgpacalculator.com, prints 1,328 seats with 60 percent open merit; the notice total is used here. 80 percent of seats go to community school SEE graduates and 20 percent to institutional schools."
+  },
+  "s-ctevt": {
+   "covers": "Free (classified) seats in diploma and PCL programmes at constituent, partnership and private institutes: 3,417 seats in 34 programmes for 2083/84, half for the general group and half for target groups. Seats by province: Bagmati 838, Madhesh 670, Koshi 609, Lumbini 604, Gandaki 264, Sudurpashchim 222, Karnali 210. Nursing is 189 seats and Civil Engineering 640 (Koshi 144, Madhesh 108, Lumbini 108, Bagmati 100, Gandaki 60, Karnali 60, Sudurpashchim 60)."
+  }
+ },
+ "faq_add": [
+  {
+   "id": "fw30-1",
+   "topic": "after10",
+   "q": "How do I get a free Class 11 and 12 seat in Kathmandu Metropolitan City?",
+   "a": "Kathmandu Metropolitan City runs a scholarship exam for SEE graduates who want a free seat in an institutional school inside the city (notice for 2083, entrance.kathmandu.gov.np). The form was open from Jestha 1 to 10 and was free. You pick one subject (Science, Management, Humanities, Education or Law) and rank every school you would accept. The exam has 100 multiple choice questions on the Class 10 syllabus (maths 30, science 30, social 20, English 10, Nepali 10) in two hours, with a 40 percent pass mark and no negative marking. Seats are filled by merit: 35 percent community school students, 10 percent institutional school students, 19 percent city residents and 1 percent landfill area residents, and the rest is reserved for women, Janajati, Khas Arya, Madhesi, Dalit and other groups. Do not take admission anywhere before the result, because schools need not refund an earlier fee. Helpline 16600105511 or 1180.",
+   "go": [
+    "plus2-science",
+    "plus2-management"
+   ]
+  },
+  {
+   "id": "fw30-2",
+   "topic": "after12",
+   "q": "Is there a provincial government scholarship for Kathmandu University?",
+   "a": "Yes. Each province gives Kathmandu University tuition scholarships to its own residents, one student per programme, in July. The 2083 windows were Madhesh 2 to 22 July, Bagmati 2 to 16 July, Gandaki 10 to 30 July, Koshi 13 to 23 July and Lumbini 15 to 28 July (Edusanjal). The Madhesh list had six programmes: BE Mining, Chemical and Environmental Engineering, Health Informatics, BSc Environmental Science and BSc Agriculture, only for Science +2 graduates. Marks out of 100: GPA up to 60, hardship letter 10, community school up to 10, interview 20. It pays tuition only, so budget for the other fees. Watch the notice of your own province every June and July.",
+   "go": [
+    "bsc-agri",
+    "bsc-environment"
+   ]
+  },
+  {
+   "id": "fw30-3",
+   "topic": "after12",
+   "q": "What can I study at Mid-West University in Surkhet and its campuses?",
+   "a": "The 2083/84 bachelor admission notice (as printed on collegenp.com, 19 Nov 2026) lists: BA in English, International Relations, Journalism, Mathematics, Nepali, Sociology, Social Work, Economics and Rural Development; BBS; B.Ed. in seven subjects; BSc CSIT, BIT, BSc Environment and BSc biology and physical groups; BE Computer, Civil and Hydropower at Sano Surkhet; BSc Agriculture at Ramghat; and BA LL.B. Ten constituent campuses teach mostly BBS, B.Ed. and BA: Babai (Gulariya), Bageshwari (Kohalpur, with BSc and BBA), Bheri Gyanodaya (Jajarkot), Bheri (Gumi, Surkhet), Jaljala (Rolpa), Musikot Khalanga (Rukum), Narayan (Dailekh), Rara (Mugu), Tila Karnali (Kalikot) and Vidhyapur Janata (Surkhet). Rara and Tila Karnali list B.Ed. only. Global College International in Mid-Baneshwor, Kathmandu is the one affiliated college and runs BBA, BHM and BTTM. The notice gives phone numbers but no seats or fees.",
+   "go": [
+    "bed",
+    "bbs",
+    "be-computer",
+    "bsc-csit",
+    "ba-llb"
+   ]
+  },
+  {
+   "id": "fw30-4",
+   "topic": "after12",
+   "q": "How many Pokhara University scholarship seats were there in 2083 and how do I apply?",
+   "a": "The Pokhara University notice for 2083 lists 1,381 quotas: Science and Technology 558 (BE Civil 183, BE Computer 107, BCA 65, BE IT 53, B.Arch 39, BE Software 29, BICE 15), Management 777 (BBA 419, BBA Finance 104, BCSIT 94, BHM 115, BHCM 40, BTTM 5) and Humanities 46. The form ran from 9 to 28 June 2026 on scholarship.pu.edu.np and the 3 hour written exam was held in Pokhara. Another guide prints 1,328 seats; the notice figure is used here. 80 percent of seats go to community school SEE graduates. A scholarship waives tuition at the constituent or affiliated college you are placed in, so keep the grades the renewal rule asks for.",
+   "go": [
+    "be-civil",
+    "bba",
+    "be-computer"
+   ]
+  },
+  {
+   "id": "fw30-5",
+   "topic": "after10",
+   "q": "How many free CTEVT diploma seats does each province have?",
+   "a": "The CTEVT classified scholarship notice for 2083/84 lists 3,417 seats in 34 programmes (collegenp.com, Edusanjal): Bagmati 838, Madhesh 670, Koshi 609, Lumbini 604, Gandaki 264, Sudurpashchim 222 and Karnali 210. Civil Engineering alone has 640 seats and Nursing 189. Half the seats are for the general group and half for women, Dalit, Janajati, Khas Arya, Madhesi, Tharu, Muslim, remote area, disability and martyr family groups. You file one programme in one province, so pick the province where your SEE school is or where the seats are widest. Recipients agree to serve where the government posts them, and you cannot apply twice.",
+   "go": [
+    "dip-civil-eng",
+    "pcl-nursing",
+    "dip-computer-eng"
+   ]
+  },
+  {
+   "id": "fw30-6",
+   "topic": "after10",
+   "q": "Which private or NGO scholarships can I try after SEE?",
+   "a": "The Ncell SEE Scholarship supports 100 SEE graduates of 2082 through Class 11 and 12, with 12 months of free data and voice, and Project Shikshya adds 50 more. Candidates sit written exams and interviews in all seven provinces (announced 19 May 2026). HELP (Helambu Education and Livelihood Partnership) funds government school graduates with GPA 2.8 in science or 2.4 in management and has helped over 600 students; its bachelor scholarship is open only to former HELP scholars and pays NPR 550,000 over the course (a guide figure) for two students a year. Never pay an agent for a scholarship place: real programmes do not charge to apply.",
+   "go": [
+    "plus2-science",
+    "plus2-management"
+   ]
+  },
+  {
+   "id": "fw30-7",
+   "topic": "general",
+   "q": "How did you check the college websites you added?",
+   "a": "A script built candidate addresses from each college name, kept only those that answer over valid HTTPS, and accepted a page only when its title or first screen names the college and the page mentions the district or town. A person then read each result: 43 colleges got a website in wave 30, while pages for sale, ministry or hospital sites with similar names, shared sites for two colleges and a placeholder page were rejected. A name match is still not proof, so confirm the college and its affiliation with the university before you pay a fee.",
+   "go": []
+  },
+  {
+   "id": "fw30-8",
+   "topic": "after12",
+   "q": "Are there scholarships at Far Western University and Nepal Open University?",
+   "a": "Far Western University keeps scholarship seats equal to 10 percent of the approved seats of BSc CSIT and BBA at its affiliated campuses. In 2083 the exam moved to 2083/05/14 and the form deadline to 2083/05/13 because too few students had applied (notice of 2083/05/02, fwu.edu.np/scholarship). Nepal Open University took scholarship forms for MBA, MS in Development Management and Governance, BBS and LL.B. from 26 June to 16 July 2026 on its Student Panel. Dates change every year, so check the university notice board in Asar and Shrawan.",
+   "go": [
+    "bbs",
+    "bba",
+    "llb"
+   ]
+  }
+ ]
+}

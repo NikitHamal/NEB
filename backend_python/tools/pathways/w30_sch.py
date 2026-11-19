@@ -1,0 +1,51 @@
+"""Wave 30 domestic scholarships (Nepal). Every figure is from a named page read on 19 Nov 2026."""
+
+SCHOLARSHIPS_ADD = [
+    {'id': 's-kmc-class11', 'name': 'Kathmandu Metropolitan City Class 11 and 12 Scholarship', 'scope': 'nepal', 'levels': ['diploma', 'bachelor'],
+     'by': 'Kathmandu Metropolitan City, Education Department',
+     'covers': 'Free Class 11 and 12 seats in the institutional schools of Kathmandu Metropolitan City, in Science, Management, Humanities, Education or Law. Each school must give 5 percent of seats (up to 500 students), 12 percent (500 to 800) or 15 percent (over 800).',
+     'who': 'SEE graduates of 2082 who studied in a community school anywhere in Nepal, live permanently in Kathmandu Metropolitan City, live in the landfill affected wards (Kakani 1 to 3 in Nuwakot, Dhunibesi 1, 3 and 4 in Dhading) or finished Class 10 in an institutional school. Seats split 35 percent community school, 10 percent institutional school, 19 percent city residents and 1 percent landfill area, and the remaining 35 percent is reserved (women 33, Janajati 15, Khas Arya 17, Madhesi 12, Dalit 9, Tharu 4, backward districts 4, disability 2, Muslim 2, martyr and conflict families 2).',
+     'how': 'Free online form on entrance.kathmandu.gov.np (2083: Jestha 1 to 10). One subject and a priority list of schools. A 100 question OMR exam on the Class 10 syllabus (maths 30, science 30, social 20, English 10, Nepali 10, two hours, pass mark 40 percent, no negative marking) was held on Jestha 17, then merit lists place you subject and school wise. Take admission only after the result; a school need not refund a fee you already paid. Helpline 16600105511 or 1180. A wrap-up round reopened in June 2026 for 1,576 vacant seats (collegenp headline).',
+     'link': 'https://entrance.kathmandu.gov.np', 'type': 'Government', 'open': [5, 6], 'awards': 1576},
+    {'id': 's-ku-provincial', 'name': 'KU Provincial Government Scholarships (one seat per programme)', 'scope': 'nepal', 'levels': ['bachelor'],
+     'by': 'Provincial ministries and Kathmandu University',
+     'covers': 'Full tuition (nothing else) for a bachelor programme at Kathmandu University, one student per listed programme and province (the Madhesh 2083 list has 6 seats, so awards counts one province). Bagmati also ran a technical scholarship for 2082/83 (MBBS, BAMS, veterinary, agriculture, civil and IT engineering, nursing; closed Ashadh 10, 2083, nebgpacalculator.com). The Madhesh 2083 list: BE Mining, BE Chemical, BE Environmental, Bachelor in Health Informatics, BSc Environmental Science and BSc Agriculture.',
+     'who': 'Permanent residents of the province who passed Class 12 (Madhesh: Science only). Marks out of 100 in Madhesh: GPA up to 60, local level recommendation for hardship 10, community school 3 against institutional 2 each for SEE and Class 12 (up to 10 in all), and an interview worth 20 marks from a three member committee.',
+     'how': 'Each province publishes its own notice in July (2083: Madhesh 2 to 22 July, Bagmati 2 to 16 July, Gandaki 10 to 30 July, Koshi 13 to 23 July, Lumbini 15 to 28 July; Karnali and Sudurpaschim also appear on Edusanjal). Apply on paper to the provincial Ministry of Education or Social Development with self attested copies of citizenship, marksheets, a local recommendation and a school type declaration.',
+     'link': 'https://edusanjal.com/scholarship/ku-madhesh-provincial-scholarship/', 'type': 'Government', 'open': [7, 7], 'awards': 6},
+    {'id': 's-ncell-see', 'name': 'Ncell SEE Scholarship (Ncell Foundation with Project Shikshya)', 'scope': 'nepal', 'levels': ['diploma', 'bachelor'],
+     'by': 'Ncell Foundation, Project Shikshya (Hundred Group)',
+     'covers': 'Support for Class 11 and 12 for 100 SEE graduates (Project Shikshya adds 50 more), plus 12 months of free data and voice from Ncell.',
+     'who': 'SEE graduates of 2082 who need financial support, picked for talent and need in all seven provinces.',
+     'how': 'Announced on 19 May 2026 (Techpana, Nepali Telecom). Written exams and interviews in all seven provinces. The foundation gave 50 scholarships the year before.',
+     'link': 'https://www.ncell.axiata.com', 'type': 'Foundation', 'open': [5, 6], 'awards': 100},
+    {'id': 's-fwu-bbacsit', 'name': 'Far Western University BSc CSIT and BBA scholarship seats', 'scope': 'nepal', 'levels': ['bachelor'],
+     'by': 'Far Western University, Mahendranagar',
+     'covers': 'Scholarship seats equal to 10 percent of the approved seats of BSc CSIT and BBA at its affiliated campuses.',
+     'who': 'Eligible Nepali students applying for those programmes at FWU affiliated campuses.',
+     'how': 'Apply on fwu.edu.np/scholarship. In 2083 the exam moved from 2083/05/03 to 2083/05/14 and the form deadline to 2083/05/13 because few students had applied against the quota (notice of 2083/05/02, collegenp).',
+     'link': 'https://www.fwu.edu.np/scholarship/', 'type': 'University', 'open': [7, 8], 'awards': 10},
+    {'id': 's-nou-scholarship', 'name': 'Nepal Open University scholarships (Management and Law)', 'scope': 'nepal', 'levels': ['bachelor', 'master'],
+     'by': 'Nepal Open University',
+     'covers': 'Scholarships for students in MBA, MS in Development Management and Governance, BBS and LL.B.',
+     'who': 'Students enrolled in those programmes across the university batches.',
+     'how': 'The 2083 form ran from Asar 12 to Asar 32 (26 June to 16 July 2026) on the NOU Student Panel (Educatenepal, 26 June 2026).',
+     'link': 'https://nou.edu.np', 'type': 'University', 'open': [6, 7], 'awards': 4},
+    {'id': 's-help-bachelor', 'name': 'HELP Bachelor Scholarship (Helambu Education and Livelihood Partnership)', 'scope': 'nepal', 'levels': ['bachelor'],
+     'by': 'Helambu Education and Livelihood Partnership (HELP)',
+     'covers': 'NPR 550,000 over 4 to 5 years of bachelor study in Nepal (nebgpacalculator figure; HELP prints no total).',
+     'who': 'Past HELP SEE scholars who finished +2 with at least GPA 2.8 in the major subjects (maths, physics and chemistry for engineering), with leadership and a promise to serve Nepal. Two students a year, preferably one boy and one girl.',
+     'how': 'Online form on help.org.np, usually from October, then a written test and an interview. HELP also funds SEE scholarships for government school graduates with GPA 2.8 (science) or 2.4 (management), has helped over 600 students and gave 72 in its latest round.',
+     'link': 'https://www.help.org.np/scholarships/bachelors-level-scholarship', 'type': 'Foundation', 'open': [10, 11], 'awards': 2},
+]
+
+# Corrections and additions to existing rows
+SCHOLARSHIP_EXTRA = {
+    's-pu-scholarship': {
+        'awards': 1381, 'open': [6, 6],
+        'how': 'Apply online at scholarship.pu.edu.np. The 2083 notice ran from 2083/02/26 to 2083/03/14 (9 to 28 June 2026) with a 3 hour written exam on the central campus at Dhungepatan, Pokhara, held on 2083/03/20 and 21. The notice lists 1,381 quotas: Science and Technology 558 (BE Civil 183, BE Computer 107, BCA 65, BE IT 53, B.Arch 39, BE Software 29, BICE 15 and others), Management 777 (BBA 419, BBA Finance 104, BCSIT 94, BHM 115, BHCM 40, BTTM 5) and Humanities 46. A different guide, nebgpacalculator.com, prints 1,328 seats with 60 percent open merit; the notice total is used here. 80 percent of seats go to community school SEE graduates and 20 percent to institutional schools.',
+    },
+    's-ctevt': {
+        'covers': 'Free (classified) seats in diploma and PCL programmes at constituent, partnership and private institutes: 3,417 seats in 34 programmes for 2083/84, half for the general group and half for target groups. Seats by province: Bagmati 838, Madhesh 670, Koshi 609, Lumbini 604, Gandaki 264, Sudurpashchim 222, Karnali 210. Nursing is 189 seats and Civil Engineering 640 (Koshi 144, Madhesh 108, Lumbini 108, Bagmati 100, Gandaki 60, Karnali 60, Sudurpashchim 60).',
+    },
+}
