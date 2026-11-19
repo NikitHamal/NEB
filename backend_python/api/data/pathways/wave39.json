@@ -1,0 +1,454 @@
+{
+ "govt_add": [
+  {
+   "id": "g-british-gurkha",
+   "track": "sec",
+   "name": "British Army Gurkha (Brigade of Gurkhas)",
+   "level": "Trainee rifleman, selected in Nepal and trained in the UK",
+   "need": "SEE with a C in English and a C in Maths (5 C grades in all for SEE from 2016); CTEVT certificates are not accepted. Nepali man with a Nepalese birth certificate",
+   "age": "18 to 21 years on 1 December before the intake (the 2026 intake took people born between 1 Dec 2004 and 1 Dec 2007)",
+   "body": "British Gurkhas Nepal (British Army), Pokhara and Dharan camps",
+   "seats": 323,
+   "stages": [
+    [
+     "Online registration",
+     "Free online form on gurkha.defencegateway.mod.uk for district, citizenship number and passport name. Past windows were 1 to 30 April 2023 and 1 to 29 March 2024. A late or wrong form is not called forward.",
+     ""
+    ],
+    [
+     "Phase 1 registration",
+     "Documents, a chin up test and a leg test at Pokhara, Dharan or the Surkhet welfare centre, by district date from the call forward list on the BGN site.",
+     ""
+    ],
+    [
+     "Phase 2 initial selection",
+     "Written English and Maths of about Entry Level 2 standard, medical check, 800 metre run, overarm heaves, lift and carry. BMI must be 18 to 28.",
+     ""
+    ],
+    [
+     "Phase 3 final selection",
+     "Four days at British Gurkhas Pokhara in January: medical, English test, the doko race (a basket carry run) and a 20 minute interview. Places go by points. In 2026 only 414 of 571 were left on results day and 323 were taken.",
+     ""
+    ],
+    [
+     "Training in the UK",
+     "Attestation parade in Pokhara in early February, then 39 weeks of infantry training at Catterick before joining one of the cap badges, including the new King's Gurkha Artillery.",
+     ""
+    ]
+   ],
+   "subjects": [
+    "English and basic Maths at SEE level",
+    "Fitness: running, heaves, carrying a loaded doko",
+    "Interview: why you want to serve, teamwork and honesty"
+   ],
+   "prep": [
+    "Start fitness a year ahead; run 800 metres and 2 km for time and practise overarm heaves",
+    "Revise SEE English and Maths until a C is safe",
+    "Never pay an agent for a seat: selection is free and the only entry is the online form",
+    "Read the BGN notice every year; windows and numbers change"
+   ],
+   "note": "Intake 26 (selected January 2026): more than 14,000 applicants for 323 places (the Express reports more than 10,000 first applications, the Brigade page more than 14,000; both are stated). First year pay is reported as above GBP 26,000 a year. About 16,000 applied for the intake before it, and all 274 of its recruits passed out of Catterick in November 2025 (army.mod.uk). The 2027 registration window was not found on 19 November 2026; past windows ran in March and April. Pre army coaching classes are optional, and none is connected with BGN.",
+   "career": "security-officer",
+   "fee": 0,
+   "apply": [
+    3,
+    4
+   ],
+   "exam_month": 1
+  },
+  {
+   "id": "g-singapore-gurkha",
+   "track": "sec",
+   "name": "Singapore Police Force Gurkha Contingent",
+   "level": "Trainee policeman in the Gurkha Contingent, selected by the same British Gurkhas Nepal process",
+   "need": "SEE with a C in English; Maths grade shown as D by one trainer and C by another, so read the BGN notice. 5 C grades for SEE from 2016. Nepali man",
+   "age": "18 to 21 years on 1 December before the intake (some pages show 17 years 6 months as the lower limit)",
+   "body": "British Gurkhas Nepal for the Singapore Police Force",
+   "stages": [
+    [
+     "Online registration",
+     "Same free form as the British Army; you tick Singapore Police or British Army and the choice must match the paper form.",
+     ""
+    ],
+    [
+     "Phase 1 and 2",
+     "Registration day, then initial selection at Pokhara with the written English and Maths test, medical and fitness tests.",
+     ""
+    ],
+    [
+     "Phase 3 final selection",
+     "A separate final selection window in late November and early December (28 November to 10 December 2025 for the 2026 intake), then a Singapore police training course.",
+     ""
+    ]
+   ],
+   "subjects": [
+    "English and Maths",
+    "Fitness and interview"
+   ],
+   "prep": [
+    "Prepare exactly as for the British Army",
+    "Take the form for one force only, because the paper form must match the online choice",
+    "Pay nothing to anyone for selection"
+   ],
+   "note": "A pre army academy page lists 204 British Army and 144 Singapore Police places for one cycle and does not give the year, so it is not used as a seat count. The Gurkha Contingent hires on contracts, and contract length and pay are not printed on any page checked, so ask at the selection camp.",
+   "career": "security-officer",
+   "fee": 0,
+   "apply": [
+    3,
+    4
+   ],
+   "exam_month": 11
+  },
+  {
+   "id": "g-indian-gorkha",
+   "track": "sec",
+   "name": "Indian Army Gorkha Rifles (paused for Nepali youth)",
+   "level": "Agniveer soldier, 4 year tenure. Recruitment of Nepal domiciled Gorkhas is on hold",
+   "need": "SEE pass with a minimum of D plus on older rallies; Nepali citizen. Not open: no rally has run since Nepal paused it in August 2022",
+   "age": "17.5 to 21 years under Agnipath",
+   "body": "Indian Army through the Gorkha Recruiting Depot, Kunraghat. Nepal government must agree under the 1947 tripartite agreement",
+   "stages": [
+    [
+     "Status in November 2026",
+     "No Nepal domiciled Gorkha has been recruited since 2022. India says Agnipath is its only route and that the call is Nepal's. Veterans asked Prime Minister Balen Shah to restart it in August 2026 and the Indian Army chief visited Pokhara, but no restart was reported.",
+     ""
+    ],
+    [
+     "Agnipath terms in force",
+     "Four years of service, then up to 25 percent of a batch kept in the regular army and the rest leave with the Seva Nidhi payment and no pension.",
+     ""
+    ]
+   ],
+   "subjects": [
+    "Nothing to prepare for until a rally is announced"
+   ],
+   "prep": [
+    "Treat every offer of an Indian Army seat as a scam until the Nepal government and the Indian Embassy announce a rally",
+    "Do not pay agents, trainers or brokers for a promised seat",
+    "Meanwhile use the same fitness for the British Army, Nepal Army, Nepal Police or Armed Police routes"
+   ],
+   "note": "Before the pause the Indian Army took about 1,300 to 1,500 Nepali Gorkha recruits a year (Al Jazeera, December 2024). Nepal blocked the first Agnipath round in July 2022 and later rounds. Check Nepal Ministry of Defence and the Indian Embassy in Kathmandu for any change.",
+   "career": "security-officer",
+   "fee": 0
+  }
+ ],
+ "guides_add": [
+  {
+   "id": "dofe-labour-permit",
+   "name": "Labour permit (Shram Swikriti) for work abroad",
+   "cat": "Documents",
+   "steps": [
+    [
+     "Check that the agency is licensed and the demand letter is real on dofe.gov.np before you pay anyone",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "Create your FEIMS account at feims.dofe.gov.np with your passport number and mobile number",
+     1,
+     0,
+     "online"
+    ],
+    [
+     "First time workers sit the 2 day pre departure orientation at an approved centre (one page prints NPR 700, another NPR 500 to 1,000)",
+     2,
+     700,
+     "in person"
+    ],
+    [
+     "Take the medical at a government approved centre (pages print NPR 1,500 to 3,000 and NPR 5,000 to 8,000 by country)",
+     1,
+     3000,
+     "in person"
+    ],
+    [
+     "Buy the term life insurance for the contract period (about NPR 1,886 and up, the amount shown in FEIMS)",
+     1,
+     1886,
+     "online"
+    ],
+    [
+     "Pay the Welfare Fund contribution (NPR 1,500 on most pages) and the Social Security Fund share (NPR 2,595 on one page, 2,500 to 3,000 on another)",
+     1,
+     4095,
+     "online"
+    ],
+    [
+     "Upload the contract, passport and photos and wait for the approval; check the result by passport number on foreignjob.dofe.gov.np",
+     5,
+     0,
+     "online"
+    ]
+   ],
+   "docs": [
+    "Passport",
+    "Citizenship certificate",
+    "Signed employment contract",
+    "Employer demand letter",
+    "Passport size photos",
+    "Orientation certificate",
+    "Medical report",
+    "Insurance receipt"
+   ],
+   "link": "route:foreign-lang-work"
+  }
+ ],
+ "route_note_add": {
+  "police-army": "Gurkha routes (checked 19 November 2026): the British Army and the Singapore Police take Nepali men aged 18 to 21 with a C in SEE English and Maths through one free selection at Pokhara and Dharan (323 places for more than 14,000 applicants in 2026). Indian Army Gorkha recruitment from Nepal has been paused since 2022, so any seat offered by an agent is a scam.",
+  "foreign-lang-work": "Every Nepali worker going abroad except to India needs a labour permit (Shram Swikriti) from the Department of Foreign Employment, applied for online in FEIMS. See the guide for the steps and the fees."
+ },
+ "careers_new": [
+  {
+   "id": "mobile-app-developer",
+   "name": "Mobile app developer",
+   "about": "Builds Android, iOS and cross platform apps for fintech, e-commerce, ride and delivery, education and startups, and often takes remote contracts from foreign clients.",
+   "demand": 4,
+   "competition": 4,
+   "trend": "rising",
+   "abroad": 5,
+   "salary": {
+    "entry": [
+     25000,
+     40000
+    ],
+    "senior": [
+     80000,
+     150000
+    ]
+   },
+   "skills": [
+    "Flutter or React Native",
+    "Kotlin or Swift",
+    "REST APIs and Firebase",
+    "App store release and testing"
+   ],
+   "ladder": [
+    "Junior or intern developer",
+    "Mobile developer",
+    "Senior mobile engineer",
+    "Tech lead or architect"
+   ],
+   "employers": [
+    "Software companies in Kathmandu and Lalitpur",
+    "Banks, wallets and fintech",
+    "Product startups",
+    "Overseas remote clients"
+   ],
+   "hours": 45
+  },
+  {
+   "id": "customer-support-bpo",
+   "name": "Customer support and BPO agent",
+   "about": "Answers calls, chats and emails for telecom, banks, e-commerce and overseas companies, many of them on night or early shifts for Australia, the UK and the US. A common first job for +2 and bachelor students.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "steady",
+   "abroad": 2,
+   "salary": {
+    "entry": [
+     15000,
+     25000
+    ],
+    "senior": [
+     30000,
+     50000
+    ]
+   },
+   "skills": [
+    "Spoken and written English",
+    "Typing and MS Office",
+    "Patience and problem solving",
+    "Sales conversion and call quality targets"
+   ],
+   "ladder": [
+    "Customer service representative",
+    "Senior agent",
+    "Team leader or quality analyst",
+    "Operations manager"
+   ],
+   "employers": [
+    "BPO and call centres in Kathmandu",
+    "Telecom and internet providers",
+    "Banks and wallets",
+    "E-commerce and delivery apps"
+   ],
+   "hours": 45
+  },
+  {
+   "id": "insurance-officer",
+   "name": "Insurance officer and agent",
+   "about": "Sells and services life and non life insurance, handles claims, underwriting and branch work. Agents earn commission, while officers and management trainees are paid a salary with incentives.",
+   "demand": 3,
+   "competition": 3,
+   "trend": "steady",
+   "abroad": 1,
+   "salary": {
+    "entry": [
+     25000,
+     40000
+    ],
+    "senior": [
+     95000,
+     250000
+    ]
+   },
+   "skills": [
+    "Sales and relationship building",
+    "Product and policy knowledge",
+    "Claims and risk assessment",
+    "Insurance Authority agent licence"
+   ],
+   "ladder": [
+    "Agent or trainee officer",
+    "Officer",
+    "Senior officer or assistant manager",
+    "Branch or department manager"
+   ],
+   "employers": [
+    "Life insurance companies",
+    "Non life insurance companies",
+    "Banks with bancassurance desks",
+    "Insurance brokers"
+   ],
+   "hours": 45
+  }
+ ],
+ "career_links": {
+  "be-computer": [
+   "mobile-app-developer"
+  ],
+  "bsc-csit": [
+   "mobile-app-developer"
+  ],
+  "bca": [
+   "mobile-app-developer"
+  ],
+  "bit": [
+   "mobile-app-developer"
+  ],
+  "bicte": [
+   "mobile-app-developer"
+  ],
+  "bbs": [
+   "customer-support-bpo",
+   "insurance-officer"
+  ],
+  "bba": [
+   "customer-support-bpo",
+   "insurance-officer"
+  ],
+  "bbm": [
+   "insurance-officer"
+  ],
+  "bim": [
+   "insurance-officer"
+  ],
+  "ba": [
+   "customer-support-bpo"
+  ],
+  "plus2-management": [
+   "customer-support-bpo"
+  ],
+  "plus2-humanities": [
+   "customer-support-bpo"
+  ],
+  "mbs": [
+   "insurance-officer"
+  ]
+ },
+ "scholarships_add": [
+  {
+   "id": "s-assured-future",
+   "name": "Sunishchit Bhabishya (Assured Future) Scholarship for flood affected children",
+   "scope": "nepal",
+   "levels": [
+    "diploma"
+   ],
+   "by": "Ministry of Education, Science and Sports with private school associations",
+   "type": "Government",
+   "covers": "Full, partial or residential scholarships, school fee waivers, textbooks, uniforms, learning materials, lodging and food, from early childhood education to Class 12. Worth about NPR 1 billion in total.",
+   "who": "Children in Class 12 or below who were hit by the Bhotekoshi flood of 10 Bhadra 2083 (26 August 2026) in 15 local levels of Rasuwa, Nuwakot, Dhading, Gorkha and Tanahun, declared disaster hit areas. First priority goes to children who could not attend school, come from poor families, lost a parent or family member or are out of contact, and children needing special support.",
+   "how": "There is no open form. Children are identified through a field survey and the recommendation of the school, ward office and local level, then the Ministry recommends them to a private school or partner that gives the seat. Ask your school principal or ward office. The scheme was announced on Monday 7 September 2026, and about 1,000 students are planned.",
+   "link": "https://moest.gov.np",
+   "awards": 1000
+  }
+ ],
+ "faq_add": [
+  {
+   "id": "fw39-1",
+   "topic": "after10",
+   "q": "Can I join the British Army or Singapore Police as a Gurkha after SEE?",
+   "a": "Yes. Nepali men aged 18 to 21 (counted on 1 December before the intake) with a C in SEE English and a C in Maths can apply, and the selection is free. You fill the online form once a year (past windows were in March and April), attend registration and initial selection at Pokhara, Dharan or Surkhet, then four days of final selection at Pokhara in January. For the 2026 intake more than 14,000 people applied for 323 British Army places, so fewer than 3 in 100 got in. CTEVT certificates are not accepted, and glasses, contact lenses or laser surgery rule you out. Selected recruits train for 39 weeks at Catterick, UK, and the first year pay is reported above GBP 26,000. Pre army coaching is optional and nobody can sell you a seat.",
+   "go": [
+    "police-army"
+   ]
+  },
+  {
+   "id": "fw39-2",
+   "topic": "after10",
+   "q": "Is Indian Army Gorkha recruitment open for Nepali youth?",
+   "a": "No. Nepal paused recruitment of its citizens into the Indian Army in August 2022 after India began the four year Agnipath scheme, saying it did not fit the 1947 tripartite agreement. No Nepal domiciled Gorkha has been recruited since, and in August 2026 veterans asked the government to restart it while the Indian Army chief visited Pokhara. Before the pause about 1,300 to 1,500 Nepali Gorkhas were taken a year. Until Nepal and India announce a rally, treat every agent who offers an Indian Army seat as a scammer and keep your fitness for the British Army, Nepal Army, Police or Armed Police routes.",
+   "go": [
+    "police-army"
+   ]
+  },
+  {
+   "id": "fw39-3",
+   "topic": "abroad",
+   "q": "How do I get a labour permit (Shram Swikriti) to work abroad?",
+   "a": "Every Nepali going abroad to work except to India needs a labour permit from the Department of Foreign Employment. You apply online in the FEIMS system at feims.dofe.gov.np (create an account with your passport and mobile number), take the 2 day orientation if it is your first time, do the medical at an approved centre, buy the insurance, pay the Foreign Employment Welfare Fund and Social Security Fund shares, upload the contract and documents, then check the result by passport number on foreignjob.dofe.gov.np. The permit itself is free. Pages differ on the extras: the welfare fund is NPR 1,500 on most, orientation NPR 700 or 500 to 1,000, the medical NPR 1,500 to 8,000, so use the amounts FEIMS shows.",
+   "go": [
+    "foreign-lang-work"
+   ]
+  },
+  {
+   "id": "fw39-4",
+   "topic": "abroad",
+   "q": "How do I check whether a manpower agency is real before I pay?",
+   "a": "Check the agency licence with the Department of Foreign Employment (dofe.gov.np) and match the demand letter and licence number with what the agency gives you. Never pay for a visa or a permit before a contract is signed, and keep the receipt of every payment. Your labour permit is checked by passport number on foreignjob.dofe.gov.np, so you can see whether an approval really exists. The same rule applies to Gurkha and Korean EPS offers: those selections are free or run by the government, so anyone selling a seat is cheating you.",
+   "go": [
+    "foreign-lang-work"
+   ]
+  },
+  {
+   "id": "fw39-5",
+   "topic": "after10",
+   "q": "What is the Sunishchit Bhabishya (Assured Future) scholarship?",
+   "a": "It is a scholarship of about NPR 1 billion announced by the Ministry of Education, Science and Sports on 7 September 2026 for children hit by the Bhotekoshi flood of 26 August 2026 in 15 local levels of Rasuwa, Nuwakot, Dhading, Gorkha and Tanahun. It covers early childhood education to Class 12 with full, partial or residential seats, fee waivers, books, uniforms and lodging, for about 1,000 students, with private school groups giving the places. There is no open form: children are identified by a survey and by school, ward and local level recommendations, so ask the school principal.",
+   "go": [
+    "plus2-science"
+   ]
+  },
+  {
+   "id": "fw39-6",
+   "topic": "after12",
+   "q": "How much does a mobile app developer earn in Nepal?",
+   "a": "Nepali salary guides of 2026 put entry pay at NPR 25,000 to 40,000 a month, mid level at 40,000 to 70,000 and senior at 80,000 to 150,000 or more, while kumarijob and necojobs show senior or remote international work above 150,000 and even 250,000. Flutter, React Native, Kotlin and a few finished apps in your portfolio matter more than the degree, and BE Computer, BSc CSIT, BCA and BIT all lead here.",
+   "go": [
+    "bca",
+    "bsc-csit"
+   ]
+  },
+  {
+   "id": "fw39-7",
+   "topic": "after12",
+   "q": "Is a BPO or customer support job a good first job after +2?",
+   "a": "It is one of the few jobs that take freshers with +2 and good English. Guides of 2026 print NPR 15,000 to 25,000 for entry roles, 18,000 to 30,000 for a customer service representative and 30,000 to 50,000 or more with experience, with night shift allowances and incentives on top. Many campaigns serve Australia, the UK and the US, so shifts can start at 5 am or end at 10 pm. It works well while you study for a bachelor degree, and the road leads to team leader and quality roles.",
+   "go": [
+    "plus2-management",
+    "bbs"
+   ]
+  },
+  {
+   "id": "fw39-8",
+   "topic": "afterbach",
+   "q": "What jobs can I get in insurance after BBS or BBA?",
+   "a": "Life and non life companies hire management trainees (NPR 40,000 to 45,000 a month on one 2026 guide), officers (25,000 to 35,000 at entry), senior officers and assistant managers (60,000 to 95,000) and branch managers, plus claims, underwriting and bancassurance desks in banks. Agents are paid commission only: about NPR 20,000 to 40,000 at first and 100,000 or more with strong sales, with one site showing a 48,208 average. You need an agent licence from the Insurance Authority before you sell.",
+   "go": [
+    "bbs",
+    "bba"
+   ]
+  }
+ ]
+}

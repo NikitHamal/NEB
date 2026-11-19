@@ -1670,3 +1670,27 @@ class Wave38Tests(TestCase):
         self.assertEqual(len(body['items']), 5)
         self.assertGreaterEqual(body['total'], 100)
         self.assertEqual(self.client.get('/api/pathways/plus2/', {'district': 'Dang', 'limit': 'x'}).status_code, 400)
+
+
+class Wave39Tests(TestCase):
+    def test_wave39_gurkha_labour_permit_and_careers(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        govt = {g['id']: g for g in d['govt']}
+        for gid in ('g-british-gurkha', 'g-singapore-gurkha', 'g-indian-gorkha'):
+            self.assertEqual(govt[gid]['track'], 'sec', gid)
+            self.assertTrue(govt[gid]['stages'], gid)
+        self.assertEqual(govt['g-british-gurkha']['seats'], 323)
+        self.assertIn('paused', govt['g-indian-gorkha']['name'])
+        guides = {g['id']: g for g in d['guides']}
+        self.assertEqual(guides['dofe-labour-permit']['link'], 'route:foreign-lang-work')
+        careers = {c['id'] for c in d['careers']}
+        for cid in ('mobile-app-developer', 'customer-support-bpo', 'insurance-officer'):
+            self.assertIn(cid, careers)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('mobile-app-developer', routes['bca']['careers'])
+        self.assertIn('Gurkha routes', routes['police-army']['about'])
+        self.assertIn('s-assured-future', {s['id'] for s in d['scholarships']})
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 9):
+            self.assertIn(f'fw39-{i}', faq)
