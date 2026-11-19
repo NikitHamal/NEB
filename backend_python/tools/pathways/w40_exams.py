@@ -41,7 +41,7 @@ GOVT_ADD = [
               'Budget GBP 1,319 for first time exam fees alone, plus English test, flights, visa and Manchester stay',
               'Do not pay a fixer for a test seat: all booking is in your own GMC Online account'],
      'note': 'Both fees are the figures printed from 1 April 2026 on three guides that copy the GMC fee table; the GMC pages did not load from the VM. Cancellation fees apply (PLAB 1 GBP 28.30 more than 42 days before, full fee later; PLAB 2 GBP 103.60 more than 42 days before, GBP 518 at 42 to 28 days, full fee later). PLAB is only one route into the UK; check the GMC for newer routes before you plan.',
-     'fee': 52000, 'apply': [1, 12]},
+     'fee': 56000, 'apply': [1, 12]},
     {'id': 'e-usmle', 'track': 'lic',
      'name': 'USMLE and ECFMG certification (US doctor route for foreign graduates)',
      'level': 'United States Medical Licensing Examination Step 1 and Step 2 CK, with ECFMG certification, for international medical graduates who want US residency',
@@ -57,7 +57,7 @@ GOVT_ADD = [
               'Check the Prometric site for the nearest test centre, because none is confirmed in Nepal on the pages read',
               'Prepare for a long route: many foreign graduates take several years to match, so keep a Nepal licence and job plan alongside'],
      'note': 'Fees are the 2026 figures printed on three IMG guides in June to November 2026; they agree on USD 695 and the two surcharges and differ by USD 10 to 20 on the ECFMG items. The official ECFMG and FSMB pages did not load from the VM. Always read the live fee page before paying; the transfer of IMG registration from ECFMG to FSMB on 12 January 2026 changed where you pay.',
-     'fee': 126000, 'apply': [1, 12]},
+     'fee': 138000, 'apply': [1, 12]},
     {'id': 'e-nclex', 'track': 'lic',
      'name': 'NCLEX-RN (US nurse licensing exam)',
      'level': 'National Council Licensure Examination for registered nurses, run by NCSBN and delivered by Pearson VUE, the entry step to a US nursing licence',
@@ -73,7 +73,7 @@ GOVT_ADD = [
               'Keep your NNC licence current, because a state board may ask for it',
               'Treat quotes of NPR 200,000 to 350,000 for the whole process as typical, and compare them with the USD 350 in exam fees'],
      'note': 'Exam fee USD 200 plus USD 150 international scheduling is the figure printed by four pages in 2026; total cost with state, evaluation and travel is about USD 1,000 to 1,500 on two of them. The NCSBN page did not load from the VM. The nurse licence in Nepal (NLEN) is a separate exam in this list.',
-     'fee': 49000, 'apply': [1, 12]},
+     'fee': 53000, 'apply': [1, 12]},
 ]
 
 ROUTE_NOTE_ADD = {

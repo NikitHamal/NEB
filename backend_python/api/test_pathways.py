@@ -1722,5 +1722,12 @@ class Wave40Tests(TestCase):
         self.assertIn('NCLEX', routes['bsc-nursing']['about'])
         self.assertIn('Israel', routes['foreign-lang-work']['about'])
         faq = {f['id'] for f in d['faq']}
-        for i in range(1, 7):
+        for i in range(1, 10):
             self.assertIn(f'fw40-{i}', faq)
+        self.assertEqual(govt['l-oet']['track'], 'lang_eng')
+        self.assertIn('AUD 587', govt['l-oet']['stages'][0][1])
+        self.assertIn('25 February 2027', govt['l-eps']['note'])
+        self.assertIn('6 December 2026', govt['l-jlpt']['note'])
+        self.assertIn('248.60', govt['l-pte']['note'])
+        self.assertIn('22 December 2026', govt['l-topik']['note'])
+        self.assertIn('NPR 36,000', govt['l-ielts']['note'])

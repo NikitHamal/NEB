@@ -1,0 +1,35 @@
+"""Wave 40 language test updates, read on 2026-11-19.
+EPS-TOPIK 2026: toddle.com.np (notice of 2083/06/27, schedule 17 Nov 2026 to 25 Feb 2027), digitalsolutionnepal.com (15 Nov 2026: age, quota, format), examsanjal.com (21 Jul 2026: application 27 Jul to 2 Aug), kumarijob.com (medical NPR 7,300).
+TOPIK: galvanizetestprep.com (3 Nov 2026, from the NIIED overseas list). JLPT: prosyllabus.com (26 Oct 2026, quoting jlpt.jp) and gyanmirai.com.
+IELTS: aeccglobal.com (Apr 2026), edwisefoundation.com (22 Sep 2026), icccedu.com (17 Aug 2026). PTE: digitalsolutionnepal.com (26 Oct 2026, pearsonpte.com price of 24 Oct, NRB rate of 20 Oct 2026), ptenepal.com.np.
+OET: oet-bank.com (1 Nov 2026), scolarnepal.com (Kathmandu venues), nclexhub.net.
+Official pages of the test owners were not reachable from the VM, so each figure is the one several pages print and conflicts are stated.
+"""
+GOVT_NOTE_ADD = {
+    'l-eps': ('2026 round (checked 19 November 2026): the first phase application ran 27 July to 2 August 2026 (11 to 17 Shrawan 2083) at eoers.epsnepal.gov.np, fee USD 28, for Nepali citizens aged 18 to 39 (born 28 July 1986 to 27 July 2008). One 2026 guide gives an estimated quota of 7,200 passes (manufacturing 5,000, agriculture and livestock 2,000, service 100, forestry 100), against the 3,500 and 1,800 above, so read the quota in the notice. '
+              'Computer test (UBT, 20 Reading and 20 Listening questions) at the UBT hall of the National Vocational Training Institute in Bhaisepati, Lalitpur, in blocks from 17 November 2026 to 25 February 2027: Service 1 on 17 to 19 November, Forestry 18 and 19 November, Agriculture and Livestock 20 November to 10 December, Manufacturing 11 to 22 December, 4 to 21 January, 29 January to 5 February and 10 to 25 February. '
+              'The day before your slot you give a fingerprint at the EPS Korea branch in Gwarko; on exam day arrive two hours early with the colour admit card and original passport, with no phone, watch or bag; cheating means a four year ban. Pages print the EPS medical at about NPR 7,300. No next application window is announced; it will be a notice on epsnepal.gov.np.'),
+    'l-topik': ('In 2026 the paper TOPIK was held in Kathmandu on 17 May and 15 November (the November test organised by King Sejong Institute Kathmandu), with results for the 15 November test due on 22 December 2026 on topik.go.kr; the guide takes this from the NIIED overseas list of 1 September 2026. Nepal has only paper centres for TOPIK in 2026 and not every sitting is held in every city, so read the notice on topik.go.kr before you plan.'),
+    'l-jlpt': ('The December 2026 sitting is on Sunday 6 December 2026 worldwide (jlpt.jp); the next are Sunday 4 July 2027 and Sunday 5 December 2027. Online results come around the end of January 2027. Registration for the December sitting normally closes in the autumn, so if you missed it plan for July 2027 and watch the registration notice of your city, because some cities hold only the July test. Fee in Japan is JPY 7,500 per level; the Nepal fee depends on the host institution, so read its notice.'),
+    'l-ielts': ('2026 fees in Nepal differ by page and date: NPR 33,000 for computer and 36,200 for paper on one April 2026 guide, and NPR 36,000 for computer and 36,400 for UKVI computer on September and August 2026 guides, with British Council and IDP printing nearly the same price. Paper IELTS is being phased out worldwide with the last paper dates around late June 2026, although one September guide still lists IDP paper at NPR 36,200. Computer tests run up to seven days a week in Kathmandu and also in Butwal, Chitwan, Itahari and Pokhara through the British Council; the computer result comes in 1 to 5 days. Confirm the live fee on the page of your provider.'),
+    'l-pte': ('PTE Academic costs USD 248.60 on pearsonpte.com as read on 24 October 2026 (PTE Academic UKVI and PTE Core cost the same), about NPR 37,834 at the NRB selling rate of 152.19 on 20 October 2026. Older pages print USD 220 to 245 or about NPR 27,000 to 33,000. There are 11 test centres in Nepal (Lalitpur, Kathmandu, Pokhara, Tilottama and Itahari among them), results come in about 48 hours (up to five business days), and rescheduling is free or fully refunded more than 14 full days before the test.'),
+}
+
+GOVT_ADD = [
+    {'id': 'l-oet', 'track': 'lang_eng',
+     'name': 'OET (Occupational English Test for health professionals)',
+     'level': 'English test built on healthcare tasks, used by nursing, medical and other health councils to register in the UK, Australia, New Zealand and Ireland',
+     'need': 'A health profession among the 12 OET covers (medicine, nursing, dentistry, pharmacy, physiotherapy and others). Medicine, nursing, dentistry, pharmacy, physiotherapy, radiography and veterinary science can sit the paper test; all 12 professions can sit the computer and OET@Home versions',
+     'age': '',
+     'body': 'Cambridge Boxhill Language Assessment (oet.com)',
+     'stages': [
+         ['Book the test', 'Booking is online on oet.com with a card. The full test with all four parts costs AUD 587 anywhere in the world (USD 455 for computer and OET@Home bookings in the USA). Nepal pages print about NPR 61,000 and about NPR 78,000 to 80,000, which differ with the exchange rate, so convert the AUD price yourself.', ''],
+         ['Sit the test', 'Listening, Reading, Writing (a referral or discharge letter in your profession) and Speaking (role play with a patient). The computer test is offered at authorised venues in Kathmandu and OET@Home is available for eligible candidates.', ''],
+         ['Result and use', 'Computer and OET@Home results come in about 48 hours and paper results in about 12 days. The result is valid for 2 years from the test date, and your regulator sets the grades it needs in each part.', '']],
+     'subjects': ['Healthcare listening (consultations and short talks)', 'Reading of health texts', 'Letter writing for your profession', 'Role play speaking with a patient'],
+     'prep': ['Check the exact grades your council asks for in each part, because a B in every part is common but not universal',
+              'Practise writing the letter for your own profession, since that part decides many failures',
+              'Rescheduling costs AUD 120 (more after booking closes) and cancelling gives back AUD 460 or 380, so book only when ready'],
+     'note': 'Fee, formats and change charges are from oet-bank.com of 1 November 2026; the Kathmandu venue and the prep centres come from scolarnepal.com. Retaking a part is only possible on paper tests outside the USA after one full test (one part AUD 315, two AUD 415, three AUD 515). It costs more than IELTS, but it is built for nurses and doctors.',
+     'fee': 61000, 'apply': [1, 12]},
+]

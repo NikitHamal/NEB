@@ -17,7 +17,7 @@ KEYS = ('providers_add', 'where_add', 'route_seats', 'note_add', 'provider_updat
         'abroad_note_add', 'abroad_text_swap', 'faq_text_swap', 'scholarships_add', 'scholarship_extra', 'scholarship_note_add', 'careers_new',
         'career_links', 'govt_add', 'govt_note_add', 'guides_add', 'scholarship_text_swap', 'route_note_add')
 out = {}
-for name in ('w40_nepal', 'w40_exams', 'w40_faq'):
+for name in ('w40_nepal', 'w40_exams', 'w40_langs', 'w40_faq'):
     try:
         mod = __import__(name)
     except ImportError:
