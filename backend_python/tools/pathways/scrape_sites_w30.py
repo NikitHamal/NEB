@@ -3,7 +3,7 @@
 For every provider without a website it builds candidate domains from the name, keeps only those that resolve and
 answer over valid HTTPS, then accepts a candidate only when the page itself names the college (every distinctive word
 of the name in the title / headings / first part of the text) and, when the name has a single distinctive word,
-also names the district or town. Output: site_candidates_w30.json (accepted + rejected with evidence).
+also names the district or town. Output: site_candidates_w30b.json (accepted + rejected with evidence).
 
 Run: python3 backend_python/tools/pathways/scrape_sites_w30.py
 """
@@ -25,7 +25,7 @@ GENERIC = set('''college campus multiple multi school secondary higher institute
  polytechnic science sciences technology education educational vidyapeeth vidyalaya boarding sanskrit health
  nursing medical engineering management studies study memorial rastriya ma vi aadarsha adarsha samudayik ekikrit
  bahumukhi sahakari'''.split())
-TLDS = ('.edu.np', '.com.np', '.org.np', '.com', '.edu.np')
+TLDS = ('.edu.np', '.com.np', '.org.np', '.com')
 UA = {'User-Agent': 'Mozilla/5.0 (compatible; NEBians-dataset-check/1.0; +https://nebians.com)'}
 CTX = ssl.create_default_context()
 
@@ -51,6 +51,15 @@ def candidates(p):
     if kw:
         slugs.add(''.join(d) + kw[0])
         slugs.add(''.join(d) + kw[0][:1])
+    base = ''.join(d)
+    for suf in ('college', 'campus', 'mc', 'mcampus', 'school', 'institute', 'polytechnic', 'academy', 'pi', 'ti', 'nursing', 'hs'):
+        slugs.add(base + suf)
+    place = re.sub(r'[^a-z]', '', (p.get('place') or '').split(',')[-1].lower())
+    dist = re.sub(r'[^a-z]', '', p['district'].lower())
+    for loc in {place, dist}:
+        if loc and loc not in base and len(loc) > 3:
+            slugs.add(base + loc)
+            slugs.add(base + 'campus' + loc)
     if len(d) >= 2:
         slugs.add(''.join(w[0] for w in d))
         slugs.add(''.join(w[0] for w in d) + 'c')
@@ -60,7 +69,6 @@ def candidates(p):
     for s in sorted(slugs):
         for t in TLDS:
             out.append(s + t)
-            out.append('www.' + s + t)
     return list(dict.fromkeys(out))
 
 
@@ -132,7 +140,7 @@ def main():
             out.append(r)
             if r['ok']:
                 print('OK ', r['id'], r['ok']['final'], '|', r['ok']['title'][:70], flush=True)
-    (HERE / 'site_candidates_w30.json').write_text(json.dumps(out, indent=1))
+    (HERE / 'site_candidates_w30b.json').write_text(json.dumps(out, indent=1))
     print('accepted', sum(1 for r in out if r['ok']), 'of', len(out))
 
 

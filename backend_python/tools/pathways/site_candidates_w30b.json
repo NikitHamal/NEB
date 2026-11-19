@@ -1,0 +1,2680 @@
+[
+ {
+  "id": "p-terhathum-poly",
+  "name": "Terhathum Polytechnic Institute (CTEVT) and Myanglung Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-solukhumbu",
+  "name": "Solukhumbu Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-sunkoshi-sindhu",
+  "name": "Sunkoshi Multiple Campus and Chautara Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-trishuli-nuwakot",
+  "name": "Tribhuvan Trishuli Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-rasuwa",
+  "name": "Rasuwa Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-swargadwari-pyuthan",
+  "name": "Swargadwari Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-sisne-rukum-east",
+  "name": "Sisne Shiksha Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-dolpa",
+  "name": "Dolpa Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-manasarowar-humla",
+  "name": "Manasarowar Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-bb-medical",
+  "name": "B and B Medical Institute",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-bpkmch-nursing",
+  "name": "B. P. Koirala Memorial Cancer Hospital Nursing College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-chakrabarti",
+  "name": "Chakrabarti Habi Education Academy, College of Nursing Science",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-everest-nursing",
+  "name": "Everest College of Nursing",
+  "tried": 6,
+  "ok": {
+   "host": "everestcollege.edu.np",
+   "final": "https://everestcollege.edu.np/",
+   "title": "Everest College | Truly Management College",
+   "near": true,
+   "words": [
+    "everest"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-koshi-health",
+  "name": "Koshi Health and Science Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-norvic",
+  "name": "Norvic College of Health Sciences and Technologies",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-oasis-med",
+  "name": "Oasis Medical College",
+  "tried": 13,
+  "ok": null
+ },
+ {
+  "id": "p-valley-tech",
+  "name": "Valley College of Technical Sciences",
+  "tried": 1,
+  "ok": {
+   "host": "valley.com.np",
+   "final": "https://valley.com.np/",
+   "title": "Valley Group \u2014 A new cycle begins",
+   "near": true,
+   "words": [
+    "valley"
+   ]
+  }
+ },
+ {
+  "id": "p-morgan-eng",
+  "name": "Morgan Engineering and Management College",
+  "tried": 3,
+  "ok": {
+   "host": "morgancollege.edu.np",
+   "final": "https://morgancollege.edu.np/",
+   "title": "Morgan International College",
+   "near": true,
+   "words": [
+    "morgan"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-mega-eng",
+  "name": "Mega College of Engineering",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-mansarobar",
+  "name": "Mansarobar Institute of Science and Technology",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-model-multiple-janakpur",
+  "name": "Model Multiple Campus",
+  "tried": 4,
+  "ok": {
+   "host": "modelcollege.edu.np",
+   "final": "https://modelcollege.edu.np/",
+   "title": "Model College",
+   "near": true,
+   "words": [
+    "model"
+   ]
+  }
+ },
+ {
+  "id": "p-nava-kshitiz",
+  "name": "Nava Kshitiz Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-indreni",
+  "name": "Indreni College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-lumbini-academy",
+  "name": "Lumbini Academy",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-mega-national",
+  "name": "Mega National College",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-ojaswi",
+  "name": "Ojaswi College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-shoyambhu",
+  "name": "Shoyambhu International College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-aims-intl",
+  "name": "AIMS International College",
+  "tried": 10,
+  "ok": null
+ },
+ {
+  "id": "p-hamro-nursing",
+  "name": "Hamro School of Nursing",
+  "tried": 3,
+  "ok": {
+   "host": "hamrobiratnagar.com",
+   "final": "https://www.hamrobiratnagar.com/",
+   "title": "Hamro Biratnagar - \u0938\u0924\u094d\u092f \u0938\u0941\u091a\u0928\u093e\u0915\u094b \u0938\u093e\u0930\u0925\u0940",
+   "near": true,
+   "words": [
+    "hamro"
+   ]
+  }
+ },
+ {
+  "id": "p-jf-health",
+  "name": "JF Institute of Health Sciences",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-suvekchya",
+  "name": "Suvekchya School of Health Sciences",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-harikhetan",
+  "name": "Harikhetan Multiple Campus (Tribhuvan University)",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w12-damak-pi",
+  "name": "Damak Polytechnic Institute",
+  "tried": 2,
+  "ok": {
+   "host": "damakacademy.edu.np",
+   "final": "https://damakacademy.edu.np/",
+   "title": "Computer Course & IT Training in Damak | Damak Academy",
+   "near": true,
+   "words": [
+    "damak"
+   ]
+  }
+ },
+ {
+  "id": "p-w12-balara",
+  "name": "Balara Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-jaykisan",
+  "name": "Jaykisan Polytechnic Institute",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-lahan-ti",
+  "name": "Lahan Technical Institute",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-prasauni",
+  "name": "Prasauni Polytechnic Institute",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w12-alpamai",
+  "name": "Sant Alpamai Ra.Na.Ya. Nursing College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-dhading-pi",
+  "name": "Dhading Polytechnic Institute",
+  "tried": 1,
+  "ok": {
+   "host": "dhading.com",
+   "final": "https://www.dhading.com/",
+   "title": "Dhading -  News, Information, Culture, Tourism, Politics, Entertainment and more",
+   "near": true,
+   "words": [
+    "dhading"
+   ]
+  }
+ },
+ {
+  "id": "p-w12-diwakar-pi",
+  "name": "Diwakar Polytechnic Institute",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-mahalaxmi-pi",
+  "name": "Mahalaxmi Polytechnic Institute",
+  "tried": 2,
+  "ok": {
+   "host": "mahalaxmi.com",
+   "final": "https://forsale.dynadot.com/mahalaxmi.com",
+   "title": "For Sale Domain: mahalaxmi.com",
+   "near": true,
+   "words": [
+    "mahalaxmi"
+   ]
+  }
+ },
+ {
+  "id": "p-w12-nepal-bharat",
+  "name": "Nepal-Bharat Polytechnic Institute",
+  "tried": 11,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ramechhap-pi",
+  "name": "Ramechhap Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-shankharapur",
+  "name": "Shankharapur Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-nilkantha-pi",
+  "name": "Nilkantha Polytechnic Institute",
+  "tried": 3,
+  "ok": {
+   "host": "nilkanthacampus.edu.np",
+   "final": "https://nilkanthacampus.edu.np/",
+   "title": "Nilkantha Multiple Campus",
+   "near": true,
+   "words": [
+    "nilkantha"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w12-rainas-pi",
+  "name": "Rainas Polytechnic Institute",
+  "tried": 1,
+  "ok": {
+   "host": "rainas.org.np",
+   "final": "https://rainas.org.np/",
+   "title": "Launching Soon Page:Rainas Polytechnic Institute",
+   "near": true,
+   "words": [
+    "rainas"
+   ]
+  }
+ },
+ {
+  "id": "p-w12-kisan-pi",
+  "name": "Kisan Polytechnic Institute",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-w12-aandhikhola-pi",
+  "name": "Aandhikhola Polytechnic Institute",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w12-barpak-pi",
+  "name": "Barpak Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-sks-ichhuk",
+  "name": "Shahid Krishna Sen Ichhuk Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-gurbhakot-pi",
+  "name": "Gurbhakot Polytechnic Institute",
+  "tried": 1,
+  "ok": {
+   "host": "gurbhakotcampus.edu.np",
+   "final": "https://gurbhakotcampus.edu.np/",
+   "title": "Gurbhakot Multiple Campus",
+   "near": true,
+   "words": [
+    "gurbhakot"
+   ]
+  }
+ },
+ {
+  "id": "p-w12-seti-ti",
+  "name": "Seti Technical Institute",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-w12-shuklaphanta-pi",
+  "name": "Shuklaphanta Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-mangalsen-pi",
+  "name": "Mangalsen Polytechnic Institute",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-puspa-dhirendra-smriti-pratisthan",
+  "name": "Puspa Dhirendra Smriti Pratisthan",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-chautara-secondary-school",
+  "name": "Chautara Secondary School",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-shree-secondary-school--amsal",
+  "name": "Shree Secondary School, Amsal",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-sunsari-technical-college",
+  "name": "Sunsari Technical College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-sushma-koirala-memorial-engineering-college",
+  "name": "Sushma Koirala Memorial Engineering College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-hanuman-nagar-polytechnic-institute",
+  "name": "Hanuman Nagar Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-durga-secondary-school--manara",
+  "name": "Durga Secondary School, Manara",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-jaldhar-kamaldev-model-secondary-school",
+  "name": "Jaldhar Kamaldev Model Secondary School",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-janata-secondary-school--dandatol",
+  "name": "Janata Secondary School, Dandatol",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-janata-secondary-school--madai-ugreepatti",
+  "name": "Janata Secondary School, Madai Ugreepatti",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-janjyoti-secondary-school--lalbandi",
+  "name": "Janjyoti Secondary School, Lalbandi",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-janta-secondary-school--tinkoni",
+  "name": "Janta Secondary School, Tinkoni",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-nepal-rastriya-secondary-school--kawahi-jaggat",
+  "name": "Nepal Rastriya Secondary School, Kawahi Jaggat",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-saraswati-secondary-school--sabaila",
+  "name": "Saraswati Secondary School, Sabaila",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-sarwajanik-secondary-school--nijgadh",
+  "name": "Sarwajanik Secondary School, Nijgadh",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-birgunj-institute-of-technology",
+  "name": "Birgunj Institute of Technology",
+  "tried": 3,
+  "ok": {
+   "host": "birgunjcollege.com",
+   "final": "https://birgunjcollege.com/",
+   "title": "Birgunj College || Best College in Province 2,Birgunj Nepal",
+   "near": true,
+   "words": [
+    "birgunj"
+   ]
+  }
+ },
+ {
+  "id": "p-w12-ce-madhyamanchal-regional-engineering-college",
+  "name": "Madhyamanchal Regional Engineering College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-neelarjun-education-consortium",
+  "name": "Neelarjun Education Consortium",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-softech-engineering-college",
+  "name": "Softech Engineering College",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-the-himal-institute-of-health-and-technical-scie",
+  "name": "The Himal Institute of Health and Technical Science",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-siddhababa-secondary-school",
+  "name": "Siddhababa Secondary School",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-oxford-advance-engineering-college",
+  "name": "Oxford Advance Engineering College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-dhaulagiri-deaf-residential-school",
+  "name": "Dhaulagiri Deaf Residential School",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-siddhartha-secondary-school--phedikhola",
+  "name": "Siddhartha Secondary School, Phedikhola",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-tribhuvan-secondary-school--kohalpur",
+  "name": "Tribhuvan Secondary School, Kohalpur",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-rastriya-secondary-school--chandrauta",
+  "name": "Rastriya Secondary School, Chandrauta",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-rupandehi-lilaram-neupane-secondary-school",
+  "name": "Rupandehi Lilaram Neupane Secondary School",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-panchkoshi-polytechnic-institute",
+  "name": "Panchkoshi Polytechnic Institute",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-saraswati-secondary-school--pachal",
+  "name": "Saraswati Secondary School, Pachal",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-nepal-rastriya-secondary-school--birendranagar",
+  "name": "Nepal Rastriya Secondary School, Birendranagar",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-chandannath-prabidhik-shikshalaya",
+  "name": "Chandannath Prabidhik Shikshalaya",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w12-ce-sharada-secondary-school",
+  "name": "Sharada Secondary School",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-naa",
+  "name": "Nepal Aviation Academy",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-haa",
+  "name": "Himalayan Aviation Academy",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-ofsn",
+  "name": "Orient Flight School Nepal",
+  "tried": 4,
+  "ok": {
+   "host": "orientflights.com",
+   "final": "https://orientflights.com/",
+   "title": "Best Flying School in India| FTO in India| Orient Flights Aviation Academy",
+   "near": false,
+   "words": [
+    "orient",
+    "flight"
+   ]
+  }
+ },
+ {
+  "id": "p-kmc-health",
+  "name": "Kathmandu Multiple College (Health Sciences)",
+  "tried": 1,
+  "ok": {
+   "host": "kathmandu.com",
+   "final": "https://kathmandu.com/",
+   "title": "Kathmandu.com Mockup",
+   "near": true,
+   "words": [
+    "kathmandu"
+   ]
+  }
+ },
+ {
+  "id": "p-krishna-medical",
+  "name": "Krishna Medical and Technical Research Centre",
+  "tried": 9,
+  "ok": null
+ },
+ {
+  "id": "p-sinha-health",
+  "name": "Sinha Health Foundation",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-unique-med",
+  "name": "Unique Medical College and Teaching Hospital",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-ncfst",
+  "name": "National College of Food Science and Technology (NCFST)",
+  "tried": 10,
+  "ok": null
+ },
+ {
+  "id": "p-cobeas",
+  "name": "College of Biomedical Engineering and Applied Sciences (COBEAS)",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-dudh-koshi-solu",
+  "name": "Dudh Koshi Multiple Campus and Sotang Public Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-melamchi-sindhu",
+  "name": "Indrawati Multiple Campus and Melamchi Ghyang Secondary School",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-gaumukhi-pyuthan",
+  "name": "Gaumukhi Multiple Campus and Pyuthan Technical School",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-schems",
+  "name": "School of Environmental Science and Management (SchEMS)",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-brihaspati",
+  "name": "Brihaspati College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-pokhara-mgmt",
+  "name": "Pokhara College of Management",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-excel-business",
+  "name": "Excel Business College",
+  "tried": 5,
+  "ok": {
+   "host": "excelbusinessc.com",
+   "final": "https://excelbusinessc.com/",
+   "title": "Excel Business Corporation",
+   "near": false,
+   "words": [
+    "excel",
+    "business"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-pu-axis",
+  "name": "Axis College",
+  "tried": 14,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-siddhartha-intl",
+  "name": "Siddhartha International College",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-camad",
+  "name": "Camad College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-citizen",
+  "name": "Citizen College",
+  "tried": 9,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-kshitiz-intl",
+  "name": "Kshitiz International College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-alpine",
+  "name": "Alpine Management College",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-nwmec",
+  "name": "Nepal Western Management and Engineering College",
+  "tried": 9,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-srds",
+  "name": "Sahid Ramnath Dahal Smriti College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-boston",
+  "name": "Boston International College",
+  "tried": 13,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-apollo",
+  "name": "Apollo International College",
+  "tried": 1,
+  "ok": {
+   "host": "apollo.edu.np",
+   "final": "https://www.apollo.edu.np/",
+   "title": "Apollo International : Educational consultancy in nepal",
+   "near": true,
+   "words": [
+    "apollo"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-pu-rajdhani",
+  "name": "Rajdhani Model College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w24-pu-valley-state",
+  "name": "Valley State College",
+  "tried": 1,
+  "ok": {
+   "host": "valleystate.com",
+   "final": "https://valleystate.com/",
+   "title": "Valley State Bank",
+   "near": false,
+   "words": [
+    "valley",
+    "state"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-pu-imperial",
+  "name": "Imperial Business College",
+  "tried": 1,
+  "ok": {
+   "host": "ibc.com.np",
+   "final": "https://ibc.com.np/",
+   "title": "Imperial Builders &#8211; Builders and construction",
+   "near": true,
+   "words": [
+    "imperial",
+    "business"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-pu-cem-nepalgunj",
+  "name": "College of Engineering and Management, Nepalgunj",
+  "tried": 2,
+  "ok": {
+   "host": "nepalgunjcollege.edu.np",
+   "final": "https://nepalgunjcollege.edu.np/",
+   "title": "Welcome to NCMT",
+   "near": true,
+   "words": [
+    "nepalgunj"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w24-pu-mbman",
+  "name": "Madan Bhandari Memorial Academy Nepal",
+  "tried": 2,
+  "ok": {
+   "host": "madanbhandari.com.np",
+   "final": "https://madanbhandari.com.np/",
+   "title": "Home - Madan Bhandari",
+   "near": false,
+   "words": [
+    "madan",
+    "bhandari"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-pu-iacer",
+  "name": "Institute of Advance Communication Education and Research Center",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-bharawi",
+  "name": "Bharawi Science College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-canvas",
+  "name": "Canvas International College",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-college-applied-sciences",
+  "name": "College of Applied Sciences",
+  "tried": 11,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-gyandeep",
+  "name": "Gyandeep College",
+  "tried": 3,
+  "ok": {
+   "host": "gyandeepcollege.edu.np",
+   "final": "https://gyandeepcollege.edu.np/",
+   "title": "Gyandeep | Home",
+   "near": true,
+   "words": [
+    "gyandeep"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w24-iost-jsm-lahan",
+  "name": "J.S. Murarka Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-janapriya-mc",
+  "name": "Janapriya Multiple College",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-kantipur-cms",
+  "name": "Kantipur College of Medical Sciences",
+  "tried": 4,
+  "ok": {
+   "host": "kantipurcampus.edu.np",
+   "final": "https://kantipurcampus.edu.np/",
+   "title": "Kantipur Campus - Quality Education in Kathmandu, Nepal",
+   "near": true,
+   "words": [
+    "kantipur"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-iost-karnali-prabidhi",
+  "name": "Karnali Prabidhi Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-kcst",
+  "name": "Kathmandu College of Science and Technology",
+  "tried": 1,
+  "ok": {
+   "host": "kathmandu.com",
+   "final": "https://kathmandu.com/",
+   "title": "Kathmandu.com Mockup",
+   "near": true,
+   "words": [
+    "kathmandu"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-iost-khwopa-college",
+  "name": "Khwopa College",
+  "tried": 1,
+  "ok": {
+   "host": "khwopa.edu.np",
+   "final": "https://khwopa.edu.np/",
+   "title": "Khwopa College of Engineering(TU) - Dedicated to People &amp; Country",
+   "near": true,
+   "words": [
+    "khwopa"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w24-iost-nagarik-nawalparasi",
+  "name": "Nagarik College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-national-multiple",
+  "name": "National Multiple College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-pinnacle",
+  "name": "Pinnacle College",
+  "tried": 2,
+  "ok": {
+   "host": "pinnacleacademy.edu.np",
+   "final": "https://pinnacleacademy.edu.np/",
+   "title": "Pinnacle Academy",
+   "near": true,
+   "words": [
+    "pinnacle"
+   ]
+  }
+ },
+ {
+  "id": "p-w24-iost-pokhara-cst",
+  "name": "Pokhara College of Science and Technology",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w24-iost-softech-lahan",
+  "name": "Softech College",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w25-bageshwari",
+  "name": "Bageshwari Multiple Campus (Mid-West University)",
+  "tried": 1,
+  "ok": {
+   "host": "bageshwariacademy.edu.np",
+   "final": "https://bageshwariacademy.edu.np/",
+   "title": "Bageshwari Academy &#8211; Kohalpur &#8211; Bageshwari Academy",
+   "near": true,
+   "words": [
+    "bageshwari"
+   ]
+  }
+ },
+ {
+  "id": "p-w25-vidhyapur",
+  "name": "Vidhyapur Janata Multiple Campus (Mid-West University)",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-bti",
+  "name": "Butwal Technical Institute (BTI)",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-glacier",
+  "name": "Glacier College",
+  "tried": 7,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-janaki",
+  "name": "Janaki College for Professional Studies",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-janakpur-cc",
+  "name": "Janakpur Community College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-little-angels",
+  "name": "Little Angel's College of Management",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-naya-aayam",
+  "name": "Naya Aayam Multidisciplinary Institute",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-nwa",
+  "name": "Nepal Western Academy",
+  "tried": 9,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-national-ku",
+  "name": "National College (Kathmandu University programmes)",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-ncm",
+  "name": "Nepal College of Management",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-new-everest",
+  "name": "New Everest College",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-scti",
+  "name": "Sindhuli Community Technical Institute (SCTI)",
+  "tried": 2,
+  "ok": {
+   "host": "sindhuliacademy.edu.np",
+   "final": "https://sindhuliacademy.edu.np/",
+   "title": "Home - SINDHULI ACADEMY",
+   "near": true,
+   "words": [
+    "sindhuli"
+   ]
+  }
+ },
+ {
+  "id": "p-w25-ku-south-city",
+  "name": "South City College of Science and Technology",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-nathm-bardibas",
+  "name": "Nepal Academy of Tourism and Hotel Management (NATHM), Bardibas",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-titi",
+  "name": "Training Institute for Technical Instruction (TITI)",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-whitehouse-bt",
+  "name": "WhiteHouse College of Business and Technology",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w25-ku-nit-gaidakot",
+  "name": "Nagarik Institute of Technology (NIT) College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-15",
+  "name": "Sunapati Sahid Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-17",
+  "name": "Sapahi College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-57",
+  "name": "Samari Bhanjyang Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-82",
+  "name": "Pushpalata Janaketa Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-89",
+  "name": "Machchhindra Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-129",
+  "name": "Raghunath Adarsh Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-137",
+  "name": "Radha Damodar Sanskrit campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-142",
+  "name": "Ghodaghodi Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-172",
+  "name": "Bhairab Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-199",
+  "name": "Parroha Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-205",
+  "name": "Gaurishankar Campus",
+  "tried": 1,
+  "ok": {
+   "host": "gaurishankar.edu.np",
+   "final": "https://gaurishankar.edu.np/",
+   "title": "gaurishankar.edu.np &#8211; Welcome To Our School Nijgadh Gaurishankar",
+   "near": true,
+   "words": [
+    "gaurishankar"
+   ]
+  }
+ },
+ {
+  "id": "p-w26-npca-210",
+  "name": "Gokundeshwar Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-225",
+  "name": "Banshgopal multiple campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-228",
+  "name": "Bhimdatta Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-236",
+  "name": "Karmaiya Adarsh Janata Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-237",
+  "name": "Setigaun Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-242",
+  "name": "Manusha Tika Singh Thapa Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-273",
+  "name": "Shubha Janata Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-292",
+  "name": "Udayashree Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-297",
+  "name": "G.M. Community College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-334",
+  "name": "Himshikhar Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-341",
+  "name": "Gauriganj Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-356",
+  "name": "Biimjyoti Campus Khurkot",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-372",
+  "name": "Gram Prakash Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-375",
+  "name": "Shree Chandrakot Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-378",
+  "name": "Sharada Campus",
+  "tried": 1,
+  "ok": {
+   "host": "sharada.org.np",
+   "final": "https://sharada.org.np/",
+   "title": "Sharada NGO - Home",
+   "near": true,
+   "words": [
+    "sharada"
+   ]
+  }
+ },
+ {
+  "id": "p-w26-npca-411",
+  "name": "Masyam Ekikrit Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-417",
+  "name": "Nawajagrit Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-419",
+  "name": "Devchuli College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-490",
+  "name": "Purandhara Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-492",
+  "name": "Suprabhat College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-498",
+  "name": "Khotang Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-534",
+  "name": "Dudhakoshi Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-581",
+  "name": "Rastriya Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w26-npca-600",
+  "name": "Rolpa Namuna Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-19",
+  "name": "Kanchan Multiple Campus",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-30",
+  "name": "Buddhabhumi Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-58",
+  "name": "Gauradaha Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-98",
+  "name": "Nawa Nepal Campus",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-99",
+  "name": "Bheemodaya Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-106",
+  "name": "Dhulikhel Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-191",
+  "name": "Janashikha Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-203",
+  "name": "Tansen Multiple Campus",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-211",
+  "name": "Manahari Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-243",
+  "name": "Shital Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-295",
+  "name": "Janak College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-307",
+  "name": "Bharatpur Velly College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-308",
+  "name": "Wahaki Community Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-339",
+  "name": "Suryagadhi Samudayik Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-358",
+  "name": "Gadhawa Bahumukhi Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-359",
+  "name": "Rameshwar Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-371",
+  "name": "Amar Jyoti Multiple Campus",
+  "tried": 3,
+  "ok": {
+   "host": "amarjyoti.edu.np",
+   "final": "https://amarjyoti.edu.np/",
+   "title": "Home  | AmarJyoti Model Secondary School",
+   "near": false,
+   "words": [
+    "amar",
+    "jyoti"
+   ]
+  }
+ },
+ {
+  "id": "p-w27-npca-374",
+  "name": "Kamalabazar Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-406",
+  "name": "Gograha College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-421",
+  "name": "Pyuthan Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-457",
+  "name": "Kushma Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-458",
+  "name": "Galyang Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-459",
+  "name": "Tamakoshi Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-460",
+  "name": "Ramgopalpur Multiple Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-465",
+  "name": "Siddhartha Samudayik Multiple Campus",
+  "tried": 8,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-473",
+  "name": "Rambha Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-491",
+  "name": "Janajyoti Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-504",
+  "name": "Huwas Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-516",
+  "name": "Sarvodaya Campus",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-538",
+  "name": "Daune Devi Multiple Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-541",
+  "name": "Tharpu Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-547",
+  "name": "Melamchi Valley Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-550",
+  "name": "Dhurkot Parmananda Bhandari Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-560",
+  "name": "Thalara Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-591",
+  "name": "Rauleshwar Janta Aadarsh Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-602",
+  "name": "Siddha Public College",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w27-npca-624",
+  "name": "Rolpa Multiple Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-p-u-school-of-management-morang",
+  "name": "P. U. School of Management (PUSOM)",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-karfok-bidya-mandir-multiple-campus-ilam",
+  "name": "Karfok Bidya Mandir Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-zenith-international-college-morang",
+  "name": "Zenith International College",
+  "tried": 10,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-public-campus-morang",
+  "name": "Public Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-saraswati-public-campus-morang",
+  "name": "Saraswati Public Campus",
+  "tried": 7,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-harinagara-multiple-college-sunsari",
+  "name": "Harinagara Multiple College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-dharan-college-of-management-sunsari",
+  "name": "Dharan College of Management",
+  "tried": 2,
+  "ok": {
+   "host": "dharancollege.com",
+   "final": "https://www.dharancollege.com/",
+   "title": "Dharan Hospital for allied medical courses in Salem",
+   "near": true,
+   "words": [
+    "dharan"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-national-multiple-college-sunsari",
+  "name": "National Multiple College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-kshitiz-educational-foundation-saptari",
+  "name": "Kshitiz Educational Foundation",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-caliber-international-college-saptari",
+  "name": "Caliber International College",
+  "tried": 7,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-saptarishi-multiple-college-saptari",
+  "name": "Saptarishi Multiple College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-annapurna-multiple-campus-saptari",
+  "name": "Annapurna Multiple Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sungava-multiple-college-saptari",
+  "name": "Sungava Multiple College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-mother-memorial-college-saptari",
+  "name": "Mother Memorial College",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-devaki-college-of-management-and-sciences-siraha",
+  "name": "Devaki College of Management & Sciences",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-janaki-college-of-management-dhanusha",
+  "name": "Janaki College of Management Pvt.Ltd.",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-model-purbanchal-college-dhanusha",
+  "name": "Model Purbanchal College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-central-management-college-dhanusha",
+  "name": "Central Management College",
+  "tried": 13,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-birgunj-public-college-parsa",
+  "name": "Birgunj Public College",
+  "tried": 3,
+  "ok": {
+   "host": "birgunjcollege.com",
+   "final": "https://birgunjcollege.com/",
+   "title": "Birgunj College || Best College in Province 2,Birgunj Nepal",
+   "near": true,
+   "words": [
+    "birgunj"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-presidency-college-of-management-sciences-chitwan",
+  "name": "Presidency College of Management Sciences",
+  "tried": 1,
+  "ok": {
+   "host": "presidency.edu.np",
+   "final": "https://www.facebook.com/presidencycollegeofficial/",
+   "title": "Presidency College Of Management Sciences | Bharatpur",
+   "near": true,
+   "words": [
+    "presidency"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-lumbini-adarsh-degree-college-nawalparasieast",
+  "name": "Lumbini Adarsh Degree College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-shreenagar-integrated-college-kapilvastu",
+  "name": "Shreenagar Integrated College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-mangal-prasad-women-s-college-banke",
+  "name": "Mangal Prasad Women's College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-tribhuvan-campus-tanahu",
+  "name": "Tribhuvan Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-aryan-college-of-management-kathmandu",
+  "name": "Aryan College of Management",
+  "tried": 7,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-asian-college-of-management-and-technology-kathmandu",
+  "name": "Asian College of Management & Technology",
+  "tried": 1,
+  "ok": {
+   "host": "asian.edu.np",
+   "final": "https://asian.edu.np/",
+   "title": "AIEC - Global (Asian Education) - Your Trusted Study Abroad Partner",
+   "near": true,
+   "words": [
+    "asian"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-gateway-college-of-professional-studies-kathmandu",
+  "name": "Gateway College of Professional Studies",
+  "tried": 1,
+  "ok": {
+   "host": "gatewayprofessional.com",
+   "final": "https://gatewayprofessional.com/",
+   "title": "GatewayProfessional.com for sale | Spaceship.com",
+   "near": false,
+   "words": [
+    "gateway",
+    "professional"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-d-a-v-business-school-kathmandu",
+  "name": "D.A.V. Business School",
+  "tried": 13,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-kathmandu-don-bosco-college-kathmandu",
+  "name": "Kathmandu Don Bosco College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-kasthamandap-school-of-public-affair-management-kathmandu",
+  "name": "Kasthamandap School of Public Affair Management",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-kathmandu-academy-of-tourism-and-hospitality-kathmandu",
+  "name": "Kathmandu Academy of Tourism and Hospitality",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-man-management-development-campus-kathmandu",
+  "name": "MAN, Management Development Campus",
+  "tried": 4,
+  "ok": {
+   "host": "mdc.org.np",
+   "final": "https://mdc.org.np/",
+   "title": "Home | MDC Nepal",
+   "near": false,
+   "words": [
+    "man",
+    "development"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-sann-international-college-for-higher-studies-kathmandu",
+  "name": "SANN International College for Higher Studies",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sagarmatha-multiple-college-kathmandu",
+  "name": "Sagarmatha Multiple College",
+  "tried": 3,
+  "ok": {
+   "host": "sagarmatha.com",
+   "final": "https://sagarmatha.com/",
+   "title": "Sagarmatha National Park \u2014 Everest Region Travel Guide &amp; Tours | Sagarmatha.com",
+   "near": true,
+   "words": [
+    "sagarmatha"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-orchid-college-of-management-and-technology-kathmandu",
+  "name": "Orchid College of Management and Technology",
+  "tried": 9,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-bageswori-college-of-management-bhaktapur",
+  "name": "Bageswori College of Management",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sushma-koirala-memorial-trust-banke",
+  "name": "Sushma Koirala Memorial Trust",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sushma-koirala-memorial-trust-kathmandu",
+  "name": "Sushma Koirala Memorial Trust",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sahid-aakash-memorial-campus-makwanpur",
+  "name": "Sahid Aakash Memorial Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-lamahi-samudayik-bigyantatha-prabidhi-sansthan-dang",
+  "name": "Lamahi Samudayik Bigyantatha Prabidhi Sansthan",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-himalayan-kiran-public-campus-sankhuwasabha",
+  "name": "Himalayan Kiran Public Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-arun-multiple-campus-bhojpur",
+  "name": "Arun Multiple Campus",
+  "tried": 7,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-amardaha-campus-morang",
+  "name": "Amardaha Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-st-paul-s-college-sunsary-sunsari",
+  "name": "St. Paul's College Sunsary Pvt.Ltd.",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-nobel-multiple-college-bardibas-mahottari",
+  "name": "Nobel Multiple College Bardibas",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-lions-international-college-makwanpur",
+  "name": "Lions International College Pvt.Ltd.",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sacred-heart-academy-sunsari",
+  "name": "Sacred Heart Academy",
+  "tried": 6,
+  "ok": {
+   "host": "sacredheartnursing.com",
+   "final": "https://www.sacredheartnursing.com/",
+   "title": "Sacred Heart Nursing Services, Inc. - Staffing Agency - Phoenix, Arizona",
+   "near": false,
+   "words": [
+    "sacred",
+    "heart"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-libju-community-campus-okhaldhunga",
+  "name": "Libju Community Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-p-u-school-of-science-and-technology-morang",
+  "name": "P.U. School of Science and Technology (PUSAT)",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-g-p-koirala-college-of-agriculture-and-research-morang",
+  "name": "G.P. Koirala College of Agriculture & Research Centre (GPCAR)",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-p-u-college-of-environment-and-forestry-morang",
+  "name": "P.U. College of Environment and Forestry",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-kist-college-of-information-technology-kathmandu",
+  "name": "Kist College of Information Technology",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-durga-devi-community-development-center-jhapa",
+  "name": "Durga Devi Community Development Center",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-ilam-community-agriculture-campus-ilam",
+  "name": "Ilam Community Agriculture Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-lumbini-adarsha-degree-college-nawalparasieast",
+  "name": "Lumbini Adarsha Degree College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-lamahi-community-institute-of-science-and-techno-dang",
+  "name": "Lamahi Community Institute of Science & Technology",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-lumbini-integrated-academy-rupandehi",
+  "name": "Lumbini Integrated Academy",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-global-college-of-social-science-and-technology-kathmandu",
+  "name": "Global College of Social Science and Technology",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-hetauda-janapriya-campus-makwanpur",
+  "name": "Hetauda Janapriya Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-bheri-nursing-college-banke",
+  "name": "Bheri Nursing College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-birat-health-college-morang",
+  "name": "Birat Health College",
+  "tried": 2,
+  "ok": {
+   "host": "biratcampus.edu.np",
+   "final": "https://biratcampus.edu.np/",
+   "title": "Birat Campus - Excellence in Education | Biratnagar, Nepal",
+   "near": true,
+   "words": [
+    "birat"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-devdaha-college-of-science-and-technology-rupandehi",
+  "name": "Devdaha College of Science & Technology Pvt. Ltd.",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-hope-international-college-lalitpur",
+  "name": "HOPE International College",
+  "tried": 4,
+  "ok": {
+   "host": "hopecollege.edu.np",
+   "final": "https://hopecollege.edu.np/",
+   "title": "HOPE International College (HIC)",
+   "near": true,
+   "words": [
+    "hope"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w28-pu-innovative-college-of-health-science-kathmandu",
+  "name": "Innovative College of Health Science Pvt. Ltd.",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-nepal-institute-of-health-science-kathmandu",
+  "name": "Nepal Institute of Health Science",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-oasis-medical-college-teaching-hospital-and-rese-chitwan",
+  "name": "Oasis Medical College Teaching Hospital & Research Center (P) Ltd.",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sann-institute-of-nursing-kathmandu",
+  "name": "SANN Institute of Nursing Pvt. Ltd.",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-susma-koirala-memorial-nursing-campus-kathmandu",
+  "name": "Susma Koirala Memorial Nursing Campus",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-janta-adarsha-multiple-campus-morang",
+  "name": "Janta Adarsha Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-college-of-journalism-and-mass-communication-kathmandu",
+  "name": "College of Journalism & Mass Communication",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-centre-of-population-and-development-morang",
+  "name": "Centre of Population and Development (CPAD)",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-chisankhugadi-campus-okhaldhunga",
+  "name": "Chisankhugadi Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-damauli-college-tanahu",
+  "name": "Damauli College",
+  "tried": 1,
+  "ok": {
+   "host": "damauli.com",
+   "final": "https://www.damauli.com/",
+   "title": "Damauli Tanahun, Nepal",
+   "near": true,
+   "words": [
+    "damauli"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-everest-multiple-college-solukhumbu",
+  "name": "Everest Multiple College",
+  "tried": 11,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-institute-of-open-learning-kathmandu-kathmandu",
+  "name": "Institute of Open Learning, Kathmandu",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-laxmiballav-narsing-multiple-college-saptari",
+  "name": "Laxmiballav Narsing Multiple College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-madan-aashrit-smriti-multiple-college-jhapa",
+  "name": "Madan Aashrit Smriti Multiple College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-triveni-public-campus-sankhuwasabha",
+  "name": "Triveni Public Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-wana-campus-sankhuwasabha",
+  "name": "Wana Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-annapurna-college-morang",
+  "name": "Annapurna College",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-edenburg-international-college-morang",
+  "name": "Edenburg International College",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-gurans-multiple-campus-dailekh",
+  "name": "Gurans Multiple Campus",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-jagadamba-campus-okhaldhunga",
+  "name": "Jagadamba Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-siddanath-campus-mahottari",
+  "name": "Siddanath Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-narayani-multiple-campus-taplejung",
+  "name": "Narayani Multiple Campus",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-saraswati-multiple-campus-sunsari",
+  "name": "Saraswati Multiple Campus",
+  "tried": 7,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-adarsha-campus-sunsari",
+  "name": "Adarsha Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-p-u-college-of-law-morang",
+  "name": "P.U. College of Law",
+  "tried": 13,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-sagarmatha-college-of-law-kathmandu",
+  "name": "Sagarmatha College of Law",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-solukhumbu-law-campus-solukhumbu",
+  "name": "Solukhumbu Law Campus",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-global-school-of-law-kathmandu",
+  "name": "Global School of Law",
+  "tried": 5,
+  "ok": {
+   "host": "globallaw.com.np",
+   "final": "https://www.globallaw.com.np/",
+   "title": "Global Law Associates | IP &amp; Trademark Attorneys in Nepal",
+   "near": true,
+   "words": [
+    "global",
+    "law"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-model-college-of-law-dhanusha",
+  "name": "Model College of Law",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-asian-college-of-law-kathmandu",
+  "name": "Asian College of Law",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-kantipur-international-college-of-law-kathmandu",
+  "name": "Kantipur International College of Law",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-himalayan-whitehouse-college-of-law-kathmandu",
+  "name": "Himalayan Whitehouse College of Law",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-annapurna-law-college-morang",
+  "name": "Annapurna Law College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-pu-imperial-law-college-kathmandu",
+  "name": "Imperial Law College",
+  "tried": 4,
+  "ok": {
+   "host": "imperiallawinstitute.com",
+   "final": "https://imperiallawinstitute.com/",
+   "title": "Imperial Law Institute",
+   "near": false,
+   "words": [
+    "imperial",
+    "law"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-pu-shree-college-of-law-chitwan",
+  "name": "Shree College of Law",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-adarsha-college-sunsari",
+  "name": "Adarsha College",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-ambition-guru-college-kathmandu",
+  "name": "Ambition Guru College",
+  "tried": 3,
+  "ok": {
+   "host": "ambitionguru.edu.np",
+   "final": "https://ambition.guru/",
+   "title": "Ambition Guru | elearning platform in Nepal",
+   "near": false,
+   "words": [
+    "ambition",
+    "guru"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-ankur-institute-of-engineering-and-management-st-mahottari",
+  "name": "Ankur Institute of Engineering and Management Studies",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-banepa-college-of-management-technology-kavrepalanchok",
+  "name": "Banepa College of Management & Technology",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-birgunj-multiple-college-parsa",
+  "name": "Birgunj Multiple College",
+  "tried": 3,
+  "ok": {
+   "host": "birgunjcollege.com",
+   "final": "https://birgunjcollege.com/",
+   "title": "Birgunj College || Best College in Province 2,Birgunj Nepal",
+   "near": true,
+   "words": [
+    "birgunj"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-caspian-college-for-management-and-information-t-lalitpur",
+  "name": "Caspian College for Management and Information Technology",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-college-of-law-and-management-morang",
+  "name": "College of Law and Management",
+  "tried": 13,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-creative-international-college-butwal-rupandehi",
+  "name": "Creative International College Butwal Pvt. Ltd.",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-deurali-buddha-jyoti-college-of-management-kapilvastu",
+  "name": "Deurali Buddha Jyoti College of Management",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-dhanusha-engineering-management-law-college-dhanusha",
+  "name": "Dhanusha Engineering Management & Law College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-dream-international-college-saptari",
+  "name": "Dream International College",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-global-multiple-college-siraha",
+  "name": "Global Multiple College Pvt. Ltd.",
+  "tried": 15,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-greenfield-college-of-information-technology-kathmandu",
+  "name": "Greenfield College of Information Technology",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-gyandev-technical-academy-dhanusha",
+  "name": "Gyandev Technical Academy",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-happy-land-education-foundation-saptari",
+  "name": "Happy Land Education Foundation",
+  "tried": 4,
+  "ok": {
+   "host": "happylandacademy.com",
+   "final": "https://happylandacademy.com/",
+   "title": "Happyland- Home",
+   "near": false,
+   "words": [
+    "happy",
+    "land"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-hulaki-multiple-campus-siraha",
+  "name": "Hulaki Multiple Campus",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-luminous-college-of-advanced-studies-kathmandu",
+  "name": "Luminous College of Advanced Studies",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-mamta-vidya-mandir-college-parsa",
+  "name": "Mamta Vidya Mandir College Pvt Ltd",
+  "tried": 1,
+  "ok": {
+   "host": "mamtavidyamandir.com",
+   "final": "https://mamtavidyamandir.com/",
+   "title": "mamtavidyamandir.com",
+   "near": false,
+   "words": [
+    "mamta",
+    "vidya",
+    "mandir"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-mega-college-of-management-kathmandu",
+  "name": "Mega College of Management",
+  "tried": 1,
+  "ok": {
+   "host": "mega.com.np",
+   "final": "https://mega.com.np/",
+   "title": "Megatech Group - Multi-brand computer & electronics distributor in Nepal",
+   "near": true,
+   "words": [
+    "mega"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-mega-law-college-lalitpur",
+  "name": "Mega Law College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-mega-management-college-lalitpur",
+  "name": "Mega Management College",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-nandani-multiple-international-college-mahottari",
+  "name": "Nandani Multiple International College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-national-college-of-integrated-studies-sunsari",
+  "name": "National College of Integrated Studies",
+  "tried": 12,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-nepalaya-education-foundation-kathmandu",
+  "name": "Nepalaya Education Foundation",
+  "tried": 1,
+  "ok": {
+   "host": "nepalaya.edu.np",
+   "final": "https://nepalaya.edu.np/",
+   "title": "Nepalaya College | Best College in Kathmandu",
+   "near": true,
+   "words": [
+    "nepalaya"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w28-rju-nepathya-college-of-management-and-technology-rupandehi",
+  "name": "Nepathya College of Management and Technology",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-prithvi-management-and-law-college-makwanpur",
+  "name": "Prithvi Management and Law College",
+  "tried": 2,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-queens-college-of-law-and-management-lalitpur",
+  "name": "Queens College of Law and Management",
+  "tried": 2,
+  "ok": {
+   "host": "queenslaw.com",
+   "final": "https://www.addabboandgreenberg.com/",
+   "title": "Queens New York Criminal Defense, Personal Injury & Real Estate Lawyer | Addabbo & Greenberg Law",
+   "near": false,
+   "words": [
+    "queens",
+    "law"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-sann-college-kathmandu",
+  "name": "SANN College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-shuvarambha-bahumukhi-campus-bara",
+  "name": "Shuvarambha Bahumukhi Campus",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-siddhartha-international-college-janakpurdham-dhanusha",
+  "name": "Siddhartha International College, Janakpurdham",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-sky-international-college-and-research-center-rupandehi",
+  "name": "Sky International College and Research Center",
+  "tried": 14,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-sun-light-college-parsa",
+  "name": "Sun Light College Pvt. Ltd.",
+  "tried": 6,
+  "ok": {
+   "host": "sunlight.com",
+   "final": "https://www.sunlight.com/",
+   "title": "GLP-1 Weight Loss Medication Online \u2013 Start Today | Sunlight",
+   "near": false,
+   "words": [
+    "sun",
+    "light"
+   ]
+  }
+ },
+ {
+  "id": "p-w28-rju-takshashila-college-udayapur",
+  "name": "Takshashila College",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-tech-ai-college-of-management-law-kathmandu",
+  "name": "Tech AI College of Management & Law Pvt. Ltd.",
+  "tried": 3,
+  "ok": {
+   "host": "techlawcollege.edu.np",
+   "final": "https://techlawcollege.edu.np/",
+   "title": "Tech Law College",
+   "near": false,
+   "words": [
+    "tech",
+    "law"
+   ]
+  },
+  "dup": true
+ },
+ {
+  "id": "p-w28-rju-universal-college-saptari",
+  "name": "Universal College",
+  "tried": 9,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-vaidehi-gyankunj-college-morang",
+  "name": "Vaidehi Gyankunj College",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-vibrant-college-kathmandu",
+  "name": "Vibrant College (Lord Buddha HRD Academy)",
+  "tried": 10,
+  "ok": null
+ },
+ {
+  "id": "p-w28-rju-xavier-college-of-interdisciplinary-studies-kathmandu",
+  "name": "Xavier College of Interdisciplinary Studies",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-pindeshwor",
+  "name": "Pindeshwor Sanskrit Vidyapeeth (Pindeshwor College)",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-janata",
+  "name": "Janata Sanskrit Vidyapeeth (Janata College)",
+  "tried": 5,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-vishwa-vidyalaya",
+  "name": "Vishwa Vidyalaya Vidyapeeth (University Vidyapeeth)",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-kalika",
+  "name": "Kalika Sanskrit Vidyapeeth",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-harihar",
+  "name": "Harihar Sanskrit Vidyapeeth",
+  "tried": 3,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-sharada",
+  "name": "Sharada Sanskrit Vidyapeeth (Sharada College)",
+  "tried": 6,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-bp-koirala",
+  "name": "B. P. Koirala Sanskrit Vidyapeeth",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-bhanu",
+  "name": "Bhanu Sanskrit Vidyapeeth",
+  "tried": 4,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-bindabasini",
+  "name": "Bindabasini Sanskrit Vidyapeeth",
+  "tried": 0,
+  "ok": null
+ },
+ {
+  "id": "p-w29-nsu-yalana",
+  "name": "Yagyavalkya Laxminarayan (Ya.La.) Sanskrit Vidyapeeth",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w30-bheri-gumi",
+  "name": "Bheri Multiple Campus (Mid-West University)",
+  "tried": 1,
+  "ok": null
+ },
+ {
+  "id": "p-w30-gci",
+  "name": "Global College International",
+  "tried": 5,
+  "ok": {
+   "host": "globalcollege.edu.np",
+   "final": "https://globalcollege.edu.np/",
+   "title": "Global College of Management",
+   "near": true,
+   "words": [
+    "global"
+   ]
+  },
+  "dup": true
+ }
+]

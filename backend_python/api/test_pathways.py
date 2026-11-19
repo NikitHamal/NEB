@@ -1065,6 +1065,8 @@ class Wave22Tests(TestCase):
         for a in d['abroad']:
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
+            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare'):
+                continue  # wave 30 open calls: the notices print no seat count
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
         faq = {f['id']: f for f in d['faq']}
@@ -1351,5 +1353,8 @@ class Wave30Tests(TestCase):
         self.assertEqual(sch['s-pu-scholarship']['awards'], 1381)
         self.assertIn('Bagmati 838', sch['s-ctevt']['covers'])
         faq = {f['id']: f for f in d['faq']}
-        for i in range(1, 9):
+        for i in range(1, 11):
             self.assertIn(f'fw30-{i}', faq)
+        for sid in ('s-city-class11', 's-doit-it', 's-army-welfare'):
+            self.assertEqual(sch[sid]['scope'], 'nepal')
+            self.assertNotIn('awards', sch[sid])

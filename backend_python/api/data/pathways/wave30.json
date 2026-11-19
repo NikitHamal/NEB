@@ -402,6 +402,63 @@
     11
    ],
    "awards": 2
+  },
+  {
+   "id": "s-city-class11",
+   "name": "Municipal Class 11 scholarships (Pokhara, Biratnagar, Tokha, Madhyapur Thimi, Bharatpur, Itahari, Dhangadhi)",
+   "scope": "nepal",
+   "levels": [
+    "diploma",
+    "bachelor"
+   ],
+   "by": "Metropolitan cities and municipalities",
+   "covers": "Free Class 11 and 12 seats in institutional schools (Bharatpur also community campuses) inside the city, filled by an entrance exam. No city notice prints a seat count; the awards figure is left out on purpose and the card shows Open call.",
+   "who": "SEE graduates with Nepali citizenship; each city adds its own rules. Madhyapur Thimi asks at least GPA 1.6 and a community or institutional school SEE, with a birth, citizenship or residence certificate for residents.",
+   "how": "2083/84 notices (Educatenepal, May 2026). Pokhara: paper form to the Education Administration Division, Pokhara-17 Damside, 13 to 20 May. Biratnagar: online at scholarship.biratnagarmun.gov.np, form 1 to 10 Jestha, exam 17 Jestha. Tokha: scholarship.tokhamun.gov.np, form 1 to 15 Jestha, exam 23 Jestha (science 30, English 30, maths 30, general knowledge 10 percent). Madhyapur Thimi: form 1 to 10 Jestha, exam 16 Jestha. Bharatpur: scholarship.bharatpurmun.gov.np, form 8 to 22 Jestha. Itahari and Dhangadhi: window 13 May to 2 June and 15 May to 29 July on Edusanjal. Apply to every city you qualify for, and take admission only after the result.",
+   "link": "https://www.educatenepal.com/scholarships/detail/grade-11-scholarships-notice-from-metropolitan-cities-and-municipalities-of-nepal",
+   "type": "Government",
+   "open": [
+    5,
+    6
+   ]
+  },
+  {
+   "id": "s-doit-it",
+   "name": "Department of IT scholarship for IT students (NPR 50,000)",
+   "scope": "nepal",
+   "levels": [
+    "bachelor",
+    "master",
+    "phd"
+   ],
+   "by": "Ministry of Communication and Information Technology, Department of Information Technology",
+   "covers": "A one time lump sum of NPR 50,000 per selected student, on a quota the department sets (no number is printed in the notice).",
+   "who": "Students enrolled in information technology at the bachelor, master, M.Phil. or PhD level in a Nepali university or its constituent or affiliated institution, with a letter from the college saying you get no other scholarship. Government or community school SEE and economic hardship letters from the local level count.",
+   "how": "Under the Scholarship Procedure for IT Students 2081. The 2082 call ran from Baisakh 29 to Jestha 12, 2082 (12 to 26 May 2025): a paper application at the department in Tinkune, Kathmandu, or scanned documents to scholarship@doit.gov.np (phone 01-4112334). Watch doit.gov.np around May for the next call.",
+   "link": "https://doit.gov.np",
+   "type": "Government",
+   "open": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "s-army-welfare",
+   "name": "Nepal Army Welfare Scholarship (domestic)",
+   "scope": "nepal",
+   "levels": [
+    "diploma"
+   ],
+   "by": "Nepal Army Military Welfare Directorate",
+   "covers": "NPR 25,000 a year per student for Class 4 to 12.",
+   "who": "One son or daughter of a serving or retired Nepali Army soldier, aged at most 21, who passed in the 2082 session with at least 40 percent (GPA 1.6) in a community school or 50 percent (GPA 2.0) in an institutional school. Students at schools outside Nepal and children of soldiers dismissed without welfare benefits are not eligible; a Class 12 grant is given once per couple.",
+   "how": "The 2082 call (collegenp.com and Edusanjal) was open from 26 August to 17 October 2026. Send the form and marksheets through the Army welfare channels named in the notice. The 2077 notice paid NPR 20,000, so the amount has risen.",
+   "link": "https://www.nepalarmy.mil.np",
+   "type": "Government",
+   "open": [
+    8,
+    10
+   ]
   }
  ],
  "scholarship_extra": {
@@ -499,6 +556,27 @@
     "bbs",
     "bba",
     "llb"
+   ]
+  },
+  {
+   "id": "fw30-9",
+   "topic": "after10",
+   "q": "Which cities give free Class 11 scholarships and when do forms open?",
+   "a": "Seven city notices for 2083/84 were published in May 2026 (Educatenepal, Edusanjal): Kathmandu (form 1 to 10 Jestha, exam 17 Jestha), Biratnagar (form 1 to 10 Jestha, exam 17 Jestha), Tokha (form 1 to 15 Jestha, exam 23 Jestha), Madhyapur Thimi (form 1 to 10 Jestha, exam 16 Jestha, minimum SEE GPA 1.6), Bharatpur (form 8 to 22 Jestha, institutional schools and community campuses), Pokhara (paper form at Pokhara-17 Damside, 13 to 20 May) plus Itahari and Dhangadhi. Each city runs its own exam, so you can sit several. The usual pattern is a free online form right after SEE results, a 100 question exam on the Class 10 syllabus, then merit lists by subject and school. Do not take admission before the result.",
+   "go": [
+    "plus2-science",
+    "plus2-management",
+    "plus2-humanities"
+   ]
+  },
+  {
+   "id": "fw30-10",
+   "topic": "general",
+   "q": "Is there a government scholarship for IT students or for children of Nepali Army soldiers?",
+   "a": "Yes, two. The Department of Information Technology pays NPR 50,000 once to IT students at the bachelor, master, M.Phil. or PhD level in Nepali universities, on a quota; the 2082 call ran from 12 to 26 May 2025 (doit.gov.np, scholarship@doit.gov.np). The Nepal Army Military Welfare Directorate pays NPR 25,000 a year to one child of a serving or retired soldier in Class 4 to 12, up to age 21, with at least 40 percent in a community school or 50 percent in an institutional school; the 2082 call ran 26 August to 17 October 2026. Neither notice prints a seat count, so they are listed as open calls.",
+   "go": [
+    "be-computer",
+    "bsc-csit"
    ]
   }
  ]

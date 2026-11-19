@@ -42,4 +42,14 @@ FAQ_ADD = [
      'a': ('Far Western University keeps scholarship seats equal to 10 percent of the approved seats of BSc CSIT and BBA at its affiliated campuses. In 2083 the exam moved to 2083/05/14 and the form deadline to 2083/05/13 because too few students had applied (notice of 2083/05/02, fwu.edu.np/scholarship). '
            'Nepal Open University took scholarship forms for MBA, MS in Development Management and Governance, BBS and LL.B. from 26 June to 16 July 2026 on its Student Panel. Dates change every year, so check the university notice board in Asar and Shrawan.'),
      'go': ['bbs', 'bba', 'llb']},
+    {'id': 'fw30-9', 'topic': 'after10', 'q': 'Which cities give free Class 11 scholarships and when do forms open?',
+     'a': ('Seven city notices for 2083/84 were published in May 2026 (Educatenepal, Edusanjal): Kathmandu (form 1 to 10 Jestha, exam 17 Jestha), Biratnagar (form 1 to 10 Jestha, exam 17 Jestha), Tokha (form 1 to 15 Jestha, exam 23 Jestha), Madhyapur Thimi (form 1 to 10 Jestha, exam 16 Jestha, minimum SEE GPA 1.6), '
+           'Bharatpur (form 8 to 22 Jestha, institutional schools and community campuses), Pokhara (paper form at Pokhara-17 Damside, 13 to 20 May) plus Itahari and Dhangadhi. Each city runs its own exam, so you can sit several. '
+           'The usual pattern is a free online form right after SEE results, a 100 question exam on the Class 10 syllabus, then merit lists by subject and school. Do not take admission before the result.'),
+     'go': ['plus2-science', 'plus2-management', 'plus2-humanities']},
+    {'id': 'fw30-10', 'topic': 'general', 'q': 'Is there a government scholarship for IT students or for children of Nepali Army soldiers?',
+     'a': ('Yes, two. The Department of Information Technology pays NPR 50,000 once to IT students at the bachelor, master, M.Phil. or PhD level in Nepali universities, on a quota; the 2082 call ran from 12 to 26 May 2025 (doit.gov.np, scholarship@doit.gov.np). '
+           'The Nepal Army Military Welfare Directorate pays NPR 25,000 a year to one child of a serving or retired soldier in Class 4 to 12, up to age 21, with at least 40 percent in a community school or 50 percent in an institutional school; the 2082 call ran 26 August to 17 October 2026. '
+           'Neither notice prints a seat count, so they are listed as open calls.'),
+     'go': ['be-computer', 'bsc-csit']},
 ]
