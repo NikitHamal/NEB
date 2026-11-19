@@ -331,7 +331,7 @@ class Wave11Tests(TestCase):
     def test_india_and_uae_work_rules(self):
         d = pathways.payload()
         abroad = {a['id']: a for a in d['abroad']}
-        self.assertIn('Off campus work is not allowed', abroad['in']['work'])
+        self.assertIn('does not need a student visa or a work permit', abroad['in']['work'])  # wave 26: 1950 Treaty, Nepali citizens
         self.assertIn('no objection certificate', abroad['ae']['work'])
         self.assertGreaterEqual(len(d['faq']), 79)
 
@@ -1194,3 +1194,9 @@ class Wave26Tests(TestCase):
             self.assertNotIn('website', prov[pid])
         for p in prov.values():
             self.assertNotIn(p.get('website'), ('https://rrcampus.edu.np', 'https://mmcn.tu.edu.np', 'https://tmcpalpa.tu.edu.np'))
+
+        self.assertGreaterEqual(len(d['faq']), 364)
+        abroad = {a['id']: a for a in d['abroad']}
+        for aid in ('in', 'no', 'dk'):
+            self.assertTrue(abroad[aid]['stay_back'], aid)
+        self.assertIn('1950', abroad['in']['work'])
