@@ -33,7 +33,13 @@ SOC = {"id": "8-soc-ble-2082-kathmandu", "file": "NEBians-BLE-Past-Paper-Grade-8
        "topics": "federalism, the federal council of ministers, culture and tradition, social media and online behaviour, dowry and conflict management, "
                  "foreign employment and consular services, unity in diversity, drug abuse, Greek and Roman civilisation, climate change, "
                  "rural to urban migration, the Kirat period, foreign trade, and a labelled outline map of Nepal (Sagarmatha and Boudhanath)"}
-PAPERS.append(SOC)
+NEP = {"id": "8-nep-ble-2082-pokhara", "file": "NEBians-BLE-Past-Paper-Grade-8-Nepali-2082-Pokhara.pdf",
+       "subject": "Nepali", "year_bs": "2082", "year_ad": "2026", "muni": "Pokhara Metropolitan City",
+       "district": "Kaski", "pradesh": "Gandaki", "marks": "50", "time": "2 hours", "lang": "ne",
+       "topics": "synonyms and antonyms, proverbs, spelling, sentence correction, parts of speech, verb forms and tenses, voice and sentence change, "
+                 "prefixes, suffixes, compound words, case, two unseen passages (Badimalika and organic manure), summary writing, story and dialogue writing, "
+                 "letter writing, expansion of ideas, comprehension of a story extract, poem and story appreciation, and an essay"}
+PAPERS.extend([SOC, NEP])
 COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026"
 
 

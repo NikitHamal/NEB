@@ -1277,5 +1277,23 @@
   "pages": 7,
   "bytes": 94097,
   "id": "8-soc-ble-2082-kathmandu"
+ },
+ {
+  "file": "NEBians-BLE-Past-Paper-Grade-8-Nepali-2082-Pokhara.pdf",
+  "subject": "Nepali",
+  "grade": "8",
+  "year_bs": "2082",
+  "year_ad": "2026",
+  "stream": "Basic Level Examination, Pokhara Metropolitan City",
+  "code": "",
+  "kind": "BLE Past Paper",
+  "time": "२ घण्टा",
+  "marks": "५०",
+  "students": "कक्षा ८ को आधारभूत तह परीक्षा (BLE) नेपाली विषयको पोखरा महानगरपालिकाले २०८२ सालमा सञ्चालन गरेको प्रश्नपत्र। प्रश्नहरू प्रकाशित प्रश्नपत्रबाट पुनर्टङ्कण गरिएका हुन्; हरेक प्रश्नको नमूना उत्तर NEBians को हो।",
+  "category": "Basic Level Exam",
+  "lang": "ne",
+  "pages": 9,
+  "bytes": 96643,
+  "id": "8-nep-ble-2082-pokhara"
  }
 ]
