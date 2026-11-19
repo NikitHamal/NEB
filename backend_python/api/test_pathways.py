@@ -1166,3 +1166,31 @@ class Wave25Tests(TestCase):
         for p in prov.values():
             if p['id'].startswith('p-w25-'):
                 self.assertNotIn('\u2014', p['note'])
+
+
+class Wave26Tests(TestCase):
+    """Wave 26: website audit (dead guessed domains replaced or dropped), 6 TU campuses, NPCA community campuses."""
+
+    def test_wave26_sites_and_campuses(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        prov = {p['id']: p for p in d['providers']}
+        routes = {r['id']: r for r in d['routes']}
+        self.assertGreaterEqual(len(prov), 728)
+        for pid in ('p-w26-tu-mmc', 'p-w26-tu-mnc', 'p-w26-tu-gac', 'p-w26-tu-rampur', 'p-w26-tu-pyc', 'p-w26-tu-bbc'):
+            self.assertTrue(prov[pid]['website'].endswith('.tu.edu.np'), pid)
+        self.assertIn('p-w26-tu-gac', routes['bsc-agri']['where'])
+        self.assertIn('p-w26-tu-mnc', routes['bsc-nursing']['where'])
+        self.assertGreaterEqual(sum(1 for p in prov if p.startswith('p-w26-npca-')), 80)
+        for p in prov.values():
+            if p['id'].startswith('p-w26-npca-'):
+                self.assertEqual(p['sector'], 'Community')
+                self.assertNotIn('npca.edu.np', p.get('website', ''))
+        # guessed domains that never resolved are gone
+        for pid, host in (('p-patan', 'pmc.tu.edu.np'), ('p-mmc-dang', 'mamc.tu.edu.np'), ('p-mmc-nepalgunj', 'mahemc.tu.edu.np'),
+                          ('p-damak-mc', 'damakcampus.edu.np')):
+            self.assertIn(host, prov[pid]['website'])
+        for pid in ('p-kailali', 'p-himalaya-eye', 'p-solukhumbu'):
+            self.assertNotIn('website', prov[pid])
+        for p in prov.values():
+            self.assertNotIn(p.get('website'), ('https://rrcampus.edu.np', 'https://mmcn.tu.edu.np', 'https://tmcpalpa.tu.edu.np'))

@@ -1,0 +1,1316 @@
+{
+ "providers_add": [
+  {
+   "id": "p-w26-tu-mmc",
+   "name": "Maharajgunj Medical Campus (Institute of Medicine, TU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Maharajgunj",
+   "website": "https://mmc.tu.edu.np",
+   "note": "Established 1972 (2029 BS) as the first medical education centre of Nepal and the oldest constituent campus of the Institute of Medicine. Its official page lists 40+ graduate, postgraduate and super-specialty courses in medical, dental, laboratory technology, pharmacy, optometry, radiography, speech and language pathology and perfusion technology. Seats are counted under the Institute of Medicine entry. Phone 01-4514792."
+  },
+  {
+   "id": "p-w26-tu-mnc",
+   "name": "Maharajgunj Nursing Campus (Institute of Medicine, TU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Maharajgunj",
+   "website": "https://mnc.tu.edu.np",
+   "note": "Campus page lists B.Sc. Nursing, Bachelor of Nursing Science (Adult, Child, Community and Psychiatric tracks) and the Master of Nursing (Psychiatric, Adult, Pediatric, Women Health Development). The campus text says the MN began in 2051 BS, B.Sc. Nursing in 2062 BS and PhD Nursing in 2068 BS. Phone 01-4720423."
+  },
+  {
+   "id": "p-w26-tu-gac",
+   "name": "Gauradaha Agriculture Campus (IAAS, TU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Jhapa",
+   "place": "Gauradaha",
+   "website": "https://gac.tu.edu.np",
+   "note": "The only constituent campus of the TU Institute of Agriculture and Animal Science in Koshi Province. Offers B.Sc.Ag. (4 years); its notice board (2026-10-01) announces local quota and IDF seat admission. Practice field of 5.5 bigha in front of the campus."
+  },
+  {
+   "id": "p-w26-tu-rampur",
+   "name": "Rampur Campus (IAAS, TU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Chitwan",
+   "place": "Rampur, Khairahani",
+   "website": "https://rc.tu.edu.np",
+   "note": "The first agriculture college of TU, started in 1972 at Pulchowk and moved to Rampur, Chitwan in 1974 (campus land 235 ha). Offers B.Sc.Ag. Official page: Institute of Agriculture and Animal Science."
+  },
+  {
+   "id": "p-w26-tu-pyc",
+   "name": "Public Youth Campus (TU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Yapikhya Marg, Chhetrapati, Dhobichaur",
+   "website": "https://pyc.tu.edu.np",
+   "note": "TU Faculty of Management constituent campus, established 1971 (2028 BS) after the New Education System Plan. Courses on its page: BBA, BBM, MBS and MBM. Phone 9851326760."
+  },
+  {
+   "id": "p-w26-tu-bbc",
+   "name": "Bishwa Bhasa Campus (TU)",
+   "kind": "Campus",
+   "sector": "Public",
+   "district": "Kathmandu",
+   "place": "Pradarshani Marg",
+   "website": "https://bbc.tu.edu.np",
+   "note": "TU foreign language campus. Its notices (2026) publish results of German, Italian, Japanese and Spanish language levels (II to VI) and a level test, and it has a section for foreign students. Course fees are not on the page."
+  },
+  {
+   "id": "p-w26-npca-4",
+   "name": "Radijyula Shiksha Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rukum West",
+   "place": "Aathbiskot Mun.-9",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069-04-04 BS. QAA status on NPCA: Not Applied. Phone 088594018.",
+   "website": "https://www.radijyula.edu.np"
+  },
+  {
+   "id": "p-w26-npca-5",
+   "name": "Janajyoti Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rautahat",
+   "place": "Chandrapur",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, MBS, BA, MA. Established 2058-05-08 BS. QAA status on NPCA: Not Applied. Phone 055540737.",
+   "website": "https://jmcrautahat.edu.np"
+  },
+  {
+   "id": "p-w26-npca-9",
+   "name": "Shree Ramprasad Tamang Janta Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Siraha",
+   "place": "Golbazar-4",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA, MA. Established 2059-03-05 BS. QAA status on NPCA: Applied.",
+   "website": "https://rrtjmcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-12",
+   "name": "Gaurishankar Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Ramechhap",
+   "place": "Ramechhap Bajar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BA. Established 2057-12-07 BS. QAA status on NPCA: Not Applied.",
+   "website": "https://gscampusramechhap.edu.np"
+  },
+  {
+   "id": "p-w26-npca-14",
+   "name": "Mahadev Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Nuwakot",
+   "place": "Mahadevphat",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2069-10-01 BS. Phone 9841729113."
+  },
+  {
+   "id": "p-w26-npca-15",
+   "name": "Sunapati Sahid Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Ramechhap",
+   "place": "Sunapati -4, Bethan",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BA. Established 2066 BS. QAA status on NPCA: Not Applied. Phone 9851194977."
+  },
+  {
+   "id": "p-w26-npca-16",
+   "name": "Shivapuri College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Maharajgunj",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2066-04-30 BS. QAA status on NPCA: Not Applied.",
+   "website": "https://www.shivapuricollege.edu.np"
+  },
+  {
+   "id": "p-w26-npca-17",
+   "name": "Sapahi College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bara",
+   "place": "Kolhabi-4, Sapahi",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2069-09-26 BS. QAA status on NPCA: In Process. Phone 9744223660."
+  },
+  {
+   "id": "p-w26-npca-21",
+   "name": "Ram Raja (M. B. Shah) Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bara",
+   "place": "Bara",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2038-09-15 BS. QAA status on NPCA: Not Applied.",
+   "website": "https://www.ramraja.edu.np"
+  },
+  {
+   "id": "p-w26-npca-27",
+   "name": "Basanta Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Terhathum",
+   "place": "Terhathum",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2067-04-24 BS. Phone 026-402175.",
+   "website": "https://basantamultiplecampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-40",
+   "name": "People's Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Paknajol",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS, MBS, BBA, BBM. Established 2038-10-09 BS. QAA status on NPCA: Peer Reviewed.",
+   "website": "https://www.peoplescampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-57",
+   "name": "Samari Bhanjyang Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Nuwakot",
+   "place": "Myagang -5 samari",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2066/05/26 BS. Phone 9841566473."
+  },
+  {
+   "id": "p-w26-npca-75",
+   "name": "Phulbari Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kailali",
+   "place": "Phulbari",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2066-04-10 BS. QAA status on NPCA: Not Applied. Phone 9767421020.",
+   "website": "https://phulbaricampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-82",
+   "name": "Pushpalata Janaketa Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Lamjung",
+   "place": "Madhyatanepal, Duipiple",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2063-10-12 BS. Phone 9846317853."
+  },
+  {
+   "id": "p-w26-npca-83",
+   "name": "Dillibazar Kanya Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Dillibazar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BBM, BA, MA. Established 2037-05-19 BS.",
+   "website": "https://dillibazarkanyacampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-89",
+   "name": "Machchhindra Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dhading",
+   "place": "Dhading",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS, BA. Established 2066-08-03 BS. QAA status on NPCA: Not Applied. Phone 9851347300."
+  },
+  {
+   "id": "p-w26-npca-94",
+   "name": "Janajyoti Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Tanahu",
+   "place": "Bhimad-6, Tanahun",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064-08-16 BS. QAA status on NPCA: Peer Reviewed. Phone 9856001455."
+  },
+  {
+   "id": "p-w26-npca-96",
+   "name": "Tejganga Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kavrepalanchok",
+   "place": "Panauti",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA. Established 2057-08-06 BS. QAA status on NPCA: Accredited. Phone 011-440028.",
+   "website": "https://www.tejganga.edu.np"
+  },
+  {
+   "id": "p-w26-npca-107",
+   "name": "Lampantaar Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sindhuli",
+   "place": "Tinpatan",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, BA, MA. Established 2062-05-28 BS. QAA status on NPCA: In Process. Phone 047690192.",
+   "website": "https://www.lmctinpatan.edu.np"
+  },
+  {
+   "id": "p-w26-npca-110",
+   "name": "Kailash Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Achham",
+   "place": "Kalagaun",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2066 BS. QAA status on NPCA: Not Applied. Phone 9858484500."
+  },
+  {
+   "id": "p-w26-npca-113",
+   "name": "Nepal Aadarsha Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kapilvastu",
+   "place": "Shivraj Municipality 1,Shivpur",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, BA. Established 2064 BS. Phone 9846871013.",
+   "website": "https://namcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-120",
+   "name": "Aathabis Education Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dailekh",
+   "place": "Aathabis ,08",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069/06/23 BS. QAA status on NPCA: In Process. Phone 9868175936.",
+   "website": "https://www.aathabiscampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-128",
+   "name": "Garuwa Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Ilam",
+   "place": "Mai municipality",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2064 BS. QAA status on NPCA: Not Applied. Phone 9815091489.",
+   "website": "https://garuwacampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-129",
+   "name": "Raghunath Adarsh Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kailali",
+   "place": "Joshipur-7",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, BA. Established 2063-09-06 BS."
+  },
+  {
+   "id": "p-w26-npca-131",
+   "name": "Siddhajyoti Education Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sindhuli",
+   "place": "Sindhuli",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed.. Established 2063-06-25 BS. QAA status on NPCA: Accredited. Phone 047-520916.",
+   "website": "https://siddhajyoticampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-137",
+   "name": "Radha Damodar Sanskrit campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Syangja",
+   "place": "Chapakot Municipality-06 Keeladi",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BA. Established 2051-07-07 BS. QAA status on NPCA: Not Applied. Phone 9868807236."
+  },
+  {
+   "id": "p-w26-npca-142",
+   "name": "Ghodaghodi Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kailali",
+   "place": "Sukhad",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BICTE, BBS, MBS. Established 2062-04-32 BS. Phone 091-403117."
+  },
+  {
+   "id": "p-w26-npca-145",
+   "name": "Madhyabindu Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Nawalparasi East",
+   "place": "Kawasoti Municipality Ward No. 3, Nawalpur",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BICTE, BBS, MBS, BBA, BA. Established 2062-11-23 BS. QAA status on NPCA: Re-accredited. Phone 078540473.",
+   "website": "https://www.madhyabindu.edu.np"
+  },
+  {
+   "id": "p-w26-npca-149",
+   "name": "Bramhachari Damodaranand College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Siraha",
+   "place": "Mirchaiya-05",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2065-10-13 BS. QAA status on NPCA: In Process. Phone 9852834289.",
+   "website": "https://bdcollege.edu.np"
+  },
+  {
+   "id": "p-w26-npca-153",
+   "name": "Dronachal Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dailekh",
+   "place": "Bahungaun",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2059-11-20 BS. QAA status on NPCA: In Process.",
+   "website": "https://dronachalcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-163",
+   "name": "Bardiya Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bardiya",
+   "place": "Bardiya",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. QAA status on NPCA: Not Applied. Phone 9858070805.",
+   "website": "https://www.bardiyamc.edu.np"
+  },
+  {
+   "id": "p-w26-npca-165",
+   "name": "Gadhimai Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bara",
+   "place": "Bariyarpur",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2066-04-30 BS. QAA status on NPCA: Not Accredited. Phone 9845094314.",
+   "website": "https://www.gadhimaimultiplecampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-172",
+   "name": "Bhairab Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Palpa",
+   "place": "Rainadevi Chhahara-04",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064-06-04 BS. QAA status on NPCA: Not Applied. Phone 9867261362."
+  },
+  {
+   "id": "p-w26-npca-174",
+   "name": "Siddhartha Gautam Buddha Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Butwal-5, Rupandehi (Nepal)",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2048-06-24 BS. QAA status on NPCA: Accredited.",
+   "website": "https://www.sgbc.edu.np"
+  },
+  {
+   "id": "p-w26-npca-186",
+   "name": "Seti Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bajhang",
+   "place": "Matela",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2063-06-21 BS. QAA status on NPCA: Not Applied. Phone 9858477011."
+  },
+  {
+   "id": "p-w26-npca-198",
+   "name": "Bansgadhi Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bardiya",
+   "place": "Bansgadhi-5",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2065 BS. QAA status on NPCA: Not Applied. Phone 9858035168.",
+   "website": "https://bmcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-199",
+   "name": "Parroha Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Sainamaina-4, Murgiya",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2067 BS. QAA status on NPCA: Peer Reviewed. Phone 071-440369."
+  },
+  {
+   "id": "p-w26-npca-205",
+   "name": "Gaurishankar Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bara",
+   "place": "Nijgadh-9,Campus Road",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2063-07-21 BS. Phone 9855044414."
+  },
+  {
+   "id": "p-w26-npca-206",
+   "name": "Sadashiva Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bardiya",
+   "place": "Barbardiya-06",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BA. Established 20670115 BS. QAA status on NPCA: In Process. Phone 9858036203.",
+   "website": "https://www.smcbardiya.edu.np"
+  },
+  {
+   "id": "p-w26-npca-209",
+   "name": "Haraiya Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Kanchan-3, Haraiya",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064-07-12 BS. QAA status on NPCA: Accredited. Phone 9857058126.",
+   "website": "https://hmc.edu.np"
+  },
+  {
+   "id": "p-w26-npca-210",
+   "name": "Gokundeshwar Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dhankuta",
+   "place": "Dhankuta Tallokopche",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2067-04-24 BS. QAA status on NPCA: Not Applied. Phone 026523622."
+  },
+  {
+   "id": "p-w26-npca-213",
+   "name": "Sahid Narayan Pokharel Ramapur Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Sainamaina-6, Colony",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2060 BS. QAA status on NPCA: Accredited. Phone 071-505001."
+  },
+  {
+   "id": "p-w26-npca-215",
+   "name": "Araniko College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sindhupalchok",
+   "place": "Barhabise-4",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2062-04-21 BS. QAA status on NPCA: Not Applied. Phone 9851187321.",
+   "website": "https://aranikocollege.edu.np"
+  },
+  {
+   "id": "p-w26-npca-217",
+   "name": "Chaitanya Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kavrepalanchok",
+   "place": "Banepa 8, kavre",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2048-08-15 BS. QAA status on NPCA: In Process. Phone 011661722.",
+   "website": "https://chaitanya.edu.np"
+  },
+  {
+   "id": "p-w26-npca-225",
+   "name": "Banshgopal multiple campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Makwanpur",
+   "place": "Hetauda, 6 Chaughada Makawanpur Nepal",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064-05-19 BS. QAA status on NPCA: Not Applied. Phone 057590148."
+  },
+  {
+   "id": "p-w26-npca-228",
+   "name": "Bhimdatta Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dadeldhura",
+   "place": "Amargadhi 05 Bagbazar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2065-04-19 BS. QAA status on NPCA: Not Applied. Phone 096420750."
+  },
+  {
+   "id": "p-w26-npca-235",
+   "name": "Urlabari Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Morang",
+   "place": "Urlabari-4, Morang, Aitabare",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA, MA. Established 2043 B.S. BS. QAA status on NPCA: Peer Reviewed.",
+   "website": "https://www.umc.edu.np"
+  },
+  {
+   "id": "p-w26-npca-236",
+   "name": "Karmaiya Adarsh Janata Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sarlahi",
+   "place": "Bagmati-11",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069-10-18 BS. QAA status on NPCA: Not Applied. Phone 9844064772."
+  },
+  {
+   "id": "p-w26-npca-237",
+   "name": "Setigaun Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Baitadi",
+   "place": "Dilasaini-6, Gokuleshwor, Baitadi, Nepal",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2067-05-02 BS. Phone 093-400113."
+  },
+  {
+   "id": "p-w26-npca-242",
+   "name": "Manusha Tika Singh Thapa Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bardiya",
+   "place": "Thakurbaba -1 Bardiya Bhaurigaun",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS, BA. Established 2065-12-10 BS. Phone 084403097."
+  },
+  {
+   "id": "p-w26-npca-252",
+   "name": "Gurans Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Bardiya",
+   "place": "madhuwan 8",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2067 BS. QAA status on NPCA: In Process. Phone 9848054522.",
+   "website": "https://guranscampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-263",
+   "name": "Siddha Ratnanath Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dang",
+   "place": "Dang",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2069-04-10 BS. Phone 082530237.",
+   "website": "https://srcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-266",
+   "name": "Sita Ramesh Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "Buddhashanti-1",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2067-05-29 BS. QAA status on NPCA: Accredited.",
+   "website": "https://sitarameshcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-272",
+   "name": "Marin Multiple Campus Chhap Maheshwata",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sindhuli",
+   "place": "Marin- 7",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2064/09/02 BS. QAA status on NPCA: Not Applied.",
+   "website": "https://marinmultiple.edu.np"
+  },
+  {
+   "id": "p-w26-npca-273",
+   "name": "Shubha Janata Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sarlahi",
+   "place": "Barahathawa-07",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064-06-20 BS. QAA status on NPCA: Not Applied. Phone 046-540111."
+  },
+  {
+   "id": "p-w26-npca-287",
+   "name": "Krishna Baijanath Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kanchanpur",
+   "place": "Jhalari",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2066 BS. Phone 099540187.",
+   "website": "https://kbmc.edu.np"
+  },
+  {
+   "id": "p-w26-npca-292",
+   "name": "Udayashree Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Udayapur",
+   "place": "Katari-04",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BA. Established 2057-08-11 BS."
+  },
+  {
+   "id": "p-w26-npca-297",
+   "name": "G.M. Community College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Kathmandu",
+   "place": "Bijeshwari",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2067-05-31 BS. QAA status on NPCA: Not Applied. Phone 015372351."
+  },
+  {
+   "id": "p-w26-npca-304",
+   "name": "Maiya Devi Girls' College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Chitwan",
+   "place": "Om Shanti Margha, Bharatpur-10",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2057-11-26 BS. QAA status on NPCA: Accredited. Phone 9855064040.",
+   "website": "https://www.maiyadevigirlscollege.edu.np"
+  },
+  {
+   "id": "p-w26-npca-305",
+   "name": "Sunsari Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sunsari",
+   "place": "inaruwa-4",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS, BA. Established 2037-11-27 BS. QAA status on NPCA: In Process. Phone 025565009.",
+   "website": "https://smcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-319",
+   "name": "Rupandehi Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rupandehi",
+   "place": "Bhanupath",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2048-12-20 BS. Phone 071521572.",
+   "website": "https://rupandehicampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-334",
+   "name": "Himshikhar Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Surkhet",
+   "place": "Bheriganga-11",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2069 BS. QAA status on NPCA: Not Applied."
+  },
+  {
+   "id": "p-w26-npca-341",
+   "name": "Gauriganj Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Jhapa",
+   "place": "gauriganj-3",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2048/09/02 BS. QAA status on NPCA: Not Applied."
+  },
+  {
+   "id": "p-w26-npca-355",
+   "name": "Rukumeli Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rukum West",
+   "place": "Musikot Khalanga",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2070-07-12 BS. Phone 9868966609.",
+   "website": "https://rukumelicampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-356",
+   "name": "Biimjyoti Campus Khurkot",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sindhuli",
+   "place": "Golanjor -7",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2064-08-10 BS. Phone 9844086282."
+  },
+  {
+   "id": "p-w26-npca-372",
+   "name": "Gram Prakash Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Baitadi",
+   "place": "Sharmali",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2081-11-23 BS. Phone 9805791171."
+  },
+  {
+   "id": "p-w26-npca-373",
+   "name": "Nalgad Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Jajarkot",
+   "place": "Nalgad Municipality-7 Dalli",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069-09-29 BS. Phone 089594500.",
+   "website": "https://nalgadcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-375",
+   "name": "Shree Chandrakot Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Gulmi",
+   "place": "Gulmi",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS, BA. Established 2065-11-30 BS. Phone 079420022."
+  },
+  {
+   "id": "p-w26-npca-378",
+   "name": "Sharada Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Salyan",
+   "place": "shankhamul",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed.. Established 2082-06-20 BS. Phone 9857827003."
+  },
+  {
+   "id": "p-w26-npca-382",
+   "name": "Adarsha Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dhading",
+   "place": "Gajuri Bazar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2063/01/16 BS. QAA status on NPCA: In Process. Phone 9851312332.",
+   "website": "https://amcdhading.edu.np"
+  },
+  {
+   "id": "p-w26-npca-392",
+   "name": "Shiva Jan Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Salyan",
+   "place": "Shitalpati",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS. Established 2064/06/23 BS. Phone 088400114.",
+   "website": "https://shivajancampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-403",
+   "name": "Simta Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Surkhet",
+   "place": "Simta 6",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed.. Established 2082-10-19 BS. Phone 9844861589.",
+   "website": "https://simtacampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-404",
+   "name": "Bangad Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Salyan",
+   "place": "Sunauli Bazar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069-06-25 BS. QAA status on NPCA: Not Applied. Phone 9869648515.",
+   "website": "https://bangadcampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-411",
+   "name": "Masyam Ekikrit Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Palpa",
+   "place": "Tinau-6, Masyam",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2064-08-21 BS. QAA status on NPCA: Not Applied. Phone 9857029999."
+  },
+  {
+   "id": "p-w26-npca-417",
+   "name": "Nawajagrit Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Parbat",
+   "place": "Modi-6",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2064-08-24 BS. QAA status on NPCA: Not Applied. Phone 9856039839."
+  },
+  {
+   "id": "p-w26-npca-419",
+   "name": "Devchuli College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Nawalparasi East",
+   "place": "Nawalpur, Devchuli",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BBS. Established 2057/11/18 BS. Phone 9857041836."
+  },
+  {
+   "id": "p-w26-npca-490",
+   "name": "Purandhara Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dang",
+   "place": "Dang",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069 BS. Phone 9822846669."
+  },
+  {
+   "id": "p-w26-npca-492",
+   "name": "Suprabhat College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Lalitpur",
+   "place": "Lalitpur",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: BBS. Established 2071 BS. Phone 9869525820."
+  },
+  {
+   "id": "p-w26-npca-498",
+   "name": "Khotang Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Khotang",
+   "place": "Khotang Bazar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2065 BS. QAA status on NPCA: Not Accredited. Phone 9861448877."
+  },
+  {
+   "id": "p-w26-npca-511",
+   "name": "Sarlahi Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Sarlahi",
+   "place": "Shivsagar Chauk",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed., BBS, MBS. Established 2037-06-13 BS. Phone 046520373.",
+   "website": "https://www.sarlahicampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-534",
+   "name": "Dudhakoshi Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Salyan",
+   "place": "Salyan",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., BA. Established 2066.12.24 BS. Phone 9840983935."
+  },
+  {
+   "id": "p-w26-npca-572",
+   "name": "Shishuwari Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Saptari",
+   "place": "Shishuwari",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2069 BS. QAA status on NPCA: Not Applied. Phone 9842880566.",
+   "website": "http://shishuwaricampus.edu.np"
+  },
+  {
+   "id": "p-w26-npca-581",
+   "name": "Rastriya Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Darchula",
+   "place": "Dattu, Mahakali",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2066 BS. QAA status on NPCA: Not Applied. Phone 9749303038."
+  },
+  {
+   "id": "p-w26-npca-584",
+   "name": "Chamunda College",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Dailekh",
+   "place": "Deurali",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed., M.Ed.. Established 206-11-25 BS. QAA status on NPCA: In Process. Phone 9858071678.",
+   "website": "https://www.chamundacollege.edu.np"
+  },
+  {
+   "id": "p-w26-npca-600",
+   "name": "Rolpa Namuna Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Rolpa",
+   "place": "Bagmara",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2065-12-01 BS. QAA status on NPCA: Not Applied. Phone 9866704198."
+  },
+  {
+   "id": "p-w26-npca-613",
+   "name": "Turmakhand Multiple Campus",
+   "kind": "Campus",
+   "sector": "Community",
+   "district": "Achham",
+   "place": "Turmakhand Bazar",
+   "note": "Community campus on the Nepal Public Campuses Association (NPCA) member list. Programmes listed there: B.Ed.. Established 2082-05-11 BS. QAA status on NPCA: Not Applied.",
+   "website": "https://www.turmakhadcampus.com"
+  }
+ ],
+ "where_add": {
+  "mbbs": [
+   "p-w26-tu-mmc"
+  ],
+  "bds": [
+   "p-w26-tu-mmc"
+  ],
+  "bmlt": [
+   "p-w26-tu-mmc"
+  ],
+  "bpharm": [
+   "p-w26-tu-mmc"
+  ],
+  "boptom": [
+   "p-w26-tu-mmc"
+  ],
+  "baslp": [
+   "p-w26-tu-mmc"
+  ],
+  "bperfusion-anesthesia": [
+   "p-w26-tu-mmc"
+  ],
+  "md-ms": [
+   "p-w26-tu-mmc"
+  ],
+  "bsc-nursing": [
+   "p-w26-tu-mnc"
+  ],
+  "bns": [
+   "p-w26-tu-mnc"
+  ],
+  "msc-nursing": [
+   "p-w26-tu-mnc"
+  ],
+  "bsc-agri": [
+   "p-w26-tu-gac",
+   "p-w26-tu-rampur"
+  ],
+  "bba": [
+   "p-w26-tu-pyc",
+   "p-w26-npca-40",
+   "p-w26-npca-145"
+  ],
+  "bbm": [
+   "p-w26-tu-pyc",
+   "p-w26-npca-40",
+   "p-w26-npca-83"
+  ],
+  "mbs": [
+   "p-w26-tu-pyc",
+   "p-w26-npca-5",
+   "p-w26-npca-9",
+   "p-w26-npca-21",
+   "p-w26-npca-40",
+   "p-w26-npca-83",
+   "p-w26-npca-96",
+   "p-w26-npca-142",
+   "p-w26-npca-145",
+   "p-w26-npca-174",
+   "p-w26-npca-213",
+   "p-w26-npca-235",
+   "p-w26-npca-287",
+   "p-w26-npca-304",
+   "p-w26-npca-305",
+   "p-w26-npca-511"
+  ],
+  "foreign-lang-work": [
+   "p-w26-tu-bbc"
+  ],
+  "bed": [
+   "p-w26-npca-4",
+   "p-w26-npca-5",
+   "p-w26-npca-9",
+   "p-w26-npca-12",
+   "p-w26-npca-14",
+   "p-w26-npca-15",
+   "p-w26-npca-17",
+   "p-w26-npca-21",
+   "p-w26-npca-27",
+   "p-w26-npca-75",
+   "p-w26-npca-82",
+   "p-w26-npca-83",
+   "p-w26-npca-94",
+   "p-w26-npca-96",
+   "p-w26-npca-107",
+   "p-w26-npca-110",
+   "p-w26-npca-113",
+   "p-w26-npca-120",
+   "p-w26-npca-128",
+   "p-w26-npca-129",
+   "p-w26-npca-131",
+   "p-w26-npca-142",
+   "p-w26-npca-145",
+   "p-w26-npca-149",
+   "p-w26-npca-153",
+   "p-w26-npca-163",
+   "p-w26-npca-165",
+   "p-w26-npca-172",
+   "p-w26-npca-174",
+   "p-w26-npca-186",
+   "p-w26-npca-198",
+   "p-w26-npca-205",
+   "p-w26-npca-206",
+   "p-w26-npca-209",
+   "p-w26-npca-213",
+   "p-w26-npca-215",
+   "p-w26-npca-217",
+   "p-w26-npca-225",
+   "p-w26-npca-235",
+   "p-w26-npca-236",
+   "p-w26-npca-237",
+   "p-w26-npca-242",
+   "p-w26-npca-252",
+   "p-w26-npca-263",
+   "p-w26-npca-266",
+   "p-w26-npca-272",
+   "p-w26-npca-273",
+   "p-w26-npca-287",
+   "p-w26-npca-292",
+   "p-w26-npca-304",
+   "p-w26-npca-305",
+   "p-w26-npca-319",
+   "p-w26-npca-334",
+   "p-w26-npca-341",
+   "p-w26-npca-356",
+   "p-w26-npca-372",
+   "p-w26-npca-373",
+   "p-w26-npca-378",
+   "p-w26-npca-382",
+   "p-w26-npca-392",
+   "p-w26-npca-403",
+   "p-w26-npca-404",
+   "p-w26-npca-411",
+   "p-w26-npca-417",
+   "p-w26-npca-419",
+   "p-w26-npca-490",
+   "p-w26-npca-498",
+   "p-w26-npca-511",
+   "p-w26-npca-534",
+   "p-w26-npca-572",
+   "p-w26-npca-581",
+   "p-w26-npca-584",
+   "p-w26-npca-600",
+   "p-w26-npca-613"
+  ],
+  "bbs": [
+   "p-w26-npca-5",
+   "p-w26-npca-9",
+   "p-w26-npca-14",
+   "p-w26-npca-16",
+   "p-w26-npca-17",
+   "p-w26-npca-21",
+   "p-w26-npca-27",
+   "p-w26-npca-40",
+   "p-w26-npca-57",
+   "p-w26-npca-75",
+   "p-w26-npca-83",
+   "p-w26-npca-89",
+   "p-w26-npca-94",
+   "p-w26-npca-96",
+   "p-w26-npca-107",
+   "p-w26-npca-110",
+   "p-w26-npca-113",
+   "p-w26-npca-129",
+   "p-w26-npca-142",
+   "p-w26-npca-145",
+   "p-w26-npca-149",
+   "p-w26-npca-153",
+   "p-w26-npca-163",
+   "p-w26-npca-172",
+   "p-w26-npca-174",
+   "p-w26-npca-186",
+   "p-w26-npca-198",
+   "p-w26-npca-199",
+   "p-w26-npca-205",
+   "p-w26-npca-209",
+   "p-w26-npca-210",
+   "p-w26-npca-213",
+   "p-w26-npca-215",
+   "p-w26-npca-217",
+   "p-w26-npca-225",
+   "p-w26-npca-228",
+   "p-w26-npca-235",
+   "p-w26-npca-237",
+   "p-w26-npca-242",
+   "p-w26-npca-252",
+   "p-w26-npca-263",
+   "p-w26-npca-266",
+   "p-w26-npca-273",
+   "p-w26-npca-287",
+   "p-w26-npca-297",
+   "p-w26-npca-304",
+   "p-w26-npca-305",
+   "p-w26-npca-319",
+   "p-w26-npca-334",
+   "p-w26-npca-341",
+   "p-w26-npca-355",
+   "p-w26-npca-372",
+   "p-w26-npca-375",
+   "p-w26-npca-382",
+   "p-w26-npca-392",
+   "p-w26-npca-417",
+   "p-w26-npca-419",
+   "p-w26-npca-492",
+   "p-w26-npca-511"
+  ],
+  "ba": [
+   "p-w26-npca-5",
+   "p-w26-npca-9",
+   "p-w26-npca-12",
+   "p-w26-npca-15",
+   "p-w26-npca-83",
+   "p-w26-npca-89",
+   "p-w26-npca-96",
+   "p-w26-npca-107",
+   "p-w26-npca-113",
+   "p-w26-npca-129",
+   "p-w26-npca-137",
+   "p-w26-npca-145",
+   "p-w26-npca-206",
+   "p-w26-npca-235",
+   "p-w26-npca-242",
+   "p-w26-npca-292",
+   "p-w26-npca-305",
+   "p-w26-npca-375",
+   "p-w26-npca-534"
+  ],
+  "ma": [
+   "p-w26-npca-5",
+   "p-w26-npca-9",
+   "p-w26-npca-83",
+   "p-w26-npca-107",
+   "p-w26-npca-235"
+  ],
+  "med": [
+   "p-w26-npca-9",
+   "p-w26-npca-21",
+   "p-w26-npca-83",
+   "p-w26-npca-96",
+   "p-w26-npca-107",
+   "p-w26-npca-113",
+   "p-w26-npca-131",
+   "p-w26-npca-142",
+   "p-w26-npca-145",
+   "p-w26-npca-149",
+   "p-w26-npca-153",
+   "p-w26-npca-174",
+   "p-w26-npca-186",
+   "p-w26-npca-213",
+   "p-w26-npca-217",
+   "p-w26-npca-235",
+   "p-w26-npca-287",
+   "p-w26-npca-304",
+   "p-w26-npca-305",
+   "p-w26-npca-378",
+   "p-w26-npca-382",
+   "p-w26-npca-392",
+   "p-w26-npca-403",
+   "p-w26-npca-511",
+   "p-w26-npca-584"
+  ],
+  "bicte": [
+   "p-w26-npca-142",
+   "p-w26-npca-145"
+  ]
+ },
+ "provider_update": {
+  "p-mmamc": {
+   "website": "https://mmamc.tu.edu.np"
+  },
+  "p-patan": {
+   "website": "https://pmc.tu.edu.np"
+  },
+  "p-cct": {
+   "website": "https://cct.tu.edu.np"
+  },
+  "p-dhankuta": {
+   "website": "https://dhmc.tu.edu.np"
+  },
+  "p-iof-hetauda": {
+   "website": "https://hc.tu.edu.np"
+  },
+  "p-cec-rampur": {
+   "website": "https://cec.tu.edu.np"
+  },
+  "p-bhaktapur-mc": {
+   "website": "https://bkmc.tu.edu.np"
+  },
+  "p-pulchowk": {
+   "website": "https://puc.tu.edu.np"
+  },
+  "p-amrit": {
+   "website": "https://ac.tu.edu.np"
+  },
+  "p-janaprasashan": {
+   "website": "https://pac.tu.edu.np"
+  },
+  "p-rr": {
+   "website": "https://rrlc.tu.edu.np"
+  },
+  "p-mmc-dharan": {
+   "website": "https://mahmc.tu.edu.np"
+  },
+  "p-padmakanya": {
+   "website": "https://pkmc.tu.edu.np"
+  },
+  "p-terhathum-mc": {
+   "website": "https://temc.tu.edu.np"
+  },
+  "p-prithvi": {
+   "website": "https://prnc.tu.edu.np"
+  },
+  "p-shankerdev": {
+   "website": "https://sdc.tu.edu.np"
+  },
+  "p-ssmy-siraha": {
+   "website": "https://ssmc.tu.edu.np"
+  },
+  "p-purc": {
+   "website": "https://purc.tu.edu.np"
+  },
+  "p-iof": {
+   "website": "https://pc.tu.edu.np"
+  },
+  "p-tribhuvan-palpa": {
+   "website": "https://tmc.tu.edu.np"
+  },
+  "p-birendra": {
+   "website": "https://bimc.tu.edu.np"
+  },
+  "p-mmc-dang": {
+   "website": "https://mamc.tu.edu.np"
+  },
+  "p-mmc-nepalgunj": {
+   "website": "https://mahemc.tu.edu.np"
+  },
+  "p-ilam": {
+   "website": "https://mrmc.tu.edu.np"
+  },
+  "p-ayurved": {
+   "website": "https://ayc.tu.edu.np"
+  },
+  "p-lamjung-iaas": {
+   "website": "https://lac.tu.edu.np"
+  },
+  "p-trichandra": {
+   "website": "https://trc.tu.edu.np"
+  },
+  "p-gorkha": {
+   "website": "https://gc.tu.edu.np"
+  },
+  "p-thapathali": {
+   "website": "https://thc.tu.edu.np"
+  },
+  "p-wrc": {
+   "website": "https://pasc.tu.edu.np"
+  },
+  "p-mechi": {
+   "website": "https://memc.tu.edu.np"
+  },
+  "p-saraswati-mc": {
+   "website": "https://smc.tu.edu.np"
+  },
+  "p-dhaulagiri": {
+   "website": "https://dmc.tu.edu.np"
+  },
+  "p-mahendra-ratna": {
+   "website": "https://mrc.tu.edu.np"
+  },
+  "p-w24-iost-aishwarya": {
+   "website": "https://amcdhangadhi.edu.np"
+  },
+  "p-salyan": {
+   "website": "https://salyancampus.edu.np"
+  },
+  "p-parbat-mc": {
+   "website": "https://parbatmultiplecampus.edu.np"
+  },
+  "p-nuwakot-adarsha": {
+   "website": "https://nabc.edu.np"
+  },
+  "p-palhi-nawalparasi": {
+   "website": "https://pmcparasi.edu.np"
+  },
+  "p-simara-bara": {
+   "website": "https://simaracollege.edu.np"
+  },
+  "p-panchthar": {
+   "website": "https://www.pmcphidim.edu.np"
+  },
+  "p-w24-iost-sahid-smriti-chitwan": {
+   "website": "https://ssmcchitwan.edu.np"
+  },
+  "p-damak-mc": {
+   "website": "https://damakcampus.edu.np"
+  },
+  "p-pathibhara": {
+   "website": "https://pathivaracampus.edu.np"
+  },
+  "p-manipal-pokhara": {
+   "website": "https://manipal-pokhara.com"
+  }
+ },
+ "website_drop": [
+  "p-kailali",
+  "p-terhathum-poly",
+  "p-sunkoshi-sindhu",
+  "p-gupteshwor-parbat",
+  "p-swargadwari-pyuthan",
+  "p-sdcuhs",
+  "p-bpkmch-nursing",
+  "p-himalaya-eye",
+  "p-valley-tech",
+  "p-aryan-eng",
+  "p-birat-multiple",
+  "p-lumbini-city",
+  "p-ambikeshwori",
+  "p-model-multiple-janakpur",
+  "p-w12-lahan-ti",
+  "p-npi-narayani",
+  "p-shree-medical",
+  "p-solukhumbu",
+  "p-trishuli-nuwakot",
+  "p-rasuwa",
+  "p-sisne-rukum-east",
+  "p-dolpa",
+  "p-manasarowar-humla",
+  "p-harikhetan",
+  "p-dudh-koshi-solu",
+  "p-melamchi-sindhu",
+  "p-gaumukhi-pyuthan"
+ ]
+}

@@ -1,0 +1,8053 @@
+[
+{
+"npca_id": 2,
+"name": "Kathmandu Shiksha Campus",
+"addr": "Satungal, (Near- Bishnudevi and bindbaasini temple)",
+"district": "Kathmandu",
+"dsrc": "name",
+"web": "https://www.ksc.edu.np",
+"live": 200,
+"est_bs": "2048-01-15",
+"phone": "014311843",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"bca"
+]
+},
+{
+"npca_id": 4,
+"name": "Radijyula Shiksha Campus Aathbiskot Rukum West",
+"addr": "Aathbiskot Mun.-9 Rukum West",
+"district": "Rukum West",
+"dsrc": "npca-address",
+"web": "https://www.radijyula.edu.np",
+"live": 200,
+"est_bs": "2069-04-04",
+"phone": "088594018",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 5,
+"name": "Janajyoti Multiple Campus",
+"addr": "Chandrapur, Rautahat",
+"district": "Rautahat",
+"dsrc": "npca-address",
+"web": "https://jmcrautahat.edu.np",
+"live": 200,
+"est_bs": "2058-05-08",
+"phone": "055540737",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 7,
+"name": "Palung Multiple Campus",
+"addr": "indrayanichaur",
+"district": null,
+"dsrc": null,
+"web": "https://palungcampus.edu.np",
+"live": 403,
+"est_bs": "2060-05-30",
+"phone": "057400069",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 8,
+"name": "Shikharapur Campus",
+"addr": "Pharping",
+"district": null,
+"dsrc": null,
+"web": "http://shikharapurcampus.edu.np",
+"live": 0,
+"est_bs": "2062",
+"phone": "9851350955",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 9,
+"name": "SHREE RAMPRASAD TAMANG JANTA MULTIPLE CAMPUS GOLBAZAR SIRAHA",
+"addr": "Golbazar-4 siraha",
+"district": "Siraha",
+"dsrc": "npca-address",
+"web": "https://rrtjmcampus.edu.np",
+"live": 200,
+"est_bs": "2059-03-05",
+"phone": "033-540013/9852834107",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 11,
+"name": "Drabya Shah Multiple Campus",
+"addr": "Laxmibazar",
+"district": null,
+"dsrc": null,
+"web": "https://www.dsmc.edu.np",
+"live": 200,
+"est_bs": "2042-05-08",
+"phone": "064-411088",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 12,
+"name": "Gaurishankar Multiple Campus Ramechhap",
+"addr": "Ramechhap Bajar",
+"district": "Ramechhap",
+"dsrc": "npca-address",
+"web": "https://gscampusramechhap.edu.np",
+"live": 200,
+"est_bs": "2057-12-07",
+"phone": "9844044208, 9854074547",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 13,
+"name": "Nilkantha Multiple Campus",
+"addr": "Dhading Bensi Dhading, Nepal",
+"district": "Dhading",
+"dsrc": "npca-address",
+"web": "https://nilkanthacampus.edu.np",
+"live": 200,
+"est_bs": "2057-09-06",
+"phone": "010520369",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 14,
+"name": "Mahadev Multiple Campus",
+"addr": "Mahadevphat , Nuwakot",
+"district": "Nuwakot",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2069-10-01",
+"phone": "9841729113",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 15,
+"name": "Sunapati Sahid Multiple Campus",
+"addr": "Sunapati -4, Bethan, Ramechhap",
+"district": "Ramechhap",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2066",
+"phone": "9851194977",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 16,
+"name": "Shivapuri College",
+"addr": "Maharajgunj, Kathmandu",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": "https://www.shivapuricollege.edu.np",
+"live": 200,
+"est_bs": "2066-04-30",
+"phone": "9841264440/014522877",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 17,
+"name": "SAPAHI COLLEGE KOLHABI-4 BARA",
+"addr": "KOLHABI-4,SAPAHI BARA",
+"district": "Bara",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2069-09-26",
+"phone": "9744223660",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 18,
+"name": "Shree Krishna Snatak Campus",
+"addr": "Lali",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-08-26",
+"phone": "9864327677",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 19,
+"name": "Kanchan multiple campus",
+"addr": "Gulariya Bazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-04",
+"phone": "099-421001",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 20,
+"name": "Hile Campus",
+"addr": "Hile Budha Chok",
+"district": null,
+"dsrc": null,
+"web": "https://www.hilecampus.edu.np",
+"live": 200,
+"est_bs": "2067-04-20",
+"phone": "9852053536",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 21,
+"name": "RAM RAJA ( M. B. SHAH) MULTIPLE CAMPUS",
+"addr": "Kalaiya sub metropolitan city, ward no. 5, Bara, Nepal",
+"district": "Bara",
+"dsrc": "npca-address",
+"web": "https://www.ramraja.edu.np",
+"live": 200,
+"est_bs": "2038-09-15",
+"phone": "9855045842/053590204",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 25,
+"name": "Dolpo Campus,Dolpa",
+"addr": "Thuli Bheri Municipality 3 Dunai, Dolpa",
+"district": "Dolpa",
+"dsrc": "npca-address",
+"web": "https://dolpocampus.edu.np/site",
+"live": 404,
+"est_bs": "2061-08-15",
+"phone": "9858366159, 087-550159",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 27,
+"name": "BASANTA MULTIPLE CAMPUS",
+"addr": "LALIGURANS MUNICIPALITY-2, BASANTAPUR, TEHRATHUM, KOSHI",
+"district": "Terhathum",
+"dsrc": "npca-address",
+"web": "https://basantamultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2067-04-24",
+"phone": "026-402175",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 30,
+"name": "Buddhabhumi Campus, Kapilvastu",
+"addr": "Barkulpur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-09-11",
+"phone": "076412032",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 31,
+"name": "Bajrabarahi Campus",
+"addr": "Saraswoti Chaur,Chapagaun",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070/06/17",
+"phone": "015570088",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 33,
+"name": "PASHUPATI MULTIPLE CAMPUS",
+"addr": "Mitra Park, Chabahil, Kathmandu",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": "https://www.pashupatimultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2037-10-19",
+"phone": "01-4570412",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"bca",
+"ma"
+]
+},
+{
+"npca_id": 34,
+"name": "Charikot Multiple Campus",
+"addr": "Charikot",
+"district": null,
+"dsrc": null,
+"web": "https://www.cktcampus.edu.np",
+"live": 0,
+"est_bs": "2070-01-27",
+"phone": "9844328417",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 35,
+"name": "Khudabagar Adarsh College",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 36,
+"name": "Mukundasen Multiple College",
+"addr": "Harkpur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-15",
+"phone": "078403135",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 40,
+"name": "People's Campus",
+"addr": "Paknajol, Kathmandu",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": "https://www.peoplescampus.edu.np",
+"live": 200,
+"est_bs": "2038-10-09",
+"phone": "977-1-5351990,977-1-5351412",
+"qaa": "Peer Reviewed",
+"routes": [
+"bbs",
+"mbs",
+"bba",
+"bbm"
+]
+},
+{
+"npca_id": 41,
+"name": "BARUN MULTIPLE CAMPUS",
+"addr": "Bdhai Chautara",
+"district": null,
+"dsrc": null,
+"web": "https://www.baruncampus.edu.np",
+"live": 200,
+"est_bs": "2043-09-01",
+"phone": "029562195, 562695",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 44,
+"name": "Roopnagar Nandaraj Sangraula Campus",
+"addr": "Roopnagar",
+"district": null,
+"dsrc": null,
+"web": "https://roopnagarcampus.edu.np",
+"live": 200,
+"est_bs": "2070-08-16",
+"phone": "031-560520",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 45,
+"name": "BISHWA SHANTI CHIRAN MILAN CAMPUS",
+"addr": "Bansbari",
+"district": null,
+"dsrc": null,
+"web": "https://bishwashanticampus.edu.np",
+"live": 200,
+"est_bs": "2048-09-22",
+"phone": "01-4017015",
+"qaa": "In Process",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 46,
+"name": "Panini Multiple Campus",
+"addr": "Sandhikharka",
+"district": null,
+"dsrc": null,
+"web": "https://paninimultiplecampus.edu.np",
+"live": 0,
+"est_bs": "2045-06-06",
+"phone": "077-420582",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 49,
+"name": "Sunkoshi Kalika Multiple Campus",
+"addr": "Sisneri",
+"district": null,
+"dsrc": null,
+"web": "https://www.sunkoshikalika.edu.np",
+"live": 200,
+"est_bs": "2064-06-20",
+"phone": "9851057063",
+"qaa": "Not Accredited",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 51,
+"name": "MAHUNYAL MULTIPLE CAMPUS",
+"addr": "Bhajani",
+"district": null,
+"dsrc": null,
+"web": "https://mahunyalcampus.edu.np",
+"live": 200,
+"est_bs": "2064-07-19",
+"phone": "9867943655",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 52,
+"name": "SINDUREGHARI MULTIPLE CAMPUS",
+"addr": "Sindureghari",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069/11/22",
+"phone": "9841933654",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 53,
+"name": "Tripura Sundari Campus Shrikot Achham",
+"addr": "Shrikot",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-22",
+"phone": "9868405149",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 54,
+"name": "Digam Aadarsh Multiple Campus ;Digamkot,Gulmi",
+"addr": "Digam",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-06-01",
+"phone": "9857067469",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 55,
+"name": "SAPTAKOSHI MULTIPLE CAMPUS",
+"addr": "Chakraghatti",
+"district": null,
+"dsrc": null,
+"web": "https://saptakoshimcampus.edu.np",
+"live": 200,
+"est_bs": "2067/03/29",
+"phone": "9852078887",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 57,
+"name": "SAMARI BHANJYANG CAMPUS",
+"addr": "Myagang -5 samari Nuwakot",
+"district": "Nuwakot",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2066/05/26",
+"phone": "9841566473",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 58,
+"name": "Gauradaha Multiple Campus",
+"addr": "Gauradaha Bazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2046",
+"phone": "9852675688",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 59,
+"name": "Mangalbare Multiple Campus",
+"addr": "Mangalbare",
+"district": null,
+"dsrc": null,
+"web": "https://mangalbaremultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2063/05/19",
+"phone": "9852640082",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 60,
+"name": "Waling Multiple Campus",
+"addr": "Waling-9, Syangja, Gandaki Province, Nepal",
+"district": "Syangja",
+"dsrc": "npca-address",
+"web": "https://wmc.edu.np",
+"live": 200,
+"est_bs": "2037-09-15",
+"phone": "063-441224",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 61,
+"name": "MARCHWAR ADARSH MULTIPLE CAMPUS",
+"addr": "Majhgawa",
+"district": null,
+"dsrc": null,
+"web": "https://mabc.edu.np",
+"live": 200,
+"est_bs": "2069-08-13",
+"phone": "9847039082",
+"qaa": "In Process",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 62,
+"name": "Purkot Kalika Campus",
+"addr": "Ranipani,Baisjangar",
+"district": null,
+"dsrc": null,
+"web": "https://www.purkotkalika.edu.np",
+"live": 406,
+"est_bs": "2069-06-22",
+"phone": "9856046178",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 63,
+"name": "Sanibheri Education Campus",
+"addr": "Sanibheri 8, Rukum (West) Karnali Province",
+"district": null,
+"dsrc": null,
+"web": "https://www.sanibhericampus.edu.np",
+"live": 200,
+"est_bs": "2070-08-25",
+"phone": "9847814916",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 64,
+"name": "Ganeshman Singh Multiple Campus",
+"addr": "Kalanki",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-02",
+"phone": "015234240",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba",
+"bca"
+]
+},
+{
+"npca_id": 65,
+"name": "Sindhu Valley Campus",
+"addr": "Bhotechour",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-01-22",
+"phone": "9849236017",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 66,
+"name": "Shree Daneshwor Hari Multiple Campus",
+"addr": "Shivshakti",
+"district": null,
+"dsrc": null,
+"web": "https://www.dhmc.edu.np",
+"live": 200,
+"est_bs": "2066",
+"phone": "9848722065",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 67,
+"name": "SHANKARNAGAR MULTIPLE CAMPUS",
+"addr": "Shankarnagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-27",
+"phone": "071414370",
+"qaa": "In Process",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 69,
+"name": "Chapakot Campus",
+"addr": "Tikanidhibari, Baindi",
+"district": null,
+"dsrc": null,
+"web": "https://www.facebook.com/chapakot.campus",
+"live": 200,
+"est_bs": "2063-07-16",
+"phone": "9763247649",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 70,
+"name": "Birendra Bidhya Mandir Campus",
+"addr": "Block No. D",
+"district": null,
+"dsrc": null,
+"web": "https://www.birendracampus.edu.np",
+"live": 200,
+"est_bs": "2063-05-19",
+"phone": "091-560949",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 72,
+"name": "DEUKHURI MULTIPLE CAMPUS",
+"addr": "LAMAHI",
+"district": null,
+"dsrc": null,
+"web": "https://www.deukhurimultiplecampus.edu.np",
+"live": 0,
+"est_bs": "2062-05-13",
+"phone": "9857847016",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 74,
+"name": "Adarsha Saula College",
+"addr": "Sainbu",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2062-04-25",
+"phone": "9851080933",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 75,
+"name": "Phulbari Campus",
+"addr": "Phulbari Kailali",
+"district": "Kailali",
+"dsrc": "npca-address",
+"web": "https://phulbaricampus.edu.np",
+"live": 200,
+"est_bs": "2066-04-10",
+"phone": "9767421020",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 77,
+"name": "Jayamangala Multiple Campus",
+"addr": "Jayamangala",
+"district": null,
+"dsrc": null,
+"web": "https://jmmc.edu.np",
+"live": 0,
+"est_bs": "2070-06-11",
+"phone": "9855062640",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 78,
+"name": "Nishibhuji Janta Campus",
+"addr": "Burtibang",
+"district": null,
+"dsrc": null,
+"web": "https://nishibhuji.edu.np",
+"live": 200,
+"est_bs": "2048-05-31",
+"phone": "9846791938",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 79,
+"name": "Sarva shanti campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 80,
+"name": "Padampokhari Multiple Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 82,
+"name": "Pushpalata Janaketa Multiple Campus",
+"addr": "Madhyatanepal, Duipiple, Lamjung",
+"district": "Lamjung",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2063-10-12",
+"phone": "9846317853",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 83,
+"name": "DILLIBAZAR KANYA MULTIPLE CAMPUS",
+"addr": "DILLIBAZAR, KATHMANDU, NEPAL",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": "https://dillibazarkanyacampus.edu.np",
+"live": 200,
+"est_bs": "2037-05-19",
+"phone": "014518118/4517130",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"bbm",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 84,
+"name": "Janaprakash Multiple Campus",
+"addr": "Bhandardhik",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2082-04-26",
+"phone": "9856061378",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 85,
+"name": "MANGALODAYA MULTIPLE CAMPUS",
+"addr": "Thankot",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2045-05-01",
+"phone": "9851016999",
+"qaa": null,
+"routes": [
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 86,
+"name": "Kapilvastu Multiple Campus",
+"addr": "Campustole",
+"district": null,
+"dsrc": null,
+"web": "https://www.kmctlw.edu.np",
+"live": 403,
+"est_bs": "2037-05-31",
+"phone": "076560181, 9857051169",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 88,
+"name": "Kanchan Vidhya Mandir Samudayik College",
+"addr": "Bankhet",
+"district": null,
+"dsrc": null,
+"web": "https://www.kvmcollege.edu.np",
+"live": 200,
+"est_bs": "2066-05-24",
+"phone": "099-521129, 522135, 521392",
+"qaa": "In Process",
+"routes": [
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 89,
+"name": "Machchhindra Multiple Campus",
+"addr": "Dhunibeshi Municipality Ward No. 7, Khanikhola, Dhading",
+"district": "Dhading",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2066-08-03",
+"phone": "9851347300",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 90,
+"name": "Shreeprakash Campus",
+"addr": "Bhumlutar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2068-04-20",
+"phone": "9851096398",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 91,
+"name": "Aishwarya Multiple Campus",
+"addr": "Hasanpur, Kailali",
+"district": "Kailali",
+"dsrc": "npca-address",
+"web": "https://amcdhangadhi.edu.np",
+"live": 200,
+"est_bs": "2063-07-17",
+"phone": "091526877",
+"qaa": "Accredited",
+"routes": [
+"bbs",
+"mbs",
+"bsc-science"
+]
+},
+{
+"npca_id": 93,
+"name": "Buddhilal Bidya Munar Campus Bhagwatpur, Saptari",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 94,
+"name": "Janajyoti Campus",
+"addr": "Bhimad-6, Tanahun",
+"district": "Tanahu",
+"dsrc": "npca-address",
+"web": "https://janajyoticampus.edu.np",
+"live": 406,
+"est_bs": "2064-08-16",
+"phone": "9856001455",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 96,
+"name": "Tejganga Multiple Campus Panauti Kavre",
+"addr": "Panauti",
+"district": "Kavrepalanchok",
+"dsrc": "name",
+"web": "https://www.tejganga.edu.np",
+"live": 200,
+"est_bs": "2057-08-06",
+"phone": "011-440028",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 97,
+"name": "Nirmal Multiple Campus",
+"addr": "BASTIPUR",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-02-10",
+"phone": "9845030887",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 98,
+"name": "Nawa Nepal Campus Rolpa",
+"addr": "Jugar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-24",
+"phone": "9857821834",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 99,
+"name": "BHEEMODAYA MULTIPLE CAMPUS",
+"addr": "Aarughat",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-14",
+"phone": "9851216791",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 100,
+"name": "Purchaudi Multipal Campus",
+"addr": "Dadakot",
+"district": null,
+"dsrc": null,
+"web": "https://www.pumc.edu.np",
+"live": 200,
+"est_bs": "2065-09-02",
+"phone": "9848762505",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 101,
+"name": "Janak Multiple Campus",
+"addr": "Bhakundebesi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066/07/23",
+"phone": "011404130",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 102,
+"name": "Damak Multiple Campus",
+"addr": "Damak Municipality Ward No-9, Jhapa",
+"district": "Jhapa",
+"dsrc": "npca-address",
+"web": "https://damakcampus.edu.np",
+"live": 403,
+"est_bs": "2038-08-02",
+"phone": "023590632",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"bba",
+"ba",
+"bca",
+"ma",
+"bsc-science"
+]
+},
+{
+"npca_id": 103,
+"name": "Rabi Campus",
+"addr": "Miklajung-4, Panchthar",
+"district": "Panchthar",
+"dsrc": "npca-address",
+"web": "https://www.rabicampus.edu.np",
+"live": 200,
+"est_bs": "2065-09-19",
+"phone": "9852629218",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 106,
+"name": "DHULIKHEL CAMPUS",
+"addr": "DHULIKHEL SANJIWANI BAZAR-7",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2054",
+"phone": "011-665858",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 107,
+"name": "Lampantaar Multiple Campus",
+"addr": "Tinpatan, Sindhuli",
+"district": "Sindhuli",
+"dsrc": "npca-address",
+"web": "https://www.lmctinpatan.edu.np",
+"live": 200,
+"est_bs": "2062-05-28",
+"phone": "047690192",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 109,
+"name": "Phulchoki Mahavidhyalaya",
+"addr": "Thaiba",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2059-03-19",
+"phone": "01-5906523",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 110,
+"name": "Kailash Multiple Campus",
+"addr": "Kalagaun, Achham",
+"district": "Achham",
+"dsrc": "npca-address",
+"web": "https://www.kailashmultiplecampus.edu.np",
+"live": 406,
+"est_bs": "2066",
+"phone": "9858484500",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 111,
+"name": "Kitini College",
+"addr": "Taukhel",
+"district": null,
+"dsrc": null,
+"web": "https://kitinicollege.edu.np",
+"live": 200,
+"est_bs": "2059-05-26",
+"phone": "01-5253559",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 112,
+"name": "Kushadevi Campus",
+"addr": "Kushadevi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-01",
+"phone": "011-405130",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 113,
+"name": "Nepal Aadarsha Multiple Campus Kapilvastu",
+"addr": "Shivraj Municipality 1,Shivpur",
+"district": "Kapilvastu",
+"dsrc": "name",
+"web": "https://namcampus.edu.np",
+"live": 200,
+"est_bs": "2064",
+"phone": "9846871013",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 115,
+"name": "NEPAL AADARSHA MULTIPLE CAMPUS",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 120,
+"name": "Aathabis Education Campus",
+"addr": "Aathabis ,08 Dailekh",
+"district": "Dailekh",
+"dsrc": "npca-address",
+"web": "https://www.aathabiscampus.edu.np",
+"live": 200,
+"est_bs": "2069/06/23",
+"phone": "9868175936",
+"qaa": "In Process",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 121,
+"name": "Official Address",
+"addr": "Chandragiri Municipality - 10, Satungal, Kathmandu (In the Building of Kathmandu Shiksha Campus)",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 122,
+"name": "Budhanilkantha Campus",
+"addr": "Narayansthan",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-12-31",
+"phone": "014379576",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 123,
+"name": "Sanjiwani College",
+"addr": "Guthucha marg",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063",
+"phone": "011-490574",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 124,
+"name": "Arunodaya College",
+"addr": "Gitanagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2058-05-04",
+"phone": "9855047207",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 125,
+"name": "Shringeeshor",
+"addr": "Ranibas",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2057-08-06",
+"phone": "079410068",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 126,
+"name": "Pathari Multiple Campus",
+"addr": "Yalaber Chowk",
+"district": null,
+"dsrc": null,
+"web": "https://patharicampus.edu.np",
+"live": 200,
+"est_bs": "2064",
+"phone": "9814307880",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 127,
+"name": "Gaumati Multiple Campus",
+"addr": "Madhibazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-14",
+"phone": "9849819242",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 128,
+"name": "Garuwa Multiple Campus",
+"addr": "Mai municipality ilam",
+"district": "Ilam",
+"dsrc": "npca-address",
+"web": "https://garuwacampus.edu.np",
+"live": 200,
+"est_bs": "2064",
+"phone": "9815091489",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 129,
+"name": "Raghunath Adarsh Multiple Campus",
+"addr": "Joshipur-7,Kailali",
+"district": "Kailali",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2063-09-06",
+"phone": "9848487701/9869910044",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 130,
+"name": "J S Murarka Multiple Campus Lahan",
+"addr": "Lahan",
+"district": null,
+"dsrc": null,
+"web": "https://www.jsmmc.edu.np",
+"live": 200,
+"est_bs": "2044-06-22",
+"phone": "9852863252",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"ba",
+"ma",
+"bsc-science"
+]
+},
+{
+"npca_id": 131,
+"name": "Siddhajyoti Education Campus",
+"addr": "Kamalamai Municipality-5, Phosretar, Sindhuli",
+"district": "Sindhuli",
+"dsrc": "npca-address",
+"web": "https://siddhajyoticampus.edu.np",
+"live": 200,
+"est_bs": "2063-06-25",
+"phone": "047-520916",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 132,
+"name": "SHREE PRAYAGESHWOR MULTIPLE CAMPUS",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 134,
+"name": "Netrawati Community Multiple Campus",
+"addr": "Khahare",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-11",
+"phone": "9851311725",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 137,
+"name": "Radha Damodar Sanskrit campus",
+"addr": "Chapakot Municipality-06 Keeladi,Syangja",
+"district": "Syangja",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2051-07-07",
+"phone": "9868807236",
+"qaa": "Not Applied",
+"routes": [
+"ba"
+]
+},
+{
+"npca_id": 138,
+"name": "Amar Shahid Multiple Campus",
+"addr": "Rajapur Bazar",
+"district": null,
+"dsrc": null,
+"web": "https://www.asmc.edu.np",
+"live": 200,
+"est_bs": "2065-08-26",
+"phone": "9858070103",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 139,
+"name": "BULBULE MULTIPLE CAMPUS",
+"addr": "Pahalmanpur",
+"district": null,
+"dsrc": null,
+"web": "http://bulbulecampus.edu.np",
+"live": 200,
+"est_bs": "2069-12-04",
+"phone": "091590712/13",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 140,
+"name": "DEVDAHA AADARSHA MULTIPLE CAMPUS",
+"addr": "Devdaha-7, Shitalnagar",
+"district": null,
+"dsrc": null,
+"web": "https://www.damc.edu.np",
+"live": 200,
+"est_bs": "2065-08-15",
+"phone": "9857070484",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 141,
+"name": "Janapriya Multiple Campus, Pokhara",
+"addr": "Janapriya Marge",
+"district": null,
+"dsrc": null,
+"web": "https://www.janapriya.edu.np",
+"live": 520,
+"est_bs": "2048-08-25",
+"phone": "+977-61-581822, 572287",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"bba",
+"mba",
+"bim",
+"ba"
+]
+},
+{
+"npca_id": 142,
+"name": "Ghodaghodi Multiple Campus",
+"addr": "Sukhad,Kailali",
+"district": "Kailali",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2062-04-32",
+"phone": "091-403117",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 143,
+"name": "Kapan Multiple Campus",
+"addr": "Next to Kapan Handball Ground",
+"district": null,
+"dsrc": null,
+"web": "https://kapancampus.edu.np",
+"live": 406,
+"est_bs": "2069-11-01",
+"phone": "9851173580",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 145,
+"name": "MADHYABINDU MULTIPLE CAMPUS",
+"addr": "Kawasoti Municipality Ward No. 3, Nawalpur",
+"district": "Nawalparasi East",
+"dsrc": "npca-address",
+"web": "https://www.madhyabindu.edu.np",
+"live": 200,
+"est_bs": "2062-11-23",
+"phone": "078540473",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"ba"
+]
+},
+{
+"npca_id": 146,
+"name": "Shree Kalika Himalaya Campus",
+"addr": "Kalikasthan",
+"district": null,
+"dsrc": null,
+"web": "https://kalikacampus.edu.np",
+"live": 200,
+"est_bs": "2062",
+"phone": "010542001",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 147,
+"name": "Gaurishankar Multiple Campus",
+"addr": "Charikot",
+"district": null,
+"dsrc": null,
+"web": "https://gsmultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2038-12-15",
+"phone": "049421124; 421669",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 148,
+"name": "Myagdi Multiple Campus",
+"addr": "Beni-08, Myagdi",
+"district": "Myagdi",
+"dsrc": "npca-address",
+"web": "https://www.myagdicampus.edu.np",
+"live": 200,
+"est_bs": "2048-09-18",
+"phone": "977-069-520109, 520609, 9857640109",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 149,
+"name": "Bramhachari Damodaranand College",
+"addr": "Mirchaiya-05, Siraha",
+"district": "Siraha",
+"dsrc": "npca-address",
+"web": "https://bdcollege.edu.np",
+"live": 200,
+"est_bs": "2065-10-13",
+"phone": "9852834289",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 150,
+"name": "Hari khetan multiple campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 151,
+"name": "Samayathan Multiple Campus",
+"addr": "Kharendrapur",
+"district": null,
+"dsrc": null,
+"web": "https://samayathancampus.edu,np",
+"live": 0,
+"est_bs": "2070-06-17",
+"phone": "9847370669/ 9857050008",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 152,
+"name": "Tribhuwan Trishuli Multiple campus",
+"addr": "Trishuli Nuwakot",
+"district": "Nuwakot",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2060",
+"phone": "010560850, 9841792342",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 153,
+"name": "Dronachal Multiple Campus, Dullu-7, Dailekh",
+"addr": "Bahungaun",
+"district": "Dailekh",
+"dsrc": "name",
+"web": "https://dronachalcampus.edu.np",
+"live": 200,
+"est_bs": "2059-11-20",
+"phone": "089411028/9848103805",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 154,
+"name": "Janamaitri Multiple Campus",
+"addr": "kuleshwor",
+"district": null,
+"dsrc": null,
+"web": "https://www.janamaitri.edu.np",
+"live": 200,
+"est_bs": "2047-09-07",
+"phone": "9841424744",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bbm",
+"ba",
+"bca"
+]
+},
+{
+"npca_id": 155,
+"name": "Gupteshwor Mahadev Multiple Campus",
+"addr": "Chhorepatan",
+"district": null,
+"dsrc": null,
+"web": "https://gmmc.edu.np",
+"live": 200,
+"est_bs": "2065/09/04",
+"phone": "061-455677",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"bim",
+"bhm"
+]
+},
+{
+"npca_id": 156,
+"name": "KABHRE MULTIPLE CAMPUS",
+"addr": "Shilu Marga, Budol",
+"district": null,
+"dsrc": null,
+"web": "https://www.kabhrecampus.edu.np",
+"live": 200,
+"est_bs": "2037-06-17",
+"phone": "+977-11-661133",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bicte",
+"bbs",
+"mbs",
+"ba",
+"bca",
+"ma"
+]
+},
+{
+"npca_id": 160,
+"name": "Koteshwor Multiple Campus",
+"addr": "Jadibuti",
+"district": null,
+"dsrc": null,
+"web": "https://Koteshworcampus.edu.np",
+"live": 200,
+"est_bs": "2047-08-12",
+"phone": "014992950",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 161,
+"name": "Marsyangdi Multiple Campus",
+"addr": "Saatbise",
+"district": null,
+"dsrc": null,
+"web": "https://www.mmc.edu.np",
+"live": 406,
+"est_bs": "2047-08-16",
+"phone": "066520213",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 162,
+"name": "Madhyavarti Multiple Campus",
+"addr": "Gochhada",
+"district": null,
+"dsrc": null,
+"web": "https://madhyavarti.edu.np",
+"live": 0,
+"est_bs": "2070-07-11",
+"phone": "9844778946",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 163,
+"name": "Bardiya Multiple Campus",
+"addr": "Offered Programs",
+"district": "Bardiya",
+"dsrc": "name",
+"web": "https://www.bardiyamc.edu.np",
+"live": 200,
+"est_bs": null,
+"phone": "9858070805",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 164,
+"name": "Siddhartha Campus",
+"addr": "Bunchi",
+"district": null,
+"dsrc": null,
+"web": "https://sidharthacampus.edu.np",
+"live": 200,
+"est_bs": "2048",
+"phone": "076-550122",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 165,
+"name": "Gadhimai Multiple Campus,Gadhimai Bariyarpur,Bara",
+"addr": "Bariyarpur,Bara",
+"district": "Bara",
+"dsrc": "npca-address",
+"web": "https://www.gadhimaimultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2066-04-30",
+"phone": "9845094314",
+"qaa": "Not Accredited",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 166,
+"name": "Mahakavi Devkota Campus",
+"addr": "Sunwal-4, Ramawapur, Nawalparasi West",
+"district": "Nawalparasi West",
+"dsrc": "npca-address",
+"web": "https://www.mdc.edu.np",
+"live": 200,
+"est_bs": "2060-05-10",
+"phone": "9857046049",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"ba"
+]
+},
+{
+"npca_id": 167,
+"name": "Dhulabari Campus",
+"addr": "Raghubirbadi Tole, Campus Mode, Dhulabari Jhapa",
+"district": "Jhapa",
+"dsrc": "npca-address",
+"web": "https://dhulabaricampus.edu.np",
+"live": 200,
+"est_bs": "2048-09-02",
+"phone": "023565626",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 169,
+"name": "Chandrodaya Multiple Campus",
+"addr": "Bishaltar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066/04/04",
+"phone": "9855080627",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 171,
+"name": "Syarpu Multiple Campus Banphikot Rukum west",
+"addr": "Banphikot",
+"district": null,
+"dsrc": null,
+"web": "https://www.",
+"live": 0,
+"est_bs": "2069-11-11",
+"phone": "9843985949",
+"qaa": null,
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 172,
+"name": "Bhairab Multiple Campus",
+"addr": "Rainadevi Chhahara-04, Palpa",
+"district": "Palpa",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-06-04",
+"phone": "9867261362",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 173,
+"name": "Chandra shatrughna campus",
+"addr": "Bodebarsain",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-05-4",
+"phone": "9862079762/9801592076",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 174,
+"name": "Siddhartha Gautam Buddha Campus",
+"addr": "Butwal-5, Rupandehi (Nepal)",
+"district": "Rupandehi",
+"dsrc": "npca-address",
+"web": "https://www.sgbc.edu.np",
+"live": 200,
+"est_bs": "2048-06-24",
+"phone": "977-71-531601, 9857025100",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 175,
+"name": "YAGYODAYA DUDHNATH THARU MULTIPLE CAMPUS",
+"addr": "Introduction",
+"district": null,
+"dsrc": null,
+"web": "https://www.ydmc.edu.np",
+"live": 0,
+"est_bs": "2060-10-16",
+"phone": "9857026833",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 177,
+"name": "Rammani Multiple Campus",
+"addr": "Tilottama-05, manigram",
+"district": null,
+"dsrc": null,
+"web": "https://rammani.edu.np",
+"live": 200,
+"est_bs": "2045-01-27",
+"phone": "+977 71 560226",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 180,
+"name": "Bhuwanishankar Multiple College",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 181,
+"name": "Uma Katwal Campus",
+"addr": "Nishankhe",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-10-12",
+"phone": "98429956400",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 184,
+"name": "Kanakai Multiple Campus",
+"addr": "Surunga",
+"district": null,
+"dsrc": null,
+"web": "https://www.kanakaicampus.edu.np",
+"live": 200,
+"est_bs": "2047-09-10",
+"phone": "9852652853, 9852652854, 9852652855",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 185,
+"name": "Resunga Multiple Campus",
+"addr": "Tamghas",
+"district": null,
+"dsrc": null,
+"web": "https://www.resungacampus.edu.np",
+"live": 200,
+"est_bs": "2039-08-22",
+"phone": "079520145",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 186,
+"name": "Seti Campus",
+"addr": "Matela, Bajhang",
+"district": "Bajhang",
+"dsrc": "npca-address",
+"web": "https://www.seicampus.edu.np",
+"live": 0,
+"est_bs": "2063-06-21",
+"phone": "9858477011",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 187,
+"name": "Diktel Multiple Campus",
+"addr": "Diktel",
+"district": null,
+"dsrc": null,
+"web": "https://diktelcampus.edu.np",
+"live": 200,
+"est_bs": "2037-06-16",
+"phone": "9764497071/ 9842877107",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 188,
+"name": "Udaya Saraswati Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 191,
+"name": "JANASHIKHA CAMPUS MELLEKH,ACHHAM",
+"addr": "Chaukhutte",
+"district": null,
+"dsrc": null,
+"web": "https://www.janashikhacampus.edu.np",
+"live": 0,
+"est_bs": "2069",
+"phone": "9865568337",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 193,
+"name": "BALKUMARI COLLEGE",
+"addr": "Narayangarh",
+"district": null,
+"dsrc": null,
+"web": "https://www.balkumaricollege.edu.np",
+"live": 200,
+"est_bs": "2043-06-02",
+"phone": "056598827",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"mba",
+"bim",
+"bhm",
+"bsc-science"
+]
+},
+{
+"npca_id": 194,
+"name": "Bhadrakali Multiple Campus",
+"addr": "Kundahar",
+"district": null,
+"dsrc": null,
+"web": "https://www.bhadrakali.edu.np",
+"live": 200,
+"est_bs": "2066-12-23",
+"phone": "061 572799",
+"qaa": "In Process",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 195,
+"name": "Solukhumbu Multiple Campus",
+"addr": "SOLUKHUMBU",
+"district": "Solukhumbu",
+"dsrc": "npca-address",
+"web": "https://solucampus.edu.np",
+"live": 500,
+"est_bs": "2050",
+"phone": "9851010556",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 196,
+"name": "Chautara Multiple Campus",
+"addr": "Chautara",
+"district": null,
+"dsrc": null,
+"web": "https://chautaramultiplecampus.com/message.php",
+"live": 200,
+"est_bs": "2058-05-08",
+"phone": "011620442/342",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"bsc-science"
+]
+},
+{
+"npca_id": 197,
+"name": "Saptagandaki Multiple Campus",
+"addr": "Saptagandaki",
+"district": null,
+"dsrc": null,
+"web": "https://smc.edu.np",
+"live": 406,
+"est_bs": "2045-08-02",
+"phone": "056493754; 9855053754",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"bim",
+"ba",
+"bca",
+"ma",
+"bsc-science"
+]
+},
+{
+"npca_id": 198,
+"name": "Bansgadhi Multiple Campus",
+"addr": "Bansgadhi-5, Bardiya",
+"district": "Bardiya",
+"dsrc": "npca-address",
+"web": "https://bmcampus.edu.np",
+"live": 200,
+"est_bs": "2065",
+"phone": "9858035168",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 199,
+"name": "Parroha Multiple Campus",
+"addr": "Sainamaina-4, Murgiya, Rupandehi",
+"district": "Rupandehi",
+"dsrc": "npca-address",
+"web": "https://www.parrohamc.edu.np",
+"live": 0,
+"est_bs": "2067",
+"phone": "071-440369",
+"qaa": "Peer Reviewed",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 200,
+"name": "HALESI CAMPUS",
+"addr": "Mahadevsthan",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-10-15",
+"phone": "9862819481",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 201,
+"name": "Kolhuwa MultipleCampus",
+"addr": "Kolhuwa",
+"district": null,
+"dsrc": null,
+"web": "https://kolhuwacampus.edu.np",
+"live": 200,
+"est_bs": "2067-06-11",
+"phone": "078401013",
+"qaa": "Not Accredited",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 202,
+"name": "Palhi Multiple Campus ,Parasi",
+"addr": "Parasi , Ramgram-4",
+"district": "Nawalparasi West",
+"dsrc": "npca-address",
+"web": "https://pmcparasi.edu.np",
+"live": 200,
+"est_bs": "2046-01-012",
+"phone": "9857046147",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 203,
+"name": "TANSEN MULTIPLE CAMPUS",
+"addr": "Kajipauwa",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2047-05-27",
+"phone": "075522450",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 204,
+"name": "Ghatal Multiple Campus ,Suda",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 205,
+"name": "GAURISHANKAR CAMPUS",
+"addr": "NIJGADH-9,CAMPUS ROAD, BARA",
+"district": "Bara",
+"dsrc": "npca-address",
+"web": "https://gsc.edu.np",
+"live": 406,
+"est_bs": "2063-07-21",
+"phone": "9855044414",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 206,
+"name": "Sadashiva Multiple Campus",
+"addr": "Barbardiya-06,Bardiya",
+"district": "Bardiya",
+"dsrc": "npca-address",
+"web": "https://www.smcbardiya.edu.np",
+"live": 200,
+"est_bs": "20670115",
+"phone": "9858036203",
+"qaa": "In Process",
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 207,
+"name": "Madan Bhandari Memorial College",
+"addr": "New Baneshwor",
+"district": null,
+"dsrc": null,
+"web": "https://www.mbmc.edu.np",
+"live": 200,
+"est_bs": "2058 BS (2001 AD)",
+"phone": "+977-01-5172175",
+"qaa": "Accredited",
+"routes": [
+"bbs",
+"bbm",
+"ba",
+"bca",
+"ma",
+"bsc-csit"
+]
+},
+{
+"npca_id": 208,
+"name": "Jalapadevi Campus",
+"addr": "School line",
+"district": null,
+"dsrc": null,
+"web": "https://mountlink.net.np/jalapa",
+"live": 404,
+"est_bs": "2065-10-22",
+"phone": "9842256699",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 209,
+"name": "Haraiya Multiple Campus",
+"addr": "Kanchan-3, Haraiya, Rupandehi",
+"district": "Rupandehi",
+"dsrc": "npca-address",
+"web": "https://hmc.edu.np",
+"live": 200,
+"est_bs": "2064-07-12",
+"phone": "9857058126",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 210,
+"name": "Gokundeshwar Campus",
+"addr": "Dhankuta Tallokopche",
+"district": "Dhankuta",
+"dsrc": "npca-address",
+"web": "https://gokundeshwacampus.com",
+"live": 0,
+"est_bs": "2067-04-24",
+"phone": "026523622",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 211,
+"name": "Manahari Multiple Campus",
+"addr": "manahari-8,Simpani",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-07-03",
+"phone": "9765684222",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 212,
+"name": "Adarsha Samudayik Campus",
+"addr": "Ghailadubba",
+"district": null,
+"dsrc": null,
+"web": "https://aadarshasamudyaikcampus.edu.np",
+"live": 200,
+"est_bs": "2070-08-11",
+"phone": "9815991399",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 213,
+"name": "SAHID NARAYAN POKHAREL RAMAPUR CAMPUS",
+"addr": "Sainamaina-6, Colony, Rupandehi",
+"district": "Rupandehi",
+"dsrc": "npca-address",
+"web": "https://www.snprc.edu.np",
+"live": 403,
+"est_bs": "2060",
+"phone": "071-505001",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 214,
+"name": "Janta Multiple Campus",
+"addr": "Pachrukhi",
+"district": null,
+"dsrc": null,
+"web": "https://jantacampusith.edu.np",
+"live": 200,
+"est_bs": "2045-03-31",
+"phone": "025581300",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 215,
+"name": "Araniko College",
+"addr": "Barhabise-4, Sindhupalchok",
+"district": "Sindhupalchok",
+"dsrc": "npca-address",
+"web": "https://aranikocollege.edu.np",
+"live": 200,
+"est_bs": "2062-04-21",
+"phone": "9851187321",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 217,
+"name": "Chaitanya Multiple Campus",
+"addr": "Banepa 8, kavre",
+"district": "Kavrepalanchok",
+"dsrc": "npca-address",
+"web": "https://chaitanya.edu.np",
+"live": 200,
+"est_bs": "2048-08-15",
+"phone": "011661722",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 218,
+"name": "Makawanpur Multiple Campus",
+"addr": "Nagarpalika Road",
+"district": "Makwanpur",
+"dsrc": "name",
+"web": "https://mmchetauda.edu.np",
+"live": 200,
+"est_bs": "2037-06-22",
+"phone": "057520620",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"bba",
+"bbm",
+"ma",
+"bsc-science"
+]
+},
+{
+"npca_id": 220,
+"name": "Laxmi Campus",
+"addr": "Baniyani",
+"district": null,
+"dsrc": null,
+"web": "https://laxmicampus.edu.np",
+"live": 200,
+"est_bs": "2066-02-20",
+"phone": "9817986752",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 221,
+"name": "Ramailo Multiple Campus",
+"addr": "Bhausabari",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048/10/15",
+"phone": "9842620529",
+"qaa": null,
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 222,
+"name": "Mainapokhar Sharada Muliple",
+"addr": "Mainapokhar",
+"district": null,
+"dsrc": null,
+"web": "https://msmc.edu.np",
+"live": 200,
+"est_bs": "2066",
+"phone": "9858025524",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 223,
+"name": "Jahari Campus",
+"addr": "Kholagaun, Rukum(West)",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-03-14",
+"phone": "9848115771",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 224,
+"name": "Viswa Deep Multiple Campus",
+"addr": "Campus Details",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": "9841721365",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 225,
+"name": "Banshgopal multiple campus",
+"addr": "Hetauda, 6 Chaughada Makawanpur Nepal",
+"district": "Makwanpur",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-05-19",
+"phone": "057590148",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 226,
+"name": "SALYAN MULTIPLE CAMPUS",
+"addr": "Sharada Nagarpalika 2, Luhaping",
+"district": "Salyan",
+"dsrc": "name",
+"web": "https://salyancampus.edu.np",
+"live": 200,
+"est_bs": "2037-06-12",
+"phone": "088520242",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 228,
+"name": "Bhimdatta Multiple Campus",
+"addr": "Amargadhi 05 Bagbazar Dadeldhura",
+"district": "Dadeldhura",
+"dsrc": "npca-address",
+"web": "https://bhimdatta.edu.np",
+"live": 0,
+"est_bs": "2065-04-19",
+"phone": "096420750",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 229,
+"name": "Shivaganj Multiple Campus",
+"addr": "Shivaganj",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066",
+"phone": "9814076900   + 9815934933",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 230,
+"name": "Annapurna Multiple Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 233,
+"name": "Tanahun sharada collage",
+"addr": "Bhanu 2 nareswortar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": "9845211147",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 234,
+"name": "SUKUNA MULTIPLE CAMPUS",
+"addr": "Campus Tole",
+"district": null,
+"dsrc": null,
+"web": "https://www.sukuna.edu.np",
+"live": 403,
+"est_bs": "2048-10-14",
+"phone": "9852045617",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"ba"
+]
+},
+{
+"npca_id": 235,
+"name": "Urlabari Multiple Campus",
+"addr": "Urlabari-4, Morang, Aitabare",
+"district": "Morang",
+"dsrc": "npca-address",
+"web": "https://www.umc.edu.np",
+"live": 200,
+"est_bs": "2043 B.S.",
+"phone": "9852042700. 021540061",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 236,
+"name": "Karmaiya Adarsh Janata Campus",
+"addr": "Bagmati-11, Sarlahi",
+"district": "Sarlahi",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2069-10-18",
+"phone": "9844064772",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 237,
+"name": "Setigaun Multiple Campus",
+"addr": "Dilasaini-6, Gokuleshwor, Baitadi, Nepal",
+"district": "Baitadi",
+"dsrc": "npca-address",
+"web": "https://www.setigaunmultiple.com",
+"live": 0,
+"est_bs": "2067-05-02",
+"phone": "093-400113",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 238,
+"name": "Jalbire Valley Campus",
+"addr": "Jalbire",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-02-09",
+"phone": "9768765065",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 239,
+"name": "Jan Adarsha Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 240,
+"name": "TRIBHUVAN AADARSHA MULTIPAL CAMPUS",
+"addr": "Malebagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048-09-16",
+"phone": "063424380",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 241,
+"name": "Simpani Campus Khotang",
+"addr": "simpani",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-01-02",
+"phone": "9842986445",
+"qaa": null,
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 242,
+"name": "Manusha Tika Singh Thapa Multiple Campus",
+"addr": "Thakurbaba -1 Bardiya Bhaurigaun",
+"district": "Bardiya",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2065-12-10",
+"phone": "084403097",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 243,
+"name": "Shital Campus",
+"addr": "CHAURJAHARI MUNICIPALITY-02, RUKUM(WEST)",
+"district": null,
+"dsrc": null,
+"web": "http://.shitalcampus.edu.np",
+"live": 0,
+"est_bs": "2063-06-19",
+"phone": "088-401062",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 245,
+"name": "Sunkoshi Campus",
+"addr": "Bohoretar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048-09-05",
+"phone": "9861633318",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 248,
+"name": "Chaturdev Hira Surendra Purna campus Ratapani mugu",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 249,
+"name": "Shree Shadananda Multiple Campus",
+"addr": "Shadananda Municipality Ward No 7",
+"district": null,
+"dsrc": null,
+"web": "https://www.shadanandacampus.edu.np",
+"live": 200,
+"est_bs": "2067-04-27",
+"phone": "029-421116/9852099705",
+"qaa": "Not Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 250,
+"name": "Chure Campus",
+"addr": "Bagnaha",
+"district": null,
+"dsrc": null,
+"web": "https://www.churecampus.edu.np",
+"live": 403,
+"est_bs": "2063-04-28",
+"phone": "9858024700",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 251,
+"name": "Baneshwor Multiple Campus",
+"addr": "Shantinagar",
+"district": null,
+"dsrc": null,
+"web": "https://baneshworcampus.edu.np",
+"live": 200,
+"est_bs": "2047-03-01",
+"phone": "01-4620310",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 252,
+"name": "Gurans Multiple Campus",
+"addr": "madhuwan 8,bardiya",
+"district": "Bardiya",
+"dsrc": "npca-address",
+"web": "https://guranscampus.edu.np",
+"live": 200,
+"est_bs": "2067",
+"phone": "9848054522",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 253,
+"name": "Lumbini Banijya Campus",
+"addr": "Devinagar",
+"district": null,
+"dsrc": null,
+"web": "https://www.lbc.edu.np",
+"live": 200,
+"est_bs": "2038",
+"phone": "9857026361",
+"qaa": "Re-accredited",
+"routes": [
+"bbs",
+"mbs",
+"bba",
+"mba",
+"bbm"
+]
+},
+{
+"npca_id": 258,
+"name": "Sardi multiple campus",
+"addr": "Sardi, Bagaincha",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-09-26",
+"phone": "9841675116",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 259,
+"name": "Kantipur Campus",
+"addr": "Thali, Danchhi",
+"district": null,
+"dsrc": null,
+"web": "https://www.kantipurcampus.edu.np",
+"live": 200,
+"est_bs": "2048-05-31",
+"phone": "014450804",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 261,
+"name": "MOTILAL MULTIPLE CAMPUS",
+"addr": "Badera",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-04-18",
+"phone": "9857081992",
+"qaa": null,
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 263,
+"name": "Siddha Ratnanath Campus",
+"addr": "dang",
+"district": "Dang",
+"dsrc": "npca-address",
+"web": "https://srcampus.edu.np",
+"live": 200,
+"est_bs": "2069-04-10",
+"phone": "082530237",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 266,
+"name": "Sita Ramesh Multiple Campus",
+"addr": "Buddhashanti-1, Jhapa",
+"district": "Jhapa",
+"dsrc": "npca-address",
+"web": "https://sitarameshcampus.edu.np",
+"live": 200,
+"est_bs": "2067-05-29",
+"phone": "9852637490 / 023555557",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 267,
+"name": "MADHAYA RAUTAHAT MULTUPLE CAMPUS",
+"addr": "Bairiya",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065/01/05",
+"phone": "9865417837",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 268,
+"name": "Yerawati Aadarsha Multiple Campus",
+"addr": "Lalmatiya",
+"district": null,
+"dsrc": null,
+"web": "https://www.yamcdang.edu.np",
+"live": 200,
+"est_bs": "2065-11-06",
+"phone": "082580274/ 9857862567",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 270,
+"name": "Dibya Jyoti Multiple Campus",
+"addr": "Chisapanai",
+"district": null,
+"dsrc": null,
+"web": "https://www.djmc.edu.np",
+"live": 200,
+"est_bs": "2047-08-16",
+"phone": "977-078-580209",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"bba",
+"ba"
+]
+},
+{
+"npca_id": 271,
+"name": "Okhaldhunga Campus, Okhaldhunga",
+"addr": "Okhaldhunga",
+"district": "Okhaldhunga",
+"dsrc": "npca-address",
+"web": "https://okhaldhungacampus.edu.np",
+"live": 200,
+"est_bs": "2042",
+"phone": "037-520028",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 272,
+"name": "Marin Multiple Campus Chhap Maheshwata",
+"addr": "Marin- 7,Sindhuli",
+"district": "Sindhuli",
+"dsrc": "npca-address",
+"web": "https://marinmultiple.edu.np",
+"live": 200,
+"est_bs": "2064/09/02",
+"phone": "9816841944/9864054944",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 273,
+"name": "Shubha Janata Multiple Campus",
+"addr": "Barahathawa-07, Sarlahi",
+"district": "Sarlahi",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-06-20",
+"phone": "046-540111",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 274,
+"name": "Butwal Kalika Campus",
+"addr": "Butwal 10, Rupandehi",
+"district": "Rupandehi",
+"dsrc": "npca-address",
+"web": "https://www.btlkalikacampus.edu.np",
+"live": 0,
+"est_bs": "2070",
+"phone": "9857027754",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"ba",
+"bca",
+"ma"
+]
+},
+{
+"npca_id": 276,
+"name": "Prabha multiple campus",
+"addr": "kattike deurali",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2062",
+"phone": "9841005613",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 277,
+"name": "BIRENDRA NAMUNA CAMPUS",
+"addr": "Campus Tole",
+"district": null,
+"dsrc": null,
+"web": "https://www.bncnepal.edu.np",
+"live": 200,
+"est_bs": "2063-07-19",
+"phone": "023453339",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 278,
+"name": "Nanda Devi Multiple Campus",
+"addr": "Kotwada",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-06-07",
+"phone": "9849950305",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 280,
+"name": "Bhanudaya Multiple Campus",
+"addr": "Dumkibas",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-06-17",
+"phone": "9857087146",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 281,
+"name": "Test",
+"addr": "Satungal",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-03-05",
+"phone": "Test",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 283,
+"name": "Sahayogi Multiple College",
+"addr": "Gokarneshwor-04, Hanumanchok",
+"district": null,
+"dsrc": null,
+"web": "https://www.sahayogicollege.ed.np",
+"live": 0,
+"est_bs": "2060-4-20",
+"phone": "01-4801043",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 284,
+"name": "Sahid Adarsha Campus",
+"addr": "Bhadrawas",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-05-28",
+"phone": "01-4450765",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 285,
+"name": "Aanbookhaireni Campus",
+"addr": "Aabookhaireni",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-05-29",
+"phone": "065540452",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 286,
+"name": "Yasok Campus",
+"addr": "yasok,Panchthar",
+"district": "Panchthar",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064",
+"phone": "9862623189",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 287,
+"name": "Krishna Baijanath Multiple Campus, Jhalari, Kanchanpur",
+"addr": "Jhalari",
+"district": "Kanchanpur",
+"dsrc": "name",
+"web": "https://kbmc.edu.np",
+"live": 200,
+"est_bs": "2066",
+"phone": "099540187",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 288,
+"name": "Sotang public campus",
+"addr": "Sibatar",
+"district": null,
+"dsrc": null,
+"web": "http://sotang.edu.np",
+"live": 0,
+"est_bs": "2069/10/21",
+"phone": "9841461388",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 290,
+"name": "Kumarwarti Multiple Campus",
+"addr": "kawasoti 02 nawalparasi(east)",
+"district": null,
+"dsrc": null,
+"web": "https://www.kumarwarti.edu.np",
+"live": 200,
+"est_bs": "2045/03/03",
+"phone": "078540115",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 291,
+"name": "Belaka Janta Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 292,
+"name": "UDAYASHREE MULTIPLE CAMPUS",
+"addr": "Katari-04,Udayapur",
+"district": "Udayapur",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2057-08-11",
+"phone": "9852836153,9852836154",
+"qaa": null,
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 293,
+"name": "Hetauda Campus",
+"addr": "Makawanpur",
+"district": "Makwanpur",
+"dsrc": "npca-address",
+"web": "https://www.hetaudacampus.edu.np",
+"live": 200,
+"est_bs": "2047-07-15",
+"phone": "985533974",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"ba"
+]
+},
+{
+"npca_id": 294,
+"name": "Shanishchare Multiple Campus",
+"addr": "Shanischare bazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-16",
+"phone": "023465027 9842530303",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 295,
+"name": "Janak College",
+"addr": "Gaindakot 5, Nawalparasi (East)",
+"district": null,
+"dsrc": null,
+"web": "https://www.janakcollege.edu.np",
+"live": 0,
+"est_bs": "2064-05-17",
+"phone": "078-502481",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 296,
+"name": "Simara College",
+"addr": "Simara, Bara",
+"district": "Bara",
+"dsrc": "npca-address",
+"web": "https://simaracollege.edu.np",
+"live": 200,
+"est_bs": "2060-04-29",
+"phone": "053-521812",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 297,
+"name": "G.M. Community College",
+"addr": "Bijeshwari, Kathmandu",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2067-05-31",
+"phone": "015372351",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 298,
+"name": "Janaadhar Samudayek Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 299,
+"name": "Parbat Multiple Campus",
+"addr": "Phalewas Municipality-6, Devisthan, Parbat",
+"district": "Parbat",
+"dsrc": "npca-address",
+"web": "https://parbatmultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2041-04-05",
+"phone": "9846150290",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 300,
+"name": "Janata Campus",
+"addr": "Rangeli-07",
+"district": null,
+"dsrc": null,
+"web": "https://janatacampusrangeli.edu.np",
+"live": 200,
+"est_bs": "2044",
+"phone": "9852080324",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 301,
+"name": "Karfok Multiple Campus",
+"addr": "Karfok",
+"district": null,
+"dsrc": null,
+"web": "https://www.karfokcampus.edu.np",
+"live": 0,
+"est_bs": "2059-4-30",
+"phone": "027555221",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs",
+"bba",
+"ba"
+]
+},
+{
+"npca_id": 302,
+"name": "Thokarpa Community Multiple Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 303,
+"name": "Chaturbhujeshwar Janata Multiple Campus",
+"addr": "Sukhepokhari",
+"district": null,
+"dsrc": null,
+"web": "http://cjmcsarlahi.edu.np",
+"live": 200,
+"est_bs": "2048-08-08",
+"phone": "+977-46-530413",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 304,
+"name": "Maiya Devi Girls' College",
+"addr": "Om Shanti Margha, Bharatpur-10, Chitwan",
+"district": "Chitwan",
+"dsrc": "npca-address",
+"web": "https://www.maiyadevigirlscollege.edu.np",
+"live": 200,
+"est_bs": "2057-11-26",
+"phone": "9855064040",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 305,
+"name": "Sunsari Multiple Campus",
+"addr": "inaruwa-4,sunsari",
+"district": "Sunsari",
+"dsrc": "npca-address",
+"web": "https://smcampus.edu.np",
+"live": 200,
+"est_bs": "2037-11-27",
+"phone": "025565009",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 306,
+"name": "Aadikavi Bhanubhakta Campus",
+"addr": "Vyas-01, Tanahun",
+"district": "Tanahu",
+"dsrc": "npca-address",
+"web": "https://www.aadikavicampus.edu.np",
+"live": 200,
+"est_bs": "2044-05-18",
+"phone": "065590096,065590396",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 307,
+"name": "Bharatpur Velly College",
+"addr": "Bharatpur -11",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-07-15",
+"phone": "056593570",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 308,
+"name": "Wahaki Community Campus",
+"addr": "Bihadi R.M.4,Parwat",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-3-28",
+"phone": "9857631574/9857631573",
+"qaa": "In Process",
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 309,
+"name": "Jana Bhawana Campus",
+"addr": "Godawari-11, Lalitpur",
+"district": "Lalitpur",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2047-11-30",
+"phone": "9851081616",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"ba",
+"bca"
+]
+},
+{
+"npca_id": 310,
+"name": "Bagiswori College",
+"addr": "Tumacho, Kamalbinayak, Taulachhen, Bhaktapur-9, Nepal",
+"district": "Bhaktapur",
+"dsrc": "npca-address",
+"web": "https://www.bagisworicollege.edu.np",
+"live": 200,
+"est_bs": "2064-5-19",
+"phone": "01-6618319",
+"qaa": "Accredited",
+"routes": [
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 311,
+"name": "Gobardhan Janta Campus",
+"addr": "Saptakoshi Municipality-2, Saptari, Madhesh, Nepal",
+"district": "Saptari",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-06-20",
+"phone": "031550234,         9816754939",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 313,
+"name": "Gurbhakot Multiple Campus",
+"addr": "Gurbhakot-09,Surkhet",
+"district": "Surkhet",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2069-04-23",
+"phone": "9847887282",
+"qaa": null,
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 315,
+"name": "JANAGYAN NIKETAN CAMPUS",
+"addr": "Thanapati",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-04-25",
+"phone": "9841579203",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 317,
+"name": "Nuwakot Adarsha Multiple Campus",
+"addr": "Nuwakot",
+"district": "Nuwakot",
+"dsrc": "npca-address",
+"web": "https://nabc.edu.np",
+"live": 200,
+"est_bs": "2042-10-06",
+"phone": "+977010560157",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 318,
+"name": "Baruwa Campus",
+"addr": "Durgatol",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066/05/30",
+"phone": "9852835762",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 319,
+"name": "Rupandehi Campus",
+"addr": "Bhanupath",
+"district": "Rupandehi",
+"dsrc": "name",
+"web": "https://rupandehicampus.edu.np",
+"live": 200,
+"est_bs": "2048-12-20",
+"phone": "071521572",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 320,
+"name": "Padma College",
+"addr": "Durbar Square",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-29",
+"phone": "9841212469",
+"qaa": "Not Accredited",
+"routes": [
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 321,
+"name": "Padmodaya Campus",
+"addr": "Haridwar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-08-11",
+"phone": "9851139503",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"bsc-science"
+]
+},
+{
+"npca_id": 322,
+"name": "Mahakali Multiple Campus",
+"addr": "Belauri-6, Bidhyanagar",
+"district": null,
+"dsrc": null,
+"web": "https://mahakalicampus.edu.np",
+"live": 200,
+"est_bs": "2048-06-18",
+"phone": "099580197",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 323,
+"name": "Shigas Education Campus",
+"addr": "Ganjari",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-08-14",
+"phone": "9842190447",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 324,
+"name": "JANATA CAMPUS PUNARWAS",
+"addr": "punarwas",
+"district": null,
+"dsrc": null,
+"web": "https://www.janatacampus.edu.np",
+"live": 200,
+"est_bs": "2058/07/11",
+"phone": "099-560114",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 325,
+"name": "Namuna Machhindra campus",
+"addr": "Lagankhel",
+"district": null,
+"dsrc": null,
+"web": "https://namunamachhindra.edu.np",
+"live": 200,
+"est_bs": "2037",
+"phone": "9851120224",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 326,
+"name": "Budhinanda Campus",
+"addr": "Budhinanda Municipality -2 Bajura",
+"district": "Bajura",
+"dsrc": "npca-address",
+"web": "https://budhinandacampus.edu.np",
+"live": 200,
+"est_bs": "2064-08-18",
+"phone": "097501031",
+"qaa": null,
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 327,
+"name": "ilam samudayik krishi campus",
+"addr": "shera cold store",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2078-05-04",
+"phone": "9842635893",
+"qaa": "Not Applied",
+"routes": []
+},
+{
+"npca_id": 330,
+"name": "Mangal Multiple Campus",
+"addr": "kirtipur",
+"district": null,
+"dsrc": null,
+"web": "https://www.mangalcampus.edu.np",
+"live": 200,
+"est_bs": "2064/11/28",
+"phone": "9841301886",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 333,
+"name": "Shahid Smarak College",
+"addr": "Kirtipur, Kathmandu, Nepal",
+"district": "Kathmandu",
+"dsrc": "npca-address",
+"web": "https://sscollegekirtipur.edu.np",
+"live": 200,
+"est_bs": "2047/10/14",
+"phone": "014333937",
+"qaa": "In Process",
+"routes": [
+"bbs",
+"ba",
+"bca",
+"ma",
+"mbs"
+]
+},
+{
+"npca_id": 334,
+"name": "Himshikhar Multiple Campus",
+"addr": "Bheriganga-11, Surkhet",
+"district": "Surkhet",
+"dsrc": "npca-address",
+"web": "https://www.hsmc.edu.np",
+"live": 0,
+"est_bs": "2069",
+"phone": "9858050415\\9848105197",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 335,
+"name": "Pathibhara Multiple Campus",
+"addr": "Campus Tole",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2047/08/07",
+"phone": "9852661228",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 336,
+"name": "Gandhi Tulsi Campus",
+"addr": "Kadaghari",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070/07/08",
+"phone": "01-4993222",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 337,
+"name": "Sunkuda Campus, Sunkuda Chir, Bajhang",
+"addr": "Sunkuda",
+"district": "Bajhang",
+"dsrc": "name",
+"web": "https://sunkudacampus.edu.np",
+"live": 200,
+"est_bs": "2064-07-20",
+"phone": "9764437335",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 339,
+"name": "SURYAGADHI SAMUDAYIK CAMPUS",
+"addr": "Chokade",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-11-15",
+"phone": "9849151855           and   9866311786",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 341,
+"name": "gauriganj multiple campus",
+"addr": "gauriganj-3,jhapa",
+"district": "Jhapa",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2048/09/02",
+"phone": "9842517192 / 9862684230",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 342,
+"name": "Hanumanteshwar Campus",
+"addr": "kabre , jyamire",
+"district": null,
+"dsrc": null,
+"web": "https://hanumanteshwarcampus.edu.np",
+"live": 0,
+"est_bs": "2058/05/08",
+"phone": "9861055501",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bicte"
+]
+},
+{
+"npca_id": 343,
+"name": "Kalika Multiple Campus",
+"addr": "Kajipokhari, Pokhara",
+"district": null,
+"dsrc": null,
+"web": "https://www.kmcpokhara.edu.np",
+"live": 200,
+"est_bs": "2048-09-12",
+"phone": "9856080385",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 344,
+"name": "Sarswati janata multiple campus mohanpur,kamalpur",
+"addr": "Mohanpur Kamalpur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069/06/26",
+"phone": "980153331",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 345,
+"name": "Sarbamangala Multiple Campus",
+"addr": "Aglekot",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-06",
+"phone": "9851246087",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 346,
+"name": "Bindhya Basini Campus",
+"addr": "Batulechour",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-04-23",
+"phone": "061443603",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 347,
+"name": "Tribhuwan Campus",
+"addr": "Manechauka",
+"district": null,
+"dsrc": null,
+"web": "https://tribhuwancampus.edu.np",
+"live": 200,
+"est_bs": "2056/09/18",
+"phone": "9856061282",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 348,
+"name": "Shaheed Smarak College",
+"addr": "Bharatpur Metroplitan City-19,Bakhanpur,Sharadanagar,chitwan",
+"district": "Chitwan",
+"dsrc": "npca-address",
+"web": "https://sscbakhanpur.edu.np",
+"live": 200,
+"est_bs": "2051-05-15",
+"phone": "056591031",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba",
+"bca"
+]
+},
+{
+"npca_id": 349,
+"name": "Amar Janashakti Multiple Campus",
+"addr": "Patihani",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2060.12.21",
+"phone": "9845084366, 9845163832",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 350,
+"name": "Shiva Shakti Campus",
+"addr": "Fulbari",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2050-05-08",
+"phone": "9856077021",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 351,
+"name": "BUDHUK CAMPUS",
+"addr": "Mauna budhuk",
+"district": null,
+"dsrc": null,
+"web": "https://mountlink.net.np/budhukcampus",
+"live": 404,
+"est_bs": "20769/04/19",
+"phone": "9842112505",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 354,
+"name": "Jugal Multiple Campus",
+"addr": "Saga Chowk",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/06/11",
+"phone": "9851350601",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 355,
+"name": "Rukumeli Campus",
+"addr": "Musikot Khalanga Rukum west",
+"district": "Rukum West",
+"dsrc": "npca-address",
+"web": "https://rukumelicampus.edu.np",
+"live": 200,
+"est_bs": "2070-07-12",
+"phone": "9868966609",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 356,
+"name": "BIIMJYOTI CAMPUS KHURKOT",
+"addr": "Golanjor -7 Sindhuli",
+"district": "Sindhuli",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-08-10",
+"phone": "9844086282",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 357,
+"name": "MYANGLUNG CAMPS",
+"addr": "MYANGLUNG TEHRATHUM",
+"district": "Terhathum",
+"dsrc": "npca-address",
+"web": "https://myanglungcampus.edu.np",
+"live": 0,
+"est_bs": "2038/06/01",
+"phone": "026460120",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 358,
+"name": "Gadhawa Bahumukhi Campus",
+"addr": "Gadhawa",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-08-25",
+"phone": "9847855876 /   082590721",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 359,
+"name": "Rameshwar Campus",
+"addr": "Dharmadevi-5, Sankhuwasava",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-03-21",
+"phone": "9842193369",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 360,
+"name": "Siddheshwar Education Public Campus",
+"addr": "Sotarmu",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-05-25",
+"phone": "9854022240",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 361,
+"name": "Shahid Multiple Campus",
+"addr": "Kisanbari",
+"district": null,
+"dsrc": null,
+"web": "https://www.shahidcampus.edu.np",
+"live": 0,
+"est_bs": "2048-08-05",
+"phone": "075401062",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 362,
+"name": "Laxmi Adarsha Multiple Campus",
+"addr": "Laxmi Adarsha Tol",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2062-05-16",
+"phone": "+97761563534",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 363,
+"name": "Jhimaruk Multiple Campus",
+"addr": "Bagdula",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066/11/23",
+"phone": "9847820084",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 364,
+"name": "Bhawani Multiple Campus",
+"addr": "Thantipokhari",
+"district": null,
+"dsrc": null,
+"web": "https://bmcpalungtar.edu.np",
+"live": 200,
+"est_bs": "2063-05-19",
+"phone": "9856001388",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 365,
+"name": "Manthali Sahid Smriti Multiple Campus",
+"addr": "Manthali",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2057-08-11",
+"phone": "048-540053",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 366,
+"name": "Aamodevi Janata Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 367,
+"name": "Matribhumi Multiple Campus",
+"addr": "Kumaltar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2055",
+"phone": "9846185383",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 368,
+"name": "MIklajung Campus",
+"addr": "Madhumalla",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2079-08-07",
+"phone": "9852053096",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 369,
+"name": "POKHARA MULTIPLE CAMPUS",
+"addr": "Shantiban",
+"district": null,
+"dsrc": null,
+"web": "https://pmcpokhara.edu.np",
+"live": 200,
+"est_bs": "2044-08-14",
+"phone": "9856041000",
+"qaa": "Accredited",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 370,
+"name": "Rampratap Ramprasad Tamang Janta Multiple Campus",
+"addr": "Golbazar",
+"district": null,
+"dsrc": null,
+"web": "https://rrtjmcampus.com",
+"live": 200,
+"est_bs": "2059-03-05",
+"phone": "9852832765",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 371,
+"name": "Amar Jyoti Multiple Campus, Tadi-3, Kharanitar, Nuwakot",
+"addr": "Kharanitar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065/10/28",
+"phone": "98512533258",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 372,
+"name": "Gram Prakash Multiple Campus",
+"addr": "Sharmali, Baitadi",
+"district": "Baitadi",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2081-11-23",
+"phone": "9805791171",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 373,
+"name": "Nalgad Multiple Campus",
+"addr": "Nalgad Municipality-7 Dalli Jajarkot",
+"district": "Jajarkot",
+"dsrc": "npca-address",
+"web": "https://nalgadcampus.edu.np",
+"live": 200,
+"est_bs": "2069-09-29",
+"phone": "089594500",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 374,
+"name": "Kamalabazar Multiple Campus",
+"addr": "Kamalbazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "9849633845",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 375,
+"name": "Shree Chandrakot Campus",
+"addr": "Chandrakot Rural Municipality-4, Shantipur, Gulmi, Lumbini, Nepal.",
+"district": "Gulmi",
+"dsrc": "npca-address",
+"web": "https://www.chandrakotcampus.edu.np",
+"live": 0,
+"est_bs": "2065-11-30",
+"phone": "079420022",
+"qaa": null,
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 376,
+"name": "Janachetana Multiple Campus",
+"addr": "mehalmudi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-20",
+"phone": "9864940750",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 377,
+"name": "Simrutu campus Simrutu",
+"addr": "Tribeni 02 Rukum (west)",
+"district": null,
+"dsrc": null,
+"web": "https://www.simrutucampus.edu.np",
+"live": 200,
+"est_bs": "2069-10-18",
+"phone": "088-594345 /9851406559",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 378,
+"name": "sharada campus",
+"addr": "shankhamul Salyan",
+"district": "Salyan",
+"dsrc": "npca-address",
+"web": "https://www.sharadacampussalyan.edu.np",
+"live": 0,
+"est_bs": "2082-06-20",
+"phone": "9857827003",
+"qaa": null,
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 379,
+"name": "Indreshwor Campus",
+"addr": "Panauti-07",
+"district": null,
+"dsrc": null,
+"web": "https://www.indreshworcampus.edu.np",
+"live": 200,
+"est_bs": "2058",
+"phone": "011441399",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 380,
+"name": "Sindhuli Multiple Campus",
+"addr": "Kamalamai Municipality -4, Sindhuli",
+"district": "Sindhuli",
+"dsrc": "npca-address",
+"web": "https://sindhulicampus.edu.np",
+"live": 200,
+"est_bs": "2041-08-17",
+"phone": "9854044066",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"bba",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 381,
+"name": "Janagyankunj Campus",
+"addr": "Chhedagad municipality, Ward No. 3, Jajarkot",
+"district": "Jajarkot",
+"dsrc": "npca-address",
+"web": "https://jkcampus.edu.np",
+"live": 200,
+"est_bs": "2069-03-31",
+"phone": "9858031632",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 382,
+"name": "Adarsha Multiple Campus Gajuri -1, Dhading",
+"addr": "Gajuri Bazar",
+"district": "Dhading",
+"dsrc": "name",
+"web": "https://amcdhading.edu.np",
+"live": 200,
+"est_bs": "2063/01/16",
+"phone": "9851312332",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 384,
+"name": "mohan",
+"addr": "Campus Details",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": "dfdf",
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 385,
+"name": "Mangala Shiksha Campus",
+"addr": "Lampata",
+"district": null,
+"dsrc": null,
+"web": "https://mangalacampus.edu.np",
+"live": 200,
+"est_bs": "2066-05-17",
+"phone": "9848265581",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 388,
+"name": "BHANUBHAKTA MULTIPLE CAMPUS",
+"addr": "belchautara",
+"district": null,
+"dsrc": null,
+"web": "https://www.bhanubhaktacampus.edu.np",
+"live": 200,
+"est_bs": "2044-07-23",
+"phone": "9856062470",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 392,
+"name": "SHIVA JAN CAMPUS",
+"addr": "Shitalpati, Salyan",
+"district": "Salyan",
+"dsrc": "npca-address",
+"web": "https://shivajancampus.edu.np",
+"live": 200,
+"est_bs": "2064/06/23",
+"phone": "088400114",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 394,
+"name": "Farula Multiple Campus",
+"addr": "Budhakafal",
+"district": null,
+"dsrc": null,
+"web": "https://farulacampus.edu.np",
+"live": 200,
+"est_bs": "2069-07-26",
+"phone": "9749297576 / 9749297554",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 396,
+"name": "Shree Nawajagaran Multiple Campus",
+"addr": "Chormara",
+"district": null,
+"dsrc": null,
+"web": "https://www.nawajagaranc.edu.np",
+"live": 200,
+"est_bs": "2063-05-19",
+"phone": "9857041542",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 397,
+"name": "Rudrawati Multiple Campus",
+"addr": "Wami takasr",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-08-13",
+"phone": "079412149",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 399,
+"name": "Chij Kumar Bishnu Kumari Community Campus",
+"addr": "Piple",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067/03/29",
+"phone": "9841318648",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 400,
+"name": "liku samyukta campus",
+"addr": "liku",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-10-21",
+"phone": "9743308040",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 402,
+"name": "Bagiswori college of management",
+"addr": "Tumacho, kamalbinayak, Taulachhen",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2079-09-13",
+"phone": "9841299111",
+"qaa": "Not Applied",
+"routes": [
+"bba"
+]
+},
+{
+"npca_id": 403,
+"name": "Simta Multiple Campus",
+"addr": "Simta 6, Surkhet",
+"district": "Surkhet",
+"dsrc": "npca-address",
+"web": "https://simtacampus.edu.np",
+"live": 200,
+"est_bs": "2082-10-19",
+"phone": "9844861589",
+"qaa": null,
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 404,
+"name": "Bangad Campus Bangad Salyan",
+"addr": "Sunauli Bazar",
+"district": "Salyan",
+"dsrc": "name",
+"web": "https://bangadcampus.edu.np",
+"live": 200,
+"est_bs": "2069-06-25",
+"phone": "9869648515",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 405,
+"name": "Rastriya Janasahayog College",
+"addr": "Tarahara",
+"district": null,
+"dsrc": null,
+"web": "https://rjctarahara.com.np",
+"live": 0,
+"est_bs": "2066-05-28",
+"phone": "9862000224",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 406,
+"name": "Gograha College Biratnagar",
+"addr": "Bargachhi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2057/04/17",
+"phone": "9842030223",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 409,
+"name": "JANA JAGRITI CAMPUS BHIMAN SINDHULI",
+"addr": "Bhiman",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-04",
+"phone": "047-410027/9844020329",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 410,
+"name": "Bardibas janata Multiple campus",
+"addr": "school",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-11",
+"phone": "044550636,9844125561,9842876871",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 411,
+"name": "Masyam Ekikrit Campus",
+"addr": "Tinau-6, Masyam, Palpa",
+"district": "Palpa",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-08-21",
+"phone": "9857029999",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 412,
+"name": "Ganesh Multiple Campus",
+"addr": "Ganeshchowk",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065/12/19",
+"phone": "014370092",
+"qaa": "Not Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 413,
+"name": "Mirmee Multiple Campus",
+"addr": "Mirmee",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2062-06-03",
+"phone": "063-403116",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 414,
+"name": "Kamala Multiple Campus Dudhauli",
+"addr": "Dudhauli Bajar",
+"district": null,
+"dsrc": null,
+"web": "https://kamalamultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2064/06/13",
+"phone": "9801645990",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"ba"
+]
+},
+{
+"npca_id": 416,
+"name": "Malunga Sarbajanik Multiple Campus",
+"addr": "Tuniwat",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-14",
+"phone": "063461819",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 417,
+"name": "Nawajagrit Multiple Campus",
+"addr": "Modi-6, Parbat",
+"district": "Parbat",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2064-08-24",
+"phone": "9856039839",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 419,
+"name": "Devchuli College",
+"addr": "Nawalpur, Devchuli",
+"district": "Nawalparasi East",
+"dsrc": "npca-address",
+"web": "https://devchulicollege.edu.np",
+"live": 0,
+"est_bs": "2057/11/18",
+"phone": "9857041836",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 420,
+"name": "Kalika Public College",
+"addr": "Rambazar",
+"district": null,
+"dsrc": null,
+"web": "https://www.kpc.edu.np",
+"live": 200,
+"est_bs": "2064-07-20",
+"phone": "9856022782",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 421,
+"name": "Pyuthan Campus",
+"addr": "Campus Rode",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-05-19",
+"phone": "086420271",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 422,
+"name": "Jana Jyoti Adarsha Multiple Campus",
+"addr": "Pragatinagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-05-19",
+"phone": "078575541",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 423,
+"name": "Shree Narayan Multiple Campus",
+"addr": "Bayalbas",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-06-04",
+"phone": "046-590103",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 424,
+"name": "LetangCampus",
+"addr": "Kheruwa",
+"district": null,
+"dsrc": null,
+"web": "https://letangcampus.edu.np",
+"live": 200,
+"est_bs": "2064-06-07",
+"phone": "626",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 425,
+"name": "kedar surya multiple campus",
+"addr": "BP Nagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-02-23",
+"phone": "9848563339",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 426,
+"name": "Parbati Multiple Campus",
+"addr": "Dhungkharka, Geldung",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069/11/22",
+"phone": "9851095454",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 427,
+"name": "Sauntha Multiple Campus",
+"addr": "Sauntha",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065/04/27",
+"phone": "9841427202",
+"qaa": "Not Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 428,
+"name": "Dumarwana Multiple Campus",
+"addr": "Hattisar, Dumarwana",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/11/01",
+"phone": "9855045104/9845249582",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 429,
+"name": "PANCHTHAR MULTIPLE CAMPUS",
+"addr": "Gadhi",
+"district": "Panchthar",
+"dsrc": "name",
+"web": "https://www.pmcphidim.edu.np",
+"live": 200,
+"est_bs": "2039-03-17",
+"phone": "9852682106",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 430,
+"name": "Himalaya Kiran Public Campus",
+"addr": "Nayabazar",
+"district": null,
+"dsrc": null,
+"web": "https://www.himalayakpc.edu.np",
+"live": 406,
+"est_bs": "2062-05-10",
+"phone": "029561165",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 431,
+"name": "Darchha Campus",
+"addr": "Rajaghara",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-09-16",
+"phone": "9867244409",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 434,
+"name": "Kakaling Campus",
+"addr": "Thulo Pakhar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2082-10-18",
+"phone": "9841715269",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 435,
+"name": "Gautam Buddha Multiple Campus",
+"addr": "Gorusinge",
+"district": null,
+"dsrc": null,
+"web": "https://gbmc.edu.np",
+"live": 200,
+"est_bs": "2066-05-23",
+"phone": "9867250507",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 437,
+"name": "Jagriti Campus",
+"addr": "Goldhap",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-03-31",
+"phone": "9852690526",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 438,
+"name": "N.R College",
+"addr": "NEPALTAR",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-05-30",
+"phone": "9851183183, 9841852199",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 439,
+"name": "Painyu Multiple Campus Parbat",
+"addr": "Arthun,Trebeni",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-30",
+"phone": "9846013110",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 440,
+"name": "Udbuddha College",
+"addr": "Ringneraha (Besibari)",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-07-26",
+"phone": "9861868542",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 441,
+"name": "Sunkoshi Campus",
+"addr": "Lamosanghu",
+"district": null,
+"dsrc": null,
+"web": "https://sunkoshicampus.edu.np",
+"live": 500,
+"est_bs": "2057",
+"phone": "011495031",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 442,
+"name": "Tripureshwar Shiksha Campus",
+"addr": "Bahuntilpung",
+"district": null,
+"dsrc": null,
+"web": "https://tscampus.edu.np",
+"live": 403,
+"est_bs": "2064-06-18",
+"phone": "9841971820",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 444,
+"name": "Pratap Smriti College",
+"addr": "Singati",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-10-28",
+"phone": "9844014571",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 445,
+"name": "Umabadi Adarash Sherchan College",
+"addr": "Jorsimal",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063/06/06",
+"phone": "9845045823",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 446,
+"name": "Salyantar Campus",
+"addr": "ranipowa",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064",
+"phone": "9849538886",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 447,
+"name": "Madan Ashrit Memorial Multiple Campus",
+"addr": "Shivalaya Danda Tole",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2057-04-21",
+"phone": "9852661444",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 448,
+"name": "MAHABIR JANATA MULTIPLE CAMPUS",
+"addr": "Haripur Bazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-08-22",
+"phone": "9854036103",
+"qaa": "Not Applied",
+"routes": []
+},
+{
+"npca_id": 449,
+"name": "Janamukhi Aadarsha College",
+"addr": "Amarapuri",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065",
+"phone": "078417247",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 450,
+"name": "Lumbini Adarsha Degree College",
+"addr": "Manakamana Tole",
+"district": null,
+"dsrc": null,
+"web": "https://www.lumbiniadarsha.edu.np",
+"live": 200,
+"est_bs": "2056-09-18",
+"phone": "9847052861",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"bba",
+"bit"
+]
+},
+{
+"npca_id": 451,
+"name": "Bhakti Aadarsha Multiple Campus",
+"addr": "[email protected]",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2056",
+"phone": "066400012",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 452,
+"name": "Simle Mahakali Multiple Campus",
+"addr": "Simle",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-11-02",
+"phone": "9851017892",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 453,
+"name": "Janata Sudarshan Campus",
+"addr": "Thulipokhari",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048-07-15",
+"phone": "9857623997",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 454,
+"name": "Himal Darshan Campus",
+"addr": "Necha",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2057-08-06",
+"phone": "+977-38-690324",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 455,
+"name": "Bandipur Campus",
+"addr": "Mohariya",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2037-06-13",
+"phone": "9846167743",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 457,
+"name": "Kushma Multiple Campus",
+"addr": "Kushma Bazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048",
+"phone": "067421124",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 458,
+"name": "Galyang Multiple Campus",
+"addr": "Galyang",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2060-08-12",
+"phone": "9856048256,9856055115",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 459,
+"name": "Tamakoshi Campus",
+"addr": "khimti",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064",
+"phone": "9851061769",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 460,
+"name": "Ramgopalpur multiple campus",
+"addr": "Ramgopalpur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-05-31",
+"phone": "9817681515",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 462,
+"name": "Adarsha Azad College",
+"addr": "Bhimsensthan(Bhelukhel)",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-02-26",
+"phone": "9841398356",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 465,
+"name": "Siddhartha Samudayik Multiple Campus",
+"addr": "Phedikhola",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/09/22",
+"phone": "9856033376",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 466,
+"name": "Aarungkhola Multiple Campus",
+"addr": "Campus Chok",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-23",
+"phone": "9857053825",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 467,
+"name": "Dhading Multiple Campus",
+"addr": "Mastar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067",
+"phone": "9849667436",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 468,
+"name": "Pashupati College",
+"addr": "Kotihawa-Bohiya",
+"district": null,
+"dsrc": null,
+"web": "https://pashupaticollege.edu.np",
+"live": 200,
+"est_bs": "2062/04/31",
+"phone": "071514029, 9857053029",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 469,
+"name": "Abhayananda Education Campus",
+"addr": "Ainselukharka",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-06-24",
+"phone": "9851003924/ 9841387668/ 9843668658",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 470,
+"name": "Dhunibesi Adarsha Campus",
+"addr": "Chhatrepata",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066",
+"phone": "9851251999",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 471,
+"name": "Sirjana College of Fine Arts",
+"addr": "ktm",
+"district": null,
+"dsrc": null,
+"web": "https://www.sirjanacollege.edu.np",
+"live": 200,
+"est_bs": "2058",
+"phone": "4518455",
+"qaa": "Not Applied",
+"routes": [
+"bfa"
+]
+},
+{
+"npca_id": 472,
+"name": "Ekatappa Multiple campus",
+"addr": "shikari Bhanjang",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-8-22",
+"phone": "9762608650",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 473,
+"name": "Rambha Multiple Campus",
+"addr": "Bashaha",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-11-14",
+"phone": "9847124124",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 474,
+"name": "Pream Basti Multiple campus",
+"addr": "pream basti",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-10-24",
+"phone": "9855045962",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 475,
+"name": "Indrawati Campus",
+"addr": "Melamchitar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/07/13",
+"phone": "9851152996",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 476,
+"name": "Tridev Multiple Campus",
+"addr": "Charali",
+"district": null,
+"dsrc": null,
+"web": "https://www.tridevcampus.edu.np",
+"live": 404,
+"est_bs": "2064-06-20",
+"phone": "9762993099",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 478,
+"name": "Galkot Multiple Campus",
+"addr": "Hatiya",
+"district": null,
+"dsrc": null,
+"web": "https://www.gmchatiya.edu.np",
+"live": 200,
+"est_bs": "2061-07-15",
+"phone": "068-412034",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 480,
+"name": "TOYANATH NARMADA KHATIWADA BALAHA MULTIPLE CAMPUS",
+"addr": "BALAHA",
+"district": null,
+"dsrc": null,
+"web": "https://tnkbmc.edu.np",
+"live": 200,
+"est_bs": "2067-04-26",
+"phone": "9842544821",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 482,
+"name": "Public Campus",
+"addr": "Dhanibanigau",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2059/04/30",
+"phone": "021402025, 9862329974",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 483,
+"name": "Gaurishankar Multiple Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 484,
+"name": "Jaya Bageswaree Multiple Campus",
+"addr": "Richoktar",
+"district": null,
+"dsrc": null,
+"web": "https://jayabageswareecampus.edu.np",
+"live": 0,
+"est_bs": "2067-04-25",
+"phone": "010590999",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 485,
+"name": "Shaheed Smriti Multiple Campus, Ratnanagar, Chitwan, Nepal",
+"addr": "Shantichok",
+"district": "Chitwan",
+"dsrc": "name",
+"web": "https://ssmcchitwan.edu.np",
+"live": 200,
+"est_bs": "2037",
+"phone": "977-56-560147",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"bfa"
+]
+},
+{
+"npca_id": 486,
+"name": "Kakarvitta Multiple Campus",
+"addr": "Bhanu Tole",
+"district": null,
+"dsrc": null,
+"web": "https://kakarvittacampus.edu.np",
+"live": 200,
+"est_bs": "2055-09-14",
+"phone": "023566470",
+"qaa": "Peer Reviewed",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 487,
+"name": "Jana Adarsha Multiple Campus",
+"addr": "Birendranagar",
+"district": null,
+"dsrc": null,
+"web": "https://www.jamc.edu.np",
+"live": 200,
+"est_bs": "2059-12-19",
+"phone": "9855054723",
+"qaa": null,
+"routes": [
+"bed",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 488,
+"name": "Sankhuwasava Multiple Campus",
+"addr": "Dangi Gaun",
+"district": null,
+"dsrc": null,
+"web": "https://www.smcc.edu.np",
+"live": 200,
+"est_bs": "2037/9/10",
+"phone": "9842125999",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 489,
+"name": "Kanya Campus Pokhara",
+"addr": "Nadipur",
+"district": null,
+"dsrc": null,
+"web": "https://www.kanyacampus.edu.np",
+"live": 200,
+"est_bs": "2048-08-22",
+"phone": "977-61-572256",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"bim",
+"ba"
+]
+},
+{
+"npca_id": 490,
+"name": "Purandhara Multiple Campus",
+"addr": "Dang",
+"district": "Dang",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "9822846669",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 491,
+"name": "JANAJYOTI CAMPUS MADANE -6 GULMI",
+"addr": "PURKOT DAHA",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-10-29",
+"phone": "9845902613",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 492,
+"name": "Suprabhat College",
+"addr": "Lalitpur",
+"district": "Lalitpur",
+"dsrc": "npca-address",
+"web": "https://www.suprabhatcollege.edu.np",
+"live": 0,
+"est_bs": "2071",
+"phone": "9869525820",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 493,
+"name": "Bhimjyoti Campus khurkot",
+"addr": "KHURKOT",
+"district": null,
+"dsrc": null,
+"web": "https://www.bhimjyoticampus.edu.com.np",
+"live": 0,
+"est_bs": "2064-08-10",
+"phone": "9851147971",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 495,
+"name": "Rawa campus",
+"addr": "Kharpa",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2062/10/12",
+"phone": "9852888882",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 496,
+"name": "Lamki Multiple Campus",
+"addr": "Purba Lamki",
+"district": null,
+"dsrc": null,
+"web": "https://lmckailali.edu.np",
+"live": 200,
+"est_bs": "2064-10-04",
+"phone": "091540380",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 497,
+"name": "Saraswati Campus Dakaha",
+"addr": "Dakaha",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064",
+"phone": "9854042502",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 498,
+"name": "Khotang Campus Khotang Bazar",
+"addr": "Khotang Bazar",
+"district": "Khotang",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2065",
+"phone": "9861448877",
+"qaa": "Not Accredited",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 499,
+"name": "Mangal Janavijaya Campus",
+"addr": "Mangaltar Bazar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-10-09",
+"phone": "9841654851",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 500,
+"name": "Kaligandaki Multiple Campus",
+"addr": "Archale",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2052-07-19",
+"phone": "9846212956",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 501,
+"name": "Mangala Campus",
+"addr": "sotipasal",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/06/15",
+"phone": "9846371902",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 502,
+"name": "Gramin Adarsha Multiple Campus",
+"addr": "Nepaltar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2051/10/",
+"phone": "9841383999",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 503,
+"name": "Central Campus For The Deaf Naxal,Kathmandu",
+"addr": "Naksal",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "1-4514804",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 504,
+"name": "Huwas Multiple Campus",
+"addr": "Paiyun, Hattiya",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070/06/15",
+"phone": "9847122097",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 505,
+"name": "Kailashkut Multiple Campus",
+"addr": "Jaybageshwori",
+"district": null,
+"dsrc": null,
+"web": "https://www.kailashkutcampus.com",
+"live": 0,
+"est_bs": "2048-04-18",
+"phone": "9851092462",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 508,
+"name": "Narad Adarsha Edu. Campus Basaha-4,Udayapur",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 510,
+"name": "Belbari Multiple Campus",
+"addr": "Sundar Shanti",
+"district": null,
+"dsrc": null,
+"web": "https://belbarimultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2065-08-16",
+"phone": "021-434315",
+"qaa": "In Process",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 511,
+"name": "Sarlahi Campus",
+"addr": "Shivsagar Chauk",
+"district": "Sarlahi",
+"dsrc": "name",
+"web": "https://www.sarlahicampus.edu.np",
+"live": 200,
+"est_bs": "2037-06-13",
+"phone": "046520373",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 512,
+"name": "Kulung Multiple Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 513,
+"name": "Sharadodaya Multiple Campus",
+"addr": "Thosey",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065/07/16",
+"phone": "9849813207",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 514,
+"name": "Ragani Chandeshwori Campus",
+"addr": "Polthali",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070/09/17",
+"phone": "9862369691",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 515,
+"name": "Shree Pradhumna Paneru Multiple Campus",
+"addr": "Rangethati",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063/06/04",
+"phone": "9846136539",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 516,
+"name": "SARVODAYA CAMPUS",
+"addr": "Bareng",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-06-23",
+"phone": "9851123876",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 517,
+"name": "MANAKA TIKARAM MULTIPLE CAMPUS",
+"addr": "turang",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065",
+"phone": "9847407759",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 519,
+"name": "Banganga Multiple Campus",
+"addr": "Lougain",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066",
+"phone": "9857050259",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 520,
+"name": "Shree Shanti Adarsha Multiple Campus",
+"addr": "Basays",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/07/25",
+"phone": "9866463162",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 521,
+"name": "shree gauri shankar multiple campus",
+"addr": "hemja,melbot",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048-06-24",
+"phone": "061400059",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 522,
+"name": "Gyanodaya Multiple Public Campus",
+"addr": "Khajura Bajar",
+"district": null,
+"dsrc": null,
+"web": "https://gyanodayampc.edu.np",
+"live": 200,
+"est_bs": "2065-10-13",
+"phone": "081590485",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 523,
+"name": "Baraha Aadarsh Campus",
+"addr": "Chatara,Punarbas",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067/04/31",
+"phone": "9852056200",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 524,
+"name": "Khaptad Campus",
+"addr": "Masuriya",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-27",
+"phone": "9848445302",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 525,
+"name": "Navaprabhat Samyukta Campus",
+"addr": "Kulau",
+"district": null,
+"dsrc": null,
+"web": "https://www.npscbaitadi.edu.np",
+"live": 200,
+"est_bs": "2069-06-29",
+"phone": "9865662405",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 526,
+"name": "Gyan Jyoti Community Campus",
+"addr": "Ghorakhori",
+"district": null,
+"dsrc": null,
+"web": "https://www.gyanjyoticampus.edu.np",
+"live": 200,
+"est_bs": "2065-10-13",
+"phone": "9851228333",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 527,
+"name": "Tribhuwan Campus Belatari",
+"addr": "Belatari",
+"district": null,
+"dsrc": null,
+"web": "https://www.tcb.edu.np",
+"live": 200,
+"est_bs": "2061",
+"phone": "078419039",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 528,
+"name": "bhadgaun sinuwari multiple campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 529,
+"name": "Anarmani Public Campus",
+"addr": "Birtabazar",
+"district": null,
+"dsrc": null,
+"web": "https://www.anarmanipubliccampus.edu.np",
+"live": 404,
+"est_bs": "2064-05-19",
+"phone": "023-530773, 9852672752",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 530,
+"name": "Shahid Adarsh Campus",
+"addr": "Rampur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2059/03/30",
+"phone": "9852840012",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 531,
+"name": "Gramodaya Yugkabi Community Campus",
+"addr": "Birta, Gamng",
+"district": null,
+"dsrc": null,
+"web": "https://gramodayayugkabicampus.edu.np",
+"live": 200,
+"est_bs": "2063/07/01",
+"phone": "9849262268",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 532,
+"name": "Mandabya Campus",
+"addr": "Damkada",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2048-09-03",
+"phone": "075412080",
+"qaa": "Not Accredited",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 533,
+"name": "Rumjatar Campus, Okhaldhunga",
+"addr": "Rumjatar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063",
+"phone": "9841625245",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 534,
+"name": "Dudhakoshi Multiple Campus",
+"addr": "Salyan",
+"district": "Salyan",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2066.12.24",
+"phone": "9840983935",
+"qaa": null,
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 535,
+"name": "Tribeni adarsh multiple campus",
+"addr": "bijgada",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-10-16",
+"phone": "9843061308",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 536,
+"name": "madi multiple campus sankhuwas",
+"addr": "Okharbote",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2044",
+"phone": "9767387747",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 537,
+"name": "Shreekot Multiple Campus",
+"addr": "Khochalek",
+"district": null,
+"dsrc": null,
+"web": "https://sm-campus.edu.np",
+"live": 200,
+"est_bs": "2069/04/10",
+"phone": "9858781609",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med",
+"bbs"
+]
+},
+{
+"npca_id": 538,
+"name": "Daune Devi Multiple Campus Bardaghat, Nepal",
+"addr": "Anandnagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "078580959",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 539,
+"name": "Janasewamultiple campus",
+"addr": "Dhadhawar , baidi",
+"district": null,
+"dsrc": null,
+"web": "https://www.janasewa.com.np",
+"live": 0,
+"est_bs": "2066-11-25",
+"phone": "9848011244",
+"qaa": null,
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 540,
+"name": "Sublal Bhagawat Multiple Campus",
+"addr": "Santapur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067",
+"phone": "+977-9855041471",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 541,
+"name": "Tharpu Campus , Panchthar",
+"addr": "Yangwarak",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065",
+"phone": "24410028",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 542,
+"name": "Sworgadwari multiple Campus",
+"addr": "Punyakhola",
+"district": null,
+"dsrc": null,
+"web": "https://www.smcpyuthan.edu.np",
+"live": 0,
+"est_bs": "2037-05-31",
+"phone": "086460089",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 543,
+"name": "Latinath Campus Marma Darchula",
+"addr": "Latinath",
+"district": "Darchula",
+"dsrc": "name",
+"web": "https://latinathcampus.edu.np",
+"live": 200,
+"est_bs": "2069",
+"phone": "9868494620",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 545,
+"name": "Janajyoti Multiple Campus, Lalbandi Sarlahi",
+"addr": "Lalbandi",
+"district": "Sarlahi",
+"dsrc": "name",
+"web": "https://jjmc.edu.np",
+"live": 200,
+"est_bs": "2057-08-06",
+"phone": "046-501436, 501550",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 546,
+"name": "Phalahari Baba Multiple Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 547,
+"name": "Melamchi Valley Campus",
+"addr": "Gyalthum Sera",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2060-05-18",
+"phone": "9849995469",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 548,
+"name": "ARGALI MULTIPLE CAMPUS",
+"addr": "Argali",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-08-13",
+"phone": "075692407",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 549,
+"name": "Balshidda Campus",
+"addr": "Keware",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065",
+"phone": "9856055818",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 550,
+"name": "Dhurkot Parmananda Bhandari Multiple Campus",
+"addr": "Kalikastan",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-10-13",
+"phone": "9857091966",
+"qaa": null,
+"routes": [
+"bed",
+"ba"
+]
+},
+{
+"npca_id": 551,
+"name": "Gokuleshwor Agriculture And Science College Gokuleshwor, Baitadi",
+"addr": "Okhalbata",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067-6-20",
+"phone": "093400044",
+"qaa": "Not Applied",
+"routes": []
+},
+{
+"npca_id": 552,
+"name": "Chaumala Multiple Campus",
+"addr": "Chaumala",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-05-19",
+"phone": "9848445566",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 555,
+"name": "Shantideep Multiple Campus",
+"addr": "Kushmisera",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064",
+"phone": "9847670734",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 556,
+"name": "Palpa Multiple Campus",
+"addr": "Basantapur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/05/21",
+"phone": "075-521929",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 557,
+"name": "Jay Janata Campus",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 558,
+"name": "SATAYWATI MULTIPLE CAMPUS",
+"addr": "HASARA",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-10-01",
+"phone": "9847250625",
+"qaa": null,
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 559,
+"name": "Amar Campus",
+"addr": "Bajipur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/07/17",
+"phone": "9868280308",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 560,
+"name": "Thalara multiple Campus",
+"addr": "kholi",
+"district": null,
+"dsrc": null,
+"web": "https://thalaramultiplecampus.gov.np",
+"live": 0,
+"est_bs": "2064-08-14",
+"phone": "9841053877",
+"qaa": "Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 561,
+"name": "Jirikhimti Bahumukhi Campus",
+"addr": "Jirikhimti",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "9841347355",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 563,
+"name": "DUDHIAWA CAMPUS RAUTAHAT",
+"addr": "Dudhiawa",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2079-08-22",
+"phone": "9855026349",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 565,
+"name": "Janasiddheshwor Multiple Capmus",
+"addr": "Habrahawa",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070/08 /18",
+"phone": "9858075570",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 566,
+"name": "Tripura Campus",
+"addr": "Namdu",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065",
+"phone": "9851183096",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 567,
+"name": "Bhanu Multiple Campus",
+"addr": "Healthpost",
+"district": null,
+"dsrc": null,
+"web": "https://bhanumultiplecampus.edu.np",
+"live": 200,
+"est_bs": "2064-06-13",
+"phone": "9848722488",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 569,
+"name": "GAUMUKHI CAMPUS",
+"addr": "MACHCHHI",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063-06-26",
+"phone": "9847917927",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 570,
+"name": "Suryathum Multiple Campus",
+"addr": "Suryathum",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/06/01",
+"phone": "9857010724",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 571,
+"name": "Jyoti Bhabishwor Multiple Campus",
+"addr": "Thada",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069/05/28",
+"phone": "9857063041",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 572,
+"name": "Shishuwari Campus",
+"addr": "Shishuwari",
+"district": "Saptari",
+"dsrc": "site",
+"web": "http://shishuwaricampus.edu.np",
+"live": 200,
+"est_bs": "2069",
+"phone": "9842880566",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 573,
+"name": "Birendra Shiksha Campus",
+"addr": "Gahatera",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064/06/14",
+"phone": "9857064217",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 574,
+"name": "Triyuga Janata Multiple Campus",
+"addr": "Motigada, Triyuga Municipality-8, Gaighat, Udayapur",
+"district": "Udayapur",
+"dsrc": "npca-address",
+"web": "https://tjmc.edu.np",
+"live": 200,
+"est_bs": "2044",
+"phone": "+977-35-421435, +977-35-420304",
+"qaa": "Applied",
+"routes": [
+"bed",
+"med",
+"bicte",
+"bbs",
+"mbs",
+"ba"
+]
+},
+{
+"npca_id": 575,
+"name": "Rapti Babai Campus",
+"addr": "Kapadadevi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2047/08/12",
+"phone": "082520316",
+"qaa": null,
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 578,
+"name": "Panchadewal Campus Binayak Achham",
+"addr": "Binayak",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063",
+"phone": "9848473314",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 579,
+"name": "Achham Multiple Campus",
+"addr": "Mangalsen",
+"district": "Achham",
+"dsrc": "name",
+"web": "https://www.achhamcampus.edu.np",
+"live": 200,
+"est_bs": "2048-09-04",
+"phone": "097-620134",
+"qaa": "Accredited",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 580,
+"name": "Sisne Shiksha Campus",
+"addr": "Rukumkot",
+"district": null,
+"dsrc": null,
+"web": "https://www.sisnecampus.edu.np",
+"live": 200,
+"est_bs": "2064/05/19",
+"phone": "088-413062",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 581,
+"name": "Rastriya Campus Dattu, Mahakali, Darchula",
+"addr": "Darchula",
+"district": "Darchula",
+"dsrc": "npca-address",
+"web": null,
+"live": null,
+"est_bs": "2066",
+"phone": "9749303038",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 582,
+"name": "Liladhar Ghimire Chhapiya Janata College",
+"addr": "Chhapiya",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2067/5/7",
+"phone": "9857011010",
+"qaa": null,
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 583,
+"name": "Janakalyan Campus",
+"addr": "Tharmare",
+"district": null,
+"dsrc": null,
+"web": "https://www.janakalyancampus.edu.np",
+"live": 0,
+"est_bs": "2063-05-27",
+"phone": "9857832765",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 584,
+"name": "Chamunda College, Dailekh",
+"addr": "Deurali",
+"district": "Dailekh",
+"dsrc": "name",
+"web": "https://www.chamundacollege.edu.np",
+"live": 200,
+"est_bs": "206-11-25",
+"phone": "9858071678",
+"qaa": "In Process",
+"routes": [
+"bed",
+"med"
+]
+},
+{
+"npca_id": 585,
+"name": "Madhyabindu M Campus",
+"addr": "Madhyabindu Tole",
+"district": null,
+"dsrc": null,
+"web": "https://www.madhyabindu.edu.np",
+"live": 200,
+"est_bs": "2062/11/23",
+"phone": "078/540351",
+"qaa": "Re-accredited",
+"routes": [
+"bed",
+"bicte",
+"bbs",
+"mbs",
+"bba"
+]
+},
+{
+"npca_id": 586,
+"name": "Api Nampa Campus",
+"addr": "Huti",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "9849554573",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 587,
+"name": "Kishan Multiple Campus",
+"addr": "Aanada nagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "9857068315",
+"qaa": null,
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 588,
+"name": "Baitadi Shiksha Campus",
+"addr": "Shahilek",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-05-28",
+"phone": "9865829120",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 589,
+"name": "Hyatrung Jharana Campus",
+"addr": "Dada Gaun",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066",
+"phone": "9842452315",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 590,
+"name": "Shankarpur Campus",
+"addr": "Pasti",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069",
+"phone": "9764565651",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 591,
+"name": "Rauleshwar Janta Aadarsh Multiple Campus",
+"addr": "Beldandi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2082-10-16",
+"phone": "9805793792",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 592,
+"name": "Jitpurphedi Multiple Campus",
+"addr": "TINPIPLE",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-01-03",
+"phone": "9851231469",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 593,
+"name": "Jyoti Janta Multiple Campus",
+"addr": "Satdhare",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2065-01-01",
+"phone": "+977-9817731564",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 595,
+"name": "Kewal Ram Surat Campus",
+"addr": "Simara Bhawanipur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2069-12-01",
+"phone": "9845131892",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 596,
+"name": "Bhagyodaya Campus",
+"addr": "Sankhu",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "25 June 1959",
+"phone": "9841237825",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 597,
+"name": "Bhairahawa Namuna Campus",
+"addr": "Maitripatha",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2068/09/05",
+"phone": "9857024394",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 598,
+"name": "MOifuids",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 600,
+"name": "Rolpa Namuna Campus",
+"addr": "Bagmara",
+"district": "Rolpa",
+"dsrc": "name",
+"web": "https://www.npca.edu.np",
+"live": 200,
+"est_bs": "2065-12-01",
+"phone": "9866704198",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 601,
+"name": "Rastriya College",
+"addr": "Sukhad",
+"district": null,
+"dsrc": null,
+"web": "https://rastriyacollege.edu.np",
+"live": 200,
+"est_bs": "2066/2/26",
+"phone": "9840628513",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs",
+"mbs",
+"ba",
+"ma"
+]
+},
+{
+"npca_id": 602,
+"name": "Siddha Public College, Pokhara - 15",
+"addr": "Prativa Tole",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-07-14",
+"phone": "9856011758",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 603,
+"name": "G.P. Koirala Memorial College",
+"addr": "Chabahil, Sifal",
+"district": null,
+"dsrc": null,
+"web": "https://gpkmc.edu.np",
+"live": 200,
+"est_bs": "2069-11-07",
+"phone": "01-4582404",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"med",
+"bbs",
+"mbs",
+"ba",
+"bca"
+]
+},
+{
+"npca_id": 604,
+"name": "Kathmandu Campus",
+"addr": "Kalimati",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2037",
+"phone": "9841302114",
+"qaa": "Not Applied",
+"routes": [
+"bbs",
+"ba"
+]
+},
+{
+"npca_id": 606,
+"name": "Indra Chandra Campus",
+"addr": "Syaldagi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070",
+"phone": "023532799",
+"qaa": null,
+"routes": [
+"bbs",
+"mbs"
+]
+},
+{
+"npca_id": 609,
+"name": "Mahamati Prananath Sanskrit Vidhyapeeth",
+"addr": "Saraswatinagar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2078-09-14",
+"phone": "9842288816",
+"qaa": "Not Applied",
+"routes": [
+"ba"
+]
+},
+{
+"npca_id": 610,
+"name": "Shree Khadak Multiple Campus",
+"addr": "Kalyanpur",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2081",
+"phone": "9818470754",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 612,
+"name": "Tej Nirala Janahit Multiple Campus",
+"addr": "Jomsom",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-06-09",
+"phone": "9841479028",
+"qaa": null,
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 613,
+"name": "Turmakhand Multiple campus Turmakhand, Achham",
+"addr": "Turmakhand Bazar",
+"district": "Achham",
+"dsrc": "name",
+"web": "https://www.turmakhadcampus.com",
+"live": 200,
+"est_bs": "2082-05-11",
+"phone": "9848602235,9868567491",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 618,
+"name": "Harihar shiksha Campus",
+"addr": "Pokharathok,Affra",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2057-08-06",
+"phone": "9867441440",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 621,
+"name": "Nawa Aadarsha Multiple Campus",
+"addr": "Deurali",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2063",
+"phone": "9847178215",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 623,
+"name": "Gatisheel Samudayek Multiple Campus",
+"addr": "Dhapasi",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2023",
+"phone": "4371878",
+"qaa": "Not Applied",
+"routes": []
+},
+{
+"npca_id": 624,
+"name": "Rolpa Multiple Campus",
+"addr": "Ghartigaun",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2062-05-26",
+"phone": "9844911765",
+"qaa": "Not Applied",
+"routes": [
+"bed",
+"bbs"
+]
+},
+{
+"npca_id": 626,
+"name": "Muktimarga Campus",
+"addr": "Gandaki Nepal",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-08-24",
+"phone": "9841280762",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 627,
+"name": "Gram prakhesh campus shivanath2 Baitadi",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 631,
+"name": "Udaya saraswati campus",
+"addr": "Bank",
+"district": null,
+"dsrc": null,
+"web": "https://uscampus.org.np",
+"live": 0,
+"est_bs": "2070-06-11",
+"phone": "9767706675",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 632,
+"name": "Himganga Multiple Campus",
+"addr": "Sanghutar",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2064-08-16",
+"phone": "9860601244",
+"qaa": "Not Applied",
+"routes": [
+"bed"
+]
+},
+{
+"npca_id": 633,
+"name": "TEMPE",
+"addr": "Official Address",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": null,
+"phone": null,
+"qaa": null,
+"routes": []
+},
+{
+"npca_id": 634,
+"name": "Janadhar Community Campus",
+"addr": "Dathal",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2070-06-27",
+"phone": "4331982",
+"qaa": "Not Applied",
+"routes": [
+"bbs"
+]
+},
+{
+"npca_id": 635,
+"name": "Viswa Deep Multiple Campus",
+"addr": "Tripureshwor",
+"district": null,
+"dsrc": null,
+"web": null,
+"live": null,
+"est_bs": "2066-07-04",
+"phone": "9841721365",
+"qaa": null,
+"routes": []
+}
+]

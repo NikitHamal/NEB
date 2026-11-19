@@ -552,6 +552,21 @@ def payload():
         for aid, more in w25['abroad_update'].items():
             abroad_by[aid].update(more)
         faq_all = faq_all + w25['faq_add']
+    if (DATA / 'wave26.json').exists():
+        w26 = _load('wave26.json')
+        providers = providers + w26['providers_add']
+        by_provider = {x['id']: x for x in providers}
+        for pid, more in w26['provider_update'].items():
+            by_provider[pid].update(more)
+        for pid in w26.get('website_drop', []):
+            by_provider[pid].pop('website', None)
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w26['where_add'].items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w26.get('abroad_update', {}).items():
+            abroad_by[aid].update(more)
+        faq_all = faq_all + w26.get('faq_add', [])
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
