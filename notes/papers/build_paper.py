@@ -40,9 +40,14 @@ def inline_imgs(src):
         f = parts[0]
         cap = parts[1] if len(parts) > 1 else ""
         w = parts[2] if len(parts) > 2 and parts[2] else "40"
+        if f.endswith(".html"):
+            raw = open(os.path.join(HERE, "figures", f), encoding="utf-8").read()
+            c = f'<figcaption>{_html.escape(cap)}</figcaption>' if cap else ""
+            return f'\n<figure class="nobreak photo">{raw}{c}</figure>\n'
         data = base64.b64encode(open(os.path.join(HERE, "figures", f), "rb").read()).decode()
+        mime = "image/svg+xml" if f.endswith(".svg") else "image/png"
         c = f"<figcaption>{_html.escape(cap)}</figcaption>" if cap else ""
-        return (f'\n<figure class="nobreak photo"><img src="data:image/png;base64,{data}" style="width:{w}%" alt="figure">{c}</figure>\n')
+        return (f'\n<figure class="nobreak photo"><img src="data:{mime};base64,{data}" style="width:{w}%" alt="figure">{c}</figure>\n')
     return re.sub(r"^@img (.+?)\s*$", rep, src, flags=re.M)
 
 

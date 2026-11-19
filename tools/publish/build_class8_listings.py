@@ -27,6 +27,13 @@ PAPERS = [
                "punctuation and error correction, pie-chart interpretation (crop production of Dang), essay writing (advantages and disadvantages "
                "of using mobile phones), sentence transformation (question tag, negative, passive voice, tense, indirect speech), and grammar cloze"},
 ]
+SOC = {"id": "8-soc-ble-2082-kathmandu", "file": "NEBians-BLE-Past-Paper-Grade-8-Social-Studies-2082-Kathmandu.pdf",
+       "subject": "Social Studies and Human Values", "year_bs": "2082", "year_ad": "2026", "muni": "Kathmandu Metropolitan City",
+       "district": "Kathmandu", "pradesh": "Bagmati", "marks": "50", "time": "2 hours", "lang": "ne",
+       "topics": "federalism, the federal council of ministers, culture and tradition, social media and online behaviour, dowry and conflict management, "
+                 "foreign employment and consular services, unity in diversity, drug abuse, Greek and Roman civilisation, climate change, "
+                 "rural to urban migration, the Kirat period, foreign trade, and a labelled outline map of Nepal (Sagarmatha and Boudhanath)"}
+PAPERS.append(SOC)
 COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026"
 
 
@@ -57,11 +64,11 @@ def main():
         pdf = "notes/papers/pdf/" + p["file"]
         pages = len(pymupdf.open(os.path.join(REPO, pdf)))
         title = "NEB Class 8 %s BLE Past Paper %s (%s) %s with Solutions" % (s, y, p["year_ad"], p["muni"])
-        desc = ("The Class 8 Basic Level Examination (BLE) %s paper of %s for %s BS (%s AD), %s marks and %s, re-typeset in English "
+        desc = ("The Class 8 Basic Level Examination (BLE) %s paper of %s for %s BS (%s AD), %s marks and %s, re-typeset in %s "
                 "with a full worked solution for every question and sub-part, marks shown beside each step and diagrams where the "
                 "question needs one. It covers %s. Use it as a timed mock for your BLE and then check each answer against the "
                 "solutions. Free to read in the browser."
-                % (s, p["muni"], y, p["year_ad"], p["marks"], p["time"], p["topics"]))
+                % (s, p["muni"], y, p["year_ad"], p["marks"], p["time"], "Nepali, the language of the original paper," if p.get("lang") == "ne" else "English", p["topics"]))
         tags = ["NEB", "BLE", "Class 8", s, "BLE %s %s" % (s, y), p["muni"], "%s past paper" % p["district"], COMMON]
         it = {"slug": p["id"], "title": title, "description": desc, "subject": s, "grade_level": "Class 8", "year": y,
               "exam_type": "Final", "type": "Past Paper", "faculty": "", "program": "", "pradesh": p["pradesh"],
