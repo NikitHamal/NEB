@@ -754,6 +754,8 @@ class Wave18Tests(TestCase):
     def test_every_destination_has_a_scholarship(self):
         d = pathways.payload()
         for a in d['abroad']:
+            if a['id'] == 'is':
+                continue  # wave 32: Iceland's government scholarship excludes Nepal, so no route is listed
             self.assertTrue(a.get('scholarships'), a['id'])
         sch = {s['id']: s for s in d['scholarships']}
         self.assertEqual(sch['s-latvia-state']['open'], [2, 4])
@@ -1063,10 +1065,12 @@ class Wave22Tests(TestCase):
         for dist, cnt in dc.items():
             self.assertGreaterEqual(cnt, 2, dist)
         for a in d['abroad']:
+            if a['id'] in ('sk', 'is', 'am', 'vn'):
+                continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
-            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare'):
-                continue  # wave 30 open calls: the notices print no seat count
+            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp'):
+                continue  # waves 30 and 32 open calls: the notices print no seat count
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
         faq = {f['id']: f for f in d['faq']}
@@ -1358,3 +1362,41 @@ class Wave30Tests(TestCase):
         for sid in ('s-city-class11', 's-doit-it', 's-army-welfare'):
             self.assertEqual(sch[sid]['scope'], 'nepal')
             self.assertNotIn('awards', sch[sid])
+
+
+class Wave31Tests(TestCase):
+    """Wave 31: six destinations, three government scholarships, seven careers, six FAQs."""
+
+    def test_wave31(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        ab = {a['id']: a for a in d['abroad']}
+        for cid in ('sk', 'id', 'sa', 'am', 'vn', 'is'):
+            self.assertIn(cid, ab)
+        sch = {s['id']: s for s in d['scholarships']}
+        for sid, cid in (('s-sk-nsp', 'sk'), ('s-knb-id', 'id'), ('s-sa-govt', 'sa')):
+            self.assertIn(sid, sch)
+            self.assertIn(sid, ab[cid]['scholarships'])
+        careers = {c['id']: c for c in d['careers']}
+        for cid in ('chef', 'qa-engineer', 'hr-manager', 'hydropower-engineer', 'cabin-crew', 'network-engineer', 'ngo-program-officer'):
+            self.assertIn(cid, careers)
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('chef', routes['bhm']['careers'])
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 7):
+            self.assertIn(f'fw31-{i}', faq)
+
+
+class Wave32Tests(TestCase):
+    """Wave 32: scholarships for the wave 31 destinations, Vietnam correction, notes."""
+
+    def test_wave32_abroad(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        ab = {a['id']: a for a in d['abroad']}
+        sch = {s['id']: s for s in d['scholarships']}
+        for sid, cid in (('s-darmasiswa-id', 'id'), ('s-vn-govt', 'vn'), ('s-aua-merit', 'am'), ('s-kaust', 'sa')):
+            self.assertIn(sid, ab[cid]['scholarships'])
+            self.assertEqual(sch[sid]['country'], cid)
+        self.assertIn('lists Nepal in its country menu', ab['vn']['note'])
+        self.assertIn('Nepal is not among them', ab['is']['note'])

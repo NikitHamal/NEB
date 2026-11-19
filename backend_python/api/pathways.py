@@ -661,6 +661,48 @@ def payload():
         for rid, more in w31.get('career_links', {}).items():
             route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
         faq_all = faq_all + w31.get('faq_add', [])
+    if (DATA / 'wave32.json').exists():
+        w32 = _load('wave32.json')
+        providers = providers + w32.get('providers_add', [])
+        by_provider = {x['id']: x for x in providers}
+        for pid, rs in w32.get('route_seats', {}).items():
+            by_provider[pid]['route_seats'] = {**(by_provider[pid].get('route_seats') or {}), **rs}
+        for pid, text in w32.get('note_add', {}).items():
+            by_provider[pid]['note'] = ((by_provider[pid].get('note') or '').rstrip() + ' ' + text).strip()
+        for pid, more in w32.get('provider_update', {}).items():
+            by_provider[pid].update(more)
+        route_by = {r['id']: r for r in routes}
+        for rid, more in w32.get('where_add', {}).items():
+            route_by[rid]['where'] = list(dict.fromkeys(list(route_by[rid].get('where') or []) + more))
+        scholarships = scholarships + w32.get('scholarships_add', [])
+        sch_by = {x['id']: x for x in scholarships}
+        for sid, more in w32.get('scholarship_extra', {}).items():
+            sch_by[sid].update(more)
+        for sid, text in w32.get('scholarship_note_add', {}).items():
+            sch_by[sid]['covers'] = ((sch_by[sid].get('covers') or '').rstrip() + ' ' + text).strip()
+        abroad = abroad + w32.get('abroad_add', [])
+        abroad_by = {a['id']: a for a in abroad}
+        for aid, more in w32.get('abroad_update', {}).items():
+            abroad_by[aid].update(more)
+        for aid, text in w32.get('abroad_note_add', {}).items():
+            abroad_by[aid]['note'] = ((abroad_by[aid].get('note') or '').rstrip() + ' ' + text).strip()
+        for aid, pairs in w32.get('abroad_text_swap', {}).items():
+            for field, old, new in pairs:
+                assert old in abroad_by[aid][field], (aid, old)
+                abroad_by[aid][field] = abroad_by[aid][field].replace(old, new)
+        for sc in w32.get('scholarships_add', []):
+            cid = sc.get('country')
+            if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
+                abroad_by[cid]['scholarships'].append(sc['id'])
+        careers = careers + w32.get('careers_new', [])
+        for rid, more in w32.get('career_links', {}).items():
+            route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
+        govt = govt + w32.get('govt_add', [])
+        by_govt = {g['id']: g for g in govt}
+        for gid, text in w32.get('govt_note_add', {}).items():
+            by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
+        guides = guides + w32.get('guides_add', [])
+        faq_all = faq_all + w32.get('faq_add', [])
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
