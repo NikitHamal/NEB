@@ -1429,3 +1429,14 @@ class Wave32Tests(TestCase):
         faq = {f['id'] for f in d['faq']}
         self.assertIn('fw32-9', faq)
         self.assertIn('fw32-10', faq)
+
+    def test_wave32_work_rule_corrections(self):
+        d = pathways.payload()
+        ab = {a['id']: a for a in d['abroad']}
+        self.assertIn('1 March 2026', ab['ge']['work'])
+        self.assertNotIn('Not clear in law', ab['ge']['work'])
+        self.assertIn('Resolution No. 437', ab['ge']['note'])
+        self.assertTrue(ab['kz']['work'].startswith('Not allowed on the student visa'))
+        self.assertIn('fw32-11', {f['id'] for f in d['faq']})
+        fq = {f['id']: f for f in d['faq']}
+        self.assertIn('separate right to work since 1 March 2026', fq['fw14-4']['a'])

@@ -46,3 +46,28 @@ ABROAD_NOTE_ADD = {
     'is': 'The Icelandic Government scholarship for the BA in Icelandic as a Second Language lists the citizens it is open to (Austria, Canada, China, Germany, Norway, Poland, Slovakia, the United Kingdom, the United States through Fulbright and others) and Nepal is not among them in the 2026 call text, so it is not a route for Nepali students (the-updates.com, european-funding-guide.eu).',
     'am': 'The American University of Armenia teaches in English and lists international undergraduate tuition of AMD 3,700,000 (most programmes) to 4,250,000 (BA in Business) a year on its own tuition page, with merit scholarships of up to 50 percent (admissions.aua.am).',
 }
+
+# Work rule corrections read on 2026-11-20 (the older text said "not clear in law" for Georgia and quoted agencies for Kazakhstan).
+# Georgia: inc.ge (20 Feb 2026), jam-news.net (1 Apr 2026), albatoulgroup.net (13 Aug 2026), lawverse.ge (21 Apr 2026), studyu.org (30 Sep 2026).
+# Kazakhstan: iec.edu.kz (3 Jun 2026), almau.edu.kz and kaznpu.kz international student pages.
+ABROAD_UPDATE = {
+    'ge': {'work': 'Not as a student without a separate permit. Since 1 March 2026 any foreign national who is not a permanent resident needs a "right to work" from the Georgian authorities before any paid or self employed work, including remote work for a Georgian employer, and international students are not on the exemption list (inc.ge, jam-news.net and studyu.org, 2026). One legal commentary says a student who already holds a valid residence card does not need a separate work visa but still needs the right to work, and the employer files the application. Earlier agency claims of 20 hours a week are out of date; do not budget for income.'},
+    'kz': {'work': 'Not allowed on the student visa. Three university pages say it: the International Educational Corporation (foreign students are not allowed to work), Almaty Management University (not eligible to work) and Abai Kazakh National Pedagogical University (carrying out labor activities with a student visa is an administrative offence). Older agency pages that say 20 hours a week are not backed by a university or official page, so plan to pay for your studies without wages.'},
+}
+
+ABROAD_NOTE_ADD.update({
+    'ge': 'Government Resolution No. 437 of 8 September 2026 sets how state universities admit international students (the rector consents within the places the government approves for each programme and year), and a university must suspend a foreign student who earns no more than one third of the year\'s credits; if 90 days pass after the suspension the Public Service Development Agency may end the study residence permit (studyu.org, 30 September 2026).',
+})
+
+FAQ_ADD = [
+    {'id': 'fw32-11', 'topic': 'abroad', 'q': 'Can a Nepali student work part time in Georgia or Kazakhstan?',
+     'a': ('Georgia changed its rules on 1 March 2026: a foreign national who is not a permanent resident now needs a separate "right to work" before any paid or self employed work, and international students are not on the exemption list (inc.ge, jam-news.net, studyu.org). '
+           'The employer applies for it, so a cafe job is no longer informal. Kazakhstan is stricter: the International Educational Corporation, Almaty Management University and Abai Kazakh National Pedagogical University all say a student visa holder may not work, and the Abai page calls it an administrative offence. '
+           'Older agency pages that promise 20 hours a week in either country are not backed by these sources, so budget your whole fee and living cost without wages. Ask your university in writing before you accept any job.'),
+     'go': ['abroad-ms']},
+]
+
+FAQ_TEXT_SWAP = {
+    'fw14-4': [('Georgia: unclear, guides say 20 hours but others say jobs are informal.',
+                'Georgia: not without a separate right to work since 1 March 2026 (inc.ge, jam-news.net).')],
+}

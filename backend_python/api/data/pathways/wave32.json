@@ -1,7 +1,116 @@
 {
+ "faq_add": [
+  {
+   "id": "fw32-11",
+   "topic": "abroad",
+   "q": "Can a Nepali student work part time in Georgia or Kazakhstan?",
+   "a": "Georgia changed its rules on 1 March 2026: a foreign national who is not a permanent resident now needs a separate \"right to work\" before any paid or self employed work, and international students are not on the exemption list (inc.ge, jam-news.net, studyu.org). The employer applies for it, so a cafe job is no longer informal. Kazakhstan is stricter: the International Educational Corporation, Almaty Management University and Abai Kazakh National Pedagogical University all say a student visa holder may not work, and the Abai page calls it an administrative offence. Older agency pages that promise 20 hours a week in either country are not backed by these sources, so budget your whole fee and living cost without wages. Ask your university in writing before you accept any job.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-9",
+   "topic": "general",
+   "q": "How much does the Nepal government spend on scholarships, and who gets the money?",
+   "a": "The Ministry of Education, Science and Technology said on 9 February 2025 that it had set aside NPR 7.39 billion for scholarships in 2081/82, for about 1.5 million students from primary to higher and technical education (OnlineKhabar and Edusanjal). The biggest lines: NPR 5.11 billion for 10,594 students in medical education, NPR 603.2 million for 12,065 students on residential scholarships (NPR 50,000 a year each), NPR 210 million for 552,000 Dalit students in Class 1 to 5, NPR 600 million for economically disadvantaged students (NPR 24,000 a year in Class 11 and 12 science, NPR 18,000 in other subjects, NPR 6,000 in Class 6 to 10) and NPR 59.4 million for technical education. Karnali girls in Class 1 to 5 get NPR 1,000 a year. Ask your school or local level which list your name can be put on, because most of these do not have a national online form.",
+   "go": []
+  },
+  {
+   "id": "fw32-10",
+   "topic": "after10",
+   "q": "I am Dalit, Muslim or from a marginalised family: what does a CTEVT diploma cost me?",
+   "a": "Nothing, if you get a seat in the special scholarship. The ministry says Dalit, Muslim and marginalised students in technical education get a monthly stipend of NPR 3,500, a yearly travel allowance of NPR 1,500 and a clothing allowance (NPR 2,000 on one page, NPR 2,500 on another); the CTEVT special scholarship notice also lists free hostel accommodation. CTEVT announced 480 seats for 2083 (457 diploma and 23 pre diploma) for these groups and for 78 local levels where technical education had not reached. For the 3,417 classified (free) seats, half go to the general group and half to targeted groups. A student who got a CTEVT scholarship once cannot get another, and must serve where the government assigns after finishing if it asks.",
+   "go": [
+    "dip-engineering"
+   ]
+  },
+  {
+   "id": "fw32-1",
+   "topic": "abroad",
+   "q": "Can I study medicine in English in Bulgaria, and what does it cost?",
+   "a": "Yes, in Sofia, Plovdiv, Varna and Pleven. A 2026/27 guide (studyu.org) lists EUR 8,000 a year at Sofia University Faculty of Medicine, EUR 9,950 at the Medical University of Sofia and EUR 10,000 at Plovdiv, so six years cost about EUR 48,000 to 60,000 (roughly NPR 84 lakh to 1.05 crore at EUR 1 about NPR 175). Two older guides print EUR 7,000 to 8,000, so read each university's own page. Selection is an entrance exam in biology and chemistry (Sofia holds one remote exam for non EU applicants in September). The European Commission says a student may work 20 hours a week without a work permit. Before you pay, ask the Nepal Medical Council whether it recognises that exact university, because you must pass the NMC licensing examination after returning; NEET is an Indian test and does not apply to you.",
+   "go": [
+    "mbbs",
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-2",
+   "topic": "abroad",
+   "q": "How long can I stay in Bulgaria or Croatia after graduating to look for a job?",
+   "a": "The European Commission EU Immigration Portal says that in Bulgaria you can look for and start work within 9 months after finishing if you register with the Employment Agency within 7 business days, and then you need a work permit on the same terms as other non EU citizens. For Croatia it says you can stay for one year, renewable for one more year, to look for work or set up a business. During study both countries allow 20 hours of work a week (Croatia outside study time; Bulgaria also in holidays). Rules change, so check the Ministry of Interior before you plan.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-3",
+   "topic": "abroad",
+   "q": "Is Luxembourg really almost free for a Nepali student?",
+   "a": "Tuition is, living is not. The University of Luxembourg is the only public university and lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 a semester afterwards and generally EUR 200 a semester for a master (about NPR 70,000 to 1.4 lakh a year at EUR 1 about NPR 175). One 2024 guide prints EUR 400 to 800 a semester for non EU students, so read the programme page. Guides quote proof of funds of EUR 950 a month excluding rent, up to EUR 1,100 to 1,500 a month, and the university is quoted at about EUR 1,500 a month, which is NPR 20 to 31 lakh a year. The European Commission says master and PhD students may work 15 hours a week in term time (bachelor students only after two semesters) and 40 hours a week in holidays, and that graduates may stay to look for a job or start a business.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-4",
+   "topic": "abroad",
+   "q": "Can I stay and work in Greece after studying there?",
+   "a": "Not directly. The European Commission EU Immigration Portal says that in Greece you can work part time during studies, you cannot change your status to a residence permit for another purpose, and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-5",
+   "topic": "abroad",
+   "q": "What does Slovenia cost for a student from outside the EU?",
+   "a": "For 2026/27 a bachelor year at a public university mostly costs EUR 2,100 to 5,880 and a master year EUR 2,505 to 6,800 (studyu.org), for example EUR 3,400 and EUR 4,700 at the University of Ljubljana School of Economics and Business. The University of Ljubljana recommends at least EUR 700 a month for living and the residence permit needs proof of at least EUR 507.43 for each month of study; a dormitory bed averages about EUR 197 a month in Ljubljana. Most bachelor programmes are taught in Slovenian, with English mainly at master and doctoral level. On the European Commission page, a student permit holder may work under the Acts on employment relationships and student work, and to stay after studying your employer starts the employment permit application.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-6",
+   "topic": "abroad",
+   "q": "Is the Darmasiswa scholarship a degree, and can a Nepali student apply?",
+   "a": "Darmasiswa is a one year non degree programme of Indonesia's Ministry of Primary and Secondary Education to study Bahasa Indonesia, arts, music, dance or crafts at about 60 universities. The official site says it is for students from countries that have diplomatic relations with Indonesia and that more than 111 countries have taken part since 1976. The host university UNY lists the rules as unmarried, aged 18 to 32, with a high school diploma or equivalent, and says it returned in 2026 after pausing in 2024. One third party listing prints a monthly allowance of IDR 4,700,000 and a 15 May to 15 June 2026 window; the 2026 amounts were still to be announced on the UNY page, so confirm on darmasiswa.kemendikdasmen.go.id. It will not give you a bachelor or master; for a degree look at the KNB scholarship instead.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-7",
+   "topic": "abroad",
+   "q": "Is the Vietnam Government Scholarship open to Nepal, and the Iceland one?",
+   "a": "Vietnam: the official application portal studyinvietnam.edu.vn lists Nepal in its country menu, so a Nepali applicant can open an application for a bachelor, master or doctorate. Quotas, subjects and any nomination step follow the agreement and change every year, so no seat count is given here, and many places are for programmes taught in Vietnamese. Iceland: the Icelandic Government scholarship for the BA in Icelandic as a Second Language names the citizens it is open to (Austria, Canada, China, Germany, Norway, Poland, Slovakia, the United Kingdom, the United States through Fulbright and others) and Nepal was not among them in the 2026 call text, so it is not a route for a Nepali student.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw32-8",
+   "topic": "abroad",
+   "q": "Which scholarships fund a Nepali student for a master or PhD in Saudi Arabia or Armenia?",
+   "a": "KAUST in Saudi Arabia gives its fellowship to every admitted MS and PhD student of any nationality: tuition and bench fees, a stipend of about USD 20,000 a year for MS and USD 25,000 to 30,000 for PhD, housing and insurance (guides value it at USD 70,000 to 80,000 a year). Listings want a STEM degree, a GPA of about 3.0 of 4 and TOEFL iBT 81 or IELTS 6.5; one guide prints a 3 January 2027 deadline for Fall 2027, so read the KAUST portal. In Armenia the American University of Armenia says international students are eligible for merit scholarships of up to 50 percent of tuition through a separate International Scholarship application to its Office of Financial Aid; need based aid up to 90 percent is for Armenian citizens only.",
+   "go": [
+    "abroad-ms"
+   ]
+  }
+ ],
+ "abroad_update": {
+  "ge": {
+   "work": "Not as a student without a separate permit. Since 1 March 2026 any foreign national who is not a permanent resident needs a \"right to work\" from the Georgian authorities before any paid or self employed work, including remote work for a Georgian employer, and international students are not on the exemption list (inc.ge, jam-news.net and studyu.org, 2026). One legal commentary says a student who already holds a valid residence card does not need a separate work visa but still needs the right to work, and the employer files the application. Earlier agency claims of 20 hours a week are out of date; do not budget for income."
+  },
+  "kz": {
+   "work": "Not allowed on the student visa. Three university pages say it: the International Educational Corporation (foreign students are not allowed to work), Almaty Management University (not eligible to work) and Abai Kazakh National Pedagogical University (carrying out labor activities with a student visa is an administrative offence). Older agency pages that say 20 hours a week are not backed by a university or official page, so plan to pay for your studies without wages."
+  }
+ },
  "abroad_note_add": {
   "is": "The Icelandic Government scholarship for the BA in Icelandic as a Second Language lists the citizens it is open to (Austria, Canada, China, Germany, Norway, Poland, Slovakia, the United Kingdom, the United States through Fulbright and others) and Nepal is not among them in the 2026 call text, so it is not a route for Nepali students (the-updates.com, european-funding-guide.eu).",
-  "am": "The American University of Armenia teaches in English and lists international undergraduate tuition of AMD 3,700,000 (most programmes) to 4,250,000 (BA in Business) a year on its own tuition page, with merit scholarships of up to 50 percent (admissions.aua.am)."
+  "am": "The American University of Armenia teaches in English and lists international undergraduate tuition of AMD 3,700,000 (most programmes) to 4,250,000 (BA in Business) a year on its own tuition page, with merit scholarships of up to 50 percent (admissions.aua.am).",
+  "ge": "Government Resolution No. 437 of 8 September 2026 sets how state universities admit international students (the rector consents within the places the government approves for each programme and year), and a university must suspend a foreign student who earns no more than one third of the year's credits; if 90 days pass after the suspension the Public Service Development Agency may end the study residence permit (studyu.org, 30 September 2026)."
  },
  "abroad_text_swap": {
   "vn": [
@@ -9,6 +118,14 @@
     "note",
     "so no Nepal specific call was confirmed",
     "and the official application portal (studyinvietnam.edu.vn) lists Nepal in its country menu, but no Nepal specific call or quota was confirmed"
+   ]
+  ]
+ },
+ "faq_text_swap": {
+  "fw14-4": [
+   [
+    "Georgia: unclear, guides say 20 hours but others say jobs are informal.",
+    "Georgia: not without a separate right to work since 1 March 2026 (inc.ge, jam-news.net)."
    ]
   ]
  },
@@ -255,97 +372,6 @@
    "stay_back": "After finishing, a third country national may stay to look for a job or start a business and must apply for the residence permit for that purpose before the student permit ends, at least 30 days beforehand (European Commission). The page read gives no length in months.",
    "note": "The University of Luxembourg is the only public university. It lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 from the third to the sixth and generally EUR 200 a semester for a master (studyeagles.com citing the university), so a bachelor starts at about EUR 800 in year one; one 2024 guide prints EUR 400 to 800 a semester for non EU students, and some specialised or private programmes cost more, so read the programme page. Living is the real cost: the university is quoted at about EUR 1,500 a month, and guides print proof of funds of EUR 950 a month excluding rent or EUR 1,100 to 1,500 a month. Public transport is free. The figure here runs from EUR 950 to EUR 1,500 a month. NPR figures are rough, at EUR 1 about NPR 175.",
    "scholarships": []
-  }
- ],
- "faq_add": [
-  {
-   "id": "fw32-9",
-   "topic": "general",
-   "q": "How much does the Nepal government spend on scholarships, and who gets the money?",
-   "a": "The Ministry of Education, Science and Technology said on 9 February 2025 that it had set aside NPR 7.39 billion for scholarships in 2081/82, for about 1.5 million students from primary to higher and technical education (OnlineKhabar and Edusanjal). The biggest lines: NPR 5.11 billion for 10,594 students in medical education, NPR 603.2 million for 12,065 students on residential scholarships (NPR 50,000 a year each), NPR 210 million for 552,000 Dalit students in Class 1 to 5, NPR 600 million for economically disadvantaged students (NPR 24,000 a year in Class 11 and 12 science, NPR 18,000 in other subjects, NPR 6,000 in Class 6 to 10) and NPR 59.4 million for technical education. Karnali girls in Class 1 to 5 get NPR 1,000 a year. Ask your school or local level which list your name can be put on, because most of these do not have a national online form.",
-   "go": []
-  },
-  {
-   "id": "fw32-10",
-   "topic": "after10",
-   "q": "I am Dalit, Muslim or from a marginalised family: what does a CTEVT diploma cost me?",
-   "a": "Nothing, if you get a seat in the special scholarship. The ministry says Dalit, Muslim and marginalised students in technical education get a monthly stipend of NPR 3,500, a yearly travel allowance of NPR 1,500 and a clothing allowance (NPR 2,000 on one page, NPR 2,500 on another); the CTEVT special scholarship notice also lists free hostel accommodation. CTEVT announced 480 seats for 2083 (457 diploma and 23 pre diploma) for these groups and for 78 local levels where technical education had not reached. For the 3,417 classified (free) seats, half go to the general group and half to targeted groups. A student who got a CTEVT scholarship once cannot get another, and must serve where the government assigns after finishing if it asks.",
-   "go": [
-    "dip-engineering"
-   ]
-  },
-  {
-   "id": "fw32-1",
-   "topic": "abroad",
-   "q": "Can I study medicine in English in Bulgaria, and what does it cost?",
-   "a": "Yes, in Sofia, Plovdiv, Varna and Pleven. A 2026/27 guide (studyu.org) lists EUR 8,000 a year at Sofia University Faculty of Medicine, EUR 9,950 at the Medical University of Sofia and EUR 10,000 at Plovdiv, so six years cost about EUR 48,000 to 60,000 (roughly NPR 84 lakh to 1.05 crore at EUR 1 about NPR 175). Two older guides print EUR 7,000 to 8,000, so read each university's own page. Selection is an entrance exam in biology and chemistry (Sofia holds one remote exam for non EU applicants in September). The European Commission says a student may work 20 hours a week without a work permit. Before you pay, ask the Nepal Medical Council whether it recognises that exact university, because you must pass the NMC licensing examination after returning; NEET is an Indian test and does not apply to you.",
-   "go": [
-    "mbbs",
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-2",
-   "topic": "abroad",
-   "q": "How long can I stay in Bulgaria or Croatia after graduating to look for a job?",
-   "a": "The European Commission EU Immigration Portal says that in Bulgaria you can look for and start work within 9 months after finishing if you register with the Employment Agency within 7 business days, and then you need a work permit on the same terms as other non EU citizens. For Croatia it says you can stay for one year, renewable for one more year, to look for work or set up a business. During study both countries allow 20 hours of work a week (Croatia outside study time; Bulgaria also in holidays). Rules change, so check the Ministry of Interior before you plan.",
-   "go": [
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-3",
-   "topic": "abroad",
-   "q": "Is Luxembourg really almost free for a Nepali student?",
-   "a": "Tuition is, living is not. The University of Luxembourg is the only public university and lists enrolment fees of EUR 400 a semester for the first two bachelor semesters, EUR 200 a semester afterwards and generally EUR 200 a semester for a master (about NPR 70,000 to 1.4 lakh a year at EUR 1 about NPR 175). One 2024 guide prints EUR 400 to 800 a semester for non EU students, so read the programme page. Guides quote proof of funds of EUR 950 a month excluding rent, up to EUR 1,100 to 1,500 a month, and the university is quoted at about EUR 1,500 a month, which is NPR 20 to 31 lakh a year. The European Commission says master and PhD students may work 15 hours a week in term time (bachelor students only after two semesters) and 40 hours a week in holidays, and that graduates may stay to look for a job or start a business.",
-   "go": [
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-4",
-   "topic": "abroad",
-   "q": "Can I stay and work in Greece after studying there?",
-   "a": "Not directly. The European Commission EU Immigration Portal says that in Greece you can work part time during studies, you cannot change your status to a residence permit for another purpose, and after completing your studies you must return to your home country and submit a fresh application from there. Compare this with Bulgaria (9 months), Croatia (1 year, renewable once) and Luxembourg (stay to look for a job or start a business) before choosing.",
-   "go": [
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-5",
-   "topic": "abroad",
-   "q": "What does Slovenia cost for a student from outside the EU?",
-   "a": "For 2026/27 a bachelor year at a public university mostly costs EUR 2,100 to 5,880 and a master year EUR 2,505 to 6,800 (studyu.org), for example EUR 3,400 and EUR 4,700 at the University of Ljubljana School of Economics and Business. The University of Ljubljana recommends at least EUR 700 a month for living and the residence permit needs proof of at least EUR 507.43 for each month of study; a dormitory bed averages about EUR 197 a month in Ljubljana. Most bachelor programmes are taught in Slovenian, with English mainly at master and doctoral level. On the European Commission page, a student permit holder may work under the Acts on employment relationships and student work, and to stay after studying your employer starts the employment permit application.",
-   "go": [
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-6",
-   "topic": "abroad",
-   "q": "Is the Darmasiswa scholarship a degree, and can a Nepali student apply?",
-   "a": "Darmasiswa is a one year non degree programme of Indonesia's Ministry of Primary and Secondary Education to study Bahasa Indonesia, arts, music, dance or crafts at about 60 universities. The official site says it is for students from countries that have diplomatic relations with Indonesia and that more than 111 countries have taken part since 1976. The host university UNY lists the rules as unmarried, aged 18 to 32, with a high school diploma or equivalent, and says it returned in 2026 after pausing in 2024. One third party listing prints a monthly allowance of IDR 4,700,000 and a 15 May to 15 June 2026 window; the 2026 amounts were still to be announced on the UNY page, so confirm on darmasiswa.kemendikdasmen.go.id. It will not give you a bachelor or master; for a degree look at the KNB scholarship instead.",
-   "go": [
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-7",
-   "topic": "abroad",
-   "q": "Is the Vietnam Government Scholarship open to Nepal, and the Iceland one?",
-   "a": "Vietnam: the official application portal studyinvietnam.edu.vn lists Nepal in its country menu, so a Nepali applicant can open an application for a bachelor, master or doctorate. Quotas, subjects and any nomination step follow the agreement and change every year, so no seat count is given here, and many places are for programmes taught in Vietnamese. Iceland: the Icelandic Government scholarship for the BA in Icelandic as a Second Language names the citizens it is open to (Austria, Canada, China, Germany, Norway, Poland, Slovakia, the United Kingdom, the United States through Fulbright and others) and Nepal was not among them in the 2026 call text, so it is not a route for a Nepali student.",
-   "go": [
-    "abroad-ms"
-   ]
-  },
-  {
-   "id": "fw32-8",
-   "topic": "abroad",
-   "q": "Which scholarships fund a Nepali student for a master or PhD in Saudi Arabia or Armenia?",
-   "a": "KAUST in Saudi Arabia gives its fellowship to every admitted MS and PhD student of any nationality: tuition and bench fees, a stipend of about USD 20,000 a year for MS and USD 25,000 to 30,000 for PhD, housing and insurance (guides value it at USD 70,000 to 80,000 a year). Listings want a STEM degree, a GPA of about 3.0 of 4 and TOEFL iBT 81 or IELTS 6.5; one guide prints a 3 January 2027 deadline for Fall 2027, so read the KAUST portal. In Armenia the American University of Armenia says international students are eligible for merit scholarships of up to 50 percent of tuition through a separate International Scholarship application to its Office of Financial Aid; need based aid up to 90 percent is for Armenian citizens only.",
-   "go": [
-    "abroad-ms"
-   ]
   }
  ],
  "scholarship_note_add": {

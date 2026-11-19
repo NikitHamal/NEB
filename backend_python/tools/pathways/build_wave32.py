@@ -14,7 +14,7 @@ DATA = HERE.parent.parent / 'api' / 'data' / 'pathways'
 if (DATA / 'wave32.json').exists():
     (DATA / 'wave32.json').unlink()
 KEYS = ('providers_add', 'where_add', 'route_seats', 'note_add', 'provider_update', 'faq_add', 'abroad_add', 'abroad_update',
-        'abroad_note_add', 'abroad_text_swap', 'scholarships_add', 'scholarship_extra', 'scholarship_note_add', 'careers_new',
+        'abroad_note_add', 'abroad_text_swap', 'faq_text_swap', 'scholarships_add', 'scholarship_extra', 'scholarship_note_add', 'careers_new',
         'career_links', 'govt_add', 'govt_note_add', 'guides_add')
 out = {}
 for name in ('w32_abroad', 'w32_eu', 'w32_nepal', 'w32_exams', 'w32_careers', 'w32_faq'):

@@ -703,6 +703,11 @@ def payload():
             by_govt[gid]['note'] = ((by_govt[gid].get('note') or '').rstrip() + ' ' + text).strip()
         guides = guides + w32.get('guides_add', [])
         faq_all = faq_all + w32.get('faq_add', [])
+        faq_by = {f['id']: f for f in faq_all}
+        for fid, pairs in w32.get('faq_text_swap', {}).items():
+            for old_, new_ in pairs:
+                assert old_ in faq_by[fid]['a'], (fid, old_)
+                faq_by[fid]['a'] = faq_by[fid]['a'].replace(old_, new_)
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')
         for a_ in abroad:
