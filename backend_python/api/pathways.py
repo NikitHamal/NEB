@@ -657,6 +657,9 @@ def payload():
             cid = sc.get('country')
             if cid and sc['id'] not in abroad_by[cid].setdefault('scholarships', []):
                 abroad_by[cid]['scholarships'].append(sc['id'])
+        careers = careers + w31.get('careers_new', [])
+        for rid, more in w31.get('career_links', {}).items():
+            route_by[rid]['careers'] = list(dict.fromkeys(list(route_by[rid].get('careers') or []) + more))
         faq_all = faq_all + w31.get('faq_add', [])
     if (DATA / 'visa.json').exists():
         vj = _load('visa.json')

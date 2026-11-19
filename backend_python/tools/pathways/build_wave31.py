@@ -17,12 +17,12 @@ import w31_abroad as A  # noqa: E402
 
 base = P.payload()
 out = {'abroad_add': A.ABROAD_ADD, 'scholarships_add': A.SCHOLARSHIPS_ADD, 'scholarship_extra': A.SCHOLARSHIP_EXTRA}
-for name in ('w31_faq', 'w31_nepal'):
+for name in ('w31_faq', 'w31_nepal', 'w31_careers'):
     try:
         mod = __import__(name)
     except ImportError:
         continue
-    for key in ('providers_add', 'where_add', 'route_seats', 'note_add', 'provider_update', 'faq_add', 'abroad_update', 'scholarships_add', 'scholarship_extra'):
+    for key in ('providers_add', 'where_add', 'route_seats', 'note_add', 'provider_update', 'faq_add', 'abroad_update', 'scholarships_add', 'scholarship_extra', 'careers_new', 'career_links'):
         val = getattr(mod, key.upper(), None)
         if val:
             if isinstance(val, list):

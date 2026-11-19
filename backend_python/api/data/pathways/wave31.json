@@ -251,5 +251,422 @@
    ]
   }
  ],
- "scholarship_extra": {}
+ "scholarship_extra": {},
+ "faq_add": [
+  {
+   "id": "fw31-1",
+   "topic": "abroad",
+   "q": "Can a Nepali student get a monthly allowance to study in Slovakia?",
+   "a": "Yes, for a short stay, not a full degree. The National Scholarship Programme of the Slovak Republic (run by SAIA, scholarships.sk) pays EUR 620 a month to a second level (master) student and EUR 1,025.50 to a doctoral student, plus a travel grant, for 1 to 2 semesters (doctoral 1 to 10 months). You must already be enrolled at a university outside Slovakia, and hold an acceptance letter from a Slovak university before you apply. Deadlines are 30 April (next academic year) and 31 October (summer semester), both at 16:00 CET. Another guide prints EUR 600 to 700 for students, so read the current call. For a full degree, programmes taught in Slovak are free at public universities and English ones cost EUR 1,500 to 6,000 a year.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw31-2",
+   "topic": "abroad",
+   "q": "How much can I work as a student in Slovakia, and can I stay after graduating?",
+   "a": "The official Study in Slovakia page (SAIA) says a third country national with a study residence permit may work 80 hours a month as a university student; a Liberty School guide words it as 20 hours a week or 100 days a year. After a bachelor, master or doctoral degree you can extend your residence for 9 months to look for a job, and as a graduate you have free access to the labour market with a valid temporary residence. If you leave or are expelled before finishing, the purpose of your permit ends and the Foreign Police can cancel it.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw31-3",
+   "topic": "abroad",
+   "q": "Is the Indonesian KNB scholarship open to Nepali students?",
+   "a": "Yes: Nepal is on the list of developing countries named for the Kemitraan Negara Berkembang (KNB) scholarship of the Indonesian government. The 2026/27 call ran from 2 February to 31 March 2026, with results on 19 June 2026 and arrival in late August, and listed 30 bachelor, 162 master and 30 doctoral places in 47 universities. It covers tuition, a monthly living allowance, an arrival allowance, health insurance and airfare, and most winners first study Bahasa Indonesia for a year. Expect the next call in February and March 2027 and confirm it on knb.kemdiktisaintek.go.id; an embassy recommendation is part of the application. A student visa holder in Indonesia may not work.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw31-4",
+   "topic": "abroad",
+   "q": "What does the Saudi Government scholarship pay, and who can apply?",
+   "a": "On the Study in Saudi portal (Ministry of Education) fully funded places at universities such as King Saud, King Abdulaziz, KFUPM, Islamic University of Madinah and KAUST waive tuition, pay a monthly stipend (listings quote SAR 900 to 1,200 for a bachelor, SAR 1,500 for a master, SAR 1,500 to 3,000 for a doctorate), and give housing, health insurance and a yearly flight. Partial and paid places carry no stipend. Age limits quoted are 17 to 25 for a bachelor, up to 30 for a master and up to 35 for a doctorate, with a high school grade of 90 percent or a postgraduate GPA of 3.5. Listings quote closing dates of 21 May 2026 and 6 October 2026, so read the portal. The Islamic University of Madinah takes Muslim students only. Student work is restricted and tied to your sponsor, so do not plan on wages.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw31-5",
+   "topic": "abroad",
+   "q": "Is Iceland still free for students from Nepal?",
+   "a": "Until now public universities in Iceland charge no tuition, only a yearly registration fee (ISK 100,000 at the University of Iceland in 2026/27, ISK 75,000 at some others) plus a one time ISK 20,000 handling fee for non EEA applicants. That is about to change: Icelandic law now lets public universities charge tuition to new students from outside the EEA, EFTA and Switzerland from autumn 2027, the amounts were not set by October 2026, and the Iceland University of the Arts has confirmed tuition from autumn 2026. Most English programmes are at master level. The residence permit asks for proof of about ISK 180,840 a month, and a student permit allows 15 hours of work a week in two guides and 22.5 hours in a third, so confirm with the Directorate of Immigration.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw31-6",
+   "topic": "abroad",
+   "q": "Is an MD from Armenia or Georgia accepted in Nepal?",
+   "a": "Only if the Nepal Medical Council recognises that exact university, and even then you must pass the NMC licensing examination (NMCLE) after returning. Yerevan State Medical University publishes AMD 2,600,000 a year for foreign students in 2026/27 (about USD 6,800), and guides quote USD 3,000 to 7,500 a year across Armenian medical universities and USD 40,000 to 60,000 for six years in all. The NEET rule in many guides is an Indian rule and does not apply to Nepali applicants. Ask the university for the NMC recognition in writing before paying any deposit, and do not rely on an agent's word.",
+   "go": [
+    "mbbs",
+    "abroad-ms"
+   ]
+  }
+ ],
+ "careers_new": [
+  {
+   "id": "chef",
+   "name": "Chef",
+   "about": "Plans, cooks and runs kitchens in hotels, restaurants, resorts, airlines and ships, moving from commis to sous chef to executive chef. Many Nepali chefs also work in the Gulf, Europe and cruise lines.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "steady",
+   "abroad": 5,
+   "salary": {
+    "entry": [
+     18000,
+     30000
+    ],
+    "senior": [
+     70000,
+     150000
+    ]
+   },
+   "skills": [
+    "Food safety",
+    "Menu costing",
+    "Continental and Nepali cuisine",
+    "Team leadership"
+   ],
+   "ladder": [
+    "Commis",
+    "Chef de partie",
+    "Sous chef",
+    "Executive chef"
+   ],
+   "employers": [
+    "Star hotels and resorts",
+    "Restaurant chains",
+    "Airline catering",
+    "Overseas hotels and cruise lines"
+   ],
+   "hours": 48
+  },
+  {
+   "id": "qa-engineer",
+   "name": "QA engineer (software tester)",
+   "about": "Tests apps and websites before release, writes test cases and automation scripts, and reports bugs to developers.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "rising",
+   "abroad": 4,
+   "salary": {
+    "entry": [
+     25000,
+     50000
+    ],
+    "senior": [
+     120000,
+     221000
+    ]
+   },
+   "skills": [
+    "Test cases",
+    "Selenium and Postman",
+    "SQL",
+    "CI/CD basics"
+   ],
+   "ladder": [
+    "Junior QA",
+    "QA engineer",
+    "Senior or automation QA",
+    "QA lead"
+   ],
+   "employers": [
+    "Software companies",
+    "Fintech such as eSewa, Khalti and F1Soft",
+    "Banks",
+    "Overseas clients"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "hr-manager",
+   "name": "HR officer and manager",
+   "about": "Hires, trains and looks after staff, runs payroll and labour law paperwork, and builds the culture of a company, bank, hotel or INGO.",
+   "demand": 3,
+   "competition": 4,
+   "trend": "steady",
+   "abroad": 3,
+   "salary": {
+    "entry": [
+     18000,
+     30000
+    ],
+    "senior": [
+     60000,
+     120000
+    ]
+   },
+   "skills": [
+    "Recruitment",
+    "Labour law",
+    "Payroll and HRMS tools",
+    "Communication"
+   ],
+   "ladder": [
+    "HR assistant",
+    "HR officer",
+    "HR manager",
+    "HR director"
+   ],
+   "employers": [
+    "Banks and finance",
+    "Hotels",
+    "INGOs",
+    "Large private companies"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "hydropower-engineer",
+   "name": "Hydropower engineer",
+   "about": "Designs, builds and runs hydropower plants and transmission lines, working on site in the hills with civil, electrical and mechanical teams.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "steady",
+   "abroad": 3,
+   "salary": {
+    "entry": [
+     25000,
+     45000
+    ],
+    "senior": [
+     60000,
+     120000
+    ]
+   },
+   "skills": [
+    "Hydrology",
+    "Structural design",
+    "Turbines and generators",
+    "Project management"
+   ],
+   "ladder": [
+    "Site engineer",
+    "Design or plant engineer",
+    "Senior engineer",
+    "Project manager"
+   ],
+   "employers": [
+    "Nepal Electricity Authority",
+    "Private hydropower companies",
+    "Consulting firms",
+    "Contractors"
+   ],
+   "hours": 48
+  },
+  {
+   "id": "cabin-crew",
+   "name": "Cabin crew",
+   "about": "Looks after passenger safety and service on board, trains on emergency procedures for each aircraft type and works rotating shifts on domestic and international routes.",
+   "demand": 3,
+   "competition": 4,
+   "trend": "steady",
+   "abroad": 5,
+   "salary": {
+    "entry": [
+     35000,
+     60000
+    ],
+    "senior": [
+     95000,
+     130000
+    ]
+   },
+   "skills": [
+    "Safety and first aid",
+    "Customer service",
+    "English and another language",
+    "Grooming and fitness"
+   ],
+   "ladder": [
+    "Trainee crew",
+    "Cabin crew",
+    "Senior crew",
+    "Purser"
+   ],
+   "employers": [
+    "Buddha Air",
+    "Yeti Airlines",
+    "Nepal Airlines",
+    "Gulf and Asian airlines"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "network-engineer",
+   "name": "Network engineer",
+   "about": "Plans and runs the wired, wireless and cloud networks of banks, telecoms, ISPs and companies, and keeps them fast and secure.",
+   "demand": 4,
+   "competition": 3,
+   "trend": "steady",
+   "abroad": 4,
+   "salary": {
+    "entry": [
+     25000,
+     50000
+    ],
+    "senior": [
+     75000,
+     140000
+    ]
+   },
+   "skills": [
+    "Cisco and routing",
+    "Linux and servers",
+    "Network security",
+    "Cloud networking"
+   ],
+   "ladder": [
+    "Network support",
+    "Network engineer",
+    "Senior engineer",
+    "Network architect"
+   ],
+   "employers": [
+    "Banks",
+    "Telecoms such as Ncell and Nepal Telecom",
+    "ISPs",
+    "Data centres"
+   ],
+   "hours": 40
+  },
+  {
+   "id": "ngo-program-officer",
+   "name": "NGO and INGO programme officer",
+   "about": "Designs, runs and reports on development projects in health, education, livelihoods or governance for NGOs, UN agencies and donors.",
+   "demand": 3,
+   "competition": 5,
+   "trend": "steady",
+   "abroad": 4,
+   "salary": {
+    "entry": [
+     30000,
+     60000
+    ],
+    "senior": [
+     150000,
+     300000
+    ]
+   },
+   "skills": [
+    "Project cycle management",
+    "Report and proposal writing",
+    "Monitoring and evaluation",
+    "English"
+   ],
+   "ladder": [
+    "Program assistant",
+    "Program officer",
+    "Program manager",
+    "Country or technical lead"
+   ],
+   "employers": [
+    "INGOs",
+    "UN agencies",
+    "National NGOs",
+    "Donor funded projects"
+   ],
+   "hours": 40
+  }
+ ],
+ "career_links": {
+  "bhm": [
+   "chef"
+  ],
+  "dip-hospitality": [
+   "chef"
+  ],
+  "bsc-csit": [
+   "qa-engineer",
+   "network-engineer"
+  ],
+  "bca": [
+   "qa-engineer"
+  ],
+  "bit": [
+   "qa-engineer",
+   "network-engineer"
+  ],
+  "mca": [
+   "qa-engineer"
+  ],
+  "be-computer": [
+   "qa-engineer",
+   "network-engineer"
+  ],
+  "bbs": [
+   "hr-manager"
+  ],
+  "bba": [
+   "hr-manager"
+  ],
+  "bbm": [
+   "hr-manager"
+  ],
+  "mba": [
+   "hr-manager"
+  ],
+  "mbs": [
+   "hr-manager"
+  ],
+  "bim": [
+   "hr-manager"
+  ],
+  "be-civil": [
+   "hydropower-engineer"
+  ],
+  "be-electrical": [
+   "hydropower-engineer"
+  ],
+  "be-mechanical": [
+   "hydropower-engineer"
+  ],
+  "be-chemical-hydro": [
+   "hydropower-engineer"
+  ],
+  "aviation-cabin-crew": [
+   "cabin-crew"
+  ],
+  "dip-computer-eng": [
+   "network-engineer"
+  ],
+  "dip-it-computer": [
+   "network-engineer"
+  ],
+  "be-electronics": [
+   "network-engineer"
+  ],
+  "bicte": [
+   "network-engineer"
+  ],
+  "bsw": [
+   "ngo-program-officer"
+  ],
+  "msw": [
+   "ngo-program-officer"
+  ],
+  "ba": [
+   "ngo-program-officer"
+  ],
+  "mpa": [
+   "ngo-program-officer"
+  ],
+  "mph": [
+   "ngo-program-officer"
+  ],
+  "ingo-fellowship-route": [
+   "ngo-program-officer"
+  ],
+  "bph": [
+   "ngo-program-officer"
+  ]
+ }
 }
