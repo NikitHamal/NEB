@@ -1069,7 +1069,7 @@ class Wave22Tests(TestCase):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
-            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt'):
+            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt', 's-moest-poor', 's-moest-tech', 's-moest-higher'):
                 continue  # waves 30 and 32 open calls: the notices print no seat count
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
@@ -1416,3 +1416,16 @@ class Wave32Tests(TestCase):
         faq = {f['id'] for f in d['faq']}
         for i in range(1, 9):
             self.assertIn(f'fw32-{i}', faq)
+
+    def test_wave32_nepal_scholarships(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        sch = {s['id']: s for s in d['scholarships']}
+        for sid in ('s-moest-poor', 's-moest-tech', 's-moest-higher'):
+            self.assertEqual(sch[sid]['scope'], 'nepal')
+            self.assertNotIn('awards', sch[sid])
+        self.assertIn('3,500', sch['s-moest-tech']['covers'])
+        self.assertIn('10,594', sch['s-quota']['covers'])
+        faq = {f['id'] for f in d['faq']}
+        self.assertIn('fw32-9', faq)
+        self.assertIn('fw32-10', faq)
