@@ -17,6 +17,7 @@ if (DATA / 'wave29.json').exists():
 from api import pathways as P  # noqa: E402
 import w29_lbu as L  # noqa: E402
 import w29_nsu as N  # noqa: E402
+import w29_mec as M  # noqa: E402
 
 base = P.payload()
 by_id = {p['id']: p for p in base['providers']}
@@ -55,7 +56,29 @@ note_add['p-nou'] = L.NOU_NOTE
 note_add['p-nsu'] = N.NSU_NOTE
 link('p-nou', L.NOU_ROUTES)
 
-out = {'providers_add': providers_add, 'where_add': where_add, 'note_add': note_add}
+# MEC tuition ceilings for private colleges that have a seat count but no fee yet; valley MBBS rows corrected to the current notice
+provider_update, mec_added, mec_fixed = {}, 0, 0
+for p in base['providers']:
+    if p['sector'] != 'Private':
+        continue
+    fees = dict(p.get('fees') or {})
+    seats = p.get('route_seats') or {}
+    changed = False
+    for r in seats:
+        if r in M.CEILING and r not in fees:
+            fees[r] = [M.CEILING[r], M.CEILING[r]]
+            mec_added += 1
+            changed = True
+    if 'mbbs' in fees and fees['mbbs'] == [M.OLD_VALLEY, M.OLD_VALLEY] and p['district'] in M.VALLEY:
+        fees['mbbs'] = [M.MBBS_VALLEY, M.MBBS_VALLEY]
+        mec_fixed += 1
+        changed = True
+    if changed:
+        provider_update[p['id']] = {'fees': fees}
+        note_add[p['id']] = (note_add.get(p['id'], '') + ' ' + M.NOTE).strip()
+print('MEC fees added', mec_added, 'valley MBBS fixed', mec_fixed, 'providers', len(provider_update))
+
+out = {'provider_update': provider_update, 'providers_add': providers_add, 'where_add': where_add, 'note_add': note_add}
 for mod, attr, key in (('w29_abroad', 'ABROAD_UPDATE', 'abroad_update'), ('w29_faq', 'FAQ_ADD', 'faq_add')):
     try:
         m = importlib.import_module(mod)
