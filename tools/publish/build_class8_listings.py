@@ -39,7 +39,16 @@ NEP = {"id": "8-nep-ble-2082-pokhara", "file": "NEBians-BLE-Past-Paper-Grade-8-N
        "topics": "synonyms and antonyms, proverbs, spelling, sentence correction, parts of speech, verb forms and tenses, voice and sentence change, "
                  "prefixes, suffixes, compound words, case, two unseen passages (Badimalika and organic manure), summary writing, story and dialogue writing, "
                  "letter writing, expansion of ideas, comprehension of a story extract, poem and story appreciation, and an essay"}
-PAPERS.extend([SOC, NEP])
+SCI = {"id": "8-sci-ble-2082-kathmandu", "file": "NEBians-BLE-Past-Paper-Grade-8-Science-2082-Kathmandu.pdf",
+       "subject": "Science and Technology", "year_bs": "2082", "year_ad": "2026", "muni": "Kathmandu Metropolitan City",
+       "district": "Kathmandu", "pradesh": "Bagmati", "marks": "50", "time": "2 hours",
+       "topics": "sustainable development (Brundtland Commission), seed storage and vegetative propagation (stem cutting and tissue culture), "
+                 "displacement and relative velocity, simple machines (lever and velocity ratio), force and pressure of a rectangular block, "
+                 "domestic electric circuits and monthly electricity bill calculation, wave frequency, atomic structure, periodic table and "
+                 "valency of oxygen, acids, bases, pH and antacids, metallic minerals, hard and soft water, plant and animal cell Venn diagram, "
+                 "five-kingdom classification, biodiversity, geological eras (Palaeozoic and Mesozoic), virtual reality vs artificial intelligence, "
+                 "internet security, and ray diagram of a concave mirror"}
+PAPERS.extend([SOC, NEP, SCI])
 COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026"
 
 

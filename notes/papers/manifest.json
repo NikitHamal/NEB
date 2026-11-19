@@ -1295,5 +1295,22 @@
   "pages": 9,
   "bytes": 96643,
   "id": "8-nep-ble-2082-pokhara"
+ },
+ {
+  "file": "NEBians-BLE-Past-Paper-Grade-8-Science-2082-Kathmandu.pdf",
+  "subject": "Science and Technology",
+  "grade": "8",
+  "year_bs": "2082",
+  "year_ad": "2026",
+  "stream": "Basic Level Examination, Kathmandu Metropolitan City",
+  "code": "",
+  "kind": "BLE Past Paper",
+  "time": "2 hrs",
+  "marks": "50",
+  "students": "Class 8 Basic Level Examination (BLE) Science and Technology paper set by Kathmandu Metropolitan City for 2082 BS (2026 AD). Questions are re-typeset in English from the bilingual published paper; all figures, worked solutions and diagrams are NEBians.",
+  "category": "Basic Level Exam",
+  "pages": 9,
+  "bytes": 298571,
+  "id": "8-sci-ble-2082-kathmandu"
  }
 ]

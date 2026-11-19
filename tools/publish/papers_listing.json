@@ -1421,5 +1421,25 @@
   "tags": "NEB, BLE, Class 8, Nepali, BLE Nepali 2082, Pokhara Metropolitan City, Kaski past paper, BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026",
   "pdf": "notes/papers/pdf/NEBians-BLE-Past-Paper-Grade-8-Nepali-2082-Pokhara.pdf",
   "cover": "tools/publish/paper_covers/8-nep-ble-2082-pokhara.jpg"
+ },
+ {
+  "slug": "8-sci-ble-2082-kathmandu",
+  "title": "NEB Class 8 Science and Technology BLE Past Paper 2082 (2026) Kathmandu Metropolitan City with Solutions",
+  "description": "The Class 8 Basic Level Examination (BLE) Science and Technology paper of Kathmandu Metropolitan City for 2082 BS (2026 AD), 50 marks and 2 hours, re-typeset in English with a full worked solution for every question and sub-part, marks shown beside each step and diagrams where the question needs one. It covers sustainable development (Brundtland Commission), seed storage and vegetative propagation (stem cutting and tissue culture), displacement and relative velocity, simple machines (lever and velocity ratio), force and pressure of a rectangular block, domestic electric circuits and monthly electricity bill calculation, wave frequency, atomic structure, periodic table and valency of oxygen, acids, bases, pH and antacids, metallic minerals, hard and soft water, plant and animal cell Venn diagram, five-kingdom classification, biodiversity, geological eras (Palaeozoic and Mesozoic), virtual reality vs artificial intelligence, internet security, and ray diagram of a concave mirror. Use it as a timed mock for your BLE and then check each answer against the solutions. Free to read in the browser.",
+  "subject": "Science and Technology",
+  "grade_level": "Class 8",
+  "year": "2082",
+  "exam_type": "Final",
+  "type": "Past Paper",
+  "faculty": "",
+  "program": "",
+  "pradesh": "Bagmati",
+  "district": "Kathmandu",
+  "school": "",
+  "author_name": "NEBians",
+  "source_label": "BLE paper of Kathmandu Metropolitan City, re-typeset with NEBians solutions",
+  "tags": "NEB, BLE, Class 8, Science and Technology, BLE Science and Technology 2082, Kathmandu Metropolitan City, Kathmandu past paper, BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026",
+  "pdf": "notes/papers/pdf/NEBians-BLE-Past-Paper-Grade-8-Science-2082-Kathmandu.pdf",
+  "cover": "tools/publish/paper_covers/8-sci-ble-2082-kathmandu.jpg"
  }
 ]
