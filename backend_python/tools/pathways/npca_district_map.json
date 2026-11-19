@@ -1,0 +1,722 @@
+{
+"19": {
+"district": "Bardiya",
+"palika": [
+"Gulariya"
+],
+"from": [
+"addr"
+]
+},
+"30": {
+"district": "Kapilvastu",
+"palika": [
+"Buddhabhumi",
+"Kapilvastu"
+],
+"from": [
+"name"
+]
+},
+"46": {
+"district": "Arghakhanchi",
+"palika": [
+"Panini",
+"Sandhikharka"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"51": {
+"district": "Kailali",
+"palika": [
+"Bhajani"
+],
+"from": [
+"addr"
+]
+},
+"55": {
+"district": "Saptari",
+"palika": [
+"Saptakoshi"
+],
+"from": [
+"name"
+]
+},
+"58": {
+"district": "Jhapa",
+"palika": [
+"Gauradaha"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"63": {
+"district": "Rukum West",
+"palika": [
+"Sani Bheri"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"72": {
+"district": "Dang",
+"palika": [
+"Lamahi"
+],
+"from": [
+"addr"
+]
+},
+"86": {
+"district": "Kapilvastu",
+"palika": [
+"Kapilvastu"
+],
+"from": [
+"name"
+]
+},
+"98": {
+"district": "Rolpa",
+"palika": [
+"Rolpa"
+],
+"from": [
+"name"
+]
+},
+"99": {
+"district": "Gorkha",
+"palika": [
+"Aarughat"
+],
+"from": [
+"addr"
+]
+},
+"100": {
+"district": "Baitadi",
+"palika": [
+"Purchaudi"
+],
+"from": [
+"name"
+]
+},
+"106": {
+"district": "Kavrepalanchok",
+"palika": [
+"Dhulikhel"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"122": {
+"district": "Kathmandu",
+"palika": [
+"Budhanilkantha"
+],
+"from": [
+"name"
+]
+},
+"130": {
+"district": "Siraha",
+"palika": [
+"Lahan"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"138": {
+"district": "Bardiya",
+"palika": [
+"Rajapur"
+],
+"from": [
+"addr"
+]
+},
+"140": {
+"district": "Rupandehi",
+"palika": [
+"Devdaha"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"141": {
+"district": "Kaski",
+"palika": [
+"Pokhara"
+],
+"from": [
+"name"
+]
+},
+"171": {
+"district": "Rukum West",
+"palika": [
+"Banphikot"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"173": {
+"district": "Saptari",
+"palika": [
+"Bodebarsain"
+],
+"from": [
+"addr"
+]
+},
+"177": {
+"district": "Rupandehi",
+"palika": [
+"Tilottama"
+],
+"from": [
+"addr"
+]
+},
+"184": {
+"district": "Saptari",
+"palika": [
+"Surunga"
+],
+"from": [
+"addr"
+]
+},
+"185": {
+"district": "Gulmi",
+"palika": [
+"Resunga"
+],
+"from": [
+"name"
+]
+},
+"191": {
+"district": "Achham",
+"palika": [
+"Mellekh"
+],
+"from": [
+"name"
+]
+},
+"203": {
+"district": "Palpa",
+"palika": [
+"Tansen"
+],
+"from": [
+"name"
+]
+},
+"211": {
+"district": "Makwanpur",
+"palika": [
+"Manahari"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"243": {
+"district": "Rukum West",
+"palika": [
+"Chaurjahari"
+],
+"from": [
+"addr"
+]
+},
+"251": {
+"district": "Dang",
+"palika": [
+"Shantinagar"
+],
+"from": [
+"addr"
+]
+},
+"288": {
+"district": "Solukhumbu",
+"palika": [
+"Sotang"
+],
+"from": [
+"name"
+]
+},
+"290": {
+"district": "Nawalparasi East",
+"palika": [
+"Kawasoti"
+],
+"from": [
+"addr"
+]
+},
+"295": {
+"district": "Nawalparasi East",
+"palika": [
+"Gaindakot"
+],
+"from": [
+"addr"
+]
+},
+"300": {
+"district": "Morang",
+"palika": [
+"Rangeli"
+],
+"from": [
+"addr"
+]
+},
+"307": {
+"district": "Chitwan",
+"palika": [
+"Bharatpur"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"308": {
+"district": "Parbat",
+"palika": [
+"Bihadi"
+],
+"from": [
+"addr"
+]
+},
+"330": {
+"district": "Kathmandu",
+"palika": [
+"Kirtipur"
+],
+"from": [
+"addr"
+]
+},
+"339": {
+"district": "Nuwakot",
+"palika": [
+"Suryagadhi"
+],
+"from": [
+"name"
+]
+},
+"343": {
+"district": "Kaski",
+"palika": [
+"Pokhara"
+],
+"from": [
+"addr"
+]
+},
+"358": {
+"district": "Dang",
+"palika": [
+"Gadhawa"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"359": {
+"district": "Sankhuwasabha",
+"palika": [
+"Dharmadevi"
+],
+"from": [
+"addr"
+]
+},
+"365": {
+"district": "Ramechhap",
+"palika": [
+"Manthali"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"369": {
+"district": "Kaski",
+"palika": [
+"Pokhara"
+],
+"from": [
+"name"
+]
+},
+"370": {
+"district": "Siraha",
+"palika": [
+"Golbazar"
+],
+"from": [
+"addr"
+]
+},
+"371": {
+"district": "Nuwakot",
+"palika": [
+"Tadi"
+],
+"from": [
+"name"
+]
+},
+"374": {
+"district": "Achham",
+"palika": [
+"Kamalbazar"
+],
+"from": [
+"addr"
+]
+},
+"379": {
+"district": "Kavrepalanchok",
+"palika": [
+"Panauti"
+],
+"from": [
+"addr"
+]
+},
+"406": {
+"district": "Morang",
+"palika": [
+"Biratnagar"
+],
+"from": [
+"name"
+]
+},
+"410": {
+"district": "Mahottari",
+"palika": [
+"Bardibas"
+],
+"from": [
+"name"
+]
+},
+"414": {
+"district": "Sindhuli",
+"palika": [
+"Dudhauli"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"421": {
+"district": "Pyuthan",
+"palika": [
+"Pyuthan"
+],
+"from": [
+"name"
+]
+},
+"457": {
+"district": "Parbat",
+"palika": [
+"Kushma"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"458": {
+"district": "Syangja",
+"palika": [
+"Galyang"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"459": {
+"district": "Dolakha",
+"palika": [
+"Tamakoshi"
+],
+"from": [
+"name"
+]
+},
+"460": {
+"district": "Mahottari",
+"palika": [
+"Ramgopalpur"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"465": {
+"district": "Syangja",
+"palika": [
+"Phedikhola"
+],
+"from": [
+"addr"
+]
+},
+"473": {
+"district": "Palpa",
+"palika": [
+"Rambha"
+],
+"from": [
+"name"
+]
+},
+"475": {
+"district": "Sindhupalchok",
+"palika": [
+"Indrawati"
+],
+"from": [
+"name"
+]
+},
+"478": {
+"district": "Baglung",
+"palika": [
+"Galkot"
+],
+"from": [
+"name"
+]
+},
+"487": {
+"district": "Surkhet",
+"palika": [
+"Birendranagar"
+],
+"from": [
+"addr"
+]
+},
+"489": {
+"district": "Kaski",
+"palika": [
+"Pokhara"
+],
+"from": [
+"name"
+]
+},
+"491": {
+"district": "Gulmi",
+"palika": [
+"Madane"
+],
+"from": [
+"name"
+]
+},
+"503": {
+"district": "Kathmandu",
+"palika": [
+"Kathmandu"
+],
+"from": [
+"name"
+]
+},
+"504": {
+"district": "Parbat",
+"palika": [
+"Paiyun"
+],
+"from": [
+"addr"
+]
+},
+"510": {
+"district": "Morang",
+"palika": [
+"Belbari"
+],
+"from": [
+"name"
+]
+},
+"516": {
+"district": "Baglung",
+"palika": [
+"Bareng"
+],
+"from": [
+"addr"
+]
+},
+"519": {
+"district": "Kapilvastu",
+"palika": [
+"Banganga"
+],
+"from": [
+"name"
+]
+},
+"522": {
+"district": "Banke",
+"palika": [
+"Khajura"
+],
+"from": [
+"addr"
+]
+},
+"538": {
+"district": "Nawalparasi West",
+"palika": [
+"Bardaghat"
+],
+"from": [
+"name"
+]
+},
+"541": {
+"district": "Panchthar",
+"palika": [
+"Yangwarak"
+],
+"from": [
+"addr"
+]
+},
+"542": {
+"district": "Pyuthan",
+"palika": [
+"Sworgadwari"
+],
+"from": [
+"name"
+]
+},
+"547": {
+"district": "Sindhupalchok",
+"palika": [
+"Melamchi"
+],
+"from": [
+"name"
+]
+},
+"550": {
+"district": "Gulmi",
+"palika": [
+"Dhurkot"
+],
+"from": [
+"name"
+]
+},
+"560": {
+"district": "Bajhang",
+"palika": [
+"Thalara"
+],
+"from": [
+"name"
+]
+},
+"569": {
+"district": "Pyuthan",
+"palika": [
+"Gaumukhi"
+],
+"from": [
+"name"
+]
+},
+"580": {
+"district": "Rukum East",
+"palika": [
+"Sisne"
+],
+"from": [
+"name"
+]
+},
+"585": {
+"district": "Nawalparasi East",
+"palika": [
+"Madhyabindu"
+],
+"from": [
+"addr",
+"name"
+]
+},
+"591": {
+"district": "Kanchanpur",
+"palika": [
+"Beldandi"
+],
+"from": [
+"addr"
+]
+},
+"602": {
+"district": "Kaski",
+"palika": [
+"Pokhara"
+],
+"from": [
+"name"
+]
+},
+"624": {
+"district": "Rolpa",
+"palika": [
+"Rolpa"
+],
+"from": [
+"name"
+]
+}
+}
