@@ -160,5 +160,29 @@
  "note_add": {
   "p-lbu": "LBU course lists (checked 19 Nov 2026, lbu.edu.np) show 30 programmes. Central Campus Lumbini: Ph.D. in Buddhist Studies, Master's Degree by Dissertation (MDD), MA in Buddhism and Nepal Studies, MA in Bhot Buddhist Studies, MA in Archaeology and Buddhist Archaeological Sites, Master in Buddhist Studies, Bachelor of Buddhism and Social Work, BA (Rural Development), Bachelor in Bhot Buddhist Studies, BTCSOL, Certificate in Buddhist Meditation (30 credits, with Thrangu Sekhar Institute of Meditation) and a postgraduate diploma in Buddhism-informed psychosocial counselling. The university names 11 other campuses (3 collaborating institutions and 8 affiliated in Bagmati province). Sulakshyan Kriti Campus (Master in Buddhism and Sustainable Development, 60 credits) and the Lumbini International Academy of Science and Technology (M.Sc. in Construction Engineering and Management and in Disaster Risk Engineering and Management) are listed but their LBU pages give no address, so they have no row here.",
   "p-nou": "Nepal Open University faculty pages (checked 19 Nov 2026, nou.edu.np). Management and Law: MBA, MSDMG (Master in Development Management and Governance), BBS, LL.B. and a PhD in Management. Social Sciences and Education: BA, B.Ed. (one year), MES, MMCS, a diploma (DLIM) and MPhil streams in English, Mathematics, Nepali and Health education, Education Studies, Economics, English, Sociology, Anthropology and Political Science. Science, Health and Technology: M.Phil. in ICT and Master in e-Governance on the programme table, with syllabus files for BIT, MIT, M.Sc. Environmental and Occupational Health, M.Sc. Natural Resource Development and Geoinformatics. Fees for the social sciences and education programmes are printed per credit: M.Phil. Rs 3,360, MES Rs 1,200, MMCS Rs 1,000, BA Rs 600, B.Ed. Rs 1,000 and DLIM Rs 680, plus a one-time admission fee (Rs 2,000, DLIM Rs 1,000), Rs 1,500 library a year and Rs 1,000 to 3,000 a semester exam fee. The entrance form fee is Rs 1,200 for MBA, Rs 1,000 for MSDMG and LL.B. and Rs 300 for BBS. The pages give no seat counts or total cost."
+ },
+ "abroad_update": {
+  "se": {
+   "work_hours": 15,
+   "work": "Since 11 June 2026 a higher education student on a new or extended permit may work at most 15 hours a week during term, with no cap in June, July and August (Migrationsverket rule as reported by KPMG and The Scholars Dream). Permits granted before that date keep the old rules until the next extension. Exceeding the cap can lead to the permit being revoked or not extended, and an extension also asks for at least 37.5 credits in the first year and 45 a year after.",
+   "stay_back": "Up to 12 months on a residence permit to look for work or start a business after a completed bachelor or master programme (12 to 18 months after doctoral studies); it cannot be extended. You need at least two semesters of study in Sweden and SEK 10,656 a month in funds for the whole period for 2026 applications (Migrationsverket rule as quoted by EnglishJobsSweden, September 2026)."
+  },
+  "uz": {
+   "work": "The student visa carries no work right: three 2026 guides (StandYou, GoHijrat, Visit World) say any paid work needs a work permit, and some universities allow on campus jobs or internships. Do not budget for wages; confirm with your university and the migration office.",
+   "stay_back": "No automatic post-study job search permit found (StandYou, 2026). To stay after graduating an employer has to sponsor a work permit and you change from the student visa; the guides do not name an official page, so confirm with the migration service."
+  },
+  "ge": {
+   "stay_back": "Sources disagree. StandYou and Leverage Edu say Georgia has no formal post-study work visa and a work residence permit needs an employer offer; LeapScholar describes a 1 year temporary residence permit to seek employment. No official page was read, so ask the Public Service Hall before you count on a job search period."
+  },
+  "kg": {
+   "work": "Student visa holders may not work, full time or part time, according to KSMA as quoted by studycountry.com (October 2026); StandYou also says a separate work permit is needed and part time jobs are mostly informal. Older agency pages claiming part time work is allowed are not backed by an official page. Plan to pay for your studies without wages.",
+   "stay_back": "No post-study work visa: official sources checked by studycountry.com (October 2026) name none. A graduate who wants to work needs an employer to arrange a work visa and work permit, issued together as a Unified Permit on the e-visa portal."
+  },
+  "kz": {
+   "stay_back": "No formal post-study work visa found (StandYou, 2026). To stay and work after graduating you need a job offer and an employer sponsored work permit, applied for through the Citizen Service Centre (egov.kz describes the work permit steps). Confirm the current rule with the Migration Service."
+  },
+  "ph": {
+   "stay_back": "No post-study work visa or job seeking stay: the 9(f) student visa is tied to enrolment and the Bureau of Immigration visa list has none (studiesmultiverse.com, checked 4 Oct 2026; studycountry.com, 18 Oct 2026). To remain and work an employer must sponsor an Alien Employment Permit and the matching work visa (for example the 9(g) pre-arranged employment visa)."
+  }
  }
 }
