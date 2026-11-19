@@ -1698,3 +1698,29 @@ class Wave39Tests(TestCase):
         self.assertIn('Ausbildung', {a['id']: a for a in d['abroad']}['de']['note'])
         self.assertIn('https://dpsp.edu.np', {x.get('website') for x in d['providers']})
         self.assertIn('13 November 2026', govt['g-army-cadet']['note'])
+
+
+class Wave40Tests(TestCase):
+    def test_wave40_koshi_israel_licences_and_driving(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        govt = {g['id']: g for g in d['govt']}
+        self.assertEqual(govt['g-koshi-psc-l7']['track'], 'psc')
+        self.assertEqual(govt['g-koshi-psc-l7']['seats'], 69)
+        self.assertIn('49 technical', govt['g-koshi-psc-l7']['note'])
+        self.assertEqual(govt['l-israel-caregiver']['seats'], 1464)
+        self.assertIn('6,443.85', govt['l-israel-caregiver']['note'])
+        for gid in ('e-plab', 'e-usmle', 'e-nclex'):
+            self.assertEqual(govt[gid]['track'], 'lic', gid)
+            self.assertTrue(govt[gid]['stages'], gid)
+        self.assertIn('1,036', govt['e-plab']['stages'][1][1])
+        self.assertIn('905', govt['e-usmle']['stages'][1][1])
+        guides = {g['id']: g for g in d['guides']}
+        self.assertEqual(guides['driving-licence-nepal']['link'], 'route:skill-training')
+        routes = {r['id']: r for r in d['routes']}
+        self.assertIn('PLAB', routes['mbbs']['about'])
+        self.assertIn('NCLEX', routes['bsc-nursing']['about'])
+        self.assertIn('Israel', routes['foreign-lang-work']['about'])
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 7):
+            self.assertIn(f'fw40-{i}', faq)
