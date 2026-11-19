@@ -1487,7 +1487,7 @@ class Wave33Tests(TestCase):
             self.assertIn(sid, ab[cid]['scholarships'])
         self.assertEqual(sch['s-morocco-civil']['awards'], 5)
         self.assertIn('MAD 750', sch['s-morocco-civil']['covers'])
-        self.assertIn('smartacademyhq', sch['s-mgss']['covers'])
+        self.assertIn('29 November 2026', sch['s-mgss']['how'])  # wave 35: official portal extended the date
         faq = {f['id'] for f in d['faq']}
         for i in range(6, 9):
             self.assertIn(f'fw33-{i}', faq)
@@ -1544,3 +1544,31 @@ class Wave34Tests(TestCase):
             self.assertIn(f'fw34-{i}', faq)
         self.assertIn('Kartik 9 to Mangsir 8', govt['e-see']['note'])
         self.assertIn('Poush 30 2083', govt['e-neb-plus2']['note'])
+
+
+class Wave35Tests(TestCase):
+    def test_wave35_india_entrance_exams(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        govt = {g['id']: g for g in d['govt']}
+        for gid in ('e-neet-ug-india', 'e-jee-main-dasa', 'e-cuet-ug', 'g-provincial-psc'):
+            self.assertIn(gid, govt)
+            self.assertTrue(govt[gid]['fee'] and govt[gid]['apply'] and govt[gid]['exam_month'], gid)
+        self.assertIn('9907', govt['e-neet-ug-india']['note'])
+        self.assertIn('USD 2,300', govt['e-jee-main-dasa']['stages'][1][1])
+        self.assertIn('22 November 2026', govt['e-jee-main-dasa']['note'])
+        self.assertIn('69 competitive seats', govt['g-provincial-psc']['note'])
+        self.assertIn('1950', next(a for a in d['abroad'] if a['id'] == 'in')['work'])
+        self.assertIn('Kathmandu', ' '.join(next(a for a in d['abroad'] if a['id'] == 'in')['exams']))
+        guides = {g['id']: g for g in d['guides']}
+        self.assertEqual(guides['india-entrance-nepali']['link'], 'exam:e-neet-ug-india')
+
+    def test_wave35_mgss_gjss_extension(self):
+        d = pathways.payload()
+        sch = {s['id']: s for s in d['scholarships']}
+        for sid in ('s-mgss', 's-gjss'):
+            self.assertIn('29 November 2026', sch[sid]['how'])
+            self.assertNotIn('ran from 23 October', sch[sid]['how'])
+        faq = {f['id'] for f in d['faq']}
+        for i in range(1, 11):
+            self.assertIn(f'fw35-{i}', faq)
