@@ -8,6 +8,8 @@ Read `notes/papers/PAPERS_TRACKER.md` for the paper pipeline itself. This file t
 
 ## Request 1: Class 12 technical stream, Computer Engineering, board papers 2078/79
 
+**Session 126 re-check (do not repeat):** the dhanraj.com.np feed search ignores `q` and returns the same list, and it only holds 2080 technical papers (the same three CE subjects plus shared Physics 913, Social Studies technical). Web search found no 2078 or 2079 technical Computer Engineering board paper anywhere (only TU Digital Logic and general Computer Science 2078, which are different). Physics Technical 2080 (`12-phy-2080-9131`) is already built. Ask the requester which exact old-course subjects he needs and whether he can send photos of the paper; until then the 2080 set is the closest official material.
+
 **Research result (do not repeat).**
 - The Computer Engineering technical subjects are Visual Programming (9341), Web Development and Database (656 old, new code not yet seen), Software Engineering and Project Management (9371), plus the shared technical Physics 9131, Chemistry 9111, Mathematics 4021 and English/Nepali.
 - The new technical course starts with registration 79, so its first board sitting is 2080. A 2078 or 2079 technical Computer Engineering paper exists only for the OLD course (registration 76 to 78). No page that carries them was found: dhanraj.com.np starts its Class 12 board papers at 2080 (feed search for 2078, 2079, "Computer Engineering", "Visual Programming" returned nothing older), dhanrajgurung.com is down (HTTP 522), nepalieducate.com and blog.educatenepal.com have only general Computer Science 2079 (already built as `12-cs-2079-4281`) and model sets. nebexam.com "2078" pages are model questions, not the board paper.
@@ -31,9 +33,21 @@ Stated openly in the PDFs: SEPM MCQ 7 key C is an assumption (the printed option
 4. Chemistry Technical 9111 and Mathematics Technical 2080 are still queued (tracker).
 5. Publish: run the workflow `Publish Past Papers to Library` (below).
 
-## Request 2: Class 11 science mid-term papers (physics, chemistry, maths, computer science and biology streams)
+## Request 2: Class 11 science mid-term papers (DONE in session 126, ids `11-<subject>-mid-2083`)
 
-Nothing built yet. Mid-terms are set by each school, so there is no official source. Plan: author NEBians mid-term practice papers (not copies of any school's paper) for Class 11 Physics, Chemistry, Mathematics, Computer Science and Biology with the NEB new-course marking pattern (full solutions), each as `11-<subject>-mid-<variant>.md` in `notes/papers/content`, and a bundle per stream (Science with Computer Science, Science with Biology). `build_papers.py` needs `--grade 11` listings, exam_type "Mid Term". Pickup: start with Physics and Mathematics (units 1 to 6 of the CDC Class 11 syllabus) using the Class 11 books in `notes/content`.
+Mid-terms are set by each school, so there is no official source. Built five ORIGINAL NEBians practice papers in the NEB new-course pattern (50 marks, 2 hrs: Group A 10 MCQ x 1, Group B 6 x 4, Group C 2 x 8), full solutions, figures, each with a `notes/papers/checks/check_11_<x>_mid_2083.py` that re-derives every number. All pages were looked at on 2x2 sheets; defects found and fixed: orphaned Group B heading (page-break div), multi-`=` display equations the builder splits badly (one equation per `$$`), `$A$1` swallowed as math, split tables, cover art in a fallback font (copy `app/src/main/res/font/poppins_*.ttf` to `~/.fonts/Poppins-Bold.ttf`, `-SemiBold`, `-Regular`).
+
+| Id | Paper | Units | Pages |
+| --- | --- | --- | --- |
+| `11-phy-mid-2083` | Physics | 1 to 6 (quantities, vectors, kinematics, dynamics, work-energy, circular motion) | 9 |
+| `11-chem-mid-2083` | Chemistry | 1 to 5 (fundamentals, stoichiometry, atomic structure, periodic table, bonding) | 6 |
+| `11-math-mid-2083` | Mathematics | 1 to 6 (logic and set to matrices) | 7 |
+| `11-cs-mid-2083` | Computer Science | 1 to 4 | 7 |
+| `11-bio-mid-2083` | Biology | 1 to 4 | 6 |
+| `11-science-cs-mid-2083` (listing slug `...-bundle`) | Physics + Chemistry + Maths + Computer Science | | 30 |
+| `11-science-bio-mid-2083` (listing slug `...-bundle`) | Physics + Chemistry + Maths + Biology | | 29 |
+
+Tooling added: `build_paper.py` front matter key `kind` (replaces the hard-coded "Past Paper" running head) and empty `code` is allowed; `notes/papers/tools/assemble.py` joins `content/_parts/<id>.<n>.md` into one paper; `bundle_stream.py` now takes `--grade --label --filetag --category`; `tools/publish/build_midterm_listings.py` writes listings (exam_type `Midterm`, type `Past Paper`, author NEBians, honest "original practice paper" text) and covers, merging into `papers_listing.json`. Next mid-term pickup: second paper per subject (units 7 to 12 or a second set), Class 11 English and Nepali, and the Second Terminal papers.
 
 ## Request 3: Class 8 set solutions
 

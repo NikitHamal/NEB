@@ -246,5 +246,37 @@
   "bytes": 409184,
   "category": "Board Exam Bundle",
   "slug": "12-ce-technical-2080"
+ },
+ {
+  "file": "bundles/NEBians-Mid-Term-Papers-Grade-11-11-science-cs-mid-2083-Bundle.pdf",
+  "subject": "Class 11 Science (Computer Science) Mid-Term Papers",
+  "grade": "11",
+  "years_bs": "2083",
+  "papers": [
+   "11-phy-mid-2083",
+   "11-chem-mid-2083",
+   "11-math-mid-2083",
+   "11-cs-mid-2083"
+  ],
+  "pages": 30,
+  "bytes": 1043029,
+  "category": "Mid Term Bundle",
+  "slug": "11-science-cs-mid-2083"
+ },
+ {
+  "file": "bundles/NEBians-Mid-Term-Papers-Grade-11-11-science-bio-mid-2083-Bundle.pdf",
+  "subject": "Class 11 Science (Biology) Mid-Term Papers",
+  "grade": "11",
+  "years_bs": "2083",
+  "papers": [
+   "11-phy-mid-2083",
+   "11-chem-mid-2083",
+   "11-math-mid-2083",
+   "11-bio-mid-2083"
+  ],
+  "pages": 29,
+  "bytes": 1023451,
+  "category": "Mid Term Bundle",
+  "slug": "11-science-bio-mid-2083"
  }
 ]
