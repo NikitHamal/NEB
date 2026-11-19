@@ -138,7 +138,11 @@
   "g-army": "Latest notices seen: Sainya and trade follower notice published 2083/01/18 with fee payment to 2083/02/16 (30 May 2026) and late fee to 2083/02/23, ages 18 to 22 for open Sainya (born 2061/02/16 to 2065/02/16), up to 26 for serving soldiers and 18 to 26 for trade followers, minimum Class 8 pass (sarkarijagir.com and loksewatayariapp.com). The 2082/83 technical Subedar, Jamdar and Amaldar notice needed +2 for Prad Jamdar, age 18 to 25 and a last date of 2083/01/26 (collegenp.com). On 16 Kartik 2083 (2 November 2026) the army also posted contract service notices and a notice inviting applications for MBBS at the Armed Forces Medical College, Pune; read the notice for who may apply.",
   "g-police": "Technical Police Constable (Jawan) notice of 2083: applications 2082/12/26 to 2083/01/31 at NPR 300, Inspector through the online ORMS from 2082/12/25 to 2083/01/24, hospital constable needs SEE plus 3 months of health training; the notice also fills inclusive seats lost in 2079/80 under a Supreme Court order of 2079/10/24 (unionnepal.com).",
   "g-provincial-psc": "Other provinces, 2083/84 notices seen on 19 November 2026: Gandaki 169/2083-84 with 75 Level 7 seats (apply by 2083/08/01), Lumbini 84/083-084 with 25 Level 9 seats (closed 2083/07/19), Karnali 14/2083-84 with 64 Level 5 posts (closed 2083/07/16), Madhesh 107/2083-84 for Level 9 officers (regular deadline 2083/06/14, double fee 2083/06/21; the seat count was not read) and Sudurpashchim 103/082-083 with 44 non technical Level 4 assistant posts (closed 2083/01/17 and 2083/01/24). Bagmati published its 2083/84 yearly calendar (1 Shrawan 2083 to 32 Ashad 2084). Fees differ: Gandaki NPR 1,200 plus 400 per group, Lumbini NPR 1,200 plus 500, Karnali NPR 500 plus 250. Each has its own entry in this list.",
-  "g-so": "Promotion notices of 2083/84 are not open vacancies: federal Notice 787 has 176 positions (173 civil service, 3 human rights service) and 788 has 6 health service posts, both closing 2083/08/29 with fee NPR 1,200; Notices 580 (62 positions) and 581 (120 positions) closed 2083/08/01 with fee NPR 2,000 (unionnepal.com, 13 November 2026)."
+  "g-so": "Promotion notices of 2083/84 are not open vacancies: federal Notice 787 has 176 positions (173 civil service, 3 human rights service) and 788 has 6 health service posts, both closing 2083/08/29 with fee NPR 1,200; Notices 580 (62 positions) and 581 (120 positions) closed 2083/08/01 with fee NPR 2,000 (unionnepal.com, 13 November 2026).",
+  "e-nec": "Latest round seen: the 14th General Registered Engineer examination of 2083 took applications at NPR 2,500 until Bhadra 17 (2 September 2026), double fee NPR 5,000 until Bhadra 24 (9 September 2026), and began on Ashoj 17 (3 October 2026) at centres in the Kathmandu Valley and Pokhara. Rounds run four times a year (Bhadra, Mangsir, Magh and Chaitra in 2082/83); the date of the next call was not published when checked, so watch register.nec.gov.np. There is no limit on attempts and a fail only means paying the NPR 2,500 again.",
+  "e-nmcle": "Latest round seen: the 76th licensing exam of 2083 opened on 5 August 2026, took applications to 1 September 2026 (Bhadra 16) and to 3 September with late fee, and ran on Ashoj 4 to 6 (20 to 22 September 2026) at the Institute of Engineering, Pulchowk. Apply online at exam.nmc.org.np. The next round follows about four months later, so watch nmc.org.np around Poush and Magh.",
+  "e-kucat": "2026/27 call: registration ran from 19 June to 9 July 2026 at NPR 2,000 with no late fee, a 2 hour computer test of 120 multiple choice questions at the KU Main Campus, Dhulikhel (edusanjal.com lists 100 full marks and a pass mark of 35, while the entry above quotes a qualifying score of 528 from the admission notice, so read the notice of your year). The 2025 round ran from 26 June to 21 July with tests from 23 July to 2 August. Expect the next call in June 2027.",
+  "e-mecee-pg": "Last cycle (MECEE-PG 2026, for the 2082/83 intake): applications from 5 December 2025 to 5 January 2026 and to 12 January with late fee, MD/MS and NBMS on 7 February 2026, MPH on 8 February, MDS, MPharm and some MSc on 9 February, first open house matching on 8 March and admission on 9 to 13 March 2026. The notice came in the last week of November 2025, so expect the next one from late November 2026 on entrance.mec.gov.np."
  },
  "abroad_update": {
   "uk": {
@@ -196,6 +200,24 @@
   }
  ],
  "faq_add": [
+  {
+   "id": "fw36-13",
+   "topic": "afterbach",
+   "q": "When are the Nepal Engineering Council and Nepal Medical Council licence exams held?",
+   "a": "NEC runs the general registered engineer exam four times a year; the 14th round of 2083 began on Ashoj 17 (3 October 2026) after applications at NPR 2,500 (NPR 5,000 late). The Nepal Medical Council ran its 76th licensing exam on 20 to 22 September 2026 at Pulchowk, with applications from 5 August to 1 September. NMCLE comes about every four months, and both need an online application, so watch register.nec.gov.np and exam.nmc.org.np."
+  },
+  {
+   "id": "fw36-14",
+   "topic": "after12",
+   "q": "When does the KUCAT registration open for Kathmandu University engineering?",
+   "a": "The 2026/27 call opened on 19 June 2026 and closed on 9 July 2026 with a fee of NPR 2,000 and no late fee. The test is a 2 hour computer based exam of 120 multiple choice questions held only at Dhulikhel. The 2025 round ran from 26 June to 21 July. Expect the 2027 call around June, and read the admission notice for the exact dates and qualifying score."
+  },
+  {
+   "id": "fw36-15",
+   "topic": "afterbach",
+   "q": "When is the next MECEE-PG for MD, MS and MPH in Nepal?",
+   "a": "The last cycle opened on 5 December 2025, closed on 5 January 2026 (12 January with late fee) and held MD and MS on 7 February 2026, MPH on 8 February and MDS and MPharm on 9 February, with open house matching on 8 March. The next notice is expected in the last week of November 2026 on entrance.mec.gov.np, so prepare your internship certificate and council registration now."
+  },
   {
    "id": "fw36-1",
    "topic": "general",

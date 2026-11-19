@@ -1605,6 +1605,8 @@ class Wave36Tests(TestCase):
         sites = {p['id']: p.get('website') for p in d['providers']}
         self.assertEqual(sites['p-jf-health'], 'https://www.lajf.edu.np')
         faq = {f['id'] for f in d['faq']}
-        for i in range(1, 13):
+        for i in range(1, 16):
             self.assertIn(f'fw36-{i}', faq)
+        self.assertIn('14th', next(g for g in d['govt'] if g['id'] == 'e-nec')['note'])
+        self.assertIn('76th', next(g for g in d['govt'] if g['id'] == 'e-nmcle')['note'])
         self.assertIn('408 posts', next(g for g in d['govt'] if g['id'] == 'g-nea')['note'])
