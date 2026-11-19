@@ -1069,7 +1069,7 @@ class Wave22Tests(TestCase):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
-            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp'):
+            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt'):
                 continue  # waves 30 and 32 open calls: the notices print no seat count
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
