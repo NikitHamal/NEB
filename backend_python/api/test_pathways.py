@@ -1065,11 +1065,11 @@ class Wave22Tests(TestCase):
         for dist, cnt in dc.items():
             self.assertGreaterEqual(cnt, 2, dist)
         for a in d['abroad']:
-            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu', 'gr', 'pk', 'eg', 'rs', 'qa'):
+            if a['id'] in ('sk', 'is', 'am', 'vn', 'bg', 'hr', 'si', 'lu', 'gr', 'pk', 'eg', 'rs', 'qa', 'ma'):
                 continue  # wave 31 destinations with one verified route (or none for Iceland)
             self.assertGreaterEqual(len(a.get('scholarships') or []), 2, a['id'])
         for s in d['scholarships']:
-            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt', 's-moest-poor', 's-moest-tech', 's-moest-higher'):
+            if s['id'] in ('s-city-class11', 's-doit-it', 's-army-welfare', 's-darmasiswa-id', 's-vn-govt', 's-aua-merit', 's-kaust', 's-sk-nsp', 's-sa-govt', 's-moest-poor', 's-moest-tech', 's-moest-higher', 's-uii-fgls', 's-tianjin-moest'):
                 continue  # waves 30 and 32 open calls: the notices print no seat count
             self.assertIsInstance(s.get('awards'), int, s['id'])
             self.assertGreater(s['awards'], 0, s['id'])
@@ -1422,7 +1422,7 @@ class Wave32Tests(TestCase):
         d = pathways.payload()
         self.assertEqual(pathways.problems(d), [])
         sch = {s['id']: s for s in d['scholarships']}
-        for sid in ('s-moest-poor', 's-moest-tech', 's-moest-higher'):
+        for sid in ('s-moest-poor', 's-moest-tech', 's-moest-higher', 's-uii-fgls', 's-tianjin-moest'):
             self.assertEqual(sch[sid]['scope'], 'nepal')
             self.assertNotIn('awards', sch[sid])
         self.assertIn('3,500', sch['s-moest-tech']['covers'])
@@ -1474,4 +1474,20 @@ class Wave33Tests(TestCase):
         self.assertEqual(pv['p-w28-pu-birat-health-college-morang']['website'], 'https://birathealthcollege.edu.np')
         faq = {f['id'] for f in d['faq']}
         for i in range(1, 6):
+            self.assertIn(f'fw33-{i}', faq)
+
+    def test_wave33_part2(self):
+        d = pathways.payload()
+        self.assertEqual(pathways.problems(d), [])
+        ab = {a['id']: a for a in d['abroad']}
+        sch = {s['id']: s for s in d['scholarships']}
+        self.assertIn('ma', ab)
+        for sid, cid in (('s-morocco-civil', 'ma'), ('s-uii-fgls', 'id'), ('s-uiu-ds-bd', 'bd'), ('s-tianjin-moest', 'cn')):
+            self.assertEqual(sch[sid]['country'], cid)
+            self.assertIn(sid, ab[cid]['scholarships'])
+        self.assertEqual(sch['s-morocco-civil']['awards'], 5)
+        self.assertIn('MAD 750', sch['s-morocco-civil']['covers'])
+        self.assertIn('smartacademyhq', sch['s-mgss']['covers'])
+        faq = {f['id'] for f in d['faq']}
+        for i in range(6, 9):
             self.assertIn(f'fw33-{i}', faq)

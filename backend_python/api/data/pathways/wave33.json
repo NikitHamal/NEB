@@ -123,6 +123,37 @@
    "stay_back": "Not checked yet. The residence permit is issued under university sponsorship within one month of arrival (qu.edu.qa).",
    "note": "Qatar University is the public flagship and the Nepali student pays international fees: QAR 1,700 a credit hour on its own international students page, with at least 11 credit hours a term, so a year of 24 to 30 credits is about QAR 40,800 to 51,000 (the range here, QAR 1 about NPR 39.7). Other guides print QAR 800 to 1,500 a credit hour, so confirm the table for your college. Education City branch campuses are far higher, QAR 100,000 to 250,000 a year in one guide. Doha living is about QAR 5,000 to 9,000 a month (brightkey.co); university dorm places are limited. No Nepal government scholarship for Qatar was found on the pages read.  NPR figures are rough.",
    "scholarships": []
+  },
+  {
+   "id": "ma",
+   "country": "Morocco",
+   "tuition": [
+    14500,
+    1740000
+   ],
+   "living": [
+    522000,
+    1218000
+   ],
+   "code": "MA",
+   "exams": [
+    "Arabic or French for most public programmes (English is growing; check the programme page)",
+    "School certificate recognised by the Moroccan ministry",
+    "Engineering schools and medicine run their own selection"
+   ],
+   "intakes": "September (the academic year runs September to June)",
+   "fields": [
+    "Civil and other engineering",
+    "Medicine and pharmacy",
+    "Business (Al Akhawayn, English)",
+    "Agriculture and sciences"
+   ],
+   "work": "Not checked yet: no Moroccan official page on student work was read.",
+   "stay_back": "Not checked yet.",
+   "note": "Public university tuition is the cheapest in this list but the three guides read disagree: MAD 1,000 to 5,000 a year (university.im), USD 500 to 2,000 (qogentglobal.com) and USD 200 to 500, with engineering schools at USD 1,000 to 4,000 (edunepal.com). Private universities are about MAD 40,000 to 120,000 and Al Akhawayn University about USD 8,000 to 12,000, the top of the range here. Monthly living is USD 300 to 700 depending on the guide and city (Rabat, Fez and Marrakech cheaper than Casablanca). Nepal's own route is the Government of Morocco civil engineering scholarship that the Ministry of Education passes on through the Nepal Embassy in New Delhi (5 seats for 2026/27, see the scholarship). A foreign engineering degree needs recognition checks with the Nepal Engineering Council before you rely on a licence. NPR figures are rough.",
+   "scholarships": [
+    "s-morocco-civil"
+   ]
   }
  ],
  "scholarships_add": [
@@ -165,8 +196,93 @@
     5
    ],
    "awards": 2
+  },
+  {
+   "id": "s-morocco-civil",
+   "name": "Government of Morocco scholarship in Civil Engineering (AMCI, 2026/27)",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master"
+   ],
+   "by": "Moroccan Agency for International Cooperation (AMCI), nominated through the Ministry of Education, Science and Technology, Nepal",
+   "covers": "Study in public Moroccan higher, technical and professional institutions; a living allowance of MAD 750 a month, about USD 80 (Collegenp quoting AMCI guidelines).",
+   "who": "Five seats for 2026/27: bachelor 3 (2 open and 1 for women) and master 2 (1 open and 1 for women), Civil Engineering only. Bachelor applicants must have passed Grade 12; master applicants need a bachelor degree and an entrance result or score card from the TU Institute of Engineering, Pulchowk (Nepal Register).",
+   "how": "The notice of 5 June 2026 asked for an online Google Form between 5 and 11 June 2026 within office hours; selection follows Nepal's scholarship nomination rules. Questions go to the Scholarship Section of the Ministry at Sanothimi, Bhaktapur. A new call is likely each year, so watch moest.gov.np.",
+   "link": "https://www.amci.ma",
+   "country": "ma",
+   "type": "Government",
+   "open": [
+    6,
+    6
+   ],
+   "awards": 5
+  },
+  {
+   "id": "s-uii-fgls",
+   "name": "Future Global Leaders Scholarship (FGLS), Universitas Islam Indonesia",
+   "scope": "abroad",
+   "levels": [
+    "bachelor",
+    "master",
+    "phd"
+   ],
+   "by": "Universitas Islam Indonesia (UII), forwarded to the Ministry of Education by the Ministry of Foreign Affairs after the Indonesian Embassy in Dhaka",
+   "covers": "Registration fee, tuition, Indonesian language and culture course, health insurance, living allowance, accommodation allowance, book allowance and thesis allowance (Ministry notice, 5 May 2026).",
+   "who": "Nepali citizens for undergraduate, master and doctoral programmes in many majors at UII. You need an Indonesian or English language certificate, and academic certificates and transcripts certified by the Ministry of Education and the Ministry of Foreign Affairs, in English. No Indonesian Embassy recommendation letter is needed.",
+   "how": "Apply on the UII admission portal. Academic year 2026: Intake 1 ran 1 February to 30 April 2026 (undergraduate and postgraduate; results 29 May), Intake 2 ran 1 October to 30 November 2026 for postgraduate only (interviews 7 to 11 December, results 18 December). Shortlisted candidates go through document selection and an interview. UII International Affairs: io@uii.ac.id.",
+   "link": "https://www.uii.ac.id",
+   "country": "id",
+   "type": "University",
+   "open": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "s-uiu-ds-bd",
+   "name": "United International University (Dhaka) BSc Data Science tuition waiver, 2 seats",
+   "scope": "abroad",
+   "levels": [
+    "bachelor"
+   ],
+   "by": "United International University (UIU), Bangladesh, nominated through the Ministry of Education, Science and Technology, Nepal (Rule 10(a) of the Scholarship Rules, 2060)",
+   "covers": "100 percent tuition fee waiver for the BSc in Data Science (Collegenp, 2 May 2026). Other costs are not listed.",
+   "who": "Two seats, distributed inclusively: one open and one for women. You must have passed Grade 12 and hold an entrance result or score card for the undergraduate Data Science programme run by the School of Mathematical Sciences, Institute of Science and Technology, Tribhuvan University. Documents: Grade 10 and Grade 12 certificates and marksheets, passport information page and a passport size photo.",
+   "how": "The 2083 call opened on Baisakh 17 and closed on Baisakh 25 2083 (8 May 2026) on a Google Form published by the Ministry. Contact the Scholarship Section at Sanothimi, Bhaktapur. Expect a similar call after the next TU Data Science entrance.",
+   "link": "https://www.uiu.ac.bd",
+   "country": "bd",
+   "type": "University",
+   "open": [
+    4,
+    5
+   ],
+   "awards": 2
+  },
+  {
+   "id": "s-tianjin-moest",
+   "name": "Tianjin University scholarship for Master and PhD (2026/27, via MoEST)",
+   "scope": "abroad",
+   "levels": [
+    "master",
+    "phd"
+   ],
+   "by": "Tianjin University, China, nominated through the Ministry of Education, Science and Technology, Nepal",
+   "covers": "Not listed on the notice pages read; the full notice is the PDF on the Ministry page.",
+   "who": "Eligible Nepali students for postgraduate and doctoral study in the subjects listed on the Ministry notice (the listing is in the PDF, not in the pages read).",
+   "how": "By a decision of 2082/09/16 the Ministry asked for applications on paper at its Scholarship Section, Sanothimi, Bhaktapur, within office hours until Poush 29 2082 (mid January 2026). Watch the Ministry for the 2027/28 call.",
+   "link": "https://www.tju.edu.cn",
+   "country": "cn",
+   "type": "University",
+   "open": [
+    1,
+    1
+   ]
   }
  ],
+ "scholarship_note_add": {
+  "s-mgss": "One third party page (smartacademyhq.com) prints 29 November 2026 as the deadline, while the Embassy notice quoted by educatenepal.com and Edusanjal says the portal closed at 00.00 on 16 November 2026, so trust the Embassy dates."
+ },
  "provider_update": {
   "p-w24-iost-janapriya-mc": {
    "website": "https://janapriya.edu.np"
@@ -220,6 +336,34 @@
    "q": "Can I work part time as a student in Serbia or Pakistan?",
    "a": "Serbia: you need temporary residence and a separate work permit from the National Employment Service even for part time work (expatsi.com); one agency page says 20 hours a week, which is the permit rule and not a free right. Pakistan: the public student visa material read does not clearly grant work rights, so assume none. Foreign students on a proper student visa get a one year visa or extension with one re-entry (fpcci.org.pk). For work friendly destinations compare the Pathways country pages first.",
    "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw33-6",
+   "topic": "abroad",
+   "q": "Which scholarships did the Ministry of Education pass on to Nepali students in 2026?",
+   "a": "Notices published in 2026 and read on Nepal Register and Collegenp: Tianjin University for Master and PhD (applications until Poush 29 2082, mid January 2026), United International University Dhaka BSc Data Science with 2 tuition free seats (closed 8 May 2026, needs the TU Data Science entrance score card), UII Indonesia Future Global Leaders Scholarship (Intake 1 closed 30 April, postgraduate Intake 2 closed 30 November 2026), Morocco civil engineering with 5 seats (closed 11 June 2026), Pakistan PTAP with 14 seats (closed 10 July 2026) and Egypt MD or MS seats through MEC. Most of these are short windows on a Google Form, so follow moest.gov.np and your campus notice board instead of waiting for an agent.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw33-7",
+   "topic": "abroad",
+   "q": "What does the Morocco civil engineering scholarship pay?",
+   "a": "The Moroccan Agency for International Cooperation (AMCI) guidelines, as quoted by Collegenp on 6 June 2026, give a living allowance of MAD 750 a month, about USD 80, for study in public Moroccan institutions. There were five seats for 2026/27: three at bachelor (two open, one for women) and two at master (one open, one for women). Bachelor applicants needed Grade 12, master applicants a bachelor degree and a TU IOE Pulchowk entrance score card (Nepal Register). The window ran 5 to 11 June 2026.",
+   "go": [
+    "be-civil"
+   ]
+  },
+  {
+   "id": "fw33-8",
+   "topic": "abroad",
+   "q": "How much does it cost to study in Morocco?",
+   "a": "The guides read disagree. One prints MAD 1,000 to 5,000 a year at public universities (university.im), another USD 500 to 2,000 (qogentglobal.com) and a third USD 200 to 500 with engineering schools at USD 1,000 to 4,000 (edunepal.com). Private universities are about MAD 40,000 to 120,000 and Al Akhawayn about USD 8,000 to 12,000. Living is USD 300 to 700 a month depending on the guide and city. Read the university's own fee page and ask the Nepal Engineering Council or Nepal Medical Council about recognition before you pay.",
+   "go": [
+    "be-civil",
     "abroad-ms"
    ]
   }

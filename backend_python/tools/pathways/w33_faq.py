@@ -26,4 +26,18 @@ FAQ_ADD = [
            'Pakistan: the public student visa material read does not clearly grant work rights, so assume none. Foreign students on a proper student visa get a one year visa or extension with one re-entry (fpcci.org.pk). '
            'For work friendly destinations compare the Pathways country pages first.'),
      'go': ['abroad-ms']},
+    {'id': 'fw33-6', 'topic': 'abroad', 'q': 'Which scholarships did the Ministry of Education pass on to Nepali students in 2026?',
+     'a': ('Notices published in 2026 and read on Nepal Register and Collegenp: Tianjin University for Master and PhD (applications until Poush 29 2082, mid January 2026), United International University Dhaka BSc Data Science with 2 tuition free seats (closed 8 May 2026, needs the TU Data Science entrance score card), '
+           'UII Indonesia Future Global Leaders Scholarship (Intake 1 closed 30 April, postgraduate Intake 2 closed 30 November 2026), Morocco civil engineering with 5 seats (closed 11 June 2026), Pakistan PTAP with 14 seats (closed 10 July 2026) and Egypt MD or MS seats through MEC. '
+           'Most of these are short windows on a Google Form, so follow moest.gov.np and your campus notice board instead of waiting for an agent.'),
+     'go': ['abroad-ms']},
+    {'id': 'fw33-7', 'topic': 'abroad', 'q': 'What does the Morocco civil engineering scholarship pay?',
+     'a': ('The Moroccan Agency for International Cooperation (AMCI) guidelines, as quoted by Collegenp on 6 June 2026, give a living allowance of MAD 750 a month, about USD 80, for study in public Moroccan institutions. '
+           'There were five seats for 2026/27: three at bachelor (two open, one for women) and two at master (one open, one for women). Bachelor applicants needed Grade 12, master applicants a bachelor degree and a TU IOE Pulchowk entrance score card (Nepal Register). '
+           'The window ran 5 to 11 June 2026.'),
+     'go': ['be-civil']},
+    {'id': 'fw33-8', 'topic': 'abroad', 'q': 'How much does it cost to study in Morocco?',
+     'a': ('The guides read disagree. One prints MAD 1,000 to 5,000 a year at public universities (university.im), another USD 500 to 2,000 (qogentglobal.com) and a third USD 200 to 500 with engineering schools at USD 1,000 to 4,000 (edunepal.com). '
+           'Private universities are about MAD 40,000 to 120,000 and Al Akhawayn about USD 8,000 to 12,000. Living is USD 300 to 700 a month depending on the guide and city. Read the university\'s own fee page and ask the Nepal Engineering Council or Nepal Medical Council about recognition before you pay.'),
+     'go': ['be-civil', 'abroad-ms']},
 ]
