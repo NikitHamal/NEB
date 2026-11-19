@@ -329,7 +329,10 @@
   "l-topik": "In 2026 the paper TOPIK was held in Kathmandu on 17 May and 15 November (the November test organised by King Sejong Institute Kathmandu), with results for the 15 November test due on 22 December 2026 on topik.go.kr; the guide takes this from the NIIED overseas list of 1 September 2026. Nepal has only paper centres for TOPIK in 2026 and not every sitting is held in every city, so read the notice on topik.go.kr before you plan.",
   "l-jlpt": "The December 2026 sitting is on Sunday 6 December 2026 worldwide (jlpt.jp); the next are Sunday 4 July 2027 and Sunday 5 December 2027. Online results come around the end of January 2027. Registration for the December sitting normally closes in the autumn, so if you missed it plan for July 2027 and watch the registration notice of your city, because some cities hold only the July test. Fee in Japan is JPY 7,500 per level; the Nepal fee depends on the host institution, so read its notice.",
   "l-ielts": "2026 fees in Nepal differ by page and date: NPR 33,000 for computer and 36,200 for paper on one April 2026 guide, and NPR 36,000 for computer and 36,400 for UKVI computer on September and August 2026 guides, with British Council and IDP printing nearly the same price. Paper IELTS is being phased out worldwide with the last paper dates around late June 2026, although one September guide still lists IDP paper at NPR 36,200. Computer tests run up to seven days a week in Kathmandu and also in Butwal, Chitwan, Itahari and Pokhara through the British Council; the computer result comes in 1 to 5 days. Confirm the live fee on the page of your provider.",
-  "l-pte": "PTE Academic costs USD 248.60 on pearsonpte.com as read on 24 October 2026 (PTE Academic UKVI and PTE Core cost the same), about NPR 37,834 at the NRB selling rate of 152.19 on 20 October 2026. Older pages print USD 220 to 245 or about NPR 27,000 to 33,000. There are 11 test centres in Nepal (Lalitpur, Kathmandu, Pokhara, Tilottama and Itahari among them), results come in about 48 hours (up to five business days), and rescheduling is free or fully refunded more than 14 full days before the test."
+  "l-pte": "PTE Academic costs USD 248.60 on pearsonpte.com as read on 24 October 2026 (PTE Academic UKVI and PTE Core cost the same), about NPR 37,834 at the NRB selling rate of 152.19 on 20 October 2026. Older pages print USD 220 to 245 or about NPR 27,000 to 33,000. There are 11 test centres in Nepal (Lalitpur, Kathmandu, Pokhara, Tilottama and Itahari among them), results come in about 48 hours (up to five business days), and rescheduling is free or fully refunded more than 14 full days before the test.",
+  "l-toefl": "Format changed on 21 January 2026: the TOEFL iBT is now shorter (about 90 minutes), adaptive, has no integrated tasks or essay, and is scored 1 to 6 per section and in total, so older 0 to 120 guides and mocks are out of date (Edwise and NIEC pages; some universities still quote old scores, so read what each one accepts). The fee in Nepal is about USD 195 to 205 on two pages and USD 185 to 205 on another, roughly NPR 24,000 to 31,000 depending on the rate. It is taken at Prometric authorised venues in Kathmandu or at home.",
+  "l-hsk": "The Confucius Institute at Tribhuvan University ran paper HSK 1 and 2 in Kathmandu and Pokhara on 24 January 2026 (online registration to 26 December 2025; fees NPR 650 for level 1 and NPR 700 for level 2). A new nine level HSK 3.0 has its first sitting for levels 1 to 6 on 13 December 2026, after the last HSK 2.0 sittings on 17 October and 7 November 2026, and levels 7 to 9 are computer only (22 November 2026); each centre picks its own dates and closes registration earlier than the official deadline, so ask the centre. Chinese government scholarships usually ask for HSK 4 or 5 and the matching HSKK speaking test.",
+  "l-goethe": "Goethe-Zentrum Kathmandu (Naxal) is the exam centre. Its 2026 table shows external candidate fees of EUR 60 for A1 and EUR 75 for A2, and for B1 EUR 25 to 95 and B2 EUR 30 to 110 depending on how many of the four modules you book (a guide prints EUR 70 to 125 for C1); pupils enrolled in its classes pay less. Fees are paid in rupees at a monthly rate. 2026 A1 exam dates still ahead on 19 November 2026 were 19 November (registration opened 9 October), 23, 27 and 30 December, and A2 had 22 November and 20 December. The centre says registration dates are not always confirmed and are posted on its Facebook and Instagram pages, and one guide says each Sunday session takes at most 70 applicants, so book early. The level you need comes from the university or the visa page, not from this test list."
  },
  "faq_add": [
   {
@@ -410,6 +413,24 @@
    "topic": "abroad",
    "q": "How much do IELTS, PTE, JLPT and TOPIK cost and when are they held in Nepal in 2026 and 2027?",
    "a": "IELTS computer costs about NPR 33,000 to 36,000 (paper, if still offered, NPR 36,200) and PTE Academic costs USD 248.60, about NPR 37,800 at the NRB rate of 20 October 2026, with 11 PTE centres in Nepal. The JLPT is on Sunday 6 December 2026, then Sunday 4 July 2027 and 5 December 2027, with online results around the end of January 2027. The paper TOPIK was held in Kathmandu on 17 May and 15 November 2026 and the 15 November result is due on 22 December 2026. Fees change with the exchange rate, so confirm the live price on the provider page before you pay.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw40-10",
+   "topic": "abroad",
+   "q": "What does the Goethe German exam cost in Kathmandu and when can I book it?",
+   "a": "Goethe-Zentrum Kathmandu in Naxal lists 2026 external candidate fees of EUR 60 for A1 and EUR 75 for A2, EUR 25 to 95 for B1 and EUR 30 to 110 for B2 depending on how many of the four modules you book. You pay in rupees at a monthly rate. A1 exams still ahead in late 2026 were on 19 November, 23, 27 and 30 December (registration opened 9 October), and A2 on 22 November and 20 December. The centre posts confirmed registration dates on its Facebook and Instagram pages, so check them often, and book early because places are limited per Sunday session.",
+   "go": [
+    "abroad-ms"
+   ]
+  },
+  {
+   "id": "fw40-11",
+   "topic": "abroad",
+   "q": "Did the TOEFL and HSK change in 2026?",
+   "a": "Yes, both. The TOEFL iBT changed on 21 January 2026: it is now about 90 minutes, adaptive, has no essay or integrated tasks and is scored 1 to 6, so old 0 to 120 mock tests do not match. The fee in Nepal is about USD 185 to 205 at Prometric venues in Kathmandu. The HSK moves to a nine level HSK 3.0 with its first sitting on 13 December 2026 after the last HSK 2.0 sittings on 17 October and 7 November. The Confucius Institute at Tribhuvan University ran HSK 1 and 2 in Kathmandu and Pokhara in January 2026 for NPR 650 and 700. Always ask your university which score scale it accepts.",
    "go": [
     "abroad-ms"
    ]
