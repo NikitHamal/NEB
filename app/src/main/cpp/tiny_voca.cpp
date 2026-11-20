@@ -407,14 +407,14 @@ inline float dotProduct(const float* a, const float* b, int n) {
     float32x4_t s2 = vdupq_n_f32(0.0f);
     float32x4_t s3 = vdupq_n_f32(0.0f);
     for (; i + 16 <= n; i += 16) {
-        s0 = vfmaq_f32(s0, vld1q_f32(a + i), vld1q_f32(b + i));
-        s1 = vfmaq_f32(s1, vld1q_f32(a + i + 4), vld1q_f32(b + i + 4));
-        s2 = vfmaq_f32(s2, vld1q_f32(a + i + 8), vld1q_f32(b + i + 8));
-        s3 = vfmaq_f32(s3, vld1q_f32(a + i + 12), vld1q_f32(b + i + 12));
+        s0 = vmlaq_f32(s0, vld1q_f32(a + i), vld1q_f32(b + i));
+        s1 = vmlaq_f32(s1, vld1q_f32(a + i + 4), vld1q_f32(b + i + 4));
+        s2 = vmlaq_f32(s2, vld1q_f32(a + i + 8), vld1q_f32(b + i + 8));
+        s3 = vmlaq_f32(s3, vld1q_f32(a + i + 12), vld1q_f32(b + i + 12));
     }
     s0 = vaddq_f32(vaddq_f32(s0, s1), vaddq_f32(s2, s3));
     for (; i + 4 <= n; i += 4) {
-        s0 = vfmaq_f32(s0, vld1q_f32(a + i), vld1q_f32(b + i));
+        s0 = vmlaq_f32(s0, vld1q_f32(a + i), vld1q_f32(b + i));
     }
 #if defined(__aarch64__)
     float sum = vaddvq_f32(s0);
