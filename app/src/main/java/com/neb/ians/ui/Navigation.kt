@@ -77,7 +77,6 @@ import com.neb.ians.ui.screens.marketplace.MarketplaceCourseScreen
 import com.neb.ians.ui.screens.notes.NoteEditorScreen
 import com.neb.ians.ui.screens.notes.NotesScreen
 import com.neb.ians.ui.screens.notes.VoiceModelsScreen
-import com.neb.ians.ui.screens.forum.ForumScreen
 import com.neb.ians.ui.screens.forum.ForumPostDetailScreen
 import com.neb.ians.ui.screens.forum.CreatePostScreen
 import com.neb.ians.ui.screens.search.SearchScreen
@@ -131,7 +130,6 @@ sealed class Screen(val route: String) {
     data object Library : Screen("library?subject={subject}") {
         fun createRoute(subject: String? = null) = if (subject != null) "library?subject=$subject" else "library"
     }
-    data object Forum : Screen("forum")
     data object News : Screen("news")
     data object NewsDetail : Screen("news/{slug}") {
         fun createRoute(slug: String) = "news/${java.net.URLEncoder.encode(slug, "UTF-8")}"
@@ -614,7 +612,6 @@ fun NEBiansNavHost(
                     },
                     onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
-                    onForumClick = { navController.navigate(Screen.Forum.route) },
                     onNotesClick = { navController.navigate(Screen.Notes.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
                     onPathwaysClick = { navController.navigate(Screen.Pathways.route) },
@@ -690,24 +687,6 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
                     onSignInRequired = { gate.ask(GateReason.Generic) }
-                )
-            }
-            composable(Screen.Forum.route) {
-                ForumScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onPostClick = { postId ->
-                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
-                    },
-                    onCreatePostClick = { navController.navigate(Screen.CreatePost.route) },
-                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
-                    onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
-                    onProfileClick = navigateToOwnProfile,
-                    onUserProfileClick = { username ->
-                        navController.navigate(Screen.Profile.createRoute(username))
-                    },
-                    onEditPostClick = { editPostId ->
-                        navController.navigate(Screen.EditPost.createRoute(editPostId))
-                    }
                 )
             }
             composable(Screen.News.route) {

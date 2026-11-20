@@ -150,8 +150,15 @@ fun isVideoMediaUrl(url: String?): String? {
 }
 
 private val VideoUrlRegex = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
+private val postAttachmentsCache = android.util.LruCache<Int, List<com.neb.ians.data.api.ApiMediaAttachment>>(256)
 
 fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAttachment> {
+    val cacheKey = java.util.Objects.hash(post.id, post.content.hashCode(), post.images.size, post.attachments.size)
+    synchronized(postAttachmentsCache) { postAttachmentsCache.get(cacheKey) }?.let { return it }
+    if (post.attachments.isEmpty() && post.images.isEmpty() && !post.content.contains("http", ignoreCase = true)) {
+        synchronized(postAttachmentsCache) { postAttachmentsCache.put(cacheKey, emptyList()) }
+        return emptyList()
+    }
     val result = post.attachments.toMutableList()
 
     post.images.forEach { img ->
@@ -187,6 +194,7 @@ fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAt
         }
     }
 
+    synchronized(postAttachmentsCache) { postAttachmentsCache.put(cacheKey, result) }
     return result
 }
 

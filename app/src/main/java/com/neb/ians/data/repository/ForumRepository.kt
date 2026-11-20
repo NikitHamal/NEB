@@ -71,7 +71,6 @@ class ForumRepository @Inject constructor(
         return appCache.postDetails[postId]
             ?: _cachedPosts.value.firstOrNull { it.id == postId }
             ?: appCache.recentPosts.firstOrNull { it.id == postId }
-            ?: appCache.forumPosts.firstOrNull { it.id == postId }
             ?: appCache.lastProfilePosts.firstOrNull { it.id == postId }
     }
 

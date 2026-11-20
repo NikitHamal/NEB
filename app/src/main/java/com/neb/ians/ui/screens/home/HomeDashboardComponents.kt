@@ -28,26 +28,18 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.neb.ians.ui.components.nebHorizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.EditNote
-import androidx.compose.material.icons.filled.Forum
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.SmartToy
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.filled.Upload
-import androidx.compose.material.icons.outlined.AllInclusive
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.MusicNote
-import androidx.compose.material.icons.outlined.PersonAdd
-import androidx.compose.material.icons.outlined.PhotoLibrary
-import androidx.compose.material.icons.outlined.Poll
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.ui.unit.sp
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -55,14 +47,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -281,88 +269,265 @@ internal fun HomeFeedResourceHighlight(
 }
 
 @Composable
-internal fun HomeEndOfFeedCard(
-    onForumClick: () -> Unit,
-    onViewAllClick: () -> Unit
+internal fun HomePostsFilterBar(
+    currentSort: String,
+    selectedCategory: String?,
+    isRefreshing: Boolean,
+    scrolled: Boolean,
+    onSelectSort: (String) -> Unit,
+    onOpenCategories: () -> Unit,
+    onClearCategory: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Card(
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .nebHorizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                HomeSortPill("For you", "hot", Icons.Filled.Whatshot, currentSort, onSelectSort)
+                HomeSortPill("New", "new", Icons.Outlined.Schedule, currentSort, onSelectSort)
+                HomeSortPill("Top", "top", Icons.Outlined.ThumbUp, currentSort, onSelectSort)
+                HomeSortPill("Discussed", "discussed", Icons.Outlined.ChatBubbleOutline, currentSort, onSelectSort)
+            }
+            val hasCategory = selectedCategory != null
+            val chipShape = RoundedCornerShape(28.dp)
+            Row(
+                modifier = Modifier
+                    .height(34.dp)
+                    .clip(chipShape)
+                    .background(
+                        if (hasCategory) MaterialTheme.colorScheme.primaryContainer
+                        else MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                    .then(
+                        if (hasCategory) Modifier
+                        else Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant, chipShape)
+                    )
+                    .nebPressable(scale = 0.96f, tactile = TactileType.LightTap, onClick = onOpenCategories)
+                    .padding(
+                        start = 12.dp,
+                        end = if (hasCategory) 6.dp else 12.dp
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.FilterList,
+                    contentDescription = "Filter by topic",
+                    modifier = Modifier.size(15.dp),
+                    tint = if (hasCategory) MaterialTheme.colorScheme.onPrimaryContainer
+                    else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = if (hasCategory) "#$selectedCategory" else "Topics",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = if (hasCategory) FontWeight.SemiBold else FontWeight.Medium,
+                    color = if (hasCategory) MaterialTheme.colorScheme.onPrimaryContainer
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.widthIn(max = 112.dp)
+                )
+                if (hasCategory) {
+                    Box(
+                        modifier = Modifier
+                            .size(22.dp)
+                            .clip(CircleShape)
+                            .clickable(onClick = onClearCategory),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Close,
+                            contentDescription = "Clear topic filter",
+                            modifier = Modifier.size(14.dp),
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                }
+            }
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    if (isRefreshing) MaterialTheme.colorScheme.primary.copy(alpha = 0.45f)
+                    else MaterialTheme.colorScheme.outlineVariant.copy(alpha = if (scrolled) 1f else 0.55f)
+                )
+        )
+    }
+}
+
+@Composable
+private fun HomeSortPill(
+    label: String,
+    value: String,
+    icon: ImageVector,
+    currentSort: String,
+    onSelect: (String) -> Unit
+) {
+    val selected = currentSort == value
+    val pillShape = RoundedCornerShape(28.dp)
+    val bg = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
+    val fg = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+    Row(
+        modifier = Modifier
+            .height(34.dp)
+            .clip(pillShape)
+            .background(bg)
+            .then(
+                if (selected) Modifier
+                else Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant, pillShape)
+            )
+            .nebPressable(scale = 0.96f, tactile = TactileType.LightTap) { onSelect(value) }
+            .padding(horizontal = 13.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(15.dp),
+            tint = fg
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
+            color = fg,
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+internal fun HomeEndOfFeedCard(
+    onViewAllClick: () -> Unit,
+    onCreatePostClick: () -> Unit,
+    selectedCategory: String? = null,
+    onClearFilters: () -> Unit = {}
+) {
+    val cardShape = RoundedCornerShape(28.dp)
+    val pillShape = RoundedCornerShape(28.dp)
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
+            .padding(horizontal = 16.dp, vertical = 18.dp),
+        shape = cardShape,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(horizontal = 22.dp, vertical = 22.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(44.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), nebShape(NebGlyphShapes.Flower)),
+                    .size(46.dp)
+                    .background(MaterialTheme.colorScheme.primaryContainer, nebShape(NebGlyphShapes.Sunny)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Filled.Check,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.size(22.dp)
                 )
             }
             Text(
-                text = "You're all caught up!",
+                text = "You're all caught up",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "Explore the full dedicated discussion forum or dive into the digital library.",
+                text = if (selectedCategory != null) {
+                    "You've seen all discussions in #$selectedCategory. Switch topics or browse study guides in the library."
+                } else {
+                    "Browse notes and past papers in the library, or ask a question to start a new discussion."
+                },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
-            Column(
+            Spacer(Modifier.height(2.dp))
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Surface(
-                    onClick = onForumClick,
-                    shape = RoundedCornerShape(28.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Box(
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Forum",
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                        .clip(pillShape)
+                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                        .nebPressable(
+                            scale = 0.96f,
+                            tactile = TactileType.LightTap,
+                            onClick = if (selectedCategory != null) onClearFilters else onCreatePostClick
                         )
-                    }
+                        .padding(horizontal = 14.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = if (selectedCategory != null) Icons.Filled.FilterList else Icons.Filled.EditNote,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.size(17.dp)
+                    )
+                    Text(
+                        text = if (selectedCategory != null) "All topics" else "Ask a question",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
-                Surface(
-                    onClick = onViewAllClick,
-                    shape = RoundedCornerShape(28.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                    modifier = Modifier.fillMaxWidth()
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                        .clip(pillShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .nebPressable(scale = 0.96f, tactile = TactileType.LightTap, onClick = onViewAllClick)
+                        .padding(horizontal = 14.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box(
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Library",
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.MenuBook,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(17.dp)
+                    )
+                    Text(
+                        text = "Browse library",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }

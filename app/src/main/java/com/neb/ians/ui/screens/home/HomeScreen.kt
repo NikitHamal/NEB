@@ -46,8 +46,11 @@ import com.neb.ians.R
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ForumPostCard
-import com.neb.ians.ui.components.prewarmCardPreviews
+import com.neb.ians.ui.components.NebChipGroup
+import com.neb.ians.ui.components.NebModalSheet
+import com.neb.ians.ui.components.ReportDialog
 import com.neb.ians.ui.components.ShimmerHomeScreen
+import com.neb.ians.ui.components.UserPopoverDialog
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.sharePost
@@ -63,7 +66,6 @@ fun HomeScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
-    onForumClick: () -> Unit = {},
     onNotesClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
     onPathwaysClick: () -> Unit = {},
@@ -81,14 +83,22 @@ fun HomeScreen(
     val gate = LocalAuthGate.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val suggestedPeers by viewModel.suggestedPeers.collectAsStateWithLifecycle()
-    LaunchedEffect(uiState.recentPosts) { prewarmCardPreviews(uiState.recentPosts.map { it.content }) }
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     var deletingPostId by remember { mutableStateOf<String?>(null) }
+    var reportPostId by remember { mutableStateOf<String?>(null) }
+    var popoverUsername by remember { mutableStateOf<String?>(null) }
+    var showTopicSheet by remember { mutableStateOf(false) }
     var isRefreshing by remember { mutableStateOf(false) }
 
     val listState = rememberLazyListState()
+    val isScrolled by remember(listState) {
+        derivedStateOf { listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 8 }
+    }
+    LaunchedEffect(uiState.sort, uiState.selectedCategory) {
+        listState.scrollToItem(0)
+    }
     com.neb.ians.ui.components.TrackPostImpressions(
         listState = listState,
         postIdForKey = { (it as? String)?.takeIf { k -> k.startsWith("post_") }?.removePrefix("post_") },
@@ -118,14 +128,25 @@ fun HomeScreen(
     Scaffold(
         snackbarHost = { NebToastHost(hostState = snackbarHostState) },
         topBar = {
-            WebTopBar(
-                onSearchClick = onSearchClick,
-                onUploadClick = onUploadClick,
-                onNotificationsClick = onNotificationsClick,
-                onProfileClick = onProfileClick,
-                avatarInitial = uiState.userName,
-                avatarUrl = uiState.userPhotoUrl
-            )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                WebTopBar(
+                    onSearchClick = onSearchClick,
+                    onUploadClick = onUploadClick,
+                    onNotificationsClick = onNotificationsClick,
+                    onProfileClick = onProfileClick,
+                    avatarInitial = uiState.userName,
+                    avatarUrl = uiState.userPhotoUrl
+                )
+                HomePostsFilterBar(
+                    currentSort = uiState.sort,
+                    selectedCategory = uiState.selectedCategory,
+                    isRefreshing = uiState.isFilterRefreshing,
+                    scrolled = isScrolled,
+                    onSelectSort = viewModel::selectSort,
+                    onOpenCategories = { showTopicSheet = true },
+                    onClearCategory = { viewModel.selectCategory(null) }
+                )
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
@@ -163,7 +184,9 @@ fun HomeScreen(
                         suggestedResources,
                         uiState.recentResources,
                         uiState.latestNews,
-                        suggestedPeers
+                        suggestedPeers,
+                        uiState.sort,
+                        uiState.selectedCategory
                     ) {
                         buildHomeFeed(
                             posts = feedPosts,
@@ -171,13 +194,14 @@ fun HomeScreen(
                             suggestedResources = suggestedResources,
                             recentResources = uiState.recentResources,
                             news = uiState.latestNews,
-                            peers = suggestedPeers
+                            peers = suggestedPeers,
+                            sort = uiState.sort,
+                            selectedCategory = uiState.selectedCategory
                         )
                     }
 
                     val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
-                    val context = androidx.compose.ui.platform.LocalContext.current
-                    val homeAtTop by androidx.compose.runtime.remember(listState) { androidx.compose.runtime.derivedStateOf { listState.firstVisibleItemIndex == 0 } }
+                    val homeAtTop by remember(listState) { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize().seasonAmbience(homeAtTop),
@@ -192,7 +216,7 @@ fun HomeScreen(
                                 com.neb.ians.ui.theme.SeasonCard(
                                     onAction = { url ->
                                         when {
-                                            "forum" in url -> onForumClick()
+                                            "forum" in url -> onCreatePostClick()
                                             "library" in url -> onViewAllClick()
                                             else -> runCatching {
                                                 val full = if (url.startsWith("http")) url else "https://nebians.consica.com.np$url"
@@ -217,10 +241,10 @@ fun HomeScreen(
                         if (feedEntries.isEmpty()) {
                             item(key = "feed_empty") {
                                 WebEmptyState(
-                                    title = "No posts available",
-                                    message = "Be the first to ask a question, share notes or start a discussion!",
+                                    title = if (uiState.selectedCategory != null) "No posts in #${uiState.selectedCategory}" else "No posts available",
+                                    message = if (uiState.selectedCategory != null) "Try another topic or start the first discussion in this subject." else "Ask a question, share study notes or start a discussion.",
                                     icon = painterResource(id = R.drawable.ic_forum_outlined),
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                                 )
                             }
                         } else {
@@ -245,10 +269,12 @@ fun HomeScreen(
                                         onLikeClick = { gate.require(GateReason.Like) { viewModel.toggleThumbsUp(entry.post.id) } },
                                         onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleBookmark(entry.post.id) } },
                                         onShareClick = { sharePost(context, entry.post.id) },
-                                        onReportClick = {},
+                                        onReportClick = { reportPostId = entry.post.id },
                                         onEditClick = { onEditPostClick(entry.post.id) },
+                                        onArchiveClick = { viewModel.archivePost(entry.post.id) },
                                         onDeleteClick = { deletingPostId = entry.post.id },
-                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) }
+                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) },
+                                        onAuthorLongPress = { popoverUsername = entry.post.authorName }
                                     )
 
                                     is HomeFeedEntry.ResourceCarousel -> Column(
@@ -332,8 +358,10 @@ fun HomeScreen(
                         if (!uiState.hasMorePosts && feedPosts.isNotEmpty()) {
                             item(key = "end_of_feed") {
                                 HomeEndOfFeedCard(
-                                    onForumClick = onForumClick,
-                                    onViewAllClick = onViewAllClick
+                                    onViewAllClick = onViewAllClick,
+                                    onCreatePostClick = onCreatePostClick,
+                                    selectedCategory = uiState.selectedCategory,
+                                    onClearFilters = viewModel::clearFilters
                                 )
                             }
                         }
@@ -347,6 +375,16 @@ fun HomeScreen(
         }
     }
 
+    reportPostId?.let { postId ->
+        ReportDialog(
+            onDismiss = { reportPostId = null },
+            onSubmit = { reason, description ->
+                viewModel.reportPost(postId, reason, description)
+                reportPostId = null
+            }
+        )
+    }
+
     deletingPostId?.let { postId ->
         ConfirmDeleteDialog(
             message = "Delete post? This cannot be undone.",
@@ -356,5 +394,34 @@ fun HomeScreen(
                 deletingPostId = null
             }
         )
+    }
+
+    popoverUsername?.let { username ->
+        UserPopoverDialog(
+            username = username,
+            onDismiss = { popoverUsername = null },
+            onViewProfile = { profileUsername ->
+                popoverUsername = null
+                onUserProfileClick(profileUsername)
+            }
+        )
+    }
+
+    if (showTopicSheet) {
+        NebModalSheet(
+            onDismiss = { showTopicSheet = false },
+            title = "Filter by topic",
+            showClose = true
+        ) {
+            NebChipGroup(
+                options = listOf("All") + HomeUiState.CATEGORIES,
+                selected = uiState.selectedCategory ?: "All",
+                onSelect = { picked ->
+                    viewModel.selectCategory(if (picked == null || picked == "All") null else picked)
+                    showTopicSheet = false
+                },
+                toggleable = false
+            )
+        }
     }
 }

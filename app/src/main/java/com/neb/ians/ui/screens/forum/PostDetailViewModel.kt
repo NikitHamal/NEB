@@ -37,7 +37,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
 import javax.inject.Inject
+
+internal fun JsonObject.stringField(key: String): String? =
+    try { (this[key] as? JsonPrimitive)?.contentOrNull } catch (_: Exception) { null }
+
+internal fun JsonObject.intField(key: String): Int? =
+    try { (this[key] as? JsonPrimitive)?.intOrNull } catch (_: Exception) { null }
+
+internal fun JsonObject.boolField(key: String): Boolean? =
+    try { (this[key] as? JsonPrimitive)?.let { it.contentOrNull?.toBooleanStrictOrNull() } } catch (_: Exception) { null }
 
 /** Lower ranks first; the same table the web uses for its reply list. */
 internal fun replyRank(label: String): Int = when (label) {

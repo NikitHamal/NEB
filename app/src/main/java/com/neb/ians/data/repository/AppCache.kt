@@ -23,11 +23,6 @@ class AppCache @Inject constructor() {
     var libraryTotalCount: Int = 0
     var libraryTotalPages: Int = 1
     var libraryHasMore: Boolean = false
-    
-    // Forum Screen Cache
-    var forumPosts: List<ApiPost> = emptyList()
-    var forumHasMore: Boolean = false
-    var forumPage: Int = 1
 
     // Every resource in every list page lands in resourceDetails, so unbounded these grew for as
     // long as the app stayed open. They keep the most recently added entries; anything older is

@@ -845,6 +845,8 @@ private val inlinePattern = Regex(
         "|(<u>(.+?)</u>)"               // 17,18 underline
 )
 
+private val inlineAnnotatedCache = android.util.LruCache<Int, AnnotatedString>(256)
+
 internal fun buildInlineAnnotatedString(
     text: String,
     baseColor: Color,
@@ -853,10 +855,14 @@ internal fun buildInlineAnnotatedString(
     errorBg: Color = Color(0xFFFBEDEC),
     errorFg: Color = Color(0xFF7A1C16)
 ): AnnotatedString {
+    val cacheKey = java.util.Objects.hash(text, baseColor, primary, codeBg, errorBg, errorFg)
+    synchronized(inlineAnnotatedCache) { inlineAnnotatedCache.get(cacheKey) }?.let { return it }
     // Inline image tokens are emitted as inline-content placeholders; the
     // remaining markdown styling runs per text segment between tokens.
     if (!text.contains("[[img:")) {
-        return buildAnnotatedString { appendStyledSegment(text, primary, codeBg, errorBg, errorFg) }
+        val built = buildAnnotatedString { appendStyledSegment(text, primary, codeBg, errorBg, errorFg) }
+        synchronized(inlineAnnotatedCache) { inlineAnnotatedCache.put(cacheKey, built) }
+        return built
     }
     return buildAnnotatedString {
         var cursor = 0
@@ -1089,7 +1095,7 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
  * Cards show a few lines of preview. Past this many characters nothing can be seen, but it would
  * still be styled and measured for every card that scrolls in.
  */
-private const val CARD_PREVIEW_MAX_CHARS = 1200
+private const val CARD_PREVIEW_MAX_CHARS = 420
 
 /** This text cut where a card's few lines can never reach, never inside a surrogate pair. */
 fun String.clippedForCard(): String {

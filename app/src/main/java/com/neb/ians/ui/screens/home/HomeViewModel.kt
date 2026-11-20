@@ -41,6 +41,7 @@ private data class HomeLoadResults(
     val news: List<NewsAnnouncement>
 )
 
+@androidx.compose.runtime.Immutable
 data class HomeUiState(
     val userName: String = "Student",
     val userPhotoUrl: String? = null,
@@ -49,24 +50,29 @@ data class HomeUiState(
     val popularResources: List<ApiResource> = emptyList(),
     val recentPosts: List<ApiPost> = emptyList(),
     val latestNews: List<NewsAnnouncement> = emptyList(),
-    val selectedFilter: String = "all",
+    val sort: String = "hot",
+    val selectedCategory: String? = null,
     val isLoading: Boolean = true,
+    val isFilterRefreshing: Boolean = false,
     val isLoadingMore: Boolean = false,
     val hasMorePosts: Boolean = true,
     val error: String? = null
 ) {
     companion object {
-        val SUBJECTS = listOf(
-            "Physics", "Chemistry", "Mathematics", "Biology",
-            "English", "Nepali", "Computer Science", "Economics", "Accountancy"
+        val CATEGORIES = listOf(
+            "General", "Physics", "Chemistry", "Mathematics",
+            "Biology", "Computer Science", "English", "Nepali",
+            "Accountancy", "Economics", "Exam Tips"
         )
     }
 }
 
 private data class HomeStatusState(
     val isLoading: Boolean,
+    val isFilterRefreshing: Boolean,
     val error: String?,
-    val selectedFilter: String,
+    val sort: String,
+    val selectedCategory: String?,
     val isLoadingMore: Boolean,
     val hasMorePosts: Boolean
 )
@@ -92,12 +98,16 @@ class HomeViewModel @Inject constructor(
     private val _popularResources = MutableStateFlow<List<ApiResource>>(appCache.popularResources)
     private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
     private val _latestNews = MutableStateFlow<List<NewsAnnouncement>>(appCache.latestNews)
-    private val _selectedFilter = MutableStateFlow("all")
+    private val _sort = MutableStateFlow("hot")
+    private val _selectedCategory = MutableStateFlow<String?>(null)
+    private val _isFilterRefreshing = MutableStateFlow(false)
     private val _isLoadingMore = MutableStateFlow(false)
     private val _hasMorePosts = MutableStateFlow(true)
     private var currentPostPage = 1
     private var currentResourcePage = 1
     private var hasMoreResources = true
+    private var filterJob: Job? = null
+    private val postSlices = java.util.concurrent.ConcurrentHashMap<String, Pair<List<ApiPost>, Boolean>>()
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
     private val processingDeletions = mutableSetOf<String>()
@@ -109,7 +119,13 @@ class HomeViewModel @Inject constructor(
 
     val suggestedPeers: StateFlow<List<PersonSuggestion>> = peopleSuggestionRepository.suggestions
 
+    private fun sliceKey(sort: String = _sort.value, category: String? = _selectedCategory.value): String =
+        "$sort|${category.orEmpty()}"
+
     init {
+        if (appCache.recentPosts.isNotEmpty()) {
+            postSlices[sliceKey("hot", null)] = appCache.recentPosts to true
+        }
         loadData()
         viewModelScope.launch { peopleSuggestionRepository.load() }
         unsubscribeForum = realtimeClient.subscribe("forum.public")
@@ -120,6 +136,8 @@ class HomeViewModel @Inject constructor(
                         handleLikeEvent(event.data)
                     event.channel == "forum.public" && event.event == "post.created" ->
                         handlePostCreated(event.data)
+                    event.channel == "forum.public" && event.event == "post.deleted" ->
+                        handlePostDeleted(event.data)
                 }
             }
         }
@@ -150,11 +168,20 @@ class HomeViewModel @Inject constructor(
                             }
                     }
                     if (keys.any { it.startsWith(CacheBus.PREFIX_POSTS_LIST) }) {
-                        forumRepository.getPosts(page = 1, cacheOnly = true)
+                        val activeSort = _sort.value
+                        val activeCat = _selectedCategory.value
+                        forumRepository.getPosts(category = activeCat, page = 1, sort = activeSort, cacheOnly = true)
                             .onSuccess { result ->
+                                val uid = authRepository.currentUserIdFlow.value
+                                val ranked = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                                    rankHomeFeedPosts(result.posts, activeSort, uid)
+                                }
                                 _recentPosts.update { current ->
-                                    val merged = mergeHead(result.posts, current) { it.id }
-                                    if (merged == current) current else merged.also { appCache.recentPosts = it }
+                                    val merged = mergeHead(ranked, current) { it.id }
+                                    if (merged == current) current else merged.also {
+                                        postSlices[sliceKey(activeSort, activeCat)] = it to result.hasMore
+                                        if (activeSort == "hot" && activeCat == null) appCache.recentPosts = it
+                                    }
                                 }
                             }
                     }
@@ -184,10 +211,29 @@ class HomeViewModel @Inject constructor(
         try {
             val payload = data ?: return
             val newPost = postJson.decodeFromJsonElement<ApiPost>(payload)
+            val activeCat = _selectedCategory.value
+            if (activeCat != null && !newPost.category.equals(activeCat, ignoreCase = true)) return
             _recentPosts.update { posts ->
                 if (posts.any { it.id == newPost.id }) return@update posts
                 val updated = listOf(newPost) + posts
-                appCache.recentPosts = updated
+                postSlices[sliceKey()] = updated to _hasMorePosts.value
+                if (_sort.value == "hot" && activeCat == null) appCache.recentPosts = updated
+                updated
+            }
+        } catch (_: Exception) {}
+    }
+
+    private fun handlePostDeleted(data: JsonObject?) {
+        try {
+            val payload = data ?: return
+            val postId = (payload["post_id"] as? kotlinx.serialization.json.JsonPrimitive)?.contentOrNull
+                ?: (payload["id"] as? kotlinx.serialization.json.JsonPrimitive)?.contentOrNull
+                ?: return
+            _recentPosts.update { posts ->
+                if (posts.none { it.id == postId }) return@update posts
+                val updated = posts.filterNot { it.id == postId }
+                postSlices[sliceKey()] = updated to _hasMorePosts.value
+                if (_sort.value == "hot" && _selectedCategory.value == null) appCache.recentPosts = updated
                 updated
             }
         } catch (_: Exception) {}
@@ -216,9 +262,14 @@ class HomeViewModel @Inject constructor(
 
             if (!forceRefresh) {
                 coroutineScope {
+                    val activeSort = _sort.value
+                    val activeCat = _selectedCategory.value
                     val cachedResources = async { resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true) }
                     val cachedPopular = async { resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true) }
-                    val cachedPosts = async { forumRepository.getPosts(page = 1, cacheOnly = true) }
+                    val cachedPosts = async {
+                        forumRepository.getPosts(category = activeCat, page = 1, sort = activeSort, cacheOnly = true)
+                            .recoverCatching { forumRepository.getPosts(page = 1, cacheOnly = true).getOrThrow() }
+                    }
 
                     cachedResources.await().onSuccess { result ->
                         appCache.recentResources = result.resources
@@ -229,9 +280,13 @@ class HomeViewModel @Inject constructor(
                         _popularResources.value = result.resources
                     }
                     cachedPosts.await().onSuccess { result ->
-                        val posts = result.posts.distinctBy { it.id }
-                        com.neb.ians.ui.components.prewarmCardPreviewsNow(posts.map { it.content })
-                        appCache.recentPosts = posts
+                        val uid = authRepository.currentUserIdFlow.value
+                        val posts = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                            com.neb.ians.ui.components.prewarmCardPreviewsNow(result.posts.map { it.content })
+                            rankHomeFeedPosts(result.posts, activeSort, uid)
+                        }
+                        postSlices[sliceKey(activeSort, activeCat)] = posts to result.hasMore
+                        if (activeSort == "hot" && activeCat == null) appCache.recentPosts = posts
                         _recentPosts.value = posts
                     }
                 }
@@ -246,28 +301,39 @@ class HomeViewModel @Inject constructor(
                 if (forceRefresh && authRepository.getBearerToken() != null) {
                     viewModelScope.launch { authRepository.refreshProfile() }
                 }
+                val activeSort = _sort.value
+                val activeCat = _selectedCategory.value
                 val results = coroutineScope {
                     val resources = async { resourceRepository.getResources(sort = "newest", page = 1, forceRefresh = forceRefresh) }
                     val popular = async { resourceRepository.getResources(sort = "trending", page = 1, forceRefresh = forceRefresh) }
-                    val posts = async { forumRepository.getPosts(page = 1, forceRefresh = forceRefresh) }
+                    val posts = async { forumRepository.getPosts(category = activeCat, page = 1, sort = activeSort, forceRefresh = forceRefresh) }
                     val news = async { newsRepository.getAnnouncements().getOrDefault(appCache.latestNews) }
                     HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await())
                 }
 
                 val resources = results.resources.getOrNull()?.resources ?: appCache.recentResources
                 val popular = results.popular.getOrNull()?.resources ?: appCache.popularResources
-                val posts = (results.posts.getOrNull()?.posts ?: appCache.recentPosts).distinctBy { it.id }
+                val postResult = results.posts.getOrNull()
+                val rawPosts = (postResult?.posts ?: _recentPosts.value).distinctBy { it.id }
+                val uid = authRepository.currentUserIdFlow.value
+                val posts = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                    com.neb.ians.ui.components.prewarmCardPreviewsNow(rawPosts.map { it.content })
+                    rankHomeFeedPosts(rawPosts, activeSort, uid)
+                }
                 val news = results.news
-                com.neb.ians.ui.components.prewarmCardPreviewsNow(posts.map { it.content })
 
                 _recentResources.value = resources
                 _popularResources.value = popular
                 _recentPosts.value = posts
+                _hasMorePosts.value = postResult?.hasMore ?: _hasMorePosts.value
                 _latestNews.value = news
 
+                postSlices[sliceKey(activeSort, activeCat)] = posts to _hasMorePosts.value
                 appCache.recentResources = resources
                 appCache.popularResources = popular
-                appCache.recentPosts = posts
+                if (activeSort == "hot" && activeCat == null) {
+                    appCache.recentPosts = posts
+                }
                 appCache.latestNews = news
 
                 val firstFailure = listOf(
@@ -296,18 +362,86 @@ class HomeViewModel @Inject constructor(
         return loadData(forceRefresh = true)
     }
 
-    fun selectFilter(filter: String) {
-        _selectedFilter.value = filter
+    fun selectSort(sort: String) {
+        if (_sort.value == sort) return
+        _sort.value = sort
+        reloadFilteredPosts()
+    }
+
+    fun selectCategory(category: String?) {
+        val next = if (_selectedCategory.value == category) null else category
+        _selectedCategory.value = next
+        reloadFilteredPosts()
+    }
+
+    fun clearFilters() {
+        if (_sort.value == "hot" && _selectedCategory.value == null) return
+        _sort.value = "hot"
+        _selectedCategory.value = null
+        reloadFilteredPosts()
+    }
+
+    private fun reloadFilteredPosts() {
+        filterJob?.cancel()
+        val targetSort = _sort.value
+        val targetCat = _selectedCategory.value
+        val key = sliceKey(targetSort, targetCat)
+        currentPostPage = 1
+
+        postSlices[key]?.let { (cachedSlice, cachedHasMore) ->
+            _recentPosts.value = cachedSlice
+            _hasMorePosts.value = cachedHasMore
+        }
+
+        filterJob = viewModelScope.launch {
+            _error.value = null
+            _isFilterRefreshing.value = true
+            if (postSlices[key] == null) {
+                forumRepository.getPosts(category = targetCat, page = 1, sort = targetSort, cacheOnly = true)
+                    .onSuccess { cached ->
+                        val uid = authRepository.currentUserIdFlow.value
+                        val ranked = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                            com.neb.ians.ui.components.prewarmCardPreviewsNow(cached.posts.map { it.content })
+                            rankHomeFeedPosts(cached.posts, targetSort, uid)
+                        }
+                        postSlices[key] = ranked to cached.hasMore
+                        _recentPosts.value = ranked
+                        _hasMorePosts.value = cached.hasMore
+                    }
+            }
+            forumRepository.getPosts(category = targetCat, page = 1, sort = targetSort, forceRefresh = false)
+                .onSuccess { fresh ->
+                    val uid = authRepository.currentUserIdFlow.value
+                    val ranked = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                        com.neb.ians.ui.components.prewarmCardPreviewsNow(fresh.posts.map { it.content })
+                        rankHomeFeedPosts(fresh.posts, targetSort, uid)
+                    }
+                    postSlices[key] = ranked to fresh.hasMore
+                    _recentPosts.value = ranked
+                    _hasMorePosts.value = fresh.hasMore
+                    if (targetSort == "hot" && targetCat == null) {
+                        appCache.recentPosts = ranked
+                    }
+                }
+                .onFailure {
+                    if (postSlices[key] == null) {
+                        _snackbarMessage.tryEmit("Couldn't load filtered posts")
+                    }
+                }
+            _isFilterRefreshing.value = false
+        }
     }
 
     fun loadMore() {
-        if (_isLoadingMore.value || !_hasMorePosts.value) return
+        if (_isLoadingMore.value || !_hasMorePosts.value || _isFilterRefreshing.value) return
         viewModelScope.launch {
             _isLoadingMore.value = true
+            val activeSort = _sort.value
+            val activeCat = _selectedCategory.value
             val nextPostPage = currentPostPage + 1
             val nextResPage = currentResourcePage + 1
             coroutineScope {
-                val morePosts = async { forumRepository.getPosts(page = nextPostPage) }
+                val morePosts = async { forumRepository.getPosts(category = activeCat, page = nextPostPage, sort = activeSort) }
                 val moreResources = async {
                     if (hasMoreResources) {
                         resourceRepository.getResources(sort = "newest", page = nextResPage)
@@ -318,10 +452,17 @@ class HomeViewModel @Inject constructor(
                     onSuccess = { result ->
                         currentPostPage = nextPostPage
                         _hasMorePosts.value = result.hasMore
+                        val uid = authRepository.currentUserIdFlow.value
+                        val rankedNew = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                            com.neb.ians.ui.components.prewarmCardPreviewsNow(result.posts.map { it.content })
+                            rankHomeFeedPosts(result.posts, activeSort, uid)
+                        }
                         _recentPosts.update { current ->
                             val existingIds = current.mapTo(HashSet(current.size)) { it.id }
-                            val newOnes = result.posts.filter { existingIds.add(it.id) }
-                            if (newOnes.isEmpty()) current else current + newOnes
+                            val newOnes = rankedNew.filter { existingIds.add(it.id) }
+                            val updated = if (newOnes.isEmpty()) current else current + newOnes
+                            postSlices[sliceKey(activeSort, activeCat)] = updated to result.hasMore
+                            updated
                         }
                     },
                     onFailure = {
@@ -377,7 +518,10 @@ class HomeViewModel @Inject constructor(
     private fun updatePostEverywhere(updatedPost: ApiPost) {
         _recentPosts.update { posts ->
             val updated = posts.map { if (it.id == updatedPost.id) updatedPost else it }
-            appCache.recentPosts = updated
+            postSlices[sliceKey()] = updated to _hasMorePosts.value
+            if (_sort.value == "hot" && _selectedCategory.value == null) {
+                appCache.recentPosts = updated
+            }
             updated
         }
     }
@@ -387,30 +531,35 @@ class HomeViewModel @Inject constructor(
         val current = _recentPosts.value.firstOrNull { it.id == postId } ?: return
         processingBookmarks.add(postId)
         val optimistic = current.copy(isBookmarked = !(current.isBookmarked == true))
-        _recentPosts.update { posts ->
-            val updated = posts.map { if (it.id == postId) optimistic else it }
-            appCache.recentPosts = updated
-            updated
-        }
+        updatePostEverywhere(optimistic)
         viewModelScope.launch {
             forumRepository.toggleBookmark("post", postId)
                 .onSuccess { response ->
-                    _recentPosts.update { posts ->
-                        val updated = posts.map { post ->
-                            if (post.id == postId) post.copy(isBookmarked = response.isBookmarked) else post
-                        }
-                        appCache.recentPosts = updated
-                        updated
-                    }
+                    updatePostEverywhere(current.copy(isBookmarked = response.isBookmarked))
                 }
                 .onFailure {
-                    _recentPosts.update { posts ->
-                        val updated = posts.map { if (it.id == postId) current else it }
-                        appCache.recentPosts = updated
-                        updated
-                    }
+                    updatePostEverywhere(current)
                 }
             processingBookmarks.remove(postId)
+        }
+    }
+
+    fun reportPost(postId: String, reason: String, description: String) {
+        viewModelScope.launch {
+            forumRepository.createReport("post", postId, reason, description)
+                .onSuccess { _snackbarMessage.tryEmit("Report submitted") }
+                .onFailure { _snackbarMessage.tryEmit("Couldn't submit report") }
+        }
+    }
+
+    fun archivePost(postId: String) {
+        val current = _recentPosts.value.firstOrNull { it.id == postId } ?: return
+        viewModelScope.launch {
+            forumRepository.archivePost(postId)
+                .onSuccess {
+                    updatePostEverywhere(current.copy(isArchived = !(current.isArchived == true)))
+                }
+                .onFailure { _snackbarMessage.tryEmit("Couldn't archive post") }
         }
     }
 
@@ -422,7 +571,10 @@ class HomeViewModel @Inject constructor(
                 .onSuccess {
                     _recentPosts.update { posts ->
                         val updated = posts.filterNot { it.id == postId }
-                        appCache.recentPosts = updated
+                        postSlices[sliceKey()] = updated to _hasMorePosts.value
+                        if (_sort.value == "hot" && _selectedCategory.value == null) {
+                            appCache.recentPosts = updated
+                        }
                         updated
                     }
                     _snackbarMessage.tryEmit("Post deleted")
@@ -483,8 +635,20 @@ class HomeViewModel @Inject constructor(
         _popularResources,
         _recentPosts,
         _latestNews,
-        combine(_isLoading, _error, _selectedFilter, _isLoadingMore, _hasMorePosts) { isLoading, error, filter, loadingMore, hasMore ->
-            HomeStatusState(isLoading, error, filter, loadingMore, hasMore)
+        combine(
+            combine(_isLoading, _isFilterRefreshing, _error) { l, fr, err -> Triple(l, fr, err) },
+            combine(_sort, _selectedCategory) { s, c -> s to c },
+            combine(_isLoadingMore, _hasMorePosts) { lm, hm -> lm to hm }
+        ) { loadingErr, filterPair, pagingPair ->
+            HomeStatusState(
+                isLoading = loadingErr.first,
+                isFilterRefreshing = loadingErr.second,
+                error = loadingErr.third,
+                sort = filterPair.first,
+                selectedCategory = filterPair.second,
+                isLoadingMore = pagingPair.first,
+                hasMorePosts = pagingPair.second
+            )
         }
     ) { values ->
         val user = values[0] as Triple<String, String?, String?>
@@ -501,8 +665,10 @@ class HomeViewModel @Inject constructor(
             popularResources = popularResources,
             recentPosts = recentPosts,
             latestNews = latestNews,
-            selectedFilter = status.selectedFilter,
+            sort = status.sort,
+            selectedCategory = status.selectedCategory,
             isLoading = status.isLoading,
+            isFilterRefreshing = status.isFilterRefreshing,
             isLoadingMore = status.isLoadingMore,
             hasMorePosts = status.hasMorePosts,
             error = status.error

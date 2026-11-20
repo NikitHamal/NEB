@@ -436,21 +436,46 @@ def posts_endpoint(request):
         response = _paginated_response(request, posts, PostSerializer, context={'request': request})
         if sort == 'hot' and isinstance(response.data, dict):
             results = response.data.get('results')
-            if isinstance(results, list):
+            if isinstance(results, list) and len(results) > 1:
                 import math
                 import time as _time
                 now_ms_val = int(_time.time() * 1000)
 
-                def _hot_score(p):
-                    engagement = (p.get('thumbsUpCount', 0) * 3
-                                  + p.get('replyCount', 0) * 2
-                                  + min(p.get('viewCount', 0) or 0, 1000) * 0.1)
+                def _hot_base_score(p):
+                    likes = p.get('thumbsUpCount', 0) or 0
+                    replies = p.get('replyCount', 0) or 0
+                    views = min(p.get('viewCount', 0) or 0, 1500)
+                    engagement = likes * 3.2 + replies * 4.2 + views * 0.08
+                    eng_score = math.log(1.0 + engagement) * 2.2 if engagement > 0 else 0.0
                     age_hours = max(0.0, (now_ms_val - (p.get('createdAt') or 0)) / 3600000.0)
-                    if engagement <= 0:
-                        return -age_hours / 168.0
-                    return math.log2(max(engagement, 1)) - age_hours / 168.0
+                    freshness = (1.0 - age_hours / 6.0) * 2.4 if age_hours < 6.0 else 0.0
+                    gravity = ((age_hours + 2.5) ** 0.45) * 0.55 + (age_hours / 72.0)
+                    social = 2.1 if p.get('isFollowingAuthor') else 0.0
+                    has_media = bool(p.get('images') or p.get('attachments') or p.get('poll'))
+                    richness = (0.55 if has_media else 0.0) + (0.35 if len(p.get('content') or '') >= 140 else 0.0)
+                    seen_penalty = 0.5 if (p.get('isThumbedUp') and age_hours > 4.0) else 0.0
+                    return (eng_score + freshness + social + richness - seen_penalty) - gravity
 
-                response.data['results'] = sorted(results, key=_hot_score, reverse=True)
+                base_scores = [_hot_base_score(p) for p in results]
+                remaining = list(range(len(results)))
+                author_counts = {}
+                ranked = []
+                while remaining:
+                    best_pos = 0
+                    best_val = -1e18
+                    for pos, idx in enumerate(remaining):
+                        item = results[idx]
+                        author_key = str(item.get('authorId') or item.get('authorName') or idx)
+                        adj = base_scores[idx] - author_counts.get(author_key, 0) * 1.35
+                        if adj > best_val:
+                            best_val = adj
+                            best_pos = pos
+                    chosen_idx = remaining.pop(best_pos)
+                    chosen_item = results[chosen_idx]
+                    a_key = str(chosen_item.get('authorId') or chosen_item.get('authorName') or chosen_idx)
+                    author_counts[a_key] = author_counts.get(a_key, 0) + 1
+                    ranked.append(chosen_item)
+                response.data['results'] = ranked
         if anon_cache_key and response.status_code == 200 and isinstance(response.data, dict):
             _cache.set(anon_cache_key, response.data, 15)
         return response

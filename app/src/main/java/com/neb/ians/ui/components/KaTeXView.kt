@@ -68,6 +68,7 @@ private fun looksLikeMath(candidate: String): Boolean {
  */
 fun hasLatexMath(text: String?): Boolean {
     if (text.isNullOrBlank()) return false
+    if (!text.contains('\\') && !text.contains('$')) return false
     if (text.contains("$$") || text.contains("\\[") || text.contains("\\(")) return true
     if (text.contains("\\begin{") || text.contains("\\end{")) return true
     if (LatexCommandRegex.containsMatchIn(text)) return true
@@ -256,17 +257,28 @@ fun KaTeXText(
         buildInlineAnnotatedString(formatted, color, primary, codeBg, errorBg, errorFg)
     }
 
-    NebAnnotatedText(
-        text = annotated,
-        style = if (textAlign != null) effectiveStyle.copy(textAlign = textAlign) else effectiveStyle,
-        modifier = modifier,
-        maxLines = maxLines,
-        overflow = overflow,
-        onClick = { offset ->
-            val link = annotated.getStringAnnotations("url", offset, offset).firstOrNull()
-            if (link != null && onLinkClick != null) onLinkClick(link.item) else onClick?.invoke()
-        }
-    )
+    val finalStyle = if (textAlign != null) effectiveStyle.copy(textAlign = textAlign) else effectiveStyle
+    if (onClick == null && onLinkClick == null) {
+        Text(
+            text = annotated,
+            style = finalStyle,
+            modifier = modifier,
+            maxLines = maxLines,
+            overflow = overflow
+        )
+    } else {
+        NebAnnotatedText(
+            text = annotated,
+            style = finalStyle,
+            modifier = modifier,
+            maxLines = maxLines,
+            overflow = overflow,
+            onClick = { offset ->
+                val link = annotated.getStringAnnotations("url", offset, offset).firstOrNull()
+                if (link != null && onLinkClick != null) onLinkClick(link.item) else onClick?.invoke()
+            }
+        )
+    }
 }
 
 private fun buildKaTeXHtml(

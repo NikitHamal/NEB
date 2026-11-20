@@ -5,17 +5,11 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.repository.PersonSuggestion
+import kotlin.math.ln
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
 
-/**
- * The home feed as a flat list of typed entries.
- *
- * The screen used to nest every interstitial — the resource carousel, the news
- * strip, the people rail — inside the lazy item of the post it followed, which
- * meant one lazy item could be a card or a card plus a whole carousel, and the
- * list could never reuse a slot. Flattening them into siblings gives every row
- * one content type, so scrolling reuses compositions instead of rebuilding
- * them, and puts the cadence itself in one readable place.
- */
 @Immutable
 sealed interface HomeFeedEntry {
     val key: String
@@ -71,36 +65,110 @@ sealed interface HomeFeedEntry {
     }
 }
 
-private const val HIGHLIGHT_START = 9
-private const val HIGHLIGHT_EVERY = 5
-/**
- * Interleaves posts with the standing interstitials at their anchor positions.
- *
- * An interstitial whose anchor is past the end of a short feed is appended
- * instead of dropped — a five-post feed should still surface the library and
- * the people rail rather than showing five cards and stopping.
- */
+private const val HIGHLIGHT_START = 12
+private const val HIGHLIGHT_EVERY = 6
+
+private val ACADEMIC_CATEGORIES = setOf(
+    "physics", "chemistry", "mathematics", "biology",
+    "computer science", "english", "nepali", "accountancy",
+    "economics", "exam tips"
+)
+
+fun rankHomeFeedPosts(
+    posts: List<ApiPost>,
+    sort: String,
+    currentUserId: String?,
+    nowMs: Long = System.currentTimeMillis()
+): List<ApiPost> {
+    val unique = posts.distinctBy { it.id }
+    if (unique.size <= 1) return unique
+    return when (sort) {
+        "new" -> unique.sortedByDescending { it.createdAt }
+        "top" -> unique.sortedWith(compareByDescending<ApiPost> { it.thumbsUpCount }.thenByDescending { it.replyCount }.thenByDescending { it.createdAt })
+        "discussed" -> unique.sortedWith(compareByDescending<ApiPost> { it.replyCount }.thenByDescending { it.thumbsUpCount }.thenByDescending { it.createdAt })
+        else -> {
+            val baseScores = unique.associateWith { p ->
+                val ageHours = max(0.0, (nowMs - p.createdAt).toDouble() / 3_600_000.0)
+                val engagement = p.thumbsUpCount * 3.2 + p.replyCount * 4.2 + min(p.viewCount, 1500) * 0.08
+                val engScore = if (engagement > 0.0) ln(1.0 + engagement) * 2.2 else 0.0
+                val freshnessBoost = if (ageHours < 6.0) (1.0 - ageHours / 6.0) * 2.4 else 0.0
+                val gravity = (ageHours + 2.5).pow(0.45) + (ageHours / 72.0)
+                val isOwn = p.isOwner || (currentUserId != null && p.authorId == currentUserId)
+                val socialBoost = when {
+                    isOwn && ageHours < 1.0 -> 3.0
+                    p.isFollowingAuthor == true -> 2.1
+                    else -> 0.0
+                }
+                val catLower = p.category.trim().lowercase()
+                val qualityBoost = (if (catLower in ACADEMIC_CATEGORIES) 0.65 else 0.0) +
+                    (if (p.images.isNotEmpty() || p.attachments.isNotEmpty() || p.poll != null) 0.55 else 0.0) +
+                    (if (p.content.length >= 140) 0.35 else 0.0)
+                val seenPenalty = if (p.isThumbedUp && ageHours > 4.0) 0.5 else 0.0
+                (engScore + freshnessBoost + socialBoost + qualityBoost - seenPenalty) - gravity * 0.55
+            }
+            val remaining = unique.toMutableList()
+            val authorCounts = HashMap<String, Int>()
+            val ranked = ArrayList<ApiPost>(unique.size)
+            while (remaining.isNotEmpty()) {
+                var bestIdx = 0
+                var bestScore = Double.NEGATIVE_INFINITY
+                for (i in remaining.indices) {
+                    val candidate = remaining[i]
+                    val authorKey = candidate.authorId.ifBlank { candidate.authorName }
+                    val priorByAuthor = authorCounts[authorKey] ?: 0
+                    val adjusted = (baseScores[candidate] ?: 0.0) - priorByAuthor * 1.35
+                    if (adjusted > bestScore) {
+                        bestScore = adjusted
+                        bestIdx = i
+                    }
+                }
+                val picked = remaining.removeAt(bestIdx)
+                val authorKey = picked.authorId.ifBlank { picked.authorName }
+                authorCounts[authorKey] = (authorCounts[authorKey] ?: 0) + 1
+                ranked.add(picked)
+            }
+            ranked
+        }
+    }
+}
+
 fun buildHomeFeed(
     posts: List<ApiPost>,
     currentUserId: String?,
     suggestedResources: List<ApiResource>,
     recentResources: List<ApiResource>,
     news: List<NewsAnnouncement>,
-    peers: List<PersonSuggestion>
+    peers: List<PersonSuggestion>,
+    sort: String = "hot",
+    selectedCategory: String? = null
 ): List<HomeFeedEntry> {
     val uniquePosts = posts.distinctBy { it.id }
     if (uniquePosts.isEmpty()) return emptyList()
 
+    val isDefaultFeed = selectedCategory == null && sort == "hot"
+    val matchingResources = if (selectedCategory != null) {
+        suggestedResources.filter {
+            it.subject.contains(selectedCategory, ignoreCase = true) ||
+                it.title.contains(selectedCategory, ignoreCase = true)
+        }.ifEmpty { suggestedResources }
+    } else {
+        suggestedResources
+    }
+
     val anchored = buildList {
-        if (suggestedResources.isNotEmpty()) {
-            add(0 to HomeFeedEntry.ResourceCarousel(suggestedResources))
+        if (isDefaultFeed) {
+            if (matchingResources.isNotEmpty()) {
+                add(1 to HomeFeedEntry.ResourceCarousel(matchingResources))
+            }
+            if (news.isNotEmpty()) add(3 to HomeFeedEntry.News(news))
+            if (peers.isNotEmpty()) add(5 to HomeFeedEntry.Peers(peers))
+            if (matchingResources.isNotEmpty()) {
+                add(7 to HomeFeedEntry.ResourceHighlight(matchingResources.first(), 7, titled = true))
+            }
+            if (recentResources.isNotEmpty()) add(10 to HomeFeedEntry.NewResources(recentResources))
+        } else if (selectedCategory != null && matchingResources.isNotEmpty()) {
+            add(2 to HomeFeedEntry.ResourceCarousel(matchingResources))
         }
-        if (news.isNotEmpty()) add(2 to HomeFeedEntry.News(news))
-        if (peers.isNotEmpty()) add(4 to HomeFeedEntry.Peers(peers))
-        if (suggestedResources.isNotEmpty()) {
-            add(6 to HomeFeedEntry.ResourceHighlight(suggestedResources.first(), 6, titled = true))
-        }
-        if (recentResources.isNotEmpty()) add(8 to HomeFeedEntry.NewResources(recentResources))
     }
 
     val entries = ArrayList<HomeFeedEntry>(uniquePosts.size + anchored.size + 4)
@@ -117,11 +185,12 @@ fun buildHomeFeed(
                 placed += anchor
             }
         }
-        if (index > HIGHLIGHT_START &&
+        if (isDefaultFeed &&
+            index >= HIGHLIGHT_START &&
             (index - HIGHLIGHT_START) % HIGHLIGHT_EVERY == 0 &&
-            suggestedResources.isNotEmpty()
+            matchingResources.isNotEmpty()
         ) {
-            val resource = suggestedResources[(index / HIGHLIGHT_EVERY) % suggestedResources.size]
+            val resource = matchingResources[(index / HIGHLIGHT_EVERY) % matchingResources.size]
             entries += HomeFeedEntry.ResourceHighlight(resource, index, titled = false)
         }
     }

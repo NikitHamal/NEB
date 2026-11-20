@@ -361,18 +361,6 @@ fun ShimmerLibraryGrid() {
 }
 
 @Composable
-fun ShimmerForumList() {
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        repeat(4) {
-            ShimmerCard(height = 160.dp)
-        }
-    }
-}
-
-@Composable
 fun ShimmerSearchList() {
     Column(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
