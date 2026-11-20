@@ -69,7 +69,7 @@ class NativeGoogleOAuthTests(TestCase):
         }
         with patch('api.views_auth.verify_google_token', return_value=fake_info):
             r = self.client.post(
-                '/api/auth/oauth/google',
+                '/api/auth/google/',
                 data=json.dumps({'idToken': 'fake-id-token'}),
                 content_type='application/json',
             )
