@@ -25,8 +25,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 
-private object V3Cache {
+internal object V3Cache {
     private val lru = LruCache<String, V3Art>(160)
+
+    fun trim(empty: Boolean = false) {
+        synchronized(this) {
+            if (empty) lru.evictAll() else lru.trimToSize(40)
+        }
+    }
 
     fun peek(seed: String, subject: String, fit: Float, dark: Boolean): V3Art? {
         if (fit <= 0f) return null

@@ -100,7 +100,10 @@ class AuthRepository @Inject constructor(
         val USER_ACHIEVEMENT_BADGES = stringPreferencesKey("user_achievement_badges")
         val USER_FCM_TOKEN = stringPreferencesKey("user_fcm_token")
 
-        const val GOOGLE_SERVER_CLIENT_ID = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
+        val GOOGLE_SERVER_CLIENT_ID: String =
+            com.neb.ians.BuildConfig.GOOGLE_WEB_CLIENT_ID.ifBlank {
+                "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
+            }
         const val GITHUB_CLIENT_ID = "Ov23lii7dRW1FhLQ09w7"
         const val GITHUB_REDIRECT_URI = "https://nebians.consica.com.np/auth/github/callback/"
     }

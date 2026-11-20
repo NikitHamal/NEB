@@ -19,16 +19,30 @@ android {
         versionCode = 36
         versionName = "1.8"
 
-        val googleAndroidCertHashes = runCatching {
+        val gsText = runCatching {
             val gsFile = file("google-services.json")
-            if (!gsFile.exists()) ""
-            else Regex(""""certificate_hash"\s*:\s*"([0-9a-fA-F]{40})"""")
-                .findAll(gsFile.readText())
-                .map { it.groupValues[1].lowercase() }
+            if (gsFile.exists()) gsFile.readText() else ""
+        }.getOrDefault("")
+        val googleAndroidCertHashes = runCatching {
+            if (gsText.isBlank()) ""
+            else Regex(""""certificate_hash"\s*:\s*"([0-9a-fA-F:\s]{40,95})"""")
+                .findAll(gsText)
+                .map { it.groupValues[1].replace(":", "").replace(" ", "").lowercase() }
+                .filter { it.length == 40 || it.length == 64 }
                 .distinct()
                 .joinToString(",")
         }.getOrDefault("")
+        val googleWebClientId = runCatching {
+            val defaultWebId = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
+            if (gsText.isBlank()) defaultWebId
+            else Regex(""""client_id"\s*:\s*"([^"]+\.apps\.googleusercontent\.com)"\s*,\s*"client_type"\s*:\s*3""")
+                .find(gsText)?.groupValues?.get(1)
+                ?: Regex(""""client_type"\s*:\s*3\s*,\s*"client_id"\s*:\s*"([^"]+\.apps\.googleusercontent\.com)"""")
+                    .find(gsText)?.groupValues?.get(1)
+                ?: defaultWebId
+        }.getOrDefault("68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com")
         buildConfigField("String", "GOOGLE_ANDROID_CERT_HASHES", "\"$googleAndroidCertHashes\"")
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$googleWebClientId\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -156,19 +170,19 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
 // Activity Compose
-    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.activity:activity-compose:1.13.0")
 
 // Core KTX
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.webkit:webkit:1.12.1")
+    implementation("androidx.core:core-ktx:1.18.0")
+    implementation("androidx.webkit:webkit:1.18.0")
 
 // Lifecycle + ViewModel Compose
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
 
 // Navigation Compose
-    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation("androidx.navigation:navigation-compose:2.9.7")
 
 // Room
     implementation("androidx.room:room-runtime:2.8.5")
@@ -189,20 +203,20 @@ dependencies {
     implementation("androidx.profileinstaller:profileinstaller:1.4.1")
 
 // DataStore Preferences
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences:1.3.0")
 
 // Encrypted SharedPreferences (auth token security)
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.security:security-crypto:1.1.0")
 
 // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.10.0")
+    implementation("androidx.work:work-runtime-ktx:2.12.0")
 
 // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
 // Kotlinx Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.13.0")
 
 // Retrofit & OkHttp
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
@@ -215,12 +229,12 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging-ktx")
 
 // Credential Manager (Google Sign-In)
-    implementation("androidx.credentials:credentials:1.3.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation("androidx.credentials:credentials:1.6.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.6.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.2.1")
 
 // Browser (Custom Tabs for GitHub OAuth)
-    implementation("androidx.browser:browser:1.8.0")
+    implementation("androidx.browser:browser:1.10.0")
 
 // Media3 (ExoPlayer) for video/audio playback
     implementation("androidx.media3:media3-exoplayer:1.5.1")

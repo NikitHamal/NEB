@@ -234,6 +234,7 @@ class MainActivity : ComponentActivity() {
         if (data != null && data.toString().startsWith("nebians://auth-callback")) {
             val error = data.getQueryParameter("error")
             val authToken = data.getQueryParameter("authToken")
+            val githubCode = data.getQueryParameter("code")
             val isNewUser = data.getQueryParameter("isNewUser")?.toBoolean() ?: false
             val username = data.getQueryParameter("username")
             val userId = data.getQueryParameter("userId")
@@ -254,6 +255,15 @@ class MainActivity : ComponentActivity() {
                     )
                     if (!success) {
                         this@MainActivity.nebToast("Sign-in failed. Please try again.")
+                    }
+                }
+            } else if (!githubCode.isNullOrBlank()) {
+                lifecycleScope.launch {
+                    when (val res = authRepository.signInWithGitHub(githubCode)) {
+                        is com.neb.ians.data.repository.OAuthResult.Success -> Unit
+                        is com.neb.ians.data.repository.OAuthResult.Failure -> {
+                            this@MainActivity.nebToast(res.message, long = true)
+                        }
                     }
                 }
             } else if (error != null) {

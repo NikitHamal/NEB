@@ -100,6 +100,20 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         warmUp()
     }
 
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        if (level >= TRIM_MEMORY_UI_HIDDEN || level >= TRIM_MEMORY_RUNNING_LOW) {
+            com.neb.ians.ui.pixel.art.PixelOnboardingCache.trim()
+            com.neb.ians.ui.components.v3art.V3Cache.trim(empty = level >= TRIM_MEMORY_BACKGROUND)
+        }
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        com.neb.ians.ui.pixel.art.PixelOnboardingCache.trim()
+        com.neb.ians.ui.components.v3art.V3Cache.trim(empty = true)
+    }
+
     /**
      * Starts, off the main thread, the reads the first screen otherwise waits for on it: the
      * festival theme's prefs file and the preferences DataStore (both read while MainActivity is

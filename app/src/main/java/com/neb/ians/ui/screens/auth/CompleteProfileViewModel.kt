@@ -328,21 +328,49 @@ class CompleteProfileViewModel @Inject constructor(
         uploadProfilePhoto(bytes, "profile_photo", mimeType)
     }
 
+    private fun compactPhotoBytes(bytes: ByteArray, mimeType: String): Pair<ByteArray, String> {
+        if (bytes.size <= 900_000 || mimeType == "image/gif") return bytes to mimeType
+        return runCatching {
+            val bounds = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+            val w = bounds.outWidth
+            val h = bounds.outHeight
+            if (w <= 0 || h <= 0) return bytes to mimeType
+            var sample = 1
+            while (w / sample > 1280 || h / sample > 1280) sample *= 2
+            val opts = android.graphics.BitmapFactory.Options().apply {
+                inSampleSize = sample
+                inPreferredConfig = android.graphics.Bitmap.Config.ARGB_8888
+            }
+            val decoded = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts)
+                ?: return bytes to mimeType
+            val out = java.io.ByteArrayOutputStream()
+            decoded.compress(android.graphics.Bitmap.CompressFormat.JPEG, 86, out)
+            decoded.recycle()
+            val compressed = out.toByteArray()
+            if (compressed.isNotEmpty() && compressed.size < bytes.size) compressed to "image/jpeg"
+            else bytes to mimeType
+        }.getOrDefault(bytes to mimeType)
+    }
+
     fun uploadProfilePhoto(bytes: ByteArray, fileName: String, mimeType: String) {
         _uiState.update { it.copy(isPhotoUploading = true, photoBusy = true) }
         viewModelScope.launch {
             try {
-                val ext = when (mimeType) {
+                val (finalBytes, finalMime) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    compactPhotoBytes(bytes, mimeType)
+                }
+                val ext = when (finalMime) {
                     "image/png" -> ".png"
                     "image/webp" -> ".webp"
                     "image/gif" -> ".gif"
                     "image/jpeg", "image/jpg" -> ".jpg"
                     else -> {
-                        val suffix = mimeType.substringAfter("/", "")
+                        val suffix = finalMime.substringAfter("/", "")
                         if (suffix.isNotBlank()) ".$suffix" else ".jpg"
                     }
                 }
-                val requestBody = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
+                val requestBody = finalBytes.toRequestBody(finalMime.toMediaTypeOrNull())
                 val filePart = okhttp3.MultipartBody.Part.createFormData("file", "$fileName$ext", requestBody)
                 val url = authRepository.uploadProfilePhoto(filePart)
                 authRepository.refreshProfile()

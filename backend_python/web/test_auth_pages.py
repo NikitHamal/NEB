@@ -157,3 +157,26 @@ class NativeGoogleOAuthTests(TestCase):
         self.assertTrue(r['Location'].startswith('nebians://auth-callback?'))
         self.assertIn(f'userId={existing.id}', r['Location'])
         self.assertIn('username=gh_student_np', r['Location'])
+
+    def test_verify_google_token_accepts_secondary_android_web_client_id(self):
+        from unittest.mock import patch
+        from api.authentication import verify_google_token, _ANDROID_WEB_CLIENT_ID
+
+        def fake_verify(token, req, audience):
+            if audience != _ANDROID_WEB_CLIENT_ID:
+                raise ValueError('Wrong recipient')
+            return {
+                'iss': 'https://accounts.google.com',
+                'sub': 'g_sub_42',
+                'email': 'cred@example.com',
+                'email_verified': True,
+                'name': 'Cred User',
+                'picture': 'https://example.com/u.png',
+            }
+
+        with self.settings(GOOGLE_CLIENT_ID='primary-web-client.apps.googleusercontent.com'), \
+             patch('google.oauth2.id_token.verify_oauth2_token', side_effect=fake_verify):
+            info = verify_google_token('dummy-jwt')
+        self.assertIsNotNone(info)
+        self.assertEqual(info['userId'], 'g_sub_42')
+        self.assertEqual(info['email'], 'cred@example.com')

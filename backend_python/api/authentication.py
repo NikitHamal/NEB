@@ -23,30 +23,47 @@ logger = logging.getLogger(__name__)
 
 
 
+_GOOGLE_AUTH_REQUEST = None
+_ANDROID_WEB_CLIENT_ID = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
+
+
+def _get_google_auth_request():
+    global _GOOGLE_AUTH_REQUEST
+    if _GOOGLE_AUTH_REQUEST is None:
+        from google.auth.transport import requests as google_requests
+        _GOOGLE_AUTH_REQUEST = google_requests.Request()
+    return _GOOGLE_AUTH_REQUEST
+
+
 def verify_google_token(id_token: str):
     """
-    Verifies a Google GIS ID Token.
+    Verifies a Google GIS / Android Credential Manager ID Token.
 
     Returns a dict with {userId, email, email_verified, displayName,
     photoUrl} or None. Tokens without a verified email are rejected.
     """
     try:
         from google.oauth2 import id_token as google_id_token
-        from google.auth.transport import requests as google_requests
 
-        google_client_id = settings.GOOGLE_CLIENT_ID
-        if not google_client_id:
+        raw_client_ids = str(getattr(settings, 'GOOGLE_CLIENT_ID', '') or '').strip()
+        allowed_client_ids = [c.strip() for c in raw_client_ids.split(',') if c.strip()]
+        if _ANDROID_WEB_CLIENT_ID not in allowed_client_ids and allowed_client_ids:
+            allowed_client_ids.append(_ANDROID_WEB_CLIENT_ID)
+        if not allowed_client_ids:
             logger.error("verify_google_token: GOOGLE_CLIENT_ID is not configured")
             return None
 
-        try:
-            idinfo = google_id_token.verify_oauth2_token(
-                id_token,
-                google_requests.Request(),
-                google_client_id,
-            )
-        except ValueError as e:
-            logger.warning("Google token verification failed: %s", e)
+        req = _get_google_auth_request()
+        idinfo = None
+        last_err = None
+        for cid in allowed_client_ids:
+            try:
+                idinfo = google_id_token.verify_oauth2_token(id_token, req, cid)
+                break
+            except ValueError as e:
+                last_err = e
+        if idinfo is None:
+            logger.warning("Google token verification failed: %s", last_err)
             return None
 
         issuer = idinfo.get('iss', '')

@@ -96,16 +96,18 @@ private fun isTrueUserCancellation(e: GetCredentialCancellationException): Boole
 @Suppress("DEPRECATION")
 private fun isNativeGoogleIdConfigured(context: Context): Boolean {
     return runCatching {
+        // Clear any legacy sticky disable flag from earlier builds so native Credential Manager is always tried.
         val prefs = context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
-        if (prefs.getBoolean("cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}", false)) {
-            return false
+        val disableKey = "cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}"
+        if (prefs.contains(disableKey)) {
+            prefs.edit().remove(disableKey).apply()
         }
         val registered = com.neb.ians.BuildConfig.GOOGLE_ANDROID_CERT_HASHES
             .split(",")
-            .map { it.trim().lowercase() }
-            .filter { it.length == 40 }
+            .map { it.trim().replace(":", "").lowercase() }
+            .filter { it.length == 40 || it.length == 64 }
             .toSet()
-        if (registered.isEmpty()) return false
+        if (registered.isEmpty()) return true
         val pm = context.packageManager
         val sigs = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val info = pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
@@ -115,21 +117,58 @@ private fun isNativeGoogleIdConfigured(context: Context): Boolean {
         } else {
             pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNATURES).signatures ?: emptyArray()
         }
-        val md = java.security.MessageDigest.getInstance("SHA-1")
+        if (sigs.isEmpty()) return true
+        val sha1Digest = java.security.MessageDigest.getInstance("SHA-1")
+        val sha256Digest = java.security.MessageDigest.getInstance("SHA-256")
         sigs.any { sig ->
-            val sha1 = md.digest(sig.toByteArray()).joinToString("") { "%02x".format(it) }
-            sha1 in registered
+            val bytes = sig.toByteArray()
+            val sha1 = sha1Digest.digest(bytes).joinToString("") { "%02x".format(it) }
+            val sha256 = sha256Digest.digest(bytes).joinToString("") { "%02x".format(it) }
+            sha1 in registered || sha256 in registered
         }
-    }.getOrDefault(false)
+    }.getOrDefault(true)
 }
 
-private fun disableNativeGoogleIdForBuild(context: Context) {
-    runCatching {
-        context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean("cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}", true)
-            .apply()
+private fun extractGoogleIdToken(credential: androidx.credentials.Credential): String? = when {
+    credential is GoogleIdTokenCredential -> credential.idToken
+    credential is CustomCredential &&
+        credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL ->
+        runCatching { GoogleIdTokenCredential.createFrom(credential.data).idToken }.getOrNull()
+    else -> null
+}
+
+private suspend fun requestGoogleIdTokenNatively(activityContext: Activity): String? {
+    val credentialManager = CredentialManager.create(activityContext)
+    val serverClientId = AuthRepository.GOOGLE_SERVER_CLIENT_ID
+    // Tier 1: Bottom-sheet One Tap credential picker (GetGoogleIdOption)
+    try {
+        val oneTapOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId(serverClientId)
+            .setAutoSelectEnabled(false)
+            .build()
+        val result = credentialManager.getCredential(
+            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+            context = activityContext
+        )
+        extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }?.let { return it }
+    } catch (e: GetCredentialCancellationException) {
+        if (isTrueUserCancellation(e)) throw e
+    } catch (_: NoCredentialException) {
+        // Proceed to Tier 2 explicit Sign in with Google dialog
+    } catch (_: GetCredentialException) {
+        // Proceed to Tier 2 explicit Sign in with Google dialog
+    } catch (_: Exception) {
+        // Proceed to Tier 2 explicit Sign in with Google dialog
     }
+
+    // Tier 2: Explicit "Sign in with Google" account chooser modal (GetSignInWithGoogleOption)
+    val signInOption = GetSignInWithGoogleOption.Builder(serverClientId).build()
+    val fallbackResult = credentialManager.getCredential(
+        request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
+        context = activityContext
+    )
+    return extractGoogleIdToken(fallbackResult.credential)?.takeIf { it.isNotBlank() }
 }
 
 @Composable
@@ -188,10 +227,16 @@ fun LoginScreen(
                     runCatching {
                         client.warmup(0L)
                         val session = client.newSession(null)
+                        val githubBundle = android.os.Bundle().apply {
+                            putParcelable(
+                                androidx.browser.customtabs.CustomTabsService.KEY_URL,
+                                Uri.parse(GITHUB_DIRECT_OAUTH_URL)
+                            )
+                        }
                         session?.mayLaunchUrl(
                             Uri.parse(GOOGLE_DIRECT_OAUTH_URL),
                             null,
-                            null
+                            listOf(githubBundle)
                         )
                         customTabsSession = session
                     }
@@ -231,11 +276,11 @@ fun LoginScreen(
                 customTabsIntent.intent.setPackage(customTabsPkg)
             }
             val activity = context.findActivity()
-            if (session != null || activity == null) {
-                customTabsIntent.launchUrl(context, uri)
-            } else {
+            if (activity != null) {
                 customTabsIntent.intent.data = uri
                 activity.startActivityForResult(customTabsIntent.intent, REQUEST_CODE_OAUTH_CUSTOM_TAB)
+            } else {
+                customTabsIntent.launchUrl(context, uri)
             }
         } catch (_: Exception) {
             try {
@@ -258,24 +303,7 @@ fun LoginScreen(
                         launchBrowserOAuth("google")
                         return@launch
                     }
-                    val credentialManager = CredentialManager.create(activityContext)
-                    val oneTapOption = GetGoogleIdOption.Builder()
-                        .setFilterByAuthorizedAccounts(false)
-                        .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                        .setAutoSelectEnabled(false)
-                        .build()
-                    val result = credentialManager.getCredential(
-                        request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
-                        context = activityContext
-                    )
-                    val credential = result.credential
-                    val idToken = when {
-                        credential is GoogleIdTokenCredential -> credential.idToken
-                        credential is CustomCredential &&
-                            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL ->
-                            GoogleIdTokenCredential.createFrom(credential.data).idToken
-                        else -> null
-                    }
+                    val idToken = requestGoogleIdTokenNatively(activityContext)
                     if (!idToken.isNullOrBlank()) {
                         when (val authResult = authRepository.signInWithGoogle(idToken)) {
                             is OAuthResult.Success -> {
@@ -285,19 +313,15 @@ fun LoginScreen(
                             is OAuthResult.Failure -> errorMessage = authResult.message
                         }
                     } else {
-                        disableNativeGoogleIdForBuild(context)
                         launchBrowserOAuth("google")
                     }
                 } catch (e: GetCredentialCancellationException) {
                     if (!isTrueUserCancellation(e)) {
-                        disableNativeGoogleIdForBuild(context)
                         launchBrowserOAuth("google")
                     }
                 } catch (_: GetCredentialException) {
-                    disableNativeGoogleIdForBuild(context)
                     launchBrowserOAuth("google")
                 } catch (_: Exception) {
-                    disableNativeGoogleIdForBuild(context)
                     launchBrowserOAuth("google")
                 } finally {
                     isLoading = false

@@ -49,22 +49,35 @@ object SecurePrefs {
         initAttempted = true
         val appCtx = context.applicationContext
         try {
-            val masterKey = MasterKey.Builder(appCtx)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build()
-            val sp = EncryptedSharedPreferences.create(
-                appCtx,
-                FILE_NAME,
-                masterKey,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
+            val sp = createEncryptedPrefs(appCtx)
             prefs = sp
             return sp
-        } catch (e: Exception) {
-            Log.w("SecurePrefs", "EncryptedSharedPreferences init failed, using fallback", e)
-            return null
+        } catch (firstErr: Exception) {
+            // If Android Auto Backup restored an encrypted prefs file from a prior install,
+            // its Tink keyset cannot be decrypted by the new Keystore MasterKey. Delete and retry once.
+            try {
+                appCtx.deleteSharedPreferences(FILE_NAME)
+                val sp = createEncryptedPrefs(appCtx)
+                prefs = sp
+                return sp
+            } catch (e: Exception) {
+                Log.w("SecurePrefs", "EncryptedSharedPreferences init failed, using fallback", firstErr)
+                return null
+            }
         }
+    }
+
+    private fun createEncryptedPrefs(appCtx: Context): SharedPreferences {
+        val masterKey = MasterKey.Builder(appCtx)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        return EncryptedSharedPreferences.create(
+            appCtx,
+            FILE_NAME,
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
     }
 
     fun getAuthToken(context: Context): String? {
@@ -100,7 +113,6 @@ object SecurePrefs {
                     sp.edit().apply {
                         if (token != null) putString(KEY_AUTH_TOKEN, token) else remove(KEY_AUTH_TOKEN)
                     }.apply()
-                    return
                 } catch (e: Exception) {
                     Log.w("SecurePrefs", "Failed to write to EncryptedSharedPreferences", e)
                 }

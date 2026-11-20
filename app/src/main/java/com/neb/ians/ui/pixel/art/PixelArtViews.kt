@@ -44,8 +44,20 @@ private fun PixelPicture(image: ImageBitmap, modifier: Modifier) {
  * re-rendered only when the answer changes; Neby animates on top and reacts with the state the
  * scene asks for (a hop when a path is picked, a celebration when the birthday is set).
  */
-private object PixelOnboardingCache {
-    private val lru = LruCache<String, Pair<ImageBitmap, PixelOnboarding.NebyMark>>(32)
+internal object PixelOnboardingCache {
+    private val lru = LruCache<String, Pair<ImageBitmap, PixelOnboarding.NebyMark>>(20)
+
+    fun peek(
+        kind: PixelOnboarding.Kind,
+        a: Int,
+        b: Int,
+        flag: Boolean,
+        handle: PixelOnboarding.Handle,
+        night: Boolean
+    ): Pair<ImageBitmap, PixelOnboarding.NebyMark>? {
+        val key = "${kind.ordinal}|$a|$b|$flag|${handle.ordinal}|$night"
+        return synchronized(this) { lru.get(key) }
+    }
 
     fun get(
         kind: PixelOnboarding.Kind,
@@ -64,6 +76,10 @@ private object PixelOnboardingCache {
             .asImageBitmap()
         return (bmp to scene.neby).also { synchronized(this) { lru.put(key, it) } }
     }
+
+    fun trim() {
+        synchronized(this) { lru.evictAll() }
+    }
 }
 
 @Composable
@@ -77,24 +93,35 @@ fun PixelOnboardingArt(
     height: androidx.compose.ui.unit.Dp = 160.dp,
 ) {
     val night = com.neb.ians.ui.theme.LocalNebAuthPalette.current.isDark
-    val (image, mark) = remember(kind, a, b, flag, handle, night) {
-        PixelOnboardingCache.get(kind, a, b, flag, handle, night)
+    val cached = remember(kind, a, b, flag, handle, night) {
+        PixelOnboardingCache.peek(kind, a, b, flag, handle, night)
     }
+    val renderedState = androidx.compose.runtime.produceState(cached, kind, a, b, flag, handle, night) {
+        if (value == null) {
+            value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                PixelOnboardingCache.get(kind, a, b, flag, handle, night)
+            }
+        }
+    }
+    val pair = renderedState.value
     androidx.compose.foundation.layout.BoxWithConstraints(
         modifier.fillMaxWidth().height(height).clip(androidx.compose.foundation.shape.RoundedCornerShape(28.dp))
     ) {
-        val density = androidx.compose.ui.platform.LocalDensity.current
-        val w = with(density) { maxWidth.toPx() }; val h = with(density) { maxHeight.toPx() }
-        val scale = maxOf(w / image.width, h / image.height)
-        val ox = (w - image.width * scale) / 2f; val oy = (h - image.height * scale) / 2f
-        PixelPicture(image, Modifier.matchParentSize())
-        val sizePx = 48f * scale
-        androidx.compose.runtime.key(mark.state) {
-            com.neb.ians.ui.pixel.NebyPixel(
-                state = mark.state,
-                size = with(density) { sizePx.toDp() },
-                modifier = Modifier.offset { IntOffset((ox + (mark.x - 24) * scale).roundToInt(), (oy + (mark.ground - 46) * scale).roundToInt()) },
-            )
+        if (pair != null) {
+            val (image, mark) = pair
+            val density = androidx.compose.ui.platform.LocalDensity.current
+            val w = with(density) { maxWidth.toPx() }; val h = with(density) { maxHeight.toPx() }
+            val scale = maxOf(w / image.width, h / image.height)
+            val ox = (w - image.width * scale) / 2f; val oy = (h - image.height * scale) / 2f
+            PixelPicture(image, Modifier.matchParentSize())
+            val sizePx = 48f * scale
+            androidx.compose.runtime.key(mark.state) {
+                com.neb.ians.ui.pixel.NebyPixel(
+                    state = mark.state,
+                    size = with(density) { sizePx.toDp() },
+                    modifier = Modifier.offset { IntOffset((ox + (mark.x - 24) * scale).roundToInt(), (oy + (mark.ground - 46) * scale).roundToInt()) },
+                )
+            }
         }
     }
 }
