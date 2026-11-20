@@ -29,8 +29,6 @@ object InlineImageTokens {
 
     fun newPendingKey(): String = "u" + Random.nextInt(0x1000000, 0xFFFFFFF).toString(16)
 
-    fun tokenFor(id: Int): String = "[[img:$id]]"
-
     /** Ordered unique numeric image ids referenced by the text. */
     fun extractIds(text: String): List<Int> {
         val seen = linkedSetOf<Int>()

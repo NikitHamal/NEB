@@ -76,27 +76,7 @@ data class NotificationDeepLink(
             )
         }
 
-        fun fromBundle(extras: Bundle): NotificationDeepLink? {
-            if (!extras.getBoolean(EXTRA_IS_NOTIFICATION, false)) return null
-            val verb = extras.getString(EXTRA_VERB) ?: ""
-            val targetType = extras.getString(EXTRA_TARGET_TYPE) ?: ""
-            val targetId = extras.getString(EXTRA_TARGET_ID) ?: ""
-            val referenceType = extras.getString(EXTRA_REFERENCE_TYPE) ?: ""
-            val referenceId = extras.getString(EXTRA_REFERENCE_ID) ?: ""
-            val notificationId = extras.getString(EXTRA_NOTIFICATION_ID)
-            val actorUsername = extras.getString(EXTRA_ACTOR_USERNAME)
-            val route = resolveRoute(verb, targetType, targetId, referenceType, referenceId, actorUsername)
-            return NotificationDeepLink(
-                notificationId = notificationId,
-                verb = verb,
-                targetType = targetType,
-                targetId = targetId,
-                referenceType = referenceType,
-                referenceId = referenceId,
-                actorUsername = actorUsername,
-                route = route
-            )
-        }
+
 
         fun fromFcmData(data: Map<String, String>): NotificationDeepLink {
             val verb = data["verb"] ?: ""

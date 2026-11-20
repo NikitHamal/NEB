@@ -81,16 +81,17 @@ fun CommentCard(
     val accepted = reply.label == "accepted"
     val acceptedFill = ReplyTones.good(dark).copy(alpha = 0.55f)
     val acceptedLine = ReplyTones.goodLine(dark)
-    // the web's `fp-fresh`: a primary-container flash that fades over ~2.4s when the Solved chip lands here
-    val flash by animateColorAsState(
-        targetValue = if (highlighted) scheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent,
-        animationSpec = tween(if (highlighted) 160 else 1800),
-        label = "replyFlash"
-    )
+    var everHighlighted by remember { androidx.compose.runtime.mutableStateOf(false) }
+    if (highlighted) everHighlighted = true
+    val flash = if (everHighlighted) {
+        animateColorAsState(
+            targetValue = if (highlighted) scheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent,
+            animationSpec = tween(if (highlighted) 160 else 1800),
+            label = "replyFlash"
+        ).value
+    } else androidx.compose.ui.graphics.Color.Transparent
     val dim = when (reply.label) { "spam" -> 0.72f; "incorrect" -> 0.9f; else -> 1f }
-    Surface(
-        shape = androidx.compose.ui.graphics.RectangleShape,
-        color = androidx.compose.ui.graphics.Color.Transparent,
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .drawBehind {
@@ -101,9 +102,9 @@ fun CommentCard(
                 if (flash.alpha > 0f) drawRect(flash)
             }
             .bottomHairline(hairline)
-            .graphicsLayer { alpha = dim }
+            .then(if (dim < 1f) Modifier.graphicsLayer { alpha = dim } else Modifier)
+            .padding(horizontal = 16.dp, vertical = 14.dp)
     ) {
-        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(
                 modifier = Modifier.trimSingleLineTail(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -180,10 +181,13 @@ fun CommentCard(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.padding(horizontal = 6.dp)
                             )
-                            Text(
-                                text = formatTimeAgo(reply.createdAt) +
+                            val replyMeta = remember(reply.createdAt, reply.isArchived, reply.isEdited) {
+                                formatTimeAgo(reply.createdAt) +
                                     (if (reply.isArchived == true) ", archived" else "") +
-                                    (if (reply.isEdited == true) ", edited" else ""),
+                                    (if (reply.isEdited == true) ", edited" else "")
+                            }
+                            Text(
+                                text = replyMeta,
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1
@@ -405,7 +409,6 @@ fun CommentCard(
                     )
                 }
             }
-        }
         }
     }
 }

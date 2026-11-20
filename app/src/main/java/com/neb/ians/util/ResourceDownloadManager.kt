@@ -153,12 +153,6 @@ class ResourceDownloadManager @Inject constructor(
         if (shouldStart) job.start() else job.cancel()
     }
 
-    fun cancelDownload(resourceId: String) {
-        synchronized(activeDownloads) { activeDownloads.remove(resourceId)?.cancel() }
-        setProgress(resourceId, 0, remove = true)
-        resourceDir.listFiles()?.filter { it.name.startsWith("$resourceId.") && it.name.endsWith(".part") }?.forEach(File::delete)
-    }
-
     fun deleteDownload(resourceId: String) {
         synchronized(indexLock) {
             findDownloaded(resourceId)?.let { File(it.localPath).delete() }

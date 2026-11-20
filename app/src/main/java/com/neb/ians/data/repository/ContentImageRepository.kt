@@ -28,18 +28,6 @@ class ContentImageRepository @Inject constructor(
     private val authRepository: AuthRepository,
     @ApplicationContext private val appContext: Context
 ) {
-    /** Image dimensions without decoding pixels (for chip aspect ratio). */
-    fun decodeBounds(uri: Uri): Pair<Int, Int>? {
-        return runCatching {
-            val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            appContext.contentResolver.openInputStream(uri)?.use { stream ->
-                BitmapFactory.decodeStream(stream, null, opts)
-            }
-            if (opts.outWidth <= 0 || opts.outHeight <= 0) null
-            else opts.outWidth to opts.outHeight
-        }.getOrNull()
-    }
-
     fun sizeOf(uri: Uri): Long {
         return try {
             appContext.contentResolver.openAssetFileDescriptor(uri, "r")?.use { it.length } ?: -1L

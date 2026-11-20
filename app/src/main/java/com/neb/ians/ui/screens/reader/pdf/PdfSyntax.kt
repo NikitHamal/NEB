@@ -96,8 +96,6 @@ internal fun Any?.int(default: Int = 0): Int = when (this) {
 
 internal class Lexer(private val s: PdfSource, var pos: Int = 0, private val end: Int = s.size) {
 
-    fun atEnd(): Boolean { skipWhite(); return pos >= end }
-
     fun skipWhite() {
         while (pos < end) {
             val c = s.at(pos)

@@ -374,12 +374,6 @@ class MediaPlayerViewModel @Inject constructor(
         }
     }
 
-    private fun clearSavedPosition() {
-        if (activeResourceId.isNotBlank()) {
-            application.getSharedPreferences(PREFS_NAME, 0).edit().remove("pos_$activeResourceId").apply()
-        }
-    }
-
     fun setVolumeFraction(fraction: Float) {
         val vol = (fraction.coerceIn(0f, 1f) * maxVolume).toInt()
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0)

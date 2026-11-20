@@ -67,9 +67,6 @@ object PixelNeby {
         fun halfWidth(y: Float): Float { val t = (y - cy) / ry; return if (t * t >= 1f) 0f else rx * kotlin.math.sqrt(1f - t * t) }
     }
 
-    /** Where the face sits for a pose, so props can be placed relative to it. */
-    fun faceY(p: Pose): Float = 44f - 15.5f * p.sy + p.dy - 5f
-
     /** Draws [p] into this canvas (48 x 48), shadow included. */
     fun PixelCanvas.drawNeby(p: Pose) {
         if (p.tilt == 0f) {

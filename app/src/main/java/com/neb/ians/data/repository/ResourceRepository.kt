@@ -434,17 +434,6 @@ class ResourceRepository @Inject constructor(
         }
     }
 
-    /** Fetch the buyer-scoped purchase status for a paid resource (price + access). */
-    suspend fun getPurchaseStatus(resourceId: String): Result<ApiPurchaseResponse> {
-        return try {
-            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val response = apiService.getResourcePurchaseStatus(token, resourceId)
-            Result.success(response)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
     /** Submit a QR payment proof (transaction id + optional screenshot). The
      *  server creates/updates a pending PaymentVerification. Returns the fresh
      *  status so the caller can refresh the locked/unlocked UI. */

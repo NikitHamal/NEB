@@ -1323,15 +1323,6 @@ interface ApiService {
         @Path("resourceId") resourceId: String
     ): ApiResource
 
-    /** In-app purchase status for a paid resource (buyer-scoped). GET returns
-     *  price + the viewer's access/purchase status so the app can render the
-     *  checkout sheet. */
-    @GET("api/resources/{resourceId}/purchase/")
-    suspend fun getResourcePurchaseStatus(
-        @Header("Authorization") bearerToken: String,
-        @Path("resourceId") resourceId: String
-    ): ApiPurchaseResponse
-
     /** Submit a QR payment proof (transaction id + optional screenshot) for a
      *  paid resource. Creates/updates a pending PaymentVerification; access is
      *  granted only after an admin approves (mirrors the web checkout). */
@@ -2061,11 +2052,6 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Body body: okhttp3.RequestBody
     ): ApiMyCreatorPageResponse
-
-    @GET("api/marketplace/me/courses/")
-    suspend fun getMyCreatorCourses(
-        @Header("Authorization") bearerToken: String
-    ): ApiMyCreatorCoursesResponse
 
     @POST("api/marketplace/me/courses/")
     suspend fun createCreatorCourse(
@@ -2833,13 +2819,6 @@ data class ApiMyCreatorPageResponse(
     val layouts: List<String> = emptyList(),
     val page: ApiCreatorPage? = null,
     val message: String = "",
-    val error: String? = null
-)
-
-@Serializable
-data class ApiMyCreatorCoursesResponse(
-    val courses: List<ApiCreatorCourse> = emptyList(),
-    @SerialName("page_slug") val pageSlug: String = "",
     val error: String? = null
 )
 

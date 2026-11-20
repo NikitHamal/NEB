@@ -151,5 +151,4 @@ internal fun PixelCanvas.box(x: Int, y: Int, w: Int, h: Int, face: Int, light: I
     rect(x, y, w, h, face); hline(x, x + w - 1, y, light); hline(x, x + w - 1, y + h - 1, dark)
 }
 
-/** Picks between two colours across a span with ordered dithering. */
-internal fun dith(a: Int, b: Int, t: Float, x: Int, y: Int): Int = if (t > Bayer.threshold(x, y)) b else a
+

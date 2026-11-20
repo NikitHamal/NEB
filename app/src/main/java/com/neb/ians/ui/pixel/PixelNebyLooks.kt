@@ -39,9 +39,6 @@ enum class NebyLook(val key: String, val label: String, val festival: Boolean = 
 
     companion object {
         fun fromKey(key: String?): NebyLook = entries.firstOrNull { it.key == key } ?: Classic
-
-        /** The look a site theme dresses Neby in; everyday and unknown themes keep the classic look. */
-        fun forTheme(theme: String?): NebyLook = entries.firstOrNull { it.theme != null && it.theme == theme } ?: Classic
     }
 }
 

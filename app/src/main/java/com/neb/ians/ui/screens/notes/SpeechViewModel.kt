@@ -61,7 +61,6 @@ class SpeechViewModel @Inject constructor(
         phonon.play(listOf("Hello, this is how I will read your notes."), 0, name)
     }
 
-    fun stopPreview() = phonon.stop()
     fun clearError() = phonon.clearError()
 
     override fun onCleared() {

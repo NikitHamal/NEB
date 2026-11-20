@@ -249,13 +249,6 @@ class CreatePostViewModel @Inject constructor(
         if (title.length <= MAX_POST_TITLE) _uiState.update { it.copy(title = title) }
     }
 
-    fun onContentChange(content: TextFieldValue) {
-        if (content.text.length > MAX_POST_CONTENT) return
-        editor.setMarkdown(content.text, content.selection.end)
-        _uiState.update { it.copy(content = content) }
-        scheduleMentionSearch(content)
-    }
-
     private fun scheduleMentionSearch(content: TextFieldValue) {
         mentionJob?.cancel()
         val query = mentionQueryAt(content)

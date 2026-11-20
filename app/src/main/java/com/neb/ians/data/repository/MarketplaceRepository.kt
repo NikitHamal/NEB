@@ -14,7 +14,6 @@ import com.neb.ians.data.api.ApiMarketplaceCreatorsResponse
 import com.neb.ians.data.api.ApiMarketplaceDashboard
 import com.neb.ians.data.api.ApiMarketplaceStats
 import com.neb.ians.data.api.ApiMessageResponse
-import com.neb.ians.data.api.ApiMyCreatorCoursesResponse
 import com.neb.ians.data.api.ApiMyCreatorPageResponse
 import com.neb.ians.data.api.ApiMyCreatorPostsResponse
 import com.neb.ians.data.api.ApiService
@@ -121,10 +120,6 @@ class MarketplaceRepository @Inject constructor(
 
     suspend fun myPage(): Result<ApiMyCreatorPageResponse> = runCatching {
         apiService.getMyCreatorPage(token(required = true)!!)
-    }
-
-    suspend fun myCourses(): Result<ApiMyCreatorCoursesResponse> = runCatching {
-        apiService.getMyCreatorCourses(token(required = true)!!)
     }
 
     suspend fun myPosts(): Result<ApiMyCreatorPostsResponse> = runCatching {

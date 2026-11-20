@@ -137,14 +137,6 @@ class PixelCanvas(val width: Int, val height: Int) {
         }
     }
 
-    /** Like [blit], but only a dithered fraction [amount] of the sprite's pixels land. */
-    fun blitDithered(sprite: PixelSprite, frame: Int, x: Int, y: Int, amount: Float) {
-        val data = sprite.frames[Math.floorMod(frame, sprite.frames.size)]
-        for (sy in 0 until sprite.height) for (sx in 0 until sprite.width) {
-            val c = data[sy * sprite.width + sx]
-            if ((c ushr 24) != 0) dither(x + sx, y + sy, c, amount)
-        }
-    }
 }
 
 /** 4x4 ordered dither: the classic, stable pattern that reads as "pixel art" rather than noise. */

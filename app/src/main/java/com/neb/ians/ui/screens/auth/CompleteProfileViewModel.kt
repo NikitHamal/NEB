@@ -200,10 +200,6 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(displayName = value) }
     }
 
-    fun onEmailChange(value: String) {
-        _uiState.update { it.copy(email = value.trim()) }
-    }
-
     fun onBioChange(value: String) {
         _uiState.update { it.copy(bio = value) }
     }

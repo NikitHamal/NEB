@@ -142,10 +142,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun resetPasswordState() {
-        _passwordState.value = PasswordUiState.Idle
-    }
-
     private val _deletionRequestState = MutableStateFlow<DeletionRequestUiState>(DeletionRequestUiState.Idle)
     val deletionRequestState: StateFlow<DeletionRequestUiState> = _deletionRequestState.asStateFlow()
 

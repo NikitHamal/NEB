@@ -159,4 +159,4 @@ fun rayPlane(o: FloatArray, d: FloatArray, p: FloatArray, n: FloatArray, out: Fl
     return true
 }
 
-internal fun clampf(v: Float, a: Float, b: Float) = min(b, max(a, v))
+

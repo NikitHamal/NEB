@@ -167,8 +167,6 @@ class BlockFieldRegistry {
             }
         }
     }
-
-    fun focusedState(): RichState? = focusedId?.let { id -> states[id + "|t"] }
 }
 
 /**

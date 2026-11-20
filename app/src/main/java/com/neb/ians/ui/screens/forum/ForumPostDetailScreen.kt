@@ -140,19 +140,6 @@ fun ForumPostDetailScreen(
 ) {
     val gate = LocalAuthGate.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val mainReplyText by viewModel.mainReplyText.collectAsStateWithLifecycle()
-    val mainMentionSuggestions by viewModel.mainMentionSuggestions.collectAsStateWithLifecycle()
-    val threadReplyText by viewModel.threadReplyText.collectAsStateWithLifecycle()
-    val threadMentionSuggestions by viewModel.threadMentionSuggestions.collectAsStateWithLifecycle()
-    val isSubmittingReply by viewModel.isSubmittingReply.collectAsStateWithLifecycle()
-    val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
-    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
-    val composerKind by viewModel.composerKind.collectAsStateWithLifecycle()
-    val composerPoll by viewModel.composerPoll.collectAsStateWithLifecycle()
-    val identityName by viewModel.userName.collectAsStateWithLifecycle()
-    val identityPhoto by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
-    val identityHandle by viewModel.userHandle.collectAsStateWithLifecycle()
-    val identityAnonTag by viewModel.anonTag.collectAsStateWithLifecycle()
     var labelTarget by remember { mutableStateOf<com.neb.ians.data.api.ApiReply?>(null) }
     labelTarget?.let { target ->
         ReplyLabelSheet(
@@ -201,81 +188,28 @@ fun ForumPostDetailScreen(
         }
     }
 
-    val openLink: (String) -> Unit = { url ->
-        try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-        } catch (_: Exception) {
+    val openLink: (String) -> Unit = remember(context) {
+        { url ->
+            try {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } catch (_: Exception) {
+            }
         }
     }
 
-    val mainComposerSignedIn: @Composable () -> Unit = {
-            NebCommentComposerBar(
-                value = mainReplyText,
-                onValueChange = viewModel::onMainReplyChange,
-                placeholder = "Post your reply...",
-                enabled = !isSubmittingReply,
-                canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty() || composerPoll?.isReady == true) && !isSubmittingReply,
-                posting = isSubmittingReply,
-                voiceNote = voiceNote,
-                docked = false,
-                kind = composerKind,
-                onKindChange = viewModel::setComposerKind,
-                textFieldModifier = Modifier.focusRequester(mainFocusRequester),
-                visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
-                    leadingContent = {
-                        com.neb.ians.ui.components.NebIdentityAvatarMenu(
-                            isAnonymous = composerAnonymous,
-                            userName = identityName,
-                            handle = identityHandle,
-                            photoUrl = identityPhoto,
-                            anonTag = identityAnonTag,
-                            onSelect = viewModel::setComposerAnonymous,
-                            enabled = !isSubmittingReply,
-                            modifier = Modifier.padding(start = 4.dp)
-                        )
-                    },
-                    trailingContent = {
-                        ComposerAttachMenu(
-                            enabled = !isSubmittingReply,
-                            onPick = { composerMediaPicker.launch(it) },
-                            poll = ComposerPoll(active = composerPoll != null, onToggle = viewModel::toggleComposerPoll)
-                        )
-                    },
-                onSend = send@{
-                    if (!gate.signedIn) { gate.ask(GateReason.Reply); return@send }
-                    keyboardController?.hide()
-                    viewModel.submitReply(
-                        content = mainReplyText.text,
-                        parentReplyId = null,
-                        onSuccess = {}
-                    )
-                }
-            ) {
-                composerPoll?.let { draft ->
-                    CommentPollBuilder(
-                        draft = draft,
-                        onChange = viewModel::updateComposerPoll,
-                        onClose = viewModel::toggleComposerPoll,
-                        enabled = !isSubmittingReply
-                    )
-                }
-                ComposerAttachmentChips(
-                    attachments = composerMediaAttachments,
-                    onRemoveAttachment = viewModel::removeMediaAttachment
-                )
-                if (mainMentionSuggestions.isNotEmpty()) {
-                    MentionSuggestions(
-                        users = mainMentionSuggestions,
-                        onSelect = viewModel::selectMainMention,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                }
-            }
-    }
-
     val mainComposer: @Composable () -> Unit = {
-        if (gate.signedIn) mainComposerSignedIn()
-        else GuestReplyBar(onClick = { gate.ask(GateReason.Reply) })
+        if (gate.signedIn) {
+            MainReplyComposerSlot(
+                viewModel = viewModel,
+                gate = gate,
+                voiceNote = voiceNote,
+                mainFocusRequester = mainFocusRequester,
+                keyboardController = keyboardController,
+                onLaunchMediaPicker = { composerMediaPicker.launch(it) }
+            )
+        } else {
+            GuestReplyBar(onClick = { gate.ask(GateReason.Reply) })
+        }
     }
 
     Scaffold(
@@ -432,7 +366,7 @@ fun ForumPostDetailScreen(
                         }
                     }
 
-                    items(topLevel, key = { it.id }) { reply ->
+                    items(topLevel, key = { it.id }, contentType = { "reply" }) { reply ->
                         val children = uiState.childrenOf(reply.id)
                         CommentCard(
                             reply = reply,
@@ -556,6 +490,7 @@ fun ForumPostDetailScreen(
         }
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val threadReplies = uiState.childrenOf(parent.id)
+        val repliesById = remember(uiState.replies) { uiState.replies.associateBy { it.id } }
 
         NebModalSheet(
             onDismiss = {
@@ -629,20 +564,20 @@ fun ForumPostDetailScreen(
                             isOwn = parent.isOwner || (uiState.currentUserId != null && parent.authorId == uiState.currentUserId),
                             onThumbsUpClick = { gate.require(GateReason.Like) { viewModel.toggleReplyThumbsUp(parent.id) } },
                             onLabelClick = { labelTarget = parent },
-                             onReplyClick = {
-                                 activeThreadTargetReply = parent
-                                 val currentText = threadReplyText.text
-                                 val tag = "@${parent.authorName} "
-                                 if (!currentText.startsWith(tag)) {
-                                     val newText = tag + currentText.removePrefix(tag)
-                                     viewModel.onThreadReplyChange(
-                                         androidx.compose.ui.text.input.TextFieldValue(
-                                             text = newText,
-                                             selection = androidx.compose.ui.text.TextRange(newText.length)
-                                         )
-                                     )
-                                 }
-                             },
+                            onReplyClick = {
+                                activeThreadTargetReply = parent
+                                val currentText = viewModel.threadReplyText.value.text
+                                val tag = "@${parent.authorName} "
+                                if (!currentText.startsWith(tag)) {
+                                    val newText = tag + currentText.removePrefix(tag)
+                                    viewModel.onThreadReplyChange(
+                                        androidx.compose.ui.text.input.TextFieldValue(
+                                            text = newText,
+                                            selection = androidx.compose.ui.text.TextRange(newText.length)
+                                        )
+                                    )
+                                }
+                            },
                             onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleReplyBookmark(parent.id) } },
                             onReportClick = { reportTarget = "reply" to parent.id },
                             onEditClick = { editingReply = parent },
@@ -674,9 +609,9 @@ fun ForumPostDetailScreen(
                             }
                         }
                     } else {
-                        items(threadReplies, key = { it.id }) { child ->
+                        items(threadReplies, key = { it.id }, contentType = { "thread_reply" }) { child ->
                             Column(modifier = Modifier.padding(bottom = 12.dp)) {
-                                val parentOfChild = uiState.replies.firstOrNull { it.id == child.parentReplyId }
+                                val parentOfChild = repliesById[child.parentReplyId]
                                 val replyingTo = if (child.parentReplyId != parent.id) {
                                     parentOfChild?.authorName
                                 } else null
@@ -686,20 +621,20 @@ fun ForumPostDetailScreen(
                                     pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                                     isOwn = child.isOwner || (uiState.currentUserId != null && child.authorId == uiState.currentUserId),
                                     onThumbsUpClick = { gate.require(GateReason.Like) { viewModel.toggleReplyThumbsUp(child.id) } },
-                                     onReplyClick = {
-                                         activeThreadTargetReply = child
-                                         val currentText = threadReplyText.text
-                                         val tag = "@${child.authorName} "
-                                         if (!currentText.startsWith(tag)) {
-                                             val newText = tag + currentText.removePrefix(tag)
-                                             viewModel.onThreadReplyChange(
-                                                 androidx.compose.ui.text.input.TextFieldValue(
-                                                     text = newText,
-                                                     selection = androidx.compose.ui.text.TextRange(newText.length)
-                                                 )
-                                             )
-                                         }
-                                     },
+                                    onReplyClick = {
+                                        activeThreadTargetReply = child
+                                        val currentText = viewModel.threadReplyText.value.text
+                                        val tag = "@${child.authorName} "
+                                        if (!currentText.startsWith(tag)) {
+                                            val newText = tag + currentText.removePrefix(tag)
+                                            viewModel.onThreadReplyChange(
+                                                androidx.compose.ui.text.input.TextFieldValue(
+                                                    text = newText,
+                                                    selection = androidx.compose.ui.text.TextRange(newText.length)
+                                                )
+                                            )
+                                        }
+                                    },
                                     onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleReplyBookmark(child.id) } },
                                     onReportClick = { reportTarget = "reply" to child.id },
                                     onEditClick = { editingReply = child },
@@ -719,89 +654,184 @@ fun ForumPostDetailScreen(
 
                 if (uiState.currentUserId != null) {
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                    NebCommentComposerBar(
-                        value = threadReplyText,
-                        onValueChange = viewModel::onThreadReplyChange,
-                        placeholder = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply?.authorName}..." else "Write a reply...",
-                        enabled = !isSubmittingReply,
-                        canSend = (threadReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
-                        posting = isSubmittingReply,
+                    ThreadReplyComposerSlot(
+                        viewModel = viewModel,
+                        gate = gate,
+                        parentId = parent.id,
+                        activeThreadTargetReply = activeThreadTargetReply,
+                        onClearTargetReply = { activeThreadTargetReply = null },
                         voiceNote = voiceNote,
-                        visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
-                        leadingContent = {
-                            com.neb.ians.ui.components.NebIdentityAvatarMenu(
-                                isAnonymous = composerAnonymous,
-                                userName = identityName,
-                                handle = identityHandle,
-                                photoUrl = identityPhoto,
-                                anonTag = identityAnonTag,
-                                onSelect = viewModel::setComposerAnonymous,
-                                enabled = !isSubmittingReply,
-                                modifier = Modifier.padding(start = 4.dp)
-                            )
-                        },
-                        trailingContent = {
-                            ComposerAttachMenu(
-                                enabled = !isSubmittingReply,
-                                onPick = { composerMediaPicker.launch(it) }
-                            )
-                        },
-                        onSend = {
-                            if (!gate.signedIn) { gate.ask(GateReason.Reply); return@NebCommentComposerBar }
-                            val targetId = activeThreadTargetReply?.id ?: parent.id
-                            viewModel.submitReply(
-                                content = threadReplyText.text,
-                                parentReplyId = targetId,
-                                onSuccess = {
-                                    activeThreadTargetReply = null
-                                }
-                            )
-                        }
-                    ) {
-                        ComposerAttachmentChips(
-                            attachments = composerMediaAttachments,
-                            onRemoveAttachment = viewModel::removeMediaAttachment
-                        )
-                        if (threadMentionSuggestions.isNotEmpty()) {
-                            MentionSuggestions(
-                                users = threadMentionSuggestions,
-                                onSelect = viewModel::selectThreadMention,
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                        }
-
-                        activeThreadTargetReply?.let { target ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 8.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                        shape = RoundedCornerShape(8.dp)
-                                    )
-                                    .padding(horizontal = 12.dp, vertical = 6.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Close,
-                                    contentDescription = "Clear reply target",
-                                    modifier = Modifier
-                                        .size(16.dp)
-                                        .clickable { activeThreadTargetReply = null },
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = "Replying to @${target.authorName}: \"${target.content.take(40)}${if (target.content.length > 40) "..." else ""}\"",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
-                    }
+                        onLaunchMediaPicker = { composerMediaPicker.launch(it) }
+                    )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MainReplyComposerSlot(
+    viewModel: PostDetailViewModel,
+    gate: com.neb.ians.ui.components.AuthGate,
+    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
+    mainFocusRequester: FocusRequester,
+    keyboardController: androidx.compose.ui.platform.SoftwareKeyboardController?,
+    onLaunchMediaPicker: (Array<String>) -> Unit
+) {
+    val mainReplyText by viewModel.mainReplyText.collectAsStateWithLifecycle()
+    val mainMentionSuggestions by viewModel.mainMentionSuggestions.collectAsStateWithLifecycle()
+    val isSubmittingReply by viewModel.isSubmittingReply.collectAsStateWithLifecycle()
+    val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
+    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
+    val composerKind by viewModel.composerKind.collectAsStateWithLifecycle()
+    val composerPoll by viewModel.composerPoll.collectAsStateWithLifecycle()
+    val identityName by viewModel.userName.collectAsStateWithLifecycle()
+    val identityPhoto by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
+    val identityHandle by viewModel.userHandle.collectAsStateWithLifecycle()
+    val identityAnonTag by viewModel.anonTag.collectAsStateWithLifecycle()
+    NebCommentComposerBar(
+        value = mainReplyText,
+        onValueChange = viewModel::onMainReplyChange,
+        placeholder = "Post your reply...",
+        enabled = !isSubmittingReply,
+        canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty() || composerPoll?.isReady == true) && !isSubmittingReply,
+        posting = isSubmittingReply,
+        voiceNote = voiceNote,
+        docked = false,
+        kind = composerKind,
+        onKindChange = viewModel::setComposerKind,
+        textFieldModifier = Modifier.focusRequester(mainFocusRequester),
+        visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+        leadingContent = {
+            com.neb.ians.ui.components.NebIdentityAvatarMenu(
+                isAnonymous = composerAnonymous,
+                userName = identityName,
+                handle = identityHandle,
+                photoUrl = identityPhoto,
+                anonTag = identityAnonTag,
+                onSelect = viewModel::setComposerAnonymous,
+                enabled = !isSubmittingReply,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        },
+        trailingContent = {
+            ComposerAttachMenu(
+                enabled = !isSubmittingReply,
+                onPick = onLaunchMediaPicker,
+                poll = ComposerPoll(active = composerPoll != null, onToggle = viewModel::toggleComposerPoll)
+            )
+        },
+        onSend = send@{
+            if (!gate.signedIn) { gate.ask(GateReason.Reply); return@send }
+            keyboardController?.hide()
+            viewModel.submitReply(content = mainReplyText.text, parentReplyId = null, onSuccess = {})
+        }
+    ) {
+        composerPoll?.let { draft ->
+            CommentPollBuilder(
+                draft = draft,
+                onChange = viewModel::updateComposerPoll,
+                onClose = viewModel::toggleComposerPoll,
+                enabled = !isSubmittingReply
+            )
+        }
+        ComposerAttachmentChips(
+            attachments = composerMediaAttachments,
+            onRemoveAttachment = viewModel::removeMediaAttachment
+        )
+        if (mainMentionSuggestions.isNotEmpty()) {
+            MentionSuggestions(
+                users = mainMentionSuggestions,
+                onSelect = viewModel::selectMainMention,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ThreadReplyComposerSlot(
+    viewModel: PostDetailViewModel,
+    gate: com.neb.ians.ui.components.AuthGate,
+    parentId: String,
+    activeThreadTargetReply: ApiReply?,
+    onClearTargetReply: () -> Unit,
+    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
+    onLaunchMediaPicker: (Array<String>) -> Unit
+) {
+    val threadReplyText by viewModel.threadReplyText.collectAsStateWithLifecycle()
+    val threadMentionSuggestions by viewModel.threadMentionSuggestions.collectAsStateWithLifecycle()
+    val isSubmittingReply by viewModel.isSubmittingReply.collectAsStateWithLifecycle()
+    val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
+    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
+    val identityName by viewModel.userName.collectAsStateWithLifecycle()
+    val identityPhoto by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
+    val identityHandle by viewModel.userHandle.collectAsStateWithLifecycle()
+    val identityAnonTag by viewModel.anonTag.collectAsStateWithLifecycle()
+    NebCommentComposerBar(
+        value = threadReplyText,
+        onValueChange = viewModel::onThreadReplyChange,
+        placeholder = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply.authorName}..." else "Write a reply...",
+        enabled = !isSubmittingReply,
+        canSend = (threadReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
+        posting = isSubmittingReply,
+        voiceNote = voiceNote,
+        visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+        leadingContent = {
+            com.neb.ians.ui.components.NebIdentityAvatarMenu(
+                isAnonymous = composerAnonymous,
+                userName = identityName,
+                handle = identityHandle,
+                photoUrl = identityPhoto,
+                anonTag = identityAnonTag,
+                onSelect = viewModel::setComposerAnonymous,
+                enabled = !isSubmittingReply,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        },
+        trailingContent = {
+            ComposerAttachMenu(enabled = !isSubmittingReply, onPick = onLaunchMediaPicker)
+        },
+        onSend = {
+            if (!gate.signedIn) { gate.ask(GateReason.Reply); return@NebCommentComposerBar }
+            val targetId = activeThreadTargetReply?.id ?: parentId
+            viewModel.submitReply(content = threadReplyText.text, parentReplyId = targetId, onSuccess = onClearTargetReply)
+        }
+    ) {
+        ComposerAttachmentChips(
+            attachments = composerMediaAttachments,
+            onRemoveAttachment = viewModel::removeMediaAttachment
+        )
+        if (threadMentionSuggestions.isNotEmpty()) {
+            MentionSuggestions(
+                users = threadMentionSuggestions,
+                onSelect = viewModel::selectThreadMention,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+        activeThreadTargetReply?.let { target ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+                    .background(color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f), shape = RoundedCornerShape(8.dp))
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Clear reply target",
+                    modifier = Modifier.size(16.dp).clickable(onClick = onClearTargetReply),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Replying to @${target.authorName}: \"${target.content.take(40)}${if (target.content.length > 40) "..." else ""}\"",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }

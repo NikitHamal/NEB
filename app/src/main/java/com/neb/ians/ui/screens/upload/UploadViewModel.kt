@@ -380,10 +380,6 @@ class UploadViewModel @Inject constructor(
         }
     }
 
-    fun clearFiles() {
-        _uiState.update { it.copy(selectedFiles = emptyList()) }
-    }
-
     fun submit(context: Context) {
         val state = _uiState.value
         var hasError = false

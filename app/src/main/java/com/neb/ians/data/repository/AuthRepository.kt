@@ -143,7 +143,6 @@ class AuthRepository @Inject constructor(
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
     val currentUserVerificationLevelFlow: Flow<Int> = dataStore.data.map { it[USER_VERIFICATION_LEVEL] ?: 0 }
-    val currentUserIsAdminFlow: Flow<Boolean> = dataStore.data.map { it[USER_IS_ADMIN] ?: false }
 
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
         val userId = preferences[USER_ID]
@@ -726,10 +725,6 @@ class AuthRepository @Inject constructor(
             prefs[USER_FOLLOWING_COUNT] = 0
             prefs[USER_CONTRIBUTION_SCORE] = 0
         }
-    }
-
-    suspend fun updateCachedPhotoUrl(url: String?) {
-        dataStore.edit { prefs -> prefs[USER_PHOTO_URL] = url ?: "" }
     }
 
     fun syncFcmToken() {
