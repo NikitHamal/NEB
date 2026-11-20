@@ -1,0 +1,116 @@
+name: Rebuild and Publish Library Books
+
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: 'Space-separated book slugs to rebuild and publish (e.g. sci10 qbank10 qbank8 acc10 math8)'
+        required: true
+        default: 'sci10 qbank10 qbank8'
+      dry_run:
+        description: 'true = dry-run replace_book_files on server without swapping'
+        required: false
+        default: 'false'
+
+concurrency:
+  group: rebuild-books
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout book sources and pipeline
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            notes/pipeline
+            notes/tools
+            notes/curriculum
+            notes/content
+            notes/assets
+            tools/publish/published.json
+            backend_python/api/management/commands/replace_book_files.py
+            backend_python/api/management/commands/approve_book_uploads.py
+          filter: blob:none
+          fetch-depth: 1
+
+      - name: Install WeasyPrint system libraries, Python packages and book fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libpangocairo-1.0-0 \
+            libgobject-2.0-0 libcairo2 shared-mime-info fonts-dejavu-core fontconfig
+          pip install -q weasyprint numpy matplotlib pymupdf markdown pillow pypdf
+          bash notes/pipeline/fonts/install.sh
+
+      - name: Build and size-normalise PDFs
+        env:
+          SLUGS: ${{ inputs.slugs }}
+        run: |
+          set -euo pipefail
+          mkdir -p stage notes/pdf
+          python3 - <<'PY'
+          import json, os, shutil, subprocess, sys
+          sys.path.insert(0, "notes/pipeline")
+          import spine, build_pdf
+
+          slugs = os.environ["SLUGS"].split()
+          built_map = {}
+          for slug in slugs:
+              print(f"=== Building {slug} ===", flush=True)
+              path, chaps, pages = build_pdf.build(slug, verbose=True)
+              assert path and os.path.exists(path), f"Failed to build {slug}"
+              size_mb = os.path.getsize(path) / (1024 * 1024)
+              if size_mb > 10.0:
+                  print(f"Shrinking {slug} ({size_mb:.1f} MB)...", flush=True)
+                  subprocess.check_call([sys.executable, "notes/tools/shrink_pdf.py", path])
+              shutil.copy(path, f"stage/{slug}.pdf")
+              built_map[slug] = f"notes/pdf/{os.path.basename(path)}"
+          shutil.copy("tools/publish/published.json", "stage/published.json")
+          json.dump(built_map, open("stage/built_map.json", "w", encoding="utf-8"), ensure_ascii=False)
+          PY
+          ls -lh stage/
+
+      - name: Commit rebuilt PDFs to repository
+        if: ${{ inputs.dry_run != 'true' }}
+        env:
+          SLUGS: ${{ inputs.slugs }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, shutil, subprocess
+          built_map = json.load(open("stage/built_map.json", encoding="utf-8"))
+          subprocess.check_call(["git", "sparse-checkout", "add"] + list(built_map.values()))
+          for slug, rel_pdf in built_map.items():
+              shutil.copy(f"stage/{slug}.pdf", rel_pdf)
+          subprocess.check_call(["git", "add"] + list(built_map.values()))
+          PY
+          git config user.name "NikitHamal"
+          git config user.email "nikithamal@users.noreply.github.com"
+          if ! git diff --cached --quiet; then
+            git commit -m "Rebuild PDF(s) for ${SLUGS}"
+            git pull --rebase origin main
+            git push origin main
+          fi
+
+      - name: Upload rebuilt PDFs to server and swap in Library
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SLUGS: ${{ inputs.slugs }}
+          DRY: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          KEY=$(mktemp); trap 'rm -f "$KEY"' EXIT
+          printf '%s\n' "$SSH_KEY" > "$KEY"; chmod 600 "$KEY"
+          SSH="ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 -o ServerAliveInterval=15 -i $KEY consicac@$SSH_HOST"
+          REMOTE=/home/consicac/nebians_api/tmp/newpdfs
+          $SSH "rm -rf $REMOTE && mkdir -p $REMOTE"
+          tar -C stage -cf - . | $SSH "tar -C $REMOTE -xf -"
+          FLAGS=""
+          [ "$DRY" = "true" ] && FLAGS="--dry-run"
+          $SSH "cd /home/consicac/nebians_api && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"

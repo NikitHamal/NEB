@@ -31,16 +31,17 @@ A systematic audit of all 36 school books (`cs8`..`qbank12`), 5 question banks, 
 
 ---
 
-## 2. Overhaul Tracker (Do Not Duplicate — Pick Up Next `OPEN` Item)
+## 2. Overhaul Tracker (Completed & Live)
 
 | Target | Scope | Status |
 |---|---|---|
-| `sci10` Unit 13 | Complete rewrite for official CDC Grade 10 ICT (Signals, ADC/DAC, Nibble/Byte, Digital Communication 9-block chain, Baseband/Broadband, Netizen/Digital Citizenship, Online Reputation, Digital Wellbeing, Audio/Video Editing) | **IN PROGRESS** |
-| `sci10` Unit 16 | Rewrite for official CDC Some Gases ($CO_2$ lab prep/properties/uses, $NH_3$ lab prep/Haber's process/fountain experiment/properties/uses, Greenhouse Effect & Acid Rain) | **IN PROGRESS** |
-| `sci10` Unit 19 | Rewrite for official CDC Chemicals Used in Daily Life (Food Preservatives, Fruit Ripening, Soap Saponification & Detergents, Chemical vs Biological Pesticides & Pollution) | **IN PROGRESS** |
-| `sci10` Unit 5 | Rewrite for official CDC Human Blood Circulatory System, Blood Groups, Blood Pressure, Diabetes, Uric Acid, Heart Attack, Angiogram & Open-Heart Surgery | **IN PROGRESS** |
-| `sci10` Unit 12 | Update for official CDC Universe (Gravitational importance, Big Bang, Hubble's Law $v=Hd$, Critical Density, Open/Flat/Closed Universe & Big Crunch) | **IN PROGRESS** |
-| `sci10` Unit 1, 4, 6, 7, 9, 10, 11, 15, 17, 18 | Align all remaining `sci10` units with official 2080 CDC textbook sections & SEE 2080/2081 questions | **IN PROGRESS** |
-| `qbank10` Units 2, 3, 4 | Update SEE Science Objective, Subjective & Model Question Sets to match 2080 CDC Science syllabus | **OPEN** |
-| `qbank8` Units 23, 24, 25 | Replace QBASIC questions/programs with Python to match `cs8` Unit 20 | **OPEN** |
-| Export & Rebuild | Run `export_syllabus.py`, `export_study.py`, `build_pdf.py`, and deploy to backend | **IN PROGRESS** |
+| `sci10` Unit 13 | Complete rewrite for official CDC Grade 10 ICT (Signals, Sine vs Square wave `-12V..+12V` / `0V..5V`, ADC/DAC temperature sensor & computer music examples, Nibble/Byte, Digital Communication 9-block chain, Baseband/Broadband, Netizen/Digital Citizenship, Online Reputation, Digital Wellbeing, Audio/Video Editing) | **DONE (`d19d2013`, `42969bf6`)** |
+| `sci10` Unit 16 | Rewrite for official CDC Some Gases ($CO_2$ lab prep/properties/uses, $NH_3$ lab prep/Haber's process/fountain experiment/properties/uses, Greenhouse Effect & Acid Rain) | **DONE (`8aee3cb5`)** |
+| `sci10` Unit 19 | Rewrite for official CDC Chemicals Used in Daily Life (Food Preservatives, Fruit Ripening, Soap Saponification & Detergents, Chemical vs Biological Pesticides & Pollution) | **DONE (`8aee3cb5`)** |
+| `sci10` Unit 5 | Rewrite for official CDC Human Blood Circulatory System, Blood Groups, Blood Pressure, Diabetes, Uric Acid, Heart Attack, Angiogram & Open-Heart Surgery | **DONE (`d67a3e5a`)** |
+| `sci10` Unit 12 | Update for official CDC Universe (Gravitational importance, Big Bang, Hubble's Law $v=Hd$, Critical Density, Open/Flat/Closed Universe & Big Crunch) | **DONE (`d67a3e5a`)** |
+| `sci10` Units 1, 4, 6, 7, 9, 10, 11, 15, 17, 18 & `notes/curriculum/sci10.md` | Aligned all 19 `sci10` units and syllabus spine with the official 2080 CDC textbook (including Feather-Coin experiment, Moon/Jupiter gravity, parachute on Earth vs Moon, Hope's apparatus, three metal balls on wax slab, thermometer calibration, variables, mitosis/meiosis, medicinal plants, TIR/endoscopy, AC/DC/Faraday/transformer, ores/metallurgy, methanol/ethanol/glycerol) | **DONE (`fc52cc1b`, `42969bf6`)** |
+| `qbank10` Units 2, 3, 4, 14, 22 | Updated SEE Science Objective, Subjective & Model Question Sets to match 2080 CDC Science syllabus and cleaned up Census/Python audit flags | **DONE (`1bfba8ce`, `42969bf6`)** |
+| `qbank8` Units 23, 24, 25 | Replaced all QBASIC questions/programs with Python 3 to match `cs8` Unit 20 | **DONE (`1de8d957`)** |
+| All 36 School Books (`school_audit.py`) | Resolved all 13 `school_audit.py` issues across `math8` (Unit 15), `acc10` (Units 12 & 15), `cs8` (Unit 13), `eng8` (Unit 10), `eng10` (Unit 15), `cs11` (Unit 6), `eng11` (Unit 23), `eng12` (Unit 23) — `school_audit.py` now reports `0 issue(s)` | **DONE (`42969bf6`)** |
+| Export, Rebuild PDFs & Live Backend Deploy | Exported `web/data/syllabus/` and `web/data/study/` + SVGs (`48763a9e`), deployed backend via `deploy-backend.yml`, and automated PDF rebuild + live library swap via `.github/workflows/rebuild-books.yml` (`replace_book_files` + `approve_book_uploads`) | **DONE** |
