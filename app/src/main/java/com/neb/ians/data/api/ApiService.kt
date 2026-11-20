@@ -216,28 +216,6 @@ data class PollVoteRequest(
 )
 
 @Serializable
-data class ApiPollVoteResponse(
-    val id: String = "",
-    val question: String = "",
-    @SerialName("pollType") val pollType: String = "voting",
-    @SerialName("allowMultiple") val allowMultiple: Boolean = false,
-    val explanation: String = "",
-    @SerialName("total_votes") val totalVotes: Int = 0,
-    @SerialName("isExpired") val isExpired: Boolean = false,
-    val options: List<ApiPollVoteOption> = emptyList(),
-    val error: String? = null
-)
-
-@Serializable
-data class ApiPollVoteOption(
-    val id: String,
-    val text: String = "",
-    @SerialName("is_correct") val isCorrect: Boolean = false,
-    @SerialName("vote_count") val voteCount: Int = 0,
-    val order: Int = 0
-)
-
-@Serializable
 data class UploadImageResponse(
     val url: String = "",
     val error: String? = null
@@ -283,11 +261,6 @@ data class ReplyLabelRequest(val label: String)
 
 @Serializable
 data class ReplyUpdateRequest(val content: String)
-
-@Serializable
-data class FollowToggleRequest(
-    @SerialName("user_id") val userId: String
-)
 
 @Serializable
 data class BookmarkToggleRequest(
@@ -1054,14 +1027,6 @@ data class ApiResourceCommentLikeResponse(
 )
 
 @Serializable
-data class ApiStatsResponse(
-    @SerialName("total_users") val totalUsers: Int = 0,
-    @SerialName("total_posts") val totalPosts: Int = 0,
-    @SerialName("total_replies") val totalReplies: Int = 0,
-    @SerialName("total_resources") val totalResources: Int = 0
-)
-
-@Serializable
 data class ApiPaginatedResources(
     @SerialName("results") val resources: List<ApiResource> = emptyList(),
     @SerialName("count") val totalCount: Int = 0,
@@ -1083,23 +1048,6 @@ data class ApiPaginatedReplies(
     @SerialName("count") val totalCount: Int = 0,
     val next: String? = null,
     val previous: String? = null
-)
-
-/** GET /api/feed/suggested/ — intelligent mixed deck (never empty when content exists). */
-@Serializable
-data class ApiSuggestedFeedResponse(
-    val ok: Boolean = false,
-    val items: List<ApiSuggestedItem> = emptyList(),
-    val count: Int = 0,
-    val note: String = "",
-    @SerialName("generatedAt") val generatedAt: Long = 0
-)
-
-@Serializable
-data class ApiSuggestedItem(
-    val type: String = "", // "post" | "resource"
-    val post: ApiPost? = null,
-    val resource: ApiResource? = null
 )
 
 @Serializable
@@ -1501,12 +1449,6 @@ interface ApiService {
     ): ApiCreditHistoryResponse
 
     // --- Posts ---
-    @GET("api/feed/suggested/")
-    suspend fun getSuggestedFeed(
-        @Header("Authorization") bearerToken: String?,
-        @Query("limit") limit: Int = 18
-    ): ApiSuggestedFeedResponse
-
     @GET("api/posts/")
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
@@ -1745,13 +1687,6 @@ interface ApiService {
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @GET("api/bookmarks/check/")
-    suspend fun checkBookmark(
-        @Header("Authorization") bearerToken: String,
-        @Query("target_type") targetType: String,
-        @Query("target_id") targetId: String
-    ): BookmarkResponse
-
     @GET("api/bookmarks/")
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
@@ -1941,9 +1876,6 @@ interface ApiService {
     @GET("api/interactive/categories/")
     suspend fun getInteractiveCategories(): ApiInteractiveCategoriesResponse
 
-    @GET("api/interactive/courses/")
-    suspend fun getInteractiveCourses(): ApiInteractiveCoursesResponse
-
     @GET("api/interactive/courses/{courseSlug}/")
     suspend fun getInteractiveCourseDetail(
         @Path("courseSlug") courseSlug: String
@@ -2051,9 +1983,6 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int
     ): ApiEntrySaved
-
-    @GET("api/pathways/on-neb/")
-    suspend fun pathwaysOnNeb(): ApiOnNeb
 
     // --- Marketplace: creator storefronts, courses and the seller dashboard ---
     @GET("api/marketplace/creators/")
@@ -2383,11 +2312,6 @@ data class ApiInteractiveCourseSummary(
 @Serializable
 data class ApiInteractiveCategoriesResponse(
     val categories: List<ApiInteractiveCategory> = emptyList()
-)
-
-@Serializable
-data class ApiInteractiveCoursesResponse(
-    val courses: List<ApiInteractiveCourseSummary> = emptyList()
 )
 
 @Serializable

@@ -45,13 +45,10 @@ import kotlin.math.sin
  * off the main thread, and a pick or first show settles once on a spring (no looping motion).
  */
 object M3xArt {
-    const val THUMB_VARIANTS = 6
-
     class Cover(val id: String, val layout: String, val palette: String, val seed: Int)
     class Recipe(val layout: String, val palette: String, val key: String)
 
     @Volatile private var cached: List<Cover>? = null
-    @Volatile private var thumbs: Map<String, List<Recipe>>? = null
     @Volatile private var notes: List<Recipe>? = null
 
     private fun load(context: Context) = synchronized(this) {
@@ -60,13 +57,8 @@ object M3xArt {
             val text = context.applicationContext.assets.open("m3x/covers.json").bufferedReader().use { it.readText() }
             val root = JSONObject(text)
             val rows = root.getJSONArray("covers")
-            val list = List(rows.length()) { i -> rows.getJSONArray(i).let { Cover(it.getString(0), it.getString(1), it.getString(2), it.getInt(3)) } }
-            val t = root.getJSONObject("thumbs")
-            thumbs = t.keys().asSequence().associateWith { k ->
-                val a = t.getJSONArray(k); List(a.length()) { i -> a.getJSONArray(i).let { Recipe(it.getString(0), it.getString(1), it.getString(2)) } }
-            }
-            cached = list
-        }.onFailure { cached = emptyList(); thumbs = emptyMap() }
+            cached = List(rows.length()) { i -> rows.getJSONArray(i).let { Cover(it.getString(0), it.getString(1), it.getString(2), it.getInt(3)) } }
+        }.onFailure { cached = emptyList() }
     }
 
     val isLoaded: Boolean get() = cached != null
@@ -75,11 +67,6 @@ object M3xArt {
     fun cover(context: Context, id: String?): Cover? = id?.takeIf { it.isNotBlank() }?.let { want -> covers(context).firstOrNull { it.id == want } }
     fun resolveCover(context: Context, coverId: String?, username: String): Cover? =
         cover(context, coverId) ?: cover(context, defaultCover(context, username)) ?: covers(context).firstOrNull()
-    fun thumbRecipe(context: Context, family: String, variant: Int): Recipe? {
-        covers(context)
-        val l = thumbs?.get(family) ?: thumbs?.get("GENERAL") ?: return null
-        return l.getOrNull(variant % l.size.coerceAtLeast(1))
-    }
 
     /** FNV-1a over the UTF-8 bytes, unsigned 32 bit. Same as api/cover_art.py `default_cover`. */
     private fun fnv(text: String): Long {

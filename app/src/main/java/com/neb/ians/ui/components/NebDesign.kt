@@ -88,32 +88,34 @@ fun NebCard(
     border: BorderStroke? = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)),
     content: @Composable () -> Unit
 ) {
+    if (onClick == null) {
+        Box(
+            modifier = modifier
+                .clip(shape)
+                .background(containerColor)
+                .then(if (border != null) Modifier.border(border, shape) else Modifier)
+        ) { content() }
+        return
+    }
     val tactile = rememberTactileFeedback()
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
-    // A pressable card settles in with a spring and warms one tonal step; it never loses its corners.
     val pressScale by animateFloatAsState(
-        targetValue = if (pressed && onClick != null) 0.985f else 1f,
+        targetValue = if (pressed) 0.985f else 1f,
         animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
         label = "nebCardPress"
     )
-    val fill by animateColorAsState(
-        targetValue = if (pressed && onClick != null) MaterialTheme.colorScheme.surfaceContainerLow else containerColor,
-        animationSpec = com.neb.ians.ui.theme.nebFastEffectsSpec(),
-        label = "nebCardFill"
-    )
-    val base = modifier
-        .graphicsLayer { scaleX = pressScale; scaleY = pressScale }
-        .clip(shape)
-        .background(fill)
-        .then(if (border != null) Modifier.border(border, shape) else Modifier)
+    val fill = if (pressed) MaterialTheme.colorScheme.surfaceContainerLow else containerColor
     Box(
-        modifier = if (onClick != null) {
-            base.clickable(interactionSource = interaction, indication = null, onClick = {
+        modifier = modifier
+            .graphicsLayer { scaleX = pressScale; scaleY = pressScale }
+            .clip(shape)
+            .background(fill)
+            .then(if (border != null) Modifier.border(border, shape) else Modifier)
+            .clickable(interactionSource = interaction, indication = null, onClick = {
                 tactile.perform(TactileType.LightTap)
                 onClick()
             })
-        } else base
     ) { content() }
 }
 
@@ -127,31 +129,11 @@ fun NebIconButton(
     tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     size: Dp = 40.dp,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.88f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-        label = "iconBtnScale"
-    )
-    val tactile = rememberTactileFeedback()
-
     Box(
         modifier = modifier
             .size(size)
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
             .clip(CircleShape)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = ripple(bounded = true, color = tint),
-                onClick = {
-                    tactile.perform(TactileType.ButtonTap)
-                    onClick()
-                }
-            ),
+            .nebPressable(scale = 0.88f, tactile = TactileType.ButtonTap, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Icon(icon, contentDescription, tint = tint, modifier = Modifier.size(22.dp))
@@ -259,6 +241,17 @@ fun NebAvatar(
         if (isNeby) CircleShape else rememberAvatarShape(name)
     val (toneFill, toneInk) = avatarTone(name)
 
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val avatarRequest = remember(context, resolvedUrl) {
+        resolvedUrl?.let { url ->
+            coil.request.ImageRequest.Builder(context)
+                .data(url)
+                .size(128, 128)
+                .crossfade(false)
+                .build()
+        }
+    }
+
     Box(modifier = modifier.then(ringMod), contentAlignment = Alignment.Center) {
         Box(
             modifier = Modifier
@@ -275,11 +268,11 @@ fun NebAvatar(
                 Box(contentAlignment = Alignment.Center) {
                     com.neb.ians.ui.pixel.NebyPixel(size = size, ambient = false, avatar = true)
                 }
-            } else if (!resolvedUrl.isNullOrBlank() && !isError) {
+            } else if (avatarRequest != null && !isError) {
                 AsyncImage(
-                    model = resolvedUrl,
+                    model = avatarRequest,
                     contentDescription = name,
-                    modifier = Modifier.size(size).clip(avatarShape),
+                    modifier = Modifier.size(size),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )

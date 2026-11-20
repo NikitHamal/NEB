@@ -550,39 +550,14 @@ fun PostStatButton(
 /** Like pill: ghost, brand primary when liked (the web's `.liked`). No border, no ripple, spring motion. */
 @Composable
 fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val tactile = rememberTactileFeedback()
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.9f else 1.0f,
-        animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
-        label = "likePillScale"
-    )
-    val iconScale by animateFloatAsState(
-        targetValue = if (liked) 1.0f else 0.92f,
-        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium),
-        label = "likePillIcon"
-    )
-    val contentColor by animateColorAsState(
-        targetValue = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
-        label = "likePillFg"
-    )
-
+    val contentColor = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
     Row(
         modifier = modifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
             .clip(WebPillShape)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = {
-                    tactile.perform(if (liked) TactileType.LightTap else TactileType.Success)
-                    onClick()
-                }
+            .nebPressable(
+                scale = 0.9f,
+                tactile = if (liked) TactileType.LightTap else TactileType.Success,
+                onClick = onClick
             )
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -591,9 +566,7 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
         Icon(
             imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
             contentDescription = if (liked) "Remove like" else "Like",
-            modifier = Modifier
-                .size(18.dp)
-                .graphicsLayer { scaleX = iconScale; scaleY = iconScale },
+            modifier = Modifier.size(18.dp),
             tint = contentColor
         )
         Text(

@@ -29,8 +29,6 @@ object InlineImageTokens {
 
     fun newPendingKey(): String = "u" + Random.nextInt(0x1000000, 0xFFFFFFF).toString(16)
 
-    fun pendingToken(key: String): String = "[[img:$key]]"
-
     fun tokenFor(id: Int): String = "[[img:$id]]"
 
     /** Ordered unique numeric image ids referenced by the text. */
@@ -42,8 +40,6 @@ object InlineImageTokens {
         return seen.toList()
     }
 
-    fun countTokens(text: String): Int = REGEX.findAll(text).count()
-
     fun hasPending(text: String): Boolean =
         REGEX.findAll(text).any { it.groupValues[1].startsWith("u") }
 
@@ -52,11 +48,6 @@ object InlineImageTokens {
         REGEX.replace(text, placeholder)
 
     fun stripTokens(text: String): String = REGEX.replace(text, "")
-
-    fun replacePendingKey(text: String, key: String, id: Int): String =
-        text.replace("[[img:$key]]", tokenFor(id))
-
-    fun removeToken(text: String, token: String): String = text.replace(token, "")
 }
 
 /**

@@ -941,62 +941,67 @@ fun Avatar(
     val avatarShape: androidx.compose.ui.graphics.Shape =
         if (isNeby || isAnon || isNebians) CircleShape else rememberAvatarShape(name)
     val (toneFill, toneInk) = avatarTone(name)
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val avatarRequest = remember(context, resolvedUrl) {
+        resolvedUrl?.let { url ->
+            coil.request.ImageRequest.Builder(context)
+                .data(url)
+                .size(128, 128)
+                .crossfade(false)
+                .build()
+        }
+    }
+    val bgFill = when {
+        isNeby -> Color.Transparent
+        isNebians -> MaterialTheme.colorScheme.primary
+        hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
+        isAnon -> MaterialTheme.colorScheme.primary
+        else -> toneFill
+    }
     Box(modifier = modifier.size(size)) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            shape = avatarShape,
-            color = when {
-                isNeby -> Color.Transparent
-                isNebians -> MaterialTheme.colorScheme.primary
-                hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
-                isAnon -> MaterialTheme.colorScheme.primary
-                else -> toneFill
-            }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(avatarShape)
+                .background(bgFill),
+            contentAlignment = Alignment.Center
         ) {
             if (isAnon) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = Icons.Outlined.VisibilityOff,
-                        contentDescription = "Anonymous",
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(size * 0.55f)
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Outlined.VisibilityOff,
+                    contentDescription = "Anonymous",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(size * 0.55f)
+                )
             } else if (isNeby) {
-                Box(contentAlignment = Alignment.Center) {
-                    com.neb.ians.ui.pixel.NebyPixel(
-                        state = if (animate) com.neb.ians.ui.pixel.NebyState.Idle else com.neb.ians.ui.pixel.NebyState.Still,
-                        size = size,
-                        ambient = false,
-                        avatar = true
-                    )
-                }
-            } else if (!resolvedUrl.isNullOrBlank() && !isError) {
+                com.neb.ians.ui.pixel.NebyPixel(
+                    state = if (animate) com.neb.ians.ui.pixel.NebyState.Idle else com.neb.ians.ui.pixel.NebyState.Still,
+                    size = size,
+                    ambient = false,
+                    avatar = true
+                )
+            } else if (avatarRequest != null && !isError) {
                 AsyncImage(
-                    model = resolvedUrl,
+                    model = avatarRequest,
                     contentDescription = name,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )
             } else if (isNebians) {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(size * 0.15f)) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.n_logo),
-                        contentDescription = "NEBians",
-                        tint = Color.White,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+                Icon(
+                    painter = painterResource(id = R.drawable.n_logo),
+                    contentDescription = "NEBians",
+                    tint = Color.White,
+                    modifier = Modifier.fillMaxSize().padding(size * 0.15f)
+                )
             } else {
-                Box(contentAlignment = Alignment.Center) {
-                    Text(
-                        text = name.firstOrNull()?.uppercase() ?: "?",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = toneInk
-                    )
-                }
+                Text(
+                    text = name.firstOrNull()?.uppercase() ?: "?",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = toneInk
+                )
             }
         }
 

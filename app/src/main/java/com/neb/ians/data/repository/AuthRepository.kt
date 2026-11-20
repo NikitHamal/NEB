@@ -188,12 +188,6 @@ class AuthRepository @Inject constructor(
         if (SecurePrefs.isTokenLoaded) SecurePrefs.getAuthToken(appContext)
         else withContext(Dispatchers.IO) { SecurePrefs.getAuthToken(appContext) }
 
-    fun getTokenSync(): String? {
-        return try {
-            SecurePrefs.getAuthToken(appContext)
-        } catch (_: Exception) { null }
-    }
-
     suspend fun getBearerToken(): String? {
         val token = getToken()?.takeIf { it.isNotBlank() } ?: return null
         return "Bearer $token"
@@ -308,16 +302,6 @@ class AuthRepository @Inject constructor(
         sessionVersion.value++
         lastProfileRefreshAt = System.currentTimeMillis()
         syncFcmToken()
-    }
-
-    suspend fun continueAsGuest() {
-        withContext(Dispatchers.IO) { SecurePrefs.clearAuthToken(appContext) }
-        dataStore.edit { prefs ->
-            prefs[AUTH_STATUS] = "guest"
-            prefs[PROFILE_COMPLETED] = false
-            prefs[USER_ID] = "guest_user"
-            prefs[USER_NAME] = "Guest"
-        }
     }
 
     suspend fun emailSignup(email: String, password: String, username: String, role: String = "student"): EmailAuthResult {

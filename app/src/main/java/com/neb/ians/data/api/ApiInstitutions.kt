@@ -124,24 +124,6 @@ data class ApiInstSave(
 )
 
 @Serializable
-data class ApiOnNebItem(
-    val slug: String = "",
-    val name: String = "",
-    val kind: String = "",
-    val district: String = "",
-    val completeness: Int = 0,
-    val levels: List<String> = emptyList(),
-    val feeMin: Long? = null,
-    val admissionOpen: Boolean = false
-)
-
-@Serializable
-data class ApiOnNeb(
-    val items: List<ApiOnNebItem> = emptyList(),
-    val matches: Map<String, String> = emptyMap()
-)
-
-@Serializable
 data class ApiInstClaimResult(
     val status: String = "",
     val application: ApiInstApplication? = null,

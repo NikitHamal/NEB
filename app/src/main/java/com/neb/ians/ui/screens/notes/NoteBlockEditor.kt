@@ -137,8 +137,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.ui.components.LiveMarkdown
-import com.neb.ians.ui.components.LiveReconcile
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
 

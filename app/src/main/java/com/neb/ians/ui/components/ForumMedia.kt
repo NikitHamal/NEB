@@ -137,9 +137,10 @@ private fun rememberMediaPlayer(url: String): ExoPlayer {
 @Composable
 private fun PlayerPositionPoller(player: ExoPlayer, isPlaying: Boolean, onTick: (Long, Long) -> Unit) {
     LaunchedEffect(player, isPlaying) {
-        while (true) {
+        onTick(player.currentPosition.coerceAtLeast(0), player.duration.coerceAtLeast(0))
+        while (isPlaying) {
+            delay(250)
             onTick(player.currentPosition.coerceAtLeast(0), player.duration.coerceAtLeast(0))
-            delay(if (isPlaying) 250 else 900)
         }
     }
 }
@@ -649,6 +650,14 @@ fun ForumMediaBadges(
         if (videoWithThumb != null) {
             val thumbUrl = resolveMediaUrl(videoWithThumb.thumbnail)
             if (!thumbUrl.isNullOrBlank()) {
+                val context = LocalContext.current
+                val thumbReq = remember(context, thumbUrl) {
+                    coil.request.ImageRequest.Builder(context)
+                        .data(thumbUrl)
+                        .size(360, 258)
+                        .crossfade(false)
+                        .build()
+                }
                 Box(
                     modifier = Modifier
                         .size(120.dp, 86.dp)
@@ -656,7 +665,7 @@ fun ForumMediaBadges(
                         .background(Color.Black)
                 ) {
                     coil.compose.AsyncImage(
-                        model = thumbUrl,
+                        model = thumbReq,
                         contentDescription = "Video preview",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = androidx.compose.ui.layout.ContentScale.Crop
