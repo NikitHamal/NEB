@@ -76,7 +76,6 @@ fun OnboardingScreen(
 
     LaunchedEffect(Unit) {
         viewModel.setIsEditing(false)
-        viewModel.fetchInstitutions()
     }
 
     LaunchedEffect(uiState.submissionResult) {
@@ -103,6 +102,8 @@ fun OnboardingScreen(
         if (safeIndex > 0) {
             movingForward = false
             stepIndex = safeIndex - 1
+        } else {
+            viewModel.skipOnboarding(onFinished)
         }
     }
 
@@ -114,11 +115,12 @@ fun OnboardingScreen(
         }
     }
 
-    BackHandler(enabled = safeIndex > 0) { goBack() }
+    BackHandler { goBack() }
 
     NebJourneySurface {
         NebAuthTopBar(
             onBack = if (safeIndex > 0) ({ goBack() }) else null,
+            onClose = if (safeIndex == 0) ({ viewModel.skipOnboarding(onFinished) }) else null,
             progress = (safeIndex + 1).toFloat() / steps.size
         )
 

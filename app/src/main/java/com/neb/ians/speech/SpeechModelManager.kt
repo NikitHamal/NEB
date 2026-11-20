@@ -95,23 +95,25 @@ class SpeechModelManager @Inject constructor(
     private val root = File(context.filesDir, "speech")
     private val prefs = context.getSharedPreferences("neb_speech", Context.MODE_PRIVATE)
 
-    // A separate client: nothing from the app's API client (auth headers) should reach a CDN.
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(20, TimeUnit.SECONDS)
-        .readTimeout(45, TimeUnit.SECONDS)
-        .followRedirects(true)
-        .build()
+    // A separate lazy client: nothing from the app's API client (auth headers) should reach a CDN.
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(45, TimeUnit.SECONDS)
+            .followRedirects(true)
+            .build()
+    }
 
     val whistleFile: File get() = File(root, "whistle/whistle.cact")
     val phononDir: File get() = File(root, "phonon-31m-en")
     private val voicesDir: File get() = File(phononDir, "voices")
 
-    private val _stt = MutableStateFlow(initialState(SpeechModelId.Whistle))
-    private val _tts = MutableStateFlow(initialState(SpeechModelId.Phonon))
+    private val _stt = MutableStateFlow<ModelState>(ModelState.NotInstalled)
+    private val _tts = MutableStateFlow<ModelState>(ModelState.NotInstalled)
     val stt: StateFlow<ModelState> = _stt.asStateFlow()
     val tts: StateFlow<ModelState> = _tts.asStateFlow()
 
-    private val _installedVoices = MutableStateFlow(scanVoices())
+    private val _installedVoices = MutableStateFlow<List<String>>(emptyList())
     val installedVoices: StateFlow<List<String>> = _installedVoices.asStateFlow()
 
     private val _voiceBusy = MutableStateFlow<Set<String>>(emptySet())
@@ -120,11 +122,21 @@ class SpeechModelManager @Inject constructor(
     private val _catalog = MutableStateFlow<VoiceCatalog>(VoiceCatalog.Loading)
     val catalog: StateFlow<VoiceCatalog> = _catalog.asStateFlow()
 
-    private val _sttLanguage = MutableStateFlow(prefs.getString("stt_lang", "") ?: "")
+    private val _sttLanguage = MutableStateFlow("")
     val sttLanguage: StateFlow<String> = _sttLanguage.asStateFlow()
 
-    private val _voice = MutableStateFlow(prefs.getString("voice", "default") ?: "default")
+    private val _voice = MutableStateFlow("default")
     val voice: StateFlow<String> = _voice.asStateFlow()
+
+    init {
+        scope.launch {
+            _sttLanguage.value = prefs.getString("stt_lang", "") ?: ""
+            _voice.value = prefs.getString("voice", "default") ?: "default"
+            _stt.value = initialState(SpeechModelId.Whistle)
+            _tts.value = initialState(SpeechModelId.Phonon)
+            _installedVoices.value = scanVoices()
+        }
+    }
 
     private val _removed = MutableSharedFlow<SpeechModelId>(extraBufferCapacity = 4)
     /** Emitted before files are deleted so engines can drop their handles. */
@@ -211,19 +223,19 @@ class SpeechModelManager @Inject constructor(
     }
 
     fun loadCatalog() {
-        val cache = File(root, "voices.jsonl")
-        if (_catalog.value !is VoiceCatalog.Ready && cache.exists()) {
-            parseCatalog(cache.readText())?.let { _catalog.value = VoiceCatalog.Ready(it) }
-        }
         scope.launch {
-            try {
-                val text = withContext(Dispatchers.IO) {
-                    client.newCall(Request.Builder().url(SpeechCatalog.VOICES_BASE + "voices.jsonl").build())
-                        .execute().use { r ->
-                            if (!r.isSuccessful) throw IOException("HTTP ${r.code}")
-                            r.body?.string().orEmpty()
-                        }
+            val cache = File(root, "voices.jsonl")
+            if (_catalog.value !is VoiceCatalog.Ready && cache.exists()) {
+                runCatching { parseCatalog(cache.readText()) }.getOrNull()?.let {
+                    _catalog.value = VoiceCatalog.Ready(it)
                 }
+            }
+            try {
+                val text = client.newCall(Request.Builder().url(SpeechCatalog.VOICES_BASE + "voices.jsonl").build())
+                    .execute().use { r ->
+                        if (!r.isSuccessful) throw IOException("HTTP ${r.code}")
+                        r.body?.string().orEmpty()
+                    }
                 val voices = parseCatalog(text)
                 if (voices != null) {
                     root.mkdirs()

@@ -25,16 +25,21 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         private const val BASE_URL = "https://nebians.consica.com.np/"
         private const val BASE_HOST = "nebians.consica.com.np"
         private const val RETRY_HEADER = "X-Waf-Retried"
-        private const val CHALLENGE_TIMEOUT_SECONDS = 25L
-        private const val SHORT_SOLVE_TIMEOUT_SECONDS = 12L
-        private const val WEBVIEW_SETTLE_MS = 900L
-        private const val MAX_SOLVE_ATTEMPTS = 2
+        private const val CHALLENGE_TIMEOUT_SECONDS = 8L
+        private const val SHORT_SOLVE_TIMEOUT_SECONDS = 6L
+        private const val WEBVIEW_SETTLE_MS = 650L
+        private const val MAX_SOLVE_ATTEMPTS = 1
         private const val BROWSER_UA = "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36"
 
         @Volatile
         private var cachedCookies: String? = null
 
+        @Volatile
+        private var webViewCookiesUsed: Boolean = false
+
         private val challengeLock = Any()
+
+        fun cachedCookieHeader(): String? = cachedCookies
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -117,7 +122,10 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
             .header("Sec-Fetch-Site", "same-origin")
             .header("Referer", BASE_URL)
 
-        val mergedCookies = mergeCookies(request.header("Cookie"), cachedCookies, allCookiesFor(request))
+        // Never call CookieManager.getInstance() on ordinary API calls unless a WebView challenge
+        // has actually occurred: initializing WebView loads Chromium and blocks cold starts.
+        val runtimeCookies = if (webViewCookiesUsed) allCookiesFor(request) else null
+        val mergedCookies = mergeCookies(request.header("Cookie"), cachedCookies, runtimeCookies)
         if (mergedCookies.isNotBlank()) builder.header("Cookie", mergedCookies)
         return builder.build()
     }
@@ -131,32 +139,23 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
     private fun solveBudgetSeconds(request: Request, response: Response): Long? {
         val path = request.url.encodedPath
         val contentType = response.body?.contentType()?.toString().orEmpty()
-        // JSON is the server answering; shield pages are HTML (isHardCaptchaBlock assumes the
-        // same). Scanning JSON cost a 192 KB copy, a lowercased copy and nine scans per response,
-        // and a post saying "please wait a moment" made its page look like a challenge and fail.
         if (contentType.contains("application/json", true)) return null
         val likelyText = contentType.contains("text", true) ||
                 contentType.contains("html", true) ||
-                contentType.contains("json", true) ||
                 contentType.isBlank()
-        val protectedStatus = response.code in listOf(200, 403, 409, 429, 503, 520, 522, 524)
+        val protectedStatus = response.code in listOf(403, 409, 429, 503)
         if (!protectedStatus && !path.startsWith("/api/")) return null
-        if (!likelyText && response.code !in listOf(403, 429, 503, 520, 522, 524)) return null
+        if (!likelyText) return null
 
         val sample = try {
-            response.peekBody(192 * 1024).string()
+            response.peekBody(64 * 1024).string()
         } catch (_: Exception) {
             ""
         }
-        if (isChallengeBody(sample)) return CHALLENGE_TIMEOUT_SECONDS
-        // Non-JSON 403/409 without shield markers is usually a WAF variant
-        // page worth one short attempt; anything else fails fast.
-        if (response.code in listOf(403, 409) && !contentType.contains("application/json", true)) {
+        if (isChallengeBody(sample)) {
+            webViewCookiesUsed = true
             return SHORT_SOLVE_TIMEOUT_SECONDS
         }
-        // Any other HTML reply on the API (e.g. a generic 503 page) is still
-        // surfaced as a block so callers show the actionable message — but
-        // without spending a WebView solve on it.
         return null
     }
 

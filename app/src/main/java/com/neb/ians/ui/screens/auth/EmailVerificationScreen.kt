@@ -55,7 +55,6 @@ import com.neb.ians.ui.components.NebPillButton
 import com.neb.ians.ui.components.NebStepHeader
 import com.neb.ians.ui.components.NebTextLink
 import com.neb.ians.ui.components.nebKeyboardOpen
-import com.neb.ians.ui.components.art.NebCodeInFlightArt
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.nebFastEffectsSpec

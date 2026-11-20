@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.auth
 
+import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.AnimatedVisibility
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,11 +39,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialException
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.OAuthResult
 import com.neb.ians.ui.screens.onboarding.Reveal
 import androidx.compose.material.icons.outlined.Close
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.nebAuthPalette
+import kotlinx.coroutines.launch
 
 /**
  * The auth landing: the glyph stage, the name, the three ways in.
@@ -53,9 +65,11 @@ import com.neb.ians.ui.theme.nebAuthPalette
 @Composable
 fun LoginScreen(
     onNavigateToEmailAuth: () -> Unit,
-    onClose: (() -> Unit)? = null
+    onClose: (() -> Unit)? = null,
+    authRepository: AuthRepository? = null
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val isDark = LocalNebAuthPalette.current.isDark
 
     var isLoading by remember { mutableStateOf(false) }
@@ -63,22 +77,75 @@ fun LoginScreen(
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
 
-    fun launchOAuth(provider: String) {
-        isLoading = true
-        loadingProvider = provider
-        errorMessage = null
-
+    fun launchBrowserOAuth(provider: String) {
         val url = if (provider == "google") {
             "https://nebians.consica.com.np/auth/google/login/?state=mobile_google"
         } else {
             "https://nebians.consica.com.np/auth/github/login/?mobile=1"
         }
-
         try {
-            val customTabsIntent = CustomTabsIntent.Builder().build()
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
+                .setShowTitle(true)
+                .build()
             customTabsIntent.launchUrl(context, Uri.parse(url))
-        } catch (e: Exception) {
-            errorMessage = "No browser available for sign-in."
+        } catch (_: Exception) {
+            try {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } catch (_: Exception) {
+                errorMessage = "No browser available for sign-in."
+            }
+        }
+    }
+
+    fun launchOAuth(provider: String) {
+        if (isLoading) return
+        errorMessage = null
+        if (provider == "google" && authRepository != null) {
+            isLoading = true
+            loadingProvider = "google"
+            scope.launch {
+                try {
+                    val credentialManager = CredentialManager.create(context)
+                    val googleOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                        .build()
+                    val request = GetCredentialRequest.Builder()
+                        .addCredentialOption(googleOption)
+                        .build()
+                    val result = credentialManager.getCredential(
+                        request = request,
+                        context = context
+                    )
+                    val credential = result.credential
+                    if (credential is CustomCredential &&
+                        credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                    ) {
+                        val idToken = GoogleIdTokenCredential.createFrom(credential.data).idToken
+                        when (val authResult = authRepository.signInWithGoogle(idToken)) {
+                            is OAuthResult.Success -> Unit
+                            is OAuthResult.Failure -> errorMessage = authResult.message
+                        }
+                    } else {
+                        launchBrowserOAuth("google")
+                    }
+                } catch (_: GetCredentialCancellationException) {
+                    // User dismissed the native account sheet
+                } catch (_: GetCredentialException) {
+                    launchBrowserOAuth("google")
+                } catch (_: Exception) {
+                    launchBrowserOAuth("google")
+                } finally {
+                    isLoading = false
+                    loadingProvider = null
+                }
+            }
+            return
+        }
+
+        isLoading = true
+        loadingProvider = provider
+        try {
+            launchBrowserOAuth(provider)
         } finally {
             isLoading = false
             loadingProvider = null

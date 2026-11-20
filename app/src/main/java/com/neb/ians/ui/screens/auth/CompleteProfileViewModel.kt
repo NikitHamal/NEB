@@ -90,43 +90,57 @@ class CompleteProfileViewModel @Inject constructor(
     private var cachedUsername: String = ""
 
     init {
+        fetchInstitutions()
         viewModelScope.launch {
-            val cached = authRepository.userProfileFlow.first()
-            if (cached != null) {
-                if (cached.username.isNotEmpty()) {
+            var initializedOnce = false
+            authRepository.userProfileFlow.collect { cached ->
+                if (cached == null) return@collect
+                if (cached.username.isNotEmpty() && cachedUsername.isEmpty()) {
                     cachedUsername = cached.username
                 }
                 val isCompleted = authRepository.isProfileCompletedFlow.first()
                 _uiState.update { state ->
-                    state.copy(
-                        isEditing = isCompleted,
-                        username = cached.username,
-                        displayName = cached.displayName ?: "",
-                        email = cached.email ?: "",
-                        bio = cached.bio ?: "",
-                        dob = cached.dob,
-                        gender = cached.gender ?: "Male",
-                        role = cached.role ?: "student",
-                        classLevel = cached.classLevel ?: "Class 11",
-                        subjects = cached.subjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
-                        teachingSubjects = cached.teachingSubjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
-                        institutionType = cached.institutionType ?: "",
-                        pradesh = cached.pradesh ?: "Bagmati",
-                        district = cached.district ?: "Kathmandu",
-                        school = cached.school ?: "",
-                        schoolUsername = cached.schoolUsername ?: "",
-                        photoUrl = cached.photoUrl ?: "",
-                        bannerUrl = cached.bannerUrl ?: "",
-                        isLocked = cached.isLocked
-                    )
+                    if (!initializedOnce) {
+                        state.copy(
+                            isEditing = isCompleted,
+                            username = cached.username,
+                            displayName = cached.displayName ?: "",
+                            email = cached.email ?: "",
+                            bio = cached.bio ?: "",
+                            dob = cached.dob,
+                            gender = cached.gender?.takeIf { it.isNotBlank() } ?: "Male",
+                            role = cached.role?.takeIf { it.isNotBlank() } ?: "student",
+                            classLevel = cached.classLevel?.takeIf { it.isNotBlank() } ?: "Class 11",
+                            subjects = cached.subjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
+                            teachingSubjects = cached.teachingSubjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
+                            institutionType = cached.institutionType ?: "",
+                            pradesh = cached.pradesh?.takeIf { it.isNotBlank() } ?: "Bagmati",
+                            district = cached.district?.takeIf { it.isNotBlank() } ?: "Kathmandu",
+                            school = cached.school ?: "",
+                            schoolUsername = cached.schoolUsername ?: "",
+                            photoUrl = cached.photoUrl ?: "",
+                            bannerUrl = cached.bannerUrl ?: "",
+                            isLocked = cached.isLocked
+                        )
+                    } else {
+                        // Fill in fields that arrived asynchronously from ensureProfile() without overwriting user edits
+                        state.copy(
+                            username = state.username.ifBlank { cached.username },
+                            displayName = state.displayName.ifBlank { cached.displayName ?: "" },
+                            email = state.email.ifBlank { cached.email ?: "" },
+                            photoUrl = state.photoUrl.ifBlank { cached.photoUrl ?: "" }
+                        )
+                    }
                 }
-                if (cached.username.isNotEmpty()) {
+                if (cached.username.isNotEmpty() && _usernameQuery.value.isEmpty()) {
                     _usernameQuery.value = cached.username
                 }
-                fetchInstitutions()
-                if (isCompleted) {
-                    fetchSocialLinks()
-                    fetchPortfolioFields(cached.username)
+                if (!initializedOnce) {
+                    initializedOnce = true
+                    if (isCompleted) {
+                        fetchSocialLinks()
+                        fetchPortfolioFields(cached.username)
+                    }
                 }
             }
         }
@@ -433,6 +447,13 @@ class CompleteProfileViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun skipOnboarding(onDone: () -> Unit) {
+        viewModelScope.launch {
+            runCatching { authRepository.markProfileCompleted() }
+            onDone()
         }
     }
 

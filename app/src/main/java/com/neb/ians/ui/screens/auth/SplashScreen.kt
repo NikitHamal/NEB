@@ -84,26 +84,23 @@ fun SplashScreen(
             if (reduced) {
                 mark.snapTo(1f)
                 letters.forEach { it.snapTo(1f) }
-                delay(300)
+                delay(180)
             } else {
                 launch { mark.animateTo(1f, spring(Spring.DampingRatioLowBouncy, Spring.StiffnessLow)) }
-                delay(380)
+                delay(240)
                 letters.forEachIndexed { i, letter ->
                     launch {
-                        delay(i * 36L)
+                        delay(i * 28L)
                         letter.animateTo(1f, spatial)
                     }
                 }
-                delay(780)
+                delay(480)
                 exit.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 600f, visibilityThreshold = 0.002f))
             }
 
-            val (auth, seen) = destination.await()
-            when (auth) {
-                is AuthState.Authenticated ->
-                    if (auth.isProfileComplete) onNavigateToHome() else onNavigateToCompleteProfile()
-                else -> if (seen) onNavigateToLogin() else onNavigateToIntro()
-            }
+            // Zero login gate & zero onboarding prison on launch: always enter Home directly.
+            destination.await()
+            onNavigateToHome()
         }
     }
 

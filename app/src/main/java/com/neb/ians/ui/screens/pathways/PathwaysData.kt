@@ -17,13 +17,36 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.neb.ians.data.api.ApiService
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.URLEncoder
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+private val pwHttpClient: OkHttpClient by lazy {
+    OkHttpClient.Builder()
+        .connectionPool(ApiService.sharedPool)
+        .connectTimeout(8, TimeUnit.SECONDS)
+        .readTimeout(12, TimeUnit.SECONDS)
+        .build()
+}
+
+internal fun pwHttpGet(url: String, ifNoneMatch: String? = null, onEtag: ((String?) -> Unit)? = null): String? {
+    val req = Request.Builder()
+        .url(url)
+        .header("Accept", "application/json")
+        .apply { if (!ifNoneMatch.isNullOrBlank()) header("If-None-Match", ifNoneMatch) }
+        .build()
+    pwHttpClient.newCall(req).execute().use { resp ->
+        if (resp.code == 304 || !resp.isSuccessful) return null
+        onEtag?.invoke(resp.header("ETag"))
+        return resp.body?.string()
+    }
+}
 
 /** A labelled share or value, used for splits, syllabus weights, quotas and pay ladders. Schema: docs/PATHWAYS_SCHEMA.md */
 data class PwPart(val label: String, val value: Float)
@@ -203,6 +226,7 @@ internal fun parsePathways(text: String, wave17: JSONObject? = null): PwData {
 }
 
 data class PwPlace(val name: String, val where: String)
+data class PwPlus2School(val code: String, val name: String, val nameNe: String, val address: String, val district: String)
 
 data class PathwaysUiState(
     val data: PwData? = null,
@@ -212,6 +236,9 @@ data class PathwaysUiState(
     val live: List<PwPlace> = emptyList(),
     val saved: Set<String> = emptySet(),
     val onNeb: PwOnNebData? = null,
+    val plus2Counts: Map<String, Int> = emptyMap(),
+    val plus2Schools: List<PwPlus2School> = emptyList(),
+    val plus2Total: Int = 0,
 )
 
 /** Where the student is inside Pathways. Lives in the ViewModel so Explore, details and Plan share one picture. */
@@ -258,11 +285,23 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     }
 
     init {
-        SET_KEYS.forEach { sets[it] = prefs.getStringSet("set_$it", emptySet()).orEmpty().toSet() }
-        NUM_DEFAULTS.forEach { (k, v) -> nums[k] = prefs.getInt("num_$k", v) }
-        sel.matchStage = prefs.getString("matchStage", "").orEmpty()
-        _state.update { it.copy(district = prefs.getString("district", "") ?: "", saved = prefs.getStringSet("saved", emptySet()).orEmpty().toSet()) }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val loadedSets = SET_KEYS.associateWith { prefs.getStringSet("set_$it", emptySet()).orEmpty().toSet() }
+                val loadedNums = NUM_DEFAULTS.mapValues { (k, v) -> prefs.getInt("num_$k", v) }
+                val mStage = prefs.getString("matchStage", "").orEmpty()
+                val dist = prefs.getString("district", "").orEmpty()
+                val sv = prefs.getStringSet("saved", emptySet()).orEmpty().toSet()
+                withContext(Dispatchers.Main) {
+                    sets.putAll(loadedSets)
+                    nums.putAll(loadedNums)
+                    sel.matchStage = mStage
+                    _state.update { it.copy(district = dist, saved = sv) }
+                }
+            }
+        }
         loadOnNeb()
+        loadPlus2Summary()
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
             val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText(), wave17) }.getOrNull() }
@@ -279,6 +318,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     }
 
     private val onNebFile get() = File(context.filesDir, "pathways_on_neb.json")
+    private val plus2SummaryFile get() = File(context.filesDir, "pathways_plus2_summary.json")
 
     /** Claimed institutions that filled their page: saved copy first, then the small live call. */
     private fun loadOnNeb() = viewModelScope.launch {
@@ -290,18 +330,34 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         if (fresh != null) _state.update { it.copy(onNeb = fresh) }
     }
 
+    private fun parsePlus2Counts(text: String): Map<String, Int> {
+        val arr = JSONObject(text).optJSONArray("districts") ?: return emptyMap()
+        return (0 until arr.length()).mapNotNull { i ->
+            arr.optJSONObject(i)?.let { o -> o.optString("district") to o.optInt("count") }?.takeIf { it.first.isNotEmpty() && it.second > 0 }
+        }.toMap()
+    }
+
+    private fun loadPlus2Summary() = viewModelScope.launch {
+        val cached = withContext(Dispatchers.IO) { runCatching { parsePlus2Counts(plus2SummaryFile.readText()) }.getOrNull() }
+        if (!cached.isNullOrEmpty()) _state.update { it.copy(plus2Counts = cached) }
+        val fresh = withContext(Dispatchers.IO) {
+            runCatching {
+                pwHttpGet("https://nebians.consica.com.np/api/pathways/plus2/")
+                    ?.also { plus2SummaryFile.writeText(it) }
+                    ?.let(::parsePlus2Counts)
+            }.getOrNull()
+        }
+        if (!fresh.isNullOrEmpty()) _state.update { it.copy(plus2Counts = fresh) }
+    }
+
     private fun fetch(): PwData? {
-        val conn = URL("https://nebians.consica.com.np/api/pathways/").openConnection() as HttpURLConnection
-        conn.connectTimeout = 8000; conn.readTimeout = 12000
-        prefs.getString("etag", null)?.let { if (cacheFile.exists()) conn.setRequestProperty("If-None-Match", it) }
-        return try {
-            if (conn.responseCode == 304) return null
-            val text = conn.inputStream.bufferedReader().use { it.readText() }
-            val parsed = parsePathways(text, wave17)
-            cacheFile.writeText(text)
-            prefs.edit().putString("etag", conn.getHeaderField("ETag")).apply()
-            parsed
-        } finally { conn.disconnect() }
+        val ifNoneMatch = prefs.getString("etag", null)?.takeIf { cacheFile.exists() }
+        var newEtag: String? = null
+        val text = pwHttpGet("https://nebians.consica.com.np/api/pathways/", ifNoneMatch) { newEtag = it } ?: return null
+        val parsed = parsePathways(text, wave17)
+        cacheFile.writeText(text)
+        if (!newEtag.isNullOrBlank()) prefs.edit().putString("etag", newEtag).apply()
+        return parsed
     }
 
     fun toggleSaved(key: String) {
@@ -338,21 +394,38 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
 
     fun setDistrict(district: String, kind: String) {
         prefs.edit().putString("district", district).apply()
-        _state.update { it.copy(district = district, live = emptyList()) }
+        _state.update { it.copy(district = district, live = emptyList(), plus2Schools = emptyList(), plus2Total = 0) }
         if (district.isBlank()) return
+        val encoded = URLEncoder.encode(district, "UTF-8")
         viewModelScope.launch {
             val places = withContext(Dispatchers.IO) {
                 runCatching {
-                    val url = "https://nebians.consica.com.np/api/institutions/?limit=6&kind=$kind&district=${URLEncoder.encode(district, "UTF-8")}"
-                    val conn = URL(url).openConnection() as HttpURLConnection
-                    conn.connectTimeout = 8000; conn.readTimeout = 12000
-                    try {
-                        val items = JSONObject(conn.inputStream.bufferedReader().use { it.readText() }).getJSONArray("items")
-                        items.mapObjs { PwPlace(it.optString("name"), it.optString("location").ifBlank { it.optString("district") }) }
-                    } finally { conn.disconnect() }
+                    val text = pwHttpGet("https://nebians.consica.com.np/api/institutions/?limit=6&kind=$kind&district=$encoded") ?: return@runCatching emptyList()
+                    val items = JSONObject(text).getJSONArray("items")
+                    items.mapObjs { PwPlace(it.optString("name"), it.optString("location").ifBlank { it.optString("district") }) }
                 }.getOrDefault(emptyList())
             }
             _state.update { if (it.district == district) it.copy(live = places) else it }
+        }
+        viewModelScope.launch {
+            val (total, schools) = withContext(Dispatchers.IO) {
+                runCatching {
+                    val text = pwHttpGet("https://nebians.consica.com.np/api/pathways/plus2/?district=$encoded&limit=120") ?: return@runCatching 0 to emptyList()
+                    val obj = JSONObject(text)
+                    val items = obj.optJSONArray("items") ?: JSONArray()
+                    val list = items.mapObjs {
+                        PwPlus2School(
+                            code = it.optString("code"),
+                            name = it.optString("name"),
+                            nameNe = it.optString("name_ne"),
+                            address = it.optString("address"),
+                            district = it.optString("district").ifBlank { district }
+                        )
+                    }
+                    obj.optInt("total", list.size) to list
+                }.getOrDefault(0 to emptyList())
+            }
+            _state.update { if (it.district == district) it.copy(plus2Total = total, plus2Schools = schools) else it }
         }
     }
 }

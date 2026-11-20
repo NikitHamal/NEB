@@ -66,7 +66,13 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     var cmax by rememberSaveable(r.id) { mutableFloatStateOf(hi) }
     var sort by rememberSaveable { mutableStateOf("fee") }
     var shown by rememberSaveable(r.id) { mutableIntStateOf(30) }
-    val counts = remember(all) { all.groupingBy { it.district }.eachCount() }
+    val isPlus2 = r.id.startsWith("plus2") || r.stage == "after10"
+    val counts = remember(all, isPlus2, ui.plus2Counts) {
+        val base = all.groupingBy { it.district }.eachCount()
+        if (isPlus2 && ui.plus2Counts.isNotEmpty()) {
+            (base.keys + ui.plus2Counts.keys).associateWith { k -> maxOf(base[k] ?: 0, ui.plus2Counts[k] ?: 0) }
+        } else base
+    }
     Column(Modifier.padding(horizontal = 16.dp)) {
         PwNepalMapCard(counts, district, { name ->
             district = if (name.isEmpty() || name == district) "" else name; shown = 30
@@ -78,7 +84,10 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
             PwSeg(listOf("fee" to "Fee", "seats" to "Seats"), sort, { sort = it }, fill = false, height = 40.dp)
         }
         val inProv = all
-        val districts = inProv.map { it.district }.distinct().sorted()
+        val districts = remember(inProv, isPlus2, ui.plus2Counts) {
+            if (isPlus2 && ui.plus2Counts.isNotEmpty()) (inProv.map { it.district } + ui.plus2Counts.keys).distinct().sorted()
+            else inProv.map { it.district }.distinct().sorted()
+        }
         if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) }, inset = 0.dp)
         val list = remember(inProv, district, cmax, sort, matches) {
             inProv.filter { p -> (district.isEmpty() || p.district == district) && (p.fees[r.id]?.second?.let { it / 100_000f <= cmax } ?: true) }
@@ -86,7 +95,9 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
         }
         Spacer(Modifier.height(6.dp))
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            if (list.isEmpty()) PwEmpty("No colleges")
+            if (list.isEmpty() && (!isPlus2 || district.isEmpty() || ui.plus2Schools.isEmpty())) {
+                PwEmpty(if (isPlus2 && district.isEmpty()) "Tap a district on the map to see all NEB +2 schools" else "No colleges")
+            }
             list.take(shown).forEachIndexed { i, p ->
                 val fee = p.fees[r.id]?.second
                 PwSurface(Modifier.fillMaxWidth().pwRise(i, r.id), radius = 22.dp, onClick = if (p.id in matches) { { openInst(matches.getValue(p.id)) } } else if (p.website.isNotBlank()) { { runCatching { uri.openUri(p.website) }; Unit } } else null) {
@@ -111,6 +122,24 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                 }
             }
             if (list.size > shown) PwButton("Show ${minOf(30, list.size - shown)} more", null, false, { shown += 30 }, Modifier.fillMaxWidth())
+        }
+        if (isPlus2 && district.isNotEmpty() && ui.district == district && ui.plus2Schools.isNotEmpty()) {
+            PwH4("NEB +2 schools in $district (${ui.plus2Total})")
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                ui.plus2Schools.take(shown).forEach { sc ->
+                    PwSurface(Modifier.fillMaxWidth(), radius = 20.dp) {
+                        Row(Modifier.padding(14.dp, 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Column(Modifier.weight(1f)) {
+                                Text(sc.name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
+                                val sub = listOf(sc.nameNe, sc.address, sc.district).filter { it.isNotBlank() }.distinct().joinToString(" · ")
+                                if (sub.isNotBlank()) Text(sub, fontSize = 12.sp, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            }
+                            if (sc.code.isNotBlank()) PwTag("NEB ${sc.code}", pwTone(1))
+                        }
+                    }
+                }
+                if (ui.plus2Schools.size > shown) PwButton("Show more +2 schools", null, false, { shown += 30 }, Modifier.fillMaxWidth())
+            }
         }
         if (district.isNotEmpty() && ui.district == district && ui.live.isNotEmpty()) {
             PwH4("Nearby")

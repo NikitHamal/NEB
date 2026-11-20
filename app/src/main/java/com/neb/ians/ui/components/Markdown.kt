@@ -87,11 +87,12 @@ fun MarkdownText(
     val inlineContents = rememberInlineImageContents(markdown, onInlineImageClick)
 
     val laidOut = remember(blocks) { layoutMarkdownBlocks(blocks) }
+    val hasChecks = remember(laidOut) { laidOut.any { it.first is MdBlock.Check } }
     val appContext = androidx.compose.ui.platform.LocalContext.current.applicationContext
-    val flipped = remember(markdown, tickKey) {
+    val flipped = remember(markdown, tickKey, hasChecks) {
         mutableStateMapOf<Int, Boolean>().also { map ->
             // A reader's ticks on one post are remembered on this phone (never sent anywhere).
-            if (tickKey != null) {
+            if (tickKey != null && hasChecks) {
                 appContext.getSharedPreferences("md_ticks", 0).getStringSet(tickKey, null)?.forEach { entry ->
                     val at = entry.indexOf('=')
                     if (at > 0) entry.substring(0, at).toIntOrNull()?.let { map[it] = entry.substring(at + 1) == "1" }

@@ -87,6 +87,9 @@ Java_com_neb_ians_speech_NativeSpeech_sttLoad(JNIEnv* env, jobject, jstring path
         munmap(map, (size_t) st.st_size);
         return rc;
     }
+    if (gModelMap != nullptr && gModelLen > 0) {
+        munmap(gModelMap, gModelLen);
+    }
     gModelMap = map;
     gModelLen = (size_t) st.st_size;
     return needle_models();

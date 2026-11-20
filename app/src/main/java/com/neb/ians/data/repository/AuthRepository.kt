@@ -127,11 +127,7 @@ class AuthRepository @Inject constructor(
             ?: "Student"
 
     val currentUserNameFlow: StateFlow<String> = dataStore.data.map { firstName(it) }
-        .stateIn(ioScope, SharingStarted.Eagerly,
-            // Read while MainActivity is injected, on the main thread: capped, so a slow first read of the
-            // preferences file can never hold the launch (the flow above corrects the name when it lands).
-            try { runBlocking(Dispatchers.IO) { withTimeoutOrNull(120) { firstName(dataStore.data.first()) } } ?: "Student" }
-            catch (_: Exception) { "Student" })
+        .stateIn(ioScope, SharingStarted.Eagerly, "Student")
     val currentUsernameHandleFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
@@ -220,25 +216,37 @@ class AuthRepository @Inject constructor(
 
     suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
         return try {
-            // Off the main thread on purpose. This runs straight from the browser callback,
-            // and the first EncryptedSharedPreferences write generates its Keystore master
-            // key and keyset there and then. On phones whose Keystore is slow (MIUI is the
-            // loudest about it) that is seconds of the main thread, which is the freeze a
-            // first-time sign-in on a Xiaomi reported.
             withContext(Dispatchers.IO) { SecurePrefs.setAuthToken(appContext, token) }
-            dataStore.edit { prefs ->
-                prefs[AUTH_STATUS] = "authenticated"
-                prefs[PROFILE_COMPLETED] = !isNewUser
-                if (!username.isNullOrEmpty()) prefs[USER_NAME] = username
-                else if (prefs[USER_NAME] == "Guest") prefs[USER_NAME] = ""
-                prefs.remove(USER_ID)
+            val fetched = if (!username.isNullOrBlank()) {
+                withContext(Dispatchers.IO) {
+                    withTimeoutOrNull(4500L) {
+                        runCatching { apiService.getProfile("Bearer $token", username) }.getOrNull()
+                    }
+                }
+            } else null
+
+            if (fetched != null) {
+                withContext(Dispatchers.IO) { cacheUser(fetched, token, isNewUser) }
+            } else {
+                dataStore.edit { prefs ->
+                    prefs[AUTH_STATUS] = "authenticated"
+                    prefs[PROFILE_COMPLETED] = !isNewUser
+                    if (!username.isNullOrEmpty()) prefs[USER_NAME] = username
+                    else if (prefs[USER_NAME] == "Guest") prefs[USER_NAME] = ""
+                    prefs.remove(USER_ID)
+                }
+                ioScope.launch { ensureProfile() }
+                syncFcmToken()
             }
-            // The profile is what turns the UI from guest to signed in; one failed call must not leave it stale.
-            ensureProfile()
-            syncFcmToken()
             true
         } catch (e: Exception) {
             false
+        }
+    }
+
+    suspend fun markProfileCompleted() {
+        dataStore.edit { prefs ->
+            prefs[PROFILE_COMPLETED] = true
         }
     }
 
@@ -590,16 +598,25 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    @Volatile
+    private var ensuringProfile = false
+
     /** Refreshes the cached profile, retrying a few times so a slow network never leaves a signed-in user looking like a guest. */
-    suspend fun ensureProfile(attempts: Int = 4) {
-        repeat(attempts) { i ->
-            if (getBearerToken() == null) return
-            val prefs = dataStore.data.first()
-            if (!prefs[USER_ID].isNullOrBlank() && prefs[USER_ID] != "guest_user" && i > 0) return
-            refreshProfile()
-            val after = dataStore.data.first()[USER_ID]
-            if (!after.isNullOrBlank() && after != "guest_user") return
-            kotlinx.coroutines.delay(1200L * (i + 1))
+    suspend fun ensureProfile(attempts: Int = 3) {
+        if (ensuringProfile) return
+        ensuringProfile = true
+        try {
+            repeat(attempts) { i ->
+                if (getBearerToken() == null) return
+                val prefs = dataStore.data.first()
+                if (!prefs[USER_ID].isNullOrBlank() && prefs[USER_ID] != "guest_user" && i > 0) return
+                refreshProfile()
+                val after = dataStore.data.first()[USER_ID]
+                if (!after.isNullOrBlank() && after != "guest_user") return
+                kotlinx.coroutines.delay(1200L * (i + 1))
+            }
+        } finally {
+            ensuringProfile = false
         }
     }
 

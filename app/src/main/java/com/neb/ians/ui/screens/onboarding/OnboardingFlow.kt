@@ -123,8 +123,14 @@ fun stepsForRole(role: String): List<OnboardingStep> = buildList {
 }
 
 /** Steps the user may pass through without answering. */
-fun isStepSkippable(step: OnboardingStep): Boolean =
-    step == OnboardingStep.Portrait || step == OnboardingStep.Bio
+fun isStepSkippable(step: OnboardingStep): Boolean = when (step) {
+    OnboardingStep.Subjects,
+    OnboardingStep.Place,
+    OnboardingStep.Campus,
+    OnboardingStep.Portrait,
+    OnboardingStep.Bio -> true
+    else -> false
+}
 
 /** Whether the primary action on [step] should be enabled. */
 fun isStepComplete(step: OnboardingStep, state: CompleteProfileUiState): Boolean = when (step) {
@@ -132,8 +138,9 @@ fun isStepComplete(step: OnboardingStep, state: CompleteProfileUiState): Boolean
     OnboardingStep.Role -> state.role.isNotBlank()
     OnboardingStep.Name -> state.displayName.trim().length >= 2
     OnboardingStep.Handle -> state.username.length >= 3 &&
-        state.usernameAvailable == true &&
-        state.usernameError == null
+        state.usernameError == null &&
+        state.usernameAvailable != false &&
+        !state.isCheckingUsername
     OnboardingStep.Birthday -> state.dob.isNotBlank()
     OnboardingStep.Gender -> state.gender.isNotBlank()
     OnboardingStep.Level -> state.classLevel.isNotBlank()

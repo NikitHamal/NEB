@@ -69,8 +69,12 @@ object M3xArt {
         }.onFailure { cached = emptyList(); thumbs = emptyMap() }
     }
 
+    val isLoaded: Boolean get() = cached != null
+    val isNotesLoaded: Boolean get() = notes != null
     fun covers(context: Context): List<Cover> { cached ?: load(context); return cached ?: emptyList() }
     fun cover(context: Context, id: String?): Cover? = id?.takeIf { it.isNotBlank() }?.let { want -> covers(context).firstOrNull { it.id == want } }
+    fun resolveCover(context: Context, coverId: String?, username: String): Cover? =
+        cover(context, coverId) ?: cover(context, defaultCover(context, username)) ?: covers(context).firstOrNull()
     fun thumbRecipe(context: Context, family: String, variant: Int): Recipe? {
         covers(context)
         val l = thumbs?.get(family) ?: thumbs?.get("GENERAL") ?: return null
@@ -175,10 +179,14 @@ private fun M3xArtView(layout: String, palette: String, key: String, h: Double, 
 @Composable
 fun M3xCover(coverId: String?, username: String, modifier: Modifier = Modifier, live: Boolean = false) {
     val context = LocalContext.current
-    val cover = remember(coverId, username) {
-        M3xArt.cover(context, coverId) ?: M3xArt.cover(context, M3xArt.defaultCover(context, username)) ?: M3xArt.covers(context).firstOrNull()
+    val initial = remember(coverId, username) {
+        if (M3xArt.isLoaded) M3xArt.resolveCover(context, coverId, username) else null
     }
-    if (cover != null) M3xArtView(cover.layout, cover.palette, M3xArt.coverKey(cover), 400.0, modifier, live)
+    val cover by produceState(initial, coverId, username) {
+        if (value == null) value = withContext(Dispatchers.IO) { M3xArt.resolveCover(context, coverId, username) }
+    }
+    val c = cover
+    if (c != null) M3xArtView(c.layout, c.palette, M3xArt.coverKey(c), 400.0, modifier, live)
     else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }
 
@@ -196,7 +204,13 @@ fun M3xCoverTile(id: String, modifier: Modifier = Modifier) = M3xCover(id, id, m
 @Composable
 fun M3xNoteCover(position: Int, modifier: Modifier = Modifier, live: Boolean = false) {
     val context = LocalContext.current
-    val recipe = remember(position) { M3xArt.noteRecipe(context, position) }
-    if (recipe != null) M3xArtView(recipe.layout, recipe.palette, recipe.key, 320.0, modifier, live)
+    val initial = remember(position) {
+        if (M3xArt.isNotesLoaded) M3xArt.noteRecipe(context, position) else null
+    }
+    val recipe by produceState(initial, position) {
+        if (value == null) value = withContext(Dispatchers.IO) { M3xArt.noteRecipe(context, position) }
+    }
+    val r = recipe
+    if (r != null) M3xArtView(r.layout, r.palette, r.key, 320.0, modifier, live)
     else androidx.compose.foundation.layout.Box(modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh))
 }

@@ -67,6 +67,7 @@ class RealtimeClient @Inject constructor(
     private val json = Json { ignoreUnknownKeys = true }
 
     private val wsClient = OkHttpClient.Builder()
+        .connectionPool(ApiService.sharedPool)
         .apply {
             if (!com.neb.ians.BuildConfig.DEBUG) {
                 proxy(java.net.Proxy.NO_PROXY)
@@ -78,6 +79,7 @@ class RealtimeClient @Inject constructor(
         .build()
 
     private val sseClient = OkHttpClient.Builder()
+        .connectionPool(ApiService.sharedPool)
         .apply {
             if (!com.neb.ians.BuildConfig.DEBUG) {
                 proxy(java.net.Proxy.NO_PROXY)
@@ -312,8 +314,7 @@ class RealtimeClient @Inject constructor(
     private suspend fun runWebSocket(url: String) {
         run {
             val token = authRepository.getToken()
-            val cookieManager = android.webkit.CookieManager.getInstance()
-            val currentCookies = cookieManager.getCookie("https://nebians.consica.com.np/")
+            val currentCookies = com.neb.ians.data.api.WafChallengeInterceptor.cachedCookieHeader()
             val request = Request.Builder()
                 .url(url)
                 .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")

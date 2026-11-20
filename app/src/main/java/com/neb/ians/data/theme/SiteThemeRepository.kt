@@ -7,6 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.util.Calendar
 import javax.inject.Inject
@@ -24,14 +25,22 @@ class SiteThemeRepository @Inject constructor(
 ) {
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     private val json = Json { ignoreUnknownKeys = true }
+    private val ioScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.IO)
 
-    private val _theme = MutableStateFlow(load())
+    private val _theme = MutableStateFlow<ApiSiteTheme?>(null)
     val theme: StateFlow<ApiSiteTheme?> = _theme.asStateFlow()
 
-    private val _dismissed = MutableStateFlow(prefs.getStringSet(DISMISSED, emptySet()).orEmpty())
+    private val _dismissed = MutableStateFlow<Set<String>>(emptySet())
     val dismissed: StateFlow<Set<String>> = _dismissed.asStateFlow()
 
     private var fetchedAt = 0L
+
+    init {
+        ioScope.launch {
+            _theme.value = load()
+            _dismissed.value = prefs.getStringSet(DISMISSED, emptySet()).orEmpty()
+        }
+    }
 
     suspend fun refresh(force: Boolean = false) {
         val now = System.currentTimeMillis()

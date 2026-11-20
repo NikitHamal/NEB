@@ -53,12 +53,6 @@ import com.neb.ians.ui.components.NebPickerSheet
 import com.neb.ians.ui.components.NebSelectChip
 import com.neb.ians.ui.components.NebStepHeader
 import com.neb.ians.ui.components.NebTextLink
-import com.neb.ians.ui.components.art.NebApertureArt
-import com.neb.ians.ui.components.art.NebArrivalArt
-import com.neb.ians.ui.components.art.NebAscentArt
-import com.neb.ians.ui.components.art.NebCampusArt
-import com.neb.ians.ui.components.art.NebOrbitsArt
-import com.neb.ians.ui.components.art.NebProvinceArt
 import com.neb.ians.ui.screens.auth.CompleteProfileUiState
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.theme.LocalNebAuthPalette
@@ -316,7 +310,6 @@ fun PortraitStep(state: CompleteProfileUiState, onPickPhoto: () -> Unit) {
                         modifier = Modifier
                             .size(128.dp)
                             .clip(CircleShape)
-                            .border(2.dp, palette.accent, CircleShape)
                     )
                 }
                 if (state.isPhotoUploading) {

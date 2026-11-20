@@ -103,7 +103,9 @@ class NoteEditorViewModel @Inject constructor(
                 note = existing
                 existsInDb = true
                 _title.value = existing.title
-                _blocks.value = if (existing.doc.isNotBlank()) NoteDoc.fromJson(existing.doc) else NoteDoc.fromMarkdown(existing.body)
+                _blocks.value = withContext(Dispatchers.Default) {
+                    if (existing.doc.isNotBlank()) NoteDoc.fromJson(existing.doc) else NoteDoc.fromMarkdown(existing.body)
+                }
                 _tone.value = existing.tone
                 _icon.value = existing.icon
                 _cover.value = existing.cover
@@ -551,14 +553,20 @@ class NoteEditorViewModel @Inject constructor(
 
     private fun dropBgFile() {
         val n = _bgPhoto.value
-        if (n.isNotEmpty()) runCatching { File(context.filesDir, "notes/$currentId/$n").delete() }
+        val id = currentId
+        if (n.isNotEmpty()) viewModelScope.launch(Dispatchers.IO) {
+            runCatching { File(context.filesDir, "notes/$id/$n").delete() }
+        }
     }
 
     fun coverFile(name: String): File = File(context.filesDir, "notes/$currentId/$name")
 
     private fun dropCoverFile() {
         val n = _coverPhoto.value
-        if (n.isNotEmpty()) runCatching { File(context.filesDir, "notes/$currentId/$n").delete() }
+        val id = currentId
+        if (n.isNotEmpty()) viewModelScope.launch(Dispatchers.IO) {
+            runCatching { File(context.filesDir, "notes/$id/$n").delete() }
+        }
     }
 
     private fun copyCover(uri: Uri, prefix: String = "cover_"): String {
@@ -630,8 +638,9 @@ class NoteEditorViewModel @Inject constructor(
             }
             return
         }
-        val body = NoteDoc.toMarkdown(blocks)
-        val doc = NoteDoc.toJson(blocks)
+        val (body, doc) = withContext(Dispatchers.Default) {
+            NoteDoc.toMarkdown(blocks) to NoteDoc.toJson(blocks)
+        }
         val updated = base.copy(
             title = title,
             body = body,

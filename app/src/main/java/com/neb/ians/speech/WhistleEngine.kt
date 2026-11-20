@@ -80,7 +80,12 @@ class WhistleEngine @Inject constructor(
 
     init {
         scope.launch {
-            models.removed.collect { id -> if (id == SpeechModelId.Whistle) cancel() }
+            models.removed.collect { id ->
+                if (id == SpeechModelId.Whistle) {
+                    loaded = false
+                    cancel()
+                }
+            }
         }
     }
 
@@ -149,7 +154,7 @@ class WhistleEngine @Inject constructor(
             rec.release()
             throw IllegalStateException("The microphone is busy")
         }
-        val chunks = Channel<FloatArray>(Channel.UNLIMITED)
+        val chunks = Channel<FloatArray>(capacity = 8, onBufferOverflow = kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST)
         val consumer = launch(engineThread) {
             try {
                 for (chunk in chunks) handle(NativeSpeech.sttStream(chunk, chunk.size, lang, null))
@@ -166,7 +171,13 @@ class WhistleEngine @Inject constructor(
             rec.startRecording()
             _state.value = DictationState.Listening
             while (isActive && !stopRequested) {
-                val n = rec.read(frame, 0, frame.size)
+                val maxRead = min(frame.size, acc.size - filled)
+                if (maxRead <= 0) {
+                    chunks.send(acc.copyOf(filled))
+                    filled = 0
+                    continue
+                }
+                val n = rec.read(frame, 0, maxRead)
                 if (n < 0) throw IllegalStateException("The microphone stopped")
                 if (n == 0) continue
                 var sum = 0.0

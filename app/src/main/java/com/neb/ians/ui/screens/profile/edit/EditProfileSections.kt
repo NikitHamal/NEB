@@ -98,8 +98,7 @@ internal fun EditIdentityHeader(
                 modifier = Modifier
                     .size(96.dp)
                     .clip(CircleShape)
-                    .background(palette.field)
-                    .border(1.5.dp, palette.accentSoft, CircleShape),
+                    .background(palette.field),
                 contentAlignment = Alignment.Center
             ) {
                 if (state.photoUrl.isNotBlank()) {

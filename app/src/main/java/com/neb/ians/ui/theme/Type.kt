@@ -13,7 +13,6 @@ val Poppins = FontFamily(
     Font(R.font.poppins_medium, FontWeight.Medium),
     Font(R.font.poppins_semibold, FontWeight.SemiBold),
     Font(R.font.poppins_bold, FontWeight.Bold),
-    Font(R.font.poppins_light, FontWeight.Light),
 )
 
 val NEBiansTypography = Typography(

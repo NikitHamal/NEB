@@ -103,13 +103,17 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
      * start). A later reader finds each cached, or waits for the read already under way.
      */
     private fun warmUp() {
-        // getSharedPreferences starts reading the file on a thread of its own; SiteThemeRepository
-        // reads the cached festival theme from it on the main thread while MainActivity is injected
         getSharedPreferences(com.neb.ians.data.theme.SiteThemeRepository.PREFS, MODE_PRIVATE)
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         scope.launch { runCatching { dataStore.data.first() } }
         scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
         scope.launch { com.neb.ians.data.api.ApiService.preconnect() }
+        scope.launch {
+            runCatching {
+                com.neb.ians.ui.components.M3xArt.covers(this@NEBiansApp)
+                com.neb.ians.ui.components.M3xArt.noteRecipe(this@NEBiansApp, 0)
+            }
+        }
     }
 
     private fun createNotificationChannels() {

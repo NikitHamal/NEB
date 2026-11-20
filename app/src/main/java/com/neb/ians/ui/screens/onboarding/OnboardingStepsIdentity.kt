@@ -42,13 +42,7 @@ import com.neb.ians.ui.components.NebOptionCard
 import com.neb.ians.ui.components.NebStepHeader
 import com.neb.ians.ui.components.formatIsoDate
 import com.neb.ians.ui.components.parseIsoDate
-import com.neb.ians.ui.components.art.NebCalendarArt
-import com.neb.ians.ui.components.art.NebFacetsArt
-import com.neb.ians.ui.components.art.NebHandleArt
 import com.neb.ians.ui.components.art.NebHandleState
-import com.neb.ians.ui.components.art.NebHorizonArt
-import com.neb.ians.ui.components.art.NebNameplateArt
-import com.neb.ians.ui.components.art.NebPathsArt
 import com.neb.ians.ui.screens.auth.CompleteProfileUiState
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.theme.LocalNebAuthPalette

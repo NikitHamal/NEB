@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.screens.institutions.LocalOpenInstitution
 import com.neb.ians.ui.screens.institutions.LocalOpenSchools
 import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 
 /** A claimed institution that filled its page. `/api/pathways/on-neb/`, fullest first. */
 data class PwOnNebItem(
@@ -38,11 +36,7 @@ data class PwOnNebItem(
 data class PwOnNebData(val items: List<PwOnNebItem>, val matches: Map<String, String>)
 
 /** Blocking read, call from IO. Returns the raw text so the caller can keep a copy for offline. */
-internal fun fetchOnNebText(): String? {
-    val conn = URL("https://nebians.consica.com.np/api/pathways/on-neb/").openConnection() as HttpURLConnection
-    conn.connectTimeout = 8000; conn.readTimeout = 10000
-    return try { conn.inputStream.bufferedReader().use { it.readText() } } finally { conn.disconnect() }
-}
+internal fun fetchOnNebText(): String? = pwHttpGet("https://nebians.consica.com.np/api/pathways/on-neb/")
 
 /** The server sends readable level names; an older payload sent the stored keys, so both read well. */
 internal fun institutionLevelLabel(key: String): String = when (key) {

@@ -557,7 +557,8 @@ fun NEBiansNavHost(
             ) {
                 LoginScreen(
                     onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) },
-                    onClose = { pendingRoute = null; navController.popBackStack() }
+                    onClose = { pendingRoute = null; navController.popBackStack() },
+                    authRepository = authRepository
                 )
             }
             composable(Screen.EmailAuth.route) {
