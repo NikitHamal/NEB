@@ -278,5 +278,23 @@
   "bytes": 1023451,
   "category": "Mid Term Bundle",
   "slug": "11-science-bio-mid-2083"
+ },
+ {
+  "file": "bundles/NEBians-BLE-Past-Papers-Grade-8-8-ble-2082-Bundle.pdf",
+  "subject": "Basic Level Examination (BLE)",
+  "grade": "8",
+  "years_bs": "2082",
+  "papers": [
+   "8-math-ble-2082-kathmandu",
+   "8-eng-ble-2082-kathmandu",
+   "8-nep-ble-2082-pokhara",
+   "8-sci-ble-2082-kathmandu",
+   "8-soc-ble-2082-kathmandu",
+   "8-hpca-ble-2082-dmun"
+  ],
+  "pages": 53,
+  "bytes": 1234536,
+  "category": "Basic Level Exam Bundle",
+  "slug": "8-ble-2082"
  }
 ]

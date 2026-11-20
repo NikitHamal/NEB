@@ -48,7 +48,15 @@ SCI = {"id": "8-sci-ble-2082-kathmandu", "file": "NEBians-BLE-Past-Paper-Grade-8
                  "valency of oxygen, acids, bases, pH and antacids, metallic minerals, hard and soft water, plant and animal cell Venn diagram, "
                  "five-kingdom classification, biodiversity, geological eras (Palaeozoic and Mesozoic), virtual reality vs artificial intelligence, "
                  "internet security, and ray diagram of a concave mirror"}
-PAPERS.extend([SOC, NEP, SCI])
+HPCA = {"id": "8-hpca-ble-2082-dmun", "file": "NEBians-BLE-Past-Paper-Grade-8-Health-Physical-Creative-Arts-2082-DMUN.pdf",
+        "subject": "Health, Physical and Creative Arts", "year_bs": "2082", "year_ad": "2026", "muni": "DMUN",
+        "district": "Siraha", "pradesh": "Madhesh", "marks": "50", "time": "2 hours",
+        "topics": "nerve cell and reproductive system (ovary vs testes), characteristics of a healthy person, anemia and cancer prevention, "
+                  "junk food and preserving nutrients while cooking, unsafe abortion, community health problems, heart disease and healthy "
+                  "lifestyle, school health screening and first aid box materials, kabaddi, football field dimensions, long jump landing safety, "
+                  "volleyball service and rules, Bhastrika pranayama, construction work and papier collé, Kaharwa taal vs Rupak taal, "
+                  "Sorathi dance, and international fame of Nepali art (Araniko, pagoda architecture, Paubha and Mithila art)"}
+PAPERS.extend([SOC, NEP, SCI, HPCA])
 COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026"
 
 
@@ -93,6 +101,26 @@ def main():
         cover(s, "%s  ·  %s marks  ·  %s" % (p["muni"], p["marks"], p["time"]), "%d page PDF" % pages,
               os.path.join(REPO, it["cover"]))
         out.append(it)
+    bpdf = "notes/papers/pdf/bundles/NEBians-BLE-Past-Papers-Grade-8-8-ble-2082-Bundle.pdf"
+    if os.path.exists(os.path.join(REPO, bpdf)):
+        bpages = len(pymupdf.open(os.path.join(REPO, bpdf)))
+        bslug = "8-ble-2082-bundle"
+        subs = [p["subject"] for p in PAPERS]
+        btitle = "NEB Class 8 BLE Past Papers 2082 (2026) All Subjects Bundle with Solutions: %s" % ", ".join(subs)
+        bdesc = ("All six compulsory Class 8 Basic Level Examination (BLE) 2082 BS (2026 AD) past papers in one PDF with full worked "
+                 "solutions: Mathematics (Kathmandu Metropolitan City), English (Kathmandu Metropolitan City), Nepali (Pokhara Metropolitan City), "
+                 "Science and Technology (Kathmandu Metropolitan City), Social Studies and Human Values (Kathmandu Metropolitan City), and "
+                 "Health, Physical and Creative Arts (DMUN). Each paper is 50 marks, 2 hours, and is followed by complete step-by-step "
+                 "solutions, diagrams and model answers. Includes a contents table and PDF bookmarks to jump to any subject.")
+        btags = ["NEB", "BLE", "Class 8", "BLE 2082 bundle", "Class 8 set solutions", "BLE past papers with solutions"] + subs + [COMMON]
+        bit = {"slug": bslug, "title": btitle, "description": bdesc, "subject": "All Compulsory Subjects", "grade_level": "Class 8",
+               "year": "2082", "exam_type": "Final", "type": "Past Paper", "faculty": "", "program": "", "pradesh": "Bagmati",
+               "district": "Kathmandu", "school": "", "author_name": "NEBians",
+               "source_label": "6 BLE 2082 municipality papers re-typeset with NEBians solutions",
+               "tags": ", ".join(btags), "pdf": bpdf, "cover": "tools/publish/paper_covers/%s.jpg" % bslug}
+        cover("All 6 Subjects Bundle", "6 BLE papers  ·  50 marks each  ·  2 hours each", "%d page PDF" % bpages,
+              os.path.join(REPO, bit["cover"]))
+        out.append(bit)
     lp = os.path.join(HERE, "papers_listing.json")
     old = json.load(io.open(lp, encoding="utf-8"))
     keep = [x for x in old if x["slug"] not in {y["slug"] for y in out}]
