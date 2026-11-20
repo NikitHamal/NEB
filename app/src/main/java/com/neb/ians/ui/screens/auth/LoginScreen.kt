@@ -84,6 +84,9 @@ private const val GITHUB_DIRECT_OAUTH_URL =
         "&scope=read:user,user:email" +
         "&state=mobile_github"
 
+@Volatile
+private var nativeCredMgrBrokenInSession = false
+
 private fun isConfigOrReauthFailure(msgRaw: String?): Boolean {
     val msg = (msgRaw ?: "").lowercase()
     return "reauth" in msg || "28444" in msg || "developer" in msg || "10:" in msg || "unregistered" in msg
@@ -98,6 +101,7 @@ private fun isTrueUserCancellation(e: GetCredentialCancellationException): Boole
 
 @Suppress("DEPRECATION")
 private fun isNativeGoogleIdConfigured(context: Context): Boolean {
+    if (nativeCredMgrBrokenInSession) return false
     return runCatching {
         // Clear any legacy sticky disable flag from earlier builds so native Credential Manager is always tried.
         val prefs = context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
@@ -142,58 +146,49 @@ private fun extractGoogleIdToken(credential: androidx.credentials.Credential): S
 
 private suspend fun requestGoogleIdTokenNatively(activityContext: Activity): String? {
     val credentialManager = CredentialManager.create(activityContext)
-    val clientIds = AuthRepository.GOOGLE_SERVER_CLIENT_IDS
-    var lastError: Exception? = null
+    val primaryServerClientId = AuthRepository.GOOGLE_SERVER_CLIENT_ID
     var shouldTryExplicitModal = false
 
     // Tier 1: Bottom-sheet One Tap credential picker (GetGoogleIdOption)
-    for (serverClientId in clientIds) {
-        try {
-            val oneTapOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false)
-                .setServerClientId(serverClientId)
-                .setAutoSelectEnabled(false)
-                .build()
-            val result = credentialManager.getCredential(
-                request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
-                context = activityContext
-            )
-            extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }?.let { return it }
-        } catch (e: GetCredentialCancellationException) {
-            if (isTrueUserCancellation(e)) throw e
-            lastError = e
-        } catch (e: NoCredentialException) {
-            shouldTryExplicitModal = true
-            lastError = e
-            break
-        } catch (e: GetCredentialException) {
-            lastError = e
-            if (!isConfigOrReauthFailure(e.message)) {
-                shouldTryExplicitModal = true
-                break
-            }
-        } catch (e: Exception) {
-            lastError = e
-            if (!isConfigOrReauthFailure(e.message)) {
-                shouldTryExplicitModal = true
-                break
-            }
+    try {
+        val oneTapOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId(primaryServerClientId)
+            .setAutoSelectEnabled(false)
+            .build()
+        val result = credentialManager.getCredential(
+            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+            context = activityContext
+        )
+        extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }?.let { return it }
+    } catch (e: GetCredentialCancellationException) {
+        if (isTrueUserCancellation(e)) throw e
+        if (isConfigOrReauthFailure(e.message)) nativeCredMgrBrokenInSession = true
+        throw e
+    } catch (e: NoCredentialException) {
+        shouldTryExplicitModal = true
+    } catch (e: Exception) {
+        if (isConfigOrReauthFailure(e.message)) {
+            nativeCredMgrBrokenInSession = true
+            throw e
         }
+        shouldTryExplicitModal = true
     }
 
-    if (!shouldTryExplicitModal) {
-        if (lastError != null) throw lastError
-        return null
-    }
+    if (!shouldTryExplicitModal) return null
 
     // Tier 2: Explicit "Sign in with Google" account chooser modal (GetSignInWithGoogleOption)
-    val primaryServerClientId = AuthRepository.GOOGLE_SERVER_CLIENT_ID
-    val signInOption = GetSignInWithGoogleOption.Builder(primaryServerClientId).build()
-    val fallbackResult = credentialManager.getCredential(
-        request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
-        context = activityContext
-    )
-    return extractGoogleIdToken(fallbackResult.credential)?.takeIf { it.isNotBlank() }
+    try {
+        val signInOption = GetSignInWithGoogleOption.Builder(primaryServerClientId).build()
+        val fallbackResult = credentialManager.getCredential(
+            request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
+            context = activityContext
+        )
+        return extractGoogleIdToken(fallbackResult.credential)?.takeIf { it.isNotBlank() }
+    } catch (e: Exception) {
+        if (isConfigOrReauthFailure(e.message)) nativeCredMgrBrokenInSession = true
+        throw e
+    }
 }
 
 @Composable

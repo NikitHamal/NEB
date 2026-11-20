@@ -142,13 +142,21 @@ android {
                 "/META-INF/proguard/**",
                 "/META-INF/DEPENDENCIES",
                 "/META-INF/LICENSE*",
+                "/META-INF/**/LICENSE*",
                 "/META-INF/NOTICE*",
+                "/META-INF/**/NOTICE*",
                 "/okhttp3/internal/publicsuffix/NOTICE",
                 "DebugProbesKt.bin",
                 "kotlin-tooling-metadata.json",
                 "**/*.kotlin_builtins",
-                "**/*.kotlin_metadata"
+                "**/*.kotlin_metadata",
+                "/*.proto",
+                "/*.properties"
             )
+        }
+        dex {
+            // Compress classes.dex inside the APK: shrinks the universal APK download by ~8.5 MB.
+            useLegacyPackaging = true
         }
         jniLibs {
             // Compress native libraries inside the APK: the 7 MB Phonon library shrinks the
@@ -213,8 +221,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.60.1")
     ksp("com.google.dagger:hilt-android-compiler:2.60.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
-    implementation("androidx.hilt:hilt-work:1.3.0")
-    ksp("androidx.hilt:hilt-compiler:1.3.0")
 
 // Coil Compose
     implementation("io.coil-kt:coil-compose:2.7.0")
@@ -227,9 +233,6 @@ dependencies {
 
 // Encrypted SharedPreferences (auth token security)
     implementation("androidx.security:security-crypto:1.1.0")
-
-// WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.12.0")
 
 // Kotlin Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")

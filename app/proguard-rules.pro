@@ -95,32 +95,12 @@
 # ----------------------------------------------------------------------------
 
 -dontwarn dagger.**
--keep class dagger.** { *; }
--keep class javax.inject.** { *; }
 -keep class * extends dagger.hilt.android.lifecycle.HiltViewModel {
     public <init>();
 }
-
-# Keep Hilt generated components
--keep class **_HiltModules* { *; }
--keep class **_HiltComponents* { *; }
--keep class *_Factory { *; }
--keep class *_MembersInjector { *; }
-
-# Hilt entry points
 -keep class * extends dagger.hilt.android.internal.managers.ViewComponentManager$FragmentContextWrapper { *; }
 -keep @dagger.hilt.android.EarlyEntryPoint class * { *; }
--keep @dagger.hilt.InstallIn class * { *; }
--keep @dagger.Module class * { *; }
 -keep @dagger.hilt.EntryPoint class * { *; }
-
-# Keep @Inject constructors
--keepclasseswithmembernames class * {
-    @javax.inject.Inject <init>(...);
-}
--keepclasseswithmembernames class * {
-    @javax.inject.Inject <fields>;
-}
 
 # ----------------------------------------------------------------------------
 # Kotlin Serialization
@@ -156,9 +136,7 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Kotlinx serialization core
 -dontwarn kotlinx.serialization.**
--keep class kotlinx.serialization.** { *; }
 
 # ----------------------------------------------------------------------------
 # Kotlin Coroutines
@@ -172,41 +150,15 @@
 -dontwarn kotlinx.coroutines.**
 
 # ----------------------------------------------------------------------------
-# Compose
+# Compose & Coil & DataStore
 # ----------------------------------------------------------------------------
 
 -dontwarn androidx.compose.**
-
-# ----------------------------------------------------------------------------
-# Coil
-# ----------------------------------------------------------------------------
-
 -dontwarn coil.**
-
-# ----------------------------------------------------------------------------
-# DataStore
-# ----------------------------------------------------------------------------
-
--keep class androidx.datastore.** { *; }
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields>;
+}
 -dontwarn androidx.datastore.**
-
--keepclassmembers class com.neb.ians.data.needle.NeedleWebRuntime$Bridge {
-    @android.webkit.JavascriptInterface <methods>;
-}
-
-# ----------------------------------------------------------------------------
-# WorkManager
-# ----------------------------------------------------------------------------
-
--keep class * extends androidx.work.Worker {
-    public <init>();
-}
--keep class * extends androidx.work.ListenableWorker {
-    public <init>(android.content.Context, androidx.work.WorkerParameters);
-}
--keep class * extends androidx.work.CoroutineWorker {
-    public <init>(android.content.Context, androidx.work.WorkerParameters);
-}
 
 # ----------------------------------------------------------------------------
 # OkHttp / Okio (transitive dependency via Coil)

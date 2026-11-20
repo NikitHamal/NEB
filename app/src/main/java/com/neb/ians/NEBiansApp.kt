@@ -4,9 +4,6 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
-import com.neb.ians.util.NotificationHelper
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import coil.ImageLoader
@@ -26,18 +23,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @HiltAndroidApp
-class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
-
-    @Inject
-    lateinit var workerFactory: HiltWorkerFactory
+class NEBiansApp : Application(), ImageLoaderFactory {
 
     @Inject
     lateinit var dataStore: DataStore<Preferences>
-
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
 
     override fun newImageLoader(): ImageLoader {
         val isLowEnd = DevicePerformance.isLowEndDevice(this)

@@ -540,7 +540,20 @@ std::vector<float> attentionOp(const std::vector<float>& x, int count, const Tra
             for (int j = 0; j < count; ++j) {
                 float w = share[t * count + j] * inv_total;
                 const float* vr = qkv.data() + j * 3 * ch + 2 * ch + h * width;
-                for (int i = 0; i < width; ++i) dst[i] += w * vr[i];
+                int i = 0;
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+                float32x4_t wv = vdupq_n_f32(w);
+                for (; i + 16 <= width; i += 16) {
+                    vst1q_f32(dst + i, vmlaq_f32(vld1q_f32(dst + i), vld1q_f32(vr + i), wv));
+                    vst1q_f32(dst + i + 4, vmlaq_f32(vld1q_f32(dst + i + 4), vld1q_f32(vr + i + 4), wv));
+                    vst1q_f32(dst + i + 8, vmlaq_f32(vld1q_f32(dst + i + 8), vld1q_f32(vr + i + 8), wv));
+                    vst1q_f32(dst + i + 12, vmlaq_f32(vld1q_f32(dst + i + 12), vld1q_f32(vr + i + 12), wv));
+                }
+                for (; i + 4 <= width; i += 4) {
+                    vst1q_f32(dst + i, vmlaq_f32(vld1q_f32(dst + i), vld1q_f32(vr + i), wv));
+                }
+#endif
+                for (; i < width; ++i) dst[i] += w * vr[i];
             }
         }
     }
@@ -682,41 +695,63 @@ std::vector<float> filteredSource(const std::vector<float>& source, int size, in
 std::vector<float> pulseTrainSource(const std::vector<float>& f0, int hop, int sample_rate, float limit) {
     const int frames = static_cast<int>(f0.size());
     std::vector<float> out(static_cast<size_t>(frames) * hop);
-    std::vector<double> knots(frames + 1);
+    std::vector<float> knots(frames + 1);
     for (int i = 0; i <= frames; ++i) {
-        knots[i] = std::log(std::max(f0[std::min(i, frames - 1)], 1.0f));
+        knots[i] = std::logf(std::max(f0[std::min(i, frames - 1)], 1.0f));
     }
+    constexpr float kTwoPi = static_cast<float>(2.0 * M_PI);
+    const float inv_sr = 1.0f / static_cast<float>(sample_rate);
+    const float lim_sr = limit * static_cast<float>(sample_rate);
     double turns = 0.0;
-    for (size_t n = 0; n < out.size(); ++n) {
-        int low = static_cast<int>(n / hop);
-        double w = static_cast<double>(n) / hop - low;
-        double freq = std::exp(knots[low] * (1.0 - w) + knots[low + 1] * w);
-        turns += freq / sample_rate;
-        double theta = std::fmod(2.0 * M_PI * turns, 2.0 * M_PI);
-        double harmonics = std::max(static_cast<double>(limit) * sample_rate / freq, 1.0);
-        double whole = std::floor(harmonics);
-        double below = 2.0 * std::sin(theta * 0.5);
-        double core = std::abs(below) < 1e-7 ? whole : (std::sin((whole + 0.5) * theta) / below - 0.5);
-        out[n] = static_cast<float>((core + (harmonics - whole) * std::cos((whole + 1.0) * theta)) * std::sqrt(2.0 / harmonics));
+    for (int low = 0; low < frames; ++low) {
+        float freq = std::expf(knots[low]);
+        const float freq_step = std::expf((knots[low + 1] - knots[low]) / static_cast<float>(hop));
+        float* dst = out.data() + static_cast<size_t>(low) * hop;
+        for (int k = 0; k < hop; ++k) {
+            turns += static_cast<double>(freq * inv_sr);
+            turns -= std::floor(turns);
+            float theta = static_cast<float>(turns) * kTwoPi;
+            float harmonics = std::max(lim_sr / freq, 1.0f);
+            float whole = std::floorf(harmonics);
+            float below = 2.0f * std::sinf(theta * 0.5f);
+            float core = std::abs(below) < 1e-5f ? whole : (std::sinf((whole + 0.5f) * theta) / below - 0.5f);
+            dst[k] = (core + (harmonics - whole) * std::cosf((whole + 1.0f) * theta)) * std::sqrtf(2.0f / harmonics);
+            freq *= freq_step;
+        }
     }
     return out;
 }
 
+const std::vector<float>& getGaussianRing() {
+    static const std::vector<float> ring = []() {
+        constexpr size_t kRingSize = 8192;
+        uint32_t state = 0x9E3779B9u;
+        auto uniform = [&]() -> double {
+            state += 0x6D2B79F5u;
+            uint32_t z = (state ^ (state >> 15)) * (state | 1u);
+            z ^= z + (z ^ (z >> 7)) * (z | 61u);
+            return static_cast<double>(z ^ (z >> 14)) / 4294967296.0;
+        };
+        std::vector<float> r(kRingSize);
+        for (size_t i = 0; i < kRingSize; i += 2) {
+            double u1 = std::min(1.0 - 1e-12, uniform());
+            double rad = std::sqrt(-2.0 * std::log(1.0 - u1));
+            double ang = 2.0 * M_PI * uniform();
+            r[i] = static_cast<float>(rad * std::cos(ang));
+            r[i + 1] = static_cast<float>(rad * std::sin(ang));
+        }
+        return r;
+    }();
+    return ring;
+}
+
 std::vector<float> gaussianNoiseSource(size_t count, uint32_t seed = 0) {
-    uint32_t state = seed + 0x9E3779B9u;
-    auto uniform = [&]() -> double {
-        state += 0x6D2B79F5u;
-        uint32_t z = (state ^ (state >> 15)) * (state | 1u);
-        z ^= z + (z ^ (z >> 7)) * (z | 61u);
-        return static_cast<double>(z ^ (z >> 14)) / 4294967296.0;
-    };
+    const auto& ring = getGaussianRing();
+    const size_t mask = ring.size() - 1;
     std::vector<float> out(count);
-    for (size_t i = 0; i < count; i += 2) {
-        double u1 = std::min(1.0 - 1e-12, uniform());
-        double r = std::sqrt(-2.0 * std::log(1.0 - u1));
-        double ang = 2.0 * M_PI * uniform();
-        out[i] = static_cast<float>(r * std::cos(ang));
-        if (i + 1 < count) out[i + 1] = static_cast<float>(r * std::sin(ang));
+    size_t idx = static_cast<size_t>(seed * 2654435761u) & mask;
+    for (size_t i = 0; i < count; ++i) {
+        out[i] = ring[(idx + i) & mask];
     }
     return out;
 }
@@ -1367,15 +1402,25 @@ void voca_free(VocaModel* model) {
 bool voca_speak(VocaModel* model, const char* text, int voice_id, float speed, VocaPcmCallback cb, void* user, std::string* err_out) {
     if (!model || !text || !cb) return false;
     std::string full(text);
-    // Split long text into sentence chunks so synthesis starts immediately and stays within max_tokens.
+    // Split long text into clause/sentence chunks (with a shorter first chunk for faster TTFA and Devanagari danda support).
     size_t start = 0, n = full.size();
+    bool first_chunk = true;
     while (start < n) {
         while (start < n && std::isspace(static_cast<unsigned char>(full[start]))) ++start;
         if (start >= n) break;
+        const size_t max_len = first_chunk ? 115 : 220;
         size_t end = start;
-        while (end < n && (end - start) < 220) {
+        while (end < n && (end - start) < max_len) {
+            int dev = decodeDevanagariAt(full, end);
+            if (dev == 0x0964 || dev == 0x0965) { // । or ॥
+                end += 3;
+                break;
+            }
             char c = full[end++];
             if ((c == '.' || c == '!' || c == '?' || c == ';') && (end >= n || std::isspace(static_cast<unsigned char>(full[end])))) {
+                break;
+            }
+            if (first_chunk && (end - start) >= 36 && (c == ',' || c == ':') && (end >= n || std::isspace(static_cast<unsigned char>(full[end])))) {
                 break;
             }
         }
@@ -1383,6 +1428,7 @@ bool voca_speak(VocaModel* model, const char* text, int voice_id, float speed, V
             size_t sp = full.find(' ', end);
             end = (sp == std::string::npos) ? n : sp;
         }
+        first_chunk = false;
         std::string chunk = full.substr(start, end - start);
         start = end;
         std::vector<int> ids, stress;

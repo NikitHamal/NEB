@@ -636,6 +636,8 @@ private fun TextBlockRow(
                             vm.indent(block.id, if (ev.isShiftPressed) -1 else 1); true
                         } else if (ev.type == KeyEventType.KeyDown && ev.key == Key.Backspace && sel.collapsed && sel.start == 0 && !readOnly) {
                             vm.backspaceAtStart(block.id); true
+                        } else if (ev.type == KeyEventType.KeyDown && ev.key == Key.A && ev.nativeKeyEvent.isCtrlPressed && !readOnly) {
+                            vm.selectAllText(registry, wholeNote = true); true
                         } else false
                     },
             )
@@ -717,7 +719,7 @@ fun BlockFormatBar(
     fun active(flag: Int) = canInline && rich != null && rich.isActive(flag)
     fun turn(type: BlockType) {
         val id = textBlock?.id ?: vm.focusedId ?: return
-        vm.convert(id, type)
+        vm.convertLineOrBlock(id, rich, type)
     }
 
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -760,7 +762,7 @@ fun BlockFormatBar(
             BarButton(Icons.Outlined.FormatQuote, "Quote", fg, textBlock?.type == BlockType.Quote) { turn(BlockType.Quote) }
             BarButton(Icons.Outlined.FormatIndentDecrease, "Outdent", fg, false) { (textBlock?.id ?: vm.focusedId)?.let { vm.indent(it, -1) } }
             BarButton(Icons.Outlined.FormatIndentIncrease, "Indent", fg, false) { (textBlock?.id ?: vm.focusedId)?.let { vm.indent(it, 1) } }
-            BarButton(Icons.Outlined.SelectAll, "Select all", fg, false) { vm.selectAllText(registry) }
+            BarButton(Icons.Outlined.SelectAll, "Select all", fg, false) { vm.selectAllText(registry, wholeNote = true) }
             BarButton(Icons.Outlined.MoreHoriz, "Block options", fg, false) { if (block != null) blockSheet = true }
         }
         trailing()

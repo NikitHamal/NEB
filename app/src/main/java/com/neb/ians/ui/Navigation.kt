@@ -238,7 +238,7 @@ private fun gateReasonFor(route: String?): GateReason? = when (route) {
     Screen.Notifications.route -> GateReason.Notifications
     Screen.Analytics.route, Screen.NebyCredits.route, Screen.EditProfile.route,
     Screen.DeleteAccount.route, Screen.AccountSecurity.route, Screen.PostInsights.route,
-    Screen.ResourceInsights.route -> GateReason.Profile
+    Screen.ResourceInsights.route, Screen.InstitutionClaim.route, Screen.InstitutionManage.route -> GateReason.Profile
     else -> null
 }
 
@@ -308,25 +308,29 @@ fun NEBiansNavHost(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentRoute = currentDestination?.route?.substringBefore("?")
+    var wasAuthenticated by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(authState, currentRoute) {
         val state = authState
         when (state) {
             is AuthState.Unauthenticated -> {
-                showMiniPlayer = false
-                mediaPlayerViewModel.stopPlayback()
-                // Signed out (or a guest from the start): stay in the app, on Home.
-                if (currentRoute != null &&
-                    currentRoute !in PRE_APP_ROUTES &&
-                    currentRoute != Screen.Home.route
-                ) {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
+                if (wasAuthenticated) {
+                    wasAuthenticated = false
+                    showMiniPlayer = false
+                    mediaPlayerViewModel.stopPlayback()
+                    if (currentRoute != null &&
+                        currentRoute !in PRE_APP_ROUTES &&
+                        currentRoute != Screen.Home.route
+                    ) {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
                 }
             }
             is AuthState.Authenticated -> {
+                wasAuthenticated = true
                 gateReason = null
                 settingsViewModel.ensureProfile()
                 if (currentRoute == Screen.Login.route ||
@@ -987,11 +991,7 @@ fun NEBiansNavHost(
                     onNavigateToAccountSecurity = {
                         navController.navigate(Screen.AccountSecurity.route)
                     },
-                    onNavigateToLogin = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
-                        }
-                    },
+                    onNavigateToLogin = openSignIn,
                     onNavigateToWebPortal = { url ->
                         navController.navigate(Screen.WebPortal.createRoute(url))
                     },

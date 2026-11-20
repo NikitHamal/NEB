@@ -12,12 +12,6 @@
     <!-- Voice-note recording for comment composers -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- Boot receiver for scheduling -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <!-- Foreground service permission -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <!-- Tactile / haptic feedback -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -96,21 +90,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-
-        <!--
-            Remove the default WorkManager initializer so that Hilt can
-            provide its own configuration via HiltWorkerFactory.
-        -->
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
         </provider>
 
     </application>

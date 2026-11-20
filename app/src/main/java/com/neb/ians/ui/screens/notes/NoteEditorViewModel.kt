@@ -259,14 +259,73 @@ class NoteEditorViewModel @Inject constructor(
     }
 
     fun convert(id: String, type: BlockType) {
-        update(id) { b ->
-            when {
-                b.type == type && type != BlockType.Text -> b.copy(type = BlockType.Text, checked = false)
-                !type.hasText -> b
-                else -> b.copy(type = type, checked = if (type == BlockType.Todo) b.checked else false)
-            }
+        val list = _blocks.value
+        val i = indexOf(id)
+        if (i < 0) return
+        val cur = list[i]
+        val nextBlock = when {
+            cur.type == type && type != BlockType.Text -> cur.copy(type = BlockType.Text, checked = false)
+            !type.hasText -> cur
+            else -> cur.copy(type = type, checked = if (type == BlockType.Todo) cur.checked else false)
         }
-        _focusRequest.value = id
+        val out = list.toMutableList().also { it[i] = nextBlock }
+        val coalesced = if (nextBlock.type == BlockType.Text) NoteDoc.coalesceTextBlocks(out) else out
+        commit(coalesced, force = true)
+        val focusId = if (coalesced.any { it.id == id }) id else coalesced.getOrNull(i.coerceAtMost(coalesced.lastIndex))?.id
+        if (focusId != null) _focusRequest.value = focusId
+    }
+
+    /**
+     * Converts only the active caret line inside a multi-line [BlockType.Text] block into [type]
+     * (keeping lines above and below as [BlockType.Text]), or converts the whole block when single-line.
+     */
+    fun convertLineOrBlock(id: String, state: com.neb.ians.ui.components.RichState?, type: BlockType) {
+        val list = _blocks.value
+        val i = indexOf(id)
+        if (i < 0) return
+        val cur = list[i]
+        val isSingleLineTarget = type == BlockType.H1 || type == BlockType.H2 || type == BlockType.H3 || type.isList
+        if (cur.type != BlockType.Text || !isSingleLineTarget || !cur.text.contains('\n') || state == null) {
+            convert(id, type)
+            return
+        }
+        val mdLines = cur.text.split('\n')
+        if (mdLines.size <= 1) {
+            convert(id, type)
+            return
+        }
+        val plain = state.value.text
+        val caret = state.value.selection.start.coerceIn(0, plain.length)
+        val lineIdx = plain.substring(0, caret).count { it == '\n' }.coerceIn(0, mdLines.lastIndex)
+        val beforeMd = mdLines.subList(0, lineIdx).joinToString("\n")
+        val targetLineMd = mdLines[lineIdx]
+        val afterMd = mdLines.subList(lineIdx + 1, mdLines.size).joinToString("\n")
+        val out = list.toMutableList()
+        val converted = NoteBlock(
+            type = type,
+            text = targetLineMd,
+            indent = cur.indent,
+            align = cur.align,
+            tint = cur.tint,
+            mark = cur.mark,
+        )
+        var insertAt = i
+        if (beforeMd.isNotEmpty()) {
+            out[i] = cur.copy(text = beforeMd)
+            insertAt = i + 1
+            out.add(insertAt, converted)
+        } else {
+            out[i] = converted
+            insertAt = i
+        }
+        if (afterMd.isNotEmpty()) {
+            val tail = NoteBlock(type = BlockType.Text, text = afterMd, indent = cur.indent, align = cur.align, tint = cur.tint, mark = cur.mark)
+            out.add(insertAt + 1, tail)
+        }
+        commit(out, force = true)
+        caretAtStart = false
+        focusCaretOffset = targetLineMd.length
+        _focusRequest.value = converted.id
     }
 
     /** Slash menu: the typed "/word" is cleared and the block turns into [type] (or a media block is added below). */
