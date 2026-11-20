@@ -5,8 +5,8 @@
    "no": 1,
    "title": "हामी र हाम्रो समाज",
    "area": "एकाइ",
-   "words": 8371,
-   "read_min": 47,
+   "words": 8365,
+   "read_min": 46,
    "figures": 12,
    "has_questions": true
   },
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "हाम्रा सामाजिक मूल्य र मान्यता",
    "area": "एकाइ",
-   "words": 8899,
+   "words": 8895,
    "read_min": 49,
    "figures": 17,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "सामाजिक समस्या र समाधान",
    "area": "एकाइ",
-   "words": 9373,
+   "words": 9361,
    "read_min": 52,
    "figures": 11,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "नागरिक चेतना",
    "area": "एकाइ",
-   "words": 9396,
+   "words": 9391,
    "read_min": 52,
    "figures": 18,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "हाम्रो पृथ्वी",
    "area": "एकाइ",
-   "words": 11303,
+   "words": 11295,
    "read_min": 63,
    "figures": 19,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "हाम्रो विगत",
    "area": "एकाइ",
-   "words": 11889,
+   "words": 11877,
    "read_min": 66,
    "figures": 18,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "आर्थिक क्रियाकलाप",
    "area": "एकाइ",
-   "words": 12061,
+   "words": 12052,
    "read_min": 67,
    "figures": 15,
    "has_questions": true
@@ -77,8 +77,8 @@
    "no": 9,
    "title": "हाम्रो अन्तर्राष्ट्रिय सम्बन्ध र सहयोग",
    "area": "एकाइ",
-   "words": 9099,
-   "read_min": 51,
+   "words": 9086,
+   "read_min": 50,
    "figures": 12,
    "has_questions": true
   },
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "जनसङ्ख्या र यसको व्यवस्थापन",
    "area": "एकाइ",
-   "words": 9321,
+   "words": 9312,
    "read_min": 52,
    "figures": 20,
    "has_questions": true

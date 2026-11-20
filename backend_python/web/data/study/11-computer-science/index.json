@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Computer System",
    "area": "",
-   "words": 9187,
+   "words": 9183,
    "read_min": 51,
    "figures": 18,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Number System and Boolean Logic",
    "area": "",
-   "words": 6431,
+   "words": 6427,
    "read_min": 36,
    "figures": 10,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Computer Software and Operating System",
    "area": "",
-   "words": 8076,
+   "words": 8072,
    "read_min": 45,
    "figures": 11,
    "has_questions": true
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "Application Package",
    "area": "",
-   "words": 5311,
-   "read_min": 30,
+   "words": 5299,
+   "read_min": 29,
    "figures": 10,
    "has_questions": true
   },
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Programming Concepts and Logics",
    "area": "",
-   "words": 10871,
+   "words": 10865,
    "read_min": 60,
    "figures": 9,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Web Technology I",
    "area": "",
-   "words": 8143,
+   "words": 8138,
    "read_min": 45,
    "figures": 8,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Multimedia",
    "area": "",
-   "words": 5501,
+   "words": 5496,
    "read_min": 31,
    "figures": 6,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Information Security and Cyber Law",
    "area": "",
-   "words": 7171,
+   "words": 7166,
    "read_min": 40,
    "figures": 6,
    "has_questions": true

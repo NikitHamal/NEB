@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Database Management System (DBMS)",
    "area": "",
-   "words": 7360,
+   "words": 7350,
    "read_min": 41,
    "figures": 11,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Data Communication and Networking",
    "area": "",
-   "words": 7499,
+   "words": 7495,
    "read_min": 42,
    "figures": 14,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Web Technology II",
    "area": "",
-   "words": 6863,
+   "words": 6859,
    "read_min": 38,
    "figures": 10,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Programming in C",
    "area": "",
-   "words": 6249,
+   "words": 6245,
    "read_min": 35,
    "figures": 11,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Object-Oriented Programming (OOP)",
    "area": "",
-   "words": 6618,
+   "words": 6614,
    "read_min": 37,
    "figures": 8,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Software Process Model (SPM)",
    "area": "",
-   "words": 6345,
+   "words": 6341,
    "read_min": 35,
    "figures": 11,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Recent Trends in Technology",
    "area": "",
-   "words": 7551,
+   "words": 7547,
    "read_min": 42,
    "figures": 12,
    "has_questions": true

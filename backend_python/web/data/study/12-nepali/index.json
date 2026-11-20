@@ -5,7 +5,7 @@
    "no": 1,
    "title": "आमाको सपना - गोपालप्रसाद रिमाल (कविता, सामाजिक)",
    "area": "पाठ",
-   "words": 4211,
+   "words": 4189,
    "read_min": 23,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "विरहिणी दमयन्ती - मदनमणि दीक्षित (कथा, पौराणिक)",
    "area": "पाठ",
-   "words": 4085,
+   "words": 4082,
    "read_min": 23,
    "figures": 3,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "घनघस्याको उकालो काट्ता - तारानाथ शर्मा (नियात्रा)",
    "area": "पाठ",
-   "words": 3894,
+   "words": 3891,
    "read_min": 22,
    "figures": 4,
    "has_questions": true
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "व्यावसायिक पत्र (व्यावहारिक लेखन)",
    "area": "पाठ",
-   "words": 3915,
-   "read_min": 22,
+   "words": 3857,
+   "read_min": 21,
    "figures": 2,
    "has_questions": true
   },
@@ -41,8 +41,8 @@
    "no": 5,
    "title": "एक चिहान - हृदयचन्द्रसिंह प्रधान (उपन्यास अंश, सामाजिक)",
    "area": "पाठ",
-   "words": 4606,
-   "read_min": 26,
+   "words": 4550,
+   "read_min": 25,
    "figures": 4,
    "has_questions": true
   },
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "स्टिफन विलियम हकिङ (जीवनी, अन्तर्राष्ट्रिय)",
    "area": "पाठ",
-   "words": 4254,
+   "words": 4236,
    "read_min": 24,
    "figures": 4,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "हामीलाई बोलाउँछन् हिमचुली",
    "area": "पाठ",
-   "words": 4286,
+   "words": 4276,
    "read_min": 24,
    "figures": 5,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "मातृत्व",
    "area": "पाठ",
-   "words": 4040,
+   "words": 3983,
    "read_min": 22,
    "figures": 4,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "गोर्खे",
    "area": "पाठ",
-   "words": 4622,
+   "words": 4614,
    "read_min": 26,
    "figures": 4,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "नेपाली पहिचान",
    "area": "पाठ",
-   "words": 4921,
+   "words": 4842,
    "read_min": 27,
    "figures": 4,
    "has_questions": true
@@ -95,8 +95,8 @@
    "no": 11,
    "title": "सहकारी",
    "area": "पाठ",
-   "words": 4977,
-   "read_min": 28,
+   "words": 4949,
+   "read_min": 27,
    "figures": 4,
    "has_questions": true
   },
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "जीवन मार्ग",
    "area": "पाठ",
-   "words": 5128,
+   "words": 5124,
    "read_min": 28,
    "figures": 4,
    "has_questions": true
@@ -248,7 +248,7 @@
    "no": 28,
    "title": "शब्दभण्डार: पर्यायवाची, विपरीतार्थी, अनेकार्थी, उखान-टुक्का, पारिभाषिक शब्द",
    "area": "लेखन सिप",
-   "words": 5155,
+   "words": 5270,
    "read_min": 29,
    "figures": 2,
    "has_questions": true
