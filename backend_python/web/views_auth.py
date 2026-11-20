@@ -268,8 +268,9 @@ def google_oauth_callback(request):
     if linked:
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
-            linked_user = User.objects.get(email__iexact=email)
-            return _mobile_auth_deep_link(linked_token, False, linked_user)
+            linked_user = User.objects.filter(email__iexact=email).first()
+            if linked_user is not None:
+                return _mobile_auth_deep_link(linked_token, False, linked_user)
         if next_url:
             return redirect(next_url)
         return redirect_result
@@ -379,28 +380,34 @@ def github_callback(request):
             return deep_link('nebians://auth-callback?error=no_user_id')
         return HttpResponse('Could not retrieve GitHub user ID.', status=502)
     email = github_user.get('email') or ''
-    github_email_verified = False
-    if not email:
-        try:
-            emails_resp = _req.get(
-                'https://api.github.com/user/emails',
-                headers={'Authorization': f'Bearer {access_token}', 'Accept': 'application/json'},
-                timeout=10,
-            )
-            emails = emails_resp.json()
-            for e in emails:
-                if e.get('primary') and e.get('verified'):
-                    email = e['email']
-                    github_email_verified = True
-                    break
-            if not email:
+    github_email_verified = bool(email)
+    try:
+        emails_resp = _req.get(
+            'https://api.github.com/user/emails',
+            headers={'Authorization': f'Bearer {access_token}', 'Accept': 'application/json'},
+            timeout=10,
+        )
+        emails = emails_resp.json()
+        if isinstance(emails, list):
+            if email:
+                github_email_verified = any(
+                    isinstance(e, dict) and str(e.get('email', '')).lower() == email.lower() and e.get('verified')
+                    for e in emails
+                )
+            else:
                 for e in emails:
-                    if e.get('verified'):
+                    if isinstance(e, dict) and e.get('primary') and e.get('verified'):
                         email = e['email']
                         github_email_verified = True
                         break
-        except Exception:
-            pass
+                if not email:
+                    for e in emails:
+                        if isinstance(e, dict) and e.get('verified'):
+                            email = e['email']
+                            github_email_verified = True
+                            break
+    except Exception:
+        pass
     display_name = github_user.get('name') or github_user.get('login', '')
     photo_url = github_user.get('avatar_url') or ''
     user_pk = f'github_{github_id}'
@@ -427,8 +434,9 @@ def github_callback(request):
     if linked:
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
-            linked_user = User.objects.get(email__iexact=email)
-            return _mobile_auth_deep_link(linked_token, False, linked_user)
+            linked_user = User.objects.filter(email__iexact=email).first()
+            if linked_user is not None:
+                return _mobile_auth_deep_link(linked_token, False, linked_user)
         if next_url:
             return redirect(next_url)
         return redirect_result

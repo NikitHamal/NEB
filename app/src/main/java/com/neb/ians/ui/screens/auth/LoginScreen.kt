@@ -66,17 +66,78 @@ private tailrec fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-/**
- * The auth landing: the glyph stage, the name, the three ways in.
- *
- * White page, brand blue on the one word that is the brand, springs for every entrance. The
- * hero morphs, the title and the buttons rise one beat apart, and nothing is explained
- * twice: the name and the actions are the whole screen.
- */
+private const val OAUTH_PREFS = "nebians_oauth_prefs"
+private const val REQUEST_CODE_OAUTH_CUSTOM_TAB = 9041
+private const val GOOGLE_DIRECT_OAUTH_URL =
+    "https://accounts.google.com/o/oauth2/v2/auth" +
+        "?client_id=" + AuthRepository.GOOGLE_SERVER_CLIENT_ID +
+        "&redirect_uri=https://nebians.consica.com.np/auth/google/callback/" +
+        "&response_type=code" +
+        "&scope=openid+email+profile" +
+        "&prompt=select_account" +
+        "&access_type=online" +
+        "&state=mobile_google"
+private const val GITHUB_DIRECT_OAUTH_URL =
+    "https://github.com/login/oauth/authorize" +
+        "?client_id=" + AuthRepository.GITHUB_CLIENT_ID +
+        "&redirect_uri=" + AuthRepository.GITHUB_REDIRECT_URI +
+        "&scope=read:user,user:email" +
+        "&state=mobile_github"
+
+private fun isTrueUserCancellation(e: GetCredentialCancellationException): Boolean {
+    val msg = (e.message ?: "").lowercase()
+    if (msg.isBlank()) return true
+    if ("reauth" in msg || "28444" in msg || "developer" in msg || "10:" in msg || "unregistered" in msg) {
+        return false
+    }
+    return "cancel" in msg || "12501" in msg || "user" in msg
+}
+
+@Suppress("DEPRECATION")
+private fun isNativeGoogleIdConfigured(context: Context): Boolean {
+    return runCatching {
+        val prefs = context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
+        if (prefs.getBoolean("cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}", false)) {
+            return false
+        }
+        val registered = com.neb.ians.BuildConfig.GOOGLE_ANDROID_CERT_HASHES
+            .split(",")
+            .map { it.trim().lowercase() }
+            .filter { it.length == 40 }
+            .toSet()
+        if (registered.isEmpty()) return false
+        val pm = context.packageManager
+        val sigs = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val info = pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
+            if (info == null) emptyArray()
+            else if (info.hasMultipleSigners()) info.apkContentsSigners
+            else info.signingCertificateHistory
+        } else {
+            pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNATURES).signatures ?: emptyArray()
+        }
+        val md = java.security.MessageDigest.getInstance("SHA-1")
+        sigs.any { sig ->
+            val sha1 = md.digest(sig.toByteArray()).joinToString("") { "%02x".format(it) }
+            sha1 in registered
+        }
+    }.getOrDefault(false)
+}
+
+private fun disableNativeGoogleIdForBuild(context: Context) {
+    runCatching {
+        context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean("cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}", true)
+            .apply()
+    }
+}
+
 @Composable
 fun LoginScreen(
     onNavigateToEmailAuth: () -> Unit,
     onClose: (() -> Unit)? = null,
+    onNavigateToHome: (() -> Unit)? = null,
+    onNavigateToOnboarding: (() -> Unit)? = null,
     authRepository: AuthRepository? = null
 ) {
     val context = LocalContext.current
@@ -87,6 +148,18 @@ fun LoginScreen(
     var loadingProvider by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
+    var customTabsSession by remember { mutableStateOf<androidx.browser.customtabs.CustomTabsSession?>(null) }
+
+    androidx.compose.runtime.LaunchedEffect(authRepository) {
+        authRepository?.authState?.collect { state ->
+            if (state is com.neb.ians.data.repository.AuthState.Authenticated) {
+                isLoading = false
+                loadingProvider = null
+                if (state.isProfileComplete) onNavigateToHome?.invoke()
+                else onNavigateToOnboarding?.invoke()
+            }
+        }
+    }
 
     val customTabsPkg = remember(context) {
         runCatching {
@@ -102,39 +175,71 @@ fun LoginScreen(
         }.getOrNull()
     }
 
-    androidx.compose.runtime.LaunchedEffect(customTabsPkg) {
-        if (!customTabsPkg.isNullOrBlank()) {
-            kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
-                runCatching {
-                    androidx.browser.customtabs.CustomTabsClient.connectAndInitialize(context.applicationContext, customTabsPkg)
+    androidx.compose.runtime.DisposableEffect(customTabsPkg) {
+        val pkg = customTabsPkg
+        val appCtx = context.applicationContext
+        var boundConn: androidx.browser.customtabs.CustomTabsServiceConnection? = null
+        if (!pkg.isNullOrBlank()) {
+            val conn = object : androidx.browser.customtabs.CustomTabsServiceConnection() {
+                override fun onCustomTabsServiceConnected(
+                    name: android.content.ComponentName,
+                    client: androidx.browser.customtabs.CustomTabsClient
+                ) {
+                    runCatching {
+                        client.warmup(0L)
+                        val session = client.newSession(null)
+                        session?.mayLaunchUrl(
+                            Uri.parse(GOOGLE_DIRECT_OAUTH_URL),
+                            null,
+                            null
+                        )
+                        customTabsSession = session
+                    }
+                }
+                override fun onServiceDisconnected(name: android.content.ComponentName?) {
+                    customTabsSession = null
                 }
             }
+            if (runCatching { androidx.browser.customtabs.CustomTabsClient.bindCustomTabsService(appCtx, pkg, conn) }.getOrDefault(false)) {
+                boundConn = conn
+            }
+        }
+        onDispose {
+            boundConn?.let { runCatching { appCtx.unbindService(it) } }
         }
     }
 
+    @Suppress("DEPRECATION")
     fun launchBrowserOAuth(provider: String) {
-        val url = if (provider == "google") {
-            "https://nebians.consica.com.np/auth/google/login/?state=mobile_google"
-        } else {
-            "https://nebians.consica.com.np/auth/github/login/?mobile=1"
-        }
+        val url = if (provider == "google") GOOGLE_DIRECT_OAUTH_URL else GITHUB_DIRECT_OAUTH_URL
+        val uri = Uri.parse(url)
         try {
             val dm = context.resources.displayMetrics
             val sheetHeightPx = (dm.heightPixels * 0.88f).toInt().coerceAtLeast(480)
-            val customTabsIntent = CustomTabsIntent.Builder()
+            val session = customTabsSession
+            val builder = if (session != null) CustomTabsIntent.Builder(session) else CustomTabsIntent.Builder()
+            val customTabsIntent = builder
                 .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
                 .setShowTitle(true)
                 .setUrlBarHidingEnabled(true)
+                .setToolbarCornerRadiusDp(24)
+                .setCloseButtonPosition(CustomTabsIntent.CLOSE_BUTTON_POSITION_END)
                 .setColorScheme(if (isDark) CustomTabsIntent.COLOR_SCHEME_DARK else CustomTabsIntent.COLOR_SCHEME_LIGHT)
                 .setInitialActivityHeightPx(sheetHeightPx, CustomTabsIntent.ACTIVITY_HEIGHT_DEFAULT)
                 .build()
             if (!customTabsPkg.isNullOrBlank()) {
                 customTabsIntent.intent.setPackage(customTabsPkg)
             }
-            customTabsIntent.launchUrl(context, Uri.parse(url))
+            val activity = context.findActivity()
+            if (session != null || activity == null) {
+                customTabsIntent.launchUrl(context, uri)
+            } else {
+                customTabsIntent.intent.data = uri
+                activity.startActivityForResult(customTabsIntent.intent, REQUEST_CODE_OAUTH_CUSTOM_TAB)
+            }
         } catch (_: Exception) {
             try {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                context.startActivity(Intent(Intent.ACTION_VIEW, uri))
             } catch (_: Exception) {
                 errorMessage = "No browser available for sign-in."
             }
@@ -144,7 +249,7 @@ fun LoginScreen(
     fun launchOAuth(provider: String) {
         if (isLoading) return
         errorMessage = null
-        if (provider == "google" && authRepository != null) {
+        if (provider == "google" && authRepository != null && isNativeGoogleIdConfigured(context)) {
             isLoading = true
             loadingProvider = "google"
             scope.launch {
@@ -154,42 +259,45 @@ fun LoginScreen(
                         return@launch
                     }
                     val credentialManager = CredentialManager.create(activityContext)
-                    val result = try {
-                        val oneTapOption = GetGoogleIdOption.Builder()
-                            .setFilterByAuthorizedAccounts(false)
-                            .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                            .setAutoSelectEnabled(false)
-                            .build()
-                        credentialManager.getCredential(
-                            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
-                            context = activityContext
-                        )
-                    } catch (e: GetCredentialException) {
-                        if (e is GetCredentialCancellationException) throw e
-                        val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                            .build()
-                        credentialManager.getCredential(
-                            request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
-                            context = activityContext
-                        )
-                    }
+                    val oneTapOption = GetGoogleIdOption.Builder()
+                        .setFilterByAuthorizedAccounts(false)
+                        .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                        .setAutoSelectEnabled(false)
+                        .build()
+                    val result = credentialManager.getCredential(
+                        request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+                        context = activityContext
+                    )
                     val credential = result.credential
-                    if (credential is CustomCredential &&
-                        credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
-                    ) {
-                        val idToken = GoogleIdTokenCredential.createFrom(credential.data).idToken
+                    val idToken = when {
+                        credential is GoogleIdTokenCredential -> credential.idToken
+                        credential is CustomCredential &&
+                            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL ->
+                            GoogleIdTokenCredential.createFrom(credential.data).idToken
+                        else -> null
+                    }
+                    if (!idToken.isNullOrBlank()) {
                         when (val authResult = authRepository.signInWithGoogle(idToken)) {
-                            is OAuthResult.Success -> Unit
+                            is OAuthResult.Success -> {
+                                if (authResult.isNewUser) onNavigateToOnboarding?.invoke()
+                                else onNavigateToHome?.invoke()
+                            }
                             is OAuthResult.Failure -> errorMessage = authResult.message
                         }
                     } else {
+                        disableNativeGoogleIdForBuild(context)
                         launchBrowserOAuth("google")
                     }
-                } catch (_: GetCredentialCancellationException) {
-                    // User dismissed the native account sheet
+                } catch (e: GetCredentialCancellationException) {
+                    if (!isTrueUserCancellation(e)) {
+                        disableNativeGoogleIdForBuild(context)
+                        launchBrowserOAuth("google")
+                    }
                 } catch (_: GetCredentialException) {
+                    disableNativeGoogleIdForBuild(context)
                     launchBrowserOAuth("google")
                 } catch (_: Exception) {
+                    disableNativeGoogleIdForBuild(context)
                     launchBrowserOAuth("google")
                 } finally {
                     isLoading = false

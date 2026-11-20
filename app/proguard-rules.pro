@@ -33,8 +33,16 @@
     public <init>();
 }
 
-# Keep all classes in the app package (data models, etc.)
+# Keep all API & serializable data models and Retrofit interfaces in R8 full mode
 -keep class com.neb.ians.data.model.** { *; }
+-keep class com.neb.ians.data.api.** { *; }
+-keep interface com.neb.ians.data.api.** { *; }
+-keep class com.neb.ians.data.news.** { *; }
+-keep @kotlinx.serialization.Serializable class com.neb.ians.** { *; }
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+-dontwarn retrofit2.**
 
 # Prevent stripping of Parcelable
 -keep class * implements android.os.Parcelable {

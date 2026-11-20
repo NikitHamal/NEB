@@ -305,13 +305,16 @@ fun NEBiansNavHost(
             navController.navigate(target) { launchSingleTop = true }
         }
     }
-    LaunchedEffect(authState) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val currentRoute = currentDestination?.route?.substringBefore("?")
+
+    LaunchedEffect(authState, currentRoute) {
         val state = authState
         when (state) {
             is AuthState.Unauthenticated -> {
                 showMiniPlayer = false
                 mediaPlayerViewModel.stopPlayback()
-                val currentRoute = navController.currentBackStackEntry?.destination?.route
                 // Signed out (or a guest from the start): stay in the app, on Home.
                 if (currentRoute != null &&
                     currentRoute !in PRE_APP_ROUTES &&
@@ -326,10 +329,16 @@ fun NEBiansNavHost(
             is AuthState.Authenticated -> {
                 gateReason = null
                 settingsViewModel.ensureProfile()
-                val currentRoute = navController.currentBackStackEntry?.destination?.route
-                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
+                if (currentRoute == Screen.Login.route ||
+                    currentRoute == Screen.EmailAuth.route ||
+                    currentRoute == Screen.EmailVerification.route ||
+                    currentRoute == Screen.ForgotPassword.route
+                ) {
                     if (state.isProfileComplete) leaveAuth()
-                    else navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
+                    else {
+                        navController.popBackStack(Screen.Login.route, true)
+                        navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
+                    }
                 }
             }
             else -> {}
@@ -369,9 +378,6 @@ fun NEBiansNavHost(
         }
     }
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-    val currentRoute = currentDestination?.route?.substringBefore("?")
     LaunchedEffect(currentRoute, authState) {
         if (authState !is AuthState.Unauthenticated) return@LaunchedEffect
         val reason = gateReasonFor(currentDestination?.route) ?: gateReasonFor(currentRoute) ?: return@LaunchedEffect
@@ -540,6 +546,11 @@ fun NEBiansNavHost(
                 LoginScreen(
                     onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) },
                     onClose = { pendingRoute = null; navController.popBackStack() },
+                    onNavigateToHome = leaveAuth,
+                    onNavigateToOnboarding = {
+                        navController.popBackStack(Screen.Login.route, true)
+                        navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
+                    },
                     authRepository = authRepository
                 )
             }

@@ -19,6 +19,17 @@ android {
         versionCode = 36
         versionName = "1.8"
 
+        val googleAndroidCertHashes = runCatching {
+            val gsFile = file("google-services.json")
+            if (!gsFile.exists()) ""
+            else Regex(""""certificate_hash"\s*:\s*"([0-9a-fA-F]{40})"""")
+                .findAll(gsFile.readText())
+                .map { it.groupValues[1].lowercase() }
+                .distinct()
+                .joinToString(",")
+        }.getOrDefault("")
+        buildConfigField("String", "GOOGLE_ANDROID_CERT_HASHES", "\"$googleAndroidCertHashes\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true

@@ -130,3 +130,30 @@ class NativeGoogleOAuthTests(TestCase):
         body = r.json()
         self.assertTrue(body['isNewUser'])
         self.assertEqual(body['user']['username'], 'user_10987654_1')
+
+    def test_mobile_github_callback_links_existing_verified_public_email(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from api.models import User
+
+        existing = User.objects.create(
+            id='email_gh_1',
+            username='gh_student_np',
+            email='ghstudent@example.com',
+            email_verified=True,
+            created_at=1000,
+        )
+
+        def fake_get(url, *args, **kwargs):
+            if url.endswith('/user/emails'):
+                return SimpleNamespace(json=lambda: [{'email': 'ghstudent@example.com', 'primary': True, 'verified': True}])
+            return SimpleNamespace(json=lambda: {'id': 778899, 'login': 'ghstudent', 'name': 'GH Student', 'email': 'ghstudent@example.com', 'avatar_url': ''})
+
+        with self.settings(GITHUB_CLIENT_ID='cid', GITHUB_CLIENT_SECRET='csec'), \
+             patch('requests.post', return_value=SimpleNamespace(json=lambda: {'access_token': 'gh_tok_1'})), \
+             patch('requests.get', side_effect=fake_get):
+            r = self.client.get('/auth/github/callback/?code=abc&state=mobile_github')
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r['Location'].startswith('nebians://auth-callback?'))
+        self.assertIn(f'userId={existing.id}', r['Location'])
+        self.assertIn('username=gh_student_np', r['Location'])

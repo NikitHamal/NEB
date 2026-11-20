@@ -105,7 +105,9 @@ class AuthRepository @Inject constructor(
         const val GITHUB_REDIRECT_URI = "https://nebians.consica.com.np/auth/github/callback/"
     }
 
-    val authState: Flow<AuthState> = dataStore.data.map { preferences ->
+    private val sessionVersion = kotlinx.coroutines.flow.MutableStateFlow(0L)
+
+    val authState: Flow<AuthState> = kotlinx.coroutines.flow.combine(dataStore.data, sessionVersion) { preferences, _ ->
         val status = preferences[AUTH_STATUS] ?: "unauthenticated"
         val token = SecurePrefs.getAuthToken(appContext)
         val completed = preferences[PROFILE_COMPLETED] ?: false
@@ -197,7 +199,7 @@ class AuthRepository @Inject constructor(
             }
             val authToken = response.authToken ?: return OAuthResult.Failure("No auth token received")
             withContext(Dispatchers.IO) { cacheUser(response.user, authToken, response.isNewUser) }
-            OAuthResult.Success(response.isNewUser)
+            OAuthResult.Success(needsOnboarding(response.user, response.isNewUser))
         } catch (e: Exception) {
             OAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
@@ -210,7 +212,7 @@ class AuthRepository @Inject constructor(
             }
             val authToken = response.authToken ?: return OAuthResult.Failure("No auth token received")
             withContext(Dispatchers.IO) { cacheUser(response.user, authToken, response.isNewUser) }
-            OAuthResult.Success(response.isNewUser)
+            OAuthResult.Success(needsOnboarding(response.user, response.isNewUser))
         } catch (e: Exception) {
             OAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
@@ -239,6 +241,7 @@ class AuthRepository @Inject constructor(
                     if (!photoUrl.isNullOrBlank()) prefs[USER_PHOTO_URL] = photoUrl
                 }
             }
+            sessionVersion.value++
             ioScope.launch { ensureProfile() }
             syncFcmToken()
             true
@@ -251,6 +254,7 @@ class AuthRepository @Inject constructor(
         dataStore.edit { prefs ->
             prefs[PROFILE_COMPLETED] = true
         }
+        sessionVersion.value++
     }
 
     private fun needsOnboarding(user: com.neb.ians.data.api.UserProfileResponse, isNewUser: Boolean): Boolean =
@@ -294,6 +298,7 @@ class AuthRepository @Inject constructor(
                 prefs[USER_ACHIEVEMENT_BADGES] = user.achievementBadges ?: ""
             }
         }
+        sessionVersion.value++
         lastProfileRefreshAt = System.currentTimeMillis()
         syncFcmToken()
     }

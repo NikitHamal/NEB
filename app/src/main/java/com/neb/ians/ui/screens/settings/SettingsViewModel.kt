@@ -61,7 +61,7 @@ class SettingsViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     val authState = authRepository.authState
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), com.neb.ians.data.repository.AuthState.Loading)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, com.neb.ians.data.repository.AuthState.Loading)
 
     /** Signed in but no cached profile yet (fresh sign-in, slow network): fetch it so the UI never stays a guest. */
     fun ensureProfile() {
