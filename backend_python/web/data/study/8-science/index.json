@@ -107,22 +107,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Science and Technology: Unit-wise Objective Question Bank",
-   "words": 3583,
-   "read_min": 20
+   "words": 3056,
+   "read_min": 17
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Science and Technology: Unit-wise Subjective Question Bank",
-   "words": 4786,
-   "read_min": 27
+   "words": 4404,
+   "read_min": 24
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Science and Technology: Model Question Sets and Predicted Questions",
-   "words": 3507,
-   "read_min": 19
+   "words": 3510,
+   "read_min": 20
   }
  ],
  "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
