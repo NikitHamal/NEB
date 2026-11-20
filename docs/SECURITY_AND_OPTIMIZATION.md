@@ -38,3 +38,14 @@ Our production environment runs on a shared cPanel LiteSpeed (`lswsgi`) server w
 4. **Irreversible R8 + Native C++ Symbol Stripping**:
    - `proguard-rules.pro` enables `-renamesourcefileattribute SourceFile`, `-optimizationpasses 5`, `-overloadaggressively`, `-allowaccessmodification`, and strips verbose/debug/info `android.util.Log` calls via `-assumenosideeffects`.
    - `CMakeLists.txt` compiles `libneb_speech.so` with `-fvisibility=hidden -fvisibility-inlines-hidden -ffunction-sections -fdata-sections` and links with `-Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,-s`.
+
+---
+
+## 4. Android ANR Elimination, Native OAuth & Main-Thread Discipline
+
+| Area | Architecture & Rule | File(s) |
+| --- | --- | --- |
+| **Zero WebView / `CookieManager` Init on API Calls** | `WafChallengeInterceptor.browserRequest` and `RealtimeClient.runWebSocket` never call `CookieManager.getInstance()` on normal API calls. Calling `CookieManager.getInstance()` forces Android to initialize the Chromium WebView provider (`WebViewFactory.getProvider()`), which blocks for 1.5s to 5s+ on MIUI/ColorOS/OneUI and caused startup/post-login ANRs. `CookieManager` is touched only after an actual challenge page is solved in `solveChallengeInWebView`. | `WafChallengeInterceptor.kt`, `RealtimeClient.kt` |
+| **Native Android Credential Manager Google OAuth** | `LoginScreen` uses `androidx.credentials.CredentialManager` (`GetGoogleIdOption` One Tap bottom sheet with `GetSignInWithGoogleOption` fallback) and exchanges the ID token directly via `POST /api/auth/oauth/google/` (`authRepository.signInWithGoogle`). No external browser launch or Activity restart is required; Chrome Custom Tabs is used only as a fallback when Play Services is absent and for GitHub OAuth. | `LoginScreen.kt`, `AuthRepository.kt`, `proguard-rules.pro` |
+| **Zero Login Gate & Skippable Onboarding** | `SplashScreen` always enters `Home` directly so guests can browse Library, Notes, Pathways, and Forum immediately. `OnboardingScreen` provides a top-bar Close (`X`) button, Back dismissal (`skipOnboarding` -> `markProfileCompleted()`), and skippable `Subjects`, `Place`, and `Campus` steps so users are never trapped. | `SplashScreen.kt`, `OnboardingScreen.kt`, `CompleteProfileViewModel.kt`, `Navigation.kt` |
+| **Zero Main-Thread Disk I/O or Heavy Filtering** | Hilt singletons and ViewModels (`AuthRepository`, `SiteThemeRepository`, `SpeechModelManager`, `NotesViewModel`, `SyllabusViewModel`, `PdfAssistantViewModel`, `NoteEditorViewModel`) never run `runBlocking`, synchronous `SharedPreferences.all` scans, or JSON/Markdown serialization on the main thread. `M3xArt` JSON recipes are pre-warmed in `NEBiansApp.warmUp()` on `Dispatchers.IO`. | `NEBiansApp.kt`, `AuthRepository.kt`, `SiteThemeRepository.kt`, `M3xArt.kt`, `NotesViewModel.kt`, `SyllabusViewModel.kt`, `PdfAssistantViewModel.kt`, `SpeechModelManager.kt` |

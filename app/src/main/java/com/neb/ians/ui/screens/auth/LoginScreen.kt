@@ -51,12 +51,6 @@ import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-
-private tailrec fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
-}
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.OAuthResult
 import com.neb.ians.ui.screens.onboarding.Reveal
@@ -65,6 +59,12 @@ import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.nebAuthPalette
 import kotlinx.coroutines.launch
+
+private tailrec fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
 
 /**
  * The auth landing: the glyph stage, the name, the three ways in.
