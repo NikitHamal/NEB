@@ -5,7 +5,7 @@
    "no": 1,
    "title": "हामी र हाम्रो समाज",
    "area": "एकाइ",
-   "words": 8469,
+   "words": 8371,
    "read_min": 47,
    "figures": 12,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "विकास र विकासका आधार",
    "area": "एकाइ",
-   "words": 8698,
+   "words": 8591,
    "read_min": 48,
    "figures": 15,
    "has_questions": true
@@ -23,8 +23,8 @@
    "no": 3,
    "title": "हाम्रा सामाजिक मूल्य र मान्यता",
    "area": "एकाइ",
-   "words": 9082,
-   "read_min": 50,
+   "words": 8899,
+   "read_min": 49,
    "figures": 17,
    "has_questions": true
   },
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "सामाजिक समस्या र समाधान",
    "area": "एकाइ",
-   "words": 9554,
-   "read_min": 53,
+   "words": 9373,
+   "read_min": 52,
    "figures": 11,
    "has_questions": true
   },
@@ -41,8 +41,8 @@
    "no": 5,
    "title": "नागरिक चेतना",
    "area": "एकाइ",
-   "words": 9505,
-   "read_min": 53,
+   "words": 9396,
+   "read_min": 52,
    "figures": 18,
    "has_questions": true
   },
@@ -50,8 +50,8 @@
    "no": 6,
    "title": "हाम्रो पृथ्वी",
    "area": "एकाइ",
-   "words": 11721,
-   "read_min": 65,
+   "words": 11303,
+   "read_min": 63,
    "figures": 19,
    "has_questions": true
   },
@@ -59,8 +59,8 @@
    "no": 7,
    "title": "हाम्रो विगत",
    "area": "एकाइ",
-   "words": 12460,
-   "read_min": 69,
+   "words": 11889,
+   "read_min": 66,
    "figures": 18,
    "has_questions": true
   },
@@ -68,8 +68,8 @@
    "no": 8,
    "title": "आर्थिक क्रियाकलाप",
    "area": "एकाइ",
-   "words": 12186,
-   "read_min": 68,
+   "words": 12061,
+   "read_min": 67,
    "figures": 15,
    "has_questions": true
   },
@@ -77,8 +77,8 @@
    "no": 9,
    "title": "हाम्रो अन्तर्राष्ट्रिय सम्बन्ध र सहयोग",
    "area": "एकाइ",
-   "words": 9322,
-   "read_min": 52,
+   "words": 9099,
+   "read_min": 51,
    "figures": 12,
    "has_questions": true
   },
@@ -86,8 +86,8 @@
    "no": 10,
    "title": "जनसङ्ख्या र यसको व्यवस्थापन",
    "area": "एकाइ",
-   "words": 9656,
-   "read_min": 54,
+   "words": 9321,
+   "read_min": 52,
    "figures": 20,
    "has_questions": true
   }
