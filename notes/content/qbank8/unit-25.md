@@ -7,7 +7,7 @@ hours: 0
 area: Computer Science
 ---
 
-This chapter does three jobs. It sets out the **pattern** of the 50-mark Computer Science paper used throughout this bank and shows where each area's marks come from; it gives **two complete model papers**, each of 50 marks and two hours, built to that pattern, with a full answer to every question; and it closes with a **ranked list of practice priorities**, each with the reason it holds its place. Sit each model paper in one go, with a clock, before you look at the answers. Every QBASIC program in the answers was run in FreeBASIC and QB64, and its output is printed exactly.
+This chapter does three jobs. It sets out the **pattern** of the 50-mark Computer Science paper used throughout this bank and shows where each area's marks come from; it gives **two complete model papers**, each of 50 marks and two hours, built to that pattern, with a full answer to every question; and it closes with a **ranked list of practice priorities**, each with the reason it holds its place. Sit each model paper in one go, with a clock, before you look at the answers. Every Python program in the answers was run in Python 3.12, and its output is printed exactly.
 
 ::: caution What "predicted" means here, and what it does not
 Computer Science in grade 8 is set and marked by your own school, so no outsider knows your paper. The ranks in section 25.4 rest only on the pattern of the paper, on the syllabus of the CDC course and on how much each topic can be asked in a written test: a high rank means **practise this first**, never "this will come"; a low rank means "likely to carry fewer marks", never "safe to skip". Every question in this chapter is an original practice item; none is copied from any school's paper.
@@ -91,7 +91,7 @@ Reading the paper: **5 minutes**. Group A: **10 minutes** (one minute an item). 
    (a) JPEG (b) BMP (c) PNG (d) SVG
 9. The flowchart symbol used for a decision is
    (a) an oval (b) a parallelogram (c) a diamond (d) a rectangle
-10. What is printed by `PRINT 19 MOD 4`?
+10. What is printed by `print(19 % 4)` in Python?
     (a) 4 (b) 4.75 (c) 3 (d) 0
 
 **Group B — Answer the following questions briefly. [10 × 2 = 20]**
@@ -105,14 +105,11 @@ Reading the paper: **5 minutes**. Group A: **10 minutes** (one minute an item). 
 17. Convert $(110110)_2$ into decimal and into octal.
 18. Write two advantages and two disadvantages of multimedia.
 19. Write two differences between a compiler and an interpreter.
-20. Write the output of the following program.
+20. Write the output of the following Python program.
 
-```basic
-CLS
-FOR I = 5 TO 1 STEP -1
-    PRINT I * I;
-NEXT I
-END
+```python
+for i in range(5, 0, -1):
+    print(i * i, end=" ")
 ```
 
 **Group C — Answer the following questions in detail. [5 × 4 = 20]**
@@ -121,7 +118,7 @@ END
 22. What is a computer network? Explain bus, ring and star topologies with diagrams. [1+3]
 23. (a) Convert $(350)_{10}$ into binary and hexadecimal. (b) Convert $(5B)_{16}$ into octal through binary. [2+2]
 24. Write an algorithm and draw a flowchart to find the greatest of three numbers. [2+2]
-25. Write a QBASIC program to display the first ten terms of the series 1, 1, 2, 3, 5, 8, … [4]
+25. Write a Python program to display the first ten terms of the series 1, 1, 2, 3, 5, 8, … [4]
 
 ### Solutions
 
@@ -202,30 +199,27 @@ $(350)_{10} = (101011110)_2$. Hexadecimal: 350 ÷ 16 = 21 r 14 (E); 21 ÷ 16 = 1
 
 **25.** Each new term is the sum of the two terms before it.
 
-```basic
-CLS
-REM The first ten terms of 1, 1, 2, 3, 5, ...
-A = 1
-B = 1
-PRINT A; B;
-FOR I = 3 TO 10
-    C = A + B
-    PRINT C;
-    A = B
-    B = C
-NEXT I
-END
+```python
+# The first ten terms of 1, 1, 2, 3, 5, ...
+a = 1
+b = 1
+print(a, b, end=" ")
+for i in range(3, 11):
+    c = a + b
+    print(c, end=" ")
+    a = b
+    b = c
 ```
 
 ```text
- 1  1  2  3  5  8  13  21  34  55
+1 1 2 3 5 8 13 21 34 55 
 ```
 
-Marks: CLS and END; the two first terms; the loop that runs eight more times; the update of A and B in the right order.
+Marks: the two first terms `a = 1`, `b = 1`; the `for` loop that runs eight more times; the update of `a` and `b` in the right order; labelled/clean output.
 :::
 
 ::: caution Two Group C slips that this set is built to catch
-In question 23, students read the remainders **from the top down** and write 011110101 — the binary number backwards. In question 25, students write `A = B` **after** `B = C`, so A and B become equal and the series breaks. Order matters in both: remainders are read from the bottom up, and in the update the old B must be saved in A before B changes.
+In question 23, students read the remainders **from the top down** and write 011110101 — the binary number backwards. In question 25, students write `a = b` **after** `b = c`, so `a` and `b` become equal and the series breaks. Order matters in both: remainders are read from the bottom up, and in the update the old `b` must be saved in `a` before `b` changes.
 :::
 
 ## 25.3 Model Set 2
@@ -255,8 +249,8 @@ In question 23, students read the remainders **from the top down** and write 011
    (a) microphone (b) webcam (c) projector (d) scanner
 9. A program runs without any message but prints a wrong answer. It has
    (a) a syntax error (b) a logical error (c) a run-time error (d) a hardware fault
-10. Which QBASIC loop always runs its body at least once?
-    (a) FOR … NEXT (b) WHILE … WEND (c) DO WHILE … LOOP (d) DO … LOOP UNTIL
+10. Which Python function generates a sequence of integers for a `for` loop?
+    (a) `input()` (b) `print()` (c) `len()` (d) `range()`
 
 **Group B — Answer the following questions briefly. [10 × 2 = 20]**
 
@@ -269,12 +263,11 @@ In question 23, students read the remainders **from the top down** and write 011
 17. How many bytes does an uncompressed 1024 × 768 image with 24-bit colour need? Give the answer in MB too.
 18. Convert $(A9)_{16}$ into binary and into decimal.
 19. Write an algorithm to find the simple interest when the principal, time and rate are given.
-20. Write the output of the following program.
+20. Write the output of the following Python program.
 
-```basic
-CLS
-PRINT UCASE$("pokhara"); LEN("POKHARA"); MID$("POKHARA", 3, 3)
-END
+```python
+s = "pokhara"
+print(s.upper(), len(s), s[2:5].upper())
 ```
 
 **Group C — Answer the following questions in detail. [5 × 4 = 20]**
@@ -282,20 +275,17 @@ END
 21. What is an operating system? Explain CUI and GUI, and single-user and multi-user operating systems, with examples. [1+3]
 22. What is cyber crime? Explain any three cyber crimes, and write the punishment that Nepal's Electronic Transactions Act, 2063 gives for two of them. [1+3]
 23. (a) Convert $(1101101)_2$ into octal and hexadecimal. (b) Convert $(476)_8$ into decimal and binary. [2+2]
-24. The program below should print a table of Celsius and Fahrenheit temperatures from 0 °C to 100 °C in steps of 20. Find the three errors, name the type of each, and write the corrected program with its output. [4]
+24. The Python program below should print a table of Celsius and Fahrenheit temperatures from 0 °C to 100 °C in steps of 20. Find the three errors, name the type of each, and write the corrected program with its output. [4]
 
-```basic
-CLS
-REM Celsius to Fahrenheit table
-PRINT "Celsius", "Fahrenheit"
-FOR C = 0 TO 100 STEP 20
-    F = C * 9 / 5 + 23
-    PRNT C, F
-NEXT F
-END
+```python
+# Celsius to Fahrenheit table
+print("Celsius", "Fahrenheit")
+for c in range(0, 101, 20)
+    f = c * 9 / 5 + 23
+    prnt(c, f)
 ```
 
-25. Write a QBASIC program that reads ten numbers one by one and displays the largest and the smallest of them. [4]
+25. Write a Python program that reads ten numbers one by one and displays the largest and the smallest of them. [4]
 
 ### Solutions
 
@@ -309,7 +299,7 @@ END
 **7.** (a) — $1\times8 + 7 = 15$.
 **8.** (c) — a projector shows pictures; the others take input.
 **9.** (b) — the method is wrong, but the grammar is correct.
-**10.** (d) — its test comes after the body.
+**10.** (d) — `range()` generates a sequence of whole numbers for a `for` loop.
 :::
 
 ::: note Group B — answers
@@ -336,7 +326,7 @@ END
 
 **19.** Step 1: Start. Step 2: Read P, T and R. Step 3: SI = P × T × R ÷ 100. Step 4: Display SI. Step 5: Stop.
 
-**20.** `UCASE$` gives POKHARA, `LEN` gives 7 (printed with a space on each side) and `MID$` gives three letters from the third: KHA. On one line:
+**20.** `s.upper()` gives `POKHARA`, `len(s)` gives `7` and `s[2:5].upper()` gives `KHA`. On one line:
 
 ```text
 POKHARA 7 KHA
@@ -352,71 +342,65 @@ POKHARA 7 KHA
 
 (b) $4\times8^2 + 7\times8^1 + 6\times8^0 = 256 + 56 + 6 = 318$, so $(476)_8 = (318)_{10}$. Binary, three bits for each octal digit: 4 = 100, 7 = 111, 6 = 110, so $(476)_8 = (100111110)_2$. Check: 256 + 32 + 16 + 8 + 4 + 2 = 318 ✓.
 
-**24.** (1) `F = C * 9 / 5 + 23` — a **logical error**: the formula adds 32, not 23. (2) `PRNT C, F` — a **syntax error**: the keyword is PRINT. (3) `NEXT F` — it must name the loop's counter, C; FreeBASIC rejected this line with "FOR/NEXT variable name mismatch" and QB64 with "Incorrect variable after NEXT". Corrected program:
+**24.** (1) `for c in range(0, 101, 20)` is missing the colon `:` at the end — a **syntax error**. (2) `f = c * 9 / 5 + 23` — a **logical error**: the formula adds `32`, not `23`. (3) `prnt(c, f)` — a **run-time (`NameError`)** error: the built-in function is `print`. Corrected program:
 
-```basic
-CLS
-REM Celsius to Fahrenheit table
-PRINT "Celsius", "Fahrenheit"
-FOR C = 0 TO 100 STEP 20
-    F = C * 9 / 5 + 32
-    PRINT C, F
-NEXT C
-END
+```python
+# Celsius to Fahrenheit table
+print("Celsius", "Fahrenheit")
+for c in range(0, 101, 20):
+    f = c * 9 / 5 + 32
+    print(c, f)
 ```
 
 ```text
-Celsius       Fahrenheit
- 0             32
- 20            68
- 40            104
- 60            140
- 80            176
- 100           212
+Celsius Fahrenheit
+0 32.0
+20 68.0
+40 104.0
+60 140.0
+80 176.0
+100 212.0
 ```
 
-The commas put the Fahrenheit values in the second print zone, at column 15. Check: 100 × 9 ÷ 5 + 32 = 180 + 32 = 212 ✓.
+Check: 100 × 9 ÷ 5 + 32 = 180 + 32 = 212 ✓.
 
 **25.** The first number read becomes both the largest and the smallest so far; each later number is compared with both.
 
-```basic
-CLS
-REM Largest and smallest of ten numbers
-FOR I = 1 TO 10
-    PRINT "Number"; I;
-    INPUT N
-    IF I = 1 THEN
-        L = N
-        S = N
-    END IF
-    IF N > L THEN L = N
-    IF N < S THEN S = N
-NEXT I
-PRINT "Largest ="; L
-PRINT "Smallest ="; S
-END
+```python
+# Largest and smallest of ten numbers
+for i in range(1, 11):
+    n = float(input("Number: "))
+    if i == 1:
+        largest = n
+        smallest = n
+    if n > largest:
+        largest = n
+    if n < smallest:
+        smallest = n
+print("Largest =", largest)
+print("Smallest =", smallest)
 ```
 
 ```text
-Number 1 ? 23
-Number 2 ? 7
-Number 3 ? 56
-Number 4 ? 12
-Number 5 ? 89
-Number 6 ? 4
-Number 7 ? 61
-Number 8 ? 33
-Number 9 ? 18
-Number 10 ? 45
-Largest = 89
-Smallest = 4
+Number: 23
+Number: 7
+Number: 56
+Number: 12
+Number: 89
+Number: 4
+Number: 61
+Number: 33
+Number: 18
+Number: 45
+Largest = 89.0
+Smallest = 4.0
 ```
 
 Marks: the loop of ten; reading each number; the starting values from the first number; the two comparisons; the labelled output.
 :::
 
 ::: caution The answer that loses the mark in question 25
-Many students set `L = 0` and `S = 0` before the loop. The largest still comes out right for positive numbers, but the smallest stays 0, because no number typed is below 0. Start both from the **first number read**, as above, or start S at a very large value such as 999999.
+Many students set `largest = 0` and `smallest = 0` before the loop. The largest still comes out right for positive numbers, but the smallest stays `0`, because no number typed is below `0`. Start both from the **first number read**, as above.
 :::
 
 ## 25.4 Ranked practice priorities
@@ -428,9 +412,9 @@ The order below is a judgement from the pattern of the paper, the syllabus and h
 | Rank | Topic and likely form | Marks | Why it ranks here |
 |---|---|---|---|
 | 1 | Number conversions: decimal to binary, octal and hexadecimal by division; to decimal by expansion; binary ↔ octal ↔ hexadecimal by grouping | 1, 2 or 4 | A fixed method marked step by step; it fits every group, and both model sets give it a long question. |
-| 2 | A complete QBASIC program with input, a decision or a loop, and labelled output | 4 | Programming has two long questions; a program is marked by its parts, so a partly right program still scores. |
+| 2 | A complete Python program with input, a decision or a loop, and labelled output | 4 | Programming has two long questions; a program is marked by its parts, so a partly right program still scores. |
 | 3 | An algorithm and a matching flowchart for a short problem (area, interest, odd or even, greatest, sums, tables, factorial) | 2 or 4 | The other programming long question; the symbols and the matching of steps are easy to mark. |
-| 4 | The output of a QBASIC program or of library functions (`MOD`, `LEN`, `LEFT$`, `MID$`, `INT`, loops with STEP) | 1 or 2 | Quick to set and to mark; tracing a loop in a table makes it safe. |
+| 4 | The output of a Python program or of built-in functions (`%`, `//`, `**`, `len()`, `round()`, `range()`, string slicing) | 1 or 2 | Quick to set and to mark; tracing a loop in a table makes it safe. |
 | 5 | Network topologies with diagrams; LAN, MAN and WAN; network devices | 1, 2 or 4 | The natural long question of the web and communication area; three diagrams earn three marks. |
 | 6 | Compiler and interpreter, low- and high-level languages, the three types of error, finding errors in a program | 1, 2 or 4 | Two-point differences are the favourite short question, and "find the errors" turns into a long one. |
 
@@ -482,7 +466,7 @@ ax.legend(fontsize=7.6, frameon=False)
 | C | 1, 3, 12, 14, 15, 18 | 1, 3, 4, 5, 8, 11, 12, 13, 21 |
 
 ::: tip The last week before the paper
-Day 1–2: number conversions, ten of each kind, each checked by converting back. Day 3–4: write and trace six QBASIC programs — one each with IF, SELECT CASE, FOR, WHILE and DO … LOOP, and one with string functions. Day 5: three algorithms with flowcharts, drawn with all the symbols. Day 6: the differences of Tier A and B, as two-column tables. Day 7: one model set, timed, then the error list of everything you got wrong.
+Day 1–2: number conversions, ten of each kind, each checked by converting back. Day 3–4: write and trace six Python programs — one each with `if`, `if … elif … else`, `for … in range()`, `while`, and string slicing/methods. Day 5: three algorithms with flowcharts, drawn with all the symbols. Day 6: the differences of Tier A and B, as two-column tables. Day 7: one model set, timed, then the error list of everything you got wrong.
 :::
 
 ## 25.5 Two answers written the way the marker pays
@@ -490,34 +474,31 @@ Day 1–2: number conversions, ten of each kind, each checked by converting back
 ::: example A 2-mark difference: compiler and interpreter
 **Question.** Write two differences between a compiler and an interpreter.
 
-**Model answer.** (1) A compiler translates the **whole program at once**, while an interpreter translates and runs it **one line at a time**. (2) A compiler **makes an object program** (an `.exe` file) that runs again without it, while an interpreter **makes no object program** and is needed every time the program runs.
+**Model answer.** (1) A compiler translates the **whole program at once**, while an interpreter translates and runs it **one line at a time**. (2) A compiler **makes an object program** (an `.exe` file) that runs again without it, while an interpreter **makes no standalone object program** and is needed every time the program runs.
 
 One mark for each difference. Each sentence compares the same feature of both translators. Writing "a compiler is fast" alone earns nothing, because it says nothing about the interpreter.
 :::
 
 ::: example A 4-mark program: odd or even, written to be marked
-**Question.** Write a QBASIC program to read a number and display whether it is odd or even.
+**Question.** Write a Python program to read a number and display whether it is odd or even.
 
 **Model answer.**
 
-```basic
-CLS
-REM Odd or even
-INPUT "Enter a whole number"; N
-IF N MOD 2 = 0 THEN
-    PRINT N; "is an even number."
-ELSE
-    PRINT N; "is an odd number."
-END IF
-END
+```python
+# Odd or even
+n = int(input("Enter a whole number: "))
+if n % 2 == 0:
+    print(n, "is an even number.")
+else:
+    print(n, "is an odd number.")
 ```
 
 ```text
-Enter a whole number? 46
- 46 is an even number.
+Enter a whole number: 46
+46 is an even number.
 ```
 
-Four marks: (1) CLS, REM and END; (2) INPUT with a clear prompt; (3) the condition `N MOD 2 = 0` in a correct IF … ELSE … END IF; (4) both outputs with labels. The sample run shows the marker that the program works; it was produced by running the program.
+Four marks: (1) a descriptive `#` comment; (2) `int(input(...))` with a clear prompt; (3) the condition `n % 2 == 0` in a properly indented `if … else:` block; (4) both outputs with labels. The sample run shows the marker that the program works; it was produced by running the program.
 :::
 
 ## Chapter summary
@@ -525,6 +506,6 @@ Four marks: (1) CLS, REM and END; (2) INPUT with a clear prompt; (3) the conditi
 - The paper is **10 + 20 + 20 = 50** marks in two hours: ten 1-mark multiple-choice items, ten 2-mark short questions and five 4-mark long questions; practical work is assessed separately.
 - In the blueprint every area has two Group A items and two Group B questions; programming carries 14 marks with two long questions, and fundamentals, web and communication, and numbers, graphics and multimedia carry 10 each.
 - A workable clock: 5 minutes reading, 10 for Group A, 40 for Group B, 55 for Group C, 10 for checking.
-- The six topics worth rehearsing first: number conversions, complete QBASIC programs, algorithms with flowcharts, program output, network topologies, and translators and errors.
+- The six topics worth rehearsing first: number conversions, complete Python programs, algorithms with flowcharts, program output, network topologies, and translators and errors.
 - Write points, not paragraphs; compare the same feature in every difference; show every division in a conversion and check it by converting back; trace every program once and write its output.
 - Both model papers are rehearsals built to the pattern, not forecasts: no one outside your school knows its paper.

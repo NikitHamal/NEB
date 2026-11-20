@@ -7,7 +7,7 @@ hours: 0
 area: Computer Science
 ---
 
-Computer Science in grade 8 is examined by your own school, in a written paper of 50 marks and two hours, beside the practical work in the lab. Group A of that paper is **ten one-mark objective items**. They are the quickest marks in the paper and the easiest to lose: a full form remembered wrongly, a hub confused with a switch, a binary number read from the wrong end, a QBASIC `MOD` worked out as a division. This chapter drills those items lesson by lesson for all twenty lessons of the Computer Science 8 book, in the same order as the book.
+Computer Science in grade 8 is examined by your own school, in a written paper of 50 marks and two hours, beside the practical work in the lab. Group A of that paper is **ten one-mark objective items**. They are the quickest marks in the paper and the easiest to lose: a full form remembered wrongly, a hub confused with a switch, a binary number read from the wrong end, a Python `%` remainder operator worked out as a division. This chapter drills those items lesson by lesson for all twenty lessons of the Computer Science 8 book, in the same order as the book.
 
 Each section opens with a **facts line** — the few facts that the items of that lesson actually use. Then come eight to ten items, and then a key that gives each answer with a one-line reason. Work an item in under a minute, check it in ten seconds, and move on. The reasons matter more than the letters: a reason you can repeat is a mark you will not lose next time.
 
@@ -23,18 +23,18 @@ There is no national specification grid for this school paper. The weights in th
 :::
 
 ::: caution Practice items, not past questions
-Every item below is an original **practice** item written to the pattern above and to the lessons of the Computer Science 8 book. None is claimed to come from any school's paper. Every calculation, conversion and QBASIC result was worked out independently before it was written down.
+Every item below is an original **practice** item written to the pattern above and to the lessons of the Computer Science 8 book. None is claimed to come from any school's paper. Every calculation, conversion and Python result was worked out independently before it was written down.
 :::
 
-```figure caption="Marks per lesson in the 50-mark paper used in this bank. QBASIC programming and web page design carry the most; the six lessons on computer fundamentals together carry 14 marks, so no area can be skipped."
+```figure caption="Marks per lesson in the 50-mark paper used in this bank. Python programming and web page design carry the most; the six lessons on computer fundamentals together carry 14 marks, so no area can be skipped."
 fig, ax = barh_ranked(
-    ["Computer Programming using QBASIC", "Web Page Design", "Fundamentals of Computer", "History of Computer",
+    ["Computer Programming using Python", "Web Page Design", "Fundamentals of Computer", "History of Computer",
      "Word Processing", "Spreadsheet Software", "Computer Network", "Number System", "Program Design Tools",
      "Generations of Computer", "Types of Computer", "Computer Software", "Operating System",
      "Presentation Software", "Information and Communication Technology", "Computer Ethics and Cyber Law",
      "Computer Virus", "Fundamentals of Computer Programming", "Computer Graphics", "Multimedia"],
     [5, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1], unit=" marks", figsize=(5.2, 4.6),
-    highlight={"Computer Programming using QBASIC", "Web Page Design"})
+    highlight={"Computer Programming using Python", "Web Page Design"})
 ax.tick_params(axis="y", labelsize=7.4)
 for t in ax.texts:
     if t.get_text() == "1 marks":
@@ -645,10 +645,10 @@ In decimal-to-binary conversion the **last** remainder is the **leftmost** digit
 
 ## 23.19 Fundamentals of Computer Programming
 
-**Facts.** **Machine language** is binary and runs directly; **assembly language** uses mnemonics (MOV, ADD) and needs an assembler; **high-level** languages (QBASIC, Python, C, Java) are English-like. A **compiler** translates the whole program; an **interpreter** one line at a time. Errors: **syntax** (breaking the language's rules), **run-time** (an impossible operation while running, e.g. division by zero), **logical** (wrong method, wrong answer, no message). **Debugging** finds and corrects errors. QBASIC (Microsoft, 1991), Python (Guido van Rossum, 1991), C (**Dennis Ritchie**, 1972), Java (James Gosling, 1995). QBASIC types: `%` integer, `&` long, `!` single (default), `#` double, `$` string.
+**Facts.** **Machine language** is binary and runs directly; **assembly language** uses mnemonics (MOV, ADD) and needs an assembler; **high-level** languages (Python, C, Java, C++) are English-like. A **compiler** translates the whole program; an **interpreter** one line at a time. Errors: **syntax** (breaking the language's rules), **run-time** (an impossible operation while running, e.g. division by zero), **logical** (wrong method, wrong answer, no message). **Debugging** finds and corrects errors. Python (Guido van Rossum, 1991), C (**Dennis Ritchie**, 1972), Java (James Gosling, 1995). Python data types: `int` (whole number), `float` (decimal), `str` (text in quotes), `bool` (`True`/`False`).
 
 1. The language written only in 0s and 1s is <span class="marks">[1]</span>
-   (a) machine language (b) assembly language (c) Python (d) QBASIC
+   (a) machine language (b) assembly language (c) Python (d) Java
 2. MOV and ADD are mnemonics of <span class="marks">[1]</span>
    (a) assembly language (b) HTML (c) Python (d) machine language
 3. Dividing a number by zero while a program is running causes <span class="marks">[1]</span>
@@ -659,66 +659,66 @@ In decimal-to-binary conversion the **last** remainder is the **leftmost** digit
    (a) Dennis Ritchie (b) Guido van Rossum (c) James Gosling (d) Tim Berners-Lee
 6. Python was created by <span class="marks">[1]</span>
    (a) Guido van Rossum (b) Dennis Ritchie (c) James Gosling (d) Linus Torvalds
-7. In QBASIC, the variable `N$` holds <span class="marks">[1]</span>
-   (a) a string (b) an integer (c) a double-precision number (d) a long integer
+7. In Python, the value `"Nepal"` has the data type <span class="marks">[1]</span>
+   (a) `str` (b) `int` (c) `float` (d) `bool`
 8. Finding and correcting the errors in a program is called <span class="marks">[1]</span>
    (a) debugging (b) compiling (c) coding (d) documenting
 
 ::: note Answers to 23.19
 **1.** (a) — the only language the CPU runs directly.
 **2.** (a) — mnemonics are short codes of assembly language.
-**3.** (b) — it fails only while running.
+**3.** (b) — it fails only while running (`ZeroDivisionError`).
 **4.** (c) — the logic is wrong, so the answer is wrong.
 **5.** (a) — Dennis Ritchie, 1972.
 **6.** (a) — Guido van Rossum, 1991.
-**7.** (a) — the `$` sign marks a string variable.
+**7.** (a) — text enclosed in quotes is a string (`str`).
 **8.** (a) — debugging.
 :::
 
-## 23.20 Computer Programming using QBASIC
+## 23.20 Computer Programming using Python
 
-**Facts.** CLS clears the screen, REM writes a remark, LET assigns, INPUT reads, PRINT displays (`;` joins, `,` jumps to the next zone), END ends; **Shift + F5** runs, F8 steps, F9 sets a breakpoint. Operators: `^`, `*` `/`, `\` (integer division), `MOD` (remainder), `+` `-`; relational results: true = −1, false = 0. Functions: `SQR`, `ABS`, `INT` (next lower whole number), `FIX` (drops the decimal part), `LEN`, `LEFT$`, `RIGHT$`, `MID$`, `UCASE$`, `LCASE$`. FOR … NEXT with STEP; WHILE … WEND and DO WHILE … LOOP test first; **DO … LOOP UNTIL** tests last and runs at least once.
+**Facts.** Python files end in **`.py`**, comments start with **`#`**, **`input()`** reads a string from the keyboard (`int()` and `float()` convert it to numbers), **`print()`** displays output, and **F5** runs a script in IDLE. Operators: `**` (power), `*`, `/` (float division), `//` (floor/integer division), `%` (remainder/modulo), `+`, `-`; relational results are `True` or `False`. Built-in functions and methods: `len()`, `abs()`, `round()`, `max()`, `min()`, `.upper()`, `.lower()`, string slicing `s[a:b]`. Loops: `for i in range(start, stop, step):` (stops before `stop`) and `while condition:`.
 
-1. The statement that clears the screen is <span class="marks">[1]</span>
-   (a) CLS (b) CLEAR (c) REM (d) END
-2. The value of `17 MOD 5` is <span class="marks">[1]</span>
+1. Which symbol begins a comment in Python? <span class="marks">[1]</span>
+   (a) `#` (b) `//` (c) `REM` (d) `/*`
+2. The value of `17 % 5` in Python is <span class="marks">[1]</span>
    (a) 2 (b) 3 (c) 3.4 (d) 12
-3. The value of `17 \ 5` is <span class="marks">[1]</span>
+3. The value of `17 // 5` in Python is <span class="marks">[1]</span>
    (a) 3 (b) 2 (c) 3.4 (d) 85
-4. `LEN("NEPAL")` returns <span class="marks">[1]</span>
+4. `len("NEPAL")` returns <span class="marks">[1]</span>
    (a) 4 (b) 5 (c) 6 (d) NEPAL
-5. `MID$("COMPUTER", 4, 3)` returns <span class="marks">[1]</span>
+5. `"COMPUTER"[3:6]` returns <span class="marks">[1]</span>
    (a) PUT (b) MPU (c) UTE (d) COM
-6. How many times does the body of `FOR I = 1 TO 10 STEP 3` run? <span class="marks">[1]</span>
+6. How many numbers are generated by `range(1, 11, 3)` in Python? <span class="marks">[1]</span>
    (a) 3 (b) 4 (c) 10 (d) 30
-7. The loop that tests its condition at the end, and so always runs at least once, is <span class="marks">[1]</span>
-   (a) DO … LOOP UNTIL (b) WHILE … WEND (c) DO WHILE … LOOP (d) none of them
-8. `INT(-4.7)` returns <span class="marks">[1]</span>
-   (a) −4 (b) −5 (c) 4 (d) −4.7
-9. The key that runs a QBASIC program is <span class="marks">[1]</span>
-   (a) F5 alone (b) Shift + F5 (c) Ctrl + S (d) F8
-10. `PRINT 5 > 3` displays <span class="marks">[1]</span>
-    (a) TRUE (b) 1 (c) −1 (d) YES
+7. What is the value of `2 ** 4` in Python? <span class="marks">[1]</span>
+   (a) 6 (b) 8 (c) 16 (d) 24
+8. What type of value does `input("Enter age: ")` always return in Python? <span class="marks">[1]</span>
+   (a) `int` (b) `str` (c) `float` (d) `bool`
+9. Which key runs a Python script from the IDLE editor window? <span class="marks">[1]</span>
+   (a) F5 (b) Shift + F5 (c) Ctrl + S (d) F8
+10. `print(5 > 3)` displays <span class="marks">[1]</span>
+    (a) True (b) 1 (c) -1 (d) YES
 
 ::: note Answers to 23.20
-**1.** (a) — CLS clears the output screen.
-**2.** (a) — 17 = 3 × 5 + 2; MOD gives the remainder.
-**3.** (a) — integer division drops the remainder.
+**1.** (a) — `#` starts a single-line comment in Python.
+**2.** (a) — 17 = 3 × 5 + 2; `%` gives the remainder.
+**3.** (a) — `//` is floor (integer) division and drops the remainder.
 **4.** (b) — N, E, P, A, L: five characters.
-**5.** (a) — three characters starting at the 4th: P, U, T.
-**6.** (b) — I takes 1, 4, 7, 10.
-**7.** (a) — UNTIL at the bottom is checked after the body has run.
-**8.** (b) — INT goes down to the next lower whole number; FIX(−4.7) would give −4.
-**9.** (b) — Shift + F5; F8 steps one line at a time.
-**10.** (c) — QBASIC shows true as −1.
+**5.** (a) — 0-based indices 3, 4, 5 are P, U, T.
+**6.** (b) — `range(1, 11, 3)` yields 1, 4, 7, 10 (four values).
+**7.** (c) — `**` is exponentiation: $2^4 = 16$.
+**8.** (b) — `input()` always returns a string (`str`).
+**9.** (a) — F5 runs the module in IDLE.
+**10.** (a) — Python boolean values are `True` and `False`.
 :::
 
-::: caution `\` and `MOD` are partners
-For whole numbers, `a \ b` gives the **quotient** and `a MOD b` the **remainder**: 17 \ 5 = 3 and 17 MOD 5 = 2, because 17 = 3 × 5 + 2. Check every such answer with that line. And remember `INT` rounds **down** — `INT(-4.7)` is −5, not −4.
+::: caution `//` and `%` are partners
+For positive whole numbers, `a // b` gives the **quotient** and `a % b` the **remainder**: `17 // 5` is `3` and `17 % 5` is `2`, because $17 = 3 \times 5 + 2$. Check every such answer with that line. And remember `range(a, b)` stops **before** `b`.
 :::
 
 ::: tip Before you leave this chapter
-One hundred and sixty-eight items, twenty facts lines. Copy the twenty facts lines onto two sheets — inventors and dates, the generations, the shortcut keys, the spreadsheet functions, the HTML tags, the network devices, the conversions and the QBASIC operators. In the last week before the paper those two sheets replace this chapter.
+One hundred and sixty-eight items, twenty facts lines. Copy the twenty facts lines onto two sheets — inventors and dates, the generations, the shortcut keys, the spreadsheet functions, the HTML tags, the network devices, the conversions and the Python operators. In the last week before the paper those two sheets replace this chapter.
 :::
 
 ## Chapter summary
@@ -728,4 +728,4 @@ One hundred and sixty-eight items, twenty facts lines. Copy the twenty facts lin
 - **Office software:** Ctrl + S, F12, Ctrl + Z, Ctrl + H, Ctrl + J; header top, footer bottom; mail merge on Mailings; ranges are columns × rows; formulas start with `=`; `$E$1` stays fixed; COUNT counts numbers; transitions between slides, animations on objects; F5 and Shift + F5.
 - **Web and society:** URL = protocol + domain + path + file; `<title>` on the tab; `<h1>` largest; empty tags `<br>`, `<hr>`, `<img>`; `alt`, `href`, `mailto:`, `colspan`, `rowspan`; ICT, G2C, Bcc, OTP; phishing, plagiarism, ETA 2063; worm, Trojan, ransomware, quarantine.
 - **Networks, numbers and media:** switch by MAC, router by IP; RJ-45; LAN/MAN/WAN; star; Mbps ÷ 8 = MB/s; read remainders upwards; groups of 3 (octal) and 4 (hex); 1 GB = 1024 MB; raster vs vector; $2^n$ colours; PNG, JPEG, GIF, SVG; linear vs interactive multimedia.
-- **Programming:** oval, parallelogram, rectangle, diamond; sequence, selection, repetition; syntax, run-time and logical errors; `\` quotient, `MOD` remainder, `INT` rounds down; FOR … STEP counts; DO … LOOP UNTIL runs at least once; true is −1.
+- **Programming:** oval, parallelogram, rectangle, diamond; sequence, selection, repetition; syntax, run-time and logical errors; `//` quotient, `%` remainder, `**` power; `for i in range(...)` counts; `while` repeats while true; booleans are `True` and `False`.

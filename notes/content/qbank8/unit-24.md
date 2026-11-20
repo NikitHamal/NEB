@@ -10,7 +10,7 @@ area: Computer Science
 Group A is ten single marks. The other **40 marks** of the Computer Science paper come from **ten short questions of 2 marks** (Group B) and **five long questions of 4 marks** (Group C), and here the marker gives **one mark for each correct key point**: a definition, a difference, an example, a correct step, a correct line of code, a correct output. This chapter takes the twenty lessons of the Computer Science 8 book in order. Each lesson opens with a **model question** answered the way a marker wants to see it, followed by 2-mark and 4-mark questions with complete answers.
 
 ::: key How to use this bank
-Read the model question first. Then cover the solutions and write the other answers yourself, on paper, against the clock: about **4 minutes** for a 2-mark question and **8 to 10 minutes** for a 4-mark question. Mark yourself **point by point**: a 2-mark difference needs two separate, complete points; a [1+3] question needs the definition plus three explained points; a program needs CLS, input, processing, output and END. Every QBASIC program below was run in FreeBASIC and QB64 and its output is printed exactly; every number was computed twice.
+Read the model question first. Then cover the solutions and write the other answers yourself, on paper, against the clock: about **4 minutes** for a 2-mark question and **8 to 10 minutes** for a 4-mark question. Mark yourself **point by point**: a 2-mark difference needs two separate, complete points; a [1+3] question needs the definition plus three explained points; a program needs input with type conversion, processing, indentation and labelled output. Every Python program below was run in Python 3.12 and its output is printed exactly; every number was computed twice.
 :::
 
 ::: caution Practice items, not past questions
@@ -594,7 +594,7 @@ Step 6: Stop.
 
 *Flowchart.* Start (oval) → Read B (parallelogram) → diamond "Is B > 5000?" → Yes: rectangle "D = B × 10 ÷ 100"; No: rectangle "D = 0" → the two paths join → rectangle "T = B − D" → parallelogram "Display D, T" → Stop (oval). Both exits of the diamond must be labelled.
 
-*Test.* B = 8,000 gives D = 800 and T = 7,200; B = 4,500 gives D = 0 and T = 4,500. The QBASIC version of this plan printed exactly these values.
+*Test.* B = 8,000 gives D = 800 and T = 7,200; B = 4,500 gives D = 0 and T = 4,500. The Python version of this plan printed exactly these values.
 :::
 
 1. Write any two features of a good algorithm. <span class="marks">[2]</span>
@@ -609,185 +609,165 @@ Step 6: Stop.
 **2.** An algorithm is written in words as numbered steps, while a flowchart is drawn with standard symbols joined by arrows. An algorithm is quicker to write and change; a flowchart makes branches and loops easier to see.
 **3.** Step 1: Start. Step 2: Read A, B, C and D. Step 3: SUM = A + B + C + D. Step 4: AVG = SUM ÷ 4. Step 5: Display AVG. Step 6: Stop.
 **4.** Pseudocode is an algorithm written in short, structured English statements with keywords such as INPUT, PRINT, IF … ENDIF and WHILE … ENDWHILE; it looks like a program but cannot be run. Example: BEGIN / INPUT A, B / SET S = A + B / PRINT S / END.
-**5.** *Algorithm.* Step 1: Start. Step 2: Set S = 0 and I = 2. Step 3: Is I ≤ 50? If no, go to step 6. Step 4: S = S + I. Step 5: I = I + 2, and go to step 3. Step 6: Display S. Step 7: Stop. *Flowchart.* Start → rectangle "S = 0, I = 2" → diamond "Is I ≤ 50?" → Yes: rectangle "S = S + I" → rectangle "I = I + 2" → arrow back to just above the diamond; No: parallelogram "Display S" → Stop. The output is **650**, which a QBASIC version of this algorithm also printed.
-**6.** (1) *Problem analysis*: understand the problem and list its input, process and output. (2) *Program design*: plan the steps with an algorithm, flowchart or pseudocode. (3) *Coding*: write the program in a language such as QBASIC. (4) *Testing and debugging*: run it with test data and remove errors. (5) *Documentation*: write comments and a user guide. (6) *Implementation and maintenance*: install it, then fix and update it when needed.
+**5.** *Algorithm.* Step 1: Start. Step 2: Set S = 0 and I = 2. Step 3: Is I ≤ 50? If no, go to step 6. Step 4: S = S + I. Step 5: I = I + 2, and go to step 3. Step 6: Display S. Step 7: Stop. *Flowchart.* Start → rectangle "S = 0, I = 2" → diamond "Is I ≤ 50?" → Yes: rectangle "S = S + I" → rectangle "I = I + 2" → arrow back to just above the diamond; No: parallelogram "Display S" → Stop. The output is **650**, which a Python version of this algorithm also printed.
+**6.** (1) *Problem analysis*: understand the problem and list its input, process and output. (2) *Program design*: plan the steps with an algorithm, flowchart or pseudocode. (3) *Coding*: write the program in a language such as Python. (4) *Testing and debugging*: run it with test data and remove errors. (5) *Documentation*: write comments and a user guide. (6) *Implementation and maintenance*: install it, then fix and update it when needed.
 :::
 
 ## 24.19 Fundamentals of Computer Programming
 
 ::: example Model question: compiler and interpreter
-**Problem.** What is a language processor? Differentiate between a compiler and an interpreter in three points, and say which one QBASIC uses. <span class="marks">[1+2+1]</span>
+**Problem.** What is a language processor? Differentiate between a compiler and an interpreter in three points, and say which one Python uses. <span class="marks">[1+2+1]</span>
 
 **Solution.** (1) A **language processor** (translator) is a program that converts a program written in assembly or a high-level language (source code) into machine language (object code). (2)–(3):
 
 | Point | Compiler | Interpreter |
 |---|---|---|
-| Translation | the whole program at once | one line at a time, running each line |
+| Translation | the whole program at once | one statement at a time, running each line |
 | Errors | listed together after checking the whole program | stops at the first error |
-| Object program | made and saved (.exe); runs again without the compiler | not made; needed every time the program runs |
+| Object program | made and saved (.exe); runs again without the compiler | not saved as a standalone .exe; needed every time |
 
-(4) QBASIC programs are run by an **interpreter**.
+(4) Python programs are run by an **interpreter**.
 :::
 
 1. Differentiate between machine language and assembly language. <span class="marks">[2]</span>
 2. Differentiate between a syntax error and a logical error, with an example of each. <span class="marks">[2]</span>
-3. Which of these are valid QBASIC variable names: `SUM`, `3RD`, `ROLL NO`, `NAME$`, `END`, `AVG.MARKS`? Give reasons for the invalid ones. <span class="marks">[2]</span>
-4. Name the QBASIC data types with their type symbols. <span class="marks">[2]</span>
+3. Which of these are valid Python variable names: `total_sum`, `3rd_place`, `roll no`, `student_name`, `for`, `avg_marks`? Give reasons for the invalid ones. <span class="marks">[2]</span>
+4. Name the four basic Python data types with an example of each. <span class="marks">[2]</span>
 5. Write any three features of high-level languages, and name four high-level languages with the person who created each. <span class="marks">[2+2]</span>
-6. Find the errors in this program, name their type, and write the correct program with its output for radius 7. <span class="marks">[4]</span>
+6. Find the errors in this Python program, name their type, and write the correct program with its output for radius 7. <span class="marks">[4]</span>
 
-```basic
-CLS
-INPUT "Enter the radius" R
-A = 22 / 7 * R * 2
-C = 2 * 22 / 7 * R
-PRINT "Area ="; A
-PRNT "Circumference ="; C
-END
+```python
+r = float(input("Enter the radius: ")
+a = 22 / 7 * r * 2
+c = 2 * 22 / 7 * r
+print("Area =", a)
+prnt("Circumference =", c)
 ```
 
 ::: note Solutions to 24.19
 **1.** Machine language is written in binary (0s and 1s), is understood directly by the processor and needs no translator. Assembly language uses short words called mnemonics, such as MOV and ADD, and needs an assembler to translate it into machine code. Both are low-level and machine-dependent.
-**2.** A syntax error breaks the grammar rules of the language, so the program does not run, for example `PRNT` for `PRINT`. A logical error is a mistake in the method, so the program runs but the output is wrong, for example `A = L + B` for the area of a rectangle.
-**3.** Valid: `SUM`, `NAME$`, `AVG.MARKS`. Invalid: `3RD` — it begins with a digit; `ROLL NO` — it contains a space; `END` — it is a keyword.
-**4.** INTEGER (`%`), LONG (`&`), SINGLE (`!`, the default), DOUBLE (`#`) and STRING (`$`).
-**5.** Features (any three): English-like words and mathematical signs; easy to write, read and correct; portable (machine-independent); must be translated by a compiler or interpreter; one statement does the work of many machine instructions (2 marks). Languages (2 marks): BASIC — John Kemeny and Thomas Kurtz (1964), whose QBASIC version came from Microsoft (1991); Python — Guido van Rossum (1991); C — Dennis Ritchie (1972); Java — James Gosling (1995).
-**6.** Line 2: `INPUT "Enter the radius" R` needs a semicolon or comma after the prompt — a **syntax error** (FreeBASIC reported "Expected ',' or ';'" here). Line 3: `R * 2` should be `R ^ 2` — a **logical error**, since the area is πr². Line 6: `PRNT` — a **syntax error**. Correct program:
+**2.** A syntax error breaks the grammar rules of the language, so the program does not start, for example missing a closing parenthesis or colon in `if x > 0`. A logical error is a mistake in the method, so the program runs without error messages but the output is wrong, for example `a = l + b` for the area of a rectangle.
+**3.** Valid: `total_sum`, `student_name`, `avg_marks`. Invalid: `3rd_place` — begins with a digit; `roll no` — contains a space; `for` — is a reserved Python keyword.
+**4.** `int` (whole number, e.g. `42`), `float` (number with decimal point, e.g. `3.14`), `str` (text in quotes, e.g. `"Nepal"`), and `bool` (logical value, `True` or `False`).
+**5.** Features (any three): English-like words and mathematical signs; easy to write, read and correct; portable (machine-independent); must be translated by a compiler or interpreter; one statement does the work of many machine instructions (2 marks). Languages (2 marks): Python — Guido van Rossum (1991); C — Dennis Ritchie (1972); Java — James Gosling (1995); C++ — Bjarne Stroustrup (1985).
+**6.** Line 1: missing closing parenthesis `)` at the end of `float(input(...))` — a **syntax error**. Line 2: `r * 2` should be `r ** 2` — a **logical error**, since the area is $\pi r^2$. Line 5: `prnt` instead of `print` — a **run-time (`NameError`)** error. Correct program:
 
-```basic
-CLS
-REM Area and circumference of a circle
-INPUT "Enter the radius"; R
-A = 22 / 7 * R ^ 2
-C = 2 * 22 / 7 * R
-PRINT "Area ="; A
-PRINT "Circumference ="; C
-END
+```python
+# Area and circumference of a circle
+r = float(input("Enter the radius: "))
+a = 22 / 7 * r ** 2
+c = 2 * 22 / 7 * r
+print("Area =", a)
+print("Circumference =", c)
 ```
 
 ```text
-Enter the radius? 7
-Area = 154
-Circumference = 44
+Enter the radius: 7
+Area = 154.0
+Circumference = 44.0
 ```
-
-With the logical error left in, the same input printed "Area = 44", which only a check against the formula reveals.
 :::
 
-## 24.20 Computer Programming using QBASIC
+## 24.20 Computer Programming using Python
 
 ::: example Model question: profit or loss
-**Problem.** Write a QBASIC program that reads the cost price and the selling price of an article and displays the profit or loss. <span class="marks">[4]</span>
+**Problem.** Write a Python program that reads the cost price and the selling price of an article and displays the profit or loss. <span class="marks">[4]</span>
 
 **Solution.**
 
-```basic
-CLS
-REM Profit or loss
-INPUT "Cost price (Rs)"; CP
-INPUT "Selling price (Rs)"; SP
-IF SP > CP THEN
-    PRINT "Profit = Rs"; SP - CP
-ELSEIF CP > SP THEN
-    PRINT "Loss = Rs"; CP - SP
-ELSE
-    PRINT "Neither profit nor loss"
-END IF
-END
+```python
+# Profit or loss
+cp = float(input("Cost price (Rs): "))
+sp = float(input("Selling price (Rs): "))
+if sp > cp:
+    print("Profit = Rs", sp - cp)
+elif cp > sp:
+    print("Loss = Rs", cp - sp)
+else:
+    print("Neither profit nor loss")
 ```
 
 Two runs:
 
 ```text
-Cost price (Rs)? 1200
-Selling price (Rs)? 1500
-Profit = Rs 300
+Cost price (Rs): 1200
+Selling price (Rs): 1500
+Profit = Rs 300.0
 ```
 
 ```text
-Cost price (Rs)? 900
-Selling price (Rs)? 750
-Loss = Rs 150
+Cost price (Rs): 900
+Selling price (Rs): 750
+Loss = Rs 150.0
 ```
 
-Marks: CLS and END; the two INPUTs with prompts; the IF … ELSEIF … ELSE … END IF with correct conditions; correct output with labels.
+Marks: the two `input()` calls with `float()` conversion and prompts; the `if … elif … else` structure with colons and indentation; correct output with labels.
 :::
 
-1. Write the output of each: `PRINT LEN("COMPUTER")`, `PRINT LEFT$("COMPUTER", 3)`, `PRINT MID$("COMPUTER", 4, 3)`, `PRINT RIGHT$("COMPUTER", 2)`. <span class="marks">[2]</span>
-2. Write the QBASIC expressions for $A = \frac{1}{2}bh$, $I = \frac{PTR}{100}$ and $c = \sqrt{a^2 + b^2}$. <span class="marks">[2]</span>
-3. Write a program to convert a number of days into years, months and days (take 365 days in a year and 30 days in a month). <span class="marks">[2]</span>
-4. Write the output of this program. <span class="marks">[2]</span>
+1. Write the output of each: `print(len("COMPUTER"))`, `print("COMPUTER"[:3])`, `print("COMPUTER"[3:6])`, `print("COMPUTER"[-2:])`. <span class="marks">[2]</span>
+2. Write the Python expressions for $A = \frac{1}{2}bh$, $I = \frac{PTR}{100}$ and $c = \sqrt{a^2 + b^2}$. <span class="marks">[2]</span>
+3. Write a Python program to convert a number of days into years, months and days (take 365 days in a year and 30 days in a month). <span class="marks">[2]</span>
+4. Write the output of this Python program. <span class="marks">[2]</span>
 
-```basic
-CLS
-A = 2
-FOR I = 1 TO 4
-    A = A * 2
-    PRINT A;
-NEXT I
-END
+```python
+a = 2
+for i in range(1, 5):
+    a = a * 2
+    print(a, end=" ")
 ```
 
-5. Write a program to display the first ten odd numbers and their sum. <span class="marks">[4]</span>
-6. Write a program to display this pattern using `LEFT$`: N, NE, NEP, NEPA, NEPAL, one word on each line. <span class="marks">[4]</span>
-7. An electricity supplier charges Rs 8 a unit for the first 100 units and Rs 11 a unit for every unit above 100, with a minimum bill of Rs 100 (rates invented for practice). Write a program that reads the units used and displays the bill. <span class="marks">[4]</span>
+5. Write a Python program to display the first ten odd numbers and their sum. <span class="marks">[4]</span>
+6. Write a Python program to display this pattern using string slicing: N, NE, NEP, NEPA, NEPAL, one word on each line. <span class="marks">[4]</span>
+7. An electricity supplier charges Rs 8 a unit for the first 100 units and Rs 11 a unit for every unit above 100, with a minimum bill of Rs 100 (rates invented for practice). Write a Python program that reads the units used and displays the bill. <span class="marks">[4]</span>
 
 ::: note Solutions to 24.20
-**1.** ` 8`, `COM`, `PUT`, `ER` — one on each line (the 8 has a space in front because it is a number).
-**2.** `A = 1 / 2 * B * H`; `I = P * T * R / 100`; `C = SQR(A ^ 2 + B ^ 2)`.
+**1.** `8`, `COM`, `PUT`, `ER` — one on each line.
+**2.** `a = 0.5 * b * h`; `i = p * t * r / 100`; `c = (a ** 2 + b ** 2) ** 0.5`.
 **3.**
 
-```basic
-CLS
-REM Days into years, months and days
-INPUT "Number of days"; D
-Y = D \ 365
-R = D MOD 365
-M = R \ 30
-DY = R MOD 30
-PRINT Y; "years"; M; "months"; DY; "days"
-END
+```python
+# Days into years, months and days
+d = int(input("Number of days: "))
+y = d // 365
+r = d % 365
+m = r // 30
+dy = r % 30
+print(y, "years", m, "months", dy, "days")
 ```
 
 ```text
-Number of days? 800
- 2 years 2 months 10 days
+Number of days: 800
+2 years 2 months 10 days
 ```
 
 Check: 2 × 365 + 2 × 30 + 10 = 730 + 60 + 10 = 800 ✓.
 
-**4.** A doubles on every pass: 4, 8, 16, 32. Output: ` 4  8  16  32`.
+**4.** `a` doubles on each of the 4 passes (`i = 1, 2, 3, 4`): `4 8 16 32 `.
 
 **5.**
 
-```basic
-CLS
-REM The first 10 odd numbers and their sum
-S = 0
-FOR I = 1 TO 19 STEP 2
-    PRINT I;
-    S = S + I
-NEXT I
-PRINT
-PRINT "Sum ="; S
-END
+```python
+# The first 10 odd numbers and their sum
+s = 0
+for i in range(1, 20, 2):
+    print(i, end=" ")
+    s = s + i
+print()
+print("Sum =", s)
 ```
 
 ```text
- 1  3  5  7  9  11  13  15  17  19
+1 3 5 7 9 11 13 15 17 19 
 Sum = 100
 ```
 
 **6.**
 
-```basic
-CLS
-REM NEPAL pattern with LEFT$
-W$ = "NEPAL"
-FOR I = 1 TO LEN(W$)
-    PRINT LEFT$(W$, I)
-NEXT I
-END
+```python
+# NEPAL pattern with string slicing
+w = "NEPAL"
+for i in range(1, len(w) + 1):
+    print(w[:i])
 ```
 
 ```text
@@ -800,29 +780,27 @@ NEPAL
 
 **7.**
 
-```basic
-CLS
-REM Electricity bill
-INPUT "Units used"; U
-IF U <= 100 THEN
-    B = U * 8
-ELSE
-    B = 100 * 8 + (U - 100) * 11
-END IF
-IF B < 100 THEN B = 100
-PRINT "Bill = Rs"; B
-END
+```python
+# Electricity bill
+u = int(input("Units used: "))
+if u <= 100:
+    b = u * 8
+else:
+    b = 100 * 8 + (u - 100) * 11
+if b < 100:
+    b = 100
+print("Bill = Rs", b)
 ```
 
 Two runs:
 
 ```text
-Units used? 150
+Units used: 150
 Bill = Rs 1350
 ```
 
 ```text
-Units used? 10
+Units used: 10
 Bill = Rs 100
 ```
 
@@ -830,7 +808,7 @@ Check: 100 × 8 + 50 × 11 = 800 + 550 = 1,350 ✓; 10 units cost Rs 80, which i
 :::
 
 ::: tip The three habits that save marks
-Write **points, not paragraphs**: one fact per sentence, one mark per point. In every difference, compare the **same feature** of both things in one sentence. In every program, start with CLS, give every INPUT a prompt, label every output, end with END, and dry-run it once with a simple input — then write that output under the program.
+Write **points, not paragraphs**: one fact per sentence, one mark per point. In every difference, compare the **same feature** of both things in one sentence. In every Python program, give every `input()` a clear prompt and type conversion (`int()` or `float()`), indent blocks by 4 spaces after every `:`, label every `print()` output, and dry-run it once with a simple input — then write that output under the program.
 :::
 
 ## 24.21 Extended model answers (8 to 10 marks)
@@ -944,4 +922,4 @@ Group C of the Computer Science paper asks for a full-length answer on a big top
 - **Application software**: features and shortcut keys, mail merge steps, spreadsheet formulas (`=SUM`, `=AVERAGE`, `=MAX`, `=IF`) and absolute references, chart choice, transitions and animations, presentation design rules.
 - **Web, communication and society**: HTML pages and tables, URLs, ICT and e-governance, the ETA 2063 sections and penalties, malware types and protection, topologies, network devices and the Internet.
 - **Numbers, graphics and multimedia**: conversions with every division or expansion shown and a check, memory units at 1024, image size = width × height × bits ÷ 8, formats and the elements and uses of multimedia.
-- **Programming**: algorithms and flowcharts that match step for step, compilers and interpreters, error types, valid names and data types, and complete QBASIC programs whose outputs were checked by running them.
+- **Programming**: algorithms and flowcharts that match step for step, compilers and interpreters, error types, valid names and data types, and complete Python programs whose outputs were checked by running them.

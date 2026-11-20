@@ -188,22 +188,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Computer Science: Unit-wise Objective Question Bank",
-   "words": 6808,
+   "words": 6771,
    "read_min": 38
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Computer Science: Unit-wise Subjective Question Bank",
-   "words": 12239,
+   "words": 12197,
    "read_min": 68
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Computer Science: Model Question Sets and Predicted Questions",
-   "words": 5351,
-   "read_min": 30
+   "words": 5248,
+   "read_min": 29
   }
  ],
  "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
