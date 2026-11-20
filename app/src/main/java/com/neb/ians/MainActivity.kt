@@ -135,6 +135,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             delay(STARTUP_DEFERRAL_MS)
             inAppUpdateHelper.checkForUpdate(this@MainActivity)
+            delay(2_000L)
             requestNotificationPermissionIfNeeded()
         }
     }
@@ -146,6 +147,9 @@ class MainActivity : ComponentActivity() {
             Manifest.permission.POST_NOTIFICATIONS
         ) == PackageManager.PERMISSION_GRANTED
         if (!granted) {
+            val prefs = getSharedPreferences("nebians_startup_prefs", MODE_PRIVATE)
+            if (prefs.getBoolean("notif_perm_prompted_once", false)) return
+            prefs.edit().putBoolean("notif_perm_prompted_once", true).apply()
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -183,15 +187,7 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         if (coldStart) {
-            // Play Core answers this by binding Play Store's update service. On a cold start
-            // that bind competes with the splash's first frames, and on a phone whose Play
-            // Store is asleep it is the slowest thing in the launch. It is only a re-prompt
-            // for an update already in flight, so it can wait for the hand-over.
             coldStart = false
-            lifecycleScope.launch {
-                delay(STARTUP_DEFERRAL_MS)
-                inAppUpdateHelper.onResume(this@MainActivity)
-            }
         } else {
             inAppUpdateHelper.onResume(this)
         }

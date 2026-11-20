@@ -82,10 +82,12 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
     val country = d.abroad.firstOrNull { it.id == s.schCountry }
     val scopes = remember(d) { d.scholarships.map { it.scope }.filter { it.isNotBlank() }.distinct() }
     val levels = remember(d) { d.scholarships.flatMap { it.levels }.distinct().take(3) }
-    val list = d.scholarships.filter { x ->
-        (country == null || x.id in country.scholarships || x.country == country.id) &&
-            (scope == "All" || x.scope == scope) && (level == "All" || level in x.levels)
-    }.sortedWith(compareBy({ if (it.open.size == 2) monthsUntil(it.open[0], it.open[1]) else 99 }, { it.name }))
+    val list = remember(d, country, scope, level) {
+        d.scholarships.filter { x ->
+            (country == null || x.id in country.scholarships || x.country == country.id) &&
+                (scope == "All" || x.scope == scope) && (level == "All" || level in x.levels)
+        }.sortedWith(compareBy({ if (it.open.size == 2) monthsUntil(it.open[0], it.open[1]) else 99 }, { it.name }))
+    }
     val chips = buildList {
         if (country != null) add("x" to country.country)
         add("All" to "All"); scopes.forEach { add(it to levelLabel(it)) }

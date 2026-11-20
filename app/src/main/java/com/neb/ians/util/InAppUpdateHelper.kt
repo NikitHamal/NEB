@@ -94,6 +94,7 @@ class InAppUpdateHelper @Inject constructor(
     }
 
     fun onResume(activity: Activity) {
+        if (updateInfo == null) return
         appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
             updateInfo = info
 

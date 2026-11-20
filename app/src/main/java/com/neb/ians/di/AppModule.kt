@@ -48,6 +48,7 @@ object AppModule {
             "nebians_database"
         )
             .addMigrations(*DatabaseMigrations.ALL)
+            .fallbackToDestructiveMigrationOnDowngrade()
             .build()
     }
 

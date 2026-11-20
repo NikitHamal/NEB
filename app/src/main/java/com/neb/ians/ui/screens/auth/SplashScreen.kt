@@ -77,9 +77,7 @@ fun SplashScreen(
         coroutineScope {
             val warmup = async {
                 kotlinx.coroutines.withTimeoutOrNull(750L) {
-                    val auth = runCatching { authRepository.authState.first() }.getOrNull()
-                    val seen = runCatching { settingsRepository.isIntroSeen.first() }.getOrDefault(true)
-                    auth to seen
+                    runCatching { authRepository.authState.first() }.getOrNull()
                 }
             }
 

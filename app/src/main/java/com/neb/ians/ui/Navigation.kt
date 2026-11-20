@@ -104,7 +104,6 @@ import com.neb.ians.ui.screens.auth.LoginScreen
 import com.neb.ians.ui.screens.auth.EmailAuthScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
-import com.neb.ians.ui.screens.onboarding.IntroScreen
 import com.neb.ians.ui.screens.onboarding.OnboardingScreen
 import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
@@ -119,7 +118,6 @@ import com.neb.ians.ui.theme.NebAccents
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
-    data object Intro : Screen("intro")
     data object Login : Screen("login")
     data object EmailAuth : Screen("email_auth")
     data object EmailVerification : Screen("email_verification/{email}") {
@@ -225,7 +223,6 @@ sealed class Screen(val route: String) {
 /** Screens that come before the app proper; a notification target waits until the app has left them. */
 private val PRE_APP_ROUTES = setOf(
     Screen.Splash.route,
-    Screen.Intro.route,
     Screen.Login.route,
     Screen.EmailAuth.route,
     Screen.CompleteProfile.route,
@@ -316,7 +313,6 @@ fun NEBiansNavHost(
                 // Signed out (or a guest from the start): stay in the app, on Home.
                 if (currentRoute != null &&
                     currentRoute != Screen.Splash.route &&
-                    currentRoute != Screen.Intro.route &&
                     currentRoute != Screen.Login.route &&
                     currentRoute != Screen.EmailAuth.route &&
                     currentRoute != Screen.Home.route
@@ -327,6 +323,7 @@ fun NEBiansNavHost(
                 }
             }
             is AuthState.Authenticated -> {
+                gateReason = null
                 settingsViewModel.ensureProfile()
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                 if (currentRoute == Screen.Login.route) {
@@ -529,26 +526,6 @@ fun NEBiansNavHost(
                     onNavigateToCompleteProfile = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToIntro = {
-                        navController.navigate(Screen.Intro.route) {
-                            popUpTo(Screen.Splash.route) { inclusive = true }
-                        }
-                    }
-                )
-            }
-            composable(
-                Screen.Intro.route,
-                enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)) },
-                exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)) }
-            ) {
-                val introScope = rememberCoroutineScope()
-                IntroScreen(
-                    onFinish = {
-                        introScope.launch { settingsViewModel.settingsRepository.setIntroSeen(true) }
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Intro.route) { inclusive = true }
                         }
                     }
                 )
