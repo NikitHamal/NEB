@@ -679,10 +679,6 @@ class CreatorStudioViewModel @Inject constructor(
     // its own three calls instead of sharing the item ones.
     fun addBlockImage(index: Int) = editBlock(index) { it.copy(images = it.images + "") }
 
-    fun removeLastBlockImage(index: Int) = editBlock(index) {
-        if (it.images.isEmpty()) it else it.copy(images = it.images.dropLast(1))
-    }
-
     fun updateBlockImage(index: Int, imageIndex: Int, value: String) = editBlock(index) { block ->
         val images = block.images.toMutableList()
         if (imageIndex !in images.indices) return@editBlock block
@@ -693,10 +689,6 @@ class CreatorStudioViewModel @Inject constructor(
     fun addBlockItem(index: Int) = editBlock(index) { block ->
         if (block.items.size >= _uiState.value.schema.maxItems) block
         else block.copy(items = block.items + ApiCreatorBlockItem())
-    }
-
-    fun removeLastBlockItem(index: Int) = editBlock(index) {
-        if (it.items.isEmpty()) it else it.copy(items = it.items.dropLast(1))
     }
 
     /** Remove the item a creator is looking at, not the last one. Deleting the

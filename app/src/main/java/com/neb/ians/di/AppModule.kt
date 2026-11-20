@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.local.dao.ApiCacheDao
-import com.neb.ians.data.local.dao.BookmarkDao
 import com.neb.ians.data.local.database.DatabaseMigrations
 import com.neb.ians.data.local.database.NEBiansDatabase
 import com.neb.ians.data.repository.SecurePrefs
@@ -51,9 +50,6 @@ object AppModule {
             .fallbackToDestructiveMigrationOnDowngrade()
             .build()
     }
-
-    @Provides
-    fun provideBookmarkDao(db: NEBiansDatabase): BookmarkDao = db.bookmarkDao()
 
     @Provides
     fun provideNoteDao(db: NEBiansDatabase): com.neb.ians.data.local.dao.NoteDao = db.noteDao()

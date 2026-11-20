@@ -423,9 +423,6 @@ class NoteEditorViewModel @Inject constructor(
         commit(out, force = true)
     }
 
-    /** Ticked and total to-dos in the note. */
-    fun todoCount(): Pair<Int, Int> = _blocks.value.filter { it.type == BlockType.Todo }.let { l -> l.count { it.checked } to l.size }
-
     fun toggleOpen(id: String) = update(id) { it.copy(open = !it.open) }
 
     /**

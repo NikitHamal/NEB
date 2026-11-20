@@ -91,9 +91,6 @@ fun HomeScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     val listState = rememberLazyListState()
-    val isScrolled by remember(listState) {
-        derivedStateOf { listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 8 }
-    }
     LaunchedEffect(uiState.sort, uiState.selectedCategory) {
         listState.scrollToItem(0)
     }
@@ -102,25 +99,22 @@ fun HomeScreen(
         postIdForKey = { (it as? String)?.takeIf { k -> k.startsWith("post_") }?.removePrefix("post_") },
         onVisible = viewModel::reportImpressions
     )
-    val shouldLoadMore by remember(listState) {
-        derivedStateOf {
-            val layout = listState.layoutInfo
-            val totalItems = layout.totalItemsCount
-            val lastVisibleItemIndex = layout.visibleItemsInfo.lastOrNull()?.index ?: 0
-            totalItems > 0 && lastVisibleItemIndex >= totalItems - FEED_PREFETCH_DISTANCE
-        }
-    }
-
-    LaunchedEffect(shouldLoadMore, uiState.hasMorePosts, uiState.isLoadingMore) {
-        if (shouldLoadMore && uiState.hasMorePosts && !uiState.isLoadingMore) {
-            viewModel.loadMore()
-        }
-    }
+    HomeLoadMoreEffect(
+        listState = listState,
+        hasMorePosts = uiState.hasMorePosts,
+        isLoadingMore = uiState.isLoadingMore,
+        onLoadMore = viewModel::loadMore
+    )
 
     LaunchedEffect(Unit) {
         viewModel.snackbarMessage.collect { message ->
             message?.let { snackbarHostState.showSnackbar(it) }
         }
+    }
+
+    val openCategories = remember { { showTopicSheet = true } }
+    val onFollowPeer = remember(gate, viewModel) {
+        { authorId: String -> gate.require(GateReason.Follow) { viewModel.toggleFollowUser(authorId) } }
     }
 
     Scaffold(
@@ -135,13 +129,13 @@ fun HomeScreen(
                     avatarInitial = uiState.userName,
                     avatarUrl = uiState.userPhotoUrl
                 )
-                HomePostsFilterBar(
+                HomeFilterBarSlot(
+                    listState = listState,
                     currentSort = uiState.sort,
                     selectedCategory = uiState.selectedCategory,
                     isRefreshing = uiState.isFilterRefreshing,
-                    scrolled = isScrolled,
                     onSelectSort = viewModel::selectSort,
-                    onOpenCategories = { showTopicSheet = true }
+                    onOpenCategories = openCategories
                 )
             }
         },
@@ -198,10 +192,9 @@ fun HomeScreen(
                     }
 
                     val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
-                    val homeAtTop by remember(listState) { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
                     LazyColumn(
                         state = listState,
-                        modifier = Modifier.fillMaxSize().seasonAmbience(homeAtTop),
+                        modifier = Modifier.fillMaxSize().homeSeasonAmbience(listState),
                         verticalArrangement = Arrangement.spacedBy(0.dp),
                         contentPadding = PaddingValues(
                             top = if (siteTheme.hasGarland) 36.dp else 0.dp,
@@ -295,7 +288,7 @@ fun HomeScreen(
                                         HomeSuggestedPeersRail(
                                             peers = entry.peers,
                                             onPeerClick = onUserProfileClick,
-                                            onFollowClick = { authorId -> gate.require(GateReason.Follow) { viewModel.toggleFollowUser(authorId) } },
+                                            onFollowClick = onFollowPeer,
                                             onSeeAllClick = onSeeAllPeopleClick
                                         )
                                     }
@@ -423,4 +416,56 @@ fun HomeScreen(
             )
         }
     }
+}
+
+@Composable
+private fun HomeFilterBarSlot(
+    listState: androidx.compose.foundation.lazy.LazyListState,
+    currentSort: String,
+    selectedCategory: String?,
+    isRefreshing: Boolean,
+    onSelectSort: (String) -> Unit,
+    onOpenCategories: () -> Unit
+) {
+    val isScrolled by remember(listState) {
+        derivedStateOf { listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 8 }
+    }
+    HomePostsFilterBar(
+        currentSort = currentSort,
+        selectedCategory = selectedCategory,
+        isRefreshing = isRefreshing,
+        scrolled = isScrolled,
+        onSelectSort = onSelectSort,
+        onOpenCategories = onOpenCategories
+    )
+}
+
+@Composable
+private fun HomeLoadMoreEffect(
+    listState: androidx.compose.foundation.lazy.LazyListState,
+    hasMorePosts: Boolean,
+    isLoadingMore: Boolean,
+    onLoadMore: () -> Unit
+) {
+    val shouldLoadMore by remember(listState) {
+        derivedStateOf {
+            val layout = listState.layoutInfo
+            val totalItems = layout.totalItemsCount
+            val lastVisibleItemIndex = layout.visibleItemsInfo.lastOrNull()?.index ?: 0
+            totalItems > 0 && lastVisibleItemIndex >= totalItems - FEED_PREFETCH_DISTANCE
+        }
+    }
+    LaunchedEffect(shouldLoadMore, hasMorePosts, isLoadingMore) {
+        if (shouldLoadMore && hasMorePosts && !isLoadingMore) {
+            onLoadMore()
+        }
+    }
+}
+
+@Composable
+private fun Modifier.homeSeasonAmbience(listState: androidx.compose.foundation.lazy.LazyListState): Modifier {
+    val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
+    if (!siteTheme.festive) return this
+    val homeAtTop by remember(listState) { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
+    return this.seasonAmbience(homeAtTop)
 }

@@ -201,36 +201,12 @@ object ApiErrorMapper {
     private fun safeErrorBody(e: HttpException): String? =
         try { e.response()?.errorBody()?.string() } catch (_: Exception) { null }
 
-    private fun logRaw(e: Throwable, op: String) {
-        val body = if (e is HttpException) safeErrorBody(e) else null
-        logRawWithBody(e, op, body)
-    }
-
     private fun logRawWithBody(e: Throwable, op: String, errorBody: String?) {
         try {
             val body = if (e is HttpException && !errorBody.isNullOrBlank()) " HTTP ${e.code()} body=${errorBody.take(600)}" else ""
             android.util.Log.e("NebUpload", "$op failed: ${e::class.qualifiedName}: ${e.message}$body", e)
         } catch (_: Throwable) {
             // The unit-test JVM has no android.util.Log; never let logging break a flow.
-        }
-    }
-
-    fun isHostSecurityError(e: Throwable): Boolean {
-        return when (e) {
-            is ApiClientException -> e.isWafBlock
-            is HttpException -> {
-                val code = e.code()
-                val errorBodyStr = try {
-                    e.response()?.errorBody()?.string()
-                } catch (_: Exception) {
-                    ""
-                } ?: ""
-                val isHtml = e.response()?.errorBody()?.contentType()?.toString()?.contains("text/html", ignoreCase = true) == true
-                (code in listOf(403, 429, 503, 520, 522, 524) && isHtml) ||
-                        errorBodyStr.contains("imunify360", ignoreCase = true) ||
-                        errorBodyStr.contains("Web Shield", ignoreCase = true)
-            }
-            else -> false
         }
     }
 }

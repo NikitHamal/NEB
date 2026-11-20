@@ -42,8 +42,6 @@ data class SyllabusUiState(
     val show: SyllabusShow = SyllabusShow.All,
     val area: String? = null,
     val filter: String = "",
-    val done: Map<String, Set<String>> = emptyMap(),
-    val lastKey: String? = null,
     /** Reading progress per chapter, "<grade>/<subject>/unit<N>" -> mark (StudyProgress). */
     val marks: Map<String, StudyMark> = emptyMap(),
     /** The chapter opened most recently: key, title, "Class 11 · Physics" (or "CEE · Physics"). */
@@ -81,9 +79,7 @@ class SyllabusViewModel @Inject constructor(
     init {
         viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             val savedGrade = prefs.getString(KEY_GRADE, null) ?: "12"
-            val savedDone = readDone()
-            val savedLast = prefs.getString(KEY_LAST, null)
-            _uiState.update { it.copy(grade = savedGrade, done = savedDone, lastKey = savedLast) }
+            _uiState.update { it.copy(grade = savedGrade) }
         }
         viewModelScope.launch {
             progress.version.collect {
@@ -155,8 +151,6 @@ class SyllabusViewModel @Inject constructor(
     }
 
     fun openSubject(grade: String, subject: String, unit: Int? = null, tab: SyllabusTab = SyllabusTab.Chapters) {
-        val key = "$grade/$subject"
-        prefs.edit().putString(KEY_LAST, key).apply()
         _uiState.update {
             it.copy(
                 openGrade = grade,
@@ -168,17 +162,10 @@ class SyllabusViewModel @Inject constructor(
                 show = SyllabusShow.All,
                 area = null,
                 filter = "",
-                lastKey = key,
                 tab = tab
             )
         }
         fetchDoc(grade, subject, keepView = false)
-    }
-
-    fun openLast() {
-        val key = _uiState.value.lastKey ?: return
-        val parts = key.split("/")
-        if (parts.size == 2) openSubject(parts[0], parts[1])
     }
 
     fun retryDoc() {
@@ -210,53 +197,15 @@ class SyllabusViewModel @Inject constructor(
         _uiState.update { it.copy(expanded = if (no in it.expanded) it.expanded - no else it.expanded + no) }
     }
 
-    fun expandAll(open: Boolean) {
-        _uiState.update { state ->
-            state.copy(expanded = if (open) state.doc?.units?.map { it.no }?.toSet().orEmpty() else emptySet())
-        }
-    }
-
     fun setShow(show: SyllabusShow) = _uiState.update { it.copy(show = show) }
 
     fun setArea(area: String?) = _uiState.update { it.copy(area = area) }
 
     fun setFilter(text: String) = _uiState.update { it.copy(filter = text) }
 
-    fun toggleTopic(key: String, topicId: String) {
-        updateDone(key) { if (topicId in it) it - topicId else it + topicId }
-    }
-
-    fun setUnitDone(key: String, unitNo: Int, topicCount: Int, done: Boolean) {
-        val ids = (0 until topicCount).map { "$unitNo.$it" }
-        updateDone(key) { if (done) it + ids else it - ids.toSet() }
-    }
-
-    fun resetSubject(key: String) = updateDone(key) { emptySet() }
-
-    private fun updateDone(key: String, change: (Set<String>) -> Set<String>) {
-        _uiState.update { state ->
-            val next = change(state.done[key].orEmpty())
-            val all = if (next.isEmpty()) state.done - key else state.done + (key to next)
-            prefs.edit().putStringSet(KEY_DONE_PREFIX + key, next).apply()
-            state.copy(done = all)
-        }
-    }
-
-    private fun readDone(): Map<String, Set<String>> =
-        prefs.all.entries
-            .filter { it.key.startsWith(KEY_DONE_PREFIX) }
-            .mapNotNull { entry ->
-                @Suppress("UNCHECKED_CAST")
-                val set = (entry.value as? Set<String>)?.toSet() ?: return@mapNotNull null
-                if (set.isEmpty()) null else entry.key.removePrefix(KEY_DONE_PREFIX) to set
-            }
-            .toMap()
-
     private companion object {
         const val PREFS = "neb_syllabus"
         const val KEY_GRADE = "grade"
-        const val KEY_LAST = "last"
-        const val KEY_DONE_PREFIX = "done:"
         @Volatile var cachedIndex: ApiSyllabusIndex? = null
     }
 }
