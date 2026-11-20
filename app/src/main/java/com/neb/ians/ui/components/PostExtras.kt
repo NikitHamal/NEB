@@ -563,11 +563,6 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
         animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium),
         label = "likePillIcon"
     )
-    val background by animateColorAsState(
-        targetValue = Color.Transparent,
-        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
-        label = "likePillBg"
-    )
     val contentColor by animateColorAsState(
         targetValue = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
@@ -581,7 +576,6 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
                 scaleY = scale
             }
             .clip(WebPillShape)
-            .background(background)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,

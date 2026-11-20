@@ -382,6 +382,12 @@ class ForumRepository @Inject constructor(
                 offlineCacheStore.write(repliesCacheKey(postId), ApiPaginatedReplies(replies = updated, totalCount = updated.size))
                 cacheBus.publish(repliesCacheKey(postId))
             }
+            appCache.postDetails[postId]?.let { post ->
+                val updatedPost = post.copy(replyCount = post.replyCount + 1)
+                appCache.postDetails[postId] = updatedPost
+                offlineCacheStore.write(postCacheKey(postId), updatedPost)
+                cacheBus.publish(postCacheKey(postId))
+            }
             Result.success(reply)
         } catch (e: Exception) {
             Result.failure(e)
@@ -452,7 +458,10 @@ class ForumRepository @Inject constructor(
             val response = apiService.toggleBookmark(token, BookmarkToggleRequest(targetType, targetId))
             if (targetType == "post") {
                 appCache.postDetails[targetId]?.let { post ->
-                    appCache.postDetails[targetId] = post.copy(isBookmarked = response.isBookmarked)
+                    val updatedPost = post.copy(isBookmarked = response.isBookmarked)
+                    appCache.postDetails[targetId] = updatedPost
+                    offlineCacheStore.write(postCacheKey(targetId), updatedPost)
+                    cacheBus.publish(postCacheKey(targetId))
                 }
             }
             Result.success(response)

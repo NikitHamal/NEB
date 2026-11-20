@@ -185,6 +185,34 @@ class HomeViewModel @Inject constructor(
                                 }
                             }
                     }
+                    val updatedPostIds = keys.mapNotNull { k ->
+                        if (k.startsWith("post_v1_")) k.removePrefix("post_v1_") else null
+                    }
+                    if (updatedPostIds.isNotEmpty()) {
+                        val nowMs = System.currentTimeMillis()
+                        val activeCat = _selectedCategory.value
+                        _recentPosts.update { current ->
+                            var list = current
+                            for (pid in updatedPostIds) {
+                                val detail = appCache.postDetails[pid] ?: continue
+                                val idx = list.indexOfFirst { it.id == pid }
+                                if (idx >= 0) {
+                                    if (list[idx] != detail) {
+                                        list = list.toMutableList().also { it[idx] = detail }
+                                    }
+                                } else if (nowMs - detail.createdAt in 0..60_000L &&
+                                    (activeCat == null || detail.category.equals(activeCat, ignoreCase = true))
+                                ) {
+                                    list = listOf(detail) + list
+                                }
+                            }
+                            if (list !== current) {
+                                postSlices[sliceKey()] = list to _hasMorePosts.value
+                                if (_sort.value == "hot" && activeCat == null) appCache.recentPosts = list
+                            }
+                            list
+                        }
+                    }
                 }
         }
     }
