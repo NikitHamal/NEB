@@ -56,11 +56,18 @@ HPCA = {"id": "8-hpca-ble-2082-dmun", "file": "NEBians-BLE-Past-Paper-Grade-8-He
                   "lifestyle, school health screening and first aid box materials, kabaddi, football field dimensions, long jump landing safety, "
                   "volleyball service and rules, Bhastrika pranayama, construction work and papier collé, Kaharwa taal vs Rupak taal, "
                   "Sorathi dance, and international fame of Nepali art (Araniko, pagoda architecture, Paubha and Mithila art)"}
-PAPERS.extend([SOC, NEP, SCI, HPCA])
-COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal, 2082, 2026"
+HPCA81 = {"id": "8-hpca-ble-2081-pokhara", "file": "NEBians-BLE-Past-Paper-Grade-8-Health-Physical-Creative-Arts-2081-Pokhara.pdf",
+          "subject": "Health, Physical and Creative Arts", "year_bs": "2081", "year_ad": "2025", "muni": "Pokhara Metropolitan City",
+          "district": "Kaski", "pradesh": "Gandaki", "marks": "50", "time": "2 hours",
+          "topics": "spinal nerves and melatonin hormone, addiction and mental health in Nepal, anaemia and goitre prevention, food safety, "
+                    "first aid, ovaries and stages of the menstrual cycle, HIV/AIDS transmission, school health screening and playground safety, "
+                    "drill (kawaj), relay race and baton, Halasana yoga, volleyball, football skills and kho-kho chasing rules, clay work and "
+                    "construction work, musical terms, Grade 8 class song (antara), Jhyaure dance, and human figure drawing showing a happy mood"}
+PAPERS.extend([SOC, NEP, SCI, HPCA, HPCA81])
+COMMON = "BLE, basic level examination, class 8, grade 8, past paper, solved paper, with solutions, Nepal"
 
 
-def cover(big, sub, foot, out):
+def cover(big, sub, foot, out, yr="2082"):
     img = Image.new("RGB", (1280, 720), bp.PAPER)
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, 1279, 719], outline=bp.LINE, width=2)
@@ -68,7 +75,7 @@ def cover(big, sub, foot, out):
     d.text((80, 96), "NEBIANS", font=bp.font(30, "bold"), fill=bp.NAVY)
     d.text((80, 146), "Class 8 BLE Past Paper", font=bp.font(34, "reg"), fill=bp.INK)
     d.text((78, 236), big, font=bp.fit(d, big, 1100, 96), fill=bp.NAVY)
-    d.text((80, 400), "2082", font=bp.font(120, "bold"), fill=bp.BLUE)
+    d.text((80, 400), yr, font=bp.font(120, "bold"), fill=bp.BLUE)
     d.text((80, 548), sub, font=bp.font(32, "reg"), fill=bp.INK)
     d.text((80, 600), "Full solutions included", font=bp.font(32, "bold"), fill=bp.BLUE)
     d.rectangle([0, 668, 1279, 719], fill=bp.NAVY)
@@ -92,14 +99,14 @@ def main():
                 "question needs one. It covers %s. Use it as a timed mock for your BLE and then check each answer against the "
                 "solutions. Free to read in the browser."
                 % (s, p["muni"], y, p["year_ad"], p["marks"], p["time"], "Nepali, the language of the original paper," if p.get("lang") == "ne" else "English", p["topics"]))
-        tags = ["NEB", "BLE", "Class 8", s, "BLE %s %s" % (s, y), p["muni"], "%s past paper" % p["district"], COMMON]
+        tags = ["NEB", "BLE", "Class 8", s, "BLE %s %s" % (s, y), p["muni"], "%s past paper" % p["district"], COMMON, y, p["year_ad"]]
         it = {"slug": p["id"], "title": title, "description": desc, "subject": s, "grade_level": "Class 8", "year": y,
               "exam_type": "Final", "type": "Past Paper", "faculty": "", "program": "", "pradesh": p["pradesh"],
               "district": p["district"], "school": "", "author_name": "NEBians",
               "source_label": "BLE paper of %s, re-typeset with NEBians solutions" % p["muni"],
               "tags": ", ".join(tags), "pdf": pdf, "cover": "tools/publish/paper_covers/%s.jpg" % p["id"]}
         cover(s, "%s  ·  %s marks  ·  %s" % (p["muni"], p["marks"], p["time"]), "%d page PDF" % pages,
-              os.path.join(REPO, it["cover"]))
+              os.path.join(REPO, it["cover"]), yr=y)
         out.append(it)
     bpdf = "notes/papers/pdf/bundles/NEBians-BLE-Past-Papers-Grade-8-8-ble-2082-Bundle.pdf"
     if os.path.exists(os.path.join(REPO, bpdf)):
