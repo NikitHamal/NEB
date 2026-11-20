@@ -22,10 +22,10 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Science and scientific method",
-    "scientific investigation",
-    "measurement and units",
-    "project work"
+    "Scientific study and the scientific method",
+    "Variables in scientific research: independent, dependent and controlled variables",
+    "Fundamental and derived units and their analysis",
+    "Unit-wise analysis of equations and scientific investigation"
    ],
    "sections": [
     {
@@ -56,12 +56,13 @@
     "A project follows these steps: topic, plan, data collection, analysis, conclusion, report. A report has an introduction, methods, analysis, conclusion and references."
    ],
    "terms": [
-    "Science"
+    "Science",
+    "Principle of unit homogeneity"
    ],
    "stats": {
-    "words": 5038,
+    "words": 5589,
     "figures": 3,
-    "examples": 5
+    "examples": 6
    },
    "has_notes": true
   },
@@ -163,10 +164,10 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Mendel's experiments and laws",
-    "chromosomes and genes",
-    "sex determination",
-    "genetic disorders"
+    "Mendel's experiments and laws of inheritance",
+    "Cell division (mitosis and meiosis), chromosomes, DNA, RNA and genes",
+    "Sex determination in humans",
+    "Genetic disorders and genetic technology (selective breeding, AI, IVF and DNA testing)"
    ],
    "sections": [
     {
@@ -175,7 +176,7 @@
     },
     {
      "no": "4.2",
-     "title": "Chromosomes and genes"
+     "title": "Cell division (mitosis and meiosis), chromosomes, DNA, RNA and genes"
     },
     {
      "no": "4.3",
@@ -200,7 +201,7 @@
     "Heredity"
    ],
    "stats": {
-    "words": 4657,
+    "words": 5431,
     "figures": 4,
     "examples": 4
    },
@@ -268,11 +269,11 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Ecosystem",
-    "environmental pollution",
-    "climate change",
-    "waste management",
-    "conservation"
+    "Ecosystem and natural balance",
+    "Environmental pollution and acid rain",
+    "Greenhouse effect and climate change",
+    "Waste management",
+    "Conservation, endangered species and medicinal plants of Nepal"
    ],
    "sections": [
     {
@@ -310,7 +311,7 @@
     "Pollution"
    ],
    "stats": {
-    "words": 5546,
+    "words": 6270,
     "figures": 5,
     "examples": 4
    },
@@ -529,10 +530,11 @@
     "Wave",
     "Laws of reflection",
     "Laws of refraction",
-    "Total internal reflection"
+    "Total internal reflection",
+    "Dispersion of light"
    ],
    "stats": {
-    "words": 5325,
+    "words": 5814,
     "figures": 4,
     "examples": 10
    },
@@ -566,7 +568,7 @@
     },
     {
      "no": "11.4",
-     "title": "Magnetic effect of current"
+     "title": "Direct Current (DC), Alternating Current (AC) and Magnetic Effect of Current"
     },
     {
      "no": "11.5",
@@ -593,7 +595,7 @@
     "Electromagnetic induction"
    ],
    "stats": {
-    "words": 4896,
+    "words": 5104,
     "figures": 4,
     "examples": 9
    },
@@ -792,10 +794,10 @@
     "Important salts: NaCl, NaHCO₃, Na₂CO₃·10H₂O, plaster of Paris, bleaching powder."
    ],
    "terms": [
-    "Catalyst"
+    "Catalyst: Positive Catalyst and Negative Catalyst (CDC Grade 10 focus)"
    ],
    "stats": {
-    "words": 4037,
+    "words": 4190,
     "figures": 2,
     "examples": 6
    },
@@ -849,10 +851,10 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Physical and chemical properties",
-    "reactivity series",
-    "extraction",
-    "corrosion"
+    "Physical and chemical properties of metals and non-metals",
+    "Reactivity series and displacement reactions",
+    "Minerals, ores of Fe, Al, Cu, Ag and Au, and the five steps of metallurgy",
+    "Corrosion and rusting of iron"
    ],
    "sections": [
     {
@@ -883,7 +885,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3849,
+    "words": 4467,
     "figures": 2,
     "examples": 4
    },
@@ -895,10 +897,10 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Alkanes, alkenes, alkynes",
-    "homologous series",
-    "alcohols",
-    "carboxylic acids"
+    "Saturated and unsaturated hydrocarbons (alkanes, alkenes, alkynes) and methane, ethane, propane and butane",
+    "Homologous series, alkyl radicals and functional groups",
+    "Monohydric, dihydric and trihydric alcohols: methanol, ethanol and glycerol",
+    "Carboxylic acids and everyday organic compounds"
    ],
    "sections": [
     {
@@ -911,7 +913,7 @@
     },
     {
      "no": "18.3",
-     "title": "Alcohols"
+     "title": "Alcohols: monohydric, dihydric and trihydric alcohols (methanol, ethanol and glycerol)"
     },
     {
      "no": "18.4",
@@ -930,8 +932,8 @@
     "Homologous series"
    ],
    "stats": {
-    "words": 3630,
-    "figures": 2,
+    "words": 4067,
+    "figures": 3,
     "examples": 5
    },
    "has_notes": true

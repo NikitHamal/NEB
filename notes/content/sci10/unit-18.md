@@ -207,15 +207,62 @@ A **functional group** is the atom or group of atoms that decides the chemical p
 **Solution.** For n = 4: alkane has 10 H, alkene has 8 H, alkyne has 2 × 4 − 2 = 6 H. So C₄H₆ is an **alkyne** (unsaturated). It **will decolourise** bromine water.
 :::
 
-## 18.3 Alcohols
+## 18.3 Alcohols: monohydric, dihydric and trihydric alcohols (methanol, ethanol and glycerol)
 
-An **alcohol** is an organic compound in which one or more hydrogen atoms of an alkane is replaced by the hydroxyl group (–OH). General formula for the simple (monohydric) alcohols: **CₙH₂ₙ₊₁OH**. Names end in **-ol**.
+An **alcohol** is an organic compound formed when one or more hydrogen atoms of a saturated hydrocarbon (alkane) are replaced by one or more **hydroxyl functional groups ($-\text{OH}$)**.
 
-| Name | Formula | Structure |
-|---|---|---|
-| Methanol (methyl alcohol) | CH₃OH | CH₃–OH |
-| Ethanol (ethyl alcohol) | C₂H₅OH | CH₃CH₂–OH |
-| Propanol | C₃H₇OH | CH₃CH₂CH₂–OH |
+### Classification of Alcohols by Number of Hydroxyl ($-\text{OH}$) Groups (CDC Grade 10 focus)
+
+| Type of Alcohol | Definition | Example, Molecular & Condensed Formula | IUPAC Name |
+|---|---|---|---|
+| **1. Monohydric alcohol** | Contains **one $-\text{OH}$ group** attached to an alkyl radical (general formula $\text{C}_n\text{H}_{2n+1}\text{OH}$) | **Methyl alcohol:** $\text{CH}_3\text{OH}$<br>**Ethyl alcohol:** $\text{C}_2\text{H}_5\text{OH}$ ($\text{CH}_3\text{CH}_2\text{OH}$)<br>**Propyl alcohol:** $\text{C}_3\text{H}_7\text{OH}$ ($\text{CH}_3\text{CH}_2\text{CH}_2\text{OH}$) | **Methanol**<br>**Ethanol**<br>**Propan-1-ol** |
+| **2. Dihydric alcohol (Glycol)** | Contains **two $-\text{OH}$ groups** attached to two different carbon atoms | **Ethylene glycol:** $\text{C}_2\text{H}_4\text{(OH)}_2$<br>$\text{HO}-\text{CH}_2-\text{CH}_2-\text{OH}$ | **Ethane-1,2-diol** (used as car-radiator antifreeze) |
+| **3. Trihydric alcohol (Glycerol)** | Contains **three $-\text{OH}$ groups** attached to three carbon atoms | **Glycerol (Glycerine):** $\text{C}_3\text{H}_5\text{(OH)}_3$<br>$\text{CH}_2\text{(OH)}-\text{CH(OH)}-\text{CH}_2\text{(OH)}$ | **Propane-1,2,3-triol** |
+
+```figure caption="Structural formulas of the three alcohols emphasised in the CDC Grade 10 textbook: (a) Methanol (monohydric, CH₃OH), (b) Ethanol (monohydric, C₂H₅OH), and (c) Glycerol / Propane-1,2,3-triol (trihydric, C₃H₅(OH)₃), alongside Dihydric Ethylene Glycol."
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(1, 3, figsize=(5.2, 2.25))
+for ax in axs:
+    ax.set_xlim(0, 4); ax.set_ylim(0, 4.4); ax.axis("off")
+def bond_mol(ax, title, sub, nodes, bonds):
+    ax.set_title(title + "\n" + sub, fontsize=7.2, fontweight="bold", color=INK, pad=2)
+    for x1, y1, x2, y2 in bonds:
+        ax.plot([x1, x2], [y1, y2], color=INK, lw=1.3)
+    for x, y, t, col in nodes:
+        ax.text(x, y, t, ha="center", va="center", fontsize=7.6, fontweight="bold", color=col,
+                bbox=dict(fc="white", ec="none", pad=1.2))
+bond_mol(axs[0], "(a) Methanol (CH₃OH)", "Monohydric (1 -OH)",
+         [(1.5,2.2,"C",INK),(1.5,3.4,"H",MUTED),(1.5,1.0,"H",MUTED),(0.5,2.2,"H",MUTED),(2.8,2.2,"OH",ACCENT)],
+         [(1.5,2.2,1.5,3.4),(1.5,2.2,1.5,1.0),(1.5,2.2,0.5,2.2),(1.5,2.2,2.8,2.2)])
+bond_mol(axs[1], "(b) Ethanol (C₂H₅OH)", "Monohydric (1 -OH)",
+         [(1.1,2.2,"C",INK),(2.2,2.2,"C",INK),(0.3,2.2,"H",MUTED),(1.1,3.4,"H",MUTED),(1.1,1.0,"H",MUTED),
+          (2.2,3.4,"H",MUTED),(2.2,1.0,"H",MUTED),(3.3,2.2,"OH",ACCENT)],
+         [(1.1,2.2,2.2,2.2),(1.1,2.2,0.3,2.2),(1.1,2.2,1.1,3.4),(1.1,2.2,1.1,1.0),
+          (2.2,2.2,2.2,3.4),(2.2,2.2,2.2,1.0),(2.2,2.2,3.3,2.2)])
+bond_mol(axs[2], "(c) Glycerol C₃H₅(OH)₃", "Trihydric (3 -OH)",
+         [(1.6,3.3,"C",INK),(1.6,2.2,"C",INK),(1.6,1.1,"C",INK),
+          (0.6,3.3,"H",MUTED),(1.6,4.1,"H",MUTED),(0.6,2.2,"H",MUTED),(0.6,1.1,"H",MUTED),(1.6,0.3,"H",MUTED),
+          (2.85,3.3,"OH",SERIES[1]),(2.85,2.2,"OH",SERIES[1]),(2.85,1.1,"OH",SERIES[1])],
+         [(1.6,3.3,1.6,2.2),(1.6,2.2,1.6,1.1),(1.6,3.3,0.6,3.3),(1.6,3.3,1.6,4.1),(1.6,2.2,0.6,2.2),
+          (1.6,1.1,0.6,1.1),(1.6,1.1,1.6,0.3),(1.6,3.3,2.85,3.3),(1.6,2.2,2.85,2.2),(1.6,1.1,2.85,1.1)])
+fig.tight_layout()
+```
+
+### 1. Methyl Alcohol (Methanol, $\text{CH}_3\text{OH}$)
+
+- **Structure and properties:** Simplest monohydric alcohol ($\text{CH}_3-\text{OH}$, IUPAC name **methanol**), formed by replacing one $\text{H}$ atom of methane with $-\text{OH}$. It is a colourless, volatile, inflammable liquid (boiling point $64.7\ ^\circ\text{C}$) miscible with water and organic solvents, and is **highly poisonous** (drinking it damages the optic nerve, causing blindness and death).
+- **Uses:** (1) Solvent for paints, varnishes, shellac and polishes; (2) mixed with ethanol to produce **methylated / denatured spirit** (making industrial ethanol unfit for drinking); (3) manufacturing **formaldehyde ($\text{HCHO}$)** for bakelite plastics, dyes, perfumes and synthetic fibres; (4) antifreeze for automobile radiators and clean fuel in spirit lamps.
+
+### 2. Glycerol / Glycerine ($\text{C}_3\text{H}_5\text{(OH)}_3$ or $\text{CH}_2\text{OH}-\text{CHOH}-\text{CH}_2\text{OH}$)
+
+- **Structure and occurrence:** **Glycerol** (IUPAC name: **propane-1,2,3-triol**) is a **trihydric alcohol** formed by replacing one hydrogen atom on each of the three carbons of propane ($\text{C}_3\text{H}_8$) with three $-\text{OH}$ groups. It occurs combined with fatty acids in all vegetable oils and animal fats, and is obtained as an important **by-product of soap manufacture (saponification)**.
+- **Physical properties:** (1) Colourless, odourless, **thick viscous (syrupy) liquid** with a **sweet taste**; (2) **hygroscopic** (absorbs moisture from the air); (3) completely **soluble in water and alcohol** (insoluble in ether); (4) high boiling point ($290\ ^\circ\text{C}$) and non-poisonous.
+- **Important Uses of Glycerol (frequently asked in SEE):**
+  1. **Skin and cosmetic care:** Because it is hygroscopic and retains moisture, it is applied directly to protect **dry/chapped skin, lips and heels** in winter and is used in making **high-quality toilet soaps, lotions, face creams and lip balms**.
+  2. **Sweetening and food/medicine preservation:** Used as a humectant (moisture retainer) and sweetener in **cough syrups, medicines, cakes, pastries, sweets and tobacco** so they do not dry out.
+  3. **Printing ink and stamp-pad ink:** Added to printing inks and rubber-stamp pads to prevent them from drying rapidly in air.
+  4. **Manufacture of explosives:** Reacts with nitric acid and conc. $\text{H}_2\text{SO}_4$ to produce **nitroglycerine**, used to make **dynamite** and cordite explosives (and in tiny medical doses to treat angina chest pain).
+  5. **Laboratory and lubricant use:** Used to lubricate watch parts and glass stoppers, and as a mounting medium for microscope slides.
 
 ### Ethanol
 

@@ -164,8 +164,12 @@ A reaction takes place when particles **collide** with enough energy. The more o
 | Catalyst | Changes the rate, itself unchanged | MnO₂ speeds up the decomposition of H₂O₂ to H₂O and O₂. |
 | Light | Some reactions speed up | Photosynthesis; AgBr in photographic film. |
 
-::: definition Catalyst
-A **catalyst** is a substance that changes the rate of a chemical reaction without being used up in the reaction. Example: MnO₂ in 2KClO₃ → 2KCl + 3O₂.
+::: definition Catalyst: Positive Catalyst and Negative Catalyst (CDC Grade 10 focus)
+A **catalyst** is a chemical substance that alters (increases or decreases) the rate of a chemical reaction without itself undergoing any permanent chemical change in mass or composition at the end of the reaction.
+- **1. Positive catalyst (Promoter of rate):** A catalyst that **increases (accelerates)** the rate of a chemical reaction by lowering the activation energy.
+  - *Examples:* **Manganese dioxide ($\text{MnO}_2$)** speeds up the decomposition of hydrogen peroxide ($2\text{H}_2\text{O}_2 \xrightarrow{\text{MnO}_2} 2\text{H}_2\text{O} + \text{O}_2 \uparrow$) and potassium chlorate ($2\text{KClO}_3 \xrightarrow{\text{MnO}_2,\ \Delta} 2\text{KCl} + 3\text{O}_2 \uparrow$); **Finely divided iron ($\text{Fe}$)** in Haber's process ($\text{N}_2 + 3\text{H}_2 \rightleftharpoons 2\text{NH}_3$); **Nickel ($\text{Ni}$)** in hydrogenation of vegetable oil; **Vanadium pentoxide ($\text{V}_2\text{O}_5$)** in the Contact process.
+- **2. Negative catalyst (Inhibitor / Retarder):** A catalyst that **decreases (retards)** the rate of a chemical reaction.
+  - *Examples:* **Phosphoric acid ($\text{H}_3\text{PO}_4$)** or **glycerol (glycerine)** added to hydrogen peroxide retards its decomposition ($2\text{H}_2\text{O}_2 \xrightarrow{\text{H}_3\text{PO}_4\text{ or glycerol}} 2\text{H}_2\text{O} + \text{O}_2 \uparrow$), which is why $\text{H}_2\text{O}_2$ is stored in dark bottles with a little phosphoric acid or glycerol; **Tetraethyl lead** in petrol.
 :::
 
 ```figure caption="Volume of gas collected from marble chips and acid. Curve A: powder (large surface area). Curve B: large lumps. The steeper curve means a faster rate."

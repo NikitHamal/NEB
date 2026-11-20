@@ -440,6 +440,38 @@ Nepal has about **23%** of its land in protected areas. It has **12 national par
 ```photo id="sci10/snow-leopard" caption="The snow leopard, the top predator of the high Himalaya, found in Nepal's mountain national parks such as Shey Phoksundo." width="60"
 ```
 
+### Endangered Plants and Animals of Nepal (CDC Grade 10 focus)
+
+Due to habitat destruction, climate change, forest fires, poaching and invasive species, many indigenous plants and animals of Nepal have become rare or **endangered** (at high risk of extinction from the wild):
+
+- **Protected / Endangered Mammals of Nepal (27 species under the NPWC Act 2029):** One-horned rhinoceros (*Gainda*), Royal Bengal tiger (*Pate Bagh*), Snow leopard (*Hiun Chituwa*), Red panda (*Habre*), Clouded leopard (*Dhwase Chituwa*), Musk deer (*Kasturi Mriga*), Swamp deer (*Barasingha*), Blackbuck (*Krishnasar*), Asiatic wild elephant (*Jangali Hatti*), Gaur bison (*Gauri Gai*), Gangetic river dolphin (*susu*), Chinese and Indian pangolin (*Salak*), Striped hyena (*udra/hundar*), Wild yak, Pygmy hog, Hispid hare, Tibetan antelope.
+- **Protected Birds (9 species) and Reptiles (3 species):** Danphe (Impeyan pheasant, national bird), Crimson horned pheasant (*Munal*), Cheer pheasant (*Kalij*), Bengal florican (*Khar Mayur*), Lesser florican (*Sano Khar Mayur*), Great hornbill (*Thulo Rajdhanesh*), Sarus crane (*Saras*), White stork, Black stork; **Gharial crocodile (*Ghadoyal गोही*)**, Golden monitor lizard (*Sun Gohoro*) and Asiatic rock python (*Ajingar*).
+- **Endangered Plants of Nepal:** **Champ / Golden Michelia** (*Michelia champaca*), **Jatamasi / Spikenard** (*Nardostachys grandiflora*), **Sarpagandha / Serpentina** (*Rauvolfia serpentina*), **Panchaule** (*Dactylorhiza hatagirea*), **Lauth Salla / Himalayan Yew** (*Taxus wallichiana* — source of anticancer drug *Taxol*), **Yarsagumba** (*Ophiocordyceps sinensis*), **Sughandhawal** (*Valeriana jatamansi*), **Bijaysal** (*Pterocarpus marsupium*), **Satisal** (*Dalbergia latifolia*) and **Kutki** (*Picrorhiza kurroa*).
+
+### Medicinal Plants of Nepal (जडीबुटी) and Their Uses (CDC Grade 10 Table)
+
+Nepal's diverse climatic zones from the Terai to the high Himalaya harbour over $700$ species of **medicinal and aromatic plants (जडीबुटी)** that form the foundation of Ayurveda and modern pharmaceuticals:
+
+| Nepali / Common Name | Scientific Name | Part Used | Major Medicinal / Traditional Uses (Examined in SEE) |
+|---|---|---|---|
+| **1. Tulsi** (Holy Basil) | *Ocimum tenuiflorum* (*O. sanctum*) | Leaves, seeds, root | Cures **common cold, cough, fever, sore throat and bronchitis**; antibacterial, antiviral and immunity booster; purifies air |
+| **2. Neem** (Margosa tree) | *Azadirachta indica* | Leaves, bark, seeds, oil | Treats **skin diseases (scabies, ringworm, acne, eczema)**; blood purifier, antiseptic, dental hygiene and natural **biopesticide** |
+| **3. Gurjo** (Heart-leaved moonseed) | *Tinospora cordifolia* | Stem (climber) | Boosts **immunity**, reduces **chronic fever, dengue fever, high uric acid, diabetes and jaundice** |
+| **4. Ghodtapre** (Asiatic pennywort / Brahmi) | *Centella asiatica* | Whole plant / leaves | **Brain and memory tonic**, cools the body, treats **jaundice, uric acid, urinary tract burning** and skin wounds |
+| **5. Bojho** (Sweet flag) | *Acorus calamus* | Rhizome (underground stem) | Chewed to cure **sore throat, dry cough, hoarseness of voice and tonsillitis**; nerve tonic and natural grain insecticide |
+| **6. Ghiukumari** (Aloe vera) | *Aloe barbadensis* (*Aloe vera*) | Fleshy leaf gel (mucilage) | Soothes **burns, scalds, sunburn and skin wounds**; treats constipation, gastric acidity and liver disorders |
+| **7. Besar** (Turmeric) & **Aduwa** (Ginger) | *Curcuma longa* & *Zingiber officinale* | Rhizome | **Natural antiseptic and anti-inflammatory**; relieves cough, cold, sore throat, joint pain and indigestion |
+| **8. Sarpagandha** (Serpentwood) | *Rauvolfia serpentina* | Root / bark | Contains the alkaloid *reserpine*, used to lower **high blood pressure (hypertension)**, insomnia and mental agitation |
+| **9. Yarsagumba** (Caterpillar fungus) | *Ophiocordyceps sinensis* | Whole fungus-caterpillar complex ($3500\text{–}5000\ \text{m}$) | High-value alpine **energy and vitality tonic**; strengthens lungs, kidneys and immune system |
+| **10. Jatamasi** (Spikenard) & **Panchaule** | *Nardostachys grandiflora* & *Dactylorhiza hatagirea* | Rhizome / tuberous root | **Jatamasi:** nerve tonic, insomnia, epilepsy and aromatic oil; **Panchaule:** nutritive tonic and wound/fracture healer |
+| **11. Timur** (Prickly ash) & **Chiraito** | *Zanthoxylum armatum* & *Swertia chirayita* | Fruit/seed & whole plant | **Timur:** toothache, indigestion, altitude sickness; **Chiraito:** bitter tonic for **malaria, fever, worms and liver disorders** |
+
+| Basis | Endangered Plants | Medicinal Plants |
+|---|---|---|
+| **Definition** | Plants whose wild population has declined drastically and face a high risk of extinction | Plants that contain bioactive chemical compounds used to prevent or cure diseases |
+| **Status in nature** | Always rare and legally protected from harvesting/export (e.g. Champ, Jatamasi, Panchaule) | May be abundant in households/forests (e.g. Tulsi, Neem, Besar, Ghiukumari) or rare (e.g. Yarsagumba, Sarpagandha) |
+| **Primary goal** | Strict **in-situ and ex-situ conservation** to prevent extinction | **Sustainable harvesting, cultivation and scientific processing** for healthcare and medicine |
+
 ### Community forestry
 
 Nepal's **community forestry** programme, where local forest user groups look after nearby forests and use the products, is a world example of conservation by people. It has restored hill forests and today about 45% of Nepal's land is forest.

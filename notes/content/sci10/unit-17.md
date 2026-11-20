@@ -161,29 +161,44 @@ ax.set_xlim(-1.0, 5.2); ax.set_ylim(-0.2, n+0.1); ax.axis('off')
 ```photo id="sci10/bauxite" caption="Bauxite, the ore from which aluminium is extracted." width="56"
 ```
 
-| Metal | Chief ore | Formula |
-|---|---|---|
-| Iron | haematite | Fe₂O₃ |
-| | magnetite | Fe₃O₄ |
-| Aluminium | bauxite | Al₂O₃·2H₂O |
-| Copper | copper pyrite | CuFeS₂ |
-| | copper glance | Cu₂S |
-| Zinc | zinc blende | ZnS |
-| Sodium | rock salt | NaCl |
-| Lead | galena | PbS |
+| Metal | Atomic No. & Valency | Important Ores (CDC Grade 10 Table) | Chemical Formula |
+|---|---|---|---|
+| **1. Iron ($\text{Fe}$)** | $Z = 26$; valency $2, 3$ ($d$-block) | **Haematite** (principal ore)<br>**Magnetite** (magnetic ore)<br>**Siderite** (spathic iron ore)<br>**Limonite** (brown ore)<br>**Iron pyrite** ("fool's gold") | $\text{Fe}_2\text{O}_3$<br>$\text{Fe}_3\text{O}_4$<br>$\text{FeCO}_3$<br>$2\text{Fe}_2\text{O}_3\cdot 3\text{H}_2\text{O}$<br>$\text{FeS}_2$ |
+| **2. Aluminium ($\text{Al}$)** | $Z = 13$; valency $3$ ($p$-block) | **Bauxite** (principal ore)<br>**Cryolite**<br>**Corundum** / Kaolin (China clay) | $\text{Al}_2\text{O}_3\cdot 2\text{H}_2\text{O}$<br>$\text{Na}_3\text{AlF}_6$<br>$\text{Al}_2\text{O}_3$ / $\text{Al}_2\text{Si}_2\text{O}_5\text{(OH)}_4$ |
+| **3. Copper ($\text{Cu}$)** | $Z = 29$; valency $1, 2$ ($d$-block) | **Chalcopyrite / Copper pyrite** (principal)<br>**Chalcocite / Copper glance**<br>**Cuprite** (ruby copper)<br>**Malachite** (green copper carbonate) | $\text{CuFeS}_2$<br>$\text{Cu}_2\text{S}$<br>$\text{Cu}_2\text{O}$<br>$\text{CuCO}_3\cdot\text{Cu(OH)}_2$ |
+| **4. Silver ($\text{Ag}$)** | $Z = 47$; valency $1$ ($d$-block) | **Argentite / Silver glance** (principal)<br>**Horn silver**<br>**Ruby silver** (pyrargyrite) | $\text{Ag}_2\text{S}$<br>$\text{AgCl}$<br>$\text{Ag}_3\text{SbS}_3$ (or $3\text{Ag}_2\text{S}\cdot\text{Sb}_2\text{S}_3$) |
+| **5. Gold ($\text{Au}$)** | $Z = 79$; valency $1, 3$ ($d$-block) | Found mostly in **free / native state** (**alluvial gold** in river sand and **quartz veins**); also **Calaverite** and **Sylvanite** | $\text{Au}$ (native)<br>$\text{AuTe}_2$ / $\text{(Au,Ag)Te}_2$ |
 
-```photo id="sci10/malachite" caption="Malachite, a green ore of copper (copper carbonate)." width="56"
+```photo id="sci10/malachite" caption="Malachite, a green carbonate ore of copper, CuCO₃·Cu(OH)₂." width="56"
 ```
 
-All ores are minerals, but not all minerals are ores. Clay contains aluminium, but it is not an ore of aluminium because extraction from it is not profitable.
+**Why all ores are minerals, but not all minerals are ores (SEE Give Reason):** Every ore is a naturally occurring metallic mineral in the Earth's crust, so all ores are minerals. However, minerals that contain a very low percentage of metal or contain objectionable impurities from which the metal cannot be extracted profitably (such as clay for aluminium or iron pyrite $\text{FeS}_2$ for iron) are not ores.
 
-### Steps in metallurgy
+### The Five General Steps of Metallurgy (CDC Grade 10 focus)
 
-1. **Crushing and grinding** the ore to powder.
-2. **Concentration (dressing)** to remove gangue: hand picking, gravity separation (washing), magnetic separation (for magnetite), froth flotation (for sulphide ores).
-3. **Conversion to oxide:** *calcination* (heating a carbonate or hydrated ore in limited or no air, CaCO₃ → CaO + CO₂) or *roasting* (heating a sulphide ore in excess air, 2ZnS + 3O₂ → 2ZnO + 2SO₂).
-4. **Reduction** of the oxide to the metal by carbon, carbon monoxide, aluminium or electrolysis.
-5. **Refining (purification)** of the crude metal, for example electrolytic refining of copper.
+1. **Mining, Crushing and Grinding (Pulverisation):** The ore is mined from the Earth's crust, crushed into small pieces in jaw crushers, and ground into a fine powder in ball mills or stamp mills.
+2. **Concentration (Ore Dressing):** Removing earthy impurities (**gangue / matrix**) from the powdered ore to increase metal percentage:
+   - **Gravity separation (Hydraulic washing):** Powdered ore is washed on a sloping vibrating table with a stream of water; **heavy oxide/native ores** (haematite, tin stone, alluvial gold) settle in grooves while lighter rocky gangue is washed away.
+   - **Magnetic separation:** Used when either the ore or the gangue is magnetic (for example separating magnetic iron ores like **magnetite $\text{Fe}_3\text{O}_4$** from non-magnetic siliceous gangue on a moving belt passing over a magnetic roller).
+   - **Froth floatation process:** Used for **sulphide ores** ($\text{CuFeS}_2, \text{ZnS}, \text{PbS}, \text{Ag}_2\text{S}$). Powdered ore is mixed with water and **pine oil** and agitated with compressed air; sulphide ore particles are wetted by oil and rise in the froth, while gangue is wetted by water and sinks.
+   - **Chemical separation (Leaching):** Used for purifying **bauxite ($\text{Al}_2\text{O}_3\cdot 2\text{H}_2\text{O}$)** by dissolving it in hot concentrated $\text{NaOH}$ (Bayer's process).
+3. **Oxidation of Concentrated Ore into Metal Oxide (Roasting vs Calcination):**
+   Because metal oxides are much easier to reduce to free metals than sulphides or carbonates, non-oxide ores are first converted into oxides:
+
+| Basis | Calcination | Roasting |
+|---|---|---|
+| **Definition** | Heating the concentrated ore strongly below its melting point **in the absence or limited supply of air/oxygen** | Heating the concentrated ore strongly below its melting point **in the presence of excess air/oxygen** |
+| **Type of ore used** | Used for **carbonate ores** ($\text{FeCO}_3, \text{ZnCO}_3, \text{CaCO}_3$) and **hydrated oxide ores** ($\text{Al}_2\text{O}_3\cdot 2\text{H}_2\text{O}$) | Used for **sulphide ores** ($\text{ZnS}, \text{CuFeS}_2, \text{PbS}, \text{Ag}_2\text{S}$) |
+| **Purpose / Change** | Drives off moisture and $\text{CO}_2$, leaving porous metal oxide: $\text{ZnCO}_3 \xrightarrow{\Delta} \text{ZnO} + \text{CO}_2 \uparrow$ | Converts sulphide into oxide and drives off $\text{SO}_2$: $2\text{ZnS} + 3\text{O}_2 \xrightarrow{\Delta} 2\text{ZnO} + 2\text{SO}_2 \uparrow$ |
+
+4. **Reduction of Metal Oxide to Crude Metal:**
+   - **Smelting (Carbon reduction):** Heating metal oxides ($\text{Fe, Zn, Pb, Sn, Cu}$) with **coke ($\text{C}$) or carbon monoxide ($\text{CO}$)** and a **flux** (which combines with remaining gangue to form fusible **slag**): $\text{Fe}_2\text{O}_3 + 3\text{CO} \xrightarrow{\Delta} 2\text{Fe} + 3\text{CO}_2 \uparrow$ and $\text{ZnO} + \text{C} \xrightarrow{\Delta} \text{Zn} + \text{CO} \uparrow$.
+   - **Aluminothermite reduction:** Reducing oxides of $\text{Cr}$ or $\text{Mn}$ using aluminium powder.
+   - **Electrolytic reduction:** Highly electropositive metals ($\text{K, Na, Ca, Mg, Al}$) cannot be reduced by carbon; they are extracted by **electrolysis** of their fused salts/oxides (e.g. Hall-Héroult electrolysis of alumina in molten cryolite).
+5. **Refining (Purification of Metal):**
+   - **Distillation:** For volatile, low-boiling metals like **mercury ($\text{Hg}$)** and **zinc ($\text{Zn}$)**.
+   - **Liquation / Poling:** For low-melting metals ($\text{Sn, Pb}$) or stirring molten blister copper with green wooden poles.
+   - **Electro-refining (Electrolytic refining):** Used to obtain $99.9\%$ pure **copper ($\text{Cu}$), silver ($\text{Ag}$), gold ($\text{Au}$) and aluminium ($\text{Al}$)**. A thick block of **impure metal is made the anode (+)**, a thin strip of **pure metal is made the cathode (−)**, and an aqueous solution of a salt of the same metal (such as acidified $\text{CuSO}_4$ for copper) is used as the **electrolyte**. On passing direct current, pure metal dissolves from the anode ($\text{Cu} \rightarrow \text{Cu}^{2+} + 2\text{e}^-$) and deposits on the cathode ($\text{Cu}^{2+} + 2\text{e}^- \rightarrow \text{Cu}$), while insoluble impurities settle below the anode as **anode mud**.
 
 ### Extraction according to reactivity
 

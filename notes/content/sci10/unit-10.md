@@ -327,7 +327,27 @@ fig.tight_layout()
 Diamond has a very small critical angle, so light entering it undergoes total internal reflection many times inside, and the stone sparkles.
 :::
 
-Applications of total internal reflection: **optical fibres** (light signals travel long distances by repeated total internal reflection; used for internet, telephone, and the endoscope in medicine), totally reflecting prisms in binoculars and periscopes, the sparkle of diamonds, and **mirage** in the desert (hot air near the ground is rarer than the cooler air above, so light from the sky is totally reflected upward and appears as water).
+Applications of total internal reflection: **optical fibres** (light signals travel long distances by repeated total internal reflection; used for high-speed telecommunication/internet, and in medical **endoscopy / laparoscopy** to examine internal organs like the stomach without major surgery), totally reflecting prisms in binoculars and periscopes, the sparkle of diamonds, and **mirage** on hot roads or deserts (hot air near the ground is optically rarer than cooler air above, so rays from the sky bend away from the normal and suffer total internal reflection upward, appearing as a pool of water).
+
+### Dispersion of Light through a Prism and Rainbow Formation (CDC Grade 10 focus)
+
+::: definition Dispersion of light
+The splitting of a beam of white light into its **seven constituent colours — Violet, Indigo, Blue, Green, Yellow, Orange and Red (VIBGYOR)** — when it passes through a transparent refracting medium such as a glass prism is called **dispersion of light**. The colored band obtained on a screen is called the **visible spectrum**.
+:::
+
+- **Cause of dispersion:** Different colours of white light have **different wavelengths ($\lambda$)**. In vacuum/air, all seven colours travel at the same speed ($3 \times 10^8\ \text{m s}^{-1}$), but inside a denser medium like glass or water, **speed depends on wavelength**:
+  - **Red light** has the **longest wavelength ($\sim 700\ \text{nm}$)**, travels **fastest** in glass, has the **smallest refractive index**, and therefore **bends (deviates) the least** (stays at the top of the prism spectrum).
+  - **Violet light** has the **shortest wavelength ($\sim 400\ \text{nm}$)**, travels **slowest** in glass, has the **largest refractive index**, and therefore **bends (deviates) the most** (lies at the bottom of the prism spectrum).
+- **Formation of a Rainbow:** A natural spectrum seen as a **semicircular multicoloured arc** in the sky opposite the Sun during or after rain. When **the Sun is behind the observer** and tiny **water droplets are suspended in the air in front**, sunlight entering each spherical raindrop undergoes:
+  1. **Refraction and dispersion** at the front surface of the raindrop (splitting into VIBGYOR),
+  2. **Internal reflection** at the back inner surface of the droplet, and
+  3. **Refraction** again as the rays exit the front of the drop towards the observer's eye (red exits at $\sim 42^\circ$ and violet at $\sim 40^\circ$, making the arc semicircular).
+
+### Corneal Transplantation, Cataract and Colour/Night Blindness (CDC Grade 10 focus)
+
+- **Corneal blindness and Corneal Transplantation (Keratoplasty):** If the transparent **cornea** at the front of the eye becomes scarred, cloudy or damaged by injury, infection or vitamin-A deficiency, light cannot enter the eye properly. Vision is restored by **corneal transplantation** — surgically replacing the damaged cornea with a healthy transparent cornea donated after death (such as through the **Tilganga Institute of Ophthalmology / Nepal Eye Bank**). Because the cornea has no blood vessels, tissue rejection is rare.
+- **Cataract (*Motibindu*):** In old age, the crystalline **eye lens becomes milky, cloudy and opaque**, causing blurred vision or blindness. Treated by **intraocular cataract surgery** (phacoemulsification), replacing the cloudy lens with a clear artificial **intraocular lens (IOL)** (pioneered at low cost in Nepal by **Dr. Sanduk Ruit**).
+- **Night blindness vs Colour blindness:** **Night blindness (Nyctalopia)** is the inability to see in dim light due to weakness of **rod cells** (caused by Vitamin A deficiency). **Colour blindness** is a hereditary X-linked disorder in which **cone cells** fail to distinguish colours (especially red and green).
 
 ## 10.4 Lenses
 

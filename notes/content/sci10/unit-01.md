@@ -238,8 +238,48 @@ Some useful derived units:
 | Speed | distance / time | m s⁻¹ |
 | Force | mass × acceleration | newton (N) |
 | Pressure | force / area | pascal (Pa) |
-| Energy | force × distance | joule (J) |
-| Power | work / time | watt (W) |
+| Energy / Work | force × distance | joule (J) | $\text{kg m}^2\text{s}^{-2}$ |
+| Power | work / time | watt (W) | $\text{kg m}^2\text{s}^{-3}$ |
+| Moment of force (Torque) | force × perpendicular distance | newton-metre (N m) | $\text{kg m}^2\text{s}^{-2}$ |
+| Electric charge | current × time ($Q = It$) | coulomb (C) | $\text{A s}$ |
+| Potential difference (Voltage) | work / charge ($V = W/Q$) | volt (V) | $\text{kg m}^2\text{s}^{-3}\text{A}^{-1}$ |
+| Electrical resistance | voltage / current ($R = V/I$) | ohm ($\Omega$) | $\text{kg m}^2\text{s}^{-3}\text{A}^{-2}$ |
+| Specific heat capacity | $s = Q/(m\Delta T)$ | $\text{J kg}^{-1}\text{K}^{-1}$ | $\text{m}^2\text{s}^{-2}\text{K}^{-1}$ |
+| Gravitational constant ($G$) | $G = Fd^2/(m_1m_2)$ | $\text{N m}^2\text{kg}^{-2}$ | $\text{m}^3\text{kg}^{-1}\text{s}^{-2}$ |
+
+### Rules for working with variables in scientific research (CDC Grade 10 focus)
+
+1. A valid scientific experiment must have **only one independent variable** (the factor changed by the experimenter) and **only one dependent variable** (the effect measured).
+2. All other factors that could affect the outcome must be kept strictly constant as **controlled variables** so the test is fair.
+3. In a mathematical formula or equation, the **dependent variable is generally written on the left-hand side (LHS)** and the **independent variable on the right-hand side (RHS)** (for example in $s = ut + \frac{1}{2}at^2$, displacement $s$ is dependent and time $t$ is independent).
+4. When plotting a graph of experimental data, always plot the **independent variable on the horizontal $x$-axis** and the **dependent variable on the vertical $y$-axis**.
+
+### Analysis of unit-wise equations (Checking homogeneity/validity of equations)
+
+::: definition Principle of unit homogeneity
+A physical equation is **unit-wise valid (dimensionally homogeneous)** only if the fundamental SI units of **every term on the left-hand side (LHS)** are identical to the fundamental SI units of **every term on the right-hand side (RHS)**. Only quantities having the **same fundamental units** can be added, subtracted or equated.
+:::
+
+::: example Checking validity of equations using fundamental units (SEE favourite)
+**Problem.** Test by unit-wise analysis whether the following equations are valid or invalid:
+(a) $v^2 = u^2 + 2as$ \qquad (b) $s = ut + \frac{1}{2}at$ \qquad (c) $P = hdg$
+
+**Solution.**
+- **(a) Checking $v^2 = u^2 + 2as$:**
+  - Unit of LHS ($v^2$) $= (\text{m s}^{-1})^2 = \text{m}^2\text{s}^{-2}$.
+  - Unit of 1st term on RHS ($u^2$) $= (\text{m s}^{-1})^2 = \text{m}^2\text{s}^{-2}$.
+  - Unit of 2nd term on RHS ($2as$, where $2$ is a unitless constant) $= (\text{m s}^{-2}) \times \text{m} = \text{m}^2\text{s}^{-2}$.
+  - Since the fundamental unit of every term on both sides is $\text{m}^2\text{s}^{-2}$, the equation $v^2 = u^2 + 2as$ is **valid (correct)**.
+- **(b) Checking $s = ut + \frac{1}{2}at$:**
+  - Unit of LHS ($s$, displacement) $= \text{m}$.
+  - Unit of $ut = (\text{m s}^{-1}) \times \text{s} = \text{m}$.
+  - Unit of $\frac{1}{2}at = (\text{m s}^{-2}) \times \text{s} = \text{m s}^{-1} \ne \text{m}$.
+  - Because the unit of $\frac{1}{2}at$ ($\text{m s}^{-1}$) does not match $\text{m}$, the equation $s = ut + \frac{1}{2}at$ is **invalid** (the valid equation is $s = ut + \frac{1}{2}at^2$, where $(\text{m s}^{-2})\times \text{s}^2 = \text{m}$).
+- **(c) Checking liquid pressure $P = hdg$:**
+  - Unit of LHS ($P = F/A$) $= \frac{\text{kg m s}^{-2}}{\text{m}^2} = \text{kg m}^{-1}\text{s}^{-2}$.
+  - Unit of RHS ($hdg$) $= \text{m} \times (\text{kg m}^{-3}) \times (\text{m s}^{-2}) = \text{kg m}^{-1}\text{s}^{-2}$.
+  - Since $\text{LHS unit} = \text{RHS unit} = \text{kg m}^{-1}\text{s}^{-2}$, the equation $P = hdg$ is **valid**.
+:::
 
 ### Prefixes
 
@@ -543,7 +583,7 @@ $$LC = 1\ \text{MSD} - 1\ \text{VSD} = 1\ \text{mm} - 0.9\ \text{mm} = 0.1\ \tex
 
 **Worked example.** A steel ball is measured. MSR $= 2.3$ cm, the 6th vernier division coincides, and the zero error is $+0.02$ cm.
 
-$$\text{Observed reading} = 2.3 + 6 \times 0.01 = 2.36\ \text{cm}, \qquad \text{Corrected reading} = 2.36 - 0.02 = 2.34\ \text{cm}.$$
+$$\text{Observed} = 2.3 + 6 \times 0.01 = 2.36\ \text{cm}, \quad \text{Corrected} = 2.36 - 0.02 = 2.34\ \text{cm}.$$
 
 **Other measuring instruments.**
 

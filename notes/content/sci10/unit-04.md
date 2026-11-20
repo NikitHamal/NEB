@@ -216,7 +216,30 @@ The 3 : 1 ratio is the phenotypic ratio; the genotypic ratio is 1 : 2 : 1. Many 
 
 Sometimes neither allele is fully dominant. In the **four o'clock plant** (*Mirabilis jalapa*), a cross between red (RR) and white (rr) flowers gives **pink** (Rr) flowers in F₁. In F₂ the ratio is **1 red : 2 pink : 1 white**. This is **incomplete dominance**, and here the phenotypic and genotypic ratios are the same.
 
-## 4.2 Chromosomes and genes
+## 4.2 Cell division (mitosis and meiosis), chromosomes, DNA, RNA and genes
+
+### Cell division: Amitosis, Mitosis and Meiosis (CDC Grade 10 focus)
+
+Living organisms grow, repair damaged tissues and reproduce through **cell division** — the process by which a parent (mother) cell divides into new daughter cells. Each division consists of **karyokinesis** (division of the nucleus) followed by **cytokinesis** (division of the cytoplasm). Aside from primitive **amitosis** (direct division in bacteria, amoeba and yeast), eukaryotic cells divide by two main methods:
+
+| Basis | Mitosis (Equational / Somatic Cell Division) | Meiosis (Reductional / Reproductive Cell Division) |
+|---|---|---|
+| **Where it occurs** | Occurs in **somatic (body) cells** and vegetative parts (stem tip, root tip, skin, bone marrow) | Occurs in **diploid germ (reproductive mother) cells** in testes and ovaries (and anthers/ovules of flowers) |
+| **Number of divisions** | Completed in **one division** (Prophase, Metaphase, Anaphase, Telophase) | Completed in **two successive divisions**: **Meiosis I** (reductional) and **Meiosis II** (equational) |
+| **Number of daughter cells** | One mother cell produces **two daughter cells** | One mother cell produces **four daughter cells (gametes/spores)** |
+| **Chromosome number** | Remains **unchanged / diploid** ($2n \rightarrow 2n$; in humans $46 \rightarrow 46$); hence called **equational division** | Reduced to **half / haploid** ($2n \rightarrow n$; in humans $46 \rightarrow 23$); hence called **reductional division** |
+| **Crossing over & variation** | **No crossing over**; daughter cells are genetically **identical** to the mother cell and to each other | **Crossing over** occurs at chiasmata in Prophase I, exchanging genetic segments and producing **genetic variation** |
+| **Main significance** | **Physical growth**, healing of wounds, tissue regeneration, genetic stability and **asexual reproduction** | Forms **haploid gametes** (sperm and ovum), keeps species chromosome number constant across generations, and brings **variation/evolution** |
+
+### Difference between DNA and RNA
+
+| Basis | DNA (Deoxyribonucleic Acid) | RNA (Ribonucleic Acid) |
+|---|---|---|
+| **Structure** | **Double-stranded** antiparallel helix (Watson and Crick model) | **Single-stranded** nucleotide chain |
+| **Pentose sugar** | **Deoxyribose** sugar ($\text{C}_5\text{H}_{10}\text{O}_4$) | **Ribose** sugar ($\text{C}_5\text{H}_{10}\text{O}_5$) |
+| **Nitrogenous bases** | Adenine (**A**), Guanine (**G**), Cytosine (**C**) and **Thymine (T)** ($\text{A}=\text{T}, \text{G}\equiv\text{C}$) | Adenine (**A**), Guanine (**G**), Cytosine (**C**) and **Uracil (U)** (in place of Thymine) |
+| **Location** | Primarily inside the **nucleus** (chromosomes), plus mitochondria and chloroplasts | Synthesised in the nucleus (by **DNA transcription**) and functions in the **cytoplasm / ribosomes** |
+| **Main function** | **Stores and transmits hereditary information** from parents to offspring through genes | **Synthesises proteins** (translation via $\text{mRNA}, \text{tRNA}, \text{rRNA}$) and expresses genetic traits |
 
 ### Where are genes found?
 
@@ -397,6 +420,18 @@ These are due to a change in the number of chromosomes, usually from a mistake i
 | Disorder | Chromosomes | Features |
 |---|---|---|
 | **Down's syndrome** | 47: an extra chromosome 21 (**trisomy 21**) | Short height, flat face, slanting eyes, mental retardation; the risk increases with the age of the mother |
+
+### Genetic Technology: Selective Breeding, AI, IVF and DNA Testing (CDC Grade 10 focus)
+
+1. **Selective Breeding (Artificial Selection):** Choosing parent plants or animals with desirable hereditary traits and breeding them to produce improved offspring:
+   - **Inbreeding:** Mating closely related individuals of the same breed for several generations to preserve pure traits (though prolonged inbreeding reduces vigour and fertility, called *inbreeding depression*).
+   - **Crossbreeding (Hybridisation):** Mating individuals of two different breeds, varieties or species to combine their best qualities (**hybrid vigour / heterosis**).
+     - *Textbook examples of hybrids:* **Mule (*Khachchar*)** — sterile hybrid produced by crossing a **male donkey (*Equus asinus*, $2n=62$) and a female horse (*Equus caballus*, $2n=64$)** (has $63$ chromosomes, combining the horse's size and strength with the donkey's endurance and sure-footedness on mountain trails); **Hinny** (male horse $\times$ female donkey); **Liger / Tigon** (lion $\times$ tiger); **Pomato** (somatic hybrid of potato and tomato); **Triticale** (wheat $\times$ rye).
+2. **Artificial Insemination (AI):** Collecting semen from a healthy, high-yielding male bull, preserving it in liquid nitrogen ($-196\ ^\circ\text{C}$), and introducing it artificially into the reproductive tract of a female at the fertile period to improve livestock breeds rapidly and cheaply.
+3. **In Vitro Fertilisation (IVF / "Test-tube Baby"):** Fertilising an ovum (egg) with sperm **outside the mother's body in a laboratory dish** under controlled conditions and transferring the resulting early embryo (**zygote/blastocyst**) into the mother's uterus to help infertile couples (for example with blocked Fallopian tubes) have a biological child.
+4. **Genetic Engineering and DNA Testing (DNA Fingerprinting):**
+   - **Genetic engineering (recombinant DNA technology):** Isolating a desired gene from one organism and inserting it into another organism to produce **genetically modified organisms (GMOs / transgenic crops)** or medicines such as **human insulin** manufactured by transgenic bacteria.
+   - **DNA testing (DNA profiling / fingerprinting):** Because every person (except identical twins) has a unique nucleotide sequence in their DNA and inherits $50\%$ of their DNA from the mother and $50\%$ from the biological father, DNA testing is used to **settle disputed paternity/maternity**, **identify criminals from blood, hair or saliva at crime scenes**, and **identify victims of disasters or air crashes**.
 | **Turner's syndrome** | 45: one X only (**XO**), female | Short, no ovaries, infertile |
 | **Klinefelter's syndrome** | 47: **XXY**, male | Tall, small testes, infertile, some breast growth |
 

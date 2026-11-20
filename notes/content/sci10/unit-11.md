@@ -208,7 +208,19 @@ A **fuse** is a short piece of wire of low melting point placed in series in a c
 Do not write "the bulb used 100 W". A watt is a rate (joules per second). The energy used is $P \times t$ in J or kWh. A "unit" of electricity is 1 kWh, an amount of energy, not of power.
 :::
 
-## 11.4 Magnetic effect of current
+## 11.4 Direct Current (DC), Alternating Current (AC) and Magnetic Effect of Current
+
+### Direct Current (DC) and Alternating Current (AC) (CDC Grade 10 focus)
+
+| Basis | Direct Current (DC) | Alternating Current (AC) |
+|---|---|---|
+| **Definition** | Electric current whose **magnitude and direction (polarity) remain constant** with time | Electric current whose **magnitude changes continuously and direction reverses periodically** with time |
+| **Sources** | Dry cell, lead-acid battery, solar cell, DC dynamo | Hydropower alternator (AC generator), domestic mains supply |
+| **Frequency** | **$0\ \text{Hz}$** (does not oscillate) | In Nepal, domestic AC frequency is **$50\ \text{Hz}$** (completes $50$ cycles/s and reverses direction $100$ times/s) |
+| **Transformer use** | **Cannot** be stepped up or down by a transformer | **Can easily be stepped up or down** by a transformer for long-distance transmission |
+| **Main uses** | Electroplating, electro-refining, charging batteries, running electronic circuits | Running household appliances (fans, heaters, motors, lighting) and national grid transmission |
+
+- **Magnetic Flux ($\Phi$):** The total number of magnetic field lines passing normally through a given closed surface inside a magnetic field is called **magnetic flux ($\Phi$)**. Its SI unit is the **weber ($\text{Wb}$)**. Whenever the magnetic flux linked with a closed coil changes, an induced emf and current are produced.
 
 ### Oersted's experiment
 

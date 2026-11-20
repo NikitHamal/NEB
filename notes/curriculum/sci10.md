@@ -3,10 +3,10 @@
 # NOTE: Chapter list from the CDC Grade 10 textbook (2080 BS edition), 19 chapters. Chapter bullets are a topic guide, not the official sub-topic text.
 # AREA: Science and Technology
 ## 1. Scientific Learning
-- Science and scientific method
-- scientific investigation
-- measurement and units
-- project work
+- Scientific study and the scientific method
+- Variables in scientific research: independent, dependent and controlled variables
+- Fundamental and derived units and their analysis
+- Unit-wise analysis of equations and scientific investigation
 ## 2. Classification of Living Beings
 - Taxonomy and classification
 - five kingdoms
@@ -17,10 +17,10 @@
 - colony and division of labour
 - bee keeping and products
 ## 4. Heredity
-- Mendel's experiments and laws
-- chromosomes and genes
-- sex determination
-- genetic disorders
+- Mendel's experiments and laws of inheritance
+- Cell division (mitosis and meiosis), chromosomes, DNA, RNA and genes
+- Sex determination in humans
+- Genetic disorders and genetic technology (selective breeding, AI, IVF and DNA testing)
 ## 5. Physiological Structure and Life Process
 - Human blood: composition, blood cells and functions
 - Structure and working of the human heart
@@ -28,11 +28,11 @@
 - Blood groups, blood pressure, heart attack and angiography
 - Diabetes (hyperglycemia) and uric acid (gout)
 ## 6. Nature and Environment
-- Ecosystem
-- environmental pollution
-- climate change
-- waste management
-- conservation
+- Ecosystem and natural balance
+- Environmental pollution and acid rain
+- Greenhouse effect and climate change
+- Waste management
+- Conservation, endangered species and medicinal plants of Nepal
 ## 7. Motion and Force
 - Newton's laws
 - momentum
@@ -86,15 +86,15 @@
 - Ammonia gas: laboratory preparation, Haber's process, properties and uses
 - Greenhouse effect and acid rain
 ## 17. Metal and Non-metals
-- Physical and chemical properties
-- reactivity series
-- extraction
-- corrosion
+- Physical and chemical properties of metals and non-metals
+- Reactivity series and displacement reactions
+- Minerals, ores of Fe, Al, Cu, Ag and Au, and the five steps of metallurgy
+- Corrosion and rusting of iron
 ## 18. Hydrocarbon and its Compounds
-- Alkanes, alkenes, alkynes
-- homologous series
-- alcohols
-- carboxylic acids
+- Saturated and unsaturated hydrocarbons (alkanes, alkenes, alkynes) and methane, ethane, propane and butane
+- Homologous series, alkyl radicals and functional groups
+- Monohydric, dihydric and trihydric alcohols: methanol, ethanol and glycerol
+- Carboxylic acids and everyday organic compounds
 ## 19. Chemicals used in Daily Life
 - Food preservatives and artificial fruit ripening agents
 - Cleaning chemicals: soap, detergent and natural cleansers
