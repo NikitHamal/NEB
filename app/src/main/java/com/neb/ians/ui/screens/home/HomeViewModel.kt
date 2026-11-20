@@ -122,6 +122,9 @@ class HomeViewModel @Inject constructor(
     private fun sliceKey(sort: String = _sort.value, category: String? = _selectedCategory.value): String =
         "$sort|${category.orEmpty()}"
 
+    private fun currentUid(): String? =
+        (authRepository.authState.value as? com.neb.ians.data.repository.AuthState.Authenticated)?.userId
+
     init {
         if (appCache.recentPosts.isNotEmpty()) {
             postSlices[sliceKey("hot", null)] = appCache.recentPosts to true
@@ -172,7 +175,7 @@ class HomeViewModel @Inject constructor(
                         val activeCat = _selectedCategory.value
                         forumRepository.getPosts(category = activeCat, page = 1, sort = activeSort, cacheOnly = true)
                             .onSuccess { result ->
-                                val uid = authRepository.currentUserIdFlow.value
+                                val uid = currentUid()
                                 val ranked = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                                     rankHomeFeedPosts(result.posts, activeSort, uid)
                                 }
@@ -308,7 +311,7 @@ class HomeViewModel @Inject constructor(
                         _popularResources.value = result.resources
                     }
                     cachedPosts.await().onSuccess { result ->
-                        val uid = authRepository.currentUserIdFlow.value
+                        val uid = currentUid()
                         val posts = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                             com.neb.ians.ui.components.prewarmCardPreviewsNow(result.posts.map { it.content })
                             rankHomeFeedPosts(result.posts, activeSort, uid)
@@ -343,7 +346,7 @@ class HomeViewModel @Inject constructor(
                 val popular = results.popular.getOrNull()?.resources ?: appCache.popularResources
                 val postResult = results.posts.getOrNull()
                 val rawPosts = (postResult?.posts ?: _recentPosts.value).distinctBy { it.id }
-                val uid = authRepository.currentUserIdFlow.value
+                val uid = currentUid()
                 val posts = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                     com.neb.ians.ui.components.prewarmCardPreviewsNow(rawPosts.map { it.content })
                     rankHomeFeedPosts(rawPosts, activeSort, uid)
@@ -427,7 +430,7 @@ class HomeViewModel @Inject constructor(
             if (postSlices[key] == null) {
                 forumRepository.getPosts(category = targetCat, page = 1, sort = targetSort, cacheOnly = true)
                     .onSuccess { cached ->
-                        val uid = authRepository.currentUserIdFlow.value
+                        val uid = currentUid()
                         val ranked = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                             com.neb.ians.ui.components.prewarmCardPreviewsNow(cached.posts.map { it.content })
                             rankHomeFeedPosts(cached.posts, targetSort, uid)
@@ -439,7 +442,7 @@ class HomeViewModel @Inject constructor(
             }
             forumRepository.getPosts(category = targetCat, page = 1, sort = targetSort, forceRefresh = false)
                 .onSuccess { fresh ->
-                    val uid = authRepository.currentUserIdFlow.value
+                    val uid = currentUid()
                     val ranked = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                         com.neb.ians.ui.components.prewarmCardPreviewsNow(fresh.posts.map { it.content })
                         rankHomeFeedPosts(fresh.posts, targetSort, uid)
@@ -480,7 +483,7 @@ class HomeViewModel @Inject constructor(
                     onSuccess = { result ->
                         currentPostPage = nextPostPage
                         _hasMorePosts.value = result.hasMore
-                        val uid = authRepository.currentUserIdFlow.value
+                        val uid = currentUid()
                         val rankedNew = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                             com.neb.ians.ui.components.prewarmCardPreviewsNow(result.posts.map { it.content })
                             rankHomeFeedPosts(result.posts, activeSort, uid)

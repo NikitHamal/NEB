@@ -163,7 +163,7 @@ def cmd_ci() -> int:
                                  f"https://api.github.com/repos/{REPO}/actions/jobs/{j['id']}/logs"],
                                 text=True, timeout=15,
                             )
-                            tail = [ln for ln in log_txt.splitlines() if any(w in ln.lower() for w in ("error", "fail", "exception", "traceback", "line "))][-12:]
+                            tail = [ln for ln in log_txt.splitlines() if any(w in ln.lower() for w in ("e: file://", "error", "fail", "exception", "traceback", "line "))][-16:]
                             for ln in tail:
                                 print(f"       {ln[:160]}")
                         except Exception:
