@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Scientific Learning",
    "area": "Science and Technology",
-   "words": 5144,
+   "words": 5145,
    "read_min": 29,
    "figures": 5,
    "has_questions": true
@@ -59,8 +59,8 @@
    "no": 7,
    "title": "Motion and Force",
    "area": "Science and Technology",
-   "words": 5368,
-   "read_min": 30,
+   "words": 5694,
+   "read_min": 32,
    "figures": 7,
    "has_questions": true
   },
@@ -77,8 +77,8 @@
    "no": 9,
    "title": "Heat",
    "area": "Science and Technology",
-   "words": 4809,
-   "read_min": 27,
+   "words": 5405,
+   "read_min": 30,
    "figures": 5,
    "has_questions": true
   },
@@ -113,8 +113,8 @@
    "no": 13,
    "title": "Information and Communication Technology",
    "area": "Science and Technology",
-   "words": 5327,
-   "read_min": 30,
+   "words": 5539,
+   "read_min": 31,
    "figures": 4,
    "has_questions": true
   },

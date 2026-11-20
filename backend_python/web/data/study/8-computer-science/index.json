@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Fundamentals of Computer",
    "area": "Computer Fundamentals",
-   "words": 5805,
+   "words": 5802,
    "read_min": 32,
    "figures": 5,
    "has_questions": true
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "Types of Computer",
    "area": "Computer Fundamentals",
-   "words": 4952,
-   "read_min": 28,
+   "words": 4948,
+   "read_min": 27,
    "figures": 8,
    "has_questions": true
   },
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Computer Software",
    "area": "Computer Fundamentals",
-   "words": 5334,
+   "words": 5328,
    "read_min": 30,
    "figures": 5,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Spreadsheet Software",
    "area": "Application Software",
-   "words": 5857,
+   "words": 5855,
    "read_min": 33,
    "figures": 6,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "Computer Virus",
    "area": "Web, Communication and Society",
-   "words": 5993,
+   "words": 6001,
    "read_min": 33,
    "figures": 8,
    "has_questions": true
