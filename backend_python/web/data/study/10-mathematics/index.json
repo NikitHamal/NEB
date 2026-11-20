@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Sets",
    "area": "Compulsory Mathematics",
-   "words": 2385,
+   "words": 2388,
    "read_min": 13,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Tax and Money Exchange",
    "area": "Compulsory Mathematics",
-   "words": 3457,
+   "words": 3460,
    "read_min": 19,
    "figures": 5,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Compound Interest",
    "area": "Compulsory Mathematics",
-   "words": 2567,
+   "words": 2570,
    "read_min": 14,
    "figures": 2,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Population Growth and Depreciation",
    "area": "Compulsory Mathematics",
-   "words": 2507,
+   "words": 2510,
    "read_min": 14,
    "figures": 4,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Plane Surfaces",
    "area": "Compulsory Mathematics",
-   "words": 2391,
+   "words": 2394,
    "read_min": 13,
    "figures": 5,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Cylinder and Sphere",
    "area": "Compulsory Mathematics",
-   "words": 2453,
+   "words": 2456,
    "read_min": 14,
    "figures": 5,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Prism and Pyramid",
    "area": "Compulsory Mathematics",
-   "words": 2324,
+   "words": 2327,
    "read_min": 13,
    "figures": 5,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Highest Common Factor and Lowest Common Multiple",
    "area": "Compulsory Mathematics",
-   "words": 2203,
+   "words": 2206,
    "read_min": 12,
    "figures": 4,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Radical and Surd",
    "area": "Compulsory Mathematics",
-   "words": 1939,
+   "words": 1942,
    "read_min": 11,
    "figures": 3,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Indices",
    "area": "Compulsory Mathematics",
-   "words": 1925,
+   "words": 1928,
    "read_min": 11,
    "figures": 2,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Algebraic Fraction",
    "area": "Compulsory Mathematics",
-   "words": 1647,
+   "words": 1650,
    "read_min": 9,
    "figures": 2,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "Equations",
    "area": "Compulsory Mathematics",
-   "words": 2129,
+   "words": 2132,
    "read_min": 12,
    "figures": 3,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "Area of Triangles and Quadrilaterals",
    "area": "Compulsory Mathematics",
-   "words": 2830,
+   "words": 2833,
    "read_min": 16,
    "figures": 5,
    "has_questions": true
@@ -122,7 +122,7 @@
    "no": 14,
    "title": "Construction",
    "area": "Compulsory Mathematics",
-   "words": 2591,
+   "words": 2594,
    "read_min": 14,
    "figures": 5,
    "has_questions": true
@@ -131,7 +131,7 @@
    "no": 15,
    "title": "Circle",
    "area": "Compulsory Mathematics",
-   "words": 2830,
+   "words": 2833,
    "read_min": 16,
    "figures": 6,
    "has_questions": true
@@ -140,7 +140,7 @@
    "no": 16,
    "title": "Trigonometry",
    "area": "Compulsory Mathematics",
-   "words": 2202,
+   "words": 2205,
    "read_min": 12,
    "figures": 6,
    "has_questions": true
@@ -149,7 +149,7 @@
    "no": 17,
    "title": "Statistics",
    "area": "Compulsory Mathematics",
-   "words": 2216,
+   "words": 2219,
    "read_min": 12,
    "figures": 4,
    "has_questions": true
@@ -158,7 +158,7 @@
    "no": 18,
    "title": "Probability",
    "area": "Compulsory Mathematics",
-   "words": 2276,
+   "words": 2279,
    "read_min": 13,
    "figures": 4,
    "has_questions": true

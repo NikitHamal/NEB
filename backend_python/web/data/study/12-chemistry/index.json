@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Chemical Kinetics",
    "area": "General and Physical Chemistry",
-   "words": 6889,
+   "words": 6886,
    "read_min": 38,
    "figures": 7,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Haloalkanes",
    "area": "Organic Chemistry",
-   "words": 5582,
+   "words": 5580,
    "read_min": 31,
    "figures": 7,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Haloarenes",
    "area": "Organic Chemistry",
-   "words": 5041,
+   "words": 5037,
    "read_min": 28,
    "figures": 6,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Alcohols",
    "area": "Organic Chemistry",
-   "words": 4907,
+   "words": 4903,
    "read_min": 27,
    "figures": 6,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Phenols",
    "area": "Organic Chemistry",
-   "words": 4313,
+   "words": 4311,
    "read_min": 24,
    "figures": 5,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "Ethers",
    "area": "Organic Chemistry",
-   "words": 3868,
+   "words": 3864,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "Aldehydes and Ketones",
    "area": "Organic Chemistry",
-   "words": 5543,
+   "words": 5539,
    "read_min": 31,
    "figures": 6,
    "has_questions": true
@@ -122,7 +122,7 @@
    "no": 14,
    "title": "Carboxylic Acid and its Derivatives",
    "area": "Organic Chemistry",
-   "words": 5936,
+   "words": 5930,
    "read_min": 33,
    "figures": 6,
    "has_questions": true
@@ -167,7 +167,7 @@
    "no": 19,
    "title": "Cement",
    "area": "Applied Chemistry",
-   "words": 3905,
+   "words": 3899,
    "read_min": 22,
    "figures": 5,
    "has_questions": true
@@ -176,7 +176,7 @@
    "no": 20,
    "title": "Paper and Pulp",
    "area": "Applied Chemistry",
-   "words": 3804,
+   "words": 3799,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
