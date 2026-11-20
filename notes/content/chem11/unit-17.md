@@ -9,7 +9,7 @@ area: Applied Chemistry
 
 Unit 16 gave you the grammar of industrial chemistry — stages, costs, batch
 versus continuous, pollution. This unit gives you the sentences. Six
-manufactures are named in the syllabus, and between them they make the four
+manufactures are covered in this unit, and between them they make the four
 "heavy chemicals" on which every other industry rests: ammonia, nitric acid,
 sulphuric acid and alkali. A country's sulphuric acid output was once used as a
 one-number index of how industrialised it was. Nepal makes none of these at

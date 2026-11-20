@@ -545,7 +545,7 @@ Algae are simple, chlorophyll-bearing, thalloid plants with no true roots, stems
 leaves or vascular tissue, whose sex organs are **unicellular** and whose
 zygote never develops into a multicellular embryo inside the female organ. Most
 are aquatic. The study of algae is **phycology**, and the classification below is
-that of **F. E. Fritsch (1935)**, which the NEB syllabus follows.
+that of **F. E. Fritsch (1935)**, which the course follows.
 
 **Range of form.** Algae span almost every level of organisation below the true
 plant: unicellular motile (*Chlamydomonas*), unicellular non-motile
@@ -2028,7 +2028,7 @@ dangerous poisons, since the family is rich in **alkaloids**.
 **Liliaceae**, the lily family, is the representative **monocot** family of the
 syllabus, taken in the broad Bentham and Hooker sense that includes *Allium*. It
 has about 250 genera and 4,000 species and is the monocot equivalent of a
-textbook family: perfectly trimerous throughout.
+classic example of the family: perfectly trimerous throughout.
 
 - **Habit**: perennial **herbs** with underground perennating organs, rarely
   shrubs (*Yucca*) or climbers (*Smilax*, *Gloriosa*).

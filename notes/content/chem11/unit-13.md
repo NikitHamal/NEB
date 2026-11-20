@@ -848,7 +848,7 @@ order reverses.
 ## 13.8 Inductive effect (+I and −I); Resonance effect (+R and −R)
 
 Substituents change how a molecule reacts by pushing or pulling electron density.
-Two permanent electronic effects are on the syllabus.
+Two permanent electronic effects are in this unit.
 
 ### Inductive effect
 

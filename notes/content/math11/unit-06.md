@@ -415,7 +415,7 @@ So $x = y = z = 1$. **Check in the third equation:** $5(1) + 6(1) = 11$. Correct
 
 ## 6.4 Determinant and its properties (without proof)
 
-These properties are stated without proof in the NEB syllabus, but you are
+These properties are stated without proof at this level, but you are
 expected to *use* them to shorten a calculation. Throughout, "row" may be replaced
 by "column".
 

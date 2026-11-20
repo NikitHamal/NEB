@@ -472,7 +472,7 @@ $10=1\times10^1$. **Answer.** $1\times10^1$, which is the ordinary number 10.
 $300\,000\div30\,000=10$ ✓.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** Write true or false: (a) The sets of rational and irrational numbers are disjoint. (b) The set of whole numbers and the set of integers are the same. (c) $\sqrt{4}$ is irrational.
 **2.** Reduce to fractions: (a) $0.\overline{24}$ (b) $4.\overline{78}$ (c) $0.\overline{132}$.

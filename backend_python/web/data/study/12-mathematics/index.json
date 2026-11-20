@@ -131,7 +131,7 @@
    "no": 15,
    "title": "Computational Methods",
    "area": "Computational Methods OR Mechanics",
-   "words": 6941,
+   "words": 6940,
    "read_min": 39,
    "figures": 9,
    "has_questions": true
@@ -168,14 +168,14 @@
    "no": 2,
    "kind": "subjective",
    "title": "Mathematics: Unit-wise Subjective Question Bank",
-   "words": 14247,
+   "words": 14146,
    "read_min": 79
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Mathematics: Model Question Sets and Predicted Questions",
-   "words": 6375,
+   "words": 6270,
    "read_min": 35
   }
  ],

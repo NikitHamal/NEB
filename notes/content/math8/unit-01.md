@@ -12,7 +12,7 @@ the districts of Koshi Province, the prime numbers below 20, the students in you
 class who play football. Writing the members of a collection inside curly
 brackets and giving the collection a name turns it into something a
 mathematician can count, compare and reason with. This chapter reviews set
-notation and then works through the ideas that the Grade 8 syllabus tests:
+notation and then works through the core Grade 8 set operations and Venn diagram problems:
 universal set and complement, disjoint and overlapping sets, subsets, and the
 operations of union and intersection with their Venn diagrams.
 
@@ -515,7 +515,7 @@ rectangle. **Check.** $18+10+12+5=45$ ✓.
 $=80+50=130$. **Check.** $80+40+50+30=200$ ✓.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **Group B (2 marks each)**
 

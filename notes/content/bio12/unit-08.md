@@ -2056,7 +2056,7 @@ The **pars intermedia** secretes **melanocyte-stimulating hormone (MSH)**, which
 **Hormones of the posterior lobe.** Both are small nonapeptides (9 amino acids).
 
 - **ADH (vasopressin)** makes the DCT and collecting duct permeable to water, concentrating the urine (§8.4). Deficiency causes **diabetes insipidus**: 10–20 litres of dilute, tasteless urine a day and raging thirst.
-- **Oxytocin** contracts the smooth muscle of the uterus during labour and causes **milk ejection** from the mammary glands. It is the textbook example of **positive feedback** — stretching of the cervix triggers oxytocin, which contracts the uterus, which stretches the cervix more, until the baby is delivered.
+- **Oxytocin** contracts the smooth muscle of the uterus during labour and causes **milk ejection** from the mammary glands. It is the classic example of **positive feedback** — stretching of the cervix triggers oxytocin, which contracts the uterus, which stretches the cervix more, until the baby is delivered.
 
 ### Thyroid gland
 

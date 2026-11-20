@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Vector",
    "area": "Units",
-   "words": 2413,
+   "words": 2382,
    "read_min": 13,
    "figures": 6,
    "has_questions": true
@@ -104,8 +104,8 @@
    "no": 12,
    "title": "Functions and Polynomials",
    "area": "Units",
-   "words": 4344,
-   "read_min": 24,
+   "words": 4631,
+   "read_min": 26,
    "figures": 4,
    "has_questions": true
   }
@@ -116,22 +116,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Optional Mathematics: Unit-wise Objective Question Bank",
-   "words": 3377,
+   "words": 3336,
    "read_min": 19
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Optional Mathematics: Unit-wise Subjective Question Bank",
-   "words": 4673,
+   "words": 4624,
    "read_min": 26
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Optional Mathematics: Model Question Sets and Predicted Questions",
-   "words": 3370,
-   "read_min": 19
+   "words": 3254,
+   "read_min": 18
   }
  ],
  "guide": "The SEE Examination: Pattern, Grid and Strategy"

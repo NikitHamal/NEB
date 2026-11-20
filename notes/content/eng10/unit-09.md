@@ -28,7 +28,7 @@ Reading: completing sentences with words from the text, multiple-choice question
 
 ### What the text says
 
-**1. Coming to power.** The textbook tells us that Pratap Malla kept his own father in jail because he wanted to become king soon. *(This is how the text presents it; historians have different views about how he succeeded his father, Laxmi Narasimha Malla.)*
+**1. Coming to power.** According to the account, Pratap Malla kept his own father in jail because he wanted to become king soon. *(This is how the text presents it; historians have different views about how he succeeded his father, Laxmi Narasimha Malla.)*
 
 **2. Politics and defence.** Kantipur was a small state surrounded by two rivals, Lalitpur and Bhaktapur. Pratap Malla kept it strong and safe by **diplomacy**: he played the kings of the two other cities against each other, siding with one or the other to keep a balance of power and to **deter** attacks. During his reign, Kantipur was never invaded.
 

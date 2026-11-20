@@ -11,7 +11,7 @@ A nitro compound carries the group –NO₂ bonded to carbon through **nitrogen*
 That one detail separates a nitroalkane, R–NO₂, from an alkyl nitrite, R–O–N=O,
 which has the same molecular formula but is joined through oxygen. Nitro
 compounds matter for two reasons: they are the standard doorway to amines (and
-therefore to dyes and drugs), and the nitro group is the textbook example of a
+therefore to dyes and drugs), and the nitro group is the classic example of a
 strongly **deactivating, meta-directing** substituent on a benzene ring.
 
 ::: key What the examiner wants from this unit

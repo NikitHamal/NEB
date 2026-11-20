@@ -13,7 +13,7 @@ questions come from four places: plant **morphology** (which organ a potato,
 an onion or a pea tendril really is; inflorescence, placentation, fruit types);
 the four prescribed **families** (read a floral formula, name the family, give
 its fruit); the **economic importance** of every plant group in Nepal; and the
-five **medicinal plants** named in the syllabus — neem, sarpagandha,
+five **medicinal plants** covered in this unit — neem, sarpagandha,
 yarsagumba, tulasi and ginger — with their scientific names, parts used and
 active compounds.
 
@@ -378,7 +378,7 @@ call 0.70 0.10 0.76 0.24 "Slender pedicel"
 - Liliaceae is the only **monocot** of the four; "perianth" (not calyx and
   corolla) and the number **three** identify it. Modern classification moves
   onion and garlic to Amaryllidaceae and *Aloe* and *Asparagus* to other
-  families, but the CEE syllabus keeps them in Liliaceae.
+  families, but the entrance syllabus keeps them in Liliaceae.
 - Pea, gram and lentil are **Fabaceae**, but this family has two older
   names — **Papilionaceae** and **Leguminosae**; mustard's old family name is
   **Cruciferae**.
@@ -701,7 +701,7 @@ f.text(150, 222, "Kathmandu: 1,400 m, 18.0 C", size=10.5, color=SLATE)
 **15.** (c) — The Solanaceae ovary is bicarpellary with its septum oblique and the placentae swollen. Option (d), with a replum, is Brassicaceae.
 **16.** (b) — A perianth of 3 + 3 tepals, six stamens and a tricarpellary ovary describe the trimerous monocot family Liliaceae.
 **17.** (a) — Potato (*Solanum tuberosum*) is Solanaceae; mustard is Brassicaceae, pea Fabaceae, onion Liliaceae.
-**18.** (d) — Colchicine comes from *Colchicum autumnale* and *Gloriosa superba*, placed in Liliaceae in the syllabus; it blocks spindle formation and doubles chromosome sets.
+**18.** (d) — Colchicine comes from *Colchicum autumnale* and *Gloriosa superba*, placed in Liliaceae in this course; it blocks spindle formation and doubles chromosome sets.
 **19.** (b) — Kinema is soybean fermented by *Bacillus subtilis*. *Lactobacillus* makes curd and gundruk sour; *Acetobacter* makes vinegar.
 **20.** (c) — *Cephaleuros* is one of the few parasitic algae; it forms rusty patches on tea leaves. *Puccinia* causes rust of wheat.
 **21.** (b) — Lokta (*Daphne bholua*, *D. papyracea*) bark fibre makes the strong handmade Nepali paper. Sal and sisau are timber trees; uttis is an N-fixing alder.
@@ -772,7 +772,7 @@ f.text(150, 222, "Kathmandu: 1,400 m, 18.0 C", size=10.5, color=SLATE)
    (a) siliqua (b) berry (c) capsule (d) legume
 4. In apple the fleshy edible part develops from the thalamus around an inferior ovary. Such a fruit is
    (a) a true fruit (b) a false fruit (pome) (c) an aggregate fruit (d) a composite fruit
-5. A plant in a Kavre field bears umbels of flowers; each flower has six tepals in two whorls, six stamens and a three-chambered superior ovary. Its family, as named in the syllabus, is
+5. A plant in a Kavre field bears umbels of flowers; each flower has six tepals in two whorls, six stamens and a three-chambered superior ovary. Its family, as covered in this unit, is
    (a) Liliaceae (b) Brassicaceae (c) Solanaceae (d) Fabaceae
 6. Which pair of product and source is correctly matched?
    (a) taxol — *Ephedra* (b) agar — *Laminaria* (c) turpentine — *Pinus roxburghii* (d) penicillin — *Streptomyces*
@@ -790,7 +790,7 @@ f.text(150, 222, "Kathmandu: 1,400 m, 18.0 C", size=10.5, color=SLATE)
 **2.** (a) — Cruciform corolla, tetradynamous stamens and siliqua are the three marks of Brassicaceae — mustard, radish, cabbage.
 **3.** (d) — Standard, wings and keel with (9) + 1 stamens mean Fabaceae, whose monocarpellary ovary ripens into a legume (pod).
 **4.** (b) — A fruit with non-ovarian tissue (the thalamus) is a false fruit; in apple and pear it is a pome. It comes from one flower with one ovary, so it is neither aggregate nor composite.
-**5.** (a) — Trimerous perianth (3 + 3), six stamens and a trilocular superior ovary: onion, which the CEE syllabus keeps in Liliaceae.
+**5.** (a) — Trimerous perianth (3 + 3), six stamens and a trilocular superior ovary: onion, which the entrance syllabus keeps in Liliaceae.
 **6.** (c) — Resin tapped from chir pine is distilled into turpentine and rosin. Taxol is from *Taxus*, agar from *Gelidium*, penicillin from *Penicillium*.
 **7.** (d) — Reserpine from the roots of sarpagandha lowers blood pressure; the plant's name ("snake-smell") recalls its folk use for snake bite.
 **8.** (b) — The stalk is the stroma of *Ophiocordyceps sinensis*, which bears perithecia with asci; the larva is the dead host filled with fungal mycelium.

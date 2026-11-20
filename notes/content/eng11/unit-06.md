@@ -10,7 +10,7 @@ area: Literature — Short Stories
 Guy de Maupassant's "Two Little Soldiers" follows two homesick young Breton
 conscripts who spend every Sunday in the same spot outside Paris. A dairymaid
 begins to share their meal; one of them wins her; and the other walks home and goes
-over the bridge. The story is on the syllabus because it shows how much a writer can
+over the bridge. The story is a classic illustration of how much a writer can
 say about jealousy and loneliness while appearing to say almost nothing at all.
 
 ::: key The central idea

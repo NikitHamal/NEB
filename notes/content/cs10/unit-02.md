@@ -15,7 +15,7 @@ in **MySQL** with **SQL** commands. Every query in this chapter was run on MySQL
 8.4, and the table printed under it is exactly what MySQL returned.
 
 ::: key What the SEE asks from this unit (8 marks)
-The CDC grid gives this unit **8 marks**: **two MCQs** (2 marks), **one short
+The SEE specification grid gives this unit **8 marks**: **two MCQs** (2 marks), **one short
 question** (2 marks) and **one long question** (4 marks). MCQs test a key, a
 data type or which SQL command does what. The short question is usually a
 definition with an advantage (DBMS, primary key) or two differences (data and
@@ -272,8 +272,8 @@ MySQL's DATE follows the Gregorian (AD) calendar. A Bikram Sambat date such as
 '2081-03-32' (Asar 32) is rejected because no AD month has 32 days, and worse,
 '2082-04-15' is *accepted* — as 15 April 2082 AD, which makes every age or
 day-of-week calculation wrong. Store AD dates in DATE columns; if you must keep
-the BS date, store it in a separate CHAR(10) column. (The textbook's example
-"DATE: 2047-07-06" is a BS date, so treat it as a format example only.)
+the BS date, store it in a separate CHAR(10) column. (An example like
+`2047-07-06` is a BS date formatted as `YYYY-MM-DD`.)
 :::
 
 ## 2.3 Table: field, record and table design
@@ -459,8 +459,8 @@ ax.set_xlim(0.0, 7.0); ax.set_ylim(0.15, 3.8); ax.axis("off")
 | example: `roll` in students | example: `roll` in marks |
 
 ::: caution Primary key uniqueness in a Library table
-In the textbook's example, two different books both have BookID `B_01`. If
-BookID is the key of the Library table, that is impossible — the DBMS would
+Two different books in a Library table can never share the same BookID `B_01`. If
+BookID is the primary key of the Library table, the DBMS will — the DBMS would
 reject the second row. Each book needs its own BookID (B_01, B_02, …); it is
 the **StudentID** (the foreign key) that may repeat, because one student can
 borrow many books.
@@ -547,8 +547,7 @@ apps keep their data in MySQL because it is fast, reliable and free.
 
 ### Installing MySQL 8 on Windows
 
-The textbook's steps use **MySQL Installer**, a Windows tool that existed only
-for **MySQL 8.0**. MySQL 8.0 reached its end of life in April 2026; the series
+**MySQL Installer** on Windows was shipped for **MySQL 8.0**, whereas the current long-term support release is the series
 to install now is **MySQL 8.4 LTS** (long-term support, maintained until 2032),
 which installs from an ordinary MSI file and is set up with **MySQL
 Configurator**. Workbench is downloaded separately.
@@ -573,8 +572,7 @@ Configurator**. Workbench is downloaded separately.
 ::: tip Check the installation
 Open **MySQL 8.4 Command Line Client** from the Start menu (or a Command Prompt
 in `C:\Program Files\MySQL\MySQL Server 8.4\bin`) and type
-`mysql --version` — two hyphens and no spaces (the textbook's `mysql - - version`
-is a printing slip). Then log in with `mysql -u root -p`, type your password,
+`mysql --version` — two hyphens and no spaces (no space between the two hyphens). Then log in with `mysql -u root -p`, type your password,
 and you should see the `mysql>` prompt. Leave with `exit;`, `quit;` or
 Ctrl + D.
 :::
@@ -1080,7 +1078,7 @@ SELECT name FROM students WHERE name LIKE '_man %';
 | Aman Yadav |
 | Iman Shrestha |
 
-The textbook's pattern `'_man'` does work on a column that stores single first
+The pattern `'_man'` matches four-letter names ending in `man` on a column that stores single first
 names: on a table holding Aman, Iman, Suman, Rajesh, Ramesh and Ganesh, `'_man'`
 returned Aman and Iman, `'%man'` returned Aman, Iman and Suman, and `'%esh'`
 returned Rajesh, Ramesh and Ganesh.
@@ -1163,8 +1161,7 @@ ROLLBACK undid the delete; COMMIT would have made it permanent.
    Rename the column, or write it in backquotes: `` `rank` ``.
 5. *Activity 7(b)* `DELETE FROM students WHERE ID > 5;` deletes rows whose
    **ID** is greater than 5, not "rank".
-6. The textbook says DML changes "are not saved permanently unless a COMMIT
-   command is used". In MySQL autocommit is on by default, so they are saved at
+6. In standard SQL transactions, DML changes require `COMMIT` to be saved permanently; in MySQL autocommit is on by default, so they are saved at
    once; only inside START TRANSACTION do you need COMMIT.
 :::
 
@@ -1294,7 +1291,7 @@ of only the rows needed, **summarisation** with aggregate functions,
 export** to spreadsheets and reporting tools.
 
 ::: note Project — database for the "KrishiKranti" farming app
-The textbook's case study asks you to design the database of a farming app that
+In this case study, we design the database of a farming app ("KrishiKranti") that
 helps Nepali farmers manage crops, tools, sales and farm activities (the
 Ministry of Agriculture and Livestock Development's site, doanepal.gov.np, has
 real crop data). Write the report under the headings Introduction, Problem
@@ -1820,7 +1817,7 @@ The examples below use two tables. `students(roll, name, gender, class, district
 
 ### Model answer D2: DDL and DML commands (10 marks)
 
-**Introduction.** **SQL (Structured Query Language)** is the language used to talk to a relational database. Its commands are grouped by purpose; the two groups in the syllabus are **DDL**, which defines the structure, and **DML**, which handles the data.
+**Introduction.** **SQL (Structured Query Language)** is the language used to talk to a relational database. Its commands are grouped by purpose; the two primary groups studied here are **DDL**, which defines the structure, and **DML**, which handles the data.
 
 **DDL (Data Definition Language).**
 

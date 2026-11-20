@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Matrices and Determinants",
    "area": "Algebra",
-   "words": 4954,
+   "words": 4953,
    "read_min": 28,
    "figures": 11,
    "has_questions": true
@@ -197,22 +197,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Mathematics: Unit-wise Objective Question Bank",
-   "words": 3070,
+   "words": 3022,
    "read_min": 17
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Mathematics: Unit-wise Subjective Question Bank",
-   "words": 4639,
+   "words": 4594,
    "read_min": 26
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Mathematics: Model Question Sets and Predicted Questions",
-   "words": 2641,
-   "read_min": 15
+   "words": 2541,
+   "read_min": 14
   }
  ],
  "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"

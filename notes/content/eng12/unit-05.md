@@ -26,11 +26,10 @@ walk the same way.
 :::
 
 ::: note A note on names and quotations
-Chinese names are spelled differently in different translations. Your textbook writes
+Chinese names are spelled differently in different translations. This translation writes
 **Runtu** (also Jun-tu, the spelling used in Yang Xianyi and Gladys Yang's 1960
 translation, which many textbooks follow), **Hongr** (Hung-erh) and **Shuisheng**
-(Shui-sheng). The quotations below follow the Yang translation; if your textbook words a
-sentence slightly differently, quote your textbook's version in the examination.
+(Shui-sheng). The quotations below follow the Yang translation; quote the exact wording of the prescribed extract in the examination.
 :::
 
 ## 5.1 About the author

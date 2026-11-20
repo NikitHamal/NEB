@@ -67,7 +67,7 @@ writers".
 This is the one thing about this poem that most notes leave out, and it is worth
 two or three marks in any question about form or sound.
 
-De Burgos wrote in **Spanish**. The version in your textbook is an **English
+De Burgos wrote in **Spanish**. The prescribed text is an **English
 translation by Jack Agüeros**, made for *Song of the Simple Truth: The Complete
 Poems of Julia de Burgos* (Curbstone Press, 1997), the bilingual edition that
 introduced her to most English readers. The Spanish title is **"Yo misma fui mi

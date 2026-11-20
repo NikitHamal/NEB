@@ -16,7 +16,7 @@ in Pixlr and Canva, sound in Audacity and video in CapCut, the free tools the
 course uses.
 
 ::: key What the SEE asks from this unit (8 marks)
-The CDC grid gives this unit **8 marks**: **two MCQs** (2 marks), **one short
+The SEE specification grid gives this unit **8 marks**: **two MCQs** (2 marks), **one short
 question** (2 marks) and **one long question** (4 marks). MCQs test full forms
 and "which format for which job" (PNG for lossless web images, WAV for
 recording your voice, MP4 for video). The short question is usually two
@@ -246,7 +246,7 @@ throws away detail the eye is unlikely to notice, giving much smaller files.
 | PDF | Portable Document Format | document (raster and vector) | fixed layout, prints identically | sharing and printing documents and posters |
 
 ::: caution GIF is not the only animated image format
-The textbook says GIF is "the only image format that supports animation".
+GIF is often remembered as the classic animated image format, though
 **WebP** and **APNG** (animated PNG) also store animations, usually in better
 quality and smaller files than GIF; GIF is simply the oldest and most widely
 supported.
@@ -299,7 +299,7 @@ same on every phone and printer and is not easily edited.
 ### Editing images in Pixlr
 
 **Pixlr** is a free online image editor at pixlr.com, with an app for phones.
-The quick editor the textbook calls **Pixlr X** is now named **Pixlr Express**,
+The quick editor formerly called **Pixlr X** is now named **Pixlr Express**,
 and the advanced one **Pixlr Editor**. Its workspace has four areas: the
 **canvas** (where the image is shown and edited), the **tools panel** (left),
 the **layers panel** (right) and the **navigation tools** for zoom, pan and
@@ -353,7 +353,7 @@ An **audio waveform** is the graph of a sound against time. Its **amplitude**
 hear as **pitch** (high or low).
 
 ::: caution Width on a waveform is time, not wavelength
-The textbook says the width of the waveform graph shows the "wavelength". On a
+On a waveform
 graph drawn against **time**, the width of one wave is its **period**;
 wavelength is a distance in metres. What matters for sound is the frequency
 (frequency = 1 ÷ period), which sets the pitch.
@@ -459,7 +459,7 @@ key 8 Selection toolbar — start, end and length of the selected part
 | Listen | press **Play** (Space); the play head moves along the timeline |
 | Export | **File → Export Audio**, give a name, choose **MP3** or **WAV**, the quality (bit rate) and channels, then **Export** |
 
-The textbook uses **AudioMass** (audiomass.co), a free editor that runs in the
+**AudioMass** (audiomass.co) is a free audio editor that runs directly in the
 browser. It works the same way: its **menu bar**, **waveform display** and
 **control panel** offer Record (press R and choose the microphone), File → Load
 from Computer, select-and-scissors to cut, an Effects menu (normalize, fade in,

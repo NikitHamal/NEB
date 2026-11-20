@@ -7,7 +7,7 @@ hours: 0
 area: Units
 ---
 
-Unit 1 of your textbook is about **information you have to use**. Reading I is
+Unit 1 focuses on **information you have to use**. Reading I is
 a school **notice with a timetable** for a tour to the Central Zoo; you must
 find times in it and work out how long things take. Reading II is a **request
 letter** from grade 8 students asking their headteacher for a better computer
@@ -161,7 +161,7 @@ computers. (ii) Only a few computers have the required software installed.
 
 ### Layout of a request letter
 
-| Part | In the textbook letter |
+| Part | In the sample letter |
 |---|---|
 | Sender's address and date | Kushma-9, Parbat / 27 April 2023 |
 | Receiver's address | The Headteacher, Adarsha Secondary School, Kushma, Parbat |
@@ -260,7 +260,7 @@ with what the event is, where and when; then go through the days in order;
 use the present simple or the future (*will*), and linking words (*first, then,
 on the following day, finally*).
 
-::: example Model answer — Inter-house Football Tournament (textbook Writing A)
+::: example Model answer — Inter-house Football Tournament (Writing A)
 **Problem.** Study the sports timetable of Janata Secondary School and
 interpret it.
 
@@ -301,7 +301,7 @@ second syllable (ar'rive, ex'plore); many two-syllable **nouns** on the first
 **Speaking.** Raima asks her teacher about a museum visit: "**Could** you tell me
 the day of the visit?" and "Sorry, **would** you tell the time again, please?"
 These are polite ways of *asking for information* and *asking for repetition*.
-For the textbook situations: *Could you tell me your mobile number, please?* /
+For the given situations: *Could you tell me your mobile number, please?* /
 *Can you tell me how much a cup of coffee costs?* / *Could you tell me what time
 the next bus for Pokhara leaves?* / *Would you tell me how far the hospital is?*
 

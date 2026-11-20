@@ -434,7 +434,7 @@ Converting 57 into base 5: $57\div5=11$ r 2, $11\div5=2$ r 1, $2\div5=0$ r 2,
 so $(212)_5$. Check: $2\times25+1\times5+2=57$ ✓.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** State the number system: (a) $(10011)_2$ (b) 350 (c) $(4023)_5$.
 **2.** Write 546 in expanded form using powers of 10.

@@ -458,7 +458,7 @@ interconnected. It answers **how** it is built.
 | Instruction set, word size, addressing modes | Control signals, bus widths, memory chips used |
 | e.g. "the x86-64 instruction set" | e.g. "how L2 cache is wired in this particular CPU" |
 
-Two classical architectures appear in the syllabus:
+Two classical architectures appear in this course:
 
 - **Von Neumann (stored-program) architecture** — one memory holds both
   instructions and data, and one bus carries both. Simple and cheap, but the

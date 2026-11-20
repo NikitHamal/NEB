@@ -18,7 +18,7 @@ wrong when the wrong metal, or too much of the right one, gets in.
 ::: key What the examiner asks from this unit
 This is a short, high-yield unit. Learn (i) the macro/micro nutrient boundary and
 which elements fall on each side; (ii) one biological function for each of the
-ten metals named in the syllabus; (iii) the stoichiometry of the two pumps
+ten metals covered in this unit; (iii) the stoichiometry of the two pumps
 (3 Na⁺ out, 2 K⁺ in per ATP; 2 Na⁺ in per glucose); (iv) the disease caused by
 each toxic metal and the reason it is toxic.
 :::

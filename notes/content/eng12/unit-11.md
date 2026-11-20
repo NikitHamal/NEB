@@ -99,7 +99,7 @@ questions — but do it honestly, saying that the poem can be *applied* to
 migration rather than pretending it is about Nepali workers in Qatar.
 
 ::: tip How to handle this in the exam
-Do not spend your answer attacking the textbook. Give the poem's real occasion
+Focus your answer directly on the poem's text. Give the poem's real occasion
 in one sentence — "written in 1999 for Oxfam's 'On The Line' project, which
 linked communities along the Greenwich Meridian" — and then answer the question
 asked. Examiners reward the fact; they do not reward a quarrel.

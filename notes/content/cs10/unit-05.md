@@ -16,7 +16,7 @@ augmented reality, cloud computing, and online shopping, government services
 and learning.
 
 ::: key What the SEE asks from this unit (11 marks)
-The CDC grid gives this unit **11 marks**: **one MCQ** (1 mark), **three short
+The SEE specification grid gives this unit **11 marks**: **one MCQ** (1 mark), **three short
 questions** (3 × 2 = 6 marks) and **one long question** (4 marks) — so most of
 the marks are written answers. Typical short questions: define supervised and
 unsupervised learning, two ethical problems of an AI system, two IoT
@@ -165,8 +165,7 @@ A machine learns by finding patterns in data. How it is taught gives three main
 :::
 
 ::: caution There are three main techniques, not two
-The textbook says there are "two types of learning techniques: supervised and
-unsupervised". The syllabus — and the subject itself — also includes
+Alongside **supervised** and **unsupervised** learning, machine learning also includes
 **reinforcement learning**, which is how game-playing programs such as AlphaGo
 and many robots learn. (Semi-supervised learning, which mixes a few labelled
 examples with many unlabelled ones, is a fourth, less common type.)
@@ -502,7 +501,7 @@ fig.text(0.5, 0.01, "an image generator (diffusion model) removes noise step by 
 | DALL·E, Midjourney, Stable Diffusion, Adobe Firefly | OpenAI, Midjourney, Stability AI, Adobe | — | making images from text |
 
 ::: caution "Copilot" is more than one product
-The textbook's table says Copilot was "developed by OpenAI + GitHub". There are
+When distinguishing Copilot tools, note that there are
 really two: **Microsoft Copilot**, Microsoft's assistant in Windows and
 Microsoft 365, and **GitHub Copilot**, a coding assistant made by GitHub (owned
 by Microsoft). Both are built on OpenAI's GPT models, which is where OpenAI
@@ -562,8 +561,7 @@ it without opening a separate chatbot.
 | Microsoft 365 | Copilot in Word (drafting and rewriting), Excel (formulas, charts, data analysis), PowerPoint (Designer layouts, slides from a document), Teams (meeting transcripts and recaps) | reports, data analysis and presentations in less time |
 | Phones | voice assistants, live translation, camera text recognition (Google Lens) | reading notices, translating, accessibility |
 
-(Gmail's "schedule send", listed in the textbook, is a useful timing feature
-rather than AI.)
+(Gmail's "schedule send" is a timer feature rather than AI, whereas Smart Reply and spam filtering use AI.)
 
 **In study**, these tools can explain a hard concept in simpler words, make
 practice questions from your notes, check grammar, translate between Nepali and
@@ -573,7 +571,7 @@ meeting notes and answer customers through chatbots.
 
 ::: tip Four rules for using AI in schoolwork
 **Privacy** — never enter personal details of yourself or others. **Accuracy**
-— check every fact and figure against your textbook or a trusted source.
+— verify every important fact and figure against a trusted reference source.
 **Fairness** — watch for biased or one-sided answers. **Honesty** — use AI to
 learn and to check your work, not to do it; say when you have used it, and
 write the final answer in your own words.
@@ -793,8 +791,7 @@ ax.set_xlim(-0.05, 5.85); ax.set_ylim(-0.7, 3.3); ax.axis("off")
 ```
 
 ::: caution Google Drive and OneDrive are SaaS, not IaaS
-The textbook gives "Google Drive, OneDrive for storing your documents" as
-examples of IaaS. They are finished applications used through a browser or app,
+Consumer cloud storage apps such as Google Drive and OneDrive are finished applications used through a browser or app,
 so they are **SaaS**. IaaS means renting raw infrastructure — a virtual server
 or block of storage that your own IT staff set up and manage, such as Amazon
 EC2.
@@ -1164,8 +1161,7 @@ learning* learns by trial and error from rewards, e.g. a robot learning to walk
 or a game-playing program (1 each).
 
 **2.** (1) *Privacy*: never type personal details, passwords or photos of
-others into an AI tool. (2) *Accuracy*: check every answer against the textbook
-or a trusted source, because AI can hallucinate. (3) *Fairness and bias*: notice
+others into an AI tool. (2) *Accuracy*: verify every answer against a trusted reference source, because AI can hallucinate. (3) *Fairness and bias*: notice
 one-sided or stereotyped answers and question them. (4) *Academic honesty*: use
 AI to understand and practise, write the final answer in your own words, and
 say when AI helped (also *safety*: use school-approved tools only).

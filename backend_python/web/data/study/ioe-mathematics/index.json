@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Set, Logic and Functions",
    "area": "Mathematics",
-   "words": 2496,
+   "words": 2488,
    "read_min": 14,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Algebra",
    "area": "Mathematics",
-   "words": 2109,
+   "words": 2103,
    "read_min": 12,
    "figures": 1,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Trigonometry",
    "area": "Mathematics",
-   "words": 1333,
+   "words": 1331,
    "read_min": 7,
    "figures": 1,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Coordinate Geometry",
    "area": "Mathematics",
-   "words": 1625,
+   "words": 1623,
    "read_min": 9,
    "figures": 1,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Calculus",
    "area": "Mathematics",
-   "words": 2407,
+   "words": 2402,
    "read_min": 13,
    "figures": 5,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Vectors and their Products",
    "area": "Mathematics",
-   "words": 1896,
+   "words": 1894,
    "read_min": 11,
    "figures": 3,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Statistics and Probability",
    "area": "Mathematics",
-   "words": 1495,
+   "words": 1493,
    "read_min": 8,
    "figures": 1,
    "has_questions": true

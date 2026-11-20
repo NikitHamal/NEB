@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Computer Software and Operating System",
    "area": "",
-   "words": 8077,
+   "words": 8076,
    "read_min": 45,
    "figures": 11,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Programming Concepts and Logics",
    "area": "",
-   "words": 10884,
+   "words": 10883,
    "read_min": 60,
    "figures": 9,
    "has_questions": true
@@ -87,15 +87,15 @@
    "no": 2,
    "kind": "subjective",
    "title": "Computer Science: Unit-wise Subjective Question Bank",
-   "words": 8932,
-   "read_min": 50
+   "words": 8878,
+   "read_min": 49
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Computer Science: Model Question Sets and Predicted Questions",
-   "words": 5135,
-   "read_min": 29
+   "words": 5052,
+   "read_min": 28
   }
  ],
  "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"

@@ -422,7 +422,7 @@ inverse variation requires, and the time fell from 6 hours to 4 as the speed
 rose.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** Find the ratio of (a) 3 kg and 80 g (b) 2 hours and 45 minutes (c) Rs 5 and 90 paisa.
 **2.** A map is drawn to a scale $1:4000$. Two places are 4 cm apart on the map. Find the real distance.

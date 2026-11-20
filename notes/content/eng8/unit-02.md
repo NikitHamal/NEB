@@ -256,7 +256,7 @@ mistake.*
 
 ## 2.6 Writing II: Writing an e-mail
 
-In the textbook e-mail, **Kabir Jha**, coordinator of a cultural programme for
+In the sample e-mail, **Kabir Jha**, coordinator of a cultural programme for
 the school's **Platinum Jubilee**, asks the headteacher whether participants may
 use the **auditorium hall during lunch break** for a couple of days to rehearse.
 He uses polite permission questions: *Is it okay if they use the hall? Would it

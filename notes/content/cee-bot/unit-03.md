@@ -69,7 +69,7 @@ outside" settles most spore questions.
   Ascomycetes or Basidiomycetes; most fungi imperfecti turn out to be
   ascomycetes.
 - *Phytophthora*, *Albugo* and *Pythium* (Oomycetes) have **cellulose**
-  walls and are no longer counted as true fungi, but the CEE syllabus still
+  walls and are no longer counted as true fungi, but the entrance syllabus still
   lists them under Phycomycetes — answer accordingly.
 - **Yarsagumba** (*Ophiocordyceps sinensis*) is an **ascomycete** that
   parasitises a caterpillar — see Chapter 5.

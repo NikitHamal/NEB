@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Floral Diversity",
    "area": "Botany",
-   "words": 12916,
+   "words": 12918,
    "read_min": 72,
    "figures": 22,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Faunal Diversity",
    "area": "Zoology",
-   "words": 10762,
+   "words": 10760,
    "read_min": 60,
    "figures": 33,
    "has_questions": true
@@ -98,21 +98,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Biology: Unit-wise Objective Question Bank",
-   "words": 12870,
-   "read_min": 72
+   "words": 12788,
+   "read_min": 71
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Biology: Unit-wise Subjective Question Bank",
-   "words": 7960,
+   "words": 7878,
    "read_min": 44
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Biology: Model Question Sets and Predicted Questions",
-   "words": 4723,
+   "words": 4632,
    "read_min": 26
   }
  ],

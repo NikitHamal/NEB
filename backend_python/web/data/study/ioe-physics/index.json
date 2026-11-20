@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Mechanics",
    "area": "Physics",
-   "words": 3213,
+   "words": 3208,
    "read_min": 18,
    "figures": 2,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Heat and Thermodynamics",
    "area": "Physics",
-   "words": 2269,
+   "words": 2267,
    "read_min": 13,
    "figures": 2,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Geometric and Physical Optics",
    "area": "Physics",
-   "words": 2260,
+   "words": 2258,
    "read_min": 13,
    "figures": 2,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Waves and Sound",
    "area": "Physics",
-   "words": 2059,
+   "words": 2057,
    "read_min": 11,
    "figures": 2,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Electricity and Magnetism",
    "area": "Physics",
-   "words": 2884,
+   "words": 2883,
    "read_min": 16,
    "figures": 2,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Modern Physics",
    "area": "Physics",
-   "words": 2623,
+   "words": 2621,
    "read_min": 15,
    "figures": 3,
    "has_questions": true

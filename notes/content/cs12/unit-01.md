@@ -1121,7 +1121,7 @@ exactly one place, and deleting an enrolment no longer destroys a course title.
 | 1NF | All values atomic; no repeating groups | Repeating groups, multivalued cells |
 | 2NF | 1NF + no partial dependency on part of a composite key | Redundancy caused by part-key dependence |
 | 3NF | 2NF + no transitive dependency between non-key attributes | Redundancy caused by non-key → non-key |
-| BCNF (beyond syllabus) | 3NF + every determinant is a candidate key | Remaining key anomalies |
+| BCNF (advanced) | 3NF + every determinant is a candidate key | Remaining key anomalies |
 
 ::: caution Do not normalise past the question
 2NF only becomes an issue when the primary key is **composite**. If the key is a

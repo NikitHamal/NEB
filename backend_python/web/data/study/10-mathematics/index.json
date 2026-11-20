@@ -170,22 +170,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Compulsory Mathematics: Unit-wise Objective Question Bank",
-   "words": 2919,
+   "words": 2878,
    "read_min": 16
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Compulsory Mathematics: Unit-wise Subjective Question Bank",
-   "words": 3570,
+   "words": 3536,
    "read_min": 20
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Compulsory Mathematics: Model Question Sets and Predicted Questions",
-   "words": 3155,
-   "read_min": 18
+   "words": 3066,
+   "read_min": 17
   }
  ],
  "guide": "The SEE Examination: Pattern, Grid and Strategy"

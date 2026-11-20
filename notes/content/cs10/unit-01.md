@@ -15,7 +15,7 @@ schools and companies. Almost everything here is asked as a definition, a
 difference or a diagram, so learn the tables as carefully as the text.
 
 ::: key What the SEE asks from this unit (11 marks)
-In the CDC specification grid this unit carries **11 of the 50 marks**: **three
+In the SEE specification grid this unit carries **11 of the 50 marks**: **three
 MCQs** (3 marks), **two short questions** (2 × 2 = 4 marks) and **one long
 question** (4 marks). The MCQs test single facts: a full form, which device or
 command does what, the length of an IPv4 address. Short questions want a
@@ -217,8 +217,8 @@ in one second. It is measured in **hertz (Hz)**: 1 kHz = 1,000 Hz,
 :::
 
 ::: caution Frequency is not "how often data is sent"
-The textbook describes frequency as "how often data signals are sent over a
-channel in one second". That is not quite right. Frequency belongs to the
+Frequency is often confused with how often data signals are sent over a
+channel in one second. Strictly, frequency belongs to the
 **wave** that carries the data (a 2.4 GHz Wi-Fi wave vibrates 2.4 billion times
 a second). How many *bits* are sent each second is the **data rate**, measured
 in bps.
@@ -496,8 +496,8 @@ stock all use RFID.
 | examples: twisted pair, coaxial, optical fibre | examples: radio, microwave, infrared, satellite, Wi-Fi, Bluetooth |
 
 ::: caution Distance is not the difference
-The textbook's table says guided media connect "close devices" and unguided
-media connect "devices far away". Both claims break easily: an optical fibre
+A common misconception is that guided media connect only "close devices" and unguided
+media connect only "devices far away". In practice: an optical fibre
 crosses whole countries, while infrared and Bluetooth reach only a few metres.
 In a "differences" answer use the points in the table above instead.
 :::
@@ -551,8 +551,8 @@ label 0.80 0.16 "SC: square, push-pull"
 ```
 
 ::: caution SMA is "SubMiniature version A"
-The textbook expands SMA as "Screw-Mounted Adaptor". That phrase is a handy way
-to remember that SMA screws on, but it is not the name. SMA stands for
+"Screw-Mounted Adaptor" is a handy way
+to remember that an SMA connector screws on, though the standard full form of SMA is
 **SubMiniature version A**, a connector design first made for radio equipment
 and later adapted for fibre.
 :::
@@ -824,8 +824,7 @@ failure rarely stops everything, but it is more complex to design and manage.
 | Hybrid | depends | usually local | depends | depends | large organisations |
 
 ::: caution Key facts about ring topology
-The textbook says a ring "uses fibre optic cable", "is not affected by high
-traffic or by adding more nodes" and "is cheap to set up and expand". A ring can
+Although ring networks are sometimes described as using fibre optic cable or being unaffected by adding nodes, in reality a ring can
 use any cable (the classic Token Ring used twisted pair); every extra node adds
 delay to every message; and adding a node means opening the ring, which stops
 the network while it is done. Do not copy those three points into an answer.
@@ -932,9 +931,8 @@ ax.grid(axis="x", color=GRID, lw=0.6); ax.set_axisbelow(True)
 | Example | phone + earbuds | school computer lab | cable-TV network in a city | the Internet |
 
 ::: caution Two outdated LAN and WAN claims
-The textbook says that "LANs commonly use topologies such as bus and ring" and
-that WAN computers are connected "through wireless technology or media as
-satellite communication". Both were true decades ago. Today LANs are switched
+Historically, early LANs used bus and ring topologies and WANs relied heavily on satellite links.
+Today LANs are switched
 **stars**, and WANs run mainly over **optical fibre**, with satellites serving
 the places fibre cannot reach.
 :::
@@ -1082,7 +1080,7 @@ be dropped, and **one** run of consecutive all-zero groups may be replaced by
 | Example | `192.168.1.1` | `2001:db8::1` |
 
 ::: caution IPv4 is not "without security"
-The textbook says IPv4 provides no encryption or authentication. The security
+While IPv4 did not mandate encryption at launch, the security
 system for IP, **IPsec**, works with IPv4 as well; the difference is that it was
 built into the IPv6 design from the start. Most encryption you actually use
 (HTTPS) works the same way on both.

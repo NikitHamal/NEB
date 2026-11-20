@@ -13,7 +13,7 @@ turns multiplication into addition of indices, division into subtraction, and
 powers of powers into multiplication, which is why indices appear in every later
 chapter of algebra, in scientific notation, and in the arithmetic of growth.
 This chapter sets out the laws, shows how to simplify expressions with them, and
-shows how to solve the small exponential equations the syllabus asks for.
+shows how to solve exponential equations using laws of indices.
 
 ::: key What this chapter asks of you
 You should be able to state and use the five laws of indices, evaluate negative

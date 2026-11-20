@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Foundation and Fundamentals",
    "area": "General and Physical Chemistry",
-   "words": 3140,
+   "words": 3145,
    "read_min": 17,
    "figures": 4,
    "has_questions": true
@@ -161,22 +161,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Chemistry: Unit-wise Objective Question Bank",
-   "words": 5139,
-   "read_min": 29
+   "words": 5050,
+   "read_min": 28
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Chemistry: Unit-wise Subjective Question Bank",
-   "words": 6641,
-   "read_min": 37
+   "words": 6566,
+   "read_min": 36
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Chemistry: Model Question Sets and Predicted Questions",
-   "words": 4835,
-   "read_min": 27
+   "words": 4711,
+   "read_min": 26
   }
  ],
  "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"

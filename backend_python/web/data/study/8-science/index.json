@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Scientific Learning",
    "area": "Science and Technology",
-   "words": 4951,
-   "read_min": 28,
+   "words": 4908,
+   "read_min": 27,
    "figures": 5,
    "has_questions": true
   },
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Information and Communication Technology",
    "area": "Science and Technology",
-   "words": 5381,
+   "words": 5362,
    "read_min": 30,
    "figures": 5,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Living Beings and Their Structure",
    "area": "Science and Technology",
-   "words": 5303,
+   "words": 5298,
    "read_min": 29,
    "figures": 6,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Biodiversity and Environment",
    "area": "Science and Technology",
-   "words": 4116,
+   "words": 4107,
    "read_min": 23,
    "figures": 4,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Life Process",
    "area": "Science and Technology",
-   "words": 5002,
+   "words": 5000,
    "read_min": 28,
    "figures": 6,
    "has_questions": true
@@ -50,8 +50,8 @@
    "no": 6,
    "title": "Force and Motion",
    "area": "Science and Technology",
-   "words": 4447,
-   "read_min": 25,
+   "words": 4404,
+   "read_min": 24,
    "figures": 5,
    "has_questions": true
   },
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Energy in Daily Life",
    "area": "Science and Technology",
-   "words": 5915,
+   "words": 5861,
    "read_min": 33,
    "figures": 6,
    "has_questions": true
@@ -68,8 +68,8 @@
    "no": 8,
    "title": "Electricity and Magnetism",
    "area": "Science and Technology",
-   "words": 4452,
-   "read_min": 25,
+   "words": 4408,
+   "read_min": 24,
    "figures": 5,
    "has_questions": true
   },
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Matter",
    "area": "Science and Technology",
-   "words": 4379,
+   "words": 4353,
    "read_min": 24,
    "figures": 6,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Materials Used in Daily Life",
    "area": "Science and Technology",
-   "words": 4636,
+   "words": 4623,
    "read_min": 26,
    "figures": 4,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "The Earth and Universe",
    "area": "Science and Technology",
-   "words": 4869,
+   "words": 4842,
    "read_min": 27,
    "figures": 7,
    "has_questions": true
@@ -107,22 +107,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Science and Technology: Unit-wise Objective Question Bank",
-   "words": 3056,
-   "read_min": 17
+   "words": 3553,
+   "read_min": 20
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Science and Technology: Unit-wise Subjective Question Bank",
-   "words": 4404,
-   "read_min": 24
+   "words": 4786,
+   "read_min": 27
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Science and Technology: Model Question Sets and Predicted Questions",
-   "words": 3510,
-   "read_min": 20
+   "words": 3428,
+   "read_min": 19
   }
  ],
  "guide": "The Basic Level Examination: Pattern, Grid and Strategy"

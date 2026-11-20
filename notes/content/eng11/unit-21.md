@@ -15,7 +15,7 @@ them turn on class: you are asked to put the right *form* of a word in a blank
 doing, or to correct a sentence in which a noun has been used where an adjective
 was needed. This chapter also covers contracted forms — tested in rewriting and in
 dialogue-completion items — and how to pull grammar information out of a
-dictionary, which is what the CDC syllabus means by "dictionary use".
+dictionary, which is what the course means by "dictionary use".
 
 ::: key What Q7 actually rewards
 Q7 gives you ten separate one-mark sentences. There are no part-marks. A sentence

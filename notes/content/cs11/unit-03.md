@@ -73,7 +73,7 @@ system utilities. It is normally supplied by the hardware or OS vendor.
 **2. Utility software** (service programs) performs housekeeping tasks that keep
 the system healthy: antivirus, disk defragmenter, disk cleanup, backup and
 restore, file compression (WinRAR, 7-Zip), and disk partitioning tools. Utility
-software is strictly a sub-class of system software, but the NEB syllabus lists
+software is strictly a sub-class of system software, but the course lists
 it separately because it is what a user actually notices.
 
 **3. Application software** is written to solve a user's problem rather than to

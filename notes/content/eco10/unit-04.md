@@ -51,7 +51,7 @@ ax.text(2.4,3.6,"Rise in national income\nand real per capita\nincome",ha='cente
 ax.text(5.0,0.5,"Growth is necessary for development but is not sufficient for it",ha='center',fontsize=6.4,color=MUTED)
 ```
 
-**Theories of economic development.** Four lines of thinking are named in the syllabus.
+**Theories of economic development.** Four lines of thinking are covered in this unit.
 
 **The classical theory.** Adam Smith explained growth as the result of the **division of labour** and **capital accumulation** in a free market, with the size of the market setting the limit. Malthus and Ricardo added a warning: as population grows and poorer land is brought into cultivation, food and raw material become dearer, rent rises, profit falls and the economy settles into a **stationary state**. The classical school thus saw growth as self-limiting.
 

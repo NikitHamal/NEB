@@ -41,7 +41,7 @@ before he was a poet of sense: he built his lines out of alliteration, internal
 rhyme and heavy stress patterns, and he read them aloud in a deep, rolling voice
 that became as famous as the poems.
 
-Your textbook rightly calls him "an extension into the 20th century of the
+He is aptly described as "an extension into the 20th century of the
 general movement called Romanticism" — his emphasis falls on imagination,
 emotion, intuition, spontaneity and organic form rather than on the irony and
 learning that dominated English poetry in the 1930s while he was writing. His
@@ -125,7 +125,7 @@ created, animals included. In two lines the poem has replaced the idea of a God
 who rewards and punishes with the idea of a God who watches with pity.
 
 ::: note A textual variant worth knowing
-Your textbook prints "O please **do** keep Thy **loving** eye". The published
+The printed text gives "O please **do** keep Thy **loving** eye". The published
 text of *Under Milk Wood* reads "O please to keep Thy lovely eye". Quote your
 textbook's version in the exam — it is the version being examined — but if you
 meet the other wording in a library copy, you now know why.

@@ -181,7 +181,7 @@ monk advised us to give up bad habits.
 | Apostrophe (') | contractions (*didn't*) and possession (*David's*) |
 | Question mark / exclamation mark | end of a question / strong feeling |
 
-**Textbook Writing A — corrected:** *David didn't really like school, but he did
+**Writing A — corrected:** *David didn't really like school, but he did
 enjoy practical subjects where he could use his hands to make things. He also
 loved biology because he could draw lots of diagrams and do experiments. In
 fact, his mother once told him that he should become a surgeon.*
@@ -215,7 +215,7 @@ speech and feeling; give a title and a moral.
 
 **Persuading.** *Try it. It suits you. / Give it a try. It's really nice. /
 Come on! You can do this easily. / Go on, open your present. / You are good at
-singing.* For the textbook situations: *Come on, sing a song for us — you have a
+singing.* For the given situations: *Come on, sing a song for us — you have a
 lovely voice! / Go on, take part in the dance competition; you dance really
 well. / Give it a try — speak in English; nobody will laugh.*
 

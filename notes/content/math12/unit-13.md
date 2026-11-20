@@ -74,7 +74,7 @@ ax.grid(True, alpha=.45)
 
 ### The table you must know by heart
 
-Every integration problem in the syllabus ends by matching something to a line
+Every integration problem in this course ends by matching something to a line
 of this table. Learn it by reading each line **backwards** as a derivative.
 
 ::: key The complete table of standard integrals
@@ -122,7 +122,7 @@ missing pair of rules is the reason this unit needs so many separate methods.
 Because of that, integration is a *recognition* skill rather than a procedure.
 Differentiation can be done mechanically by anyone who knows three rules, but
 integration asks you to look at an expression and decide what it is disguised as.
-That is why practice matters more here than anywhere else in the syllabus, and
+That is why practice matters more here than anywhere else in this course, and
 why the first thing to do with any integral is not to start writing but to spend
 ten seconds classifying it.
 

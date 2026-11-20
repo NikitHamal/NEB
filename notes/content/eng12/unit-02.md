@@ -56,7 +56,7 @@ of a brain haemorrhage in 1904. From the 1950s onward critics rediscovered her,
 and *The Awakening* is now a standard text in American literature.
 
 ::: caution Key historical details to note
-The Nepali textbook's headnote needs three corrections, and examiners will accept
+Three biographical details are worth noting, and examiners will accept
 the accurate version.
 
 1. Chopin was born in **1850**, not 1851.
@@ -304,7 +304,7 @@ every meal — and it is **hot, scented and languid**, which is why the air
 "caressed him with its warm and scented velvety touch". The climax could only
 happen where it does: outdoors, in the dark, out of sight of the house.
 
-**Structure.** The textbook headnote is right that the story follows the classical
+**Structure.** The story follows the classical
 pattern exactly — exposition (the invitation and her prejudice), rising action (her
 puzzlement, her pique, the quarrel with Gaston), climax (the bench), falling
 action (her silence and her flight to the city), resolution (her proposal that he

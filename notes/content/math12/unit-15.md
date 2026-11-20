@@ -18,7 +18,7 @@ linear restrictions. The unit closes with the question every computed answer mus
 answer: *how wrong is it?*
 
 ::: key This unit or Unit 16 — not both
-The CDC syllabus offers Computational Methods **or** Mechanics as the final
+The course offers Computational Methods **or** Mechanics as the final
 $12$-hour unit. Your school teaches one of them, and the question paper gives the
 two as alternatives: attempt only the one you studied. If your school chose
 Mechanics, turn to Unit 16.

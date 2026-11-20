@@ -48,7 +48,7 @@ characters and a single change of feeling — and it is the brothers' most famou
 piece outside Spain.
 
 ::: caution Spelling of the names
-Your textbook prints the names without Spanish accents: *Dona Laura*, *Don
+The printed text gives the names without Spanish accents: *Dona Laura*, *Don
 Gonzalo*, *Serafin and Joaquin Alvarez Quintero*. In correct Spanish they are
 *Doña*, *Serafín*, *Joaquín*, *Álvarez*. Write them as the question paper writes
 them; both forms are accepted. **Don** and **Doña** are respectful titles placed

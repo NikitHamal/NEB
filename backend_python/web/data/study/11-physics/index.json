@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Kinematics",
    "area": "Mechanics",
-   "words": 5067,
+   "words": 5065,
    "read_min": 28,
    "figures": 5,
    "has_questions": true
@@ -242,22 +242,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Physics: Unit-wise Objective Question Bank",
-   "words": 11462,
-   "read_min": 64
+   "words": 11373,
+   "read_min": 63
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Physics: Unit-wise Subjective Question Bank",
-   "words": 6318,
+   "words": 6238,
    "read_min": 35
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Physics: Model Question Sets and Predicted Questions",
-   "words": 5171,
-   "read_min": 29
+   "words": 5045,
+   "read_min": 28
   }
  ],
  "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"

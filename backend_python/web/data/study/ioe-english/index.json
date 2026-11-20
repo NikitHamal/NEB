@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Grammar I",
    "area": "English",
-   "words": 3628,
+   "words": 3626,
    "read_min": 20,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Grammar II",
    "area": "English",
-   "words": 3609,
+   "words": 3602,
    "read_min": 20,
    "figures": 4,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Phonetics",
    "area": "English",
-   "words": 2169,
+   "words": 2167,
    "read_min": 12,
    "figures": 3,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Comprehension",
    "area": "English",
-   "words": 2816,
+   "words": 2814,
    "read_min": 16,
    "figures": 2,
    "has_questions": true

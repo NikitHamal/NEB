@@ -47,7 +47,7 @@ The article then looks ahead. The biggest task for the next two years is to make
 
 ### Vocabulary
 
-The textbook asks you to pick the meaning each word has *in this text*, because each has a second meaning elsewhere.
+Pick the meaning each word has *in this text*, because each has a second meaning elsewhere.
 
 | Word | Meaning in the text | Other meaning | Example |
 |---|---|---|---|

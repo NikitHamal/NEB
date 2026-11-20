@@ -558,7 +558,7 @@ Nepali *ghiu* and *khuwa* are traditionally made from it.
 
 ::: caution Riverine, not swamp
 Nepali hill buffaloes (Lime, Parkote) are **riverine** type. Calling them swamp
-buffalo is a standard textbook error, as is writing "*Bubalus bubalus*" for
+buffalo is a common error, as is writing "*Bubalus bubalus*" for
 *Bubalus bubalis*.
 :::
 
@@ -744,7 +744,7 @@ P, K, micronutrients, organic carbon and microorganisms, none of which urea does
 
 ### Pearl culture and lac culture
 
-Both of these appear in the syllabus's general heading, and both need an honest
+Both of these appear in this course's general heading, and both need an honest
 Nepali footnote: **neither is practised in Nepal.**
 
 **Pearl culture.** A pearl is formed when the **mantle** of a bivalve is

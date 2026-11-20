@@ -391,7 +391,7 @@ the car has travelled 6 hours at 60 km/h $=360$ km ✓. Both cover the same
 distance, as they must at the meeting point.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** Write D (direct) or I (inverse): (a) diameter of a circle and its circumference (b) number of students in a hostel and the number of days the food lasts (c) speed of a vehicle and time for a fixed distance.
 **2.** If 4 dozen pens cost Rs 576, how many pens can be bought for Rs 228?

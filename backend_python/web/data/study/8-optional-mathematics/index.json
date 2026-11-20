@@ -98,21 +98,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Optional Mathematics: Unit-wise Objective Question Bank",
-   "words": 3256,
+   "words": 3207,
    "read_min": 18
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Optional Mathematics: Unit-wise Subjective Question Bank",
-   "words": 4527,
+   "words": 4473,
    "read_min": 25
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Optional Mathematics: Model Question Sets and Predicted Questions",
-   "words": 2955,
+   "words": 2872,
    "read_min": 16
   }
  ],

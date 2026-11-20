@@ -544,7 +544,7 @@ forms first it decomposes at once:
 
 2HgS + 3O₂ → 2HgO + 2SO₂ , then 2HgO → 2Hg + O₂
 
-This makes mercury the easiest metal in the syllabus to extract: it is the only
+This makes mercury the easiest metal in this course to extract: it is the only
 one whose oxide falls apart on heating, which is precisely how Priestley and
 Lavoisier discovered oxygen.
 

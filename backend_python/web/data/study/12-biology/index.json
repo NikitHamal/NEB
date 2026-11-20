@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Embryology",
    "area": "Botany",
-   "words": 6406,
+   "words": 6400,
    "read_min": 36,
    "figures": 9,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Applied Biology",
    "area": "Zoology",
-   "words": 12270,
+   "words": 12269,
    "read_min": 68,
    "figures": 21,
    "has_questions": true
@@ -98,15 +98,15 @@
    "no": 1,
    "kind": "objective",
    "title": "Biology: Unit-wise Objective Question Bank",
-   "words": 10964,
-   "read_min": 61
+   "words": 10826,
+   "read_min": 60
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Biology: Unit-wise Subjective Question Bank",
-   "words": 16527,
-   "read_min": 92
+   "words": 16424,
+   "read_min": 91
   },
   {
    "no": 3,

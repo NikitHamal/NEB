@@ -248,7 +248,7 @@ an erased construction loses the method marks even if the figure is right.
 
 ### 14.4.1 Constructing a rectangle and a parallelogram
 
-The Grade 8 textbook asks for these constructions (ruler, compasses and
+The standard constructions required here are (ruler, compasses and
 protractor). Always draw a rough sketch with the measurements first.
 
 **Rectangle ABCD with AB = 6 cm, AD = 4 cm.**
@@ -410,7 +410,7 @@ correct drawing. The side opposite the 60° angle is the one you were asked to
 measure, and it is the middle length, as it must be.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** True or false? Correct the false ones. (a) All the angles of an isosceles triangle are equal. (b) All rhombuses are squares. (c) The diagonals of a rhombus bisect each other at right angles. (d) All trapeziums are parallelograms.
 **2.** Find the sum of the interior angles and each interior angle of a regular octagon.

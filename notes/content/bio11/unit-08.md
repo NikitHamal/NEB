@@ -31,7 +31,7 @@ the marks — practise drawing them, not just reading them.
 Protista is the kingdom Whittaker (1969) created for the eukaryotes that are
 neither plants, animals nor fungi. They share only a negative character — they
 are what is left when the three higher kingdoms are removed — so Protista is a
-**paraphyletic** "rag-bag" kingdom; the CDC syllabus uses this five-kingdom
+**paraphyletic** "rag-bag" kingdom; the course uses this five-kingdom
 treatment.
 
 **General characters.** (i) Eukaryotic and mostly unicellular, so the level of
@@ -68,7 +68,7 @@ Within the Protozoa the classical division uses the **organelle of locomotion**.
 
 ::: caution
 Do not write "Protozoa is a phylum of Kingdom Animalia". In the five-kingdom
-system used by the CDC syllabus, protozoans are **protists**; Protozoa is an
+system used by the course, protozoans are **protists**; Protozoa is an
 assemblage within Protista, and Animalia begins with the sponges.
 :::
 

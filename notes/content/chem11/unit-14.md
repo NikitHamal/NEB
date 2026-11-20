@@ -96,7 +96,7 @@ fig.tight_layout()
 ## 14.1 Alkanes: preparation from haloalkanes (reduction and Wurtz reaction), decarboxylation, catalytic hydrogenation of alkene and alkyne
 
 Alkanes are also called **paraffins** (Latin *parum affinis*, "little affinity")
-because they are so unreactive. Four laboratory preparations are on the syllabus.
+because they are so unreactive. Four laboratory preparations are in this unit.
 
 ### (a) Reduction of haloalkanes
 

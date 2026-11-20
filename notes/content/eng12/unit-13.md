@@ -90,7 +90,7 @@ listener** (see §13.7). Always check a fact against the essay itself.
 
 "On Libraries" is a **personal (reflective) essay**: the writer speaks in the first
 person, draws on his own memories and moves towards an opinion without proving it like
-a lawyer. Your textbook's headnote calls it "a praise of intellectual freedom,
+a lawyer. The introductory note calls it "a praise of intellectual freedom,
 community work, and the ecstasy of serendipitous discovery". The three phrases are
 worth learning, because each names a strand of the essay:
 

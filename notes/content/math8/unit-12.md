@@ -427,7 +427,7 @@ $3s+12+s=48$, so $4s=36$ and $s=9$; then $f=48-9=39$.
 **Check.** In 6 years they are 45 and 15, and $45=3\times15$ ✓.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** Solve graphically: $x+y=5$, $x-y=3$.
 **2.** Solve: (a) $x^2+x-6=0$ (b) $9y^2-16=0$ (c) $2x^2-x=0$.

@@ -10,7 +10,7 @@ area: Literature — Short Stories
 Chinua Achebe's "Civil Peace" is set in Nigeria in the first weeks after the
 Nigerian Civil War of 1967–70. Its hero, Jonathan Iwegbu, has lost a son, a job and
 almost everything he owned, and still insists that he is an extraordinarily lucky
-man. The story is on the syllabus because it shows, in very few pages, what
+man. The story is a classic illustration of, in very few pages, what
 ordinary people do after a war ends — and how little the word "peace" may actually
 mean to them.
 

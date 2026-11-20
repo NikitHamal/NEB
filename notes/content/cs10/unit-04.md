@@ -17,7 +17,7 @@ output printed under it is exactly what Python produced. Type them in, run
 them, then change them: that is how programming is learnt.
 
 ::: key What the SEE asks from this unit (12 marks)
-This is the heaviest unit of the paper: **12 marks** in the CDC grid —
+This is the heaviest unit of the paper: **12 marks** in the SEE specification grid —
 **two MCQs** (2 marks), **three short questions** (3 × 2 = 6 marks) and **one
 long question** (4 marks). MCQs test a keyword, an operator, a library or the
 output of a line of code. Short questions ask you to write a small function
@@ -334,8 +334,7 @@ Average: 76.33
 :::
 
 ::: note Activity 4.1 — warm-up
-Type and run Programs 4.1 to 4.7. Then fix the textbook's "Let's solve"
-program, whose `=` signs were lost in printing: it should read
+Type and run Programs 4.1 to 4.7. For the days-to-months conversion program, write:
 `days = int(input("Enter days: "))`, `months = days / 30`,
 `days = days % 30`. With 75 days it prints `Months =  2 Days =  15`.
 :::
@@ -613,9 +612,7 @@ Libraries save time: instead of writing a square-root routine or a chart from
 scratch, you import code that thousands of programmers have already tested.
 
 ::: caution Standard Python library functions to remember
-The textbook calls `math` a "package"; it is a **module** (one file of
-functions). And it gives `import requests` as an example of a *standard*
-library; `requests` is a **third-party** package that must first be installed
+Note that `math` is a standard **module** (one file of functions), whereas `requests` is a **third-party** package that must first be installed
 with `pip install requests`.
 :::
 
@@ -1052,7 +1049,7 @@ for ax in axs.flat:
 fig.subplots_adjust(wspace=0.08, hspace=0.28)
 ```
 
-The textbook's `shape()` example draws six sides of a hexagon with
+A classic `shape()` example draws six sides of a hexagon with
 `right(60)` turns and changes the cursor each time — "circle", "triangle",
 "square", "arrow" and finally "turtle". `shape()` changes only how the cursor
 looks; the line drawn is the same.
@@ -1304,9 +1301,7 @@ with open("filename.txt", "mode") as file:
 | `"w+"` | write and read | erases it first | creates it |
 | `"a+"` | append and read | writes only at the end | creates it |
 
-Adding `b` (as in `"rb"`) opens a binary file. The textbook announces "six
-different access modes" but its table lists only r, w and a; the full set is
-above.
+Adding `b` (as in `"rb"`) opens a binary file. Combining `r`, `w`, and `a` with text or binary (`b`) gives the six access modes shown above.
 
 ### Reading and writing
 
@@ -1322,7 +1317,7 @@ above.
 | `f.close()` | closes the file and frees it for other programs |
 
 ::: caution write() does not add a new line
-The textbook says `write()` "will add a single line at a time". It writes
+Note that `write()` does not automatically append a newline character; it writes
 exactly the string you give it — no more. `f.write("Ram")` followed by
 `f.write("Sita")` stores `RamSita`. End each line yourself with `"\n"`, and
 give `writelines()` strings that already end in `"\n"`.
@@ -1863,14 +1858,12 @@ bars by gender and adds a legend.
 ::: caution Correct argument order in `plt.bar()`
 In `plt.bar(data['total_bill'], data['day'])` the categories should come
 first and the numbers second: `plt.bar(data['day'], data['tip'])`. The x-axis
-label should then be "Day" and the y-axis label "Tip", as the textbook's labels
-already say.
+label should then be `"Day"` and the y-axis label `"Tip"`.
 :::
 
 ## Worked exercise solutions
 
-The textbook has an exercise after each part of this unit; all five are
-answered here, followed by its practical questions. Where a full program
+All five parts of this unit are practiced below, followed by practical programming questions. Where a full program
 already appears in the chapter, the answer names it.
 
 ### Exercise after 4.1 (revision)
@@ -2063,7 +2056,7 @@ Largest: 89
 
 **ii.** (c) — pandas manipulates and analyses data.
 
-**iii.** (c) — the textbook's answer is "package". (Strictly a *module* holds functions and a package holds modules.)
+**iii.** (c) — a *module* holds functions and a *package* holds modules.
 
 **iv.** (c) — `import` brings in a module.
 

@@ -27,8 +27,8 @@ are shown to be one picture.
 ::: note A note on the title and the translation
 The Nepali title is *Ardhamudit Nayan Ra Dubna Lageko Gham*. Michael Hutt translated it as "The
 Half-Closed Eyes of the Buddha and the Slowly Setting Sun" in *Himalayan Voices* (University of
-California Press, 1991), and your textbook uses this translation with the wording "Slowly
-Sinking Sun". The story was first published in **1962**. Quote the wording your textbook uses.
+California Press, 1991), and this edition uses the translation with the wording "Slowly
+Sinking Sun". The story was first published in **1962**. Use the wording of the prescribed extract.
 :::
 
 ## 6.1 About the author
@@ -449,7 +449,7 @@ This harmony is precious but not perfect; discrimination and conflict have also 
 - "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun" (Nepali: *Ardhamudit Nayan Ra Dubna Lageko
   Gham*, 1962) is a story by **Shankar Lamichhane** (1928–1975/76), translated into English by Michael Hutt.
 - It consists of two monologues: the **tourist's** speech, spoken over drinks, and the **guide's** speech the next
-  day. Your textbook calls the technique **stream of consciousness**.
+  day. This narrative technique is often called **stream of consciousness**.
 - The tourist praises the valley's beauty and peace, the East that "only gives" to the West, the Buddha's half-closed
   eyes, the "samyak gaze" of monks, carved wood, momos, Bhrikuti's story, the welcoming smile and the "land of eyes". He
   asks to see "beautiful, full eyes" and the sunset in the Buddha's eyes.
@@ -541,7 +541,7 @@ showing what "endurance" means in a helpless body.
 The two views are not wholly opposed. Both love the country and both speak of harmony. The difference is that the
 tourist sees the surface and the guide sees what is under it; one looks at a picture, the other at a person.
 
-**3.** Your textbook describes the story's technique as **stream of consciousness**. Instead of a narrator telling
+**3.** The story's narrative technique is described as **stream of consciousness**. Instead of a narrator telling
 what happened, the story consists of two long speeches, each a flow of thought, image and memory addressed to a silent
 listener. The tourist moves by association from the aeroplane view to history, art, food, smiles and eyes, and his
 speech is broken by drinks; the guide moves from a hill to a temple, a house, a child and the child's imagined words.
@@ -626,7 +626,7 @@ who has done something ambiguous, and the story does not excuse him.
 1. **Eyes:** the Buddha's half-closed eyes and the boy's eyes are joined at the end.
 2. **Sun:** the setting sun is the end of life.
 3. **Smile:** the parents' welcoming smile hides need.
-4. **Technique:** two **monologues** (called stream of consciousness in your textbook).
+4. **Technique:** two **monologues** (often termed stream of consciousness).
 5. **Irony:** the tourist admires suffering as beauty.
 6. **Themes:** appearance and reality, East and West (a critique of a romantic, Orientalist view), and poverty behind the picture.
 7. **Further themes:** religious harmony, endurance, compassion and complicity.

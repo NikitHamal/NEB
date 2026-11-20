@@ -58,7 +58,7 @@ writers. All three are visible in "Neighbours", a story of barely twelve hundred
 words in which nobody makes a speech and nobody has a name.
 
 ::: caution Where the story comes from
-The Nepali textbook's headnote says that "Neighbours" is taken from *Migrants of
+A common headnote states that "Neighbours" is taken from *Migrants of
 Australia*, edited by Harwood Lawler. That book and editor could not be verified
 in any library catalogue while these notes were being written. What is certain is
 that "Neighbours" is one of the stories in Winton's first collection of short
@@ -719,7 +719,7 @@ accurately something a Nepali daughter-in-law may feel but is rarely free to say
 ## Chapter summary
 
 - "Neighbours" is a very short story by the Australian writer Tim Winton (b.
-  1960), collected in *Scission* (1985); the Nepali textbook's attribution to
+  1960), collected in *Scission* (1985); the common attribution to
   *Migrants of Australia* could not be verified.
 - A young, newly married Australian couple move into an inner-city street of
   European migrants and at first feel "like sojourners in a foreign land".

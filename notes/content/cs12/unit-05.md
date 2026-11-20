@@ -1120,7 +1120,7 @@ far greater than the disadvantages.
 
 **Group C — Long answer (8 marks each)**
 
-1. Explain the four features of OOP named in the syllabus — class, object,
+1. Explain the four features of OOP covered in this unit — class, object,
    inheritance and polymorphism — giving a short C++ code fragment for each. <span class="marks">[8]</span>
 2. Write a complete C++ program that defines a base class `Person` with `name`
    and `age`, derives `Teacher` (with subject and salary) and `Student` (with

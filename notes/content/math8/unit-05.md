@@ -372,7 +372,7 @@ always gives a net loss of $\frac{x^2}{100}\%$ — here
 $\frac{20^2}{100}=4\%$ ✓.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** A sweater is sold for Rs 1,075 after a 14 % discount. Find its marked price.
 **2.** A torch bought for Rs 1,400 is marked 40 % above the cost price and sold at a 20 % discount. Find the MP, the discount, the SP and the profit.

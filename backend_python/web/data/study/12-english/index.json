@@ -14,7 +14,7 @@
    "no": 2,
    "title": "A Respectable Woman",
    "area": "Literature - Short Stories",
-   "words": 9335,
+   "words": 9329,
    "read_min": 52,
    "figures": 4,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "A Devoted Son",
    "area": "Literature - Short Stories",
-   "words": 9355,
+   "words": 9357,
    "read_min": 52,
    "figures": 4,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "The Treasure in the Forest",
    "area": "Literature - Short Stories",
-   "words": 7834,
+   "words": 7836,
    "read_min": 44,
    "figures": 4,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "My Old Home",
    "area": "Literature - Short Stories",
-   "words": 8757,
+   "words": 8755,
    "read_min": 49,
    "figures": 6,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun",
    "area": "Literature - Short Stories",
-   "words": 8842,
+   "words": 8844,
    "read_min": 49,
    "figures": 6,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "A Very Old Man with Enormous Wings",
    "area": "Literature - Short Stories",
-   "words": 8775,
+   "words": 8777,
    "read_min": 49,
    "figures": 5,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "A Day",
    "area": "Literature - Poems",
-   "words": 7091,
+   "words": 7087,
    "read_min": 39,
    "figures": 4,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Every Morning I Wake",
    "area": "Literature - Poems",
-   "words": 7492,
+   "words": 7487,
    "read_min": 42,
    "figures": 4,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "I Was My Own Route",
    "area": "Literature - Poems",
-   "words": 8839,
+   "words": 8837,
    "read_min": 49,
    "figures": 4,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "The Awakening Age",
    "area": "Literature - Poems",
-   "words": 8348,
+   "words": 8331,
    "read_min": 46,
    "figures": 4,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "On Libraries",
    "area": "Literature - Essays",
-   "words": 7506,
+   "words": 7508,
    "read_min": 42,
    "figures": 6,
    "has_questions": true
@@ -122,7 +122,7 @@
    "no": 14,
    "title": "Marriage as a Social Institution",
    "area": "Literature - Essays",
-   "words": 6530,
+   "words": 6532,
    "read_min": 36,
    "figures": 6,
    "has_questions": true
@@ -131,7 +131,7 @@
    "no": 15,
    "title": "Knowledge and Wisdom",
    "area": "Literature - Essays",
-   "words": 6865,
+   "words": 6863,
    "read_min": 38,
    "figures": 7,
    "has_questions": true
@@ -140,8 +140,8 @@
    "no": 16,
    "title": "Humility",
    "area": "Literature - Essays",
-   "words": 6749,
-   "read_min": 37,
+   "words": 6751,
+   "read_min": 38,
    "figures": 5,
    "has_questions": true
   },
@@ -149,7 +149,7 @@
    "no": 17,
    "title": "Human Rights and the Age of Inequality",
    "area": "Literature - Essays",
-   "words": 7029,
+   "words": 7031,
    "read_min": 39,
    "figures": 6,
    "has_questions": true
@@ -158,7 +158,7 @@
    "no": 18,
    "title": "A Matter of Husbands",
    "area": "Literature - One Act Plays",
-   "words": 6984,
+   "words": 6986,
    "read_min": 39,
    "figures": 5,
    "has_questions": true
@@ -167,7 +167,7 @@
    "no": 19,
    "title": "Facing Death",
    "area": "Literature - One Act Plays",
-   "words": 8011,
+   "words": 8013,
    "read_min": 45,
    "figures": 6,
    "has_questions": true
@@ -176,7 +176,7 @@
    "no": 20,
    "title": "The Bull",
    "area": "Literature - One Act Plays",
-   "words": 7381,
+   "words": 7383,
    "read_min": 41,
    "figures": 5,
    "has_questions": true
@@ -337,7 +337,7 @@
    "no": 3,
    "kind": "model",
    "title": "Compulsory English: Model Question Sets and Predicted Questions",
-   "words": 1913,
+   "words": 1911,
    "read_min": 11
   }
  ],

@@ -304,7 +304,7 @@ loses marks.
 ## 1.3 Characteristics of a computer
 
 The **characteristics** (features) of a computer are the qualities that make it
-so useful. Six are named in the syllabus.
+so useful. Six are covered in this unit.
 
 **1. Speed.** A computer works with electric signals that travel through its
 circuits almost at the speed of light, so it does in seconds what would take a
@@ -481,7 +481,7 @@ every 20 minutes, look at something 20 feet (about 6 m) away for 20 seconds.
 ## 1.5 Uses of computers in Nepal
 
 Because a computer is fast, accurate and versatile, it is used in almost every
-field. These are the fields named in the syllabus, with examples you can see
+field. These are the fields covered in this unit, with examples you can see
 around you.
 
 | Field | What computers do | Examples in Nepal |

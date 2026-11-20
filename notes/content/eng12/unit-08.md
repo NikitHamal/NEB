@@ -48,7 +48,7 @@ sister Lavinia found them after her death. The first selection, *Poems by Emily
 Dickinson*, appeared in **1890**, edited by **Mabel Loomis Todd** and **Thomas
 Wentworth Higginson**.
 
-Your textbook's note is right about the ingredients of her mind: the
+The key ingredients of her mind are: the
 **Metaphysical poets** of seventeenth-century England (Donne, Herbert), with
 their habit of yoking a huge idea to a homely object; the **Book of
 Revelation**, with its purple, its jewels and its last things; and the
@@ -74,7 +74,7 @@ all her poems untitled. "A Day" was supplied by Todd and Higginson in 1890, who
 also grouped it under the heading *Nature*. The title is therefore an editor's
 reading of the poem — a helpful one, but not evidence of what the poet intended.
 
-**The text is the 1890 editors' text.** The version in your textbook descends
+**The text is the 1890 editors' text.** The standard printed text descends
 from the 1890 printing, which smoothed Dickinson's spelling, her capitals and
 above all her dashes. In her manuscript line 11 begins *That* little yellow boys
 and girls; the printed tradition gives *Which*. Do not lose marks over this — the
@@ -567,7 +567,7 @@ about it is that we can report its beginning and can only guess at its end.
 
 First, a point of accuracy that will improve the answer: the mark Dickinson
 wrote there is not a hyphen but a **dash** (a hyphen joins parts of a word; a
-dash holds a sentence open). Your textbook prints it as a long rule after the
+dash holds a sentence open). The printed text gives it as a long rule after the
 comma. Dickinson used dashes constantly, and modern editors preserve them
 because they do work that no other punctuation mark can do.
 

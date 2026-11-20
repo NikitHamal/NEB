@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Database Management System (DBMS)",
    "area": "",
-   "words": 7361,
+   "words": 7360,
    "read_min": 41,
    "figures": 11,
    "has_questions": true
@@ -71,8 +71,8 @@
    "no": 1,
    "kind": "objective",
    "title": "Computer Science: Unit-wise Objective Question Bank",
-   "words": 7001,
-   "read_min": 39
+   "words": 6788,
+   "read_min": 38
   },
   {
    "no": 2,
@@ -85,7 +85,7 @@
    "no": 3,
    "kind": "model",
    "title": "Computer Science: Model Question Sets and Predicted Questions",
-   "words": 14034,
+   "words": 13972,
    "read_min": 78
   }
  ],

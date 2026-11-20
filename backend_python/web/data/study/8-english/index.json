@@ -5,7 +5,7 @@
    "no": 1,
    "title": "A Tour to Central Zoo / A Request Letter",
    "area": "Units",
-   "words": 3413,
+   "words": 3409,
    "read_min": 19,
    "figures": 3,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "The Old Woman and the Lime Tree / Poem: Free Birds",
    "area": "Units",
-   "words": 2742,
+   "words": 2741,
    "read_min": 15,
    "figures": 1,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Having Fun / Historical Inventions",
    "area": "Units",
-   "words": 3100,
+   "words": 3096,
    "read_min": 17,
    "figures": 1,
    "has_questions": true
@@ -193,8 +193,8 @@
    "no": 3,
    "kind": "model",
    "title": "Compulsory English: Model Question Sets and Predicted Questions",
-   "words": 3208,
-   "read_min": 18
+   "words": 3129,
+   "read_min": 17
   }
  ],
  "guide": "The Basic Level Examination: Pattern, Grid and Strategy"

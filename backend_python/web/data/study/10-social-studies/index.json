@@ -98,21 +98,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Social Studies: Unit-wise Objective Question Bank",
-   "words": 2465,
-   "read_min": 14
+   "words": 2425,
+   "read_min": 13
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Social Studies: Unit-wise Subjective Question Bank",
-   "words": 4249,
-   "read_min": 24
+   "words": 4220,
+   "read_min": 23
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Social Studies: Model Question Sets and Predicted Questions",
-   "words": 3122,
+   "words": 3022,
    "read_min": 17
   }
  ],

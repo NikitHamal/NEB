@@ -197,22 +197,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Chemistry: Unit-wise Objective Question Bank",
-   "words": 14100,
-   "read_min": 78
+   "words": 13555,
+   "read_min": 75
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Chemistry: Unit-wise Subjective Question Bank",
-   "words": 25661,
-   "read_min": 143
+   "words": 25305,
+   "read_min": 141
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Chemistry: Model Question Sets and Predicted Questions",
-   "words": 9305,
-   "read_min": 52
+   "words": 9004,
+   "read_min": 50
   }
  ],
  "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"

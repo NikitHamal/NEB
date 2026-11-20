@@ -236,7 +236,7 @@ $Q$ = heat **supplied to** the gas; $\Delta U$ = rise in its internal energy;
 $W$ = work done **by** the gas on its surroundings.
 :::
 
-This is the convention used throughout this book, and the one in the NEB syllabus.
+This is the convention used throughout this book, and the one at this level.
 Learn it as a sentence: *heat in = rise in internal energy + work out*. Equivalently
 $\Delta U = Q - W$.
 

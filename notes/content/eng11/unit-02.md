@@ -11,7 +11,7 @@ area: Literature — Short Stories
 under a thousand words — and one of the most tightly built. A wounded traveller
 takes shelter in an abandoned castle, notices a portrait of a young woman that
 seems frighteningly alive, and reads the terrible explanation in a book beside
-his bed. It is on the syllabus because it shows, in a very small space, how a
+his bed. It is a classic study in, in a very small space, how a
 Gothic writer creates atmosphere, how a frame narrative works, and how a whole
 argument about art and life can be made in a single closing sentence.
 

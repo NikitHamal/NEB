@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Physical Chemistry",
    "area": "Chemistry",
-   "words": 3699,
+   "words": 3692,
    "read_min": 21,
    "figures": 5,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Inorganic Chemistry",
    "area": "Chemistry",
-   "words": 2882,
+   "words": 2880,
    "read_min": 16,
    "figures": 4,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Organic Chemistry",
    "area": "Chemistry",
-   "words": 2991,
+   "words": 2990,
    "read_min": 17,
    "figures": 3,
    "has_questions": true

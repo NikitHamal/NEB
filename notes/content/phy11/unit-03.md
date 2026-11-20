@@ -356,7 +356,7 @@ like a velocity.
 |---|---|---|
 | Displacement–time | velocity | — (no physical meaning) |
 | Velocity–time | acceleration | displacement |
-| Acceleration–time | jerk (not in syllabus) | change in velocity |
+| Acceleration–time | jerk (higher-order) | change in velocity |
 
 ## 3.4 Motion of a freely falling body
 

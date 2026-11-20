@@ -308,7 +308,7 @@ Step 3 — Stage I runs up to the 3rd worker (MP still rising). Stage II runs fr
 **What it means.** The farmer should employ between 4 and 6 workers — the point where marginal product is positive. Note that AP is maximum at the 4th worker, exactly where MP equals AP, which is the boundary between the first two stages.
 :::
 
-```photo id="eco10/tea" caption="A tea garden in Ilam. Tea is the textbook example of monopolistic competition: dozens of growers, a product that is genuinely different from each other grower's, free entry — and competition fought mainly on brand, not price." width="82"
+```photo id="eco10/tea" caption="A tea garden in Ilam. Tea is the classic example of monopolistic competition: dozens of growers, a product that is genuinely different from each other grower's, free entry — and competition fought mainly on brand, not price." width="82"
 ```
 
 ## 2.5 Market structures

@@ -26,7 +26,7 @@ truth table" — draw the full table, do not just assert the result.
 
 A **number system** is a way of writing numbers using a fixed set of symbols.
 The number of distinct symbols is the **base** (or **radix**) $r$. All four
-systems in the syllabus are **positional**: the value of a digit depends on where
+systems in this course are **positional**: the value of a digit depends on where
 it stands.
 
 $$ N = d_{n-1}r^{\,n-1} + \cdots + d_1r^{1} + d_0r^{0}

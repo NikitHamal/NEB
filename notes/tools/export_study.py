@@ -440,7 +440,9 @@ def _merge_index(out, patch):
 
 
 def _fonts_or_die():
+    import fonts
     import matplotlib.font_manager as fm
+    fonts.ensure()
     missing = []
     for family in ("Inter", "Noto Sans Devanagari"):
         try:

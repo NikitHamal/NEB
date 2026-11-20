@@ -3,162 +3,162 @@
  "units": [
   {
    "no": 1,
-   "title": "Unit 1: Current Affairs and Issues",
+   "title": "Current Affairs and Issues",
    "area": "Units",
-   "words": 5900,
+   "words": 5889,
    "read_min": 33,
    "figures": 3,
    "has_questions": true
   },
   {
    "no": 2,
-   "title": "Unit 2: Festivals and Celebrations",
+   "title": "Festivals and Celebrations",
    "area": "Units",
-   "words": 4888,
+   "words": 4883,
    "read_min": 27,
    "figures": 3,
    "has_questions": true
   },
   {
    "no": 3,
-   "title": "Unit 3: Health and Wellness",
+   "title": "Health and Wellness",
    "area": "Units",
-   "words": 4291,
+   "words": 4287,
    "read_min": 24,
    "figures": 2,
    "has_questions": true
   },
   {
    "no": 4,
-   "title": "Unit 4: Work and Leisure",
+   "title": "Work and Leisure",
    "area": "Units",
-   "words": 4547,
+   "words": 4543,
    "read_min": 25,
    "figures": 4,
    "has_questions": true
   },
   {
    "no": 5,
-   "title": "Unit 5: Science and Experiment",
+   "title": "Science and Experiment",
    "area": "Units",
-   "words": 4494,
+   "words": 4490,
    "read_min": 25,
    "figures": 4,
    "has_questions": true
   },
   {
    "no": 6,
-   "title": "Unit 6: Food and Cuisine",
+   "title": "Food and Cuisine",
    "area": "Units",
-   "words": 4077,
+   "words": 4073,
    "read_min": 23,
    "figures": 2,
    "has_questions": true
   },
   {
    "no": 7,
-   "title": "Unit 7: Cyber Security",
+   "title": "Cyber Security",
    "area": "Units",
-   "words": 4160,
+   "words": 4155,
    "read_min": 23,
    "figures": 2,
    "has_questions": true
   },
   {
    "no": 8,
-   "title": "Unit 8: Hobbies and Interests",
+   "title": "Hobbies and Interests",
    "area": "Units",
-   "words": 4520,
+   "words": 4516,
    "read_min": 25,
    "figures": 3,
    "has_questions": true
   },
   {
    "no": 9,
-   "title": "Unit 9: History and Culture",
+   "title": "History and Culture",
    "area": "Units",
-   "words": 4953,
-   "read_min": 28,
+   "words": 4948,
+   "read_min": 27,
    "figures": 4,
    "has_questions": true
   },
   {
    "no": 10,
-   "title": "Unit 10: Games and Sports",
+   "title": "Games and Sports",
    "area": "Units",
-   "words": 5217,
+   "words": 5212,
    "read_min": 29,
    "figures": 4,
    "has_questions": true
   },
   {
    "no": 11,
-   "title": "Unit 11: Ethics and Morality",
+   "title": "Ethics and Morality",
    "area": "Units",
-   "words": 5163,
+   "words": 5158,
    "read_min": 29,
    "figures": 5,
    "has_questions": true
   },
   {
    "no": 12,
-   "title": "Unit 12: Nature and Development",
+   "title": "Nature and Development",
    "area": "Units",
-   "words": 4619,
+   "words": 4614,
    "read_min": 26,
    "figures": 6,
    "has_questions": true
   },
   {
    "no": 13,
-   "title": "Unit 13: Population and Migration",
+   "title": "Population and Migration",
    "area": "Units",
-   "words": 4552,
+   "words": 4547,
    "read_min": 25,
    "figures": 5,
    "has_questions": true
   },
   {
    "no": 14,
-   "title": "Unit 14: Travel and Adventure",
+   "title": "Travel and Adventure",
    "area": "Units",
-   "words": 4436,
+   "words": 4431,
    "read_min": 25,
    "figures": 7,
    "has_questions": true
   },
   {
    "no": 15,
-   "title": "Unit 15: People and Places",
+   "title": "People and Places",
    "area": "Units",
-   "words": 5149,
+   "words": 5144,
    "read_min": 29,
    "figures": 7,
    "has_questions": true
   },
   {
    "no": 16,
-   "title": "Unit 16: Success and Celebration",
+   "title": "Success and Celebration",
    "area": "Units",
-   "words": 5290,
+   "words": 5285,
    "read_min": 29,
    "figures": 6,
    "has_questions": true
   },
   {
    "no": 17,
-   "title": "Unit 17: Countries and Towns",
+   "title": "Countries and Towns",
    "area": "Units",
-   "words": 4698,
+   "words": 4693,
    "read_min": 26,
    "figures": 6,
    "has_questions": true
   },
   {
    "no": 18,
-   "title": "Unit 18: Media and Entertainment",
+   "title": "Media and Entertainment",
    "area": "Units",
-   "words": 5230,
+   "words": 5225,
    "read_min": 29,
    "figures": 6,
    "has_questions": true
@@ -184,7 +184,7 @@
    "no": 3,
    "kind": "model",
    "title": "Compulsory English: Model Question Sets and Predicted Questions",
-   "words": 4358,
+   "words": 4287,
    "read_min": 24
   }
  ],

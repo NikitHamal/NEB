@@ -188,21 +188,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Computer Science: Unit-wise Objective Question Bank",
-   "words": 6771,
-   "read_min": 38
+   "words": 6720,
+   "read_min": 37
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Computer Science: Unit-wise Subjective Question Bank",
-   "words": 12197,
+   "words": 12157,
    "read_min": 68
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Computer Science: Model Question Sets and Predicted Questions",
-   "words": 5248,
+   "words": 5148,
    "read_min": 29
   }
  ],

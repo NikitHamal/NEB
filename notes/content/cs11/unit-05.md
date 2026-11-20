@@ -1452,7 +1452,7 @@ ASCII 75 and `'V'` is ASCII 86, and 75 − 86 = **−11**. The sign is what matt
 negative means the first string comes earlier in dictionary order.
 
 ::: caution `strrev`, `strlwr` and `strupr` are not standard C
-These three are in the NEB syllabus because they exist in Turbo C and other
+These three are at this level because they exist in Turbo C and other
 Borland compilers, but they are **not** part of the ANSI C library. Compiling
 `strrev(s)` with GCC gives a real error:
 

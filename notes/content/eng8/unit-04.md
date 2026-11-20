@@ -194,7 +194,7 @@ lot last winter?
 
 ## 4.4 Writing I: An account of a memorable event
 
-Answer the three textbook questions in two or three paragraphs: **what** the
+Answer the three guiding questions in two or three paragraphs: **what** the
 event was, **when** it happened, and **what lesson** you learnt. Use the past
 simple for events and the present perfect for how it affects you now.
 

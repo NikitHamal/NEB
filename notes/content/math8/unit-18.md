@@ -341,7 +341,7 @@ it has mirror lines — for example the vertical line through the centre of any
 square.
 :::
 
-**Extra practice — textbook-style questions**
+**Extra practice**
 
 **1.** A semi-regular tessellation uses one square and two copies of another regular polygon at each vertex. Name the polygon.
 **2.** A vertex has one equilateral triangle, two squares and one other regular polygon. Find the other polygon.

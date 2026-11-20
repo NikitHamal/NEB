@@ -49,12 +49,12 @@ schooldays, shows how long he had been thinking about classrooms, examinations
 and the war of nerves between master and pupil.
 
 *Refund* was written in **1938**. It was adapted by the American playwright
-**Percival Wilde** for a general audience, and the version in your textbook is
+**Percival Wilde** for a general audience, and the prescribed text is
 Wilde's. The play brings out Karinthy's extraordinary sense of parody and word
 play, and it is full of humour arising from an extraordinarily absurd situation.
 
 ::: caution Two names, one writer
-Your textbook prints **Fritz Karinthy**, using the German form of his first name,
+The printed text gives **Fritz Karinthy**, using the German form of his first name,
 because the play reached English through German. His real name was **Frigyes
 Karinthy**. Write whichever the question paper uses; both refer to the same man.
 His setting is Hungarian too — the fees are counted in **crowns** and **heller**,
