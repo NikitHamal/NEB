@@ -70,7 +70,11 @@ private fun DrawScope.drawV3(art: V3Art) {
 
 private fun DrawScope.drawOp(op: V3Op) {
     op.fill?.let { drawPath(op.path, it) }
-    op.stroke?.let { drawPath(op.path, it, style = Stroke(width = op.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)) }
+    val strokeColor = op.stroke
+    val strokeStyle = op.strokeStyle
+    if (strokeColor != null && strokeStyle != null) {
+        drawPath(op.path, strokeColor, style = strokeStyle)
+    }
 }
 
 /**

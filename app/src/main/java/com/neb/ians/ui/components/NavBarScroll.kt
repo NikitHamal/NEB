@@ -85,7 +85,7 @@ fun Modifier.navBarScrollTransform(state: NavBarScroll, travelDp: Float = 120f, 
     graphicsLayer {
         val h = if (pinned) 0f else state.hidden
         translationY = h * travelDp.dp.toPx()
-        alpha = 1f - h * 0.85f
+        alpha = (1f - h).coerceIn(0f, 1f)
     }
 
 fun Modifier.navBarScrollSource(state: NavBarScroll): Modifier = nestedScroll(state.connection)

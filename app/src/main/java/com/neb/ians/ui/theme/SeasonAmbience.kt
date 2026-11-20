@@ -46,13 +46,14 @@ fun Modifier.seasonAmbience(active: Boolean = true): Modifier {
     val state = LocalSiteTheme.current
     val key = state.theme?.key
     val kind = if (state.festive && key != "exams" && key != "everyday") key else null
+    if (kind == null) return this
     val reduced = nebAnimationsReduced()
     val fade by animateFloatAsState(if (active) 1f else 0f, tween(240), label = "seasonFade")
-    if (kind == null || fade < 0.01f) return this
-    val clock by festiveClock(running = !reduced)
-    return this.graphicsLayer().drawWithContent {
+    val clock by festiveClock(running = !reduced && fade >= 0.01f)
+    return this.drawWithContent {
         drawContent()
         val a = fade
+        if (a < 0.01f) return@drawWithContent
         val t = clock
         when (kind) {
             "tihar" -> { lightsGarland(t, a); sparkles(t, a) }
@@ -63,7 +64,7 @@ fun Modifier.seasonAmbience(active: Boolean = true): Modifier {
             "winter" -> snow(t, a)
             else -> petals(t, a, listOf(Color(0xFFFFD166)), 6)
         }
-    }.graphicsLayer()
+    }
 }
 
 /**

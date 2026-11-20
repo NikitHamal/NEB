@@ -435,6 +435,7 @@ private fun Color.luminanceIsDark(): Boolean {
 @Stable
 class GlassBackdrop internal constructor(internal val layer: GraphicsLayer, internal val enabled: Boolean) {
     internal var origin by mutableStateOf(Offset.Zero)
+    internal var isBarVisible: () -> Boolean = { true }
 }
 
 /**
@@ -451,8 +452,15 @@ fun rememberGlassBackdrop(): GlassBackdrop {
 
 /** Marks the content that sits behind glass: it still draws normally and is also recorded when [active] is true. */
 fun Modifier.glassSource(backdrop: GlassBackdrop, active: Boolean = true): Modifier = if (!backdrop.enabled || !active) this else this
-    .onGloballyPositioned { backdrop.origin = it.positionInRoot() }
+    .onGloballyPositioned {
+        val pos = it.positionInRoot()
+        if (backdrop.origin != pos) backdrop.origin = pos
+    }
     .drawWithContent {
+        if (!backdrop.isBarVisible()) {
+            drawContent()
+            return@drawWithContent
+        }
         backdrop.layer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
             this@drawWithContent.drawContent()
         }
@@ -465,25 +473,32 @@ fun Modifier.glassSource(backdrop: GlassBackdrop, active: Boolean = true): Modif
  * Flat colour only: no shadow, no coloured wash.
  */
 @Composable
-fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 26.dp): Modifier {
+fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 20.dp): Modifier {
     val scheme = MaterialTheme.colorScheme
     val dark = scheme.surface.luminanceIsDark()
     val blurLayer = rememberGraphicsLayer()
     val blurPx = with(LocalDensity.current) { blur.toPx() }
     val canBlur = backdrop != null && backdrop.enabled
     val blurEffect = remember(blurPx) { BlurEffect(blurPx, blurPx, TileMode.Clamp) }
+    SideEffect {
+        if (canBlur) blurLayer.renderEffect = blurEffect
+    }
     var origin by remember { mutableStateOf(Offset.Zero) }
     val tint = if (canBlur) scheme.surface.copy(alpha = if (dark) 0.42f else 0.46f) else scheme.surface.copy(alpha = 0.95f)
-    val sheen = Brush.verticalGradient(
-        0f to Color.White.copy(alpha = if (dark) 0.10f else 0.60f),
-        0.55f to Color.Transparent
-    )
+    val sheen = remember(dark) {
+        Brush.verticalGradient(
+            0f to Color.White.copy(alpha = if (dark) 0.10f else 0.60f),
+            0.55f to Color.Transparent
+        )
+    }
     return this
-        .onGloballyPositioned { origin = it.positionInRoot() }
+        .onGloballyPositioned {
+            val pos = it.positionInRoot()
+            if (origin != pos) origin = pos
+        }
         .clip(shape)
         .drawBehind {
-            if (canBlur && backdrop != null) {
-                blurLayer.renderEffect = blurEffect
+            if (canBlur && backdrop != null && backdrop.isBarVisible()) {
                 blurLayer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
                     val d = origin - backdrop.origin
                     translate(-d.x, -d.y) { drawLayer(backdrop.layer) }

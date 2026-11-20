@@ -624,6 +624,7 @@ private val LooseMathMarkers = listOf(
 
 fun formatLatexMath(input: String): String {
     if (input.isBlank()) return ""
+    if ('\\' !in input && '$' !in input && '^' !in input && '_' !in input && '\u222B' !in input) return input
     return runCatching {
         var text = input.replace(LatexEnvRegex) { m -> "\n" + wrapMath(m.groupValues[1]) + "\n" }
         text = mapOutsideMath(text) { seg ->
@@ -847,6 +848,19 @@ private val inlinePattern = Regex(
 
 private val inlineAnnotatedCache = android.util.LruCache<Int, AnnotatedString>(256)
 
+private fun hasInlineMarkdownMarkers(s: String): Boolean {
+    for (i in 0 until s.length) {
+        when (s[i]) {
+            '*', '`', '~', '[', '@', '<', '\u00AB' -> return true
+            'h', 'H', 'w', 'W' -> if (
+                s.regionMatches(i, "http", 0, 4, ignoreCase = true) ||
+                s.regionMatches(i, "www.", 0, 4, ignoreCase = true)
+            ) return true
+        }
+    }
+    return false
+}
+
 internal fun buildInlineAnnotatedString(
     text: String,
     baseColor: Color,
@@ -855,6 +869,8 @@ internal fun buildInlineAnnotatedString(
     errorBg: Color = Color(0xFFFBEDEC),
     errorFg: Color = Color(0xFF7A1C16)
 ): AnnotatedString {
+    if (text.isEmpty()) return AnnotatedString("")
+    if (!hasInlineMarkdownMarkers(text)) return AnnotatedString(text)
     val cacheKey = java.util.Objects.hash(text, baseColor, primary, codeBg, errorBg, errorFg)
     synchronized(inlineAnnotatedCache) { inlineAnnotatedCache.get(cacheKey) }?.let { return it }
     // Inline image tokens are emitted as inline-content placeholders; the
@@ -1065,8 +1081,9 @@ private val inlinePreviewCache = android.util.LruCache<Pair<String, Boolean>, St
 fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): String {
     if (markdown.isBlank()) return ""
     val cacheKey = Pair(markdown, stripTokens)
-    inlinePreviewCache.get(cacheKey)?.let { return it }
-    val parsed = parseMarkdownBlocks(markdown).joinToString("\n") { block ->
+    synchronized(inlinePreviewCache) { inlinePreviewCache.get(cacheKey) }?.let { return it }
+    val source = if (stripTokens && markdown.length > 1400) markdown.substring(0, 1400) else markdown
+    val result = parseMarkdownBlocks(source).joinToString("\n") { block ->
         when (block) {
             is MdBlock.Heading -> formatLatexMath(block.text)
             is MdBlock.Quote -> formatLatexMath(block.text)
@@ -1078,8 +1095,7 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
             MdBlock.Rule -> ""
         }
     }.replace(InlinePreviewImageRegex, "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()
-    val result = formatLatexMath(parsed)
-    inlinePreviewCache.put(cacheKey, result)
+    synchronized(inlinePreviewCache) { inlinePreviewCache.put(cacheKey, result) }
     return result
 }
 

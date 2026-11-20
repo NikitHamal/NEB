@@ -157,7 +157,8 @@ fun NebSegmentedChoice(
  */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun nebShape(polygon: RoundedPolygon, startAngle: Int = 0): Shape = polygon.toShape(startAngle)
+fun nebShape(polygon: RoundedPolygon, startAngle: Int = 0): Shape =
+    remember(polygon, startAngle) { polygon.toShape(startAngle) }
 
 /** The shapes the app reaches for by name, so a screen never indexes into [MaterialShapes]. */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)

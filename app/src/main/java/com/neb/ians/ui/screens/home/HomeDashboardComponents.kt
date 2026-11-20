@@ -278,7 +278,6 @@ internal fun HomePostsFilterBar(
     scrolled: Boolean,
     onSelectSort: (String) -> Unit,
     onOpenCategories: () -> Unit,
-    onClearCategory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -306,10 +305,10 @@ internal fun HomePostsFilterBar(
                 HomeSortPill("Discussed", "discussed", Icons.Outlined.ChatBubbleOutline, currentSort, onSelectSort)
             }
             val hasCategory = selectedCategory != null
-            val chipShape = RoundedCornerShape(28.dp)
-            Row(
+            val chipShape = RoundedCornerShape(17.dp)
+            Box(
                 modifier = Modifier
-                    .height(34.dp)
+                    .size(34.dp)
                     .clip(chipShape)
                     .background(
                         if (hasCategory) MaterialTheme.colorScheme.primaryContainer
@@ -319,47 +318,16 @@ internal fun HomePostsFilterBar(
                         if (hasCategory) Modifier
                         else Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant, chipShape)
                     )
-                    .nebPressable(scale = 0.96f, tactile = TactileType.LightTap, onClick = onOpenCategories)
-                    .padding(
-                        start = 12.dp,
-                        end = if (hasCategory) 6.dp else 12.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    .nebPressable(scale = 0.94f, tactile = TactileType.LightTap, onClick = onOpenCategories),
+                contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Filled.FilterList,
-                    contentDescription = "Filter by topic",
-                    modifier = Modifier.size(15.dp),
+                    contentDescription = if (hasCategory) "Filtered by #$selectedCategory" else "Filter by topic",
+                    modifier = Modifier.size(17.dp),
                     tint = if (hasCategory) MaterialTheme.colorScheme.onPrimaryContainer
                     else MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Text(
-                    text = if (hasCategory) "#$selectedCategory" else "Topics",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = if (hasCategory) FontWeight.SemiBold else FontWeight.Medium,
-                    color = if (hasCategory) MaterialTheme.colorScheme.onPrimaryContainer
-                    else MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.widthIn(max = 112.dp)
-                )
-                if (hasCategory) {
-                    Box(
-                        modifier = Modifier
-                            .size(22.dp)
-                            .clip(CircleShape)
-                            .clickable(onClick = onClearCategory),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Close,
-                            contentDescription = "Clear topic filter",
-                            modifier = Modifier.size(14.dp),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
             }
         }
         Box(

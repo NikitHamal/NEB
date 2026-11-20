@@ -66,9 +66,7 @@ fun HomeScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
-    onNotesClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
-    onPathwaysClick: () -> Unit = {},
     onUploadClick: () -> Unit = {},
     onNewsItemClick: (String) -> Unit = {},
     onPostClick: (String) -> Unit = {},
@@ -104,7 +102,7 @@ fun HomeScreen(
         postIdForKey = { (it as? String)?.takeIf { k -> k.startsWith("post_") }?.removePrefix("post_") },
         onVisible = viewModel::reportImpressions
     )
-    val shouldLoadMore by remember {
+    val shouldLoadMore by remember(listState) {
         derivedStateOf {
             val layout = listState.layoutInfo
             val totalItems = layout.totalItemsCount
@@ -143,8 +141,7 @@ fun HomeScreen(
                     isRefreshing = uiState.isFilterRefreshing,
                     scrolled = isScrolled,
                     onSelectSort = viewModel::selectSort,
-                    onOpenCategories = { showTopicSheet = true },
-                    onClearCategory = { viewModel.selectCategory(null) }
+                    onOpenCategories = { showTopicSheet = true }
                 )
             }
         },
@@ -253,11 +250,6 @@ fun HomeScreen(
                                 key = { it.key },
                                 contentType = { it.contentType }
                             ) { entry ->
-                                Box(
-                                    modifier = Modifier.padding(
-                                        vertical = if (entry is HomeFeedEntry.Post) 0.dp else 14.dp
-                                    )
-                                ) {
                                 when (entry) {
                                     is HomeFeedEntry.Post -> ForumPostCard(
                                         post = entry.post,
@@ -278,6 +270,7 @@ fun HomeScreen(
                                     )
 
                                     is HomeFeedEntry.ResourceCarousel -> Column(
+                                        modifier = Modifier.padding(vertical = 14.dp),
                                         verticalArrangement = Arrangement.spacedBy(10.dp)
                                     ) {
                                         HomeSectionTitle(
@@ -294,41 +287,47 @@ fun HomeScreen(
                                     is HomeFeedEntry.News -> HomeNewsSection(
                                         items = entry.items,
                                         onViewAllClick = onNewsClick,
-                                        onNewsClick = { news -> onNewsItemClick(news.slug) }
+                                        onNewsClick = { news -> onNewsItemClick(news.slug) },
+                                        modifier = Modifier.padding(vertical = 14.dp)
                                     )
 
-                                    is HomeFeedEntry.Peers -> HomeSuggestedPeersRail(
-                                        peers = entry.peers,
-                                        onPeerClick = onUserProfileClick,
-                                        onFollowClick = { authorId -> gate.require(GateReason.Follow) { viewModel.toggleFollowUser(authorId) } },
-                                        onSeeAllClick = onSeeAllPeopleClick
-                                    )
+                                    is HomeFeedEntry.Peers -> Box(modifier = Modifier.padding(vertical = 14.dp)) {
+                                        HomeSuggestedPeersRail(
+                                            peers = entry.peers,
+                                            onPeerClick = onUserProfileClick,
+                                            onFollowClick = { authorId -> gate.require(GateReason.Follow) { viewModel.toggleFollowUser(authorId) } },
+                                            onSeeAllClick = onSeeAllPeopleClick
+                                        )
+                                    }
 
-                                    is HomeFeedEntry.ResourceHighlight -> if (entry.titled) {
-                                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                            HomeSectionTitle(
-                                                title = "Featured study guide",
-                                                actionLabel = "See all",
-                                                onActionClick = onViewAllClick
-                                            )
+                                    is HomeFeedEntry.ResourceHighlight -> Box(modifier = Modifier.padding(vertical = 14.dp)) {
+                                        if (entry.titled) {
+                                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                                HomeSectionTitle(
+                                                    title = "Featured study guide",
+                                                    actionLabel = "See all",
+                                                    onActionClick = onViewAllClick
+                                                )
+                                                HomeFeedResourceHighlight(
+                                                    resource = entry.resource,
+                                                    onClick = { onResourceClick(entry.resource.id) }
+                                                )
+                                            }
+                                        } else {
                                             HomeFeedResourceHighlight(
                                                 resource = entry.resource,
                                                 onClick = { onResourceClick(entry.resource.id) }
                                             )
                                         }
-                                    } else {
-                                        HomeFeedResourceHighlight(
-                                            resource = entry.resource,
-                                            onClick = { onResourceClick(entry.resource.id) }
-                                        )
                                     }
 
-                                    is HomeFeedEntry.NewResources -> HomeNewResourcesRail(
-                                        resources = entry.resources,
-                                        onViewAllClick = onViewAllClick,
-                                        onResourceClick = onResourceClick
-                                    )
-                                }
+                                    is HomeFeedEntry.NewResources -> Box(modifier = Modifier.padding(vertical = 14.dp)) {
+                                        HomeNewResourcesRail(
+                                            resources = entry.resources,
+                                            onViewAllClick = onViewAllClick,
+                                            onResourceClick = onResourceClick
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -420,7 +419,7 @@ fun HomeScreen(
                     viewModel.selectCategory(if (picked == null || picked == "All") null else picked)
                     showTopicSheet = false
                 },
-                toggleable = false
+                toggleable = true
             )
         }
     }

@@ -472,6 +472,9 @@ fun NEBiansNavHost(
 
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
     val navScroll = com.neb.ians.ui.components.rememberNavBarScroll()
+    androidx.compose.runtime.SideEffect {
+        glassBackdrop.isBarVisible = { showBottomBar && (showCreateMenu || navScroll.hidden < 0.98f) }
+    }
     LaunchedEffect(currentRoute) { navScroll.show() }
     CompositionLocalProvider(
         LocalAuthGate provides gate,
@@ -612,9 +615,7 @@ fun NEBiansNavHost(
                     },
                     onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
-                    onNotesClick = { navController.navigate(Screen.Notes.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
-                    onPathwaysClick = { navController.navigate(Screen.Pathways.route) },
                     onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },

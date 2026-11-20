@@ -13,44 +13,45 @@ import javax.inject.Singleton
 @Singleton
 class AppCache @Inject constructor() {
     // Home Screen Cache
-    var recentResources: List<ApiResource> = emptyList()
-    var popularResources: List<ApiResource> = emptyList()
-    var recentPosts: List<ApiPost> = emptyList()
-    var latestNews: List<NewsAnnouncement> = emptyList()
-    
+    @Volatile var recentResources: List<ApiResource> = emptyList()
+    @Volatile var popularResources: List<ApiResource> = emptyList()
+    @Volatile var recentPosts: List<ApiPost> = emptyList()
+    @Volatile var latestNews: List<NewsAnnouncement> = emptyList()
+
     // Library Screen Cache
-    var libraryResources: List<ApiResource> = emptyList()
-    var libraryTotalCount: Int = 0
-    var libraryTotalPages: Int = 1
-    var libraryHasMore: Boolean = false
+    @Volatile var libraryResources: List<ApiResource> = emptyList()
+    @Volatile var libraryTotalCount: Int = 0
+    @Volatile var libraryTotalPages: Int = 1
+    @Volatile var libraryHasMore: Boolean = false
 
     // Every resource in every list page lands in resourceDetails, so unbounded these grew for as
     // long as the app stayed open. They keep the most recently added entries; anything older is
     // read from the offline cache or the network, as on a cold start.
-    var resourceDetails: MutableMap<String, ApiResource> = boundedMap(400)
-    var resourceComments: MutableMap<String, List<ApiResourceComment>> = boundedMap(40)
-    var postDetails: MutableMap<String, ApiPost> = boundedMap(200)
-    var postReplies: MutableMap<String, List<ApiReply>> = boundedMap(40)
-    
+    val resourceDetails: MutableMap<String, ApiResource> = boundedMap(400)
+    val resourceComments: MutableMap<String, List<ApiResourceComment>> = boundedMap(40)
+    val postDetails: MutableMap<String, ApiPost> = boundedMap(200)
+    val postReplies: MutableMap<String, List<ApiReply>> = boundedMap(40)
+
     // Notifications Screen Cache
-    var notifications: List<ApiNotification> = emptyList()
-    var notificationsHasMore: Boolean = false
-    var notificationsPage: Int = 1
+    @Volatile var notifications: List<ApiNotification> = emptyList()
+    @Volatile var notificationsHasMore: Boolean = false
+    @Volatile var notificationsPage: Int = 1
 
     // Last visited profile Cache
-    var lastProfileUsername: String? = null
-    var lastProfile: UserProfileResponse? = null
-    var lastProfileIsFollowing: Boolean = false
-    var lastProfileIsRequested: Boolean = false
-    var lastProfileFollowerCount: Int = 0
-    var lastProfileRepliesCount: Int = 0
-    var lastProfileResourcesCount: Int = 0
-    var lastProfilePosts: List<ApiPost> = emptyList()
-    var lastProfileReplies: List<ApiReply> = emptyList()
-    var lastProfileResources: List<ApiResource> = emptyList()
+    @Volatile var lastProfileUsername: String? = null
+    @Volatile var lastProfile: UserProfileResponse? = null
+    @Volatile var lastProfileIsFollowing: Boolean = false
+    @Volatile var lastProfileIsRequested: Boolean = false
+    @Volatile var lastProfileFollowerCount: Int = 0
+    @Volatile var lastProfileRepliesCount: Int = 0
+    @Volatile var lastProfileResourcesCount: Int = 0
+    @Volatile var lastProfilePosts: List<ApiPost> = emptyList()
+    @Volatile var lastProfileReplies: List<ApiReply> = emptyList()
+    @Volatile var lastProfileResources: List<ApiResource> = emptyList()
 }
 
-/** An insertion-ordered map that drops its oldest entry past [max] (gets do not reorder it). */
-private fun <V> boundedMap(max: Int): MutableMap<String, V> = object : LinkedHashMap<String, V>() {
-    override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, V>?) = size > max
-}
+/** A thread-safe insertion-ordered map that drops its oldest entry past [max] (gets do not reorder it). */
+private fun <V> boundedMap(max: Int): MutableMap<String, V> =
+    java.util.Collections.synchronizedMap(object : LinkedHashMap<String, V>() {
+        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, V>?) = size > max
+    })

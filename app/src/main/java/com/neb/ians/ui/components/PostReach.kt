@@ -57,9 +57,19 @@ fun TrackPostImpressions(
 ) {
     val latest = rememberUpdatedState(onVisible)
     val mapKey = rememberUpdatedState(postIdForKey)
+    val visibleSnapshot = androidx.compose.runtime.remember(listState) {
+        androidx.compose.runtime.derivedStateOf {
+            val first = listState.firstVisibleItemIndex
+            val count = listState.layoutInfo.visibleItemsInfo.size
+            first to count
+        }
+    }
     LaunchedEffect(listState) {
         collectImpressions(
-            visibleIds = { listState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) } },
+            visibleIds = {
+                visibleSnapshot.value
+                listState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) }
+            },
             onVisible = { latest.value(it) }
         )
     }
@@ -74,9 +84,19 @@ fun TrackGridImpressions(
 ) {
     val latest = rememberUpdatedState(onVisible)
     val mapKey = rememberUpdatedState(idForKey)
+    val visibleSnapshot = androidx.compose.runtime.remember(gridState) {
+        androidx.compose.runtime.derivedStateOf {
+            val first = gridState.firstVisibleItemIndex
+            val count = gridState.layoutInfo.visibleItemsInfo.size
+            first to count
+        }
+    }
     LaunchedEffect(gridState) {
         collectImpressions(
-            visibleIds = { gridState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) } },
+            visibleIds = {
+                visibleSnapshot.value
+                gridState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) }
+            },
             onVisible = { latest.value(it) }
         )
     }

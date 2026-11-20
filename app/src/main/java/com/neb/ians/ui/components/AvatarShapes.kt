@@ -32,6 +32,11 @@ object AvatarShapes {
         )
     }
 
+    /** Pre-converted Compose [Shape] instances so avatars never allocate a new Shape per card. */
+    val shapes: List<Shape> by lazy {
+        polygons.map { it.toShape() }
+    }
+
     private fun hash(seed: String): Long {
         var h = 2166136261L
         for (c in seed) {
@@ -57,8 +62,7 @@ object AvatarShapes {
 @Composable
 fun rememberAvatarShape(seed: String): Shape {
     val index = remember(seed) { AvatarShapes.indexFor(seed) }
-    val shaped = AvatarShapes.polygons[index.coerceAtLeast(0)].toShape()
-    return if (index < 0) CircleShape else shaped
+    return if (index < 0) CircleShape else AvatarShapes.shapes[index]
 }
 
 /** Fill and ink for an initial-only avatar: the web's three tonal pairs, chosen by the same hash. */

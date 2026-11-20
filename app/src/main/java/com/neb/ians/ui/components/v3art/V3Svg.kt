@@ -11,8 +11,14 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-/** One drawn element: a path, its fill or stroke, and the transform it sits under (null = none). */
-internal class V3Op(val path: Path, val fill: Color?, val stroke: Color?, val strokeWidth: Float, val matrix: Matrix?)
+/** One drawn element: a path, its fill or pre-allocated stroke style, and any remaining transform (null = already baked into path). */
+internal class V3Op(
+    val path: Path,
+    val fill: Color?,
+    val stroke: Color?,
+    val strokeStyle: androidx.compose.ui.graphics.drawscope.Stroke?,
+    val matrix: Matrix?
+)
 
 /** A finished drawing: [w] x [h] units, the sky colour and the elements, built once and drawn many times. */
 internal class V3Art(val w: Float, val h: Float, val sky: Color, val ops: List<V3Op>)
@@ -96,7 +102,21 @@ internal object V3Svg {
             val fill = color(attrs["fill"])
             val stroke = color(attrs["stroke"])
             if (fill == null && stroke == null) continue
-            ops.add(V3Op(path, fill, stroke, attrs["stroke-width"]?.toFloatOrNull() ?: 1f, matrixOf(own)))
+            val rawMat = matrixOf(own)
+            val mat = if (rawMat != null && stroke == null) {
+                path.transform(rawMat)
+                null
+            } else {
+                rawMat
+            }
+            val strokeStyle = if (stroke != null) {
+                androidx.compose.ui.graphics.drawscope.Stroke(
+                    width = attrs["stroke-width"]?.toFloatOrNull() ?: 1f,
+                    cap = androidx.compose.ui.graphics.StrokeCap.Round,
+                    join = androidx.compose.ui.graphics.StrokeJoin.Round
+                )
+            } else null
+            ops.add(V3Op(path, fill, stroke, strokeStyle, mat))
         }
         return V3Art(w, h, color(sky) ?: Color.White, ops)
     }
