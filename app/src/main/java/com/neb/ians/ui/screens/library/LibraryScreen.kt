@@ -398,16 +398,18 @@ private fun LibraryContent(
                     idForKey = { (it as? String)?.takeIf { k -> !k.endsWith("_footer") } },
                     onVisible = onImpressions
                 )
-                LaunchedEffect(gridState) {
-                    snapshotFlow {
+                val shouldLoadMore by remember(gridState) {
+                    androidx.compose.runtime.derivedStateOf {
                         val layoutInfo = gridState.layoutInfo
+                        val total = layoutInfo.totalItemsCount
                         val lastVisible = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-                        lastVisible to layoutInfo.totalItemsCount
+                        total > 0 && lastVisible >= total - 4
                     }
-                        .distinctUntilChanged()
-                        .collect { (lastVisible, total) ->
-                            if (total > 0 && lastVisible >= total - 4 && uiState.error != ApiErrorMapper.WAF_ERROR_MESSAGE) onLoadMore()
-                        }
+                }
+                LaunchedEffect(shouldLoadMore, uiState.hasMore, uiState.isLoadingMore, uiState.error) {
+                    if (shouldLoadMore && uiState.hasMore && !uiState.isLoadingMore && uiState.error != ApiErrorMapper.WAF_ERROR_MESSAGE) {
+                        onLoadMore()
+                    }
                 }
 
                 LazyVerticalGrid(
@@ -418,7 +420,7 @@ private fun LibraryContent(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(uiState.resources, key = { it.id }) { resource ->
+                    items(uiState.resources, key = { it.id }, contentType = { "resource" }) { resource ->
                         WebResourceCard(
                             resource = resource,
                             onClick = { onResourceClick(resource.id) },

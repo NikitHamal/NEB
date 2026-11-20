@@ -137,8 +137,6 @@ class TopBarViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
     val verificationLevel = authRepository.currentUserVerificationLevelFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
-    val isAdmin = authRepository.currentUserIsAdminFlow
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     /** Live unread notification count (web parity: topbar badge). */
     val unreadCount: StateFlow<Int> = realtimeClient.unreadCount
@@ -185,7 +183,6 @@ fun WebTopBar(
     val dbUserPhotoUrl by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
     val vmUnreadCount by viewModel.unreadCount.collectAsStateWithLifecycle()
     val verificationLevel by viewModel.verificationLevel.collectAsStateWithLifecycle()
-    val isAdmin by viewModel.isAdmin.collectAsStateWithLifecycle()
 
     val name = (avatarInitial ?: dbUserName).ifEmpty { "N" }
     val photo = avatarUrl ?: dbUserPhotoUrl

@@ -103,15 +103,21 @@ internal object V3Svg {
             val stroke = color(attrs["stroke"])
             if (fill == null && stroke == null) continue
             val rawMat = matrixOf(own)
-            val mat = if (rawMat != null && stroke == null) {
-                path.transform(rawMat)
+            val sx = kotlin.math.hypot(own[0], own[1])
+            val sy = kotlin.math.hypot(own[2], own[3])
+            val uniform = kotlin.math.abs(own[0] * own[2] + own[1] * own[3]) < 1e-3 &&
+                kotlin.math.abs(sx - sy) < 1e-3 * maxOf(1.0, sx)
+            val bakeMat = rawMat != null && (stroke == null || uniform)
+            val mat = if (bakeMat) {
+                path.transform(rawMat!!)
                 null
             } else {
                 rawMat
             }
             val strokeStyle = if (stroke != null) {
+                val baseW = attrs["stroke-width"]?.toFloatOrNull() ?: 1f
                 androidx.compose.ui.graphics.drawscope.Stroke(
-                    width = attrs["stroke-width"]?.toFloatOrNull() ?: 1f,
+                    width = if (bakeMat) baseW * sx.toFloat() else baseW,
                     cap = androidx.compose.ui.graphics.StrokeCap.Round,
                     join = androidx.compose.ui.graphics.StrokeJoin.Round
                 )

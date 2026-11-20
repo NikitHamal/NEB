@@ -120,7 +120,7 @@ internal fun HomeResourceCarousel(
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(visible, key = { it.id }) { resource ->
+        items(visible, key = { it.id }, contentType = { "resource_card" }) { resource ->
             WebResourceCard(
                 resource = resource,
                 onClick = { onResourceClick(resource.id) },
@@ -151,7 +151,7 @@ internal fun HomeNewResourcesRail(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(visible, key = { "new_in_lib_" + it.id }) { resource ->
+            items(visible, key = { "new_in_lib_" + it.id }, contentType = { "resource_card" }) { resource ->
                 WebResourceCard(
                     resource = resource,
                     onClick = { onResourceClick(resource.id) },

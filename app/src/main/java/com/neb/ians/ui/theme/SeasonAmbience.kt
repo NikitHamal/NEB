@@ -42,19 +42,24 @@ val SiteThemeState.hasGarland: Boolean
  * Flat colour only: no shadow, no blue or purple wash.
  */
 @Composable
-fun Modifier.seasonAmbience(active: Boolean = true): Modifier {
+fun HomeSeasonAmbienceOverlay(
+    listState: androidx.compose.foundation.lazy.LazyListState,
+    modifier: Modifier = Modifier
+) {
     val state = LocalSiteTheme.current
     val key = state.theme?.key
     val kind = if (state.festive && key != "exams" && key != "everyday") key else null
-    if (kind == null) return this
+    if (kind == null) return
+    val active by androidx.compose.runtime.remember(listState) {
+        androidx.compose.runtime.derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
     val reduced = nebAnimationsReduced()
-    val fade by animateFloatAsState(if (active) 1f else 0f, tween(240), label = "seasonFade")
-    val clock by festiveClock(running = !reduced && fade >= 0.01f)
-    return this.drawWithContent {
-        drawContent()
-        val a = fade
-        if (a < 0.01f) return@drawWithContent
-        val t = clock
+    val fadeState = animateFloatAsState(if (active) 1f else 0f, tween(240), label = "seasonFade")
+    val clockState = festiveClock(running = !reduced && active)
+    androidx.compose.foundation.Canvas(modifier) {
+        val a = fadeState.value
+        if (a < 0.01f) return@Canvas
+        val t = clockState.value
         when (kind) {
             "tihar" -> { lightsGarland(t, a); sparkles(t, a) }
             "dashain" -> { marigoldGarland(t, a); petals(t, a, listOf(Color(0xFFFFB020), Color(0xFFF97316), Color(0xFFFFD166)), 9) }

@@ -3,7 +3,7 @@ package com.neb.ians.ui.screens.home
 import com.neb.ians.ui.components.GateReason
 import com.neb.ians.ui.components.LocalAuthGate
 import com.neb.ians.ui.components.NebToastHost
-import com.neb.ians.ui.theme.seasonAmbience
+import com.neb.ians.ui.theme.HomeSeasonAmbienceOverlay
 import com.neb.ians.ui.theme.hasGarland
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -191,10 +191,30 @@ fun HomeScreen(
                         )
                     }
 
+                    val onPostCardClick = remember(onPostClick) {
+                        { postId: String ->
+                            com.neb.ians.ui.components.PostReachHints.set(postId, "feed")
+                            onPostClick(postId)
+                        }
+                    }
+                    val onPostLike = remember(gate, viewModel) {
+                        { postId: String -> gate.require(GateReason.Like) { viewModel.toggleThumbsUp(postId) } }
+                    }
+                    val onPostBookmark = remember(gate, viewModel) {
+                        { postId: String -> gate.require(GateReason.Save) { viewModel.toggleBookmark(postId) } }
+                    }
+                    val onPostShare = remember(context) {
+                        { postId: String -> sharePost(context, postId) }
+                    }
+                    val onPostReport = remember { { postId: String -> reportPostId = postId } }
+                    val onPostDelete = remember { { postId: String -> deletingPostId = postId } }
+                    val onPostArchive = remember(viewModel) { { postId: String -> viewModel.archivePost(postId) } }
+                    val onPostAuthorLongPress = remember { { authorName: String -> popoverUsername = authorName } }
                     val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
+                    Box(modifier = Modifier.fillMaxSize()) {
                     LazyColumn(
                         state = listState,
-                        modifier = Modifier.fillMaxSize().homeSeasonAmbience(listState),
+                        modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(0.dp),
                         contentPadding = PaddingValues(
                             top = if (siteTheme.hasGarland) 36.dp else 0.dp,
@@ -244,22 +264,19 @@ fun HomeScreen(
                                 contentType = { it.contentType }
                             ) { entry ->
                                 when (entry) {
-                                    is HomeFeedEntry.Post -> ForumPostCard(
+                                    is HomeFeedEntry.Post -> HomeFeedPostItem(
                                         post = entry.post,
                                         isOwnPost = entry.isOwnPost,
-                                        onClick = {
-                                            com.neb.ians.ui.components.PostReachHints.set(entry.post.id, "feed")
-                                            onPostClick(entry.post.id)
-                                        },
-                                        onLikeClick = { gate.require(GateReason.Like) { viewModel.toggleThumbsUp(entry.post.id) } },
-                                        onBookmarkClick = { gate.require(GateReason.Save) { viewModel.toggleBookmark(entry.post.id) } },
-                                        onShareClick = { sharePost(context, entry.post.id) },
-                                        onReportClick = { reportPostId = entry.post.id },
-                                        onEditClick = { onEditPostClick(entry.post.id) },
-                                        onArchiveClick = { viewModel.archivePost(entry.post.id) },
-                                        onDeleteClick = { deletingPostId = entry.post.id },
-                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) },
-                                        onAuthorLongPress = { popoverUsername = entry.post.authorName }
+                                        onPostCardClick = onPostCardClick,
+                                        onPostLike = onPostLike,
+                                        onPostBookmark = onPostBookmark,
+                                        onPostShare = onPostShare,
+                                        onPostReport = onPostReport,
+                                        onEditPostClick = onEditPostClick,
+                                        onPostArchive = onPostArchive,
+                                        onPostDelete = onPostDelete,
+                                        onUserProfileClick = onUserProfileClick,
+                                        onPostAuthorLongPress = onPostAuthorLongPress
                                     )
 
                                     is HomeFeedEntry.ResourceCarousel -> Column(
@@ -362,6 +379,11 @@ fun HomeScreen(
                             Spacer(Modifier.navigationBarsPadding().height(96.dp))
                         }
                     }
+                    HomeSeasonAmbienceOverlay(
+                        listState = listState,
+                        modifier = Modifier.fillMaxWidth().height(190.dp)
+                    )
+                    }
                 }
             }
         }
@@ -419,6 +441,39 @@ fun HomeScreen(
 }
 
 @Composable
+private fun HomeFeedPostItem(
+    post: com.neb.ians.data.api.ApiPost,
+    isOwnPost: Boolean,
+    onPostCardClick: (String) -> Unit,
+    onPostLike: (String) -> Unit,
+    onPostBookmark: (String) -> Unit,
+    onPostShare: (String) -> Unit,
+    onPostReport: (String) -> Unit,
+    onEditPostClick: (String) -> Unit,
+    onPostArchive: (String) -> Unit,
+    onPostDelete: (String) -> Unit,
+    onUserProfileClick: (String) -> Unit,
+    onPostAuthorLongPress: (String) -> Unit
+) {
+    val postId = post.id
+    val authorName = post.authorName
+    ForumPostCard(
+        post = post,
+        isOwnPost = isOwnPost,
+        onClick = remember(postId, onPostCardClick) { { onPostCardClick(postId) } },
+        onLikeClick = remember(postId, onPostLike) { { onPostLike(postId) } },
+        onBookmarkClick = remember(postId, onPostBookmark) { { onPostBookmark(postId) } },
+        onShareClick = remember(postId, onPostShare) { { onPostShare(postId) } },
+        onReportClick = remember(postId, onPostReport) { { onPostReport(postId) } },
+        onEditClick = remember(postId, onEditPostClick) { { onEditPostClick(postId) } },
+        onArchiveClick = remember(postId, onPostArchive) { { onPostArchive(postId) } },
+        onDeleteClick = remember(postId, onPostDelete) { { onPostDelete(postId) } },
+        onAuthorClick = remember(authorName, onUserProfileClick) { { onUserProfileClick(authorName) } },
+        onAuthorLongPress = remember(authorName, onPostAuthorLongPress) { { onPostAuthorLongPress(authorName) } }
+    )
+}
+
+@Composable
 private fun HomeFilterBarSlot(
     listState: androidx.compose.foundation.lazy.LazyListState,
     currentSort: String,
@@ -460,12 +515,4 @@ private fun HomeLoadMoreEffect(
             onLoadMore()
         }
     }
-}
-
-@Composable
-private fun Modifier.homeSeasonAmbience(listState: androidx.compose.foundation.lazy.LazyListState): Modifier {
-    val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
-    if (!siteTheme.festive) return this
-    val homeAtTop by remember(listState) { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
-    return this.seasonAmbience(homeAtTop)
 }

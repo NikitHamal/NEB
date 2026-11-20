@@ -240,28 +240,42 @@ fun KaTeXText(
 ) {
     if (text.isBlank()) return
 
-    val effectiveStyle = style.copy(
-        fontWeight = fontWeight ?: style.fontWeight,
-        fontSize = if (fontSize != TextUnit.Unspecified) fontSize else style.fontSize,
-        color = color
-    )
+    val formatted = remember(text) {
+        if (hasLatexMath(text)) formatLatexMath(text) else text
+    }
+    val hasMarkers = remember(formatted) { hasInlineMarkdownMarkers(formatted) }
+    val finalStyle = if (fontWeight == null && fontSize == TextUnit.Unspecified && textAlign == null) {
+        style
+    } else {
+        style.copy(
+            fontWeight = fontWeight ?: style.fontWeight,
+            fontSize = if (fontSize != TextUnit.Unspecified) fontSize else style.fontSize,
+            textAlign = textAlign ?: style.textAlign
+        )
+    }
+    if (onClick == null && onLinkClick == null && !hasMarkers) {
+        Text(
+            text = formatted,
+            style = finalStyle,
+            color = color,
+            modifier = modifier,
+            maxLines = maxLines,
+            overflow = overflow
+        )
+        return
+    }
     val primary = MaterialTheme.colorScheme.primary
     val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer
-
-    val formatted = remember(text) {
-        if (hasLatexMath(text)) formatLatexMath(text) else text
-    }
     val annotated = remember(formatted, color, primary, codeBg, errorBg, errorFg) {
         buildInlineAnnotatedString(formatted, color, primary, codeBg, errorBg, errorFg)
     }
-
-    val finalStyle = if (textAlign != null) effectiveStyle.copy(textAlign = textAlign) else effectiveStyle
     if (onClick == null && onLinkClick == null) {
         Text(
             text = annotated,
             style = finalStyle,
+            color = color,
             modifier = modifier,
             maxLines = maxLines,
             overflow = overflow

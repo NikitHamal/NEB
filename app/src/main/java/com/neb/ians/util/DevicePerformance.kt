@@ -19,10 +19,12 @@ object DevicePerformance {
             am?.getMemoryInfo(memInfo)
             memInfo.totalMem
         }.getOrDefault(0L)
+        val cores = Runtime.getRuntime().availableProcessors()
         val isLow = am?.isLowRamDevice == true ||
-            maxMemMb < 192 ||
-            (am != null && am.memoryClass < 192) ||
-            (totalRamBytes in 1L..(3L * 1024L * 1024L * 1024L))
+            cores < 8 ||
+            maxMemMb < 256 ||
+            (am != null && am.memoryClass < 256) ||
+            (totalRamBytes in 1L..(4L * 1024L * 1024L * 1024L + 512L * 1024L * 1024L))
         cachedIsLowEnd = isLow
         return isLow
     }

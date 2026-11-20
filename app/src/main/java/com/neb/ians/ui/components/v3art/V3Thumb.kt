@@ -27,27 +27,49 @@ import kotlin.math.max
 
 internal object V3Cache {
     private val lru = LruCache<String, V3Art>(160)
+    private val bySeed = LruCache<String, V3Art>(160)
 
     fun trim(empty: Boolean = false) {
         synchronized(this) {
-            if (empty) lru.evictAll() else lru.trimToSize(40)
+            if (empty) {
+                lru.evictAll()
+                bySeed.evictAll()
+            } else {
+                lru.trimToSize(40)
+                bySeed.trimToSize(40)
+            }
         }
     }
 
     fun peek(seed: String, subject: String, fit: Float, dark: Boolean): V3Art? {
-        if (fit <= 0f) return null
-        val key = "$seed|$subject|$fit|$dark"
-        return synchronized(this) { lru.get(key) }
+        val seedKey = "$seed|$subject|$dark"
+        return synchronized(this) {
+            if (fit > 0f) lru.get("$seed|$subject|$fit|$dark") ?: bySeed.get(seedKey)
+            else bySeed.get(seedKey)
+        }
     }
 
     fun get(seed: String, subject: String, fit: Float, dark: Boolean): V3Art {
         val key = "$seed|$subject|$fit|$dark"
+        val seedKey = "$seed|$subject|$dark"
         synchronized(this) { lru.get(key) }?.let { return it }
         val spec = V3Still.pick(seed, subject)
         val (body, sky) = V3Still.make(spec, fit, dark)
         val art = V3Svg.parse(body, Math.round(256 * fit).toFloat(), 256f, sky)
-        synchronized(this) { lru.put(key, art) }
+        synchronized(this) {
+            lru.put(key, art)
+            bySeed.put(seedKey, art)
+        }
         return art
+    }
+
+    fun prewarm(resources: List<com.neb.ians.data.api.ApiResource>, fit: Float = 2.15f) {
+        resources.take(10).forEach { r ->
+            val primarySubject = r.subject.substringBefore(",").trim().ifBlank { "General" }
+            val seed = "${r.id}|${r.type}"
+            get(seed, primarySubject, fit, false)
+            get(seed, primarySubject, fit, true)
+        }
     }
 }
 

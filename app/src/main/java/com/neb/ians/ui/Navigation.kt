@@ -473,7 +473,7 @@ fun NEBiansNavHost(
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
     val navScroll = com.neb.ians.ui.components.rememberNavBarScroll()
     androidx.compose.runtime.SideEffect {
-        glassBackdrop.isBarVisible = { showBottomBar && (showCreateMenu || navScroll.hidden < 0.98f) }
+        glassBackdrop.isBarVisible = { showBottomBar && (showCreateMenu || navScroll.hidden < 0.05f) }
     }
     LaunchedEffect(currentRoute) { navScroll.show() }
     CompositionLocalProvider(

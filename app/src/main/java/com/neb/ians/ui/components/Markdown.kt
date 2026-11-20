@@ -848,7 +848,7 @@ private val inlinePattern = Regex(
 
 private val inlineAnnotatedCache = android.util.LruCache<Int, AnnotatedString>(256)
 
-private fun hasInlineMarkdownMarkers(s: String): Boolean {
+internal fun hasInlineMarkdownMarkers(s: String): Boolean {
     for (i in 0 until s.length) {
         when (s[i]) {
             '*', '`', '~', '[', '@', '<', '\u00AB' -> return true

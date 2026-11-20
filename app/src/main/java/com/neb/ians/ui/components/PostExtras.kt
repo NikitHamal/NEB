@@ -245,17 +245,9 @@ internal fun ForumPostCardPlain(
     showHairline: Boolean = true
 ) {
     val category = post.category.ifBlank { "General" }
-    // Card preview carries real markdown formatting (bold/italic/code,
-    // colored links, highlighted mentions) instead of plain stripped text.
-    val primary = MaterialTheme.colorScheme.primary
-    val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
-    val anonAccent = MaterialTheme.colorScheme.errorContainer
-    val anonOnAccent = MaterialTheme.colorScheme.onErrorContainer
     val bodyColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val preview = remember(post.content) { markdownToInlinePreview(post.content) }
-    val previewAnnotated = remember(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent) {
-        buildInlineAnnotatedString(preview.clippedForCard(), bodyColor, primary, codeBg, anonAccent, anonOnAccent)
-    }
+    val preview = remember(post.content) { markdownToInlinePreview(post.content).clippedForCard() }
+    val hasStyledPreview = remember(preview) { hasInlineMarkdownMarkers(preview) }
     val bookmarked = post.isBookmarked == true
     var zoomImageUrlsList by remember { mutableStateOf<List<String>?>(null) }
     var zoomInitialIndex by remember { mutableStateOf(0) }
@@ -392,13 +384,30 @@ internal fun ForumPostCardPlain(
             )
             if (preview.isNotBlank()) {
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = previewAnnotated,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (hasStyledPreview) {
+                    val primary = MaterialTheme.colorScheme.primary
+                    val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
+                    val anonAccent = MaterialTheme.colorScheme.errorContainer
+                    val anonOnAccent = MaterialTheme.colorScheme.onErrorContainer
+                    val previewAnnotated = remember(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent) {
+                        buildInlineAnnotatedString(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent)
+                    }
+                    Text(
+                        text = previewAnnotated,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = bodyColor,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                } else {
+                    Text(
+                        text = preview,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = bodyColor,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
 
             // ----- Images (horizontal scrollable row for all post images up to 10) -----

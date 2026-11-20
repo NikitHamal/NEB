@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  * moves, so nothing recomposes or re-measures per frame.
  */
 @Stable
-class NavBarScroll internal constructor(private val scope: CoroutineScope, private val travelPx: Float) {
+class NavBarScroll internal constructor(private val scope: CoroutineScope, internal val travelPx: Float) {
     private var offset by mutableFloatStateOf(0f)
     private var job: Job? = null
 
@@ -37,27 +37,42 @@ class NavBarScroll internal constructor(private val scope: CoroutineScope, priva
     val hidden: Float get() = if (travelPx <= 0f) 0f else (offset / travelPx).coerceIn(0f, 1f)
 
     private fun animateTo(target: Float) {
+        val clamped = target.coerceIn(0f, travelPx)
+        if (kotlin.math.abs(offset - clamped) < 0.5f) {
+            job?.cancel()
+            job = null
+            if (offset != clamped) offset = clamped
+            return
+        }
         job?.cancel()
-        job = scope.launch { animate(offset, target, 0f, spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow)) { v, _ -> offset = v } }
+        job = scope.launch { animate(offset, clamped, 0f, spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow)) { v, _ -> offset = v } }
     }
-    private fun set(v: Float) { job?.cancel(); job = null; offset = v.coerceIn(0f, travelPx) }
+
+    private fun set(v: Float) {
+        val clamped = v.coerceIn(0f, travelPx)
+        if (job != null) {
+            job?.cancel()
+            job = null
+        }
+        if (offset != clamped) offset = clamped
+    }
 
     fun show() = animateTo(0f)
-    fun snapShown() = set(0f)
     private fun settle() = animateTo(if (offset > travelPx * 0.4f) travelPx else 0f)
 
     val connection = object : NestedScrollConnection {
         override fun onPreScroll(available: androidx.compose.ui.geometry.Offset, source: NestedScrollSource): androidx.compose.ui.geometry.Offset {
             val dy = available.y
             if (dy != 0f && kotlin.math.abs(dy) > kotlin.math.abs(available.x)) {
-                // finger up (dy < 0) pushes the bar away, finger down brings it back
-                set(offset - dy)
+                if ((dy < 0f && offset < travelPx) || (dy > 0f && offset > 0f)) {
+                    set(offset - dy)
+                }
             }
             return androidx.compose.ui.geometry.Offset.Zero
         }
 
         override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-            settle()
+            if (offset > 0f && offset < travelPx) settle()
             return Velocity.Zero
         }
 
@@ -81,10 +96,10 @@ fun rememberNavBarScroll(travelDp: Float = 120f): NavBarScroll {
 }
 
 /** The bar slides down and fades as [state] hides it; [pinned] keeps it in place (open menu). */
-fun Modifier.navBarScrollTransform(state: NavBarScroll, travelDp: Float = 120f, pinned: Boolean = false): Modifier =
+fun Modifier.navBarScrollTransform(state: NavBarScroll, pinned: Boolean = false): Modifier =
     graphicsLayer {
         val h = if (pinned) 0f else state.hidden
-        translationY = h * travelDp.dp.toPx()
+        translationY = h * state.travelPx
         alpha = (1f - h).coerceIn(0f, 1f)
     }
 

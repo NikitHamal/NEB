@@ -65,7 +65,8 @@ fun rememberAvatarShape(seed: String): Shape {
 @Composable
 fun avatarTone(seed: String): Pair<Color, Color> {
     val c = MaterialTheme.colorScheme
-    return when (AvatarShapes.toneFor(seed)) {
+    val tone = remember(seed) { AvatarShapes.toneFor(seed) }
+    return when (tone) {
         1 -> c.tertiaryContainer to c.onTertiaryContainer
         2 -> c.primaryContainer to c.onPrimaryContainer
         else -> c.secondaryContainer to c.onSecondaryContainer

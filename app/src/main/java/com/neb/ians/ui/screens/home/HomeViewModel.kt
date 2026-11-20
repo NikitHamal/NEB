@@ -319,6 +319,8 @@ class HomeViewModel @Inject constructor(
                         val uid = currentUid()
                         val posts = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                             com.neb.ians.ui.components.prewarmCardPreviewsNow(result.posts.map { it.content })
+                            result.posts.forEach { com.neb.ians.ui.components.extractPostAttachments(it) }
+                            com.neb.ians.ui.components.v3art.V3Cache.prewarm(_popularResources.value + _recentResources.value)
                             rankHomeFeedPosts(result.posts, activeSort, uid)
                         }
                         postSlices[sliceKey(activeSort, activeCat)] = posts to result.hasMore
@@ -354,6 +356,8 @@ class HomeViewModel @Inject constructor(
                 val uid = currentUid()
                 val posts = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
                     com.neb.ians.ui.components.prewarmCardPreviewsNow(rawPosts.map { it.content })
+                    rawPosts.forEach { com.neb.ians.ui.components.extractPostAttachments(it) }
+                    com.neb.ians.ui.components.v3art.V3Cache.prewarm(popular + resources)
                     rankHomeFeedPosts(rawPosts, activeSort, uid)
                 }
                 val news = results.news

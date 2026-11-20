@@ -104,6 +104,9 @@ class LibraryViewModel @Inject constructor(
                     page = 1,
                     cacheOnly = true
                 ).onSuccess { result ->
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                        com.neb.ians.ui.components.v3art.V3Cache.prewarm(result.resources)
+                    }
                     _uiState.update {
                         it.copy(
                             resources = result.resources,
@@ -131,6 +134,9 @@ class LibraryViewModel @Inject constructor(
                 page = 1,
                 forceRefresh = forceRefresh
             ).onSuccess { result ->
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                    com.neb.ians.ui.components.v3art.V3Cache.prewarm(result.resources)
+                }
                 _uiState.update {
                     it.copy(
                         resources = result.resources,

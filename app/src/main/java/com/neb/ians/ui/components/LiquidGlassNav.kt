@@ -187,43 +187,10 @@ fun LiquidGlassBottomNav(
     onProfileClick: (() -> Unit)? = null,
     backdrop: GlassBackdrop? = null,
 ) {
-    val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
-    val isLowEnd = com.neb.ians.util.rememberIsLowEndDevice()
     val scheme = MaterialTheme.colorScheme
-
-    // The bar is opaque, and that is the point of this block.
-    //
-    // It used to be a 92%-alpha gradient over two hardcoded greys, which cost it
-    // twice. The greys predate the colour revamp, so on a page built from the
-    // blue-tinted neutral ramp the bar read as the one grey object on the
-    // screen. And eight percent of a paragraph of body text showing through a
-    // navigation bar is still legible enough to fight the labels sitting on it.
-    // A bar you can read the page through is not a surface, it is a smudge.
-    //
-    // So: full alpha, scheme tokens, and the faintest vertical fall so it still
-    // has a top edge to catch the light on.
-    val barBrush = remember(isDark, scheme) {
-        if (isDark) {
-            Brush.verticalGradient(listOf(scheme.surfaceContainerHigh, scheme.surfaceContainer))
-        } else {
-            Brush.verticalGradient(listOf(scheme.surfaceContainerLowest, scheme.surfaceContainerLow))
-        }
-    }
-
-    // One hairline, the same one every other card in the app uses. The old
-    // white-to-grey gradient rim lit the bar from inside and made it look
-    // inflated next to the create button.
-    val barBorder = scheme.outlineVariant
-
     val primaryColor = scheme.primary
     val navHeight = 58.dp
-    // The create button sits inside the bar's height rather than matching it.
-    // The clover's lobes push past its own bounds more than a circle does, so at
-    // equal sizes it measured level and read taller — which is what put it out
-    // of step with the rail in the first place.
     val createSize = 52.dp
-    val shadowElevation = if (isLowEnd) 4.dp else 14.dp
-    val shadowAlpha = if (isLowEnd) 0.08f else 0.14f
 
     Box(
         modifier = modifier
