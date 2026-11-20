@@ -4,7 +4,6 @@ import android.content.Context
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.*
@@ -2238,10 +2237,6 @@ interface ApiService {
         }
 
         fun create(context: Context, tokenProvider: (() -> String?)? = null): ApiService {
-            val logger = HttpLoggingInterceptor().apply {
-                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-            }
-
             // Default is 5 in-flight calls per host, and every call goes to one host,
             // so Home, notifications and counters queued behind each other on launch.
             // HTTP/2 multiplexes them on one connection; 5 was the only bottleneck.
@@ -2258,7 +2253,6 @@ interface ApiService {
                         connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
                     }
                 }
-                .addInterceptor(logger)
                 .addInterceptor(WafChallengeInterceptor(context))
                 .addInterceptor(DeviceSignalInterceptor(context))
                 .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))

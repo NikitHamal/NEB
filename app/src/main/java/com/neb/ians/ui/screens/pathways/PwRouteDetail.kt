@@ -64,9 +64,13 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
                     Text(small.ifEmpty { "careers" }, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
             },
+            aboveTabs = {
+                PwMeters(m.demand, m.competition, if (m.payHi > 0) "${money(m.payLo)}–${money(m.payHi)}" else null, "NPR / month to start")
+            },
+            stickyTabs = {
+                PwTabs(listOf("journey" to "Journey", "careers" to "Careers", "cost" to "Cost", "entry" to "Entry", "compare" to "Compare"), tab) { tab = it }
+            },
         ) {
-            PwMeters(m.demand, m.competition, if (m.payHi > 0) "${money(m.payLo)}–${money(m.payHi)}" else null, "NPR / month to start")
-            PwTabs(listOf("journey" to "Journey", "careers" to "Careers", "cost" to "Cost", "entry" to "Entry", "compare" to "Compare"), tab) { tab = it }
             Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {
                 when (tab) {
                     "careers" -> RouteCareers(d, r, nav)

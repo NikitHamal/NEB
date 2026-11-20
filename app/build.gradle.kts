@@ -126,17 +126,28 @@ android {
         buildConfig = true
     }
 
+    bundle {
+        language { enableSplit = true }
+        density { enableSplit = true }
+        abi { enableSplit = true }
+    }
+
     packaging {
         resources {
             excludes += listOf(
                 "/META-INF/{AL2.0,LGPL2.1}",
                 "/META-INF/*.version",
+                "/META-INF/*.kotlin_module",
                 "/META-INF/com/android/build/gradle/**",
+                "/META-INF/proguard/**",
                 "/META-INF/DEPENDENCIES",
                 "/META-INF/LICENSE*",
                 "/META-INF/NOTICE*",
+                "/okhttp3/internal/publicsuffix/NOTICE",
                 "DebugProbesKt.bin",
-                "kotlin-tooling-metadata.json"
+                "kotlin-tooling-metadata.json",
+                "**/*.kotlin_builtins",
+                "**/*.kotlin_metadata"
             )
         }
         jniLibs {
@@ -184,7 +195,6 @@ dependencies {
 
 // Core KTX
     implementation("androidx.core:core-ktx:1.18.0")
-    implementation("androidx.webkit:webkit:1.18.0")
 
 // Lifecycle + ViewModel Compose
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
@@ -232,7 +242,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
 // Firebase BoM and FCM
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))

@@ -84,13 +84,21 @@ internal fun PwExplore(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
         (f.startsWith("route:") && f.removePrefix("route:") == s.course) || (f.startsWith("career:") && f.removePrefix("career:") == s.career)
     } ?: s.course?.let { "route:$it" } ?: s.career?.let { "career:$it" }
 
+    val scroll = rememberScrollState()
+    LaunchedEffect(stage.id, group) { scroll.scrollTo(0) }
     Box(Modifier.fillMaxSize()) {
-        PwScrollPage(112.dp, topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) }) {
-            PwTrail(d, vm, stage)
-            PwStages(d.stages, stage.id) { id ->
-                s.stage = id; s.group = ""; s.course = null; s.career = null; s.focus = ""; s.trail = emptyList()
-            }
-            PwGroups(groups, group) { s.group = it; s.course = null; s.career = null; s.focus = "" }
+        PwScrollPage(
+            bottom = 112.dp,
+            state = scroll,
+            topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) },
+            stickyHeader = {
+                PwTrail(d, vm, stage)
+                PwStages(d.stages, stage.id) { id ->
+                    s.stage = id; s.group = ""; s.course = null; s.career = null; s.focus = ""; s.trail = emptyList()
+                }
+                PwGroups(groups, group) { s.group = it; s.course = null; s.career = null; s.focus = "" }
+            },
+        ) {
             val linkedCount = when {
                 s.course != null -> d.routeById[s.course]?.careers.orEmpty().count { id -> careers.any { it.id == id } }
                 s.career != null -> courses.count { s.career in it.careers }

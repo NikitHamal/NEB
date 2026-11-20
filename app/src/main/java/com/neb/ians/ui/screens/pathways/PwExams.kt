@@ -47,13 +47,22 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     val edu = vm.num("edu")
     val age = vm.num("age")
     val woman = vm.num("woman") == 1
-    PwScrollPage(24.dp, topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) }) {
+    val groups = d.govtGroups.filter { g -> tracks.any { it.group == g.id } }.ifEmpty { listOf(PwTopic("gov", "Government")) }
+    val group = tracks.firstOrNull { it.id == track }?.group ?: groups.first().id
+    val inGroup = tracks.filter { it.group == group }
+    val scroll = rememberScrollState()
+    androidx.compose.runtime.LaunchedEffect(track) { scroll.scrollTo(0) }
+    PwScrollPage(
+        bottom = 24.dp,
+        state = scroll,
+        topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) },
+        stickyHeader = if (tracks.isNotEmpty() && (groups.size > 1 || inGroup.size > 1)) ({
+            if (groups.size > 1) PwSeg(groups.map { it.id to it.label }, group, { g -> tracks.firstOrNull { it.group == g }?.let { t -> s.track = t.id } }, Modifier.padding(16.dp, 4.dp, 16.dp, if (inGroup.size > 1) 4.dp else 10.dp))
+            if (inGroup.size > 1) PwChipRow(inGroup.map { it.id to it.label }, { it == track }, { s.track = it }, Modifier.padding(top = if (groups.size > 1) 2.dp else 4.dp, bottom = 10.dp))
+        }) else null,
+    ) {
         if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@PwScrollPage }
-        val groups = d.govtGroups.filter { g -> tracks.any { it.group == g.id } }.ifEmpty { listOf(PwTopic("gov", "Government")) }
-        val group = tracks.firstOrNull { it.id == track }?.group ?: groups.first().id
-        val inGroup = tracks.filter { it.group == group }
-        if (groups.size > 1) PwSeg(groups.map { it.id to it.label }, group, { g -> tracks.firstOrNull { it.group == g }?.let { t -> s.track = t.id } }, Modifier.padding(16.dp, 8.dp, 16.dp, if (inGroup.size > 1) 4.dp else 12.dp))
-        if (inGroup.size > 1) PwChipRow(inGroup.map { it.id to it.label }, { it == track }, { s.track = it }, Modifier.padding(top = if (groups.size > 1) 4.dp else 8.dp, bottom = 12.dp))
+        Spacer(Modifier.height(8.dp))
         PwSurface(Modifier.padding(16.dp, 0.dp, 16.dp, 12.dp).fillMaxWidth(), radius = 28.dp) {
             Column(Modifier.padding(0.dp, 14.dp, 0.dp, 14.dp)) {
                 Text("Eligibility is checked against your profile", Modifier.padding(start = 16.dp, bottom = 10.dp), fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -129,20 +138,24 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
                     }
                 }
             },
+            aboveTabs = {
+                val facts = buildList {
+                    if (g.seats > 0) add("Seats" to money(g.seats.toLong()))
+                    if (g.applicants > 0) add("Applicants" to money(g.applicants.toLong()))
+                    if (g.fee > 0) add("Fee" to npr(g.fee))
+                    if (g.need.isNotBlank()) add("Needs" to eduOf(g.need).let { if (it > 0) EDU_LABELS[it] else g.need })
+                    if (g.age.isNotBlank()) add("Age" to ageText(g.age))
+                    if (g.pay > 0) add("Starting pay" to npr(g.pay))
+                }
+                if (facts.isNotEmpty()) PwFacts(facts, Modifier.padding(16.dp, 16.dp, 16.dp, 4.dp))
+                val cal = examCalendar(g)
+                if (cal.isNotEmpty()) Box(Modifier.padding(16.dp, 12.dp, 16.dp, 4.dp)) { PwCalendar(cal) }
+                Spacer(Modifier.height(12.dp))
+            },
+            stickyTabs = {
+                PwTabs(tabs, shown) { tab = it }
+            },
         ) {
-            val facts = buildList {
-                if (g.seats > 0) add("Seats" to money(g.seats.toLong()))
-                if (g.applicants > 0) add("Applicants" to money(g.applicants.toLong()))
-                if (g.fee > 0) add("Fee" to npr(g.fee))
-                if (g.need.isNotBlank()) add("Needs" to eduOf(g.need).let { if (it > 0) EDU_LABELS[it] else g.need })
-                if (g.age.isNotBlank()) add("Age" to ageText(g.age))
-                if (g.pay > 0) add("Starting pay" to npr(g.pay))
-            }
-            if (facts.isNotEmpty()) PwFacts(facts, Modifier.padding(16.dp, 16.dp, 16.dp, 4.dp))
-            val cal = examCalendar(g)
-            if (cal.isNotEmpty()) Box(Modifier.padding(16.dp, 12.dp, 16.dp, 4.dp)) { PwCalendar(cal) }
-            Spacer(Modifier.height(12.dp))
-            PwTabs(tabs, shown) { tab = it }
             Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {
                 when (shown) {
                     "syllabus" -> if (g.syllabus.isNotEmpty()) PwSplit(g.syllabus) else FlowRow(

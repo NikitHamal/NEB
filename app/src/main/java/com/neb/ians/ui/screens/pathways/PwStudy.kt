@@ -47,8 +47,17 @@ import androidx.compose.ui.unit.sp
 @Composable
 internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val s = vm.sel
-    PwScrollPage(24.dp, topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) }) {
-        PwSeg(listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"), s.study, { s.study = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 14.dp))
+    val scroll = rememberScrollState()
+    androidx.compose.runtime.LaunchedEffect(s.study) { scroll.scrollTo(0) }
+    PwScrollPage(
+        bottom = 24.dp,
+        state = scroll,
+        topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) },
+        stickyHeader = {
+            PwSeg(listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"), s.study, { s.study = it }, Modifier.padding(16.dp, 4.dp, 16.dp, 10.dp))
+        },
+    ) {
+        Spacer(Modifier.height(6.dp))
         when (s.study) {
             "abroad" -> PwAbroadBody(d, ui, vm, nav)
             "funding" -> PwFundingBody(d, ui, vm)

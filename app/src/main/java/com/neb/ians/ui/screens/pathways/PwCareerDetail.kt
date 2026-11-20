@@ -74,9 +74,13 @@ internal fun PwCareerDetail(d: PwData, k: PwCareer, ui: PathwaysUiState, vm: Pat
         onBack = nav.pop,
         bottom = 32.dp,
         badge = { PwBadge(tone, 5) { PwSignal(pct(k.demand), tone.bg, 34.dp) } },
+        aboveTabs = {
+            PwMeters(pct(k.demand), pct(k.competition), "NPR ${money(payAt(k, exp.toFloat()).toLong())}", "${if (exp == 0) "Entry" else "Year $exp"} \u00b7 ${ladder[rung]}")
+        },
+        stickyTabs = {
+            PwTabs(listOf("pay" to "Pay", "profile" to "Profile", "skills" to "Skills", "market" to "Market"), tab) { tab = it }
+        },
     ) {
-        PwMeters(pct(k.demand), pct(k.competition), "NPR ${money(payAt(k, exp.toFloat()).toLong())}", "${if (exp == 0) "Entry" else "Year $exp"} \u00b7 ${ladder[rung]}")
-        PwTabs(listOf("pay" to "Pay", "profile" to "Profile", "skills" to "Skills", "market" to "Market"), tab) { tab = it }
         Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {
             when (tab) {
                 "profile" -> CareerProfile(d, k)
