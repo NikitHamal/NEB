@@ -15,3 +15,13 @@ fun ResourceBannerArt(
 ) {
     M3xThumb(seed = seed, subject = subject, modifier = modifier)
 }
+
+/** Deterministic 32-bit FNV-1a hash seed used by procedural/pixel views. */
+fun stableSeed(s: String): Int {
+    var h = 0x811c9dc5.toInt()
+    for (i in 0 until s.length) {
+        h = h xor s[i].code
+        h *= 0x01000193
+    }
+    return h and 0x7FFFFFFF
+}
