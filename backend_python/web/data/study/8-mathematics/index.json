@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Whole Numbers",
    "area": "Compulsory Mathematics",
-   "words": 2308,
+   "words": 2307,
    "read_min": 13,
    "figures": 2,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Rational and Irrational Numbers",
    "area": "Compulsory Mathematics",
-   "words": 2544,
+   "words": 2547,
    "read_min": 14,
    "figures": 2,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Unitary Method",
    "area": "Compulsory Mathematics",
-   "words": 2596,
+   "words": 2595,
    "read_min": 14,
    "figures": 1,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Simple Interest",
    "area": "Compulsory Mathematics",
-   "words": 2343,
+   "words": 2346,
    "read_min": 13,
    "figures": 1,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Area and Volume",
    "area": "Compulsory Mathematics",
-   "words": 2905,
+   "words": 2910,
    "read_min": 16,
    "figures": 4,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Indices",
    "area": "Compulsory Mathematics",
-   "words": 1571,
+   "words": 1570,
    "read_min": 9,
    "figures": 1,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Algebraic Fraction",
    "area": "Compulsory Mathematics",
-   "words": 1663,
+   "words": 1665,
    "read_min": 9,
    "figures": 1,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "Lines and Angles",
    "area": "Compulsory Mathematics",
-   "words": 2632,
+   "words": 2634,
    "read_min": 15,
    "figures": 3,
    "has_questions": true
@@ -149,7 +149,7 @@
    "no": 17,
    "title": "Coordinates",
    "area": "Compulsory Mathematics",
-   "words": 2332,
+   "words": 2330,
    "read_min": 13,
    "figures": 2,
    "has_questions": true
@@ -185,7 +185,7 @@
    "no": 21,
    "title": "Statistics",
    "area": "Compulsory Mathematics",
-   "words": 2729,
+   "words": 2731,
    "read_min": 15,
    "figures": 4,
    "has_questions": true

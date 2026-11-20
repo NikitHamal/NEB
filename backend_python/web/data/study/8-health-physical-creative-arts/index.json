@@ -5,7 +5,7 @@
    "no": 1,
    "title": "मानव शरीर",
    "area": "एकाइ",
-   "words": 5802,
+   "words": 5746,
    "read_min": 32,
    "figures": 10,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "सामुदायिक स्वास्थ्य तथा मानसिक स्वास्थ्य",
    "area": "एकाइ",
-   "words": 6366,
+   "words": 6350,
    "read_min": 35,
    "figures": 12,
    "has_questions": true
@@ -23,8 +23,8 @@
    "no": 3,
    "title": "पोषण र खाद्य सुरक्षा",
    "area": "एकाइ",
-   "words": 5336,
-   "read_min": 30,
+   "words": 5272,
+   "read_min": 29,
    "figures": 7,
    "has_questions": true
   },
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "रोग, सुरक्षा र प्राथमिक उपचार",
    "area": "एकाइ",
-   "words": 6236,
+   "words": 6233,
    "read_min": 35,
    "figures": 11,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "यौनिक तथा प्रजनन स्वास्थ्य",
    "area": "एकाइ",
-   "words": 5050,
+   "words": 5004,
    "read_min": 28,
    "figures": 8,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "शारीरिक व्यायाम र कवाज",
    "area": "एकाइ",
-   "words": 3958,
+   "words": 3957,
    "read_min": 22,
    "figures": 8,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "एथलेटिक्स र साहसिक क्रियाकलाप",
    "area": "एकाइ",
-   "words": 4167,
+   "words": 4153,
    "read_min": 23,
    "figures": 8,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "खेल",
    "area": "एकाइ",
-   "words": 6543,
+   "words": 6524,
    "read_min": 36,
    "figures": 10,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "योग",
    "area": "एकाइ",
-   "words": 3384,
+   "words": 3383,
    "read_min": 19,
    "figures": 6,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "कलाको परिचय, रेखाचित्र र रङ",
    "area": "एकाइ",
-   "words": 4119,
+   "words": 4111,
    "read_min": 23,
    "figures": 11,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "छपाइ, माटाको काम, कोलाज र निर्माण",
    "area": "एकाइ",
-   "words": 3872,
+   "words": 3870,
    "read_min": 22,
    "figures": 9,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "गायन र वादन",
    "area": "एकाइ",
-   "words": 5888,
+   "words": 5887,
    "read_min": 33,
    "figures": 10,
    "has_questions": true
