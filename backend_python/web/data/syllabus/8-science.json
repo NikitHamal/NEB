@@ -389,10 +389,11 @@
    "topics": [
     "heat and temperature; thermometers and their scales",
     "thermal expansion of solids, liquids and gases",
-    "transfer of heat: conduction, convection and radiation",
+    "transfer of heat: conduction, convection, radiation, thermos flask and greenhouse effect",
     "specific heat capacity and its daily applications",
-    "light: reflection and refraction",
+    "light: reflection by concave and convex spherical mirrors (ray diagrams and uses) and refraction",
     "lenses and images; dispersion of light; the human eye and optical instruments",
+    "sound waves (v = fλ), infrasound, audible sound, ultrasound, sound intensity (dB) and noise pollution",
     "energy sources, transformation and conservation"
    ],
    "sections": [
@@ -461,14 +462,14 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "magnets, magnetic substances and the magnetic field",
-    "terrestrial magnetism and the magnetic compass",
+    "magnets, natural and artificial magnets, molecular theory of magnetism, demagnetisation and magnetic keepers",
+    "terrestrial magnetism (earth as a magnet, declination and dip) and the magnetic compass",
     "static electricity and electric charge",
     "electric circuit, current, potential difference and resistance",
     "Ohm's law and its verification",
-    "household electrification: wiring, fuse, earthing and safety",
-    "electric meter, unit (kWh) and the electricity bill",
-    "magnetic effect of current; electric bell"
+    "household electrification: live/neutral/earth wires, fuse, MCB, earthing and three-pin plug safety",
+    "electric meter, unit (kWh) and the electricity bill (E = P × N × t)",
+    "magnetic effect of current; electromagnet and electric bell"
    ],
    "sections": [
     {
@@ -531,12 +532,13 @@
    "area": "Science and Technology",
    "topics": [
     "states of matter and the kinetic idea of particles",
-    "element, compound and mixture; atom and molecule",
-    "physical and chemical change",
+    "atomic structure (proton, neutron, electron), 2n^2 electronic configuration, valency, criss-cross molecular formula and molecular weight",
+    "physical and chemical change; word equations and balanced chemical equations",
     "solution, solute, solvent; saturated and unsaturated solution",
     "separation of mixtures: filtration, distillation, sublimation, chromatography",
     "acids, bases and salts; indicators and pH in daily life",
-    "metals and non-metals; alloys"
+    "metals and non-metals; alloys",
+    "classification of elements: modern periodic table and periodic trends (shells, valency, atomic size and metallic character)"
    ],
    "sections": [
     {
@@ -600,13 +602,15 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "water: sources, hardness, purification and water-borne disease",
-    "water pollution and its control",
+    "water: hard and soft water, temporary and permanent hardness removal (boiling, Clark's method, washing soda, permutit) and purification",
+    "water pollution and its control; causes, effects and control of acid rain",
     "cement, glass and ceramics",
     "plastics and polymers: uses and environmental harm",
     "soap, detergent and fertiliser",
     "fibre: natural and synthetic",
-    "fuel and combustion; fire safety"
+    "fuel and combustion; fire safety",
+    "acids, bases and salts: physical and chemical properties, indicators (litmus, methyl orange, phenolphthalein) and uses",
+    "alloys: composition, properties and daily-life uses of steel, stainless steel, brass and bronze"
    ],
    "sections": [
     {
@@ -676,11 +680,11 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "minerals: metallic and non-metallic, and their uses",
-    "rocks and the structure of the earth",
-    "origin and age of the earth",
-    "the solar system: planets, satellites, asteroids and comets",
-    "stars, constellations and galaxies",
+    "minerals: metallic, non-metallic and energy minerals, properties, uses and mineral resources of Nepal",
+    "rocks and the internal structure of the earth",
+    "origin and age of the earth; geological time scale (eras) and evolution of life",
+    "the solar system: planets, satellites, asteroids, comets and meteoroids/meteors/meteorites",
+    "origin of the universe (Big Bang theory), stars, constellations and galaxies",
     "space exploration and artificial satellites; Nepal in space science"
    ],
    "sections": [
@@ -731,6 +735,6 @@
   }
  ],
  "unit_count": 11,
- "topic_count": 69,
+ "topic_count": 73,
  "notes_ready": 11
 }

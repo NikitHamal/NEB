@@ -34,6 +34,9 @@ jobs:
             notes/content
             notes/assets
             tools/publish/published.json
+            backend_python/web/data/syllabus
+            backend_python/web/data/study
+            backend_python/web/static/web/study
             backend_python/api/management/commands/replace_book_files.py
             backend_python/api/management/commands/approve_book_uploads.py
           sparse-checkout-cone-mode: false
@@ -49,12 +52,15 @@ jobs:
           (cd notes/pipeline/mathjax && npm ci --silent)
           bash notes/pipeline/fonts/install.sh
 
-      - name: Build and size-normalise PDFs
+      - name: Export syllabus/study JSONs and build size-normalised PDFs
         env:
           SLUGS: ${{ inputs.slugs }}
         run: |
           set -euo pipefail
           mkdir -p stage notes/pdf
+          python3 notes/tools/export_syllabus.py
+          python3 notes/tools/export_study.py $SLUGS
+          tar -C backend_python -cf stage/web_sync.tar web/data/syllabus web/data/study web/static/web/study
           python3 - <<'PY'
           import json, os, shutil, subprocess, sys
           sys.path.insert(0, "notes/pipeline")
@@ -77,7 +83,7 @@ jobs:
           PY
           ls -lh stage/
 
-      - name: Upload rebuilt PDFs to server and swap in Library
+      - name: Upload rebuilt PDFs and study data to server and swap in Library
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
@@ -93,9 +99,9 @@ jobs:
           tar -C stage -cf - . | $SSH "tar -C $REMOTE -xf -"
           FLAGS=""
           [ "$DRY" = "true" ] && FLAGS="--dry-run"
-          $SSH "cd /home/consicac/nebians_api && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"
+          $SSH "cd /home/consicac/nebians_api && ([ '$DRY' = 'true' ] || (tar -C /home/consicac/nebians_api -xf $REMOTE/web_sync.tar && mkdir -p staticfiles/web/study && cp -rf web/static/web/study/. staticfiles/web/study/ && mkdir -p tmp && touch tmp/restart.txt)) && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"
 
-      - name: Commit rebuilt PDFs to repository
+      - name: Commit rebuilt PDFs and exported study data to repository
         if: ${{ inputs.dry_run != 'true' }}
         env:
           SLUGS: ${{ inputs.slugs }}
@@ -104,7 +110,8 @@ jobs:
           git checkout -- .
           git clean -fd notes/assets notes/pipeline 2>/dev/null || true
           git fetch origin main
-          git rebase origin/main
+          git rebase --autostash origin/main
+          tar -C backend_python -xf stage/web_sync.tar
           python3 - <<'PY'
           import json, os, shutil, subprocess
           built_map = json.load(open("stage/built_map.json", encoding="utf-8"))
@@ -114,11 +121,16 @@ jobs:
           os.makedirs("notes/pdf", exist_ok=True)
           for slug, rel_pdf in built_map.items():
               shutil.copy(f"stage/{slug}.pdf", rel_pdf)
-          subprocess.check_call(["git", "add", "--sparse"] + list(built_map.values()))
+          paths = list(built_map.values()) + [
+              "backend_python/web/data/syllabus",
+              "backend_python/web/data/study",
+              "backend_python/web/static/web/study",
+          ]
+          subprocess.check_call(["git", "add", "--sparse"] + paths)
           PY
           git config user.name "NikitHamal"
           git config user.email "nikithamal@users.noreply.github.com"
           if ! git diff --cached --quiet; then
-            git commit -m "Rebuild PDF(s) for ${SLUGS}"
+            git commit -m "Rebuild PDF(s) and export study data for ${SLUGS}"
             git push origin main
           fi

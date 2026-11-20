@@ -184,8 +184,31 @@ Put $F=\frac{9}{5}C+32$. Then $\frac{9}{5}C=F-32$ and $C=\frac{5}{9}(F-32)$. So 
 | Onto (surjective) | range equals codomain | $f(x)=x+3$ on $\mathbb{R}\to\mathbb{R}$ |
 | Constant | every input has the same output | $f(x)=4$ |
 | Identity | output equals input | $I(x)=x$ |
+| Linear | degree-1 algebraic function whose graph is a straight line | $f(x)=mx+c$ |
+| Quadratic | degree-2 algebraic function whose graph is a parabola | $f(x)=ax^2+bx+c$ ($a\neq 0$) |
+| Cubic | degree-3 algebraic function whose S-shaped curve passes through $(0,0)$ for $y=x^3$ | $f(x)=ax^3+bx^2+cx+d$ ($a\neq 0$) |
 
 A function that is both one-one and onto is called a **one-one correspondence** (bijection). Only such functions have an inverse, as we see in Section 12.5. To test whether a graph is one-one use the **horizontal line test**: no horizontal line may cut the graph more than once.
+
+### Trigonometric (transcendental) functions and their graphs
+
+::: definition Trigonometric function
+A function that relates an angle $x$ (measured in degrees or radians) to a real number through a trigonometric ratio is called a **trigonometric function**, such as $y = \sin x$, $y = \cos x$ and $y = \tan x$. Trigonometric functions are **non-algebraic (transcendental) periodic functions** because their values repeat at regular intervals called their **period**.
+:::
+
+| Function | Domain | Range (Min to Max) | Amplitude | Period | Key graph features |
+|---|---|---|---|---|---|
+| **$y = \sin x$** (Sine graph) | $\mathbb{R}$ (all real angles) | $[-1, 1]$ (min $= -1$, max $= +1$) | $1$ | $2\pi$ ($360^\circ$) | Smooth continuous wave passing through the origin $(0^\circ, 0)$; peaks at $(90^\circ, 1)$, crosses $(180^\circ, 0)$, trough at $(270^\circ, -1)$, returns to $(360^\circ, 0)$. |
+| **$y = \cos x$** (Cosine graph) | $\mathbb{R}$ (all real angles) | $[-1, 1]$ (min $= -1$, max $= +1$) | $1$ | $2\pi$ ($360^\circ$) | Smooth continuous wave starting at maximum $(0^\circ, 1)$; crosses $(90^\circ, 0)$, trough at $(180^\circ, -1)$, crosses $(270^\circ, 0)$, returns to $(360^\circ, 1)$. |
+| **$y = \tan x$** (Tangent graph) | $x \neq (2n+1)\frac{\pi}{2}$ (undefined at $\pm 90^\circ, \pm 270^\circ, \dots$) | $(-\infty, \infty)$ (no max or min) | Undefined | $\pi$ ($180^\circ$) | Discontinuous curve with vertical asymptotes at $x = \pm 90^\circ, \pm 270^\circ$; passes through $(0^\circ, 0)$, $(45^\circ, 1)$ and $(-45^\circ, -1)$. |
+
+**Standard table of values ($0^\circ$ to $360^\circ$):**
+
+| $x$ | $0^\circ$ | $90^\circ$ ($\frac{\pi}{2}$) | $180^\circ$ ($\pi$) | $270^\circ$ ($\frac{3\pi}{2}$) | $360^\circ$ ($2\pi$) |
+|---|---|---|---|---|---|
+| $\sin x$ | $0$ | $1$ | $0$ | $-1$ | $0$ |
+| $\cos x$ | $1$ | $0$ | $-1$ | $0$ | $1$ |
+| $\tan x$ | $0$ | $\infty$ (undefined) | $0$ | $-\infty$ (undefined) | $0$ |
 
 ::: example Is it one-one?
 **Problem.** Are $f(x)=3x-1$ and $g(x)=x^2$ (on $\mathbb{R}$) one-one?

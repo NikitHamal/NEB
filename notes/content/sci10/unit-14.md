@@ -119,27 +119,43 @@ ax.set_xlim(-1.3, 18.2); ax.set_ylim(-3.2, 1.7); ax.set_aspect('equal'); ax.axis
 | 6 (very long) | 32 | Cs to Rn (includes lanthanides) |
 | 7 (incomplete) | 32 (when complete) | Fr onwards (includes actinides) |
 
-### Electronic configuration
+### Electronic configuration (shells and subshells: Aufbau principle)
 
-Electrons are filled in shells K, L, M, N with a maximum of $2n^2$ electrons in the nth shell: K = 2, L = 8, M = 18. The outermost shell of the first 18 elements can hold at most 8 electrons (2 for K). For the first 20 elements, the third shell holds 8 before the fourth shell starts to fill (K gets 2, 8, 8, 1).
+Electrons are filled in main shells $K, L, M, N$ ($n = 1, 2, 3, 4$) with a maximum capacity of $2n^2$ electrons ($K = 2, L = 8, M = 18, N = 32$). Each shell consists of **subshells ($s, p, d, f$)** whose maximum electron capacities are:
 
-| Element | Z | Configuration (K, L, M, N) | Valence electrons | Group | Period |
-|---|---|---|---|---|---|
-| Hydrogen | 1 | 1 | 1 | 1 | 1 |
-| Helium | 2 | 2 | 2 | 18 | 1 |
-| Lithium | 3 | 2, 1 | 1 | 1 | 2 |
-| Carbon | 6 | 2, 4 | 4 | 14 | 2 |
-| Nitrogen | 7 | 2, 5 | 5 | 15 | 2 |
-| Oxygen | 8 | 2, 6 | 6 | 16 | 2 |
-| Neon | 10 | 2, 8 | 8 | 18 | 2 |
-| Sodium | 11 | 2, 8, 1 | 1 | 1 | 3 |
-| Magnesium | 12 | 2, 8, 2 | 2 | 2 | 3 |
-| Aluminium | 13 | 2, 8, 3 | 3 | 13 | 3 |
-| Silicon | 14 | 2, 8, 4 | 4 | 14 | 3 |
-| Chlorine | 17 | 2, 8, 7 | 7 | 17 | 3 |
-| Argon | 18 | 2, 8, 8 | 8 | 18 | 3 |
-| Potassium | 19 | 2, 8, 8, 1 | 1 | 1 | 4 |
-| Calcium | 20 | 2, 8, 8, 2 | 2 | 2 | 4 |
+- **$s$-subshell (sharp):** maximum **2 electrons** ($s^2$)
+- **$p$-subshell (principal):** maximum **6 electrons** ($p^6$)
+- **$d$-subshell (diffuse):** maximum **10 electrons** ($d^{10}$)
+- **$f$-subshell (fundamental):** maximum **14 electrons** ($f^{14}$)
+
+According to the **Aufbau principle**, electrons fill subshells in increasing order of energy ($n + l$ rule):
+
+$$ 1s < 2s < 2p < 3s < 3p < 4s < 3d < 4p < 5s \dots $$
+
+Because the $4s$ subshell has slightly lower energy than the $3d$ subshell, the 19th electron of **Potassium ($Z = 19$)** and the 20th electron of **Calcium ($Z = 20$)** enter $4s$ ($1s^2 2s^2 2p^6 3s^2 3p^6 4s^1$ and $4s^2$) rather than $3d$.
+
+| Element | $Z$ | Shell ($K, L, M, N$) | Subshell configuration | Block | Group | Period | Valency |
+|---|---|---|---|---|---|---|---|
+| Hydrogen ($\text{H}$) | 1 | 1 | $1s^1$ | $s$ | 1 (IA) | 1 | 1 |
+| Helium ($\text{He}$) | 2 | 2 | $1s^2$ | $s$ | 18 (0) | 1 | 0 |
+| Lithium ($\text{Li}$) | 3 | 2, 1 | $1s^2\,2s^1$ | $s$ | 1 (IA) | 2 | 1 |
+| Beryllium ($\text{Be}$) | 4 | 2, 2 | $1s^2\,2s^2$ | $s$ | 2 (IIA) | 2 | 2 |
+| Boron ($\text{B}$) | 5 | 2, 3 | $1s^2\,2s^2\,2p^1$ | $p$ | 13 (IIIA) | 2 | 3 |
+| Carbon ($\text{C}$) | 6 | 2, 4 | $1s^2\,2s^2\,2p^2$ | $p$ | 14 (IVA) | 2 | 4 |
+| Nitrogen ($\text{N}$) | 7 | 2, 5 | $1s^2\,2s^2\,2p^3$ | $p$ | 15 (VA) | 2 | 3 |
+| Oxygen ($\text{O}$) | 8 | 2, 6 | $1s^2\,2s^2\,2p^4$ | $p$ | 16 (VIA) | 2 | 2 |
+| Fluorine ($\text{F}$) | 9 | 2, 7 | $1s^2\,2s^2\,2p^5$ | $p$ | 17 (VIIA) | 2 | 1 |
+| Neon ($\text{Ne}$) | 10 | 2, 8 | $1s^2\,2s^2\,2p^6$ | $p$ | 18 (0) | 2 | 0 |
+| Sodium ($\text{Na}$) | 11 | 2, 8, 1 | $1s^2\,2s^2\,2p^6\,3s^1$ | $s$ | 1 (IA) | 3 | 1 |
+| Magnesium ($\text{Mg}$) | 12 | 2, 8, 2 | $1s^2\,2s^2\,2p^6\,3s^2$ | $s$ | 2 (IIA) | 3 | 2 |
+| Aluminium ($\text{Al}$) | 13 | 2, 8, 3 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^1$ | $p$ | 13 (IIIA) | 3 | 3 |
+| Silicon ($\text{Si}$) | 14 | 2, 8, 4 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^2$ | $p$ | 14 (IVA) | 3 | 4 |
+| Phosphorus ($\text{P}$) | 15 | 2, 8, 5 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^3$ | $p$ | 15 (VA) | 3 | 3, 5 |
+| Sulphur ($\text{S}$) | 16 | 2, 8, 6 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^4$ | $p$ | 16 (VIA) | 3 | 2, 4, 6 |
+| Chlorine ($\text{Cl}$) | 17 | 2, 8, 7 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^5$ | $p$ | 17 (VIIA) | 3 | 1 |
+| Argon ($\text{Ar}$) | 18 | 2, 8, 8 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^6$ | $p$ | 18 (0) | 3 | 0 |
+| Potassium ($\text{K}$) | 19 | 2, 8, 8, 1 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^6\,4s^1$ | $s$ | 1 (IA) | 4 | 1 |
+| Calcium ($\text{Ca}$) | 20 | 2, 8, 8, 2 | $1s^2\,2s^2\,2p^6\,3s^2\,3p^6\,4s^2$ | $s$ | 2 (IIA) | 4 | 2 |
 
 ::: tip Finding group and period quickly
 **Period number = number of occupied shells.** For groups 1 and 2, **group number = valence electrons**. For groups 13 to 18, **group number = valence electrons + 10**. For example, Cl is 2, 8, 7: three shells, so period 3; 7 + 10 = 17, so group 17.
@@ -202,9 +218,14 @@ Atomic size is the distance from the nucleus to the outermost electron shell.
 - **Down a group** it **decreases**.
 - **Across a period** it **increases**.
 
-#### Metallic and non-metallic character
+#### Metallic and non-metallic character & chemical reactivity
 
-Metals tend to lose electrons, so metallic character is greater when ionisation energy is low. Metallic character **increases down a group** and **decreases across a period**. Non-metallic character follows the opposite trend. Hence the most reactive metal (Cs, Fr) is at the bottom left and the most reactive non-metal (F) is at the top right.
+- **Reactivity of metals (Groups 1, 2, 13):** Metals react by **losing valence electrons** (electropositive nature).
+  - **Down a group:** As we move down a group of metals (e.g. $\text{Li} \rightarrow \text{Na} \rightarrow \text{K}$), a new electron shell is added at each step, atomic size increases, nuclear attraction on the outermost electron weakens, and valence electrons are lost more easily. Therefore, **chemical reactivity of metals increases down a group** ($\text{Li} < \text{Na} < \text{K} < \text{Rb} < \text{Cs}$).
+  - **Across a period (left to right among metals):** Atomic size decreases and nuclear attraction increases (and more valence electrons must be lost: $\text{Na}$ loses 1, $\text{Mg}$ loses 2, $\text{Al}$ loses 3), so **chemical reactivity of metals decreases from left to right** ($\text{Na} > \text{Mg} > \text{Al}$).
+- **Reactivity of non-metals (Groups 15, 16, 17):** Non-metals react by **gaining or sharing electrons** (electronegative nature).
+  - **Down a group:** As we move down a group of non-metals (e.g. halogens $\text{F} \rightarrow \text{Cl} \rightarrow \text{Br} \rightarrow \text{I}$), atomic size increases and nuclear pull on an incoming electron decreases, so it becomes harder to attract an electron. Therefore, **chemical reactivity of non-metals decreases down a group** ($\text{F} > \text{Cl} > \text{Br} > \text{I}$).
+  - **Across a period (left to right among non-metals):** Atomic size shrinks and nuclear charge increases, so incoming electrons are attracted more strongly. Therefore, **chemical reactivity of non-metals increases from left to right up to Group 17** ($\text{P} < \text{S} < \text{Cl}$), while Group 18 noble gases have complete octets/duplets and are chemically inert.
 
 | Property | Down a group | Left to right in a period |
 |---|---|---|

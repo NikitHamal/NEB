@@ -62,16 +62,16 @@ A young virgin queen leaves the hive on a **nuptial flight** high in the air and
 
 ### Stages
 
-1. **Egg.** The queen lays one egg in each cell of the comb, standing upright, small, white and about 1.5 mm long. It hatches after **3 days**.
-2. **Larva.** A white, legless, worm-like grub comes out. It is fed by nurse workers and grows rapidly, shedding its skin several times. All larvae first get royal jelly for 2–3 days; worker and drone larvae then get bee-bread (pollen and honey); the queen larva keeps getting royal jelly.
-3. **Pupa.** When fully grown, the larva is sealed in its cell by a wax capping. Inside, it changes into a pupa and the adult organs (legs, wings, eyes) form. It does not feed.
-4. **Adult.** The adult bites open the capping and comes out.
+1. **Egg (3 days).** The queen lays one whitish, elongated egg (about $1\text{–}1.5\text{ mm}$ long) at the bottom of each brood cell: fertilized eggs ($2n = 32$ chromosomes) in queen and worker cells, and unfertilized eggs ($n = 16$ chromosomes) in larger drone cells. Inside the cell, the egg stands **upright ($90^\circ$) on the 1st day**, becomes **tilted ($45^\circ$) on the 2nd day**, and lies **flat/horizontal ($0^\circ$) on the 3rd day** before hatching.
+2. **Larva ($5\text{–}7$ days).** After 3 days, a white, legless, worm-like grub hatches. It feeds voraciously and moults several times. For the **first 3 days**, all larvae are fed **royal jelly** secreted by the **hypopharyngeal glands** located in the head of nurse worker bees. After 3 days, a larva destined to become a **queen** continues to be fed **royal jelly** throughout its larval period, whereas **worker and drone larvae** are switched to **honey-bread / bee-bread** (a mixture of honey and pollen).
+3. **Pupa ($7.5\text{–}14.5$ days).** When fully grown, worker bees seal the cell with a porous wax cap. Inside the sealed cell, the larva spins a cocoon and enters the dormant, non-feeding **pupa** stage during which head, thorax, abdomen, three pairs of jointed legs, two pairs of wings, compound eyes and mouthparts differentiate.
+4. **Adult.** The mature adult bee chews through the wax capping and emerges from the cell.
 
-| Caste | Egg | Larva | Pupa | Total (egg → adult) |
-|---|---|---|---|---|
-| Queen | 3 days | 5½ days | 7½ days | **16 days** |
-| Worker | 3 days | 6 days | 12 days | **21 days** |
-| Drone | 3 days | 6½ days | 14½ days | **24 days** |
+| Caste | Chromosome number | Egg | Larva | Pupa | Total (egg → adult) |
+|---|---|---|---|---|---|
+| **Queen** | Diploid ($2n = 32$) | 3 days | $5\text{–}5.5$ days | $7.5\text{–}8$ days | **16 days** |
+| **Worker** | Diploid ($2n = 32$) | 3 days | 6 days | 12 days | **21 days** |
+| **Drone** | Haploid ($n = 16$) | 3 days | $6.5\text{–}7$ days | $14\text{–}14.5$ days | **24 days** |
 
 ::: memory 16 – 21 – 24
 Queen 16, Worker 21, Drone 24: the order of days is Queen, Worker, Drone. The queen is the quickest to develop; the drone the slowest.
@@ -141,17 +141,18 @@ In a colony the work is shared among the castes, and a worker changes her job as
 
 **The queen** is the only fully developed female. She is the mother of all bees in the hive and lays **1,000–2,000 eggs a day** in the busy season. She releases a chemical called **queen substance (pheromone)** that keeps the colony together and stops the workers from developing ovaries. If the queen dies, the workers feed some larvae with royal jelly to make a new one.
 
-**The drones** are the males. They do no work for the colony; they mate with a virgin queen, and die as they do so. In autumn or when food is short, the workers drive the remaining drones out of the hive to starve.
+**The drones** are haploid ($n = 16$) males with large compound eyes, stout bodies, and **no sting, no wax glands and no pollen baskets**. Their roles are to keep the hive warm and to fertilise a young queen during the **nuptial (mating) flight**. **Why a drone dies after mating:** during copulation in mid-air, the drone's reproductive organ (endophallus) is forcefully everted and torn off inside the queen's reproductive tract, rupturing its abdomen so the drone dies immediately after mating. In autumn or during food scarcity, workers drive remaining drones out of the hive.
 
-**The workers** are sterile females. They do all the work, in the order of their age:
+**The workers** are sterile diploid ($2n = 32$) females whose hind legs bear **pollen baskets (corbiculae)** for carrying pollen, heads contain **hypopharyngeal glands** for secreting royal jelly, and abdomens possess **four pairs of wax glands** and a barbed **stinger**. Their duties change systematically with adult age according to the CDC curriculum:
 
-| Age of worker (days) | Job |
+| Age of adult worker | Physiological development & duties in the colony |
 |---|---|
-| 1–3 | **Cleaner**: clean cells, remove dirt |
-| 3–10 | **Nurse**: feed larvae with royal jelly and bee-bread; feed the queen |
-| 10–18 | **House bee**: build comb with wax, store pollen and nectar, ripen honey by fanning, receive food from foragers |
-| 18–21 | **Guard**: stand at the entrance and drive away enemies (wasps, robber bees) |
-| After 21 | **Forager**: fly out to collect nectar, pollen, water and propolis |
+| **Days 1–3** | Clean empty brood cells, cling to the comb to keep eggs, larvae and pupae warm, and learn to walk and feed. |
+| **Days 4–6** | Nurse older larvae (more than 3 days old) by feeding them **honey-bread / bee-bread** (a mixture of honey and pollen). |
+| **Days 7–11** | **Hypopharyngeal (royal) glands** in the head become active and secrete **royal jelly**; feed royal jelly to young larvae (first 3 days) and to the queen bee. |
+| **Days 12–17** | **Four pairs of wax glands** on the underside of the abdomen become active; secrete beeswax, build hexagonal honeycombs, and cap mature larval and honey cells. |
+| **Days 18–20** | **Guard bees** with developed poison glands and stingers; guard the hive entrance against intruders (wasps, ants, robber bees) and ventilate the hive by fanning wings. |
+| **Day 21 onwards (till death)** | **Forager (field) bees**: fly outside the hive to collect flower **nectar** (stored in the honey stomach/crop), **pollen** (carried in the **pollen baskets** on the hind legs), **propolis** (plant resin) and **water**. |
 
 ### Communication: bee dances
 

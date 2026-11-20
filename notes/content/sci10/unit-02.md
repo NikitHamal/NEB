@@ -217,25 +217,23 @@ Protista is often called the "kingdom of leftovers", because it contains eukaryo
 ```photo id="sci10/mushroom" caption="A mushroom (fly agaric), the fruiting body of a fungus. The cap sits on a stalk and the body of the fungus lies in the soil." width="70"
 ```
 
-### Kingdom Plantae
+### Kingdom Plantae (Algae, Bryophyta and Tracheophyta)
 
-- **Multicellular**, **eukaryotic**, with a **cell wall of cellulose**.
-- Contain **chlorophyll** in chloroplasts and make food by **photosynthesis**, so they are **autotrophic** (producers).
-- Mostly fixed in one place; they do not move from place to place.
-- Reproduction is vegetative, asexual (spores) or sexual (seeds).
-- Store food as starch.
+- **Multicellular**, **eukaryotic** organisms with a rigid **cell wall made of cellulose**.
+- Contain **chlorophyll** inside plastids (chloroplasts) and prepare their own food by **photosynthesis** (**autotrophic** producers).
+- Reserve food is stored mainly as **starch**.
+- In the official CDC Grade 10 curriculum, **Kingdom Plantae** is classified into **three main divisions**: **Algae**, **Bryophyta** and **Tracheophyta** (vascular plants), and Division **Tracheophyta** is further divided into **three sub-divisions**: **Pteridophyta**, **Gymnosperms** and **Angiosperms**.
 
-Plants are divided into five groups:
-
-| Group | Main features | Examples |
+| Division / Sub-division | Key identifying characteristics | Examples |
 |---|---|---|
-| Algae (Thallophyta) | No true root, stem or leaf; mostly aquatic | *Spirogyra*, *Ulothrix* |
-| Bryophyta | Small, grow in moist places, no vascular tissue, root-like rhizoids | Moss (*Funaria*), liverwort (*Marchantia*) |
-| Pteridophyta | Have root, stem, leaves and vascular tissue; no flowers or seeds; reproduce by spores | Ferns (*Nephrolepis*), horsetail |
-| Gymnosperms | Seeds are naked (no fruit), cones present | Pine (*Pinus*), cycas |
-| Angiosperms | Flowering plants; seeds enclosed in fruits | Mango, rice, pea |
+| **1. Division: Algae** | Thalloid plant body (not differentiated into root, stem and leaf); no vascular tissue (xylem/phloem); mostly aquatic (freshwater or marine); unicellular (*Chlamydomonas*), colonial (*Volvox*) or filamentous (*Spirogyra*, *Ulothrix*); cell wall of cellulose; reproduce asexually (fragmentation/spores) and sexually. | *Spirogyra*, *Ulothrix*, *Volvox*, *Chlamydomonas*, *Fucus* |
+| **2. Division: Bryophyta** | Called **"amphibians of the plant kingdom"** because they grow on moist shady land/walls but require water for fertilisation; plant body is thalloid (*Marchantia*, *Riccia*) or differentiated into stem-like and leaf-like structures with unicellular/multicellular **rhizoids** instead of true roots (*Funaria*/moss); **non-vascular** (xylem and phloem absent); show distinct **alternation of generations** where the haploid **gametophyte** is dominant and the diploid **sporophyte** depends on it. | Moss (*Funaria*), Liverwort (*Marchantia*, *Riccia*) |
+| **3. Division: Tracheophyta** | **Vascular plants** possessing well-developed **xylem** (for water conduction) and **phloem** (for food translocation), with true roots, stems and leaves; dominant diploid **sporophyte** generation. Divided into three sub-divisions below: | Ferns, Pine, Mustard, Paddy |
+| **3a. Sub-division: Pteridophyta** | Seedless vascular plants (**vascular cryptogams**) growing in cool, damp, shady habitats; plant body has true roots, an underground rhizome (stem) and feather-like compound leaves (**fronds**); underside of mature leaves bears brown spore-producing clusters called **sori**; spores germinate into a heart-shaped gametophyte (**prothallus**); no flowers, fruits or seeds. | Fern (*Dryopteris*, *Pteris*), Horsetail (*Equisetum*), Club moss (*Lycopodium*, *Selaginella*) |
+| **3b. Sub-division: Gymnosperms** | **Naked-seeded vascular plants** (*gymnos* = naked, *sperma* = seed) in which ovules and seeds are **not enclosed inside a fruit** (no ovary); bear unisexual male and female **cones** instead of true flowers; perennial woody trees or shrubs with needle-like or scale-like leaves and xerophytic adaptations; pollination occurs by wind (**anemophily**). | Pine (*Pinus*/Salla), *Cycas*, Fir (*Abies*), Juniper (*Juniperus*), *Thuja* |
+| **3c. Sub-division: Angiosperms** | **Flowering vascular plants** (*angio* = enclosed, *sperma* = seed) with well-developed flowers containing ovary, style and stigma; ovules develop into **seeds enclosed inside a fruit**; show **double fertilisation**; divided into two classes: **Monocotyledonae** and **Dicotyledonae**. | Rice, Maize, Banana, Mango, Mustard, Pea, Rose |
 
-Angiosperms are further divided into **monocots** (one seed leaf, parallel leaf veins, fibrous roots: maize, rice, wheat) and **dicots** (two seed leaves, net-like veins, tap root: pea, mustard, mango).
+Angiosperms are further divided into two classes — **Monocotyledonae (monocots)** and **Dicotyledonae (dicots)**:
 
 ```photo id="sci10/hibiscus" caption="Flower of a hibiscus plant. Angiosperms bear flowers, and their seeds are enclosed in fruits." width="56"
 ```
@@ -261,19 +259,19 @@ Angiosperms are further divided into **monocots** (one seed leaf, parallel leaf 
 - Have nervous system and sense organs (except in the simplest ones), so they respond quickly to stimuli.
 - Reproduce mostly sexually; store food as glycogen and fat.
 
-Animals are divided into **invertebrates** (no backbone) and **vertebrates** (backbone present).
+Animals are classified into **nine major phyla**: the first eight are **invertebrates (non-chordates)** lacking a vertebral column, and the ninth is **Phylum Chordata** (which includes **Sub-phylum Vertebrata**).
 
-| Phylum | Main features | Examples |
+| Phylum | Body organisation, symmetry & key diagnostic features | Examples |
 |---|---|---|
-| Porifera | Pores on the body, sessile, no organs | Sponge |
-| Coelenterata (Cnidaria) | Tentacles with stinging cells; sac-like body | *Hydra*, jellyfish |
-| Platyhelminthes | Flat body, no body cavity | Tapeworm, liver fluke |
-| Aschelminthes (Nematoda) | Round, unsegmented worm | *Ascaris* |
-| Annelida | Body divided into segments | Earthworm, leech |
-| Arthropoda | Jointed legs, hard outer skeleton; the largest phylum | Honey bee, spider, prawn |
-| Mollusca | Soft body, usually a shell | Snail, octopus |
-| Echinodermata | Spiny skin | Starfish |
-| Chordata | Notochord; vertebrates are included | Fish, frog, lizard, bird, human |
+| **1. Porifera** (Pore-bearing) | **Cellular level** of organisation (no tissues or organs); diploblastic, asymmetrical; sessile (attached to rocks); body perforated by numerous minute pores called **ostia** (water enters) and a single large opening at the top called **osculum** (water leaves) forming a **canal system**; internal cavity (**spongocoel**) lined by flagellated **choanocytes (collar cells)** for intracellular digestion; skeleton of calcareous/siliceous **spicules** or **spongin** fibres; hermaphrodite. | *Sycon*, *Spongilla* (freshwater sponge), *Euspongia* (bath sponge) |
+| **2. Coelenterata (Cnidaria)** | **Tissue level** of organisation; **diploblastic** and **radially symmetrical**; hollow central gastrovascular cavity (**coelenteron**) with a single opening (mouth/hypostome) surrounded by **tentacles**; tentacles bear stinging cells called **cnidoblasts (nematocysts)** for offence, defence and food capture; show **polyp** (sessile, e.g. *Hydra*) and **medusa** (free-swimming, e.g. Jellyfish) forms. | *Hydra*, Jellyfish (*Aurelia*), Sea anemone, Coral |
+| **3. Platyhelminthes** (Flatworms) | **Organ-system level**, **triploblastic**, **bilaterally symmetrical** and **acoelomate** (no body cavity); body dorsoventrally flattened like a ribbon or leaf; parasitic forms possess **hooks and suckers** for attachment; digestive tract incomplete (mouth present, anus absent) or absent in tapeworms; excretion by **flame cells (protonephridia)**; mostly **hermaphrodite (bisexual)**. | Liver fluke (*Fasciola hepatica*), Tapeworm (*Taenia solium*), *Planaria* |
+| **4. Nemathelminthes / Aschelminthes (Nematoda)** | **Roundworms**: cylindrical, unsegmented body tapering at both ends; **triploblastic**, **bilaterally symmetrical** and **pseudocoelomate** (false body cavity); **complete digestive tract** with distinct mouth and anus; body covered by a tough protective **cuticle**; **unisexual (dioecious)** with sexual dimorphism (female longer than male); mostly endoparasites. | Roundworm (*Ascaris lumbricoides*), Hookworm (*Ancylostoma*), Pinworm (*Enterobius*), Filarial worm (*Wuchereria*) |
+| **5. Annelida** (Segmented worms) | Elongated cylindrical body divided into ring-like **metameric segments (annuli)**; **triploblastic**, **bilaterally symmetrical** and **true coelomate**; locomotion by chitinous bristles (**setae** in earthworm), **parapodia** (in *Nereis*) or suckers (in leech); **closed blood circulatory system** with haemoglobin dissolved in plasma; excretion by coiled **nephridia**; respiration through moist skin (cuticle); hermaphrodite or unisexual. | Earthworm (*Pheretima*), Leech (*Hirudinaria*), Sandworm (*Nereis*) |
+| **6. Arthropoda** (Jointed-legged) | **Largest phylum** in Animalia; body covered by a hard **chitinous exoskeleton** (shed periodically by **moulting/ecdysis**) and divided into **head, thorax and abdomen** (or **cephalothorax and abdomen** in crustaceans/arachnids); **jointed appendages**; **open circulatory system** with blood-filled body cavity (**haemocoel**); compound eyes and antennae; respiration by **trachea**, **gills** or **book lungs**; excretion by **Malpighian tubules** or green glands; unisexual. | Honey bee, Butterfly, Cockroach, Mosquito, Spider, Scorpion, Crab, Prawn, Centipede, Millipede |
+| **7. Mollusca** (Soft-bodied) | Soft, unsegmented body usually protected by a hard **calcareous ($CaCO_3$) shell**; body divisible into **head** (with tentacles and eyes), **visceral mass**, **muscular foot** (for locomotion) and a soft fold of skin called the **mantle** (which secretes the shell); rasping organ **radula** in the mouth; open blood system (except octopus/squid); respiration by **gills (ctenidia)** or pulmonary sac; unisexual or hermaphrodite. | Snail (*Pila*, garden snail), Octopus, Cuttlefish (*Sepia*), Slug (*Limax*), Freshwater mussel (*Unio*) |
+| **8. Echinodermata** (Spiny-skinned) | **Exclusively marine** animals with spiny skin formed by calcareous ossicles/plates; **triploblastic** and **coelomate**; **radially symmetrical** (pentamerous) in adults and bilaterally symmetrical in larvae; possess a unique **water vascular (ambulacral) system** with **tube feet (podia)** for locomotion, food capture and respiration; no distinct head; high power of **regeneration**; unisexual. | Starfish (*Asterias*), Sea urchin (*Echinus*), Sea cucumber (*Holothuria*), Brittle star |
+| **9. Chordata** | Possess four fundamental chordate characters at some stage of life: (i) rod-like supporting **notochord**, (ii) **dorsal tubular nerve cord**, (iii) **pharyngeal gill slits**, and (iv) **post-anal tail**; closed circulatory system with a ventral heart. In **Sub-phylum Vertebrata**, the embryonic notochord is replaced by a bony or cartilaginous **vertebral column (backbone)**. | Fish, Frog, Lizard, Bird, Human |
 
 ```photo id="sci10/earthworm" caption="An earthworm (phylum Annelida): the body is divided into many ring-like segments." width="60"
 ```
@@ -281,15 +279,25 @@ Animals are divided into **invertebrates** (no backbone) and **vertebrates** (ba
 ```photo id="sci10/cockroach" caption="A cockroach (phylum Arthropoda): jointed legs, three pairs, and a hard outer skeleton." width="60"
 ```
 
-Vertebrates are placed in five classes:
+**Sub-phylum Vertebrata (Craniata)** is divided into **five classes**:
 
-| Class | Body covering | Respiration | Body temperature | Examples |
+| Class | Body covering & limbs | Respiration | Heart chambers & thermal regulation | Reproduction & examples |
 |---|---|---|---|---|
-| Pisces (fish) | Scales | Gills | Cold-blooded | Rohu, shark |
-| Amphibia | Moist skin | Gills (larva), lungs and skin (adult) | Cold-blooded | Frog, toad |
-| Reptilia | Dry scales | Lungs | Cold-blooded | Lizard, snake, crocodile |
-| Aves (birds) | Feathers | Lungs | Warm-blooded | Pigeon, Himalayan monal (Danphe) |
-| Mammalia | Hair or fur | Lungs | Warm-blooded | Cow, tiger, human |
+| **1. Pisces** (Fishes) | Streamlined body covered with waterproof **scales**; paired and unpaired **fins** for swimming; swim bladder (air sac) in bony fishes. | **Gills** (covered by operculum in bony fishes) | **2-chambered heart** (1 auricle, 1 ventricle); **cold-blooded (poikilothermic)**. | Oviparous; external fertilisation. Examples: *Rohu* (*Labeo*), Shark, Sea horse (*Hippocampus*), Catla |
+| **2. Amphibia** | Smooth, **moist glandular skin** without scales; body divided into head and trunk; two pairs of pentadactyl limbs. | **Gills** in aquatic tadpole larva; **lungs and moist skin** (cutaneous) in adults | **3-chambered heart** (2 auricles, 1 ventricle); **cold-blooded (poikilothermic)**. | Oviparous; external fertilisation in water ("amphibians of Animalia"). Examples: Frog (*Rana tigrina*), Toad (*Bufo*), Salamander, Tree frog (*Hyla*) |
+| **3. Reptilia** | Dry, cornified skin covered with **horny epidermal scales** or scutes; crawl on land with two pairs of limbs (absent in snakes). | **Lungs** throughout life | **3-chambered heart** (2 auricles, incompletely divided ventricle; **4-chambered in crocodile**); **cold-blooded (poikilothermic)**. | Oviparous; internal fertilisation; leathery-shelled eggs laid on land. Examples: Wall lizard, Snake, Turtle, Tortoise, Crocodile |
+| **4. Aves** (Birds) | Streamlined body covered with **feathers**; forelimbs modified into **wings** for flight; jaws modified into a toothless horny **beak**; light hollow (**pneumatic**) bones; air sacs connected to lungs. | **Lungs** (assisted by air sacs) | **4-chambered heart** (2 auricles, 2 ventricles); **warm-blooded (homeothermic)**. | Oviparous; internal fertilisation; hard calcareous-shelled eggs. Examples: Pigeon, Danphe (*Lophophorus*), Crow, Ostrich, Penguin |
+| **5. Mammalia** | Body covered with **hair or fur**; possess milk-producing **mammary glands** to nourish young ones, external ears (**pinna**), and a muscular **diaphragm** separating thorax and abdomen. | **Lungs** | **4-chambered heart** (2 auricles, 2 ventricles); **warm-blooded (homeothermic)**. | **Viviparous** (give birth to young ones; exception: egg-laying Platypus & Echidna). Examples: Human, Cow, Tiger, Bat (flying mammal), Whale & Dolphin (aquatic mammals) |
+
+## 2.4 Relationship between classification and evolution
+
+**Classification** and **organic evolution** are closely interconnected:
+
+1. **Simple to complex body organisation:** Both plant and animal classifications follow the order of evolutionary development from primitive, simple organisms to advanced, complex ones.
+   - In **Kingdom Plantae**, evolution progressed from aquatic thalloid **Algae** $\rightarrow$ land-dwelling non-vascular **Bryophyta** $\rightarrow$ spore-bearing vascular **Pteridophyta** $\rightarrow$ naked-seeded **Gymnosperms** $\rightarrow$ fruit-bearing flowering **Angiosperms**.
+   - In **Kingdom Animalia**, invertebrates evolved from cellular-level **Porifera** $\rightarrow$ tissue-level diploblastic **Coelenterata** $\rightarrow$ triploblastic acoelomate **Platyhelminthes** $\rightarrow$ pseudocoelomate **Nemathelminthes** $\rightarrow$ true coelomate segmented **Annelida** $\rightarrow$ **Arthropoda**, **Mollusca** and **Echinodermata** $\rightarrow$ **Chordata**.
+   - Among **Vertebrates**, aquatic **Pisces** (2-chambered heart, gills) evolved into **Amphibia** (3-chambered heart, water-to-land transition) $\rightarrow$ **Reptilia** (fully terrestrial, shelled eggs) $\rightarrow$ warm-blooded **Aves** and **Mammalia** (4-chambered heart).
+2. **Common ancestry:** Organisms placed in the same taxonomic group share more homologous structures and DNA similarities because they diverged from a **recent common ancestor**. For example, Porifera, Annelida and Chordata represent sequential milestones along the animal evolutionary tree.
 
 ```photo id="sci10/rohu" caption="Rohu, a fish (class Pisces): the body is covered with scales and it breathes with gills." width="60"
 ```

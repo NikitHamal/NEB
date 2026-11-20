@@ -8,14 +8,15 @@
 - Fundamental and derived units and their analysis
 - Unit-wise analysis of equations and scientific investigation
 ## 2. Classification of Living Beings
-- Taxonomy and classification
-- five kingdoms
-- characteristics of Monera, Protista, Fungi, Plantae, Animalia
+- Five-kingdom classification and taxonomic hierarchy
+- Kingdom Plantae: Algae, Bryophyta and Tracheophyta (Pteridophyta, Gymnosperms and Angiosperms)
+- Kingdom Animalia: eight invertebrate phyla and Phylum Chordata (five classes of Vertebrata)
+- Relationship between classification and evolution
 ## 3. Honey Bee
-- Types of bees
-- life cycle
-- colony and division of labour
-- bee keeping and products
+- Types of honey bees, castes and external structure
+- Life cycle (egg, larva, pupa, adult), nuptial flight and parthenogenesis ($2n=32$, $n=16$)
+- Colony organisation, age-wise division of labour of worker bees and bee dances
+- Apiculture (bee keeping), honey, royal jelly, beeswax and pollination
 ## 4. Heredity
 - Mendel's experiments and laws of inheritance
 - Cell division (mitosis and meiosis), chromosomes, DNA, RNA and genes

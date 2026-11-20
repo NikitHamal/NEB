@@ -70,7 +70,7 @@
 - Exercises of the SEE type
 ## 12. Functions and Polynomials [G]
 - Relations: ordered pairs, domain and range
-- Functions: definition, vertical line test, values of a function
+- Functions: definition, vertical line test, algebraic and trigonometric functions ($\sin x, \cos x, \tan x$ graphs and periods)
 - Domain and range of a function; one-one, onto, constant and identity functions
 - Composite functions
 - Inverse functions and their graphs

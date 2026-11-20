@@ -61,34 +61,34 @@ fig, ax = barh_ranked(
 
 ## 2.2 Information and Communication Technology
 
-**Facts.** Hardware is physical, software is the set of instructions. Input: keyboard, mouse, scanner, microphone. Output: monitor, printer, speaker. The CPU has the ALU and the control unit. RAM is volatile, ROM is not. 1 KB = 1024 bytes. A search engine (Google) finds pages; a browser (Chrome, Firefox) displays them. A strong password is long and mixed.
+**Facts.** ICT tools: ATM (Automated Teller Machine), photocopier (uses xerography and electrostatic charge), scanner (hard copy $\rightarrow$ soft copy), printer (soft copy $\rightarrow$ hard copy), router (forwards data using IP addresses), Wi-Fi (radio waves), set-top box (decodes digital TV signal). Search engine (Google, Bing) finds web pages; browser (Chrome, Firefox) opens them; ISP (Nepal Telecom, WorldLink) provides internet access. Nepal's cyber law is the Electronic Transactions Act (ETA) 2063 BS. Robotics (Sophia, Jia Jia), Virtual Reality (VR headset), Artificial Intelligence (AI) and Cloud Computing are emerging technologies.
 
-1. Which of the following is an input device? <span class="marks">[1]</span>
+1. Which device converts a printed paper document (hard copy) into a digital file (soft copy)? <span class="marks">[1]</span>
    (a) printer (b) monitor (c) scanner (d) speaker
-2. The memory whose contents are lost when the power goes off is <span class="marks">[1]</span>
-   (a) ROM (b) RAM (c) hard disk (d) pen drive
-3. One kilobyte equals <span class="marks">[1]</span>
-   (a) 1000 bits (b) 1024 bytes (c) 100 bytes (d) 1024 bits
-4. The part of the CPU that performs calculations is the <span class="marks">[1]</span>
-   (a) control unit (b) arithmetic and logic unit (c) register (d) cache
-5. Which one is a web browser? <span class="marks">[1]</span>
-   (a) Google (b) Firefox (c) Windows (d) Excel
-6. A collection of related data stored so it can be searched is a <span class="marks">[1]</span>
-   (a) database (b) spreadsheet (c) browser (d) protocol
-7. The safest of these passwords is <span class="marks">[1]</span>
-   (a) 123456 (b) your own name (c) Sa#9rLm2!qd (d) password
-8. Sharing another person's photograph online without permission is <span class="marks">[1]</span>
-   (a) good digital citizenship (b) a violation of privacy (c) necessary for a project (d) harmless
+2. What does ATM stand for in banking? <span class="marks">[1]</span>
+   (a) Automatic Time Machine (b) Automated Teller Machine (c) Advanced Transfer Machine (d) Automated Token Machine
+3. Which device receives a digital signal, decodes it and displays television channels on a TV? <span class="marks">[1]</span>
+   (a) photocopier (b) set-top box (STB) (c) scanner (d) cash dispenser
+4. Which of the following is a search engine? <span class="marks">[1]</span>
+   (a) Google Chrome (b) Mozilla Firefox (c) Google (d) Microsoft Word
+5. A company that provides internet access to homes and offices (such as Nepal Telecom or WorldLink) is called an <span class="marks">[1]</span>
+   (a) URL (b) ISP (c) ATM (d) OCR
+6. Storing and accessing data and programs over remote internet servers instead of a local hard disk is called <span class="marks">[1]</span>
+   (a) xerography (b) cloud computing (c) virtual reality (d) photocopying
+7. Nepal's cyber law is the Electronic Transactions Act (ETA) enacted in <span class="marks">[1]</span>
+   (a) 2058 BS (b) 2063 BS (c) 2072 BS (d) 2080 BS
+8. Sharing another person's photograph online without permission or sending threatening messages online is an example of <span class="marks">[1]</span>
+   (a) computer ethics (b) cybercrime / cyberbullying (c) cloud storage (d) virtual reality
 
 ::: note Answers
-**1.** (c) — a scanner feeds data in; the other three put data out.
-**2.** (b) — RAM is volatile; ROM and storage keep their contents.
-**3.** (b) — 1 KB = $2^{10}$ = 1024 bytes.
-**4.** (b) — the ALU does arithmetic and logic; the control unit directs.
-**5.** (b) — Firefox is a browser; Google is a search engine.
-**6.** (a) — a database is organised for storage and retrieval.
-**7.** (c) — long, mixed-case, with digits and symbols, and not guessable.
-**8.** (b) — consent is required; this is a privacy violation.
+**1.** (c) — a scanner is an input device that turns hard copy into soft copy.
+**2.** (b) — Automated Teller Machine, used for 24-hour cash withdrawal and banking.
+**3.** (b) — a set-top box decodes cable/optical-fibre/satellite TV signals.
+**4.** (c) — Google is a search engine; Chrome and Firefox are web browsers.
+**5.** (b) — Internet Service Provider (ISP).
+**6.** (b) — cloud computing stores data on remote servers accessed via the internet.
+**7.** (b) — the Electronic Transactions Act (ETA), 2063 BS (2006 AD).
+**8.** (b) — it violates privacy and cyber law.
 :::
 
 ## 2.3 Living Beings and Their Structure
@@ -221,162 +221,162 @@ fig, ax = barh_ranked(
 
 ## 2.7 Energy in Daily Life
 
-**Facts.** Energy forms: mechanical (kinetic and potential), heat, light, sound, electrical, chemical, nuclear. Renewable: solar, hydro, wind, biogas; non-renewable: coal, petroleum, natural gas. Energy is neither created nor destroyed (conservation). Nepal's economically feasible hydropower is about 42,000 MW. Biogas is mainly methane. Heat travels by conduction, convection and radiation.
+**Facts.** Heat travels by conduction (solids), convection (liquids and gases, sea/land breeze) and radiation (no medium needed, electromagnetic waves). A thermos flask reduces heat loss by all three modes (vacuum stops conduction and convection; silvered walls reduce radiation). Concave mirrors converge light (real images except inside $F$; used in torches, headlights, shaving/dentist mirrors); convex mirrors diverge light (always virtual, erect, diminished image; used as rear-view mirrors in vehicles, $R = 2f$). Sound wave speed $v = f\lambda$: infrasound ($< 20\text{ Hz}$), audible sound ($20\text{ Hz}\text{–}20\text{ kHz}$), ultrasound ($> 20\text{ kHz}$); sound intensity is measured in decibel ($\text{dB}$).
 
-1. The energy stored in a stretched rubber band is <span class="marks">[1]</span>
-   (a) kinetic (b) potential (c) heat (d) chemical
-2. Which of these is a renewable source of energy? <span class="marks">[1]</span>
-   (a) coal (b) petroleum (c) biogas (d) natural gas
-3. The main constituent of biogas is <span class="marks">[1]</span>
-   (a) carbon dioxide (b) methane (c) hydrogen (d) butane
-4. Heat transfer through empty space happens by <span class="marks">[1]</span>
-   (a) conduction (b) convection (c) radiation (d) all three
-5. In a hydropower plant, the energy change is <span class="marks">[1]</span>
-   (a) electrical → mechanical → potential (b) potential → kinetic → electrical (c) chemical → heat → electrical (d) kinetic → chemical → electrical
-6. Economically feasible hydropower potential of Nepal is about <span class="marks">[1]</span>
-   (a) 4,200 MW (b) 42,000 MW (c) 83,000 MW (d) 100,000 MW
-7. The energy conversion in a torch cell lighting a bulb is <span class="marks">[1]</span>
-   (a) chemical → electrical → light (b) light → electrical → chemical (c) electrical → chemical → heat (d) heat → light → electrical
-8. Which is **not** a way of conserving energy at home? <span class="marks">[1]</span>
-   (a) using LED lamps (b) switching off idle appliances (c) leaving the refrigerator door open (d) cooking in a pressure cooker
+1. Heat transfer from the sun to the earth through empty space occurs by <span class="marks">[1]</span>
+   (a) conduction (b) convection (c) radiation (d) evaporation
+2. In a thermos flask, the vacuum between the double glass walls prevents heat transfer by <span class="marks">[1]</span>
+   (a) radiation only (b) conduction and convection (c) reflection (d) absorption
+3. Which mirror always forms a virtual, erect and diminished image and is used as a side rear-view mirror in vehicles? <span class="marks">[1]</span>
+   (a) plane mirror (b) concave mirror (c) convex mirror (d) parabolic mirror
+4. If the radius of curvature of a concave mirror is $30\text{ cm}$, its focal length is <span class="marks">[1]</span>
+   (a) $60\text{ cm}$ (b) $30\text{ cm}$ (c) $15\text{ cm}$ (d) $10\text{ cm}$
+5. Where is the image formed by a concave mirror when an object is placed at its centre of curvature ($C$)? <span class="marks">[1]</span>
+   (a) at $F$ (b) at $C$, real, inverted and same size (c) behind the mirror (d) beyond $C$
+6. What is the frequency range of audible sound for a normal human ear? <span class="marks">[1]</span>
+   (a) below $20\text{ Hz}$ (b) $20\text{ Hz}$ to $20\text{ kHz}$ (c) above $20\text{ kHz}$ (d) $1\text{ Hz}$ to $100\text{ Hz}$
+7. Sound waves of frequency greater than $20\text{ kHz}$ are called <span class="marks">[1]</span>
+   (a) infrasonic sound (b) ultrasonic sound (c) audible sound (d) supersonic wave
+8. The intensity (loudness level) of sound is measured in <span class="marks">[1]</span>
+   (a) hertz ($\text{Hz}$) (b) decibel ($\text{dB}$) (c) pascal ($\text{Pa}$) (d) dioptre ($\text{D}$)
 
 ::: note Answers
-**1.** (b) — elastic potential energy.
-**2.** (c) — biogas is produced continuously from waste.
-**3.** (b) — methane, about 50–70 %.
-**4.** (c) — radiation needs no medium.
-**5.** (b) — stored water → flowing water → generator.
-**6.** (b) — about 42,000 MW of roughly 83,000 MW theoretical.
-**7.** (a) — the cell's chemical energy becomes electrical, then light.
-**8.** (c) — it wastes energy by letting cold air out.
+**1.** (c) — radiation travels as electromagnetic waves without requiring a material medium.
+**2.** (b) — conduction and convection require a material medium and cannot cross a vacuum.
+**3.** (c) — a convex mirror gives an erect, diminished image with a wide field of view.
+**4.** (c) — $f = R/2 = 30/2 = 15\text{ cm}$.
+**5.** (b) — an object at $C$ forms a real, inverted image of the same size at $C$.
+**6.** (b) — $20\text{ Hz}$ to $20,000\text{ Hz}$ ($20\text{ kHz}$).
+**7.** (b) — ultrasound ($> 20\text{ kHz}$), used by bats, SONAR and ultrasonography.
+**8.** (b) — decibel ($\text{dB}$).
 :::
 
 ## 2.8 Electricity and Magnetism
 
-**Facts.** Like charges repel, unlike attract. Current is the flow of charge, in amperes; $I = Q/t$. Ohm's law: $V = IR$. In series, current is the same and resistances add; in parallel, voltage is the same. Power $P = VI$; energy in units (kWh) = kW × hours. A magnet has two poles; like poles repel. An electromagnet is a coil with a soft-iron core; its strength grows with current and number of turns. Earthing protects from shock; a fuse protects from overload.
+**Facts.** Lodestone (magnetite) is a natural magnet. Molecular theory of magnetism (Weber/Ewing): molecular magnets form closed chains in unmagnetised iron and open aligned chains in a magnet. Heating, hammering or dropping causes demagnetisation; soft-iron keepers preserve magnets. Terrestrial magnetism: the earth behaves like a giant magnet; angle of declination and angle of dip (inclination, $0^\circ$ at magnetic equator and $90^\circ$ at magnetic poles). Household wiring is in parallel; fuse and MCB (Miniature Circuit Breaker) are connected in the live (phase) wire; the longest, thickest pin of a 3-pin plug is the earth pin. Energy in units ($\text{kWh}$) $= P(\text{kW}) \times N \times t(\text{h})$.
 
-1. The SI unit of electric current is the <span class="marks">[1]</span>
-   (a) volt (b) ampere (c) ohm (d) watt
-2. By Ohm's law, the current through a 20 Ω resistor across 100 V is <span class="marks">[1]</span>
-   (a) 2 A (b) 5 A (c) 20 A (d) 0.2 A
-3. Two 6 Ω resistors joined in series give a total resistance of <span class="marks">[1]</span>
-   (a) 3 Ω (b) 6 Ω (c) 12 Ω (d) 36 Ω
-4. A 100 W bulb burning for 10 hours consumes <span class="marks">[1]</span>
-   (a) 0.1 unit (b) 1 unit (c) 10 units (d) 100 units
-5. The strength of an electromagnet can be increased by <span class="marks">[1]</span>
-   (a) decreasing the current (b) increasing the number of turns (c) using a steel core instead of soft iron (d) shortening the wire
-6. A fuse is connected in a circuit to <span class="marks">[1]</span>
-   (a) increase the current (b) break the circuit on overload (c) store charge (d) measure voltage
-7. The magnetic field of a bar magnet is strongest <span class="marks">[1]</span>
-   (a) at the middle (b) at the poles (c) everywhere equal (d) outside the field lines
-8. Earthing a metal appliance body is done to <span class="marks">[1]</span>
-   (a) save electricity (b) carry leakage current safely to the ground (c) increase the voltage (d) reduce the resistance
+1. According to the molecular theory of magnetism, in an unmagnetised iron bar the molecular magnets are arranged in <span class="marks">[1]</span>
+   (a) parallel open chains (b) random closed chains (c) a single straight line (d) only at the centre
+2. The angle between the magnetic meridian and geographical meridian at a place is called the <span class="marks">[1]</span>
+   (a) angle of dip (b) angle of declination (c) critical angle (d) angle of incidence
+3. What is the value of the angle of dip at the earth's magnetic poles? <span class="marks">[1]</span>
+   (a) $0^\circ$ (b) $45^\circ$ (c) $60^\circ$ (d) $90^\circ$
+4. Which of the following causes demagnetisation of a permanent magnet? <span class="marks">[1]</span>
+   (a) storing with soft-iron keepers (b) heating or hammering the magnet (c) keeping away from AC (d) coating with paint
+5. In household wiring, a fuse or MCB is always connected in the <span class="marks">[1]</span>
+   (a) neutral wire (b) earth wire (c) live (phase) wire (d) any wire
+6. What is the purpose of the longest and thickest top pin in a three-pin electrical plug? <span class="marks">[1]</span>
+   (a) to carry live current (b) to connect the appliance body to the earth wire for safety (c) to increase voltage (d) to act as a switch
+7. A $100\text{ W}$ bulb used for $10\text{ hours}$ consumes <span class="marks">[1]</span>
+   (a) $0.1\text{ unit}$ (b) $1\text{ unit}$ (c) $10\text{ units}$ (d) $100\text{ units}$
+8. Which modern safety device automatically trips a switch and can be reset without replacing a melted wire? <span class="marks">[1]</span>
+   (a) cartridge fuse (b) MCB (Miniature Circuit Breaker) (c) ammeter (d) voltmeter
 
 ::: note Answers
-**1.** (b) — the ampere.
-**2.** (b) — $I = V/R = 100/20 = 5$ A.
-**3.** (c) — in series, $R = 6+6 = 12$ Ω.
-**4.** (b) — $0.1\ \text{kW}\times10\ \text{h} = 1$ kWh = 1 unit.
-**5.** (b) — more turns (and more current, soft-iron core) strengthen it.
-**6.** (b) — the fuse wire melts and breaks the circuit.
-**7.** (b) — field lines are most concentrated at the poles.
-**8.** (b) — earthing gives leakage current a safe path.
+**1.** (b) — closed chains cancel each other's magnetic poles.
+**2.** (b) — angle of declination.
+**3.** (d) — a dip needle stands vertically ($90^\circ$) at the magnetic poles and horizontally ($0^\circ$) at the magnetic equator.
+**4.** (b) — heating, hammering or dropping disturbs the alignment of molecular magnets.
+**5.** (c) — the live (phase) wire, so the appliance is isolated from high potential when the circuit breaks.
+**6.** (b) — earthing carries any leakage current safely to the ground before the live pins make contact.
+**7.** (b) — $0.1\text{ kW} \times 10\text{ h} = 1\text{ kWh} = 1\text{ unit}$.
+**8.** (b) — MCB (Miniature Circuit Breaker).
 :::
 
 ## 2.9 Matter
 
-**Facts.** Matter exists as solid, liquid and gas; change of state is physical. Atom: protons and neutrons in the nucleus, electrons outside. Atomic number = number of protons; mass number = protons + neutrons. Element → one kind of atom; compound → fixed ratio, chemical bond; mixture → any ratio, separable physically. Acids turn blue litmus red; bases turn red litmus blue; pH below 7 is acidic, 7 neutral, above 7 basic. Metals conduct; non-metals (except graphite) do not.
+**Facts.** Atom: positively charged protons ($p^+$) and neutral neutrons ($n^0$) in the central nucleus; negatively charged electrons ($e^-$) revolve in shells $K, L, M, N$. Maximum electrons in the $n$-th shell $= 2n^2$ ($K=2, L=8, M=18, N=32$). Valence electrons are electrons in the outermost shell; valency is combining capacity. Molecular formula is written by the criss-cross method. Modern Periodic Law (Moseley): properties of elements are a periodic function of their atomic numbers ($18$ groups, $7$ periods). Word equations and balanced chemical equations obey conservation of mass.
 
-1. The particle that carries no charge is the <span class="marks">[1]</span>
-   (a) proton (b) electron (c) neutron (d) ion
-2. An atom has 11 protons and 12 neutrons. Its mass number is <span class="marks">[1]</span>
-   (a) 11 (b) 12 (c) 23 (d) 1
-3. Which of these is a compound? <span class="marks">[1]</span>
-   (a) air (b) water (c) brass (d) soil
-4. A solution of pH 3 is <span class="marks">[1]</span>
-   (a) strongly basic (b) weakly basic (c) acidic (d) neutral
-5. A base turns red litmus <span class="marks">[1]</span>
-   (a) blue (b) colourless (c) yellow (d) no change
-6. Which non-metal conducts electricity? <span class="marks">[1]</span>
-   (a) sulphur (b) graphite (c) phosphorus (d) iodine
-7. Sublimation is the change from <span class="marks">[1]</span>
-   (a) solid to liquid (b) liquid to gas (c) solid directly to gas (d) gas to liquid
-8. Common salt can be recovered from salt water by <span class="marks">[1]</span>
-   (a) filtration (b) evaporation (c) decantation (d) magnetic separation
+1. Which sub-atomic particle is electrically neutral (chargeless) and located in the nucleus? <span class="marks">[1]</span>
+   (a) proton (b) electron (c) neutron (d) positron
+2. According to the $2n^2$ rule, what is the maximum number of electrons that can be accommodated in the $M$-shell ($n = 3$)? <span class="marks">[1]</span>
+   (a) 2 (b) 8 (c) 18 (d) 32
+3. What is the electronic configuration and valency of Magnesium ($Z = 12$)? <span class="marks">[1]</span>
+   (a) $2, 8, 1$ and valency $1$ (b) $2, 8, 2$ and valency $2$ (c) $2, 8, 3$ and valency $3$ (d) $2, 6$ and valency $2$
+4. By the criss-cross method, the molecular formula of calcium chloride ($\text{Ca}$ valency $2$, $\text{Cl}$ valency $1$) is <span class="marks">[1]</span>
+   (a) $\text{CaCl}$ (b) $\text{Ca}_2\text{Cl}$ (c) $\text{CaCl}_2$ (d) $\text{Ca}_2\text{Cl}_2$
+5. What is the molecular weight of water ($\text{H}_2\text{O}$), given $\text{H} = 1\text{ amu}$ and $\text{O} = 16\text{ amu}$? <span class="marks">[1]</span>
+   (a) $17\text{ amu}$ (b) $18\text{ amu}$ (c) $20\text{ amu}$ (d) $32\text{ amu}$
+6. The modern periodic table developed by Henry Moseley is based on increasing <span class="marks">[1]</span>
+   (a) atomic weight (b) atomic number (c) neutron number (d) valency
+7. How many vertical groups and horizontal periods are there in the modern periodic table? <span class="marks">[1]</span>
+   (a) 8 groups, 7 periods (b) 18 groups, 7 periods (c) 7 groups, 18 periods (d) 16 groups, 8 periods
+8. As we move from top to bottom down a group in the periodic table, the number of shells and atomic size <span class="marks">[1]</span>
+   (a) decrease (b) remain constant (c) increase (d) become zero
 
 ::: note Answers
-**1.** (c) — the neutron is neutral.
-**2.** (c) — $11 + 12 = 23$.
-**3.** (b) — water has a fixed 2:1 ratio of hydrogen to oxygen, chemically bonded.
-**4.** (c) — pH below 7 is acidic.
-**5.** (a) — bases turn red litmus blue.
-**6.** (b) — graphite, because of its free electrons.
-**7.** (c) — solid to gas without melting, as in camphor.
-**8.** (b) — the water evaporates and leaves the salt.
+**1.** (c) — the neutron has no charge ($0$) and mass $1\text{ amu}$.
+**2.** (c) — $2n^2 = 2 \times 3^2 = 18$ electrons.
+**3.** (b) — $K=2, L=8, M=2$; it loses $2$ valence electrons so valency is $2$.
+**4.** (c) — exchanging valencies $2$ and $1$ gives $\text{CaCl}_2$.
+**5.** (b) — $2 \times 1 + 16 = 18\text{ amu}$.
+**6.** (b) — atomic number (number of protons).
+**7.** (b) — $18$ groups and $7$ periods.
+**8.** (c) — a new shell is added at each step down a group, increasing atomic size.
 :::
 
 ## 2.10 Materials Used in Daily Life
 
-**Facts.** Metals: lustrous, malleable, ductile, good conductors. Alloys: brass (copper + zinc), bronze (copper + tin), steel (iron + carbon), stainless steel (iron, chromium, nickel). Rusting needs oxygen and moisture; prevented by painting, oiling, galvanising. Soap and detergent remove dirt because one end of the molecule holds water and the other holds oil. Plastics are polymers; most are non-biodegradable. Cement, bricks, glass, paper and fertiliser are all manufactured materials.
+**Facts.** Acids give $\text{H}^+$ ions in water, taste sour, turn blue litmus red and methyl orange red; bases give $\text{OH}^-$ ions, taste bitter, turn red litmus blue, methyl orange yellow and phenolphthalein pink. Acid + Base $\rightarrow$ Salt + Water (neutralisation). Acid rain is caused by $\text{SO}_2$ and $\text{NO}_2$ dissolving in rain water to form $\text{H}_2\text{SO}_4$ and $\text{HNO}_3$. Temporary hardness of water is due to bicarbonates of $\text{Ca}$ and $\text{Mg}$ (removed by boiling or Clark's lime method); permanent hardness is due to chlorides and sulphates of $\text{Ca}$ and $\text{Mg}$ (removed by washing soda $\text{Na}_2\text{CO}_3$ or permutit). Alloys: brass ($\text{Cu} + \text{Zn}$), bronze ($\text{Cu} + \text{Sn}$), steel ($\text{Fe} + \text{C}$), stainless steel ($\text{Fe} + \text{Cr} + \text{Ni} + \text{C}$).
 
-1. Brass is an alloy of copper and <span class="marks">[1]</span>
-   (a) tin (b) zinc (c) nickel (d) carbon
-2. Rusting of iron requires <span class="marks">[1]</span>
-   (a) oxygen only (b) moisture only (c) both oxygen and moisture (d) carbon dioxide and moisture
-3. Coating iron with zinc to prevent rusting is called <span class="marks">[1]</span>
-   (a) galvanising (b) electroplating with tin (c) annealing (d) tempering
-4. Which property makes copper suitable for electric wires? <span class="marks">[1]</span>
-   (a) brittleness (b) low density (c) high electrical conductivity (d) magnetism
-5. Most plastics are harmful to the environment because they are <span class="marks">[1]</span>
-   (a) expensive (b) non-biodegradable (c) heavy (d) good conductors
-6. The main raw material of cement is <span class="marks">[1]</span>
-   (a) limestone (b) bauxite (c) gypsum only (d) silica sand only
-7. Stainless steel resists rusting because of the presence of <span class="marks">[1]</span>
-   (a) carbon (b) chromium (c) lead (d) zinc
-8. Detergent cleans greasy cloth because its molecule has <span class="marks">[1]</span>
-   (a) only a water-loving end (b) only an oil-loving end (c) a water-loving and an oil-loving end (d) neither end
+1. What colour does methyl orange indicator show in an acidic solution? <span class="marks">[1]</span>
+   (a) yellow (b) red (pinkish-red) (c) blue (d) colourless
+2. Which gases are the main causes of acid rain? <span class="marks">[1]</span>
+   (a) $\text{O}_2$ and $\text{N}_2$ (b) $\text{SO}_2$ and $\text{NO}_2$ (along with $\text{CO}_2$) (c) $\text{H}_2$ and $\text{He}$ (d) $\text{NH}_3$ and $\text{CH}_4$
+3. Temporary hardness of water is caused by dissolved <span class="marks">[1]</span>
+   (a) chlorides of $\text{Ca}$ and $\text{Mg}$ (b) sulphates of $\text{Ca}$ and $\text{Mg}$ (c) bicarbonates of $\text{Ca}$ and $\text{Mg}$ (d) sodium chloride
+4. Which method can remove **both** temporary and permanent hardness of water? <span class="marks">[1]</span>
+   (a) boiling only (b) adding washing soda ($\text{Na}_2\text{CO}_3$) or permutit process (c) filtration through cloth (d) decantation
+5. Brass is an alloy of <span class="marks">[1]</span>
+   (a) copper and tin (b) copper and zinc (c) iron and carbon (d) copper and aluminium
+6. Bronze (used for statues, medals and bells) is an alloy of <span class="marks">[1]</span>
+   (a) copper and tin (b) copper and zinc (c) iron and nickel (d) lead and tin
+7. Which elements are mixed with iron and carbon to make rust-resistant stainless steel? <span class="marks">[1]</span>
+   (a) chromium and nickel (b) zinc and lead (c) tin and silver (d) sulphur and phosphorus
+8. Which acid is present in vinegar and lemon juice respectively? <span class="marks">[1]</span>
+   (a) hydrochloric acid and nitric acid (b) acetic acid and citric acid (c) sulphuric acid and carbonic acid (d) lactic acid and formic acid
 
 ::: note Answers
-**1.** (b) — copper and zinc.
-**2.** (c) — both are needed; dry air alone does not rust iron.
-**3.** (a) — galvanising is a zinc coating.
-**4.** (c) — copper conducts electricity very well and is ductile.
-**5.** (b) — they persist in soil and water for centuries.
-**6.** (a) — limestone, with clay and gypsum.
-**7.** (b) — chromium forms a protective oxide layer.
-**8.** (c) — one end holds water, the other holds grease.
+**1.** (b) — methyl orange turns red in acid and yellow in base.
+**2.** (b) — $\text{SO}_2$ and $\text{NO}_2$ form sulphuric and nitric acids in rainwater.
+**3.** (c) — calcium bicarbonate $\text{Ca(HCO}_3)_2$ and magnesium bicarbonate $\text{Mg(HCO}_3)_2$.
+**4.** (b) — washing soda and permutit precipitate or exchange $\text{Ca}^{2+}$ and $\text{Mg}^{2+}$ ions from both bicarbonates and chlorides/sulphates.
+**5.** (b) — copper ($\text{Cu}$) + zinc ($\text{Zn}$).
+**6.** (a) — copper ($\text{Cu}$) + tin ($\text{Sn}$).
+**7.** (a) — chromium ($\text{Cr}$) and nickel ($\text{Ni}$).
+**8.** (b) — vinegar contains acetic acid and citrus fruits contain citric acid.
 :::
 
 ## 2.11 The Earth and Universe
 
-**Facts.** The solar system has eight planets; Mercury is nearest the sun, Jupiter is the largest. The earth rotates in about 24 hours (day and night) and revolves in about 365¼ days (seasons). The earth's axis is tilted about 23.5°. The moon is the earth's natural satellite; a solar eclipse happens at new moon when the moon comes between the sun and the earth, and a lunar eclipse at full moon when the earth comes between them. Layers of the earth: crust, mantle, core. Nepal lies in a seismically active zone where the Indian plate pushes under the Eurasian plate.
+**Facts.** Minerals are naturally occurring homogeneous solids with definite chemical composition (metallic, non-metallic, energy minerals). Iron ore in Nepal: Phulchoki (Lalitpur) and Thoshe (Ramechhap); limestone: Udayapur, Chobhar. Origin of earth hypotheses: Nebular (Kant–Laplace), Planetesimal, Tidal (Jeans–Jeffreys). Geological eras: Precambrian, Palaeozoic (fishes, amphibians, ferns), Mesozoic (age of reptiles/dinosaurs), Cenozoic (age of mammals, humans and angiosperms). Big Bang theory explains the origin and expansion of the universe. Minor bodies: asteroids (mostly between Mars and Jupiter), comets (icy nucleus, coma, tail pointing away from sun), meteoroids $\rightarrow$ meteors (shooting stars) $\rightarrow$ meteorites.
 
-1. The largest planet of the solar system is <span class="marks">[1]</span>
-   (a) Earth (b) Saturn (c) Jupiter (d) Neptune
-2. Day and night are caused by the earth's <span class="marks">[1]</span>
-   (a) revolution (b) rotation (c) tilt (d) orbit shape
-3. The tilt of the earth's axis is about <span class="marks">[1]</span>
-   (a) 0° (b) 15° (c) 23.5° (d) 45°
-4. A solar eclipse occurs when <span class="marks">[1]</span>
-   (a) the earth is between the sun and the moon (b) the moon is between the sun and the earth (c) the sun is between the earth and the moon (d) the moon is full
-5. The outermost layer of the earth is the <span class="marks">[1]</span>
-   (a) core (b) mantle (c) crust (d) atmosphere
-6. Earthquakes are frequent in Nepal because <span class="marks">[1]</span>
-   (a) it is landlocked (b) the Indian plate pushes under the Eurasian plate (c) it has many rivers (d) it has high rainfall
-7. A natural satellite of the earth is <span class="marks">[1]</span>
-   (a) the sun (b) the moon (c) Mars (d) a communication satellite
-8. Seasons on the earth are caused mainly by <span class="marks">[1]</span>
-   (a) rotation (b) the axial tilt together with revolution (c) distance from the moon (d) changing size of the sun
+1. Where is the famous Phulchoki iron ore deposit located in Nepal? <span class="marks">[1]</span>
+   (a) Ramechhap (b) Lalitpur (c) Udayapur (d) Mustang
+2. Which geological era is known as the "Age of Reptiles (Dinosaurs)"? <span class="marks">[1]</span>
+   (a) Precambrian era (b) Palaeozoic era (c) Mesozoic era (d) Cenozoic era
+3. Human beings (*Homo sapiens*) and modern mammals evolved in the <span class="marks">[1]</span>
+   (a) Precambrian era (b) Palaeozoic era (c) Mesozoic era (d) Cenozoic era
+4. The asteroid belt in our solar system lies mainly between the orbits of <span class="marks">[1]</span>
+   (a) Earth and Mars (b) Mars and Jupiter (c) Jupiter and Saturn (d) Venus and Earth
+5. Which part of a comet always points away from the sun due to solar wind and radiation pressure? <span class="marks">[1]</span>
+   (a) nucleus (b) coma (c) tail (d) core
+6. A fragment of rock from space that survives burning in the atmosphere and hits the earth's surface is called a <span class="marks">[1]</span>
+   (a) meteoroid (b) meteor (shooting star) (c) meteorite (d) comet
+7. Which theory is the most widely accepted scientific explanation for the origin of the universe? <span class="marks">[1]</span>
+   (a) Tidal hypothesis (b) Nebular hypothesis (c) Big Bang theory (d) Steady state theory
+8. Which non-metallic mineral is the main raw material used in Udayapur and Hetauda cement factories? <span class="marks">[1]</span>
+   (a) haematite (b) limestone (c) graphite (d) galena
 
 ::: note Answers
-**1.** (c) — Jupiter.
-**2.** (b) — rotation about its own axis, in about 24 hours.
-**3.** (c) — about 23.5° to the orbital plane.
-**4.** (b) — the moon blocks sunlight, at new moon.
-**5.** (c) — the crust; the atmosphere is not a layer of the solid earth.
-**6.** (b) — the collision of the two plates builds up strain.
-**7.** (b) — the moon.
-**8.** (b) — the tilt changes how steeply sunlight falls through the year.
+**1.** (b) — Phulchoki is in Lalitpur district (Thoshe is in Ramechhap).
+**2.** (c) — dinosaurs originated, dominated and went extinct in the Mesozoic era.
+**3.** (d) — Cenozoic era (the current geological era).
+**4.** (b) — between Mars and Jupiter.
+**5.** (c) — the comet's tail is blown away from the sun by solar wind.
+**6.** (c) — meteorite (in space: meteoroid; bright streak in air: meteor).
+**7.** (c) — the Big Bang theory.
+**8.** (b) — limestone ($\text{CaCO}_3$).
 :::
 
 ::: tip Scoring all ten

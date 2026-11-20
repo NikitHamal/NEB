@@ -33,21 +33,24 @@ They are not model essays to memorise. They are the points that earn the marks: 
 
 ## 3.2 Information and Communication Technology
 
-**1. Differentiate between hardware and software with one example each.** <span class="marks">[2]</span>
+**1. Differentiate between a scanner and a printer with one example of each.** <span class="marks">[2]</span>
 
-> Hardware is the physical part of a computer that can be touched (keyboard); software is the set of instructions that tells the hardware what to do (a word processor). Hardware wears out; software does not, though it can be replaced or updated.
+> A **scanner** is an input device that converts a printed paper document or picture (hard copy) into a digital file (soft copy) inside a computer (e.g. flatbed scanner). A **printer** is an output device that converts a digital file (soft copy) from a computer into printed text or pictures on paper (hard copy) (e.g. laser or ink-jet printer).
 
-**2. Write any two differences between RAM and ROM.** <span class="marks">[2]</span>
+**2. Differentiate between a search engine and a web browser with two examples of each.** <span class="marks">[2]</span>
 
-> RAM is volatile — its contents vanish when the power goes — while ROM keeps its contents. RAM is read and written during work; ROM is normally only read, and holds the start-up instructions.
+> A **search engine** is a web-based software system that searches the internet for keywords and returns a list of matching web pages (e.g. Google, Bing). A **web browser** is an application program installed on a device used to open and display websites and web pages (e.g. Google Chrome, Mozilla Firefox).
 
-**3. Mention any four rules of safe and respectful use of the internet.** <span class="marks">[4]</span>
+**3. Mention any four precautions to follow for safe and ethical use of social media and the internet (computer code of conduct).** <span class="marks">[4]</span>
 
-> (i) Keep a long, mixed password and never share it. (ii) Do not post personal details — address, school, phone number — or another person's photograph without permission. (iii) Do not open links or attachments from strangers; they may carry malware. (iv) Report bullying or threatening messages to a parent or teacher instead of replying; verify information before forwarding it.
+> (i) Use a strong, mixed password (letters, digits, symbols), enable two-factor authentication, and never share your PIN or OTP with anyone. (ii) Do not post personal details or share another person's photograph/video without their consent. (iii) Never click suspicious links or attachments (phishing/malware) and always log out of public computers or ATMs after use. (iv) Respect cyber law (Nepal's Electronic Transactions Act 2063 BS), avoid cyberbullying or spreading fake news, and report online harassment immediately.
 
-**4. Explain the four functional units of a computer with a block diagram in words.** <span class="marks">[4]</span>
+**4. What are Artificial Intelligence (AI), Virtual Reality (VR), Robotics and Cloud Computing? Write one practical use of each.** <span class="marks">[4]</span>
 
-> **Input unit** takes data in (keyboard, mouse, scanner). **Memory unit** stores data and instructions (RAM and storage). **Central processing unit** processes: the arithmetic and logic unit calculates and compares, the control unit directs the other units. **Output unit** presents the result (monitor, printer). Data flows input → memory → CPU → memory → output, with the control unit supervising every step.
+> - **Artificial Intelligence (AI):** computer systems capable of performing tasks that normally require human intelligence such as speech recognition, medical diagnosis and voice assistants (Siri, chatbots).
+> - **Virtual Reality (VR):** a computer-generated 3D simulated environment experienced through a VR headset, used for flight/surgical training and virtual tours.
+> - **Robotics:** the branch of technology that designs programmable automatic machines (**robots**, such as humanoid robot Sophia) used in industrial manufacturing, hazardous mining and space exploration.
+> - **Cloud Computing:** storing and processing data on remote internet servers (such as Google Drive or iCloud) so files can be backed up and accessed from anywhere.
 
 ## 3.3 Living Beings and Their Structure
 
@@ -123,93 +126,105 @@ They are not model essays to memorise. They are the points that earn the marks: 
 
 ## 3.7 Energy in Daily Life
 
-**1. Write any two differences between renewable and non-renewable sources of energy.** <span class="marks">[2]</span>
+**1. Explain how a thermos (vacuum) flask keeps hot liquids hot and cold liquids cold for a long time.** <span class="marks">[2]</span>
 
-> Renewable sources are replaced naturally and do not run out — solar, hydro, wind, biogas — and they pollute little. Non-renewable sources exist in a fixed store that is being used up — coal, petroleum, natural gas — and burning them pollutes the air.
+> A thermos flask has a double-walled glass vessel with a **vacuum** between the walls (which stops heat transfer by **conduction and convection**), **silvered mirror surfaces** on the walls (which reflect heat and minimise **radiation**), and an insulating **cork/plastic stopper** and support.
 
-**2. State the law of conservation of energy with one example.** <span class="marks">[2]</span>
+**2. Differentiate between a concave mirror and a convex mirror (any two points) and state why a convex mirror is used as a rear-view mirror in vehicles.** <span class="marks">[2]</span>
 
-> Energy can neither be created nor destroyed; it only changes from one form to another, the total remaining the same. In a hydropower plant the potential energy of stored water becomes the kinetic energy of flowing water, and then electrical energy in the generator.
+> A **concave mirror** has an inward-curved reflecting surface and converges parallel rays to a real focus (forming real or magnified virtual images). A **convex mirror** has an outward-bulging reflecting surface and diverges parallel rays from a virtual focus. A convex mirror is used as a rear-view mirror because it **always forms an erect, diminished virtual image** and provides a **much wider field of view** of traffic behind.
 
-**3. Why should Nepal develop hydropower? Give any four reasons.** <span class="marks">[4]</span>
+**3. Differentiate among infrasonic, audible and ultrasonic sounds with examples. A sound wave has frequency $500\text{ Hz}$ and wavelength $0.68\text{ m}$; find its speed.** <span class="marks">[4]</span>
 
-> (i) The natural resource is already there: steep rivers and a large fall, with about 42,000 MW economically feasible. (ii) It is renewable and clean, so it replaces imported fossil fuel and cuts pollution. (iii) It saves foreign currency spent on petroleum and can earn currency by exporting electricity. (iv) Cheap electricity runs industry, irrigation, railways and electric cooking, creating employment and reducing the use of firewood.
+> - **Infrasonic sound (infrasound):** frequency below $20\text{ Hz}$ (cannot be heard by humans; produced by earthquakes, elephants, whales).
+> - **Audible sound:** frequency between $20\text{ Hz}$ and $20\text{ kHz}$ ($20,000\text{ Hz}$), which the human ear can detect.
+> - **Ultrasonic sound (ultrasound):** frequency above $20\text{ kHz}$ (produced by bats, dolphins, SONAR and medical ultrasound scanners).
+> - **Calculation:** Speed of sound $v = f \times \lambda = 500 \times 0.68 = \mathbf{340\text{ m/s}}$.
 
-**4. Explain any four ways of saving energy in the home.** <span class="marks">[4]</span>
+**4. What is the greenhouse effect? Write any two causes and two control measures of sound (noise) pollution.** <span class="marks">[4]</span>
 
-> (i) Replace filament lamps with **LED lamps**, which give the same light for about a tenth of the power. (ii) **Switch off** lights, fans and chargers that are not in use; many appliances draw power on standby. (iii) Cook in a **pressure cooker** with a lid on, and use an induction stove or improved stove instead of an open fire. (iv) Use **daylight** and natural ventilation, service appliances, and dry clothes in the sun rather than in a machine.
+> The **greenhouse effect** is the trapping of solar infrared heat radiation by greenhouse gases ($\text{CO}_2, \text{CH}_4, \text{N}_2\text{O}$, water vapour) in the earth's atmosphere or inside a glass/plastic greenhouse, keeping the interior warm. **Causes of noise pollution:** loud vehicle horns and engines, industrial machinery, loudspeakers and construction work. **Control measures:** plant green belt trees along roads, ban pressure horns near schools/hospitals, use silencers and sound-absorbing materials in factories.
 
 ## 3.8 Electricity and Magnetism
 
-**1. State Ohm's law and write its limitation.** <span class="marks">[2]</span>
+**1. State two main postulates of the molecular theory of magnetism. Why does heating or hammering a magnet demagnetise it?** <span class="marks">[2]</span>
 
-> At constant temperature, the current through a conductor is directly proportional to the potential difference across it: $V = IR$. It holds only for metallic conductors at constant temperature; it does not apply to semiconductor devices or to a filament whose temperature changes.
+> (i) Every magnetic substance consists of tiny **molecular magnets**, each having N and S poles. (ii) In an unmagnetised bar they form random **closed chains**, whereas in a magnetised bar they align in parallel **open chains**. Heating or hammering increases molecular vibration and breaks the parallel alignment back into closed chains, causing **demagnetisation**.
 
-**2. Two resistors of 4 Ω and 6 Ω are joined in series across a 20 V supply. Find the current.** <span class="marks">[2]</span>
+**2. What is terrestrial magnetism? Why is the earth pin in a three-pin plug made longer and thicker than the other two pins?** <span class="marks">[2]</span>
 
-> $R = 4 + 6 = 10$ Ω; $I = \frac{V}{R} = \frac{20}{10} = 2$ A.
+> **Terrestrial magnetism** is the natural magnetic field of the earth, which behaves like a huge bar magnet whose magnetic south pole lies near the geographical north. The **earth pin** in a 3-pin plug is **longer** so that it makes contact first (earthing the appliance before live current enters) and disconnects last, and **thicker** so it has low resistance for fault current and cannot be accidentally inserted into the live hole.
 
-**3. A house uses four 60 W bulbs for 5 hours and a 1,000 W heater for 2 hours each day. Find the daily consumption in units and the monthly bill at Rs 10 per unit for 30 days.** <span class="marks">[4]</span>
+**3. A house uses four $60\text{ W}$ bulbs for $5\text{ hours}$ and a $1,000\text{ W}$ heater for $2\text{ hours}$ each day. Find the daily consumption in units and the monthly bill at Rs $10$ per unit for $30\text{ days}$.** <span class="marks">[4]</span>
 
-> Bulbs: $4\times60 = 240$ W $= 0.24$ kW, for 5 h $= 1.2$ kWh. Heater: $1$ kW for 2 h $= 2$ kWh. Daily total $= 3.2$ units. Monthly $= 3.2\times30 = 96$ units; bill $= 96\times10 =$ **Rs 960**.
+> Bulbs: $4\times60 = 240\text{ W} = 0.24\text{ kW}$, for $5\text{ h} = 1.2\text{ kWh}$. Heater: $1\text{ kW}$ for $2\text{ h} = 2\text{ kWh}$. Daily total $= 3.2\text{ units}$. Monthly $= 3.2\times30 = 96\text{ units}$; bill $= 96\times10 =$ **Rs 960**.
 
-**4. What is an electromagnet? Write how its strength can be increased and mention two of its uses.** <span class="marks">[4]</span>
+**4. Differentiate between a fuse and an MCB (Miniature Circuit Breaker). Explain the roles of the live (phase), neutral and earth wires in domestic wiring.** <span class="marks">[4]</span>
 
-> An electromagnet is a temporary magnet made by winding an insulated coil round a soft-iron core and passing a current through it; the magnetism lasts only while the current flows. Its strength increases with a larger current, more turns in the coil, and a soft-iron core of larger cross-section. Uses: lifting scrap iron in a crane and separating iron from waste; and in electric bells, relays, loudspeakers and electric motors.
+> A **fuse** is a thin low-melting-point wire (tin-lead alloy) that melts and must be replaced after an overload/short circuit; an **MCB** is an automatic electromagnetic switch that trips off on overload and can simply be switched back ON. **Live (phase) wire (red/brown):** carries current at $220\text{ V}$ from the mains to the appliance (switches and fuses are placed here). **Neutral wire (black/blue):** completes the return path at $0\text{ V}$. **Earth wire (green/yellow):** connects the metal casing of an appliance to the ground to prevent electric shock from leakage current.
 
 ## 3.9 Matter
 
-**1. Write any two differences between a compound and a mixture.** <span class="marks">[2]</span>
+**1. An element has atomic number $19$ and mass number $39$. Find its protons, electrons, neutrons, shell electronic configuration ($2n^2$ rule) and valency.** <span class="marks">[2]</span>
 
-> In a compound the elements combine chemically in a fixed ratio by mass and the product has new properties — water, for example. In a mixture the substances are merely mixed in any ratio, keep their own properties and can be separated by physical means — air, for example.
+> Protons $= 19$, electrons $= 19$, neutrons $= 39 - 19 = 20$. Shell electronic configuration ($K, L, M, N$): **$2, 8, 8, 1$** (Potassium, $\text{K}$). Since it has $1$ valence electron in its outermost shell, its **valency is $1$**.
 
-**2. An atom has an atomic number of 17 and a mass number of 35. Write the number of its protons, neutrons and electrons.** <span class="marks">[2]</span>
+**2. Write the molecular formulae of (i) magnesium chloride and (ii) aluminium oxide by the criss-cross method, and find the molecular weight of $\text{CaCO}_3$ ($\text{Ca}=40, \text{C}=12, \text{O}=16$).** <span class="marks">[2]</span>
 
-> Protons = atomic number = 17. Electrons = 17 (neutral atom). Neutrons = $35 - 17 = 18$.
+> (i) $\text{Mg}$ (valency $2$) and $\text{Cl}$ (valency $1$) $\rightarrow \mathbf{\text{MgCl}_2}$. (ii) $\text{Al}$ (valency $3$) and $\text{O}$ (valency $2$) $\rightarrow \mathbf{\text{Al}_2\text{O}_3}$. Molecular weight of $\text{CaCO}_3 = 40 + 12 + (3 \times 16) = 40 + 12 + 48 = \mathbf{100\text{ amu}}$.
 
-**3. What are acids and bases? Write two properties of each.** <span class="marks">[4]</span>
+**3. State the Modern Periodic Law. How do (i) number of shells, (ii) atomic size, (iii) valency and (iv) metallic character vary across a period and down a group?** <span class="marks">[4]</span>
 
-> An **acid** gives hydrogen ions in water: it tastes sour, turns blue litmus red, has pH below 7 and reacts with an active metal to give hydrogen. A **base** gives hydroxide ions in water: it tastes bitter and feels soapy, turns red litmus blue, has pH above 7 and neutralises an acid to give a salt and water.
+> **Modern Periodic Law (Moseley):** The physical and chemical properties of elements are a periodic function of their **atomic numbers**. (i) **Number of shells:** remains the same across a period, increases by one down a group. (ii) **Atomic size:** decreases left to right across a period (greater nuclear pull), increases down a group (new shell added). (iii) **Valency:** remains the same in a group; across a period increases from $1$ to $4$ then decreases from $3$ to $0$. (iv) **Metallic character:** decreases across a period, increases down a group.
 
-**4. Describe how you would separate (i) sand from water, (ii) salt from salt water, (iii) iron filings from sawdust, (iv) kerosene from water.** <span class="marks">[4]</span>
+**4. Convert the following word equations into balanced chemical equations:** <span class="marks">[4]</span>
+**(a) Hydrogen + Oxygen $\rightarrow$ Water**
+**(b) Zinc + Dilute hydrochloric acid $\rightarrow$ Zinc chloride + Hydrogen**
 
-> (i) **Filtration** — sand stays on the filter paper. (ii) **Evaporation** — heat the solution and the water leaves as vapour, the salt remaining. (iii) **Magnetic separation** — a magnet attracts the iron filings only. (iv) **Decantation with a separating funnel** — kerosene and water do not mix and form two layers; run off the lower layer.
+> (a) $\mathbf{2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}}$
+> (b) $\mathbf{\text{Zn} + 2\text{HCl} \rightarrow \text{ZnCl}_2 + \text{H}_2\uparrow}$
 
 ## 3.10 Materials Used in Daily Life
 
-**1. What is an alloy? Write the composition and one use of brass.** <span class="marks">[2]</span>
+**1. Differentiate between temporary hardness and permanent hardness of water, and write one method to remove each.** <span class="marks">[2]</span>
 
-> An alloy is a homogeneous mixture of a metal with one or more other metals or non-metals, made to improve its properties. Brass is copper with zinc; it is used for utensils, taps, locks and musical instruments because it is hard and does not corrode easily.
+> **Temporary hardness** is caused by dissolved **bicarbonates** of calcium and magnesium ($\text{Ca(HCO}_3)_2, \text{Mg(HCO}_3)_2$) and can be removed by **boiling** or **Clark's method** (adding slaked lime). **Permanent hardness** is caused by dissolved **chlorides and sulphates** of calcium and magnesium ($\text{CaCl}_2, \text{CaSO}_4, \text{MgCl}_2, \text{MgSO}_4$) and is removed by adding **washing soda ($\text{Na}_2\text{CO}_3$)** or by the **permutit (zeolite) process**.
 
-**2. Why does iron rust? Write any two methods of preventing rusting.** <span class="marks">[2]</span>
+**2. What is an alloy? Write the constituent elements and one daily-life use of brass, bronze and stainless steel.** <span class="marks">[2]</span>
 
-> Iron rusts when it is in contact with both oxygen and moisture, forming hydrated iron oxide. Prevention: coat the surface with paint, grease or oil so that air and water cannot reach it; or galvanise it with a layer of zinc (also electroplating, or using stainless steel).
+> An **alloy** is a homogeneous mixture of a metal with one or more other metals or non-metals made to improve hardness, strength and corrosion resistance. **Brass ($\text{Cu} + \text{Zn}$):** utensils, taps, locks. **Bronze ($\text{Cu} + \text{Sn}$):** statues, medals, temple bells. **Stainless steel ($\text{Fe} + \text{Cr} + \text{Ni} + \text{C}$):** surgical instruments and kitchen cutlery.
 
-**3. Write any four harmful effects of plastic and any four measures to reduce them.** <span class="marks">[4]</span>
+**3. What are acids, bases and salts? Give the colour changes of litmus, methyl orange and phenolphthalein in acidic and basic solutions.** <span class="marks">[4]</span>
 
-> **Harm:** it is non-biodegradable and stays in soil for centuries; burning it releases poisonous gases; discarded bags block drains and cause flooding; animals swallow it and die, and microplastic enters the food chain. **Measures:** refuse single-use bags and carry a cloth bag; reuse containers; segregate and recycle; and replace plastic with paper, jute, glass or metal where possible.
+> **Acids** yield $\text{H}^+$ ions in water and taste sour; **bases** yield $\text{OH}^-$ ions (in alkalis) and taste bitter/soapy; **salts** are formed by neutralisation of an acid with a base ($\text{HCl} + \text{NaOH} \rightarrow \text{NaCl} + \text{H}_2\text{O}$).
+> - **Litmus:** red in acid, blue in base.
+> - **Methyl orange:** red (pinkish) in acid, yellow in base.
+> - **Phenolphthalein:** colourless in acid, pink in base.
 
-**4. Explain the cleansing action of soap in simple terms.** <span class="marks">[4]</span>
+**4. What is acid rain? Write its causes, two harmful effects on the environment, and two control measures.** <span class="marks">[4]</span>
 
-> A soap molecule has two ends: a long tail that mixes with oil and grease and a head that mixes with water. When soapy water is rubbed on dirty cloth, the tails stick into the greasy dirt and the heads stay in the water, so each particle of dirt is surrounded by soap molecules. Rubbing then lifts the dirt off the fibre as a tiny droplet held in the water, and rinsing carries it away. Hard water contains calcium and magnesium salts that form a scum with soap, which is why detergent, whose molecules do not form scum, cleans better in hard water.
+> **Acid rain** is rainwater with $\text{pH} < 5.6$ formed when air pollutants such as **sulphur dioxide ($\text{SO}_2$)** and **nitrogen oxides ($\text{NO}_2$)** from factories and vehicles react with rainwater to form **sulphuric acid ($\text{H}_2\text{SO}_4$)** and **nitric acid ($\text{HNO}_3$)**. **Harmful effects:** corrodes marble/limestone monuments (*marble cancer*) and metal roofs; makes soil and lakes acidic, killing fish and crops. **Control:** use clean renewable energy, fit scrubbers/catalytic converters in factories and vehicles.
 
 ## 3.11 The Earth and Universe
 
-**1. Write any two differences between rotation and revolution of the earth.** <span class="marks">[2]</span>
+**1. Define a mineral. Name two metallic and two non-metallic minerals found in Nepal along with their locations.** <span class="marks">[2]</span>
 
-> Rotation is the spinning of the earth about its own axis, completed in about 24 hours, and it causes day and night. Revolution is the movement of the earth round the sun, completed in about 365¼ days, and together with the axial tilt it causes the seasons.
+> A **mineral** is a naturally occurring homogeneous solid substance in the earth's crust with a definite chemical composition. **Metallic minerals in Nepal:** Iron ore (Phulchoki in Lalitpur, Thoshe in Ramechhap), Copper ore (Udayapur, Makwanpur), Lead/Zinc (Ganesh Himal). **Non-metallic minerals:** Limestone (Udayapur, Chobhar), Magnesite (Dolakha), Coal (Dang).
 
-**2. Why does a solar eclipse occur only at new moon?** <span class="marks">[2]</span>
+**2. Differentiate among meteoroids, meteors (shooting stars) and meteorites, and name the three parts of a comet.** <span class="marks">[2]</span>
 
-> A solar eclipse needs the moon to come between the sun and the earth so that its shadow falls on the earth. The moon is in that position only at new moon, when its dark side faces us.
+> **Meteoroids** are small rocky or metallic fragments travelling in space; when one enters the earth's atmosphere and burns with a bright streak of light due to air friction it is called a **meteor (shooting star)**; if an unburnt fragment reaches the earth's surface it is called a **meteorite**. A **comet** consists of a solid icy **nucleus**, a glowing gaseous **coma**, and a long **tail** pointing away from the sun.
 
-**3. Write any four effects of the earth's axial tilt.** <span class="marks">[4]</span>
+**3. State the Big Bang theory of the origin of the universe and name any two hypotheses of the origin of the earth.** <span class="marks">[4]</span>
 
-> (i) The seasons change through the year as each hemisphere is tilted towards or away from the sun. (ii) The length of day and night varies with the season and the latitude. (iii) The sun's rays fall vertically only between the two tropics, which is why those regions are hottest. (iv) The polar regions have continuous day or night for part of the year, and the equinoxes give equal day and night everywhere.
+> According to the **Big Bang theory** (Georges Lemaître), about $13.8\text{ billion years}$ ago all matter and energy of the universe were concentrated in a tiny, super-dense, super-hot primeval atom (singularity) which exploded violently; as the universe expanded and cooled, galaxies, stars and planetary systems formed, and galaxies are still moving apart today. **Hypotheses of the origin of the earth:** (i) Kant–Laplace **Nebular Hypothesis** (rotating hot gaseous nebula cooled and shed rings that condensed into planets) and (ii) Jeans–Jeffreys **Tidal Hypothesis** (a passing star pulled a cigar-shaped filament of gas from the sun).
 
-**4. Why is Nepal at risk of earthquakes? Write any four precautions to take during and after one.** <span class="marks">[4]</span>
+**4. Name the four major geological eras in chronological order and mention the dominant life forms that evolved in each era.** <span class="marks">[4]</span>
 
-> Nepal lies along the boundary where the Indian plate pushes under the Eurasian plate; the strain released along this boundary makes the whole country seismically active. **Precautions:** during the shaking, drop, cover under a strong table and hold on, keeping away from windows and heavy furniture; if outdoors, move to open ground away from walls and wires. Afterwards, expect aftershocks and leave by the stairs, not the lift; check for gas leaks and switch the main supply off; and keep an emergency kit with water, torch, whistle, dry food and first-aid, and a family meeting point agreed in advance.
+> 1. **Precambrian Era** (origin of earth $\sim 4.5\text{ billion}$ to $570\text{ million}$ years ago): origin of first unicellular prokaryotes (bacteria, blue-green algae) and soft-bodied marine invertebrates in the oceans.
+> 2. **Palaeozoic Era** ($570\text{–}250\text{ million}$ years ago): age of marine invertebrates, fishes, amphibians, and giant spore-bearing ferns (pteridophytes).
+> 3. **Mesozoic Era** ($250\text{–}65\text{ million}$ years ago): **"Age of Reptiles"** — origin, dominance and extinction of **dinosaurs**, predominance of gymnosperms (conifers), and first birds (*Archaeopteryx*) and early mammals.
+> 4. **Cenozoic Era** ($65\text{ million}$ years ago to present): **"Age of Mammals and Angiosperms"** — rapid evolution of modern mammals, birds, flowering plants, and **human beings** (*Homo sapiens*).
 
 ::: tip Writing for marks
 Read every answer above and count its points. Two marks, two points; four marks, four points. If your own answer has fewer, the content is missing, not the handwriting. If it has more, you are spending time you will need for Group C.

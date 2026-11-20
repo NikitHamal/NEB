@@ -72,9 +72,10 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Taxonomy and classification",
-    "five kingdoms",
-    "characteristics of Monera, Protista, Fungi, Plantae, Animalia"
+    "Five-kingdom classification and taxonomic hierarchy",
+    "Kingdom Plantae: Algae, Bryophyta and Tracheophyta (Pteridophyta, Gymnosperms and Angiosperms)",
+    "Kingdom Animalia: eight invertebrate phyla and Phylum Chordata (five classes of Vertebrata)",
+    "Relationship between classification and evolution"
    ],
    "sections": [
     {
@@ -88,6 +89,10 @@
     {
      "no": "2.3",
      "title": "Characteristics of Monera, Protista, Fungi, Plantae and Animalia"
+    },
+    {
+     "no": "2.4",
+     "title": "Relationship between classification and evolution"
     }
    ],
    "summary": [
@@ -105,7 +110,7 @@
     "Binomial nomenclature"
    ],
    "stats": {
-    "words": 3706,
+    "words": 4866,
     "figures": 2,
     "examples": 3
    },
@@ -117,10 +122,10 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Types of bees",
-    "life cycle",
-    "colony and division of labour",
-    "bee keeping and products"
+    "Types of honey bees, castes and external structure",
+    "Life cycle (egg, larva, pupa, adult), nuptial flight and parthenogenesis (2n=32, n=16)",
+    "Colony organisation, age-wise division of labour of worker bees and bee dances",
+    "Apiculture (bee keeping), honey, royal jelly, beeswax and pollination"
    ],
    "sections": [
     {
@@ -152,7 +157,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4539,
+    "words": 4853,
     "figures": 1,
     "examples": 4
    },
@@ -399,7 +404,7 @@
     },
     {
      "no": "8.3",
-     "title": "Atmospheric pressure"
+     "title": "Atmospheric pressure, syringe, air pump and water hand pump"
     },
     {
      "no": "8.4",
@@ -423,7 +428,7 @@
     "Law of floatation"
    ],
    "stats": {
-    "words": 4792,
+    "words": 5409,
     "figures": 3,
     "examples": 7
    },
@@ -749,7 +754,7 @@
     "Modern periodic law"
    ],
    "stats": {
-    "words": 4307,
+    "words": 4799,
     "figures": 2,
     "examples": 4
    },
@@ -991,6 +996,6 @@
   }
  ],
  "unit_count": 19,
- "topic_count": 79,
+ "topic_count": 80,
  "notes_ready": 19
 }

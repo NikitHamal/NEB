@@ -612,7 +612,7 @@
    "area": "Units",
    "topics": [
     "Relations: ordered pairs, domain and range",
-    "Functions: definition, vertical line test, values of a function",
+    "Functions: definition, vertical line test, algebraic and trigonometric functions (sin x, cos x, tan x graphs and periods)",
     "Domain and range of a function; one-one, onto, constant and identity functions",
     "Composite functions",
     "Inverse functions and their graphs",
@@ -684,12 +684,13 @@
    "terms": [
     "Domain and range of a relation",
     "Function",
+    "Trigonometric function",
     "Composite function",
     "Inverse function",
     "Polynomial"
    ],
    "stats": {
-    "words": 4676,
+    "words": 5038,
     "figures": 4,
     "examples": 46
    },

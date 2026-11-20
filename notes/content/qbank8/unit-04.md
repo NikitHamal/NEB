@@ -22,7 +22,7 @@ Give the mark only if your answer contains the point named in the notes. Half a 
 3. In the food chain maize → rat → snake, name the primary consumer.
 4. State whether the statement is true or false: *all plastics decay quickly in the soil.*
 5. Which gas is released during photosynthesis?
-6. Name the memory of a computer whose contents are lost when the power fails.
+6. Write the full form of ATM used in banking.
 7. Write the value of $g$ usually taken in calculations.
 8. Fill in the blank: an atom with 8 protons and 8 neutrons has a mass number of ______.
 9. Name the layer of the earth that lies immediately below the crust.
@@ -50,7 +50,7 @@ Give the mark only if your answer contains the point named in the notes. Half a 
 25. State Newton's three laws of motion and give one everyday example of each.
 
 ::: note Model Set 1 — answers
-**Group A.** 1. newton (N). 2. nucleus. 3. rat. 4. False — most plastics are non-biodegradable. 5. oxygen. 6. RAM. 7. 9.8 m/s² (often taken as 10 m/s²). 8. 16. 9. mantle. 10. ammeter.
+**Group A.** 1. newton (N). 2. nucleus. 3. rat. 4. False — most plastics are non-biodegradable. 5. oxygen. 6. Automated Teller Machine. 7. 9.8 m/s² (often taken as 10 m/s²). 8. 16. 9. mantle. 10. ammeter.
 
 **Group B.** **11.** Mass is matter in kilograms, constant everywhere; weight is the earth's pull in newtons, varying with $g$. **12.** A muscle cell uses much more energy, and the energy is released in the mitochondria, so it needs more of them. **13.** $a = F/m = 24/8 = 3$ m/s². **14.** An element has one kind of atom and cannot be split chemically; a compound has two or more elements chemically combined in a fixed ratio, with new properties. **15.** The circuit already contains free electrons throughout the wire; when the switch closes, all of them begin to drift almost at once, so the filament heats immediately. **16.** *Lahare banmara* (Mikania) and water hyacinth (*jalkumbhi*); they smother native plants and reduce the food available to wild animals. **17.** Lifting and sorting scrap iron with a crane; electric bells, relays, loudspeakers and motors. **18.** $72\times\frac{1000}{3600} = 20$ m/s. **19.** Its gravity is too weak (about one-sixth of the earth's) to hold gas molecules, so they escape into space. **20.** Earth the metal body of appliances and use the correct fuse; never touch a switch with wet hands, and switch off at the main before repairing anything.
 
@@ -67,7 +67,7 @@ Give the mark only if your answer contains the point named in the notes. Half a 
 4. Fill in the blank: the pores through which a leaf exchanges gases are called ______.
 5. State whether the statement is true or false: *weight is measured in kilograms.*
 6. Name the largest planet of the solar system.
-7. Which part of the CPU performs comparison and calculation?
+7. Which spherical mirror is used as a side rear-view mirror in vehicles?
 8. Write the pH value of a neutral solution.
 9. Name the process by which camphor changes directly into vapour.
 10. Which blood cells defend the body against disease?
@@ -94,7 +94,7 @@ Give the mark only if your answer contains the point named in the notes. Half a 
 25. What is an ecosystem? Explain its components and describe the flow of energy through a food chain with an example.
 
 ::: note Model Set 2 — answers
-**Group A.** 1. methane. 2. R. H. Whittaker. 3. ohm (Ω). 4. stomata. 5. False — weight is measured in newtons. 6. Jupiter. 7. the arithmetic and logic unit. 8. 7. 9. sublimation. 10. white blood cells.
+**Group A.** 1. methane. 2. R. H. Whittaker. 3. ohm (Ω). 4. stomata. 5. False — weight is measured in newtons. 6. Jupiter. 7. convex mirror. 8. 7. 9. sublimation. 10. white blood cells.
 
 **Group B.** **11.** In series there is one path, the current is the same everywhere and resistances add; in parallel there are several paths, the voltage is the same across each and the total resistance is less than the smallest. **12.** It creates the transpiration pull that draws water and dissolved minerals from the root to the leaf, and it cools the leaf by evaporation. **13.** $\frac{240}{80} = 3$ g/cm³. **14.** Conduction needs a material medium and passes heat from particle to particle without the particles moving away, and is fastest in metals; radiation needs no medium at all and travels as waves, as sunlight does through space. **15.** Its layers slide over one another easily, so it leaves a mark on paper and feels slippery; conduction does not prevent that use. **16.** Dry or salt the food, or make it into pickle; keep it covered in a cool, airy place, boil milk, and store grain in airtight containers. **17.** $V = IR = 0.5\times12 = 6$ V. **18.** A tall tree is the highest point nearby, so the lightning stroke is likely to pass through it and through anyone standing under it; open low ground or a building is safer. **19.** A star makes its own light and heat by nuclear reactions and twinkles; a planet does not make light, shines by reflecting it and does not twinkle. **20.** It uses dung and kitchen waste and leaves a good slurry manure; it saves firewood and the time spent collecting it, and it gives a smokeless flame, so there is less indoor air pollution and less eye and lung disease.
 

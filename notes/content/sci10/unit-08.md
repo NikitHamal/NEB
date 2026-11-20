@@ -210,9 +210,13 @@ Mechanical advantage $= \dfrac{A}{a} = \dfrac{500}{5} = 100$. (We may keep both 
 The small piston moves 100 times farther than the load: to raise the load by 1 cm the small piston goes down 100 cm.
 :::
 
-Applications of Pascal's law: hydraulic jack, hydraulic press, hydraulic brakes of cars and motorbikes, dentist's and barber's chairs, excavators and heavy machines.
+### Everyday hydraulic machines based on Pascal's law
 
-## 8.3 Atmospheric pressure
+1. **Hydraulic lift and hydraulic garage jack:** A small force $f$ applied on the narrow master cylinder (area $a$) creates pressure $P = f/a$ in the incompressible hydraulic oil, which acts undiminished on the wide ram cylinder (area $A$) to produce a large upward force $F = f(A/a)$ that lifts cars for servicing.
+2. **Hydraulic brake system:** When the driver presses the brake pedal, the piston in the **master cylinder** pushes brake fluid through metal pipes equally to the **wheel (slave) cylinders** of all wheels. The pistons in the wheel cylinders have a larger cross-sectional area and push the **brake shoes / pads** against the rotating brake drum or disc, stopping all wheels simultaneously with equal braking force.
+3. **Hydraulic excavator (loader / back-hoe) and hydraulic press:** A motor-driven hydraulic pump forces high-pressure oil into steel cylinders fitted with pistons along the boom, arm and bucket; small control valves direct the fluid to dig, lift tonnes of earth or compress cotton/metal bales.
+
+## 8.3 Atmospheric pressure, syringe, air pump and water hand pump
 
 The Earth is surrounded by a blanket of air called the **atmosphere**, extending to hundreds of kilometres. Air has weight, so it presses on everything. The pressure due to the weight of the air is **atmospheric pressure**.
 
@@ -251,7 +255,26 @@ The height does not change if the tube is tilted or the tube is wider; only the 
 
 Pressure falls as we climb because the column of air above becomes shorter, and the air becomes thinner. At the top of Sagarmatha (8,849 m) the pressure is only about one third of the sea-level value. This is why climbers carry oxygen cylinders, why water boils below 100 °C in the hills (about 95 °C in Kathmandu), and why a pressure cooker is helpful there.
 
-Other uses and instruments: the **aneroid barometer** (a metal box, used as an altimeter in aircraft); weather forecasting (low pressure usually means rain or storms); a pressure cooker works by raising the pressure so that water boils at a higher temperature; a suction pump and a siphon.
+Other uses and instruments: the **aneroid barometer** (a metal box, used as an altimeter in aircraft); weather forecasting (low pressure usually means rain or storms); a pressure cooker works by raising the pressure so that water boils at a higher temperature.
+
+### Devices based on atmospheric pressure (CDC Grade 10 curriculum)
+
+1. **Syringe (Medical syringe):**
+   - A syringe consists of a cylindrical barrel with a narrow nozzle (fitted with a hollow needle) and an airtight movable **plunger (piston)**.
+   - **Pulling the plunger up (filling):** When the needle is dipped into liquid medicine and the plunger is pulled outward, the volume inside the barrel increases and the internal pressure drops below atmospheric pressure (a partial vacuum is created). The higher **atmospheric pressure** acting on the liquid surface pushes the medicine up through the needle into the barrel.
+   - **Pushing the plunger in (injection):** Pushing the plunger compresses the liquid, raising internal pressure above external pressure so the medicine is forced out through the needle.
+
+2. **Air pump (Bicycle pump):**
+   - Consists of a hollow metal barrel and a piston rod fitted with a flexible cup-shaped **leather or rubber washer** that acts as a one-way valve, connected to the tyre's **non-return valve**.
+   - **Downstroke (compression):** When the handle is pushed down, the air trapped below the washer is compressed; the high pressure presses the rim of the flexible washer tightly against the cylinder wall so no air escapes upward, and forces the compressed air through the tyre valve into the tube.
+   - **Upstroke (suction):** When the handle is pulled up, the pressure below the piston falls below atmospheric pressure; the tyre valve closes (preventing back-flow of air from the tyre), while outside atmospheric air bends the flexible edge of the washer inward and fills the lower part of the barrel for the next stroke.
+
+3. **Water hand pump (Lift / Suction pump):**
+   - Used to draw underground water up to a maximum theoretical depth of about $10.3\text{ m}$ ($h = P_{atm}/\rho g$). It has a cylindrical barrel connected to a pipe dipping into groundwater and contains **two one-way valves** that open only upward:
+     - **Foot valve (Inlet / Lower valve $V_1$):** at the base of the barrel where it meets the suction pipe.
+     - **Piston valve (Outlet / Upper valve $V_2$):** built into the moving piston.
+   - **Upstroke of piston (handle pushed down):** As the piston moves **upward**, pressure in the barrel between $V_1$ and $V_2$ drops below atmospheric pressure. Atmospheric pressure acting on the underground water forces **inlet valve $V_1$ open** so water rushes up into the barrel, while the weight of water above the piston keeps **piston valve $V_2$ closed** and lifts the water above the piston out through the spout.
+   - **Downstroke of piston (handle raised up):** As the piston moves **downward**, the water trapped in the lower barrel is pressed down, forcing **inlet valve $V_1$ closed** (preventing water from flowing back into the well) and pushing **piston valve $V_2$ open** so water passes into the space above the piston, ready to pour out on the next upstroke.
 
 ::: example Height of the barometer column
 **Problem.** At a certain place the atmospheric pressure is $9.0\times10^{4}$ Pa. Find the height of the mercury column. (Density of mercury $= 13600$ kg m⁻³, $g = 10$ m s⁻².)
