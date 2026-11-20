@@ -100,7 +100,7 @@ $$ P = h\rho g $$
 **Condition.** The liquid is at rest and its density is uniform. This is the pressure due to the liquid alone; the air above adds atmospheric pressure.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 Volume $= Ah$, mass $= \rho Ah$, weight $= \rho Ahg$, then divide by $A$. Do not forget to say that $A$ cancels.
 :::
 

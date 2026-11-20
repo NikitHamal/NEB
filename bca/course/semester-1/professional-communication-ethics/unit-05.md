@@ -399,7 +399,6 @@ A **preposition** shows the relation of a noun or pronoun to another word in the
 
 ## 5.7 Readings
 
-*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, characters or structure, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
 
 ### 5.7.1 "Cat Pictures Please" by Naomi Kritzer
 

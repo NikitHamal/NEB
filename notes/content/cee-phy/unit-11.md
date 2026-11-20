@@ -233,7 +233,7 @@ hotter (larger $T$), and the ratio $\gamma$ matters: monatomic gases ($\gamma = 
 beat diatomic ones ($\gamma = 1.4$) at the same temperature and molar mass.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 The words **adiabatic**, $PV^{\gamma}$ = constant, $B = \gamma P$, and the final
 $\sqrt{\gamma P/\rho}$. A derivation that says "Laplace assumed adiabatic" without
 producing $B = \gamma P$ loses the marks that carry the result.

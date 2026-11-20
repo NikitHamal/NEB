@@ -14,7 +14,7 @@ comes first among the families. Three families are studied: **alkanes**
 **alkynes** (CₙH₂ₙ₋₂, one C≡C). The plan is always the same — how each is made,
 how each reacts, and how you tell them apart in a test tube.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Every NEB paper takes preparations and properties straight from this list, so
 learn each reaction as *reactant + reagent + condition → product*. The three
 that appear almost every year are Markovnikov's rule with the peroxide effect,

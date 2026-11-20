@@ -14,7 +14,7 @@ and Peltier effects. They are the basis of the thermocouple thermometer used in
 every industrial furnace, of the thermopile that detects heat radiation, and of
 the solid-state coolers in portable fridges.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 Three things, every year: the direction of the thermoelectric current (Seebeck
 series), the parabola $E = \alpha\theta + \frac{1}{2}\beta\theta^{2}$ with its
 neutral and inversion temperatures, and the table of differences between Peltier

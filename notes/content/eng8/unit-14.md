@@ -16,7 +16,7 @@ sentences, types 1, 2 and 3**. In writing you complete a story with the right
 verb forms and write a **news story**; the project is a speech beginning *"If I
 were the Prime Minister…"*.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Order events, mark True/False/Not Given and say who said what to whom.
 (2) Use the right verb forms in zero, first, second and third conditionals.
 (3) Know the parts of a news story — headline, byline, dateline, lead, body —

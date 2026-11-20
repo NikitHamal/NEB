@@ -55,7 +55,7 @@
     "Dimensions of a physical quantity"
    ],
    "stats": {
-    "words": 5074,
+    "words": 5072,
     "figures": 3,
     "examples": 5
    },
@@ -103,7 +103,7 @@
     "Vector product"
    ],
    "stats": {
-    "words": 4587,
+    "words": 4585,
     "figures": 4,
     "examples": 4
    },
@@ -155,7 +155,7 @@
     "Instantaneous velocity"
    ],
    "stats": {
-    "words": 5252,
+    "words": 5246,
     "figures": 4,
     "examples": 4
    },
@@ -211,7 +211,7 @@
     "Solid friction"
    ],
    "stats": {
-    "words": 6698,
+    "words": 6692,
     "figures": 6,
     "examples": 5
    },
@@ -272,7 +272,7 @@
     "Conservative force"
    ],
    "stats": {
-    "words": 6239,
+    "words": 6235,
     "figures": 4,
     "examples": 5
    },
@@ -335,7 +335,7 @@
     "Angular displacement"
    ],
    "stats": {
-    "words": 6818,
+    "words": 6810,
     "figures": 5,
     "examples": 5
    },
@@ -418,7 +418,7 @@
     "Geostationary satellite"
    ],
    "stats": {
-    "words": 7726,
+    "words": 7720,
     "figures": 6,
     "examples": 5
    },
@@ -474,7 +474,7 @@
     "Poisson's ratio"
    ],
    "stats": {
-    "words": 4607,
+    "words": 4605,
     "figures": 4,
     "examples": 6
    },
@@ -569,7 +569,7 @@
     "Real and apparent expansivity"
    ],
    "stats": {
-    "words": 4973,
+    "words": 4969,
     "figures": 4,
     "examples": 5
    },
@@ -631,7 +631,7 @@
     "Triple point"
    ],
    "stats": {
-    "words": 4893,
+    "words": 4891,
     "figures": 4,
     "examples": 4
    },
@@ -754,7 +754,7 @@
     "Molar heat capacities"
    ],
    "stats": {
-    "words": 5247,
+    "words": 5239,
     "figures": 4,
     "examples": 4
    },
@@ -792,7 +792,7 @@
     "Real and virtual image"
    ],
    "stats": {
-    "words": 4422,
+    "words": 4420,
     "figures": 4,
     "examples": 3
    },
@@ -842,7 +842,7 @@
     "Critical angle and total internal reflection"
    ],
    "stats": {
-    "words": 5744,
+    "words": 5742,
     "figures": 4,
     "examples": 4
    },
@@ -884,7 +884,7 @@
     "Angle of deviation"
    ],
    "stats": {
-    "words": 4672,
+    "words": 4670,
     "figures": 4,
     "examples": 4
    },
@@ -929,7 +929,7 @@
     "Power of a lens"
    ],
    "stats": {
-    "words": 5275,
+    "words": 5273,
     "figures": 5,
     "examples": 4
    },
@@ -1115,7 +1115,7 @@
     "Equipotential surface"
    ],
    "stats": {
-    "words": 5030,
+    "words": 5026,
     "figures": 4,
     "examples": 4
    },
@@ -1170,7 +1170,7 @@
     "Capacitor"
    ],
    "stats": {
-    "words": 5478,
+    "words": 5474,
     "figures": 4,
     "examples": 4
    },
@@ -1236,7 +1236,7 @@
     "emf and terminal potential difference"
    ],
    "stats": {
-    "words": 8601,
+    "words": 8593,
     "figures": 6,
     "examples": 9
    },
@@ -1306,7 +1306,7 @@
     "Nuclear fusion"
    ],
    "stats": {
-    "words": 6282,
+    "words": 6278,
     "figures": 5,
     "examples": 5
    },

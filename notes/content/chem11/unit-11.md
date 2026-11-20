@@ -15,7 +15,7 @@ across a membrane. **Bio-inorganic chemistry** is the study of the role that
 metal ions and other inorganic species play in living systems — and of what goes
 wrong when the wrong metal, or too much of the right one, gets in.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 This is a short, high-yield unit. Learn (i) the macro/micro nutrient boundary and
 which elements fall on each side; (ii) one biological function for each of the
 ten metals covered in this unit; (iii) the stoichiometry of the two pumps

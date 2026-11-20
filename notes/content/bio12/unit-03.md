@@ -15,7 +15,7 @@ how it copies and expresses itself. Then we follow Mendel's crosses and the
 rules they yield, the exceptions to those rules, and what happens when genes
 travel together on one chromosome or when the material itself is damaged.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Genetics carries the most marks of any Botany unit (21 hours). Four things come
 almost every year: a **labelled DNA / replication / translation diagram**; a
 **worked cross** — you must draw the Punnett square, not just quote the ratio; a

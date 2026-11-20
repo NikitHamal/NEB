@@ -15,7 +15,7 @@ This unit gives you the equilibrium constants that describe those processes
 logarithms — that turns them into a pH or a solubility. It is the longest unit in
 the physical-chemistry area and the most heavily examined.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Expect one definition question (Bronsted or Lewis, conjugate pairs), one
 **numerical** on pH / $K_a$ / buffers / $K_{sp}$, and very often a question on
 choosing an indicator or on salt hydrolysis. Learn the five master formulas in

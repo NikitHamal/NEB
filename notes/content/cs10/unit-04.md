@@ -580,7 +580,7 @@ to √n is enough. `*terms` prints the list's items separated by spaces.
 @ photo id="cs12/datacenter" cap="(c) A data centre"
 ```
 
-### Eight advantages of user-defined functions, explained
+### Key advantages of user-defined functions
 
 1. **Reusability.** A function is written once and called many times. A function that finds the grade from the average can be used for every student without copying the code.
 2. **Shorter programs.** Repeated lines are replaced by one call, so the program becomes smaller and neater. A 200-line program can shrink to 80 lines.

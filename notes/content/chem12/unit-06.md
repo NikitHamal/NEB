@@ -14,7 +14,7 @@ and magnetic, they form complex ions, and they catalyse a large share of the
 world's industrial chemistry. All of this comes from one structural fact: the
 3d and 4s orbitals are very close in energy.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Four recurring questions: list and **explain** the characteristic properties;
 explain variable oxidation states from the electronic configuration; define
 ligand, coordination number and EAN and calculate them; and draw the **crystal

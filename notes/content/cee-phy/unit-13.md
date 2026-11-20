@@ -186,7 +186,7 @@ shrinks as the slits are moved apart. The result assumes $D \gg d$, small angles
 one medium throughout.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 The Pythagoras step, the difference-of-squares factorisation, and the explicit
 approximation $S_2P + S_1P \approx 2D$. Write the reason for the approximation in
 words; that sentence usually carries a mark.

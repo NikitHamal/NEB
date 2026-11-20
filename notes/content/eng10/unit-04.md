@@ -9,7 +9,7 @@ area: Units
 
 Work feeds a family and builds a country; leisure rests the mind. This unit asks what honest work really means. A short story shows two children whose first job goes comically wrong. A famous poem by Rabindranath Tagore says that the best form of worship is honest labour. In grammar you will study **modal verbs** and **imperatives**; in writing, a **job application** and a set of **rules and regulations**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: vocabulary matching, true/false/not given, short answers on character and plot; for the poem, meanings of words, archaic words, and what the poet advises. Grammar: functions of modal verbs and imperatives. Writing: job application, rules and regulations, notice.
 :::
 

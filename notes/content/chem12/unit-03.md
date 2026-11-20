@@ -15,7 +15,7 @@ happens until a spark arrives. Chemical kinetics supplies the missing half of th
 story: the rate of a reaction, the concentration terms that control it, and the
 energy barrier that a collision must clear.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 One MCQ on order versus molecularity or on the units of $k$; one 5-mark numerical
 on a first-order reaction, a half-life or the Arrhenius equation; and very often a
 drawing question — the energy-profile diagram with and without a catalyst, or the

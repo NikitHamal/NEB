@@ -150,7 +150,7 @@ body. Impulse is a vector, so in a rebound problem you must give $u$ and $v$
 opposite signs.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) $F = dp/dt$ quoted as the *starting point*; (ii) the step $F\,dt = dp$;
 (iii) integration with **both** sets of limits written in; (iv) the final statement
 in words — "impulse = change in momentum"; (v) the unit N s = kg m s⁻¹. In numerical
@@ -262,7 +262,7 @@ and $y$ components separately. Note that kinetic energy is *not* assumed to be
 conserved — this proof works for inelastic collisions too.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) A "before and after" diagram with $m_1, m_2, u_1, u_2, v_1, v_2$ labelled;
 (ii) the third-law statement $F_{12} = -F_{21}$; (iii) each force written as
 change of momentum over time; (iv) the cancelling of $t$ with the reason;
@@ -756,7 +756,7 @@ limiting value — not before, not after), the plane is straight, and no other f
 such as a push or a string tension acts on the block.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) A labelled diagram with $mg$, $N$, $f$ and the slope angle $\theta$ marked;
 (ii) axes taken **along and perpendicular to** the plane; (iii) the two
 equilibrium equations $N = mg\cos\theta$ and $f = mg\sin\theta$; (iv) the division

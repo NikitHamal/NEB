@@ -13,7 +13,7 @@ water suspension; making it is essentially one chemical problem — how to strip
 away the **lignin** that glues the fibres together in a plant, without destroying
 the cellulose itself. This unit follows that problem from the forest to the reel.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Name the raw materials and the two kinds of pulping; describe the **stages**
 (pulping → washing and screening → bleaching → beating and sizing → sheet
 formation → drying and calendering); draw the **flow sheet**; and list the

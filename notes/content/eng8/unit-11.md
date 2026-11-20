@@ -16,7 +16,7 @@ features, religious sites, plants and animals, and park rules. The grammar is
 (*a, an, the*). In writing you prepare a biography, a leaflet and a set of
 rules.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Answer factual and True/False questions on a biography. (2) Find numbers and
 rules in a descriptive text. (3) Join sentences with the right relative pronoun.
 (4) Use *a/an/the* or no article correctly. (5) Write a short biography from

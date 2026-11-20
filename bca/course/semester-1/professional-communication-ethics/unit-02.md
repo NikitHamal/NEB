@@ -324,7 +324,6 @@ Reported (as in minutes): The Chair stated that the server migration **would be*
 
 ## 2.7 Readings
 
-*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first. Where an example or figure is quoted from memory of the original, check the exact wording against your copy before using it in an exam.
 
 ### 2.7.1 "Death by Powerpoint" by Angela R. Garber
 
@@ -356,7 +355,6 @@ Reported (as in minutes): The Chair stated that the server migration **would be*
 - **Style:** informal, direct, second-person advice, short paragraphs and lists, suitable for busy business readers; it uses *imperatives* ("Use", "Keep", "Practise").
 - **Appeal:** *logos* in the list of mistakes and remedies; *ethos* from the writer's experience of sitting through such talks; *pathos* through the shared pain of a bored audience.
 - **Strength and limitation:** the advice is clear and still valid, but the article is short on evidence. Later research (the "redundancy effect", cognitive load theory) supports its main claim that reading slides aloud and overloading them reduces learning. Critics (for example Edward Tufte) argue that the template itself shapes poor thinking, so the problem is partly the tool; Garber places the blame on the user.
-- **Link to the syllabus:** it is the prescribed companion to Section 2.2 on presentation guidelines.
 
 #### Key vocabulary
 

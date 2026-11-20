@@ -69,7 +69,7 @@
     "Geometric sequence (GP)"
    ],
    "stats": {
-    "words": 4236,
+    "words": 4232,
     "figures": 4,
     "examples": 34
    },
@@ -117,7 +117,7 @@
     "Cubic function"
    ],
    "stats": {
-    "words": 3600,
+    "words": 3598,
     "figures": 5,
     "examples": 26
    },
@@ -164,7 +164,7 @@
     "Determinant of a 2×2 matrix"
    ],
    "stats": {
-    "words": 2899,
+    "words": 2897,
     "figures": 7,
     "examples": 27
    },
@@ -210,7 +210,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2508,
+    "words": 2506,
     "figures": 3,
     "examples": 24
    },
@@ -252,7 +252,7 @@
     "Angles of elevation and depression"
    ],
    "stats": {
-    "words": 3188,
+    "words": 3186,
     "figures": 4,
     "examples": 23
    },
@@ -296,7 +296,7 @@
     "Homogeneous equation of second degree"
    ],
    "stats": {
-    "words": 2806,
+    "words": 2804,
     "figures": 3,
     "examples": 15
    },
@@ -345,7 +345,7 @@
     "Circle"
    ],
    "stats": {
-    "words": 2876,
+    "words": 2874,
     "figures": 4,
     "examples": 17
    },
@@ -399,7 +399,7 @@
     "Scalar product"
    ],
    "stats": {
-    "words": 2554,
+    "words": 2552,
     "figures": 5,
     "examples": 12
    },
@@ -455,7 +455,7 @@
     "Inverse point"
    ],
    "stats": {
-    "words": 3926,
+    "words": 3922,
     "figures": 7,
     "examples": 19
    },
@@ -500,7 +500,7 @@
     "Continuous at a point (graph description)"
    ],
    "stats": {
-    "words": 2592,
+    "words": 2590,
     "figures": 4,
     "examples": 14
    },
@@ -544,7 +544,7 @@
     "Standard deviation and variance"
    ],
    "stats": {
-    "words": 2886,
+    "words": 2884,
     "figures": 3,
     "examples": 11
    },
@@ -633,7 +633,7 @@
     "Polynomial"
    ],
    "stats": {
-    "words": 5035,
+    "words": 5033,
     "figures": 4,
     "examples": 46
    },

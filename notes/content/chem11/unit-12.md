@@ -15,7 +15,7 @@ crude oil pumped out of the ground is turned into the petrol and diesel that
 reach the pumps in Nepal. Nothing here is difficult, but everything here is used
 again in every organic chapter that follows.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Learn to *draw* before you learn to talk. You must be able to convert between a
 molecular formula, a condensed formula and a bond-line structure; write the IUPAC
 name of any compound of up to six carbons; count and name the isomers of a given

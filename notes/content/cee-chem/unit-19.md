@@ -490,7 +490,7 @@ facts = dict(asp=rows[2][1], ac=rows[1][1], aa=rows[3][1], ae=ae, y70=0.7 * rows
 **7.** (b) — both families condense with the hydrazine reagent.
 **8.** (c) — a silver mirror (or grey Ag precipitate if the glass is not clean).
 **9.** (b) — Cu(I) oxide; do not confuse the Cu₂O of cuprite/Ch. 14 contexts.
-**10.** (a) — aromatic aldehydes are the textbook Fehling exception while still reducing Tollens'.
+**10.** (a) — aromatic aldehydes are the standard Fehling exception while still reducing Tollens'.
 **11.** (d) — the product bears –OH and –CN on the former carbonyl carbon.
 **12.** (c) — sterically accessible methyl ketones; many hindered ketones fail.
 **13.** (a) — enolate formation is impossible without an α-H.

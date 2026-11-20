@@ -93,7 +93,7 @@ $$ \text{LHS}=2\cos\frac{C}{2}\left[\cos\frac{A-B}{2}+\cos\frac{A+B}{2}\right] $
 $$ \text{LHS}=4\cos\frac{A}{2}\cos\frac{B}{2}\cos\frac{C}{2}=\text{RHS} $$
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) the condition $A+B+C=180^\circ$ written down and used, (2) grouping two angles and using sum-to-product, (3) the replacement such as $\sin(A+B)=\sin C$, (4) the common factor taken out, (5) stopping when the left side **equals** the right side.
 :::
 

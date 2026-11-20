@@ -16,7 +16,6 @@ Circuit analysis, structural frames, the Google PageRank vector and the normal e
 - Eigenvalue estimation by the power method.
 :::
 
-*Syllabus note.* The mirror of the TU CACS252 outline used for this book (see `bca/SOURCES.md`) lists Units 1, 2, 3, 5, 6 but mentions "Linear Algebraic Equations" in the course description and lab list. The unit is included here as Unit 4, as in other TU outlines; its 10 hours are the remainder of 45.
 
 ## 4.1 Gauss elimination
 

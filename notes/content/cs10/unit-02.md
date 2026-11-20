@@ -180,7 +180,7 @@ Server are RDBMSs.
 @ photo id="cs12/datacenter" cap="(d) Data centre"
 ```
 
-### Eight advantages of a DBMS, explained
+### Key advantages of a DBMS
 
 1. **Fast storage and retrieval.** A query such as `SELECT * FROM students WHERE roll = 5` finds one record among thousands in a fraction of a second. A paper register may take minutes. Indexes make the search quicker still.
 2. **Less data redundancy.** Each fact is stored once, so the address of a student is not repeated in the library, fee and exam files. This saves space and avoids mismatched copies.

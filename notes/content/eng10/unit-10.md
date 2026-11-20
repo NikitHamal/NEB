@@ -9,7 +9,7 @@ area: Units
 
 Every country plays games, and almost every game has a story. This unit begins with a Greek legend about how the Olympic Games began and ends with a survey of the sports that people love most — football, cricket, volleyball, basketball and others. Along the way you will revise two big grammar areas, the **present perfect** tenses and the **passive voice**, and practise two kinds of writing: a well-built **paragraph** and a **dialogue**. In the SEE paper these skills appear in the reading passage, the grammar section and the free-writing questions, so the unit is worth studying carefully.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 From each reading text: the main idea in your own words, the meaning of the glossary words, and short factual answers in full sentences. From grammar: correct verb forms and correct active–passive changes. From writing: a paragraph with a clear topic sentence, supporting sentences and a concluding sentence, and a dialogue that sounds like real speech.
 :::
 

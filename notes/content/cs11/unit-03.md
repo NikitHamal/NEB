@@ -14,7 +14,7 @@ life: how software is classified, what an operating system does, how to work
 confidently inside Windows, and why Linux and Android now run most of the
 world's computers.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 This is a **description** unit, so marks come from complete, well-organised
 lists. Know the five software categories with two examples each, the six or
 seven functions of an operating system, and the precise difference between

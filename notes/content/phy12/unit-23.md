@@ -14,7 +14,7 @@ is not a continuous rainbow but a set of sharp lines. Bohr's answer was that
 energy inside an atom is **quantized**. This unit follows that idea from the
 hydrogen atom to X-rays and to the matter waves behind Bohr's rule.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 The heaviest Modern Physics unit, and a reliable source of a Group C question.
 Master five things: derive $r_n$ and $E_n$ for hydrogen; use
 $1/\lambda = R(1/n_f^2 - 1/n_i^2)$; quote $\lambda = h/p = 12.27/\sqrt{V}$ Å;

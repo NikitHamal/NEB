@@ -15,7 +15,7 @@ law. This unit teaches you to write it correctly, to compute the work from a
 pressure–volume graph, and to apply it to the four processes that every NEB
 paper asks about.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 Three things repeat every year: (i) state the first law with correct sign
 conventions, (ii) derive $C_p - C_v = R$, and (iii) derive $PV^{\gamma} = $
 constant and the work done in an isothermal or adiabatic change. Everything else

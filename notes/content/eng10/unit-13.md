@@ -9,7 +9,7 @@ area: Units
 
 People are born, people die, and people move. These three facts decide how many of us live in each country and what our world will look like in the future. This unit has two reading texts. The first, "A Century of World Population Trends: 1950 to 2050", is a data-rich article about how fast the world's population has grown and how it will change. The second, "Discovering Migration: What Birds Reveal", looks at one of nature's most amazing journeys, bird migration. The grammar is **connectives of contrast** (*although, despite, however, yet …*) and the writing tasks are **interpreting graphs and charts** and an **opinion essay** on the migration of Nepali youth.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Facts and figures from the first text, quoted exactly. A clear explanation of how birds migrate in the second. In grammar: using *although / in spite of / however* in the correct pattern. In writing: a graph interpretation that states the topic, the highest and lowest values, the trend and a conclusion, and an essay with an introduction, balanced body and conclusion.
 :::
 

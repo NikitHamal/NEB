@@ -7,7 +7,7 @@ hours: 12
 area: Computational Methods OR Mechanics
 ---
 
-Most equations you meet outside the textbook cannot be solved by a formula, and most
+Many real-world equations cannot be solved by a closed-form algebraic formula, and many
 integrals cannot be evaluated by anti-differentiation. Computational methods give up
 on exact answers and instead build a sequence of numbers that closes in on the true
 value, stopping when the answer is accurate enough for the job. This unit is the

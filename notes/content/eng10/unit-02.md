@@ -9,7 +9,7 @@ area: Units
 
 Every society sets aside special days to remember its past, thank nature and enjoy life together. This unit takes you from an orange-throwing carnival in northern Italy to harvest thanksgivings on five continents. You will meet vivid travel writing and a clear piece of factual description, then learn how to report **questions**, and practise writing a festival essay and a news story.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: true/false, matching words to meanings, "what does X symbolise / how does the narrator feel" short answers. Grammar: turning direct questions into reported questions (yes/no and wh-questions). Writing: an essay about a festival, and a news story from clues.
 :::
 

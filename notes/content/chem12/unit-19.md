@@ -14,7 +14,7 @@ culvert. Chemically it is a mixture of **calcium silicates and aluminates** made
 by roasting limestone with clay, and its usefulness comes from one property:
 mixed with water it sets and hardens *hydraulically*, that is, even under water.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Four repeat questions: the **raw materials** and the oxide each supplies; the
 **three stages** of manufacture with the rotary-kiln temperature zones and the
 reactions in each; the **role of gypsum**; and a comparison of **OPC with PPC**.

@@ -14,7 +14,7 @@ matter stays put. This short unit sets up the language and the equation of a
 travelling wave, and then shows what happens when two such waves meet head-on.
 Everything in Units 7 to 9 is built on it.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 Be able to write the wave equation $y = a\sin(\omega t - kx)$ and read off $a$,
 $f$, $\lambda$ and $v$ from any given form of it; derive the stationary-wave
 equation $y = 2a\cos kx\,\sin\omega t$; and list the differences between

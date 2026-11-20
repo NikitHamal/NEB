@@ -14,7 +14,7 @@ compounds matter for two reasons: they are the standard doorway to amines (and
 therefore to dyes and drugs), and the nitro group is the classic example of a
 strongly **deactivating, meta-directing** substituent on a benzene ring.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Three things come up almost every year: **reduction of nitrobenzene in different
 media** (the four-product table — learn it cold), **why nitrobenzene is
 meta-directing and less reactive than benzene**, and the preparation of

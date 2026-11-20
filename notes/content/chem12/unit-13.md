@@ -14,7 +14,7 @@ unit — which reagent oxidises which, which compound gives a silver mirror, and
 which one condenses with itself. At ten hours this is the longest organic unit in
 the course and the most heavily examined.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Four things come back every year: (1) **distinguish** an aldehyde from a ketone
 and one aldehyde from another, with reagent, observation and equation; (2) the
 **nucleophilic addition** mechanism and the reactivity order HCHO > RCHO > RCOR′;

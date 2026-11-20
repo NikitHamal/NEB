@@ -31,7 +31,7 @@ Because of these changes, the Project III report needs a **hardware chapter**, a
 
 ## 1.2 The running example: KhetSense
 
-KhetSense is invented for this book. A cooperative of 40 farmers in a hill village grows tomato and cucumber on terraces. Farmers water by habit: every morning, whether or not the soil is dry.
+A cooperative of 40 farmers in a hill village grows tomato and cucumber on terraces. Farmers water by habit: every morning, whether or not the soil is dry.
 
 *Problem statement, version 1.* "Forty farmers of a hill cooperative irrigate every morning by habit. Measurements on 12 test plots show that on 4 of 10 days the soil was already wet enough, so about 35 percent of the water is wasted, and the water tank is empty by April. Without a better rule, the shortage worsens as the plots are extended."
 

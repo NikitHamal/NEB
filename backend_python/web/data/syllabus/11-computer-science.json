@@ -113,7 +113,7 @@
     "Port"
    ],
    "stats": {
-    "words": 9408,
+    "words": 9404,
     "figures": 7,
     "examples": 3
    },
@@ -184,7 +184,7 @@
     "Logic gate"
    ],
    "stats": {
-    "words": 7113,
+    "words": 7109,
     "figures": 8,
     "examples": 10
    },
@@ -268,7 +268,7 @@
     "Mobile operating system"
    ],
    "stats": {
-    "words": 8457,
+    "words": 8453,
     "figures": 9,
     "examples": 4
    },
@@ -310,7 +310,7 @@
     "Domain-specific software"
    ],
    "stats": {
-    "words": 5402,
+    "words": 5389,
     "figures": 8,
     "examples": 3
    },
@@ -425,7 +425,7 @@
     "String"
    ],
    "stats": {
-    "words": 8724,
+    "words": 8718,
     "figures": 5,
     "examples": 4
    },
@@ -531,7 +531,7 @@
     "CSS"
    ],
    "stats": {
-    "words": 7471,
+    "words": 7466,
     "figures": 4,
     "examples": 4
    },
@@ -545,7 +545,7 @@
    "topics": [
     "Introduction to Multimedia",
     "Components of Multimedia: Text, Graphics, Audio, Video and Animation",
-    "Application of Multimedia: Eight applications of multimedia explained"
+    "Application of Multimedia: Key applications of multimedia"
    ],
    "sections": [
     {
@@ -579,7 +579,7 @@
     "Animation"
    ],
    "stats": {
-    "words": 5454,
+    "words": 5449,
     "figures": 2,
     "examples": 3
    },
@@ -595,7 +595,7 @@
     "Concept of Information security",
     "Concept of Cybercrime",
     "Malicious software and Spam",
-    "Protection from cybercrime: Eight ways to protect yourself from cybercrime, explained",
+    "Protection from cybercrime: Key ways to protect yourself from cybercrime",
     "Intellectual Property Right",
     "Concept of Digital Signature",
     "Concept of Cyber Law in Nepal",
@@ -652,7 +652,7 @@
     "Cyber law"
    ],
    "stats": {
-    "words": 7175,
+    "words": 7170,
     "figures": 2,
     "examples": 3
    },

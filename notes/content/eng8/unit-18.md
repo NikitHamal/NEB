@@ -14,7 +14,7 @@ Reading II is a short poem by Tricia Mae Chua, *Long Life*, about how to spend
 our time. The grammar is **too and enough** and **subject–verb agreement**. In
 writing you write opinion essays and punctuate a paragraph.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Identify the writer's opinion and the reasons given for it. (2) Explain the
 contrast in the poem: what life is *too short* for and *long enough* for.
 (3) Use *too + adjective + to* and *adjective + enough + to*, and rewrite one

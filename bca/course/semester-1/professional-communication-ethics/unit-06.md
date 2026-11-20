@@ -461,7 +461,6 @@ Find the real subject; ignore phrases in between; decide singular or plural; mat
 
 ## 6.8 Readings
 
-*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, characters or structure, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
 
 ### 6.8.1 "The Necklace" by Guy de Maupassant
 

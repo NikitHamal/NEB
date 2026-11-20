@@ -481,7 +481,7 @@ straight line), the load is applied slowly so nothing vibrates, and no energy is
 heat.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. The statement that the force is variable, $F_x = (YA/L)x$ — full marks are rarely
    given without it.
 2. The element of work $dW = F_x\,dx$.

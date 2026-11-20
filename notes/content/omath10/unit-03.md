@@ -134,7 +134,7 @@ $$ A^{-1}=\frac{1}{ad-bc}\,[(d,-b),(-c,a)] $$
 fig = mateq(["$A^{-1}=$", "$\\frac{1}{ad-bc}$", [["$d$","$-b$"],["$-c$","$a$"]]])
 ```
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) the determinant $|A|$ found first, (2) the statement $|A|\neq0$, (3) the swap-and-negate matrix, (4) the factor $\frac{1}{|A|}$ in front, (5) a check by multiplying $AA^{-1}=I$.
 :::
 

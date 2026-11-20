@@ -14,7 +14,7 @@ the three instruments the NEB paper asks about every year: the Wheatstone bridge
 the metre bridge and the potentiometer. It ends with what current actually *does*
 in a resistor: it heats it, according to Joule's law.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 Group B almost always carries one numerical from the metre bridge or the
 potentiometer, and one galvanometer-conversion sum. Group C likes
 "derive the balance condition of a Wheatstone bridge" and "describe how a

@@ -14,7 +14,7 @@ you meet in the Human Biology unit, from the stomach wall to the eyeball, is the
 four tissues stacked in different proportions. Learn the four properly now and the
 rest of Zoology becomes description rather than memorisation.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three things, every year. A **labelled diagram** of a named tissue as it looks
 under the microscope — the neuron, the T.S. of bone, the three muscle types.
 A **difference table** — tendon vs ligament, cartilage vs bone, striated vs

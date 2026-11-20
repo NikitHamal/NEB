@@ -419,7 +419,6 @@ Do not use the passive for the sake of sounding formal: "It is requested by the 
 
 ## 3.7 Readings
 
-*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, characters or voices, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
 
 ### 3.7.1 "Gateman's Gift" by R.K. Narayan
 
@@ -437,7 +436,6 @@ Do not use the passive for the sake of sounding formal: "It is requested by the 
 6. **The accountant explains.** On the way to the police station he meets the **accountant** of the company by chance. The accountant tells him what the letter contains: it is a **commendation** (a letter of appreciation) from the Sahib for the models, with a **cheque** (a reward of a hundred rupees). Govind Singh is released.
 7. **The ending.** Relief should have made him happy. Instead, he now decides that **making clay models is not an occupation for a sane man** and gives it up. The one thing that gave him pleasure and recognition ends just when it is praised.
 
-*Check your textbook copy for small details (the exact sum, what he breaks, what he says). The shape of the story above is the same in the standard summaries.*
 
 #### Characters
 

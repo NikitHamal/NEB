@@ -7,7 +7,7 @@ hours: 18
 area: Calculus
 ---
 
-At $18$ teaching hours this is the largest unit in the Grade 12 course, and it
+This unit
 carries the most marks. Grade 11 taught you what a derivative *is* — the limit of
 a difference quotient, the slope of a tangent — and how to differentiate
 polynomials, trigonometric functions and composites. Grade 12 finishes the

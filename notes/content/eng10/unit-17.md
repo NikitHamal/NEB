@@ -9,7 +9,7 @@ area: Units
 
 Do you prefer the quiet of a village or the bustle of a big city? Is Paris better than London, or London better than Paris? These are questions of **comparison**, and comparison is the thread running through this unit. The first text, "London vs Paris", compares two of the world's greatest cities on size, transport, food, people and cost. The second, "The Country Mouse and the City Mouse", is a classic fable that compares town life and country life through two mice. In grammar you will learn **adjectives and adverbs** with their **comparative and superlative forms**, and **connectives of reason and contrast**. In writing you will compare two places and describe a village.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 From "London vs Paris": exact comparisons, each supported by a fact, and your own choice with reasons. From the fable: the sequence of events and the moral. In grammar: correct adjective/adverb forms (*quiet / quietly*, *better / best*) and the right connective (*because / because of / although / despite / however*). In writing: a comparison that is organised point by point, and a vivid description of a place.
 :::
 

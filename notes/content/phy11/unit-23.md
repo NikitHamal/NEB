@@ -17,7 +17,7 @@ level of the electrons, how resistance arises, how to reduce any network to a
 single resistance, how to analyse networks that refuse to reduce (Kirchhoff),
 and finally where the energy goes.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Every year this unit supplies a derivation (drift velocity, series/parallel,
 Wheatstone balance, or $V = E - Ir$), a network numerical, and one instrument
 question (metre bridge, potentiometer, or converting a galvanometer). Learn the
@@ -168,7 +168,7 @@ one kind of charge carrier, all drifting with the same average speed; and $n$
 constant along the wire.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. The distance $v_d\Delta t$ and the statement that the electrons which cross
    are those inside a cylinder of that length.
 2. Volume $= Av_d\Delta t$, then number $= nAv_d\Delta t$.
@@ -812,7 +812,7 @@ measured, which is why the method is so accurate.
 four arms must be ohmic, and the resistances must not drift as they warm up.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. A labelled diagram of the diamond with $P, Q, R, S$, the galvanometer between
    B and D, and the cell across A and C.
 2. The statement $V_B = V_D$ at balance, with the reason.

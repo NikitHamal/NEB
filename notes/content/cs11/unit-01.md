@@ -14,7 +14,7 @@ physical component you will be asked to name, compare and describe. At 20 teachi
 hours it is the largest unit in Grade 11 Computer Science and it supplies more
 exam marks than any other.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Almost every question is one of four shapes: **define and list characteristics**,
 **compare two things in a table**, **draw and explain the block diagram**, or a
 small **numerical** on storage capacity or speed. Learn the block diagram until

@@ -361,7 +361,7 @@ $$ (2x+y)(3x+y)=6x^2+5xy+y^2=0 $$
 **Shortcut.** To get the perpendicular pair, interchange the coefficients of $x^2$ and $y^2$ and change the sign of the $xy$ term: $x^2-5xy+6y^2\to 6x^2+5xy+y^2$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 Writing $a$, $2h$ and $b$ explicitly (marks); computing $h^2-ab$ separately; the formula with the modulus and the factor $2$ in the numerator; and a final angle in degrees. For "show that the lines are perpendicular" it is enough to show $a+b=0$.
 :::
 

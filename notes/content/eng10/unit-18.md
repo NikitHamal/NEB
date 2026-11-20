@@ -9,7 +9,7 @@ area: Units
 
 Films, television, music and social media fill a large part of our free time, and they shape what we think and feel. This last unit of the book looks at both sides of the media. The first text, "Hachi: A Dog's Tale", is a review of a film based on the true story of a dog who waited for his dead master for ten years. The second, "Interesting Social Media Stories", shows the good that social media can do. In grammar you will study **how to ask questions** and **causative verbs** (*have, get, make, let*). In writing you will compose a **film review** and an **essay on the impact of social media**.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 From the review: facts about the film (director, story, themes, strengths and weaknesses) and your own opinion. From the social-media text: the four or five stories and what each shows. In grammar: correct word order in questions and the right causative construction. In writing: a review with a title, rating, summary, evaluation and recommendation, and a balanced essay that gives both advantages and disadvantages.
 :::
 

@@ -9,7 +9,7 @@ area: Units
 
 What we do for pleasure in our free time says a good deal about us — and, as this unit shows, it can even shape our careers. The first text surveys popular hobbies and what each one gives you. The second is a short poem about a child climbing an apple tree, which turns out to be about never giving up. In grammar you will learn the **passive voice**; in writing, an **essay**, an **advertisement** and **paraphrasing**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: synonyms and antonyms, words in sentences, true/false/not given, short answers; for the poem, words from meanings, multiple choice, imagery and message. Grammar: active ↔ passive voice, including *being* and *having* forms. Writing: essay on hobbies, job advertisement, paraphrase.
 :::
 

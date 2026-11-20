@@ -291,7 +291,7 @@ Continuity needs $6+k=5$, so $k=-1$.
 **Solution.** $f(2)=\dfrac10$ is undefined. Also, just left of $2$ the values are huge and negative ($f(1.99)=-100$), just right of $2$ they are huge and positive ($f(2.01)=100$). The one-sided limits do not approach a number, so $f$ is **discontinuous** at $x=2$ (a break). It is continuous at every other real number.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 Three separate lines: left-hand limit, right-hand limit, value of the function. Then a comparison and a conclusion in words: "Since $\lim_{x\to a^-}f(x)=\lim_{x\to a^+}f(x)=f(a)$, $f$ is continuous at $x=a$." For a table question, show at least two values on each side.
 :::
 

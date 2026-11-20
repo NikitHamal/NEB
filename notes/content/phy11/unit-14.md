@@ -444,7 +444,7 @@ point of having a sign convention: one equation instead of four.
 aperture, and all distances measured from the pole with the new Cartesian convention.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. A labelled ray diagram with $P$, $F$, $C$, the object and the image marked.
 2. The first similar-triangle pair and equation (1).
 3. The second similar-triangle pair, **with the statement $MP \approx AB$ for paraxial

@@ -122,7 +122,7 @@ $30\ ^{\circ}\text{C}$), cooling must be by natural convection in a draught-free
 the surroundings must stay at a steady $\theta_0$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. Newton's law written as $d\theta/dt = -k(\theta - \theta_0)$, with the minus sign
    explained.
 2. The separation of variables.

@@ -14,7 +14,7 @@ his friend Pratik and a formal invitation card for a Bratabandha ceremony. The
 grammar is **prepositions of place and time** and **question tags**. In writing
 you prepare a vacancy advertisement and a message of invitation.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Scan an advertisement for post, requirements, duration, deadline and how to
 apply. (2) Use *at/on/in* for time and *in/on/under/behind/in front of…* for
 place. (3) Add correct question tags (positive statement → negative tag, and

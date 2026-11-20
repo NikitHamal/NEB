@@ -13,7 +13,7 @@ there is a great deal to *know* — monomers, linkages, classes, examples — an
 examiner asks for exactly those names and examples. Read it as a set of tables to
 be learned rather than as theory to be derived.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Almost every question is one of four kinds: distinguish **addition from
 condensation** polymerisation with examples; give the **monomer, type and use** of
 a named polymer; classify **dyes** by structure or by method of application; or

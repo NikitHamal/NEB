@@ -9,7 +9,7 @@ area: Units
 
 Health is not only about doctors and medicine; it is also about kindness, communication and the food we eat. In this unit a worried mother complains, in a letter, about the way a hospital treated her sick baby, and a European speaker explains why healthy eating needs research and teamwork. You will practise reporting **commands and requests**, using a wider range of **reporting verbs**, writing an **apology email** and drafting a **speech**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: matching words and meanings, true/false, short answers about the writer's complaint and the speaker's message. Grammar: reported commands, requests and advice (*told, asked, requested, advised + person + to / not to*). Writing: an email, a speech, or a formal letter.
 :::
 

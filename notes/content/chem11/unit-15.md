@@ -16,7 +16,7 @@ to **substitute**, and it releases far less energy on hydrogenation than three
 double bonds ought to. That stubbornness has a name — **aromaticity** — and this
 unit is about where it comes from and what it does to the chemistry.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Four things come up almost every year: Hückel's rule applied to a given ring,
 the evidence for and against the Kekulé structure, the mechanism of one
 electrophilic substitution (usually nitration), and the o/p versus m orientation

@@ -15,7 +15,7 @@ the **past simple, past continuous and past perfect** used together in
 narration. In writing you put a story in order, write a picture story, and write
 paragraphs about a historical event.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Choose the meaning of a word **in context**. (2) Answer True/False and
 factual questions. (3) Make a timeline from a historical text. (4) Use the three
 past tenses correctly in one narrative. (5) Order jumbled sentences into a story

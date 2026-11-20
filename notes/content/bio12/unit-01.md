@@ -14,7 +14,7 @@ hollowed out into pipes. This unit teaches you to read a transverse section —
 to look at a slide and say, in a few seconds, *dicot root* or *monocot stem*,
 and to justify the answer from what is on the slide.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Four things, again and again. (1) Classify a tissue and give its wall structure
 and function. (2) Identify a transverse section and list the *diagnostic*
 differences — not every difference, the ones that decide it. (3) Draw a labelled
@@ -117,7 +117,7 @@ labelled diagram.
 | **Ground (fundamental)** | cortex, endodermis, pericycle, pith, medullary rays, mesophyll | everything between epidermis and vascular tissue | photosynthesis, storage, support |
 | **Vascular (conducting)** | xylem, phloem, cambium | in bundles or a ring | long-distance transport of water and food |
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 When you are asked to "describe the internal structure" of any organ, walk
 inwards in that order — epidermis, then ground tissue, then vascular tissue,
 then centre. You will never leave a layer out, and the answer reads like a

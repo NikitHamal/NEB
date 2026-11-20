@@ -16,7 +16,7 @@ order of the work. This unit covers the life cycle, the people, the
 requirement-gathering methods, design, quality, and the models themselves —
 which you must be able to **draw** as well as describe.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 Group B favours *define SDLC and explain its phases*, *differentiate system
 analyst and software engineer*, *explain any three requirement collection
 methods*. Group C almost always asks you to **draw and explain** the waterfall,

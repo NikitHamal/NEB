@@ -267,7 +267,7 @@ changes there is an extra tangential part $a_t = r\alpha$, and the total acceler
 is $\sqrt{a_c^{2} + a_t^{2}}$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) Two diagrams — the circle with $\vec{v}_A$, $\vec{v}_B$ and $\Delta\theta$, and the
 vector triangle; (ii) the statement that the *magnitudes* are equal but the
 directions differ by $\Delta\theta$; (iii) $|\Delta v| = 2v\sin(\Delta\theta/2)$;
@@ -513,7 +513,7 @@ constant (steady motion, not a wobble), air resistance is neglected, and the cir
 is horizontal so there is no vertical acceleration.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) A labelled diagram showing $L$, $\theta$, $r$, $h$, $mg$ and $T$ resolved into
 $T\cos\theta$ and $T\sin\theta$; (ii) the vertical **balance** equation with the reason
 "no vertical acceleration"; (iii) the horizontal equation identified as the
@@ -721,7 +721,7 @@ $v_2 = \sqrt{5gr}$ are the special minimum case. For a **rod** instead of a stri
 the rod can push, so $T_1$ may be negative and the minimum top speed is zero.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) A diagram with the forces drawn at the top and at the bottom; (ii) the correct
 *signs* — both forces inward at the top, opposing at the bottom; (iii) the argument
 "a string cannot push, so $T \ge 0$" leading to $v_1 = \sqrt{gr}$; (iv) energy
@@ -863,7 +863,7 @@ width. At speeds away from the design speed, friction must make up the differenc
 which is where the $v_{\max}$ formula below comes from.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) A diagram of the tilted surface with $mg$, $N$, and $N$ resolved into
 $N\cos\theta$ and $N\sin\theta$; (ii) the words "no vertical acceleration" beside the
 vertical equation; (iii) the horizontal component named as the centripetal force;

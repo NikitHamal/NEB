@@ -15,7 +15,7 @@ changing fast. This unit therefore has three jobs: to show *how* animals are
 fitted to where they live (adaptation), *what* they do there (behaviour), and
 *what happens* when we foul the place (pollution).
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three reliable patterns. First, a **list-with-reasons** question: "describe four
 adaptations of a bird for flight" — one mark per adaptation *plus its function*,
 so never write the structure alone. Second, a **compare-and-contrast** table:

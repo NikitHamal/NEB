@@ -14,7 +14,7 @@ hospital). The figures quoted below are stated **as of 2025–26** — quote the
 whenever you quote a number in the exam, because the number will be wrong by the
 time you are in college.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 Group A picks single facts: who coined "IoT", what does SaaS stand for, which V
 is not one of the Vs of big data. Group B asks *define X and state any four
 advantages/applications*, or *differentiate between A and B* — so learn one

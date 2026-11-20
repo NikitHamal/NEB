@@ -14,7 +14,7 @@ in this unit happens inside a flower you can pick from a field in Chitwan or
 Jumla, and almost every stage has a standard labelled diagram that the board
 asks for by name.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three things come again and again: (1) a **labelled diagram** — T.S. of an
 anther, L.S. of an anatropous ovule, the mature embryo sac, or the *Capsella*
 embryo; (2) **double fertilization** — who fuses with whom, and what ploidy each

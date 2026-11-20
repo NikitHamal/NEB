@@ -212,7 +212,7 @@ $\bar x=\dfrac{1350}{50}=27$ (so the column $|m-27|$ was filled after finding th
 $$ \text{M.D.}=\frac{472}{50}=9.44 \qquad\text{Coefficient}=\frac{9.44}{27}\approx0.350 $$
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) The mean found first, with its working. (2) A table with a separate column for $|x-\bar x|$ (and $f|x-\bar x|$). (3) The formula, the substitution and the answer with units, if any. (4) The coefficient as a number without units.
 :::
 

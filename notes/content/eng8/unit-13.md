@@ -16,7 +16,7 @@ refuse to help a frightened mouse — and pay for it. The grammar is
 **present tenses**. In writing you interpret a chart and describe a process
 from a flowchart.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Read numbers and trends from a report or chart. (2) Use quantifiers with
 countable and uncountable nouns, *some* in positive sentences and *any* in
 questions and negatives. (3) Choose present simple, present continuous, present

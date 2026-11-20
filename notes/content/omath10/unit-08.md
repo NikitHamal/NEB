@@ -467,7 +467,7 @@ $$ \frac{\vec{b}+\vec{d}}{2}=\frac{\vec{b}+\vec{a}+\vec{c}-\vec{b}}{2}=\frac{\ve
 **Conclusion.** The midpoints of $AC$ and $BD$ are the same point, so the diagonals bisect each other.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) A labelled diagram. (2) "Given" and "To prove" written out. (3) Each vector equation justified: "by the triangle law", "since $D$ is the midpoint". (4) For perpendicularity, a dot product equal to $0$. (5) A final sentence in geometric words.
 :::
 

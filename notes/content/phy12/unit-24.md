@@ -16,7 +16,7 @@ out that law, the instrument that counts the decays, and the two places Nepali
 students meet radioactivity in ordinary life: dating old things and treating
 cancer.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 The derivation of $N = N_0e^{-\lambda t}$ from $dN/dt = -\lambda N$, the three
 relations $T_{1/2} = 0.693/\lambda$, $\tau = 1/\lambda = 1.44\,T_{1/2}$ and
 $A = \lambda N$, the labelled GM tube, and a dating or activity numerical.

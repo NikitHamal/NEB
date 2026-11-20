@@ -370,7 +370,7 @@ Long division takes time. When we need only the remainder, there is a shortcut. 
 When a polynomial $p(x)$ is divided by $x-a$, the remainder is $p(a)$. When it is divided by $ax+b$ (with $a\neq 0$), the remainder is $p\left(-\frac{b}{a}\right)$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) the root of the divisor found first ($x-2$ gives $x=2$), (2) substitution into $p(x)$, (3) correct arithmetic with negative numbers, (4) a clear statement "the remainder is …".
 :::
 

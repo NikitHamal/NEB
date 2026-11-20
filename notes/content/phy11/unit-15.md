@@ -569,7 +569,7 @@ scene tilting. The shift grows with the thickness $t$ and with the angle of inci
 a prism *does* deviate light), and the same medium (air) lies on both sides.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. Snell's law written at **both** faces.
 2. The statement that the angle inside at the second face is $r$, *because the faces are
    parallel*.

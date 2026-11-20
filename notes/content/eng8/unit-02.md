@@ -14,7 +14,7 @@ his fear. Reading II is a poem, *Changing World*, in which an old man realises
 that the only thing he can really change is himself. The grammar is **yes/no
 questions**. In writing you complete a skeleton story and write an e-mail.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Understand the plot of the story and say who said what and why. (2) Explain
 the message of the poem in your own words. (3) Turn statements into yes/no
 questions with the right helping verb (*do/does/did, is/are, can, have…*).

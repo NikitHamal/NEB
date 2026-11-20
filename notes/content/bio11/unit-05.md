@@ -16,7 +16,7 @@ Birgunj to the Khumbu passes through as many vegetation belts as a traveller
 walking from India to the Arctic. This unit maps those belts, names the trees
 that mark them, and asks what Nepal is doing to keep them.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three things, again and again: (i) **name the vegetation zones with their
 altitude ranges and two indicator species each**; (ii) **differentiate in-situ
 and ex-situ conservation with named Nepali examples**; (iii) **list human

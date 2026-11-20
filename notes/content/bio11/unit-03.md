@@ -15,7 +15,7 @@ field in Bara, set curd in a Kathmandu kitchen, rot the jute in a Jhapa retting
 pit, and cause cholera, typhoid and COVID-19. The unit ends with what happens
 when we deliberately re-engineer them: biotechnology.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three items recur almost every year: a **labelled diagram** of a bacterial cell
 or of a bacteriophage; a **difference table** (Gram-positive vs Gram-negative,
 bacteria vs virus, virus living vs non-living); and a **list-with-examples**

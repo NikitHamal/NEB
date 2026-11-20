@@ -9,7 +9,7 @@ area: Units
 
 To travel is to learn. A journey shows us places, people and customs that no book can fully describe, and it often surprises us. This unit has two readings about discovering things on the road. "Expect the Unexpected" is a lively travel account in which a visitor describes what amazed her in Nepal — Kathmandu, Chitwan and Pokhara. "Weathers" is a short poem by Thomas Hardy that sets two kinds of weather, a bright spring day and a wet winter day, side by side. In grammar you will study **question tags**, and in writing you will produce a **travelogue** and a **tourist brochure**.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Facts about places and activities from the travel text, answered in full sentences. For the poem: the meaning of the two stanzas, the contrast between spring and winter, and what the weather stands for. In grammar: the correct question tag for any sentence, including the tricky ones. In writing: a travelogue with a personal voice and a brochure with every required heading.
 :::
 

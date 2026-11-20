@@ -76,7 +76,7 @@ learning app.
 | allows interaction and immediate feedback | too many effects can distract from the message |
 | one presentation can reach a huge audience | may not work on old devices or for people without access |
 
-### Eight applications of multimedia, explained
+### Key applications of multimedia
 
 1. **Education.** Animated lessons, e-books and recorded classes make difficult ideas easy to see. Students of Grade 10 watch videos of the heart or of a river forming a delta. Learning apps and the online resources of the Curriculum Development Centre use text, pictures, sound and video together.
 2. **Entertainment.** Films, music, streaming and computer games are pure multimedia. A Nepali film is shot as video, mixed with audio and given computer-made effects. Millions in Nepal watch songs on YouTube.

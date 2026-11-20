@@ -15,7 +15,7 @@ apart organelle by organelle, and finally shows how one cell becomes two. Nearly
 everything in the remaining Botany units — photosynthesis, respiration,
 reproduction, genetics — is an application of what is set up here.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three things come almost every year: a **labelled diagram** (plant cell, animal
 cell, mitochondrion or chloroplast) with 6–8 correct labels; a **difference
 table** (prokaryote vs eukaryote, plant vs animal cell, mitosis vs meiosis, DNA

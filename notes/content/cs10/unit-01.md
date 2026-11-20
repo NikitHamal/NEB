@@ -841,7 +841,7 @@ least 6 ports; each computer needs only **1 port**. This is why LANs are built
 as stars: the mesh's reliability costs far more cable and hardware.
 :::
 
-### Eight advantages of a computer network, explained
+### Key advantages of a computer network
 
 1. **Resource sharing.** One printer, scanner or file server can serve everybody on the network. A school buys one laser printer for the whole computer lab instead of one for each computer. This lowers the cost of hardware.
 2. **Software and data sharing.** Programs and files kept on a server can be used from any computer. Every teacher opens the same marks file instead of copying it on pen drives. The data stay up to date for everyone.

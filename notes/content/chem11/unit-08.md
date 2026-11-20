@@ -14,7 +14,7 @@ reactions are still running. This balanced, unfinished state is **chemical
 equilibrium**, and it decides how much ammonia a Haber plant can make and how
 much sulphur trioxide a contact plant can make.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Numerically, only two things come up: writing $K_c$ from a balanced equation and
 converting between $K_p$ and $K_c$. Theoretically, expect "state the law of mass
 action", "give four characteristics of dynamic equilibrium" and "apply Le

@@ -13,7 +13,7 @@ unit asks three questions in order: how did life begin, what is the *evidence*
 that species have changed, and by what *mechanism* did they change? It ends with
 our own case, the descent of *Homo sapiens* from a Miocene ape.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Four things recur almost every year: a **difference table** (Lamarckism vs
 Darwinism, homologous vs analogous organs, types of isolation); a **labelled
 series** (the horse, or the hominid line with dates and cranial capacities); a

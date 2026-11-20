@@ -442,7 +442,7 @@ symmetrical; monochromatic light must be used, since $n$ and $\delta_m$ both dep
 and the surrounding medium must be air.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. A labelled diagram with $i_1$, $r_1$, $r_2$, $i_2$, $A$ and $\delta$ marked.
 2. The two prism relations quoted or derived.
 3. The statement of the symmetry condition at minimum deviation, $i_1 = i_2$ and

@@ -400,7 +400,6 @@ for i, (r, cells) in enumerate(rows):
 
 ## 1.8 Readings
 
-*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, the characters or voices, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, then use these notes to revise. Quotations are limited to short phrases; the summaries are in our own words.
 
 ### 1.8.1 "Mother Tongue" by Amy Tan
 

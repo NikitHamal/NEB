@@ -14,7 +14,7 @@ energy moves, in which direction, and — most usefully — whether a reaction w
 happen at all without being pushed. Three quantities do all the work: enthalpy
 $H$, entropy $S$ and Gibbs free energy $G$.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Four things, nearly every year: the first law with a sign-convention numerical,
 a **Hess's law** calculation (often a Born–Haber cycle), the criterion
 $\Delta G = \Delta H - T\Delta S$ applied to decide spontaneity, and

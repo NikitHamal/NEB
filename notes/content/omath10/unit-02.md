@@ -64,7 +64,7 @@ $$ x=\frac{-b\pm\sqrt{b^2-4ac}}{2a} $$
 **What it means.** Every quadratic equation has at most two roots, given by this one formula. The number under the root sign decides whether real roots exist.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) dividing by $a$, (2) adding $\left(\frac{b}{2a}\right)^2$ to **both** sides, (3) the perfect square on the left, (4) the $\pm$ sign in the final formula.
 :::
 

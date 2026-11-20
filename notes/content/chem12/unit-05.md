@@ -14,7 +14,7 @@ mobile phone and an electric vehicle are powered. Run in reverse, electricity
 forces an unwilling reaction to go — that is **electrolysis**, and it is how
 aluminium, chlorine and electroplated metal are made.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Three things dominate the board paper: describing the **Daniell cell** with its
 electrode reactions and cell notation, using the electrochemical series or the
 Nernst equation to **calculate an EMF**, and linking EMF to free energy through

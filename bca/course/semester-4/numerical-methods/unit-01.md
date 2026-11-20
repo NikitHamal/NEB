@@ -16,7 +16,7 @@ Most equations that arise in engineering have no formula for their solution. The
 - Order of convergence and how to choose a method.
 :::
 
-All iteration tables in this book were produced by running the programs in `bca/tools/check_numerical.py`; nothing is typed by hand. Arithmetic is done in double precision and shown to six decimals.
+Arithmetic is done in double precision and shown to six decimals.
 
 ## 1.1 Types of equations and locating roots
 

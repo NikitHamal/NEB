@@ -176,7 +176,7 @@ pressed, dried on heated cylinders and calendered. Paper quality is specified by
 repulped and de-inked, though fibres shorten a little each cycle. Bamboo, bagasse, straw and
 sabai grass are regionally important non-wood fibres, including in South Asian mills.
 
-### Six processes the syllabus names
+### Six major industrial processes
 
 | Product | Heart of the process | Non-negotiable examination point |
 |---|---|---|

@@ -266,7 +266,6 @@ Use the chapters in the order **objective → subjective → model sets**. The o
 - Time per mark is $2.4$ minutes in every paper; plan about $5$ minutes to read and $15$ to check.
 - A 5-mark answer is marked in steps (formula, substitution, arithmetic, unit); an 8-mark answer is a structure (definition, diagram, body, example).
 - Learn by retrieval: attempt, mark, redo after two days; revise each unit on days $0, 2, 7, 21$.
-- No Grade 11 question in this book is given a past-paper year; labels are *practice*, *model* or *predicted*.
 - The commonest marks lost are formula omitted, units dropped, diagram skipped, equation unbalanced and time mismanaged.
 
 ## Practice questions

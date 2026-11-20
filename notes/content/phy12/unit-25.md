@@ -12,7 +12,7 @@ boson are results of the past two decades; seismology is the physics of the
 ground under Nepal. The mathematics is light — what is examined is whether you
 can explain the physics clearly and quote the key numbers.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 Descriptive answers with correct detail: the four wave types and their order of
 arrival, the facts of the Gorkha earthquake, what LIGO measured in 2015, what
 "nanoscale" means, and what the Higgs field does. Numbers earn marks: $M_w$ 7.8,

@@ -131,7 +131,7 @@ zero at infinity; and the test charge is moved slowly, so no kinetic energy is
 gained or lost.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. A statement of the definition being used: $V = W_{ext}/q_0$, with zero
    potential at infinity.
 2. Coulomb's law written for a general distance $x$, with a clear reason for
@@ -534,7 +534,7 @@ it; and for $E = V/d$ the field must be uniform, which means large plates and a
 small separation so that the edge effects can be ignored.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. The two independent expressions for the same work: $dW = qE\,dx$ from force
    $\times$ distance, and $dW = -q\,dV$ from the definition of potential
    difference.

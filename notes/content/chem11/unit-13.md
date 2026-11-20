@@ -15,7 +15,7 @@ why some bonds break one way and some the other. Ten hours of the syllabus are
 spent here because everything in Units 14 and 15 — and the whole of the Grade 12
 organic course — is written in this language.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Four skills carry almost every mark: (1) name any compound of up to six carbons
 and go back from the name to the structure; (2) write the Lassaigne equations
 with the colour of each product; (3) draw and classify isomers, including cis /

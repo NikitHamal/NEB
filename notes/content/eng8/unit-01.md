@@ -15,7 +15,7 @@ lab. The grammar is the modal verbs **can, could, would** and the **present
 simple tense**. In writing you interpret a sports timetable and fill in a hostel
 registration form.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Answer questions from a timetable, including "how long" questions that need
 subtraction. (2) Make yes/no questions with *can, could, would* and fill blanks
 with them, using the negative where the meaning needs it. (3) Put verbs in the
@@ -427,7 +427,7 @@ Yours faithfully,
 Grade 8 students
 :::
 
-**How the letter is built (the points an examiner looks for).**
+**Structure of the request letter.**
 
 1. **Sender's address and date** at the top right (or left).
 2. **Receiver's name and address** below the date.

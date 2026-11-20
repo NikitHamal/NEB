@@ -12,7 +12,7 @@ and it can let you choose what to look at next. That combination is what we call
 multimedia, and it is the reason a computer can teach, entertain, advertise and
 diagnose in ways that no earlier medium could.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 This is a short, definition-heavy unit and the marks are easy to collect. Learn
 the **definition of multimedia** and the **five components** in order, with two
 or three file formats and one piece of software for each. Be ready to explain
@@ -458,7 +458,7 @@ f.text(150, 220, "H.264 shrinks raw video %.0f times" % (raw / h264), size=10.5,
 facts = dict(cd="%.1f" % cd, mbcd="%.1f" % mb_cd, mbmp3="%.2f" % mb_mp3, r="%.0f" % (cd / mp3), v="%.0f" % (raw / h264))
 ```
 
-### Eight applications of multimedia explained
+### Key applications of multimedia
 
 **1. Education and e-learning.** Animated diagrams, narrated slides and video lessons
 make difficult topics easier to understand and remember. A student in a remote

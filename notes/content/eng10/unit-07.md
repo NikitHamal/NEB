@@ -9,7 +9,7 @@ area: Units
 
 Billions of people now shop, study, talk and play online. This unit looks at the risks. A comic short story shows what can happen when a teenager hides her identity from a worried father, and an information text gives practical advice for staying safe on the internet. In grammar you will study **advice and obligation** (*should, ought to, must*) and **articles**; in writing you will compose a **reply email** and a **newspaper article**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: vocabulary from definitions, sequencing events, short answers on character and misunderstanding; matching paragraph headings, true/false, short answers on safety measures. Grammar: *should / ought to / must* for advice, moral obligation and compulsion; *a, an, the* and zero article. Writing: email, newspaper article, informal letter.
 :::
 
@@ -135,7 +135,7 @@ This is an **informative / instructional text** of the kind found on technology 
 | Keep personal information private | Do not share your address, school, phone number or location carelessly on social media |
 | Back up your personal data | Keep copies of important files so that you can recover them if a device is lost or attacked |
 
-### Common threats explained
+### Common cyber threats
 
 | Threat | What it is | Defence |
 |---|---|---|

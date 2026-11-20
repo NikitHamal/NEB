@@ -14,7 +14,7 @@ the two together and you have the whole modern web: a form the browser checks
 instantly, submitted to a server that stores it in MySQL and prints the result
 back as a table.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Expect a comparison of client-side and server-side scripting, a small JavaScript
 program using a loop or a function, form validation, and — most often of all —
 a PHP script that connects to MySQL, runs a query and displays the rows. Learn

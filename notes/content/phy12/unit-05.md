@@ -13,7 +13,7 @@ stone cooled slightly and leapt into the air. Nature refuses. The second law
 fixes the *direction* of every real process, and from it follow the limits on
 every engine and every refrigerator ever built.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 The two statements of the second law (Kelvin–Planck and Clausius), the heat
 engine formula $\eta = 1 - Q_2/Q_1$, the Carnot cycle with its derivation of
 $\eta = 1 - T_2/T_1$, and the coefficient of performance of a refrigerator.

@@ -77,8 +77,7 @@ reading of the poem — a helpful one, but not evidence of what the poet intende
 **The text is the 1890 editors' text.** The standard printed text descends
 from the 1890 printing, which smoothed Dickinson's spelling, her capitals and
 above all her dashes. In her manuscript line 11 begins *That* little yellow boys
-and girls; the printed tradition gives *Which*. Do not lose marks over this — the
-textbook's word is the one to quote — but know that it happened.
+and girls; the printed tradition gives *Which*. The standard edition uses *Which* in line 11.
 
 **That mark in line one is a dash.** The text prints:
 
@@ -91,8 +90,7 @@ does, which is what §8.11 below models. A dash is Dickinson's fingerprint. It i
 a held breath, not a stop.
 
 The poem was written about **1860** and first printed in **1890**, four years
-after her death. It is in the public domain, which is why it can be given here
-in full.
+after her death.
 
 ## 8.3 The poem, stanza by stanza
 
@@ -683,7 +681,7 @@ That is the difference an adult reader makes. A child reads a bright morning and
 a slightly sad evening. An adult reads innocence and experience — the confident
 telling of what we have lived through, and the silence about what is still to
 come. The poem does not change; the reader brings the second meaning with them.
-That is why it belongs in a Grade 12 textbook and not only in a picture book.
+That is what gives the poem its lasting philosophical depth.
 
 ### Reference beyond the text
 

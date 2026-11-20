@@ -217,7 +217,7 @@ exactly as expected.
 area $A$; the charge $Q$ on the plates is unchanged; edge effects ignored.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. $\sigma = Q/A$ and the field of a single sheet, $\sigma/2\varepsilon_0$.
 2. The reason the two fields **add** between the plates (and cancel outside).
 3. $V = Ed$, with a statement that the field is uniform.
@@ -412,7 +412,7 @@ means bigger capacitance. The total is always larger than the largest member.
 each must be able to withstand the full supply voltage.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. A clear statement, **with a reason**, of what is common: same $Q$ in series
    (induction, charge cannot cross the gap), same $V$ in parallel (both plates
    on the terminals).

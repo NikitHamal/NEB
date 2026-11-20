@@ -15,7 +15,7 @@ chemical engineering science — is the study of that scale-up. It is the bridge
 between the balanced equation and the bag of urea a farmer in Chitwan actually
 buys.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 This is a descriptive unit with no derivations, so marks are won on *organised
 lists*. Learn: the stages of new-product development in order; the difference
 between fixed and variable cost and the shape of the cash-flow curve; the

@@ -9,7 +9,7 @@ area: Botany
 
 A plant does not move, does not hunt and does not drink. Yet a single maize plant in a Terai field pulls something like two hundred litres of water out of the soil in a season, loses almost all of it to the air, and builds its entire body out of a gas that makes up four hundredths of one per cent of that air. This unit is about how. It is the longest unit in the Botany paper — twenty of your eighty-odd Botany hours — and it is the one that rewards understanding over memorising, because almost every question is a *why* question wearing a *what* disguise.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Photosynthesis and respiration together supply most of the marks. Expect one long question from the pair almost every year — the light reaction and the Z-scheme, the Calvin cycle with its stoichiometry, C3 against C4 against CAM, or the complete aerobic breakdown of glucose with a correct ATP tally. Water relations supplies the short questions: water potential and its components, ascent of sap, the mechanism of stomatal opening, transpiration versus guttation. Hormones and movements are small but certain — a four-mark comparison or a one-mark "which hormone does X". Learn the numbers. ATP counts, RQ values and hormone functions are the only places in this unit where an examiner can mark you wrong without argument.
 :::
 

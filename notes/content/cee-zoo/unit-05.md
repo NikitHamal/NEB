@@ -964,7 +964,7 @@ f.text(150, 214, "tennis court = 261 sq m", size=10.5, color=NAVY, bold=True)
 **1.** (c) — pH 2 means [H⁺] = 10⁻² mol L⁻¹, and HCl is fully dissociated, so n = 0.01 × 2.0 = 0.020 mol.
 **2.** (b) — m = nM = 0.020 × 36.5 = 0.73 g of HCl. Option (c) doubles the amount by mistake.
 **3.** (a) — 250 × 4 = 1000, 70 × 4 = 280, 60 × 9 = 540; total 1820 kcal (about 7.6 MJ).
-**4.** (d) — plain area 2πrL = 2π(0.015)(5) = 0.47 m²; × 450 = 211 m², the textbook figure of about 200 m².
+**4.** (d) — plain area 2πrL = 2π(0.015)(5) = 0.47 m²; × 450 = 211 m², approximately 200 m².
 **5.** (b) — the urea breath test detects *H. pylori* urease; the bacterium, not spice, causes most peptic ulcers.
 **6.** (d) — migration of pain from the umbilicus to the right iliac fossa with localised tenderness is the classic picture; perforation is the danger.
 **7.** (c) — dark urine with pale stools means conjugated bilirubin is in the blood but cannot reach the gut: obstructive jaundice.

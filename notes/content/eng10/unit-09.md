@@ -9,7 +9,7 @@ area: Units
 
 History tells us who we were; culture shows who we are. This unit pairs a Nepali king who left his mark on Kathmandu with a Russian custom — the language of flowers. In grammar you will practise **narrating the past** with the simple past, past continuous and past perfect; in writing you will write about **historical events**, give an **opinion** and tell a **story from an outline**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: completing sentences with words from the text, multiple-choice questions, short answers on facts, compound words, "single word for a meaning". Grammar: simple past vs past continuous; past perfect; narrating a story with correct tenses. Writing: a paragraph from a list of events, an opinion essay (about 200 words), and a story from outlines with a moral.
 :::
 

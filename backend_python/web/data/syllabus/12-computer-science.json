@@ -23,7 +23,7 @@
     "Introduction to data, database, database system, DBMS",
     "Field, Record, Objects, Primary Key, Alternate key, Candidate key",
     "Advantages of using DBMS",
-    "DDL and DML: The sample database used in this chapter, DDL in action — ALTER, DML — retrieving data with SELECT, DML — INSERT, UPDATE, DELETE, Joining tables",
+    "DDL and DML: Relational schema example, DDL statements — ALTER, DML — retrieving data with SELECT, DML — INSERT, UPDATE, DELETE, Joining tables",
     "Database Models: Network Model, Hierarchical Model, Relational database model",
     "Concept of Normalization: 1NF, 2NF, 3NF",
     "Centralized vs Distributed Database",
@@ -80,7 +80,7 @@
     "Database security"
    ],
    "stats": {
-    "words": 7664,
+    "words": 7654,
     "figures": 10,
     "examples": 4
    },
@@ -181,7 +181,7 @@
     "Topology"
    ],
    "stats": {
-    "words": 7843,
+    "words": 7839,
     "figures": 10,
     "examples": 3
    },
@@ -291,7 +291,7 @@
     "Event and event handler"
    ],
    "stats": {
-    "words": 4868,
+    "words": 4864,
     "figures": 9,
     "examples": 3
    },
@@ -393,7 +393,7 @@
     "Pointer"
    ],
    "stats": {
-    "words": 4751,
+    "words": 4747,
     "figures": 10,
     "examples": 3
    },
@@ -444,7 +444,7 @@
     "Polymorphism"
    ],
    "stats": {
-    "words": 5387,
+    "words": 5383,
     "figures": 7,
     "examples": 3
    },
@@ -513,7 +513,7 @@
     "System/Software Development Life Cycle"
    ],
    "stats": {
-    "words": 6496,
+    "words": 6492,
     "figures": 10,
     "examples": 5
    },
@@ -582,7 +582,7 @@
     "Internet of Things"
    ],
    "stats": {
-    "words": 7443,
+    "words": 7439,
     "figures": 9,
     "examples": 5
    },

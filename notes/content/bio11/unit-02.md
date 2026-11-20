@@ -24,7 +24,7 @@ bryophytes, pteridophytes, gymnosperms and finally the angiosperms, where four
 named families are studied in detail. At every step ask the same three questions
 — what is the plant body like, how does it reproduce, and what is it used for?
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 The Botany section of the paper draws four short answers and one long answer, and
 this unit supplies most of them. Expect: a **comparison table** (bryophyta vs
 pteridophyta, gymnosperm vs angiosperm, monocot vs dicot, algae vs fungi); a

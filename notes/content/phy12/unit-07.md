@@ -14,7 +14,7 @@ out to depend on only two properties of the medium — how stiff it is and how
 heavy it is — plus, for a gas, one subtlety about heat that took physics a
 century to get right.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Four things, over and over: the general formula $v=\sqrt{E/\rho}$ applied to a
 named medium; the derivation of **Newton's formula**; **Laplace's correction**
 and why it was needed; and a numerical using $v_t = v_0\sqrt{T/273}$. Learn

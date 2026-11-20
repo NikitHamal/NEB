@@ -15,7 +15,7 @@ asks what makes people ill: microbes that pass from person to person, disorders
 that grow out of the way we live, and diseases caused simply by something missing
 from the plate.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two things come almost every year. One is a **definition-plus-calculation**
 question on population: crude birth rate, death rate, growth rate, doubling time
 or dependency ratio, worked from given numbers. The other is a **disease

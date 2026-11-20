@@ -15,7 +15,7 @@ then it applies chemical periodicity to the two most reactive families in the
 periodic table, the alkali metals (group 1) and the alkaline earth metals
 (group 2).
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three things recur in every paper: (i) define the technical words — ore, gangue,
 flux, slag, alloy, amalgam, calcination, roasting, smelting; (ii) draw and label
 one furnace or electrolytic cell and write its electrode reactions; (iii) explain

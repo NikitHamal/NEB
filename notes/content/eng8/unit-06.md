@@ -15,7 +15,7 @@ places: the Hippo-roller, LifeStraw and the AidPod. The grammar is **causative
 verbs** (*have, get, make, let*) and **subject–verb agreement**. In writing you
 describe a ceremony and paraphrase a paragraph.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Match paragraphs with headings and answer factual questions. (2) Use the
 right causative pattern: *have/make/let + person + base verb*, *get + person +
 to + verb*, *have/get + thing + past participle*. (3) Make the verb agree with

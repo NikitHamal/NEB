@@ -15,7 +15,7 @@ Pokhara Regional International Airport on 1 January 2023. The grammar is
 **reported (indirect) speech** — statements, questions, commands. In writing
 you write a story and a news report; the project is a newspaper front page.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Order the events of the story and explain its moral. (2) Find facts and
 speakers in a news report. (3) Change direct speech into indirect speech:
 reporting verb, tense back-shift, pronouns, time and place words, word order of

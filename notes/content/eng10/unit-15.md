@@ -9,7 +9,7 @@ area: Units
 
 Every place has a story and every story has people in it. This unit moves from a deeply personal text about a Nepali writer's struggle to a lively factual text about one of the world's most famous mountains. "Me at the Beginning of Life" is an extract from the autobiography of **Jhamak Kumari Ghimire**, one of Nepal's best-loved writers. "Sugarloaf Mountain: 5 Interesting Facts" introduces a landmark in Rio de Janeiro, Brazil. In grammar you will learn **relative clauses** (*who, whom, whose, which, where, when*) and **prepositions**. In writing you will compose a **biography** and an **email or letter** inviting a foreign friend to a place in Nepal.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 From the first text: the writer's feelings, the people around her, and how she answers the unkindness of others. From the second: five clear facts about the mountain with correct figures. In grammar: relative pronouns that fit the noun they follow, and the right preposition. In writing: a biography built from notes (birth, education, works, contribution, awards), and a friendly invitation with interesting facts.
 :::
 

@@ -14,7 +14,7 @@ Reading II is a set of seven steps on how to wash clothes in a washing machine.
 The grammar is **reported speech of yes/no questions** (*She asked if…*). In
 writing you prepare an announcement and a set of instructions.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Find facts in an announcement: what, when, where, who. (2) Report yes/no
 questions with **if/whether**, changing tense, pronouns and time words.
 (3) Write an announcement that answers *what, when, where, who, how* and invites

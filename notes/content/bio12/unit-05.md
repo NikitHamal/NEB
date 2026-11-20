@@ -16,7 +16,7 @@ few cells, breed better crops, build disease resistance, replace chemicals with
 living fertilisers and pesticides, move a gene from one species to another, and
 help keep a country's food both sufficient and safe.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Long questions come from **tissue culture** (steps plus applications) and
 **genetic engineering** (tools, steps of recombinant DNA technology, and GMOs
 with named examples). Short questions come from **bio-fertilizers and

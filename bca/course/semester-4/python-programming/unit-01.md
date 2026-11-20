@@ -16,7 +16,6 @@ Python is the language in which you can write a working program on the first day
 - Console input and output; useful built-in functions.
 :::
 
-Every code block in this book was executed with **Python 3.12**; the output shown below each block is the real output.
 
 ## 1.1 What is Python?
 

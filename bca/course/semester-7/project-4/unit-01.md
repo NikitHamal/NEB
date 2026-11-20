@@ -31,7 +31,7 @@ Because of this, the Project IV report has chapters that the earlier reports do 
 
 ## 1.2 The running example: SikshyaSignal
 
-SikshyaSignal is invented for this book. A private college in Kathmandu has 600 first-year BCA students. Teachers learn that a student is in trouble only when the internal exam result arrives, which is too late for extra classes. About one student in four fails at least one subject.
+A private college in Kathmandu has 600 first-year BCA students. Teachers learn that a student is in trouble only when the internal exam result arrives, which is too late for extra classes. About one student in four fails at least one subject.
 
 *Problem statement, version 1.* "Roughly 23 percent of first-year students fail a subject, and the college learns this only after the internal exam, six weeks before the final. Teachers cannot visit 600 students, but they can talk to 40. A tool that ranks students by risk from attendance, assignments and internal marks could point the teachers to the right 40 early enough for two remedial weeks."
 

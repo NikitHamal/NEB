@@ -105,7 +105,7 @@ provided the signs go in. **Conditions:** paraxial rays only (small aperture), a
 thin mirror.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 The sign convention written down **before** substitution, the formula, the
 substitution with signs, and the statement "real, inverted, magnified" — not just a
 number. A bare answer of "30 cm" earns half the marks; "30 cm in front of the mirror,

@@ -9,7 +9,7 @@ area: Units
 
 Food is more than fuel: it is memory, culture and sometimes courage. This unit takes you on a tour of the world's strangest dishes, then to the story of a Nepali boy who became a celebrated chef in Britain. In grammar you will study how to give **reasons and purposes** and how to use the **present continuous**; in writing you will write a **recipe** and an **opinion paragraph**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: matching words, idioms and meanings; completing sentences from the text; true/false/not given; short answers. Grammar: connectives of reason and purpose (*because, as, since, so that, in order to*), present continuous with time expressions. Writing: a recipe or process, and an argument paragraph (*To what extent do you agree?*).
 :::
 

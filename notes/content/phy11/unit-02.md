@@ -226,7 +226,7 @@ modulus sign matters: a magnitude cannot be negative, so if $Q > P$ the answer i
 $Q - P$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 For the 5-mark parallelogram-law question: (i) statement of the law; (ii) a
 labelled parallelogram with the perpendicular $CD$ drawn and $O$, $A$, $B$, $C$,
 $D$ marked; (iii) $AD = Q\cos\theta$ and $DC = Q\sin\theta$ written down;

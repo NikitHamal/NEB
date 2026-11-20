@@ -9,7 +9,7 @@ area: Units
 
 Science begins with a question and an experiment. In this unit a popular-science article answers a surprising question — can water boil without being hot? — and an American poem lets the rain itself explain the cycle that science calls evaporation and condensation. You will learn to talk about possible and imaginary situations with **conditional sentences**, to write **instructions** and to write a **letter of complaint to the editor**.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Reading: words from the text, completing sentences, short answers about the experiment; for the poem, word meanings, summary completion and personification. Grammar: conditional sentences (zero, first, second, third, *unless*, *provided that*). Writing: instructions and a letter to the editor.
 :::
 

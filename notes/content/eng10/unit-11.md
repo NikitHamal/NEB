@@ -9,7 +9,7 @@ area: Units
 
 Ethics is the study of right and wrong; morality is how we behave in daily life because of it. This unit gives you two very different texts on the theme. "Wisdom of Little Girls" is a short, gentle story in which two children teach the adults of a village how to forgive. "World Record" is a comic drama in which a television show turns the idea of "record-breaking" into a joke. In grammar you will learn how to make **negative and affirmative sentences** and how to make a **verb agree with its subject**. In writing you will practise a **story with a moral**, a **message of condolence** and a **letter of sympathy**.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Retell a story in your own words with a clear moral. Answer questions about characters in full sentences. In grammar, change a sentence from positive to negative (and back) and choose the correct verb form in tricky subjects such as *a number of*, *the number of*, *either … or* and *none*. In writing, use the right layout and a warm, polite tone for condolence and sympathy letters.
 :::
 

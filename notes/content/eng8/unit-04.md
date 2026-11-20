@@ -15,7 +15,7 @@ past tense. The grammar is the difference between the **present perfect** (*I
 have visited*) and the **past simple** (*I visited last year*). In writing you
 describe a memorable event and write your own diary entry.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Put events of a narrative in order and answer factual questions. (2) Choose
 correctly between present perfect and past simple, mostly from time words
 (*yesterday, last year, ago* → past simple; *ever, never, already, yet, since,

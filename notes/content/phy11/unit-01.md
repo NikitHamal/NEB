@@ -342,7 +342,7 @@ higher binomial terms can be dropped. The rules give the *maximum* error, not th
 most likely one.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 For "derive the expression for the maximum error in a product": (i) write
 $Z + \Delta Z = (A+\Delta A)(B+\Delta B)$; (ii) expand fully; (iii) *say in words*
 that $\Delta A\,\Delta B$ is neglected because it is second order; (iv) divide

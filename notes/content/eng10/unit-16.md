@@ -9,7 +9,7 @@ area: Units
 
 Success is rarely sudden. Behind most famous achievements lie years of failure, patience and effort, and a good deal of luck. This unit studies two texts on that theme. The first is a biography, "Walt Disney: An Example of Struggle and Success", which shows how the creator of Mickey Mouse and Disneyland went bankrupt, lost his best character and suffered a breakdown before he became a world name. The second is the famous poem "If" by Rudyard Kipling, a father's advice to his son on how to become a good and successful person. In grammar you will practise **prepositions and prepositional phrases**, and in writing you will produce a **message and a letter of congratulation** and a **speech**.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Accurate facts and events from Disney's life, in the right order, plus the lesson. For the poem: the "if … then" structure, the qualities Kipling recommends and the meaning of difficult words. In grammar: the right preposition after a word or in a set phrase. In writing: a congratulation message that is warm and short, a letter with correct layout, and a speech that greets the audience, develops one idea and closes with a call.
 :::
 

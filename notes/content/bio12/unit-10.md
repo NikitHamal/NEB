@@ -15,7 +15,7 @@ pond, the buffalo that supplies more than half of Nepal's milk, the sputum smear
 read in a district hospital. Learn the organism's correct name, the technique,
 and one Nepali number for each; that combination is what an 8-mark answer needs.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Section II reliably takes two or three short questions from here and often one
 long question. The long question is almost always either "describe the method of
 X culture and its economic importance" (apiculture, sericulture, pisciculture,
@@ -875,7 +875,7 @@ named precisely.
 - **Direct contact and fomites** — ringworm, scabies, conjunctivitis.
 - **From the environment, not person to person** — tetanus (soil spores).
 
-### The diseases the examiner asks for
+### Common human diseases in Nepal
 
 | Disease | Causative agent | Type | Transmission | Incubation | Cardinal signs | Prevention |
 |---|---|---|---|---|---|---|

@@ -15,7 +15,7 @@ two laws you already know — reflection and refraction — from scratch. Everyt
 in the next three units (interference, diffraction, polarization) stands on the
 geometry you learn here.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two things, almost every year: *state Huygens' principle and explain the
 construction*, and *prove the laws of reflection or Snell's law using Huygens'
 construction*. Both are pure marks if you can draw the diagram correctly, so

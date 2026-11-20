@@ -329,7 +329,7 @@ explicitly rules this out — the oval frame and vignette style "must have insta
 dispelled such idea". What frightens him is the *expression*, not a mistake.
 :::
 
-::: tip What the examiner wants from this story
+::: tip Key analytical focus
 Most questions turn on one sentence: "This is indeed Life itself!" If you can
 explain why that line is ironic, why it is the climax, and how the frame narrative
 delivers it to us second-hand, you can answer nearly anything asked about this text.

@@ -501,7 +501,7 @@ burial — paintings — agriculture.
 (1) **Fire** belongs to *H. erectus*, **tools** to *H. habilis* — not the
 reverse. (2) The **Neanderthal** brain (≈ 1450 cm³) was *not smaller* than ours;
 size alone is not intelligence. (3) *Ramapithecus* is no longer regarded as our
-ancestor, but the paper still calls it the "first hominid" of the textbook line
+ancestor, but the paper still calls it the "first hominid" in standard palaeoanthropology
 — answer in that language when the stem uses it.
 :::
 

@@ -112,7 +112,7 @@ the same $x$ at two different speeds, you must treat each part of the journey
 separately.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 For "show that $a = v\,dv/dx$": start from $a = dv/dt$, write the chain rule
 step explicitly, state that $dx/dt = v$, then substitute. Three lines, three
 marks — do not skip the chain-rule line.
@@ -332,7 +332,7 @@ with one fixed positive direction chosen before you start. They do not apply to
 circular motion, or to a car whose acceleration is changing.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 A 5-mark "derive the three equations graphically" answer must contain: (i) a
 labelled $v$–$t$ graph with $u$, $v$, $t$ marked; (ii) the sentence "slope =
 acceleration" and the sentence "area = displacement"; (iii) the algebra for each
@@ -595,7 +595,7 @@ landing point is at the **same height** as the launch point. If the ground is lo
 $y = -h$ instead of $y = 0$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) Resolve $u$ into $u\cos\theta$ and $u\sin\theta$ and say the two motions are
 independent; (ii) for $T$, set $y = 0$ and *reject the root $t = 0$ with a reason*;
 (iii) for $H$, state that the vertical velocity is zero at the top; (iv) for $R$,

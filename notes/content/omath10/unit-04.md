@@ -366,7 +366,7 @@ ax.tick_params(labelsize=8); ax.grid(color=GRID, lw=0.5); ax.spines[['top','righ
 fig.tight_layout(pad=0.4)
 ```
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) writing which of the four product-to-sum formulas you start from, (2) choosing $C$ and $D$ so that $\frac{C+D}{2}$ and $\frac{C-D}{2}$ are nice angles, (3) the **minus** sign in $\cos C-\cos D$, (4) a simplified final value.
 :::
 

@@ -13,7 +13,7 @@ signal, what damages it on the way, how machines are addressed, and how the
 whole job is divided into layers. At 15 teaching hours this is the largest unit
 in the course and it supplies the largest share of the written marks.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Expect the block diagram of a communication system, topologies with their
 advantages and disadvantages, guided versus unguided media, the OSI model
 (layer names, functions and one protocol each), and IP address classes with a

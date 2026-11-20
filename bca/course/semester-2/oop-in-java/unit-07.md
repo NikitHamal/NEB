@@ -6,7 +6,7 @@ title: Design Patterns and Advanced OOP Concepts
 area: BCA 153 · OOP in Java · Unit 7
 ---
 
-The revised TU syllabus ends with a unit on **advanced OOP concepts in Java**: design patterns (singleton, factory, observer), lambda expressions, the Stream API, `Optional` and method references. Lambdas, streams and `Optional` were introduced in Unit 5; this unit completes the list with the three patterns, and it also closes four smaller gaps that the syllabus names in its class and array topics: **copy constructors**, **nested and inner classes**, **jagged arrays** and **variable-length arguments**.
+This unit covers **advanced OOP concepts in Java**: design patterns (singleton, factory, observer), lambda expressions, the Stream API, `Optional` and method references. Lambdas, streams and `Optional` were introduced in Unit 5; this unit completes the list with the three patterns, and it also closes four smaller gaps that the syllabus names in its class and array topics: **copy constructors**, **nested and inner classes**, **jagged arrays** and **variable-length arguments**.
 
 ::: key What this unit gives you
 - What a design pattern is, and why the same three solutions keep appearing in real code.
@@ -26,7 +26,7 @@ A **design pattern** is a named, reusable solution to a design problem that keep
 | Structural | How are classes and objects combined into larger structures? | Adapter, Decorator, Facade |
 | Behavioural | How do objects share work and talk to each other? | Observer, Strategy, Iterator |
 
-The syllabus asks for one pattern from each of the first and third families and the most common creational helper: **singleton** (creational), **factory** (creational) and **observer** (behavioural). Every pattern below uses only ideas from earlier units: private constructors and `static` (Unit 2), interfaces and polymorphism (Unit 3) and collections (Unit 5).
+Three widely used design patterns across creational and behavioural categories are: **singleton** (creational), **factory** (creational) and **observer** (behavioural). Every pattern below uses only ideas from earlier units: private constructors and `static` (Unit 2), interfaces and polymorphism (Unit 3) and collections (Unit 5).
 
 ::: tip Exam tip
 Answer every pattern question in four parts: *intent* (one sentence), *structure* (a small class diagram or the list of classes), *code* (10 to 20 lines), *use* (one real example). Examiners award marks for each part.
@@ -358,7 +358,7 @@ A **varargs** parameter (`int... nums`) accepts any number of arguments and insi
 
 ## 7.8 Lambdas, streams, Optional, method references
 
-Unit 5 explained these in detail; the last item of the syllabus is only to be able to *use* them together. The short reference below is what a practical question expects.
+The reference below summarises how to combine streams, readers, writers and serialization in what a practical question expects.
 
 | Feature | Form | Replaces |
 |---|---|---|

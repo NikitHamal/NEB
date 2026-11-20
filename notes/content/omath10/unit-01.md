@@ -194,7 +194,7 @@ $$ S_n=\frac{n}{2}\left[2a+(n-1)d\right] $$
 **What it means.** The sum is the number of terms times the **average** of the first and last term. It works for any AP, including decreasing ones.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) writing the series forwards and backwards, (2) adding to get $n(a+l)$, (3) dividing by 2, (4) substituting $l=a+(n-1)d$ to reach the second form.
 :::
 
@@ -462,7 +462,7 @@ $$ S_n=\frac{a(1-r^n)}{1-r} $$
 **What it means.** Multiplying by $-1$ top and bottom gives the equivalent form $S_n=\frac{a(r^n-1)}{r-1}$. Use this form when $r>1$ so that both numerator and denominator are positive. If $r=1$ all terms equal $a$ and $S_n=na$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) writing $S_n$ and $rS_n$, (2) subtracting to cancel the middle terms, (3) factorising to get $S_n(1-r)=a(1-r^n)$, (4) the final formula.
 :::
 

@@ -14,7 +14,7 @@ coal — and the same radiation that images a patient's thyroid will, in a large
 enough dose, destroy the tissue it passes through. This unit covers both sides of
 that bargain.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Distinguish natural from artificial radioactivity; complete and balance nuclear
 equations (mass number and atomic number must balance on both sides); define the
 curie, becquerel, gray and sievert; explain fission and fusion with equations; and

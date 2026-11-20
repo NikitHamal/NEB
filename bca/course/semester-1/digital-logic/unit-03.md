@@ -288,7 +288,7 @@ f.arrow([(480, 105), (515, 105)], color=SLATE)
 
 ## 3.7 Implementing logic functions with multiplexers and decoders
 
-The TU syllabus asks for *implementation of logical functions using multiplexers*. A MUX and a decoder are both **universal function generators**: with the right wiring, one chip replaces a whole sum-of-products circuit.
+A MUX and a decoder are both **universal function generators**: with the right wiring, one chip replaces a whole sum-of-products circuit.
 
 ### Method A: a 2ⁿ-to-1 MUX for an n-variable function
 
@@ -419,7 +419,7 @@ The fix is to combine them: diode input, transistor output (DTL), then replace t
 
 ## 3.11 Five-variable maps
 
-The TU outline stops at four variables, but a five-variable function is a common extension and tests whether the adjacency idea is understood. A 5-variable function has 32 cells, drawn as **two 4-variable maps side by side**: the left one for A = 0 (minterms 0 to 15) and the right one for A = 1 (minterms 16 to 31). Here the rows are BC and the columns DE, each in Gray order.
+A five-variable function extends the four-variable Karnaugh map by using two overlaid 4-variable grids. A 5-variable function has 32 cells, drawn as **two 4-variable maps side by side**: the left one for A = 0 (minterms 0 to 15) and the right one for A = 1 (minterms 16 to 31). Here the rows are BC and the columns DE, each in Gray order.
 
 Two cells are adjacent if they are neighbours inside one map (including the wrap-around of the edges), **or** if they occupy the same position in the two maps (they differ only in A). Think of the right map as lying directly on top of the left one. Groups of 1, 2, 4, 8 and 16 cells are formed as before; a group that sits in the same place on both maps loses the variable A.
 

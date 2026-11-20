@@ -251,7 +251,7 @@ Br = bracteate, Ebr = ebracteate; ⊕ actinomorphic, % zygomorphic; ⚥ bisexual
 ♂ male, ♀ female; K calyx, C corolla, P perianth, A androecium, G gynoecium.
 The number after the letter is the number of members; **brackets** mean the
 members are **united**; **+** separates whorls or groups. A line under G means a
-superior ovary, a line over it an inferior ovary — in this book the ovary
+superior ovary, a line over it an inferior ovary — in floral formulas the ovary
 position is written in words. All four families below have a **superior
 ovary** (hypogynous flowers).
 

@@ -14,7 +14,7 @@ to describe and simplify the switching circuits that carry out that arithmetic.
 It is the most *mechanical* unit in the course: almost every mark is earned by
 applying a procedure correctly, so practise until the procedures are automatic.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Conversions and complement subtraction are guaranteed marks — show every step of
 the division/multiplication and keep the digits in the right order. Logic gates
 appear every year: know all seven **symbols**, **truth tables** and **Boolean

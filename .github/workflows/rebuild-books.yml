@@ -33,7 +33,10 @@ jobs:
             notes/curriculum
             notes/content
             notes/assets
+            bca/course
+            bca/tools
             tools/publish/published.json
+            tools/publish/manifest.json
             backend_python/web/data/syllabus
             backend_python/web/data/study
             backend_python/web/static/web/study
@@ -59,18 +62,40 @@ jobs:
           set -euo pipefail
           mkdir -p stage notes/pdf
           python3 notes/tools/export_syllabus.py
-          python3 notes/tools/export_study.py $SLUGS
           python3 - <<'PY'
           import json, os, shutil, subprocess, sys
           sys.path.insert(0, "notes/pipeline")
           sys.path.insert(0, "notes/tools")
           import spine, build_pdf, export_study
 
-          slugs = os.environ["SLUGS"].split()
+          published = json.load(open("tools/publish/published.json", encoding="utf-8"))
+          manifest = {b["slug"]: b for b in json.load(open("tools/publish/manifest.json", encoding="utf-8"))["books"]}
+          raw_slugs = os.environ["SLUGS"].split()
+          slugs = []
+          for s in raw_slugs:
+              if s == "all-bca-courses":
+                  slugs.extend(sorted(k for k in published if k.startswith("bca-course-")))
+              else:
+                  slugs.append(s)
+          open("stage/resolved_slugs.txt", "w", encoding="utf-8").write(" ".join(slugs))
+
+          notes_slugs = [s for s in slugs if not s.startswith("bca-course-")]
+          bca_rels = [s[len("bca-course-"):].replace("-", "/", 1).replace("semester/", "semester-") for s in slugs if s.startswith("bca-course-")]
+          if notes_slugs:
+              subprocess.check_call([sys.executable, "notes/tools/export_study.py"] + notes_slugs)
+          if bca_rels:
+              subprocess.check_call([sys.executable, "bca/tools/export_course_web.py"] + bca_rels)
+
           sync_paths = ["web/data/syllabus"]
           seen = set(sync_paths)
           for s in slugs:
-              if s.startswith("qbank"):
+              if s.startswith("bca-course-"):
+                  sub = s.split("-", 4)[-1]
+                  rel = f"web/data/study/bca-course-{sub}"
+                  if os.path.exists(os.path.join("backend_python", rel)) and rel not in seen:
+                      seen.add(rel)
+                      sync_paths.append(rel)
+              elif s.startswith("qbank"):
                   _, grade = export_study._split(s)
                   study_root = os.path.join("backend_python", "web", "data", "study")
                   for d in sorted(os.listdir(study_root)):
@@ -97,6 +122,11 @@ jobs:
 
           built_map = {}
           for slug in slugs:
+              if slug.startswith("bca-course-"):
+                  rel_pdf = manifest[slug]["file"]
+                  assert os.path.exists(rel_pdf), f"Missing BCA PDF {rel_pdf}"
+                  shutil.copy(rel_pdf, f"stage/{slug}.pdf")
+                  continue
               print(f"=== Building {slug} ===", flush=True)
               path, chaps, pages = build_pdf.build(slug, verbose=True)
               assert path and os.path.exists(path), f"Failed to build {slug}"
@@ -115,7 +145,6 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
-          SLUGS: ${{ inputs.slugs }}
           DRY: ${{ inputs.dry_run }}
         run: |
           set -euo pipefail
@@ -123,11 +152,18 @@ jobs:
           printf '%s\n' "$SSH_KEY" > "$KEY"; chmod 600 "$KEY"
           SSH="ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 -o ServerAliveInterval=15 -i $KEY consicac@$SSH_HOST"
           REMOTE=/home/consicac/nebians_api/tmp/newpdfs-${{ github.run_id }}
-          $SSH "rm -rf $REMOTE && mkdir -p $REMOTE"
-          tar -C stage -czf - . | $SSH "tar -C $REMOTE -xzf -"
+          RESOLVED_SLUGS=$(cat stage/resolved_slugs.txt)
           FLAGS=""
           [ "$DRY" = "true" ] && FLAGS="--dry-run"
-          $SSH "cd /home/consicac/nebians_api && ([ '$DRY' = 'true' ] || (tar -C /home/consicac/nebians_api -xzf $REMOTE/web_sync.tgz && mkdir -p staticfiles/web/study && (tar -C /home/consicac/nebians_api/staticfiles -xzf $REMOTE/web_sync.tgz --strip-components=1 web/static/web/study 2>/dev/null || true) && mkdir -p tmp && touch tmp/restart.txt)) && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"
+          for attempt in 1 2 3 4 5; do
+            if $SSH "rm -rf $REMOTE && mkdir -p $REMOTE" && \
+               (tar -C stage -czf - . | $SSH "tar -C $REMOTE -xzf -") && \
+               $SSH "cd /home/consicac/nebians_api && ([ '$DRY' = 'true' ] || (tar -C /home/consicac/nebians_api -xzf $REMOTE/web_sync.tgz && mkdir -p staticfiles/web/study && (tar -C /home/consicac/nebians_api/staticfiles -xzf $REMOTE/web_sync.tgz --strip-components=1 web/static/web/study 2>/dev/null || true) && mkdir -p tmp && touch tmp/restart.txt)) && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $RESOLVED_SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"; then
+              break
+            fi
+            echo "SSH upload/swap attempt $attempt failed; retrying after jitter..."
+            sleep $((RANDOM % 8 + attempt * 4))
+          done
 
       - name: Commit rebuilt PDFs and exported study data to repository
         if: ${{ inputs.dry_run != 'true' }}

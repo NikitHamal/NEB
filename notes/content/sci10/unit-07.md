@@ -178,7 +178,7 @@ $$ F = ma $$
 **What it means.** The same change of momentum can be produced by a large force for a short time or a small force for a long time. Mass is taken as constant.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 Write the initial and final momentum, the change, divide by $t$, then replace $(v-u)/t$ by $a$. Three marks usually go to the change of momentum, the use of the second law and the final result.
 :::
 

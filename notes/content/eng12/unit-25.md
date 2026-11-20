@@ -127,7 +127,7 @@ ax.text(0.15,0.25,"one connective only — and give it the form it asks for",
         fontsize=7.0,color=MUTED,ha='left')
 ```
 
-## 25.4 Punctuation the examiner checks
+## 25.4 Punctuation with connectives
 
 1. **Comma before a coordinating conjunction** that joins two full clauses:
    *The power went off, **and** the fans stopped.* No comma when there is no

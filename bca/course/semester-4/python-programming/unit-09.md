@@ -146,7 +146,7 @@ print("capitalised:", sorted(set(re.findall(r"\b[A-Z][a-z]+\b", raw)))[:5])
 longest: mountains | average length: 6.6
 capitalised: ['Climbers', 'Everest', 'Is', 'Nepal', 'No']
 ```
-(Each block of this book is run on its own, so the second block repeats the text instead of reading `sample.txt`.) **Extensions:** read the file name from `sys.argv`, plot a bar chart of the top ten words, handle `FileNotFoundError`.
+**Extensions:** read the file name from `sys.argv`, plot a bar chart of the top ten words, handle `FileNotFoundError`.
 
 ## 9.3 Project 3: a small bank in SQLite
 

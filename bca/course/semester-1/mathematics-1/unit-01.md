@@ -250,7 +250,7 @@ A **relation** from $A$ to $B$ is a subset of the Cartesian product $A \times B 
 On $\mathbb{Z}$ define $a R b$ if $3 \mid (a - b)$ (same remainder mod 3). Reflexive: $a - a = 0$. Symmetric: if $3 \mid (a - b)$ then $3 \mid (b - a)$. Transitive: $(a - b) + (b - c) = a - c$. So $R$ is an equivalence relation with **three classes**, remainders 0, 1 and 2. In a database, "same department" is an equivalence relation on employees, while "reports to" is not (it is not symmetric).
 :::
 
-**How this unit fits the syllabus.** The syllabus Unit 1 reads: elementary logic, the real number system, complex numbers, relations, functions and graphs. Sections 1.6 to 1.9 above cover logic, reals, complex numbers and relations; sections 1.1 to 1.5 cover functions, composition, inverses and graphs.
+**Topics covered:** elementary logic, the real number system, complex numbers, relations, functions and graphs. Sections 1.6 to 1.9 above cover logic, reals, complex numbers and relations; sections 1.1 to 1.5 cover functions, composition, inverses and graphs.
 
 **Practice for 1.6 to 1.9.** (1) Write the contrapositive and converse of "if $n$ is even then $n^{2}$ is even". (2) Solve $|x - 2| \le 3$. (3) Compute $(2 + i)^{2}$ and $\frac{1}{3 - 4 i}$. (4) Is "$a \le b$" an equivalence relation on $\mathbb{R}$? **Answers:** (1) contrapositive: if $n^{2}$ is odd then $n$ is odd; converse: if $n^{2}$ is even then $n$ is even (true here as well, but it is a different statement); (2) $[-1, 5]$; (3) $3 + 4 i$ and $\frac{3 + 4 i}{25}$; (4) no, it is reflexive and transitive but not symmetric.
 

@@ -135,7 +135,7 @@ key features and an application, and present them. For example:
 | Grammarly | Grammarly Inc. | grammar, spelling and tone suggestions | correcting essays and emails |
 :::
 
-### Eight applications of AI, explained
+### Key applications of AI
 
 1. **Education.** AI tutors answer a student's questions at any hour and set practice questions at the right level. Translation tools help students read English books in Nepali. Teachers use AI to mark multiple-choice tests quickly.
 2. **Healthcare.** AI reads X-ray and retina images and warns the doctor of a possible disease. In a hill district a health worker can send a picture to a hospital model for a first opinion. This saves time where specialists are few.
@@ -688,7 +688,7 @@ Its challenges are **security** (badly protected devices are easy to hack),
 **privacy** (devices collect personal data), **dependence on the Internet and
 electricity**, cost, and electronic waste.
 
-### Eight applications of IoT, explained
+### Key applications of IoT
 
 1. **Smart homes.** Lights, fans and door locks are switched from a phone, and a motion sensor turns on the light when someone enters. This saves electricity and adds comfort.
 2. **Smart agriculture.** Soil-moisture sensors tell a farmer when to water, and an automatic pump starts by itself. Water is saved and the crop grows better.

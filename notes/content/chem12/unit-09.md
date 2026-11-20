@@ -9,7 +9,7 @@ area: Organic Chemistry
 
 A haloarene is what you get when a halogen atom is bonded **directly to a carbon of a benzene ring**. Chlorobenzene, C₆H₅Cl, is the parent member. On paper it looks like a close cousin of chloroethane, but its chemistry is completely different: it refuses to react with aqueous alkali, silver nitrate gives no precipitate with it, and it will not form a Grignard reagent under ordinary conditions. That single contrast — *why is the C–Cl bond of chlorobenzene so unreactive?* — is the heart of this short unit, and it is asked in almost every board paper.
 
-::: key What the exam wants from this unit
+::: key Key learning objectives
 Three things, in order of how often they appear: (1) the **resonance explanation** of the short, strong, low-polarity C–X bond and the resulting low reactivity towards nucleophiles; (2) the **named reactions** — Sandmeyer/Gattermann, Fittig, Wurtz–Fittig, and chloral → DDT, with correct reagents and conditions; (3) **electrophilic substitution**, where –Cl is *deactivating but ortho–para directing*. Learn to write every equation balanced.
 :::
 

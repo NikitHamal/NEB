@@ -295,7 +295,7 @@ built from small cubes, each expanding this way, so the result holds equally for
 a rod or an irregular casting.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. "Each side becomes $l(1+\alpha\Delta\theta)$" — stated, not assumed silently.
 2. The binomial expansion written out in full.
 3. An explicit sentence saying *why* the $\alpha^{2}$ term is dropped (because
@@ -594,7 +594,7 @@ steady, uniform temperatures, and the heights are measured from the level of the
 horizontal joining tube.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. The pressure-balance equation $h_0\rho_0 g = h_\theta\rho_\theta g$ with a reason.
 2. $\rho_\theta = \rho_0/(1+\gamma\theta)$, derived from a **fixed mass**.
 3. The substitution and the cancellation of $\rho_0$.

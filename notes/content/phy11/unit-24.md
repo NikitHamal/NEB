@@ -14,7 +14,7 @@ more energy per kilogram than burning coal. The single equation behind all of it
 is Einstein's $E = mc^{2}$ — in nuclear physics, mass and energy are two ways of
 writing the same thing.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two things appear every year: a numerical on mass defect, binding energy or
 energy released in fission/fusion (always via $1\ \text{u} = 931.5\ \text{MeV}$),
 and a question on the binding-energy-per-nucleon curve. Learn the curve, its

@@ -13,8 +13,8 @@ four members of the standard office package and then looks at the
 **domain-specific** software written for one particular line of work: a school,
 a shop, a payroll office, a hotel or a weather service.
 
-::: key What the examiner wants from this unit
-Only five teaching hours, but questions appear every year. Be able to name the
+::: key Key learning objectives
+Be able to name the
 four office packages with **two features and two examples of each**, write
 correct spreadsheet formulas, define *field*, *record*, *table* and *primary
 key*, and describe at least three domain-specific systems in terms of their

@@ -15,7 +15,7 @@ into a mass or a percentage. Everything after this — the arithmetic of equival
 the concentration units, the choice of indicator — exists only to make that one
 reading trustworthy.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two marks-rich things appear almost every year: an **equivalent-weight / n-factor**
 question (very often KMnO₄ in different media), and a **titration numerical**
 solved with $N_1V_1 = N_2V_2$. Learn to write the n-factor of any species in five

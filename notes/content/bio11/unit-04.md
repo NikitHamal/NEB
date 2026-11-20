@@ -15,7 +15,7 @@ every monsoon, why *Mikania* is choking the sal forest. The unit works outward
 from the single ecosystem to the ways plants fit themselves into harsh places,
 and finally to what happens when the fit is broken.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two long questions come from here almost every year: **energy flow with the
 ten per cent law**, or a **biogeochemical cycle (nitrogen or carbon) with a
 labelled flow diagram**. Short questions favour the ecological pyramids,

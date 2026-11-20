@@ -15,7 +15,7 @@ Teacher Ate my Homework*. The grammar is **verb + -ing or infinitive**
 (*enjoy reading, want to read*) and **yes/no and wh-questions**. In writing you
 write an essay on your hobbies and interests.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Answer questions on a profile: who, what he did, which organisations.
 (2) Explain the joke and the rhymes of the poem. (3) Choose *-ing* or *to +
 verb* after a given verb. (4) Form wh- and yes/no questions from statements.

@@ -14,7 +14,7 @@ Railway Carriage*, which captures the speed of a train journey. The grammar is
 **voice — active and passive**. In writing you reply to an e-mail offer and
 write a reply to an invitation.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Say who said what to whom and why. (2) Explain how the poem shows speed —
 comparisons, rhythm and rhyme. (3) Change active sentences into the passive in
 all common tenses and with modals. (4) Write a polite e-mail reply and a reply

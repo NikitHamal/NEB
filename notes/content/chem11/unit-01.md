@@ -14,7 +14,7 @@ use without further comment: atom, molecule, radical, atomic mass unit,
 empirical formula, molecular formula. Get these exactly right now and the
 stoichiometry in Unit 2 becomes arithmetic instead of guesswork.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two things, almost every year: a definition (atom vs molecule, empirical vs
 molecular formula, atomic mass unit) and a **percentage composition** numerical.
 Both are full-mark questions if you show the molar mass working.

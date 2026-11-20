@@ -202,8 +202,7 @@ the fact that such lies are the only language that protects them.
 
 ### King Ranabahadur Shah
 
-The king never has to shout; his power is felt in everyone's fear. He is **fond of bulls** (the
-textbook's introduction says he released a branded bull at Pashupatinath every month) and
+The king never has to shout; his power is felt in everyone's fear. He is **fond of bulls** (historically, he released a branded bull at Pashupatinath every month) and
 **absolute**: the people believe he can have a man beheaded or shaved for losing an animal. In the
 play he is **not cruel in action**: he accepts the show of grief, rewards the cowherds with
 money and is kind to Laxminarayan. The satire lies in what he is **not**: he is not a king

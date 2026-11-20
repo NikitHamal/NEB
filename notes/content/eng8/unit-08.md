@@ -15,7 +15,7 @@ the mobile phone. The grammar is the **past simple, past continuous and past
 perfect**, and **used to** for past habits. In writing you complete a story and
 write a narrative essay.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Order the events of the story and state its lesson. (2) Match inventions
 with inventors and dates. (3) Choose between past simple, past continuous and
 past perfect in two-action sentences (*when, while, before, after*).

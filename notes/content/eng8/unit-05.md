@@ -15,7 +15,7 @@ work hard, value time and love their nation. The grammar is **reported speech
 of commands and requests** (*She told me to…*) and **punctuation**. In writing
 you complete a skeleton story.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Put the events of the story in order and draw its moral. (2) Explain the
 comparison and the message in the poem. (3) Report imperatives with *told /
 asked / requested / advised / warned / ordered* + **(not) to** + verb.

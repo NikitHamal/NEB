@@ -14,7 +14,7 @@ solid the attraction wins completely; a liquid sits between the two. This unit
 builds a quantitative model of the gaseous state first, because gases obey
 simple laws, and then works down through liquids to solids.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Three things repeat every year: (i) a derivation or statement of the kinetic gas
 equation and the gas laws deduced from it, (ii) a numerical on the combined gas
 equation, Dalton's law, Graham's law or $PV = nRT$, and (iii) short

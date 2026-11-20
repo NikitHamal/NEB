@@ -7,7 +7,7 @@ hours: 8
 area: BCA 102 · Programming in C · Units 4, 5, 7, 8 and 10 (extended topics and laboratory guide)
 ---
 
-Units 1 to 7 teach the core of C. The TU outline names several topics that deserve more than a paragraph: the **C preprocessor** and the **build process** (unit 8 of the outline), the **bitwise and comma operators**, the **odd loop** and the **exit statement**, **parameterising `main`** with command-line arguments, **self-referential structures** with `typedef` and table lookup, and function **pointers**. This unit covers them with programs that were compiled and run, and ends with the laboratory work list for the whole course.
+This unit covers key systems-level topics in C: the **C preprocessor** and the **build process** (unit 8 of the outline), the **bitwise and comma operators**, the **odd loop** and the **exit statement**, **parameterising `main`** with command-line arguments, **self-referential structures** with `typedef` and table lookup, and function **pointers**. This unit covers them with programs that were compiled and run, and ends with the laboratory work list for the whole course.
 
 ::: key What this unit gives you
 - Macros (with and without arguments), `#` and `##`, macros versus functions, file inclusion, conditional compilation, `#undef`, `#pragma`.

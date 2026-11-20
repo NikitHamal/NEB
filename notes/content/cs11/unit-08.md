@@ -13,7 +13,7 @@ stolen password can do damage no burglar with a crowbar could. This unit is abou
 the two defences society has built against that: **technical** ones, which make
 information hard to steal, and **legal** ones, which make stealing it punishable.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Ten hours and roughly a fifth of the paper come from here, and almost all of it
 is definition-and-list work. Fix these in memory: the **CIA triad**; the
 difference between a **virus, worm and Trojan horse**; at least six **types of
@@ -300,7 +300,7 @@ share an OTP, log out of shared computers, review the permissions an app asks
 for, and — because prevention sometimes fails — report an offence promptly, since
 Nepali law sets a short deadline for doing so (§8.8).
 
-### Eight ways to protect yourself from cybercrime, explained
+### Key ways to protect yourself from cybercrime
 
 1. **Use strong, different passwords.** A strong password has at least 12 characters with letters, digits and symbols. If one site is hacked, a different password keeps the others safe. A password manager remembers them for you.
 2. **Turn on two-factor authentication (2FA).** After the password, the service asks for a code sent to your phone or app. A thief who steals the password still cannot enter. Banks, Gmail and eSewa all offer it.

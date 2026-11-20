@@ -276,7 +276,7 @@ you replace $Fs$ by $\int F\,dx$ and reach the same answer. $W_{net}$ must be th
 work of the **net** force — friction work included, with its minus sign.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) $W = Fs$ with the statement that the force is along the displacement;
 (ii) $F = ma$ substituted; (iii) $v^{2} = u^{2}+2as$ quoted and rearranged for
 $as$; (iv) the substitution, and (v) the final line named as the work–energy
@@ -576,7 +576,7 @@ conserved ($e = 1$); no external force during contact; signs kept consistently.
 Step 7 also assumed the bodies really did interact ($u_1 \ne v_1$).
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) Both conservation equations written down and *labelled*; (ii) the factorising of
 the energy equation into a difference of two squares; (iii) the division step with
 the words "dividing (4) by (3)"; (iv) the relative-velocity result

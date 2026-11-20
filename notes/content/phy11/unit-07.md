@@ -240,7 +240,7 @@ involved, and the zero of potential is taken at infinity. $U$ belongs to the *pa
 masses, not to either one alone.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) The statement that $U = 0$ at infinity — write it down; (ii) $F = GMm/x^{2}$ at a
 general distance $x$; (iii) the integral with limits $\infty$ to $r$; (iv) the
 integration of $1/x^{2}$ shown properly; (v) the negative sign explained in words;
@@ -397,7 +397,7 @@ slightly for the first 3000 km before falling.) Rotation and the non-spherical s
 are ignored.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 For the depth derivation: (i) the shell-theorem statement — "the shell above exerts no
 force" — in words; (ii) $M' = \frac{4}{3}\pi(R-d)^{3}\rho$; (iii) the cancellation in
 Step 5; (iv) the surface value with $d=0$; (v) the ratio, giving
@@ -664,7 +664,7 @@ distance), there is no air resistance, the planet is a uniform sphere, and the
 satellite's mass is far smaller than the planet's so the planet does not move.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (i) The sentence "the gravitational force provides the centripetal force";
 (ii) both force expressions written out; (iii) the cancellation of $m$, and a comment
 that the speed is therefore independent of the satellite's mass; (iv) the substitution

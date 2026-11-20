@@ -57,7 +57,7 @@ Reading 1 and 2: 25 minutes. Reading 3 and 4: 40 minutes. Grammar: 15 minutes (d
 
 ## 10.2 Model Set 1
 
-**Time: 3 hours. Full marks: 75. Attempt all questions.** In a real paper the seen texts are printed in the paper; here the textbook texts are named.
+**Time: 3 hours. Full marks: 75. Attempt all questions.** The seen reading passages are named.
 
 ### Question paper
 

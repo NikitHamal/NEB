@@ -15,7 +15,7 @@ one lone pair doing chemistry. Amines are also the largest single family of
 biologically active molecules: adrenaline, nicotine, quinine and most of the
 drugs in a Nepali pharmacy are amines.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Four high-value items: the **comparative basicity** of 1°, 2°, 3° amines and of
 aniline (with reasons); **distinguishing 1°, 2° and 3° amines** by the nitrous
 acid and carbylamine tests; **Hoffmann's separation** of an amine mixture; and the

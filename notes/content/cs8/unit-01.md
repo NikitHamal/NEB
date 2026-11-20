@@ -420,7 +420,7 @@ are accurate **if the data and program are correct**, and give GIGO as the
 reason why computers sometimes produce wrong results.
 :::
 
-### Eight advantages of using computers, explained
+### Key advantages of using computers
 
 1. **High speed.** A computer does millions of calculations in one second. A school can prepare the results of 800 students in minutes instead of days. This saves time for teachers.
 2. **Accuracy.** A computer makes no mistake in calculation if the program and the data are correct. Bank balances and electricity bills are calculated exactly. Errors come only from wrong input.

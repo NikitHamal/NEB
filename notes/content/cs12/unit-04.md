@@ -13,7 +13,7 @@ grow: **functions** (break the work into named pieces), **structures and
 unions** (group related data under one name), **pointers** (work with memory
 addresses directly), and **files** (keep the data after the program ends).
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Almost every paper contains one program from this unit — a function, a recursion
 (factorial or Fibonacci), an array of structures, or a file that is written and
 read back. Learn the difference between **call by value and call by reference**,

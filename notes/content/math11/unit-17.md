@@ -16,7 +16,7 @@ the standard limits you must know by heart, shows how to break every indetermina
 form, and ends with continuity — the property that a graph can be drawn without
 lifting the pen.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Group A almost always carries one or two limit evaluations and one continuity
 question. Group B favours (i) evaluating a $0/0$ limit by factorisation or
 rationalisation, (ii) a trigonometric or exponential limit built on a standard

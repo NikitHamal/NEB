@@ -14,7 +14,7 @@ as an algorithm and a flowchart, and only then to write it in **C**, the languag
 the NEB course uses. Everything in Grade 12 programming is built on this unit, so
 do not just read the programs — type them, compile them, break them and fix them.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Two kinds of marks live here. The **theory** marks are definitions and
 comparisons: compiler vs interpreter, the three kinds of error, the three control
 structures, algorithm vs flowchart vs pseudocode, ASCII vs Unicode. The
@@ -695,7 +695,7 @@ program with no `main()` will compile its pieces but refuse to link. The braces
 with a **semicolon**.
 :::
 
-### The eight features of C, explained
+### Key features of C
 
 1. **General purpose and structured.** C can write an operating system, a database or a calculator. Programs are built from functions and the three control structures, so a large problem can be broken into small parts. This makes the code easy to test and to share among a team.
 2. **Middle-level language.** C has the readability of a high-level language and, at the same time, low-level tools such as pointers and bitwise operators. A programmer can reach memory directly, which is why UNIX, Linux and most of Windows are written mainly in C. For this reason it is called a "middle-level" language.

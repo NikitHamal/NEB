@@ -15,7 +15,7 @@ as a carbanion. A compound that supplies a nucleophilic carbon lets you join two
 carbon skeletons together, and that is how most alcohols, acids and ketones are
 built in the laboratory.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 One question dominates: **how a Grignard reagent is prepared and what it gives
 with each reagent** — especially the aldehyde/ketone route to 1°, 2° and 3°
 alcohols and the CO₂ route to carboxylic acids. Learn the reactivity order

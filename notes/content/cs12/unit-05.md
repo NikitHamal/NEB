@@ -15,7 +15,7 @@ objects sending messages to each other. This unit is about that idea — the fou
 features the syllabus names (class, object, inheritance, polymorphism), why the
 software industry moved to it, and where it is used.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 This is a 10-hour unit but it is mostly **theory**. Group B almost always has
 one of: *define class and object with an example*, *differentiate between
 procedural and object-oriented programming*, *explain any four features of OOP*.

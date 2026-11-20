@@ -9,7 +9,7 @@ area: Units
 
 Human beings change nature in order to live better: they cut roads through hills, build cities and plant farms. Poets, on the other hand, often stop to admire what nature and cities look like when they are calm. This unit puts both views side by side. The first text is a factual article on the **Kathmandu–Terai/Madhesh Fast Track**, one of Nepal's biggest development projects. The second is a famous poem by William Wordsworth, "Composed upon Westminster Bridge", in which a great city looks as peaceful as a field. The grammar of the unit is **talking about the future**: *will, be going to, the future continuous and the future perfect*. The writing tasks are a **report** on a development work and a **notice**.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 From the article: facts (distance, benefits, challenges) and your opinion in a full-sentence discussion. From the poem: the speaker's feeling, the figures of speech and the central theme. From grammar: the right future form for plans, predictions, schedules and actions that will be in progress or complete. From writing: a report with a title, introduction, findings and conclusion, and a notice with all the necessary details.
 :::
 

@@ -645,7 +645,7 @@ More steps (or the secant method) give $r = 0.012043$, that is **1.20 percent pe
 
 ## 6.6 Computer lab: Excel, MATLAB and Python
 
-The TU outline marks this unit "(Excel/Matlab)": the methods above are meant to be *run*, not only worked by hand. This section shows the same problems on a spreadsheet, in MATLAB and in Python (whose NumPy and SciPy libraries mirror MATLAB's). All Python programs below were executed and the output shown is the real output.
+This section demonstrates the same problems on a spreadsheet, in MATLAB and in Python (whose NumPy and SciPy libraries mirror MATLAB's). All Python programs below were executed and the output shown is the real output.
 
 ### Excel: bisection, Newton-Raphson, Gauss-Seidel
 

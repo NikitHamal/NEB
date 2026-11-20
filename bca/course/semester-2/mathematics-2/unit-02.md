@@ -196,7 +196,7 @@ for i, (s, e) in enumerate(steps):
 
 ## 2.7 Derivatives of inverse trigonometric and hyperbolic functions
 
-The TU syllabus asks for the derivatives of the **inverse circular** (inverse trigonometric) and the **hyperbolic** functions, together with their inverses. All of them follow from the rules of Section 2.2.
+This section covers the derivatives of the **inverse circular** (inverse trigonometric) and **hyperbolic** functions, together with their inverses. All of them follow from the rules of Section 2.2.
 
 ### Inverse trigonometric functions
 

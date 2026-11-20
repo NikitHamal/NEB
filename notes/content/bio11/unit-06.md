@@ -15,7 +15,7 @@ draws, and every career built on this subject — medicine, agriculture, forestr
 veterinary science, biotechnology, conservation — starts from the map on these
 pages.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Short questions, reliably: **define biology and name who coined the term**;
 **define any four or five branches** (this is the commonest question in the
 whole unit); **explain the relation of biology with physics / chemistry /

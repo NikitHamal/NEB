@@ -184,7 +184,7 @@ $$ x+2y\geq 8 \quad(\text{nitrogen}),\qquad 3x+y\geq 9 \quad(\text{phosphorus}),
 The least cost is **Rs 17**, by buying 2 kg of A and 3 kg of B.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) $x$ and $y$ defined in words. (2) The objective function and **all** constraints, including $x,y\geq 0$. (3) A neat graph with the feasible region shaded and corner points labelled. (4) A table of $z$ at every corner. (5) A final sentence answering the question in context, with units.
 :::
 
@@ -442,7 +442,7 @@ fig = mateq([[["1", "0"], ["0", "−1"]], "×", [["0", "−1"], ["1", "0"]], "="
 The result maps $(x,y)\to(-y,-x)$, a reflection in the line $y=-x$. Check with $P(3,2)$: rotation gives $(-2,3)$, then the $x$-axis reflection gives $(-2,-3)$, and $(-y,-x)=(-2,-3)$. ✓
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 For composition: the intermediate point written out, in the stated order. For inversion: the factor $\dfrac{r^2}{x^2+y^2}$ shown, and $OP\times OP'=r^2$ as a check. For matrices: the row-by-column working, and the name of the transformation (reflection, rotation, enlargement) with its axis, angle or centre.
 :::
 

@@ -529,7 +529,7 @@ asking *what is this knowledge for?*
   Prize for Literature 1950, wrote "Knowledge and Wisdom" in **1954**.
 - Central idea: our age far surpasses earlier ages in knowledge without a matching increase in
   wisdom; **knowledge may become harmful unless combined with wisdom**.
-- Textbook headnote: knowledge = acquiring data and information; wisdom = practical application
+- Core distinction: knowledge = acquiring data and information; wisdom = practical application
   of knowledge to create value. Russell's own account: wisdom is **comprehensive vision**.
 - Factors of wisdom: **sense of proportion** (medicine and atom examples); **awareness of the
   ends of human life** (Hegel); **feeling as well as intellect**; **freedom from personal

@@ -9,7 +9,7 @@ area: Units
 
 Current affairs are the things happening in the world now that people are talking and worrying about — new technology, climate change, health, politics. This unit gives you two pieces of real, recent writing about two such issues. The first is a magazine feature about driverless cars. The second is an open letter in which a children's charity asks the Secretary-General of the United Nations to let young people have a say about climate change. Along the way you learn to report what other people say (reported speech: statements), to write a newspaper article and to write a formal letter to a local official.
 
-::: key What the SEE paper asks from this unit
+::: key Key learning objectives
 Expect (1) a reading passage on a current issue with true/false, multiple-choice and short-answer questions, (2) vocabulary-in-context questions, (3) a reported-speech transformation, and (4) a letter or a newspaper article in the writing section. Read the passage once for the idea, again for facts, and always answer from the text, not from your own opinion, unless the question says "Do you think…?".
 :::
 

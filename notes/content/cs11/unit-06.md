@@ -13,7 +13,7 @@ type text, you wrap it in tags, you save it with a `.html` extension, and a
 browser turns it into a page. This unit takes you from what the web *is* to
 writing, styling and publishing a page of your own.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 The NEB paper asks for **tags with their attributes, written correctly**. You
 will be asked to write HTML code for a given output — usually a table, a form or
 a list — so practise writing tags by hand, not by copying. Learn the difference
@@ -1018,7 +1018,7 @@ If `style.css` also contained `h1 { color: red; }`, the heading would still come
 out **navy**, because the embedded rule is more specific than the external one.
 :::
 
-### Eight advantages of CSS, explained
+### Key advantages of CSS
 
 1. **Separation of content and design.** HTML says what a page contains and CSS says how it looks. A writer can change the text without breaking the design, and a designer can change the colours without touching the text. This makes teamwork easy.
 2. **One file styles many pages.** An external style sheet is linked from every page of a site. A school with fifty pages changes the heading colour in one line of `style.css`, and all fifty pages change at once. This saves hours of work.

@@ -400,7 +400,7 @@ The fact is identical; the vocabulary, detail and benefit change.
 
 ## 4.7 Vocabulary and grammar
 
-The textbook's own list for this section is not reproduced here. This book teaches vocabulary and grammar that you need for the unit: words for people, teams and cultures (4.7.1) and the modal verbs and conditionals used for suggestions, requests and negotiation (4.7.2).
+Key vocabulary and grammar for interpersonal and group communication: words for people, teams and cultures (4.7.1) and the modal verbs and conditionals used for suggestions, requests and negotiation (4.7.2).
 
 ### 4.7.1 Vocabulary of interpersonal and group communication
 
@@ -476,7 +476,6 @@ In formal English use *were* for all persons in the second conditional (*If I we
 
 ## 4.8 Readings
 
-*Reading note.* The two texts below are prescribed in the textbook. This book does not reprint them; it gives a detailed summary, the argument or structure, themes, critical analysis, rhetorical notes, vocabulary and solved exercises. Read the original in your textbook first, and check names and figures against your copy before using them in an answer.
 
 ### 4.8.1 "Computer and the Pursuit of Happiness" by David Gelernter
 
@@ -498,7 +497,6 @@ Gelernter organises the essay around **three questions**:
 
 His central conclusion: **computers and the Internet are important, but not revolutionary in the way their promoters claim; they will have little to do with human happiness unless we use them to strengthen real human bonds.** The three ages he names: the **solid** age of agriculture, the **liquid** age of industry and the **gaseous** age of information, a metaphor showing that information flows everywhere but has no body.
 
-*Check your textbook copy.* Some editions print a short letter to the editor responding to Gelernter after the essay; if yours does, read it as a counter-argument and use it in "discuss" answers.
 
 #### Themes
 

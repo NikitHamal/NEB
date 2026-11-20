@@ -14,7 +14,7 @@ the addition reactions of Unit 13. Both facts come from one cause — delocalisa
 in the carboxylate ion. This unit then follows the acid into its four
 derivatives: acid halides, anhydrides, esters and amides.
 
-::: key What the examiner wants from this unit
+::: key Key learning objectives
 Three questions dominate: (1) **why is a carboxylic acid more acidic than phenol
 and alcohol**, explained with the resonance of RCOO⁻; (2) the **effect of
 substituents** on acid strength, with $pK_a$ values; (3) a **comparison of the

@@ -238,7 +238,7 @@ $$T=\frac{100I}{PR}=\frac{100\times2P}{P\times10}=20\text{ years}$$
 ::: caution Simple interest is not what a bank really charges on a loan
 Most real loans charge compound interest, or a flat rate on the whole sum while
 the balance falls, which is much more expensive than simple interest suggests.
-The simple interest formula is the correct tool for the questions in this book
+The simple interest formula is the standard tool for basic-level interest problems
 and for a rough comparison; for an actual loan, read the repayment schedule.
 :::
 

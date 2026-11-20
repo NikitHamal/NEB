@@ -225,7 +225,7 @@
 - The three grammatical types
 - Connectives grouped by meaning
 - Paired (correlative) connectives
-- Punctuation the examiner checks
+- Punctuation with connectives
 - Choosing between look-alikes
 - Joining sentences — the patterns NEB sets
 ## 26. Adjectives, Adverbs and Adjective Order [G]

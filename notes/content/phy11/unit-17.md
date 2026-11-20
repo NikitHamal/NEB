@@ -591,7 +591,7 @@ $f = \infty$ — it becomes invisible and does nothing.
 same place), rays are paraxial, light is monochromatic, and the surrounding medium is air.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. The single-surface equation quoted correctly.
 2. Its application to the **first** surface, with $n_1 = 1$, $n_2 = n$.
 3. Its application to the **second** surface, with $n_1 = n$, $n_2 = 1$, **and the sentence

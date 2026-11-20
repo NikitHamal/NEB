@@ -16,7 +16,6 @@ A phone in a Humla village and a phone in a Kathmandu office run the same app, y
 - Setting up an Android project and reading its structure.
 :::
 
-*Code in this book is labelled. Python and Java programs were **executed** and their output pasted by a tool. Kotlin, XML and Gradle snippets need the Android SDK, are **not executed** here, and are marked "not executed".*
 
 ## 1.1 The mobile landscape
 

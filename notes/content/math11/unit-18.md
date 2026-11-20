@@ -15,7 +15,7 @@ highest and lowest points, and describe how it bends. Everything in this chapter
 grows from a single limit, the one in §18.1, so learn that definition before
 anything else.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Derivatives carry more marks than any other single unit. Expect: two or three
 Group A items (a quick derivative, a tangent slope, a maximum); a Group B question
 asking for a derivative **by first principle** — this appears almost every year;

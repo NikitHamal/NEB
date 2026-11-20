@@ -122,7 +122,7 @@ $|\vec{r}|^{2} = x^{2}+y^{2}+z^{2}$ holds. For plane vectors drop the third
 component.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 Four marks, four steps: the cosine law for triangle $OAB$ with
 $\vec{AB} = \vec{b}-\vec{a}$; $|\vec{b}-\vec{a}|^{2}$ expanded in components; the
 magnitudes identified; the comparison. Never skip the expansion — that is the step
@@ -657,7 +657,7 @@ it — the shadow picture of §9.2, read along $BC$.
 **Conditions.** Only that $ABC$ is a genuine triangle.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 Both proofs start with the *same* first line, $\vec{a}+\vec{b}+\vec{c}=\vec{0}$;
 the cosine law then **squares**, the projection law **dots with one side**. State
 $\vec{b}\cdot\vec{c} = -bc\cos A$ and say why the minus sign is there — that line
@@ -1453,7 +1453,7 @@ the sine law comes from compared with the cosine law: cross product versus dot
 product, area versus length.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 For the sine law: write $\vec{a}+\vec{b}+\vec{c} = \vec{0}$, cross with one side,
 show the three products are equal, take magnitudes using
 $\sin(180^{\circ}-C) = \sin C$, divide by $abc$. Marks are lost almost every year

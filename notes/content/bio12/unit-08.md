@@ -17,7 +17,7 @@ anatomy, with a labelled diagram you can reproduce in ten minutes), the
 **mechanism** (what each part physically does), and the **numbers** (the normal
 values, because a value is what tells a clinician that something is wrong).
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Because it is the largest unit, Section II almost always draws one of its two
 8-mark long questions from here, plus two or three of its four 4-mark short
 questions. Long questions are nearly always "describe the structure of X with a

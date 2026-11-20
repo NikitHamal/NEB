@@ -15,7 +15,6 @@ In Web Technology I your pages came to life in the browser with JavaScript. But 
 - Running PHP from the command line, so you can test every example.
 :::
 
-Every PHP program in this book was run with **PHP 8.2** from the command line; the output shown is real. A web server runs the same code and sends its output to the browser. Programs begin with the opening tag `<?php`.
 
 ## 1.1 Client-side versus server-side scripting
 

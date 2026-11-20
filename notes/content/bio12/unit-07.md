@@ -15,7 +15,7 @@ The frog, which spawns in every paddy field in Nepal during the monsoon, is the
 standard animal for studying this because its eggs are large, transparent enough
 to follow, and develop outside the mother.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two diagrams carry most of the marks: the **flow chart of spermatogenesis and
 oogenesis with the chromosome number written at every stage**, and the
 **sequence zygote → cleavage → blastula → gastrula** drawn in section. Add the

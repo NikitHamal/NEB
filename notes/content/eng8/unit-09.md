@@ -15,7 +15,7 @@ information, communicate and behave. The grammar is the **comparative and
 superlative** forms of adjectives and adverbs. In writing you compare two
 villages and write an essay comparing life before and after the internet.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Find the three points of comparison in an essay and the evidence for each.
 (2) Form comparatives and superlatives correctly (*-er/-est*, *more/most*,
 irregular forms). (3) Use *than*, *as … as*, *not as … as*, *the … of all*.

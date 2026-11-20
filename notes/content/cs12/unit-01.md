@@ -15,7 +15,7 @@ technique called normalisation. Work through every query and every
 normalisation step with a pen — this unit is examined by making you *do* things,
 not describe them.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Unit 1 supplies roughly 12 of the 50 written marks. The long (8-mark) question is
 almost always one of two things: **normalise the given table up to 3NF**, or
 **write SQL statements for the given table**. The short questions come from keys,
@@ -338,7 +338,7 @@ Its statements are grouped into sub-languages:
 > Some books count `SELECT` separately as DQL (Data Query Language). Either
 > answer is accepted, but say which convention you are using.
 
-### 1.4.1 The sample database used in this chapter
+### 1.4.1 Relational schema example
 
 Every query below was executed on this database. Learn these three tables — the
 worked examples, the normalisation exercise and the practice questions all use them.
@@ -449,7 +449,7 @@ ax.set_xlim(0.0, 6.35); ax.set_ylim(0.45, 3.75)
 ax.axis("off")
 ```
 
-### 1.4.2 DDL in action — ALTER
+### 1.4.2 DDL statements — ALTER
 
 ```sql
 ALTER TABLE students ADD COLUMN phone CHAR(10);
@@ -696,7 +696,7 @@ grouping. `WHERE marks >= 40` is legal, `WHERE AVG(marks) >= 60` is not —
 that must be `HAVING AVG(marks) >= 60`.
 :::
 
-### 1.4.6 The DBMS enforces your constraints
+### 1.4.6 Integrity constraints in SQL
 
 Running these on MariaDB with InnoDB tables:
 

@@ -15,7 +15,7 @@ prediction of the specific heat capacities of gases and solids. This unit is the
 bridge between mechanics and heat, and it carries the longest derivation in the
 Grade 11 course.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Two things appear almost every year: the derivation of $p = \frac{1}{3}\rho
 \overline{c^{2}}$ (an 8-mark Group C standard), and a numerical on root mean
 square speed or on $C_p - C_v = R$. Learn the derivation as a sequence of
@@ -336,7 +336,7 @@ the container walls are smooth and rigid. The cube is only for convenience — t
 for a vessel of any shape.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. Momentum change per impact $= 2mu$, justified by Newton's third law.
 2. Time between impacts $= 2l/u$, with the distance $2l$ explained.
 3. Force from one molecule $= mu^{2}/l$ using $F = \Delta p/\Delta t$.
@@ -617,7 +617,7 @@ temperature alone. For a mass of $n$ moles the relation becomes $C_p - C_v = nR$
 total heat capacity; per unit mass it becomes $c_p - c_v = R/M$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 1. Both processes applied to the **same** $dT$ and the same one mole.
 2. $dU = C_v\,dT$, with the reason "no work is done at constant volume".
 3. The first law written as $dQ = dU + p\,dV$ for the constant-pressure path.

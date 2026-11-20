@@ -401,7 +401,7 @@ $$ x^2+y^2-4x-4y+4=0 $$
 Centre $(2,2)$ (on $x=y$ ✓), radius $\sqrt{4+4-4}=2$.
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 The correct choice of form: centre–radius if the centre is known; diameter form if the ends of a diameter are given; general form with three simultaneous equations if three points are given. Marks are given for the substitutions, solving for $g,f,c$, and the final equation in the form $x^2+y^2+2gx+2fy+c=0$.
 :::
 

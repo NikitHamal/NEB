@@ -13,7 +13,7 @@ revision most. For eight different non-metals it asks the same four things:
 reacts, and what it is used for.** Once you see that pattern, twenty-two hours of
 syllabus collapses into a set of tables you can rebuild from memory.
 
-::: key What the examiner asks from this unit
+::: key Key learning objectives
 Expect one laboratory preparation with a labelled diagram, two or three "give
 reasons" questions (why quicklime and not conc. H₂SO₄; why conc. H₂SO₄ cannot
 make HI), a test for a gas or an ion, and one numerical on gas volumes at STP.

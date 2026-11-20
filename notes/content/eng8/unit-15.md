@@ -16,7 +16,7 @@ grammar is **connectives of reason, purpose and contrast** (*because, so that,
 although, however…*). In writing you write an argumentative (opinion) essay
 and a notice.
 
-::: key What the exam asks from this unit
+::: key Key learning objectives
 (1) Explain cause and effect from an expository text. (2) Pick out the key facts
 of a notice: who, what, when, why, what to do. (3) Join sentences with the
 correct connective and correct grammar after it (*because* + clause, *because
@@ -234,7 +234,7 @@ All students are requested to complete the homework given for the day.
 Principal
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 The organisation's name, the date, the heading *NOTICE* and a title, the exact
 day/date of the closure, the **reason**, what happens next, and the issuer's
 post. Keep it short, formal and impersonal (no *Dear…*, no *Yours…*).

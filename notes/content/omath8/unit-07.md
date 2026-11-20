@@ -254,7 +254,7 @@ $$ \text{LHS}=\frac{(1-\sin\theta)+(1+\sin\theta)}{(1+\sin\theta)(1-\sin\theta)}
 $$ \text{LHS}=\sin^2\theta\times\frac{1}{\sin^2\theta}=1=\text{RHS} $$
 :::
 
-::: tip The examiner is looking for
+::: tip Key writing criteria
 (1) "LHS =" written at the start, so the marker knows which side you began from; (2) one change per line, with the identity used visible; (3) "= RHS" at the end. A proof that works on both sides at once and meets in the middle is accepted, but it must be set out as two separate chains.
 :::
 
