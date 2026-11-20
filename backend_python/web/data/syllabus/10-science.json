@@ -651,55 +651,57 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Computer systems",
-    "internet and networks",
-    "e-commerce",
-    "ICT in daily life",
-    "ethics"
+    "Signals, analog-to-digital conversion and memory units",
+    "Signal transmission and digital communication system",
+    "Impact of digital technology in daily life",
+    "Digital citizenship, online reputation and digital wellbeing",
+    "Creating and editing audio and audio-visual materials"
    ],
    "sections": [
     {
      "no": "13.1",
-     "title": "Computer systems"
+     "title": "Signals, analog-to-digital conversion and memory units"
     },
     {
      "no": "13.2",
-     "title": "Internet and networks"
+     "title": "Signal transmission and digital communication system"
     },
     {
      "no": "13.3",
-     "title": "E-commerce"
+     "title": "Impact of digital technology in daily life"
     },
     {
      "no": "13.4",
-     "title": "ICT in daily life"
+     "title": "Digital citizenship, online reputation and digital wellbeing"
     },
     {
      "no": "13.5",
-     "title": "Ethics"
+     "title": "Creating and editing audio and audio-visual materials"
     }
    ],
    "summary": [
-    "A computer takes input, processes data using the CPU (ALU + CU) and memory, and gives output. Hardware is physical; software is programs (system, utility, application).",
-    "RAM is volatile; ROM is permanent. 1 byte = 8 bits; 1 KB = 1024 B; 1 MB = 1024 KB; 1 GB = 1024 MB. Computers use the binary system.",
-    "A network connects computers: LAN, MAN, WAN; topologies include star, bus and ring.",
-    "The internet is a network of networks; the WWW is a service on it. Important terms: ISP, IP address, URL, browser, search engine, e-mail, bandwidth.",
-    "Safe use: antivirus, firewall, strong passwords; beware of phishing, hacking and viruses.",
-    "E-commerce is buying and selling online (B2C, B2B, C2C, G2C), with digital payment; it saves time and widens choice but carries risks of fraud.",
-    "ICT is used in education, health, banking, governance, agriculture, transport and many other fields; emerging technologies are AI and IoT.",
-    "Cyber ethics requires respect for others, privacy and copyright. Cyber crime is punished by cyber law; in Nepal, the Electronic Transactions Act 2063 B.S."
+    "A signal is a time-varying physical quantity that carries information. Analog signals are continuous sine waves; digital signals are discrete binary pulses (0 = LOW / switch OFF, 1 = HIGH / switch ON).",
+    "An ADC converts analog signals into digital binary code; a DAC converts digital binary data back into analog signals for human perception.",
+    "Computer memory units: 1 bit = 0 or 1 (smallest unit); 1 nibble = 4 bits; 1 Byte (B) = 8 bits = 2 nibbles (e.g. 00000000); 1 KB = 1024 B; 1 MB = 1024 KB; 1 GB = 1024 MB; 1 TB = 1024 GB. With n bits, 2^n binary combinations are possible.",
+    "Stages of digital signal transmission (in order): Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal.",
+    "Baseband transmission sends digital signals directly without modulation over a single short-distance channel (Ethernet LAN). Broadband transmission modulates signals onto multiple carrier frequencies (FDM) to send many signals simultaneously over long distances (cable TV, high-speed internet).",
+    "Netizen = an active user (\"citizen\") of the internet. Digital citizenship = responsible, ethical and safe participation online. Online reputation management builds and protects a person's or organisation's public image online.",
+    "Digital wellbeing is maintaining physical, mental, social and emotional health by balancing online screen time with offline life.",
+    "Audio formats: .mp3, .wav, .wma, .aac (edited in Audacity). Video formats: .mp4, .3gp, .avi, .svi, .mov (trimmed and joined in Windows Video Editor, Filmora or Premiere Pro)."
    ],
    "terms": [
-    "Computer",
-    "Computer network",
-    "Internet",
-    "E-commerce",
-    "Cyber ethics"
+    "Signal",
+    "Analog signal",
+    "Digital signal",
+    "Bit, Nibble and Byte",
+    "Netizen and Digital Citizenship",
+    "Online Reputation and Digital Reputation Management",
+    "Digital Wellbeing"
    ],
    "stats": {
-    "words": 4534,
-    "figures": 3,
-    "examples": 3
+    "words": 5528,
+    "figures": 4,
+    "examples": 2
    },
    "has_notes": true
   },

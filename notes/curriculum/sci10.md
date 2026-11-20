@@ -67,11 +67,11 @@
 - formation of the universe
 - space exploration
 ## 13. Information and Communication Technology
-- Computer systems
-- internet and networks
-- e-commerce
-- ICT in daily life
-- ethics
+- Signals, analog-to-digital conversion and memory units
+- Signal transmission and digital communication system
+- Impact of digital technology in daily life
+- Digital citizenship, online reputation and digital wellbeing
+- Creating and editing audio and audio-visual materials
 ## 14. Classification of Elements
 - Periodic table
 - periodic properties

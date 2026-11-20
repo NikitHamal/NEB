@@ -7,494 +7,453 @@ hours: 0
 area: Science and Technology
 ---
 
-You look up a result on a phone, pay a bill through eSewa, watch a lesson online or send a photo to a relative in Qatar. All of this is possible because of **Information and Communication Technology (ICT)**: the computers, networks and software that store, process and send information. In this unit you will learn how a computer system works, how the internet and computer networks connect the world, how people buy and sell online, where ICT helps us in daily life, and how to use it responsibly and safely.
+When you speak into a phone, record a voice note, watch DishHome satellite TV or send a message over the internet, physical quantities such as sound and light are converted into electrical **signals**, encoded into binary digits (`0` and `1`), modulated onto carrier waves, transmitted across a channel, and reconstructed at the receiver. This unit follows the exact **CDC Grade 10 Science and Technology** curriculum: **analog and digital signals**, **bits, nibbles and bytes**, **components of a digital communication system**, **baseband and broadband transmission**, **positive and negative impacts of digital technology**, **netizenship, digital citizenship, online reputation and digital wellbeing**, and **creating and editing audio and audio-visual materials**.
 
 ::: key What SEE asks from this unit
-Parts of a computer (input, output, CPU, memory), hardware and software, units of data, the internet, WWW, e-mail and network types, e-commerce with its advantages and disadvantages, uses of ICT in various fields, cyber crime and cyber ethics, and short numericals on data size, binary numbers and download time.
+Expect 1-mark and 2-mark questions on **analog vs digital signals**, **bit, nibble, byte and memory units**, **ADC and DAC**, the **exact order of the 9 blocks of digital signal transmission** (`Source → Input transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output transducer → Output signal`), **carrier, modulating and modulated signals**, **baseband vs broadband transmission**, **netizen and digital citizenship**, **online reputation management vs digital wellbeing**, **audio (`.mp3`, `.wav`, `.wma`) vs video (`.mp4`, `.3gp`, `.svi`, `.avi`, `.mov`) file formats**, and 4-mark questions on **steps to cut/trim or join a video clip** (for example shortening a 5-minute or 6-minute video to 3 or 4 minutes).
 :::
 
-## 13.1 Computer systems
+## 13.1 Signals, analog-to-digital conversion and memory units
 
-### What is a computer?
+### What is a signal?
 
-::: definition Computer
-A computer is an electronic device that accepts data as input, processes it according to a set of instructions (a program), stores it, and gives out the result as information.
+::: definition Signal
+A **signal** is a time-varying physical quantity (such as electric current, voltage, sound wave or electromagnetic wave) that carries data or information from a source (transmitter) to a destination (receiver).
 :::
 
-**Data** are raw facts and figures (such as marks 78, 85, 92). **Information** is data that has been processed and made meaningful (the average mark is 85). A computer follows the cycle **input → process → output**, with storage.
+### Evolution of television broadcasting
 
-Characteristics: speed, accuracy, diligence (it never gets tired), versatility, storage capacity, and automation. A computer has no intelligence of its own: it can only do what it is told (it has no IQ).
+Television technology illustrates why modern communication moved from analog to digital signals:
 
-### Parts of a computer system
+1. **Antenna-connected (terrestrial analog) TV:** Electromagnetic waves transmitted from a broadcast station travel through the air to a rooftop antenna. As the waves travel long distances through the atmosphere, they lose energy (**attenuation**) and pick up atmospheric interference. Consequently, the potential difference induced in the antenna is very weak, producing a weak modulated electric current and poor audio-visual quality (snowy picture and noise).
+2. **Cable TV:** Modulated signals are sent through coaxial or fibre cables from a cable headend to homes. To watch cable TV on a computer, a **cable modem** is used.
+3. **Dish TV (Direct-to-Home satellite TV):** Digital signals are broadcast from a communication satellite in space to a small parabolic dish antenna at the user's home, giving clear high-definition audio and video across mountains and valleys.
+4. **Internet TV (IPTV / streaming):** Audio-visual data travel as digital packets over broadband internet connections.
 
-A computer system has four parts: **hardware**, **software**, **data** and **users** (the "liveware").
+### Types of signals: Analog signal and Digital signal
 
-**Hardware** is the physical parts that we can touch.
+Signals used in communication are classified into two types:
 
-| Group | Function | Examples |
-|---|---|---|
-| **Input devices** | Send data and instructions into the computer | Keyboard, mouse, scanner, microphone, webcam, touch screen, barcode reader |
-| **Processing unit (CPU)** | The "brain" that carries out the instructions | Microprocessor chip |
-| **Output devices** | Show the results | Monitor, printer, speaker, projector |
-| **Memory (primary)** | Holds data and programs being used right now | RAM, ROM, cache |
-| **Storage (secondary)** | Keeps data permanently | Hard disk, SSD, pen drive, memory card, DVD |
+#### 1. Analog signal
 
-The **CPU (Central Processing Unit)** has three parts: the **Arithmetic and Logic Unit (ALU)** which does calculations and comparisons, the **Control Unit (CU)** which directs all the work, and **registers**, small fast stores.
+::: definition Analog signal
+An **analog signal** is a continuous signal whose value (amplitude, voltage, pressure or temperature) varies smoothly and continuously with time over an infinite number of possible values within a range.
+:::
 
-```figure caption="Block diagram of a computer. Data go in through input devices, the CPU processes them using the main memory, and the results go to output devices. Secondary storage keeps data permanently."
+- **Waveform:** Represented by a smooth, continuous **sine wave**.
+- **Examples:** Human voice/sound waves in air, the electrical output of a microphone, mercury thermometer readings, vehicle pointer speedometer, old landline telephone signals, and medium-wave (AM/FM) radio waves.
+- **Limitation:** Because any small fluctuation in voltage changes the signal, analog signals are **easily distorted by external noise and interference**, and their quality degrades over long distances.
+
+#### 2. Digital signal
+
+::: definition Digital signal
+A **digital signal** is a discrete (non-continuous) signal that represents information as a sequence of separate, fixed levels — in binary electronics, only two states: **LOW (`0`)** and **HIGH (`1`)**.
+:::
+
+- **Waveform:** Represented by a **square wave (rectangular pulses)** switching sharply between two voltage levels.
+- **Textbook circuit activity (Switch ON/OFF graph):** Connect a $5\ \text{V}$ source, a switch and a bulb in a circuit and record the voltage across the bulb over time:
+  - When the **switch is ON (closed)**, the potential difference across the bulb is $5\ \text{V}$, representing a **HIGH signal (`1`)**.
+  - When the **switch is OFF (open)**, the potential difference is $0\ \text{V}$, representing a **LOW signal (`0`)**.
+- In computers and smartphones, millions of microscopic **transistors** act as ultra-fast electronic switches turning ON (`1`) and OFF (`0`) billions of times per second.
+
+```figure caption="Comparison of (a) a continuous analog signal (sine wave) and (b) a discrete digital signal (square-wave pulses). In (b), points A and B are HIGH (5 V, switch ON, binary 1), while point C is LOW (0 V, switch OFF, binary 0)."
 import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.0, 3.0))
-ax.set_xlim(0, 12); ax.set_ylim(0, 7.5); ax.axis('off')
-def box(x, y, w, h, t, fc='#E5ECF6'):
-    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0.05,rounding_size=0.2', fc=fc, ec=INK, lw=1.2))
-    ax.text(x + w/2, y + h/2, t, ha='center', va='center', fontsize=8, color=INK)
-def arr(x1, y1, x2, y2, both=False):
-    st = '<|-|>' if both else '-|>'
-    ax.annotate('', xy=(x2, y2), xytext=(x1, y1), arrowprops=dict(arrowstyle=st, color=INK, lw=1.3))
-box(0.2, 2.9, 2.4, 1.7, 'Input\ndevices\n(keyboard,\nmouse)', fc='#FFF1C9')
-box(4.2, 2.6, 3.6, 2.3, 'CPU\nALU + Control Unit', fc='#D7EBDD')
-box(9.4, 2.9, 2.4, 1.7, 'Output\ndevices\n(monitor,\nprinter)', fc='#F9D5D0')
-box(4.2, 5.8, 3.6, 1.2, 'Main memory (RAM, ROM)')
-box(4.2, 0.3, 3.6, 1.2, 'Secondary storage (disk)')
-arr(2.6, 3.75, 4.2, 3.75); arr(7.8, 3.75, 9.4, 3.75)
-arr(6.0, 4.9, 6.0, 5.8, both=True); arr(6.0, 2.6, 6.0, 1.5, both=True)
-```
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.2, 2.35))
+t = np.linspace(0, 4*np.pi, 400)
+ax1.plot(t, 5*np.sin(t), color=ACCENT, lw=1.8)
+ax1.axhline(0, color=MUTED, lw=0.8)
+ax1.set_title("(a) Analog signal (continuous)", fontsize=8.5, color=INK, fontweight="bold")
+ax1.set_xlabel("Time (t)", fontsize=8, color=INK); ax1.set_ylabel("Voltage (V)", fontsize=8, color=INK)
+ax1.set_ylim(-6.2, 6.2); ax1.set_xticks([]); ax1.spines[['top','right']].set_visible(False)
+ax1.text(1.6, 5.3, "Continuous wave", fontsize=7.5, color=ACCENT)
 
-```photo id="sci10/motherboard" caption="Inside a desktop computer: the motherboard, the power supply (top left), the storage drives and the connecting cables." width="70"
-```
-
-```photo id="sci10/ram" caption="RAM (main memory) modules. They plug into the motherboard and hold the programs and data in use." width="56"
-```
-
-```photo id="sci10/hdd" caption="A hard disk drive with its cover removed. Data are stored on the spinning disc (platter) and read by the arm." width="56"
-```
-
-### Primary memory and storage units
-
-| Memory | Meaning |
-|---|---|
-| **RAM** (Random Access Memory) | Temporary working memory; contents are lost when the power goes off (volatile). Read and write |
-| **ROM** (Read Only Memory) | Permanent memory holding start-up instructions (BIOS); not lost when the power goes off |
-| **Cache** | Very fast small memory between the CPU and RAM |
-
-Computers store everything as 0s and 1s (the binary system). A **bit** is a single binary digit (0 or 1). A **byte** is a group of 8 bits and stores one character.
-
-| Unit | Size |
-|---|---|
-| 1 byte (B) | 8 bits |
-| 1 kilobyte (KB) | 1024 B |
-| 1 megabyte (MB) | 1024 KB |
-| 1 gigabyte (GB) | 1024 MB |
-| 1 terabyte (TB) | 1024 GB |
-
-::: example Storage capacity
-**Problem.** A phone memory card of 2 GB is used to store photos each of size 4 MB. How many photos can it hold?
-
-**Solution.** $2\ \text{GB} = 2 \times 1024 = 2048$ MB.
-
-Number of photos $= \dfrac{2048}{4} = 512$.
-:::
-
-### Binary numbers
-
-The decimal system uses ten digits (0–9) with base 10. The binary system uses two digits (0, 1) with base 2. Each place in a binary number is a power of 2: $\dots, 16, 8, 4, 2, 1$.
-
-::: example Binary and decimal
-**Problem.** (a) Convert $1101_2$ to decimal. (b) Convert $25_{10}$ to binary.
-
-**Solution.** (a) $1101_2 = 1\times8 + 1\times4 + 0\times2 + 1\times1 = 8 + 4 + 0 + 1 = 13$.
-
-(b) Divide 25 repeatedly by 2 and note the remainders:
-
-| Division | Quotient | Remainder |
-|---|---|---|
-| 25 ÷ 2 | 12 | 1 |
-| 12 ÷ 2 | 6 | 0 |
-| 6 ÷ 2 | 3 | 0 |
-| 3 ÷ 2 | 1 | 1 |
-| 1 ÷ 2 | 0 | 1 |
-
-Reading the remainders from bottom to top: $25_{10} = 11001_2$. Check: $16 + 8 + 1 = 25$ ✓.
-:::
-
-### Software
-
-**Software** is the set of programs and instructions that tell the hardware what to do. We cannot touch it.
-
-| Type | Meaning | Examples |
-|---|---|---|
-| **System software** | Runs and controls the computer | Operating systems (Windows, Linux, macOS, Android), device drivers, language translators |
-| **Utility software** | Helps maintain the computer | Antivirus, disk cleaner, backup tools, file compression |
-| **Application software** | Does a task for the user | Word processor (MS Word), spreadsheet (Excel), presentation (PowerPoint), browser, games, Photoshop |
-
-An **operating system (OS)** manages the hardware, memory and files, runs other programs, and provides a user interface (the screen you see, with icons and windows). A **virus** is a harmful program that copies itself and damages data or slows the computer.
-
-### Types of computers
-
-| Basis | Types |
-|---|---|
-| Size and power | Supercomputer, mainframe, minicomputer, microcomputer (desktop, laptop, tablet, smartphone) |
-| Data handled | Analog, digital, hybrid |
-| Purpose | General purpose, special purpose (such as in a washing machine or ATM) |
-
-Microcomputers are used by individuals. Supercomputers do enormously fast calculations such as weather forecasting and scientific research.
-
-## 13.2 Internet and networks
-
-### Computer network
-
-::: definition Computer network
-A computer network is a group of two or more computers and other devices connected together so that they can share data, files, printers and an internet connection.
-:::
-
-Benefits: sharing of resources (printers, files), fast communication, saving cost, central backup and security. Drawbacks: spread of viruses, risk of hacking, expensive setup, failure of the main server may stop everyone.
-
-| Type | Area covered | Example |
-|---|---|---|
-| **LAN** (Local Area Network) | A room, a building, a school | School computer lab, cyber café |
-| **MAN** (Metropolitan Area Network) | A city | A cable TV network of a city, a bank's branches in a city |
-| **WAN** (Wide Area Network) | A country or the world | The internet; a bank's ATM network |
-
-The way in which computers are arranged in a network is its **topology**: **bus** (all on one cable), **star** (all connected to a central hub or switch) and **ring** (in a closed loop). The star topology is the most common in schools and offices: if one cable fails, the others keep working, but if the central switch fails, the whole network stops.
-
-```figure caption="Star, bus and ring network layouts. In a star network every computer connects to a central switch; in a bus, to one shared cable; in a ring, each to its two neighbours."
-import numpy as np, matplotlib.pyplot as plt
-fig, axs = plt.subplots(1, 3, figsize=(5.2, 2.2))
-for ax in axs:
-    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2); ax.set_aspect('equal'); ax.axis('off')
-a = axs[0]; a.set_title('Star', fontsize=9, color=INK)
-for k in range(5):
-    t = 2*np.pi*k/5 + np.pi/2
-    a.plot([0, 1.45*np.cos(t)], [0, 1.45*np.sin(t)], color=INK, lw=1.2)
-    a.plot([1.45*np.cos(t)], [1.45*np.sin(t)], 's', color=ACCENT, ms=9)
-a.plot([0], [0], 'o', color='#A8271F', ms=12)
-b = axs[1]; b.set_title('Bus', fontsize=9, color=INK)
-b.plot([-1.8, 1.8], [0, 0], color=INK, lw=2)
-for xx in (-1.3, -0.45, 0.45, 1.3):
-    b.plot([xx, xx], [0, 0.8], color=INK, lw=1.2); b.plot([xx], [0.8], 's', color=ACCENT, ms=9)
-    b.plot([xx, xx], [0, -0.8], color=INK, lw=1.2); b.plot([xx], [-0.8], 's', color=ACCENT, ms=9)
-c = axs[2]; c.set_title('Ring', fontsize=9, color=INK)
-th = np.linspace(0, 2*np.pi, 200)
-c.plot(1.4*np.cos(th), 1.4*np.sin(th), color=INK, lw=1.2)
-for k in range(6):
-    t = 2*np.pi*k/6
-    c.plot([1.4*np.cos(t)], [1.4*np.sin(t)], 's', color=ACCENT, ms=9)
+bits = [1, 0, 1, 1, 0, 1, 0]
+tx = np.arange(0, len(bits)+1)
+ty = bits + [bits[-1]]
+ax2.step(tx, [b*5 for b in ty], where='post', color=SERIES[1], lw=1.9)
+ax2.set_title("(b) Digital signal (discrete 0 and 1)", fontsize=8.5, color=INK, fontweight="bold")
+ax2.set_xlabel("Time (t)", fontsize=8, color=INK); ax2.set_ylabel("Voltage (V)", fontsize=8, color=INK)
+ax2.set_ylim(-1.2, 6.6); ax2.set_yticks([0, 5]); ax2.set_yticklabels(["0 V (0)", "5 V (1)"], fontsize=7.5)
+ax2.set_xticks([])
+ax2.spines[['top','right']].set_visible(False)
+for i, b in enumerate(bits):
+    ax2.text(i+0.5, 5.45 if b else 0.45, str(b), ha='center', fontsize=8, fontweight='bold', color=INK)
+ax2.plot([0.5, 2.5, 4.5], [5, 5, 0], 'o', color=INK, ms=4)
+ax2.annotate("A (ON)", xy=(0.5, 5), xytext=(0.15, 6.0), fontsize=7.2, color=INK)
+ax2.annotate("B (ON)", xy=(2.5, 5), xytext=(2.15, 6.0), fontsize=7.2, color=INK)
+ax2.annotate("C (OFF)", xy=(4.5, 0), xytext=(4.05, -1.05), fontsize=7.2, color=INK)
 fig.tight_layout()
 ```
 
-```photo id="sci10/switch" caption="A network switch with two Ethernet cables plugged in. A switch connects the computers of a star network." width="66"
-```
+### Difference between Analog Signal and Digital Signal
 
-```photo id="sci10/router" caption="A wireless router. It connects the computers of a home to the internet by cable and by Wi-Fi." width="50"
-```
+| Basis | Analog Signal | Digital Signal |
+|---|---|---|
+| **Definition** | A continuous signal whose value changes smoothly with time | A discrete signal represented by binary digits (`0` and `1`) |
+| **Waveform** | Continuous sine wave | Square wave (discrete HIGH and LOW pulses) |
+| **Values** | Can take any value within a continuous range | Takes only two distinct values: `0` (LOW/OFF) and `1` (HIGH/ON) |
+| **Effect of noise** | Easily affected by external noise and interference; quality degrades | Highly immune to noise; can be regenerated without loss of quality |
+| **Storage and processing** | Difficult to store, compress and encrypt | Easy to store in memory, process, compress and encrypt |
+| **Examples** | Sound waves, medium-wave radio, mercury thermometer, landline phone | Signals inside a computer, smartphone, smartwatch, CD/DVD, USB cable |
 
-### The internet
+### Analog-to-Digital Conversion (ADC) and Digital-to-Analog Conversion (DAC)
 
-::: definition Internet
-The internet is a worldwide network of networks of computers, linked by cables, telephone lines, fibre optics and satellites, that follow common rules (protocols) to exchange data.
+Because the real physical world (human voice, light, temperature) is **analog** while computers and digital networks process **digital (`0` and `1`)** data, two converters are essential:
+
+- **ADC (Analog-to-Digital Converter):** An electronic circuit (used inside the encoder/input stage) that samples a continuous analog signal and converts it into binary digital code (`0`s and `1`s) so that a computer or digital network can process, store and transmit it.
+- **DAC (Digital-to-Analog Converter):** An electronic circuit (used inside the decoder/output stage) that converts processed digital binary data (`0`s and `1`s) back into a continuous analog electrical signal so that a loudspeaker or screen can produce sound and pictures that human senses can perceive.
+
+### Binary combinations and Computer Memory Units
+
+Digital devices use the **binary number system** (base 2), which has only two digits: `0` and `1`. With $n$ binary digits (bits), the number of possible combinations of `0` and `1` is $2^n$:
+
+- **1 bit ($n = 1$):** $2^1 = 2$ combinations (`0`, `1`)
+- **2 bits ($n = 2$):** $2^2 = 4$ combinations (`00`, `01`, `10`, `11`)
+- **3 bits ($n = 3$):** $2^3 = 8$ combinations (`000`, `001`, `010`, `011`, `100`, `101`, `110`, `111`)
+- **4 bits ($n = 4$):** $2^4 = 16$ combinations (called **1 nibble**)
+- **8 bits ($n = 8$):** $2^8 = 256$ combinations (called **1 byte**, which represents one character such as `'A'` or `'7'`)
+
+::: definition Bit, Nibble and Byte
+- **Bit (Binary Digit):** The smallest unit of data in a computer memory, having a single binary value of either `0` or `1` (represented by lowercase `b`).
+- **Nibble:** A group of **4 bits** (for example `1011` or `0000`). Two nibbles make one byte.
+- **Byte:** A group of **8 bits** (for example `00000000` or `11010011`) treated as a single unit of data to store one character (represented by uppercase `B`).
 :::
 
-The internet began in 1969 as ARPANET, a project of the United States Department of Defense. Nepal's first internet service came in the 1990s, and today most people use the mobile internet and fibre broadband.
+| Memory Unit | Relation | Equivalent in Bytes / Bits |
+|---|---|---|
+| **1 Bit (b)** | `0` or `1` | Smallest unit of computer memory |
+| **1 Nibble** | $4\ \text{bits}$ | $\frac{1}{2}\ \text{Byte}$ |
+| **1 Byte (B)** | $8\ \text{bits} = 2\ \text{nibbles}$ | $1\ \text{character}$ (e.g. `00000000`) |
+| **1 Kilobyte (KB)** | $1024\ \text{Bytes}$ | $2^{10}\ \text{B} = 8192\ \text{bits}$ |
+| **1 Megabyte (MB)** | $1024\ \text{Kilobytes (KB)}$ | $1024 \times 1024\ \text{B}$ |
+| **1 Gigabyte (GB)** | $1024\ \text{Megabytes (MB)}$ | $1024^3\ \text{B}$ |
+| **1 Terabyte (TB)** | $1024\ \text{Gigabytes (GB)}$ | $1024^4\ \text{B}$ |
 
-Key terms:
+::: example Memory unit conversion (SEE pattern)
+**Problem.** (a) How many nibbles and bits are there in $4\ \text{Bytes}$? (b) A pen drive of $2\ \text{GB}$ stores audio recordings each of size $4\ \text{MB}$. How many recordings can it hold?
 
-| Term | Meaning |
-|---|---|
-| **ISP** (Internet Service Provider) | A company that gives you an internet connection (e.g., Worldlink, Vianet, Subisu in Nepal; Ncell and Nepal Telecom for mobile data) |
-| **Protocol** | A set of rules for communication, such as TCP/IP for the internet and HTTP for web pages |
-| **IP address** | A unique number identifying each device on the internet, e.g., 192.168.1.1 |
-| **WWW** (World Wide Web) | A collection of web pages linked together and viewed with a browser; the web is a service on the internet, not the internet itself |
-| **Web browser** | Program used to view web pages (Chrome, Firefox, Edge, Safari) |
-| **URL** | The address of a web page, e.g., `https://www.example.com/index.html` |
-| **Search engine** | A website that finds information for a keyword (Google, Bing) |
-| **Website / web page** | A set of linked pages / a single page |
-| **Bandwidth** | The amount of data that can be sent per second (bits per second, bps) |
+**Solution.** (a) Since $1\ \text{Byte} = 2\ \text{nibbles} = 8\ \text{bits}$:
+$$\text{Number of nibbles} = 4 \times 2 = 8\ \text{nibbles}, \qquad \text{Number of bits} = 4 \times 8 = 32\ \text{bits}$$
+(b) Convert $2\ \text{GB}$ into $\text{MB}$: $2\ \text{GB} = 2 \times 1024\ \text{MB} = 2048\ \text{MB}$.
+$$\text{Number of audio files} = \frac{2048\ \text{MB}}{4\ \text{MB}} = 512\ \text{recordings}$$
+:::
 
-```figure caption="What happens when you type a web address. The browser asks a DNS server for the IP address, then requests the page from the web server, which sends it back."
-import numpy as np, matplotlib.pyplot as plt
+## 13.2 Signal transmission and digital communication system
+
+### Signal transmission: Analog vs Digital transmission
+
+**Signal transmission** is the process of sending a signal from a transmitter to a receiver through a communication medium (channel) such as a copper wire, optical fibre or free space.
+
+| Basis | Analog Signal Transmission | Digital Signal Transmission |
+|---|---|---|
+| **Form of signal** | Transmitted as a continuous wave | Transmitted as discrete binary pulses (`0` and `1`) |
+| **Effect of distance** | Signal weakens and noise accumulates; amplifiers amplify both noise and signal | Repeaters regenerate clean `0` and `1` pulses, so quality stays constant over long distances |
+| **Error detection** | Difficult to detect and correct errors | Error-detection and error-correction codes remove transmission errors |
+| **Security** | Less secure; hard to encrypt | Highly secure; data can be encrypted and compressed easily |
+| **Multiplexing** | Uses Frequency Division Multiplexing (FDM); lower capacity | Uses Time Division Multiplexing (TDM); carries voice, video and data together |
+| **Examples** | Traditional AM/FM radio, old landline telephone | Optical-fibre internet, 4G/5G mobile calls, digital satellite TV |
+
+### Components of a Digital Communication System
+
+In the CDC Grade 10 textbook, a digital communication system transmits an analog physical message (such as a speaker's voice) to a distant listener through **nine sequential stages**. Memorise this exact order for the SEE examination:
+
+$$\text{Source} \rightarrow \text{Input Transducer} \rightarrow \text{Encoder} \rightarrow \text{Modulator} \rightarrow \text{Channel} \rightarrow \text{Demodulator} \rightarrow \text{Decoder} \rightarrow \text{Output Transducer} \rightarrow \text{Output Signal}$$
+
+```figure caption="Block diagram of a digital communication system in the exact textbook sequence. The transmitter side converts the physical source signal into a modulated wave for the channel; the receiver side demodulates, decodes and converts it back into the original physical output signal."
+import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.0, 2.6))
-ax.set_xlim(0, 12); ax.set_ylim(0, 6); ax.axis('off')
-def box(x, y, w, h, t, fc):
-    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0.05,rounding_size=0.2', fc=fc, ec=INK, lw=1.2))
-    ax.text(x + w/2, y + h/2, t, ha='center', va='center', fontsize=8, color=INK)
-box(0.2, 2.2, 2.8, 1.6, 'Your computer\n(browser)', '#FFF1C9')
-box(4.6, 4.0, 2.8, 1.5, 'DNS server', '#E5ECF6')
-box(9.0, 2.2, 2.8, 1.6, 'Web server\n(website)', '#D7EBDD')
-ax.annotate('', xy=(4.6, 4.6), xytext=(2.2, 3.8), arrowprops=dict(arrowstyle='-|>', color=INK, lw=1.3))
-ax.text(1.6, 4.9, '1. name?', fontsize=8, color=INK)
-ax.annotate('', xy=(3.0, 3.6), xytext=(5.0, 4.0), arrowprops=dict(arrowstyle='-|>', color=MUTED, lw=1.3, ls='--'))
-ax.text(5.4, 3.35, '2. IP address', fontsize=8, color=INK)
-ax.annotate('', xy=(9.0, 3.3), xytext=(3.0, 2.8), arrowprops=dict(arrowstyle='-|>', color=INK, lw=1.3))
-ax.text(4.9, 2.55, '3. request page', fontsize=8, color=INK)
-ax.annotate('', xy=(3.0, 2.4), xytext=(9.0, 2.5), arrowprops=dict(arrowstyle='-|>', color='#A8271F', lw=1.3))
-ax.text(5.2, 1.65, '4. page sent back', fontsize=8, color='#A8271F')
+fig, ax = plt.subplots(figsize=(5.2, 2.7))
+ax.set_xlim(0, 13); ax.set_ylim(0, 6.2); ax.axis("off")
+def blk(x, y, w, h, title, sub, fc):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.04,rounding_size=0.18", fc=fc, ec=INK, lw=1.1))
+    ax.text(x+w/2, y+h*0.64, title, ha="center", va="center", fontsize=7.3, fontweight="bold", color=INK)
+    ax.text(x+w/2, y+h*0.26, sub, ha="center", va="center", fontsize=6.4, color=MUTED)
+def arr(x1, y1, x2, y2):
+    ax.annotate("", xy=(x2, y2), xytext=(x1, y1), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.2))
+blk(0.1, 4.1, 2.2, 1.5, "1. Source", "Sound / voice", "#FFF1C9")
+blk(2.7, 4.1, 2.5, 1.5, "2. Input Transducer", "Mic (sound → elec.)", "#E5ECF6")
+blk(5.6, 4.1, 2.2, 1.5, "3. Encoder", "ADC + compress", "#E5ECF6")
+blk(8.2, 4.1, 2.2, 1.5, "4. Modulator", "Carrier wave", "#E5ECF6")
+blk(10.8, 2.3, 2.0, 1.5, "5. Channel", "Fibre / air / wire", "#D7EBDD")
+blk(8.2, 0.5, 2.2, 1.5, "6. Demodulator", "Separates signal", "#F9D5D0")
+blk(5.6, 0.5, 2.2, 1.5, "7. Decoder", "DAC + error fix", "#F9D5D0")
+blk(2.7, 0.5, 2.5, 1.5, "8. Output Transducer", "Speaker (elec. → sound)", "#F9D5D0")
+blk(0.1, 0.5, 2.2, 1.5, "9. Output Signal", "Heard sound", "#FFF1C9")
+arr(2.3, 4.85, 2.7, 4.85); arr(5.2, 4.85, 5.6, 4.85); arr(7.8, 4.85, 8.2, 4.85)
+arr(10.4, 4.85, 11.8, 3.8); arr(11.8, 2.3, 10.4, 1.25)
+arr(8.2, 1.25, 7.8, 1.25); arr(5.6, 1.25, 5.2, 1.25); arr(2.7, 1.25, 2.3, 1.25)
+fig.tight_layout()
 ```
 
-::: example Download time
-**Problem.** A file of size 100 MB is downloaded on a connection of speed 8 Mbps (megabits per second). How long does it take?
+1. **Source:** The origin of the message to be sent, usually an analog physical quantity such as human voice, music or an image.
+2. **Input Transducer:** Converts the physical signal from the source into an analog electrical signal. *Example:* A **microphone** converts sound waves into electrical current; a camera sensor converts light into electrical signals.
+3. **Encoder:** Converts the analog electrical signal into a digital binary sequence (`0`s and `1`s using an ADC) and compresses the data into the minimum number of bits for efficient bandwidth use.
+4. **Modulator:** Superimposes (modulates) the digital data (the **modulating signal**) onto a high-frequency **carrier wave** to produce a **modulated signal** capable of travelling long distances through the transmission medium.
+5. **Channel (Transmission Medium):** The physical path through which the signal travels from the transmitter to the receiver (such as twisted-pair wire, coaxial cable, optical fibre or radio/satellite waves in free space).
+6. **Demodulator:** The first stage at the receiver; it separates the information-bearing digital signal from the high-frequency carrier wave.
+7. **Decoder:** Re-digitizes and decodes the demodulated signal, checks and corrects transmission errors, and converts the digital code back into an analog electrical signal (using a DAC).
+8. **Output Transducer:** Converts the decoded electrical signal back into its original physical form. *Example:* A **loudspeaker** converts electrical current into sound waves; a display screen converts it into light.
+9. **Output Signal:** The final physical message (sound, picture or text) received by the user.
 
-**Solution.** Convert the file to bits: $100\ \text{MB} = 100 \times 8 = 800$ megabits (1 byte = 8 bits).
+```figure caption="Modulation in signal transmission (asked in SEE 2080 Gandaki, Koshi and Lumbini). (a) Low-frequency modulating signal (information), (b) high-frequency carrier signal, and (c) the resulting modulated signal sent into the channel."
+import numpy as np, matplotlib.pyplot as plt
+fig, axs = plt.subplots(3, 1, figsize=(4.8, 2.85), sharex=True)
+t = np.linspace(0, 4*np.pi, 600)
+m = 0.45*np.sin(t)
+c = np.sin(12*t)
+mod = (1 + m)*c
+titles = ["(a) Modulating signal (low-frequency message / data)",
+          "(b) Carrier signal (high-frequency wave)",
+          "(c) Modulated signal (carrier + modulating signal)"]
+cols = [ACCENT, MUTED, SERIES[1]]
+for ax, y, ti, col in zip(axs, [m, c, mod], titles, cols):
+    ax.plot(t, y, color=col, lw=1.35)
+    ax.set_title(ti, fontsize=7.8, color=INK, loc="left", pad=2)
+    ax.set_yticks([]); ax.set_xticks([])
+    ax.spines[['top','right','bottom']].set_visible(False)
+fig.tight_layout()
+```
 
-Time $= \dfrac{800\ \text{Mb}}{8\ \text{Mb/s}} = 100$ s $= 1$ min $40$ s.
-:::
+### Baseband Transmission and Broadband Transmission
 
-::: caution Mbps and MBps
-Network speed is quoted in bits per second (Mbps, with a small b), while file sizes are in bytes (MB, with a big B). Divide the speed by 8 to get megabytes per second: 8 Mbps = 1 MB per second.
-:::
+Signals are sent through communication channels in two ways:
 
-### Services on the internet
+- **Baseband transmission:** Digital signals (`0` and `1` voltage pulses) are sent directly through a cable **without converting them into analog signals** (no modulation). A single signal uses the **entire bandwidth** of the medium at a time, and communication is bidirectional on the same channel over **short distances** (for example connecting computers in a school **Ethernet LAN** or via a USB cable).
+- **Broadband transmission:** Digital signals are first **modulated into analog waves** (optical or electromagnetic waves of different frequencies) using **Frequency Division Multiplexing (FDM)**. The bandwidth of the medium is divided into **multiple independent channels** so many signals (internet data, voice, multiple TV channels) travel **simultaneously** over **long distances**. High-speed fibre/cable internet and cable television are broadband transmissions.
 
-- **E-mail** (electronic mail): sending messages and files at once to any part of the world. An address looks like `name@gmail.com`: the user name, the symbol @, and the domain of the mail provider. A message can carry attachments, and can be sent to many people through *Cc* (copy) and *Bcc* (hidden copy).
-- **Social media:** Facebook, TikTok, Instagram, YouTube, Viber, WhatsApp to share, chat and video-call.
-- **Online search and learning:** e-books, video lessons, online courses and libraries.
-- **Cloud storage and computing:** saving files on remote servers (Google Drive, OneDrive) that can be reached from any device.
-- **VoIP and video conferencing:** Zoom, Google Meet and Messenger give cheap calls and virtual classes.
-- **Online banking, e-governance and shopping:** discussed below.
-
-### Safe use of the internet
-
-| Threat | What it is | Protection |
+| Basis | Baseband Transmission | Broadband Transmission |
 |---|---|---|
-| **Virus, worm, trojan, ransomware** | Harmful programs | Install and update antivirus; do not open unknown files |
-| **Hacking** | Unauthorised entry into a system or account | Strong passwords, two-step verification |
-| **Phishing** | Fake e-mail or message that tricks you into giving a password or bank details | Never click suspicious links; check the sender |
-| **Spam** | Unwanted bulk mail | Spam filters |
-| **Cyber bullying** | Harassing a person online | Do not respond; report and block |
-| **Identity theft, fraud** | Using another person's details for gain | Share less personal information |
+| **Signal form** | Transmits digital signals (`0` and `1` pulses) directly without modulation | Converts digital signals into modulated analog waves |
+| **Bandwidth use** | A single signal occupies the entire bandwidth of the channel | Bandwidth is divided into multiple frequency channels (FDM) |
+| **Simultaneous signals** | Only one signal is transmitted at a time | Multiple signals are transmitted simultaneously |
+| **Direction** | Bidirectional on a single cable (sending and receiving share the wire) | Unidirectional per channel (uses two channels or two frequencies) |
+| **Distance** | Suitable for short distances | Suitable for long-distance high-speed transmission |
+| **Examples** | Ethernet LAN cable between computers | High-speed broadband internet, cable TV, optical-fibre trunk lines |
 
-A **firewall** blocks unauthorised access to a network. A good password is long, mixes letters, numbers and symbols, and is not shared or reused.
+### Advantages of Digital Transmission
 
-## 13.3 E-commerce
+1. **High noise immunity:** Small electrical disturbances in the channel cannot easily flip a `0` into a `1`, so there is minimal distortion.
+2. **Clean regeneration over long distances:** Repeaters reconstruct crisp `0` and `1` pulses without amplifying channel noise.
+3. **Error detection and correction:** Extra check bits allow the decoder to find and fix bit errors automatically.
+4. **High security:** Digital data can be **encrypted** and **compressed** before transmission.
+5. **Efficient multiplexing:** Voice, video and text data from many users can share a single channel using Time Division Multiplexing (TDM).
+6. **Reliable, low-cost hardware:** Digital integrated circuits (ICs) are smaller, cheaper, more reliable and easier to design than analog circuits, with less cross-talk.
 
-::: definition E-commerce
-E-commerce (electronic commerce) is the buying and selling of goods and services, and the transfer of money, through the internet and electronic networks.
+## 13.3 Impact of digital technology in daily life
+
+### Influence of digital technology on ICT
+
+1. **Digital telecommunication:** Enables crystal-clear voice calls, 4G/5G mobile data, VoIP internet calls and thousands of simultaneous telephone conversations over a single optical fibre.
+2. **Digital media:** Electronic devices and platforms (smartphones, computers, news portals, podcasts, social media) allow instant creation, storage and worldwide sharing of news, audio and video.
+3. **Digital television (DTV):** Provides high-definition (HD/4K) pictures and clear sound through four delivery modes: **Terrestrial DTV** (local transmitter), **Cable DTV** (via cable headend), **Satellite DTV** (Dish TV via satellite dish), and **Mobile/Portable DMB** (Digital Multimedia Broadcasting to handheld devices and car systems).
+
+### Digital technologies used in daily life and their impacts
+
+Common digital devices in everyday Nepali life include the **digital and infrared thermometer**, **smartwatch**, **digital wallet (eSewa, Khalti, Fonepay QR)**, **online library (such as the CDC e-library)**, **online newspapers (`gorkhapatraonline.com`)**, **digital camera**, **calculator** and **digital vehicle speedometer**.
+
+| Positive Effects of Digital Technology | Negative Effects of Digital Technology |
+|---|---|
+| **1. Digital library:** Free access to CDC textbooks, reference books and journals anytime, encouraging reading habits | **1. Social behaviour changes:** Excessive screen time leads to irritability, social isolation and weaker family interaction |
+| **2. Online newspapers:** Instant access to national and global news on smartphones without waiting for print delivery | **2. Cybercrime:** Hacking, online fraud, phishing, identity theft and character assassination harm individuals and families |
+| **3. Digital payment:** Cashless shopping, utility bill payment, tax payment and ticket booking via QR codes and mobile banking | **3. Lack of physical exercise:** Children spending hours on screens suffer from obesity, physical weakness and poor posture |
+| **4. Online business:** Local producers and shops can promote and sell goods nationwide over the internet | **4. Harmful digital games:** Violent online games cause addiction, mental stress, sleep loss and aggressive behaviour |
+| **5. Social networks:** Connects distant family members (such as relatives working abroad) and provides a platform for public expression | **5. Spread of misinformation:** Fake news, rumours and deepfakes spread rapidly on social media |
+| **6. Entertainment and learning:** Educational videos, animations, music and interactive simulations make learning engaging | **6. Reduced physical consumption:** Decline of traditional print bookstores, postal services and physical retail businesses |
+
+## 13.4 Digital citizenship, online reputation and digital wellbeing
+
+### Netizen, Netizenship and Digital Citizenship
+
+Digital communication has connected people across every continent into a single **global village**.
+
+::: definition Netizen and Digital Citizenship
+- **Netizen (Citizen of the Net):** A person who actively uses the internet and participates in online communities.
+- **Digital citizenship (Netizenship):** The citizenship of a netizen in the virtual world of the internet — that is, the **responsible, ethical, safe and respectful use** of digital technology and online platforms.
 :::
 
-### Types of e-commerce
+### Characteristics of a Good Netizen (Internet Etiquette / Netiquette)
 
-| Type | Between | Example |
-|---|---|---|
-| **B2C** (business to consumer) | A business and a customer | Daraz, Sastodeal, an online clothes shop |
-| **B2B** (business to business) | Two businesses | A manufacturer buying raw material, or a wholesaler selling to a shopkeeper online |
-| **C2C** (consumer to consumer) | Two individuals | Hamrobazar, Facebook marketplace |
-| **G2C** (government to citizen) | Government and citizens | Online tax payment, e-passport application, online bill payment |
+1. **Polite and civilised communication:** Uses respectful, courteous language in emails, comments and online discussions.
+2. **Respect for others and privacy:** Treats every online user with dignity, even when disagreeing, and never shares another person's private photos, messages or personal data without consent.
+3. **Awareness of digital permanence:** Understands that anything posted online creates a permanent **digital footprint** that can be seen for years.
+4. **Respect for intellectual property:** Never copies another person's articles, photos, music or videos without permission, and **cites the original source** whenever reference material is used.
+5. **Verification before sharing:** Checks facts before forwarding news or posts so rumours and misinformation do not spread.
 
-### Electronic payment
+### Online Reputation and Digital Reputation Management
 
-Payment in e-commerce is done by debit or credit card, internet banking, mobile banking, **digital wallets** (eSewa, Khalti, IME Pay) and QR payments (Fonepay, NepalPay). The Nepal Rastra Bank regulates payment services. In many cases, **cash on delivery** is also used.
-
-### Advantages and disadvantages
-
-| Advantages | Disadvantages |
-|---|---|
-| Open 24 hours; can buy from anywhere | Cannot touch or try the goods before buying |
-| Saves time, travel and cost | Risk of fraud, fake goods, wrong delivery |
-| Wide choice; easy comparison of prices | Needs internet, a device and some skill |
-| Reaches customers across the country and the world | Fear for the safety of card and personal information |
-| Home delivery; easy returns for many items | Delay in delivery, especially in remote areas; loss of jobs of some small shops |
-
-Tips for safe online shopping: use well-known websites with `https://` and a padlock sign; do not share your PIN or OTP; check the seller's rating and return policy; use cash on delivery when you are unsure; keep the order receipt.
-
-## 13.4 ICT in daily life
-
-| Field | Use of ICT |
-|---|---|
-| **Education** | E-learning, smart classrooms, digital libraries and e-books, online exams and results, video lessons, education apps |
-| **Health** | Telemedicine (consulting doctors by video), electronic health records, digital X-ray, CT scan and MRI, online appointments, health-tracking watches |
-| **Banking and finance** | ATM, mobile banking, internet banking, QR payment, online remittance and share trading |
-| **Government (e-governance)** | Online forms and services (e.g., passport, driving licence and tax), online tendering, e-voting systems, national ID, public information websites |
-| **Agriculture** | Weather forecasts and market prices by phone, farming advice by SMS or video, drones, and sensors for irrigation |
-| **Communication** | E-mail, mobile phone, video call, social media; FM radio and television use digital technology |
-| **Business and industry** | Computerised accounting, inventory and billing, automation and robots in factories, online marketing |
-| **Transport and tourism** | Online ticket booking (buses and flights), GPS navigation, ride-sharing apps; trekking permits and hotel booking online |
-| **Entertainment** | Online games, streaming of music and film, digital photography |
-| **Disaster management** | Early warnings by mobile SMS, satellite maps of floods and landslides, drones for search and rescue |
-| **Science and research** | Supercomputers, simulations, sensors, space satellites |
-
-### Emerging technologies
-
-- **Artificial Intelligence (AI):** computers that learn from data to do tasks such as speech recognition, translation and recommending videos.
-- **Internet of Things (IoT):** everyday objects (lights, fridges, vehicles, water meters) connected to the internet so that they can be controlled or monitored remotely.
-- **Robotics:** machines that do work in factories, surgery and dangerous places.
-- **Cloud computing:** using remote servers to store and process data.
-- **Blockchain and 3D printing** are also growing.
-
-### Impact of ICT
-
-Positive impacts: faster work and communication, access to information for all, new jobs (software developer, web designer, data analyst, online freelancer), services at a distance for people in remote hills and mountains. Negative impacts: addiction to games and social media, loss of privacy, spread of false news, health problems (eye strain, back pain, loss of sleep), cyber crime, loss of some traditional jobs, and **e-waste** (old computers and phones that poison soil and water if thrown away carelessly). Old devices should be recycled or passed to authorised collectors.
-
-## 13.5 Ethics
-
-::: definition Cyber ethics
-Cyber ethics (computer ethics) are the moral rules and good manners that guide a person on how to use computers, the internet and digital information responsibly and respectfully.
+::: definition Online Reputation and Digital Reputation Management
+- **Online reputation (Digital reputation):** The public perception or image of an individual or an institution formed from their online profile, posts, comments, shares and digital footprint.
+- **Digital reputation management:** The continuous process of building, monitoring and protecting a positive, credible and trustworthy image of a person or organisation on the internet.
 :::
 
-### Rules of good conduct (netiquette)
+- **Personal online reputation:** Built by using one's real name and authentic photo, keeping a consistent username across professional/social networks, posting knowledgeable and constructive content (for example sharing scientific discoveries or educational articles), and protecting accounts with strong privacy settings and passwords so impostors cannot post harmful material.
+- **Institutional online reputation:** Websites and verified social-media pages of schools, hospitals, banks and government offices represent them officially. Their credibility is maintained by publishing accurate notices, maintaining presence on major platforms, and **responding promptly and politely to public queries, comments and complaints**.
 
-- Be polite and respectful online; do not use rude, hateful or abusive language.
-- Do not spread rumours, rude pictures or fake news; verify before sharing.
-- Do not use another person's work or picture without permission.
-- Do not hack, enter another person's account, or read his or her messages.
-- Do not share a person's private information or photos without consent.
-- Do not use the school or office network for illegal purposes.
-- Respect copyright; use licensed software.
-- Think before you post: your **digital footprint** (the trail of what you post and do online) stays for a long time.
+### Digital Wellbeing (Digital Wellness / डिजिटल आरोग्यता)
 
-### Copyright and plagiarism
+Spending hours online without physical balance causes **physical problems** (eye strain, blurred vision, insomnia, headache, back/neck pain, obesity) and **mental/social problems** (anxiety, depression, irritability, low self-esteem, dishonesty, loneliness, social isolation and internet addiction).
 
-**Copyright** is the legal right of the owner (author, artist, programmer) to control the copying and use of his or her work. Copying software, music, films or books without permission is **piracy**. **Plagiarism** is copying another person's work or ideas and presenting them as your own. Free and open-source software (like Linux and LibreOffice) is given with a licence allowing the public to use and share it.
+::: definition Digital Wellbeing
+**Digital wellbeing** (digital wellness) is the state of being physically, mentally, socially and emotionally healthy by maintaining a **healthy balance between online (screen) time and offline (real-world) activities**.
+:::
 
-### Cyber crime and cyber law
+#### Precautions and habits for Digital Wellbeing
 
-**Cyber crime** is any crime done with a computer or on the internet: hacking, phishing, online fraud, spreading viruses, posting indecent material, stealing identity and harassing people.
+1. **Separate and limit screen time:** Fix daily time limits for smartphones, games and social media, and take regular breaks (such as the 20-20-20 eye rule) and offline time with family and outdoor sports.
+2. **Turn off unnecessary notifications:** Silence non-essential social-media notifications during study hours, work and before sleep.
+3. **No screens before bedtime:** Stop using phones at least 30–60 minutes before sleeping to prevent insomnia.
+4. **Use Digital Wellbeing applications:** Install screen-time monitoring tools such as **Digital Wellbeing**, **ActionDash**, **Digital Detox** or **Microsoft Launcher** to track and reduce excessive phone use.
 
-**Cyber law** is the set of rules made by a government to punish such crimes and to protect users. In Nepal, the **Electronic Transactions Act, 2063 B.S. (2008)** recognises electronic records and digital signatures, and punishes crimes such as unauthorised access to a computer, damaging a computer system, publishing illegal material, and fraud. Later laws, such as the Individual Privacy Act, 2075 B.S., protect personal information. A person who is the victim of a cyber crime may complain to the **Cyber Bureau** of the Nepal Police.
+### Difference between Digital Wellbeing, Digital Citizenship and Digital Reputation
 
-### Privacy and security
+| Basis | Digital Wellbeing | Digital Citizenship | Digital Reputation |
+|---|---|---|---|
+| **Meaning** | Maintaining physical, mental and social health by balancing online and offline life | Responsible, ethical and safe conduct as an active member of the online community | The public image or perception of a person or institution based on online activity |
+| **Focus** | Internal — personal health, sleep, posture and screen-time balance | Behavioural — obeying cyber rules, netiquette, copyright and mutual respect | External — how others judge your credibility, expertise and trustworthiness online |
+| **Key practice** | Setting screen-time limits, turning off notifications, taking digital detox breaks | Using polite language, citing sources, not spreading fake news or cyberbullying | Posting accurate, constructive content and resolving public feedback on time |
 
-Keep your personal data safe: use strong passwords and change them regularly, do not give your password or OTP to anyone, log out on shared computers, update software, and back up important files. These are habits of a good **digital citizen**.
+## 13.5 Creating and editing audio and audio-visual materials
 
-::: caution Free is not always legal
-Downloading a film or software from an unofficial website is not harmless even when it is free. It is piracy, may carry viruses, and takes income from the creators.
+### Audio recording, file formats and audio editing
+
+- **Audio recording:** Sound is recorded using the **microphone** of a smartphone or computer, which acts as an input transducer converting sound waves into electrical signals that are encoded and saved as digital audio files.
+- **Common audio file formats (extensions):** **`.MP3`** (MPEG-1 Audio Layer 3), **`.WAV`** (Waveform Audio), **`.WMA`** (Windows Media Audio), and **`.AAC`**.
+- **Audio editing software:** Unwanted noise or pauses can be trimmed and clips can be mixed using free or commercial software such as **Audacity** (`audacityteam.org`), **MP3 Cutter**, **GarageBand** or **Adobe Audition**.
+
+### Video (audio-visual) recording, file formats and video editing
+
+- **Audio-visual recording:** Captures both sound and moving pictures simultaneously using a **smartphone camera, digital camera or webcam** with a microphone.
+- **Common video file formats (extensions):** **`.MP4`**, **`.3GP`**, **`.AVI`**, **`.SVI`**, and **`.MOV`**.
+- **Video editing:** Removing unwanted parts of a recorded video (**video cutting / trimming**) or combining two or more short clips into a single continuous video (**video joining / merging**).
+- **Video editing software:** **Windows Video Editor** (built into Windows), **CapCut**, **InShot**, **Wondershare Filmora**, **Adobe Premiere Pro**, or the built-in **Gallery Edit** tool on a smartphone.
+
+```figure caption="Workflow for (a) cutting/trimming a 5-minute video down to 3 minutes using start/end drag bars and (b) joining multiple clips into one exported MP4 video in a video editor."
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch, Rectangle
+fig, ax = plt.subplots(figsize=(5.1, 2.35))
+ax.set_xlim(0, 12); ax.set_ylim(0, 5.2); ax.axis("off")
+ax.text(0.2, 4.7, "(a) Video Cutting / Trimming (5 min clip → 3 min clip)", fontsize=8.2, fontweight="bold", color=INK)
+ax.add_patch(Rectangle((0.3, 3.2), 11.2, 1.0, fc="#eef2f8", ec=MUTED, lw=1.0))
+ax.add_patch(Rectangle((2.2, 3.2), 6.8, 1.0, fc="#dbe4ff", ec=ACCENT, lw=1.6))
+ax.plot([2.2, 2.2], [3.0, 4.4], color=ACCENT, lw=3); ax.plot([9.0, 9.0], [3.0, 4.4], color=ACCENT, lw=3)
+ax.text(1.2, 3.7, "Cut out", ha="center", va="center", fontsize=7.2, color=MUTED)
+ax.text(5.6, 3.7, "Selected 3 min segment kept (Start bar → End bar)", ha="center", va="center", fontsize=7.5, fontweight="bold", color=INK)
+ax.text(10.2, 3.7, "Cut out", ha="center", va="center", fontsize=7.2, color=MUTED)
+
+ax.text(0.2, 2.1, "(b) Video Joining (Combining clips into one final video)", fontsize=8.2, fontweight="bold", color=INK)
+for x, lbl, fc in [(0.3, "Clip 1\n(Intro)", "#FFF1C9"), (3.1, "Clip 2\n(Experiment)", "#D7EBDD"), (5.9, "Clip 3\n(Summary)", "#E5ECF6")]:
+    ax.add_patch(FancyBboxPatch((x, 0.4), 2.3, 1.2, boxstyle="round,pad=0.04,rounding_size=0.15", fc=fc, ec=INK, lw=1.1))
+    ax.text(x+1.15, 1.0, lbl, ha="center", va="center", fontsize=7.4, color=INK)
+ax.annotate("", xy=(9.2, 1.0), xytext=(8.4, 1.0), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.4))
+ax.add_patch(FancyBboxPatch((9.3, 0.4), 2.3, 1.2, boxstyle="round,pad=0.04,rounding_size=0.15", fc="#F9D5D0", ec=INK, lw=1.2))
+ax.text(10.45, 1.0, "Finish Video\n& Export (.MP4)", ha="center", va="center", fontsize=7.4, fontweight="bold", color=INK)
+fig.tight_layout()
+```
+
+#### (a) Steps for Video Cutting / Trimming (e.g. shortening a 5-minute or 6-minute video to 3 or 4 minutes)
+
+1. **Open Video Editor and create a project:** Launch **Video Editor** on the computer, click **New video project**, enter a project name (for example *Class 10 Science ICT*), and click **OK**.
+2. **Import and place on the storyboard:** Select the recorded video from the computer memory, add it to the **Project library**, and drag it down into the **Storyboard / Editing panel**.
+3. **Open the Trim tool:** Select the video clip on the storyboard and click **Trim**.
+4. **Set Start and End points:** Play the video to identify the unwanted sections, then drag the **two blue trim bars (start-time bar and end-time bar)** so that only the required duration (for example 3 minutes or 4 minutes) remains between them, and click **Done**.
+5. **Export and save:** Click **Finish video** at the top right, choose the video quality, click **Export**, and save the shortened `.MP4` file in the desired folder.
+
+#### (b) Steps for Video Joining (Combining multiple clips into one video)
+
+1. Place all the video clips to be joined inside a folder on the computer.
+2. Open **Video Editor**, start a **New video project**, and import the required clips into the **Project library**.
+3. Select the clips and drag them in the desired sequence onto the **Storyboard / Editing panel**.
+4. Tick/select all the clips on the storyboard and click **Finish video**.
+5. Click **Export** and choose a location to save the combined single `.MP4` video file.
+
+::: example Planning a 5-minute Science video and shortening it to 3 minutes (Textbook & SEE question)
+**Problem.** Prepare a plan to create a 5-minute audio-visual material on any topic of Class 10 Science, and write the steps to shorten that video to 3 minutes.
+
+**Solution.**
+- **Part 1 — Plan to create a 5-minute video (Topic: Information and Communication Technology):**
+  1. *Scripting and storyboarding:* Divide the 5 minutes into clear segments: Minute 0–1 (Introduction to signals: analog vs digital with wave diagrams); Minute 1–2 (Block diagram of digital signal transmission); Minute 2–3 (Positive and negative impacts of digital technology); Minute 3–4 (Netizenship and Digital Wellbeing); Minute 4–5 (Summary and Online Reputation tips).
+  2. *Recording:* Use a smartphone camera and microphone in a quiet room to record short video clips and voice-overs for each segment, and prepare clear diagrams.
+  3. *Joining and exporting:* Open Video Editor → click **New video project** → import all recorded clips into the **Project library** → drag them in order onto the **Storyboard** → click **Finish video** → **Export** as a 5-minute `.MP4` file.
+- **Part 2 — Steps to shorten the 5-minute video to 3 minutes (Video Trimming):**
+  1. Open the 5-minute video project in **Video Editor** and place the video on the **Storyboard**.
+  2. Click the **Trim** button to open the trimming window.
+  3. Play the clip to spot pauses, repetitions or less essential examples totaling 2 minutes, and move the **start and end blue drag bars** to keep only the core 3-minute content; click **Done**.
+  4. Click **Finish video** → **Export** and save the new 3-minute video file.
 :::
 
 ## Chapter summary
 
-- A computer takes input, processes data using the CPU (ALU + CU) and memory, and gives output. Hardware is physical; software is programs (system, utility, application).
-- RAM is volatile; ROM is permanent. 1 byte = 8 bits; 1 KB = 1024 B; 1 MB = 1024 KB; 1 GB = 1024 MB. Computers use the binary system.
-- A network connects computers: LAN, MAN, WAN; topologies include star, bus and ring.
-- The internet is a network of networks; the WWW is a service on it. Important terms: ISP, IP address, URL, browser, search engine, e-mail, bandwidth.
-- Safe use: antivirus, firewall, strong passwords; beware of phishing, hacking and viruses.
-- E-commerce is buying and selling online (B2C, B2B, C2C, G2C), with digital payment; it saves time and widens choice but carries risks of fraud.
-- ICT is used in education, health, banking, governance, agriculture, transport and many other fields; emerging technologies are AI and IoT.
-- Cyber ethics requires respect for others, privacy and copyright. Cyber crime is punished by cyber law; in Nepal, the Electronic Transactions Act 2063 B.S.
+- A **signal** is a time-varying physical quantity that carries information. **Analog signals** are continuous sine waves; **digital signals** are discrete binary pulses (`0` = LOW / switch OFF, `1` = HIGH / switch ON).
+- An **ADC** converts analog signals into digital binary code; a **DAC** converts digital binary data back into analog signals for human perception.
+- **Computer memory units:** $1\ \text{bit} = 0\text{ or }1$ (smallest unit); $1\ \text{nibble} = 4\ \text{bits}$; $1\ \text{Byte (B)} = 8\ \text{bits} = 2\ \text{nibbles}$ (e.g. `00000000`); $1\ \text{KB} = 1024\ \text{B}$; $1\ \text{MB} = 1024\ \text{KB}$; $1\ \text{GB} = 1024\ \text{MB}$; $1\ \text{TB} = 1024\ \text{GB}$. With $n$ bits, $2^n$ binary combinations are possible.
+- **Stages of digital signal transmission (in order):** $\text{Source} \rightarrow \text{Input Transducer} \rightarrow \text{Encoder} \rightarrow \text{Modulator} \rightarrow \text{Channel} \rightarrow \text{Demodulator} \rightarrow \text{Decoder} \rightarrow \text{Output Transducer} \rightarrow \text{Output Signal}$.
+- **Baseband transmission** sends digital signals directly without modulation over a single short-distance channel (Ethernet LAN). **Broadband transmission** modulates signals onto multiple carrier frequencies (FDM) to send many signals simultaneously over long distances (cable TV, high-speed internet).
+- **Netizen** = an active user ("citizen") of the internet. **Digital citizenship** = responsible, ethical and safe participation online. **Online reputation management** builds and protects a person's or organisation's public image online.
+- **Digital wellbeing** is maintaining physical, mental, social and emotional health by balancing online screen time with offline life.
+- **Audio formats:** `.mp3`, `.wav`, `.wma`, `.aac` (edited in Audacity). **Video formats:** `.mp4`, `.3gp`, `.avi`, `.svi`, `.mov` (trimmed and joined in Windows Video Editor, Filmora or Premiere Pro).
 
 ## Practice questions
 
-**Group A — Objective (1 mark each)**
+**Group A — Multiple choice (1 mark each)**
 
-1. Which of the following is an output device? <span class="marks">[1]</span>
-   (a) keyboard (b) scanner (c) monitor (d) mouse
-2. The memory that loses its contents when the power is switched off is <span class="marks">[1]</span>
-   (a) ROM (b) RAM (c) hard disk (d) pen drive
-3. A network that covers a school building is a <span class="marks">[1]</span>
-   (a) LAN (b) MAN (c) WAN (d) internet
-4. 1 byte is equal to <span class="marks">[1]</span>
-   (a) 4 bits (b) 8 bits (c) 16 bits (d) 1024 bits
-5. A fake e-mail used to steal bank details is called <span class="marks">[1]</span>
-   (a) spam (b) phishing (c) a firewall (d) cookies
+1. Which of the following represents an analog signal? <span class="marks">[1]</span>
+   (a) infrared thermometer (b) computer (c) smartwatch (d) medium-wave radio
+2. Which binary sequence represents 1 byte of computer memory? <span class="marks">[1]</span>
+   (a) 0000 (b) 00000000 (c) 100000 (d) 000001
+3. Which is the correct relationship between a nibble and a byte? (SEE 2081) <span class="marks">[1]</span>
+   (a) 1 nibble = 4 bytes (b) 2 nibbles = 1 byte (c) 4 nibbles = 1 byte (d) 8 nibbles = 1 byte
+4. Which of the following shows the stages of digital signal transmission in the correct order? <span class="marks">[1]</span>
+   (a) Source, input transducer, decoder, modulator, channel, demodulator, encoder, output transducer
+   (b) Source, input transducer, encoder, modulator, channel, demodulator, decoder, output transducer
+   (c) Source, input transducer, encoder, demodulator, channel, modulator, decoder, output transducer
+   (d) Source, encoder, input transducer, modulator, channel, decoder, demodulator, output transducer
+5. Which of the following is an audio file format? <span class="marks">[1]</span>
+   (a) .SVI (b) .MP4 (c) .MP3 (d) .3GP
+6. What are people who actively use the internet called? (SEE 2080) <span class="marks">[1]</span>
+   (a) citizens (b) online managers (c) audio-video editors (d) netizens
+7. What does the habit of regularly posting accurate information about new scientific discoveries on social media indicate? <span class="marks">[1]</span>
+   (a) unsystematic use of social media (b) digital wellbeing skill (c) digital detox (d) digital reputation management
 
 ::: note Answers to Group A
-**1.** (c) — a monitor displays results; the others are input devices.
-**2.** (b) — RAM is volatile.
-**3.** (a) — a local area network covers a small area such as a building.
-**4.** (b) — 1 byte = 8 bits.
-**5.** (b) — phishing tricks users into giving private information.
+**1.** (d) — a medium-wave radio uses continuous analog electromagnetic waves; the others are digital devices.
+**2.** (b) — 1 byte equals 8 bits, and `00000000` has 8 bits (`0000` is 4 bits = 1 nibble).
+**3.** (b) — 1 nibble = 4 bits and 1 byte = 8 bits, so 2 nibbles = 1 byte.
+**4.** (b) — Source → Input transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output transducer.
+**5.** (c) — `.MP3` (along with `.WAV` and `.WMA`) is an audio format; `.SVI`, `.MP4` and `.3GP` are video formats.
+**6.** (d) — active users of the internet are called netizens (citizens of the net).
+**7.** (d) — posting constructive, knowledgeable content builds a credible public image online, which is digital reputation management.
 :::
 
 **Group B — Short answer (2 marks each)**
 
-1. Differentiate between hardware and software. <span class="marks">[2]</span>
-2. What is the difference between the internet and the WWW? <span class="marks">[2]</span>
-3. Define e-commerce. Give two examples of e-commerce websites in Nepal. <span class="marks">[2]</span>
-4. What is cyber crime? Give two examples. <span class="marks">[2]</span>
-5. Write two uses of ICT in the field of health. <span class="marks">[2]</span>
+1. Define a bit, a nibble and a byte. What is the purpose of a DAC in a computer system? (SEE 2080) <span class="marks">[2]</span>
+2. Differentiate between an analog signal and a digital signal in any two points. <span class="marks">[2]</span>
+3. Differentiate between baseband transmission and broadband transmission in two points. (SEE 2080) <span class="marks">[2]</span>
+4. Define digital citizenship. Write any two characteristics of a good netizen. (SEE 2080/2081) <span class="marks">[2]</span>
+5. What is digital wellbeing? Mention any two precautions to maintain digital wellbeing. (SEE 2080/2081) <span class="marks">[2]</span>
+6. Differentiate between digital wellbeing and digital reputation in two points. <span class="marks">[2]</span>
 
 ::: note Answers to Group B
-**1.** Hardware is the physical, touchable parts of a computer (monitor, keyboard); software is the set of programs that instruct the hardware (Windows, MS Word).
-**2.** The internet is the worldwide network of connected computers; the WWW is the collection of linked web pages that we view through a browser, one of the services on the internet.
-**3.** E-commerce is buying and selling of goods and services over the internet. Examples: Daraz, Sastodeal (also Hamrobazar).
-**4.** A crime done using a computer or the internet. Examples: hacking, phishing, online fraud.
-**5.** Telemedicine (consulting doctors by video) and digital medical imaging or electronic patient records.
+**1.** A **bit** (`0` or `1`) is the smallest unit of computer memory; a **nibble** is a group of 4 bits; a **byte** is a group of 8 bits. A **DAC (Digital-to-Analog Converter)** converts digital binary data (`0`s and `1`s) into continuous analog signals so humans can hear or view the output.
+**2.** (i) An **analog signal** is continuous and varies smoothly over time (sine wave), whereas a **digital signal** is discrete and takes only binary values `0` and `1` (square pulses). (ii) Analog signals are easily distorted by noise, whereas digital signals are highly immune to noise.
+**3.** (i) **Baseband transmission** sends a single digital signal without modulation using the entire bandwidth over short distances (e.g. Ethernet LAN). (ii) **Broadband transmission** modulates signals into analog waves across multiple frequency channels to send many signals simultaneously over long distances (e.g. cable TV, high-speed internet).
+**4.** **Digital citizenship** is the responsible, ethical and safe use of the internet by a netizen. Good netizen habits: (i) using polite, civilised language in emails and comments; (ii) respecting others' privacy and citing the source of intellectual property.
+**5.** **Digital wellbeing** is the state of physical, mental, social and emotional health achieved by balancing online screen time with offline life. Precautions: (i) setting daily time limits on screen and social-media use; (ii) turning off non-essential notifications during study and before sleep.
+**6.** (i) **Digital wellbeing** is internally focused on protecting one's personal physical and mental health from screen overuse, whereas **digital reputation** is externally focused on the public perception of an individual or organisation online. (ii) Digital wellbeing is practised by limiting screen time, whereas digital reputation is managed by posting authentic, constructive content.
 :::
 
 **Group C — Long answer (4 marks each)**
 
-1. Draw a block diagram of a computer and explain the function of each part. <span class="marks">[4]</span>
-2. A video file of 600 MB is downloaded at 16 Mbps. How long does it take? <span class="marks">[4]</span>
-3. Convert $10110_2$ into decimal and $19_{10}$ into binary. <span class="marks">[4]</span>
-4. List four advantages and two disadvantages of e-commerce. <span class="marks">[4]</span>
-5. Why is cyber ethics necessary? Explain any four rules of good conduct on the internet. <span class="marks">[4]</span>
+1. Draw the block diagram of a digital communication system and state the function of the input transducer, encoder, modulator and demodulator. (SEE 2080) <span class="marks">[4]</span>
+2. Write any four advantages of digital signal transmission over analog transmission. Why is high-speed internet considered a broadband transmission? <span class="marks">[4]</span>
+3. Write any two positive and two negative impacts of digital technology in daily life. What health problems are seen in a child who uses a mobile phone excessively for years? (SEE 2080/2081) <span class="marks">[4]</span>
+4. If you have to shorten a 6-minute video clip into a 4-minute video clip, write in order the four main steps you follow in a video editor. (SEE 2080/2081) <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** Use the block diagram figure: input devices send data to the CPU; the CPU (ALU and control unit) processes with the help of main memory; results go to output devices; secondary storage stores data permanently.
-**2.** $600\ \text{MB} = 600 \times 8 = 4800$ megabits. Time $= 4800/16 = 300$ s $= 5$ minutes.
-**3.** $10110_2 = 16 + 0 + 4 + 2 + 0 = 22$. For 19: 19÷2 = 9 r1; 9÷2 = 4 r1; 4÷2 = 2 r0; 2÷2 = 1 r0; 1÷2 = 0 r1; reading upward $19_{10} = 10011_2$.
-**4.** Advantages: 24-hour service, saves time and travel, wide choice, home delivery. Disadvantages: risk of fraud, cannot touch the goods before buying, depends on the internet.
-**5.** Cyber ethics protects users and keeps the internet safe and respectful. Rules: be polite; do not spread false news; respect copyright and do not plagiarise; do not enter other people's accounts; protect privacy.
+**1.** Draw the 9-block diagram: `Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal`. Functions: (i) **Input transducer** (e.g. microphone) converts the physical signal into an electrical signal; (ii) **Encoder** compresses the signal and converts it into binary digits (`0` and `1`); (iii) **Modulator** superimposes the digital data onto a high-frequency carrier wave for transmission through the channel; (iv) **Demodulator** separates the transmitted signal from the carrier wave at the receiver.
+**2.** Advantages: (i) highly immune to channel noise and interference; (ii) signals can be regenerated by repeaters over long distances without loss of quality; (iii) error-detection and correction codes prevent data corruption; (iv) easy to encrypt and compress for security. High-speed internet is **broadband transmission** because it divides a high-capacity medium (fibre or coaxial cable) into multiple frequency channels to carry voice, video and large data streams simultaneously over long distances.
+**3.** Positive impacts: (i) cashless digital payments (QR/mobile wallets) and online banking save time; (ii) digital libraries and online classes make study materials accessible anywhere. Negative impacts: (i) cybercrime, phishing and online harassment harm personal security; (ii) excessive screen time causes social isolation and physical inactivity. Health problems in the child: **poor eyesight (vision strain), insomnia (lack of sleep), obesity, and lack of concentration in study**.
+**4.** To trim a 6-minute video to 4 minutes: (i) Launch **Video Editor**, click **New video project**, name the project, import the 6-minute video into the **Project library**, and drag it onto the **Storyboard / Editing panel**. (ii) Select the video clip and click **Trim**. (iii) Play the video and drag the **start and end blue bars** so that 2 minutes of unwanted footage are excluded and the selected clip length is **4 minutes**, then click **Done**. (iv) Click **Finish video**, select **Export**, and save the 4-minute `.MP4` video file to the computer.
 :::
 
-**Group D — Model answers for long questions (10 marks each, for deeper revision)**
 
-1. Describe the main parts of a computer system. Differentiate between primary and secondary memory. <span class="marks">[10]</span>
-2. What is ICT? Explain eight uses of ICT in Nepal, with a note on its disadvantages and on cyber safety. <span class="marks">[10]</span>
-
-```photogrid label="13.H" cols="5" ratio="1.0" caption="Inside the box. (a) A motherboard joins the CPU, memory and cards. (b) RAM modules, the fast and temporary working memory. (c) A hard disk with its read-write arm, the permanent store. (d) A Wi-Fi router connects phones and laptops to the internet. (e) A network switch links computers in a school lab. Hardware looks different, but each part belongs to the cycle of input, process, output and storage."
-@ photo id="sci10/motherboard" cap="(a) Motherboard"
-@ photo id="sci10/ram" cap="(b) RAM"
-@ photo id="sci10/hdd" cap="(c) Hard disk"
-@ photo id="sci10/router" cap="(d) Wi-Fi router"
-@ photo id="sci10/switch" cap="(e) Network switch"
-```
-
-### Model answer D1: parts of a computer system (10 marks)
-
-**Introduction.** A **computer** is an electronic machine that accepts data (input), processes it by instructions, stores it and gives results (output). Every computer system has **hardware** (the parts we can touch) and **software** (programs). The work follows the cycle **input → process → output**, with storage.
-
-**Hardware parts.**
-
-1. **Input devices** send data to the computer: keyboard, mouse, scanner, microphone, webcam, touch screen.
-2. **Central Processing Unit (CPU)**, the brain, is a small chip. It has the **ALU** (arithmetic and logic unit) for calculations and decisions, the **control unit** that directs the work, and **registers**.
-3. **Memory** holds data and programs. The motherboard connects the CPU, RAM and other cards.
-4. **Output devices** show results: monitor, printer, speaker, projector.
-5. **Storage devices** keep data permanently: hard disk, SSD, pen drive, DVD.
-
-**Primary and secondary memory.**
-
-| Feature | Primary memory | Secondary memory |
-|---|---|---|
-| Examples | RAM, ROM | Hard disk, SSD, pen drive |
-| Speed | Very fast | Slower |
-| Capacity | Smaller (4 to 32 GB) | Larger (256 GB to many TB) |
-| Cost per GB | High | Low |
-| Contents | Currently used programs and data | All saved files |
-| Volatility | RAM loses data when the power is off | Keeps data |
-
-**Units of memory.** 1 byte = 8 bits; 1 KB = 1024 bytes; 1 MB = 1024 KB; 1 GB = 1024 MB; 1 TB = 1024 GB.
-
-**Binary system.** A computer has only two states of switch, ON and OFF, so it uses **binary numbers** with digits 0 and 1. For example, decimal 13 is 1101 in binary ($8 + 4 + 0 + 1$).
-
-**Software.** **System software** (operating system such as Windows, Linux, Android) controls the hardware and runs other programs. **Application software** (MS Word, Excel, browsers) helps the user do tasks.
-
-**Types of computers.** By size: supercomputer, mainframe, minicomputer, microcomputer (desktop, laptop, tablet, smartphone). By function: analog, digital and hybrid.
-
-**Conclusion.** Input, CPU, memory, output and storage work together under software control, and this cycle is the basis of all computing.
-
-### Model answer D2: uses of ICT and cyber safety (10 marks)
-
-**Introduction.** **ICT (Information and Communication Technology)** is the use of computers, mobile phones, networks and the internet to collect, store, process and share information. It has changed life in Nepal over the last twenty years.
-
-1. **Education.** Students use online classes, e-books and YouTube lessons. Schools use projectors and computer labs. The Nepal government and universities publish results and notices online, which saves time and travel.
-2. **Banking and digital payment.** Mobile banking, eSewa, Khalti, Fonepay QR and ConnectIPS let people pay bills, send money and shop without cash. A person in a village can send money to a family member in a few seconds.
-3. **Health.** Hospitals keep patient records on computers, doctors see reports from labs digitally, and telemedicine allows a doctor in Kathmandu to advise a patient in a remote hill district.
-4. **Government services.** Citizens can apply for a passport date, check voter lists, pay tax and get documents through Nagarik App and government portals, and use fewer visits to offices.
-5. **Communication.** E-mail, video calls, Viber, WhatsApp and Messenger connect families abroad, since many Nepalis work in other countries.
-6. **Business and e-commerce.** Online shops such as Daraz and local pages sell products. Buyers compare prices and farmers find markets through apps.
-7. **Entertainment and media.** Online news, music, films and games are available at any time on a phone. Local artists reach many viewers through YouTube.
-8. **Weather, agriculture and disaster management.** Weather forecasts, flood warning (as on the Koshi) and market price information reach farmers through SMS and apps, so they can plan work and reduce losses.
-
-**Disadvantages.** Excess use harms eyesight and sleep, cybercrime, fake news and online bullying, loss of privacy, unemployment of some manual workers, and e-waste.
-
-**Cyber safety.**
-
-- Use **strong passwords** and do not share OTP or PIN with anyone.
-- Do not open **unknown links or attachments**; they can contain a virus or phishing.
-- Keep the operating system and **antivirus** updated.
-- Do not post private information on social media.
-- Respect **copyright** and do not copy others' work (plagiarism).
-
-**Law.** Nepal's **Electronic Transactions Act, 2063 (2006)** makes hacking, spreading illegal material and online fraud punishable. Report cybercrime to the Cyber Bureau of Nepal Police.
-
-**Conclusion.** ICT saves time, money and distance, but it must be used safely, legally and in moderation.
