@@ -168,15 +168,15 @@
    "no": 2,
    "kind": "subjective",
    "title": "नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
-   "words": 1176,
-   "read_min": 7
+   "words": 1463,
+   "read_min": 8
   },
   {
    "no": 3,
    "kind": "model",
    "title": "नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
-   "words": 2096,
-   "read_min": 12
+   "words": 2044,
+   "read_min": 11
   }
  ],
  "guide": "The Basic Level Examination: Pattern, Grid and Strategy"

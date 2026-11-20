@@ -260,22 +260,22 @@
    "no": 1,
    "kind": "objective",
    "title": "अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
-   "words": 7732,
-   "read_min": 43
+   "words": 7647,
+   "read_min": 42
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
-   "words": 8013,
-   "read_min": 45
+   "words": 8816,
+   "read_min": 49
   },
   {
    "no": 3,
    "kind": "model",
    "title": "अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
-   "words": 1254,
-   "read_min": 7
+   "words": 1624,
+   "read_min": 9
   }
  ],
  "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
