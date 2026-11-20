@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="334.98pt" height="199.95pt" viewBox="0 0 334.98 199.95" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 199.95 
+L 334.98 199.95 
+L 334.98 0 
+L 0 0 
+L 0 199.95 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 53.1 71.15 
+L 108.9 71.15 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke: #2e8b57; stroke-width: 2.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 53.1 71.15 
+L 81 145.63 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 108.9 71.15 
+L 81 145.63 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 192.6 71.15 
+L 248.4 71.15 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #a8271f"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 192.6 71.15 
+L 220.5 145.63 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke: #a8271f; stroke-width: 2.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 248.4 71.15 
+L 220.5 145.63 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #5b6472; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 150.75 189.08 
+L 150.75 7.01 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #dfe3ea"/>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #1d6fb8" transform="translate(45.96 19.33) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-Bold-2c6" d="M 2022 -45 
+Q 1530 -45 1139 115 
+Q 749 275 515 588 
+Q 282 902 269 1344 
+L 1434 1344 
+Q 1459 1094 1606 963 
+Q 1754 832 1990 832 
+Q 2234 832 2374 944 
+Q 2515 1056 2515 1254 
+Q 2515 1421 2403 1529 
+Q 2291 1638 2128 1708 
+Q 1965 1779 1664 1869 
+Q 1229 2003 953 2137 
+Q 678 2272 480 2534 
+Q 282 2797 282 3219 
+Q 282 3846 736 4201 
+Q 1190 4557 1920 4557 
+Q 2662 4557 3116 4201 
+Q 3571 3846 3603 3213 
+L 2419 3213 
+Q 2406 3430 2259 3555 
+Q 2112 3680 1882 3680 
+Q 1683 3680 1561 3574 
+Q 1440 3469 1440 3270 
+Q 1440 3053 1645 2931 
+Q 1850 2810 2285 2669 
+Q 2720 2522 2992 2387 
+Q 3264 2253 3462 1997 
+Q 3661 1741 3661 1338 
+Q 3661 954 3465 640 
+Q 3270 326 2899 140 
+Q 2528 -45 2022 -45 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2c8" d="M 1472 4493 
+L 1472 1805 
+Q 1472 1402 1670 1184 
+Q 1869 966 2253 966 
+Q 2637 966 2841 1184 
+Q 3046 1402 3046 1805 
+L 3046 4493 
+L 4141 4493 
+L 4141 1811 
+Q 4141 1210 3885 794 
+Q 3629 378 3197 166 
+Q 2765 -45 2234 -45 
+Q 1702 -45 1283 163 
+Q 864 371 621 790 
+Q 378 1210 378 1811 
+L 378 4493 
+L 1472 4493 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2c1" d="M 4416 0 
+L 3322 0 
+L 1491 2771 
+L 1491 0 
+L 397 0 
+L 397 4493 
+L 1491 4493 
+L 3322 1709 
+L 3322 4493 
+L 4416 4493 
+L 4416 0 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2b7" d="M 2080 4493 
+Q 2790 4493 3321 4211 
+Q 3853 3930 4144 3421 
+Q 4435 2912 4435 2246 
+Q 4435 1587 4144 1075 
+Q 3853 563 3318 281 
+Q 2784 0 2080 0 
+L 397 0 
+L 397 4493 
+L 2080 4493 
+z
+M 2010 947 
+Q 2630 947 2976 1286 
+Q 3322 1626 3322 2246 
+Q 3322 2867 2976 3212 
+Q 2630 3558 2010 3558 
+L 1491 3558 
+L 1491 947 
+L 2010 947 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2b4" d="M 3194 794 
+L 1517 794 
+L 1248 0 
+L 102 0 
+L 1728 4493 
+L 2995 4493 
+L 4621 0 
+L 3462 0 
+L 3194 794 
+z
+M 2912 1638 
+L 2355 3283 
+L 1805 1638 
+L 2912 1638 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2cc" d="M 4250 4493 
+L 2694 1485 
+L 2694 0 
+L 1600 0 
+L 1600 1485 
+L 45 4493 
+L 1286 4493 
+L 2157 2611 
+L 3021 4493 
+L 4250 4493 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-3" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2b5" d="M 3117 2304 
+Q 3507 2221 3744 1917 
+Q 3981 1613 3981 1222 
+Q 3981 659 3587 329 
+Q 3194 0 2490 0 
+L 397 0 
+L 397 4493 
+L 2419 4493 
+Q 3104 4493 3491 4179 
+Q 3878 3866 3878 3328 
+Q 3878 2931 3670 2668 
+Q 3462 2406 3117 2304 
+z
+M 1491 2675 
+L 2208 2675 
+Q 2477 2675 2621 2793 
+Q 2765 2912 2765 3142 
+Q 2765 3373 2621 3494 
+Q 2477 3616 2208 3616 
+L 1491 3616 
+L 1491 2675 
+z
+M 2298 883 
+Q 2573 883 2723 1008 
+Q 2874 1133 2874 1370 
+Q 2874 1606 2717 1740 
+Q 2560 1875 2285 1875 
+L 1491 1875 
+L 1491 883 
+L 2298 883 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2b8" d="M 1491 3616 
+L 1491 2707 
+L 2957 2707 
+L 2957 1862 
+L 1491 1862 
+L 1491 877 
+L 3149 877 
+L 3149 0 
+L 397 0 
+L 397 4493 
+L 3149 4493 
+L 3149 3616 
+L 1491 3616 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2b9" d="M 3322 4493 
+L 3322 3616 
+L 1491 3616 
+L 1491 2669 
+L 2861 2669 
+L 2861 1818 
+L 1491 1818 
+L 1491 0 
+L 397 0 
+L 397 4493 
+L 3322 4493 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2c2" d="M 2522 -45 
+Q 1888 -45 1360 249 
+Q 832 544 521 1072 
+Q 211 1600 211 2259 
+Q 211 2918 521 3443 
+Q 832 3968 1360 4262 
+Q 1888 4557 2522 4557 
+Q 3155 4557 3683 4262 
+Q 4211 3968 4515 3443 
+Q 4819 2918 4819 2259 
+Q 4819 1600 4512 1072 
+Q 4205 544 3680 249 
+Q 3155 -45 2522 -45 
+z
+M 2522 954 
+Q 3059 954 3382 1312 
+Q 3706 1670 3706 2259 
+Q 3706 2854 3382 3209 
+Q 3059 3565 2522 3565 
+Q 1978 3565 1654 3213 
+Q 1331 2861 1331 2259 
+Q 1331 1664 1654 1309 
+Q 1978 954 2522 954 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2c5" d="M 2688 0 
+L 1754 1696 
+L 1491 1696 
+L 1491 0 
+L 397 0 
+L 397 4493 
+L 2234 4493 
+Q 2765 4493 3139 4307 
+Q 3514 4122 3699 3798 
+Q 3885 3475 3885 3078 
+Q 3885 2630 3632 2278 
+Q 3379 1926 2886 1779 
+L 3923 0 
+L 2688 0 
+z
+M 1491 2470 
+L 2170 2470 
+Q 2470 2470 2620 2617 
+Q 2771 2765 2771 3034 
+Q 2771 3290 2620 3437 
+Q 2470 3584 2170 3584 
+L 1491 3584 
+L 1491 2470 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2c6"/>
+     <use xlink:href="#Poppins-Bold-2c8" transform="translate(61.5 0)"/>
+     <use xlink:href="#Poppins-Bold-2c1" transform="translate(132 0)"/>
+     <use xlink:href="#Poppins-Bold-2b7" transform="translate(207.20 0)"/>
+     <use xlink:href="#Poppins-Bold-2b4" transform="translate(279.90 0)"/>
+     <use xlink:href="#Poppins-Bold-2cc" transform="translate(353.60 0)"/>
+     <use xlink:href="#Poppins-Bold-2c6" transform="translate(420.70 0)"/>
+     <use xlink:href="#Poppins-Bold-3" transform="translate(482.20 0)"/>
+     <use xlink:href="#Poppins-Bold-2b5" transform="translate(503.40 0)"/>
+     <use xlink:href="#Poppins-Bold-2b8" transform="translate(569.31 0)"/>
+     <use xlink:href="#Poppins-Bold-2b9" transform="translate(623.40 0)"/>
+     <use xlink:href="#Poppins-Bold-2c2" transform="translate(678.10 0)"/>
+     <use xlink:href="#Poppins-Bold-2c5" transform="translate(756.70 0)"/>
+     <use xlink:href="#Poppins-Bold-2b8" transform="translate(821.90 0)"/>
+    </g>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #1d6fb8" transform="translate(184.84 19.33) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-Bold-2c7" d="M 3629 4493 
+L 3629 3616 
+L 2438 3616 
+L 2438 0 
+L 1344 0 
+L 1344 3616 
+L 154 3616 
+L 154 4493 
+L 3629 4493 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2bb" d="M 4288 4493 
+L 4288 0 
+L 3194 0 
+L 3194 1850 
+L 1491 1850 
+L 1491 0 
+L 397 0 
+L 397 4493 
+L 1491 4493 
+L 1491 2733 
+L 3194 2733 
+L 3194 4493 
+L 4288 4493 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Bold-2bf" d="M 1491 845 
+L 2925 845 
+L 2925 0 
+L 397 0 
+L 397 4493 
+L 1491 4493 
+L 1491 845 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2c7"/>
+     <use xlink:href="#Poppins-Bold-2bb" transform="translate(59.09 0)"/>
+     <use xlink:href="#Poppins-Bold-2b8" transform="translate(132.18 0)"/>
+     <use xlink:href="#Poppins-Bold-3" transform="translate(186.28 0)"/>
+     <use xlink:href="#Poppins-Bold-2bf" transform="translate(207.48 0)"/>
+     <use xlink:href="#Poppins-Bold-2b4" transform="translate(255.18 0)"/>
+     <use xlink:href="#Poppins-Bold-2c6" transform="translate(328.89 0)"/>
+     <use xlink:href="#Poppins-Bold-2c7" transform="translate(390.39 0)"/>
+     <use xlink:href="#Poppins-Bold-3" transform="translate(449.48 0)"/>
+     <use xlink:href="#Poppins-Bold-2c6" transform="translate(470.68 0)"/>
+     <use xlink:href="#Poppins-Bold-2c8" transform="translate(532.18 0)"/>
+     <use xlink:href="#Poppins-Bold-2c1" transform="translate(602.68 0)"/>
+     <use xlink:href="#Poppins-Bold-2b7" transform="translate(677.89 0)"/>
+     <use xlink:href="#Poppins-Bold-2b4" transform="translate(750.59 0)"/>
+     <use xlink:href="#Poppins-Bold-2cc" transform="translate(824.29 0)"/>
+    </g>
+   </g>
+   <g id="patch_2">
+    <path d="M 39.01 84.80 
+L 67.18 84.80 
+Q 71.09 84.80 71.09 79.01 
+L 71.09 63.29 
+Q 71.09 57.49 67.18 57.49 
+L 39.01 57.49 
+Q 35.10 57.49 35.10 63.29 
+L 35.10 79.01 
+Q 35.10 84.80 39.01 84.80 
+z
+" clip-path="url(#pdddbaaf026)" style="fill: #f2f7f3; stroke: #2e8b57; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.81 84.80 
+L 122.98 84.80 
+Q 126.89 84.80 126.89 79.01 
+L 126.89 63.29 
+Q 126.89 57.49 122.98 57.49 
+L 94.81 57.49 
+Q 90.90 57.49 90.90 63.29 
+L 90.90 79.01 
+Q 90.90 84.80 94.81 84.80 
+z
+" clip-path="url(#pdddbaaf026)" style="fill: #f2f7f3; stroke: #2e8b57; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 53.65 159.29 
+L 108.34 159.29 
+Q 112.24 159.29 112.24 153.49 
+L 112.24 137.77 
+Q 112.24 131.98 108.34 131.98 
+L 53.65 131.98 
+Q 49.75 131.98 49.75 137.77 
+L 49.75 153.49 
+Q 49.75 159.29 53.65 159.29 
+z
+" clip-path="url(#pdddbaaf026)" style="fill: #f2f7f3; stroke: #2e8b57; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #2e8b57" transform="translate(17.14 41.80) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2dc" d="M 794 4077 
+Q 627 4077 512 4192 
+Q 397 4307 397 4474 
+Q 397 4640 512 4755 
+Q 627 4870 794 4870 
+Q 954 4870 1066 4755 
+Q 1178 4640 1178 4474 
+Q 1178 4307 1066 4192 
+Q 954 4077 794 4077 
+z
+M 1075 3507 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e1" d="M 2202 3571 
+Q 2842 3571 3238 3184 
+Q 3635 2797 3635 2067 
+L 3635 0 
+L 3059 0 
+L 3059 1984 
+Q 3059 2509 2796 2787 
+Q 2534 3066 2080 3066 
+Q 1619 3066 1347 2778 
+Q 1075 2490 1075 1939 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+L 1075 3008 
+Q 1248 3277 1545 3424 
+Q 1843 3571 2202 3571 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e6" d="M 1734 -58 
+Q 1331 -58 1011 80 
+Q 691 218 505 464 
+Q 320 710 301 1030 
+L 902 1030 
+Q 928 768 1149 601 
+Q 1370 435 1728 435 
+Q 2061 435 2253 582 
+Q 2445 730 2445 954 
+Q 2445 1184 2240 1296 
+Q 2035 1408 1606 1517 
+Q 1216 1619 969 1724 
+Q 723 1830 547 2038 
+Q 371 2246 371 2586 
+Q 371 2854 531 3078 
+Q 691 3302 985 3433 
+Q 1280 3565 1658 3565 
+Q 2240 3565 2598 3270 
+Q 2957 2976 2982 2464 
+L 2400 2464 
+Q 2381 2739 2179 2905 
+Q 1978 3072 1638 3072 
+Q 1325 3072 1139 2937 
+Q 954 2803 954 2586 
+Q 954 2413 1066 2301 
+Q 1178 2189 1347 2121 
+Q 1517 2054 1818 1971 
+Q 2195 1869 2432 1769 
+Q 2669 1670 2838 1472 
+Q 3008 1274 3014 954 
+Q 3014 666 2854 435 
+Q 2694 205 2403 73 
+Q 2112 -58 1734 -58 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d8" d="M 3693 1888 
+Q 3693 1722 3674 1536 
+L 870 1536 
+Q 902 1018 1225 726 
+Q 1549 435 2010 435 
+Q 2387 435 2640 611 
+Q 2893 787 2995 1082 
+L 3622 1082 
+Q 3482 576 3059 259 
+Q 2637 -58 2010 -58 
+Q 1510 -58 1116 166 
+Q 723 390 499 803 
+Q 275 1216 275 1760 
+Q 275 2304 492 2713 
+Q 710 3123 1104 3344 
+Q 1498 3565 2010 3565 
+Q 2509 3565 2893 3347 
+Q 3277 3130 3485 2749 
+Q 3693 2368 3693 1888 
+z
+M 3091 2010 
+Q 3091 2342 2944 2582 
+Q 2797 2822 2544 2947 
+Q 2291 3072 1984 3072 
+Q 1542 3072 1232 2790 
+Q 922 2509 877 2010 
+L 3091 2010 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e3" d="M 1075 2861 
+Q 1248 3162 1590 3363 
+Q 1933 3565 2387 3565 
+Q 2854 3565 3235 3341 
+Q 3616 3117 3833 2710 
+Q 4051 2304 4051 1766 
+Q 4051 1235 3833 819 
+Q 3616 403 3235 172 
+Q 2854 -58 2387 -58 
+Q 1939 -58 1596 144 
+Q 1254 346 1075 646 
+L 1075 -1664 
+L 493 -1664 
+L 493 3507 
+L 1075 3507 
+L 1075 2861 
+z
+M 3456 1766 
+Q 3456 2163 3296 2457 
+Q 3136 2752 2864 2905 
+Q 2592 3059 2266 3059 
+Q 1946 3059 1674 2902 
+Q 1402 2746 1238 2448 
+Q 1075 2150 1075 1760 
+Q 1075 1363 1238 1065 
+Q 1402 768 1674 611 
+Q 1946 454 2266 454 
+Q 2592 454 2864 611 
+Q 3136 768 3296 1065 
+Q 3456 1363 3456 1766 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d4" d="M 275 1766 
+Q 275 2304 492 2710 
+Q 710 3117 1091 3341 
+Q 1472 3565 1939 3565 
+Q 2400 3565 2739 3366 
+Q 3078 3168 3245 2867 
+L 3245 3507 
+L 3834 3507 
+L 3834 0 
+L 3245 0 
+L 3245 653 
+Q 3072 346 2729 144 
+Q 2387 -58 1933 -58 
+Q 1466 -58 1088 172 
+Q 710 403 492 819 
+Q 275 1235 275 1766 
+z
+M 3245 1760 
+Q 3245 2157 3085 2451 
+Q 2925 2746 2653 2902 
+Q 2381 3059 2054 3059 
+Q 1728 3059 1459 2905 
+Q 1190 2752 1030 2457 
+Q 870 2163 870 1766 
+Q 870 1363 1030 1065 
+Q 1190 768 1459 611 
+Q 1728 454 2054 454 
+Q 2381 454 2653 611 
+Q 2925 768 3085 1065 
+Q 3245 1363 3245 1760 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e5" d="M 1075 2938 
+Q 1229 3238 1513 3404 
+Q 1798 3571 2208 3571 
+L 2208 2970 
+L 2054 2970 
+Q 1075 2970 1075 1907 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+L 1075 2938 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d5" d="M 1075 2854 
+Q 1254 3168 1600 3366 
+Q 1946 3565 2387 3565 
+Q 2861 3565 3238 3341 
+Q 3616 3117 3833 2710 
+Q 4051 2304 4051 1766 
+Q 4051 1235 3833 819 
+Q 3616 403 3235 172 
+Q 2854 -58 2387 -58 
+Q 1933 -58 1590 140 
+Q 1248 339 1075 646 
+L 1075 0 
+L 493 0 
+L 493 4736 
+L 1075 4736 
+L 1075 2854 
+z
+M 3456 1766 
+Q 3456 2163 3296 2457 
+Q 3136 2752 2864 2905 
+Q 2592 3059 2266 3059 
+Q 1946 3059 1674 2902 
+Q 1402 2746 1238 2448 
+Q 1075 2150 1075 1760 
+Q 1075 1363 1238 1065 
+Q 1402 768 1674 611 
+Q 1946 454 2266 454 
+Q 2592 454 2864 611 
+Q 3136 768 3296 1065 
+Q 3456 1363 3456 1766 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2df" d="M 1075 4736 
+L 1075 0 
+L 493 0 
+L 493 4736 
+L 1075 4736 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-3" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-3de" d="M 5178 2592 
+L 5178 2099 
+L 486 2099 
+L 486 2592 
+L 5178 2592 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e7" d="M 1203 3027 
+L 1203 960 
+Q 1203 704 1312 598 
+Q 1421 493 1690 493 
+L 2118 493 
+L 2118 0 
+L 1594 0 
+Q 1107 0 864 224 
+Q 621 448 621 960 
+L 621 3027 
+L 166 3027 
+L 166 3507 
+L 621 3507 
+L 621 4390 
+L 1203 4390 
+L 1203 3507 
+L 2118 3507 
+L 2118 3027 
+L 1203 3027 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2db" d="M 2234 3571 
+Q 2630 3571 2950 3401 
+Q 3270 3232 3452 2893 
+Q 3635 2554 3635 2067 
+L 3635 0 
+L 3059 0 
+L 3059 1984 
+Q 3059 2509 2796 2787 
+Q 2534 3066 2080 3066 
+Q 1619 3066 1347 2778 
+Q 1075 2490 1075 1939 
+L 1075 0 
+L 493 0 
+L 493 4736 
+L 1075 4736 
+L 1075 3008 
+Q 1248 3277 1552 3424 
+Q 1856 3571 2234 3571 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2ec" d="M 3514 3507 
+L 1402 -1651 
+L 800 -1651 
+L 1491 38 
+L 77 3507 
+L 723 3507 
+L 1824 666 
+L 2912 3507 
+L 3514 3507 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e9" d="M 1798 538 
+L 2886 3507 
+L 3507 3507 
+L 2131 0 
+L 1453 0 
+L 77 3507 
+L 704 3507 
+L 1798 538 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2da" d="M 1939 3565 
+Q 2394 3565 2736 3366 
+Q 3078 3168 3245 2867 
+L 3245 3507 
+L 3834 3507 
+L 3834 -77 
+Q 3834 -557 3629 -931 
+Q 3424 -1306 3043 -1517 
+Q 2662 -1728 2157 -1728 
+Q 1466 -1728 1005 -1401 
+Q 544 -1075 461 -512 
+L 1037 -512 
+Q 1133 -832 1433 -1027 
+Q 1734 -1222 2157 -1222 
+Q 2637 -1222 2941 -921 
+Q 3245 -621 3245 -77 
+L 3245 659 
+Q 3072 352 2733 147 
+Q 2394 -58 1939 -58 
+Q 1472 -58 1091 172 
+Q 710 403 492 819 
+Q 275 1235 275 1766 
+Q 275 2304 492 2710 
+Q 710 3117 1091 3341 
+Q 1472 3565 1939 3565 
+z
+M 3245 1760 
+Q 3245 2157 3085 2451 
+Q 2925 2746 2653 2902 
+Q 2381 3059 2054 3059 
+Q 1728 3059 1459 2905 
+Q 1190 2752 1030 2457 
+Q 870 2163 870 1766 
+Q 870 1363 1030 1065 
+Q 1190 768 1459 611 
+Q 1728 454 2054 454 
+Q 2381 454 2653 611 
+Q 2925 768 3085 1065 
+Q 3245 1363 3245 1760 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2dc"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(24.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(88.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(140.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2e3" transform="translate(202.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(270.39 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(337.98 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(375.28 0)"/>
+     <use xlink:href="#Poppins-Regular-2d5" transform="translate(442.87 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(510.46 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(535.06 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(597.06 0)"/>
+     <use xlink:href="#Poppins-Regular-3de" transform="translate(623.76 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(712.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(738.96 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(775.37 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(839.37 0)"/>
+     <use xlink:href="#Poppins-Regular-2ec" transform="translate(901.37 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(957.67 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(984.37 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(1036.57 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(1100.57 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(1168.17 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(1205.46 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(1267.46 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(1294.17 0)"/>
+     <use xlink:href="#Poppins-Regular-2e9" transform="translate(1356.17 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(1412.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(1474.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2ec" transform="translate(1511.56 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(1567.85 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(1604.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(1668.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(1692.85 0)"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(1756.85 0)"/>
+    </g>
+   </g>
+   <g id="text_4">
+    
+    <g style="fill: #5b6472" transform="translate(48.67 178.21) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2e0" d="M 4710 3571 
+Q 5120 3571 5440 3401 
+Q 5760 3232 5945 2893 
+Q 6131 2554 6131 2067 
+L 6131 0 
+L 5555 0 
+L 5555 1984 
+Q 5555 2509 5296 2787 
+Q 5037 3066 4595 3066 
+Q 4141 3066 3872 2774 
+Q 3603 2483 3603 1933 
+L 3603 0 
+L 3027 0 
+L 3027 1984 
+Q 3027 2509 2768 2787 
+Q 2509 3066 2067 3066 
+Q 1613 3066 1344 2774 
+Q 1075 2483 1075 1933 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+L 1075 3002 
+Q 1248 3277 1539 3424 
+Q 1830 3571 2182 3571 
+Q 2624 3571 2963 3372 
+Q 3302 3174 3469 2790 
+Q 3616 3162 3955 3366 
+Q 4294 3571 4710 3571 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2de" d="M 2451 0 
+L 1075 1549 
+L 1075 0 
+L 493 0 
+L 493 4736 
+L 1075 4736 
+L 1075 1952 
+L 2426 3507 
+L 3238 3507 
+L 1587 1760 
+L 3245 0 
+L 2451 0 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d7" d="M 275 1766 
+Q 275 2304 492 2710 
+Q 710 3117 1091 3341 
+Q 1472 3565 1946 3565 
+Q 2355 3565 2707 3376 
+Q 3059 3187 3245 2880 
+L 3245 4736 
+L 3834 4736 
+L 3834 0 
+L 3245 0 
+L 3245 659 
+Q 3072 346 2733 144 
+Q 2394 -58 1939 -58 
+Q 1472 -58 1091 172 
+Q 710 403 492 819 
+Q 275 1235 275 1766 
+z
+M 3245 1760 
+Q 3245 2157 3085 2451 
+Q 2925 2746 2653 2902 
+Q 2381 3059 2054 3059 
+Q 1728 3059 1459 2905 
+Q 1190 2752 1030 2457 
+Q 870 2163 870 1766 
+Q 870 1363 1030 1065 
+Q 1190 768 1459 611 
+Q 1728 454 2054 454 
+Q 2381 454 2653 611 
+Q 2925 768 3085 1065 
+Q 3245 1363 3245 1760 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2e6"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(52.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(116.20 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(178.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(204.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(272.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2e9" transform="translate(297.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(353.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(415.18 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(467.39 0)"/>
+     <use xlink:href="#Poppins-Regular-2e0" transform="translate(494.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(597.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(621.68 0)"/>
+     <use xlink:href="#Poppins-Regular-2de" transform="translate(646.28 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(697.78 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(724.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(792.07 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(856.07 0)"/>
+    </g>
+    
+    <g style="fill: #5b6472" transform="translate(46.64 192.85) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2e2" d="M 2022 -58 
+Q 1530 -58 1130 166 
+Q 730 390 502 803 
+Q 275 1216 275 1760 
+Q 275 2298 508 2710 
+Q 742 3123 1145 3344 
+Q 1549 3565 2048 3565 
+Q 2547 3565 2950 3344 
+Q 3354 3123 3587 2713 
+Q 3821 2304 3821 1760 
+Q 3821 1216 3581 803 
+Q 3341 390 2931 166 
+Q 2522 -58 2022 -58 
+z
+M 2022 454 
+Q 2336 454 2611 601 
+Q 2886 749 3056 1043 
+Q 3226 1338 3226 1760 
+Q 3226 2182 3059 2476 
+Q 2893 2771 2624 2915 
+Q 2355 3059 2042 3059 
+Q 1722 3059 1456 2915 
+Q 1190 2771 1030 2476 
+Q 870 2182 870 1760 
+Q 870 1331 1027 1036 
+Q 1184 742 1446 598 
+Q 1709 454 2022 454 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d9" d="M 1920 3027 
+L 1184 3027 
+L 1184 0 
+L 602 0 
+L 602 3027 
+L 147 3027 
+L 147 3507 
+L 602 3507 
+L 602 3757 
+Q 602 4346 906 4618 
+Q 1210 4890 1882 4890 
+L 1882 4403 
+Q 1498 4403 1341 4252 
+Q 1184 4102 1184 3757 
+L 1184 3507 
+L 1920 3507 
+L 1920 3027 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2e7"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(36.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(104 0)"/>
+     <use xlink:href="#Poppins-Regular-2de" transform="translate(128.59 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(180.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(206.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(243.20 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(307.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d5" transform="translate(333.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(401.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(465.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(501.90 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(565.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(592.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2d9" transform="translate(656.60 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(689.51 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(716.21 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(752.62 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(816.62 0)"/>
+     <use xlink:href="#Poppins-Regular-2e0" transform="translate(878.62 0)"/>
+    </g>
+   </g>
+   <g id="patch_5">
+    <path d="M 178.51 84.80 
+L 206.68 84.80 
+Q 210.59 84.80 210.59 79.01 
+L 210.59 63.29 
+Q 210.59 57.49 206.68 57.49 
+L 178.51 57.49 
+Q 174.60 57.49 174.60 63.29 
+L 174.60 79.01 
+Q 174.60 84.80 178.51 84.80 
+z
+" clip-path="url(#pdddbaaf026)" style="fill: #f2f7f3; stroke: #2e8b57; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 234.31 84.80 
+L 262.48 84.80 
+Q 266.39 84.80 266.39 79.01 
+L 266.39 63.29 
+Q 266.39 57.49 262.48 57.49 
+L 234.31 57.49 
+Q 230.40 57.49 230.40 63.29 
+L 230.40 79.01 
+Q 230.40 84.80 234.31 84.80 
+z
+" clip-path="url(#pdddbaaf026)" style="fill: #f6eeee; stroke: #a8271f; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 193.15 159.29 
+L 247.84 159.29 
+Q 251.74 159.29 251.74 153.49 
+L 251.74 137.77 
+Q 251.74 131.98 247.84 131.98 
+L 193.15 131.98 
+Q 189.25 131.98 189.25 137.77 
+L 189.25 153.49 
+Q 189.25 159.29 193.15 159.29 
+z
+" clip-path="url(#pdddbaaf026)" style="fill: #f2f7f3; stroke: #2e8b57; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_5">
+    
+    <g style="fill: #a8271f" transform="translate(183.72 41.80) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2e7"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(36.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(100.40 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(162.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d9" transform="translate(189.10 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(222.01 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(259.31 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(283.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(345.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(409.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(477.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(529.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(593.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2e3" transform="translate(618.29 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(685.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2d5" transform="translate(712.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(780.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(817.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(879.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2de" transform="translate(947.07 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(998.57 0)"/>
+    </g>
+   </g>
+   <g id="text_6">
+    
+    <g style="fill: #a8271f" transform="translate(186.68 178.25) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2bf" d="M 1075 474 
+L 2637 474 
+L 2637 0 
+L 493 0 
+L 493 4461 
+L 1075 4461 
+L 1075 474 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e8" d="M 3603 3507 
+L 3603 0 
+L 3021 0 
+L 3021 518 
+Q 2854 250 2556 99 
+Q 2259 -51 1901 -51 
+Q 1491 -51 1164 118 
+Q 838 288 649 627 
+Q 461 966 461 1453 
+L 461 3507 
+L 1037 3507 
+L 1037 1530 
+Q 1037 1011 1299 732 
+Q 1562 454 2016 454 
+Q 2483 454 2752 742 
+Q 3021 1030 3021 1581 
+L 3021 3507 
+L 3603 3507 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d6" d="M 275 1760 
+Q 275 2304 492 2710 
+Q 710 3117 1097 3341 
+Q 1485 3565 1984 3565 
+Q 2630 3565 3049 3251 
+Q 3469 2938 3603 2381 
+L 2976 2381 
+Q 2886 2701 2627 2886 
+Q 2368 3072 1984 3072 
+Q 1485 3072 1177 2729 
+Q 870 2387 870 1760 
+Q 870 1126 1177 780 
+Q 1485 435 1984 435 
+Q 2368 435 2624 614 
+Q 2880 794 2976 1126 
+L 3603 1126 
+Q 3462 589 3040 265 
+Q 2618 -58 1984 -58 
+Q 1485 -58 1097 166 
+Q 710 390 492 800 
+Q 275 1210 275 1760 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2ae" d="M 832 2708 
+Q 666 2708 551 2823 
+Q 436 2938 436 3104 
+Q 436 3271 551 3386 
+Q 666 3501 832 3501 
+Q 992 3501 1104 3386 
+Q 1216 3271 1216 3104 
+Q 1216 2938 1104 2823 
+Q 992 2708 832 2708 
+z
+M 1254 806 
+L 538 -915 
+L 147 -915 
+L 614 806 
+L 1254 806 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2e6"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(52.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(116.20 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(178.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2de" transform="translate(204.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(256.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(281 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(333.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(385.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(447.40 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(499.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2bf" transform="translate(526.31 0)"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(569.51 0)"/>
+     <use xlink:href="#Poppins-Regular-2d6" transform="translate(633.51 0)"/>
+     <use xlink:href="#Poppins-Regular-2ae" transform="translate(694.21 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(720.62 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(747.32 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(783.73 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(847.73 0)"/>
+     <use xlink:href="#Poppins-Regular-2ec" transform="translate(909.73 0)"/>
+    </g>
+    
+    <g style="fill: #a8271f" transform="translate(187.78 192.84) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2ea" d="M 5165 3507 
+L 4070 0 
+L 3469 0 
+L 2624 2784 
+L 1779 0 
+L 1178 0 
+L 77 3507 
+L 672 3507 
+L 1478 563 
+L 2349 3507 
+L 2944 3507 
+L 3795 557 
+L 4589 3507 
+L 5165 3507 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2ea"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(82 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(149.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2de" transform="translate(174.18 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(225.68 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(252.39 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(276.98 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(340.98 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(377.39 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(441.39 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(468.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(504.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(568.5 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(630.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2ea" transform="translate(657.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(739.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(803.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(867.20 0)"/>
+    </g>
+   </g>
+   <g id="patch_8">
+    <path d="M 265.32 108.39 
+Q 253.06 108.39 240.79 108.39 
+" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    
+    <g style="fill: #a8271f" transform="translate(269.32 110.84) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2bd" d="M 2739 4461 
+L 2739 1165 
+Q 2739 614 2400 284 
+Q 2061 -45 1504 -45 
+Q 941 -45 601 291 
+Q 262 627 262 1210 
+L 845 1210 
+Q 851 883 1014 678 
+Q 1178 474 1504 474 
+Q 1830 474 1990 669 
+Q 2150 864 2150 1165 
+L 2150 4461 
+L 2739 4461 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2e1"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(64 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(128 0)"/>
+     <use xlink:href="#Poppins-Regular-2e0" transform="translate(154.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(257.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(282.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2de" transform="translate(306.89 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(358.39 0)"/>
+     <use xlink:href="#Poppins-Regular-2d9" transform="translate(385.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(418 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(482 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(519.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2bd" transform="translate(546 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(599 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(661 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(728.59 0)"/>
+    </g>
+   </g>
+   <g id="text_8">
+    
+    <g style="fill: #14181f" transform="translate(47.22 73.60) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2bf"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(43.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d6" transform="translate(107.20 0)"/>
+    </g>
+   </g>
+   <g id="text_9">
+    
+    <g style="fill: #14181f" transform="translate(100.26 73.60) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2bd"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(53 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(115 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(182.59 0)"/>
+    </g>
+   </g>
+   <g id="text_10">
+    
+    <g style="fill: #14181f" transform="translate(56.31 148.08) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2e7"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(36.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(100.40 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(162.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(189.10 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(256.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(324.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(348.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2ec" transform="translate(386.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2e0" transform="translate(442.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(545.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(613.07 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(637.67 0)"/>
+    </g>
+   </g>
+   <g id="text_11">
+    
+    <g style="fill: #14181f" transform="translate(186.72 73.60) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2bf"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(43.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d6" transform="translate(107.20 0)"/>
+    </g>
+   </g>
+   <g id="text_12">
+    
+    <g style="fill: #14181f" transform="translate(239.76 73.60) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2bd"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(53 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(115 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(182.59 0)"/>
+    </g>
+   </g>
+   <g id="text_13">
+    
+    <g style="fill: #14181f" transform="translate(195.81 148.08) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2e7"/>
+     <use xlink:href="#Poppins-Regular-2db" transform="translate(36.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(100.40 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(162.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(189.10 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(256.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(324.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(348.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2ec" transform="translate(386.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2e0" transform="translate(442.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(545.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(613.07 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(637.67 0)"/>
+    </g>
+   </g>
+   <g id="line2d_8">
+    <path d="M 220.5 71.15 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke: #a8271f; stroke-width: 1.7; stroke-linecap: round"/>
+    <defs>
+     <path id="md83b679391" d="M -4 4 
+L 4 -4 
+M -4 -4 
+L 4 4 
+" style="stroke: #a8271f; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#pdddbaaf026)">
+     <use xlink:href="#md83b679391" x="220.5" y="71.15" style="fill: #a8271f; stroke: #a8271f; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_9">
+    <path d="M 234.45 108.39 
+" clip-path="url(#pdddbaaf026)" style="fill: none; stroke: #a8271f; stroke-width: 1.7; stroke-linecap: round"/>
+    <defs>
+     <path id="m75d3ca5656" d="M -3.5 3.5 
+L 3.5 -3.5 
+M -3.5 -3.5 
+L 3.5 3.5 
+" style="stroke: #a8271f; stroke-width: 1.8"/>
+    </defs>
+    <g clip-path="url(#pdddbaaf026)">
+     <use xlink:href="#m75d3ca5656" x="234.45" y="108.39" style="fill: #a8271f; stroke: #a8271f; stroke-width: 1.8"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pdddbaaf026">
+   <rect x="2.88" y="2.88" width="329.22" height="192.40"/>
+  </clipPath>
+ </defs>
+</svg>

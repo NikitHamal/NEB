@@ -5,7 +5,7 @@
    "no": 1,
    "title": "आमाको सपना - गोपालप्रसाद रिमाल (कविता, सामाजिक)",
    "area": "पाठ",
-   "words": 4213,
+   "words": 4211,
    "read_min": 23,
    "figures": 3,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "हामीलाई बोलाउँछन् हिमचुली",
    "area": "पाठ",
-   "words": 4289,
+   "words": 4286,
    "read_min": 24,
    "figures": 5,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "गोर्खे",
    "area": "पाठ",
-   "words": 4625,
+   "words": 4622,
    "read_min": 26,
    "figures": 4,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "सहकारी",
    "area": "पाठ",
-   "words": 4988,
+   "words": 4977,
    "read_min": 28,
    "figures": 4,
    "has_questions": true
@@ -260,22 +260,22 @@
    "no": 1,
    "kind": "objective",
    "title": "अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
-   "words": 7647,
-   "read_min": 42
+   "words": 7732,
+   "read_min": 43
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
-   "words": 8816,
-   "read_min": 49
+   "words": 8013,
+   "read_min": 45
   },
   {
    "no": 3,
    "kind": "model",
    "title": "अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
-   "words": 1624,
-   "read_min": 9
+   "words": 1254,
+   "read_min": 7
   }
  ],
  "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
