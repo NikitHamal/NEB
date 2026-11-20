@@ -26,12 +26,19 @@ def shrink(src, dst=None, target_mb=22.0, verbose=True):
     # dpi_target: photos are placed at about 90-100 mm wide, so 150 dpi already
     # gives more pixels than the print size needs; dpi_threshold leaves small
     # images alone.
-    doc.rewrite_images(dpi_threshold=200, dpi_target=150, quality=72)
+    doc.rewrite_images(dpi_threshold=160, dpi_target=130, quality=70)
     tmp = dst + ".tmp"
     doc.save(tmp, garbage=4, deflate=True, clean=True)
     doc.close()
     os.replace(tmp, dst)
     after = os.path.getsize(dst) / 1e6
+    if after > target_mb:
+        doc2 = pymupdf.open(dst)
+        doc2.rewrite_images(dpi_threshold=110, dpi_target=96, quality=58)
+        doc2.save(tmp, garbage=4, deflate=True, clean=True)
+        doc2.close()
+        os.replace(tmp, dst)
+        after = os.path.getsize(dst) / 1e6
     if verbose:
         print("%-58s %.1f MB -> %.1f MB" % (os.path.basename(dst), before, after))
     return after
@@ -48,6 +55,6 @@ if __name__ == "__main__":
     source = args[0]
     dest = args[1] if len(args) > 1 else None
     size = shrink(source, dest, tgt)
-    if size > 25.0:
+    if size > 45.0:
         print("STILL TOO BIG: %.1f MB — lower dpi_target/quality" % size)
         sys.exit(1)

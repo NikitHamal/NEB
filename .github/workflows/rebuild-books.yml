@@ -39,12 +39,13 @@ jobs:
           filter: blob:none
           fetch-depth: 1
 
-      - name: Install WeasyPrint system libraries, Python packages and book fonts
+      - name: Install WeasyPrint system libraries, Python packages, MathJax and book fonts
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libpangocairo-1.0-0 \
             libgobject-2.0-0 libcairo2 shared-mime-info fonts-dejavu-core fontconfig
           pip install -q weasyprint numpy matplotlib pymupdf markdown pillow pypdf
+          (cd notes/pipeline/mathjax && npm ci --silent)
           bash notes/pipeline/fonts/install.sh
 
       - name: Build and size-normalise PDFs
