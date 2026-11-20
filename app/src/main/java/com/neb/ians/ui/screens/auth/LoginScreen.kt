@@ -68,7 +68,7 @@ private tailrec fun Context.findActivity(): Activity? = when (this) {
 
 private const val OAUTH_PREFS = "nebians_oauth_prefs"
 private const val REQUEST_CODE_OAUTH_CUSTOM_TAB = 9041
-private const val GOOGLE_DIRECT_OAUTH_URL =
+private val GOOGLE_DIRECT_OAUTH_URL =
     "https://accounts.google.com/o/oauth2/v2/auth" +
         "?client_id=" + AuthRepository.GOOGLE_SERVER_CLIENT_ID +
         "&redirect_uri=https://nebians.consica.com.np/auth/google/callback/" +
