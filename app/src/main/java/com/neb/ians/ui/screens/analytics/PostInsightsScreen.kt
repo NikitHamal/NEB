@@ -61,7 +61,7 @@ private fun percent(v: Double?): String = if (v == null) "No data" else "${(v * 
  * Insights for one post, as the web's insights sheet draws them. Author only; every number is an
  * aggregate, no reader is ever named.
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun PostInsightsScreen(
     onNavigateBack: () -> Unit,
@@ -118,6 +118,7 @@ fun PostInsightsScreen(
     }
 }
 
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 private fun InsightsContent(
     data: ApiPostInsights,
@@ -131,8 +132,13 @@ private fun InsightsContent(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item(key = "head") { HeadCard(data) }
-        item(key = "range") {
-            Box(Modifier.padding(horizontal = AnalyticsGutter)) {
+        stickyHeader(key = "range") {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(horizontal = AnalyticsGutter, vertical = 6.dp)
+            ) {
                 NebChoiceChips(
                     options = AnalyticsRanges.map { "$it days" },
                     selectedIndex = AnalyticsRanges.indexOf(days).coerceAtLeast(0),

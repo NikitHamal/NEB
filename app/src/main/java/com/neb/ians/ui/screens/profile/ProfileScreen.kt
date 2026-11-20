@@ -642,9 +642,3 @@ private fun LazyListScope.feedSection(
 private fun CardSlot(content: @Composable () -> Unit) {
     Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) { content() }
 }
-
-private fun postsLabel(count: Int): String = when (count) {
-    0 -> "No posts"
-    1 -> "1 post"
-    else -> "$count posts"
-}

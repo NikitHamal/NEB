@@ -578,14 +578,7 @@ private fun MenuItem(label: String, icon: ImageVector, danger: Boolean = false, 
     )
 }
 
-@Composable
-private fun ToolButton(icon: ImageVector, label: String, tint: Color, onClick: () -> Unit) {
-    val tactile = rememberTactileFeedback()
-    Box(
-        Modifier.size(44.dp).clip(RoundedCornerShape(14.dp)).clickable { tactile.perform(TactileType.LightTap); onClick() },
-        contentAlignment = Alignment.Center,
-    ) { Icon(icon, label, tint = tint, modifier = Modifier.size(22.dp)) }
-}
+
 
 @Composable
 private fun MicButton(listening: Boolean, level: kotlinx.coroutines.flow.StateFlow<Float>, onClick: () -> Unit) {

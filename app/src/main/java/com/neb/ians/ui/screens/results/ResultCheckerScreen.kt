@@ -178,29 +178,7 @@ fun ResultCheckerScreen(
     }
 }
 
-@Composable
-private fun ResultHero() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp, bottom = 2.dp),
-        horizontalAlignment = Alignment.Start
-    ) {
-        Text(
-            text = "Access your exam marksheet instantly.",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.ExtraBold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "The app calls the same result-checking endpoint as the NEBians website and keeps the native UI responsive while lookups run.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
-        )
-    }
-}
+
 
 @Composable
 private fun LookupCard(

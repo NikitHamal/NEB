@@ -131,6 +131,7 @@ fun ResourceInsightsScreen(
     }
 }
 
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 private fun ResInsightsContent(
     data: ApiResourceInsights,
@@ -147,8 +148,13 @@ private fun ResInsightsContent(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item(key = "head") { ResHeadCard(data, single) }
-        item(key = "range") {
-            Box(Modifier.padding(horizontal = AnalyticsGutter)) {
+        stickyHeader(key = "range") {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(horizontal = AnalyticsGutter, vertical = 6.dp)
+            ) {
                 NebChoiceChips(
                     options = AnalyticsRanges.map { "$it days" },
                     selectedIndex = AnalyticsRanges.indexOf(days).coerceAtLeast(0),
