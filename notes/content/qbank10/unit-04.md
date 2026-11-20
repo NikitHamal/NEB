@@ -54,34 +54,34 @@ Chapter 1 supplies one very short item in each paper; its process skills also ru
    (a) moss (b) pine (c) mango (d) rose
 2. A cross between Tt and tt gives tall and dwarf offspring in the ratio <span class="marks">[1]</span>
    (a) 3 : 1 (b) 1 : 1 (c) 1 : 2 : 1 (d) 9 : 3 : 3 : 1
-3. The master gland of the human body is the <span class="marks">[1]</span>
-   (a) thyroid (b) pancreas (c) pituitary (d) adrenal
-4. A force of 12 N acts on a 3 kg body. The acceleration is <span class="marks">[1]</span>
-   (a) 36 m s⁻² (b) 9 m s⁻² (c) 4 m s⁻² (d) 0.25 m s⁻²
+3. Which diagnostic test uses a catheter, contrast dye and X-rays to locate blockages in the coronary arteries? <span class="marks">[1]</span>
+   (a) Dialysis (b) Endoscopy (c) Angiogram (d) Sphygmomanometry
+4. If the distance between two masses is doubled, the gravitational force between them becomes <span class="marks">[1]</span>
+   (a) double (b) half (c) one-fourth (d) four times
 5. A force of 200 N acts on 0.5 m². The pressure is <span class="marks">[1]</span>
    (a) 100 Pa (b) 400 Pa (c) 200 Pa (d) 0.0025 Pa
 6. A convex lens has a focal length of 0.25 m. Its power is <span class="marks">[1]</span>
    (a) 0.25 D (b) 2.5 D (c) 4 D (d) 25 D
-7. A 1100 W heater works on 220 V. The current drawn is <span class="marks">[1]</span>
-   (a) 0.2 A (b) 5 A (c) 50 A (d) 242 A
+7. What is the frequency of domestic alternating current (AC) supplied in Nepal? <span class="marks">[1]</span>
+   (a) 0 Hz (b) 50 Hz (c) 60 Hz (d) 220 Hz
 8. An element of atomic number 12 belongs to group <span class="marks">[1]</span>
    (a) 1 (b) 2 (c) 12 (d) 18
-9. A gas of 4 L at 200 K is heated to 300 K at constant pressure. The new volume is <span class="marks">[1]</span>
-   (a) 2.7 L (b) 4 L (c) 6 L (d) 8 L
-10. The functional group of an alcohol is <span class="marks">[1]</span>
-    (a) –COOH (b) –OH (c) –CHO (d) –CO–
+9. Which drying agent is used in the lime tower during the laboratory preparation of ammonia gas? <span class="marks">[1]</span>
+   (a) conc. $\text{H}_2\text{SO}_4$ (b) anhydrous $\text{CaCl}_2$ (c) quicklime ($\text{CaO}$) (d) $\text{P}_2\text{O}_5$
+10. The IUPAC name of glycerol ($\text{C}_3\text{H}_5\text{(OH)}_3$) is <span class="marks">[1]</span>
+    (a) ethanoic acid (b) propane-1,2,3-triol (c) ethane-1,2-diol (d) propan-1-ol
 
 **Group B — Very short answer (9 × 1 = 9)**
 
-11. Write the SI unit of time. <span class="marks">[1]</span>
+11. Write the fundamental SI units involved in the unit of pressure (pascal). <span class="marks">[1]</span>
 12. How many days does a queen bee take to develop from egg to adult? <span class="marks">[1]</span>
-13. Name one gas that causes acid rain. <span class="marks">[1]</span>
-14. At what temperature is water densest? <span class="marks">[1]</span>
-15. Name the star nearest to the Earth. <span class="marks">[1]</span>
-16. Write the full form of CPU. <span class="marks">[1]</span>
-17. What colour does red litmus turn in a base? <span class="marks">[1]</span>
-18. Name the alloy of copper and tin. <span class="marks">[1]</span>
-19. Name the main raw material of glass other than soda ash and limestone. <span class="marks">[1]</span>
+13. Write the scientific name or one medicinal use of *Gurjo* (*Tinospora cordifolia*). <span class="marks">[1]</span>
+14. At what temperature does water have its maximum density? <span class="marks">[1]</span>
+15. Write the mathematical formula of Hubble's law. <span class="marks">[1]</span>
+16. How many bits are there in 1 nibble and in 1 byte? <span class="marks">[1]</span>
+17. Give one example of a negative catalyst that retards the decomposition of $\text{H}_2\text{O}_2$. <span class="marks">[1]</span>
+18. Name the principal ore of aluminium with its chemical formula. <span class="marks">[1]</span>
+19. Write the full form of DDT. <span class="marks">[1]</span>
 
 **Group C — Short answer (14 × 2 = 28)**
 
@@ -104,29 +104,29 @@ Chapter 1 supplies one very short item in each paper; its process skills also ru
 
 34. A stone is dropped from the top of a 45 m tower ($g=10\ \text{m s}^{-2}$). Find the time to reach the ground and the speed with which it hits. <span class="marks">[4]</span>
 35. Calculate the heat needed to change 0.2 kg of ice at 0 °C to water at 30 °C. ($L=3.36\times10^{5}$ J kg⁻¹, $c=4200$ J kg⁻¹ °C⁻¹) <span class="marks">[4]</span>
-36. Resistors of 2 Ω and 4 Ω are connected in series across a 12 V battery. Find the current and the potential difference across the 4 Ω resistor. <span class="marks">[4]</span>
-37. Describe a reflex action with the help of a labelled diagram of the reflex arc. <span class="marks">[4]</span>
-38. Differentiate between acids and bases on four points. <span class="marks">[4]</span>
-39. Describe the laboratory preparation of hydrogen gas with a chemical equation and a labelled diagram. <span class="marks">[4]</span>
-40. What is esterification? Write the reaction of ethanol with ethanoic acid and give two uses of ethanol. <span class="marks">[4]</span>
+36. A step-down transformer has $1000$ turns in its primary coil connected to $220\ \text{V}$ AC mains. How many turns should be in the secondary coil to obtain $11\ \text{V}$ output? Also state why a transformer does not work on DC. <span class="marks">[4]</span>
+37. Draw the internal structure of the human heart and explain why the wall of the left ventricle is thicker than that of the right ventricle. <span class="marks">[4]</span>
+38. Draw the 9-stage block diagram of a digital communication system and write four steps to trim a 6-minute video into a 4-minute video clip. <span class="marks">[4]</span>
+39. Describe the laboratory preparation of dry ammonia ($\text{NH}_3$) gas with a balanced chemical equation and labelled diagram. <span class="marks">[4]</span>
+40. Write the structural formula and two uses of glycerol ($\text{C}_3\text{H}_5\text{(OH)}_3$), and explain why synthetic detergent is more efficient in laundry yet more polluting than soap. <span class="marks">[4]</span>
 
 ## 4.3 Solutions to Model Set 1
 
 ::: note Group A — answers
 **1.** (b) — pine is a gymnosperm: naked seeds in cones, no flowers.
 **2.** (b) — Tt × tt gives Tt, Tt, tt, tt, so 1 : 1.
-**3.** (c) — the pituitary controls other endocrine glands.
-**4.** (c) — $a=F/m=12/3=4$ m s⁻².
+**3.** (c) — coronary angiography (angiogram) locates blockages in coronary arteries.
+**4.** (c) — $F \propto 1/d^2$, so doubling $d$ reduces $F$ to $1/4$.
 **5.** (b) — $P=F/A=200/0.5=400$ Pa.
 **6.** (c) — $P=1/f=1/0.25=4$ D.
-**7.** (b) — $I=P/V=1100/220=5$ A.
+**7.** (b) — domestic AC frequency in Nepal is $50\ \text{Hz}$.
 **8.** (b) — configuration 2, 8, 2: two valence electrons, group 2.
-**9.** (c) — $V_2=4\times300/200=6$ L.
-**10.** (b) — alcohols carry the hydroxyl group –OH.
+**9.** (c) — basic quicklime ($\text{CaO}$) dries basic $\text{NH}_3$ without reacting.
+**10.** (b) — glycerol is propane-1,2,3-triol (a trihydric alcohol).
 :::
 
 ::: note Group B — answers
-**11.** The second (s). **12.** 16 days. **13.** Sulphur dioxide (or an oxide of nitrogen). **14.** 4 °C. **15.** The Sun. **16.** Central Processing Unit. **17.** Blue. **18.** Bronze. **19.** Silica (sand).
+**11.** $\text{kg m}^{-1}\text{s}^{-2}$ (kilogram, metre, second). **12.** 16 days. **13.** *Tinospora cordifolia*; boosts immunity and reduces fever/uric acid. **14.** $4\ ^\circ\text{C}$. **15.** $v = Hd$. **16.** $1\ \text{nibble} = 4\ \text{bits}$, $1\ \text{byte} = 8\ \text{bits}$. **17.** Phosphoric acid ($\text{H}_3\text{PO}_4$) or glycerol. **18.** Bauxite ($\text{Al}_2\text{O}_3\cdot 2\text{H}_2\text{O}$). **19.** *Dichlorodiphenyltrichloroethane*.
 :::
 
 ::: note Group C — model answers
@@ -164,22 +164,15 @@ Chapter 1 supplies one very short item in each paper; its process skills also ru
 
 **35.** Step 1, melt ice: $Q_1=mL=0.2\times3.36\times10^{5}=67\,200$ J. Step 2, heat water from 0 to 30 °C: $Q_2=mc\Delta T=0.2\times4200\times30=25\,200$ J. Total $Q=67\,200+25\,200=92\,400$ J.
 
-**36.** Series: $R=2+4=6\ \Omega$. $I=V/R=12/6=2$ A. Across 4 Ω: $V=IR=2\times4=8$ V.
+**36.** From the transformer ratio $\dfrac{V_s}{V_p} = \dfrac{N_s}{N_p}$, we get $N_s = N_p \times \dfrac{V_s}{V_p} = 1000 \times \dfrac{11}{220} = 50$ turns. A transformer does not work on DC because steady DC produces a constant magnetic flux in the core, and electromagnetic induction requires a **changing magnetic flux**.
 
-**37.** A reflex action is a rapid, automatic response to a stimulus, controlled by the spinal cord without waiting for the brain. Reflex arc, in order: **receptor** (skin) → **sensory neuron** → **spinal cord** (relay/ interneuron) → **motor neuron** → **effector** (muscle). Example: pulling the hand from a hot object. A labelled diagram showing these five parts earns 2 marks.
+**37.** Draw the four-chambered human heart (Right Auricle, Right Ventricle, Left Auricle, Left Ventricle, Septum, Tricuspid and Bicuspid valves, Vena Cava, Pulmonary Artery, Pulmonary Veins and Aorta). The **left ventricle has a much thicker muscular wall** than the right ventricle because the right ventricle pumps blood only to the nearby lungs, whereas the left ventricle must pump oxygenated blood at high pressure through the aorta to the entire body.
 
-**38.**
+**38.** Block diagram: **Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal**. Steps to trim a 6-min video to 4 min: (i) Open Video Editor, start a New video project and drag the 6-min clip onto the Storyboard; (ii) click **Trim**; (iii) drag the start/end blue bars to leave a 4-minute segment and click **Done**; (iv) click **Finish video** → **Export** as `.MP4`.
 
-| Acid | Base |
-|---|---|
-| pH below 7 | pH above 7 |
-| Sour taste | Bitter taste, soapy feel |
-| Turns blue litmus red | Turns red litmus blue |
-| Gives H⁺ ions in water (HCl) | Gives OH⁻ ions in water (NaOH) |
+**39.** Heat a $2:1$ mixture of $\text{NH}_4\text{Cl}$ and $\text{Ca(OH)}_2$ in a slightly inclined hard-glass test tube: $2\text{NH}_4\text{Cl} + \text{Ca(OH)}_2 \xrightarrow{\Delta} \text{CaCl}_2 + 2\text{H}_2\text{O} + 2\text{NH}_3 \uparrow$. Pass the gas through a **quicklime ($\text{CaO}$) drying tower** and collect it in an inverted gas jar by **downward displacement of air**.
 
-**39.** Zinc granules are placed in a flask fitted with a thistle funnel and delivery tube; dilute sulphuric acid is added through the funnel. Zn + H₂SO₄ → ZnSO₄ + H₂ ↑. Hydrogen is collected over water (downward displacement of water), as it is almost insoluble in water. Test: it burns with a pop sound. A diagram of flask, funnel, delivery tube and trough with gas jar is required.
-
-**40.** Esterification is the reaction of an alcohol with a carboxylic acid, in the presence of concentrated sulphuric acid, to form an ester and water. CH₃COOH + C₂H₅OH → CH₃COOC₂H₅ + H₂O (ethyl ethanoate). Uses of ethanol: as a solvent in perfumes and medicines; as a fuel (gasohol), and in disinfectants.
+**40.** Glycerol is $\text{CH}_2\text{(OH)}-\text{CH(OH)}-\text{CH}_2\text{(OH)}$ (trihydric alcohol). *Uses:* (i) protecting dry skin/lips and making toilet soaps/lotions; (ii) sweetening/preserving medicines and keeping printing ink moist. Detergent is more efficient in laundry because its $\text{Ca}^{2+}/\text{Mg}^{2+}$ salts are soluble in hard water (no scum), but it is more polluting because synthetic detergents are non-biodegradable and cause water pollution and eutrophication.
 :::
 
 ## 4.4 Model Question Set 2

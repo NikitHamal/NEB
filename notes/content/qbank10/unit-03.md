@@ -87,19 +87,19 @@ Genotypic ratio TT : Tt : tt = 1 : 2 : 1. Phenotypic ratio tall : dwarf = 3 : 1.
 
 ## 3.5 Physiological Structure and Life Process
 
-1. Differentiate between voluntary and reflex actions. <span class="marks">[2]</span>
-2. Name two hormones and the glands that secrete them. <span class="marks">[2]</span>
-3. Describe the path of blood through the human heart, naming the four chambers and the main vessels. <span class="marks">[4]</span>
-4. Explain how the kidney removes waste from the blood. <span class="marks">[4]</span>
+1. Give reason: **The wall of the left ventricle is thicker than the wall of the right ventricle.** <span class="marks">[2]</span>
+2. Differentiate between **systolic blood pressure and diastolic blood pressure** in two points. <span class="marks">[2]</span>
+3. Describe the path of blood through the human heart (double circulation), naming the four chambers, four valves and main blood vessels. <span class="marks">[4]</span>
+4. What is **high uric acid (gout)**? Mention its causes, symptoms and two dietary precautions. Also state the use of an **angiogram** in heart disease. <span class="marks">[4]</span>
 
 ::: note Answers
-**1.** A voluntary action is controlled by the cerebrum and is done by will (writing). A reflex action is rapid, involuntary and controlled by the spinal cord (withdrawing a hand from a hot pan).
+**1.** The right ventricle pumps blood only a short distance to the nearby lungs, whereas the **left ventricle must pump oxygenated blood at high pressure through the aorta to every part of the body**.
 
-**2.** Insulin from the pancreas; thyroxine from the thyroid gland (also adrenaline from the adrenal gland).
+**2.** **Systolic pressure ($120\ \text{mm Hg}$)** is the maximum arterial pressure during ventricular contraction; **diastolic pressure ($80\ \text{mm Hg}$)** is the minimum arterial pressure during ventricular relaxation.
 
-**3.** Deoxygenated blood enters the **right atrium** from the vena cava, passes to the **right ventricle**, then through the pulmonary artery to the lungs. Oxygenated blood returns by the pulmonary vein to the **left atrium**, goes to the **left ventricle** and is pumped to the body through the aorta. Valves keep the flow in one direction. A labelled sketch of the four chambers earns the diagram mark.
+**3.** Deoxygenated blood enters the **right auricle** from the vena cava, passes through the **tricuspid valve** to the **right ventricle**, and is pumped via the **pulmonary artery** to the lungs. Oxygenated blood returns via the **pulmonary veins** to the **left auricle**, passes through the **bicuspid (mitral) valve** to the **left ventricle**, and is pumped through the **aorta** to the whole body.
 
-**4.** Blood enters each kidney by the renal artery. In each nephron, the glomerulus filters water, glucose, salts and urea into the Bowman's capsule. As the filtrate passes along the tubule, useful substances (all glucose, most water and salts) are reabsorbed into the blood. The remaining water, urea and excess salts form urine, which goes through the ureter to the bladder and leaves by the urethra.
+**4.** Excess uric acid formed from purine breakdown crystallises as sharp monosodium urate crystals in joints (especially the big toe), causing severe pain and swelling called **gout**. *Causes:* High intake of red meat, organ meat, alcohol/beer and low water intake. *Precautions:* Drink $3\text{–}4\ \text{L}$ of water daily and avoid red meat and alcohol. An **angiogram** is a special X-ray diagnostic test using a catheter and contrast dye to locate blockages inside the coronary arteries.
 :::
 
 ## 3.6 Nature and Environment
@@ -171,7 +171,7 @@ The gun recoils at $1.5\ \text{m s}^{-1}$, opposite to the bullet.
 
 **4.** Heat lost by hot water = heat gained by cold water. With final temperature $T$:
 $$ 0.2\times4200\times(80-T)=0.3\times4200\times(T-20) $$
-$$ 0.2(80-T)=0.3(T-20)\Rightarrow16-0.2T=0.3T-6\Rightarrow22=0.5T\Rightarrow T=44\ ^\circ\text{C} $$
+$$ 16 - 0.2T = 0.3T - 6 \implies 0.5T = 22 \implies T = 44\ ^\circ\text{C} $$
 :::
 
 ## 3.10 Wave
@@ -214,33 +214,36 @@ $$ d=\frac{vt}{2}=\frac{1500\times0.8}{2}=600\ \text{m} $$
 
 ## 3.12 Universe
 
-1. Define a light year. <span class="marks">[2]</span>
-2. Write any two uses of artificial satellites. <span class="marks">[2]</span>
-3. A star is 4 light years away. Express the distance in kilometres. (1 ly $=9.46\times10^{12}$ km) <span class="marks">[4]</span>
-4. Describe the Big Bang theory and give two pieces of evidence for it. <span class="marks">[4]</span>
+1. State **Hubble's law** and write its mathematical relation. <span class="marks">[2]</span>
+2. Write any two points showing the **importance of gravitational force in the universe**. <span class="marks">[2]</span>
+3. Define **critical density** and explain the **open, flat and closed universe** models along with the **Big Crunch**. <span class="marks">[4]</span>
+4. Describe the Big Bang theory and give two pieces of observational evidence for it. <span class="marks">[4]</span>
 
 ::: note Answers
-**1.** A light year is the distance travelled by light in one year in a vacuum, about $9.46\times10^{12}$ km.
+**1.** **Hubble's law:** The recession velocity ($v$) of a distant galaxy moving away from us is directly proportional to its distance ($d$): $v = Hd$, where $H$ is the Hubble constant.
 
-**2.** Telecommunication (TV, phone and internet signals) and weather forecasting; also GPS navigation and remote sensing.
+**2.** Gravitational force pulls gas and dust clouds (nebulae) together to form stars and galaxies, and keeps planets, moons and galaxies bound in stable orbits and clusters.
 
-**3.** $d=4\times9.46\times10^{12}=3.784\times10^{13}$ km.
+**3.** **Critical density ($\rho_c \approx (1\text{–}3)\times 10^{-26}\ \text{kg m}^{-3}$)** is the average density of the universe at which gravity just balances cosmic expansion. (i) **Open universe ($\rho < \rho_c$):** expands forever; (ii) **Flat universe ($\rho = \rho_c$):** expansion slows and approaches zero velocity at infinity; (iii) **Closed universe ($\rho > \rho_c$):** strong gravity stops expansion and collapses all galaxies back into a single hot, dense singularity called the **Big Crunch**.
 
-**4.** The universe began about 13.8 billion years ago from an extremely hot, dense point that expanded rapidly; as it expanded it cooled, and matter formed atoms, stars and galaxies. Evidence: (i) galaxies are moving apart, so the universe is expanding (red shift of light from distant galaxies); (ii) cosmic microwave background radiation fills space, the cooled remnant of the early universe.
+**4.** The universe began about $13.8$ billion years ago from an extremely hot, dense singularity that expanded rapidly and cooled to form atoms, stars and galaxies. Evidence: (i) Doppler **redshift** of light from distant galaxies (Hubble's law); (ii) **Cosmic Microwave Background Radiation (CMBR)** at $2.7\ \text{K}$.
 :::
 
 ## 3.13 Information and Communication Technology
 
-1. Differentiate between RAM and ROM. <span class="marks">[2]</span>
-2. Write two advantages of e-commerce. <span class="marks">[2]</span>
-3. What is cyber crime? Mention three safe-use rules for the internet. <span class="marks">[4]</span>
+1. Differentiate between an **analog signal and a digital signal**, and between **baseband and broadband transmission**. <span class="marks">[2]</span>
+2. Define **digital citizenship** and **digital wellbeing**, with two precautions for digital wellbeing. <span class="marks">[2]</span>
+3. Draw the block diagram of a **digital communication system** in the exact order and state the role of the input transducer, encoder, modulator and demodulator. <span class="marks">[4]</span>
+4. Write in order the four steps to shorten a 6-minute video clip to a 4-minute video clip using video-editing software. <span class="marks">[4]</span>
 
 ::: note Answers
-**1.** RAM is temporary (volatile) memory used while a program runs and is lost when power goes off. ROM is permanent (non-volatile) memory holding start-up instructions.
+**1.** An **analog signal** is a continuous wave, whereas a **digital signal** is a discrete binary pulse (`0` and `1`). **Baseband transmission** sends a single digital signal without modulation over short distances (Ethernet LAN), whereas **broadband transmission** modulates signals across multiple frequency channels to send many signals simultaneously over long distances (cable TV, high-speed internet).
 
-**2.** Shopping is possible at any time from any place, and prices can be compared quickly; the cost of running a shop is lower.
+**2.** **Digital citizenship** is the responsible, ethical and safe use of the internet by a netizen. **Digital wellbeing** is maintaining physical, mental and social health by balancing online screen time with offline activities. Precautions: (i) set daily screen-time limits; (ii) turn off unnecessary notifications during study and before bedtime.
 
-**3.** Cyber crime is a crime committed using computers or the internet, such as hacking, phishing or spreading viruses. Rules: use strong, private passwords; do not share personal details or open links from unknown senders; keep anti-virus software updated; log out of public computers.
+**3.** Sequence: **Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal**. *Input transducer* (microphone) converts sound into electrical signals; *Encoder* compresses and digitises it into `0`s and `1`s; *Modulator* superimposes the digital data onto a carrier wave; *Demodulator* separates the data signal from the carrier wave at the receiver.
+
+**4.** (i) Launch **Video Editor**, start a **New video project**, import the 6-minute video into the **Project library**, and drag it onto the **Storyboard**. (ii) Select the clip and click **Trim**. (iii) Move the **two blue start/end drag bars** to select the required 4-minute portion and click **Done**. (iv) Click **Finish video** → **Export** and save the 4-minute `.MP4` file.
 :::
 
 ## 3.14 Classification of Elements
@@ -279,23 +282,22 @@ $$ d=\frac{vt}{2}=\frac{1500\times0.8}{2}=600\ \text{m} $$
 
 ## 3.16 Gases
 
-1. State Boyle's law. <span class="marks">[2]</span>
-2. Write the chemical test for carbon dioxide. <span class="marks">[2]</span>
-3. A gas has volume 500 cm³ at 1 atm. What is its volume at 2 atm if the temperature is constant? <span class="marks">[4]</span>
-4. A gas occupies 300 cm³ at 27 °C. Find its volume at 127 °C at constant pressure. <span class="marks">[4]</span>
-5. Describe the laboratory preparation of carbon dioxide with a chemical equation and a diagram of the apparatus. <span class="marks">[4]</span>
+1. State the conditions (temperature, pressure, catalyst and promoter) required for manufacturing ammonia by **Haber's process** with the balanced equation. <span class="marks">[2]</span>
+2. What happens when $\text{CO}_2$ is passed through lime water for a short time and for a long time? Write the balanced equations. <span class="marks">[2]</span>
+3. Describe the **laboratory preparation of dry ammonia gas** with a balanced chemical equation, drying agent and collection method. Why is the hard-glass test tube inclined slightly downwards? <span class="marks">[4]</span>
+4. Describe the **ammonia fountain experiment** and state the two properties of ammonia proved by it. <span class="marks">[4]</span>
+5. Describe the **laboratory preparation of carbon dioxide** with a chemical equation and apparatus description. Why is dilute $\text{H}_2\text{SO}_4$ not used in place of dilute $\text{HCl}$? <span class="marks">[4]</span>
 
 ::: note Answers
-**1.** At constant temperature, the volume of a fixed mass of gas is inversely proportional to its pressure: $PV=$ constant.
+**1.** $\text{N}_2 + 3\text{H}_2 \rightleftharpoons 2\text{NH}_3 + \text{Heat}$ at **$450\text{–}500\ ^\circ\text{C}$**, **$200\text{–}900\ \text{atm}$**, with **finely divided iron ($\text{Fe}$) catalyst** and **molybdenum ($\text{Mo}$) promoter**.
 
-**2.** Pass the gas through lime water: it turns milky because insoluble calcium carbonate forms. Ca(OH)₂ + CO₂ → CaCO₃ ↓ + H₂O.
+**2.** *Short time:* Lime water turns milky due to insoluble calcium carbonate: $\text{Ca(OH)}_2 + \text{CO}_2 \rightarrow \text{CaCO}_3 \downarrow + \text{H}_2\text{O}$. *Long time:* The milkiness disappears due to soluble calcium bicarbonate: $\text{CaCO}_3 + \text{H}_2\text{O} + \text{CO}_2 \rightarrow \text{Ca(HCO}_3)_2$.
 
-**3.** $P_1V_1=P_2V_2\Rightarrow1\times500=2\times V_2\Rightarrow V_2=250\ \text{cm}^3$.
+**3.** Heat a $2:1$ mixture of ammonium chloride ($\text{NH}_4\text{Cl}$) and slaked lime ($\text{Ca(OH)}_2$): $2\text{NH}_4\text{Cl} + \text{Ca(OH)}_2 \xrightarrow{\Delta} \text{CaCl}_2 + 2\text{H}_2\text{O} + 2\text{NH}_3 \uparrow$. Dry the gas by passing it through a **quicklime ($\text{CaO}$) tower** and collect it in an inverted jar by **downward displacement of air**. The test tube is inclined downwards so condensed water vapour does not trickle back onto the hot glass bottom and crack it.
 
-**4.** $T_1=27+273=300$ K and $T_2=127+273=400$ K.
-$$ V_2=V_1\frac{T_2}{T_1}=300\times\frac{400}{300}=400\ \text{cm}^3 $$
+**4.** When a few drops of water are squeezed into an inverted flask filled with $\text{NH}_3$, the gas dissolves immediately, creating a partial vacuum inside the flask; atmospheric pressure pushes water + phenolphthalein indicator up the jet tube as a pink fountain. It proves: (i) **extreme solubility of $\text{NH}_3$ in water**, and (ii) **basic (alkaline) nature of aqueous ammonia**.
 
-**5.** Put marble chips (CaCO₃) in a flask with a thistle funnel and a delivery tube; add dilute hydrochloric acid through the funnel (the funnel end must dip into the acid). CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂ ↑. Collect the gas by **upward delivery** (downward displacement of air) because CO₂ is heavier than air; it is also soluble in water, so water collection is avoided. A neat labelled sketch (flask, funnel, delivery tube, gas jar) takes one to two marks.
+**5.** Place marble chips ($\text{CaCO}_3$) in a Woulfe's bottle fitted with a thistle funnel and delivery tube, and pour dilute $\text{HCl}$ so the funnel end dips in acid: $\text{CaCO}_3 + 2\text{HCl} \rightarrow \text{CaCl}_2 + \text{H}_2\text{O} + \text{CO}_2 \uparrow$. Collect in an upright jar by **upward displacement of air** ($\text{CO}_2$ is $1.5\times$ heavier than air). Dilute $\text{H}_2\text{SO}_4$ is not used because insoluble $\text{CaSO}_4$ coats the marble and stops the reaction.
 :::
 
 ## 3.17 Metal and Non-metals
@@ -341,19 +343,19 @@ $$ V_2=V_1\frac{T_2}{T_1}=300\times\frac{400}{300}=400\ \text{cm}^3 $$
 
 ## 3.19 Chemicals used in Daily Life
 
-1. Why is gypsum added to cement? <span class="marks">[2]</span>
-2. Write any two differences between soap and detergent. <span class="marks">[2]</span>
-3. Describe the manufacture of soap (saponification). <span class="marks">[4]</span>
-4. Name the three main nutrients in NPK fertilisers and state one function of each. Mention two harmful effects of overuse. <span class="marks">[4]</span>
+1. Differentiate between **natural food preservatives and chemical food preservatives**, and state why **calcium carbide** is harmful for ripening fruits. <span class="marks">[2]</span>
+2. Write any two differences between **soap and detergent**, and explain why detergent is called a "soapless soap". <span class="marks">[2]</span>
+3. Describe the laboratory preparation of **soap (saponification)** and state the role of common salt ($\text{NaCl}$). <span class="marks">[4]</span>
+4. Differentiate between **chemical pesticides and biological pesticides** in two points, and write any four safety precautions to follow while storing and using pesticides. <span class="marks">[4]</span>
 
 ::: note Answers
-**1.** Gypsum slows down the setting of cement so that the mortar can be worked before it hardens.
+**1.** **Natural food preservatives** (salt, sugar, oil, lemon, vinegar) come from natural sources with no toxic side effects; **chemical food preservatives** (sodium benzoate, $\text{SO}_2$, BHA, BHT) are synthetic and harmful if overused. Calcium carbide ($\text{CaC}_2$) contains toxic arsenic and phosphorus impurities that cause skin rashes, eye irritation, ulcers and liver/kidney damage.
 
-**2.** Soap is the sodium salt of a fatty acid; detergent is a synthetic salt of sulphonic acid. Soap forms scum in hard water; detergent does not, and works in hard and soft water.
+**2.** **Soap** is the sodium/potassium salt of long-chain fatty acids (forms scum in hard water, biodegradable); **detergent** is the synthetic sodium salt of alkyl benzene sulphonic acid or alkyl sulphate (does not form scum in hard water, often non-biodegradable). Because detergent cleans like soap but has a different chemical composition, it is called a "soapless soap".
 
-**3.** Oil or fat is heated with sodium hydroxide solution. The ester bonds break (saponification) to give glycerol and sodium salts of fatty acids (soap): fat + 3NaOH → glycerol + 3 soap. Common salt is added to make the soap separate as a layer (salting out); it is then moulded, perfumed and dried.
+**3.** Vegetable oil or animal fat is heated gently with concentrated sodium hydroxide ($\text{NaOH}$) solution while stirring in one direction: $\text{Fat/Oil} + 3\text{NaOH} \xrightarrow{\Delta} 3\text{Soap} + \text{Glycerol}$. **Common salt ($\text{NaCl}$)** is added to decrease the solubility of soap and precipitate solid soap as an upper layer ("salting out"), which is filtered, washed and moulded.
 
-**4.** **Nitrogen** (N) promotes leaf and stem growth; **phosphorus** (P) helps roots and flowering; **potassium** (K) improves disease resistance and fruit quality. Overuse pollutes water (eutrophication), harms soil organisms and can burn crops.
+**4.** **Chemical pesticides** (DDT, Malathion) are synthetic, broad-spectrum and non-biodegradable/polluting; **biological pesticides** (Neem, *Titepati*, Bt) come from living organisms, are target-specific and are eco-friendly. *Precautions:* (i) Use only pesticides permitted under the **Pesticides Management Act 2076** on JTA advice; (ii) wear PPE (mask, gloves, goggles, boots); (iii) store in labelled, sealed containers out of reach of children; (iv) observe the pre-harvest waiting period and wash hands with soap after use.
 :::
 
 ## 3.20 Extended model answers (10 marks)

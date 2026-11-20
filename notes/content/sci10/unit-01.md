@@ -583,7 +583,8 @@ $$LC = 1\ \text{MSD} - 1\ \text{VSD} = 1\ \text{mm} - 0.9\ \text{mm} = 0.1\ \tex
 
 **Worked example.** A steel ball is measured. MSR $= 2.3$ cm, the 6th vernier division coincides, and the zero error is $+0.02$ cm.
 
-$$\text{Observed} = 2.3 + 6 \times 0.01 = 2.36\ \text{cm}, \quad \text{Corrected} = 2.36 - 0.02 = 2.34\ \text{cm}.$$
+$$\text{Observed reading} = 2.3 + 6 \times 0.01 = 2.36\ \text{cm}$$
+$$\text{Corrected reading} = 2.36 - 0.02 = 2.34\ \text{cm}$$
 
 **Other measuring instruments.**
 

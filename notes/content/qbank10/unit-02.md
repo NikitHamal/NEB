@@ -135,31 +135,31 @@ Every question below is an original **practice** question written to the pattern
 
 ## 2.5 Physiological Structure and Life Process
 
-**Facts.** The brain and spinal cord form the central nervous system. A reflex action is rapid and involuntary, and passes through the spinal cord. Insulin from the pancreas lowers blood sugar. The human heart has four chambers. The nephron is the functional unit of the kidney. Blood group O is the universal donor, AB the universal recipient.
+**Facts.** Human blood ($5\text{–}5.5\ \text{L}$, $\text{pH } 7.4$) = Plasma ($55\%$) + Blood cells ($45\%$: RBCs/erythrocytes, WBCs/leucocytes, platelets/thrombocytes). Normal adult blood pressure is $120/80\ \text{mm Hg}$ (measured by a sphygmomanometer). The left ventricle has the thickest wall. Pulmonary veins carry oxygenated blood; the pulmonary artery carries deoxygenated blood. **Angiogram** detects coronary artery blockage; **diabetes** is caused by insulin deficiency; **gout** is caused by uric acid crystal deposition in joints.
 
-1. The functional unit of the nervous system is the <span class="marks">[1]</span>
-   (a) nephron (b) neuron (c) alveolus (d) villus
-2. The hormone that lowers the blood sugar level is <span class="marks">[1]</span>
+1. Which blood cells are non-nucleated, biconcave discs containing haemoglobin? <span class="marks">[1]</span>
+   (a) Leucocytes (b) Erythrocytes (c) Platelets (d) Monocytes
+2. The hormone whose deficiency causes diabetes mellitus (hyperglycemia) is <span class="marks">[1]</span>
    (a) glucagon (b) adrenaline (c) insulin (d) thyroxine
-3. The chamber of the heart that pumps oxygenated blood to the body is the <span class="marks">[1]</span>
-   (a) right atrium (b) left atrium (c) right ventricle (d) left ventricle
-4. A reflex action is controlled by the <span class="marks">[1]</span>
-   (a) cerebrum (b) spinal cord (c) cerebellum (d) pituitary
-5. The functional unit of the kidney is the <span class="marks">[1]</span>
-   (a) neuron (b) nephron (c) ureter (d) bladder
+3. The chamber of the heart that has the thickest muscular wall and pumps oxygenated blood to the body is the <span class="marks">[1]</span>
+   (a) right auricle (b) left auricle (c) right ventricle (d) left ventricle
+4. What is the normal blood pressure of a healthy adult human? <span class="marks">[1]</span>
+   (a) $80/120\ \text{mm Hg}$ (b) $120/80\ \text{mm Hg}$ (c) $140/90\ \text{mm Hg}$ (d) $100/60\ \text{mm Hg}$
+5. Which diagnostic test uses a catheter, contrast dye and X-rays to locate blockages in the coronary arteries? <span class="marks">[1]</span>
+   (a) Dialysis (b) Endoscopy (c) Angiogram (d) Ultrasound
 6. The universal blood donor group is <span class="marks">[1]</span>
    (a) AB (b) A (c) B (d) O
-7. Fertilisation in humans normally takes place in the <span class="marks">[1]</span>
-   (a) uterus (b) ovary (c) fallopian tube (d) vagina
+7. Severe pain and swelling in the big toe and joints due to purine breakdown is caused by high levels of <span class="marks">[1]</span>
+   (a) glucose (b) uric acid (c) haemoglobin (d) insulin
 
 ::: note Answers
-**1.** (b) — a neuron carries nerve impulses; the nephron belongs to the kidney.
-**2.** (c) — insulin from the pancreas; glucagon raises sugar.
-**3.** (d) — the left ventricle drives blood through the aorta to the body.
-**4.** (b) — the reflex arc passes through the spinal cord, bypassing thinking.
-**5.** (b) — each kidney has about a million nephrons.
+**1.** (b) — erythrocytes (RBCs) carry oxygen via haemoglobin.
+**2.** (c) — insulin from the pancreas lowers blood glucose.
+**3.** (d) — the left ventricle drives blood through the aorta to the whole body.
+**4.** (b) — systolic $120\ \text{mm Hg}$ and diastolic $80\ \text{mm Hg}$.
+**5.** (c) — coronary angiography (angiogram) visualises narrowed coronary arteries.
 **6.** (d) — group O red cells carry no A or B antigens.
-**7.** (c) — the ovum meets the sperm in the fallopian tube, then travels to the uterus.
+**7.** (b) — excess uric acid forms urate crystals in joints (gout).
 :::
 
 ## 2.6 Nature and Environment
@@ -367,31 +367,34 @@ Every question below is an original **practice** question written to the pattern
 
 ## 2.13 Information and Communication Technology
 
-**Facts.** The CPU is the brain of the computer; RAM is volatile main memory; ROM is permanent. A network of networks is the internet; the web address is a URL. E-commerce is buying and selling over the internet. Cyber ethics and cyber crime are part of this chapter.
+**Facts.** Analog signals are continuous waves; digital signals are discrete binary pulses (`0` and `1`). $1\ \text{nibble} = 4\ \text{bits}$; $1\ \text{Byte} = 8\ \text{bits} = 2\ \text{nibbles}$; $1\ \text{KB} = 1024\ \text{B}$; $1\ \text{MB} = 1024\ \text{KB}$; $1\ \text{GB} = 1024\ \text{MB}$. Digital transmission sequence: Source → Input transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output transducer → Output signal. Active internet users are **netizens**; responsible online conduct is **digital citizenship**; balancing online and offline life for health is **digital wellbeing**; managing public perception online is **digital reputation management**. Audio formats: `.mp3`, `.wav`, `.wma`; Video formats: `.mp4`, `.3gp`, `.svi`, `.avi`, `.mov`.
 
-1. The brain of the computer is the <span class="marks">[1]</span>
-   (a) monitor (b) CPU (c) keyboard (d) mouse
-2. Which memory loses its data when power is switched off? <span class="marks">[1]</span>
-   (a) ROM (b) hard disk (c) RAM (d) pen drive
-3. The full form of URL is <span class="marks">[1]</span>
-   (a) Uniform Resource Locator (b) Universal Radio Link (c) United Resource List (d) Uniform Rule Logic
-4. Buying goods through a website is called <span class="marks">[1]</span>
-   (a) e-commerce (b) e-mail (c) e-learning (d) e-voting
-5. Sending false messages to steal a person's bank details is <span class="marks">[1]</span>
-   (a) hacking only (b) phishing (c) browsing (d) downloading
-6. Which is an output device? <span class="marks">[1]</span>
-   (a) scanner (b) printer (c) keyboard (d) microphone
-7. The worldwide network of connected computers is the <span class="marks">[1]</span>
-   (a) intranet (b) LAN (c) internet (d) extranet
+1. Which of the following represents an analog signal? <span class="marks">[1]</span>
+   (a) infrared thermometer (b) computer (c) smartwatch (d) medium-wave radio
+2. Which binary sequence represents 1 byte of computer memory? <span class="marks">[1]</span>
+   (a) 0000 (b) 00000000 (c) 100000 (d) 000001
+3. Which is the correct relationship between a nibble and a byte? (SEE 2081) <span class="marks">[1]</span>
+   (a) 1 nibble = 4 bytes (b) 2 nibbles = 1 byte (c) 4 nibbles = 1 byte (d) 8 nibbles = 1 byte
+4. Which of the following shows the stages of digital signal transmission in the correct order? <span class="marks">[1]</span>
+   (a) Source, input transducer, decoder, modulator, channel, demodulator, encoder, output transducer
+   (b) Source, input transducer, encoder, modulator, channel, demodulator, decoder, output transducer
+   (c) Source, input transducer, encoder, demodulator, channel, modulator, decoder, output transducer
+   (d) Source, encoder, input transducer, modulator, channel, decoder, demodulator, output transducer
+5. Which of the following is an audio file format? <span class="marks">[1]</span>
+   (a) .SVI (b) .MP4 (c) .MP3 (d) .3GP
+6. What are people who actively use the internet called? (SEE 2080) <span class="marks">[1]</span>
+   (a) citizens (b) online managers (c) audio-video editors (d) netizens
+7. What does the habit of posting accurate information about new scientific discoveries on social media indicate? <span class="marks">[1]</span>
+   (a) unsystematic use of social media (b) digital wellbeing skill (c) digital detox (d) digital reputation management
 
 ::: note Answers
-**1.** (b) — the CPU processes instructions.
-**2.** (c) — RAM is volatile.
-**3.** (a) — Uniform Resource Locator, the address of a web page.
-**4.** (a) — e-commerce is trade over the internet.
-**5.** (b) — phishing tricks users into giving private information.
-**6.** (b) — a printer outputs information; the others are input devices.
-**7.** (c) — the internet connects networks worldwide; a LAN is local.
+**1.** (d) — a medium-wave radio uses continuous analog waves; the others are digital devices.
+**2.** (b) — 1 byte equals 8 bits (`00000000`).
+**3.** (b) — 1 nibble = 4 bits and 1 byte = 8 bits, so 2 nibbles = 1 byte.
+**4.** (b) — Source → Input transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output transducer.
+**5.** (c) — `.MP3` (and `.WAV`) is an audio format; `.SVI`, `.MP4` and `.3GP` are video formats.
+**6.** (d) — active users of the internet are called netizens.
+**7.** (d) — posting constructive, knowledgeable content builds a credible public image online (digital reputation management).
 :::
 
 ## 2.14 Classification of Elements
@@ -454,31 +457,31 @@ Every question below is an original **practice** question written to the pattern
 
 ## 2.16 Gases
 
-**Facts.** Boyle's law: $P_1V_1=P_2V_2$ at constant temperature. Charles' law: $V_1/T_1=V_2/T_2$ at constant pressure, with $T$ in kelvin. Hydrogen is prepared from zinc and dilute sulphuric acid and burns with a pop; oxygen from heating potassium chlorate with manganese dioxide and relights a glowing splint; carbon dioxide from marble and dilute hydrochloric acid and turns lime water milky.
+**Facts.** Carbon dioxide ($\text{CO}_2$, mol. mass $44$, acidic) is prepared from marble chips ($\text{CaCO}_3$) and dilute $\text{HCl}$ at room temperature and collected by **upward displacement of air**. Ammonia ($\text{NH}_3$, mol. mass $17$, basic) is prepared by heating $\text{NH}_4\text{Cl}$ and $\text{Ca(OH)}_2$ ($2:1$), dried through a **quicklime ($\text{CaO}$) tower**, and collected by **downward displacement of air**. Industrial **Haber's process**: $\text{N}_2 + 3\text{H}_2 \rightleftharpoons 2\text{NH}_3$ at $450\text{–}500\ ^\circ\text{C}$, $200\text{–}900\ \text{atm}$, with $\text{Fe}$ catalyst and $\text{Mo}$ promoter.
 
-1. A gas at 2 atm occupies 6 L. At constant temperature, at 4 atm it occupies <span class="marks">[1]</span>
-   (a) 3 L (b) 12 L (c) 6 L (d) 1.5 L
-2. A gas of 6 L at 300 K is heated to 600 K at constant pressure. Its volume becomes <span class="marks">[1]</span>
-   (a) 3 L (b) 6 L (c) 12 L (d) 18 L
-3. Which gas gives a pop sound with a burning splint? <span class="marks">[1]</span>
-   (a) oxygen (b) carbon dioxide (c) hydrogen (d) nitrogen
-4. Lime water turns milky with <span class="marks">[1]</span>
-   (a) O₂ (b) H₂ (c) CO₂ (d) N₂
-5. In the laboratory, hydrogen is prepared from <span class="marks">[1]</span>
-   (a) zinc and dilute H₂SO₄ (b) marble and HCl (c) KClO₃ and MnO₂ (d) copper and dilute H₂SO₄
-6. The temperature 27 °C in kelvin is <span class="marks">[1]</span>
-   (a) 27 K (b) 246 K (c) 300 K (d) 373 K
-7. MnO₂ in the preparation of oxygen from KClO₃ acts as a <span class="marks">[1]</span>
-   (a) reactant consumed (b) catalyst (c) reducing agent (d) product
+1. By which method is carbon dioxide gas collected in the laboratory? <span class="marks">[1]</span>
+   (a) downward displacement of water (b) downward displacement of air (c) upward displacement of air (d) over kerosene
+2. Which compounds are formed in sequence when $\text{CO}_2$ is passed through lime water for a short time and then for a long time? <span class="marks">[1]</span>
+   (a) $\text{Ca(HCO}_3)_2$ then $\text{CaCO}_3$ (b) $\text{CaCO}_3$ then $\text{Ca(HCO}_3)_2$ (c) $\text{CaO}$ then $\text{CaCO}_3$ (d) $\text{CaCl}_2$ then $\text{CaO}$
+3. Which drying agent is used in the lime tower to dry ammonia gas? <span class="marks">[1]</span>
+   (a) conc. $\text{H}_2\text{SO}_4$ (b) anhydrous $\text{CaCl}_2$ (c) quicklime ($\text{CaO}$) (d) $\text{P}_2\text{O}_5$
+4. In Haber's process for manufacturing ammonia, what are the roles of iron ($\text{Fe}$) and molybdenum ($\text{Mo}$)? <span class="marks">[1]</span>
+   (a) both are reactants (b) Fe is promoter and Mo is catalyst (c) Fe is catalyst and Mo is promoter (d) both are drying agents
+5. Which chemical fertiliser is formed when ammonia reacts with carbon dioxide under high temperature and pressure? <span class="marks">[1]</span>
+   (a) ammonium sulphate (b) ammonium chloride (c) urea (d) potassium nitrate
+6. What is observed when a burning magnesium ribbon is inserted into a jar of $\text{CO}_2$ gas? <span class="marks">[1]</span>
+   (a) it goes out immediately (b) it keeps burning, forming white $\text{MgO}$ and black carbon (c) it forms $\text{MgCO}_3$ only (d) it explodes with a pop
+7. Which gas gives dense white fumes of $\text{NH}_4\text{Cl}$ when a glass rod dipped in conc. $\text{HCl}$ is brought near it? <span class="marks">[1]</span>
+   (a) $\text{CO}_2$ (b) $\text{SO}_2$ (c) $\text{NH}_3$ (d) $\text{N}_2$
 
 ::: note Answers
-**1.** (a) — $P_1V_1=P_2V_2$: $2\times6=4\times V_2$, so $V_2=3$ L.
-**2.** (c) — $V_2=V_1T_2/T_1=6\times600/300=12$ L.
-**3.** (c) — hydrogen burns explosively with a pop.
-**4.** (c) — CO₂ forms insoluble calcium carbonate.
-**5.** (a) — zinc displaces hydrogen from dilute acid; copper does not.
-**6.** (c) — $27+273=300$ K.
-**7.** (b) — MnO₂ speeds the decomposition and is unchanged.
+**1.** (c) — $\text{CO}_2$ is $1.5$ times heavier than air and soluble in water.
+**2.** (b) — milky $\text{CaCO}_3$ forms first, then soluble colourless $\text{Ca(HCO}_3)_2$.
+**3.** (c) — basic quicklime ($\text{CaO}$) dries basic $\text{NH}_3$ without reacting with it.
+**4.** (c) — finely divided iron ($\text{Fe}$) is the catalyst and molybdenum ($\text{Mo}$) is the promoter.
+**5.** (c) — $2\text{NH}_3 + \text{CO}_2 \rightarrow \text{NH}_2\text{CONH}_2\text{ (urea)} + \text{H}_2\text{O}$.
+**6.** (b) — $2\text{Mg} + \text{CO}_2 \rightarrow 2\text{MgO} + \text{C}$.
+**7.** (c) — $\text{NH}_3 + \text{HCl} \rightarrow \text{NH}_4\text{Cl}$ (dense white fumes).
 :::
 
 ## 2.17 Metal and Non-metals
@@ -541,31 +544,31 @@ Every question below is an original **practice** question written to the pattern
 
 ## 2.19 Chemicals used in Daily Life
 
-**Facts.** Soap is the sodium (or potassium) salt of a fatty acid, made by saponification. Cement is made from limestone and clay, with gypsum added to slow setting. Glass is made from silica (sand), soda ash and limestone. Urea contains about 46% nitrogen. NPK fertilisers supply nitrogen, phosphorus and potassium. Polythene is a polymer of ethene.
+**Facts.** **Natural food preservatives:** salt, sugar, oil, vinegar, lemon, spices. **Chemical food preservatives:** sodium benzoate, potassium metabisulphite, $\text{SO}_2$, sorbates, BHA, BHT. **Artificial fruit ripening:** calcium carbide ($\text{CaC}_2$, harmful) releases acetylene; **ethylene gas ($\text{C}_2\text{H}_4$)** and **ethephon** are safer. **Soap** (e.g. sodium stearate) is made by saponification of fat/oil with $\text{NaOH}$ and salted out with $\text{NaCl}$. **Detergent** ("soapless soap", e.g. sodium lauryl sulphate) works in hard water without scum. **Insecticides:** DDT, BHC, Dieldrin, Malathion; **Herbicides:** $2,4\text{-D}$; **Rodenticides:** Zinc phosphide.
 
-1. Soap is made by heating oil or fat with <span class="marks">[1]</span>
+1. Soap is made by heating vegetable oil or animal fat with <span class="marks">[1]</span>
    (a) dilute acid (b) sodium hydroxide (c) water only (d) ammonia
-2. Gypsum is added to cement to <span class="marks">[1]</span>
-   (a) make it set faster (b) slow down its setting (c) colour it (d) make it lighter
-3. The raw materials of glass include <span class="marks">[1]</span>
-   (a) silica, soda ash and limestone (b) clay and gypsum (c) coal and iron (d) urea and potash
-4. The most nitrogen-rich common fertiliser is <span class="marks">[1]</span>
-   (a) urea (b) superphosphate (c) potash (d) lime
-5. Polythene is a polymer of <span class="marks">[1]</span>
-   (a) methane (b) ethene (c) ethanol (d) benzene
-6. Soap forms scum in hard water, whereas detergent <span class="marks">[1]</span>
+2. Why is a synthetic detergent called a "soapless soap"? <span class="marks">[1]</span>
+   (a) It forms scum in hard water (b) It has the same composition as soap (c) It cleans like soap but has a different chemical nature (d) It is made from animal fat
+3. Which of the following groups represents insecticides? <span class="marks">[1]</span>
+   (a) Potassium chloride, aldrin, BHC (b) DDT, sodium chloride, aldrin (c) Dieldrin, DDT, methoxychlor (d) Sodium benzoate, malathion, BHC
+4. Which chemical is commonly used (though harmful) to ripen fruits artificially by releasing acetylene gas? <span class="marks">[1]</span>
+   (a) Calcium carbonate (b) Calcium carbide (c) Sodium sulphate (d) Sodium stearate
+5. Which of the following is a chemical food preservative added to fruit juices and squashes? <span class="marks">[1]</span>
+   (a) Sodium lauryl sulphate (b) Sodium stearate (c) Sodium benzoate (d) Zinc phosphide
+6. Soap forms insoluble scum in hard water, whereas detergent <span class="marks">[1]</span>
    (a) also forms scum (b) does not form scum (c) is acidic only (d) is not a cleaner
-7. A plastic that softens on heating and can be remoulded is <span class="marks">[1]</span>
-   (a) thermosetting (b) thermoplastic (c) bakelite (d) vulcanised rubber
+7. In which group does sodium stearate ($\text{C}_{17}\text{H}_{35}\text{COONa}$) belong? <span class="marks">[1]</span>
+   (a) Soap (b) Detergent (c) Insecticide (d) Herbicide
 
 ::: note Answers
-**1.** (b) — fat plus NaOH gives soap and glycerol (saponification).
-**2.** (b) — gypsum controls the setting time.
-**3.** (a) — sand, soda ash and limestone are melted together.
-**4.** (a) — urea is about 46% nitrogen.
-**5.** (b) — polythene is made from many ethene molecules.
-**6.** (b) — detergent calcium and magnesium salts remain soluble.
-**7.** (b) — thermoplastics can be reshaped; bakelite is thermosetting.
+**1.** (b) — fat plus $\text{NaOH}$ gives soap and glycerol (saponification).
+**2.** (c) — detergents clean like soap but are sodium salts of alkyl benzene sulphonic acid or alkyl sulphate.
+**3.** (c) — Dieldrin, DDT and methoxychlor are organochlorine insecticides.
+**4.** (b) — calcium carbide ($\text{CaC}_2$) reacts with moisture to release acetylene gas.
+**5.** (c) — sodium benzoate preserves acidic fruit juices and squashes.
+**6.** (b) — detergent calcium and magnesium salts remain soluble in hard water.
+**7.** (a) — sodium stearate is ordinary hard soap.
 :::
 
 ## Chapter summary

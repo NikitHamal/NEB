@@ -179,22 +179,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Science and Technology: Unit-wise Objective Question Bank",
-   "words": 4372,
-   "read_min": 24
+   "words": 4795,
+   "read_min": 27
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Science and Technology: Unit-wise Subjective Question Bank",
-   "words": 4860,
-   "read_min": 27
+   "words": 5463,
+   "read_min": 30
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Science and Technology: Model Question Sets and Predicted Questions",
-   "words": 3560,
-   "read_min": 20
+   "words": 3728,
+   "read_min": 21
   }
  ],
  "guide": "The SEE Examination: Pattern, Grid and Strategy"
