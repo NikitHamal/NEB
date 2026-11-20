@@ -36,6 +36,7 @@ jobs:
             tools/publish/published.json
             backend_python/api/management/commands/replace_book_files.py
             backend_python/api/management/commands/approve_book_uploads.py
+          sparse-checkout-cone-mode: false
           filter: blob:none
           fetch-depth: 1
 
@@ -76,28 +77,6 @@ jobs:
           PY
           ls -lh stage/
 
-      - name: Commit rebuilt PDFs to repository
-        if: ${{ inputs.dry_run != 'true' }}
-        env:
-          SLUGS: ${{ inputs.slugs }}
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json, shutil, subprocess
-          built_map = json.load(open("stage/built_map.json", encoding="utf-8"))
-          subprocess.check_call(["git", "sparse-checkout", "add"] + list(built_map.values()))
-          for slug, rel_pdf in built_map.items():
-              shutil.copy(f"stage/{slug}.pdf", rel_pdf)
-          subprocess.check_call(["git", "add"] + list(built_map.values()))
-          PY
-          git config user.name "NikitHamal"
-          git config user.email "nikithamal@users.noreply.github.com"
-          if ! git diff --cached --quiet; then
-            git commit -m "Rebuild PDF(s) for ${SLUGS}"
-            git pull --rebase origin main
-            git push origin main
-          fi
-
       - name: Upload rebuilt PDFs to server and swap in Library
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -115,3 +94,29 @@ jobs:
           FLAGS=""
           [ "$DRY" = "true" ] && FLAGS="--dry-run"
           $SSH "cd /home/consicac/nebians_api && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"
+
+      - name: Commit rebuilt PDFs to repository
+        if: ${{ inputs.dry_run != 'true' }}
+        env:
+          SLUGS: ${{ inputs.slugs }}
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git rebase origin/main
+          python3 - <<'PY'
+          import json, os, shutil, subprocess
+          built_map = json.load(open("stage/built_map.json", encoding="utf-8"))
+          with open(".git/info/sparse-checkout", "a", encoding="utf-8") as f:
+              for rel_pdf in built_map.values():
+                  f.write(f"\n/{rel_pdf}\n")
+          os.makedirs("notes/pdf", exist_ok=True)
+          for slug, rel_pdf in built_map.items():
+              shutil.copy(f"stage/{slug}.pdf", rel_pdf)
+          subprocess.check_call(["git", "add", "--sparse"] + list(built_map.values()))
+          PY
+          git config user.name "NikitHamal"
+          git config user.email "nikithamal@users.noreply.github.com"
+          if ! git diff --cached --quiet; then
+            git commit -m "Rebuild PDF(s) for ${SLUGS}"
+            git push origin main
+          fi
