@@ -42,19 +42,21 @@ internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav
     }
     val hasBoth = d.guides.isNotEmpty() && d.faq.isNotEmpty()
     val shown = if (!hasBoth) (if (d.guides.isNotEmpty()) "guides" else "faq") else view
+    val cats = androidx.compose.runtime.remember(d.guides) { listOf("All") + d.guides.map { it.cat }.distinct() }
+    val showCats = shown == "guides" && d.guides.isNotEmpty() && cats.size > 1
     val scroll = rememberScrollState()
-    androidx.compose.runtime.LaunchedEffect(shown) { scroll.scrollTo(0) }
+    androidx.compose.runtime.LaunchedEffect(shown, cat) { scroll.scrollTo(0) }
     PwScrollPage(
         bottom = 24.dp,
         state = scroll,
         topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) },
-        stickyHeader = if (hasBoth) ({
-            PwSeg(listOf("guides" to "Guides", "faq" to "Questions"), shown, { view = it }, Modifier.padding(16.dp, 4.dp, 16.dp, 10.dp))
+        stickyHeader = if (hasBoth || showCats) ({
+            if (hasBoth) PwSeg(listOf("guides" to "Guides", "faq" to "Questions"), shown, { view = it }, Modifier.padding(16.dp, 4.dp, 16.dp, if (showCats) 4.dp else 10.dp))
+            if (showCats) PwChipRow(cats.map { it to it }, { it == cat }, { cat = it }, Modifier.padding(top = if (hasBoth) 2.dp else 4.dp, bottom = 10.dp))
         }) else null,
     ) {
         if (shown == "guides" && d.guides.isNotEmpty()) {
-            val cats = listOf("All") + d.guides.map { it.cat }.distinct()
-            PwChipRow(cats.map { it to it }, { it == cat }, { cat = it }, Modifier.padding(top = if (hasBoth) 0.dp else 8.dp, bottom = 12.dp))
+            Spacer(Modifier.padding(top = 8.dp))
             Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 d.guides.filter { cat == "All" || it.cat == cat }.chunked(2).forEach { row ->
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

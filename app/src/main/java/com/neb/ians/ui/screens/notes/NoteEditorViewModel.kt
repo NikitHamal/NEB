@@ -309,10 +309,26 @@ class NoteEditorViewModel @Inject constructor(
         if (created.type.hasText) _focusRequest.value = created.id
     }
 
-    /** Coalesces consecutive plain text blocks and selects all text in the focused (or primary) text block. */
-    fun selectAllText(registry: BlockFieldRegistry) {
-        val merged = NoteDoc.coalesceTextBlocks(_blocks.value)
-        if (merged != _blocks.value) {
+    /**
+     * Coalesces consecutive plain text blocks and selects all text in the focused (or primary) text block.
+     * When [wholeNote] is true (or when the current block's text is already fully selected and other text blocks exist),
+     * merges all consecutive text-bearing blocks (pushing an Undo snapshot) so the entire note text is selected at once.
+     */
+    fun selectAllText(registry: BlockFieldRegistry, wholeNote: Boolean = false) {
+        var merged = NoteDoc.coalesceTextBlocks(_blocks.value)
+        val initialId = focusedId?.takeIf { id -> merged.any { it.id == id && it.type.hasText } }
+            ?: merged.maxByOrNull { if (it.type.hasText) it.text.length else -1 }?.takeIf { it.type.hasText }?.id
+        val initialBlock = initialId?.let { id -> merged.firstOrNull { it.id == id } }
+        val initialState = initialBlock?.let { registry.stateOf(this, it) }
+        val alreadySelectedBlock = initialState != null &&
+            initialState.doc.text.isNotEmpty() &&
+            initialState.value.selection.start == 0 &&
+            initialState.value.selection.end == initialState.doc.text.length
+        val textBlockCount = merged.count { it.type.hasText && it.type != BlockType.Code && it.text.isNotBlank() }
+        if ((wholeNote || alreadySelectedBlock) && textBlockCount > 1) {
+            merged = NoteDoc.coalesceAllTextForSelection(merged)
+            commit(merged, force = true)
+        } else if (merged != _blocks.value) {
             commit(merged, force = false)
         }
         val targetId = focusedId?.takeIf { id -> merged.any { it.id == id && it.type.hasText } }
@@ -323,6 +339,7 @@ class NoteEditorViewModel @Inject constructor(
         st.adopt(targetBlock.text, targetBlock.text.length)
         st.selectAll()
         selectAllRequested = true
+        _focusRequest.value = null
         _focusRequest.value = targetId
     }
 

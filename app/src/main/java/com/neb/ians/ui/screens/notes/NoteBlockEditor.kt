@@ -490,11 +490,15 @@ private fun TextBlockRow(
     var focused by remember { mutableStateOf(false) }
     val state = registry.stateOf(vm, block)
 
-    LaunchedEffect(block.text) { state.adopt(block.text, block.text.length) }
+    LaunchedEffect(block.text) {
+        state.adopt(block.text, block.text.length)
+        if (wantsFocus && vm.selectAllRequested) state.selectAll()
+    }
     LaunchedEffect(wantsFocus) {
         if (wantsFocus) {
+            val selectAll = vm.selectAllRequested
             when {
-                vm.selectAllRequested -> {
+                selectAll -> {
                     state.adopt(block.text, block.text.length)
                     state.selectAll()
                 }
@@ -503,6 +507,10 @@ private fun TextBlockRow(
             }
             runCatching { focusRequester.requestFocus() }
             vm.consumeFocus()
+            if (selectAll) {
+                withFrameNanos { }
+                state.selectAll()
+            }
         }
     }
 

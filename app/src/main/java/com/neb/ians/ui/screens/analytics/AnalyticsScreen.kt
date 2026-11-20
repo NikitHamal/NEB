@@ -114,20 +114,19 @@ private fun AnalyticsContent(
     onResourceClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(top = 4.dp, bottom = 40.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
-    ) {
-        item(key = "range") {
-            NebChoiceChips(
-                options = AnalyticsRanges.map { "$it days" },
-                selectedIndex = AnalyticsRanges.indexOf(days).coerceAtLeast(0),
-                onSelect = { onRange(AnalyticsRanges[it]) },
-                modifier = Modifier.padding(horizontal = AnalyticsGutter)
-            )
-        }
-        item(key = "standing") { StandingHero(data.standing) }
+    Column(modifier = modifier.fillMaxSize()) {
+        NebChoiceChips(
+            options = AnalyticsRanges.map { "$it days" },
+            selectedIndex = AnalyticsRanges.indexOf(days).coerceAtLeast(0),
+            onSelect = { onRange(AnalyticsRanges[it]) },
+            modifier = Modifier.padding(horizontal = AnalyticsGutter, vertical = 6.dp)
+        )
+        LazyColumn(
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            contentPadding = PaddingValues(top = 6.dp, bottom = 40.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            item(key = "standing") { StandingHero(data.standing) }
         item(key = "streak") { StreakCard(data.streak, data.trend) }
         item(key = "insights") { InsightsCard(data.insights) }
         item(key = "kpis") { KpiGrid(data.overview) }
@@ -154,5 +153,6 @@ private fun AnalyticsContent(
         item(key = "topResources") { TopResourcesCard(data.topResources, onResourceClick) }
         item(key = "topics") { TopicsCard(data.topCategories, data.topSubjects) }
         item(key = "milestones") { MilestonesCard(data.milestones) }
+        }
     }
 }

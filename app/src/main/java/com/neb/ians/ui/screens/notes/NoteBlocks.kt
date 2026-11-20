@@ -272,6 +272,45 @@ object NoteDoc {
         return if (out.isEmpty()) starter() else out
     }
 
+    /**
+     * Merges consecutive text-bearing blocks (including headings, lists, quotes, and paragraphs)
+     * into unified multi-line [BlockType.Text] blocks so the user can select and copy across the entire note.
+     */
+    fun coalesceAllTextForSelection(blocks: List<NoteBlock>): List<NoteBlock> {
+        if (blocks.size <= 1) return blocks
+        val out = ArrayList<NoteBlock>(blocks.size)
+        var numCounter = 0
+        for (b in blocks) {
+            val canMerge = b.type.hasText && b.type != BlockType.Code
+            if (!canMerge) {
+                numCounter = 0
+                out.add(b)
+                continue
+            }
+            if (b.type == BlockType.Number) numCounter++ else numCounter = 0
+            val lineText = when (b.type) {
+                BlockType.Bullet -> if (b.text.isBlank()) "" else "\u2022 ${b.text}"
+                BlockType.Number -> if (b.text.isBlank()) "" else "$numCounter. ${b.text}"
+                BlockType.Todo -> if (b.text.isBlank()) "" else "${if (b.checked) "[\u2713]" else "[ ]"} ${b.text}"
+                else -> b.text
+            }
+            val prev = out.lastOrNull()
+            val prevPrev = if (out.size >= 2) out[out.size - 2] else null
+            val prevIsImagePartner = prevPrev != null && prevPrev.type == BlockType.Image && prevPrev.wrap && prevPrev.path.isNotBlank()
+            if (prev != null && !prevIsImagePartner && prev.type == BlockType.Text) {
+                val mergedText = when {
+                    prev.text.isEmpty() -> lineText
+                    lineText.isEmpty() -> prev.text
+                    else -> prev.text + "\n" + lineText
+                }
+                out[out.lastIndex] = prev.copy(text = mergedText)
+            } else {
+                out.add(b.copy(type = BlockType.Text, text = lineText, checked = false, indent = 0))
+            }
+        }
+        return if (out.isEmpty()) starter() else out
+    }
+
     // ---------------------------------------------------------------- Markdown
 
     fun toMarkdown(blocks: List<NoteBlock>): String {

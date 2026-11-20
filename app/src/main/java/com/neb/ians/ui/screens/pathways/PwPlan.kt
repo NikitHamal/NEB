@@ -31,6 +31,7 @@ import kotlinx.coroutines.withContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -50,14 +51,24 @@ internal fun PwPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: 
         if (profile != null) value = withContext(Dispatchers.Default) { pwMatch(d, profile) }
     }
     val list = androidx.compose.foundation.lazy.rememberLazyListState()
+    val c = MaterialTheme.colorScheme
+    val scrolled: () -> Float = { if (list.firstVisibleItemIndex > 0) 1f else (list.firstVisibleItemScrollOffset / 24f).coerceIn(0f, 1f) }
+    androidx.compose.runtime.LaunchedEffect(s.plan) { list.scrollToItem(0) }
     Column(Modifier.fillMaxSize()) {
         PwRootBar(
             onSearch = { nav.push("search") },
             onBack = nav.pop,
-            scrolled = { if (list.firstVisibleItemIndex > 0) 1f else (list.firstVisibleItemScrollOffset / 24f).coerceIn(0f, 1f) },
+            scrolled = { 0f },
         )
-        LazyColumn(Modifier.weight(1f).fillMaxWidth(), state = list, contentPadding = PaddingValues(bottom = 24.dp)) {
-            item("seg") { PwSeg(listOf("match" to "Match", "plan" to "My plan"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 8.dp)) }
+        Column(Modifier.fillMaxWidth().background(c.surface)) {
+            PwSeg(listOf("match" to "Match", "plan" to "My plan"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 4.dp, 16.dp, 10.dp))
+            Box(
+                Modifier.fillMaxWidth().height(1.dp)
+                    .graphicsLayer { alpha = scrolled() }
+                    .background(c.outlineVariant)
+            )
+        }
+        LazyColumn(Modifier.weight(1f).fillMaxWidth(), state = list, contentPadding = PaddingValues(top = 6.dp, bottom = 24.dp)) {
             if (s.plan == "match") pwMatchItems(d, ui, vm, nav, result)
             else item("plan") { MyPlan(d, ui, vm, nav) }
         }
