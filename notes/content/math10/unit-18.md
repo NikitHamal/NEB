@@ -287,8 +287,7 @@ $$ P(\text{different})=1-\frac{14}{45}=\frac{31}{45} $$
 - Leaving the answer as "6 out of 36" — give a fraction in lowest terms ($\frac{1}{6}$) or a decimal.
 :::
 
-## 18.9 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Decide the experiment and write the sample space (a list, a table or a tree). State $n(S)$.

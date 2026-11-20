@@ -248,8 +248,7 @@ Many questions start with a triangle or quadrilateral described by lengths and a
 **Solution.** Area: $s=\frac{7+5+6}{2}=9$; $\text{area}=\sqrt{9\times2\times4\times3}=\sqrt{216}=14.70\text{ cm}^2$. Construct the triangle by drawing $PQ=7$ cm and arcs of radius 6 cm from $P$ and 5 cm from $Q$. The rectangle has base $\frac{1}{2}PQ=3.5$ cm and height equal to the height of $R$ above $PQ$: $h=\frac{2\times14.70}{7}=4.20$ cm. Check: $3.5\times4.20=14.7$. ✓
 :::
 
-## 14.9 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Read the data and draw a **rough sketch** with all measurements.

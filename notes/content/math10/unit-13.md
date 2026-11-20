@@ -283,8 +283,7 @@ Since $\Delta AOB\sim\Delta COD$ with ratio of sides $12:6=2:1$, $AO:OC=2:1$. So
 - Writing $\text{area}(\Delta ABC)=\text{area}(\Delta ABD)$ without naming the common base and the parallels.
 :::
 
-## 13.7 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Draw a neat figure; mark equal sides and parallel lines.

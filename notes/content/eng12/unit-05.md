@@ -32,7 +32,7 @@ translation, which many textbooks follow), **Hongr** (Hung-erh) and **Shuisheng*
 (Shui-sheng). The quotations below follow the Yang translation; quote the exact wording of the prescribed extract in the examination.
 :::
 
-## 5.1 About the author
+## 5.1 About the author: Lu Xun
 
 Lu Xun (1881–1936) is the pen-name of **Zhou Shuren**, the founder of modern Chinese
 literature. He was born on 25 September 1881 in **Shaoxing**, a canal town in Zhejiang
@@ -77,7 +77,7 @@ mother to Beijing.
   narrator now lives and works far away and takes his family to join him there.
 :::
 
-## 5.2 The story
+## 5.2 The story — "My Old Home"
 
 **The homecoming.** Braving the bitter cold, the narrator travels more than seven hundred miles by boat to the
 home he left over twenty years before. It is late winter; the sky is overcast, a cold wind blows into the cabin,
@@ -151,7 +151,7 @@ Then the hope frightens him. He remembers laughing at Runtu for asking for the i
 calls hope is "no more than an idol I had created myself", only more remote. Half asleep, he sees again the jade-green seashore and the round golden
 moon, and thinks that hope is like roads across the earth: there were no roads to begin with, but "when many men pass one way, a road is made".
 
-## 5.3 Characters
+## 5.3 Characters — "My Old Home"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -190,7 +190,7 @@ live by picking up what others leave is being ground down by the same system as 
 hope. They take to each other at once, without any thought of master and servant; Hongr
 asks when they may return because "Shuisheng has invited me to his home".
 
-## 5.4 Themes
+## 5.4 Themes — "My Old Home"
 
 **The barrier of class (the "thick wall").** This is the central theme. As boys, the
 narrator and Runtu shared everything. As men they are separated by a wall built from
@@ -235,7 +235,7 @@ and the *road* for collective hope. An **image** is a picture in words: the gold
 the watermelon field is the story's central image, appearing at the start and again at the end.
 :::
 
-## 5.5 Setting, structure and point of view
+## 5.5 Setting, structure and point of view — "My Old Home"
 
 **Setting.** South-eastern China in the early twentieth century: a village or small town by a river
 and the sea, with a clan compound, a beancurd shop, a seashore of sandy soil planted with watermelons, and
@@ -336,7 +336,7 @@ vernacular, not in classical Chinese, which was itself a statement. There are fe
 each is exact, and he ends scenes at the moment of feeling rather than explaining it. His most famous
 technique, in this story, is to set a **cold fact** beside a **warm memory** and let the gap do the work.
 
-## 5.7 Glossary
+## 5.7 Glossary — "My Old Home"
 
 | Word | Meaning |
 |---|---|
@@ -375,7 +375,7 @@ that Hongr and Shuisheng "will surely have a better life": the narrator says onl
 hope, not a prophecy.
 :::
 
-## 5.8 Comprehension and critical thinking
+## 5.8 Comprehension and critical thinking — "My Old Home"
 
 **Before you read — warm-up discussion**
 

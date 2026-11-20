@@ -5,8 +5,8 @@
    "no": 1,
    "title": "आमाको सपना - गोपालप्रसाद रिमाल (कविता, सामाजिक)",
    "area": "पाठ",
-   "words": 4221,
-   "read_min": 23,
+   "words": 4240,
+   "read_min": 24,
    "figures": 3,
    "has_questions": true
   },
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "विरहिणी दमयन्ती - मदनमणि दीक्षित (कथा, पौराणिक)",
    "area": "पाठ",
-   "words": 4068,
+   "words": 4086,
    "read_min": 23,
    "figures": 3,
    "has_questions": true
@@ -23,8 +23,8 @@
    "no": 3,
    "title": "घनघस्याको उकालो काट्ता - तारानाथ शर्मा (नियात्रा)",
    "area": "पाठ",
-   "words": 3869,
-   "read_min": 21,
+   "words": 3895,
+   "read_min": 22,
    "figures": 4,
    "has_questions": true
   },
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "व्यावसायिक पत्र (व्यावहारिक लेखन)",
    "area": "पाठ",
-   "words": 3907,
+   "words": 3916,
    "read_min": 22,
    "figures": 2,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "एक चिहान - हृदयचन्द्रसिंह प्रधान (उपन्यास अंश, सामाजिक)",
    "area": "पाठ",
-   "words": 4627,
+   "words": 4651,
    "read_min": 26,
    "figures": 4,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "स्टिफन विलियम हकिङ (जीवनी, अन्तर्राष्ट्रिय)",
    "area": "पाठ",
-   "words": 4237,
+   "words": 4255,
    "read_min": 24,
    "figures": 4,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "हामीलाई बोलाउँछन् हिमचुली",
    "area": "पाठ",
-   "words": 4282,
+   "words": 4302,
    "read_min": 24,
    "figures": 5,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "मातृत्व",
    "area": "पाठ",
-   "words": 4062,
+   "words": 4071,
    "read_min": 23,
    "figures": 4,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "गोर्खे",
    "area": "पाठ",
-   "words": 4647,
+   "words": 4656,
    "read_min": 26,
    "figures": 4,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "नेपाली पहिचान",
    "area": "पाठ",
-   "words": 4905,
+   "words": 4921,
    "read_min": 27,
    "figures": 4,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "सहकारी",
    "area": "पाठ",
-   "words": 4981,
+   "words": 4988,
    "read_min": 28,
    "figures": 4,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "जीवन मार्ग",
    "area": "पाठ",
-   "words": 5112,
+   "words": 5128,
    "read_min": 28,
    "figures": 4,
    "has_questions": true

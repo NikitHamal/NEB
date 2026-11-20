@@ -325,8 +325,7 @@ $n(A-B)=22-5=17$ and $n(B-A)=18-5=13$.
 Check: $17+5+13=35=n(A\cup B)$ ✓.
 :::
 
-## 1.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any survey question
 
 1. Name the sets ($T$, $C$, …) and write each given number with its $n(\;)$ symbol.

@@ -24,7 +24,7 @@ read two opposite ways. The subject is not adultery but **self-knowledge** — a
 the cost of the roles society hands to women.
 :::
 
-## 2.1 About the author
+## 2.1 About the author: Kate Chopin
 
 Kate Chopin (1850–1904) was an American novelist and short-story writer. She was
 born Katherine O'Flaherty in St. Louis, Missouri, to an Irish immigrant father
@@ -76,7 +76,7 @@ Awakening* (1899) — always the same quiet, kindly, slightly melancholy
 journalist, and always a man who awakens something in a married woman without
 ever pursuing her.
 
-## 2.2 The story
+## 2.2 The story — "A Respectable Woman"
 
 **The unwelcome guest.** Mrs. Baroda is "a little provoked" to learn that her
 husband Gaston expects his friend Gouvernail to spend a week or two on the
@@ -208,7 +208,7 @@ ax.set_xlim(-6.2,15.6); ax.set_ylim(-2.5,7.7)
 ax.axis('off')
 ```
 
-## 2.3 Characters
+## 2.3 Characters — "A Respectable Woman"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -256,7 +256,7 @@ garden with Gouvernail. His trust is admirable, but Chopin lets us see its other
 face: he does not know his wife at all, and at the end he is delighted by a
 sentence whose meaning he has completely misread.
 
-## 2.4 Themes
+## 2.4 Themes — "A Respectable Woman"
 
 **Desire and respectability.** The title is the theme. "Respectable" is a social
 word, not a moral one: it describes how a woman is seen. Mrs. Baroda's impulse is
@@ -294,7 +294,7 @@ her best work the region is only the surface, and the subject underneath is the
 inner life of women.
 :::
 
-## 2.5 Setting, structure and point of view
+## 2.5 Setting, structure and point of view — "A Respectable Woman"
 
 **Setting.** A sugar plantation in Creole Louisiana in the 1890s: a large house
 with a wide portico and Corinthian pillars, a mill, a gravel walk, live oaks, a
@@ -369,7 +369,7 @@ for x0,x1,head,body in cols:
 | Understatement | "There was some talk of having him back during the summer" | A whole year of resistance compressed into one flat sentence |
 | Open ending | "I have overcome everything!" | Transfers the moral judgement from the author to the reader |
 
-## 2.7 Glossary
+## 2.7 Glossary — "A Respectable Woman"
 
 | Word | Meaning |
 |---|---|
@@ -415,7 +415,7 @@ do not state flatly what the last line means. The strongest answer sets out both
 readings, gives the evidence for each, and says why Chopin left it open.
 :::
 
-## 2.8 Comprehension and critical thinking
+## 2.8 Comprehension and critical thinking — "A Respectable Woman"
 
 **Understanding the text**
 

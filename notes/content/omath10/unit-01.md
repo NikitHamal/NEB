@@ -523,8 +523,7 @@ $$ S_{15}=\frac{1\times(2^{15}-1)}{2-1}=32768-1=\text{Rs } 32{,}767. $$
 $$ S_5=\frac{3^5-1}{3-1}=\frac{242}{2}=121 \text{ people.} $$
 :::
 
-## 1.7 Exercises of the SEE type
-
+## Worked SEE Problems
 These problems mix both patterns, the way the SEE does.
 
 ::: example AP changed into a GP

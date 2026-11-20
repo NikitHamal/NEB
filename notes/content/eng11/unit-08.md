@@ -118,7 +118,7 @@ for (title, body), c in zip(steps, cols):
 ax.set_xlim(0,1); ax.set_ylim(0,1); ax.axis("off")
 ```
 
-## 8.3 Themes
+## 8.3 Themes — "Corona Says"
 
 **Human destruction of nature.** This is the poem's central subject. The virus's
 list of human crimes is all environmental: trees, water, air, animals. The poem
@@ -198,7 +198,7 @@ and the place in the poem where it works, rather than reprinting the lines.
 | Alliteration | the poem's clusters of repeated opening consonants | Small musical touches inside an otherwise plain style |
 | Satire | the poem as a whole | Uses ridicule of human behaviour to demand a change in it |
 
-## 8.6 Glossary
+## 8.6 Glossary — "Corona Says"
 
 | Word | Meaning |
 |---|---|

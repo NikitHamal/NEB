@@ -313,8 +313,7 @@ measures the spread **relative to the mean**. The data set with the **smaller CV
 - Comparing consistency with $\sigma$ instead of $CV$.
 :::
 
-## 17.8 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Identify the data type: individual, discrete or continuous.

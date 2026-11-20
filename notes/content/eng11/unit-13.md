@@ -22,7 +22,7 @@ the traditional artist, and the difference between living tradition and museum
 display.
 :::
 
-## 13.1 About the author
+## 13.1 About the author: Frank LaPena
 
 Frank LaPena (1937–2019) was an American artist, poet, dancer, ceremonial leader
 and university teacher of Nomtipom Wintu descent — the Wintu are an indigenous
@@ -175,7 +175,7 @@ rarely raises his voice about it, but the logic of the essay condemns the practi
 completely: you cannot preserve a tradition by removing it from the only place it
 can live.
 
-## 13.4 Themes
+## 13.4 Themes — "Sharing Tradition"
 
 **Identity.** Who a person is, in this essay, is settled by what they take part
 in. Identity is communal and practical rather than private and declared.
@@ -237,7 +237,7 @@ reader to see what taking it away must therefore do.
 form of the essay repeats the shape of the thing it describes: a circle in which
 what is received must be given again.
 
-## 13.6 Glossary
+## 13.6 Glossary — "Sharing Tradition"
 
 | Word | Meaning |
 |---|---|

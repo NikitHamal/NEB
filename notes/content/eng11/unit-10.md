@@ -127,7 +127,7 @@ ax.text(3.0, -0.52, "one lifetime  \u2014  birth to oblivion", ha="center", va="
 ax.set_xlim(-0.80, 6.80); ax.set_ylim(-0.72, 1.32); ax.axis("off")
 ```
 
-## 10.3 Themes
+## 10.3 Themes — "All the World's a Stage"
 
 **Life as a performance.** The controlling idea is that people do not simply live,
 they *play parts*. Each age has its costume, its lines and its gestures, and the
@@ -251,7 +251,7 @@ ax.set_xlim(0,1.0); ax.set_ylim(0.0,1.02); ax.axis("off")
 | Irony / satire | the judge "with good capon lined" | The respectable are shown to have grown fat on the gifts of office |
 | Catalogue | the numbered list of seven ages | Reduces a human life to an inventory, which is the point being made |
 
-## 10.6 Glossary
+## 10.6 Glossary — "All the World's a Stage"
 
 | Word | Meaning |
 |---|---|

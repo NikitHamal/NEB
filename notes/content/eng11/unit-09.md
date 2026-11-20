@@ -135,7 +135,7 @@ ax.text(0.035, 0.04, "Rhyme scheme A B C B  \u2014  only the B lines rhyme:  Jun
 ax.set_xlim(0,1.14); ax.set_ylim(0.0,1.05); ax.axis("off")
 ```
 
-## 9.3 Themes
+## 9.3 Themes — "A Red, Red Rose"
 
 **The intensity of young love.** The poem does not analyse love or doubt it. It
 simply declares it at full volume, with the confidence of a folk singer rather
@@ -223,7 +223,7 @@ five marks.
 | Dialect (Scots) | "Luve", "bonnie lass", "gang", "wi'", "a'" | Roots a universal feeling in a real place and a real speaking voice |
 | Apostrophe | "O my Luve"; "fare-thee-weel, my only Luve!" | The beloved is addressed directly, so we overhear a conversation, not a description |
 
-## 9.6 Glossary
+## 9.6 Glossary — "A Red, Red Rose"
 
 | Word | Meaning |
 |---|---|

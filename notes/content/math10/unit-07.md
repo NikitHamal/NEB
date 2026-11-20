@@ -300,8 +300,7 @@ $V=\dfrac13\pi r^2h=\dfrac13\times\dfrac{22}{7}\times 49\times 24=1232\text{ cm}
 In a pyramid or a cone, the **height**, the **slant height** and the **half-base** (or radius) form a right-angled triangle with the slant height as hypotenuse. Sketch it and apply Pythagoras before anything else. The usual Pythagorean triples are $(3,4,5)$, $(5,12,13)$, $(8,15,17)$, $(7,24,25)$ and their multiples.
 :::
 
-## 7.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method
 
 1. Identify the solid (prism, pyramid, cone). Draw it and mark every length.

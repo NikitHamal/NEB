@@ -28,7 +28,7 @@ questions are almost always one fact from one paragraph; the long question is al
 always "traditional versus digital" or "what libraries gave the writer".
 :::
 
-## 13.1 About the author
+## 13.1 About the author: Oliver Sacks
 
 ```photo id="eng12/oliver-sacks" caption="Oliver Sacks (1933–2015) in his consulting-room white coat, holding a reflex hammer, the doctor's tool for testing reflexes. The photograph is by Bernard Gotfryd and is in the public domain." width="40"
 crop 0.0 0.18 1.0 1.0
@@ -377,7 +377,7 @@ feeling.
 **Symbol of the physical book.** "Its look, its smell, its heft" — three senses, three
 words — stands for everything a screen cannot carry: memory, place, continuity.
 
-## 13.6 Glossary
+## 13.6 Glossary — "On Libraries"
 
 | Word | Meaning |
 |---|---|
@@ -417,7 +417,7 @@ person who looks after it). **Serendipity** (finding something good by chance) a
 computer) and **physical** (held in the hand).
 :::
 
-## 13.7 Comprehension and critical thinking
+## 13.7 Comprehension and critical thinking — "On Libraries"
 
 **Before you read**
 

@@ -483,7 +483,7 @@ conviction. Okri's whole career is an argument that the imagination is a
 political instrument, and this small poem is that argument at its most compact:
 change what people can see, and you change what they can do.
 
-## 11.10 Glossary
+## 11.10 Glossary — "The Awakening Age"
 
 | Word or phrase | Meaning as used here |
 |---|---|

@@ -360,8 +360,7 @@ B has the smaller C.V., so **B is more consistent**, even though B's $\sigma$ is
 Compare **C.V.**, not $\sigma$, when the means differ. A $\sigma$ of 12 is large for a mean of 20 but small for a mean of 80. Also remember: in the formula for the C.V. you **multiply by 100**; and for grouped data use class **mid-values**.
 :::
 
-## 11.4 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Identify the data type: individual, discrete or grouped.

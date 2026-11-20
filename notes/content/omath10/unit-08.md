@@ -471,8 +471,7 @@ $$ \frac{\vec{b}+\vec{d}}{2}=\frac{\vec{b}+\vec{a}+\vec{c}-\vec{b}}{2}=\frac{\ve
 (1) A labelled diagram. (2) "Given" and "To prove" written out. (3) Each vector equation justified: "by the triangle law", "since $D$ is the midpoint". (4) For perpendicularity, a dot product equal to $0$. (5) A final sentence in geometric words.
 :::
 
-## 8.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Component questions: write $\vec{a}\cdot\vec{b}=a_1b_1+a_2b_2$, find the two lengths, then $\cos\theta$.

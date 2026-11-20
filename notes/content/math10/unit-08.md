@@ -369,8 +369,7 @@ Check: HCF of $(x-2)(x+2)$ and $(x+2)(x+3)$ is $x+2$ ✓; LCM is $(x-2)(x+2)(x+3
 $$ \text{HCF}=2x+1 \qquad \text{LCM}=(2x+1)(x+3)(x-1) $$
 :::
 
-## 8.5 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method
 
 1. Factorise every expression **completely**. Take out numerical factors too.

@@ -428,8 +428,7 @@ Yearly $=54600\times 12=\text{Rs } 6{,}55{,}200$.
 - Forgetting the unit. Always write Rs, USD, INR or GBP.
 :::
 
-## 2.8 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Checklist for tax problems
 
 1. Read the **order** of operations: marked price → discount → VAT, or factory price → excise → VAT.

@@ -8,7 +8,6 @@
 - Two sets: the formula and the Venn diagram
 - Three sets
 - Set laws verified with given sets
-- Exercises of the SEE type
 ## 2. Tax and Money Exchange
 - Taxes: what they are and why we pay them
 - Value added tax (VAT)
@@ -17,7 +16,6 @@
 - Excise duty
 - Income tax
 - Foreign exchange
-- Exercises of the SEE type
 ## 3. Compound Interest
 - Simple interest revised
 - What is compound interest?
@@ -27,7 +25,6 @@
 - Compound interest and simple interest compared
 - Different rates in different years
 - Real-life applications
-- Exercises of the SEE type
 ## 4. Population Growth and Depreciation
 - Growth and decay are repeated multiplications
 - Population growth
@@ -37,7 +34,6 @@
 - Depreciation
 - Increase followed by decrease
 - More practice in context
-- Exercises of the SEE type
 ## 5. Plane Surfaces
 - Perimeter and area: the difference
 - Triangles and Heron's formula
@@ -45,7 +41,6 @@
 - The circle, semicircle and sector
 - Paths and rings
 - Combined figures
-- Exercises of the SEE type
 ## 6. Cylinder and Sphere
 - Units of volume and capacity
 - The solid cylinder
@@ -54,20 +49,17 @@
 - The hollow sphere
 - Recasting and displacement
 - Combined solids
-- Exercises of the SEE type
 ## 7. Prism and Pyramid
 - Prisms
 - Cuboid and cube
 - Triangular and other prisms
 - Pyramids
 - The cone: a round pyramid
-- Exercises of the SEE type
 ## 8. Highest Common Factor and Lowest Common Multiple
 - Revision with numbers
 - Factorisation: the toolkit
 - HCF and LCM of algebraic expressions
 - The relation between HCF, LCM and the expressions
-- Exercises of the SEE type
 ## 9. Radical and Surd
 - Radicals and surds
 - Laws of surds
@@ -79,14 +71,12 @@
 - Values of expressions: $x+\frac{1}{x}$ and its powers
 - Equations with square roots
 - Surds in geometry
-- Exercises of the SEE type
 ## 10. Indices
 - Index notation
 - The laws of indices
 - Simplifying expressions
 - Exponential equations
 - Proving identities with indices
-- Exercises of the SEE type
 ## 11. Algebraic Fraction
 - Factorisation toolkit
 - Reducing to lowest terms
@@ -96,7 +86,6 @@
 - Fractions inside fractions
 - Equations with algebraic fractions
 - More patterns to practise
-- Exercises of the SEE type
 ## 12. Equations
 - Pairs of linear equations
 - Word problems leading to linear equations
@@ -105,7 +94,6 @@
 - Completing the square and the quadratic formula
 - Equations that reduce to quadratics
 - Word problems leading to quadratics
-- Exercises of the SEE type
 ## 13. Area of Triangles and Quadrilaterals
 - Basic area formulas to remember
 - Same base, between the same parallels
@@ -113,7 +101,6 @@
 - Theorem 2 — triangle and parallelogram
 - Theorem 3 — triangles on the same base
 - Using the theorems
-- Exercises of the SEE type
 ## 14. Construction
 - Equipment and conventions
 - Basic constructions you need
@@ -123,21 +110,18 @@
 - A rectangle equal to a triangle
 - A square equal to a rectangle
 - Constructing the triangle first
-- Exercises of the SEE type
 ## 15. Circle
 - Vocabulary and chords
 - Angle at the centre and at the circumference
 - Angles in the same segment; angle in a semicircle
 - Cyclic quadrilaterals
 - Tangents
-- Exercises of the SEE type
 ## 16. Trigonometry
 - The right-angled triangle and its sides
 - Ratios of $30^\circ$, $45^\circ$ and $60^\circ$
 - Complementary angles
 - Identities
 - Heights and distances
-- Exercises of the SEE type
 ## 17. Statistics
 - Recall: measures of central tendency
 - Why we need dispersion
@@ -146,7 +130,6 @@
 - Mean deviation
 - Standard deviation
 - Coefficient of variation and consistency
-- Exercises of the SEE type
 ## 18. Probability
 - Key terms
 - The probability of an event
@@ -156,4 +139,3 @@
 - Addition rule for "or"
 - Independent events and the multiplication rule
 - Tree diagrams: drawing without replacement
-- Exercises of the SEE type

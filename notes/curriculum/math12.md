@@ -25,10 +25,12 @@
 - Sum of first n natural numbers
 - Sum of squares and cubes of first n natural numbers
 - Principle of mathematical induction
+- Exponential and logarithmic series
 ## 5. Matrix Based System of Linear Equations [8]
 - Cramer's rule (up to three variables)
 - Matrix method: row-equivalent (Gauss) method
 - Matrix method: inverse matrix method
+- Consistency: unique solution, infinitely many, or none
 # AREA: Trigonometry (12)
 ## 6. Properties of a Triangle [8]
 - Sine law
@@ -36,8 +38,10 @@
 - Tangent law
 - Projection laws
 - Half angle laws
+- Area of a triangle, and the radii $R$, $r$, $r_1$
 ## 7. Solution of Triangles [4]
 - Solution of triangles (simple cases)
+- Heights and distances
 # AREA: Analytic Geometry (20)
 ## 8. Conic Sections [20]
 - Condition of tangency of a line to a circle
@@ -63,6 +67,8 @@
 ## 11. Probability [4]
 - Dependent cases
 - Conditional probability (without proof)
+- Bayes' theorem: reasoning backwards
+- Repeated trials: the binomial distribution
 # AREA: Calculus (48)
 ## 12. Derivatives [18]
 - Derivatives of hyperbolic and inverse hyperbolic functions
@@ -70,10 +76,16 @@
 - Differentials
 - Tangent and normal to a curve
 - Derivative as a rate measure
+- Increasing and decreasing functions
+- Maxima and minima
+- Concavity and points of inflection
 ## 13. Anti-derivatives [18]
 - Standard integrals
 - Integrals reducible to standard forms
 - Integrals of rational functions
+- The definite integral and its properties
+- The definite integral as the limit of a sum
+- Area under a curve and area between two curves
 ## 14. Differential Equations [12]
 - Order and degree of a differential equation
 - Differential equations of first order and first degree
@@ -81,11 +93,13 @@
 - Homogeneous differential equations
 - Linear differential equations
 - Exact differential equations
+- Applications of differential equations
 # AREA: Computational Methods OR Mechanics (12)
 ## 15. Computational Methods [12]
 - System of linear equations: Gauss Elimination Method
 - System of linear equations: Gauss-Seidel Method
 - Linear programming problems (LPP): simplex method (two variables)
+- How accurate is a computed answer?
 ## 16. Mechanics (alternative to Unit 15) [12]
 - Statics: triangle law of forces; Lami's theorem
 - Dynamics: Newton's laws of motion

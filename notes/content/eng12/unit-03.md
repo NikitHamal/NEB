@@ -24,7 +24,7 @@ love?** Desai answers with irony, a shift of viewpoint half-way through, and a
 final gesture that reverses the opening one.
 :::
 
-## 3.1 About the author
+## 3.1 About the author: Anita Desai
 
 Anita Desai (born 1937) is one of the leading Indian writers in English. She was
 born Anita Mazumdar in Mussoorie, in the Himalayan foothills of what is now
@@ -80,7 +80,7 @@ before writing them in an answer.
 crop 0.02 0.09 0.98 0.80
 ```
 
-## 3.2 The story
+## 3.2 The story — "A Devoted Son"
 
 **The morning of the results.** The story opens on pure joy. The examination results are in the
 morning papers; Rakesh, barefoot and still in his pyjamas, finds his name at the top, walks up
@@ -194,7 +194,7 @@ ax.set_xlim(-0.3,12.6); ax.set_ylim(-4.2,10.4)
 ax.axis('off')
 ```
 
-## 3.3 Characters
+## 3.3 Characters — "A Devoted Son"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -236,7 +236,7 @@ thinks for themselves; everyone repeats the doctor.
 person in the story who is shocked on Varma's behalf. His disbelief is the reader's
 first hint that something has gone wrong with Rakesh's "devotion".
 
-## 3.4 Themes
+## 3.4 Themes — "A Devoted Son"
 
 **Duty and devotion — and their limits.** The story sets two ideas of what a son
 owes his father against each other. The community's idea is ritual and visible:
@@ -289,7 +289,7 @@ more than a character (we know Varma is serious when he says he is dying; his
 family thinks he is acting). "A Devoted Son" uses all three.
 :::
 
-## 3.5 Setting, structure and point of view
+## 3.5 Setting, structure and point of view — "A Devoted Son"
 
 **Setting.** A small yellow house "at the end of the road" in a colony on the edge of
 an unnamed Indian city, probably in the 1960s–70s (the Ambassador car, the fifty
@@ -373,7 +373,7 @@ precise, sensory detail: the thump of the bed, the taste of betel that is no lon
 allowed, the red spittle on the organza. The change of style *is* the change of
 sympathy.
 
-## 3.7 Glossary
+## 3.7 Glossary — "A Devoted Son"
 
 | Word | Meaning |
 |---|---|
@@ -419,7 +419,7 @@ refusal to hear "let me die"); and they say what Desai's irony is asking — whe
 devotion that overrules a person's wishes is devotion at all.
 :::
 
-## 3.8 Comprehension and critical thinking
+## 3.8 Comprehension and critical thinking — "A Devoted Son"
 
 **Before you read**
 

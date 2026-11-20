@@ -386,8 +386,7 @@ $$ \frac{y-x}{xy}\times\frac{x^2y^2}{(y-x)(y+x)}=\frac{xy}{x+y} $$
 **Solution.** Multiply by $3(x-3)(x-5)$: $3(x-2)(x-5)+3(x-4)(x-3)=10(x-3)(x-5)$. Expanding, $3(x^2-7x+10)+3(x^2-7x+12)=10(x^2-8x+15)$, i.e. $6x^2-42x+66=10x^2-80x+150$, which gives $4x^2-38x+84=0$ or $2x^2-19x+42=0$. Then $(2x-7)(x-6)=0$ and $x=\frac{7}{2}$ or $x=6$.
 :::
 
-## 11.9 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. **Factorise** each numerator and denominator completely.

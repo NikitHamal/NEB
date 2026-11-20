@@ -5,164 +5,164 @@
 # TEXTBOOK: "English, Grade 11", CDC Sanothimi, Edition 2077 BS, by Mohan Singh Saud
 # PART: Literature - Short Stories
 ## 1. The Selfish Giant - Oscar Wilde [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: Oscar Wilde
+- The story — "The Selfish Giant"
+- Characters — "The Selfish Giant"
+- Themes — "The Selfish Giant"
+- Setting, structure and point of view — "The Selfish Giant"
+- Literary devices — "The Selfish Giant"
+- Glossary — "The Selfish Giant"
 ## 2. The Oval Portrait - Edgar Allan Poe [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: Edgar Allan Poe
+- The story — "The Oval Portrait"
+- Characters — "The Oval Portrait"
+- Themes — "The Oval Portrait"
+- Setting, structure and point of view — "The Oval Portrait"
+- Literary devices — "The Oval Portrait"
+- Glossary — "The Oval Portrait"
 ## 3. God Sees the Truth but Waits - Leo Tolstoy [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: Leo Tolstoy
+- The story — "God Sees the Truth but Waits"
+- Characters — "God Sees the Truth but Waits"
+- Themes — "God Sees the Truth but Waits"
+- Setting, structure and point of view — "God Sees the Truth but Waits"
+- Literary devices — "God Sees the Truth but Waits"
+- Glossary — "God Sees the Truth but Waits"
 ## 4. The Wish - Roald Dahl [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: Roald Dahl
+- The story — "The Wish"
+- Characters — "The Wish"
+- Themes — "The Wish"
+- Setting, structure and point of view — "The Wish"
+- Literary devices — "The Wish"
+- Glossary — "The Wish"
 ## 5. Civil Peace - Chinua Achebe [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: Chinua Achebe
+- The story — "Civil Peace"
+- Characters — "Civil Peace"
+- Themes — "Civil Peace"
+- Setting, structure and point of view — "Civil Peace"
+- Literary devices — "Civil Peace"
+- Glossary — "Civil Peace"
 ## 6. Two Little Soldiers - Guy de Maupassant [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: Guy de Maupassant
+- The story — "Two Little Soldiers"
+- Characters — "Two Little Soldiers"
+- Themes — "Two Little Soldiers"
+- Setting, structure and point of view — "Two Little Soldiers"
+- Literary devices — "Two Little Soldiers"
+- Glossary — "Two Little Soldiers"
 ## 7. An Astrologer's Day - R. K. Narayan [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
-- Literary devices
-- Glossary
+- About the author: R. K. Narayan
+- The story — "An Astrologer's Day"
+- Characters — "An Astrologer's Day"
+- Themes — "An Astrologer's Day"
+- Setting, structure and point of view — "An Astrologer's Day"
+- Literary devices — "An Astrologer's Day"
+- Glossary — "An Astrologer's Day"
 # PART: Literature - Poems
 ## 8. Corona Says - Vishnu S. Rai [L]
 - About the poet
 - Summary
-- Themes
+- Themes — "Corona Says"
 - Form, structure and rhyme
 - Poetic devices
-- Glossary
+- Glossary — "Corona Says"
 ## 9. A Red, Red Rose - Robert Burns [L]
 - About the poet
 - Summary
-- Themes
+- Themes — "A Red, Red Rose"
 - Form, structure and rhyme
 - Poetic devices
-- Glossary
+- Glossary — "A Red, Red Rose"
 ## 10. All the World's a Stage - William Shakespeare [L]
 - About the poet
 - Summary
-- Themes
+- Themes — "All the World's a Stage"
 - Form, structure and rhyme
 - Poetic devices
-- Glossary
+- Glossary — "All the World's a Stage"
 ## 11. Who are you, little i? - E. E. Cummings [L]
 - About the poet
 - Summary
-- Themes
+- Themes — "Who are you, little i?"
 - Form, structure and rhyme
 - Poetic devices
-- Glossary
+- Glossary — "Who are you, little i?"
 ## 12. The Gift in Wartime - Tran Mong Tu [L]
 - About the poet
 - Summary
-- Themes
+- Themes — "The Gift in Wartime"
 - Form, structure and rhyme
 - Poetic devices
-- Glossary
+- Glossary — "The Gift in Wartime"
 # PART: Literature - Essays
 ## 13. Sharing Tradition - Frank LaPena [L]
-- About the author
+- About the author: Frank LaPena
 - Summary
 - The central argument
-- Themes
+- Themes — "Sharing Tradition"
 - Style and technique
-- Glossary
+- Glossary — "Sharing Tradition"
 ## 14. How to Live Before You Die - Steve Jobs [L]
-- About the author
+- About the author: Steve Jobs
 - The speech
 - What the speech argues
-- Themes
+- Themes — "How to Live Before You Die"
 - Style and technique
-- Glossary
+- Glossary — "How to Live Before You Die"
 ## 15. What I Require from Life - J.B.S. Haldane [L]
-- About the author
+- About the author: J.B.S. Haldane
 - The context of the essay
 - The essay, step by step
-- The argument
-- Themes
+- The argument — "What I Require from Life"
+- Themes — "What I Require from Life"
 - Style and technique
-- Glossary
+- Glossary — "What I Require from Life"
 ## 16. What is Poverty? - Jo Goodwin Parker [L]
-- About the author
+- About the author: Jo Goodwin Parker
 - The context
 - The essay, paragraph by paragraph
 - The definition Parker arrives at
-- Themes
+- Themes — "What is Poverty?"
 - Style and technique
-- Glossary
+- Glossary — "What is Poverty?"
 ## 17. Scientific Research is a Token of Humankind's Survival - Vladimir Keilis-Borok [L]
-- About the author
+- About the author: Vladimir Keilis-Borok
 - The context: the Cold War and the test ban
 - The essay, step by step
 - The argument in summary
-- Themes
+- Themes — "Scientific Research is a Token of Humankind's Survival"
 - Style and technique
-- Glossary
+- Glossary — "Scientific Research is a Token of Humankind's Survival"
 # PART: Literature - One Act Plays
 ## 18. Trifles - Susan Glaspell [L]
-- About the author
+- About the author: Susan Glaspell
 - The characters
 - The play, scene by scene
 - The chain of clues
 - The characters in detail
 - Symbolism
 - Setting, structure and technique
-- Themes
-- Glossary
+- Themes — "Trifles"
+- Glossary — "Trifles"
 ## 19. A Sunny Morning - Serafin and Joaquin Alvarez Quintero [L]
 - About the authors
 - The characters
 - The play, step by step
 - The shape of the morning
 - The two central questions
-- Themes
+- Themes — "A Sunny Morning"
 - Humour, irony and technique
-- Glossary
+- Glossary — "A Sunny Morning"
 ## 20. Refund - Frigyes Karinthy [L]
-- About the author
+- About the author: Frigyes Karinthy
 - The characters
 - The play, step by step
 - The double trap
-- Themes
+- Themes — "Refund"
 - Satire, humour and technique
-- Glossary
+- Glossary — "Refund"
 # PART: Grammar
 ## 21. Word Classes, Contracted Forms and Dictionary Use [G]
 - The eight word classes

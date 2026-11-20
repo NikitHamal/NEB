@@ -24,7 +24,7 @@ personal-narrative technique, the tripartite structure and the two mottos,
 "Don't settle" and "Stay Hungry. Stay Foolish."
 :::
 
-## 14.1 About the author
+## 14.1 About the author: Steve Jobs
 
 **Steven Paul Jobs (1955–2011)** was an American businessman, inventor and
 designer, and the co-founder of Apple Inc. He was born in San Francisco to an
@@ -306,7 +306,7 @@ examined. He does not ask his audience to reject tradition; he asks them not to
 let inherited conclusions do their thinking for them.
 :::
 
-## 14.4 Themes
+## 14.4 Themes — "How to Live Before You Die"
 
 **Failure as a beginning.** Every one of the three stories runs through a
 disaster: a broken adoption, a dropped-out degree, a public sacking, a death
@@ -382,7 +382,7 @@ love from wherever you find it, and carry it forward. "Hungry" means never
 satisfied with what you already know; "Foolish" means willing to look ridiculous
 by trying what sensible people would not.
 
-## 14.6 Glossary
+## 14.6 Glossary — "How to Live Before You Die"
 
 | Word | Meaning |
 |---|---|

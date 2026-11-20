@@ -3,110 +3,121 @@
 # TEXTBOOK: गणित, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी, २०८० संस्करण), 21 अध्याय — the chapter list below is taken from the textbook's विषयसूची and from the CDC English translation (Mathematics, Grade 8, 2023). Bullets are a topic guide, not the official sub-topic text.
 # AREA: Compulsory Mathematics
 ## 1. Sets
-- review of sets and set notation
-- universal set and complement
-- disjoint and overlapping sets
-- subset, proper subset and number of subsets
-- union, intersection and difference; Venn diagrams
-- word problems with two sets
+- Review of sets and set notation
+- Universal set and complement
+- Disjoint and overlapping sets
+- Subset
+- Word problems with a Venn diagram
+- Venn diagrams as a method, not a decoration
 ## 2. Whole Numbers
-- review of the decimal number system and place value
-- binary number system: conversion to and from decimal
-- quinary and other bases
-- addition, subtraction and multiplication in base 2 and base 5
+- Place value in the decimal system
+- Conversion from another base to decimal
+- Conversion from decimal to another base
+- Conversion between two non-decimal bases
+- Arithmetic in other bases
+- Properties of whole numbers at a glance
 ## 3. Rational and Irrational Numbers
-- rational numbers and decimal expansion
-- irrational numbers and surds
-- scientific notation of numbers
-- simplification of numbers in scientific notation
+- Rational numbers
+- Irrational numbers
+- Scientific notation
+- Placing numbers on the number line
+- The number line as a map of the number system
 ## 4. Ratio and Proportion
-- ratio and its simplification
-- proportion: means and extremes
-- continued proportion
-- direct and inverse proportion
-- word problems of ratio and proportion
+- Ratio
+- Proportion
+- Direct and inverse variation
+- Map scale and similar figures
+- Sharing in a given ratio
 ## 5. Profit and Loss
-- cost price, selling price, profit and loss
-- profit percent and loss percent
-- marked price and discount
-- commission
+- Cost price, selling price, profit and loss
+- Marked price and discount
+- Commission
+- Marked price, discount and VAT in order
 ## 6. Unitary Method
-- the unitary method
-- application of direct variation
-- application of inverse variation
-- mixed problems; time and work, time and distance
+- The unitary method in direct variation
+- The unitary method in inverse variation
+- Time, speed and distance
+- Direct and inverse variation side by side
 ## 7. Simple Interest
-- principal, rate, time and simple interest
-- amount and the interest formula
-- finding rate or time when the others are known
-- simple interest in daily life: saving and borrowing
+- The simple interest formula
+- Finding principal, rate or time
+- Simple interest in daily life
+- Reading the interest formula four ways
 ## 8. Area and Volume
-- area of triangles
-- area of quadrilaterals (parallelogram, rhombus, trapezium)
-- area of a circle and its parts
-- surface area and volume of a cylinder
-- area and volume problems of the SEE type
+- Area of triangles
+- Area of quadrilaterals
+- Area and circumference of a circle
+- Surface area and volume of a cylinder
+- Choosing the right formula
 ## 9. Indices
-- laws of indices
-- simplification using the laws
-- negative and zero indices
-- exponential equations
+- The laws of indices
+- Simplifying expressions with several laws
+- Exponential equations
+- The laws of indices in one place
 ## 10. Algebraic Expressions
-- review of factorisation
-- highest common factor of algebraic expressions
-- lowest common multiple
-- factorisation by grouping and by using identities
+- Terms, coefficients and like terms
+- Highest common factor of expressions
+- Lowest common multiple of expressions
+- Factorisation by taking out a common factor
+- Factorisation by grouping
+- The standard identities
+- Factorising $x^2+bx+c$
+- HCF and LCM of expressions that need factorising
+- The three identities as areas
 ## 11. Algebraic Fraction
-- simplification of algebraic fractions
-- addition and subtraction of algebraic fractions
-- multiplication and division of algebraic fractions
-- equations involving algebraic fractions
+- Reducing a fraction to its lowest terms
+- Adding and subtracting algebraic fractions
+- Multiplying and dividing
+- Equations containing fractions
+- Why factorising comes first
 ## 12. Equation and Graph
-- linear equations in one variable
-- simultaneous linear equations
-- inequality and its graph on the number line
-- graph of a linear equation
+- Linear equations in one variable
+- Simultaneous linear equations
+- The graph of a linear equation
+- Inequality and its graph
+- Quadratic equations by factorisation
 ## 13. Lines and Angles
-- straight lines, rays and angles
-- pairs of angles: complementary, supplementary, adjacent, vertically opposite
-- parallel lines and a transversal
-- corresponding, alternate and co-interior angles
+- Points, lines and angles
+- Pairs of angles
+- Parallel lines and a transversal
+- Reasons are the marks
 ## 14. Plane Figures
-- triangles: classification and properties
-- quadrilaterals and their properties
-- construction of triangles and quadrilaterals
-- polygons: interior and exterior angles
-- the circle: radius, chord, arc, sector
+- Triangles
+- Quadrilaterals
+- Polygons
+- Construction
+- The circle
 ## 15. Congruency and Similarity
-- congruent figures and congruent triangles
-- tests of congruence (SSS, SAS, ASA, RHS)
-- similar figures and similar triangles
-- ratio of areas of similar triangles
+- Congruent figures
+- The tests of congruence
+- Similar figures
+- Ratio of areas of similar triangles
 ## 16. Solid Objects
-- prisms and pyramids: faces, edges and vertices
-- nets of solids
-- surface area of prisms and pyramids
-- volume of prisms and pyramids
+- Prisms and pyramids
+- Nets
+- Surface area
+- Volume of a prism and a pyramid
 ## 17. Coordinates
-- the coordinate plane and plotting points
-- distance between two points on the axes and in the plane
-- simple shapes drawn from coordinates
+- The coordinate plane
+- Distance between two points
+- Shapes from coordinates
+- Reading a point in four quadrants
 ## 18. Tessellation
-- tessellation and its use in design
-- regular tessellation
-- semi-regular tessellation
-- symmetry in tessellation
+- Tessellation
+- Which regular polygons tessellate?
+- Semi-regular tessellations
+- Symmetry in tessellation
 ## 19. Transformation
-- translation
-- reflection and axes of reflection
-- rotation about a point
-- enlargement and scale factor
+- Translation
+- Reflection
+- Rotation
+- Enlargement
 ## 20. Bearing and Scale Drawing
-- bearing and its measurement
-- drawing and reading a scale drawing
-- distance and direction problems using bearing
+- Bearing
+- Scale drawing
+- Bearings on the compass rose
 ## 21. Statistics
-- collection and tabulation of data
-- bar graph and pie chart
-- mean, median and mode of individual series
-- interpretation of statistical data
+- Collecting and tabulating data
+- Pictographs, bar graphs and pie charts
+- Mean, median and mode
+- Choosing the right average

@@ -28,7 +28,7 @@ Many short questions ask you to *differentiate* the two terms; learn the textboo
 definition as well as Russell's own.
 :::
 
-## 15.1 About the author
+## 15.1 About the author: Bertrand Russell
 
 ```photo id="eng12/bertrand-russell" caption="Bertrand Russell photographed in 1954, the year he wrote 'Knowledge and Wisdom'. Public-domain portrait." width="40"
 crop 0.0 0.05 1.0 0.98
@@ -355,7 +355,7 @@ itself suits the subject.
 **Tone.** Calm, reasonable, sometimes humorous ("they would hardly be able to remain alive")
 and humane. The last sentences rise to a serious warning.
 
-## 15.6 Glossary
+## 15.6 Glossary — "Knowledge and Wisdom"
 
 | Word | Meaning |
 |---|---|
@@ -392,7 +392,7 @@ and complexity for the specialized knowledge" should read "…**of** the special
 They are typing errors; do not copy them in your answers.
 :::
 
-## 15.7 Comprehension and critical thinking
+## 15.7 Comprehension and critical thinking — "Knowledge and Wisdom"
 
 **Before you read**
 

@@ -414,8 +414,7 @@ Then $x^2-2x+1=(x-1)^2=0$, $x=1$, $y=2$. The line $y=2x$ touches the parabola at
 For $y=3$: $x^2+2x=0\Rightarrow x(x+2)=0$. The points are $(0,3)$ and $(-2,3)$.
 :::
 
-## 2.5 Exercises of the SEE type
-
+## Worked SEE Problems
 ::: example Fencing a field
 **Problem.** A rectangular garden has perimeter 34 m and area 60 m². Find its length and breadth.
 

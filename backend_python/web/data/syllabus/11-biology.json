@@ -23,9 +23,9 @@
    "hours": 15,
    "area": "Botany",
    "topics": [
-    "Biomolecules: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes, water",
-    "Cell: prokaryotic and eukaryotic cell; cell wall; cell membrane; mitochondria; plastids; endoplasmic reticulum; golgi apparatus; lysosomes; ribosomes; nucleus; chromosomes; cilia and flagella; cell inclusions",
-    "Cell division: cell cycle; amitosis; mitosis; meiosis"
+    "Biomolecules: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes and water",
+    "Cell: prokaryotic and eukaryotic cells; cell wall, cell membrane, mitochondria, plastids, endoplasmic reticulum, Golgi apparatus, lysosomes, ribosomes, nucleus, chromosomes, cilia, flagella and cell inclusions",
+    "Cell division: cell cycle, amitosis, mitosis and meiosis"
    ],
    "sections": [
     {
@@ -68,14 +68,14 @@
    "hours": 30,
    "area": "Botany",
    "topics": [
-    "Introduction: three domains of life; binomial nomenclature; five-kingdom classification; flora status of Nepal",
-    "Fungi",
-    "Lichen",
-    "Algae",
-    "Bryophyta",
-    "Pteridophyta",
-    "Gymnosperm",
-    "Angiosperm: morphology; taxonomic hierarchy; artificial, natural and phylogenetic systems; Brassicaceae; Fabaceae; Solanaceae; Liliaceae"
+    "Introduction: three domains of life, binomial nomenclature, five-kingdom classification and flora status of Nepal",
+    "Fungi: general characters, mycelium, nutrition, reproduction, classification (Zygomycetes, Ascomycetes, Basidiomycetes, Deuteromycetes), Mucor/Rhizopus, Yeast, Agaricus and economic importance",
+    "Lichen: symbiotic nature, crustose, foliose and fruticose growth forms, internal structure, reproduction and ecological/economic importance",
+    "Algae: Chlorophyceae, Phaeophyceae and Rhodophyceae; Spirogyra filament structure, conjugation and economic importance",
+    "Bryophyta: general characters, alternation of generations, Marchantia and Funaria morphology, gametophyte, sporophyte and economic importance",
+    "Pteridophyta: general characters, homospory and heterospory, Dryopteris (fern) sporophyte, sorus, prothallus, life cycle and economic importance",
+    "Gymnosperm: general characters, Pinus morphology, coralloid and mycorrhizal roots, male and female cones, pollination and economic importance",
+    "Angiosperm: morphology of root, stem, leaf, inflorescence, flower and fruit; taxonomic hierarchy; artificial, natural and phylogenetic classification; Brassicaceae, Fabaceae, Solanaceae and Liliaceae"
    ],
    "sections": [
     {
@@ -128,7 +128,7 @@
     "Species"
    ],
    "stats": {
-    "words": 13352,
+    "words": 13354,
     "figures": 11,
     "examples": 4
    },
@@ -140,9 +140,9 @@
    "hours": 5,
    "area": "Botany",
    "topics": [
-    "Monera",
-    "Virus",
-    "Impacts of biotechnology in microbiology"
+    "Monera: general characters, bacterial cell structure, shapes, nutrition, reproduction, bacterial growth, Cyanobacteria (Nostoc) and economic importance of bacteria",
+    "Virus: living and non-living characters, bacteriophage and plant/animal virus structure, lytic and lysogenic cycles, viral diseases",
+    "Impacts of biotechnology in microbiology: fermentation, antibiotics, vaccines, biofertilizers and bioremediation"
    ],
    "sections": [
     {
@@ -186,9 +186,9 @@
    "hours": 11,
    "area": "Botany",
    "topics": [
-    "Ecosystem ecology",
-    "Ecological Adaptation",
-    "Ecological Imbalances"
+    "Ecosystem ecology: biotic and abiotic components, pond and forest ecosystems, food chain, food web, trophic levels, 10% energy flow law, ecological pyramids, biogeochemical cycles (carbon and nitrogen) and ecological succession",
+    "Ecological adaptation: hydrophytes, xerophytes, mesophytes and halophytes with morphological, anatomical and physiological adaptations",
+    "Ecological imbalances: greenhouse effect, global warming, climate change, ozone layer depletion, acid rain and deforestation"
    ],
    "sections": [
     {
@@ -234,8 +234,8 @@
    "hours": 3,
    "area": "Botany",
    "topics": [
-    "Vegetation: types of vegetation in Nepal; In-situ and Ex-situ conservation",
-    "Natural environment, vegetation and human activities"
+    "Vegetation: factors affecting vegetation, tropical to alpine vegetation zones of Nepal, flora diversity of Nepal, in-situ (national parks, wildlife reserves, conservation areas) and ex-situ conservation",
+    "Natural environment, vegetation and human activities: human dependence on vegetation, impacts of deforestation/overgrazing/developmental activities, and community forestry restoration"
    ],
    "sections": [
     {
@@ -305,10 +305,10 @@
    "hours": 15,
    "area": "Zoology",
    "topics": [
-    "Life and its Origin",
-    "Evidences of evolution",
-    "Theories of evolution",
-    "Human evolution"
+    "Life and its Origin: special creation, spontaneous generation, biogenesis, Oparin–Haldane chemical evolution, Miller–Urey experiment and geological time scale",
+    "Evidences of evolution: homologous, analogous and vestigial organs, atavism, connecting links (Archaeopteryx), embryological, palaeontological, biogeographical and biochemical evidences",
+    "Theories of evolution: Lamarckism, Darwinism (natural selection), mutation theory, Neo-Darwinism, Hardy–Weinberg equilibrium, genetic drift and speciation",
+    "Human evolution: primate characters, Miocene apes (Dryopithecus, Ramapithecus), Australopithecus, Homo habilis, Homo erectus, Neanderthal, Cro-Magnon and modern Homo sapiens"
    ],
    "sections": [
     {
@@ -356,10 +356,10 @@
    "hours": 34,
    "area": "Zoology",
    "topics": [
-    "Protista",
-    "Animalia: level of organization; body plan; nine phyla",
-    "Earthworm (Pheretima posthuma)",
-    "Frog (Rana tigrina)"
+    "Protista: classification of Protista, Paramecium caudatum (structure, locomotion, nutrition, osmoregulation, binary fission and conjugation) and Plasmodium vivax (schizogony and sporogony life cycle in human and female Anopheles)",
+    "Animalia: levels of organization, body plan, symmetry, germ layers, coelom, segmentation and diagnostic characters with classification of nine phyla (Porifera to Chordata)",
+    "Earthworm (Pheretima posthuma): habit and habitat, external morphology, body wall, coelom, locomotion, digestive, blood vascular, respiratory, excretory, nervous, sense organs, reproductive system and economic importance",
+    "Frog (Rana tigrina): habit and habitat, external morphology, digestive, respiratory, blood vascular, portal systems, excretory, nervous, sense organs, reproductive system, metamorphosis and economic importance"
    ],
    "sections": [
     {
@@ -388,7 +388,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 10888,
+    "words": 10886,
     "figures": 20,
     "examples": 4
    },
@@ -400,9 +400,9 @@
    "hours": 10,
    "area": "Zoology",
    "topics": [
-    "Animal adaptation",
-    "Animal behavior",
-    "Environmental Pollution"
+    "Animal adaptation: aquatic (primary and secondary), terrestrial (cursorial, arboreal, fossorial, volant), desert (xeric) and high-altitude/cold adaptations",
+    "Animal behavior: innate (taxis, reflexes, instincts) and learned behavior, honeybee communication dance, social behavior, biological rhythms, fish and bird migration, and interspecific interactions",
+    "Environmental Pollution: sources, effects and control of air, water, soil, noise and radioactive pollution; eutrophication, BOD, bioaccumulation and biomagnification"
    ],
    "sections": [
     {
@@ -445,8 +445,8 @@
    "hours": 4,
    "area": "Zoology",
    "topics": [
-    "Conservation Biology",
-    "Wildlife: IUCN categories; endangered species of Nepal"
+    "Conservation Biology: genetic, species and ecosystem biodiversity, Simpson and Shannon diversity indices, HIPPO threats to biodiversity, in-situ and ex-situ conservation and protected areas of Nepal",
+    "Wildlife: IUCN Red List categories, protected and endangered mammals, birds and reptiles of Nepal, CITES, and wildlife conservation strategies in Nepal"
    ],
    "sections": [
     {

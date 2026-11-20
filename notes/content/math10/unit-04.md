@@ -315,8 +315,7 @@ This is $\dfrac{17100}{90000}\times 100=19\%$ of the cost, not $20\%$, because t
 Students after 2 years $=1{,}458$. Increase $=1458-1250=208$ students.
 :::
 
-## 4.9 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method
 
 1. Decide: growth (factor $1+\frac{R}{100}$) or depreciation (factor $1-\frac{R}{100}$).

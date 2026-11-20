@@ -24,7 +24,7 @@ with grief for a bull they resent, and the doctor pretends to nurse a corpse. Ev
 about this play should mention satire, feudalism, dehumanisation, fear and chakari.
 :::
 
-## 20.1 About the author
+## 20.1 About the author: Bhimnidhi Tiwari
 
 Bhimnidhi Tiwari (1911-1973; BS 1968-2030) was one of the leading Nepali poets, dramatists
 and social reformers of the twentieth century. He was born at the end of Falgun, BS 1968, at
@@ -166,7 +166,7 @@ The king rewards the performance with cash. It costs the king four hundred and f
 rupees to be reassured that his pet was loved, while the real human beings in the play, the
 cowherds, have been living on straw. The audience laughs but also sees the injustice.
 
-## 20.4 Characters
+## 20.4 Characters — "The Bull"
 
 | Character | Who he is | Key traits |
 |---|---|---|
@@ -239,7 +239,7 @@ ax.text(5.0, 5.65, 'King Ranabahadur sits above both.', ha='center', fontsize=7,
 fig.tight_layout()
 ```
 
-## 20.5 Themes
+## 20.5 Themes — "The Bull"
 
 | Theme | Where it appears |
 |---|---|
@@ -348,7 +348,7 @@ the truth to power and where favour matters more than merit.
 **Verdict.** "The Bull" is a **compact, witty satire** whose joke is also its argument: a
 society that makes men weep for a dead animal to save their own lives needs to change.
 
-## 20.8 Glossary
+## 20.8 Glossary — "The Bull"
 
 | Word | Meaning as used here |
 |---|---|
@@ -380,7 +380,7 @@ society that makes men weep for a dead animal to save their own lives needs to c
 5. A satire on the feudal system: dehumanisation, fear, chakari, patriarchy.
 :::
 
-## 20.9 Comprehension and critical thinking
+## 20.9 Comprehension and critical thinking — "The Bull"
 
 The wording follows the CDC Grade 12 textbook as reproduced in common guides; match it with
 your own printing.

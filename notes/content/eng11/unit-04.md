@@ -20,7 +20,7 @@ produced by the boy's imagination — and Dahl makes the reader share it, which 
 his whole point about how imagination works.
 :::
 
-## 4.1 About the author
+## 4.1 About the author: Roald Dahl
 
 Roald Dahl (1916–1990) was a British writer, born in Llandaff, Cardiff, in Wales,
 to Norwegian parents; he was named after the explorer Roald Amundsen. His father
@@ -53,7 +53,7 @@ using an ordinary domestic object as the source of fear. Above all, he takes
 children seriously: in his work a child's inner life is not charming but intense
 and often frightening, and adults are absent exactly when they are needed.
 
-## 4.2 The story
+## 4.2 The story — "The Wish"
 
 **A boy alone.** A small boy is sitting by himself at the foot of the staircase in
 the hall of his house. No adult is with him; the reader is never told his name, or
@@ -161,7 +161,7 @@ ax.set_xlim(-5.0,17.4); ax.set_ylim(-3.0,5.3)
 ax.axis('off')
 ```
 
-## 4.3 Characters
+## 4.3 Characters — "The Wish"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -194,7 +194,7 @@ walk, how wide his steps must be, and finally whether he lives. It is the perfec
 antagonist because it is entirely passive: everything it does to him, he has done to
 himself.
 
-## 4.4 Themes
+## 4.4 Themes — "The Wish"
 
 **The power — and danger — of a child's imagination.** The story's whole action is
 imaginary, and Dahl's achievement is to make the reader forget that. He builds the
@@ -259,7 +259,7 @@ ax.set_xlim(0,10); ax.set_ylim(0.2,5.8)
 ax.axis('off')
 ```
 
-## 4.5 Setting, structure and point of view
+## 4.5 Setting, structure and point of view — "The Wish"
 
 **Setting.** The hall of an ordinary English house, on an ordinary day, with the
 front door at the far end and sunshine outside. Dahl chooses the safest imaginable
@@ -289,7 +289,7 @@ thoughts and vocabulary, without quotation marks and without "he thought". It le
 the reader stand inside a character while the story still says "he" and "she".
 :::
 
-## 4.6 Literary devices
+## 4.6 Literary devices — "The Wish"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -312,7 +312,7 @@ the boy's solitude, his fascination with small horrors, and the story's method o
 describing the body in close-up.
 :::
 
-## 4.7 Glossary
+## 4.7 Glossary — "The Wish"
 
 | Word / phrase | Meaning |
 |---|---|

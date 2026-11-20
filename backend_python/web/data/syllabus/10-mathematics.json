@@ -26,8 +26,7 @@
     "The four operations",
     "Two sets: the formula and the Venn diagram",
     "Three sets",
-    "Set laws verified with given sets",
-    "Exercises of the SEE type"
+    "Set laws verified with given sets"
    ],
    "sections": [
     {
@@ -49,10 +48,6 @@
     {
      "no": "1.5",
      "title": "Set laws verified with given sets"
-    },
-    {
-     "no": "1.6",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -70,7 +65,7 @@
     "Laws used in SEE verification questions"
    ],
    "stats": {
-    "words": 2601,
+    "words": 2598,
     "figures": 3,
     "examples": 10
    },
@@ -88,8 +83,7 @@
     "How VAT moves along the chain",
     "Excise duty",
     "Income tax",
-    "Foreign exchange",
-    "Exercises of the SEE type"
+    "Foreign exchange"
    ],
    "sections": [
     {
@@ -119,10 +113,6 @@
     {
      "no": "2.7",
      "title": "Foreign exchange"
-    },
-    {
-     "no": "2.8",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -141,7 +131,7 @@
     "Income tax and taxable income"
    ],
    "stats": {
-    "words": 3633,
+    "words": 3630,
     "figures": 4,
     "examples": 16
    },
@@ -160,8 +150,7 @@
     "Finding the principal, the rate or the time",
     "Compound interest and simple interest compared",
     "Different rates in different years",
-    "Real-life applications",
-    "Exercises of the SEE type"
+    "Real-life applications"
    ],
    "sections": [
     {
@@ -195,10 +184,6 @@
     {
      "no": "3.8",
      "title": "Real-life applications"
-    },
-    {
-     "no": "3.9",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -214,7 +199,7 @@
     "Compound interest"
    ],
    "stats": {
-    "words": 2818,
+    "words": 2815,
     "figures": 2,
     "examples": 15
    },
@@ -233,8 +218,7 @@
     "Finding the rate or the time",
     "Depreciation",
     "Increase followed by decrease",
-    "More practice in context",
-    "Exercises of the SEE type"
+    "More practice in context"
    ],
    "sections": [
     {
@@ -268,10 +252,6 @@
     {
      "no": "4.8",
      "title": "More practice in context"
-    },
-    {
-     "no": "4.9",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -289,7 +269,7 @@
     "Depreciation"
    ],
    "stats": {
-    "words": 2635,
+    "words": 2632,
     "figures": 3,
     "examples": 16
    },
@@ -306,8 +286,7 @@
     "Quadrilaterals",
     "The circle, semicircle and sector",
     "Paths and rings",
-    "Combined figures",
-    "Exercises of the SEE type"
+    "Combined figures"
    ],
    "sections": [
     {
@@ -333,10 +312,6 @@
     {
      "no": "5.6",
      "title": "Combined figures"
-    },
-    {
-     "no": "5.7",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -351,7 +326,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2520,
+    "words": 2517,
     "figures": 5,
     "examples": 15
    },
@@ -369,8 +344,7 @@
     "The sphere and the hemisphere",
     "The hollow sphere",
     "Recasting and displacement",
-    "Combined solids",
-    "Exercises of the SEE type"
+    "Combined solids"
    ],
    "sections": [
     {
@@ -400,10 +374,6 @@
     {
      "no": "6.7",
      "title": "Combined solids"
-    },
-    {
-     "no": "6.8",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -418,7 +388,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2592,
+    "words": 2589,
     "figures": 4,
     "examples": 16
    },
@@ -434,8 +404,7 @@
     "Cuboid and cube",
     "Triangular and other prisms",
     "Pyramids",
-    "The cone: a round pyramid",
-    "Exercises of the SEE type"
+    "The cone: a round pyramid"
    ],
    "sections": [
     {
@@ -457,10 +426,6 @@
     {
      "no": "7.5",
      "title": "The cone: a round pyramid"
-    },
-    {
-     "no": "7.6",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -478,7 +443,7 @@
     "Pyramid"
    ],
    "stats": {
-    "words": 2430,
+    "words": 2427,
     "figures": 4,
     "examples": 11
    },
@@ -493,8 +458,7 @@
     "Revision with numbers",
     "Factorisation: the toolkit",
     "HCF and LCM of algebraic expressions",
-    "The relation between HCF, LCM and the expressions",
-    "Exercises of the SEE type"
+    "The relation between HCF, LCM and the expressions"
    ],
    "sections": [
     {
@@ -512,10 +476,6 @@
     {
      "no": "8.4",
      "title": "The relation between HCF, LCM and the expressions"
-    },
-    {
-     "no": "8.5",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -532,7 +492,7 @@
     "HCF and LCM"
    ],
    "stats": {
-    "words": 2433,
+    "words": 2430,
     "figures": 4,
     "examples": 16
    },
@@ -553,8 +513,7 @@
     "Rationalisation",
     "Values of expressions: x+(1)/(x) and its powers",
     "Equations with square roots",
-    "Surds in geometry",
-    "Exercises of the SEE type"
+    "Surds in geometry"
    ],
    "sections": [
     {
@@ -596,10 +555,6 @@
     {
      "no": "9.10",
      "title": "Surds in geometry"
-    },
-    {
-     "no": "9.11",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -618,7 +573,7 @@
     "Conjugate surds"
    ],
    "stats": {
-    "words": 2232,
+    "words": 2229,
     "figures": 3,
     "examples": 17
    },
@@ -634,8 +589,7 @@
     "The laws of indices",
     "Simplifying expressions",
     "Exponential equations",
-    "Proving identities with indices",
-    "Exercises of the SEE type"
+    "Proving identities with indices"
    ],
    "sections": [
     {
@@ -657,10 +611,6 @@
     {
      "no": "10.5",
      "title": "Proving identities with indices"
-    },
-    {
-     "no": "10.6",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -675,7 +625,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2212,
+    "words": 2209,
     "figures": 2,
     "examples": 29
    },
@@ -694,8 +644,7 @@
     "Addition and subtraction",
     "Fractions inside fractions",
     "Equations with algebraic fractions",
-    "More patterns to practise",
-    "Exercises of the SEE type"
+    "More patterns to practise"
    ],
    "sections": [
     {
@@ -729,10 +678,6 @@
     {
      "no": "11.8",
      "title": "More patterns to practise"
-    },
-    {
-     "no": "11.9",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -746,7 +691,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1986,
+    "words": 1983,
     "figures": 2,
     "examples": 34
    },
@@ -764,8 +709,7 @@
     "Solving by factorisation",
     "Completing the square and the quadratic formula",
     "Equations that reduce to quadratics",
-    "Word problems leading to quadratics",
-    "Exercises of the SEE type"
+    "Word problems leading to quadratics"
    ],
    "sections": [
     {
@@ -795,10 +739,6 @@
     {
      "no": "12.7",
      "title": "Word problems leading to quadratics"
-    },
-    {
-     "no": "12.8",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -812,7 +752,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2325,
+    "words": 2322,
     "figures": 2,
     "examples": 25
    },
@@ -829,8 +769,7 @@
     "Theorem 1 — parallelograms on the same base",
     "Theorem 2 — triangle and parallelogram",
     "Theorem 3 — triangles on the same base",
-    "Using the theorems",
-    "Exercises of the SEE type"
+    "Using the theorems"
    ],
    "sections": [
     {
@@ -856,10 +795,6 @@
     {
      "no": "13.6",
      "title": "Using the theorems"
-    },
-    {
-     "no": "13.7",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -873,7 +808,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2921,
+    "words": 2918,
     "figures": 4,
     "examples": 13
    },
@@ -892,8 +827,7 @@
     "A parallelogram equal in area to a triangle",
     "A rectangle equal to a triangle",
     "A square equal to a rectangle",
-    "Constructing the triangle first",
-    "Exercises of the SEE type"
+    "Constructing the triangle first"
    ],
    "sections": [
     {
@@ -927,10 +861,6 @@
     {
      "no": "14.8",
      "title": "Constructing the triangle first"
-    },
-    {
-     "no": "14.9",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -944,7 +874,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2695,
+    "words": 2692,
     "figures": 4,
     "examples": 8
    },
@@ -960,8 +890,7 @@
     "Angle at the centre and at the circumference",
     "Angles in the same segment; angle in a semicircle",
     "Cyclic quadrilaterals",
-    "Tangents",
-    "Exercises of the SEE type"
+    "Tangents"
    ],
    "sections": [
     {
@@ -983,10 +912,6 @@
     {
      "no": "15.5",
      "title": "Tangents"
-    },
-    {
-     "no": "15.6",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -1001,7 +926,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2933,
+    "words": 2930,
     "figures": 5,
     "examples": 19
    },
@@ -1017,8 +942,7 @@
     "Ratios of 30^°, 45^° and 60^°",
     "Complementary angles",
     "Identities",
-    "Heights and distances",
-    "Exercises of the SEE type"
+    "Heights and distances"
    ],
    "sections": [
     {
@@ -1040,10 +964,6 @@
     {
      "no": "16.5",
      "title": "Heights and distances"
-    },
-    {
-     "no": "16.6",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -1057,7 +977,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2345,
+    "words": 2342,
     "figures": 5,
     "examples": 26
    },
@@ -1075,8 +995,7 @@
     "Quartile deviation",
     "Mean deviation",
     "Standard deviation",
-    "Coefficient of variation and consistency",
-    "Exercises of the SEE type"
+    "Coefficient of variation and consistency"
    ],
    "sections": [
     {
@@ -1106,10 +1025,6 @@
     {
      "no": "17.7",
      "title": "Coefficient of variation and consistency"
-    },
-    {
-     "no": "17.8",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -1123,7 +1038,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2542,
+    "words": 2539,
     "figures": 3,
     "examples": 17
    },
@@ -1142,8 +1057,7 @@
     "Complementary events and \"at least one\"",
     "Addition rule for \"or\"",
     "Independent events and the multiplication rule",
-    "Tree diagrams: drawing without replacement",
-    "Exercises of the SEE type"
+    "Tree diagrams: drawing without replacement"
    ],
    "sections": [
     {
@@ -1177,10 +1091,6 @@
     {
      "no": "18.8",
      "title": "Tree diagrams: drawing without replacement"
-    },
-    {
-     "no": "18.9",
-     "title": "Exercises of the SEE type"
     }
    ],
    "summary": [
@@ -1194,7 +1104,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2459,
+    "words": 2456,
     "figures": 3,
     "examples": 21
    },
@@ -1202,6 +1112,6 @@
   }
  ],
  "unit_count": 18,
- "topic_count": 137,
+ "topic_count": 119,
  "notes_ready": 18
 }

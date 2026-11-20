@@ -415,8 +415,7 @@ Since $\sin160^\circ=\sin20^\circ$, $P=\frac{1}{8}$.
 (iii) $\cos105^\circ+\cos15^\circ=2\cos60^\circ\cos45^\circ=2\cdot\frac{1}{2}\cdot\frac{1}{\sqrt{2}}=\frac{1}{\sqrt{2}}$.
 :::
 
-## 4.5 Exercises of the SEE type
-
+## Worked SEE Problems
 ::: example Sum of sines to a product, then a value
 **Problem.** Prove that $\sin A+\sin3A+\sin5A=\sin3A\,(1+2\cos2A)$.
 

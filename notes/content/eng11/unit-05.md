@@ -20,7 +20,7 @@ that, Achebe sets Jonathan's stubborn, practical, almost comic determination to
 survive, count his blessings and begin again.
 :::
 
-## 5.1 About the author
+## 5.1 About the author: Chinua Achebe
 
 Chinua Albert Chinualumogu Achebe (1930–2013) was a Nigerian novelist, poet, short
 story writer and essayist, and is usually called the father of modern African
@@ -54,7 +54,7 @@ their own English — here, the Nigerian Pidgin of the thieves and of Jonathan
 himself — and he refuses to make his people either saints or victims. The result is
 irony rather than protest: he shows you the situation and trusts you to judge it.
 
-## 5.2 The story
+## 5.2 The story — "Civil Peace"
 
 **A lucky man.** The story opens with Jonathan Iwegbu deciding that he has been
 extraordinarily lucky. The war is over. He has come through it with what he calls
@@ -146,7 +146,7 @@ ax.set_title('What Jonathan earned, received and lost', fontsize=8.6,
              color=INK, pad=8)
 ```
 
-## 5.3 Characters
+## 5.3 Characters — "Civil Peace"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -184,7 +184,7 @@ narrator, who names the story: the war has ended, so this is "Civil Peace". He
 represents a society in which authority has collapsed and the only remaining rule is
 that the armed take from the unarmed.
 
-## 5.4 Themes
+## 5.4 Themes — "Civil Peace"
 
 **Peace in name only.** The title is the theme. Achebe sets the whole story in the
 weeks after a formal surrender and then shows a family being robbed at gunpoint
@@ -249,7 +249,7 @@ ax.set_xlim(-0.4,12.3); ax.set_ylim(0.1,5.0)
 ax.axis('off')
 ```
 
-## 5.5 Setting, structure and point of view
+## 5.5 Setting, structure and point of view — "Civil Peace"
 
 **Setting.** Enugu, in eastern Nigeria, in the weeks immediately following the end
 of the civil war in January 1970. The details are exact and they all carry meaning:
@@ -280,7 +280,7 @@ almost everything is ironic: a man who has lost a son calls himself lucky; a rob
 is conducted politely; and the word "peace" is spoken by an armed thief.
 :::
 
-## 5.6 Literary devices
+## 5.6 Literary devices — "Civil Peace"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -304,7 +304,7 @@ the leader only says they are not as wicked as some others. The point is that th
 victim cannot tell, and that nobody comes when he calls.
 :::
 
-## 5.7 Glossary
+## 5.7 Glossary — "Civil Peace"
 
 | Word / phrase | Meaning |
 |---|---|

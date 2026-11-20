@@ -23,7 +23,7 @@ three-way distinction between what he *assumes*, what he *requires* and what he
 only *desires*, and why he demands adventure for himself but security for others.
 :::
 
-## 15.1 About the author
+## 15.1 About the author: J.B.S. Haldane
 
 **John Burdon Sanderson Haldane (1892–1964)** — always "J.B.S." — was one of the
 most original scientists of the twentieth century and one of its best popular
@@ -267,7 +267,7 @@ ax.text(3.52, 7.15, "FOR HIMSELF", fontsize=6.3, color=MUTED,
         ha="center", va="center")
 ```
 
-## 15.4 The argument
+## 15.4 The argument — "What I Require from Life"
 
 Stripped to its bones, the essay runs like this. *Premise one:* I must ask only
 for what is possible. *Premise two:* what a human being genuinely requires is not
@@ -294,7 +294,7 @@ deduction from his own life, and it rests on what he had seen in Russia and
 Spain — evidence that later readers judge far more critically than he did in
 1940.
 
-## 15.5 Themes
+## 15.5 Themes — "What I Require from Life"
 
 **What a human being actually needs.** The whole essay is a filtering operation.
 It separates need from want, the required from the merely nice, and in doing so
@@ -368,7 +368,7 @@ than party doctrine. And they make the essay's underlying claim visible: that th
 question "what do I require from life?" is not a modern or a political question
 at all, but the oldest question in philosophy.
 
-## 15.7 Glossary
+## 15.7 Glossary — "What I Require from Life"
 
 | Word | Meaning |
 |---|---|

@@ -344,7 +344,7 @@ There is a third, smaller reason, and it is comic: each has told an enormous lie
 about the other's death, and neither can now confess without also confessing the
 lie.
 
-## 19.6 Themes
+## 19.6 Themes — "A Sunny Morning"
 
 **Love survives everything, including the lovers.** Fifty years, a duel, a
 marriage, a ballet dancer in Paris and two elaborate lies have not touched what
@@ -447,7 +447,7 @@ brothers turn a poem the audience has already heard into the curtain line.
 | Parallelism | his "I am grotesque now" / her "I am too sadly changed" | Shows the two making the same decision independently |
 | Frame | the Campoamor lines heard twice | Turns the whole play into the poem it quotes |
 
-## 19.8 Glossary
+## 19.8 Glossary — "A Sunny Morning"
 
 | Word | Meaning |
 |---|---|

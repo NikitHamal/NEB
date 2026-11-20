@@ -20,7 +20,7 @@ news that his murderer is dead. Narayan builds the whole story on one perfectly
 placed piece of irony.
 :::
 
-## 7.1 About the author
+## 7.1 About the author: R. K. Narayan
 
 R. K. Narayan (1906–2001) — Rasipuram Krishnaswami Narayanaswami — was one of the
 first Indian writers in English to be read all over the world. He was born in
@@ -52,7 +52,7 @@ mocking them. There is no anger in his satire and no preaching in his morality. 
 is also a master of the quiet, exact detail, and in a story as short as this one,
 every detail is doing work.
 
-## 7.2 The story
+## 7.2 The story — "An Astrologer's Day"
 
 **The astrologer at work.** The astrologer opens his business punctually at midday
 and spreads out his equipment: cowrie shells, a square of cloth covered with
@@ -156,7 +156,7 @@ ax.set_xlim(0,10); ax.set_ylim(0.82,5.58)
 ax.axis('off')
 ```
 
-## 7.3 Characters
+## 7.3 Characters — "An Astrologer's Day"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -194,7 +194,7 @@ hears what her husband did ("you tried to kill!") is the only moral judgement an
 makes. Through her we see what the astrologer has been protecting: a small, poor,
 ordinary happiness.
 
-## 7.4 Themes
+## 7.4 Themes — "An Astrologer's Day"
 
 **Appearance and reality.** Almost nothing in the story is what it looks like. A man
 who claims to read the stars cannot read them; a "reading" that seems supernatural
@@ -269,7 +269,7 @@ ax.set_xlim(-3.1,14.2); ax.set_ylim(-3.35,6.6)
 ax.axis('off')
 ```
 
-## 7.5 Setting, structure and point of view
+## 7.5 Setting, structure and point of view — "An Astrologer's Day"
 
 **Setting.** A busy footpath through the Town Hall Road park, under a tamarind tree,
 in an unnamed south Indian town that readers of Narayan recognise as Malgudi. The
@@ -302,7 +302,7 @@ before it. A fair twist, like Narayan's, is one the reader could have worked out
 from clues already given.
 :::
 
-## 7.6 Literary devices
+## 7.6 Literary devices — "An Astrologer's Day"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -327,7 +327,7 @@ darkness, the match, the unexplained flight from the village — so that it read
 inevitable rather than accidental.
 :::
 
-## 7.7 Glossary
+## 7.7 Glossary — "An Astrologer's Day"
 
 | Word / phrase | Meaning |
 |---|---|

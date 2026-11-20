@@ -27,7 +27,7 @@ mother's lies poison a family, and of **death as a deliberate act of care**. Eve
 you write about it should come back to those three ideas.
 :::
 
-## 19.1 About the author
+## 19.1 About the author: August Strindberg
 
 Johan August Strindberg was born in Stockholm on 22 January 1849 and died there on 14
 May 1912. His father was a steamship agent and his mother a former servant, a mixture of
@@ -174,7 +174,7 @@ ours*; the candle count is a fuse; "I am going away to get money for you" is lit
 true. Adèle alone understands (she looks Durand in the eyes, and after a pause obeys),
 and so she, not the ungrateful younger girls, becomes the keeper of the secret.
 
-## 19.4 Characters
+## 19.4 Characters — "Facing Death"
 
 | Character | Role | Key traits |
 |---|---|---|
@@ -282,7 +282,7 @@ fig.tight_layout()
   as the older one; never state their ages without checking.
 :::
 
-## 19.5 Themes
+## 19.5 Themes — "Facing Death"
 
 | Theme | Where we see it |
 |---|---|
@@ -380,7 +380,7 @@ and acts only when it is too late.
 is an act of generosity. It gives the stage a new subject: the tragedy of an ordinary
 family, in plain speech, about money.
 
-## 19.8 Glossary
+## 19.8 Glossary — "Facing Death"
 
 | Word | Meaning as used here |
 |---|---|
@@ -415,7 +415,7 @@ family, in plain speech, about money.
 5. It is a **modern tragedy**: an ordinary man, money and family, plain speech, a private death.
 :::
 
-## 19.9 Comprehension and critical thinking
+## 19.9 Comprehension and critical thinking — "Facing Death"
 
 The wording follows the CDC Grade 12 textbook as reproduced in common guides; your
 printing may differ slightly.

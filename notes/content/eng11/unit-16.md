@@ -23,7 +23,7 @@ concrete sensory detail, the two metaphors of acid and chisel, and the closing
 question. Almost every question on this text is about one or the other.
 :::
 
-## 16.1 About the author
+## 16.1 About the author: Jo Goodwin Parker
 
 Almost nothing is known about **Jo Goodwin Parker**, and this chapter will not
 invent anything.
@@ -313,7 +313,7 @@ ax.set_xlim(-2.55, 2.55); ax.set_ylim(-1.75, 1.75)
 ax.set_aspect("equal"); ax.axis("off")
 ```
 
-## 16.5 Themes
+## 16.5 Themes — "What is Poverty?"
 
 **Poverty as a total condition, not a lack of cash.** Every detail in the essay
 converts money into something else: a shovel, a jar of Vaseline, two cents, hot
@@ -392,7 +392,7 @@ been making about time.
 | Understatement | "I listened politely — the poor are always polite" | Hides fury under good manners, which is more damning than anger |
 | Closing question | "The poor are always silent. Can you be silent too?" | Transfers responsibility from the writer to the reader |
 
-## 16.7 Glossary
+## 16.7 Glossary — "What is Poverty?"
 
 | Word | Meaning |
 |---|---|

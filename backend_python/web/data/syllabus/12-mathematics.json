@@ -199,7 +199,8 @@
    "topics": [
     "Sum of first n natural numbers",
     "Sum of squares and cubes of first n natural numbers",
-    "Principle of mathematical induction"
+    "Principle of mathematical induction",
+    "Exponential and logarithmic series"
    ],
    "sections": [
     {
@@ -247,7 +248,8 @@
    "topics": [
     "Cramer's rule (up to three variables)",
     "Matrix method: row-equivalent (Gauss) method",
-    "Matrix method: inverse matrix method"
+    "Matrix method: inverse matrix method",
+    "Consistency: unique solution, infinitely many, or none"
    ],
    "sections": [
     {
@@ -294,7 +296,8 @@
     "Cosine law",
     "Tangent law",
     "Projection laws",
-    "Half angle laws"
+    "Half angle laws",
+    "Area of a triangle, and the radii R, r, r1"
    ],
    "sections": [
     {
@@ -556,7 +559,9 @@
    "area": "Statistics and Probability",
    "topics": [
     "Dependent cases",
-    "Conditional probability (without proof)"
+    "Conditional probability (without proof)",
+    "Bayes' theorem: reasoning backwards",
+    "Repeated trials: the binomial distribution"
    ],
    "sections": [
     {
@@ -607,7 +612,10 @@
     "L'Hospital's rule (0/0 and infinity/infinity forms)",
     "Differentials",
     "Tangent and normal to a curve",
-    "Derivative as a rate measure"
+    "Derivative as a rate measure",
+    "Increasing and decreasing functions",
+    "Maxima and minima",
+    "Concavity and points of inflection"
    ],
    "sections": [
     {
@@ -677,7 +685,10 @@
    "topics": [
     "Standard integrals",
     "Integrals reducible to standard forms",
-    "Integrals of rational functions"
+    "Integrals of rational functions",
+    "The definite integral and its properties",
+    "The definite integral as the limit of a sum",
+    "Area under a curve and area between two curves"
    ],
    "sections": [
     {
@@ -737,7 +748,8 @@
     "Separable variables",
     "Homogeneous differential equations",
     "Linear differential equations",
-    "Exact differential equations"
+    "Exact differential equations",
+    "Applications of differential equations"
    ],
    "sections": [
     {
@@ -802,7 +814,8 @@
    "topics": [
     "System of linear equations: Gauss Elimination Method",
     "System of linear equations: Gauss-Seidel Method",
-    "Linear programming problems (LPP): simplex method (two variables)"
+    "Linear programming problems (LPP): simplex method (two variables)",
+    "How accurate is a computed answer?"
    ],
    "sections": [
     {
@@ -837,7 +850,7 @@
     "The parts of an LPP"
    ],
    "stats": {
-    "words": 7865,
+    "words": 7864,
     "figures": 8,
     "examples": 13
    },
@@ -936,6 +949,6 @@
   }
  ],
  "unit_count": 17,
- "topic_count": 70,
+ "topic_count": 83,
  "notes_ready": 17
 }

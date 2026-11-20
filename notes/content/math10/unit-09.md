@@ -387,8 +387,7 @@ ax.set_xlim(-2.8, 2.2); ax.set_ylim(-1.2, 2.4); ax.set_aspect('equal'); ax.axis(
 $\sqrt{2}\approx 1.414$, $\sqrt{3}\approx 1.732$, $\sqrt{5}\approx 2.236$, $\sqrt{6}\approx 2.449$, $\sqrt{7}\approx 2.646$. Rationalise before substituting a decimal value — it avoids dividing by a small number.
 :::
 
-## 9.11 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method
 
 1. **Simplify** each radical first: take out perfect-square factors.

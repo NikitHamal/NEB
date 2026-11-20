@@ -402,8 +402,7 @@ So $h+20=h\sqrt{3}\Rightarrow20=h(\sqrt{3}-1)\Rightarrow h=\frac{20}{\sqrt{3}-1}
 **Solution.** $PA=\frac{3000}{\tan30^\circ}=3000\sqrt{3}\approx5196$ m and $PB=\frac{3000}{\tan60^\circ}=\frac{3000}{\sqrt{3}}=1000\sqrt{3}\approx1732$ m. On opposite sides, $AB=PA+PB=3000\sqrt{3}+1000\sqrt{3}=4000\sqrt{3}\approx6928$ m.
 :::
 
-## 5.4 Exercises of the SEE type
-
+## Worked SEE Problems
 ::: example A river
 **Problem.** A tree stands on one bank of a river. From a point directly opposite the tree on the other bank, the angle of elevation of the top of the tree is $60^\circ$. From a point 30 m further back, in line, it is $30^\circ$. Find the height of the tree and the width of the river.
 

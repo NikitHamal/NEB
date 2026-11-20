@@ -295,8 +295,7 @@ Continuity needs $6+k=5$, so $k=-1$.
 Three separate lines: left-hand limit, right-hand limit, value of the function. Then a comparison and a conclusion in words: "Since $\lim_{x\to a^-}f(x)=\lim_{x\to a^+}f(x)=f(a)$, $f$ is continuous at $x=a$." For a table question, show at least two values on each side.
 :::
 
-## 10.4 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. **Limit:** substitute; if $\dfrac00$, factorise and cancel; if the formula changes at the point, find left and right limits separately.

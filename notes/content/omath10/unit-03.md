@@ -383,8 +383,7 @@ For $k=2$: the first equation is $3x+2y=5$; doubling it gives $6x+4y=10\neq7$. T
 Follow the method named in the question: the marks are for the method.
 :::
 
-## 3.5 Exercises of the SEE type
-
+## Worked SEE Problems
 ::: example Prices of rice and dal
 **Problem.** Two kg of rice and three kg of lentils cost Rs 650. Three kg of rice and one kg of lentils cost Rs 450. Find the price per kg of each by Cramer's rule.
 

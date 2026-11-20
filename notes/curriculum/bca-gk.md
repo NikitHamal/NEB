@@ -7,18 +7,22 @@
 - Geography of Nepal: largest, longest, highest, deepest
 - Constitution, federal structure and prime ministers of Nepal
 - Literature, art and Miss Nepal
+- Eight traps in Nepal GK questions
 ## 2. The World: Geography, Organisations, Sports and Science [2]
 - World records, capitals and nicknames of places
 - United Nations and other organisations
 - Olympics, football and cricket world cups
 - Inventions, discoveries and awards
+- Eight traps in world GK questions
 # AREA: General IT (5)
 ## 3. Computer Fundamentals, Hardware and Software [3]
 - Generations, types and parts of a computer
 - Input, output and storage devices, memory
 - System and application software, operating systems, number systems
+- Eight traps in computer-fundamentals questions
 ## 4. Internet, E-mail, HTML, Programming and Full Forms [2]
 - Internet, WWW, e-mail and common protocols
 - HTML basics
 - Programming languages and concepts
 - Important full forms and inventors
+- Eight traps in Internet, HTML and programming questions

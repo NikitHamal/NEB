@@ -748,7 +748,8 @@
     "Classification of organic compounds",
     "Alkyl groups, functional groups and homologous series",
     "Structural formula, contracted formula and bond line structural formula",
-    "Preliminary idea of cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive"
+    "Preliminary idea of cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive",
+    "Bond fission and electronic effects — a bridge to Unit 13"
    ],
    "sections": [
     {
@@ -1150,6 +1151,6 @@
   }
  ],
  "unit_count": 17,
- "topic_count": 118,
+ "topic_count": 119,
  "notes_ready": 17
 }

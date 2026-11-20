@@ -359,8 +359,7 @@ fig.tight_layout(pad=0.3)
 - Taking $PA^2=OP^2+OA^2$ — it is a *difference*, since $OP$ is the hypotenuse.
 :::
 
-## 15.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Draw a large clear figure; mark the centre $O$ and every given angle.

@@ -333,8 +333,7 @@ Bank B gives Rs 40.10 more, because it adds interest twice a year.
 "10% p.a." with no other word means **compounded yearly** unless the question says half-yearly or quarterly. For a period such as $1\frac12$ years the question will say half-yearly, so that the number of periods is a whole number.
 :::
 
-## 3.9 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for every question
 
 1. Write what is given: $P$, $R$, $T$, whether yearly or half-yearly.

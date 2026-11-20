@@ -324,8 +324,7 @@ The bases are equal, so the indices are equal: $-\frac{1}{z}=\frac{1}{x}+\frac{1
 Whatever the question, ask: "**Can I write every number with one common base?**" If yes, the laws collapse the question to an ordinary equation in the indices. If the bases are $4,8,16,32,64$, use base 2; for $9,27,81$ use base 3; for $25,125$ use base 5.
 :::
 
-## 10.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Write every base as a power of one common prime (2, 3 or 5 usually). Remember $\frac{1}{2^n}=2^{-n}$.

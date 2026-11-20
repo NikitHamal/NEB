@@ -549,8 +549,7 @@ Check with the relations: sum $=2-1+3=4=-(-4)$ ✓; pair sums $2(-1)+(-1)(3)+3(2
 **Solution.** The left side expands to $x^3+(a+2)x^2+(b+2a)x+2b$. Equal polynomials have equal coefficients: $a+2=5$ gives $a=3$; $2b=4$ gives $b=2$; check $b+2a=2+6=8$ ✓.
 :::
 
-## 12.12 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. **Function questions:** substitute carefully, putting brackets around the replaced value, especially for negatives: $f(-2)$ for $x^2-3x$ is $(-2)^2-3(-2)=4+6=10$, not $-4-6$.

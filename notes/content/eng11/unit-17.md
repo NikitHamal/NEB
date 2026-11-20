@@ -24,7 +24,7 @@ the first-person narrative used as evidence, and the modest final qualification
 that science is "not the beginning and the end".
 :::
 
-## 17.1 About the author
+## 17.1 About the author: Vladimir Keilis-Borok
 
 **Vladimir Isaakovich Keilis-Borok (1921–2013)** was a Russian mathematical
 geophysicist — one of the founders of the modern mathematical study of
@@ -333,7 +333,7 @@ Reduced to its bones, the essay makes four connected claims.
    science must be *humanly used*, because human qualities matter more than
    science itself.
 
-## 17.5 Themes
+## 17.5 Themes — "Scientific Research is a Token of Humankind's Survival"
 
 **Science as a form of international brotherhood.** The Geneva story is chosen
 precisely because the political conditions were as bad as they could be. If
@@ -405,7 +405,7 @@ list is the argument.
 | Metaphor | "springboard", "thin thread", "guardian and caretaker" | Compresses whole arguments into single images |
 | Qualification | "science is not the beginning and the end… if humanly used" | Prevents the essay from becoming propaganda |
 
-## 17.7 Glossary
+## 17.7 Glossary — "Scientific Research is a Token of Humankind's Survival"
 
 | Word | Meaning |
 |---|---|

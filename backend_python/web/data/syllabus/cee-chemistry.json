@@ -30,7 +30,7 @@
    "questions": 2,
    "area": "Physical Chemistry",
    "topics": [
-    "Atoms, molecules, valency, radicals; relative atomic and molecular mass; the atomic mass unit",
+    "Atoms, molecules, valency and radicals; relative masses and the atomic mass unit",
     "Chemical equations, empirical and molecular formulae, percentage composition",
     "Dalton's atomic theory, the laws of stoichiometry and Avogadro's law",
     "The mole concept, limiting reactant and percentage yield"
@@ -88,7 +88,7 @@
    "topics": [
     "Rutherford's and Bohr's atomic models; the spectrum of hydrogen",
     "de Broglie's equation and Heisenberg's uncertainty principle",
-    "Orbitals and quantum numbers; the Aufbau principle, Pauli's exclusion principle and Hund's rule; electronic configuration"
+    "Orbitals and quantum numbers; Aufbau, Pauli and Hund; electronic configuration"
    ],
    "sections": [
     {
@@ -132,7 +132,7 @@
    "area": "Physical Chemistry",
    "topics": [
     "Modern periodic law and table; s, p, d and f blocks; isoelectronic species",
-    "Periodic trends: atomic and ionic size, ionization energy, electronegativity, electron affinity and metallic character"
+    "Periodic trends: size, ionisation energy, electronegativity, electron affinity and metallic character"
    ],
    "sections": [
     {
@@ -175,8 +175,8 @@
    "questions": 2,
    "area": "Physical Chemistry",
    "topics": [
-    "Electronic theory of valency; ionic, covalent and coordinate bonds; Lewis structures of s- and p-block compounds",
-    "VSEPR theory and the shapes of simple molecules; valence bond theory, sigma and pi bonds, hybridization",
+    "Electronic theory of valency; ionic, covalent and coordinate bonds; Lewis structures",
+    "VSEPR theory and shapes; valence bond theory, σ and π bonds, hybridisation",
     "Dipole moment, ionic character of covalent bonds and bond length",
     "Hydrogen bonding, metallic bonding and van der Waals forces"
    ],
@@ -267,9 +267,9 @@
    "questions": 2,
    "area": "Physical Chemistry",
    "topics": [
-    "Gases: kinetic theory, the gas laws, the ideal and combined gas equations, deviation of real gases",
+    "Gases: kinetic theory, gas laws, ideal and combined gas equations, deviation of real gases",
     "Liquids: vapour pressure, boiling point, surface tension, viscosity, liquid crystals, solubility and solubility curves",
-    "Solids: crystalline and amorphous solids; efflorescent, deliquescent and hygroscopic substances; water of crystallization",
+    "Solids: crystalline and amorphous solids; efflorescent, deliquescent and hygroscopic substances; water of crystallisation",
     "The unit cell, the seven crystal systems and the fourteen Bravais lattices; types of crystalline solid by bonding"
    ],
    "sections": [
@@ -321,10 +321,10 @@
    "questions": 2,
    "area": "Physical Chemistry",
    "topics": [
-    "Physical and chemical equilibrium; the law of mass action; Kc, Kp, the reaction quotient and the Kp–Kc relation",
+    "Physical and chemical equilibrium; law of mass action; Kc, Kp and Q",
     "Le Chatelier's principle and its applications",
     "Arrhenius, Brønsted–Lowry and Lewis acids and bases; Ostwald's dilution law",
-    "Ionic product of water, pH, pOH, pKa and pKb; common-ion effect; solubility product",
+    "Ionic product of water, pH, pOH, pKa, pKb; common-ion effect; solubility product",
     "Acidic and basic buffers; types of salts and their hydrolysis"
    ],
    "sections": [
@@ -383,8 +383,8 @@
    "questions": 1,
    "area": "Physical Chemistry",
    "topics": [
-    "Equivalent weight; concentration as percentage, g/L, normality, molarity, molality, formality, ppm, ppb and mole fraction",
-    "Primary and secondary standards; the law of equivalence and the normality equation"
+    "Equivalent weight and every concentration unit",
+    "Primary and secondary standards; the law of equivalence"
    ],
    "sections": [
     {
@@ -429,7 +429,7 @@
    "topics": [
     "Rate of reaction, rate expressions, the rate constant and its units; order and molecularity",
     "Integrated rate laws and half-lives of zero- and first-order reactions",
-    "Collision theory, activation and threshold energy, the activated complex; factors affecting rate; homogeneous, heterogeneous and enzyme catalysis"
+    "Collision theory, activation and threshold energy, the activated complex; factors affecting rate; catalysis"
    ],
    "sections": [
     {
@@ -477,7 +477,7 @@
    "area": "Physical Chemistry",
    "topics": [
     "Electrolytic cells and the qualitative and quantitative laws of electrolysis",
-    "Standard electrode potential, the standard hydrogen and calomel electrodes, the electrochemical series and its uses",
+    "Standard electrode potential, the SHE and the calomel electrode, and the electrochemical series",
     "Galvanic cells and their standard emf; primary, secondary and hydrogen–oxygen fuel cells"
    ],
    "sections": [
@@ -526,7 +526,7 @@
    "area": "Physical Chemistry",
    "topics": [
     "Systems and surroundings; state functions; internal energy; intensive and extensive properties; the first law and enthalpy",
-    "Enthalpies of reaction, formation, combustion, neutralization, solution, fusion and vaporization; Laplace's and Hess's laws",
+    "Enthalpies of reaction, formation, combustion, neutralisation, solution, fusion and vaporisation; Laplace's and Hess's laws",
     "Spontaneity, entropy and the second law; Gibbs free energy and its relation to the equilibrium constant"
    ],
    "sections": [
@@ -579,8 +579,14 @@
    "questions": 1,
    "area": "Physical Chemistry",
    "topics": [
-    "Radioactivity and types of nuclear reaction",
-    "Radioisotopes and radiocarbon dating"
+    "Radioactivity and the types of nuclear reaction",
+    "The three radiations",
+    "Nuclear equations and the shift in the periodic table",
+    "The decay law and half-life",
+    "Nuclear fission and fusion",
+    "Radioisotopes: how they are made and what they are used for",
+    "Radiocarbon dating",
+    "Hazards and safe handling"
    ],
    "sections": [
     {
@@ -639,11 +645,11 @@
    "questions": 4,
    "area": "Inorganic Chemistry",
    "topics": [
-    "Atomic, molecular and nascent hydrogen; isotopes of hydrogen; heavy water; types of oxides",
+    "Atomic, molecular and nascent hydrogen; isotopes; heavy water; types of oxides",
     "Ozone: preparation, structure and tests; depletion of the ozone layer",
     "Ammonia, phosphine and nitric acid",
     "Chlorine, bromine and iodine; HCl, HBr and HI",
-    "Allotropes of carbon and carbon monoxide; hydrogen sulphide, sulphur dioxide and sulphuric acid"
+    "Allotropes of carbon and carbon monoxide; H₂S, SO₂ and sulphuric acid"
    ],
    "sections": [
     {
@@ -689,11 +695,11 @@
    "questions": 4,
    "area": "Inorganic Chemistry",
    "topics": [
-    "Metallurgical principles: ores, gangue, flux, slag, concentration, calcination, roasting, smelting, bessemerization, aluminothermy, electrolytic reduction, poling, electro-refining and zone refining",
+    "Metallurgical principles",
     "Alkali and alkaline-earth metals; sodium, sodium hydroxide and sodium carbonate",
-    "3d transition metals; shapes of complex ions; crystal field theory of octahedral complexes",
-    "Copper, zinc, mercury, silver and iron: occurrence, extraction and properties; blue vitriol, white vitriol, calomel and corrosive sublimate",
-    "Steel by the basic oxygen and open-hearth processes; corrosion of iron"
+    "3d transition metals: complex shapes and crystal field theory",
+    "Copper, zinc, mercury, silver and iron (with their signature salts)",
+    "Steel: basic oxygen and open hearth; corrosion of iron"
    ],
    "sections": [
     {
@@ -743,8 +749,8 @@
    "questions": 2,
    "area": "Inorganic Chemistry",
    "topics": [
-    "Micro- and macronutrients; biological roles of sodium, potassium, magnesium, zinc, copper, cobalt, nickel, iron, chromium and calcium",
-    "The sodium–potassium pump and the sodium–glucose pump",
+    "Micro- and macronutrients and the biological roles of metal ions",
+    "The sodium–potassium pump and sodium–glucose cotransport",
     "Toxicity of iron, arsenic, mercury, lead and cadmium"
    ],
    "sections": [
@@ -786,9 +792,9 @@
    "questions": 3,
    "area": "Organic Chemistry",
    "topics": [
-    "Tetravalency and catenation of carbon; classification of organic compounds; alkyl and aryl groups; functional groups and homologous series",
-    "IUPAC nomenclature of aliphatic compounds; isomerism",
-    "Homolytic and heterolytic fission; electrophiles, nucleophiles, carbocations, carbanions and free radicals; inductive and resonance effects"
+    "Tetravalency and catenation; classification; alkyl and aryl groups; functional groups and homologous series",
+    "IUPAC nomenclature of aliphatic compounds and isomerism",
+    "Bond fission, reactive intermediates and electronic effects"
    ],
    "sections": [
     {
@@ -829,8 +835,8 @@
    "questions": 3,
    "area": "Organic Chemistry",
    "topics": [
-    "Cracking, pyrolysis and reforming; gasoline quality, octane and cetane numbers, gasoline additives",
-    "Alkanes, alkenes and alkynes: isomerism, nomenclature and preparation; properties of ethane; addition reactions of alkenes and alkynes; acidity of alkynes",
+    "Cracking, pyrolysis and reforming; petrol quality, octane and cetane numbers and additives",
+    "Alkanes, alkenes and alkynes: isomerism, nomenclature and preparation; properties of ethane; additions and alkyne acidity",
     "Aromaticity and resonance; preparation and properties of benzene"
    ],
    "sections": [
@@ -870,11 +876,11 @@
    "questions": 4,
    "area": "Organic Chemistry",
    "topics": [
-    "Monohaloalkanes: nomenclature, isomerism, preparation and properties; SN1 and SN2 mechanisms",
+    "Monohaloalkanes: nomenclature, isomerism, preparation and properties; SN1 and SN2",
     "Chloroform and chlorobenzene",
-    "Monohydric alcohols: preparation and properties; oxo process, hydroboration–oxidation and fermentation; types of ethanol",
+    "Monohydric alcohols: preparation and properties; oxo process, hydroboration–oxidation, fermentation and types of ethanol",
     "Phenol: preparation and properties",
-    "Ethers: Williamson's synthesis and the properties of diethyl ether"
+    "Ethers: Williamson synthesis and properties of diethyl ether"
    ],
    "sections": [
     {
@@ -966,7 +972,7 @@
    "area": "Organic Chemistry",
    "topics": [
     "Nitroalkanes and nitrobenzene",
-    "Amines: classification, preparation of primary amines, basicity, Hofmann's separation; aniline",
+    "Amines: classification, preparation, basicity, Hoffmann separation and aniline",
     "Organolithium, organocopper and organocadmium compounds; the Grignard reagent"
    ],
    "sections": [
@@ -1008,9 +1014,9 @@
    "area": "Applied Chemistry",
    "topics": [
     "The chemical industry: stages of production, economics and plant management, batch and continuous processing, environmental effects and their control",
-    "Cement, paper and pulp; nitric acid (Ostwald), ammonia (Haber), sulphuric acid (contact), caustic soda (diaphragm cell), sodium carbonate (Solvay) and urea",
-    "Uses of the common non-metals, metals, inorganic compounds and organic compounds",
-    "Polymers, dyes, drugs, pesticides and fertilizers; colloids, osmotic pressure and buffers in daily life; medical and industrial uses of radioisotopes"
+    "Cement, paper and pulp; the six heavy-chemical processes",
+    "Uses of common non-metals, metals, inorganic and organic compounds",
+    "Polymers, dyes, drugs, pesticides and fertilizers; colloids, osmotic pressure and buffers; radioisotopes"
    ],
    "sections": [
     {
@@ -1055,9 +1061,9 @@
    "questions": 3,
    "area": "Analytical Chemistry",
    "topics": [
-    "Tests for acid and basic radicals; tests for unsaturation and functional groups; distinction tests; Lassaigne's test; tests for fats, proteins and carbohydrates",
+    "Tests for acid and basic radicals; unsaturation and functional groups; distinction tests; Lassaigne's test; fats, proteins and carbohydrates",
     "Separation techniques: filtration, sublimation, evaporation, precipitation, crystallization, distillation, paper chromatography and atmolysis",
-    "Acid–base, redox (permanganometric, iodometric and iodimetric) and complexometric titrations; choice of indicator"
+    "Acid–base, redox and complexometric titrations; choice of indicator"
    ],
    "sections": [
     {
@@ -1093,6 +1099,6 @@
   }
  ],
  "unit_count": 22,
- "topic_count": 74,
+ "topic_count": 80,
  "notes_ready": 22
 }

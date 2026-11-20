@@ -31,7 +31,7 @@ foreigners". Short questions ask for a group's claim, the universal abilities or
 the long question is about why history is contested.
 :::
 
-## 16.1 About the author
+## 16.1 About the author: Yuval Noah Harari
 
 ```photo id="eng12/harari" caption="Yuval Noah Harari, historian and author, at the Frankfurt Book Fair in 2024. Photograph by Martin Kraft, licensed CC BY-SA 4.0." width="36"
 crop 0.0 0.08 1.0 1.0
@@ -329,7 +329,7 @@ knows the groups from inside.
 **Tone.** Conversational, ironic, then serious; it reads like a spoken lecture rather than a
 scholarly article.
 
-## 16.6 Glossary
+## 16.6 Glossary — "Humility"
 
 | Word | Meaning |
 |---|---|
@@ -356,7 +356,7 @@ scholarly article.
 | puncture | to make a hole in something so that the air escapes |
 | tribes | (here) any group that thinks of itself as "us" against "them" |
 
-## 16.7 Comprehension and critical thinking
+## 16.7 Comprehension and critical thinking — "Humility"
 
 **Before you read**
 

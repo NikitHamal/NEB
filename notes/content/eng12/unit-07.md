@@ -24,7 +24,7 @@ he leaves. Márquez does not condemn anyone. He simply shows ordinary people who
 into a sideshow, and an "angel" who turns out to be only a very old man who needs a blanket.
 :::
 
-## 7.1 About the author
+## 7.1 About the author: Gabriel Garcia Marquez
 
 Gabriel José García Márquez (1927–2014) — "Gabo" to his readers — was born on **6 March 1927** in
 **Aracataca**, a small banana-growing town in the northern Caribbean lowlands of **Colombia**. His father
@@ -69,7 +69,7 @@ with an old man's smell and is fed eggplant mush; nobody is astonished for long.
   angel.
 :::
 
-## 7.2 The story
+## 7.2 The story — "A Very Old Man with Enormous Wings"
 
 **The third day of rain.** After three days of rain, so many crabs have been killed inside the house that Pelayo has to
 carry them across his flooded courtyard and throw them into the sea, because the newborn child has had a fever all night
@@ -137,7 +137,7 @@ over him and lets him sleep in the shed, and they find he has a fever and raves 
 One morning, while Elisenda is cutting onions for lunch, a wind from the high seas blows into the kitchen. She looks out and sees the angel's first clumsy attempts at flight — his nails plough a furrow in the vegetable
 patch and he almost knocks down the shed — and then he gains height. Elisenda sighs with relief, "for herself and for him". She watches until he is only "an imaginary dot on the horizon of the sea", no longer an annoyance in her life.
 
-## 7.3 Characters
+## 7.3 Characters — "A Very Old Man with Enormous Wings"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -171,7 +171,7 @@ her wisdom fails at the end, for she cannot tell them what to do with a dead ang
 **The crowd.** Most of the story's cruelty comes from the crowd: they treat the angel as a circus animal, throw stones and pull feathers, brand him with an iron, and then lose interest
 when a better show comes to town. They have faith without reverence and curiosity without kindness.
 
-## 7.4 Themes
+## 7.4 Themes — "A Very Old Man with Enormous Wings"
 
 **The treatment of the marvellous — wonder turned into spectacle.** The story's main irony is that a miracle is met not with awe but with entertainment and profit. The angel is a
 prisoner, an exhibit, a nuisance and finally an empty space in the yard. Márquez suggests that people cope with the extraordinary by making it ordinary or commercial.
@@ -217,7 +217,7 @@ for x,y,t,q,c,tgt in boxes:
     ax.annotate('',xy=tgt,xytext=(sx,sy),arrowprops=dict(arrowstyle='->',color=MUTED,lw=0.9))
 ```
 
-## 7.5 Setting, structure and point of view
+## 7.5 Setting, structure and point of view — "A Very Old Man with Enormous Wings"
 
 **Setting.** A poor coastal village, apparently on the Caribbean coast of a Latin American country, with a beach, crabs, constant rain, a courtyard, a chicken coop, a parish church
 and a bishop far away. The story is timeless ("in those times"). The setting is described with dreamlike precision: sea and sky one ash-grey thing, sands "like powdered light". It moves from a
@@ -284,7 +284,7 @@ ax.axis('off')
 writes as if reporting facts, and the most extraordinary sentences are the flattest. The tone is comic, and yet the pity underneath is real: the last paragraph, in which Elisenda watches the old
 man become a dot on the horizon while she chops onions, is deliberately unemotional, and so it moves us.
 
-## 7.7 Glossary
+## 7.7 Glossary — "A Very Old Man with Enormous Wings"
 
 | Word | Meaning |
 |---|---|
@@ -326,7 +326,7 @@ buzzard's wings falls into the mud, and the narrator reports it as calmly as the
 angel".
 :::
 
-## 7.8 Comprehension and critical thinking
+## 7.8 Comprehension and critical thinking — "A Very Old Man with Enormous Wings"
 
 **Understanding the text**
 

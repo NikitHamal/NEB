@@ -435,7 +435,7 @@ pretty. Some readers find the ending sentimental — a Victorian child's picture
 of dying. The defence is *I know not*. The poem never claims the picture is
 true; it claims only that this is what the speaker saw, softly, to herself.
 
-## 8.10 Glossary
+## 8.10 Glossary — "A Day"
 
 | Word | Meaning as used here |
 |---|---|

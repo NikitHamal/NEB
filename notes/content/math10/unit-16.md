@@ -364,8 +364,7 @@ So $h=10\times2.732=27.32$ m.
 **Solution.** $BC=AC\sin30^\circ=8\times\frac{1}{2}=4$ cm and $AB=AC\cos30^\circ=8\times\frac{\sqrt{3}}{2}=4\sqrt{3}=6.93$ cm.
 :::
 
-## 16.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. For a "find the ratios" question, draw the triangle, find the third side by Pythagoras, then read each ratio.

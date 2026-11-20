@@ -21,7 +21,7 @@ forgive him, after which "his heart grew light" and he stops wanting to go home 
 all.
 :::
 
-## 3.1 About the author
+## 3.1 About the author: Leo Tolstoy
 
 Count Lev Nikolayevich Tolstoy (1828–1910), known in English as Leo Tolstoy, was a
 Russian novelist and moral thinker, and is often called the greatest novelist of
@@ -56,7 +56,7 @@ description, no comment from the author, and a plot arranged so that a moral
 question is put to the reader rather than answered for them. Tolstoy strips away
 everything a modern reader might call "style", and the bareness is the point.
 
-## 3.2 The story
+## 3.2 The story — "God Sees the Truth but Waits"
 
 **The warning.** Ivan Dmitrich Aksionov is a young merchant in the town of
 Vladimir. He owns two shops and a house, and he is handsome, fair-haired,
@@ -168,7 +168,7 @@ ax.set_xlim(-0.3,8.2); ax.set_ylim(-0.5,9.7)
 ax.axis('off')
 ```
 
-## 3.3 Characters
+## 3.3 Characters — "God Sees the Truth but Waits"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -206,7 +206,7 @@ in the prison — asked gently, while she strokes his hair — is the most damag
 he receives, worse than the flogging. Tolstoy is showing how loneliness is made: a
 man can survive the courts, but not being doubted by the person who knows him best.
 
-## 3.4 Themes
+## 3.4 Themes — "God Sees the Truth but Waits"
 
 **Injustice, and what a man does with it.** The trial is over in two sentences;
 Tolstoy is not interested in courtroom drama. He is interested in the twenty-six
@@ -263,7 +263,7 @@ ax.set_xlim(-0.8,11.3); ax.set_ylim(0.0,6.0)
 ax.axis('off')
 ```
 
-## 3.5 Setting, structure and point of view
+## 3.5 Setting, structure and point of view — "God Sees the Truth but Waits"
 
 **Setting.** Nineteenth-century Russia, described with the minimum of detail: the
 merchant town of Vladimir, the great fair at Nizhny, an inn on the road, and then a
@@ -285,7 +285,7 @@ the Governor, but never enters Makar's mind — which is why Makar's arrival at 
 bedside is a surprise. Tolstoy makes no moral comment in his own voice; the proverb in
 the title does all the commentary the story allows itself.
 
-## 3.6 Literary devices
+## 3.6 Literary devices — "God Sees the Truth but Waits"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -306,7 +306,7 @@ Aksionov's heart, not the change in his sentence. Say so, and say it in the answ
 last line.
 :::
 
-## 3.7 Glossary
+## 3.7 Glossary — "God Sees the Truth but Waits"
 
 | Word / phrase | Meaning |
 |---|---|

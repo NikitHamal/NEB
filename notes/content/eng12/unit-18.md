@@ -26,7 +26,7 @@ wronged wife leaves the stage feeling happier than she has felt for months, and 
 more deceived than she was when she arrived.
 :::
 
-## 18.1 About the author
+## 18.1 About the author: Ferenc Molnar
 
 Ferenc Molnár (1878-1952), often written "Franz Molnar" in English, is the most
 celebrated Hungarian playwright. He was born Ferenc Neumann in Budapest on 12
@@ -135,7 +135,7 @@ ax.annotate('Alfred steps out:\nthe wife was right', xy=(8, 100), xytext=(6.4, 1
 fig.tight_layout()
 ```
 
-## 18.4 Characters
+## 18.4 Characters — "A Matter of Husbands"
 
 | Character | Who she is | Key traits |
 |---|---|---|
@@ -299,7 +299,7 @@ from the wife to the actress.
 crop 0.0 0.12 1.0 1.0
 ```
 
-## 18.6 Themes
+## 18.6 Themes — "A Matter of Husbands"
 
 | Theme | Where we see it |
 |---|---|
@@ -339,7 +339,7 @@ a lesson she needs: she tells her not to be taken in again, and calls herself
 "neither better nor worse than any other girl in the theater". But the ending undoes
 this reading, since the actress's "help" saves only her own secret.
 
-## 18.8 Glossary
+## 18.8 Glossary — "A Matter of Husbands"
 
 | Word | Meaning as used here |
 |---|---|
@@ -372,7 +372,7 @@ this reading, since the actress's "help" saves only her own secret.
 5. Techniques: irony (verbal, situational, dramatic), twist ending, stage directions, persuasive monologue.
 :::
 
-## 18.9 Comprehension and critical thinking
+## 18.9 Comprehension and critical thinking — "A Matter of Husbands"
 
 The wording follows the CDC Grade 12 textbook as reproduced in common guides; your
 printing may differ slightly, so match the question in your own book.

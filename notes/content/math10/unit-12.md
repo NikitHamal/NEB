@@ -312,8 +312,7 @@ Multiply by $x(x+10)$: $120(x+10)-120x=x(x+10)$, i.e. $1200=x^2+10x$. Then $x^2+
 **Solution.** From the first, $y=7-2x$. Substitute into the second: $x^2+7-2x=10$, so $x^2-2x-3=0$, $(x-3)(x+1)=0$. If $x=3$, $y=1$; if $x=-1$, $y=9$. Solutions: $(3,1)$ and $(-1,9)$.
 :::
 
-## 12.8 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Read twice; underline what is asked. Write "Let …".

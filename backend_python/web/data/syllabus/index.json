@@ -18,7 +18,7 @@
      "lang": "ne",
      "hours": 160,
      "unit_count": 17,
-     "topic_count": 85,
+     "topic_count": 100,
      "notes_ready": 17
     },
     {
@@ -31,7 +31,7 @@
      "lang": "en",
      "hours": 160,
      "unit_count": 19,
-     "topic_count": 95,
+     "topic_count": 126,
      "notes_ready": 19
     },
     {
@@ -44,7 +44,7 @@
      "lang": "en",
      "hours": 150,
      "unit_count": 21,
-     "topic_count": 87,
+     "topic_count": 98,
      "notes_ready": 21
     },
     {
@@ -70,7 +70,7 @@
      "lang": "ne",
      "hours": 160,
      "unit_count": 9,
-     "topic_count": 54,
+     "topic_count": 57,
      "notes_ready": 9
     },
     {
@@ -158,7 +158,7 @@
      "lang": "en",
      "hours": 160,
      "unit_count": 18,
-     "topic_count": 137,
+     "topic_count": 119,
      "notes_ready": 18
     },
     {
@@ -197,7 +197,7 @@
      "lang": "en",
      "hours": 128,
      "unit_count": 12,
-     "topic_count": 64,
+     "topic_count": 55,
      "notes_ready": 12
     },
     {
@@ -285,7 +285,7 @@
      "lang": "en",
      "hours": 160,
      "unit_count": 21,
-     "topic_count": 76,
+     "topic_count": 78,
      "notes_ready": 21
     },
     {
@@ -311,7 +311,7 @@
      "lang": "en",
      "hours": 128,
      "unit_count": 17,
-     "topic_count": 118,
+     "topic_count": 119,
      "notes_ready": 17
     },
     {
@@ -386,7 +386,7 @@
      "lang": "en",
      "hours": 160,
      "unit_count": 17,
-     "topic_count": 70,
+     "topic_count": 83,
      "notes_ready": 17
     },
     {
@@ -399,7 +399,7 @@
      "lang": "en",
      "hours": 128,
      "unit_count": 25,
-     "topic_count": 115,
+     "topic_count": 116,
      "notes_ready": 25
     },
     {
@@ -475,7 +475,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 22,
-     "topic_count": 74,
+     "topic_count": 80,
      "notes_ready": 22,
      "questions": 50
     },
@@ -635,7 +635,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 15,
-     "topic_count": 54,
+     "topic_count": 69,
      "notes_ready": 15,
      "questions": 50
     },
@@ -649,7 +649,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 7,
-     "topic_count": 23,
+     "topic_count": 29,
      "notes_ready": 7,
      "questions": 40
     },
@@ -663,7 +663,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 4,
-     "topic_count": 15,
+     "topic_count": 19,
      "notes_ready": 4,
      "questions": 10
     },

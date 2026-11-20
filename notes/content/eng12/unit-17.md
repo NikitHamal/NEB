@@ -27,7 +27,7 @@ he says they are the wrong tool for this job, so the job needs a **supplement**,
 not a substitute. Every question on this essay comes back to that one sentence.
 :::
 
-## 17.1 About the author
+## 17.1 About the author: Samuel Moyn
 
 Samuel Moyn (born 1972) is an American legal historian and intellectual historian.
 He studied history and French literature at Washington University in St. Louis
@@ -412,7 +412,7 @@ differences of region, caste, gender and income remain wide. Moyn's question fit
 right written in the Constitution is a floor; a fair society needs more than a
 floor.
 
-## 17.7 Glossary
+## 17.7 Glossary — "Human Rights and the Age of Inequality"
 
 | Word | Meaning as used here |
 |---|---|
@@ -447,7 +447,7 @@ floor.
 5. Moyn wants human rights **supplemented**, not substituted.
 :::
 
-## 17.8 Comprehension and critical thinking
+## 17.8 Comprehension and critical thinking — "Human Rights and the Age of Inequality"
 
 The wording below follows the CDC Grade 12 textbook; printings and guides differ in
 small details, so read the question carefully in your own copy.

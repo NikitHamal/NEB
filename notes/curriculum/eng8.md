@@ -3,116 +3,147 @@
 # TEXTBOOK: English, Grade 8 (Curriculum Development Centre, Sanothimi, 2082 edition) — 19 units, two reading texts each, with a grammar, a writing and a project task per unit. Unit and text titles are taken from the textbook's own Table of Contents. Bullets are a topic guide, not the official sub-topic text.
 # PART: Units
 ## 1. A Tour to Central Zoo / A Request Letter [G]
-- Reading a timetable and a schedule; finding information in a table
-- A request letter: purpose, politeness and layout
-- Grammar: modal verbs (can, could, would); present simple tense
-- Writing: interpreting a timetable and a schedule; filling in a form
-- Project work: designing a timetable; pronunciation: word stress
+- Reading I: A Tour to Central Zoo (timetable)
+- Reading II: A Request Letter
+- Grammar I: Modal verbs — can, could, would
+- Grammar II: The present simple tense
+- Writing: interpreting a timetable and filling in a form
+- Speaking, listening, pronunciation and project work
 ## 2. A Father's Letter to his Son / Poem: Changing [G]
-- A letter of advice: tone, point of view and structure
-- Poetry: theme, speaker and the idea of personal change
-- Grammar: yes/no questions
-- Writing: completing a skeleton story; writing an e-mail
-- Project work: composing a poem; pronunciation: /t/, /d/, /ɪd/
+- Reading I: A Father's Letter to his Son
+- Reading II: Poem — Changing World
+- Grammar: Yes/no questions
+- Speaking: asking for, giving and denying permission
+- Writing I: Completing a skeleton story
+- Writing II: Writing an e-mail
+- Pronunciation and project work
 ## 3. Public Announcements / How to Wash Clothes in a Washing Machine [G]
-- Announcements: the language of notice-giving
-- Instructions and the sequence of steps
-- Grammar: reported speech — yes/no questions
-- Writing: writing an announcement; preparing a set of instructions
-- Pronunciation: /r/
+- Reading I: Public Announcements
+- Writing I: Writing an announcement
+- Speaking and pronunciation: requests and /r/
+- Grammar: Reported speech — yes/no questions
+- Reading II: How to Wash Clothes in a Washing Machine
+- Writing II: Preparing a set of instructions
+- Punctuation (Extra bit): comma, semicolon, colon
 ## 4. A Memoir: A Visit to Mustang / A Diary Entry [G]
-- Memoir and diary as records of personal experience
-- Descriptive writing about a place and an event
-- Grammar: present perfect and past simple
-- Writing: an account of a memorable event; a diary entry
-- Pronunciation: diphthongs
+- Reading I: A Visit to Mustang (memoir)
+- Reading II: A Diary Entry
+- Grammar: Present perfect and past simple
+- Writing I: An account of a memorable event
+- Writing II: A diary entry
+- Speaking, pronunciation and project work
 ## 5. The Old Woman and the Lime Tree / Poem: Free Birds [G]
-- Narrative fiction: plot, character and message
-- Poetry: freedom as a theme; imagery
-- Grammar: reported speech — imperatives; punctuation
-- Writing: completing a skeleton story
-- Project work: collecting the expressions used for persuading
+- Reading I: The Old Woman and the Lime Tree
+- Reading II: Poem — Free Birds
+- Grammar: Reported speech — imperatives
+- Punctuation
+- Writing: Completing a skeleton story
+- Speaking, pronunciation and project work
 ## 6. Traditional Wedding Customs around the World / Life Saving Inventions [G]
-- Descriptive writing about ceremonies and customs
-- Expository writing about inventions and their effect
-- Grammar: causative verbs; subject–verb agreement
-- Writing: describing a ceremony; paraphrasing
-- Project work: making a collage; pronunciation: /s/, /z/, /ɪz/
+- Reading I: Traditional Wedding Customs around the World
+- Reading II: Life Saving Inventions
+- Grammar I: Causative verbs
+- Grammar II: Subject–verb agreement
+- Writing I: Describing a ceremony
+- Writing II: Paraphrasing
+- Speaking, pronunciation and project work
 ## 7. Weather Forecast / Migration [G]
-- The language of weather forecasting and prediction
-- Migration: causes, kinds and effects
-- Grammar: future simple, going to future and future perfect
-- Writing: paragraphs on the environment
-- Project work: designing a picture; punctuation
+- Reading I: Weather Forecast
+- Reading II: Migration
+- Grammar: Future simple, going to future and future perfect
+- Speaking: making predictions
+- Writing: punctuation and paragraphs on the environment
+- Project work and spelling (Extra bit)
 ## 8. Having Fun / Historical Inventions [G]
-- Talking about the past in narration
-- Historical inventions and their importance
-- Grammar: past simple, past continuous and past perfect; used to
-- Writing: completing a skeleton story; a narrative essay
-- Project work: making a survey; pronunciation of the past tense endings
+- Reading I: Having Fun
+- Reading II: Historical Inventions
+- Grammar I: Past simple, past continuous, past perfect
+- Grammar II: used to
+- Writing I: Completing a story
+- Writing II: A narrative essay
+- Pronunciation, speaking and project work
 ## 9. The Leap between High School and College / Smartphones in our Life [G]
-- Making comparison and contrast in writing
-- Advantages and disadvantages of technology
-- Grammar: comparative and superlative forms of adjectives and adverbs
-- Writing: a paragraph comparing places; an essay on technology
-- Project work: making a survey; pronunciation: college-related words
+- Reading I: The Leap between High School and College
+- Grammar I: Comparative and superlative adjectives
+- Reading II: Smartphones in our Life
+- Grammar II: Adverbs and their comparison
+- Writing I: A paragraph comparing two places
+- Writing II: Essay — life before and after the internet
+- Speaking, pronunciation and project work
 ## 10. Vacancy Announcement / Invitation [G]
-- Reading a job advertisement: the information it must give
-- Invitations: formal and informal; accepting and declining
-- Grammar: prepositions of place and time; question tags
-- Writing: a vacancy advertisement; a message of invitation
-- Project work: designing an invitation card; pronunciation of -tion and -sion
+- Reading I: Vacancy Announcement (UN Women Nepal)
+- Writing I: A vacancy advertisement
+- Grammar I: Prepositions of place and time
+- Reading II: Invitation e-mail and invitation card
+- Grammar II: Question tags
+- Writing II: A message of invitation
+- Pronunciation and project work
 ## 11. Sir Isaac Newton / Khaptad National Park [G]
-- Biography: the life and work of a scientist
-- Describing a place: location, features and importance
-- Grammar: relative clauses; articles
-- Writing: preparing a leaflet; writing a set of rules
-- Project work: collecting information about a place; tongue twisters
+- Reading I: Sir Isaac Newton
+- Grammar I: Relative clauses
+- Writing I: A short biography
+- Reading II: Khaptad National Park
+- Writing II: A leaflet and a set of rules
+- Grammar II: Articles
+- Speaking, pronunciation and project work
 ## 12. Nepal's Bird Man / Poem: My Teacher Ate my Homework [G]
-- A profile of a conservationist, and the work of bird conservation in Nepal
-- Humorous poetry: exaggeration and rhyme
-- Grammar: verb + -ing and infinitive; yes/no and wh questions
-- Writing: an essay on hobbies and interests
-- Project work: collecting a poem; pronunciation of words with -ch
+- Reading I: Nepal's Bird Man
+- Speaking: likes, dislikes and preferences
+- Grammar I: Verb + -ing and infinitive
+- Writing: Essay on hobbies and interests
+- Reading II: Poem — My Teacher Ate my Homework
+- Grammar II: Yes/no and wh-questions
+- Pronunciation and project work
 ## 13. Nepal is the First Country to Double its Tiger Population / Drama: A Mousetrap [G]
-- Reading and interpreting charts, graphs and tables
-- Drama: plot, characters and stage directions
-- Grammar: much/many, some/any; expressing quantity
-- Writing: writing a description of data; presenting data in a graph
-- Pronunciation: words used to interpret charts and graphs
+- Reading I: Nepal is the first country to double its tiger population
+- Writing I: Interpreting charts, graphs and tables
+- Grammar I: Quantifiers — much/many, some/any
+- Reading II: Drama — A Mousetrap
+- Grammar II: Present tenses (review)
+- Writing II: Describing a process from a flowchart
+- Speaking, pronunciation and project work
 ## 14. The Magic Mirror / Poem: If I was a Superhero [G]
-- Folk tale: honesty, courage and the test of the mirror
-- Poetry: the conditional and the imagination
-- Grammar: conditional sentences, types 1, 2 and 3
-- Writing: completing a story; writing a news story
-- Project work: preparing a draft of a speech; pronunciation: British and American differences
+- Reading I: The Magic Mirror
+- Grammar: Conditional sentences
+- Writing I: Completing a story with verb forms
+- Reading II: Poem — If I was a Superhero
+- Writing II: A news story
+- Project work: a speech draft
+- Pronunciation: British and American
 ## 15. Conservation of Earth / An Official Notice [G]
-- Argumentative writing on conservation
-- Notices: purpose, audience and format
-- Grammar: connectives of reason, purpose and contrast
-- Writing: an argumentative essay; an official notice
-- Project work: preparing a bulletin board; English consonants
+- Reading I: Conservation of Earth
+- Grammar: Connectives of reason, purpose and contrast
+- Writing I: An argumentative (opinion) essay
+- Reading II: An Official Notice
+- Writing II: A notice
+- Speaking, pronunciation and project work
 ## 16. An Anecdote: Why I Became a Vegan / A History of Pens [G]
-- Anecdote and personal narrative
-- Historical writing about an everyday object
-- Grammar: past simple, past continuous, past perfect
-- Writing: a story; paragraphs about historical events
-- Project work: describing major events; words with silent letters
+- Reading I: An Anecdote — Why I Became a Vegan
+- Grammar: Past simple, past continuous, past perfect in narration
+- Writing I: Ordering a story and writing a picture story
+- Reading II: The History of Pens
+- Writing II: Paragraphs about a historical event
+- Speaking, pronunciation and project work
 ## 17. Naresh and the Stranger / Poem: From a Railway Carriage [G]
-- Story: suspense, character and resolution
-- Poetry: rhythm and the scenery of a journey
-- Grammar: voice (active and passive)
-- Writing: an e-mail; a reply letter to an invitation
-- Project work: collecting expressions to make offers and to accept or decline
+- Reading I: Naresh and the Stranger
+- Speaking: making, accepting and declining offers
+- Grammar: Active and passive voice
+- Writing I: Replying to an e-mail offer
+- Reading II: Poem — From a Railway Carriage
+- Writing II: A reply letter to an invitation
+- Pronunciation and project work
 ## 18. Road Accidents in Nepal: Are Poor Roads Solely to Blame? / Poem: Long Life [G]
-- Discussion and opinion writing on a social problem
-- Poetry: the theme and the structure of the poem
-- Grammar: intensifiers (too, enough); subject–verb agreement
-- Writing: an opinion essay; punctuation
-- Project work: filling in a survey form and making a presentation
+- Reading I: Road Accidents in Nepal — Are Poor Roads Solely to Blame?
+- Speaking: asking for and giving opinions
+- Grammar I: Subject–verb agreement
+- Reading II: Poem — Long Life
+- Grammar II: too and enough
+- Writing: punctuation and opinion essays
+- Pronunciation and project work
 ## 19. A Tale of Two Birds / News Report: Pokhara International Airport Inaugurated [G]
-- Folk narrative and its moral
-- The newspaper report: headline, lead and body
-- Grammar: reported speech
-- Writing: a story; a news report
-- Project work: designing the front page of a newspaper; consonant clusters
+- Reading I: A Tale of Two Birds
+- Grammar: Reported speech
+- Writing I: A story
+- Reading II: News Report — Pokhara International Airport Inaugurated
+- Writing II: A news report
+- Pronunciation and project work

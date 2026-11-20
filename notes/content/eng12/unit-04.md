@@ -24,7 +24,7 @@ found. The story is a moral tale dressed as a thriller: the **wages of greed** a
 death, and a clever victim can win even after he is dead.
 :::
 
-## 4.1 About the author
+## 4.1 About the author: H. G. Wells
 
 Herbert George Wells (1866–1946) was born in Bromley, Kent, England, the fourth and
 last child of Joseph Wells, who kept a failing shop and was a professional
@@ -70,7 +70,7 @@ tail.
   and Hooker's shudder — "It's so like——" — at the corpse.
 :::
 
-## 4.2 The story
+## 4.2 The story — "The Treasure in the Forest"
 
 **The canoe and the map.** The story opens on a blazing afternoon. A canoe is
 "approaching the land": a gap in the white surf of a coral reef shows where a little
@@ -198,7 +198,7 @@ ax.text(8.4,5.1,'"little dashes"\n= poisoned thorns',fontsize=6.4,color=INK,ha='
 ```
 
 
-## 4.3 Characters
+## 4.3 Characters — "The Treasure in the Forest"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -239,7 +239,7 @@ the forest do that. The reader's sympathy shifts from them to horror at what hap
 finally to a strange respect for the dead man's cleverness.
 :::
 
-## 4.4 Themes
+## 4.4 Themes — "The Treasure in the Forest"
 
 **Greed and its punishment.** The obvious theme is that greed destroys. Evans and Hooker
 risk a voyage without water for gold; they steal a map; they ignore a dead body in
@@ -275,7 +275,7 @@ We suspect long before Evans does that the corpse and the thorns are linked; we 
 reach into the hole for another bar. "The Treasure in the Forest" is built on this.
 :::
 
-## 4.5 Setting, structure and point of view
+## 4.5 Setting, structure and point of view — "The Treasure in the Forest"
 
 **Setting.** An unnamed tropical island reached by canoe across a strait from "the
 mainland", with a coral reef, a lagoon, a river, virgin forest and mountains. The time is
@@ -347,7 +347,7 @@ reveals character ("You fool!", "Lend a hand, I say!"). The **description** is
 sensory: heat, thirst, glare, cold shadow, silence. He avoids explanation, so the
 reader does the reasoning.
 
-## 4.7 Glossary
+## 4.7 Glossary — "The Treasure in the Forest"
 
 | Word | Meaning |
 |---|---|
@@ -388,7 +388,7 @@ Hooker's thumb — and say what each meant. Never write that Chang-hi died in th
 dead man is someone else.
 :::
 
-## 4.8 Comprehension and critical thinking
+## 4.8 Comprehension and critical thinking — "The Treasure in the Forest"
 
 **Before you read**
 

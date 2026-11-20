@@ -31,7 +31,7 @@ California Press, 1991), and this edition uses the translation with the wording 
 Sinking Sun". The story was first published in **1962**. Use the wording of the prescribed extract.
 :::
 
-## 6.1 About the author
+## 6.1 About the author: Shankar Lamichhane
 
 Shankar Lamichhane (1928–1975/76) is one of Nepal's best-loved essayists and a pioneer of the
 modern Nepali short story. He was born on 17 March 1928 (5 Chaitra 1984 BS) in **Jaisidewal,
@@ -69,7 +69,7 @@ society in his name.
   a man.
 :::
 
-## 6.2 The story
+## 6.2 The story — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 
 The story has two parts. Part One is the **tourist's monologue**, spoken to the guide over drinks
 before dinner; Part Two is the **guide's monologue**, spoken to the tourist the following day.
@@ -191,7 +191,7 @@ ax.text(0.15+1.4*(w+g),1.05,"the tourist's guidebook Nepal",ha='center',fontsize
 ax.text(0.15+3.5*(w+g)+0.1,1.05,"the guide's Nepal",ha='center',fontsize=6.9,color='#2F4A6B')
 ```
 
-## 6.3 Characters
+## 6.3 Characters — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -222,7 +222,7 @@ and this is the most moving passage in the story. He is helpless, but he is not 
 a doctor because he is foreign and well dressed and because they need to believe it. Their faith is real, and so
 is the guide's deception.
 
-## 6.4 Themes
+## 6.4 Themes — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 
 **Appearance and reality — seeing and not seeing.** The whole story is about vision. The tourist looks at Nepal
 and sees beauty; the guide looks at the same country and sees the "pulse of our reality". The "samyak gaze" — a perception
@@ -258,7 +258,7 @@ the Middle East as exotic, spiritual, unchanging and passive. A tourist who admi
 or "innocent" is often practising a gentle form of it. The guide's irony in this story answers it directly.
 :::
 
-## 6.5 Setting, structure and point of view
+## 6.5 Setting, structure and point of view — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 
 **Setting.** The Kathmandu Valley in the early 1960s: the airport where a Dakota lands, guest-house and dinner tables,
 the streets of the old city (Kasthamandap), Chobhar hill and Adinath temple on the south-west edge of the valley, and a
@@ -310,7 +310,7 @@ silent listener as "my friend" or "my guest".
 the crucial statements. The tourist's speech is rich, ornate and full of "as if"; the guide's is plainer and slower,
 and he explains at each step what he is showing. The change of style from Part One to Part Two is part of the meaning.
 
-## 6.7 Glossary
+## 6.7 Glossary — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 
 | Word | Meaning |
 |---|---|
@@ -349,7 +349,7 @@ stupa, Himalaya) and the eyes the guide shows (the child). And always say what t
 the boy's eyes as "beautiful" as the Buddha's, so that beauty and suffering become one.
 :::
 
-## 6.8 Comprehension and critical thinking
+## 6.8 Comprehension and critical thinking — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 
 **Understanding the text**
 

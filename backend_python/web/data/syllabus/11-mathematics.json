@@ -305,7 +305,7 @@
     "Adjoint"
    ],
    "stats": {
-    "words": 5080,
+    "words": 5079,
     "figures": 10,
     "examples": 14
    },
@@ -624,7 +624,8 @@
     "Collinear and non-collinear vectors",
     "Coplanar and non-coplanar vectors",
     "Linear combination of vectors",
-    "Linearly dependent and independent vectors"
+    "Linearly dependent and independent vectors",
+    "The scalar product and the angle between two vectors"
    ],
    "sections": [
     {
@@ -948,7 +949,8 @@
     "Roots of algebraic and transcendental equations: bisection method",
     "Roots by Newton-Raphson method",
     "Numerical integration: trapezoidal rule",
-    "Numerical integration: Simpson's rule"
+    "Numerical integration: Simpson's rule",
+    "Extension: linear programming by the graphical method"
    ],
    "sections": [
     {
@@ -1044,6 +1046,6 @@
   }
  ],
  "unit_count": 21,
- "topic_count": 76,
+ "topic_count": 78,
  "notes_ready": 21
 }

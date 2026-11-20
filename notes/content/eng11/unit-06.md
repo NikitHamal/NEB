@@ -19,7 +19,7 @@ ritual, it cannot be shared any longer — and the friend who is left out has no
 else in the world to hold on to.
 :::
 
-## 6.1 About the author
+## 6.1 About the author: Guy de Maupassant
 
 Guy de Maupassant (1850–1893) was a French writer, born in Normandy and brought up
 largely by his mother, Laure Le Poittevin, after his parents separated. She was a
@@ -52,7 +52,7 @@ to feel. His endings are famous: a single sentence, often only a few words, whic
 changes the meaning of everything that came before. "Two Little Soldiers" ends in
 exactly that way.
 
-## 6.2 The story
+## 6.2 The story — "Two Little Soldiers"
 
 **The Sunday walk.** Every Sunday, as soon as they are free, two young soldiers
 leave their barracks at Courbevoie, near Paris, turn right and walk quickly through
@@ -157,7 +157,7 @@ ax.set_xlim(-1.2,11.9); ax.set_ylim(0.05,4.15)
 ax.axis('off')
 ```
 
-## 6.3 Characters
+## 6.3 Characters — "Two Little Soldiers"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -194,7 +194,7 @@ careless nod and no milk, is the cruellest moment in the story, precisely becaus
 she means nothing by it. Maupassant is showing how ordinary, thoughtless behaviour
 can destroy someone.
 
-## 6.4 Themes
+## 6.4 Themes — "Two Little Soldiers"
 
 **Homesickness and exile.** The two soldiers are Bretons from a fishing and farming
 country, dropped into the dusty suburbs of Paris. Everything they enjoy is a
@@ -270,7 +270,7 @@ ax.set_xlim(-0.2,11.6); ax.set_ylim(0.3,4.95)
 ax.axis('off')
 ```
 
-## 6.5 Setting, structure and point of view
+## 6.5 Setting, structure and point of view — "Two Little Soldiers"
 
 **Setting.** The story moves between two places, one real and one remembered. The
 real one is the Paris suburbs of the 1880s: a barracks at Courbevoie, a dusty road,
@@ -302,7 +302,7 @@ entering anyone's mind. It forces the reader to work out feelings from behaviour
 which is why Maupassant's stories feel so restrained.
 :::
 
-## 6.6 Literary devices
+## 6.6 Literary devices — "Two Little Soldiers"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -325,7 +325,7 @@ sides — the hypnotised leaning on one hand, Luc's report of an accident on the
 The tragedy is caused by nobody's wickedness, which is exactly Maupassant's point.
 :::
 
-## 6.7 Glossary
+## 6.7 Glossary — "Two Little Soldiers"
 
 | Word / phrase | Meaning |
 |---|---|

@@ -102,7 +102,7 @@ ax.text(-2.6, -1.25, "One sentence.  No capital letters.  No full stop at the en
 ax.set_xlim(-3.0, 15.0); ax.set_ylim(-1.7, 8.5); ax.axis("off")
 ```
 
-## 11.3 Themes
+## 11.3 Themes — "Who are you, little i?"
 
 **Childhood and the wisdom in it.** The child is not taught anything by the poem;
 the child does the teaching. A five-year-old, without arguing about it,
@@ -227,7 +227,7 @@ The poem is modern and in copyright, so only short phrases are quoted below.
 | Typography | lower-case "i", "november"; no spaces after punctuation | Shrinks the self, levels all words, and slows the eye down on the page |
 | Ambiguity | "who are you" | Both a real question to a remembered child and a question about what a self is |
 
-## 11.6 Glossary
+## 11.6 Glossary — "Who are you, little i?"
 
 | Word | Meaning |
 |---|---|

@@ -21,7 +21,7 @@ picture is finally "Life itself", the living woman is dead. Art and life, in thi
 story, are rivals, and art wins.
 :::
 
-## 2.1 About the author
+## 2.1 About the author: Edgar Allan Poe
 
 Edgar Allan Poe (1809–1849) was an American poet, short-story writer, editor and
 critic. He was born in Boston. His father abandoned the family and his mother
@@ -57,7 +57,7 @@ beautiful woman — which he once called the most poetical topic in the world.
 "The Oval Portrait" first appeared in 1842 under the title "Life in Death", and
 Poe cut it to its present shape in 1845.
 
-## 2.2 The story
+## 2.2 The story — "The Oval Portrait"
 
 **Taking shelter.** The narrator is badly wounded — we are never told how — and is
 travelling with his servant, Pedro. Rather than let his master spend a night in
@@ -150,7 +150,7 @@ ax.legend(loc='lower center', bbox_to_anchor=(0.5,1.02), ncol=2, fontsize=8.0,
           frameon=False, handlelength=2.0)
 ```
 
-## 2.3 Characters
+## 2.3 Characters — "The Oval Portrait"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -187,7 +187,7 @@ uncomplainingly, precisely because she loves him. Poe's simile for her last mome
 out — makes her death seem like something quietly used up rather than violently
 taken.
 
-## 2.4 Themes
+## 2.4 Themes — "The Oval Portrait"
 
 **Art demands life, and takes it.** This is the story's central claim, and Poe
 makes it literal, not merely symbolic. The tints spread on the canvas are "drawn
@@ -220,7 +220,7 @@ does not happen to the narrator at all: he only reads it. Poe demonstrates that
 horror travels through narration, and that an old book, in the right room at the
 right hour, can be more terrifying than any ghost.
 
-## 2.5 Setting, structure and point of view
+## 2.5 Setting, structure and point of view — "The Oval Portrait"
 
 **Setting.** An abandoned château among the Apennines, at night, in a remote
 turret; heavy shutters closed, black velvet curtains thrown open, a tall candelabrum
@@ -276,7 +276,7 @@ ax.set_xlim(0,10); ax.set_ylim(0,6.1)
 ax.axis('off')
 ```
 
-## 2.6 Literary devices
+## 2.6 Literary devices — "The Oval Portrait"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -291,7 +291,7 @@ ax.axis('off')
 | Imagery of light and shade | Light "dripped" from overhead onto the canvas; the niche "thrown into deep shade" | Light gives life to the picture and takes it from the woman |
 | Unreliable narration | "My incipient delirium, perhaps, had caused me to take deep interest" | Leaves it open whether the terror is in the picture or in the narrator |
 
-## 2.7 Glossary
+## 2.7 Glossary — "The Oval Portrait"
 
 | Word / phrase | Meaning |
 |---|---|

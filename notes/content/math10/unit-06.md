@@ -370,8 +370,7 @@ $$ 2\pi rh+4\pi r^2=2\times\frac{22}{7}\times 2.1\times 4+4\times\frac{22}{7}\ti
 5. Convert to litres only at the end.
 :::
 
-## 6.8 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Halve a diameter to get the radius; put all lengths in one unit.

@@ -29,7 +29,7 @@ these ideas in two or three sentences; the long question is nearly always the si
 dimensions or "marriage as an institution".
 :::
 
-## 14.1 About the author
+## 14.1 About the author: Stephen L. Nock
 
 Steven L. Nock (the textbook's heading and contents page print the first name as "Stephen") was born on **11 March 1950** and died in **January 2008**. (Your textbook
 says 26 January; some other sources say 20 January. Learn only "January 2008".) He was
@@ -329,7 +329,7 @@ objective, scholarly tone. The writer mostly says "one must consider", not "I fe
 **Repetition of key terms.** *Rules*, *boundaries*, *institution*, *capital*, *norms* return
 again and again, so that the reader ends up thinking in Nock's vocabulary.
 
-## 14.6 Glossary
+## 14.6 Glossary — "Marriage as a Social Institution"
 
 | Word | Meaning |
 |---|---|
@@ -356,7 +356,7 @@ again and again, so that the reader ends up thinking in Nock's vocabulary.
 | voluntarily | by free choice |
 | fidelity | faithfulness to a partner |
 
-## 14.7 Comprehension and critical thinking
+## 14.7 Comprehension and critical thinking — "Marriage as a Social Institution"
 
 **Before you read**
 

@@ -97,6 +97,7 @@
 - Alkyl groups, functional groups and homologous series
 - Structural formula, contracted formula and bond line structural formula
 - Preliminary idea of cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive
+- Bond fission and electronic effects — a bridge to Unit 13
 ## 13. Fundamental Principles of Organic Chemistry [10]
 - IUPAC Nomenclature of Organic Compounds (up to chain having 6 carbon atoms)
 - Qualitative analysis: detection of N, S and halogens by Lassaigne's test

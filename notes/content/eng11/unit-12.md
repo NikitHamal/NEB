@@ -112,7 +112,7 @@ ax.text(0.5, 0.045, 'both lists share one word:  "gift"', ha="center",
 ax.set_xlim(0.02,0.98); ax.set_ylim(0.0,1.0); ax.axis("off")
 ```
 
-## 12.3 Themes
+## 12.3 Themes — "The Gift in Wartime"
 
 **The cruelty and waste of war.** The poem makes no speech against war. It simply
 sets out what one family received from it, and the list does the arguing.
@@ -219,7 +219,7 @@ than reprinting the lines.
 | Enjambment | the short lines running on into one another | The speaker's thought cannot be stopped at the line-ends any more than her grief can |
 | Understatement | the flat, unemotional listing of terrible things | Restraint that is far more powerful than protest would be |
 
-## 12.6 Glossary
+## 12.6 Glossary — "The Gift in Wartime"
 
 | Word | Meaning |
 |---|---|

@@ -510,7 +510,7 @@ addresses the social self she has to appear as in public, this poem completes an
 argument: there is the self other people have made, and there is the self who
 walks. The second one is the route.
 
-## 10.10 Glossary
+## 10.10 Glossary — "I Was My Own Route"
 
 | Word or phrase | Meaning as used here |
 |---|---|

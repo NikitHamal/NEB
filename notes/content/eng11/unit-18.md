@@ -22,7 +22,7 @@ what the men do not; the **setting** as a cause rather than a background; and th
 law and justice.
 :::
 
-## 18.1 About the author
+## 18.1 About the author: Susan Glaspell
 
 **Susan Glaspell (1876–1948)** was an American playwright, novelist, journalist
 and actress. She first became known for her short stories — about fifty were
@@ -412,7 +412,7 @@ audience shares the women's knowledge, so the irony makes us accomplices: we are
 hiding the box too.
 :::
 
-## 18.8 Themes
+## 18.8 Themes — "Trifles"
 
 **The trivialisation of women's lives.** The men's error is not cruelty but
 contempt: kitchens, preserves, sewing and birds are beneath notice. The play
@@ -452,7 +452,7 @@ its stage.
 | Stage silence | "Their eyes meet. A look of growing comprehension, of horror." | The play's climax happens with no dialogue at all |
 | Contrast | men upstairs and in the barn / women in the kitchen | Turns stage geography into the play's argument |
 
-## 18.9 Glossary
+## 18.9 Glossary — "Trifles"
 
 | Word | Meaning |
 |---|---|

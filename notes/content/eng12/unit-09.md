@@ -455,7 +455,7 @@ uncertainty say, at the level of sound, what the speaker cannot say at the level
 of statement: that things come out even, that nothing is left unpaired, that the
 morning follows the night. He says good-bye; the rhyme says *just for now*.
 
-## 9.10 Glossary
+## 9.10 Glossary — "Every Morning I Wake"
 
 | Word or phrase | Meaning as used here |
 |---|---|

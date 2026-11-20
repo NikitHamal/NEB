@@ -22,7 +22,7 @@ Master's **double trick**; the final reversal and the closing boast; the
 **satire** on the education system; and a character sketch of Wasserkopf.
 :::
 
-## 20.1 About the author
+## 20.1 About the author: Frigyes Karinthy
 
 **Fritz Karinthy (1887–1938)** — in Hungarian, **Frigyes Karinthy** — was a
 Hungarian satirical writer. He excelled as a novelist, short story writer, poet,
@@ -378,7 +378,7 @@ comic force depends on three reversals, each sharper than the last: Wasserkopf
 expects to be thrown out and is given "Excellent" instead; he expects to be passed
 and is failed; and he expects, at last, to be paid, and is thrown out after all.
 
-## 20.5 Themes
+## 20.5 Themes — "Refund"
 
 **Education that certifies without teaching.** This is the central theme. The
 school's answer to a man who says he learned nothing is not to examine what he
@@ -484,7 +484,7 @@ which is what allows so much to happen in so little time.
 | Dramatic reversal | failed, then passed, then thrown out | "The biter bit": three reversals in five minutes |
 | Aside-like winks | the Geography Master "winks solemnly at his colleagues" | Keeps the audience inside the conspiracy |
 
-## 20.7 Glossary
+## 20.7 Glossary — "Refund"
 
 | Word | Meaning |
 |---|---|

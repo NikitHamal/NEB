@@ -21,7 +21,7 @@ love brings life back. The Giant's garden is not really a garden — it is his o
 soul, and the weather in it reports the state of his heart.
 :::
 
-## 1.1 About the author
+## 1.1 About the author: Oscar Wilde
 
 Oscar Wilde (1854–1900) was an Irish poet, playwright, novelist and critic. He
 was born in Dublin to a distinguished family — his father a surgeon, his mother a
@@ -66,7 +66,7 @@ nail-prints in his hands and feet is Christ, the garden is the human soul, and
 the ending is about salvation, not about good manners. Read both levels.
 :::
 
-## 1.2 The story
+## 1.2 The story — "The Selfish Giant"
 
 **The garden as it was.** Every afternoon, walking home from school, the village
 children played in the Giant's garden — soft green grass, flowers "like stars",
@@ -167,7 +167,7 @@ ax.set_xlim(-2.9,13.6); ax.set_ylim(-2.5,6.9)
 ax.axis('off')
 ```
 
-## 1.3 Characters
+## 1.3 Characters — "The Selfish Giant"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -210,7 +210,7 @@ important too. When he first comes into the garden to help, they run, and winter
 returns instantly — a reminder that a reputation for cruelty outlives the
 cruelty, and that trust has to be rebuilt.
 
-## 1.4 Themes
+## 1.4 Themes — "The Selfish Giant"
 
 **Selfishness punishes itself.** Nobody sentences the Giant. He fences in what he
 loves and discovers that he has fenced out everything that made it worth loving.
@@ -246,7 +246,7 @@ unmistakably Christ. The Giant's death is not a tragedy but a reward: he dies
 under the tree, covered in white blossom — the colour of innocence — at the
 moment of winter, because for him winter is now only "the Spring asleep".
 
-## 1.5 Setting, structure and point of view
+## 1.5 Setting, structure and point of view — "The Selfish Giant"
 
 **Setting.** The story happens in no named country and no named year — a castle, a
 garden, a village school, a market at twelve o'clock. This vagueness is
@@ -306,7 +306,7 @@ ax.set_xlim(-0.05,7.9); ax.set_ylim(-0.1,8.8)
 ax.axis('off')
 ```
 
-## 1.6 Literary devices
+## 1.6 Literary devices — "The Selfish Giant"
 
 | Device | Example from the text | Effect |
 |---|---|---|
@@ -326,7 +326,7 @@ usually moral, political or religious ideas — so that the whole narrative can 
 read twice, literally and figuratively.
 :::
 
-## 1.7 Glossary
+## 1.7 Glossary — "The Selfish Giant"
 
 | Word / phrase | Meaning |
 |---|---|

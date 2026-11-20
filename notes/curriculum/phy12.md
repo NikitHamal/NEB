@@ -127,6 +127,7 @@
 - Semiconductor diode: Characteristics in forward and reverse bias
 - Full wave rectification
 - Logic gates: NOT, OR, AND, NAND and NOR
+- The junction transistor and its configurations
 ## 23. Quantization of energy [8]
 - Bohr's theory of hydrogen atom
 - Spectral series; Excitation and ionization potentials

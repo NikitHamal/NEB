@@ -5,68 +5,68 @@
 # TEXTBOOK: "English Grade 12", CDC, First Edition 2021 AD
 # PART: Literature - Short Stories
 ## 1. Neighbours - Tim Winton [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: Tim Winton
+- The story — "Neighbours"
+- Characters — "Neighbours"
+- Themes — "Neighbours"
+- Setting, structure and point of view — "Neighbours"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "Neighbours"
+- Comprehension and critical thinking — "Neighbours"
 ## 2. A Respectable Woman - Kate Chopin [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: Kate Chopin
+- The story — "A Respectable Woman"
+- Characters — "A Respectable Woman"
+- Themes — "A Respectable Woman"
+- Setting, structure and point of view — "A Respectable Woman"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "A Respectable Woman"
+- Comprehension and critical thinking — "A Respectable Woman"
 ## 3. A Devoted Son - Anita Desai [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: Anita Desai
+- The story — "A Devoted Son"
+- Characters — "A Devoted Son"
+- Themes — "A Devoted Son"
+- Setting, structure and point of view — "A Devoted Son"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "A Devoted Son"
+- Comprehension and critical thinking — "A Devoted Son"
 ## 4. The Treasure in the Forest - H. G. Wells [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: H. G. Wells
+- The story — "The Treasure in the Forest"
+- Characters — "The Treasure in the Forest"
+- Themes — "The Treasure in the Forest"
+- Setting, structure and point of view — "The Treasure in the Forest"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "The Treasure in the Forest"
+- Comprehension and critical thinking — "The Treasure in the Forest"
 ## 5. My Old Home - Lu Xun [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: Lu Xun
+- The story — "My Old Home"
+- Characters — "My Old Home"
+- Themes — "My Old Home"
+- Setting, structure and point of view — "My Old Home"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "My Old Home"
+- Comprehension and critical thinking — "My Old Home"
 ## 6. The Half-closed Eyes of the Buddha and the Slowly Sinking Sun - Shankar Lamichhane [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: Shankar Lamichhane
+- The story — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
+- Characters — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
+- Themes — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
+- Setting, structure and point of view — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
+- Comprehension and critical thinking — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"
 ## 7. A Very Old Man with Enormous Wings - Gabriel Garcia Marquez [L]
-- About the author
-- The story
-- Characters
-- Themes
-- Setting, structure and point of view
+- About the author: Gabriel Garcia Marquez
+- The story — "A Very Old Man with Enormous Wings"
+- Characters — "A Very Old Man with Enormous Wings"
+- Themes — "A Very Old Man with Enormous Wings"
+- Setting, structure and point of view — "A Very Old Man with Enormous Wings"
 - Style and literary devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "A Very Old Man with Enormous Wings"
+- Comprehension and critical thinking — "A Very Old Man with Enormous Wings"
 # PART: Literature - Poems
 ## 8. A Day - Emily Dickinson [L]
 - About the poet
@@ -78,7 +78,7 @@
 - Imagery, figures of speech and sound devices
 - Tone
 - Critical appreciation
-- Glossary
+- Glossary — "A Day"
 ## 9. Every Morning I Wake - Dylan Thomas [L]
 - About the poet
 - Where the poem comes from
@@ -89,7 +89,7 @@
 - Imagery, figures of speech and sound devices
 - Tone
 - Critical appreciation
-- Glossary
+- Glossary — "Every Morning I Wake"
 ## 10. I Was My Own Route - Julia de Burgos [L]
 - About the poet
 - The poem in translation
@@ -100,7 +100,7 @@
 - Imagery and figures of speech
 - Tone
 - Critical appreciation
-- Glossary
+- Glossary — "I Was My Own Route"
 ## 11. The Awakening Age - Ben Okri [L]
 - About the poet
 - The poem and its occasion
@@ -111,7 +111,7 @@
 - Imagery, figures of speech and sound devices
 - Tone
 - Critical appreciation
-- Glossary
+- Glossary — "The Awakening Age"
 ## 12. Soft Storm - Abhi Subedi [L]
 - About the poet
 - The poem's world: Thamel and Kesharmahal
@@ -122,80 +122,80 @@
 - Imagery, figures of speech and sound devices
 - Tone
 - Critical appreciation
-- Glossary
+- Glossary — "Soft Storm"
 # PART: Literature - Essays
 ## 13. On Libraries - Oliver Sacks [L]
-- About the author
+- About the author: Oliver Sacks
 - The essay: source, shape and message
 - The essay, paragraph by paragraph
 - Arguments and themes
 - Style and devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "On Libraries"
+- Comprehension and critical thinking — "On Libraries"
 ## 14. Marriage as a Social Institution - Stephen L. Nock [L]
-- About the author
+- About the author: Stephen L. Nock
 - The essay: shape and argument
 - The essay, part by part
 - Marriage across cultures: America and Nepal
 - Style and devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "Marriage as a Social Institution"
+- Comprehension and critical thinking — "Marriage as a Social Institution"
 ## 15. Knowledge and Wisdom - Bertrand Russell [L]
-- About the author
+- About the author: Bertrand Russell
 - The essay: context and argument
 - The essay, paragraph by paragraph
 - Ideas and themes
 - Style and devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "Knowledge and Wisdom"
+- Comprehension and critical thinking — "Knowledge and Wisdom"
 ## 16. Humility - Yuval Noah Harari [L]
-- About the author
+- About the author: Yuval Noah Harari
 - The essay: shape and argument
 - The essay, part by part
 - Ideas and themes
 - Style and devices
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "Humility"
+- Comprehension and critical thinking — "Humility"
 ## 17. Human Rights and the Age of Inequality - Samuel Moyn [L]
-- About the author
+- About the author: Samuel Moyn
 - Background: the ideas you need before you read
 - The essay, section by section
 - Central idea and themes
 - Style, tone and form
 - Critical appreciation
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "Human Rights and the Age of Inequality"
+- Comprehension and critical thinking — "Human Rights and the Age of Inequality"
 # PART: Literature - One Act Plays
 ## 18. A Matter of Husbands - Ferenc Molnar [L]
-- About the author
+- About the author: Ferenc Molnar
 - What kind of play is this?
 - The play, beat by beat
-- Characters
+- Characters — "A Matter of Husbands"
 - Dramatic techniques
-- Themes
+- Themes — "A Matter of Husbands"
 - Critical appreciation
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "A Matter of Husbands"
+- Comprehension and critical thinking — "A Matter of Husbands"
 ## 19. Facing Death - August Strindberg [L]
-- About the author
+- About the author: August Strindberg
 - Background you need for this play
 - The play, beat by beat
-- Characters
-- Themes
+- Characters — "Facing Death"
+- Themes — "Facing Death"
 - Dramatic techniques
 - Critical appreciation
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "Facing Death"
+- Comprehension and critical thinking — "Facing Death"
 ## 20. The Bull - Bhimnidhi Tiwari [L]
-- About the author
+- About the author: Bhimnidhi Tiwari
 - Background: the king, the court and the word "chakari"
 - The play, part by part
-- Characters
-- Themes
+- Characters — "The Bull"
+- Themes — "The Bull"
 - Dramatic techniques
 - Critical appreciation
-- Glossary
-- Comprehension and critical thinking
+- Glossary — "The Bull"
+- Comprehension and critical thinking — "The Bull"
 # PART: Grammar
 ## 21. Question Tags and Questions [G]
 - Building a regular tag

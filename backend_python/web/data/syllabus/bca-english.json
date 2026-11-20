@@ -30,7 +30,8 @@
    "topics": [
     "Synonyms and antonyms",
     "One word for a group of words",
-    "Words often confused"
+    "Words often confused",
+    "Eight traps in vocabulary"
    ],
    "sections": [
     {
@@ -74,7 +75,8 @@
    "topics": [
     "Idioms and phrases",
     "Phrasal verbs",
-    "Words followed by prepositions and the use of prepositions"
+    "Words followed by prepositions and the use of prepositions",
+    "Eight traps in idioms, phrasal verbs and prepositions"
    ],
    "sections": [
     {
@@ -118,7 +120,8 @@
    "topics": [
     "Use of articles",
     "Use of tenses",
-    "Subject-verb agreement"
+    "Subject-verb agreement",
+    "Eight traps in articles, tenses and agreement"
    ],
    "sections": [
     {
@@ -162,7 +165,8 @@
    "topics": [
     "Active and passive voice",
     "Reported speech",
-    "Question tags"
+    "Question tags",
+    "Eight traps in voice, narration and tags"
    ],
    "sections": [
     {
@@ -206,7 +210,8 @@
    "topics": [
     "Relative pronouns and relative clauses",
     "Conditional sentences",
-    "Causative verbs, to-infinitives and gerunds"
+    "Causative verbs, to-infinitives and gerunds",
+    "Eight traps in clauses, conditionals and verb patterns"
    ],
    "sections": [
     {
@@ -251,7 +256,8 @@
     "Pronouns and determiners",
     "Modal verbs",
     "Degrees of comparison, conjunctions and word order",
-    "Spotting and correcting errors"
+    "Spotting and correcting errors",
+    "Eight traps in pronouns, modals, comparison and error spotting"
    ],
    "sections": [
     {
@@ -337,6 +343,6 @@
   }
  ],
  "unit_count": 7,
- "topic_count": 23,
+ "topic_count": 29,
  "notes_ready": 7
 }

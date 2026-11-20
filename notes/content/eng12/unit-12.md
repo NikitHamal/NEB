@@ -654,7 +654,7 @@ with a broken temple in it — are fit subjects for serious poetry in English, a
 that you do not have to borrow somebody else's landscape to write about your own
 time.
 
-## 12.10 Glossary
+## 12.10 Glossary — "Soft Storm"
 
 | Word or phrase | Meaning as used here |
 |---|---|

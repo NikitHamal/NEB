@@ -446,8 +446,7 @@ The result maps $(x,y)\to(-y,-x)$, a reflection in the line $y=-x$. Check with $
 For composition: the intermediate point written out, in the stated order. For inversion: the factor $\dfrac{r^2}{x^2+y^2}$ shown, and $OP\times OP'=r^2$ as a check. For matrices: the row-by-column working, and the name of the transformation (reflection, rotation, enlargement) with its axis, angle or centre.
 :::
 
-## 9.6 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Inequalities: boundary line, test point, shade, overlap.

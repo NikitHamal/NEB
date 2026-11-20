@@ -328,8 +328,7 @@ Draw it. Mark all given lengths. Split it into rectangles, triangles and circula
 - Forgetting that $\frac12 bh$ needs the **perpendicular** height. In a right-angled triangle, use the two sides containing the right angle.
 :::
 
-## 5.7 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method
 
 1. Sketch the figure and write the data in the same unit.

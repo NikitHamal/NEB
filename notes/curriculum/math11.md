@@ -65,6 +65,7 @@
 - Coplanar and non-coplanar vectors
 - Linear combination of vectors
 - Linearly dependent and independent vectors
+- The scalar product and the angle between two vectors
 # AREA: Statistics and Probability (12)
 ## 15. Measures of Dispersion [6]
 - Standard deviation and variance
@@ -100,6 +101,7 @@
 - Roots by Newton-Raphson method
 - Numerical integration: trapezoidal rule
 - Numerical integration: Simpson's rule
+- Extension: linear programming by the graphical method
 ## 21. Mechanics (alternative to Unit 20) [12]
 - Statics: forces and resultant forces; parallelogram law of forces
 - Composition and resolution of forces; resultant of coplanar forces acting on a point

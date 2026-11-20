@@ -1123,7 +1123,8 @@
     "P-N Junction",
     "Semiconductor diode: Characteristics in forward and reverse bias",
     "Full wave rectification",
-    "Logic gates: NOT, OR, AND, NAND and NOR"
+    "Logic gates: NOT, OR, AND, NAND and NOR",
+    "The junction transistor and its configurations"
    ],
    "sections": [
     {
@@ -1328,6 +1329,6 @@
   }
  ],
  "unit_count": 25,
- "topic_count": 115,
+ "topic_count": 116,
  "notes_ready": 25
 }

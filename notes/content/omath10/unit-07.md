@@ -405,8 +405,7 @@ Centre $(2,2)$ (on $x=y$ ✓), radius $\sqrt{4+4-4}=2$.
 The correct choice of form: centre–radius if the centre is known; diameter form if the ends of a diameter are given; general form with three simultaneous equations if three points are given. Marks are given for the substitutions, solving for $g,f,c$, and the final equation in the form $x^2+y^2+2gx+2fy+c=0$.
 :::
 
-## 7.5 Exercises of the SEE type
-
+## Worked SEE Problems
 ### Method for any question
 
 1. Read what is given: centre and radius, a diameter, three points, or a condition (touching an axis, centre on a line).

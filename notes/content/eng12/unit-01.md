@@ -24,7 +24,7 @@ butchered, waited and rejoiced together. Winton's point is that human warmth
 crosses barriers that words cannot.
 :::
 
-## 1.1 About the author
+## 1.1 About the author: Tim Winton
 
 Timothy John Winton (born 1960) is an Australian novelist and short-story writer,
 born in Perth and brought up in Perth and in the small coastal town of Albany in
@@ -68,7 +68,7 @@ had officially adopted **multiculturalism** and post-war migrant families from
 southern and eastern Europe were long settled in the inner suburbs of its cities.
 :::
 
-## 1.2 The story
+## 1.2 The story — "Neighbours"
 
 **Arrival and unease.** When they first move in, the young couple are "wary of
 the neighbourhood". The street is full of European migrants and the newly-weds
@@ -196,7 +196,7 @@ ax.set_xlim(-4.7,13.9); ax.set_ylim(-3.2,7.9)
 ax.axis('off')
 ```
 
-## 1.3 Characters
+## 1.3 Characters — "Neighbours"
 
 | Character | Who they are | Role in the story |
 |---|---|---|
@@ -251,7 +251,7 @@ receive help but *join in*, sitting on upturned buckets, telling half-understood
 stories and finally shouting themselves. By the last page the Macedonians are the
 people standing at the fence at dawn, cheering a baby that is not theirs.
 
-## 1.4 Themes
+## 1.4 Themes — "Neighbours"
 
 **Community across language.** The story's central claim is that people can
 belong to each other without a shared language. Not one line of dialogue is
@@ -294,7 +294,7 @@ neighbourhood is, in miniature, the migrant experience itself — which is why t
 story can be read as being as much about the Macedonians and the Pole as about
 the Australians.
 
-## 1.5 Setting, structure and point of view
+## 1.5 Setting, structure and point of view — "Neighbours"
 
 **Setting.** An unnamed inner suburb of an Australian city — the Moreton Bay figs
 and the street of post-war European migrants suggest Perth or Sydney — some time
@@ -384,7 +384,7 @@ for cx,head,items in cols:
 | Structural parallel | The garden planted in autumn; the child conceived in autumn | Both come to harvest at the same moment |
 | Short simple sentences | "Labour came abruptly." "A boy, she said." | Speed and plainness at the emotional peak; Winton refuses to decorate |
 
-## 1.7 Glossary
+## 1.7 Glossary — "Neighbours"
 
 | Word | Meaning |
 |---|---|
@@ -430,7 +430,7 @@ the candidate who can show the movement with evidence rather than the one who
 only asserts that the couple "became friendly".
 :::
 
-## 1.8 Comprehension and critical thinking
+## 1.8 Comprehension and critical thinking — "Neighbours"
 
 **Understanding the text**
 
