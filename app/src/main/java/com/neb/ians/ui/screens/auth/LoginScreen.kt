@@ -49,8 +49,9 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.OAuthResult
 import com.neb.ians.ui.screens.onboarding.Reveal
@@ -87,6 +88,9 @@ private const val GITHUB_DIRECT_OAUTH_URL =
 @Volatile
 private var nativeCredMgrBrokenInSession = false
 
+@Volatile
+private var nativeGoogleCertVerified: Boolean? = null
+
 private fun isConfigOrReauthFailure(msgRaw: String?): Boolean {
     val msg = (msgRaw ?: "").lowercase()
     return "reauth" in msg || "28444" in msg || "developer" in msg || "10:" in msg || "unregistered" in msg
@@ -102,8 +106,8 @@ private fun isTrueUserCancellation(e: GetCredentialCancellationException): Boole
 @Suppress("DEPRECATION")
 private fun isNativeGoogleIdConfigured(context: Context): Boolean {
     if (nativeCredMgrBrokenInSession) return false
-    return runCatching {
-        // Clear any legacy sticky disable flag from earlier builds so native Credential Manager is always tried.
+    nativeGoogleCertVerified?.let { return it }
+    val verified = runCatching {
         val prefs = context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
         val disableKey = "cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}"
         if (prefs.contains(disableKey)) {
@@ -114,7 +118,7 @@ private fun isNativeGoogleIdConfigured(context: Context): Boolean {
             .map { it.trim().replace(":", "").lowercase() }
             .filter { it.length == 40 || it.length == 64 }
             .toSet()
-        if (registered.isEmpty()) return true
+        if (registered.isEmpty()) return@runCatching true
         val pm = context.packageManager
         val sigs = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             val info = pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
@@ -124,7 +128,7 @@ private fun isNativeGoogleIdConfigured(context: Context): Boolean {
         } else {
             pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNATURES).signatures ?: emptyArray()
         }
-        if (sigs.isEmpty()) return true
+        if (sigs.isEmpty()) return@runCatching true
         val sha1Digest = java.security.MessageDigest.getInstance("SHA-1")
         val sha256Digest = java.security.MessageDigest.getInstance("SHA-256")
         sigs.any { sig ->
@@ -134,6 +138,8 @@ private fun isNativeGoogleIdConfigured(context: Context): Boolean {
             sha1 in registered || sha256 in registered
         }
     }.getOrDefault(true)
+    nativeGoogleCertVerified = verified
+    return verified
 }
 
 private fun extractGoogleIdToken(credential: androidx.credentials.Credential): String? = when {
@@ -147,9 +153,6 @@ private fun extractGoogleIdToken(credential: androidx.credentials.Credential): S
 private suspend fun requestGoogleIdTokenNatively(activityContext: Activity): String? {
     val credentialManager = CredentialManager.create(activityContext)
     val primaryServerClientId = AuthRepository.GOOGLE_SERVER_CLIENT_ID
-    var shouldTryExplicitModal = false
-
-    // Tier 1: Bottom-sheet One Tap credential picker (GetGoogleIdOption)
     try {
         val oneTapOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -160,31 +163,13 @@ private suspend fun requestGoogleIdTokenNatively(activityContext: Activity): Str
             request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
             context = activityContext
         )
-        extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }?.let { return it }
+        return extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }
     } catch (e: GetCredentialCancellationException) {
         if (isTrueUserCancellation(e)) throw e
         if (isConfigOrReauthFailure(e.message)) nativeCredMgrBrokenInSession = true
         throw e
     } catch (e: NoCredentialException) {
-        shouldTryExplicitModal = true
-    } catch (e: Exception) {
-        if (isConfigOrReauthFailure(e.message)) {
-            nativeCredMgrBrokenInSession = true
-            throw e
-        }
-        shouldTryExplicitModal = true
-    }
-
-    if (!shouldTryExplicitModal) return null
-
-    // Tier 2: Explicit "Sign in with Google" account chooser modal (GetSignInWithGoogleOption)
-    try {
-        val signInOption = GetSignInWithGoogleOption.Builder(primaryServerClientId).build()
-        val fallbackResult = credentialManager.getCredential(
-            request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
-            context = activityContext
-        )
-        return extractGoogleIdToken(fallbackResult.credential)?.takeIf { it.isNotBlank() }
+        return null
     } catch (e: Exception) {
         if (isConfigOrReauthFailure(e.message)) nativeCredMgrBrokenInSession = true
         throw e
@@ -314,12 +299,14 @@ fun LoginScreen(
     fun launchOAuth(provider: String) {
         if (isLoading) return
         errorMessage = null
-        if (provider == "google" && authRepository != null && isNativeGoogleIdConfigured(context)) {
+        if (provider == "google" && authRepository != null) {
             isLoading = true
             loadingProvider = "google"
             scope.launch {
                 try {
-                    val activityContext = context.findActivity() ?: run {
+                    val configured = withContext(Dispatchers.Default) { isNativeGoogleIdConfigured(context) }
+                    val activityContext = if (configured) context.findActivity() else null
+                    if (activityContext == null) {
                         launchBrowserOAuth("google")
                         return@launch
                     }
@@ -394,7 +381,7 @@ fun LoginScreen(
             Reveal(active = true, index = 3) {
                 Text(
                     text = buildAnnotatedString {
-                        append("Welcome to ")
+                        append("Sign in to ")
                         pushStyle(SpanStyle(color = palette.brand, fontWeight = FontWeight.SemiBold))
                         append("NEBians")
                         pop()

@@ -68,14 +68,7 @@ import com.neb.ians.util.TactileType
 // the brand gradient used for the logo + accents).
 // ---------------------------------------------------------------------------
 
-object NebColors {
-    val BrandGradientStart = Color(0xFF313136)
-    val BrandGradientMid = Color(0xFF1F1F21)
-    val BrandGradientEnd = Color(0xFF0A0A0B)
 
-    val brandBrush: Brush
-        get() = Brush.linearGradient(listOf(BrandGradientStart, BrandGradientMid, BrandGradientEnd))
-}
 
 /** Subtle hairline border color matching web --md-border-subtle. */
 @Composable
@@ -373,39 +366,6 @@ private fun badgeInk(type: String, dark: Boolean): Color = when (type) {
 // ---------------------------------------------------------------------------
 
 @Composable
-fun NebSectionHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-    actionLabel: String? = null,
-    onAction: (() -> Unit)? = null,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        Text(
-            title,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        if (actionLabel != null && onAction != null) {
-            Text(
-                actionLabel,
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clip(CircleShape).clickable(onClick = onAction).padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-        }
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Empty state.
-// ---------------------------------------------------------------------------
-
-@Composable
 fun NebEmptyState(
     icon: ImageVector,
     title: String,
@@ -446,18 +406,6 @@ fun NebEmptyState(
             Spacer(Modifier.height(4.dp))
             action()
         }
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Small inline stat (icon + value) used on cards.
-// ---------------------------------------------------------------------------
-
-@Composable
-fun NebStat(icon: ImageVector, value: String, tint: Color = MaterialTheme.colorScheme.onSurfaceVariant) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-        Icon(icon, null, tint = tint, modifier = Modifier.size(15.dp))
-        Text(value, color = tint, fontSize = 12.sp, style = MaterialTheme.typography.labelMedium)
     }
 }
 

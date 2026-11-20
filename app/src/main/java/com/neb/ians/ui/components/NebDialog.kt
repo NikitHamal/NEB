@@ -308,35 +308,4 @@ fun NebDialogTextField(
     )
 }
 
-@Composable
-fun NebDialogPasswordField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    modifier: Modifier = Modifier,
-    supportingText: String? = null,
-    isError: Boolean = false,
-    revealable: Boolean = true
-) {
-    var visible by remember { mutableStateOf(false) }
-    NebDialogTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        label = label,
-        isError = isError,
-        supportingText = supportingText,
-        visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
-        trailingIcon = if (!revealable) null else {
-            {
-                IconButton(onClick = { visible = !visible }) {
-                    Icon(
-                        imageVector = if (visible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                        contentDescription = if (visible) "Hide password" else "Show password",
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-            }
-        }
-    )
-}
+

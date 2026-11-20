@@ -593,34 +593,7 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
     }
 }
 
-/** Poll badge pill shown on post cards. */
-@Composable
-fun PollBadge(isMcq: Boolean, modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier,
-        shape = WebPillShape,
-        color = MaterialTheme.colorScheme.primaryContainer
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Icon(
-                imageVector = if (isMcq) Icons.Outlined.Quiz else Icons.Outlined.Poll,
-                contentDescription = null,
-                modifier = Modifier.size(13.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = if (isMcq) "MCQ" else "Poll",
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-}
+
 
 /** Where "See insights" goes. Set by the navigation host; null means the menu hides the item. */
 object PostInsightsNav {
@@ -956,20 +929,7 @@ fun MentionSuggestions(
 // Markdown toolbar
 // ---------------------------------------------------------------------------
 
-/** Wraps the selection (or inserts at the cursor) with markdown markers. */
-fun insertMarkdown(value: TextFieldValue, prefix: String, suffix: String = ""): TextFieldValue {
-    val start = value.selection.min
-    val end = value.selection.max
-    val text = value.text
-    return if (start != end) {
-        val selected = text.substring(start, end)
-        val newText = text.substring(0, start) + prefix + selected + suffix + text.substring(end)
-        TextFieldValue(newText, TextRange(start + prefix.length, start + prefix.length + selected.length))
-    } else {
-        val newText = text.substring(0, start) + prefix + suffix + text.substring(start)
-        TextFieldValue(newText, TextRange(start + prefix.length))
-    }
-}
+
 
 /**
  * Formatting toolbar for the composers. Each button changes the formatting of the text under the caret or selection;

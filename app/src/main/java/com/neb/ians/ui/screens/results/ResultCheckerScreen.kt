@@ -374,7 +374,7 @@ private fun ResultCard(
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(Icons.Outlined.Info, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 Text(
-                    text = "Powered by ${payload.source.ifBlank { "Nepal Telecom / NEB" }}",
+                    text = "Source: ${payload.source.ifBlank { "Nepal Telecom / NEB" }}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -704,13 +704,7 @@ private fun GradesheetDetails(payload: ResultPayload, batch: String, dob: String
     }
 }
 
-@Composable
-private fun CertificateLine(label: String, value: String) {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        Text(label.uppercase(), modifier = Modifier.weight(0.85f), color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-        Text(value, modifier = Modifier.weight(2f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall, fontFamily = FontFamily.SansSerif)
-    }
-}
+
 
 @Composable
 private fun SegmentedPills(

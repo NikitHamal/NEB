@@ -150,25 +150,4 @@ fun GuestReplyBar(onClick: () -> Unit, modifier: Modifier = Modifier, label: Str
     }
 }
 
-/** A full-screen stand-in for a tab that only makes sense signed in (profile, notifications). */
-@Composable
-fun GuestPlaceholder(reason: GateReason, onSignIn: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(32.dp)
-            .clip(RoundedCornerShape(28.dp))
-            .clickable(onClick = onSignIn),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-        Icon(reason.icon, null, modifier = Modifier.size(40.dp), tint = MaterialTheme.colorScheme.primary)
-        Text(reason.title, style = MaterialTheme.typography.titleLarge)
-        Text(
-            reason.body,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        NebButton(text = "Sign in", onClick = onSignIn)
-    }
-}
+

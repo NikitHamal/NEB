@@ -267,27 +267,7 @@ private fun earningsLine(price: Double, commissionPercent: Double): String {
     return "You receive Rs. $keepsText per sale after the $feeText% platform fee"
 }
 
-/** A compact read-only price badge, for cards and sheets that only display. */
-@Composable
-fun NebPriceBadge(price: String, isFree: Boolean, modifier: Modifier = Modifier) {
-    val text = if (isFree) "Free" else "Rs. ${price.ifBlank { "0" }}"
-    val container = if (isFree) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.onSurface
-    val content = if (isFree) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.surface
 
-    Box(
-        modifier = modifier
-            .clip(CircleShape)
-            .background(container)
-            .padding(horizontal = 10.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Bold,
-            color = content
-        )
-    }
-}
 
 /** A section label with the studio's small grey voice, used by the editors. */
 @Composable

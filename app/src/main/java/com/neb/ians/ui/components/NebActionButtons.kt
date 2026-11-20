@@ -162,53 +162,5 @@ fun NebButton(
  * over. Saves every screen from re-deciding what a cancel button next to a save
  * button should look like.
  */
-@Composable
-fun NebButtonRow(
-    modifier: Modifier = Modifier,
-    spacing: Dp = 8.dp,
-    content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(spacing),
-        verticalAlignment = Alignment.CenterVertically,
-        content = content
-    )
-}
 
-@Composable
-fun NebFilledButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null
-) = NebButton(text, onClick, modifier, NebButtonTone.Primary, NebButtonSize.Standard, leadingIcon, enabled = enabled)
-
-@Composable
-fun NebTonalButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null
-) = NebButton(text, onClick, modifier, NebButtonTone.Tonal, NebButtonSize.Standard, leadingIcon, enabled = enabled)
-
-@Composable
-fun NebOutlinedButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null
-) = NebButton(text, onClick, modifier, NebButtonTone.Outlined, NebButtonSize.Standard, leadingIcon, enabled = enabled)
-
-@Composable
-fun NebTextButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null
-) = NebButton(text, onClick, modifier, NebButtonTone.Text, NebButtonSize.Small, leadingIcon, enabled = enabled)
 

@@ -687,16 +687,4 @@ fun NebStepHeader(
     }
 }
 
-/** A row of fields arriving together, each one a beat behind the last. */
-@Composable
-fun NebStaggeredColumn(
-    modifier: Modifier = Modifier,
-    gap: Dp = NebAuthTokens.StackGap,
-    content: @Composable () -> Unit
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(gap),
-        content = { content() }
-    )
-}
+
