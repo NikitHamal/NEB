@@ -12,7 +12,7 @@
 - Polynomial expressions and polynomial functions; classification by degree and by number of terms
 - Degree of a polynomial, standard form and equal polynomials
 - Addition and subtraction of polynomials
-- Multiplication of polynomials
+- Multiplication of polynomials: Monomial times monomial, and monomial times polynomial, Binomial times binomial, Polynomial times polynomial, The column method, and why it works, Special products
 ## 3. Sequence and Series
 - Sequence: meaning, terms and the general term
 - Finding terms and the rule of a sequence
@@ -21,7 +21,7 @@
 - Concept of limit from sequences of numbers
 - Concept of limit from sequences of diagrams
 - Value of a function and its limiting value
-- Notation of limit
+- Notation of limit: Approaching from one side, Finding simple limits
 ## 5. Matrix
 - Matrix: elements, rows, columns and order
 - Types of matrices: row, column, zero, rectangular, square, diagonal, scalar, unit, equal, symmetric and triangular
@@ -48,7 +48,7 @@
 - Transformation: meaning; isometric and non-isometric transformations
 - Reflection in the x-axis and the y-axis
 - Rotation about the origin through 90°, 180°, 270° and 360°
-- Translation by a vector
+- Translation by a vector: Undoing a transformation, All the rules together
 ## 10. Statistics
 - Arithmetic mean of ungrouped and grouped data
 - Median and quartiles of ungrouped data

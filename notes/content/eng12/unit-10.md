@@ -119,7 +119,7 @@ textbook open.
 The poem opens by admitting the failure before describing the escape. The verb
 is past continuous in feeling — "I **wanted** to be like men wanted me to be" —
 and the two appositions that follow are the sharpest definitions of
-inauthenticity in your syllabus.
+inauthenticity in this course.
 
 **"an attempt at life"** — not a life, an *attempt* at one. A trial, a rough
 draft, a rehearsal. Note the exact preposition: it is "an attempt **at** life",
@@ -773,7 +773,7 @@ thee".*
 not.
 
 She would **agree with Donne's conclusion** and even outdo it. Stanza 4 is one
-of the most sweeping statements of human connection in your syllabus: she feels
+of the most sweeping statements of human connection in this course: she feels
 herself "a blossom of all the soils of the earth", belonging to soils "without
 edges", to "all the men and all the epochs". Donne says we are all part of one
 continent; de Burgos says the continent has no borders at all. Her politics

@@ -205,7 +205,7 @@
    "hours": 7,
    "area": "General and Physical Chemistry",
    "topics": [
-    "Introduction",
+    "Introduction to chemical kinetics",
     "Rate of reactions: average and instantaneous",
     "Rate law and its expressions",
     "Rate constant, its unit and significance",
@@ -219,7 +219,7 @@
    "sections": [
     {
      "no": "3.1",
-     "title": "Introduction"
+     "title": "Introduction to chemical kinetics"
     },
     {
      "no": "3.2",
@@ -277,7 +277,7 @@
     "Activation energy and activated complex"
    ],
    "stats": {
-    "words": 7133,
+    "words": 7136,
     "figures": 6,
     "examples": 8
    },
@@ -557,7 +557,7 @@
    "topics": [
     "Introduction; nomenclature, isomerism and classification of monohaloalkanes",
     "Preparation from alkanes, alkenes and alcohols",
-    "Physical properties",
+    "Physical properties of haloalkanes",
     "Chemical properties; substitution reactions SN1 and SN2 (basic concept)",
     "Formation of alcohol, nitrile, amine, ether, thioether, carbylamines, nitrite and nitroalkane",
     "Elimination reaction (dehydrohalogenation, Saytzeff's rule); Reduction; Wurtz reaction",
@@ -575,7 +575,7 @@
     },
     {
      "no": "8.3",
-     "title": "Physical properties"
+     "title": "Physical properties of haloalkanes"
     },
     {
      "no": "8.4",
@@ -610,7 +610,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5688,
+    "words": 5690,
     "figures": 6,
     "examples": 4
    },
@@ -624,11 +624,11 @@
    "topics": [
     "Introduction; nomenclature and isomerism",
     "Preparation of chlorobenzene from benzene and benzene diazonium chloride",
-    "Physical properties",
+    "Physical properties of haloarenes",
     "Low reactivity vs haloalkanes in nucleophilic substitution",
     "Reduction of chlorobenzene; electrophilic substitution reactions",
     "Action with Na: Fittig and Wurtz-Fittig reaction; action with chloral",
-    "Uses"
+    "Uses of haloarenes"
    ],
    "sections": [
     {
@@ -641,7 +641,7 @@
     },
     {
      "no": "9.3",
-     "title": "Physical properties"
+     "title": "Physical properties of haloarenes"
     },
     {
      "no": "9.4",
@@ -657,7 +657,7 @@
     },
     {
      "no": "9.7",
-     "title": "Uses"
+     "title": "Uses of haloarenes"
     }
    ],
    "summary": [
@@ -672,7 +672,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5212,
+    "words": 5216,
     "figures": 5,
     "examples": 4
    },
@@ -689,7 +689,7 @@
     "Preparation from haloalkane, primary amines and esters",
     "Industrial preparation: oxo process, hydroboration-oxidation of ethene, fermentation of sugar",
     "Common terms: absolute alcohol, power alcohol, denatured alcohol, rectified spirit, alcoholic beverage",
-    "Physical properties",
+    "Physical properties of alcohols",
     "Chemical properties: HX/PX3/PCl5/SOCl2; reactive metals; dehydration; oxidation of 1/2/3 alcohols; catalytic dehydrogenation; esterification; test of ethanol"
    ],
    "sections": [
@@ -715,11 +715,11 @@
     },
     {
      "no": "10.6",
-     "title": "Physical properties"
+     "title": "Physical properties of alcohols"
     },
     {
      "no": "10.7",
-     "title": "Chemical properties"
+     "title": "Chemical properties of alcohols"
     }
    ],
    "summary": [
@@ -734,7 +734,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4984,
+    "words": 4988,
     "figures": 5,
     "examples": 4
    },
@@ -748,7 +748,7 @@
    "topics": [
     "Introduction and nomenclature",
     "Preparation from chlorobenzene, diazonium salt, benzene sulphonic acid",
-    "Physical properties",
+    "Physical properties of phenols",
     "Acidic nature: comparison with alcohol and water",
     "Action with NH3, Zn, Na, benzene diazonium chloride, phthalic anhydride",
     "Acylation, Kolbe's reaction, Reimer-Tiemann reaction",
@@ -766,7 +766,7 @@
     },
     {
      "no": "11.3",
-     "title": "Physical properties"
+     "title": "Physical properties of phenols"
     },
     {
      "no": "11.4",
@@ -801,7 +801,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4361,
+    "words": 4363,
     "figures": 4,
     "examples": 4
    },
@@ -815,9 +815,9 @@
    "topics": [
     "Introduction; nomenclature, classification and isomerism",
     "Preparation of aliphatic and aromatic ethers by Williamson's synthesis",
-    "Physical properties",
+    "Physical properties of ethers",
     "Chemical properties of ethoxyethane: action with HI, conc. HCl, conc. H2SO4, air and Cl2",
-    "Uses"
+    "Uses of ethers"
    ],
    "sections": [
     {
@@ -830,7 +830,7 @@
     },
     {
      "no": "12.3",
-     "title": "Physical properties"
+     "title": "Physical properties of ethers"
     },
     {
      "no": "12.4",
@@ -838,7 +838,7 @@
     },
     {
      "no": "12.5",
-     "title": "Uses"
+     "title": "Uses of ethers"
     }
    ],
    "summary": [
@@ -853,7 +853,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3887,
+    "words": 3891,
     "figures": 3,
     "examples": 4
    },
@@ -885,7 +885,7 @@
     },
     {
      "no": "13.2",
-     "title": "Preparation"
+     "title": "Preparation of aldehydes and ketones"
     },
     {
      "no": "13.3",
@@ -943,7 +943,7 @@
     "Formalin"
    ],
    "stats": {
-    "words": 5713,
+    "words": 5717,
     "figures": 5,
     "examples": 5
    },
@@ -958,7 +958,7 @@
     "Introduction, nomenclature, isomerism of aliphatic and aromatic carboxylic acids",
     "Preparation of monocarboxylic acids from aldehydes, nitriles, dicarboxylic acid, sodium alkoxide, trihaloalkanes",
     "Preparation of benzoic acid from alkyl benzene",
-    "Physical properties",
+    "Physical properties of carboxylic acids",
     "Chemical properties: alkalies, metal oxides, metal carbonates, metal bicarbonates, PCl3, LiAlH4, dehydration",
     "Hell-Volhard-Zelinsky reaction",
     "Electrophilic substitution of benzoic acid: bromination, nitration, sulphonation",
@@ -982,11 +982,11 @@
     },
     {
      "no": "14.4",
-     "title": "Physical properties"
+     "title": "Physical properties of carboxylic acids"
     },
     {
      "no": "14.5",
-     "title": "Chemical properties"
+     "title": "Chemical properties of carboxylic acids"
     },
     {
      "no": "14.6",
@@ -1027,7 +1027,7 @@
     "Carboxylic acid"
    ],
    "stats": {
-    "words": 6101,
+    "words": 6107,
     "figures": 5,
     "examples": 5
    },
@@ -1281,7 +1281,7 @@
    "hours": 4,
    "area": "Applied Chemistry",
    "topics": [
-    "Introduction",
+    "Introduction to cement and its raw materials",
     "Raw materials for cement production",
     "Main steps in cement production: crushing and grinding, strong heating, final grinding",
     "Types of cement: OPC and PPC",
@@ -1291,7 +1291,7 @@
    "sections": [
     {
      "no": "19.1",
-     "title": "Introduction"
+     "title": "Introduction to cement and its raw materials"
     },
     {
      "no": "19.2",
@@ -1328,7 +1328,7 @@
     "Cement"
    ],
    "stats": {
-    "words": 4093,
+    "words": 4099,
     "figures": 3,
     "examples": 3
    },
@@ -1340,16 +1340,16 @@
    "hours": 3,
    "area": "Applied Chemistry",
    "topics": [
-    "Introduction",
+    "Introduction to pulp and paper manufacture",
     "Raw materials and their sources",
     "Stages in production of paper",
     "Flow-sheet diagram for paper production",
-    "Quality of paper"
+    "Quality of paper: Paper and pulp in Nepal"
    ],
    "sections": [
     {
      "no": "20.1",
-     "title": "Introduction"
+     "title": "Introduction to pulp and paper manufacture"
     },
     {
      "no": "20.2",
@@ -1382,7 +1382,7 @@
     "Paper and pulp"
    ],
    "stats": {
-    "words": 3922,
+    "words": 3927,
     "figures": 3,
     "examples": 3
    },

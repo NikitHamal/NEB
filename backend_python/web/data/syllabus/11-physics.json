@@ -26,7 +26,7 @@
    "hours": 3,
    "area": "Mechanics",
    "topics": [
-    "Precision and significant figures",
+    "Precision and significant figures: Measurement, units and standards, Accuracy, precision and least count, Errors in measurement, Significant figures, Combining uncertainties",
     "Dimensions and uses of dimensional analysis"
    ],
    "sections": [
@@ -69,7 +69,7 @@
    "topics": [
     "Triangle, parallelogram and polygon laws of vectors",
     "Resolution of vectors; Unit vectors",
-    "Scalar and vector products"
+    "Scalar and vector products: Scalar (dot) product, Vector (cross) product"
    ],
    "sections": [
     {
@@ -167,7 +167,7 @@
    "hours": 6,
    "area": "Mechanics",
    "topics": [
-    "Linear momentum, Impulse",
+    "Linear momentum, Impulse: Impulse",
     "Conservation of linear momentum",
     "Application of Newton's laws",
     "Moment, torque and equilibrium",
@@ -766,8 +766,8 @@
    "hours": 2,
    "area": "Waves and Optics",
    "topics": [
-    "Real and Virtual images",
-    "Mirror formula"
+    "Real and Virtual images: The words you must use correctly",
+    "Mirror formula: The new Cartesian sign convention, Deriving the formula, Linear magnification"
    ],
    "sections": [
     {
@@ -805,7 +805,7 @@
    "area": "Waves and Optics",
    "topics": [
     "Laws of refraction: Refractive index",
-    "Relation between refractive indices",
+    "Relation between refractive indices: Refractive index from real and apparent depth",
     "Lateral shift",
     "Total internal reflection"
    ],
@@ -854,7 +854,7 @@
    "hours": 3,
    "area": "Waves and Optics",
    "topics": [
-    "Minimum deviation condition",
+    "Minimum deviation condition: How the deviation varies with the angle of incidence, When no light emerges",
     "Relation between angle of prism, minimum deviation and refractive index",
     "Deviation in small angle prism"
    ],
@@ -896,7 +896,7 @@
    "hours": 3,
    "area": "Waves and Optics",
    "topics": [
-    "Spherical lenses, angular magnification",
+    "Spherical lenses, angular magnification: Types and basic terms, Image formation, Angular magnification",
     "Lens maker's formula",
     "Power of a lens"
    ],
@@ -942,8 +942,8 @@
    "area": "Waves and Optics",
    "topics": [
     "Pure spectrum and dispersive power",
-    "Chromatic and spherical aberration",
-    "Achromatism and its applications"
+    "Chromatic and spherical aberration: Chromatic aberration, Spherical aberration",
+    "Achromatism and its applications: Achromatic prism combinations, Applications"
    ],
    "sections": [
     {
@@ -986,7 +986,7 @@
    "hours": 3,
    "area": "Electricity and Magnetism",
    "topics": [
-    "Electric charges",
+    "Electric charges: Properties of charge, Conductors and insulators",
     "Charging by induction",
     "Coulomb's law - Force between two point charges",
     "Force between multiple electric charges"
@@ -1130,7 +1130,7 @@
     "Capacitance and capacitor",
     "Parallel plate capacitor",
     "Combination of capacitors",
-    "Energy of charged capacitor",
+    "Energy of charged capacitor: Energy density, Energy lost in sharing charge",
     "Effect of a dielectric: Polarization and displacement"
    ],
    "sections": [
@@ -1186,7 +1186,7 @@
     "Ohm's law, Electrical Resistance, Resistivity, Conductivity",
     "Current-voltage relations: Ohmic and Non-Ohmic resistance",
     "Resistances in series and parallel",
-    "Potential divider",
+    "Potential divider: The potentiometer",
     "Electromotive force of a source, internal resistance",
     "Work and power in electrical circuits"
    ],
@@ -1251,7 +1251,7 @@
     "Nucleus: Discovery of nucleus",
     "Nuclear density, Mass number, Atomic number",
     "Atomic mass, Isotopes",
-    "Einstein's mass-energy relation",
+    "Einstein's mass-energy relation: Where E = mc^2 comes from",
     "Mass defect, packing fraction, BE per nucleon",
     "Creation and annihilation",
     "Nuclear fission and fusion; energy released"
@@ -1320,7 +1320,7 @@
    "topics": [
     "Energy bands in solids (qualitative ideas)",
     "Difference between metals, insulators and semi-conductors using band theory",
-    "Intrinsic and extrinsic semi-conductors"
+    "Intrinsic and extrinsic semi-conductors: Intrinsic semiconductors, Extrinsic semiconductors"
    ],
    "sections": [
     {

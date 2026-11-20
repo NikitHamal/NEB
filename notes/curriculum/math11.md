@@ -11,7 +11,7 @@
 - Interval
 - Absolute value
 ## 3. Functions [7]
-- Domain and range
+- Domain and range: Finding the domain
 - Inverse function; composite function
 - Algebraic functions: linear, quadratic, cubic
 - Transcendental functions: trigonometric, exponential, logarithmic
@@ -36,7 +36,7 @@
 - Symmetric roots; one or both roots common
 ## 8. Complex Numbers [4]
 - Imaginary unit; algebra of complex numbers
-- Geometric representation
+- Geometric representation: Polar (modulus–argument) form, Addition is vector addition
 - Modulus and conjugate with properties
 - Square root of a complex number
 # AREA: Trigonometry (12)
@@ -44,8 +44,8 @@
 - Definition, domain and range of inverse circular functions
 - Formulae and identities of inverse circular functions
 ## 10. Trigonometric Equations and General Values [6]
-- Solution of trigonometric equations
-- General values
+- Solution of trigonometric equations: Roots, principal value and general value, Deciding the quadrant, The four standard techniques
+- General values: The three master formulae, Equations of the form $a\cos\theta+b\sin\theta = c$, Sums of sines and cosines
 # AREA: Analytic Geometry (20)
 ## 11. Straight Line [7]
 - Length of perpendicular from a given point to a given line
@@ -57,18 +57,18 @@
 - Bisectors of the angles between the pair of lines
 ## 13. Coordinates in Space [6]
 - Points in space
-- Distance between two points
+- Distance between two points: The section formula
 - Direction cosines and direction ratios
 # AREA: Vectors (12)
 ## 14. Vectors [12]
-- Collinear and non-collinear vectors
+- Collinear and non-collinear vectors: Notation, magnitude and unit vectors, Adding vectors: triangle and parallelogram laws, Position vectors, The section formula
 - Coplanar and non-coplanar vectors
 - Linear combination of vectors
 - Linearly dependent and independent vectors
 - The scalar product and the angle between two vectors
 # AREA: Statistics and Probability (12)
 ## 15. Measures of Dispersion [6]
-- Standard deviation and variance
+- Standard deviation and variance: The measures of dispersion, in order of usefulness, Variance and standard deviation of an individual series, Discrete frequency distribution, Continuous distribution: the step-deviation method, Properties of the standard deviation
 - Coefficient of variation
 - Skewness; Karl Pearson's coefficient of skewness
 ## 16. Probability [6]
@@ -82,23 +82,23 @@
 - Continuity and discontinuity of a function
 ## 18. Derivatives [22]
 - Derivative by first principle (definition)
-- Rules of differentiation
+- Rules of differentiation: Sum, difference and constant multiple, The power rule, The product rule, The quotient rule, The chain rule
 - Derivatives of parametric and implicit functions
-- Higher order derivatives
-- Geometric interpretation of derivative
+- Higher order derivatives: $n$-th derivatives of standard functions
+- Geometric interpretation of derivative: Slope of the tangent, Equations of tangent and normal, Angle between two curves, The derivative as a rate of change, Reading $f'$ off the graph of $f$
 - Monotonicity of a function; intervals of increase and decrease
 - Extreme values (maxima and minima)
 - Concavity and points of inflection
 ## 19. Anti-derivatives [16]
-- Basic (standard) integrals
-- Integration by substitution
-- Integration by parts
-- Definite integral
+- Basic (standard) integrals: The anti-derivative, Two rules that do all the splitting, The standard integrals, Why integration is harder than differentiation, Finding one particular anti-derivative
+- Integration by substitution: The two workhorse forms, A substitution that needs the inverse, Deriving the standard forms 18, 16 and 15, Quadratics in the denominator: complete the square, The form $\frac{px+q}{ax^{2}+bx+c}$
+- Integration by parts: Repeated parts, The $e^{x}[f(x)+f'(x)]$ form, The cyclic case
+- Definite integral: Definition as the limit of a sum, The fundamental theorem of calculus, Properties of the definite integral
 - Area under a curve; area between two curves
 # AREA: Computational Methods OR Mechanics (12)
 ## 20. Computational Methods [12]
 - Roots of algebraic and transcendental equations: bisection method
-- Roots by Newton-Raphson method
+- Roots by Newton-Raphson method: Newton-Raphson for roots and reciprocals, How fast, and when it fails
 - Numerical integration: trapezoidal rule
 - Numerical integration: Simpson's rule
 - Extension: linear programming by the graphical method

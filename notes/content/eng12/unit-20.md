@@ -107,7 +107,7 @@ with their husband (though with less success).
 **Satire** uses humour, irony, exaggeration and ridicule to expose the faults of people or
 institutions, especially in the hope of correcting them. The play's target is the **feudal
 system**: a social order in which a king and nobles hold all the power and land, and common
-people owe them service and obedience. (Compare the poem in the textbook's own exercise:
+people owe them service and obedience. (Compare the poem in the prescribed text's own exercise:
 "But satire, ever moral, ever new / Delights the reader and instructs him, too.")
 
 ::: definition Feudal system
@@ -327,7 +327,7 @@ king's arrival makes the actors play their parts.
   the king's forgiveness.
 - Do not write that the play is "about a bull". It is about **people**, and about a king and
   a system.
-- Keep the **numbers** straight: Jitman receives **400** rupees, Gore **500** (as in the textbook's
+- Keep the **numbers** straight: Jitman receives **400** rupees, Gore **500** (as in the prescribed text's
   summary).
 :::
 
@@ -357,7 +357,7 @@ society that makes men weep for a dead animal to save their own lives needs to c
 | **baje** (n.) | a respectful word for a grandfather; also a Brahman of any age |
 | **pathi** (n.) | a measure of grain, about 3.2 kg |
 | **dharni** (n.) | a measure of weight, about 2.5 kg |
-| **ana** (n.) | a small coin (the textbook glosses it as a quarter of a rupee) |
+| **ana** (n.) | a small coin (the prescribed text glosses it as a quarter of a rupee) |
 | **swosti** (n.) | a respectful greeting from subjects to their lords |
 | **convoy** (n.) | a procession of horses or vehicles accompanying an important person |
 | **wethers** (n.) | castrated male goats |

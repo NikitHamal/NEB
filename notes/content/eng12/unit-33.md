@@ -196,7 +196,7 @@ their discipline is worth.
 The first charge against them is that they test recall, not thought. A student can
 score full marks on the definition of photosynthesis and still be unable to explain why
 a plant on a dark window sill turns yellow. Our question papers reward the sentence
-that has been memorised in the exact words of the textbook, and our answer keys
+that has been memorised in the exact words of the prescribed text, and our answer keys
 frequently punish the student who puts the same idea in his own. What is being
 measured, then, is speed of recall under pressure — a real skill, but a narrow one, and
 not the one the syllabus claims to teach.

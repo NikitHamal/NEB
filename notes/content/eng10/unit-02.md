@@ -17,7 +17,7 @@ Reading: true/false, matching words to meanings, "what does X symbolise / how do
 
 ### About the text
 
-"Battle of the Oranges" is a first-person travel account by Margherita, published on the travel blog *The Crowded Planet* (the textbook adapts it). It describes the **Carnevale di Ivrea**, held every year in the town of Ivrea, about an hour north of Turin in northern Italy, on the last days of Carnival. The writer goes as a visitor and ends up a participant. It is a **narrative of personal experience**: it uses *I*, the present tense for immediacy, vivid sensory detail and dialogue.
+"Battle of the Oranges" is a first-person travel account by Margherita, published on the travel blog *The Crowded Planet*. It describes the **Carnevale di Ivrea**, held every year in the town of Ivrea, about an hour north of Turin in northern Italy, on the last days of Carnival. The writer goes as a visitor and ends up a participant. It is a **narrative of personal experience**: it uses *I*, the present tense for immediacy, vivid sensory detail and dialogue.
 
 ```photo id="eng10/ivrea-oranges" caption="A team of aranceri (orange-throwers) in action during the Battle of the Oranges at Ivrea, Italy." width="82"
 ```
@@ -32,11 +32,11 @@ Retreating to the back of the square, she watches the battle: nine teams of **ar
 
 She talks to **Silvia**, who holds half an orange on her swollen eye. This, says Silvia, is "the moment we wait for all year"; she believes the carnival is good for psychological health because for three days people can "let it all out" — the frustrations of the year. The narrator wonders whether to join in. Volunteers advise visitors to stay behind protective nets, but **Massi**, an arancere of the *Morte* team, says "Forget the nets": to live the carnival, you must be in the middle of the battle, and a black eye is a small price for the rush. He invites her to throw away her hat and join him; she is tempted but **declines**.
 
-At the end of the full article Silvia later hands her a bag of oranges, and she does throw — and feels light, free and "liberated" (this part is outside the textbook extract, so do not use it in an exam answer unless the question asks for it).
+At the end of the full article Silvia later hands her a bag of oranges, and she does throw — and feels light, free and "liberated".
 
 ### Background
 
-The battle is said to re-enact a medieval revolt against a tyrant. According to local legend, a miller's daughter, Violetta, refused to submit to a feudal lord and killed him, which led the townspeople to burn his castle. In the battle the aranceri on foot stand for the **people**, and the carts stand for the **lord's soldiers**. Historians think the orange-throwing itself grew from a nineteenth-century custom of tossing oranges at parades as a sign of respect. Thousands of tonnes of oranges are used, and afterwards they are turned into compost. (Treat these background facts as extra information, not as textbook content.)
+The battle is said to re-enact a medieval revolt against a tyrant. According to local legend, a miller's daughter, Violetta, refused to submit to a feudal lord and killed him, which led the townspeople to burn his castle. In the battle the aranceri on foot stand for the **people**, and the carts stand for the **lord's soldiers**. Historians think the orange-throwing itself grew from a nineteenth-century custom of tossing oranges at parades as a sign of respect. Thousands of tonnes of oranges are used, and afterwards they are turned into compost.
 
 ### Vocabulary
 

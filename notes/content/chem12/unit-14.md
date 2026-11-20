@@ -149,8 +149,7 @@ and stops. So C₆H₅CH₂CH₂CH₃ gives benzoic acid, **not** butanoic acid 
 phenylpropanoic acid.
 :::
 
-## 14.4 Physical properties
-
+## 14.4 Physical properties of carboxylic acids
 The first three acids are pungent-smelling liquids miscible with water;
 butanoic acid smells of rancid butter; from about C₁₀ they are waxy,
 odourless solids. Pure ethanoic acid freezes at 16.6 °C to an ice-like solid, so
@@ -211,8 +210,7 @@ are miscible, pentanoic is partly soluble, and the higher ones are insoluble but
 dissolve in ethanol and ether. Aromatic acids are only slightly soluble in cold
 water — benzoic acid crystallises out on cooling, which is how it is purified.
 
-## 14.5 Chemical properties
-
+## 14.5 Chemical properties of carboxylic acids
 ### Acidic reactions
 
 A carboxylic acid is a **weak acid**: $K_a$ of ethanoic acid is

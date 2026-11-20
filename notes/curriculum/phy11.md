@@ -2,12 +2,12 @@
 # EXAM: 3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24
 # AREA: Mechanics (45)
 ## 1. Physical Quantities [3]
-- Precision and significant figures
+- Precision and significant figures: Measurement, units and standards, Accuracy, precision and least count, Errors in measurement, Significant figures, Combining uncertainties
 - Dimensions and uses of dimensional analysis
 ## 2. Vectors [4]
 - Triangle, parallelogram and polygon laws of vectors
 - Resolution of vectors; Unit vectors
-- Scalar and vector products
+- Scalar and vector products: Scalar (dot) product, Vector (cross) product
 ## 3. Kinematics [5]
 - Instantaneous velocity and acceleration
 - Relative velocity
@@ -15,7 +15,7 @@
 - Motion of a freely falling body
 - Projectile motion and its applications
 ## 4. Dynamics [6]
-- Linear momentum, Impulse
+- Linear momentum, Impulse: Impulse
 - Conservation of linear momentum
 - Application of Newton's laws
 - Moment, torque and equilibrium
@@ -85,28 +85,28 @@
 - Heat capacities: gases and solids
 # AREA: Waves and Optics (15)
 ## 14. Reflection at curved mirror [2]
-- Real and Virtual images
-- Mirror formula
+- Real and Virtual images: The words you must use correctly
+- Mirror formula: The new Cartesian sign convention, Deriving the formula, Linear magnification
 ## 15. Refraction at plane surfaces [4]
 - Laws of refraction: Refractive index
-- Relation between refractive indices
+- Relation between refractive indices: Refractive index from real and apparent depth
 - Lateral shift
 - Total internal reflection
 ## 16. Refraction through prisms [3]
-- Minimum deviation condition
+- Minimum deviation condition: How the deviation varies with the angle of incidence, When no light emerges
 - Relation between angle of prism, minimum deviation and refractive index
 - Deviation in small angle prism
 ## 17. Lenses [3]
-- Spherical lenses, angular magnification
+- Spherical lenses, angular magnification: Types and basic terms, Image formation, Angular magnification
 - Lens maker's formula
 - Power of a lens
 ## 18. Dispersion [3]
 - Pure spectrum and dispersive power
-- Chromatic and spherical aberration
-- Achromatism and its applications
+- Chromatic and spherical aberration: Chromatic aberration, Spherical aberration
+- Achromatism and its applications: Achromatic prism combinations, Applications
 # AREA: Electricity and Magnetism (27)
 ## 19. Electric Charges [3]
-- Electric charges
+- Electric charges: Properties of charge, Conductors and insulators
 - Charging by induction
 - Coulomb's law - Force between two point charges
 - Force between multiple electric charges
@@ -122,14 +122,14 @@
 - Capacitance and capacitor
 - Parallel plate capacitor
 - Combination of capacitors
-- Energy of charged capacitor
+- Energy of charged capacitor: Energy density, Energy lost in sharing charge
 - Effect of a dielectric: Polarization and displacement
 ## 23. DC Circuits [10]
 - Electric Currents; Drift velocity and its relation with current
 - Ohm's law, Electrical Resistance, Resistivity, Conductivity
 - Current-voltage relations: Ohmic and Non-Ohmic resistance
 - Resistances in series and parallel
-- Potential divider
+- Potential divider: The potentiometer
 - Electromotive force of a source, internal resistance
 - Work and power in electrical circuits
 # AREA: Modern Physics (15)
@@ -137,14 +137,14 @@
 - Nucleus: Discovery of nucleus
 - Nuclear density, Mass number, Atomic number
 - Atomic mass, Isotopes
-- Einstein's mass-energy relation
+- Einstein's mass-energy relation: Where $E = mc^{2}$ comes from
 - Mass defect, packing fraction, BE per nucleon
 - Creation and annihilation
 - Nuclear fission and fusion; energy released
 ## 25. Solids [3]
 - Energy bands in solids (qualitative ideas)
 - Difference between metals, insulators and semi-conductors using band theory
-- Intrinsic and extrinsic semi-conductors
+- Intrinsic and extrinsic semi-conductors: Intrinsic semiconductors, Extrinsic semiconductors
 ## 26. Recent Trends in physics [6]
 - Particle physics: Particles and antiparticles, Quarks (baryons and mesons), leptons (neutrinos)
 - Universe: Big Bang and Hubble law, expansion of the Universe, Dark matter, Black Hole, gravitational wave

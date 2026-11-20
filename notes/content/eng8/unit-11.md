@@ -120,7 +120,7 @@ i. Mandy is the girl whose car I am using today.
 **Problem.** Write a short biography of Pasang Lhamu Sherpa from the notes.
 
 **Solution.** Pasang Lhamu Sherpa was the first Nepali woman to climb Mount
-Everest. She was born in December 1961 in Solukhumbu (the textbook gives 16
+Everest. She was born in December 1961 in Solukhumbu (the prescribed text gives 16
 December; most sources give 10 December). She grew up in a mountaineering
 family and started climbing mountains in her teens.
 
@@ -136,7 +136,7 @@ National Hero, and a highway and a mountain peak have been named after her. She
 remains an inspiration for Nepali women.
 :::
 
-(The textbook notes print "Mt. Blank (4848 m)"; the mountain is **Mont Blanc**,
+(**Mont Blanc** is
 about **4,806 m** high.)
 
 ## 11.4 Reading II: Khaptad National Park
@@ -205,7 +205,7 @@ butterflies and moths.
 ## 11.5 Writing II: A leaflet and a set of rules
 
 A **leaflet** is a one-page printed advertisement for a place. Follow the
-textbook headings: introduction and location → major attractions → how to get
+standard headings: introduction and location → major attractions → how to get
 there → provisions and requirements → best time to visit. Use headings, short
 lines, and persuasive words (*breathtaking, must-see*).
 
@@ -231,7 +231,7 @@ the festival.
 *Come and find peace in the land of the Buddha!*
 :::
 
-**Set of rules (Writing II B)** — use the textbook clues:
+**Set of rules (Writing II B)**:
 1. Smoking and drinking alcohol **are strictly prohibited** in the temple area.
 2. Visitors **are not allowed to** wear shoes inside the Maya Devi Temple.
 3. Visitors **are supposed to** keep silence near the shrines.

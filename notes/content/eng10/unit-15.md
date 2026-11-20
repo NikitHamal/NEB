@@ -19,7 +19,7 @@ From the first text: the writer's feelings, the people around her, and how she a
 
 **Jhamak Kumari Ghimire** was born on 4 July 1980 in Dhankuta in eastern Nepal. She was born with **cerebral palsy**, a condition that affects movement and speech, and she cannot speak clearly or use her hands. She writes with her **left foot**. She never went to school: she learned the alphabet by watching her younger sister study and by scratching the first letter, **ka**, in the dust with a stick. Though she was scolded and even mocked for trying to write, she kept practising until she could hold a pen between her toes. She became a poet, short-story writer, essayist and columnist. Her autobiography, *Jiwan Kada Ki Phool* ("Is Life a Thorn or a Flower?"), won the **Madan Puraskar**, Nepal's most famous literary prize, in 2010. Her poetry includes *Sankalpa* ("Vow").
 
-"Me at the Beginning of Life" is an extract from the first part of that autobiography, written in the **first person** in Nepali and translated into English for your textbook. It is a short, honest, poetic account of her own birth and childhood.
+"Me at the Beginning of Life" is an extract from the first part of that autobiography, written in the **first person** in Nepali and translated into English. It is a short, honest, poetic account of her own birth and childhood.
 
 ```photo id="eng10/helen-keller" caption="Helen Keller (1880–1968), the American writer who was deaf and blind from infancy; Jhamak compares herself with her in the text." width="52"
 ```

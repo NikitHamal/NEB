@@ -193,8 +193,7 @@ heating.
 - **Swarts reaction:** CH₃Br + AgF → CH₃F + AgBr (also with Hg₂F₂ or SbF₃);
   this is how fluoroalkanes and freons are made.
 
-## 8.3 Physical properties
-
+## 8.3 Physical properties of haloalkanes
 Haloalkanes are colourless liquids (the first few members are gases) with a
 sweetish smell.
 

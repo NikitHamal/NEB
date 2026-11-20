@@ -17,7 +17,7 @@ Expect (1) a reading passage on a current issue with true/false, multiple-choice
 
 ### About the text
 
-"How Driverless Cars Will Change Our World" is a feature article by the journalist Jenny Cusack. It was published by the BBC Future website on 30 November 2021 as part of its *Change Agents* series, which looks at inventions that could make the planet "a better, healthier place to live". The textbook uses an adapted extract. The article is **expository** writing: it explains a subject, quotes experts, and gives facts and dates rather than telling a story.
+"How Driverless Cars Will Change Our World" is a feature article by the journalist Jenny Cusack. It was published by the BBC Future website on 30 November 2021 as part of its *Change Agents* series, which looks at inventions that could make the planet "a better, healthier place to live". The article is **expository** writing: it explains a subject, quotes experts, and gives facts and dates rather than telling a story.
 
 ```photo id="eng10/waymo" caption="A Waymo self-driving car on a public road in Mountain View, California. Roof sensors (cameras, radar and lidar) let the car 'see' its surroundings." width="80"
 ```

@@ -274,7 +274,7 @@ day, May 5, the final match is played in the morning, and the tournament ends
 in the afternoon with the prize distribution and the closing ceremony.
 :::
 
-(Note: the textbook prints "10.00–12.00 am"; strictly, 12:00 is noon, so write
+(Note: the prescribed text prints "10.00–12.00 am"; strictly, 12:00 is noon, so write
 "from 10 a.m. to 12 noon".)
 
 ### Filling in a form (Writing B)
@@ -292,7 +292,7 @@ current address, and three signatures (student, parent/guardian, warden).
 ## 1.6 Speaking, listening, pronunciation and project work
 
 **Word stress.** In a word of two or more syllables, one syllable is said more
-strongly. The textbook marks it with ' before the stressed syllable:
+strongly. Primary stress is marked with ' before the stressed syllable:
 a'ttendance, a'rrange, 'mammal, 'reptile, a'rrival, ex'plore, a'rrive,
 am'phibian, re'turn, in'form. Many two-syllable **verbs** are stressed on the
 second syllable (ar'rive, ex'plore); many two-syllable **nouns** on the first

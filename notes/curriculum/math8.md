@@ -5,8 +5,8 @@
 ## 1. Sets
 - Review of sets and set notation
 - Universal set and complement
-- Disjoint and overlapping sets
-- Subset
+- Disjoint and overlapping sets: Venn diagrams, Union and intersection
+- Subset: Proper and improper subsets, Number of subsets
 - Word problems with a Venn diagram
 - Venn diagrams as a method, not a decoration
 ## 2. Whole Numbers
@@ -17,13 +17,13 @@
 - Arithmetic in other bases
 - Properties of whole numbers at a glance
 ## 3. Rational and Irrational Numbers
-- Rational numbers
-- Irrational numbers
-- Scientific notation
+- Rational numbers: Turning a recurring decimal into a fraction
+- Irrational numbers: Showing $\sqrt{2}$, $\sqrt{3}$, $\sqrt{5}$ on the number line
+- Scientific notation: Multiplying and dividing, Adding and subtracting
 - Placing numbers on the number line
 - The number line as a map of the number system
 ## 4. Ratio and Proportion
-- Ratio
+- Ratio: Dividing a quantity in a given ratio, Word problems on ratio
 - Proportion
 - Direct and inverse variation
 - Map scale and similar figures
@@ -44,8 +44,8 @@
 - Simple interest in daily life
 - Reading the interest formula four ways
 ## 8. Area and Volume
-- Area of triangles
-- Area of quadrilaterals
+- Area of triangles: Equilateral and isosceles triangles
+- Area of quadrilaterals: Any quadrilateral: a diagonal and two heights
 - Area and circumference of a circle
 - Surface area and volume of a cylinder
 - Choosing the right formula
@@ -60,7 +60,7 @@
 - Lowest common multiple of expressions
 - Factorisation by taking out a common factor
 - Factorisation by grouping
-- The standard identities
+- The standard identities: Perfect squares and the blank term
 - Factorising $x^2+bx+c$
 - HCF and LCM of expressions that need factorising
 - The three identities as areas
@@ -72,7 +72,7 @@
 - Why factorising comes first
 ## 12. Equation and Graph
 - Linear equations in one variable
-- Simultaneous linear equations
+- Simultaneous linear equations: The elimination method, The substitution method
 - The graph of a linear equation
 - Inequality and its graph
 - Quadratic equations by factorisation
@@ -85,7 +85,7 @@
 - Triangles
 - Quadrilaterals
 - Polygons
-- Construction
+- Construction: Constructing a rectangle and a parallelogram
 - The circle
 ## 15. Congruency and Similarity
 - Congruent figures
@@ -99,7 +99,7 @@
 - Volume of a prism and a pyramid
 ## 17. Coordinates
 - The coordinate plane
-- Distance between two points
+- Distance between two points: Points on the same horizontal or vertical line, Pythagoras' theorem — the tool we need, Any two points: the distance formula
 - Shapes from coordinates
 - Reading a point in four quadrants
 ## 18. Tessellation
@@ -113,11 +113,11 @@
 - Rotation
 - Enlargement
 ## 20. Bearing and Scale Drawing
-- Bearing
-- Scale drawing
+- Bearing: Back bearing
+- Scale drawing: Drawing a route from bearings
 - Bearings on the compass rose
 ## 21. Statistics
 - Collecting and tabulating data
 - Pictographs, bar graphs and pie charts
-- Mean, median and mode
+- Mean, median and mode: A frequency table with classes
 - Choosing the right average

@@ -76,8 +76,7 @@ equilibrium between the keto and the enol form:
 
 CH₃CHO ⇌ CH₂=CH—OH   (keto ⇌ enol; for ethanal the enol is under 0.01 %)
 
-## 13.2 Preparation
-
+## 13.2 Preparation of aldehydes and ketones
 ### Dehydrogenation and oxidation of alcohols
 
 A primary alcohol gives an aldehyde, a secondary alcohol gives a ketone, and a

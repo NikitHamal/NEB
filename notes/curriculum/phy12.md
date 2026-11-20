@@ -61,19 +61,19 @@
 - Characteristics of sound: Intensity, loudness, quality and pitch
 - Doppler's effect
 ## 10. Nature and propagation of light [3]
-- Huygen's principle
+- Huygen's principle: Statement of the principle, Why there is no backward wave
 - Reflection and Refraction according to wave theory
 ## 11. Interference [2]
 - Phenomenon of Interference: Coherent sources
-- Young's double slit experiment
+- Young's double slit experiment: Path difference, Positions of the fringes, What changes the fringes
 ## 12. Diffraction [3]
 - Diffraction from a single slit
 - Diffraction pattern of image; Diffraction grating
 - Resolving power of optical instruments
 ## 13. Polarization [3]
-- Phenomenon of polarization
+- Phenomenon of polarization: Ways of producing polarized light
 - Brewster's law; transverse nature of light
-- Polaroid
+- Polaroid: Uses of Polaroids
 # AREA: Electricity and Magnetism (35)
 ## 14. Electrical circuits [6]
 - Kirchhoff's law
@@ -97,7 +97,7 @@
 ## 17. Magnetic properties of materials [5]
 - Magnetic field lines and magnetic flux
 - Flux density in magnetic material; Relative permeability; Susceptibility
-- Hysteresis
+- Hysteresis: Energy lost per cycle, Soft and hard magnetic materials
 - Dia-, para- and ferro-magnetic materials
 ## 18. Electromagnetic Induction [6]
 - Faraday's laws; Induced electric fields
@@ -119,7 +119,7 @@
 - Motion of electron beam in electric and magnetic fields
 - Thomson's experiment to determine specific charge of electrons
 ## 21. Photons [3]
-- Quantum nature of radiation
+- Quantum nature of radiation: The photoelectric effect
 - Einstein's photoelectric equation; Stopping potential
 - Measurement of Planck's constant
 ## 22. Semiconductor devices [6]

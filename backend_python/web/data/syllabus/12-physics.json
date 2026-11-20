@@ -530,7 +530,7 @@
    "hours": 3,
    "area": "Waves and Optics",
    "topics": [
-    "Huygen's principle",
+    "Huygen's principle: Statement of the principle, Why there is no backward wave",
     "Reflection and Refraction according to wave theory"
    ],
    "sections": [
@@ -569,7 +569,7 @@
    "area": "Waves and Optics",
    "topics": [
     "Phenomenon of Interference: Coherent sources",
-    "Young's double slit experiment"
+    "Young's double slit experiment: Path difference, Positions of the fringes, What changes the fringes"
    ],
    "sections": [
     {
@@ -651,9 +651,9 @@
    "hours": 3,
    "area": "Waves and Optics",
    "topics": [
-    "Phenomenon of polarization",
+    "Phenomenon of polarization: Ways of producing polarized light",
     "Brewster's law; transverse nature of light",
-    "Polaroid"
+    "Polaroid: Uses of Polaroids"
    ],
    "sections": [
     {
@@ -868,7 +868,7 @@
    "topics": [
     "Magnetic field lines and magnetic flux",
     "Flux density in magnetic material; Relative permeability; Susceptibility",
-    "Hysteresis",
+    "Hysteresis: Energy lost per cycle, Soft and hard magnetic materials",
     "Dia-, para- and ferro-magnetic materials"
    ],
    "sections": [
@@ -1077,7 +1077,7 @@
    "hours": 3,
    "area": "Modern Physics",
    "topics": [
-    "Quantum nature of radiation",
+    "Quantum nature of radiation: The photoelectric effect",
     "Einstein's photoelectric equation; Stopping potential",
     "Measurement of Planck's constant"
    ],

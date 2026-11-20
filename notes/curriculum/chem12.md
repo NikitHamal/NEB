@@ -26,7 +26,7 @@
 - Types of salts: acidic, basic, simple, complex
 - Hydrolysis of salts: strong acid + strong base; weak acid + strong base; weak base + strong acid
 ## 3. Chemical Kinetics [7]
-- Introduction
+- Introduction to chemical kinetics
 - Rate of reactions: average and instantaneous
 - Rate law and its expressions
 - Rate constant, its unit and significance
@@ -74,7 +74,7 @@
 ## 8. Haloalkanes [8]
 - Introduction; nomenclature, isomerism and classification of monohaloalkanes
 - Preparation from alkanes, alkenes and alcohols
-- Physical properties
+- Physical properties of haloalkanes
 - Chemical properties; substitution reactions SN1 and SN2 (basic concept)
 - Formation of alcohol, nitrile, amine, ether, thioether, carbylamines, nitrite and nitroalkane
 - Elimination reaction (dehydrohalogenation, Saytzeff's rule); Reduction; Wurtz reaction
@@ -83,23 +83,23 @@
 ## 9. Haloarenes [3]
 - Introduction; nomenclature and isomerism
 - Preparation of chlorobenzene from benzene and benzene diazonium chloride
-- Physical properties
+- Physical properties of haloarenes
 - Low reactivity vs haloalkanes in nucleophilic substitution
 - Reduction of chlorobenzene; electrophilic substitution reactions
 - Action with Na: Fittig and Wurtz-Fittig reaction; action with chloral
-- Uses
+- Uses of haloarenes
 ## 10. Alcohols [7]
 - Introduction; nomenclature, isomerism and classification of monohydric alcohol
 - Distinction of 1, 2, 3 alcohols by Victor Meyer's Method
 - Preparation from haloalkane, primary amines and esters
 - Industrial preparation: oxo process, hydroboration-oxidation of ethene, fermentation of sugar
 - Common terms: absolute alcohol, power alcohol, denatured alcohol, rectified spirit, alcoholic beverage
-- Physical properties
+- Physical properties of alcohols
 - Chemical properties: HX/PX3/PCl5/SOCl2; reactive metals; dehydration; oxidation of 1/2/3 alcohols; catalytic dehydrogenation; esterification; test of ethanol
 ## 11. Phenols [4]
 - Introduction and nomenclature
 - Preparation from chlorobenzene, diazonium salt, benzene sulphonic acid
-- Physical properties
+- Physical properties of phenols
 - Acidic nature: comparison with alcohol and water
 - Action with NH3, Zn, Na, benzene diazonium chloride, phthalic anhydride
 - Acylation, Kolbe's reaction, Reimer-Tiemann reaction
@@ -108,9 +108,9 @@
 ## 12. Ethers [2]
 - Introduction; nomenclature, classification and isomerism
 - Preparation of aliphatic and aromatic ethers by Williamson's synthesis
-- Physical properties
+- Physical properties of ethers
 - Chemical properties of ethoxyethane: action with HI, conc. HCl, conc. H2SO4, air and Cl2
-- Uses
+- Uses of ethers
 ## 13. Aldehydes and Ketones [10]
 - Aliphatic aldehydes and ketones: introduction, nomenclature, isomerism
 - Preparation: dehydrogenation and oxidation of alcohol, ozonolysis of alkenes, acid chloride, gem dihaloalkane, catalytic hydration of alkynes
@@ -128,7 +128,7 @@
 - Introduction, nomenclature, isomerism of aliphatic and aromatic carboxylic acids
 - Preparation of monocarboxylic acids from aldehydes, nitriles, dicarboxylic acid, sodium alkoxide, trihaloalkanes
 - Preparation of benzoic acid from alkyl benzene
-- Physical properties
+- Physical properties of carboxylic acids
 - Chemical properties: alkalies, metal oxides, metal carbonates, metal bicarbonates, PCl3, LiAlH4, dehydration
 - Hell-Volhard-Zelinsky reaction
 - Electrophilic substitution of benzoic acid: bromination, nitration, sulphonation
@@ -167,18 +167,18 @@
 - Drugs: characteristics; natural and synthetic drugs; classification of common drugs; habit-forming drugs and drug addiction
 - Pesticides: introduction to insecticides, herbicides and fungicides
 ## 19. Cement [4]
-- Introduction
+- Introduction to cement and its raw materials
 - Raw materials for cement production
 - Main steps in cement production: crushing and grinding, strong heating, final grinding
 - Types of cement: OPC and PPC
 - Portland cement process with flow-sheet diagram
 - Cement Industry in Nepal
 ## 20. Paper and Pulp [3]
-- Introduction
+- Introduction to pulp and paper manufacture
 - Raw materials and their sources
 - Stages in production of paper
 - Flow-sheet diagram for paper production
-- Quality of paper
+- Quality of paper: Paper and pulp in Nepal
 ## 21. Nuclear Chemistry and Applications of Radioactivity [2]
 - Natural and artificial radioactivity
 - Units of radioactivity

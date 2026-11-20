@@ -14,7 +14,7 @@ has no hope of a better life, but he has a plan. By the end of the play he has
 arranged that his daughters will be rescued from poverty by an insurance payment
 after his death, and he has done it so quietly that only the eldest daughter
 understands what is happening. It is a play about money, family and love that goes
-unrecognised, and your textbook asks you to call it a **modern tragedy**. This chapter
+unrecognised, and the prescribed text asks you to call it a **modern tragedy**. This chapter
 shows you what that phrase means, how the play works, and how to answer every kind of
 question about it.
 

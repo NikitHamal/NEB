@@ -21,8 +21,7 @@ reactions in each; the **role of gypsum**; and a comparison of **OPC with PPC**.
 A flow-sheet diagram is worth full marks on its own — practise drawing it.
 :::
 
-## 19.1 Introduction
-
+## 19.1 Introduction to cement and its raw materials
 ::: definition Cement
 Portland cement is a finely ground hydraulic binder made by burning a
 proportioned mixture of calcareous (lime-bearing) and argillaceous (clay-bearing)

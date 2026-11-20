@@ -65,7 +65,7 @@ graduated from college himself.
 
 ::: caution Two names for one speech
 Stanford calls it the **2005 Stanford Commencement Address**. The title used in
-your textbook, **"How to Live Before You Die"**, is the name under which the
+the prescribed text, **"How to Live Before You Die"**, is the name under which the
 video was later published as a TED talk. They are the same speech. Many students
 also know it as the "Stay Hungry, Stay Foolish" speech, from its closing words.
 :::

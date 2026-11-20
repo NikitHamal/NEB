@@ -17,7 +17,7 @@ Retell a story in your own words with a clear moral. Answer questions about char
 
 ### About the text and the author
 
-This story is a version of a famous folk-style tale by the Russian writer **Leo Tolstoy** (1828–1910), whose own title in English is usually "Little Girls Wiser than Men" (written in the 1880s). Tolstoy is best known for the huge novels *War and Peace* and *Anna Karenina*, but in his later life he also wrote very short, simple stories for peasant readers. These stories have plain language, very little description and a clear moral. Tolstoy believed that goodness, forgiveness and love of neighbour were the real basis of a good life. *(The textbook edition may adapt the original wording; the main events below follow the textbook.)*
+This story is a version of a famous folk-style tale by the Russian writer **Leo Tolstoy** (1828–1910), whose own title in English is usually "Little Girls Wiser than Men" (written in the 1880s). Tolstoy is best known for the huge novels *War and Peace* and *Anna Karenina*, but in his later life he also wrote very short, simple stories for peasant readers. These stories have plain language, very little description and a clear moral. Tolstoy believed that goodness, forgiveness and love of neighbour were the real basis of a good life.
 
 ```photo id="eng10/tolstoy" caption="Leo Tolstoy (1828–1910), Russian novelist and moral thinker, photographed in 1897." width="62"
 ```
@@ -133,7 +133,7 @@ ax.set_xlim(-0.1,5*(w+gap)-0.3); ax.set_ylim(-0.6,1.7); ax.axis('off')
 
 ### About the text
 
-"World Record" is a **drama** — a short play meant to be spoken or acted. It is a **comedy** set in a television studio, with a presenter, studio audience and contestants. In the story the contest is silly, and the humour comes from **irony**: people take a pointless contest very seriously. The text introduces a series of comic characters: Mabel Phillips, who tries to break a record for leaning on a brush; Albert Hargreaves, who tries to break the record for standing on one leg in a bucket of boiling soup; Albert's wife, who keeps the soup hot by topping it up; and a man who loses his trousers while taking a bath. The textbook does not name the playwright in the passages I could check; treat it as an unattributed comic sketch.
+"World Record" is a **drama** — a short play meant to be spoken or acted. It is a **comedy** set in a television studio, with a presenter, studio audience and contestants. In the story the contest is silly, and the humour comes from **irony**: people take a pointless contest very seriously. The text introduces a series of comic characters: Mabel Phillips, who tries to break a record for leaning on a brush; Albert Hargreaves, who tries to break the record for standing on one leg in a bucket of boiling soup; Albert's wife, who keeps the soup hot by topping it up; and a man who loses his trousers while taking a bath.
 
 ### Summary
 
@@ -237,7 +237,7 @@ An **affirmative** (positive) sentence says something is true. A **negative** se
 2. **Some → any**, **somebody → anybody**, **something → anything**, **always → never**, **already → yet**, **too → either** in negative sentences. *He has something in his bag* → *He does not have anything in his bag.*
 3. **Everybody / all** → **nobody / not all**; **both** → **neither**; **either … or** → **neither … nor**.
 4. Words such as *never, nobody, nothing, none, hardly, rarely* are already negative. Do not add *not*: *He never drinks* (not *he doesn't never drink*).
-5. *All the students did not have to sit* is the negative of *All the students had to sit* (in the textbook sense *none had to sit*). *Didn't have to* means "was not required to".
+5. *All the students did not have to sit* is the negative of *All the students had to sit*. *Didn't have to* means "was not required to".
 
 ::: example Worked example 11.1 — to negative and back
 **Problem.** (a) Change to negative: "Ram visits me often." (b) Change to affirmative: "There is not anyone in the locality living in luxury."

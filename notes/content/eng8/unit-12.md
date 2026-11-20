@@ -19,7 +19,7 @@ write an essay on your hobbies and interests.
 (1) Answer questions on a profile: who, what he did, which organisations.
 (2) Explain the joke and the rhymes of the poem. (3) Choose *-ing* or *to +
 verb* after a given verb. (4) Form wh- and yes/no questions from statements.
-(5) Write an essay on hobbies answering the five textbook questions.
+(5) Write an essay on hobbies covering the five guiding questions.
 :::
 
 ```photo id="eng8/vulture-nepal" caption="A white-rumped vulture in Chitwan National Park — one of the more than 880 bird species recorded in Nepal." width="92"
@@ -63,7 +63,7 @@ verb* after a given verb. (4) Form wh- and yes/no questions from statements.
 - He died on **19 May 2021**; his passion lives on in the young naturalists he
   mentored.
 
-(The textbook misprints IUCN as "International Union for the *Conversation* of
+(The prescribed text misprints IUCN as "International Union for the *Conversation* of
 Nature"; it is the International Union for **Conservation** of Nature.)
 
 ### Vocabulary (Exercise A)
@@ -169,7 +169,7 @@ the mobile phone, and I have learnt patience. In future, I would like to become
 a wildlife researcher and help protect Nepal's birds.
 :::
 
-The textbook's five questions give the five paragraphs: *what* → *why* → *how
+Five guiding questions structure the five paragraphs: *what* → *why* → *how
 you will achieve them* → *support needed / barriers* → *changes in your life*.
 
 ## 12.5 Reading II: Poem — My Teacher Ate my Homework

@@ -51,7 +51,6 @@ Reading: completing sentences with words from the text, multiple-choice question
 | 1670 | Rani Pokhari is built |
 | 1674 | He dies |
 
-*(Dates are those commonly given by historians; use the dates in your textbook if it shows others.)*
 
 ### Vocabulary
 
@@ -120,7 +119,7 @@ Reading: completing sentences with words from the text, multiple-choice question
 
 ### About the text
 
-This is an **informative text about customs**. It shows how people in Russia choose flowers for different occasions and why. Its central idea is that giving flowers is almost universal, but each culture adds its own rules — what the textbook calls **flower etiquette**. The writer groups the information flower by flower: carnation, poppy, lily, chamomile and others.
+This is an **informative text about customs**. It shows how people in Russia choose flowers for different occasions and why. Its central idea is that giving flowers is almost universal, but each culture adds its own rules — **flower etiquette**. The writer groups the information flower by flower: carnation, poppy, lily, chamomile and others.
 
 ### What the text says
 
@@ -135,7 +134,7 @@ Everywhere in the world people give flowers to express goodwill and affection, a
 | White lily | Linked with death; a white-lily bouquet at a wedding foreshadows a split in the newly-wed couple | Avoid at weddings |
 | Chamomile | A healing flower with medicinal use; also symbol of love and purity | Used in teas and treatments |
 
-*General background (not necessarily in the textbook):* in Russia, as in many countries of Eastern Europe, an **odd number** of flowers is given to the living and an **even number** is for funerals.
+In Russia, as in many countries of Eastern Europe, an **odd number** of flowers is given to the living and an **even number** is for funerals.
 
 ### Vocabulary
 
@@ -337,7 +336,6 @@ Nepal's journey from the Panchayat system to multiparty democracy was long and f
 Opposition to the system continued. In 2036 BS student protests spread across the country, and King Birendra announced a national referendum. On 20 Baisakh 2037 BS the people were asked to choose between the reformed Panchayat system and a multiparty system, and a narrow majority voted to keep the reformed Panchayat. Dissatisfaction remained, however. In Falgun 2046 BS the Nepali Congress and the left parties started the People's Movement (Jana Andolan), and thousands of people went to the streets. After weeks of protest and many deaths, King Birendra lifted the ban on political parties in Chaitra 2046 BS. In this way, the party-less system ended and multiparty democracy returned to Nepal.
 :::
 
-*(The dates above are the widely accepted ones; if your textbook list gives different details, follow the list in your book.)*
 
 **(b) An opinion essay (about 200 words).** State your position in the first paragraph; give two or three reasons with examples; consider the opposite view briefly; and end with a strong conclusion.
 

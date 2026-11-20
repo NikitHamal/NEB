@@ -309,8 +309,7 @@ composition as the liquid. No amount of extra fractionation gets past 95.6 % —
 essential. Anhydrous CaCl₂ must *not* be used; it forms a compound with ethanol.
 :::
 
-## 10.6 Physical properties
-
+## 10.6 Physical properties of alcohols
 - **State and smell.** C₁–C₁₁ straight-chain alcohols are colourless liquids with
   a mild spirituous smell; C₁₂ and above are waxy, odourless solids.
 - **Boiling point.** Far higher than the alkane, haloalkane or ether of
@@ -408,8 +407,7 @@ ax.legend(loc='upper left', fontsize=7.6)
 fig.tight_layout()
 ```
 
-## 10.7 Chemical properties
-
+## 10.7 Chemical properties of alcohols
 Alcohols react at three places: the **O–H** bond (as a very weak acid), the
 **C–O** bond (the –OH is replaced), and the **α C–H** bond (oxidation and
 dehydrogenation).

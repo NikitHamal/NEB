@@ -30,7 +30,7 @@ This is a **biographical article**: an account of a real person's life in order 
 
 **The first failure.** Disney started his own cartoon company in Kansas City, but it ran out of money and collapsed (it went **bankrupt**). He tried acting and then, in 1923, moved to Hollywood with almost no money. For years he lived on very little, eating cheap beans and sinking deeper into debt, as he struggled to start again.
 
-**Oswald and Mickey.** In Hollywood he created a cartoon character called **Oswald the Lucky Rabbit**, who became popular. But in 1928 his distributor took the character, and most of his animators, away from him; the textbook says his employer "stole" his best animation film. It was a cruel blow. On the train home, Disney and Ub Iwerks created a new character, a cheerful mouse. **Mickey Mouse** appeared in 1928, and *Steamboat Willie*, the first Mickey cartoon with synchronised sound, made him famous. The strain of these years, however, caught up with him, and in 1931 he suffered a severe mental and emotional illness (a **nervous breakdown**).
+**Oswald and Mickey.** In Hollywood he created a cartoon character called **Oswald the Lucky Rabbit**, who became popular. But in 1928 his distributor took the character, and most of his animators, away from him. It was a cruel blow. On the train home, Disney and Ub Iwerks created a new character, a cheerful mouse. **Mickey Mouse** appeared in 1928, and *Steamboat Willie*, the first Mickey cartoon with synchronised sound, made him famous. The strain of these years, however, caught up with him, and in 1931 he suffered a severe mental and emotional illness (a **nervous breakdown**).
 
 **Feature films and flops.** In 1937 Disney released *Snow White and the Seven Dwarfs*, the first full-length cel-animated film in colour, which earned huge profits. He then made *Pinocchio*, *Fantasia* and *Bambi*, wonderful films that were **commercial failures** at first because the Second World War had closed the European market.
 
@@ -89,7 +89,6 @@ ax.set_xlim(-0.9,7.9); ax.set_ylim(-1.9,1.9); ax.axis('off')
 6. He shifted his focus from the big screen to television shows.
 7. He successfully founded the famous Disneyland.
 
-*(The order of events 3, 4 and 5 follows the textbook key; historically, the mental illness came a few years after Mickey's creation.)*
 
 ### Comprehension questions with model answers
 

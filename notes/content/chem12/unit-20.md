@@ -21,8 +21,7 @@ properties by which paper quality is judged. The recovery of chemicals in the
 Kraft process is the favourite extra-mark question.
 :::
 
-## 20.1 Introduction
-
+## 20.1 Introduction to pulp and paper manufacture
 ::: definition Paper and pulp
 **Pulp** is a fibrous mass of cellulose obtained by breaking down plant material
 mechanically or chemically. **Paper** is the sheet formed when a dilute water

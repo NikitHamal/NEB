@@ -17,7 +17,7 @@ Reading: vocabulary from definitions, sequencing events, short answers on charac
 
 ### About the text
 
-"Parents" is a short, humorous story about the generation gap and the dangers of online friendship. It is told in the first person by a father to his friend Dhruva, and it ends with a misunderstanding that is funny for the listener and a little embarrassing for the father. The textbook uses it to raise a serious question: what happens when young people pretend to be someone else online?
+"Parents" is a short, humorous story about the generation gap and the dangers of online friendship. It is told in the first person by a father to his friend Dhruva, and it ends with a misunderstanding that is funny for the listener and a little embarrassing for the father. It raises a serious question: what happens when young people pretend to be someone else online?
 
 ### What the story says
 

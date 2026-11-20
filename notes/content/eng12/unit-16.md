@@ -50,16 +50,16 @@ His books have sold in tens of millions of copies in dozens of languages:
 | *Sapiens: A Brief History of Humankind* | 2011 (Hebrew); 2014 (English) | how *Homo sapiens* came to dominate the planet: the cognitive, agricultural and scientific revolutions |
 | *Homo Deus: A Brief History of Tomorrow* | 2015 (Hebrew); 2016 (English) | what humans may become with biotechnology and artificial intelligence |
 | *21 Lessons for the 21st Century* | 2018 | the present: work, liberty, nationalism, religion, truth, education, meaning |
-| *Sapiens: A Graphic History* | 2020 onwards | a comic-book retelling of *Sapiens* (named in your textbook) |
+| *Sapiens: A Graphic History* | 2020 onwards | a comic-book retelling of *Sapiens* (named in the prescribed text) |
 | *Nexus* | 2024 | information networks from the Stone Age to artificial intelligence |
 
-Your textbook's note adds that he is a co-founder of **Sapienship**, a social-impact company
-whose mission, the textbook says, is "to clarify the public conversation, support the quest for
+The prescribed text's note adds that he is a co-founder of **Sapienship**, a social-impact company
+whose mission, the prescribed text says, is "to clarify the public conversation, support the quest for
 solutions and focus attention on the most important challenges facing the world". It also says
 that Harari "exemplifies the virtue of humility in that he debunks humanity's illusions of
 superiority and mastery". The essay "Humility" is taken from ***21 Lessons for the 21st Century***
 (2018): it is chapter 12 of the book, which has five parts and twenty-one short "lessons". The
-passage in your textbook is an **extract** from the opening of that chapter, under the heading
+passage in the prescribed text is an **extract** from the opening of that chapter, under the heading
 "You are not the centre of the world".
 
 ::: caution Harari reports these claims; he does not endorse them
@@ -266,7 +266,7 @@ authority: a critic who begins with himself cannot be accused of prejudice.
 **5. Why history is contested.** History is not only a record of the past but a **source of
 identity, pride and political claims**. Whoever controls the story controls how people see
 themselves and others. As George Orwell put it in *1984*: "Who controls the past controls the
-future." This is the idea behind the textbook's question about history as a "major contested
+future." This is the idea behind the prescribed text's question about history as a "major contested
 issue".
 
 **6. Humility and danger.** Beneath the humour is a warning. Nations convinced that they are
@@ -348,7 +348,7 @@ scholarly article.
 | crass | stupid and insensitive; very obvious and tasteless |
 | egotism | too much concern with oneself and one's own importance |
 | concubine | in some societies, a woman who lives with a man as a partner, but with lower status than a wife |
-| fringe | (as used here) at the edge of the mainstream; marginal. The textbook's gloss — "the front part of hair" — does not fit this sentence |
+| fringe | (as used here) at the edge of the mainstream; marginal. The prescribed text's gloss — "the front part of hair" — does not fit this sentence |
 | annihilated | completely destroyed |
 | grandiose | grand, larger and more impressive than is justified |
 | chutzpah | (Yiddish) extreme self-confidence; nerve; audacity |
@@ -372,7 +372,7 @@ very large and diverse country.
 
 *b. Are there any similarities between South Indian and Chinese civilizations? Discuss.*
 
-(The textbook labels this question "c"; there is no "b".) Yes, there are several similarities.
+(The prescribed text labels this question "c"; there is no "b".) Yes, there are several similarities.
 Both are **very old, continuous civilisations** with their own classical languages and literature
 (Tamil and Sanskrit in the south of India; classical Chinese). Both developed **rice-growing
 societies** and great **river and coastal trade**; the ancient Tamil kingdoms traded with the
@@ -623,7 +623,7 @@ calls "crass egotism". The catalogue shows proud claims from many nations; the v
 that they are false; the positive message is that the great human abilities belong to everyone,
 so no group has reason for superiority; and the method of criticising his own people first is
 itself an act of humility. The title is also ironic: the essay never mentions humility in its
-text, but it teaches the virtue by showing the absurdity of its absence. The textbook's note,
+text, but it teaches the virtue by showing the absurdity of its absence. The prescribed text's note,
 which says Harari "exemplifies the virtue of humility", supports the title.
 :::
 

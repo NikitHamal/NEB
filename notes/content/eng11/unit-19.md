@@ -42,7 +42,7 @@ crop 0.087 0.145 0.918 0.832
 ```
 
 *A Sunny Morning* (in Spanish, *Mañana de sol*) was first staged in 1905. The
-version in your textbook is the English translation by **Lucretia Xavier Floyd**.
+version in the prescribed text is the English translation by **Lucretia Xavier Floyd**.
 It is a *paso de comedia* — a short comic sketch built on one situation, two
 characters and a single change of feeling — and it is the brothers' most famous
 piece outside Spain.

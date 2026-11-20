@@ -3,7 +3,7 @@
 # NOTE: Curriculum edition 2078 BS. Exams retain some 2076-only topics (Group Theory, Rolle/MVT) - included as appendix chapters.
 # AREA: Algebra (44)
 ## 1. Permutation and Combination [10]
-- Basic principle of counting
+- Basic principle of counting: Factorial notation
 - Permutation of objects all different
 - Permutation of objects not all different
 - Circular permutation; permutation with repeated use of objects
@@ -48,7 +48,7 @@
 - Tangent and normal to a circle
 - Standard equation of parabola
 - Tangent and normal to a parabola
-- Standard equation of ellipse
+- Standard equation of ellipse: Tangent and normal to an ellipse
 - Standard equation of hyperbola
 # AREA: Vectors (12)
 ## 9. Product of Vectors [12]
@@ -59,7 +59,7 @@
 - Applications of vector product in geometry and trigonometry
 # AREA: Statistics and Probability (12)
 ## 10. Correlation and Regression [8]
-- Correlation and its nature
+- Correlation and its nature: The scatter diagram
 - Karl Pearson's coefficient of correlation and interpretation
 - Properties of correlation coefficient (without proof)
 - Rank correlation (elementary concept)
@@ -80,7 +80,7 @@
 - Maxima and minima
 - Concavity and points of inflection
 ## 13. Anti-derivatives [18]
-- Standard integrals
+- Standard integrals: The anti-derivative and the indefinite integral, The table you must know by heart
 - Integrals reducible to standard forms
 - Integrals of rational functions
 - The definite integral and its properties
@@ -90,10 +90,10 @@
 - Order and degree of a differential equation
 - Differential equations of first order and first degree
 - Separable variables
-- Homogeneous differential equations
+- Homogeneous differential equations: Equations reducible to homogeneous form
 - Linear differential equations
 - Exact differential equations
-- Applications of differential equations
+- Applications of differential equations: Population growth, Newton's law of cooling, Radioactive decay
 # AREA: Computational Methods OR Mechanics (12)
 ## 15. Computational Methods [12]
 - System of linear equations: Gauss Elimination Method

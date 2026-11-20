@@ -148,7 +148,7 @@ Please come. Don't touch it.*). To report it:
 | My father said to me, "Think before you act." | My father **advised me to think** before I acted. |
 | Neha said to Dipa, "Don't touch my things." | Neha **forbade Dipa to touch** her things. |
 
-(The textbook writes *"before I act"*; *"before I acted"* is the normal
+(The prescribed text writes *"before I act"*; *"before I acted"* is the normal
 back-shifted form.)
 
 ### Worked answers

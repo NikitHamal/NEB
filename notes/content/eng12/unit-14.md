@@ -31,7 +31,7 @@ dimensions or "marriage as an institution".
 
 ## 14.1 About the author: Stephen L. Nock
 
-Steven L. Nock (the textbook's heading and contents page print the first name as "Stephen") was born on **11 March 1950** and died in **January 2008**. (Your textbook
+Steven L. Nock (the prescribed text's heading and contents page print the first name as "Stephen") was born on **11 March 1950** and died in **January 2008**. (The prescribed text
 says 26 January; some other sources say 20 January. Learn only "January 2008".) He was
 **Commonwealth Professor of Sociology at the University of Virginia**, one of the best-known
 American scholars of marriage and the family. He wrote university textbooks on the sociology
@@ -44,13 +44,13 @@ His best-known book, ***Marriage in Men's Lives*** (Oxford University Press, 199
 married men behave differently from unmarried men. It is based on survey data from thousands
 of American men followed year by year from 1979, and it won the American Sociological
 Association's **William J. Goode Book Award** in 1999 for the most outstanding contribution
-to family scholarship. (The textbook prints the name as "Good".) The essay in your book is an
+to family scholarship. (The prescribed text prints the name as "Good".) The essay in your book is an
 extract from **Chapter 2**, which is also titled "Marriage as a Social Institution". Nock's
 central finding is that the *expectations* attached to marriage — that a husband will be a
 provider and a father — shape how married men see themselves and how they act.
 
 ::: caution Read the headnote with care
-The textbook's short note before the essay speaks of "the national marriage debate" and of
+The prescribed text's short note before the essay speaks of "the national marriage debate" and of
 "programs that have strengthened marital relationships, lowered divorce rates, reduced
 out-of-wedlock births". **None of this is discussed in the passage you have been given.**
 The passage is a piece of theory about *what marriage is*. In answers, use the passage
@@ -269,7 +269,7 @@ exam question is about what **Nock says**.
 
 ## 14.4 Marriage across cultures: America and Nepal
 
-Two of the textbook's exercises ask you to compare marriage in different cultures, so it
+Two of the prescribed text's exercises ask you to compare marriage in different cultures, so it
 helps to have the comparison ready. Nock describes the **American** ideal. Marriage in **Nepal**
 is no less an institution — in Nock's sense, it is if anything *more* embedded in family,
 religion and custom — but many of its features are different.
@@ -347,7 +347,7 @@ again and again, so that the reader ends up thinking in Nock's vocabulary.
 | cohabitation | living together as partners without being married |
 | template | a pattern to be followed |
 | forego | to go without; to give up |
-| bolster | (verb, as used in the essay) to support and strengthen; the textbook gives only the noun meaning, "a long pillow" |
+| bolster | (verb, as used in the essay) to support and strengthen; the prescribed text gives only the noun meaning, "a long pillow" |
 | tangible | able to be touched; real and visible |
 | intangible | not able to be touched; existing but not physical |
 | kin | relatives; family by blood or marriage |

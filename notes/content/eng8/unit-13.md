@@ -55,7 +55,7 @@ figures → comparison) and a process (passive voice, sequence words).
   wild buffalo), involve communities, use good science, make development
   **wildlife-friendly**, and manage **corridors** linking habitats.
 
-(The textbook misprints NTNC as the "National Trust for Nature
+(The prescribed text misprints NTNC as the "National Trust for Nature
 *Conversation*"; it is **Conservation**.)
 
 ```figure caption="Tiger numbers in Nepal from the four national surveys. 2009 to 2022: 121 → 355, almost three times."
@@ -129,7 +129,7 @@ and then rose slightly to 235 in 2018. The largest jump came between 2018 and
 population and achieved its TX2 target.
 :::
 
-The textbook's Writing I chart (men and women studying engineering) appears as
+The Writing I chart (men and women studying engineering) appears as
 a picture; use the same plan — e.g. *"The chart shows the number of male and
 female engineering students… Men outnumber women in every year, but the number
 of women is rising gradually…"*
@@ -244,7 +244,7 @@ teaching (or *has taught*)
 Use the **passive voice** (the doer is not important) and **sequence words**
 (*first, then, next, after that, finally*).
 
-::: example Model answer — Making orange juice (textbook Writing I)
+::: example Model answer — Making orange juice (Writing I)
 The flowchart shows how orange juice is made. First, the oranges are received
 from the farms or the market. Then the best oranges are selected and the bad
 ones are thrown away. After that, the selected oranges are cleaned thoroughly.

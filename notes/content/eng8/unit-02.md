@@ -101,7 +101,7 @@ alone and had nothing to fear.
 
 ### What the poem says
 
-The poem is printed in the textbook as *Changing World* and credited to Edward
+The poem *Changing World* is credited to Edward
 de Bono. (The same lines are also widely quoted as an old anonymous inscription;
 in the exam, simply call the writer "the poet".) The speaker looks back over his
 life:

@@ -24,8 +24,7 @@ write from memory are $k = \frac{2.303}{t}\log\frac{[A]_0}{[A]}$ and
 $\log\frac{k_2}{k_1} = \frac{E_a}{2.303R}\left(\frac{T_2-T_1}{T_1T_2}\right)$.
 :::
 
-## 3.1 Introduction
-
+## 3.1 Introduction to chemical kinetics
 **Chemical kinetics** is the branch of chemistry that deals with the *rate* of a
 chemical reaction, the *factors* that affect that rate, and the *mechanism* — the
 sequence of elementary steps — by which reactants become products.

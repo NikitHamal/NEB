@@ -320,7 +320,7 @@ at his staff with the last line of the play:
 > cannot fail!"
 
 ::: caution The arithmetic as printed
-Add the figures Wasserkopf reads out and the sub-totals in your textbook do not
+Add the figures Wasserkopf reads out and the sub-totals in the prescribed text do not
 come out exactly — the printed running totals differ from the sum of the parts by a
 few crowns. This is a misprint in the reprinting, not a puzzle for you to solve. In
 an examination, **quote the grand total as the text gives it — 6,450 crowns 50

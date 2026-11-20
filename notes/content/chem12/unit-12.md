@@ -176,8 +176,7 @@ Ethers can also be made by the **dehydration of alcohols**, as in Unit 10:
 This is cheap and is used industrially, but it works only for **simple** ethers —
 a mixture of two alcohols would give all three possible products.
 
-## 12.3 Physical properties
-
+## 12.3 Physical properties of ethers
 - Methoxymethane and methoxyethane are gases at room temperature; the rest of the
   lower ethers are **colourless, volatile, very inflammable liquids** with a
   sweet smell.
@@ -339,8 +338,7 @@ products are **phenol and iodomethane**. Writing "iodobenzene and methanol" is
 the standard error here.
 :::
 
-## 12.5 Uses
-
+## 12.5 Uses of ethers
 - **Solvent.** Ethoxyethane dissolves fats, oils, waxes, resins, gums,
   nitrocellulose and alkaloids, and is used for extracting organic compounds from
   aqueous solutions ("ether extraction") because it is inert and boils off easily.

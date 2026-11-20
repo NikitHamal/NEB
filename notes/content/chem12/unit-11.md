@@ -78,8 +78,7 @@ phenol. The final acidification step — with HCl, dilute H₂SO₄ or even by p
 CO₂ — is worth a mark and is regularly forgotten.
 :::
 
-## 11.3 Physical properties
-
+## 11.3 Physical properties of phenols
 - Colourless, needle-shaped **crystalline solid**, m.p. 40.9 °C, b.p. 181.8 °C.
   On standing in air and light it slowly oxidises and turns **pink to red**.
 - Characteristic sharp "carbolic" smell; **corrosive and poisonous** — it raises

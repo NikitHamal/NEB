@@ -278,7 +278,7 @@ sword-cut at Chobhar, Bhrikuti's journey to Tibet.
 | Last line | The guide | — | Bitter beauty | "just as beautiful as the setting sun's reflection in the eyes of the Buddha" |
 
 **Point of view and form.** There is no narrator. The story is two **monologues**, each spoken to someone who never
-replies; we hear the guide's words only when his turn comes, and the tourist's words only in his. Your textbook
+replies; we hear the guide's words only when his turn comes, and the tourist's words only in his. The prescribed text
 describes this as **stream of consciousness**, a technique in which the writer records the natural flow of a mind's
 thoughts, associations and memories with little of the usual plot; more exactly, each speech is a **dramatic
 monologue** in which the speaker reveals himself. Both speeches wander: the tourist from arrival to history to food

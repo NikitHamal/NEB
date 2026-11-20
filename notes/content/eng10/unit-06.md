@@ -34,7 +34,6 @@ Travel gives us the chance to try foods we would never think of eating at home, 
 | Bún riêu | Vietnam | A noodle soup made with crab | A well-liked noodle dish |
 | Large insects | Many countries | Fried or roasted insects | The writer finds the larger ones hard because they cannot be eaten in one bite |
 
-*(Some details of where the writer drank the horse milk are not clear from the textbook extract; "Central Asia" is general background.)*
 
 ### Vocabulary
 
@@ -121,7 +120,6 @@ This text is an **interview** with **Santosh Shah**, a chef born in Nepal who wo
 - **Philosophy.** Two things make a person successful: asking "what is next?" and refusing to settle in a comfortable position; and continuous learning. He believes in learning from everyone, even junior staff.
 - **Dream.** He hopes his restaurant **Ayla** will win a **Michelin star**, which, he believes, would raise the profile of Nepali food worldwide. He is hopeful about the Nepali food market because food trends are always changing.
 
-*(The interview was not held in Nepal. For other details such as the exact years of his career, rely only on what your textbook says.)*
 
 ### Vocabulary
 

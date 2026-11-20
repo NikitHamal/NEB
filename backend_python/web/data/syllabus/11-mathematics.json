@@ -118,7 +118,7 @@
    "hours": 7,
    "area": "Algebra",
    "topics": [
-    "Domain and range",
+    "Domain and range: Finding the domain",
     "Inverse function; composite function",
     "Algebraic functions: linear, quadratic, cubic",
     "Transcendental functions: trigonometric, exponential, logarithmic"
@@ -367,7 +367,7 @@
    "area": "Algebra",
    "topics": [
     "Imaginary unit; algebra of complex numbers",
-    "Geometric representation",
+    "Geometric representation: Polar (modulus–argument) form, Addition is vector addition",
     "Modulus and conjugate with properties",
     "Square root of a complex number"
    ],
@@ -456,8 +456,8 @@
    "hours": 6,
    "area": "Trigonometry",
    "topics": [
-    "Solution of trigonometric equations",
-    "General values"
+    "Solution of trigonometric equations: Roots, principal value and general value, Deciding the quadrant, The four standard techniques",
+    "General values: The three master formulae, Equations of the form acosθ+bsinθ = c, Sums of sines and cosines"
    ],
    "sections": [
     {
@@ -578,7 +578,7 @@
    "area": "Analytic Geometry",
    "topics": [
     "Points in space",
-    "Distance between two points",
+    "Distance between two points: The section formula",
     "Direction cosines and direction ratios"
    ],
    "sections": [
@@ -621,7 +621,7 @@
    "hours": 12,
    "area": "Vectors",
    "topics": [
-    "Collinear and non-collinear vectors",
+    "Collinear and non-collinear vectors: Notation, magnitude and unit vectors, Adding vectors: triangle and parallelogram laws, Position vectors, The section formula",
     "Coplanar and non-coplanar vectors",
     "Linear combination of vectors",
     "Linearly dependent and independent vectors",
@@ -680,7 +680,7 @@
    "hours": 6,
    "area": "Statistics and Probability",
    "topics": [
-    "Standard deviation and variance",
+    "Standard deviation and variance: The measures of dispersion, in order of usefulness, Variance and standard deviation of an individual series, Discrete frequency distribution, Continuous distribution: the step-deviation method, Properties of the standard deviation",
     "Coefficient of variation",
     "Skewness; Karl Pearson's coefficient of skewness"
    ],
@@ -819,10 +819,10 @@
    "area": "Calculus",
    "topics": [
     "Derivative by first principle (definition)",
-    "Rules of differentiation",
+    "Rules of differentiation: Sum, difference and constant multiple, The power rule, The product rule, The quotient rule, The chain rule",
     "Derivatives of parametric and implicit functions",
-    "Higher order derivatives",
-    "Geometric interpretation of derivative",
+    "Higher order derivatives: n-th derivatives of standard functions",
+    "Geometric interpretation of derivative: Slope of the tangent, Equations of tangent and normal, Angle between two curves, The derivative as a rate of change, Reading f' off the graph of f",
     "Monotonicity of a function; intervals of increase and decrease",
     "Extreme values (maxima and minima)",
     "Concavity and points of inflection"
@@ -891,10 +891,10 @@
    "hours": 16,
    "area": "Calculus",
    "topics": [
-    "Basic (standard) integrals",
-    "Integration by substitution",
-    "Integration by parts",
-    "Definite integral",
+    "Basic (standard) integrals: The anti-derivative, Two rules that do all the splitting, The standard integrals, Why integration is harder than differentiation, Finding one particular anti-derivative",
+    "Integration by substitution: The two workhorse forms, A substitution that needs the inverse, Deriving the standard forms 18, 16 and 15, Quadratics in the denominator: complete the square, The form fracpx+qax^2+bx+c",
+    "Integration by parts: Repeated parts, The e^x[f(x)+f'(x)] form, The cyclic case",
+    "Definite integral: Definition as the limit of a sum, The fundamental theorem of calculus, Properties of the definite integral",
     "Area under a curve; area between two curves"
    ],
    "sections": [
@@ -947,7 +947,7 @@
    "area": "Computational Methods OR Mechanics",
    "topics": [
     "Roots of algebraic and transcendental equations: bisection method",
-    "Roots by Newton-Raphson method",
+    "Roots by Newton-Raphson method: Newton-Raphson for roots and reciprocals, How fast, and when it fails",
     "Numerical integration: trapezoidal rule",
     "Numerical integration: Simpson's rule",
     "Extension: linear programming by the graphical method"

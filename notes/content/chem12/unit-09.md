@@ -118,8 +118,7 @@ volume = 0.100 × 22.4 = **2.24 L**.
 At 75 % efficiency, mass = 0.75 × 11.25 = **8.44 g** (3 s.f.).
 :::
 
-## 9.3 Physical properties
-
+## 9.3 Physical properties of haloarenes
 | Property | Chlorobenzene | Bromobenzene | Iodobenzene |
 |---|---|---|---|
 | State at 298 K | colourless liquid | colourless liquid | colourless liquid |
@@ -522,8 +521,7 @@ Mass = 0.1000 × 354.5 = **35.45 g**.
 Check by mass conservation: 14.74 + 22.5 = 37.24 g in; 35.45 g DDT + (0.100 × 18) = 1.80 g water = 37.25 g out. The small difference is rounding.
 :::
 
-## 9.7 Uses
-
+## 9.7 Uses of haloarenes
 | Compound | Use |
 |---|---|
 | Chlorobenzene | solvent for paints, rubber, waxes and adhesives; heat-transfer medium |

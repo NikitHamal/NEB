@@ -86,7 +86,7 @@ the play as the light goes.
 
 ::: note Morning poem or evening poem?
 The poem begins "Every morning when I wake", so it is natural to call it a
-morning prayer, and your textbook does. But in the play it is Eli Jenkins's
+morning prayer, and the prescribed text does. But in the play it is Eli Jenkins's
 **evening** recitation — his sunset poem. That is not a contradiction. The poem
 *describes* what he does every morning and every evening; he *speaks* it at
 dusk. If an examiner asks when the speaker prays, the honest answer is: twice a
@@ -255,7 +255,7 @@ still end on an exclamation mark.
 **A merciful God, imagined humbly.** God in this poem has a *loving eye*, is
 addressed as *Dear Lord* and *Thou*, and is expected to see the best side. There
 is no hell, no judgement seat, no list of sins. The magnificence of God, which
-the textbook question asks about, is shown entirely through generosity: He is
+the prescribed text question asks about, is shown entirely through generosity: He is
 great because He is kind, and because the whole of creation is small enough to
 fit under one loving glance.
 

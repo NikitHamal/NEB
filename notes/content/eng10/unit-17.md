@@ -133,7 +133,7 @@ ax.spines[['top','right']].set_visible(False); ax.tick_params(labelsize=7.8,colo
 
 ### About the text
 
-This is a **fable**: a short story, usually about animals that behave like people, that ends with a **moral** (a lesson). The story is very old and is attributed to **Aesop**, the Greek storyteller said to have lived in the sixth century BCE. The Roman poet **Horace** also told it, and later writers, including children's authors, have retold it in many versions. The textbook version has simple language and humorous details such as the mice eating custard and trifle. The fable compares **simple country life** with **luxurious but dangerous town life**.
+This is a **fable**: a short story, usually about animals that behave like people, that ends with a **moral** (a lesson). The story is very old and is attributed to **Aesop**, the Greek storyteller said to have lived in the sixth century BCE. The Roman poet **Horace** also told it, and later writers, including children's authors, have retold it in many versions. The fable compares **simple country life** with **luxurious but dangerous town life**.
 
 ### Summary
 

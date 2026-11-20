@@ -17,7 +17,7 @@ Facts about places and activities from the travel text, answered in full sentenc
 
 ### About the text
 
-"Expect the Unexpected" is a **travelogue** — a piece of writing in which a traveller tells what he or she saw, did and felt. It is written in the first person, in an easy, friendly style. The traveller is a visitor to Nepal and his surprise is the main theme: he came expecting mountains and found murals, smiles and ceremonies as well. The text is organised **place by place**, and each place gets its own paragraph or paragraphs: Kathmandu, Chitwan and Pokhara. The textbook does not name the author in the pages I could check. Read it as a model for your own travel writing.
+"Expect the Unexpected" is a **travelogue** — a piece of writing in which a traveller tells what he or she saw, did and felt. It is written in the first person, in an easy, friendly style. The traveller is a visitor to Nepal and his surprise is the main theme: he came expecting mountains and found murals, smiles and ceremonies as well. The text is organised **place by place**, and each place gets its own paragraph or paragraphs: Kathmandu, Chitwan and Pokhara. Read it as a model for your own travel writing.
 
 ### Summary
 

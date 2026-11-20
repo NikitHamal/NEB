@@ -331,7 +331,7 @@ ax.spines[['top','right']].set_visible(False); ax.tick_params(labelsize=8,colors
 
 The bar chart shows how forty students of Class 10 travel to school. Walking is by far the most common way: 18 students, or 45 per cent of the class, walk. Ten students (25 per cent) ride a bicycle, while eight come by bus. Only four students, one-tenth of the class, are brought by motorbike, the lowest figure. Therefore, almost three-quarters of the class use free or cheap means of transport. This is probably because most students live close to the school and the roads in the locality are not suitable for fast vehicles.
 
-**For the textbook-style tasks.** On a line graph about Nepali students going abroad to study, you would say that the number *increased* from about 10,000 in 2012 to over 63,000 in 2019, with only a short dip at the start, and conclude that more students were seeking better education abroad. For a pie chart of languages in Kathmandu, you would say that Nepali was spoken by the largest share (about 61 per cent), followed by Newar, and that the smaller languages together made up the rest.
+**Interpreting charts and graphs.** On a line graph about Nepali students going abroad to study, you would say that the number *increased* from about 10,000 in 2012 to over 63,000 in 2019, with only a short dip at the start, and conclude that more students were seeking better education abroad. For a pie chart of languages in Kathmandu, you would say that Nepali was spoken by the largest share (about 61 per cent), followed by Newar, and that the smaller languages together made up the rest.
 
 ## 13.5 Writing II: The opinion essay
 
