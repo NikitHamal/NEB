@@ -119,13 +119,18 @@ class HomeViewModel @Inject constructor(
 
     val suggestedPeers: StateFlow<List<PersonSuggestion>> = peopleSuggestionRepository.suggestions
 
+    @Volatile
+    private var cachedCurrentUserId: String? = null
+
     private fun sliceKey(sort: String = _sort.value, category: String? = _selectedCategory.value): String =
         "$sort|${category.orEmpty()}"
 
-    private fun currentUid(): String? =
-        (authRepository.authState.value as? com.neb.ians.data.repository.AuthState.Authenticated)?.userId
+    private fun currentUid(): String? = cachedCurrentUserId
 
     init {
+        viewModelScope.launch {
+            authRepository.currentUserIdFlow.collect { cachedCurrentUserId = it }
+        }
         if (appCache.recentPosts.isNotEmpty()) {
             postSlices[sliceKey("hot", null)] = appCache.recentPosts to true
         }
