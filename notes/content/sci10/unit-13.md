@@ -129,11 +129,19 @@ Digital devices use the **binary number system** (base 2), which has only two di
 | **1 Gigabyte (GB)** | $1024\ \text{Megabytes (MB)}$ | $1024^3\ \text{B}$ |
 | **1 Terabyte (TB)** | $1024\ \text{Gigabytes (GB)}$ | $1024^4\ \text{B}$ |
 
+::: example Binary combinations and switch states
+**Problem.** (a) How many distinct binary combinations can be formed using $3$ bits and $4$ bits? (b) In a $5\ \text{V}$ digital circuit, what binary digits correspond to $0\ \text{V}$ (switch OFF) and $5\ \text{V}$ (switch ON)?
+
+**Solution.** (a) With $n$ bits, the number of combinations is $2^n$. For $n = 3$, $2^3 = 8$ combinations (`000` to `111`). For $n = 4$ (one nibble), $2^4 = 16$ combinations.
+
+(b) $0\ \text{V}$ (switch OFF) represents the LOW digital state **`0`**, and $5\ \text{V}$ (switch ON) represents the HIGH digital state **`1`**.
+:::
+
 ::: example Memory unit conversion (SEE pattern)
 **Problem.** (a) How many nibbles and bits are there in $4\ \text{Bytes}$? (b) A pen drive of $2\ \text{GB}$ stores audio recordings each of size $4\ \text{MB}$. How many recordings can it hold?
 
 **Solution.** (a) Since $1\ \text{Byte} = 2\ \text{nibbles} = 8\ \text{bits}$:
-$$\text{Number of nibbles} = 4 \times 2 = 8\ \text{nibbles}, \qquad \text{Number of bits} = 4 \times 8 = 32\ \text{bits}$$
+$$\text{Nibbles} = 4 \times 2 = 8, \quad \text{Bits} = 4 \times 8 = 32$$
 (b) Convert $2\ \text{GB}$ into $\text{MB}$: $2\ \text{GB} = 2 \times 1024\ \text{MB} = 2048\ \text{MB}$.
 $$\text{Number of audio files} = \frac{2048\ \text{MB}}{4\ \text{MB}} = 512\ \text{recordings}$$
 :::
@@ -157,7 +165,7 @@ $$\text{Number of audio files} = \frac{2048\ \text{MB}}{4\ \text{MB}} = 512\ \te
 
 In the CDC Grade 10 textbook, a digital communication system transmits an analog physical message (such as a speaker's voice) to a distant listener through **nine sequential stages**. Memorise this exact order for the SEE examination:
 
-$$\text{Source} \rightarrow \text{Input Transducer} \rightarrow \text{Encoder} \rightarrow \text{Modulator} \rightarrow \text{Channel} \rightarrow \text{Demodulator} \rightarrow \text{Decoder} \rightarrow \text{Output Transducer} \rightarrow \text{Output Signal}$$
+> **Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal**
 
 ```figure caption="Block diagram of a digital communication system in the exact textbook sequence. The transmitter side converts the physical source signal into a modulated wave for the channel; the receiver side demodulates, decodes and converts it back into the original physical output signal."
 import matplotlib.pyplot as plt
@@ -386,7 +394,7 @@ fig.tight_layout()
 - A **signal** is a time-varying physical quantity that carries information. **Analog signals** are continuous sine waves; **digital signals** are discrete binary pulses (`0` = LOW / switch OFF, `1` = HIGH / switch ON).
 - An **ADC** converts analog signals into digital binary code; a **DAC** converts digital binary data back into analog signals for human perception.
 - **Computer memory units:** $1\ \text{bit} = 0\text{ or }1$ (smallest unit); $1\ \text{nibble} = 4\ \text{bits}$; $1\ \text{Byte (B)} = 8\ \text{bits} = 2\ \text{nibbles}$ (e.g. `00000000`); $1\ \text{KB} = 1024\ \text{B}$; $1\ \text{MB} = 1024\ \text{KB}$; $1\ \text{GB} = 1024\ \text{MB}$; $1\ \text{TB} = 1024\ \text{GB}$. With $n$ bits, $2^n$ binary combinations are possible.
-- **Stages of digital signal transmission (in order):** $\text{Source} \rightarrow \text{Input Transducer} \rightarrow \text{Encoder} \rightarrow \text{Modulator} \rightarrow \text{Channel} \rightarrow \text{Demodulator} \rightarrow \text{Decoder} \rightarrow \text{Output Transducer} \rightarrow \text{Output Signal}$.
+- **Stages of digital signal transmission (in order):** Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal.
 - **Baseband transmission** sends digital signals directly without modulation over a single short-distance channel (Ethernet LAN). **Broadband transmission** modulates signals onto multiple carrier frequencies (FDM) to send many signals simultaneously over long distances (cable TV, high-speed internet).
 - **Netizen** = an active user ("citizen") of the internet. **Digital citizenship** = responsible, ethical and safe participation online. **Online reputation management** builds and protects a person's or organisation's public image online.
 - **Digital wellbeing** is maintaining physical, mental, social and emotional health by balancing online screen time with offline life.

@@ -82,9 +82,9 @@
 - rate of reaction
 - acids, bases and salts
 ## 16. Gases
-- Properties of gases
-- Boyle's and Charles' laws
-- preparation of hydrogen, oxygen, carbon dioxide
+- Carbon dioxide gas: laboratory preparation, properties and uses
+- Ammonia gas: laboratory preparation, Haber's process, properties and uses
+- Greenhouse effect and acid rain
 ## 17. Metal and Non-metals
 - Physical and chemical properties
 - reactivity series
@@ -96,8 +96,7 @@
 - alcohols
 - carboxylic acids
 ## 19. Chemicals used in Daily Life
-- Soaps and detergents
-- fertilisers
-- cement
-- glass
-- plastics and polymers
+- Food preservatives and artificial fruit ripening agents
+- Cleaning chemicals: soap, detergent and natural cleansers
+- Pesticides: chemical and biological pesticides and safety precautions
+- Chemical pollution and its management

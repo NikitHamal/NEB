@@ -699,9 +699,9 @@
     "Digital Wellbeing"
    ],
    "stats": {
-    "words": 5528,
+    "words": 5622,
     "figures": 4,
-    "examples": 2
+    "examples": 3
    },
    "has_notes": true
   },
@@ -803,41 +803,39 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Properties of gases",
-    "Boyle's and Charles' laws",
-    "preparation of hydrogen, oxygen, carbon dioxide"
+    "Carbon dioxide gas: laboratory preparation, properties and uses",
+    "Ammonia gas: laboratory preparation, Haber's process, properties and uses",
+    "Greenhouse effect and acid rain"
    ],
    "sections": [
     {
      "no": "16.1",
-     "title": "Properties of gases"
+     "title": "Carbon dioxide gas: laboratory preparation, properties and uses"
     },
     {
      "no": "16.2",
-     "title": "Boyle's and Charles' laws"
+     "title": "Ammonia gas: laboratory preparation, Haber's process, properties and uses"
     },
     {
      "no": "16.3",
-     "title": "Preparation of hydrogen, oxygen and carbon dioxide"
+     "title": "Greenhouse effect and acid rain"
     }
    ],
    "summary": [
-    "Gas particles are far apart and move fast; gases have no fixed shape or volume, are compressible and exert pressure.",
-    "Temperature in gas laws must be in kelvin: T = t + 273.",
-    "Boyle's law (constant T): P1V1 = P2V2.",
-    "Charles' law (constant P): V1/T1 = V2/T2.",
-    "Combined: dfracP1V1T1 = dfracP2V2T2; STP is 273 K and 760 mm Hg.",
-    "H₂: Zn + dil. H₂SO₄; pop test. O₂: KClO₃ + MnO₂ heated; glowing splinter relights. CO₂: CaCO₃ + dil. HCl; lime water turns milky.",
-    "Uses: H₂ as fuel and in ammonia; O₂ in respiration and welding; CO₂ in fire extinguishers and soft drinks."
+    "Carbon dioxide (CO2, mol. mass 44): Prepared in the lab at room temperature from marble chips and dilute HCl: CaCO3 + 2HCl → CaCl2 + H2O + CO2 uparrow. Collected in an upright jar by upward displacement of air (1.5× heavier than air, soluble in water).",
+    "Key reactions of CO2: Dissolves in water to form H2CO3; turns lime water milky (CaCO3 downarrow) on short passing and colourless (Ca(HCO3)2) in excess; burning Mg continues to burn in CO2 (2Mg + CO2 → 2MgO + C); reacts with NH3 under heat and pressure to form urea (NH2CONH2).",
+    "Ammonia (NH3, mol. mass 17): Prepared in the lab by heating NH4Cl and Ca(OH)2 (2:1): 2NH4Cl + Ca(OH)2 xrightarrowΔ CaCl2 + 2H2O + 2NH3 uparrow. Dried through a quicklime (CaO) tower and collected in an inverted jar by downward displacement of air (lighter than air and extremely soluble in water).",
+    "Haber's process: N2 + 3H2 ⇌ 2NH3 + Heat at 450–500 ^circC, 200–900 atm, with Fe catalyst and Mo promoter.",
+    "Tests for NH3: Turns moist red litmus blue; forms dense white fumes of NH4Cl with conc. HCl; turns Nessler's reagent brown. The fountain experiment demonstrates its extreme solubility in water and alkaline nature.",
+    "Greenhouse gases (CO2, CH4, N2O, CFCs, H2O) trap infrared heat; excess emissions cause global warming. Acid rain (H2SO4, H2SO3, HNO3 from SO2 and NOx) corrodes monuments and acidifies soil and water."
    ],
    "terms": [
-    "Boyle's law",
-    "Charles' law"
+    "Acid Rain"
    ],
    "stats": {
-    "words": 3323,
+    "words": 4151,
     "figures": 2,
-    "examples": 6
+    "examples": 3
    },
    "has_notes": true
   },
@@ -940,53 +938,53 @@
    "hours": null,
    "area": "Science and Technology",
    "topics": [
-    "Soaps and detergents",
-    "fertilisers",
-    "cement",
-    "glass",
-    "plastics and polymers"
+    "Food preservatives and artificial fruit ripening agents",
+    "Cleaning chemicals: soap, detergent and natural cleansers",
+    "Pesticides: chemical and biological pesticides and safety precautions",
+    "Chemical pollution and its management"
    ],
    "sections": [
     {
      "no": "19.1",
-     "title": "Soaps and detergents"
+     "title": "Food preservatives and artificial fruit ripening agents"
     },
     {
      "no": "19.2",
-     "title": "Fertilisers"
+     "title": "Cleaning chemicals: soap, detergent and natural cleansers"
     },
     {
      "no": "19.3",
-     "title": "Cement"
+     "title": "Pesticides: chemical and biological pesticides and safety precautions"
     },
     {
      "no": "19.4",
-     "title": "Glass"
-    },
-    {
-     "no": "19.5",
-     "title": "Plastics and polymers"
+     "title": "Chemical pollution and its management"
     }
    ],
    "summary": [
-    "Soap is the sodium or potassium salt of a fatty acid, made by saponification of oil or fat with alkali; glycerol is a by-product. It cleans by forming micelles around grease.",
-    "Soap forms scum with hard water; detergents (synthetic) do not, but non-biodegradable ones pollute water.",
-    "Fertilisers supply N, P and K. Urea has 46 % N. Excess use causes soil damage and eutrophication.",
-    "Cement is made by heating limestone and clay at 1400 to 1500 °C and grinding the clinker with 2 to 3 % gypsum; mortar, concrete and RCC are its main products.",
-    "Glass is an amorphous solid made by fusing sand (SiO₂), soda ash (Na₂CO₃) and limestone (CaCO₃) at about 1500 °C; it is annealed by slow cooling.",
-    "Polymers are formed from monomers; thermoplastics soften on heating, thermosetting plastics do not.",
-    "Plastics are non-biodegradable, so reduce, reuse, recycle and refuse."
+    "Food preservatives prevent microbial spoilage of food. Natural preservatives (salt, sugar, mustard oil, vinegar, lemon juice, spices, sun-drying, freezing) are safe and eco-friendly; chemical preservatives (sodium benzoate, SO2, potassium metabisulphite, sorbates, calcium propionate, BHA, BHT) must be used only within safe limits.",
+    "Artificial fruit ripening: Calcium carbide (CaC2) releases acetylene gas and contains toxic arsenic/phosphorus impurities (banned/harmful); ethylene gas (C2H4) and regulated ethephon are safer alternatives.",
+    "Soap is the sodium or potassium salt of a long-chain fatty acid (e.g. sodium stearate, C17H35COONa), prepared by saponification (heating vegetable oil or animal fat with NaOH/KOH and adding NaCl to precipitate solid soap, leaving glycerol as by-product).",
+    "Detergent (\"soapless soap\") is a synthetic petrochemical salt of alkyl benzene sulphonic acid or alkyl sulphate (e.g. sodium lauryl sulphate). It works in both hard and soft water without forming scum, but non-biodegradable detergents cause water pollution and eutrophication.",
+    "Pesticides: Insecticides (DDT, BHC, Malathion, Aldrin, Dieldrin), Fungicides (Bordeaux mixture, Mancozeb), Herbicides (2,4-D, Glyphosate), Rodenticides (Zinc phosphide), Miticides (Dicofol). Biological pesticides (Neem, Titepati, Bt) are target-specific and biodegradable.",
+    "Store and use pesticides strictly under the Pesticides Management Act 2076 with PPE, proper labelling and waiting periods. Manage non-biodegradable pollutants (plastics, glass, ceramics, synthetic fibres) through the 3R principle and proper waste segregation."
    ],
-   "terms": [],
+   "terms": [
+    "Food preservatives",
+    "Soap and Saponification",
+    "Detergent",
+    "Pesticides",
+    "Chemical pollution"
+   ],
    "stats": {
-    "words": 4295,
+    "words": 4271,
     "figures": 2,
-    "examples": 5
+    "examples": 3
    },
    "has_notes": true
   }
  ],
  "unit_count": 19,
- "topic_count": 80,
+ "topic_count": 79,
  "notes_ready": 19
 }
