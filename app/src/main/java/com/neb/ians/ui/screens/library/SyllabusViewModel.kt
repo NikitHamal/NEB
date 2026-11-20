@@ -73,9 +73,10 @@ class SyllabusViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val prefs by lazy { application.getSharedPreferences(PREFS, 0) }
-    private val _uiState = MutableStateFlow(SyllabusUiState())
+    private val _uiState = MutableStateFlow(SyllabusUiState(index = cachedIndex, isLoading = cachedIndex == null))
     val uiState: StateFlow<SyllabusUiState> = _uiState.asStateFlow()
     private var searchJob: Job? = null
+    private var loadRequested = false
 
     init {
         viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
@@ -84,7 +85,6 @@ class SyllabusViewModel @Inject constructor(
             val savedLast = prefs.getString(KEY_LAST, null)
             _uiState.update { it.copy(grade = savedGrade, done = savedDone, lastKey = savedLast) }
         }
-        load()
         viewModelScope.launch {
             progress.version.collect {
                 val (snap, lastRead) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
@@ -93,6 +93,12 @@ class SyllabusViewModel @Inject constructor(
                 _uiState.update { it.copy(marks = snap, lastRead = lastRead) }
             }
         }
+    }
+
+    fun ensureLoaded() {
+        if (loadRequested || _uiState.value.index != null) return
+        loadRequested = true
+        load()
     }
 
     fun setTab(tab: SyllabusTab) = _uiState.update { it.copy(tab = tab) }
@@ -106,9 +112,11 @@ class SyllabusViewModel @Inject constructor(
     }
 
     fun load(): Job = viewModelScope.launch {
+        loadRequested = true
         _uiState.update { it.copy(isLoading = it.index == null, error = null) }
         try {
             val index = apiService.getSyllabusIndex()
+            cachedIndex = index
             _uiState.update { state ->
                 // a remembered track ("cee") stays selected while the server still offers it
                 val grade = state.grade.takeIf { g -> index.all.any { it.grade == g } }
@@ -249,5 +257,6 @@ class SyllabusViewModel @Inject constructor(
         const val KEY_GRADE = "grade"
         const val KEY_LAST = "last"
         const val KEY_DONE_PREFIX = "done:"
+        @Volatile var cachedIndex: ApiSyllabusIndex? = null
     }
 }

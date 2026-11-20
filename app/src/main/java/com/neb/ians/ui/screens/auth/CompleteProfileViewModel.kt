@@ -149,8 +149,6 @@ class CompleteProfileViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch { checkSessionIsUsable() }
-
         viewModelScope.launch {
             _usernameQuery
                 .debounce(500)
@@ -189,25 +187,6 @@ class CompleteProfileViewModel @Inject constructor(
                     }
                 }
                 .collect()
-        }
-    }
-
-    private suspend fun checkSessionIsUsable() {
-        val bearer = authRepository.getBearerToken() ?: run {
-            markSessionExpired()
-            return
-        }
-        try {
-            apiService.getUserPhotos(bearer)
-        } catch (e: retrofit2.HttpException) {
-            if (e.code() == 401) markSessionExpired()
-        } catch (_: Exception) {
-        }
-    }
-
-    private fun markSessionExpired() {
-        _uiState.update {
-            it.copy(needsReauth = true, submissionError = SESSION_EXPIRED_MESSAGE)
         }
     }
 

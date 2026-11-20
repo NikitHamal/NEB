@@ -6,12 +6,10 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiErrorMapper
-import com.neb.ians.data.api.ApiSuggestedItem
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.CacheBus
-import com.neb.ians.data.repository.FeedRepository
 import com.neb.ians.data.repository.FollowStateRepository
 import com.neb.ians.data.repository.PeopleSuggestionRepository
 import com.neb.ians.data.repository.PersonSuggestion
@@ -40,8 +38,7 @@ private data class HomeLoadResults(
     val resources: Result<ResourcesResult>,
     val popular: Result<ResourcesResult>,
     val posts: Result<ForumPostsResult>,
-    val news: List<NewsAnnouncement>,
-    val suggested: Result<List<ApiSuggestedItem>>
+    val news: List<NewsAnnouncement>
 )
 
 data class HomeUiState(
@@ -52,7 +49,6 @@ data class HomeUiState(
     val popularResources: List<ApiResource> = emptyList(),
     val recentPosts: List<ApiPost> = emptyList(),
     val latestNews: List<NewsAnnouncement> = emptyList(),
-    val suggestedItems: List<ApiSuggestedItem> = emptyList(),
     val selectedFilter: String = "all",
     val isLoading: Boolean = true,
     val isLoadingMore: Boolean = false,
@@ -83,7 +79,6 @@ class HomeViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val resourceRepository: ResourceRepository,
     private val newsRepository: NewsRepository,
-    private val feedRepository: FeedRepository,
     private val followStateRepository: FollowStateRepository,
     private val peopleSuggestionRepository: PeopleSuggestionRepository,
     private val realtimeClient: RealtimeClient,
@@ -91,13 +86,12 @@ class HomeViewModel @Inject constructor(
     private val cacheBus: CacheBus
 ) : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(appCache.recentResources.isEmpty() && appCache.recentPosts.isEmpty() && appCache.suggestedItems.isEmpty())
+    private val _isLoading = MutableStateFlow(appCache.recentResources.isEmpty() && appCache.recentPosts.isEmpty())
     private val _error = MutableStateFlow<String?>(null)
     private val _recentResources = MutableStateFlow<List<ApiResource>>(appCache.recentResources)
     private val _popularResources = MutableStateFlow<List<ApiResource>>(appCache.popularResources)
     private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
     private val _latestNews = MutableStateFlow<List<NewsAnnouncement>>(appCache.latestNews)
-    private val _suggestedItems = MutableStateFlow<List<ApiSuggestedItem>>(appCache.suggestedItems)
     private val _selectedFilter = MutableStateFlow("all")
     private val _isLoadingMore = MutableStateFlow(false)
     private val _hasMorePosts = MutableStateFlow(true)
@@ -141,12 +135,6 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             cacheBus.batches()
                 .collect { keys ->
-                    if (keys.any { it.startsWith(CacheBus.PREFIX_SUGGESTED) }) {
-                        feedRepository.getSuggestedFeed(cacheOnly = true).onSuccess { items ->
-                            appCache.suggestedItems = items
-                            _suggestedItems.value = items
-                        }
-                    }
                     if (keys.any { it.startsWith(CacheBus.PREFIX_RESOURCES) }) {
                         resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
                             .onSuccess { result ->
@@ -231,7 +219,6 @@ class HomeViewModel @Inject constructor(
                     val cachedResources = async { resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true) }
                     val cachedPopular = async { resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true) }
                     val cachedPosts = async { forumRepository.getPosts(page = 1, cacheOnly = true) }
-                    val cachedSuggested = async { feedRepository.getSuggestedFeed(cacheOnly = true) }
 
                     cachedResources.await().onSuccess { result ->
                         appCache.recentResources = result.resources
@@ -247,12 +234,8 @@ class HomeViewModel @Inject constructor(
                         appCache.recentPosts = posts
                         _recentPosts.value = posts
                     }
-                    cachedSuggested.await().onSuccess { items ->
-                        appCache.suggestedItems = items
-                        _suggestedItems.value = items
-                    }
                 }
-                if (_recentResources.value.isNotEmpty() || _recentPosts.value.isNotEmpty() || _suggestedItems.value.isNotEmpty()) {
+                if (_recentResources.value.isNotEmpty() || _recentPosts.value.isNotEmpty()) {
                     _isLoading.value = false
                 }
             }
@@ -268,8 +251,7 @@ class HomeViewModel @Inject constructor(
                     val popular = async { resourceRepository.getResources(sort = "trending", page = 1, forceRefresh = forceRefresh) }
                     val posts = async { forumRepository.getPosts(page = 1, forceRefresh = forceRefresh) }
                     val news = async { newsRepository.getAnnouncements().getOrDefault(appCache.latestNews) }
-                    val suggested = async { feedRepository.getSuggestedFeed(forceRefresh = forceRefresh) }
-                    HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await(), suggested.await())
+                    HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await())
                 }
 
                 val resources = results.resources.getOrNull()?.resources ?: appCache.recentResources
@@ -287,11 +269,6 @@ class HomeViewModel @Inject constructor(
                 appCache.popularResources = popular
                 appCache.recentPosts = posts
                 appCache.latestNews = news
-
-                results.suggested.onSuccess { items ->
-                    appCache.suggestedItems = items
-                    _suggestedItems.value = items
-                }
 
                 val firstFailure = listOf(
                     results.resources.exceptionOrNull(),
@@ -378,11 +355,7 @@ class HomeViewModel @Inject constructor(
 
     fun toggleThumbsUp(postId: String) {
         if (processingPostLikes.contains(postId)) return
-        // The like chip lives on both the discussions list and the
-        // "Suggested for you" deck — resolve the post from either.
-        val current = _recentPosts.value.firstOrNull { it.id == postId }
-            ?: _suggestedItems.value.firstOrNull { it.post?.id == postId }?.post
-            ?: return
+        val current = _recentPosts.value.firstOrNull { it.id == postId } ?: return
         processingPostLikes.add(postId)
         val optimistic = current.copy(
             isThumbedUp = !current.isThumbedUp,
@@ -401,18 +374,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    /** Apply a post update to the discussions list AND the suggested deck (+ caches). */
     private fun updatePostEverywhere(updatedPost: ApiPost) {
         _recentPosts.update { posts ->
             val updated = posts.map { if (it.id == updatedPost.id) updatedPost else it }
             appCache.recentPosts = updated
-            updated
-        }
-        _suggestedItems.update { items ->
-            val updated = items.map { item ->
-                if (item.post?.id == updatedPost.id) item.copy(post = updatedPost) else item
-            }
-            appCache.suggestedItems = updated
             updated
         }
     }
@@ -518,7 +483,6 @@ class HomeViewModel @Inject constructor(
         _popularResources,
         _recentPosts,
         _latestNews,
-        _suggestedItems,
         combine(_isLoading, _error, _selectedFilter, _isLoadingMore, _hasMorePosts) { isLoading, error, filter, loadingMore, hasMore ->
             HomeStatusState(isLoading, error, filter, loadingMore, hasMore)
         }
@@ -528,8 +492,7 @@ class HomeViewModel @Inject constructor(
         @Suppress("UNCHECKED_CAST") val popularResources = values[2] as List<ApiResource>
         @Suppress("UNCHECKED_CAST") val recentPosts = values[3] as List<ApiPost>
         @Suppress("UNCHECKED_CAST") val latestNews = values[4] as List<NewsAnnouncement>
-        @Suppress("UNCHECKED_CAST") val suggestedItems = values[5] as List<ApiSuggestedItem>
-        val status = values[6] as HomeStatusState
+        val status = values[5] as HomeStatusState
         HomeUiState(
             userName = user.first,
             userPhotoUrl = user.second,
@@ -538,7 +501,6 @@ class HomeViewModel @Inject constructor(
             popularResources = popularResources,
             recentPosts = recentPosts,
             latestNews = latestNews,
-            suggestedItems = suggestedItems,
             selectedFilter = status.selectedFilter,
             isLoading = status.isLoading,
             isLoadingMore = status.isLoadingMore,

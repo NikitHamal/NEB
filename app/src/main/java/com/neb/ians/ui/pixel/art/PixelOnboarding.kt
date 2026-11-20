@@ -41,7 +41,7 @@ object PixelOnboarding {
         return when (kind) {
             Kind.Welcome -> {
                 val st = PixelBackdrops.draw(cv, Backdrop.Himalaya, night, seed)
-                PixelPropsHumanities.paperPlane(cv, 98, st.groundY - 4)
+                paperPlane(cv, 98, st.groundY - 4)
                 Scene(cv, NebyMark(54, st.groundY, NebyState.Wave))
             }
             Kind.Paths -> {
@@ -114,6 +114,23 @@ object PixelOnboarding {
     }
 
     // ---- props -------------------------------------------------------------------------------------
+
+    private fun paperPlane(cv: PixelCanvas, x: Int, base: Int) = with(cv) {
+        val py = base - 22
+        detail {
+            for (k in 0 until 26) {
+                val t = k / 26f * 6.2f
+                val tx = (x - 46 + k * 1.6f + kotlin.math.sin(t) * 4f).roundToInt()
+                val ty = (py + 8 + kotlin.math.cos(t) * 6f).roundToInt()
+                if (k % 2 == 0) set(tx, ty, c(0x9FB4D6))
+            }
+        }
+        prop {
+            polygon(floatArrayOf(x - 14f, py + 8f, x + 16f, py - 6f, x - 2f, py + 12f), c(0xFFFFFF))
+            polygon(floatArrayOf(x - 2f, py + 12f, x + 16f, py - 6f, x + 1f, py + 7f), c(0xD3DDF0))
+            polygon(floatArrayOf(x - 2f, py + 12f, x + 1f, py + 7f, x.toFloat(), py + 14f), c(0xAFBEDB))
+        }
+    }
 
     private fun signpost(cv: PixelCanvas, x: Int, base: Int, count: Int, selected: Int) = with(cv) {
         prop { box(x - 1, base - 36, 3, 36, wood, woodHi, woodLo) }

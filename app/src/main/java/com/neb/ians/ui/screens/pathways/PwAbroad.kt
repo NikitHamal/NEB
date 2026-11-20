@@ -205,8 +205,19 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
 internal fun PwAbroadBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val c = MaterialTheme.colorScheme
     val budget = vm.num("abroadBudget").coerceIn(5, 60)
+    var filterQ by rememberSaveable { androidx.compose.runtime.mutableStateOf("") }
+    var shown by rememberSaveable { mutableIntStateOf(20) }
     val rows = remember(d.abroad) { d.abroad.sortedBy { (it.tuitionMin + it.tuitionMax + it.livingMin + it.livingMax) / 200_000f } }
     val mx = remember(rows) { maxOf(60f, rows.maxOfOrNull { (it.tuitionMin + it.tuitionMax + it.livingMin + it.livingMax) / 200_000f } ?: 60f) }
+    val needle = filterQ.trim().lowercase()
+    val filtered = remember(rows, needle) {
+        if (needle.isEmpty()) rows
+        else rows.filter { a ->
+            "${a.country} ${a.code} ${a.exams.joinToString(" ")} ${a.fields.joinToString(" ")}".lowercase().contains(needle)
+        }
+    }
+    val openAt = filtered.indexOfFirst { it.id == vm.sel.abroadOpen }
+    val limit = if (openAt >= shown) openAt + 4 else shown
     Column(Modifier.padding(horizontal = 16.dp)) {
         Text("Your budget for one year", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
         Text("Tuition plus living costs", fontSize = 12.sp, color = c.onSurfaceVariant)
@@ -214,8 +225,31 @@ internal fun PwAbroadBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel,
         PwSlider(budget.toFloat(), { vm.setNum("abroadBudget", (it / 5f).roundToInt() * 5) }, 5f..60f, 10, "NPR ${budget}L")
         Spacer(Modifier.height(6.dp))
         Legend()
+        androidx.compose.foundation.text.BasicTextField(
+            value = filterQ,
+            onValueChange = { filterQ = it; shown = 20 },
+            singleLine = true,
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = c.onSurface, fontWeight = FontWeight.Medium),
+            cursorBrush = androidx.compose.ui.graphics.SolidColor(c.primary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
+                .height(44.dp)
+                .background(c.surfaceContainerLow, RoundedCornerShape(22.dp))
+                .padding(horizontal = 16.dp),
+            decorationBox = { inner ->
+                Box(contentAlignment = Alignment.CenterStart) {
+                    if (filterQ.isEmpty()) Text("Filter country, exam or field", color = c.onSurfaceVariant, fontSize = 13.5.sp)
+                    inner()
+                }
+            }
+        )
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            rows.forEachIndexed { i, a -> AbroadCard(d, a, i, mx, budget, vm.sel.abroadOpen == a.id, "abroad:${a.id}" in ui.saved, vm, nav) }
+            if (filtered.isEmpty()) PwEmpty("No destination matches")
+            filtered.take(limit).forEachIndexed { i, a -> AbroadCard(d, a, i, mx, budget, vm.sel.abroadOpen == a.id, "abroad:${a.id}" in ui.saved, vm, nav) }
+            if (filtered.size > limit) {
+                PwButton("Show ${minOf(20, filtered.size - limit)} more", null, false, { shown = limit + 20 }, Modifier.fillMaxWidth())
+            }
         }
     }
 }

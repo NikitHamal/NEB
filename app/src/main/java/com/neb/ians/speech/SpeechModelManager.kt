@@ -98,6 +98,7 @@ class SpeechModelManager @Inject constructor(
     // A separate lazy client: nothing from the app's API client (auth headers) should reach a CDN.
     private val client by lazy {
         OkHttpClient.Builder()
+            .connectionPool(com.neb.ians.data.api.ApiService.sharedPool)
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(45, TimeUnit.SECONDS)
             .followRedirects(true)
@@ -206,6 +207,10 @@ class SpeechModelManager @Inject constructor(
                     }
                     val base = finished
                     fetch(file.url, dest) { current -> state.value = ModelState.Downloading(base + current, total) }
+                    if (!isValidModelFile(dest, file.bytes)) {
+                        dest.delete()
+                        throw IOException("Downloaded model file is incomplete")
+                    }
                     finished += dest.length()
                 }
                 state.value = ModelState.Installed(finished)
@@ -289,7 +294,12 @@ class SpeechModelManager @Inject constructor(
         scope.launch {
             try {
                 voicesDir.mkdirs()
-                fetch(SpeechCatalog.VOICES_BASE + voice.remotePath, File(voicesDir, voice.name + ".safetensors")) {}
+                val dest = File(voicesDir, voice.name + ".safetensors")
+                fetch(SpeechCatalog.VOICES_BASE + voice.remotePath, dest) {}
+                if (!dest.exists() || dest.length() <= 1024L) {
+                    dest.delete()
+                    throw IOException("Voice download incomplete")
+                }
                 _installedVoices.value = scanVoices()
             } catch (_: Exception) {
                 // The row goes back to its download button; the user can retry.

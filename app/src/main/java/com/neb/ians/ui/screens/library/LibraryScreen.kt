@@ -247,6 +247,7 @@ fun LibraryScreen(
                     )
                 }
                 "syllabus" -> {
+                    LaunchedEffect(Unit) { syllabusViewModel.ensureLoaded() }
                     SyllabusContent(
                         state = syllabusState,
                         viewModel = syllabusViewModel,
@@ -254,6 +255,7 @@ fun LibraryScreen(
                     )
                 }
                 "interactive" -> {
+                    LaunchedEffect(Unit) { interactiveViewModel.ensureLoaded() }
                     InteractiveContent(
                         state = interactiveState,
                         onCourseClick = onInteractiveCourseClick,

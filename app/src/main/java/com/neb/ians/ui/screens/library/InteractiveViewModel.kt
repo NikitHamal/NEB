@@ -25,22 +25,36 @@ class InteractiveViewModel @Inject constructor(
     private val apiService: ApiService
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(InteractiveUiState())
+    private val _uiState = MutableStateFlow(
+        InteractiveUiState(
+            categories = cachedCategories,
+            isLoading = cachedCategories.isEmpty()
+        )
+    )
     val uiState: StateFlow<InteractiveUiState> = _uiState.asStateFlow()
+    private var loadRequested = false
 
-    init {
+    fun ensureLoaded() {
+        if (loadRequested || _uiState.value.categories.isNotEmpty()) return
+        loadRequested = true
         loadCategories()
     }
 
     fun loadCategories() {
+        loadRequested = true
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update { it.copy(isLoading = it.categories.isEmpty(), error = null) }
             try {
                 val response = apiService.getInteractiveCategories()
+                cachedCategories = response.categories
                 _uiState.update { it.copy(categories = response.categories, isLoading = false) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
+    }
+
+    companion object {
+        @Volatile private var cachedCategories: List<ApiInteractiveCategory> = emptyList()
     }
 }

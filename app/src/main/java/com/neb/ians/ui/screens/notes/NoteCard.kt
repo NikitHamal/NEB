@@ -56,9 +56,9 @@ private val previewRule = Regex("^\\s*(-{3,}|\\*{3,}|_{3,})\\s*$")
 
 /** The first lines of a note as they will look: markers are hidden and their effect drawn, never shown as characters. */
 private fun previewLines(body: String, max: Int, colors: LiveColors): List<PreviewLine> {
-    val out = ArrayList<PreviewLine>()
+    val out = ArrayList<PreviewLine>(max)
     var inCode = false
-    for (line in body.lineSequence()) {
+    for (line in body.lineSequence().take(40)) {
         if (line.trimStart().startsWith("```")) { inCode = !inCode; continue }
         val raw = InlineImageTokens.plainText(line, "").replace(LiveMarkdown.ZWSP, "")
         if (inCode || raw.isBlank() || previewRule.matches(raw) || raw.trim() in previewSkip) continue
@@ -115,7 +115,8 @@ internal fun NoteCard(
     val hasMedia = m.hasAny
     val maxEntries = if (hasMedia) 2 else if (compact) 4 else 3
     val lines = remember(note.body, maxEntries, live) { previewLines(note.body, maxEntries, live) }
-    val (done, total) = remember(note.body) { NoteFormatting.checkProgress(note.body) }
+    val done = m.todoDone
+    val total = m.todoTotal
     val nextDue = m.nextDue
     val date = remember(note.updatedAt) { dateLabel(note.updatedAt) }
     val border = when {

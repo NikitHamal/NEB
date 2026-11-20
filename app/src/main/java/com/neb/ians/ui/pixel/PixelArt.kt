@@ -31,50 +31,6 @@ private const val PIXEL_FRAME_MS = 1000L / 24
 private const val WAKE_EARLY_MS = 6L
 
 /**
- * The auth hero: [PixelSkyScene], scaled up by a whole number so every pixel is the same size,
- * cropped to fill, and kept centred on the book. Renders into one small bitmap (about 330 KB);
- * frames stop by themselves when the screen is not drawing, and reduced motion shows a still.
- */
-@Composable
-fun PixelSkyHero(modifier: Modifier = Modifier, ground: Int = Px.rgb(0xFFFFFF)) {
-    val scene = remember(ground) { PixelSkyScene(ground) }
-    val bitmap = remember { Bitmap.createBitmap(PixelSkyScene.WIDTH, PixelSkyScene.HEIGHT, Bitmap.Config.ARGB_8888) }
-    val image = remember(bitmap) { bitmap.asImageBitmap() }
-    var tick by remember { mutableLongStateOf(-1L) }
-    val still = nebAnimationsReduced()
-
-    LaunchedEffect(scene, still) {
-        fun draw(t: Long) {
-            scene.render(t)
-            bitmap.setPixels(scene.canvas.pixels, 0, PixelSkyScene.WIDTH, 0, 0, PixelSkyScene.WIDTH, PixelSkyScene.HEIGHT)
-            tick = t
-        }
-        if (still) { draw(2000L); return@LaunchedEffect }
-        val start = withFrameMillis { it }
-        while (true) {
-            withFrameMillis { now -> draw(now - start) }
-            delay(PIXEL_FRAME_MS - WAKE_EARLY_MS)
-        }
-    }
-
-    Canvas(modifier.graphicsLayer()) {
-        if (tick < 0) return@Canvas
-        val scale = ceil(maxOf(size.width / PixelSkyScene.WIDTH, size.height / PixelSkyScene.HEIGHT)).toInt().coerceAtLeast(1)
-        val w = PixelSkyScene.WIDTH * scale
-        val h = PixelSkyScene.HEIGHT * scale
-        // keep the book at the same height in the frame however much is cropped
-        val focusY = PixelSkyScene.BOOK_Y * scale - size.height * 0.56f
-        val y = (-focusY).coerceIn(size.height - h, 0f)
-        drawImage(
-            image,
-            dstOffset = IntOffset(((size.width - w) / 2f).roundToInt(), y.roundToInt()),
-            dstSize = IntSize(w, h),
-            filterQuality = FilterQuality.None
-        )
-    }
-}
-
-/**
  * Plays any [PixelSprite] crisp, at the largest whole-number scale that fits the view.
  * Loops unless the sprite says otherwise; a one-shot sprite stops on its last frame.
  */

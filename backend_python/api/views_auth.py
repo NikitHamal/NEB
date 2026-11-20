@@ -95,6 +95,7 @@ def auth_github(request):
         return Response({'error': 'Could not retrieve GitHub user ID.'}, status=502)
 
     email = github_user.get('email') or ''
+    github_email_verified = False
     if not email:
         try:
             emails_resp = _req.get(
@@ -106,11 +107,13 @@ def auth_github(request):
             for e in emails:
                 if e.get('primary') and e.get('verified'):
                     email = e['email']
+                    github_email_verified = True
                     break
             if not email:
                 for e in emails:
                     if e.get('verified'):
                         email = e['email']
+                        github_email_verified = True
                         break
         except Exception:
             pass
@@ -121,6 +124,8 @@ def auth_github(request):
 
     try:
         user = User.objects.get(pk=user_pk)
+        if getattr(user, 'is_banned', False):
+            return Response({'error': 'This account has been banned'}, status=403)
         auth_token = issue_auth_token(user)
         logger.info('auth_github: existing user signed in: %s', user.username or user.id)
         return Response({
@@ -132,8 +137,10 @@ def auth_github(request):
     except User.DoesNotExist:
         pass
 
-    linked = _link_oauth_user_model(email, user_pk, display_name, photo_url)
+    linked = _link_oauth_user_model(email, user_pk, display_name, photo_url, provider_verified=github_email_verified)
     if linked:
+        if getattr(linked, 'is_banned', False):
+            return Response({'error': 'This account has been banned'}, status=403)
         auth_token = issue_auth_token(linked)
         logger.info('auth_github: linked existing user by email: %s', email)
         return Response({
@@ -233,6 +240,11 @@ def auth_google(request):
     if email and User.objects.filter(email__iexact=email).exists():
         return Response({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
     temp_username = f"user_{user_id[:8]}"
+    base_username = temp_username
+    suffix = 1
+    while User.objects.filter(username=temp_username).exists():
+        temp_username = f"{base_username}_{suffix}"
+        suffix += 1
     user = User(
         pk=user_id,
         username=temp_username,

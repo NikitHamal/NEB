@@ -149,31 +149,29 @@ fun LoginScreen(
             loadingProvider = "google"
             scope.launch {
                 try {
-                    val activityContext = context.findActivity() ?: context
-                    val credentialManager = CredentialManager.create(activityContext)
-                    val result = kotlinx.coroutines.withTimeoutOrNull(18_000L) {
-                        try {
-                            val oneTapOption = GetGoogleIdOption.Builder()
-                                .setFilterByAuthorizedAccounts(false)
-                                .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                                .setAutoSelectEnabled(false)
-                                .build()
-                            credentialManager.getCredential(
-                                request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
-                                context = activityContext
-                            )
-                        } catch (e: GetCredentialException) {
-                            if (e is GetCredentialCancellationException) throw e
-                            val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                                .build()
-                            credentialManager.getCredential(
-                                request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
-                                context = activityContext
-                            )
-                        }
-                    } ?: run {
+                    val activityContext = context.findActivity() ?: run {
                         launchBrowserOAuth("google")
                         return@launch
+                    }
+                    val credentialManager = CredentialManager.create(activityContext)
+                    val result = try {
+                        val oneTapOption = GetGoogleIdOption.Builder()
+                            .setFilterByAuthorizedAccounts(false)
+                            .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                            .setAutoSelectEnabled(false)
+                            .build()
+                        credentialManager.getCredential(
+                            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+                            context = activityContext
+                        )
+                    } catch (e: GetCredentialException) {
+                        if (e is GetCredentialCancellationException) throw e
+                        val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                            .build()
+                        credentialManager.getCredential(
+                            request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
+                            context = activityContext
+                        )
                     }
                     val credential = result.credential
                     if (credential is CustomCredential &&

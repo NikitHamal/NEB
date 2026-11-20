@@ -100,3 +100,33 @@ class NativeGoogleOAuthTests(TestCase):
         self.assertIn('userId=u_123', loc)
         self.assertIn('username=aarati_np', loc)
         self.assertIn('displayName=Aarati+Sharma', loc)
+
+    def test_api_google_oauth_deduplicates_temp_username_on_prefix_collision(self):
+        import json
+        from unittest.mock import patch
+        from api.models import User
+
+        User.objects.create(
+            id='10987654_first',
+            username='user_10987654',
+            email='first@example.com',
+            email_verified=True,
+            created_at=1000,
+        )
+        fake_info = {
+            'userId': '10987654_second',
+            'email': 'second@example.com',
+            'email_verified': True,
+            'displayName': 'Second Student',
+            'photoUrl': '',
+        }
+        with patch('api.views_auth.verify_google_token', return_value=fake_info):
+            r = self.client.post(
+                '/api/auth/google/',
+                data=json.dumps({'idToken': 'fake-id-token-2'}),
+                content_type='application/json',
+            )
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertTrue(body['isNewUser'])
+        self.assertEqual(body['user']['username'], 'user_10987654_1')

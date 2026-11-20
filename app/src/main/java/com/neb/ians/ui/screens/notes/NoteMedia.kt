@@ -17,11 +17,13 @@ internal class NoteMedia(
     val table: List<List<String>>,
     val code: String,
     val nextDue: Long = 0L,
+    val todoDone: Int = 0,
+    val todoTotal: Int = 0,
 ) {
     val hasAny: Boolean get() = pics.isNotEmpty() || audio.isNotEmpty() || drawing.isNotEmpty() || table.isNotEmpty() || code.isNotEmpty()
 
     companion object {
-        val None = NoteMedia(emptyList(), emptyList(), emptyList(), 1.6f, emptyList(), "", 0L)
+        val None = NoteMedia(emptyList(), emptyList(), emptyList(), 1.6f, emptyList(), "", 0L, 0, 0)
     }
 }
 
@@ -36,11 +38,14 @@ internal object NoteMediaCache {
         val key = key(n)
         cache.get(key)?.let { return it }
         val d = n.doc
+        val (done, total) = NoteFormatting.checkProgress(n.body)
         val has = d.isNotEmpty() && (
             d.contains("\"Image\"") || d.contains("\"Audio\"") || d.contains("\"Drawing\"") ||
                 d.contains("\"Table\"") || d.contains("\"Code\"") || (d.contains("\"Todo\"") && d.contains("\"d\""))
             )
-        val out = if (!has) NoteMedia.None else runCatching { read(d) }.getOrDefault(NoteMedia.None)
+        val base = if (!has) NoteMedia.None else runCatching { read(d) }.getOrDefault(NoteMedia.None)
+        val out = if (done == 0 && total == 0 && base === NoteMedia.None) NoteMedia.None
+        else NoteMedia(base.pics, base.audio, base.drawing, base.drawAspect, base.table, base.code, base.nextDue, done, total)
         cache.put(key, out)
         return out
     }

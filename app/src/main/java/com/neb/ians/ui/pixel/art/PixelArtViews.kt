@@ -44,6 +44,28 @@ private fun PixelPicture(image: ImageBitmap, modifier: Modifier) {
  * re-rendered only when the answer changes; Neby animates on top and reacts with the state the
  * scene asks for (a hop when a path is picked, a celebration when the birthday is set).
  */
+private object PixelOnboardingCache {
+    private val lru = LruCache<String, Pair<ImageBitmap, PixelOnboarding.NebyMark>>(32)
+
+    fun get(
+        kind: PixelOnboarding.Kind,
+        a: Int,
+        b: Int,
+        flag: Boolean,
+        handle: PixelOnboarding.Handle,
+        night: Boolean
+    ): Pair<ImageBitmap, PixelOnboarding.NebyMark> {
+        val key = "${kind.ordinal}|$a|$b|$flag|${handle.ordinal}|$night"
+        synchronized(this) { lru.get(key) }?.let { return it }
+        val scene = PixelOnboarding.render(kind, a, b, flag, handle, night)
+        val cv = scene.canvas
+        val bmp = Bitmap.createBitmap(cv.width, cv.height, Bitmap.Config.ARGB_8888)
+            .apply { setPixels(cv.pixels, 0, cv.width, 0, 0, cv.width, cv.height) }
+            .asImageBitmap()
+        return (bmp to scene.neby).also { synchronized(this) { lru.put(key, it) } }
+    }
+}
+
 @Composable
 fun PixelOnboardingArt(
     kind: PixelOnboarding.Kind,
@@ -55,10 +77,8 @@ fun PixelOnboardingArt(
     height: androidx.compose.ui.unit.Dp = 160.dp,
 ) {
     val night = com.neb.ians.ui.theme.LocalNebAuthPalette.current.isDark
-    val scene = remember(kind, a, b, flag, handle, night) { PixelOnboarding.render(kind, a, b, flag, handle, night) }
-    val image = remember(scene) {
-        val cv = scene.canvas
-        Bitmap.createBitmap(cv.width, cv.height, Bitmap.Config.ARGB_8888).apply { setPixels(cv.pixels, 0, cv.width, 0, 0, cv.width, cv.height) }.asImageBitmap()
+    val (image, mark) = remember(kind, a, b, flag, handle, night) {
+        PixelOnboardingCache.get(kind, a, b, flag, handle, night)
     }
     androidx.compose.foundation.layout.BoxWithConstraints(
         modifier.fillMaxWidth().height(height).clip(androidx.compose.foundation.shape.RoundedCornerShape(28.dp))
@@ -68,7 +88,6 @@ fun PixelOnboardingArt(
         val scale = maxOf(w / image.width, h / image.height)
         val ox = (w - image.width * scale) / 2f; val oy = (h - image.height * scale) / 2f
         PixelPicture(image, Modifier.matchParentSize())
-        val mark = scene.neby
         val sizePx = 48f * scale
         androidx.compose.runtime.key(mark.state) {
             com.neb.ians.ui.pixel.NebyPixel(

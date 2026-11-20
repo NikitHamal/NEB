@@ -79,27 +79,51 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
     val uri = LocalUriHandler.current
     var scope by rememberSaveable { mutableStateOf("All") }
     var level by rememberSaveable { mutableStateOf("All") }
+    var filterQ by rememberSaveable { mutableStateOf("") }
+    var shown by rememberSaveable { androidx.compose.runtime.mutableIntStateOf(24) }
     val country = d.abroad.firstOrNull { it.id == s.schCountry }
     val scopes = remember(d) { d.scholarships.map { it.scope }.filter { it.isNotBlank() }.distinct() }
     val levels = remember(d) { d.scholarships.flatMap { it.levels }.distinct().take(3) }
-    val list = remember(d, country, scope, level) {
+    val needle = filterQ.trim().lowercase()
+    val list = remember(d, country, scope, level, needle) {
         d.scholarships.filter { x ->
             (country == null || x.id in country.scholarships || x.country == country.id) &&
-                (scope == "All" || x.scope == scope) && (level == "All" || level in x.levels)
+                (scope == "All" || x.scope == scope) && (level == "All" || level in x.levels) &&
+                (needle.isEmpty() || "${x.name} ${x.by} ${x.covers} ${x.country}".lowercase().contains(needle))
         }.sortedWith(compareBy({ if (it.open.size == 2) monthsUntil(it.open[0], it.open[1]) else 99 }, { it.name }))
     }
+    val openAt = list.indexOfFirst { it.id == s.schOpen }
+    val limit = if (openAt >= shown) openAt + 4 else shown
     val chips = buildList {
         if (country != null) add("x" to country.country)
         add("All" to "All"); scopes.forEach { add(it to levelLabel(it)) }
     }
-    PwChipRow(chips, { it == "x" || it == scope }, { k -> if (k == "x") s.schCountry = "" else scope = k }, Modifier.padding(bottom = 10.dp))
+    PwChipRow(chips, { it == "x" || it == scope }, { k -> if (k == "x") s.schCountry = "" else scope = k; shown = 24 }, Modifier.padding(bottom = 10.dp))
     Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        androidx.compose.foundation.text.BasicTextField(
+            value = filterQ,
+            onValueChange = { filterQ = it; shown = 24 },
+            singleLine = true,
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = c.onSurface, fontWeight = FontWeight.Medium),
+            cursorBrush = androidx.compose.ui.graphics.SolidColor(c.primary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(44.dp)
+                .background(c.surfaceContainerLow, RoundedCornerShape(22.dp))
+                .padding(horizontal = 16.dp),
+            decorationBox = { inner ->
+                Box(contentAlignment = Alignment.CenterStart) {
+                    if (filterQ.isEmpty()) Text("Filter scholarships or provider", color = c.onSurfaceVariant, fontSize = 13.5.sp)
+                    inner()
+                }
+            }
+        )
         if (levels.size > 1) {
-            PwSeg((listOf("All") + levels).map { it to levelLabel(it) }, level, { level = it })
+            PwSeg((listOf("All") + levels).map { it to levelLabel(it) }, level, { level = it; shown = 24 })
             Spacer(Modifier.height(6.dp))
         }
         if (list.isEmpty()) PwEmpty("No match")
-        list.forEachIndexed { i, x ->
+        list.take(limit).forEachIndexed { i, x ->
             val open = s.schOpen == x.id
             val live = x.open.size == 2 && inWindow(x.open[0], x.open[1], nowMonth())
             PwSurface(Modifier.fillMaxWidth().pwRise(i).animateContentSize(), radius = 22.dp, onClick = { s.schOpen = if (open) "" else x.id }) {
@@ -145,6 +169,9 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
                     }
                 }
             }
+        }
+        if (list.size > limit) {
+            PwButton("Show ${minOf(24, list.size - limit)} more", null, false, { shown = limit + 24 }, Modifier.fillMaxWidth())
         }
     }
 }

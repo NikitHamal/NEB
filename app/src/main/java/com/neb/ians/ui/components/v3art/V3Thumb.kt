@@ -26,7 +26,13 @@ import kotlinx.coroutines.withContext
 import kotlin.math.max
 
 private object V3Cache {
-    private val lru = LruCache<String, V3Art>(80)
+    private val lru = LruCache<String, V3Art>(160)
+
+    fun peek(seed: String, subject: String, fit: Float, dark: Boolean): V3Art? {
+        if (fit <= 0f) return null
+        val key = "$seed|$subject|$fit|$dark"
+        return synchronized(this) { lru.get(key) }
+    }
 
     fun get(seed: String, subject: String, fit: Float, dark: Boolean): V3Art {
         val key = "$seed|$subject|$fit|$dark"
@@ -71,11 +77,12 @@ fun V3Thumb(seed: String, subject: String, modifier: Modifier = Modifier) {
     val dark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
     var box by remember { mutableStateOf(IntSize.Zero) }
     val fit = if (box.width > 0 && box.height > 0) V3Still.fit(box.width.toFloat() / box.height.toFloat()) else 0f
-    val art by produceState<V3Art?>(null, seed, subject, fit, dark) {
-        if (fit <= 0f) return@produceState
+    val cached = remember(seed, subject, fit, dark) { V3Cache.peek(seed, subject, fit, dark) }
+    val art by produceState(cached, seed, subject, fit, dark) {
+        if (fit <= 0f || value != null) return@produceState
         value = withContext(Dispatchers.Default) { V3Cache.get(seed, subject, fit, dark) }
     }
-    Canvas(modifier.onSizeChanged { box = it }.background(MaterialTheme.colorScheme.surfaceContainerHigh)) {
+    Canvas(modifier.onSizeChanged { if (box != it) box = it }.background(MaterialTheme.colorScheme.surfaceContainerHigh)) {
         art?.let { drawV3(it) }
     }
 }

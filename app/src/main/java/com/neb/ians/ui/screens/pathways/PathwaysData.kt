@@ -259,7 +259,14 @@ private val NUM_DEFAULTS = mapOf("age" to 17, "edu" to 2, "woman" to 0, "budget"
 
 @HiltViewModel
 class PathwaysViewModel @Inject constructor(@ApplicationContext private val context: Context) : ViewModel() {
-    private val _state = MutableStateFlow(PathwaysUiState())
+    private val _state = MutableStateFlow(
+        PathwaysUiState(
+            data = memoryData,
+            loading = memoryData == null,
+            onNeb = memoryOnNeb,
+            plus2Counts = memoryPlus2Counts.orEmpty()
+        )
+    )
     val state: StateFlow<PathwaysUiState> = _state.asStateFlow()
     private val cacheFile get() = File(context.filesDir, "pathways.json")
     private val prefs by lazy { context.getSharedPreferences("pathways", Context.MODE_PRIVATE) }
@@ -269,6 +276,9 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     private val nums = mutableStateMapOf<String, Int>()
 
     init {
+        viewModelScope.launch {
+            runCatching { NepalGeoLoader.get(context) }
+        }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val loadedSets = SET_KEYS.associateWith { prefs.getStringSet("set_$it", emptySet()).orEmpty().toSet() }
@@ -294,9 +304,15 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         loadPlus2Summary()
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
-            val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText()) }.getOrNull() }
-            if (cached != null) _state.update { it.copy(data = cached, loading = false, failed = false) }
+            if (memoryData == null) {
+                val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText()) }.getOrNull() }
+                if (cached != null) {
+                    memoryData = cached
+                    _state.update { it.copy(data = cached, loading = false, failed = false) }
+                }
+            }
             val fresh = withContext(Dispatchers.IO) { runCatching { fetch() }.getOrNull() }
+            if (fresh != null) memoryData = fresh
             _state.update {
                 when {
                     fresh != null -> it.copy(data = fresh, loading = false, failed = false)
@@ -312,12 +328,20 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
 
     /** Claimed institutions that filled their page: saved copy first, then the small live call. */
     private fun loadOnNeb() = viewModelScope.launch {
-        val cached = withContext(Dispatchers.IO) { runCatching { parseOnNeb(onNebFile.readText()) }.getOrNull() }
-        if (cached != null) _state.update { it.copy(onNeb = cached) }
+        if (memoryOnNeb == null) {
+            val cached = withContext(Dispatchers.IO) { runCatching { parseOnNeb(onNebFile.readText()) }.getOrNull() }
+            if (cached != null) {
+                memoryOnNeb = cached
+                _state.update { it.copy(onNeb = cached) }
+            }
+        }
         val fresh = withContext(Dispatchers.IO) {
             runCatching { fetchOnNebText()?.also { onNebFile.writeText(it) }?.let(::parseOnNeb) }.getOrNull()
         }
-        if (fresh != null) _state.update { it.copy(onNeb = fresh) }
+        if (fresh != null) {
+            memoryOnNeb = fresh
+            _state.update { it.copy(onNeb = fresh) }
+        }
     }
 
     private fun parsePlus2Counts(text: String): Map<String, Int> {
@@ -328,8 +352,13 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     }
 
     private fun loadPlus2Summary() = viewModelScope.launch {
-        val cached = withContext(Dispatchers.IO) { runCatching { parsePlus2Counts(plus2SummaryFile.readText()) }.getOrNull() }
-        if (!cached.isNullOrEmpty()) _state.update { it.copy(plus2Counts = cached) }
+        if (memoryPlus2Counts == null) {
+            val cached = withContext(Dispatchers.IO) { runCatching { parsePlus2Counts(plus2SummaryFile.readText()) }.getOrNull() }
+            if (!cached.isNullOrEmpty()) {
+                memoryPlus2Counts = cached
+                _state.update { it.copy(plus2Counts = cached) }
+            }
+        }
         val fresh = withContext(Dispatchers.IO) {
             runCatching {
                 pwHttpGet("https://nebians.consica.com.np/api/pathways/plus2/")
@@ -337,7 +366,16 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
                     ?.let(::parsePlus2Counts)
             }.getOrNull()
         }
-        if (!fresh.isNullOrEmpty()) _state.update { it.copy(plus2Counts = fresh) }
+        if (!fresh.isNullOrEmpty()) {
+            memoryPlus2Counts = fresh
+            _state.update { it.copy(plus2Counts = fresh) }
+        }
+    }
+
+    companion object {
+        @Volatile private var memoryData: PwData? = null
+        @Volatile private var memoryOnNeb: PwOnNebData? = null
+        @Volatile private var memoryPlus2Counts: Map<String, Int>? = null
     }
 
     private fun fetch(): PwData? {

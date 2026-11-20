@@ -149,6 +149,11 @@ def google_auth(request):
     if email and User.objects.filter(email__iexact=email).exists():
         return JsonResponse({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
     temp_username = f"user_{user_id[:8]}"
+    base_username = temp_username
+    suffix = 1
+    while User.objects.filter(username=temp_username).exists():
+        temp_username = f"{base_username}_{suffix}"
+        suffix += 1
     db_user = User(
         pk=user_id,
         username=temp_username,
@@ -269,6 +274,11 @@ def google_oauth_callback(request):
             return redirect(next_url)
         return redirect_result
     temp_username = f"user_{user_id[:8]}"
+    base_username = temp_username
+    suffix = 1
+    while User.objects.filter(username=temp_username).exists():
+        temp_username = f"{base_username}_{suffix}"
+        suffix += 1
     if email and User.objects.filter(email__iexact=email).exists():
         if is_mobile:
             return deep_link('nebians://auth-callback?error=email_already_exists')

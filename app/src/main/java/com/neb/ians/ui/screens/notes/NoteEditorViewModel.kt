@@ -757,7 +757,11 @@ class NoteEditorViewModel @Inject constructor(
             val segments = withContext(Dispatchers.Default) {
                 NoteSpeechText.segments(currentTitle, NoteDoc.toMarkdown(currentBlocks))
             }
-            phonon.play(segments)
+            if (segments.isEmpty()) {
+                _notice.value = "Write something in the note first"
+            } else {
+                phonon.play(segments)
+            }
         }
     }
 

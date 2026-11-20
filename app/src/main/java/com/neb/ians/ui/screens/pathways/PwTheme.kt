@@ -576,11 +576,12 @@ internal fun PwSlider(value: Float, onChange: (Float) -> Unit, range: ClosedFloa
     }
 }
 
-/** Rise on first show: fade, lift 14dp and settle from 95% on a spring. Only the first rows animate; long lists skip it. */
+/** Rise on first show: fade, lift 14dp and settle from 95% on a spring. Only the first 6 rows animate; long lists skip it. */
 @Composable
 internal fun Modifier.pwRise(index: Int, key: Any? = Unit): Modifier {
-    val live = index in 0..14
-    val a = remember(key) { Animatable(if (live) 0f else 1f) }
+    val reduced = com.neb.ians.ui.theme.nebAnimationsReduced()
+    val live = !reduced && index in 0..5
+    val a = remember(key, reduced) { Animatable(if (live) 0f else 1f) }
     if (live) LaunchedEffect(key) { kotlinx.coroutines.delay(index * 40L); a.animateTo(1f, spring(0.6f, Spring.StiffnessMediumLow)) }
     return this.graphicsLayer {
         val v = a.value

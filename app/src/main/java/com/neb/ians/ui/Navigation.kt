@@ -225,6 +225,8 @@ private val PRE_APP_ROUTES = setOf(
     Screen.Splash.route,
     Screen.Login.route,
     Screen.EmailAuth.route,
+    Screen.EmailVerification.route,
+    Screen.ForgotPassword.route,
     Screen.CompleteProfile.route,
 )
 
@@ -294,7 +296,7 @@ fun NEBiansNavHost(
         val afterRoute = navController.currentBackStackEntry?.destination?.route?.substringBefore("?")
         if (afterRoute in PRE_APP_ROUTES || afterRoute == null) {
             navController.navigate(Screen.Home.route) {
-                popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                popUpTo(0) { inclusive = true }
                 launchSingleTop = true
             }
         }
@@ -312,13 +314,12 @@ fun NEBiansNavHost(
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                 // Signed out (or a guest from the start): stay in the app, on Home.
                 if (currentRoute != null &&
-                    currentRoute != Screen.Splash.route &&
-                    currentRoute != Screen.Login.route &&
-                    currentRoute != Screen.EmailAuth.route &&
+                    currentRoute !in PRE_APP_ROUTES &&
                     currentRoute != Screen.Home.route
                 ) {
                     navController.navigate(Screen.Home.route) {
-                        popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                        popUpTo(0) { inclusive = true }
+                        launchSingleTop = true
                     }
                 }
             }
@@ -326,7 +327,7 @@ fun NEBiansNavHost(
                 gateReason = null
                 settingsViewModel.ensureProfile()
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                if (currentRoute == Screen.Login.route) {
+                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
                     if (state.isProfileComplete) leaveAuth()
                     else navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
                 }
