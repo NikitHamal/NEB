@@ -47,21 +47,50 @@ import androidx.compose.ui.unit.sp
 @Composable
 internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val s = vm.sel
+    var schScope by rememberSaveable { mutableStateOf("All") }
+    val withWhere = remember(d) { d.routes.filter { it.where.isNotEmpty() } }
+    val activeColRouteId = remember(s.collegeRoute, s.course, withWhere) {
+        listOf(s.collegeRoute, s.course.orEmpty()).firstOrNull { id -> id.isNotEmpty() && withWhere.any { it.id == id } } ?: withWhere.firstOrNull()?.id
+    }
+    val activeColRoute = activeColRouteId?.let { d.routeById[it] }
+    val nearRoutes = remember(activeColRoute?.id, withWhere) {
+        if (activeColRoute == null) emptyList()
+        else (listOf(activeColRoute) + withWhere.filter { it.stage == activeColRoute.stage && it.group == activeColRoute.group && it.id != activeColRoute.id }).take(20)
+    }
+    val schCountry = d.abroad.firstOrNull { it.id == s.schCountry }
+    val schScopes = remember(d) { d.scholarships.map { it.scope }.filter { it.isNotBlank() }.distinct() }
+    val schChips = remember(schCountry, schScopes) {
+        buildList {
+            if (schCountry != null) add("x" to schCountry.country)
+            add("All" to "All"); schScopes.forEach { add(it to levelLabel(it)) }
+        }
+    }
+    val hasSubChips = (s.study == "colleges" && nearRoutes.isNotEmpty()) || (s.study == "funding" && schChips.size > 1)
     val scroll = rememberScrollState()
-    androidx.compose.runtime.LaunchedEffect(s.study) { scroll.scrollTo(0) }
+    androidx.compose.runtime.LaunchedEffect(s.study, activeColRouteId, schScope, s.schCountry) { scroll.scrollTo(0) }
     PwScrollPage(
         bottom = 24.dp,
         state = scroll,
         topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) },
         stickyHeader = {
-            PwSeg(listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"), s.study, { s.study = it }, Modifier.padding(16.dp, 4.dp, 16.dp, 10.dp))
+            PwSeg(
+                listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"),
+                s.study,
+                { s.study = it },
+                Modifier.padding(16.dp, 4.dp, 16.dp, if (hasSubChips) 4.dp else 10.dp)
+            )
+            if (s.study == "colleges" && nearRoutes.isNotEmpty()) {
+                PwChipRow(nearRoutes.map { it.id to it.name }, { it == activeColRoute?.id }, { s.collegeRoute = it }, Modifier.padding(top = 2.dp, bottom = 10.dp))
+            } else if (s.study == "funding" && schChips.size > 1) {
+                PwChipRow(schChips, { it == "x" || it == schScope }, { k -> if (k == "x") s.schCountry = "" else schScope = k }, Modifier.padding(top = 2.dp, bottom = 10.dp))
+            }
         },
     ) {
         Spacer(Modifier.height(6.dp))
         when (s.study) {
             "abroad" -> PwAbroadBody(d, ui, vm, nav)
-            "funding" -> PwFundingBody(d, ui, vm)
-            else -> PwCollegesBody(d, "", ui, vm)
+            "funding" -> PwFundingBody(d, ui, vm, schScope)
+            else -> PwCollegesBody(d, "", ui, vm, showRouteChips = false)
         }
     }
 }
@@ -69,7 +98,7 @@ internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav:
 @Composable
 internal fun PwCollegesPage(d: PwData, routeId: String, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     PwScrollPage(24.dp, topBar = { scrolled -> PwBackBar(d.routeById[routeId]?.name ?: "Colleges", nav.pop, scrolled) }) {
-        PwCollegesBody(d, routeId, ui, vm)
+        PwCollegesBody(d, routeId, ui, vm, showRouteChips = false)
     }
 }
 
@@ -80,16 +109,14 @@ private fun levelLabel(l: String): String = when (l.lowercase()) {
 }
 
 @Composable
-private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel) {
+private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, scope: String) {
     val s = vm.sel
     val c = MaterialTheme.colorScheme
     val uri = LocalUriHandler.current
-    var scope by rememberSaveable { mutableStateOf("All") }
     var level by rememberSaveable { mutableStateOf("All") }
     var filterQ by rememberSaveable { mutableStateOf("") }
-    var shown by rememberSaveable { androidx.compose.runtime.mutableIntStateOf(24) }
+    var shown by rememberSaveable(scope, s.schCountry) { androidx.compose.runtime.mutableIntStateOf(24) }
     val country = d.abroad.firstOrNull { it.id == s.schCountry }
-    val scopes = remember(d) { d.scholarships.map { it.scope }.filter { it.isNotBlank() }.distinct() }
     val levels = remember(d) { d.scholarships.flatMap { it.levels }.distinct().take(3) }
     val needle = filterQ.trim().lowercase()
     val list = remember(d, country, scope, level, needle) {
@@ -101,11 +128,6 @@ private fun PwFundingBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel)
     }
     val openAt = list.indexOfFirst { it.id == s.schOpen }
     val limit = if (openAt >= shown) openAt + 4 else shown
-    val chips = buildList {
-        if (country != null) add("x" to country.country)
-        add("All" to "All"); scopes.forEach { add(it to levelLabel(it)) }
-    }
-    PwChipRow(chips, { it == "x" || it == scope }, { k -> if (k == "x") s.schCountry = "" else scope = k; shown = 24 }, Modifier.padding(bottom = 10.dp))
     Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         androidx.compose.foundation.text.BasicTextField(
             value = filterQ,

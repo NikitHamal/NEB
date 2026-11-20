@@ -78,20 +78,19 @@ private fun topicIcon(id: String): ImageVector = when (id) {
 
 /** Search box, topic chips and the question cards. Answers carry live links; figures come from the courses a question points to. */
 @Composable
-internal fun PwQuestions(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
+internal fun PwQuestions(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav, topic: String = "All") {
     val c = MaterialTheme.colorScheme
     val s = vm.sel
     val topics = remember(d) { d.topics.filter { t -> d.faq.any { it.topic == t.id } } }
-    var topic by rememberSaveable { mutableStateOf("All") }
     var q by rememberSaveable { mutableStateOf("") }
-    var all by rememberSaveable { mutableStateOf(false) }
+    var all by rememberSaveable(topic) { mutableStateOf(false) }
     val list = remember(d, topic, q) {
         val n = q.trim().lowercase()
         d.faq.filter { (topic == "All" || it.topic == topic) && (n.isEmpty() || (it.q + " " + it.a).lowercase().contains(n)) }
     }
     val openAt = list.indexOfFirst { it.id == s.faqOpen }
     val shown = if (all || openAt >= LIMIT) list else list.take(LIMIT)
-    Box(Modifier.padding(horizontal = 16.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh), contentAlignment = Alignment.CenterStart) {
+    Box(Modifier.padding(start = 16.dp, top = 6.dp, end = 16.dp, bottom = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerHigh), contentAlignment = Alignment.CenterStart) {
         BasicTextField(
             q, { q = it; all = false }, Modifier.fillMaxWidth().padding(start = 20.dp, end = 52.dp), singleLine = true,
             textStyle = TextStyle(color = c.onSurface, fontSize = 14.sp, fontWeight = FontWeight.Medium), cursorBrush = SolidColor(c.primary),
@@ -99,7 +98,6 @@ internal fun PwQuestions(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, 
         )
         Icon(Icons.Outlined.Search, null, Modifier.align(Alignment.CenterEnd).padding(end = 16.dp).size(20.dp), tint = c.onSurfaceVariant)
     }
-    PwChipRow(listOf("All" to "All") + topics.map { it.id to it.label }, { it == topic }, { topic = it; all = false }, Modifier.padding(top = 10.dp, bottom = 10.dp))
     Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         if (list.isEmpty()) PwEmpty("No questions found")
         shown.forEachIndexed { i, f ->

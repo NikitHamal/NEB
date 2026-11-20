@@ -64,6 +64,7 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
                     Text(small.ifEmpty { "careers" }, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
             },
+            tabKey = tab,
             aboveTabs = {
                 PwMeters(m.demand, m.competition, if (m.payHi > 0) "${money(m.payLo)}–${money(m.payHi)}" else null, "NPR / month to start")
             },

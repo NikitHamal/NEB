@@ -97,6 +97,7 @@ internal fun PwHeroScrollPage(
     onBack: () -> Unit,
     bottom: Dp,
     badge: @Composable () -> Unit,
+    tabKey: Any? = null,
     aboveTabs: (@Composable ColumnScope.() -> Unit)? = null,
     stickyTabs: (@Composable () -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
@@ -106,8 +107,16 @@ internal fun PwHeroScrollPage(
     var topBarHeightPx by remember { mutableIntStateOf(0) }
     var tabsOffsetY by remember { mutableIntStateOf(0) }
     val progress: () -> Float = { ((state.value - 80f) / 90f).coerceIn(0f, 1f) }
-    val tabsPinned: () -> Boolean = {
-        stickyTabs != null && topBarHeightPx > 0 && tabsOffsetY > 0 && state.value >= (tabsOffsetY - topBarHeightPx)
+    val isTabsPinned by remember {
+        androidx.compose.runtime.derivedStateOf {
+            stickyTabs != null && topBarHeightPx > 0 && tabsOffsetY > 0 && state.value >= (tabsOffsetY - topBarHeightPx)
+        }
+    }
+    androidx.compose.runtime.LaunchedEffect(tabKey) {
+        if (tabKey != null && topBarHeightPx > 0 && tabsOffsetY > 0) {
+            val pinY = (tabsOffsetY - topBarHeightPx).coerceAtLeast(0)
+            if (state.value > pinY) state.scrollTo(pinY)
+        }
     }
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize().verticalScroll(state).padding(bottom = bottom)) {
@@ -117,7 +126,7 @@ internal fun PwHeroScrollPage(
                 Box(
                     Modifier.fillMaxWidth()
                         .onGloballyPositioned { tabsOffsetY = it.positionInParent().y.toInt() }
-                        .graphicsLayer { alpha = if (tabsPinned()) 0f else 1f }
+                        .graphicsLayer { alpha = if (isTabsPinned) 0f else 1f }
                 ) {
                     stickyTabs()
                 }
@@ -132,7 +141,7 @@ internal fun PwHeroScrollPage(
                 Box(Modifier.matchParentSize().graphicsLayer { alpha = progress() }.background(c.surface))
                 Box(
                     Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(1.dp)
-                        .graphicsLayer { alpha = if (tabsPinned()) 0f else progress() }
+                        .graphicsLayer { alpha = if (isTabsPinned) 0f else progress() }
                         .background(c.outlineVariant)
                 )
                 Row(
@@ -171,23 +180,11 @@ internal fun PwHeroScrollPage(
                     }
                 }
             }
-            if (stickyTabs != null && tabsPinned()) {
+            if (stickyTabs != null && isTabsPinned) {
                 Box(Modifier.fillMaxWidth().background(c.surface)) {
                     stickyTabs()
                 }
             }
         }
     }
-}
-
-/** The same strip for a lazy list: clear while the first row is at the top, solid once the list has moved. */
-@Composable
-internal fun BoxScope.PwLazyScrim(state: androidx.compose.foundation.lazy.LazyListState) {
-    Box(
-        Modifier.align(Alignment.TopStart).fillMaxWidth().windowInsetsTopHeight(WindowInsets.statusBars)
-            .graphicsLayer {
-                alpha = if (state.firstVisibleItemIndex > 0) 1f else (state.firstVisibleItemScrollOffset / (size.height * 0.6f).coerceAtLeast(1f)).coerceIn(0f, 1f)
-            }
-            .background(MaterialTheme.colorScheme.surface),
-    )
 }

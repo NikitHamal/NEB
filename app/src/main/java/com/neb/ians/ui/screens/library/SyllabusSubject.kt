@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+
 package com.neb.ians.ui.screens.library
 
 import androidx.activity.compose.BackHandler
@@ -134,6 +136,9 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
         add(SyllabusTab.Exam to NebRailTab("Exam"))
     }
     val tab = tabs.firstOrNull { it.first == state.tab }?.first ?: SyllabusTab.Chapters
+    LaunchedEffect(tab) {
+        if (listState.firstVisibleItemIndex > 2) listState.scrollToItem(2)
+    }
 
     LazyColumn(
         state = listState,
@@ -143,13 +148,24 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
     ) {
         item(key = "head") { SubjectHeader(doc, state.chaptersDone(doc.grade, doc.subject)) }
         item(key = "next") { NextCards(state, doc, onOpen = open, onBank = { viewModel.setTab(SyllabusTab.Bank) }) }
-        item(key = "tabs") {
-            NebTabRail(
-                tabs = tabs.map { it.second },
-                selectedIndex = tabs.indexOfFirst { it.first == tab }.coerceAtLeast(0),
-                onSelect = { viewModel.setTab(tabs[it].first) },
-                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp)
-            )
+        stickyHeader(key = "tabs") {
+            val c = MaterialTheme.colorScheme
+            val pinned = listState.firstVisibleItemIndex >= 2
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .background(c.surface)
+            ) {
+                NebTabRail(
+                    tabs = tabs.map { it.second },
+                    selectedIndex = tabs.indexOfFirst { it.first == tab }.coerceAtLeast(0),
+                    onSelect = { viewModel.setTab(tabs[it].first) },
+                    contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp)
+                )
+                if (pinned) {
+                    Box(Modifier.fillMaxWidth().height(1.dp).background(c.outlineVariant))
+                }
+            }
         }
         when (tab) {
             SyllabusTab.Chapters -> {

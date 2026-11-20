@@ -36,6 +36,7 @@ internal fun guideDone(vm: PathwaysViewModel, g: PwGuide): Int = g.steps.indices
 @Composable
 internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     var cat by rememberSaveable { mutableStateOf("All") }
+    var faqTopic by rememberSaveable { mutableStateOf("All") }
     var view by rememberSaveable { mutableStateOf(if (vm.sel.faqOpen.isNotEmpty()) "faq" else "guides") }
     androidx.compose.runtime.LaunchedEffect(vm.sel.faqOpen) {
         if (vm.sel.faqOpen.isNotEmpty()) view = "faq"
@@ -43,16 +44,19 @@ internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav
     val hasBoth = d.guides.isNotEmpty() && d.faq.isNotEmpty()
     val shown = if (!hasBoth) (if (d.guides.isNotEmpty()) "guides" else "faq") else view
     val cats = androidx.compose.runtime.remember(d.guides) { listOf("All") + d.guides.map { it.cat }.distinct() }
+    val faqTopics = androidx.compose.runtime.remember(d) { d.topics.filter { t -> d.faq.any { it.topic == t.id } } }
     val showCats = shown == "guides" && d.guides.isNotEmpty() && cats.size > 1
+    val showFaqTopics = shown == "faq" && faqTopics.isNotEmpty()
     val scroll = rememberScrollState()
-    androidx.compose.runtime.LaunchedEffect(shown, cat) { scroll.scrollTo(0) }
+    androidx.compose.runtime.LaunchedEffect(shown, cat, faqTopic) { scroll.scrollTo(0) }
     PwScrollPage(
         bottom = 24.dp,
         state = scroll,
         topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) },
-        stickyHeader = if (hasBoth || showCats) ({
-            if (hasBoth) PwSeg(listOf("guides" to "Guides", "faq" to "Questions"), shown, { view = it }, Modifier.padding(16.dp, 4.dp, 16.dp, if (showCats) 4.dp else 10.dp))
+        stickyHeader = if (hasBoth || showCats || showFaqTopics) ({
+            if (hasBoth) PwSeg(listOf("guides" to "Guides", "faq" to "Questions"), shown, { view = it }, Modifier.padding(16.dp, 4.dp, 16.dp, if (showCats || showFaqTopics) 4.dp else 10.dp))
             if (showCats) PwChipRow(cats.map { it to it }, { it == cat }, { cat = it }, Modifier.padding(top = if (hasBoth) 2.dp else 4.dp, bottom = 10.dp))
+            else if (showFaqTopics) PwChipRow(listOf("All" to "All") + faqTopics.map { it.id to it.label }, { it == faqTopic }, { faqTopic = it }, Modifier.padding(top = if (hasBoth) 2.dp else 4.dp, bottom = 10.dp))
         }) else null,
     ) {
         if (shown == "guides" && d.guides.isNotEmpty()) {
@@ -66,7 +70,7 @@ internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav
                 }
             }
         }
-        if (shown == "faq" && d.faq.isNotEmpty()) PwQuestions(d, ui, vm, nav)
+        if (shown == "faq" && d.faq.isNotEmpty()) PwQuestions(d, ui, vm, nav, faqTopic)
         if (d.guides.isEmpty() && d.faq.isEmpty()) PwEmpty("Guides are on the way")
     }
 }

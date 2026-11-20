@@ -138,6 +138,7 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
                     }
                 }
             },
+            tabKey = shown,
             aboveTabs = {
                 val facts = buildList {
                     if (g.seats > 0) add("Seats" to money(g.seats.toLong()))

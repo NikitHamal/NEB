@@ -25,12 +25,12 @@
 .seg{display:inline-flex;background:var(--s2);border-radius:22px;padding:4px;gap:2px}
 .seg button{height:36px;padding:0 16px;border-radius:18px;font-size:13px;font-weight:500;color:var(--onv);display:flex;align-items:center;gap:6px;transition:background .25s var(--e),color .2s}
 .seg button[aria-pressed=true]{background:var(--p);color:var(--onp)}
-.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--ov);margin:16px -14px 18px;padding:0 14px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--ov);margin:16px -14px 18px;padding:0 14px;scrollbar-width:none;position:sticky;top:64px;z-index:20;background:var(--s)}.tabs::-webkit-scrollbar{display:none}
 .tabs button{height:46px;padding:0 14px;font-weight:500;color:var(--onv);position:relative;white-space:nowrap;display:flex;align-items:center;gap:6px}
 .tabs button[aria-selected=true]{color:var(--on)}
 .tabs button[aria-selected=true]::after{content:'';position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--p);animation:pop .3s var(--sp)}
 .tabs .n{font-size:11px;background:var(--s3);border-radius:10px;padding:0 7px;line-height:18px}
-@media(min-width:900px){.tabs{margin:16px 0 20px;padding:0}}
+@media(min-width:900px){.tabs{margin:16px 0 20px;padding:0;top:72px}}
 .mt{height:6px;border-radius:3px;background:var(--s4);overflow:hidden}
 .mt i{display:block;height:100%;border-radius:3px;background:var(--c,var(--p));width:calc(var(--v)*1%);transform-origin:left;animation:grow .9s var(--e) both}
 @keyframes grow{from{transform:scaleX(0)}}

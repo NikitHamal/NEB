@@ -44,7 +44,7 @@ private fun kindFor(r: PwRoute): String = when {
 }
 
 @Composable
-internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: PathwaysViewModel) {
+internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: PathwaysViewModel, showRouteChips: Boolean = true) {
     val s = vm.sel
     val c = MaterialTheme.colorScheme
     val uri = LocalUriHandler.current
@@ -55,7 +55,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     if (r == null) { PwEmpty("No colleges yet"); return }
     val matches = ui.onNeb?.matches.orEmpty()
     PwOnNebSection(ui.onNeb, remember(r.id, matches) { r.where.mapNotNull { matches[it] }.toSet() }, ui.district)
-    if (fixed.isEmpty()) {
+    if (fixed.isEmpty() && showRouteChips) {
         val near = remember(r.id, withWhere) { (listOf(r) + withWhere.filter { it.stage == r.stage && it.group == r.group && it.id != r.id }).take(20) }
         PwChipRow(near.map { it.id to it.name }, { it == r.id }, { s.collegeRoute = it }, Modifier.padding(bottom = 14.dp))
     }

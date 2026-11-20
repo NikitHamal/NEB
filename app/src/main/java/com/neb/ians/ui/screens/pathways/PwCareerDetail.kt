@@ -74,6 +74,7 @@ internal fun PwCareerDetail(d: PwData, k: PwCareer, ui: PathwaysUiState, vm: Pat
         onBack = nav.pop,
         bottom = 32.dp,
         badge = { PwBadge(tone, 5) { PwSignal(pct(k.demand), tone.bg, 34.dp) } },
+        tabKey = tab,
         aboveTabs = {
             PwMeters(pct(k.demand), pct(k.competition), "NPR ${money(payAt(k, exp.toFloat()).toLong())}", "${if (exp == 0) "Entry" else "Year $exp"} \u00b7 ${ladder[rung]}")
         },

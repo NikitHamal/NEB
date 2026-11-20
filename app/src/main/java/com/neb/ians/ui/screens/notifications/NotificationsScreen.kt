@@ -66,6 +66,9 @@ fun NotificationsScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
+    LaunchedEffect(uiState.filter) {
+        listState.scrollToItem(0)
+    }
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
 

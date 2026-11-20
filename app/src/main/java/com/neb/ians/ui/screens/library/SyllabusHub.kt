@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+
 package com.neb.ians.ui.screens.library
 
 import androidx.compose.animation.animateColorAsState
@@ -149,9 +151,20 @@ private fun SyllabusHub(
                             }
                         }
                     }
-                    item(key = "grades") { GradeSwitch(index.grades, index.tracks, grade?.grade ?: state.grade, viewModel::selectGrade) }
-                    if (grade != null) {
-                        item(key = "modes") { PracticeModes(grade, mode, onMode = { mode = it }) }
+                    stickyHeader(key = "hub_sticky") {
+                        val c = MaterialTheme.colorScheme
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .background(c.surface)
+                                .padding(vertical = 4.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            GradeSwitch(index.grades, index.tracks, grade?.grade ?: state.grade, viewModel::selectGrade)
+                            if (grade != null) {
+                                PracticeModes(grade, mode, onMode = { mode = it })
+                            }
+                        }
                     }
                     if (grade != null && mode != HubMode.Chapters) {
                         val pick = grade.subjects.filter { if (mode == HubMode.Banks) it.bankCount > 0 else it.modelCount > 0 }

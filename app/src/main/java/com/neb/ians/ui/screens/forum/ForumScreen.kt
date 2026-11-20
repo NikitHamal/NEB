@@ -111,6 +111,9 @@ fun ForumScreen(
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val listState = rememberLazyListState()
+    LaunchedEffect(uiState.sort, uiState.selectedCategory) {
+        listState.scrollToItem(0)
+    }
     com.neb.ians.ui.components.TrackPostImpressions(
         listState = listState,
         postIdForKey = { it as? String },

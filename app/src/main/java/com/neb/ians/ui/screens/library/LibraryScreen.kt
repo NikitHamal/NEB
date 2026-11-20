@@ -390,6 +390,9 @@ private fun LibraryContent(
                 }
 
                 val gridState = rememberLazyGridState()
+                LaunchedEffect(uiState.sort, uiState.selectedSubject, uiState.selectedGradeLevel, uiState.selectedType) {
+                    gridState.scrollToItem(0)
+                }
                 com.neb.ians.ui.components.TrackGridImpressions(
                     gridState = gridState,
                     idForKey = { (it as? String)?.takeIf { k -> !k.endsWith("_footer") } },

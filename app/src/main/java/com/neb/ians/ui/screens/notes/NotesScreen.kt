@@ -195,13 +195,19 @@ fun NotesScreen(
                         },
                         modifier = Modifier.align(Alignment.Center),
                     )
-                    else -> LazyVerticalStaggeredGrid(
-                        columns = if (ui.grid) StaggeredGridCells.Adaptive(156.dp) else StaggeredGridCells.Fixed(1),
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 160.dp),
-                        verticalItemSpacing = 8.dp,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
+                    else -> {
+                        val gridState = androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState()
+                        androidx.compose.runtime.LaunchedEffect(ui.filter, ui.tag, ui.sort) {
+                            gridState.scrollToItem(0)
+                        }
+                        LazyVerticalStaggeredGrid(
+                            state = gridState,
+                            columns = if (ui.grid) StaggeredGridCells.Adaptive(156.dp) else StaggeredGridCells.Fixed(1),
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 160.dp),
+                            verticalItemSpacing = 8.dp,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
                         items(ui.notes, key = { it.id }, contentType = { "note" }) { note ->
                             NoteCard(
                                 note = note,
@@ -210,6 +216,7 @@ fun NotesScreen(
                                 onClick = { if (selecting) vm.toggleSelect(note.id) else onOpenNote(note.id) },
                                 onLongClick = { tactile.perform(TactileType.LightTap); vm.toggleSelect(note.id) },
                             )
+                        }
                         }
                     }
                 }
