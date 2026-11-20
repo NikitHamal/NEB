@@ -18,7 +18,7 @@ area: Practice
 
 **Score yourself:** score $=\text{(1 × right in A)}+\text{(2 × right in B)}-0.1\times\text{wrong in A}-0.2\times\text{wrong in B}$. Take the paper in one sitting, then use the answer key below.
 
-## Section A — Mathematics (questions 1–20, 1 mark each)
+## 3.1 Section A — Mathematics (questions 1–20, 1 mark each)
 
 1. The number of terms in the expansion of $(2x-3y)^7$ is
    (a) 7 (b) 9 (c) 6 (d) 8
@@ -61,7 +61,7 @@ area: Practice
 20. $\displaystyle\lim_{x\to1}\frac{x^2-1}{x-1}$ equals
     (a) 0 (b) 2 (c) 1 (d) $\infty$
 
-## Section A — Physics (questions 21–34, 1 mark each)
+## 3.2 Section A — Physics (questions 21–34, 1 mark each)
 
 21. The SI unit of power is
     (a) joule (b) newton (c) watt (d) pascal
@@ -92,7 +92,7 @@ area: Practice
 34. The number of neutrons in $^{238}_{92}$U is
     (a) 92 (b) 238 (c) 146 (d) 330
 
-## Section A — Chemistry (questions 35–48, 1 mark each)
+## 3.3 Section A — Chemistry (questions 35–48, 1 mark each)
 
 35. The number of neutrons in a $^{14}$C atom is
     (a) 6 (b) 8 (c) 14 (d) 12
@@ -123,7 +123,7 @@ area: Practice
 48. The metal obtained by the electrolysis of molten alumina is
     (a) iron (b) aluminium (c) copper (d) zinc
 
-## Section A — English (questions 49–60, 1 mark each)
+## 3.4 Section A — English (questions 49–60, 1 mark each)
 
 49. The books ___ on the table.
     (a) is (b) was (c) are (d) has
@@ -150,7 +150,7 @@ area: Practice
 60. Neither of the twins ___ here.
     (a) are (b) were (c) have (d) is
 
-## Section B — Mathematics (questions 61–75, 2 marks each)
+## 3.5 Section B — Mathematics (questions 61–75, 2 marks each)
 
 61. Two fair dice are thrown. The probability that the sum is 8 is
     (a) $1/6$ (b) $5/36$ (c) $1/9$ (d) $7/36$
@@ -183,7 +183,7 @@ area: Practice
 75. If $\alpha,\beta$ are the roots of $x^2-5x+6=0$, then $\alpha^3+\beta^3$ equals
     (a) 19 (b) 27 (c) 35 (d) 125
 
-## Section B — Physics (questions 76–88, 2 marks each)
+## 3.6 Section B — Physics (questions 76–88, 2 marks each)
 
 76. A stone is thrown horizontally at 15 m s⁻¹ from a cliff 80 m high. It lands at a horizontal distance of
     (a) 40 m (b) 80 m (c) 60 m (d) 120 m
@@ -212,7 +212,7 @@ area: Practice
 88. Photons of energy 4.5 eV eject electrons with a stopping potential of 2 V. The work function is
     (a) 6.5 eV (b) 2 eV (c) 2.5 eV (d) 4.5 eV
 
-## Section B — Chemistry (questions 89–96, 2 marks each)
+## 3.7 Section B — Chemistry (questions 89–96, 2 marks each)
 
 89. The volume of 0.5 M HCl needed to neutralise 0.1 mol of Ca(OH)₂ is
     (a) 200 mL (b) 100 mL (c) 400 mL (d) 800 mL
@@ -231,7 +231,7 @@ area: Practice
 96. Roasting 2 mol of HgS gives mercury of mass (Hg = 200.6)
     (a) 100.3 g (b) 200.6 g (c) 401.2 g (d) 602 g
 
-## Section B — English (questions 97–100, 2 marks each)
+## 3.8 Section B — English (questions 97–100, 2 marks each)
 
 Read the passage and answer questions 97 and 98.
 
@@ -274,7 +274,7 @@ f.text(150, 205, "every other constant is under 0.07%", size=10.5, color=TEAL, b
 f.text(150, 221, "bars are logarithmic: each step is 10 times", size=10.5, color=SLATE)
 ```
 
-## Answer key and explanations
+## 3.9 Answer key and explanations
 
 ::: note Answers — Section A Mathematics (1–20)
 **1.** (d) — $n+1=8$.

@@ -531,7 +531,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 6,
-     "topic_count": 10,
+     "topic_count": 36,
      "notes_ready": 6,
      "questions": 200
     }
@@ -611,7 +611,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 3,
-     "topic_count": 7,
+     "topic_count": 26,
      "notes_ready": 3,
      "questions": 100
     }
@@ -677,7 +677,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 4,
-     "topic_count": 7,
+     "topic_count": 21,
      "notes_ready": 4,
      "questions": 100
     }

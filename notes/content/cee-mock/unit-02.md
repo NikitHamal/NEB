@@ -27,7 +27,7 @@ average of 54 seconds each — and do not pause the clock.
   (+0.06) — but blind guessing swings the score, so reserve it for the last minutes.
 :::
 
-## Where the 200 questions sit
+## 2.1 Where the 200 questions sit
 
 The area totals below are the official MEC weightage (third revision, 2083-01-15).
 The per-chapter split inside an area is the NEBians estimate used consistently by
@@ -48,7 +48,7 @@ recall, about three in ten understanding, about two in ten application. Every
 answer is explained in the key at the end — read the explanations of the questions
 you got *right* too; that is where the paper teaches.
 
-## Zoology (questions 1–40)
+## 2.2 Zoology (questions 1–40)
 
 1. In the Miller–Urey experiment (1953), the gases circulated over the electric spark were methane, ammonia, hydrogen and
    (a) oxygen (b) water vapour (c) carbon dioxide (d) nitrogen
@@ -132,7 +132,7 @@ you got *right* too; that is where the paper teaches.
    (a) 1976 (b) 1973 (c) 1984 (d) 1992
 
 
-## Botany (questions 41–80)
+## 2.3 Botany (questions 41–80)
 
 41. Which of these is a non-reducing sugar?
    (a) glucose (b) maltose (c) sucrose (d) lactose
@@ -215,7 +215,7 @@ you got *right* too; that is where the paper teaches.
 80. Azolla is used as a biofertilizer in paddy fields because it harbours
    (a) Rhizobium (b) Anabaena azollae (c) Frankia (d) Glomus
 
-## Chemistry (questions 81–130)
+## 2.4 Chemistry (questions 81–130)
 
 81. How many oxygen atoms are present in 4.4 g of carbon dioxide? (M of CO₂ = 44 g mol⁻¹; N_A = 6.02 × 10²³ mol⁻¹)
    (a) 6.02 × 10²² (b) 6.02 × 10²³ (c) 1.2 × 10²³ (d) 2.4 × 10²³
@@ -318,7 +318,7 @@ you got *right* too; that is where the paper teaches.
 130. The metal ion that gives a brick-red flame is
    (a) sodium (b) potassium (c) barium (d) calcium
 
-## Physics (questions 131–180)
+## 2.5 Physics (questions 131–180)
 
 131. The dimensional formula of the coefficient of viscosity is
    (a) [MLT⁻¹] (b) [ML⁻¹T⁻¹] (c) [ML⁻²T⁻¹] (d) [ML⁻¹T⁻²]
@@ -421,7 +421,7 @@ you got *right* too; that is where the paper teaches.
 180. Hubble's law — galaxies recede at speeds proportional to their distances — is the key evidence that
    (a) the universe is contracting (b) the universe is static (c) galaxies are exploding individually (d) the universe is expanding
 
-## Mental Agility Test (questions 181–200)
+## 2.6 Mental Agility Test (questions 181–200)
 
 181. A man walks 3 km north from his home, then turns right and walks 4 km. How far is he from his home?
    (a) 7 km (b) 3 km (c) 5 km (d) 4 km
@@ -490,7 +490,7 @@ f.text(150, 206, "chi-square %.2f (5%% limit 7.81)" % chi, size=10.5, color=TEAL
 f.text(150, 222, "longest run 2; all C scores %.2f" % sc, size=10.5, color=SLATE, bold=True)
 ```
 
-## Answer key and explanations
+## 2.7 Answer key and explanations
 
 ::: note Answers — Zoology (1–40)
 **1.** (b) — CH₄, NH₃, H₂ and water vapour (boiling water) were sparked; amino acids formed. Free oxygen was deliberately absent: the early atmosphere was reducing.

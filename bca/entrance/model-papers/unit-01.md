@@ -33,10 +33,6 @@ The BCA entrance examination is how Tribhuvan University's Faculty of Humanities
 
 The Dean's Office model for 2018 follows exactly this layout: Q1–40 English (ending with a genetics passage), Q41–90 Mathematics (number properties, equations, matrices, series, a figure-counting question, $\cos0^\circ$), Q91–100 GK/IT (the date of the constitution, "Father of Computer", the Nobel Prizes, SSD, the FIFA World Cup, an output device, the scientific name of humans, the deepest river of Nepal, the first prime minister, the author of *Basain*).
 
-::: caution Where the sources disagree
-A few websites describe a four-section BCA paper (English, Mathematics, Logical Ability, General Knowledge, 25 each), and some describe a computer-science section. **The Faculty's own description and the Dean's Office model papers follow the 40 / 50 / 10 split.** This book prepares for that pattern, and its reasoning chapters cover logical ability inside the mathematics group, where the model paper puts it.
-:::
-
 ```photogrid label="1.1" cols="3" ratio="1.0" caption="Three things the paper tests. (a) A candidate marking a bubble-style answer sheet with a pencil: every question is multiple choice, so clear marks and no blank answers matter (Fig 1.3). (b) The main building of Tribhuvan University, Kirtipur, whose Faculty of Humanities and Social Sciences runs the BCA entrance. (c) A vintage stopwatch: 100 questions in 120 minutes means every group has a time budget (Fig 1.1)."
 @ photo id="bcamodel/exam" cap="(a) answer sheet: mark every item"
 focus 0.55 0.4
@@ -207,7 +203,6 @@ Each trap is a habit that costs rank positions; the numbers come from the figure
 **Q. How many weeks of the plan are for timed papers and the error log?**
 
 **Answer.** Weeks 10 to 12, which is **3 weeks** (Fig 1.2).
-
 
 ## Chapter summary
 

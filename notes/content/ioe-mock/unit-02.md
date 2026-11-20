@@ -22,7 +22,7 @@ area: Practice
 
 **Pacing.** 120 minutes for 100 questions is 72 seconds each on average. A sound plan: Section A (60 questions) in 45 minutes, Section B (40) in 60 minutes, 15 minutes for returning to skipped questions.
 
-## Section A — Mathematics (questions 1–20, 1 mark each)
+## 2.1 Section A — Mathematics (questions 1–20, 1 mark each)
 
 1. $\displaystyle\lim_{x\to0}\frac{\sin5x}{\sin2x}$ equals
    (a) $2/5$ (b) 1 (c) $5/2$ (d) 5
@@ -65,7 +65,7 @@ area: Practice
 20. $\displaystyle\int_0^2x^2\,dx$ equals
     (a) $8/3$ (b) 4 (c) 2 (d) 8
 
-## Section A — Physics (questions 21–34, 1 mark each)
+## 2.2 Section A — Physics (questions 21–34, 1 mark each)
 
 21. The SI unit of magnetic flux is
     (a) tesla (b) weber (c) henry (d) gauss
@@ -96,7 +96,7 @@ area: Practice
 34. The moment of inertia of a ring of mass $M$ and radius $R$ about its axis is
     (a) $\frac{1}{2}MR^2$ (b) $\frac{2}{5}MR^2$ (c) $\frac{2}{3}MR^2$ (d) $MR^2$
 
-## Section A — Chemistry (questions 35–48, 1 mark each)
+## 2.3 Section A — Chemistry (questions 35–48, 1 mark each)
 
 35. The number of electrons in a Cl⁻ ion is
     (a) 17 (b) 18 (c) 16 (d) 35
@@ -127,7 +127,7 @@ area: Practice
 48. The number of σ bonds in methane is
     (a) 3 (b) 5 (c) 4 (d) 2
 
-## Section A — English (questions 49–60, 1 mark each)
+## 2.4 Section A — English (questions 49–60, 1 mark each)
 
 49. He ___ to school every day.
     (a) goes (b) go (c) going (d) gone
@@ -154,7 +154,7 @@ area: Practice
 60. I have not seen him ___ last year.
     (a) for (b) from (c) during (d) since
 
-## Section B — Mathematics (questions 61–75, 2 marks each)
+## 2.5 Section B — Mathematics (questions 61–75, 2 marks each)
 
 61. Two cards are drawn without replacement from a well-shuffled pack of 52. The probability that both are aces is
     (a) $1/169$ (b) $1/221$ (c) $1/13$ (d) $4/663$
@@ -187,7 +187,7 @@ area: Practice
 75. The number of distinct arrangements of the letters of MATHEMATICS is
     (a) 4989600 (b) 39916800 (c) 9979200 (d) 1247400
 
-## Section B — Physics (questions 76–88, 2 marks each)
+## 2.6 Section B — Physics (questions 76–88, 2 marks each)
 
 76. A projectile launched at $45^\circ$ has a range of 100 m. At the same speed, a launch at $15^\circ$ gives a range of
     (a) 25 m (b) 75 m (c) 50 m (d) 100 m
@@ -216,7 +216,7 @@ area: Practice
 88. A sample initially has 1000 radioactive nuclei with a half-life of 2 h. The number left after 6 h is
     (a) 250 (b) 500 (c) 62 (d) 125
 
-## Section B — Chemistry (questions 89–96, 2 marks each)
+## 2.7 Section B — Chemistry (questions 89–96, 2 marks each)
 
 89. The mass of 5.6 L of CO₂ at STP is
     (a) 44 g (b) 22 g (c) 11 g (d) 5.5 g
@@ -235,7 +235,7 @@ area: Practice
 96. Which statement about first ionisation energies is correct?
     (a) Be < B (b) N < O (c) Li > Be (d) Mg > Al
 
-## Section B — English (questions 97–100, 2 marks each)
+## 2.8 Section B — English (questions 97–100, 2 marks each)
 
 Read the passage and answer questions 97 and 98.
 
@@ -290,7 +290,7 @@ f.text(150, 214, "skip Chemistry: expected %.1f (lower)" % skip, size=10.5, colo
 f.text(150, 228, "", size=10)
 ```
 
-## Answer key and explanations
+## 2.9 Answer key and explanations
 
 ::: note Answers — Section A Mathematics (1–20)
 **1.** (c) — $\frac{\sin5x}{\sin2x}=\frac{5x}{2x}\cdot\frac{\sin5x/5x}{\sin2x/2x}\to\frac{5}{2}$.

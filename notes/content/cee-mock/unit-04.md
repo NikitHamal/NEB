@@ -30,7 +30,7 @@ This paper follows the official unit weightage exactly:
 | Physics | 50 | Mechanics 10 · Heat 7 · Waves/Optics 8 · Current electricity/Magnetism 9 · Electrostatics 4 · Modern 12 |
 | MAT | 20 | Verbal 5 · Numerical 5 · Logical 5 · Spatial/Abstract 5 |
 
-## Zoology (questions 1–40)
+## 4.1 Zoology (questions 1–40)
 
 1. The mutation theory of evolution was proposed by
    (a) Hugo de Vries (b) Weismann (c) Mendel (d) Lamarck
@@ -114,7 +114,7 @@ This paper follows the official unit weightage exactly:
    (a) in a zoo (b) in a seed bank (c) in its natural habitat (d) in a laboratory
 
 
-## Botany (questions 41–80)
+## 4.2 Botany (questions 41–80)
 
 41. The disaccharide maltose is made up of two units of
    (a) glucose + fructose (b) glucose + galactose (c) glucose + glucose (d) fructose + fructose
@@ -198,7 +198,7 @@ This paper follows the official unit weightage exactly:
    (a) protoplast fusion (b) grafting (c) mutation breeding (d) cross-pollination
 
 
-## Chemistry (questions 81–130)
+## 4.3 Chemistry (questions 81–130)
 
 81. The mass of 0.25 mol of sulphuric acid (molar mass 98 g/mol) is
    (a) 98 g (b) 49 g (c) 24.5 g (d) 12.25 g
@@ -302,7 +302,7 @@ This paper follows the official unit weightage exactly:
    (a) Kjeldahl method (b) Carius method (c) Dumas method (d) Liebig method
 
 
-## Physics (questions 131–180)
+## 4.4 Physics (questions 131–180)
 
 131. A projectile is fired at 40 m/s at an angle of 30° above the horizontal. Its horizontal range (g = 10 m/s²) is about
    (a) 80 m (b) 160 m (c) 69 m (d) 139 m
@@ -406,7 +406,7 @@ This paper follows the official unit weightage exactly:
    (a) strong nuclear force (b) electromagnetic force (c) weak nuclear force (d) gravitational force
 
 
-## Mental Agility Test (questions 181–200)
+## 4.5 Mental Agility Test (questions 181–200)
 
 181. Choose the word nearest in meaning to SCARCE.
    (a) Plentiful (b) Rare (c) Costly (d) Hidden
@@ -475,7 +475,7 @@ f.text(150, 206, "chi-square %.2f (5%% limit 7.81)" % chi, size=10.5, color=TEAL
 f.text(150, 222, "longest run 2; all B scores %.2f" % sc, size=10.5, color=SLATE, bold=True)
 ```
 
-## Answer key and explanations
+## 4.6 Answer key and explanations
 
 ::: note Answers — Zoology (1–40)
 **1.** (a) — de Vries proposed that new species arise by sudden mutations.

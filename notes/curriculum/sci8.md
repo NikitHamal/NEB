@@ -1,6 +1,6 @@
 # SUBJECT: Science and Technology | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 150
 # EXAM: Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. These practice sets are written to a 50-mark written paper of 2 hours unless your palika's grid says otherwise.
-# TEXTBOOK: विज्ञान तथा प्रविधि, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी, २०८० संस्करण), 11 एकाइ — the chapter list below is taken from the textbook's विषयसूची and from the CDC English translation (Science and Technology, Grade 8, 2023). Bullets are a topic guide, not the official sub-topic text.
+# TEXTBOOK: विज्ञान तथा प्रविधि, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी, २०८० संस्करण), 11 एकाइ — the chapter list below is taken from the textbook's विषयसूची and from the CDC English translation (Science and Technology, Grade 8, 2023).
 # AREA: Science and Technology
 ## 1. Scientific Learning
 - science and the scientific method

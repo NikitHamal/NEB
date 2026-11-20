@@ -30,7 +30,7 @@ This paper follows the official unit weightage exactly:
 | Physics | 50 | Mechanics 10 · Heat 7 · Waves/Optics 8 · Current electricity/Magnetism 9 · Electrostatics 4 · Modern 12 |
 | MAT | 20 | Verbal 5 · Numerical 5 · Logical 5 · Spatial/Abstract 5 |
 
-## Zoology (questions 1–40)
+## 3.1 Zoology (questions 1–40)
 
 1. Darwin's finches of the Galápagos islands are a classic example of
    (a) industrial melanism (b) artificial selection (c) parallel evolution (d) adaptive radiation
@@ -114,7 +114,7 @@ This paper follows the official unit weightage exactly:
    (a) methane (b) chlorofluorocarbons (c) carbon dioxide (d) nitrous oxide
 
 
-## Botany (questions 41–80)
+## 3.2 Botany (questions 41–80)
 
 41. The amino acids of a protein are joined together by
    (a) peptide bonds (b) glycosidic bonds (c) ester bonds (d) hydrogen bonds only
@@ -198,7 +198,7 @@ This paper follows the official unit weightage exactly:
    (a) at random positions along the molecule (b) only at the two ends of the molecule (c) at specific palindromic base sequences (d) in single-stranded regions only
 
 
-## Chemistry (questions 81–130)
+## 3.3 Chemistry (questions 81–130)
 
 81. The number of atoms present in 0.5 mol of helium gas is
    (a) 6.02 × 10²³ (b) 1.5 × 10²³ (c) 1.2 × 10²⁴ (d) 3.01 × 10²³
@@ -301,7 +301,7 @@ This paper follows the official unit weightage exactly:
 130. In Kjeldahl's method of estimating nitrogen, the nitrogen of the compound is converted into
    (a) ammonium sulphate (b) nitrogen gas (c) sodium cyanide (d) sodium nitrate
 
-## Physics (questions 131–180)
+## 3.4 Physics (questions 131–180)
 
 131. A ball is thrown vertically upward with a speed of 20 m/s. The maximum height it reaches (g = 10 m/s²) is
    (a) 10 m (b) 20 m (c) 40 m (d) 25 m
@@ -405,7 +405,7 @@ This paper follows the official unit weightage exactly:
    (a) size (b) mass (c) distance from us (d) temperature
 
 
-## Mental Agility Test (questions 181–200)
+## 3.5 Mental Agility Test (questions 181–200)
 
 181. Choose the word nearest in meaning to RELUCTANT.
    (a) Unwilling (b) Eager (c) Ready (d) Pleased
@@ -474,7 +474,7 @@ f.text(150, 206, "chi-square %.2f (5%% limit 7.81)" % chi, size=10.5, color=TEAL
 f.text(150, 222, "longest run 2; all A scores %.2f" % sc, size=10.5, color=SLATE, bold=True)
 ```
 
-## Answer key and explanations
+## 3.6 Answer key and explanations
 
 ::: note Answers — Zoology (1–40)
 **1.** (d) — One ancestral finch radiated into many beak forms for different niches.

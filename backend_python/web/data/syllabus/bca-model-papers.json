@@ -14,7 +14,7 @@
  "code": "",
  "hours": null,
  "questions": 100,
- "exam": "2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking (third-party sources agree; confirm in the year's notice) | English grammar 40 | Mathematics 50 | General Knowledge and IT 10",
+ "exam": "2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking | English grammar 40 | Mathematics 50 | General Knowledge and IT 10",
  "areas": [
   "The Examination",
   "Full Model Papers"
@@ -28,9 +28,11 @@
    "area": "The Examination",
    "topics": [
     "Who sits the paper, eligibility and how admission works",
-    "The paper: layout, 100 questions, 2 hours, no negative marking",
+    "The paper: layout, 100 questions, 2 hours",
     "A 12-week plan and a 120-minute time plan",
-    "What the BCA programme teaches after admission"
+    "What the BCA programme teaches after admission",
+    "How to use the books",
+    "Eight traps in preparing for the paper"
    ],
    "sections": [
     {
@@ -80,13 +82,38 @@
    "questions": 100,
    "area": "Full Model Papers",
    "topics": [
-    "100 questions, Q1-40 English, Q41-90 Mathematics, Q91-100 GK and IT"
+    "Group A — English (questions 1–40)",
+    "Group B — Mathematics (questions 41–90)",
+    "Group C — General Knowledge and IT (questions 91–100)",
+    "Answer key and explanations",
+    "Score sheet and error analysis"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Group A — English (questions 1–40)"
+    },
+    {
+     "no": "2.2",
+     "title": "Group B — Mathematics (questions 41–90)"
+    },
+    {
+     "no": "2.3",
+     "title": "Group C — General Knowledge and IT (questions 91–100)"
+    },
+    {
+     "no": "2.4",
+     "title": "Answer key and explanations"
+    },
+    {
+     "no": "2.5",
+     "title": "Score sheet and error analysis"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 3093,
+    "words": 3098,
     "figures": 0,
     "examples": 0
    },
@@ -99,13 +126,38 @@
    "questions": 100,
    "area": "Full Model Papers",
    "topics": [
-    "100 questions, Q1-40 English, Q41-90 Mathematics, Q91-100 GK and IT"
+    "Group A — English (questions 1–40)",
+    "Group B — Mathematics (questions 41–90)",
+    "Group C — General Knowledge and IT (questions 91–100)",
+    "Answer key and explanations",
+    "Score sheet and error analysis"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Group A — English (questions 1–40)"
+    },
+    {
+     "no": "3.2",
+     "title": "Group B — Mathematics (questions 41–90)"
+    },
+    {
+     "no": "3.3",
+     "title": "Group C — General Knowledge and IT (questions 91–100)"
+    },
+    {
+     "no": "3.4",
+     "title": "Answer key and explanations"
+    },
+    {
+     "no": "3.5",
+     "title": "Score sheet and error analysis"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 3113,
+    "words": 3118,
     "figures": 0,
     "examples": 0
    },
@@ -118,13 +170,38 @@
    "questions": 100,
    "area": "Full Model Papers",
    "topics": [
-    "100 questions, Q1-40 English, Q41-90 Mathematics, Q91-100 GK and IT"
+    "Group A — English (questions 1–40)",
+    "Group B — Mathematics (questions 41–90)",
+    "Group C — General Knowledge and IT (questions 91–100)",
+    "Answer key and explanations",
+    "Score sheet and error analysis"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Group A — English (questions 1–40)"
+    },
+    {
+     "no": "4.2",
+     "title": "Group B — Mathematics (questions 41–90)"
+    },
+    {
+     "no": "4.3",
+     "title": "Group C — General Knowledge and IT (questions 91–100)"
+    },
+    {
+     "no": "4.4",
+     "title": "Answer key and explanations"
+    },
+    {
+     "no": "4.5",
+     "title": "Score sheet and error analysis"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 3157,
+    "words": 3162,
     "figures": 0,
     "examples": 0
    },
@@ -132,6 +209,6 @@
   }
  ],
  "unit_count": 4,
- "topic_count": 7,
+ "topic_count": 21,
  "notes_ready": 4
 }

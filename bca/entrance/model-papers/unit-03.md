@@ -17,7 +17,7 @@ area: Full Model Papers
 | C GK and IT (91–100) | Nepal 3, world 2, computer 3, Internet/programming 2 | 10 |
 :::
 
-## Group A — English (questions 1–40)
+## 3.1 Group A — English (questions 1–40)
 
 1. The synonym of "scarce" is
    (a) rare (b) abundant (c) heavy (d) loud
@@ -105,7 +105,7 @@ A mountain river in the hills of Nepal turns pale in the dry season because it c
 40. How do villagers pass on flood warnings?
     (a) by drums (b) by radio (c) by letter (d) by phone, from village to village
 
-## Group B — Mathematics (questions 41–90)
+## 3.2 Group B — Mathematics (questions 41–90)
 
 41. 35 % of 80 is
     (a) 25 (b) 30 (c) 32 (d) 28
@@ -208,7 +208,7 @@ A mountain river in the hills of Nepal turns pale in the dry season because it c
 90. My mother's brother's daughter is my
     (a) sister (b) niece (c) aunt (d) cousin
 
-## Group C — General Knowledge and IT (questions 91–100)
+## 3.3 Group C — General Knowledge and IT (questions 91–100)
 
 91. The capital of Madhesh Province is
     (a) Biratnagar (b) Janakpur (c) Hetauda (d) Surkhet
@@ -231,7 +231,7 @@ A mountain river in the hills of Nepal turns pale in the dry season because it c
 100. Java was created by
      (a) Dennis Ritchie (b) James Gosling (c) Guido van Rossum (d) Linus Torvalds
 
-## Answer key and explanations
+## 3.4 Answer key and explanations
 
 ::: note Answers — Group A English (1–40)
 **1.** (a) — scarce means rare, in short supply.
@@ -343,7 +343,7 @@ A mountain river in the hills of Nepal turns pale in the dry season because it c
 :::
 
 
-## Score sheet and error analysis
+## 3.5 Score sheet and error analysis
 
 Use the figures and steps below after you finish the paper. Mark your sheet with the answer key, enter the group scores, then work through the error log.
 

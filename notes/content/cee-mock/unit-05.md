@@ -30,7 +30,7 @@ This paper follows the official unit weightage exactly:
 | Physics | 50 | Mechanics 10 · Heat 7 · Waves/Optics 8 · Current electricity/Magnetism 9 · Electrostatics 4 · Modern 12 |
 | MAT | 20 | Verbal 5 · Numerical 5 · Logical 5 · Spatial/Abstract 5 |
 
-## Zoology (questions 1–40)
+## 5.1 Zoology (questions 1–40)
 
 1. The modern synthetic theory of evolution combines natural selection with
    (a) Lamarckism (b) special creation (c) inheritance of acquired characters (d) Mendelian genetics and mutation
@@ -114,7 +114,7 @@ This paper follows the official unit weightage exactly:
    (a) deserts (b) wetlands (c) the ozone layer (d) coral reefs only
 
 
-## Botany (questions 41–80)
+## 5.2 Botany (questions 41–80)
 
 41. Nucleic acids are polymers built from repeating units called
    (a) amino acids (b) nucleotides (c) monosaccharides (d) fatty acids
@@ -198,7 +198,7 @@ This paper follows the official unit weightage exactly:
    (a) −196 °C (b) −20 °C (c) 0 °C (d) −80 °C
 
 
-## Chemistry (questions 81–130)
+## 5.3 Chemistry (questions 81–130)
 
 81. For the complete combustion CH₄ + 2O₂ → CO₂ + 2H₂O, the number of moles of oxygen needed to burn 2 mol of methane is
    (a) 4 (b) 2 (c) 1 (d) 8
@@ -302,7 +302,7 @@ This paper follows the official unit weightage exactly:
    (a) ammonia (b) free nitrogen gas, N₂ (c) sodium cyanide (d) ammonium nitrate
 
 
-## Physics (questions 131–180)
+## 5.4 Physics (questions 131–180)
 
 131. A body travels 30 m due east and then 40 m due north. The magnitude of its net displacement from the starting point is
    (a) 70 m (b) 50 m (c) 10 m (d) 35 m
@@ -406,7 +406,7 @@ This paper follows the official unit weightage exactly:
    (a) the cycle of sunspots on the Sun (b) the ocean tides on the Earth (c) rotation curves of galaxies (stars orbiting too fast) (d) the phases of the Moon through the month
 
 
-## Mental Agility Test (questions 181–200)
+## 5.5 Mental Agility Test (questions 181–200)
 
 181. Choose the word nearest in meaning to PROMPT (as in "a prompt reply").
    (a) Late (b) Immediate (c) Slow (d) Casual
@@ -475,7 +475,7 @@ f.text(150, 206, "chi-square %.2f (5%% limit 7.81)" % chi, size=10.5, color=TEAL
 f.text(150, 222, "longest run 2; all A scores %.2f" % sc, size=10.5, color=SLATE, bold=True)
 ```
 
-## Answer key and explanations
+## 5.6 Answer key and explanations
 
 ::: note Answers — Zoology (1–40)
 **1.** (d) — Neo-Darwinism weds selection to genetics, mutation and population thinking.

@@ -17,7 +17,7 @@ area: Full Model Papers
 | C GK and IT (91–100) | Nepal 3, world 2, computer 3, Internet/programming 2 | 10 |
 :::
 
-## Group A — English (questions 1–40)
+## 2.1 Group A — English (questions 1–40)
 
 1. The synonym of "ample" is
    (a) insufficient (b) plentiful (c) tiny (d) hidden
@@ -105,7 +105,7 @@ Kathmandu's old bazaars have sold spices, cloth and brass for centuries, and man
 40. Which item is NOT mentioned in the passage?
     (a) gold (b) cloth (c) spices (d) brass
 
-## Group B — Mathematics (questions 41–90)
+## 2.2 Group B — Mathematics (questions 41–90)
 
 41. 15 % of 240 is
     (a) 32 (b) 36 (c) 40 (d) 24
@@ -208,7 +208,7 @@ Kathmandu's old bazaars have sold spices, cloth and brass for centuries, and man
 90. My father's only sister's husband is my
     (a) cousin (b) nephew (c) brother-in-law (d) uncle
 
-## Group C — General Knowledge and IT (questions 91–100)
+## 2.3 Group C — General Knowledge and IT (questions 91–100)
 
 91. Pokhara is the capital of
     (a) Bagmati Province (b) Koshi Province (c) Gandaki Province (d) Lumbini Province
@@ -231,7 +231,7 @@ Kathmandu's old bazaars have sold spices, cloth and brass for centuries, and man
 100. Python was created by
      (a) Dennis Ritchie (b) James Gosling (c) Linus Torvalds (d) Guido van Rossum
 
-## Answer key and explanations
+## 2.4 Answer key and explanations
 
 ::: note Answers — Group A English (1–40)
 **1.** (b) — ample means plentiful.
@@ -343,7 +343,7 @@ Kathmandu's old bazaars have sold spices, cloth and brass for centuries, and man
 :::
 
 
-## Score sheet and error analysis
+## 2.5 Score sheet and error analysis
 
 Use the figures and steps below after you finish the paper. Mark your sheet with the answer key, enter the group scores, then work through the error log.
 

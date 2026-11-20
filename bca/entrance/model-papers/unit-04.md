@@ -17,7 +17,7 @@ area: Full Model Papers
 | C GK and IT (91–100) | Nepal 3, world 2, computer 3, Internet/programming 2 | 10 |
 :::
 
-## Group A — English (questions 1–40)
+## 4.1 Group A — English (questions 1–40)
 
 1. The synonym of "obstinate" is
    (a) flexible (b) polite (c) stubborn (d) lazy
@@ -105,7 +105,7 @@ Ranjana joined the school library only after her teacher asked her to find one f
 40. Ranjana's father's work was
     (a) bus conductor (b) engineer (c) teacher (d) librarian
 
-## Group B — Mathematics (questions 41–90)
+## 4.2 Group B — Mathematics (questions 41–90)
 
 41. 12.5 % of 480 is
     (a) 48 (b) 60 (c) 64 (d) 72
@@ -208,7 +208,7 @@ Ranjana joined the school library only after her teacher asked her to find one f
 90. My mother's sister's husband is my
     (a) uncle (b) brother-in-law (c) cousin (d) nephew
 
-## Group C — General Knowledge and IT (questions 91–100)
+## 4.3 Group C — General Knowledge and IT (questions 91–100)
 
 91. The capital of Lumbini Province is
     (a) Butwal (b) Nepalgunj (c) Bhairahawa (d) Deukhuri
@@ -231,7 +231,7 @@ Ranjana joined the school library only after her teacher asked her to find one f
 100. Bcc in e-mail stands for
      (a) Black copy (b) Basic carbon copy (c) Blind computer copy (d) Blind carbon copy
 
-## Answer key and explanations
+## 4.4 Answer key and explanations
 
 ::: note Answers — Group A English (1–40)
 **1.** (c) — obstinate means stubborn.
@@ -343,7 +343,7 @@ Ranjana joined the school library only after her teacher asked her to find one f
 :::
 
 
-## Score sheet and error analysis
+## 4.5 Score sheet and error analysis
 
 Use the figures and steps below after you finish the paper. Mark your sheet with the answer key, enter the group scores, then work through the error log.
 

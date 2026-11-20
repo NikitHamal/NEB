@@ -43,16 +43,13 @@ Each subject paper is marked out of 75. Your school separately awards up to 25 i
 
 | Subject | Time | External | Internal | Shape of the external paper |
 |---|---|---|---|---|
-| Science and Technology | 3 hr | 75 | 25 | 10 MCQ, 9 very short, 14 short (2 marks), 7 long (4 marks) |
-| Compulsory Mathematics | 3 hr | 75 | 25 | 16 numbered questions made of 49 items; no MCQ group |
-| Compulsory English | 3 hr | 75 | 25 | skill-based questions: reading, literature, writing, grammar |
-| Compulsory Nepali (अनिवार्य नेपाली) | 3 hr | 75 | 25 | skill-based questions: reading, writing, grammar, literature |
-| Social Studies | 3 hr | 75 | 25 | objective, short and long questions across nine units |
-| Optional Mathematics | 3 hr | 75 | 25 | Group A of 10 questions of 1 mark, Group B of 8 questions of 2 marks, then longer questions |
-
-::: caution Check the notice for your year
-The two rows with full detail (Science and Mathematics) are taken from the CDC specification grids for SEE 2080 onward. The other rows are described only as far as this book could confirm. Rules can be revised by the National Examination Board, so before the examination read the grid and model questions your school issues and trust them over any book, including this one.
-:::
+| Science and Technology | 3 hr | 75 | 25 | Group A: 10 MCQ × 1; Group B: 9 very short × 1; Group C: 14 short × 2; Group D: 7 long × 4 |
+| Compulsory Mathematics | 3 hr | 75 | 25 | 16 numbered multi-part questions (49 sub-items across Sets, Arithmetic, Mensuration, Algebra, Geometry, Statistics/Probability, Trigonometry) |
+| Compulsory English | 3 hr | 75 | 25 | Reading 40 marks (2 seen texts 5+10, 2 unseen texts 10+15), Writing 24 marks (5+5+6+8), Grammar 11 × 1 |
+| Compulsory Nepali (अनिवार्य नेपाली) | 3 hr | 75 | 25 | 16 numbered questions covering शब्दभण्डार, व्याकरण, पठनबोध, बुँदाटिपोट/सारांश, पाठगत बोध, स्वतन्त्र र व्यावहारिक लेखन |
+| Social Studies | 3 hr | 75 | 25 | Group A: 11 very short × 1 = 11; Group B: 8 short × 5 = 40; Group C: 3 long × 8 = 24 across 10 units |
+| Optional Mathematics | 3 hr | 75 | 25 | Group A: 10 × 1 = 10; Group B: 8 × 2 = 16; Group C: 11 × 3 = 33; Group D: 4 × 4 = 16 (33 questions) |
+| Optional Computer Science | 2 hr | 50 | 50 | Group A: 10 MCQ × 1 = 10; Group B: 10 short × 2 = 20; Group C: 5 long × 4 = 20 |
 
 Two facts that are easy to miss:
 
@@ -241,9 +238,9 @@ Sixteen questions in 180 minutes is about **11 minutes** a question, or 2.4 minu
 
 **Compulsory Nepali (अनिवार्य नेपाली).** The paper is organised by language skill: comprehension, writing, grammar and literature. Chapters 11 to 13 mirror it.
 
-**Social Studies.** Nine units spread across culture, civic sense, geography, history, economy, international relations and development. The marks are spread widely, so no unit can be skipped. Chapters 14 to 16 give unit-wise banks.
+**Social Studies.** Ten units spread across society and socialisation, development, culture, civic awareness, geography, history, civic life, population, economy, and international relations. Group A asks 11 very short questions ($11\times1=11$), Group B asks 8 short questions ($8\times5=40$), and Group C asks 3 long questions ($3\times8=24$). Chapters 14 to 16 give unit-wise banks.
 
-**Optional Mathematics.** The CDC model paper opens with ten one-mark questions and eight two-mark questions, then moves to longer ones across algebra, matrices, trigonometry, vectors, geometry and statistics. Chapters 17 to 19 follow it.
+**Optional Mathematics.** The paper has 33 questions across four groups: Group A ($10\times1=10$), Group B ($8\times2=16$), Group C ($11\times3=33$), and Group D ($4\times4=16$) covering algebra, limits/continuity, matrices, coordinate geometry, trigonometry, vectors, transformation, and statistics. Chapters 17 to 19 follow it.
 
 ## 1.6 Strategy that works across subjects
 
@@ -274,17 +271,64 @@ Sixteen questions in 180 minutes is about **11 minutes** a question, or 2.4 minu
 | 11–13 | Compulsory Nepali (अनिवार्य नेपाली) | the same three parts |
 | 14–16 | Social Studies | the same three parts |
 | 17–19 | Optional Mathematics | the same three parts |
+| 20–22 | Optional Computer Science | the same three parts |
 
 Every question is marked **practice**: it is an original item written to the pattern. Each objective question has a key with a one-line reason, and each subjective question has a model answer; numerical answers have been recomputed.
 
+## 1.8 The Computer Science paper
+
+Optional Computer Science follows the 2081/2082 Python curriculum, and its written paper is **two hours and 50 marks**; the other **50 marks** are internal and practical assessment.
+
+| Part | Marks | Made up of |
+|---|---|---|
+| Written paper (2 hours) | 50 | Group A: 10 MCQs × 1 = 10; Group B: 10 short questions × 2 = 20; Group C: 5 long questions × 4 = 20 |
+| Internal assessment | 50 | practical and project work 35, participation 5, terminal tests 10 |
+
+The grid fixes the marks of each unit, so every unit, and every unit's long question, must be prepared.
+
+| Unit | Marks | MCQ | Short | Long |
+|---|---|---|---|---|
+| Computer Network and Communication | 11 | 3 | 2 | 1 |
+| Database Management System | 8 | 2 | 1 | 1 |
+| Multimedia | 8 | 2 | 1 | 1 |
+| Programming in Python | 12 | 2 | 3 | 1 |
+| AI and Contemporary Technologies | 11 | 1 | 3 | 1 |
+| **Total** | **50** | **10** | **10** | **5** |
+
+::: caution Pass marks on a 50-mark paper
+Applying the standard component minimums as percentages, the written paper requires 35% of 50 = **17.5 marks** and the internal assessment requires 40% of 50 = **20 marks**.
+:::
+
+### 1.8.1 A time plan for 120 minutes
+
+Two hours for 50 marks is again **2.4 minutes per mark**, the same rate as the three-hour papers.
+
+| Block | Marks | Minutes |
+|---|---|---|
+| Group A (10 MCQs) | 10 | 12 |
+| Group B (10 short questions) | 20 | 45 |
+| Group C (5 long questions) | 20 | 50 |
+| Checking | — | 13 |
+| **Total** | **50** | **120** |
+
+That is about 70 seconds per MCQ, 4½ minutes per short question and 10 minutes per long question.
+
+### 1.8.2 Revision advice
+
+1. **Run your code.** Python and SQL answers are marked line by line; type every program and query into Python and MySQL at least once, and learn the exact form of its output (a pandas table keeps its index numbers).
+2. **Write SQL in full**: keywords, commas, quotes around text and dates, and a semicolon at the end; never write UPDATE or DELETE without WHERE.
+3. **Indent Python correctly** (four spaces) and remember the colon after `if`, `for`, `while`, `def`, `try` and `except`.
+4. **Learn the full forms and the one-line facts** of Networking and Multimedia — devices, connectors, media, IP addresses, file formats — for the MCQs.
+5. **Answer AI and IoT scenarios with points that fit the situation**, one mark for each point, rather than with a general essay.
+6. Use **chapters 20 to 22** of this book for Computer Science: the objective bank, the subjective bank and two complete model papers with ranked practice priorities.
+
 ## Chapter summary
 
-- Each subject is **75 external + 25 internal**; the external paper is three hours.
-- A subject is graded only if the external mark is at least 35% (26.25 of 75) and the internal mark at least 40% (10 of 25); otherwise it is NG.
+- Compulsory and optional 75-mark subjects are **75 external + 25 internal** (3 hours); Optional Computer Science is **50 external + 50 internal** (2 hours).
+- A subject is graded only if the external mark is at least 35% (26.25 of 75, or 17.5 of 50) and the internal mark at least 40% (10 of 25, or 20 of 50); otherwise it is NG.
 - Grades: A+ at 90%, A 80%, B+ 70%, B 60%, C+ 50%, C 40%, D 35%, with grade points 4.0, 3.6, 3.2, 2.8, 2.4, 2.0, 1.6.
 - Science: $10\times1+9\times1+14\times2+7\times4=75$. Mathematics: 16 questions, 49 items, area marks 6, 13, 13, 15, 13, 11, 4.
 - Time: 2.4 minutes per mark. Bank the one-mark items first, show every step, never leave a blank.
-- Practice questions in this book are original and ranked predictions are study priorities, not forecasts.
 
 ## Practice questions
 
@@ -307,66 +351,3 @@ Every question is marked **practice**: it is an original item written to the pat
 
 **5.** Algebra (15) and Arithmetic, Mensuration or Geometry (13 each) give $15+13=28$, so Algebra with any one of those three.
 :::
-
-## 1.8 The Computer Science paper
-
-Optional Computer Science follows a **different pattern** from the subjects in
-section 1.1. From the SEE of 2083 the course is the new Python curriculum, and
-its written paper is **two hours and 50 marks**; the other **50 marks** are
-internal.
-
-| Part | Marks | Made up of |
-|---|---|---|
-| Written paper (2 hours) | 50 | Group A: 10 MCQs × 1 = 10; Group B: 10 short questions × 2 = 20; Group C: 5 long questions × 4 = 20 |
-| Internal assessment | 50 | practical and project work 35, participation 5, terminal tests 10 |
-
-The grid fixes the marks of each unit, so every unit, and every unit's long
-question, must be prepared.
-
-| Unit | Marks | MCQ | Short | Long |
-|---|---|---|---|---|
-| Computer Network and Communication | 11 | 3 | 2 | 1 |
-| Database Management System | 8 | 2 | 1 | 1 |
-| Multimedia | 8 | 2 | 1 | 1 |
-| Programming in Python | 12 | 2 | 3 | 1 |
-| AI and Contemporary Technologies | 11 | 1 | 3 | 1 |
-| **Total** | **50** | **10** | **10** | **5** |
-
-::: caution Pass marks on a 50-mark paper
-If the usual minimums are applied as percentages, the written paper needs 35% of
-50 = **17.5 marks** and the internal assessment 40% of 50 = **20 marks**. As with
-every rule in this chapter, confirm them in the board's notice for your year.
-:::
-
-### 1.8.1 A time plan for 120 minutes
-
-Two hours for 50 marks is again **2.4 minutes per mark**, the same rate as the
-three-hour papers.
-
-| Block | Marks | Minutes |
-|---|---|---|
-| Group A (10 MCQs) | 10 | 12 |
-| Group B (10 short questions) | 20 | 45 |
-| Group C (5 long questions) | 20 | 50 |
-| Checking | — | 13 |
-| **Total** | **50** | **120** |
-
-That is about 70 seconds per MCQ, 4½ minutes per short question and 10 minutes
-per long question.
-
-### 1.8.2 Revision advice
-
-1. **Run your code.** Python and SQL answers are marked line by line; type every
-   program and query into Python and MySQL at least once, and learn the exact
-   form of its output (a pandas table keeps its index numbers).
-2. **Write SQL in full**: keywords, commas, quotes around text and dates, and a
-   semicolon at the end; never write UPDATE or DELETE without WHERE.
-3. **Indent Python correctly** (four spaces) and remember the colon after `if`,
-   `for`, `while`, `def`, `try` and `except`.
-4. **Learn the full forms and the one-line facts** of Networking and Multimedia —
-   devices, connectors, media, IP addresses, file formats — for the MCQs.
-5. **Answer AI and IoT scenarios with points that fit the situation**, one mark
-   for each point, rather than with a general essay.
-6. Use **chapters 20 to 22** of this book for Computer Science: the objective
-   bank, the subjective bank and two complete model papers with ranked practice
-   priorities.

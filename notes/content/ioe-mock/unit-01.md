@@ -9,7 +9,7 @@ area: Guide
 
 This chapter sets out the structure, marking scheme and section-wise strategy of the IOE B.E. / B.Arch. entrance examination.
 
-## 1. What the examination is
+## 1.1 What the examination is
 
 The **Institute of Engineering (IOE), Tribhuvan University** admits students to Bachelor of Engineering (B.E.) and Bachelor of Architecture (B.Arch.) programmes through one common entrance examination. It is the gateway to the five constituent campuses (**Pulchowk, Thapathali, Purwanchal (Dharan), Paschimanchal (Pokhara), Chitwan**) and to the affiliated colleges that use the same list.
 
@@ -32,7 +32,7 @@ The **Institute of Engineering (IOE), Tribhuvan University** admits students to 
 
 **2083 cycle (as published July 2026).** Online form at **entrance.ioe.edu.np**; examinations in Shrawan 2083 (11–14 Shrawan at Pulchowk and the other three centres, in several shifts); admit card downloaded and printed in colour; original identification document carried to the hall. *Reports in June 2026 mentioned a different format and fee in an earlier draft; the final notice and the 2083 booklet both state 100 questions, 140 marks, 10 % negative marking — always confirm the date, fee and pattern on the IOE entrance portal before applying.*
 
-## 2. What it tests
+## 1.2 What it tests
 
 The paper tests the **Grade 11–12 science syllabus at entrance depth**: IOE's own 6-page "Detail Syllabus 2083" is the legal syllabus (a copy is included in the downloads). It is short: Mathematics 7 areas, Physics 6, Chemistry 3, English 4. The model questions printed in the official booklet show the level:
 
@@ -40,7 +40,7 @@ The paper tests the **Grade 11–12 science syllabus at entrance depth**: IOE's 
 - Section B (2 marks): two or three steps. *Example: the projection of one vector on another; the depth at which a rubber ball's volume falls by 1 %; copper deposited by 2 faradays.*
 - English: concord and tense, prepositions, word stress, initial vowel sound, one comprehension passage.
 
-## 3. How the marks are distributed
+## 1.3 How the marks are distributed
 
 | Subject | Marks | Questions (1-mark + 2-mark) | Heaviest chapters |
 |---|---|---|---|
@@ -79,7 +79,7 @@ f.text(150, 210, "that is %.1f per cent of the paper" % (mp / 140 * 100), size=1
 f.text(150, 226, "questions: 35 + 27 + 22 + 16 = 100", size=10.5, color=SLATE)
 ```
 
-## 4. Strategy that the negative marking dictates
+## 1.4 Strategy that the negative marking dictates
 
 Penalty is 10 % of the question's marks, so a guess among four options has a small expected cost compared with its expected gain:
 
@@ -168,7 +168,7 @@ f.text(150, 214, "or %.1f s per mark (140 marks)" % spm, size=10.5, color=NAVY, 
 f.text(150, 228, "", size=10)
 ```
 
-## 5. A 12-week plan
+## 1.5 A 12-week plan
 
 | Weeks | Focus | Use this book |
 |---|---|---|
@@ -184,14 +184,14 @@ f.text(150, 228, "", size=10)
 
 Daily rhythm: 90 minutes of theory, 90 minutes of MCQs, and at the end of each week one **timed 40-question set** (60 minutes) built from the Practice questions of that week's chapters. Keep an **error log** — the *reason* you lost each mark (formula, unit, arithmetic, misread, guess) — and review it every Sunday. After 3–4 weeks the log will show you which of those five causes you actually have.
 
-## 6. How to use the books
+## 1.6 How to use the books
 
 1. Read the chapter's **"What the paper asks"** box, then the theory, then the **Formula and fact sheet**.
 2. Do **Set A** (recall) without looking; **Set B** (understanding) and **Set C** (application) with a clock.
 3. Every question has an explanation — read it even when you were right.
 4. After each subject finish a **model paper section**; after all four, take a full paper under exam conditions (120 minutes, no pauses, mouse only if you can).
 
-## 7. Common mistakes
+## 1.7 Common mistakes
 
 - Treating Mathematics as the only subject: Physics + Chemistry + English are 90 marks.
 - Leaving English until the last week: it is 20 marks and the fastest to improve.
@@ -199,7 +199,7 @@ Daily rhythm: 90 minutes of theory, 90 minutes of MCQs, and at the end of each w
 - Forgetting that IOE answers come as exact forms ($\sqrt{3}/2$, $\frac{\pi}{4}$): do not convert to decimals until the end.
 - Losing marks on the **negative-marking arithmetic** by changing many answers in the last minutes; change an answer only when you find a concrete error.
 
-## 8. After the exam
+## 1.8 After the exam
 
 The Entrance Examination Board publishes the list of successful candidates; constituent campuses run admission and counselling; scorecards must be downloaded within the stated period after the result. Regular (scholarship) seats follow the Government of Nepal's scholarship rules; the fee for the four-year B.E. programme for regular students in 2083/84 was reported as roughly NPR 66,000 in total and about NPR 586,000 for full-fee students — **confirm every amount on the official notice**.
 

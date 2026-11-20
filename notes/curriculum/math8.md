@@ -1,6 +1,6 @@
 # SUBJECT: Mathematics | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 150
 # EXAM: Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. The practice sets here are written to a 50-mark, 2-hour written paper unless your palika's grid says otherwise.
-# TEXTBOOK: गणित, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी, २०८० संस्करण), 21 अध्याय — the chapter list below is taken from the textbook's विषयसूची and from the CDC English translation (Mathematics, Grade 8, 2023). Bullets are a topic guide, not the official sub-topic text.
+# TEXTBOOK: गणित, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी, २०८० संस्करण), 21 अध्याय — the chapter list below is taken from the textbook's विषयसूची and from the CDC English translation (Mathematics, Grade 8, 2023).
 # AREA: Compulsory Mathematics
 ## 1. Sets
 - Review of sets and set notation

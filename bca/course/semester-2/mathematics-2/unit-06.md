@@ -271,8 +271,8 @@ Prices and resource limits change. We can read how far, without re-solving, from
 **Profit of a router kit** $c_1$ (currently 3). The corner $A(4, 0)$ stays optimal while $4 c_1 \ge 3 c_1 + 2$ (compare with $B(3, 1)$), that is $c_1 \ge 2$. At $c_1 = 2$ the corners $A$ and $B$ tie at $Z = 8$ (multiple optima); at $c_1 = 1.5$ the best plan jumps to $B$ with $Z = 6.5$.
 :::
 
-::: note The big-M method (beyond the TU syllabus, for understanding)
-A $\ge$ or $=$ constraint has no slack variable that can start the basis. We add an **artificial variable** $a_i \ge 0$ and charge it a huge penalty $M$ in the objective ($-M a_i$ when maximising, $+M a_i$ when minimising). The simplex method then drives the artificial variables to zero if the problem is feasible. If an artificial variable is still positive at the optimum, the original problem is **infeasible**. The two-phase method does the same in two stages. For this course, minimisation problems are solved through the dual (next section), which avoids artificial variables.
+::: note The big-M method (artificial variables)
+A $\ge$ or $=$ constraint has no slack variable that can start the basis. We add an **artificial variable** $a_i \ge 0$ and charge it a huge penalty $M$ in the objective ($-M a_i$ when maximising, $+M a_i$ when minimising). The simplex method then drives the artificial variables to zero if the problem is feasible. If an artificial variable is still positive at the optimum, the original problem is **infeasible**. The two-phase method does the same in two stages. Minimisation problems can also be solved through the dual (next section), which avoids artificial variables.
 :::
 
 ## 6.3 Duality

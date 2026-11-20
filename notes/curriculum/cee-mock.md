@@ -10,12 +10,38 @@
 - How to use the model papers in this book
 # AREA: Full Model Papers (200)
 ## 2. Model Paper 1 [200]
-- Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key
+- Where the 200 questions sit
+- Zoology (questions 1–40)
+- Botany (questions 41–80)
+- Chemistry (questions 81–130)
+- Physics (questions 131–180)
+- Mental Agility Test (questions 181–200)
+- Answer key and explanations
 ## 3. Model Paper 2 [200]
-- Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key
+- Zoology (questions 1–40)
+- Botany (questions 41–80)
+- Chemistry (questions 81–130)
+- Physics (questions 131–180)
+- Mental Agility Test (questions 181–200)
+- Answer key and explanations
 ## 4. Model Paper 3 [200]
-- Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key
+- Zoology (questions 1–40)
+- Botany (questions 41–80)
+- Chemistry (questions 81–130)
+- Physics (questions 131–180)
+- Mental Agility Test (questions 181–200)
+- Answer key and explanations
 ## 5. Model Paper 4 [200]
-- Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key
+- Zoology (questions 1–40)
+- Botany (questions 41–80)
+- Chemistry (questions 81–130)
+- Physics (questions 131–180)
+- Mental Agility Test (questions 181–200)
+- Answer key and explanations
 ## 6. Model Paper 5 [200]
-- Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key
+- Zoology (questions 1–40)
+- Botany (questions 41–80)
+- Chemistry (questions 81–130)
+- Physics (questions 131–180)
+- Mental Agility Test (questions 181–200)
+- Answer key and explanations

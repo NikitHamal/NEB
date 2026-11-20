@@ -28,7 +28,11 @@ for f in "${FILES[@]}"; do
     'import sys,urllib.parse;print(urllib.parse.unquote(sys.stdin.read().strip()))')"
 done
 
-fc-cache -f "$DEST" >/dev/null
+if command -v fc-cache >/dev/null 2>&1; then
+  fc-cache -f "$DEST" >/dev/null
+fi
 echo "installed to $DEST"
-fc-list : family | tr ',' '\n' | sort -u | grep -iE \
-  'poppins|inter|source serif|noto sans devanagari|jetbrains' || true
+if command -v fc-list >/dev/null 2>&1; then
+  fc-list : family | tr ',' '\n' | sort -u | grep -iE \
+    'poppins|inter|source serif|noto sans devanagari|jetbrains' || true
+fi

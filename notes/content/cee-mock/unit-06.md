@@ -30,7 +30,7 @@ This paper follows the official unit weightage exactly:
 | Physics | 50 | Mechanics 10 · Heat 7 · Waves/Optics 8 · Current electricity/Magnetism 9 · Electrostatics 4 · Modern 12 |
 | MAT | 20 | Verbal 5 · Numerical 5 · Logical 5 · Spatial/Abstract 5 |
 
-## Zoology (questions 1–40)
+## 6.1 Zoology (questions 1–40)
 
 1. The scientific study of fossils is called
    (a) embryology (b) palaeontology (c) taxonomy (d) physiology
@@ -114,7 +114,7 @@ This paper follows the official unit weightage exactly:
    (a) Chitwan National Park (b) Sagarmatha National Park (c) Shey-Phoksundo National Park (d) Khaptad National Park
 
 
-## Botany (questions 41–80)
+## 6.2 Botany (questions 41–80)
 
 41. Starch is a polymer built from units of
    (a) glucose (b) fructose (c) galactose (d) amino acids
@@ -198,7 +198,7 @@ This paper follows the official unit weightage exactly:
    (a) transfer (flow) of the introduced genes to wild relatives (b) complete loss of yield (c) inability of the crops to reproduce at all (d) every GM food being poisonous
 
 
-## Chemistry (questions 81–130)
+## 6.3 Chemistry (questions 81–130)
 
 81. The mass of 2 mol of calcium carbonate, CaCO₃ (molar mass 100 g/mol), is
    (a) 100 g (b) 200 g (c) 50 g (d) 20 g
@@ -302,7 +302,7 @@ This paper follows the official unit weightage exactly:
    (a) 2.0 (b) 0.50 (c) 0.45 (d) 4.5
 
 
-## Physics (questions 131–180)
+## 6.4 Physics (questions 131–180)
 
 131. The velocity of a body increases uniformly from 0 to 20 m/s in 5 s (a straight velocity–time graph through the origin). The distance travelled in these 5 s, given by the area under the graph, is
    (a) 100 m (b) 50 m (c) 20 m (d) 200 m
@@ -406,7 +406,7 @@ This paper follows the official unit weightage exactly:
    (a) the Moon landings (b) LIGO (from the merger of two black holes) (c) Einsteins own laboratory in 1915 (d) they have not been detected yet
 
 
-## Mental Agility Test (questions 181–200)
+## 6.5 Mental Agility Test (questions 181–200)
 
 181. Choose the word nearest in meaning to OBSOLETE.
    (a) Brand new (b) Very useful (c) Outdated, no longer used (d) Broken
@@ -475,7 +475,7 @@ f.text(150, 206, "chi-square %.2f (5%% limit 7.81)" % chi, size=10.5, color=TEAL
 f.text(150, 222, "longest run 3; all A scores %.2f" % sc, size=10.5, color=SLATE, bold=True)
 ```
 
-## Answer key and explanations
+## 6.6 Answer key and explanations
 
 ::: note Answers — Zoology (1–40)
 **1.** (b) — Palaeontology studies fossil evidence of past life.

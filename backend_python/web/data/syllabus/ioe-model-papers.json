@@ -27,13 +27,49 @@
    "questions": null,
    "area": "The Examination",
    "topics": [
-    "Who sits the paper, the five constituent campuses and the affiliated colleges, and the eligibility rules",
-    "The paper: mode, duration, 100 questions, 140 marks, and how the marks are counted",
-    "Negative marking (10% of a question's marks) and the guessing rule it dictates",
-    "A time plan for 120 minutes and a 12-week study plan",
-    "How to use the model papers in this book"
+    "What the examination is",
+    "What it tests",
+    "How the marks are distributed",
+    "Strategy that the negative marking dictates",
+    "A 12-week plan",
+    "How to use the books",
+    "Common mistakes",
+    "After the exam"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What the examination is"
+    },
+    {
+     "no": "1.2",
+     "title": "What it tests"
+    },
+    {
+     "no": "1.3",
+     "title": "How the marks are distributed"
+    },
+    {
+     "no": "1.4",
+     "title": "Strategy that the negative marking dictates"
+    },
+    {
+     "no": "1.5",
+     "title": "A 12-week plan"
+    },
+    {
+     "no": "1.6",
+     "title": "How to use the books"
+    },
+    {
+     "no": "1.7",
+     "title": "Common mistakes"
+    },
+    {
+     "no": "1.8",
+     "title": "After the exam"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
@@ -50,13 +86,58 @@
    "questions": 100,
    "area": "Full Model Papers",
    "topics": [
-    "Mathematics 35, Physics 27, Chemistry 22, English 16, with an explained key"
+    "Section A — Mathematics (questions 1–20, 1 mark each)",
+    "Section A — Physics (questions 21–34, 1 mark each)",
+    "Section A — Chemistry (questions 35–48, 1 mark each)",
+    "Section A — English (questions 49–60, 1 mark each)",
+    "Section B — Mathematics (questions 61–75, 2 marks each)",
+    "Section B — Physics (questions 76–88, 2 marks each)",
+    "Section B — Chemistry (questions 89–96, 2 marks each)",
+    "Section B — English (questions 97–100, 2 marks each)",
+    "Answer key and explanations"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Section A — Mathematics (questions 1–20, 1 mark each)"
+    },
+    {
+     "no": "2.2",
+     "title": "Section A — Physics (questions 21–34, 1 mark each)"
+    },
+    {
+     "no": "2.3",
+     "title": "Section A — Chemistry (questions 35–48, 1 mark each)"
+    },
+    {
+     "no": "2.4",
+     "title": "Section A — English (questions 49–60, 1 mark each)"
+    },
+    {
+     "no": "2.5",
+     "title": "Section B — Mathematics (questions 61–75, 2 marks each)"
+    },
+    {
+     "no": "2.6",
+     "title": "Section B — Physics (questions 76–88, 2 marks each)"
+    },
+    {
+     "no": "2.7",
+     "title": "Section B — Chemistry (questions 89–96, 2 marks each)"
+    },
+    {
+     "no": "2.8",
+     "title": "Section B — English (questions 97–100, 2 marks each)"
+    },
+    {
+     "no": "2.9",
+     "title": "Answer key and explanations"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 3320,
+    "words": 3329,
     "figures": 0,
     "examples": 0
    },
@@ -69,13 +150,58 @@
    "questions": 100,
    "area": "Full Model Papers",
    "topics": [
-    "Mathematics 35, Physics 27, Chemistry 22, English 16, with an explained key"
+    "Section A — Mathematics (questions 1–20, 1 mark each)",
+    "Section A — Physics (questions 21–34, 1 mark each)",
+    "Section A — Chemistry (questions 35–48, 1 mark each)",
+    "Section A — English (questions 49–60, 1 mark each)",
+    "Section B — Mathematics (questions 61–75, 2 marks each)",
+    "Section B — Physics (questions 76–88, 2 marks each)",
+    "Section B — Chemistry (questions 89–96, 2 marks each)",
+    "Section B — English (questions 97–100, 2 marks each)",
+    "Answer key and explanations"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Section A — Mathematics (questions 1–20, 1 mark each)"
+    },
+    {
+     "no": "3.2",
+     "title": "Section A — Physics (questions 21–34, 1 mark each)"
+    },
+    {
+     "no": "3.3",
+     "title": "Section A — Chemistry (questions 35–48, 1 mark each)"
+    },
+    {
+     "no": "3.4",
+     "title": "Section A — English (questions 49–60, 1 mark each)"
+    },
+    {
+     "no": "3.5",
+     "title": "Section B — Mathematics (questions 61–75, 2 marks each)"
+    },
+    {
+     "no": "3.6",
+     "title": "Section B — Physics (questions 76–88, 2 marks each)"
+    },
+    {
+     "no": "3.7",
+     "title": "Section B — Chemistry (questions 89–96, 2 marks each)"
+    },
+    {
+     "no": "3.8",
+     "title": "Section B — English (questions 97–100, 2 marks each)"
+    },
+    {
+     "no": "3.9",
+     "title": "Answer key and explanations"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 3043,
+    "words": 3052,
     "figures": 0,
     "examples": 0
    },
@@ -83,6 +209,6 @@
   }
  ],
  "unit_count": 3,
- "topic_count": 7,
+ "topic_count": 26,
  "notes_ready": 3
 }

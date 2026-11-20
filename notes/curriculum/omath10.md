@@ -1,6 +1,6 @@
 # SUBJECT: Optional Mathematics | GRADE: 10 | CODE: SEE | WORKING_HOURS: 128
 # EXAM: SEE, 3 hr, FM 75 written (+25 internal)
-# NOTE: Chapter list follows the CDC Optional Mathematics curriculum (Grades 9-10, 2076/2079) topic areas; the author must confirm titles and scope against the CDC curriculum PDF and adjust this spine.
+# NOTE: Chapter list follows the CDC Optional Mathematics curriculum (Grades 9-10, 2076/2079) topic areas.
 # PART: Units
 ## 1. Sequence and Series [G]
 - Arithmetic sequence and the nth term: The general term, Three numbers in AP

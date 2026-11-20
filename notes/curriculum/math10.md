@@ -1,6 +1,6 @@
 # SUBJECT: Mathematics | GRADE: 10 | CODE: SEE | WORKING_HOURS: 160
 # EXAM: SEE, 3 hr, FM 75 written (+25 internal) | Compulsory Mathematics
-# NOTE: Chapter list from the CDC Grade 10 textbook, 18 chapters. Chapter bullets are a topic guide.
+# NOTE: Chapter list from the CDC Grade 10 textbook, 18 chapters.
 # AREA: Compulsory Mathematics
 ## 1. Sets
 - Language of sets — a quick revision
