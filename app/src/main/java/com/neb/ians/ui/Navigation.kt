@@ -1282,7 +1282,15 @@ fun NEBiansNavHost(
                     siteThemeState.onDismissWhatsNew()
                     val target = item.targetRoute.trim().removePrefix("/").ifBlank { Screen.Pathways.route }
                     runCatching {
-                        navController.navigate(target) { launchSingleTop = true }
+                        if (glassNavItems.any { it.route == target }) {
+                            navController.navigate(target) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        } else {
+                            navController.navigate(target) { launchSingleTop = true }
+                        }
                     }
                 }
             )

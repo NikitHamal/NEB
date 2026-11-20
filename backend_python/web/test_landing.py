@@ -161,7 +161,11 @@ class AppThemeTests(TestCase):
 
     def test_the_apps_can_ask_for_the_live_theme(self):
         r = Client().get('/api/site-theme/')
-        self.assertEqual(r.json()['festive'], False)
+        base = r.json()
+        self.assertEqual(base['festive'], False)
+        self.assertEqual(base['whats_new']['release_key'], '1.8')
+        self.assertGreaterEqual(len(base['whats_new']['items']), 3)
+        self.assertEqual(base['whats_new']['items'][0]['target_route'], 'pathways')
         SiteTheme.objects.create(key='monsoon', is_forced=True)
         site_themes.invalidate()
         d = Client().get('/api/site-theme/').json()

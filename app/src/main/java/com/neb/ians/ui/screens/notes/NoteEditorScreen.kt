@@ -120,11 +120,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -241,9 +243,18 @@ fun NoteEditorScreen(
         else if (vm.isNew) runCatching { titleFocus.requestFocus() }
     }
 
+    val bodyScroll = rememberScrollState()
     Column(Modifier.fillMaxSize().background(bg).statusBarsPadding().navigationBarsPadding().imePadding()) {
         // ---- top bar
-        Row(Modifier.fillMaxWidth().padding(horizontal = 4.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            Modifier.fillMaxWidth()
+                .drawBehind {
+                    val a = (bodyScroll.value / 24f).coerceIn(0f, 1f)
+                    if (a > 0f) drawRect(fg.copy(alpha = 0.12f * a), Offset(0f, size.height - 1.dp.toPx()), Size(size.width, 1.dp.toPx()))
+                }
+                .padding(horizontal = 4.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             IconButton(onClick = { leave() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = fg) }
             Spacer(Modifier.weight(1f))
             if (!trashed) {
@@ -263,7 +274,7 @@ fun NoteEditorScreen(
                 NebDropdownMenu(
                     expanded = menu, onDismissRequest = { menu = false },
                 ) {
-                    val words = NoteDoc.wordCount(blocks)
+                    val words = remember(blocks) { NoteDoc.wordCount(blocks) }
                     DropdownMenuItem(
                         text = { Text("$words words \u00B7 ${max(1, words / 200)} min", color = c.onSurfaceVariant, style = MaterialTheme.typography.labelLarge) },
                         onClick = {}, enabled = false,
@@ -287,7 +298,6 @@ fun NoteEditorScreen(
         }
 
         // ---- content
-        val bodyScroll = rememberScrollState()
         val reorder = remember { BlockReorder() }
         reorder.scroller = bodyScroll
         Column(
@@ -347,9 +357,10 @@ fun NoteEditorScreen(
                     }
                 }
             }
-            val todoTotal = blocks.count { it.type == BlockType.Todo }
+            val (todoTotal, todoDone) = remember(blocks) {
+                blocks.count { it.type == BlockType.Todo } to blocks.count { it.type == BlockType.Todo && it.checked }
+            }
             if (todoTotal > 0) {
-                val todoDone = blocks.count { it.type == BlockType.Todo && it.checked }
                 TodoProgress(todoDone, todoTotal, fg, trashed) { vm.clearDone() }
             }
             Spacer(Modifier.height(6.dp))

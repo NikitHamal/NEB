@@ -44,6 +44,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -88,7 +89,7 @@ fun InstitutionScreen(slug: String, onBack: () -> Unit, onManage: (String) -> Un
             }
             val c = MaterialTheme.colorScheme
             Box(Modifier.align(Alignment.TopCenter).fillMaxWidth()) {
-                Box(Modifier.matchParentSize().let { m -> androidx.compose.ui.Modifier.then(m) }.background(c.surface.copy(alpha = progress())))
+                Box(Modifier.matchParentSize().graphicsLayer { alpha = progress() }.background(c.surface))
                 Row(
                     Modifier.fillMaxWidth().statusBarsPadding().padding(14.dp, 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -97,8 +98,12 @@ fun InstitutionScreen(slug: String, onBack: () -> Unit, onManage: (String) -> Un
                     CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
                     Text(
                         d.name,
-                        Modifier.weight(1f).padding(horizontal = 4.dp),
-                        color = c.onSurface.copy(alpha = progress()),
+                        Modifier.weight(1f).padding(horizontal = 4.dp).graphicsLayer {
+                            val p = progress()
+                            alpha = p
+                            translationY = (1f - p) * 8.dp.toPx()
+                        },
+                        color = c.onSurface,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
@@ -107,7 +112,7 @@ fun InstitutionScreen(slug: String, onBack: () -> Unit, onManage: (String) -> Un
                     if (editFn != null) CoverBtn(Icons.Outlined.Edit, "Edit portfolio", editFn)
                     CoverBtn(Icons.Outlined.Link, "Copy link", copyLink)
                 }
-                Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(1.dp).background(c.outlineVariant.copy(alpha = progress())))
+                Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(1.dp).graphicsLayer { alpha = progress() }.background(c.outlineVariant))
             }
         }
     }

@@ -23,7 +23,7 @@ class SiteThemeRepository @Inject constructor(
     @ApplicationContext context: Context,
     private val api: ApiService,
 ) {
-    private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+    private val prefs by lazy { context.getSharedPreferences(PREFS, Context.MODE_PRIVATE) }
     private val json = Json { ignoreUnknownKeys = true }
     private val ioScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.IO)
 
@@ -44,8 +44,8 @@ class SiteThemeRepository @Inject constructor(
     init {
         ioScope.launch {
             _theme.value = load()
-            _dismissed.value = prefs.getStringSet(DISMISSED, emptySet()).orEmpty()
-            _seenWhatsNew.value = prefs.getStringSet(SEEN_WHATS_NEW, emptySet()).orEmpty()
+            _dismissed.value = prefs.getStringSet(DISMISSED, emptySet()).orEmpty().toSet()
+            _seenWhatsNew.value = prefs.getStringSet(SEEN_WHATS_NEW, emptySet()).orEmpty().toSet()
             _prefsLoaded.value = true
         }
     }

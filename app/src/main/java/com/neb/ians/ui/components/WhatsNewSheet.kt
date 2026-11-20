@@ -256,18 +256,20 @@ private fun WhatsNewHeroCluster(kind: String) {
                 val p = Path()
                 val cx = size.width / 2f
                 val cy = size.height / 2f
-                val r0 = min(cx, cy) * 0.92f
+                val r0 = min(cx, cy) * 0.90f
                 for (i in 0 until 96) {
                     val t = i / 96.0 * 2.0 * PI
-                    val r = r0 * (0.86f + 0.14f * cos(8.0 * t).toFloat())
+                    val r = r0 * (0.85f + 0.15f * cos(8.0 * t).toFloat())
                     val x = cx + r * cos(t).toFloat()
                     val y = cy + r * sin(t).toFloat()
                     if (i == 0) p.moveTo(x, y) else p.lineTo(x, y)
                 }
                 p.close()
-                drawPath(p, color = scheme.surface, style = Stroke(width = 4.5.dp.toPx()))
+                drawPath(p, color = scheme.surface, style = Stroke(width = 5.5.dp.toPx()))
             }
-            Icon(centerIcon, null, tint = scheme.surface, modifier = Modifier.size(20.dp))
+            if (kind != "pathways") {
+                Icon(centerIcon, null, tint = scheme.surface, modifier = Modifier.size(18.dp))
+            }
         }
     }
 }
@@ -312,7 +314,7 @@ private fun PagerArrow(icon: ImageVector, label: String, enabled: Boolean, onCli
     val scheme = MaterialTheme.colorScheme
     Box(
         modifier = Modifier
-            .size(36.dp)
+            .size(44.dp)
             .clip(CircleShape)
             .background(if (enabled) scheme.surfaceContainerHigh else scheme.surfaceContainerLow)
             .clickable(enabled = enabled, onClick = onClick),

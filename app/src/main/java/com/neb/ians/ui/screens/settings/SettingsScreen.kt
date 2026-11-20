@@ -228,6 +228,15 @@ fun SettingsScreen(
             }
 
             SettingsGroup(title = "About") {
+                val showWhatsNew = com.neb.ians.ui.theme.LocalSiteTheme.current.onShowWhatsNew
+                SettingsRow(
+                    icon = Icons.Outlined.AutoAwesome,
+                    title = "What's new in 1.8",
+                    subtitle = "Pathways, Notes & Voice AI and Schools",
+                    badge = "New",
+                    onClick = showWhatsNew
+                )
+                SettingsDivider()
                 SettingsRow(
                     icon = Icons.Outlined.Info,
                     title = "About NEBians",
